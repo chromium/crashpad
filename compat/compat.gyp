@@ -15,15 +15,28 @@
 {
   'targets': [
     {
-      'target_name': 'All',
+      'target_name': 'compat',
       'type': 'none',
-      'suppress_wildcard': 1,
-      'dependencies': [
-        'compat/compat.gyp:*',
+      'include_dirs': [
+        'mac',
+        'non_win',
       ],
+      'direct_dependent_settings': {
+        'include_dirs': [
+          'mac',
+          'non_win',
+        ],
+      },
       'sources': [
-        'crashpad.doxy.h',
-        'package.h',
+        'mac/AvailabilityMacros.h',
+        'mac/mach/mach.h',
+        'mac/mach-o/loader.h',
+        'mac/servers/bootstrap.h',
+        'non_win/dbghelp.h',
+        'non_win/minwinbase.h',
+        'non_win/timezoneapi.h',
+        'non_win/verrsrc.h',
+        'non_win/winnt.h',
       ],
     },
   ],
