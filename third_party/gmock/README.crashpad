@@ -1,0 +1,14 @@
+Name: Google C++ Mocking Framework (googlemock)
+Short Name: gmock
+URL: https://googlemock.googlecode.com/
+Revision: See DEPS
+License: BSD 3-clause
+License File: gmock/LICENSE
+Security Critical: no
+
+Description:
+Google C++ Mocking Framework (or Google Mock for short) is a library for
+writing and using C++ mock classes.
+
+Local Modifications:
+None

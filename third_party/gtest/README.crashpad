@@ -1,0 +1,14 @@
+Name: Google C++ Testing Framework (googletest)
+Short Name: gtest
+URL: https://googletest.googlecode.com/
+Revision: See DEPS
+License: BSD 3-clause
+License File: gtest/LICENSE
+Security Critical: no
+
+Description:
+Google C++ Testing Framework (or Google Test for short) is Google’s framework
+for writing C++ tests on a variety of platforms.
+
+Local Modifications:
+None
