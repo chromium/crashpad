@@ -32,6 +32,11 @@
         'file/file_writer.h',
         'file/string_file_writer.cc',
         'file/string_file_writer.h',
+        'misc/uuid.cc',
+        'misc/uuid.h',
+        'stdlib/cxx.h',
+        'stdlib/strlcpy.cc',
+        'stdlib/strlcpy.h',
       ],
     },
     {
@@ -49,6 +54,8 @@
       'sources': [
         '../third_party/gtest/gtest/src/gtest_main.cc',
         'file/string_file_writer_test.cc',
+        'misc/uuid_test.cc',
+        'stdlib/strlcpy_test.cc',
       ],
     },
   ],
