@@ -404,19 +404,18 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //! \brief The top-level exception code identifying the exception, in
   //!     operating system-specific values.
   //!
-  //! For Mac OS X minidumps, this will be a value of
-  //! crashpad::MinidumpExceptionCodeMac, which corresponds to an `EXC_*`
-  //! exception type. `EXC_CRASH` will not appear here for exceptions processed
-  //! as `EXC_CRASH` when generated from another preceding exception: the
-  //! original exception code will appear instead. The exception type as it was
-  //! received will appear at index 0 of #ExceptionInformation.
+  //! For Mac OS X minidumps, this will be an \ref EXC_x "EXC_*" exception type,
+  //! such as `EXC_BAD_ACCESS`. `EXC_CRASH` will not appear here for exceptions
+  //! processed as `EXC_CRASH` when generated from another preceding exception:
+  //! the original exception code will appear instead. The exception type as it
+  //! was received will appear at index 0 of #ExceptionInformation.
   //!
   //! \note This field is named ExceptionCode, but what is known as the
   //!     “exception code” on Mac OS X/Mach is actually stored in the
   //!     #ExceptionFlags field of a minidump file.
   //!
-  //! \todo Document the possible values by OS. There should be OS-specific
-  //!     enums in minidump_extensions.h.
+  //! \todo Document the possible values by OS. There may be OS-specific enums
+  //!     in minidump_extensions.h.
   uint32_t ExceptionCode;
 
   //! \brief Additional exception flags that further identify the exception, in
@@ -429,8 +428,8 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //! exception handler. The code as it was received will appear at index 1 of
   //! #ExceptionInformation.
   //!
-  //! \todo Document the possible values by OS. There should be OS-specific
-  //!     enums in minidump_extensions.h.
+  //! \todo Document the possible values by OS. There may be OS-specific enums
+  //!     in minidump_extensions.h.
   uint32_t ExceptionFlags;
 
   //! \brief An address, in the address space of the process that this minidump

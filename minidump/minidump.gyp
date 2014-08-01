@@ -29,6 +29,7 @@
         '..',
       ],
       'sources': [
+        'minidump_extensions.h',
         'minidump_writable.cc',
         'minidump_writable.h',
       ],

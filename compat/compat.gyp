@@ -32,6 +32,7 @@
         'mac/mach/mach.h',
         'mac/mach-o/loader.h',
         'mac/servers/bootstrap.h',
+        'non_mac/mach/mach.h',
         'non_win/dbghelp.h',
         'non_win/minwinbase.h',
         'non_win/timezoneapi.h',
