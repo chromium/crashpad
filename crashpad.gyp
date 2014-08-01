@@ -20,6 +20,8 @@
       'suppress_wildcard': 1,
       'dependencies': [
         'compat/compat.gyp:*',
+        'minidump/minidump.gyp:*',
+        'util/util.gyp:*',
       ],
       'sources': [
         'crashpad.doxy.h',
