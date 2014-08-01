@@ -110,26 +110,26 @@ off_t StringFileWriter::Seek(off_t offset, int whence) {
       return -1;
   }
 
-  off_t offset_offt;
-  if (!AssignIfInRange(&offset_offt, base_offset)) {
+  off_t base_offset_offt;
+  if (!AssignIfInRange(&base_offset_offt, base_offset)) {
     LOG(ERROR) << "Seek(): base_offset " << base_offset << " invalid for off_t";
     return -1;
   }
-
-  base::CheckedNumeric<off_t> new_offset(offset_offt);
+  base::CheckedNumeric<off_t> new_offset(base_offset_offt);
   new_offset += offset;
   if (!new_offset.IsValid()) {
     LOG(ERROR) << "Seek(): new_offset invalid";
     return -1;
   }
-
-  if (!AssignIfInRange(&offset_offt, new_offset.ValueOrDie())) {
-    LOG(ERROR) << "Seek(): new_offset " << new_offset.ValueOrDie()
+  off_t new_offset_offt = new_offset.ValueOrDie();
+  size_t new_offset_sizet;
+  if (!AssignIfInRange(&new_offset_sizet, new_offset_offt)) {
+    LOG(ERROR) << "Seek(): new_offset " << new_offset_offt
                << " invalid for size_t";
     return -1;
   }
 
-  offset_ = offset_offt;
+  offset_ = new_offset_sizet;
 
   return offset_.ValueOrDie();
 }
