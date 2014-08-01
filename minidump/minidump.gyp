@@ -30,8 +30,12 @@
       ],
       'sources': [
         'minidump_extensions.h',
+        'minidump_string_writer.cc',
+        'minidump_string_writer.h',
         'minidump_writable.cc',
         'minidump_writable.h',
+        'minidump_writer_util.cc',
+        'minidump_writer_util.h',
       ],
     },
     {
@@ -47,6 +51,7 @@
       ],
       'sources': [
         '../third_party/gtest/gtest/src/gtest_main.cc',
+        'minidump_string_writer_test.cc',
         'minidump_writable_test.cc',
       ],
     },
