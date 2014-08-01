@@ -27,9 +27,17 @@ using namespace crashpad;
 
 TEST(UUID, UUID) {
   UUID uuid_zero;
-  for (size_t index = 0; index < 16; ++index) {
-    EXPECT_EQ(0u, uuid_zero.data[index]);
-  }
+  EXPECT_EQ(0u, uuid_zero.data_1);
+  EXPECT_EQ(0u, uuid_zero.data_2);
+  EXPECT_EQ(0u, uuid_zero.data_3);
+  EXPECT_EQ(0u, uuid_zero.data_4[0]);
+  EXPECT_EQ(0u, uuid_zero.data_4[1]);
+  EXPECT_EQ(0u, uuid_zero.data_5[0]);
+  EXPECT_EQ(0u, uuid_zero.data_5[1]);
+  EXPECT_EQ(0u, uuid_zero.data_5[2]);
+  EXPECT_EQ(0u, uuid_zero.data_5[3]);
+  EXPECT_EQ(0u, uuid_zero.data_5[4]);
+  EXPECT_EQ(0u, uuid_zero.data_5[5]);
   EXPECT_EQ("00000000-0000-0000-0000-000000000000", uuid_zero.ToString());
 
   const uint8_t kBytes[16] = {0x00,
@@ -49,12 +57,19 @@ TEST(UUID, UUID) {
                               0x0e,
                               0x0f};
   UUID uuid(kBytes);
-  for (size_t index = 0; index < arraysize(kBytes); ++index) {
-    EXPECT_EQ(kBytes[index], uuid.data[index]);
-  }
+  EXPECT_EQ(0x00010203u, uuid.data_1);
+  EXPECT_EQ(0x0405u, uuid.data_2);
+  EXPECT_EQ(0x0607u, uuid.data_3);
+  EXPECT_EQ(0x08u, uuid.data_4[0]);
+  EXPECT_EQ(0x09u, uuid.data_4[1]);
+  EXPECT_EQ(0x0au, uuid.data_5[0]);
+  EXPECT_EQ(0x0bu, uuid.data_5[1]);
+  EXPECT_EQ(0x0cu, uuid.data_5[2]);
+  EXPECT_EQ(0x0du, uuid.data_5[3]);
+  EXPECT_EQ(0x0eu, uuid.data_5[4]);
+  EXPECT_EQ(0x0fu, uuid.data_5[5]);
   EXPECT_EQ("00010203-0405-0607-0809-0a0b0c0d0e0f", uuid.ToString());
 
-  // UUID is a standard-layout structure. It is valid to memcpy to it.
   const uint8_t kMoreBytes[16] = {0xff,
                                   0xee,
                                   0xdd,
@@ -71,7 +86,18 @@ TEST(UUID, UUID) {
                                   0x22,
                                   0x11,
                                   0x00};
-  memcpy(&uuid, kMoreBytes, sizeof(kMoreBytes));
+  uuid.InitializeFromBytes(kMoreBytes);
+  EXPECT_EQ(0xffeeddccu, uuid.data_1);
+  EXPECT_EQ(0xbbaau, uuid.data_2);
+  EXPECT_EQ(0x9988u, uuid.data_3);
+  EXPECT_EQ(0x77u, uuid.data_4[0]);
+  EXPECT_EQ(0x66u, uuid.data_4[1]);
+  EXPECT_EQ(0x55u, uuid.data_5[0]);
+  EXPECT_EQ(0x44u, uuid.data_5[1]);
+  EXPECT_EQ(0x33u, uuid.data_5[2]);
+  EXPECT_EQ(0x22u, uuid.data_5[3]);
+  EXPECT_EQ(0x11u, uuid.data_5[4]);
+  EXPECT_EQ(0x00u, uuid.data_5[5]);
   EXPECT_EQ("ffeeddcc-bbaa-9988-7766-554433221100", uuid.ToString());
 }
 

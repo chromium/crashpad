@@ -27,25 +27,34 @@ namespace crashpad {
 //! primarily by Microsoft.
 //!
 //! A %UUID is a unique 128-bit number specified by RFC 4122.
-//!
-//! This is a standard-layout structure, and it is acceptable to use `memcpy()`
-//! to set its value.
 struct UUID {
   //! \brief Initializes the %UUID to zero.
   UUID();
 
+  //! \copydoc InitializeFromBytes()
+  explicit UUID(const uint8_t* bytes);
+
   //! \brief Initializes the %UUID from a sequence of bytes.
+  //!
+  //! \a bytes is taken as a %UUID laid out in big-endian format in memory. On
+  //! little-endian machines, appropriate byte-swapping will be performed to
+  //! initialize an object’s data members.
   //!
   //! \param[in] bytes A buffer of exactly 16 bytes that will be assigned to the
   //!     %UUID.
-  explicit UUID(const uint8_t* bytes);
+  void InitializeFromBytes(const uint8_t* bytes);
 
   //! \brief Formats the %UUID per RFC 4122 §3.
   //!
   //! \return A string of the form `"00112233-4455-6677-8899-aabbccddeeff"`.
   std::string ToString() const;
 
-  uint8_t data[16];
+  // These fields are laid out according to RFC 4122 §4.1.2.
+  uint32_t data_1;
+  uint16_t data_2;
+  uint16_t data_3;
+  uint8_t data_4[2];
+  uint8_t data_5[6];
 };
 
 }  // namespace crashpad

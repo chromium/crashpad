@@ -18,45 +18,37 @@
 
 #include "base/basictypes.h"
 #include "base/strings/stringprintf.h"
-#include "util/stdlib/cxx.h"
-
-#if CXX_LIBRARY_VERSION >= 2011
-#include <type_traits>
-#endif
+#include "base/sys_byteorder.h"
 
 namespace crashpad {
 
-#if CXX_LIBRARY_VERSION >= 2011
-COMPILE_ASSERT(std::is_standard_layout<UUID>::value,
-               UUID_must_be_standard_layout);
-#endif
-
-UUID::UUID() : data() {
+UUID::UUID() : data_1(0), data_2(0), data_3(0), data_4(), data_5() {
 }
 
 UUID::UUID(const uint8_t* bytes) {
-  memcpy(data, bytes, sizeof(data));
+  InitializeFromBytes(bytes);
+}
+
+void UUID::InitializeFromBytes(const uint8_t* bytes) {
+  memcpy(this, bytes, sizeof(*this));
+  data_1 = base::NetToHost32(data_1);
+  data_2 = base::NetToHost16(data_2);
+  data_3 = base::NetToHost16(data_3);
 }
 
 std::string UUID::ToString() const {
-  return base::StringPrintf(
-      "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-      data[0],
-      data[1],
-      data[2],
-      data[3],
-      data[4],
-      data[5],
-      data[6],
-      data[7],
-      data[8],
-      data[9],
-      data[10],
-      data[11],
-      data[12],
-      data[13],
-      data[14],
-      data[15]);
+  return base::StringPrintf("%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+                            data_1,
+                            data_2,
+                            data_3,
+                            data_4[0],
+                            data_4[1],
+                            data_5[0],
+                            data_5[1],
+                            data_5[2],
+                            data_5[3],
+                            data_5[4],
+                            data_5[5]);
 }
 
 }  // namespace crashpad
