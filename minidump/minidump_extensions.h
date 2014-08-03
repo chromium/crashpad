@@ -27,7 +27,7 @@ namespace crashpad {
 //!     stream structure has a corresponding stream type value to identify it.
 //!
 //! \sa MINIDUMP_STREAM_TYPE
-enum MinidumpStreamType {
+enum MinidumpStreamType : uint32_t {
   //! \brief The stream type for MINIDUMP_THREAD_LIST.
   //!
   //! \sa ThreadListStream
