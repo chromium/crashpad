@@ -12,13 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#error This file is not intended to be #included.
+#include "util/test/errors.h"
 
-//! \namespace crashpad
-//! \brief The main namespace.
+#include <errno.h>
 
-//! \namespace crashpad::internal
-//! \brief The internal namespace, not for public use.
+#include "base/safe_strerror_posix.h"
+#include "base/strings/stringprintf.h"
 
-//! \namespace crashpad::test
-//! \brief The testing namespace, for use in test code only.
+namespace crashpad {
+namespace test {
+
+std::string ErrnoMessage(int err, const std::string& base) {
+  return base::StringPrintf("%s%s%s (%d)",
+                            base.c_str(),
+                            base.empty() ? "" : ": ",
+                            safe_strerror(errno).c_str(),
+                            err);
+}
+
+std::string ErrnoMessage(const std::string& base) {
+  return ErrnoMessage(errno, base);
+}
+
+}  // namespace test
+}  // namespace crashpad

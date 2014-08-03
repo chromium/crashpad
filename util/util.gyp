@@ -32,6 +32,8 @@
         'file/file_writer.h',
         'file/string_file_writer.cc',
         'file/string_file_writer.h',
+        'mach/task_memory.cc',
+        'mach/task_memory.h',
         'misc/uuid.cc',
         'misc/uuid.h',
         'stdlib/cxx.h',
@@ -40,10 +42,29 @@
       ],
     },
     {
+      'target_name': 'util_test_lib',
+      'type': 'static_library',
+      'dependencies': [
+        '../compat/compat.gyp:compat',
+        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        'util',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'test/errors.cc',
+        'test/errors.h',
+        'test/mac/mach_errors.cc',
+        'test/mac/mach_errors.h',
+      ],
+    },
+    {
       'target_name': 'util_test',
       'type': 'executable',
       'dependencies': [
         'util',
+        'util_test_lib',
         '../compat/compat.gyp:compat',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
@@ -54,6 +75,7 @@
       'sources': [
         '../third_party/gtest/gtest/src/gtest_main.cc',
         'file/string_file_writer_test.cc',
+        'mach/task_memory_test.cc',
         'misc/uuid_test.cc',
         'stdlib/strlcpy_test.cc',
       ],
