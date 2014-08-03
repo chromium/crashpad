@@ -19,8 +19,20 @@
 #include "base/basictypes.h"
 #include "base/strings/stringprintf.h"
 #include "base/sys_byteorder.h"
+#include "util/stdlib/cxx.h"
+
+#if CXX_LIBRARY_VERSION >= 2011
+#include <type_traits>
+#endif
 
 namespace crashpad {
+
+COMPILE_ASSERT(sizeof(UUID) == 16, UUID_must_be_16_bytes);
+
+#if CXX_LIBRARY_VERSION >= 2011
+COMPILE_ASSERT(std::is_standard_layout<UUID>::value,
+               UUID_must_be_standard_layout);
+#endif
 
 UUID::UUID() : data_1(0), data_2(0), data_3(0), data_4(), data_5() {
 }

@@ -27,6 +27,8 @@ namespace crashpad {
 //! primarily by Microsoft.
 //!
 //! A %UUID is a unique 128-bit number specified by RFC 4122.
+//!
+//! This is a standard-layout structure.
 struct UUID {
   //! \brief Initializes the %UUID to zero.
   UUID();

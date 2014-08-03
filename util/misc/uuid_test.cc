@@ -99,6 +99,21 @@ TEST(UUID, UUID) {
   EXPECT_EQ(0x11u, uuid.data_5[4]);
   EXPECT_EQ(0x00u, uuid.data_5[5]);
   EXPECT_EQ("ffeeddcc-bbaa-9988-7766-554433221100", uuid.ToString());
+
+  // Test that UUID is standard layout.
+  memset(&uuid, 0x45, 16);
+  EXPECT_EQ(0x45454545u, uuid.data_1);
+  EXPECT_EQ(0x4545u, uuid.data_2);
+  EXPECT_EQ(0x4545u, uuid.data_3);
+  EXPECT_EQ(0x45u, uuid.data_4[0]);
+  EXPECT_EQ(0x45u, uuid.data_4[1]);
+  EXPECT_EQ(0x45u, uuid.data_5[0]);
+  EXPECT_EQ(0x45u, uuid.data_5[1]);
+  EXPECT_EQ(0x45u, uuid.data_5[2]);
+  EXPECT_EQ(0x45u, uuid.data_5[3]);
+  EXPECT_EQ(0x45u, uuid.data_5[4]);
+  EXPECT_EQ(0x45u, uuid.data_5[5]);
+  EXPECT_EQ("45454545-4545-4545-4545-454545454545", uuid.ToString());
 }
 
 }  // namespace
