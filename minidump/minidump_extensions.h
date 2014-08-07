@@ -121,7 +121,13 @@ enum MinidumpCPUArchitecture : uint16_t {
   //! These systems identify their CPUs as “x86_64”, “amd64”, or “x64”.
   kMinidumpCPUArchitectureAMD64 = PROCESSOR_ARCHITECTURE_AMD64,
 
+  //! \brief A 32-bit x86 process running on IA-64 (Itanium).
+  //!
+  //! \note This value is not used in minidump files for 32-bit x86 processes
+  //!     running on a 64-bit-capable x86 CPU and operating system. In that
+  //!     configuration, #kMinidumpCPUArchitectureX86 is used instead.
   kMinidumpCPUArchitectureX86Win64 = PROCESSOR_ARCHITECTURE_IA32_ON_WIN64,
+
   kMinidumpCPUArchitectureNeutral = PROCESSOR_ARCHITECTURE_NEUTRAL,
   kMinidumpCPUArchitectureSPARC = 0x8001,
 

@@ -209,7 +209,7 @@ union __attribute__((packed, aligned(4))) CPU_INFORMATION {
   //!     32-bit x86 processes.
   struct __attribute__((packed, aligned(4))) {
     //! \brief Bitfields containing supported CPU capabilities as identified by
-    //!     bits corresponding to `PF_*` values passed to
+    //!     bits corresponding to \ref PF_x "PF_*" values passed to
     //!     `IsProcessorFeaturePresent()`.
     uint64_t ProcessorFeatures[2];
   } OtherCpuInfo;

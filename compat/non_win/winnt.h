@@ -69,8 +69,8 @@
 //! \anchor PF_x
 //! \name PF_*
 //!
-//! \brief CPU feature values for
-//!     CPU_INFORMATION::OtherCpuInfo::ProcessorFeatures.
+//! \brief CPU feature values for \ref CPU_INFORMATION::ProcessorFeatures
+//!     "CPU_INFORMATION::OtherCpuInfo::ProcessorFeatures".
 //!
 //! \{
 #define PF_FLOATING_POINT_PRECISION_ERRATA 0
