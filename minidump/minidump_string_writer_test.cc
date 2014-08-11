@@ -27,7 +27,6 @@
 namespace {
 
 using namespace crashpad;
-using namespace testing;
 
 const MINIDUMP_STRING* MinidumpStringCast(const StringFileWriter& file_writer) {
   return reinterpret_cast<const MINIDUMP_STRING*>(&file_writer.string()[0]);

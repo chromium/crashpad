@@ -636,10 +636,10 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_LIST {
 //!     MINIDUMP_MISC2_PROCESSOR_POWER_INFO.
 #define MINIDUMP_MISC1_PROCESSOR_POWER_INFO 0x00000004
 
-//! \brief MINIDUMP_MISC_INFO3::ProcessIntegrityLevel is valid.
+//! \brief MINIDUMP_MISC_INFO_3::ProcessIntegrityLevel is valid.
 #define MINIDUMP_MISC3_PROCESS_INTEGRITY 0x00000010
 
-//! \brief MINIDUMP_MISC_INFO3::ProcessExecuteFlags is valid.
+//! \brief MINIDUMP_MISC_INFO_3::ProcessExecuteFlags is valid.
 #define MINIDUMP_MISC3_PROCESS_EXECUTE_FLAGS 0x00000020
 
 //! \brief The time zone-related fields in MINIDUMP_MISC_INFO_3 are valid.
@@ -649,7 +649,7 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_LIST {
 //!  - MINIDUMP_MISC_INFO_3::TimeZone
 #define MINIDUMP_MISC3_TIMEZONE 0x00000040
 
-//! \brief MINIDUMP_MISC_INFO3::ProtectedProcess is valid.
+//! \brief MINIDUMP_MISC_INFO_3::ProtectedProcess is valid.
 #define MINIDUMP_MISC3_PROTECTED_PROCESS 0x00000080
 
 //! \brief The build string-related fields in MINIDUMP_MISC_INFO_4 are valid.

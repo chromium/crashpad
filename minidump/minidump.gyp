@@ -32,6 +32,8 @@
         'minidump_extensions.h',
         'minidump_file_writer.cc',
         'minidump_file_writer.h',
+        'minidump_misc_info_writer.cc',
+        'minidump_misc_info_writer.h',
         'minidump_stream_writer.cc',
         'minidump_stream_writer.h',
         'minidump_string_writer.cc',
@@ -58,6 +60,7 @@
       'sources': [
         '../third_party/gtest/gtest/src/gtest_main.cc',
         'minidump_file_writer_test.cc',
+        'minidump_misc_info_writer_test.cc',
         'minidump_string_writer_test.cc',
         'minidump_system_info_writer_test.cc',
         'minidump_writable_test.cc',

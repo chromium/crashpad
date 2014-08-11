@@ -24,7 +24,6 @@
 namespace {
 
 using namespace crashpad;
-using namespace testing;
 
 class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
  public:

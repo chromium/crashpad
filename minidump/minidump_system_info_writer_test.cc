@@ -92,6 +92,9 @@ TEST(MinidumpSystemInfoWriter, Empty) {
   const MINIDUMP_STRING* csd_version;
 
   GetSystemInfoStream(file_writer.string(), 0, &system_info, &csd_version);
+  if (Test::HasFatalFailure()) {
+    return;
+  }
 
   EXPECT_EQ(kMinidumpCPUArchitectureUnknown,
             system_info->ProcessorArchitecture);
@@ -163,6 +166,9 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
 
   GetSystemInfoStream(
       file_writer.string(), strlen(kCSDVersion), &system_info, &csd_version);
+  if (Test::HasFatalFailure()) {
+    return;
+  }
 
   EXPECT_EQ(kCPUArchitecture, system_info->ProcessorArchitecture);
   EXPECT_EQ(kCPULevel, system_info->ProcessorLevel);
@@ -223,6 +229,9 @@ TEST(MinidumpSystemInfoWriter, X86_64_Mac) {
 
   GetSystemInfoStream(
       file_writer.string(), strlen(kCSDVersion), &system_info, &csd_version);
+  if (Test::HasFatalFailure()) {
+    return;
+  }
 
   EXPECT_EQ(kCPUArchitecture, system_info->ProcessorArchitecture);
   EXPECT_EQ(kCPULevel, system_info->ProcessorLevel);
@@ -264,6 +273,9 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
   const MINIDUMP_STRING* csd_version;
 
   GetSystemInfoStream(file_writer.string(), 0, &system_info, &csd_version);
+  if (Test::HasFatalFailure()) {
+    return;
+  }
 
   EXPECT_EQ(kCPUArchitecture, system_info->ProcessorArchitecture);
   EXPECT_EQ(0u, system_info->ProcessorLevel);
