@@ -133,8 +133,9 @@ class TestStringMinidumpWritable final : public BaseTestMinidumpWritable {
 
   virtual bool WriteObject(FileWriterInterface* file_writer) override {
     BaseTestMinidumpWritable::WriteObject(file_writer);
-    EXPECT_TRUE(file_writer->Write(&data_[0], data_.size()));
-    return true;
+    bool rv = file_writer->Write(&data_[0], data_.size());
+    EXPECT_TRUE(rv);
+    return rv;
   }
 
  private:

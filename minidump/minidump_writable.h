@@ -259,8 +259,11 @@ class MinidumpWritable {
   virtual bool WriteObject(FileWriterInterface* file_writer) = 0;
 
  private:
-  std::vector<RVA*> registered_rvas_;
+  std::vector<RVA*> registered_rvas_;  // weak
+
+  // weak
   std::vector<MINIDUMP_LOCATION_DESCRIPTOR*> registered_location_descriptors_;
+
   size_t leading_pad_bytes_;
   State state_;
 

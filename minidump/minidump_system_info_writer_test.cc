@@ -21,11 +21,13 @@
 
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
+#include "minidump/minidump_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace {
 
 using namespace crashpad;
+using namespace crashpad::test;
 
 void GetSystemInfoStream(const std::string& file_contents,
                          size_t csd_version_length,
@@ -50,13 +52,10 @@ void GetSystemInfoStream(const std::string& file_contents,
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
 
-  EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
-  EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
-  ASSERT_EQ(1u, header->NumberOfStreams);
-  ASSERT_EQ(kDirectoryOffset, header->StreamDirectoryRva);
-  EXPECT_EQ(0u, header->CheckSum);
-  EXPECT_EQ(0u, header->TimeDateStamp);
-  EXPECT_EQ(MiniDumpNormal, header->Flags);
+  VerifyMinidumpHeader(header, 1, 0);
+  if (testing::Test::HasFatalFailure()) {
+    return;
+  }
 
   const MINIDUMP_DIRECTORY* directory =
       reinterpret_cast<const MINIDUMP_DIRECTORY*>(

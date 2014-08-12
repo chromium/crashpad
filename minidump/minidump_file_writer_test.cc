@@ -21,6 +21,7 @@
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_stream_writer.h"
+#include "minidump/minidump_test_util.h"
 #include "minidump/minidump_writable.h"
 #include "util/file/file_writer.h"
 #include "util/file/string_file_writer.h"
@@ -28,6 +29,7 @@
 namespace {
 
 using namespace crashpad;
+using namespace crashpad::test;
 
 TEST(MinidumpFileWriter, Empty) {
   MinidumpFileWriter minidump_file;
@@ -38,13 +40,10 @@ TEST(MinidumpFileWriter, Empty) {
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
 
-  EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
-  EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
-  EXPECT_EQ(0u, header->NumberOfStreams);
-  EXPECT_EQ(0u, header->StreamDirectoryRva);
-  EXPECT_EQ(0u, header->CheckSum);
-  EXPECT_EQ(0u, header->TimeDateStamp);
-  EXPECT_EQ(MiniDumpNormal, header->Flags);
+  VerifyMinidumpHeader(header, 0, 0);
+  if (Test::HasFatalFailure()) {
+    return;
+  }
 }
 
 class TestStream final : public internal::MinidumpStreamWriter {
@@ -103,13 +102,10 @@ TEST(MinidumpFileWriter, OneStream) {
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
 
-  EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
-  EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
-  EXPECT_EQ(1u, header->NumberOfStreams);
-  EXPECT_EQ(kDirectoryOffset, header->StreamDirectoryRva);
-  EXPECT_EQ(0u, header->CheckSum);
-  EXPECT_EQ(kTimestamp, header->TimeDateStamp);
-  EXPECT_EQ(MiniDumpNormal, header->Flags);
+  VerifyMinidumpHeader(header, 1, kTimestamp);
+  if (Test::HasFatalFailure()) {
+    return;
+  }
 
   const MINIDUMP_DIRECTORY* directory =
       reinterpret_cast<const MINIDUMP_DIRECTORY*>(
@@ -169,13 +165,10 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
 
-  EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
-  EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
-  EXPECT_EQ(3u, header->NumberOfStreams);
-  EXPECT_EQ(kDirectoryOffset, header->StreamDirectoryRva);
-  EXPECT_EQ(0u, header->CheckSum);
-  EXPECT_EQ(kTimestamp, header->TimeDateStamp);
-  EXPECT_EQ(MiniDumpNormal, header->Flags);
+  VerifyMinidumpHeader(header, 3, kTimestamp);
+  if (Test::HasFatalFailure()) {
+    return;
+  }
 
   const MINIDUMP_DIRECTORY* directory =
       reinterpret_cast<const MINIDUMP_DIRECTORY*>(
@@ -215,6 +208,40 @@ TEST(MinidumpFileWriter, ThreeStreams) {
 
   std::string expected_stream3(kStream3Size, kStream3Value);
   EXPECT_EQ(0, memcmp(stream3_data, expected_stream3.c_str(), kStream3Size));
+}
+
+TEST(MinidumpFileWriter, ZeroLengthStream) {
+  MinidumpFileWriter minidump_file;
+
+  const size_t kStreamSize = 0;
+  const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
+  TestStream stream(kStreamType, kStreamSize, 0);
+  minidump_file.AddStream(&stream);
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file.WriteEverything(&file_writer));
+
+  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  const size_t kStreamOffset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
+  const size_t kFileSize = kStreamOffset + kStreamSize;
+
+  ASSERT_EQ(kFileSize, file_writer.string().size());
+
+  const MINIDUMP_HEADER* header =
+      reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
+
+  VerifyMinidumpHeader(header, 1, 0);
+  if (Test::HasFatalFailure()) {
+    return;
+  }
+
+  const MINIDUMP_DIRECTORY* directory =
+      reinterpret_cast<const MINIDUMP_DIRECTORY*>(
+          &file_writer.string()[kDirectoryOffset]);
+
+  EXPECT_EQ(kStreamType, directory->StreamType);
+  EXPECT_EQ(kStreamSize, directory->Location.DataSize);
+  EXPECT_EQ(kStreamOffset, directory->Location.Rva);
 }
 
 TEST(MinidumpFileWriterDeathTest, SameStreamType) {
