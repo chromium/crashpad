@@ -57,13 +57,13 @@
       'dependencies': [
         'minidump',
         '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
       ],
       'include_dirs': [
         '..',
       ],
       'sources': [
-        '../third_party/gtest/gtest/src/gtest_main.cc',
         'minidump_file_writer_test.cc',
         'minidump_memory_writer_test.cc',
         'minidump_misc_info_writer_test.cc',

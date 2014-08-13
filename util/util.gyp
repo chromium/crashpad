@@ -70,13 +70,13 @@
         'util_test_lib',
         '../compat/compat.gyp:compat',
         '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
       ],
       'include_dirs': [
         '..',
       ],
       'sources': [
-        '../third_party/gtest/gtest/src/gtest_main.cc',
         'file/string_file_writer_test.cc',
         'mac/launchd_test.mm',
         'mach/task_memory_test.cc',
