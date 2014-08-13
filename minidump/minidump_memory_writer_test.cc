@@ -187,7 +187,7 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
   MinidumpFileWriter minidump_file_writer;
   MinidumpMemoryListWriter memory_list_writer;
 
-  const uint64_t kBaseAddress = 0xfedcba9876543210ull;
+  const uint64_t kBaseAddress = 0xfedcba9876543210;
   const uint64_t kSize = 0x1000;
   const uint8_t kValue = 'm';
 
@@ -223,10 +223,10 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
   MinidumpFileWriter minidump_file_writer;
   MinidumpMemoryListWriter memory_list_writer;
 
-  const uint64_t kBaseAddress1 = 0x00c0ffeeull;
+  const uint64_t kBaseAddress1 = 0xc0ffee;
   const uint64_t kSize1 = 0x0100;
   const uint8_t kValue1 = '6';
-  const uint64_t kBaseAddress2 = 0xfac00facull;
+  const uint64_t kBaseAddress2 = 0xfac00fac;
   const uint64_t kSize2 = 0x0200;
   const uint8_t kValue2 = '!';
 
@@ -325,7 +325,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   // memory writer a child of the memory list writer.
   MinidumpFileWriter minidump_file_writer;
 
-  const uint64_t kBaseAddress1 = 0x0000000000001000ull;
+  const uint64_t kBaseAddress1 = 0x1000;
   const uint64_t kSize1 = 0x0400;
   const uint8_t kValue1 = '1';
   TestMemoryStream test_memory_stream(kBaseAddress1, kSize1, kValue1);
@@ -335,7 +335,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
 
   minidump_file_writer.AddStream(&test_memory_stream);
 
-  const uint64_t kBaseAddress2 = 0x0000000000002000ull;
+  const uint64_t kBaseAddress2 = 0x2000;
   const uint64_t kSize2 = 0x0400;
   const uint8_t kValue2 = 'm';
 
