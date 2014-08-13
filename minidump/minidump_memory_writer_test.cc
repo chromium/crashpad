@@ -19,6 +19,7 @@
 
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
+#include "minidump/minidump_extensions.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_test_util.h"
@@ -248,27 +249,36 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
   EXPECT_EQ(2u, memory_list->NumberOfMemoryRanges);
 
   MINIDUMP_MEMORY_DESCRIPTOR expected;
-  expected.StartOfMemoryRange = kBaseAddress1;
-  expected.Memory.DataSize = kSize1;
-  expected.Memory.Rva =
-      sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
-      sizeof(MINIDUMP_MEMORY_LIST) +
-      memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
-  ExpectMemoryDescriptorAndContents(&expected,
-                                    &memory_list->MemoryRanges[0],
-                                    file_writer.string(),
-                                    kValue1,
-                                    false);
 
-  expected.StartOfMemoryRange = kBaseAddress2;
-  expected.Memory.DataSize = kSize2;
-  expected.Memory.Rva = memory_list->MemoryRanges[0].Memory.Rva +
-                        memory_list->MemoryRanges[0].Memory.DataSize;
-  ExpectMemoryDescriptorAndContents(&expected,
-                                    &memory_list->MemoryRanges[1],
-                                    file_writer.string(),
-                                    kValue2,
-                                    true);
+  {
+    SCOPED_TRACE("region 0");
+
+    expected.StartOfMemoryRange = kBaseAddress1;
+    expected.Memory.DataSize = kSize1;
+    expected.Memory.Rva =
+        sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
+        sizeof(MINIDUMP_MEMORY_LIST) +
+        memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
+    ExpectMemoryDescriptorAndContents(&expected,
+                                      &memory_list->MemoryRanges[0],
+                                      file_writer.string(),
+                                      kValue1,
+                                      false);
+  }
+
+  {
+    SCOPED_TRACE("region 1");
+
+    expected.StartOfMemoryRange = kBaseAddress2;
+    expected.Memory.DataSize = kSize2;
+    expected.Memory.Rva = memory_list->MemoryRanges[0].Memory.Rva +
+                          memory_list->MemoryRanges[0].Memory.DataSize;
+    ExpectMemoryDescriptorAndContents(&expected,
+                                      &memory_list->MemoryRanges[1],
+                                      file_writer.string(),
+                                      kValue2,
+                                      true);
+  }
 }
 
 class TestMemoryStream final : public internal::MinidumpStreamWriter {
@@ -346,27 +356,36 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   EXPECT_EQ(2u, memory_list->NumberOfMemoryRanges);
 
   MINIDUMP_MEMORY_DESCRIPTOR expected;
-  expected.StartOfMemoryRange = kBaseAddress1;
-  expected.Memory.DataSize = kSize1;
-  expected.Memory.Rva =
-      sizeof(MINIDUMP_HEADER) + 2 * sizeof(MINIDUMP_DIRECTORY) +
-      sizeof(MINIDUMP_MEMORY_LIST) +
-      memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
-  ExpectMemoryDescriptorAndContents(&expected,
-                                    &memory_list->MemoryRanges[0],
-                                    file_writer.string(),
-                                    kValue1,
-                                    false);
 
-  expected.StartOfMemoryRange = kBaseAddress2;
-  expected.Memory.DataSize = kSize2;
-  expected.Memory.Rva = memory_list->MemoryRanges[0].Memory.Rva +
-                        memory_list->MemoryRanges[0].Memory.DataSize;
-  ExpectMemoryDescriptorAndContents(&expected,
-                                    &memory_list->MemoryRanges[1],
-                                    file_writer.string(),
-                                    kValue2,
-                                    true);
+  {
+    SCOPED_TRACE("region 0");
+
+    expected.StartOfMemoryRange = kBaseAddress1;
+    expected.Memory.DataSize = kSize1;
+    expected.Memory.Rva =
+        sizeof(MINIDUMP_HEADER) + 2 * sizeof(MINIDUMP_DIRECTORY) +
+        sizeof(MINIDUMP_MEMORY_LIST) +
+        memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
+    ExpectMemoryDescriptorAndContents(&expected,
+                                      &memory_list->MemoryRanges[0],
+                                      file_writer.string(),
+                                      kValue1,
+                                      false);
+  }
+
+  {
+    SCOPED_TRACE("region 1");
+
+    expected.StartOfMemoryRange = kBaseAddress2;
+    expected.Memory.DataSize = kSize2;
+    expected.Memory.Rva = memory_list->MemoryRanges[0].Memory.Rva +
+                          memory_list->MemoryRanges[0].Memory.DataSize;
+    ExpectMemoryDescriptorAndContents(&expected,
+                                      &memory_list->MemoryRanges[1],
+                                      file_writer.string(),
+                                      kValue2,
+                                      true);
+  }
 }
 
 }  // namespace
