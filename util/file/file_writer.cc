@@ -16,6 +16,8 @@
 
 #include <algorithm>
 
+#include <limits.h>
+
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "util/file/fd_io.h"
