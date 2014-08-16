@@ -34,6 +34,8 @@
         'file/string_file_writer.h',
         'mac/launchd.h',
         'mac/launchd.mm',
+        'mac/service_management.cc',
+        'mac/service_management.h',
         'mach/task_memory.cc',
         'mach/task_memory.h',
         'misc/initialization_state.h',
@@ -87,6 +89,7 @@
       'sources': [
         'file/string_file_writer_test.cc',
         'mac/launchd_test.mm',
+        'mac/service_management_test.mm',
         'mach/task_memory_test.cc',
         'misc/initialization_state_dcheck_test.cc',
         'misc/initialization_state_test.cc',
