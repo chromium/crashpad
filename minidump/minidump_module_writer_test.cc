@@ -132,7 +132,8 @@ void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
               &file_contents[codeview_record->Rva]);
       EXPECT_EQ(MinidumpModuleCodeViewRecordPDB20::kSignature,
                 codeview_pdb20_record->signature);
-      EXPECT_EQ(expected_pdb_timestamp, codeview_pdb20_record->timestamp);
+      EXPECT_EQ(static_cast<uint32_t>(expected_pdb_timestamp),
+                codeview_pdb20_record->timestamp);
       EXPECT_EQ(expected_pdb_age, codeview_pdb20_record->age);
 
       observed_pdb_name.assign(
