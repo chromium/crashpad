@@ -15,19 +15,33 @@
 {
   'targets': [
     {
-      'target_name': 'All',
-      'type': 'none',
-      'suppress_wildcard': 1,
+      'target_name': 'client',
+      'type': 'static_library',
       'dependencies': [
-        'client/client.gyp:*',
-        'compat/compat.gyp:*',
-        'minidump/minidump.gyp:*',
-        'tools/tools.gyp:*',
-        'util/util.gyp:*',
+        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+      ],
+      'include_dirs': [
+        '..',
       ],
       'sources': [
-        'crashpad.doxy.h',
-        'package.h',
+        'capture_context_mac.h',
+        'capture_context_mac.S',
+      ],
+    },
+    {
+      'target_name': 'client_test',
+      'type': 'executable',
+      'dependencies': [
+        'client',
+        '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/gtest/gtest.gyp:gtest_main',
+        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'capture_context_mac_test.cc',
       ],
     },
   ],
