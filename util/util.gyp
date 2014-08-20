@@ -63,17 +63,25 @@
       'type': 'static_library',
       'dependencies': [
         '../compat/compat.gyp:compat',
+        '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
         'util',
       ],
       'include_dirs': [
         '..',
       ],
+      'link_settings': {
+        'libraries': [
+          '$(SDKROOT)/usr/lib/libbsm.dylib',
+        ],
+      },
       'sources': [
         'test/errors.cc',
         'test/errors.h',
         'test/mac/mach_errors.cc',
         'test/mac/mach_errors.h',
+        'test/mac/mach_multiprocess.cc',
+        'test/mac/mach_multiprocess.h',
       ],
     },
     {
@@ -104,6 +112,7 @@
         'numeric/in_range_cast_test.cc',
         'posix/process_util_test.cc',
         'stdlib/strlcpy_test.cc',
+        'test/mac/mach_multiprocess_test.cc',
       ],
     },
   ],
