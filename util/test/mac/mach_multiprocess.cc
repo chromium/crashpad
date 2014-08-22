@@ -67,19 +67,25 @@ namespace internal {
 struct MachMultiprocessInfo {
   MachMultiprocessInfo()
       : service_name(),
-        read_pipe(-1),
-        write_pipe(-1),
+        pipe_c2p_read(-1),
+        pipe_c2p_write(-1),
+        pipe_p2c_read(-1),
+        pipe_p2c_write(-1),
         child_pid(0),
-        pipe_fd(-1),
+        read_pipe_fd(-1),
+        write_pipe_fd(-1),
         local_port(MACH_PORT_NULL),
         remote_port(MACH_PORT_NULL),
         child_task(MACH_PORT_NULL) {}
 
   std::string service_name;
-  base::ScopedFD read_pipe;
-  base::ScopedFD write_pipe;
+  base::ScopedFD pipe_c2p_read;  // child to parent
+  base::ScopedFD pipe_c2p_write;  // child to parent
+  base::ScopedFD pipe_p2c_read;  // parent to child
+  base::ScopedFD pipe_p2c_write;  // parent to child
   pid_t child_pid;  // valid only in parent
-  int pipe_fd;  // read_pipe in parent, write_pipe in child
+  int read_pipe_fd;  // pipe_c2p_read in parent, pipe_p2c_read in child
+  int write_pipe_fd;  // pipe_p2c_write in parent, pipe_c2p_write in child
   base::mac::ScopedMachReceiveRight local_port;
   base::mac::ScopedMachSendRight remote_port;
   base::mac::ScopedMachSendRight child_task;  // valid only in parent
@@ -97,12 +103,19 @@ void MachMultiprocess::Run() {
   base::AutoReset<internal::MachMultiprocessInfo*> reset_info(&info_,
                                                               info.get());
 
-  int pipe_fds[2];
-  int rv = pipe(pipe_fds);
+  int pipe_fds_c2p[2];
+  int rv = pipe(pipe_fds_c2p);
   ASSERT_EQ(0, rv) << ErrnoMessage("pipe");
 
-  info_->read_pipe.reset(pipe_fds[0]);
-  info_->write_pipe.reset(pipe_fds[1]);
+  info_->pipe_c2p_read.reset(pipe_fds_c2p[0]);
+  info_->pipe_c2p_write.reset(pipe_fds_c2p[1]);
+
+  int pipe_fds_p2c[2];
+  rv = pipe(pipe_fds_p2c);
+  ASSERT_EQ(0, rv) << ErrnoMessage("pipe");
+
+  info_->pipe_p2c_read.reset(pipe_fds_p2c[0]);
+  info_->pipe_p2c_write.reset(pipe_fds_p2c[1]);
 
   // Set up the parent port and register it with the bootstrap server before
   // forking, so that it’s guaranteed to be there when the child attempts to
@@ -169,9 +182,14 @@ pid_t MachMultiprocess::ChildPID() const {
   return info_->child_pid;
 }
 
-int MachMultiprocess::PipeFD() const {
-  EXPECT_NE(-1, info_->pipe_fd);
-  return info_->pipe_fd;
+int MachMultiprocess::ReadPipeFD() const {
+  EXPECT_NE(-1, info_->read_pipe_fd);
+  return info_->read_pipe_fd;
+}
+
+int MachMultiprocess::WritePipeFD() const {
+  EXPECT_NE(-1, info_->write_pipe_fd);
+  return info_->write_pipe_fd;
 }
 
 mach_port_t MachMultiprocess::LocalPort() const {
@@ -190,9 +208,11 @@ mach_port_t MachMultiprocess::ChildTask() const {
 }
 
 void MachMultiprocess::RunParent() {
-  // The parent uses the read end of the pipe.
-  info_->write_pipe.reset();
-  info_->pipe_fd = info_->read_pipe.get();
+  // The parent uses the read end of c2p and the write end of p2c.
+  info_->pipe_c2p_write.reset();
+  info_->read_pipe_fd = info_->pipe_c2p_read.get();
+  info_->pipe_p2c_read.reset();
+  info_->write_pipe_fd = info_->pipe_p2c_write.get();
 
   ReceiveHelloMessage message = {};
 
@@ -284,8 +304,10 @@ void MachMultiprocess::RunParent() {
   info_->remote_port.reset();
   info_->local_port.reset();
 
-  info_->pipe_fd = -1;
-  info_->read_pipe.reset();
+  info_->read_pipe_fd = -1;
+  info_->pipe_c2p_read.reset();
+  info_->write_pipe_fd = -1;
+  info_->pipe_p2c_write.reset();
 }
 
 void MachMultiprocess::RunChild() {
@@ -294,9 +316,11 @@ void MachMultiprocess::RunChild() {
   // local_port is not valid in the forked child process.
   ignore_result(info_->local_port.release());
 
-  // The child uses the write end of the pipe.
-  info_->read_pipe.reset();
-  info_->pipe_fd = info_->write_pipe.get();
+  // The child uses the write end of c2p and the read end of p2c.
+  info_->pipe_c2p_read.reset();
+  info_->write_pipe_fd = info_->pipe_c2p_write.get();
+  info_->pipe_p2c_write.reset();
+  info_->read_pipe_fd = info_->pipe_p2c_read.get();
 
   mach_port_t local_port;
   kern_return_t kr = mach_port_allocate(
@@ -341,8 +365,10 @@ void MachMultiprocess::RunChild() {
   info_->remote_port.reset();
   info_->local_port.reset();
 
-  info_->pipe_fd = -1;
-  info_->write_pipe.reset();
+  info_->write_pipe_fd = -1;
+  info_->pipe_c2p_write.reset();
+  info_->read_pipe_fd = -1;
+  info_->pipe_p2c_read.reset();
 
   if (Test::HasFailure()) {
     // Trigger the ScopedNotReached destructor.

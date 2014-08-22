@@ -31,8 +31,7 @@ struct MachMultiprocessInfo;
 //!
 //! These tests are `fork()`-based. The parent process has access to the child
 //! process’ task port. The parent and child processes are able to communicate
-//! via Mach IPC, and the child process can also send messages to the parent
-//! process via a POSIX pipe.
+//! via Mach IPC, and via a pair of POSIX pipes.
 //!
 //! Subclasses are expected to implement the parent and child by overriding the
 //! appropriate methods.
@@ -79,12 +78,19 @@ class MachMultiprocess {
   //! This method may only be called by the parent process.
   pid_t ChildPID() const;
 
-  //! \brief Returns the pipe’s file descriptor.
+  //! \brief Returns the read pipe’s file descriptor.
   //!
-  //! This method may be called by either the parent or the child process. In
-  //! the parent process, the pipe is read-only, and in the child process, it is
-  //! write-only.
-  int PipeFD() const;
+  //! This method may be called by either the parent or the child process.
+  //! Anything written to the write pipe in the partner process will appear
+  //! on the this file descriptor in this process.
+  int ReadPipeFD() const;
+
+  //! \brief Returns the write pipe’s file descriptor.
+  //!
+  //! This method may be called by either the parent or the child process.
+  //! Anything written to this file descriptor in this process will appear on
+  //! the read pipe in the partner process.
+  int WritePipeFD() const;
 
   //! \brief Returns a receive right for the local port.
   //!
