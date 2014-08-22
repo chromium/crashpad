@@ -26,6 +26,8 @@
       'sources': [
         'capture_context_mac.h',
         'capture_context_mac.S',
+        'simple_string_dictionary.cc',
+        'simple_string_dictionary.h',
       ],
     },
     {
@@ -42,6 +44,7 @@
       ],
       'sources': [
         'capture_context_mac_test.cc',
+        'simple_string_dictionary_test.cc',
       ],
     },
   ],
