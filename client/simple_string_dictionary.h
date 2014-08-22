@@ -27,39 +27,50 @@ namespace crashpad {
 // using one of the constructors.
 struct SerializedSimpleStringDictionary;
 
-// TSimpleStringDictionary is an implementation of a map/dictionary collection
-// that uses a fixed amount of storage, so that it does not perform any dynamic
-// allocations for its operations.
-//
-// The actual map storage (the Entry) is guaranteed to be POD, so that it can be
-// transmitted over various IPC mechanisms.
-//
-// The template parameters control the amount of storage used for the key,
-// value, and map. The KeySize and ValueSize are measured in bytes, not glyphs,
-// and includes space for a \0 byte. This gives space for KeySize-1 and
-// ValueSize-1 characters in an entry. NumEntries is the total number of entries
-// that will fit in the map.
+//! \brief A map/dictionary collection implementation using a fixed amount of
+//!     storage, so that it does not perform any dynamic allocations for its
+//!     operations.
+//!
+//! The actual map storage (TSimpleStringDictionary::Entry) is guaranteed to be
+//! POD, so that it can be transmitted over various IPC mechanisms.
+//!
+//! The template parameters control the amount of storage used for the key,
+//! value, and map. The \a KeySize and \a ValueSize are measured in bytes, not
+//! glyphs, and include space for a trailing `NUL` byte. This gives space for
+//! `KeySize - 1` and `ValueSize - 1` characters in an entry. \a NumEntries is
+//! the total number of entries that will fit in the map.
 template <size_t KeySize = 256, size_t ValueSize = 256, size_t NumEntries = 64>
 class TSimpleStringDictionary {
  public:
-  // Constant and publicly accessible versions of the template parameters.
+  //! \brief Constant and publicly accessible versions of the template
+  //!     parameters.
+  //! \{
   static const size_t key_size = KeySize;
   static const size_t value_size = ValueSize;
   static const size_t num_entries = NumEntries;
+  //! \}
 
-  // An Entry object is a single entry in the map. If the key is a 0-length
-  // NUL-terminated string, the entry is empty.
+  //! \brief A single entry in the map.
   struct Entry {
+    //! \brief The entry’s key.
+    //!
+    //! If this is a 0-length `NUL`-terminated string, the entry is inactive.
     char key[KeySize];
+
+    //! \brief The entry’s value.
     char value[ValueSize];
 
+    //! \brief Returns the validity of the entry.
+    //!
+    //! If #key is an empty string, the entry is considered inactive, and this
+    //! method returns `false`. Otherwise, returns `true`.
     bool is_active() const {
       return key[0] != '\0';
-      }
+    }
   };
 
-  // An Iterator can be used to iterate over all the active entries in a
-  // TSimpleStringDictionary.
+  //! \brief An iterator to traverse all of the active entries in a
+  //!     TSimpleStringDictionary.
   class Iterator {
    public:
     explicit Iterator(const TSimpleStringDictionary& map)
@@ -67,8 +78,8 @@ class TSimpleStringDictionary {
           current_(0) {
     }
 
-    // Returns the next entry in the map, or NULL if at the end of the
-    // collection.
+    //! \brief Returns the next entry in the map, or `NULL` if at the end of the
+    //!     collection.
     const Entry* Next() {
       while (current_ < map_.num_entries) {
         const Entry* entry = &map_.entries_[current_++];
@@ -99,8 +110,8 @@ class TSimpleStringDictionary {
     return *this;
   }
 
-  // Constructs a map from its serialized form. |map| should be the out
-  // parameter from Serialize() and |size| should be its return value.
+  //! \brief Constructs a map from its serialized form. \a map should be the out
+  //!     parameter from Serialize(), and \a size should be its return value.
   TSimpleStringDictionary(
       const SerializedSimpleStringDictionary* map, size_t size) {
     DCHECK_EQ(size, sizeof(entries_));
@@ -109,8 +120,8 @@ class TSimpleStringDictionary {
     }
   }
 
-  // Returns the number of active key/value pairs. The upper limit for this is
-  // NumEntries.
+  //! \brief Returns the number of active key/value pairs. The upper limit for
+  //!     this is \a NumEntries.
   size_t GetCount() const {
     size_t count = 0;
     for (size_t i = 0; i < num_entries; ++i) {
@@ -121,8 +132,12 @@ class TSimpleStringDictionary {
     return count;
   }
 
-  // Given |key|, returns its corresponding |value|. |key| must not be NULL. If
-  // the key is not found, NULL is returned.
+  //! \brief Given \a key, returns its corresponding value.
+  //!
+  //! \param[in] key The key to look up. This must not be `NULL`.
+  //!
+  //! \return The corresponding value for \a key, or if \a key is not found,
+  //!     `NULL`.
   const char* GetValueForKey(const char* key) const {
     DCHECK(key);
     if (!key) {
@@ -137,10 +152,15 @@ class TSimpleStringDictionary {
     return entry->value;
   }
 
-  // Stores |value| into |key|, replacing the existing value if |key| is already
-  // present. |key| must not be NULL. If |value| is NULL, the key is removed
-  // from the map. If there is no more space in the map, then the operation
-  // silently fails.
+  //! \brief Stores \a value into \a key, replacing the existing value if \a key
+  //!     is already present.
+  //!
+  //! If there \a key is not yet in the map and the map is already full
+  //! (containing \a NumEntries active entries), this operation silently fails.
+  //!
+  //! \param[in] key The key to store. This must not be `NULL`.
+  //! \param[in] value The value to store. If `NULL`, \a key is removed from the
+  //!     map.
   void SetKeyValue(const char* key, const char* value) {
     if (!value) {
       RemoveKey(key);
@@ -152,7 +172,7 @@ class TSimpleStringDictionary {
       return;
     }
 
-    // Key must not be an empty string.
+    // |key| must not be an empty string.
     DCHECK_NE(key[0], '\0');
     if (key[0] == '\0') {
       return;
@@ -194,8 +214,11 @@ class TSimpleStringDictionary {
     entry->value[value_size - 1] = '\0';
   }
 
-  // Given |key|, removes any associated value. |key| must not be NULL. If the
-  // key is not found, this is a noop.
+  //! \brief Removes \a key from the map.
+  //!
+  //! If the key is not found, this is a no-op.
+  //!
+  //! \param[in] key The key of the entry to remove. This must not be `NULL`.
   void RemoveKey(const char* key) {
     DCHECK(key);
     if (!key) {
@@ -211,10 +234,13 @@ class TSimpleStringDictionary {
     DCHECK_EQ(GetEntryForKey(key), static_cast<void*>(NULL));
   }
 
-  // Places a serialized version of the map into |map| and returns the size.
-  // Both of these should be passed to the deserializing constructor. Note that
-  // the serialized |map| is scoped to the lifetime of the non-serialized
-  // instance of this class. The |map| can be copied across IPC boundaries.
+  //! \brief Returns a serialized form of the map.
+  //!
+  //! Places a serialized version of the map into \a map and returns the size in
+  //! bytes. Both \a map and the size should be passed to the deserializing
+  //! constructor. Note that the serialized \a map is scoped to the lifetime of
+  //! the non-serialized instance of this class. The \a map data can be copied
+  //! across IPC boundaries.
   size_t Serialize(const SerializedSimpleStringDictionary** map) const {
     *map = reinterpret_cast<const SerializedSimpleStringDictionary*>(entries_);
     return sizeof(entries_);
@@ -237,8 +263,10 @@ class TSimpleStringDictionary {
   Entry entries_[NumEntries];
 };
 
-// For historical reasons this specialized version is available with the same
-// size factors as a previous implementation.
+//! \brief A TSimpleStringDictionary with default template parameters.
+//!
+//! For historical reasons this specialized version is available with the same
+//! size factors as a previous implementation.
 typedef TSimpleStringDictionary<256, 256, 64> SimpleStringDictionary;
 
 }  // namespace crashpad
