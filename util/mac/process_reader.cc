@@ -24,6 +24,7 @@
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/mac/scoped_mach_vm.h"
+#include "util/misc/scoped_forbid_return.h"
 
 namespace {
 
@@ -221,6 +222,7 @@ void ProcessReader::InitializeThreads() {
   // by anything until they’re added to |threads_| by the loop below. Any early
   // return (or exception) that happens between here and the completion of the
   // loop below will leak thread port send rights.
+  ScopedForbidReturn threads_need_owners;
 
   base::mac::ScopedMachVM threads_vm(
       reinterpret_cast<vm_address_t>(threads),
@@ -340,6 +342,8 @@ void ProcessReader::InitializeThreads() {
 
     threads_.push_back(thread);
   }
+
+  threads_need_owners.Disarm();
 }
 
 void ProcessReader::InitializeModules() {
