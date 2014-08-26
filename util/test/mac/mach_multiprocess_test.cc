@@ -18,8 +18,6 @@
 
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
-#include "util/file/fd_io.h"
-#include "util/test/errors.h"
 
 namespace {
 
@@ -32,51 +30,13 @@ class TestMachMultiprocess final : public MachMultiprocess {
 
   ~TestMachMultiprocess() {}
 
- protected:
-  // The base class will have already exercised the Mach ports for IPC and the
-  // child task port. Just make sure that the pipe is set up correctly and that
-  // ChildPID() works as expected.
-  virtual void Parent() override {
-    int read_fd = ReadPipeFD();
-    char c;
-    ssize_t rv = ReadFD(read_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("read");
-    EXPECT_EQ('M', c);
-
-    pid_t pid;
-    rv = ReadFD(read_fd, &pid, sizeof(pid));
-    ASSERT_EQ(static_cast<ssize_t>(sizeof(pid)), rv) << ErrnoMessage("read");
-    EXPECT_EQ(pid, ChildPID());
-
-    int write_fd = WritePipeFD();
-    c = 'm';
-    rv = WriteFD(write_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("write");
-
-    // The child will close its end of the pipe and exit. Make sure that the
-    // parent sees EOF.
-    rv = ReadFD(read_fd, &c, 1);
-    ASSERT_EQ(0, rv) << ErrnoMessage("read");
-  }
-
-  virtual void Child() override {
-    int write_fd = WritePipeFD();
-
-    char c = 'M';
-    ssize_t rv = WriteFD(write_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("write");
-
-    pid_t pid = getpid();
-    rv = WriteFD(write_fd, &pid, sizeof(pid));
-    ASSERT_EQ(static_cast<ssize_t>(sizeof(pid)), rv) << ErrnoMessage("write");
-
-    int read_fd = ReadPipeFD();
-    rv = ReadFD(read_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("read");
-    EXPECT_EQ('m', c);
-  }
-
  private:
+  // MachMultiprocess will have already exercised the Mach ports for IPC and the
+  // child task port.
+  virtual void MachMultiprocessParent() override {}
+
+  virtual void MachMultiprocessChild() override {}
+
   DISALLOW_COPY_AND_ASSIGN(TestMachMultiprocess);
 };
 

@@ -17,34 +17,21 @@
 #include <AvailabilityMacros.h>
 #include <bsm/libbsm.h>
 #include <servers/bootstrap.h>
-#include <signal.h>
-#include <stdlib.h>
-#include <sys/wait.h>
 
 #include <string>
 
 #include "base/auto_reset.h"
-#include "base/files/scoped_file.h"
 #include "base/logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/rand_util.h"
-#include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "util/mach/bootstrap.h"
+#include "util/misc/scoped_forbid_return.h"
 #include "util/test/errors.h"
 #include "util/test/mac/mach_errors.h"
 
 namespace {
-
-class ScopedNotReached {
- public:
-  ScopedNotReached() {}
-  ~ScopedNotReached() { abort(); }
-
- private:
-  DISALLOW_COPY_AND_ASSIGN(ScopedNotReached);
-};
 
 // The “hello” message contains a send right to the child process’ task port.
 struct SendHelloMessage : public mach_msg_base_t {
@@ -67,25 +54,11 @@ namespace internal {
 struct MachMultiprocessInfo {
   MachMultiprocessInfo()
       : service_name(),
-        pipe_c2p_read(-1),
-        pipe_c2p_write(-1),
-        pipe_p2c_read(-1),
-        pipe_p2c_write(-1),
-        child_pid(0),
-        read_pipe_fd(-1),
-        write_pipe_fd(-1),
         local_port(MACH_PORT_NULL),
         remote_port(MACH_PORT_NULL),
         child_task(MACH_PORT_NULL) {}
 
   std::string service_name;
-  base::ScopedFD pipe_c2p_read;  // child to parent
-  base::ScopedFD pipe_c2p_write;  // child to parent
-  base::ScopedFD pipe_p2c_read;  // parent to child
-  base::ScopedFD pipe_p2c_write;  // parent to child
-  pid_t child_pid;  // valid only in parent
-  int read_pipe_fd;  // pipe_c2p_read in parent, pipe_p2c_read in child
-  int write_pipe_fd;  // pipe_p2c_write in parent, pipe_c2p_write in child
   base::mac::ScopedMachReceiveRight local_port;
   base::mac::ScopedMachSendRight remote_port;
   base::mac::ScopedMachSendRight child_task;  // valid only in parent
@@ -93,7 +66,7 @@ struct MachMultiprocessInfo {
 
 }  // namespace internal
 
-MachMultiprocess::MachMultiprocess() : info_(NULL) {
+MachMultiprocess::MachMultiprocess() : Multiprocess(), info_(NULL) {
 }
 
 void MachMultiprocess::Run() {
@@ -103,19 +76,17 @@ void MachMultiprocess::Run() {
   base::AutoReset<internal::MachMultiprocessInfo*> reset_info(&info_,
                                                               info.get());
 
-  int pipe_fds_c2p[2];
-  int rv = pipe(pipe_fds_c2p);
-  ASSERT_EQ(0, rv) << ErrnoMessage("pipe");
+  return Multiprocess::Run();
+}
 
-  info_->pipe_c2p_read.reset(pipe_fds_c2p[0]);
-  info_->pipe_c2p_write.reset(pipe_fds_c2p[1]);
+MachMultiprocess::~MachMultiprocess() {
+}
 
-  int pipe_fds_p2c[2];
-  rv = pipe(pipe_fds_p2c);
-  ASSERT_EQ(0, rv) << ErrnoMessage("pipe");
-
-  info_->pipe_p2c_read.reset(pipe_fds_p2c[0]);
-  info_->pipe_p2c_write.reset(pipe_fds_p2c[1]);
+void MachMultiprocess::PreFork() {
+  Multiprocess::PreFork();
+  if (testing::Test::HasFatalFailure()) {
+    return;
+  }
 
   // Set up the parent port and register it with the bootstrap server before
   // forking, so that it’s guaranteed to be there when the child attempts to
@@ -131,65 +102,6 @@ void MachMultiprocess::Run() {
   ASSERT_EQ(BOOTSTRAP_SUCCESS, kr)
       << BootstrapErrorMessage(kr, "bootstrap_check_in");
   info_->local_port.reset(local_port);
-
-  pid_t pid = fork();
-  ASSERT_GE(pid, 0) << ErrnoMessage("fork");
-
-  if (pid > 0) {
-    info_->child_pid = pid;
-
-    RunParent();
-
-    // Waiting for the child happens here instead of in RunParent() because even
-    // if RunParent() returns early due to a gtest fatal assertion failure, the
-    // child should still be reaped.
-
-    // This will make the parent hang up on the child as much as would be
-    // visible from the child’s perspective. The child’s side of the pipe will
-    // be broken, the child’s remote port will become a dead name, and an
-    // attempt by the child to look up the service will fail. If this weren’t
-    // done, the child might hang while waiting for a parent that has already
-    // triggered a fatal assertion failure to do something.
-    info.reset();
-    info_ = NULL;
-
-    int status;
-    pid_t wait_pid = waitpid(pid, &status, 0);
-    ASSERT_EQ(pid, wait_pid) << ErrnoMessage("waitpid");
-    if (status != 0) {
-      std::string message;
-      if (WIFEXITED(status)) {
-        message = base::StringPrintf("Child exited with code %d",
-                                     WEXITSTATUS(status));
-      } else if (WIFSIGNALED(status)) {
-        message = base::StringPrintf("Child terminated by signal %d (%s) %s",
-                                     WTERMSIG(status),
-                                     strsignal(WTERMSIG(status)),
-                                     WCOREDUMP(status) ? " (core dumped)" : "");
-      }
-      ASSERT_EQ(0, status) << message;
-    }
-  } else {
-    RunChild();
-  }
-}
-
-MachMultiprocess::~MachMultiprocess() {
-}
-
-pid_t MachMultiprocess::ChildPID() const {
-  EXPECT_NE(0, info_->child_pid);
-  return info_->child_pid;
-}
-
-int MachMultiprocess::ReadPipeFD() const {
-  EXPECT_NE(-1, info_->read_pipe_fd);
-  return info_->read_pipe_fd;
-}
-
-int MachMultiprocess::WritePipeFD() const {
-  EXPECT_NE(-1, info_->write_pipe_fd);
-  return info_->write_pipe_fd;
 }
 
 mach_port_t MachMultiprocess::LocalPort() const {
@@ -207,13 +119,7 @@ mach_port_t MachMultiprocess::ChildTask() const {
   return info_->child_task;
 }
 
-void MachMultiprocess::RunParent() {
-  // The parent uses the read end of c2p and the write end of p2c.
-  info_->pipe_c2p_write.reset();
-  info_->read_pipe_fd = info_->pipe_c2p_read.get();
-  info_->pipe_p2c_read.reset();
-  info_->write_pipe_fd = info_->pipe_p2c_write.get();
-
+void MachMultiprocess::MultiprocessParent() {
   ReceiveHelloMessage message = {};
 
   kern_return_t kr =
@@ -299,28 +205,17 @@ void MachMultiprocess::RunParent() {
   ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "pid_for_task");
   ASSERT_EQ(ChildPID(), mach_pid);
 
-  Parent();
+  MachMultiprocessParent();
 
   info_->remote_port.reset();
   info_->local_port.reset();
-
-  info_->read_pipe_fd = -1;
-  info_->pipe_c2p_read.reset();
-  info_->write_pipe_fd = -1;
-  info_->pipe_p2c_write.reset();
 }
 
-void MachMultiprocess::RunChild() {
-  ScopedNotReached must_not_leave_this_scope;
+void MachMultiprocess::MultiprocessChild() {
+  ScopedForbidReturn forbid_return;;
 
   // local_port is not valid in the forked child process.
   ignore_result(info_->local_port.release());
-
-  // The child uses the write end of c2p and the read end of p2c.
-  info_->pipe_c2p_read.reset();
-  info_->write_pipe_fd = info_->pipe_c2p_write.get();
-  info_->pipe_p2c_write.reset();
-  info_->read_pipe_fd = info_->pipe_p2c_read.get();
 
   mach_port_t local_port;
   kern_return_t kr = mach_port_allocate(
@@ -360,22 +255,17 @@ void MachMultiprocess::RunChild() {
                 MACH_PORT_NULL);
   ASSERT_EQ(MACH_MSG_SUCCESS, kr) << MachErrorMessage(kr, "mach_msg");
 
-  Child();
+  MachMultiprocessChild();
 
   info_->remote_port.reset();
   info_->local_port.reset();
 
-  info_->write_pipe_fd = -1;
-  info_->pipe_c2p_write.reset();
-  info_->read_pipe_fd = -1;
-  info_->pipe_p2c_read.reset();
-
   if (Test::HasFailure()) {
-    // Trigger the ScopedNotReached destructor.
+    // Trigger the ScopedForbidReturn destructor.
     return;
   }
 
-  exit(0);
+  forbid_return.Disarm();
 }
 
 }  // namespace test

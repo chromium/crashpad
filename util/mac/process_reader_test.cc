@@ -67,8 +67,8 @@ class ProcessReaderChild final : public MachMultiprocess {
 
   ~ProcessReaderChild() {}
 
- protected:
-  void Parent() override {
+ private:
+  void MachMultiprocessParent() override {
     ProcessReader process_reader;
     ASSERT_TRUE(process_reader.Initialize(ChildTask()));
 
@@ -100,7 +100,7 @@ class ProcessReaderChild final : public MachMultiprocess {
     ASSERT_EQ(1, rv) << ErrnoMessage("write");
   }
 
-  void Child() override {
+  void MachMultiprocessChild() override {
     int write_fd = WritePipeFD();
 
     mach_vm_address_t address =
@@ -116,7 +116,6 @@ class ProcessReaderChild final : public MachMultiprocess {
     ASSERT_EQ(1, rv) << ErrnoMessage("read");
   }
 
- private:
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderChild);
 };
 
@@ -434,8 +433,8 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
 
   ~ProcessReaderThreadedChild() {}
 
- protected:
-  void Parent() override {
+ private:
+  void MachMultiprocessParent() override {
     ProcessReader process_reader;
     ASSERT_TRUE(process_reader.Initialize(ChildTask()));
 
@@ -486,7 +485,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
     ASSERT_EQ(1, rv) << ErrnoMessage("write");
   }
 
-  void Child() override {
+  void MachMultiprocessChild() override {
     TestThreadPool thread_pool;
     thread_pool.StartThreads(thread_count_);
     if (testing::Test::HasFatalFailure()) {
@@ -550,7 +549,6 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
     ASSERT_EQ(1, rv) << ErrnoMessage("read");
   }
 
- private:
   size_t thread_count_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderThreadedChild);

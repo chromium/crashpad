@@ -19,6 +19,7 @@
 #include <unistd.h>
 
 #include "base/basictypes.h"
+#include "util/test/multiprocess.h"
 
 namespace crashpad {
 namespace test {
@@ -29,68 +30,26 @@ struct MachMultiprocessInfo;
 
 //! \brief Manages a Mach-aware multiprocess test.
 //!
-//! These tests are `fork()`-based. The parent process has access to the child
-//! process’ task port. The parent and child processes are able to communicate
-//! via Mach IPC, and via a pair of POSIX pipes.
+//! This is similar to the base Multiprocess test, but adds Mach features. The
+//! parent process has access to the child process’ task port. The parent and
+//! child processes are able to communicate via Mach IPC: each process has a
+//! receive right to its “local port” and a send right to a “remote port”, and
+//! messages sent to the remote port in one process can be received on the local
+//! port in the partner process.
 //!
 //! Subclasses are expected to implement the parent and child by overriding the
 //! appropriate methods.
-class MachMultiprocess {
+class MachMultiprocess : public Multiprocess {
  public:
   MachMultiprocess();
 
-  //! \brief Runs the test.
-  //!
-  //! This method establishes the proper testing environment and calls
-  //! RunParent() in the parent process and RunChild() in the child process.
-  //!
-  //! This method uses gtest assertions to validate the testing environment. If
-  //! the testing environment cannot be set up properly, it is possible that
-  //! Parent() or Child() will not be called. In the parent process, this method
-  //! also waits for the child process to exit after Parent() returns, and
-  //! verifies that it exited cleanly with gtest assertions.
   void Run();
 
  protected:
   ~MachMultiprocess();
 
-  //! \brief The subclass-provided parent routine.
-  //!
-  //! Test failures should be reported via gtest: `EXPECT_*()`, `ASSERT_*()`,
-  //! `FAIL()`, etc.
-  //!
-  //! This method must not use a `wait()`-family system call to wait for the
-  //! child process to exit, as this is handled by RunParent().
-  //!
-  //! Subclasses must implement this method to define how the parent operates.
-  virtual void Parent() = 0;
-
-  //! \brief The subclass-provided child routine.
-  //!
-  //! Test failures should be reported via gtest: `EXPECT_*()`, `ASSERT_*()`,
-  //! `FAIL()`, etc.
-  //!
-  //! Subclasses must implement this method to define how the child operates.
-  virtual void Child() = 0;
-
-  //! \brief Returns the child process’ process ID.
-  //!
-  //! This method may only be called by the parent process.
-  pid_t ChildPID() const;
-
-  //! \brief Returns the read pipe’s file descriptor.
-  //!
-  //! This method may be called by either the parent or the child process.
-  //! Anything written to the write pipe in the partner process will appear
-  //! on the this file descriptor in this process.
-  int ReadPipeFD() const;
-
-  //! \brief Returns the write pipe’s file descriptor.
-  //!
-  //! This method may be called by either the parent or the child process.
-  //! Anything written to this file descriptor in this process will appear on
-  //! the read pipe in the partner process.
-  int WritePipeFD() const;
+  // Multiprocess:
+  virtual void PreFork() override;
 
   //! \brief Returns a receive right for the local port.
   //!
@@ -112,21 +71,43 @@ class MachMultiprocess {
   mach_port_t ChildTask() const;
 
  private:
+  // Multiprocess:
+
   //! \brief Runs the parent side of the test.
   //!
-  //! This method establishes the parent’s environment, performs the handshake
-  //! with the child, calls Parent(), and waits for the child process to exit.
-  //! Assuming that the environment can be set up correctly and the child exits
-  //! successfully, the test will pass.
-  void RunParent();
+  //! This method establishes the parent’s environment and calls
+  //! MachMultiprocessParent().
+  //!
+  //! Subclasses must override MachMultiprocessParent() instead of this method.
+  virtual void MultiprocessParent() override final;
 
   //! \brief Runs the child side of the test.
   //!
-  //! This method establishes the child’s environment, performs the handshake
-  //! with the parent, calls Child(), and exits cleanly. However, if any failure
-  //! (via fatal or nonfatal gtest assertion) is detected, the child will exit
-  //! with a failure status.
-  void RunChild();
+  //! This method establishes the child’s environment and calls
+  //! MachMultiprocessChild(). If any failure (via fatal or nonfatal gtest
+  //! assertion) is detected, the child will exit with a failure status.
+  //!
+  //! Subclasses must override MachMultiprocessChild() instead of this method.
+  virtual void MultiprocessChild() override final;
+
+  //! \brief The subclass-provided parent routine.
+  //!
+  //! Test failures should be reported via gtest: `EXPECT_*()`, `ASSERT_*()`,
+  //! `FAIL()`, etc.
+  //!
+  //! This method must not use a `wait()`-family system call to wait for the
+  //! child process to exit, as this is handled by the superclass.
+  //!
+  //! Subclasses must implement this method to define how the parent operates.
+  virtual void MachMultiprocessParent() = 0;
+
+  //! \brief The subclass-provided child routine.
+  //!
+  //! Test failures should be reported via gtest: `EXPECT_*()`, `ASSERT_*()`,
+  //! `FAIL()`, etc.
+  //!
+  //! Subclasses must implement this method to define how the child operates.
+  virtual void MachMultiprocessChild() = 0;
 
   internal::MachMultiprocessInfo* info_;
 

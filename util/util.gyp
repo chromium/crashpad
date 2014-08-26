@@ -98,6 +98,8 @@
         'test/mac/mach_errors.h',
         'test/mac/mach_multiprocess.cc',
         'test/mac/mach_multiprocess.h',
+        'test/multiprocess.cc',
+        'test/multiprocess.h',
       ],
     },
     {
@@ -132,6 +134,7 @@
         'posix/process_util_test.cc',
         'stdlib/strlcpy_test.cc',
         'test/mac/mach_multiprocess_test.cc',
+        'test/multiprocess_test.cc',
       ],
     },
   ],
