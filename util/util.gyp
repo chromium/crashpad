@@ -74,6 +74,8 @@
         'stdlib/pointer_container.h',
         'stdlib/strlcpy.cc',
         'stdlib/strlcpy.h',
+        'stdlib/strnlen.cc',
+        'stdlib/strnlen.h',
       ],
     },
     {
@@ -136,6 +138,7 @@
         'numeric/in_range_cast_test.cc',
         'posix/process_util_test.cc',
         'stdlib/strlcpy_test.cc',
+        'stdlib/strnlen_test.cc',
         'test/mac/mach_multiprocess_test.cc',
         'test/multiprocess_test.cc',
       ],
