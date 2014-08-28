@@ -32,6 +32,8 @@
         'file/file_writer.h',
         'file/string_file_writer.cc',
         'file/string_file_writer.h',
+        'mac/checked_mach_address_range.cc',
+        'mac/checked_mach_address_range.h',
         'mac/launchd.h',
         'mac/launchd.mm',
         'mac/mac_util.cc',
@@ -118,6 +120,7 @@
       ],
       'sources': [
         'file/string_file_writer_test.cc',
+        'mac/checked_mach_address_range_test.cc',
         'mac/launchd_test.mm',
         'mac/mac_util_test.mm',
         'mac/process_reader_test.cc',
