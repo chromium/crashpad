@@ -106,6 +106,8 @@
         'test/mac/mach_multiprocess.h',
         'test/multiprocess.cc',
         'test/multiprocess.h',
+        'test/posix/close_multiple.cc',
+        'test/posix/close_multiple.h',
       ],
     },
     {
