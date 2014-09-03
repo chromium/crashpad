@@ -77,7 +77,7 @@ typedef scoped_ptr<DIR, ScopedDIRCloser> ScopedDIR;
 // system-specific FD directory to determine which file descriptors are open.
 // This is an advantage over looping over all possible file descriptors, because
 // no attempt needs to be made to close file descriptors that are not open.
-bool CloseMultipleNowOrOnExecUsingFDDir(int fd) {
+bool CloseMultipleNowOrOnExecUsingFDDir(int fd, int preserve_fd) {
 #if defined(OS_MACOSX)
   const char kFDDir[] = "/dev/fd";
 #elif defined(OS_LINUX)
@@ -120,7 +120,7 @@ bool CloseMultipleNowOrOnExecUsingFDDir(int fd) {
       return false;
     }
 
-    if (entry_fd >= fd && entry_fd != dir_fd) {
+    if (entry_fd >= fd && entry_fd != preserve_fd && entry_fd != dir_fd) {
       CloseNowOrOnExec(entry_fd, false);
     }
   }
@@ -130,9 +130,9 @@ bool CloseMultipleNowOrOnExecUsingFDDir(int fd) {
 
 }  // namespace
 
-void CloseMultipleNowOrOnExec(int fd) {
-  if (CloseMultipleNowOrOnExecUsingFDDir(fd)) {
-   return;
+void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
+  if (CloseMultipleNowOrOnExecUsingFDDir(fd, preserve_fd)) {
+    return;
   }
 
   // Fallback: close every file descriptor starting at |fd| and ending at the
@@ -147,7 +147,9 @@ void CloseMultipleNowOrOnExec(int fd) {
   max_fd = std::max(max_fd, getdtablesize());
 
   for (int entry_fd = fd; entry_fd < max_fd; ++entry_fd) {
-    CloseNowOrOnExec(entry_fd, true);
+    if (entry_fd != preserve_fd) {
+      CloseNowOrOnExec(entry_fd, true);
+    }
   }
 }
 

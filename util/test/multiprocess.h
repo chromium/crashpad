@@ -64,7 +64,7 @@ class Multiprocess {
   //! \code
   //!   virtual void PreFork() override {
   //!     Multiprocess::PreFork();
-  //!     if (testing::Test::HasFatalAssertions()) {
+  //!     if (testing::Test::HasFatalFailure()) {
   //!       return;
   //!     }
   //!

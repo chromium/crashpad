@@ -34,7 +34,10 @@ namespace crashpad {
 //! protected against `close()`.
 //!
 //! \param[in] fd The lowest file descriptor to close or set as close-on-exec.
-void CloseMultipleNowOrOnExec(int fd);
+//! \param[in] preserve_fd A file descriptor to preserve and not close (or set
+//!     as close-on-exec), even if it is open and its value is greater than \a
+//!     fd. To not preserve any file descriptor, pass `-1` for this parameter.
+void CloseMultipleNowOrOnExec(int fd, int preserve_fd);
 
 }  // namespace crashpad
 
