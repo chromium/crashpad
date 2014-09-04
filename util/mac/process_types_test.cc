@@ -23,11 +23,7 @@
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "util/mac/mac_util.h"
-
-extern "C" {
-const struct dyld_all_image_infos* _dyld_get_all_image_infos();
-
-}  // extern "C"
+#include "util/test/mac/dyld.h"
 
 namespace {
 

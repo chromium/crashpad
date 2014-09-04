@@ -41,6 +41,10 @@ UUID::UUID(const uint8_t* bytes) {
   InitializeFromBytes(bytes);
 }
 
+bool UUID::operator==(const UUID& that) const {
+  return memcmp(this, &that, sizeof(UUID)) == 0;
+}
+
 void UUID::InitializeFromBytes(const uint8_t* bytes) {
   memcpy(this, bytes, sizeof(*this));
   data_1 = base::NetToHost32(data_1);

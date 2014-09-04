@@ -136,9 +136,22 @@ class MachOImageSegmentReader {
   //! \note The process_types::section::addr field gives the section’s preferred
   //!     load address as stored in the Mach-O image file, and is not adjusted
   //!     for any “slide” that may have occurred when the image was loaded.
+  //! \note Unlike MachOImageReader::GetSectionAtIndex(), this method does not
+  //!     accept out-of-range values for \a index, and aborts execution instead
+  //!     of returning `NULL` upon encountering an out-of-range value. This is
+  //!     because this method is expected to be used in a loop that can be
+  //!     limited to nsects() iterations, so an out-of-range error can be
+  //!     treated more harshly as a logic error, as opposed to a data error.
   //!
   //! \sa MachOImageReader::GetSectionAtIndex()
   const process_types::section* GetSectionAtIndex(size_t index) const;
+
+  //! Returns whether the segment slides.
+  //!
+  //! Most segments slide, but the __PAGEZERO segment does not, it grows
+  //! instead. This method identifies non-sliding segments in the same way that
+  //! the kernel does.
+  bool SegmentSlides() const;
 
   //! \brief Returns a segment name string.
   //!

@@ -36,6 +36,9 @@ struct UUID {
   //! \copydoc InitializeFromBytes()
   explicit UUID(const uint8_t* bytes);
 
+  bool operator==(const UUID& that) const;
+  bool operator!=(const UUID& that) const { return !operator==(that); }
+
   //! \brief Initializes the %UUID from a sequence of bytes.
   //!
   //! \a bytes is taken as a %UUID laid out in big-endian format in memory. On

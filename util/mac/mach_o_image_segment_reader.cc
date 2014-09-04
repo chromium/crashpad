@@ -194,6 +194,17 @@ const process_types::section* MachOImageSegmentReader::GetSectionAtIndex(
   return &sections_[index];
 }
 
+bool MachOImageSegmentReader::SegmentSlides() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  // These are the same rules that the kernel uses to identify __PAGEZERO. See
+  // 10.9.4 xnu-2422.110.17/bsd/kern/mach_loader.c load_segment().
+  return !(segment_command_.vmaddr == 0 && segment_command_.filesize == 0 &&
+           segment_command_.vmsize != 0 &&
+           (segment_command_.initprot & VM_PROT_ALL) == VM_PROT_NONE &&
+           (segment_command_.maxprot & VM_PROT_ALL) == VM_PROT_NONE);
+}
+
 // static
 std::string MachOImageSegmentReader::SegmentNameString(
     const char* segment_name_c) {

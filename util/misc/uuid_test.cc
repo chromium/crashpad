@@ -70,6 +70,39 @@ TEST(UUID, UUID) {
   EXPECT_EQ(0x0fu, uuid.data_5[5]);
   EXPECT_EQ("00010203-0405-0607-0809-0a0b0c0d0e0f", uuid.ToString());
 
+  // Test both operator== and operator!=.
+  EXPECT_FALSE(uuid == uuid_zero);
+  EXPECT_NE(uuid, uuid_zero);
+
+  UUID uuid_2(kBytes);
+  EXPECT_EQ(uuid, uuid_2);
+  EXPECT_FALSE(uuid != uuid_2);
+
+  // Make sure that operator== and operator!= check the entire UUID.
+  ++uuid.data_1;
+  EXPECT_NE(uuid, uuid_2);
+  --uuid.data_1;
+  ++uuid.data_2;
+  EXPECT_NE(uuid, uuid_2);
+  --uuid.data_2;
+  ++uuid.data_3;
+  EXPECT_NE(uuid, uuid_2);
+  --uuid.data_3;
+  for (size_t index = 0; index < arraysize(uuid.data_4); ++index) {
+    ++uuid.data_4[index];
+    EXPECT_NE(uuid, uuid_2);
+    --uuid.data_4[index];
+  }
+  for (size_t index = 0; index < arraysize(uuid.data_5); ++index) {
+    ++uuid.data_5[index];
+    EXPECT_NE(uuid, uuid_2);
+    --uuid.data_5[index];
+  }
+
+  // Make sure that the UUIDs are equal again, otherwise the test above may not
+  // have been valid.
+  EXPECT_EQ(uuid, uuid_2);
+
   const uint8_t kMoreBytes[16] = {0xff,
                                   0xee,
                                   0xdd,
@@ -99,6 +132,9 @@ TEST(UUID, UUID) {
   EXPECT_EQ(0x11u, uuid.data_5[4]);
   EXPECT_EQ(0x00u, uuid.data_5[5]);
   EXPECT_EQ("ffeeddcc-bbaa-9988-7766-554433221100", uuid.ToString());
+
+  EXPECT_NE(uuid, uuid_2);
+  EXPECT_NE(uuid, uuid_zero);
 
   // Test that UUID is standard layout.
   memset(&uuid, 0x45, 16);
