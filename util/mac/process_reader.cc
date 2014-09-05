@@ -24,6 +24,8 @@
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/mac/scoped_mach_vm.h"
+#include "util/mac/mach_o_image_reader.h"
+#include "util/mac/process_types.h"
 #include "util/misc/scoped_forbid_return.h"
 
 namespace {
@@ -352,11 +354,119 @@ void ProcessReader::InitializeModules() {
 
   initialized_modules_ = true;
 
-  // TODO(mark): Complete this implementation. The implementation depends on
-  // process_types, which cannot land yet because it depends on this file,
-  // process_reader. This temporary “cut” was made to avoid a review that’s too
-  // large. Yes, this circular dependency is unfortunate. Suggestions are
-  // welcome.
+  // This API only works on Mac OS X 10.6 and higher. On Mac OS X 10.5, find the
+  // “_dyld_all_image_infos” symbol in the loaded LC_LOAD_DYLINKER (dyld).
+  task_dyld_info_data_t dyld_info;
+  mach_msg_type_number_t count = TASK_DYLD_INFO_COUNT;
+  kern_return_t kr = task_info(
+      task_, TASK_DYLD_INFO, reinterpret_cast<task_info_t>(&dyld_info), &count);
+  if (kr != KERN_SUCCESS) {
+    MACH_LOG(WARNING, kr) << "task_info";
+    return;
+  }
+
+  // TODO(mark): Deal with statically linked executables which don’t use dyld.
+  // This may look for the module that matches the executable path in the same
+  // data set that vmmap uses.
+
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
+  // The task_dyld_info_data_t struct grew in 10.7, adding the format field.
+  // Don’t check this field if it’s not present, which can happen when either
+  // the SDK used at compile time or the kernel at run time are too old and
+  // don’t know about it.
+  if (count >= TASK_DYLD_INFO_COUNT) {
+    const integer_t kExpectedFormat =
+        !Is64Bit() ? TASK_DYLD_ALL_IMAGE_INFO_32 : TASK_DYLD_ALL_IMAGE_INFO_64;
+    if (dyld_info.all_image_info_format != kExpectedFormat) {
+      LOG(WARNING) << "unexpected task_dyld_info_data_t::all_image_info_format "
+                   << dyld_info.all_image_info_format;
+      DCHECK_EQ(dyld_info.all_image_info_format, kExpectedFormat);
+      return;
+    }
+  }
+#endif
+
+  process_types::dyld_all_image_infos all_image_infos;
+  if (!all_image_infos.Read(this, dyld_info.all_image_info_addr)) {
+    LOG(WARNING) << "could not read dyld_all_image_infos";
+    return;
+  }
+
+  // Note that all_image_infos.infoArrayCount may be 0 if a crash occurred while
+  // dyld was loading the executable. This can happen if a required dynamic
+  // library was not found.
+  DCHECK_GE(all_image_infos.version, 1u);
+  DCHECK_NE(all_image_infos.infoArray, static_cast<mach_vm_address_t>(NULL));
+
+  std::vector<process_types::dyld_image_info> image_info_vector(
+      all_image_infos.infoArrayCount);
+  if (!process_types::dyld_image_info::ReadArrayInto(this,
+                                                     all_image_infos.infoArray,
+                                                     image_info_vector.size(),
+                                                     &image_info_vector[0])) {
+    LOG(WARNING) << "could not read dyld_image_info array";
+    return;
+  }
+
+  bool found_dyld = false;
+  for (const process_types::dyld_image_info& image_info : image_info_vector) {
+    ProcessReaderModule module;
+    module.address = image_info.imageLoadAddress;
+    module.timestamp = image_info.imageFileModDate;
+    if (!task_memory_->ReadCString(image_info.imageFilePath, &module.name)) {
+      LOG(WARNING) << "could not read dyld_image_info::imageFilePath";
+      // Proceed anyway with an empty module name.
+    }
+
+    modules_.push_back(module);
+
+    if (all_image_infos.version >= 2 && all_image_infos.dyldImageLoadAddress &&
+        image_info.imageLoadAddress == all_image_infos.dyldImageLoadAddress) {
+      found_dyld = true;
+    }
+  }
+
+  // all_image_infos.infoArray doesn’t include an entry for dyld, but dyld is
+  // loaded into the process’ address space as a module. Its load address is
+  // easily known given a sufficiently recent all_image_infos.version, but the
+  // timestamp and pathname are not given as they are for other modules.
+  //
+  // The timestamp is a lost cause, because the kernel doesn’t record the
+  // timestamp of the dynamic linker at the time it’s loaded in the same way
+  // that dyld records the timestamps of other modules when they’re loaded. (The
+  // timestamp for the main executable is also not reported and appears as 0
+  // even when accessed via dyld APIs, because it’s loaded by the kernel, not by
+  // dyld.)
+  //
+  // The name can be determined, but it’s not as simple as hardcoding the
+  // default "/usr/lib/dyld" because an executable could have specified anything
+  // in its LC_LOAD_DYLINKER command.
+  if (!found_dyld && all_image_infos.version >= 2 &&
+      all_image_infos.dyldImageLoadAddress) {
+    ProcessReaderModule module;
+    module.address = all_image_infos.dyldImageLoadAddress;
+    module.timestamp = 0;
+
+    // Examine the executable’s LC_LOAD_DYLINKER load command to find the path
+    // used to load dyld.
+    MachOImageReader executable;
+    if (all_image_infos.infoArrayCount >= 1 &&
+        executable.Initialize(this, modules_[0].address, modules_[0].name) &&
+        executable.FileType() == MH_EXECUTE &&
+        !executable.DylinkerName().empty()) {
+      module.name = executable.DylinkerName();
+    } else {
+      // Look inside dyld directly to find its preferred path.
+      MachOImageReader dyld;
+      if (dyld.Initialize(this, module.address, "(dyld)") &&
+          dyld.FileType() == MH_DYLINKER && !dyld.DylinkerName().empty()) {
+        module.name = dyld.DylinkerName();
+      }
+    }
+
+    // dyld is loaded in the process even if its path can’t be determined.
+    modules_.push_back(module);
+  }
 }
 
 mach_vm_address_t ProcessReader::CalculateStackRegion(

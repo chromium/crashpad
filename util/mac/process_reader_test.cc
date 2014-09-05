@@ -15,22 +15,28 @@
 #include "util/mac/process_reader.h"
 
 #include <dispatch/dispatch.h>
+#include <mach-o/dyld.h>
+#include <mach-o/dyld_images.h>
 #include <mach/mach.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "base/logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/posix/eintr_wrapper.h"
+#include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/file/fd_io.h"
 #include "util/stdlib/pointer_container.h"
+#include "util/test/errors.h"
+#include "util/test/mac/dyld.h"
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
-#include "util/test/errors.h"
 
 namespace {
 
@@ -84,7 +90,7 @@ class ProcessReaderChild final : public MachMultiprocess {
     int read_fd = ReadPipeFD();
 
     mach_vm_address_t address;
-    int rv = ReadFD(read_fd, &address, sizeof(address));
+    ssize_t rv = ReadFD(read_fd, &address, sizeof(address));
     ASSERT_EQ(static_cast<ssize_t>(sizeof(address)), rv)
         << ErrnoMessage("read");
 
@@ -105,7 +111,7 @@ class ProcessReaderChild final : public MachMultiprocess {
 
     mach_vm_address_t address =
         reinterpret_cast<mach_vm_address_t>(kTestMemory);
-    int rv = WriteFD(write_fd, &address, sizeof(address));
+    ssize_t rv = WriteFD(write_fd, &address, sizeof(address));
     ASSERT_EQ(static_cast<ssize_t>(sizeof(address)), rv)
         << ErrnoMessage("write");
 
@@ -448,7 +454,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
          thread_index < thread_count_ + 1;
          ++thread_index) {
       uint64_t thread_id;
-      int rv = ReadFD(read_fd, &thread_id, sizeof(thread_id));
+      ssize_t rv = ReadFD(read_fd, &thread_id, sizeof(thread_id));
       ASSERT_EQ(static_cast<ssize_t>(sizeof(thread_id)), rv)
           << ErrnoMessage("read");
 
@@ -481,7 +487,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
     // until the parent finished working with it.
     int write_fd = WritePipeFD();
     char c = '\0';
-    int rv = WriteFD(write_fd, &c, 1);
+    ssize_t rv = WriteFD(write_fd, &c, 1);
     ASSERT_EQ(1, rv) << ErrnoMessage("write");
   }
 
@@ -498,7 +504,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
     // to inspect it. Write an entry for it.
     uint64_t thread_id = PthreadToThreadID(pthread_self());
 
-    int rv = WriteFD(write_fd, &thread_id, sizeof(thread_id));
+    ssize_t rv = WriteFD(write_fd, &thread_id, sizeof(thread_id));
     ASSERT_EQ(static_cast<ssize_t>(sizeof(thread_id)), rv)
         << ErrnoMessage("write");
 
@@ -565,6 +571,199 @@ TEST(ProcessReader, ChildSeveralThreads) {
   const size_t kChildThreads = 64;
   ProcessReaderThreadedChild process_reader_threaded_child(kChildThreads);
   process_reader_threaded_child.Run();
+}
+
+TEST(ProcessReader, SelfModules) {
+  ProcessReader process_reader;
+  ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
+
+  uint32_t dyld_image_count = _dyld_image_count();
+  const std::vector<ProcessReaderModule>& modules = process_reader.Modules();
+
+  // There needs to be at least an entry for the main executable, for a dylib,
+  // and for dyld.
+  ASSERT_GE(modules.size(), 3u);
+
+  // dyld_image_count doesn’t include an entry for dyld itself, but |modules|
+  // does.
+  ASSERT_EQ(dyld_image_count + 1, modules.size());
+
+  for (uint32_t index = 0; index < dyld_image_count; ++index) {
+    SCOPED_TRACE(base::StringPrintf(
+        "index %u, name %s", index, modules[index].name.c_str()));
+
+    const char* dyld_image_name = _dyld_get_image_name(index);
+    EXPECT_EQ(dyld_image_name, modules[index].name);
+    EXPECT_EQ(
+        reinterpret_cast<mach_vm_address_t>(_dyld_get_image_header(index)),
+        modules[index].address);
+
+    if (index == 0) {
+      // dyld didn’t load the main executable, so it couldn’t record its
+      // timestamp, and it is reported as 0.
+      EXPECT_EQ(0, modules[index].timestamp);
+    } else {
+      // Hope that the module didn’t change on disk.
+      struct stat stat_buf;
+      int rv = stat(dyld_image_name, &stat_buf);
+      EXPECT_EQ(0, rv) << ErrnoMessage("stat");
+      if (rv == 0) {
+        EXPECT_EQ(stat_buf.st_mtime, modules[index].timestamp);
+      }
+    }
+  }
+
+  size_t index = modules.size() - 1;
+  EXPECT_EQ("/usr/lib/dyld", modules[index].name);
+
+  // dyld didn’t load itself either, so it couldn’t record its timestamp, and it
+  // is also reported as 0.
+  EXPECT_EQ(0, modules[index].timestamp);
+
+  const struct dyld_all_image_infos* dyld_image_infos =
+      _dyld_get_all_image_infos();
+  if (dyld_image_infos->version >= 2) {
+    EXPECT_EQ(reinterpret_cast<mach_vm_address_t>(
+        dyld_image_infos->dyldImageLoadAddress), modules[index].address);
+  }
+}
+
+class ProcessReaderModulesChild final : public MachMultiprocess {
+ public:
+  ProcessReaderModulesChild() : MachMultiprocess() {}
+
+  ~ProcessReaderModulesChild() {}
+
+ private:
+  void MachMultiprocessParent() override {
+    ProcessReader process_reader;
+    ASSERT_TRUE(process_reader.Initialize(ChildTask()));
+
+    const std::vector<ProcessReaderModule>& modules = process_reader.Modules();
+
+    // There needs to be at least an entry for the main executable, for a dylib,
+    // and for dyld.
+    ASSERT_GE(modules.size(), 3u);
+
+    int read_fd = ReadPipeFD();
+
+    uint32_t expect_modules;
+    ssize_t rv = ReadFD(read_fd, &expect_modules, sizeof(expect_modules));
+    ASSERT_EQ(static_cast<ssize_t>(sizeof(expect_modules)), rv)
+        << ErrnoMessage("read");
+
+    ASSERT_EQ(expect_modules, modules.size());
+
+    for (size_t index = 0; index < modules.size(); ++index) {
+      SCOPED_TRACE(base::StringPrintf(
+          "index %zu, name %s", index, modules[index].name.c_str()));
+
+      uint32_t expect_name_length;
+      rv = ReadFD(
+          read_fd, &expect_name_length, sizeof(expect_name_length));
+      ASSERT_EQ(static_cast<ssize_t>(sizeof(expect_name_length)), rv)
+          << ErrnoMessage("read");
+
+      // The NUL terminator is not read.
+      std::string expect_name(expect_name_length, '\0');
+      rv = ReadFD(read_fd, &expect_name[0], expect_name_length);
+      ASSERT_EQ(static_cast<ssize_t>(expect_name_length), rv)
+          << ErrnoMessage("read");
+
+      EXPECT_EQ(expect_name, modules[index].name);
+
+      mach_vm_address_t expect_address;
+      rv = ReadFD(read_fd, &expect_address, sizeof(expect_address));
+      ASSERT_EQ(static_cast<ssize_t>(sizeof(expect_address)), rv)
+          << ErrnoMessage("read");
+
+      EXPECT_EQ(expect_address, modules[index].address);
+
+      if (index == 0 || index == modules.size() - 1) {
+        // dyld didn’t load the main executable or itself, so it couldn’t record
+        // these timestamps, and they are reported as 0.
+        EXPECT_EQ(0, modules[index].timestamp);
+      } else {
+        // Hope that the module didn’t change on disk.
+        struct stat stat_buf;
+        int rv = stat(expect_name.c_str(), &stat_buf);
+        EXPECT_EQ(0, rv) << ErrnoMessage("stat");
+        if (rv == 0) {
+          EXPECT_EQ(stat_buf.st_mtime, modules[index].timestamp);
+        }
+      }
+    }
+
+    // Tell the child that it’s OK to exit. The child needed to be kept alive
+    // until the parent finished working with it.
+    int write_fd = WritePipeFD();
+    char c = '\0';
+    rv = WriteFD(write_fd, &c, 1);
+    ASSERT_EQ(1, rv) << ErrnoMessage("write");
+  }
+
+  void MachMultiprocessChild() override {
+    int write_fd = WritePipeFD();
+
+    uint32_t dyld_image_count = _dyld_image_count();
+    const struct dyld_all_image_infos* dyld_image_infos =
+        _dyld_get_all_image_infos();
+
+    uint32_t write_image_count = dyld_image_count;
+    if (dyld_image_infos->version >= 2) {
+      // dyld_image_count doesn’t include an entry for dyld itself, but one will
+      // be written.
+      ++write_image_count;
+    }
+
+    ssize_t rv = WriteFD(
+        write_fd, &write_image_count, sizeof(write_image_count));
+    ASSERT_EQ(static_cast<ssize_t>(sizeof(write_image_count)), rv)
+        << ErrnoMessage("write");
+
+    for (size_t index = 0; index < write_image_count; ++index) {
+      const char* dyld_image_name;
+      mach_vm_address_t dyld_image_address;
+
+      if (index < dyld_image_count) {
+        dyld_image_name = _dyld_get_image_name(index);
+        dyld_image_address =
+            reinterpret_cast<mach_vm_address_t>(_dyld_get_image_header(index));
+      } else {
+        dyld_image_name = "/usr/lib/dyld";
+        dyld_image_address = reinterpret_cast<mach_vm_address_t>(
+            dyld_image_infos->dyldImageLoadAddress);
+      }
+
+      uint32_t dyld_image_name_length = strlen(dyld_image_name);
+      rv = WriteFD(
+          write_fd, &dyld_image_name_length, sizeof(dyld_image_name_length));
+      ASSERT_EQ(static_cast<ssize_t>(sizeof(dyld_image_name_length)), rv)
+          << ErrnoMessage("write");
+
+      // The NUL terminator is not written.
+      rv = WriteFD(write_fd, dyld_image_name, dyld_image_name_length);
+      ASSERT_EQ(static_cast<ssize_t>(dyld_image_name_length), rv)
+          << ErrnoMessage("write");
+
+      rv = WriteFD(write_fd, &dyld_image_address, sizeof(dyld_image_address));
+      ASSERT_EQ(static_cast<ssize_t>(sizeof(dyld_image_address)), rv)
+          << ErrnoMessage("write");
+    }
+
+    // Wait for the parent to say that it’s OK to exit.
+    int read_fd = ReadPipeFD();
+    char c;
+    rv = ReadFD(read_fd, &c, 1);
+    ASSERT_EQ(1, rv) << ErrnoMessage("read");
+  }
+
+  DISALLOW_COPY_AND_ASSIGN(ProcessReaderModulesChild);
+};
+
+TEST(ProcessReader, ChildModules) {
+  ProcessReaderModulesChild process_reader_modules_child;
+  process_reader_modules_child.Run();
 }
 
 }  // namespace

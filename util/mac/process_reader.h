@@ -69,8 +69,18 @@ struct ProcessReaderModule {
   ProcessReaderModule();
   ~ProcessReaderModule();
 
+  //! \brief The pathname used to load the module from disk.
   std::string name;
+
+  //! \brief The address where the base of the module is loaded in the remote
+  //!     process.
   mach_vm_address_t address;
+
+  //! \brief The module’s timestamp.
+  //!
+  //! This field will be `0` if its value cannot be determined. It can only be
+  //! determined for images that are loaded by dyld, so it will be `0` for the
+  //! main executable and for dyld itself.
   time_t timestamp;
 };
 
@@ -117,10 +127,13 @@ class ProcessReader {
   //! \return Accesses the memory of the target task.
   TaskMemory* Memory() { return task_memory_.get(); }
 
-  //! \return The threads that are in the task (process).
+  //! \return The threads that are in the task (process). The first element (at
+  //!     index `0`) corresponds to the main thread.
   const std::vector<ProcessReaderThread>& Threads();
 
-  //! \return The modules loaded in the process.
+  //! \return The modules loaded in the process. The first element (at index
+  //!     `0`) corresponds to the main executable, and the final element
+  //!     corresponds to the dynamic loader, dyld.
   const std::vector<ProcessReaderModule>& Modules();
 
  private:
