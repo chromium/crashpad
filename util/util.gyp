@@ -81,6 +81,42 @@
         'stdlib/strnlen.cc',
         'stdlib/strnlen.h',
       ],
+      'actions': [
+        {
+          'action_name': 'mig exc.defs',
+          'inputs': [
+            'mach/mig.py',
+            '$(SDKROOT)/usr/include/mach/exc.defs',
+          ],
+          'outputs': [
+            '<(INTERMEDIATE_DIR)/util/mach/excUser.c',
+            '<(INTERMEDIATE_DIR)/util/mach/excServer.c',
+            '<(INTERMEDIATE_DIR)/util/mach/exc.h',
+            '<(INTERMEDIATE_DIR)/util/mach/excServer.h',
+          ],
+          'action': [
+            'python', '<@(_inputs)', '<@(_outputs)'
+          ],
+          'process_outputs_as_sources': 1,
+        },
+        {
+          'action_name': 'mig mach_exc.defs',
+          'inputs': [
+            'mach/mig.py',
+            '$(SDKROOT)/usr/include/mach/mach_exc.defs',
+          ],
+          'outputs': [
+            '<(INTERMEDIATE_DIR)/util/mach/mach_excUser.c',
+            '<(INTERMEDIATE_DIR)/util/mach/mach_excServer.c',
+            '<(INTERMEDIATE_DIR)/util/mach/mach_exc.h',
+            '<(INTERMEDIATE_DIR)/util/mach/mach_excServer.h',
+          ],
+          'action': [
+            'python', '<@(_inputs)', '<@(_outputs)'
+          ],
+          'process_outputs_as_sources': 1,
+        },
+      ],
     },
     {
       'target_name': 'util_test_lib',
