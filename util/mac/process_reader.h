@@ -32,62 +32,63 @@
 
 namespace crashpad {
 
-//! \brief Contains information about a thread that belongs to a task (process).
-struct ProcessReaderThread {
-#if defined(ARCH_CPU_X86_FAMILY)
-  union ThreadContext {
-    x86_thread_state64_t t64;
-    x86_thread_state32_t t32;
-  };
-  union FloatContext {
-    x86_float_state64_t f64;
-    x86_float_state32_t f32;
-  };
-  union DebugContext {
-    x86_debug_state64_t d64;
-    x86_debug_state32_t d32;
-  };
-#endif
-
-  ProcessReaderThread();
-  ~ProcessReaderThread() {}
-
-  ThreadContext thread_context;
-  FloatContext float_context;
-  DebugContext debug_context;
-  uint64_t id;
-  mach_vm_address_t stack_region_address;
-  mach_vm_size_t stack_region_size;
-  mach_vm_address_t thread_specific_data_address;
-  mach_port_t port;
-  int suspend_count;
-  int priority;
-};
-
-//! \brief Contains information about a module loaded into a process.
-struct ProcessReaderModule {
-  ProcessReaderModule();
-  ~ProcessReaderModule();
-
-  //! \brief The pathname used to load the module from disk.
-  std::string name;
-
-  //! \brief The address where the base of the module is loaded in the remote
-  //!     process.
-  mach_vm_address_t address;
-
-  //! \brief The module’s timestamp.
-  //!
-  //! This field will be `0` if its value cannot be determined. It can only be
-  //! determined for images that are loaded by dyld, so it will be `0` for the
-  //! main executable and for dyld itself.
-  time_t timestamp;
-};
-
 //! \brief Accesses information about another process, identified by a Mach
 //!     task.
 class ProcessReader {
  public:
+  //! \brief Contains information about a thread that belongs to a task
+  //!     (process).
+  struct Thread {
+#if defined(ARCH_CPU_X86_FAMILY)
+    union ThreadContext {
+      x86_thread_state64_t t64;
+      x86_thread_state32_t t32;
+    };
+    union FloatContext {
+      x86_float_state64_t f64;
+      x86_float_state32_t f32;
+    };
+    union DebugContext {
+      x86_debug_state64_t d64;
+      x86_debug_state32_t d32;
+    };
+#endif
+
+    Thread();
+    ~Thread() {}
+
+    ThreadContext thread_context;
+    FloatContext float_context;
+    DebugContext debug_context;
+    uint64_t id;
+    mach_vm_address_t stack_region_address;
+    mach_vm_size_t stack_region_size;
+    mach_vm_address_t thread_specific_data_address;
+    mach_port_t port;
+    int suspend_count;
+    int priority;
+  };
+
+  //! \brief Contains information about a module loaded into a process.
+  struct Module {
+    Module();
+    ~Module();
+
+    //! \brief The pathname used to load the module from disk.
+    std::string name;
+
+    //! \brief The address where the base of the module is loaded in the remote
+    //!     process.
+    mach_vm_address_t address;
+
+    //! \brief The module’s timestamp.
+    //!
+    //! This field will be `0` if its value cannot be determined. It can only be
+    //! determined for images that are loaded by dyld, so it will be `0` for the
+    //! main executable and for dyld itself.
+    time_t timestamp;
+  };
+
   ProcessReader();
   ~ProcessReader();
 
@@ -129,12 +130,12 @@ class ProcessReader {
 
   //! \return The threads that are in the task (process). The first element (at
   //!     index `0`) corresponds to the main thread.
-  const std::vector<ProcessReaderThread>& Threads();
+  const std::vector<Thread>& Threads();
 
   //! \return The modules loaded in the process. The first element (at index
   //!     `0`) corresponds to the main executable, and the final element
   //!     corresponds to the dynamic loader, dyld.
-  const std::vector<ProcessReaderModule>& Modules();
+  const std::vector<Module>& Modules();
 
  private:
   //! Performs lazy initialization of the \a threads_ vector on behalf of
@@ -201,8 +202,8 @@ class ProcessReader {
                      unsigned int user_tag);
 
   kinfo_proc kern_proc_info_;
-  std::vector<ProcessReaderThread> threads_;  // owns send rights
-  std::vector<ProcessReaderModule> modules_;
+  std::vector<Thread> threads_;  // owns send rights
+  std::vector<Module> modules_;
   scoped_ptr<TaskMemory> task_memory_;
   mach_port_t task_;  // weak
   InitializationStateDcheck initialized_;

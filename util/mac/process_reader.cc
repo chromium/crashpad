@@ -69,7 +69,7 @@ kern_return_t MachVMRegionRecurseDeepest(mach_port_t task,
 
 namespace crashpad {
 
-ProcessReaderThread::ProcessReaderThread()
+ProcessReader::Thread::Thread()
     : thread_context(),
       float_context(),
       debug_context(),
@@ -82,10 +82,10 @@ ProcessReaderThread::ProcessReaderThread()
       priority(0) {
 }
 
-ProcessReaderModule::ProcessReaderModule() : name(), address(0), timestamp(0) {
+ProcessReader::Module::Module() : name(), address(0), timestamp(0) {
 }
 
-ProcessReaderModule::~ProcessReaderModule() {
+ProcessReader::Module::~Module() {
 }
 
 ProcessReader::ProcessReader()
@@ -101,7 +101,7 @@ ProcessReader::ProcessReader()
 }
 
 ProcessReader::~ProcessReader() {
-  for (const ProcessReaderThread& thread : threads_) {
+  for (const Thread& thread : threads_) {
     kern_return_t kr = mach_port_deallocate(mach_task_self(), thread.port);
     MACH_LOG_IF(ERROR, kr != KERN_SUCCESS, kr) << "mach_port_deallocate";
   }
@@ -186,7 +186,7 @@ bool ProcessReader::CPUTimes(timeval* user_time, timeval* system_time) const {
   return true;
 }
 
-const std::vector<ProcessReaderThread>& ProcessReader::Threads() {
+const std::vector<ProcessReader::Thread>& ProcessReader::Threads() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (!initialized_threads_) {
@@ -196,7 +196,7 @@ const std::vector<ProcessReaderThread>& ProcessReader::Threads() {
   return threads_;
 }
 
-const std::vector<ProcessReaderModule>& ProcessReader::Modules() {
+const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (!initialized_modules_) {
@@ -231,7 +231,7 @@ void ProcessReader::InitializeThreads() {
       mach_vm_round_page(thread_count * sizeof(*threads)));
 
   for (size_t index = 0; index < thread_count; ++index) {
-    ProcessReaderThread thread;
+    Thread thread;
     thread.port = threads[index];
 
 #if defined(ARCH_CPU_X86_FAMILY)
@@ -410,7 +410,7 @@ void ProcessReader::InitializeModules() {
 
   bool found_dyld = false;
   for (const process_types::dyld_image_info& image_info : image_info_vector) {
-    ProcessReaderModule module;
+    Module module;
     module.address = image_info.imageLoadAddress;
     module.timestamp = image_info.imageFileModDate;
     if (!task_memory_->ReadCString(image_info.imageFilePath, &module.name)) {
@@ -443,7 +443,7 @@ void ProcessReader::InitializeModules() {
   // in its LC_LOAD_DYLINKER command.
   if (!found_dyld && all_image_infos.version >= 2 &&
       all_image_infos.dyldImageLoadAddress) {
-    ProcessReaderModule module;
+    Module module;
     module.address = all_image_infos.dyldImageLoadAddress;
     module.timestamp = 0;
 

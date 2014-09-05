@@ -144,7 +144,7 @@ TEST(ProcessReader, SelfOneThread) {
   ProcessReader process_reader;
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
-  const std::vector<ProcessReaderThread>& threads = process_reader.Threads();
+  const std::vector<ProcessReader::Thread>& threads = process_reader.Threads();
 
   // If other tests ran in this process previously, threads may have been
   // created and may still be running. This check must look for at least one
@@ -315,7 +315,7 @@ typedef std::map<uint64_t, TestThreadPool::ThreadExpectation> ThreadMap;
 // the test’s control (such as system libraries) may start threads, or may have
 // started threads prior to a test’s execution.
 void ExpectSeveralThreads(ThreadMap* thread_map,
-                          const std::vector<ProcessReaderThread>& threads,
+                          const std::vector<ProcessReader::Thread>& threads,
                           const bool tolerate_extra_threads) {
   if (tolerate_extra_threads) {
     ASSERT_GE(threads.size(), thread_map->size());
@@ -324,7 +324,7 @@ void ExpectSeveralThreads(ThreadMap* thread_map,
   }
 
   for (size_t thread_index = 0; thread_index < threads.size(); ++thread_index) {
-    const ProcessReaderThread& thread = threads[thread_index];
+    const ProcessReader::Thread& thread = threads[thread_index];
     mach_vm_address_t thread_stack_region_end =
         thread.stack_region_address + thread.stack_region_size;
 
@@ -357,7 +357,7 @@ void ExpectSeveralThreads(ThreadMap* thread_map,
         continue;
       }
 
-      const ProcessReaderThread& other_thread = threads[other_thread_index];
+      const ProcessReader::Thread& other_thread = threads[other_thread_index];
 
       EXPECT_NE(thread.id, other_thread.id);
       EXPECT_NE(thread.port, other_thread.port);
@@ -409,7 +409,7 @@ TEST(ProcessReader, SelfSeveralThreads) {
     thread_map[thread_id] = expectation;
   }
 
-  const std::vector<ProcessReaderThread>& threads = process_reader.Threads();
+  const std::vector<ProcessReader::Thread>& threads = process_reader.Threads();
 
   // Other tests that have run previously may have resulted in the creation of
   // threads that still exist, so pass true for |tolerate_extra_threads|.
@@ -420,7 +420,7 @@ TEST(ProcessReader, SelfSeveralThreads) {
   // shows up once.
   base::mac::ScopedMachSendRight thread_self(mach_thread_self());
   bool found_thread_self = false;
-  for (const ProcessReaderThread& thread : threads) {
+  for (const ProcessReader::Thread& thread : threads) {
     if (thread.port == thread_self) {
       EXPECT_FALSE(found_thread_self);
       found_thread_self = true;
@@ -477,7 +477,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
       thread_map[thread_id] = expectation;
     }
 
-    const std::vector<ProcessReaderThread>& threads = process_reader.Threads();
+    const std::vector<ProcessReader::Thread>& threads = process_reader.Threads();
 
     // The child shouldn’t have any threads other than its main thread and the
     // ones it created in its pool, so pass false for |tolerate_extra_threads|.
@@ -578,7 +578,7 @@ TEST(ProcessReader, SelfModules) {
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
   uint32_t dyld_image_count = _dyld_image_count();
-  const std::vector<ProcessReaderModule>& modules = process_reader.Modules();
+  const std::vector<ProcessReader::Module>& modules = process_reader.Modules();
 
   // There needs to be at least an entry for the main executable, for a dylib,
   // and for dyld.
@@ -639,7 +639,8 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
     ProcessReader process_reader;
     ASSERT_TRUE(process_reader.Initialize(ChildTask()));
 
-    const std::vector<ProcessReaderModule>& modules = process_reader.Modules();
+    const std::vector<ProcessReader::Module>& modules =
+        process_reader.Modules();
 
     // There needs to be at least an entry for the main executable, for a dylib,
     // and for dyld.
