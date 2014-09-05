@@ -123,6 +123,7 @@
       'dependencies': [
         'util',
         'util_test_lib',
+        'util_test_multiprocess_exec_test_child',
         '../compat/compat.gyp:compat',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
