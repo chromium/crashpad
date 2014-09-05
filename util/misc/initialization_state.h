@@ -86,7 +86,11 @@ class InitializationState {
   void set_state(State state) { state_ = state; }
 
  private:
-  State state_;
+  // state_ is volatile to ensure that it’ll be set by the destructor when it
+  // runs. Otherwise, optimizations might prevent it from ever being set to
+  // kStateDestroyed, limiting this class’ ability to catch use-after-free
+  // errors.
+  volatile State state_;
 
   DISALLOW_COPY_AND_ASSIGN(InitializationState);
 };

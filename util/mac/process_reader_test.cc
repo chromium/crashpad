@@ -362,7 +362,7 @@ void ExpectSeveralThreads(ThreadMap* thread_map,
           thread.stack_region_address >= other_thread.stack_region_address &&
           thread.stack_region_address < other_thread_stack_region_end);
       EXPECT_FALSE(
-          thread_stack_region_end > other_thread.stack_region_address &
+          thread_stack_region_end > other_thread.stack_region_address &&
           thread_stack_region_end <= other_thread_stack_region_end);
     }
   }

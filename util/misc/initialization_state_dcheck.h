@@ -164,15 +164,29 @@ class InitializationStateDcheck : public InitializationState {
 // objects of the DCHECK_IS_ON InitializationStateDcheck class above.
 typedef bool InitializationStateDcheck[0];
 
+namespace internal {
+
+// This function exists to make use of the InitializationStateDcheck object so
+// that it appears to be used. It always returns true, so that it can be used
+// as the argument to a no-op DCHECK.
+inline bool EatInitializationState(const InitializationStateDcheck*) {
+  return true;
+}
+
+}  // namepspace internal
+
 // The contents of these DCHECKs will never be evaluated, but they make use of
 // initialization_state_dcheck to avoid triggering -Wunused-private-field
 // warnings.
 #define INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck) \
-  DCHECK(&(initialization_state_dcheck))
+  DCHECK(::crashpad::internal::EatInitializationState( \
+      &(initialization_state_dcheck)))
 #define INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck) \
-  DCHECK(&(initialization_state_dcheck))
+  DCHECK(::crashpad::internal::EatInitializationState( \
+      &(initialization_state_dcheck)))
 #define INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck) \
-  DCHECK(&(initialization_state_dcheck))
+  DCHECK(::crashpad::internal::EatInitializationState( \
+      &(initialization_state_dcheck)))
 
 #endif
 
