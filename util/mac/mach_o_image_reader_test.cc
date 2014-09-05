@@ -15,9 +15,12 @@
 #include "util/mac/mach_o_image_reader.h"
 
 #include <dlfcn.h>
+#include <mach-o/dyld.h>
 #include <mach-o/dyld_images.h>
 #include <mach-o/getsect.h>
+#include <mach-o/ldsyms.h>
 #include <mach-o/loader.h>
+#include <mach-o/nlist.h>
 #include <stdint.h>
 
 #include "base/strings/stringprintf.h"
@@ -28,6 +31,9 @@
 #include "util/mac/process_types.h"
 #include "util/misc/uuid.h"
 #include "util/test/mac/dyld.h"
+
+// This file is responsible for testing MachOImageReader,
+// MachOImageSegmentReader, and MachOImageSymbolTableReader.
 
 namespace {
 
@@ -41,12 +47,17 @@ const uint32_t kMachMagic = MH_MAGIC_64;
 typedef segment_command_64 SegmentCommand;
 const uint32_t kSegmentCommand = LC_SEGMENT_64;
 typedef section_64 Section;
+typedef nlist_64 Nlist;
 #else
 typedef mach_header MachHeader;
 const uint32_t kMachMagic = MH_MAGIC;
 typedef segment_command SegmentCommand;
 const uint32_t kSegmentCommand = LC_SEGMENT;
 typedef section Section;
+
+// This needs to be called “struct nlist” because “nlist” without the struct
+// refers to the nlist() function.
+typedef struct nlist Nlist;
 #endif
 
 #if defined(ARCH_CPU_X86_64)
@@ -96,8 +107,6 @@ void ExpectSection(const Section* expect_section,
 void ExpectSegmentCommand(const SegmentCommand* expect_segment,
                           const MachHeader* expect_image,
                           const MachOImageSegmentReader* actual_segment,
-                          mach_vm_address_t actual_segment_address,
-                          mach_vm_size_t actual_segment_size,
                           const MachOImageReader* actual_image,
                           size_t* section_index) {
   ASSERT_TRUE(expect_segment);
@@ -113,7 +122,7 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
   EXPECT_EQ(expect_segment->fileoff, actual_segment->fileoff());
 
   if (actual_segment->SegmentSlides()) {
-    EXPECT_EQ(actual_segment_address,
+    EXPECT_EQ(actual_segment->Address(),
               actual_segment->vmaddr() + actual_image->Slide());
 
     unsigned long expect_segment_size;
@@ -121,9 +130,9 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
         expect_image, segment_name.c_str(), &expect_segment_size);
     mach_vm_address_t expect_segment_address =
         reinterpret_cast<mach_vm_address_t>(expect_segment_data);
-    EXPECT_EQ(expect_segment_address, actual_segment_address);
+    EXPECT_EQ(expect_segment_address, actual_segment->Address());
     EXPECT_EQ(expect_segment_size, actual_segment->vmsize());
-    EXPECT_EQ(actual_segment->vmsize(), actual_segment_size);
+    EXPECT_EQ(actual_segment->vmsize(), actual_segment->Size());
   } else {
     // getsegmentdata() doesn’t return appropriate data for the __PAGEZERO
     // segment because getsegmentdata() always adjusts for slide, but the
@@ -131,9 +140,9 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
     // check for that segment according to the same rules that the kernel uses
     // to identify __PAGEZERO. See 10.9.4 xnu-2422.110.17/bsd/kern/mach_loader.c
     // load_segment().
-    EXPECT_EQ(actual_segment_address, actual_segment->vmaddr());
+    EXPECT_EQ(actual_segment->Address(), actual_segment->vmaddr());
     EXPECT_EQ(actual_segment->vmsize() + actual_image->Slide(),
-              actual_segment_size);
+              actual_segment->Size());
   }
 
   ASSERT_EQ(expect_segment->nsects, actual_segment->nsects());
@@ -149,7 +158,7 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
   for (size_t index = 0; index < actual_segment->nsects(); ++index) {
     const Section* expect_section = &expect_sections[index];
     const process_types::section* actual_section =
-        actual_segment->GetSectionAtIndex(index);
+        actual_segment->GetSectionAtIndex(index, NULL);
     ExpectSection(&expect_sections[index], actual_section);
     if (testing::Test::HasFatalFailure()) {
       return;
@@ -159,7 +168,7 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
     std::string section_name =
         MachOImageSegmentReader::SectionNameString(expect_section->sectname);
     const process_types::section* actual_section_by_name =
-        actual_segment->GetSectionByName(section_name);
+        actual_segment->GetSectionByName(section_name, NULL);
     EXPECT_EQ(actual_section, actual_section_by_name);
 
     // Make sure that the section is accessible by the parent MachOImageReader’s
@@ -188,15 +197,18 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
     }
 
     // Test the parent MachOImageReader’s GetSectionAtIndex as well.
+    const MachOImageSegmentReader* containing_segment;
     mach_vm_address_t actual_section_address_at_index;
     const process_types::section* actual_section_from_image_at_index =
         actual_image->GetSectionAtIndex(++(*section_index),
+                                        &containing_segment,
                                         &actual_section_address_at_index);
     EXPECT_EQ(actual_section, actual_section_from_image_at_index);
+    EXPECT_EQ(actual_segment, containing_segment);
     EXPECT_EQ(actual_section_address, actual_section_address_at_index);
   }
 
-  EXPECT_EQ(NULL, actual_segment->GetSectionByName("NoSuchSection"));
+  EXPECT_EQ(NULL, actual_segment->GetSectionByName("NoSuchSection", NULL));
 }
 
 // Walks through the load commands of |expect_image|, finding all of the
@@ -216,6 +228,8 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
   ASSERT_TRUE(expect_image);
   ASSERT_TRUE(actual_image);
 
+  // &expect_image[1] points right past the end of the mach_header[_64], to the
+  // start of the load commands.
   const char* commands_base = reinterpret_cast<const char*>(&expect_image[1]);
   uint32_t position = 0;
   size_t section_index = 0;
@@ -225,20 +239,16 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
         reinterpret_cast<const load_command*>(&commands_base[position]);
     ASSERT_LE(position + command->cmdsize, expect_image->sizeofcmds);
     if (command->cmd == kSegmentCommand) {
+      ASSERT_GE(command->cmdsize, sizeof(SegmentCommand));
       const SegmentCommand* expect_segment =
           reinterpret_cast<const SegmentCommand*>(command);
       std::string segment_name =
           MachOImageSegmentReader::SegmentNameString(expect_segment->segname);
-      mach_vm_address_t actual_segment_address;
-      mach_vm_size_t actual_segment_size;
       const MachOImageSegmentReader* actual_segment =
-          actual_image->GetSegmentByName(
-              segment_name, &actual_segment_address, &actual_segment_size);
+          actual_image->GetSegmentByName(segment_name);
       ExpectSegmentCommand(expect_segment,
                            expect_image,
                            actual_segment,
-                           actual_segment_address,
-                           actual_segment_size,
                            actual_image,
                            &section_index);
       if (testing::Test::HasFatalFailure()) {
@@ -252,19 +262,20 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
   if (test_section_index_bounds) {
     // GetSectionAtIndex uses a 1-based index. Make sure that the range is
     // correct.
-    EXPECT_EQ(NULL, actual_image->GetSectionAtIndex(0, NULL));
-    EXPECT_EQ(NULL, actual_image->GetSectionAtIndex(section_index + 1, NULL));
+    EXPECT_EQ(NULL, actual_image->GetSectionAtIndex(0, NULL, NULL));
+    EXPECT_EQ(NULL,
+              actual_image->GetSectionAtIndex(section_index + 1, NULL, NULL));
   }
 
   // Make sure that by-name lookups for names that don’t exist work properly:
   // they should return NULL.
-  EXPECT_FALSE(actual_image->GetSegmentByName("NoSuchSegment", NULL, NULL));
+  EXPECT_FALSE(actual_image->GetSegmentByName("NoSuchSegment"));
   EXPECT_FALSE(
       actual_image->GetSectionByName("NoSuchSegment", "NoSuchSection", NULL));
 
   // Make sure that there’s a __TEXT segment so that this can do a valid test of
   // a section that doesn’t exist within a segment that does.
-  EXPECT_TRUE(actual_image->GetSegmentByName(SEG_TEXT, NULL, NULL));
+  EXPECT_TRUE(actual_image->GetSegmentByName(SEG_TEXT));
   EXPECT_FALSE(actual_image->GetSectionByName(SEG_TEXT, "NoSuchSection", NULL));
 
   // Similarly, make sure that a section name that exists in one segment isn’t
@@ -280,16 +291,24 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
   EXPECT_FALSE(actual_image->GetSectionByName(SEG_LINKEDIT, SECT_TEXT, NULL));
 }
 
+// In some cases, the expected slide value for an image is unknown, because no
+// reasonable API to return it is provided. When this happens, use kSlideUnknown
+// to avoid checking the actual slide value against anything.
+const mach_vm_size_t kSlideUnknown = std::numeric_limits<mach_vm_size_t>::max();
+
 // Verifies that |expect_image| is a vaild Mach-O header for the current system
 // by checking its |magic| and |cputype| fields. Then, verifies that the
 // information in |actual_image| matches that in |expect_image|. The |filetype|
-// field is examined, and actual_image->Address() is compared to
-// |expect_image_address|. Various other attributes of |actual_image| are
-// sanity-checked depending on the Mach-O file type. Finally,
-// ExpectSegmentCommands() is called to verify all that all of the segments
-// match; |test_section_index_bounds| is used as an argument to that function.
+// field is examined, actual_image->Address() is compared to
+// |expect_image_address|, and actual_image->Slide() is compared to
+// |expect_image_slide|, unless |expect_image_slide| is kSlideUnknown. Various
+// other attributes of |actual_image| are sanity-checked depending on the Mach-O
+// file type. Finally, ExpectSegmentCommands() is called to verify all that all
+// of the segments match; |test_section_index_bounds| is used as an argument to
+// that function.
 void ExpectMachImage(const MachHeader* expect_image,
                      mach_vm_address_t expect_image_address,
+                     mach_vm_size_t expect_image_slide,
                      const MachOImageReader* actual_image,
                      bool test_section_index_bounds) {
   ASSERT_TRUE(expect_image);
@@ -300,15 +319,15 @@ void ExpectMachImage(const MachHeader* expect_image,
 
   EXPECT_EQ(expect_image->filetype, actual_image->FileType());
   EXPECT_EQ(expect_image_address, actual_image->Address());
+  if (expect_image_slide != kSlideUnknown) {
+    EXPECT_EQ(expect_image_slide, actual_image->Slide());
+  }
 
-  mach_vm_address_t actual_text_segment_address;
-  mach_vm_size_t actual_text_segment_size;
   const MachOImageSegmentReader* actual_text_segment =
-      actual_image->GetSegmentByName(
-          SEG_TEXT, &actual_text_segment_address, &actual_text_segment_size);
+      actual_image->GetSegmentByName(SEG_TEXT);
   ASSERT_TRUE(actual_text_segment);
-  EXPECT_EQ(expect_image_address, actual_text_segment_address);
-  EXPECT_EQ(actual_image->Size(), actual_text_segment_size);
+  EXPECT_EQ(expect_image_address, actual_text_segment->Address());
+  EXPECT_EQ(actual_image->Size(), actual_text_segment->Size());
   EXPECT_EQ(expect_image_address - actual_text_segment->vmaddr(),
             actual_image->Slide());
 
@@ -329,6 +348,129 @@ void ExpectMachImage(const MachHeader* expect_image,
   actual_image->UUID(&uuid);
 
   ExpectSegmentCommands(expect_image, actual_image, test_section_index_bounds);
+  if (testing::Test::HasFatalFailure()) {
+    return;
+  }
+}
+
+// Verifies the symbol whose Nlist structure is |entry| and whose name is |name|
+// matches the value of a symbol by the same name looked up in |actual_image|.
+// MachOImageReader::LookUpExternalDefinedSymbol() is used for this purpose.
+// Only external defined symbols are considered, other types of symbols are
+// excluded because LookUpExternalDefinedSymbol() only deals with external
+// defined symbols.
+void ExpectSymbol(const Nlist* entry,
+                  const char* name,
+                  const MachOImageReader* actual_image) {
+  SCOPED_TRACE(name);
+
+  uint32_t entry_type = entry->n_type & N_TYPE;
+  if ((entry->n_type & N_STAB) == 0 && (entry->n_type & N_PEXT) == 0 &&
+      entry_type != N_UNDF && entry_type != N_PBUD &&
+      (entry->n_type & N_EXT) == 1) {
+
+    // Note that this catches more symbols than MachOImageSymbolTableReader
+    // does. This test looks for all external defined symbols, but the
+    // implementation excludes indirect (N_INDR) symbols. This is intentional,
+    // because indirect symbols are currently not seen in the wild, but if they
+    // begin to be used more widely, this test is expected to catch them so that
+    // a decision can be made regarding whether support ought to be implemented.
+    mach_vm_address_t actual_address;
+    ASSERT_TRUE(
+        actual_image->LookUpExternalDefinedSymbol(name, &actual_address));
+
+    // Since the nlist interface was used to read the symbol, use it to compute
+    // the symbol address too. This isn’t perfect, and it should be possible in
+    // theory to use dlsym() to get the expected address of a symbol. In
+    // practice, dlsym() is difficult to use when only a MachHeader* is
+    // available as in this function, as opposed to a void* opaque handle. It is
+    // possible to get a void* handle by using dladdr() to find the file name
+    // corresponding to the MachHeader*, and using dlopen() again on that name,
+    // assuming it hasn’t changed on disk since being loaded. However, even with
+    // that being done, dlsym() can only deal with symbols whose names begin
+    // with an underscore (and requires that the leading underscore be trimmed).
+    // dlsym() will also return different addresses for symbols that are
+    // resolved via symbol resolver.
+    mach_vm_address_t expect_address = entry->n_value;
+    if (entry_type == N_SECT) {
+      EXPECT_GE(entry->n_sect, 1u);
+      expect_address += actual_image->Slide();
+    } else {
+      EXPECT_EQ(NO_SECT, entry->n_sect);
+    }
+
+    EXPECT_EQ(expect_address, actual_address);
+  }
+
+  // You’d think that it might be a good idea to verify that if the conditions
+  // above weren’t met, that the symbol didn’t show up in actual_image’s symbol
+  // table at all. Unfortunately, it’s possible for the same name to show up as
+  // both an external defined symbol and as something else, so it’s not possible
+  // to verify this reliably.
+}
+
+// Locates the symbol table in |expect_image| and verifies that all of the
+// external defined symbols found there are also present and have the same
+// values in |actual_image|. ExpectSymbol() is used to verify the actual symbol.
+void ExpectSymbolTable(const MachHeader* expect_image,
+                       const MachOImageReader* actual_image) {
+  // This intentionally consults only LC_SYMTAB and not LC_DYSYMTAB so that it
+  // can look at the larger set of all symbols. The actual implementation being
+  // tested is free to consult LC_DYSYMTAB, but that’s considered an
+  // optimization. It’s not necessary for the test, and it’s better for the test
+  // to expose bugs in that optimization rather than duplicate them.
+  const char* commands_base = reinterpret_cast<const char*>(&expect_image[1]);
+  uint32_t position = 0;
+  const symtab_command* symtab = NULL;
+  const SegmentCommand* linkedit = NULL;
+  for (uint32_t index = 0; index < expect_image->ncmds; ++index) {
+    ASSERT_LT(position, expect_image->sizeofcmds);
+    const load_command* command =
+        reinterpret_cast<const load_command*>(&commands_base[position]);
+    ASSERT_LE(position + command->cmdsize, expect_image->sizeofcmds);
+    if (command->cmd == LC_SYMTAB) {
+      ASSERT_FALSE(symtab);
+      ASSERT_EQ(sizeof(symtab_command), command->cmdsize);
+      symtab = reinterpret_cast<const symtab_command*>(command);
+    } else if (command->cmd == kSegmentCommand) {
+      ASSERT_GE(command->cmdsize, sizeof(SegmentCommand));
+      const SegmentCommand* segment =
+          reinterpret_cast<const SegmentCommand*>(command);
+      std::string segment_name =
+          MachOImageSegmentReader::SegmentNameString(segment->segname);
+      if (segment_name == SEG_LINKEDIT) {
+        ASSERT_FALSE(linkedit);
+        linkedit = segment;
+      }
+    }
+    position += command->cmdsize;
+  }
+
+  if (symtab) {
+    ASSERT_TRUE(linkedit);
+
+    const char* linkedit_base =
+        reinterpret_cast<const char*>(linkedit->vmaddr + actual_image->Slide());
+    const Nlist* nlist = reinterpret_cast<const Nlist*>(
+        linkedit_base + symtab->symoff - linkedit->fileoff);
+    const char* strtab = linkedit_base + symtab->stroff - linkedit->fileoff;
+
+    for (uint32_t index = 0; index < symtab->nsyms; ++index) {
+      const Nlist* entry = nlist + index;
+      const char* name = strtab + entry->n_un.n_strx;
+      ExpectSymbol(entry, name, actual_image);
+      if (testing::Test::HasFatalFailure()) {
+        return;
+      }
+    }
+  }
+
+  mach_vm_address_t ignore;
+  EXPECT_FALSE(actual_image->LookUpExternalDefinedSymbol("", &ignore));
+  EXPECT_FALSE(
+      actual_image->LookUpExternalDefinedSymbol("NoSuchSymbolName", &ignore));
+  EXPECT_FALSE(
+      actual_image->LookUpExternalDefinedSymbol("_NoSuchSymbolName", &ignore));
 }
 
 TEST(MachOImageReader, Self_MainExecutable) {
@@ -336,46 +478,64 @@ TEST(MachOImageReader, Self_MainExecutable) {
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
   const MachHeader* mh_execute_header = reinterpret_cast<MachHeader*>(
-      dlsym(RTLD_MAIN_ONLY, "_mh_execute_header"));
+      dlsym(RTLD_MAIN_ONLY, MH_EXECUTE_SYM));
   ASSERT_NE(static_cast<void*>(NULL), mh_execute_header);
   mach_vm_address_t mh_execute_header_address =
       reinterpret_cast<mach_vm_address_t>(mh_execute_header);
 
   MachOImageReader image_reader;
   ASSERT_TRUE(image_reader.Initialize(
-      &process_reader, mh_execute_header_address, "mh_execute_header"));
+      &process_reader, mh_execute_header_address, "executable"));
 
   EXPECT_EQ(static_cast<uint32_t>(MH_EXECUTE), image_reader.FileType());
 
-  ExpectMachImage(
-      mh_execute_header, mh_execute_header_address, &image_reader, true);
+  // The main executable has image index 0.
+  intptr_t image_slide = _dyld_get_image_vmaddr_slide(0);
+
+  ExpectMachImage(mh_execute_header,
+                  mh_execute_header_address,
+                  image_slide,
+                  &image_reader,
+                  true);
+  if (Test::HasFatalFailure()) {
+    return;
+  }
+
+  // This symbol, __mh_execute_header, is known to exist in all MH_EXECUTE
+  // Mach-O files.
+  mach_vm_address_t symbol_address;
+  ASSERT_TRUE(image_reader.LookUpExternalDefinedSymbol(_MH_EXECUTE_SYM,
+                                                       &symbol_address));
+  EXPECT_EQ(mh_execute_header_address, symbol_address);
+
+  ExpectSymbolTable(mh_execute_header, &image_reader);
+  if (Test::HasFatalFailure()) {
+    return;
+  }
 }
 
 TEST(MachOImageReader, Self_DyldImages) {
   ProcessReader process_reader;
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
-  const struct dyld_all_image_infos* dyld_image_infos =
-      _dyld_get_all_image_infos();
-  ASSERT_GE(dyld_image_infos->version, 1u);
-  ASSERT_TRUE(dyld_image_infos->infoArray);
+  uint32_t count = _dyld_image_count();
+  ASSERT_GE(count, 1u);
 
-  for (uint32_t index = 0; index < dyld_image_infos->infoArrayCount; ++index) {
-    const dyld_image_info* dyld_image = &dyld_image_infos->infoArray[index];
-    SCOPED_TRACE(base::StringPrintf(
-        "index %u, image %s", index, dyld_image->imageFilePath));
+  for (uint32_t index = 0; index < count; ++index) {
+    const char* image_name = _dyld_get_image_name(index);
+    SCOPED_TRACE(base::StringPrintf("index %u, image %s", index, image_name));
 
-    // dyld_image_info::imageLoadAddress is poorly-declared: it’s declared as
+    // _dyld_get_image_header() is poorly-declared: it’s declared as returning
     // const mach_header* in both 32-bit and 64-bit environments, but in the
     // 64-bit environment, it should be const mach_header_64*.
     const MachHeader* mach_header =
-        reinterpret_cast<const MachHeader*>(dyld_image->imageLoadAddress);
+        reinterpret_cast<const MachHeader*>(_dyld_get_image_header(index));
     mach_vm_address_t image_address =
         reinterpret_cast<mach_vm_address_t>(mach_header);
 
     MachOImageReader image_reader;
     ASSERT_TRUE(image_reader.Initialize(
-        &process_reader, image_address, dyld_image->imageFilePath));
+        &process_reader, image_address, image_name));
 
     uint32_t file_type = image_reader.FileType();
     if (index == 0) {
@@ -384,7 +544,14 @@ TEST(MachOImageReader, Self_DyldImages) {
       EXPECT_TRUE(file_type == MH_DYLIB || file_type == MH_BUNDLE);
     }
 
-    ExpectMachImage(mach_header, image_address, &image_reader, false);
+    intptr_t image_slide = _dyld_get_image_vmaddr_slide(index);
+    ExpectMachImage(
+        mach_header, image_address, image_slide, &image_reader, false);
+    if (Test::HasFatalFailure()) {
+      return;
+    }
+
+    ExpectSymbolTable(mach_header, &image_reader);
     if (Test::HasFatalFailure()) {
       return;
     }
@@ -392,6 +559,11 @@ TEST(MachOImageReader, Self_DyldImages) {
 
   // Now that all of the modules have been verified, make sure that dyld itself
   // can be read properly too.
+  const struct dyld_all_image_infos* dyld_image_infos =
+      _dyld_get_all_image_infos();
+  ASSERT_GE(dyld_image_infos->version, 1u);
+  EXPECT_EQ(count, dyld_image_infos->infoArrayCount);
+
   if (dyld_image_infos->version >= 2) {
     SCOPED_TRACE("dyld");
 
@@ -407,7 +579,14 @@ TEST(MachOImageReader, Self_DyldImages) {
 
     EXPECT_EQ(static_cast<uint32_t>(MH_DYLINKER), image_reader.FileType());
 
-    ExpectMachImage(mach_header, image_address, &image_reader, false);
+    // There’s no good API to get dyld’s slide, so don’t bother checking it.
+    ExpectMachImage(
+        mach_header, image_address, kSlideUnknown, &image_reader, false);
+    if (Test::HasFatalFailure()) {
+      return;
+    }
+
+    ExpectSymbolTable(mach_header, &image_reader);
     if (Test::HasFatalFailure()) {
       return;
     }
@@ -434,7 +613,11 @@ TEST(MachOImageReader, Self_DyldImages) {
       ASSERT_TRUE(
           image_reader.Initialize(&process_reader, image_address, "uuid"));
 
-      ExpectMachImage(mach_header, image_address, &image_reader, false);
+      // There’s no good way to get the image’s slide here, although the image
+      // should have already been checked along with its slide above, in the
+      // loop through all images.
+      ExpectMachImage(
+          mach_header, image_address, kSlideUnknown, &image_reader, false);
 
       UUID expected_uuid;
       expected_uuid.InitializeFromBytes(dyld_image->imageUUID);

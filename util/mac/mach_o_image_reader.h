@@ -31,6 +31,7 @@
 namespace crashpad {
 
 class MachOImageSegmentReader;
+class MachOImageSymbolTableReader;
 class ProcessReader;
 
 //! \brief A reader for Mach-O images mapped into another process.
@@ -106,30 +107,13 @@ class MachOImageReader {
   //!
   //! \param[in] segment_name The name of the segment to search for, for
   //!     example, `"__TEXT"`.
-  //! \param[out] address The actual address that the segment was loaded at in
-  //!     memory, taking any “slide” into account if the segment did not load at
-  //!     its preferred address as stored in the Mach-O image file. This
-  //!     parameter can be `NULL`.
-  //! \param[out] size The actual size of the segment as loaded at in memory.
-  //!     This value takes any expansion of the segment into account, which
-  //!     occurs when a nonsliding segment in a sliding image loads at its
-  //!     preferred address but grows by the value of the slide. This parameter
-  //!     can be `NULL`.
   //!
   //! \return A pointer to the segment information if it was found, or `NULL` if
-  //!     it was not found.
-  //!
-  //! \note The \a address parameter takes “slide” into account, and the \a size
-  //!     parameter takes growth into account for non-sliding segments, so that
-  //!     these parameters reflect the actual address and size of the segment as
-  //!     loaded into a process’ address space. This is distinct from the
-  //!     segment’s preferred load address and size, which may be obtained by
-  //!     calling MachOImageSegmentReader::vmaddr() and
-  //!     MachOImageSegmentReader::vmsize(), respectively.
+  //!     it was not found. The caller does not take ownership; the lifetime of
+  //!     the returned object is scoped to the lifetime of this MachOImageReader
+  //!     object.
   const MachOImageSegmentReader* GetSegmentByName(
-      const std::string& segment_name,
-      mach_vm_address_t* address,
-      mach_vm_size_t* size) const;
+      const std::string& segment_name) const;
 
   //! \brief Obtain section information by segment and section name.
   //!
@@ -143,7 +127,9 @@ class MachOImageReader {
   //!     parameter can be `NULL`.
   //!
   //! \return A pointer to the section information if it was found, or `NULL` if
-  //!     it was not found.
+  //!     it was not found. The caller does not take ownership; the lifetime of
+  //!     the returned object is scoped to the lifetime of this MachOImageReader
+  //!     object.
   //!
   //! No parameter is provided for the section’s size, because it can be
   //! obtained from the returned process_types::section::size field.
@@ -162,13 +148,19 @@ class MachOImageReader {
   //! \param[in] index The index of the section to return, in the order that it
   //!     appears in the segment load commands. This is a 1-based index,
   //!     matching the section number values used for `nlist::n_sect`.
+  //! \param[out] containing_segment The segment that contains the section.
+  //!     This parameter can be `NULL`. The caller does not take ownership;
+  //!     the lifetime of the returned object is scoped to the lifetime of this
+  //!     MachOImageReader object.
   //! \param[out] address The actual address that the section was loaded at in
   //!     memory, taking any “slide” into account if the section did not load at
   //!     its preferred address as stored in the Mach-O image file. This
   //!     parameter can be `NULL`.
   //!
   //! \return A pointer to the section information. If \a index is out of range,
-  //!     logs a warning and returns `NULL`.
+  //!     logs a warning and returns `NULL`. The caller does not take ownership;
+  //!     the lifetime of the returned object is scoped to the lifetime of this
+  //!     MachOImageReader object.
   //!
   //! No parameter is provided for the section’s size, because it can be
   //! obtained from the returned process_types::section::size field.
@@ -186,7 +178,51 @@ class MachOImageReader {
   //!     and handled non-fatally by reporting the error to the caller.
   const process_types::section* GetSectionAtIndex(
       size_t index,
+      const MachOImageSegmentReader** containing_segment,
       mach_vm_address_t* address) const;
+
+  //! \brief Looks up a symbol in the image’s symbol table.
+  //!
+  //! This method is capable of locating external defined symbols. Specifically,
+  //! this method can look up symbols that have these charcteristics:
+  //!  - `N_STAB` (debugging) and `N_PEXT` (private external) must not be set.
+  //!  - `N_EXT` (external) must be set.
+  //!  - The type must be `N_ABS` (absolute) or `N_SECT` (defined in section).
+  //!
+  //! `N_INDR` (indirect), `N_UNDF` (undefined), and `N_PBUD` (prebound
+  //! undefined) symbols cannot be located through this mechanism.
+  //!
+  //! \param[in] name The name of the symbol to look up, “mangled” or
+  //!     “decorated” appropriately. For example, use `"_main"` to look up the
+  //!     symbol for the C `main()` function, and use `"__Z4Funcv"` to look up
+  //!     the symbol for the C++ `Func()` function. Contrary to `dlsym()`, the
+  //!     leading underscore must not be stripped when using this interface.
+  //! \param[out] value If the lookup was successful, this will be set to the
+  //!     value of the symbol, adjusted for any “slide” as needed. The value can
+  //!     be used as an address in the remote process’ address space where the
+  //!     pointee of the symbol exists in memory.
+  //!
+  //! \return `true` if the symbol lookup was successful and the symbol was
+  //!     found. `false` otherwise, including error conditions (for which a
+  //!     warning message will be logged), modules without symbol tables, and
+  //!     symbol names not found in the symbol table.
+  //!
+  //! \note Symbol values returned via this interface are adjusted for “slide”
+  //!     as appropriate, in contrast to the underlying implementation,
+  //!     MachOImageSymbolTableReader::LookUpExternalDefinedSymbol().
+  //!
+  //! \warning Symbols that are resolved by running symbol resolvers
+  //!     (`.symbol_resolver`) are not properly handled by this interface. The
+  //!     address of the symbol resolver is returned because that’s what shows
+  //!     up in the symbol table, rather than the effective address of the
+  //!     resolved symbol as used by dyld after running the resolver. The only
+  //!     way to detect this situation would be to read the `LC_DYLD_INFO` or
+  //!     `LC_DYLD_INFO_ONLY` load command if present and looking for the
+  //!     `EXPORT_SYMBOL_FLAGS_STUB_AND_RESOLVER` flag, but that would just be
+  //!     able to detect symbols with a resolver, it would not be able to
+  //!     resolve them from out-of-process, so it’s not currently done.
+  bool LookUpExternalDefinedSymbol(const std::string& name,
+                                   mach_vm_address_t* value) const;
 
   //! \brief Returns a Mach-O dylib image’s current version.
   //!
@@ -255,6 +291,19 @@ class MachOImageReader {
   bool ReadUnexpectedCommand(mach_vm_address_t load_command_address,
                              const std::string& load_command_info);
 
+  // Performs deferred initialization of the symbol table. Because a module’s
+  // symbol table is often not needed, this is not handled in Initialize(), but
+  // is done lazily, on-demand as needed.
+  //
+  // symbol_table_initialized_ will be transitioned to the appropriate state. If
+  // initialization completes successfully, this will be the valid state.
+  // Otherwise, it will be left in the invalid state and a warning message will
+  // be logged.
+  //
+  // Note that if the object contains no symbol table, symbol_table_initialized_
+  // will be set to the valid state, but symbol_table_ will be NULL.
+  void InitializeSymbolTable() const;
+
   PointerVector<MachOImageSegmentReader> segments_;
   std::map<std::string, size_t> segment_map_;
   std::string module_info_;
@@ -266,10 +315,24 @@ class MachOImageReader {
   uint64_t source_version_;
   scoped_ptr<process_types::symtab_command> symtab_command_;
   scoped_ptr<process_types::dysymtab_command> dysymtab_command_;
+
+  // symbol_table_ (and symbol_table_initialized_) are mutable in order to
+  // maintain LookUpExternalDefinedSymbol() as a const interface while allowing
+  // lazy initialization via InitializeSymbolTable(). This is logical
+  // const-ness, not physical const-ness.
+  mutable scoped_ptr<MachOImageSymbolTableReader> symbol_table_;
+
   scoped_ptr<process_types::dylib_command> id_dylib_command_;
   ProcessReader* process_reader_;  // weak
   uint32_t file_type_;
   InitializationStateDcheck initialized_;
+
+  // symbol_table_initialized_ protects symbol_table_: symbol_table_ can only
+  // be used when symbol_table_initialized_ is valid, although
+  // symbol_table_initialized_ being valid doesn’t imply that symbol_table_ is
+  // set. symbol_table_initialized_ will be valid without symbol_table_ being
+  // set in modules that have no symbol table.
+  mutable InitializationState symbol_table_initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(MachOImageReader);
 };

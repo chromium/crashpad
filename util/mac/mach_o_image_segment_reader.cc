@@ -33,7 +33,12 @@ std::string SizeLimitedCString(const char* c_string, size_t max_length) {
 }  // namespace
 
 MachOImageSegmentReader::MachOImageSegmentReader()
-    : segment_command_(), sections_(), section_map_(), initialized_() {
+    : segment_command_(),
+      sections_(),
+      section_map_(),
+      slide_(0),
+      initialized_(),
+      initialized_slide_() {
 }
 
 MachOImageSegmentReader::~MachOImageSegmentReader() {
@@ -175,8 +180,21 @@ std::string MachOImageSegmentReader::Name() const {
   return NameInternal();
 }
 
+mach_vm_address_t MachOImageSegmentReader::Address() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_slide_);
+  return vmaddr() + (SegmentSlides() ? slide_ : 0);
+}
+
+mach_vm_size_t MachOImageSegmentReader::Size() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_slide_);
+  return vmsize() + (SegmentSlides() ? 0 : slide_);
+}
+
 const process_types::section* MachOImageSegmentReader::GetSectionByName(
-    const std::string& section_name) const {
+    const std::string& section_name,
+    mach_vm_address_t* address) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   const auto& iterator = section_map_.find(section_name);
@@ -184,14 +202,23 @@ const process_types::section* MachOImageSegmentReader::GetSectionByName(
     return NULL;
   }
 
-  return &sections_[iterator->second];
+  return GetSectionAtIndex(iterator->second, address);
 }
 
 const process_types::section* MachOImageSegmentReader::GetSectionAtIndex(
-    size_t index) const {
+    size_t index,
+    mach_vm_address_t* address) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   CHECK_LT(index, sections_.size());
-  return &sections_[index];
+
+  const process_types::section* section = &sections_[index];
+
+  if (address) {
+    INITIALIZATION_STATE_DCHECK_VALID(initialized_slide_);
+    *address = section->addr + (SegmentSlides() ? slide_ : 0);
+  }
+
+  return section;
 }
 
 bool MachOImageSegmentReader::SegmentSlides() const {
@@ -236,6 +263,13 @@ std::string MachOImageSegmentReader::SegmentAndSectionNameString(
 
 std::string MachOImageSegmentReader::NameInternal() const {
   return SegmentNameString(segment_command_.segname);
+}
+
+void MachOImageSegmentReader::SetSlide(mach_vm_size_t slide) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_slide_);
+  slide_ = slide;
+  INITIALIZATION_STATE_SET_VALID(initialized_slide_);
 }
 
 }  // namespace crashpad

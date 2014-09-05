@@ -42,6 +42,8 @@
         'mac/mach_o_image_reader.h',
         'mac/mach_o_image_segment_reader.cc',
         'mac/mach_o_image_segment_reader.h',
+        'mac/mach_o_image_symbol_table_reader.cc',
+        'mac/mach_o_image_symbol_table_reader.h',
         'mac/service_management.cc',
         'mac/service_management.h',
         'mac/process_reader.cc',

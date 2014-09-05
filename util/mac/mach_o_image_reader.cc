@@ -25,6 +25,7 @@
 #include "base/strings/stringprintf.h"
 #include "util/mac/checked_mach_address_range.h"
 #include "util/mac/mach_o_image_segment_reader.h"
+#include "util/mac/mach_o_image_symbol_table_reader.h"
 #include "util/mac/process_reader.h"
 
 namespace {
@@ -47,10 +48,12 @@ MachOImageReader::MachOImageReader()
       source_version_(0),
       symtab_command_(),
       dysymtab_command_(),
+      symbol_table_(),
       id_dylib_command_(),
       process_reader_(NULL),
       file_type_(0),
-      initialized_() {
+      initialized_(),
+      symbol_table_initialized_() {
 }
 
 MachOImageReader::~MachOImageReader() {
@@ -224,20 +227,18 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
       }
 
       if (load_command.cmdsize < kLoadCommandReaders[reader_index].size) {
-        LOG(WARNING)
-            << base::StringPrintf(
-                   "load command cmdsize 0x%x insufficient for 0x%zx",
-                   load_command.cmdsize,
-                   kLoadCommandReaders[reader_index].size)
-            << load_command_info;
+        LOG(WARNING) << base::StringPrintf(
+                            "load command cmdsize 0x%x insufficient for 0x%zx",
+                            load_command.cmdsize,
+                            kLoadCommandReaders[reader_index].size)
+                     << load_command_info;
         return false;
       }
 
       if (kLoadCommandReaders[reader_index].singleton) {
         if (singleton_indices[reader_index] != kInvalidSegmentIndex) {
           LOG(WARNING) << "duplicate load command at "
-                       << singleton_indices[reader_index]
-                       << load_command_info;
+                       << singleton_indices[reader_index] << load_command_info;
           return false;
         }
 
@@ -255,20 +256,16 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
     offset += load_command.cmdsize;
   }
 
-  // This was already checked for the unslid values while the segments were
-  // read, but now that the slide is known, check the slid values too. The
-  // individual sections don’t need to be checked because they were verified to
-  // be contained within their respective segments when the segments were read.
-  for (const MachOImageSegmentReader* segment : segments_) {
-    mach_vm_address_t slid_segment_address = segment->vmaddr();
-    mach_vm_size_t slid_segment_size = segment->vmsize();
-    if (segment->SegmentSlides()) {
-      slid_segment_address += slide_;
-    } else {
-      // The non-sliding __PAGEZERO segment extends instead of slides. See
-      // MachOImageSegmentReader::SegmentSlides().
-      slid_segment_size += slide_;
-    }
+  // Now that the slide is known, push it into the segments.
+  for (MachOImageSegmentReader* segment : segments_) {
+    segment->SetSlide(slide_);
+
+    // This was already checked for the unslid values while the segments were
+    // read, but now it’s possible to check the slid values too. The individual
+    // sections don’t need to be checked because they were verified to be
+    // contained within their respective segments when the segments were read.
+    mach_vm_address_t slid_segment_address = segment->Address();
+    mach_vm_size_t slid_segment_size = segment->Size();
     CheckedMachAddressRange slid_segment_range(
         process_reader_, slid_segment_address, slid_segment_size);
     if (!slid_segment_range.IsValid()) {
@@ -299,9 +296,7 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
 }
 
 const MachOImageSegmentReader* MachOImageReader::GetSegmentByName(
-    const std::string& segment_name,
-    mach_vm_address_t* address,
-    mach_vm_size_t* size) const {
+    const std::string& segment_name) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   const auto& iterator = segment_map_.find(segment_name);
@@ -310,15 +305,6 @@ const MachOImageSegmentReader* MachOImageReader::GetSegmentByName(
   }
 
   const MachOImageSegmentReader* segment = segments_[iterator->second];
-  if (address) {
-    *address = segment->vmaddr() + (segment->SegmentSlides() ? slide_ : 0);
-  }
-  if (size) {
-    // The non-sliding __PAGEZERO segment extends instead of slides. See
-    // MachOImageSegmentReader::SegmentSlides().
-    *size = segment->vmsize() + (segment->SegmentSlides() ? 0 : slide_);
-  }
-
   return segment;
 }
 
@@ -328,27 +314,17 @@ const process_types::section* MachOImageReader::GetSectionByName(
     mach_vm_address_t* address) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  const MachOImageSegmentReader* segment =
-      GetSegmentByName(segment_name, NULL, NULL);
+  const MachOImageSegmentReader* segment = GetSegmentByName(segment_name);
   if (!segment) {
     return NULL;
   }
 
-  const process_types::section* section =
-      segment->GetSectionByName(section_name);
-  if (!section) {
-    return NULL;
-  }
-
-  if (address) {
-    *address = section->addr + (segment->SegmentSlides() ? slide_ : 0);
-  }
-
-  return section;
+  return segment->GetSectionByName(section_name, address);
 }
 
 const process_types::section* MachOImageReader::GetSectionAtIndex(
     size_t index,
+    const MachOImageSegmentReader** containing_segment,
     mach_vm_address_t* address) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
@@ -365,10 +341,10 @@ const process_types::section* MachOImageReader::GetSectionAtIndex(
     size_t nsects = segment->nsects();
     if (local_index < nsects) {
       const process_types::section* section =
-          segment->GetSectionAtIndex(local_index);
+          segment->GetSectionAtIndex(local_index, address);
 
-      if (address) {
-        *address = section->addr + (segment->SegmentSlides() ? slide_ : 0);
+      if (containing_segment) {
+        *containing_segment = segment;
       }
 
       return section;
@@ -379,6 +355,86 @@ const process_types::section* MachOImageReader::GetSectionAtIndex(
 
   LOG(WARNING) << "section index " << index << " out of range";
   return NULL;
+}
+
+bool MachOImageReader::LookUpExternalDefinedSymbol(
+    const std::string& name,
+    mach_vm_address_t* value) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  if (symbol_table_initialized_.is_uninitialized()) {
+    InitializeSymbolTable();
+  }
+
+  if (!symbol_table_initialized_.is_valid() || !symbol_table_) {
+    return false;
+  }
+
+  const MachOImageSymbolTableReader::SymbolInformation* symbol_info =
+      symbol_table_->LookUpExternalDefinedSymbol(name);
+  if (!symbol_info) {
+    return false;
+  }
+
+  if (symbol_info->section == NO_SECT) {
+    // This is an absolute (N_ABS) symbol, which requires no further validation
+    // or processing.
+    *value = symbol_info->value;
+    return true;
+  }
+
+  // This is a symbol defined in a particular section, so make sure that it’s
+  // valid for that section and fix it up for any “slide” as needed.
+
+  mach_vm_address_t section_address;
+  const MachOImageSegmentReader* segment;
+  const process_types::section* section =
+      GetSectionAtIndex(symbol_info->section, &segment, &section_address);
+  if (!section) {
+    return false;
+  }
+
+  mach_vm_address_t slid_value =
+      symbol_info->value + (segment->SegmentSlides() ? slide_ : 0);
+
+  // The __mh_execute_header (_MH_EXECUTE_SYM) symbol is weird. In
+  // position-independent executables, it shows up in the symbol table as a
+  // symbol in section 1, although it’s not really in that section. It points to
+  // the mach_header[_64], which is the beginning of the __TEXT segment, and the
+  // __text section normally begins after the load commands in the __TEXT
+  // segment. The range check below will fail for this symbol, because it’s not
+  // really in the section it claims to be in. See Xcode 5.1
+  // ld64-236.3/src/ld/OutputFile.cpp ld::tool::OutputFile::buildSymbolTable().
+  // There, ld takes symbols that refer to anything in the mach_header[_64] and
+  // marks them as being in section 1. Here, section 1 is treated in this same
+  // special way as long as it’s in the __TEXT segment that begins at the start
+  // of the image, which is normally the case, and as long as the symbol’s value
+  // is the base of the image.
+  //
+  // This only happens for PIE executables, because __mh_execute_header needs
+  // to slide. In non-PIE executables, __mh_execute_header is an absolute
+  // symbol.
+  CheckedMachAddressRange section_range(
+      process_reader_, section_address, section->size);
+  if (!section_range.ContainsValue(slid_value) &&
+      !(symbol_info->section == 1 && segment->Name() == SEG_TEXT &&
+        slid_value == Address())) {
+    std::string section_name_full =
+        MachOImageSegmentReader::SegmentAndSectionNameString(section->segname,
+                                                             section->sectname);
+    LOG(WARNING) << base::StringPrintf(
+                        "symbol %s (0x%llx) outside of section %s (0x%llx + "
+                        "0x%llx)",
+                        name.c_str(),
+                        slid_value,
+                        section_name_full.c_str(),
+                        section_address,
+                        section->size) << module_info_;
+    return false;
+  }
+
+  *value = slid_value;
+  return true;
 }
 
 uint32_t MachOImageReader::DylibVersion() const {
@@ -575,6 +631,41 @@ bool MachOImageReader::ReadUnexpectedCommand(
     const std::string& load_command_info) {
   LOG(WARNING) << "unexpected load command" << load_command_info;
   return false;
+}
+
+void MachOImageReader::InitializeSymbolTable() const {
+  DCHECK(symbol_table_initialized_.is_uninitialized());
+  symbol_table_initialized_.set_invalid();
+
+  if (!symtab_command_) {
+    // It’s technically valid for there to be no LC_SYMTAB, and in that case,
+    // any symbol lookups should fail. Mark the symbol table as valid, and
+    // LookUpExternalDefinedSymbol() will understand what it means when this is
+    // valid but symbol_table_ is not present.
+    symbol_table_initialized_.set_valid();
+    return;
+  }
+
+  // Find the __LINKEDIT segment. Technically, the symbol table can be in any
+  // mapped segment, but by convention, it’s in the one named __LINKEDIT.
+  const MachOImageSegmentReader* linkedit_segment =
+      GetSegmentByName(SEG_LINKEDIT);
+  if (!linkedit_segment) {
+    LOG(WARNING) << "no " SEG_LINKEDIT " segment";
+    return;
+  }
+
+  symbol_table_.reset(new MachOImageSymbolTableReader());
+  if (!symbol_table_->Initialize(process_reader_,
+                                 symtab_command_.get(),
+                                 dysymtab_command_.get(),
+                                 linkedit_segment,
+                                 module_info_)) {
+    symbol_table_.reset();
+    return;
+  }
+
+  symbol_table_initialized_.set_valid();
 }
 
 }  // namespace crashpad

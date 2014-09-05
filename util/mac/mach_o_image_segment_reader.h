@@ -29,8 +29,6 @@
 
 namespace crashpad {
 
-class ProcessReader;
-
 //! \brief A reader for LC_SEGMENT or LC_SEGMENT_64 load commands in Mach-O
 //!     images mapped into another process.
 //!
@@ -63,6 +61,17 @@ class MachOImageSegmentReader {
                   mach_vm_address_t load_command_address,
                   const std::string& load_command_info);
 
+  //! \brief Sets the image’s slide value.
+  //!
+  //! This method must only be called once on an object, after Initialize() is
+  //! called successfully. It must be called before Address(), Size(),
+  //! GetSectionByName(), or GetSectionAtIndex() can be called.
+  //!
+  //! This method is provided because slide is a property of the image that
+  //! cannot be determined until at least some segments have been read. As such,
+  //! it is not necessarily known at the time that Initialize() is called.
+  void SetSlide(mach_vm_size_t slide);
+
   //! \brief Returns the segment’s name.
   //!
   //! The segment’s name is taken from the load command’s `segname` field.
@@ -71,17 +80,36 @@ class MachOImageSegmentReader {
   //! `<mach-o/loader.h>`.
   std::string Name() const;
 
+  //! \return The segment’s actual load address in memory, adjusted for any
+  //!     “slide”.
+  //!
+  //! \note For the segment’s preferred load address, not adjusted for slide,
+  //!     use vmaddr().
+  mach_vm_address_t Address() const;
+
+  //! \return The segment’s actual size address in memory, adjusted for any
+  //!     growth in the case of a nonsliding segment.
+  //!
+  //! \note For the segment’s preferred size, not adjusted for growth, use
+  //!     vmsize().
+  mach_vm_address_t Size() const;
+
   //! \brief The segment’s preferred load address.
   //!
   //! \return The segment’s preferred load address as stored in the Mach-O file.
   //!
   //! \note This value is not adjusted for any “slide” that may have occurred
-  //!     when the image was loaded.
+  //!     when the image was loaded. Use Address() for a value adjusted for
+  //!     slide.
   //!
   //! \sa MachOImageReader::GetSegmentByName()
   mach_vm_address_t vmaddr() const { return segment_command_.vmaddr; }
 
   //! \brief Returns the segment’s size as mapped into memory.
+  //!
+  //! \note For non-sliding segments, this value is not adjusted for any growth
+  //!     that may have occurred when the image was loaded. Use Size() for a
+  //!     value adjusted for growth.
   mach_vm_size_t vmsize() const { return segment_command_.vmsize; }
 
   //! \brief Returns the file offset of the mapped segment in the file from
@@ -110,9 +138,15 @@ class MachOImageSegmentReader {
   //! \param[in] section_name The name of the section to search for, without the
   //!     leading segment name. For example, use `"__text"`, not
   //!     `"__TEXT,__text"` or `"__TEXT.__text"`.
+  //! \param[out] address The actual address that the section was loaded at in
+  //!     memory, taking any “slide” into account if the section did not load at
+  //!     its preferred address as stored in the Mach-O image file. This
+  //!     parameter can be `NULL`.
   //!
   //! \return A pointer to the section information if it was found, or `NULL` if
-  //!     it was not found.
+  //!     it was not found. The caller does not take ownership; the lifetime of
+  //!     the returned object is scoped to the lifetime of this
+  //!     MachOImageSegmentReader object.
   //!
   //! \note The process_types::section::addr field gives the section’s preferred
   //!     load address as stored in the Mach-O image file, and is not adjusted
@@ -120,7 +154,8 @@ class MachOImageSegmentReader {
   //!
   //! \sa MachOImageReader::GetSectionByName()
   const process_types::section* GetSectionByName(
-      const std::string& section_name) const;
+      const std::string& section_name,
+      mach_vm_address_t* address) const;
 
   //! \brief Obtain section information by section index.
   //!
@@ -129,9 +164,15 @@ class MachOImageSegmentReader {
   //!     MachOImageReader::GetSectionAtIndex(), this is a 0-based index. This
   //!     parameter must be in the range of valid indices aas reported by
   //!     nsects().
+  //! \param[out] address The actual address that the section was loaded at in
+  //!     memory, taking any “slide” into account if the section did not load at
+  //!     its preferred address as stored in the Mach-O image file. This
+  //!     parameter can be `NULL`.
   //!
   //! \return A pointer to the section information. If \a index is out of range,
-  //!     execution is aborted.
+  //!     execution is aborted.  The caller does not take ownership; the
+  //!     lifetime of the returned object is scoped to the lifetime of this
+  //!     MachOImageSegmentReader object.
   //!
   //! \note The process_types::section::addr field gives the section’s preferred
   //!     load address as stored in the Mach-O image file, and is not adjusted
@@ -144,7 +185,9 @@ class MachOImageSegmentReader {
   //!     treated more harshly as a logic error, as opposed to a data error.
   //!
   //! \sa MachOImageReader::GetSectionAtIndex()
-  const process_types::section* GetSectionAtIndex(size_t index) const;
+  const process_types::section* GetSectionAtIndex(
+      size_t index,
+      mach_vm_address_t* address) const;
 
   //! Returns whether the segment slides.
   //!
@@ -195,7 +238,14 @@ class MachOImageSegmentReader {
   // Maps section names to indices into the sections_ vector.
   std::map<std::string, size_t> section_map_;
 
+  // The image’s slide. Note that the segment’s slide may be 0 and not the value
+  // of the image’s slide if SegmentSlides() is false. In that case, the
+  // segment is extended instead of slid, so its size as loaded will be
+  // increased by this value.
+  mach_vm_size_t slide_;
+
   InitializationStateDcheck initialized_;
+  InitializationStateDcheck initialized_slide_;
 
   DISALLOW_COPY_AND_ASSIGN(MachOImageSegmentReader);
 };
