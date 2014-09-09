@@ -52,7 +52,10 @@ struct MultiprocessInfo {
 
 }  // namespace internal
 
-Multiprocess::Multiprocess() : info_(NULL) {
+Multiprocess::Multiprocess()
+    : info_(NULL),
+      code_(EXIT_SUCCESS),
+      reason_(kTerminationNormal) {
 }
 
 void Multiprocess::Run() {
@@ -89,22 +92,44 @@ void Multiprocess::Run() {
     int status;
     pid_t wait_pid = waitpid(pid, &status, 0);
     ASSERT_EQ(pid, wait_pid) << ErrnoMessage("waitpid");
-    if (status != 0) {
-      std::string message;
-      if (WIFEXITED(status)) {
-        message = base::StringPrintf("Child exited with code %d",
-                                     WEXITSTATUS(status));
-      } else if (WIFSIGNALED(status)) {
-        message = base::StringPrintf("Child terminated by signal %d (%s) %s",
-                                     WTERMSIG(status),
-                                     strsignal(WTERMSIG(status)),
-                                     WCOREDUMP(status) ? " (core dumped)" : "");
-      }
-      ASSERT_EQ(0, status) << message;
+
+    TerminationReason reason;
+    int code;
+    std::string message;
+    if (WIFEXITED(status)) {
+      reason = kTerminationNormal;
+      code = WEXITSTATUS(status);
+      message = base::StringPrintf("Child exited with code %d, expected", code);
+    } else if (WIFSIGNALED(status)) {
+      reason = kTerminationSignal;
+      code = WTERMSIG(status);
+      message =
+          base::StringPrintf("Child terminated by signal %d (%s)%s, expected",
+                             code,
+                             strsignal(code),
+                             WCOREDUMP(status) ? " (core dumped)" : "");
+    } else {
+      FAIL() << "Unknown termination reason";
+    }
+
+    if (reason_ == kTerminationNormal) {
+      message += base::StringPrintf("exit with code %d", code_);
+    } else if (reason == kTerminationSignal) {
+      message += base::StringPrintf("termination by signal %d", code_);
+    }
+
+    if (reason != reason_ || code != code_) {
+      ADD_FAILURE() << message;
     }
   } else {
     RunChild();
   }
+}
+
+void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
+                                               int code) {
+  reason_ = reason;
+  code_ = code;
 }
 
 Multiprocess::~Multiprocess() {

@@ -35,6 +35,22 @@ struct MultiprocessInfo;
 //! appropriate methods.
 class Multiprocess {
  public:
+  //! \brief The termination type for a child process.
+  enum TerminationReason : bool {
+    //! \brief The child terminated normally.
+    //!
+    //! A normal return happens when a test returns from RunChild(), or for
+    //! tests that `exec()`, returns from `main()`. This also happens for tests
+    //! that call `exit()` or `_exit()`.
+    kTerminationNormal = false,
+
+    //! \brief The child terminated by signal.
+    //!
+    //! Signal termination happens as a result of a crash, a call to `abort()`,
+    //! assertion failure (including gtest assertions), etc.
+    kTerminationSignal,
+  };
+
   Multiprocess();
 
   //! \brief Runs the test.
@@ -47,9 +63,23 @@ class Multiprocess {
   //! the testing environment cannot be set up properly, it is possible that
   //! MultiprocessParent() or MultiprocessChild() will not be called. In the
   //! parent process, this method also waits for the child process to exit after
-  //! MultiprocessParent() returns, and verifies that it exited cleanly without
-  //! raising any gtest assertions.
+  //! MultiprocessParent() returns, and verifies that it exited in accordance
+  //! with the expectations set by SetExpectedChildTermination().
   void Run();
+
+  //! \brief Sets the expected termination reason and code.
+  //!
+  //! The default expected termination reasaon is
+  //! TerminationReason::kTerminationNormal, and the default expected
+  //! termination code is `EXIT_SUCCESS` (`0`).
+  //!
+  //! \param[in] reason Whether to expect the child to terminate normally or
+  //!     as a result of a signal.
+  //! \param[in] code If \a reason is TerminationReason::kTerminationNormal,
+  //!     this is the expected exit status of the child. If \a reason is
+  //!     TerminationReason::kTerminationSignal, this is the signal that is
+  //!     expected to kill the child.
+  void SetExpectedChildTermination(TerminationReason reason, int code);
 
  protected:
   ~Multiprocess();
@@ -130,6 +160,8 @@ class Multiprocess {
   virtual void MultiprocessChild() = 0;
 
   internal::MultiprocessInfo* info_;
+  int code_;
+  TerminationReason reason_;
 
   DISALLOW_COPY_AND_ASSIGN(Multiprocess);
 };

@@ -14,6 +14,8 @@
 
 #include "util/test/multiprocess.h"
 
+#include <stdlib.h>
+#include <sys/signal.h>
 #include <unistd.h>
 
 #include "base/basictypes.h"
@@ -78,6 +80,68 @@ class TestMultiprocess final : public Multiprocess {
 
 TEST(Multiprocess, Multiprocess) {
   TestMultiprocess multiprocess;
+  multiprocess.Run();
+}
+
+class TestMultiprocessUnclean final : public Multiprocess {
+ public:
+  enum TerminationType {
+    kExitSuccess = 0,
+    kExitFailure,
+    kExit2,
+    kAbort,
+  };
+
+  explicit TestMultiprocessUnclean(TerminationType type)
+      : Multiprocess(),
+        type_(type) {
+    if (type_ == kAbort) {
+      SetExpectedChildTermination(kTerminationSignal, SIGABRT);
+    } else {
+      SetExpectedChildTermination(kTerminationNormal, ExitCode());
+    }
+  }
+
+  ~TestMultiprocessUnclean() {}
+
+ private:
+  int ExitCode() const {
+    return type_;
+  }
+
+  virtual void MultiprocessParent() override {
+  }
+
+  virtual void MultiprocessChild() override {
+    if (type_ == kAbort) {
+      abort();
+    } else {
+      _exit(ExitCode());
+    }
+  }
+
+  TerminationType type_;
+
+  DISALLOW_COPY_AND_ASSIGN(TestMultiprocessUnclean);
+};
+
+TEST(Multiprocess, MultiprocessSuccessfulExit) {
+  TestMultiprocessUnclean multiprocess(TestMultiprocessUnclean::kExitSuccess);
+  multiprocess.Run();
+}
+
+TEST(Multiprocess, MultiprocessUnsuccessfulExit) {
+  TestMultiprocessUnclean multiprocess(TestMultiprocessUnclean::kExitFailure);
+  multiprocess.Run();
+}
+
+TEST(Multiprocess, MultiprocessExit2) {
+  TestMultiprocessUnclean multiprocess(TestMultiprocessUnclean::kExit2);
+  multiprocess.Run();
+}
+
+TEST(Multiprocess, MultiprocessAbortSignal) {
+  TestMultiprocessUnclean multiprocess(TestMultiprocessUnclean::kAbort);
   multiprocess.Run();
 }
 
