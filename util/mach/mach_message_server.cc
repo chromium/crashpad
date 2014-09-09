@@ -206,6 +206,12 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
         request_header, reply_header, &destroy_complex_request);
 
     if (!(reply_header->msgh_bits & MACH_MSGH_BITS_COMPLEX)) {
+      // This only works if the reply message is not complex, because otherwise,
+      // the location of the RetCode field is not known. It should be possible
+      // to locate the RetCode field by looking beyond the descriptors in a
+      // complex reply message, but this is not currently done. This behavior
+      // has not proven itself necessary in practice, and it’s not done by
+      // mach_msg_server() or mach_msg_server_once() either.
       mig_reply_error_t* reply_mig =
           reinterpret_cast<mig_reply_error_t*>(reply_header);
       if (reply_mig->RetCode == MIG_NO_REPLY) {
