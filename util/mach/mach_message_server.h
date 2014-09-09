@@ -121,7 +121,8 @@ class MachMessageServer {
   //!     MachMessageServerInterface::MachMessageServerFunction() is called to
   //!     handle the request and populate the reply.
   //! \param[in] receive_port The port on which to receive the request message.
-  //! \param[in] options Options suitable for mach_msg.
+  //! \param[in] options Options suitable for mach_msg. For the defaults, use
+  //!     `MACH_MSG_OPTION_NONE`.
   //! \param[in] persistent Chooses between one-shot and persistent operation.
   //! \param[in] nonblocking Chooses between blocking and nonblocking operation.
   //! \param[in] timeout_ms When \a nonblocking is `false`, the the maximum

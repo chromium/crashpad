@@ -56,6 +56,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     Options()
         : expect_server_interface_method_called(true),
           parent_wait_for_child_pipe(false),
+          server_options(MACH_MSG_OPTION_NONE),
           server_persistent(MachMessageServer::kOneShot),
           server_nonblocking(MachMessageServer::kBlocking),
           server_timeout_ms(MACH_MSG_TIMEOUT_NONE),
@@ -63,8 +64,10 @@ class TestMachMessageServer : public MachMessageServer::Interface,
           server_destroy_complex(true),
           expect_server_destroyed_complex(true),
           expect_server_result(KERN_SUCCESS),
+          expect_server_transaction_count(1),
           client_send_request_count(1),
           client_send_complex(false),
+          client_send_large(false),
           client_reply_port_type(kReplyPortNormal),
           client_expect_reply(true),
           child_send_all_requests_before_receiving_any_replies(false),
@@ -80,6 +83,9 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     // be something in the server’s queue before attempting a nonblocking
     // receive if the receive is to be successful.
     bool parent_wait_for_child_pipe;
+
+    // Options to pass to MachMessageServer::Run() as the |options| parameter.
+    mach_msg_options_t server_options;
 
     // Whether the server should run in one-shot or persistent mode.
     MachMessageServer::Persistent server_persistent;
@@ -109,12 +115,21 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     // The expected return value from MachMessageServer::Run().
     kern_return_t expect_server_result;
 
+    // The number of transactions that the server is expected to handle.
+    size_t expect_server_transaction_count;
+
     // The number of requests that the client should send to the server.
     size_t client_send_request_count;
 
     // true if the client should send a complex message, one that carries a port
     // descriptor in its body. Normally false.
     bool client_send_complex;
+
+    // true if the client should send a larger message than the server has
+    // allocated space to receive. If server_options contains MACH_RCV_LARGE,
+    // the server will resize its buffer to receive the message. Otherwise, the
+    // message will be destroyed and the server will return MACH_RCV_TOO_LARGE.
+    bool client_send_large;
 
     // The type of reply port that the client should provide in its request’s
     // mach_msg_header_t::msgh_local_port, which will appear to the server as
@@ -159,7 +174,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     Run();
 
     EXPECT_EQ(requests_, replies_);
-    EXPECT_EQ(options_.client_send_request_count, requests_ - start);
+    EXPECT_EQ(options_.expect_server_transaction_count, requests_ - start);
   }
 
   // MachMessageServerInterface:
@@ -179,13 +194,19 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       mach_msg_trailer_t trailer;
     };
 
+    struct ReceiveLargeRequestMessage : public LargeRequestMessage {
+      mach_msg_trailer_t trailer;
+    };
+
     const ReceiveRequestMessage* request =
         reinterpret_cast<ReceiveRequestMessage*>(in);
     const mach_msg_bits_t expect_msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND, MACH_MSG_TYPE_MOVE_SEND) |
         (options_.client_send_complex ? MACH_MSGH_BITS_COMPLEX : 0);
     EXPECT_EQ(expect_msgh_bits, request->header.msgh_bits);
-    EXPECT_EQ(sizeof(RequestMessage), request->header.msgh_size);
+    EXPECT_EQ(options_.client_send_large ? sizeof(LargeRequestMessage) :
+                                           sizeof(RequestMessage),
+              request->header.msgh_size);
     if (options_.client_reply_port_type == Options::kReplyPortNormal) {
       EXPECT_EQ(RemotePort(), request->header.msgh_remote_port);
     }
@@ -210,10 +231,24 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     }
     EXPECT_EQ(0, memcmp(&request->ndr, &NDR_record, sizeof(NDR_record)));
     EXPECT_EQ(requests_, request->number);
+
+    // Look for the trailer in the right spot, depending on whether the request
+    // message was a RequestMessage or a LargeRequestMessage.
+    const mach_msg_trailer_t* trailer;
+    if (options_.client_send_large) {
+      const ReceiveLargeRequestMessage* large_request =
+          reinterpret_cast<const ReceiveLargeRequestMessage*>(request);
+      for (size_t index = 0; index < sizeof(large_request->data); ++index) {
+        EXPECT_EQ('!', large_request->data[index]);
+      }
+      trailer = &large_request->trailer;
+    } else {
+      trailer = &request->trailer;
+    }
+
     EXPECT_EQ(static_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0),
-              request->trailer.msgh_trailer_type);
-    EXPECT_EQ(MACH_MSG_TRAILER_MINIMUM_SIZE,
-              request->trailer.msgh_trailer_size);
+              trailer->msgh_trailer_type);
+    EXPECT_EQ(MACH_MSG_TRAILER_MINIMUM_SIZE, trailer->msgh_trailer_size);
 
     ++requests_;
 
@@ -240,9 +275,21 @@ class TestMachMessageServer : public MachMessageServer::Interface,
 
  private:
   struct RequestMessage : public mach_msg_base_t {
+    // If body.msgh_descriptor_count is 0, port_descriptor will still be
+    // present, but it will be zeroed out. It wouldn’t normally be present in a
+    // message froma MIG-generated interface, but it’s harmless and simpler to
+    // leave it here and just treat it as more data.
     mach_msg_port_descriptor_t port_descriptor;
+
     NDR_record_t ndr;
     uint32_t number;
+  };
+
+  // LargeRequestMessage is larger enough than a regular RequestMessage to
+  // ensure that whatever buffer was allocated to receive a RequestMessage is
+  // not large enough to receive a LargeRequestMessage.
+  struct LargeRequestMessage : public RequestMessage {
+    uint8_t data[4 * PAGE_SIZE];
   };
 
   struct ReplyMessage : public mig_reply_error_t {
@@ -264,7 +311,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     ASSERT_EQ(options_.expect_server_result,
               (kr = MachMessageServer::Run(this,
                                            LocalPort(),
-                                           MACH_MSG_OPTION_NONE,
+                                           options_.server_options,
                                            options_.server_persistent,
                                            options_.server_nonblocking,
                                            options_.server_timeout_ms)))
@@ -361,11 +408,17 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     // been carried in a Mach message.
     base::mac::ScopedMachReceiveRight local_receive_port_owner;
 
-    RequestMessage request = {};
+    // A LargeRequestMessage is always allocated, but the message that will be
+    // sent will be a normal RequestMessage due to the msgh_size field
+    // indicating the size of the smaller base structure unless
+    // options_.client_send_large is true.
+    LargeRequestMessage request = {};
+
     request.header.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND) |
         (options_.client_send_complex ? MACH_MSGH_BITS_COMPLEX : 0);
-    request.header.msgh_size = sizeof(request);
+    request.header.msgh_size = options_.client_send_large ?
+        sizeof(LargeRequestMessage) : sizeof(RequestMessage);
     request.header.msgh_remote_port = RemotePort();
     kern_return_t kr;
     switch (options_.client_reply_port_type) {
@@ -411,6 +464,10 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     }
     request.ndr = NDR_record;
     request.number = requests_++;
+
+    if (options_.client_send_large) {
+      memset(request.data, '!', sizeof(request.data));
+    }
 
     kr = mach_msg(&request.header,
                   MACH_SEND_MSG | MACH_SEND_TIMEOUT,
@@ -534,6 +591,7 @@ TEST(MachMessageServer, NonblockingNoMessage) {
   options.expect_server_interface_method_called = false;
   options.server_nonblocking = MachMessageServer::kNonblocking;
   options.expect_server_result = MACH_RCV_TIMED_OUT;
+  options.expect_server_transaction_count = 0;
   options.client_send_request_count = 0;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
@@ -546,6 +604,7 @@ TEST(MachMessageServer, TimeoutNoMessage) {
   options.expect_server_interface_method_called = false;
   options.server_timeout_ms = 10;
   options.expect_server_result = MACH_RCV_TIMED_OUT;
+  options.expect_server_transaction_count = 0;
   options.client_send_request_count = 0;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
@@ -580,6 +639,7 @@ TEST(MachMessageServer, PersistentTenMessages) {
   options.server_persistent = MachMessageServer::kPersistent;
   options.server_timeout_ms = 10;
   options.expect_server_result = MACH_RCV_TIMED_OUT;
+  options.expect_server_transaction_count = 10;
   options.client_send_request_count = 10;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
@@ -597,12 +657,17 @@ TEST(MachMessageServer, PersistentNonblockingFourMessages) {
   // MACH_PORT_QLIMIT_BASIC, or 5). The number of messages sent for this test
   // must be below this, because the server does not begin dequeueing request
   // messages until the client has finished sending them.
+  const size_t kTransactionCount = 4;
+  COMPILE_ASSERT(kTransactionCount <= MACH_PORT_QLIMIT_DEFAULT,
+                 must_not_exceed_queue_limit);
+
   TestMachMessageServer::Options options;
   options.parent_wait_for_child_pipe = true;
   options.server_persistent = MachMessageServer::kPersistent;
   options.server_nonblocking = MachMessageServer::kNonblocking;
   options.expect_server_result = MACH_RCV_TIMED_OUT;
-  options.client_send_request_count = 4;
+  options.expect_server_transaction_count = kTransactionCount;
+  options.client_send_request_count = kTransactionCount;
   options.child_send_all_requests_before_receiving_any_replies = true;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
@@ -712,6 +777,32 @@ TEST(MachMessageServer, ComplexNotDestroyedNoReply) {
   options.client_send_complex = true;
   options.client_expect_reply = false;
   options.child_wait_for_parent_pipe = true;
+  TestMachMessageServer test_mach_message_server(options);
+  test_mach_message_server.Test();
+}
+
+TEST(MachMessageServer, LargeUnexpected) {
+  // The client sends a request to the server that is larger than the server is
+  // expecting. The server did not specify MACH_RCV_LARGE in its options, so the
+  // request is destroyed and the server returns a MACH_RCV_TOO_LARGE error. The
+  // client does not receive a reply.
+  TestMachMessageServer::Options options;
+  options.expect_server_result = MACH_RCV_TOO_LARGE;
+  options.expect_server_transaction_count = 0;
+  options.client_send_large = true;
+  options.client_expect_reply = false;
+  TestMachMessageServer test_mach_message_server(options);
+  test_mach_message_server.Test();
+}
+
+TEST(MachMessageServer, LargeExpected) {
+  // The client sends a request to the server that is larger than the server is
+  // initially expecting. The server did specify MACH_RCV_LARGE in its options,
+  // so a new buffer is allocated to receive the message. The server receives
+  // the large request message, processes it, and returns a reply to the client.
+  TestMachMessageServer::Options options;
+  options.server_options = MACH_RCV_LARGE;
+  options.client_send_large = true;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
 }
