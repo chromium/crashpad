@@ -37,7 +37,9 @@ class MachMessageServer {
     //! may call such a function directly. This method is expected to behave
     //! exactly as these functions behave.
     //!
-    //! \param[in] in The request message, received as a Mach message.
+    //! \param[in] in The request message, received as a Mach message. Note that
+    //!     this interface uses a `const` parameter for this purpose, whereas
+    //!     MIG-generated “demux” functions do not.
     //! \param[out] out The reply message. The caller allocates storage, and the
     //!     callee is expected to populate the reply message appropriately.
     //!     After returning, the caller will send this reply as a Mach message
@@ -62,7 +64,7 @@ class MachMessageServer {
     //!     the reply message should be set as `mig_reply_error_t::RetCode`. The
     //!     non-`void` return value is used for increased compatibility with
     //!     MIG-generated functions.
-    virtual bool MachMessageServerFunction(mach_msg_header_t* in,
+    virtual bool MachMessageServerFunction(const mach_msg_header_t* in,
                                            mach_msg_header_t* out,
                                            bool* destroy_complex_request) = 0;
 

@@ -104,7 +104,7 @@ class ExcServer : public MachMessageServer::Interface {
   // MachMessageServer::Interface:
 
   virtual bool MachMessageServerFunction(
-      mach_msg_header_t* in_header,
+      const mach_msg_header_t* in_header,
       mach_msg_header_t* out_header,
       bool* destroy_complex_request) override;
 
@@ -192,7 +192,7 @@ class MachExcServer : public MachMessageServer::Interface {
   // MachMessageServer::Interface:
 
   virtual bool MachMessageServerFunction(
-      mach_msg_header_t* in_header,
+      const mach_msg_header_t* in_header,
       mach_msg_header_t* out_header,
       bool* destroy_complex_request) override;
 
@@ -402,7 +402,7 @@ class UniversalMachExcServer
   // MachMessageServer::Interface:
 
   virtual bool MachMessageServerFunction(
-      mach_msg_header_t* in_header,
+      const mach_msg_header_t* in_header,
       mach_msg_header_t* out_header,
       bool* destroy_complex_request) override;
 
