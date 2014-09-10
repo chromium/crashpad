@@ -25,6 +25,7 @@
 #include "base/mac/scoped_mach_port.h"
 #include "base/rand_util.h"
 #include "gtest/gtest.h"
+#include "util/mach/mach_extensions.h"
 #include "util/test/mac/mach_errors.h"
 
 namespace {
@@ -51,21 +52,21 @@ TEST(Bootstrap, BootstrapCheckIn) {
   kr = BootstrapCheckIn(bootstrap_port, service_name.c_str(), &server_port);
   ASSERT_EQ(BOOTSTRAP_SUCCESS, kr)
       << BootstrapErrorMessage(kr, "bootstrap_check_in");
-  ASSERT_NE(static_cast<mach_port_t>(MACH_PORT_NULL), server_port);
+  ASSERT_NE(kMachPortNull, server_port);
   base::mac::ScopedMachReceiveRight server_port_owner(server_port);
 
   // A subsequent checkin attempt should fail.
   mach_port_t fail_port = MACH_PORT_NULL;
   kr = BootstrapCheckIn(bootstrap_port, service_name.c_str(), &fail_port);
   EXPECT_EQ(BOOTSTRAP_SERVICE_ACTIVE, kr);
-  EXPECT_EQ(static_cast<mach_port_t>(MACH_PORT_NULL), fail_port);
+  EXPECT_EQ(kMachPortNull, fail_port);
 
   // Look up the service, getting a send right.
   kr = bootstrap_look_up(bootstrap_port, service_name.c_str(), &client_port);
   ASSERT_EQ(BOOTSTRAP_SUCCESS, kr)
       << BootstrapErrorMessage(kr, "bootstrap_look_up");
   base::mac::ScopedMachSendRight client_port_owner(client_port);
-  EXPECT_NE(static_cast<mach_port_t>(MACH_PORT_NULL), client_port);
+  EXPECT_NE(kMachPortNull, client_port);
 
   // Have the “client” send a message to the “server”.
   struct SendMessage {

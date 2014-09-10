@@ -21,6 +21,7 @@
 #include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
 #include "util/file/fd_io.h"
+#include "util/mach/mach_extensions.h"
 #include "util/test/errors.h"
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
@@ -214,8 +215,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     EXPECT_EQ(kRequestMessageId, request->header.msgh_id);
     if (options_.client_send_complex) {
       EXPECT_EQ(1u, request->body.msgh_descriptor_count);
-      EXPECT_NE(static_cast<mach_port_t>(MACH_PORT_NULL),
-                request->port_descriptor.name);
+      EXPECT_NE(kMachPortNull, request->port_descriptor.name);
       parent_complex_message_port_ = request->port_descriptor.name;
       EXPECT_EQ(static_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_MOVE_SEND),
                 request->port_descriptor.disposition);
@@ -224,8 +224,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
           request->port_descriptor.type);
     } else {
       EXPECT_EQ(0u, request->body.msgh_descriptor_count);
-      EXPECT_EQ(static_cast<mach_port_t>(MACH_PORT_NULL),
-                request->port_descriptor.name);
+      EXPECT_EQ(kMachPortNull, request->port_descriptor.name);
       EXPECT_EQ(0u, request->port_descriptor.disposition);
       EXPECT_EQ(0u, request->port_descriptor.type);
     }
@@ -318,8 +317,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
         << MachErrorMessage(kr, "MachMessageServer");
 
     if (options_.client_send_complex) {
-      EXPECT_NE(static_cast<mach_port_t>(MACH_PORT_NULL),
-                parent_complex_message_port_);
+      EXPECT_NE(kMachPortNull, parent_complex_message_port_);
       mach_port_type_t type;
 
       if (!options_.expect_server_destroyed_complex) {
@@ -505,8 +503,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     ASSERT_EQ(static_cast<mach_msg_bits_t>(
         MACH_MSGH_BITS(0, MACH_MSG_TYPE_MOVE_SEND)), reply.Head.msgh_bits);
     ASSERT_EQ(sizeof(ReplyMessage), reply.Head.msgh_size);
-    ASSERT_EQ(static_cast<mach_port_t>(MACH_PORT_NULL),
-              reply.Head.msgh_remote_port);
+    ASSERT_EQ(kMachPortNull, reply.Head.msgh_remote_port);
     ASSERT_EQ(LocalPort(), reply.Head.msgh_local_port);
     ASSERT_EQ(kReplyMessageId, reply.Head.msgh_id);
     ASSERT_EQ(0, memcmp(&reply.NDR, &NDR_record, sizeof(NDR_record)));

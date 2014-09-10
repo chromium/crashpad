@@ -27,6 +27,7 @@
 #include "base/rand_util.h"
 #include "gtest/gtest.h"
 #include "util/mach/bootstrap.h"
+#include "util/mach/mach_extensions.h"
 #include "util/misc/scoped_forbid_return.h"
 #include "util/test/errors.h"
 #include "util/test/mac/mach_errors.h"
@@ -105,17 +106,17 @@ void MachMultiprocess::PreFork() {
 }
 
 mach_port_t MachMultiprocess::LocalPort() const {
-  EXPECT_NE(static_cast<mach_port_t>(MACH_PORT_NULL), info_->local_port);
+  EXPECT_NE(kMachPortNull, info_->local_port);
   return info_->local_port;
 }
 
 mach_port_t MachMultiprocess::RemotePort() const {
-  EXPECT_NE(static_cast<mach_port_t>(MACH_PORT_NULL), info_->remote_port);
+  EXPECT_NE(kMachPortNull, info_->remote_port);
   return info_->remote_port;
 }
 
 mach_port_t MachMultiprocess::ChildTask() const {
-  EXPECT_NE(static_cast<mach_port_t>(MACH_PORT_NULL), info_->child_task);
+  EXPECT_NE(kMachPortNull, info_->child_task);
   return info_->child_task;
 }
 
