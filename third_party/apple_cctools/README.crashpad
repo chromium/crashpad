@@ -1,0 +1,24 @@
+Name: Apple cctools
+Short Name: cctools
+URL: https://opensource.apple.com/source/cctools/
+URL: https://opensource.apple.com/tarballs/cctools/
+Version: 855 (from Xcode 5.1)
+License: APSL 2.0
+License File: cctools/APPLE_LICENSE
+Security Critical: no
+
+Description:
+cctools contains portions of Apple’s compiler toolchain, including common tools
+like ar, as, nm, strings, and strip, and platform-specific tools like lipo and
+otool. It also contains support libraries such as libmacho, which contains
+interfaces for dealing with Mach-O images.
+
+libmacho is available on Mac OS X as a runtime library that is part of
+libSystem, but versions of libmacho included in operating system versions prior
+to Mac OS X 10.7 did not include the getsectiondata() and getsegmentdata()
+functions. This library is present here to provide implementations of these
+functions for systems that do not have them.
+
+Local Modifications:
+ - Only cctools/APPLE_LICENSE, cctools/libmacho/getsecbyname.c, and
+   cctools/include/mach-o/getsect.h are included.
