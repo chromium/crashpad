@@ -104,6 +104,7 @@ class MachOImageSymbolTableReaderInitializer {
       return false;
     }
 
+    scoped_ptr<TaskMemory::MappedMemory> string_table;
     for (size_t symbol_index = 0; symbol_index < symbol_count; ++symbol_index) {
       const process_types::nlist& symbol = symbols[symbol_index];
       std::string symbol_info = base::StringPrintf(", symbol index %zu%s",
@@ -121,11 +122,17 @@ class MachOImageSymbolTableReaderInitializer {
           return false;
         }
 
+        if (!string_table) {
+          string_table = process_reader_->Memory()->ReadMapped(
+              strtab_address, strtab_size);
+          if (!string_table) {
+            LOG(WARNING) << "could not read string table" << module_info_;
+            return false;
+          }
+        }
+
         std::string name;
-        if (!process_reader_->Memory()->ReadCStringSizeLimited(
-                strtab_address + symbol.n_strx,
-                strtab_size - symbol.n_strx,
-                &name)) {
+        if (!string_table->ReadCString(symbol.n_strx, &name)) {
           LOG(WARNING) << "could not read string" << symbol_info;
           return false;
         }

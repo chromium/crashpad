@@ -15,11 +15,14 @@
 #include "util/mach/task_memory.h"
 
 #include <mach/mach.h>
+#include <string.h>
 
 #include <algorithm>
 #include <string>
 
+#include "base/mac/scoped_mach_port.h"
 #include "base/mac/scoped_mach_vm.h"
+#include "base/memory/scoped_ptr.h"
 #include "gtest/gtest.h"
 #include "util/test/mac/mach_errors.h"
 
@@ -42,42 +45,59 @@ TEST(TaskMemory, ReadSelf) {
   }
 
   TaskMemory memory(mach_task_self());
+
+  // This tests using both the Read() and ReadMapped() interfaces.
   std::string result(kSize, '\0');
+  scoped_ptr<TaskMemory::MappedMemory> mapped;
 
   // Ensure that the entire region can be read.
   ASSERT_TRUE(memory.Read(address, kSize, &result[0]));
   EXPECT_EQ(0, memcmp(region, &result[0], kSize));
+  ASSERT_TRUE((mapped = memory.ReadMapped(address, kSize)));
+  EXPECT_EQ(0, memcmp(region, mapped->data(), kSize));
 
   // Ensure that a read of length 0 succeeds and doesn’t touch the result.
   result.assign(kSize, '\0');
   std::string zeroes = result;
   ASSERT_TRUE(memory.Read(address, 0, &result[0]));
   EXPECT_EQ(zeroes, result);
+  ASSERT_TRUE((mapped = memory.ReadMapped(address, 0)));
 
   // Ensure that a read starting at an unaligned address works.
   ASSERT_TRUE(memory.Read(address + 1, kSize - 1, &result[0]));
   EXPECT_EQ(0, memcmp(region + 1, &result[0], kSize - 1));
+  ASSERT_TRUE((mapped = memory.ReadMapped(address + 1, kSize - 1)));
+  EXPECT_EQ(0, memcmp(region + 1, mapped->data(), kSize - 1));
 
   // Ensure that a read ending at an unaligned address works.
   ASSERT_TRUE(memory.Read(address, kSize - 1, &result[0]));
   EXPECT_EQ(0, memcmp(region, &result[0], kSize - 1));
+  ASSERT_TRUE((mapped = memory.ReadMapped(address, kSize - 1)));
+  EXPECT_EQ(0, memcmp(region, mapped->data(), kSize - 1));
 
   // Ensure that a read starting and ending at unaligned addresses works.
   ASSERT_TRUE(memory.Read(address + 1, kSize - 2, &result[0]));
   EXPECT_EQ(0, memcmp(region + 1, &result[0], kSize - 2));
+  ASSERT_TRUE((mapped = memory.ReadMapped(address + 1, kSize - 2)));
+  EXPECT_EQ(0, memcmp(region + 1, mapped->data(), kSize - 2));
 
   // Ensure that a read of exactly one page works.
   ASSERT_TRUE(memory.Read(address + PAGE_SIZE, PAGE_SIZE, &result[0]));
   EXPECT_EQ(0, memcmp(region + PAGE_SIZE, &result[0], PAGE_SIZE));
+  ASSERT_TRUE((mapped = memory.ReadMapped(address + PAGE_SIZE, PAGE_SIZE)));
+  EXPECT_EQ(0, memcmp(region + PAGE_SIZE, mapped->data(), PAGE_SIZE));
 
   // Ensure that a read of a single byte works.
   ASSERT_TRUE(memory.Read(address + 2, 1, &result[0]));
   EXPECT_EQ(region[2], result[0]);
+  ASSERT_TRUE((mapped = memory.ReadMapped(address + 2, 1)));
+  EXPECT_EQ(region[2], reinterpret_cast<const char*>(mapped->data())[0]);
 
   // Ensure that a read of length zero works and doesn’t touch the data.
   result[0] = 'M';
   ASSERT_TRUE(memory.Read(address + 3, 0, &result[0]));
   EXPECT_EQ('M', result[0]);
+  ASSERT_TRUE((mapped = memory.ReadMapped(address + 3, 0)));
 }
 
 TEST(TaskMemory, ReadSelfUnmapped) {
@@ -109,6 +129,15 @@ TEST(TaskMemory, ReadSelfUnmapped) {
   EXPECT_TRUE(memory.Read(address, PAGE_SIZE, &result[0]));
   EXPECT_TRUE(memory.Read(address + PAGE_SIZE - 1, 1, &result[0]));
 
+  // Do the same thing with the ReadMapped() interface.
+  scoped_ptr<TaskMemory::MappedMemory> mapped;
+  EXPECT_FALSE((mapped = memory.ReadMapped(address, kSize)));
+  EXPECT_FALSE((mapped = memory.ReadMapped(address + 1, kSize - 1)));
+  EXPECT_FALSE((mapped = memory.ReadMapped(address + PAGE_SIZE, 1)));
+  EXPECT_FALSE((mapped = memory.ReadMapped(address + PAGE_SIZE - 1, 2)));
+  EXPECT_TRUE((mapped = memory.ReadMapped(address, PAGE_SIZE)));
+  EXPECT_TRUE((mapped = memory.ReadMapped(address + PAGE_SIZE - 1, 1)));
+
   // Repeat the test with an unmapped page instead of an unreadable one. This
   // portion of the test may be flaky in the presence of other threads, if
   // another thread maps something in the region that is deallocated here.
@@ -122,6 +151,14 @@ TEST(TaskMemory, ReadSelfUnmapped) {
   EXPECT_FALSE(memory.Read(address + PAGE_SIZE - 1, 2, &result[0]));
   EXPECT_TRUE(memory.Read(address, PAGE_SIZE, &result[0]));
   EXPECT_TRUE(memory.Read(address + PAGE_SIZE - 1, 1, &result[0]));
+
+  // Do the same thing with the ReadMapped() interface.
+  EXPECT_FALSE((mapped = memory.ReadMapped(address, kSize)));
+  EXPECT_FALSE((mapped = memory.ReadMapped(address + 1, kSize - 1)));
+  EXPECT_FALSE((mapped = memory.ReadMapped(address + PAGE_SIZE, 1)));
+  EXPECT_FALSE((mapped = memory.ReadMapped(address + PAGE_SIZE - 1, 2)));
+  EXPECT_TRUE((mapped = memory.ReadMapped(address, PAGE_SIZE)));
+  EXPECT_TRUE((mapped = memory.ReadMapped(address + PAGE_SIZE - 1, 1)));
 }
 
 // This function consolidates the cast from a char* to mach_vm_address_t in one
@@ -381,6 +418,137 @@ TEST(TaskMemory, ReadCStringSizeLimited_StringLong) {
 
   ASSERT_FALSE(ReadCStringSizeLimitedSelf(
       &memory, &string_long[0], string_long.size(), &result));
+}
+
+bool IsAddressMapped(vm_address_t address) {
+  vm_address_t region_address = address;
+  vm_size_t region_size;
+  mach_msg_type_number_t count = VM_REGION_BASIC_INFO_COUNT_64;
+  vm_region_basic_info_64 info;
+  mach_port_t object;
+  kern_return_t kr = vm_region_64(mach_task_self(),
+                                  &region_address,
+                                  &region_size,
+                                  VM_REGION_BASIC_INFO_64,
+                                  reinterpret_cast<vm_region_info_t>(&info),
+                                  &count,
+                                  &object);
+  if (kr == KERN_SUCCESS) {
+    // |object| will be MACH_PORT_NULL (10.9.4 xnu-2422.110.17/osfmk/vm/vm_map.c
+    // vm_map_region()), but the interface acts as if it might carry a send
+    // right, so treat it as documented.
+    base::mac::ScopedMachSendRight object_owner(object);
+
+    return address >= region_address && address <= region_address + region_size;
+  }
+
+  if (kr == KERN_INVALID_ADDRESS) {
+    return false;
+  }
+
+  ADD_FAILURE() << MachErrorMessage(kr, "vm_region_64");;
+  return false;
+}
+
+TEST(TaskMemory, MappedMemoryDeallocates) {
+  // This tests that once a TaskMemory::MappedMemory object is destroyed, it
+  // releases the mapped memory that it owned. Technically, this test is not
+  // valid because after the mapping is released, something else (on another
+  // thread) might wind up mapped in the same address. In the test environment,
+  // hopefully there are either no other threads or they’re all quiescent, so
+  // nothing else should wind up mapped in the address.
+
+  TaskMemory memory(mach_task_self());
+  scoped_ptr<TaskMemory::MappedMemory> mapped;
+
+  static const char kTestBuffer[] = "hello!";
+  mach_vm_address_t test_address =
+      reinterpret_cast<mach_vm_address_t>(&kTestBuffer);
+  ASSERT_TRUE((mapped = memory.ReadMapped(test_address, sizeof(kTestBuffer))));
+  EXPECT_EQ(0, memcmp(kTestBuffer, mapped->data(), sizeof(kTestBuffer)));
+
+  vm_address_t mapped_address = reinterpret_cast<vm_address_t>(mapped->data());
+  EXPECT_TRUE(IsAddressMapped(mapped_address));
+
+  mapped.reset();
+  EXPECT_FALSE(IsAddressMapped(mapped_address));
+
+  // This is the same but with a big buffer that’s definitely larger than a
+  // single page. This makes sure that the whole mapped region winds up being
+  // deallocated.
+  const size_t kBigSize = 4 * PAGE_SIZE;
+  scoped_ptr<char[]> big_buffer(new char[kBigSize]);
+  test_address = reinterpret_cast<mach_vm_address_t>(&big_buffer[0]);
+  ASSERT_TRUE((mapped = memory.ReadMapped(test_address, kBigSize)));
+
+  mapped_address = reinterpret_cast<vm_address_t>(mapped->data());
+  vm_address_t mapped_last_address = mapped_address + kBigSize - 1;
+  EXPECT_TRUE(IsAddressMapped(mapped_address));
+  EXPECT_TRUE(IsAddressMapped(mapped_address + PAGE_SIZE));
+  EXPECT_TRUE(IsAddressMapped(mapped_last_address));
+
+  mapped.reset();
+  EXPECT_FALSE(IsAddressMapped(mapped_address));
+  EXPECT_FALSE(IsAddressMapped(mapped_address + PAGE_SIZE));
+  EXPECT_FALSE(IsAddressMapped(mapped_last_address));
+}
+
+TEST(TaskMemory, MappedMemoryReadCString) {
+  // This tests the behavior of TaskMemory::MappedMemory::ReadCString().
+  TaskMemory memory(mach_task_self());
+  scoped_ptr<TaskMemory::MappedMemory> mapped;
+
+  static const char kTestBuffer[] = "0\0" "2\0" "45\0" "789";
+  const mach_vm_address_t kTestAddress =
+      reinterpret_cast<mach_vm_address_t>(&kTestBuffer);
+  ASSERT_TRUE((mapped = memory.ReadMapped(kTestAddress, 10)));
+
+  std::string string;
+  ASSERT_TRUE(mapped->ReadCString(0, &string));
+  EXPECT_EQ("0", string);
+  ASSERT_TRUE(mapped->ReadCString(1, &string));
+  EXPECT_EQ("", string);
+  ASSERT_TRUE(mapped->ReadCString(2, &string));
+  EXPECT_EQ("2", string);
+  ASSERT_TRUE(mapped->ReadCString(3, &string));
+  EXPECT_EQ("", string);
+  ASSERT_TRUE(mapped->ReadCString(4, &string));
+  EXPECT_EQ("45", string);
+  ASSERT_TRUE(mapped->ReadCString(5, &string));
+  EXPECT_EQ("5", string);
+  ASSERT_TRUE(mapped->ReadCString(6, &string));
+  EXPECT_EQ("", string);
+
+  // kTestBuffer’s NUL terminator was not read, so these will see an
+  // unterminated string and fail.
+  EXPECT_FALSE(mapped->ReadCString(7, &string));
+  EXPECT_FALSE(mapped->ReadCString(8, &string));
+  EXPECT_FALSE(mapped->ReadCString(9, &string));
+
+  // This is out of the range of what was read, so it will fail.
+  EXPECT_FALSE(mapped->ReadCString(10, &string));
+  EXPECT_FALSE(mapped->ReadCString(11, &string));
+
+  // Read it again, this time with a length long enough to include the NUL
+  // terminator.
+  ASSERT_TRUE((mapped = memory.ReadMapped(kTestAddress, 11)));
+
+  ASSERT_TRUE(mapped->ReadCString(6, &string));
+  EXPECT_EQ("", string);
+
+  // These should now succeed.
+  ASSERT_TRUE(mapped->ReadCString(7, &string));
+  EXPECT_EQ("789", string);
+  ASSERT_TRUE(mapped->ReadCString(8, &string));
+  EXPECT_EQ("89", string);
+  ASSERT_TRUE(mapped->ReadCString(9, &string));
+  EXPECT_EQ("9", string);
+  EXPECT_TRUE(mapped->ReadCString(10, &string));
+  EXPECT_EQ("", string);
+
+  // These are still out of range.
+  EXPECT_FALSE(mapped->ReadCString(11, &string));
+  EXPECT_FALSE(mapped->ReadCString(12, &string));
 }
 
 }  // namespace
