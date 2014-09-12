@@ -1029,28 +1029,43 @@ TEST(ExcServerVariants, ThreadStates) {
   };
   const TestData test_data[] = {
 #if defined(ARCH_CPU_X86_FAMILY)
+    // For the x86 family, exception handlers can only properly receive the
+    // thread, float, and exception state flavors. There’s a bug in the kernel
+    // that causes it to call thread_getstatus() (a wrapper for the more
+    // familiar thread_get_state()) with an incorrect state buffer size
+    // parameter when delivering an exception. 10.9.4
+    // xnu-2422.110.17/osfmk/kern/exception.c exception_deliver() uses the
+    // _MachineStateCount[] array indexed by the flavor number to obtain the
+    // buffer size. 10.9.4 xnu-2422.110.17/osfmk/i386/pcb.c contains the
+    // definition of this array for the x86 family. The slots corresponding to
+    // thread, float, and exception state flavors in both native-width (32- and
+    // 64-bit) and universal are correct, but the remaining elements in the
+    // array are not. This includes elements that would correspond to debug and
+    // AVX state flavors, so these cannot be tested here.
+    //
+    // When machine_thread_get_state() (the machine-specific implementation of
+    // thread_get_state()) encounters an undersized buffer as reported by the
+    // buffer size parameter, it returns KERN_INVALID_ARGUMENT, which causes
+    // exception_deliver() to not actually deliver the exception and instead
+    // return that error code to exception_triage() as well.
+    //
+    // This bug is filed as radar 18312067.
+    //
+    // Additionaly, the AVX state flavors are also not tested because they’re
+    // not available on all CPUs and OS versions.
 #if defined(ARCH_CPU_X86)
     { x86_THREAD_STATE32, x86_THREAD_STATE32_COUNT },
     { x86_FLOAT_STATE32, x86_FLOAT_STATE32_COUNT },
     { x86_EXCEPTION_STATE32, x86_EXCEPTION_STATE32_COUNT },
-    { x86_DEBUG_STATE32, x86_DEBUG_STATE32_COUNT },
-    // Don’t test x86_AVX_STATE32 because it’s not available on all CPUs and
-    // OS versionns.
 #endif
 #if defined(ARCH_CPU_X86_64)
     { x86_THREAD_STATE64, x86_THREAD_STATE64_COUNT },
     { x86_FLOAT_STATE64, x86_FLOAT_STATE64_COUNT },
     { x86_EXCEPTION_STATE64, x86_EXCEPTION_STATE64_COUNT },
-    { x86_DEBUG_STATE64, x86_DEBUG_STATE64_COUNT },
-    // Don’t test x86_AVX_STATE64 because it’s not available on all CPUs and
-    // OS versions.
 #endif
     { x86_THREAD_STATE, x86_THREAD_STATE_COUNT },
     { x86_FLOAT_STATE, x86_FLOAT_STATE_COUNT },
     { x86_EXCEPTION_STATE, x86_EXCEPTION_STATE_COUNT },
-    { x86_DEBUG_STATE, x86_DEBUG_STATE_COUNT },
-    // Don’t test x86_AVX_STATE because it’s not available on all CPUs and OS
-    // versions.
 #else
 #error Port this test to your CPU architecture.
 #endif
