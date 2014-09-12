@@ -14,6 +14,7 @@
 
 #include "util/mac/mach_o_image_reader.h"
 
+#include <AvailabilityMacros.h>
 #include <dlfcn.h>
 #include <mach-o/dyld.h>
 #include <mach-o/dyld_images.h>
@@ -592,6 +593,7 @@ TEST(MachOImageReader, Self_DyldImages) {
     }
   }
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
   // If dyld is new enough to record UUIDs, check the UUID of any module that
   // it says has one. Note that dyld doesn’t record UUIDs of anything that
   // loaded out of the shared cache, but it should at least have a UUID for the
@@ -626,6 +628,7 @@ TEST(MachOImageReader, Self_DyldImages) {
       EXPECT_EQ(expected_uuid, actual_uuid);
     }
   }
+#endif
 }
 
 }  // namespace

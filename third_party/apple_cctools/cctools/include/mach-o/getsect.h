@@ -20,8 +20,13 @@
  * 
  * @APPLE_LICENSE_HEADER_END@
  */
-#ifndef _MACH_O_GETSECT_H_
-#define _MACH_O_GETSECT_H_
+#ifndef CRASHPAD_THIRD_PARTY_APPLE_CCTOOLS_CCTOOLS_INCLUDE_MACH_O_GETSECT_H_
+#define CRASHPAD_THIRD_PARTY_APPLE_CCTOOLS_CCTOOLS_INCLUDE_MACH_O_GETSECT_H_
+
+#include <AvailabilityMacros.h>
+
+#if !defined(MAC_OS_X_VERSION_10_7) || \
+    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_7
 
 #include <stdint.h>
 #include <mach-o/loader.h>
@@ -30,44 +35,17 @@
 extern "C" {
 #endif /* __cplusplus */
 
-/*
- * Runtime interfaces for Mach-O programs.  For both 32-bit and 64-bit programs,
- * where the sizes returned will be 32-bit or 64-bit based on the size of
- * 'unsigned long'.
- */
-extern char *getsectdata(
-    const char *segname,
-    const char *sectname,
-    unsigned long *size);
-
-extern char *getsectdatafromFramework(
-    const char *FrameworkName,
-    const char *segname,
-    const char *sectname,
-    unsigned long *size);
-
-extern unsigned long get_end(void);
-extern unsigned long get_etext(void);
-extern unsigned long get_edata(void);
-
 #ifndef __LP64__
 /*
  * Runtime interfaces for 32-bit Mach-O programs.
  */
-extern const struct section *getsectbyname(
-    const char *segname,
-    const char *sectname);
-
-extern uint8_t *getsectiondata(
+extern uint8_t *crashpad_getsectiondata(
     const struct mach_header *mhp,
     const char *segname,
     const char *sectname,
     unsigned long *size);
 
-extern const struct segment_command *getsegbyname(
-    const char *segname);
-
-extern uint8_t *getsegmentdata(
+extern uint8_t *crashpad_getsegmentdata(
     const struct mach_header *mhp,
     const char *segname,
     unsigned long *size);
@@ -76,68 +54,23 @@ extern uint8_t *getsegmentdata(
 /*
  * Runtime interfaces for 64-bit Mach-O programs.
  */
-extern const struct section_64 *getsectbyname(
-    const char *segname,
-    const char *sectname);
-
-extern uint8_t *getsectiondata(
+extern uint8_t *crashpad_getsectiondata(
     const struct mach_header_64 *mhp,
     const char *segname,
     const char *sectname,
     unsigned long *size);
 
-extern const struct segment_command_64 *getsegbyname(
-    const char *segname);
-
-extern uint8_t *getsegmentdata(
+extern uint8_t *crashpad_getsegmentdata(
     const struct mach_header_64 *mhp,
     const char *segname,
     unsigned long *size);
 
 #endif /* defined(__LP64__) */
 
-/*
- * Interfaces for tools working with 32-bit Mach-O files.
- */
-extern char *getsectdatafromheader(
-    const struct mach_header *mhp,
-    const char *segname,
-    const char *sectname,
-    uint32_t *size);
-
-extern const struct section *getsectbynamefromheader(
-    const struct mach_header *mhp,
-    const char *segname,
-    const char *sectname);
-
-extern const struct section *getsectbynamefromheaderwithswap(
-    struct mach_header *mhp,
-    const char *segname,
-    const char *sectname,
-    int fSwap);
-
-/*
- * Interfaces for tools working with 64-bit Mach-O files.
- */
-extern char *getsectdatafromheader_64(
-    const struct mach_header_64 *mhp,
-    const char *segname,
-    const char *sectname,
-    uint64_t *size);
-
-extern const struct section_64 *getsectbynamefromheader_64(
-    const struct mach_header_64 *mhp,
-    const char *segname,
-    const char *sectname);
-
-extern const struct section *getsectbynamefromheaderwithswap_64(
-    struct mach_header_64 *mhp,
-    const char *segname,
-    const char *sectname,
-    int fSwap);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* _MACH_O_GETSECT_H_ */
+#endif /* MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_7 */
+
+#endif /* CRASHPAD_THIRD_PARTY_APPLE_CCTOOLS_CCTOOLS_INCLUDE_MACH_O_GETSECT_H_ */

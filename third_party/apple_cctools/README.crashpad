@@ -19,6 +19,26 @@ to Mac OS X 10.7 did not include the getsectiondata() and getsegmentdata()
 functions. This library is present here to provide implementations of these
 functions for systems that do not have them.
 
+Crashpad code is not expected to use this library directly. It should use the
+getsectiondata() and getsegmentdata() wrappers in compat, which will use
+system-provided implementations if present at runtime, and will otherwise fall
+back to the implementations in this library.
+
 Local Modifications:
  - Only cctools/APPLE_LICENSE, cctools/libmacho/getsecbyname.c, and
    cctools/include/mach-o/getsect.h are included.
+ - getsecbyname.c and getsect.h have been trimmed to remove everything other
+   than the getsectiondata() and getsegmentdata() functions. The #include guards
+   in getsect.h have been made unique.
+ - getsectiondata() is renamed to crashpad_getsectiondata(), and
+   getsegmentdata() is renamed to crashpad_getsegmentdata().
+ - These functions are only declared and defined if the deployment target is
+   older than 10.7. This library is not needed otherwise, because in that case,
+   the system always provides implementations in runtime libraries.
+ - Originally, each of these two functions were implemented twice: once for
+   32-bit code and once for 64-bit code. Aside from the types and constants
+   used, the two implementations were completely identical. This has been
+   simplified to have a shared implementation that relies on local typedefs and
+   constants being defined properly. This change was only made in
+   getsecbyname.c. getsect.h was not changed to avoid leaking new definitions
+   beyond this header.

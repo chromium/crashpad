@@ -22,7 +22,7 @@ extern "C" {
 // Returns a pointer to this process’ dyld_all_image_infos structure. This is
 // implemented as a non-public dyld API, declared in 10.9.2
 // dyld-239.4/include/mach-o/dyld_priv.h.
-const dyld_all_image_infos* _dyld_get_all_image_infos();
+const struct dyld_all_image_infos* _dyld_get_all_image_infos();
 
 }  // extern "C"
 

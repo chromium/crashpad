@@ -16,20 +16,12 @@
   'targets': [
     {
       'target_name': 'compat',
-      'type': 'none',
-      'include_dirs': [
-        'mac',
-        'non_win',
-      ],
-      'direct_dependent_settings': {
-        'include_dirs': [
-          'mac',
-          'non_win',
-        ],
-      },
+      'type': 'static_library',
       'sources': [
         'mac/AvailabilityMacros.h',
         'mac/mach/mach.h',
+        'mac/mach-o/getsect.cc',
+        'mac/mach-o/getsect.h',
         'mac/mach-o/loader.h',
         'mac/servers/bootstrap.h',
         'non_mac/mach/mach.h',
@@ -38,6 +30,31 @@
         'non_win/timezoneapi.h',
         'non_win/verrsrc.h',
         'non_win/winnt.h',
+      ],
+      'conditions': [
+        ['OS=="mac"', {
+          'dependencies': [
+            '../third_party/apple_cctools/apple_cctools.gyp:apple_cctools',
+          ],
+          'include_dirs': [
+            'mac',
+          ],
+          'direct_dependent_settings': {
+            'include_dirs': [
+              'mac',
+            ],
+          },
+        }],
+        ['OS!="win"', {
+          'include_dirs': [
+            'non_win',
+          ],
+          'direct_dependent_settings': {
+            'include_dirs': [
+              'non_win',
+            ],
+          },
+        }],
       ],
     },
   ],
