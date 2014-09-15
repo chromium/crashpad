@@ -19,10 +19,10 @@ vars = {
 deps = {
   'crashpad/third_party/gmock/gmock':
       Var('chromium_git') + '/external/gmock@' +
-      '896ba0e03f520fb9b6ed582bde2bd00847e3c3f2',  # svn r485
+      '08c004e6a66bab9509d0797a9cb66ed2ca15e244',  # svn r463
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/gtest@' +
-      '4650552ff637bb44ecf7784060091cbed3252211',  # svn r692
+      '237d7a871eea8c1ef5227795e81ff071f15c2710',  # svn r671
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
       '39bb8956231c997babf0f25befdfb531f4d0b43c',  # svn r1958
