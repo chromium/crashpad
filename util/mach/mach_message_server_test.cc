@@ -685,6 +685,7 @@ TEST(MachMessageServer, ReturnCodeNoReply) {
   TestMachMessageServer::Options options;
   options.server_mig_retcode = MIG_NO_REPLY;
   options.client_expect_reply = false;
+  options.child_wait_for_parent_pipe = true;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
 }
