@@ -14,7 +14,10 @@
 
 #include "util/mach/mach_extensions.h"
 
+#include <AvailabilityMacros.h>
 #include <pthread.h>
+
+#include "util/mac/mac_util.h"
 
 namespace crashpad {
 
@@ -22,6 +25,55 @@ mach_port_t MachThreadSelf() {
   // The pthreads library keeps its own copy of the mach_port_t. Using it does
   // not increment its reference count.
   return pthread_mach_thread_np(pthread_self());
+}
+
+exception_mask_t ExcMaskAll() {
+  // This is necessary because of the way that the kernel validates
+  // exception_mask_t arguments to
+  // {host,task,thread}_{get,set,swap}_exception_ports(). It is strict,
+  // rejecting attempts to operate on any bits that it does not recognize. See
+  // 10.9.4 xnu-2422.110.17/osfmk/mach/ipc_host.c and
+  // xnu-2422.110.17/osfmk/mach/ipc_tt.c.
+
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9
+  int mac_os_x_minor_version = MacOSXMinorVersion();
+#endif
+
+  // See 10.6.8 xnu-1504.15.3/osfmk/mach/exception_types.h. 10.7 uses the same
+  // definition as 10.6. See 10.7.5 xnu-1699.32.7/osfmk/mach/exception_types.h
+  //
+  // The 10.5 SDK actually defined EXC_MASK_ALL as including EXC_MASK_CRASH.
+  // Later SDKs removed EXC_MASK_CRASH from EXC_MASK_ALL, but placed it into a
+  // new constant, EXC_MASK_VALID. For consistent behavior, don’t include
+  // EXC_MASK_CRASH in the 10.5 EXC_MASK_ALL. Consumers that want EXC_MASK_ALL
+  // along with EXC_MASK_CRASH must use ExcMaskAll() | EXC_MASK_CRASH
+  // explicitly. 10.5 otherwise behaves identically to 10.6. See 10.5.8
+  // xnu-1228.15.4/osfmk/mach/exception_types.h.
+  const exception_mask_t kExcMaskAll_10_6 =
+      EXC_MASK_BAD_ACCESS | EXC_MASK_BAD_INSTRUCTION | EXC_MASK_ARITHMETIC |
+      EXC_MASK_EMULATION | EXC_MASK_SOFTWARE | EXC_MASK_BREAKPOINT |
+      EXC_MASK_SYSCALL | EXC_MASK_MACH_SYSCALL | EXC_MASK_RPC_ALERT |
+      EXC_MASK_MACHINE;
+#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_7
+  if (mac_os_x_minor_version <= 7) {
+    return kExcMaskAll_10_6;
+  }
+#endif
+
+  // 10.8 added EXC_MASK_RESOURCE. See 10.8.5
+  // xnu-2050.48.11/osfmk/mach/exception_types.h.
+  const exception_mask_t kExcMaskAll_10_8 =
+      kExcMaskAll_10_6 | EXC_MASK_RESOURCE;
+#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_8
+  if (mac_os_x_minor_version <= 8) {
+    return kExcMaskAll_10_8;
+  }
+#endif
+
+  // 10.9 added EXC_MASK_GUARD. See 10.9.4
+  // xnu-2422.110.17/osfmk/mach/exception_types.h.
+  const exception_mask_t kExcMaskAll_10_9 = kExcMaskAll_10_8 | EXC_MASK_GUARD;
+  return kExcMaskAll_10_9;
 }
 
 }  // namespace crashpad

@@ -21,6 +21,8 @@
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
+#define NUL_TEST_DATA(string) { string, arraysize(string) - 1 }
+
 namespace {
 
 using namespace crashpad;
@@ -67,10 +69,10 @@ const struct {
 #endif
 };
 
-// If expect is NULL, the conversion is expected to fail. If expect is empty,
-// the conversion is expected to succeed, but the precise returned string value
-// is unknown. Otherwise, the conversion is expected to succeed, and expect
-// contains the precise expected string value to be returned.
+// If |expect| is NULL, the conversion is expected to fail. If |expect| is
+// empty, the conversion is expected to succeed, but the precise returned string
+// value is unknown. Otherwise, the conversion is expected to succeed, and
+// |expect| contains the precise expected string value to be returned.
 //
 // Only set kUseFullName or kUseShortName when calling this. Other options are
 // exercised directly by this function.
@@ -164,7 +166,8 @@ TEST(SymbolicConstantsPOSIX, StringToSignal) {
       kAllowFullName | kAllowShortName | kAllowNumber,
   };
 
-  for (size_t option_index = 0; option_index < arraysize(kOptions);
+  for (size_t option_index = 0;
+       option_index < arraysize(kOptions);
        ++option_index) {
     SCOPED_TRACE(base::StringPrintf("option_index %zu", option_index));
     StringToSymbolicConstantOptions options = kOptions[option_index];
@@ -215,7 +218,6 @@ TEST(SymbolicConstantsPOSIX, StringToSignal) {
       const char* string;
       size_t length;
     } kNULTestData[] = {
-#define NUL_TEST_DATA(string) { string, arraysize(string) - 1 }
         NUL_TEST_DATA("\0SIGBUS"),
         NUL_TEST_DATA("SIG\0BUS"),
         NUL_TEST_DATA("SIGB\0US"),
@@ -226,7 +228,6 @@ TEST(SymbolicConstantsPOSIX, StringToSignal) {
         NUL_TEST_DATA("\0002"),
         NUL_TEST_DATA("2\0"),
         NUL_TEST_DATA("1\0002"),
-#undef NUL_TEST_DATA
     };
 
     for (size_t index = 0; index < arraysize(kNULTestData); ++index) {

@@ -67,6 +67,18 @@ const exception_type_t kMachExceptionSimulated = 'CPsx';
 //!     thread continues to exist as a `pthread_t`.
 mach_port_t MachThreadSelf();
 
+//! \brief The value for `EXC_MASK_ALL` appropriate for the operating system at
+//!     run time.
+//!
+//! The SDK’s definition of `EXC_MASK_ALL` has changed over time, with later
+//! versions containing more bits set than earlier versions. However, older
+//! kernels will reject exception masks that contain bits set that they don’t
+//! recognize. Calling this function will return a value for `EXC_MASK_ALL`
+//! appropriate for the system at run time.
+//!
+//! \note `EXC_MASK_ALL` does not include the value of `EXC_MASK_CRASH`.
+exception_mask_t ExcMaskAll();
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_MACH_MACH_EXTENSIONS_H_
