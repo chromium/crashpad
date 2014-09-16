@@ -28,9 +28,9 @@ namespace crashpad {
 //!
 //! \return `true` if the job was submitted successfully, otherwise `false`.
 //!
-//! \note This function is provided because `SMJobSubmit()` does not exist prior
-//!     to Mac OS X 10.6, and behaves flakily on Mac OS X 10.10 DP5 14A314h in
-//!     that it hangs 25% of the time (radar 17365104).
+//! \note This function is provided because `SMJobSubmit()` is deprecated in Mac
+//!     OS X 10.10. It may or may not be implemented using `SMJobSubmit()` from
+//!     `ServiceManagement.framework`.
 bool ServiceManagementSubmitJob(CFDictionaryRef job_cf);
 
 //! \brief Removes a job from the user launchd domain as in `SMJobRemove()`.
@@ -41,11 +41,13 @@ bool ServiceManagementSubmitJob(CFDictionaryRef job_cf);
 //!
 //! \return `true` if the job was removed successfully or if an asynchronous
 //!     attempt to remove the job was started successfully, otherwise `false`.
+//!     Unlike previous systems, on Mac OS X 10.10, this function returns `true`
+//!     even if \a label names a job that does not exist. This is filed as radar
+//!     18268941.
 //!
-//! \note This function is provided because `SMJobRemove()` does not exist prior
-//!     to Mac OS X 10.6, and when \a wait is true, blocks for far too long on
-//!     Mac OS X 10.10 DP5 14A314h (radar 17365104; `_block_until_job_exits()`
-//!     contains a one-second sleep() call).
+//! \note This function is provided because `SMJobRemove()` is deprecated in Mac
+//!     OS X 10.10. It may or may not be implemented using `SMJobRemove()` from
+//!     `ServiceManagement.framework`.
 bool ServiceManagementRemoveJob(const std::string& label, bool wait);
 
 //! \brief Determines whether a specified job is loaded in the user launchd
@@ -57,10 +59,9 @@ bool ServiceManagementRemoveJob(const std::string& label, bool wait);
 //!
 //! \note A loaded job is not necessarily presently running, nor has it
 //!     necessarily ever run in the past.
-//! \note This function is provided because `SMJobCopyDictionary()` does not
-//!     exist prior to Mac OS X 10.6, and on Mac OS X 10.10 DP5 14A314h, it
-//!     fails to return a job dictionary immediately after a job is loaded
-//!     (radar 17365104).
+//! \note This function is provided because `SMJobCopyDictionary()` is
+//!     deprecated in Mac OS X 10.10. It may or may not be implemented using
+//!     `SMJobCopyDictionary()` from `ServiceManagement.framework`.
 bool ServiceManagementIsJobLoaded(const std::string& label);
 
 //! \brief Determines whether a specified job is running in the user launchd
@@ -70,10 +71,9 @@ bool ServiceManagementIsJobLoaded(const std::string& label);
 //!
 //! \return The job’s process ID if running, otherwise `0`.
 //!
-//! \note This function is provided because `SMJobCopyDictionary()` does not
-//!     exist prior to Mac OS X 10.6, and on Mac OS X 10.10 DP5 14A314h, it
-//!     fails to return a job dictionary immediately after a job is loaded
-//!     (radar 17365104).
+//! \note This function is provided because `SMJobCopyDictionary()` is
+//!     deprecated in Mac OS X 10.10. It may or may not be implemented using
+//!     `SMJobCopyDictionary()` from `ServiceManagement.framework`.
 pid_t ServiceManagementIsJobRunning(const std::string& label);
 
 }  // namespace crashpad

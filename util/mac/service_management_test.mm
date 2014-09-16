@@ -27,6 +27,7 @@
 #include "base/strings/sys_string_conversions.h"
 #include "base/rand_util.h"
 #include "gtest/gtest.h"
+#include "util/mac/mac_util.h"
 #include "util/posix/process_util.h"
 #include "util/stdlib/objc.h"
 
@@ -157,8 +158,16 @@ TEST(ServiceManagement, SubmitRemoveJob) {
     EXPECT_EQ(0, ServiceManagementIsJobRunning(kJobLabel));
 
     // Now that the job is unloaded, a subsequent attempt to unload it should be
-    // an error.
-    EXPECT_FALSE(ServiceManagementRemoveJob(kJobLabel, false));
+    // an error. However, ServiceManagementRemoveJob does not properly report
+    // this error case on Mac OS X 10.10.
+    if (MacOSXMinorVersion() >= 10) {
+      // If this check starts failing because radar 18268941 is fixed, remove
+      // the OS version check here and revise the interface documentation for
+      // ServiceManagementRemoveJob().
+      EXPECT_TRUE(ServiceManagementRemoveJob(kJobLabel, false));
+    } else {
+      EXPECT_FALSE(ServiceManagementRemoveJob(kJobLabel, false));
+    }
 
     ExpectProcessIsNotRunning(job_pid, shell_script);
   }

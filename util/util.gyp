@@ -25,6 +25,11 @@
         '..',
         '<(INTERMEDIATE_DIR)',
       ],
+      'link_settings': {
+        'libraries': [
+          '$(SDKROOT)/System/Library/Frameworks/ServiceManagement.framework',
+        ],
+      },
       'sources': [
         'file/fd_io.cc',
         'file/fd_io.h',
@@ -34,8 +39,6 @@
         'file/string_file_writer.h',
         'mac/checked_mach_address_range.cc',
         'mac/checked_mach_address_range.h',
-        'mac/launchd.h',
-        'mac/launchd.mm',
         'mac/mac_util.cc',
         'mac/mac_util.h',
         'mac/mach_o_image_reader.cc',
@@ -191,7 +194,6 @@
       'sources': [
         'file/string_file_writer_test.cc',
         'mac/checked_mach_address_range_test.cc',
-        'mac/launchd_test.mm',
         'mac/mac_util_test.mm',
         'mac/mach_o_image_reader_test.cc',
         'mac/mach_o_image_segment_reader_test.cc',
