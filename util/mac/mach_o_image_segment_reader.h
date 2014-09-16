@@ -29,11 +29,11 @@
 
 namespace crashpad {
 
-//! \brief A reader for LC_SEGMENT or LC_SEGMENT_64 load commands in Mach-O
+//! \brief A reader for `LC_SEGMENT` or `LC_SEGMENT_64` load commands in Mach-O
 //!     images mapped into another process.
 //!
-//! This class is capable of reading both LC_SEGMENT and LC_SEGMENT_64 based on
-//! the bitness of the remote process.
+//! This class is capable of reading both `LC_SEGMENT` and `LC_SEGMENT_64` based
+//! on the bitness of the remote process.
 //!
 //! A MachOImageSegmentReader will normally be instantiated by a
 //! MachOImageReader.
@@ -49,7 +49,7 @@ class MachOImageSegmentReader {
   //!
   //! \param[in] process_reader The reader for the remote process.
   //! \param[in] load_command_address The address, in the remote process’
-  //!     address space, where the LC_SEGMENT or LC_SEGMENT_64 load command
+  //!     address space, where the `LC_SEGMENT` or `LC_SEGMENT_64` load command
   //!     to be read is located. This address is determined by a Mach-O image
   //!     reader, such as MachOImageReader, as it walks Mach-O load commands.
   //! \param[in] load_command_info A string to be used in logged messages. This
@@ -118,13 +118,13 @@ class MachOImageSegmentReader {
   //! The file offset is the difference between the beginning of the
   //! `mach_header` or `mach_header_64` and the beginning of the segment’s
   //! mapped region. For segments that are not mapped from a file (such as
-  //! `"__PAGEZERO"` segments), this will be `0`.
+  //! `__PAGEZERO` segments), this will be `0`.
   mach_vm_size_t fileoff() const { return segment_command_.fileoff; }
 
   //! \brief Returns the number of sections in the segment.
   //!
   //! This will return `0` for a segment without any sections, typical for
-  //! `"__PAGEZERO"` and `"__LINKEDIT"` segments.
+  //! `__PAGEZERO` and `__LINKEDIT` segments.
   //!
   //! Although the Mach-O file format uses a `uint32_t` for this field, there is
   //! an overall limit of 255 sections in an entire Mach-O image file (not just
@@ -191,7 +191,7 @@ class MachOImageSegmentReader {
 
   //! Returns whether the segment slides.
   //!
-  //! Most segments slide, but the __PAGEZERO segment does not, it grows
+  //! Most segments slide, but the `__PAGEZERO` segment does not, it grows
   //! instead. This method identifies non-sliding segments in the same way that
   //! the kernel does.
   bool SegmentSlides() const;

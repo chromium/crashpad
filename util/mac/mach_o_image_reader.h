@@ -76,19 +76,19 @@ class MachOImageReader {
   //! This is the value passed as \a address to Initialize().
   mach_vm_address_t Address() const { return address_; }
 
-  //! \brief Returns the mapped size of the Mach-O image’s __TEXT segment.
+  //! \brief Returns the mapped size of the Mach-O image’s `__TEXT` segment.
   //!
-  //! Note that this is returns only the size of the __TEXT segment, not of any
-  //! other segment. This is because the interface only allows one load address
-  //! and size to be reported, but Mach-O image files may consist of multiple
-  //! discontiguous segments. By convention, the __TEXT segment is always mapped
-  //! at the beginning of a Mach-O image file, and it is the most useful for the
-  //! expected intended purpose of collecting data to obtain stack backtraces.
-  //! The implementation insists during initialization that the __TEXT segment
-  //! be mapped at the beginning of the file.
+  //! Note that this is returns only the size of the `__TEXT` segment, not of
+  //! any other segment. This is because the interface only allows one load
+  //! address and size to be reported, but Mach-O image files may consist of
+  //! multiple discontiguous segments. By convention, the `__TEXT` segment is
+  //! always mapped at the beginning of a Mach-O image file, and it is the most
+  //! useful for the expected intended purpose of collecting data to obtain
+  //! stack backtraces. The implementation insists during initialization that
+  //! the `__TEXT` segment be mapped at the beginning of the file.
   //!
   //! In practice, discontiguous segments are only found for images that have
-  //! loaded out of the dyld shared cache, but the __TEXT segment’s size is
+  //! loaded out of the dyld shared cache, but the `__TEXT` segment’s size is
   //! returned for modules that loaded with contiguous segments as well for
   //! consistency.
   mach_vm_size_t Size() const { return size_; }
@@ -96,7 +96,7 @@ class MachOImageReader {
   //! \brief Returns the Mach-O image’s “slide,” the difference between its
   //!     actual load address and its preferred load address.
   //!
-  //! “Slide” is computed by subtracting the __TEXT segment’s preferred load
+  //! “Slide” is computed by subtracting the `__TEXT` segment’s preferred load
   //! address from its actual load address. It will be reported as a positive
   //! offset when the actual load address is greater than the preferred load
   //! address. The preferred load address is taken to be the segment’s reported
