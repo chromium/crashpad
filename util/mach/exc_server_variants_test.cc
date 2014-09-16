@@ -909,7 +909,10 @@ class TestExcServerVariants : public UniversalMachExcServer,
     EXPECT_EQ(EXC_CRASH, exception);
     EXPECT_EQ(2u, code_count);
 
-    if (code_count > 1) {
+    // The code_count check above would ideally use ASSERT_EQ so that the next
+    // conditional would not be necessary, but ASSERT_* requires a function
+    // returning type void, and the interface dictates otherwise here.
+    if (code_count >= 1) {
       // The signal that terminated the process is stored in code[0] along with
       // some other data. See 10.9.4 xnu-2422.110.17/bsd/kern/kern_exit.c
       // proc_prepareexit().

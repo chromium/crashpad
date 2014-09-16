@@ -87,8 +87,16 @@ class TestExcClientVariants : public UniversalMachExcServer,
 
     EXPECT_EQ(exception_, exception);
     EXPECT_EQ(2u, code_count);
-    EXPECT_EQ(expect_code, code[0]);
-    EXPECT_EQ(expect_subcode, code[1]);
+
+    // The code_count check above would ideally use ASSERT_EQ so that the next
+    // conditionals would not be necessary, but ASSERT_* requires a function
+    // returning type void, and the interface dictates otherwise here.
+    if (code_count >= 1) {
+      EXPECT_EQ(expect_code, code[0]);
+    }
+    if (code_count >= 2) {
+      EXPECT_EQ(expect_subcode, code[1]);
+    }
 
     if (HasState()) {
       EXPECT_EQ(exception_ + 10, *flavor);
