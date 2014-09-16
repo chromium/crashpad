@@ -240,8 +240,7 @@ void ProcessReader::InitializeThreads() {
     mach_msg_type_number_t thread_state_count =
         Is64Bit() ? x86_THREAD_STATE64_COUNT : x86_THREAD_STATE32_COUNT;
 
-    // TODO(mark): Use the AVX variants instead of the FLOAT variants? They’re
-    // supported on 10.6 and later.
+    // TODO(mark): Use the AVX variants instead of the FLOAT variants?
     const thread_state_flavor_t kFloatStateFlavor =
         Is64Bit() ? x86_FLOAT_STATE64 : x86_FLOAT_STATE32;
     mach_msg_type_number_t float_state_count =
@@ -354,8 +353,6 @@ void ProcessReader::InitializeModules() {
 
   initialized_modules_ = true;
 
-  // This API only works on Mac OS X 10.6 and higher. On Mac OS X 10.5, find the
-  // “_dyld_all_image_infos” symbol in the loaded LC_LOAD_DYLINKER (dyld).
   task_dyld_info_data_t dyld_info;
   mach_msg_type_number_t count = TASK_DYLD_INFO_COUNT;
   kern_return_t kr = task_info(

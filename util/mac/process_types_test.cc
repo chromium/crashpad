@@ -105,7 +105,6 @@ TEST(ProcessTypes, DyldImagesSelf) {
     EXPECT_EQ(self_image_infos->processDetachedFromSharedRegion,
               proctype_image_infos.processDetachedFromSharedRegion);
   }
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
   if (proctype_image_infos.version >= 2) {
     EXPECT_EQ(self_image_infos->libSystemInitialized,
               proctype_image_infos.libSystemInitialized);
@@ -139,7 +138,6 @@ TEST(ProcessTypes, DyldImagesSelf) {
     EXPECT_EQ(static_cast<uint64_t>(self_image_infos->systemOrderFlag),
               proctype_image_infos.systemOrderFlag);
   }
-#endif
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
   if (proctype_image_infos.version >= 8) {
     EXPECT_EQ(static_cast<uint64_t>(self_image_infos->uuidArrayCount),

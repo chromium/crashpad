@@ -41,14 +41,6 @@ exception_mask_t ExcMaskAll() {
 
   // See 10.6.8 xnu-1504.15.3/osfmk/mach/exception_types.h. 10.7 uses the same
   // definition as 10.6. See 10.7.5 xnu-1699.32.7/osfmk/mach/exception_types.h
-  //
-  // The 10.5 SDK actually defined EXC_MASK_ALL as including EXC_MASK_CRASH.
-  // Later SDKs removed EXC_MASK_CRASH from EXC_MASK_ALL, but placed it into a
-  // new constant, EXC_MASK_VALID. For consistent behavior, don’t include
-  // EXC_MASK_CRASH in the 10.5 EXC_MASK_ALL. Consumers that want EXC_MASK_ALL
-  // along with EXC_MASK_CRASH must use ExcMaskAll() | EXC_MASK_CRASH
-  // explicitly. 10.5 otherwise behaves identically to 10.6. See 10.5.8
-  // xnu-1228.15.4/osfmk/mach/exception_types.h.
   const exception_mask_t kExcMaskAll_10_6 =
       EXC_MASK_BAD_ACCESS | EXC_MASK_BAD_INSTRUCTION | EXC_MASK_ARITHMETIC |
       EXC_MASK_EMULATION | EXC_MASK_SOFTWARE | EXC_MASK_BREAKPOINT |

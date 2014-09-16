@@ -26,7 +26,6 @@
 #include "base/memory/scoped_ptr.h"
 #include "base/rand_util.h"
 #include "gtest/gtest.h"
-#include "util/mach/bootstrap.h"
 #include "util/mach/mach_extensions.h"
 #include "util/misc/scoped_forbid_return.h"
 #include "util/test/errors.h"
@@ -98,8 +97,9 @@ void MachMultiprocess::PreFork() {
   }
 
   mach_port_t local_port;
-  kern_return_t kr =
-      BootstrapCheckIn(bootstrap_port, info_->service_name, &local_port);
+  kern_return_t kr = bootstrap_check_in(bootstrap_port,
+                                        info_->service_name.c_str(),
+                                        &local_port);
   ASSERT_EQ(BOOTSTRAP_SUCCESS, kr)
       << BootstrapErrorMessage(kr, "bootstrap_check_in");
   info_->local_port.reset(local_port);

@@ -17,12 +17,6 @@
 
 #include_next <AvailabilityMacros.h>
 
-// 10.6 SDK
-
-#ifndef MAC_OS_X_VERSION_10_6
-#define MAC_OS_X_VERSION_10_6 1060
-#endif
-
 // 10.7 SDK
 
 #ifndef MAC_OS_X_VERSION_10_7

@@ -77,6 +77,8 @@ mach_port_t MachThreadSelf();
 //! appropriate for the system at run time.
 //!
 //! \note `EXC_MASK_ALL` does not include the value of `EXC_MASK_CRASH`.
+//!     Consumers that want `EXC_MASK_ALL` along with `EXC_MASK_CRASH` must use
+//!     ExcMaskAll() | `EXC_MASK_CRASH` explicitly.
 exception_mask_t ExcMaskAll();
 
 }  // namespace crashpad

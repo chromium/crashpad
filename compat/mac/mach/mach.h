@@ -61,16 +61,6 @@
 
 // <mach/i386/thread_status.h>
 
-// 10.6 SDK
-
-#ifndef x86_AVX_STATE32
-#define x86_AVX_STATE32 16
-#endif
-
-#ifndef x86_AVX_STATE64
-#define x86_AVX_STATE64 17
-#endif
-
 // 10.8 SDK
 
 #ifndef x86_AVX_STATE
