@@ -22,6 +22,7 @@
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "util/mach/exc_server_variants.h"
+#include "util/mach/exception_behaviors.h"
 #include "util/mach/mach_extensions.h"
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
@@ -206,20 +207,12 @@ class TestExcClientVariants : public UniversalMachExcServer,
     }
   }
 
-  exception_behavior_t BasicBehavior() const {
-    return behavior_ & ~MACH_EXCEPTION_CODES;
-  }
-
   bool HasIdentity() const {
-    exception_behavior_t basic_behavior = BasicBehavior();
-    return basic_behavior == EXCEPTION_DEFAULT ||
-           basic_behavior == EXCEPTION_STATE_IDENTITY;
+    return ExceptionBehaviorHasIdentity(behavior_);
   }
 
   bool HasState() const {
-    exception_behavior_t basic_behavior = BasicBehavior();
-    return basic_behavior == EXCEPTION_STATE ||
-           basic_behavior == EXCEPTION_STATE_IDENTITY;
+    return ExceptionBehaviorHasState(behavior_);
   }
 
   // The behavior to test.

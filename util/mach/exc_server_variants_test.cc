@@ -21,6 +21,7 @@
 #include "base/strings/stringprintf.h"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
+#include "util/mach/exception_behaviors.h"
 #include "util/mach/mach_extensions.h"
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
@@ -894,15 +895,10 @@ class TestExcServerVariants : public UniversalMachExcServer,
     handled_ = true;
 
     EXPECT_EQ(behavior_, behavior);
-    exception_behavior_t basic_behavior = behavior & ~MACH_EXCEPTION_CODES;
-    const bool has_identity = basic_behavior == EXCEPTION_DEFAULT ||
-                              basic_behavior == EXCEPTION_STATE_IDENTITY;
-    const bool has_state = basic_behavior == EXCEPTION_STATE ||
-                           basic_behavior == EXCEPTION_STATE_IDENTITY;
 
     EXPECT_EQ(LocalPort(), exception_port);
 
-    if (has_identity) {
+    if (ExceptionBehaviorHasIdentity(behavior)) {
       EXPECT_NE(kMachPortNull, thread);
       EXPECT_EQ(ChildTask(), task);
     } else {
@@ -921,6 +917,7 @@ class TestExcServerVariants : public UniversalMachExcServer,
       SetExpectedChildTermination(kTerminationSignal, sig);
     }
 
+    const bool has_state = ExceptionBehaviorHasState(behavior);
     if (has_state) {
       EXPECT_EQ(flavor_, *flavor);
       EXPECT_EQ(state_count_, old_state_count);

@@ -18,6 +18,7 @@
 
 #include "base/basictypes.h"
 #include "base/strings/stringprintf.h"
+#include "util/mach/exception_behaviors.h"
 #include "util/mach/mach_extensions.h"
 #include "util/stdlib/string_number_conversion.h"
 
@@ -357,8 +358,7 @@ bool StringToExceptionMask(const base::StringPiece& string,
 
 std::string ExceptionBehaviorToString(exception_behavior_t behavior,
                                       SymbolicConstantToStringOptions options) {
-  bool mach_exception_codes = behavior & MACH_EXCEPTION_CODES;
-  exception_behavior_t basic_behavior = behavior & ~MACH_EXCEPTION_CODES;
+  const exception_behavior_t basic_behavior = ExceptionBehaviorBasic(behavior);
 
   const char* behavior_name =
       static_cast<size_t>(basic_behavior) < arraysize(kBehaviorNames)
@@ -379,7 +379,7 @@ std::string ExceptionBehaviorToString(exception_behavior_t behavior,
         "%s%s", kBehaviorPrefix, behavior_name));
   }
 
-  if (mach_exception_codes) {
+  if (ExceptionBehaviorHasMachExceptionCodes(behavior)) {
     behavior_string.append("|");
     behavior_string.append((options & kUseShortName) ? kMachExceptionCodesShort
                                                      : kMachExceptionCodesFull);
