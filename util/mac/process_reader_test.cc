@@ -32,6 +32,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/file/fd_io.h"
+#include "util/mach/mach_extensions.h"
 #include "util/stdlib/pointer_container.h"
 #include "util/test/errors.h"
 #include "util/test/mac/dyld.h"
@@ -153,7 +154,7 @@ TEST(ProcessReader, SelfOneThread) {
 
   EXPECT_EQ(PthreadToThreadID(pthread_self()), threads[0].id);
 
-  base::mac::ScopedMachSendRight thread_self(mach_thread_self());
+  mach_port_t thread_self = MachThreadSelf();
   EXPECT_EQ(thread_self, threads[0].port);
 
   EXPECT_EQ(0, threads[0].suspend_count);
@@ -418,7 +419,7 @@ TEST(ProcessReader, SelfSeveralThreads) {
   // When testing in-process, verify that when this thread shows up in the
   // vector, it has the expected thread port, and that this thread port only
   // shows up once.
-  base::mac::ScopedMachSendRight thread_self(mach_thread_self());
+  mach_port_t thread_self = MachThreadSelf();
   bool found_thread_self = false;
   for (const ProcessReader::Thread& thread : threads) {
     if (thread.port == thread_self) {

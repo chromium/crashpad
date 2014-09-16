@@ -44,12 +44,12 @@ const exception_type_t kExceptionType = EXC_BAD_ACCESS;
 
 // Test using an exception code with the high bit set to ensure that it gets
 // promoted to the wider mach_exception_data_type_t type as a signed quantity.
-const exception_data_type_t kExceptionCodes[] = {
+const exception_data_type_t kTestExceptonCodes[] = {
     KERN_PROTECTION_FAILURE,
     static_cast<exception_data_type_t>(0xfedcba98),
 };
 
-const exception_data_type_t kMachExceptionCodes[] = {
+const exception_data_type_t kTestMachExceptionCodes[] = {
     KERN_PROTECTION_FAILURE,
     static_cast<exception_data_type_t>(0xfedcba9876543210),
 };
@@ -97,8 +97,8 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseRequest {
     NDR = NDR_record;
     exception = kExceptionType;
     codeCnt = 2;
-    code[0] = kExceptionCodes[0];
-    code[1] = kExceptionCodes[1];
+    code[0] = kTestExceptonCodes[0];
+    code[1] = kTestExceptonCodes[1];
   }
 };
 
@@ -127,8 +127,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseReply {
       case EXCEPTION_DEFAULT:
         EXPECT_EQ(2501, Head.msgh_id);
         break;
-      case static_cast<exception_behavior_t>(EXCEPTION_DEFAULT |
-                                             MACH_EXCEPTION_CODES):
+      case EXCEPTION_DEFAULT | kMachExceptionCodes:
         EXPECT_EQ(2505, Head.msgh_id);
         break;
       default:
@@ -162,8 +161,8 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateRequest {
     NDR = NDR_record;
     exception = kExceptionType;
     codeCnt = 2;
-    code[0] = kExceptionCodes[0];
-    code[1] = kExceptionCodes[1];
+    code[0] = kTestExceptonCodes[0];
+    code[1] = kTestExceptonCodes[1];
     flavor = kThreadStateFlavor;
     old_stateCnt = kThreadStateFlavorCount;
 
@@ -205,12 +204,10 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateReply {
       case EXCEPTION_STATE_IDENTITY:
         EXPECT_EQ(2503, Head.msgh_id);
         break;
-      case static_cast<exception_behavior_t>(EXCEPTION_STATE |
-                                             MACH_EXCEPTION_CODES):
+      case EXCEPTION_STATE | kMachExceptionCodes:
         EXPECT_EQ(2506, Head.msgh_id);
         break;
-      case static_cast<exception_behavior_t>(EXCEPTION_STATE_IDENTITY |
-                                             MACH_EXCEPTION_CODES):
+      case EXCEPTION_STATE_IDENTITY | kMachExceptionCodes:
         EXPECT_EQ(2507, Head.msgh_id);
         break;
       default:
@@ -253,8 +250,8 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateIdentityRequest {
     NDR = NDR_record;
     exception = kExceptionType;
     codeCnt = 2;
-    code[0] = kExceptionCodes[0];
-    code[1] = kExceptionCodes[1];
+    code[0] = kTestExceptonCodes[0];
+    code[1] = kTestExceptonCodes[1];
     flavor = kThreadStateFlavor;
     old_stateCnt = kThreadStateFlavorCount;
 
@@ -293,8 +290,8 @@ struct __attribute__((packed, aligned(4))) MachExceptionRaiseRequest {
     NDR = NDR_record;
     exception = kExceptionType;
     codeCnt = 2;
-    code[0] = kMachExceptionCodes[0];
-    code[1] = kMachExceptionCodes[1];
+    code[0] = kTestMachExceptionCodes[0];
+    code[1] = kTestMachExceptionCodes[1];
   }
 };
 
@@ -323,8 +320,8 @@ struct __attribute__((packed, aligned(4))) MachExceptionRaiseStateRequest {
     NDR = NDR_record;
     exception = kExceptionType;
     codeCnt = 2;
-    code[0] = kMachExceptionCodes[0];
-    code[1] = kMachExceptionCodes[1];
+    code[0] = kTestMachExceptionCodes[0];
+    code[1] = kTestMachExceptionCodes[1];
     flavor = kThreadStateFlavor;
     old_stateCnt = kThreadStateFlavorCount;
 
@@ -367,8 +364,8 @@ struct __attribute__((packed,
     NDR = NDR_record;
     exception = kExceptionType;
     codeCnt = 2;
-    code[0] = kMachExceptionCodes[0];
-    code[1] = kMachExceptionCodes[1];
+    code[0] = kTestMachExceptionCodes[0];
+    code[1] = kTestMachExceptionCodes[1];
     flavor = kThreadStateFlavor;
     old_stateCnt = kThreadStateFlavorCount;
 
@@ -564,7 +561,8 @@ TEST(ExcServerVariants, MockExceptionRaise) {
                   kExceptionThreadPort,
                   kExceptionTaskPort,
                   kExceptionType,
-                  AreExceptionCodes(kExceptionCodes[0], kExceptionCodes[1]),
+                  AreExceptionCodes(
+                      kTestExceptonCodes[0], kTestExceptonCodes[1]),
                   Pointee(Eq(THREAD_STATE_NONE)),
                   IsThreadStateCount(0u),
                   IsThreadStateCount(0u)))
@@ -603,7 +601,8 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
                   MACH_PORT_NULL,
                   MACH_PORT_NULL,
                   kExceptionType,
-                  AreExceptionCodes(kExceptionCodes[0], kExceptionCodes[1]),
+                  AreExceptionCodes(
+                      kTestExceptonCodes[0], kTestExceptonCodes[1]),
                   Pointee(Eq(kThreadStateFlavor)),
                   IsThreadStateCount(kThreadStateFlavorCount),
                   IsThreadStateCount(arraysize(reply.new_state))))
@@ -645,7 +644,8 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
                   kExceptionThreadPort,
                   kExceptionTaskPort,
                   kExceptionType,
-                  AreExceptionCodes(kExceptionCodes[0], kExceptionCodes[1]),
+                  AreExceptionCodes(
+                      kTestExceptonCodes[0], kTestExceptonCodes[1]),
                   Pointee(Eq(kThreadStateFlavor)),
                   IsThreadStateCount(kThreadStateFlavorCount),
                   IsThreadStateCount(arraysize(reply.new_state))))
@@ -686,7 +686,8 @@ TEST(ExcServerVariants, MockMachExceptionRaise) {
           kExceptionThreadPort,
           kExceptionTaskPort,
           kExceptionType,
-          AreExceptionCodes(kMachExceptionCodes[0], kMachExceptionCodes[1]),
+          AreExceptionCodes(
+              kTestMachExceptionCodes[0], kTestMachExceptionCodes[1]),
           Pointee(Eq(THREAD_STATE_NONE)),
           IsThreadStateCount(0u),
           IsThreadStateCount(0u)))
@@ -727,7 +728,8 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
           MACH_PORT_NULL,
           MACH_PORT_NULL,
           kExceptionType,
-          AreExceptionCodes(kMachExceptionCodes[0], kMachExceptionCodes[1]),
+          AreExceptionCodes(
+              kTestMachExceptionCodes[0], kTestMachExceptionCodes[1]),
           Pointee(Eq(kThreadStateFlavor)),
           IsThreadStateCount(kThreadStateFlavorCount),
           IsThreadStateCount(arraysize(reply.new_state))))
@@ -771,7 +773,8 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
           kExceptionThreadPort,
           kExceptionTaskPort,
           kExceptionType,
-          AreExceptionCodes(kMachExceptionCodes[0], kMachExceptionCodes[1]),
+          AreExceptionCodes(
+              kTestMachExceptionCodes[0], kTestMachExceptionCodes[1]),
           Pointee(Eq(kThreadStateFlavor)),
           IsThreadStateCount(kThreadStateFlavorCount),
           IsThreadStateCount(arraysize(reply.new_state))))
@@ -924,7 +927,7 @@ class TestExcServerVariants : public UniversalMachExcServer,
       EXPECT_NE(static_cast<const natural_t*>(NULL), old_state);
       EXPECT_EQ(static_cast<mach_msg_type_number_t>(THREAD_STATE_MAX),
                 *new_state_count);
-      EXPECT_NE(static_cast<const natural_t*>(NULL), new_state);
+      EXPECT_NE(static_cast<natural_t*>(NULL), new_state);
     } else {
       EXPECT_EQ(THREAD_STATE_NONE, *flavor);
       EXPECT_EQ(0u, old_state_count);
