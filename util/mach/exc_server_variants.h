@@ -249,14 +249,13 @@ class SimplifiedExcServer : public ExcServer, public ExcServer::Interface {
 
   // ExcServer::Interface:
 
-  virtual kern_return_t CatchExceptionRaise(
-      exception_handler_t exception_port,
-      thread_t thread,
-      task_t task,
-      exception_type_t exception,
-      const exception_data_type_t* code,
-      mach_msg_type_number_t code_count,
-      bool* destroy_request) override;
+  virtual kern_return_t CatchExceptionRaise(exception_handler_t exception_port,
+                                            thread_t thread,
+                                            task_t task,
+                                            exception_type_t exception,
+                                            const exception_data_type_t* code,
+                                            mach_msg_type_number_t code_count,
+                                            bool* destroy_request) override;
   virtual kern_return_t CatchExceptionRaiseState(
       exception_handler_t exception_port,
       exception_type_t exception,
@@ -411,25 +410,74 @@ class UniversalMachExcServer
 
   // internal::SimplifiedExcServer::Interface:
 
-  virtual kern_return_t CatchException(
-      exception_behavior_t behavior,
-      exception_handler_t exception_port,
-      thread_t thread,
-      task_t task,
-      exception_type_t exception,
-      const exception_data_type_t* code,
-      mach_msg_type_number_t code_count,
-      thread_state_flavor_t* flavor,
-      const natural_t* old_state,
-      mach_msg_type_number_t old_state_count,
-      thread_state_t new_state,
-      mach_msg_type_number_t* new_state_count,
-      bool* destroy_complex_request) override;
+  virtual kern_return_t CatchException(exception_behavior_t behavior,
+                                       exception_handler_t exception_port,
+                                       thread_t thread,
+                                       task_t task,
+                                       exception_type_t exception,
+                                       const exception_data_type_t* code,
+                                       mach_msg_type_number_t code_count,
+                                       thread_state_flavor_t* flavor,
+                                       const natural_t* old_state,
+                                       mach_msg_type_number_t old_state_count,
+                                       thread_state_t new_state,
+                                       mach_msg_type_number_t* new_state_count,
+                                       bool* destroy_complex_request) override;
 
  private:
   internal::SimplifiedExcServer exc_server_;
   internal::SimplifiedMachExcServer mach_exc_server_;
 };
+
+//! \brief Computes an approriate successful return value for an exception
+//!     handler function.
+//!
+//! For exception handlers that respond to state-carrying behaviors, when the
+//! handler is called by the kernel (as it is normally), the kernel will attempt
+//! to set a new thread state when the exception handler returns successfully.
+//! Other code that mimics the kernel’s exception-delivery semantics may
+//! implement the same or similar behavior. In some situations, it is
+//! undesirable to set a new thread state. If the exception handler were to
+//! return unsuccessfully, however, the kernel would continue searching for an
+//! exception handler at a wider (task or host) scope. This may also be
+//! undesirable.
+//!
+//! If such exception handlers return `MACH_RCV_PORT_DIED`, the kernel will not
+//! set a new thread state and will also not search for another exception
+//! handler. See 10.9.4 `xnu-2422.110.17/osfmk/kern/exception.c`.
+//! `exception_deliver()` will only set a new thread state if the handler’s
+//! return code was `MACH_MSG_SUCCESS` (a synonym for `KERN_SUCCESS`), and
+//! subsequently, `exception_triage()` will not search for a new handler if the
+//! handler’s return code was `KERN_SUCCESS` or `MACH_RCV_PORT_DIED`.
+//!
+//! This function allows exception handlers to compute an appropriate return
+//! code to influence their caller (the kernel) in the desired way with respect
+//! to setting a new thread state while suppressing the caller’s subsequent
+//! search for other exception handlers. An exception handler should return the
+//! value returned by this function.
+//!
+//! This function is useful even for `EXC_CRASH` handlers, where returning
+//! `KERN_SUCCESS` and allowing the kernel to set a new thread state has been
+//! observed to cause a perceptible and unnecessary waste of time. The victim
+//! task in an `EXC_CRASH` handler is already being terminated and is no longer
+//! schedulable, so there is no point in setting the states of any of its
+//! threads.
+//!
+//! \param[in] behavior The behavior of the exception handler as invoked. This
+//!     may be taken directly from the \a behavior parameter of
+//!     internal::SimplifiedExcServer::Interface::CatchException(), for example.
+//! \param[in] set_thread_state `true` if the handler would like its caller to
+//!     set the new thread state using the \a flavor, \a new_state, and \a
+//!     new_state_count out parameters. This can only happen when \a behavior is
+//!     a state-carrying behavior.
+//!
+//! \return `KERN_SUCCESS` or `MACH_RCV_PORT_DIED`. `KERN_SUCCESS` is used when
+//!     \a behavior is not a state-carrying behavior, or when it is a
+//!     state-carrying behavior and \a set_thread_state is `true`.
+//!     `MACH_RCV_PORT_DIED` is used when \a behavior is a state-carrying
+//!     behavior and \a set_thread_state is `false`.
+kern_return_t ExcServerSuccessfulReturnValue(exception_behavior_t behavior,
+                                             bool set_thread_state);
 
 }  // namespace crashpad
 

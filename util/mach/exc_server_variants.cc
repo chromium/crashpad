@@ -20,6 +20,7 @@
 #include "base/basictypes.h"
 #include "base/logging.h"
 #include "util/mach/exc.h"
+#include "util/mach/exception_behaviors.h"
 #include "util/mach/excServer.h"
 #include "util/mach/mach_exc.h"
 #include "util/mach/mach_excServer.h"
@@ -247,8 +248,8 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
       // in_request_1 is used for the portion of the request after the codes,
       // which in theory can be variable-length. The check function will set it.
       const Request* in_request_1;
-      kern_return_t kr = MIGCheckRequestExceptionRaiseState(
-          in_request, &in_request_1);
+      kern_return_t kr =
+          MIGCheckRequestExceptionRaiseState(in_request, &in_request_1);
       if (kr != MACH_MSG_SUCCESS) {
         SetReplyError(out_header, kr);
         return true;
@@ -287,8 +288,8 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
       // in_request_1 is used for the portion of the request after the codes,
       // which in theory can be variable-length. The check function will set it.
       const Request* in_request_1;
-      kern_return_t kr = MIGCheckRequestExceptionRaiseStateIdentity(
-          in_request, &in_request_1);
+      kern_return_t kr =
+          MIGCheckRequestExceptionRaiseStateIdentity(in_request, &in_request_1);
       if (kr != MACH_MSG_SUCCESS) {
         SetReplyError(out_header, kr);
         return true;
@@ -382,8 +383,8 @@ bool MachExcServer::MachMessageServerFunction(
       // in_request_1 is used for the portion of the request after the codes,
       // which in theory can be variable-length. The check function will set it.
       const Request* in_request_1;
-      kern_return_t kr = MIGCheckRequestMachExceptionRaiseState(
-          in_request, &in_request_1);
+      kern_return_t kr =
+          MIGCheckRequestMachExceptionRaiseState(in_request, &in_request_1);
       if (kr != MACH_MSG_SUCCESS) {
         SetReplyError(out_header, kr);
         return true;
@@ -720,6 +721,15 @@ kern_return_t UniversalMachExcServer::CatchException(
                             new_state,
                             new_state_count,
                             destroy_complex_request);
+}
+
+kern_return_t ExcServerSuccessfulReturnValue(exception_behavior_t behavior,
+                                             bool set_thread_state) {
+  if (!set_thread_state && ExceptionBehaviorHasState(behavior)) {
+    return MACH_RCV_PORT_DIED;
+  }
+
+  return KERN_SUCCESS;
 }
 
 }  // namespace crashpad

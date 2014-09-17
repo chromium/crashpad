@@ -556,17 +556,16 @@ TEST(ExcServerVariants, MockExceptionRaise) {
   const exception_behavior_t kExceptionBehavior = EXCEPTION_DEFAULT;
 
   EXPECT_CALL(server,
-              MockCatchMachException(
-                  kExceptionBehavior,
-                  kServerLocalPort,
-                  kExceptionThreadPort,
-                  kExceptionTaskPort,
-                  kExceptionType,
-                  AreExceptionCodes(
-                      kTestExceptonCodes[0], kTestExceptonCodes[1]),
-                  Pointee(Eq(THREAD_STATE_NONE)),
-                  IsThreadStateCount(0u),
-                  IsThreadStateCount(0u)))
+              MockCatchMachException(kExceptionBehavior,
+                                     kServerLocalPort,
+                                     kExceptionThreadPort,
+                                     kExceptionTaskPort,
+                                     kExceptionType,
+                                     AreExceptionCodes(kTestExceptonCodes[0],
+                                                       kTestExceptonCodes[1]),
+                                     Pointee(Eq(THREAD_STATE_NONE)),
+                                     IsThreadStateCount(0u),
+                                     IsThreadStateCount(0u)))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
@@ -595,18 +594,18 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
 
   const exception_behavior_t kExceptionBehavior = EXCEPTION_STATE;
 
-  EXPECT_CALL(server,
-              MockCatchMachException(
-                  kExceptionBehavior,
-                  kServerLocalPort,
-                  MACH_PORT_NULL,
-                  MACH_PORT_NULL,
-                  kExceptionType,
-                  AreExceptionCodes(
-                      kTestExceptonCodes[0], kTestExceptonCodes[1]),
-                  Pointee(Eq(kThreadStateFlavor)),
-                  IsThreadStateCount(kThreadStateFlavorCount),
-                  IsThreadStateCount(arraysize(reply.new_state))))
+  EXPECT_CALL(
+      server,
+      MockCatchMachException(
+          kExceptionBehavior,
+          kServerLocalPort,
+          MACH_PORT_NULL,
+          MACH_PORT_NULL,
+          kExceptionType,
+          AreExceptionCodes(kTestExceptonCodes[0], kTestExceptonCodes[1]),
+          Pointee(Eq(kThreadStateFlavor)),
+          IsThreadStateCount(kThreadStateFlavorCount),
+          IsThreadStateCount(arraysize(reply.new_state))))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
@@ -638,18 +637,18 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
 
   const exception_behavior_t kExceptionBehavior = EXCEPTION_STATE_IDENTITY;
 
-  EXPECT_CALL(server,
-              MockCatchMachException(
-                  kExceptionBehavior,
-                  kServerLocalPort,
-                  kExceptionThreadPort,
-                  kExceptionTaskPort,
-                  kExceptionType,
-                  AreExceptionCodes(
-                      kTestExceptonCodes[0], kTestExceptonCodes[1]),
-                  Pointee(Eq(kThreadStateFlavor)),
-                  IsThreadStateCount(kThreadStateFlavorCount),
-                  IsThreadStateCount(arraysize(reply.new_state))))
+  EXPECT_CALL(
+      server,
+      MockCatchMachException(
+          kExceptionBehavior,
+          kServerLocalPort,
+          kExceptionThreadPort,
+          kExceptionTaskPort,
+          kExceptionType,
+          AreExceptionCodes(kTestExceptonCodes[0], kTestExceptonCodes[1]),
+          Pointee(Eq(kThreadStateFlavor)),
+          IsThreadStateCount(kThreadStateFlavorCount),
+          IsThreadStateCount(arraysize(reply.new_state))))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
@@ -681,17 +680,16 @@ TEST(ExcServerVariants, MockMachExceptionRaise) {
 
   EXPECT_CALL(
       server,
-      MockCatchMachException(
-          kExceptionBehavior,
-          kServerLocalPort,
-          kExceptionThreadPort,
-          kExceptionTaskPort,
-          kExceptionType,
-          AreExceptionCodes(
-              kTestMachExceptionCodes[0], kTestMachExceptionCodes[1]),
-          Pointee(Eq(THREAD_STATE_NONE)),
-          IsThreadStateCount(0u),
-          IsThreadStateCount(0u)))
+      MockCatchMachException(kExceptionBehavior,
+                             kServerLocalPort,
+                             kExceptionThreadPort,
+                             kExceptionTaskPort,
+                             kExceptionType,
+                             AreExceptionCodes(kTestMachExceptionCodes[0],
+                                               kTestMachExceptionCodes[1]),
+                             Pointee(Eq(THREAD_STATE_NONE)),
+                             IsThreadStateCount(0u),
+                             IsThreadStateCount(0u)))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
@@ -723,17 +721,16 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
 
   EXPECT_CALL(
       server,
-      MockCatchMachException(
-          kExceptionBehavior,
-          kServerLocalPort,
-          MACH_PORT_NULL,
-          MACH_PORT_NULL,
-          kExceptionType,
-          AreExceptionCodes(
-              kTestMachExceptionCodes[0], kTestMachExceptionCodes[1]),
-          Pointee(Eq(kThreadStateFlavor)),
-          IsThreadStateCount(kThreadStateFlavorCount),
-          IsThreadStateCount(arraysize(reply.new_state))))
+      MockCatchMachException(kExceptionBehavior,
+                             kServerLocalPort,
+                             MACH_PORT_NULL,
+                             MACH_PORT_NULL,
+                             kExceptionType,
+                             AreExceptionCodes(kTestMachExceptionCodes[0],
+                                               kTestMachExceptionCodes[1]),
+                             Pointee(Eq(kThreadStateFlavor)),
+                             IsThreadStateCount(kThreadStateFlavorCount),
+                             IsThreadStateCount(arraysize(reply.new_state))))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
@@ -768,17 +765,16 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
 
   EXPECT_CALL(
       server,
-      MockCatchMachException(
-          kExceptionBehavior,
-          kServerLocalPort,
-          kExceptionThreadPort,
-          kExceptionTaskPort,
-          kExceptionType,
-          AreExceptionCodes(
-              kTestMachExceptionCodes[0], kTestMachExceptionCodes[1]),
-          Pointee(Eq(kThreadStateFlavor)),
-          IsThreadStateCount(kThreadStateFlavorCount),
-          IsThreadStateCount(arraysize(reply.new_state))))
+      MockCatchMachException(kExceptionBehavior,
+                             kServerLocalPort,
+                             kExceptionThreadPort,
+                             kExceptionTaskPort,
+                             kExceptionType,
+                             AreExceptionCodes(kTestMachExceptionCodes[0],
+                                               kTestMachExceptionCodes[1]),
+                             Pointee(Eq(kThreadStateFlavor)),
+                             IsThreadStateCount(kThreadStateFlavorCount),
+                             IsThreadStateCount(arraysize(reply.new_state))))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
 
@@ -870,8 +866,7 @@ class TestExcServerVariants : public UniversalMachExcServer,
         behavior_(behavior),
         flavor_(flavor),
         state_count_(state_count),
-        handled_(false) {
-  }
+        handled_(false) {}
 
   // UniversalMachExcServer:
 
@@ -936,14 +931,7 @@ class TestExcServerVariants : public UniversalMachExcServer,
       EXPECT_EQ(NULL, new_state);
     }
 
-    // Even for an EXC_CRASH handler, returning KERN_SUCCESS with a
-    // state-carrying reply will cause the kernel to try to set a new thread
-    // state, leading to a perceptible waste of time. Returning
-    // MACH_RCV_PORT_DIED is the only way to suppress this behavior while also
-    // preventing the kernel from looking for another (host-level) EXC_CRASH
-    // handler. See 10.9.4 xnu-2422.110.17/osfmk/kern/exception.c
-    // exception_triage().
-    return has_state ? MACH_RCV_PORT_DIED : KERN_SUCCESS;
+    return ExcServerSuccessfulReturnValue(behavior, false);
   }
 
  private:
@@ -1057,18 +1045,18 @@ TEST(ExcServerVariants, ThreadStates) {
     // Additionaly, the AVX state flavors are also not tested because they’re
     // not available on all CPUs and OS versions.
 #if defined(ARCH_CPU_X86)
-    { x86_THREAD_STATE32, x86_THREAD_STATE32_COUNT },
-    { x86_FLOAT_STATE32, x86_FLOAT_STATE32_COUNT },
-    { x86_EXCEPTION_STATE32, x86_EXCEPTION_STATE32_COUNT },
+    {x86_THREAD_STATE32, x86_THREAD_STATE32_COUNT},
+    {x86_FLOAT_STATE32, x86_FLOAT_STATE32_COUNT},
+    {x86_EXCEPTION_STATE32, x86_EXCEPTION_STATE32_COUNT},
 #endif
 #if defined(ARCH_CPU_X86_64)
-    { x86_THREAD_STATE64, x86_THREAD_STATE64_COUNT },
-    { x86_FLOAT_STATE64, x86_FLOAT_STATE64_COUNT },
-    { x86_EXCEPTION_STATE64, x86_EXCEPTION_STATE64_COUNT },
+    {x86_THREAD_STATE64, x86_THREAD_STATE64_COUNT},
+    {x86_FLOAT_STATE64, x86_FLOAT_STATE64_COUNT},
+    {x86_EXCEPTION_STATE64, x86_EXCEPTION_STATE64_COUNT},
 #endif
-    { x86_THREAD_STATE, x86_THREAD_STATE_COUNT },
-    { x86_FLOAT_STATE, x86_FLOAT_STATE_COUNT },
-    { x86_EXCEPTION_STATE, x86_EXCEPTION_STATE_COUNT },
+    {x86_THREAD_STATE, x86_THREAD_STATE_COUNT},
+    {x86_FLOAT_STATE, x86_FLOAT_STATE_COUNT},
+    {x86_EXCEPTION_STATE, x86_EXCEPTION_STATE_COUNT},
 #else
 #error Port this test to your CPU architecture.
 #endif
@@ -1076,14 +1064,51 @@ TEST(ExcServerVariants, ThreadStates) {
 
   for (size_t index = 0; index < arraysize(test_data); ++index) {
     const TestData& test = test_data[index];
-    SCOPED_TRACE(base::StringPrintf(
-        "index %zu, flavor %d", index, test.flavor));
+    SCOPED_TRACE(
+        base::StringPrintf("index %zu, flavor %d", index, test.flavor));
 
     TestExcServerVariants test_exc_server_variants(
         MACH_EXCEPTION_CODES | EXCEPTION_STATE_IDENTITY,
         test.flavor,
         test.count);
     test_exc_server_variants.Run();
+  }
+}
+
+TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
+  struct TestData {
+    exception_behavior_t behavior;
+    bool set_thread_state;
+    kern_return_t kr;
+  };
+  const TestData kTestData[] = {
+      {EXCEPTION_DEFAULT, false, KERN_SUCCESS},
+      {EXCEPTION_STATE, false, MACH_RCV_PORT_DIED},
+      {EXCEPTION_STATE_IDENTITY, false, MACH_RCV_PORT_DIED},
+      {kMachExceptionCodes | EXCEPTION_DEFAULT, false, KERN_SUCCESS},
+      {kMachExceptionCodes | EXCEPTION_STATE, false, MACH_RCV_PORT_DIED},
+      {kMachExceptionCodes | EXCEPTION_STATE_IDENTITY,
+       false,
+       MACH_RCV_PORT_DIED},
+      {EXCEPTION_DEFAULT, true, KERN_SUCCESS},
+      {EXCEPTION_STATE, true, KERN_SUCCESS},
+      {EXCEPTION_STATE_IDENTITY, true, KERN_SUCCESS},
+      {kMachExceptionCodes | EXCEPTION_DEFAULT, true, KERN_SUCCESS},
+      {kMachExceptionCodes | EXCEPTION_STATE, true, KERN_SUCCESS},
+      {kMachExceptionCodes | EXCEPTION_STATE_IDENTITY, true, KERN_SUCCESS},
+  };
+
+  for (size_t index = 0; index < arraysize(kTestData); ++index) {
+    const TestData& test_data = kTestData[index];
+    SCOPED_TRACE(
+        base::StringPrintf("index %zu, behavior %d, set_thread_state %s",
+                           index,
+                           test_data.behavior,
+                           test_data.set_thread_state ? "true" : "false"));
+
+    EXPECT_EQ(test_data.kr,
+              ExcServerSuccessfulReturnValue(test_data.behavior,
+                                             test_data.set_thread_state));
   }
 }
 
