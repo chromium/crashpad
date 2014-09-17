@@ -198,17 +198,7 @@ class TestExceptionPorts : public UniversalMachExcServer,
       SetExpectedChildTermination(kTerminationSignal, signal);
     }
 
-    // Even for an EXC_CRASH handler, returning KERN_SUCCESS with a
-    // state-carrying reply will cause the kernel to try to set a new thread
-    // state, leading to a perceptible waste of time. Returning
-    // MACH_RCV_PORT_DIED is the only way to suppress this behavior while also
-    // preventing the kernel from looking for another (host-level) EXC_CRASH
-    // handler. See 10.9.4 xnu-2422.110.17/osfmk/kern/exception.c
-    // exception_triage().
-    exception_behavior_t basic_behavior = behavior & ~MACH_EXCEPTION_CODES;
-    bool has_state = basic_behavior == EXCEPTION_STATE ||
-                     basic_behavior == EXCEPTION_STATE_IDENTITY;
-    return has_state ? MACH_RCV_PORT_DIED : KERN_SUCCESS;
+    return ExcServerSuccessfulReturnValue(behavior, false);
   }
 
  private:
