@@ -117,20 +117,16 @@ class ExceptionServer : public UniversalMachExcServer {
     }
 
     if (exception == EXC_CRASH) {
-      // 10.9.4 xnu-2422.110.17/bsd/kern/kern_exit.c proc_prepareexit() sets
-      // code[0] based on the signal value, original exception type, and low 20
-      // bits of the original code[0] before calling
-      // xnu-2422.110.17/osfmk/kern/exception.c task_exception_notify() to raise
-      // an EXC_CRASH.
-      int sig = (code[0] >> 24) & 0xff;
-      int orig_exception = (code[0] >> 20) & 0xf;
-      int orig_code_0 = code[0] & 0xfffff;
+      mach_exception_data_type_t original_code_0;
+      int signal;
+      exception_type_t original_exception =
+          ExcCrashRecoverOriginalException(code[0], &original_code_0, &signal);
       fprintf(options_.file,
-              ", original exception %s, original code0 %d, signal %s",
-              ExceptionToString(orig_exception,
+              ", original exception %s, original code[0] %lld, signal %s",
+              ExceptionToString(original_exception,
                                 kUseFullName | kUnknownIsNumeric).c_str(),
-              orig_code_0,
-              SignalToString(sig, kUseFullName | kUnknownIsNumeric).c_str());
+              original_code_0,
+              SignalToString(signal, kUseFullName | kUnknownIsNumeric).c_str());
     }
 
     fprintf(options_.file, "\n");

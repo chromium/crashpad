@@ -723,6 +723,33 @@ kern_return_t UniversalMachExcServer::CatchException(
                             destroy_complex_request);
 }
 
+exception_type_t ExcCrashRecoverOriginalException(
+    mach_exception_data_type_t code_0,
+    mach_exception_data_type_t* original_code_0,
+    int* signal) {
+  // 10.9.4 xnu-2422.110.17/bsd/kern/kern_exit.c proc_prepareexit() sets code[0]
+  // based on the signal value, original exception type, and low 20 bits of the
+  // original code[0] before calling xnu-2422.110.17/osfmk/kern/exception.c
+  // task_exception_notify() to raise an EXC_CRASH.
+  //
+  // The list of core-generating signals (as used in proc_prepareexit()’s call
+  // to hassigprop()) is in 10.9.4 xnu-2422.110.17/bsd/sys/signalvar.h sigprop:
+  // entires with SA_CORE are in the set. These signals are SIGQUIT, SIGILL,
+  // SIGTRAP, SIGABRT, SIGEMT, SIGFPE, SIGBUS, SIGSEGV, and SIGSYS. Processes
+  // killed for code-signing reasons will be killed by SIGKILL and are also
+  // eligible for EXC_CRASH handling, but processes killed by SIGKILL for other
+  // reasons are not.
+  if (signal) {
+    *signal = (code_0 >> 24) & 0xff;
+  }
+
+  if (original_code_0) {
+    *original_code_0 = code_0 & 0xfffff;
+  }
+
+  return (code_0 >> 20) & 0xf;
+}
+
 kern_return_t ExcServerSuccessfulReturnValue(exception_behavior_t behavior,
                                              bool set_thread_state) {
   if (!set_thread_state && ExceptionBehaviorHasState(behavior)) {
