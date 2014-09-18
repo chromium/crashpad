@@ -45,6 +45,22 @@
       ],
     },
     {
+      'target_name': 'exception_port_tool',
+      'type': 'executable',
+      'dependencies': [
+        'tool_support',
+        '../compat/compat.gyp:compat',
+        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        '../util/util.gyp:util',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'exception_port_tool.cc',
+      ],
+    },
+    {
       'target_name': 'on_demand_service_tool',
       'type': 'executable',
       'dependencies': [
