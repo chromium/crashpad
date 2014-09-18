@@ -81,26 +81,27 @@ class ExceptionServer : public UniversalMachExcServer {
             ExceptionBehaviorToString(
                 behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str());
 
-    pid_t pid;
     kern_return_t kr;
     if (ExceptionBehaviorHasIdentity(behavior)) {
+      pid_t pid;
       kr = pid_for_task(task, &pid);
       if (kr != KERN_SUCCESS) {
         MACH_LOG(ERROR, kr) << "pid_for_task";
         return KERN_FAILURE;
       }
       fprintf(options_.file, "pid %d, ", pid);
-    } else {
-      pid = -1;
-    }
 
-    if (ExceptionBehaviorHasState(behavior)) {
-      // If this is a state-carrying exception, make new_state something valid.
-      memcpy(
-          new_state,
-          old_state,
-          std::min(old_state_count, *new_state_count) * sizeof(old_state[0]));
-      *new_state_count = old_state_count;
+      thread_identifier_info identifier_info;
+      mach_msg_type_number_t count = THREAD_IDENTIFIER_INFO_COUNT;
+      kr = thread_info(thread,
+                       THREAD_IDENTIFIER_INFO,
+                       reinterpret_cast<thread_info_t>(&identifier_info),
+                       &count);
+      if (kr != KERN_SUCCESS) {
+        MACH_LOG(ERROR, kr) << "thread_info";
+        return KERN_FAILURE;
+      }
+      fprintf(options_.file, "thread %lld, ", identifier_info.thread_id);
     }
 
     fprintf(
@@ -127,6 +128,22 @@ class ExceptionServer : public UniversalMachExcServer {
                                 kUseFullName | kUnknownIsNumeric).c_str(),
               original_code_0,
               SignalToString(signal, kUseFullName | kUnknownIsNumeric).c_str());
+    }
+
+    if (ExceptionBehaviorHasState(behavior)) {
+      // If this is a state-carrying exception, make new_state something valid.
+      memcpy(
+          new_state,
+          old_state,
+          std::min(old_state_count, *new_state_count) * sizeof(old_state[0]));
+      *new_state_count = old_state_count;
+
+      std::string flavor_string =
+          ThreadStateFlavorToString(*flavor, kUseFullName | kUnknownIsNumeric);
+      fprintf(options_.file,
+              ", flavor %s, old_state_count %d",
+              flavor_string.c_str(),
+              old_state_count);
     }
 
     fprintf(options_.file, "\n");
