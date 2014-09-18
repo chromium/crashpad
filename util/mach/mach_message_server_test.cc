@@ -22,7 +22,6 @@
 #include "gtest/gtest.h"
 #include "util/file/fd_io.h"
 #include "util/mach/mach_extensions.h"
-#include "util/test/errors.h"
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
 
@@ -301,8 +300,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     if (options_.parent_wait_for_child_pipe) {
       // Wait until the child is done sending what it’s going to send.
       char c;
-      ssize_t rv = ReadFD(ReadPipeFD(), &c, 1);
-      EXPECT_EQ(1, rv) << ErrnoMessage("read");
+      CheckedReadFD(ReadPipeFD(), &c, 1);
       EXPECT_EQ('\0', c);
     }
 
@@ -348,8 +346,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     if (options_.child_wait_for_parent_pipe) {
       // Let the child know it’s safe to exit.
       char c = '\0';
-      ssize_t rv = WriteFD(WritePipeFD(), &c, 1);
-      EXPECT_EQ(1, rv) << ErrnoMessage("write");
+      CheckedWriteFD(WritePipeFD(), &c, 1);
     }
   }
 
@@ -393,8 +390,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
 
     if (options_.child_wait_for_parent_pipe) {
       char c;
-      ssize_t rv = ReadFD(ReadPipeFD(), &c, 1);
-      ASSERT_EQ(1, rv) << ErrnoMessage("read");
+      CheckedReadFD(ReadPipeFD(), &c, 1);
       ASSERT_EQ('\0', c);
     }
   }
@@ -522,8 +518,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   // running MachMessageServer() once it’s received.
   void ChildNotifyParentViaPipe() {
     char c = '\0';
-    ssize_t rv = WriteFD(WritePipeFD(), &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("write");
+    CheckedWriteFD(WritePipeFD(), &c, 1);
   }
 
   // In the child process, sends a request message to the server and then

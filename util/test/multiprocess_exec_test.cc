@@ -19,7 +19,6 @@
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
 #include "util/file/fd_io.h"
-#include "util/test/errors.h"
 #include "util/test/executable_path.h"
 
 namespace {
@@ -35,14 +34,10 @@ class TestMultiprocessExec final : public MultiprocessExec {
 
  private:
   virtual void MultiprocessParent() override {
-    int write_fd = WritePipeFD();
     char c = 'z';
-    ssize_t rv = WriteFD(write_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("write");
+    CheckedWriteFD(WritePipeFD(), &c, 1);
 
-    int read_fd = ReadPipeFD();
-    rv = ReadFD(read_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("read");
+    CheckedReadFD(ReadPipeFD(), &c, 1);
     EXPECT_EQ('Z', c);
   }
 

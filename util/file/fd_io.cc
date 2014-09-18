@@ -16,6 +16,8 @@
 
 #include <unistd.h>
 
+#include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
 #include "base/posix/eintr_wrapper.h"
 
 namespace {
@@ -70,6 +72,36 @@ ssize_t ReadFD(int fd, void* buffer, size_t size) {
 
 ssize_t WriteFD(int fd, const void* buffer, size_t size) {
   return ReadOrWrite<WriteTraits>(fd, buffer, size);
+}
+
+void CheckedReadFD(int fd, void* buffer, size_t size) {
+  ssize_t expect = base::checked_cast<ssize_t>(size);
+  ssize_t rv = ReadFD(fd, buffer, size);
+  if (rv < 0) {
+    PCHECK(rv == expect) << "read";
+  } else {
+    CHECK_EQ(rv, expect) << "read";
+  }
+}
+
+void CheckedWriteFD(int fd, const void* buffer, size_t size) {
+  ssize_t expect = base::checked_cast<ssize_t>(size);
+  ssize_t rv = WriteFD(fd, buffer, size);
+  if (rv < 0) {
+    PCHECK(rv == expect) << "write";
+  } else {
+    CHECK_EQ(rv, expect) << "write";
+  }
+}
+
+void CheckedReadFDAtEOF(int fd) {
+  char c;
+  ssize_t rv = ReadFD(fd, &c, 1);
+  if (rv < 0) {
+    PCHECK(rv == 0) << "read";
+  } else {
+    CHECK_EQ(rv, 0) << "read";
+  }
 }
 
 }  // namespace crashpad

@@ -30,7 +30,6 @@
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/mach_extensions.h"
 #include "util/misc/scoped_forbid_return.h"
-#include "util/test/errors.h"
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
 
@@ -246,12 +245,10 @@ class TestExceptionPorts : public UniversalMachExcServer,
 
       // Tell the parent process that everything is set up.
       char c = '\0';
-      ssize_t rv_ssize = WriteFD(test_exception_ports_->WritePipeFD(), &c, 1);
-      ASSERT_EQ(1, rv_ssize) << ErrnoMessage("write");
+      CheckedWriteFD(test_exception_ports_->WritePipeFD(), &c, 1);
 
       // Wait for the parent process to say that its end is set up.
-      rv_ssize = ReadFD(test_exception_ports_->ReadPipeFD(), &c, 1);
-      ASSERT_EQ(1, rv_ssize) << ErrnoMessage("read");
+      CheckedReadFD(test_exception_ports_->ReadPipeFD(), &c, 1);
       EXPECT_EQ('\0', c);
 
       // Regardless of where ExceptionPorts::SetExceptionPort() ran,
@@ -367,8 +364,7 @@ class TestExceptionPorts : public UniversalMachExcServer,
     // Wait for the child process to be ready. It needs to have all of its
     // threads set up before proceeding if in kSetOutOfProcess mode.
     char c;
-    ssize_t rv = ReadFD(ReadPipeFD(), &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("read");
+    CheckedReadFD(ReadPipeFD(), &c, 1);
     EXPECT_EQ('\0', c);
 
     mach_port_t local_port = LocalPort();
@@ -451,8 +447,7 @@ class TestExceptionPorts : public UniversalMachExcServer,
     // Let the child process know that everything in the parent process is set
     // up.
     c = '\0';
-    rv = WriteFD(WritePipeFD(), &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("write");
+    CheckedWriteFD(WritePipeFD(), &c, 1);
 
     if (who_crashes_ != kNobodyCrashes) {
       kern_return_t kr = MachMessageServer::Run(this,
@@ -470,8 +465,7 @@ class TestExceptionPorts : public UniversalMachExcServer,
     // Wait for the child process to exit or terminate, as indicated by it
     // closing its pipe. This keeps LocalPort() alive in the child as
     // RemotePort(), for the child’s use in its TestGetExceptionPorts().
-    rv = ReadFD(ReadPipeFD(), &c, 1);
-    ASSERT_EQ(0, rv);
+    CheckedReadFDAtEOF(ReadPipeFD());
   }
 
   virtual void MachMultiprocessChild() override {

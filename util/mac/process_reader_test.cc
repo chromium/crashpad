@@ -91,20 +91,11 @@ class ProcessReaderChild final : public MachMultiprocess {
     int read_fd = ReadPipeFD();
 
     mach_vm_address_t address;
-    ssize_t rv = ReadFD(read_fd, &address, sizeof(address));
-    ASSERT_EQ(static_cast<ssize_t>(sizeof(address)), rv)
-        << ErrnoMessage("read");
+    CheckedReadFD(read_fd, &address, sizeof(address));
 
     std::string read_string;
     ASSERT_TRUE(process_reader.Memory()->ReadCString(address, &read_string));
     EXPECT_EQ(kTestMemory, read_string);
-
-    // Tell the child that it’s OK to exit. The child needed to be kept alive
-    // until the parent finished working with it.
-    int write_fd = WritePipeFD();
-    char c = '\0';
-    rv = WriteFD(write_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("write");
   }
 
   void MachMultiprocessChild() override {
@@ -112,15 +103,11 @@ class ProcessReaderChild final : public MachMultiprocess {
 
     mach_vm_address_t address =
         reinterpret_cast<mach_vm_address_t>(kTestMemory);
-    ssize_t rv = WriteFD(write_fd, &address, sizeof(address));
-    ASSERT_EQ(static_cast<ssize_t>(sizeof(address)), rv)
-        << ErrnoMessage("write");
+    CheckedWriteFD(write_fd, &address, sizeof(address));
 
-    // Wait for the parent to say that it’s OK to exit.
-    int read_fd = ReadPipeFD();
-    char c;
-    rv = ReadFD(read_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("read");
+    // Wait for the parent to signal that it’s OK to exit by closing its end of
+    // the pipe.
+    CheckedReadFDAtEOF(ReadPipeFD());
   }
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderChild);
@@ -455,22 +442,15 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
          thread_index < thread_count_ + 1;
          ++thread_index) {
       uint64_t thread_id;
-      ssize_t rv = ReadFD(read_fd, &thread_id, sizeof(thread_id));
-      ASSERT_EQ(static_cast<ssize_t>(sizeof(thread_id)), rv)
-          << ErrnoMessage("read");
+      CheckedReadFD(read_fd, &thread_id, sizeof(thread_id));
 
       TestThreadPool::ThreadExpectation expectation;
-      rv = ReadFD(read_fd,
-                  &expectation.stack_address,
-                  sizeof(expectation.stack_address));
-      ASSERT_EQ(static_cast<ssize_t>(sizeof(expectation.stack_address)), rv)
-          << ErrnoMessage("read");
-
-      rv = ReadFD(read_fd,
-                  &expectation.suspend_count,
-                  sizeof(expectation.suspend_count));
-      ASSERT_EQ(static_cast<ssize_t>(sizeof(expectation.suspend_count)), rv)
-          << ErrnoMessage("read");
+      CheckedReadFD(read_fd,
+                    &expectation.stack_address,
+                    sizeof(expectation.stack_address));
+      CheckedReadFD(read_fd,
+                    &expectation.suspend_count,
+                    sizeof(expectation.suspend_count));
 
       // There can’t be any duplicate thread IDs.
       EXPECT_EQ(0u, thread_map.count(thread_id));
@@ -483,13 +463,6 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
     // The child shouldn’t have any threads other than its main thread and the
     // ones it created in its pool, so pass false for |tolerate_extra_threads|.
     ExpectSeveralThreads(&thread_map, threads, false);
-
-    // Tell the child that it’s OK to exit. The child needed to be kept alive
-    // until the parent finished working with it.
-    int write_fd = WritePipeFD();
-    char c = '\0';
-    ssize_t rv = WriteFD(write_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("write");
   }
 
   void MachMultiprocessChild() override {
@@ -505,25 +478,18 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
     // to inspect it. Write an entry for it.
     uint64_t thread_id = PthreadToThreadID(pthread_self());
 
-    ssize_t rv = WriteFD(write_fd, &thread_id, sizeof(thread_id));
-    ASSERT_EQ(static_cast<ssize_t>(sizeof(thread_id)), rv)
-        << ErrnoMessage("write");
+    CheckedWriteFD(write_fd, &thread_id, sizeof(thread_id));
 
     TestThreadPool::ThreadExpectation expectation;
     expectation.stack_address = reinterpret_cast<mach_vm_address_t>(&thread_id);
     expectation.suspend_count = 0;
 
-    rv = WriteFD(write_fd,
-                 &expectation.stack_address,
-                 sizeof(expectation.stack_address));
-    ASSERT_EQ(static_cast<ssize_t>(sizeof(expectation.stack_address)), rv)
-        << ErrnoMessage("write");
-
-    rv = WriteFD(write_fd,
-                 &expectation.suspend_count,
-                 sizeof(expectation.suspend_count));
-    ASSERT_EQ(static_cast<ssize_t>(sizeof(expectation.suspend_count)), rv)
-        << ErrnoMessage("write");
+    CheckedWriteFD(write_fd,
+                   &expectation.stack_address,
+                   sizeof(expectation.stack_address));
+    CheckedWriteFD(write_fd,
+                   &expectation.suspend_count,
+                   sizeof(expectation.suspend_count));
 
     // Write an entry for everything in the thread pool.
     for (size_t thread_index = 0;
@@ -532,28 +498,18 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
       uint64_t thread_id =
           thread_pool.GetThreadInfo(thread_index, &expectation);
 
-      rv = WriteFD(write_fd, &thread_id, sizeof(thread_id));
-      ASSERT_EQ(static_cast<ssize_t>(sizeof(thread_id)), rv)
-          << ErrnoMessage("write");
-
-      rv = WriteFD(write_fd,
-                   &expectation.stack_address,
-                   sizeof(expectation.stack_address));
-      ASSERT_EQ(static_cast<ssize_t>(sizeof(expectation.stack_address)), rv)
-          << ErrnoMessage("write");
-
-      rv = WriteFD(write_fd,
-                   &expectation.suspend_count,
-                   sizeof(expectation.suspend_count));
-      ASSERT_EQ(static_cast<ssize_t>(sizeof(expectation.suspend_count)), rv)
-          << ErrnoMessage("write");
+      CheckedWriteFD(write_fd, &thread_id, sizeof(thread_id));
+      CheckedWriteFD(write_fd,
+                     &expectation.stack_address,
+                     sizeof(expectation.stack_address));
+      CheckedWriteFD(write_fd,
+                     &expectation.suspend_count,
+                     sizeof(expectation.suspend_count));
     }
 
-    // Wait for the parent to say that it’s OK to exit.
-    int read_fd = ReadPipeFD();
-    char c;
-    rv = ReadFD(read_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("read");
+    // Wait for the parent to signal that it’s OK to exit by closing its end of
+    // the pipe.
+    CheckedReadFDAtEOF(ReadPipeFD());
   }
 
   size_t thread_count_;
@@ -650,9 +606,7 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
     int read_fd = ReadPipeFD();
 
     uint32_t expect_modules;
-    ssize_t rv = ReadFD(read_fd, &expect_modules, sizeof(expect_modules));
-    ASSERT_EQ(static_cast<ssize_t>(sizeof(expect_modules)), rv)
-        << ErrnoMessage("read");
+    CheckedReadFD(read_fd, &expect_modules, sizeof(expect_modules));
 
     ASSERT_EQ(expect_modules, modules.size());
 
@@ -661,24 +615,16 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
           "index %zu, name %s", index, modules[index].name.c_str()));
 
       uint32_t expect_name_length;
-      rv = ReadFD(
+      CheckedReadFD(
           read_fd, &expect_name_length, sizeof(expect_name_length));
-      ASSERT_EQ(static_cast<ssize_t>(sizeof(expect_name_length)), rv)
-          << ErrnoMessage("read");
 
       // The NUL terminator is not read.
       std::string expect_name(expect_name_length, '\0');
-      rv = ReadFD(read_fd, &expect_name[0], expect_name_length);
-      ASSERT_EQ(static_cast<ssize_t>(expect_name_length), rv)
-          << ErrnoMessage("read");
-
+      CheckedReadFD(read_fd, &expect_name[0], expect_name_length);
       EXPECT_EQ(expect_name, modules[index].name);
 
       mach_vm_address_t expect_address;
-      rv = ReadFD(read_fd, &expect_address, sizeof(expect_address));
-      ASSERT_EQ(static_cast<ssize_t>(sizeof(expect_address)), rv)
-          << ErrnoMessage("read");
-
+      CheckedReadFD(read_fd, &expect_address, sizeof(expect_address));
       EXPECT_EQ(expect_address, modules[index].address);
 
       if (index == 0 || index == modules.size() - 1) {
@@ -695,13 +641,6 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
         }
       }
     }
-
-    // Tell the child that it’s OK to exit. The child needed to be kept alive
-    // until the parent finished working with it.
-    int write_fd = WritePipeFD();
-    char c = '\0';
-    rv = WriteFD(write_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("write");
   }
 
   void MachMultiprocessChild() override {
@@ -718,10 +657,7 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       ++write_image_count;
     }
 
-    ssize_t rv = WriteFD(
-        write_fd, &write_image_count, sizeof(write_image_count));
-    ASSERT_EQ(static_cast<ssize_t>(sizeof(write_image_count)), rv)
-        << ErrnoMessage("write");
+    CheckedWriteFD(write_fd, &write_image_count, sizeof(write_image_count));
 
     for (size_t index = 0; index < write_image_count; ++index) {
       const char* dyld_image_name;
@@ -738,26 +674,18 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       }
 
       uint32_t dyld_image_name_length = strlen(dyld_image_name);
-      rv = WriteFD(
+      CheckedWriteFD(
           write_fd, &dyld_image_name_length, sizeof(dyld_image_name_length));
-      ASSERT_EQ(static_cast<ssize_t>(sizeof(dyld_image_name_length)), rv)
-          << ErrnoMessage("write");
 
       // The NUL terminator is not written.
-      rv = WriteFD(write_fd, dyld_image_name, dyld_image_name_length);
-      ASSERT_EQ(static_cast<ssize_t>(dyld_image_name_length), rv)
-          << ErrnoMessage("write");
+      CheckedWriteFD(write_fd, dyld_image_name, dyld_image_name_length);
 
-      rv = WriteFD(write_fd, &dyld_image_address, sizeof(dyld_image_address));
-      ASSERT_EQ(static_cast<ssize_t>(sizeof(dyld_image_address)), rv)
-          << ErrnoMessage("write");
+      CheckedWriteFD(write_fd, &dyld_image_address, sizeof(dyld_image_address));
     }
 
-    // Wait for the parent to say that it’s OK to exit.
-    int read_fd = ReadPipeFD();
-    char c;
-    rv = ReadFD(read_fd, &c, 1);
-    ASSERT_EQ(1, rv) << ErrnoMessage("read");
+    // Wait for the parent to signal that it’s OK to exit by closing its end of
+    // the pipe.
+    CheckedReadFDAtEOF(ReadPipeFD());
   }
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderModulesChild);
