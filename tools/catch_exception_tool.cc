@@ -117,7 +117,7 @@ class ExceptionServer : public UniversalMachExcServer {
     }
 
     if (exception == EXC_CRASH) {
-      mach_exception_data_type_t original_code_0;
+      mach_exception_code_t original_code_0;
       int signal;
       exception_type_t original_exception =
           ExcCrashRecoverOriginalException(code[0], &original_code_0, &signal);

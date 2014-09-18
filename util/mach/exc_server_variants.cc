@@ -724,8 +724,8 @@ kern_return_t UniversalMachExcServer::CatchException(
 }
 
 exception_type_t ExcCrashRecoverOriginalException(
-    mach_exception_data_type_t code_0,
-    mach_exception_data_type_t* original_code_0,
+    mach_exception_code_t code_0,
+    mach_exception_code_t* original_code_0,
     int* signal) {
   // 10.9.4 xnu-2422.110.17/bsd/kern/kern_exit.c proc_prepareexit() sets code[0]
   // based on the signal value, original exception type, and low 20 bits of the

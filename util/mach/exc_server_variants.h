@@ -459,8 +459,8 @@ class UniversalMachExcServer
 //!     signal that caused termination was not sent as a result of a hardware
 //!     exception, this will be `0`.
 exception_type_t ExcCrashRecoverOriginalException(
-    mach_exception_data_type_t code_0,
-    mach_exception_data_type_t* original_code_0,
+    mach_exception_code_t code_0,
+    mach_exception_code_t* original_code_0,
     int* signal);
 
 //! \brief Computes an approriate successful return value for an exception

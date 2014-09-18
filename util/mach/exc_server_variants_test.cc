@@ -51,9 +51,9 @@ const exception_data_type_t kTestExceptonCodes[] = {
     static_cast<exception_data_type_t>(0xfedcba98),
 };
 
-const exception_data_type_t kTestMachExceptionCodes[] = {
+const mach_exception_data_type_t kTestMachExceptionCodes[] = {
     KERN_PROTECTION_FAILURE,
-    static_cast<exception_data_type_t>(0xfedcba9876543210),
+    static_cast<mach_exception_data_type_t>(0xfedcba9876543210),
 };
 
 const thread_state_flavor_t kThreadStateFlavor = MACHINE_THREAD_STATE;
@@ -1076,9 +1076,9 @@ TEST(ExcServerVariants, ThreadStates) {
 
 TEST(ExcServerVariants, ExcCrashRecoverOriginalException) {
   struct TestData {
-    mach_exception_data_type_t code_0;
+    mach_exception_code_t code_0;
     exception_type_t exception;
-    mach_exception_data_type_t original_code_0;
+    mach_exception_code_t original_code_0;
     int signal;
   };
   const TestData kTestData[] = {
@@ -1088,7 +1088,9 @@ TEST(ExcServerVariants, ExcCrashRecoverOriginalException) {
     {0x4200001, EXC_BAD_INSTRUCTION, 1, SIGILL},
     {0x8300001, EXC_ARITHMETIC, 1, SIGFPE},
     {0x5600002, EXC_BREAKPOINT, 2, SIGTRAP},
+    {0x3000000, 0, 0, SIGQUIT},
     {0x6000000, 0, 0, SIGABRT},
+    {0xc000000, 0, 0, SIGSYS},
     {0, 0, 0, 0},
   };
 
@@ -1098,7 +1100,7 @@ TEST(ExcServerVariants, ExcCrashRecoverOriginalException) {
                                     index,
                                     test_data.code_0));
 
-    mach_exception_data_type_t original_code_0;
+    mach_exception_code_t original_code_0;
     int signal;
     exception_type_t exception =
         ExcCrashRecoverOriginalException(test_data.code_0,
@@ -1117,7 +1119,7 @@ TEST(ExcServerVariants, ExcCrashRecoverOriginalException) {
   EXPECT_EQ(test_data.exception,
             ExcCrashRecoverOriginalException(test_data.code_0, NULL, NULL));
 
-  mach_exception_data_type_t original_code_0;
+  mach_exception_code_t original_code_0;
   EXPECT_EQ(test_data.exception,
             ExcCrashRecoverOriginalException(
                 test_data.code_0, &original_code_0, NULL));
