@@ -280,7 +280,7 @@ void ShowExceptionPorts(const ExceptionPorts& exception_ports,
 bool SetExceptionPort(const ExceptionHandlerDescription* description,
                       mach_port_t target_port) {
   base::mac::ScopedMachSendRight service_port_owner;
-  mach_port_t service_port = MACH_PORT_NULL;
+  exception_handler_t service_port = MACH_PORT_NULL;
   kern_return_t kr;
   if (description->handler.compare(
           0, strlen(kHandlerBootstrapColon), kHandlerBootstrapColon) == 0) {
@@ -394,7 +394,7 @@ int main(int argc, char* argv[]) {
     std::vector<const char*> show_bootstrap;
     std::vector<ExceptionHandlerDescription> set_handler;
     pid_t pid;
-    mach_port_t alternate_task;
+    task_t alternate_task;
     bool show_host;
     bool show_task;
     bool show_thread;

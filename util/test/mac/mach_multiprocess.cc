@@ -115,7 +115,7 @@ mach_port_t MachMultiprocess::RemotePort() const {
   return info_->remote_port;
 }
 
-mach_port_t MachMultiprocess::ChildTask() const {
+task_t MachMultiprocess::ChildTask() const {
   EXPECT_NE(kMachPortNull, info_->child_task);
   return info_->child_task;
 }

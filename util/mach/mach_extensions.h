@@ -65,7 +65,7 @@ const exception_type_t kMachExceptionSimulated = 'CPsx';
 //!     count. The returned port must not be deallocated by
 //!     `mach_port_deallocate()`. The returned value is valid as long as the
 //!     thread continues to exist as a `pthread_t`.
-mach_port_t MachThreadSelf();
+thread_t MachThreadSelf();
 
 //! \brief The value for `EXC_MASK_ALL` appropriate for the operating system at
 //!     run time.

@@ -21,8 +21,8 @@
 
 namespace crashpad {
 
-mach_port_t MachThreadSelf() {
-  // The pthreads library keeps its own copy of the mach_port_t. Using it does
+thread_t MachThreadSelf() {
+  // The pthreads library keeps its own copy of the thread port. Using it does
   // not increment its reference count.
   return pthread_mach_thread_np(pthread_self());
 }

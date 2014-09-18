@@ -88,7 +88,7 @@ class TaskMemory {
 
   //! \param[in] task A send right to the target task’s task port. This object
   //!     does not take ownership of the send right.
-  explicit TaskMemory(mach_port_t task);
+  explicit TaskMemory(task_t task);
 
   ~TaskMemory() {}
 
@@ -167,7 +167,7 @@ class TaskMemory {
                            mach_vm_size_t size,
                            std::string* string);
 
-  mach_port_t task_;  // weak
+  task_t task_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(TaskMemory);
 };

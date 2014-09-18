@@ -38,8 +38,8 @@ using namespace testing;
 // places.
 const mach_port_t kClientRemotePort = 0x01010101;
 const mach_port_t kServerLocalPort = 0x02020202;
-const mach_port_t kExceptionThreadPort = 0x03030303;
-const mach_port_t kExceptionTaskPort = 0x04040404;
+const thread_t kExceptionThreadPort = 0x03030303;
+const task_t kExceptionTaskPort = 0x04040404;
 
 // Other fake exception values.
 const exception_type_t kExceptionType = EXC_BAD_ACCESS;

@@ -64,7 +64,7 @@ class ProcessReader {
     mach_vm_address_t stack_region_address;
     mach_vm_size_t stack_region_size;
     mach_vm_address_t thread_specific_data_address;
-    mach_port_t port;
+    task_t port;
     int suspend_count;
     int priority;
   };
@@ -101,7 +101,7 @@ class ProcessReader {
   //! \return `true` on success, indicating that this object will respond
   //!     validly to further method calls. `false` on failure. On failure, no
   //!     further method calls should be made.
-  bool Initialize(mach_port_t task);
+  bool Initialize(task_t task);
 
   //! \return `true` if the target task is a 64-bit process.
   bool Is64Bit() const { return is_64_bit_; }
@@ -205,7 +205,7 @@ class ProcessReader {
   std::vector<Thread> threads_;  // owns send rights
   std::vector<Module> modules_;
   scoped_ptr<TaskMemory> task_memory_;
-  mach_port_t task_;  // weak
+  task_t task_;  // weak
   InitializationStateDcheck initialized_;
 
   // This shadows a bit in kern_proc_info_, but it’s accessed so frequently that

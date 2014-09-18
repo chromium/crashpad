@@ -133,8 +133,6 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
       (options & MACH_SEND_TRAILER) ? (max_reply_size + MAX_TRAILER_SIZE)
                                     : max_reply_size);
 
-  mach_port_t self = mach_task_self();
-
   kern_return_t kr;
 
   do {
@@ -146,7 +144,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
 
     while (!request_scoper.address()) {
       vm_address_t request_addr;
-      kr = vm_allocate(self,
+      kr = vm_allocate(mach_task_self(),
                        &request_addr,
                        this_request_alloc,
                        VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
@@ -189,7 +187,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
     }
 
     vm_address_t reply_addr;
-    kr = vm_allocate(self,
+    kr = vm_allocate(mach_task_self(),
                      &reply_addr,
                      reply_alloc,
                      VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));

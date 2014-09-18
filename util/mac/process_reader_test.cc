@@ -154,7 +154,7 @@ TEST(ProcessReader, SelfOneThread) {
 
   EXPECT_EQ(PthreadToThreadID(pthread_self()), threads[0].id);
 
-  mach_port_t thread_self = MachThreadSelf();
+  thread_t thread_self = MachThreadSelf();
   EXPECT_EQ(thread_self, threads[0].port);
 
   EXPECT_EQ(0, threads[0].suspend_count);
@@ -174,7 +174,7 @@ class TestThreadPool {
   // to exit, and joins each thread, blocking until they have all exited.
   ~TestThreadPool() {
     for (ThreadInfo* thread_info : thread_infos_) {
-      mach_port_t thread_port = pthread_mach_thread_np(thread_info->pthread);
+      thread_t thread_port = pthread_mach_thread_np(thread_info->pthread);
       while (thread_info->suspend_count > 0) {
         kern_return_t kr = thread_resume(thread_port);
         EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "thread_resume");
@@ -220,7 +220,7 @@ class TestThreadPool {
     for (size_t thread_index = 1;
          thread_index < thread_infos_.size() && thread_index < 4;
          ++thread_index) {
-      mach_port_t thread_port =
+      thread_t thread_port =
           pthread_mach_thread_np(thread_infos_[thread_index]->pthread);
       for (size_t suspend_count = 0;
            suspend_count < thread_index;
@@ -419,7 +419,7 @@ TEST(ProcessReader, SelfSeveralThreads) {
   // When testing in-process, verify that when this thread shows up in the
   // vector, it has the expected thread port, and that this thread port only
   // shows up once.
-  mach_port_t thread_self = MachThreadSelf();
+  thread_t thread_self = MachThreadSelf();
   bool found_thread_self = false;
   for (const ProcessReader::Thread& thread : threads) {
     if (thread.port == thread_self) {

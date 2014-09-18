@@ -35,7 +35,7 @@ void MachTimeValueToTimeval(const time_value& mach, timeval* tv) {
   tv->tv_usec = mach.microseconds;
 }
 
-kern_return_t MachVMRegionRecurseDeepest(mach_port_t task,
+kern_return_t MachVMRegionRecurseDeepest(task_t task,
                                          mach_vm_address_t* address,
                                          mach_vm_size_t* size,
                                          natural_t* depth,
@@ -107,7 +107,7 @@ ProcessReader::~ProcessReader() {
   }
 }
 
-bool ProcessReader::Initialize(mach_port_t task) {
+bool ProcessReader::Initialize(task_t task) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   pid_t pid;

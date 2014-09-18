@@ -68,7 +68,7 @@ class MachMultiprocess : public Multiprocess {
   //! \brief Returns a send right for the child’s task port.
   //!
   //! This method may only be called by the parent process.
-  mach_port_t ChildTask() const;
+  task_t ChildTask() const;
 
  private:
   // Multiprocess:

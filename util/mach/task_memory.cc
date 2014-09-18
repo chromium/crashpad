@@ -64,7 +64,7 @@ TaskMemory::MappedMemory::MappedMemory(vm_address_t vm_address,
   DCHECK_LE(user_end, vm_end);
 }
 
-TaskMemory::TaskMemory(mach_port_t task) : task_(task) {
+TaskMemory::TaskMemory(task_t task) : task_(task) {
 }
 
 bool TaskMemory::Read(mach_vm_address_t address, size_t size, void* buffer) {
