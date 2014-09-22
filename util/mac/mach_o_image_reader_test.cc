@@ -281,10 +281,38 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
 
   // Similarly, make sure that a section name that exists in one segment isn’t
   // accidentally found during a lookup for that section in a different segment.
-  EXPECT_TRUE(actual_image->GetSectionByName(SEG_TEXT, SECT_TEXT, NULL));
+  //
+  // If the image has no sections (unexpected), then any section lookup should
+  // fail, and these initial values of test_segment and test_section are fine
+  // for the EXPECT_FALSE checks on GetSectionByName() below.
+  std::string test_segment = SEG_DATA;
+  std::string test_section = SECT_TEXT;
+
+  const process_types::section* section =
+      actual_image->GetSectionAtIndex(1, NULL, NULL);
+  if (section) {
+    // Use the name of the first section in the image as the section that
+    // shouldn’t appear in a different segment. If the first section is in the
+    // __TEXT segment (as it is normally), then a section by the same name
+    // wouldn’t be expected in the __DATA segment. But if the first section is
+    // in any other segment, then it wouldn’t be expected in the __TEXT segment.
+    if (MachOImageSegmentReader::SegmentNameString(section->segname) ==
+            SEG_TEXT) {
+      test_segment = SEG_DATA;
+    } else {
+      test_segment = SEG_TEXT;
+    }
+    test_section =
+        MachOImageSegmentReader::SectionNameString(section->sectname);
+
+    // It should be possible to look up the first section by name.
+    EXPECT_EQ(section, actual_image->GetSectionByName(
+        section->segname, section->sectname, NULL));
+  }
   EXPECT_FALSE(
-      actual_image->GetSectionByName("NoSuchSegment", SECT_TEXT, NULL));
-  EXPECT_FALSE(actual_image->GetSectionByName(SEG_DATA, SECT_TEXT, NULL));
+      actual_image->GetSectionByName("NoSuchSegment", test_section, NULL));
+  EXPECT_FALSE(
+      actual_image->GetSectionByName(test_segment, test_section, NULL));
 
   // The __LINKEDIT segment normally does exist but doesn’t have any sections.
   EXPECT_FALSE(
@@ -369,7 +397,6 @@ void ExpectSymbol(const Nlist* entry,
   if ((entry->n_type & N_STAB) == 0 && (entry->n_type & N_PEXT) == 0 &&
       entry_type != N_UNDF && entry_type != N_PBUD &&
       (entry->n_type & N_EXT) == 1) {
-
     // Note that this catches more symbols than MachOImageSymbolTableReader
     // does. This test looks for all external defined symbols, but the
     // implementation excludes indirect (N_INDR) symbols. This is intentional,
@@ -478,8 +505,8 @@ TEST(MachOImageReader, Self_MainExecutable) {
   ProcessReader process_reader;
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
-  const MachHeader* mh_execute_header = reinterpret_cast<MachHeader*>(
-      dlsym(RTLD_MAIN_ONLY, MH_EXECUTE_SYM));
+  const MachHeader* mh_execute_header =
+      reinterpret_cast<MachHeader*>(dlsym(RTLD_MAIN_ONLY, MH_EXECUTE_SYM));
   ASSERT_NE(static_cast<void*>(NULL), mh_execute_header);
   mach_vm_address_t mh_execute_header_address =
       reinterpret_cast<mach_vm_address_t>(mh_execute_header);
@@ -535,8 +562,8 @@ TEST(MachOImageReader, Self_DyldImages) {
         reinterpret_cast<mach_vm_address_t>(mach_header);
 
     MachOImageReader image_reader;
-    ASSERT_TRUE(image_reader.Initialize(
-        &process_reader, image_address, image_name));
+    ASSERT_TRUE(
+        image_reader.Initialize(&process_reader, image_address, image_name));
 
     uint32_t file_type = image_reader.FileType();
     if (index == 0) {
