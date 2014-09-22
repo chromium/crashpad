@@ -65,13 +65,14 @@ class TestMachMessageServer : public MachMessageServer::Interface,
           expect_server_destroyed_complex(true),
           expect_server_result(KERN_SUCCESS),
           expect_server_transaction_count(1),
+          child_wait_for_parent_pipe_early(false),
           client_send_request_count(1),
           client_send_complex(false),
           client_send_large(false),
           client_reply_port_type(kReplyPortNormal),
           client_expect_reply(true),
           child_send_all_requests_before_receiving_any_replies(false),
-          child_wait_for_parent_pipe(false) {
+          child_wait_for_parent_pipe_late(false) {
     }
 
     // true if MachMessageServerFunction() is expected to be called.
@@ -118,6 +119,14 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     // The number of transactions that the server is expected to handle.
     size_t expect_server_transaction_count;
 
+    // true if the child should wait for the parent to signal that it’s ready
+    // for the child to begin sending requests via the pipe. This is done if the
+    // parent needs to perform operations on its receive port before the child
+    // should be permitted to send anything to it. Currently, this is used to
+    // allow the parent to ensure that the receive port’s queue length is high
+    // enough before the child begins attempting to fill it.
+    bool child_wait_for_parent_pipe_early;
+
     // The number of requests that the client should send to the server.
     size_t client_send_request_count;
 
@@ -155,7 +164,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     // Otherwise, the right might appear in the parent as a dead name if the
     // child exited before the parent had a chance to examine it. This would be
     // a race.
-    bool child_wait_for_parent_pipe;
+    bool child_wait_for_parent_pipe_late;
   };
 
   explicit TestMachMessageServer(const Options& options)
@@ -297,6 +306,30 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   // MachMultiprocess:
 
   virtual void MachMultiprocessParent() override {
+    mach_port_t local_port = LocalPort();
+
+    kern_return_t kr;
+    if (options_.child_send_all_requests_before_receiving_any_replies) {
+      // On Mac OS X 10.10, the queue limit of a new Mach port seems to be 2
+      // by default, which is below the value of MACH_PORT_QLIMIT_DEFAULT. Set
+      // the port’s queue limit explicitly here.
+      mach_port_limits limits = {};
+      limits.mpl_qlimit = MACH_PORT_QLIMIT_DEFAULT;
+      kr = mach_port_set_attributes(mach_task_self(),
+                                    local_port,
+                                    MACH_PORT_LIMITS_INFO,
+                                    reinterpret_cast<mach_port_info_t>(&limits),
+                                    MACH_PORT_LIMITS_INFO_COUNT);
+      ASSERT_EQ(KERN_SUCCESS, kr)
+          << MachErrorMessage(kr, "mach_port_set_attributes");
+    }
+
+    if (options_.child_wait_for_parent_pipe_early) {
+      // Tell the child to begin sending messages.
+      char c = '\0';
+      CheckedWriteFD(WritePipeFD(), &c, 1);
+    }
+
     if (options_.parent_wait_for_child_pipe) {
       // Wait until the child is done sending what it’s going to send.
       char c;
@@ -304,10 +337,9 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       EXPECT_EQ('\0', c);
     }
 
-    kern_return_t kr;
     ASSERT_EQ(options_.expect_server_result,
               (kr = MachMessageServer::Run(this,
-                                           LocalPort(),
+                                           local_port,
                                            options_.server_options,
                                            options_.server_persistent,
                                            options_.server_nonblocking,
@@ -343,7 +375,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
           << MachErrorMessage(kr, "mach_port_type");
     }
 
-    if (options_.child_wait_for_parent_pipe) {
+    if (options_.child_wait_for_parent_pipe_late) {
       // Let the child know it’s safe to exit.
       char c = '\0';
       CheckedWriteFD(WritePipeFD(), &c, 1);
@@ -351,6 +383,13 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   }
 
   virtual void MachMultiprocessChild() override {
+    if (options_.child_wait_for_parent_pipe_early) {
+      // Wait until the parent is done setting things up on its end.
+      char c;
+      CheckedReadFD(ReadPipeFD(), &c, 1);
+      EXPECT_EQ('\0', c);
+    }
+
     for (size_t index = 0;
          index < options_.client_send_request_count;
          ++index) {
@@ -388,7 +427,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       }
     }
 
-    if (options_.child_wait_for_parent_pipe) {
+    if (options_.child_wait_for_parent_pipe_late) {
       char c;
       CheckedReadFD(ReadPipeFD(), &c, 1);
       ASSERT_EQ('\0', c);
@@ -649,6 +688,13 @@ TEST(MachMessageServer, PersistentNonblockingFourMessages) {
   // MACH_PORT_QLIMIT_BASIC, or 5). The number of messages sent for this test
   // must be below this, because the server does not begin dequeueing request
   // messages until the client has finished sending them.
+  //
+  // The queue limit on new ports has been seen to be below
+  // MACH_PORT_QLIMIT_DEFAULT, so it will explicitly be set by
+  // mach_port_set_attributes() for this test. This needs to happen before the
+  // child is allowed to begin sending messages, so
+  // child_wait_for_parent_pipe_early is used to make the child wait until the
+  // parent is ready.
   const size_t kTransactionCount = 4;
   COMPILE_ASSERT(kTransactionCount <= MACH_PORT_QLIMIT_DEFAULT,
                  must_not_exceed_queue_limit);
@@ -659,6 +705,7 @@ TEST(MachMessageServer, PersistentNonblockingFourMessages) {
   options.server_nonblocking = MachMessageServer::kNonblocking;
   options.expect_server_result = MACH_RCV_TIMED_OUT;
   options.expect_server_transaction_count = kTransactionCount;
+  options.child_wait_for_parent_pipe_early = true;
   options.client_send_request_count = kTransactionCount;
   options.child_send_all_requests_before_receiving_any_replies = true;
   TestMachMessageServer test_mach_message_server(options);
@@ -680,7 +727,7 @@ TEST(MachMessageServer, ReturnCodeNoReply) {
   TestMachMessageServer::Options options;
   options.server_mig_retcode = MIG_NO_REPLY;
   options.client_expect_reply = false;
-  options.child_wait_for_parent_pipe = true;
+  options.child_wait_for_parent_pipe_late = true;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
 }
@@ -766,7 +813,7 @@ TEST(MachMessageServer, ComplexNotDestroyedNoReply) {
   options.expect_server_destroyed_complex = false;
   options.client_send_complex = true;
   options.client_expect_reply = false;
-  options.child_wait_for_parent_pipe = true;
+  options.child_wait_for_parent_pipe_late = true;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
 }
