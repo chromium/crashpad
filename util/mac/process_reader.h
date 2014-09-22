@@ -29,8 +29,11 @@
 #include "build/build_config.h"
 #include "util/mach/task_memory.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
+
+class MachOImageReader;
 
 //! \brief Accesses information about another process, identified by a Mach
 //!     task.
@@ -77,9 +80,11 @@ class ProcessReader {
     //! \brief The pathname used to load the module from disk.
     std::string name;
 
-    //! \brief The address where the base of the module is loaded in the remote
-    //!     process.
-    mach_vm_address_t address;
+    //! \brief An image reader for the module.
+    //!
+    //! The lifetime of this MachOImageReader is scoped to the lifetime of the
+    //! ProcessReader that created it.
+    const MachOImageReader* reader;
 
     //! \brief The module’s timestamp.
     //!
@@ -204,6 +209,7 @@ class ProcessReader {
   kinfo_proc kern_proc_info_;
   std::vector<Thread> threads_;  // owns send rights
   std::vector<Module> modules_;
+  PointerVector<MachOImageReader> module_readers_;
   scoped_ptr<TaskMemory> task_memory_;
   task_t task_;  // weak
   InitializationStateDcheck initialized_;

@@ -32,6 +32,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/file/fd_io.h"
+#include "util/mac/mach_o_image_reader.h"
 #include "util/mach/mach_extensions.h"
 #include "util/stdlib/pointer_container.h"
 #include "util/test/errors.h"
@@ -553,7 +554,7 @@ TEST(ProcessReader, SelfModules) {
     EXPECT_EQ(dyld_image_name, modules[index].name);
     EXPECT_EQ(
         reinterpret_cast<mach_vm_address_t>(_dyld_get_image_header(index)),
-        modules[index].address);
+        modules[index].reader->Address());
 
     if (index == 0) {
       // dyld didn’t load the main executable, so it couldn’t record its
@@ -580,8 +581,10 @@ TEST(ProcessReader, SelfModules) {
   const struct dyld_all_image_infos* dyld_image_infos =
       _dyld_get_all_image_infos();
   if (dyld_image_infos->version >= 2) {
-    EXPECT_EQ(reinterpret_cast<mach_vm_address_t>(
-        dyld_image_infos->dyldImageLoadAddress), modules[index].address);
+    EXPECT_EQ(
+        reinterpret_cast<mach_vm_address_t>(
+            dyld_image_infos->dyldImageLoadAddress),
+        modules[index].reader->Address());
   }
 }
 
@@ -625,7 +628,7 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
 
       mach_vm_address_t expect_address;
       CheckedReadFD(read_fd, &expect_address, sizeof(expect_address));
-      EXPECT_EQ(expect_address, modules[index].address);
+      EXPECT_EQ(expect_address, modules[index].reader->Address());
 
       if (index == 0 || index == modules.size() - 1) {
         // dyld didn’t load the main executable or itself, so it couldn’t record

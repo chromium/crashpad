@@ -24,6 +24,7 @@
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/mac/scoped_mach_vm.h"
+#include "base/strings/stringprintf.h"
 #include "util/mac/mach_o_image_reader.h"
 #include "util/mac/process_types.h"
 #include "util/misc/scoped_forbid_return.h"
@@ -82,7 +83,7 @@ ProcessReader::Thread::Thread()
       priority(0) {
 }
 
-ProcessReader::Module::Module() : name(), address(0), timestamp(0) {
+ProcessReader::Module::Module() : name(), reader(NULL), timestamp(0) {
 }
 
 ProcessReader::Module::~Module() {
@@ -92,6 +93,7 @@ ProcessReader::ProcessReader()
     : kern_proc_info_(),
       threads_(),
       modules_(),
+      module_readers_(),
       task_memory_(),
       task_(MACH_PORT_NULL),
       initialized_(),
@@ -389,11 +391,23 @@ void ProcessReader::InitializeModules() {
     return;
   }
 
+  DCHECK_GE(all_image_infos.version, 1u);
+
   // Note that all_image_infos.infoArrayCount may be 0 if a crash occurred while
   // dyld was loading the executable. This can happen if a required dynamic
-  // library was not found.
-  DCHECK_GE(all_image_infos.version, 1u);
-  DCHECK_NE(all_image_infos.infoArray, static_cast<mach_vm_address_t>(NULL));
+  // library was not found. Similarly, all_image_infos.infoArray may be NULL if
+  // a crash occurred while dyld was updating it.
+  //
+  // TODO(mark): It may be possible to recover from these situations by looking
+  // through memory mappings for Mach-O images.
+  if (all_image_infos.infoArrayCount == 0) {
+    LOG(WARNING) << "all_image_infos.infoArrayCount is zero";
+    return;
+  }
+  if (!all_image_infos.infoArray) {
+    LOG(WARNING) << "all_image_infos.infoArray is NULL";
+    return;
+  }
 
   std::vector<process_types::dyld_image_info> image_info_vector(
       all_image_infos.infoArrayCount);
@@ -405,23 +419,71 @@ void ProcessReader::InitializeModules() {
     return;
   }
 
+  size_t main_executable_count = 0;
   bool found_dyld = false;
+  modules_.reserve(image_info_vector.size());
   for (const process_types::dyld_image_info& image_info : image_info_vector) {
     Module module;
-    module.address = image_info.imageLoadAddress;
     module.timestamp = image_info.imageFileModDate;
+
     if (!task_memory_->ReadCString(image_info.imageFilePath, &module.name)) {
       LOG(WARNING) << "could not read dyld_image_info::imageFilePath";
       // Proceed anyway with an empty module name.
     }
 
+    scoped_ptr<MachOImageReader> reader(new MachOImageReader());
+    if (!reader->Initialize(this, image_info.imageLoadAddress, module.name)) {
+      reader.reset();
+    }
+
+    module.reader = reader.get();
+
+    uint32_t file_type = reader ? reader->FileType() : 0;
+
+    module_readers_.push_back(reader.release());
     modules_.push_back(module);
 
     if (all_image_infos.version >= 2 && all_image_infos.dyldImageLoadAddress &&
         image_info.imageLoadAddress == all_image_infos.dyldImageLoadAddress) {
       found_dyld = true;
+
+      LOG_IF(WARNING, file_type != MH_DYLINKER)
+          << base::StringPrintf("dylinker (%s) has unexpected Mach-O type %d",
+                                module.name.c_str(),
+                                file_type);
+    }
+
+    if (file_type == MH_EXECUTE) {
+      // On Mac OS X 10.6, the main executable does not normally show up at
+      // index 0. This is because of how 10.6.8 dyld-132.13/src/dyld.cpp
+      // notifyGDB(), the function resposible for causing
+      // dyld_all_image_infos::infoArray to be updated, is called. It is
+      // registered to be called when all dependents of an image have been
+      // mapped (dyld_image_state_dependents_mapped), meaning that the main
+      // executable won’t be added to the list until all of the libraries it
+      // depends on are, even though dyld begins looking at the main executable
+      // first. This changed in later versions of dyld, including those present
+      // in 10.7. 10.9.4 dyld-239.4/src/dyld.cpp updateAllImages() (renamed from
+      // notifyGDB()) is registered to be called when an image itself has been
+      // mapped (dyld_image_state_mapped), regardless of the libraries that it
+      // depends on.
+      //
+      // The interface requires that the main executable be first in the list,
+      // so swap it into the right position.
+      size_t index = modules_.size() - 1;
+      if (main_executable_count == 0) {
+        std::swap(modules_[0], modules_[index]);
+      } else {
+        LOG(WARNING) << base::StringPrintf(
+            "multiple MH_EXECUTE modules (%s, %s)",
+            modules_[0].name.c_str(),
+            modules_[index].name.c_str());
+      }
+      ++main_executable_count;
     }
   }
+
+  LOG_IF(WARNING, main_executable_count == 0) << "no MH_EXECUTE modules";
 
   // all_image_infos.infoArray doesn’t include an entry for dyld, but dyld is
   // loaded into the process’ address space as a module. Its load address is
@@ -441,27 +503,41 @@ void ProcessReader::InitializeModules() {
   if (!found_dyld && all_image_infos.version >= 2 &&
       all_image_infos.dyldImageLoadAddress) {
     Module module;
-    module.address = all_image_infos.dyldImageLoadAddress;
     module.timestamp = 0;
 
     // Examine the executable’s LC_LOAD_DYLINKER load command to find the path
     // used to load dyld.
-    MachOImageReader executable;
-    if (all_image_infos.infoArrayCount >= 1 &&
-        executable.Initialize(this, modules_[0].address, modules_[0].name) &&
-        executable.FileType() == MH_EXECUTE &&
-        !executable.DylinkerName().empty()) {
-      module.name = executable.DylinkerName();
-    } else {
+    if (all_image_infos.infoArrayCount >= 1 && main_executable_count >= 1) {
+      module.name = modules_[0].reader->DylinkerName();
+    }
+    std::string module_name = !module.name.empty() ? module.name : "(dyld)";
+
+    scoped_ptr<MachOImageReader> reader(new MachOImageReader());
+    if (!reader->Initialize(
+            this, all_image_infos.dyldImageLoadAddress, module_name)) {
+      reader.reset();
+    }
+
+    module.reader = reader.get();
+
+    uint32_t file_type = reader ? reader->FileType() : 0;
+
+    LOG_IF(WARNING, file_type != MH_DYLINKER)
+        << base::StringPrintf("dylinker (%s) has unexpected Mach-O type %d",
+                              module.name.c_str(),
+                              file_type);
+
+    if (module.name.empty() && file_type == MH_DYLINKER) {
       // Look inside dyld directly to find its preferred path.
-      MachOImageReader dyld;
-      if (dyld.Initialize(this, module.address, "(dyld)") &&
-          dyld.FileType() == MH_DYLINKER && !dyld.DylinkerName().empty()) {
-        module.name = dyld.DylinkerName();
-      }
+      module.name = reader->DylinkerName();
+    }
+
+    if (module.name.empty()) {
+      module.name = "(dyld)";
     }
 
     // dyld is loaded in the process even if its path can’t be determined.
+    module_readers_.push_back(reader.release());
     modules_.push_back(module);
   }
 }
