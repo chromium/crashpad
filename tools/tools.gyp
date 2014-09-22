@@ -72,6 +72,12 @@
       'include_dirs': [
         '..',
       ],
+      'link_settings': {
+        'libraries': [
+          '$(SDKROOT)/System/Library/Frameworks/CoreFoundation.framework',
+          '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
+        ],
+      },
       'sources': [
         'on_demand_service_tool.mm',
       ],

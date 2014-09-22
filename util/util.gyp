@@ -25,6 +25,13 @@
         '..',
         '<(INTERMEDIATE_DIR)',
       ],
+      'link_settings': {
+        'libraries': [
+          '$(SDKROOT)/System/Library/Frameworks/CoreFoundation.framework',
+          '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
+          '$(SDKROOT)/System/Library/Frameworks/IOKit.framework',
+        ],
+      },
       'sources': [
         'file/fd_io.cc',
         'file/fd_io.h',
