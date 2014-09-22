@@ -14,88 +14,126 @@
 
 #include "util/mac/service_management.h"
 
+#include <errno.h>
 #include <launch.h>
-#include <ServiceManagement/ServiceManagement.h>
+#include <time.h>
 
-#include "base/mac/foundation_util.h"
-#include "base/mac/scoped_cftyperef.h"
-#include "base/strings/sys_string_conversions.h"
-
-// ServiceManagement.framework is available on 10.6 and later, but it’s
-// deprecated in 10.10. In case ServiceManagement.framework stops working in the
-// future, an alternative implementation using launch_msg() is available. This
-// implementation works on 10.5 and later, however, launch_msg() is also
-// deprecated in 10.10. The alternative implementation can be resurrected from
-// source control history.
+#include "base/mac/scoped_launch_data.h"
+#include "util/mac/launchd.h"
 
 namespace {
 
-// Wraps the necessary functions from ServiceManagement.framework to avoid the
-// deprecation warnings when using the 10.10 SDK.
+launch_data_t LaunchDataDictionaryForJob(const std::string& label) {
+  base::mac::ScopedLaunchData request(
+      launch_data_alloc(LAUNCH_DATA_DICTIONARY));
+  launch_data_dict_insert(
+      request, launch_data_new_string(label.c_str()), LAUNCH_KEY_GETJOB);
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+  base::mac::ScopedLaunchData response(launch_msg(request));
+  if (launch_data_get_type(response) != LAUNCH_DATA_DICTIONARY) {
+    return NULL;
+  }
 
-Boolean CallSMJobSubmit(CFStringRef domain,
-                        CFDictionaryRef job,
-                        AuthorizationRef authorization,
-                        CFErrorRef *error) {
-  return SMJobSubmit(domain, job, authorization, error);
+  return response.release();
 }
-
-Boolean CallSMJobRemove(CFStringRef domain,
-                        CFStringRef job_label,
-                        AuthorizationRef authorization,
-                        Boolean wait,
-                        CFErrorRef *error) {
-  return SMJobRemove(domain, job_label, authorization, wait, error);
-}
-
-CFDictionaryRef CallSMJobCopyDictionary(
-    CFStringRef domain, CFStringRef job_label) {
-  return SMJobCopyDictionary(domain, job_label);
-}
-
-#pragma GCC diagnostic pop
 
 }  // namespace
 
 namespace crashpad {
 
 bool ServiceManagementSubmitJob(CFDictionaryRef job_cf) {
-  return CallSMJobSubmit(kSMDomainUserLaunchd, job_cf, NULL, NULL);
+  base::mac::ScopedLaunchData job_launch(CFPropertyToLaunchData(job_cf));
+  if (!job_launch.get()) {
+    return false;
+  }
+
+  base::mac::ScopedLaunchData jobs(launch_data_alloc(LAUNCH_DATA_ARRAY));
+  launch_data_array_set_index(jobs, job_launch.release(), 0);
+
+  base::mac::ScopedLaunchData request(
+      launch_data_alloc(LAUNCH_DATA_DICTIONARY));
+  launch_data_dict_insert(request, jobs.release(), LAUNCH_KEY_SUBMITJOB);
+
+  base::mac::ScopedLaunchData response(launch_msg(request));
+
+  if (launch_data_get_type(response) != LAUNCH_DATA_ARRAY) {
+    return false;
+  }
+
+  if (launch_data_array_get_count(response) != 1) {
+    return false;
+  }
+
+  launch_data_t response_element = launch_data_array_get_index(response, 0);
+  if (launch_data_get_type(response_element) != LAUNCH_DATA_ERRNO) {
+    return false;
+  }
+
+  int err = launch_data_get_errno(response_element);
+  if (err != 0) {
+    return false;
+  }
+
+  return true;
 }
 
 bool ServiceManagementRemoveJob(const std::string& label, bool wait) {
-  base::ScopedCFTypeRef<CFStringRef> label_cf(
-      base::SysUTF8ToCFStringRef(label));
-  return CallSMJobRemove(kSMDomainUserLaunchd, label_cf, NULL, wait, NULL);
+  base::mac::ScopedLaunchData request(
+      launch_data_alloc(LAUNCH_DATA_DICTIONARY));
+  launch_data_dict_insert(
+      request, launch_data_new_string(label.c_str()), LAUNCH_KEY_REMOVEJOB);
+
+  base::mac::ScopedLaunchData response(launch_msg(request));
+  if (launch_data_get_type(response) != LAUNCH_DATA_ERRNO) {
+    return false;
+  }
+
+  int err = launch_data_get_errno(response);
+  if (err == EINPROGRESS) {
+    if (wait) {
+      // TODO(mark): Use a kqueue to wait for the process to exit. To avoid a
+      // race, the kqueue would need to be set up prior to asking launchd to
+      // remove the job. Even so, the job’s PID may change between the time it’s
+      // obtained and the time the kqueue is set up, so this is nontrivial.
+      do {
+        timespec sleep_time;
+        sleep_time.tv_sec = 0;
+        sleep_time.tv_nsec = 1E5;  // 100 microseconds
+        nanosleep(&sleep_time, NULL);
+      } while (ServiceManagementIsJobLoaded(label));
+    }
+
+    return true;
+  }
+
+  if (err != 0) {
+    return false;
+  }
+
+  return true;
 }
 
 bool ServiceManagementIsJobLoaded(const std::string& label) {
-  base::ScopedCFTypeRef<CFStringRef> label_cf(
-      base::SysUTF8ToCFStringRef(label));
-  base::ScopedCFTypeRef<CFDictionaryRef> job_dictionary(
-      CallSMJobCopyDictionary(kSMDomainUserLaunchd, label_cf));
-  return job_dictionary != NULL;
+  base::mac::ScopedLaunchData dictionary(LaunchDataDictionaryForJob(label));
+  if (!dictionary) {
+    return false;
+  }
+
+  return true;
 }
 
 pid_t ServiceManagementIsJobRunning(const std::string& label) {
-  base::ScopedCFTypeRef<CFStringRef> label_cf(
-      base::SysUTF8ToCFStringRef(label));
-  base::ScopedCFTypeRef<CFDictionaryRef> job_dictionary(
-      CallSMJobCopyDictionary(kSMDomainUserLaunchd, label_cf));
-  if (job_dictionary != NULL) {
-    CFNumberRef pid_cf = base::mac::CFCast<CFNumberRef>(
-        CFDictionaryGetValue(job_dictionary, CFSTR(LAUNCH_JOBKEY_PID)));
-    if (pid_cf) {
-      pid_t pid;
-      if (CFNumberGetValue(pid_cf, kCFNumberIntType, &pid)) {
-        return pid;
-      }
-    }
+  base::mac::ScopedLaunchData dictionary(LaunchDataDictionaryForJob(label));
+  if (!dictionary) {
+    return 0;
   }
-  return 0;
+
+  launch_data_t pid = launch_data_dict_lookup(dictionary, LAUNCH_JOBKEY_PID);
+  if (launch_data_get_type(pid) != LAUNCH_DATA_INTEGER) {
+    return 0;
+  }
+
+  return launch_data_get_integer(pid);
 }
 
 }  // namespace crashpad

@@ -41,13 +41,13 @@ bool ServiceManagementSubmitJob(CFDictionaryRef job_cf);
 //!
 //! \return `true` if the job was removed successfully or if an asynchronous
 //!     attempt to remove the job was started successfully, otherwise `false`.
-//!     Unlike previous systems, on Mac OS X 10.10, this function returns `true`
-//!     even if \a label names a job that does not exist. This is filed as radar
-//!     18268941.
 //!
 //! \note This function is provided because `SMJobRemove()` is deprecated in Mac
-//!     OS X 10.10. It may or may not be implemented using `SMJobRemove()` from
-//!     `ServiceManagement.framework`.
+//!     OS X 10.10. On Mac OS X 10.10, observed in DP8 14A361c, it also blocks
+//!     for far too long (`_block_until_job_exits()` contains a one-second
+//!     `sleep()`, filed as radar 18398683) and does not signal failure via its
+//!     return value when asked to remove a nonexistent job (filed as radar
+//!     18268941).
 bool ServiceManagementRemoveJob(const std::string& label, bool wait);
 
 //! \brief Determines whether a specified job is loaded in the user launchd
