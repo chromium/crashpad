@@ -112,7 +112,11 @@ class ExceptionPorts {
   //! \param[out] handlers The exception handlers registered for \a target_port
   //!     to handle exceptions indicated in \a mask. The caller must take
   //!     ownership of the \a port members of the returned ExceptionHandler
-  //!     objects. On failure, this argument is untouched.
+  //!     objects. If no execption port is registered for a bit in \a mask, \a
+  //!     handlers will not contain an entry corresponding to that bit. This is
+  //!     a departure from the `*_get_exception_ports()` functions, which may
+  //!     return a handler whose port is set to `EXCEPTION_PORT_NULL` in this
+  //!     case. On failure, this argument is untouched.
   //!
   //! \return `true` if `*_get_exception_ports()` returned `KERN_SUCCESS`, with
   //!     \a handlers set appropriately. `false` otherwise, with an appropriate

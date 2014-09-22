@@ -99,12 +99,14 @@ bool ExceptionPorts::GetExceptionPorts(
 
   handlers->clear();
   for (mach_msg_type_number_t index = 0; index < handler_count; ++index) {
-    ExceptionHandler handler;
-    handler.mask = masks[index];
-    handler.port = ports[index];
-    handler.behavior = behaviors[index];
-    handler.flavor = flavors[index];
-    handlers->push_back(handler);
+    if (ports[index] != MACH_PORT_NULL) {
+      ExceptionHandler handler;
+      handler.mask = masks[index];
+      handler.port = ports[index];
+      handler.behavior = behaviors[index];
+      handler.flavor = flavors[index];
+      handlers->push_back(handler);
+    }
   }
 
   return true;
