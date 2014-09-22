@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 
+#include "base/basictypes.h"
 #include "build/build_config.h"
 
 namespace crashpad {
@@ -44,6 +45,8 @@ struct uint128_struct {
   uint64_t lo;
 #endif
 };
+
+COMPILE_ASSERT(sizeof(uint128_struct) == 16, uint128_must_be_16_bytes);
 
 }  // namespace crashpad
 
