@@ -26,6 +26,7 @@
 #include "base/memory/scoped_ptr.h"
 #include "base/rand_util.h"
 #include "gtest/gtest.h"
+#include "util/file/fd_io.h"
 #include "util/mach/mach_extensions.h"
 #include "util/misc/scoped_forbid_return.h"
 #include "util/test/errors.h"
@@ -260,6 +261,15 @@ void MachMultiprocess::MultiprocessChild() {
 
   info_->remote_port.reset();
   info_->local_port.reset();
+
+  // Close the write pipe now, for cases where the parent is waiting on it to
+  // be closed as an indication that the child has finished.
+  CloseWritePipe();
+
+  // Wait for the parent process to close its end of the pipe. The child process
+  // needs to remain alive until then because the parent process will attempt to
+  // verify it using the task port it has access to via ChildTask().
+  CheckedReadFDAtEOF(ReadPipeFD());
 
   if (Test::HasFailure()) {
     // Trigger the ScopedForbidReturn destructor.

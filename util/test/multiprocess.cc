@@ -22,6 +22,7 @@
 
 #include "base/auto_reset.h"
 #include "base/files/scoped_file.h"
+#include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
@@ -113,9 +114,9 @@ void Multiprocess::Run() {
     }
 
     if (reason_ == kTerminationNormal) {
-      message += base::StringPrintf("exit with code %d", code_);
+      message += base::StringPrintf(" exit with code %d", code_);
     } else if (reason == kTerminationSignal) {
-      message += base::StringPrintf("termination by signal %d", code_);
+      message += base::StringPrintf(" termination by signal %d", code_);
     }
 
     if (reason != reason_ || code != code_) {
@@ -159,15 +160,31 @@ pid_t Multiprocess::ChildPID() const {
 int Multiprocess::ReadPipeFD() const {
   int fd = info_->child_pid ? info_->pipe_c2p_read.get()
                             : info_->pipe_p2c_read.get();
-  EXPECT_NE(-1, fd);
+  CHECK_NE(fd, -1);
   return fd;
 }
 
 int Multiprocess::WritePipeFD() const {
   int fd = info_->child_pid ? info_->pipe_p2c_write.get()
                             : info_->pipe_c2p_write.get();
-  EXPECT_NE(-1, fd);
+  CHECK_NE(fd, -1);
   return fd;
+}
+
+void Multiprocess::CloseReadPipe() {
+  if (info_->child_pid) {
+    info_->pipe_c2p_read.reset();
+  } else {
+    info_->pipe_p2c_read.reset();
+  }
+}
+
+void Multiprocess::CloseWritePipe() {
+  if (info_->child_pid) {
+    info_->pipe_p2c_write.reset();
+  } else {
+    info_->pipe_c2p_write.reset();
+  }
 }
 
 void Multiprocess::RunParent() {

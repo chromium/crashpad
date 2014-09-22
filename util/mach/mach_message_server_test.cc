@@ -723,7 +723,6 @@ TEST(MachMessageServer, Complex) {
   // that resources transferred to a server process temporarily aren’t leaked.
   TestMachMessageServer::Options options;
   options.client_send_complex = true;
-  options.child_wait_for_parent_pipe = true;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
 }
@@ -740,7 +739,6 @@ TEST(MachMessageServer, ComplexNotDestroyed) {
   options.server_destroy_complex = false;
   options.expect_server_destroyed_complex = false;
   options.client_send_complex = true;
-  options.child_wait_for_parent_pipe = true;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
 }
@@ -754,7 +752,6 @@ TEST(MachMessageServer, ComplexDestroyedInvalidArgument) {
   options.server_mig_retcode = KERN_INVALID_TASK;
   options.server_destroy_complex = false;
   options.client_send_complex = true;
-  options.child_wait_for_parent_pipe = true;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
 }

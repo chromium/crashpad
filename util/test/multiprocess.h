@@ -116,6 +116,10 @@ class Multiprocess {
   //! This method may be called by either the parent or the child process.
   //! Anything written to the write pipe in the partner process will appear
   //! on the this file descriptor in this process.
+  //!
+  //! It is an error to call this after CloseReadPipe() has been called.
+  //!
+  //! \return The read pipe’s file descriptor.
   int ReadPipeFD() const;
 
   //! \brief Returns the write pipe’s file descriptor.
@@ -123,7 +127,25 @@ class Multiprocess {
   //! This method may be called by either the parent or the child process.
   //! Anything written to this file descriptor in this process will appear on
   //! the read pipe in the partner process.
+  //!
+  //! It is an error to call this after CloseWritePipe() has been called.
+  //!
+  //! \return The write pipe’s file descriptor.
   int WritePipeFD() const;
+
+  //! \brief Closes the read pipe.
+  //!
+  //! This method may be called by either the parent or the child process. An
+  //! attempt to write to the write pipe in the partner process will fail with
+  //! `EPIPE` or `SIGPIPE`. ReadPipeFD() must not be called after this.
+  void CloseReadPipe();
+
+  //! \brief Closes the write pipe.
+  //!
+  //! This method may be called by either the parent or the child process. An
+  //! attempt to read from the read pipe in the partner process will indicate
+  //! end-of-file. WritePipeFD() must not be called after this.
+  void CloseWritePipe();
 
  private:
   //! \brief Runs the parent side of the test.
