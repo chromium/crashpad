@@ -24,6 +24,7 @@
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
+#include "base/posix/eintr_wrapper.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "util/misc/scoped_forbid_return.h"
@@ -91,7 +92,7 @@ void Multiprocess::Run() {
     info_ = NULL;
 
     int status;
-    pid_t wait_pid = waitpid(pid, &status, 0);
+    pid_t wait_pid = HANDLE_EINTR(waitpid(pid, &status, 0));
     ASSERT_EQ(pid, wait_pid) << ErrnoMessage("waitpid");
 
     TerminationReason reason;
