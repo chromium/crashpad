@@ -25,10 +25,10 @@ deps = {
       '237d7a871eea8c1ef5227795e81ff071f15c2710',  # svn r671
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
-      '39bb8956231c997babf0f25befdfb531f4d0b43c',  # svn r1958
+      '46282cedf40ff7fe803be4af357b9d59050f02e4',  # svn r1977
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      'abd6e3792f4f54d58c86b01438a69ae61f4f2f34',
+      '313bd83d6d9dc276bd48743fddc0295fc08f9478',
 }
 
 hooks = [
