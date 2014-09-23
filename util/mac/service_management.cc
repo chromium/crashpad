@@ -129,6 +129,10 @@ pid_t ServiceManagementIsJobRunning(const std::string& label) {
   }
 
   launch_data_t pid = launch_data_dict_lookup(dictionary, LAUNCH_JOBKEY_PID);
+  if (!pid) {
+    return 0;
+  }
+
   if (launch_data_get_type(pid) != LAUNCH_DATA_INTEGER) {
     return 0;
   }
