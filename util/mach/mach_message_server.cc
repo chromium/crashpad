@@ -14,34 +14,14 @@
 
 #include "util/mach/mach_message_server.h"
 
-#include <mach/mach_time.h>
-
 #include <limits>
 
-#include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_vm.h"
+#include "util/misc/clock.h"
 
 namespace crashpad {
 
 namespace {
-
-mach_timebase_info_data_t* TimebaseInternal() {
-  mach_timebase_info_data_t* timebase_info = new mach_timebase_info_data_t;
-  kern_return_t kr = mach_timebase_info(timebase_info);
-  MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_timebase_info";
-  return timebase_info;
-}
-
-mach_timebase_info_data_t* Timebase() {
-  static mach_timebase_info_data_t* timebase_info = TimebaseInternal();
-  return timebase_info;
-}
-
-uint64_t NanosecondTicks() {
-  uint64_t absolute_time = mach_absolute_time();
-  mach_timebase_info_data_t* timebase_info = Timebase();
-  return absolute_time * timebase_info->numer / timebase_info->denom;
-}
 
 const int kNanosecondsPerMillisecond = 1E6;
 
@@ -51,14 +31,14 @@ const int kNanosecondsPerMillisecond = 1E6;
 // |deadline| is zero (indicating that no timer is in effect), |*remaining_ms|
 // is set to zero and this function returns true. Otherwise, this function
 // returns false. |deadline| is specified on the same time base as is returned
-// by NanosecondTicks().
+// by ClockMonotonicNanoseconds().
 bool TimerRunning(uint64_t deadline, mach_msg_timeout_t* remaining_ms) {
   if (!deadline) {
     *remaining_ms = MACH_MSG_TIMEOUT_NONE;
     return true;
   }
 
-  uint64_t now = NanosecondTicks();
+  uint64_t now = ClockMonotonicNanoseconds();
 
   if (now >= deadline) {
     return false;
@@ -114,7 +94,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
     deadline = 0;
   } else if (timeout_ms != MACH_MSG_TIMEOUT_NONE) {
     options |= timeout_options;
-    deadline = NanosecondTicks() +
+    deadline = ClockMonotonicNanoseconds() +
                static_cast<uint64_t>(timeout_ms) * kNanosecondsPerMillisecond;
   } else {
     options &= ~timeout_options;

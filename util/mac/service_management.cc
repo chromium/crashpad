@@ -16,10 +16,10 @@
 
 #include <errno.h>
 #include <launch.h>
-#include <time.h>
 
 #include "base/mac/scoped_launch_data.h"
 #include "util/mac/launchd.h"
+#include "util/misc/clock.h"
 
 namespace {
 
@@ -96,10 +96,7 @@ bool ServiceManagementRemoveJob(const std::string& label, bool wait) {
       // remove the job. Even so, the job’s PID may change between the time it’s
       // obtained and the time the kqueue is set up, so this is nontrivial.
       do {
-        timespec sleep_time;
-        sleep_time.tv_sec = 0;
-        sleep_time.tv_nsec = 1E5;  // 100 microseconds
-        nanosleep(&sleep_time, NULL);
+        SleepNanoseconds(1E5);  // 100 microseconds
       } while (ServiceManagementIsJobLoaded(label));
     }
 

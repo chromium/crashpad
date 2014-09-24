@@ -16,7 +16,6 @@
 
 #import <Foundation/Foundation.h>
 #include <launch.h>
-#include <time.h>
 
 #include <string>
 #include <vector>
@@ -27,6 +26,7 @@
 #include "base/strings/sys_string_conversions.h"
 #include "base/rand_util.h"
 #include "gtest/gtest.h"
+#include "util/misc/clock.h"
 #include "util/posix/process_util.h"
 #include "util/stdlib/objc.h"
 
@@ -53,10 +53,7 @@ void ExpectProcessIsRunning(pid_t pid, std::string& last_arg) {
         break;
       }
       if (inner_tries > 0) {
-        timespec sleep_time;
-        sleep_time.tv_sec = 0;
-        sleep_time.tv_nsec = 1E6;  // 1 millisecond
-        nanosleep(&sleep_time, NULL);
+        SleepNanoseconds(1E6);  // 1 millisecond
       }
     } while (inner_tries--);
     ASSERT_TRUE(success);
@@ -68,10 +65,7 @@ void ExpectProcessIsRunning(pid_t pid, std::string& last_arg) {
     }
 
     if (outer_tries > 0) {
-      timespec sleep_time;
-      sleep_time.tv_sec = 0;
-      sleep_time.tv_nsec = 1E6;  // 1 millisecond
-      nanosleep(&sleep_time, NULL);
+      SleepNanoseconds(1E6);  // 1 millisecond
     }
   }
 
@@ -101,10 +95,7 @@ void ExpectProcessIsNotRunning(pid_t pid, std::string& last_arg) {
     }
 
     if (tries > 0) {
-      timespec sleep_time;
-      sleep_time.tv_sec = 0;
-      sleep_time.tv_nsec = 1E6;  // 1 millisecond
-      nanosleep(&sleep_time, NULL);
+      SleepNanoseconds(1E6);  // 1 millisecond
     }
   }
 
