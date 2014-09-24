@@ -53,7 +53,7 @@ void SanityCheckContext(NativeCPUContext* context) {
   // set of reserved bits are 1, 3, 5, 15, and 22 and higher. See Intel Software
   // Developer’s Manual, Volume 1: Basic Architecture (253665-051), 3.4.3
   // “EFLAGS Register”, and AMD Architecture Programmer’s Manual, Volume 2:
-  // System Programming (24593-2.53), 3.1.6 “RFLAGS Register”.
+  // System Programming (24593-3.24), 3.1.6 “RFLAGS Register”.
 #if defined(ARCH_CPU_X86)
   EXPECT_EQ(0u, context->uts.ts32.__cs & ~0xffff);
   EXPECT_EQ(0u, context->uts.ts32.__ds & ~0xffff);
