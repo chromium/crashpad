@@ -14,7 +14,6 @@
 
 #include "util/mac/process_reader.h"
 
-#include <dispatch/dispatch.h>
 #include <mach-o/dyld.h>
 #include <mach-o/dyld_images.h>
 #include <mach/mach.h>
@@ -35,6 +34,7 @@
 #include "util/mac/mach_o_image_reader.h"
 #include "util/mach/mach_extensions.h"
 #include "util/stdlib/pointer_container.h"
+#include "util/synchronization/semaphore.h"
 #include "util/test/errors.h"
 #include "util/test/mac/dyld.h"
 #include "util/test/mac/mach_errors.h"
@@ -170,8 +170,8 @@ class TestThreadPool {
       }
     }
 
-    for (const ThreadInfo* thread_info : thread_infos_) {
-      dispatch_semaphore_signal(thread_info->exit_semaphore);
+    for (ThreadInfo* thread_info : thread_infos_) {
+      thread_info->exit_semaphore.Signal();
     }
 
     for (const ThreadInfo* thread_info : thread_infos_) {
@@ -197,10 +197,8 @@ class TestThreadPool {
       ASSERT_EQ(0, rv);
     }
 
-    for (const ThreadInfo* thread_info : thread_infos_) {
-      long rv = dispatch_semaphore_wait(thread_info->ready_semaphore,
-                                        DISPATCH_TIME_FOREVER);
-      ASSERT_EQ(0, rv);
+    for (ThreadInfo* thread_info : thread_infos_) {
+      thread_info->ready_semaphore.Wait();
     }
 
     // If present, suspend the thread at indices 1 through 3 the same number of
@@ -238,15 +236,12 @@ class TestThreadPool {
     ThreadInfo()
         : pthread(NULL),
           stack_address(0),
-          ready_semaphore(dispatch_semaphore_create(0)),
-          exit_semaphore(dispatch_semaphore_create(0)),
+          ready_semaphore(0),
+          exit_semaphore(0),
           suspend_count(0) {
     }
 
-    ~ThreadInfo() {
-      dispatch_release(exit_semaphore);
-      dispatch_release(ready_semaphore);
-    }
+    ~ThreadInfo() {}
 
     // The thread’s ID, set at the time the thread is created.
     pthread_t pthread;
@@ -259,12 +254,12 @@ class TestThreadPool {
     // setting up its ThreadInfo structure. The main thread waits on this
     // semaphore before using any data that the worker thread is responsible for
     // setting.
-    dispatch_semaphore_t ready_semaphore;
+    Semaphore ready_semaphore;
 
     // The worker thread waits on exit_semaphore to determine when it’s safe to
     // exit. The main thread signals exit_semaphore when it no longer needs the
     // worker thread.
-    dispatch_semaphore_t exit_semaphore;
+    Semaphore exit_semaphore;
 
     // The thread’s suspend count.
     int suspend_count;
@@ -276,8 +271,8 @@ class TestThreadPool {
     thread_info->stack_address =
         reinterpret_cast<mach_vm_address_t>(&thread_info);
 
-    dispatch_semaphore_signal(thread_info->ready_semaphore);
-    dispatch_semaphore_wait(thread_info->exit_semaphore, DISPATCH_TIME_FOREVER);
+    thread_info->ready_semaphore.Signal();
+    thread_info->exit_semaphore.Wait();
 
     // Check this here after everything’s known to be synchronized, otherwise
     // there’s a race between the parent thread storing this thread’s pthread_t

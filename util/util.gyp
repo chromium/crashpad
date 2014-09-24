@@ -107,6 +107,8 @@
         'stdlib/strlcpy.h',
         'stdlib/strnlen.cc',
         'stdlib/strnlen.h',
+        'synchronization/semaphore.cc',
+        'synchronization/semaphore.h',
       ],
       'actions': [
         {
@@ -226,6 +228,7 @@
         'stdlib/string_number_conversion_test.cc',
         'stdlib/strlcpy_test.cc',
         'stdlib/strnlen_test.cc',
+        'synchronization/semaphore_test.cc',
         'test/executable_path_test.cc',
         'test/mac/mach_multiprocess_test.cc',
         'test/multiprocess_exec_test.cc',

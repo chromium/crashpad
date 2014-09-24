@@ -14,7 +14,6 @@
 
 #include "util/mach/exception_ports.h"
 
-#include <dispatch/dispatch.h>
 #include <mach/mach.h>
 #include <pthread.h>
 #include <signal.h>
@@ -30,6 +29,7 @@
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/mach_extensions.h"
 #include "util/misc/scoped_forbid_return.h"
+#include "util/synchronization/semaphore.h"
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
 
@@ -206,13 +206,10 @@ class TestExceptionPorts : public UniversalMachExcServer,
     explicit Child(TestExceptionPorts* test_exception_ports)
         : test_exception_ports_(test_exception_ports),
           thread_(),
-          init_semaphore_(dispatch_semaphore_create(0)),
-          crash_semaphore_(dispatch_semaphore_create(0)) {}
+          init_semaphore_(0),
+          crash_semaphore_(0) {}
 
-    ~Child() {
-      dispatch_release(crash_semaphore_);
-      dispatch_release(init_semaphore_);
-    }
+    ~Child() {}
 
     void Run() {
       ExceptionPorts self_task_ports(ExceptionPorts::kTargetTypeTask,
@@ -239,9 +236,7 @@ class TestExceptionPorts : public UniversalMachExcServer,
       ASSERT_EQ(0, rv_int);
 
       // Wait for the new thread to be ready.
-      long rv_long =
-          dispatch_semaphore_wait(init_semaphore_, DISPATCH_TIME_FOREVER);
-      ASSERT_EQ(0, rv_long);
+      init_semaphore_.Wait();
 
       // Tell the parent process that everything is set up.
       char c = '\0';
@@ -269,7 +264,7 @@ class TestExceptionPorts : public UniversalMachExcServer,
       }
 
       // Let the other thread know it’s safe to proceed.
-      dispatch_semaphore_signal(crash_semaphore_);
+      crash_semaphore_.Signal();
 
       // If this thread is the one that crashes, do it.
       if (test_exception_ports_->who_crashes() == kMainThreadCrashes) {
@@ -304,12 +299,10 @@ class TestExceptionPorts : public UniversalMachExcServer,
       }
 
       // Let the main thread know that this thread is ready.
-      dispatch_semaphore_signal(init_semaphore_);
+      init_semaphore_.Signal();
 
       // Wait for the main thread to signal that it’s safe to proceed.
-      long rv =
-          dispatch_semaphore_wait(crash_semaphore_, DISPATCH_TIME_FOREVER);
-      CHECK_EQ(0, rv) << "dispatch_semaphore_wait";
+      crash_semaphore_.Wait();
 
       // Regardless of where ExceptionPorts::SetExceptionPort() ran,
       // ExceptionPorts::GetExceptionPorts() can always be tested in-process.
@@ -344,11 +337,11 @@ class TestExceptionPorts : public UniversalMachExcServer,
 
     // The main thread waits on this for the other thread to start up and
     // perform its own initialization.
-    dispatch_semaphore_t init_semaphore_;
+    Semaphore init_semaphore_;
 
     // The child thread waits on this for the parent thread to indicate that the
     // child can test its exception ports and possibly crash, as appropriate.
-    dispatch_semaphore_t crash_semaphore_;
+    Semaphore crash_semaphore_;
 
     // Always zero. Crash() divides by this in order to trigger a crash. This is
     // structured as a static volatile int to ward off aggressive compiler
