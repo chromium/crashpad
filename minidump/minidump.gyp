@@ -29,6 +29,9 @@
         '..',
       ],
       'sources': [
+        'minidump_context.h',
+        'minidump_context_writer.cc',
+        'minidump_context_writer.h',
         'minidump_extensions.cc',
         'minidump_extensions.h',
         'minidump_file_writer.cc',
