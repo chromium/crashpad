@@ -13,74 +13,80 @@
 # limitations under the License.
 
 {
-  'targets': [
-    {
-      'target_name': 'tool_support',
-      'type': 'static_library',
-      'dependencies': [
-        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+  'conditions': [
+    ['OS=="mac"', {
+      'targets': [
+        {
+          'target_name': 'tool_support',
+          'type': 'static_library',
+          'dependencies': [
+            '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'tool_support.cc',
+            'tool_support.h',
+          ],
+        },
+        {
+          'target_name': 'catch_exception_tool',
+          'type': 'executable',
+          'dependencies': [
+            'tool_support',
+            '../compat/compat.gyp:compat',
+            '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+            '../util/util.gyp:util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'catch_exception_tool.cc',
+          ],
+        },
+        {
+          'target_name': 'exception_port_tool',
+          'type': 'executable',
+          'dependencies': [
+            'tool_support',
+            '../compat/compat.gyp:compat',
+            '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+            '../util/util.gyp:util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'exception_port_tool.cc',
+          ],
+        },
+        {
+          'target_name': 'on_demand_service_tool',
+          'type': 'executable',
+          'dependencies': [
+            'tool_support',
+            '../compat/compat.gyp:compat',
+            '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+            '../util/util.gyp:util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'link_settings': {
+            'libraries': [
+              '$(SDKROOT)/System/Library/Frameworks/CoreFoundation.framework',
+              '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
+            ],
+          },
+          'sources': [
+            'on_demand_service_tool.mm',
+          ],
+        },
       ],
-      'include_dirs': [
-        '..',
-      ],
-      'sources': [
-        'tool_support.cc',
-        'tool_support.h',
-      ],
-    },
-    {
-      'target_name': 'catch_exception_tool',
-      'type': 'executable',
-      'dependencies': [
-        'tool_support',
-        '../compat/compat.gyp:compat',
-        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        '../util/util.gyp:util',
-      ],
-      'include_dirs': [
-        '..',
-      ],
-      'sources': [
-        'catch_exception_tool.cc',
-      ],
-    },
-    {
-      'target_name': 'exception_port_tool',
-      'type': 'executable',
-      'dependencies': [
-        'tool_support',
-        '../compat/compat.gyp:compat',
-        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        '../util/util.gyp:util',
-      ],
-      'include_dirs': [
-        '..',
-      ],
-      'sources': [
-        'exception_port_tool.cc',
-      ],
-    },
-    {
-      'target_name': 'on_demand_service_tool',
-      'type': 'executable',
-      'dependencies': [
-        'tool_support',
-        '../compat/compat.gyp:compat',
-        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        '../util/util.gyp:util',
-      ],
-      'include_dirs': [
-        '..',
-      ],
-      'link_settings': {
-        'libraries': [
-          '$(SDKROOT)/System/Library/Frameworks/CoreFoundation.framework',
-          '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
-        ],
-      },
-      'sources': [
-        'on_demand_service_tool.mm',
-      ],
-    },
+    }, {
+      'targets': [],
+    }],
   ],
 }

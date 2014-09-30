@@ -25,13 +25,6 @@
         '..',
         '<(INTERMEDIATE_DIR)',
       ],
-      'link_settings': {
-        'libraries': [
-          '$(SDKROOT)/System/Library/Frameworks/CoreFoundation.framework',
-          '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
-          '$(SDKROOT)/System/Library/Frameworks/IOKit.framework',
-        ],
-      },
       'sources': [
         'file/fd_io.cc',
         'file/fd_io.h',
@@ -113,41 +106,52 @@
         'synchronization/semaphore.cc',
         'synchronization/semaphore.h',
       ],
-      'actions': [
-        {
-          'action_name': 'mig exc.defs',
-          'inputs': [
-            'mach/mig.py',
-            '$(SDKROOT)/usr/include/mach/exc.defs',
+      'conditions': [
+        ['OS=="mac"', {
+          'actions': [
+            {
+              'action_name': 'mig exc.defs',
+              'inputs': [
+                'mach/mig.py',
+                '$(SDKROOT)/usr/include/mach/exc.defs',
+              ],
+              'outputs': [
+                '<(INTERMEDIATE_DIR)/util/mach/excUser.c',
+                '<(INTERMEDIATE_DIR)/util/mach/excServer.c',
+                '<(INTERMEDIATE_DIR)/util/mach/exc.h',
+                '<(INTERMEDIATE_DIR)/util/mach/excServer.h',
+              ],
+              'action': [
+                'python', '<@(_inputs)', '<@(_outputs)'
+              ],
+              'process_outputs_as_sources': 1,
+            },
+            {
+              'action_name': 'mig mach_exc.defs',
+              'inputs': [
+                'mach/mig.py',
+                '$(SDKROOT)/usr/include/mach/mach_exc.defs',
+              ],
+              'outputs': [
+                '<(INTERMEDIATE_DIR)/util/mach/mach_excUser.c',
+                '<(INTERMEDIATE_DIR)/util/mach/mach_excServer.c',
+                '<(INTERMEDIATE_DIR)/util/mach/mach_exc.h',
+                '<(INTERMEDIATE_DIR)/util/mach/mach_excServer.h',
+              ],
+              'action': [
+                'python', '<@(_inputs)', '<@(_outputs)'
+              ],
+              'process_outputs_as_sources': 1,
+            },
           ],
-          'outputs': [
-            '<(INTERMEDIATE_DIR)/util/mach/excUser.c',
-            '<(INTERMEDIATE_DIR)/util/mach/excServer.c',
-            '<(INTERMEDIATE_DIR)/util/mach/exc.h',
-            '<(INTERMEDIATE_DIR)/util/mach/excServer.h',
-          ],
-          'action': [
-            'python', '<@(_inputs)', '<@(_outputs)'
-          ],
-          'process_outputs_as_sources': 1,
-        },
-        {
-          'action_name': 'mig mach_exc.defs',
-          'inputs': [
-            'mach/mig.py',
-            '$(SDKROOT)/usr/include/mach/mach_exc.defs',
-          ],
-          'outputs': [
-            '<(INTERMEDIATE_DIR)/util/mach/mach_excUser.c',
-            '<(INTERMEDIATE_DIR)/util/mach/mach_excServer.c',
-            '<(INTERMEDIATE_DIR)/util/mach/mach_exc.h',
-            '<(INTERMEDIATE_DIR)/util/mach/mach_excServer.h',
-          ],
-          'action': [
-            'python', '<@(_inputs)', '<@(_outputs)'
-          ],
-          'process_outputs_as_sources': 1,
-        },
+          'link_settings': {
+            'libraries': [
+              '$(SDKROOT)/System/Library/Frameworks/CoreFoundation.framework',
+              '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
+              '$(SDKROOT)/System/Library/Frameworks/IOKit.framework',
+            ],
+          },
+        }],
       ],
     },
     {
@@ -162,11 +166,6 @@
       'include_dirs': [
         '..',
       ],
-      'link_settings': {
-        'libraries': [
-          '$(SDKROOT)/usr/lib/libbsm.dylib',
-        ],
-      },
       'sources': [
         'test/errors.cc',
         'test/errors.h',
@@ -237,6 +236,15 @@
         'test/mac/mach_multiprocess_test.cc',
         'test/multiprocess_exec_test.cc',
         'test/multiprocess_test.cc',
+      ],
+      'conditions': [
+        ['OS=="mac"', {
+          'link_settings': {
+            'libraries': [
+              '$(SDKROOT)/usr/lib/libbsm.dylib',
+            ],
+          },
+        }],
       ],
     },
     {
