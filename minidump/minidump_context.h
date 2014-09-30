@@ -112,11 +112,13 @@ enum MinidumpContextX86Flags : uint32_t {
   kMinidumpContextX86Xstate = kMinidumpContextX86 | 0x00000040,
 
   //! \brief Indicates the validity of control, integer, and segment registers.
+  //!     (`CONTEXT_FULL`).
   kMinidumpContextX86Full = kMinidumpContextX86Control |
                             kMinidumpContextX86Integer |
                             kMinidumpContextX86Segment,
 
   //! \brief Indicates the validity of all registers except `xsave` data.
+  //!     (`CONTEXT_ALL`).
   kMinidumpContextX86All = kMinidumpContextX86Full |
                            kMinidumpContextX86FloatingPoint |
                            kMinidumpContextX86Debug |
@@ -217,16 +219,18 @@ enum MinidumpContextAMD64Flags : uint32_t {
   //!
   //! The context contains `xsave` data. This is used with an extended context
   //! structure not currently defined here.
-  kMinidumpContextX86Xstate = kMinidumpContextAMD64 | 0x00000040,
+  kMinidumpContextAMD64Xstate = kMinidumpContextAMD64 | 0x00000040,
 
-  //! \brief Indicates the validity of control, integer, and segment registers.
+  //! \brief Indicates the validity of control, integer, and floating-point
+  //!     registers (`CONTEXT_FULL`).
   kMinidumpContextAMD64Full = kMinidumpContextAMD64Control |
                               kMinidumpContextAMD64Integer |
-                              kMinidumpContextAMD64Segment,
+                              kMinidumpContextAMD64FloatingPoint,
 
-  //! \brief Indicates the validity of all registers except `xsave` data.
+  //! \brief Indicates the validity of all registers except `xsave` data
+  //!     (`CONTEXT_ALL`).
   kMinidumpContextAMD64All = kMinidumpContextAMD64Full |
-                             kMinidumpContextAMD64FloatingPoint |
+                             kMinidumpContextAMD64Segment |
                              kMinidumpContextAMD64Debug,
 };
 
