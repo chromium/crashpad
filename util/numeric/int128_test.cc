@@ -14,6 +14,7 @@
 
 #include "util/numeric/int128.h"
 
+#include "base/basictypes.h"
 #include "gtest/gtest.h"
 
 namespace {
