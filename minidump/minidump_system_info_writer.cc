@@ -47,8 +47,8 @@ void MinidumpSystemInfoWriter::SetCPUX86Vendor(uint32_t ebx,
          system_info_.ProcessorArchitecture ==
              kMinidumpCPUArchitectureX86Win64);
 
-  COMPILE_ASSERT(arraysize(system_info_.Cpu.X86CpuInfo.VendorId) == 3,
-                 vendor_id_must_have_3_elements);
+  static_assert(arraysize(system_info_.Cpu.X86CpuInfo.VendorId) == 3,
+                "VendorId must have 3 elements");
 
   system_info_.Cpu.X86CpuInfo.VendorId[0] = ebx;
   system_info_.Cpu.X86CpuInfo.VendorId[1] = edx;
@@ -61,9 +61,9 @@ void MinidumpSystemInfoWriter::SetCPUX86VendorString(
   CHECK_EQ(vendor.size(), sizeof(system_info_.Cpu.X86CpuInfo.VendorId));
 
   uint32_t registers[3];
-  COMPILE_ASSERT(
+  static_assert(
       sizeof(registers) == sizeof(system_info_.Cpu.X86CpuInfo.VendorId),
-      vendor_id_sizes_must_be_equal);
+      "VendorId sizes must be equal");
 
   for (size_t index = 0; index < arraysize(registers); ++index) {
     memcpy(&registers[index],
@@ -105,9 +105,8 @@ void MinidumpSystemInfoWriter::SetCPUOtherFeatures(uint64_t features_0,
          system_info_.ProcessorArchitecture !=
              kMinidumpCPUArchitectureX86Win64);
 
-  COMPILE_ASSERT(
-      arraysize(system_info_.Cpu.OtherCpuInfo.ProcessorFeatures) == 2,
-      processor_features_must_have_2_elements);
+  static_assert(arraysize(system_info_.Cpu.OtherCpuInfo.ProcessorFeatures) == 2,
+                "ProcessorFeatures must have 2 elements");
 
   system_info_.Cpu.OtherCpuInfo.ProcessorFeatures[0] = features_0;
   system_info_.Cpu.OtherCpuInfo.ProcessorFeatures[1] = features_1;

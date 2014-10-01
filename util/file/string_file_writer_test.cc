@@ -354,8 +354,8 @@ TEST(StringFileWriter, SeekInvalid) {
   EXPECT_EQ(1, writer.Seek(0, SEEK_CUR));
   EXPECT_TRUE(writer.string().empty());
 
-  COMPILE_ASSERT(SEEK_SET != 3 && SEEK_CUR != 3 && SEEK_END != 3,
-                 three_must_be_invalid_for_whence);
+  static_assert(SEEK_SET != 3 && SEEK_CUR != 3 && SEEK_END != 3,
+                "3 must be invalid for whence");
   EXPECT_LT(writer.Seek(0, 3), 0);
 
   writer.Reset();

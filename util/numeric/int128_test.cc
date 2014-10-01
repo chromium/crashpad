@@ -30,7 +30,7 @@ TEST(Int128, UInt128) {
 #endif
 
   uint128_struct uint128;
-  COMPILE_ASSERT(sizeof(uint128) == sizeof(kBytes), sizes_must_be_equal);
+  static_assert(sizeof(uint128) == sizeof(kBytes), "sizes must be equal");
 
   uint128 = bit_cast<uint128_struct>(kBytes);
 

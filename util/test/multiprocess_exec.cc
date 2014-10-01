@@ -72,9 +72,9 @@ void MultiprocessExec::PreFork() {
 void MultiprocessExec::MultiprocessChild() {
   // Make sure that stdin, stdout, and stderr are FDs 0, 1, and 2, respectively.
   // All FDs above this will be closed.
-  COMPILE_ASSERT(STDIN_FILENO == 0, stdin_must_be_fd_0);
-  COMPILE_ASSERT(STDOUT_FILENO == 1, stdout_must_be_fd_1);
-  COMPILE_ASSERT(STDERR_FILENO == 2, stderr_must_be_fd_2);
+  static_assert(STDIN_FILENO == 0, "stdin must be fd 0");
+  static_assert(STDOUT_FILENO == 1, "stdout must be fd 1");
+  static_assert(STDERR_FILENO == 2, "stderr must be fd 2");
 
   // Move the read pipe to stdin.
   int read_fd = ReadPipeFD();

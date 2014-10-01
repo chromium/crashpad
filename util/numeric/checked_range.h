@@ -30,8 +30,8 @@ template <typename ValueType, typename SizeType = ValueType>
 class CheckedRange {
  public:
   CheckedRange(ValueType base, SizeType size) {
-    COMPILE_ASSERT(!std::numeric_limits<SizeType>::is_signed,
-                   SizeType_must_be_unsigned);
+    static_assert(!std::numeric_limits<SizeType>::is_signed,
+                  "SizeType must be unsigned");
     SetRange(base, size);
   }
 

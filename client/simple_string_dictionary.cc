@@ -14,7 +14,6 @@
 
 #include "client/simple_string_dictionary.h"
 
-#include "base/basictypes.h"
 #include "util/stdlib/cxx.h"
 
 #if CXX_LIBRARY_VERSION >= 2011
@@ -29,9 +28,9 @@ typedef TSimpleStringDictionary<1, 1, 1> SimpleStringDictionaryForAssertion;
 #if CXX_LIBRARY_VERSION >= 2011
 // In C++11, check that TSimpleStringDictionary has standard layout, which is
 // what is actually important.
-COMPILE_ASSERT(
+static_assert(
     std::is_standard_layout<SimpleStringDictionaryForAssertion>::value,
-    SimpleStringDictionary_must_be_standard_layout);
+    "SimpleStringDictionary must be standard layout");
 #else
 // In C++98 (ISO 14882), section 9.5.1 says that a union cannot have a member
 // with a non-trivial ctor, copy ctor, dtor, or assignment operator. Use this

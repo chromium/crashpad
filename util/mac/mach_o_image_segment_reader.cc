@@ -237,9 +237,9 @@ std::string MachOImageSegmentReader::SegmentNameString(
     const char* segment_name_c) {
   // This is used to interpret the segname field of both the segment_command and
   // section structures, so be sure that they’re identical.
-  COMPILE_ASSERT(sizeof(process_types::segment_command::segname) ==
-                     sizeof(process_types::section::segname),
-                 sizes_must_be_equal);
+  static_assert(sizeof(process_types::segment_command::segname) ==
+                    sizeof(process_types::section::segname),
+                "sizes must be equal");
 
   return SizeLimitedCString(segment_name_c,
                             sizeof(process_types::segment_command::segname));

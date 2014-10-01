@@ -25,11 +25,11 @@
 namespace crashpad {
 
 // Ensure type compatibility between WritableIoVec and iovec.
-COMPILE_ASSERT(sizeof(WritableIoVec) == sizeof(iovec), WritableIoVec_size);
-COMPILE_ASSERT(offsetof(WritableIoVec, iov_base) == offsetof(iovec, iov_base),
-               WritableIoVec_base_offset);
-COMPILE_ASSERT(offsetof(WritableIoVec, iov_len) == offsetof(iovec, iov_len),
-               WritableIoVec_len_offset);
+static_assert(sizeof(WritableIoVec) == sizeof(iovec), "WritableIoVec size");
+static_assert(offsetof(WritableIoVec, iov_base) == offsetof(iovec, iov_base),
+              "WritableIoVec base offset");
+static_assert(offsetof(WritableIoVec, iov_len) == offsetof(iovec, iov_len),
+              "WritableIoVec len offset");
 
 FileWriter::FileWriter() : fd_() {
 }

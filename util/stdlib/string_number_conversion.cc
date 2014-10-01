@@ -21,20 +21,19 @@
 
 #include <limits>
 
-#include "base/basictypes.h"
 #include "base/logging.h"
 #include "util/stdlib/cxx.h"
 
-// CONSTEXPR_COMPILE_ASSERT will be a normal COMPILE_ASSERT if the C++ library
-// is the C++11 library. If using an older C++ library when compiling C++11
-// code, the std::numeric_limits<>::min() and max() functions will not be
-// marked as constexpr, and thus won’t be usable with C++11’s static_assert().
-// In that case, a run-time CHECK() will have to do.
+// CONSTEXPR_STATIC_ASSERT will be a normal static_assert if the C++ library is
+// the C++11 library. If using an older C++ library when compiling C++11 code,
+// the std::numeric_limits<>::min() and max() functions will not be marked as
+// constexpr, and thus won’t be usable with C++11’s static_assert(). In that
+// case, a run-time CHECK() will have to do.
 #if CXX_LIBRARY_VERSION >= 2011
-#define CONSTEXPR_COMPILE_ASSERT(condition, message) \
-  COMPILE_ASSERT(condition, message)
+#define CONSTEXPR_STATIC_ASSERT(condition, message) \
+  static_assert(condition, message)
 #else
-#define CONSTEXPR_COMPILE_ASSERT(condition, message) CHECK(condition)
+#define CONSTEXPR_STATIC_ASSERT(condition, message) CHECK(condition) << message
 #endif
 
 namespace {
@@ -44,22 +43,22 @@ struct StringToIntegerTraits {
   typedef TIntType IntType;
   typedef TLongType LongType;
   static void TypeCheck() {
-    COMPILE_ASSERT(std::numeric_limits<TIntType>::is_integer &&
-                       std::numeric_limits<TLongType>::is_integer,
-                   IntType_and_LongType_must_be_integer);
-    COMPILE_ASSERT(std::numeric_limits<TIntType>::is_signed ==
-                       std::numeric_limits<TLongType>::is_signed,
-                   IntType_and_LongType_signedness_must_agree);
-    CONSTEXPR_COMPILE_ASSERT(std::numeric_limits<TIntType>::min() >=
-                                     std::numeric_limits<TLongType>::min() &&
-                                 std::numeric_limits<TIntType>::min() <
-                                     std::numeric_limits<TLongType>::max(),
-                             IntType_min_must_be_in_LongType_range);
-    CONSTEXPR_COMPILE_ASSERT(std::numeric_limits<TIntType>::max() >
-                                     std::numeric_limits<TLongType>::min() &&
-                                 std::numeric_limits<TIntType>::max() <=
-                                     std::numeric_limits<TLongType>::max(),
-                             IntType_max_must_be_in_LongType_range);
+    static_assert(std::numeric_limits<TIntType>::is_integer &&
+                      std::numeric_limits<TLongType>::is_integer,
+                  "IntType and LongType must be integer");
+    static_assert(std::numeric_limits<TIntType>::is_signed ==
+                      std::numeric_limits<TLongType>::is_signed,
+                  "IntType and LongType signedness must agree");
+    CONSTEXPR_STATIC_ASSERT(std::numeric_limits<TIntType>::min() >=
+                                    std::numeric_limits<TLongType>::min() &&
+                                std::numeric_limits<TIntType>::min() <
+                                    std::numeric_limits<TLongType>::max(),
+                            "IntType min must be in LongType range");
+    CONSTEXPR_STATIC_ASSERT(std::numeric_limits<TIntType>::max() >
+                                    std::numeric_limits<TLongType>::min() &&
+                                std::numeric_limits<TIntType>::max() <=
+                                    std::numeric_limits<TLongType>::max(),
+                            "IntType max must be in LongType range");
   }
 };
 
@@ -67,8 +66,8 @@ template <typename TIntType, typename TLongType>
 struct StringToSignedIntegerTraits
     : public StringToIntegerTraits<TIntType, TLongType> {
   static void TypeCheck() {
-    COMPILE_ASSERT(std::numeric_limits<TIntType>::is_signed,
-                   StringToSignedTraits_IntType_must_be_signed);
+    static_assert(std::numeric_limits<TIntType>::is_signed,
+                  "StringToSignedTraits IntType must be signed");
     return super::TypeCheck();
   }
   static bool IsNegativeOverflow(TLongType value) {
@@ -83,8 +82,8 @@ template <typename TIntType, typename TLongType>
 struct StringToUnsignedIntegerTraits
     : public StringToIntegerTraits<TIntType, TLongType> {
   static void TypeCheck() {
-    COMPILE_ASSERT(!std::numeric_limits<TIntType>::is_signed,
-                   StringToUnsignedTraits_IntType_must_be_unsigned);
+    static_assert(!std::numeric_limits<TIntType>::is_signed,
+                  "StringToUnsignedTraits IntType must be unsigned");
     return super::TypeCheck();
   }
   static bool IsNegativeOverflow(TLongType value) { return false; }

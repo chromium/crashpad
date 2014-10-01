@@ -1114,7 +1114,7 @@ TEST(ExcServerVariants, ExcCrashRecoverOriginalException) {
 
   // Now make sure that ExcCrashRecoverOriginalException() properly ignores
   // optional arguments.
-  COMPILE_ASSERT(arraysize(kTestData) >= 1, must_have_something_to_test);
+  static_assert(arraysize(kTestData) >= 1, "must have something to test");
   const TestData& test_data = kTestData[0];
   EXPECT_EQ(test_data.exception,
             ExcCrashRecoverOriginalException(test_data.code_0, NULL, NULL));

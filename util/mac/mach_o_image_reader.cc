@@ -328,7 +328,7 @@ const process_types::section* MachOImageReader::GetSectionAtIndex(
     mach_vm_address_t* address) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  COMPILE_ASSERT(NO_SECT == 0, no_sect_must_be_zero);
+  static_assert(NO_SECT == 0, "NO_SECT must be zero");
   if (index == NO_SECT) {
     LOG(WARNING) << "section index " << index << " out of range";
     return NULL;

@@ -42,8 +42,8 @@ const char* kExceptionNames[] = {
     "RESOURCE",
     "GUARD",
 };
-COMPILE_ASSERT(arraysize(kExceptionNames) == EXC_TYPES_COUNT,
-               kExceptionNames_length);
+static_assert(arraysize(kExceptionNames) == EXC_TYPES_COUNT,
+              "kExceptionNames length");
 
 const char kExcPrefix[] = "EXC_";
 const char kExcMaskPrefix[] = "EXC_MASK_";

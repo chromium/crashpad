@@ -99,9 +99,9 @@ const char* kSignalNames[] = {
 };
 #if defined(OS_LINUX)
 // NSIG is 64 to account for real-time signals.
-COMPILE_ASSERT(arraysize(kSignalNames) == 32, kSignalNames_length);
+static_assert(arraysize(kSignalNames) == 32, "kSignalNames length");
 #else
-COMPILE_ASSERT(arraysize(kSignalNames) == NSIG, kSignalNames_length);
+static_assert(arraysize(kSignalNames) == NSIG, "kSignalNames length");
 #endif
 
 const char kSigPrefix[] = "SIG";

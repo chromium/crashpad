@@ -27,11 +27,11 @@
 
 namespace crashpad {
 
-COMPILE_ASSERT(sizeof(UUID) == 16, UUID_must_be_16_bytes);
+static_assert(sizeof(UUID) == 16, "UUID must be 16 bytes");
 
 #if CXX_LIBRARY_VERSION >= 2011
-COMPILE_ASSERT(std::is_standard_layout<UUID>::value,
-               UUID_must_be_standard_layout);
+static_assert(std::is_standard_layout<UUID>::value,
+              "UUID must be standard layout");
 #endif
 
 UUID::UUID() : data_1(0), data_2(0), data_3(0), data_4(), data_5() {
