@@ -183,6 +183,15 @@
         'test/posix/close_multiple.cc',
         'test/posix/close_multiple.h',
       ],
+      'conditions': [
+        ['OS=="mac"', {
+          'link_settings': {
+            'libraries': [
+              '$(SDKROOT)/usr/lib/libbsm.dylib',
+            ],
+          },
+        }],
+      ],
     },
     {
       'target_name': 'util_test',
@@ -241,7 +250,7 @@
         ['OS=="mac"', {
           'link_settings': {
             'libraries': [
-              '$(SDKROOT)/usr/lib/libbsm.dylib',
+              '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
             ],
           },
         }],
