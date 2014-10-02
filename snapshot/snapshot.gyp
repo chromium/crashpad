@@ -15,20 +15,26 @@
 {
   'targets': [
     {
-      'target_name': 'All',
-      'type': 'none',
-      'suppress_wildcard': 1,
+      'target_name': 'snapshot',
+      'type': 'static_library',
       'dependencies': [
-        'client/client.gyp:*',
-        'compat/compat.gyp:*',
-        'minidump/minidump.gyp:*',
-        'snapshot/snapshot.gyp:*',
-        'tools/tools.gyp:*',
-        'util/util.gyp:*',
+        '../compat/compat.gyp:compat',
+        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        '../util/util.gyp:util',
+      ],
+      'include_dirs': [
+        '..',
       ],
       'sources': [
-        'crashpad.doxy.h',
-        'package.h',
+        'cpu_architecture.h',
+        'cpu_context.cc',
+        'cpu_context.h',
+        'exception_snapshot.h',
+        'memory_snapshot.h',
+        'module_snapshot.h',
+        'process_snapshot.h',
+        'system_snapshot.h',
+        'thread_snapshot.h',
       ],
     },
   ],
