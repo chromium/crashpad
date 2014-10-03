@@ -34,7 +34,28 @@
         'module_snapshot.h',
         'process_snapshot.h',
         'system_snapshot.h',
+        'system_snapshot_mac.cc',
+        'system_snapshot_mac.h',
         'thread_snapshot.h',
+      ],
+    },
+    {
+      'target_name': 'snapshot_test',
+      'type': 'executable',
+      'dependencies': [
+        'snapshot',
+        '../compat/compat.gyp:compat',
+        '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/gtest/gtest.gyp:gtest_main',
+        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        '../util/util.gyp:util',
+        '../util/util.gyp:util_test_lib',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'system_snapshot_mac_test.cc',
       ],
     },
   ],
