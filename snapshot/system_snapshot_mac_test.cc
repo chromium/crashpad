@@ -15,6 +15,7 @@
 #include "snapshot/system_snapshot_mac.h"
 
 #include <sys/time.h>
+#include <time.h>
 
 #include <string>
 
@@ -86,7 +87,7 @@ TEST_F(SystemSnapshotMacTest, CPUVendor) {
   // Apple has only shipped Intel x86-family CPUs, but here’s a small nod to the
   // “Hackintosh” crowd.
   if (cpu_vendor != "GenuineIntel" && cpu_vendor != "AuthenticAMD") {
-    FAIL() << cpu_vendor;
+    FAIL() << "cpu_vendor " << cpu_vendor;
   }
 #else
 #error port to your architecture
@@ -125,6 +126,50 @@ TEST_F(SystemSnapshotMacTest, OSVersionFull) {
 
 TEST_F(SystemSnapshotMacTest, MachineDescription) {
   EXPECT_FALSE(system_snapshot().MachineDescription().empty());
+}
+
+TEST_F(SystemSnapshotMacTest, TimeZone) {
+  SystemSnapshot::DaylightSavingTimeStatus dst_status;
+  int standard_offset_seconds;
+  int daylight_offset_seconds;
+  std::string standard_name;
+  std::string daylight_name;
+
+  system_snapshot().TimeZone(&dst_status,
+                             &standard_offset_seconds,
+                             &daylight_offset_seconds,
+                             &standard_name,
+                             &daylight_name);
+
+  // |standard_offset_seconds| gives seconds east of UTC, and |timezone| gives
+  // seconds west of UTC.
+  EXPECT_EQ(-timezone, standard_offset_seconds);
+
+  // In contemporary usage, most time zones have an integer hour offset from
+  // UTC, although several are at a half-hour offset, and two are at 15-minute
+  // offsets. Throughout history, other variations existed. See
+  // http://www.timeanddate.com/time/time-zones-interesting.html.
+  EXPECT_EQ(0, standard_offset_seconds % (15 * 60))
+      << "standard_offset_seconds " << standard_offset_seconds;
+
+  if (dst_status == SystemSnapshot::kDoesNotObserveDaylightSavingTime) {
+    EXPECT_EQ(standard_offset_seconds, daylight_offset_seconds);
+    EXPECT_EQ(standard_name, daylight_name);
+  } else {
+    EXPECT_EQ(0, daylight_offset_seconds % (15 * 60))
+        << "daylight_offset_seconds " << daylight_offset_seconds;
+
+    // In contemporary usage, dst_delta_seconds will almost always be one hour,
+    // except for Lord Howe Island, Australia, which uses a 30-minute
+    // delta. Throughout history, other variations existed. See
+    // http://www.timeanddate.com/time/dst/#brief.
+    int dst_delta_seconds = daylight_offset_seconds - standard_offset_seconds;
+    if (dst_delta_seconds != 60 * 60 && dst_delta_seconds != 30 * 60) {
+      FAIL() << "dst_delta_seconds " << dst_delta_seconds;
+    }
+
+    EXPECT_NE(standard_name, daylight_name);
+  }
 }
 
 }  // namespace

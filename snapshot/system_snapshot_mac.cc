@@ -342,23 +342,45 @@ void SystemSnapshotMac::TimeZone(DaylightSavingTimeStatus* dst_status,
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   tm local;
-  localtime_r(&snapshot_time_->tv_sec, &local);
+  PCHECK(localtime_r(&snapshot_time_->tv_sec, &local)) << "localtime_r";
 
   *standard_name = tzname[0];
   if (daylight) {
-    // This assumes that the offset between standard and daylight saving time is
-    // globally a constant, where a time zone’s daylight saving time is one hour
-    // ahead of its standard time.
-    const int kSecondsPerHour = 60 * 60;
+    // Scan forward and backward, one month at a time, looking for an instance
+    // when the observance of daylight saving time is different than it is in
+    // |local|.
+    long probe_gmtoff = local.tm_gmtoff;
+
+    const int kMonthDeltas[] =
+        { 0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6,
+          7, -7, 8, -8, 9, -9, 10, -10, 11, -11, 12, -12 };
+    for (size_t index = 0; index < arraysize(kMonthDeltas); ++index) {
+      // Look at the 15th day of each month at local noon. Set tm_isdst to -1 to
+      // avoid giving mktime() any hints about whether to consider daylight
+      // saving time in effect. mktime() accepts values of tm_mon that are
+      // outside of its normal range and behaves as expected: if tm_mon is -1,
+      // it references December of the preceding year, and if it is 12, it
+      // references January of the following year.
+      tm probe_tm = {};
+      probe_tm.tm_hour = 12;
+      probe_tm.tm_mday = 15;
+      probe_tm.tm_mon = local.tm_mon + kMonthDeltas[index];
+      probe_tm.tm_year = local.tm_year;
+      probe_tm.tm_isdst = -1;
+      if (mktime(&probe_tm) != -1 && probe_tm.tm_isdst != local.tm_isdst) {
+        probe_gmtoff = probe_tm.tm_gmtoff;
+        break;
+      }
+    }
 
     *daylight_name = tzname[1];
     if (!local.tm_isdst) {
       *dst_status = kObservingStandardTime;
       *standard_offset_seconds = local.tm_gmtoff;
-      *daylight_offset_seconds = local.tm_gmtoff + kSecondsPerHour;
+      *daylight_offset_seconds = probe_gmtoff;
     } else {
       *dst_status = kObservingDaylightSavingTime;
-      *standard_offset_seconds = local.tm_gmtoff - kSecondsPerHour;
+      *standard_offset_seconds = probe_gmtoff;
       *daylight_offset_seconds = local.tm_gmtoff;
     }
   } else {
