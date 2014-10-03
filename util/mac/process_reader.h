@@ -67,7 +67,7 @@ class ProcessReader {
     mach_vm_address_t stack_region_address;
     mach_vm_size_t stack_region_size;
     mach_vm_address_t thread_specific_data_address;
-    task_t port;
+    thread_t port;
     int suspend_count;
     int priority;
   };
