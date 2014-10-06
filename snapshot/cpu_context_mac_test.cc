@@ -239,7 +239,7 @@ TEST(CPUContextMac, InitializeContextX86_64) {
                                          &x86_float_state64,
                                          &x86_debug_state64);
     EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave64.ftw);
+    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
     EXPECT_EQ(12u, cpu_context_x86_64.dr0);
   }
 
@@ -265,7 +265,7 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_float_state64,
         &x86_debug_state64);
     EXPECT_EQ(13u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave64.ftw);
+    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
     EXPECT_EQ(12u, cpu_context_x86_64.dr0);
   }
 
@@ -283,7 +283,7 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_float_state64,
         &x86_debug_state64);
     EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(14u, cpu_context_x86_64.fxsave64.ftw);
+    EXPECT_EQ(14u, cpu_context_x86_64.fxsave.ftw);
     EXPECT_EQ(12u, cpu_context_x86_64.dr0);
   }
 
@@ -301,7 +301,7 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_float_state64,
         &x86_debug_state64);
     EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave64.ftw);
+    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
     EXPECT_EQ(15u, cpu_context_x86_64.dr0);
   }
 
@@ -328,7 +328,7 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_float_state64,
         &x86_debug_state64);
     EXPECT_EQ(16u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave64.ftw);
+    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
     EXPECT_EQ(12u, cpu_context_x86_64.dr0);
   }
 
@@ -348,7 +348,7 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_float_state64,
         &x86_debug_state64);
     EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(17u, cpu_context_x86_64.fxsave64.ftw);
+    EXPECT_EQ(17u, cpu_context_x86_64.fxsave.ftw);
     EXPECT_EQ(12u, cpu_context_x86_64.dr0);
   }
 
@@ -368,7 +368,7 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_float_state64,
         &x86_debug_state64);
     EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave64.ftw);
+    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
     EXPECT_EQ(18u, cpu_context_x86_64.dr0);
   }
 
@@ -390,7 +390,7 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_float_state64,
         &x86_debug_state64);
     EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave64.ftw);
+    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
     EXPECT_EQ(12u, cpu_context_x86_64.dr0);
   }
 
@@ -409,7 +409,7 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_float_state64,
         &x86_debug_state64);
     EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave64.ftw);
+    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
     EXPECT_EQ(12u, cpu_context_x86_64.dr0);
   }
 }

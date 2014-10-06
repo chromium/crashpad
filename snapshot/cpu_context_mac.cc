@@ -227,16 +227,16 @@ void InitializeCPUContextX86_64Thread(
 
 void InitializeCPUContextX86_64Float(
     CPUContextX86_64* context, const x86_float_state64_t* x86_float_state64) {
-  // This relies on both x86_float_state64_t and context->fxsave64 having
-  // identical (fxsave64) layout.
+  // This relies on both x86_float_state64_t and context->fxsave having
+  // identical (fxsave) layout.
   static_assert(offsetof(x86_float_state64_t, __fpu_reserved1) -
                          offsetof(x86_float_state64_t, __fpu_fcw) ==
-                     sizeof(context->fxsave64),
+                     sizeof(context->fxsave),
                 "types must be equivalent");
 
-  memcpy(&context->fxsave64,
+  memcpy(&context->fxsave,
          &x86_float_state64->__fpu_fcw,
-         sizeof(context->fxsave64));
+         sizeof(context->fxsave));
 }
 
 void InitializeCPUContextX86_64Debug(
