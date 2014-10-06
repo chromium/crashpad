@@ -96,19 +96,36 @@ struct CPUContextX86_64 {
   typedef CPUContextX86::X87OrMMXRegister X87OrMMXRegister;
   typedef CPUContextX86::XMMRegister XMMRegister;
 
-  struct Fxsave64 {
+  struct Fxsave {
     uint16_t fcw;  // FPU control word
     uint16_t fsw;  // FPU status word
     uint8_t ftw;  // abridged FPU tag word
     uint8_t reserved_1;
     uint16_t fop;  // FPU opcode
-    uint64_t fpu_ip;  // FPU instruction pointer
-    uint64_t fpu_dp;  // FPU data pointer
+    union {
+      // The expression of these union members is determined by the use of
+      // fxsave/fxrstor or fxsave64/fxrstor64 (fxsaveq/fxrstorq). Mac OS X and
+      // Windows systems use the traditional fxsave/fxrstor structure.
+      struct {
+        // fxsave/fxrstor
+        uint32_t fpu_ip;  // FPU instruction pointer offset
+        uint16_t fpu_cs;  // FPU instruction pointer segment selector
+        uint16_t reserved_2;
+        uint32_t fpu_dp;  // FPU data pointer offset
+        uint16_t fpu_ds;  // FPU data pointer segment selector
+        uint16_t reserved_3;
+      };
+      struct {
+        // fxsave64/fxrstor64 (fxsaveq/fxrstorq)
+        uint64_t fpu_ip_64;  // FPU instruction pointer
+        uint64_t fpu_dp_64;  // FPU data pointer
+      };
+    };
     uint32_t mxcsr;  // multimedia extensions status and control register
     uint32_t mxcsr_mask;  // valid bits in mxcsr
     X87OrMMXRegister st_mm[8];
     XMMRegister xmm[16];
-    uint8_t reserved_2[48];
+    uint8_t reserved_4[48];
     uint8_t available[48];
   };
 
@@ -136,7 +153,7 @@ struct CPUContextX86_64 {
   uint16_t gs;
 
   // Floating-point and vector registers.
-  Fxsave64 fxsave64;
+  Fxsave fxsave;
 
   // Debug registers.
   uint64_t dr0;

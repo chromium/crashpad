@@ -270,7 +270,11 @@ bool SystemSnapshotMac::CPUX86SupportsDAZ() const {
   }
 
   // Call fxsave.
+#if defined(ARCH_CPU_X86)
   CPUContextX86::Fxsave fxsave __attribute__((aligned(16))) = {};
+#elif defined(ARCH_CPU_X86_64)
+  CPUContextX86_64::Fxsave fxsave __attribute__((aligned(16))) = {};
+#endif
   static_assert(sizeof(fxsave) == 512, "fxsave size");
   static_assert(offsetof(decltype(fxsave), mxcsr_mask) == 28,
                 "mxcsr_mask offset");
