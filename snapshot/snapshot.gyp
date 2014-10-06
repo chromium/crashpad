@@ -29,6 +29,8 @@
         'cpu_architecture.h',
         'cpu_context.cc',
         'cpu_context.h',
+        'cpu_context_mac.cc',
+        'cpu_context_mac.h',
         'exception_snapshot.h',
         'memory_snapshot.h',
         'memory_snapshot_mac.cc',
@@ -57,6 +59,7 @@
         '..',
       ],
       'sources': [
+        'cpu_context_mac_test.cc',
         'system_snapshot_mac_test.cc',
       ],
     },
