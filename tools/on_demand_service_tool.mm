@@ -30,9 +30,8 @@
 #include "util/mac/service_management.h"
 #include "util/stdlib/objc.h"
 
+namespace crashpad {
 namespace {
-
-using namespace crashpad;
 
 void Usage(const std::string& me) {
   fprintf(stderr,
@@ -52,9 +51,7 @@ void Usage(const std::string& me) {
   ToolSupport::UsageTail(me);
 }
 
-}  // namespace
-
-int main(int argc, char* argv[]) {
+int OnDemandServiceToolMain(int argc, char* argv[]) {
   const std::string me(basename(argv[0]));
 
   enum Operation {
@@ -189,4 +186,11 @@ int main(int argc, char* argv[]) {
       return EXIT_FAILURE;
     }
   }
+}
+
+}  // namespace
+}  // namespace crashpad
+
+int main(int argc, char* argv[]) {
+  return crashpad::OnDemandServiceToolMain(argc, argv);
 }

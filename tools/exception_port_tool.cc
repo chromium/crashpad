@@ -35,9 +35,8 @@
 #include "util/mach/symbolic_constants_mach.h"
 #include "util/stdlib/string_number_conversion.h"
 
+namespace crashpad {
 namespace {
-
-using namespace crashpad;
 
 //! \brief Manages a pool of Mach send rights, deallocating all send rights upon
 //!     destruction.
@@ -348,9 +347,7 @@ void Usage(const std::string& me) {
   ToolSupport::UsageTail(me);
 }
 
-}  // namespace
-
-int main(int argc, char* argv[]) {
+int ExceptionPortToolMain(int argc, char* argv[]) {
   const std::string me(basename(argv[0]));
 
   enum ExitCode {
@@ -586,4 +583,11 @@ int main(int argc, char* argv[]) {
   }
 
   return kExitSuccess;
+}
+
+}  // namespace
+}  // namespace crashpad
+
+int main(int argc, char* argv[]) {
+  return crashpad::ExceptionPortToolMain(argc, argv);
 }

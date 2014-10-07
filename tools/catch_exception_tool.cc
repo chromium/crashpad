@@ -35,9 +35,8 @@
 #include "util/posix/symbolic_constants_posix.h"
 #include "util/stdlib/string_number_conversion.h"
 
+namespace crashpad {
 namespace {
-
-using namespace crashpad;
 
 struct Options {
   std::string file_path;
@@ -179,9 +178,7 @@ void Usage(const std::string& me) {
   ToolSupport::UsageTail(me);
 }
 
-}  // namespace
-
-int main(int argc, char* argv[]) {
+int CatchExceptionToolMain(int argc, char* argv[]) {
   const std::string me(basename(argv[0]));
 
   enum OptionFlags {
@@ -299,4 +296,11 @@ int main(int argc, char* argv[]) {
   }
 
   return EXIT_SUCCESS;
+}
+
+}  // namespace
+}  // namespace crashpad
+
+int main(int argc, char* argv[]) {
+  return crashpad::CatchExceptionToolMain(argc, argv);
 }
