@@ -33,8 +33,6 @@
 namespace crashpad {
 namespace test {
 
-using namespace testing;
-
 namespace internal {
 
 struct MultiprocessInfo {
@@ -211,7 +209,7 @@ void Multiprocess::RunChild() {
   info_->pipe_c2p_write.reset();
   info_->pipe_p2c_read.reset();
 
-  if (Test::HasFailure()) {
+  if (testing::Test::HasFailure()) {
     // Trigger the ScopedForbidReturn destructor.
     return;
   }

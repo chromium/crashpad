@@ -19,9 +19,9 @@
 #include "gtest/gtest.h"
 #include "util/mach/mach_extensions.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(ExceptionBehaviors, ExceptionBehaviors) {
   struct TestData {
@@ -68,3 +68,5 @@ TEST(ExceptionBehaviors, ExceptionBehaviors) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

@@ -40,10 +40,9 @@
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 TEST(ProcessReader, SelfBasic) {
   ProcessReader process_reader;
@@ -695,3 +694,5 @@ TEST(ProcessReader, ChildModules) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

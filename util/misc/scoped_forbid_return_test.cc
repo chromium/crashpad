@@ -16,9 +16,9 @@
 
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 enum ForbidReturnType {
   kForbidReturnDefault = 0,
@@ -57,3 +57,5 @@ TEST(ScopedForbidReturn, Disarmed) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

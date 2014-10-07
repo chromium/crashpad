@@ -19,9 +19,9 @@
 
 #include <limits>
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(StringNumberConversion, StringToInt) {
   const struct {
@@ -216,3 +216,5 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

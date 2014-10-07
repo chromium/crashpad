@@ -16,9 +16,9 @@
 
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(InitializationState, InitializationState) {
   InitializationState* initialization_state_pointer;
@@ -54,3 +54,5 @@ TEST(InitializationState, InitializationState) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

@@ -24,10 +24,9 @@
 #include "minidump/minidump_test_util.h"
 #include "util/file/string_file_writer.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 void GetSystemInfoStream(const std::string& file_contents,
                          size_t csd_version_length,
@@ -295,3 +294,5 @@ TEST(MinidumpSystemInfoWriterDeathTest, NoCSDVersion) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

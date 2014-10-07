@@ -25,10 +25,9 @@
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 class TestMachMessageServer : public MachMessageServer::Interface,
                               public MachMultiprocess {
@@ -845,3 +844,5 @@ TEST(MachMessageServer, LargeExpected) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

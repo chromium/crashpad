@@ -22,9 +22,9 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 // If the context structure has fields that tell whether it’s valid, such as
 // magic numbers or size fields, sanity-checks those fields for validity with
@@ -152,3 +152,5 @@ TEST(CaptureContextMac, CaptureContext) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

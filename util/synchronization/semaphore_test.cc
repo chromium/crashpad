@@ -18,9 +18,9 @@
 
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(Semaphore, Simple) {
   Semaphore semaphore(1);
@@ -86,3 +86,5 @@ TEST(Semaphore, TenThreaded) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

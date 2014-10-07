@@ -33,10 +33,9 @@
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 // Calls GetExceptionPorts() on its |exception_ports| argument to look up the
 // EXC_MASK_CRASH handler. If |expect_port| is not MACH_PORT_NULL, it expects to
@@ -574,3 +573,5 @@ TEST(ExceptionPorts, HostExceptionPorts) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

@@ -25,9 +25,9 @@
 
 #define NUL_TEST_DATA(string) { string, arraysize(string) - 1 }
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 // Options to use for normal tests, those that don’t require kAllowOr.
 const StringToSymbolicConstantOptions kNormalOptions[] = {
@@ -1062,3 +1062,5 @@ TEST(SymbolicConstantsMach, StringToThreadStateFlavor) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

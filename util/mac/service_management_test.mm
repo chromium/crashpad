@@ -30,9 +30,9 @@
 #include "util/posix/process_util.h"
 #include "util/stdlib/objc.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 // Ensures that the process with the specified PID is running, identifying it by
 // requiring that its argv[argc - 1] compare equal to last_arg.
@@ -156,3 +156,5 @@ TEST(ServiceManagement, SubmitRemoveJob) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

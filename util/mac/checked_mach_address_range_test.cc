@@ -24,9 +24,9 @@
 #include "gtest/gtest.h"
 #include "util/mac/process_reader.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 #if defined(ARCH_CPU_64_BITS)
 const bool kValid64Invalid32 = true;
@@ -254,3 +254,5 @@ TEST(CheckedMachAddressRange, ContainsRange) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

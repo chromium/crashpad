@@ -26,10 +26,9 @@
 #include "gtest/gtest.h"
 #include "util/test/mac/mach_errors.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 TEST(TaskMemory, ReadSelf) {
   vm_address_t address = 0;
@@ -552,3 +551,5 @@ TEST(TaskMemory, MappedMemoryReadCString) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

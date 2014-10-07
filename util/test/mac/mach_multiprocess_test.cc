@@ -19,10 +19,9 @@
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 class TestMachMultiprocess final : public MachMultiprocess {
  public:
@@ -46,3 +45,5 @@ TEST(MachMultiprocess, MachMultiprocess) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

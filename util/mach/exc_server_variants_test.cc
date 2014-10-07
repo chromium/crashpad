@@ -27,11 +27,14 @@
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
 
+namespace crashpad {
+namespace test {
 namespace {
 
-using namespace crashpad;
-using namespace crashpad::test;
-using namespace testing;
+using testing::DefaultValue;
+using testing::Eq;
+using testing::Pointee;
+using testing::Return;
 
 // Fake Mach ports. These aren’t used as ports in these tests, they’re just used
 // as cookies to make sure that the correct values get passed to the correct
@@ -1169,3 +1172,5 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

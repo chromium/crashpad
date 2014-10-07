@@ -26,9 +26,9 @@
 #include "gtest/gtest.h"
 #include "util/stdlib/objc.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(Launchd, CFPropertyToLaunchData_Integer) {
   @autoreleasepool {
@@ -301,3 +301,5 @@ TEST(Launchd, CFPropertyToLaunchData_RealWorldJobDictionary) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

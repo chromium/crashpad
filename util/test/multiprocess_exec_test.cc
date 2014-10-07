@@ -21,10 +21,9 @@
 #include "util/file/fd_io.h"
 #include "util/test/executable_path.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 class TestMultiprocessExec final : public MultiprocessExec {
  public:
@@ -54,3 +53,5 @@ TEST(MultiprocessExec, MultiprocessExec) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

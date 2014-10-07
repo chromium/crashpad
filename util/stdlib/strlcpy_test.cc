@@ -23,9 +23,9 @@
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(strlcpy, c16lcpy) {
   // Use a destination buffer that’s larger than the length passed to c16lcpy.
@@ -89,3 +89,5 @@ TEST(strlcpy, c16lcpy) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

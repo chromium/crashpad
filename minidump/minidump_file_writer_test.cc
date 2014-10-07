@@ -26,10 +26,9 @@
 #include "util/file/file_writer.h"
 #include "util/file/string_file_writer.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 TEST(MinidumpFileWriter, Empty) {
   MinidumpFileWriter minidump_file;
@@ -262,3 +261,5 @@ TEST(MinidumpFileWriterDeathTest, SameStreamType) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

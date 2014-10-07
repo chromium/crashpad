@@ -22,10 +22,9 @@
 #include "gtest/gtest.h"
 #include "util/file/fd_io.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 class TestMultiprocess final : public Multiprocess {
  public:
@@ -292,3 +291,5 @@ TEST(MultiprocessDeathTest, ChildClosesReadAndWritePipe) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

@@ -22,9 +22,9 @@
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(CheckedRange, IsValid) {
   const struct UnsignedTestData {
@@ -244,3 +244,5 @@ TEST(CheckedRange, ContainsRange) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

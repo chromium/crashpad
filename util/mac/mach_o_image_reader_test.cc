@@ -36,9 +36,9 @@
 // This file is responsible for testing MachOImageReader,
 // MachOImageSegmentReader, and MachOImageSymbolTableReader.
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 // Native types and constants, in cases where the 32-bit and 64-bit versions
 // are different.
@@ -659,3 +659,5 @@ TEST(MachOImageReader, Self_DyldImages) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

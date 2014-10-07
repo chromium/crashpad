@@ -17,9 +17,9 @@
 #include "base/logging.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(SimpleStringDictionary, Entry) {
   typedef TSimpleStringDictionary<5, 9, 15> TestMap;
@@ -293,3 +293,5 @@ TEST(SimpleStringDictionaryDeathTest, NullKey) {
 #endif
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

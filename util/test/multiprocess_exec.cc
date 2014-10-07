@@ -27,8 +27,6 @@
 namespace crashpad {
 namespace test {
 
-using namespace testing;
-
 MultiprocessExec::MultiprocessExec()
     : Multiprocess(),
       command_(),

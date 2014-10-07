@@ -25,10 +25,9 @@
 #include "util/mac/process_reader.h"
 #include "util/test/errors.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 // SystemSnapshotMac objects would be cumbersome to construct in each test that
 // requires one, because of the repetitive and mechanical work necessary to set
@@ -173,3 +172,5 @@ TEST_F(SystemSnapshotMacTest, TimeZone) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

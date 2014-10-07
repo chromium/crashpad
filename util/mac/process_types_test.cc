@@ -25,9 +25,9 @@
 #include "util/mac/mac_util.h"
 #include "util/test/mac/dyld.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 #define TEST_STRING(process_reader, self_view, proctype_view, field)        \
   do {                                                                      \
@@ -259,3 +259,5 @@ TEST(ProcessTypes, DyldImagesSelf) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

@@ -20,9 +20,9 @@
 
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 const int32_t kInt32Min = std::numeric_limits<int32_t>::min();
 const int64_t kInt64Min = std::numeric_limits<int64_t>::min();
@@ -115,3 +115,5 @@ TEST(InRangeCast, Int64) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

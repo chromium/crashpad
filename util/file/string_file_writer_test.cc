@@ -19,9 +19,9 @@
 
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(StringFileWriter, EmptyFile) {
   StringFileWriter writer;
@@ -376,3 +376,5 @@ TEST(StringFileWriter, SeekInvalid) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

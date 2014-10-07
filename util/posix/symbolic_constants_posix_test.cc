@@ -23,9 +23,9 @@
 
 #define NUL_TEST_DATA(string) { string, arraysize(string) - 1 }
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 const struct {
   int signal;
@@ -252,3 +252,5 @@ TEST(SymbolicConstantsPOSIX, StringToSignal) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

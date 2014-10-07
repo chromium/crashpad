@@ -25,10 +25,9 @@
 #include "minidump/minidump_test_util.h"
 #include "util/file/string_file_writer.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 const MinidumpStreamType kBogusStreamType =
     static_cast<MinidumpStreamType>(1234);
@@ -389,3 +388,5 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

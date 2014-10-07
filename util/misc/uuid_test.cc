@@ -21,9 +21,9 @@
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(UUID, UUID) {
   UUID uuid_zero;
@@ -153,3 +153,5 @@ TEST(UUID, UUID) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

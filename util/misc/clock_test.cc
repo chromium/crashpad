@@ -23,9 +23,9 @@
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(Clock, ClockMonotonicNanoseconds) {
   uint64_t start = ClockMonotonicNanoseconds();
@@ -92,3 +92,5 @@ TEST(Clock, SleepNanoseconds) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

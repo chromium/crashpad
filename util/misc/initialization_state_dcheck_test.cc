@@ -17,9 +17,9 @@
 #include "base/logging.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(InitializationStateDcheck, InitializationStateDcheck) {
   InitializationStateDcheck initialization_state_dcheck;
@@ -126,3 +126,5 @@ TEST(InitializationStateDcheckDeathTest, Destroyed_NotValid) {
 #endif
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

@@ -48,8 +48,6 @@ struct ReceiveHelloMessage : public SendHelloMessage {
 namespace crashpad {
 namespace test {
 
-using namespace testing;
-
 namespace internal {
 
 struct MachMultiprocessInfo {
@@ -271,7 +269,7 @@ void MachMultiprocess::MultiprocessChild() {
   // verify it using the task port it has access to via ChildTask().
   CheckedReadFDAtEOF(ReadPipeFD());
 
-  if (Test::HasFailure()) {
+  if (testing::Test::HasFailure()) {
     // Trigger the ScopedForbidReturn destructor.
     return;
   }

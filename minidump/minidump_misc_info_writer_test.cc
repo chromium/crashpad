@@ -28,10 +28,9 @@
 #include "util/file/string_file_writer.h"
 #include "util/stdlib/strlcpy.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 template <typename T>
 void GetMiscInfoStream(const std::string& file_contents, const T** misc_info) {
@@ -656,3 +655,5 @@ TEST(MinidumpMiscInfoWriter, Everything) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

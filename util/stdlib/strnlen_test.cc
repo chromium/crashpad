@@ -18,6 +18,8 @@
 
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
 
 TEST(strnlen, strnlen) {
@@ -39,3 +41,5 @@ TEST(strnlen, strnlen) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

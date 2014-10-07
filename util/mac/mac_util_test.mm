@@ -34,9 +34,9 @@
 #undef catch
 #endif
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 // Runs /usr/bin/sw_vers with a single argument, |argument|, and places the
 // command’s standard output into |output| after stripping the trailing newline.
@@ -147,3 +147,5 @@ TEST(MacUtil, MacModelAndBoard) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

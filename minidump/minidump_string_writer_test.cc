@@ -24,9 +24,9 @@
 #include "gtest/gtest.h"
 #include "util/file/string_file_writer.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 const MINIDUMP_STRING* MinidumpStringCast(const StringFileWriter& file_writer) {
   return reinterpret_cast<const MINIDUMP_STRING*>(&file_writer.string()[0]);
@@ -199,3 +199,5 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

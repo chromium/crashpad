@@ -22,9 +22,9 @@
 
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(ProcessUtil, ProcessArgumentsForPID) {
   std::vector<std::string> argv;
@@ -45,3 +45,5 @@ TEST(ProcessUtil, ProcessArgumentsForPID) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

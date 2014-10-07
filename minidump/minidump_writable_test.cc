@@ -21,9 +21,9 @@
 #include "gtest/gtest.h"
 #include "util/file/string_file_writer.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
  public:
@@ -833,3 +833,5 @@ TEST(MinidumpWritable, LocationDescriptor) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

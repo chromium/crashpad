@@ -20,9 +20,9 @@
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 // Most of MachOImageSegmentReader is tested as part of MachOImageReader, which
 // depends on MachOImageSegmentReader to provide major portions of its
@@ -184,3 +184,5 @@ TEST(MachOImageSegmentReader, SegmentAndSectionNameString) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

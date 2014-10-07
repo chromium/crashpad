@@ -17,9 +17,9 @@
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(Int128, UInt128) {
 #if defined(ARCH_CPU_LITTLE_ENDIAN)
@@ -40,3 +40,5 @@ TEST(Int128, UInt128) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

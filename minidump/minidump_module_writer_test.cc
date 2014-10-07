@@ -26,10 +26,9 @@
 #include "util/file/string_file_writer.h"
 #include "util/misc/uuid.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
-using namespace crashpad::test;
 
 void GetModuleListStream(const std::string& file_contents,
                          const MINIDUMP_MODULE_LIST** module_list) {
@@ -672,3 +671,5 @@ TEST(MinidumpSystemInfoWriterDeathTest, NoModuleName) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

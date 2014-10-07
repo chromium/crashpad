@@ -18,9 +18,9 @@
 
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 #if defined(ARCH_CPU_X86_FAMILY)
 
@@ -417,3 +417,5 @@ TEST(CPUContextMac, InitializeContextX86_64) {
 #endif
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

@@ -17,9 +17,9 @@
 #include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad;
 
 TEST(MachExtensions, MachThreadSelf) {
   base::mac::ScopedMachSendRight thread_self(mach_thread_self());
@@ -27,3 +27,5 @@ TEST(MachExtensions, MachThreadSelf) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad

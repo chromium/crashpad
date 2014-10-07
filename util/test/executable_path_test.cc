@@ -17,9 +17,9 @@
 #include "base/files/file_path.h"
 #include "gtest/gtest.h"
 
+namespace crashpad {
+namespace test {
 namespace {
-
-using namespace crashpad::test;
 
 TEST(ExecutablePath, ExecutablePath) {
   base::FilePath executable_path = ExecutablePath();
@@ -28,3 +28,5 @@ TEST(ExecutablePath, ExecutablePath) {
 }
 
 }  // namespace
+}  // namespace test
+}  // namespace crashpad
