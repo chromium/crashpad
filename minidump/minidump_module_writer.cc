@@ -250,12 +250,11 @@ void MinidumpModuleWriter::SetFileFlagsAndMask(uint32_t file_flags,
 
 bool MinidumpModuleWriter::Freeze() {
   DCHECK_EQ(state(), kStateMutable);
+  CHECK(name_);
 
   if (!MinidumpWritable::Freeze()) {
     return false;
   }
-
-  CHECK(name_);
 
   name_->RegisterRVA(&module_.ModuleNameRva);
 
@@ -281,11 +280,10 @@ size_t MinidumpModuleWriter::SizeOfObject() {
 
 std::vector<internal::MinidumpWritable*> MinidumpModuleWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
+  DCHECK(name_);
 
   std::vector<MinidumpWritable*> children;
-  if (name_) {
-    children.push_back(name_.get());
-  }
+  children.push_back(name_.get());
   if (codeview_record_) {
     children.push_back(codeview_record_);
   }
