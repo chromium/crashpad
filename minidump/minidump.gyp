@@ -72,6 +72,8 @@
         'minidump_context_writer_test.cc',
         'minidump_file_writer_test.cc',
         'minidump_memory_writer_test.cc',
+        'minidump_memory_writer_test_util.cc',
+        'minidump_memory_writer_test_util.h',
         'minidump_misc_info_writer_test.cc',
         'minidump_module_writer_test.cc',
         'minidump_string_writer_test.cc',

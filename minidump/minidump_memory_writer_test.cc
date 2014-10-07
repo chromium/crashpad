@@ -21,6 +21,7 @@
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_file_writer.h"
+#include "minidump/minidump_memory_writer_test_util.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_test_util.h"
 #include "util/file/string_file_writer.h"
@@ -100,88 +101,6 @@ TEST(MinidumpMemoryWriter, EmptyMemoryList) {
   EXPECT_EQ(0u, memory_list->NumberOfMemoryRanges);
 }
 
-class TestMemoryWriter final : public MinidumpMemoryWriter {
- public:
-  TestMemoryWriter(uint64_t base_address, size_t size, uint8_t value)
-      : MinidumpMemoryWriter(),
-        base_address_(base_address),
-        expected_offset_(-1),
-        size_(size),
-        value_(value) {}
-
-  ~TestMemoryWriter() {}
-
- protected:
-  // MinidumpMemoryWriter:
-  virtual uint64_t MemoryRangeBaseAddress() const override {
-    EXPECT_EQ(state(), kStateFrozen);
-    return base_address_;
-  }
-
-  virtual size_t MemoryRangeSize() const override {
-    EXPECT_GE(state(), kStateFrozen);
-    return size_;
-  }
-
-  // MinidumpWritable:
-  virtual bool WillWriteAtOffsetImpl(off_t offset) override {
-    EXPECT_EQ(state(), kStateFrozen);
-    expected_offset_ = offset;
-    bool rv = MinidumpMemoryWriter::WillWriteAtOffsetImpl(offset);
-    EXPECT_TRUE(rv);
-    return rv;
-  }
-
-  virtual bool WriteObject(FileWriterInterface* file_writer) override {
-    EXPECT_EQ(state(), kStateWritable);
-    EXPECT_EQ(expected_offset_, file_writer->Seek(0, SEEK_CUR));
-
-    bool rv = true;
-    if (size_ > 0) {
-      std::string data(size_, value_);
-      rv = file_writer->Write(&data[0], size_);
-      EXPECT_TRUE(rv);
-    }
-
-    return rv;
-  }
-
- private:
-  uint64_t base_address_;
-  off_t expected_offset_;
-  size_t size_;
-  uint8_t value_;
-
-  DISALLOW_COPY_AND_ASSIGN(TestMemoryWriter);
-};
-
-void ExpectMemoryDescriptorAndContents(
-    const MINIDUMP_MEMORY_DESCRIPTOR* expected,
-    const MINIDUMP_MEMORY_DESCRIPTOR* observed,
-    const std::string& file_contents,
-    uint8_t value,
-    bool at_eof) {
-  const uint32_t kMemoryAlignment = 16;
-
-  EXPECT_EQ(expected->StartOfMemoryRange, observed->StartOfMemoryRange);
-  EXPECT_EQ(expected->Memory.DataSize, observed->Memory.DataSize);
-  EXPECT_EQ(
-      (expected->Memory.Rva + kMemoryAlignment - 1) & ~(kMemoryAlignment - 1),
-      observed->Memory.Rva);
-  if (at_eof) {
-    EXPECT_EQ(file_contents.size(),
-              observed->Memory.Rva + observed->Memory.DataSize);
-  } else {
-    EXPECT_GE(file_contents.size(),
-              observed->Memory.Rva + observed->Memory.DataSize);
-  }
-
-  std::string expected_data(expected->Memory.DataSize, value);
-  std::string observed_data(&file_contents[observed->Memory.Rva],
-                            observed->Memory.DataSize);
-  EXPECT_EQ(expected_data, observed_data);
-}
-
 TEST(MinidumpMemoryWriter, OneMemoryRegion) {
   MinidumpFileWriter minidump_file_writer;
   MinidumpMemoryListWriter memory_list_writer;
@@ -190,7 +109,7 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
   const uint64_t kSize = 0x1000;
   const uint8_t kValue = 'm';
 
-  TestMemoryWriter memory_writer(kBaseAddress, kSize, kValue);
+  TestMinidumpMemoryWriter memory_writer(kBaseAddress, kSize, kValue);
   memory_list_writer.AddMemory(&memory_writer);
 
   minidump_file_writer.AddStream(&memory_list_writer);
@@ -211,11 +130,11 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
       sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
       sizeof(MINIDUMP_MEMORY_LIST) +
       memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
-  ExpectMemoryDescriptorAndContents(&expected,
-                                    &memory_list->MemoryRanges[0],
-                                    file_writer.string(),
-                                    kValue,
-                                    true);
+  ExpectMinidumpMemoryDescriptorAndContents(&expected,
+                                            &memory_list->MemoryRanges[0],
+                                            file_writer.string(),
+                                            kValue,
+                                            true);
 }
 
 TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
@@ -229,9 +148,9 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
   const uint64_t kSize2 = 0x0200;
   const uint8_t kValue2 = '!';
 
-  TestMemoryWriter memory_writer_1(kBaseAddress1, kSize1, kValue1);
+  TestMinidumpMemoryWriter memory_writer_1(kBaseAddress1, kSize1, kValue1);
   memory_list_writer.AddMemory(&memory_writer_1);
-  TestMemoryWriter memory_writer_2(kBaseAddress2, kSize2, kValue2);
+  TestMinidumpMemoryWriter memory_writer_2(kBaseAddress2, kSize2, kValue2);
   memory_list_writer.AddMemory(&memory_writer_2);
 
   minidump_file_writer.AddStream(&memory_list_writer);
@@ -258,11 +177,11 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
         sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
         sizeof(MINIDUMP_MEMORY_LIST) +
         memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
-    ExpectMemoryDescriptorAndContents(&expected,
-                                      &memory_list->MemoryRanges[0],
-                                      file_writer.string(),
-                                      kValue1,
-                                      false);
+    ExpectMinidumpMemoryDescriptorAndContents(&expected,
+                                              &memory_list->MemoryRanges[0],
+                                              file_writer.string(),
+                                              kValue1,
+                                              false);
   }
 
   {
@@ -272,11 +191,11 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
     expected.Memory.DataSize = kSize2;
     expected.Memory.Rva = memory_list->MemoryRanges[0].Memory.Rva +
                           memory_list->MemoryRanges[0].Memory.DataSize;
-    ExpectMemoryDescriptorAndContents(&expected,
-                                      &memory_list->MemoryRanges[1],
-                                      file_writer.string(),
-                                      kValue2,
-                                      true);
+    ExpectMinidumpMemoryDescriptorAndContents(&expected,
+                                              &memory_list->MemoryRanges[1],
+                                              file_writer.string(),
+                                              kValue2,
+                                              true);
   }
 }
 
@@ -287,7 +206,7 @@ class TestMemoryStream final : public internal::MinidumpStreamWriter {
 
   ~TestMemoryStream() {}
 
-  TestMemoryWriter* memory() { return &memory_; }
+  TestMinidumpMemoryWriter* memory() { return &memory_; }
 
   // MinidumpStreamWriter:
   virtual MinidumpStreamType StreamType() const override {
@@ -313,7 +232,7 @@ class TestMemoryStream final : public internal::MinidumpStreamWriter {
   }
 
  private:
-  TestMemoryWriter memory_;
+  TestMinidumpMemoryWriter memory_;
 
   DISALLOW_COPY_AND_ASSIGN(TestMemoryStream);
 };
@@ -338,7 +257,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   const uint64_t kSize2 = 0x0400;
   const uint8_t kValue2 = 'm';
 
-  TestMemoryWriter memory_writer(kBaseAddress2, kSize2, kValue2);
+  TestMinidumpMemoryWriter memory_writer(kBaseAddress2, kSize2, kValue2);
   memory_list_writer.AddMemory(&memory_writer);
 
   minidump_file_writer.AddStream(&memory_list_writer);
@@ -365,11 +284,11 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
         sizeof(MINIDUMP_HEADER) + 2 * sizeof(MINIDUMP_DIRECTORY) +
         sizeof(MINIDUMP_MEMORY_LIST) +
         memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
-    ExpectMemoryDescriptorAndContents(&expected,
-                                      &memory_list->MemoryRanges[0],
-                                      file_writer.string(),
-                                      kValue1,
-                                      false);
+    ExpectMinidumpMemoryDescriptorAndContents(&expected,
+                                              &memory_list->MemoryRanges[0],
+                                              file_writer.string(),
+                                              kValue1,
+                                              false);
   }
 
   {
@@ -379,11 +298,11 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
     expected.Memory.DataSize = kSize2;
     expected.Memory.Rva = memory_list->MemoryRanges[0].Memory.Rva +
                           memory_list->MemoryRanges[0].Memory.DataSize;
-    ExpectMemoryDescriptorAndContents(&expected,
-                                      &memory_list->MemoryRanges[1],
-                                      file_writer.string(),
-                                      kValue2,
-                                      true);
+    ExpectMinidumpMemoryDescriptorAndContents(&expected,
+                                              &memory_list->MemoryRanges[1],
+                                              file_writer.string(),
+                                              kValue2,
+                                              true);
   }
 }
 
