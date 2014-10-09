@@ -20,8 +20,8 @@
 
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
+#include "minidump/minidump_file_writer_test_util.h"
 #include "minidump/minidump_stream_writer.h"
-#include "minidump/minidump_test_util.h"
 #include "minidump/minidump_writable.h"
 #include "util/file/file_writer.h"
 #include "util/file/string_file_writer.h"
