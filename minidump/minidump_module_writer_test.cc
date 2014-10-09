@@ -494,37 +494,44 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   MinidumpFileWriter minidump_file_writer;
   MinidumpModuleListWriter module_list_writer;
 
-  const char kModuleName1[] = "main";
-  const uint64_t kModuleBase1 = 0x100101000;
-  const uint32_t kModuleSize1 = 0xf000;
-  const char kPDBName1[] = "main";
-  const uint8_t kPDBUUIDBytes1[16] =
+  const char kModuleName0[] = "main";
+  const uint64_t kModuleBase0 = 0x100101000;
+  const uint32_t kModuleSize0 = 0xf000;
+  const char kPDBName0[] = "main";
+  const uint8_t kPDBUUIDBytes0[16] =
       {0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff, 0x00, 0x11,
        0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99};
-  UUID pdb_uuid_1;
-  pdb_uuid_1.InitializeFromBytes(kPDBUUIDBytes1);
-  const uint32_t kPDBAge1 = 0;
+  UUID pdb_uuid_0;
+  pdb_uuid_0.InitializeFromBytes(kPDBUUIDBytes0);
+  const uint32_t kPDBAge0 = 0;
 
-  const char kModuleName2[] = "ld.so";
-  const uint64_t kModuleBase2 = 0x200202000;
-  const uint32_t kModuleSize2 = 0x1e000;
+  const char kModuleName1[] = "ld.so";
+  const uint64_t kModuleBase1 = 0x200202000;
+  const uint32_t kModuleSize1 = 0x1e000;
 
-  const char kModuleName3[] = "libc.so";
-  const uint64_t kModuleBase3 = 0x300303000;
-  const uint32_t kModuleSize3 = 0x2d000;
-  const char kPDBName3[] = "libc.so";
-  const time_t kPDBTimestamp3 = 0x386d4380;
-  const uint32_t kPDBAge3 = 2;
+  const char kModuleName2[] = "libc.so";
+  const uint64_t kModuleBase2 = 0x300303000;
+  const uint32_t kModuleSize2 = 0x2d000;
+  const char kPDBName2[] = "libc.so";
+  const time_t kPDBTimestamp2 = 0x386d4380;
+  const uint32_t kPDBAge2 = 2;
+
+  MinidumpModuleWriter module_writer_0;
+  module_writer_0.SetName(kModuleName0);
+  module_writer_0.SetImageBaseAddress(kModuleBase0);
+  module_writer_0.SetImageSize(kModuleSize0);
+
+  MinidumpModuleCodeViewRecordPDB70Writer codeview_pdb70_writer_0;
+  codeview_pdb70_writer_0.SetPDBName(kPDBName0);
+  codeview_pdb70_writer_0.SetUUIDAndAge(pdb_uuid_0, kPDBAge0);
+  module_writer_0.SetCodeViewRecord(&codeview_pdb70_writer_0);
+
+  module_list_writer.AddModule(&module_writer_0);
 
   MinidumpModuleWriter module_writer_1;
   module_writer_1.SetName(kModuleName1);
   module_writer_1.SetImageBaseAddress(kModuleBase1);
   module_writer_1.SetImageSize(kModuleSize1);
-
-  MinidumpModuleCodeViewRecordPDB70Writer codeview_pdb70_writer_1;
-  codeview_pdb70_writer_1.SetPDBName(kPDBName1);
-  codeview_pdb70_writer_1.SetUUIDAndAge(pdb_uuid_1, kPDBAge1);
-  module_writer_1.SetCodeViewRecord(&codeview_pdb70_writer_1);
 
   module_list_writer.AddModule(&module_writer_1);
 
@@ -533,19 +540,12 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   module_writer_2.SetImageBaseAddress(kModuleBase2);
   module_writer_2.SetImageSize(kModuleSize2);
 
+  MinidumpModuleCodeViewRecordPDB20Writer codeview_pdb70_writer_2;
+  codeview_pdb70_writer_2.SetPDBName(kPDBName2);
+  codeview_pdb70_writer_2.SetTimestampAndAge(kPDBTimestamp2, kPDBAge2);
+  module_writer_2.SetCodeViewRecord(&codeview_pdb70_writer_2);
+
   module_list_writer.AddModule(&module_writer_2);
-
-  MinidumpModuleWriter module_writer_3;
-  module_writer_3.SetName(kModuleName3);
-  module_writer_3.SetImageBaseAddress(kModuleBase3);
-  module_writer_3.SetImageSize(kModuleSize3);
-
-  MinidumpModuleCodeViewRecordPDB20Writer codeview_pdb70_writer_3;
-  codeview_pdb70_writer_3.SetPDBName(kPDBName3);
-  codeview_pdb70_writer_3.SetTimestampAndAge(kPDBTimestamp3, kPDBAge3);
-  module_writer_3.SetCodeViewRecord(&codeview_pdb70_writer_3);
-
-  module_list_writer.AddModule(&module_writer_3);
 
   minidump_file_writer.AddStream(&module_list_writer);
 
@@ -567,17 +567,17 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   {
     SCOPED_TRACE("module 0");
 
-    expected.BaseOfImage = kModuleBase1;
-    expected.SizeOfImage = kModuleSize1;
+    expected.BaseOfImage = kModuleBase0;
+    expected.SizeOfImage = kModuleSize0;
 
     ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
                                          &module_list->Modules[0],
                                          file_writer.string(),
-                                         kModuleName1,
-                                         kPDBName1,
-                                         &pdb_uuid_1,
+                                         kModuleName0,
+                                         kPDBName0,
+                                         &pdb_uuid_0,
                                          0,
-                                         kPDBAge1,
+                                         kPDBAge0,
                                          NULL,
                                          0,
                                          false));
@@ -586,13 +586,13 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   {
     SCOPED_TRACE("module 1");
 
-    expected.BaseOfImage = kModuleBase2;
-    expected.SizeOfImage = kModuleSize2;
+    expected.BaseOfImage = kModuleBase1;
+    expected.SizeOfImage = kModuleSize1;
 
     ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
                                          &module_list->Modules[1],
                                          file_writer.string(),
-                                         kModuleName2,
+                                         kModuleName1,
                                          NULL,
                                          NULL,
                                          0,
@@ -605,17 +605,17 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   {
     SCOPED_TRACE("module 2");
 
-    expected.BaseOfImage = kModuleBase3;
-    expected.SizeOfImage = kModuleSize3;
+    expected.BaseOfImage = kModuleBase2;
+    expected.SizeOfImage = kModuleSize2;
 
     ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
                                          &module_list->Modules[2],
                                          file_writer.string(),
-                                         kModuleName3,
-                                         kPDBName3,
+                                         kModuleName2,
+                                         kPDBName2,
                                          NULL,
-                                         kPDBTimestamp3,
-                                         kPDBAge3,
+                                         kPDBTimestamp2,
+                                         kPDBAge2,
                                          NULL,
                                          0,
                                          false));
