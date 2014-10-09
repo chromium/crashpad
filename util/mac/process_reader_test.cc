@@ -370,10 +370,7 @@ TEST(ProcessReader, SelfSeveralThreads) {
 
   TestThreadPool thread_pool;
   const size_t kChildThreads = 16;
-  thread_pool.StartThreads(kChildThreads);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(thread_pool.StartThreads(kChildThreads));
 
   // Build a map of all expected threads, keyed by each thread’s ID. The values
   // are addresses that should lie somewhere within each thread’s stack.
@@ -462,10 +459,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
 
   void MachMultiprocessChild() override {
     TestThreadPool thread_pool;
-    thread_pool.StartThreads(thread_count_);
-    if (testing::Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(thread_pool.StartThreads(thread_count_));
 
     int write_fd = WritePipeFD();
 

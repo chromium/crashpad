@@ -43,10 +43,7 @@ void GetModuleListStream(const std::string& file_contents,
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
 
-  VerifyMinidumpHeader(header, 1, 0);
-  if (testing::Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
 
   const MINIDUMP_DIRECTORY* directory =
       reinterpret_cast<const MINIDUMP_DIRECTORY*>(
@@ -78,10 +75,8 @@ TEST(MinidumpModuleWriter, EmptyModuleList) {
             file_writer.string().size());
 
   const MINIDUMP_MODULE_LIST* module_list;
-  GetModuleListStream(file_writer.string(), &module_list);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetModuleListStream(file_writer.string(), &module_list));
 
   EXPECT_EQ(0u, module_list->NumberOfModules);
 }
@@ -276,24 +271,18 @@ void ExpectModule(const MINIDUMP_MODULE* expected,
   string16 expected_module_name_utf16 = base::UTF8ToUTF16(expected_module_name);
   EXPECT_EQ(expected_module_name_utf16, observed_module_name_utf16);
 
-  ExpectCodeViewRecord(&observed->CvRecord,
-                       file_contents,
-                       expected_pdb_name,
-                       expected_pdb_uuid,
-                       expected_pdb_timestamp,
-                       expected_pdb_age);
-  if (testing::Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(ExpectCodeViewRecord(&observed->CvRecord,
+                                               file_contents,
+                                               expected_pdb_name,
+                                               expected_pdb_uuid,
+                                               expected_pdb_timestamp,
+                                               expected_pdb_age));
 
-  ExpectMiscellaneousDebugRecord(&observed->MiscRecord,
-                                 file_contents,
-                                 expected_debug_name,
-                                 expected_debug_type,
-                                 expected_debug_utf16);
-  if (testing::Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(ExpectMiscellaneousDebugRecord(&observed->MiscRecord,
+                                                         file_contents,
+                                                         expected_debug_name,
+                                                         expected_debug_type,
+                                                         expected_debug_utf16));
 }
 
 TEST(MinidumpModuleWriter, EmptyModule) {
@@ -316,28 +305,23 @@ TEST(MinidumpModuleWriter, EmptyModule) {
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
   const MINIDUMP_MODULE_LIST* module_list;
-  GetModuleListStream(file_writer.string(), &module_list);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetModuleListStream(file_writer.string(), &module_list));
 
   EXPECT_EQ(1u, module_list->NumberOfModules);
 
   MINIDUMP_MODULE expected = {};
-  ExpectModule(&expected,
-               &module_list->Modules[0],
-               file_writer.string(),
-               kModuleName,
-               NULL,
-               NULL,
-               0,
-               0,
-               NULL,
-               0,
-               false);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
+                                       &module_list->Modules[0],
+                                       file_writer.string(),
+                                       kModuleName,
+                                       NULL,
+                                       NULL,
+                                       0,
+                                       0,
+                                       NULL,
+                                       0,
+                                       false));
 }
 
 TEST(MinidumpModuleWriter, OneModule) {
@@ -410,10 +394,8 @@ TEST(MinidumpModuleWriter, OneModule) {
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
   const MINIDUMP_MODULE_LIST* module_list;
-  GetModuleListStream(file_writer.string(), &module_list);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetModuleListStream(file_writer.string(), &module_list));
 
   EXPECT_EQ(1u, module_list->NumberOfModules);
 
@@ -432,20 +414,17 @@ TEST(MinidumpModuleWriter, OneModule) {
   expected.VersionInfo.dwFileType = kFileType;
   expected.VersionInfo.dwFileSubtype = kFileSubtype;
 
-  ExpectModule(&expected,
-               &module_list->Modules[0],
-               file_writer.string(),
-               kModuleName,
-               kPDBName,
-               &pdb_uuid,
-               0,
-               kPDBAge,
-               kDebugName,
-               kDebugType,
-               kDebugUTF16);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
+                                       &module_list->Modules[0],
+                                       file_writer.string(),
+                                       kModuleName,
+                                       kPDBName,
+                                       &pdb_uuid,
+                                       0,
+                                       kPDBAge,
+                                       kDebugName,
+                                       kDebugType,
+                                       kDebugUTF16));
 }
 
 TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
@@ -488,29 +467,24 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
   const MINIDUMP_MODULE_LIST* module_list;
-  GetModuleListStream(file_writer.string(), &module_list);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetModuleListStream(file_writer.string(), &module_list));
 
   EXPECT_EQ(1u, module_list->NumberOfModules);
 
   MINIDUMP_MODULE expected = {};
 
-  ExpectModule(&expected,
-               &module_list->Modules[0],
-               file_writer.string(),
-               kModuleName,
-               kPDBName,
-               NULL,
-               kPDBTimestamp,
-               kPDBAge,
-               kDebugName,
-               kDebugType,
-               kDebugUTF16);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
+                                       &module_list->Modules[0],
+                                       file_writer.string(),
+                                       kModuleName,
+                                       kPDBName,
+                                       NULL,
+                                       kPDBTimestamp,
+                                       kPDBAge,
+                                       kDebugName,
+                                       kDebugType,
+                                       kDebugUTF16));
 }
 
 TEST(MinidumpModuleWriter, ThreeModules) {
@@ -583,10 +557,8 @@ TEST(MinidumpModuleWriter, ThreeModules) {
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
   const MINIDUMP_MODULE_LIST* module_list;
-  GetModuleListStream(file_writer.string(), &module_list);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetModuleListStream(file_writer.string(), &module_list));
 
   EXPECT_EQ(3u, module_list->NumberOfModules);
 
@@ -598,20 +570,17 @@ TEST(MinidumpModuleWriter, ThreeModules) {
     expected.BaseOfImage = kModuleBase1;
     expected.SizeOfImage = kModuleSize1;
 
-    ExpectModule(&expected,
-                 &module_list->Modules[0],
-                 file_writer.string(),
-                 kModuleName1,
-                 kPDBName1,
-                 &pdb_uuid_1,
-                 0,
-                 kPDBAge1,
-                 NULL,
-                 0,
-                 false);
-    if (Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
+                                         &module_list->Modules[0],
+                                         file_writer.string(),
+                                         kModuleName1,
+                                         kPDBName1,
+                                         &pdb_uuid_1,
+                                         0,
+                                         kPDBAge1,
+                                         NULL,
+                                         0,
+                                         false));
   }
 
   {
@@ -620,20 +589,17 @@ TEST(MinidumpModuleWriter, ThreeModules) {
     expected.BaseOfImage = kModuleBase2;
     expected.SizeOfImage = kModuleSize2;
 
-    ExpectModule(&expected,
-                 &module_list->Modules[1],
-                 file_writer.string(),
-                 kModuleName2,
-                 NULL,
-                 NULL,
-                 0,
-                 0,
-                 NULL,
-                 0,
-                 false);
-    if (Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
+                                         &module_list->Modules[1],
+                                         file_writer.string(),
+                                         kModuleName2,
+                                         NULL,
+                                         NULL,
+                                         0,
+                                         0,
+                                         NULL,
+                                         0,
+                                         false));
   }
 
   {
@@ -642,20 +608,17 @@ TEST(MinidumpModuleWriter, ThreeModules) {
     expected.BaseOfImage = kModuleBase3;
     expected.SizeOfImage = kModuleSize3;
 
-    ExpectModule(&expected,
-                 &module_list->Modules[2],
-                 file_writer.string(),
-                 kModuleName3,
-                 kPDBName3,
-                 NULL,
-                 kPDBTimestamp3,
-                 kPDBAge3,
-                 NULL,
-                 0,
-                 false);
-    if (Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
+                                         &module_list->Modules[2],
+                                         file_writer.string(),
+                                         kModuleName3,
+                                         kPDBName3,
+                                         NULL,
+                                         kPDBTimestamp3,
+                                         kPDBAge3,
+                                         NULL,
+                                         0,
+                                         false));
   }
 }
 

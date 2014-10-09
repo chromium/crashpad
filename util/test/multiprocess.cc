@@ -63,10 +63,7 @@ void Multiprocess::Run() {
   scoped_ptr<internal::MultiprocessInfo> info(new internal::MultiprocessInfo);
   base::AutoReset<internal::MultiprocessInfo*> reset_info(&info_, info.get());
 
-  PreFork();
-  if (testing::Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(PreFork());
 
   pid_t pid = fork();
   ASSERT_GE(pid, 0) << ErrnoMessage("fork");

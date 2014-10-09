@@ -51,10 +51,7 @@ void GetSystemInfoStream(const std::string& file_contents,
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
 
-  VerifyMinidumpHeader(header, 1, 0);
-  if (testing::Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
 
   const MINIDUMP_DIRECTORY* directory =
       reinterpret_cast<const MINIDUMP_DIRECTORY*>(
@@ -89,10 +86,8 @@ TEST(MinidumpSystemInfoWriter, Empty) {
   const MINIDUMP_SYSTEM_INFO* system_info;
   const MINIDUMP_STRING* csd_version;
 
-  GetSystemInfoStream(file_writer.string(), 0, &system_info, &csd_version);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetSystemInfoStream(file_writer.string(), 0, &system_info, &csd_version));
 
   EXPECT_EQ(kMinidumpCPUArchitectureUnknown,
             system_info->ProcessorArchitecture);
@@ -162,11 +157,8 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
   const MINIDUMP_SYSTEM_INFO* system_info;
   const MINIDUMP_STRING* csd_version;
 
-  GetSystemInfoStream(
-      file_writer.string(), strlen(kCSDVersion), &system_info, &csd_version);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(
+      file_writer.string(), strlen(kCSDVersion), &system_info, &csd_version));
 
   EXPECT_EQ(kCPUArchitecture, system_info->ProcessorArchitecture);
   EXPECT_EQ(kCPULevel, system_info->ProcessorLevel);
@@ -225,11 +217,8 @@ TEST(MinidumpSystemInfoWriter, X86_64_Mac) {
   const MINIDUMP_SYSTEM_INFO* system_info;
   const MINIDUMP_STRING* csd_version;
 
-  GetSystemInfoStream(
-      file_writer.string(), strlen(kCSDVersion), &system_info, &csd_version);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(
+      file_writer.string(), strlen(kCSDVersion), &system_info, &csd_version));
 
   EXPECT_EQ(kCPUArchitecture, system_info->ProcessorArchitecture);
   EXPECT_EQ(kCPULevel, system_info->ProcessorLevel);
@@ -270,10 +259,8 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
   const MINIDUMP_SYSTEM_INFO* system_info;
   const MINIDUMP_STRING* csd_version;
 
-  GetSystemInfoStream(file_writer.string(), 0, &system_info, &csd_version);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetSystemInfoStream(file_writer.string(), 0, &system_info, &csd_version));
 
   EXPECT_EQ(kCPUArchitecture, system_info->ProcessorArchitecture);
   EXPECT_EQ(0u, system_info->ProcessorLevel);

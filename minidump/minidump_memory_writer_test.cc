@@ -50,10 +50,7 @@ void GetMemoryListStream(const std::string& file_contents,
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
 
-  VerifyMinidumpHeader(header, expected_streams, 0);
-  if (testing::Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, expected_streams, 0));
 
   const MINIDUMP_DIRECTORY* directory =
       reinterpret_cast<const MINIDUMP_DIRECTORY*>(
@@ -93,10 +90,8 @@ TEST(MinidumpMemoryWriter, EmptyMemoryList) {
             file_writer.string().size());
 
   const MINIDUMP_MEMORY_LIST* memory_list;
-  GetMemoryListStream(file_writer.string(), &memory_list, 1);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetMemoryListStream(file_writer.string(), &memory_list, 1));
 
   EXPECT_EQ(0u, memory_list->NumberOfMemoryRanges);
 }
@@ -118,10 +113,8 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MEMORY_LIST* memory_list;
-  GetMemoryListStream(file_writer.string(), &memory_list, 1);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetMemoryListStream(file_writer.string(), &memory_list, 1));
 
   MINIDUMP_MEMORY_DESCRIPTOR expected;
   expected.StartOfMemoryRange = kBaseAddress;
@@ -159,10 +152,8 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MEMORY_LIST* memory_list;
-  GetMemoryListStream(file_writer.string(), &memory_list, 1);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetMemoryListStream(file_writer.string(), &memory_list, 1));
 
   EXPECT_EQ(2u, memory_list->NumberOfMemoryRanges);
 
@@ -266,10 +257,8 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MEMORY_LIST* memory_list;
-  GetMemoryListStream(file_writer.string(), &memory_list, 2);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      GetMemoryListStream(file_writer.string(), &memory_list, 2));
 
   EXPECT_EQ(2u, memory_list->NumberOfMemoryRanges);
 

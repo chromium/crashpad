@@ -398,12 +398,9 @@ class TestMachMessageServer : public MachMessageServer::Interface,
         // process replies before all of the requests are sent, because the
         // server won’t have sent any replies until all of the requests are in
         // its queue.
-        ChildSendRequest();
+        ASSERT_NO_FATAL_FAILURE(ChildSendRequest());
       } else {
-        ChildSendRequestAndWaitForReply();
-      }
-      if (testing::Test::HasFatalFailure()) {
-        return;
+        ASSERT_NO_FATAL_FAILURE(ChildSendRequestAndWaitForReply());
       }
     }
 
@@ -411,18 +408,12 @@ class TestMachMessageServer : public MachMessageServer::Interface,
         options_.child_send_all_requests_before_receiving_any_replies) {
       // Now that all of the requests have been sent, let the parent know that
       // it’s safe to begin processing them, and then wait for the replies.
-      ChildNotifyParentViaPipe();
-      if (testing::Test::HasFatalFailure()) {
-        return;
-      }
+      ASSERT_NO_FATAL_FAILURE(ChildNotifyParentViaPipe());
 
       for (size_t index = 0;
            index < options_.client_send_request_count;
            ++index) {
-        ChildWaitForReply();
-        if (testing::Test::HasFatalFailure()) {
-          return;
-        }
+        ASSERT_NO_FATAL_FAILURE(ChildWaitForReply());
       }
     }
 
@@ -562,22 +553,16 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   // In the child process, sends a request message to the server and then
   // receives a reply message.
   void ChildSendRequestAndWaitForReply() {
-    ChildSendRequest();
-    if (testing::Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(ChildSendRequest());
 
     if (options_.parent_wait_for_child_pipe &&
         !options_.child_send_all_requests_before_receiving_any_replies) {
       // The parent is waiting to read a byte to indicate that the message has
       // been placed in the queue.
-      ChildNotifyParentViaPipe();
-      if (testing::Test::HasFatalFailure()) {
-        return;
-      }
+      ASSERT_NO_FATAL_FAILURE(ChildNotifyParentViaPipe());
     }
 
-    ChildWaitForReply();
+    ASSERT_NO_FATAL_FAILURE(ChildWaitForReply());
   }
 
   const Options& options_;

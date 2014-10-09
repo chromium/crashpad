@@ -160,10 +160,8 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
     const Section* expect_section = &expect_sections[index];
     const process_types::section* actual_section =
         actual_segment->GetSectionAtIndex(index, NULL);
-    ExpectSection(&expect_sections[index], actual_section);
-    if (testing::Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(
+        ExpectSection(&expect_sections[index], actual_section));
 
     // Make sure that the section is accessible by GetSectionByName as well.
     std::string section_name =
@@ -247,14 +245,11 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
           MachOImageSegmentReader::SegmentNameString(expect_segment->segname);
       const MachOImageSegmentReader* actual_segment =
           actual_image->GetSegmentByName(segment_name);
-      ExpectSegmentCommand(expect_segment,
-                           expect_image,
-                           actual_segment,
-                           actual_image,
-                           &section_index);
-      if (testing::Test::HasFatalFailure()) {
-        return;
-      }
+      ASSERT_NO_FATAL_FAILURE(ExpectSegmentCommand(expect_segment,
+                                                   expect_image,
+                                                   actual_segment,
+                                                   actual_image,
+                                                   &section_index));
     }
     position += command->cmdsize;
   }
@@ -306,8 +301,9 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
         MachOImageSegmentReader::SectionNameString(section->sectname);
 
     // It should be possible to look up the first section by name.
-    EXPECT_EQ(section, actual_image->GetSectionByName(
-        section->segname, section->sectname, NULL));
+    EXPECT_EQ(section,
+              actual_image->GetSectionByName(
+                  section->segname, section->sectname, NULL));
   }
   EXPECT_FALSE(
       actual_image->GetSectionByName("NoSuchSegment", test_section, NULL));
@@ -376,10 +372,8 @@ void ExpectMachImage(const MachHeader* expect_image,
   UUID uuid;
   actual_image->UUID(&uuid);
 
-  ExpectSegmentCommands(expect_image, actual_image, test_section_index_bounds);
-  if (testing::Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(ExpectSegmentCommands(
+      expect_image, actual_image, test_section_index_bounds));
 }
 
 // Verifies the symbol whose Nlist structure is |entry| and whose name is |name|
@@ -486,10 +480,7 @@ void ExpectSymbolTable(const MachHeader* expect_image,
     for (uint32_t index = 0; index < symtab->nsyms; ++index) {
       const Nlist* entry = nlist + index;
       const char* name = strtab + entry->n_un.n_strx;
-      ExpectSymbol(entry, name, actual_image);
-      if (testing::Test::HasFatalFailure()) {
-        return;
-      }
+      ASSERT_NO_FATAL_FAILURE(ExpectSymbol(entry, name, actual_image));
     }
   }
 
@@ -520,14 +511,11 @@ TEST(MachOImageReader, Self_MainExecutable) {
   // The main executable has image index 0.
   intptr_t image_slide = _dyld_get_image_vmaddr_slide(0);
 
-  ExpectMachImage(mh_execute_header,
-                  mh_execute_header_address,
-                  image_slide,
-                  &image_reader,
-                  true);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(ExpectMachImage(mh_execute_header,
+                                          mh_execute_header_address,
+                                          image_slide,
+                                          &image_reader,
+                                          true));
 
   // This symbol, __mh_execute_header, is known to exist in all MH_EXECUTE
   // Mach-O files.
@@ -536,10 +524,7 @@ TEST(MachOImageReader, Self_MainExecutable) {
                                                        &symbol_address));
   EXPECT_EQ(mh_execute_header_address, symbol_address);
 
-  ExpectSymbolTable(mh_execute_header, &image_reader);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(ExpectSymbolTable(mh_execute_header, &image_reader));
 }
 
 TEST(MachOImageReader, Self_DyldImages) {
@@ -573,16 +558,10 @@ TEST(MachOImageReader, Self_DyldImages) {
     }
 
     intptr_t image_slide = _dyld_get_image_vmaddr_slide(index);
-    ExpectMachImage(
-        mach_header, image_address, image_slide, &image_reader, false);
-    if (Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(ExpectMachImage(
+        mach_header, image_address, image_slide, &image_reader, false));
 
-    ExpectSymbolTable(mach_header, &image_reader);
-    if (Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(ExpectSymbolTable(mach_header, &image_reader));
   }
 
   // Now that all of the modules have been verified, make sure that dyld itself
@@ -608,16 +587,10 @@ TEST(MachOImageReader, Self_DyldImages) {
     EXPECT_EQ(static_cast<uint32_t>(MH_DYLINKER), image_reader.FileType());
 
     // There’s no good API to get dyld’s slide, so don’t bother checking it.
-    ExpectMachImage(
-        mach_header, image_address, kSlideUnknown, &image_reader, false);
-    if (Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(ExpectMachImage(
+        mach_header, image_address, kSlideUnknown, &image_reader, false));
 
-    ExpectSymbolTable(mach_header, &image_reader);
-    if (Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(ExpectSymbolTable(mach_header, &image_reader));
   }
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7

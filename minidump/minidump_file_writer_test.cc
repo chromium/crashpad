@@ -39,10 +39,7 @@ TEST(MinidumpFileWriter, Empty) {
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
 
-  VerifyMinidumpHeader(header, 0, 0);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 0, 0));
 }
 
 class TestStream final : public internal::MinidumpStreamWriter {
@@ -101,10 +98,7 @@ TEST(MinidumpFileWriter, OneStream) {
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
 
-  VerifyMinidumpHeader(header, 1, kTimestamp);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, kTimestamp));
 
   const MINIDUMP_DIRECTORY* directory =
       reinterpret_cast<const MINIDUMP_DIRECTORY*>(
@@ -164,10 +158,7 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
 
-  VerifyMinidumpHeader(header, 3, kTimestamp);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 3, kTimestamp));
 
   const MINIDUMP_DIRECTORY* directory =
       reinterpret_cast<const MINIDUMP_DIRECTORY*>(
@@ -229,10 +220,7 @@ TEST(MinidumpFileWriter, ZeroLengthStream) {
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
 
-  VerifyMinidumpHeader(header, 1, 0);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
 
   const MINIDUMP_DIRECTORY* directory =
       reinterpret_cast<const MINIDUMP_DIRECTORY*>(

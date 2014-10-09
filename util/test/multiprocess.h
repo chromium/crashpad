@@ -93,10 +93,7 @@ class Multiprocess {
   //!
   //! \code
   //!   virtual void PreFork() override {
-  //!     Multiprocess::PreFork();
-  //!     if (testing::Test::HasFatalFailure()) {
-  //!       return;
-  //!     }
+  //!     ASSERT_NO_FATAL_FAILURE(Multiprocess::PreFork());
   //!
   //!     // Place subclass-specific pre-fork code here.
   //!   }

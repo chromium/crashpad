@@ -82,10 +82,7 @@ MachMultiprocess::~MachMultiprocess() {
 }
 
 void MachMultiprocess::PreFork() {
-  Multiprocess::PreFork();
-  if (testing::Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(Multiprocess::PreFork());
 
   // Set up the parent port and register it with the bootstrap server before
   // forking, so that it’s guaranteed to be there when the child attempts to

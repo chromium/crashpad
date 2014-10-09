@@ -41,7 +41,7 @@ namespace {
 // Runs /usr/bin/sw_vers with a single argument, |argument|, and places the
 // command’s standard output into |output| after stripping the trailing newline.
 // Fatal gtest assertions report tool failures, which the caller should check
-// for with testing::Test::HasFatalFailure().
+// for with ASSERT_NO_FATAL_FAILURE() or testing::Test::HasFatalFailure().
 void SwVers(NSString* argument, std::string* output) {
   @autoreleasepool {
     base::scoped_nsobject<NSPipe> pipe([[NSPipe alloc] init]);
@@ -90,26 +90,18 @@ TEST(MacUtil, MacOSXVersion) {
   }
 
   std::string expected_product_version;
-  SwVers(@"-productVersion", &expected_product_version);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(
+      SwVers(@"-productVersion", &expected_product_version));
 
   EXPECT_EQ(expected_product_version, version);
 
   std::string expected_build_version;
-  SwVers(@"-buildVersion", &expected_build_version);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(SwVers(@"-buildVersion", &expected_build_version));
 
   EXPECT_EQ(expected_build_version, build);
 
   std::string expected_product_name;
-  SwVers(@"-productName", &expected_product_name);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(SwVers(@"-productName", &expected_product_name));
 
   // Look for a space after the product name in the complete version string.
   expected_product_name += ' ';

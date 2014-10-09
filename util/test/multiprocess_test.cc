@@ -217,10 +217,7 @@ class TestMultiprocessClosePipe final : public Multiprocess {
   // Multiprocess:
 
   virtual void MultiprocessParent() override {
-    VerifyInitial();
-    if (testing::Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(VerifyInitial());
 
     if (who_closes_ == kParentCloses) {
       Close();
@@ -230,10 +227,7 @@ class TestMultiprocessClosePipe final : public Multiprocess {
   }
 
   virtual void MultiprocessChild() override {
-    VerifyInitial();
-    if (testing::Test::HasFatalFailure()) {
-      return;
-    }
+    ASSERT_NO_FATAL_FAILURE(VerifyInitial());
 
     if (who_closes_ == kChildCloses) {
       Close();

@@ -95,10 +95,7 @@ void TestCaptureContext() {
 
   {
     SCOPED_TRACE("context_1");
-    SanityCheckContext(&context_1);
-  }
-  if (testing::Test::HasFatalFailure()) {
-    return;
+    ASSERT_NO_FATAL_FAILURE(SanityCheckContext(&context_1));
   }
 
   // The program counter reference value is this function’s address. The
@@ -134,10 +131,7 @@ void TestCaptureContext() {
 
   {
     SCOPED_TRACE("context_2");
-    SanityCheckContext(&context_2);
-  }
-  if (testing::Test::HasFatalFailure()) {
-    return;
+    ASSERT_NO_FATAL_FAILURE(SanityCheckContext(&context_2));
   }
 
   EXPECT_EQ(sp, StackPointerFromContext(&context_2));
@@ -145,10 +139,7 @@ void TestCaptureContext() {
 }
 
 TEST(CaptureContextMac, CaptureContext) {
-  TestCaptureContext();
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(TestCaptureContext());
 }
 
 }  // namespace

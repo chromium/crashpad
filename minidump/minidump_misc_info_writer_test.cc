@@ -45,10 +45,7 @@ void GetMiscInfoStream(const std::string& file_contents, const T** misc_info) {
   const MINIDUMP_HEADER* header =
       reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
 
-  VerifyMinidumpHeader(header, 1, 0);
-  if (testing::Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
 
   const MINIDUMP_DIRECTORY* directory =
       reinterpret_cast<const MINIDUMP_DIRECTORY*>(
@@ -170,10 +167,7 @@ TEST(MinidumpMiscInfoWriter, Empty) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO expected = {};
 
@@ -194,10 +188,7 @@ TEST(MinidumpMiscInfoWriter, ProcessId) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO expected = {};
   expected.Flags1 = MINIDUMP_MISC1_PROCESS_ID;
@@ -223,10 +214,7 @@ TEST(MinidumpMiscInfoWriter, ProcessTimes) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO expected = {};
   expected.Flags1 = MINIDUMP_MISC1_PROCESS_TIMES;
@@ -259,10 +247,7 @@ TEST(MinidumpMiscInfoWriter, ProcessorPowerInfo) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO_2* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO_2 expected = {};
   expected.Flags1 = MINIDUMP_MISC1_PROCESSOR_POWER_INFO;
@@ -289,10 +274,7 @@ TEST(MinidumpMiscInfoWriter, ProcessIntegrityLevel) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO_3* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO_3 expected = {};
   expected.Flags1 = MINIDUMP_MISC3_PROCESS_INTEGRITY;
@@ -315,10 +297,7 @@ TEST(MinidumpMiscInfoWriter, ProcessExecuteFlags) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO_3* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO_3 expected = {};
   expected.Flags1 = MINIDUMP_MISC3_PROCESS_EXECUTE_FLAGS;
@@ -341,10 +320,7 @@ TEST(MinidumpMiscInfoWriter, ProtectedProcess) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO_3* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO_3 expected = {};
   expected.Flags1 = MINIDUMP_MISC3_PROTECTED_PROCESS;
@@ -381,10 +357,7 @@ TEST(MinidumpMiscInfoWriter, TimeZone) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO_3* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO_3 expected = {};
   expected.Flags1 = MINIDUMP_MISC3_TIMEZONE;
@@ -446,10 +419,7 @@ TEST(MinidumpMiscInfoWriter, TimeZoneStringsOverflow) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO_3* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO_3 expected = {};
   expected.Flags1 = MINIDUMP_MISC3_TIMEZONE;
@@ -490,10 +460,7 @@ TEST(MinidumpMiscInfoWriter, BuildStrings) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO_4* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO_4 expected = {};
   expected.Flags1 = MINIDUMP_MISC4_BUILDSTRING;
@@ -529,10 +496,7 @@ TEST(MinidumpMiscInfoWriter, BuildStringsOverflow) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO_4* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO_4 expected = {};
   expected.Flags1 = MINIDUMP_MISC4_BUILDSTRING;
@@ -601,10 +565,7 @@ TEST(MinidumpMiscInfoWriter, Everything) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
   const MINIDUMP_MISC_INFO_4* observed;
-  GetMiscInfoStream(file_writer.string(), &observed);
-  if (Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &observed));
 
   MINIDUMP_MISC_INFO_4 expected = {};
   expected.Flags1 =

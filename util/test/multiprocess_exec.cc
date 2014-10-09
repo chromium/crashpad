@@ -48,10 +48,7 @@ MultiprocessExec::~MultiprocessExec() {
 }
 
 void MultiprocessExec::PreFork() {
-  Multiprocess::PreFork();
-  if (testing::Test::HasFatalFailure()) {
-    return;
-  }
+  ASSERT_NO_FATAL_FAILURE(Multiprocess::PreFork());
 
   ASSERT_FALSE(command_.empty());
 
