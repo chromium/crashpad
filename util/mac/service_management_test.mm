@@ -58,7 +58,6 @@ void ExpectProcessIsRunning(pid_t pid, std::string& last_arg) {
     } while (inner_tries--);
     ASSERT_TRUE(success);
 
-    ASSERT_TRUE(ProcessArgumentsForPID(pid, &job_argv));
     ASSERT_FALSE(job_argv.empty());
     if (job_argv.back() == last_arg) {
       break;
