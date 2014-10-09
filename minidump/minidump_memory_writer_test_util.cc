@@ -64,12 +64,9 @@ bool TestMinidumpMemoryWriter::WriteObject(FileWriterInterface* file_writer) {
   return rv;
 }
 
-void ExpectMinidumpMemoryDescriptorAndContents(
+void ExpectMinidumpMemoryDescriptor(
     const MINIDUMP_MEMORY_DESCRIPTOR* expected,
-    const MINIDUMP_MEMORY_DESCRIPTOR* observed,
-    const std::string& file_contents,
-    uint8_t value,
-    bool at_eof) {
+    const MINIDUMP_MEMORY_DESCRIPTOR* observed) {
   EXPECT_EQ(expected->StartOfMemoryRange, observed->StartOfMemoryRange);
   EXPECT_EQ(expected->Memory.DataSize, observed->Memory.DataSize);
   if (expected->Memory.Rva != 0) {
@@ -78,6 +75,16 @@ void ExpectMinidumpMemoryDescriptorAndContents(
         (expected->Memory.Rva + kMemoryAlignment - 1) & ~(kMemoryAlignment - 1),
         observed->Memory.Rva);
   }
+}
+
+void ExpectMinidumpMemoryDescriptorAndContents(
+    const MINIDUMP_MEMORY_DESCRIPTOR* expected,
+    const MINIDUMP_MEMORY_DESCRIPTOR* observed,
+    const std::string& file_contents,
+    uint8_t value,
+    bool at_eof) {
+  ExpectMinidumpMemoryDescriptor(expected, observed);
+
   if (at_eof) {
     EXPECT_EQ(file_contents.size(),
               observed->Memory.Rva + observed->Memory.DataSize);

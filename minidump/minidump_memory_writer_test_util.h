@@ -56,15 +56,28 @@ class TestMinidumpMemoryWriter final : public MinidumpMemoryWriter {
 };
 
 //! \brief Verifies, via gtest assertions, that a MINIDUMP_MEMORY_DESCRIPTOR
-//!     structure contains expected values, and that the memory region it points
-//!     to contains expected values assuming it was written by a
-//!     TestMinidumpMemoryWriter object.
+//!     structure contains expected values.
 //!
 //! In \a expected and \a observed,
 //! MINIDUMP_MEMORY_DESCRIPTOR::StartOfMemoryRange and
 //! MINIDUMP_LOCATION_DESCRIPTOR::DataSize are compared and must match. If
 //! MINIDUMP_LOCATION_DESCRIPTOR::Rva is nonzero in \a expected, the same field
 //! in \a observed must match it, subject to a 16-byte alignment augmentation.
+//!
+//! \param[in] expected A MINIDUMP_MEMORY_DESCRIPTOR structure containing
+//!     expected values.
+//! \param[in] observed A MINIDUMP_MEMORY_DESCRIPTOR structure containing
+//!     observed values.
+void ExpectMinidumpMemoryDescriptor(const MINIDUMP_MEMORY_DESCRIPTOR* expected,
+                                    const MINIDUMP_MEMORY_DESCRIPTOR* observed);
+
+//! \brief Verifies, via gtest assertions, that a MINIDUMP_MEMORY_DESCRIPTOR
+//!     structure contains expected values, and that the memory region it points
+//!     to contains expected values assuming it was written by a
+//!     TestMinidumpMemoryWriter object.
+//!
+//! \a expected and \a observed are compared by
+//! ExpectMinidumpMemoryDescriptor().
 //!
 //! \param[in] expected A MINIDUMP_MEMORY_DESCRIPTOR structure containing
 //!     expected values.
