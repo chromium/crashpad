@@ -61,12 +61,8 @@ void TestSleepNanoseconds(uint64_t nanoseconds) {
   // sleeping.
   EXPECT_GE(diff, nanoseconds);
 
-  // It’s difficult to set an upper bound for the time spent sleeping. Allow
-  // sleeps twice as long as requested, or sleeps a millisecond longer than
-  // requested, whichever is larger. This is quite a lot of slop, but the
-  // alternative would be test flakiness.
-  uint64_t slop = std::max(static_cast<uint64_t>(1E6), nanoseconds);
-  EXPECT_LE(diff, nanoseconds + slop);
+  // It’s difficult to set an upper bound for the time spent sleeping, and
+  // attempting to do so results in a flaky test.
 }
 
 TEST(Clock, SleepNanoseconds) {
