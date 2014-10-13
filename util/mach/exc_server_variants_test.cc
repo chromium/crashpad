@@ -603,8 +603,8 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
       MockCatchMachException(
           kExceptionBehavior,
           kServerLocalPort,
-          MACH_PORT_NULL,
-          MACH_PORT_NULL,
+          THREAD_NULL,
+          TASK_NULL,
           kExceptionType,
           AreExceptionCodes(kTestExceptonCodes[0], kTestExceptonCodes[1]),
           Pointee(Eq(kThreadStateFlavor)),
@@ -727,8 +727,8 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
       server,
       MockCatchMachException(kExceptionBehavior,
                              kServerLocalPort,
-                             MACH_PORT_NULL,
-                             MACH_PORT_NULL,
+                             THREAD_NULL,
+                             TASK_NULL,
                              kExceptionType,
                              AreExceptionCodes(kTestMachExceptionCodes[0],
                                                kTestMachExceptionCodes[1]),
@@ -898,11 +898,11 @@ class TestExcServerVariants : public UniversalMachExcServer,
     EXPECT_EQ(LocalPort(), exception_port);
 
     if (ExceptionBehaviorHasIdentity(behavior)) {
-      EXPECT_NE(kMachPortNull, thread);
+      EXPECT_NE(THREAD_NULL, thread);
       EXPECT_EQ(ChildTask(), task);
     } else {
-      EXPECT_EQ(kMachPortNull, thread);
-      EXPECT_EQ(kMachPortNull, task);
+      EXPECT_EQ(THREAD_NULL, thread);
+      EXPECT_EQ(TASK_NULL, task);
     }
 
     EXPECT_EQ(EXC_CRASH, exception);

@@ -55,7 +55,8 @@ struct MachMultiprocessInfo {
       : service_name(),
         local_port(MACH_PORT_NULL),
         remote_port(MACH_PORT_NULL),
-        child_task(MACH_PORT_NULL) {}
+        child_task(TASK_NULL) {
+  }
 
   std::string service_name;
   base::mac::ScopedMachReceiveRight local_port;
@@ -112,7 +113,7 @@ mach_port_t MachMultiprocess::RemotePort() const {
 }
 
 task_t MachMultiprocess::ChildTask() const {
-  EXPECT_NE(kMachPortNull, info_->child_task);
+  EXPECT_NE(TASK_NULL, info_->child_task);
   return info_->child_task;
 }
 

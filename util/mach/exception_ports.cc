@@ -26,7 +26,7 @@ ExceptionPorts::ExceptionPorts(TargetType target_type, mach_port_t target_port)
       get_exception_ports_ = host_get_exception_ports;
       set_exception_ports_ = host_set_exception_ports;
       target_name_ = "host";
-      if (target_port_ == MACH_PORT_NULL) {
+      if (target_port_ == HOST_NULL) {
         target_port_ = mach_host_self();
         dealloc_target_port_ = true;
       }
@@ -36,7 +36,7 @@ ExceptionPorts::ExceptionPorts(TargetType target_type, mach_port_t target_port)
       get_exception_ports_ = task_get_exception_ports;
       set_exception_ports_ = task_set_exception_ports;
       target_name_ = "task";
-      if (target_port_ == MACH_PORT_NULL) {
+      if (target_port_ == TASK_NULL) {
         target_port_ = mach_task_self();
         // Don’t deallocate mach_task_self().
       }
@@ -46,7 +46,7 @@ ExceptionPorts::ExceptionPorts(TargetType target_type, mach_port_t target_port)
       get_exception_ports_ = thread_get_exception_ports;
       set_exception_ports_ = thread_set_exception_ports;
       target_name_ = "thread";
-      if (target_port_ == MACH_PORT_NULL) {
+      if (target_port_ == THREAD_NULL) {
         target_port_ = mach_thread_self();
         dealloc_target_port_ = true;
       }

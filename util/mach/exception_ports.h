@@ -97,10 +97,11 @@ class ExceptionPorts {
   //!     port must be a send right to a port of the type specified in \a
   //!     target_type. In this case, ownership of \a target_port is not given to
   //!     the new ExceptionPorts object. \a target_port may also be
-  //!     `MACH_PORT_NULL`, in which case `mach_host_self()`,
-  //!     `mach_task_self()`, or `mach_thread_self()` will be used as the target
-  //!     port depending on the value of \a target_type. In this case, ownership
-  //!     of the target port will be managed appropriately for \a target_type.
+  //!     `HOST_NULL`, `TASK_NULL`, or `THREAD_NULL`, in which case
+  //!     `mach_host_self()`, `mach_task_self()`, or `mach_thread_self()` will
+  //!     be used as the target port depending on the value of \a target_type.
+  //!     In this case, ownership of the target port will be managed
+  //!     appropriately for \a target_type.
   ExceptionPorts(TargetType target_type, mach_port_t target_port);
 
   ~ExceptionPorts();
@@ -172,10 +173,10 @@ class ExceptionPorts {
   mach_port_t target_port_;
 
   // If true, target_port_ will be deallocated in the destructor. This will
-  // always be false when the user provides a non-MACH_PORT_NULL target_port to
-  // the constructor. It will also be false when target_type is kTargetTypeTask,
-  // even with a MACH_PORT_NULL target_port, because it is incorrect to
-  // deallocate the result of mach_task_self().
+  // always be false when the user provides a non-null target_port to the
+  // constructor. It will also be false when target_type is kTargetTypeTask,
+  // even with a TASK_NULL target_port, because it is incorrect to deallocate
+  // the result of mach_task_self().
   bool dealloc_target_port_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionPorts);

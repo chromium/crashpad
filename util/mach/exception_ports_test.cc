@@ -212,9 +212,9 @@ class TestExceptionPorts : public UniversalMachExcServer,
 
     void Run() {
       ExceptionPorts self_task_ports(ExceptionPorts::kTargetTypeTask,
-                                     MACH_PORT_NULL);
+                                     TASK_NULL);
       ExceptionPorts self_thread_ports(ExceptionPorts::kTargetTypeThread,
-                                       MACH_PORT_NULL);
+                                       THREAD_NULL);
 
       mach_port_t remote_port = test_exception_ports_->RemotePort();
 
@@ -285,7 +285,7 @@ class TestExceptionPorts : public UniversalMachExcServer,
     // Runs the “other” thread.
     void* ThreadMain() {
       ExceptionPorts self_thread_ports(ExceptionPorts::kTargetTypeThread,
-                                       MACH_PORT_NULL);
+                                       THREAD_NULL);
       mach_port_t remote_port = test_exception_ports_->RemotePort();
 
       // Set this thread’s exception handler, if appropriate.
@@ -560,7 +560,7 @@ TEST(ExceptionPorts, HostExceptionPorts) {
   }
 
   ExceptionPorts implicit_host_ports(ExceptionPorts::kTargetTypeHost,
-                                     MACH_PORT_NULL);
+                                     HOST_NULL);
   EXPECT_EQ("host", implicit_host_ports.TargetTypeName());
 
   rv = implicit_host_ports.GetExceptionPorts(

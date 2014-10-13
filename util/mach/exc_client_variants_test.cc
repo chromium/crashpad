@@ -70,11 +70,11 @@ class TestExcClientVariants : public UniversalMachExcServer,
     EXPECT_EQ(LocalPort(), exception_port);
 
     if (HasIdentity()) {
-      EXPECT_NE(kMachPortNull, thread);
+      EXPECT_NE(THREAD_NULL, thread);
       EXPECT_EQ(ChildTask(), task);
     } else {
-      EXPECT_EQ(kMachPortNull, thread);
-      EXPECT_EQ(kMachPortNull, task);
+      EXPECT_EQ(THREAD_NULL, thread);
+      EXPECT_EQ(TASK_NULL, task);
     }
 
     mach_exception_code_t expect_code = exception_code_;
@@ -153,8 +153,8 @@ class TestExcClientVariants : public UniversalMachExcServer,
         exception_subcode_
     };
 
-    thread_t thread = MACH_PORT_NULL;
-    task_t task = MACH_PORT_NULL;
+    thread_t thread = THREAD_NULL;
+    task_t task = TASK_NULL;
     if (all_fields_ || HasIdentity()) {
       thread = MachThreadSelf();
       task = mach_task_self();

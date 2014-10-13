@@ -78,7 +78,7 @@ ProcessReader::Thread::Thread()
       stack_region_address(0),
       stack_region_size(0),
       thread_specific_data_address(0),
-      port(MACH_PORT_NULL),
+      port(THREAD_NULL),
       suspend_count(0),
       priority(0) {
 }
@@ -95,7 +95,7 @@ ProcessReader::ProcessReader()
       modules_(),
       module_readers_(),
       task_memory_(),
-      task_(MACH_PORT_NULL),
+      task_(TASK_NULL),
       initialized_(),
       is_64_bit_(false),
       initialized_threads_(false),

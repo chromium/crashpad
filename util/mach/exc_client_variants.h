@@ -44,7 +44,7 @@ namespace crashpad {
 //! exception message will carry identity information, when it has the value
 //! value `EXCEPTION_DEFAULT` or `EXCEPTION_STATE_IDENTITY`, possibly with
 //! `MACH_EXCEPTION_CODES` also set. In other cases, these parameters are unused
-//! and may be set to `MACH_PORT_NULL`.
+//! and may be set to `THREAD_NULL` and `TASK_NULL`, respectively.
 //!
 //! \a flavor, \a old_state, \a old_state_count, \a new_state, and \a
 //! new_state_count are only used when \a behavior indicates that the exception

@@ -515,8 +515,8 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaiseState(
   bool destroy_complex_request = false;
   return interface_->CatchException(EXCEPTION_STATE,
                                     exception_port,
-                                    MACH_PORT_NULL,
-                                    MACH_PORT_NULL,
+                                    THREAD_NULL,
+                                    TASK_NULL,
                                     exception,
                                     code,
                                     code_count,
@@ -602,8 +602,8 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaiseState(
   bool destroy_complex_request = false;
   return interface_->CatchMachException(EXCEPTION_STATE | MACH_EXCEPTION_CODES,
                                         exception_port,
-                                        MACH_PORT_NULL,
-                                        MACH_PORT_NULL,
+                                        THREAD_NULL,
+                                        TASK_NULL,
                                         exception,
                                         code,
                                         code_count,

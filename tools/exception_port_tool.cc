@@ -180,8 +180,8 @@ bool ParseHandlerString(const char* handler_string_ro,
 // value, which can then be associated with handlers shown by
 // ShowExceptionPorts(). Any send rights obtained by this function are added to
 // |mach_send_right_pool|.
-void ShowBootstrapService(
-    const std::string& service_name, MachSendRightPool* mach_send_right_pool) {
+void ShowBootstrapService(const std::string& service_name,
+                          MachSendRightPool* mach_send_right_pool) {
   mach_port_t service_port;
   kern_return_t kr = bootstrap_look_up(
       bootstrap_port, const_cast<char*>(service_name.c_str()), &service_port);
@@ -517,7 +517,7 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
   // Show the original exception ports.
   if (options.show_host) {
     ShowExceptionPorts(
-        ExceptionPorts(ExceptionPorts::kTargetTypeHost, MACH_PORT_NULL),
+        ExceptionPorts(ExceptionPorts::kTargetTypeHost, HOST_NULL),
         options.numeric,
         false,
         &mach_send_right_pool);
@@ -531,7 +531,7 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
   }
   if (options.show_thread) {
     ShowExceptionPorts(
-        ExceptionPorts(ExceptionPorts::kTargetTypeThread, MACH_PORT_NULL),
+        ExceptionPorts(ExceptionPorts::kTargetTypeThread, THREAD_NULL),
         options.numeric,
         false,
         &mach_send_right_pool);
@@ -544,7 +544,7 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
               &description,
               description.target_type == ExceptionPorts::kTargetTypeTask
                   ? options.alternate_task
-                  : MACH_PORT_NULL)) {
+                  : TASK_NULL)) {
         return kExitFailure;
       }
     }
@@ -552,7 +552,7 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
     // Show changed exception ports.
     if (options.show_new_host) {
       ShowExceptionPorts(
-          ExceptionPorts(ExceptionPorts::kTargetTypeHost, MACH_PORT_NULL),
+          ExceptionPorts(ExceptionPorts::kTargetTypeHost, HOST_NULL),
           options.numeric,
           true,
           &mach_send_right_pool);
@@ -567,7 +567,7 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
     }
     if (options.show_new_thread) {
       ShowExceptionPorts(
-          ExceptionPorts(ExceptionPorts::kTargetTypeThread, MACH_PORT_NULL),
+          ExceptionPorts(ExceptionPorts::kTargetTypeThread, THREAD_NULL),
           options.numeric,
           true,
           &mach_send_right_pool);
