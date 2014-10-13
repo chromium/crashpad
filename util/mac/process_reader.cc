@@ -151,7 +151,7 @@ bool ProcessReader::CPUTimes(timeval* user_time, timeval* system_time) const {
   timerclear(system_time);
 
   // As of the 10.8 SDK, the preferred routine is MACH_TASK_BASIC_INFO.
-  // TASK_BASIC_INFO_64_COUNT is equivalent and works on earlier systems.
+  // TASK_BASIC_INFO_64 is equivalent and works on earlier systems.
   task_basic_info_64 task_basic_info;
   mach_msg_type_number_t task_basic_info_count = TASK_BASIC_INFO_64_COUNT;
   kern_return_t kr = task_info(task_,
