@@ -41,6 +41,8 @@
         'system_snapshot_mac.cc',
         'system_snapshot_mac.h',
         'thread_snapshot.h',
+        'thread_snapshot_mac.cc',
+        'thread_snapshot_mac.h',
       ],
     },
     {
