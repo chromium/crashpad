@@ -32,6 +32,8 @@
         'cpu_context_mac.cc',
         'cpu_context_mac.h',
         'exception_snapshot.h',
+        'exception_snapshot_mac.cc',
+        'exception_snapshot_mac.h',
         'memory_snapshot.h',
         'memory_snapshot_mac.cc',
         'memory_snapshot_mac.h',
