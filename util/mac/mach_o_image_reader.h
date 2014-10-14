@@ -108,10 +108,10 @@ class MachOImageReader {
   //! \param[in] segment_name The name of the segment to search for, for
   //!     example, `"__TEXT"`.
   //!
-  //! \return A pointer to the segment information if it was found, or `NULL` if
-  //!     it was not found. The caller does not take ownership; the lifetime of
-  //!     the returned object is scoped to the lifetime of this MachOImageReader
-  //!     object.
+  //! \return A pointer to the segment information if it was found, or `nullptr`
+  //!     if it was not found. The caller does not take ownership; the lifetime
+  //!     of the returned object is scoped to the lifetime of this
+  //!     MachOImageReader object.
   const MachOImageSegmentReader* GetSegmentByName(
       const std::string& segment_name) const;
 
@@ -124,12 +124,12 @@ class MachOImageReader {
   //! \param[out] address The actual address that the section was loaded at in
   //!     memory, taking any “slide” into account if the section did not load at
   //!     its preferred address as stored in the Mach-O image file. This
-  //!     parameter can be `NULL`.
+  //!     parameter can be `nullptr`.
   //!
-  //! \return A pointer to the section information if it was found, or `NULL` if
-  //!     it was not found. The caller does not take ownership; the lifetime of
-  //!     the returned object is scoped to the lifetime of this MachOImageReader
-  //!     object.
+  //! \return A pointer to the section information if it was found, or `nullptr`
+  //!     if it was not found. The caller does not take ownership; the lifetime
+  //!     of the returned object is scoped to the lifetime of this
+  //!     MachOImageReader object.
   //!
   //! No parameter is provided for the section’s size, because it can be
   //! obtained from the returned process_types::section::size field.
@@ -149,18 +149,18 @@ class MachOImageReader {
   //!     appears in the segment load commands. This is a 1-based index,
   //!     matching the section number values used for `nlist::n_sect`.
   //! \param[out] containing_segment The segment that contains the section.
-  //!     This parameter can be `NULL`. The caller does not take ownership;
+  //!     This parameter can be `nullptr`. The caller does not take ownership;
   //!     the lifetime of the returned object is scoped to the lifetime of this
   //!     MachOImageReader object.
   //! \param[out] address The actual address that the section was loaded at in
   //!     memory, taking any “slide” into account if the section did not load at
   //!     its preferred address as stored in the Mach-O image file. This
-  //!     parameter can be `NULL`.
+  //!     parameter can be `nullptr`.
   //!
   //! \return A pointer to the section information. If \a index is out of range,
-  //!     logs a warning and returns `NULL`. The caller does not take ownership;
-  //!     the lifetime of the returned object is scoped to the lifetime of this
-  //!     MachOImageReader object.
+  //!     logs a warning and returns `nullptr`. The caller does not take
+  //!     ownership; the lifetime of the returned object is scoped to the
+  //!     lifetime of this MachOImageReader object.
   //!
   //! No parameter is provided for the section’s size, because it can be
   //! obtained from the returned process_types::section::size field.
@@ -170,12 +170,13 @@ class MachOImageReader {
   //!     for any “slide” that may have occurred when the image was loaded. Use
   //!     \a address to obtain the section’s actual load address.
   //! \note Unlike MachOImageSegmentReader::GetSectionAtIndex(), this method
-  //!     accepts out-of-range values for \a index, and returns `NULL` instead
-  //!     of aborting execution upon encountering an out-of-range value. This is
-  //!     because a Mach-O image file’s symbol table refers to this per-module
-  //!     section index, and an out-of-range index in that case should be
-  //!     treated as a data error (where the data is beyond this code’s control)
-  //!     and handled non-fatally by reporting the error to the caller.
+  //!     accepts out-of-range values for \a index, and returns `nullptr`
+  //!     instead of aborting execution upon encountering an out-of-range value.
+  //!     This is because a Mach-O image file’s symbol table refers to this
+  //!     per-module section index, and an out-of-range index in that case
+  //!     should be treated as a data error (where the data is beyond this
+  //!     code’s control) and handled non-fatally by reporting the error to the
+  //!     caller.
   const process_types::section* GetSectionAtIndex(
       size_t index,
       const MachOImageSegmentReader** containing_segment,
@@ -301,7 +302,7 @@ class MachOImageReader {
   // be logged.
   //
   // Note that if the object contains no symbol table, symbol_table_initialized_
-  // will be set to the valid state, but symbol_table_ will be NULL.
+  // will be set to the valid state, but symbol_table_ will be nullptr.
   void InitializeSymbolTable() const;
 
   PointerVector<MachOImageSegmentReader> segments_;

@@ -19,7 +19,7 @@
 namespace crashpad {
 
 MinidumpExceptionWriter::MinidumpExceptionWriter()
-    : MinidumpStreamWriter(), exception_(), context_(NULL) {
+    : MinidumpStreamWriter(), exception_(), context_(nullptr) {
 }
 
 void MinidumpExceptionWriter::SetContext(MinidumpContextWriter* context) {

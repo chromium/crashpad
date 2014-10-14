@@ -141,11 +141,11 @@ class MachOImageSegmentReader {
   //! \param[out] address The actual address that the section was loaded at in
   //!     memory, taking any “slide” into account if the section did not load at
   //!     its preferred address as stored in the Mach-O image file. This
-  //!     parameter can be `NULL`.
+  //!     parameter can be `nullptr`.
   //!
-  //! \return A pointer to the section information if it was found, or `NULL` if
-  //!     it was not found. The caller does not take ownership; the lifetime of
-  //!     the returned object is scoped to the lifetime of this
+  //! \return A pointer to the section information if it was found, or `nullptr`
+  //!     if it was not found. The caller does not take ownership; the lifetime
+  //!     of the returned object is scoped to the lifetime of this
   //!     MachOImageSegmentReader object.
   //!
   //! \note The process_types::section::addr field gives the section’s preferred
@@ -167,7 +167,7 @@ class MachOImageSegmentReader {
   //! \param[out] address The actual address that the section was loaded at in
   //!     memory, taking any “slide” into account if the section did not load at
   //!     its preferred address as stored in the Mach-O image file. This
-  //!     parameter can be `NULL`.
+  //!     parameter can be `nullptr`.
   //!
   //! \return A pointer to the section information. If \a index is out of range,
   //!     execution is aborted.  The caller does not take ownership; the
@@ -179,8 +179,8 @@ class MachOImageSegmentReader {
   //!     for any “slide” that may have occurred when the image was loaded.
   //! \note Unlike MachOImageReader::GetSectionAtIndex(), this method does not
   //!     accept out-of-range values for \a index, and aborts execution instead
-  //!     of returning `NULL` upon encountering an out-of-range value. This is
-  //!     because this method is expected to be used in a loop that can be
+  //!     of returning `nullptr` upon encountering an out-of-range value. This
+  //!     is because this method is expected to be used in a loop that can be
   //!     limited to nsects() iterations, so an out-of-range error can be
   //!     treated more harshly as a logic error, as opposed to a data error.
   //!

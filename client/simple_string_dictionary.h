@@ -78,8 +78,8 @@ class TSimpleStringDictionary {
           current_(0) {
     }
 
-    //! \brief Returns the next entry in the map, or `NULL` if at the end of the
-    //!     collection.
+    //! \brief Returns the next entry in the map, or `nullptr` if at the end of
+    //!     the collection.
     const Entry* Next() {
       while (current_ < map_.num_entries) {
         const Entry* entry = &map_.entries_[current_++];
@@ -87,7 +87,7 @@ class TSimpleStringDictionary {
           return entry;
         }
       }
-      return NULL;
+      return nullptr;
     }
 
    private:
@@ -134,19 +134,19 @@ class TSimpleStringDictionary {
 
   //! \brief Given \a key, returns its corresponding value.
   //!
-  //! \param[in] key The key to look up. This must not be `NULL`.
+  //! \param[in] key The key to look up. This must not be `nullptr`.
   //!
   //! \return The corresponding value for \a key, or if \a key is not found,
-  //!     `NULL`.
+  //!     `nullptr`.
   const char* GetValueForKey(const char* key) const {
     DCHECK(key);
     if (!key) {
-      return NULL;
+      return nullptr;
     }
 
     const Entry* entry = GetConstEntryForKey(key);
     if (!entry) {
-      return NULL;
+      return nullptr;
     }
 
     return entry->value;
@@ -155,12 +155,12 @@ class TSimpleStringDictionary {
   //! \brief Stores \a value into \a key, replacing the existing value if \a key
   //!     is already present.
   //!
-  //! If there \a key is not yet in the map and the map is already full
-  //! (containing \a NumEntries active entries), this operation silently fails.
+  //! If \a key is not yet in the map and the map is already full (containing
+  //! \a NumEntries active entries), this operation silently fails.
   //!
-  //! \param[in] key The key to store. This must not be `NULL`.
-  //! \param[in] value The value to store. If `NULL`, \a key is removed from the
-  //!     map.
+  //! \param[in] key The key to store. This must not be `nullptr`.
+  //! \param[in] value The value to store. If `nullptr`, \a key is removed from
+  //!     the map.
   void SetKeyValue(const char* key, const char* value) {
     if (!value) {
       RemoveKey(key);
@@ -194,7 +194,7 @@ class TSimpleStringDictionary {
       }
     }
 
-    // If the map is out of space, entry will be NULL.
+    // If the map is out of space, |entry| will be nullptr.
     if (!entry) {
       return;
     }
@@ -216,9 +216,9 @@ class TSimpleStringDictionary {
 
   //! \brief Removes \a key from the map.
   //!
-  //! If the key is not found, this is a no-op.
+  //! If \a key is not found, this is a no-op.
   //!
-  //! \param[in] key The key of the entry to remove. This must not be `NULL`.
+  //! \param[in] key The key of the entry to remove. This must not be `nullptr`.
   void RemoveKey(const char* key) {
     DCHECK(key);
     if (!key) {
@@ -231,7 +231,7 @@ class TSimpleStringDictionary {
       entry->value[0] = '\0';
     }
 
-    DCHECK_EQ(GetEntryForKey(key), static_cast<void*>(NULL));
+    DCHECK_EQ(GetEntryForKey(key), static_cast<Entry*>(nullptr));
   }
 
   //! \brief Returns a serialized form of the map.
@@ -253,7 +253,7 @@ class TSimpleStringDictionary {
         return &entries_[i];
       }
     }
-    return NULL;
+    return nullptr;
   }
 
   Entry* GetEntryForKey(const char* key) {

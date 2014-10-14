@@ -81,7 +81,7 @@ class MachOImageSymbolTableReader {
   //!     the symbol table.
   //! \param[in] dysymtab_command The `LC_DYSYMTAB` load command that identifies
   //!     dynamic symbol information within the symbol table. This load command
-  //!     is not present in all modules, and this parameter may be `NULL` for
+  //!     is not present in all modules, and this parameter may be `nullptr` for
   //!     modules that do not have this information. When present, \a
   //!     dysymtab_command is an optimization that allows the symbol table
   //!     reader to only examine symbol table entries known to be relevant for
@@ -112,7 +112,7 @@ class MachOImageSymbolTableReader {
   //!     the symbol for the C++ `Func()` function.
   //!
   //! \return A SymbolInformation* object with information about the symbol if
-  //!     it was found, or `NULL` if the symbol was not found or if an error
+  //!     it was found, or `nullptr` if the symbol was not found or if an error
   //!     occurred. On error, a warning message will also be logged. The caller
   //!     does not take ownership; the lifetime of the returned object is scoped
   //!     to the lifetime of this MachOImageSymbolTableReader object.

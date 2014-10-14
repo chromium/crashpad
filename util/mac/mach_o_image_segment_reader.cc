@@ -199,7 +199,7 @@ const process_types::section* MachOImageSegmentReader::GetSectionByName(
 
   const auto& iterator = section_map_.find(section_name);
   if (iterator == section_map_.end()) {
-    return NULL;
+    return nullptr;
   }
 
   return GetSectionAtIndex(iterator->second, address);

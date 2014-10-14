@@ -22,7 +22,7 @@
 namespace crashpad {
 
 MinidumpThreadWriter::MinidumpThreadWriter()
-    : MinidumpWritable(), thread_(), stack_(NULL), context_(NULL) {
+    : MinidumpWritable(), thread_(), stack_(nullptr), context_(nullptr) {
 }
 
 const MINIDUMP_THREAD* MinidumpThreadWriter::MinidumpThread() const {
@@ -95,7 +95,7 @@ MinidumpThreadListWriter::MinidumpThreadListWriter()
     : MinidumpStreamWriter(),
       thread_list_base_(),
       threads_(),
-      memory_list_writer_(NULL) {
+      memory_list_writer_(nullptr) {
 }
 
 MinidumpThreadListWriter::~MinidumpThreadListWriter() {

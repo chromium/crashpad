@@ -53,13 +53,13 @@ struct MultiprocessInfo {
 }  // namespace internal
 
 Multiprocess::Multiprocess()
-    : info_(NULL),
+    : info_(nullptr),
       code_(EXIT_SUCCESS),
       reason_(kTerminationNormal) {
 }
 
 void Multiprocess::Run() {
-  ASSERT_EQ(NULL, info_);
+  ASSERT_EQ(nullptr, info_);
   scoped_ptr<internal::MultiprocessInfo> info(new internal::MultiprocessInfo);
   base::AutoReset<internal::MultiprocessInfo*> reset_info(&info_, info.get());
 
@@ -84,7 +84,7 @@ void Multiprocess::Run() {
     // done, the child might hang while waiting for a parent that has already
     // triggered a fatal assertion failure to do something.
     info.reset();
-    info_ = NULL;
+    info_ = nullptr;
 
     int status;
     pid_t wait_pid = HANDLE_EINTR(waitpid(pid, &status, 0));

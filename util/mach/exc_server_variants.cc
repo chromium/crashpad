@@ -495,9 +495,9 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaise(
                                     code,
                                     code_count,
                                     &flavor,
-                                    NULL,
+                                    nullptr,
                                     0,
-                                    NULL,
+                                    nullptr,
                                     &new_state_count,
                                     destroy_request);
 }
@@ -582,9 +582,9 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaise(
       code,
       code_count,
       &flavor,
-      NULL,
+      nullptr,
       0,
-      NULL,
+      nullptr,
       &new_state_count,
       destroy_request);
 }
@@ -713,7 +713,7 @@ kern_return_t UniversalMachExcServer::CatchException(
                             thread,
                             task,
                             exception,
-                            code_count ? &mach_codes[0] : NULL,
+                            code_count ? &mach_codes[0] : nullptr,
                             code_count,
                             flavor,
                             old_state,

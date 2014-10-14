@@ -37,22 +37,22 @@ namespace {
 // getsectbyname() function. getsectbyname() is always present in libmacho.
 // getsectiondata() and getsegmentdata() are not always present, but when they
 // are, they’re in the same library as getsectbyname(). If the library cannot
-// be found or a handle to it cannot be returned, returns NULL.
+// be found or a handle to it cannot be returned, returns nullptr.
 void* SystemLibMachOHandle() {
   Dl_info info;
   if (!dladdr(reinterpret_cast<void*>(getsectbyname), &info)) {
-    return NULL;
+    return nullptr;
   }
   return dlopen(info.dli_fname, RTLD_LAZY | RTLD_LOCAL);
 }
 
 // Returns a function pointer to a function in libmacho based on a lookup of
-// that function by symbol name. Returns NULL if libmacho cannot be found or
+// that function by symbol name. Returns nullptr if libmacho cannot be found or
 // opened, or if the named symbol cannot be found in libmacho.
 void* LookUpSystemLibMachOSymbol(const char* symbol) {
   static void* dl_handle = SystemLibMachOHandle();
   if (!dl_handle) {
-    return NULL;
+    return nullptr;
   }
   return dlsym(dl_handle, symbol);
 }

@@ -42,7 +42,7 @@ kern_return_t UniversalExceptionRaise(exception_behavior_t behavior,
   // needed.
 
   std::vector<exception_data_type_t> small_code_vector;
-  exception_data_t small_code = NULL;
+  exception_data_t small_code = nullptr;
   if ((behavior & MACH_EXCEPTION_CODES) == 0 && code_count) {
     small_code_vector.reserve(code_count);
     for (size_t code_index = 0; code_index < code_count; ++code_index) {

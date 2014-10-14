@@ -174,7 +174,7 @@ class TestThreadPool {
     }
 
     for (const ThreadInfo* thread_info : thread_infos_) {
-      int rv = pthread_join(thread_info->pthread, NULL);
+      int rv = pthread_join(thread_info->pthread, nullptr);
       CHECK_EQ(0, rv);
     }
   }
@@ -190,7 +190,7 @@ class TestThreadPool {
       thread_infos_.push_back(thread_info);
 
       int rv = pthread_create(&thread_info->pthread,
-                              NULL,
+                              nullptr,
                               ThreadMain,
                               thread_info);
       ASSERT_EQ(0, rv);
@@ -233,7 +233,7 @@ class TestThreadPool {
  private:
   struct ThreadInfo {
     ThreadInfo()
-        : pthread(NULL),
+        : pthread(nullptr),
           stack_address(0),
           ready_semaphore(0),
           exit_semaphore(0),
@@ -279,7 +279,7 @@ class TestThreadPool {
     // it.
     CHECK_EQ(pthread_self(), thread_info->pthread);
 
-    return NULL;
+    return nullptr;
   }
 
   // This is a PointerVector because the address of a ThreadInfo object is

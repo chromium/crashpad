@@ -51,7 +51,7 @@ namespace crashpad {
 //! message will carry thread state information, when it has the value
 //! `EXCEPTION_STATE` or `EXCEPTION_STATE_IDENTITY`, possibly with
 //! `MACH_EXCEPTION_CODES` also set. In other cases, these parameters are unused
-//! and may be set to `0` (\a old_state_count) or `NULL` (the remaining
+//! and may be set to `0` (\a old_state_count) or `nullptr` (the remaining
 //! parameters).
 //!
 //! \param[in] behavior The exception behavior, which dictates which function

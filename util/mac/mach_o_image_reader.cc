@@ -50,7 +50,7 @@ MachOImageReader::MachOImageReader()
       dysymtab_command_(),
       symbol_table_(),
       id_dylib_command_(),
-      process_reader_(NULL),
+      process_reader_(nullptr),
       file_type_(0),
       initialized_(),
       symbol_table_initialized_() {
@@ -301,7 +301,7 @@ const MachOImageSegmentReader* MachOImageReader::GetSegmentByName(
 
   const auto& iterator = segment_map_.find(segment_name);
   if (iterator == segment_map_.end()) {
-    return NULL;
+    return nullptr;
   }
 
   const MachOImageSegmentReader* segment = segments_[iterator->second];
@@ -316,7 +316,7 @@ const process_types::section* MachOImageReader::GetSectionByName(
 
   const MachOImageSegmentReader* segment = GetSegmentByName(segment_name);
   if (!segment) {
-    return NULL;
+    return nullptr;
   }
 
   return segment->GetSectionByName(section_name, address);
@@ -331,7 +331,7 @@ const process_types::section* MachOImageReader::GetSectionAtIndex(
   static_assert(NO_SECT == 0, "NO_SECT must be zero");
   if (index == NO_SECT) {
     LOG(WARNING) << "section index " << index << " out of range";
-    return NULL;
+    return nullptr;
   }
 
   // Switch to a more comfortable 0-based index.
@@ -354,7 +354,7 @@ const process_types::section* MachOImageReader::GetSectionAtIndex(
   }
 
   LOG(WARNING) << "section index " << index << " out of range";
-  return NULL;
+  return nullptr;
 }
 
 bool MachOImageReader::LookUpExternalDefinedSymbol(

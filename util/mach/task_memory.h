@@ -120,7 +120,7 @@ class TaskMemory {
   //! \param[in] size The size, in bytes, of the memory region to map.
   //!
   //! \return On success, a MappedMemory object that provides access to the data
-  //!     requested. On faliure, `NULL`, with a warning logged. Failures can
+  //!     requested. On faliure, `nullptr`, with a warning logged. Failures can
   //!     occur, for example, when encountering unmapped or unreadable pages.
   scoped_ptr<MappedMemory> ReadMapped(mach_vm_address_t address, size_t size);
 

@@ -48,7 +48,7 @@ TEST(MultiprocessExec, MultiprocessExec) {
   base::FilePath test_executable = ExecutablePath();
   std::string child_test_executable =
       test_executable.value() + "_multiprocess_exec_test_child";
-  multiprocess_exec.SetChildCommand(child_test_executable, NULL);
+  multiprocess_exec.SetChildCommand(child_test_executable, nullptr);
   multiprocess_exec.Run();
 }
 

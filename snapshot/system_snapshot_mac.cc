@@ -35,7 +35,7 @@ template <typename T>
 T ReadIntSysctlByName(const char* name, T default_value) {
   T value;
   size_t value_len = sizeof(value);
-  if (sysctlbyname(name, &value, &value_len, NULL, 0) != 0) {
+  if (sysctlbyname(name, &value, &value_len, nullptr, 0) != 0) {
     PLOG(WARNING) << "sysctlbyname " << name;
     return default_value;
   }
@@ -51,7 +51,7 @@ T CastIntSysctlByName(const char* name, T default_value) {
 
 std::string ReadStringSysctlByName(const char* name) {
   size_t buf_len;
-  if (sysctlbyname(name, NULL, &buf_len, NULL, 0) != 0) {
+  if (sysctlbyname(name, nullptr, &buf_len, nullptr, 0) != 0) {
     PLOG(WARNING) << "sysctlbyname (size) " << name;
     return std::string();
   }
@@ -61,7 +61,7 @@ std::string ReadStringSysctlByName(const char* name) {
   }
 
   std::string value(buf_len - 1, '\0');
-  if (sysctlbyname(name, &value[0], &buf_len, NULL, 0) != 0) {
+  if (sysctlbyname(name, &value[0], &buf_len, nullptr, 0) != 0) {
     PLOG(WARNING) << "sysctlbyname " << name;
     return std::string();
   }
@@ -89,8 +89,8 @@ SystemSnapshotMac::SystemSnapshotMac()
     : SystemSnapshot(),
       os_version_full_(),
       os_version_build_(),
-      process_reader_(NULL),
-      snapshot_time_(NULL),
+      process_reader_(nullptr),
+      snapshot_time_(nullptr),
       os_version_major_(0),
       os_version_minor_(0),
       os_version_bugfix_(0),

@@ -81,11 +81,11 @@ TEST(MinidumpModuleWriter, EmptyModuleList) {
   EXPECT_EQ(0u, module_list->NumberOfModules);
 }
 
-// If |expected_pdb_name| is non-NULL, |codeview_record| is used to locate a
+// If |expected_pdb_name| is not nullptr, |codeview_record| is used to locate a
 // CodeView record in |file_contents|, and its fields are compared against the
 // the |expected_pdb_*| values. If |expected_pdb_uuid| is supplied, the CodeView
 // record must be a PDB 7.0 link, otherwise, it must be a PDB 2.0 link. If
-// |expected_pdb_name| is NULL, |codeview_record| must not point to anything.
+// |expected_pdb_name| is nullptr, |codeview_record| must not point to anything.
 void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
                           const std::string& file_contents,
                           const char* expected_pdb_name,
@@ -148,10 +148,10 @@ void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
   }
 }
 
-// If |expected_debug_name| is non-NULL, |misc_record| is used to locate a
+// If |expected_debug_name| is not nullptr, |misc_record| is used to locate a
 // miscellanous debugging record in |file_contents|, and its fields are compared
-// against the the |expected_debug_*| values. If |expected_debug_name| is NULL,
-// |misc_record| must not point to anything.
+// against the the |expected_debug_*| values. If |expected_debug_name| is
+// nullptr, |misc_record| must not point to anything.
 void ExpectMiscellaneousDebugRecord(
     const MINIDUMP_LOCATION_DESCRIPTOR* misc_record,
     const std::string& file_contents,
@@ -315,11 +315,11 @@ TEST(MinidumpModuleWriter, EmptyModule) {
                                        &module_list->Modules[0],
                                        file_writer.string(),
                                        kModuleName,
-                                       NULL,
-                                       NULL,
+                                       nullptr,
+                                       nullptr,
                                        0,
                                        0,
-                                       NULL,
+                                       nullptr,
                                        0,
                                        false));
 }
@@ -479,7 +479,7 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
                                        file_writer.string(),
                                        kModuleName,
                                        kPDBName,
-                                       NULL,
+                                       nullptr,
                                        kPDBTimestamp,
                                        kPDBAge,
                                        kDebugName,
@@ -578,7 +578,7 @@ TEST(MinidumpModuleWriter, ThreeModules) {
                                          &pdb_uuid_0,
                                          0,
                                          kPDBAge0,
-                                         NULL,
+                                         nullptr,
                                          0,
                                          false));
   }
@@ -593,11 +593,11 @@ TEST(MinidumpModuleWriter, ThreeModules) {
                                          &module_list->Modules[1],
                                          file_writer.string(),
                                          kModuleName1,
-                                         NULL,
-                                         NULL,
+                                         nullptr,
+                                         nullptr,
                                          0,
                                          0,
-                                         NULL,
+                                         nullptr,
                                          0,
                                          false));
   }
@@ -613,10 +613,10 @@ TEST(MinidumpModuleWriter, ThreeModules) {
                                          file_writer.string(),
                                          kModuleName2,
                                          kPDBName2,
-                                         NULL,
+                                         nullptr,
                                          kPDBTimestamp2,
                                          kPDBAge2,
-                                         NULL,
+                                         nullptr,
                                          0,
                                          false));
   }

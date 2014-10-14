@@ -50,7 +50,7 @@ class SystemSnapshotMacTest : public testing::Test {
   // testing::Test:
   virtual void SetUp() override {
     ASSERT_TRUE(process_reader_.Initialize(mach_task_self()));
-    ASSERT_EQ(0, gettimeofday(&snapshot_time_, NULL))
+    ASSERT_EQ(0, gettimeofday(&snapshot_time_, nullptr))
         << ErrnoMessage("gettimeofday");
     system_snapshot_.Initialize(&process_reader_, &snapshot_time_);
   }

@@ -100,10 +100,10 @@ class TestExcClientVariants : public UniversalMachExcServer,
     if (HasState()) {
       EXPECT_EQ(exception_ + 10, *flavor);
       EXPECT_EQ(MACHINE_THREAD_STATE_COUNT, old_state_count);
-      EXPECT_NE(static_cast<const natural_t*>(NULL), old_state);
+      EXPECT_NE(nullptr, old_state);
       EXPECT_EQ(static_cast<mach_msg_type_number_t>(THREAD_STATE_MAX),
                 *new_state_count);
-      EXPECT_NE(static_cast<natural_t*>(NULL), new_state);
+      EXPECT_NE(nullptr, new_state);
 
       for (size_t index = 0; index < old_state_count; ++index) {
         EXPECT_EQ(index, old_state[index]);
@@ -122,9 +122,9 @@ class TestExcClientVariants : public UniversalMachExcServer,
     } else {
       EXPECT_EQ(THREAD_STATE_NONE, *flavor);
       EXPECT_EQ(0u, old_state_count);
-      EXPECT_EQ(NULL, old_state);
+      EXPECT_EQ(nullptr, old_state);
       EXPECT_EQ(0u, *new_state_count);
-      EXPECT_EQ(NULL, new_state);
+      EXPECT_EQ(nullptr, new_state);
     }
 
     return KERN_SUCCESS;
@@ -161,14 +161,14 @@ class TestExcClientVariants : public UniversalMachExcServer,
     }
 
     thread_state_flavor_t flavor;
-    thread_state_flavor_t* flavor_p = NULL;
+    thread_state_flavor_t* flavor_p = nullptr;
     natural_t old_state[MACHINE_THREAD_STATE_COUNT];
-    thread_state_t old_state_p = NULL;
+    thread_state_t old_state_p = nullptr;
     mach_msg_type_number_t old_state_count = 0;
     natural_t new_state[THREAD_STATE_MAX];
-    thread_state_t new_state_p = NULL;
+    thread_state_t new_state_p = nullptr;
     mach_msg_type_number_t new_state_count;
-    mach_msg_type_number_t* new_state_count_p = NULL;
+    mach_msg_type_number_t* new_state_count_p = nullptr;
     if (all_fields_ || HasState()) {
       // Pick a different flavor each time based on the value of exception_.
       // These aren’t real flavors, it’s just for testing.

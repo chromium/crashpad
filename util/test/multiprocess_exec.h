@@ -46,7 +46,7 @@ class MultiprocessExec : public Multiprocess {
   //! \param[in] arguments The command-line arguments to pass to the child
   //!     process in its `argv[]` vector. This vector must begin at `argv[1]`,
   //!     as \a command is implicitly used as `argv[0]`. This argument may be
-  //!     `NULL` if no command-line arguments are to be passed.
+  //!     `nullptr` if no command-line arguments are to be passed.
   void SetChildCommand(const std::string& command,
                        const std::vector<std::string>* arguments);
 

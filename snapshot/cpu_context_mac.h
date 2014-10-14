@@ -45,15 +45,15 @@ namespace internal {
 //! \param[in] flavor The native thread state flavor of \a state. This may be
 //!     `x86_THREAD_STATE32`, `x86_FLOAT_STATE32`, `x86_DEBUG_STATE32`,
 //!     `x86_THREAD_STATE`, `x86_FLOAT_STATE`, or `x86_DEBUG_STATE`. It may also
-//!     be `THREAD_STATE_NONE` if \a state is not supplied (and is `NULL`).
+//!     be `THREAD_STATE_NONE` if \a state is not supplied (and is `nullptr`).
 //! \param[in] state The native thread state, which may be a casted pointer to
 //!     `x86_thread_state32_t`, `x86_float_state32_t`, `x86_debug_state32_t`,
 //!     `x86_thread_state`, `x86_float_state`, or `x86_debug_state`. This
-//!     parameter may be `NULL` to not supply this data, in which case \a flavor
-//!     must be `THREAD_STATE_NONE`. If a “universal” structure is used, it must
-//!     carry 32-bit state data of the correct type.
+//!     parameter may be `nullptr` to not supply this data, in which case \a
+//!     flavor must be `THREAD_STATE_NONE`. If a “universal” structure is used,
+//!     it must carry 32-bit state data of the correct type.
 //! \param[in] state_count The number of `natural_t`-sized (`int`-sized) units
-//!     in \a state. This may be 0 if \a state is `NULL`.
+//!     in \a state. This may be 0 if \a state is `nullptr`.
 //! \param[in] x86_thread_state32 The state of the thread’s integer registers.
 //! \param[in] x86_float_state32 The state of the thread’s floating-point
 //!     registers.
@@ -86,15 +86,15 @@ void InitializeCPUContextX86(CPUContextX86* context,
 //! \param[in] flavor The native thread state flavor of \a state. This may be
 //!     `x86_THREAD_STATE64`, `x86_FLOAT_STATE64`, `x86_DEBUG_STATE64`,
 //!     `x86_THREAD_STATE`, `x86_FLOAT_STATE`, or `x86_DEBUG_STATE`. It may also
-//!     be `THREAD_STATE_NONE` if \a state is not supplied (and is `NULL`).
+//!     be `THREAD_STATE_NONE` if \a state is not supplied (and is `nullptr`).
 //! \param[in] state The native thread state, which may be a casted pointer to
 //!     `x86_thread_state64_t`, `x86_float_state64_t`, `x86_debug_state64_t`,
 //!     `x86_thread_state`, `x86_float_state`, or `x86_debug_state`. This
-//!     parameter may be `NULL` to not supply this data, in which case \a flavor
-//!     must be `THREAD_STATE_NONE`. If a “universal” structure is used, it must
-//!     carry 64-bit state data of the correct type.
+//!     parameter may be `nullptr` to not supply this data, in which case \a
+//!     flavor must be `THREAD_STATE_NONE`. If a “universal” structure is used,
+//!     it must carry 64-bit state data of the correct type.
 //! \param[in] state_count The number of `int`-sized units in \a state. This may
-//!     be 0 if \a state is `NULL`.
+//!     be 0 if \a state is `nullptr`.
 //! \param[in] x86_thread_state64 The state of the thread’s integer registers.
 //! \param[in] x86_float_state64 The state of the thread’s floating-point
 //!     registers.

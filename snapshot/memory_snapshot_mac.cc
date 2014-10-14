@@ -21,7 +21,7 @@ namespace internal {
 
 MemorySnapshotMac::MemorySnapshotMac()
     : MemorySnapshot(),
-      process_reader_(NULL),
+      process_reader_(nullptr),
       address_(0),
       size_(0),
       initialized_() {

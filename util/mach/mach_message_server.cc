@@ -120,7 +120,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
     mach_msg_size_t this_request_size = request_size;
 
     base::mac::ScopedMachVM request_scoper;
-    mach_msg_header_t* request_header = NULL;
+    mach_msg_header_t* request_header = nullptr;
 
     while (!request_scoper.address()) {
       vm_address_t request_addr;

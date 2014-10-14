@@ -39,7 +39,7 @@ void* ThreadMain(void* argument) {
   for (size_t iteration = 0; iteration < info->iterations; ++iteration) {
     info->semaphore->Wait();
   }
-  return NULL;
+  return nullptr;
 }
 
 TEST(Semaphore, Threaded) {
@@ -48,12 +48,12 @@ TEST(Semaphore, Threaded) {
   info.semaphore = &semaphore;
   info.iterations = 1;
 
-  int rv = pthread_create(&info.pthread, NULL, ThreadMain, &info);
+  int rv = pthread_create(&info.pthread, nullptr, ThreadMain, &info);
   ASSERT_EQ(0, rv) << "pthread_create";
 
   semaphore.Signal();
 
-  rv = pthread_join(info.pthread, NULL);
+  rv = pthread_join(info.pthread, nullptr);
   ASSERT_EQ(0, rv) << "pthread_join";
 }
 
@@ -71,7 +71,8 @@ TEST(Semaphore, TenThreaded) {
     info[index].iterations = index;
     iterations += info[index].iterations;
 
-    rv = pthread_create(&info[index].pthread, NULL, ThreadMain, &info[index]);
+    rv =
+        pthread_create(&info[index].pthread, nullptr, ThreadMain, &info[index]);
     ASSERT_EQ(0, rv) << "pthread_create";
   }
 
@@ -80,7 +81,7 @@ TEST(Semaphore, TenThreaded) {
   }
 
   for (size_t index = 0; index < kThreads; ++index) {
-    rv = pthread_join(info[index].pthread, NULL);
+    rv = pthread_join(info[index].pthread, nullptr);
     ASSERT_EQ(0, rv) << "pthread_join";
   }
 }

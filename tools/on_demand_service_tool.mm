@@ -82,17 +82,18 @@ int OnDemandServiceToolMain(int argc, char* argv[]) {
   } options = {};
 
   const struct option long_options[] = {
-      {"load", no_argument, NULL, kOptionLoadJob},
-      {"unload", no_argument, NULL, kOptionUnloadJob},
-      {"label", required_argument, NULL, kOptionJobLabel},
-      {"mach_service", required_argument, NULL, kOptionMachService},
-      {"help", no_argument, NULL, kOptionHelp},
-      {"version", no_argument, NULL, kOptionVersion},
-      {NULL, 0, NULL, 0},
+      {"load", no_argument, nullptr, kOptionLoadJob},
+      {"unload", no_argument, nullptr, kOptionUnloadJob},
+      {"label", required_argument, nullptr, kOptionJobLabel},
+      {"mach_service", required_argument, nullptr, kOptionMachService},
+      {"help", no_argument, nullptr, kOptionHelp},
+      {"version", no_argument, nullptr, kOptionVersion},
+      {nullptr, 0, nullptr, 0},
   };
 
   int opt;
-  while ((opt = getopt_long(argc, argv, "+LUl:m:", long_options, NULL)) != -1) {
+  while ((opt = getopt_long(argc, argv, "+LUl:m:", long_options, nullptr)) !=
+          -1) {
     switch (opt) {
       case kOptionLoadJob:
         options.operation = kOperationLoadJob;
@@ -113,7 +114,7 @@ int OnDemandServiceToolMain(int argc, char* argv[]) {
         ToolSupport::Version(me);
         return EXIT_SUCCESS;
       default:
-        ToolSupport::UsageHint(me, NULL);
+        ToolSupport::UsageHint(me, nullptr);
         return EXIT_FAILURE;
     }
   }

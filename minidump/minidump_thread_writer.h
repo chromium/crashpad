@@ -55,7 +55,7 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
   //!     corresponding to this object’s stack.
   //!
   //! If the thread does not have a stack, or its stack could not be determined,
-  //! this will return NULL.
+  //! this will return nullptr.
   //!
   //! This method is provided so that MinidumpThreadListWriter can obtain thread
   //! stack memory regions for the purposes of adding them to a

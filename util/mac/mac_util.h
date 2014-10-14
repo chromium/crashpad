@@ -32,7 +32,7 @@ int MacOSXMinorVersion();
 
 //! \brief Returns the version of the running operating system.
 //!
-//! All parameters are required. No parameter may be `NULL`.
+//! All parameters are required. No parameter may be `nullptr`.
 //!
 //! \param[out] major The major version of the operating system, such as `10`
 //!     for Mac OS X 10.9.2.

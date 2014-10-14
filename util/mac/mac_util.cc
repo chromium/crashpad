@@ -99,14 +99,14 @@ CFDictionaryRef TryCFCopySystemVersionDictionary() {
   if (_CFCopySystemVersionDictionary) {
     return _CFCopySystemVersionDictionary();
   }
-  return NULL;
+  return nullptr;
 }
 
 CFDictionaryRef TryCFCopyServerVersionDictionary() {
   if (_CFCopyServerVersionDictionary) {
     return _CFCopyServerVersionDictionary();
   }
-  return NULL;
+  return nullptr;
 }
 
 const void* TryCFDictionaryGetValue(CFDictionaryRef dictionary,
@@ -114,7 +114,7 @@ const void* TryCFDictionaryGetValue(CFDictionaryRef dictionary,
   if (value) {
     return CFDictionaryGetValue(dictionary, value);
   }
-  return NULL;
+  return nullptr;
 }
 
 // Converts |version| to a triplet of version numbers on behalf of

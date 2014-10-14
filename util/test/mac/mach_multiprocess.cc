@@ -66,11 +66,11 @@ struct MachMultiprocessInfo {
 
 }  // namespace internal
 
-MachMultiprocess::MachMultiprocess() : Multiprocess(), info_(NULL) {
+MachMultiprocess::MachMultiprocess() : Multiprocess(), info_(nullptr) {
 }
 
 void MachMultiprocess::Run() {
-  ASSERT_EQ(NULL, info_);
+  ASSERT_EQ(nullptr, info_);
   scoped_ptr<internal::MachMultiprocessInfo> info(
       new internal::MachMultiprocessInfo);
   base::AutoReset<internal::MachMultiprocessInfo*> reset_info(&info_,
@@ -170,7 +170,7 @@ void MachMultiprocess::MultiprocessParent() {
                       &audit_rgid,
                       &audit_pid,
                       &audit_asid,
-                      NULL);
+                      nullptr);
 #else
   uid_t audit_auid = audit_token_to_auid(message.audit_trailer.msgh_audit);
   uid_t audit_euid = audit_token_to_euid(message.audit_trailer.msgh_audit);

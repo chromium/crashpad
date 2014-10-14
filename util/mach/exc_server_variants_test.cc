@@ -506,13 +506,14 @@ MATCHER_P2(AreExceptionCodes, code_0, code_1, "") {
 
 // Matcher for ThreadState and ConstThreadState, testing that *state_count is
 // present and matches the specified value. If 0 is specified for the count,
-// state must be NULL (not present), otherwise state must be non-NULL (present).
+// |state| must be nullptr (not present), otherwise |state| must not be nullptr
+// (present).
 MATCHER_P(IsThreadStateCount, state_count, "") {
   if (!arg) {
     return false;
   }
   if (!arg->state_count) {
-    *result_listener << "state_count NULL";
+    *result_listener << "state_count nullptr";
     return false;
   }
   if (*(arg->state_count) != state_count) {
@@ -521,12 +522,12 @@ MATCHER_P(IsThreadStateCount, state_count, "") {
   }
   if (state_count) {
     if (!arg->state) {
-      *result_listener << "*state_count " << state_count << ", state NULL";
+      *result_listener << "*state_count " << state_count << ", state nullptr";
       return false;
     }
   } else {
     if (arg->state) {
-      *result_listener << "*state_count 0, state non-NULL (" << arg->state
+      *result_listener << "*state_count 0, state non-nullptr (" << arg->state
                        << ")";
       return false;
     }
@@ -913,7 +914,7 @@ class TestExcServerVariants : public UniversalMachExcServer,
     // function returning type void, and the interface dictates otherwise here.
     if (exception == EXC_CRASH && code_count >= 1) {
       int signal;
-      ExcCrashRecoverOriginalException(code[0], NULL, &signal);
+      ExcCrashRecoverOriginalException(code[0], nullptr, &signal);
       SetExpectedChildTermination(kTerminationSignal, signal);
     }
 
@@ -921,16 +922,16 @@ class TestExcServerVariants : public UniversalMachExcServer,
     if (has_state) {
       EXPECT_EQ(flavor_, *flavor);
       EXPECT_EQ(state_count_, old_state_count);
-      EXPECT_NE(static_cast<const natural_t*>(NULL), old_state);
+      EXPECT_NE(nullptr, old_state);
       EXPECT_EQ(static_cast<mach_msg_type_number_t>(THREAD_STATE_MAX),
                 *new_state_count);
-      EXPECT_NE(static_cast<natural_t*>(NULL), new_state);
+      EXPECT_NE(nullptr, new_state);
     } else {
       EXPECT_EQ(THREAD_STATE_NONE, *flavor);
       EXPECT_EQ(0u, old_state_count);
-      EXPECT_EQ(NULL, old_state);
+      EXPECT_EQ(nullptr, old_state);
       EXPECT_EQ(0u, *new_state_count);
-      EXPECT_EQ(NULL, new_state);
+      EXPECT_EQ(nullptr, new_state);
     }
 
     return ExcServerSuccessfulReturnValue(behavior, false);
@@ -1022,43 +1023,43 @@ TEST(ExcServerVariants, ThreadStates) {
   };
   const TestData test_data[] = {
 #if defined(ARCH_CPU_X86_FAMILY)
-    // For the x86 family, exception handlers can only properly receive the
-    // thread, float, and exception state flavors. There’s a bug in the kernel
-    // that causes it to call thread_getstatus() (a wrapper for the more
-    // familiar thread_get_state()) with an incorrect state buffer size
-    // parameter when delivering an exception. 10.9.4
-    // xnu-2422.110.17/osfmk/kern/exception.c exception_deliver() uses the
-    // _MachineStateCount[] array indexed by the flavor number to obtain the
-    // buffer size. 10.9.4 xnu-2422.110.17/osfmk/i386/pcb.c contains the
-    // definition of this array for the x86 family. The slots corresponding to
-    // thread, float, and exception state flavors in both native-width (32- and
-    // 64-bit) and universal are correct, but the remaining elements in the
-    // array are not. This includes elements that would correspond to debug and
-    // AVX state flavors, so these cannot be tested here.
-    //
-    // When machine_thread_get_state() (the machine-specific implementation of
-    // thread_get_state()) encounters an undersized buffer as reported by the
-    // buffer size parameter, it returns KERN_INVALID_ARGUMENT, which causes
-    // exception_deliver() to not actually deliver the exception and instead
-    // return that error code to exception_triage() as well.
-    //
-    // This bug is filed as radar 18312067.
-    //
-    // Additionaly, the AVX state flavors are also not tested because they’re
-    // not available on all CPUs and OS versions.
+      // For the x86 family, exception handlers can only properly receive the
+      // thread, float, and exception state flavors. There’s a bug in the kernel
+      // that causes it to call thread_getstatus() (a wrapper for the more
+      // familiar thread_get_state()) with an incorrect state buffer size
+      // parameter when delivering an exception. 10.9.4
+      // xnu-2422.110.17/osfmk/kern/exception.c exception_deliver() uses the
+      // _MachineStateCount[] array indexed by the flavor number to obtain the
+      // buffer size. 10.9.4 xnu-2422.110.17/osfmk/i386/pcb.c contains the
+      // definition of this array for the x86 family. The slots corresponding to
+      // thread, float, and exception state flavors in both native-width (32-
+      // and 64-bit) and universal are correct, but the remaining elements in
+      // the array are not. This includes elements that would correspond to
+      // debug and AVX state flavors, so these cannot be tested here.
+      //
+      // When machine_thread_get_state() (the machine-specific implementation of
+      // thread_get_state()) encounters an undersized buffer as reported by the
+      // buffer size parameter, it returns KERN_INVALID_ARGUMENT, which causes
+      // exception_deliver() to not actually deliver the exception and instead
+      // return that error code to exception_triage() as well.
+      //
+      // This bug is filed as radar 18312067.
+      //
+      // Additionaly, the AVX state flavors are also not tested because they’re
+      // not available on all CPUs and OS versions.
 #if defined(ARCH_CPU_X86)
-    {x86_THREAD_STATE32, x86_THREAD_STATE32_COUNT},
-    {x86_FLOAT_STATE32, x86_FLOAT_STATE32_COUNT},
-    {x86_EXCEPTION_STATE32, x86_EXCEPTION_STATE32_COUNT},
+      {x86_THREAD_STATE32, x86_THREAD_STATE32_COUNT},
+      {x86_FLOAT_STATE32, x86_FLOAT_STATE32_COUNT},
+      {x86_EXCEPTION_STATE32, x86_EXCEPTION_STATE32_COUNT},
 #endif
 #if defined(ARCH_CPU_X86_64)
-    {x86_THREAD_STATE64, x86_THREAD_STATE64_COUNT},
-    {x86_FLOAT_STATE64, x86_FLOAT_STATE64_COUNT},
-    {x86_EXCEPTION_STATE64, x86_EXCEPTION_STATE64_COUNT},
+      {x86_THREAD_STATE64, x86_THREAD_STATE64_COUNT},
+      {x86_FLOAT_STATE64, x86_FLOAT_STATE64_COUNT},
+      {x86_EXCEPTION_STATE64, x86_EXCEPTION_STATE64_COUNT},
 #endif
-    {x86_THREAD_STATE, x86_THREAD_STATE_COUNT},
-    {x86_FLOAT_STATE, x86_FLOAT_STATE_COUNT},
-    {x86_EXCEPTION_STATE, x86_EXCEPTION_STATE_COUNT},
+      {x86_THREAD_STATE, x86_THREAD_STATE_COUNT},
+      {x86_FLOAT_STATE, x86_FLOAT_STATE_COUNT},
+      {x86_EXCEPTION_STATE, x86_EXCEPTION_STATE_COUNT},
 #else
 #error Port this test to your CPU architecture.
 #endif
@@ -1085,30 +1086,27 @@ TEST(ExcServerVariants, ExcCrashRecoverOriginalException) {
     int signal;
   };
   const TestData kTestData[] = {
-    {0xb100001, EXC_BAD_ACCESS, KERN_INVALID_ADDRESS, SIGSEGV},
-    {0xb100002, EXC_BAD_ACCESS, KERN_PROTECTION_FAILURE, SIGSEGV},
-    {0xa100002, EXC_BAD_ACCESS, KERN_PROTECTION_FAILURE, SIGBUS},
-    {0x4200001, EXC_BAD_INSTRUCTION, 1, SIGILL},
-    {0x8300001, EXC_ARITHMETIC, 1, SIGFPE},
-    {0x5600002, EXC_BREAKPOINT, 2, SIGTRAP},
-    {0x3000000, 0, 0, SIGQUIT},
-    {0x6000000, 0, 0, SIGABRT},
-    {0xc000000, 0, 0, SIGSYS},
-    {0, 0, 0, 0},
+      {0xb100001, EXC_BAD_ACCESS, KERN_INVALID_ADDRESS, SIGSEGV},
+      {0xb100002, EXC_BAD_ACCESS, KERN_PROTECTION_FAILURE, SIGSEGV},
+      {0xa100002, EXC_BAD_ACCESS, KERN_PROTECTION_FAILURE, SIGBUS},
+      {0x4200001, EXC_BAD_INSTRUCTION, 1, SIGILL},
+      {0x8300001, EXC_ARITHMETIC, 1, SIGFPE},
+      {0x5600002, EXC_BREAKPOINT, 2, SIGTRAP},
+      {0x3000000, 0, 0, SIGQUIT},
+      {0x6000000, 0, 0, SIGABRT},
+      {0xc000000, 0, 0, SIGSYS},
+      {0, 0, 0, 0},
   };
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
     const TestData& test_data = kTestData[index];
-    SCOPED_TRACE(base::StringPrintf("index %zu, code_0 0x%llx",
-                                    index,
-                                    test_data.code_0));
+    SCOPED_TRACE(base::StringPrintf(
+        "index %zu, code_0 0x%llx", index, test_data.code_0));
 
     mach_exception_code_t original_code_0;
     int signal;
-    exception_type_t exception =
-        ExcCrashRecoverOriginalException(test_data.code_0,
-                                         &original_code_0,
-                                         &signal);
+    exception_type_t exception = ExcCrashRecoverOriginalException(
+        test_data.code_0, &original_code_0, &signal);
 
     EXPECT_EQ(test_data.exception, exception);
     EXPECT_EQ(test_data.original_code_0, original_code_0);
@@ -1119,18 +1117,20 @@ TEST(ExcServerVariants, ExcCrashRecoverOriginalException) {
   // optional arguments.
   static_assert(arraysize(kTestData) >= 1, "must have something to test");
   const TestData& test_data = kTestData[0];
-  EXPECT_EQ(test_data.exception,
-            ExcCrashRecoverOriginalException(test_data.code_0, NULL, NULL));
+  EXPECT_EQ(
+      test_data.exception,
+      ExcCrashRecoverOriginalException(test_data.code_0, nullptr, nullptr));
 
   mach_exception_code_t original_code_0;
   EXPECT_EQ(test_data.exception,
             ExcCrashRecoverOriginalException(
-                test_data.code_0, &original_code_0, NULL));
+                test_data.code_0, &original_code_0, nullptr));
   EXPECT_EQ(test_data.original_code_0, original_code_0);
 
   int signal;
-  EXPECT_EQ(test_data.exception,
-            ExcCrashRecoverOriginalException(test_data.code_0, NULL, &signal));
+  EXPECT_EQ(
+      test_data.exception,
+      ExcCrashRecoverOriginalException(test_data.code_0, nullptr, &signal));
   EXPECT_EQ(test_data.signal, signal);
 }
 

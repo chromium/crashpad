@@ -266,7 +266,7 @@ MachOImageSymbolTableReader::LookUpExternalDefinedSymbol(
 
   const auto& iterator = external_defined_symbols_.find(name);
   if (iterator == external_defined_symbols_.end()) {
-    return NULL;
+    return nullptr;
   }
   return &iterator->second;
 }

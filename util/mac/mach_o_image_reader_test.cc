@@ -159,7 +159,7 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
   for (size_t index = 0; index < actual_segment->nsects(); ++index) {
     const Section* expect_section = &expect_sections[index];
     const process_types::section* actual_section =
-        actual_segment->GetSectionAtIndex(index, NULL);
+        actual_segment->GetSectionAtIndex(index, nullptr);
     ASSERT_NO_FATAL_FAILURE(
         ExpectSection(&expect_sections[index], actual_section));
 
@@ -167,7 +167,7 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
     std::string section_name =
         MachOImageSegmentReader::SectionNameString(expect_section->sectname);
     const process_types::section* actual_section_by_name =
-        actual_segment->GetSectionByName(section_name, NULL);
+        actual_segment->GetSectionByName(section_name, nullptr);
     EXPECT_EQ(actual_section, actual_section_by_name);
 
     // Make sure that the section is accessible by the parent MachOImageReader’s
@@ -207,7 +207,8 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
     EXPECT_EQ(actual_section_address, actual_section_address_at_index);
   }
 
-  EXPECT_EQ(NULL, actual_segment->GetSectionByName("NoSuchSection", NULL));
+  EXPECT_EQ(nullptr,
+            actual_segment->GetSectionByName("NoSuchSection", nullptr));
 }
 
 // Walks through the load commands of |expect_image|, finding all of the
@@ -258,21 +259,23 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
   if (test_section_index_bounds) {
     // GetSectionAtIndex uses a 1-based index. Make sure that the range is
     // correct.
-    EXPECT_EQ(NULL, actual_image->GetSectionAtIndex(0, NULL, NULL));
-    EXPECT_EQ(NULL,
-              actual_image->GetSectionAtIndex(section_index + 1, NULL, NULL));
+    EXPECT_EQ(nullptr, actual_image->GetSectionAtIndex(0, nullptr, nullptr));
+    EXPECT_EQ(
+        nullptr,
+        actual_image->GetSectionAtIndex(section_index + 1, nullptr, nullptr));
   }
 
   // Make sure that by-name lookups for names that don’t exist work properly:
-  // they should return NULL.
+  // they should return nullptr.
   EXPECT_FALSE(actual_image->GetSegmentByName("NoSuchSegment"));
-  EXPECT_FALSE(
-      actual_image->GetSectionByName("NoSuchSegment", "NoSuchSection", NULL));
+  EXPECT_FALSE(actual_image->GetSectionByName(
+      "NoSuchSegment", "NoSuchSection", nullptr));
 
   // Make sure that there’s a __TEXT segment so that this can do a valid test of
   // a section that doesn’t exist within a segment that does.
   EXPECT_TRUE(actual_image->GetSegmentByName(SEG_TEXT));
-  EXPECT_FALSE(actual_image->GetSectionByName(SEG_TEXT, "NoSuchSection", NULL));
+  EXPECT_FALSE(
+      actual_image->GetSectionByName(SEG_TEXT, "NoSuchSection", nullptr));
 
   // Similarly, make sure that a section name that exists in one segment isn’t
   // accidentally found during a lookup for that section in a different segment.
@@ -284,7 +287,7 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
   std::string test_section = SECT_TEXT;
 
   const process_types::section* section =
-      actual_image->GetSectionAtIndex(1, NULL, NULL);
+      actual_image->GetSectionAtIndex(1, nullptr, nullptr);
   if (section) {
     // Use the name of the first section in the image as the section that
     // shouldn’t appear in a different segment. If the first section is in the
@@ -303,17 +306,18 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
     // It should be possible to look up the first section by name.
     EXPECT_EQ(section,
               actual_image->GetSectionByName(
-                  section->segname, section->sectname, NULL));
+                  section->segname, section->sectname, nullptr));
   }
   EXPECT_FALSE(
-      actual_image->GetSectionByName("NoSuchSegment", test_section, NULL));
+      actual_image->GetSectionByName("NoSuchSegment", test_section, nullptr));
   EXPECT_FALSE(
-      actual_image->GetSectionByName(test_segment, test_section, NULL));
+      actual_image->GetSectionByName(test_segment, test_section, nullptr));
 
   // The __LINKEDIT segment normally does exist but doesn’t have any sections.
   EXPECT_FALSE(
-      actual_image->GetSectionByName(SEG_LINKEDIT, "NoSuchSection", NULL));
-  EXPECT_FALSE(actual_image->GetSectionByName(SEG_LINKEDIT, SECT_TEXT, NULL));
+      actual_image->GetSectionByName(SEG_LINKEDIT, "NoSuchSection", nullptr));
+  EXPECT_FALSE(
+      actual_image->GetSectionByName(SEG_LINKEDIT, SECT_TEXT, nullptr));
 }
 
 // In some cases, the expected slide value for an image is unknown, because no
@@ -443,8 +447,8 @@ void ExpectSymbolTable(const MachHeader* expect_image,
   // to expose bugs in that optimization rather than duplicate them.
   const char* commands_base = reinterpret_cast<const char*>(&expect_image[1]);
   uint32_t position = 0;
-  const symtab_command* symtab = NULL;
-  const SegmentCommand* linkedit = NULL;
+  const symtab_command* symtab = nullptr;
+  const SegmentCommand* linkedit = nullptr;
   for (uint32_t index = 0; index < expect_image->ncmds; ++index) {
     ASSERT_LT(position, expect_image->sizeofcmds);
     const load_command* command =
@@ -498,7 +502,7 @@ TEST(MachOImageReader, Self_MainExecutable) {
 
   const MachHeader* mh_execute_header =
       reinterpret_cast<MachHeader*>(dlsym(RTLD_MAIN_ONLY, MH_EXECUTE_SYM));
-  ASSERT_NE(static_cast<void*>(NULL), mh_execute_header);
+  ASSERT_NE(nullptr, mh_execute_header);
   mach_vm_address_t mh_execute_header_address =
       reinterpret_cast<mach_vm_address_t>(mh_execute_header);
 

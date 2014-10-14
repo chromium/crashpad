@@ -30,8 +30,8 @@ namespace test {
 namespace {
 
 // This returns the MINIDUMP_THREAD_LIST stream in |thread_list|. If
-// |memory_list| is non-NULL, a MINIDUMP_MEMORY_LIST stream is also expected in
-// |file_contents|, and that stream will be returned in |memory_list|.
+// |memory_list| is not nullptr, a MINIDUMP_MEMORY_LIST stream is also expected
+// in |file_contents|, and that stream will be returned in |memory_list|.
 void GetThreadListStream(const std::string& file_contents,
                          const MINIDUMP_THREAD_LIST** thread_list,
                          const MINIDUMP_MEMORY_LIST** memory_list) {
@@ -85,15 +85,15 @@ TEST(MinidumpThreadWriter, EmptyThreadList) {
 
   const MINIDUMP_THREAD_LIST* thread_list;
   ASSERT_NO_FATAL_FAILURE(
-      GetThreadListStream(file_writer.string(), &thread_list, NULL));
+      GetThreadListStream(file_writer.string(), &thread_list, nullptr));
 
   EXPECT_EQ(0u, thread_list->NumberOfThreads);
 }
 
 // The MINIDUMP_THREADs |expected| and |observed| are compared against each
-// other using gtest assertions. If |stack| is non-NULL, |observed| is expected
-// to contain a populated MINIDUMP_MEMORY_DESCRIPTOR in its Stack field,
-// otherwise, its Stack field is expected to be zeroed out. The memory
+// other using gtest assertions. If |stack| is not nullptr, |observed| is
+// expected to contain a populated MINIDUMP_MEMORY_DESCRIPTOR in its Stack
+// field, otherwise, its Stack field is expected to be zeroed out. The memory
 // descriptor will be placed in |stack|. |observed| must contain a populated
 // ThreadContext field. The context will be recovered from |file_contents| and
 // stored in |context_base|.
@@ -166,7 +166,7 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
 
   const MINIDUMP_THREAD_LIST* thread_list;
   ASSERT_NO_FATAL_FAILURE(
-      GetThreadListStream(file_writer.string(), &thread_list, NULL));
+      GetThreadListStream(file_writer.string(), &thread_list, nullptr));
 
   EXPECT_EQ(1u, thread_list->NumberOfThreads);
 
@@ -183,7 +183,7 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
       ExpectThread(&expected,
                    &thread_list->Threads[0],
                    file_writer.string(),
-                   NULL,
+                   nullptr,
                    reinterpret_cast<const void**>(&observed_context)));
 
   ASSERT_NO_FATAL_FAILURE(ExpectMinidumpContextX86(kSeed, observed_context));
@@ -231,7 +231,7 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
 
   const MINIDUMP_THREAD_LIST* thread_list;
   ASSERT_NO_FATAL_FAILURE(
-      GetThreadListStream(file_writer.string(), &thread_list, NULL));
+      GetThreadListStream(file_writer.string(), &thread_list, nullptr));
 
   EXPECT_EQ(1u, thread_list->NumberOfThreads);
 

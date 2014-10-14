@@ -83,7 +83,7 @@ ProcessReader::Thread::Thread()
       priority(0) {
 }
 
-ProcessReader::Module::Module() : name(), reader(NULL), timestamp(0) {
+ProcessReader::Module::Module() : name(), reader(nullptr), timestamp(0) {
 }
 
 ProcessReader::Module::~Module() {
@@ -121,7 +121,7 @@ bool ProcessReader::Initialize(task_t task) {
 
   int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
   size_t len = sizeof(kern_proc_info_);
-  if (sysctl(mib, arraysize(mib), &kern_proc_info_, &len, NULL, 0) != 0) {
+  if (sysctl(mib, arraysize(mib), &kern_proc_info_, &len, nullptr, 0) != 0) {
     PLOG(ERROR) << "sysctl for pid " << pid;
     return false;
   }
@@ -395,8 +395,8 @@ void ProcessReader::InitializeModules() {
 
   // Note that all_image_infos.infoArrayCount may be 0 if a crash occurred while
   // dyld was loading the executable. This can happen if a required dynamic
-  // library was not found. Similarly, all_image_infos.infoArray may be NULL if
-  // a crash occurred while dyld was updating it.
+  // library was not found. Similarly, all_image_infos.infoArray may be nullptr
+  // if a crash occurred while dyld was updating it.
   //
   // TODO(mark): It may be possible to recover from these situations by looking
   // through memory mappings for Mach-O images.
@@ -405,7 +405,7 @@ void ProcessReader::InitializeModules() {
     return;
   }
   if (!all_image_infos.infoArray) {
-    LOG(WARNING) << "all_image_infos.infoArray is NULL";
+    LOG(WARNING) << "all_image_infos.infoArray is nullptr";
     return;
   }
 

@@ -29,7 +29,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
     // list elements according to which is more convenient and correct for any
     // specific task.
 
-    launch_data_t data_launch = NULL;
+    launch_data_t data_launch = nullptr;
     CFTypeID type_id_cf = CFGetTypeID(property_cf);
 
     if (type_id_cf == CFDictionaryGetTypeID()) {
@@ -40,14 +40,14 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
 
       for (NSString* key in dictionary_ns) {
         if (![key isKindOfClass:[NSString class]]) {
-          return NULL;
+          return nullptr;
         }
 
         CFPropertyListRef value_cf =
             static_cast<CFPropertyListRef>([dictionary_ns objectForKey:key]);
         launch_data_t value_launch = CFPropertyToLaunchData(value_cf);
         if (!value_launch) {
-          return NULL;
+          return nullptr;
         }
 
         launch_data_dict_insert(
@@ -68,7 +68,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
             static_cast<CFPropertyListRef>(element_ns);
         launch_data_t element_launch = CFPropertyToLaunchData(element_cf);
         if (!element_launch) {
-          return NULL;
+          return nullptr;
         }
 
         launch_data_array_set_index(array_launch, element_launch, index++);
@@ -103,7 +103,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
           break;
         }
 
-        default: { return NULL; }
+        default: { return nullptr; }
       }
 
     } else if (type_id_cf == CFBooleanGetTypeID()) {

@@ -25,7 +25,7 @@
 namespace {
 
 const char* kExceptionNames[] = {
-    NULL,
+    nullptr,
 
     // sed -Ene 's/^#define[[:space:]]EXC_([[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
     //     /usr/include/mach/exception_types.h
@@ -49,7 +49,7 @@ const char kExcPrefix[] = "EXC_";
 const char kExcMaskPrefix[] = "EXC_MASK_";
 
 const char* kBehaviorNames[] = {
-    NULL,
+    nullptr,
 
     // sed -Ene 's/^# define[[:space:]]EXCEPTION_([[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
     //     /usr/include/mach/exception_types.h
@@ -110,12 +110,12 @@ const char* kFlavorNames[] = {
     "THREAD_STATE_NONE",
     "ARM_THREAD_STATE64",
     "ARM_EXCEPTION_STATE64",
-    NULL,
+    nullptr,
     "ARM_THREAD_STATE32",
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
     "ARM_DEBUG_STATE32",
     "ARM_DEBUG_STATE64",
     "ARM_NEON_STATE",
@@ -194,7 +194,7 @@ std::string ExceptionToString(exception_type_t exception,
   const char* exception_name =
       static_cast<size_t>(exception) < arraysize(kExceptionNames)
           ? kExceptionNames[exception]
-          : NULL;
+          : nullptr;
   if (!exception_name) {
     if (options & kUnknownIsNumeric) {
       return base::StringPrintf("%d", exception);
@@ -363,7 +363,7 @@ std::string ExceptionBehaviorToString(exception_behavior_t behavior,
   const char* behavior_name =
       static_cast<size_t>(basic_behavior) < arraysize(kBehaviorNames)
           ? kBehaviorNames[basic_behavior]
-          : NULL;
+          : nullptr;
   if (!behavior_name) {
     if (options & kUnknownIsNumeric) {
       return base::StringPrintf("%#x", behavior);
@@ -465,7 +465,7 @@ std::string ThreadStateFlavorToString(thread_state_flavor_t flavor,
   const char* flavor_name =
       static_cast<size_t>(flavor) < arraysize(kFlavorNames)
           ? kFlavorNames[flavor]
-          : NULL;
+          : nullptr;
 
   if (!flavor_name) {
     for (size_t generic_flavor_index = 0;

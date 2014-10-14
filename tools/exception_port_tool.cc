@@ -121,7 +121,7 @@ bool ParseHandlerString(const char* handler_string_ro,
   char* handler_string_c = &handler_string[0];
 
   char* token;
-  while ((token = strsep(&handler_string_c, ",")) != NULL) {
+  while ((token = strsep(&handler_string_c, ",")) != nullptr) {
     if (strncmp(token, kTargetEquals, strlen(kTargetEquals)) == 0) {
       const char* value = token + strlen(kTargetEquals);
       if (strcmp(value, "host") == 0) {
@@ -402,23 +402,23 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
   } options = {};
 
   const struct option long_options[] = {
-      {"set_handler", required_argument, NULL, kOptionSetPort},
-      {"show_bootstrap", required_argument, NULL, kOptionShowBootstrap},
-      {"pid", required_argument, NULL, kOptionPid},
-      {"show_host", no_argument, NULL, kOptionShowHost},
-      {"show_task", no_argument, NULL, kOptionShowTask},
-      {"show_thread", no_argument, NULL, kOptionShowThread},
-      {"show_new_host", no_argument, NULL, kOptionShowNewHost},
-      {"show_new_task", no_argument, NULL, kOptionShowNewTask},
-      {"show_new_thread", no_argument, NULL, kOptionShowNewThread},
-      {"numeric", no_argument, NULL, kOptionNumeric},
-      {"help", no_argument, NULL, kOptionHelp},
-      {"version", no_argument, NULL, kOptionVersion},
-      {NULL, 0, NULL, 0},
+      {"set_handler", required_argument, nullptr, kOptionSetPort},
+      {"show_bootstrap", required_argument, nullptr, kOptionShowBootstrap},
+      {"pid", required_argument, nullptr, kOptionPid},
+      {"show_host", no_argument, nullptr, kOptionShowHost},
+      {"show_task", no_argument, nullptr, kOptionShowTask},
+      {"show_thread", no_argument, nullptr, kOptionShowThread},
+      {"show_new_host", no_argument, nullptr, kOptionShowNewHost},
+      {"show_new_task", no_argument, nullptr, kOptionShowNewTask},
+      {"show_new_thread", no_argument, nullptr, kOptionShowNewThread},
+      {"numeric", no_argument, nullptr, kOptionNumeric},
+      {"help", no_argument, nullptr, kOptionHelp},
+      {"version", no_argument, nullptr, kOptionVersion},
+      {nullptr, 0, nullptr, 0},
   };
 
   int opt;
-  while ((opt = getopt_long(argc, argv, "+s:p:htHTn", long_options, NULL)) !=
+  while ((opt = getopt_long(argc, argv, "+s:p:htHTn", long_options, nullptr)) !=
          -1) {
     switch (opt) {
       case kOptionSetPort: {
@@ -475,7 +475,7 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
         ToolSupport::Version(me);
         return kExitSuccess;
       default:
-        ToolSupport::UsageHint(me, NULL);
+        ToolSupport::UsageHint(me, nullptr);
         return kExitFailure;
     }
   }

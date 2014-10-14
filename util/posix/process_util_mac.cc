@@ -43,14 +43,15 @@ bool ProcessArgumentsForPID(pid_t pid, std::vector<std::string>* argv) {
   int tries = 3;
   do {
     int mib[] = {CTL_KERN, KERN_PROCARGS2, pid};
-    int rv = sysctl(mib, arraysize(mib), NULL, &args_size_estimate, NULL, 0);
+    int rv =
+        sysctl(mib, arraysize(mib), nullptr, &args_size_estimate, nullptr, 0);
     if (rv != 0) {
       return false;
     }
 
     args_size = args_size_estimate + 1;
     args.resize(args_size);
-    rv = sysctl(mib, arraysize(mib), &args[0], &args_size, NULL, 0);
+    rv = sysctl(mib, arraysize(mib), &args[0], &args_size, nullptr, 0);
     if (rv != 0) {
       return false;
     }

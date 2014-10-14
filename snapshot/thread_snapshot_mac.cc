@@ -59,7 +59,7 @@ bool ThreadSnapshotMac::Initialize(
     context_.x86_64 = &context_union_.x86_64;
     InitializeCPUContextX86_64(context_.x86_64,
                                THREAD_STATE_NONE,
-                               NULL,
+                               nullptr,
                                0,
                                &process_reader_thread.thread_context.t64,
                                &process_reader_thread.float_context.f64,
@@ -69,7 +69,7 @@ bool ThreadSnapshotMac::Initialize(
     context_.x86 = &context_union_.x86;
     InitializeCPUContextX86(context_.x86,
                             THREAD_STATE_NONE,
-                            NULL,
+                            nullptr,
                             0,
                             &process_reader_thread.thread_context.t32,
                             &process_reader_thread.float_context.f32,

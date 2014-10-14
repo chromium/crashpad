@@ -69,7 +69,7 @@ const struct {
 #endif
 };
 
-// If |expect| is NULL, the conversion is expected to fail. If |expect| is
+// If |expect| is nullptr, the conversion is expected to fail. If |expect| is
 // empty, the conversion is expected to succeed, but the precise returned string
 // value is unknown. Otherwise, the conversion is expected to succeed, and
 // |expect| contains the precise expected string value to be returned.
@@ -130,7 +130,7 @@ TEST(SymbolicConstantsPOSIX, SignalToString) {
     if (signal > 0 && signal < kSignalCount) {
       TestSignalToString(signal, "", "");
     } else {
-      TestSignalToString(signal, NULL, NULL);
+      TestSignalToString(signal, nullptr, nullptr);
     }
   }
 }

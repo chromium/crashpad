@@ -200,18 +200,18 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
   Options options = {};
 
   const struct option long_options[] = {
-      {"file", required_argument, NULL, kOptionFile},
-      {"mach_service", required_argument, NULL, kOptionMachService},
-      {"nonblocking", no_argument, NULL, kOptionNonblocking},
-      {"persistent", no_argument, NULL, kOptionPersistent},
-      {"timeout", required_argument, NULL, kOptionTimeout},
-      {"help", no_argument, NULL, kOptionHelp},
-      {"version", no_argument, NULL, kOptionVersion},
-      {NULL, 0, NULL, 0},
+      {"file", required_argument, nullptr, kOptionFile},
+      {"mach_service", required_argument, nullptr, kOptionMachService},
+      {"nonblocking", no_argument, nullptr, kOptionNonblocking},
+      {"persistent", no_argument, nullptr, kOptionPersistent},
+      {"timeout", required_argument, nullptr, kOptionTimeout},
+      {"help", no_argument, nullptr, kOptionHelp},
+      {"version", no_argument, nullptr, kOptionVersion},
+      {nullptr, 0, nullptr, 0},
   };
 
   int opt;
-  while ((opt = getopt_long(argc, argv, "f:m:npt:", long_options, NULL)) !=
+  while ((opt = getopt_long(argc, argv, "f:m:npt:", long_options, nullptr)) !=
          -1) {
     switch (opt) {
       case kOptionFile:
@@ -240,7 +240,7 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
         ToolSupport::Version(me);
         return EXIT_SUCCESS;
       default:
-        ToolSupport::UsageHint(me, NULL);
+        ToolSupport::UsageHint(me, nullptr);
         return EXIT_FAILURE;
     }
   }

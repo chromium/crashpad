@@ -61,7 +61,7 @@ void MultiprocessExec::PreFork() {
   for (const std::string& argument : arguments_) {
     argv_.push_back(argument.c_str());
   }
-  argv_.push_back(NULL);
+  argv_.push_back(nullptr);
 }
 
 void MultiprocessExec::MultiprocessChild() {

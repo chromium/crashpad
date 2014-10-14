@@ -31,7 +31,7 @@ launch_data_t LaunchDataDictionaryForJob(const std::string& label) {
 
   base::mac::ScopedLaunchData response(launch_msg(request));
   if (launch_data_get_type(response) != LAUNCH_DATA_DICTIONARY) {
-    return NULL;
+    return nullptr;
   }
 
   return response.release();

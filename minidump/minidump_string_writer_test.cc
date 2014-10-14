@@ -133,7 +133,7 @@ TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
     size_t out_units =
         minidump_string->Length / sizeof(minidump_string->Buffer[0]);
     EXPECT_EQ(0, minidump_string->Buffer[out_units]);
-    EXPECT_NE(reinterpret_cast<char16*>(NULL),
+    EXPECT_NE(nullptr,
               base::c16memchr(minidump_string->Buffer, 0xfffd, out_units));
   }
 }

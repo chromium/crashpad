@@ -38,7 +38,7 @@ TEST(CPUContextMac, InitializeContextX86) {
     CPUContextX86 cpu_context_x86 = {};
     internal::InitializeCPUContextX86(&cpu_context_x86,
                                       THREAD_STATE_NONE,
-                                      NULL,
+                                      nullptr,
                                       0,
                                       &x86_thread_state32,
                                       &x86_float_state32,
@@ -233,7 +233,7 @@ TEST(CPUContextMac, InitializeContextX86_64) {
     CPUContextX86_64 cpu_context_x86_64 = {};
     internal::InitializeCPUContextX86_64(&cpu_context_x86_64,
                                          THREAD_STATE_NONE,
-                                         NULL,
+                                         nullptr,
                                          0,
                                          &x86_thread_state64,
                                          &x86_float_state64,

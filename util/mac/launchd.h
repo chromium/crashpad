@@ -26,7 +26,7 @@ namespace crashpad {
 //! \param[in] property_cf The Core Foundation-type property list to convert.
 //!
 //! \return The converted launchd-type `launch_data_t`. The caller takes
-//!     ownership of the returned value. On error, returns `NULL`.
+//!     ownership of the returned value. On error, returns `nullptr`.
 //!
 //! \note This function handles all `CFPropertyListRef` types except for
 //!     `CFDateRef`, because there’s no `launch_data_type_t` analogue. Not all

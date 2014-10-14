@@ -104,7 +104,7 @@ class ProcessSnapshot {
   //! \return An ExceptionSnapshot object. The caller does not take ownership of
   //!     this object, it is scoped to the lifetime of the ProcessSnapshot
   //!     object that it was obtained from. If the snapshot is not a result of
-  //!     an exception, returns `NULL`.
+  //!     an exception, returns `nullptr`.
   virtual const ExceptionSnapshot* Exception() const = 0;
 
  protected:

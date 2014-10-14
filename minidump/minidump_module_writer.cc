@@ -171,8 +171,8 @@ MinidumpModuleWriter::MinidumpModuleWriter()
     : MinidumpWritable(),
       module_(),
       name_(),
-      codeview_record_(NULL),
-      misc_debug_record_(NULL) {
+      codeview_record_(nullptr),
+      misc_debug_record_(nullptr) {
   module_.VersionInfo.dwSignature = VS_FFI_SIGNATURE;
   module_.VersionInfo.dwStrucVersion = VS_FFI_STRUCVERSION;
 }

@@ -41,7 +41,7 @@ const StringToSymbolicConstantOptions kNormalOptions[] = {
     kAllowFullName | kAllowShortName | kAllowNumber,
 };
 
-// If |expect| is NULL, the conversion is expected to fail. If |expect| is
+// If |expect| is nullptr, the conversion is expected to fail. If |expect| is
 // empty, the conversion is expected to succeed, but the precise returned string
 // value is unknown. Otherwise, the conversion is expected to succeed, and
 // |expect| contains the precise expected string value to be returned. If
@@ -171,7 +171,7 @@ TEST(SymbolicConstantsMach, ExceptionToString) {
     if (exception > 0 && exception < EXC_TYPES_COUNT) {
       TestExceptionToString(exception, "", "");
     } else {
-      TestExceptionToString(exception, NULL, NULL);
+      TestExceptionToString(exception, nullptr, nullptr);
     }
   }
 }
@@ -591,8 +591,8 @@ TEST(SymbolicConstantsMach, ExceptionBehaviorToString) {
       TestExceptionBehaviorToString(behavior, "", "");
       TestExceptionBehaviorToString(behavior_mach, "", "");
     } else {
-      TestExceptionBehaviorToString(behavior, NULL, NULL);
-      TestExceptionBehaviorToString(behavior_mach, NULL, NULL);
+      TestExceptionBehaviorToString(behavior, nullptr, nullptr);
+      TestExceptionBehaviorToString(behavior_mach, nullptr, nullptr);
     }
   }
 }
@@ -867,7 +867,7 @@ TEST(SymbolicConstantsMach, ThreadStateFlavorToString) {
         flavor == THREAD_STATE_FLAVOR_LIST_10_9) {
       TestThreadStateFlavorToString(flavor, "", "");
     } else {
-      TestThreadStateFlavorToString(flavor, NULL, NULL);
+      TestThreadStateFlavorToString(flavor, nullptr, nullptr);
     }
   }
 }

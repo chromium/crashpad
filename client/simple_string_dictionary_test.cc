@@ -71,8 +71,8 @@ TEST(SimpleStringDictionary, SimpleStringDictionary) {
   // Now make sure it's not there anymore
   EXPECT_FALSE(dict.GetValueForKey("key3"));
 
-  // Remove by setting value to NULL
-  dict.SetKeyValue("key2", NULL);
+  // Remove by setting value to nullptr
+  dict.SetKeyValue("key2", nullptr);
 
   // Now make sure it's not there anymore
   EXPECT_FALSE(dict.GetValueForKey("key2"));
@@ -279,13 +279,13 @@ TEST(SimpleStringDictionary, OutOfSpace) {
 
 TEST(SimpleStringDictionaryDeathTest, NullKey) {
   TSimpleStringDictionary<4, 6, 6> map;
-  ASSERT_DEATH(map.SetKeyValue(NULL, "hello"), "key");
+  ASSERT_DEATH(map.SetKeyValue(nullptr, "hello"), "key");
 
   map.SetKeyValue("hi", "there");
-  ASSERT_DEATH(map.GetValueForKey(NULL), "key");
+  ASSERT_DEATH(map.GetValueForKey(nullptr), "key");
   EXPECT_STREQ("there", map.GetValueForKey("hi"));
 
-  ASSERT_DEATH(map.GetValueForKey(NULL), "key");
+  ASSERT_DEATH(map.GetValueForKey(nullptr), "key");
   map.RemoveKey("hi");
   EXPECT_EQ(0u, map.GetCount());
 }

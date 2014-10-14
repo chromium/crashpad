@@ -23,7 +23,7 @@
 namespace {
 
 const char* kSignalNames[] = {
-    NULL,
+    nullptr,
 
 #if defined(OS_MACOSX)
     // sed -Ene 's/^#define[[:space:]]SIG([[:alnum:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
@@ -115,7 +115,7 @@ std::string SignalToString(int signal,
   const char* signal_name =
       static_cast<size_t>(signal) < arraysize(kSignalNames)
           ? kSignalNames[signal]
-          : NULL;
+          : nullptr;
   if (!signal_name) {
     if (options & kUnknownIsNumeric) {
       return base::StringPrintf("%d", signal);

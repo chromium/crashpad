@@ -24,7 +24,7 @@ namespace test {
 
 base::FilePath ExecutablePath() {
   uint32_t executable_length = 0;
-  _NSGetExecutablePath(NULL, &executable_length);
+  _NSGetExecutablePath(nullptr, &executable_length);
   DCHECK_GT(executable_length, 1u);
   std::string executable_path(executable_length, std::string::value_type());
   int rv = _NSGetExecutablePath(&executable_path[0], &executable_length);

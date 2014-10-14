@@ -54,9 +54,9 @@ ExceptionPorts::ExceptionPorts(TargetType target_type, mach_port_t target_port)
 
     default:
       NOTREACHED();
-      get_exception_ports_ = NULL;
-      set_exception_ports_ = NULL;
-      target_name_ = NULL;
+      get_exception_ports_ = nullptr;
+      set_exception_ports_ = nullptr;
+      target_name_ = nullptr;
       target_port_ = MACH_PORT_NULL;
       break;
   }

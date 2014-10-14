@@ -450,9 +450,9 @@ class UniversalMachExcServer
 //!     generation of a POSIX signal that caused process termination. If the
 //!     signal that caused termination was not sent as a result of a hardware
 //!     exception, this will be `0`. Callers that do not need this value may
-//!     pass `NULL`.
+//!     pass `nullptr`.
 //! \param[out] signal The POSIX signal that caused process termination. Callers
-//!     that do not need this value may pass `NULL`.
+//!     that do not need this value may pass `nullptr`.
 //!
 //! \return The original exception for a hardware exception that resulted in the
 //!     generation of a POSIX signal that caused process termination. If the

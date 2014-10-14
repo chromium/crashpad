@@ -61,7 +61,7 @@ bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
 
   if (exception_ == EXC_CRASH) {
     exception_ = ExcCrashRecoverOriginalException(
-        exception_code_0, &exception_code_0, NULL);
+        exception_code_0, &exception_code_0, nullptr);
   }
 
   // ExceptionInfo() returns code[0] in a 32-bit field. This shouldn’t be a
@@ -74,7 +74,7 @@ bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
     return false;
   }
 
-  const ProcessReader::Thread* thread = NULL;
+  const ProcessReader::Thread* thread = nullptr;
   for (const ProcessReader::Thread& loop_thread : process_reader->Threads()) {
     if (exception_thread == loop_thread.port) {
       thread = &loop_thread;
