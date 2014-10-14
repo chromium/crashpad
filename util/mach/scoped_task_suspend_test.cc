@@ -71,7 +71,6 @@ class ScopedTaskSuspendTest final : public MachMultiprocess {
   }
 
   void MachMultiprocessChild() override {
-    CheckedReadFDAtEOF(ReadPipeFD());
   }
 
   DISALLOW_COPY_AND_ASSIGN(ScopedTaskSuspendTest);
