@@ -50,7 +50,7 @@ class ScopedTaskSuspendTest final : public MachMultiprocess {
  private:
   // MachMultiprocess:
 
-  virtual void MachMultiprocessParent() override {
+  void MachMultiprocessParent() override {
     task_t child_task = ChildTask();
 
     EXPECT_EQ(0, SuspendCount(child_task));
@@ -70,7 +70,7 @@ class ScopedTaskSuspendTest final : public MachMultiprocess {
     EXPECT_EQ(0, SuspendCount(child_task));
   }
 
-  virtual void MachMultiprocessChild() override {
+  void MachMultiprocessChild() override {
     CheckedReadFDAtEOF(ReadPipeFD());
   }
 

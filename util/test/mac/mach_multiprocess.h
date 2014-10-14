@@ -49,7 +49,7 @@ class MachMultiprocess : public Multiprocess {
   ~MachMultiprocess();
 
   // Multiprocess:
-  virtual void PreFork() override;
+  void PreFork() override;
 
   //! \brief Returns a receive right for the local port.
   //!
@@ -79,7 +79,7 @@ class MachMultiprocess : public Multiprocess {
   //! MachMultiprocessParent().
   //!
   //! Subclasses must override MachMultiprocessParent() instead of this method.
-  virtual void MultiprocessParent() override final;
+  void MultiprocessParent() final;
 
   //! \brief Runs the child side of the test.
   //!
@@ -88,7 +88,7 @@ class MachMultiprocess : public Multiprocess {
   //! assertion) is detected, the child will exit with a failure status.
   //!
   //! Subclasses must override MachMultiprocessChild() instead of this method.
-  virtual void MultiprocessChild() override final;
+  void MultiprocessChild() final;
 
   //! \brief The subclass-provided parent routine.
   //!

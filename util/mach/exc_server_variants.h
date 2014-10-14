@@ -103,13 +103,12 @@ class ExcServer : public MachMessageServer::Interface {
 
   // MachMessageServer::Interface:
 
-  virtual bool MachMessageServerFunction(
-      const mach_msg_header_t* in_header,
-      mach_msg_header_t* out_header,
-      bool* destroy_complex_request) override;
+  bool MachMessageServerFunction(const mach_msg_header_t* in_header,
+                                 mach_msg_header_t* out_header,
+                                 bool* destroy_complex_request) override;
 
-  virtual mach_msg_size_t MachMessageServerRequestSize() override;
-  virtual mach_msg_size_t MachMessageServerReplySize() override;
+  mach_msg_size_t MachMessageServerRequestSize() override;
+  mach_msg_size_t MachMessageServerReplySize() override;
 
  private:
   Interface* interface_;  // weak
@@ -191,13 +190,12 @@ class MachExcServer : public MachMessageServer::Interface {
 
   // MachMessageServer::Interface:
 
-  virtual bool MachMessageServerFunction(
-      const mach_msg_header_t* in_header,
-      mach_msg_header_t* out_header,
-      bool* destroy_complex_request) override;
+  bool MachMessageServerFunction(const mach_msg_header_t* in_header,
+                                 mach_msg_header_t* out_header,
+                                 bool* destroy_complex_request) override;
 
-  virtual mach_msg_size_t MachMessageServerRequestSize() override;
-  virtual mach_msg_size_t MachMessageServerReplySize() override;
+  mach_msg_size_t MachMessageServerRequestSize() override;
+  mach_msg_size_t MachMessageServerReplySize() override;
 
  private:
   Interface* interface_;  // weak
@@ -249,14 +247,14 @@ class SimplifiedExcServer : public ExcServer, public ExcServer::Interface {
 
   // ExcServer::Interface:
 
-  virtual kern_return_t CatchExceptionRaise(exception_handler_t exception_port,
-                                            thread_t thread,
-                                            task_t task,
-                                            exception_type_t exception,
-                                            const exception_data_type_t* code,
-                                            mach_msg_type_number_t code_count,
-                                            bool* destroy_request) override;
-  virtual kern_return_t CatchExceptionRaiseState(
+  kern_return_t CatchExceptionRaise(exception_handler_t exception_port,
+                                    thread_t thread,
+                                    task_t task,
+                                    exception_type_t exception,
+                                    const exception_data_type_t* code,
+                                    mach_msg_type_number_t code_count,
+                                    bool* destroy_request) override;
+  kern_return_t CatchExceptionRaiseState(
       exception_handler_t exception_port,
       exception_type_t exception,
       const exception_data_type_t* code,
@@ -266,7 +264,7 @@ class SimplifiedExcServer : public ExcServer, public ExcServer::Interface {
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count) override;
-  virtual kern_return_t CatchExceptionRaiseStateIdentity(
+  kern_return_t CatchExceptionRaiseStateIdentity(
       exception_handler_t exception_port,
       thread_t thread,
       task_t task,
@@ -340,15 +338,14 @@ class SimplifiedMachExcServer : public MachExcServer,
 
   // MachExcServer::Interface:
 
-  virtual kern_return_t CatchMachExceptionRaise(
-      exception_handler_t exception_port,
-      thread_t thread,
-      task_t task,
-      exception_type_t exception,
-      const mach_exception_data_type_t* code,
-      mach_msg_type_number_t code_count,
-      bool* destroy_request) override;
-  virtual kern_return_t CatchMachExceptionRaiseState(
+  kern_return_t CatchMachExceptionRaise(exception_handler_t exception_port,
+                                        thread_t thread,
+                                        task_t task,
+                                        exception_type_t exception,
+                                        const mach_exception_data_type_t* code,
+                                        mach_msg_type_number_t code_count,
+                                        bool* destroy_request) override;
+  kern_return_t CatchMachExceptionRaiseState(
       exception_handler_t exception_port,
       exception_type_t exception,
       const mach_exception_data_type_t* code,
@@ -358,7 +355,7 @@ class SimplifiedMachExcServer : public MachExcServer,
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count) override;
-  virtual kern_return_t CatchMachExceptionRaiseStateIdentity(
+  kern_return_t CatchMachExceptionRaiseStateIdentity(
       exception_handler_t exception_port,
       thread_t thread,
       task_t task,
@@ -400,29 +397,28 @@ class UniversalMachExcServer
 
   // MachMessageServer::Interface:
 
-  virtual bool MachMessageServerFunction(
-      const mach_msg_header_t* in_header,
-      mach_msg_header_t* out_header,
-      bool* destroy_complex_request) override;
+  bool MachMessageServerFunction(const mach_msg_header_t* in_header,
+                                 mach_msg_header_t* out_header,
+                                 bool* destroy_complex_request) override;
 
-  virtual mach_msg_size_t MachMessageServerRequestSize() override;
-  virtual mach_msg_size_t MachMessageServerReplySize() override;
+  mach_msg_size_t MachMessageServerRequestSize() override;
+  mach_msg_size_t MachMessageServerReplySize() override;
 
   // internal::SimplifiedExcServer::Interface:
 
-  virtual kern_return_t CatchException(exception_behavior_t behavior,
-                                       exception_handler_t exception_port,
-                                       thread_t thread,
-                                       task_t task,
-                                       exception_type_t exception,
-                                       const exception_data_type_t* code,
-                                       mach_msg_type_number_t code_count,
-                                       thread_state_flavor_t* flavor,
-                                       const natural_t* old_state,
-                                       mach_msg_type_number_t old_state_count,
-                                       thread_state_t new_state,
-                                       mach_msg_type_number_t* new_state_count,
-                                       bool* destroy_complex_request) override;
+  kern_return_t CatchException(exception_behavior_t behavior,
+                               exception_handler_t exception_port,
+                               thread_t thread,
+                               task_t task,
+                               exception_type_t exception,
+                               const exception_data_type_t* code,
+                               mach_msg_type_number_t code_count,
+                               thread_state_flavor_t* flavor,
+                               const natural_t* old_state,
+                               mach_msg_type_number_t old_state_count,
+                               thread_state_t new_state,
+                               mach_msg_type_number_t* new_state_count,
+                               bool* destroy_complex_request) override;
 
  private:
   internal::SimplifiedExcServer exc_server_;

@@ -60,9 +60,9 @@ class MinidumpStringWriter : public MinidumpWritable {
   typedef typename Traits::MinidumpStringType MinidumpStringType;
   typedef typename Traits::StringType StringType;
 
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
   //! \brief Sets the string to be written.
   //!

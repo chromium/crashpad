@@ -52,18 +52,18 @@ class TestStream final : public internal::MinidumpStreamWriter {
   ~TestStream() {}
 
   // MinidumpStreamWriter:
-  virtual MinidumpStreamType StreamType() const override {
+  MinidumpStreamType StreamType() const override {
     return stream_type_;
   }
 
  protected:
   // MinidumpWritable:
-  virtual size_t SizeOfObject() override {
+  size_t SizeOfObject() override {
     EXPECT_GE(state(), kStateFrozen);
     return stream_data_.size();
   }
 
-  virtual bool WriteObject(FileWriterInterface* file_writer) override {
+  bool WriteObject(FileWriterInterface* file_writer) override {
     EXPECT_EQ(state(), kStateWritable);
     return file_writer->Write(&stream_data_[0], stream_data_.size());
   }

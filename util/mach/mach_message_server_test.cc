@@ -271,11 +271,11 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     return true;
   }
 
-  virtual mach_msg_size_t MachMessageServerRequestSize() override {
+  mach_msg_size_t MachMessageServerRequestSize() override {
     return sizeof(RequestMessage);
   }
 
-  virtual mach_msg_size_t MachMessageServerReplySize() override {
+  mach_msg_size_t MachMessageServerReplySize() override {
     return sizeof(ReplyMessage);
   }
 
@@ -304,7 +304,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
 
   // MachMultiprocess:
 
-  virtual void MachMultiprocessParent() override {
+  void MachMultiprocessParent() override {
     mach_port_t local_port = LocalPort();
 
     kern_return_t kr;
@@ -381,7 +381,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     }
   }
 
-  virtual void MachMultiprocessChild() override {
+  void MachMultiprocessChild() override {
     if (options_.child_wait_for_parent_pipe_early) {
       // Wait until the parent is done setting things up on its end.
       char c;

@@ -66,8 +66,8 @@ class MinidumpModuleCodeViewRecordPDBLinkWriter
   virtual ~MinidumpModuleCodeViewRecordPDBLinkWriter();
 
   // MinidumpWritable:
-  virtual size_t SizeOfObject() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  size_t SizeOfObject() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
   //! \brief Returns a pointer to the raw CodeView record’s data.
   //!
@@ -154,9 +154,9 @@ class MinidumpModuleMiscDebugRecordWriter final
 
  protected:
   // MinidumpWritable:
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
   IMAGE_DEBUG_MISC image_debug_misc_;
@@ -273,10 +273,10 @@ class MinidumpModuleWriter final : public internal::MinidumpWritable {
 
  protected:
   // MinidumpWritable:
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override;
-  virtual std::vector<MinidumpWritable*> Children() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  std::vector<MinidumpWritable*> Children() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
   MINIDUMP_MODULE module_;
@@ -304,13 +304,13 @@ class MinidumpModuleListWriter final : public internal::MinidumpStreamWriter {
 
  protected:
   // MinidumpWritable:
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override;
-  virtual std::vector<MinidumpWritable*> Children() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  std::vector<MinidumpWritable*> Children() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
   // MinidumpStreamWriter:
-  virtual MinidumpStreamType StreamType() const override;
+  MinidumpStreamType StreamType() const override;
 
  private:
   MINIDUMP_MODULE_LIST module_list_base_;

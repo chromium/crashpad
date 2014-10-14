@@ -105,19 +105,19 @@ class FileWriter : public FileWriterInterface {
   //!
   //! \note It is only valid to call this method between a successful Open() and
   //!     a Close().
-  virtual bool Write(const void* data, size_t size) override;
+  bool Write(const void* data, size_t size) override;
 
   //! \copydoc FileWriterInterface::WriteIoVec()
   //!
   //! \note It is only valid to call this method between a successful Open() and
   //!     a Close().
-  virtual bool WriteIoVec(std::vector<WritableIoVec>* iovecs) override;
+  bool WriteIoVec(std::vector<WritableIoVec>* iovecs) override;
 
   //! \copydoc FileWriterInterface::Seek()
   //!
   //! \note It is only valid to call this method between a successful Open() and
   //!     a Close().
-  virtual off_t Seek(off_t offset, int whence) override;
+  off_t Seek(off_t offset, int whence) override;
 
  private:
   base::ScopedFD fd_;

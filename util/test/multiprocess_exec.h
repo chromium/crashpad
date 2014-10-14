@@ -54,11 +54,11 @@ class MultiprocessExec : public Multiprocess {
   ~MultiprocessExec();
 
   // Multiprocess:
-  virtual void PreFork() override;
+  void PreFork() override;
 
  private:
   // Multiprocess:
-  virtual void MultiprocessChild() override;
+  void MultiprocessChild() override;
 
   std::string command_;
   std::vector<std::string> arguments_;

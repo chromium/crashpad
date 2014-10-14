@@ -82,10 +82,10 @@ class MinidumpMiscInfoWriter final : public internal::MinidumpStreamWriter {
 
  protected:
   // MinidumpWritable:
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
-  virtual MinidumpStreamType StreamType() const override;
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
+  MinidumpStreamType StreamType() const override;
 
  private:
   //! \brief Returns the size of the object to be written based on

@@ -41,7 +41,7 @@ class MinidumpContextWriter : public internal::MinidumpWritable {
   virtual size_t ContextSize() const = 0;
 
   // MinidumpWritable:
-  virtual size_t SizeOfObject() override final;
+  size_t SizeOfObject() final;
 
  private:
   DISALLOW_COPY_AND_ASSIGN(MinidumpContextWriter);
@@ -67,10 +67,10 @@ class MinidumpContextX86Writer final : public MinidumpContextWriter {
 
  protected:
   // MinidumpWritable:
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
   // MinidumpContextWriter:
-  virtual size_t ContextSize() const override;
+  size_t ContextSize() const override;
 
  private:
   MinidumpContextX86 context_;
@@ -98,11 +98,11 @@ class MinidumpContextAMD64Writer final : public MinidumpContextWriter {
 
  protected:
   // MinidumpWritable:
-  virtual size_t Alignment() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  size_t Alignment() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
   // MinidumpContextWriter:
-  virtual size_t ContextSize() const override;
+  size_t ContextSize() const override;
 
  private:
   MinidumpContextAMD64 context_;

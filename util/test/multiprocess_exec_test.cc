@@ -32,7 +32,7 @@ class TestMultiprocessExec final : public MultiprocessExec {
   ~TestMultiprocessExec() {}
 
  private:
-  virtual void MultiprocessParent() override {
+  void MultiprocessParent() override {
     char c = 'z';
     CheckedWriteFD(WritePipeFD(), &c, 1);
 

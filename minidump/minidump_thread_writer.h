@@ -107,10 +107,10 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
 
  protected:
   // MinidumpWritable:
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override;
-  virtual std::vector<MinidumpWritable*> Children() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  std::vector<MinidumpWritable*> Children() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
   MINIDUMP_THREAD thread_;
@@ -164,13 +164,13 @@ class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
 
  protected:
   // MinidumpWritable:
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override;
-  virtual std::vector<MinidumpWritable*> Children() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  std::vector<MinidumpWritable*> Children() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
   // MinidumpStreamWriter:
-  virtual MinidumpStreamType StreamType() const override;
+  MinidumpStreamType StreamType() const override;
 
  private:
   MINIDUMP_THREAD_LIST thread_list_base_;

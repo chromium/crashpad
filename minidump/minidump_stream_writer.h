@@ -51,7 +51,7 @@ class MinidumpStreamWriter : public MinidumpWritable {
   ~MinidumpStreamWriter() {}
 
   // MinidumpWritable:
-  virtual bool Freeze() override;
+  bool Freeze() override;
 
  private:
   MINIDUMP_DIRECTORY directory_list_entry_;

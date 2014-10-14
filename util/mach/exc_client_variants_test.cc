@@ -133,7 +133,7 @@ class TestExcClientVariants : public UniversalMachExcServer,
  private:
   // MachMultiprocess:
 
-  virtual void MachMultiprocessParent() override {
+  void MachMultiprocessParent() override {
     kern_return_t kr = MachMessageServer::Run(this,
                                               LocalPort(),
                                               MACH_MSG_OPTION_NONE,
@@ -146,7 +146,7 @@ class TestExcClientVariants : public UniversalMachExcServer,
     EXPECT_TRUE(handled_);
   }
 
-  virtual void MachMultiprocessChild() override {
+  void MachMultiprocessChild() override {
     const exception_type_t exception = exception_;
     const mach_exception_data_type_t code[] = {
         exception_code_,

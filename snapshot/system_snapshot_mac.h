@@ -58,31 +58,28 @@ class SystemSnapshotMac final : public SystemSnapshot {
 
   // SystemSnapshot:
 
-  virtual CPUArchitecture GetCPUArchitecture() const override;
-  virtual uint32_t CPURevision() const override;
-  virtual uint8_t CPUCount() const override;
-  virtual std::string CPUVendor() const override;
-  virtual void CPUFrequency(uint64_t* current_hz,
-                            uint64_t* max_hz) const override;
-  virtual uint32_t CPUX86Signature() const override;
-  virtual uint64_t CPUX86Features() const override;
-  virtual uint64_t CPUX86ExtendedFeatures() const override;
-  virtual uint32_t CPUX86Leaf7Features() const override;
-  virtual bool CPUX86SupportsDAZ() const override;
-  virtual OperatingSystem GetOperatingSystem() const override;
-  virtual bool OSServer() const override;
-  virtual void OSVersion(int* major,
-                         int* minor,
-                         int* bugfix,
-                         std::string* build) const override;
-  virtual std::string OSVersionFull() const override;
-  virtual bool NXEnabled() const override;
-  virtual std::string MachineDescription() const override;
-  virtual void TimeZone(DaylightSavingTimeStatus* dst_status,
-                        int* standard_offset_seconds,
-                        int* daylight_offset_seconds,
-                        std::string* standard_name,
-                        std::string* daylight_name) const override;
+  CPUArchitecture GetCPUArchitecture() const override;
+  uint32_t CPURevision() const override;
+  uint8_t CPUCount() const override;
+  std::string CPUVendor() const override;
+  void CPUFrequency(uint64_t* current_hz, uint64_t* max_hz) const override;
+  uint32_t CPUX86Signature() const override;
+  uint64_t CPUX86Features() const override;
+  uint64_t CPUX86ExtendedFeatures() const override;
+  uint32_t CPUX86Leaf7Features() const override;
+  bool CPUX86SupportsDAZ() const override;
+  OperatingSystem GetOperatingSystem() const override;
+  bool OSServer() const override;
+  void OSVersion(
+      int* major, int* minor, int* bugfix, std::string* build) const override;
+  std::string OSVersionFull() const override;
+  bool NXEnabled() const override;
+  std::string MachineDescription() const override;
+  void TimeZone(DaylightSavingTimeStatus* dst_status,
+                int* standard_offset_seconds,
+                int* daylight_offset_seconds,
+                std::string* standard_name,
+                std::string* daylight_name) const override;
 
  private:
   std::string os_version_full_;

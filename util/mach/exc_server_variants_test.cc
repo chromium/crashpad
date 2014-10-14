@@ -940,7 +940,7 @@ class TestExcServerVariants : public UniversalMachExcServer,
  private:
   // MachMultiprocess:
 
-  virtual void MachMultiprocessParent() override {
+  void MachMultiprocessParent() override {
     kern_return_t kr = MachMessageServer::Run(this,
                                               LocalPort(),
                                               MACH_MSG_OPTION_NONE,
@@ -953,7 +953,7 @@ class TestExcServerVariants : public UniversalMachExcServer,
     EXPECT_TRUE(handled_);
   }
 
-  virtual void MachMultiprocessChild() override {
+  void MachMultiprocessChild() override {
     // Set the parent as the exception handler for EXC_CRASH.
     kern_return_t kr = task_set_exception_ports(
         mach_task_self(), EXC_MASK_CRASH, RemotePort(), behavior_, flavor_);

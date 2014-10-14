@@ -62,15 +62,15 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   //! rewinds to the beginning of the file and writes the correct value for this
   //! field. This prevents incompletely-written minidump files from being
   //! mistaken for valid ones.
-  virtual bool WriteEverything(FileWriterInterface* file_writer) override;
+  bool WriteEverything(FileWriterInterface* file_writer) override;
 
  protected:
   // MinidumpWritable:
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override;
-  virtual std::vector<MinidumpWritable*> Children() override;
-  virtual bool WillWriteAtOffsetImpl(off_t offset) override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  std::vector<MinidumpWritable*> Children() override;
+  bool WillWriteAtOffsetImpl(off_t offset) override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
   MINIDUMP_HEADER header_;

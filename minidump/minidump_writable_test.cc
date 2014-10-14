@@ -60,7 +60,7 @@ class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
   }
 
  protected:
-  virtual bool Freeze() override {
+  bool Freeze() override {
     EXPECT_EQ(kStateMutable, state());
     bool rv = MinidumpWritable::Freeze();
     EXPECT_TRUE(rv);
@@ -68,12 +68,12 @@ class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
     return rv;
   }
 
-  virtual size_t Alignment() override {
+  size_t Alignment() override {
     EXPECT_GE(state(), kStateFrozen);
     return has_alignment_ ? alignment_ : MinidumpWritable::Alignment();
   }
 
-  virtual std::vector<MinidumpWritable*> Children() override {
+  std::vector<MinidumpWritable*> Children() override {
     EXPECT_GE(state(), kStateFrozen);
     if (!children_.empty()) {
       std::vector<MinidumpWritable*> children;
@@ -85,11 +85,11 @@ class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
     return MinidumpWritable::Children();
   }
 
-  virtual Phase WritePhase() override {
+  Phase WritePhase() override {
     return has_phase_ ? phase_ : MinidumpWritable::Phase();
   }
 
-  virtual bool WillWriteAtOffsetImpl(off_t offset) override {
+  bool WillWriteAtOffsetImpl(off_t offset) override {
     EXPECT_EQ(state(), kStateFrozen);
     expected_offset_ = offset;
     bool rv = MinidumpWritable::WillWriteAtOffsetImpl(offset);
@@ -97,7 +97,7 @@ class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
     return rv;
   }
 
-  virtual bool WriteObject(FileWriterInterface* file_writer) override {
+  bool WriteObject(FileWriterInterface* file_writer) override {
     EXPECT_EQ(state(), kStateWritable);
     EXPECT_EQ(expected_offset_, file_writer->Seek(0, SEEK_CUR));
 
@@ -126,12 +126,12 @@ class TestStringMinidumpWritable final : public BaseTestMinidumpWritable {
   void SetData(const std::string& string) { data_ = string; }
 
  protected:
-  virtual size_t SizeOfObject() override {
+  size_t SizeOfObject() override {
     EXPECT_GE(state(), kStateFrozen);
     return data_.size();
   }
 
-  virtual bool WriteObject(FileWriterInterface* file_writer) override {
+  bool WriteObject(FileWriterInterface* file_writer) override {
     BaseTestMinidumpWritable::WriteObject(file_writer);
     bool rv = file_writer->Write(&data_[0], data_.size());
     EXPECT_TRUE(rv);
@@ -491,12 +491,12 @@ class TestRVAMinidumpWritable final : public BaseTestMinidumpWritable {
   void SetRVA(MinidumpWritable* other) { other->RegisterRVA(&rva_); }
 
  protected:
-  virtual size_t SizeOfObject() override {
+  size_t SizeOfObject() override {
     EXPECT_GE(state(), kStateFrozen);
     return sizeof(rva_);
   }
 
-  virtual bool WriteObject(FileWriterInterface* file_writer) override {
+  bool WriteObject(FileWriterInterface* file_writer) override {
     BaseTestMinidumpWritable::WriteObject(file_writer);
     EXPECT_TRUE(file_writer->Write(&rva_, sizeof(rva_)));
     return true;
@@ -628,13 +628,13 @@ class TestLocationDescriptorMinidumpWritable final
   void SetString(const std::string& string) { string_ = string; }
 
  protected:
-  virtual size_t SizeOfObject() override {
+  size_t SizeOfObject() override {
     EXPECT_GE(state(), kStateFrozen);
     // NUL-terminate.
     return sizeof(location_descriptor_) + string_.size() + 1;
   }
 
-  virtual bool WriteObject(FileWriterInterface* file_writer) override {
+  bool WriteObject(FileWriterInterface* file_writer) override {
     BaseTestMinidumpWritable::WriteObject(file_writer);
     WritableIoVec iov;
     iov.iov_base = &location_descriptor_;

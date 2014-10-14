@@ -53,12 +53,12 @@ class ThreadSnapshotMac final : public ThreadSnapshot {
 
   // ThreadSnapshot:
 
-  virtual const CPUContext* Context() const override;
-  virtual const MemorySnapshot* Stack() const override;
-  virtual uint64_t ThreadID() const override;
-  virtual int SuspendCount() const override;
-  virtual int Priority() const override;
-  virtual uint64_t ThreadSpecificDataAddress() const override;
+  const CPUContext* Context() const override;
+  const MemorySnapshot* Stack() const override;
+  uint64_t ThreadID() const override;
+  int SuspendCount() const override;
+  int Priority() const override;
+  uint64_t ThreadSpecificDataAddress() const override;
 
  private:
 #if defined(ARCH_CPU_X86_FAMILY)

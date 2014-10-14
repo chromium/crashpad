@@ -352,7 +352,7 @@ class TestExceptionPorts : public UniversalMachExcServer,
 
   // MachMultiprocess:
 
-  virtual void MachMultiprocessParent() override {
+  void MachMultiprocessParent() override {
     // Wait for the child process to be ready. It needs to have all of its
     // threads set up before proceeding if in kSetOutOfProcess mode.
     char c;
@@ -460,7 +460,7 @@ class TestExceptionPorts : public UniversalMachExcServer,
     CheckedReadFDAtEOF(ReadPipeFD());
   }
 
-  virtual void MachMultiprocessChild() override {
+  void MachMultiprocessChild() override {
     Child child(this);
     child.Run();
   }

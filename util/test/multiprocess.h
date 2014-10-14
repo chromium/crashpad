@@ -92,7 +92,7 @@ class Multiprocess {
   //! provided that they call the superclass’ implementation first as follows:
   //!
   //! \code
-  //!   virtual void PreFork() override {
+  //!   void PreFork() override {
   //!     ASSERT_NO_FATAL_FAILURE(Multiprocess::PreFork());
   //!
   //!     // Place subclass-specific pre-fork code here.

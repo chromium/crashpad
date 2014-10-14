@@ -32,9 +32,9 @@ class TestMachMultiprocess final : public MachMultiprocess {
  private:
   // MachMultiprocess will have already exercised the Mach ports for IPC and the
   // child task port.
-  virtual void MachMultiprocessParent() override {}
+  void MachMultiprocessParent() override {}
 
-  virtual void MachMultiprocessChild() override {}
+  void MachMultiprocessChild() override {}
 
   DISALLOW_COPY_AND_ASSIGN(TestMachMultiprocess);
 };

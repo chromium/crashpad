@@ -166,13 +166,13 @@ class MinidumpSystemInfoWriter final : public internal::MinidumpStreamWriter {
 
  protected:
   // MinidumpWritable:
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override;
-  virtual std::vector<MinidumpWritable*> Children() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  std::vector<MinidumpWritable*> Children() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
   // MinidumpStreamWriter:
-  virtual MinidumpStreamType StreamType() const override;
+  MinidumpStreamType StreamType() const override;
 
  private:
   MINIDUMP_SYSTEM_INFO system_info_;

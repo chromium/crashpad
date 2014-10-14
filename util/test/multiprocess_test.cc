@@ -35,7 +35,7 @@ class TestMultiprocess final : public Multiprocess {
  private:
   // Multiprocess:
 
-  virtual void MultiprocessParent() override {
+  void MultiprocessParent() override {
     int read_fd = ReadPipeFD();
     char c;
     CheckedReadFD(read_fd, &c, 1);
@@ -53,7 +53,7 @@ class TestMultiprocess final : public Multiprocess {
     CheckedReadFDAtEOF(read_fd);
   }
 
-  virtual void MultiprocessChild() override {
+  void MultiprocessChild() override {
     int write_fd = WritePipeFD();
 
     char c = 'M';
@@ -102,10 +102,10 @@ class TestMultiprocessUnclean final : public Multiprocess {
 
   // Multiprocess:
 
-  virtual void MultiprocessParent() override {
+  void MultiprocessParent() override {
   }
 
-  virtual void MultiprocessChild() override {
+  void MultiprocessChild() override {
     if (type_ == kAbort) {
       abort();
     } else {
@@ -216,7 +216,7 @@ class TestMultiprocessClosePipe final : public Multiprocess {
 
   // Multiprocess:
 
-  virtual void MultiprocessParent() override {
+  void MultiprocessParent() override {
     ASSERT_NO_FATAL_FAILURE(VerifyInitial());
 
     if (who_closes_ == kParentCloses) {
@@ -226,7 +226,7 @@ class TestMultiprocessClosePipe final : public Multiprocess {
     }
   }
 
-  virtual void MultiprocessChild() override {
+  void MultiprocessChild() override {
     ASSERT_NO_FATAL_FAILURE(VerifyInitial());
 
     if (who_closes_ == kChildCloses) {

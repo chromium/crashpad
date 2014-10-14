@@ -39,12 +39,12 @@ class TestMinidumpMemoryWriter final : public MinidumpMemoryWriter {
 
  protected:
   // MinidumpMemoryWriter:
-  virtual uint64_t MemoryRangeBaseAddress() const override;
-  virtual size_t MemoryRangeSize() const override;
+  uint64_t MemoryRangeBaseAddress() const override;
+  size_t MemoryRangeSize() const override;
 
   // MinidumpWritable:
-  virtual bool WillWriteAtOffsetImpl(off_t offset) override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool WillWriteAtOffsetImpl(off_t offset) override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
   uint64_t base_address_;

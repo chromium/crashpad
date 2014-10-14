@@ -49,9 +49,9 @@ class MemorySnapshotMac final : public MemorySnapshot {
 
   // MemorySnapshot:
 
-  virtual uint64_t Address() const override;
-  virtual size_t Size() const override;
-  virtual bool Read(Delegate* delegate) const override;
+  uint64_t Address() const override;
+  size_t Size() const override;
+  bool Read(Delegate* delegate) const override;
 
  private:
   ProcessReader* process_reader_;  // weak

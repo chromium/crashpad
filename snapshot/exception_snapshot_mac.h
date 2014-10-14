@@ -60,12 +60,12 @@ class ExceptionSnapshotMac final : public ExceptionSnapshot {
 
   // ExceptionSnapshot:
 
-  virtual const CPUContext* Context() const override;
-  virtual uint64_t ThreadID() const override;
-  virtual uint32_t Exception() const override;
-  virtual uint32_t ExceptionInfo() const override;
-  virtual uint64_t ExceptionAddress() const override;
-  virtual const std::vector<uint64_t>& Codes() const override;
+  const CPUContext* Context() const override;
+  uint64_t ThreadID() const override;
+  uint32_t Exception() const override;
+  uint32_t ExceptionInfo() const override;
+  uint64_t ExceptionAddress() const override;
+  const std::vector<uint64_t>& Codes() const override;
 
  private:
 #if defined(ARCH_CPU_X86_FAMILY)

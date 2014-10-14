@@ -200,24 +200,24 @@ class TestMemoryStream final : public internal::MinidumpStreamWriter {
   TestMinidumpMemoryWriter* memory() { return &memory_; }
 
   // MinidumpStreamWriter:
-  virtual MinidumpStreamType StreamType() const override {
+  MinidumpStreamType StreamType() const override {
     return kBogusStreamType;
   }
 
  protected:
   // MinidumpWritable:
-  virtual size_t SizeOfObject() override {
+  size_t SizeOfObject() override {
     EXPECT_GE(state(), kStateFrozen);
     return 0;
   }
 
-  virtual std::vector<MinidumpWritable*> Children() override {
+  std::vector<MinidumpWritable*> Children() override {
     EXPECT_GE(state(), kStateFrozen);
     std::vector<MinidumpWritable*> children(1, memory());
     return children;
   }
 
-  virtual bool WriteObject(FileWriterInterface* file_writer) override {
+  bool WriteObject(FileWriterInterface* file_writer) override {
     EXPECT_EQ(kStateWritable, state());
     return true;
   }

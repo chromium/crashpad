@@ -75,8 +75,8 @@ class MinidumpMemoryWriter : public internal::MinidumpWritable {
   virtual size_t MemoryRangeSize() const = 0;
 
   // MinidumpWritable:
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override final;
+  bool Freeze() override;
+  size_t SizeOfObject() final;
 
   //! \brief Returns the object’s desired byte-boundary alignment.
   //!
@@ -87,9 +87,9 @@ class MinidumpMemoryWriter : public internal::MinidumpWritable {
   //! \return `16`.
   //!
   //! \note Valid in #kStateFrozen or any subsequent state.
-  virtual size_t Alignment() override;
+  size_t Alignment() override;
 
-  virtual bool WillWriteAtOffsetImpl(off_t offset) override;
+  bool WillWriteAtOffsetImpl(off_t offset) override;
 
   //! \brief Returns the object’s desired write phase.
   //!
@@ -100,7 +100,7 @@ class MinidumpMemoryWriter : public internal::MinidumpWritable {
   //! \return #kPhaseLate.
   //!
   //! \note Valid in any state.
-  virtual Phase WritePhase() override final;
+  Phase WritePhase() final;
 
  private:
   MINIDUMP_MEMORY_DESCRIPTOR memory_descriptor_;
@@ -144,13 +144,13 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
 
  protected:
   // MinidumpWritable:
-  virtual bool Freeze() override;
-  virtual size_t SizeOfObject() override;
-  virtual std::vector<MinidumpWritable*> Children() override;
-  virtual bool WriteObject(FileWriterInterface* file_writer) override;
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  std::vector<MinidumpWritable*> Children() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
   // MinidumpStreamWriter:
-  virtual MinidumpStreamType StreamType() const override;
+  MinidumpStreamType StreamType() const override;
 
  private:
   MINIDUMP_MEMORY_LIST memory_list_base_;
