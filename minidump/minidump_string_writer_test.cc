@@ -181,8 +181,9 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
 
     file_writer.Reset();
     crashpad::internal::MinidumpUTF8StringWriter string_writer;
-    string_writer.SetUTF8(
-        std::string(kTestData[index].string, kTestData[index].length));
+    std::string test_string(kTestData[index].string, kTestData[index].length);
+    string_writer.SetUTF8(test_string);
+    EXPECT_EQ(test_string, string_writer.UTF8());
     EXPECT_TRUE(string_writer.WriteEverything(&file_writer));
 
     const size_t expected_utf8_bytes_with_nul = kTestData[index].length + 1;

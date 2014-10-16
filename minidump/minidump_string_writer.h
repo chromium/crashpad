@@ -69,6 +69,11 @@ class MinidumpStringWriter : public MinidumpWritable {
   //! \note Valid in #kStateMutable.
   void set_string(const StringType& string) { string_.assign(string); }
 
+  //! \brief Retrieves the string to be written.
+  //!
+  //! \note Valid in any state.
+  const StringType& string() const { return string_; }
+
  private:
   MinidumpStringType string_base_;
   StringType string_;
@@ -112,6 +117,11 @@ class MinidumpUTF8StringWriter final
   //!
   //! \note Valid in #kStateMutable.
   void SetUTF8(const std::string& string_utf8) { set_string(string_utf8); }
+
+  //! \brief Retrieves the string to be written.
+  //!
+  //! \note Valid in any state.
+  const std::string& UTF8() const { return string(); }
 
  private:
   DISALLOW_COPY_AND_ASSIGN(MinidumpUTF8StringWriter);
