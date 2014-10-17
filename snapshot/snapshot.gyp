@@ -49,6 +49,8 @@
         'mac/module_snapshot_mac.h',
         'mac/process_reader.cc',
         'mac/process_reader.h',
+        'mac/process_snapshot_mac.cc',
+        'mac/process_snapshot_mac.h',
         'mac/process_types.cc',
         'mac/process_types.h',
         'mac/process_types/all.proctype',
