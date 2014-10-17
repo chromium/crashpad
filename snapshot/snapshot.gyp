@@ -45,6 +45,8 @@
         'mac/mach_o_image_symbol_table_reader.h',
         'mac/memory_snapshot_mac.cc',
         'mac/memory_snapshot_mac.h',
+        'mac/module_snapshot_mac.cc',
+        'mac/module_snapshot_mac.h',
         'mac/process_reader.cc',
         'mac/process_reader.h',
         'mac/process_types.cc',

@@ -43,8 +43,8 @@ class ThreadSnapshotMac final : public ThreadSnapshot {
   //!
   //! \param[in] process_reader A ProcessReader for the task containing the
   //!     thread.
-  //! \param[in] process_reader_thread The thread within the ProcessReader that
-  //!     for which the snapshot should be created.
+  //! \param[in] process_reader_thread The thread within the ProcessReader for
+  //!     which the snapshot should be created.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.

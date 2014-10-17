@@ -113,32 +113,38 @@ class ModuleSnapshot {
   //! module does not have a UUID, the \a uuid parameter will be zeroed out.
   virtual void UUID(crashpad::UUID* uuid) const = 0;
 
-  //! \brief Returns diagnostic messages recorded in the module.
+  //! \brief Returns string annotations recorded in the module.
   //!
-  //! This method retrieves diagnostic messages recorded in a module. These
-  //! messages are intended for diagnostic use, including crash analysis. A
-  //! module may contain multiple diagnostic messages.
+  //! This method retrieves annotations recorded in a module. These annotations
+  //! are intended for diagnostic use, including crash analysis. A module may
+  //! contain multiple annotations, so they are returned in a vector.
   //!
-  //! For Mac OS X snapshots, the diagnostic messages are found by interpreting
-  //! the module’s `__DATA, __crash_info` section as
-  //! `crashreporter_annotations_t`. System libraries using the crash reporter
-  //! client interface may reference diagnostic messages in this structure.
-  //! Additional diagnostic messages may be found in other locations, which may
-  //! be module-specific. The dynamic linker (`dyld`) can provide a diagnostic
-  //! message at its `_error_string` symbol.
-  virtual std::vector<std::string> DiagnosticMessages() const = 0;
+  //! For Mac OS X snapshots, these annotations are found by interpreting the
+  //! module’s `__DATA, __crash_info` section as `crashreporter_annotations_t`.
+  //! System libraries using the crash reporter client interface may reference
+  //! annotations in this structure. Additional annotations messages may be
+  //! found in other locations, which may be module-specific. The dynamic linker
+  //! (`dyld`) can provide an annotation at its `_error_string` symbol.
+  //!
+  //! The annotations returned by this method do not duplicate those returned by
+  //! AnnotationsSimpleMap().
+  virtual std::vector<std::string> AnnotationsVector() const = 0;
 
-  //! \brief Returns simple annotations recorded in the module.
+  //! \brief Returns key-value string annotations recorded in the module.
   //!
-  //! This method retrieves simple annotations recorded in a module. These
-  //! annotations are intended for diagnostic use, including crash analysis.
-  //! Simple annotations are structured as a sequence of key-value pairs. These
-  //! are referred to in Chrome as “crash keys.”
+  //! This method retrieves annotations recorded in a module. These annotations
+  //! are intended for diagnostic use, including crash analysis. “Simple
+  //! annotations” are structured as a sequence of key-value pairs, where all
+  //! keys and values are strings. These are referred to in Chrome as “crash
+  //! keys.”
   //!
-  //! For Mac OS X snapshots, simple annotations are found by interpreting
-  //! the `__DATA, __crashpad_info` section as `CrashpadInfo`. Clients can use
-  //! the Crashpad client interface to store annotations in this structure.
-  virtual std::map<std::string, std::string> SimpleAnnotations() const = 0;
+  //! For Mac OS X snapshots, these annotations are found by interpreting the
+  //! `__DATA, __crashpad_info` section as `CrashpadInfo`. Clients can use the
+  //! Crashpad client interface to store annotations in this structure.
+  //!
+  //! The annotations returned by this method do not duplicate those returned by
+  //! AnnotationsVector().
+  virtual std::map<std::string, std::string> AnnotationsSimpleMap() const = 0;
 
  protected:
   ~ModuleSnapshot() {}
