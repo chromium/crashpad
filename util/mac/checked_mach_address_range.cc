@@ -16,7 +16,6 @@
 
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
-#include "util/mac/process_reader.h"
 
 namespace crashpad {
 
@@ -25,16 +24,16 @@ CheckedMachAddressRange::CheckedMachAddressRange()
 }
 
 CheckedMachAddressRange::CheckedMachAddressRange(
-    const ProcessReader* process_reader,
+    bool is_64_bit,
     mach_vm_address_t base,
     mach_vm_size_t size) {
-  SetRange(process_reader, base, size);
+  SetRange(is_64_bit, base, size);
 }
 
-void CheckedMachAddressRange::SetRange(const ProcessReader* process_reader,
+void CheckedMachAddressRange::SetRange(bool is_64_bit,
                                        mach_vm_address_t base,
                                        mach_vm_size_t size) {
-  is_64_bit_ = process_reader->Is64Bit();
+  is_64_bit_ = is_64_bit;
   if (is_64_bit_) {
     range_64_.SetRange(base, size);
     range_ok_ = true;

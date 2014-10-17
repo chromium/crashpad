@@ -21,14 +21,12 @@
 
 namespace crashpad {
 
-class ProcessReader;
-
 //! \brief Ensures that a range, composed of a base and a size, does not
 //!     overflow the pointer type of the process it describes a range in.
 //!
 //! This class checks bases of type `mach_vm_address_t` and sizes of type
-//! `mach_vm_address_t` against a process whose pointer type can be determined
-//! from its ProcessReader.
+//! `mach_vm_address_t` against a process whose pointer type is either 32 or 64
+//! bits wide.
 //!
 //! Aside from varying the overall range on the basis of a process’ pointer type
 //! width, this class functions very similarly to CheckedRange.
@@ -43,19 +41,18 @@ class CheckedMachAddressRange {
   //! \brief Initializes a range.
   //!
   //! See SetRange().
-  CheckedMachAddressRange(const ProcessReader* process_reader,
+  CheckedMachAddressRange(bool is_64_bit,
                           mach_vm_address_t base,
                           mach_vm_size_t size);
 
   //! \brief Sets a range’s fields.
   //!
-  //! \param[in] process_reader The ProcessReader that can read the process that
-  //!                           \a base is a pointer to.
+  //! \param[in] is_64_bit `true` if \a base and \a size refer to addresses in a
+  //!     64-bit process; `false` if they refer to addresses in a 32-bit
+  //!     process.
   //! \param[in] base The range’s base address.
   //! \param[in] size The range’s size.
-  void SetRange(const ProcessReader* process_reader,
-                mach_vm_address_t base,
-                mach_vm_size_t size);
+  void SetRange(bool is_64_bit, mach_vm_address_t base, mach_vm_size_t size);
 
   //! \brief The range’s base address.
   mach_vm_address_t Base() const;
@@ -100,7 +97,7 @@ class CheckedMachAddressRange {
   //! containing address range’s end.
   //!
   //! This method should only be called on two CheckedMachAddressRange objects
-  //! sharing the same ProcessReader.
+  //! representing address ranges in the same process.
   //!
   //! This method must only be called if IsValid() would return `true` for both
   //! CheckedMachAddressRange objects involved.
