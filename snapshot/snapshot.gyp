@@ -18,6 +18,7 @@
       'target_name': 'snapshot',
       'type': 'static_library',
       'dependencies': [
+        '../client/client.gyp:client',
         '../compat/compat.gyp:compat',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
         '../util/util.gyp:util',
@@ -34,6 +35,8 @@
         'mac/cpu_context_mac.h',
         'mac/exception_snapshot_mac.cc',
         'mac/exception_snapshot_mac.h',
+        'mac/mach_o_image_annotations_reader.cc',
+        'mac/mach_o_image_annotations_reader.h',
         'mac/mach_o_image_reader.cc',
         'mac/mach_o_image_reader.h',
         'mac/mach_o_image_segment_reader.cc',
@@ -47,6 +50,7 @@
         'mac/process_types.cc',
         'mac/process_types.h',
         'mac/process_types/all.proctype',
+        'mac/process_types/crashpad_info.proctype',
         'mac/process_types/crashreporterclient.proctype',
         'mac/process_types/custom.cc',
         'mac/process_types/dyld_images.proctype',
@@ -71,6 +75,7 @@
       'type': 'executable',
       'dependencies': [
         'snapshot',
+        '../client/client.gyp:client',
         '../compat/compat.gyp:compat',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
@@ -83,6 +88,7 @@
       ],
       'sources': [
         'mac/cpu_context_mac_test.cc',
+        'mac/mach_o_image_annotations_reader_test.cc',
         'mac/mach_o_image_reader_test.cc',
         'mac/mach_o_image_segment_reader_test.cc',
         'mac/process_reader_test.cc',

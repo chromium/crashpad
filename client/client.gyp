@@ -26,6 +26,8 @@
       'sources': [
         'capture_context_mac.h',
         'capture_context_mac.S',
+        'crashpad_info.cc',
+        'crashpad_info.h',
         'simple_string_dictionary.cc',
         'simple_string_dictionary.h',
         'simulate_crash.h',

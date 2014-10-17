@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// The file corresponds to Crashpad’s client/crashpad_info.h.
+//
 // This file is intended to be included multiple times in the same translation
 // unit, so #include guards are intentionally absent.
 //
@@ -19,8 +21,14 @@
 // snapshot/mac/process_types.cc to produce process type struct definitions and
 // accessors.
 
-#include "snapshot/mac/process_types/crashpad_info.proctype"
-#include "snapshot/mac/process_types/crashreporterclient.proctype"
-#include "snapshot/mac/process_types/dyld_images.proctype"
-#include "snapshot/mac/process_types/loader.proctype"
-#include "snapshot/mac/process_types/nlist.proctype"
+// Client Mach-O images will contain a __DATA,__crashpad_info section formatted
+// according to this structure.
+PROCESS_TYPE_STRUCT_BEGIN(CrashpadInfo)
+  PROCESS_TYPE_STRUCT_MEMBER(uint32_t, signature)
+  PROCESS_TYPE_STRUCT_MEMBER(uint32_t, size)
+  PROCESS_TYPE_STRUCT_MEMBER(uint32_t, version)
+  PROCESS_TYPE_STRUCT_MEMBER(uint32_t, padding_0)
+
+  // SimpleStringDictionary*
+  PROCESS_TYPE_STRUCT_MEMBER(Pointer, simple_annotations)
+PROCESS_TYPE_STRUCT_END(CrashpadInfo)

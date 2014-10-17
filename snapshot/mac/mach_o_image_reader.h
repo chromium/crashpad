@@ -39,6 +39,8 @@ class ProcessReader;
 //! This class is capable of reading both 32-bit (`mach_header`/`MH_MAGIC`) and
 //! 64-bit (`mach_header_64`/`MH_MAGIC_64`) images based on the bitness of the
 //! remote process.
+//!
+//! \sa MachOImageAnnotationsReader
 class MachOImageReader {
  public:
   MachOImageReader();

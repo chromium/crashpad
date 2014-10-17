@@ -400,13 +400,14 @@ void ProcessReader::InitializeModules() {
   //
   // TODO(mark): It may be possible to recover from these situations by looking
   // through memory mappings for Mach-O images.
+  //
+  // Continue along when this situation is detected, because even without any
+  // images in infoArray, dyldImageLoadAddress may be set, and it may be
+  // possible to recover some information from dyld.
   if (all_image_infos.infoArrayCount == 0) {
     LOG(WARNING) << "all_image_infos.infoArrayCount is zero";
-    return;
-  }
-  if (!all_image_infos.infoArray) {
+  } else if (!all_image_infos.infoArray) {
     LOG(WARNING) << "all_image_infos.infoArray is nullptr";
-    return;
   }
 
   std::vector<process_types::dyld_image_info> image_info_vector(
