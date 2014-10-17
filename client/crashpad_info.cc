@@ -16,6 +16,8 @@
 
 #include <mach-o/loader.h>
 
+#include "util/stdlib/cxx.h"
+
 #if CXX_LIBRARY_VERSION >= 2011
 #include <type_traits>
 #endif
