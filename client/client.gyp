@@ -28,6 +28,9 @@
         'capture_context_mac.S',
         'simple_string_dictionary.cc',
         'simple_string_dictionary.h',
+        'simulate_crash.h',
+        'simulate_crash_mac.cc',
+        'simulate_crash_mac.h',
       ],
     },
     {
@@ -35,6 +38,8 @@
       'type': 'executable',
       'dependencies': [
         'client',
+        '../util/util.gyp:util',
+        '../util/util.gyp:util_test_lib',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
@@ -45,6 +50,7 @@
       'sources': [
         'capture_context_mac_test.cc',
         'simple_string_dictionary_test.cc',
+        'simulate_crash_mac_test.cc',
       ],
     },
   ],
