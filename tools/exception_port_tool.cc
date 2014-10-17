@@ -334,7 +334,7 @@ void Usage(const std::string& me) {
 "\n"
 "DESCRIPTION is formatted as a comma-separated sequence of tokens, where each\n"
 "token consists of a key and value separated by an equals sign. Available keys:\n"
-"  target    which target's exception ports to set: host, task, or target\n"
+"  target    which target's exception ports to set: host, task, or thread\n"
 "  mask      the mask of exception types to handle: CRASH, ALL, or others\n"
 "  behavior  the specific exception handler routine to call: DEFAULT, STATE,\n"
 "            or STATE_IDENTITY, possibly with MACH_EXCEPTION_CODES.\n"
