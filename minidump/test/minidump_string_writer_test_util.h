@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef CRASHPAD_MINIDUMP_TEST_MINIDUMP_STRING_WRITER_TEST_UTIL_H_
+#define CRASHPAD_MINIDUMP_TEST_MINIDUMP_STRING_WRITER_TEST_UTIL_H_
+
 #include <dbghelp.h>
 
 #include <string>
@@ -40,3 +43,5 @@ std::string MinidumpUTF8StringAtRVA(const StringFileWriter& file_writer,
 
 }  // namespace test
 }  // namespace crashpad
+
+#endif  // CRASHPAD_MINIDUMP_TEST_MINIDUMP_STRING_WRITER_TEST_UTIL_H_

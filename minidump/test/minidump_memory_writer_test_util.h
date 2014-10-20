@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_MINIDUMP_MINIDUMP_MEMORY_WRITER_TEST_UTIL_H_
-#define CRASHPAD_MINIDUMP_MINIDUMP_MEMORY_WRITER_TEST_UTIL_H_
+#ifndef CRASHPAD_MINIDUMP_TEST_MINIDUMP_MEMORY_WRITER_TEST_UTIL_H_
+#define CRASHPAD_MINIDUMP_TEST_MINIDUMP_MEMORY_WRITER_TEST_UTIL_H_
 
 #include "minidump/minidump_memory_writer.h"
 
@@ -101,4 +101,4 @@ void ExpectMinidumpMemoryDescriptorAndContents(
 }  // namespace test
 }  // namespace crashpad
 
-#endif  // CRASHPAD_MINIDUMP_MINIDUMP_MEMORY_WRITER_TEST_UTIL_H_
+#endif  // CRASHPAD_MINIDUMP_TEST_MINIDUMP_MEMORY_WRITER_TEST_UTIL_H_

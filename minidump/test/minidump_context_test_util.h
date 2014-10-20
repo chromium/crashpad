@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_TEST_UTIL_H_
-#define CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_TEST_UTIL_H_
+#ifndef CRASHPAD_MINIDUMP_TEST_MINIDUMP_CONTEXT_TEST_UTIL_H_
+#define CRASHPAD_MINIDUMP_TEST_MINIDUMP_CONTEXT_TEST_UTIL_H_
 
 #include <stdint.h>
 
@@ -58,4 +58,4 @@ void ExpectMinidumpContextAMD64(uint32_t expect_seed,
 }  // namespace test
 }  // namespace crashpad
 
-#endif  // CRASHPAD_MINIDUMP_MINIDUMP_CONTEXT_TEST_UTIL_H_
+#endif  // CRASHPAD_MINIDUMP_TEST_MINIDUMP_CONTEXT_TEST_UTIL_H_

@@ -22,11 +22,11 @@
 
 #include "gtest/gtest.h"
 #include "minidump/minidump_context.h"
-#include "minidump/minidump_context_test_util.h"
 #include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_file_writer.h"
-#include "minidump/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_context_test_util.h"
+#include "minidump/test/minidump_file_writer_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {

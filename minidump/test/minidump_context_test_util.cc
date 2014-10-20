@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_context_test_util.h"
+#include "minidump/test/minidump_context_test_util.h"
 
 #include "base/basictypes.h"
 #include "gtest/gtest.h"

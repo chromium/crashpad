@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_file_writer_test_util.h"
 
 #include "gtest/gtest.h"
 
