@@ -18,8 +18,29 @@
 #include <dbghelp.h>
 #include <stdint.h>
 
+#include <string>
+
 namespace crashpad {
 namespace test {
+
+//! \brief Returns the MINIDUMP_HEADER at the start of a minidump file, along
+//!     with the MINIDUMP_DIRECTORY it references.
+//!
+//! This function validates the MINIDUMP_HEADER::Signature and
+//! MINIDUMP_HEADER::Version fields.
+//!
+//! \param[in] file_contents The contents of the minidump file.
+//! \param[out] directory The MINIDUMP_DIRECTORY referenced by the
+//!     MINIDUMP_HEADER. If the MINIDUMP_HEADER does not reference a
+//!     MINIDUMP_DIRECTORY, `nullptr` without raising a gtest assertion. If the
+//!     referenced MINIDUMP_DIRECTORY is not valid, `nullptr` with a gtest
+//!     assertion raised. On failure, `nullptr`.
+//!
+//! \return On success, the MINIDUMP_HEADER at the beginning of the minidump
+//!     file. On failure, raises a gtest assertion and returns `nullptr`.
+const MINIDUMP_HEADER* MinidumpHeaderAtStart(
+    const std::string& file_contents,
+    const MINIDUMP_DIRECTORY** directory);
 
 //! \brief Verifies, via gtest assertions, that a MINIDUMP_HEADER contains
 //!     expected values.

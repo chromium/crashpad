@@ -48,18 +48,15 @@ void GetCrashpadInfoStream(
     EXPECT_GE(file_contents.size(), kFileSize);
   }
 
+  const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
-
+      MinidumpHeaderAtStart(file_contents, &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
+  ASSERT_TRUE(directory);
 
-  const MINIDUMP_DIRECTORY* directory =
-      reinterpret_cast<const MINIDUMP_DIRECTORY*>(
-          &file_contents[kDirectoryOffset]);
-
-  ASSERT_EQ(kMinidumpStreamTypeCrashpadInfo, directory->StreamType);
-  ASSERT_EQ(sizeof(MinidumpCrashpadInfo), directory->Location.DataSize);
-  ASSERT_EQ(kCrashpadInfoStreamOffset, directory->Location.Rva);
+  ASSERT_EQ(kMinidumpStreamTypeCrashpadInfo, directory[0].StreamType);
+  ASSERT_EQ(sizeof(MinidumpCrashpadInfo), directory[0].Location.DataSize);
+  ASSERT_EQ(kCrashpadInfoStreamOffset, directory[0].Location.Rva);
 
   *crashpad_info = reinterpret_cast<const MinidumpCrashpadInfo*>(
       &file_contents[kCrashpadInfoStreamOffset]);
@@ -136,18 +133,18 @@ TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
 
   ASSERT_EQ(2u, simple_annotations->count);
 
-  EXPECT_EQ(
-      kKey1,
-      MinidumpUTF8StringAtRVA(file_writer, simple_annotations->entries[0].key));
+  EXPECT_EQ(kKey1,
+            MinidumpUTF8StringAtRVAAsString(
+                file_writer.string(), simple_annotations->entries[0].key));
   EXPECT_EQ(kValue1,
-            MinidumpUTF8StringAtRVA(file_writer,
-                                    simple_annotations->entries[0].value));
-  EXPECT_EQ(
-      kKey0,
-      MinidumpUTF8StringAtRVA(file_writer, simple_annotations->entries[1].key));
+            MinidumpUTF8StringAtRVAAsString(
+                file_writer.string(), simple_annotations->entries[0].value));
+  EXPECT_EQ(kKey0,
+            MinidumpUTF8StringAtRVAAsString(
+                file_writer.string(), simple_annotations->entries[1].key));
   EXPECT_EQ(kValue0,
-            MinidumpUTF8StringAtRVA(file_writer,
-                                    simple_annotations->entries[1].value));
+            MinidumpUTF8StringAtRVAAsString(
+                file_writer.string(), simple_annotations->entries[1].value));
 }
 
 }  // namespace

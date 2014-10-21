@@ -36,10 +36,11 @@ TEST(MinidumpFileWriter, Empty) {
   ASSERT_TRUE(minidump_file.WriteEverything(&file_writer));
   ASSERT_EQ(sizeof(MINIDUMP_HEADER), file_writer.string().size());
 
+  const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
-
+      MinidumpHeaderAtStart(file_writer.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 0, 0));
+  EXPECT_FALSE(directory);
 }
 
 class TestStream final : public internal::MinidumpStreamWriter {
@@ -95,18 +96,15 @@ TEST(MinidumpFileWriter, OneStream) {
 
   ASSERT_EQ(kFileSize, file_writer.string().size());
 
+  const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
-
+      MinidumpHeaderAtStart(file_writer.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, kTimestamp));
+  ASSERT_TRUE(directory);
 
-  const MINIDUMP_DIRECTORY* directory =
-      reinterpret_cast<const MINIDUMP_DIRECTORY*>(
-          &file_writer.string()[kDirectoryOffset]);
-
-  EXPECT_EQ(kStreamType, directory->StreamType);
-  EXPECT_EQ(kStreamSize, directory->Location.DataSize);
-  EXPECT_EQ(kStreamOffset, directory->Location.Rva);
+  EXPECT_EQ(kStreamType, directory[0].StreamType);
+  EXPECT_EQ(kStreamSize, directory[0].Location.DataSize);
+  EXPECT_EQ(kStreamOffset, directory[0].Location.Rva);
 
   const uint8_t* stream_data =
       reinterpret_cast<const uint8_t*>(&file_writer.string()[kStreamOffset]);
@@ -155,14 +153,11 @@ TEST(MinidumpFileWriter, ThreeStreams) {
 
   ASSERT_EQ(kFileSize, file_writer.string().size());
 
+  const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
-
+      MinidumpHeaderAtStart(file_writer.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 3, kTimestamp));
-
-  const MINIDUMP_DIRECTORY* directory =
-      reinterpret_cast<const MINIDUMP_DIRECTORY*>(
-          &file_writer.string()[kDirectoryOffset]);
+  ASSERT_TRUE(directory);
 
   EXPECT_EQ(kStream1Type, directory[0].StreamType);
   EXPECT_EQ(kStream1Size, directory[0].Location.DataSize);
@@ -217,18 +212,15 @@ TEST(MinidumpFileWriter, ZeroLengthStream) {
 
   ASSERT_EQ(kFileSize, file_writer.string().size());
 
+  const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      reinterpret_cast<const MINIDUMP_HEADER*>(&file_writer.string()[0]);
-
+      MinidumpHeaderAtStart(file_writer.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
+  ASSERT_TRUE(directory);
 
-  const MINIDUMP_DIRECTORY* directory =
-      reinterpret_cast<const MINIDUMP_DIRECTORY*>(
-          &file_writer.string()[kDirectoryOffset]);
-
-  EXPECT_EQ(kStreamType, directory->StreamType);
-  EXPECT_EQ(kStreamSize, directory->Location.DataSize);
-  EXPECT_EQ(kStreamOffset, directory->Location.Rva);
+  EXPECT_EQ(kStreamType, directory[0].StreamType);
+  EXPECT_EQ(kStreamSize, directory[0].Location.DataSize);
+  EXPECT_EQ(kStreamOffset, directory[0].Location.Rva);
 }
 
 TEST(MinidumpFileWriterDeathTest, SameStreamType) {

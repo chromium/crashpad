@@ -64,9 +64,11 @@ TEST(MinidumpSimpleStringDictionaryWriter, EmptyKeyValue) {
   EXPECT_EQ(12u, dictionary->entries[0].key);
   EXPECT_EQ(20u, dictionary->entries[0].value);
   EXPECT_EQ("",
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[0].key));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[0].key));
   EXPECT_EQ("",
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[0].value));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[0].value));
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, OneKeyValue) {
@@ -92,9 +94,11 @@ TEST(MinidumpSimpleStringDictionaryWriter, OneKeyValue) {
   EXPECT_EQ(12u, dictionary->entries[0].key);
   EXPECT_EQ(20u, dictionary->entries[0].value);
   EXPECT_EQ(kKey,
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[0].key));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[0].key));
   EXPECT_EQ(kValue,
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[0].value));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[0].value));
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
@@ -143,17 +147,23 @@ TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
   // just the easiest way to write this test while the writer will output things
   // in a known order.
   EXPECT_EQ(kKey2,
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[0].key));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[0].key));
   EXPECT_EQ(kValue2,
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[0].value));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[0].value));
   EXPECT_EQ(kKey0,
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[1].key));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[1].key));
   EXPECT_EQ(kValue0,
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[1].value));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[1].value));
   EXPECT_EQ(kKey1,
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[2].key));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[2].key));
   EXPECT_EQ(kValue1,
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[2].value));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[2].value));
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, DuplicateKeyValue) {
@@ -183,9 +193,11 @@ TEST(MinidumpSimpleStringDictionaryWriter, DuplicateKeyValue) {
   EXPECT_EQ(12u, dictionary->entries[0].key);
   EXPECT_EQ(20u, dictionary->entries[0].value);
   EXPECT_EQ(kKey,
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[0].key));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[0].key));
   EXPECT_EQ(kValue1,
-            MinidumpUTF8StringAtRVA(file_writer, dictionary->entries[0].value));
+            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+                                            dictionary->entries[0].value));
 }
 
 }  // namespace

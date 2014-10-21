@@ -47,25 +47,25 @@ void GetMemoryListStream(const std::string& file_contents,
 
   ASSERT_GE(file_contents.size(), kMemoryDescriptorsOffset);
 
+  const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
-
+      MinidumpHeaderAtStart(file_contents, &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, expected_streams, 0));
+  ASSERT_TRUE(directory);
 
-  const MINIDUMP_DIRECTORY* directory =
-      reinterpret_cast<const MINIDUMP_DIRECTORY*>(
-          &file_contents[kDirectoryOffset]);
-
+  size_t directory_index = 0;
   if (expected_streams > 1) {
-    ASSERT_EQ(kBogusStreamType, directory->StreamType);
-    ASSERT_EQ(0u, directory->Location.DataSize);
-    ASSERT_EQ(kMemoryListStreamOffset, directory->Location.Rva);
-    ++directory;
+    ASSERT_EQ(kBogusStreamType, directory[directory_index].StreamType);
+    ASSERT_EQ(0u, directory[directory_index].Location.DataSize);
+    ASSERT_EQ(kMemoryListStreamOffset, directory[directory_index].Location.Rva);
+    ++directory_index;
   }
 
-  ASSERT_EQ(kMinidumpStreamTypeMemoryList, directory->StreamType);
-  ASSERT_GE(directory->Location.DataSize, sizeof(MINIDUMP_MEMORY_LIST));
-  ASSERT_EQ(kMemoryListStreamOffset, directory->Location.Rva);
+  ASSERT_EQ(kMinidumpStreamTypeMemoryList,
+            directory[directory_index].StreamType);
+  ASSERT_GE(directory[directory_index].Location.DataSize,
+            sizeof(MINIDUMP_MEMORY_LIST));
+  ASSERT_EQ(kMemoryListStreamOffset, directory[directory_index].Location.Rva);
 
   *memory_list = reinterpret_cast<const MINIDUMP_MEMORY_LIST*>(
       &file_contents[kMemoryListStreamOffset]);
@@ -73,7 +73,7 @@ void GetMemoryListStream(const std::string& file_contents,
   ASSERT_EQ(sizeof(MINIDUMP_MEMORY_LIST) +
                 (*memory_list)->NumberOfMemoryRanges *
                     sizeof(MINIDUMP_MEMORY_DESCRIPTOR),
-            directory->Location.DataSize);
+            directory[directory_index].Location.DataSize);
 }
 
 TEST(MinidumpMemoryWriter, EmptyMemoryList) {

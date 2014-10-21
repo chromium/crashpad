@@ -15,13 +15,48 @@
 #include "minidump/test/minidump_file_writer_test_util.h"
 
 #include "gtest/gtest.h"
+#include "minidump/test/minidump_writable_test_util.h"
 
 namespace crashpad {
 namespace test {
 
+const MINIDUMP_HEADER* MinidumpHeaderAtStart(
+    const std::string& file_contents,
+    const MINIDUMP_DIRECTORY** directory) {
+  MINIDUMP_LOCATION_DESCRIPTOR location_descriptor;
+  location_descriptor.DataSize = sizeof(MINIDUMP_HEADER);
+  location_descriptor.Rva = 0;
+
+  const MINIDUMP_HEADER* header =
+      MinidumpWritableAtLocationDescriptor<MINIDUMP_HEADER>(
+          file_contents, location_descriptor);
+
+  if (header) {
+    if (header->Signature != MINIDUMP_SIGNATURE) {
+      EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
+      return nullptr;
+    }
+    if (header->Version != MINIDUMP_VERSION) {
+      EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
+      return nullptr;
+    }
+
+    location_descriptor.DataSize =
+        header->NumberOfStreams * sizeof(MINIDUMP_DIRECTORY);
+    location_descriptor.Rva = header->StreamDirectoryRva;
+    *directory = MinidumpWritableAtLocationDescriptor<MINIDUMP_DIRECTORY>(
+        file_contents, location_descriptor);
+  } else {
+    *directory = nullptr;
+  }
+
+  return header;
+}
+
 void VerifyMinidumpHeader(const MINIDUMP_HEADER* header,
                           uint32_t streams,
                           uint32_t timestamp) {
+  ASSERT_TRUE(header);
   EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
   EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
   ASSERT_EQ(streams, header->NumberOfStreams);

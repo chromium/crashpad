@@ -95,6 +95,8 @@
         'test/minidump_memory_writer_test_util.h',
         'test/minidump_string_writer_test_util.cc',
         'test/minidump_string_writer_test_util.h',
+        'test/minidump_writable_test_util.cc',
+        'test/minidump_writable_test_util.h',
       ],
     },
   ],

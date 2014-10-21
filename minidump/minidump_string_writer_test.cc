@@ -22,15 +22,12 @@
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
+#include "minidump/test/minidump_string_writer_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
 namespace test {
 namespace {
-
-const MINIDUMP_STRING* MinidumpStringCast(const StringFileWriter& file_writer) {
-  return reinterpret_cast<const MINIDUMP_STRING*>(&file_writer.string()[0]);
-}
 
 TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
   StringFileWriter file_writer;
@@ -41,9 +38,11 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
     crashpad::internal::MinidumpUTF16StringWriter string_writer;
     EXPECT_TRUE(string_writer.WriteEverything(&file_writer));
     ASSERT_EQ(6u, file_writer.string().size());
-    const MINIDUMP_STRING* minidump_string = MinidumpStringCast(file_writer);
-    EXPECT_EQ(0u, minidump_string->Length);
-    EXPECT_EQ(0, minidump_string->Buffer[0]);
+
+    const MINIDUMP_STRING* minidump_string =
+        MinidumpStringAtRVA(file_writer.string(), 0);
+    EXPECT_TRUE(minidump_string);
+    EXPECT_EQ(string16(), MinidumpStringAtRVAAsString(file_writer.string(), 0));
   }
 
   const struct {
@@ -88,14 +87,14 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
         expected_utf16_units_with_nul * sizeof(MINIDUMP_STRING::Buffer[0]);
     ASSERT_EQ(sizeof(MINIDUMP_STRING) + expected_utf16_bytes,
               file_writer.string().size());
-    const MINIDUMP_STRING* minidump_string = MinidumpStringCast(file_writer);
-    EXPECT_EQ(
-        kTestData[index].output_length * sizeof(minidump_string->Buffer[0]),
-        minidump_string->Length);
-    EXPECT_EQ(0,
-              base::c16memcmp(kTestData[index].output_string,
-                              minidump_string->Buffer,
-                              expected_utf16_units_with_nul));
+
+    const MINIDUMP_STRING* minidump_string =
+        MinidumpStringAtRVA(file_writer.string(), 0);
+    EXPECT_TRUE(minidump_string);
+    string16 expect_string = string16(kTestData[index].output_string,
+                                      kTestData[index].output_length);
+    EXPECT_EQ(expect_string,
+              MinidumpStringAtRVAAsString(file_writer.string(), 0));
   }
 }
 
@@ -122,25 +121,19 @@ TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
     // The requirements for conversion of invalid UTF-8 input are lax. Make sure
     // that at least enough data was written for a string that has one unit and
     // a NUL terminator, make sure that the length field matches the length of
-    // data written, make sure the data is NUL-terminated, and make sure that at
-    // least one U+FFFD replacement character was written.
-    ASSERT_GE(file_writer.string().size(),
-              sizeof(MINIDUMP_STRING) + 2 * sizeof(MINIDUMP_STRING::Buffer[0]));
-    const MINIDUMP_STRING* minidump_string = MinidumpStringCast(file_writer);
+    // data written, and make sure that at least one U+FFFD replacement
+    // character was written.
+    const MINIDUMP_STRING* minidump_string =
+        MinidumpStringAtRVA(file_writer.string(), 0);
+    EXPECT_TRUE(minidump_string);
     EXPECT_EQ(file_writer.string().size() - sizeof(MINIDUMP_STRING) -
                   sizeof(MINIDUMP_STRING::Buffer[0]),
               minidump_string->Length);
-    size_t out_units =
-        minidump_string->Length / sizeof(minidump_string->Buffer[0]);
-    EXPECT_EQ(0, minidump_string->Buffer[out_units]);
-    EXPECT_NE(nullptr,
-              base::c16memchr(minidump_string->Buffer, 0xfffd, out_units));
+    string16 output_string =
+        MinidumpStringAtRVAAsString(file_writer.string(), 0);
+    EXPECT_FALSE(output_string.empty());
+    EXPECT_NE(string16::npos, output_string.find(0xfffd));
   }
-}
-
-const MinidumpUTF8String* MinidumpUTF8StringCast(
-    const StringFileWriter& file_writer) {
-  return reinterpret_cast<const MinidumpUTF8String*>(&file_writer.string()[0]);
 }
 
 TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
@@ -152,10 +145,12 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
     crashpad::internal::MinidumpUTF8StringWriter string_writer;
     EXPECT_TRUE(string_writer.WriteEverything(&file_writer));
     ASSERT_EQ(5u, file_writer.string().size());
+
     const MinidumpUTF8String* minidump_string =
-        MinidumpUTF8StringCast(file_writer);
-    EXPECT_EQ(0u, minidump_string->Length);
-    EXPECT_EQ(0, minidump_string->Buffer[0]);
+        MinidumpUTF8StringAtRVA(file_writer.string(), 0);
+    EXPECT_TRUE(minidump_string);
+    EXPECT_EQ(std::string(),
+              MinidumpUTF8StringAtRVAAsString(file_writer.string(), 0));
   }
 
   const struct {
@@ -189,13 +184,12 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
     const size_t expected_utf8_bytes_with_nul = kTestData[index].length + 1;
     ASSERT_EQ(sizeof(MinidumpUTF8String) + expected_utf8_bytes_with_nul,
               file_writer.string().size());
+
     const MinidumpUTF8String* minidump_string =
-        MinidumpUTF8StringCast(file_writer);
-    EXPECT_EQ(kTestData[index].length, minidump_string->Length);
-    EXPECT_EQ(0,
-              memcmp(kTestData[index].string,
-                     minidump_string->Buffer,
-                     expected_utf8_bytes_with_nul));
+        MinidumpUTF8StringAtRVA(file_writer.string(), 0);
+    EXPECT_TRUE(minidump_string);
+    EXPECT_EQ(test_string,
+              MinidumpUTF8StringAtRVAAsString(file_writer.string(), 0));
   }
 }
 

@@ -42,18 +42,15 @@ void GetMiscInfoStream(const std::string& file_contents, const T** misc_info) {
 
   ASSERT_EQ(kFileSize, file_contents.size());
 
+  const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
-
+      MinidumpHeaderAtStart(file_contents, &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
+  ASSERT_TRUE(directory);
 
-  const MINIDUMP_DIRECTORY* directory =
-      reinterpret_cast<const MINIDUMP_DIRECTORY*>(
-          &file_contents[kDirectoryOffset]);
-
-  ASSERT_EQ(kMinidumpStreamTypeMiscInfo, directory->StreamType);
-  ASSERT_EQ(kMiscInfoStreamSize, directory->Location.DataSize);
-  ASSERT_EQ(kMiscInfoStreamOffset, directory->Location.Rva);
+  ASSERT_EQ(kMinidumpStreamTypeMiscInfo, directory[0].StreamType);
+  ASSERT_EQ(kMiscInfoStreamSize, directory[0].Location.DataSize);
+  ASSERT_EQ(kMiscInfoStreamOffset, directory[0].Location.Rva);
 
   *misc_info =
       reinterpret_cast<const T*>(&file_contents[kMiscInfoStreamOffset]);

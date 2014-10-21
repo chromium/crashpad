@@ -16,40 +16,89 @@
 
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
+#include "minidump/test/minidump_writable_test_util.h"
 
 namespace crashpad {
 namespace test {
 
-std::string MinidumpUTF8StringAtRVA(const StringFileWriter& file_writer,
-                                    RVA rva) {
-  const std::string& contents = file_writer.string();
-  if (rva == 0) {
-    return std::string();
+namespace {
+
+template <typename T>
+const T* TMinidumpStringAtRVA(const std::string& file_contents, RVA rva) {
+  const T* string_base = MinidumpWritableAtRVA<T>(file_contents, rva);
+  if (!string_base) {
+    return nullptr;
   }
 
-  if (rva + sizeof(MinidumpUTF8String) > contents.size()) {
-    ADD_FAILURE()
-        << "rva " << rva << " too large for contents " << contents.size();
-    return std::string();
+  // |Length| must indicate the ability to store an integral number of code
+  // units.
+  const size_t kCodeUnitSize = sizeof(string_base->Buffer[0]);
+  if (string_base->Length % kCodeUnitSize != 0) {
+    EXPECT_EQ(0u, string_base->Length % kCodeUnitSize);
+    return nullptr;
   }
 
-  const MinidumpUTF8String* minidump_string =
-      reinterpret_cast<const MinidumpUTF8String*>(&contents[rva]);
-
-  // Verify that the file has enough data for the string’s stated length plus
-  // its required NUL terminator.
-  if (rva + sizeof(MinidumpUTF8String) + minidump_string->Length + 1 >
-          contents.size()) {
-    ADD_FAILURE()
-        << "rva " << rva << ", length " << minidump_string->Length
-        << " too large for contents " << contents.size();
-    return std::string();
+  // |Length| does not include space for the required NUL terminator.
+  MINIDUMP_LOCATION_DESCRIPTOR location;
+  location.DataSize =
+      sizeof(*string_base) + string_base->Length + kCodeUnitSize;
+  location.Rva = rva;
+  const T* string =
+      MinidumpWritableAtLocationDescriptor<T>(file_contents, location);
+  if (!string) {
+    return nullptr;
   }
 
-  std::string minidump_string_data(
-      reinterpret_cast<const char*>(&minidump_string->Buffer[0]),
-      minidump_string->Length);
+  EXPECT_EQ(string_base, string);
+
+  // Require the NUL terminator to be NUL.
+  if (string->Buffer[string->Length / kCodeUnitSize] != '\0') {
+    EXPECT_EQ('\0', string->Buffer[string->Length / kCodeUnitSize]);
+    return nullptr;
+  }
+
+  return string;
+}
+
+template <typename StringType, typename MinidumpStringType>
+StringType TMinidumpStringAtRVAAsString(const std::string& file_contents,
+                                        RVA rva) {
+  const MinidumpStringType* minidump_string =
+      TMinidumpStringAtRVA<MinidumpStringType>(file_contents, rva);
+  if (!minidump_string) {
+    return StringType();
+  }
+
+  StringType minidump_string_data(
+      reinterpret_cast<const typename StringType::value_type*>(
+          &minidump_string->Buffer[0]),
+      minidump_string->Length / sizeof(minidump_string->Buffer[0]));
   return minidump_string_data;
+}
+
+}  // namespace
+
+const MINIDUMP_STRING* MinidumpStringAtRVA(const std::string& file_contents,
+                                           RVA rva) {
+  return TMinidumpStringAtRVA<MINIDUMP_STRING>(file_contents, rva);
+}
+
+const MinidumpUTF8String* MinidumpUTF8StringAtRVA(
+    const std::string& file_contents,
+    RVA rva) {
+  return TMinidumpStringAtRVA<MinidumpUTF8String>(file_contents, rva);
+}
+
+string16 MinidumpStringAtRVAAsString(const std::string& file_contents,
+                                     RVA rva) {
+  return TMinidumpStringAtRVAAsString<string16, MINIDUMP_STRING>(file_contents,
+                                                                 rva);
+}
+
+std::string MinidumpUTF8StringAtRVAAsString(const std::string& file_contents,
+                                            RVA rva) {
+  return TMinidumpStringAtRVAAsString<std::string, MinidumpUTF8String>(
+      file_contents, rva);
 }
 
 }  // namespace test

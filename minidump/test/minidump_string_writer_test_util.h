@@ -19,27 +19,82 @@
 
 #include <string>
 
-#include "util/file/string_file_writer.h"
+#include "base/strings/string16.h"
 
 namespace crashpad {
+
+struct MinidumpUTF8String;
+
 namespace test {
 
-//! \brief Returns the contents of a MinidumpUTF8String.
+//! \brief Returns a MINIDUMP_STRING located within a minidump file’s contents.
 //!
-//! If \a rva points outside of the range of \a file_writer, or if any of the
-//! string data would lie outside of the range of \a file_writer, this function
-//! will fail.
+//! If \a rva points outside of the range of \a file_contents, if the string has
+//! an incorrect length or is not `NUL`-terminated, or if any of the string data
+//! would lie outside of the range of \a file_contents, this function will fail.
 //!
-//! \param[in] file_writer A StringFileWriter into which MinidumpWritable
-//!     objects have been written.
-//! \param[in] rva An offset in \a file_writer at which to find the desired
-//!     string.
+//! \param[in] file_contents The contents of the minidump file.
+//! \param[in] rva The offset within the minidump file of the desired
+//!     MINIDUMP_STRING.
+//!
+//! \return On success, a pointer to the MINIDUMP_STRING in \a file_contents. On
+//!     failure, raises a gtest assertion and returns `nullptr`.
+//!
+//! \sa MinidumpStringAtRVAAsString()
+//! \sa MinidumpUTF8StringAtRVA()
+const MINIDUMP_STRING* MinidumpStringAtRVA(const std::string& file_contents,
+                                           RVA rva);
+
+//! \brief Returns a MinidumpUTF8String located within a minidump file’s
+//!     contents.
+//!
+//! If \a rva points outside of the range of \a file_contents, if the string has
+//! an incorrect length or is not `NUL`-terminated, or if any of the string data
+//! would lie outside of the range of \a file_contents, this function will fail.
+//!
+//! \param[in] file_contents The contents of the minidump file.
+//! \param[in] rva The offset within the minidump file of the desired
+//!     MinidumpUTF8String.
+//!
+//! \return On success, a pointer to the MinidumpUTF8String in \a file_contents.
+//!     On failure, raises a gtest assertion and returns `nullptr`.
+//!
+//! \sa MinidumpUTF8StringAtRVAAsString()
+//! \sa MinidumpStringAtRVA()
+const MinidumpUTF8String* MinidumpUTF8StringAtRVA(
+    const std::string& file_contents,
+    RVA rva);
+
+//! \brief Returns the contents of a MINIDUMP_STRING as a `string16`.
+//!
+//! This function uses MinidumpStringAtRVA() to obtain a MINIDUMP_STRING, and
+//! returns the string data as a `string16`.
+//!
+//! \param[in] file_contents The contents of the minidump file.
+//! \param[in] rva The offset within the minidump file of the desired
+//!     MINIDUMP_STRING.
 //!
 //! \return On success, the string read from \a file_writer at offset \a rva. On
-//!     failure, returns an empty string, with a nonfatal assertion logged to
-//!     gtest.
-std::string MinidumpUTF8StringAtRVA(const StringFileWriter& file_writer,
-                                    RVA rva);
+//!     failure, raises a gtest assertion and returns an empty string.
+//!
+//! \sa MinidumpUTF8StringAtRVAAsString()
+string16 MinidumpStringAtRVAAsString(const std::string& file_contents, RVA rva);
+
+//! \brief Returns the contents of a MinidumpUTF8String as a `std::string`.
+//!
+//! This function uses MinidumpUTF16StringAtRVA() to obtain a
+//! MinidumpUTF16String, and returns the string data as a `std::string`.
+//!
+//! \param[in] file_contents The contents of the minidump file.
+//! \param[in] rva The offset within the minidump file of the desired
+//!     MinidumpUTF8String.
+//!
+//! \return On success, the string read from \a file_writer at offset \a rva. On
+//!     failure, raises a gtest assertion and returns an empty string.
+//!
+//! \sa MinidumpStringAtRVAAsString()
+std::string MinidumpUTF8StringAtRVAAsString(const std::string& file_contents,
+                                            RVA rva);
 
 }  // namespace test
 }  // namespace crashpad

@@ -23,6 +23,7 @@
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_string_writer_test_util.h"
 #include "util/file/string_file_writer.h"
 #include "util/misc/uuid.h"
 
@@ -40,25 +41,22 @@ void GetModuleListStream(const std::string& file_contents,
 
   ASSERT_GE(file_contents.size(), kModulesOffset);
 
+  const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
-
+      MinidumpHeaderAtStart(file_contents, &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
+  ASSERT_TRUE(directory);
 
-  const MINIDUMP_DIRECTORY* directory =
-      reinterpret_cast<const MINIDUMP_DIRECTORY*>(
-          &file_contents[kDirectoryOffset]);
-
-  ASSERT_EQ(kMinidumpStreamTypeModuleList, directory->StreamType);
-  ASSERT_GE(directory->Location.DataSize, sizeof(MINIDUMP_MODULE_LIST));
-  ASSERT_EQ(kModuleListStreamOffset, directory->Location.Rva);
+  ASSERT_EQ(kMinidumpStreamTypeModuleList, directory[0].StreamType);
+  ASSERT_GE(directory[0].Location.DataSize, sizeof(MINIDUMP_MODULE_LIST));
+  ASSERT_EQ(kModuleListStreamOffset, directory[0].Location.Rva);
 
   *module_list = reinterpret_cast<const MINIDUMP_MODULE_LIST*>(
       &file_contents[kModuleListStreamOffset]);
 
   ASSERT_EQ(sizeof(MINIDUMP_MODULE_LIST) +
                 (*module_list)->NumberOfModules * sizeof(MINIDUMP_MODULE),
-            directory->Location.DataSize);
+            directory[0].Location.DataSize);
 }
 
 TEST(MinidumpModuleWriter, EmptyModuleList) {
@@ -256,18 +254,8 @@ void ExpectModule(const MINIDUMP_MODULE* expected,
   EXPECT_EQ(0u, observed->Reserved1);
 
   EXPECT_NE(0u, observed->ModuleNameRva);
-  ASSERT_LE(observed->ModuleNameRva,
-            file_contents.size() - sizeof(MINIDUMP_STRING));
-  const MINIDUMP_STRING* module_name = reinterpret_cast<const MINIDUMP_STRING*>(
-      &file_contents[observed->ModuleNameRva]);
-  ASSERT_LE(observed->ModuleNameRva + sizeof(MINIDUMP_STRING) +
-                (module_name->Length + 1),
-            file_contents.size());
-  ASSERT_EQ(0u, module_name->Length % 2);
-  string16 observed_module_name_utf16(
-      reinterpret_cast<const char16*>(
-          &file_contents[observed->ModuleNameRva + sizeof(MINIDUMP_STRING)]),
-      module_name->Length / 2);
+  string16 observed_module_name_utf16 =
+      MinidumpStringAtRVAAsString(file_contents, observed->ModuleNameRva);
   string16 expected_module_name_utf16 = base::UTF8ToUTF16(expected_module_name);
   EXPECT_EQ(expected_module_name_utf16, observed_module_name_utf16);
 

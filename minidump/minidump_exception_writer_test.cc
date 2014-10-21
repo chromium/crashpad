@@ -44,14 +44,10 @@ void GetExceptionStream(const std::string& file_contents,
   const size_t kFileSize = kContextOffset + sizeof(MinidumpContextX86);
   ASSERT_EQ(file_contents.size(), kFileSize);
 
+  const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
-
+      MinidumpHeaderAtStart(file_contents, &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
-
-  const MINIDUMP_DIRECTORY* directory =
-      reinterpret_cast<const MINIDUMP_DIRECTORY*>(
-          &file_contents[kDirectoryOffset]);
 
   ASSERT_EQ(kMinidumpStreamTypeException, directory[0].StreamType);
   ASSERT_GE(directory[0].Location.DataSize, sizeof(MINIDUMP_EXCEPTION_STREAM));

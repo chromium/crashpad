@@ -22,6 +22,7 @@
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_string_writer_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -48,27 +49,23 @@ void GetSystemInfoStream(const std::string& file_contents,
 
   ASSERT_EQ(kFileSize, file_contents.size());
 
+  const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      reinterpret_cast<const MINIDUMP_HEADER*>(&file_contents[0]);
-
+      MinidumpHeaderAtStart(file_contents, &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
+  ASSERT_TRUE(directory);
 
-  const MINIDUMP_DIRECTORY* directory =
-      reinterpret_cast<const MINIDUMP_DIRECTORY*>(
-          &file_contents[kDirectoryOffset]);
-
-  ASSERT_EQ(kMinidumpStreamTypeSystemInfo, directory->StreamType);
-  ASSERT_EQ(sizeof(MINIDUMP_SYSTEM_INFO), directory->Location.DataSize);
-  ASSERT_EQ(kSystemInfoStreamOffset, directory->Location.Rva);
+  ASSERT_EQ(kMinidumpStreamTypeSystemInfo, directory[0].StreamType);
+  ASSERT_EQ(sizeof(MINIDUMP_SYSTEM_INFO), directory[0].Location.DataSize);
+  ASSERT_EQ(kSystemInfoStreamOffset, directory[0].Location.Rva);
 
   *system_info = reinterpret_cast<const MINIDUMP_SYSTEM_INFO*>(
       &file_contents[kSystemInfoStreamOffset]);
 
   ASSERT_EQ(kCSDVersionOffset, (*system_info)->CSDVersionRva);
 
-  *csd_version = reinterpret_cast<const MINIDUMP_STRING*>(
-      &file_contents[kCSDVersionOffset]);
-
+  *csd_version =
+      MinidumpStringAtRVA(file_contents, (*system_info)->CSDVersionRva);
   ASSERT_EQ(kCSDVersionBytes, (*csd_version)->Length);
 }
 
