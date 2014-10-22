@@ -45,13 +45,15 @@ const MINIDUMP_HEADER* MinidumpHeaderAtStart(
 //! \brief Verifies, via gtest assertions, that a MINIDUMP_HEADER contains
 //!     expected values.
 //!
-//! All fields in the MINIDUMP_HEADER will be evaluated. Most are compared to
-//! their correct default values. MINIDUMP_HEADER::NumberOfStreams is compared
-//! to \a streams, and MINIDUMP_HEADER::TimeDateStamp is compared to \a
-//! timestamp. Most fields are checked with nonfatal EXPECT-style assertions,
-//! but MINIDUMP_HEADER::NumberOfStreams and MINIDUMP_HEADER::StreamDirectoryRva
-//! are checked with fatal ASSERT-style assertions, because they must be
-//! correct in order for processing of the minidump to continue.
+//! All fields in the MINIDUMP_HEADER will be evaluated except for the Signature
+//! and Version fields, because those are checked by MinidumpHeaderAtStart().
+//! Most other fields are are compared to their correct default values.
+//! MINIDUMP_HEADER::NumberOfStreams is compared to \a streams, and
+//! MINIDUMP_HEADER::TimeDateStamp is compared to \a timestamp. Most fields are
+//! checked with nonfatal EXPECT-style assertions, but
+//! MINIDUMP_HEADER::NumberOfStreams and MINIDUMP_HEADER::StreamDirectoryRva are
+//! checked with fatal ASSERT-style assertions, because they must be correct in
+//! order for processing of the minidump to continue.
 void VerifyMinidumpHeader(const MINIDUMP_HEADER* header,
                           uint32_t streams,
                           uint32_t timestamp);

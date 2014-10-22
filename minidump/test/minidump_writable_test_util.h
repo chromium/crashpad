@@ -16,10 +16,12 @@
 #define CRASHPAD_MINIDUMP_TEST_MINIDUMP_WRITABLE_TEST_UTIL_H_
 
 #include <dbghelp.h>
+#include <stdint.h>
 
 #include <string>
 
 #include "gtest/gtest.h"
+#include "minidump/minidump_extensions.h"
 
 namespace crashpad {
 namespace test {
@@ -47,12 +49,18 @@ const void* MinidumpWritableAtRVAInternal(const std::string& file_contents,
 //! \param[in] file_contents The contents of the minidump file.
 //! \param[in] location A MINIDUMP_LOCATION_DESCRIPTOR giving the offset within
 //!     the minidump file of the desired object, as well as its size.
-//! \param[in] expected_minimum_size The minimum size allowable for the object.
+//! \param[in] expected_size The expected size of the object. If \a
+//!     allow_oversized_data is `true`, \a expected_size is treated as the
+//!     minimum size of \a location, but it is permitted to be larger. If \a
+//!     allow_oversized_data is `false`, the size of \a location must match
+//!     \a expected_size exactly.
+//! \param[in] allow_oversized_data Controls whether \a expected_size is a
+//!     minimum limit (`true`) or an exact match is required (`false`).
 //!
-//! \return If the size of \a location is at least as big as \a
-//!     expected_minimum_size, and if \a location is within the range of \a
-//!     file_contents, returns a pointer into \a file_contents at offset \a rva.
-//!     Otherwise, raises a gtest assertion failure and returns `nullptr`.
+//! \return If the size of \a location is agrees with \a expected_size, and if
+//!     \a location is within the range of \a file_contents, returns a pointer
+//!     into \a file_contents at offset \a rva. Otherwise, raises a gtest
+//!     assertion failure and returns `nullptr`.
 //!
 //! Do not call this function. Use the typed version,
 //! MinidumpWritableAtLocationDescriptor<>(), or another type-specific function.
@@ -61,7 +69,54 @@ const void* MinidumpWritableAtRVAInternal(const std::string& file_contents,
 const void* MinidumpWritableAtLocationDescriptorInternal(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location,
-    size_t expected_minimum_size);
+    size_t expected_size,
+    bool allow_oversized_data);
+
+//! \brief A traits class defining whether a minidump object type is required to
+//!     appear only as a fixed-size object or if it is variable-sized.
+//!
+//! Variable-sized data is data referenced by a MINIDUMP_LOCATION_DESCRIPTOR
+//! whose DataSize field may be larger than the size of the basic object type’s
+//! structure. This can happen for types that appear only as variable-sized
+//! lists, or types whose final fields are variable-sized lists or other
+//! variable-sized data.
+template <typename T>
+struct MinidumpWritableTraits {
+  //! \brief `true` if \a T should be treated as a variable-sized data type,
+  //!     where its base size is used solely as a minimum bound. `false` if \a
+  //!     T is a fixed-sized type, which should only appear at its base size.
+  static const bool kAllowOversizedData = false;
+};
+
+#define MINIDUMP_ALLOW_OVERSIZED_DATA(x)          \
+  template <>                                     \
+  struct MinidumpWritableTraits<x> {              \
+    static const bool kAllowOversizedData = true; \
+  }
+
+// This type appears only as a variable-sized list.
+MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_DIRECTORY);
+
+// These types are permitted to be oversized because their final fields are
+// variable-sized lists.
+MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_LIST);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MODULE_LIST);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_THREAD_LIST);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpSimpleStringDictionary);
+
+// These types have final fields carrying variable-sized data (typically string
+// data).
+MINIDUMP_ALLOW_OVERSIZED_DATA(IMAGE_DEBUG_MISC);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_STRING);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpModuleCodeViewRecordPDB20);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpModuleCodeViewRecordPDB70);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpUTF8String);
+
+// minidump_file_writer_test accesses its variable-sized test streams via a
+// uint8_t*.
+MINIDUMP_ALLOW_OVERSIZED_DATA(uint8_t);
+
+#undef MINIDUMP_ALLOW_OVERSIZED_DATA
 
 //! \brief Returns a typed minidump object located within a minidump file’s
 //!     contents, where the offset of the object is known.
@@ -83,6 +138,42 @@ const T* MinidumpWritableAtRVA(const std::string& file_contents, RVA rva) {
 //! \brief Returns a typed minidump object located within a minidump file’s
 //!     contents, where the offset and size of the object are known.
 //!
+//! This function is similar to MinidumpWritableAtLocationDescriptor<>() and is
+//! used to implement that function. It exists independently so that template
+//! specializations are able to call this function, which provides the default
+//! implementation.
+//!
+//! Do not call this function directly. Use
+//! MinidumpWritableAtLocationDescriptor<>() instead.
+template <typename T>
+const T* TMinidumpWritableAtLocationDescriptor(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location) {
+  return reinterpret_cast<const T*>(
+      MinidumpWritableAtLocationDescriptorInternal(
+          file_contents,
+          location,
+          sizeof(T),
+          MinidumpWritableTraits<T>::kAllowOversizedData));
+}
+
+//! \brief Returns a typed minidump object located within a minidump file’s
+//!     contents, where the offset and size of the object are known.
+//!
+//! This function has template specializations that perform more stringent
+//! checking than the default implementation:
+//!  - With a MINIDUMP_HEADER template parameter, a template specialization
+//!    ensures that the structure’s magic number and version fields are correct.
+//!  - With a MINIDUMP_MEMORY_LIST, MINIDUMP_THREAD_LIST, MINIDUMP_MODULE_LIST,
+//!    or MinidumpSimpleStringDictionary template parameter, template
+//!    specializations ensure that the size given by \a location matches the
+//!    size expected of a stream containing the number of elements it claims to
+//!    have.
+//!  - With an IMAGE_DEBUG_MISC, MinidumpModuleCodeViewRecordPDB20, or
+//!    MinidumpModuleCodeViewRecordPDB70 template parameter, template
+//!    specializations ensure that the structure has the expected format
+//!    including any magic number and the `NUL`-terminated string.
+//!
 //! \param[in] file_contents The contents of the minidump file.
 //! \param[in] location A MINIDUMP_LOCATION_DESCRIPTOR giving the offset within
 //!     the minidump file of the desired object, as well as its size.
@@ -97,10 +188,51 @@ template <typename T>
 const T* MinidumpWritableAtLocationDescriptor(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location) {
-  return reinterpret_cast<const T*>(
-      MinidumpWritableAtLocationDescriptorInternal(
-          file_contents, location, sizeof(T)));
+  return TMinidumpWritableAtLocationDescriptor<T>(file_contents, location);
 }
+
+template <>
+const IMAGE_DEBUG_MISC* MinidumpWritableAtLocationDescriptor<IMAGE_DEBUG_MISC>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MINIDUMP_HEADER* MinidumpWritableAtLocationDescriptor<MINIDUMP_HEADER>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MINIDUMP_MEMORY_LIST* MinidumpWritableAtLocationDescriptor<
+    MINIDUMP_MEMORY_LIST>(const std::string& file_contents,
+                          const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MINIDUMP_MODULE_LIST* MinidumpWritableAtLocationDescriptor<
+    MINIDUMP_MODULE_LIST>(const std::string& file_contents,
+                          const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MINIDUMP_THREAD_LIST* MinidumpWritableAtLocationDescriptor<
+    MINIDUMP_THREAD_LIST>(const std::string& file_contents,
+                          const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MinidumpModuleCodeViewRecordPDB20*
+MinidumpWritableAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB20>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MinidumpModuleCodeViewRecordPDB70*
+MinidumpWritableAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB70>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MinidumpSimpleStringDictionary*
+MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location);
 
 }  // namespace test
 }  // namespace crashpad

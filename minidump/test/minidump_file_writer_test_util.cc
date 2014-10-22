@@ -32,15 +32,6 @@ const MINIDUMP_HEADER* MinidumpHeaderAtStart(
           file_contents, location_descriptor);
 
   if (header) {
-    if (header->Signature != MINIDUMP_SIGNATURE) {
-      EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
-      return nullptr;
-    }
-    if (header->Version != MINIDUMP_VERSION) {
-      EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
-      return nullptr;
-    }
-
     location_descriptor.DataSize =
         header->NumberOfStreams * sizeof(MINIDUMP_DIRECTORY);
     location_descriptor.Rva = header->StreamDirectoryRva;
@@ -57,8 +48,6 @@ void VerifyMinidumpHeader(const MINIDUMP_HEADER* header,
                           uint32_t streams,
                           uint32_t timestamp) {
   ASSERT_TRUE(header);
-  EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
-  EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
   ASSERT_EQ(streams, header->NumberOfStreams);
   ASSERT_EQ(streams ? sizeof(MINIDUMP_HEADER) : 0u, header->StreamDirectoryRva);
   EXPECT_EQ(0u, header->CheckSum);

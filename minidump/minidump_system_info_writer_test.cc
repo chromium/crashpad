@@ -23,6 +23,7 @@
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
+#include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -56,17 +57,17 @@ void GetSystemInfoStream(const std::string& file_contents,
   ASSERT_TRUE(directory);
 
   ASSERT_EQ(kMinidumpStreamTypeSystemInfo, directory[0].StreamType);
-  ASSERT_EQ(sizeof(MINIDUMP_SYSTEM_INFO), directory[0].Location.DataSize);
-  ASSERT_EQ(kSystemInfoStreamOffset, directory[0].Location.Rva);
+  EXPECT_EQ(kSystemInfoStreamOffset, directory[0].Location.Rva);
 
-  *system_info = reinterpret_cast<const MINIDUMP_SYSTEM_INFO*>(
-      &file_contents[kSystemInfoStreamOffset]);
+  *system_info = MinidumpWritableAtLocationDescriptor<MINIDUMP_SYSTEM_INFO>(
+      file_contents, directory[0].Location);
+  ASSERT_TRUE(system_info);
 
-  ASSERT_EQ(kCSDVersionOffset, (*system_info)->CSDVersionRva);
+  EXPECT_EQ(kCSDVersionOffset, (*system_info)->CSDVersionRva);
 
   *csd_version =
       MinidumpStringAtRVA(file_contents, (*system_info)->CSDVersionRva);
-  ASSERT_EQ(kCSDVersionBytes, (*csd_version)->Length);
+  EXPECT_EQ(kCSDVersionBytes, (*csd_version)->Length);
 }
 
 TEST(MinidumpSystemInfoWriter, Empty) {

@@ -22,6 +22,7 @@
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
+#include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -55,20 +56,19 @@ void GetCrashpadInfoStream(
   ASSERT_TRUE(directory);
 
   ASSERT_EQ(kMinidumpStreamTypeCrashpadInfo, directory[0].StreamType);
-  ASSERT_EQ(sizeof(MinidumpCrashpadInfo), directory[0].Location.DataSize);
-  ASSERT_EQ(kCrashpadInfoStreamOffset, directory[0].Location.Rva);
+  EXPECT_EQ(kCrashpadInfoStreamOffset, directory[0].Location.Rva);
 
-  *crashpad_info = reinterpret_cast<const MinidumpCrashpadInfo*>(
-      &file_contents[kCrashpadInfoStreamOffset]);
+  *crashpad_info = MinidumpWritableAtLocationDescriptor<MinidumpCrashpadInfo>(
+      file_contents, directory[0].Location);
+  ASSERT_TRUE(*crashpad_info);
 
   if (simple_annotations) {
-    ASSERT_GE((*crashpad_info)->simple_annotations.DataSize,
-              sizeof(MinidumpSimpleStringDictionary));
-    ASSERT_EQ(kSimpleAnnotationsOffset,
+    EXPECT_EQ(kSimpleAnnotationsOffset,
               (*crashpad_info)->simple_annotations.Rva);
     *simple_annotations =
-        reinterpret_cast<const MinidumpSimpleStringDictionary*>(
-            &file_contents[kSimpleAnnotationsOffset]);
+        MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
+            file_contents, (*crashpad_info)->simple_annotations);
+    ASSERT_TRUE(*simple_annotations);
   } else {
     ASSERT_EQ(0u, (*crashpad_info)->simple_annotations.DataSize);
     ASSERT_EQ(0u, (*crashpad_info)->simple_annotations.Rva);

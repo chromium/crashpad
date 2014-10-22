@@ -27,6 +27,7 @@
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_context_test_util.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -50,11 +51,12 @@ void GetExceptionStream(const std::string& file_contents,
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
 
   ASSERT_EQ(kMinidumpStreamTypeException, directory[0].StreamType);
-  ASSERT_GE(directory[0].Location.DataSize, sizeof(MINIDUMP_EXCEPTION_STREAM));
-  ASSERT_EQ(kExceptionStreamOffset, directory[0].Location.Rva);
+  EXPECT_EQ(kExceptionStreamOffset, directory[0].Location.Rva);
 
-  *exception_stream = reinterpret_cast<const MINIDUMP_EXCEPTION_STREAM*>(
-      &file_contents[kExceptionStreamOffset]);
+  *exception_stream =
+      MinidumpWritableAtLocationDescriptor<MINIDUMP_EXCEPTION_STREAM>(
+          file_contents, directory[0].Location);
+  ASSERT_TRUE(exception_stream);
 }
 
 // The MINIDUMP_EXCEPTION_STREAMs |expected| and |observed| are compared against
@@ -83,13 +85,9 @@ void ExpectExceptionStream(const MINIDUMP_EXCEPTION_STREAM* expected,
     EXPECT_EQ(expected->ExceptionRecord.ExceptionInformation[index],
               observed->ExceptionRecord.ExceptionInformation[index]);
   }
-  EXPECT_EQ(expected->ThreadContext.DataSize, observed->ThreadContext.DataSize);
-  ASSERT_NE(0u, observed->ThreadContext.DataSize);
-  ASSERT_NE(0u, observed->ThreadContext.Rva);
-  ASSERT_GE(file_contents.size(),
-            observed->ThreadContext.Rva + observed->ThreadContext.DataSize);
-  *context = reinterpret_cast<const MinidumpContextX86*>(
-      &file_contents[observed->ThreadContext.Rva]);
+  *context = MinidumpWritableAtLocationDescriptor<MinidumpContextX86>(
+      file_contents, observed->ThreadContext);
+  ASSERT_TRUE(context);
 }
 
 TEST(MinidumpExceptionWriter, Minimal) {

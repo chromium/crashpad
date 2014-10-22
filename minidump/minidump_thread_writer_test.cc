@@ -23,6 +23,7 @@
 #include "minidump/test/minidump_context_test_util.h"
 #include "minidump/test/minidump_memory_writer_test_util.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -51,19 +52,18 @@ void GetThreadListStream(const std::string& file_contents,
   ASSERT_TRUE(directory);
 
   ASSERT_EQ(kMinidumpStreamTypeThreadList, directory[0].StreamType);
-  ASSERT_GE(directory[0].Location.DataSize, sizeof(MINIDUMP_THREAD_LIST));
-  ASSERT_EQ(kThreadListStreamOffset, directory[0].Location.Rva);
+  EXPECT_EQ(kThreadListStreamOffset, directory[0].Location.Rva);
 
-  *thread_list = reinterpret_cast<const MINIDUMP_THREAD_LIST*>(
-      &file_contents[kThreadListStreamOffset]);
-
-  ASSERT_EQ(sizeof(MINIDUMP_THREAD_LIST) +
-                (*thread_list)->NumberOfThreads * sizeof(MINIDUMP_THREAD),
-            directory[0].Location.DataSize);
+  *thread_list = MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
+      file_contents, directory[0].Location);
+  ASSERT_TRUE(thread_list);
 
   if (memory_list) {
-    *memory_list = reinterpret_cast<const MINIDUMP_MEMORY_LIST*>(
-        &file_contents[directory[1].Location.Rva]);
+    ASSERT_EQ(kMinidumpStreamTypeMemoryList, directory[1].StreamType);
+
+    *memory_list = MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
+        file_contents, directory[1].Location);
+    ASSERT_TRUE(*memory_list);
   }
 }
 

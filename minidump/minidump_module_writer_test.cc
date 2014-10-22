@@ -24,6 +24,7 @@
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
+#include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 #include "util/misc/uuid.h"
 
@@ -48,15 +49,11 @@ void GetModuleListStream(const std::string& file_contents,
   ASSERT_TRUE(directory);
 
   ASSERT_EQ(kMinidumpStreamTypeModuleList, directory[0].StreamType);
-  ASSERT_GE(directory[0].Location.DataSize, sizeof(MINIDUMP_MODULE_LIST));
-  ASSERT_EQ(kModuleListStreamOffset, directory[0].Location.Rva);
+  EXPECT_EQ(kModuleListStreamOffset, directory[0].Location.Rva);
 
-  *module_list = reinterpret_cast<const MINIDUMP_MODULE_LIST*>(
-      &file_contents[kModuleListStreamOffset]);
-
-  ASSERT_EQ(sizeof(MINIDUMP_MODULE_LIST) +
-                (*module_list)->NumberOfModules * sizeof(MINIDUMP_MODULE),
-            directory[0].Location.DataSize);
+  *module_list = MinidumpWritableAtLocationDescriptor<MINIDUMP_MODULE_LIST>(
+      file_contents, directory[0].Location);
+  ASSERT_TRUE(module_list);
 }
 
 TEST(MinidumpModuleWriter, EmptyModuleList) {
@@ -92,19 +89,15 @@ void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
                           uint32_t expected_pdb_age) {
   if (expected_pdb_name) {
     EXPECT_NE(0u, codeview_record->Rva);
-    ASSERT_LE(codeview_record->Rva + codeview_record->DataSize,
-              file_contents.size());
 
     std::string observed_pdb_name;
     if (expected_pdb_uuid) {
       // The CodeView record should be a PDB 7.0 link.
-      EXPECT_GE(codeview_record->DataSize,
-                sizeof(MinidumpModuleCodeViewRecordPDB70));
       const MinidumpModuleCodeViewRecordPDB70* codeview_pdb70_record =
-          reinterpret_cast<const MinidumpModuleCodeViewRecordPDB70*>(
-              &file_contents[codeview_record->Rva]);
-      EXPECT_EQ(MinidumpModuleCodeViewRecordPDB70::kSignature,
-                codeview_pdb70_record->signature);
+          MinidumpWritableAtLocationDescriptor<
+              MinidumpModuleCodeViewRecordPDB70>(file_contents,
+                                                 *codeview_record);
+      ASSERT_TRUE(codeview_pdb70_record);
       EXPECT_EQ(0,
                 memcmp(expected_pdb_uuid,
                        &codeview_pdb70_record->uuid,
@@ -117,13 +110,11 @@ void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
               offsetof(MinidumpModuleCodeViewRecordPDB70, pdb_name));
     } else {
       // The CodeView record should be a PDB 2.0 link.
-      EXPECT_GE(codeview_record->DataSize,
-                sizeof(MinidumpModuleCodeViewRecordPDB20));
       const MinidumpModuleCodeViewRecordPDB20* codeview_pdb20_record =
-          reinterpret_cast<const MinidumpModuleCodeViewRecordPDB20*>(
-              &file_contents[codeview_record->Rva]);
-      EXPECT_EQ(MinidumpModuleCodeViewRecordPDB20::kSignature,
-                codeview_pdb20_record->signature);
+          MinidumpWritableAtLocationDescriptor<
+              MinidumpModuleCodeViewRecordPDB20>(file_contents,
+                                                 *codeview_record);
+      ASSERT_TRUE(codeview_pdb20_record);
       EXPECT_EQ(static_cast<uint32_t>(expected_pdb_timestamp),
                 codeview_pdb20_record->timestamp);
       EXPECT_EQ(expected_pdb_age, codeview_pdb20_record->age);
@@ -157,14 +148,12 @@ void ExpectMiscellaneousDebugRecord(
     uint32_t expected_debug_type,
     bool expected_debug_utf16) {
   if (expected_debug_name) {
-    EXPECT_GE(misc_record->DataSize, sizeof(IMAGE_DEBUG_MISC));
     EXPECT_NE(0u, misc_record->Rva);
-    ASSERT_LE(misc_record->Rva + misc_record->DataSize, file_contents.size());
     const IMAGE_DEBUG_MISC* misc_debug_record =
-        reinterpret_cast<const IMAGE_DEBUG_MISC*>(
-            &file_contents[misc_record->Rva]);
+        MinidumpWritableAtLocationDescriptor<IMAGE_DEBUG_MISC>(file_contents,
+                                                               *misc_record);
+    ASSERT_TRUE(misc_debug_record);
     EXPECT_EQ(expected_debug_type, misc_debug_record->DataType);
-    EXPECT_EQ(misc_record->DataSize, misc_debug_record->Length);
     EXPECT_EQ(expected_debug_utf16, misc_debug_record->Unicode);
     EXPECT_EQ(0u, misc_debug_record->Reserved[0]);
     EXPECT_EQ(0u, misc_debug_record->Reserved[1]);

@@ -25,6 +25,7 @@
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 #include "util/stdlib/strlcpy.h"
 
@@ -49,13 +50,11 @@ void GetMiscInfoStream(const std::string& file_contents, const T** misc_info) {
   ASSERT_TRUE(directory);
 
   ASSERT_EQ(kMinidumpStreamTypeMiscInfo, directory[0].StreamType);
-  ASSERT_EQ(kMiscInfoStreamSize, directory[0].Location.DataSize);
-  ASSERT_EQ(kMiscInfoStreamOffset, directory[0].Location.Rva);
+  EXPECT_EQ(kMiscInfoStreamOffset, directory[0].Location.Rva);
 
-  *misc_info =
-      reinterpret_cast<const T*>(&file_contents[kMiscInfoStreamOffset]);
-
-  ASSERT_EQ(kMiscInfoStreamSize, (*misc_info)->SizeOfInfo);
+  *misc_info = MinidumpWritableAtLocationDescriptor<T>(file_contents,
+                                                       directory[0].Location);
+  ASSERT_TRUE(misc_info);
 }
 
 void ExpectNULPaddedString16Equal(const char16* expected,

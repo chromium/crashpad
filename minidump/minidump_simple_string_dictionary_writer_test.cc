@@ -19,16 +19,23 @@
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
+#include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
 namespace test {
 namespace {
 
-const MinidumpSimpleStringDictionary* MinidumpSimpleStringDictionaryCast(
-    const StringFileWriter& file_writer) {
-  return reinterpret_cast<const MinidumpSimpleStringDictionary*>(
-      &file_writer.string()[0]);
+const MinidumpSimpleStringDictionary* MinidumpSimpleStringDictionaryAtStart(
+    const std::string& file_contents,
+    size_t count) {
+  MINIDUMP_LOCATION_DESCRIPTOR location_descriptor;
+  location_descriptor.DataSize =
+      sizeof(MinidumpSimpleStringDictionary) +
+      count * sizeof(MinidumpSimpleStringDictionaryEntry);
+  location_descriptor.Rva = 0;
+  return MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
+      file_contents, location_descriptor);
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, EmptySimpleStringDictionary) {
@@ -41,7 +48,8 @@ TEST(MinidumpSimpleStringDictionaryWriter, EmptySimpleStringDictionary) {
             file_writer.string().size());
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryCast(file_writer);
+      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), 0);
+  ASSERT_TRUE(dictionary);
   EXPECT_EQ(0u, dictionary->count);
 }
 
@@ -59,7 +67,8 @@ TEST(MinidumpSimpleStringDictionaryWriter, EmptyKeyValue) {
             file_writer.string().size());
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryCast(file_writer);
+      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), 1);
+  ASSERT_TRUE(dictionary);
   EXPECT_EQ(1u, dictionary->count);
   EXPECT_EQ(12u, dictionary->entries[0].key);
   EXPECT_EQ(20u, dictionary->entries[0].value);
@@ -89,7 +98,8 @@ TEST(MinidumpSimpleStringDictionaryWriter, OneKeyValue) {
             file_writer.string().size());
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryCast(file_writer);
+      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), 1);
+  ASSERT_TRUE(dictionary);
   EXPECT_EQ(1u, dictionary->count);
   EXPECT_EQ(12u, dictionary->entries[0].key);
   EXPECT_EQ(20u, dictionary->entries[0].value);
@@ -131,7 +141,8 @@ TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
             file_writer.string().size());
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryCast(file_writer);
+      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), 3);
+  ASSERT_TRUE(dictionary);
   EXPECT_EQ(3u, dictionary->count);
   EXPECT_EQ(28u, dictionary->entries[0].key);
   EXPECT_EQ(36u, dictionary->entries[0].value);
@@ -188,7 +199,8 @@ TEST(MinidumpSimpleStringDictionaryWriter, DuplicateKeyValue) {
             file_writer.string().size());
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryCast(file_writer);
+      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), 1);
+  ASSERT_TRUE(dictionary);
   EXPECT_EQ(1u, dictionary->count);
   EXPECT_EQ(12u, dictionary->entries[0].key);
   EXPECT_EQ(20u, dictionary->entries[0].value);

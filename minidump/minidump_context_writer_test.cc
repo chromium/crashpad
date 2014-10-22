@@ -19,6 +19,7 @@
 #include "gtest/gtest.h"
 #include "minidump/minidump_context.h"
 #include "minidump/test/minidump_context_test_util.h"
+#include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -39,7 +40,7 @@ TEST(MinidumpContextWriter, MinidumpContextX86Writer) {
     ASSERT_EQ(sizeof(MinidumpContextX86), file_writer.string().size());
 
     const MinidumpContextX86* observed =
-        reinterpret_cast<const MinidumpContextX86*>(&file_writer.string()[0]);
+        MinidumpWritableAtRVA<MinidumpContextX86>(file_writer.string(), 0);
     ExpectMinidumpContextX86(0, observed);
   }
 
@@ -56,7 +57,7 @@ TEST(MinidumpContextWriter, MinidumpContextX86Writer) {
     ASSERT_EQ(sizeof(MinidumpContextX86), file_writer.string().size());
 
     const MinidumpContextX86* observed =
-        reinterpret_cast<const MinidumpContextX86*>(&file_writer.string()[0]);
+        MinidumpWritableAtRVA<MinidumpContextX86>(file_writer.string(), 0);
     ExpectMinidumpContextX86(kSeed, observed);
   }
 }
@@ -75,7 +76,7 @@ TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
     ASSERT_EQ(sizeof(MinidumpContextAMD64), file_writer.string().size());
 
     const MinidumpContextAMD64* observed =
-        reinterpret_cast<const MinidumpContextAMD64*>(&file_writer.string()[0]);
+        MinidumpWritableAtRVA<MinidumpContextAMD64>(file_writer.string(), 0);
     ExpectMinidumpContextAMD64(0, observed);
   }
 
@@ -92,7 +93,7 @@ TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
     ASSERT_EQ(sizeof(MinidumpContextAMD64), file_writer.string().size());
 
     const MinidumpContextAMD64* observed =
-        reinterpret_cast<const MinidumpContextAMD64*>(&file_writer.string()[0]);
+        MinidumpWritableAtRVA<MinidumpContextAMD64>(file_writer.string(), 0);
     ExpectMinidumpContextAMD64(kSeed, observed);
   }
 }

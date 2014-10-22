@@ -24,6 +24,7 @@
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_memory_writer_test_util.h"
+#include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -63,17 +64,11 @@ void GetMemoryListStream(const std::string& file_contents,
 
   ASSERT_EQ(kMinidumpStreamTypeMemoryList,
             directory[directory_index].StreamType);
-  ASSERT_GE(directory[directory_index].Location.DataSize,
-            sizeof(MINIDUMP_MEMORY_LIST));
-  ASSERT_EQ(kMemoryListStreamOffset, directory[directory_index].Location.Rva);
+  EXPECT_EQ(kMemoryListStreamOffset, directory[directory_index].Location.Rva);
 
-  *memory_list = reinterpret_cast<const MINIDUMP_MEMORY_LIST*>(
-      &file_contents[kMemoryListStreamOffset]);
-
-  ASSERT_EQ(sizeof(MINIDUMP_MEMORY_LIST) +
-                (*memory_list)->NumberOfMemoryRanges *
-                    sizeof(MINIDUMP_MEMORY_DESCRIPTOR),
-            directory[directory_index].Location.DataSize);
+  *memory_list = MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
+      file_contents, directory[directory_index].Location);
+  ASSERT_TRUE(memory_list);
 }
 
 TEST(MinidumpMemoryWriter, EmptyMemoryList) {
