@@ -144,12 +144,10 @@ bool MinidumpSimpleStringDictionaryWriter::WriteObject(
   iov.iov_len = sizeof(simple_string_dictionary_base_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
-  if (!entries_.empty()) {
+  for (const auto& key_entry : entries_) {
+    iov.iov_base = key_entry.second->MinidumpSimpleStringDictionaryEntry();
     iov.iov_len = sizeof(MinidumpSimpleStringDictionaryEntry);
-    for (const auto& key_entry : entries_) {
-      iov.iov_base = key_entry.second->MinidumpSimpleStringDictionaryEntry();
-      iovecs.push_back(iov);
-    }
+    iovecs.push_back(iov);
   }
 
   return file_writer->WriteIoVec(&iovecs);

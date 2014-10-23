@@ -164,8 +164,8 @@ bool MinidumpThreadListWriter::WriteObject(FileWriterInterface* file_writer) {
   std::vector<WritableIoVec> iovecs(1, iov);
 
   for (const MinidumpThreadWriter* thread : threads_) {
-    iov.iov_len = sizeof(MINIDUMP_THREAD);
     iov.iov_base = thread->MinidumpThread();
+    iov.iov_len = sizeof(MINIDUMP_THREAD);
     iovecs.push_back(iov);
   }
 

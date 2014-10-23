@@ -150,8 +150,8 @@ bool MinidumpFileWriter::WriteObject(FileWriterInterface* file_writer) {
   std::vector<WritableIoVec> iovecs(1, iov);
 
   for (internal::MinidumpStreamWriter* stream : streams_) {
-    iov.iov_len = sizeof(MINIDUMP_DIRECTORY);
     iov.iov_base = stream->DirectoryListEntry();
+    iov.iov_len = sizeof(MINIDUMP_DIRECTORY);
     iovecs.push_back(iov);
   }
 

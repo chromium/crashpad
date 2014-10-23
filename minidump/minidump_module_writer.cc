@@ -154,7 +154,6 @@ bool MinidumpModuleMiscDebugRecordWriter::WriteObject(
   iov.iov_len = base_length;
   std::vector<WritableIoVec> iovecs(1, iov);
 
-  iov.iov_len = image_debug_misc_.Length - base_length;
   if (!image_debug_misc_.Unicode) {
     DCHECK(data_utf16_.empty());
     iov.iov_base = &data_[0];
@@ -162,6 +161,7 @@ bool MinidumpModuleMiscDebugRecordWriter::WriteObject(
     DCHECK(data_.empty());
     iov.iov_base = &data_utf16_[0];
   }
+  iov.iov_len = image_debug_misc_.Length - base_length;
   iovecs.push_back(iov);
 
   return file_writer->WriteIoVec(&iovecs);
@@ -358,8 +358,8 @@ bool MinidumpModuleListWriter::WriteObject(FileWriterInterface* file_writer) {
   std::vector<WritableIoVec> iovecs(1, iov);
 
   for (const MinidumpModuleWriter* module : modules_) {
-    iov.iov_len = sizeof(MINIDUMP_MODULE);
     iov.iov_base = module->MinidumpModule();
+    iov.iov_len = sizeof(MINIDUMP_MODULE);
     iovecs.push_back(iov);
   }
 

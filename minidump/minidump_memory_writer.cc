@@ -163,8 +163,8 @@ bool MinidumpMemoryListWriter::WriteObject(FileWriterInterface* file_writer) {
   std::vector<WritableIoVec> iovecs(1, iov);
 
   for (const MinidumpMemoryWriter* memory_writer : memory_writers_) {
-    iov.iov_len = sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
     iov.iov_base = memory_writer->MinidumpMemoryDescriptor();
+    iov.iov_len = sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
     iovecs.push_back(iov);
   }
 
