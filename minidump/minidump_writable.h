@@ -16,16 +16,16 @@
 #define CRASHPAD_MINIDUMP_MINIDUMP_WRITABLE_H_
 
 #include <dbghelp.h>
-#include <stdint.h>
 #include <sys/types.h>
 
-#include <limits>
 #include <vector>
 
 #include "base/basictypes.h"
-#include "util/file/file_writer.h"
 
 namespace crashpad {
+
+class FileWriterInterface;
+
 namespace internal {
 
 //! \brief The base class for all content that might be written to a minidump

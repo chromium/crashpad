@@ -14,7 +14,12 @@
 
 #include "minidump/minidump_writable.h"
 
+#include <stdint.h>
+
+#include <limits>
+
 #include "base/logging.h"
+#include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace {

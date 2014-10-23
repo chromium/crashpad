@@ -20,7 +20,6 @@
 #include "base/basictypes.h"
 #include "minidump/minidump_context.h"
 #include "minidump/minidump_writable.h"
-#include "util/file/file_writer.h"
 
 namespace crashpad {
 

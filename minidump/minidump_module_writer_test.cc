@@ -17,6 +17,7 @@
 #include <dbghelp.h>
 #include <stdint.h>
 #include <string.h>
+#include <sys/types.h>
 
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"

@@ -14,7 +14,11 @@
 
 #include "minidump/minidump_exception_writer.h"
 
+#include <sys/types.h>
+
 #include "base/logging.h"
+#include "minidump/minidump_context_writer.h"
+#include "util/file/file_writer.h"
 
 namespace crashpad {
 

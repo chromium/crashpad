@@ -16,8 +16,6 @@
 #define CRASHPAD_MINIDUMP_MINIDUMP_STRING_WRITER_H_
 
 #include <dbghelp.h>
-#include <stdint.h>
-#include <sys/types.h>
 
 #include <string>
 
@@ -25,7 +23,6 @@
 #include "base/strings/string16.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_writable.h"
-#include "util/file/file_writer.h"
 
 namespace crashpad {
 namespace internal {

@@ -17,7 +17,6 @@
 
 #include <dbghelp.h>
 #include <stdint.h>
-#include <sys/types.h>
 #include <time.h>
 
 #include <string>
@@ -29,7 +28,6 @@
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
-#include "util/file/file_writer.h"
 
 namespace crashpad {
 

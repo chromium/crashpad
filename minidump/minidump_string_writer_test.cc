@@ -15,6 +15,7 @@
 #include "minidump/minidump_string_writer.h"
 
 #include <dbghelp.h>
+#include <sys/types.h>
 
 #include <string>
 

@@ -16,6 +16,7 @@
 
 #include <dbghelp.h>
 #include <stdint.h>
+#include <sys/types.h>
 
 #include <string>
 #include <vector>

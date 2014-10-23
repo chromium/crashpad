@@ -15,6 +15,7 @@
 #include "minidump/minidump_thread_writer.h"
 
 #include <dbghelp.h>
+#include <sys/types.h>
 
 #include "gtest/gtest.h"
 #include "minidump/minidump_context_writer.h"

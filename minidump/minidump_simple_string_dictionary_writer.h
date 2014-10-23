@@ -25,7 +25,6 @@
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writable.h"
-#include "util/file/file_writer.h"
 
 namespace crashpad {
 

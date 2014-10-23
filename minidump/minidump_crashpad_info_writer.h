@@ -26,7 +26,6 @@
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
-#include "util/file/file_writer.h"
 
 namespace crashpad {
 

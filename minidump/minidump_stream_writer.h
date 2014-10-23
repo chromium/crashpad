@@ -16,7 +16,6 @@
 #define CRASHPAD_MINIDUMP_MINIDUMP_STREAM_WRITER_H_
 
 #include <dbghelp.h>
-#include <stdint.h>
 
 #include "base/basictypes.h"
 #include "minidump/minidump_extensions.h"

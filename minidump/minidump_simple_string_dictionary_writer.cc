@@ -15,6 +15,7 @@
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 
 #include "base/logging.h"
+#include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {

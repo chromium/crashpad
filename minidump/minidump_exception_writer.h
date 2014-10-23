@@ -17,16 +17,15 @@
 
 #include <dbghelp.h>
 #include <stdint.h>
-#include <sys/types.h>
 
 #include <vector>
 
 #include "base/basictypes.h"
-#include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_stream_writer.h"
-#include "util/file/file_writer.h"
 
 namespace crashpad {
+
+class MinidumpContextWriter;
 
 //! \brief The writer for a MINIDUMP_EXCEPTION_STREAM stream in a minidump file.
 class MinidumpExceptionWriter final : public internal::MinidumpStreamWriter {
