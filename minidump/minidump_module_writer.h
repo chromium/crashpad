@@ -63,7 +63,7 @@ class MinidumpModuleCodeViewRecordPDBLinkWriter
 
  protected:
   MinidumpModuleCodeViewRecordPDBLinkWriter();
-  virtual ~MinidumpModuleCodeViewRecordPDBLinkWriter();
+  ~MinidumpModuleCodeViewRecordPDBLinkWriter() override;
 
   // MinidumpWritable:
   size_t SizeOfObject() override;
@@ -96,7 +96,7 @@ class MinidumpModuleCodeViewRecordPDB20Writer final
       : internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
             MinidumpModuleCodeViewRecordPDB20>() {}
 
-  virtual ~MinidumpModuleCodeViewRecordPDB20Writer();
+  ~MinidumpModuleCodeViewRecordPDB20Writer() override;
 
   //! \brief Sets MinidumpModuleCodeViewRecordPDB20::timestamp and
   //!     MinidumpModuleCodeViewRecordPDB20::age.
@@ -116,7 +116,7 @@ class MinidumpModuleCodeViewRecordPDB70Writer final
       : internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
             MinidumpModuleCodeViewRecordPDB70>() {}
 
-  virtual ~MinidumpModuleCodeViewRecordPDB70Writer();
+  ~MinidumpModuleCodeViewRecordPDB70Writer() override;
 
   //! \brief Sets MinidumpModuleCodeViewRecordPDB70::uuid and
   //!     MinidumpModuleCodeViewRecordPDB70::age.

@@ -51,7 +51,7 @@ class MinidumpContextWriter : public internal::MinidumpWritable {
 class MinidumpContextX86Writer final : public MinidumpContextWriter {
  public:
   MinidumpContextX86Writer();
-  virtual ~MinidumpContextX86Writer();
+  ~MinidumpContextX86Writer() override;
 
   //! \brief Returns a pointer to the context structure that this object will
   //!     write.
@@ -82,7 +82,7 @@ class MinidumpContextX86Writer final : public MinidumpContextWriter {
 class MinidumpContextAMD64Writer final : public MinidumpContextWriter {
  public:
   MinidumpContextAMD64Writer();
-  virtual ~MinidumpContextAMD64Writer();
+  ~MinidumpContextAMD64Writer() override;
 
   //! \brief Returns a pointer to the context structure that this object will
   //!     write.
