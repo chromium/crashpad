@@ -79,6 +79,12 @@ void CheckedWriteFD(int fd, const void* buffer, size_t size);
 //! \sa ReadFD
 void CheckedReadFDAtEOF(int fd);
 
+//! \brief Wraps `close()`, logging an error if the operation fails.
+//!
+//! \return On success, `true` is returned. On failure, an error is logged and
+//!     `false` is returned.
+bool LoggingCloseFD(int fd);
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_FILE_FD_IO_H_

@@ -104,4 +104,10 @@ void CheckedReadFDAtEOF(int fd) {
   }
 }
 
+bool LoggingCloseFD(int fd) {
+  int rv = IGNORE_EINTR(close(fd));
+  PLOG_IF(ERROR, rv != 0) << "close";
+  return rv == 0;
+}
+
 }  // namespace crashpad
