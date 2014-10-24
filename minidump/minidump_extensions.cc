@@ -18,5 +18,7 @@ namespace crashpad {
 
 const uint32_t MinidumpModuleCodeViewRecordPDB20::kSignature;
 const uint32_t MinidumpModuleCodeViewRecordPDB70::kSignature;
+const uint32_t MinidumpModuleCrashpadInfo::kVersion;
+const uint32_t MinidumpCrashpadInfo::kVersion;
 
 }  // namespace crashpad

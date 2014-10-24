@@ -160,6 +160,14 @@ struct MinidumpThreadListTraits {
   }
 };
 
+struct MinidumpModuleCrashpadInfoListTraits {
+  typedef MinidumpModuleCrashpadInfoList ListType;
+  static constexpr size_t kElementSize = sizeof(MINIDUMP_LOCATION_DESCRIPTOR);
+  static size_t ElementCount(const ListType* list) {
+    return list->count;
+  }
+};
+
 struct MinidumpSimpleStringDictionaryListTraits {
   typedef MinidumpSimpleStringDictionary ListType;
   static constexpr size_t kElementSize =
@@ -213,6 +221,15 @@ const MINIDUMP_THREAD_LIST* MinidumpWritableAtLocationDescriptor<
     MINIDUMP_THREAD_LIST>(const std::string& file_contents,
                           const MINIDUMP_LOCATION_DESCRIPTOR& location) {
   return MinidumpListAtLocationDescriptor<MinidumpThreadListTraits>(
+      file_contents, location);
+}
+
+template <>
+const MinidumpModuleCrashpadInfoList*
+MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfoList>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location) {
+  return MinidumpListAtLocationDescriptor<MinidumpModuleCrashpadInfoListTraits>(
       file_contents, location);
 }
 

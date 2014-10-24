@@ -15,24 +15,24 @@
 #include "minidump/minidump_crashpad_info_writer.h"
 
 #include "base/logging.h"
+#include "minidump/minidump_crashpad_module_writer.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {
 
 MinidumpCrashpadInfoWriter::MinidumpCrashpadInfoWriter()
-    : MinidumpStreamWriter(), crashpad_info_(), simple_annotations_() {
-  crashpad_info_.size = sizeof(crashpad_info_);
-  crashpad_info_.version = 1;
+    : MinidumpStreamWriter(), crashpad_info_(), module_list_(nullptr) {
+  crashpad_info_.version = MinidumpCrashpadInfo::kVersion;
 }
 
 MinidumpCrashpadInfoWriter::~MinidumpCrashpadInfoWriter() {
 }
 
-void MinidumpCrashpadInfoWriter::SetSimpleAnnotations(
-    MinidumpSimpleStringDictionaryWriter* simple_annotations) {
+void MinidumpCrashpadInfoWriter::SetModuleList(
+    MinidumpModuleCrashpadInfoListWriter* module_list) {
   DCHECK_EQ(state(), kStateMutable);
 
-  simple_annotations_ = simple_annotations;
+  module_list_ = module_list;
 }
 
 bool MinidumpCrashpadInfoWriter::Freeze() {
@@ -42,9 +42,8 @@ bool MinidumpCrashpadInfoWriter::Freeze() {
     return false;
   }
 
-  if (simple_annotations_) {
-    simple_annotations_->RegisterLocationDescriptor(
-        &crashpad_info_.simple_annotations);
+  if (module_list_) {
+    module_list_->RegisterLocationDescriptor(&crashpad_info_.module_list);
   }
 
   return true;
@@ -61,8 +60,8 @@ MinidumpCrashpadInfoWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
   std::vector<MinidumpWritable*> children;
-  if (simple_annotations_) {
-    children.push_back(simple_annotations_);
+  if (module_list_) {
+    children.push_back(module_list_);
   }
 
   return children;

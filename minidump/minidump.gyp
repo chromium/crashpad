@@ -34,6 +34,8 @@
         'minidump_context_writer.h',
         'minidump_crashpad_info_writer.cc',
         'minidump_crashpad_info_writer.h',
+        'minidump_crashpad_module_writer.cc',
+        'minidump_crashpad_module_writer.h',
         'minidump_exception_writer.cc',
         'minidump_exception_writer.h',
         'minidump_extensions.cc',
@@ -77,6 +79,7 @@
       'sources': [
         'minidump_context_writer_test.cc',
         'minidump_crashpad_info_writer_test.cc',
+        'minidump_crashpad_module_writer_test.cc',
         'minidump_exception_writer_test.cc',
         'minidump_file_writer_test.cc',
         'minidump_memory_writer_test.cc',

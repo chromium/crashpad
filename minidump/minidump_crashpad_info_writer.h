@@ -15,19 +15,15 @@
 #ifndef CRASHPAD_MINIDUMP_MINIDUMP_CRASHPAD_INFO_WRITER_H_
 #define CRASHPAD_MINIDUMP_MINIDUMP_CRASHPAD_INFO_WRITER_H_
 
-#include <stdint.h>
-#include <sys/types.h>
-
-#include <string>
 #include <vector>
 
 #include "base/basictypes.h"
 #include "minidump/minidump_extensions.h"
-#include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "minidump/minidump_stream_writer.h"
-#include "minidump/minidump_writable.h"
 
 namespace crashpad {
+
+class MinidumpModuleCrashpadInfoListWriter;
 
 //! \brief The writer for a MinidumpCrashpadInfo stream in a minidump file.
 class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
@@ -35,16 +31,15 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
   MinidumpCrashpadInfoWriter();
   ~MinidumpCrashpadInfoWriter();
 
-  //! \brief Arranges for MinidumpCrashpadInfo::simple_annotations to point to
-  //!     the MinidumpSimpleStringDictionaryWriter object to be written by \a
-  //!     simple_annotations.
+  //! \brief Arranges for MinidumpCrashpadInfo::module_list to point to the
+  //!     MinidumpModuleCrashpadInfoList object to be written by \a
+  //!     module_list.
   //!
-  //! \a simple_annotations will become a child of this object in the overall
-  //! tree of internal::MinidumpWritable objects.
+  //! \a module_list will become a child of this object in the overall tree of
+  //! internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void SetSimpleAnnotations(
-      MinidumpSimpleStringDictionaryWriter* simple_annotations);
+  void SetModuleList(MinidumpModuleCrashpadInfoListWriter* module_list);
 
  protected:
   // MinidumpWritable:
@@ -58,7 +53,7 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
 
  private:
   MinidumpCrashpadInfo crashpad_info_;
-  MinidumpSimpleStringDictionaryWriter* simple_annotations_;  // weak
+  MinidumpModuleCrashpadInfoListWriter* module_list_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpCrashpadInfoWriter);
 };

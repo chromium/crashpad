@@ -316,29 +316,106 @@ struct __attribute__((packed, aligned(4))) MinidumpSimpleStringDictionary {
   MinidumpSimpleStringDictionaryEntry entries[0];
 };
 
-//! \brief Additional Crashpad-specific information carried within a minidump
-//!     file.
-struct __attribute__((packed, aligned(4))) MinidumpCrashpadInfo {
-  //! \brief The size of the entire structure, in bytes.
+//! \brief Additional Crashpad-specific information about a module carried
+//!     within a minidump file.
+//!
+//! This structure augments the information provided by MINIDUMP_MODULE. The
+//! minidump file must contain a module list stream
+//! (::kMinidumpStreamTypeModuleList) in order for this structure to appear.
+//!
+//! This structure is versioned. When changing this structure, leave the
+//! existing structure intact so that earlier parsers will be able to understand
+//! the fields they are aware of, and make additions at the end of the
+//! structure. Revise #kVersion and document each field’s validity based on
+//! #version, so that newer parsers will be able to determine whether the added
+//! fields are valid or not.
+//!
+//! \sa MinidumpModuleCrashpadInfoList
+struct __attribute__((packed, aligned(4))) MinidumpModuleCrashpadInfo {
+  //! \brief The structure’s currently-defined version number.
   //!
   //! \sa version
-  uint32_t size;
+  static const uint32_t kVersion = 1;
 
-  //! \brief The structure’s version number. This can be used to determine which
-  //!     other fields in the structure are valid.
+  //! \brief The structure’s version number.
   //!
-  //! \sa size
+  //! Readers can use this field to determine which other fields in the
+  //! structure are valid. Upon encountering a value greater than #kVersion, a
+  //! reader should assume that the structure’s layout is compatible with the
+  //! structure defined as having value #kVersion.
+  //!
+  //! Writers may produce values less than #kVersion in this field if there is
+  //! no need for any fields present in later versions.
   uint32_t version;
 
-  //! \brief A MinidumpSimpleStringDictionary pointing to strings interpreted as
-  //!     key-value pairs. The process that crashed controlled the data that
-  //!     appears here.
+  //! \brief A link to a MINIDUMP_MODULE structure in the module list stream.
   //!
-  //! If MINIDUMP_LOCATION_DESCRIPTOR::DataSize is `0`, no key-value pairs are
-  //! present, and MINIDUMP_LOCATION_DESCRIPTOR::Rva should not be consulted.
+  //! This field is an index into MINIDUMP_MODULE_LIST::Modules. This field’s
+  //! value must be in the range of MINIDUMP_MODULE_LIST::NumberOfEntries.
+  //!
+  //! This field is present when #version is at least `1`.
+  uint32_t minidump_module_list_index;
+
+  //! \brief A MinidumpSimpleStringDictionary pointing to strings interpreted as
+  //!     key-value pairs. The module controls the data that appears here.
   //!
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR simple_annotations;
+};
+
+//! \brief Additional Crashpad-specific information about modules carried within
+//!     a minidump file.
+//!
+//! This structure augments the information provided by
+//! MINIDUMP_MODULE_LIST. The minidump file must contain a module list stream
+//! (::kMinidumpStreamTypeModuleList) in order for this structure to appear.
+struct __attribute__((packed, aligned(4))) MinidumpModuleCrashpadInfoList {
+  //! \brief The number of modules present in the #modules array.
+  //!
+  //! This may be less than the value of MINIDUMP_MODULE_LIST::NumberOfModules
+  //! because not every MINIDUMP_MODULE structure carried within the minidump
+  //! file will necessarily have Crashpad-specific information provided by a
+  //! MinidumpModuleCrashpadInfo structure.
+  uint32_t count;
+
+  //! \brief Pointers to MinidumpModuleCrashpadInfo structures.
+  //!
+  //! These are referenced indirectly through MINIDUMP_LOCATION_DESCRIPTOR
+  //! pointers to allow for future growth of the MinidumpModuleCrashpadInfo
+  //! structure.
+  MINIDUMP_LOCATION_DESCRIPTOR modules[0];
+};
+
+//! \brief Additional Crashpad-specific information carried within a minidump
+//!     file.
+//!
+//! This structure is versioned. When changing this structure, leave the
+//! existing structure intact so that earlier parsers will be able to understand
+//! the fields they are aware of, and make additions at the end of the
+//! structure. Revise #kVersion and document each field’s validity based on
+//! #version, so that newer parsers will be able to determine whether the added
+//! fields are valid or not.
+struct __attribute__((packed, aligned(4))) MinidumpCrashpadInfo {
+  //! \brief The structure’s currently-defined version number.
+  //!
+  //! \sa version
+  static const uint32_t kVersion = 1;
+
+  //! \brief The structure’s version number.
+  //!
+  //! Readers can use this field to determine which other fields in the
+  //! structure are valid. Upon encountering a value greater than #kVersion, a
+  //! reader should assume that the structure’s layout is compatible with the
+  //! structure defined as having value #kVersion.
+  //!
+  //! Writers may produce values less than #kVersion in this field if there is
+  //! no need for any fields present in later versions.
+  uint32_t version;
+
+  //! \brief A pointer to a MinidumpModuleCrashpadInfoList structure.
+  //!
+  //! This field is present when #version is at least `1`.
+  MINIDUMP_LOCATION_DESCRIPTOR module_list;
 };
 
 }  // namespace crashpad
