@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_crashpad_module_writer.h"
+#include "minidump/minidump_module_crashpad_info_writer.h"
 
 #include <dbghelp.h>
 

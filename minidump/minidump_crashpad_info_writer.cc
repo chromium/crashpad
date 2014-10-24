@@ -15,7 +15,7 @@
 #include "minidump/minidump_crashpad_info_writer.h"
 
 #include "base/logging.h"
-#include "minidump/minidump_crashpad_module_writer.h"
+#include "minidump/minidump_module_crashpad_info_writer.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {

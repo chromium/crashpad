@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_MINIDUMP_MINIDUMP_CRASHPAD_MODULE_WRITER_H_
-#define CRASHPAD_MINIDUMP_MINIDUMP_CRASHPAD_MODULE_WRITER_H_
+#ifndef CRASHPAD_MINIDUMP_MINIDUMP_MODULE_CRASHPAD_INFO_WRITER_H_
+#define CRASHPAD_MINIDUMP_MINIDUMP_MODULE_CRASHPAD_INFO_WRITER_H_
 
 #include <stdint.h>
 
@@ -99,4 +99,4 @@ class MinidumpModuleCrashpadInfoListWriter final
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_MINIDUMP_MINIDUMP_CRASHPAD_MODULE_WRITER_H_
+#endif  // CRASHPAD_MINIDUMP_MINIDUMP_MODULE_CRASHPAD_INFO_WRITER_H_
