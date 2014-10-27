@@ -57,8 +57,9 @@ TEST(MinidumpSimpleStringDictionaryWriter, EmptyKeyValue) {
   StringFileWriter file_writer;
 
   MinidumpSimpleStringDictionaryWriter dictionary_writer;
-  MinidumpSimpleStringDictionaryEntryWriter entry_writer;
-  dictionary_writer.AddEntry(&entry_writer);
+  auto entry_writer =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  dictionary_writer.AddEntry(entry_writer.Pass());
 
   EXPECT_TRUE(dictionary_writer.WriteEverything(&file_writer));
   ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
@@ -87,9 +88,10 @@ TEST(MinidumpSimpleStringDictionaryWriter, OneKeyValue) {
   char kValue[] = "value";
 
   MinidumpSimpleStringDictionaryWriter dictionary_writer;
-  MinidumpSimpleStringDictionaryEntryWriter entry_writer;
-  entry_writer.SetKeyValue(kKey, kValue);
-  dictionary_writer.AddEntry(&entry_writer);
+  auto entry_writer =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  entry_writer->SetKeyValue(kKey, kValue);
+  dictionary_writer.AddEntry(entry_writer.Pass());
 
   EXPECT_TRUE(dictionary_writer.WriteEverything(&file_writer));
   ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
@@ -122,15 +124,18 @@ TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
   char kValue2[] = "val2";
 
   MinidumpSimpleStringDictionaryWriter dictionary_writer;
-  MinidumpSimpleStringDictionaryEntryWriter entry_writer_0;
-  entry_writer_0.SetKeyValue(kKey0, kValue0);
-  dictionary_writer.AddEntry(&entry_writer_0);
-  MinidumpSimpleStringDictionaryEntryWriter entry_writer_1;
-  entry_writer_1.SetKeyValue(kKey1, kValue1);
-  dictionary_writer.AddEntry(&entry_writer_1);
-  MinidumpSimpleStringDictionaryEntryWriter entry_writer_2;
-  entry_writer_2.SetKeyValue(kKey2, kValue2);
-  dictionary_writer.AddEntry(&entry_writer_2);
+  auto entry_writer_0 =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  entry_writer_0->SetKeyValue(kKey0, kValue0);
+  dictionary_writer.AddEntry(entry_writer_0.Pass());
+  auto entry_writer_1 =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  entry_writer_1->SetKeyValue(kKey1, kValue1);
+  dictionary_writer.AddEntry(entry_writer_1.Pass());
+  auto entry_writer_2 =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  entry_writer_2->SetKeyValue(kKey2, kValue2);
+  dictionary_writer.AddEntry(entry_writer_2.Pass());
 
   EXPECT_TRUE(dictionary_writer.WriteEverything(&file_writer));
   ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
@@ -185,12 +190,14 @@ TEST(MinidumpSimpleStringDictionaryWriter, DuplicateKeyValue) {
   char kValue1[] = "value";
 
   MinidumpSimpleStringDictionaryWriter dictionary_writer;
-  MinidumpSimpleStringDictionaryEntryWriter entry_writer_0;
-  entry_writer_0.SetKeyValue(kKey, kValue0);
-  dictionary_writer.AddEntry(&entry_writer_0);
-  MinidumpSimpleStringDictionaryEntryWriter entry_writer_1;
-  entry_writer_1.SetKeyValue(kKey, kValue1);
-  dictionary_writer.AddEntry(&entry_writer_1);
+  auto entry_writer_0 =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  entry_writer_0->SetKeyValue(kKey, kValue0);
+  dictionary_writer.AddEntry(entry_writer_0.Pass());
+  auto entry_writer_1 =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  entry_writer_1->SetKeyValue(kKey, kValue1);
+  dictionary_writer.AddEntry(entry_writer_1.Pass());
 
   EXPECT_TRUE(dictionary_writer.WriteEverything(&file_writer));
   ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +

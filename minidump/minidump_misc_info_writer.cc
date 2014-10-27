@@ -27,6 +27,9 @@ MinidumpMiscInfoWriter::MinidumpMiscInfoWriter()
     : MinidumpStreamWriter(), misc_info_() {
 }
 
+MinidumpMiscInfoWriter::~MinidumpMiscInfoWriter() {
+}
+
 void MinidumpMiscInfoWriter::SetProcessId(uint32_t process_id) {
   DCHECK_EQ(state(), kStateMutable);
 

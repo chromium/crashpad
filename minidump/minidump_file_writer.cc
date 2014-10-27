@@ -42,7 +42,8 @@ void MinidumpFileWriter::SetTimestamp(time_t timestamp) {
   internal::MinidumpWriterUtil::AssignTimeT(&header_.TimeDateStamp, timestamp);
 }
 
-void MinidumpFileWriter::AddStream(internal::MinidumpStreamWriter* stream) {
+void MinidumpFileWriter::AddStream(
+    scoped_ptr<internal::MinidumpStreamWriter> stream) {
   DCHECK_EQ(state(), kStateMutable);
 
   MinidumpStreamType stream_type = stream->StreamType();
@@ -50,7 +51,7 @@ void MinidumpFileWriter::AddStream(internal::MinidumpStreamWriter* stream) {
   auto rv = stream_types_.insert(stream_type);
   CHECK(rv.second) << "stream_type " << stream_type << " already present";
 
-  streams_.push_back(stream);
+  streams_.push_back(stream.release());
 
   DCHECK_EQ(streams_.size(), stream_types_.size());
 }

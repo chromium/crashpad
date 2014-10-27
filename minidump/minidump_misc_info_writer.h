@@ -39,7 +39,7 @@ namespace crashpad {
 class MinidumpMiscInfoWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpMiscInfoWriter();
-  ~MinidumpMiscInfoWriter() {}
+  ~MinidumpMiscInfoWriter() override;
 
   //! \brief Sets the field referenced by #MINIDUMP_MISC1_PROCESS_ID.
   void SetProcessId(uint32_t process_id);

@@ -27,7 +27,7 @@ namespace crashpad {
 //!     files.
 class MinidumpContextWriter : public internal::MinidumpWritable {
  public:
-  virtual ~MinidumpContextWriter();
+  ~MinidumpContextWriter() override;
 
  protected:
   MinidumpContextWriter() : MinidumpWritable() {}

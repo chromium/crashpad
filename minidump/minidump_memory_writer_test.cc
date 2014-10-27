@@ -73,9 +73,9 @@ void GetMemoryListStream(const std::string& file_contents,
 
 TEST(MinidumpMemoryWriter, EmptyMemoryList) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMemoryListWriter memory_list_writer;
+  auto memory_list_writer = make_scoped_ptr(new MinidumpMemoryListWriter());
 
-  minidump_file_writer.AddStream(&memory_list_writer);
+  minidump_file_writer.AddStream(memory_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -93,16 +93,17 @@ TEST(MinidumpMemoryWriter, EmptyMemoryList) {
 
 TEST(MinidumpMemoryWriter, OneMemoryRegion) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMemoryListWriter memory_list_writer;
+  auto memory_list_writer = make_scoped_ptr(new MinidumpMemoryListWriter());
 
   const uint64_t kBaseAddress = 0xfedcba9876543210;
   const uint64_t kSize = 0x1000;
   const uint8_t kValue = 'm';
 
-  TestMinidumpMemoryWriter memory_writer(kBaseAddress, kSize, kValue);
-  memory_list_writer.AddMemory(&memory_writer);
+  auto memory_writer = make_scoped_ptr(
+      new TestMinidumpMemoryWriter(kBaseAddress, kSize, kValue));
+  memory_list_writer->AddMemory(memory_writer.Pass());
 
-  minidump_file_writer.AddStream(&memory_list_writer);
+  minidump_file_writer.AddStream(memory_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -127,7 +128,7 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
 
 TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMemoryListWriter memory_list_writer;
+  auto memory_list_writer = make_scoped_ptr(new MinidumpMemoryListWriter());
 
   const uint64_t kBaseAddress0 = 0xc0ffee;
   const uint64_t kSize0 = 0x0100;
@@ -136,12 +137,14 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
   const uint64_t kSize1 = 0x0200;
   const uint8_t kValue1 = '!';
 
-  TestMinidumpMemoryWriter memory_writer_0(kBaseAddress0, kSize0, kValue0);
-  memory_list_writer.AddMemory(&memory_writer_0);
-  TestMinidumpMemoryWriter memory_writer_1(kBaseAddress1, kSize1, kValue1);
-  memory_list_writer.AddMemory(&memory_writer_1);
+  auto memory_writer_0 = make_scoped_ptr(
+      new TestMinidumpMemoryWriter(kBaseAddress0, kSize0, kValue0));
+  memory_list_writer->AddMemory(memory_writer_0.Pass());
+  auto memory_writer_1 = make_scoped_ptr(
+      new TestMinidumpMemoryWriter(kBaseAddress1, kSize1, kValue1));
+  memory_list_writer->AddMemory(memory_writer_1.Pass());
 
-  minidump_file_writer.AddStream(&memory_list_writer);
+  minidump_file_writer.AddStream(memory_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -190,9 +193,11 @@ class TestMemoryStream final : public internal::MinidumpStreamWriter {
   TestMemoryStream(uint64_t base_address, size_t size, uint8_t value)
       : MinidumpStreamWriter(), memory_(base_address, size, value) {}
 
-  ~TestMemoryStream() {}
+  ~TestMemoryStream() override {}
 
-  TestMinidumpMemoryWriter* memory() { return &memory_; }
+  TestMinidumpMemoryWriter* memory() {
+    return &memory_;
+  }
 
   // MinidumpStreamWriter:
   MinidumpStreamType StreamType() const override {
@@ -232,21 +237,23 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   const uint64_t kBaseAddress0 = 0x1000;
   const uint64_t kSize0 = 0x0400;
   const uint8_t kValue0 = '1';
-  TestMemoryStream test_memory_stream(kBaseAddress0, kSize0, kValue0);
+  auto test_memory_stream =
+      make_scoped_ptr(new TestMemoryStream(kBaseAddress0, kSize0, kValue0));
 
-  MinidumpMemoryListWriter memory_list_writer;
-  memory_list_writer.AddExtraMemory(test_memory_stream.memory());
+  auto memory_list_writer = make_scoped_ptr(new MinidumpMemoryListWriter());
+  memory_list_writer->AddExtraMemory(test_memory_stream->memory());
 
-  minidump_file_writer.AddStream(&test_memory_stream);
+  minidump_file_writer.AddStream(test_memory_stream.Pass());
 
   const uint64_t kBaseAddress1 = 0x2000;
   const uint64_t kSize1 = 0x0400;
   const uint8_t kValue1 = 'm';
 
-  TestMinidumpMemoryWriter memory_writer(kBaseAddress1, kSize1, kValue1);
-  memory_list_writer.AddMemory(&memory_writer);
+  auto memory_writer = make_scoped_ptr(
+      new TestMinidumpMemoryWriter(kBaseAddress1, kSize1, kValue1));
+  memory_list_writer->AddMemory(memory_writer.Pass());
 
-  minidump_file_writer.AddStream(&memory_list_writer);
+  minidump_file_writer.AddStream(memory_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));

@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writable.h"
@@ -40,7 +41,7 @@ class MinidumpSimpleStringDictionaryEntryWriter final
     : public internal::MinidumpWritable {
  public:
   MinidumpSimpleStringDictionaryEntryWriter();
-  ~MinidumpSimpleStringDictionaryEntryWriter();
+  ~MinidumpSimpleStringDictionaryEntryWriter() override;
 
   //! \brief Returns a MinidumpSimpleStringDictionaryEntry referencing this
   //!     object’s data.
@@ -88,20 +89,20 @@ class MinidumpSimpleStringDictionaryWriter final
     : public internal::MinidumpWritable {
  public:
   MinidumpSimpleStringDictionaryWriter();
-  ~MinidumpSimpleStringDictionaryWriter();
+  ~MinidumpSimpleStringDictionaryWriter() override;
 
   //! \brief Adds a MinidumpSimpleStringDictionaryEntryWriter to the
   //!     MinidumpSimpleStringDictionary.
   //!
-  //! \a entry will become a child of this object in the overall tree of
-  //! internal::MinidumpWritable objects.
+  //! This object takes ownership of \a entry and becomes its parent in the
+  //! overall tree of internal::MinidumpWritable objects.
   //!
   //! If the key contained in \a entry duplicates the key of an entry already
   //! present in the MinidumpSimpleStringDictionary, the new \a entry will
   //! replace the previous one.
   //!
   //! \note Valid in #kStateMutable.
-  void AddEntry(MinidumpSimpleStringDictionaryEntryWriter* entry);
+  void AddEntry(scoped_ptr<MinidumpSimpleStringDictionaryEntryWriter> entry);
 
  protected:
   // MinidumpWritable:
@@ -113,8 +114,9 @@ class MinidumpSimpleStringDictionaryWriter final
 
  private:
   MinidumpSimpleStringDictionary simple_string_dictionary_base_;
-  std::map<std::string, MinidumpSimpleStringDictionaryEntryWriter*>
-      entries_;  // weak
+
+  // This object owns the MinidumpSimpleStringDictionaryEntryWriter objects.
+  std::map<std::string, MinidumpSimpleStringDictionaryEntryWriter*> entries_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpSimpleStringDictionaryWriter);
 };

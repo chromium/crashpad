@@ -15,6 +15,7 @@
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
 
@@ -92,13 +93,21 @@ MinidumpSimpleStringDictionaryWriter::MinidumpSimpleStringDictionaryWriter()
 }
 
 MinidumpSimpleStringDictionaryWriter::~MinidumpSimpleStringDictionaryWriter() {
+  STLDeleteContainerPairSecondPointers(entries_.begin(), entries_.end());
 }
 
 void MinidumpSimpleStringDictionaryWriter::AddEntry(
-    MinidumpSimpleStringDictionaryEntryWriter* entry) {
+    scoped_ptr<MinidumpSimpleStringDictionaryEntryWriter> entry) {
   DCHECK_GE(state(), kStateMutable);
 
-  entries_[entry->Key()] = entry;
+  const std::string& key = entry->Key();
+  auto iterator = entries_.find(key);
+  if (iterator != entries_.end()) {
+    delete iterator->second;
+    iterator->second = entry.release();
+  } else {
+    entries_[key] = entry.release();
+  }
 }
 
 bool MinidumpSimpleStringDictionaryWriter::Freeze() {

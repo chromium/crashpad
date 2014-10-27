@@ -31,6 +31,8 @@ namespace internal {
 //! MinidumpFileWriter object.
 class MinidumpStreamWriter : public MinidumpWritable {
  public:
+  ~MinidumpStreamWriter() override;
+
   //! \brief Returns an object’s stream type.
   //!
   //! \note Valid in any state.
@@ -47,7 +49,6 @@ class MinidumpStreamWriter : public MinidumpWritable {
 
  protected:
   MinidumpStreamWriter();
-  ~MinidumpStreamWriter() {}
 
   // MinidumpWritable:
   bool Freeze() override;

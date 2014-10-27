@@ -70,9 +70,9 @@ void GetThreadListStream(const std::string& file_contents,
 
 TEST(MinidumpThreadWriter, EmptyThreadList) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpThreadListWriter thread_list_writer;
+  auto thread_list_writer = make_scoped_ptr(new MinidumpThreadListWriter());
 
-  minidump_file_writer.AddStream(&thread_list_writer);
+  minidump_file_writer.AddStream(thread_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -131,7 +131,7 @@ void ExpectThread(const MINIDUMP_THREAD* expected,
 
 TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpThreadListWriter thread_list_writer;
+  auto thread_list_writer = make_scoped_ptr(new MinidumpThreadListWriter());
 
   const uint32_t kThreadID = 0x11111111;
   const uint32_t kSuspendCount = 1;
@@ -140,19 +140,19 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
   const uint64_t kTEB = 0x55555555;
   const uint32_t kSeed = 123;
 
-  MinidumpThreadWriter thread_writer;
-  thread_writer.SetThreadID(kThreadID);
-  thread_writer.SetSuspendCount(kSuspendCount);
-  thread_writer.SetPriorityClass(kPriorityClass);
-  thread_writer.SetPriority(kPriority);
-  thread_writer.SetTEB(kTEB);
+  auto thread_writer = make_scoped_ptr(new MinidumpThreadWriter());
+  thread_writer->SetThreadID(kThreadID);
+  thread_writer->SetSuspendCount(kSuspendCount);
+  thread_writer->SetPriorityClass(kPriorityClass);
+  thread_writer->SetPriority(kPriority);
+  thread_writer->SetTEB(kTEB);
 
-  MinidumpContextX86Writer context_x86_writer;
-  InitializeMinidumpContextX86(context_x86_writer.context(), kSeed);
-  thread_writer.SetContext(&context_x86_writer);
+  auto context_x86_writer = make_scoped_ptr(new MinidumpContextX86Writer());
+  InitializeMinidumpContextX86(context_x86_writer->context(), kSeed);
+  thread_writer->SetContext(context_x86_writer.Pass());
 
-  thread_list_writer.AddThread(&thread_writer);
-  minidump_file_writer.AddStream(&thread_list_writer);
+  thread_list_writer->AddThread(thread_writer.Pass());
+  minidump_file_writer.AddStream(thread_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -189,7 +189,7 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
 
 TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpThreadListWriter thread_list_writer;
+  auto thread_list_writer = make_scoped_ptr(new MinidumpThreadListWriter());
 
   const uint32_t kThreadID = 0x22222222;
   const uint32_t kSuspendCount = 2;
@@ -201,23 +201,23 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
   const uint8_t kMemoryValue = 99;
   const uint32_t kSeed = 456;
 
-  MinidumpThreadWriter thread_writer;
-  thread_writer.SetThreadID(kThreadID);
-  thread_writer.SetSuspendCount(kSuspendCount);
-  thread_writer.SetPriorityClass(kPriorityClass);
-  thread_writer.SetPriority(kPriority);
-  thread_writer.SetTEB(kTEB);
+  auto thread_writer = make_scoped_ptr(new MinidumpThreadWriter());
+  thread_writer->SetThreadID(kThreadID);
+  thread_writer->SetSuspendCount(kSuspendCount);
+  thread_writer->SetPriorityClass(kPriorityClass);
+  thread_writer->SetPriority(kPriority);
+  thread_writer->SetTEB(kTEB);
 
-  TestMinidumpMemoryWriter memory_writer(
-      kMemoryBase, kMemorySize, kMemoryValue);
-  thread_writer.SetStack(&memory_writer);
+  auto memory_writer = make_scoped_ptr(
+      new TestMinidumpMemoryWriter(kMemoryBase, kMemorySize, kMemoryValue));
+  thread_writer->SetStack(memory_writer.Pass());
 
-  MinidumpContextAMD64Writer context_amd64_writer;
-  InitializeMinidumpContextAMD64(context_amd64_writer.context(), kSeed);
-  thread_writer.SetContext(&context_amd64_writer);
+  auto context_amd64_writer = make_scoped_ptr(new MinidumpContextAMD64Writer());
+  InitializeMinidumpContextAMD64(context_amd64_writer->context(), kSeed);
+  thread_writer->SetContext(context_amd64_writer.Pass());
 
-  thread_list_writer.AddThread(&thread_writer);
-  minidump_file_writer.AddStream(&thread_list_writer);
+  thread_list_writer->AddThread(thread_writer.Pass());
+  minidump_file_writer.AddStream(thread_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -263,9 +263,9 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
 
 TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpThreadListWriter thread_list_writer;
-  MinidumpMemoryListWriter memory_list_writer;
-  thread_list_writer.SetMemoryListWriter(&memory_list_writer);
+  auto thread_list_writer = make_scoped_ptr(new MinidumpThreadListWriter());
+  auto memory_list_writer = make_scoped_ptr(new MinidumpMemoryListWriter());
+  thread_list_writer->SetMemoryListWriter(memory_list_writer.get());
 
   const uint32_t kThreadID0 = 1111111;
   const uint32_t kSuspendCount0 = 111111;
@@ -277,22 +277,22 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   const uint8_t kMemoryValue0 = 11;
   const uint32_t kSeed0 = 1;
 
-  MinidumpThreadWriter thread_writer_0;
-  thread_writer_0.SetThreadID(kThreadID0);
-  thread_writer_0.SetSuspendCount(kSuspendCount0);
-  thread_writer_0.SetPriorityClass(kPriorityClass0);
-  thread_writer_0.SetPriority(kPriority0);
-  thread_writer_0.SetTEB(kTEB0);
+  auto thread_writer_0 = make_scoped_ptr(new MinidumpThreadWriter());
+  thread_writer_0->SetThreadID(kThreadID0);
+  thread_writer_0->SetSuspendCount(kSuspendCount0);
+  thread_writer_0->SetPriorityClass(kPriorityClass0);
+  thread_writer_0->SetPriority(kPriority0);
+  thread_writer_0->SetTEB(kTEB0);
 
-  TestMinidumpMemoryWriter memory_writer_0(
-      kMemoryBase0, kMemorySize0, kMemoryValue0);
-  thread_writer_0.SetStack(&memory_writer_0);
+  auto memory_writer_0 = make_scoped_ptr(
+      new TestMinidumpMemoryWriter(kMemoryBase0, kMemorySize0, kMemoryValue0));
+  thread_writer_0->SetStack(memory_writer_0.Pass());
 
-  MinidumpContextX86Writer context_x86_writer_0;
-  InitializeMinidumpContextX86(context_x86_writer_0.context(), kSeed0);
-  thread_writer_0.SetContext(&context_x86_writer_0);
+  auto context_x86_writer_0 = make_scoped_ptr(new MinidumpContextX86Writer());
+  InitializeMinidumpContextX86(context_x86_writer_0->context(), kSeed0);
+  thread_writer_0->SetContext(context_x86_writer_0.Pass());
 
-  thread_list_writer.AddThread(&thread_writer_0);
+  thread_list_writer->AddThread(thread_writer_0.Pass());
 
   const uint32_t kThreadID1 = 2222222;
   const uint32_t kSuspendCount1 = 222222;
@@ -304,22 +304,22 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   const uint8_t kMemoryValue1 = 22;
   const uint32_t kSeed1 = 2;
 
-  MinidumpThreadWriter thread_writer_1;
-  thread_writer_1.SetThreadID(kThreadID1);
-  thread_writer_1.SetSuspendCount(kSuspendCount1);
-  thread_writer_1.SetPriorityClass(kPriorityClass1);
-  thread_writer_1.SetPriority(kPriority1);
-  thread_writer_1.SetTEB(kTEB1);
+  auto thread_writer_1 = make_scoped_ptr(new MinidumpThreadWriter());
+  thread_writer_1->SetThreadID(kThreadID1);
+  thread_writer_1->SetSuspendCount(kSuspendCount1);
+  thread_writer_1->SetPriorityClass(kPriorityClass1);
+  thread_writer_1->SetPriority(kPriority1);
+  thread_writer_1->SetTEB(kTEB1);
 
-  TestMinidumpMemoryWriter memory_writer_1(
-      kMemoryBase1, kMemorySize1, kMemoryValue1);
-  thread_writer_1.SetStack(&memory_writer_1);
+  auto memory_writer_1 = make_scoped_ptr(
+      new TestMinidumpMemoryWriter(kMemoryBase1, kMemorySize1, kMemoryValue1));
+  thread_writer_1->SetStack(memory_writer_1.Pass());
 
-  MinidumpContextX86Writer context_x86_writer_1;
-  InitializeMinidumpContextX86(context_x86_writer_1.context(), kSeed1);
-  thread_writer_1.SetContext(&context_x86_writer_1);
+  auto context_x86_writer_1 = make_scoped_ptr(new MinidumpContextX86Writer());
+  InitializeMinidumpContextX86(context_x86_writer_1->context(), kSeed1);
+  thread_writer_1->SetContext(context_x86_writer_1.Pass());
 
-  thread_list_writer.AddThread(&thread_writer_1);
+  thread_list_writer->AddThread(thread_writer_1.Pass());
 
   const uint32_t kThreadID2 = 3333333;
   const uint32_t kSuspendCount2 = 333333;
@@ -331,25 +331,25 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   const uint8_t kMemoryValue2 = 33;
   const uint32_t kSeed2 = 3;
 
-  MinidumpThreadWriter thread_writer_2;
-  thread_writer_2.SetThreadID(kThreadID2);
-  thread_writer_2.SetSuspendCount(kSuspendCount2);
-  thread_writer_2.SetPriorityClass(kPriorityClass2);
-  thread_writer_2.SetPriority(kPriority2);
-  thread_writer_2.SetTEB(kTEB2);
+  auto thread_writer_2 = make_scoped_ptr(new MinidumpThreadWriter());
+  thread_writer_2->SetThreadID(kThreadID2);
+  thread_writer_2->SetSuspendCount(kSuspendCount2);
+  thread_writer_2->SetPriorityClass(kPriorityClass2);
+  thread_writer_2->SetPriority(kPriority2);
+  thread_writer_2->SetTEB(kTEB2);
 
-  TestMinidumpMemoryWriter memory_writer_2(
-      kMemoryBase2, kMemorySize2, kMemoryValue2);
-  thread_writer_2.SetStack(&memory_writer_2);
+  auto memory_writer_2 = make_scoped_ptr(
+      new TestMinidumpMemoryWriter(kMemoryBase2, kMemorySize2, kMemoryValue2));
+  thread_writer_2->SetStack(memory_writer_2.Pass());
 
-  MinidumpContextX86Writer context_x86_writer_2;
-  InitializeMinidumpContextX86(context_x86_writer_2.context(), kSeed2);
-  thread_writer_2.SetContext(&context_x86_writer_2);
+  auto context_x86_writer_2 = make_scoped_ptr(new MinidumpContextX86Writer());
+  InitializeMinidumpContextX86(context_x86_writer_2->context(), kSeed2);
+  thread_writer_2->SetContext(context_x86_writer_2.Pass());
 
-  thread_list_writer.AddThread(&thread_writer_2);
+  thread_list_writer->AddThread(thread_writer_2.Pass());
 
-  minidump_file_writer.AddStream(&thread_list_writer);
-  minidump_file_writer.AddStream(&memory_list_writer);
+  minidump_file_writer.AddStream(thread_list_writer.Pass());
+  minidump_file_writer.AddStream(memory_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -472,12 +472,12 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
 
 TEST(MinidumpThreadWriterDeathTest, NoContext) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpThreadListWriter thread_list_writer;
+  auto thread_list_writer = make_scoped_ptr(new MinidumpThreadListWriter());
 
-  MinidumpThreadWriter thread_writer;
+  auto thread_writer = make_scoped_ptr(new MinidumpThreadWriter());
 
-  thread_list_writer.AddThread(&thread_writer);
-  minidump_file_writer.AddStream(&thread_list_writer);
+  thread_list_writer->AddThread(thread_writer.Pass());
+  minidump_file_writer.AddStream(thread_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_DEATH(minidump_file_writer.WriteEverything(&file_writer), "context_");

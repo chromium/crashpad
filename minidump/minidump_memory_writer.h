@@ -22,8 +22,10 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -37,6 +39,8 @@ namespace crashpad {
 //! to be held in memory simultaneously while a minidump file is being written.
 class MinidumpMemoryWriter : public internal::MinidumpWritable {
  public:
+  ~MinidumpMemoryWriter() override;
+
   //! \brief Returns a MINIDUMP_MEMORY_DESCRIPTOR referencing the data that this
   //!     object writes.
   //!
@@ -60,7 +64,6 @@ class MinidumpMemoryWriter : public internal::MinidumpWritable {
 
  protected:
   MinidumpMemoryWriter();
-  ~MinidumpMemoryWriter() {}
 
   //! \brief Returns the base address of the memory region in the address space
   //!     of the process that the snapshot describes.
@@ -116,15 +119,15 @@ class MinidumpMemoryWriter : public internal::MinidumpWritable {
 class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpMemoryListWriter();
-  ~MinidumpMemoryListWriter();
+  ~MinidumpMemoryListWriter() override;
 
   //! \brief Adds a MinidumpMemoryWriter to the MINIDUMP_MEMORY_LIST.
   //!
-  //! \a memory_writer will become a child of this object in the overall tree of
-  //! internal::MinidumpWritable objects.
+  //! This object takes ownership of \a memory_writer and becomes its parent in
+  //! the overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void AddMemory(MinidumpMemoryWriter* memory_writer);
+  void AddMemory(scoped_ptr<MinidumpMemoryWriter> memory_writer);
 
   //! \brief Adds a MinidumpMemoryWriter that’s a child of another
   //!     internal::MinidumpWritable object to the MINIDUMP_MEMORY_LIST.
@@ -155,7 +158,7 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
  private:
   MINIDUMP_MEMORY_LIST memory_list_base_;
   std::vector<MinidumpMemoryWriter*> memory_writers_;  // weak
-  std::vector<MinidumpWritable*> children_;  // weak
+  PointerVector<MinidumpMemoryWriter> children_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpMemoryListWriter);
 };

@@ -22,9 +22,11 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -35,15 +37,18 @@ namespace crashpad {
 class MinidumpFileWriter final : public internal::MinidumpWritable {
  public:
   MinidumpFileWriter();
-  ~MinidumpFileWriter();
+  ~MinidumpFileWriter() override;
 
   //! \brief Sets MINIDUMP_HEADER::Timestamp.
   //!
   //! \note Valid in #kStateMutable.
   void SetTimestamp(time_t timestamp);
 
-  //! \brief Adds a stream to the minidump file as a child of the object, and
-  //!     arranges for a MINIDUMP_DIRECTORY entry to point to it.
+  //! \brief Adds a stream to the minidump file and arranges for a
+  //!     MINIDUMP_DIRECTORY entry to point to it.
+  //!
+  //! This object takes ownership of \a stream and becomes its parent in the
+  //! overall tree of internal::MinidumpWritable objects.
   //!
   //! At most one object of each stream type (as obtained from
   //! internal::MinidumpStreamWriter::StreamType()) may be added to a
@@ -51,7 +56,7 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   //! streams with the same stream type.
   //!
   //! \note Valid in #kStateMutable.
-  void AddStream(internal::MinidumpStreamWriter* stream);
+  void AddStream(scoped_ptr<internal::MinidumpStreamWriter> stream);
 
   // MinidumpWritable:
 
@@ -74,7 +79,7 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
 
  private:
   MINIDUMP_HEADER header_;
-  std::vector<internal::MinidumpStreamWriter*> streams_;  // weak
+  PointerVector<internal::MinidumpStreamWriter> streams_;
 
   // Protects against multiple streams with the same ID being added.
   std::set<MinidumpStreamType> stream_types_;

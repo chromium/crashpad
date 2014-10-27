@@ -29,10 +29,10 @@ MinidumpCrashpadInfoWriter::~MinidumpCrashpadInfoWriter() {
 }
 
 void MinidumpCrashpadInfoWriter::SetModuleList(
-    MinidumpModuleCrashpadInfoListWriter* module_list) {
+    scoped_ptr<MinidumpModuleCrashpadInfoListWriter> module_list) {
   DCHECK_EQ(state(), kStateMutable);
 
-  module_list_ = module_list;
+  module_list_ = module_list.Pass();
 }
 
 bool MinidumpCrashpadInfoWriter::Freeze() {
@@ -61,7 +61,7 @@ MinidumpCrashpadInfoWriter::Children() {
 
   std::vector<MinidumpWritable*> children;
   if (module_list_) {
-    children.push_back(module_list_);
+    children.push_back(module_list_.get());
   }
 
   return children;

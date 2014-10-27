@@ -103,6 +103,9 @@ MinidumpModuleMiscDebugRecordWriter::MinidumpModuleMiscDebugRecordWriter()
       data_utf16_() {
 }
 
+MinidumpModuleMiscDebugRecordWriter::~MinidumpModuleMiscDebugRecordWriter() {
+}
+
 void MinidumpModuleMiscDebugRecordWriter::SetData(const std::string& data,
                                                   bool utf16) {
   DCHECK_EQ(state(), kStateMutable);
@@ -199,17 +202,17 @@ void MinidumpModuleWriter::SetName(const std::string& name) {
 }
 
 void MinidumpModuleWriter::SetCodeViewRecord(
-    MinidumpModuleCodeViewRecordWriter* codeview_record) {
+    scoped_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record) {
   DCHECK_EQ(state(), kStateMutable);
 
-  codeview_record_ = codeview_record;
+  codeview_record_ = codeview_record.Pass();
 }
 
 void MinidumpModuleWriter::SetMiscDebugRecord(
-    MinidumpModuleMiscDebugRecordWriter* misc_debug_record) {
+    scoped_ptr<MinidumpModuleMiscDebugRecordWriter> misc_debug_record) {
   DCHECK_EQ(state(), kStateMutable);
 
-  misc_debug_record_ = misc_debug_record;
+  misc_debug_record_ = misc_debug_record.Pass();
 }
 
 void MinidumpModuleWriter::SetTimestamp(time_t timestamp) {
@@ -288,10 +291,10 @@ std::vector<internal::MinidumpWritable*> MinidumpModuleWriter::Children() {
   std::vector<MinidumpWritable*> children;
   children.push_back(name_.get());
   if (codeview_record_) {
-    children.push_back(codeview_record_);
+    children.push_back(codeview_record_.get());
   }
   if (misc_debug_record_) {
-    children.push_back(misc_debug_record_);
+    children.push_back(misc_debug_record_.get());
   }
 
   return children;
@@ -313,10 +316,11 @@ MinidumpModuleListWriter::MinidumpModuleListWriter()
 MinidumpModuleListWriter::~MinidumpModuleListWriter() {
 }
 
-void MinidumpModuleListWriter::AddModule(MinidumpModuleWriter* module) {
+void MinidumpModuleListWriter::AddModule(
+    scoped_ptr<MinidumpModuleWriter> module) {
   DCHECK_EQ(state(), kStateMutable);
 
-  modules_.push_back(module);
+  modules_.push_back(module.release());
 }
 
 bool MinidumpModuleListWriter::Freeze() {

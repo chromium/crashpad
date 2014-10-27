@@ -20,8 +20,10 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_writable.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -33,7 +35,7 @@ class MinidumpModuleCrashpadInfoWriter final
     : public internal::MinidumpWritable {
  public:
   MinidumpModuleCrashpadInfoWriter();
-  ~MinidumpModuleCrashpadInfoWriter();
+  ~MinidumpModuleCrashpadInfoWriter() override;
 
   //! \brief Sets MinidumpModuleCrashpadInfo::minidump_module_list_index.
   void SetMinidumpModuleListIndex(uint32_t minidump_module_list_index) {
@@ -44,12 +46,12 @@ class MinidumpModuleCrashpadInfoWriter final
   //!     point to the MinidumpSimpleStringDictionaryWriter object to be written
   //!     by \a simple_annotations.
   //!
-  //! \a simple_annotations will become a child of this object in the overall
-  //! tree of internal::MinidumpWritable objects.
+  //! This object takes ownership of \a simple_annotations and becomes its
+  //! parent in the overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
   void SetSimpleAnnotations(
-      MinidumpSimpleStringDictionaryWriter* simple_annotations);
+      scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations);
 
  protected:
   // MinidumpWritable:
@@ -60,7 +62,7 @@ class MinidumpModuleCrashpadInfoWriter final
 
  private:
   MinidumpModuleCrashpadInfo module_;
-  MinidumpSimpleStringDictionaryWriter* simple_annotations_;  // weak
+  scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCrashpadInfoWriter);
 };
@@ -71,16 +73,16 @@ class MinidumpModuleCrashpadInfoListWriter final
     : public internal::MinidumpWritable {
  public:
   MinidumpModuleCrashpadInfoListWriter();
-  ~MinidumpModuleCrashpadInfoListWriter();
+  ~MinidumpModuleCrashpadInfoListWriter() override;
 
   //! \brief Adds a MinidumpModuleCrashpadInfo to the
   //!     MinidumpModuleCrashpadInfoList.
   //!
-  //! \a module will become a child of this object in the overall tree of
-  //!     internal::MinidumpWritable objects.
+  //! This object takes ownership of \a module and becomes its parent in the
+  //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void AddModule(MinidumpModuleCrashpadInfoWriter* module);
+  void AddModule(scoped_ptr<MinidumpModuleCrashpadInfoWriter> module);
 
  protected:
   // MinidumpWritable:
@@ -91,7 +93,7 @@ class MinidumpModuleCrashpadInfoListWriter final
 
  private:
   MinidumpModuleCrashpadInfoList module_list_base_;
-  std::vector<MinidumpModuleCrashpadInfoWriter*> modules_;  // weak
+  PointerVector<MinidumpModuleCrashpadInfoWriter> modules_;
   std::vector<MINIDUMP_LOCATION_DESCRIPTOR> module_location_descriptors_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCrashpadInfoListWriter);

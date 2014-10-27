@@ -28,6 +28,7 @@
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -39,7 +40,7 @@ class MinidumpUTF16StringWriter;
 //!     MINIDUMP_MODULE::CvRecord in minidump files.
 class MinidumpModuleCodeViewRecordWriter : public internal::MinidumpWritable {
  public:
-  virtual ~MinidumpModuleCodeViewRecordWriter();
+  ~MinidumpModuleCodeViewRecordWriter() override;
 
  protected:
   MinidumpModuleCodeViewRecordWriter() : MinidumpWritable() {}
@@ -134,7 +135,7 @@ class MinidumpModuleMiscDebugRecordWriter final
     : public internal::MinidumpWritable {
  public:
   MinidumpModuleMiscDebugRecordWriter();
-  ~MinidumpModuleMiscDebugRecordWriter() {}
+  ~MinidumpModuleMiscDebugRecordWriter() override;
 
   //! \brief Sets IMAGE_DEBUG_MISC::DataType.
   void SetDataType(uint32_t data_type) {
@@ -173,7 +174,7 @@ class MinidumpModuleMiscDebugRecordWriter final
 class MinidumpModuleWriter final : public internal::MinidumpWritable {
  public:
   MinidumpModuleWriter();
-  ~MinidumpModuleWriter();
+  ~MinidumpModuleWriter() override;
 
   //! \brief Returns a MINIDUMP_MODULE referencing this object’s data.
   //!
@@ -194,21 +195,22 @@ class MinidumpModuleWriter final : public internal::MinidumpWritable {
   //! \brief Arranges for MINIDUMP_MODULE::CvRecord to point to a CodeView
   //!     record to be written by \a codeview_record.
   //!
-  //! \a codeview_record will become a child of this object in the overall tree
-  //! of internal::MinidumpWritable objects.
+  //! This object takes ownership of \a codeview_record and becomes its parent
+  //! in the overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void SetCodeViewRecord(MinidumpModuleCodeViewRecordWriter* codeview_record);
+  void SetCodeViewRecord(
+      scoped_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record);
 
   //! \brief Arranges for MINIDUMP_MODULE::MiscRecord to point to an
   //!     IMAGE_DEBUG_MISC object to be written by \a misc_debug_record.
   //!
-  //! \a misc_debug_record will become a child of this object in the overall
-  //! tree of internal::MinidumpWritable objects.
+  //! This object takes ownership of \a misc_debug_record and becomes its parent
+  //! in the overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
   void SetMiscDebugRecord(
-      MinidumpModuleMiscDebugRecordWriter* misc_debug_record);
+      scoped_ptr<MinidumpModuleMiscDebugRecordWriter> misc_debug_record);
 
   //! \brief Sets IMAGE_DEBUG_MISC::BaseOfImage.
   void SetImageBaseAddress(uint64_t image_base_address) {
@@ -279,8 +281,8 @@ class MinidumpModuleWriter final : public internal::MinidumpWritable {
  private:
   MINIDUMP_MODULE module_;
   scoped_ptr<internal::MinidumpUTF16StringWriter> name_;
-  MinidumpModuleCodeViewRecordWriter* codeview_record_;  // weak
-  MinidumpModuleMiscDebugRecordWriter* misc_debug_record_;  // weak
+  scoped_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record_;
+  scoped_ptr<MinidumpModuleMiscDebugRecordWriter> misc_debug_record_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleWriter);
 };
@@ -290,15 +292,15 @@ class MinidumpModuleWriter final : public internal::MinidumpWritable {
 class MinidumpModuleListWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpModuleListWriter();
-  ~MinidumpModuleListWriter();
+  ~MinidumpModuleListWriter() override;
 
   //! \brief Adds a MinidumpModuleWriter to the MINIDUMP_MODULE_LIST.
   //!
-  //! \a module will become a child of this object in the overall tree of
-  //! internal::MinidumpWritable objects.
+  //! This object takes ownership of \a module and becomes its parent in the
+  //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void AddModule(MinidumpModuleWriter* module);
+  void AddModule(scoped_ptr<MinidumpModuleWriter> module);
 
  protected:
   // MinidumpWritable:
@@ -312,7 +314,7 @@ class MinidumpModuleListWriter final : public internal::MinidumpStreamWriter {
 
  private:
   MINIDUMP_MODULE_LIST module_list_base_;
-  std::vector<MinidumpModuleWriter*> modules_;  // weak
+  PointerVector<MinidumpModuleWriter> modules_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleListWriter);
 };

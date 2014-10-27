@@ -59,9 +59,9 @@ void GetModuleListStream(const std::string& file_contents,
 
 TEST(MinidumpModuleWriter, EmptyModuleList) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpModuleListWriter module_list_writer;
+  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
 
-  minidump_file_writer.AddStream(&module_list_writer);
+  minidump_file_writer.AddStream(module_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -265,15 +265,15 @@ void ExpectModule(const MINIDUMP_MODULE* expected,
 
 TEST(MinidumpModuleWriter, EmptyModule) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpModuleListWriter module_list_writer;
+  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
 
   const char kModuleName[] = "test_executable";
 
-  MinidumpModuleWriter module_writer;
-  module_writer.SetName(kModuleName);
+  auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());
+  module_writer->SetName(kModuleName);
 
-  module_list_writer.AddModule(&module_writer);
-  minidump_file_writer.AddStream(&module_list_writer);
+  module_list_writer->AddModule(module_writer.Pass());
+  minidump_file_writer.AddStream(module_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -304,7 +304,7 @@ TEST(MinidumpModuleWriter, EmptyModule) {
 
 TEST(MinidumpModuleWriter, OneModule) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpModuleListWriter module_list_writer;
+  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
 
   const char kModuleName[] = "statically_linked";
   const uint64_t kModuleBase = 0x10da69000;
@@ -333,36 +333,38 @@ TEST(MinidumpModuleWriter, OneModule) {
   const char kDebugName[] = "statical.dbg";
   const bool kDebugUTF16 = false;
 
-  MinidumpModuleWriter module_writer;
-  module_writer.SetName(kModuleName);
-  module_writer.SetImageBaseAddress(kModuleBase);
-  module_writer.SetImageSize(kModuleSize);
-  module_writer.SetChecksum(kChecksum);
-  module_writer.SetTimestamp(kTimestamp);
-  module_writer.SetFileVersion(kFileVersionMS >> 16,
-                               kFileVersionMS & 0xffff,
-                               kFileVersionLS >> 16,
-                               kFileVersionLS & 0xffff);
-  module_writer.SetProductVersion(kProductVersionMS >> 16,
-                                  kProductVersionMS & 0xffff,
-                                  kProductVersionLS >> 16,
-                                  kProductVersionLS & 0xffff);
-  module_writer.SetFileFlagsAndMask(kFileFlags, kFileFlagsMask);
-  module_writer.SetFileOS(kFileOS);
-  module_writer.SetFileTypeAndSubtype(kFileType, kFileSubtype);
+  auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());
+  module_writer->SetName(kModuleName);
+  module_writer->SetImageBaseAddress(kModuleBase);
+  module_writer->SetImageSize(kModuleSize);
+  module_writer->SetChecksum(kChecksum);
+  module_writer->SetTimestamp(kTimestamp);
+  module_writer->SetFileVersion(kFileVersionMS >> 16,
+                                kFileVersionMS & 0xffff,
+                                kFileVersionLS >> 16,
+                                kFileVersionLS & 0xffff);
+  module_writer->SetProductVersion(kProductVersionMS >> 16,
+                                   kProductVersionMS & 0xffff,
+                                   kProductVersionLS >> 16,
+                                   kProductVersionLS & 0xffff);
+  module_writer->SetFileFlagsAndMask(kFileFlags, kFileFlagsMask);
+  module_writer->SetFileOS(kFileOS);
+  module_writer->SetFileTypeAndSubtype(kFileType, kFileSubtype);
 
-  MinidumpModuleCodeViewRecordPDB70Writer codeview_pdb70_writer;
-  codeview_pdb70_writer.SetPDBName(kPDBName);
-  codeview_pdb70_writer.SetUUIDAndAge(pdb_uuid, kPDBAge);
-  module_writer.SetCodeViewRecord(&codeview_pdb70_writer);
+  auto codeview_pdb70_writer =
+      make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB70Writer());
+  codeview_pdb70_writer->SetPDBName(kPDBName);
+  codeview_pdb70_writer->SetUUIDAndAge(pdb_uuid, kPDBAge);
+  module_writer->SetCodeViewRecord(codeview_pdb70_writer.Pass());
 
-  MinidumpModuleMiscDebugRecordWriter misc_debug_writer;
-  misc_debug_writer.SetDataType(kDebugType);
-  misc_debug_writer.SetData(kDebugName, kDebugUTF16);
-  module_writer.SetMiscDebugRecord(&misc_debug_writer);
+  auto misc_debug_writer =
+      make_scoped_ptr(new MinidumpModuleMiscDebugRecordWriter());
+  misc_debug_writer->SetDataType(kDebugType);
+  misc_debug_writer->SetData(kDebugName, kDebugUTF16);
+  module_writer->SetMiscDebugRecord(misc_debug_writer.Pass());
 
-  module_list_writer.AddModule(&module_writer);
-  minidump_file_writer.AddStream(&module_list_writer);
+  module_list_writer->AddModule(module_writer.Pass());
+  minidump_file_writer.AddStream(module_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -411,7 +413,7 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
   // alternatives, a PDB 2.0 link as the CodeView record and an IMAGE_DEBUG_MISC
   // record with UTF-16 data.
   MinidumpFileWriter minidump_file_writer;
-  MinidumpModuleListWriter module_list_writer;
+  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
 
   const char kModuleName[] = "dinosaur";
   const char kPDBName[] = "d1n05.pdb";
@@ -421,21 +423,23 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
   const char kDebugName[] = "d1n05.dbg";
   const bool kDebugUTF16 = true;
 
-  MinidumpModuleWriter module_writer;
-  module_writer.SetName(kModuleName);
+  auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());
+  module_writer->SetName(kModuleName);
 
-  MinidumpModuleCodeViewRecordPDB20Writer codeview_pdb20_writer;
-  codeview_pdb20_writer.SetPDBName(kPDBName);
-  codeview_pdb20_writer.SetTimestampAndAge(kPDBTimestamp, kPDBAge);
-  module_writer.SetCodeViewRecord(&codeview_pdb20_writer);
+  auto codeview_pdb20_writer =
+      make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB20Writer());
+  codeview_pdb20_writer->SetPDBName(kPDBName);
+  codeview_pdb20_writer->SetTimestampAndAge(kPDBTimestamp, kPDBAge);
+  module_writer->SetCodeViewRecord(codeview_pdb20_writer.Pass());
 
-  MinidumpModuleMiscDebugRecordWriter misc_debug_writer;
-  misc_debug_writer.SetDataType(kDebugType);
-  misc_debug_writer.SetData(kDebugName, kDebugUTF16);
-  module_writer.SetMiscDebugRecord(&misc_debug_writer);
+  auto misc_debug_writer =
+      make_scoped_ptr(new MinidumpModuleMiscDebugRecordWriter());
+  misc_debug_writer->SetDataType(kDebugType);
+  misc_debug_writer->SetData(kDebugName, kDebugUTF16);
+  module_writer->SetMiscDebugRecord(misc_debug_writer.Pass());
 
-  module_list_writer.AddModule(&module_writer);
-  minidump_file_writer.AddStream(&module_list_writer);
+  module_list_writer->AddModule(module_writer.Pass());
+  minidump_file_writer.AddStream(module_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -470,7 +474,7 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   // its CodeView record, one with no CodeView record, and one with a PDB 2.0
   // link as its CodeView record.
   MinidumpFileWriter minidump_file_writer;
-  MinidumpModuleListWriter module_list_writer;
+  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
 
   const char kModuleName0[] = "main";
   const uint64_t kModuleBase0 = 0x100101000;
@@ -494,38 +498,40 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   const time_t kPDBTimestamp2 = 0x386d4380;
   const uint32_t kPDBAge2 = 2;
 
-  MinidumpModuleWriter module_writer_0;
-  module_writer_0.SetName(kModuleName0);
-  module_writer_0.SetImageBaseAddress(kModuleBase0);
-  module_writer_0.SetImageSize(kModuleSize0);
+  auto module_writer_0 = make_scoped_ptr(new MinidumpModuleWriter());
+  module_writer_0->SetName(kModuleName0);
+  module_writer_0->SetImageBaseAddress(kModuleBase0);
+  module_writer_0->SetImageSize(kModuleSize0);
 
-  MinidumpModuleCodeViewRecordPDB70Writer codeview_pdb70_writer_0;
-  codeview_pdb70_writer_0.SetPDBName(kPDBName0);
-  codeview_pdb70_writer_0.SetUUIDAndAge(pdb_uuid_0, kPDBAge0);
-  module_writer_0.SetCodeViewRecord(&codeview_pdb70_writer_0);
+  auto codeview_pdb70_writer_0 =
+      make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB70Writer());
+  codeview_pdb70_writer_0->SetPDBName(kPDBName0);
+  codeview_pdb70_writer_0->SetUUIDAndAge(pdb_uuid_0, kPDBAge0);
+  module_writer_0->SetCodeViewRecord(codeview_pdb70_writer_0.Pass());
 
-  module_list_writer.AddModule(&module_writer_0);
+  module_list_writer->AddModule(module_writer_0.Pass());
 
-  MinidumpModuleWriter module_writer_1;
-  module_writer_1.SetName(kModuleName1);
-  module_writer_1.SetImageBaseAddress(kModuleBase1);
-  module_writer_1.SetImageSize(kModuleSize1);
+  auto module_writer_1 = make_scoped_ptr(new MinidumpModuleWriter());
+  module_writer_1->SetName(kModuleName1);
+  module_writer_1->SetImageBaseAddress(kModuleBase1);
+  module_writer_1->SetImageSize(kModuleSize1);
 
-  module_list_writer.AddModule(&module_writer_1);
+  module_list_writer->AddModule(module_writer_1.Pass());
 
-  MinidumpModuleWriter module_writer_2;
-  module_writer_2.SetName(kModuleName2);
-  module_writer_2.SetImageBaseAddress(kModuleBase2);
-  module_writer_2.SetImageSize(kModuleSize2);
+  auto module_writer_2 = make_scoped_ptr(new MinidumpModuleWriter());
+  module_writer_2->SetName(kModuleName2);
+  module_writer_2->SetImageBaseAddress(kModuleBase2);
+  module_writer_2->SetImageSize(kModuleSize2);
 
-  MinidumpModuleCodeViewRecordPDB20Writer codeview_pdb70_writer_2;
-  codeview_pdb70_writer_2.SetPDBName(kPDBName2);
-  codeview_pdb70_writer_2.SetTimestampAndAge(kPDBTimestamp2, kPDBAge2);
-  module_writer_2.SetCodeViewRecord(&codeview_pdb70_writer_2);
+  auto codeview_pdb70_writer_2 =
+      make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB20Writer());
+  codeview_pdb70_writer_2->SetPDBName(kPDBName2);
+  codeview_pdb70_writer_2->SetTimestampAndAge(kPDBTimestamp2, kPDBAge2);
+  module_writer_2->SetCodeViewRecord(codeview_pdb70_writer_2.Pass());
 
-  module_list_writer.AddModule(&module_writer_2);
+  module_list_writer->AddModule(module_writer_2.Pass());
 
-  minidump_file_writer.AddStream(&module_list_writer);
+  minidump_file_writer.AddStream(module_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -602,10 +608,10 @@ TEST(MinidumpModuleWriter, ThreeModules) {
 
 TEST(MinidumpSystemInfoWriterDeathTest, NoModuleName) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpModuleListWriter module_list_writer;
-  MinidumpModuleWriter module_writer;
-  module_list_writer.AddModule(&module_writer);
-  minidump_file_writer.AddStream(&module_list_writer);
+  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
+  auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());
+  module_list_writer->AddModule(module_writer.Pass());
+  minidump_file_writer.AddStream(module_list_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_DEATH(minidump_file_writer.WriteEverything(&file_writer), "name_");

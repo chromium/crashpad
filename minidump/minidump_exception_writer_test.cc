@@ -93,15 +93,15 @@ void ExpectExceptionStream(const MINIDUMP_EXCEPTION_STREAM* expected,
 
 TEST(MinidumpExceptionWriter, Minimal) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpExceptionWriter exception_writer;
+  auto exception_writer = make_scoped_ptr(new MinidumpExceptionWriter());
 
   const uint32_t kSeed = 100;
 
-  MinidumpContextX86Writer context_x86_writer;
-  InitializeMinidumpContextX86(context_x86_writer.context(), kSeed);
-  exception_writer.SetContext(&context_x86_writer);
+  auto context_x86_writer = make_scoped_ptr(new MinidumpContextX86Writer());
+  InitializeMinidumpContextX86(context_x86_writer->context(), kSeed);
+  exception_writer->SetContext(context_x86_writer.Pass());
 
-  minidump_file_writer.AddStream(&exception_writer);
+  minidump_file_writer.AddStream(exception_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -124,7 +124,7 @@ TEST(MinidumpExceptionWriter, Minimal) {
 
 TEST(MinidumpExceptionWriter, Standard) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpExceptionWriter exception_writer;
+  auto exception_writer = make_scoped_ptr(new MinidumpExceptionWriter());
 
   const uint32_t kSeed = 200;
   const uint32_t kThreadID = 1;
@@ -136,30 +136,30 @@ TEST(MinidumpExceptionWriter, Standard) {
   const uint64_t kExceptionInformation1 = 7;
   const uint64_t kExceptionInformation2 = 7;
 
-  MinidumpContextX86Writer context_x86_writer;
-  InitializeMinidumpContextX86(context_x86_writer.context(), kSeed);
-  exception_writer.SetContext(&context_x86_writer);
+  auto context_x86_writer = make_scoped_ptr(new MinidumpContextX86Writer());
+  InitializeMinidumpContextX86(context_x86_writer->context(), kSeed);
+  exception_writer->SetContext(context_x86_writer.Pass());
 
-  exception_writer.SetThreadID(kThreadID);
-  exception_writer.SetExceptionCode(kExceptionCode);
-  exception_writer.SetExceptionFlags(kExceptionFlags);
-  exception_writer.SetExceptionRecord(kExceptionRecord);
-  exception_writer.SetExceptionAddress(kExceptionAddress);
+  exception_writer->SetThreadID(kThreadID);
+  exception_writer->SetExceptionCode(kExceptionCode);
+  exception_writer->SetExceptionFlags(kExceptionFlags);
+  exception_writer->SetExceptionRecord(kExceptionRecord);
+  exception_writer->SetExceptionAddress(kExceptionAddress);
 
   // Set a lot of exception information at first, and then replace it with less.
   // This tests that the exception that is written does not contain the
   // “garbage” from the initial SetExceptionInformation() call.
   std::vector<uint64_t> exception_information(EXCEPTION_MAXIMUM_PARAMETERS,
                                               0x5a5a5a5a5a5a5a5a);
-  exception_writer.SetExceptionInformation(exception_information);
+  exception_writer->SetExceptionInformation(exception_information);
 
   exception_information.clear();
   exception_information.push_back(kExceptionInformation0);
   exception_information.push_back(kExceptionInformation1);
   exception_information.push_back(kExceptionInformation2);
-  exception_writer.SetExceptionInformation(exception_information);
+  exception_writer->SetExceptionInformation(exception_information);
 
-  minidump_file_writer.AddStream(&exception_writer);
+  minidump_file_writer.AddStream(exception_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -194,9 +194,9 @@ TEST(MinidumpExceptionWriter, Standard) {
 
 TEST(MinidumpExceptionWriterDeathTest, NoContext) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpExceptionWriter exception_writer;
+  auto exception_writer = make_scoped_ptr(new MinidumpExceptionWriter());
 
-  minidump_file_writer.AddStream(&exception_writer);
+  minidump_file_writer.AddStream(exception_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_DEATH(minidump_file_writer.WriteEverything(&file_writer), "context_");

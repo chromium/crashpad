@@ -73,11 +73,11 @@ void GetSystemInfoStream(const std::string& file_contents,
 
 TEST(MinidumpSystemInfoWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpSystemInfoWriter system_info_writer;
+  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
 
-  system_info_writer.SetCSDVersion(std::string());
+  system_info_writer->SetCSDVersion(std::string());
 
-  minidump_file_writer.AddStream(&system_info_writer);
+  minidump_file_writer.AddStream(system_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -113,7 +113,7 @@ TEST(MinidumpSystemInfoWriter, Empty) {
 
 TEST(MinidumpSystemInfoWriter, X86_Win) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpSystemInfoWriter system_info_writer;
+  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
 
   const MinidumpCPUArchitecture kCPUArchitecture = kMinidumpCPUArchitectureX86;
   const uint16_t kCPULevel = 0x0010;
@@ -135,20 +135,20 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
   ASSERT_EQ(sizeof(cpu_vendor_registers), strlen(kCPUVendor));
   memcpy(cpu_vendor_registers, kCPUVendor, sizeof(cpu_vendor_registers));
 
-  system_info_writer.SetCPUArchitecture(kCPUArchitecture);
-  system_info_writer.SetCPULevelAndRevision(kCPULevel, kCPURevision);
-  system_info_writer.SetCPUCount(kCPUCount);
-  system_info_writer.SetOS(kOS);
-  system_info_writer.SetOSType(kMinidumpOSTypeWorkstation);
-  system_info_writer.SetOSVersion(
+  system_info_writer->SetCPUArchitecture(kCPUArchitecture);
+  system_info_writer->SetCPULevelAndRevision(kCPULevel, kCPURevision);
+  system_info_writer->SetCPUCount(kCPUCount);
+  system_info_writer->SetOS(kOS);
+  system_info_writer->SetOSType(kMinidumpOSTypeWorkstation);
+  system_info_writer->SetOSVersion(
       kOSVersionMajor, kOSVersionMinor, kOSVersionBuild);
-  system_info_writer.SetCSDVersion(kCSDVersion);
-  system_info_writer.SetSuiteMask(kSuiteMask);
-  system_info_writer.SetCPUX86VendorString(kCPUVendor);
-  system_info_writer.SetCPUX86VersionAndFeatures(kCPUVersion, kCPUFeatures);
-  system_info_writer.SetCPUX86AMDExtendedFeatures(kAMDFeatures);
+  system_info_writer->SetCSDVersion(kCSDVersion);
+  system_info_writer->SetSuiteMask(kSuiteMask);
+  system_info_writer->SetCPUX86VendorString(kCPUVendor);
+  system_info_writer->SetCPUX86VersionAndFeatures(kCPUVersion, kCPUFeatures);
+  system_info_writer->SetCPUX86AMDExtendedFeatures(kAMDFeatures);
 
-  minidump_file_writer.AddStream(&system_info_writer);
+  minidump_file_writer.AddStream(system_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -183,7 +183,7 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
 
 TEST(MinidumpSystemInfoWriter, X86_64_Mac) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpSystemInfoWriter system_info_writer;
+  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
 
   const MinidumpCPUArchitecture kCPUArchitecture =
       kMinidumpCPUArchitectureAMD64;
@@ -198,17 +198,17 @@ TEST(MinidumpSystemInfoWriter, X86_64_Mac) {
   const char kCSDVersion[] = "13E28";
   const uint64_t kCPUFeatures[2] = {0x10427f4c, 0x00000000};
 
-  system_info_writer.SetCPUArchitecture(kCPUArchitecture);
-  system_info_writer.SetCPULevelAndRevision(kCPULevel, kCPURevision);
-  system_info_writer.SetCPUCount(kCPUCount);
-  system_info_writer.SetOS(kOS);
-  system_info_writer.SetOSType(kMinidumpOSTypeWorkstation);
-  system_info_writer.SetOSVersion(
+  system_info_writer->SetCPUArchitecture(kCPUArchitecture);
+  system_info_writer->SetCPULevelAndRevision(kCPULevel, kCPURevision);
+  system_info_writer->SetCPUCount(kCPUCount);
+  system_info_writer->SetOS(kOS);
+  system_info_writer->SetOSType(kMinidumpOSTypeWorkstation);
+  system_info_writer->SetOSVersion(
       kOSVersionMajor, kOSVersionMinor, kOSVersionBuild);
-  system_info_writer.SetCSDVersion(kCSDVersion);
-  system_info_writer.SetCPUOtherFeatures(kCPUFeatures[0], kCPUFeatures[1]);
+  system_info_writer->SetCSDVersion(kCSDVersion);
+  system_info_writer->SetCPUOtherFeatures(kCPUFeatures[0], kCPUFeatures[1]);
 
-  minidump_file_writer.AddStream(&system_info_writer);
+  minidump_file_writer.AddStream(system_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -240,17 +240,17 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
   // This test exercises SetCPUX86Vendor() to set the vendor from register
   // values.
   MinidumpFileWriter minidump_file_writer;
-  MinidumpSystemInfoWriter system_info_writer;
+  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
 
   const MinidumpCPUArchitecture kCPUArchitecture = kMinidumpCPUArchitectureX86;
   const uint32_t kCPUVendor[] = {'uneG', 'Ieni', 'letn'};
 
-  system_info_writer.SetCPUArchitecture(kCPUArchitecture);
-  system_info_writer.SetCPUX86Vendor(
+  system_info_writer->SetCPUArchitecture(kCPUArchitecture);
+  system_info_writer->SetCPUX86Vendor(
       kCPUVendor[0], kCPUVendor[1], kCPUVendor[2]);
-  system_info_writer.SetCSDVersion(std::string());
+  system_info_writer->SetCSDVersion(std::string());
 
-  minidump_file_writer.AddStream(&system_info_writer);
+  minidump_file_writer.AddStream(system_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -271,8 +271,8 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
 
 TEST(MinidumpSystemInfoWriterDeathTest, NoCSDVersion) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpSystemInfoWriter system_info_writer;
-  minidump_file_writer.AddStream(&system_info_writer);
+  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  minidump_file_writer.AddStream(system_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_DEATH(minidump_file_writer.WriteEverything(&file_writer),

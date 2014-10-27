@@ -26,10 +26,14 @@ MinidumpExceptionWriter::MinidumpExceptionWriter()
     : MinidumpStreamWriter(), exception_(), context_(nullptr) {
 }
 
-void MinidumpExceptionWriter::SetContext(MinidumpContextWriter* context) {
+MinidumpExceptionWriter::~MinidumpExceptionWriter() {
+}
+
+void MinidumpExceptionWriter::SetContext(
+    scoped_ptr<MinidumpContextWriter> context) {
   DCHECK_EQ(state(), kStateMutable);
 
-  context_ = context;
+  context_ = context.Pass();
 }
 
 void MinidumpExceptionWriter::SetExceptionInformation(
@@ -76,7 +80,7 @@ std::vector<internal::MinidumpWritable*> MinidumpExceptionWriter::Children() {
   DCHECK(context_);
 
   std::vector<MinidumpWritable*> children;
-  children.push_back(context_);
+  children.push_back(context_.get());
 
   return children;
 }

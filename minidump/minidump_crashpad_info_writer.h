@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 
@@ -29,17 +30,18 @@ class MinidumpModuleCrashpadInfoListWriter;
 class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpCrashpadInfoWriter();
-  ~MinidumpCrashpadInfoWriter();
+  ~MinidumpCrashpadInfoWriter() override;
 
   //! \brief Arranges for MinidumpCrashpadInfo::module_list to point to the
   //!     MinidumpModuleCrashpadInfoList object to be written by \a
   //!     module_list.
   //!
-  //! \a module_list will become a child of this object in the overall tree of
-  //! internal::MinidumpWritable objects.
+  //! This object takes ownership of \a module_list and becomes its parent in
+  //! the overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void SetModuleList(MinidumpModuleCrashpadInfoListWriter* module_list);
+  void SetModuleList(
+      scoped_ptr<MinidumpModuleCrashpadInfoListWriter> module_list);
 
  protected:
   // MinidumpWritable:
@@ -53,7 +55,7 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
 
  private:
   MinidumpCrashpadInfo crashpad_info_;
-  MinidumpModuleCrashpadInfoListWriter* module_list_;  // weak
+  scoped_ptr<MinidumpModuleCrashpadInfoListWriter> module_list_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpCrashpadInfoWriter);
 };

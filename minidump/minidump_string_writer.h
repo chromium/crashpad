@@ -51,7 +51,7 @@ template <typename Traits>
 class MinidumpStringWriter : public MinidumpWritable {
  public:
   MinidumpStringWriter();
-  ~MinidumpStringWriter();
+  ~MinidumpStringWriter() override;
 
  protected:
   typedef typename Traits::MinidumpStringType MinidumpStringType;
@@ -87,7 +87,7 @@ class MinidumpUTF16StringWriter final
     : public MinidumpStringWriter<MinidumpStringWriterUTF16Traits> {
  public:
   MinidumpUTF16StringWriter() : MinidumpStringWriter() {}
-  ~MinidumpUTF16StringWriter() {}
+  ~MinidumpUTF16StringWriter() override;
 
   //! \brief Converts a UTF-8 string to UTF-16 and sets it as the string to be
   //!     written.
@@ -108,7 +108,7 @@ class MinidumpUTF8StringWriter final
     : public MinidumpStringWriter<MinidumpStringWriterUTF8Traits> {
  public:
   MinidumpUTF8StringWriter() : MinidumpStringWriter() {}
-  ~MinidumpUTF8StringWriter() {}
+  ~MinidumpUTF8StringWriter() override;
 
   //! \brief Sets the string to be written.
   //!

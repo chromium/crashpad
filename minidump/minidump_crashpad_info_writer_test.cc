@@ -50,9 +50,9 @@ void GetCrashpadInfoStream(const std::string& file_contents,
 
 TEST(MinidumpCrashpadInfoWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpCrashpadInfoWriter crashpad_info_writer;
+  auto crashpad_info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
 
-  minidump_file_writer.AddStream(&crashpad_info_writer);
+  minidump_file_writer.AddStream(crashpad_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -71,15 +71,16 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
   const uint32_t kMinidumpModuleListIndex = 3;
 
   MinidumpFileWriter minidump_file_writer;
-  MinidumpCrashpadInfoWriter crashpad_info_writer;
+  auto crashpad_info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
 
-  minidump_file_writer.AddStream(&crashpad_info_writer);
+  auto module_list_writer =
+      make_scoped_ptr(new MinidumpModuleCrashpadInfoListWriter());
+  auto module_writer = make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
+  module_writer->SetMinidumpModuleListIndex(kMinidumpModuleListIndex);
+  module_list_writer->AddModule(module_writer.Pass());
+  crashpad_info_writer->SetModuleList(module_list_writer.Pass());
 
-  MinidumpModuleCrashpadInfoListWriter module_list_writer;
-  MinidumpModuleCrashpadInfoWriter module_writer;
-  module_writer.SetMinidumpModuleListIndex(kMinidumpModuleListIndex);
-  module_list_writer.AddModule(&module_writer);
-  crashpad_info_writer.SetModuleList(&module_list_writer);
+  minidump_file_writer.AddStream(crashpad_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));

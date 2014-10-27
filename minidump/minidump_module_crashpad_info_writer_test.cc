@@ -59,8 +59,9 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyModule) {
   StringFileWriter file_writer;
 
   MinidumpModuleCrashpadInfoListWriter module_list_writer;
-  MinidumpModuleCrashpadInfoWriter module_writer;
-  module_list_writer.AddModule(&module_writer);
+  auto module_writer =
+      make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
+  module_list_writer.AddModule(module_writer.Pass());
 
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
   ASSERT_EQ(sizeof(MinidumpModuleCrashpadInfoList) +
@@ -94,16 +95,18 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
 
   MinidumpModuleCrashpadInfoListWriter module_list_writer;
 
-  MinidumpModuleCrashpadInfoWriter module_writer;
-  module_writer.SetMinidumpModuleListIndex(kMinidumpModuleListIndex);
-  MinidumpSimpleStringDictionaryWriter simple_string_dictionary_writer;
-  MinidumpSimpleStringDictionaryEntryWriter
-      simple_string_dictionary_entry_writer;
-  simple_string_dictionary_entry_writer.SetKeyValue(kKey, kValue);
-  simple_string_dictionary_writer.AddEntry(
-      &simple_string_dictionary_entry_writer);
-  module_writer.SetSimpleAnnotations(&simple_string_dictionary_writer);
-  module_list_writer.AddModule(&module_writer);
+  auto module_writer =
+      make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
+  module_writer->SetMinidumpModuleListIndex(kMinidumpModuleListIndex);
+  auto simple_string_dictionary_writer =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryWriter());
+  auto simple_string_dictionary_entry_writer =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  simple_string_dictionary_entry_writer->SetKeyValue(kKey, kValue);
+  simple_string_dictionary_writer->AddEntry(
+      simple_string_dictionary_entry_writer.Pass());
+  module_writer->SetSimpleAnnotations(simple_string_dictionary_writer.Pass());
+  module_list_writer.AddModule(module_writer.Pass());
 
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
   ASSERT_EQ(sizeof(MinidumpModuleCrashpadInfoList) +
@@ -160,36 +163,43 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
 
   MinidumpModuleCrashpadInfoListWriter module_list_writer;
 
-  MinidumpModuleCrashpadInfoWriter module_writer_0;
-  module_writer_0.SetMinidumpModuleListIndex(kMinidumpModuleListIndex0);
-  MinidumpSimpleStringDictionaryWriter simple_string_dictionary_writer_0;
-  MinidumpSimpleStringDictionaryEntryWriter
-      simple_string_dictionary_entry_writer_0;
-  simple_string_dictionary_entry_writer_0.SetKeyValue(kKey0, kValue0);
-  simple_string_dictionary_writer_0.AddEntry(
-      &simple_string_dictionary_entry_writer_0);
-  module_writer_0.SetSimpleAnnotations(&simple_string_dictionary_writer_0);
-  module_list_writer.AddModule(&module_writer_0);
+  auto module_writer_0 =
+      make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
+  module_writer_0->SetMinidumpModuleListIndex(kMinidumpModuleListIndex0);
+  auto simple_string_dictionary_writer_0 =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryWriter());
+  auto simple_string_dictionary_entry_writer_0 =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  simple_string_dictionary_entry_writer_0->SetKeyValue(kKey0, kValue0);
+  simple_string_dictionary_writer_0->AddEntry(
+      simple_string_dictionary_entry_writer_0.Pass());
+  module_writer_0->SetSimpleAnnotations(
+      simple_string_dictionary_writer_0.Pass());
+  module_list_writer.AddModule(module_writer_0.Pass());
 
-  MinidumpModuleCrashpadInfoWriter module_writer_1;
-  module_writer_1.SetMinidumpModuleListIndex(kMinidumpModuleListIndex1);
-  module_list_writer.AddModule(&module_writer_1);
+  auto module_writer_1 =
+      make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
+  module_writer_1->SetMinidumpModuleListIndex(kMinidumpModuleListIndex1);
+  module_list_writer.AddModule(module_writer_1.Pass());
 
-  MinidumpModuleCrashpadInfoWriter module_writer_2;
-  module_writer_2.SetMinidumpModuleListIndex(kMinidumpModuleListIndex2);
-  MinidumpSimpleStringDictionaryWriter simple_string_dictionary_writer_2;
-  MinidumpSimpleStringDictionaryEntryWriter
-      simple_string_dictionary_entry_writer_2a;
-  simple_string_dictionary_entry_writer_2a.SetKeyValue(kKey2A, kValue2A);
-  simple_string_dictionary_writer_2.AddEntry(
-      &simple_string_dictionary_entry_writer_2a);
-  MinidumpSimpleStringDictionaryEntryWriter
-      simple_string_dictionary_entry_writer_2b;
-  simple_string_dictionary_entry_writer_2b.SetKeyValue(kKey2B, kValue2B);
-  simple_string_dictionary_writer_2.AddEntry(
-      &simple_string_dictionary_entry_writer_2b);
-  module_writer_2.SetSimpleAnnotations(&simple_string_dictionary_writer_2);
-  module_list_writer.AddModule(&module_writer_2);
+  auto module_writer_2 =
+      make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
+  module_writer_2->SetMinidumpModuleListIndex(kMinidumpModuleListIndex2);
+  auto simple_string_dictionary_writer_2 =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryWriter());
+  auto simple_string_dictionary_entry_writer_2a =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  simple_string_dictionary_entry_writer_2a->SetKeyValue(kKey2A, kValue2A);
+  simple_string_dictionary_writer_2->AddEntry(
+      simple_string_dictionary_entry_writer_2a.Pass());
+  auto simple_string_dictionary_entry_writer_2b =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+  simple_string_dictionary_entry_writer_2b->SetKeyValue(kKey2B, kValue2B);
+  simple_string_dictionary_writer_2->AddEntry(
+      simple_string_dictionary_entry_writer_2b.Pass());
+  module_writer_2->SetSimpleAnnotations(
+      simple_string_dictionary_writer_2.Pass());
+  module_list_writer.AddModule(module_writer_2.Pass());
 
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
 

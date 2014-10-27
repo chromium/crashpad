@@ -28,22 +28,26 @@ MinidumpThreadWriter::MinidumpThreadWriter()
     : MinidumpWritable(), thread_(), stack_(nullptr), context_(nullptr) {
 }
 
+MinidumpThreadWriter::~MinidumpThreadWriter() {
+}
+
 const MINIDUMP_THREAD* MinidumpThreadWriter::MinidumpThread() const {
   DCHECK_EQ(state(), kStateWritable);
 
   return &thread_;
 }
 
-void MinidumpThreadWriter::SetStack(MinidumpMemoryWriter* stack) {
+void MinidumpThreadWriter::SetStack(scoped_ptr<MinidumpMemoryWriter> stack) {
   DCHECK_EQ(state(), kStateMutable);
 
-  stack_ = stack;
+  stack_ = stack.Pass();
 }
 
-void MinidumpThreadWriter::SetContext(MinidumpContextWriter* context) {
+void MinidumpThreadWriter::SetContext(
+    scoped_ptr<MinidumpContextWriter> context) {
   DCHECK_EQ(state(), kStateMutable);
 
-  context_ = context;
+  context_ = context.Pass();
 }
 
 bool MinidumpThreadWriter::Freeze() {
@@ -78,9 +82,9 @@ std::vector<internal::MinidumpWritable*> MinidumpThreadWriter::Children() {
 
   std::vector<MinidumpWritable*> children;
   if (stack_) {
-    children.push_back(stack_);
+    children.push_back(stack_.get());
   }
-  children.push_back(context_);
+  children.push_back(context_.get());
 
   return children;
 }
@@ -112,10 +116,9 @@ void MinidumpThreadListWriter::SetMemoryListWriter(
   memory_list_writer_ = memory_list_writer;
 }
 
-void MinidumpThreadListWriter::AddThread(MinidumpThreadWriter* thread) {
+void MinidumpThreadListWriter::AddThread(
+    scoped_ptr<MinidumpThreadWriter> thread) {
   DCHECK_EQ(state(), kStateMutable);
-
-  threads_.push_back(thread);
 
   if (memory_list_writer_) {
     MinidumpMemoryWriter* stack = thread->Stack();
@@ -123,6 +126,8 @@ void MinidumpThreadListWriter::AddThread(MinidumpThreadWriter* thread) {
       memory_list_writer_->AddExtraMemory(stack);
     }
   }
+
+  threads_.push_back(thread.release());
 }
 
 bool MinidumpThreadListWriter::Freeze() {

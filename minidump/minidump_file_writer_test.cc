@@ -51,7 +51,7 @@ class TestStream final : public internal::MinidumpStreamWriter {
              uint8_t stream_value)
       : stream_data_(stream_size, stream_value), stream_type_(stream_type) {}
 
-  ~TestStream() {}
+  ~TestStream() override {}
 
   // MinidumpStreamWriter:
   MinidumpStreamType StreamType() const override {
@@ -85,8 +85,9 @@ TEST(MinidumpFileWriter, OneStream) {
   const size_t kStreamSize = 5;
   const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
   const uint8_t kStreamValue = 0x5a;
-  TestStream stream(kStreamType, kStreamSize, kStreamValue);
-  minidump_file.AddStream(&stream);
+  auto stream =
+      make_scoped_ptr(new TestStream(kStreamType, kStreamSize, kStreamValue));
+  minidump_file.AddStream(stream.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file.WriteEverything(&file_writer));
@@ -123,8 +124,9 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   const size_t kStream0Size = 5;
   const MinidumpStreamType kStream0Type = static_cast<MinidumpStreamType>(0x6d);
   const uint8_t kStream0Value = 0x5a;
-  TestStream stream0(kStream0Type, kStream0Size, kStream0Value);
-  minidump_file.AddStream(&stream0);
+  auto stream0 = make_scoped_ptr(
+      new TestStream(kStream0Type, kStream0Size, kStream0Value));
+  minidump_file.AddStream(stream0.Pass());
 
   // Make the second stream’s type be a smaller quantity than the first stream’s
   // to test that the streams show up in the order that they were added, not in
@@ -132,14 +134,16 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   const size_t kStream1Size = 3;
   const MinidumpStreamType kStream1Type = static_cast<MinidumpStreamType>(0x4d);
   const uint8_t kStream1Value = 0xa5;
-  TestStream stream1(kStream1Type, kStream1Size, kStream1Value);
-  minidump_file.AddStream(&stream1);
+  auto stream1 = make_scoped_ptr(
+      new TestStream(kStream1Type, kStream1Size, kStream1Value));
+  minidump_file.AddStream(stream1.Pass());
 
   const size_t kStream2Size = 1;
   const MinidumpStreamType kStream2Type = static_cast<MinidumpStreamType>(0x7e);
   const uint8_t kStream2Value = 0x36;
-  TestStream stream2(kStream2Type, kStream2Size, kStream2Value);
-  minidump_file.AddStream(&stream2);
+  auto stream2 = make_scoped_ptr(
+      new TestStream(kStream2Type, kStream2Size, kStream2Value));
+  minidump_file.AddStream(stream2.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file.WriteEverything(&file_writer));
@@ -205,8 +209,8 @@ TEST(MinidumpFileWriter, ZeroLengthStream) {
 
   const size_t kStreamSize = 0;
   const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
-  TestStream stream(kStreamType, kStreamSize, 0);
-  minidump_file.AddStream(&stream);
+  auto stream = make_scoped_ptr(new TestStream(kStreamType, kStreamSize, 0));
+  minidump_file.AddStream(stream.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file.WriteEverything(&file_writer));
@@ -234,15 +238,17 @@ TEST(MinidumpFileWriterDeathTest, SameStreamType) {
   const size_t kStream0Size = 5;
   const MinidumpStreamType kStream0Type = static_cast<MinidumpStreamType>(0x4d);
   const uint8_t kStream0Value = 0x5a;
-  TestStream stream0(kStream0Type, kStream0Size, kStream0Value);
-  minidump_file.AddStream(&stream0);
+  auto stream0 = make_scoped_ptr(
+      new TestStream(kStream0Type, kStream0Size, kStream0Value));
+  minidump_file.AddStream(stream0.Pass());
 
   // It is an error to add a second stream of the same type.
   const size_t kStream1Size = 3;
   const MinidumpStreamType kStream1Type = static_cast<MinidumpStreamType>(0x4d);
   const uint8_t kStream1Value = 0xa5;
-  TestStream stream1(kStream1Type, kStream1Size, kStream1Value);
-  ASSERT_DEATH(minidump_file.AddStream(&stream1), "already present");
+  auto stream1 = make_scoped_ptr(
+      new TestStream(kStream1Type, kStream1Size, kStream1Value));
+  ASSERT_DEATH(minidump_file.AddStream(stream1.Pass()), "already present");
 }
 
 }  // namespace

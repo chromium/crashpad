@@ -21,8 +21,10 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -39,7 +41,7 @@ class MinidumpMemoryWriter;
 class MinidumpThreadWriter final : public internal::MinidumpWritable {
  public:
   MinidumpThreadWriter();
-  ~MinidumpThreadWriter() {}
+  ~MinidumpThreadWriter() override;
 
   //! \brief Returns a MINIDUMP_THREAD referencing this object’s data.
   //!
@@ -53,7 +55,7 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
   //!     corresponding to this object’s stack.
   //!
   //! If the thread does not have a stack, or its stack could not be determined,
-  //! this will return nullptr.
+  //! this will return `nullptr`.
   //!
   //! This method is provided so that MinidumpThreadListWriter can obtain thread
   //! stack memory regions for the purposes of adding them to a
@@ -62,27 +64,27 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
   //! MinidumpMemoryListWriter::AddExtraMemory().
   //!
   //! \note Valid in any state.
-  MinidumpMemoryWriter* Stack() const { return stack_; }
+  MinidumpMemoryWriter* Stack() const { return stack_.get(); }
 
   //! \brief Arranges for MINIDUMP_THREAD::Stack to point to the MINIDUMP_MEMORY
   //!     object to be written by \a stack.
   //!
-  //! \a stack will become a child of this object in the overall tree of
-  //! internal::MinidumpWritable objects.
+  //! This object takes ownership of \a stack and becomes its parent in the
+  //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void SetStack(MinidumpMemoryWriter* stack);
+  void SetStack(scoped_ptr<MinidumpMemoryWriter> stack);
 
   //! \brief Arranges for MINIDUMP_THREAD::ThreadContext to point to the CPU
   //!     context to be written by \a context.
   //!
   //! A context is required in all MINIDUMP_THREAD objects.
   //!
-  //! \a context will become a child of this object in the overall tree of
-  //! internal::MinidumpWritable objects.
+  //! This object takes ownership of \a context and becomes its parent in the
+  //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void SetContext(MinidumpContextWriter* context);
+  void SetContext(scoped_ptr<MinidumpContextWriter> context);
 
   //! \brief Sets MINIDUMP_THREAD::ThreadId.
   void SetThreadID(uint32_t thread_id) { thread_.ThreadId = thread_id; }
@@ -112,8 +114,8 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
 
  private:
   MINIDUMP_THREAD thread_;
-  MinidumpMemoryWriter* stack_;  // weak
-  MinidumpContextWriter* context_;  // weak
+  scoped_ptr<MinidumpMemoryWriter> stack_;
+  scoped_ptr<MinidumpContextWriter> context_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpThreadWriter);
 };
@@ -123,7 +125,7 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
 class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpThreadListWriter();
-  ~MinidumpThreadListWriter();
+  ~MinidumpThreadListWriter() override;
 
   //! \brief Sets the MinidumpMemoryListWriter that each thread’s stack memory
   //!     region should be added to as extra memory.
@@ -154,11 +156,11 @@ class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
 
   //! \brief Adds a MinidumpThreadWriter to the MINIDUMP_THREAD_LIST.
   //!
-  //! \a thread will become a child of this object in the overall tree of
-  //! internal::MinidumpWritable objects.
+  //! This object takes ownership of \a thread and becomes its parent in the
+  //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void AddThread(MinidumpThreadWriter* thread);
+  void AddThread(scoped_ptr<MinidumpThreadWriter> thread);
 
  protected:
   // MinidumpWritable:
@@ -172,7 +174,7 @@ class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
 
  private:
   MINIDUMP_THREAD_LIST thread_list_base_;
-  std::vector<MinidumpThreadWriter*> threads_;  // weak
+  PointerVector<MinidumpThreadWriter> threads_;
   MinidumpMemoryListWriter* memory_list_writer_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpThreadListWriter);

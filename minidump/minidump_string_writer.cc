@@ -83,10 +83,16 @@ bool MinidumpStringWriter<Traits>::WriteObject(
 template class MinidumpStringWriter<MinidumpStringWriterUTF16Traits>;
 template class MinidumpStringWriter<MinidumpStringWriterUTF8Traits>;
 
+MinidumpUTF16StringWriter::~MinidumpUTF16StringWriter() {
+}
+
 void MinidumpUTF16StringWriter::SetUTF8(const std::string& string_utf8) {
   DCHECK_EQ(state(), kStateMutable);
 
   set_string(MinidumpWriterUtil::ConvertUTF8ToUTF16(string_utf8));
+}
+
+MinidumpUTF8StringWriter::~MinidumpUTF8StringWriter() {
 }
 
 }  // namespace internal

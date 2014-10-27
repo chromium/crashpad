@@ -37,7 +37,7 @@ class MinidumpUTF16StringWriter;
 class MinidumpSystemInfoWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpSystemInfoWriter();
-  ~MinidumpSystemInfoWriter();
+  ~MinidumpSystemInfoWriter() override;
 
   //! \brief Sets MINIDUMP_SYSTEM_INFO::ProcessorArchitecture.
   void SetCPUArchitecture(MinidumpCPUArchitecture processor_architecture) {

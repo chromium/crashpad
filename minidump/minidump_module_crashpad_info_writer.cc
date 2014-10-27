@@ -32,10 +32,10 @@ MinidumpModuleCrashpadInfoWriter::~MinidumpModuleCrashpadInfoWriter() {
 }
 
 void MinidumpModuleCrashpadInfoWriter::SetSimpleAnnotations(
-    MinidumpSimpleStringDictionaryWriter* simple_annotations) {
+    scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations) {
   DCHECK_EQ(state(), kStateMutable);
 
-  simple_annotations_ = simple_annotations;
+  simple_annotations_ = simple_annotations.Pass();
 }
 
 bool MinidumpModuleCrashpadInfoWriter::Freeze() {
@@ -65,7 +65,7 @@ MinidumpModuleCrashpadInfoWriter::Children() {
 
   std::vector<MinidumpWritable*> children;
   if (simple_annotations_) {
-    children.push_back(simple_annotations_);
+    children.push_back(simple_annotations_.get());
   }
 
   return children;
@@ -89,10 +89,10 @@ MinidumpModuleCrashpadInfoListWriter::~MinidumpModuleCrashpadInfoListWriter() {
 }
 
 void MinidumpModuleCrashpadInfoListWriter::AddModule(
-    MinidumpModuleCrashpadInfoWriter* module) {
+    scoped_ptr<MinidumpModuleCrashpadInfoWriter> module) {
   DCHECK_EQ(state(), kStateMutable);
 
-  modules_.push_back(module);
+  modules_.push_back(module.release());
 }
 
 bool MinidumpModuleCrashpadInfoListWriter::Freeze() {

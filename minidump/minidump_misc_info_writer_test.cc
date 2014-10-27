@@ -20,6 +20,7 @@
 #include <string>
 
 #include "base/basictypes.h"
+#include "base/memory/scoped_ptr.h"
 #include "base/strings/string16.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
@@ -155,9 +156,9 @@ void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_4>(
 
 TEST(MinidumpMiscInfoWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -172,13 +173,13 @@ TEST(MinidumpMiscInfoWriter, Empty) {
 
 TEST(MinidumpMiscInfoWriter, ProcessId) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   const uint32_t kProcessId = 12345;
 
-  misc_info_writer.SetProcessId(kProcessId);
+  misc_info_writer->SetProcessId(kProcessId);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -195,16 +196,16 @@ TEST(MinidumpMiscInfoWriter, ProcessId) {
 
 TEST(MinidumpMiscInfoWriter, ProcessTimes) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   const time_t kProcessCreateTime = 0x15252f00;
   const uint32_t kProcessUserTime = 10;
   const uint32_t kProcessKernelTime = 5;
 
-  misc_info_writer.SetProcessTimes(
+  misc_info_writer->SetProcessTimes(
       kProcessCreateTime, kProcessUserTime, kProcessKernelTime);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -223,7 +224,7 @@ TEST(MinidumpMiscInfoWriter, ProcessTimes) {
 
 TEST(MinidumpMiscInfoWriter, ProcessorPowerInfo) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   const uint32_t kProcessorMaxMhz = 2800;
   const uint32_t kProcessorCurrentMhz = 2300;
@@ -231,13 +232,13 @@ TEST(MinidumpMiscInfoWriter, ProcessorPowerInfo) {
   const uint32_t kProcessorMaxIdleState = 5;
   const uint32_t kProcessorCurrentIdleState = 1;
 
-  misc_info_writer.SetProcessorPowerInfo(kProcessorMaxMhz,
-                                         kProcessorCurrentMhz,
-                                         kProcessorMhzLimit,
-                                         kProcessorMaxIdleState,
-                                         kProcessorCurrentIdleState);
+  misc_info_writer->SetProcessorPowerInfo(kProcessorMaxMhz,
+                                          kProcessorCurrentMhz,
+                                          kProcessorMhzLimit,
+                                          kProcessorMaxIdleState,
+                                          kProcessorCurrentIdleState);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -258,13 +259,13 @@ TEST(MinidumpMiscInfoWriter, ProcessorPowerInfo) {
 
 TEST(MinidumpMiscInfoWriter, ProcessIntegrityLevel) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   const uint32_t kProcessIntegrityLevel = 0x2000;
 
-  misc_info_writer.SetProcessIntegrityLevel(kProcessIntegrityLevel);
+  misc_info_writer->SetProcessIntegrityLevel(kProcessIntegrityLevel);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -281,13 +282,13 @@ TEST(MinidumpMiscInfoWriter, ProcessIntegrityLevel) {
 
 TEST(MinidumpMiscInfoWriter, ProcessExecuteFlags) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   const uint32_t kProcessExecuteFlags = 0x13579bdf;
 
-  misc_info_writer.SetProcessExecuteFlags(kProcessExecuteFlags);
+  misc_info_writer->SetProcessExecuteFlags(kProcessExecuteFlags);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -304,13 +305,13 @@ TEST(MinidumpMiscInfoWriter, ProcessExecuteFlags) {
 
 TEST(MinidumpMiscInfoWriter, ProtectedProcess) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   const uint32_t kProtectedProcess = 1;
 
-  misc_info_writer.SetProtectedProcess(kProtectedProcess);
+  misc_info_writer->SetProtectedProcess(kProtectedProcess);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -327,7 +328,7 @@ TEST(MinidumpMiscInfoWriter, ProtectedProcess) {
 
 TEST(MinidumpMiscInfoWriter, TimeZone) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   const uint32_t kTimeZoneId = 2;
   const int32_t kBias = 300;
@@ -338,16 +339,16 @@ TEST(MinidumpMiscInfoWriter, TimeZone) {
   const SYSTEMTIME kDaylightDate = {0, 3, 2, 0, 2, 0, 0, 0};
   const int32_t kDaylightBias = -60;
 
-  misc_info_writer.SetTimeZone(kTimeZoneId,
-                               kBias,
-                               kStandardName,
-                               kStandardDate,
-                               kStandardBias,
-                               kDaylightName,
-                               kDaylightDate,
-                               kDaylightBias);
+  misc_info_writer->SetTimeZone(kTimeZoneId,
+                                kBias,
+                                kStandardName,
+                                kStandardDate,
+                                kStandardBias,
+                                kDaylightName,
+                                kDaylightDate,
+                                kDaylightBias);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -384,7 +385,7 @@ TEST(MinidumpMiscInfoWriter, TimeZoneStringsOverflow) {
   // to the widths of their fields.
 
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   const uint32_t kTimeZoneId = 2;
   const int32_t kBias = 300;
@@ -400,16 +401,16 @@ TEST(MinidumpMiscInfoWriter, TimeZoneStringsOverflow) {
   // provide daylight saving time transition times.
   const SYSTEMTIME kSystemTimeZero = {};
 
-  misc_info_writer.SetTimeZone(kTimeZoneId,
-                               kBias,
-                               standard_name,
-                               kSystemTimeZero,
-                               kStandardBias,
-                               daylight_name,
-                               kSystemTimeZero,
-                               kDaylightBias);
+  misc_info_writer->SetTimeZone(kTimeZoneId,
+                                kBias,
+                                standard_name,
+                                kSystemTimeZero,
+                                kStandardBias,
+                                daylight_name,
+                                kSystemTimeZero,
+                                kDaylightBias);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -443,14 +444,14 @@ TEST(MinidumpMiscInfoWriter, TimeZoneStringsOverflow) {
 
 TEST(MinidumpMiscInfoWriter, BuildStrings) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   const char kBuildString[] = "build string";
   const char kDebugBuildString[] = "debug build string";
 
-  misc_info_writer.SetBuildString(kBuildString, kDebugBuildString);
+  misc_info_writer->SetBuildString(kBuildString, kDebugBuildString);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -477,16 +478,16 @@ TEST(MinidumpMiscInfoWriter, BuildStringsOverflow) {
   // widths of their fields.
 
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   std::string build_string(arraysize(MINIDUMP_MISC_INFO_N::BuildString) + 1,
                            'B');
   std::string debug_build_string(arraysize(MINIDUMP_MISC_INFO_N::DbgBldStr),
                                  'D');
 
-  misc_info_writer.SetBuildString(build_string, debug_build_string);
+  misc_info_writer->SetBuildString(build_string, debug_build_string);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
@@ -510,7 +511,7 @@ TEST(MinidumpMiscInfoWriter, BuildStringsOverflow) {
 
 TEST(MinidumpMiscInfoWriter, Everything) {
   MinidumpFileWriter minidump_file_writer;
-  MinidumpMiscInfoWriter misc_info_writer;
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
   const uint32_t kProcessId = 12345;
   const time_t kProcessCreateTime = 0x15252f00;
@@ -534,28 +535,28 @@ TEST(MinidumpMiscInfoWriter, Everything) {
   const char kBuildString[] = "build string";
   const char kDebugBuildString[] = "debug build string";
 
-  misc_info_writer.SetProcessId(kProcessId);
-  misc_info_writer.SetProcessTimes(
+  misc_info_writer->SetProcessId(kProcessId);
+  misc_info_writer->SetProcessTimes(
       kProcessCreateTime, kProcessUserTime, kProcessKernelTime);
-  misc_info_writer.SetProcessorPowerInfo(kProcessorMaxMhz,
-                                         kProcessorCurrentMhz,
-                                         kProcessorMhzLimit,
-                                         kProcessorMaxIdleState,
-                                         kProcessorCurrentIdleState);
-  misc_info_writer.SetProcessIntegrityLevel(kProcessIntegrityLevel);
-  misc_info_writer.SetProcessExecuteFlags(kProcessExecuteFlags);
-  misc_info_writer.SetProtectedProcess(kProtectedProcess);
-  misc_info_writer.SetTimeZone(kTimeZoneId,
-                               kBias,
-                               kStandardName,
-                               kSystemTimeZero,
-                               kStandardBias,
-                               kDaylightName,
-                               kSystemTimeZero,
-                               kDaylightBias);
-  misc_info_writer.SetBuildString(kBuildString, kDebugBuildString);
+  misc_info_writer->SetProcessorPowerInfo(kProcessorMaxMhz,
+                                          kProcessorCurrentMhz,
+                                          kProcessorMhzLimit,
+                                          kProcessorMaxIdleState,
+                                          kProcessorCurrentIdleState);
+  misc_info_writer->SetProcessIntegrityLevel(kProcessIntegrityLevel);
+  misc_info_writer->SetProcessExecuteFlags(kProcessExecuteFlags);
+  misc_info_writer->SetProtectedProcess(kProtectedProcess);
+  misc_info_writer->SetTimeZone(kTimeZoneId,
+                                kBias,
+                                kStandardName,
+                                kSystemTimeZero,
+                                kStandardBias,
+                                kDaylightName,
+                                kSystemTimeZero,
+                                kDaylightBias);
+  misc_info_writer->SetBuildString(kBuildString, kDebugBuildString);
 
-  minidump_file_writer.AddStream(&misc_info_writer);
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));

@@ -19,6 +19,15 @@
 namespace crashpad {
 namespace internal {
 
+MinidumpStreamWriter::~MinidumpStreamWriter() {
+}
+
+const MINIDUMP_DIRECTORY* MinidumpStreamWriter::DirectoryListEntry() const {
+  DCHECK_EQ(state(), kStateWritable);
+
+  return &directory_list_entry_;
+}
+
 MinidumpStreamWriter::MinidumpStreamWriter()
     : MinidumpWritable(), directory_list_entry_() {
 }
@@ -34,12 +43,6 @@ bool MinidumpStreamWriter::Freeze() {
   RegisterLocationDescriptor(&directory_list_entry_.Location);
 
   return true;
-}
-
-const MINIDUMP_DIRECTORY* MinidumpStreamWriter::DirectoryListEntry() const {
-  DCHECK_EQ(state(), kStateWritable);
-
-  return &directory_list_entry_;
 }
 
 }  // namespace internal

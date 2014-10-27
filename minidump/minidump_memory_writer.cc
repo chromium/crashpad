@@ -20,6 +20,9 @@
 
 namespace crashpad {
 
+MinidumpMemoryWriter::~MinidumpMemoryWriter() {
+}
+
 const MINIDUMP_MEMORY_DESCRIPTOR*
 MinidumpMemoryWriter::MinidumpMemoryDescriptor() const {
   DCHECK_EQ(state(), kStateWritable);
@@ -106,11 +109,12 @@ MinidumpMemoryListWriter::MinidumpMemoryListWriter()
 MinidumpMemoryListWriter::~MinidumpMemoryListWriter() {
 }
 
-void MinidumpMemoryListWriter::AddMemory(MinidumpMemoryWriter* memory_writer) {
+void MinidumpMemoryListWriter::AddMemory(
+    scoped_ptr<MinidumpMemoryWriter> memory_writer) {
   DCHECK_EQ(state(), kStateMutable);
 
-  children_.push_back(memory_writer);
-  AddExtraMemory(memory_writer);
+  AddExtraMemory(memory_writer.get());
+  children_.push_back(memory_writer.release());
 }
 
 void MinidumpMemoryListWriter::AddExtraMemory(
@@ -152,7 +156,12 @@ std::vector<internal::MinidumpWritable*> MinidumpMemoryListWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
   DCHECK_LE(children_.size(), memory_writers_.size());
 
-  return children_;
+  std::vector<MinidumpWritable*> children;
+  for (MinidumpMemoryWriter* child : children_) {
+    children.push_back(child);
+  }
+
+  return children;
 }
 
 bool MinidumpMemoryListWriter::WriteObject(FileWriterInterface* file_writer) {

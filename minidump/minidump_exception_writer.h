@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_stream_writer.h"
 
 namespace crashpad {
@@ -31,18 +32,18 @@ class MinidumpContextWriter;
 class MinidumpExceptionWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpExceptionWriter();
-  ~MinidumpExceptionWriter() {}
+  ~MinidumpExceptionWriter() override;
 
   //! \brief Arranges for MINIDUMP_EXCEPTION_STREAM::ThreadContext to point to
   //!     the CPU context to be written by \a context.
   //!
   //! A context is required in all MINIDUMP_EXCEPTION_STREAM objects.
   //!
-  //! \a context will become a child of this object in the overall tree of
-  //! internal::MinidumpWritable objects.
+  //! This object takes ownership of \a context and becomes its parent in the
+  //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void SetContext(MinidumpContextWriter* context);
+  void SetContext(scoped_ptr<MinidumpContextWriter> context);
 
   //! \brief Sets MINIDUMP_EXCEPTION_STREAM::ThreadId.
   void SetThreadID(uint32_t thread_id) { exception_.ThreadId = thread_id; }
@@ -95,7 +96,7 @@ class MinidumpExceptionWriter final : public internal::MinidumpStreamWriter {
 
  private:
   MINIDUMP_EXCEPTION_STREAM exception_;
-  MinidumpContextWriter* context_;  // weak
+  scoped_ptr<MinidumpContextWriter> context_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpExceptionWriter);
 };
