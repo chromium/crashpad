@@ -47,7 +47,7 @@ MinidumpModuleCodeViewRecordPDBLinkWriter<CodeViewRecordType>::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
 
   // NUL-terminate.
-  return offsetof(typeof(codeview_record_), pdb_name) +
+  return offsetof(decltype(codeview_record_), pdb_name) +
          (pdb_name_.size() + 1) * sizeof(pdb_name_[0]);
 }
 
@@ -58,7 +58,7 @@ bool MinidumpModuleCodeViewRecordPDBLinkWriter<CodeViewRecordType>::WriteObject(
 
   WritableIoVec iov;
   iov.iov_base = &codeview_record_;
-  iov.iov_len = offsetof(typeof(codeview_record_), pdb_name);
+  iov.iov_len = offsetof(decltype(codeview_record_), pdb_name);
   std::vector<WritableIoVec> iovecs(1, iov);
 
   // NUL-terminate.
@@ -131,12 +131,12 @@ bool MinidumpModuleMiscDebugRecordWriter::Freeze() {
   // NUL-terminate.
   if (!image_debug_misc_.Unicode) {
     DCHECK(data_utf16_.empty());
-    image_debug_misc_.Length = offsetof(typeof(image_debug_misc_), Data) +
+    image_debug_misc_.Length = offsetof(decltype(image_debug_misc_), Data) +
                                (data_.size() + 1) * sizeof(data_[0]);
   } else {
     DCHECK(data_.empty());
     image_debug_misc_.Length =
-        offsetof(typeof(image_debug_misc_), Data) +
+        offsetof(decltype(image_debug_misc_), Data) +
         (data_utf16_.size() + 1) * sizeof(data_utf16_[0]);
   }
 
@@ -153,7 +153,7 @@ bool MinidumpModuleMiscDebugRecordWriter::WriteObject(
     FileWriterInterface* file_writer) {
   DCHECK_EQ(state(), kStateWritable);
 
-  const size_t base_length = offsetof(typeof(image_debug_misc_), Data);
+  const size_t base_length = offsetof(decltype(image_debug_misc_), Data);
 
   WritableIoVec iov;
   iov.iov_base = &image_debug_misc_;

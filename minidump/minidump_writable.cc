@@ -180,7 +180,7 @@ size_t MinidumpWritable::WillWriteAtOffset(
       }
 
       if (!registered_location_descriptors_.empty()) {
-        typeof(registered_location_descriptors_[0]->DataSize) local_size;
+        decltype(registered_location_descriptors_[0]->DataSize) local_size;
         if (!AssignIfInRange(&local_size, size)) {
           LOG(ERROR) << "size " << size << " out of range";
           return kInvalidSize;

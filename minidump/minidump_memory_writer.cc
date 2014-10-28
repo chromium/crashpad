@@ -76,7 +76,7 @@ bool MinidumpMemoryWriter::WillWriteAtOffsetImpl(off_t offset) {
   DCHECK_GE(registered_memory_descriptors_.size(), 1u);
 
   uint64_t base_address = MemoryRangeBaseAddress();
-  typeof(registered_memory_descriptors_[0]->StartOfMemoryRange) local_address;
+  decltype(registered_memory_descriptors_[0]->StartOfMemoryRange) local_address;
   if (!AssignIfInRange(&local_address, base_address)) {
     LOG(ERROR) << "base_address " << base_address << " out of range";
     return false;
