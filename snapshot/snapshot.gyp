@@ -75,6 +75,22 @@
       ],
     },
     {
+      'target_name': 'snapshot_test_lib',
+      'type': 'static_library',
+      'dependencies': [
+        'snapshot',
+        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        '../util/util.gyp:util',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'test/test_module_snapshot.cc',
+        'test/test_module_snapshot.h',
+      ],
+    },
+    {
       'target_name': 'snapshot_test',
       'type': 'executable',
       'dependencies': [

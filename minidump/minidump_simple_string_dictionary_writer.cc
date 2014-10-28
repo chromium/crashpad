@@ -41,6 +41,8 @@ MinidumpSimpleStringDictionaryEntryWriter::MinidumpSimpleStringDictionaryEntry()
 void MinidumpSimpleStringDictionaryEntryWriter::SetKeyValue(
     const std::string& key,
     const std::string& value) {
+  DCHECK_EQ(state(), kStateMutable);
+
   key_.SetUTF8(key);
   value_.SetUTF8(value);
 }
@@ -96,9 +98,22 @@ MinidumpSimpleStringDictionaryWriter::~MinidumpSimpleStringDictionaryWriter() {
   STLDeleteContainerPairSecondPointers(entries_.begin(), entries_.end());
 }
 
+void MinidumpSimpleStringDictionaryWriter::InitializeFromMap(
+    const std::map<std::string, std::string>& map) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(entries_.empty());
+
+  for (const auto& iterator : map) {
+    auto entry =
+        make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+    entry->SetKeyValue(iterator.first, iterator.second);
+    AddEntry(entry.Pass());
+  }
+}
+
 void MinidumpSimpleStringDictionaryWriter::AddEntry(
     scoped_ptr<MinidumpSimpleStringDictionaryEntryWriter> entry) {
-  DCHECK_GE(state(), kStateMutable);
+  DCHECK_EQ(state(), kStateMutable);
 
   const std::string& key = entry->Key();
   auto iterator = entries_.find(key);
@@ -108,6 +123,10 @@ void MinidumpSimpleStringDictionaryWriter::AddEntry(
   } else {
     entries_[key] = entry.release();
   }
+}
+
+bool MinidumpSimpleStringDictionaryWriter::IsUseful() const {
+  return !entries_.empty();
 }
 
 bool MinidumpSimpleStringDictionaryWriter::Freeze() {

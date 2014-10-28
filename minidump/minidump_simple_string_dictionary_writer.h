@@ -91,6 +91,16 @@ class MinidumpSimpleStringDictionaryWriter final
   MinidumpSimpleStringDictionaryWriter();
   ~MinidumpSimpleStringDictionaryWriter() override;
 
+  //! \brief Adds an initialized MinidumpSimpleStringDictionaryEntryWriter for
+  //!     each key-value pair in \a map to the MinidumpSimpleStringDictionary.
+  //!
+  //! \param[in] map The map to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromMap(const std::map<std::string, std::string>& map);
+
   //! \brief Adds a MinidumpSimpleStringDictionaryEntryWriter to the
   //!     MinidumpSimpleStringDictionary.
   //!
@@ -103,6 +113,15 @@ class MinidumpSimpleStringDictionaryWriter final
   //!
   //! \note Valid in #kStateMutable.
   void AddEntry(scoped_ptr<MinidumpSimpleStringDictionaryEntryWriter> entry);
+
+  //! \brief Determines whether the object is useful.
+  //!
+  //! A useful object is one that carries data that makes a meaningful
+  //! contribution to a minidump file. An object carrying entries would be
+  //! considered useful.
+  //!
+  //! \return `true` if the object is useful, `false` otherwise.
+  bool IsUseful() const;
 
  protected:
   // MinidumpWritable:

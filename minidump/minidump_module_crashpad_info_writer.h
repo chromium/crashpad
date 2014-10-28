@@ -16,6 +16,7 @@
 #define CRASHPAD_MINIDUMP_MINIDUMP_MODULE_CRASHPAD_INFO_WRITER_H_
 
 #include <stdint.h>
+#include <sys/types.h>
 
 #include <vector>
 
@@ -28,6 +29,7 @@
 namespace crashpad {
 
 class MinidumpSimpleStringDictionaryWriter;
+class ModuleSnapshot;
 
 //! \brief The writer for a MinidumpModuleCrashpadInfo object in a minidump
 //!     file.
@@ -36,6 +38,24 @@ class MinidumpModuleCrashpadInfoWriter final
  public:
   MinidumpModuleCrashpadInfoWriter();
   ~MinidumpModuleCrashpadInfoWriter() override;
+
+  //! \brief Initializes the MinidumpModuleCrashpadInfo based on \a
+  //!     module_snapshot.
+  //!
+  //! Only data in \a module_snapshot that is considered useful will be
+  //! included. For simple annotations, usefulness is determined by
+  //! MinidumpSimpleStringDictionaryWriter::IsUseful().
+  //!
+  //! \param[in] module_snapshot The module snapshot to use as source data.
+  //! \param[in] module_list_index The index of the MINIDUMP_MODULE initialized
+  //!     from \a module_snapshot in the minidump file’s MINIDUMP_MODULE_LIST
+  //!     stream.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(const ModuleSnapshot* module_snapshot,
+                              size_t module_list_index);
 
   //! \brief Sets MinidumpModuleCrashpadInfo::minidump_module_list_index.
   void SetMinidumpModuleListIndex(uint32_t minidump_module_list_index) {
@@ -52,6 +72,15 @@ class MinidumpModuleCrashpadInfoWriter final
   //! \note Valid in #kStateMutable.
   void SetSimpleAnnotations(
       scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations);
+
+  //! \brief Determines whether the object is useful.
+  //!
+  //! A useful object is one that carries data that makes a meaningful
+  //! contribution to a minidump file. An object carrying simple annotations
+  //! would be considered useful.
+  //!
+  //! \return `true` if the object is useful, `false` otherwise.
+  bool IsUseful() const;
 
  protected:
   // MinidumpWritable:
@@ -74,6 +103,21 @@ class MinidumpModuleCrashpadInfoListWriter final
  public:
   MinidumpModuleCrashpadInfoListWriter();
   ~MinidumpModuleCrashpadInfoListWriter() override;
+
+  //! \brief Adds an initialized MinidumpModuleCrashpadInfo for modules in \a
+  //!     module_snapshots to the MinidumpModuleCrashpadInfoList.
+  //!
+  //! Only modules in \a module_snapshots that would produce a useful
+  //! MinidumpModuleCrashpadInfo structure are included. Usefulness is
+  //! determined by MinidumpModuleCrashpadInfoWriter::IsUseful().
+  //!
+  //! \param[in] module_snapshots The module snapshots to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(
+      const std::vector<const ModuleSnapshot*>& module_snapshots);
 
   //! \brief Adds a MinidumpModuleCrashpadInfo to the
   //!     MinidumpModuleCrashpadInfoList.

@@ -19,6 +19,7 @@
       'type': 'static_library',
       'dependencies': [
         '../compat/compat.gyp:compat',
+        '../snapshot/snapshot.gyp:snapshot',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
         '../util/util.gyp:util',
       ],
@@ -69,6 +70,7 @@
       'type': 'executable',
       'dependencies': [
         'minidump',
+        '../snapshot/snapshot.gyp:snapshot_test_lib',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',

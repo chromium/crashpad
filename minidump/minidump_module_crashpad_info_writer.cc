@@ -18,6 +18,7 @@
 
 #include "base/logging.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
+#include "snapshot/module_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
 
@@ -31,11 +32,36 @@ MinidumpModuleCrashpadInfoWriter::MinidumpModuleCrashpadInfoWriter()
 MinidumpModuleCrashpadInfoWriter::~MinidumpModuleCrashpadInfoWriter() {
 }
 
+void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
+    const ModuleSnapshot* module_snapshot, size_t module_list_index) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!simple_annotations_);
+
+  uint32_t module_list_index_u32;
+  if (!AssignIfInRange(&module_list_index_u32, module_list_index)) {
+    LOG(ERROR) << "module_list_index " << module_list_index << " out of range";
+    return;
+  }
+  SetMinidumpModuleListIndex(module_list_index_u32);
+
+  auto simple_annotations =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryWriter());
+  simple_annotations->InitializeFromMap(
+      module_snapshot->AnnotationsSimpleMap());
+  if (simple_annotations->IsUseful()) {
+    SetSimpleAnnotations(simple_annotations.Pass());
+  }
+}
+
 void MinidumpModuleCrashpadInfoWriter::SetSimpleAnnotations(
     scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations) {
   DCHECK_EQ(state(), kStateMutable);
 
   simple_annotations_ = simple_annotations.Pass();
+}
+
+bool MinidumpModuleCrashpadInfoWriter::IsUseful() const {
+  return simple_annotations_;
 }
 
 bool MinidumpModuleCrashpadInfoWriter::Freeze() {
@@ -86,6 +112,24 @@ MinidumpModuleCrashpadInfoListWriter::MinidumpModuleCrashpadInfoListWriter()
 }
 
 MinidumpModuleCrashpadInfoListWriter::~MinidumpModuleCrashpadInfoListWriter() {
+}
+
+void MinidumpModuleCrashpadInfoListWriter::InitializeFromSnapshot(
+    const std::vector<const ModuleSnapshot*>& module_snapshots) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(modules_.empty());
+  DCHECK(module_location_descriptors_.empty());
+
+  size_t count = module_snapshots.size();
+  for (size_t index = 0; index < count; ++index) {
+    const ModuleSnapshot* module_snapshot = module_snapshots[index];
+
+    auto module = make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
+    module->InitializeFromSnapshot(module_snapshot, index);
+    if (module->IsUseful()) {
+      AddModule(module.Pass());
+    }
+  }
 }
 
 void MinidumpModuleCrashpadInfoListWriter::AddModule(

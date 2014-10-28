@@ -22,6 +22,7 @@
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
+#include "snapshot/test/test_module_snapshot.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -61,6 +62,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyModule) {
   MinidumpModuleCrashpadInfoListWriter module_list_writer;
   auto module_writer =
       make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
+  EXPECT_FALSE(module_writer->IsUseful());
   module_list_writer.AddModule(module_writer.Pass());
 
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
@@ -106,6 +108,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
   simple_string_dictionary_writer->AddEntry(
       simple_string_dictionary_entry_writer.Pass());
   module_writer->SetSimpleAnnotations(simple_string_dictionary_writer.Pass());
+  EXPECT_TRUE(module_writer->IsUseful());
   module_list_writer.AddModule(module_writer.Pass());
 
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
@@ -175,11 +178,13 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
       simple_string_dictionary_entry_writer_0.Pass());
   module_writer_0->SetSimpleAnnotations(
       simple_string_dictionary_writer_0.Pass());
+  EXPECT_TRUE(module_writer_0->IsUseful());
   module_list_writer.AddModule(module_writer_0.Pass());
 
   auto module_writer_1 =
       make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
   module_writer_1->SetMinidumpModuleListIndex(kMinidumpModuleListIndex1);
+  EXPECT_FALSE(module_writer_1->IsUseful());
   module_list_writer.AddModule(module_writer_1.Pass());
 
   auto module_writer_2 =
@@ -199,6 +204,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
       simple_string_dictionary_entry_writer_2b.Pass());
   module_writer_2->SetSimpleAnnotations(
       simple_string_dictionary_writer_2.Pass());
+  EXPECT_TRUE(module_writer_2->IsUseful());
   module_list_writer.AddModule(module_writer_2.Pass());
 
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
@@ -269,6 +275,95 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
   EXPECT_EQ(kValue2B,
             MinidumpUTF8StringAtRVAAsString(
                 file_writer.string(), simple_annotations_2->entries[1].value));
+}
+
+TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
+  const char kKey0A[] = "k";
+  const char kValue0A[] = "value";
+  const char kKey0B[] = "hudson";
+  const char kValue0B[] = "estuary";
+  const char kKey2[] = "k";
+  const char kValue2[] = "different_value";
+
+  std::vector<const ModuleSnapshot*> module_snapshots;
+
+  TestModuleSnapshot module_snapshot_0;
+  std::map<std::string, std::string> annotations_simple_map_0;
+  annotations_simple_map_0[kKey0A] = kValue0A;
+  annotations_simple_map_0[kKey0B] = kValue0B;
+  module_snapshot_0.SetAnnotationsSimpleMap(annotations_simple_map_0);
+  module_snapshots.push_back(&module_snapshot_0);
+
+  // module_snapshot_1 is not expected to be written because it would not carry
+  // any MinidumpModuleCrashpadInfo data.
+  TestModuleSnapshot module_snapshot_1;
+  module_snapshots.push_back(&module_snapshot_1);
+
+  TestModuleSnapshot module_snapshot_2;
+  std::map<std::string, std::string> annotations_simple_map_2;
+  annotations_simple_map_2[kKey2] = kValue2;
+  module_snapshot_2.SetAnnotationsSimpleMap(annotations_simple_map_2);
+  module_snapshots.push_back(&module_snapshot_2);
+
+  MinidumpModuleCrashpadInfoListWriter module_list_writer;
+  module_list_writer.InitializeFromSnapshot(module_snapshots);
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(module_list_writer.WriteEverything(&file_writer));
+
+  const MinidumpModuleCrashpadInfoList* module_list =
+      MinidumpModuleCrashpadInfoListAtStart(file_writer.string(), 2);
+  ASSERT_TRUE(module_list);
+
+  ASSERT_EQ(2u, module_list->count);
+
+  const MinidumpModuleCrashpadInfo* module_0 =
+      MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
+          file_writer.string(), module_list->modules[0]);
+  ASSERT_TRUE(module_0);
+
+  EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module_0->version);
+  EXPECT_EQ(0u, module_0->minidump_module_list_index);
+
+  const MinidumpSimpleStringDictionary* simple_annotations_0 =
+      MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
+          file_writer.string(), module_0->simple_annotations);
+  ASSERT_TRUE(simple_annotations_0);
+
+  ASSERT_EQ(annotations_simple_map_0.size(), simple_annotations_0->count);
+  EXPECT_EQ(kKey0B,
+            MinidumpUTF8StringAtRVAAsString(
+                file_writer.string(), simple_annotations_0->entries[0].key));
+  EXPECT_EQ(kValue0B,
+            MinidumpUTF8StringAtRVAAsString(
+                file_writer.string(), simple_annotations_0->entries[0].value));
+  EXPECT_EQ(kKey0A,
+            MinidumpUTF8StringAtRVAAsString(
+                file_writer.string(), simple_annotations_0->entries[1].key));
+  EXPECT_EQ(kValue0A,
+            MinidumpUTF8StringAtRVAAsString(
+                file_writer.string(), simple_annotations_0->entries[1].value));
+
+  const MinidumpModuleCrashpadInfo* module_2 =
+      MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
+          file_writer.string(), module_list->modules[1]);
+  ASSERT_TRUE(module_2);
+
+  EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module_2->version);
+  EXPECT_EQ(2u, module_2->minidump_module_list_index);
+
+  const MinidumpSimpleStringDictionary* simple_annotations_2 =
+      MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
+          file_writer.string(), module_2->simple_annotations);
+  ASSERT_TRUE(simple_annotations_2);
+
+  ASSERT_EQ(annotations_simple_map_2.size(), simple_annotations_2->count);
+  EXPECT_EQ(kKey2,
+            MinidumpUTF8StringAtRVAAsString(
+                file_writer.string(), simple_annotations_2->entries[0].key));
+  EXPECT_EQ(kValue2,
+            MinidumpUTF8StringAtRVAAsString(
+                file_writer.string(), simple_annotations_2->entries[0].value));
 }
 
 }  // namespace
