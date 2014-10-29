@@ -16,10 +16,14 @@
 
 #include <sys/types.h>
 
+#include <limits>
+
 #include "base/logging.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writer_util.h"
+#include "snapshot/module_snapshot.h"
 #include "util/file/file_writer.h"
+#include "util/numeric/in_range_cast.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
@@ -94,6 +98,25 @@ template class internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
 
 MinidumpModuleCodeViewRecordPDB70Writer::
     ~MinidumpModuleCodeViewRecordPDB70Writer() {
+}
+
+void MinidumpModuleCodeViewRecordPDB70Writer::InitializeFromSnapshot(
+    const ModuleSnapshot* module_snapshot) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  std::string name = module_snapshot->Name();
+  std::string leaf_name;
+  size_t last_slash = name.find_last_of('/');
+  if (last_slash != std::string::npos) {
+    leaf_name = name.substr(last_slash + 1);
+  } else {
+    leaf_name = name;
+  }
+  SetPDBName(leaf_name);
+
+  UUID uuid;
+  module_snapshot->UUID(&uuid);
+  SetUUIDAndAge(uuid, 0);
 }
 
 MinidumpModuleMiscDebugRecordWriter::MinidumpModuleMiscDebugRecordWriter()
@@ -184,6 +207,48 @@ MinidumpModuleWriter::MinidumpModuleWriter()
 }
 
 MinidumpModuleWriter::~MinidumpModuleWriter() {
+}
+
+void MinidumpModuleWriter::InitializeFromSnapshot(
+    const ModuleSnapshot* module_snapshot) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!name_);
+  DCHECK(!codeview_record_);
+  DCHECK(!misc_debug_record_);
+
+  SetName(module_snapshot->Name());
+
+  SetImageBaseAddress(module_snapshot->Address());
+  SetImageSize(InRangeCast<uint32_t>(module_snapshot->Size(),
+                                     std::numeric_limits<uint32_t>::max()));
+  SetTimestamp(module_snapshot->Timestamp());
+
+  uint16_t v[4];
+  module_snapshot->FileVersion(&v[0], &v[1], &v[2], &v[3]);
+  SetFileVersion(v[0], v[1], v[2], v[3]);
+
+  module_snapshot->SourceVersion(&v[0], &v[1], &v[2], &v[3]);
+  SetProductVersion(v[0], v[1], v[2], v[3]);
+
+  uint32_t file_type;
+  switch (module_snapshot->GetModuleType()) {
+    case ModuleSnapshot::kModuleTypeExecutable:
+      file_type = VFT_APP;
+      break;
+    case ModuleSnapshot::kModuleTypeSharedLibrary:
+    case ModuleSnapshot::kModuleTypeLoadableModule:
+      file_type = VFT_DLL;
+      break;
+    default:
+      file_type = VFT_UNKNOWN;
+      break;
+  }
+  SetFileTypeAndSubtype(file_type, VFT2_UNKNOWN);
+
+  auto codeview_record =
+      make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB70Writer());
+  codeview_record->InitializeFromSnapshot(module_snapshot);
+  SetCodeViewRecord(codeview_record.Pass());
 }
 
 const MINIDUMP_MODULE* MinidumpModuleWriter::MinidumpModule() const {
@@ -314,6 +379,18 @@ MinidumpModuleListWriter::MinidumpModuleListWriter()
 }
 
 MinidumpModuleListWriter::~MinidumpModuleListWriter() {
+}
+
+void MinidumpModuleListWriter::InitializeFromSnapshot(
+    const std::vector<const ModuleSnapshot*>& module_snapshots) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(modules_.empty());
+
+  for (const ModuleSnapshot* module_snapshot : module_snapshots) {
+    auto module = make_scoped_ptr(new MinidumpModuleWriter());
+    module->InitializeFromSnapshot(module_snapshot);
+    AddModule(module.Pass());
+  }
 }
 
 void MinidumpModuleListWriter::AddModule(

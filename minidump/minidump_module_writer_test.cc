@@ -19,6 +19,7 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
@@ -26,8 +27,10 @@
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
+#include "snapshot/test/test_module_snapshot.h"
 #include "util/file/string_file_writer.h"
 #include "util/misc/uuid.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 namespace test {
@@ -606,7 +609,146 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   }
 }
 
-TEST(MinidumpSystemInfoWriterDeathTest, NoModuleName) {
+void InitializeTestModuleSnapshotFromMinidumpModule(
+    TestModuleSnapshot* module_snapshot,
+    const MINIDUMP_MODULE& minidump_module,
+    const std::string& name,
+    const crashpad::UUID& uuid) {
+  module_snapshot->SetName(name);
+
+  module_snapshot->SetAddressAndSize(minidump_module.BaseOfImage,
+                                     minidump_module.SizeOfImage);
+  module_snapshot->SetTimestamp(minidump_module.TimeDateStamp);
+  module_snapshot->SetFileVersion(
+      minidump_module.VersionInfo.dwFileVersionMS >> 16,
+      minidump_module.VersionInfo.dwFileVersionMS & 0xffff,
+      minidump_module.VersionInfo.dwFileVersionLS >> 16,
+      minidump_module.VersionInfo.dwFileVersionLS & 0xffff);
+  module_snapshot->SetSourceVersion(
+      minidump_module.VersionInfo.dwProductVersionMS >> 16,
+      minidump_module.VersionInfo.dwProductVersionMS & 0xffff,
+      minidump_module.VersionInfo.dwProductVersionLS >> 16,
+      minidump_module.VersionInfo.dwProductVersionLS & 0xffff);
+
+  ModuleSnapshot::ModuleType module_type;
+  switch (minidump_module.VersionInfo.dwFileType) {
+    case VFT_APP:
+      module_type = ModuleSnapshot::kModuleTypeExecutable;
+      break;
+    case VFT_DLL:
+      module_type = ModuleSnapshot::kModuleTypeSharedLibrary;
+      break;
+    default:
+      module_type = ModuleSnapshot::kModuleTypeUnknown;
+      break;
+  }
+  module_snapshot->SetModuleType(module_type);
+
+  module_snapshot->SetUUID(uuid);
+}
+
+TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
+  MINIDUMP_MODULE expect_modules[3] = {};
+  const char* module_paths[3] = {};
+  const char* module_names[3] = {};
+  UUID uuids[3] = {};
+
+  static_assert(arraysize(expect_modules) == arraysize(module_paths),
+                "array sizes must be equal");
+  static_assert(arraysize(expect_modules) == arraysize(module_names),
+                "array sizes must be equal");
+  static_assert(arraysize(expect_modules) == arraysize(uuids),
+                "array sizes must be equal");
+
+  expect_modules[0].BaseOfImage = 0x100101000;
+  expect_modules[0].SizeOfImage = 0xf000;
+  expect_modules[0].TimeDateStamp = 0x01234567;
+  expect_modules[0].VersionInfo.dwFileVersionMS = 0x00010002;
+  expect_modules[0].VersionInfo.dwFileVersionLS = 0x00030004;
+  expect_modules[0].VersionInfo.dwProductVersionMS = 0x00050006;
+  expect_modules[0].VersionInfo.dwProductVersionLS = 0x00070008;
+  expect_modules[0].VersionInfo.dwFileType = VFT_APP;
+  module_paths[0] = "/usr/bin/true";
+  module_names[0] = "true";
+  const uint8_t kUUIDBytes0[16] =
+      {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
+       0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
+  uuids[0].InitializeFromBytes(kUUIDBytes0);
+
+  expect_modules[1].BaseOfImage = 0x200202000;
+  expect_modules[1].SizeOfImage = 0x1e1000;
+  expect_modules[1].TimeDateStamp = 0x89abcdef;
+  expect_modules[1].VersionInfo.dwFileVersionMS = 0x0009000a;
+  expect_modules[1].VersionInfo.dwFileVersionLS = 0x000b000c;
+  expect_modules[1].VersionInfo.dwProductVersionMS = 0x000d000e;
+  expect_modules[1].VersionInfo.dwProductVersionLS = 0x000f0000;
+  expect_modules[1].VersionInfo.dwFileType = VFT_DLL;
+  module_paths[1] = "/usr/lib/libSystem.B.dylib";
+  module_names[1] = "libSystem.B.dylib";
+  const uint8_t kUUIDBytes1[16] =
+      {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+       0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
+  uuids[1].InitializeFromBytes(kUUIDBytes1);
+
+  expect_modules[2].BaseOfImage = 0x300303000;
+  expect_modules[2].SizeOfImage = 0x2d000;
+  expect_modules[2].TimeDateStamp = 0x76543210;
+  expect_modules[2].VersionInfo.dwFileVersionMS = 0x11112222;
+  expect_modules[2].VersionInfo.dwFileVersionLS = 0x33334444;
+  expect_modules[2].VersionInfo.dwProductVersionMS = 0x9999aaaa;
+  expect_modules[2].VersionInfo.dwProductVersionLS = 0xbbbbcccc;
+  expect_modules[2].VersionInfo.dwFileType = VFT_UNKNOWN;
+  module_paths[2] = "/usr/lib/dyld";
+  module_names[2] = "dyld";
+  const uint8_t kUUIDBytes2[16] =
+      {0xff, 0xfe, 0xfd, 0xfc, 0xfb, 0xfa, 0xf9, 0xf8,
+       0xf7, 0xf6, 0xf5, 0xf4, 0xf3, 0xf2, 0xf1, 0xf0};
+  uuids[2].InitializeFromBytes(kUUIDBytes2);
+
+  PointerVector<TestModuleSnapshot> module_snapshots_owner;
+  std::vector<const ModuleSnapshot*> module_snapshots;
+  for (size_t index = 0; index < arraysize(expect_modules); ++index) {
+    TestModuleSnapshot* module_snapshot = new TestModuleSnapshot();
+    module_snapshots_owner.push_back(module_snapshot);
+    InitializeTestModuleSnapshotFromMinidumpModule(module_snapshot,
+                                                   expect_modules[index],
+                                                   module_paths[index],
+                                                   uuids[index]);
+    module_snapshots.push_back(module_snapshot);
+  }
+
+  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
+  module_list_writer->InitializeFromSnapshot(module_snapshots);
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.AddStream(module_list_writer.Pass());
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+
+  const MINIDUMP_MODULE_LIST* module_list;
+  ASSERT_NO_FATAL_FAILURE(
+      GetModuleListStream(file_writer.string(), &module_list));
+
+  ASSERT_EQ(3u, module_list->NumberOfModules);
+
+  for (size_t index = 0; index < module_list->NumberOfModules; ++index) {
+    SCOPED_TRACE(base::StringPrintf("index %zu", index));
+    ASSERT_NO_FATAL_FAILURE(ExpectModule(&expect_modules[index],
+                                         &module_list->Modules[index],
+                                         file_writer.string(),
+                                         module_paths[index],
+                                         module_names[index],
+                                         &uuids[index],
+                                         0,
+                                         0,
+                                         nullptr,
+                                         0,
+                                         false));
+  }
+}
+
+TEST(MinidumpModuleWriterDeathTest, NoModuleName) {
   MinidumpFileWriter minidump_file_writer;
   auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
   auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());

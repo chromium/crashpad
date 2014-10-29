@@ -32,6 +32,8 @@
 
 namespace crashpad {
 
+class ModuleSnapshot;
+
 namespace internal {
 class MinidumpUTF16StringWriter;
 }  // namespace internal
@@ -117,6 +119,16 @@ class MinidumpModuleCodeViewRecordPDB70Writer final
 
   ~MinidumpModuleCodeViewRecordPDB70Writer() override;
 
+  //! \brief Initializes the MinidumpModuleCodeViewRecordPDB70 based on \a
+  //!     module_snapshot.
+  //!
+  //! \param[in] module_snapshot The module snapshot to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(const ModuleSnapshot* module_snapshot);
+
   //! \brief Sets MinidumpModuleCodeViewRecordPDB70::uuid and
   //!     MinidumpModuleCodeViewRecordPDB70::age.
   void SetUUIDAndAge(const UUID& uuid, uint32_t age) {
@@ -175,6 +187,15 @@ class MinidumpModuleWriter final : public internal::MinidumpWritable {
  public:
   MinidumpModuleWriter();
   ~MinidumpModuleWriter() override;
+
+  //! \brief Initializes the MINIDUMP_MODULE based on \a module_snapshot.
+  //!
+  //! \param[in] module_snapshot The module snapshot to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(const ModuleSnapshot* module_snapshot);
 
   //! \brief Returns a MINIDUMP_MODULE referencing this object’s data.
   //!
@@ -293,6 +314,17 @@ class MinidumpModuleListWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpModuleListWriter();
   ~MinidumpModuleListWriter() override;
+
+  //! \brief Adds an initialized MINIDUMP_MODULE for each module in \a
+  //!     module_snapshots to the MINIDUMP_MODULE_LIST.
+  //!
+  //! \param[in] module_snapshots The module snapshots to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(
+      const std::vector<const ModuleSnapshot*>& module_snapshots);
 
   //! \brief Adds a MinidumpModuleWriter to the MINIDUMP_MODULE_LIST.
   //!
