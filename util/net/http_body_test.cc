@@ -16,6 +16,7 @@
 
 #include "base/memory/scoped_ptr.h"
 #include "gtest/gtest.h"
+#include "util/net/http_body_test_util.h"
 
 namespace crashpad {
 namespace test {
@@ -90,23 +91,6 @@ TEST(StringHTTPBodyStream, MultipleReads) {
     EXPECT_EQ('c', buf[0]);
     EXPECT_EQ('b', buf[1]);
   }
-}
-
-std::string ReadStreamToString(HTTPBodyStream* stream, size_t buffer_size) {
-  scoped_ptr<uint8_t[]> buf(new uint8_t[buffer_size]);
-  std::string result;
-
-  ssize_t bytes_read;
-  while ((bytes_read = stream->GetBytesBuffer(buf.get(), buffer_size)) != 0) {
-    if (bytes_read < 0) {
-      ADD_FAILURE() << "Failed to read from stream: " << bytes_read;
-      return std::string();
-    }
-
-    result.append(reinterpret_cast<char*>(buf.get()), bytes_read);
-  }
-
-  return result;
 }
 
 TEST(FileHTTPBodyStream, ReadASCIIFile) {
