@@ -30,7 +30,7 @@ static const uint32_t kCrashpadInfoVersion = 1;
 
 namespace crashpad {
 
-#if CXX_LIBRARY_VERSION >= 2011
+#if CXX_LIBRARY_VERSION >= 2011 || DOXYGEN
 // In C++11, check that CrashpadInfo has standard layout, which is what is
 // actually important.
 static_assert(std::is_standard_layout<CrashpadInfo>::value,

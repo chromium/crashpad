@@ -28,7 +28,7 @@
 namespace crashpad {
 namespace test {
 
-//! \brief A test ModuleSnapshot that can carries arbitrary data for testing
+//! \brief A test ModuleSnapshot that can carry arbitrary data for testing
 //!     purposes.
 class TestModuleSnapshot final : public ModuleSnapshot {
  public:

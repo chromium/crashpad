@@ -17,13 +17,18 @@
 
 #include <vector>
 
+#include "base/basictypes.h"
 #include "base/stl_util.h"
 
 namespace crashpad {
 
-// PointerContainer allows an STL container such as std::vector<> to “own”
-// pointer elements stored in it. When the container is destroyed, “delete” will
-// be called on its pointer elements.
+//! \brief Allows a standard container to “own” pointer elements stored in it.
+//!
+//! When the container is destroyed, `delete` will be called on its pointer
+//! elements.
+//!
+//! \note No attempt is made to `delete` elements that are removed from the
+//!     container by other means, such as replacement or `clear()`.
 template <typename ContainerType>
 class PointerContainer : public ContainerType {
  public:
@@ -33,10 +38,19 @@ class PointerContainer : public ContainerType {
 
  private:
   STLElementDeleter<ContainerType> pointer_deleter_;
+
+  DISALLOW_COPY_AND_ASSIGN(PointerContainer);
 };
 
+//! \brief Allows a `std::vector` to “own” pointer elements stored in it.
+//!
+//! When the vector is destroyed, `delete` will be called on its pointer
+//! elements.
+//!
+//! \note No attempt is made to `delete` elements that are removed from the
+//!     vector by other means, such as replacement or `clear()`.
 template <typename T>
-class PointerVector : public PointerContainer<std::vector<T*> > {};
+class PointerVector : public PointerContainer<std::vector<T*>> {};
 
 }  // namespace crashpad
 

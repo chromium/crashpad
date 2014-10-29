@@ -164,8 +164,8 @@ enum MINIDUMP_STREAM_TYPE {
   //!
   //! The exact version of the stream that is present is implied by the stream’s
   //! size. Furthermore, this stream contains a field,
-  //! MINIDUMP_MISC_INFO_STREAM::Flags1, that indicates which data is present
-  //! and valid.
+  //! MINIDUMP_MISC_INFO::Flags1, that indicates which data is present and
+  //! valid.
   MiscInfoStream = 15,
 };
 
@@ -840,9 +840,9 @@ enum MINIDUMP_TYPE {
   //!  - A MINIDUMP_MODULE_LIST stream. All loaded modules are present.
   //!  - Typically, a MINIDUMP_MEMORY_LIST stream containing duplicate pointers
   //!    to the stack memory regions also referenced by the MINIDUMP_THREAD_LIST
-  //!    stream. Since Windows 7 (NT 6.1), this type of minidump file also
-  //!    includes a MINIDUMP_MEMORY_DESCRIPTOR containing the 256 bytes centered
-  //!    around the exception address or the instruction pointer.
+  //!    stream. This type of minidump file also includes a
+  //!    MINIDUMP_MEMORY_DESCRIPTOR containing the 256 bytes centered around
+  //!    the exception address or the instruction pointer.
   MiniDumpNormal = 0x00000000,
 };
 
