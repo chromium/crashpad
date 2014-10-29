@@ -37,7 +37,7 @@ namespace internal {
 class ThreadSnapshotMac final : public ThreadSnapshot {
  public:
   ThreadSnapshotMac();
-  ~ThreadSnapshotMac();
+  ~ThreadSnapshotMac() override;
 
   //! \brief Initializes the object.
   //!

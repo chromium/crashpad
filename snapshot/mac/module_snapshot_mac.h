@@ -39,7 +39,7 @@ namespace internal {
 class ModuleSnapshotMac final : public ModuleSnapshot {
  public:
   ModuleSnapshotMac();
-  ~ModuleSnapshotMac();
+  ~ModuleSnapshotMac() override;
 
   //! \brief Initializes the object.
   //!

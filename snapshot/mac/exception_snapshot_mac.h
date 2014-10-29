@@ -37,7 +37,7 @@ namespace internal {
 class ExceptionSnapshotMac final : public ExceptionSnapshot {
  public:
   ExceptionSnapshotMac();
-  ~ExceptionSnapshotMac();
+  ~ExceptionSnapshotMac() override;
 
   //! \brief Initializes the object.
   //!

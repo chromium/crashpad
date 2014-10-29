@@ -43,7 +43,7 @@ namespace crashpad {
 class ProcessSnapshotMac final : public ProcessSnapshot {
  public:
   ProcessSnapshotMac();
-  ~ProcessSnapshotMac();
+  ~ProcessSnapshotMac() override;
 
   //! \brief Initializes the object.
   //!

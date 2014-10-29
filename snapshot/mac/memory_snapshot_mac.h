@@ -31,7 +31,7 @@ namespace internal {
 class MemorySnapshotMac final : public MemorySnapshot {
  public:
   MemorySnapshotMac();
-  ~MemorySnapshotMac();
+  ~MemorySnapshotMac() override;
 
   //! \brief Initializes the object.
   //!

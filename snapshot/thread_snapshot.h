@@ -26,6 +26,8 @@ class MemorySnapshot;
 //!     (lightweight process) present in a snapshot process.
 class ThreadSnapshot {
  public:
+  virtual ~ThreadSnapshot() {}
+
   //! \brief Returns a CPUContext object corresponding to the thread’s CPU
   //!     context.
   //!
@@ -59,9 +61,6 @@ class ThreadSnapshot {
   //! \brief Returns the base address of a region used to store thread-specific
   //!     data.
   virtual uint64_t ThreadSpecificDataAddress() const = 0;
-
- protected:
-  ~ThreadSnapshot() {}
 };
 
 }  // namespace crashpad

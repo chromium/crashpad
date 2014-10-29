@@ -32,6 +32,8 @@ class MemorySnapshot {
   //! data is read, it will be passed to a delegate method.
   class Delegate {
    public:
+    virtual ~Delegate() {}
+
     //! \brief Called by MemorySnapshot::Read() to provide data requested by a
     //!     call to that method.
     //!
@@ -43,10 +45,9 @@ class MemorySnapshot {
     //! \return `true` on success, `false` on failure. MemoryDelegate::Read()
     //!     will use this as its own return value.
     virtual bool MemorySnapshotDelegateRead(void* data, size_t size) = 0;
-
-   protected:
-    ~Delegate() {}
   };
+
+  virtual ~MemorySnapshot() {}
 
   //! \brief The base address of the memory snapshot in the snapshot process’
   //!     address space.
@@ -68,9 +69,6 @@ class MemorySnapshot {
   //!     Delegate::MemorySnapshotDelegateRead(), which should be `true` on
   //!     success and `false` on failure.
   virtual bool Read(Delegate* delegate) const = 0;
-
- protected:
-  ~MemorySnapshot() {}
 };
 
 }  // namespace crashpad

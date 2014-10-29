@@ -27,6 +27,8 @@ struct CPUContext;
 //!     snapshot process sustained and triggered the snapshot being taken.
 class ExceptionSnapshot {
  public:
+  virtual ~ExceptionSnapshot() {}
+
   //! \brief Returns a CPUContext object corresponding to the exception thread’s
   //!     CPU context at the time of the exception.
   //!
@@ -86,9 +88,6 @@ class ExceptionSnapshot {
   //! and the values of `code[0]` and `code[1]` as received by a Mach exception
   //! handler.
   virtual const std::vector<uint64_t>& Codes() const = 0;
-
- protected:
-  ~ExceptionSnapshot() {}
 };
 
 }  // namespace crashpad

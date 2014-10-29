@@ -33,7 +33,7 @@ namespace test {
 class TestModuleSnapshot final : public ModuleSnapshot {
  public:
   TestModuleSnapshot();
-  ~TestModuleSnapshot();
+  ~TestModuleSnapshot() override;
 
   void SetName(const std::string& name) { name_ = name; }
   void SetAddressAndSize(uint64_t address, uint64_t size) {

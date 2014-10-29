@@ -34,7 +34,7 @@ namespace internal {
 class SystemSnapshotMac final : public SystemSnapshot {
  public:
   SystemSnapshotMac();
-  ~SystemSnapshotMac();
+  ~SystemSnapshotMac() override;
 
   //! \brief Initializes the object.
   //!

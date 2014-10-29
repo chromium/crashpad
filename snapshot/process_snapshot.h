@@ -38,6 +38,8 @@ class ThreadSnapshot;
 //! objects corresponding to thread stacks.
 class ProcessSnapshot {
  public:
+  virtual ~ProcessSnapshot() {}
+
   //! \brief Returns the snapshot process’ process ID.
   virtual pid_t ProcessID() const = 0;
 
@@ -106,9 +108,6 @@ class ProcessSnapshot {
   //!     object that it was obtained from. If the snapshot is not a result of
   //!     an exception, returns `nullptr`.
   virtual const ExceptionSnapshot* Exception() const = 0;
-
- protected:
-  ~ProcessSnapshot() {}
 };
 
 }  // namespace crashpad

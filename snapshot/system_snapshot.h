@@ -29,6 +29,8 @@ namespace crashpad {
 //!     other characteristics.
 class SystemSnapshot {
  public:
+  virtual ~SystemSnapshot() {}
+
   //! \brief A system’s operating system family.
   enum OperatingSystem {
     //! \brief The snapshot system’s operating system is unknown.
@@ -255,9 +257,6 @@ class SystemSnapshot {
                         int* daylight_offset_seconds,
                         std::string* standard_name,
                         std::string* daylight_name) const = 0;
-
- protected:
-  ~SystemSnapshot() {}
 };
 
 }  // namespace crashpad

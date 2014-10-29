@@ -30,6 +30,8 @@ namespace crashpad {
 //!     (binary image) loaded into a snapshot process.
 class ModuleSnapshot {
  public:
+  virtual ~ModuleSnapshot() {}
+
   //! \brief A module’s type.
   enum ModuleType {
     //! \brief The module’s type is unknown.
@@ -145,9 +147,6 @@ class ModuleSnapshot {
   //! The annotations returned by this method do not duplicate those returned by
   //! AnnotationsVector().
   virtual std::map<std::string, std::string> AnnotationsSimpleMap() const = 0;
-
- protected:
-  ~ModuleSnapshot() {}
 };
 
 }  // namespace crashpad
