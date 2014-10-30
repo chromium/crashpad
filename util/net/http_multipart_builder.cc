@@ -104,6 +104,7 @@ void AssertSafeMIMEType(const std::string& string) {
           c == '/' ||
           c == '.' ||
           c == '_' ||
+          c == '+' ||
           c == '-');
   }
 }

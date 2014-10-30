@@ -257,6 +257,8 @@ TEST(HTTPMultipartBuilder, AssertUnsafeMIMEType) {
   ASSERT_DEATH(builder.SetFileAttachment("", "", base::FilePath(), "<>"), "");
   // Invalid but safe:
   builder.SetFileAttachment("", "", base::FilePath(), "0/totally/-invalid.pdf");
+  // Valid and safe:
+  builder.SetFileAttachment("", "", base::FilePath(), "application/xml+xhtml");
 }
 
 }  // namespace
