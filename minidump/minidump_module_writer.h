@@ -320,9 +320,9 @@ class MinidumpModuleListWriter final : public internal::MinidumpStreamWriter {
   //!
   //! \param[in] module_snapshots The module snapshots to use as source data.
   //!
-  //! \note Valid in #kStateMutable. No mutator methods may be called before
-  //!     this method, and it is not normally necessary to call any mutator
-  //!     methods after this method.
+  //! \note Valid in #kStateMutable. AddModule() may not be called before this
+  //!     this method, and it is not normally necessary to call AddModule()
+  //!     after this method.
   void InitializeFromSnapshot(
       const std::vector<const ModuleSnapshot*>& module_snapshots);
 
