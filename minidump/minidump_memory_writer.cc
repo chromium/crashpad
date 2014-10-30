@@ -14,13 +14,74 @@
 
 #include "minidump/minidump_memory_writer.h"
 
+#include "base/auto_reset.h"
 #include "base/logging.h"
+#include "snapshot/memory_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
+namespace {
+
+class SnapshotMinidumpMemoryWriter final : public MinidumpMemoryWriter,
+                                           public MemorySnapshot::Delegate {
+ public:
+  explicit SnapshotMinidumpMemoryWriter(const MemorySnapshot* memory_snapshot)
+      : MinidumpMemoryWriter(),
+        MemorySnapshot::Delegate(),
+        memory_snapshot_(memory_snapshot),
+        file_writer_(nullptr) {
+  }
+
+  ~SnapshotMinidumpMemoryWriter() override {}
+
+  // MemorySnapshot::Delegate:
+
+  bool MemorySnapshotDelegateRead(void* data, size_t size) override {
+    DCHECK_EQ(state(), kStateWritable);
+    DCHECK_EQ(size, MemoryRangeSize());
+    return file_writer_->Write(data, size);
+  }
+
+ protected:
+  // MinidumpMemoryWriter:
+
+  bool WriteObject(FileWriterInterface* file_writer) override {
+    DCHECK_EQ(state(), kStateWritable);
+    DCHECK(!file_writer_);
+
+    base::AutoReset<FileWriterInterface*> file_writer_reset(&file_writer_,
+                                                            file_writer);
+
+    // This will result in MemorySnapshotDelegateRead() being called.
+    return memory_snapshot_->Read(this);
+  }
+
+  uint64_t MemoryRangeBaseAddress() const override {
+    DCHECK_EQ(state(), kStateFrozen);
+    return memory_snapshot_->Address();
+  }
+
+  size_t MemoryRangeSize() const override {
+    DCHECK_GE(state(), kStateFrozen);
+    return memory_snapshot_->Size();
+  }
+
+ private:
+  const MemorySnapshot* memory_snapshot_;
+  FileWriterInterface* file_writer_;
+
+  DISALLOW_COPY_AND_ASSIGN(SnapshotMinidumpMemoryWriter);
+};
+
+}  // namespace
 
 MinidumpMemoryWriter::~MinidumpMemoryWriter() {
+}
+
+scoped_ptr<MinidumpMemoryWriter> MinidumpMemoryWriter::CreateFromSnapshot(
+    const MemorySnapshot* memory_snapshot) {
+  return make_scoped_ptr(new SnapshotMinidumpMemoryWriter(memory_snapshot));
 }
 
 const MINIDUMP_MEMORY_DESCRIPTOR*
@@ -107,6 +168,17 @@ MinidumpMemoryListWriter::MinidumpMemoryListWriter()
 }
 
 MinidumpMemoryListWriter::~MinidumpMemoryListWriter() {
+}
+
+void MinidumpMemoryListWriter::AddFromSnapshot(
+    const std::vector<const MemorySnapshot*>& memory_snapshots) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  for (const MemorySnapshot* memory_snapshot : memory_snapshots) {
+    scoped_ptr<MinidumpMemoryWriter> memory =
+        MinidumpMemoryWriter::CreateFromSnapshot(memory_snapshot);
+    AddMemory(memory.Pass());
+  }
 }
 
 void MinidumpMemoryListWriter::AddMemory(

@@ -649,16 +649,9 @@ void InitializeTestModuleSnapshotFromMinidumpModule(
 
 TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   MINIDUMP_MODULE expect_modules[3] = {};
-  const char* module_paths[3] = {};
-  const char* module_names[3] = {};
-  UUID uuids[3] = {};
-
-  static_assert(arraysize(expect_modules) == arraysize(module_paths),
-                "array sizes must be equal");
-  static_assert(arraysize(expect_modules) == arraysize(module_names),
-                "array sizes must be equal");
-  static_assert(arraysize(expect_modules) == arraysize(uuids),
-                "array sizes must be equal");
+  const char* module_paths[arraysize(expect_modules)] = {};
+  const char* module_names[arraysize(expect_modules)] = {};
+  UUID uuids[arraysize(expect_modules)] = {};
 
   expect_modules[0].BaseOfImage = 0x100101000;
   expect_modules[0].SizeOfImage = 0xf000;

@@ -39,7 +39,8 @@ class MemorySnapshot {
     //!
     //! \param[in] data A pointer to the data that was read. The callee does not
     //!     take ownership of this data. This data is only valid for the
-    //!     duration of the call to this method.
+    //!     duration of the call to this method. This parameter may be `nullptr`
+    //!     if \a size is `0`.
     //! \param[in] size The size of the data that was read.
     //!
     //! \return `true` on success, `false` on failure. MemoryDelegate::Read()

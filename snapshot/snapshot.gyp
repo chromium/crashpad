@@ -86,6 +86,8 @@
         '..',
       ],
       'sources': [
+        'test/test_memory_snapshot.cc',
+        'test/test_memory_snapshot.h',
         'test/test_module_snapshot.cc',
         'test/test_module_snapshot.h',
       ],

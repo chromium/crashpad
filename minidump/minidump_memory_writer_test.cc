@@ -18,6 +18,7 @@
 #include <stdint.h>
 
 #include "base/basictypes.h"
+#include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_file_writer.h"
@@ -25,7 +26,9 @@
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_memory_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
+#include "snapshot/test/test_memory_snapshot.h"
 #include "util/file/string_file_writer.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 namespace test {
@@ -235,7 +238,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   MinidumpFileWriter minidump_file_writer;
 
   const uint64_t kBaseAddress0 = 0x1000;
-  const uint64_t kSize0 = 0x0400;
+  const size_t kSize0 = 0x0400;
   const uint8_t kValue0 = '1';
   auto test_memory_stream =
       make_scoped_ptr(new TestMemoryStream(kBaseAddress0, kSize0, kValue0));
@@ -246,7 +249,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   minidump_file_writer.AddStream(test_memory_stream.Pass());
 
   const uint64_t kBaseAddress1 = 0x2000;
-  const uint64_t kSize1 = 0x0400;
+  const size_t kSize1 = 0x0400;
   const uint8_t kValue1 = 'm';
 
   auto memory_writer = make_scoped_ptr(
@@ -294,6 +297,62 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
                                               file_writer.string(),
                                               kValue1,
                                               true);
+  }
+}
+
+TEST(MinidumpMemoryWriter, AddFromSnapshot) {
+  MINIDUMP_MEMORY_DESCRIPTOR expect_memory_descriptors[3] = {};
+  uint8_t values[arraysize(expect_memory_descriptors)] = {};
+
+  expect_memory_descriptors[0].StartOfMemoryRange = 0;
+  expect_memory_descriptors[0].Memory.DataSize = 0x1000;
+  values[0] = 0x01;
+
+  expect_memory_descriptors[1].StartOfMemoryRange = 0x1000;
+  expect_memory_descriptors[1].Memory.DataSize = 0x2000;
+  values[1] = 0xf4;
+
+  expect_memory_descriptors[2].StartOfMemoryRange = 0x7654321000000000;
+  expect_memory_descriptors[2].Memory.DataSize = 0x800;
+  values[2] = 0xa9;
+
+  PointerVector<TestMemorySnapshot> memory_snapshots_owner;
+  std::vector<const MemorySnapshot*> memory_snapshots;
+  for (size_t index = 0;
+       index < arraysize(expect_memory_descriptors);
+       ++index) {
+    TestMemorySnapshot* memory_snapshot = new TestMemorySnapshot();
+    memory_snapshots_owner.push_back(memory_snapshot);
+    memory_snapshot->SetAddress(
+        expect_memory_descriptors[index].StartOfMemoryRange);
+    memory_snapshot->SetSize(expect_memory_descriptors[index].Memory.DataSize);
+    memory_snapshot->SetValue(values[index]);
+    memory_snapshots.push_back(memory_snapshot);
+  }
+
+  auto memory_list_writer = make_scoped_ptr(new MinidumpMemoryListWriter());
+  memory_list_writer->AddFromSnapshot(memory_snapshots);
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.AddStream(memory_list_writer.Pass());
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+
+  const MINIDUMP_MEMORY_LIST* memory_list;
+  ASSERT_NO_FATAL_FAILURE(
+      GetMemoryListStream(file_writer.string(), &memory_list, 1));
+
+  ASSERT_EQ(3u, memory_list->NumberOfMemoryRanges);
+
+  for (size_t index = 0; index < memory_list->NumberOfMemoryRanges; ++index) {
+    SCOPED_TRACE(base::StringPrintf("index %zu", index));
+    ExpectMinidumpMemoryDescriptorAndContents(
+        &expect_memory_descriptors[index],
+        &memory_list->MemoryRanges[index],
+        file_writer.string(),
+        values[index],
+        index == memory_list->NumberOfMemoryRanges - 1);
   }
 }
 

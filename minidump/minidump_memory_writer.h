@@ -29,6 +29,8 @@
 
 namespace crashpad {
 
+class MemorySnapshot;
+
 //! \brief The base class for writers of memory ranges pointed to by
 //!     MINIDUMP_MEMORY_DESCRIPTOR objects in a minidump file.
 //!
@@ -40,6 +42,16 @@ namespace crashpad {
 class MinidumpMemoryWriter : public internal::MinidumpWritable {
  public:
   ~MinidumpMemoryWriter() override;
+
+  //! \brief Creates a concrete initialized MinidumpMemoryWriter based on \a
+  //!     memory_snapshot.
+  //!
+  //! \param[in] memory_snapshot The memory snapshot to use as source data.
+  //!
+  //! \return An object of a MinidumpMemoryWriter subclass initialized using the
+  //!     source data in \a memory_snapshot.
+  static scoped_ptr<MinidumpMemoryWriter> CreateFromSnapshot(
+      const MemorySnapshot* memory_snapshot);
 
   //! \brief Returns a MINIDUMP_MEMORY_DESCRIPTOR referencing the data that this
   //!     object writes.
@@ -120,6 +132,17 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpMemoryListWriter();
   ~MinidumpMemoryListWriter() override;
+
+  //! \brief Adds a concrete initialized MinidumpMemoryWriter for each memory
+  //!     snapshot in \a memory_snapshots to the MINIDUMP_MEMORY_LIST.
+  //!
+  //! Memory snapshots are added in the fashion of AddMemory().
+  //!
+  //! \param[in] memory_snapshots The memory snapshots to use as source data.
+  //!
+  //! \note Valid in #kStateMutable.
+  void AddFromSnapshot(
+      const std::vector<const MemorySnapshot*>& memory_snapshots);
 
   //! \brief Adds a MinidumpMemoryWriter to the MINIDUMP_MEMORY_LIST.
   //!

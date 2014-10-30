@@ -52,6 +52,11 @@ size_t MemorySnapshotMac::Size() const {
 
 bool MemorySnapshotMac::Read(Delegate* delegate) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  if (size_ == 0) {
+    return delegate->MemorySnapshotDelegateRead(nullptr, size_);
+  }
+
   scoped_ptr<uint8_t[]> buffer(new uint8_t[size_]);
   if (!process_reader_->Memory()->Read(address_, size_, buffer.get())) {
     return false;
