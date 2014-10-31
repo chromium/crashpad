@@ -248,7 +248,7 @@ TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
   EXPECT_EQ(lines.end(), lines_it);
 }
 
-TEST(HTTPMultipartBuilder, AssertUnsafeMIMEType) {
+TEST(HTTPMultipartBuilderDeathTest, AssertUnsafeMIMEType) {
   HTTPMultipartBuilder builder;
   // Invalid and potentially dangerous:
   ASSERT_DEATH(builder.SetFileAttachment("", "", base::FilePath(), "\r\n"), "");
