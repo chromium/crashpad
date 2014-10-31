@@ -21,6 +21,7 @@
 #include "base/basictypes.h"
 #include "base/files/file_path.h"
 #include "base/memory/scoped_ptr.h"
+#include "util/net/http_headers.h"
 
 namespace crashpad {
 
@@ -63,8 +64,8 @@ class HTTPMultipartBuilder {
   //! \return A caller-owned HTTPBodyStream object.
   scoped_ptr<HTTPBodyStream> GetBodyStream();
 
-  //! \brief Gets the boundary that will be used in GetBodyStream().
-  std::string boundary() const { return boundary_; }
+  //! \brief Gets the header pair for `"Content-Type"`.
+  HTTPHeaders::value_type GetContentType() const;
 
  private:
   struct FileAttachment {

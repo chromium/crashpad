@@ -14,6 +14,7 @@
 
 #include "util/net/http_multipart_builder.h"
 
+#include <utility>
 #include <vector>
 
 #include "base/logging.h"
@@ -152,7 +153,7 @@ scoped_ptr<HTTPBodyStream> HTTPMultipartBuilder::GetBodyStream() {
   std::vector<HTTPBodyStream*> streams;
 
   for (const auto& pair : form_data_) {
-    std::string field = GetFormDataBoundary(boundary(), pair.first);
+    std::string field = GetFormDataBoundary(boundary_, pair.first);
     field += kBoundaryCRLF;
     field += pair.second;
     field += kCRLF;
@@ -161,7 +162,7 @@ scoped_ptr<HTTPBodyStream> HTTPMultipartBuilder::GetBodyStream() {
 
   for (const auto& pair : file_attachments_) {
     const FileAttachment& attachment = pair.second;
-    std::string header = GetFormDataBoundary(boundary(), pair.first);
+    std::string header = GetFormDataBoundary(boundary_, pair.first);
     header += base::StringPrintf("; filename=\"%s\"%s",
         attachment.filename.c_str(), kCRLF);
     header += base::StringPrintf("Content-Type: %s%s",
@@ -173,9 +174,15 @@ scoped_ptr<HTTPBodyStream> HTTPMultipartBuilder::GetBodyStream() {
   }
 
   streams.push_back(
-      new StringHTTPBodyStream("--"  + boundary() + "--" + kCRLF));
+      new StringHTTPBodyStream("--"  + boundary_ + "--" + kCRLF));
 
   return scoped_ptr<HTTPBodyStream>(new CompositeHTTPBodyStream(streams));
+}
+
+HTTPHeaders::value_type HTTPMultipartBuilder::GetContentType() const {
+  std::string content_type =
+      base::StringPrintf("multipart/form-data; boundary=%s", boundary_.c_str());
+  return std::make_pair(kContentType, content_type);
 }
 
 void HTTPMultipartBuilder::EraseKey(const std::string& key) {
