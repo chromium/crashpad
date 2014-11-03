@@ -82,8 +82,8 @@ string16 MinidumpStringAtRVAAsString(const std::string& file_contents, RVA rva);
 
 //! \brief Returns the contents of a MinidumpUTF8String as a `std::string`.
 //!
-//! This function uses MinidumpUTF16StringAtRVA() to obtain a
-//! MinidumpUTF16String, and returns the string data as a `std::string`.
+//! This function uses MinidumpUTF8StringAtRVA() to obtain a MinidumpUTF8String,
+//! and returns the string data as a `std::string`.
 //!
 //! \param[in] file_contents The contents of the minidump file.
 //! \param[in] rva The offset within the minidump file of the desired
