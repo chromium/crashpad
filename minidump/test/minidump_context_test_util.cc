@@ -15,7 +15,10 @@
 #include "minidump/test/minidump_context_test_util.h"
 
 #include "base/basictypes.h"
+#include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
+#include "snapshot/cpu_context.h"
+#include "snapshot/test/test_cpu_context.h"
 
 namespace crashpad {
 namespace test {
@@ -31,45 +34,59 @@ void InitializeMinidumpContextX86(MinidumpContextX86* context, uint32_t seed) {
 
   uint32_t value = seed;
 
+  context->eax = value++;
+  context->ebx = value++;
+  context->ecx = value++;
+  context->edx = value++;
+  context->edi = value++;
+  context->esi = value++;
+  context->ebp = value++;
+  context->esp = value++;
+  context->eip = value++;
+  context->eflags = value++;
+  context->cs = value++ & 0xffff;
+  context->ds = value++ & 0xffff;
+  context->es = value++ & 0xffff;
+  context->fs = value++ & 0xffff;
+  context->gs = value++ & 0xffff;
+  context->ss = value++ & 0xffff;
+
+  InitializeCPUContextX86Fxsave(&context->fxsave, &value);
+
   context->dr0 = value++;
   context->dr1 = value++;
   context->dr2 = value++;
   context->dr3 = value++;
+  value += 2;  // Minidumps don’t carry dr4 or dr5.
   context->dr6 = value++;
   context->dr7 = value++;
-  context->float_save.control_word = value++;
-  context->float_save.status_word = value++;
-  context->float_save.tag_word = value++;
-  context->float_save.error_offset = value++;
-  context->float_save.error_selector = value++;
-  context->float_save.data_offset = value++;
-  context->float_save.data_selector = value++;
-  for (size_t index = 0;
-       index < arraysize(context->float_save.register_area);
-       ++index) {
-    context->float_save.register_area[index] = value++;
+
+  // Copy the values that are aliased between the fxsave area
+  // (context->extended_registers) and the floating-point save area
+  // (context->float_save).
+  context->float_save.control_word = context->fxsave.fcw;
+  context->float_save.status_word = context->fxsave.fsw;
+  context->float_save.tag_word = CPUContextX86::FxsaveToFsaveTagWord(
+      context->fxsave.fsw, context->fxsave.ftw, context->fxsave.st_mm);
+  context->float_save.error_offset = context->fxsave.fpu_ip;
+  context->float_save.error_selector = context->fxsave.fpu_cs;
+  context->float_save.data_offset = context->fxsave.fpu_dp;
+  context->float_save.data_selector = context->fxsave.fpu_ds;
+  for (size_t st_mm_index = 0;
+       st_mm_index < arraysize(context->fxsave.st_mm);
+       ++st_mm_index) {
+    for (size_t byte = 0;
+         byte < arraysize(context->fxsave.st_mm[st_mm_index].st);
+         ++byte) {
+      size_t st_index =
+          st_mm_index * arraysize(context->fxsave.st_mm[st_mm_index].st) + byte;
+      context->float_save.register_area[st_index] =
+          context->fxsave.st_mm[st_mm_index].st[byte];
+    }
   }
+
+  // Set this field last, because it has no analogue in CPUContextX86.
   context->float_save.spare_0 = value++;
-  context->gs = value++;
-  context->fs = value++;
-  context->es = value++;
-  context->ds = value++;
-  context->edi = value++;
-  context->esi = value++;
-  context->ebx = value++;
-  context->edx = value++;
-  context->ecx = value++;
-  context->eax = value++;
-  context->ebp = value++;
-  context->eip = value++;
-  context->cs = value++;
-  context->eflags = value++;
-  context->esp = value++;
-  context->ss = value++;
-  for (size_t index = 0; index < arraysize(context->extended_registers);
-       ++index) {
-    context->extended_registers[index] = value++;
-  }
 }
 
 void InitializeMinidumpContextAMD64(MinidumpContextAMD64* context,
@@ -84,34 +101,14 @@ void InitializeMinidumpContextAMD64(MinidumpContextAMD64* context,
 
   uint32_t value = seed;
 
-  context->p1_home = value++;
-  context->p2_home = value++;
-  context->p3_home = value++;
-  context->p4_home = value++;
-  context->p5_home = value++;
-  context->p6_home = value++;
-  context->mx_csr = value++;
-  context->cs = value++;
-  context->ds = value++;
-  context->es = value++;
-  context->fs = value++;
-  context->gs = value++;
-  context->ss = value++;
-  context->eflags = value++;
-  context->dr0 = value++;
-  context->dr1 = value++;
-  context->dr2 = value++;
-  context->dr3 = value++;
-  context->dr6 = value++;
-  context->dr7 = value++;
   context->rax = value++;
+  context->rbx = value++;
   context->rcx = value++;
   context->rdx = value++;
-  context->rbx = value++;
-  context->rsp = value++;
-  context->rbp = value++;
-  context->rsi = value++;
   context->rdi = value++;
+  context->rsi = value++;
+  context->rbp = value++;
+  context->rsp = value++;
   context->r8 = value++;
   context->r9 = value++;
   context->r10 = value++;
@@ -121,36 +118,34 @@ void InitializeMinidumpContextAMD64(MinidumpContextAMD64* context,
   context->r14 = value++;
   context->r15 = value++;
   context->rip = value++;
-  context->float_save.control_word = value++;
-  context->float_save.status_word = value++;
-  context->float_save.tag_word = value++;
-  context->float_save.reserved_1 = value++;
-  context->float_save.error_opcode = value++;
-  context->float_save.error_offset = value++;
-  context->float_save.error_selector = value++;
-  context->float_save.reserved_2 = value++;
-  context->float_save.data_offset = value++;
-  context->float_save.data_selector = value++;
-  context->float_save.reserved_3 = value++;
-  context->float_save.mx_csr = value++;
-  context->float_save.mx_csr_mask = value++;
-  for (size_t index = 0;
-       index < arraysize(context->float_save.float_registers);
-       ++index) {
-    context->float_save.float_registers[index].lo = value++;
-    context->float_save.float_registers[index].hi = value++;
-  }
-  for (size_t index = 0;
-       index < arraysize(context->float_save.xmm_registers);
-       ++index) {
-    context->float_save.xmm_registers[index].lo = value++;
-    context->float_save.xmm_registers[index].hi = value++;
-  }
-  for (size_t index = 0;
-       index < arraysize(context->float_save.reserved_4);
-       ++index) {
-    context->float_save.reserved_4[index] = value++;
-  }
+  context->eflags = value++;
+  context->cs = value++;
+  context->fs = value++;
+  context->gs = value++;
+
+  InitializeCPUContextX86_64Fxsave(&context->fxsave, &value);
+
+  // mxcsr appears twice, and the two values should be aliased.
+  context->mx_csr = context->fxsave.mxcsr;
+
+  context->dr0 = value++;
+  context->dr1 = value++;
+  context->dr2 = value++;
+  context->dr3 = value++;
+  value += 2;  // Minidumps don’t carry dr4 or dr5.
+  context->dr6 = value++;
+  context->dr7 = value++;
+
+  // Set these fields last, because they have no analogues in CPUContextX86_64.
+  context->p1_home = value++;
+  context->p2_home = value++;
+  context->p3_home = value++;
+  context->p4_home = value++;
+  context->p5_home = value++;
+  context->p6_home = value++;
+  context->ds = value++;
+  context->es = value++;
+  context->ss = value++;
   for (size_t index = 0; index < arraysize(context->vector_register); ++index) {
     context->vector_register[index].lo = value++;
     context->vector_register[index].hi = value++;
@@ -163,8 +158,69 @@ void InitializeMinidumpContextAMD64(MinidumpContextAMD64* context,
   context->last_exception_from_rip = value++;
 }
 
-void ExpectMinidumpContextX86(uint32_t expect_seed,
-                              const MinidumpContextX86* observed) {
+namespace {
+
+// Using gtest assertions, compares |expected| to |observed|. This is
+// templatized because the CPUContextX86::Fxsave and CPUContextX86_64::Fxsave
+// are nearly identical but have different sizes for the members |xmm|,
+// |reserved_4|, and |available|.
+template <typename FxsaveType>
+void ExpectMinidumpContextFxsave(const FxsaveType* expected,
+                                 const FxsaveType* observed) {
+  EXPECT_EQ(expected->fcw, observed->fcw);
+  EXPECT_EQ(expected->fsw, observed->fsw);
+  EXPECT_EQ(expected->ftw, observed->ftw);
+  EXPECT_EQ(expected->reserved_1, observed->reserved_1);
+  EXPECT_EQ(expected->fop, observed->fop);
+  EXPECT_EQ(expected->fpu_ip, observed->fpu_ip);
+  EXPECT_EQ(expected->fpu_cs, observed->fpu_cs);
+  EXPECT_EQ(expected->reserved_2, observed->reserved_2);
+  EXPECT_EQ(expected->fpu_dp, observed->fpu_dp);
+  EXPECT_EQ(expected->fpu_ds, observed->fpu_ds);
+  EXPECT_EQ(expected->reserved_3, observed->reserved_3);
+  EXPECT_EQ(expected->mxcsr, observed->mxcsr);
+  EXPECT_EQ(expected->mxcsr_mask, observed->mxcsr_mask);
+  for (size_t st_mm_index = 0;
+       st_mm_index < arraysize(expected->st_mm);
+       ++st_mm_index) {
+    SCOPED_TRACE(base::StringPrintf("st_mm_index %zu", st_mm_index));
+    for (size_t byte = 0;
+         byte < arraysize(expected->st_mm[st_mm_index].st);
+         ++byte) {
+      EXPECT_EQ(expected->st_mm[st_mm_index].st[byte],
+                observed->st_mm[st_mm_index].st[byte]) << "byte " << byte;
+    }
+    for (size_t byte = 0;
+         byte < arraysize(expected->st_mm[st_mm_index].st_reserved);
+         ++byte) {
+      EXPECT_EQ(expected->st_mm[st_mm_index].st_reserved[byte],
+                observed->st_mm[st_mm_index].st_reserved[byte])
+          << "byte " << byte;
+    }
+  }
+  for (size_t xmm_index = 0;
+       xmm_index < arraysize(expected->xmm);
+       ++xmm_index) {
+    SCOPED_TRACE(base::StringPrintf("xmm_index %zu", xmm_index));
+    for (size_t byte = 0; byte < arraysize(expected->xmm[xmm_index]); ++byte) {
+      EXPECT_EQ(expected->xmm[xmm_index][byte], observed->xmm[xmm_index][byte])
+          << "byte " << byte;
+    }
+  }
+  for (size_t byte = 0; byte < arraysize(expected->reserved_4); ++byte) {
+    EXPECT_EQ(expected->reserved_4[byte], observed->reserved_4[byte])
+        << "byte " << byte;
+  }
+  for (size_t byte = 0; byte < arraysize(expected->available); ++byte) {
+    EXPECT_EQ(expected->available[byte], observed->available[byte])
+        << "byte " << byte;
+  }
+}
+
+}  // namespace
+
+void ExpectMinidumpContextX86(
+    uint32_t expect_seed, const MinidumpContextX86* observed, bool snapshot) {
   MinidumpContextX86 expected;
   InitializeMinidumpContextX86(&expected, expect_seed);
 
@@ -175,6 +231,7 @@ void ExpectMinidumpContextX86(uint32_t expect_seed,
   EXPECT_EQ(expected.dr3, observed->dr3);
   EXPECT_EQ(expected.dr6, observed->dr6);
   EXPECT_EQ(expected.dr7, observed->dr7);
+
   EXPECT_EQ(expected.float_save.control_word,
             observed->float_save.control_word);
   EXPECT_EQ(expected.float_save.status_word, observed->float_save.status_word);
@@ -190,9 +247,14 @@ void ExpectMinidumpContextX86(uint32_t expect_seed,
        index < arraysize(expected.float_save.register_area);
        ++index) {
     EXPECT_EQ(expected.float_save.register_area[index],
-              observed->float_save.register_area[index]);
+              observed->float_save.register_area[index]) << "index " << index;
   }
-  EXPECT_EQ(expected.float_save.spare_0, observed->float_save.spare_0);
+  if (snapshot) {
+    EXPECT_EQ(0u, observed->float_save.spare_0);
+  } else {
+    EXPECT_EQ(expected.float_save.spare_0, observed->float_save.spare_0);
+  }
+
   EXPECT_EQ(expected.gs, observed->gs);
   EXPECT_EQ(expected.fs, observed->fs);
   EXPECT_EQ(expected.es, observed->es);
@@ -209,40 +271,60 @@ void ExpectMinidumpContextX86(uint32_t expect_seed,
   EXPECT_EQ(expected.eflags, observed->eflags);
   EXPECT_EQ(expected.esp, observed->esp);
   EXPECT_EQ(expected.ss, observed->ss);
-  for (size_t index = 0;
-       index < arraysize(expected.extended_registers);
-       ++index) {
-    EXPECT_EQ(expected.extended_registers[index],
-              observed->extended_registers[index]);
-  }
+
+  ExpectMinidumpContextFxsave(&expected.fxsave, &observed->fxsave);
 }
 
-void ExpectMinidumpContextAMD64(uint32_t expect_seed,
-                                const MinidumpContextAMD64* observed) {
+void ExpectMinidumpContextAMD64(
+    uint32_t expect_seed, const MinidumpContextAMD64* observed, bool snapshot) {
   MinidumpContextAMD64 expected;
   InitializeMinidumpContextAMD64(&expected, expect_seed);
 
   EXPECT_EQ(expected.context_flags, observed->context_flags);
-  EXPECT_EQ(expected.p1_home, observed->p1_home);
-  EXPECT_EQ(expected.p2_home, observed->p2_home);
-  EXPECT_EQ(expected.p3_home, observed->p3_home);
-  EXPECT_EQ(expected.p4_home, observed->p4_home);
-  EXPECT_EQ(expected.p5_home, observed->p5_home);
-  EXPECT_EQ(expected.p6_home, observed->p6_home);
+
+  if (snapshot) {
+    EXPECT_EQ(0u, observed->p1_home);
+    EXPECT_EQ(0u, observed->p2_home);
+    EXPECT_EQ(0u, observed->p3_home);
+    EXPECT_EQ(0u, observed->p4_home);
+    EXPECT_EQ(0u, observed->p5_home);
+    EXPECT_EQ(0u, observed->p6_home);
+  } else {
+    EXPECT_EQ(expected.p1_home, observed->p1_home);
+    EXPECT_EQ(expected.p2_home, observed->p2_home);
+    EXPECT_EQ(expected.p3_home, observed->p3_home);
+    EXPECT_EQ(expected.p4_home, observed->p4_home);
+    EXPECT_EQ(expected.p5_home, observed->p5_home);
+    EXPECT_EQ(expected.p6_home, observed->p6_home);
+  }
+
   EXPECT_EQ(expected.mx_csr, observed->mx_csr);
+
   EXPECT_EQ(expected.cs, observed->cs);
-  EXPECT_EQ(expected.ds, observed->ds);
-  EXPECT_EQ(expected.es, observed->es);
+  if (snapshot) {
+    EXPECT_EQ(0u, observed->ds);
+    EXPECT_EQ(0u, observed->es);
+  } else {
+    EXPECT_EQ(expected.ds, observed->ds);
+    EXPECT_EQ(expected.es, observed->es);
+  }
   EXPECT_EQ(expected.fs, observed->fs);
   EXPECT_EQ(expected.gs, observed->gs);
-  EXPECT_EQ(expected.ss, observed->ss);
+  if (snapshot) {
+    EXPECT_EQ(0u, observed->ss);
+  } else {
+    EXPECT_EQ(expected.ss, observed->ss);
+  }
+
   EXPECT_EQ(expected.eflags, observed->eflags);
+
   EXPECT_EQ(expected.dr0, observed->dr0);
   EXPECT_EQ(expected.dr1, observed->dr1);
   EXPECT_EQ(expected.dr2, observed->dr2);
   EXPECT_EQ(expected.dr3, observed->dr3);
   EXPECT_EQ(expected.dr6, observed->dr6);
   EXPECT_EQ(expected.dr7, observed->dr7);
+
   EXPECT_EQ(expected.rax, observed->rax);
   EXPECT_EQ(expected.rcx, observed->rcx);
   EXPECT_EQ(expected.rdx, observed->rdx);
@@ -260,59 +342,37 @@ void ExpectMinidumpContextAMD64(uint32_t expect_seed,
   EXPECT_EQ(expected.r14, observed->r14);
   EXPECT_EQ(expected.r15, observed->r15);
   EXPECT_EQ(expected.rip, observed->rip);
-  EXPECT_EQ(expected.float_save.control_word,
-            observed->float_save.control_word);
-  EXPECT_EQ(expected.float_save.status_word, observed->float_save.status_word);
-  EXPECT_EQ(expected.float_save.tag_word, observed->float_save.tag_word);
-  EXPECT_EQ(expected.float_save.reserved_1, observed->float_save.reserved_1);
-  EXPECT_EQ(expected.float_save.error_opcode,
-            observed->float_save.error_opcode);
-  EXPECT_EQ(expected.float_save.error_offset,
-            observed->float_save.error_offset);
-  EXPECT_EQ(expected.float_save.error_selector,
-            observed->float_save.error_selector);
-  EXPECT_EQ(expected.float_save.reserved_2, observed->float_save.reserved_2);
-  EXPECT_EQ(expected.float_save.data_offset, observed->float_save.data_offset);
-  EXPECT_EQ(expected.float_save.data_selector,
-            observed->float_save.data_selector);
-  EXPECT_EQ(expected.float_save.reserved_3, observed->float_save.reserved_3);
-  EXPECT_EQ(expected.float_save.mx_csr, observed->float_save.mx_csr);
-  EXPECT_EQ(expected.float_save.mx_csr_mask, observed->float_save.mx_csr_mask);
-  for (size_t index = 0;
-       index < arraysize(expected.float_save.float_registers);
-       ++index) {
-    EXPECT_EQ(expected.float_save.float_registers[index].lo,
-              observed->float_save.float_registers[index].lo);
-    EXPECT_EQ(expected.float_save.float_registers[index].hi,
-              observed->float_save.float_registers[index].hi);
-  }
-  for (size_t index = 0;
-       index < arraysize(expected.float_save.xmm_registers);
-       ++index) {
-    EXPECT_EQ(expected.float_save.xmm_registers[index].lo,
-              observed->float_save.xmm_registers[index].lo);
-    EXPECT_EQ(expected.float_save.xmm_registers[index].hi,
-              observed->float_save.xmm_registers[index].hi);
-  }
-  for (size_t index = 0;
-       index < arraysize(expected.float_save.reserved_4);
-       ++index) {
-    EXPECT_EQ(expected.float_save.reserved_4[index],
-              observed->float_save.reserved_4[index]);
-  }
+
+  ExpectMinidumpContextFxsave(&expected.fxsave, &observed->fxsave);
+
   for (size_t index = 0; index < arraysize(expected.vector_register); ++index) {
-    EXPECT_EQ(expected.vector_register[index].lo,
-              observed->vector_register[index].lo);
-    EXPECT_EQ(expected.vector_register[index].hi,
-              observed->vector_register[index].hi);
+    if (snapshot) {
+      EXPECT_EQ(0u, observed->vector_register[index].lo) << "index " << index;
+      EXPECT_EQ(0u, observed->vector_register[index].hi) << "index " << index;
+    } else {
+      EXPECT_EQ(expected.vector_register[index].lo,
+                observed->vector_register[index].lo) << "index " << index;
+      EXPECT_EQ(expected.vector_register[index].hi,
+                observed->vector_register[index].hi) << "index " << index;
+    }
   }
-  EXPECT_EQ(expected.vector_control, observed->vector_control);
-  EXPECT_EQ(expected.debug_control, observed->debug_control);
-  EXPECT_EQ(expected.last_branch_to_rip, observed->last_branch_to_rip);
-  EXPECT_EQ(expected.last_branch_from_rip, observed->last_branch_from_rip);
-  EXPECT_EQ(expected.last_exception_to_rip, observed->last_exception_to_rip);
-  EXPECT_EQ(expected.last_exception_from_rip,
-            observed->last_exception_from_rip);
+
+  if (snapshot) {
+    EXPECT_EQ(0u, observed->vector_control);
+    EXPECT_EQ(0u, observed->debug_control);
+    EXPECT_EQ(0u, observed->last_branch_to_rip);
+    EXPECT_EQ(0u, observed->last_branch_from_rip);
+    EXPECT_EQ(0u, observed->last_exception_to_rip);
+    EXPECT_EQ(0u, observed->last_exception_from_rip);
+  } else {
+    EXPECT_EQ(expected.vector_control, observed->vector_control);
+    EXPECT_EQ(expected.debug_control, observed->debug_control);
+    EXPECT_EQ(expected.last_branch_to_rip, observed->last_branch_to_rip);
+    EXPECT_EQ(expected.last_branch_from_rip, observed->last_branch_from_rip);
+    EXPECT_EQ(expected.last_exception_to_rip, observed->last_exception_to_rip);
+    EXPECT_EQ(expected.last_exception_from_rip,
+              observed->last_exception_from_rip);
+  }
 }
 
 }  // namespace test

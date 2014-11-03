@@ -20,6 +20,8 @@
 #include "minidump/minidump_context.h"
 #include "minidump/test/minidump_context_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
+#include "snapshot/cpu_context.h"
+#include "snapshot/test/test_cpu_context.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -41,7 +43,9 @@ TEST(MinidumpContextWriter, MinidumpContextX86Writer) {
 
     const MinidumpContextX86* observed =
         MinidumpWritableAtRVA<MinidumpContextX86>(file_writer.string(), 0);
-    ExpectMinidumpContextX86(0, observed);
+    ASSERT_TRUE(observed);
+
+    ExpectMinidumpContextX86(0, observed, false);
   }
 
   {
@@ -58,7 +62,9 @@ TEST(MinidumpContextWriter, MinidumpContextX86Writer) {
 
     const MinidumpContextX86* observed =
         MinidumpWritableAtRVA<MinidumpContextX86>(file_writer.string(), 0);
-    ExpectMinidumpContextX86(kSeed, observed);
+    ASSERT_TRUE(observed);
+
+    ExpectMinidumpContextX86(kSeed, observed, false);
   }
 }
 
@@ -77,7 +83,9 @@ TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
 
     const MinidumpContextAMD64* observed =
         MinidumpWritableAtRVA<MinidumpContextAMD64>(file_writer.string(), 0);
-    ExpectMinidumpContextAMD64(0, observed);
+    ASSERT_TRUE(observed);
+
+    ExpectMinidumpContextAMD64(0, observed, false);
   }
 
   {
@@ -94,8 +102,54 @@ TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
 
     const MinidumpContextAMD64* observed =
         MinidumpWritableAtRVA<MinidumpContextAMD64>(file_writer.string(), 0);
-    ExpectMinidumpContextAMD64(kSeed, observed);
+    ASSERT_TRUE(observed);
+
+    ExpectMinidumpContextAMD64(kSeed, observed, false);
   }
+}
+
+TEST(MinidumpContextWriter, CreateFromSnapshot_X86) {
+  const uint32_t kSeed = 32;
+
+  CPUContextX86 context_snapshot_x86;
+  CPUContext context_snapshot;
+  context_snapshot.x86 = &context_snapshot_x86;
+  InitializeCPUContextX86(&context_snapshot, kSeed);
+
+  scoped_ptr<MinidumpContextWriter> context_writer =
+      MinidumpContextWriter::CreateFromSnapshot(&context_snapshot);
+  ASSERT_TRUE(context_writer);
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(context_writer->WriteEverything(&file_writer));
+
+  const MinidumpContextX86* observed =
+      MinidumpWritableAtRVA<MinidumpContextX86>(file_writer.string(), 0);
+  ASSERT_TRUE(observed);
+
+  ExpectMinidumpContextX86(kSeed, observed, true);
+}
+
+TEST(MinidumpContextWriter, CreateFromSnapshot_AMD64) {
+  const uint32_t kSeed = 64;
+
+  CPUContextX86_64 context_snapshot_x86_64;
+  CPUContext context_snapshot;
+  context_snapshot.x86_64 = &context_snapshot_x86_64;
+  InitializeCPUContextX86_64(&context_snapshot, kSeed);
+
+  scoped_ptr<MinidumpContextWriter> context_writer =
+      MinidumpContextWriter::CreateFromSnapshot(&context_snapshot);
+  ASSERT_TRUE(context_writer);
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(context_writer->WriteEverything(&file_writer));
+
+  const MinidumpContextAMD64* observed =
+      MinidumpWritableAtRVA<MinidumpContextAMD64>(file_writer.string(), 0);
+  ASSERT_TRUE(observed);
+
+  ExpectMinidumpContextAMD64(kSeed, observed, true);
 }
 
 }  // namespace

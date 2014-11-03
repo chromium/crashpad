@@ -184,7 +184,8 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
                    nullptr,
                    reinterpret_cast<const void**>(&observed_context)));
 
-  ASSERT_NO_FATAL_FAILURE(ExpectMinidumpContextX86(kSeed, observed_context));
+  ASSERT_NO_FATAL_FAILURE(
+      ExpectMinidumpContextX86(kSeed, observed_context, false));
 }
 
 TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
@@ -258,7 +259,8 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
                                                 file_writer.string(),
                                                 kMemoryValue,
                                                 true));
-  ASSERT_NO_FATAL_FAILURE(ExpectMinidumpContextAMD64(kSeed, observed_context));
+  ASSERT_NO_FATAL_FAILURE(
+      ExpectMinidumpContextAMD64(kSeed, observed_context, false));
 }
 
 TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
@@ -398,7 +400,8 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
                                                   file_writer.string(),
                                                   kMemoryValue0,
                                                   false));
-    ASSERT_NO_FATAL_FAILURE(ExpectMinidumpContextX86(kSeed0, observed_context));
+    ASSERT_NO_FATAL_FAILURE(
+        ExpectMinidumpContextX86(kSeed0, observed_context, false));
     ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
         observed_stack, &memory_list->MemoryRanges[0]));
   }
@@ -431,7 +434,8 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
                                                   file_writer.string(),
                                                   kMemoryValue1,
                                                   false));
-    ASSERT_NO_FATAL_FAILURE(ExpectMinidumpContextX86(kSeed1, observed_context));
+    ASSERT_NO_FATAL_FAILURE(
+        ExpectMinidumpContextX86(kSeed1, observed_context, false));
     ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
         observed_stack, &memory_list->MemoryRanges[1]));
   }
@@ -464,7 +468,8 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
                                                   file_writer.string(),
                                                   kMemoryValue2,
                                                   true));
-    ASSERT_NO_FATAL_FAILURE(ExpectMinidumpContextX86(kSeed2, observed_context));
+    ASSERT_NO_FATAL_FAILURE(
+        ExpectMinidumpContextX86(kSeed2, observed_context, false));
     ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
         observed_stack, &memory_list->MemoryRanges[2]));
   }

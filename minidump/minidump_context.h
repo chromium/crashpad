@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 
+#include "snapshot/cpu_context.h"
 #include "util/numeric/int128.h"
 
 namespace crashpad {
@@ -130,6 +131,11 @@ enum MinidumpContextX86Flags : uint32_t {
 //! This is analogous to the `CONTEXT` structure on Windows when targeting
 //! 32-bit x86. This structure is used instead of `CONTEXT` to make it available
 //! when targeting other architectures.
+//!
+//! \note This structure doesn’t carry `dr4` or `dr5`, which are obsolete and
+//!     normally alias `dr6` and `dr7`, respectively. See Intel Software
+//!     Developer’s Manual, Volume 3B: System Programming, Part 2 (253669-052),
+//!     17.2.2 “Debug Registers DR4 and DR5”.
 struct MinidumpContextX86 {
   //! \brief A bitfield composed of values of #MinidumpContextFlags and
   //!     #MinidumpContextX86Flags.
@@ -176,7 +182,9 @@ struct MinidumpContextX86 {
   uint32_t esp;
   uint32_t ss;
 
-  uint8_t extended_registers[512];
+  // CPUContextX86::Fxsave has identical layout to what the x86 CONTEXT
+  // structure places here.
+  CPUContextX86::Fxsave fxsave;
 };
 
 //! \brief x86_64-specifc flags for MinidumpContextAMD64::context_flags.
@@ -240,6 +248,11 @@ enum MinidumpContextAMD64Flags : uint32_t {
 //! This is analogous to the `CONTEXT` structure on Windows when targeting
 //! x86_64. This structure is used instead of `CONTEXT` to make it available
 //! when targeting other architectures.
+//!
+//! \note This structure doesn’t carry `dr4` or `dr5`, which are obsolete and
+//!     normally alias `dr6` and `dr7`, respectively. See Intel Software
+//!     Developer’s Manual, Volume 3B: System Programming, Part 2 (253669-052),
+//!     17.2.2 “Debug Registers DR4 and DR5”.
 struct __attribute__((aligned(16))) MinidumpContextAMD64 {
   //! \brief Register parameter home address.
   //!
@@ -301,46 +314,9 @@ struct __attribute__((aligned(16))) MinidumpContextAMD64 {
 
   uint64_t rip;
 
-  union {
-    struct {
-      uint16_t control_word;
-      uint16_t status_word;
-      uint8_t tag_word;
-      uint8_t reserved_1;
-      uint16_t error_opcode;
-      uint32_t error_offset;
-      uint16_t error_selector;
-      uint16_t reserved_2;
-      uint32_t data_offset;
-      uint16_t data_selector;
-      uint16_t reserved_3;
-      uint32_t mx_csr;
-      uint32_t mx_csr_mask;
-      uint128_struct float_registers[8];
-      uint128_struct xmm_registers[16];
-      uint8_t reserved_4[96];
-    } float_save;
-    struct {
-      uint128_struct header[2];
-      uint128_struct legacy[8];
-      uint128_struct xmm0;
-      uint128_struct xmm1;
-      uint128_struct xmm2;
-      uint128_struct xmm3;
-      uint128_struct xmm4;
-      uint128_struct xmm5;
-      uint128_struct xmm6;
-      uint128_struct xmm7;
-      uint128_struct xmm8;
-      uint128_struct xmm9;
-      uint128_struct xmm10;
-      uint128_struct xmm11;
-      uint128_struct xmm12;
-      uint128_struct xmm13;
-      uint128_struct xmm14;
-      uint128_struct xmm15;
-    };
-  };
+  // CPUContextX86_64::Fxsave has identical layout to what the x86_64 CONTEXT
+  // structure places here.
+  CPUContextX86_64::Fxsave fxsave;
 
   uint128_struct vector_register[26];
   uint64_t vector_control;

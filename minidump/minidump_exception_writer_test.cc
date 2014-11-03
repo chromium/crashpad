@@ -119,7 +119,8 @@ TEST(MinidumpExceptionWriter, Minimal) {
                                                 file_writer.string(),
                                                 &observed_context));
 
-  ASSERT_NO_FATAL_FAILURE(ExpectMinidumpContextX86(kSeed, observed_context));
+  ASSERT_NO_FATAL_FAILURE(
+      ExpectMinidumpContextX86(kSeed, observed_context, false));
 }
 
 TEST(MinidumpExceptionWriter, Standard) {
@@ -189,7 +190,8 @@ TEST(MinidumpExceptionWriter, Standard) {
                                                 file_writer.string(),
                                                 &observed_context));
 
-  ASSERT_NO_FATAL_FAILURE(ExpectMinidumpContextX86(kSeed, observed_context));
+  ASSERT_NO_FATAL_FAILURE(
+      ExpectMinidumpContextX86(kSeed, observed_context, false));
 }
 
 TEST(MinidumpExceptionWriterDeathTest, NoContext) {

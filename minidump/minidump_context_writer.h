@@ -18,16 +18,33 @@
 #include <sys/types.h>
 
 #include "base/basictypes.h"
+#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_context.h"
 #include "minidump/minidump_writable.h"
 
 namespace crashpad {
+
+struct CPUContext;
+struct CPUContextX86;
+struct CPUContextX86_64;
 
 //! \brief The base class for writers of CPU context structures in minidump
 //!     files.
 class MinidumpContextWriter : public internal::MinidumpWritable {
  public:
   ~MinidumpContextWriter() override;
+
+  //! \brief Creates a MinidumpContextWriter based on \a context_snapshot.
+  //!
+  //! \param[in] context_snapshot The context snapshot to use as source data.
+  //!
+  //! \return A MinidumpContextWriter subclass, such as MinidumpContextWriterX86
+  //!     or MinidumpContextWriterAMD64, appropriate to the CPU type of \a
+  //!     context_snapshot. The returned object is initialized using the source
+  //!     data in \a context_snapshot. If \a context_snapshot is an unknown CPU
+  //!     type’s context, logs a message and returns `nullptr`.
+  static scoped_ptr<MinidumpContextWriter> CreateFromSnapshot(
+      const CPUContext* context_snapshot);
 
  protected:
   MinidumpContextWriter() : MinidumpWritable() {}
@@ -51,6 +68,15 @@ class MinidumpContextX86Writer final : public MinidumpContextWriter {
  public:
   MinidumpContextX86Writer();
   ~MinidumpContextX86Writer() override;
+
+  //! \brief Initializes the MinidumpContextX86 based on \a context_snapshot.
+  //!
+  //! \param[in] context_snapshot The context snapshot to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutation of context() may be done before
+  //!     calling this method, and it is not normally necessary to alter
+  //!     context() after calling this method.
+  void InitializeFromSnapshot(const CPUContextX86* context_snapshot);
 
   //! \brief Returns a pointer to the context structure that this object will
   //!     write.
@@ -82,6 +108,15 @@ class MinidumpContextAMD64Writer final : public MinidumpContextWriter {
  public:
   MinidumpContextAMD64Writer();
   ~MinidumpContextAMD64Writer() override;
+
+  //! \brief Initializes the MinidumpContextAMD64 based on \a context_snapshot.
+  //!
+  //! \param[in] context_snapshot The context snapshot to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutation of context() may be done before
+  //!     calling this method, and it is not normally necessary to alter
+  //!     context() after calling this method.
+  void InitializeFromSnapshot(const CPUContextX86_64* context_snapshot);
 
   //! \brief Returns a pointer to the context structure that this object will
   //!     write.

@@ -86,6 +86,8 @@
         '..',
       ],
       'sources': [
+        'test/test_cpu_context.cc',
+        'test/test_cpu_context.h',
         'test/test_memory_snapshot.cc',
         'test/test_memory_snapshot.h',
         'test/test_module_snapshot.cc',
@@ -109,6 +111,7 @@
         '..',
       ],
       'sources': [
+        'cpu_context_test.cc',
         'mac/cpu_context_mac_test.cc',
         'mac/mach_o_image_annotations_reader_test.cc',
         'mac/mach_o_image_reader_test.cc',

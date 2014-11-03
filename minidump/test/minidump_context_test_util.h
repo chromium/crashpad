@@ -24,13 +24,17 @@ namespace test {
 
 //! \brief Initializes a context structure for testing.
 //!
+//! Initialization is compatible with the initialization used by CPUContext test
+//! initialization functions such as InitializeCPUContextX86() and
+//! InitializeCPUContextX86_64() for identical \a seed values.
+//!
 //! \param[out] context The structure to initialize.
 //! \param[in] seed The seed value. Initializing two context structures of the
 //!     same type with identical seed values should produce identical context
 //!     structures. Initialization with a different seed value should produce
 //!     a different context structure. If \a seed is `0`, \a context is zeroed
 //!     out entirely except for the flags field, which will identify the context
-//!     type. If \a seed is nonzero \a context will be populated entirely with
+//!     type. If \a seed is nonzero, \a context will be populated entirely with
 //!     nonzero values.
 //!
 //! \{
@@ -48,11 +52,21 @@ void InitializeMinidumpContextAMD64(MinidumpContextAMD64* context,
 //! \param[in] observed The context structure to check. All fields of this
 //!     structure will be compared against the expected context structure, one
 //!     initialized with \a expect_seed.
+//! \param[in] snapshot If `true`, compare \a observed to a context structure
+//!     expected to be produced from a CPUContext snapshot. If `false`, compare
+//!     \a observed to a native minidump context structure. CPUContext snapshot
+//!     structures may carry different sets of data than native minidump context
+//!     structures in meaningless ways. When `true`, fields not found in
+//!     CPUContext structures are expected to be `0`. When `false`, all fields
+//!     are compared. This makes it possible to test both that these fields are
+//!     passed through correctly by the native minidump writer and are zeroed
+//!     out when creating a minidump context structure from a CPUContext
+//!     structure.
 //! \{
-void ExpectMinidumpContextX86(uint32_t expect_seed,
-                              const MinidumpContextX86* observed);
-void ExpectMinidumpContextAMD64(uint32_t expect_seed,
-                                const MinidumpContextAMD64* observed);
+void ExpectMinidumpContextX86(
+    uint32_t expect_seed, const MinidumpContextX86* observed, bool snapshot);
+void ExpectMinidumpContextAMD64(
+    uint32_t expect_seed, const MinidumpContextAMD64* observed, bool snapshot);
 //! \}
 
 }  // namespace test

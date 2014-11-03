@@ -58,6 +58,35 @@ struct CPUContextX86 {
     uint8_t available[48];
   };
 
+  //! \brief Converts x87 floating-point tag words from `fxsave` (abridged,
+  //!     8-bit) to `fsave` (full, 16-bit) form.
+  //!
+  //! `fxsave` stores the x87 floating-point tag word in abridged 8-bit form,
+  //! and `fsave` stores it in full 16-bit form. Some users, notably
+  //! MinidumpContextX86::float_save::tag_word, require the full 16-bit form,
+  //! where most other contemporary code uses `fxsave` and thus the abridged
+  //! 8-bit form found in CPUContextX86::Fxsave::ftw.
+  //!
+  //! This function converts an abridged tag word to the full version by using
+  //! the abridged tag word and the contents of the registers it describes. See
+  //! Intel Software Developer’s Manual, Volume 2A: Instruction Set Reference
+  //! A-M (253666-052), 3.2 “FXSAVE”, specifically, the notes on the abridged
+  //! FTW and recreating the FSAVE format, and AMD Architecture Programmer’s
+  //! Manual, Volume 2: System Programming (24593-3.24), “FXSAVE Format for x87
+  //! Tag Word”.
+  //!
+  //! \param[in] fsw The FPU status word, used to map logical \a st_mm registers
+  //!     to their physical counterparts. This can be taken from
+  //!     CPUContextX86::Fxsave::fsw.
+  //! \param[in] fxsave_tag The abridged FPU tag word. This can be taken from
+  //!     CPUContextX86::Fxsave::ftw.
+  //! \param[in] st_mm The floating-point registers in logical order. This can
+  //!     be taken from CPUContextX86::Fxsave::st_mm.
+  //!
+  //! \return The full FPU tag word.
+  static uint16_t FxsaveToFsaveTagWord(
+      uint16_t fsw, uint8_t fxsave_tag, const X87OrMMXRegister st_mm[8]);
+
   // Integer registers.
   uint32_t eax;
   uint32_t ebx;
