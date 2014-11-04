@@ -19,6 +19,8 @@
 #include "base/logging.h"
 #include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_memory_writer.h"
+#include "snapshot/memory_snapshot.h"
+#include "snapshot/thread_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
 
@@ -29,6 +31,33 @@ MinidumpThreadWriter::MinidumpThreadWriter()
 }
 
 MinidumpThreadWriter::~MinidumpThreadWriter() {
+}
+
+void MinidumpThreadWriter::InitializeFromSnapshot(
+    const ThreadSnapshot* thread_snapshot,
+    const MinidumpThreadIDMap* thread_id_map) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!stack_);
+  DCHECK(!context_);
+
+  auto thread_id_it = thread_id_map->find(thread_snapshot->ThreadID());
+  DCHECK(thread_id_it != thread_id_map->end());
+  SetThreadID(thread_id_it->second);
+
+  SetSuspendCount(thread_snapshot->SuspendCount());
+  SetPriority(thread_snapshot->Priority());
+  SetTEB(thread_snapshot->ThreadSpecificDataAddress());
+
+  const MemorySnapshot* stack_snapshot = thread_snapshot->Stack();
+  if (stack_snapshot && stack_snapshot->Size() > 0) {
+    scoped_ptr<MinidumpMemoryWriter> stack =
+        MinidumpMemoryWriter::CreateFromSnapshot(stack_snapshot);
+    SetStack(stack.Pass());
+  }
+
+  scoped_ptr<MinidumpContextWriter> context =
+      MinidumpContextWriter::CreateFromSnapshot(thread_snapshot->Context());
+  SetContext(context.Pass());
 }
 
 const MINIDUMP_THREAD* MinidumpThreadWriter::MinidumpThread() const {
@@ -106,6 +135,21 @@ MinidumpThreadListWriter::MinidumpThreadListWriter()
 }
 
 MinidumpThreadListWriter::~MinidumpThreadListWriter() {
+}
+
+void MinidumpThreadListWriter::InitializeFromSnapshot(
+    const std::vector<const ThreadSnapshot*>& thread_snapshots,
+    MinidumpThreadIDMap* thread_id_map) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(threads_.empty());
+
+  BuildMinidumpThreadIDMap(thread_snapshots, thread_id_map);
+
+  for (const ThreadSnapshot* thread_snapshot : thread_snapshots) {
+    auto thread = make_scoped_ptr(new MinidumpThreadWriter());
+    thread->InitializeFromSnapshot(thread_snapshot, thread_id_map);
+    AddThread(thread.Pass());
+  }
 }
 
 void MinidumpThreadListWriter::SetMemoryListWriter(

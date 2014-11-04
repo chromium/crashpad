@@ -36,7 +36,8 @@ class ThreadSnapshot {
   virtual const CPUContext* Context() const = 0;
 
   //! \brief Returns a MemorySnapshot object corresponding to the memory region
-  //!     that contains the thread’s stack.
+  //!     that contains the thread’s stack, or `nullptr` if no stack region is
+  //!     available.
   //!
   //! The caller does not take ownership of this object, it is scoped to the
   //! lifetime of the ThreadSnapshot object that it was obtained from.

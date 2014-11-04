@@ -17,6 +17,7 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "base/basictypes.h"
 #include "gtest/gtest.h"
 
 namespace crashpad {
@@ -142,6 +143,21 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
   SetX87Register(&st_mm[6], kExponentAllZero, false, kFractionAllZero);
   SetX87Register(&st_mm[7], kExponentNormal, true, kFractionNormal);  // valid
   EXPECT_EQ(0xfe90,
+            CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
+
+  // In this set, everything is valid.
+  fsw = 0 << 11;  // top = 0: logical 0-7 maps to physical 0-7
+  fxsave_tag = 0xff;  // nothing empty
+  for (size_t index = 0; index < arraysize(st_mm); ++index) {
+    SetX87Register(&st_mm[index], kExponentNormal, true, kFractionAllZero);
+  }
+  EXPECT_EQ(0, CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
+
+  // In this set, everything is empty. The registers shouldn’t be consulted at
+  // all, so they’re left alone from the previous set.
+  fsw = 0 << 11;  // top = 0: logical 0-7 maps to physical 0-7
+  fxsave_tag = 0;  // everything empty
+  EXPECT_EQ(0xffff,
             CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
 }
 

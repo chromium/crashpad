@@ -17,14 +17,19 @@
 #include <dbghelp.h>
 #include <sys/types.h>
 
+#include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_memory_writer.h"
 #include "minidump/minidump_file_writer.h"
+#include "minidump/minidump_thread_id_map.h"
 #include "minidump/test/minidump_context_test_util.h"
 #include "minidump/test/minidump_memory_writer_test_util.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
+#include "snapshot/test/test_cpu_context.h"
+#include "snapshot/test/test_memory_snapshot.h"
+#include "snapshot/test/test_thread_snapshot.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -475,6 +480,186 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   }
 }
 
+struct InitializeFromSnapshotX86Traits {
+  typedef MinidumpContextX86 MinidumpContextType;
+  static void InitializeCPUContext(CPUContext* context, uint32_t seed) {
+    return InitializeCPUContextX86(context, seed);
+  }
+  static void ExpectMinidumpContext(
+      uint32_t expect_seed, const MinidumpContextX86* observed, bool snapshot) {
+    return ExpectMinidumpContextX86(expect_seed, observed, snapshot);
+  }
+};
+
+struct InitializeFromSnapshotAMD64Traits {
+  typedef MinidumpContextAMD64 MinidumpContextType;
+  static void InitializeCPUContext(CPUContext* context, uint32_t seed) {
+    return InitializeCPUContextX86_64(context, seed);
+  }
+  static void ExpectMinidumpContext(uint32_t expect_seed,
+                                    const MinidumpContextAMD64* observed,
+                                    bool snapshot) {
+    return ExpectMinidumpContextAMD64(expect_seed, observed, snapshot);
+  }
+};
+
+struct InitializeFromSnapshotNoContextTraits {
+  typedef MinidumpContextX86 MinidumpContextType;
+  static void InitializeCPUContext(CPUContext* context, uint32_t seed) {
+    context->architecture = kCPUArchitectureUnknown;
+  }
+  static void ExpectMinidumpContext(uint32_t expect_seed,
+                                    const MinidumpContextX86* observed,
+                                    bool snapshot) {
+    FAIL();
+  }
+};
+
+template <typename Traits>
+void RunInitializeFromSnapshotTest(bool thread_id_collision) {
+  typedef typename Traits::MinidumpContextType MinidumpContextType;
+  MINIDUMP_THREAD expect_threads[3] = {};
+  uint64_t thread_ids[arraysize(expect_threads)] = {};
+  uint8_t memory_values[arraysize(expect_threads)] = {};
+  uint32_t context_seeds[arraysize(expect_threads)] = {};
+
+  expect_threads[0].ThreadId = 1;
+  expect_threads[0].SuspendCount = 2;
+  expect_threads[0].Priority = 3;
+  expect_threads[0].Teb = 0x0123456789abcdef;
+  expect_threads[0].Stack.StartOfMemoryRange = 0x1000;
+  expect_threads[0].Stack.Memory.DataSize = 0x100;
+  expect_threads[0].ThreadContext.DataSize = sizeof(MinidumpContextType);
+  memory_values[0] = 'A';
+  context_seeds[0] = 0x80000000;
+
+  // The thread at index 1 has no stack.
+  expect_threads[1].ThreadId = 11;
+  expect_threads[1].SuspendCount = 12;
+  expect_threads[1].Priority = 13;
+  expect_threads[1].Teb = 0xfedcba9876543210;
+  expect_threads[1].ThreadContext.DataSize = sizeof(MinidumpContextType);
+  context_seeds[1] = 0x40000001;
+
+  expect_threads[2].ThreadId = 21;
+  expect_threads[2].SuspendCount = 22;
+  expect_threads[2].Priority = 23;
+  expect_threads[2].Teb = 0x1111111111111111;
+  expect_threads[2].Stack.StartOfMemoryRange = 0x3000;
+  expect_threads[2].Stack.Memory.DataSize = 0x300;
+  expect_threads[2].ThreadContext.DataSize = sizeof(MinidumpContextType);
+  memory_values[2] = 'd';
+  context_seeds[2] = 0x20000002;
+
+  if (thread_id_collision) {
+    thread_ids[0] = 0x0123456700000001;
+    thread_ids[1] = 0x89abcdef00000001;
+    thread_ids[2] = 4;
+    expect_threads[0].ThreadId = 0;
+    expect_threads[1].ThreadId = 1;
+    expect_threads[2].ThreadId = 2;
+  } else {
+    thread_ids[0] = 1;
+    thread_ids[1] = 11;
+    thread_ids[2] = 22;
+    expect_threads[0].ThreadId = thread_ids[0];
+    expect_threads[1].ThreadId = thread_ids[1];
+    expect_threads[2].ThreadId = thread_ids[2];
+  }
+
+  PointerVector<TestThreadSnapshot> thread_snapshots_owner;
+  std::vector<const ThreadSnapshot*> thread_snapshots;
+  for (size_t index = 0; index < arraysize(expect_threads); ++index) {
+    TestThreadSnapshot* thread_snapshot = new TestThreadSnapshot();
+    thread_snapshots_owner.push_back(thread_snapshot);
+
+    thread_snapshot->SetThreadID(thread_ids[index]);
+    thread_snapshot->SetSuspendCount(expect_threads[index].SuspendCount);
+    thread_snapshot->SetPriority(expect_threads[index].Priority);
+    thread_snapshot->SetThreadSpecificDataAddress(expect_threads[index].Teb);
+
+    if (expect_threads[index].Stack.Memory.DataSize) {
+      auto memory_snapshot = make_scoped_ptr(new TestMemorySnapshot());
+      memory_snapshot->SetAddress(
+          expect_threads[index].Stack.StartOfMemoryRange);
+      memory_snapshot->SetSize(expect_threads[index].Stack.Memory.DataSize);
+      memory_snapshot->SetValue(memory_values[index]);
+      thread_snapshot->SetStack(memory_snapshot.Pass());
+    }
+
+    Traits::InitializeCPUContext(thread_snapshot->MutableContext(),
+                                 context_seeds[index]);
+
+    thread_snapshots.push_back(thread_snapshot);
+  }
+
+  auto thread_list_writer = make_scoped_ptr(new MinidumpThreadListWriter());
+  auto memory_list_writer = make_scoped_ptr(new MinidumpMemoryListWriter());
+  thread_list_writer->SetMemoryListWriter(memory_list_writer.get());
+  MinidumpThreadIDMap thread_id_map;
+  thread_list_writer->InitializeFromSnapshot(thread_snapshots, &thread_id_map);
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.AddStream(thread_list_writer.Pass());
+  minidump_file_writer.AddStream(memory_list_writer.Pass());
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+
+  const MINIDUMP_THREAD_LIST* thread_list;
+  const MINIDUMP_MEMORY_LIST* memory_list;
+  ASSERT_NO_FATAL_FAILURE(
+      GetThreadListStream(file_writer.string(), &thread_list, &memory_list));
+
+  ASSERT_EQ(3u, thread_list->NumberOfThreads);
+  ASSERT_EQ(2u, memory_list->NumberOfMemoryRanges);
+
+  size_t memory_index = 0;
+  for (size_t index = 0; index < thread_list->NumberOfThreads; ++index) {
+    SCOPED_TRACE(base::StringPrintf("index %zu", index));
+
+    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack;
+    const MINIDUMP_MEMORY_DESCRIPTOR** observed_stack_p =
+        expect_threads[index].Stack.Memory.DataSize ? &observed_stack : nullptr;
+    const MinidumpContextType* observed_context;
+    ASSERT_NO_FATAL_FAILURE(
+        ExpectThread(&expect_threads[index],
+                     &thread_list->Threads[index],
+                     file_writer.string(),
+                     observed_stack_p,
+                     reinterpret_cast<const void**>(&observed_context)));
+
+    ASSERT_NO_FATAL_FAILURE(Traits::ExpectMinidumpContext(
+        context_seeds[index], observed_context, true));
+
+    if (observed_stack_p) {
+      ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptorAndContents(
+          &expect_threads[index].Stack,
+          observed_stack,
+          file_writer.string(),
+          memory_values[index],
+          index == thread_list->NumberOfThreads - 1));
+
+      ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
+          observed_stack, &memory_list->MemoryRanges[memory_index]));
+
+      ++memory_index;
+    }
+  }
+}
+
+TEST(MinidumpThreadWriter, InitializeFromSnapshot_x86) {
+  RunInitializeFromSnapshotTest<InitializeFromSnapshotX86Traits>(false);
+}
+
+TEST(MinidumpThreadWriter, InitializeFromSnapshot_AMD64) {
+  RunInitializeFromSnapshotTest<InitializeFromSnapshotAMD64Traits>(false);
+}
+
+TEST(MinidumpThreadWriter, InitializeFromSnapshot_ThreadIDCollision) {
+  RunInitializeFromSnapshotTest<InitializeFromSnapshotX86Traits>(true);
+}
+
 TEST(MinidumpThreadWriterDeathTest, NoContext) {
   MinidumpFileWriter minidump_file_writer;
   auto thread_list_writer = make_scoped_ptr(new MinidumpThreadListWriter());
@@ -486,6 +671,12 @@ TEST(MinidumpThreadWriterDeathTest, NoContext) {
 
   StringFileWriter file_writer;
   ASSERT_DEATH(minidump_file_writer.WriteEverything(&file_writer), "context_");
+}
+
+TEST(MinidumpThreadWriterDeathTest, InitializeFromSnapshot_NoContext) {
+  ASSERT_DEATH(
+      RunInitializeFromSnapshotTest<InitializeFromSnapshotNoContextTraits>(
+          false), "context_");
 }
 
 }  // namespace

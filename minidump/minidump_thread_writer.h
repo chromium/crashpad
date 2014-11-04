@@ -23,6 +23,7 @@
 #include "base/basictypes.h"
 #include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_stream_writer.h"
+#include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_writable.h"
 #include "util/stdlib/pointer_container.h"
 
@@ -31,6 +32,7 @@ namespace crashpad {
 class MinidumpContextWriter;
 class MinidumpMemoryListWriter;
 class MinidumpMemoryWriter;
+class ThreadSnapshot;
 
 //! \brief The writer for a MINIDUMP_THREAD object in a minidump file.
 //!
@@ -42,6 +44,18 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
  public:
   MinidumpThreadWriter();
   ~MinidumpThreadWriter() override;
+
+  //! \brief Initializes the MINIDUMP_THREAD based on \a thread_snapshot.
+  //!
+  //! \param[in] thread_snapshot The thread snapshot to use as source data.
+  //! \param[in] thread_id_map A MinidumpThreadIDMap to be consulted to
+  //!     determine the 32-bit minidump thread ID to use for \a thread_snapshot.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(const ThreadSnapshot* thread_snapshot,
+                              const MinidumpThreadIDMap* thread_id_map);
 
   //! \brief Returns a MINIDUMP_THREAD referencing this object’s data.
   //!
@@ -126,6 +140,20 @@ class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpThreadListWriter();
   ~MinidumpThreadListWriter() override;
+
+  //! \brief Adds an initialized MINIDUMP_THREAD for each thread in \a
+  //!     thread_snapshots to the MINIDUMP_THREAD_LIST.
+  //!
+  //! \param[in] thread_snapshots The thread snapshots to use as source data.
+  //! \param[out] thread_id_map A MinidumpThreadIDMap to be built by this
+  //!     method. This map must be empty when this method is called.
+  //!
+  //! \note Valid in #kStateMutable. AddThread() may not be called before this
+  //!     method, and it is not normally necessary to call AddThread() after
+  //!     this method.
+  void InitializeFromSnapshot(
+      const std::vector<const ThreadSnapshot*>& thread_snapshots,
+      MinidumpThreadIDMap* thread_id_map);
 
   //! \brief Sets the MinidumpMemoryListWriter that each thread’s stack memory
   //!     region should be added to as extra memory.
