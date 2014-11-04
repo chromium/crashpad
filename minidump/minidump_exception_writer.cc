@@ -18,6 +18,7 @@
 
 #include "base/logging.h"
 #include "minidump/minidump_context_writer.h"
+#include "snapshot/exception_snapshot.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {
@@ -27,6 +28,26 @@ MinidumpExceptionWriter::MinidumpExceptionWriter()
 }
 
 MinidumpExceptionWriter::~MinidumpExceptionWriter() {
+}
+
+void MinidumpExceptionWriter::InitializeFromSnapshot(
+    const ExceptionSnapshot* exception_snapshot,
+    const MinidumpThreadIDMap* thread_id_map) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!context_);
+
+  auto thread_id_it = thread_id_map->find(exception_snapshot->ThreadID());
+  DCHECK(thread_id_it != thread_id_map->end());
+  SetThreadID(thread_id_it->second);
+
+  SetExceptionCode(exception_snapshot->Exception());
+  SetExceptionFlags(exception_snapshot->ExceptionInfo());
+  SetExceptionAddress(exception_snapshot->ExceptionAddress());
+  SetExceptionInformation(exception_snapshot->Codes());
+
+  scoped_ptr<MinidumpContextWriter> context =
+      MinidumpContextWriter::CreateFromSnapshot(exception_snapshot->Context());
+  SetContext(context.Pass());
 }
 
 void MinidumpExceptionWriter::SetContext(

@@ -23,9 +23,11 @@
 #include "base/basictypes.h"
 #include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_stream_writer.h"
+#include "minidump/minidump_thread_id_map.h"
 
 namespace crashpad {
 
+class ExceptionSnapshot;
 class MinidumpContextWriter;
 
 //! \brief The writer for a MINIDUMP_EXCEPTION_STREAM stream in a minidump file.
@@ -33,6 +35,21 @@ class MinidumpExceptionWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpExceptionWriter();
   ~MinidumpExceptionWriter() override;
+
+  //! \brief Initializes the MINIDUMP_EXCEPTION_STREAM based on \a
+  //!     exception_snapshot.
+  //!
+  //! \param[in] exception_snapshot The exception snapshot to use as source
+  //!     data.
+  //! \param[in] thread_id_map A MinidumpThreadIDMap to be consulted to
+  //!     determine the 32-bit minidump thread ID to use for the thread
+  //!     identified by \a exception_snapshot.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(const ExceptionSnapshot* exception_snapshot,
+                              const MinidumpThreadIDMap* thread_id_map);
 
   //! \brief Arranges for MINIDUMP_EXCEPTION_STREAM::ThreadContext to point to
   //!     the CPU context to be written by \a context.

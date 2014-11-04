@@ -88,6 +88,8 @@
       'sources': [
         'test/test_cpu_context.cc',
         'test/test_cpu_context.h',
+        'test/test_exception_snapshot.cc',
+        'test/test_exception_snapshot.h',
         'test/test_memory_snapshot.cc',
         'test/test_memory_snapshot.h',
         'test/test_module_snapshot.cc',

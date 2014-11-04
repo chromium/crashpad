@@ -26,9 +26,12 @@
 #include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_file_writer.h"
+#include "minidump/minidump_thread_id_map.h"
 #include "minidump/test/minidump_context_test_util.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
+#include "snapshot/test/test_cpu_context.h"
+#include "snapshot/test/test_exception_snapshot.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -192,6 +195,62 @@ TEST(MinidumpExceptionWriter, Standard) {
 
   ASSERT_NO_FATAL_FAILURE(
       ExpectMinidumpContextX86(kSeed, observed_context, false));
+}
+
+TEST(MinidumpExceptionWriter, InitializeFromSnapshot) {
+  std::vector<uint64_t> exception_codes;
+  exception_codes.push_back(0x1000000000000000);
+  exception_codes.push_back(0x5555555555555555);
+
+  MINIDUMP_EXCEPTION_STREAM expect_exception = {};
+
+  expect_exception.ThreadId = 123;
+  expect_exception.ExceptionRecord.ExceptionCode = 100;
+  expect_exception.ExceptionRecord.ExceptionFlags = 1;
+  expect_exception.ExceptionRecord.ExceptionAddress = 0xfedcba9876543210;
+  expect_exception.ExceptionRecord.NumberParameters = exception_codes.size();
+  for (size_t index = 0; index < exception_codes.size(); ++index) {
+    expect_exception.ExceptionRecord.ExceptionInformation[index] =
+        exception_codes[index];
+  }
+  const uint64_t kThreadID = 0xaaaaaaaaaaaaaaaa;
+  const uint32_t kSeed = 65;
+
+  TestExceptionSnapshot exception_snapshot;
+  exception_snapshot.SetThreadID(kThreadID);
+  exception_snapshot.SetException(
+      expect_exception.ExceptionRecord.ExceptionCode);
+  exception_snapshot.SetExceptionInfo(
+      expect_exception.ExceptionRecord.ExceptionFlags);
+  exception_snapshot.SetExceptionAddress(
+      expect_exception.ExceptionRecord.ExceptionAddress);
+  exception_snapshot.SetCodes(exception_codes);
+
+  InitializeCPUContextX86(exception_snapshot.MutableContext(), kSeed);
+
+  MinidumpThreadIDMap thread_id_map;
+  thread_id_map[kThreadID] = expect_exception.ThreadId;
+
+  auto exception_writer = make_scoped_ptr(new MinidumpExceptionWriter());
+  exception_writer->InitializeFromSnapshot(&exception_snapshot, &thread_id_map);
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.AddStream(exception_writer.Pass());
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+
+  const MINIDUMP_EXCEPTION_STREAM* exception;
+  ASSERT_NO_FATAL_FAILURE(GetExceptionStream(file_writer.string(), &exception));
+
+  const MinidumpContextX86* observed_context;
+  ASSERT_NO_FATAL_FAILURE(ExpectExceptionStream(&expect_exception,
+                                                exception,
+                                                file_writer.string(),
+                                                &observed_context));
+
+  ASSERT_NO_FATAL_FAILURE(
+      ExpectMinidumpContextX86(kSeed, observed_context, true));
 }
 
 TEST(MinidumpExceptionWriterDeathTest, NoContext) {
