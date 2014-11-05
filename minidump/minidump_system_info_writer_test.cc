@@ -18,6 +18,7 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include <algorithm>
 #include <string>
 
 #include "gtest/gtest.h"
@@ -25,6 +26,7 @@
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
+#include "snapshot/test/test_system_snapshot.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -181,7 +183,7 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
   }
 }
 
-TEST(MinidumpSystemInfoWriter, X86_64_Mac) {
+TEST(MinidumpSystemInfoWriter, AMD64_Mac) {
   MinidumpFileWriter minidump_file_writer;
   auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
 
@@ -267,6 +269,198 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
   EXPECT_EQ(kCPUVendor[1], system_info->Cpu.X86CpuInfo.VendorId[1]);
   EXPECT_EQ(kCPUVendor[2], system_info->Cpu.X86CpuInfo.VendorId[2]);
   EXPECT_EQ(0u, system_info->Cpu.X86CpuInfo.VersionInformation);
+}
+
+TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
+  MINIDUMP_SYSTEM_INFO expect_system_info = {};
+
+  const uint16_t kCPUFamily = 6;
+  const uint8_t kCPUModel = 70;
+  const uint8_t kCPUStepping = 1;
+
+  const uint8_t kCPUBasicFamily =
+      std::min(kCPUFamily, static_cast<uint16_t>(15));
+  const uint8_t kCPUExtendedFamily = kCPUFamily - kCPUBasicFamily;
+
+  // These checks ensure that even if the constants above change, they represent
+  // something that can legitimately be encoded in the form used by cpuid 1 eax.
+  EXPECT_LE(kCPUFamily, 270);
+  EXPECT_LE(kCPUStepping, 15);
+  EXPECT_TRUE(kCPUBasicFamily == 6 || kCPUBasicFamily == 15 || kCPUModel <= 15);
+
+  const uint8_t kCPUBasicModel = kCPUModel & 0xf;
+  const uint8_t kCPUExtendedModel = kCPUModel >> 4;
+  const uint32_t kCPUSignature =
+      (kCPUExtendedFamily << 20) | (kCPUExtendedModel << 16) |
+      (kCPUBasicFamily << 8) | (kCPUBasicModel << 4) | kCPUStepping;
+  const uint64_t kCPUX86Features = 0x7ffafbffbfebfbff;
+  expect_system_info.ProcessorArchitecture = kMinidumpCPUArchitectureX86;
+  expect_system_info.ProcessorLevel = kCPUFamily;
+  expect_system_info.ProcessorRevision = (kCPUModel << 8) | kCPUStepping;
+  expect_system_info.NumberOfProcessors = 8;
+  expect_system_info.ProductType = kMinidumpOSTypeServer;
+  expect_system_info.MajorVersion = 10;
+  expect_system_info.MinorVersion = 9;
+  expect_system_info.BuildNumber = 5;
+  expect_system_info.PlatformId = kMinidumpOSMacOSX;
+  expect_system_info.SuiteMask = 0;
+  expect_system_info.Cpu.X86CpuInfo.VendorId[0] = 'uneG';
+  expect_system_info.Cpu.X86CpuInfo.VendorId[1] = 'Ieni';
+  expect_system_info.Cpu.X86CpuInfo.VendorId[2] = 'letn';
+  expect_system_info.Cpu.X86CpuInfo.VersionInformation = kCPUSignature;
+  expect_system_info.Cpu.X86CpuInfo.FeatureInformation =
+      kCPUX86Features & 0xffffffff;
+  const char kCPUVendor[] = "GenuineIntel";
+  const char kOSVersionBuild[] = "13F34";
+
+  TestSystemSnapshot system_snapshot;
+  system_snapshot.SetCPUArchitecture(kCPUArchitectureX86);
+  system_snapshot.SetCPURevision(
+      (kCPUFamily << 16) | (kCPUModel << 8) | kCPUStepping);
+  system_snapshot.SetCPUCount(expect_system_info.NumberOfProcessors);
+  system_snapshot.SetCPUVendor(kCPUVendor);
+  system_snapshot.SetCPUX86Signature(kCPUSignature);
+  system_snapshot.SetCPUX86Features(kCPUX86Features);
+  system_snapshot.SetOperatingSystem(SystemSnapshot::kOperatingSystemMacOSX);
+  system_snapshot.SetOSServer(true);
+  system_snapshot.SetOSVersion(expect_system_info.MajorVersion,
+                               expect_system_info.MinorVersion,
+                               expect_system_info.BuildNumber,
+                               kOSVersionBuild);
+
+  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  system_info_writer->InitializeFromSnapshot(&system_snapshot);
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.AddStream(system_info_writer.Pass());
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+
+  const MINIDUMP_SYSTEM_INFO* system_info;
+  const MINIDUMP_STRING* csd_version;
+
+  ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(file_writer.string(),
+                                              strlen(kOSVersionBuild),
+                                              &system_info,
+                                              &csd_version));
+
+  EXPECT_EQ(expect_system_info.ProcessorArchitecture,
+            system_info->ProcessorArchitecture);
+  EXPECT_EQ(expect_system_info.ProcessorLevel, system_info->ProcessorLevel);
+  EXPECT_EQ(expect_system_info.ProcessorRevision,
+            system_info->ProcessorRevision);
+  EXPECT_EQ(expect_system_info.NumberOfProcessors,
+            system_info->NumberOfProcessors);
+  EXPECT_EQ(expect_system_info.ProductType, system_info->ProductType);
+  EXPECT_EQ(expect_system_info.MajorVersion, system_info->MajorVersion);
+  EXPECT_EQ(expect_system_info.MinorVersion, system_info->MinorVersion);
+  EXPECT_EQ(expect_system_info.BuildNumber, system_info->BuildNumber);
+  EXPECT_EQ(expect_system_info.PlatformId, system_info->PlatformId);
+  EXPECT_EQ(expect_system_info.SuiteMask, system_info->SuiteMask);
+  EXPECT_EQ(expect_system_info.Cpu.X86CpuInfo.VendorId[0],
+            system_info->Cpu.X86CpuInfo.VendorId[0]);
+  EXPECT_EQ(expect_system_info.Cpu.X86CpuInfo.VendorId[1],
+            system_info->Cpu.X86CpuInfo.VendorId[1]);
+  EXPECT_EQ(expect_system_info.Cpu.X86CpuInfo.VendorId[2],
+            system_info->Cpu.X86CpuInfo.VendorId[2]);
+  EXPECT_EQ(expect_system_info.Cpu.X86CpuInfo.VersionInformation,
+            system_info->Cpu.X86CpuInfo.VersionInformation);
+  EXPECT_EQ(expect_system_info.Cpu.X86CpuInfo.FeatureInformation,
+            system_info->Cpu.X86CpuInfo.FeatureInformation);
+
+  for (size_t index = 0; index < strlen(kOSVersionBuild); ++index) {
+    EXPECT_EQ(kOSVersionBuild[index], csd_version->Buffer[index]) << index;
+  }
+}
+
+TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
+  MINIDUMP_SYSTEM_INFO expect_system_info = {};
+
+  const uint8_t kCPUFamily = 6;
+  const uint8_t kCPUModel = 70;
+  const uint8_t kCPUStepping = 1;
+  expect_system_info.ProcessorArchitecture = kMinidumpCPUArchitectureAMD64;
+  expect_system_info.ProcessorLevel = kCPUFamily;
+  expect_system_info.ProcessorRevision = (kCPUModel << 8) | kCPUStepping;
+  expect_system_info.NumberOfProcessors = 8;
+  expect_system_info.ProductType = kMinidumpOSTypeServer;
+  expect_system_info.MajorVersion = 10;
+  expect_system_info.MinorVersion = 9;
+  expect_system_info.BuildNumber = 5;
+  expect_system_info.PlatformId = kMinidumpOSMacOSX;
+  expect_system_info.SuiteMask = 0;
+  expect_system_info.Cpu.OtherCpuInfo.ProcessorFeatures[0] =
+      (1 << PF_COMPARE_EXCHANGE_DOUBLE) |
+      (1 << PF_MMX_INSTRUCTIONS_AVAILABLE) |
+      (1 << PF_XMMI_INSTRUCTIONS_AVAILABLE) |
+      (1 << PF_RDTSC_INSTRUCTION_AVAILABLE) |
+      (1 << PF_PAE_ENABLED) |
+      (1 << PF_XMMI64_INSTRUCTIONS_AVAILABLE) |
+      (1 << PF_SSE_DAZ_MODE_AVAILABLE) |
+      (1 << PF_NX_ENABLED) |
+      (1 << PF_SSE3_INSTRUCTIONS_AVAILABLE) |
+      (1 << PF_COMPARE_EXCHANGE128) |
+      (1 << PF_XSAVE_ENABLED) |
+      (1 << PF_RDWRFSGSBASE_AVAILABLE) |
+      (1 << PF_RDRAND_INSTRUCTION_AVAILABLE);
+  expect_system_info.Cpu.OtherCpuInfo.ProcessorFeatures[1] = 0;
+  const char kOSVersionBuild[] = "13F34";
+
+  TestSystemSnapshot system_snapshot;
+  system_snapshot.SetCPUArchitecture(kCPUArchitectureX86_64);
+  system_snapshot.SetCPURevision(
+      (kCPUFamily << 16) | (kCPUModel << 8) | kCPUStepping);
+  system_snapshot.SetCPUCount(expect_system_info.NumberOfProcessors);
+  system_snapshot.SetCPUX86Features(0x7ffafbffbfebfbff);
+  system_snapshot.SetCPUX86ExtendedFeatures(0x000000212c100900);
+  system_snapshot.SetCPUX86Leaf7Features(0x00002fbb);
+  system_snapshot.SetCPUX86SupportsDAZ(true);
+  system_snapshot.SetOperatingSystem(SystemSnapshot::kOperatingSystemMacOSX);
+  system_snapshot.SetOSServer(true);
+  system_snapshot.SetOSVersion(expect_system_info.MajorVersion,
+                               expect_system_info.MinorVersion,
+                               expect_system_info.BuildNumber,
+                               kOSVersionBuild);
+  system_snapshot.SetNXEnabled(true);
+
+  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  system_info_writer->InitializeFromSnapshot(&system_snapshot);
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.AddStream(system_info_writer.Pass());
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+
+  const MINIDUMP_SYSTEM_INFO* system_info;
+  const MINIDUMP_STRING* csd_version;
+  ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(file_writer.string(),
+                                              strlen(kOSVersionBuild),
+                                              &system_info,
+                                              &csd_version));
+
+  EXPECT_EQ(expect_system_info.ProcessorArchitecture,
+            system_info->ProcessorArchitecture);
+  EXPECT_EQ(expect_system_info.ProcessorLevel, system_info->ProcessorLevel);
+  EXPECT_EQ(expect_system_info.ProcessorRevision,
+            system_info->ProcessorRevision);
+  EXPECT_EQ(expect_system_info.NumberOfProcessors,
+            system_info->NumberOfProcessors);
+  EXPECT_EQ(expect_system_info.ProductType, system_info->ProductType);
+  EXPECT_EQ(expect_system_info.MajorVersion, system_info->MajorVersion);
+  EXPECT_EQ(expect_system_info.MinorVersion, system_info->MinorVersion);
+  EXPECT_EQ(expect_system_info.BuildNumber, system_info->BuildNumber);
+  EXPECT_EQ(expect_system_info.PlatformId, system_info->PlatformId);
+  EXPECT_EQ(expect_system_info.SuiteMask, system_info->SuiteMask);
+  EXPECT_EQ(expect_system_info.Cpu.OtherCpuInfo.ProcessorFeatures[0],
+            system_info->Cpu.OtherCpuInfo.ProcessorFeatures[0]);
+  EXPECT_EQ(expect_system_info.Cpu.OtherCpuInfo.ProcessorFeatures[1],
+            system_info->Cpu.OtherCpuInfo.ProcessorFeatures[1]);
+
+  for (size_t index = 0; index < strlen(kOSVersionBuild); ++index) {
+    EXPECT_EQ(kOSVersionBuild[index], csd_version->Buffer[index]) << index;
+  }
 }
 
 TEST(MinidumpSystemInfoWriterDeathTest, NoCSDVersion) {

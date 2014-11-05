@@ -94,6 +94,8 @@
         'test/test_memory_snapshot.h',
         'test/test_module_snapshot.cc',
         'test/test_module_snapshot.h',
+        'test/test_system_snapshot.cc',
+        'test/test_system_snapshot.h',
         'test/test_thread_snapshot.cc',
         'test/test_thread_snapshot.h',
       ],

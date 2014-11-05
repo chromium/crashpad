@@ -19,9 +19,85 @@
 
 #include "base/logging.h"
 #include "minidump/minidump_string_writer.h"
+#include "snapshot/system_snapshot.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {
+
+namespace {
+
+uint64_t AMD64FeaturesFromSystemSnapshot(
+    const SystemSnapshot* system_snapshot) {
+#define ADD_FEATURE(minidump_bit) (UINT64_C(1) << (minidump_bit))
+
+  // Features for which no cpuid bits are present, but that always exist on
+  // x86_64. cmpxchg is supported on 486 and later.
+  uint64_t minidump_features = ADD_FEATURE(PF_COMPARE_EXCHANGE_DOUBLE);
+
+#define MAP_FEATURE(features, cpuid_bit, minidump_bit)                    \
+do {                                                                      \
+  if ((features) & (static_cast<decltype(features)>(1) << (cpuid_bit))) { \
+    minidump_features |= ADD_FEATURE(minidump_bit);                       \
+  }                                                                       \
+} while (false)
+
+#define F_TSC 4
+#define F_PAE 6
+#define F_MMX 23
+#define F_SSE 25
+#define F_SSE2 26
+#define F_SSE3 32
+#define F_CX16 45
+#define F_XSAVE 58
+#define F_RDRAND 62
+
+  uint64_t cpuid_features = system_snapshot->CPUX86Features();
+
+  MAP_FEATURE(cpuid_features, F_TSC, PF_RDTSC_INSTRUCTION_AVAILABLE);
+  MAP_FEATURE(cpuid_features, F_PAE, PF_PAE_ENABLED);
+  MAP_FEATURE(cpuid_features, F_MMX, PF_MMX_INSTRUCTIONS_AVAILABLE);
+  MAP_FEATURE(cpuid_features, F_SSE, PF_XMMI_INSTRUCTIONS_AVAILABLE);
+  MAP_FEATURE(cpuid_features, F_SSE2, PF_XMMI64_INSTRUCTIONS_AVAILABLE);
+  MAP_FEATURE(cpuid_features, F_SSE3, PF_SSE3_INSTRUCTIONS_AVAILABLE);
+  MAP_FEATURE(cpuid_features, F_CX16, PF_COMPARE_EXCHANGE128);
+  MAP_FEATURE(cpuid_features, F_XSAVE, PF_XSAVE_ENABLED);
+  MAP_FEATURE(cpuid_features, F_RDRAND, PF_RDRAND_INSTRUCTION_AVAILABLE);
+
+#define FX_XD 20
+#define FX_3DNOW 31
+
+  uint64_t extended_features = system_snapshot->CPUX86ExtendedFeatures();
+
+  MAP_FEATURE(extended_features, FX_3DNOW, PF_3DNOW_INSTRUCTIONS_AVAILABLE);
+
+#define F7_FSGSBASE 0
+
+  uint32_t leaf7_features = system_snapshot->CPUX86Leaf7Features();
+
+  MAP_FEATURE(leaf7_features, F7_FSGSBASE, PF_RDWRFSGSBASE_AVAILABLE);
+
+  // This feature bit should be set if NX (XD, DEP) is enabled, not just if
+  // it’s available on the CPU as indicated by the XF_XD bit.
+  if (system_snapshot->NXEnabled()) {
+    minidump_features |= ADD_FEATURE(PF_NX_ENABLED);
+  }
+
+  if (system_snapshot->CPUX86SupportsDAZ()) {
+    minidump_features |= ADD_FEATURE(PF_SSE_DAZ_MODE_AVAILABLE);
+  }
+
+  // PF_SECOND_LEVEL_ADDRESS_TRANSLATION can’t be determined without
+  // consulting model-specific registers, a privileged operation. The exact
+  // use of PF_VIRT_FIRMWARE_ENABLED is unknown. PF_FASTFAIL_AVAILABLE is
+  // irrelevant outside of Windows.
+
+#undef MAP_FEATURE
+#undef ADD_FEATURE
+
+  return minidump_features;
+}
+
+}  // namespace
 
 MinidumpSystemInfoWriter::MinidumpSystemInfoWriter()
     : MinidumpStreamWriter(), system_info_(), csd_version_() {
@@ -29,6 +105,72 @@ MinidumpSystemInfoWriter::MinidumpSystemInfoWriter()
 }
 
 MinidumpSystemInfoWriter::~MinidumpSystemInfoWriter() {
+}
+
+void MinidumpSystemInfoWriter::InitializeFromSnapshot(
+    const SystemSnapshot* system_snapshot) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!csd_version_);
+
+  MinidumpCPUArchitecture cpu_architecture;
+  switch (system_snapshot->GetCPUArchitecture()) {
+    case kCPUArchitectureX86:
+      cpu_architecture = kMinidumpCPUArchitectureX86;
+      break;
+    case kCPUArchitectureX86_64:
+      cpu_architecture = kMinidumpCPUArchitectureAMD64;
+      break;
+    default:
+      NOTREACHED();
+      cpu_architecture = kMinidumpCPUArchitectureUnknown;
+      break;
+  }
+  SetCPUArchitecture(cpu_architecture);
+
+  uint32_t cpu_revision = system_snapshot->CPURevision();
+  SetCPULevelAndRevision(
+      (cpu_revision & 0xffff0000) >> 16, cpu_revision & 0x0000ffff);
+  SetCPUCount(system_snapshot->CPUCount());
+
+  if (cpu_architecture == kMinidumpCPUArchitectureX86) {
+    std::string cpu_vendor = system_snapshot->CPUVendor();
+    SetCPUX86VendorString(cpu_vendor);
+
+    // The minidump file format only has room for the bottom 32 bits of CPU
+    // features and extended CPU features.
+    SetCPUX86VersionAndFeatures(system_snapshot->CPUX86Signature(),
+                                system_snapshot->CPUX86Features() & 0xffffffff);
+
+    if (cpu_vendor == "AuthenticAMD") {
+      SetCPUX86AMDExtendedFeatures(
+          system_snapshot->CPUX86ExtendedFeatures() & 0xffffffff);
+    }
+  } else if (cpu_architecture == kMinidumpCPUArchitectureAMD64) {
+    SetCPUOtherFeatures(AMD64FeaturesFromSystemSnapshot(system_snapshot), 0);
+  }
+
+  MinidumpOS operating_system;
+  switch (system_snapshot->GetOperatingSystem()) {
+    case SystemSnapshot::kOperatingSystemMacOSX:
+      operating_system = kMinidumpOSMacOSX;
+      break;
+    default:
+      NOTREACHED();
+      operating_system = kMinidumpOSUnknown;
+      break;
+  }
+  SetOS(operating_system);
+
+  SetOSType(system_snapshot->OSServer() ? kMinidumpOSTypeServer
+                                        : kMinidumpOSTypeWorkstation);
+
+  int major;
+  int minor;
+  int bugfix;
+  std::string build;
+  system_snapshot->OSVersion(&major, &minor, &bugfix, &build);
+  SetOSVersion(major, minor, bugfix);
+  SetCSDVersion(build);
 }
 
 void MinidumpSystemInfoWriter::SetCSDVersion(const std::string& csd_version) {

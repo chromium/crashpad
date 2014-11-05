@@ -79,8 +79,11 @@ class SystemSnapshot {
   //! \brief Returns the snapshot system’s CPU revision.
   //!
   //! For x86-family CPUs (including x86_64 and 32-bit x86), this is the CPU
-  //! family ID value from `cpuid 1` `eax`, adjusted to take the extended family
-  //! ID into account.
+  //! family, model, and stepping ID values from `cpuid 1` `eax`. The family and
+  //! model values are adjusted to take the extended family and model IDs into
+  //! account. These values are encoded in this method’s return value with the
+  //! family in the high high 16 bits, the model in the next 8 bits, and the
+  //! stepping in the low 8 bits.
   //!
   //! \return A CPU architecture-specific value identifying the CPU revision.
   virtual uint32_t CPURevision() const = 0;

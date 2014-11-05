@@ -29,6 +29,8 @@
 
 namespace crashpad {
 
+class SystemSnapshot;
+
 namespace internal {
 class MinidumpUTF16StringWriter;
 }  // namespace internal
@@ -38,6 +40,15 @@ class MinidumpSystemInfoWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpSystemInfoWriter();
   ~MinidumpSystemInfoWriter() override;
+
+  //! \brief Initializes MINIDUMP_SYSTEM_INFO based on \a system_snapshot.
+  //!
+  //! \param[in] system_snapshot The system snapshot to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(const SystemSnapshot* system_snapshot);
 
   //! \brief Sets MINIDUMP_SYSTEM_INFO::ProcessorArchitecture.
   void SetCPUArchitecture(MinidumpCPUArchitecture processor_architecture) {
