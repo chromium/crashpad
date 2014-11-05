@@ -50,7 +50,7 @@ class PointerContainer : public ContainerType {
 //! \note No attempt is made to `delete` elements that are removed from the
 //!     vector by other means, such as replacement or `clear()`.
 template <typename T>
-class PointerVector : public PointerContainer<std::vector<T*>> {};
+using PointerVector = PointerContainer<std::vector<T*>>;
 
 }  // namespace crashpad
 
