@@ -14,14 +14,122 @@
 
 #include "minidump/minidump_misc_info_writer.h"
 
+#include <limits>
+
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
+#include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "build/build_config.h"
 #include "minidump/minidump_writer_util.h"
+#include "package.h"
+#include "snapshot/process_snapshot.h"
+#include "snapshot/system_snapshot.h"
 #include "util/file/file_writer.h"
+#include "util/numeric/in_range_cast.h"
 #include "util/numeric/safe_assignment.h"
 
+#if defined(OS_MACOSX)
+#include <AvailabilityMacros.h>
+#endif
+
 namespace crashpad {
+namespace {
+
+uint32_t TimevalToRoundedSeconds(const timeval& tv) {
+  uint32_t seconds =
+      InRangeCast<uint32_t>(tv.tv_sec, std::numeric_limits<uint32_t>::max());
+  const int kMicrosecondsPerSecond = 1E6;
+  if (tv.tv_usec >= kMicrosecondsPerSecond / 2 &&
+      seconds != std::numeric_limits<uint32_t>::max()) {
+    ++seconds;
+  }
+  return seconds;
+}
+
+// For MINIDUMP_MISC_INFO_4::BuildString. dbghelp only places OS version
+// information here, but if a machine description is also available, this is the
+// only reasonable place in a minidump file to put it.
+std::string BuildString(const SystemSnapshot* system_snapshot) {
+  std::string os_version_full = system_snapshot->OSVersionFull();
+  std::string machine_description = system_snapshot->MachineDescription();
+  if (!os_version_full.empty()) {
+    if (!machine_description.empty()) {
+      return base::StringPrintf(
+          "%s; %s", os_version_full.c_str(), machine_description.c_str());
+    }
+    return os_version_full;
+  }
+  return machine_description;
+}
+
+#if defined(OS_MACOSX)
+// Converts the value of the MAC_OS_VERSION_MIN_REQUIRED or
+// MAC_OS_X_VERSION_MAX_ALLOWED macro from <AvailabilityMacros.h> to a number
+// identifying the minor Mac OS X version that it represents. For example, with
+// an argument of MAC_OS_X_VERSION_10_6, this function will return 6.
+int AvailabilityVersionToMacOSXMinorVersion(int availability) {
+  // Through MAC_OS_X_VERSION_10_9, the minor version is the tens digit.
+  if (availability >= 1000 && availability <= 1099) {
+    return (availability / 10) % 10;
+  }
+
+  // After MAC_OS_X_VERSION_10_9, the older format was insufficient to represent
+  // versions. Since then, the minor version is the thousands and hundreds
+  // digits.
+  if (availability >= 100000 && availability <= 109999) {
+    return (availability / 100) % 100;
+  }
+
+  return 0;
+}
+#endif
+
+}  // namespace
+
+namespace internal {
+
+// For MINIDUMP_MISC_INFO_4::DbgBldStr. dbghelp produces strings like
+// “dbghelp.i386,6.3.9600.16520” and “dbghelp.amd64,6.3.9600.16520”. Mimic that
+// format, and add the OS that wrote the minidump along with any relevant
+// platform-specific data describing the compilation environment.
+std::string MinidumpMiscInfoDebugBuildString() {
+  // Caution: the minidump file format only has room for 39 UTF-16 code units
+  // plus a UTF-16 NUL terminator. Don’t let strings get longer than this, or
+  // they will be truncated and a message will be logged.
+#if defined(OS_MACOSX)
+  const char kOS[] = "mac";
+#elif defined(OS_LINUX)
+  const char kOS[] = "linux";
+#else
+#error define kOS for this operating system
+#endif
+
+#if defined(ARCH_CPU_X86)
+  const char kCPU[] = "i386";
+#elif defined(ARCH_CPU_X86_64)
+  const char kCPU[] = "amd64";
+#else
+#error define kCPU for this CPU
+#endif
+
+  std::string debug_build_string = base::StringPrintf("%s.%s,%s,%s",
+                                                      PACKAGE_TARNAME,
+                                                      kCPU,
+                                                      PACKAGE_VERSION,
+                                                      kOS);
+
+#if defined(OS_MACOSX)
+  debug_build_string += base::StringPrintf(
+      ",%d,%d",
+      AvailabilityVersionToMacOSXMinorVersion(MAC_OS_X_VERSION_MIN_REQUIRED),
+      AvailabilityVersionToMacOSXMinorVersion(MAC_OS_X_VERSION_MAX_ALLOWED));
+#endif
+
+  return debug_build_string;
+}
+
+}  // namespace internal
 
 MinidumpMiscInfoWriter::MinidumpMiscInfoWriter()
     : MinidumpStreamWriter(), misc_info_() {
@@ -30,7 +138,78 @@ MinidumpMiscInfoWriter::MinidumpMiscInfoWriter()
 MinidumpMiscInfoWriter::~MinidumpMiscInfoWriter() {
 }
 
-void MinidumpMiscInfoWriter::SetProcessId(uint32_t process_id) {
+void MinidumpMiscInfoWriter::InitializeFromSnapshot(
+    const ProcessSnapshot* process_snapshot) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK_EQ(misc_info_.Flags1, 0u);
+
+  SetProcessID(InRangeCast<uint32_t>(process_snapshot->ProcessID(), 0));
+
+  const SystemSnapshot* system_snapshot = process_snapshot->System();
+
+  uint64_t current_mhz;
+  uint64_t max_mhz;
+  system_snapshot->CPUFrequency(&current_mhz, &max_mhz);
+  const uint32_t kHzPerMHz = 1E6;
+  SetProcessorPowerInfo(
+      InRangeCast<uint32_t>(current_mhz / kHzPerMHz,
+                            std::numeric_limits<uint32_t>::max()),
+      InRangeCast<uint32_t>(max_mhz / kHzPerMHz,
+                            std::numeric_limits<uint32_t>::max()),
+      0,
+      0,
+      0);
+
+  timeval start_time;
+  process_snapshot->ProcessStartTime(&start_time);
+
+  timeval user_time;
+  timeval system_time;
+  process_snapshot->ProcessCPUTimes(&user_time, &system_time);
+
+  // Round the resource usage fields to the nearest second, because the minidump
+  // format only has one-second resolution. The start_time field is truncated
+  // instead of rounded so that the process uptime is reflected more accurately
+  // when the start time is compared to the snapshot time in the
+  // MINIDUMP_HEADER, which is also truncated, not rounded.
+  uint32_t user_seconds = TimevalToRoundedSeconds(user_time);
+  uint32_t system_seconds = TimevalToRoundedSeconds(system_time);
+
+  SetProcessTimes(start_time.tv_sec, user_seconds, system_seconds);
+
+  // This determines the system’s time zone, which may be different than the
+  // process’ notion of the time zone.
+  SystemSnapshot::DaylightSavingTimeStatus dst_status;
+  int standard_offset_seconds;
+  int daylight_offset_seconds;
+  std::string standard_name;
+  std::string daylight_name;
+  system_snapshot->TimeZone(&dst_status,
+                            &standard_offset_seconds,
+                            &daylight_offset_seconds,
+                            &standard_name,
+                            &daylight_name);
+
+  // standard_offset_seconds is seconds east of UTC, but the minidump file wants
+  // minutes west of UTC. daylight_offset_seconds is also seconds east of UTC,
+  // but the minidump file wants minutes west of the standard offset. The empty
+  // ({}) arguments are for the transition times in and out of daylight saving
+  // time. These are not determined because no API exists to do so, and the
+  // transition times may vary from year to year.
+  SetTimeZone(dst_status,
+              standard_offset_seconds / -60,
+              standard_name,
+              {},
+              0,
+              daylight_name,
+              {},
+              (standard_offset_seconds - daylight_offset_seconds) / 60);
+
+  SetBuildString(BuildString(system_snapshot),
+                 internal::MinidumpMiscInfoDebugBuildString());
+}
+
+void MinidumpMiscInfoWriter::SetProcessID(uint32_t process_id) {
   DCHECK_EQ(state(), kStateMutable);
 
   misc_info_.ProcessId = process_id;

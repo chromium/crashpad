@@ -28,6 +28,24 @@
 
 namespace crashpad {
 
+class ProcessSnapshot;
+
+namespace internal {
+
+//! \brief Returns the string to set in MINIDUMP_MISC_INFO_4::DbgBldStr.
+//!
+//! dbghelp produces strings like `"dbghelp.i386,6.3.9600.16520"` and
+//! `"dbghelp.amd64,6.3.9600.16520"`. This function mimics that format, and adds
+//! the OS that wrote the minidump along with any relevant platform-specific
+//! data describing the compilation environment.
+//!
+//! This function is an implementation detail of
+//! MinidumpMiscInfoWriter::InitializeFromSnapshot() and is only exposed for
+//! testing purposes.
+std::string MinidumpMiscInfoDebugBuildString();
+
+}  // namespace internal
+
 //! \brief The writer for a stream in the MINIDUMP_MISC_INFO family in a
 //!     minidump file.
 //!
@@ -41,8 +59,17 @@ class MinidumpMiscInfoWriter final : public internal::MinidumpStreamWriter {
   MinidumpMiscInfoWriter();
   ~MinidumpMiscInfoWriter() override;
 
+  //! \brief Initializes MINIDUMP_MISC_INFO_N based on \a process_snapshot.
+  //!
+  //! \param[in] process_snapshot The process snapshot to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(const ProcessSnapshot* process_snapshot);
+
   //! \brief Sets the field referenced by #MINIDUMP_MISC1_PROCESS_ID.
-  void SetProcessId(uint32_t process_id);
+  void SetProcessID(uint32_t process_id);
 
   //! \brief Sets the fields referenced by #MINIDUMP_MISC1_PROCESS_TIMES.
   void SetProcessTimes(time_t process_create_time,

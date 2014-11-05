@@ -339,7 +339,6 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
 
   const MINIDUMP_SYSTEM_INFO* system_info;
   const MINIDUMP_STRING* csd_version;
-
   ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(file_writer.string(),
                                               strlen(kOSVersionBuild),
                                               &system_info,

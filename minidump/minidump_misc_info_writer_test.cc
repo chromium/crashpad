@@ -27,6 +27,8 @@
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
+#include "snapshot/test/test_process_snapshot.h"
+#include "snapshot/test/test_system_snapshot.h"
 #include "util/file/string_file_writer.h"
 #include "util/stdlib/strlcpy.h"
 
@@ -177,7 +179,7 @@ TEST(MinidumpMiscInfoWriter, ProcessId) {
 
   const uint32_t kProcessId = 12345;
 
-  misc_info_writer->SetProcessId(kProcessId);
+  misc_info_writer->SetProcessID(kProcessId);
 
   minidump_file_writer.AddStream(misc_info_writer.Pass());
 
@@ -535,7 +537,7 @@ TEST(MinidumpMiscInfoWriter, Everything) {
   const char kBuildString[] = "build string";
   const char kDebugBuildString[] = "debug build string";
 
-  misc_info_writer->SetProcessId(kProcessId);
+  misc_info_writer->SetProcessID(kProcessId);
   misc_info_writer->SetProcessTimes(
       kProcessCreateTime, kProcessUserTime, kProcessKernelTime);
   misc_info_writer->SetProcessorPowerInfo(kProcessorMaxMhz,
@@ -610,6 +612,94 @@ TEST(MinidumpMiscInfoWriter, Everything) {
           arraysize(expected.DbgBldStr));
 
   ExpectMiscInfoEqual(&expected, observed);
+}
+
+TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
+  MINIDUMP_MISC_INFO_4 expect_misc_info = {};
+
+  const char kStandardTimeName[] = "EST";
+  const char kDaylightTimeName[] = "EDT";
+  const char kOSVersionFull[] =
+      "Mac OS X 10.9.5 (13F34); "
+      "Darwin 13.4.0 Darwin Kernel Version 13.4.0: "
+      "Sun Aug 17 19:50:11 PDT 2014; "
+      "root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64";
+  const char kMachineDescription[] = "MacBookPro11,3 (Mac-2BD1B31983FE1663)";
+  string16 standard_time_name_utf16 = base::UTF8ToUTF16(kStandardTimeName);
+  string16 daylight_time_name_utf16 = base::UTF8ToUTF16(kDaylightTimeName);
+  string16 build_string_utf16 = base::UTF8ToUTF16(
+      std::string(kOSVersionFull) + "; " + kMachineDescription);
+  std::string debug_build_string = internal::MinidumpMiscInfoDebugBuildString();
+  EXPECT_FALSE(debug_build_string.empty());
+  string16 debug_build_string_utf16 = base::UTF8ToUTF16(debug_build_string);
+
+  expect_misc_info.SizeOfInfo = sizeof(expect_misc_info);
+  expect_misc_info.Flags1 = MINIDUMP_MISC1_PROCESS_ID |
+                            MINIDUMP_MISC1_PROCESS_TIMES |
+                            MINIDUMP_MISC1_PROCESSOR_POWER_INFO |
+                            MINIDUMP_MISC3_TIMEZONE |
+                            MINIDUMP_MISC4_BUILDSTRING;
+  expect_misc_info.ProcessId = 12345;
+  expect_misc_info.ProcessCreateTime = 0x555c7740;
+  expect_misc_info.ProcessUserTime = 60;
+  expect_misc_info.ProcessKernelTime = 15;
+  expect_misc_info.ProcessorCurrentMhz = 2800;
+  expect_misc_info.ProcessorMaxMhz = 2800;
+  expect_misc_info.TimeZoneId = 1;
+  expect_misc_info.TimeZone.Bias = 300;
+  c16lcpy(expect_misc_info.TimeZone.StandardName,
+          standard_time_name_utf16.c_str(),
+          arraysize(expect_misc_info.TimeZone.StandardName));
+  expect_misc_info.TimeZone.StandardBias = 0;
+  c16lcpy(expect_misc_info.TimeZone.DaylightName,
+          daylight_time_name_utf16.c_str(),
+          arraysize(expect_misc_info.TimeZone.DaylightName));
+  expect_misc_info.TimeZone.DaylightBias = -60;
+  c16lcpy(expect_misc_info.BuildString,
+          build_string_utf16.c_str(),
+          arraysize(expect_misc_info.BuildString));
+  c16lcpy(expect_misc_info.DbgBldStr,
+          debug_build_string_utf16.c_str(),
+          arraysize(expect_misc_info.DbgBldStr));
+
+  const timeval kStartTime = { expect_misc_info.ProcessCreateTime, 0 };
+  const timeval kUserCPUTime = { expect_misc_info.ProcessUserTime, 0 };
+  const timeval kSystemCPUTime = { expect_misc_info.ProcessKernelTime, 0 };
+
+  TestProcessSnapshot process_snapshot;
+  process_snapshot.SetProcessID(expect_misc_info.ProcessId);
+  process_snapshot.SetProcessStartTime(kStartTime);
+  process_snapshot.SetProcessCPUTimes(kUserCPUTime, kSystemCPUTime);
+
+  auto system_snapshot = make_scoped_ptr(new TestSystemSnapshot());
+  const uint64_t kHzPerMHz = 1E6;
+  system_snapshot->SetCPUFrequency(
+      expect_misc_info.ProcessorCurrentMhz * kHzPerMHz,
+      expect_misc_info.ProcessorMaxMhz * kHzPerMHz);
+  system_snapshot->SetTimeZone(SystemSnapshot::kObservingStandardTime,
+                               expect_misc_info.TimeZone.Bias * -60,
+                               (expect_misc_info.TimeZone.Bias +
+                                expect_misc_info.TimeZone.DaylightBias) * -60,
+                               kStandardTimeName,
+                               kDaylightTimeName);
+  system_snapshot->SetOSVersionFull(kOSVersionFull);
+  system_snapshot->SetMachineDescription(kMachineDescription);
+
+  process_snapshot.SetSystem(system_snapshot.Pass());
+
+  auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
+  misc_info_writer->InitializeFromSnapshot(&process_snapshot);
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.AddStream(misc_info_writer.Pass());
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+
+  const MINIDUMP_MISC_INFO_4* misc_info;
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(file_writer.string(), &misc_info));
+
+  ExpectMiscInfoEqual(&expect_misc_info, misc_info);
 }
 
 }  // namespace
