@@ -22,7 +22,7 @@ namespace test {
 namespace {
 
 TEST(SimpleStringDictionary, Entry) {
-  typedef TSimpleStringDictionary<5, 9, 15> TestMap;
+  using TestMap = TSimpleStringDictionary<5, 9, 15>;
   TestMap map;
 
   const TestMap::Entry* entry = TestMap::Iterator(map).Next();
@@ -238,7 +238,7 @@ TEST(SimpleStringDictionary, AddRemove) {
 }
 
 TEST(SimpleStringDictionary, Serialize) {
-  typedef TSimpleStringDictionary<4, 5, 7> TestMap;
+  using TestMap = TSimpleStringDictionary<4, 5, 7>;
   TestMap map;
   map.SetKeyValue("one", "abc");
   map.SetKeyValue("two", "def");

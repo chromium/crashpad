@@ -22,7 +22,7 @@
 namespace crashpad {
 
 #if defined(ARCH_CPU_X86_FAMILY)
-typedef x86_thread_state NativeCPUContext;
+using NativeCPUContext = x86_thread_state;
 #endif
 
 //! \brief Saves the CPU context.

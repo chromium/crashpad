@@ -23,7 +23,7 @@ namespace crashpad {
 
 //! \brief A context structure carrying 32-bit x86 CPU state.
 struct CPUContextX86 {
-  typedef uint8_t X87Register[10];
+  using X87Register = uint8_t[10];
 
   union X87OrMMXRegister {
     struct {
@@ -36,7 +36,7 @@ struct CPUContextX86 {
     };
   };
 
-  typedef uint8_t XMMRegister[16];
+  using XMMRegister = uint8_t[16];
 
   struct Fxsave {
     uint16_t fcw;  // FPU control word
@@ -121,9 +121,9 @@ struct CPUContextX86 {
 
 //! \brief A context structure carrying x86_64 CPU state.
 struct CPUContextX86_64 {
-  typedef CPUContextX86::X87Register X87Register;
-  typedef CPUContextX86::X87OrMMXRegister X87OrMMXRegister;
-  typedef CPUContextX86::XMMRegister XMMRegister;
+  using X87Register = CPUContextX86::X87Register;
+  using X87OrMMXRegister = CPUContextX86::X87OrMMXRegister;
+  using XMMRegister = CPUContextX86::XMMRegister;
 
   struct Fxsave {
     uint16_t fcw;  // FPU control word

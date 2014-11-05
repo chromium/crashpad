@@ -481,7 +481,7 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
 }
 
 struct InitializeFromSnapshotX86Traits {
-  typedef MinidumpContextX86 MinidumpContextType;
+  using MinidumpContextType = MinidumpContextX86;
   static void InitializeCPUContext(CPUContext* context, uint32_t seed) {
     return InitializeCPUContextX86(context, seed);
   }
@@ -492,7 +492,7 @@ struct InitializeFromSnapshotX86Traits {
 };
 
 struct InitializeFromSnapshotAMD64Traits {
-  typedef MinidumpContextAMD64 MinidumpContextType;
+  using MinidumpContextType = MinidumpContextAMD64;
   static void InitializeCPUContext(CPUContext* context, uint32_t seed) {
     return InitializeCPUContextX86_64(context, seed);
   }
@@ -504,7 +504,7 @@ struct InitializeFromSnapshotAMD64Traits {
 };
 
 struct InitializeFromSnapshotNoContextTraits {
-  typedef MinidumpContextX86 MinidumpContextType;
+  using MinidumpContextType = MinidumpContextX86;
   static void InitializeCPUContext(CPUContext* context, uint32_t seed) {
     context->architecture = kCPUArchitectureUnknown;
   }
@@ -517,7 +517,7 @@ struct InitializeFromSnapshotNoContextTraits {
 
 template <typename Traits>
 void RunInitializeFromSnapshotTest(bool thread_id_collision) {
-  typedef typename Traits::MinidumpContextType MinidumpContextType;
+  using MinidumpContextType = typename Traits::MinidumpContextType;
   MINIDUMP_THREAD expect_threads[3] = {};
   uint64_t thread_ids[arraysize(expect_threads)] = {};
   uint8_t memory_values[arraysize(expect_threads)] = {};

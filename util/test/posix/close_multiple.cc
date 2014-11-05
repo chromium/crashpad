@@ -72,7 +72,7 @@ struct ScopedDIRCloser {
   }
 };
 
-typedef scoped_ptr<DIR, ScopedDIRCloser> ScopedDIR;
+using ScopedDIR = scoped_ptr<DIR, ScopedDIRCloser>;
 
 // This function implements CloseMultipleNowOrOnExec() using an operating
 // system-specific FD directory to determine which file descriptors are open.

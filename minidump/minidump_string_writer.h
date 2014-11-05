@@ -30,13 +30,13 @@ namespace internal {
 //! \cond
 
 struct MinidumpStringWriterUTF16Traits {
-  typedef string16 StringType;
-  typedef MINIDUMP_STRING MinidumpStringType;
+  using StringType = string16;
+  using MinidumpStringType = MINIDUMP_STRING;
 };
 
 struct MinidumpStringWriterUTF8Traits {
-  typedef std::string StringType;
-  typedef MinidumpUTF8String MinidumpStringType;
+  using StringType = std::string;
+  using MinidumpStringType = MinidumpUTF8String;
 };
 
 //! \endcond
@@ -54,8 +54,8 @@ class MinidumpStringWriter : public MinidumpWritable {
   ~MinidumpStringWriter() override;
 
  protected:
-  typedef typename Traits::MinidumpStringType MinidumpStringType;
-  typedef typename Traits::StringType StringType;
+  using MinidumpStringType = typename Traits::MinidumpStringType;
+  using StringType = typename Traits::StringType;
 
   bool Freeze() override;
   size_t SizeOfObject() override;

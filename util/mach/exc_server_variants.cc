@@ -152,7 +152,7 @@ enum MachMessageID : mach_msg_id_t {
 
 kern_return_t MIGCheckRequestExceptionRaise(
     const __Request__exception_raise_t* in_request) {
-  typedef __Request__exception_raise_t Request;
+  using Request = __Request__exception_raise_t;
   return __MIG_check__Request__exception_raise_t(
       const_cast<Request*>(in_request));
 }
@@ -160,7 +160,7 @@ kern_return_t MIGCheckRequestExceptionRaise(
 kern_return_t MIGCheckRequestExceptionRaiseState(
     const __Request__exception_raise_state_t* in_request,
     const __Request__exception_raise_state_t** in_request_1) {
-  typedef __Request__exception_raise_state_t Request;
+  using Request = __Request__exception_raise_state_t;
   return __MIG_check__Request__exception_raise_state_t(
       const_cast<Request*>(in_request), const_cast<Request**>(in_request_1));
 }
@@ -168,14 +168,14 @@ kern_return_t MIGCheckRequestExceptionRaiseState(
 kern_return_t MIGCheckRequestExceptionRaiseStateIdentity(
     const __Request__exception_raise_state_identity_t* in_request,
     const __Request__exception_raise_state_identity_t** in_request_1) {
-  typedef __Request__exception_raise_state_identity_t Request;
+  using Request = __Request__exception_raise_state_identity_t;
   return __MIG_check__Request__exception_raise_state_identity_t(
       const_cast<Request*>(in_request), const_cast<Request**>(in_request_1));
 }
 
 kern_return_t MIGCheckRequestMachExceptionRaise(
     const __Request__mach_exception_raise_t* in_request) {
-  typedef __Request__mach_exception_raise_t Request;
+  using Request = __Request__mach_exception_raise_t;
   return __MIG_check__Request__mach_exception_raise_t(
       const_cast<Request*>(in_request));
 }
@@ -183,7 +183,7 @@ kern_return_t MIGCheckRequestMachExceptionRaise(
 kern_return_t MIGCheckRequestMachExceptionRaiseState(
     const __Request__mach_exception_raise_state_t* in_request,
     const __Request__mach_exception_raise_state_t** in_request_1) {
-  typedef __Request__mach_exception_raise_state_t Request;
+  using Request = __Request__mach_exception_raise_state_t;
   return __MIG_check__Request__mach_exception_raise_state_t(
       const_cast<Request*>(in_request), const_cast<Request**>(in_request_1));
 }
@@ -191,7 +191,7 @@ kern_return_t MIGCheckRequestMachExceptionRaiseState(
 kern_return_t MIGCheckRequestMachExceptionRaiseStateIdentity(
     const __Request__mach_exception_raise_state_identity_t* in_request,
     const __Request__mach_exception_raise_state_identity_t** in_request_1) {
-  typedef __Request__mach_exception_raise_state_identity_t Request;
+  using Request = __Request__mach_exception_raise_state_identity_t;
   return __MIG_check__Request__mach_exception_raise_state_identity_t(
       const_cast<Request*>(in_request), const_cast<Request**>(in_request_1));
 }
@@ -214,7 +214,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
   switch (in_header->msgh_id) {
     case kMachMessageIDExceptionRaise: {
       // exception_raise(), catch_exception_raise().
-      typedef __Request__exception_raise_t Request;
+      using Request = __Request__exception_raise_t;
       const Request* in_request = reinterpret_cast<const Request*>(in_header);
       kern_return_t kr = MIGCheckRequestExceptionRaise(in_request);
       if (kr != MACH_MSG_SUCCESS) {
@@ -222,7 +222,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
         return true;
       }
 
-      typedef __Reply__exception_raise_t Reply;
+      using Reply = __Reply__exception_raise_t;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
       out_reply->RetCode =
           interface_->CatchExceptionRaise(in_header->msgh_local_port,
@@ -242,7 +242,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
 
     case kMachMessageIDExceptionRaiseState: {
       // exception_raise_state(), catch_exception_raise_state().
-      typedef __Request__exception_raise_state_t Request;
+      using Request = __Request__exception_raise_state_t;
       const Request* in_request = reinterpret_cast<const Request*>(in_header);
 
       // in_request_1 is used for the portion of the request after the codes,
@@ -255,7 +255,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
         return true;
       }
 
-      typedef __Reply__exception_raise_state_t Reply;
+      using Reply = __Reply__exception_raise_state_t;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
       out_reply->flavor = in_request_1->flavor;
       out_reply->new_stateCnt = arraysize(out_reply->new_state);
@@ -282,7 +282,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
     case kMachMessageIDExceptionRaiseStateIdentity: {
       // exception_raise_state_identity(),
       // catch_exception_raise_state_identity().
-      typedef __Request__exception_raise_state_identity_t Request;
+      using Request = __Request__exception_raise_state_identity_t;
       const Request* in_request = reinterpret_cast<const Request*>(in_header);
 
       // in_request_1 is used for the portion of the request after the codes,
@@ -295,7 +295,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
         return true;
       }
 
-      typedef __Reply__exception_raise_state_identity_t Reply;
+      using Reply = __Reply__exception_raise_state_identity_t;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
       out_reply->flavor = in_request_1->flavor;
       out_reply->new_stateCnt = arraysize(out_reply->new_state);
@@ -349,7 +349,7 @@ bool MachExcServer::MachMessageServerFunction(
   switch (in_header->msgh_id) {
     case kMachMessageIDMachExceptionRaise: {
       // mach_exception_raise(), catch_mach_exception_raise().
-      typedef __Request__mach_exception_raise_t Request;
+      using Request = __Request__mach_exception_raise_t;
       const Request* in_request = reinterpret_cast<const Request*>(in_header);
       kern_return_t kr = MIGCheckRequestMachExceptionRaise(in_request);
       if (kr != MACH_MSG_SUCCESS) {
@@ -357,7 +357,7 @@ bool MachExcServer::MachMessageServerFunction(
         return true;
       }
 
-      typedef __Reply__mach_exception_raise_t Reply;
+      using Reply = __Reply__mach_exception_raise_t;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
       out_reply->RetCode =
           interface_->CatchMachExceptionRaise(in_header->msgh_local_port,
@@ -377,7 +377,7 @@ bool MachExcServer::MachMessageServerFunction(
 
     case kMachMessageIDMachExceptionRaiseState: {
       // mach_exception_raise_state(), catch_mach_exception_raise_state().
-      typedef __Request__mach_exception_raise_state_t Request;
+      using Request = __Request__mach_exception_raise_state_t;
       const Request* in_request = reinterpret_cast<const Request*>(in_header);
 
       // in_request_1 is used for the portion of the request after the codes,
@@ -390,7 +390,7 @@ bool MachExcServer::MachMessageServerFunction(
         return true;
       }
 
-      typedef __Reply__mach_exception_raise_state_t Reply;
+      using Reply = __Reply__mach_exception_raise_state_t;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
       out_reply->flavor = in_request_1->flavor;
       out_reply->new_stateCnt = arraysize(out_reply->new_state);
@@ -417,7 +417,7 @@ bool MachExcServer::MachMessageServerFunction(
     case kMachMessageIDMachExceptionRaiseStateIdentity: {
       // mach_exception_raise_state_identity(),
       // catch_mach_exception_raise_state_identity().
-      typedef __Request__mach_exception_raise_state_identity_t Request;
+      using Request = __Request__mach_exception_raise_state_identity_t;
       const Request* in_request = reinterpret_cast<const Request*>(in_header);
 
       // in_request_1 is used for the portion of the request after the codes,
@@ -430,7 +430,7 @@ bool MachExcServer::MachMessageServerFunction(
         return true;
       }
 
-      typedef __Reply__mach_exception_raise_state_identity_t Reply;
+      using Reply = __Reply__mach_exception_raise_state_identity_t;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
       out_reply->flavor = in_request_1->flavor;
       out_reply->new_stateCnt = arraysize(out_reply->new_state);

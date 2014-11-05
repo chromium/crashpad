@@ -40,8 +40,8 @@ namespace {
 
 template <typename TIntType, typename TLongType>
 struct StringToIntegerTraits {
-  typedef TIntType IntType;
-  typedef TLongType LongType;
+  using IntType = TIntType;
+  using LongType = TLongType;
   static void TypeCheck() {
     static_assert(std::numeric_limits<TIntType>::is_integer &&
                       std::numeric_limits<TLongType>::is_integer,
@@ -75,7 +75,7 @@ struct StringToSignedIntegerTraits
   }
 
  private:
-  typedef StringToIntegerTraits<TIntType, TLongType> super;
+  using super = StringToIntegerTraits<TIntType, TLongType>;
 };
 
 template <typename TIntType, typename TLongType>
@@ -89,7 +89,7 @@ struct StringToUnsignedIntegerTraits
   static bool IsNegativeOverflow(TLongType value) { return false; }
 
  private:
-  typedef StringToIntegerTraits<TIntType, TLongType> super;
+  using super = StringToIntegerTraits<TIntType, TLongType>;
 };
 
 struct StringToIntTraits : public StringToSignedIntegerTraits<int, long> {
@@ -111,8 +111,8 @@ struct StringToUnsignedIntTraits
 template <typename Traits>
 bool StringToIntegerInternal(const base::StringPiece& string,
                              typename Traits::IntType* number) {
-  typedef typename Traits::IntType IntType;
-  typedef typename Traits::LongType LongType;
+  using IntType = typename Traits::IntType;
+  using LongType = typename Traits::LongType;
 
   Traits::TypeCheck();
 

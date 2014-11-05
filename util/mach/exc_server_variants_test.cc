@@ -268,7 +268,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateIdentityRequest {
 
 // The reply messages for exception_raise_state and
 // exception_raise_state_identity are identical.
-typedef ExceptionRaiseStateReply ExceptionRaiseStateIdentityReply;
+using ExceptionRaiseStateIdentityReply = ExceptionRaiseStateReply;
 
 struct __attribute__((packed, aligned(4))) MachExceptionRaiseRequest {
   mach_msg_header_t Head;
@@ -302,7 +302,7 @@ struct __attribute__((packed, aligned(4))) MachExceptionRaiseRequest {
 
 // The reply messages for exception_raise and mach_exception_raise are
 // identical.
-typedef ExceptionRaiseReply MachExceptionRaiseReply;
+using MachExceptionRaiseReply = ExceptionRaiseReply;
 
 struct __attribute__((packed, aligned(4))) MachExceptionRaiseStateRequest {
   mach_msg_header_t Head;
@@ -338,7 +338,7 @@ struct __attribute__((packed, aligned(4))) MachExceptionRaiseStateRequest {
 
 // The reply messages for exception_raise_state and mach_exception_raise_state
 // are identical.
-typedef ExceptionRaiseStateReply MachExceptionRaiseStateReply;
+using MachExceptionRaiseStateReply = ExceptionRaiseStateReply;
 
 struct __attribute__((packed,
                       aligned(4))) MachExceptionRaiseStateIdentityRequest {
@@ -382,7 +382,7 @@ struct __attribute__((packed,
 
 // The reply messages for exception_raise_state_identity and
 // mach_exception_raise_state_identity are identical.
-typedef ExceptionRaiseStateIdentityReply MachExceptionRaiseStateIdentityReply;
+using MachExceptionRaiseStateIdentityReply = ExceptionRaiseStateIdentityReply;
 
 // InvalidRequest and BadIDErrorReply are used to test that
 // UniversalMachExcServer deals appropriately with messages that it does not

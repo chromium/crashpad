@@ -289,7 +289,7 @@ class TestThreadPool {
   DISALLOW_COPY_AND_ASSIGN(TestThreadPool);
 };
 
-typedef std::map<uint64_t, TestThreadPool::ThreadExpectation> ThreadMap;
+using ThreadMap = std::map<uint64_t, TestThreadPool::ThreadExpectation>;
 
 // Verifies that all of the threads in |threads|, obtained from ProcessReader,
 // agree with the expectation in |thread_map|. If |tolerate_extra_threads| is

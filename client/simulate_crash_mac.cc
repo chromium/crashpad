@@ -71,7 +71,7 @@ bool DeliverException(thread_t thread,
   }
 
   // A const version of thread_state_t.
-  typedef const natural_t* ConstThreadState;
+  using ConstThreadState = const natural_t*;
 
   // old_state is only used if the context already captured doesn’t match (or
   // can’t be converted to) what’s registered for the handler.

@@ -66,7 +66,7 @@ class MachOImageSymbolTableReader {
   //
   // This is public so that the type is available to
   // MachOImageSymbolTableReaderInitializer.
-  typedef std::map<std::string, SymbolInformation> SymbolInformationMap;
+  using SymbolInformationMap = std::map<std::string, SymbolInformation>;
 
   MachOImageSymbolTableReader();
   ~MachOImageSymbolTableReader();

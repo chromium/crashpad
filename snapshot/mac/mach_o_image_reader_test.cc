@@ -43,22 +43,22 @@ namespace {
 // Native types and constants, in cases where the 32-bit and 64-bit versions
 // are different.
 #if defined(ARCH_CPU_64_BITS)
-typedef mach_header_64 MachHeader;
+using MachHeader = mach_header_64;
 const uint32_t kMachMagic = MH_MAGIC_64;
-typedef segment_command_64 SegmentCommand;
+using SegmentCommand = segment_command_64;
 const uint32_t kSegmentCommand = LC_SEGMENT_64;
-typedef section_64 Section;
-typedef nlist_64 Nlist;
+using Section = section_64;
+using Nlist = nlist_64;
 #else
-typedef mach_header MachHeader;
+using MachHeader = mach_header;
 const uint32_t kMachMagic = MH_MAGIC;
-typedef segment_command SegmentCommand;
+using SegmentCommand = segment_command;
 const uint32_t kSegmentCommand = LC_SEGMENT;
-typedef section Section;
+using Section = section;
 
 // This needs to be called “struct nlist” because “nlist” without the struct
 // refers to the nlist() function.
-typedef struct nlist Nlist;
+using Nlist = struct nlist;
 #endif
 
 #if defined(ARCH_CPU_X86_64)

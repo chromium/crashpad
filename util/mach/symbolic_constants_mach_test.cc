@@ -134,7 +134,7 @@ const struct {
 };
 
 struct ConvertExceptionTraits {
-  typedef exception_type_t ValueType;
+  using ValueType = exception_type_t;
   static std::string SomethingToString(
       ValueType value,
       SymbolicConstantToStringOptions options) {
@@ -309,7 +309,7 @@ const struct {
 };
 
 struct ConvertExceptionMaskTraits {
-  typedef exception_mask_t ValueType;
+  using ValueType = exception_mask_t;
   static std::string SomethingToString(
       ValueType value,
       SymbolicConstantToStringOptions options) {
@@ -552,7 +552,7 @@ const struct {
 };
 
 struct ConvertExceptionBehaviorTraits {
-  typedef exception_behavior_t ValueType;
+  using ValueType = exception_behavior_t;
   static std::string SomethingToString(
       ValueType value,
       SymbolicConstantToStringOptions options) {
@@ -815,7 +815,7 @@ const struct {
 };
 
 struct ConvertThreadStateFlavorTraits {
-  typedef thread_state_flavor_t ValueType;
+  using ValueType = thread_state_flavor_t;
   static std::string SomethingToString(
       ValueType value,
       SymbolicConstantToStringOptions options) {

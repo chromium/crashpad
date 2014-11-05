@@ -32,11 +32,11 @@
 extern "C" {
 #endif
 
-// Don’t use a typedef to account for the mach_header/mach_header_64 difference
-// between the 32-bit and 64-bit versions of getsectiondata() and
+// Don’t use a type alias to account for the mach_header/mach_header_64
+// difference between the 32-bit and 64-bit versions of getsectiondata() and
 // getsegmentdata(). This file should be faithfully equivalent to the native
-// SDK, and adding typedefs here would pollute the namespace in a way that the
-// native SDK does not.
+// SDK, and adding type aliases here would pollute the namespace in a way that
+// the native SDK does not.
 
 #if !defined(__LP64__)
 

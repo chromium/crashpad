@@ -137,7 +137,7 @@ const MINIDUMP_HEADER* MinidumpWritableAtLocationDescriptor<MINIDUMP_HEADER>(
 namespace {
 
 struct MinidumpMemoryListTraits {
-  typedef MINIDUMP_MEMORY_LIST ListType;
+  using ListType = MINIDUMP_MEMORY_LIST;
   static constexpr size_t kElementSize = sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
   static size_t ElementCount(const ListType* list) {
     return list->NumberOfMemoryRanges;
@@ -145,7 +145,7 @@ struct MinidumpMemoryListTraits {
 };
 
 struct MinidumpModuleListTraits {
-  typedef MINIDUMP_MODULE_LIST ListType;
+  using ListType = MINIDUMP_MODULE_LIST;
   static constexpr size_t kElementSize = sizeof(MINIDUMP_MODULE);
   static size_t ElementCount(const ListType* list) {
     return list->NumberOfModules;
@@ -153,7 +153,7 @@ struct MinidumpModuleListTraits {
 };
 
 struct MinidumpThreadListTraits {
-  typedef MINIDUMP_THREAD_LIST ListType;
+  using ListType = MINIDUMP_THREAD_LIST;
   static constexpr size_t kElementSize = sizeof(MINIDUMP_THREAD);
   static size_t ElementCount(const ListType* list) {
     return list->NumberOfThreads;
@@ -161,7 +161,7 @@ struct MinidumpThreadListTraits {
 };
 
 struct MinidumpModuleCrashpadInfoListTraits {
-  typedef MinidumpModuleCrashpadInfoList ListType;
+  using ListType = MinidumpModuleCrashpadInfoList;
   static constexpr size_t kElementSize = sizeof(MINIDUMP_LOCATION_DESCRIPTOR);
   static size_t ElementCount(const ListType* list) {
     return list->count;
@@ -169,7 +169,7 @@ struct MinidumpModuleCrashpadInfoListTraits {
 };
 
 struct MinidumpSimpleStringDictionaryListTraits {
-  typedef MinidumpSimpleStringDictionary ListType;
+  using ListType = MinidumpSimpleStringDictionary;
   static constexpr size_t kElementSize =
       sizeof(MinidumpSimpleStringDictionaryEntry);
   static size_t ElementCount(const ListType* list) {

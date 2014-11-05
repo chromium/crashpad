@@ -43,21 +43,21 @@ inline void Assign<process_types::internal::Reserved64Only64,
   *destination = 0;
 }
 
-typedef char CharArray16[16];
+using CharArray16 = char[16];
 template <>
 inline void Assign<CharArray16, CharArray16>(CharArray16* destination,
                                              const CharArray16& source) {
   memcpy(destination, &source, sizeof(source));
 }
 
-typedef uint64_t UInt64Array16[16];
+using UInt64Array16 = uint64_t[16];
 template <>
 inline void Assign<UInt64Array16, UInt64Array16>(UInt64Array16* destination,
                                                  const UInt64Array16& source) {
   memcpy(destination, &source, sizeof(source));
 }
 
-typedef uint32_t UInt32Array16[16];
+using UInt32Array16 = uint32_t[16];
 template <>
 inline void Assign<UInt64Array16, UInt32Array16>(UInt64Array16* destination,
                                                  const UInt32Array16& source) {
@@ -68,7 +68,7 @@ inline void Assign<UInt64Array16, UInt32Array16>(UInt64Array16* destination,
 
 template <>
 inline void Assign<uuid_t, uuid_t>(uuid_t* destination, const uuid_t& source) {
-  // uuid_t is a typedef for unsigned char[16].
+  // uuid_t is a type alias for unsigned char[16].
   memcpy(destination, &source, sizeof(source));
 }
 

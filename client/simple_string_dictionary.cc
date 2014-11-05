@@ -23,7 +23,7 @@
 namespace crashpad {
 namespace {
 
-typedef TSimpleStringDictionary<1, 1, 1> SimpleStringDictionaryForAssertion;
+using SimpleStringDictionaryForAssertion = TSimpleStringDictionary<1, 1, 1>;
 
 #if CXX_LIBRARY_VERSION >= 2011
 // In C++11, check that TSimpleStringDictionary has standard layout, which is

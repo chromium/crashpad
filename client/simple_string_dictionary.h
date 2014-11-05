@@ -267,7 +267,7 @@ class TSimpleStringDictionary {
 //!
 //! For historical reasons this specialized version is available with the same
 //! size factors as a previous implementation.
-typedef TSimpleStringDictionary<256, 256, 64> SimpleStringDictionary;
+using SimpleStringDictionary = TSimpleStringDictionary<256, 256, 64>;
 
 }  // namespace crashpad
 

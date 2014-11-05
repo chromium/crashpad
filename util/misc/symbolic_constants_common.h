@@ -92,7 +92,7 @@ enum SymbolicConstantToStringOptionBits {
 };
 
 //! \brief A bitfield containing values of #SymbolicConstantToStringOptionBits.
-typedef unsigned int SymbolicConstantToStringOptions;
+using SymbolicConstantToStringOptions = unsigned int;
 
 //! \brief Options for various `StringTo*` functions in `symbolic_constants_*`
 //!     files.
@@ -125,7 +125,7 @@ enum StringToSymbolicConstantOptionBits {
 };
 
 //! \brief A bitfield containing values of #StringToSymbolicConstantOptionBits.
-typedef unsigned int StringToSymbolicConstantOptions;
+using StringToSymbolicConstantOptions = unsigned int;
 
 }  // namespace crashpad
 

@@ -58,15 +58,15 @@ void* LookUpSystemLibMachOSymbol(const char* symbol) {
 }
 
 #ifndef __LP64__
-typedef mach_header MachHeader;
+using MachHeader = mach_header;
 #else
-typedef mach_header_64 MachHeader;
+using MachHeader = mach_header_64;
 #endif
 
-typedef uint8_t*(*GetSectionDataType)(
-    const MachHeader*, const char*, const char*, unsigned long*);
-typedef uint8_t*(*GetSegmentDataType)(
-    const MachHeader*, const char*, unsigned long*);
+using GetSectionDataType =
+    uint8_t*(*)(const MachHeader*, const char*, const char*, unsigned long*);
+using GetSegmentDataType =
+    uint8_t*(*)(const MachHeader*, const char*, unsigned long*);
 
 }  // namespace
 

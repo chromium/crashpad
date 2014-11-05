@@ -31,8 +31,8 @@ namespace internal {
 // additional “reserved” padding fields present only in the 64-bit environment.
 // These Reserved64Only* types allow the process_types system to replicate these
 // structures more precisely.
-typedef char Reserved64Only32[0];
-typedef uint32_t Reserved64Only64;
+using Reserved64Only32 = char[0];
+using Reserved64Only64 = uint32_t;
 
 }  // namespace internal
 }  // namespace process_types
@@ -56,12 +56,12 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
   namespace process_types {                                                    \
   struct struct_name {                                                         \
    public:                                                                     \
-    typedef internal::TraitsGeneric::Long Long;                                \
-    typedef internal::TraitsGeneric::ULong ULong;                              \
-    typedef internal::TraitsGeneric::Pointer Pointer;                          \
-    typedef internal::TraitsGeneric::IntPtr IntPtr;                            \
-    typedef internal::TraitsGeneric::UIntPtr UIntPtr;                          \
-    typedef internal::TraitsGeneric::Reserved64Only Reserved64Only;            \
+    using Long = internal::TraitsGeneric::Long;                                \
+    using ULong = internal::TraitsGeneric::ULong;                              \
+    using Pointer = internal::TraitsGeneric::Pointer;                          \
+    using IntPtr = internal::TraitsGeneric::IntPtr;                            \
+    using UIntPtr = internal::TraitsGeneric::UIntPtr;                          \
+    using Reserved64Only = internal::TraitsGeneric::Reserved64Only;            \
                                                                                \
     /* Initializes an object with data read from |process_reader| at           \
      * |address|, properly genericized. */                                     \
@@ -136,12 +136,12 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
   template <typename Traits>                                                   \
   struct struct_name {                                                         \
    public:                                                                     \
-    typedef typename Traits::Long Long;                                        \
-    typedef typename Traits::ULong ULong;                                      \
-    typedef typename Traits::Pointer Pointer;                                  \
-    typedef typename Traits::IntPtr IntPtr;                                    \
-    typedef typename Traits::UIntPtr UIntPtr;                                  \
-    typedef typename Traits::Reserved64Only Reserved64Only;                    \
+    using Long = typename Traits::Long;                                        \
+    using ULong = typename Traits::ULong;                                      \
+    using Pointer = typename Traits::Pointer;                                  \
+    using IntPtr = typename Traits::IntPtr;                                    \
+    using UIntPtr = typename Traits::UIntPtr;                                  \
+    using Reserved64Only = typename Traits::Reserved64Only;                    \
                                                                                \
     /* Read(), ReadArrayInto(), and Size() are as in the generic user-visible  \
      * struct above. */                                                        \

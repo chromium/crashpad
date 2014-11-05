@@ -153,7 +153,7 @@ class ExceptionPorts {
   const char* TargetTypeName() const;
 
  private:
-  typedef kern_return_t (*GetExceptionPortsType)(mach_port_t,
+  using GetExceptionPortsType = kern_return_t(*)(mach_port_t,
                                                  exception_mask_t,
                                                  exception_mask_array_t,
                                                  mach_msg_type_number_t*,
@@ -161,7 +161,7 @@ class ExceptionPorts {
                                                  exception_behavior_array_t,
                                                  exception_flavor_array_t);
 
-  typedef kern_return_t (*SetExceptionPortsType)(mach_port_t,
+  using SetExceptionPortsType = kern_return_t(*)(mach_port_t,
                                                  exception_mask_t,
                                                  exception_handler_t,
                                                  exception_behavior_t,

@@ -23,16 +23,16 @@
 namespace {
 
 struct ReadTraits {
-  typedef void* VoidBufferType;
-  typedef char* CharBufferType;
+  using VoidBufferType = void*;
+  using CharBufferType = char*;
   static ssize_t Operate(int fd, CharBufferType buffer, size_t size) {
     return read(fd, buffer, size);
   }
 };
 
 struct WriteTraits {
-  typedef const void* VoidBufferType;
-  typedef const char* CharBufferType;
+  using VoidBufferType = const void*;
+  using CharBufferType = const char*;
   static ssize_t Operate(int fd, CharBufferType buffer, size_t size) {
     return write(fd, buffer, size);
   }

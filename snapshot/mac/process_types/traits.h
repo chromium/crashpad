@@ -24,18 +24,18 @@
 //
 // |Reserved| is used for padding fields that may be zero-length, and thus
 // __VA_ARGS__, which is intended to set the alignment of the 64-bit types, is
-// not used for that typedef.
+// not used for that type alias.
 #define DECLARE_PROCESS_TYPE_TRAITS_CLASS(traits_name, lp_bits, ...) \
   namespace crashpad {                                                  \
   namespace process_types {                                          \
   namespace internal {                                               \
   struct Traits##traits_name {                                       \
-    typedef int##lp_bits##_t Long __VA_ARGS__;                       \
-    typedef uint##lp_bits##_t ULong __VA_ARGS__;                     \
-    typedef uint##lp_bits##_t Pointer __VA_ARGS__;                   \
-    typedef int##lp_bits##_t IntPtr __VA_ARGS__;                     \
-    typedef uint##lp_bits##_t UIntPtr __VA_ARGS__;                   \
-    typedef Reserved64Only##lp_bits Reserved64Only;                  \
+    using Long = int##lp_bits##_t __VA_ARGS__;                       \
+    using ULong = uint##lp_bits##_t __VA_ARGS__;                     \
+    using Pointer = uint##lp_bits##_t __VA_ARGS__;                   \
+    using IntPtr = int##lp_bits##_t __VA_ARGS__;                     \
+    using UIntPtr = uint##lp_bits##_t __VA_ARGS__;                   \
+    using Reserved64Only = Reserved64Only##lp_bits;                  \
   };                                                                 \
   }                                                                  \
   }                                                                  \

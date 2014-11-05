@@ -162,7 +162,7 @@ class InitializationStateDcheck : public InitializationState {
 // without complaint even with warnings turned up. They take up no space at all,
 // and they can be “initialized” with the same () syntax used to initialize
 // objects of the DCHECK_IS_ON InitializationStateDcheck class above.
-typedef bool InitializationStateDcheck[0];
+using InitializationStateDcheck = bool[0];
 
 namespace internal {
 
