@@ -83,7 +83,7 @@ MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_DIRECTORY);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MODULE_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_THREAD_LIST);
-MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpModuleCrashpadInfoList);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpLocationDescriptorList);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpSimpleStringDictionary);
 
 // These types have final fields carrying variable-sized data (typically string
@@ -182,8 +182,8 @@ const MINIDUMP_THREAD_LIST* MinidumpWritableAtLocationDescriptor<
                           const MINIDUMP_LOCATION_DESCRIPTOR& location);
 
 template <>
-const MinidumpModuleCrashpadInfoList*
-MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfoList>(
+const MinidumpLocationDescriptorList*
+MinidumpWritableAtLocationDescriptor<MinidumpLocationDescriptorList>(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location);
 

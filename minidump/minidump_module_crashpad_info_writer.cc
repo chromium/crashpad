@@ -105,10 +105,7 @@ bool MinidumpModuleCrashpadInfoWriter::WriteObject(
 }
 
 MinidumpModuleCrashpadInfoListWriter::MinidumpModuleCrashpadInfoListWriter()
-    : MinidumpWritable(),
-      module_list_base_(),
-      modules_(),
-      module_location_descriptors_() {
+    : MinidumpLocationDescriptorListWriter() {
 }
 
 MinidumpModuleCrashpadInfoListWriter::~MinidumpModuleCrashpadInfoListWriter() {
@@ -117,8 +114,8 @@ MinidumpModuleCrashpadInfoListWriter::~MinidumpModuleCrashpadInfoListWriter() {
 void MinidumpModuleCrashpadInfoListWriter::InitializeFromSnapshot(
     const std::vector<const ModuleSnapshot*>& module_snapshots) {
   DCHECK_EQ(state(), kStateMutable);
-  DCHECK(modules_.empty());
-  DCHECK(module_location_descriptors_.empty());
+  DCHECK(IsEmpty());
+  DCHECK(child_location_descriptors().empty());
 
   size_t count = module_snapshots.size();
   for (size_t index = 0; index < count; ++index) {
@@ -136,69 +133,7 @@ void MinidumpModuleCrashpadInfoListWriter::AddModule(
     scoped_ptr<MinidumpModuleCrashpadInfoWriter> module) {
   DCHECK_EQ(state(), kStateMutable);
 
-  modules_.push_back(module.release());
-}
-
-bool MinidumpModuleCrashpadInfoListWriter::Freeze() {
-  DCHECK_EQ(state(), kStateMutable);
-  DCHECK(module_location_descriptors_.empty());
-
-  if (!MinidumpWritable::Freeze()) {
-    return false;
-  }
-
-  size_t module_count = modules_.size();
-  if (!AssignIfInRange(&module_list_base_.count, module_count)) {
-    LOG(ERROR) << "module_count " << module_count << " out of range";
-    return false;
-  }
-
-  module_location_descriptors_.resize(module_count);
-  for (size_t index = 0; index < module_count; ++index) {
-    modules_[index]->RegisterLocationDescriptor(
-        &module_location_descriptors_[index]);
-  }
-
-  return true;
-}
-
-size_t MinidumpModuleCrashpadInfoListWriter::SizeOfObject() {
-  DCHECK_GE(state(), kStateFrozen);
-
-  return sizeof(module_list_base_) +
-         modules_.size() * sizeof(MINIDUMP_LOCATION_DESCRIPTOR);
-}
-
-std::vector<internal::MinidumpWritable*>
-MinidumpModuleCrashpadInfoListWriter::Children() {
-  DCHECK_GE(state(), kStateFrozen);
-
-  std::vector<MinidumpWritable*> children;
-  for (MinidumpModuleCrashpadInfoWriter* module : modules_) {
-    children.push_back(module);
-  }
-
-  return children;
-}
-
-bool MinidumpModuleCrashpadInfoListWriter::WriteObject(
-    FileWriterInterface* file_writer) {
-  DCHECK_EQ(state(), kStateWritable);
-  DCHECK_EQ(modules_.size(), module_location_descriptors_.size());
-
-  WritableIoVec iov;
-  iov.iov_base = &module_list_base_;
-  iov.iov_len = sizeof(module_list_base_);
-  std::vector<WritableIoVec> iovecs(1, iov);
-
-  if (!module_location_descriptors_.empty()) {
-    iov.iov_base = &module_location_descriptors_[0];
-    iov.iov_len = module_location_descriptors_.size() *
-                  sizeof(MINIDUMP_LOCATION_DESCRIPTOR);
-    iovecs.push_back(iov);
-  }
-
-  return file_writer->WriteIoVec(&iovecs);
+  AddChild(module.Pass());
 }
 
 }  // namespace crashpad

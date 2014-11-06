@@ -20,6 +20,7 @@
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_location_descriptor_list_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_module_snapshot.h"
@@ -28,17 +29,6 @@
 namespace crashpad {
 namespace test {
 namespace {
-
-const MinidumpModuleCrashpadInfoList* MinidumpModuleCrashpadInfoListAtStart(
-    const std::string& file_contents,
-    size_t count) {
-  MINIDUMP_LOCATION_DESCRIPTOR location_descriptor;
-  location_descriptor.DataSize = sizeof(MinidumpModuleCrashpadInfoList) +
-                                 count * sizeof(MINIDUMP_LOCATION_DESCRIPTOR);
-  location_descriptor.Rva = 0;
-  return MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfoList>(
-      file_contents, location_descriptor);
-}
 
 TEST(MinidumpModuleCrashpadInfoWriter, EmptyList) {
   StringFileWriter file_writer;
@@ -50,10 +40,8 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyList) {
             file_writer.string().size());
 
   const MinidumpModuleCrashpadInfoList* module_list =
-      MinidumpModuleCrashpadInfoListAtStart(file_writer.string(), 0);
+      MinidumpLocationDescriptorListAtStart(file_writer.string(), 0);
   ASSERT_TRUE(module_list);
-
-  EXPECT_EQ(0u, module_list->count);
 }
 
 TEST(MinidumpModuleCrashpadInfoWriter, EmptyModule) {
@@ -72,14 +60,12 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyModule) {
             file_writer.string().size());
 
   const MinidumpModuleCrashpadInfoList* module_list =
-      MinidumpModuleCrashpadInfoListAtStart(file_writer.string(), 1);
+      MinidumpLocationDescriptorListAtStart(file_writer.string(), 1);
   ASSERT_TRUE(module_list);
-
-  ASSERT_EQ(1u, module_list->count);
 
   const MinidumpModuleCrashpadInfo* module =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          file_writer.string(), module_list->modules[0]);
+          file_writer.string(), module_list->children[0]);
   ASSERT_TRUE(module);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module->version);
@@ -122,14 +108,12 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
             file_writer.string().size());
 
   const MinidumpModuleCrashpadInfoList* module_list =
-      MinidumpModuleCrashpadInfoListAtStart(file_writer.string(), 1);
+      MinidumpLocationDescriptorListAtStart(file_writer.string(), 1);
   ASSERT_TRUE(module_list);
-
-  ASSERT_EQ(1u, module_list->count);
 
   const MinidumpModuleCrashpadInfo* module =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          file_writer.string(), module_list->modules[0]);
+          file_writer.string(), module_list->children[0]);
   ASSERT_TRUE(module);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module->version);
@@ -210,14 +194,12 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
 
   const MinidumpModuleCrashpadInfoList* module_list =
-      MinidumpModuleCrashpadInfoListAtStart(file_writer.string(), 3);
+      MinidumpLocationDescriptorListAtStart(file_writer.string(), 3);
   ASSERT_TRUE(module_list);
-
-  ASSERT_EQ(3u, module_list->count);
 
   const MinidumpModuleCrashpadInfo* module_0 =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          file_writer.string(), module_list->modules[0]);
+          file_writer.string(), module_list->children[0]);
   ASSERT_TRUE(module_0);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module_0->version);
@@ -238,7 +220,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
 
   const MinidumpModuleCrashpadInfo* module_1 =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          file_writer.string(), module_list->modules[1]);
+          file_writer.string(), module_list->children[1]);
   ASSERT_TRUE(module_1);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module_1->version);
@@ -251,7 +233,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
 
   const MinidumpModuleCrashpadInfo* module_2 =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          file_writer.string(), module_list->modules[2]);
+          file_writer.string(), module_list->children[2]);
   ASSERT_TRUE(module_2);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module_2->version);
@@ -312,14 +294,12 @@ TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
   ASSERT_TRUE(module_list_writer.WriteEverything(&file_writer));
 
   const MinidumpModuleCrashpadInfoList* module_list =
-      MinidumpModuleCrashpadInfoListAtStart(file_writer.string(), 2);
+      MinidumpLocationDescriptorListAtStart(file_writer.string(), 2);
   ASSERT_TRUE(module_list);
-
-  ASSERT_EQ(2u, module_list->count);
 
   const MinidumpModuleCrashpadInfo* module_0 =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          file_writer.string(), module_list->modules[0]);
+          file_writer.string(), module_list->children[0]);
   ASSERT_TRUE(module_0);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module_0->version);
@@ -346,7 +326,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
 
   const MinidumpModuleCrashpadInfo* module_2 =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          file_writer.string(), module_list->modules[1]);
+          file_writer.string(), module_list->children[1]);
   ASSERT_TRUE(module_2);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module_2->version);

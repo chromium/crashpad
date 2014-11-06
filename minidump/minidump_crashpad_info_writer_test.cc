@@ -97,7 +97,7 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
 
   const MinidumpModuleCrashpadInfo* module =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          file_writer.string(), module_list->modules[0]);
+          file_writer.string(), module_list->children[0]);
   ASSERT_TRUE(module);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module->version);

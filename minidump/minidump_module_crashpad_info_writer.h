@@ -23,6 +23,7 @@
 #include "base/basictypes.h"
 #include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
+#include "minidump/minidump_location_descriptor_list_writer.h"
 #include "minidump/minidump_writable.h"
 #include "util/stdlib/pointer_container.h"
 
@@ -99,7 +100,7 @@ class MinidumpModuleCrashpadInfoWriter final
 //! \brief The writer for a MinidumpModuleCrashpadInfoList object in a minidump
 //!     file, containing a list of MinidumpModuleCrashpadInfo objects.
 class MinidumpModuleCrashpadInfoListWriter final
-    : public internal::MinidumpWritable {
+    : public MinidumpLocationDescriptorListWriter {
  public:
   MinidumpModuleCrashpadInfoListWriter();
   ~MinidumpModuleCrashpadInfoListWriter() override;
@@ -128,18 +129,7 @@ class MinidumpModuleCrashpadInfoListWriter final
   //! \note Valid in #kStateMutable.
   void AddModule(scoped_ptr<MinidumpModuleCrashpadInfoWriter> module);
 
- protected:
-  // MinidumpWritable:
-  bool Freeze() override;
-  size_t SizeOfObject() override;
-  std::vector<MinidumpWritable*> Children() override;
-  bool WriteObject(FileWriterInterface* file_writer) override;
-
  private:
-  MinidumpModuleCrashpadInfoList module_list_base_;
-  PointerVector<MinidumpModuleCrashpadInfoWriter> modules_;
-  std::vector<MINIDUMP_LOCATION_DESCRIPTOR> module_location_descriptors_;
-
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCrashpadInfoListWriter);
 };
 

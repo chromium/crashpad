@@ -32,6 +32,8 @@ namespace internal {
 //!     file.
 class MinidumpWritable {
  public:
+  virtual ~MinidumpWritable();
+
   //! \brief Writes an object and all of its children to a minidump file.
   //!
   //! Use this on the root object of a tree of MinidumpWritable objects,
@@ -133,13 +135,6 @@ class MinidumpWritable {
   static const size_t kInvalidSize;
 
   MinidumpWritable();
-
-  // This doesn’t really need to be virtual because nothing ever deletes a
-  // MinidumpWritable* through an interface pointer with that type, and this is
-  // guaranteed by being protected. Regardless, the style guide is somewhat
-  // insistent.
-  // http://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Inheritance
-  virtual ~MinidumpWritable();
 
   //! \brief The state of the object.
   State state() const { return state_; }

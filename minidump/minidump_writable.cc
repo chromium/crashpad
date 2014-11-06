@@ -31,6 +31,9 @@ const size_t kMaximumAlignment = 16;
 namespace crashpad {
 namespace internal {
 
+MinidumpWritable::~MinidumpWritable() {
+}
+
 bool MinidumpWritable::WriteEverything(FileWriterInterface* file_writer) {
   DCHECK_EQ(state_, kStateMutable);
 
@@ -87,9 +90,6 @@ MinidumpWritable::MinidumpWritable()
       registered_location_descriptors_(),
       leading_pad_bytes_(0),
       state_(kStateMutable) {
-}
-
-MinidumpWritable::~MinidumpWritable() {
 }
 
 bool MinidumpWritable::Freeze() {

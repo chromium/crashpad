@@ -296,6 +296,15 @@ struct MinidumpModuleCodeViewRecordPDB70 {
   uint8_t pdb_name[1];
 };
 
+//! \brief A list of MINIDUMP_LOCATION_DESCRIPTOR objects.
+struct __attribute__((packed, aligned(4))) MinidumpLocationDescriptorList {
+  //! \brief The number of children present in the #children array.
+  uint32_t count;
+
+  //! \brief Pointers to other structures in the minidump file.
+  MINIDUMP_LOCATION_DESCRIPTOR children[0];
+};
+
 //! \brief A key-value pair.
 struct __attribute__((packed, aligned(4))) MinidumpSimpleStringDictionaryEntry {
   //! \brief ::RVA of a MinidumpUTF8String containing the key of a key-value
@@ -330,7 +339,7 @@ struct __attribute__((packed, aligned(4))) MinidumpSimpleStringDictionary {
 //! #version, so that newer parsers will be able to determine whether the added
 //! fields are valid or not.
 //!
-//! \sa MinidumpModuleCrashpadInfoList
+//! \sa #MinidumpModuleCrashpadInfoList
 struct __attribute__((packed, aligned(4))) MinidumpModuleCrashpadInfo {
   //! \brief The structure’s currently-defined version number.
   //!
@@ -369,22 +378,18 @@ struct __attribute__((packed, aligned(4))) MinidumpModuleCrashpadInfo {
 //! This structure augments the information provided by
 //! MINIDUMP_MODULE_LIST. The minidump file must contain a module list stream
 //! (::kMinidumpStreamTypeModuleList) in order for this structure to appear.
-struct __attribute__((packed, aligned(4))) MinidumpModuleCrashpadInfoList {
-  //! \brief The number of modules present in the #modules array.
-  //!
-  //! This may be less than the value of MINIDUMP_MODULE_LIST::NumberOfModules
-  //! because not every MINIDUMP_MODULE structure carried within the minidump
-  //! file will necessarily have Crashpad-specific information provided by a
-  //! MinidumpModuleCrashpadInfo structure.
-  uint32_t count;
-
-  //! \brief Pointers to MinidumpModuleCrashpadInfo structures.
-  //!
-  //! These are referenced indirectly through MINIDUMP_LOCATION_DESCRIPTOR
-  //! pointers to allow for future growth of the MinidumpModuleCrashpadInfo
-  //! structure.
-  MINIDUMP_LOCATION_DESCRIPTOR modules[0];
-};
+//!
+//! MinidumpModuleCrashpadInfoList::count may be less than the value of
+//! MINIDUMP_MODULE_LIST::NumberOfModules because not every MINIDUMP_MODULE
+//! structure carried within the minidump file will necessarily have
+//! Crashpad-specific information provided by a MinidumpModuleCrashpadInfo
+//! structure.
+//!
+//! MinidumpModuleCrashpadInfoList::children references
+//! MinidumpModuleCrashpadInfo children indirectly through
+//! MINIDUMP_LOCATION_DESCRIPTOR pointers to allow for future growth of the
+//! MinidumpModuleCrashpadInfo structure.
+using MinidumpModuleCrashpadInfoList = MinidumpLocationDescriptorList;
 
 //! \brief Additional Crashpad-specific information carried within a minidump
 //!     file.
@@ -412,7 +417,7 @@ struct __attribute__((packed, aligned(4))) MinidumpCrashpadInfo {
   //! no need for any fields present in later versions.
   uint32_t version;
 
-  //! \brief A pointer to a MinidumpModuleCrashpadInfoList structure.
+  //! \brief A pointer to a #MinidumpModuleCrashpadInfoList structure.
   //!
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR module_list;
