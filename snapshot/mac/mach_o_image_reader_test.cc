@@ -510,7 +510,7 @@ TEST(MachOImageReader, Self_MainExecutable) {
   ASSERT_TRUE(image_reader.Initialize(
       &process_reader, mh_execute_header_address, "executable"));
 
-  EXPECT_EQ(static_cast<uint32_t>(MH_EXECUTE), image_reader.FileType());
+  EXPECT_EQ(implicit_cast<uint32_t>(MH_EXECUTE), image_reader.FileType());
 
   // The main executable has image index 0.
   intptr_t image_slide = _dyld_get_image_vmaddr_slide(0);
@@ -556,7 +556,7 @@ TEST(MachOImageReader, Self_DyldImages) {
 
     uint32_t file_type = image_reader.FileType();
     if (index == 0) {
-      EXPECT_EQ(static_cast<uint32_t>(MH_EXECUTE), file_type);
+      EXPECT_EQ(implicit_cast<uint32_t>(MH_EXECUTE), file_type);
     } else {
       EXPECT_TRUE(file_type == MH_DYLIB || file_type == MH_BUNDLE);
     }
@@ -588,7 +588,7 @@ TEST(MachOImageReader, Self_DyldImages) {
     ASSERT_TRUE(
         image_reader.Initialize(&process_reader, image_address, "dyld"));
 
-    EXPECT_EQ(static_cast<uint32_t>(MH_DYLINKER), image_reader.FileType());
+    EXPECT_EQ(implicit_cast<uint32_t>(MH_DYLINKER), image_reader.FileType());
 
     // There’s no good API to get dyld’s slide, so don’t bother checking it.
     ASSERT_NO_FATAL_FAILURE(ExpectMachImage(

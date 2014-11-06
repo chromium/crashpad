@@ -20,6 +20,7 @@
 #include <string>
 #include <vector>
 
+#include "base/basictypes.h"
 #include "gtest/gtest.h"
 
 namespace crashpad {
@@ -33,7 +34,7 @@ TEST(ProcessUtil, ProcessArgumentsForPID) {
   // gtest argv processing scrambles argv, but it leaves argc and argv[0]
   // intact, so test those.
 
-  int argc = static_cast<int>(argv.size());
+  int argc = implicit_cast<int>(argv.size());
   int expect_argc = *_NSGetArgc();
   EXPECT_EQ(expect_argc, argc);
 

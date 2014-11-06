@@ -101,13 +101,13 @@ TEST(StringFileWriter, WriteInvalid) {
   EXPECT_EQ(0, writer.Seek(0, SEEK_CUR));
 
   EXPECT_FALSE(writer.Write(
-      "", static_cast<size_t>(std::numeric_limits<ssize_t>::max()) + 1));
+      "", implicit_cast<size_t>(std::numeric_limits<ssize_t>::max()) + 1));
   EXPECT_TRUE(writer.string().empty());
   EXPECT_EQ(0, writer.Seek(0, SEEK_CUR));
 
   EXPECT_TRUE(writer.Write("a", 1));
   EXPECT_FALSE(writer.Write(
-      "", static_cast<size_t>(std::numeric_limits<ssize_t>::max())));
+      "", implicit_cast<size_t>(std::numeric_limits<ssize_t>::max())));
   EXPECT_EQ(1u, writer.string().size());
   EXPECT_EQ("a", writer.string());
   EXPECT_EQ(1, writer.Seek(0, SEEK_CUR));
@@ -363,8 +363,8 @@ TEST(StringFileWriter, SeekInvalid) {
   EXPECT_TRUE(writer.string().empty());
 
   const off_t kMaxOffset =
-      std::min(static_cast<uint64_t>(std::numeric_limits<off_t>::max()),
-               static_cast<uint64_t>(std::numeric_limits<size_t>::max()));
+      std::min(implicit_cast<uint64_t>(std::numeric_limits<off_t>::max()),
+               implicit_cast<uint64_t>(std::numeric_limits<size_t>::max()));
 
   EXPECT_EQ(kMaxOffset, writer.Seek(kMaxOffset, SEEK_SET));
   EXPECT_EQ(kMaxOffset, writer.Seek(0, SEEK_CUR));

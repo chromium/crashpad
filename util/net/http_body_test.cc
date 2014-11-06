@@ -46,7 +46,7 @@ TEST(StringHTTPBodyStream, SmallString) {
 
   std::string string("Hello, world");
   StringHTTPBodyStream stream(string);
-  EXPECT_EQ(static_cast<ssize_t>(string.length()),
+  EXPECT_EQ(implicit_cast<ssize_t>(string.length()),
             stream.GetBytesBuffer(buf, sizeof(buf)));
 
   std::string actual(reinterpret_cast<const char*>(buf), string.length());

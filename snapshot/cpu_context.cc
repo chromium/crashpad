@@ -14,6 +14,7 @@
 
 #include "snapshot/cpu_context.h"
 
+#include "base/basictypes.h"
 #include "base/logging.h"
 
 namespace crashpad {
@@ -55,11 +56,11 @@ uint16_t CPUContextX86::FxsaveToFsaveTagWord(
         // The integer bit the “J bit”.
         bool integer_bit = st[7] & 0x80;
         if (exponent == 0) {
-          uint64_t fraction = ((static_cast<uint64_t>(st[7]) & 0x7f) << 56) |
-                              (static_cast<uint64_t>(st[6]) << 48) |
-                              (static_cast<uint64_t>(st[5]) << 40) |
-                              (static_cast<uint64_t>(st[4]) << 32) |
-                              (static_cast<uint32_t>(st[3]) << 24) |
+          uint64_t fraction = ((implicit_cast<uint64_t>(st[7]) & 0x7f) << 56) |
+                              (implicit_cast<uint64_t>(st[6]) << 48) |
+                              (implicit_cast<uint64_t>(st[5]) << 40) |
+                              (implicit_cast<uint64_t>(st[4]) << 32) |
+                              (implicit_cast<uint32_t>(st[3]) << 24) |
                               (st[2] << 16) | (st[1] << 8) | st[0];
           if (!integer_bit && fraction == 0) {
             fsave_bits = kX87TagZero;

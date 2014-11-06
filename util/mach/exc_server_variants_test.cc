@@ -51,12 +51,12 @@ const exception_type_t kExceptionType = EXC_BAD_ACCESS;
 // promoted to the wider mach_exception_data_type_t type as a signed quantity.
 const exception_data_type_t kTestExceptonCodes[] = {
     KERN_PROTECTION_FAILURE,
-    static_cast<exception_data_type_t>(0xfedcba98),
+    implicit_cast<exception_data_type_t>(0xfedcba98),
 };
 
 const mach_exception_data_type_t kTestMachExceptionCodes[] = {
     KERN_PROTECTION_FAILURE,
-    static_cast<mach_exception_data_type_t>(0xfedcba9876543210),
+    implicit_cast<mach_exception_data_type_t>(0xfedcba9876543210),
 };
 
 const thread_state_flavor_t kThreadStateFlavor = MACHINE_THREAD_STATE;
@@ -122,7 +122,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseReply {
   // MachExceptionRaiseReply. Knowing which behavior is expected allows the
   // message ID to be checked.
   void Verify(exception_behavior_t behavior) {
-    EXPECT_EQ(static_cast<mach_msg_bits_t>(
+    EXPECT_EQ(implicit_cast<mach_msg_bits_t>(
                   MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0)),
               Head.msgh_bits);
     EXPECT_EQ(sizeof(*this), Head.msgh_size);
@@ -196,7 +196,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateReply {
   // MachExceptionRaiseStateIdentityReply. Knowing which behavior is expected
   // allows the message ID to be checked.
   void Verify(exception_behavior_t behavior) {
-    EXPECT_EQ(static_cast<mach_msg_bits_t>(
+    EXPECT_EQ(implicit_cast<mach_msg_bits_t>(
                   MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0)),
               Head.msgh_bits);
     EXPECT_EQ(sizeof(*this), Head.msgh_size);
@@ -409,7 +409,7 @@ struct __attribute__((packed, aligned(4))) BadIDErrorReply
   }
 
   void Verify(mach_msg_id_t id) {
-    EXPECT_EQ(static_cast<mach_msg_bits_t>(
+    EXPECT_EQ(implicit_cast<mach_msg_bits_t>(
                   MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0)),
               Head.msgh_bits);
     EXPECT_EQ(sizeof(*this), Head.msgh_size);
@@ -923,7 +923,7 @@ class TestExcServerVariants : public UniversalMachExcServer,
       EXPECT_EQ(flavor_, *flavor);
       EXPECT_EQ(state_count_, old_state_count);
       EXPECT_NE(nullptr, old_state);
-      EXPECT_EQ(static_cast<mach_msg_type_number_t>(THREAD_STATE_MAX),
+      EXPECT_EQ(implicit_cast<mach_msg_type_number_t>(THREAD_STATE_MAX),
                 *new_state_count);
       EXPECT_NE(nullptr, new_state);
     } else {

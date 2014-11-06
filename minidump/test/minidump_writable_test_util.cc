@@ -16,6 +16,7 @@
 
 #include <string>
 
+#include "base/basictypes.h"
 #include "base/strings/string16.h"
 #include "gtest/gtest.h"
 
@@ -75,7 +76,8 @@ const IMAGE_DEBUG_MISC* MinidumpWritableAtLocationDescriptor<IMAGE_DEBUG_MISC>(
   }
 
   if (misc->DataType != IMAGE_DEBUG_MISC_EXENAME) {
-    EXPECT_EQ(static_cast<uint32_t>(IMAGE_DEBUG_MISC_EXENAME), misc->DataType);
+    EXPECT_EQ(implicit_cast<uint32_t>(IMAGE_DEBUG_MISC_EXENAME),
+              misc->DataType);
     return nullptr;
   }
 
@@ -123,11 +125,11 @@ const MINIDUMP_HEADER* MinidumpWritableAtLocationDescriptor<MINIDUMP_HEADER>(
   }
 
   if (header->Signature != MINIDUMP_SIGNATURE) {
-    EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
+    EXPECT_EQ(implicit_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
     return nullptr;
   }
   if (header->Version != MINIDUMP_VERSION) {
-    EXPECT_EQ(static_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
+    EXPECT_EQ(implicit_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
     return nullptr;
   }
 

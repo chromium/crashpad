@@ -279,7 +279,7 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
   const uint8_t kCPUStepping = 1;
 
   const uint8_t kCPUBasicFamily =
-      std::min(kCPUFamily, static_cast<uint16_t>(15));
+      std::min(kCPUFamily, implicit_cast<uint16_t>(15));
   const uint8_t kCPUExtendedFamily = kCPUFamily - kCPUBasicFamily;
 
   // These checks ensure that even if the constants above change, they represent

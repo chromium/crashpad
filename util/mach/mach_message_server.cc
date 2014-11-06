@@ -95,7 +95,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
   } else if (timeout_ms != MACH_MSG_TIMEOUT_NONE) {
     options |= timeout_options;
     deadline = ClockMonotonicNanoseconds() +
-               static_cast<uint64_t>(timeout_ms) * kNanosecondsPerMillisecond;
+               implicit_cast<uint64_t>(timeout_ms) * kNanosecondsPerMillisecond;
   } else {
     options &= ~timeout_options;
     deadline = 0;

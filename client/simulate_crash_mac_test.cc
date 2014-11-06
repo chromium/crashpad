@@ -124,11 +124,11 @@ class TestSimulateCrashMac final : public MachMultiprocess,
               reinterpret_cast<const x86_thread_state*>(old_state);
           switch (state->tsh.flavor) {
             case x86_THREAD_STATE32:
-              EXPECT_EQ(static_cast<int>(x86_THREAD_STATE32_COUNT),
+              EXPECT_EQ(implicit_cast<int>(x86_THREAD_STATE32_COUNT),
                         state->tsh.count);
               break;
             case x86_THREAD_STATE64:
-              EXPECT_EQ(static_cast<int>(x86_THREAD_STATE64_COUNT),
+              EXPECT_EQ(implicit_cast<int>(x86_THREAD_STATE64_COUNT),
                         state->tsh.count);
               break;
             default:
@@ -143,11 +143,11 @@ class TestSimulateCrashMac final : public MachMultiprocess,
               reinterpret_cast<const x86_float_state*>(old_state);
           switch (state->fsh.flavor) {
             case x86_FLOAT_STATE32:
-              EXPECT_EQ(static_cast<int>(x86_FLOAT_STATE32_COUNT),
+              EXPECT_EQ(implicit_cast<int>(x86_FLOAT_STATE32_COUNT),
                         state->fsh.count);
               break;
             case x86_FLOAT_STATE64:
-              EXPECT_EQ(static_cast<int>(x86_FLOAT_STATE64_COUNT),
+              EXPECT_EQ(implicit_cast<int>(x86_FLOAT_STATE64_COUNT),
                         state->fsh.count);
               break;
             default:
@@ -162,11 +162,11 @@ class TestSimulateCrashMac final : public MachMultiprocess,
               reinterpret_cast<const x86_debug_state*>(old_state);
           switch (state->dsh.flavor) {
             case x86_DEBUG_STATE32:
-              EXPECT_EQ(static_cast<int>(x86_DEBUG_STATE32_COUNT),
+              EXPECT_EQ(implicit_cast<int>(x86_DEBUG_STATE32_COUNT),
                         state->dsh.count);
               break;
             case x86_DEBUG_STATE64:
-              EXPECT_EQ(static_cast<int>(x86_DEBUG_STATE64_COUNT),
+              EXPECT_EQ(implicit_cast<int>(x86_DEBUG_STATE64_COUNT),
                         state->dsh.count);
               break;
             default:

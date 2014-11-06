@@ -537,16 +537,16 @@ const struct {
     {EXCEPTION_DEFAULT, "EXCEPTION_DEFAULT", "DEFAULT"},
     {EXCEPTION_STATE, "EXCEPTION_STATE", "STATE"},
     {EXCEPTION_STATE_IDENTITY, "EXCEPTION_STATE_IDENTITY", "STATE_IDENTITY"},
-    {static_cast<exception_behavior_t>(EXCEPTION_DEFAULT |
-                                       MACH_EXCEPTION_CODES),
+    {implicit_cast<exception_behavior_t>(EXCEPTION_DEFAULT |
+                                         MACH_EXCEPTION_CODES),
      "EXCEPTION_DEFAULT|MACH_EXCEPTION_CODES",
      "DEFAULT|MACH"},
-    {static_cast<exception_behavior_t>(EXCEPTION_STATE |
-                                       MACH_EXCEPTION_CODES),
+    {implicit_cast<exception_behavior_t>(EXCEPTION_STATE |
+                                         MACH_EXCEPTION_CODES),
      "EXCEPTION_STATE|MACH_EXCEPTION_CODES",
      "STATE|MACH"},
-    {static_cast<exception_behavior_t>(EXCEPTION_STATE_IDENTITY |
-                                       MACH_EXCEPTION_CODES),
+    {implicit_cast<exception_behavior_t>(EXCEPTION_STATE_IDENTITY |
+                                         MACH_EXCEPTION_CODES),
      "EXCEPTION_STATE_IDENTITY|MACH_EXCEPTION_CODES",
      "STATE_IDENTITY|MACH"},
 };
@@ -699,26 +699,26 @@ TEST(SymbolicConstantsMach, StringToExceptionBehavior) {
   } kNonCanonicalTestData[] = {
       {"MACH_EXCEPTION_CODES|EXCEPTION_STATE_IDENTITY",
        kAllowFullName,
-       static_cast<exception_behavior_t>(EXCEPTION_STATE_IDENTITY |
-                                         MACH_EXCEPTION_CODES)},
+       implicit_cast<exception_behavior_t>(EXCEPTION_STATE_IDENTITY |
+                                           MACH_EXCEPTION_CODES)},
       {"MACH|STATE_IDENTITY",
        kAllowShortName,
-       static_cast<exception_behavior_t>(EXCEPTION_STATE_IDENTITY |
-                                         MACH_EXCEPTION_CODES)},
+       implicit_cast<exception_behavior_t>(EXCEPTION_STATE_IDENTITY |
+                                           MACH_EXCEPTION_CODES)},
       {"MACH_EXCEPTION_CODES|STATE",
        kAllowFullName | kAllowShortName,
-       static_cast<exception_behavior_t>(EXCEPTION_STATE |
-                                         MACH_EXCEPTION_CODES)},
+       implicit_cast<exception_behavior_t>(EXCEPTION_STATE |
+                                           MACH_EXCEPTION_CODES)},
       {"MACH|EXCEPTION_STATE",
        kAllowFullName | kAllowShortName,
-       static_cast<exception_behavior_t>(EXCEPTION_STATE |
-                                         MACH_EXCEPTION_CODES)},
+       implicit_cast<exception_behavior_t>(EXCEPTION_STATE |
+                                           MACH_EXCEPTION_CODES)},
       {"3|MACH_EXCEPTION_CODES",
        kAllowFullName | kAllowNumber,
-       static_cast<exception_behavior_t>(MACH_EXCEPTION_CODES | 3)},
+       implicit_cast<exception_behavior_t>(MACH_EXCEPTION_CODES | 3)},
       {"MACH|0x2",
        kAllowShortName | kAllowNumber,
-       static_cast<exception_behavior_t>(MACH_EXCEPTION_CODES | 0x2)},
+       implicit_cast<exception_behavior_t>(MACH_EXCEPTION_CODES | 0x2)},
   };
 
   for (size_t index = 0; index < arraysize(kNonCanonicalTestData); ++index) {

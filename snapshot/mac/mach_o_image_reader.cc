@@ -439,7 +439,7 @@ bool MachOImageReader::LookUpExternalDefinedSymbol(
 
 uint32_t MachOImageReader::DylibVersion() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  DCHECK_EQ(FileType(), static_cast<uint32_t>(MH_DYLIB));
+  DCHECK_EQ(FileType(), implicit_cast<uint32_t>(MH_DYLIB));
 
   if (id_dylib_command_) {
     return id_dylib_command_->dylib_current_version;

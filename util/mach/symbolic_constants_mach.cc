@@ -192,7 +192,7 @@ namespace crashpad {
 std::string ExceptionToString(exception_type_t exception,
                               SymbolicConstantToStringOptions options) {
   const char* exception_name =
-      static_cast<size_t>(exception) < arraysize(kExceptionNames)
+      implicit_cast<size_t>(exception) < arraysize(kExceptionNames)
           ? kExceptionNames[exception]
           : nullptr;
   if (!exception_name) {
@@ -218,7 +218,7 @@ bool StringToException(const base::StringPiece& string,
     base::StringPiece short_string =
         can_match_full ? string.substr(strlen(kExcPrefix)) : string;
     for (exception_type_t index = 0;
-         index < static_cast<exception_type_t>(arraysize(kExceptionNames));
+         index < implicit_cast<exception_type_t>(arraysize(kExceptionNames));
          ++index) {
       const char* exception_name = kExceptionNames[index];
       if (!exception_name) {
@@ -322,7 +322,7 @@ bool StringToExceptionMask(const base::StringPiece& string,
     base::StringPiece short_string =
         can_match_full ? string.substr(strlen(kExcMaskPrefix)) : string;
     for (exception_type_t index = 0;
-         index < static_cast<exception_type_t>(arraysize(kExceptionNames));
+         index < implicit_cast<exception_type_t>(arraysize(kExceptionNames));
          ++index) {
       const char* exception_name = kExceptionNames[index];
       if (!exception_name) {
@@ -361,7 +361,7 @@ std::string ExceptionBehaviorToString(exception_behavior_t behavior,
   const exception_behavior_t basic_behavior = ExceptionBehaviorBasic(behavior);
 
   const char* behavior_name =
-      static_cast<size_t>(basic_behavior) < arraysize(kBehaviorNames)
+      implicit_cast<size_t>(basic_behavior) < arraysize(kBehaviorNames)
           ? kBehaviorNames[basic_behavior]
           : nullptr;
   if (!behavior_name) {
@@ -428,7 +428,7 @@ bool StringToExceptionBehavior(const base::StringPiece& string,
     base::StringPiece short_string =
         can_match_full ? sp.substr(strlen(kBehaviorPrefix)) : sp;
     for (exception_behavior_t index = 0;
-         index < static_cast<exception_behavior_t>(arraysize(kBehaviorNames));
+         index < implicit_cast<exception_behavior_t>(arraysize(kBehaviorNames));
          ++index) {
       const char* behavior_name = kBehaviorNames[index];
       if (!behavior_name) {
@@ -463,7 +463,7 @@ bool StringToExceptionBehavior(const base::StringPiece& string,
 std::string ThreadStateFlavorToString(thread_state_flavor_t flavor,
                                       SymbolicConstantToStringOptions options) {
   const char* flavor_name =
-      static_cast<size_t>(flavor) < arraysize(kFlavorNames)
+      implicit_cast<size_t>(flavor) < arraysize(kFlavorNames)
           ? kFlavorNames[flavor]
           : nullptr;
 
@@ -496,7 +496,7 @@ bool StringToThreadStateFlavor(const base::StringPiece& string,
                                thread_state_flavor_t* flavor) {
   if ((options & kAllowFullName) || (options & kAllowShortName)) {
     for (thread_state_flavor_t index = 0;
-         index < static_cast<thread_state_flavor_t>(arraysize(kFlavorNames));
+         index < implicit_cast<thread_state_flavor_t>(arraysize(kFlavorNames));
          ++index) {
       const char* flavor_name = kFlavorNames[index];
       if (!flavor_name) {

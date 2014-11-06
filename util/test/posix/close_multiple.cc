@@ -24,6 +24,7 @@
 
 #include <algorithm>
 
+#include "base/basictypes.h"
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/posix/eintr_wrapper.h"
@@ -144,7 +145,7 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   // Libc-997.90.3/gen/FreeBSD/sysconf.c sysconf() and 10.9.4
   // xnu-2422.110.17/bsd/kern/kern_descrip.c getdtablesize(), which both return
   // the current RLIMIT_NOFILE value, not the maximum possible file descriptor.
-  int max_fd = std::max(static_cast<int>(sysconf(_SC_OPEN_MAX)), OPEN_MAX);
+  int max_fd = std::max(implicit_cast<int>(sysconf(_SC_OPEN_MAX)), OPEN_MAX);
   max_fd = std::max(max_fd, getdtablesize());
 
   for (int entry_fd = fd; entry_fd < max_fd; ++entry_fd) {

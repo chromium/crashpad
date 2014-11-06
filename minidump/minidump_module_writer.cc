@@ -293,9 +293,9 @@ void MinidumpModuleWriter::SetFileVersion(uint16_t version_0,
   DCHECK_EQ(state(), kStateMutable);
 
   module_.VersionInfo.dwFileVersionMS =
-      (static_cast<uint32_t>(version_0) << 16) | version_1;
+      (implicit_cast<uint32_t>(version_0) << 16) | version_1;
   module_.VersionInfo.dwFileVersionLS =
-      (static_cast<uint32_t>(version_2) << 16) | version_3;
+      (implicit_cast<uint32_t>(version_2) << 16) | version_3;
 }
 
 void MinidumpModuleWriter::SetProductVersion(uint16_t version_0,
@@ -305,9 +305,9 @@ void MinidumpModuleWriter::SetProductVersion(uint16_t version_0,
   DCHECK_EQ(state(), kStateMutable);
 
   module_.VersionInfo.dwProductVersionMS =
-      (static_cast<uint32_t>(version_0) << 16) | version_1;
+      (implicit_cast<uint32_t>(version_0) << 16) | version_1;
   module_.VersionInfo.dwProductVersionLS =
-      (static_cast<uint32_t>(version_2) << 16) | version_3;
+      (implicit_cast<uint32_t>(version_2) << 16) | version_3;
 }
 
 void MinidumpModuleWriter::SetFileFlagsAndMask(uint32_t file_flags,

@@ -63,7 +63,7 @@ class CheckedRange {
       return false;
     }
     base::CheckedNumeric<ValueType> checked_end(base_);
-    checked_end += static_cast<ValueType>(size_);
+    checked_end += implicit_cast<ValueType>(size_);
     return checked_end.IsValid();
   }
 

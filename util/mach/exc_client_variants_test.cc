@@ -80,8 +80,8 @@ class TestExcClientVariants : public UniversalMachExcServer,
     mach_exception_code_t expect_code = exception_code_;
     mach_exception_subcode_t expect_subcode = exception_subcode_;
     if ((behavior & MACH_EXCEPTION_CODES) == 0) {
-      expect_code = static_cast<exception_data_type_t>(expect_code);
-      expect_subcode = static_cast<exception_data_type_t>(expect_subcode);
+      expect_code = implicit_cast<exception_data_type_t>(expect_code);
+      expect_subcode = implicit_cast<exception_data_type_t>(expect_subcode);
     }
 
     EXPECT_EQ(exception_, exception);
@@ -101,7 +101,7 @@ class TestExcClientVariants : public UniversalMachExcServer,
       EXPECT_EQ(exception_ + 10, *flavor);
       EXPECT_EQ(MACHINE_THREAD_STATE_COUNT, old_state_count);
       EXPECT_NE(nullptr, old_state);
-      EXPECT_EQ(static_cast<mach_msg_type_number_t>(THREAD_STATE_MAX),
+      EXPECT_EQ(implicit_cast<mach_msg_type_number_t>(THREAD_STATE_MAX),
                 *new_state_count);
       EXPECT_NE(nullptr, new_state);
 

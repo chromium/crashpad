@@ -23,8 +23,8 @@ namespace crashpad {
 //!     `mach_port_t`.
 //!
 //! For situations where implicit conversions between signed and unsigned types
-//! are not performed, use kMachPortNull instead of an explicit `static_cast` of
-//! `MACH_PORT_NULL` to `mach_port_t`. This is useful for logging and testing
+//! are not performed, use kMachPortNull instead of an explicit `implicit_cast`
+//! of `MACH_PORT_NULL` to `mach_port_t`. This is useful for logging and testing
 //! assertions.
 const mach_port_t kMachPortNull = MACH_PORT_NULL;
 

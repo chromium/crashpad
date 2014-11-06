@@ -34,12 +34,12 @@ uint64_t AMD64FeaturesFromSystemSnapshot(
   // x86_64. cmpxchg is supported on 486 and later.
   uint64_t minidump_features = ADD_FEATURE(PF_COMPARE_EXCHANGE_DOUBLE);
 
-#define MAP_FEATURE(features, cpuid_bit, minidump_bit)                    \
-do {                                                                      \
-  if ((features) & (static_cast<decltype(features)>(1) << (cpuid_bit))) { \
-    minidump_features |= ADD_FEATURE(minidump_bit);                       \
-  }                                                                       \
-} while (false)
+#define MAP_FEATURE(features, cpuid_bit, minidump_bit)                        \
+  do {                                                                        \
+    if ((features) & (implicit_cast<decltype(features)>(1) << (cpuid_bit))) { \
+      minidump_features |= ADD_FEATURE(minidump_bit);                         \
+    }                                                                         \
+  } while (false)
 
 #define F_TSC 4
 #define F_PAE 6
@@ -128,8 +128,8 @@ void MinidumpSystemInfoWriter::InitializeFromSnapshot(
   SetCPUArchitecture(cpu_architecture);
 
   uint32_t cpu_revision = system_snapshot->CPURevision();
-  SetCPULevelAndRevision(
-      (cpu_revision & 0xffff0000) >> 16, cpu_revision & 0x0000ffff);
+  SetCPULevelAndRevision((cpu_revision & 0xffff0000) >> 16,
+                         cpu_revision & 0x0000ffff);
   SetCPUCount(system_snapshot->CPUCount());
 
   if (cpu_architecture == kMinidumpCPUArchitectureX86) {

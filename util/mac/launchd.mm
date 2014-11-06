@@ -16,6 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
+#include "base/basictypes.h"
 #include "base/mac/foundation_util.h"
 #include "base/mac/scoped_launch_data.h"
 #include "base/mac/scoped_cftyperef.h"
@@ -44,7 +45,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
         }
 
         CFPropertyListRef value_cf =
-            static_cast<CFPropertyListRef>([dictionary_ns objectForKey:key]);
+            implicit_cast<CFPropertyListRef>([dictionary_ns objectForKey:key]);
         launch_data_t value_launch = CFPropertyToLaunchData(value_cf);
         if (!value_launch) {
           return nullptr;
@@ -65,7 +66,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
 
       for (id element_ns in array_ns) {
         CFPropertyListRef element_cf =
-            static_cast<CFPropertyListRef>(element_ns);
+            implicit_cast<CFPropertyListRef>(element_ns);
         launch_data_t element_launch = CFPropertyToLaunchData(element_cf);
         if (!element_launch) {
           return nullptr;

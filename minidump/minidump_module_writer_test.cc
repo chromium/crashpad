@@ -119,7 +119,7 @@ void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
               MinidumpModuleCodeViewRecordPDB20>(file_contents,
                                                  *codeview_record);
       ASSERT_TRUE(codeview_pdb20_record);
-      EXPECT_EQ(static_cast<uint32_t>(expected_pdb_timestamp),
+      EXPECT_EQ(implicit_cast<uint32_t>(expected_pdb_timestamp),
                 codeview_pdb20_record->timestamp);
       EXPECT_EQ(expected_pdb_age, codeview_pdb20_record->age);
 
@@ -219,9 +219,9 @@ void ExpectModule(const MINIDUMP_MODULE* expected,
   EXPECT_EQ(expected->SizeOfImage, observed->SizeOfImage);
   EXPECT_EQ(expected->CheckSum, observed->CheckSum);
   EXPECT_EQ(expected->TimeDateStamp, observed->TimeDateStamp);
-  EXPECT_EQ(static_cast<uint32_t>(VS_FFI_SIGNATURE),
+  EXPECT_EQ(implicit_cast<uint32_t>(VS_FFI_SIGNATURE),
             observed->VersionInfo.dwSignature);
-  EXPECT_EQ(static_cast<uint32_t>(VS_FFI_STRUCVERSION),
+  EXPECT_EQ(implicit_cast<uint32_t>(VS_FFI_STRUCVERSION),
             observed->VersionInfo.dwStrucVersion);
   EXPECT_EQ(expected->VersionInfo.dwFileVersionMS,
             observed->VersionInfo.dwFileVersionMS);

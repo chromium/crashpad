@@ -43,7 +43,7 @@ ssize_t StringHTTPBodyStream::GetBytesBuffer(uint8_t* buffer, size_t max_len) {
 
   size_t num_bytes_returned =
       std::min(std::min(num_bytes_remaining, max_len),
-               static_cast<size_t>(std::numeric_limits<ssize_t>::max()));
+               implicit_cast<size_t>(std::numeric_limits<ssize_t>::max()));
   memcpy(buffer, &string_[bytes_read_], num_bytes_returned);
   bytes_read_ += num_bytes_returned;
   return num_bytes_returned;

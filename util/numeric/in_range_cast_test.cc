@@ -56,8 +56,8 @@ TEST(InRangeCast, Int32) {
   EXPECT_EQ(1, InRangeCast<int32_t>(INT64_C(0x100000000), 1));
   EXPECT_EQ(kInt32Min, InRangeCast<int32_t>(kInt32Min, 1));
   EXPECT_EQ(kInt32Min,
-            InRangeCast<int32_t>(static_cast<int64_t>(kInt32Min), 1));
-  EXPECT_EQ(1, InRangeCast<int32_t>(static_cast<int64_t>(kInt32Min) - 1, 1));
+            InRangeCast<int32_t>(implicit_cast<int64_t>(kInt32Min), 1));
+  EXPECT_EQ(1, InRangeCast<int32_t>(implicit_cast<int64_t>(kInt32Min) - 1, 1));
   EXPECT_EQ(0, InRangeCast<int32_t>(0xffffffffu, 0));
   EXPECT_EQ(-1, InRangeCast<int32_t>(0xffffffffu, -1));
   EXPECT_EQ(kInt32Min, InRangeCast<int32_t>(0xffffffffu, kInt32Min));
@@ -104,7 +104,7 @@ TEST(InRangeCast, Int64) {
   EXPECT_EQ(1, InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), 1));
   EXPECT_EQ(kInt32Min, InRangeCast<int64_t>(kInt32Min, 1));
   EXPECT_EQ(kInt32Min,
-            InRangeCast<int64_t>(static_cast<int64_t>(kInt32Min), 1));
+            InRangeCast<int64_t>(implicit_cast<int64_t>(kInt32Min), 1));
   EXPECT_EQ(0, InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), 0));
   EXPECT_EQ(-1, InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), -1));
   EXPECT_EQ(kInt64Min,

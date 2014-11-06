@@ -20,6 +20,7 @@
 
 #include <vector>
 
+#include "base/basictypes.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "util/mac/mac_util.h"
@@ -121,7 +122,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
               proctype_image_infos.dyldVersion);
     EXPECT_EQ(reinterpret_cast<uint64_t>(self_image_infos->errorMessage),
               proctype_image_infos.errorMessage);
-    EXPECT_EQ(static_cast<uint64_t>(self_image_infos->terminationFlags),
+    EXPECT_EQ(implicit_cast<uint64_t>(self_image_infos->terminationFlags),
               proctype_image_infos.terminationFlags);
 
     TEST_STRING(
@@ -135,12 +136,12 @@ TEST(ProcessTypes, DyldImagesSelf) {
         proctype_image_infos.coreSymbolicationShmPage);
   }
   if (proctype_image_infos.version >= 7) {
-    EXPECT_EQ(static_cast<uint64_t>(self_image_infos->systemOrderFlag),
+    EXPECT_EQ(implicit_cast<uint64_t>(self_image_infos->systemOrderFlag),
               proctype_image_infos.systemOrderFlag);
   }
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
   if (proctype_image_infos.version >= 8) {
-    EXPECT_EQ(static_cast<uint64_t>(self_image_infos->uuidArrayCount),
+    EXPECT_EQ(implicit_cast<uint64_t>(self_image_infos->uuidArrayCount),
               proctype_image_infos.uuidArrayCount);
   }
   if (proctype_image_infos.version >= 9) {
@@ -149,11 +150,11 @@ TEST(ProcessTypes, DyldImagesSelf) {
         proctype_image_infos.dyldAllImageInfosAddress);
   }
   if (proctype_image_infos.version >= 10) {
-    EXPECT_EQ(static_cast<uint64_t>(self_image_infos->initialImageCount),
+    EXPECT_EQ(implicit_cast<uint64_t>(self_image_infos->initialImageCount),
               proctype_image_infos.initialImageCount);
   }
   if (proctype_image_infos.version >= 11) {
-    EXPECT_EQ(static_cast<uint64_t>(self_image_infos->errorKind),
+    EXPECT_EQ(implicit_cast<uint64_t>(self_image_infos->errorKind),
               proctype_image_infos.errorKind);
     EXPECT_EQ(
         reinterpret_cast<uint64_t>(self_image_infos->errorClientOfDylibPath),
@@ -176,7 +177,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
         process_reader, self_image_infos, proctype_image_infos, errorSymbol);
   }
   if (proctype_image_infos.version >= 12) {
-    EXPECT_EQ(static_cast<uint64_t>(self_image_infos->sharedCacheSlide),
+    EXPECT_EQ(implicit_cast<uint64_t>(self_image_infos->sharedCacheSlide),
               proctype_image_infos.sharedCacheSlide);
   }
 #endif
@@ -190,7 +191,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
   if (proctype_image_infos.version >= 14) {
     for (size_t index = 0; index < arraysize(self_image_infos->reserved);
          ++index) {
-      EXPECT_EQ(static_cast<uint64_t>(self_image_infos->reserved[index]),
+      EXPECT_EQ(implicit_cast<uint64_t>(self_image_infos->reserved[index]),
                 proctype_image_infos.reserved[index])
           << "index " << index;
     }
@@ -219,7 +220,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
       EXPECT_EQ(reinterpret_cast<uint64_t>(self_image_info->imageFilePath),
                 proctype_image_info.imageFilePath)
           << "index " << index;
-      EXPECT_EQ(static_cast<uint64_t>(self_image_info->imageFileModDate),
+      EXPECT_EQ(implicit_cast<uint64_t>(self_image_info->imageFileModDate),
                 proctype_image_info.imageFileModDate)
           << "index " << index;
 

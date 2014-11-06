@@ -69,13 +69,13 @@ TEST(Clock, SleepNanoseconds) {
   const uint64_t kTestData[] = {
       0,
       1,
-      static_cast<uint64_t>(1E3),  // 1 microsecond
-      static_cast<uint64_t>(1E4),  // 10 microseconds
-      static_cast<uint64_t>(1E5),  // 100 microseconds
-      static_cast<uint64_t>(1E6),  // 1 millisecond
-      static_cast<uint64_t>(1E7),  // 10 milliseconds
-      static_cast<uint64_t>(2E7),  // 20 milliseconds
-      static_cast<uint64_t>(5E7),  // 50 milliseconds
+      implicit_cast<uint64_t>(1E3),  // 1 microsecond
+      implicit_cast<uint64_t>(1E4),  // 10 microseconds
+      implicit_cast<uint64_t>(1E5),  // 100 microseconds
+      implicit_cast<uint64_t>(1E6),  // 1 millisecond
+      implicit_cast<uint64_t>(1E7),  // 10 milliseconds
+      implicit_cast<uint64_t>(2E7),  // 20 milliseconds
+      implicit_cast<uint64_t>(5E7),  // 50 milliseconds
   };
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {

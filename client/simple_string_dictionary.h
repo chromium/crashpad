@@ -231,7 +231,7 @@ class TSimpleStringDictionary {
       entry->value[0] = '\0';
     }
 
-    DCHECK_EQ(GetEntryForKey(key), static_cast<Entry*>(nullptr));
+    DCHECK_EQ(GetEntryForKey(key), implicit_cast<Entry*>(nullptr));
   }
 
   //! \brief Returns a serialized form of the map.

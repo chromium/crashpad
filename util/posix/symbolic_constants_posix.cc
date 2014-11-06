@@ -113,7 +113,7 @@ namespace crashpad {
 std::string SignalToString(int signal,
                            SymbolicConstantToStringOptions options) {
   const char* signal_name =
-      static_cast<size_t>(signal) < arraysize(kSignalNames)
+      implicit_cast<size_t>(signal) < arraysize(kSignalNames)
           ? kSignalNames[signal]
           : nullptr;
   if (!signal_name) {
@@ -139,7 +139,7 @@ bool StringToSignal(const base::StringPiece& string,
     base::StringPiece short_string =
         can_match_full ? string.substr(strlen(kSigPrefix)) : string;
     for (int index = 0;
-         index < static_cast<int>(arraysize(kSignalNames));
+         index < implicit_cast<int>(arraysize(kSignalNames));
          ++index) {
       const char* signal_name = kSignalNames[index];
       if (!signal_name) {

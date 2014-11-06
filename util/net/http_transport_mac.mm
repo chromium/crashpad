@@ -174,7 +174,7 @@ bool HTTPTransportMac::ExecuteSynchronously() {
     NSInteger http_status = [http_response statusCode];
     if (http_status != 200) {
       LOG(ERROR) << base::StringPrintf("HTTP status %ld",
-                                       static_cast<long>(http_status));
+                                       implicit_cast<long>(http_status));
       return false;
     }
 

@@ -93,7 +93,7 @@ bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
 
   while (size > 0) {
     size_t writev_iovec_count =
-        std::min(remaining_iovecs, static_cast<size_t>(IOV_MAX));
+        std::min(remaining_iovecs, implicit_cast<size_t>(IOV_MAX));
     ssize_t written = HANDLE_EINTR(writev(fd_.get(), iov, writev_iovec_count));
     if (written < 0) {
       PLOG(ERROR) << "writev";
@@ -113,7 +113,7 @@ bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
 
     while (written > 0) {
       size_t wrote_this_iovec =
-          std::min(static_cast<size_t>(written), iov->iov_len);
+          std::min(implicit_cast<size_t>(written), iov->iov_len);
       written -= wrote_this_iovec;
       if (wrote_this_iovec < iov->iov_len) {
         iov->iov_base =

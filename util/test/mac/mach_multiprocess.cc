@@ -139,11 +139,11 @@ void MachMultiprocess::MultiprocessParent() {
   ASSERT_EQ(sizeof(SendHelloMessage), message.header.msgh_size);
   EXPECT_EQ(info_->local_port, message.header.msgh_local_port);
   ASSERT_EQ(1u, message.body.msgh_descriptor_count);
-  EXPECT_EQ(static_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_MOVE_SEND),
+  EXPECT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_MOVE_SEND),
             message.port_descriptor.disposition);
-  ASSERT_EQ(static_cast<mach_msg_descriptor_type_t>(MACH_MSG_PORT_DESCRIPTOR),
+  ASSERT_EQ(implicit_cast<mach_msg_descriptor_type_t>(MACH_MSG_PORT_DESCRIPTOR),
             message.port_descriptor.type);
-  ASSERT_EQ(static_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0),
+  ASSERT_EQ(implicit_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0),
             message.audit_trailer.msgh_trailer_type);
   ASSERT_EQ(sizeof(message.audit_trailer),
             message.audit_trailer.msgh_trailer_size);

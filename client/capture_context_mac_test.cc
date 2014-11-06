@@ -19,6 +19,7 @@
 
 #include <algorithm>
 
+#include "base/basictypes.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 
@@ -34,10 +35,10 @@ namespace {
 void SanityCheckContext(NativeCPUContext* context) {
 #if defined(ARCH_CPU_X86)
   ASSERT_EQ(x86_THREAD_STATE32, context->tsh.flavor);
-  ASSERT_EQ(static_cast<int>(x86_THREAD_STATE32_COUNT), context->tsh.count);
+  ASSERT_EQ(implicit_cast<int>(x86_THREAD_STATE32_COUNT), context->tsh.count);
 #elif defined(ARCH_CPU_X86_64)
   ASSERT_EQ(x86_THREAD_STATE64, context->tsh.flavor);
-  ASSERT_EQ(static_cast<int>(x86_THREAD_STATE64_COUNT), context->tsh.count);
+  ASSERT_EQ(implicit_cast<int>(x86_THREAD_STATE64_COUNT), context->tsh.count);
 #endif
 
 #if defined(ARCH_CPU_X86_FAMILY)

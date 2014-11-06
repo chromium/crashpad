@@ -224,10 +224,10 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       EXPECT_EQ(1u, request->body.msgh_descriptor_count);
       EXPECT_NE(kMachPortNull, request->port_descriptor.name);
       parent_complex_message_port_ = request->port_descriptor.name;
-      EXPECT_EQ(static_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_MOVE_SEND),
+      EXPECT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_MOVE_SEND),
                 request->port_descriptor.disposition);
       EXPECT_EQ(
-          static_cast<mach_msg_descriptor_type_t>(MACH_MSG_PORT_DESCRIPTOR),
+          implicit_cast<mach_msg_descriptor_type_t>(MACH_MSG_PORT_DESCRIPTOR),
           request->port_descriptor.type);
     } else {
       EXPECT_EQ(0u, request->body.msgh_descriptor_count);
@@ -252,7 +252,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       trailer = &request->trailer;
     }
 
-    EXPECT_EQ(static_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0),
+    EXPECT_EQ(implicit_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0),
               trailer->msgh_trailer_type);
     EXPECT_EQ(MACH_MSG_TRAILER_MINIMUM_SIZE, trailer->msgh_trailer_size);
 
@@ -525,7 +525,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
                                 MACH_PORT_NULL);
     ASSERT_EQ(MACH_MSG_SUCCESS, kr) << MachErrorMessage(kr, "mach_msg");
 
-    ASSERT_EQ(static_cast<mach_msg_bits_t>(
+    ASSERT_EQ(implicit_cast<mach_msg_bits_t>(
         MACH_MSGH_BITS(0, MACH_MSG_TYPE_MOVE_SEND)), reply.Head.msgh_bits);
     ASSERT_EQ(sizeof(ReplyMessage), reply.Head.msgh_size);
     ASSERT_EQ(kMachPortNull, reply.Head.msgh_remote_port);
@@ -534,7 +534,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     ASSERT_EQ(0, memcmp(&reply.NDR, &NDR_record, sizeof(NDR_record)));
     ASSERT_EQ(options_.server_mig_retcode, reply.RetCode);
     ASSERT_EQ(replies_, reply.number);
-    ASSERT_EQ(static_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0),
+    ASSERT_EQ(implicit_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0),
               reply.trailer.msgh_trailer_type);
     ASSERT_EQ(MACH_MSG_TRAILER_MINIMUM_SIZE, reply.trailer.msgh_trailer_size);
 
