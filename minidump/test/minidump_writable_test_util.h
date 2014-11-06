@@ -27,23 +27,6 @@ namespace crashpad {
 namespace test {
 
 //! \brief Returns an untyped minidump object located within a minidump file’s
-//!     contents, where the offset of the object is known.
-//!
-//! \param[in] file_contents The contents of the minidump file.
-//! \param[in] rva The offset within the minidump file of the desired object.
-//!
-//! \return If \a rva is within the range of \a file_contents, returns a pointer
-//!     into \a file_contents at offset \a rva. Otherwise, raises a gtest
-//!     assertion failure and returns `nullptr`.
-//!
-//! Do not call this function. Use the typed version, MinidumpWritableAtRVA<>(),
-//! or another type-specific function.
-//!
-//! \sa MinidumpWritableAtLocationDescriptorInternal()
-const void* MinidumpWritableAtRVAInternal(const std::string& file_contents,
-                                          RVA rva);
-
-//! \brief Returns an untyped minidump object located within a minidump file’s
 //!     contents, where the offset and size of the object are known.
 //!
 //! \param[in] file_contents The contents of the minidump file.
@@ -64,8 +47,6 @@ const void* MinidumpWritableAtRVAInternal(const std::string& file_contents,
 //!
 //! Do not call this function. Use the typed version,
 //! MinidumpWritableAtLocationDescriptor<>(), or another type-specific function.
-//!
-//! \sa MinidumpWritableAtRVAInternal()
 const void* MinidumpWritableAtLocationDescriptorInternal(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location,
@@ -118,23 +99,6 @@ MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpUTF8String);
 MINIDUMP_ALLOW_OVERSIZED_DATA(uint8_t);
 
 #undef MINIDUMP_ALLOW_OVERSIZED_DATA
-
-//! \brief Returns a typed minidump object located within a minidump file’s
-//!     contents, where the offset of the object is known.
-//!
-//! \param[in] file_contents The contents of the minidump file.
-//! \param[in] rva The offset within the minidump file of the desired object.
-//!
-//! \return If \a rva is within the range of \a file_contents, returns a pointer
-//!     into \a file_contents at offset \a rva. Otherwise, raises a gtest
-//!     assertion failure and returns `nullptr`.
-//!
-//! \sa MinidumpWritableAtLocationDescriptor<>()
-template <typename T>
-const T* MinidumpWritableAtRVA(const std::string& file_contents, RVA rva) {
-  return reinterpret_cast<const T*>(
-      MinidumpWritableAtRVAInternal(file_contents, rva));
-}
 
 //! \brief Returns a typed minidump object located within a minidump file’s
 //!     contents, where the offset and size of the object are known.
@@ -240,6 +204,26 @@ const MinidumpSimpleStringDictionary*
 MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+//! \brief Returns a typed minidump object located within a minidump file’s
+//!     contents, where the offset of the object is known.
+//!
+//! \param[in] file_contents The contents of the minidump file.
+//! \param[in] rva The offset within the minidump file of the desired object.
+//!
+//! \return If \a rva plus the size of an object of type \a T is within the
+//!     range of \a file_contents, returns a pointer into \a file_contents at
+//!     offset \a rva. Otherwise, raises a gtest assertion failure and returns
+//!     `nullptr`.
+//!
+//! \sa MinidumpWritableAtLocationDescriptor<>()
+template <typename T>
+const T* MinidumpWritableAtRVA(const std::string& file_contents, RVA rva) {
+  MINIDUMP_LOCATION_DESCRIPTOR location;
+  location.DataSize = sizeof(T);
+  location.Rva = rva;
+  return MinidumpWritableAtLocationDescriptor<T>(file_contents, location);
+}
 
 }  // namespace test
 }  // namespace crashpad

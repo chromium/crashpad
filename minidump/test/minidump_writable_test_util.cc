@@ -23,6 +23,20 @@
 namespace crashpad {
 namespace test {
 
+namespace {
+
+//! \brief Returns an untyped minidump object located within a minidump file’s
+//!     contents, where the offset of the object is known.
+//!
+//! \param[in] file_contents The contents of the minidump file.
+//! \param[in] rva The offset within the minidump file of the desired object.
+//!
+//! \return If \a rva is within the range of \a file_contents, returns a pointer
+//!     into \a file_contents at offset \a rva. Otherwise, raises a gtest
+//!     assertion failure and returns `nullptr`.
+//!
+//! Do not call this function. Use the typed version, MinidumpWritableAtRVA<>(),
+//! or another type-specific function.
 const void* MinidumpWritableAtRVAInternal(const std::string& file_contents,
                                           RVA rva) {
   if (rva >= file_contents.size()) {
@@ -32,6 +46,8 @@ const void* MinidumpWritableAtRVAInternal(const std::string& file_contents,
 
   return &file_contents[rva];
 }
+
+}  // namespace
 
 const void* MinidumpWritableAtLocationDescriptorInternal(
     const std::string& file_contents,
