@@ -17,13 +17,19 @@
 
 #include <dbghelp.h>
 #include <stdint.h>
+#include <sys/types.h>
 
 #include <string>
 
+#include "base/basictypes.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
+#include "minidump/minidump_writable.h"
 
 namespace crashpad {
+
+class FileWriterInterface;
+
 namespace test {
 
 //! \brief Returns an untyped minidump object located within a minidump file’s
@@ -84,6 +90,7 @@ MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MODULE_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_THREAD_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpLocationDescriptorList);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpRVAList);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpSimpleStringDictionary);
 
 // These types have final fields carrying variable-sized data (typically string
@@ -224,6 +231,25 @@ const T* MinidumpWritableAtRVA(const std::string& file_contents, RVA rva) {
   location.Rva = rva;
   return MinidumpWritableAtLocationDescriptor<T>(file_contents, location);
 }
+
+//! \brief An internal::MinidumpWritable that carries a `uint32_t` for testing.
+class TestUInt32MinidumpWritable final : public internal::MinidumpWritable {
+ public:
+  //! \brief Constructs the object to write a `uint32_t` with value \a value.
+  explicit TestUInt32MinidumpWritable(uint32_t value);
+
+  ~TestUInt32MinidumpWritable() override;
+
+ protected:
+  // MinidumpWritable:
+  size_t SizeOfObject() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
+
+ private:
+  uint32_t value_;
+
+  DISALLOW_COPY_AND_ASSIGN(TestUInt32MinidumpWritable);
+};
 
 }  // namespace test
 }  // namespace crashpad

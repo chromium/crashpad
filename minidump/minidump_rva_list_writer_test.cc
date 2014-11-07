@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_location_descriptor_list_writer.h"
+#include "minidump/minidump_rva_list_writer.h"
 
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
-#include "minidump/test/minidump_location_descriptor_list_test_util.h"
+#include "minidump/test/minidump_rva_list_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 
@@ -24,40 +24,34 @@ namespace crashpad {
 namespace test {
 namespace {
 
-class TestMinidumpLocationDescriptorListWriter final
-    : public MinidumpLocationDescriptorListWriter {
+class TestMinidumpRVAListWriter final : public MinidumpRVAListWriter {
  public:
-  TestMinidumpLocationDescriptorListWriter()
-      : MinidumpLocationDescriptorListWriter() {
-  }
-
-  ~TestMinidumpLocationDescriptorListWriter() override {}
+  TestMinidumpRVAListWriter() : MinidumpRVAListWriter() {}
+  ~TestMinidumpRVAListWriter() override {}
 
   void AddChild(uint32_t value) {
     auto child = make_scoped_ptr(new TestUInt32MinidumpWritable(value));
-    MinidumpLocationDescriptorListWriter::AddChild(child.Pass());
+    MinidumpRVAListWriter::AddChild(child.Pass());
   }
 
  private:
-  DISALLOW_COPY_AND_ASSIGN(TestMinidumpLocationDescriptorListWriter);
+  DISALLOW_COPY_AND_ASSIGN(TestMinidumpRVAListWriter);
 };
 
-TEST(MinidumpLocationDescriptorListWriter, Empty) {
-  TestMinidumpLocationDescriptorListWriter list_writer;
+TEST(MinidumpRVAListWriter, Empty) {
+  TestMinidumpRVAListWriter list_writer;
 
   StringFileWriter file_writer;
 
   ASSERT_TRUE(list_writer.WriteEverything(&file_writer));
-  EXPECT_EQ(sizeof(MinidumpLocationDescriptorList),
-            file_writer.string().size());
+  EXPECT_EQ(sizeof(MinidumpRVAList), file_writer.string().size());
 
-  const MinidumpLocationDescriptorList* list =
-      MinidumpLocationDescriptorListAtStart(file_writer.string(), 0);
+  const MinidumpRVAList* list = MinidumpRVAListAtStart(file_writer.string(), 0);
   ASSERT_TRUE(list);
 }
 
-TEST(MinidumpLocationDescriptorListWriter, OneChild) {
-  TestMinidumpLocationDescriptorListWriter list_writer;
+TEST(MinidumpRVAListWriter, OneChild) {
+  TestMinidumpRVAListWriter list_writer;
 
   const uint32_t kValue = 0;
   list_writer.AddChild(kValue);
@@ -66,18 +60,17 @@ TEST(MinidumpLocationDescriptorListWriter, OneChild) {
 
   ASSERT_TRUE(list_writer.WriteEverything(&file_writer));
 
-  const MinidumpLocationDescriptorList* list =
-      MinidumpLocationDescriptorListAtStart(file_writer.string(), 1);
+  const MinidumpRVAList* list = MinidumpRVAListAtStart(file_writer.string(), 1);
   ASSERT_TRUE(list);
 
-  const uint32_t* child = MinidumpWritableAtLocationDescriptor<uint32_t>(
+  const uint32_t* child = MinidumpWritableAtRVA<uint32_t>(
       file_writer.string(), list->children[0]);
   ASSERT_TRUE(child);
   EXPECT_EQ(kValue, *child);
 }
 
-TEST(MinidumpLocationDescriptorListWriter, ThreeChildren) {
-  TestMinidumpLocationDescriptorListWriter list_writer;
+TEST(MinidumpRVAListWriter, ThreeChildren) {
+  TestMinidumpRVAListWriter list_writer;
 
   const uint32_t kValues[] = { 0x80000000, 0x55555555, 0x66006600 };
 
@@ -89,15 +82,14 @@ TEST(MinidumpLocationDescriptorListWriter, ThreeChildren) {
 
   ASSERT_TRUE(list_writer.WriteEverything(&file_writer));
 
-  const MinidumpLocationDescriptorList* list =
-      MinidumpLocationDescriptorListAtStart(file_writer.string(),
-                                            arraysize(kValues));
+  const MinidumpRVAList* list =
+      MinidumpRVAListAtStart(file_writer.string(), arraysize(kValues));
   ASSERT_TRUE(list);
 
   for (size_t index = 0; index < arraysize(kValues); ++index) {
     SCOPED_TRACE(base::StringPrintf("index %zu", index));
 
-    const uint32_t* child = MinidumpWritableAtLocationDescriptor<uint32_t>(
+    const uint32_t* child = MinidumpWritableAtRVA<uint32_t>(
         file_writer.string(), list->children[index]);
     ASSERT_TRUE(child);
     EXPECT_EQ(kValues[index], *child);

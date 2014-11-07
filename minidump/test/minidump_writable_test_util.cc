@@ -19,6 +19,7 @@
 #include "base/basictypes.h"
 #include "base/strings/string16.h"
 #include "gtest/gtest.h"
+#include "util/file/file_writer.h"
 
 namespace crashpad {
 namespace test {
@@ -304,6 +305,22 @@ MinidumpWritableAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB70>(
     const MINIDUMP_LOCATION_DESCRIPTOR& location) {
   return MinidumpCVPDBAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB70>(
       file_contents, location);
+}
+
+TestUInt32MinidumpWritable::TestUInt32MinidumpWritable(uint32_t value)
+    : MinidumpWritable(),
+      value_(value) {
+}
+
+TestUInt32MinidumpWritable::~TestUInt32MinidumpWritable() {
+}
+
+size_t TestUInt32MinidumpWritable::SizeOfObject() {
+  return sizeof(value_);
+}
+
+bool TestUInt32MinidumpWritable::WriteObject(FileWriterInterface* file_writer) {
+  return file_writer->Write(&value_, sizeof(value_));
 }
 
 }  // namespace test

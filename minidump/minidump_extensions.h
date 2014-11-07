@@ -296,6 +296,15 @@ struct MinidumpModuleCodeViewRecordPDB70 {
   uint8_t pdb_name[1];
 };
 
+//! \brief A list of ::RVA pointers.
+struct __attribute__((packed, aligned(4))) MinidumpRVAList {
+  //! \brief The number of children present in the #children array.
+  uint32_t count;
+
+  //! \brief Pointers to other structures in the minidump file.
+  RVA children[0];
+};
+
 //! \brief A list of MINIDUMP_LOCATION_DESCRIPTOR objects.
 struct __attribute__((packed, aligned(4))) MinidumpLocationDescriptorList {
   //! \brief The number of children present in the #children array.
