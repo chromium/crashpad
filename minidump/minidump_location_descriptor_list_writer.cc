@@ -19,6 +19,7 @@
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
+namespace internal {
 
 MinidumpLocationDescriptorListWriter::MinidumpLocationDescriptorListWriter()
     : MinidumpWritable(),
@@ -31,7 +32,7 @@ MinidumpLocationDescriptorListWriter::~MinidumpLocationDescriptorListWriter() {
 }
 
 void MinidumpLocationDescriptorListWriter::AddChild(
-    scoped_ptr<internal::MinidumpWritable> child) {
+    scoped_ptr<MinidumpWritable> child) {
   DCHECK_EQ(state(), kStateMutable);
 
   children_.push_back(child.release());
@@ -67,7 +68,7 @@ size_t MinidumpLocationDescriptorListWriter::SizeOfObject() {
          children_.size() * sizeof(MINIDUMP_LOCATION_DESCRIPTOR);
 }
 
-std::vector<internal::MinidumpWritable*>
+std::vector<MinidumpWritable*>
 MinidumpLocationDescriptorListWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
@@ -99,4 +100,5 @@ bool MinidumpLocationDescriptorListWriter::WriteObject(
   return file_writer->WriteIoVec(&iovecs);
 }
 
+}  // namespace internal
 }  // namespace crashpad

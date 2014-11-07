@@ -72,7 +72,7 @@ class MinidumpModuleCrashpadInfoWriter final
   //!
   //! \note Valid in #kStateMutable.
   void SetListAnnotations(
-      scoped_ptr<internal::MinidumpUTF8StringListWriter> list_annotations);
+      scoped_ptr<MinidumpUTF8StringListWriter> list_annotations);
 
   //! \brief Arranges for MinidumpModuleCrashpadInfo::simple_annotations to
   //!     point to the MinidumpSimpleStringDictionaryWriter object to be written
@@ -103,7 +103,7 @@ class MinidumpModuleCrashpadInfoWriter final
 
  private:
   MinidumpModuleCrashpadInfo module_;
-  scoped_ptr<internal::MinidumpUTF8StringListWriter> list_annotations_;
+  scoped_ptr<MinidumpUTF8StringListWriter> list_annotations_;
   scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCrashpadInfoWriter);
@@ -112,7 +112,7 @@ class MinidumpModuleCrashpadInfoWriter final
 //! \brief The writer for a MinidumpModuleCrashpadInfoList object in a minidump
 //!     file, containing a list of MinidumpModuleCrashpadInfo objects.
 class MinidumpModuleCrashpadInfoListWriter final
-    : public MinidumpLocationDescriptorListWriter {
+    : public internal::MinidumpLocationDescriptorListWriter {
  public:
   MinidumpModuleCrashpadInfoListWriter();
   ~MinidumpModuleCrashpadInfoListWriter() override;

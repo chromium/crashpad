@@ -24,7 +24,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-class TestMinidumpRVAListWriter final : public MinidumpRVAListWriter {
+class TestMinidumpRVAListWriter final : public internal::MinidumpRVAListWriter {
  public:
   TestMinidumpRVAListWriter() : MinidumpRVAListWriter() {}
   ~TestMinidumpRVAListWriter() override {}

@@ -19,6 +19,7 @@
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
+namespace internal {
 
 MinidumpRVAListWriter::MinidumpRVAListWriter()
     : MinidumpWritable(),
@@ -30,8 +31,7 @@ MinidumpRVAListWriter::MinidumpRVAListWriter()
 MinidumpRVAListWriter::~MinidumpRVAListWriter() {
 }
 
-void MinidumpRVAListWriter::AddChild(
-    scoped_ptr<internal::MinidumpWritable> child) {
+void MinidumpRVAListWriter::AddChild(scoped_ptr<MinidumpWritable> child) {
   DCHECK_EQ(state(), kStateMutable);
 
   children_.push_back(child.release());
@@ -65,7 +65,7 @@ size_t MinidumpRVAListWriter::SizeOfObject() {
   return sizeof(rva_list_base_) + children_.size() * sizeof(RVA);
 }
 
-std::vector<internal::MinidumpWritable*> MinidumpRVAListWriter::Children() {
+std::vector<MinidumpWritable*> MinidumpRVAListWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
   std::vector<MinidumpWritable*> children;
@@ -94,4 +94,5 @@ bool MinidumpRVAListWriter::WriteObject(FileWriterInterface* file_writer) {
   return file_writer->WriteIoVec(&iovecs);
 }
 
+}  // namespace internal
 }  // namespace crashpad

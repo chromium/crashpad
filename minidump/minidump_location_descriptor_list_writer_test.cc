@@ -25,7 +25,7 @@ namespace test {
 namespace {
 
 class TestMinidumpLocationDescriptorListWriter final
-    : public MinidumpLocationDescriptorListWriter {
+    : public internal::MinidumpLocationDescriptorListWriter {
  public:
   TestMinidumpLocationDescriptorListWriter()
       : MinidumpLocationDescriptorListWriter() {

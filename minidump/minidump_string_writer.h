@@ -126,25 +126,11 @@ class MinidumpUTF8StringWriter final
   DISALLOW_COPY_AND_ASSIGN(MinidumpUTF8StringWriter);
 };
 
-//! \cond
-
-struct MinidumpStringListWriterUTF16Traits {
-  using MinidumpStringWriterType = MinidumpUTF16StringWriter;
-};
-
-struct MinidumpStringListWriterUTF8Traits {
-  using MinidumpStringWriterType = MinidumpUTF8StringWriter;
-};
-
-//! \endcond
-
 //! \brief The writer for a MinidumpRVAList object in a minidump file,
-//!     containing a list of \a Traits::MinidumpStringWriterType objects.
-template <typename Traits>
-class MinidumpStringListWriter : public MinidumpRVAListWriter {
+//!     containing a list of \a MinidumpStringWriterType objects.
+template <typename MinidumpStringWriterType>
+class MinidumpStringListWriter final : public MinidumpRVAListWriter {
  public:
-  using MinidumpStringWriterType = typename Traits::MinidumpStringWriterType;
-
   MinidumpStringListWriter();
   ~MinidumpStringListWriter() override;
 
@@ -165,7 +151,7 @@ class MinidumpStringListWriter : public MinidumpRVAListWriter {
   //!
   //! This object creates a new string writer with string value \a string_utf8,
   //! takes ownership of it, and becomes its parent in the overall tree of
-  //! internal::MinidumpWritable objects.
+  //! MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
   void AddStringUTF8(const std::string& string_utf8);
@@ -183,12 +169,13 @@ class MinidumpStringListWriter : public MinidumpRVAListWriter {
   DISALLOW_COPY_AND_ASSIGN(MinidumpStringListWriter);
 };
 
-using MinidumpUTF16StringListWriter =
-    MinidumpStringListWriter<MinidumpStringListWriterUTF16Traits>;
-using MinidumpUTF8StringListWriter =
-    MinidumpStringListWriter<MinidumpStringListWriterUTF8Traits>;
-
 }  // namespace internal
+
+using MinidumpUTF16StringListWriter = internal::MinidumpStringListWriter<
+    internal::MinidumpUTF16StringWriter>;
+using MinidumpUTF8StringListWriter = internal::MinidumpStringListWriter<
+    internal::MinidumpUTF8StringWriter>;
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_MINIDUMP_MINIDUMP_STRING_WRITER_H_

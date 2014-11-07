@@ -27,24 +27,24 @@
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
+namespace internal {
 
 //! \brief The writer for a MinidumpRVAList object in a minidump file,
 //!     containing a list of ::RVA pointers.
-class MinidumpRVAListWriter : public internal::MinidumpWritable {
+class MinidumpRVAListWriter : public MinidumpWritable {
  protected:
   MinidumpRVAListWriter();
   ~MinidumpRVAListWriter() override;
 
-  //! \brief Adds an ::RVA referencing an internal::MinidumpWritable to the
+  //! \brief Adds an ::RVA referencing an MinidumpWritable to the
   //!     MinidumpRVAList.
   //!
   //! This object takes ownership of \a child and becomes its parent in the
-  //! overall tree of internal::MinidumpWritable objects.
+  //! overall tree of MinidumpWritable objects.
   //!
   //! To provide type-correctness, subclasses are expected to provide a public
   //! method that accepts a `scoped_ptr`-wrapped argument of the proper
-  //! internal::MinidumpWritable subclass, and call this method with that
-  //! argument.
+  //! MinidumpWritable subclass, and call this method with that argument.
   //!
   //! \note Valid in #kStateMutable.
   void AddChild(scoped_ptr<MinidumpWritable> child);
@@ -73,6 +73,7 @@ class MinidumpRVAListWriter : public internal::MinidumpWritable {
   DISALLOW_COPY_AND_ASSIGN(MinidumpRVAListWriter);
 };
 
+}  // namespace internal
 }  // namespace crashpad
 
 #endif  // CRASHPAD_MINIDUMP_RVA_LIST_WRITER_H_

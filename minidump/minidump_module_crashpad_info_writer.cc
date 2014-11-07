@@ -48,8 +48,7 @@ void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
   }
   SetMinidumpModuleListIndex(module_list_index_u32);
 
-  auto list_annotations =
-      make_scoped_ptr(new internal::MinidumpUTF8StringListWriter());
+  auto list_annotations = make_scoped_ptr(new MinidumpUTF8StringListWriter());
   list_annotations->InitializeFromVector(module_snapshot->AnnotationsVector());
   if (list_annotations->IsUseful()) {
     SetListAnnotations(list_annotations.Pass());
@@ -65,7 +64,7 @@ void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
 }
 
 void MinidumpModuleCrashpadInfoWriter::SetListAnnotations(
-    scoped_ptr<internal::MinidumpUTF8StringListWriter> list_annotations) {
+    scoped_ptr<MinidumpUTF8StringListWriter> list_annotations) {
   DCHECK_EQ(state(), kStateMutable);
 
   list_annotations_ = list_annotations.Pass();

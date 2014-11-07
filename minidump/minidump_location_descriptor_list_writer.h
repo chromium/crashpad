@@ -27,24 +27,24 @@
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
+namespace internal {
 
 //! \brief The writer for a MinidumpLocationDescriptorList object in a minidump
 //!     file, containing a list of MINIDUMP_LOCATION_DESCRIPTOR objects.
-class MinidumpLocationDescriptorListWriter : public internal::MinidumpWritable {
+class MinidumpLocationDescriptorListWriter : public MinidumpWritable {
  protected:
   MinidumpLocationDescriptorListWriter();
   ~MinidumpLocationDescriptorListWriter() override;
 
-  //! \brief Adds a MINIDUMP_LOCATION_DESCRIPTOR referencing an
-  //!     internal::MinidumpWritable to the MinidumpLocationDescriptorList.
+  //! \brief Adds a MINIDUMP_LOCATION_DESCRIPTOR referencing a MinidumpWritable
+  //!     to the MinidumpLocationDescriptorList.
   //!
   //! This object takes ownership of \a child and becomes its parent in the
-  //! overall tree of internal::MinidumpWritable objects.
+  //! overall tree of MinidumpWritable objects.
   //!
   //! To provide type-correctness, subclasses are expected to provide a public
   //! method that accepts a `scoped_ptr`-wrapped argument of the proper
-  //! internal::MinidumpWritable subclass, and call this method with that
-  //! argument.
+  //! MinidumpWritable subclass, and call this method with that argument.
   //!
   //! \note Valid in #kStateMutable.
   void AddChild(scoped_ptr<MinidumpWritable> child);
@@ -77,6 +77,7 @@ class MinidumpLocationDescriptorListWriter : public internal::MinidumpWritable {
   DISALLOW_COPY_AND_ASSIGN(MinidumpLocationDescriptorListWriter);
 };
 
+}  // namespace internal
 }  // namespace crashpad
 
 #endif  // CRASHPAD_MINIDUMP_LOCATION_DESCRIPTOR_LIST_WRITER_H_

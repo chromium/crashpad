@@ -198,7 +198,7 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
 }
 
 struct MinidumpUTF16StringListWriterTraits {
-  using MinidumpStringListWriterType = internal::MinidumpUTF16StringListWriter;
+  using MinidumpStringListWriterType = MinidumpUTF16StringListWriter;
   static string16 ExpectationForUTF8(const std::string& utf8) {
     return base::UTF8ToUTF16(utf8);
   }
@@ -208,7 +208,7 @@ struct MinidumpUTF16StringListWriterTraits {
 };
 
 struct MinidumpUTF8StringListWriterTraits {
-  using MinidumpStringListWriterType = internal::MinidumpUTF8StringListWriter;
+  using MinidumpStringListWriterType = MinidumpUTF8StringListWriter;
   static std::string ExpectationForUTF8(const std::string& utf8) {
     return utf8;
   }

@@ -93,8 +93,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
   auto module_writer =
       make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
   module_writer->SetMinidumpModuleListIndex(kMinidumpModuleListIndex);
-  auto string_list_writer =
-      make_scoped_ptr(new internal::MinidumpUTF8StringListWriter());
+  auto string_list_writer = make_scoped_ptr(new MinidumpUTF8StringListWriter());
   string_list_writer->InitializeFromVector(vector);
   module_writer->SetListAnnotations(string_list_writer.Pass());
   auto simple_string_dictionary_writer =
