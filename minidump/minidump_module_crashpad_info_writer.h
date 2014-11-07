@@ -24,6 +24,7 @@
 #include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_location_descriptor_list_writer.h"
+#include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writable.h"
 #include "util/stdlib/pointer_container.h"
 
@@ -63,6 +64,17 @@ class MinidumpModuleCrashpadInfoWriter final
     module_.minidump_module_list_index = minidump_module_list_index;
   }
 
+  //! \brief Arranges for MinidumpModuleCrashpadInfo::list_annotations to point
+  //!     to the internal::MinidumpUTF8StringListWriter object to be written by
+  //!     \a list_annotations.
+  //!
+  //! This object takes ownership of \a simple_annotations and becomes its
+  //! parent in the overall tree of internal::MinidumpWritable objects.
+  //!
+  //! \note Valid in #kStateMutable.
+  void SetListAnnotations(
+      scoped_ptr<internal::MinidumpUTF8StringListWriter> list_annotations);
+
   //! \brief Arranges for MinidumpModuleCrashpadInfo::simple_annotations to
   //!     point to the MinidumpSimpleStringDictionaryWriter object to be written
   //!     by \a simple_annotations.
@@ -77,8 +89,8 @@ class MinidumpModuleCrashpadInfoWriter final
   //! \brief Determines whether the object is useful.
   //!
   //! A useful object is one that carries data that makes a meaningful
-  //! contribution to a minidump file. An object carrying simple annotations
-  //! would be considered useful.
+  //! contribution to a minidump file. An object carrying list annotations or
+  //! simple annotations would be considered useful.
   //!
   //! \return `true` if the object is useful, `false` otherwise.
   bool IsUseful() const;
@@ -92,6 +104,7 @@ class MinidumpModuleCrashpadInfoWriter final
 
  private:
   MinidumpModuleCrashpadInfo module_;
+  scoped_ptr<internal::MinidumpUTF8StringListWriter> list_annotations_;
   scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCrashpadInfoWriter);

@@ -374,8 +374,21 @@ struct __attribute__((packed, aligned(4))) MinidumpModuleCrashpadInfo {
   //! This field is present when #version is at least `1`.
   uint32_t minidump_module_list_index;
 
+  //! \brief A MinidumpRVAList pointing to MinidumpUTF8String objects. The
+  //!     module controls the data that appears here.
+  //!
+  //! These strings correspond to ModuleSnapshot::AnnotationsVector() and do not
+  //! duplicate anything in #simple_annotations.
+  //!
+  //! This field is present when #version is at least `1`.
+  MINIDUMP_LOCATION_DESCRIPTOR list_annotations;
+
   //! \brief A MinidumpSimpleStringDictionary pointing to strings interpreted as
   //!     key-value pairs. The module controls the data that appears here.
+  //!
+  //! These key-value pairs correspond to
+  //! ModuleSnapshot::AnnotationsSimpleMap() and do not duplicate anything in
+  //! #list_annotations.
   //!
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR simple_annotations;

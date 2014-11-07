@@ -25,7 +25,10 @@
 namespace crashpad {
 
 MinidumpModuleCrashpadInfoWriter::MinidumpModuleCrashpadInfoWriter()
-    : MinidumpWritable(), module_(), simple_annotations_() {
+    : MinidumpWritable(),
+      module_(),
+      list_annotations_(),
+      simple_annotations_() {
   module_.version = MinidumpModuleCrashpadInfo::kVersion;
 }
 
@@ -35,6 +38,7 @@ MinidumpModuleCrashpadInfoWriter::~MinidumpModuleCrashpadInfoWriter() {
 void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
     const ModuleSnapshot* module_snapshot, size_t module_list_index) {
   DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!list_annotations_);
   DCHECK(!simple_annotations_);
 
   uint32_t module_list_index_u32;
@@ -43,6 +47,13 @@ void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
     return;
   }
   SetMinidumpModuleListIndex(module_list_index_u32);
+
+  auto list_annotations =
+      make_scoped_ptr(new internal::MinidumpUTF8StringListWriter());
+  list_annotations->InitializeFromVector(module_snapshot->AnnotationsVector());
+  if (list_annotations->IsUseful()) {
+    SetListAnnotations(list_annotations.Pass());
+  }
 
   auto simple_annotations =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryWriter());
@@ -53,6 +64,13 @@ void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
   }
 }
 
+void MinidumpModuleCrashpadInfoWriter::SetListAnnotations(
+    scoped_ptr<internal::MinidumpUTF8StringListWriter> list_annotations) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  list_annotations_ = list_annotations.Pass();
+}
+
 void MinidumpModuleCrashpadInfoWriter::SetSimpleAnnotations(
     scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations) {
   DCHECK_EQ(state(), kStateMutable);
@@ -61,7 +79,7 @@ void MinidumpModuleCrashpadInfoWriter::SetSimpleAnnotations(
 }
 
 bool MinidumpModuleCrashpadInfoWriter::IsUseful() const {
-  return simple_annotations_;
+  return list_annotations_ || simple_annotations_;
 }
 
 bool MinidumpModuleCrashpadInfoWriter::Freeze() {
@@ -69,6 +87,10 @@ bool MinidumpModuleCrashpadInfoWriter::Freeze() {
 
   if (!MinidumpWritable::Freeze()) {
     return false;
+  }
+
+  if (list_annotations_) {
+    list_annotations_->RegisterLocationDescriptor(&module_.list_annotations);
   }
 
   if (simple_annotations_) {
@@ -90,6 +112,9 @@ MinidumpModuleCrashpadInfoWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
   std::vector<MinidumpWritable*> children;
+  if (list_annotations_) {
+    children.push_back(list_annotations_.get());
+  }
   if (simple_annotations_) {
     children.push_back(simple_annotations_.get());
   }
