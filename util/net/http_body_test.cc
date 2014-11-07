@@ -214,7 +214,7 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, StringsAndFile) {
 
 INSTANTIATE_TEST_CASE_P(VariableBufferSize,
                         CompositeHTTPBodyStreamBufferSize,
-                        testing::Values(1, 2, 9, 16, 31, 128));
+                        testing::Values(1, 2, 9, 16, 31, 128, 1024));
 
 }  // namespace
 }  // namespace test

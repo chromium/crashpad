@@ -97,20 +97,25 @@ CompositeHTTPBodyStream::~CompositeHTTPBodyStream() {
 }
 
 ssize_t CompositeHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
-                                                size_t max_len) {
-  if (current_part_ == parts_.end())
-    return 0;
+                                                size_t buffer_len) {
+  ssize_t max_len = std::min(
+      buffer_len, implicit_cast<size_t>(std::numeric_limits<ssize_t>::max()));
+  ssize_t bytes_copied = 0;
+  while (bytes_copied < max_len && current_part_ != parts_.end()) {
+    ssize_t this_read = (*current_part_)->GetBytesBuffer(
+        buffer + bytes_copied, max_len - bytes_copied);
 
-  ssize_t rv = (*current_part_)->GetBytesBuffer(buffer, max_len);
-
-  if (rv == 0) {
-    // If the current part has returned 0 indicating EOF, advance the current
-    // part and call recursively to try again.
-    ++current_part_;
-    return GetBytesBuffer(buffer, max_len);
+    if (this_read == 0) {
+      // If the current part has returned 0 indicating EOF, advance the current
+      // part and try again.
+      ++current_part_;
+    } else if (this_read < 0) {
+      return this_read;
+    }
+    bytes_copied += this_read;
   }
 
-  return rv;
+  return bytes_copied;
 }
 
 }  // namespace crashpad
