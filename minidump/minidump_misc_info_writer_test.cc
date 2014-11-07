@@ -662,9 +662,12 @@ TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
           debug_build_string_utf16.c_str(),
           arraysize(expect_misc_info.DbgBldStr));
 
-  const timeval kStartTime = { expect_misc_info.ProcessCreateTime, 0 };
-  const timeval kUserCPUTime = { expect_misc_info.ProcessUserTime, 0 };
-  const timeval kSystemCPUTime = { expect_misc_info.ProcessKernelTime, 0 };
+  const timeval kStartTime =
+      { implicit_cast<time_t>(expect_misc_info.ProcessCreateTime), 0 };
+  const timeval kUserCPUTime =
+      { implicit_cast<time_t>(expect_misc_info.ProcessUserTime), 0 };
+  const timeval kSystemCPUTime =
+      { implicit_cast<time_t>(expect_misc_info.ProcessKernelTime), 0 };
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetProcessID(expect_misc_info.ProcessId);
