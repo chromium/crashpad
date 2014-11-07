@@ -22,8 +22,11 @@
 #include "base/basictypes.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
+#include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
+#include "minidump/test/minidump_rva_list_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
+#include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file_writer.h"
 
 namespace crashpad {
@@ -192,6 +195,63 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
     EXPECT_EQ(test_string,
               MinidumpUTF8StringAtRVAAsString(file_writer.string(), 0));
   }
+}
+
+struct MinidumpUTF16StringListWriterTraits {
+  using MinidumpStringListWriterType = internal::MinidumpUTF16StringListWriter;
+  static string16 ExpectationForUTF8(const std::string& utf8) {
+    return base::UTF8ToUTF16(utf8);
+  }
+  static string16 ObservationAtRVA(const std::string& file_contents, RVA rva) {
+    return MinidumpStringAtRVAAsString(file_contents, rva);
+  }
+};
+
+struct MinidumpUTF8StringListWriterTraits {
+  using MinidumpStringListWriterType = internal::MinidumpUTF8StringListWriter;
+  static std::string ExpectationForUTF8(const std::string& utf8) {
+    return utf8;
+  }
+  static std::string ObservationAtRVA(const std::string& file_contents,
+                                      RVA rva) {
+    return MinidumpUTF8StringAtRVAAsString(file_contents, rva);
+  }
+};
+
+template <typename Traits>
+void MinidumpStringListTest() {
+  std::vector<std::string> strings;
+  strings.push_back(std::string("One"));
+  strings.push_back(std::string());
+  strings.push_back(std::string("3"));
+  strings.push_back(std::string("\360\237\222\251"));
+
+  typename Traits::MinidumpStringListWriterType string_list_writer;
+  EXPECT_FALSE(string_list_writer.IsUseful());
+  string_list_writer.InitializeFromVector(strings);
+  EXPECT_TRUE(string_list_writer.IsUseful());
+
+  StringFileWriter file_writer;
+
+  ASSERT_TRUE(string_list_writer.WriteEverything(&file_writer));
+
+  const MinidumpRVAList* list =
+      MinidumpRVAListAtStart(file_writer.string(), strings.size());
+  ASSERT_TRUE(list);
+
+  for (size_t index = 0; index < strings.size(); ++index) {
+    EXPECT_EQ(Traits::ExpectationForUTF8(strings[index]),
+              Traits::ObservationAtRVA(file_writer.string(),
+                                       list->children[index]));
+  }
+}
+
+TEST(MinidumpStringWriter, MinidumpUTF16StringList) {
+  MinidumpStringListTest<MinidumpUTF16StringListWriterTraits>();
+}
+
+TEST(MinidumpStringWriter, MinidumpUTF8StringList) {
+  MinidumpStringListTest<MinidumpUTF8StringListWriterTraits>();
 }
 
 }  // namespace

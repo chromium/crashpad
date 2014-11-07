@@ -95,5 +95,43 @@ void MinidumpUTF16StringWriter::SetUTF8(const std::string& string_utf8) {
 MinidumpUTF8StringWriter::~MinidumpUTF8StringWriter() {
 }
 
+template <typename Traits>
+MinidumpStringListWriter<Traits>::MinidumpStringListWriter()
+    : MinidumpRVAListWriter() {
+}
+
+template <typename Traits>
+MinidumpStringListWriter<Traits>::~MinidumpStringListWriter() {
+}
+
+template <typename Traits>
+void MinidumpStringListWriter<Traits>::InitializeFromVector(
+    const std::vector<std::string>& vector) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(IsEmpty());
+
+  for (const std::string& string : vector) {
+    AddStringUTF8(string);
+  }
+}
+
+template <typename Traits>
+void MinidumpStringListWriter<Traits>::AddStringUTF8(
+    const std::string& string_utf8) {
+  auto string_writer = make_scoped_ptr(new MinidumpStringWriterType());
+  string_writer->SetUTF8(string_utf8);
+  AddChild(string_writer.Pass());
+}
+
+template <typename Traits>
+bool MinidumpStringListWriter<Traits>::IsUseful() const {
+  return !IsEmpty();
+}
+
+// Explicit template instantiation of the forms of MinidumpStringListWriter<>
+// used as type aliases.
+template class MinidumpStringListWriter<MinidumpStringListWriterUTF16Traits>;
+template class MinidumpStringListWriter<MinidumpStringListWriterUTF8Traits>;
+
 }  // namespace internal
 }  // namespace crashpad

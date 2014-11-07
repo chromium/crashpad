@@ -18,10 +18,12 @@
 #include <dbghelp.h>
 
 #include <string>
+#include <vector>
 
 #include "base/basictypes.h"
 #include "base/strings/string16.h"
 #include "minidump/minidump_extensions.h"
+#include "minidump/minidump_rva_list_writer.h"
 #include "minidump/minidump_writable.h"
 
 namespace crashpad {
@@ -123,6 +125,68 @@ class MinidumpUTF8StringWriter final
  private:
   DISALLOW_COPY_AND_ASSIGN(MinidumpUTF8StringWriter);
 };
+
+//! \cond
+
+struct MinidumpStringListWriterUTF16Traits {
+  using MinidumpStringWriterType = MinidumpUTF16StringWriter;
+};
+
+struct MinidumpStringListWriterUTF8Traits {
+  using MinidumpStringWriterType = MinidumpUTF8StringWriter;
+};
+
+//! \endcond
+
+//! \brief The writer for a MinidumpRVAList object in a minidump file,
+//!     containing a list of \a Traits::MinidumpStringWriterType objects.
+template <typename Traits>
+class MinidumpStringListWriter : public MinidumpRVAListWriter {
+ public:
+  using MinidumpStringWriterType = typename Traits::MinidumpStringWriterType;
+
+  MinidumpStringListWriter();
+  ~MinidumpStringListWriter() override;
+
+  //! \brief Adds a new \a Traits::MinidumpStringWriterType for each element in
+  //!     \a vector to the MinidumpRVAList.
+  //!
+  //! \param[in] vector The vector to use as source data. Each string in the
+  //!     vector is treated as a UTF-8 string, and a new string writer will be
+  //!     created for each one and made a child of the MinidumpStringListWriter.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromVector(const std::vector<std::string>& vector);
+
+  //! \brief Creates a new \a Traits::MinidumpStringWriterType object and adds
+  //!     it to the MinidumpRVAList.
+  //!
+  //! This object creates a new string writer with string value \a string_utf8,
+  //! takes ownership of it, and becomes its parent in the overall tree of
+  //! internal::MinidumpWritable objects.
+  //!
+  //! \note Valid in #kStateMutable.
+  void AddStringUTF8(const std::string& string_utf8);
+
+  //! \brief Determines whether the object is useful.
+  //!
+  //! A useful object is one that carries data that makes a meaningful
+  //! contribution to a minidump file. An object carrying entries would be
+  //! considered useful.
+  //!
+  //! \return `true` if the object is useful, `false` otherwise.
+  bool IsUseful() const;
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(MinidumpStringListWriter);
+};
+
+using MinidumpUTF16StringListWriter =
+    MinidumpStringListWriter<MinidumpStringListWriterUTF16Traits>;
+using MinidumpUTF8StringListWriter =
+    MinidumpStringListWriter<MinidumpStringListWriterUTF8Traits>;
 
 }  // namespace internal
 }  // namespace crashpad
