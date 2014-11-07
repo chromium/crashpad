@@ -15,7 +15,16 @@
 #include "minidump/minidump_file_writer.h"
 
 #include "base/logging.h"
+#include "minidump/minidump_crashpad_info_writer.h"
+#include "minidump/minidump_exception_writer.h"
+#include "minidump/minidump_memory_writer.h"
+#include "minidump/minidump_misc_info_writer.h"
+#include "minidump/minidump_module_writer.h"
+#include "minidump/minidump_system_info_writer.h"
+#include "minidump/minidump_thread_id_map.h"
+#include "minidump/minidump_thread_writer.h"
 #include "minidump/minidump_writer_util.h"
+#include "snapshot/process_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
 
@@ -34,6 +43,63 @@ MinidumpFileWriter::MinidumpFileWriter()
 }
 
 MinidumpFileWriter::~MinidumpFileWriter() {
+}
+
+void MinidumpFileWriter::InitializeFromSnapshot(
+    const ProcessSnapshot* process_snapshot) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK_EQ(header_.Signature, 0u);
+  DCHECK_EQ(header_.TimeDateStamp, 0u);
+  DCHECK_EQ(header_.Flags, MiniDumpNormal);
+  DCHECK(streams_.empty());
+
+  // This time is truncated to an integer number of seconds, not rounded, for
+  // compatibility with the truncation of process_snapshot->ProcessStartTime()
+  // done by MinidumpMiscInfoWriter::InitializeFromSnapshot(). Handling both
+  // timestamps in the same way allows the highest-fidelity computation of
+  // process uptime as the difference between the two values.
+  timeval snapshot_time;
+  process_snapshot->SnapshotTime(&snapshot_time);
+  SetTimestamp(snapshot_time.tv_sec);
+
+  const SystemSnapshot* system_snapshot = process_snapshot->System();
+  auto system_info = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  system_info->InitializeFromSnapshot(system_snapshot);
+  AddStream(system_info.Pass());
+
+  auto misc_info = make_scoped_ptr(new MinidumpMiscInfoWriter());
+  misc_info->InitializeFromSnapshot(process_snapshot);
+  AddStream(misc_info.Pass());
+
+  auto memory_list = make_scoped_ptr(new MinidumpMemoryListWriter());
+  auto thread_list = make_scoped_ptr(new MinidumpThreadListWriter());
+  thread_list->SetMemoryListWriter(memory_list.get());
+  MinidumpThreadIDMap thread_id_map;
+  thread_list->InitializeFromSnapshot(process_snapshot->Threads(),
+                                      &thread_id_map);
+  AddStream(thread_list.Pass());
+
+  const ExceptionSnapshot* exception_snapshot = process_snapshot->Exception();
+  if (exception_snapshot) {
+    auto exception = make_scoped_ptr(new MinidumpExceptionWriter());
+    exception->InitializeFromSnapshot(exception_snapshot, thread_id_map);
+    AddStream(exception.Pass());
+  }
+
+  auto module_list = make_scoped_ptr(new MinidumpModuleListWriter());
+  module_list->InitializeFromSnapshot(process_snapshot->Modules());
+  AddStream(module_list.Pass());
+
+  auto crashpad_info = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
+  crashpad_info->InitializeFromSnapshot(process_snapshot);
+
+  // Since the MinidumpCrashpadInfo stream is an extension, it’s safe to not add
+  // it to the minidump file if it wouldn’t carry any useful information.
+  if (crashpad_info->IsUseful()) {
+    AddStream(crashpad_info.Pass());
+  }
+
+  AddStream(memory_list.Pass());
 }
 
 void MinidumpFileWriter::SetTimestamp(time_t timestamp) {

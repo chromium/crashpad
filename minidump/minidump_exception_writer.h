@@ -49,7 +49,7 @@ class MinidumpExceptionWriter final : public internal::MinidumpStreamWriter {
   //!     this method, and it is not normally necessary to call any mutator
   //!     methods after this method.
   void InitializeFromSnapshot(const ExceptionSnapshot* exception_snapshot,
-                              const MinidumpThreadIDMap* thread_id_map);
+                              const MinidumpThreadIDMap& thread_id_map);
 
   //! \brief Arranges for MINIDUMP_EXCEPTION_STREAM::ThreadContext to point to
   //!     the CPU context to be written by \a context.

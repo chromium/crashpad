@@ -24,6 +24,12 @@
 #include "minidump/minidump_writable.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
+#include "snapshot/test/test_cpu_context.h"
+#include "snapshot/test/test_exception_snapshot.h"
+#include "snapshot/test/test_module_snapshot.h"
+#include "snapshot/test/test_process_snapshot.h"
+#include "snapshot/test/test_system_snapshot.h"
+#include "snapshot/test/test_thread_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/file/string_file_writer.h"
 
@@ -230,6 +236,185 @@ TEST(MinidumpFileWriter, ZeroLengthStream) {
   EXPECT_EQ(kStreamType, directory[0].StreamType);
   EXPECT_EQ(kStreamSize, directory[0].Location.DataSize);
   EXPECT_EQ(kStreamOffset, directory[0].Location.Rva);
+}
+
+TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
+  const uint32_t kSnapshotTime = 0x4976043c;
+  const timeval kSnapshotTimeval = { implicit_cast<time_t>(kSnapshotTime), 0 };
+
+  TestProcessSnapshot process_snapshot;
+  process_snapshot.SetSnapshotTime(kSnapshotTimeval);
+
+  auto system_snapshot = make_scoped_ptr(new TestSystemSnapshot());
+  system_snapshot->SetCPUArchitecture(kCPUArchitectureX86_64);
+  system_snapshot->SetOperatingSystem(SystemSnapshot::kOperatingSystemMacOSX);
+  process_snapshot.SetSystem(system_snapshot.Pass());
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.InitializeFromSnapshot(&process_snapshot);
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+
+  const MINIDUMP_DIRECTORY* directory;
+  const MINIDUMP_HEADER* header =
+      MinidumpHeaderAtStart(file_writer.string(), &directory);
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 5, kSnapshotTime));
+  ASSERT_TRUE(directory);
+
+  EXPECT_EQ(kMinidumpStreamTypeSystemInfo, directory[0].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_SYSTEM_INFO>(
+                  file_writer.string(), directory[0].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeMiscInfo, directory[1].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MISC_INFO_4>(
+                  file_writer.string(), directory[1].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeThreadList, directory[2].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
+                  file_writer.string(), directory[2].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeModuleList, directory[3].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MODULE_LIST>(
+                  file_writer.string(), directory[3].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeMemoryList, directory[4].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
+                  file_writer.string(), directory[4].Location));
+}
+
+TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
+  // In a 32-bit environment, this will give a “timestamp out of range” warning,
+  // but the test should complete without failure.
+  const uint32_t kSnapshotTime = 0xfd469ab8;
+  const timeval kSnapshotTimeval = { implicit_cast<time_t>(kSnapshotTime), 0 };
+
+  TestProcessSnapshot process_snapshot;
+  process_snapshot.SetSnapshotTime(kSnapshotTimeval);
+
+  auto system_snapshot = make_scoped_ptr(new TestSystemSnapshot());
+  system_snapshot->SetCPUArchitecture(kCPUArchitectureX86_64);
+  system_snapshot->SetOperatingSystem(SystemSnapshot::kOperatingSystemMacOSX);
+  process_snapshot.SetSystem(system_snapshot.Pass());
+
+  auto thread_snapshot = make_scoped_ptr(new TestThreadSnapshot());
+  InitializeCPUContextX86_64(thread_snapshot->MutableContext(), 5);
+  process_snapshot.AddThread(thread_snapshot.Pass());
+
+  auto exception_snapshot = make_scoped_ptr(new TestExceptionSnapshot());
+  InitializeCPUContextX86_64(exception_snapshot->MutableContext(), 11);
+  process_snapshot.SetException(exception_snapshot.Pass());
+
+  // The module does not have anything that needs to be represented in a
+  // MinidumpModuleCrashpadInfo structure, so no such structure is expected to
+  // be present, which will in turn suppress the addition of a
+  // MinidumpCrashpadInfo stream.
+  auto module_snapshot = make_scoped_ptr(new TestModuleSnapshot());
+  process_snapshot.AddModule(module_snapshot.Pass());
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.InitializeFromSnapshot(&process_snapshot);
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+
+  const MINIDUMP_DIRECTORY* directory;
+  const MINIDUMP_HEADER* header =
+      MinidumpHeaderAtStart(file_writer.string(), &directory);
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 6, kSnapshotTime));
+  ASSERT_TRUE(directory);
+
+  EXPECT_EQ(kMinidumpStreamTypeSystemInfo, directory[0].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_SYSTEM_INFO>(
+                  file_writer.string(), directory[0].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeMiscInfo, directory[1].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MISC_INFO_4>(
+                  file_writer.string(), directory[1].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeThreadList, directory[2].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
+                  file_writer.string(), directory[2].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeException, directory[3].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_EXCEPTION_STREAM>(
+                  file_writer.string(), directory[3].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeModuleList, directory[4].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MODULE_LIST>(
+                  file_writer.string(), directory[4].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeMemoryList, directory[5].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
+                  file_writer.string(), directory[5].Location));
+}
+
+TEST(MinidumpFileWriter, InitializeFromSnapshot_CrashpadInfo) {
+  const uint32_t kSnapshotTime = 0x15393bd3;
+  const timeval kSnapshotTimeval = { implicit_cast<time_t>(kSnapshotTime), 0 };
+
+  TestProcessSnapshot process_snapshot;
+  process_snapshot.SetSnapshotTime(kSnapshotTimeval);
+
+  auto system_snapshot = make_scoped_ptr(new TestSystemSnapshot());
+  system_snapshot->SetCPUArchitecture(kCPUArchitectureX86_64);
+  system_snapshot->SetOperatingSystem(SystemSnapshot::kOperatingSystemMacOSX);
+  process_snapshot.SetSystem(system_snapshot.Pass());
+
+  auto thread_snapshot = make_scoped_ptr(new TestThreadSnapshot());
+  InitializeCPUContextX86_64(thread_snapshot->MutableContext(), 5);
+  process_snapshot.AddThread(thread_snapshot.Pass());
+
+  auto exception_snapshot = make_scoped_ptr(new TestExceptionSnapshot());
+  InitializeCPUContextX86_64(exception_snapshot->MutableContext(), 11);
+  process_snapshot.SetException(exception_snapshot.Pass());
+
+  // The module needs an annotation for the MinidumpCrashpadInfo stream to be
+  // considered useful and be included.
+  auto module_snapshot = make_scoped_ptr(new TestModuleSnapshot());
+  std::vector<std::string> annotations_list(1, std::string("annotation"));
+  module_snapshot->SetAnnotationsVector(annotations_list);
+  process_snapshot.AddModule(module_snapshot.Pass());
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.InitializeFromSnapshot(&process_snapshot);
+
+  StringFileWriter file_writer;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+
+  const MINIDUMP_DIRECTORY* directory;
+  const MINIDUMP_HEADER* header =
+      MinidumpHeaderAtStart(file_writer.string(), &directory);
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 7, kSnapshotTime));
+  ASSERT_TRUE(directory);
+
+  EXPECT_EQ(kMinidumpStreamTypeSystemInfo, directory[0].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_SYSTEM_INFO>(
+                  file_writer.string(), directory[0].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeMiscInfo, directory[1].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MISC_INFO_4>(
+                  file_writer.string(), directory[1].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeThreadList, directory[2].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
+                  file_writer.string(), directory[2].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeException, directory[3].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_EXCEPTION_STREAM>(
+                  file_writer.string(), directory[3].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeModuleList, directory[4].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MODULE_LIST>(
+                  file_writer.string(), directory[4].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeCrashpadInfo, directory[5].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MinidumpCrashpadInfo>(
+                  file_writer.string(), directory[5].Location));
+
+  EXPECT_EQ(kMinidumpStreamTypeMemoryList, directory[6].StreamType);
+  EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
+                  file_writer.string(), directory[6].Location));
 }
 
 TEST(MinidumpFileWriterDeathTest, SameStreamType) {

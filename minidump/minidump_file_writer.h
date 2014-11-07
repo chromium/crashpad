@@ -30,6 +30,8 @@
 
 namespace crashpad {
 
+class ProcessSnapshot;
+
 //! \brief The root-level object in a minidump file.
 //!
 //! This object writes a MINIDUMP_HEADER and list of MINIDUMP_DIRECTORY entries
@@ -38,6 +40,34 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
  public:
   MinidumpFileWriter();
   ~MinidumpFileWriter() override;
+
+  //! \brief Initializes the MinidumpFileWriter and populates it with
+  //!     appropriate child streams based on \a process_snapshot.
+  //!
+  //! This method will add additional streams to the minidump file as children
+  //! of the MinidumpFileWriter object and as pointees of the top-level
+  //! MINIDUMP_DIRECTORY. To do so, it will obtain other snapshot information
+  //! from \a process_snapshot, such as a SystemSnapshot, lists of
+  //! ThreadSnapshot and ModuleSnapshot objects, and, if available, an
+  //! ExceptionSnapshot.
+  //!
+  //! The streams are added in the order that they are expected to be most
+  //! useful to minidump readers, to improve data locality and minimize seeking.
+  //! The streams are added in this order:
+  //!  - kMinidumpStreamTypeSystemInfo
+  //!  - kMinidumpStreamTypeMiscInfo
+  //!  - kMinidumpStreamTypeThreadList
+  //!  - kMinidumpStreamTypeException (if present)
+  //!  - kMinidumpStreamTypeModuleList
+  //!  - kMinidumpStreamTypeCrashpadInfo (if present)
+  //!  - kMinidumpStreamTypeMemoryList
+  //!
+  //! \param[in] process_snapshot The process snapshot to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(const ProcessSnapshot* process_snapshot);
 
   //! \brief Sets MINIDUMP_HEADER::Timestamp.
   //!

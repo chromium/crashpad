@@ -232,7 +232,7 @@ TEST(MinidumpExceptionWriter, InitializeFromSnapshot) {
   thread_id_map[kThreadID] = expect_exception.ThreadId;
 
   auto exception_writer = make_scoped_ptr(new MinidumpExceptionWriter());
-  exception_writer->InitializeFromSnapshot(&exception_snapshot, &thread_id_map);
+  exception_writer->InitializeFromSnapshot(&exception_snapshot, thread_id_map);
 
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.AddStream(exception_writer.Pass());
