@@ -25,12 +25,30 @@
 namespace crashpad {
 
 class MinidumpModuleCrashpadInfoListWriter;
+class ProcessSnapshot;
 
 //! \brief The writer for a MinidumpCrashpadInfo stream in a minidump file.
 class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpCrashpadInfoWriter();
   ~MinidumpCrashpadInfoWriter() override;
+
+  //! \brief Initializes MinidumpCrashpadInfo based on \a process_snapshot.
+  //!
+  //! This method may add additional structures to the minidump file as children
+  //! of the MinidumpCrashpadInfo stream. To do so, it may obtain other
+  //! snapshot information from \a process_snapshot, such as a list of
+  //! ModuleSnapshot objects used to initialize
+  //! MinidumpCrashpadInfo::module_list. Only data that is considered useful
+  //! will be included. For module information, usefulness is determined by
+  //! MinidumpModuleCrashpadInfoListWriter::IsUseful().
+  //!
+  //! \param[in] process_snapshot The process snapshot to use as source data.
+  //!
+  //! \note Valid in #kStateMutable. No mutator methods may be called before
+  //!     this method, and it is not normally necessary to call any mutator
+  //!     methods after this method.
+  void InitializeFromSnapshot(const ProcessSnapshot* process_snapshot);
 
   //! \brief Arranges for MinidumpCrashpadInfo::module_list to point to the
   //!     MinidumpModuleCrashpadInfoList object to be written by \a
@@ -42,6 +60,15 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
   //! \note Valid in #kStateMutable.
   void SetModuleList(
       scoped_ptr<MinidumpModuleCrashpadInfoListWriter> module_list);
+
+  //! \brief Determines whether the object is useful.
+  //!
+  //! A useful object is one that carries data that makes a meaningful
+  //! contribution to a minidump file. An object carrying children would be
+  //! considered useful.
+  //!
+  //! \return `true` if the object is useful, `false` otherwise.
+  bool IsUseful() const;
 
  protected:
   // MinidumpWritable:

@@ -161,4 +161,8 @@ void MinidumpModuleCrashpadInfoListWriter::AddModule(
   AddChild(module.Pass());
 }
 
+bool MinidumpModuleCrashpadInfoListWriter::IsUseful() const {
+  return !IsEmpty();
+}
+
 }  // namespace crashpad

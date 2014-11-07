@@ -34,6 +34,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyList) {
   StringFileWriter file_writer;
 
   MinidumpModuleCrashpadInfoListWriter module_list_writer;
+  EXPECT_FALSE(module_list_writer.IsUseful());
 
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
   ASSERT_EQ(sizeof(MinidumpModuleCrashpadInfoList),
@@ -52,6 +53,8 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyModule) {
       make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
   EXPECT_FALSE(module_writer->IsUseful());
   module_list_writer.AddModule(module_writer.Pass());
+
+  EXPECT_TRUE(module_list_writer.IsUseful());
 
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
   ASSERT_EQ(sizeof(MinidumpModuleCrashpadInfoList) +
@@ -104,6 +107,8 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
   module_writer->SetSimpleAnnotations(simple_string_dictionary_writer.Pass());
   EXPECT_TRUE(module_writer->IsUseful());
   module_list_writer.AddModule(module_writer.Pass());
+
+  EXPECT_TRUE(module_list_writer.IsUseful());
 
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
   ASSERT_EQ(sizeof(MinidumpModuleCrashpadInfoList) +
@@ -212,6 +217,8 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
       simple_string_dictionary_writer_2.Pass());
   EXPECT_TRUE(module_writer_2->IsUseful());
   module_list_writer.AddModule(module_writer_2.Pass());
+
+  EXPECT_TRUE(module_list_writer.IsUseful());
 
   EXPECT_TRUE(module_list_writer.WriteEverything(&file_writer));
 
@@ -335,6 +342,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
 
   MinidumpModuleCrashpadInfoListWriter module_list_writer;
   module_list_writer.InitializeFromSnapshot(module_snapshots);
+  EXPECT_TRUE(module_list_writer.IsUseful());
 
   StringFileWriter file_writer;
   ASSERT_TRUE(module_list_writer.WriteEverything(&file_writer));

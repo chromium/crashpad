@@ -41,8 +41,7 @@ class MinidumpModuleCrashpadInfoWriter final
   MinidumpModuleCrashpadInfoWriter();
   ~MinidumpModuleCrashpadInfoWriter() override;
 
-  //! \brief Initializes the MinidumpModuleCrashpadInfo based on \a
-  //!     module_snapshot.
+  //! \brief Initializes MinidumpModuleCrashpadInfo based on \a module_snapshot.
   //!
   //! Only data in \a module_snapshot that is considered useful will be
   //! included. For simple annotations, usefulness is determined by
@@ -141,6 +140,15 @@ class MinidumpModuleCrashpadInfoListWriter final
   //!
   //! \note Valid in #kStateMutable.
   void AddModule(scoped_ptr<MinidumpModuleCrashpadInfoWriter> module);
+
+  //! \brief Determines whether the object is useful.
+  //!
+  //! A useful object is one that carries data that makes a meaningful
+  //! contribution to a minidump file. An object carrying children would be
+  //! considered useful.
+  //!
+  //! \return `true` if the object is useful, `false` otherwise.
+  bool IsUseful() const;
 
  private:
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCrashpadInfoListWriter);

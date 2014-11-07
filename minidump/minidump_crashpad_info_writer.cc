@@ -16,6 +16,7 @@
 
 #include "base/logging.h"
 #include "minidump/minidump_module_crashpad_info_writer.h"
+#include "snapshot/process_snapshot.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {
@@ -26,6 +27,19 @@ MinidumpCrashpadInfoWriter::MinidumpCrashpadInfoWriter()
 }
 
 MinidumpCrashpadInfoWriter::~MinidumpCrashpadInfoWriter() {
+}
+
+void MinidumpCrashpadInfoWriter::InitializeFromSnapshot(
+    const ProcessSnapshot* process_snapshot) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!module_list_);
+
+  auto modules = make_scoped_ptr(new MinidumpModuleCrashpadInfoListWriter());
+  modules->InitializeFromSnapshot(process_snapshot->Modules());
+
+  if (modules->IsUseful()) {
+    SetModuleList(modules.Pass());
+  }
 }
 
 void MinidumpCrashpadInfoWriter::SetModuleList(
@@ -75,6 +89,10 @@ bool MinidumpCrashpadInfoWriter::WriteObject(FileWriterInterface* file_writer) {
 
 MinidumpStreamType MinidumpCrashpadInfoWriter::StreamType() const {
   return kMinidumpStreamTypeCrashpadInfo;
+}
+
+bool MinidumpCrashpadInfoWriter::IsUseful() const {
+  return module_list_;
 }
 
 }  // namespace crashpad
