@@ -34,6 +34,7 @@
 #include "util/mach/mach_extensions.h"
 #include "util/mach/symbolic_constants_mach.h"
 #include "util/mach/task_for_pid.h"
+#include "util/posix/drop_privileges.h"
 #include "util/stdlib/string_number_conversion.h"
 
 namespace crashpad {
@@ -502,6 +503,10 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
     }
     alternate_task_owner.reset(options.alternate_task);
   }
+
+  // This tool may have been installed as a setuid binary so that TaskForPID()
+  // could succeed. Drop any privileges now that they’re no longer necessary.
+  DropPrivileges();
 
   MachSendRightPool mach_send_right_pool;
 

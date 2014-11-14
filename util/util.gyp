@@ -84,6 +84,8 @@
         'numeric/in_range_cast.h',
         'numeric/int128.h',
         'numeric/safe_assignment.h',
+        'posix/drop_privileges.cc',
+        'posix/drop_privileges.h',
         'posix/process_info.h',
         'posix/process_info_mac.cc',
         'posix/symbolic_constants_posix.cc',
