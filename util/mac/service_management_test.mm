@@ -27,7 +27,7 @@
 #include "base/rand_util.h"
 #include "gtest/gtest.h"
 #include "util/misc/clock.h"
-#include "util/posix/process_util.h"
+#include "util/posix/process_info.h"
 #include "util/stdlib/objc.h"
 
 namespace crashpad {
@@ -37,18 +37,21 @@ namespace {
 // Ensures that the process with the specified PID is running, identifying it by
 // requiring that its argv[argc - 1] compare equal to last_arg.
 void ExpectProcessIsRunning(pid_t pid, std::string& last_arg) {
+  ProcessInfo process_info;
+  ASSERT_TRUE(process_info.Initialize(pid));
+
   // The process may not have called exec yet, so loop with a small delay while
   // looking for the cookie.
   int outer_tries = 10;
   std::vector<std::string> job_argv;
   while (outer_tries--) {
-    // If the process is in the middle of calling exec, ProcessArgumentsForPID
+    // If the process is in the middle of calling exec, process_info.Arguments()
     // may fail. Loop with a small retry delay while waiting for the expected
     // successful call.
     int inner_tries = 10;
     bool success;
     do {
-      success = ProcessArgumentsForPID(pid, &job_argv);
+      success = process_info.Arguments(&job_argv);
       if (success) {
         break;
       }
@@ -81,7 +84,8 @@ void ExpectProcessIsNotRunning(pid_t pid, std::string& last_arg) {
   int tries = 10;
   std::vector<std::string> job_argv;
   while (tries--) {
-    if (!ProcessArgumentsForPID(pid, &job_argv)) {
+    ProcessInfo process_info;
+    if (!process_info.Initialize(pid) || !process_info.Arguments(&job_argv)) {
       // The PID was not found.
       return;
     }

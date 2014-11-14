@@ -90,7 +90,7 @@ ProcessReader::Module::~Module() {
 }
 
 ProcessReader::ProcessReader()
-    : kern_proc_info_(),
+    : process_info_(),
       threads_(),
       modules_(),
       module_readers_(),
@@ -112,34 +112,17 @@ ProcessReader::~ProcessReader() {
 bool ProcessReader::Initialize(task_t task) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  pid_t pid;
-  kern_return_t kr = pid_for_task(task, &pid);
-  if (kr != KERN_SUCCESS) {
-    MACH_LOG(ERROR, kr) << "pid_for_task";
+  if (!process_info_.InitializeFromTask(task)) {
     return false;
   }
 
-  int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
-  size_t len = sizeof(kern_proc_info_);
-  if (sysctl(mib, arraysize(mib), &kern_proc_info_, &len, nullptr, 0) != 0) {
-    PLOG(ERROR) << "sysctl for pid " << pid;
-    return false;
-  }
-
-  DCHECK_EQ(kern_proc_info_.kp_proc.p_pid, pid);
-
-  is_64_bit_ = kern_proc_info_.kp_proc.p_flag & P_LP64;
+  is_64_bit_ = process_info_.Is64Bit();
 
   task_memory_.reset(new TaskMemory(task));
   task_ = task;
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
-}
-
-void ProcessReader::StartTime(timeval* start_time) const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  *start_time = kern_proc_info_.kp_proc.p_starttime;
 }
 
 bool ProcessReader::CPUTimes(timeval* user_time, timeval* system_time) const {

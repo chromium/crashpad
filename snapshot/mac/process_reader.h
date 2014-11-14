@@ -16,7 +16,6 @@
 #define CRASHPAD_SNAPSHOT_MAC_PROCESS_READER_H_
 
 #include <mach/mach.h>
-#include <sys/sysctl.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <time.h>
@@ -29,6 +28,7 @@
 #include "build/build_config.h"
 #include "util/mach/task_memory.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/posix/process_info.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
@@ -112,14 +112,20 @@ class ProcessReader {
   bool Is64Bit() const { return is_64_bit_; }
 
   //! \return The target task’s process ID.
-  pid_t ProcessID() const { return kern_proc_info_.kp_proc.p_pid; }
+  pid_t ProcessID() const { return process_info_.ProcessID(); }
 
   //! \return The target task’s parent process ID.
-  pid_t ParentProcessID() const { return kern_proc_info_.kp_eproc.e_ppid; }
+  pid_t ParentProcessID() const { return process_info_.ParentProcessID(); }
 
+  //! \brief Determines the target process’ start time.
+  //!
   //! \param[out] start_time The time that the process started.
-  void StartTime(timeval* start_time) const;
+  void StartTime(timeval* start_time) const {
+    process_info_.StartTime(start_time);
+  }
 
+  //! \brief Determines the target process’ execution time.
+  //!
   //! \param[out] user_time The amount of time the process has executed code in
   //!     user mode.
   //! \param[out] system_time The amount of time the process has executed code
@@ -206,7 +212,7 @@ class ProcessReader {
                      mach_vm_address_t* region_size,
                      unsigned int user_tag);
 
-  kinfo_proc kern_proc_info_;
+  ProcessInfo process_info_;
   std::vector<Thread> threads_;  // owns send rights
   std::vector<Module> modules_;
   PointerVector<MachOImageReader> module_readers_;
@@ -214,8 +220,9 @@ class ProcessReader {
   task_t task_;  // weak
   InitializationStateDcheck initialized_;
 
-  // This shadows a bit in kern_proc_info_, but it’s accessed so frequently that
-  // it’s given a first-class field to save a few bit operations on each access.
+  // This shadows a method of process_info_, but it’s accessed so frequently
+  // that it’s given a first-class field to save a call and a few bit operations
+  // on each access.
   bool is_64_bit_;
 
   bool initialized_threads_;
