@@ -56,6 +56,8 @@
         'mach/scoped_task_suspend.h',
         'mach/symbolic_constants_mach.cc',
         'mach/symbolic_constants_mach.h',
+        'mach/task_for_pid.cc',
+        'mach/task_for_pid.h',
         'mach/task_memory.cc',
         'mach/task_memory.h',
         'misc/clock.cc',

@@ -88,10 +88,14 @@ it is possible to verify that they are set as intended.
 *-p*, *--pid*='PID'::
 For operations on the task target, including *--set_handler* with 'TARGET' set
 to *task*, *--show_task*, and *--show_new_task*, operates on the task associated
-with process id 'PID' instead of the current task associated with the tool. This
-option may be restricted to use by the superuser or processes permitted by
-taskgated(8) to use +task_for_pid()+. When this option is supplied, 'COMMAND'
-must not be specified.
+with process id 'PID' instead of the current task associated with the tool. When
+this option is supplied, 'COMMAND' must not be specified.
++
+This option uses +task_for_pid()+ to access the process’ task port. This
+operation may be restricted to use by the superuser or processes permitted by
+taskgated(8). Consequently, this program must normally be invoked by root to use
+this option. It is possible to install this program as a setuid root executable
+to overcome this limitation.
 
 *-h*, *--show_host*::
 Shows the original host exception ports before making any changes requested by
@@ -177,7 +181,7 @@ The program specified by 'COMMAND' could not be found.
 
 == See Also
 
-exception_port_tool(1),
+catch_exception_tool(1),
 on_demand_service_tool(1)
 
 include::man_footer.ad[]

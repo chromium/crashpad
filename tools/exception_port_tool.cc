@@ -33,6 +33,7 @@
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/symbolic_constants_mach.h"
+#include "util/mach/task_for_pid.h"
 #include "util/stdlib/string_number_conversion.h"
 
 namespace crashpad {
@@ -319,7 +320,6 @@ void Usage(const std::string& me) {
 "      --show_bootstrap=SERVICE   look up and display a service registered with\n"
 "                                 the bootstrap server\n"
 "  -p, --pid=PID                  operate on PID instead of the current task\n"
-"                                 (must be superuser or permitted by taskgated)\n"
 "  -h, --show_host                display original host exception ports\n"
 "  -t, --show_task                display original task exception ports\n"
 "      --show_thread              display original thread exception ports\n"
@@ -496,12 +496,8 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
       return kExitFailure;
     }
 
-    // This is only expected to work as root or if taskgated approves.
-    // taskgated does not normally approve.
-    kern_return_t kr =
-        task_for_pid(mach_task_self(), options.pid, &options.alternate_task);
-    if (kr != KERN_SUCCESS) {
-      MACH_LOG(ERROR, kr) << "task_for_pid";
+    options.alternate_task = TaskForPID(options.pid);
+    if (options.alternate_task == TASK_NULL) {
       return kExitFailure;
     }
     alternate_task_owner.reset(options.alternate_task);
