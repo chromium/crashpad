@@ -63,6 +63,24 @@
           ],
         },
         {
+          'target_name': 'generate_dump',
+          'type': 'executable',
+          'dependencies': [
+            'tool_support',
+            '../compat/compat.gyp:compat',
+            '../minidump/minidump.gyp:minidump',
+            '../snapshot/snapshot.gyp:snapshot',
+            '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+            '../util/util.gyp:util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'generate_dump.cc',
+          ],
+        },
+        {
           'target_name': 'on_demand_service_tool',
           'type': 'executable',
           'dependencies': [
