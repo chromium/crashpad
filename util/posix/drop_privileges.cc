@@ -27,14 +27,30 @@ void DropPrivileges() {
   // Based on the POSIX.1-2008 2013 edition documentation for setreuid() and
   // setregid(), setreuid() and setregid() alone should be sufficient to drop
   // privileges. The standard specifies that the saved ID should be set to the
-  // effective ID whenever the real ID is not -1, and whenever the effective ID
+  // effective ID whenever the real ID is not -1, or whenever the effective ID
   // is set not equal to the real ID. This code never specifies -1, so the
   // setreuid() and setregid() alone should work according to the standard.
   //
   // In practice, on Mac OS X, setuid() and setgid() (or seteuid() and
-  // setegid()) must be called first, otherwise, setreuid() and setregid() do
+  // setegid()) must be called first. Otherwise, setreuid() and setregid() do
   // not alter the saved IDs, leaving open the possibility for future privilege
-  // escalation. This bug is filed as radar 18987552.
+  // escalation.
+  //
+  // The problem exists in 10.9.5 xnu-2422.115.4/bsd/kern/kern_prot.c
+  // setreuid(). Based on its comments, it purports to set the svuid to the new
+  // euid when the old svuid doesn’t match one of the new ruid and euid. This
+  // isn’t how POSIX.1-2008 says it should behave, but it should work for this
+  // function’s purposes. In reality, setreuid() doesn’t even do this: it sets
+  // the svuid to the old euid, which does not drop privileges when the old euid
+  // is different from the desired euid. The workaround of calling setuid() or
+  // seteuid() before setreuid() works because it sets the euid so that by the
+  // time setreuid() runs, the old euid is actually the value that ought to be
+  // set as the svuid. setregid() is similar. This bug is filed as radar
+  // 18987552.
+  //
+  // setuid() and setgid() alone will only set the saved IDs when running as
+  // root. When running a setuid non-root or setgid program, they do not alter
+  // the saved ID, and do not effect a permanent privilege drop.
   gid_t egid = getegid();
   PCHECK(setgid(gid) == 0) << "setgid";
   PCHECK(setregid(gid, gid) == 0) << "setregid";
@@ -65,6 +81,8 @@ void DropPrivileges() {
   // CAP_SETUID and CAP_SETGID capabilities, which may be granted to non-root
   // processes. Since the setresXid() interface is well-defined, it shouldn’t be
   // necessary to perform any additional checking anyway.
+  //
+  // TODO(mark): Drop CAP_SETUID and CAP_SETGID if present and non-root?
 #else
 #error Port this function to your system.
 #endif
