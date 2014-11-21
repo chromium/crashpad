@@ -17,7 +17,6 @@
 #include <algorithm>
 #include <vector>
 
-#include "base/basictypes.h"
 #include "base/logging.h"
 #include "util/mach/exc.h"
 #include "util/mach/exception_behaviors.h"

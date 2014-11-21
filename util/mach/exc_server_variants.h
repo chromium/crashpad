@@ -17,6 +17,7 @@
 
 #include <mach/mach.h>
 
+#include "build/build_config.h"
 #include "util/mach/mach_message_server.h"
 
 namespace crashpad {
@@ -112,6 +113,8 @@ class ExcServer : public MachMessageServer::Interface {
 
  private:
   Interface* interface_;  // weak
+
+  DISALLOW_COPY_AND_ASSIGN(ExcServer);
 };
 
 //! \brief A server interface for the `mach_exc` Mach subsystem.
@@ -199,6 +202,8 @@ class MachExcServer : public MachMessageServer::Interface {
 
  private:
   Interface* interface_;  // weak
+
+  DISALLOW_COPY_AND_ASSIGN(MachExcServer);
 };
 
 //! \brief A server interface for the `exc` Mach subsystem, simplified to have
@@ -280,6 +285,8 @@ class SimplifiedExcServer : public ExcServer, public ExcServer::Interface {
 
  private:
   Interface* interface_;  // weak
+
+  DISALLOW_COPY_AND_ASSIGN(SimplifiedExcServer);
 };
 
 //! \brief A server interface for the `mach_exc` Mach subsystem, simplified to
@@ -371,6 +378,8 @@ class SimplifiedMachExcServer : public MachExcServer,
 
  private:
   Interface* interface_;  // weak
+
+  DISALLOW_COPY_AND_ASSIGN(SimplifiedMachExcServer);
 };
 
 }  // namespace internal
@@ -423,6 +432,8 @@ class UniversalMachExcServer
  private:
   internal::SimplifiedExcServer exc_server_;
   internal::SimplifiedMachExcServer mach_exc_server_;
+
+  DISALLOW_COPY_AND_ASSIGN(UniversalMachExcServer);
 };
 
 //! \brief Recovers the original exception, first exception code, and signal

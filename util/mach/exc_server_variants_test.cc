@@ -18,7 +18,6 @@
 #include <signal.h>
 #include <string.h>
 
-#include "base/basictypes.h"
 #include "base/strings/stringprintf.h"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
