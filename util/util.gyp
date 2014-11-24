@@ -40,6 +40,7 @@
         'mac/mac_util.h',
         'mac/service_management.cc',
         'mac/service_management.h',
+        'mach/child_port_types.h',
         'mach/exc_client_variants.cc',
         'mach/exc_client_variants.h',
         'mach/exc_server_variants.cc',
@@ -105,6 +106,26 @@
       'conditions': [
         ['OS=="mac"', {
           'actions': [
+            {
+              'action_name': 'mig child_port.defs',
+              'variables': {
+                'child_port_defs_file': 'mach/child_port.defs',
+              },
+              'inputs': [
+                'mach/mig.py',
+                '<(child_port_defs_file)',
+              ],
+              'outputs': [
+                '<(INTERMEDIATE_DIR)/util/mach/child_portUser.c',
+                '<(INTERMEDIATE_DIR)/util/mach/child_portServer.c',
+                '<(INTERMEDIATE_DIR)/util/mach/child_port.h',
+                '<(INTERMEDIATE_DIR)/util/mach/child_portServer.h',
+              ],
+              'action': [
+                'python', '<@(_inputs)', '<@(_outputs)'
+              ],
+              'process_outputs_as_sources': 1,
+            },
             {
               'action_name': 'mig exc.defs',
               'inputs': [
