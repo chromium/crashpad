@@ -65,7 +65,7 @@ const mach_msg_type_number_t kThreadStateFlavorCount =
 void InitializeMachMsgPortDescriptor(mach_msg_port_descriptor_t* descriptor,
                                      mach_port_t port) {
   descriptor->name = port;
-  descriptor->disposition = MACH_MSG_TYPE_MOVE_SEND;
+  descriptor->disposition = MACH_MSG_TYPE_PORT_SEND;
   descriptor->type = MACH_MSG_PORT_DESCRIPTOR;
 }
 
@@ -89,7 +89,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseRequest {
   void InitializeForTesting() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
-        MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE) |
+        MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND) |
         MACH_MSGH_BITS_COMPLEX;
     Head.msgh_size = sizeof(*this);
     Head.msgh_remote_port = kClientRemotePort;
@@ -122,7 +122,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseReply {
   // message ID to be checked.
   void Verify(exception_behavior_t behavior) {
     EXPECT_EQ(implicit_cast<mach_msg_bits_t>(
-                  MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0)),
+                  MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND_ONCE, 0)),
               Head.msgh_bits);
     EXPECT_EQ(sizeof(*this), Head.msgh_size);
     EXPECT_EQ(kClientRemotePort, Head.msgh_remote_port);
@@ -157,7 +157,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateRequest {
   void InitializeForTesting() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
-        MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE);
+        MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND);
     Head.msgh_size = sizeof(*this);
     Head.msgh_remote_port = kClientRemotePort;
     Head.msgh_local_port = kServerLocalPort;
@@ -196,7 +196,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateReply {
   // allows the message ID to be checked.
   void Verify(exception_behavior_t behavior) {
     EXPECT_EQ(implicit_cast<mach_msg_bits_t>(
-                  MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0)),
+                  MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND_ONCE, 0)),
               Head.msgh_bits);
     EXPECT_EQ(sizeof(*this), Head.msgh_size);
     EXPECT_EQ(kClientRemotePort, Head.msgh_remote_port);
@@ -242,7 +242,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateIdentityRequest {
   void InitializeForTesting() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
-        MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE) |
+        MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND) |
         MACH_MSGH_BITS_COMPLEX;
     Head.msgh_size = sizeof(*this);
     Head.msgh_remote_port = kClientRemotePort;
@@ -282,7 +282,7 @@ struct __attribute__((packed, aligned(4))) MachExceptionRaiseRequest {
   void InitializeForTesting() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
-        MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE) |
+        MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND) |
         MACH_MSGH_BITS_COMPLEX;
     Head.msgh_size = sizeof(*this);
     Head.msgh_remote_port = kClientRemotePort;
@@ -316,7 +316,7 @@ struct __attribute__((packed, aligned(4))) MachExceptionRaiseStateRequest {
   void InitializeForTesting() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
-        MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE);
+        MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND);
     Head.msgh_size = sizeof(*this);
     Head.msgh_remote_port = kClientRemotePort;
     Head.msgh_local_port = kServerLocalPort;
@@ -356,7 +356,7 @@ struct __attribute__((packed,
   void InitializeForTesting() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
-        MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE) |
+        MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND) |
         MACH_MSGH_BITS_COMPLEX;
     Head.msgh_size = sizeof(*this);
     Head.msgh_remote_port = kClientRemotePort;
@@ -392,7 +392,7 @@ struct __attribute__((packed, aligned(4))) InvalidRequest
   void InitializeForTesting(mach_msg_id_t id) {
     memset(this, 0xa5, sizeof(*this));
     header.msgh_bits =
-        MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE);
+        MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND);
     header.msgh_size = sizeof(*this);
     header.msgh_remote_port = kClientRemotePort;
     header.msgh_local_port = kServerLocalPort;
@@ -409,7 +409,7 @@ struct __attribute__((packed, aligned(4))) BadIDErrorReply
 
   void Verify(mach_msg_id_t id) {
     EXPECT_EQ(implicit_cast<mach_msg_bits_t>(
-                  MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0)),
+                  MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND_ONCE, 0)),
               Head.msgh_bits);
     EXPECT_EQ(sizeof(*this), Head.msgh_size);
     EXPECT_EQ(kClientRemotePort, Head.msgh_remote_port);
