@@ -77,16 +77,7 @@ void InitializeMachMsgPortDescriptor(mach_msg_port_descriptor_t* descriptor,
 // object-oriented fashion.
 
 struct __attribute__((packed, aligned(4))) ExceptionRaiseRequest {
-  mach_msg_header_t Head;
-  mach_msg_body_t msgh_body;
-  mach_msg_port_descriptor_t thread;
-  mach_msg_port_descriptor_t task;
-  NDR_record_t NDR;
-  exception_type_t exception;
-  mach_msg_type_number_t codeCnt;
-  integer_t code[2];
-
-  void InitializeForTesting() {
+  ExceptionRaiseRequest() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND) |
@@ -104,14 +95,19 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseRequest {
     code[0] = kTestExceptonCodes[0];
     code[1] = kTestExceptonCodes[1];
   }
+
+  mach_msg_header_t Head;
+  mach_msg_body_t msgh_body;
+  mach_msg_port_descriptor_t thread;
+  mach_msg_port_descriptor_t task;
+  NDR_record_t NDR;
+  exception_type_t exception;
+  mach_msg_type_number_t codeCnt;
+  integer_t code[2];
 };
 
 struct __attribute__((packed, aligned(4))) ExceptionRaiseReply {
-  mach_msg_header_t Head;
-  NDR_record_t NDR;
-  kern_return_t RetCode;
-
-  void InitializeForTesting() {
+  ExceptionRaiseReply() {
     memset(this, 0x5a, sizeof(*this));
     RetCode = KERN_FAILURE;
   }
@@ -142,19 +138,14 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseReply {
     EXPECT_EQ(0, memcmp(&NDR, &NDR_record, sizeof(NDR)));
     EXPECT_EQ(KERN_SUCCESS, RetCode);
   }
+
+  mach_msg_header_t Head;
+  NDR_record_t NDR;
+  kern_return_t RetCode;
 };
 
 struct __attribute__((packed, aligned(4))) ExceptionRaiseStateRequest {
-  mach_msg_header_t Head;
-  NDR_record_t NDR;
-  exception_type_t exception;
-  mach_msg_type_number_t codeCnt;
-  integer_t code[2];
-  int flavor;
-  mach_msg_type_number_t old_stateCnt;
-  natural_t old_state[THREAD_STATE_MAX];
-
-  void InitializeForTesting() {
+  ExceptionRaiseStateRequest() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND);
@@ -174,17 +165,19 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateRequest {
     // may be smaller than the maximum that it can carry.
     Head.msgh_size += sizeof(old_state[0]) * old_stateCnt - sizeof(old_state);
   }
+
+  mach_msg_header_t Head;
+  NDR_record_t NDR;
+  exception_type_t exception;
+  mach_msg_type_number_t codeCnt;
+  integer_t code[2];
+  int flavor;
+  mach_msg_type_number_t old_stateCnt;
+  natural_t old_state[THREAD_STATE_MAX];
 };
 
 struct __attribute__((packed, aligned(4))) ExceptionRaiseStateReply {
-  mach_msg_header_t Head;
-  NDR_record_t NDR;
-  kern_return_t RetCode;
-  int flavor;
-  mach_msg_type_number_t new_stateCnt;
-  natural_t new_state[THREAD_STATE_MAX];
-
-  void InitializeForTesting() {
+  ExceptionRaiseStateReply() {
     memset(this, 0x5a, sizeof(*this));
     RetCode = KERN_FAILURE;
   }
@@ -224,22 +217,17 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateReply {
     EXPECT_EQ(kThreadStateFlavor, flavor);
     EXPECT_EQ(arraysize(new_state), new_stateCnt);
   }
+
+  mach_msg_header_t Head;
+  NDR_record_t NDR;
+  kern_return_t RetCode;
+  int flavor;
+  mach_msg_type_number_t new_stateCnt;
+  natural_t new_state[THREAD_STATE_MAX];
 };
 
 struct __attribute__((packed, aligned(4))) ExceptionRaiseStateIdentityRequest {
-  mach_msg_header_t Head;
-  mach_msg_body_t msgh_body;
-  mach_msg_port_descriptor_t thread;
-  mach_msg_port_descriptor_t task;
-  NDR_record_t NDR;
-  exception_type_t exception;
-  mach_msg_type_number_t codeCnt;
-  integer_t code[2];
-  int flavor;
-  mach_msg_type_number_t old_stateCnt;
-  natural_t old_state[THREAD_STATE_MAX];
-
-  void InitializeForTesting() {
+  ExceptionRaiseStateIdentityRequest() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND) |
@@ -263,13 +251,7 @@ struct __attribute__((packed, aligned(4))) ExceptionRaiseStateIdentityRequest {
     // may be smaller than the maximum that it can carry.
     Head.msgh_size += sizeof(old_state[0]) * old_stateCnt - sizeof(old_state);
   }
-};
 
-// The reply messages for exception_raise_state and
-// exception_raise_state_identity are identical.
-using ExceptionRaiseStateIdentityReply = ExceptionRaiseStateReply;
-
-struct __attribute__((packed, aligned(4))) MachExceptionRaiseRequest {
   mach_msg_header_t Head;
   mach_msg_body_t msgh_body;
   mach_msg_port_descriptor_t thread;
@@ -277,9 +259,18 @@ struct __attribute__((packed, aligned(4))) MachExceptionRaiseRequest {
   NDR_record_t NDR;
   exception_type_t exception;
   mach_msg_type_number_t codeCnt;
-  int64_t code[2];
+  integer_t code[2];
+  int flavor;
+  mach_msg_type_number_t old_stateCnt;
+  natural_t old_state[THREAD_STATE_MAX];
+};
 
-  void InitializeForTesting() {
+// The reply messages for exception_raise_state and
+// exception_raise_state_identity are identical.
+using ExceptionRaiseStateIdentityReply = ExceptionRaiseStateReply;
+
+struct __attribute__((packed, aligned(4))) MachExceptionRaiseRequest {
+  MachExceptionRaiseRequest() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND) |
@@ -297,6 +288,15 @@ struct __attribute__((packed, aligned(4))) MachExceptionRaiseRequest {
     code[0] = kTestMachExceptionCodes[0];
     code[1] = kTestMachExceptionCodes[1];
   }
+
+  mach_msg_header_t Head;
+  mach_msg_body_t msgh_body;
+  mach_msg_port_descriptor_t thread;
+  mach_msg_port_descriptor_t task;
+  NDR_record_t NDR;
+  exception_type_t exception;
+  mach_msg_type_number_t codeCnt;
+  int64_t code[2];
 };
 
 // The reply messages for exception_raise and mach_exception_raise are
@@ -304,16 +304,7 @@ struct __attribute__((packed, aligned(4))) MachExceptionRaiseRequest {
 using MachExceptionRaiseReply = ExceptionRaiseReply;
 
 struct __attribute__((packed, aligned(4))) MachExceptionRaiseStateRequest {
-  mach_msg_header_t Head;
-  NDR_record_t NDR;
-  exception_type_t exception;
-  mach_msg_type_number_t codeCnt;
-  int64_t code[2];
-  int flavor;
-  mach_msg_type_number_t old_stateCnt;
-  natural_t old_state[THREAD_STATE_MAX];
-
-  void InitializeForTesting() {
+  MachExceptionRaiseStateRequest() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND);
@@ -333,6 +324,15 @@ struct __attribute__((packed, aligned(4))) MachExceptionRaiseStateRequest {
     // may be smaller than the maximum that it can carry.
     Head.msgh_size += sizeof(old_state[0]) * old_stateCnt - sizeof(old_state);
   }
+
+  mach_msg_header_t Head;
+  NDR_record_t NDR;
+  exception_type_t exception;
+  mach_msg_type_number_t codeCnt;
+  int64_t code[2];
+  int flavor;
+  mach_msg_type_number_t old_stateCnt;
+  natural_t old_state[THREAD_STATE_MAX];
 };
 
 // The reply messages for exception_raise_state and mach_exception_raise_state
@@ -341,19 +341,7 @@ using MachExceptionRaiseStateReply = ExceptionRaiseStateReply;
 
 struct __attribute__((packed,
                       aligned(4))) MachExceptionRaiseStateIdentityRequest {
-  mach_msg_header_t Head;
-  mach_msg_body_t msgh_body;
-  mach_msg_port_descriptor_t thread;
-  mach_msg_port_descriptor_t task;
-  NDR_record_t NDR;
-  exception_type_t exception;
-  mach_msg_type_number_t codeCnt;
-  int64_t code[2];
-  int flavor;
-  mach_msg_type_number_t old_stateCnt;
-  natural_t old_state[THREAD_STATE_MAX];
-
-  void InitializeForTesting() {
+  MachExceptionRaiseStateIdentityRequest() {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND) |
@@ -377,6 +365,18 @@ struct __attribute__((packed,
     // may be smaller than the maximum that it can carry.
     Head.msgh_size += sizeof(old_state[0]) * old_stateCnt - sizeof(old_state);
   }
+
+  mach_msg_header_t Head;
+  mach_msg_body_t msgh_body;
+  mach_msg_port_descriptor_t thread;
+  mach_msg_port_descriptor_t task;
+  NDR_record_t NDR;
+  exception_type_t exception;
+  mach_msg_type_number_t codeCnt;
+  int64_t code[2];
+  int flavor;
+  mach_msg_type_number_t old_stateCnt;
+  natural_t old_state[THREAD_STATE_MAX];
 };
 
 // The reply messages for exception_raise_state_identity and
@@ -387,9 +387,8 @@ using MachExceptionRaiseStateIdentityReply = ExceptionRaiseStateIdentityReply;
 // UniversalMachExcServer deals appropriately with messages that it does not
 // understand: messages with an unknown Head.msgh_id.
 
-struct __attribute__((packed, aligned(4))) InvalidRequest
-    : public mach_msg_empty_send_t {
-  void InitializeForTesting(mach_msg_id_t id) {
+struct InvalidRequest : public mach_msg_empty_send_t {
+  explicit InvalidRequest(mach_msg_id_t id) {
     memset(this, 0xa5, sizeof(*this));
     header.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_PORT_SEND_ONCE, MACH_MSG_TYPE_PORT_SEND);
@@ -400,9 +399,8 @@ struct __attribute__((packed, aligned(4))) InvalidRequest
   }
 };
 
-struct __attribute__((packed, aligned(4))) BadIDErrorReply
-    : public mig_reply_error_t {
-  void InitializeForTesting() {
+struct BadIDErrorReply : public mig_reply_error_t {
+  BadIDErrorReply() {
     memset(this, 0x5a, sizeof(*this));
     RetCode = KERN_FAILURE;
   }
@@ -551,11 +549,9 @@ TEST(ExcServerVariants, MockExceptionRaise) {
 
   ExceptionRaiseRequest request;
   EXPECT_LE(sizeof(request), server.MachMessageServerRequestSize());
-  request.InitializeForTesting();
 
   ExceptionRaiseReply reply;
   EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
-  reply.InitializeForTesting();
 
   const exception_behavior_t kExceptionBehavior = EXCEPTION_DEFAULT;
 
@@ -590,11 +586,9 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
 
   ExceptionRaiseStateRequest request;
   EXPECT_LE(sizeof(request), server.MachMessageServerRequestSize());
-  request.InitializeForTesting();
 
   ExceptionRaiseStateReply reply;
   EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
-  reply.InitializeForTesting();
 
   const exception_behavior_t kExceptionBehavior = EXCEPTION_STATE;
 
@@ -633,11 +627,9 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
 
   ExceptionRaiseStateIdentityRequest request;
   EXPECT_LE(sizeof(request), server.MachMessageServerRequestSize());
-  request.InitializeForTesting();
 
   ExceptionRaiseStateIdentityReply reply;
   EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
-  reply.InitializeForTesting();
 
   const exception_behavior_t kExceptionBehavior = EXCEPTION_STATE_IDENTITY;
 
@@ -673,11 +665,9 @@ TEST(ExcServerVariants, MockMachExceptionRaise) {
 
   MachExceptionRaiseRequest request;
   EXPECT_LE(sizeof(request), server.MachMessageServerRequestSize());
-  request.InitializeForTesting();
 
   MachExceptionRaiseReply reply;
   EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
-  reply.InitializeForTesting();
 
   const exception_behavior_t kExceptionBehavior =
       EXCEPTION_DEFAULT | MACH_EXCEPTION_CODES;
@@ -714,11 +704,9 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
 
   MachExceptionRaiseStateRequest request;
   EXPECT_LE(sizeof(request), server.MachMessageServerRequestSize());
-  request.InitializeForTesting();
 
   MachExceptionRaiseStateReply reply;
   EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
-  reply.InitializeForTesting();
 
   const exception_behavior_t kExceptionBehavior =
       EXCEPTION_STATE | MACH_EXCEPTION_CODES;
@@ -758,11 +746,9 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
 
   MachExceptionRaiseStateIdentityRequest request;
   EXPECT_LE(sizeof(request), server.MachMessageServerRequestSize());
-  request.InitializeForTesting();
 
   MachExceptionRaiseStateIdentityReply reply;
   EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
-  reply.InitializeForTesting();
 
   const exception_behavior_t kExceptionBehavior =
       EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES;
@@ -835,13 +821,11 @@ TEST(ExcServerVariants, MockUnknownID) {
 
     SCOPED_TRACE(base::StringPrintf("unknown id %d", id));
 
-    InvalidRequest request;
+    InvalidRequest request(id);
     EXPECT_LE(sizeof(request), server.MachMessageServerRequestSize());
-    request.InitializeForTesting(id);
 
     BadIDErrorReply reply;
     EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
-    reply.InitializeForTesting();
 
     bool destroy_complex_request = false;
     EXPECT_FALSE(server.MachMessageServerFunction(

@@ -67,15 +67,11 @@ struct __attribute__((packed, aligned(4))) ChildPortCheckInRequest {
   child_port_token_t token;
 };
 
-struct __attribute__((packed, aligned(4))) MIGReply {
+struct MIGReply : public mig_reply_error_t {
   MIGReply() {
     memset(this, 0x5a, sizeof(*this));
     RetCode = KERN_FAILURE;
   }
-
-  mach_msg_header_t Head;
-  NDR_record_t NDR;
-  kern_return_t RetCode;
 
   void Verify() {
     EXPECT_EQ(implicit_cast<mach_msg_bits_t>(MACH_MSGH_BITS(0, 0)),
