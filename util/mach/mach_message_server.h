@@ -103,6 +103,32 @@ class MachMessageServer {
     kNonblocking,
   };
 
+  //! \brief Determines how to handle the reception of messages larger than the
+  //!     size of the buffer allocated to store them.
+  enum ReceiveLarge {
+    //! \brief Return `MACH_RCV_TOO_LARGE` upon receipt of a large message.
+    //!
+    //! This mimics the default behavior of `mach_msg_server()` when `options`
+    //! does not contain `MACH_RCV_LARGE`.
+    kReceiveLargeError = 0,
+
+    //! \brief Ignore large messages, and attempt to receive the next queued
+    //!     message upon encountering one.
+    //!
+    //! When a large message is encountered, a warning will be logged.
+    //!
+    //! `mach_msg()` will be called to receive the next message after a large
+    //! one even when accompanied by a #Persistent value of #kOneShot.
+    kReceiveLargeIgnore,
+
+    //! \brief Allocate an appropriately-sized buffer upon encountering a large
+    //!     message. The buffer will be used to receive the message. This
+    //!
+    //! This mimics the behavior of `mach_msg_server()` when `options` contains
+    //! `MACH_RCV_LARGE`.
+    kReceiveLargeResize,
+  };
+
   //! \brief Runs a Mach message server to handle a Mach RPC request for MIG
   //!     servers.
   //!
@@ -124,9 +150,12 @@ class MachMessageServer {
   //!     handle the request and populate the reply.
   //! \param[in] receive_port The port on which to receive the request message.
   //! \param[in] options Options suitable for mach_msg. For the defaults, use
-  //!     `MACH_MSG_OPTION_NONE`.
+  //!     `MACH_MSG_OPTION_NONE`. `MACH_RCV_LARGE` when specified here is
+  //!     ignored. Set \a receive_large to #kReceiveLargeResize instead.
   //! \param[in] persistent Chooses between one-shot and persistent operation.
   //! \param[in] nonblocking Chooses between blocking and nonblocking operation.
+  //! \param[in] receive_large Determines the behavior upon encountering a
+  //!     message larger than the receive buffer’s size.
   //! \param[in] timeout_ms When \a nonblocking is `false`, the the maximum
   //!     duration that this entire function will run, in milliseconds, or
   //!     `MACH_MSG_TIMEOUT_NONE` to specify no timeout (infinite waiting). When
@@ -146,6 +175,7 @@ class MachMessageServer {
                                mach_msg_options_t options,
                                Persistent persistent,
                                Nonblocking nonblocking,
+                               ReceiveLarge receive_large,
                                mach_msg_timeout_t timeout_ms);
 
  private:

@@ -58,6 +58,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
           server_options(MACH_MSG_OPTION_NONE),
           server_persistent(MachMessageServer::kOneShot),
           server_nonblocking(MachMessageServer::kBlocking),
+          server_receive_large(MachMessageServer::kReceiveLargeError),
           server_timeout_ms(MACH_MSG_TIMEOUT_NONE),
           server_mig_retcode(KERN_SUCCESS),
           server_destroy_complex(true),
@@ -92,6 +93,9 @@ class TestMachMessageServer : public MachMessageServer::Interface,
 
     // Whether the server should run in blocking or nonblocking mode.
     MachMessageServer::Nonblocking server_nonblocking;
+
+    // The strategy for handling large messages.
+    MachMessageServer::ReceiveLarge server_receive_large;
 
     // The server’s timeout.
     mach_msg_timeout_t server_timeout_ms;
@@ -134,9 +138,8 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     bool client_send_complex;
 
     // true if the client should send a larger message than the server has
-    // allocated space to receive. If server_options contains MACH_RCV_LARGE,
-    // the server will resize its buffer to receive the message. Otherwise, the
-    // message will be destroyed and the server will return MACH_RCV_TOO_LARGE.
+    // allocated space to receive. The server’s response is directed by
+    // server_receive_large.
     bool client_send_large;
 
     // The type of reply port that the client should provide in its request’s
@@ -342,6 +345,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
                                            options_.server_options,
                                            options_.server_persistent,
                                            options_.server_nonblocking,
+                                           options_.server_receive_large,
                                            options_.server_timeout_ms)))
         << MachErrorMessage(kr, "MachMessageServer");
 
@@ -802,11 +806,11 @@ TEST(MachMessageServer, ComplexNotDestroyedNoReply) {
   test_mach_message_server.Test();
 }
 
-TEST(MachMessageServer, LargeUnexpected) {
+TEST(MachMessageServer, ReceiveLargeError) {
   // The client sends a request to the server that is larger than the server is
-  // expecting. The server did not specify MACH_RCV_LARGE in its options, so the
-  // request is destroyed and the server returns a MACH_RCV_TOO_LARGE error. The
-  // client does not receive a reply.
+  // expecting. server_receive_large is kReceiveLargeError, so the request is
+  // destroyed and the server returns a MACH_RCV_TOO_LARGE error. The client
+  // does not receive a reply.
   TestMachMessageServer::Options options;
   options.expect_server_result = MACH_RCV_TOO_LARGE;
   options.expect_server_transaction_count = 0;
@@ -816,14 +820,31 @@ TEST(MachMessageServer, LargeUnexpected) {
   test_mach_message_server.Test();
 }
 
-TEST(MachMessageServer, LargeExpected) {
+TEST(MachMessageServer, ReceiveLargeRetry) {
   // The client sends a request to the server that is larger than the server is
-  // initially expecting. The server did specify MACH_RCV_LARGE in its options,
-  // so a new buffer is allocated to receive the message. The server receives
-  // the large request message, processes it, and returns a reply to the client.
+  // initially expecting. server_receive_large is kReceiveLargeResize, so a new
+  // buffer is allocated to receive the message. The server receives the large
+  // request message, processes it, and returns a reply to the client.
   TestMachMessageServer::Options options;
-  options.server_options = MACH_RCV_LARGE;
+  options.server_receive_large = MachMessageServer::kReceiveLargeResize;
   options.client_send_large = true;
+  TestMachMessageServer test_mach_message_server(options);
+  test_mach_message_server.Test();
+}
+
+TEST(MachMessageServer, ReceiveLargeIgnore) {
+  // The client sends a request to the server that is larger than the server is
+  // expecting. server_receive_large is kReceiveLargeIgnore, so the request is
+  // destroyed but the server does not consider this an error. The server is
+  // running in blocking mode with a timeout, and continues to wait for a
+  // message until it times out. The client does not receive a reply.
+  TestMachMessageServer::Options options;
+  options.server_receive_large = MachMessageServer::kReceiveLargeIgnore;
+  options.server_timeout_ms = 10;
+  options.expect_server_result = MACH_RCV_TIMED_OUT;
+  options.expect_server_transaction_count = 0;
+  options.client_send_large = true;
+  options.client_expect_reply = false;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
 }

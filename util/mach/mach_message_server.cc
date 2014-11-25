@@ -16,6 +16,7 @@
 
 #include <limits>
 
+#include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_vm.h"
 #include "util/misc/clock.h"
 
@@ -82,6 +83,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
                                          mach_msg_options_t options,
                                          Persistent persistent,
                                          Nonblocking nonblocking,
+                                         ReceiveLarge receive_large,
                                          mach_msg_timeout_t timeout_ms) {
   options &= ~(MACH_RCV_MSG | MACH_SEND_MSG);
 
@@ -101,10 +103,16 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
     deadline = 0;
   }
 
+  if (receive_large == kReceiveLargeResize) {
+    options |= MACH_RCV_LARGE;
+  } else {
+    options &= ~MACH_RCV_LARGE;
+  }
+
   mach_msg_size_t trailer_alloc = REQUESTED_TRAILER_SIZE(options);
   mach_msg_size_t max_request_size = interface->MachMessageServerRequestSize();
   mach_msg_size_t request_alloc = round_page(max_request_size + trailer_alloc);
-  mach_msg_size_t request_size = (options & MACH_RCV_LARGE)
+  mach_msg_size_t request_size = (receive_large == kReceiveLargeResize)
                                      ? request_alloc
                                      : max_request_size + trailer_alloc;
 
@@ -135,6 +143,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
                                                    this_request_alloc);
       request_header = reinterpret_cast<mach_msg_header_t*>(request_addr);
 
+      bool run_mach_msg_receive = false;
       do {
         // If |options| contains MACH_RCV_INTERRUPT, retry mach_msg() in a loop
         // when it returns MACH_RCV_INTERRUPTED to recompute |remaining_ms|
@@ -153,11 +162,19 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
                       receive_port,
                       remaining_ms,
                       MACH_PORT_NULL);
-      } while (kr == MACH_RCV_INTERRUPTED);
+
+        if (kr == MACH_RCV_TOO_LARGE && receive_large == kReceiveLargeIgnore) {
+          MACH_LOG(WARNING, kr) << "mach_msg: ignoring large message";
+          run_mach_msg_receive = true;
+        } else if (kr == MACH_RCV_INTERRUPTED) {
+          run_mach_msg_receive = true;
+        }
+      } while (run_mach_msg_receive);
 
       if (kr == MACH_MSG_SUCCESS) {
         request_scoper.swap(trial_request_scoper);
-      } else if (kr == MACH_RCV_TOO_LARGE && options & MACH_RCV_LARGE) {
+      } else if (kr == MACH_RCV_TOO_LARGE &&
+                 receive_large == kReceiveLargeResize) {
         this_request_size =
             round_page(request_header->msgh_size + trailer_alloc);
         this_request_alloc = this_request_size;

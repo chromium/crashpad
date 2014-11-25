@@ -940,12 +940,14 @@ class TestExcServerVariants : public UniversalMachExcServer,
   // MachMultiprocess:
 
   void MachMultiprocessParent() override {
-    kern_return_t kr = MachMessageServer::Run(this,
-                                              LocalPort(),
-                                              MACH_MSG_OPTION_NONE,
-                                              MachMessageServer::kOneShot,
-                                              MachMessageServer::kBlocking,
-                                              0);
+    kern_return_t kr =
+        MachMessageServer::Run(this,
+                               LocalPort(),
+                               MACH_MSG_OPTION_NONE,
+                               MachMessageServer::kOneShot,
+                               MachMessageServer::kBlocking,
+                               MachMessageServer::kReceiveLargeError,
+                               0);
     EXPECT_EQ(KERN_SUCCESS, kr)
         << MachErrorMessage(kr, "MachMessageServer::Run");
 

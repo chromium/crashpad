@@ -224,6 +224,7 @@ class TestMachOImageAnnotationsReader final : public MachMultiprocess,
                                  MACH_MSG_OPTION_NONE,
                                  MachMessageServer::kOneShot,
                                  MachMessageServer::kBlocking,
+                                 MachMessageServer::kReceiveLargeError,
                                  MACH_MSG_TIMEOUT_NONE);
       EXPECT_EQ(MACH_MSG_SUCCESS, mr)
           << MachErrorMessage(mr, "MachMessageServer::Run");

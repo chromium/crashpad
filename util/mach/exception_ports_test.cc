@@ -442,12 +442,14 @@ class TestExceptionPorts : public UniversalMachExcServer,
     CheckedWriteFD(WritePipeFD(), &c, 1);
 
     if (who_crashes_ != kNobodyCrashes) {
-      kern_return_t kr = MachMessageServer::Run(this,
-                                                local_port,
-                                                MACH_MSG_OPTION_NONE,
-                                                MachMessageServer::kOneShot,
-                                                MachMessageServer::kBlocking,
-                                                0);
+      kern_return_t kr =
+          MachMessageServer::Run(this,
+                                 local_port,
+                                 MACH_MSG_OPTION_NONE,
+                                 MachMessageServer::kOneShot,
+                                 MachMessageServer::kBlocking,
+                                 MachMessageServer::kReceiveLargeError,
+                                 0);
       EXPECT_EQ(KERN_SUCCESS, kr)
           << MachErrorMessage(kr, "MachMessageServer::Run");
 

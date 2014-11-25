@@ -275,6 +275,13 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
   int exceptions_handled = 0;
   ExceptionServer exception_server(options, me, &exceptions_handled);
 
+  // Assume that if persistent mode has been requested, it’s desirable to ignore
+  // large messages and keep running.
+  MachMessageServer::ReceiveLarge receive_large =
+      (options.persistent == MachMessageServer::kPersistent)
+          ? MachMessageServer::kReceiveLargeIgnore
+          : MachMessageServer::kReceiveLargeError;
+
   mach_msg_timeout_t timeout_ms = options.timeout_secs
                                       ? options.timeout_secs * 1000
                                       : MACH_MSG_TIMEOUT_NONE;
@@ -284,6 +291,7 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
                                                 MACH_MSG_OPTION_NONE,
                                                 options.persistent,
                                                 options.nonblocking,
+                                                receive_large,
                                                 timeout_ms);
   if (mr == MACH_RCV_TIMED_OUT && options.timeout_secs && options.persistent &&
       exceptions_handled) {
