@@ -112,9 +112,17 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
   mach_msg_size_t trailer_alloc = REQUESTED_TRAILER_SIZE(options);
   mach_msg_size_t max_request_size = interface->MachMessageServerRequestSize();
   mach_msg_size_t request_alloc = round_page(max_request_size + trailer_alloc);
+
+  // mach_msg_server() and mach_msg_server_once() invert this condition, but
+  // their interpretation is incorrect. When it is desirable to retry a receive
+  // attempt that returns MACH_RCV_TOO_LARGE with a larger receive buffer, it is
+  // also desirable to use the full receive buffer rounded up to a page size for
+  // the initial receive attempt. On the other hand, when this behavior is not
+  // requested, there is no reason to attempt receiving messages any larger than
+  // expected.
   mach_msg_size_t request_size = (receive_large == kReceiveLargeResize)
-                                     ? request_alloc
-                                     : max_request_size + trailer_alloc;
+                                     ? max_request_size + trailer_alloc
+                                     : request_alloc;
 
   mach_msg_size_t max_reply_size = interface->MachMessageServerReplySize();
 
