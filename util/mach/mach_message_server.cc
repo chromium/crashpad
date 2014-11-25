@@ -117,9 +117,11 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
                                      : max_request_size + trailer_alloc;
 
   mach_msg_size_t max_reply_size = interface->MachMessageServerReplySize();
-  mach_msg_size_t reply_alloc = round_page(
-      (options & MACH_SEND_TRAILER) ? (max_reply_size + MAX_TRAILER_SIZE)
-                                    : max_reply_size);
+
+  // mach_msg_server() and mach_msg_server_once() would consider whether
+  // |options| contains MACH_SEND_TRAILER and include MAX_TRAILER_SIZE in this
+  // computation if it does, but that option is ineffective on OS X.
+  mach_msg_size_t reply_alloc = round_page(max_reply_size);
 
   kern_return_t kr;
 
