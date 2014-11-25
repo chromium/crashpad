@@ -23,6 +23,7 @@
 #include "util/mach/excServer.h"
 #include "util/mach/mach_exc.h"
 #include "util/mach/mach_excServer.h"
+#include "util/mach/mach_message_util.h"
 
 extern "C" {
 
@@ -118,21 +119,6 @@ kern_return_t catch_mach_exception_raise_state_identity(
 
 namespace {
 
-void PrepareReplyFromRequest(const mach_msg_header_t* in_header,
-                             mach_msg_header_t* out_header) {
-  out_header->msgh_bits =
-      MACH_MSGH_BITS(MACH_MSGH_BITS_REMOTE(in_header->msgh_bits), 0);
-  out_header->msgh_remote_port = in_header->msgh_remote_port;
-  out_header->msgh_size = sizeof(mig_reply_error_t);
-  out_header->msgh_local_port = MACH_PORT_NULL;
-  out_header->msgh_id = in_header->msgh_id + 100;
-  reinterpret_cast<mig_reply_error_t*>(out_header)->NDR = NDR_record;
-}
-
-void SetReplyError(mach_msg_header_t* out_header, kern_return_t error) {
-  reinterpret_cast<mig_reply_error_t*>(out_header)->RetCode = error;
-}
-
 // There are no predefined constants for these.
 enum MachMessageID : mach_msg_id_t {
   kMachMessageIDExceptionRaise = 2401,
@@ -208,7 +194,7 @@ ExcServer::ExcServer(ExcServer::Interface* interface)
 bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
                                           mach_msg_header_t* out_header,
                                           bool* destroy_complex_request) {
-  PrepareReplyFromRequest(in_header, out_header);
+  PrepareMIGReplyFromRequest(in_header, out_header);
 
   switch (in_header->msgh_id) {
     case kMachMessageIDExceptionRaise: {
@@ -217,7 +203,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
       const Request* in_request = reinterpret_cast<const Request*>(in_header);
       kern_return_t kr = MIGCheckRequestExceptionRaise(in_request);
       if (kr != MACH_MSG_SUCCESS) {
-        SetReplyError(out_header, kr);
+        SetMIGReplyError(out_header, kr);
         return true;
       }
 
@@ -250,7 +236,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
       kern_return_t kr =
           MIGCheckRequestExceptionRaiseState(in_request, &in_request_1);
       if (kr != MACH_MSG_SUCCESS) {
-        SetReplyError(out_header, kr);
+        SetMIGReplyError(out_header, kr);
         return true;
       }
 
@@ -290,7 +276,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
       kern_return_t kr =
           MIGCheckRequestExceptionRaiseStateIdentity(in_request, &in_request_1);
       if (kr != MACH_MSG_SUCCESS) {
-        SetReplyError(out_header, kr);
+        SetMIGReplyError(out_header, kr);
         return true;
       }
 
@@ -322,7 +308,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
     }
   }
 
-  SetReplyError(out_header, MIG_BAD_ID);
+  SetMIGReplyError(out_header, MIG_BAD_ID);
   return false;
 }
 
@@ -343,7 +329,7 @@ bool MachExcServer::MachMessageServerFunction(
     const mach_msg_header_t* in_header,
     mach_msg_header_t* out_header,
     bool* destroy_complex_request) {
-  PrepareReplyFromRequest(in_header, out_header);
+  PrepareMIGReplyFromRequest(in_header, out_header);
 
   switch (in_header->msgh_id) {
     case kMachMessageIDMachExceptionRaise: {
@@ -352,7 +338,7 @@ bool MachExcServer::MachMessageServerFunction(
       const Request* in_request = reinterpret_cast<const Request*>(in_header);
       kern_return_t kr = MIGCheckRequestMachExceptionRaise(in_request);
       if (kr != MACH_MSG_SUCCESS) {
-        SetReplyError(out_header, kr);
+        SetMIGReplyError(out_header, kr);
         return true;
       }
 
@@ -385,7 +371,7 @@ bool MachExcServer::MachMessageServerFunction(
       kern_return_t kr =
           MIGCheckRequestMachExceptionRaiseState(in_request, &in_request_1);
       if (kr != MACH_MSG_SUCCESS) {
-        SetReplyError(out_header, kr);
+        SetMIGReplyError(out_header, kr);
         return true;
       }
 
@@ -425,7 +411,7 @@ bool MachExcServer::MachMessageServerFunction(
       kern_return_t kr = MIGCheckRequestMachExceptionRaiseStateIdentity(
           in_request, &in_request_1);
       if (kr != MACH_MSG_SUCCESS) {
-        SetReplyError(out_header, kr);
+        SetMIGReplyError(out_header, kr);
         return true;
       }
 
@@ -457,7 +443,7 @@ bool MachExcServer::MachMessageServerFunction(
     }
   }
 
-  SetReplyError(out_header, MIG_BAD_ID);
+  SetMIGReplyError(out_header, MIG_BAD_ID);
   return false;
 }
 
@@ -672,8 +658,8 @@ bool UniversalMachExcServer::MachMessageServerFunction(
 
   // Do what the MIG-generated server routines do when they can’t dispatch a
   // message.
-  PrepareReplyFromRequest(in_header, out_header);
-  SetReplyError(out_header, MIG_BAD_ID);
+  PrepareMIGReplyFromRequest(in_header, out_header);
+  SetMIGReplyError(out_header, MIG_BAD_ID);
   return false;
 }
 

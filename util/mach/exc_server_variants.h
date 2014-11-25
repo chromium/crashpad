@@ -100,6 +100,9 @@ class ExcServer : public MachMessageServer::Interface {
     ~Interface() {}
   };
 
+  //! \brief Constructs an object of this class.
+  //!
+  //! \param[in] interface The interface to dispatch requests to. Weak.
   explicit ExcServer(Interface* interface);
 
   // MachMessageServer::Interface:
@@ -189,6 +192,9 @@ class MachExcServer : public MachMessageServer::Interface {
     ~Interface() {}
   };
 
+  //! \brief Constructs an object of this class.
+  //!
+  //! \param[in] interface The interface to dispatch requests to. Weak.
   explicit MachExcServer(Interface* interface);
 
   // MachMessageServer::Interface:
@@ -248,6 +254,9 @@ class SimplifiedExcServer : public ExcServer, public ExcServer::Interface {
     ~Interface() {}
   };
 
+  //! \brief Constructs an object of this class.
+  //!
+  //! \param[in] interface The interface to dispatch requests to. Weak.
   explicit SimplifiedExcServer(Interface* interface);
 
   // ExcServer::Interface:
@@ -341,6 +350,9 @@ class SimplifiedMachExcServer : public MachExcServer,
     ~Interface() {}
   };
 
+  //! \brief Constructs an object of this class.
+  //!
+  //! \param[in] interface The interface to dispatch requests to. Weak.
   explicit SimplifiedMachExcServer(Interface* interface);
 
   // MachExcServer::Interface:
@@ -402,6 +414,7 @@ class UniversalMachExcServer
       public internal::SimplifiedExcServer::Interface,
       public internal::SimplifiedMachExcServer::Interface {
  public:
+  //! \brief Constructs an object of this class.
   UniversalMachExcServer();
 
   // MachMessageServer::Interface:
