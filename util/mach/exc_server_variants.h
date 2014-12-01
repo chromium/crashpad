@@ -42,6 +42,7 @@ class ExcServer : public MachMessageServer::Interface {
     //! This behaves equivalently to a `catch_exception_raise()` function used
     //! with `exc_server()`.
     //!
+    //! \param[in] trailer The trailer received with the request message.
     //! \param[out] destroy_request `true` if the request message is to be
     //!     destroyed even when this method returns success. See
     //!     MachMessageServer::Interface.
@@ -52,6 +53,7 @@ class ExcServer : public MachMessageServer::Interface {
         exception_type_t exception,
         const exception_data_type_t* code,
         mach_msg_type_number_t code_count,
+        const mach_msg_trailer_t* trailer,
         bool* destroy_request) = 0;
 
     //! \brief Handles exceptions raised by `exception_raise_state()`.
@@ -63,6 +65,8 @@ class ExcServer : public MachMessageServer::Interface {
     //! CatchExceptionRaise() and CatchExceptionRaiseStateIdentity(), the
     //! request message is not complex (it does not carry the \a thread or \a
     //! task port rights) and thus there is nothing to destroy.
+    //!
+    //! \param[in] trailer The trailer received with the request message.
     virtual kern_return_t CatchExceptionRaiseState(
         exception_handler_t exception_port,
         exception_type_t exception,
@@ -72,13 +76,15 @@ class ExcServer : public MachMessageServer::Interface {
         const natural_t* old_state,
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
-        mach_msg_type_number_t* new_state_count) = 0;
+        mach_msg_type_number_t* new_state_count,
+        const mach_msg_trailer_t* trailer) = 0;
 
     //! \brief Handles exceptions raised by `exception_raise_state_identity()`.
     //!
     //! This behaves equivalently to a `catch_exception_raise_state_identity()`
     //! function used with `exc_server()`.
     //!
+    //! \param[in] trailer The trailer received with the request message.
     //! \param[out] destroy_request `true` if the request message is to be
     //!     destroyed even when this method returns success. See
     //!     MachMessageServer::Interface.
@@ -94,6 +100,7 @@ class ExcServer : public MachMessageServer::Interface {
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
         mach_msg_type_number_t* new_state_count,
+        const mach_msg_trailer_t* trailer,
         bool* destroy_request) = 0;
 
    protected:
@@ -132,6 +139,7 @@ class MachExcServer : public MachMessageServer::Interface {
     //! This behaves equivalently to a `catch_mach_exception_raise()` function
     //! used with `mach_exc_server()`.
     //!
+    //! \param[in] trailer The trailer received with the request message.
     //! \param[out] destroy_request `true` if the request message is to be
     //!     destroyed even when this method returns success. See
     //!     MachMessageServer::Interface.
@@ -142,6 +150,7 @@ class MachExcServer : public MachMessageServer::Interface {
         exception_type_t exception,
         const mach_exception_data_type_t* code,
         mach_msg_type_number_t code_count,
+        const mach_msg_trailer_t* trailer,
         bool* destroy_request) = 0;
 
     //! \brief Handles exceptions raised by `mach_exception_raise_state()`.
@@ -153,6 +162,8 @@ class MachExcServer : public MachMessageServer::Interface {
     //! CatchMachExceptionRaise() and CatchMachExceptionRaiseStateIdentity(),
     //! the request message is not complex (it does not carry the \a thread or
     //! \a task port rights) and thus there is nothing to destroy.
+    //!
+    //! \param[in] trailer The trailer received with the request message.
     virtual kern_return_t CatchMachExceptionRaiseState(
         exception_handler_t exception_port,
         exception_type_t exception,
@@ -162,7 +173,8 @@ class MachExcServer : public MachMessageServer::Interface {
         const natural_t* old_state,
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
-        mach_msg_type_number_t* new_state_count) = 0;
+        mach_msg_type_number_t* new_state_count,
+        const mach_msg_trailer_t* trailer) = 0;
 
     //! \brief Handles exceptions raised by
     //!     `mach_exception_raise_state_identity()`.
@@ -171,6 +183,7 @@ class MachExcServer : public MachMessageServer::Interface {
     //! `catch_mach_exception_raise_state_identity()` function used with
     //! `mach_exc_server()`.
     //!
+    //! \param[in] trailer The trailer received with the request message.
     //! \param[out] destroy_request `true` if the request message is to be
     //!     destroyed even when this method returns success. See
     //!     MachMessageServer::Interface.
@@ -186,6 +199,7 @@ class MachExcServer : public MachMessageServer::Interface {
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
         mach_msg_type_number_t* new_state_count,
+        const mach_msg_trailer_t* trailer,
         bool* destroy_request) = 0;
 
    protected:
@@ -248,6 +262,7 @@ class SimplifiedExcServer : public ExcServer, public ExcServer::Interface {
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
         mach_msg_type_number_t* new_state_count,
+        const mach_msg_trailer_t* trailer,
         bool* destroy_complex_request) = 0;
 
    protected:
@@ -267,6 +282,7 @@ class SimplifiedExcServer : public ExcServer, public ExcServer::Interface {
                                     exception_type_t exception,
                                     const exception_data_type_t* code,
                                     mach_msg_type_number_t code_count,
+                                    const mach_msg_trailer_t* trailer,
                                     bool* destroy_request) override;
   kern_return_t CatchExceptionRaiseState(
       exception_handler_t exception_port,
@@ -277,7 +293,8 @@ class SimplifiedExcServer : public ExcServer, public ExcServer::Interface {
       const natural_t* old_state,
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
-      mach_msg_type_number_t* new_state_count) override;
+      mach_msg_type_number_t* new_state_count,
+      const mach_msg_trailer_t* trailer) override;
   kern_return_t CatchExceptionRaiseStateIdentity(
       exception_handler_t exception_port,
       thread_t thread,
@@ -290,6 +307,7 @@ class SimplifiedExcServer : public ExcServer, public ExcServer::Interface {
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count,
+      const mach_msg_trailer_t* trailer,
       bool* destroy_request) override;
 
  private:
@@ -344,6 +362,7 @@ class SimplifiedMachExcServer : public MachExcServer,
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
         mach_msg_type_number_t* new_state_count,
+        const mach_msg_trailer_t* trailer,
         bool* destroy_complex_request) = 0;
 
    protected:
@@ -363,6 +382,7 @@ class SimplifiedMachExcServer : public MachExcServer,
                                         exception_type_t exception,
                                         const mach_exception_data_type_t* code,
                                         mach_msg_type_number_t code_count,
+                                        const mach_msg_trailer_t* trailer,
                                         bool* destroy_request) override;
   kern_return_t CatchMachExceptionRaiseState(
       exception_handler_t exception_port,
@@ -373,7 +393,8 @@ class SimplifiedMachExcServer : public MachExcServer,
       const natural_t* old_state,
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
-      mach_msg_type_number_t* new_state_count) override;
+      mach_msg_type_number_t* new_state_count,
+      const mach_msg_trailer_t* trailer) override;
   kern_return_t CatchMachExceptionRaiseStateIdentity(
       exception_handler_t exception_port,
       thread_t thread,
@@ -386,6 +407,7 @@ class SimplifiedMachExcServer : public MachExcServer,
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count,
+      const mach_msg_trailer_t* trailer,
       bool* destroy_request) override;
 
  private:
@@ -440,6 +462,7 @@ class UniversalMachExcServer
                                mach_msg_type_number_t old_state_count,
                                thread_state_t new_state,
                                mach_msg_type_number_t* new_state_count,
+                               const mach_msg_trailer_t* trailer,
                                bool* destroy_complex_request) override;
 
  private:

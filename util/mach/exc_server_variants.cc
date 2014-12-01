@@ -196,6 +196,9 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
                                           bool* destroy_complex_request) {
   PrepareMIGReplyFromRequest(in_header, out_header);
 
+  const mach_msg_trailer_t* in_trailer =
+      MachMessageTrailerFromHeader(in_header);
+
   switch (in_header->msgh_id) {
     case kMachMessageIDExceptionRaise: {
       // exception_raise(), catch_exception_raise().
@@ -216,6 +219,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
                                           in_request->exception,
                                           in_request->code,
                                           in_request->codeCnt,
+                                          in_trailer,
                                           destroy_complex_request);
       if (out_reply->RetCode != KERN_SUCCESS) {
         return true;
@@ -253,7 +257,8 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
                                                in_request_1->old_state,
                                                in_request_1->old_stateCnt,
                                                out_reply->new_state,
-                                               &out_reply->new_stateCnt);
+                                               &out_reply->new_stateCnt,
+                                               in_trailer);
       if (out_reply->RetCode != KERN_SUCCESS) {
         return true;
       }
@@ -296,6 +301,7 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
           in_request_1->old_stateCnt,
           out_reply->new_state,
           &out_reply->new_stateCnt,
+          in_trailer,
           destroy_complex_request);
       if (out_reply->RetCode != KERN_SUCCESS) {
         return true;
@@ -331,6 +337,9 @@ bool MachExcServer::MachMessageServerFunction(
     bool* destroy_complex_request) {
   PrepareMIGReplyFromRequest(in_header, out_header);
 
+  const mach_msg_trailer_t* in_trailer =
+      MachMessageTrailerFromHeader(in_header);
+
   switch (in_header->msgh_id) {
     case kMachMessageIDMachExceptionRaise: {
       // mach_exception_raise(), catch_mach_exception_raise().
@@ -351,6 +360,7 @@ bool MachExcServer::MachMessageServerFunction(
                                               in_request->exception,
                                               in_request->code,
                                               in_request->codeCnt,
+                                              in_trailer,
                                               destroy_complex_request);
       if (out_reply->RetCode != KERN_SUCCESS) {
         return true;
@@ -388,7 +398,8 @@ bool MachExcServer::MachMessageServerFunction(
                                                    in_request_1->old_state,
                                                    in_request_1->old_stateCnt,
                                                    out_reply->new_state,
-                                                   &out_reply->new_stateCnt);
+                                                   &out_reply->new_stateCnt,
+                                                   in_trailer);
       if (out_reply->RetCode != KERN_SUCCESS) {
         return true;
       }
@@ -431,6 +442,7 @@ bool MachExcServer::MachMessageServerFunction(
           in_request_1->old_stateCnt,
           out_reply->new_state,
           &out_reply->new_stateCnt,
+          in_trailer,
           destroy_complex_request);
       if (out_reply->RetCode != KERN_SUCCESS) {
         return true;
@@ -469,6 +481,7 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaise(
     exception_type_t exception,
     const exception_data_type_t* code,
     mach_msg_type_number_t code_count,
+    const mach_msg_trailer_t* trailer,
     bool* destroy_request) {
   thread_state_flavor_t flavor = THREAD_STATE_NONE;
   mach_msg_type_number_t new_state_count = 0;
@@ -484,6 +497,7 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaise(
                                     0,
                                     nullptr,
                                     &new_state_count,
+                                    trailer,
                                     destroy_request);
 }
 
@@ -496,7 +510,8 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaiseState(
     const natural_t* old_state,
     mach_msg_type_number_t old_state_count,
     thread_state_t new_state,
-    mach_msg_type_number_t* new_state_count) {
+    mach_msg_type_number_t* new_state_count,
+    const mach_msg_trailer_t* trailer) {
   bool destroy_complex_request = false;
   return interface_->CatchException(EXCEPTION_STATE,
                                     exception_port,
@@ -510,6 +525,7 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaiseState(
                                     old_state_count,
                                     new_state,
                                     new_state_count,
+                                    trailer,
                                     &destroy_complex_request);
 }
 
@@ -525,6 +541,7 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaiseStateIdentity(
     mach_msg_type_number_t old_state_count,
     thread_state_t new_state,
     mach_msg_type_number_t* new_state_count,
+    const mach_msg_trailer_t* trailer,
     bool* destroy_request) {
   return interface_->CatchException(EXCEPTION_STATE_IDENTITY,
                                     exception_port,
@@ -538,6 +555,7 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaiseStateIdentity(
                                     old_state_count,
                                     new_state,
                                     new_state_count,
+                                    trailer,
                                     destroy_request);
 }
 
@@ -555,6 +573,7 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaise(
     exception_type_t exception,
     const mach_exception_data_type_t* code,
     mach_msg_type_number_t code_count,
+    const mach_msg_trailer_t* trailer,
     bool* destroy_request) {
   thread_state_flavor_t flavor = THREAD_STATE_NONE;
   mach_msg_type_number_t new_state_count = 0;
@@ -571,6 +590,7 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaise(
       0,
       nullptr,
       &new_state_count,
+      trailer,
       destroy_request);
 }
 
@@ -583,7 +603,8 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaiseState(
     const natural_t* old_state,
     mach_msg_type_number_t old_state_count,
     thread_state_t new_state,
-    mach_msg_type_number_t* new_state_count) {
+    mach_msg_type_number_t* new_state_count,
+    const mach_msg_trailer_t* trailer) {
   bool destroy_complex_request = false;
   return interface_->CatchMachException(EXCEPTION_STATE | MACH_EXCEPTION_CODES,
                                         exception_port,
@@ -597,6 +618,7 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaiseState(
                                         old_state_count,
                                         new_state,
                                         new_state_count,
+                                        trailer,
                                         &destroy_complex_request);
 }
 
@@ -612,6 +634,7 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaiseStateIdentity(
     mach_msg_type_number_t old_state_count,
     thread_state_t new_state,
     mach_msg_type_number_t* new_state_count,
+    const mach_msg_trailer_t* trailer,
     bool* destroy_request) {
   return interface_->CatchMachException(
       EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
@@ -626,6 +649,7 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaiseStateIdentity(
       old_state_count,
       new_state,
       new_state_count,
+      trailer,
       destroy_request);
 }
 
@@ -686,6 +710,7 @@ kern_return_t UniversalMachExcServer::CatchException(
     mach_msg_type_number_t old_state_count,
     thread_state_t new_state,
     mach_msg_type_number_t* new_state_count,
+    const mach_msg_trailer_t* trailer,
     bool* destroy_complex_request) {
   std::vector<mach_exception_data_type_t> mach_codes;
   mach_codes.reserve(code_count);
@@ -705,6 +730,7 @@ kern_return_t UniversalMachExcServer::CatchException(
                             old_state_count,
                             new_state,
                             new_state_count,
+                            trailer,
                             destroy_complex_request);
 }
 

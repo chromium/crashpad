@@ -247,6 +247,7 @@ kern_return_t ChildPortHandshake::HandleChildPortCheckIn(
     const child_port_token_t token,
     mach_port_t port,
     mach_msg_type_name_t right_type,
+    const mach_msg_trailer_t* trailer,
     bool* destroy_complex_request) {
   DCHECK_EQ(child_port_, kMachPortNull);
 

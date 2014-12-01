@@ -34,4 +34,11 @@ void SetMIGReplyError(mach_msg_header_t* out_header, kern_return_t error) {
   reinterpret_cast<mig_reply_error_t*>(out_header)->RetCode = error;
 }
 
+const mach_msg_trailer_t* MachMessageTrailerFromHeader(
+    const mach_msg_header_t* header) {
+  vm_address_t header_address = reinterpret_cast<vm_address_t>(header);
+  vm_address_t trailer_address = header_address + round_msg(header->msgh_size);
+  return reinterpret_cast<const mach_msg_trailer_t*>(trailer_address);
+}
+
 }  // namespace crashpad

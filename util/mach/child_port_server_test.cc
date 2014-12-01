@@ -48,7 +48,7 @@ struct __attribute__((packed, aligned(4))) ChildPortCheckInRequest {
     memset(this, 0xa5, sizeof(*this));
     Head.msgh_bits =
         MACH_MSGH_BITS(0, MACH_MSG_TYPE_PORT_SEND) | MACH_MSGH_BITS_COMPLEX;
-    Head.msgh_size = sizeof(*this);
+    Head.msgh_size = sizeof(*this) - sizeof(trailer);
     Head.msgh_remote_port = MACH_PORT_NULL;
     Head.msgh_local_port = kServerLocalPort;
     Head.msgh_id = 10011;
@@ -65,6 +65,7 @@ struct __attribute__((packed, aligned(4))) ChildPortCheckInRequest {
   mach_msg_port_descriptor_t port;
   NDR_record_t NDR;
   child_port_token_t token;
+  mach_msg_trailer_t trailer;
 };
 
 struct MIGReply : public mig_reply_error_t {
@@ -87,11 +88,12 @@ struct MIGReply : public mig_reply_error_t {
 
 class MockChildPortServerInterface : public ChildPortServer::Interface {
  public:
-  MOCK_METHOD5(HandleChildPortCheckIn,
+  MOCK_METHOD6(HandleChildPortCheckIn,
                kern_return_t(child_port_server_t server,
                              const child_port_token_t token,
                              mach_port_t port,
                              mach_msg_type_name_t right_type,
+                             const mach_msg_trailer_t* trailer,
                              bool* destroy_complex_request));
 };
 
@@ -100,7 +102,7 @@ TEST(ChildPortServer, MockChildPortCheckIn) {
   ChildPortServer server(&server_interface);
 
   ChildPortCheckInRequest request;
-  EXPECT_LE(sizeof(request), server.MachMessageServerRequestSize());
+  EXPECT_LE(request.Head.msgh_size, server.MachMessageServerRequestSize());
 
   MIGReply reply;
   EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
@@ -110,6 +112,7 @@ TEST(ChildPortServer, MockChildPortCheckIn) {
                                      kCheckInToken,
                                      kCheckInPort,
                                      kCheckInPortRightType,
+                                     Eq(&request.trailer),
                                      Pointee(Eq(false))))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();

@@ -136,6 +136,7 @@ class ChildPortHandshake : public ChildPortServer::Interface {
                                        child_port_token_t token,
                                        mach_port_t port,
                                        mach_msg_type_name_t right_type,
+                                       const mach_msg_trailer_t* trailer,
                                        bool* destroy_complex_request) override;
 
   //! \brief Runs the client.

@@ -48,6 +48,20 @@ void PrepareMIGReplyFromRequest(const mach_msg_header_t* in_header,
 //! \sa PrepareMIGReplyFromRequest()
 void SetMIGReplyError(mach_msg_header_t* out_header, kern_return_t error);
 
+//! \brief Returns a Mach message trailer for a message that has been received.
+//!
+//! This function must only be called on Mach messages that have been received
+//! via the Mach messaging interface, such as `mach_msg()`. Messages constructed
+//! for sending do not contain trailers.
+//!
+//! \param[in] header A pointer to a received Mach message.
+//!
+//! \return A pointer to the trailer following the received Mach message’s body.
+//!     The contents of the trailer depend on the options provided to
+//!     `mach_msg()` or a similar function when the message was received.
+const mach_msg_trailer_t* MachMessageTrailerFromHeader(
+    const mach_msg_header_t* header);
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_MACH_MACH_MESSAGE_UTIL_H_

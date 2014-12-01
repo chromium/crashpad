@@ -72,6 +72,9 @@ bool ChildPortServer::MachMessageServerFunction(
     bool* destroy_complex_request) {
   PrepareMIGReplyFromRequest(in_header, out_header);
 
+  const mach_msg_trailer_t* in_trailer =
+      MachMessageTrailerFromHeader(in_header);
+
   switch (in_header->msgh_id) {
     case kMachMessageIDChildPortCheckIn: {
       // child_port_check_in(), handle_child_port_check_in().
@@ -90,6 +93,7 @@ bool ChildPortServer::MachMessageServerFunction(
                                              in_request->token,
                                              in_request->port.name,
                                              in_request->port.disposition,
+                                             in_trailer,
                                              destroy_complex_request);
       return true;
     }

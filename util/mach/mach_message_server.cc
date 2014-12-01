@@ -111,7 +111,8 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
 
   mach_msg_size_t trailer_alloc = REQUESTED_TRAILER_SIZE(options);
   mach_msg_size_t max_request_size = interface->MachMessageServerRequestSize();
-  mach_msg_size_t request_alloc = round_page(max_request_size + trailer_alloc);
+  mach_msg_size_t request_alloc =
+      round_page(round_msg(max_request_size) + trailer_alloc);
 
   // mach_msg_server() and mach_msg_server_once() invert this condition, but
   // their interpretation is incorrect. When it is desirable to retry a receive
@@ -120,9 +121,10 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
   // the initial receive attempt. On the other hand, when this behavior is not
   // requested, there is no reason to attempt receiving messages any larger than
   // expected.
-  mach_msg_size_t request_size = (receive_large == kReceiveLargeResize)
-                                     ? max_request_size + trailer_alloc
-                                     : request_alloc;
+  mach_msg_size_t request_size =
+      (receive_large == kReceiveLargeResize)
+          ? round_msg(max_request_size) + trailer_alloc
+          : request_alloc;
 
   mach_msg_size_t max_reply_size = interface->MachMessageServerReplySize();
 
@@ -186,7 +188,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
       } else if (kr == MACH_RCV_TOO_LARGE &&
                  receive_large == kReceiveLargeResize) {
         this_request_size =
-            round_page(request_header->msgh_size + trailer_alloc);
+            round_page(round_msg(request_header->msgh_size) + trailer_alloc);
         this_request_alloc = this_request_size;
       } else {
         return kr;

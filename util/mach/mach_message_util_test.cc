@@ -63,6 +63,29 @@ TEST(MachMessageUtil, PrepareMIGReplyFromRequest_SetMIGReplyError) {
   EXPECT_EQ(MIG_BAD_ID, reply.RetCode);
 }
 
+TEST(MachMessageUtil, MachMessageTrailerFromHeader) {
+  mach_msg_empty_t empty;
+  empty.send.header.msgh_size = sizeof(mach_msg_empty_send_t);
+  EXPECT_EQ(&empty.rcv.trailer,
+            MachMessageTrailerFromHeader(&empty.rcv.header));
+
+  struct TestSendMessage : public mach_msg_header_t {
+    uint8_t data[126];
+  };
+  struct TestReceiveMessage : public TestSendMessage {
+    mach_msg_trailer_t trailer;
+  };
+  union TestMessage {
+    TestSendMessage send;
+    TestReceiveMessage receive;
+  };
+
+  TestMessage test;
+  test.send.msgh_size = sizeof(TestSendMessage);
+  EXPECT_EQ(&test.receive.trailer,
+            MachMessageTrailerFromHeader(&test.receive));
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
