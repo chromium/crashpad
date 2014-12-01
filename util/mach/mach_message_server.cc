@@ -30,9 +30,9 @@ const int kNanosecondsPerMillisecond = 1E6;
 // the future, |*remaining_ms| is set to the number of milliseconds remaining,
 // which will always be a positive value, and this function returns true. If
 // |deadline| is zero (indicating that no timer is in effect), |*remaining_ms|
-// is set to zero and this function returns true. Otherwise, this function
-// returns false. |deadline| is specified on the same time base as is returned
-// by ClockMonotonicNanoseconds().
+// is set to zero and this function returns true. Otherwise, this function sets
+// |*remaining_ms| to zero and returns false. |deadline| is specified on the
+// same time base as is returned by ClockMonotonicNanoseconds().
 bool TimerRunning(uint64_t deadline, mach_msg_timeout_t* remaining_ms) {
   if (!deadline) {
     *remaining_ms = MACH_MSG_TIMEOUT_NONE;
@@ -42,6 +42,7 @@ bool TimerRunning(uint64_t deadline, mach_msg_timeout_t* remaining_ms) {
   uint64_t now = ClockMonotonicNanoseconds();
 
   if (now >= deadline) {
+    *remaining_ms = 0;
     return false;
   }
 
@@ -59,6 +60,7 @@ bool TimerRunning(uint64_t deadline, mach_msg_timeout_t* remaining_ms) {
   }
 
   if (remaining_mach == MACH_MSG_TIMEOUT_NONE) {
+    *remaining_ms = 0;
     return false;
   }
 
@@ -126,37 +128,50 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
   // computation if it does, but that option is ineffective on OS X.
   mach_msg_size_t reply_alloc = round_page(max_reply_size);
 
+  base::mac::ScopedMachVM request_scoper;
+  base::mac::ScopedMachVM reply_scoper;
+  bool received_any_request = false;
+
   kern_return_t kr;
 
   do {
     mach_msg_size_t this_request_alloc = request_alloc;
     mach_msg_size_t this_request_size = request_size;
 
-    base::mac::ScopedMachVM request_scoper;
     mach_msg_header_t* request_header = nullptr;
 
-    while (!request_scoper.address()) {
-      vm_address_t request_addr;
-      kr = vm_allocate(mach_task_self(),
-                       &request_addr,
-                       this_request_alloc,
-                       VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
-      if (kr != KERN_SUCCESS) {
-        return kr;
-      }
-      base::mac::ScopedMachVM trial_request_scoper(request_addr,
-                                                   this_request_alloc);
-      request_header = reinterpret_cast<mach_msg_header_t*>(request_addr);
+    do {
+      // This test uses != instead of < so that a large reallocation to receive
+      // a large message doesn’t cause permanent memory bloat.
+      if (request_scoper.size() != this_request_alloc) {
+        // reset() first, so that two allocations don’t exist simultaneously.
+        request_scoper.reset();
 
-      bool run_mach_msg_receive = false;
+        vm_address_t request_addr;
+        kr = vm_allocate(mach_task_self(),
+                         &request_addr,
+                         this_request_alloc,
+                         VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
+        if (kr != KERN_SUCCESS) {
+          return kr;
+        }
+
+        request_scoper.reset(request_addr, this_request_alloc);
+      }
+
+      request_header =
+          reinterpret_cast<mach_msg_header_t*>(request_scoper.address());
+
       do {
         // If |options| contains MACH_RCV_INTERRUPT, retry mach_msg() in a loop
         // when it returns MACH_RCV_INTERRUPTED to recompute |remaining_ms|
         // rather than allowing mach_msg() to retry using the original timeout
         // value. See 10.9.4 xnu-2422.110.17/libsyscall/mach/mach_msg.c
-        // mach_msg().
+        // mach_msg(). Don’t return early here if nothing has ever been
+        // received: this method should always attempt to dequeue at least one
+        // message.
         mach_msg_timeout_t remaining_ms;
-        if (!TimerRunning(deadline, &remaining_ms)) {
+        if (!TimerRunning(deadline, &remaining_ms) && received_any_request) {
           return MACH_RCV_TIMED_OUT;
         }
 
@@ -170,37 +185,37 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
 
         if (kr == MACH_RCV_TOO_LARGE && receive_large == kReceiveLargeIgnore) {
           MACH_LOG(WARNING, kr) << "mach_msg: ignoring large message";
-          run_mach_msg_receive = true;
-        } else if (kr == MACH_RCV_INTERRUPTED) {
-          run_mach_msg_receive = true;
         }
-      } while (run_mach_msg_receive);
+      } while (
+          (kr == MACH_RCV_TOO_LARGE && receive_large == kReceiveLargeIgnore) ||
+          kr == MACH_RCV_INTERRUPTED);
 
-      if (kr == MACH_MSG_SUCCESS) {
-        request_scoper.swap(trial_request_scoper);
-      } else if (kr == MACH_RCV_TOO_LARGE &&
-                 receive_large == kReceiveLargeResize) {
+      if (kr == MACH_RCV_TOO_LARGE && receive_large == kReceiveLargeResize) {
         this_request_size =
             round_page(round_msg(request_header->msgh_size) + trailer_alloc);
         this_request_alloc = this_request_size;
-      } else {
+      } else if (kr != MACH_MSG_SUCCESS) {
         return kr;
       }
-    }
+    } while (kr != MACH_MSG_SUCCESS);
 
-    vm_address_t reply_addr;
-    kr = vm_allocate(mach_task_self(),
-                     &reply_addr,
-                     reply_alloc,
-                     VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
-    if (kr != KERN_SUCCESS) {
-      return kr;
-    }
+    received_any_request = true;
 
-    base::mac::ScopedMachVM reply_scoper(reply_addr, reply_alloc);
+    if (reply_scoper.size() != reply_alloc) {
+      vm_address_t reply_addr;
+      kr = vm_allocate(mach_task_self(),
+                       &reply_addr,
+                       reply_alloc,
+                       VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
+      if (kr != KERN_SUCCESS) {
+        return kr;
+      }
+
+      reply_scoper.reset(reply_addr, reply_alloc);
+    }
 
     mach_msg_header_t* reply_header =
-        reinterpret_cast<mach_msg_header_t*>(reply_addr);
+        reinterpret_cast<mach_msg_header_t*>(reply_scoper.address());
     bool destroy_complex_request = false;
     interface->MachMessageServerFunction(
         request_header, reply_header, &destroy_complex_request);
@@ -251,11 +266,10 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
         // mach_msg().
         mach_msg_timeout_t remaining_ms;
         running = TimerRunning(deadline, &remaining_ms);
-        if (!running) {
-          // Don’t return just yet. If the timer ran out in between the time the
-          // request was received and now, at least try to send the response.
-          remaining_ms = 0;
-        }
+
+        // Don’t return just yet even if |running| is false. If the timer ran
+        // out in between the time the request was received and now, at least
+        // try to send the response.
 
         kr = mach_msg(reply_header,
                       send_options,
