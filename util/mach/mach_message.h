@@ -18,8 +18,6 @@
 #include <mach/mach.h>
 #include <stdint.h>
 
-#include <limits>
-
 namespace crashpad {
 
 //! \brief The time before which a MachMessageWithDeadline() call should
@@ -40,8 +38,7 @@ enum : MachMessageDeadline {
 
   //! \brief MachMessageWithDeadline() should wait indefinitely for the
   //!     requested operation to complete.
-  kMachMessageWaitIndefinitely =
-      std::numeric_limits<MachMessageDeadline>::max(),
+  kMachMessageWaitIndefinitely = 0xffffffffffffffff,
 };
 
 //! \brief Computes the deadline for a specified timeout value.
