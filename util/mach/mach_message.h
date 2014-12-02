@@ -16,8 +16,82 @@
 #define CRASHPAD_UTIL_MACH_MACH_MESSAGE_H_
 
 #include <mach/mach.h>
+#include <stdint.h>
+
+#include <limits>
 
 namespace crashpad {
+
+//! \brief The time before which a MachMessageWithDeadline() call should
+//!     complete.
+//!
+//! A value of this type may be one of the special constants
+//! #kMachMessageNonblocking or #kMachMessageWaitIndefinitely. Any other values
+//! should be produced by calling MachMessageDeadlineFromTimeout().
+//!
+//! Internally, these are currently specified on the same time base as
+//! ClockMonotonicNanoseconds(), although this is an implementation detail.
+using MachMessageDeadline = uint64_t;
+
+//! \brief Special constants used as \ref MachMessageDeadline values.
+enum : MachMessageDeadline {
+  //! \brief MachMessageWithDeadline() should not block at all in its operation.
+  kMachMessageNonblocking = 0,
+
+  //! \brief MachMessageWithDeadline() should wait indefinitely for the
+  //!     requested operation to complete.
+  kMachMessageWaitIndefinitely =
+      std::numeric_limits<MachMessageDeadline>::max(),
+};
+
+//! \brief Computes the deadline for a specified timeout value.
+//!
+//! While deadlines exist on an absolute time scale, timeouts are relative. This
+//! function calculates the deadline as \a timeout_ms milliseconds after it
+//! executes.
+//!
+//! If \a timeout_ms is `0`, this function will return #kMachMessageNonblocking.
+MachMessageDeadline MachMessageDeadlineFromTimeout(
+    mach_msg_timeout_t timeout_ms);
+
+//! \brief Runs `mach_msg()` with a deadline, as opposed to a timeout.
+//!
+//! This function is similar to `mach_msg()`, with the following differences:
+//!  - The `timeout` parameter has been replaced by \a deadline. The deadline
+//!    applies uniformly to a call that is requested to both send and receive
+//!    a message.
+//!  - The `MACH_SEND_TIMEOUT` and `MACH_RCV_TIMEOUT` bits in \a options are
+//!    not used. Timeouts are specified by the \a deadline argument.
+//!  - The `send_size` parameter has been removed. Its value is implied by
+//!    \a message when \a options contains `MACH_SEND_MSG`.
+//!  - The \a run_even_if_expired parameter has been added.
+//!
+//! Like the `mach_msg()` wrapper in `libsyscall`, this function will retry
+//! operations when experiencing `MACH_SEND_INTERRUPTED` and
+//! `MACH_RCV_INTERRUPTED`, unless \a options contains `MACH_SEND_INTERRUPT` or
+//! `MACH_RCV_INTERRUPT`. Unlike `mach_msg()`, which restarts the call with the
+//! full timeout when this occurs, this function continues enforcing the
+//! user-specified \a deadline.
+//!
+//! Except as noted, the parameters and return value are identical to those of
+//! `mach_msg()`.
+//!
+//! \param[in] deadline The time by which this call should complete. If the
+//!     deadline is exceeded, this call will return `MACH_SEND_TIMED_OUT` or
+//!     `MACH_RCV_TIMED_OUT`.
+//! \param[in] run_even_if_expired If `true`, a deadline that is expired when
+//!     this function is called will be treated as though a deadline of
+//!     #kMachMessageNonblocking had been specified. When `false`, an expired
+//!     deadline will result in a `MACH_SEND_TIMED_OUT` or `MACH_RCV_TIMED_OUT`
+//!     return value, even if the deadline is already expired when the function
+//!     is called.
+mach_msg_return_t MachMessageWithDeadline(mach_msg_header_t* message,
+                                          mach_msg_option_t options,
+                                          mach_msg_size_t receive_size,
+                                          mach_port_name_t receive_port,
+                                          MachMessageDeadline deadline,
+                                          mach_port_name_t notify_port,
+                                          bool run_even_if_expired);
 
 //! \brief Initializes a reply message for a MIG server routine based on its
 //!     corresponding request.
