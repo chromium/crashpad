@@ -23,7 +23,7 @@
 #include "util/mach/excServer.h"
 #include "util/mach/mach_exc.h"
 #include "util/mach/mach_excServer.h"
-#include "util/mach/mach_message_util.h"
+#include "util/mach/mach_message.h"
 
 extern "C" {
 

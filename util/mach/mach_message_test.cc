@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/mach/mach_message_util.h"
+#include "util/mach/mach_message.h"
 
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
@@ -22,7 +22,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-TEST(MachMessageUtil, PrepareMIGReplyFromRequest_SetMIGReplyError) {
+TEST(MachMessage, PrepareMIGReplyFromRequest_SetMIGReplyError) {
   mach_msg_header_t request;
   request.msgh_bits =
       MACH_MSGH_BITS_COMPLEX |
@@ -63,7 +63,7 @@ TEST(MachMessageUtil, PrepareMIGReplyFromRequest_SetMIGReplyError) {
   EXPECT_EQ(MIG_BAD_ID, reply.RetCode);
 }
 
-TEST(MachMessageUtil, MachMessageTrailerFromHeader) {
+TEST(MachMessage, MachMessageTrailerFromHeader) {
   mach_msg_empty_t empty;
   empty.send.header.msgh_size = sizeof(mach_msg_empty_send_t);
   EXPECT_EQ(&empty.rcv.trailer,
@@ -82,8 +82,7 @@ TEST(MachMessageUtil, MachMessageTrailerFromHeader) {
 
   TestMessage test;
   test.send.msgh_size = sizeof(TestSendMessage);
-  EXPECT_EQ(&test.receive.trailer,
-            MachMessageTrailerFromHeader(&test.receive));
+  EXPECT_EQ(&test.receive.trailer, MachMessageTrailerFromHeader(&test.receive));
 }
 
 }  // namespace
