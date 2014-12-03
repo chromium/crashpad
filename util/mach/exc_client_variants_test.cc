@@ -117,7 +117,6 @@ class TestExcClientVariants : public UniversalMachExcServer,
 
       // Send a new state back to the client.
       for (size_t index = 0; index < *new_state_count; ++index) {
-        EXPECT_EQ(0u, new_state[index]);
         new_state[index] = MACHINE_THREAD_STATE_COUNT - index;
       }
     } else {

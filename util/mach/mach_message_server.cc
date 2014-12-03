@@ -14,6 +14,8 @@
 
 #include "util/mach/mach_message_server.h"
 
+#include <string.h>
+
 #include <limits>
 
 #include "base/logging.h"
@@ -48,26 +50,31 @@ class MachMessageBuffer {
     // This test uses == instead of > so that a large reallocation to receive a
     // large message doesn’t cause permanent memory bloat for the duration of
     // a MachMessageServer::Run() loop.
-    if (size == vm_.size()) {
-      return KERN_SUCCESS;
-    }
+    if (size != vm_.size()) {
+      // reset() first, so that two allocations don’t exist simultaneously.
+      vm_.reset();
 
-    // reset() first, so that two allocations don’t exist simultaneously.
-    vm_.reset();
+      if (size) {
+        vm_address_t address;
+        kern_return_t kr =
+            vm_allocate(mach_task_self(),
+                        &address,
+                        size,
+                        VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
+        if (kr != KERN_SUCCESS) {
+          return kr;
+        }
 
-    if (size) {
-      vm_address_t address;
-      kern_return_t kr =
-          vm_allocate(mach_task_self(),
-                      &address,
-                      size,
-                      VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
-      if (kr != KERN_SUCCESS) {
-        return kr;
+        vm_.reset(address, size);
       }
-
-      vm_.reset(address, size);
     }
+
+#if !defined(NDEBUG)
+    // Regardless of whether the allocation was changed, scribble over the
+    // memory to make sure that nothing relies on zero-initialization or stale
+    // contents.
+    memset(Header(), 0x66, size);
+#endif
 
     return KERN_SUCCESS;
   }
