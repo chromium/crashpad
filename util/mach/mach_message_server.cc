@@ -16,68 +16,99 @@
 
 #include <limits>
 
+#include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_vm.h"
-#include "util/misc/clock.h"
+#include "util/mach/mach_message.h"
 
 namespace crashpad {
 
 namespace {
 
-const int kNanosecondsPerMillisecond = 1E6;
+//! \brief Manages a dynamically-allocated buffer to be used for Mach messaging.
+class MachMessageBuffer {
+ public:
+  MachMessageBuffer() : vm_() {}
 
-// TimerRunning determines whether |deadline| has passed. If |deadline| is in
-// the future, |*remaining_ms| is set to the number of milliseconds remaining,
-// which will always be a positive value, and this function returns true. If
-// |deadline| is zero (indicating that no timer is in effect), |*remaining_ms|
-// is set to zero and this function returns true. Otherwise, this function sets
-// |*remaining_ms| to zero and returns false. |deadline| is specified on the
-// same time base as is returned by ClockMonotonicNanoseconds().
-bool TimerRunning(uint64_t deadline, mach_msg_timeout_t* remaining_ms) {
-  if (!deadline) {
-    *remaining_ms = MACH_MSG_TIMEOUT_NONE;
-    return true;
+  ~MachMessageBuffer() {}
+
+  //! \return A pointer to the buffer.
+  mach_msg_header_t* Header() const {
+    return reinterpret_cast<mach_msg_header_t*>(vm_.address());
   }
 
-  uint64_t now = ClockMonotonicNanoseconds();
+  //! \brief Ensures that this object has a buffer of exactly \a size bytes
+  //!     available.
+  //!
+  //! If the existing buffer is a different size, it will be reallocated without
+  //! copying any of the old buffer’s contents to the new buffer. The contents
+  //! of the buffer are unspecified after this call, even if no reallocation is
+  //! made.
+  kern_return_t Reallocate(vm_size_t size) {
+    // This test uses == instead of > so that a large reallocation to receive a
+    // large message doesn’t cause permanent memory bloat for the duration of
+    // a MachMessageServer::Run() loop.
+    if (size == vm_.size()) {
+      return KERN_SUCCESS;
+    }
 
-  if (now >= deadline) {
-    *remaining_ms = 0;
-    return false;
+    // reset() first, so that two allocations don’t exist simultaneously.
+    vm_.reset();
+
+    vm_address_t address;
+    kern_return_t kr =
+        vm_allocate(mach_task_self(),
+                    &address,
+                    size,
+                    VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
+    if (kr != KERN_SUCCESS) {
+      return kr;
+    }
+
+    vm_.reset(address, size);
+    return KERN_SUCCESS;
   }
 
-  uint64_t remaining = deadline - now;
+ private:
+  base::mac::ScopedMachVM vm_;
 
-  // Round to the nearest millisecond, taking care not to overflow.
-  const int kHalfMillisecondInNanoseconds = kNanosecondsPerMillisecond / 2;
-  mach_msg_timeout_t remaining_mach;
-  if (remaining <=
-      std::numeric_limits<uint64_t>::max() - kHalfMillisecondInNanoseconds) {
-    remaining_mach = (remaining + kHalfMillisecondInNanoseconds) /
-                     kNanosecondsPerMillisecond;
-  } else {
-    remaining_mach = remaining / kNanosecondsPerMillisecond;
+  DISALLOW_COPY_AND_ASSIGN(MachMessageBuffer);
+};
+
+// Wraps MachMessageWithDeadline(), using a MachMessageBuffer argument which
+// will be resized to |receive_size| (after being page-rounded). MACH_RCV_MSG
+// is always combined into |options|.
+mach_msg_return_t MachMessageAllocateReceive(MachMessageBuffer* request,
+                                             mach_msg_option_t options,
+                                             mach_msg_size_t receive_size,
+                                             mach_port_name_t receive_port,
+                                             MachMessageDeadline deadline,
+                                             mach_port_name_t notify_port,
+                                             bool run_even_if_expired) {
+  mach_msg_size_t request_alloc = round_page(receive_size);
+  kern_return_t kr = request->Reallocate(request_alloc);
+  if (kr != KERN_SUCCESS) {
+    return kr;
   }
 
-  if (remaining_mach == MACH_MSG_TIMEOUT_NONE) {
-    *remaining_ms = 0;
-    return false;
-  }
-
-  *remaining_ms = remaining_mach;
-  return true;
+  return MachMessageWithDeadline(request->Header(),
+                                 options | MACH_RCV_MSG,
+                                 receive_size,
+                                 receive_port,
+                                 deadline,
+                                 notify_port,
+                                 run_even_if_expired);
 }
 
 }  // namespace
 
-// This implementation is based on 10.9.4
-// xnu-2422.110.17/libsyscall/mach/mach_msg.c mach_msg_server_once(), but
-// adapted to local style using scopers, replacing the server callback function
-// and |max_size| parameter with a C++ interface, and with the addition of the
-// the |persistent| parameter allowing this function to serve as a stand-in for
-// mach_msg_server(), the |nonblocking| parameter to control blocking directly,
-// and the |timeout_ms| parameter allowing this function to not block
-// indefinitely.
+// This method implements a server similar to 10.9.4
+// xnu-2422.110.17/libsyscall/mach/mach_msg.c mach_msg_server_once(). The server
+// callback function and |max_size| parameter have been replaced with a C++
+// interface. The |persistent| parameter has been added, allowing this method to
+// serve as a stand-in for mach_msg_server(). The |nonblocking| parameter has
+// been added, allowing blocking to be controlled directly. The |timeout_ms|
+// parameter has been added, allowing this function to not block indefinitely.
 //
 // static
 mach_msg_return_t MachMessageServer::Run(Interface* interface,
@@ -89,20 +120,13 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
                                          mach_msg_timeout_t timeout_ms) {
   options &= ~(MACH_RCV_MSG | MACH_SEND_MSG);
 
-  mach_msg_options_t timeout_options = MACH_RCV_TIMEOUT | MACH_SEND_TIMEOUT |
-                                       MACH_RCV_INTERRUPT | MACH_SEND_INTERRUPT;
-
-  uint64_t deadline;
+  MachMessageDeadline deadline;
   if (nonblocking == kNonblocking) {
-    options |= timeout_options;
-    deadline = 0;
-  } else if (timeout_ms != MACH_MSG_TIMEOUT_NONE) {
-    options |= timeout_options;
-    deadline = ClockMonotonicNanoseconds() +
-               implicit_cast<uint64_t>(timeout_ms) * kNanosecondsPerMillisecond;
+    deadline = kMachMessageNonblocking;
+  } else if (timeout_ms == MACH_MSG_TIMEOUT_NONE) {
+    deadline = kMachMessageWaitIndefinitely;
   } else {
-    options &= ~timeout_options;
-    deadline = 0;
+    deadline = MachMessageDeadlineFromTimeout(timeout_ms);
   }
 
   if (receive_large == kReceiveLargeResize) {
@@ -111,111 +135,82 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
     options &= ~MACH_RCV_LARGE;
   }
 
-  mach_msg_size_t trailer_alloc = REQUESTED_TRAILER_SIZE(options);
-  mach_msg_size_t expected_request_size =
-      interface->MachMessageServerRequestSize();
-  mach_msg_size_t request_alloc =
-      round_page(round_msg(expected_request_size) + trailer_alloc);
-  mach_msg_size_t request_size =
-      (receive_large == kReceiveLargeResize)
-          ? request_alloc
-          : round_msg(expected_request_size) + trailer_alloc;
-
-  mach_msg_size_t max_reply_size = interface->MachMessageServerReplySize();
+  const mach_msg_size_t trailer_alloc = REQUESTED_TRAILER_SIZE(options);
+  const mach_msg_size_t expected_receive_size =
+      round_msg(interface->MachMessageServerRequestSize()) + trailer_alloc;
+  const mach_msg_size_t request_size = (receive_large == kReceiveLargeResize)
+                                           ? round_page(expected_receive_size)
+                                           : expected_receive_size;
 
   // mach_msg_server() and mach_msg_server_once() would consider whether
   // |options| contains MACH_SEND_TRAILER and include MAX_TRAILER_SIZE in this
   // computation if it does, but that option is ineffective on OS X.
-  mach_msg_size_t reply_alloc = round_page(max_reply_size);
+  const mach_msg_size_t reply_alloc =
+      round_page(interface->MachMessageServerReplySize());
 
-  base::mac::ScopedMachVM request_scoper;
-  base::mac::ScopedMachVM reply_scoper;
+  MachMessageBuffer request;
+  MachMessageBuffer reply;
   bool received_any_request = false;
+  bool retry;
 
   kern_return_t kr;
 
   do {
-    mach_msg_size_t this_request_alloc = request_alloc;
-    mach_msg_size_t this_request_size = request_size;
+    retry = false;
 
-    mach_msg_header_t* request_header = nullptr;
+    kr = MachMessageAllocateReceive(&request,
+                                    options,
+                                    request_size,
+                                    receive_port,
+                                    deadline,
+                                    MACH_PORT_NULL,
+                                    !received_any_request);
+    if (kr == MACH_RCV_TOO_LARGE) {
+      switch (receive_large) {
+        case kReceiveLargeError:
+          break;
 
-    do {
-      // This test uses != instead of < so that a large reallocation to receive
-      // a large message doesn’t cause permanent memory bloat.
-      if (request_scoper.size() != this_request_alloc) {
-        // reset() first, so that two allocations don’t exist simultaneously.
-        request_scoper.reset();
-
-        vm_address_t request_addr;
-        kr = vm_allocate(mach_task_self(),
-                         &request_addr,
-                         this_request_alloc,
-                         VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
-        if (kr != KERN_SUCCESS) {
-          return kr;
-        }
-
-        request_scoper.reset(request_addr, this_request_alloc);
-      }
-
-      request_header =
-          reinterpret_cast<mach_msg_header_t*>(request_scoper.address());
-
-      do {
-        // If |options| contains MACH_RCV_INTERRUPT, retry mach_msg() in a loop
-        // when it returns MACH_RCV_INTERRUPTED to recompute |remaining_ms|
-        // rather than allowing mach_msg() to retry using the original timeout
-        // value. See 10.9.4 xnu-2422.110.17/libsyscall/mach/mach_msg.c
-        // mach_msg(). Don’t return early here if nothing has ever been
-        // received: this method should always attempt to dequeue at least one
-        // message.
-        mach_msg_timeout_t remaining_ms;
-        if (!TimerRunning(deadline, &remaining_ms) && received_any_request) {
-          return MACH_RCV_TIMED_OUT;
-        }
-
-        kr = mach_msg(request_header,
-                      options | MACH_RCV_MSG,
-                      0,
-                      this_request_size,
-                      receive_port,
-                      remaining_ms,
-                      MACH_PORT_NULL);
-
-        if (kr == MACH_RCV_TOO_LARGE && receive_large == kReceiveLargeIgnore) {
+        case kReceiveLargeIgnore:
+          // Try again, even in one-shot mode. The caller is expecting this
+          // method to take action on the first message in the queue, and has
+          // indicated that they want large messages to be ignored. The
+          // alternatives, which might involve returning MACH_MSG_SUCCESS,
+          // MACH_RCV_TIMED_OUT, or MACH_RCV_TOO_LARGE to a caller that
+          // specified one-shot behavior, all seem less correct than retrying.
           MACH_LOG(WARNING, kr) << "mach_msg: ignoring large message";
-        }
-      } while (
-          (kr == MACH_RCV_TOO_LARGE && receive_large == kReceiveLargeIgnore) ||
-          kr == MACH_RCV_INTERRUPTED);
+          retry = true;
+          continue;
 
-      if (kr == MACH_RCV_TOO_LARGE && receive_large == kReceiveLargeResize) {
-        this_request_size =
-            round_page(round_msg(request_header->msgh_size) + trailer_alloc);
-        this_request_alloc = this_request_size;
-      } else if (kr != MACH_MSG_SUCCESS) {
-        return kr;
+        case kReceiveLargeResize: {
+          mach_msg_size_t this_request_size = round_page(
+              round_msg(request.Header()->msgh_size) + trailer_alloc);
+
+          kr = MachMessageAllocateReceive(&request,
+                                          options & ~MACH_RCV_LARGE,
+                                          this_request_size,
+                                          receive_port,
+                                          deadline,
+                                          MACH_PORT_NULL,
+                                          !received_any_request);
+
+          break;
+        }
       }
-    } while (kr != MACH_MSG_SUCCESS);
+    }
+
+    if (kr != MACH_MSG_SUCCESS) {
+      return kr;
+    }
 
     received_any_request = true;
 
-    if (reply_scoper.size() != reply_alloc) {
-      vm_address_t reply_addr;
-      kr = vm_allocate(mach_task_self(),
-                       &reply_addr,
-                       reply_alloc,
-                       VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
-      if (kr != KERN_SUCCESS) {
-        return kr;
-      }
-
-      reply_scoper.reset(reply_addr, reply_alloc);
+    kr = reply.Reallocate(reply_alloc);
+    if (kr != KERN_SUCCESS) {
+      return kr;
     }
 
-    mach_msg_header_t* reply_header =
-        reinterpret_cast<mach_msg_header_t*>(reply_scoper.address());
+    mach_msg_header_t* request_header = request.Header();
+    mach_msg_header_t* reply_header = reply.Header();
     bool destroy_complex_request = false;
     interface->MachMessageServerFunction(
         request_header, reply_header, &destroy_complex_request);
@@ -244,57 +239,34 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
     }
 
     if (reply_header->msgh_remote_port != MACH_PORT_NULL) {
-      // If the reply port right is a send-once right, the send won’t block even
-      // if the remote side isn’t waiting for a message. No timeout is used,
-      // which keeps the communication on the kernel’s fast path. If the reply
-      // port right is a send right, MACH_SEND_TIMEOUT is used to avoid blocking
-      // indefinitely. This duplicates the logic in 10.9.4
-      // xnu-2422.110.17/libsyscall/mach/mach_msg.c mach_msg_server_once().
-      mach_msg_option_t send_options =
-          options | MACH_SEND_MSG |
-          (MACH_MSGH_BITS_REMOTE(reply_header->msgh_bits) ==
-                   MACH_MSG_TYPE_MOVE_SEND_ONCE
-               ? 0
-               : MACH_SEND_TIMEOUT);
+      // Avoid blocking indefinitely. This duplicates the logic in 10.9.5
+      // xnu-2422.115.4/libsyscall/mach/mach_msg.c mach_msg_server_once(),
+      // although the special provision for sending to a send-once right is not
+      // made, because kernel keeps sends to a send-once right on the fast path
+      // without considering the user-specified timeout. See 10.9.5
+      // xnu-2422.115.4/osfmk/ipc/ipc_mqueue.c ipc_mqueue_send().
+      const MachMessageDeadline send_deadline =
+          deadline == kMachMessageWaitIndefinitely ? kMachMessageNonblocking
+                                                   : deadline;
 
-      bool running;
-      do {
-        // If |options| contains MACH_SEND_INTERRUPT, retry mach_msg() in a loop
-        // when it returns MACH_SEND_INTERRUPTED to recompute |remaining_ms|
-        // rather than allowing mach_msg() to retry using the original timeout
-        // value. See 10.9.4 xnu-2422.110.17/libsyscall/mach/mach_msg.c
-        // mach_msg().
-        mach_msg_timeout_t remaining_ms;
-        running = TimerRunning(deadline, &remaining_ms);
+      kr = MachMessageWithDeadline(reply_header,
+                                   options | MACH_SEND_MSG,
+                                   0,
+                                   MACH_PORT_NULL,
+                                   send_deadline,
+                                   MACH_PORT_NULL,
+                                   true);
 
-        // Don’t return just yet even if |running| is false. If the timer ran
-        // out in between the time the request was received and now, at least
-        // try to send the response.
-
-        kr = mach_msg(reply_header,
-                      send_options,
-                      reply_header->msgh_size,
-                      0,
-                      MACH_PORT_NULL,
-                      remaining_ms,
-                      MACH_PORT_NULL);
-      } while (kr == MACH_SEND_INTERRUPTED);
-
-      if (kr != KERN_SUCCESS) {
-        if (kr == MACH_SEND_INVALID_DEST || kr == MACH_SEND_TIMED_OUT) {
+      if (kr != MACH_MSG_SUCCESS) {
+        if (kr == MACH_SEND_INVALID_DEST ||
+            kr == MACH_SEND_TIMED_OUT ||
+            kr == MACH_SEND_INTERRUPTED) {
           mach_msg_destroy(reply_header);
         }
         return kr;
       }
-
-      if (!running) {
-        // The reply message was sent successfuly, so act as though the deadline
-        // was reached before or during the subsequent receive operation when in
-        // persistent mode, and just return success when not in persistent mode.
-        return (persistent == kPersistent) ? MACH_RCV_TIMED_OUT : kr;
-      }
     }
-  } while (persistent == kPersistent);
+  } while (persistent == kPersistent || retry);
 
   return kr;
 }
