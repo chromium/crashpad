@@ -43,7 +43,7 @@ class MachMessageBuffer {
   //! If the existing buffer is a different size, it will be reallocated without
   //! copying any of the old buffer’s contents to the new buffer. The contents
   //! of the buffer are unspecified after this call, even if no reallocation is
-  //! made.
+  //! performed.
   kern_return_t Reallocate(vm_size_t size) {
     // This test uses == instead of > so that a large reallocation to receive a
     // large message doesn’t cause permanent memory bloat for the duration of
@@ -55,17 +55,20 @@ class MachMessageBuffer {
     // reset() first, so that two allocations don’t exist simultaneously.
     vm_.reset();
 
-    vm_address_t address;
-    kern_return_t kr =
-        vm_allocate(mach_task_self(),
-                    &address,
-                    size,
-                    VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
-    if (kr != KERN_SUCCESS) {
-      return kr;
+    if (size) {
+      vm_address_t address;
+      kern_return_t kr =
+          vm_allocate(mach_task_self(),
+                      &address,
+                      size,
+                      VM_FLAGS_ANYWHERE | VM_MAKE_TAG(VM_MEMORY_MACH_MSG));
+      if (kr != KERN_SUCCESS) {
+        return kr;
+      }
+
+      vm_.reset(address, size);
     }
 
-    vm_.reset(address, size);
     return KERN_SUCCESS;
   }
 
@@ -141,12 +144,14 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
   const mach_msg_size_t request_size = (receive_large == kReceiveLargeResize)
                                            ? round_page(expected_receive_size)
                                            : expected_receive_size;
+  DCHECK_GE(request_size, sizeof(mach_msg_empty_rcv_t));
 
   // mach_msg_server() and mach_msg_server_once() would consider whether
   // |options| contains MACH_SEND_TRAILER and include MAX_TRAILER_SIZE in this
   // computation if it does, but that option is ineffective on OS X.
-  const mach_msg_size_t reply_alloc =
-      round_page(interface->MachMessageServerReplySize());
+  const mach_msg_size_t reply_size = interface->MachMessageServerReplySize();
+  DCHECK_GE(reply_size, sizeof(mach_msg_empty_send_t));
+  const mach_msg_size_t reply_alloc = round_page(reply_size);
 
   MachMessageBuffer request;
   MachMessageBuffer reply;
@@ -184,6 +189,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
         case kReceiveLargeResize: {
           mach_msg_size_t this_request_size = round_page(
               round_msg(request.Header()->msgh_size) + trailer_alloc);
+          DCHECK_GT(this_request_size, request_size);
 
           kr = MachMessageAllocateReceive(&request,
                                           options & ~MACH_RCV_LARGE,
