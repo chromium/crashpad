@@ -15,10 +15,10 @@
 #include "util/mach/child_port_handshake.h"
 
 #include <errno.h>
-#include <fcntl.h>
 #include <pthread.h>
 #include <servers/bootstrap.h>
 #include <sys/event.h>
+#include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -44,16 +44,26 @@ ChildPortHandshake::ChildPortHandshake()
       pipe_write_(),
       child_port_(MACH_PORT_NULL),
       checked_in_(false) {
+  // Use socketpair() instead of pipe(). There is no way to suppress SIGPIPE on
+  // pipes in Mac OS X 10.6, because the F_SETNOSIGPIPE fcntl() command was not
+  // introduced until 10.7.
   int pipe_fds[2];
-  int rv = pipe(pipe_fds);
-  PCHECK(rv == 0) << "pipe";
+  PCHECK(socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, pipe_fds) == 0)
+      << "socketpair";
 
   pipe_read_.reset(pipe_fds[0]);
   pipe_write_.reset(pipe_fds[1]);
 
+  // Simulate pipe() semantics by shutting down the “wrong” sides of the socket.
+  PCHECK(shutdown(pipe_write_.get(), SHUT_RD) == 0) << "shutdown";
+  PCHECK(shutdown(pipe_read_.get(), SHUT_WR) == 0) << "shutdown";
+
   // SIGPIPE is undesirable when writing to this pipe. Allow broken-pipe writes
   // to fail with EPIPE instead.
-  PCHECK(fcntl(pipe_write_.get(), F_SETNOSIGPIPE, 1) == 0) << "fcntl";
+  const int value = 1;
+  PCHECK(setsockopt(
+      pipe_write_.get(), SOL_SOCKET, SO_NOSIGPIPE, &value, sizeof(value)) == 0)
+      << "setsockopt";
 }
 
 ChildPortHandshake::~ChildPortHandshake() {
@@ -75,6 +85,7 @@ mach_port_t ChildPortHandshake::RunServer() {
   token_ = base::RandUint64();
   int pipe_write = pipe_write_owner.get();
   if (!LoggingWriteFD(pipe_write, &token_, sizeof(token_))) {
+    LOG(WARNING) << "no client check-in";
     return MACH_PORT_NULL;
   }
 
@@ -103,10 +114,12 @@ mach_port_t ChildPortHandshake::RunServer() {
   uint32_t service_name_length = service_name.size();
   if (!LoggingWriteFD(
           pipe_write, &service_name_length, sizeof(service_name_length))) {
+    LOG(WARNING) << "no client check-in";
     return MACH_PORT_NULL;
   }
 
   if (!LoggingWriteFD(pipe_write, service_name.c_str(), service_name_length)) {
+    LOG(WARNING) << "no client check-in";
     return MACH_PORT_NULL;
   }
 
