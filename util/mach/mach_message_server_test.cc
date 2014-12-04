@@ -17,6 +17,8 @@
 #include <mach/mach.h>
 #include <string.h>
 
+#include <set>
+
 #include "base/basictypes.h"
 #include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
@@ -222,7 +224,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       EXPECT_EQ(RemotePort(), request->header.msgh_remote_port);
     }
     EXPECT_EQ(LocalPort(), request->header.msgh_local_port);
-    EXPECT_EQ(kRequestMessageId, request->header.msgh_id);
+    EXPECT_EQ(kRequestMessageID, request->header.msgh_id);
     if (options_.client_send_complex) {
       EXPECT_EQ(1u, request->body.msgh_descriptor_count);
       EXPECT_NE(kMachPortNull, request->port_descriptor.name);
@@ -266,12 +268,18 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     reply->Head.msgh_size = sizeof(*reply);
     reply->Head.msgh_remote_port = request->header.msgh_remote_port;
     reply->Head.msgh_local_port = MACH_PORT_NULL;
-    reply->Head.msgh_id = kReplyMessageId;
+    reply->Head.msgh_id = kReplyMessageID;
     reply->NDR = NDR_record;
     reply->RetCode = options_.server_mig_retcode;
     reply->number = replies_++;
 
     return true;
+  }
+
+  std::set<mach_msg_id_t> MachMessageServerRequestIDs() override {
+    const mach_msg_id_t request_ids[] = {kRequestMessageID};
+    return std::set<mach_msg_id_t>(
+        &request_ids[0], &request_ids[arraysize(request_ids)]);
   }
 
   mach_msg_size_t MachMessageServerRequestSize() override {
@@ -469,7 +477,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
         break;
       }
     }
-    request.header.msgh_id = kRequestMessageId;
+    request.header.msgh_id = kRequestMessageID;
     if (options_.client_send_complex) {
       // Allocate a new receive right in this process and make a send right that
       // will appear in the parent process. This is used to test that the server
@@ -534,7 +542,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     ASSERT_EQ(sizeof(ReplyMessage), reply.Head.msgh_size);
     ASSERT_EQ(kMachPortNull, reply.Head.msgh_remote_port);
     ASSERT_EQ(LocalPort(), reply.Head.msgh_local_port);
-    ASSERT_EQ(kReplyMessageId, reply.Head.msgh_id);
+    ASSERT_EQ(kReplyMessageID, reply.Head.msgh_id);
     ASSERT_EQ(0, memcmp(&reply.NDR, &NDR_record, sizeof(NDR_record)));
     ASSERT_EQ(options_.server_mig_retcode, reply.RetCode);
     ASSERT_EQ(replies_, reply.number);
@@ -584,16 +592,16 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   static uint32_t requests_;
   static uint32_t replies_;
 
-  static const mach_msg_id_t kRequestMessageId = 16237;
-  static const mach_msg_id_t kReplyMessageId = kRequestMessageId + 100;
+  static const mach_msg_id_t kRequestMessageID = 16237;
+  static const mach_msg_id_t kReplyMessageID = kRequestMessageID + 100;
 
   DISALLOW_COPY_AND_ASSIGN(TestMachMessageServer);
 };
 
 uint32_t TestMachMessageServer::requests_;
 uint32_t TestMachMessageServer::replies_;
-const mach_msg_id_t TestMachMessageServer::kRequestMessageId;
-const mach_msg_id_t TestMachMessageServer::kReplyMessageId;
+const mach_msg_id_t TestMachMessageServer::kRequestMessageID;
+const mach_msg_id_t TestMachMessageServer::kReplyMessageID;
 
 TEST(MachMessageServer, Basic) {
   // The client sends one message to the server, which will wait indefinitely in

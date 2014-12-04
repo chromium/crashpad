@@ -103,6 +103,12 @@ bool ChildPortServer::MachMessageServerFunction(
   return false;
 }
 
+std::set<mach_msg_id_t> ChildPortServer::MachMessageServerRequestIDs() {
+  const mach_msg_id_t request_ids[] = {kMachMessageIDChildPortCheckIn};
+  return std::set<mach_msg_id_t>(
+      &request_ids[0], &request_ids[arraysize(request_ids)]);
+}
+
 mach_msg_size_t ChildPortServer::MachMessageServerRequestSize() {
   return sizeof(__RequestUnion__handle_child_port_subsystem);
 }

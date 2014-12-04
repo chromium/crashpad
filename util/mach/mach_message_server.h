@@ -17,6 +17,8 @@
 
 #include <mach/mach.h>
 
+#include <set>
+
 #include "base/basictypes.h"
 
 namespace crashpad {
@@ -67,6 +69,10 @@ class MachMessageServer {
     virtual bool MachMessageServerFunction(const mach_msg_header_t* in,
                                            mach_msg_header_t* out,
                                            bool* destroy_complex_request) = 0;
+
+    //! \return The set of request message Mach message IDs that
+    //!     MachMessageServerFunction() is able to handle.
+    virtual std::set<mach_msg_id_t> MachMessageServerRequestIDs() = 0;
 
     //! \return The expected or maximum size, in bytes, of a request message to
     //!     be received as the \a in parameter of MachMessageServerFunction().

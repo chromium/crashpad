@@ -584,6 +584,10 @@ TEST(ExcServerVariants, MockExceptionRaise) {
   MockUniversalMachExcServer server;
   UniversalMachExcServer universal_mach_exc_server(&server);
 
+  std::set<mach_msg_id_t> ids =
+      universal_mach_exc_server.MachMessageServerRequestIDs();
+  EXPECT_NE(ids.end(), ids.find(2401));  // There is no constant for this.
+
   ExceptionRaiseRequest request;
   EXPECT_LE(request.Head.msgh_size,
             universal_mach_exc_server.MachMessageServerRequestSize());
@@ -624,6 +628,10 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
 
   MockUniversalMachExcServer server;
   UniversalMachExcServer universal_mach_exc_server(&server);
+
+  std::set<mach_msg_id_t> ids =
+      universal_mach_exc_server.MachMessageServerRequestIDs();
+  EXPECT_NE(ids.end(), ids.find(2402));  // There is no constant for this.
 
   ExceptionRaiseStateRequest request;
   EXPECT_LE(request.Head.msgh_size,
@@ -670,6 +678,10 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
   MockUniversalMachExcServer server;
   UniversalMachExcServer universal_mach_exc_server(&server);
 
+  std::set<mach_msg_id_t> ids =
+      universal_mach_exc_server.MachMessageServerRequestIDs();
+  EXPECT_NE(ids.end(), ids.find(2403));  // There is no constant for this.
+
   ExceptionRaiseStateIdentityRequest request;
   EXPECT_LE(request.Head.msgh_size,
             universal_mach_exc_server.MachMessageServerRequestSize());
@@ -711,6 +723,10 @@ TEST(ExcServerVariants, MockMachExceptionRaise) {
 
   MockUniversalMachExcServer server;
   UniversalMachExcServer universal_mach_exc_server(&server);
+
+  std::set<mach_msg_id_t> ids =
+      universal_mach_exc_server.MachMessageServerRequestIDs();
+  EXPECT_NE(ids.end(), ids.find(2405));  // There is no constant for this.
 
   MachExceptionRaiseRequest request;
   EXPECT_LE(request.Head.msgh_size,
@@ -754,6 +770,10 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
 
   MockUniversalMachExcServer server;
   UniversalMachExcServer universal_mach_exc_server(&server);
+
+  std::set<mach_msg_id_t> ids =
+      universal_mach_exc_server.MachMessageServerRequestIDs();
+  EXPECT_NE(ids.end(), ids.find(2406));  // There is no constant for this.
 
   MachExceptionRaiseStateRequest request;
   EXPECT_LE(request.Head.msgh_size,
@@ -800,6 +820,10 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
 
   MockUniversalMachExcServer server;
   UniversalMachExcServer universal_mach_exc_server(&server);
+
+  std::set<mach_msg_id_t> ids =
+      universal_mach_exc_server.MachMessageServerRequestIDs();
+  EXPECT_NE(ids.end(), ids.find(2407));  // There is no constant for this.
 
   MachExceptionRaiseStateIdentityRequest request;
   EXPECT_LE(request.Head.msgh_size,
@@ -882,6 +906,10 @@ TEST(ExcServerVariants, MockUnknownID) {
 
     SCOPED_TRACE(base::StringPrintf("unknown id %d", id));
 
+    std::set<mach_msg_id_t> ids =
+        universal_mach_exc_server.MachMessageServerRequestIDs();
+    EXPECT_EQ(ids.end(), ids.find(id));
+
     InvalidRequest request(id);
     EXPECT_LE(sizeof(request),
               universal_mach_exc_server.MachMessageServerRequestSize());
@@ -904,6 +932,24 @@ TEST(ExcServerVariants, MockUnknownID) {
 
     reply.Verify(id);
   }
+}
+
+TEST(ExcServerVariants, MachMessageServerRequestIDs) {
+  std::set<mach_msg_id_t> expect_request_ids;
+
+  // There are no constants for these.
+  expect_request_ids.insert(2401);
+  expect_request_ids.insert(2402);
+  expect_request_ids.insert(2403);
+  expect_request_ids.insert(2405);
+  expect_request_ids.insert(2406);
+  expect_request_ids.insert(2407);
+
+  MockUniversalMachExcServer server;
+  UniversalMachExcServer universal_mach_exc_server(&server);
+
+  EXPECT_EQ(expect_request_ids,
+            universal_mach_exc_server.MachMessageServerRequestIDs());
 }
 
 class TestExcServerVariants : public MachMultiprocess,

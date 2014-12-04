@@ -101,6 +101,10 @@ TEST(ChildPortServer, MockChildPortCheckIn) {
   MockChildPortServerInterface server_interface;
   ChildPortServer server(&server_interface);
 
+  std::set<mach_msg_id_t> expect_request_ids;
+  expect_request_ids.insert(10011);  // There is no constant for this.
+  EXPECT_EQ(expect_request_ids, server.MachMessageServerRequestIDs());
+
   ChildPortCheckInRequest request;
   EXPECT_LE(request.Head.msgh_size, server.MachMessageServerRequestSize());
 

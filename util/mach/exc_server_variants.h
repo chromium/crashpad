@@ -17,6 +17,8 @@
 
 #include <mach/mach.h>
 
+#include <set>
+
 #include "build/build_config.h"
 #include "util/mach/mach_message_server.h"
 
@@ -118,6 +120,8 @@ class ExcServer : public MachMessageServer::Interface {
                                  mach_msg_header_t* out_header,
                                  bool* destroy_complex_request) override;
 
+  std::set<mach_msg_id_t> MachMessageServerRequestIDs() override;
+
   mach_msg_size_t MachMessageServerRequestSize() override;
   mach_msg_size_t MachMessageServerReplySize() override;
 
@@ -216,6 +220,8 @@ class MachExcServer : public MachMessageServer::Interface {
   bool MachMessageServerFunction(const mach_msg_header_t* in_header,
                                  mach_msg_header_t* out_header,
                                  bool* destroy_complex_request) override;
+
+  std::set<mach_msg_id_t> MachMessageServerRequestIDs() override;
 
   mach_msg_size_t MachMessageServerRequestSize() override;
   mach_msg_size_t MachMessageServerReplySize() override;
@@ -482,6 +488,8 @@ class UniversalMachExcServer
   bool MachMessageServerFunction(const mach_msg_header_t* in_header,
                                  mach_msg_header_t* out_header,
                                  bool* destroy_complex_request) override;
+
+  std::set<mach_msg_id_t> MachMessageServerRequestIDs() override;
 
   mach_msg_size_t MachMessageServerRequestSize() override;
   mach_msg_size_t MachMessageServerReplySize() override;

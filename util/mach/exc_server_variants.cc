@@ -318,6 +318,16 @@ bool ExcServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
   return false;
 }
 
+std::set<mach_msg_id_t> ExcServer::MachMessageServerRequestIDs() {
+  const mach_msg_id_t request_ids[] = {
+      kMachMessageIDExceptionRaise,
+      kMachMessageIDExceptionRaiseState,
+      kMachMessageIDExceptionRaiseStateIdentity
+  };
+  return std::set<mach_msg_id_t>(
+      &request_ids[0], &request_ids[arraysize(request_ids)]);
+}
+
 mach_msg_size_t ExcServer::MachMessageServerRequestSize() {
   return sizeof(__RequestUnion__exc_subsystem);
 }
@@ -457,6 +467,16 @@ bool MachExcServer::MachMessageServerFunction(
 
   SetMIGReplyError(out_header, MIG_BAD_ID);
   return false;
+}
+
+std::set<mach_msg_id_t> MachExcServer::MachMessageServerRequestIDs() {
+  const mach_msg_id_t request_ids[] = {
+      kMachMessageIDMachExceptionRaise,
+      kMachMessageIDMachExceptionRaiseState,
+      kMachMessageIDMachExceptionRaiseStateIdentity
+  };
+  return std::set<mach_msg_id_t>(
+      &request_ids[0], &request_ids[arraysize(request_ids)]);
 }
 
 mach_msg_size_t MachExcServer::MachMessageServerRequestSize() {
@@ -687,6 +707,17 @@ bool UniversalMachExcServer::MachMessageServerFunction(
   PrepareMIGReplyFromRequest(in_header, out_header);
   SetMIGReplyError(out_header, MIG_BAD_ID);
   return false;
+}
+
+std::set<mach_msg_id_t> UniversalMachExcServer::MachMessageServerRequestIDs() {
+  std::set<mach_msg_id_t> request_ids =
+      exc_server_.MachMessageServerRequestIDs();
+
+  std::set<mach_msg_id_t> mach_exc_request_ids =
+      mach_exc_server_.MachMessageServerRequestIDs();
+  request_ids.insert(mach_exc_request_ids.begin(), mach_exc_request_ids.end());
+
+  return request_ids;
 }
 
 mach_msg_size_t UniversalMachExcServer::MachMessageServerRequestSize() {
