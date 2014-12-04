@@ -38,7 +38,7 @@ Runs a Mach exception server registered with the bootstrap server under the name
 Information about the exception will be appended to 'FILE' instead of the
 standard output stream.
 
-*-m*, *--mach_service*='SERVICE'::
+*-m*, *--mach-service*='SERVICE'::
 Check in with the bootstrap server under the name 'SERVICE'. This service name
 may already be reserved with the bootstrap server in cases where this tool is
 started by launchd(8) as a result of a message being sent to a service declared
@@ -72,11 +72,11 @@ Run a one-shot blocking exception server registered with the bootstrap server
 under the name +svc+:
 [subs="quotes"]
 ----
-$ *catch_exception_tool --mach_service=svc --file=out &amp;*
+$ *catch_exception_tool --mach-service=svc --file=out &amp;*
 [1] 1233
-$ *exception_port_tool --set_handler=handler=bootstrap:svc crasher*
+$ *exception_port_tool --set-handler=handler=bootstrap:svc crasher*
 Illegal instruction: 4
-[1]+  Done    catch_exception_tool --mach_service=svc --file=out
+[1]+  Done    catch_exception_tool --mach-service=svc --file=out
 $ *cat out*
 catch_exception_tool:
 behavior EXCEPTION_DEFAULT|MACH_EXCEPTION_CODES,
@@ -90,10 +90,10 @@ bootstrap server under the name +svc+:
 [subs="quotes"]
 ----
 $ *on_demand_service_tool --load --label=catch_exception \
-      --mach_service=svc \
-      $(which catch_exception_tool) --mach_service=svc \
+      --mach-service=svc \
+      $(which catch_exception_tool) --mach-service=svc \
       --file=/tmp/out --nonblocking --persistent*
-$ *exception_port_tool --set_handler=handler=bootstrap:svc crasher*
+$ *exception_port_tool --set-handler=handler=bootstrap:svc crasher*
 Illegal instruction: 4
 $ *on_demand_service_tool --unload --label=catch_exception*
 $ *cat /tmp/out*

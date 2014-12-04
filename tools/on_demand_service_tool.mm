@@ -43,7 +43,7 @@ void Usage(const std::string& me) {
 "                              COMMAND must be specified\n"
 "  -U, --unload                unload (remove) the job identified by --label\n"
 "  -l, --label=LABEL           identify the job to launchd with LABEL\n"
-"  -m, --mach_service=SERVICE  register SERVICE with the bootstrap server\n"
+"  -m, --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
 "      --help                  display this help and exit\n"
 "      --version               output version information and exit\n",
           me.c_str(),
@@ -85,7 +85,7 @@ int OnDemandServiceToolMain(int argc, char* argv[]) {
       {"load", no_argument, nullptr, kOptionLoadJob},
       {"unload", no_argument, nullptr, kOptionUnloadJob},
       {"label", required_argument, nullptr, kOptionJobLabel},
-      {"mach_service", required_argument, nullptr, kOptionMachService},
+      {"mach-service", required_argument, nullptr, kOptionMachService},
       {"help", no_argument, nullptr, kOptionHelp},
       {"version", no_argument, nullptr, kOptionVersion},
       {nullptr, 0, nullptr, 0},

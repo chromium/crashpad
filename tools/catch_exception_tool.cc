@@ -170,7 +170,7 @@ void Usage(const std::string& me) {
 "Catch Mach exceptions and display information about them.\n"
 "\n"
 "  -f, --file=FILE             append information to FILE instead of stdout\n"
-"  -m, --mach_service=SERVICE  register SERVICE with the bootstrap server\n"
+"  -m, --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
 "  -n, --nonblocking           don't block waiting for an exception to occur\n"
 "  -p, --persistent            continue processing exceptions after the first\n"
 "  -t, --timeout=TIMEOUT       run for a maximum of TIMEOUT seconds\n"
@@ -203,7 +203,7 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
 
   const struct option long_options[] = {
       {"file", required_argument, nullptr, kOptionFile},
-      {"mach_service", required_argument, nullptr, kOptionMachService},
+      {"mach-service", required_argument, nullptr, kOptionMachService},
       {"nonblocking", no_argument, nullptr, kOptionNonblocking},
       {"persistent", no_argument, nullptr, kOptionPersistent},
       {"timeout", required_argument, nullptr, kOptionTimeout},

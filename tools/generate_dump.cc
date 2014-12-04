@@ -49,7 +49,7 @@ void Usage(const std::string& me) {
 "Usage: %s [OPTION]... PID\n"
 "Generate a minidump file containing a snapshot of a running process.\n"
 "\n"
-"  -r, --no_suspend   don't suspend the target process during dump generation\n"
+"  -r, --no-suspend   don't suspend the target process during dump generation\n"
 "  -o, --output=FILE  write the minidump to FILE instead of minidump.PID\n"
 "      --help         display this help and exit\n"
 "      --version      output version information and exit\n",
@@ -77,7 +77,7 @@ int GenerateDumpMain(int argc, char* argv[]) {
   options.suspend = true;
 
   const struct option long_options[] = {
-      {"no_suspend", no_argument, nullptr, kOptionNoSuspend},
+      {"no-suspend", no_argument, nullptr, kOptionNoSuspend},
       {"output", required_argument, nullptr, kOptionOutput},
       {"help", no_argument, nullptr, kOptionHelp},
       {"version", no_argument, nullptr, kOptionVersion},

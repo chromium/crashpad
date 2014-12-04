@@ -31,7 +31,7 @@ launchd(8)
 
 On-demand services may be registered with launchd(8) by using the *--load* form.
 One or more service names may be registered with the bootstrap server by
-specifying *--mach_service*. When a Mach message is sent to any of these
+specifying *--mach-service*. When a Mach message is sent to any of these
 services, launchd(8) will invoke 'COMMAND' along with any arguments specified
 ('ARG…'). 'COMMAND' must be an absolute pathname.
 
@@ -51,7 +51,7 @@ may also be referred to as “unload” or “remove”.
 'LABEL' is used as the job label to identify the job to launchd(8). 'LABEL' must
 be unique within a launchd(8) context.
 
-*-m*, *--mach_service*='SERVICE'::
+*-m*, *--mach-service*='SERVICE'::
 In conjunction with *--load*, registers 'SERVICE' with the bootstrap server.
 Clients will be able to obtain a send right by looking up the 'SERVICE' name
 with the bootstrap server. When a message is sent to such a Mach port,
@@ -74,8 +74,8 @@ looking up the name +svc+:
 [subs="quotes"]
 ----
 $ *on_demand_service_tool --load --label=catch_exception \
-      --mach_service=svc \
-      $(which catch_exception_tool) --mach_service=svc \
+      --mach-service=svc \
+      $(which catch_exception_tool) --mach-service=svc \
       --file=/tmp/out --nonblocking --persistent*
 ----
 

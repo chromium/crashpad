@@ -50,7 +50,7 @@ systems.
 
 == Options
 
-*-r*, *--no_suspend*::
+*-r*, *--no-suspend*::
 The target process will continue running while the minidump file is generated.
 Normally, the target process is suspended during this operation, which
 guarantees that the minidump file will contain an atomic snapshot of the

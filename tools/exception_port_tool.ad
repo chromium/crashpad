@@ -28,12 +28,12 @@ exception_port_tool - Show and change Mach exception ports
 == Description
 
 Shows Mach exception ports registered for a thread, task, or host target with a
-*--show_&#42;* option, changes Mach exception ports with *--set_handler*, shows
-changes with a *--show_new_&#42;* option, and executes 'COMMAND' along with any
+*--show-&#42;* option, changes Mach exception ports with *--set-handler*, shows
+changes with a *--show-new-&#42;* option, and executes 'COMMAND' along with any
 arguments specified ('ARG…') with the changed exception ports in effect.
 
 == Options
-*-s*, *--set_handler*='DESCRIPTION'::
+*-s*, *--set-handler*='DESCRIPTION'::
 Set an exception port to 'DESCRIPTION'. This option may appear zero, one, or
 more times.
 +
@@ -79,15 +79,15 @@ exception port should be cleared. 'HANDLER' may also take the form
 and set that service as the exception handler. The default value of 'HANDLER' is
 *NULL*.
 
-*--show_bootstrap*='SERVICE'::
+*--show-bootstrap*='SERVICE'::
 Looks up 'SERVICE' with the bootstrap server and shows it. Normally, the handler
-port values displayed by the other *--show_&#42;* options are meaningless
+port values displayed by the other *--show-&#42;* options are meaningless
 handles, but by comparing them to the port values for known bootstrap services,
 it is possible to verify that they are set as intended.
 
 *-p*, *--pid*='PID'::
-For operations on the task target, including *--set_handler* with 'TARGET' set
-to *task*, *--show_task*, and *--show_new_task*, operates on the task associated
+For operations on the task target, including *--set-handler* with 'TARGET' set
+to *task*, *--show-task*, and *--show-new-task*, operates on the task associated
 with process id 'PID' instead of the current task associated with the tool. When
 this option is supplied, 'COMMAND' must not be specified.
 +
@@ -97,32 +97,32 @@ taskgated(8). Consequently, this program must normally be invoked by root to use
 this option. It is possible to install this program as a setuid root executable
 to overcome this limitation.
 
-*-h*, *--show_host*::
+*-h*, *--show-host*::
 Shows the original host exception ports before making any changes requested by
-*--set_handler*. This option is restricted to the superuser.
+*--set-handler*. This option is restricted to the superuser.
 
-*-t*, *--show_task*::
+*-t*, *--show-task*::
 Shows the original task exception ports before making any changes requested by
-*--set_handler*.
+*--set-handler*.
 
-*--show_thread*::
+*--show-thread*::
 Shows the original thread exception ports before making any changes requested by
-*--set_handler*.
+*--set-handler*.
 
-*-H*, *--show_new_host*::
+*-H*, *--show-new-host*::
 Shows the modified host exception ports after making any changes requested by
-*--set_handler*. This option is restricted to the superuser.
+*--set-handler*. This option is restricted to the superuser.
 
-*-T*, *--show_new_task*::
+*-T*, *--show-new-task*::
 Shows the modified task exception ports after making any changes requested by
-*--set_handler*.
+*--set-handler*.
 
-*--show_new_thread*::
+*--show-new-thread*::
 Shows the modified thread exception ports after making any changes requested by
-*--set_handler*.
+*--set-handler*.
 
 *-n*, *--numeric*::
-For *--show_&#42;* options, all values will be displayed numerically only. The
+For *--show-&#42;* options, all values will be displayed numerically only. The
 default is to decode numeric values and display them symbolically as well.
 
 *--help*::
@@ -140,9 +140,9 @@ are verified by their service names as registered with the bootstrap server.
 With the new task-level exception ports in effect, a program is run.
 [subs="quotes"]
 ----
-$ *exception_port_tool --show_task --show_new_task \
-      --show_bootstrap=com.apple.ReportCrash --show_bootstrap=svc \
-      --set_handler=behavior=DEFAULT,handler=bootstrap:svc crash*
+$ *exception_port_tool --show-task --show-new-task \
+      --show-bootstrap=com.apple.ReportCrash --show-bootstrap=svc \
+      --set-handler=behavior=DEFAULT,handler=bootstrap:svc crash*
 service com.apple.ReportCrash 0xe03
 service svc 0x1003
 task exception port 0, mask 0x400 (CRASH), port 0xe03,
@@ -156,7 +156,7 @@ Shows the task-level exception ports for the process with PID 1234. This
 requires superuser permissions or the approval of taskgated(8).
 [subs="quotes"]
 ----
-# *exception_port_tool --pid=1234 --show_task*
+# *exception_port_tool --pid=1234 --show-task*
 task exception port 0, mask 0x4e
 (BAD_ACCESS|BAD_INSTRUCTION|ARITHMETIC|BREAKPOINT), port 0x1503,
 behavior 0x1 (DEFAULT), flavor 13 (NONE)

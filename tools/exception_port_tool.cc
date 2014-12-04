@@ -317,16 +317,16 @@ void Usage(const std::string& me) {
 "Usage: %s [OPTION]... [COMMAND [ARG]...]\n"
 "View and change Mach exception ports, and run COMMAND if supplied.\n"
 "\n"
-"  -s, --set_handler=DESCRIPTION  set an exception port to DESCRIPTION, see below\n"
-"      --show_bootstrap=SERVICE   look up and display a service registered with\n"
+"  -s, --set-handler=DESCRIPTION  set an exception port to DESCRIPTION, see below\n"
+"      --show-bootstrap=SERVICE   look up and display a service registered with\n"
 "                                 the bootstrap server\n"
 "  -p, --pid=PID                  operate on PID instead of the current task\n"
-"  -h, --show_host                display original host exception ports\n"
-"  -t, --show_task                display original task exception ports\n"
-"      --show_thread              display original thread exception ports\n"
-"  -H, --show_new_host            display modified host exception ports\n"
-"  -T, --show_new_task            display modified task exception ports\n"
-"      --show_new_thread          display modified thread exception ports\n"
+"  -h, --show-host                display original host exception ports\n"
+"  -t, --show-task                display original task exception ports\n"
+"      --show-thread              display original thread exception ports\n"
+"  -H, --show-new-host            display modified host exception ports\n"
+"  -T, --show-new-task            display modified task exception ports\n"
+"      --show-new-thread          display modified thread exception ports\n"
 "  -n, --numeric                  display values numerically, not symbolically\n"
 "      --help                     display this help and exit\n"
 "      --version                  output version information and exit\n"
@@ -403,15 +403,15 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
   } options = {};
 
   const struct option long_options[] = {
-      {"set_handler", required_argument, nullptr, kOptionSetPort},
-      {"show_bootstrap", required_argument, nullptr, kOptionShowBootstrap},
+      {"set-handler", required_argument, nullptr, kOptionSetPort},
+      {"show-bootstrap", required_argument, nullptr, kOptionShowBootstrap},
       {"pid", required_argument, nullptr, kOptionPid},
-      {"show_host", no_argument, nullptr, kOptionShowHost},
-      {"show_task", no_argument, nullptr, kOptionShowTask},
-      {"show_thread", no_argument, nullptr, kOptionShowThread},
-      {"show_new_host", no_argument, nullptr, kOptionShowNewHost},
-      {"show_new_task", no_argument, nullptr, kOptionShowNewTask},
-      {"show_new_thread", no_argument, nullptr, kOptionShowNewThread},
+      {"show-host", no_argument, nullptr, kOptionShowHost},
+      {"show-task", no_argument, nullptr, kOptionShowTask},
+      {"show-thread", no_argument, nullptr, kOptionShowThread},
+      {"show-new-host", no_argument, nullptr, kOptionShowNewHost},
+      {"show-new-task", no_argument, nullptr, kOptionShowNewTask},
+      {"show-new-thread", no_argument, nullptr, kOptionShowNewThread},
       {"numeric", no_argument, nullptr, kOptionNumeric},
       {"help", no_argument, nullptr, kOptionHelp},
       {"version", no_argument, nullptr, kOptionVersion},
