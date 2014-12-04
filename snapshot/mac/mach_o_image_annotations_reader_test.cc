@@ -43,8 +43,9 @@ namespace crashpad {
 namespace test {
 namespace {
 
-class TestMachOImageAnnotationsReader final : public MachMultiprocess,
-                                              public UniversalMachExcServer {
+class TestMachOImageAnnotationsReader final
+    : public MachMultiprocess,
+      public UniversalMachExcServer::Interface {
  public:
   enum TestType {
     // Don’t crash, just test the CrashpadInfo interface.
@@ -62,13 +63,13 @@ class TestMachOImageAnnotationsReader final : public MachMultiprocess,
 
   explicit TestMachOImageAnnotationsReader(TestType test_type)
       : MachMultiprocess(),
-        UniversalMachExcServer(),
+        UniversalMachExcServer::Interface(),
         test_type_(test_type) {
   }
 
   ~TestMachOImageAnnotationsReader() {}
 
-  // UniversalMachExcServer:
+  // UniversalMachExcServer::Interface:
   kern_return_t CatchMachException(exception_behavior_t behavior,
                                    exception_handler_t exception_port,
                                    thread_t thread,
@@ -219,8 +220,10 @@ class TestMachOImageAnnotationsReader final : public MachMultiprocess,
     if (test_type_ != kDontCrash) {
       // Handle the child’s crash. Further validation will be done in
       // CatchMachException().
+      UniversalMachExcServer universal_mach_exc_server(this);
+
       mach_msg_return_t mr =
-          MachMessageServer::Run(this,
+          MachMessageServer::Run(&universal_mach_exc_server,
                                  LocalPort(),
                                  MACH_MSG_OPTION_NONE,
                                  MachMessageServer::kOneShot,

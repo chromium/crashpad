@@ -449,7 +449,7 @@ struct BadIDErrorReply : public mig_reply_error_t {
   }
 };
 
-class MockUniversalMachExcServer : public UniversalMachExcServer {
+class MockUniversalMachExcServer : public UniversalMachExcServer::Interface {
  public:
   struct ConstExceptionCodes {
     const mach_exception_data_type_t* code;
@@ -463,6 +463,8 @@ class MockUniversalMachExcServer : public UniversalMachExcServer {
     const natural_t* state;
     mach_msg_type_number_t* state_count;
   };
+
+  // UniversalMachExcServer::Interface:
 
   // CatchMachException is the method to mock, but it has 13 parameters, and
   // gmock can only mock methods with up to 10 parameters. Coalesce some related
@@ -580,12 +582,15 @@ TEST(ExcServerVariants, MockExceptionRaise) {
   ScopedDefaultValue<kern_return_t> default_kern_return_t(KERN_FAILURE);
 
   MockUniversalMachExcServer server;
+  UniversalMachExcServer universal_mach_exc_server(&server);
 
   ExceptionRaiseRequest request;
-  EXPECT_LE(request.Head.msgh_size, server.MachMessageServerRequestSize());
+  EXPECT_LE(request.Head.msgh_size,
+            universal_mach_exc_server.MachMessageServerRequestSize());
 
   ExceptionRaiseReply reply;
-  EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
+  EXPECT_LE(sizeof(reply),
+            universal_mach_exc_server.MachMessageServerReplySize());
 
   const exception_behavior_t kExceptionBehavior = EXCEPTION_DEFAULT;
 
@@ -605,7 +610,7 @@ TEST(ExcServerVariants, MockExceptionRaise) {
       .RetiresOnSaturation();
 
   bool destroy_complex_request = false;
-  EXPECT_TRUE(server.MachMessageServerFunction(
+  EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
       reinterpret_cast<mach_msg_header_t*>(&request),
       reinterpret_cast<mach_msg_header_t*>(&reply),
       &destroy_complex_request));
@@ -618,12 +623,15 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
   ScopedDefaultValue<kern_return_t> default_kern_return_t(KERN_FAILURE);
 
   MockUniversalMachExcServer server;
+  UniversalMachExcServer universal_mach_exc_server(&server);
 
   ExceptionRaiseStateRequest request;
-  EXPECT_LE(request.Head.msgh_size, server.MachMessageServerRequestSize());
+  EXPECT_LE(request.Head.msgh_size,
+            universal_mach_exc_server.MachMessageServerRequestSize());
 
   ExceptionRaiseStateReply reply;
-  EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
+  EXPECT_LE(sizeof(reply),
+            universal_mach_exc_server.MachMessageServerReplySize());
 
   const exception_behavior_t kExceptionBehavior = EXCEPTION_STATE;
 
@@ -644,7 +652,7 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
       .RetiresOnSaturation();
 
   bool destroy_complex_request = false;
-  EXPECT_TRUE(server.MachMessageServerFunction(
+  EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
       reinterpret_cast<mach_msg_header_t*>(&request),
       reinterpret_cast<mach_msg_header_t*>(&reply),
       &destroy_complex_request));
@@ -660,12 +668,15 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
   ScopedDefaultValue<kern_return_t> default_kern_return_t(KERN_FAILURE);
 
   MockUniversalMachExcServer server;
+  UniversalMachExcServer universal_mach_exc_server(&server);
 
   ExceptionRaiseStateIdentityRequest request;
-  EXPECT_LE(request.Head.msgh_size, server.MachMessageServerRequestSize());
+  EXPECT_LE(request.Head.msgh_size,
+            universal_mach_exc_server.MachMessageServerRequestSize());
 
   ExceptionRaiseStateIdentityReply reply;
-  EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
+  EXPECT_LE(sizeof(reply),
+            universal_mach_exc_server.MachMessageServerReplySize());
 
   const exception_behavior_t kExceptionBehavior = EXCEPTION_STATE_IDENTITY;
 
@@ -686,7 +697,7 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
       .RetiresOnSaturation();
 
   bool destroy_complex_request = false;
-  EXPECT_TRUE(server.MachMessageServerFunction(
+  EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
       reinterpret_cast<mach_msg_header_t*>(&request),
       reinterpret_cast<mach_msg_header_t*>(&reply),
       &destroy_complex_request));
@@ -699,12 +710,15 @@ TEST(ExcServerVariants, MockMachExceptionRaise) {
   ScopedDefaultValue<kern_return_t> default_kern_return_t(KERN_FAILURE);
 
   MockUniversalMachExcServer server;
+  UniversalMachExcServer universal_mach_exc_server(&server);
 
   MachExceptionRaiseRequest request;
-  EXPECT_LE(request.Head.msgh_size, server.MachMessageServerRequestSize());
+  EXPECT_LE(request.Head.msgh_size,
+            universal_mach_exc_server.MachMessageServerRequestSize());
 
   MachExceptionRaiseReply reply;
-  EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
+  EXPECT_LE(sizeof(reply),
+            universal_mach_exc_server.MachMessageServerReplySize());
 
   const exception_behavior_t kExceptionBehavior =
       EXCEPTION_DEFAULT | MACH_EXCEPTION_CODES;
@@ -726,7 +740,7 @@ TEST(ExcServerVariants, MockMachExceptionRaise) {
       .RetiresOnSaturation();
 
   bool destroy_complex_request = false;
-  EXPECT_TRUE(server.MachMessageServerFunction(
+  EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
       reinterpret_cast<mach_msg_header_t*>(&request),
       reinterpret_cast<mach_msg_header_t*>(&reply),
       &destroy_complex_request));
@@ -739,12 +753,15 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
   ScopedDefaultValue<kern_return_t> default_kern_return_t(KERN_FAILURE);
 
   MockUniversalMachExcServer server;
+  UniversalMachExcServer universal_mach_exc_server(&server);
 
   MachExceptionRaiseStateRequest request;
-  EXPECT_LE(request.Head.msgh_size, server.MachMessageServerRequestSize());
+  EXPECT_LE(request.Head.msgh_size,
+            universal_mach_exc_server.MachMessageServerRequestSize());
 
   MachExceptionRaiseStateReply reply;
-  EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
+  EXPECT_LE(sizeof(reply),
+            universal_mach_exc_server.MachMessageServerReplySize());
 
   const exception_behavior_t kExceptionBehavior =
       EXCEPTION_STATE | MACH_EXCEPTION_CODES;
@@ -766,7 +783,7 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
       .RetiresOnSaturation();
 
   bool destroy_complex_request = false;
-  EXPECT_TRUE(server.MachMessageServerFunction(
+  EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
       reinterpret_cast<mach_msg_header_t*>(&request),
       reinterpret_cast<mach_msg_header_t*>(&reply),
       &destroy_complex_request));
@@ -782,12 +799,15 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
   ScopedDefaultValue<kern_return_t> default_kern_return_t(KERN_FAILURE);
 
   MockUniversalMachExcServer server;
+  UniversalMachExcServer universal_mach_exc_server(&server);
 
   MachExceptionRaiseStateIdentityRequest request;
-  EXPECT_LE(request.Head.msgh_size, server.MachMessageServerRequestSize());
+  EXPECT_LE(request.Head.msgh_size,
+            universal_mach_exc_server.MachMessageServerRequestSize());
 
   MachExceptionRaiseStateIdentityReply reply;
-  EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
+  EXPECT_LE(sizeof(reply),
+            universal_mach_exc_server.MachMessageServerReplySize());
 
   const exception_behavior_t kExceptionBehavior =
       EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES;
@@ -809,7 +829,7 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
       .RetiresOnSaturation();
 
   bool destroy_complex_request = false;
-  EXPECT_TRUE(server.MachMessageServerFunction(
+  EXPECT_TRUE(universal_mach_exc_server.MachMessageServerFunction(
       reinterpret_cast<mach_msg_header_t*>(&request),
       reinterpret_cast<mach_msg_header_t*>(&reply),
       &destroy_complex_request));
@@ -822,6 +842,7 @@ TEST(ExcServerVariants, MockUnknownID) {
   ScopedDefaultValue<kern_return_t> default_kern_return_t(KERN_FAILURE);
 
   MockUniversalMachExcServer server;
+  UniversalMachExcServer universal_mach_exc_server(&server);
 
   // Make sure that a message with an unknown ID is handled appropriately.
   // UniversalMachExcServer should not dispatch the message to
@@ -862,13 +883,15 @@ TEST(ExcServerVariants, MockUnknownID) {
     SCOPED_TRACE(base::StringPrintf("unknown id %d", id));
 
     InvalidRequest request(id);
-    EXPECT_LE(sizeof(request), server.MachMessageServerRequestSize());
+    EXPECT_LE(sizeof(request),
+              universal_mach_exc_server.MachMessageServerRequestSize());
 
     BadIDErrorReply reply;
-    EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
+    EXPECT_LE(sizeof(reply),
+              universal_mach_exc_server.MachMessageServerReplySize());
 
     bool destroy_complex_request = false;
-    EXPECT_FALSE(server.MachMessageServerFunction(
+    EXPECT_FALSE(universal_mach_exc_server.MachMessageServerFunction(
         reinterpret_cast<mach_msg_header_t*>(&request),
         reinterpret_cast<mach_msg_header_t*>(&reply),
         &destroy_complex_request));
@@ -883,20 +906,20 @@ TEST(ExcServerVariants, MockUnknownID) {
   }
 }
 
-class TestExcServerVariants : public UniversalMachExcServer,
-                              public MachMultiprocess {
+class TestExcServerVariants : public MachMultiprocess,
+                              public UniversalMachExcServer::Interface {
  public:
   TestExcServerVariants(exception_behavior_t behavior,
                         thread_state_flavor_t flavor,
                         mach_msg_type_number_t state_count)
-      : UniversalMachExcServer(),
-        MachMultiprocess(),
+      : MachMultiprocess(),
+        UniversalMachExcServer::Interface(),
         behavior_(behavior),
         flavor_(flavor),
         state_count_(state_count),
         handled_(false) {}
 
-  // UniversalMachExcServer:
+  // UniversalMachExcServer::Interface:
 
   virtual kern_return_t CatchMachException(
       exception_behavior_t behavior,
@@ -970,8 +993,10 @@ class TestExcServerVariants : public UniversalMachExcServer,
   // MachMultiprocess:
 
   void MachMultiprocessParent() override {
+    UniversalMachExcServer universal_mach_exc_server(this);
+
     kern_return_t kr =
-        MachMessageServer::Run(this,
+        MachMessageServer::Run(&universal_mach_exc_server,
                                LocalPort(),
                                kMachMessageOptions,
                                MachMessageServer::kOneShot,

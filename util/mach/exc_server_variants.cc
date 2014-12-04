@@ -490,7 +490,7 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaise(
                                     thread,
                                     task,
                                     exception,
-                                    code,
+                                    code_count ? code : nullptr,
                                     code_count,
                                     &flavor,
                                     nullptr,
@@ -518,12 +518,12 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaiseState(
                                     THREAD_NULL,
                                     TASK_NULL,
                                     exception,
-                                    code,
+                                    code_count ? code : nullptr,
                                     code_count,
                                     flavor,
-                                    old_state,
+                                    old_state_count ? old_state : nullptr,
                                     old_state_count,
-                                    new_state,
+                                    new_state_count ? new_state : nullptr,
                                     new_state_count,
                                     trailer,
                                     &destroy_complex_request);
@@ -548,12 +548,12 @@ kern_return_t SimplifiedExcServer::CatchExceptionRaiseStateIdentity(
                                     thread,
                                     task,
                                     exception,
-                                    code,
+                                    code_count ? code : nullptr,
                                     code_count,
                                     flavor,
-                                    old_state,
+                                    old_state_count ? old_state : nullptr,
                                     old_state_count,
-                                    new_state,
+                                    new_state_count ? new_state : nullptr,
                                     new_state_count,
                                     trailer,
                                     destroy_request);
@@ -583,7 +583,7 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaise(
       thread,
       task,
       exception,
-      code,
+      code_count ? code : nullptr,
       code_count,
       &flavor,
       nullptr,
@@ -611,12 +611,12 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaiseState(
                                         THREAD_NULL,
                                         TASK_NULL,
                                         exception,
-                                        code,
+                                        code_count ? code : nullptr,
                                         code_count,
                                         flavor,
-                                        old_state,
+                                        old_state_count ? old_state : nullptr,
                                         old_state_count,
-                                        new_state,
+                                        new_state_count ? new_state : nullptr,
                                         new_state_count,
                                         trailer,
                                         &destroy_complex_request);
@@ -642,12 +642,12 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaiseStateIdentity(
       thread,
       task,
       exception,
-      code,
+      code_count ? code : nullptr,
       code_count,
       flavor,
-      old_state,
+      old_state_count ? old_state : nullptr,
       old_state_count,
-      new_state,
+      new_state_count ? new_state : nullptr,
       new_state_count,
       trailer,
       destroy_request);
@@ -655,12 +655,14 @@ kern_return_t SimplifiedMachExcServer::CatchMachExceptionRaiseStateIdentity(
 
 }  // namespace internal
 
-UniversalMachExcServer::UniversalMachExcServer()
+UniversalMachExcServer::UniversalMachExcServer(
+    UniversalMachExcServer::Interface* interface)
     : MachMessageServer::Interface(),
       internal::SimplifiedExcServer::Interface(),
       internal::SimplifiedMachExcServer::Interface(),
       exc_server_(this),
-      mach_exc_server_(this) {
+      mach_exc_server_(this),
+      interface_(interface) {
 }
 
 bool UniversalMachExcServer::MachMessageServerFunction(
@@ -718,20 +720,51 @@ kern_return_t UniversalMachExcServer::CatchException(
     mach_codes.push_back(code[index]);
   }
 
-  return CatchMachException(behavior,
-                            exception_port,
-                            thread,
-                            task,
-                            exception,
-                            code_count ? &mach_codes[0] : nullptr,
-                            code_count,
-                            flavor,
-                            old_state,
-                            old_state_count,
-                            new_state,
-                            new_state_count,
-                            trailer,
-                            destroy_complex_request);
+  return interface_->CatchMachException(behavior,
+                                        exception_port,
+                                        thread,
+                                        task,
+                                        exception,
+                                        code_count ? &mach_codes[0] : nullptr,
+                                        code_count,
+                                        flavor,
+                                        old_state_count ? old_state : nullptr,
+                                        old_state_count,
+                                        new_state_count ? new_state : nullptr,
+                                        new_state_count,
+                                        trailer,
+                                        destroy_complex_request);
+}
+
+kern_return_t UniversalMachExcServer::CatchMachException(
+    exception_behavior_t behavior,
+    exception_handler_t exception_port,
+    thread_t thread,
+    task_t task,
+    exception_type_t exception,
+    const mach_exception_data_type_t* code,
+    mach_msg_type_number_t code_count,
+    thread_state_flavor_t* flavor,
+    const natural_t* old_state,
+    mach_msg_type_number_t old_state_count,
+    thread_state_t new_state,
+    mach_msg_type_number_t* new_state_count,
+    const mach_msg_trailer_t* trailer,
+    bool* destroy_complex_request) {
+  return interface_->CatchMachException(behavior,
+                                        exception_port,
+                                        thread,
+                                        task,
+                                        exception,
+                                        code_count ? code : nullptr,
+                                        code_count,
+                                        flavor,
+                                        old_state_count ? old_state : nullptr,
+                                        old_state_count,
+                                        new_state_count ? new_state : nullptr,
+                                        new_state_count,
+                                        trailer,
+                                        destroy_complex_request);
 }
 
 exception_type_t ExcCrashRecoverOriginalException(

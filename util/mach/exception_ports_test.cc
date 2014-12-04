@@ -102,8 +102,8 @@ void TestGetExceptionPorts(const ExceptionPorts& exception_ports,
   }
 }
 
-class TestExceptionPorts : public UniversalMachExcServer,
-                           public MachMultiprocess {
+class TestExceptionPorts : public MachMultiprocess,
+                           public UniversalMachExcServer::Interface {
  public:
   // Where to call ExceptionPorts::SetExceptionPort() from.
   enum SetType {
@@ -128,8 +128,8 @@ class TestExceptionPorts : public UniversalMachExcServer,
   };
 
   TestExceptionPorts(SetType set_type, SetOn set_on, WhoCrashes who_crashes)
-      : UniversalMachExcServer(),
-        MachMultiprocess(),
+      : MachMultiprocess(),
+        UniversalMachExcServer::Interface(),
         set_type_(set_type),
         set_on_(set_on),
         who_crashes_(who_crashes),
@@ -139,7 +139,7 @@ class TestExceptionPorts : public UniversalMachExcServer,
   SetOn set_on() const { return set_on_; }
   WhoCrashes who_crashes() const { return who_crashes_; }
 
-  // UniversalMachExcServer:
+  // UniversalMachExcServer::Interface:
 
   virtual kern_return_t CatchMachException(
       exception_behavior_t behavior,
@@ -443,8 +443,10 @@ class TestExceptionPorts : public UniversalMachExcServer,
     CheckedWriteFD(WritePipeFD(), &c, 1);
 
     if (who_crashes_ != kNobodyCrashes) {
+      UniversalMachExcServer universal_mach_exc_server(this);
+
       kern_return_t kr =
-          MachMessageServer::Run(this,
+          MachMessageServer::Run(&universal_mach_exc_server,
                                  local_port,
                                  MACH_MSG_OPTION_NONE,
                                  MachMessageServer::kOneShot,

@@ -31,12 +31,12 @@ namespace crashpad {
 namespace test {
 namespace {
 
-class TestExcClientVariants : public UniversalMachExcServer,
-                              public MachMultiprocess {
+class TestExcClientVariants : public MachMultiprocess,
+                              public UniversalMachExcServer::Interface {
  public:
   TestExcClientVariants(exception_behavior_t behavior, bool all_fields)
-      : UniversalMachExcServer(),
-        MachMultiprocess(),
+      : MachMultiprocess(),
+        UniversalMachExcServer::Interface(),
         behavior_(behavior),
         all_fields_(all_fields),
         handled_(false) {
@@ -45,7 +45,7 @@ class TestExcClientVariants : public UniversalMachExcServer,
     ++exception_subcode_;
   }
 
-  // UniversalMachExcServer:
+  // UniversalMachExcServer::Interface:
 
   virtual kern_return_t CatchMachException(
       exception_behavior_t behavior,
@@ -134,8 +134,10 @@ class TestExcClientVariants : public UniversalMachExcServer,
   // MachMultiprocess:
 
   void MachMultiprocessParent() override {
+    UniversalMachExcServer universal_mach_exc_server(this);
+
     kern_return_t kr =
-        MachMessageServer::Run(this,
+        MachMessageServer::Run(&universal_mach_exc_server,
                                LocalPort(),
                                MACH_MSG_OPTION_NONE,
                                MachMessageServer::kOneShot,

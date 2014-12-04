@@ -329,10 +329,6 @@ class SimplifiedMachExcServer : public MachExcServer,
     //!     `mach_exception_raise_state()`, and
     //!     `mach_exception_raise_state_identity()`.
     //!
-    //! When used with UniversalMachExcServer, this also handles exceptions
-    //! raised by `exception_raise()`, `exception_raise_state()`, and
-    //! `exception_raise_state_identity()`.
-    //!
     //! For convenience in implementation, these different “behaviors” of
     //! exception messages are all mapped to a single interface method. The
     //! exception’s original “behavior” is specified in the \a behavior
@@ -346,9 +342,7 @@ class SimplifiedMachExcServer : public MachExcServer,
     //!     `MACH_EXCEPTION_CODES | EXCEPTION_STATE`, or
     //!     `MACH_EXCEPTION_CODES | EXCEPTION_STATE_IDENTITY`, identifying which
     //!     exception request message was processed and thus which other
-    //!     parameters are valid. When used with UniversalMachExcServer, \a
-    //!     behavior can also be `EXCEPTION_DEFAULT`, `EXCEPTION_STATE`, or
-    //!     `EXCEPTION_STATE_IDENTITY`.
+    //!     parameters are valid.
     virtual kern_return_t CatchMachException(
         exception_behavior_t behavior,
         exception_handler_t exception_port,
@@ -436,8 +430,52 @@ class UniversalMachExcServer
       public internal::SimplifiedExcServer::Interface,
       public internal::SimplifiedMachExcServer::Interface {
  public:
+  //! \brief An interface that the different request messages that are a part of
+  //!     the `exc` and `mach_exc` Mach subsystems can be dispatched to.
+  class Interface {
+   public:
+    //! \brief Handles exceptions raised by `exception_raise()`,
+    //!     `exception_raise_state()`, `exception_raise_state_identity()`,
+    //!     `mach_exception_raise()`, `mach_exception_raise_state()`, and
+    //!     `mach_exception_raise_state_identity()`.
+    //!
+    //! For convenience in implementation, these different “behaviors” of
+    //! exception messages are all mapped to a single interface method. The
+    //! exception’s original “behavior” is specified in the \a behavior
+    //! parameter. Only parameters that were supplied in the request message
+    //! are populated, other parameters are set to reasonable default values.
+    //!
+    //! The meanings of most parameters are identical to that of
+    //! MachExcServer::Interface::CatchMachExceptionRaiseStateIdentity().
+    //!
+    //! \param[in] behavior `EXCEPTION_DEFAULT`, `EXCEPTION_STATE`,
+    //!     or `EXCEPTION_STATE_IDENTITY`, possibly with `MACH_EXCEPTION_CODES`
+    //!     ORed in. This identifies which exception request message was
+    //!     processed and thus which other parameters are valid.
+    virtual kern_return_t CatchMachException(
+        exception_behavior_t behavior,
+        exception_handler_t exception_port,
+        thread_t thread,
+        task_t task,
+        exception_type_t exception,
+        const mach_exception_data_type_t* code,
+        mach_msg_type_number_t code_count,
+        thread_state_flavor_t* flavor,
+        const natural_t* old_state,
+        mach_msg_type_number_t old_state_count,
+        thread_state_t new_state,
+        mach_msg_type_number_t* new_state_count,
+        const mach_msg_trailer_t* trailer,
+        bool* destroy_complex_request) = 0;
+
+   protected:
+    ~Interface() {}
+  };
+
   //! \brief Constructs an object of this class.
-  UniversalMachExcServer();
+  //!
+  //! \param[in] interface The interface to dispatch requests to. Weak.
+  explicit UniversalMachExcServer(Interface* interface);
 
   // MachMessageServer::Interface:
 
@@ -465,9 +503,27 @@ class UniversalMachExcServer
                                const mach_msg_trailer_t* trailer,
                                bool* destroy_complex_request) override;
 
+  // internal::SimplifiedMachExcServer::Interface:
+
+  kern_return_t CatchMachException(exception_behavior_t behavior,
+                                   exception_handler_t exception_port,
+                                   thread_t thread,
+                                   task_t task,
+                                   exception_type_t exception,
+                                   const mach_exception_data_type_t* code,
+                                   mach_msg_type_number_t code_count,
+                                   thread_state_flavor_t* flavor,
+                                   const natural_t* old_state,
+                                   mach_msg_type_number_t old_state_count,
+                                   thread_state_t new_state,
+                                   mach_msg_type_number_t* new_state_count,
+                                   const mach_msg_trailer_t* trailer,
+                                   bool* destroy_complex_request) override;
+
  private:
   internal::SimplifiedExcServer exc_server_;
   internal::SimplifiedMachExcServer mach_exc_server_;
+  Interface* interface_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(UniversalMachExcServer);
 };

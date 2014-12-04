@@ -47,16 +47,17 @@ struct Options {
   MachMessageServer::Persistent persistent;
 };
 
-class ExceptionServer : public UniversalMachExcServer {
+class ExceptionServer : public UniversalMachExcServer::Interface {
  public:
   ExceptionServer(const Options& options,
                   const std::string& me,
                   int* exceptions_handled)
-      : UniversalMachExcServer(),
+      : UniversalMachExcServer::Interface(),
         options_(options),
         me_(me),
         exceptions_handled_(exceptions_handled) {}
 
+  // UniversalMachExcServer::Interface:
   virtual kern_return_t CatchMachException(
       exception_behavior_t behavior,
       exception_handler_t exception_port,
@@ -275,6 +276,7 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
 
   int exceptions_handled = 0;
   ExceptionServer exception_server(options, me, &exceptions_handled);
+  UniversalMachExcServer universal_mach_exc_server(&exception_server);
 
   // Assume that if persistent mode has been requested, it’s desirable to ignore
   // large messages and keep running.
@@ -287,7 +289,7 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
                                       ? options.timeout_secs * 1000
                                       : MACH_MSG_TIMEOUT_NONE;
 
-  mach_msg_return_t mr = MachMessageServer::Run(&exception_server,
+  mach_msg_return_t mr = MachMessageServer::Run(&universal_mach_exc_server,
                                                 service_port,
                                                 MACH_MSG_OPTION_NONE,
                                                 options.persistent,

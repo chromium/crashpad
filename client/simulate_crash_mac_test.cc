@@ -35,7 +35,7 @@ namespace test {
 namespace {
 
 class TestSimulateCrashMac final : public MachMultiprocess,
-                                   public UniversalMachExcServer {
+                                   public UniversalMachExcServer::Interface {
  public:
   // Defines which targets the child should set an EXC_CRASH exception handler
   // for.
@@ -68,7 +68,9 @@ class TestSimulateCrashMac final : public MachMultiprocess,
   TestSimulateCrashMac(ExceptionPortsTarget target,
                        exception_behavior_t behavior,
                        thread_state_flavor_t flavor)
-      : target_(target),
+      : MachMultiprocess(),
+        UniversalMachExcServer::Interface(),
+        target_(target),
         behavior_(behavior),
         flavor_(flavor),
         succeed_(true) {
@@ -76,7 +78,7 @@ class TestSimulateCrashMac final : public MachMultiprocess,
 
   ~TestSimulateCrashMac() {}
 
-  // UniversalMachExcServer:
+  // UniversalMachExcServer::Interface:
   kern_return_t CatchMachException(exception_behavior_t behavior,
                                    exception_handler_t exception_port,
                                    thread_t thread,
@@ -236,6 +238,8 @@ class TestSimulateCrashMac final : public MachMultiprocess,
       return;
     }
 
+    UniversalMachExcServer universal_mach_exc_server(this);
+
     mach_msg_return_t mr;
     if (target_ == kExceptionPortsTargetBoth) {
       // The client has registered EXC_CRASH handlers for both its thread and
@@ -243,7 +247,7 @@ class TestSimulateCrashMac final : public MachMultiprocess,
       // exception message is sent to the thread target, which will cause the
       // client to fall back to the task target and send another message.
       succeed_ = false;
-      mr = MachMessageServer::Run(this,
+      mr = MachMessageServer::Run(&universal_mach_exc_server,
                                   LocalPort(),
                                   MACH_MSG_OPTION_NONE,
                                   MachMessageServer::kOneShot,
@@ -255,7 +259,7 @@ class TestSimulateCrashMac final : public MachMultiprocess,
     }
 
     succeed_ = true;
-    mr = MachMessageServer::Run(this,
+    mr = MachMessageServer::Run(&universal_mach_exc_server,
                                 LocalPort(),
                                 MACH_MSG_OPTION_NONE,
                                 MachMessageServer::kOneShot,
