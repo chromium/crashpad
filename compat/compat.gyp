@@ -29,6 +29,7 @@
         'non_win/timezoneapi.h',
         'non_win/verrsrc.h',
         'non_win/winnt.h',
+        'win/sys/types.h',
       ],
       'conditions': [
         ['OS=="mac"', {
@@ -44,7 +45,16 @@
             ],
           },
         }],
-        ['OS!="win"', {
+        ['OS=="win"', {
+          'include_dirs': [
+            'win',
+          ],
+          'direct_dependent_settings': {
+            'include_dirs': [
+              'win',
+            ],
+          },
+        }, {
           'include_dirs': [
             'non_win',
           ],
