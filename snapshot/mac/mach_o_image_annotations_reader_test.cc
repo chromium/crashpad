@@ -34,6 +34,7 @@
 #include "util/mac/mac_util.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
+#include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/test/errors.h"
 #include "util/test/mac/mach_errors.h"
@@ -227,9 +228,8 @@ class TestMachOImageAnnotationsReader final
                                  LocalPort(),
                                  MACH_MSG_OPTION_NONE,
                                  MachMessageServer::kOneShot,
-                                 MachMessageServer::kBlocking,
                                  MachMessageServer::kReceiveLargeError,
-                                 MACH_MSG_TIMEOUT_NONE);
+                                 kMachMessageTimeoutWaitIndefinitely);
       EXPECT_EQ(MACH_MSG_SUCCESS, mr)
           << MachErrorMessage(mr, "MachMessageServer::Run");
 

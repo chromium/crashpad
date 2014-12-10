@@ -23,16 +23,21 @@ namespace test {
 namespace {
 
 TEST(MachMessage, MachMessageDeadlineFromTimeout) {
-  MachMessageDeadline deadline_0 = MachMessageDeadlineFromTimeout(0);
-  EXPECT_EQ(kMachMessageNonblocking, deadline_0);
+  MachMessageDeadline deadline_0 =
+      MachMessageDeadlineFromTimeout(kMachMessageTimeoutNonblocking);
+  EXPECT_EQ(kMachMessageDeadlineNonblocking, deadline_0);
+
+  deadline_0 =
+      MachMessageDeadlineFromTimeout(kMachMessageTimeoutWaitIndefinitely);
+  EXPECT_EQ(kMachMessageDeadlineWaitIndefinitely, deadline_0);
 
   deadline_0 = MachMessageDeadlineFromTimeout(1);
   MachMessageDeadline deadline_1 = MachMessageDeadlineFromTimeout(100);
 
-  EXPECT_NE(kMachMessageNonblocking, deadline_0);
-  EXPECT_NE(kMachMessageWaitIndefinitely, deadline_0);
-  EXPECT_NE(kMachMessageNonblocking, deadline_1);
-  EXPECT_NE(kMachMessageWaitIndefinitely, deadline_1);
+  EXPECT_NE(kMachMessageDeadlineNonblocking, deadline_0);
+  EXPECT_NE(kMachMessageDeadlineWaitIndefinitely, deadline_0);
+  EXPECT_NE(kMachMessageDeadlineNonblocking, deadline_1);
+  EXPECT_NE(kMachMessageDeadlineWaitIndefinitely, deadline_1);
   EXPECT_GE(deadline_1, deadline_0);
 }
 

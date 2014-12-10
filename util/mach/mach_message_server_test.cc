@@ -24,6 +24,7 @@
 #include "gtest/gtest.h"
 #include "util/file/fd_io.h"
 #include "util/mach/mach_extensions.h"
+#include "util/mach/mach_message.h"
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
 
@@ -59,9 +60,8 @@ class TestMachMessageServer : public MachMessageServer::Interface,
           parent_wait_for_child_pipe(false),
           server_options(MACH_MSG_OPTION_NONE),
           server_persistent(MachMessageServer::kOneShot),
-          server_nonblocking(MachMessageServer::kBlocking),
           server_receive_large(MachMessageServer::kReceiveLargeError),
-          server_timeout_ms(MACH_MSG_TIMEOUT_NONE),
+          server_timeout_ms(kMachMessageTimeoutWaitIndefinitely),
           server_mig_retcode(KERN_SUCCESS),
           server_destroy_complex(true),
           expect_server_destroyed_complex(true),
@@ -93,13 +93,11 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     // Whether the server should run in one-shot or persistent mode.
     MachMessageServer::Persistent server_persistent;
 
-    // Whether the server should run in blocking or nonblocking mode.
-    MachMessageServer::Nonblocking server_nonblocking;
-
     // The strategy for handling large messages.
     MachMessageServer::ReceiveLarge server_receive_large;
 
-    // The server’s timeout.
+    // The server’s timeout in milliseconds, or kMachMessageTimeoutNonblocking
+    // or kMachMessageTimeoutWaitIndefinitely.
     mach_msg_timeout_t server_timeout_ms;
 
     // The return code that the server returns to the client via the
@@ -352,7 +350,6 @@ class TestMachMessageServer : public MachMessageServer::Interface,
                                            local_port,
                                            options_.server_options,
                                            options_.server_persistent,
-                                           options_.server_nonblocking,
                                            options_.server_receive_large,
                                            options_.server_timeout_ms)))
         << MachErrorMessage(kr, "MachMessageServer");
@@ -616,7 +613,7 @@ TEST(MachMessageServer, NonblockingNoMessage) {
   // server should return immediately without processing any message.
   TestMachMessageServer::Options options;
   options.expect_server_interface_method_called = false;
-  options.server_nonblocking = MachMessageServer::kNonblocking;
+  options.server_timeout_ms = kMachMessageTimeoutNonblocking;
   options.expect_server_result = MACH_RCV_TIMED_OUT;
   options.expect_server_transaction_count = 0;
   options.client_send_request_count = 0;
@@ -644,7 +641,7 @@ TEST(MachMessageServer, Nonblocking) {
   // nonblocking mode.
   TestMachMessageServer::Options options;
   options.parent_wait_for_child_pipe = true;
-  options.server_nonblocking = MachMessageServer::kNonblocking;
+  options.server_timeout_ms = kMachMessageTimeoutNonblocking;
   TestMachMessageServer test_mach_message_server(options);
   test_mach_message_server.Test();
 }
@@ -698,7 +695,7 @@ TEST(MachMessageServer, PersistentNonblockingFourMessages) {
   TestMachMessageServer::Options options;
   options.parent_wait_for_child_pipe = true;
   options.server_persistent = MachMessageServer::kPersistent;
-  options.server_nonblocking = MachMessageServer::kNonblocking;
+  options.server_timeout_ms = kMachMessageTimeoutNonblocking;
   options.expect_server_result = MACH_RCV_TIMED_OUT;
   options.expect_server_transaction_count = kTransactionCount;
   options.child_wait_for_parent_pipe_early = true;

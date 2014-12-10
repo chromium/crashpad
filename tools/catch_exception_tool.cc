@@ -30,6 +30,7 @@
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/mach_extensions.h"
+#include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/mach/symbolic_constants_mach.h"
 #include "util/posix/symbolic_constants_posix.h"
@@ -43,7 +44,7 @@ struct Options {
   std::string mach_service;
   FILE* file;
   int timeout_secs;
-  MachMessageServer::Nonblocking nonblocking;
+  bool has_timeout;
   MachMessageServer::Persistent persistent;
 };
 
@@ -171,7 +172,6 @@ void Usage(const std::string& me) {
 "\n"
 "  -f, --file=FILE             append information to FILE instead of stdout\n"
 "  -m, --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
-"  -n, --nonblocking           don't block waiting for an exception to occur\n"
 "  -p, --persistent            continue processing exceptions after the first\n"
 "  -t, --timeout=TIMEOUT       run for a maximum of TIMEOUT seconds\n"
 "      --help                  display this help and exit\n"
@@ -187,7 +187,6 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
     // “Short” (single-character) options.
     kOptionFile = 'f',
     kOptionMachService = 'm',
-    kOptionNonblocking = 'n',
     kOptionPersistent = 'p',
     kOptionTimeout = 't',
 
@@ -204,7 +203,6 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
   const struct option long_options[] = {
       {"file", required_argument, nullptr, kOptionFile},
       {"mach-service", required_argument, nullptr, kOptionMachService},
-      {"nonblocking", no_argument, nullptr, kOptionNonblocking},
       {"persistent", no_argument, nullptr, kOptionPersistent},
       {"timeout", required_argument, nullptr, kOptionTimeout},
       {"help", no_argument, nullptr, kOptionHelp},
@@ -213,7 +211,7 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
   };
 
   int opt;
-  while ((opt = getopt_long(argc, argv, "f:m:npt:", long_options, nullptr)) !=
+  while ((opt = getopt_long(argc, argv, "f:m:pt:", long_options, nullptr)) !=
          -1) {
     switch (opt) {
       case kOptionFile:
@@ -222,18 +220,16 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
       case kOptionMachService:
         options.mach_service = optarg;
         break;
-      case kOptionNonblocking:
-        options.nonblocking = MachMessageServer::kNonblocking;
-        break;
       case kOptionPersistent:
         options.persistent = MachMessageServer::kPersistent;
         break;
       case kOptionTimeout:
         if (!StringToNumber(optarg, &options.timeout_secs) ||
-            options.timeout_secs <= 0) {
-          ToolSupport::UsageHint(me, "-t requires a positive TIMEOUT");
+            options.timeout_secs < 0) {
+          ToolSupport::UsageHint(me, "-t requires a zero or positive TIMEOUT");
           return EXIT_FAILURE;
         }
+        options.has_timeout = true;
         break;
       case kOptionHelp:
         Usage(me);
@@ -285,18 +281,22 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
           ? MachMessageServer::kReceiveLargeIgnore
           : MachMessageServer::kReceiveLargeError;
 
-  mach_msg_timeout_t timeout_ms = options.timeout_secs
-                                      ? options.timeout_secs * 1000
-                                      : MACH_MSG_TIMEOUT_NONE;
+  mach_msg_timeout_t timeout_ms;
+  if (!options.has_timeout) {
+    timeout_ms = kMachMessageTimeoutWaitIndefinitely;
+  } else if (options.timeout_secs == 0) {
+    timeout_ms = kMachMessageTimeoutNonblocking;
+  } else {
+    timeout_ms = options.timeout_secs * 1000;
+  }
 
   mach_msg_return_t mr = MachMessageServer::Run(&universal_mach_exc_server,
                                                 service_port,
                                                 MACH_MSG_OPTION_NONE,
                                                 options.persistent,
-                                                options.nonblocking,
                                                 receive_large,
                                                 timeout_ms);
-  if (mr == MACH_RCV_TIMED_OUT && options.timeout_secs && options.persistent &&
+  if (mr == MACH_RCV_TIMED_OUT && options.has_timeout && options.persistent &&
       exceptions_handled) {
     // This is not an error: when exiting on timeout during persistent
     // processing and at least one exception was handled, it’s considered a

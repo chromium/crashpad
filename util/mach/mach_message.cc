@@ -26,7 +26,7 @@ namespace {
 const int kNanosecondsPerMillisecond = 1E6;
 
 // TimerRunning() determines whether |deadline| has passed. If |deadline| is
-// kMachMessageWaitIndefinitely, |*timeout_options| is set to
+// kMachMessageDeadlineWaitIndefinitely, |*timeout_options| is set to
 // MACH_MSG_OPTION_NONE, |*remaining_ms| is set to MACH_MSG_TIMEOUT_NONE, and
 // this function returns true. When used with mach_msg(), this will cause
 // indefinite waiting. In any other case, |*timeout_options| is set to
@@ -34,13 +34,13 @@ const int kNanosecondsPerMillisecond = 1E6;
 // specified by |*remaining_ms|. If |deadline| is in the future, |*remaining_ms|
 // is set to the number of milliseconds remaining, which will always be a
 // positive value, and this function returns true. If |deadline| is
-// kMachMessageNonblocking (indicating that no timer is in effect),
+// kMachMessageDeadlineNonblocking (indicating that no timer is in effect),
 // |*remaining_ms| is set to zero and this function returns true. Otherwise,
 // this function sets |*remaining_ms| to zero and returns false.
 bool TimerRunning(uint64_t deadline,
                   mach_msg_timeout_t* remaining_ms,
                   mach_msg_option_t* timeout_options) {
-  if (deadline == kMachMessageWaitIndefinitely) {
+  if (deadline == kMachMessageDeadlineWaitIndefinitely) {
     *remaining_ms = MACH_MSG_TIMEOUT_NONE;
     *timeout_options = MACH_MSG_OPTION_NONE;
     return true;
@@ -48,7 +48,7 @@ bool TimerRunning(uint64_t deadline,
 
   *timeout_options = MACH_SEND_TIMEOUT | MACH_RCV_TIMEOUT;
 
-  if (deadline == kMachMessageNonblocking) {
+  if (deadline == kMachMessageDeadlineNonblocking) {
     *remaining_ms = 0;
     return true;
   }
@@ -117,12 +117,15 @@ mach_msg_return_t MachMessageWithDeadlineInternal(mach_msg_header_t* message,
 
 MachMessageDeadline MachMessageDeadlineFromTimeout(
     mach_msg_timeout_t timeout_ms) {
-  if (timeout_ms == 0) {
-    return kMachMessageNonblocking;
+  switch (timeout_ms) {
+    case kMachMessageTimeoutNonblocking:
+      return kMachMessageDeadlineNonblocking;
+    case kMachMessageTimeoutWaitIndefinitely:
+      return kMachMessageDeadlineWaitIndefinitely;
+    default:
+      return ClockMonotonicNanoseconds() +
+             implicit_cast<uint64_t>(timeout_ms) * kNanosecondsPerMillisecond;
   }
-
-  return ClockMonotonicNanoseconds() +
-         implicit_cast<uint64_t>(timeout_ms) * kNanosecondsPerMillisecond;
 }
 
 mach_msg_return_t MachMessageWithDeadline(mach_msg_header_t* message,

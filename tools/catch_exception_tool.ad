@@ -45,20 +45,16 @@ started by launchd(8) as a result of a message being sent to a service declared
 in a job’s +MachServices+ dictionary (see launchd.plist(5)). The service name
 may also be completely unknown to the system.
 
-*-n*, *--nonblocking*::
-Don’t wait for an exception to occur if one is not received immediately. In
-nonblocking mode, this tool exits immediately if no exception is received. The
-default mode is blocking.
-
 *-p*, *--persistent*::
 Continue processing exceptions after the first one. The default mode is
 one-shot, where this tool exits after processing the first exception.
 
 *-t*, *--timeout*='TIMEOUT'::
-Run for a maximum of 'TIMEOUT' seconds. This option only has an effect in
-blocking mode (when *--nonblocking* is not specified). In *--persistent* mode,
-'TIMEOUT' applies to the overall duration that this tool will run, not to the
-processing of individual exceptions.
+Run for a maximum of 'TIMEOUT' seconds. Specify +0+ to request non-blocking
+operation, in which the tool exits immediately if no exception is received. In
+*--persistent* mode, 'TIMEOUT' applies to the overall duration that this tool
+will run, not to the processing of individual exceptions. When *--timeout* is
+not specified, this tool will block indefinitely while waiting for an exception.
 
 *--help*::
 Display help and exit.
@@ -92,7 +88,7 @@ bootstrap server under the name +svc+:
 $ *on_demand_service_tool --load --label=catch_exception \
       --mach-service=svc \
       $(which catch_exception_tool) --mach-service=svc \
-      --file=/tmp/out --nonblocking --persistent*
+      --file=/tmp/out --persistent --timeout=0*
 $ *exception_port_tool --set-handler=handler=bootstrap:svc crasher*
 Illegal instruction: 4
 $ *on_demand_service_tool --unload --label=catch_exception*

@@ -76,7 +76,7 @@ looking up the name +svc+:
 $ *on_demand_service_tool --load --label=catch_exception \
       --mach-service=svc \
       $(which catch_exception_tool) --mach-service=svc \
-      --file=/tmp/out --nonblocking --persistent*
+      --file=/tmp/out --persistent --timeout=0*
 ----
 
 Unregisters the on-demand server installed above:

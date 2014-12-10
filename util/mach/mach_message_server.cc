@@ -116,28 +116,20 @@ mach_msg_return_t MachMessageAllocateReceive(MachMessageBuffer* request,
 // xnu-2422.110.17/libsyscall/mach/mach_msg.c mach_msg_server_once(). The server
 // callback function and |max_size| parameter have been replaced with a C++
 // interface. The |persistent| parameter has been added, allowing this method to
-// serve as a stand-in for mach_msg_server(). The |nonblocking| parameter has
-// been added, allowing blocking to be controlled directly. The |timeout_ms|
-// parameter has been added, allowing this function to not block indefinitely.
+// serve as a stand-in for mach_msg_server(). The |timeout_ms| parameter has
+// been added, allowing this function to not block indefinitely.
 //
 // static
 mach_msg_return_t MachMessageServer::Run(Interface* interface,
                                          mach_port_t receive_port,
                                          mach_msg_options_t options,
                                          Persistent persistent,
-                                         Nonblocking nonblocking,
                                          ReceiveLarge receive_large,
                                          mach_msg_timeout_t timeout_ms) {
   options &= ~(MACH_RCV_MSG | MACH_SEND_MSG);
 
-  MachMessageDeadline deadline;
-  if (nonblocking == kNonblocking) {
-    deadline = kMachMessageNonblocking;
-  } else if (timeout_ms == MACH_MSG_TIMEOUT_NONE) {
-    deadline = kMachMessageWaitIndefinitely;
-  } else {
-    deadline = MachMessageDeadlineFromTimeout(timeout_ms);
-  }
+  const MachMessageDeadline deadline =
+      MachMessageDeadlineFromTimeout(timeout_ms);
 
   if (receive_large == kReceiveLargeResize) {
     options |= MACH_RCV_LARGE;
@@ -259,8 +251,9 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
       // without considering the user-specified timeout. See 10.9.5
       // xnu-2422.115.4/osfmk/ipc/ipc_mqueue.c ipc_mqueue_send().
       const MachMessageDeadline send_deadline =
-          deadline == kMachMessageWaitIndefinitely ? kMachMessageNonblocking
-                                                   : deadline;
+          deadline == kMachMessageDeadlineWaitIndefinitely
+              ? kMachMessageDeadlineNonblocking
+              : deadline;
 
       kr = MachMessageWithDeadline(reply_header,
                                    options | MACH_SEND_MSG,

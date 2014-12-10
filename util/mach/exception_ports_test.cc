@@ -28,6 +28,8 @@
 #include "util/file/fd_io.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/mach_extensions.h"
+#include "util/mach/mach_message.h"
+#include "util/mach/mach_message_server.h"
 #include "util/misc/scoped_forbid_return.h"
 #include "util/synchronization/semaphore.h"
 #include "util/test/mac/mach_errors.h"
@@ -450,9 +452,8 @@ class TestExceptionPorts : public MachMultiprocess,
                                  local_port,
                                  MACH_MSG_OPTION_NONE,
                                  MachMessageServer::kOneShot,
-                                 MachMessageServer::kBlocking,
                                  MachMessageServer::kReceiveLargeError,
-                                 0);
+                                 kMachMessageTimeoutWaitIndefinitely);
       EXPECT_EQ(KERN_SUCCESS, kr)
           << MachErrorMessage(kr, "MachMessageServer::Run");
 

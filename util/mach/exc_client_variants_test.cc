@@ -24,6 +24,8 @@
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/mach_extensions.h"
+#include "util/mach/mach_message.h"
+#include "util/mach/mach_message_server.h"
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
 
@@ -141,9 +143,8 @@ class TestExcClientVariants : public MachMultiprocess,
                                LocalPort(),
                                MACH_MSG_OPTION_NONE,
                                MachMessageServer::kOneShot,
-                               MachMessageServer::kBlocking,
                                MachMessageServer::kReceiveLargeError,
-                               0);
+                               kMachMessageTimeoutWaitIndefinitely);
     EXPECT_EQ(KERN_SUCCESS, kr)
         << MachErrorMessage(kr, "MachMessageServer::Run");
 

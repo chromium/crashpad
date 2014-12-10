@@ -1046,9 +1046,8 @@ class TestExcServerVariants : public MachMultiprocess,
                                LocalPort(),
                                kMachMessageOptions,
                                MachMessageServer::kOneShot,
-                               MachMessageServer::kBlocking,
                                MachMessageServer::kReceiveLargeError,
-                               0);
+                               kMachMessageTimeoutWaitIndefinitely);
     EXPECT_EQ(KERN_SUCCESS, kr)
         << MachErrorMessage(kr, "MachMessageServer::Run");
 

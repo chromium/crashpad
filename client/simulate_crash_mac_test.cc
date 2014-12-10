@@ -25,6 +25,7 @@
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
+#include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/mach/symbolic_constants_mach.h"
 #include "util/test/mac/mach_errors.h"
@@ -251,9 +252,8 @@ class TestSimulateCrashMac final : public MachMultiprocess,
                                   LocalPort(),
                                   MACH_MSG_OPTION_NONE,
                                   MachMessageServer::kOneShot,
-                                  MachMessageServer::kBlocking,
                                   MachMessageServer::kReceiveLargeError,
-                                  MACH_MSG_TIMEOUT_NONE);
+                                  kMachMessageTimeoutWaitIndefinitely);
       EXPECT_EQ(MACH_MSG_SUCCESS, mr)
           << MachErrorMessage(mr, "MachMessageServer::Run");
     }
@@ -263,9 +263,8 @@ class TestSimulateCrashMac final : public MachMultiprocess,
                                 LocalPort(),
                                 MACH_MSG_OPTION_NONE,
                                 MachMessageServer::kOneShot,
-                                MachMessageServer::kBlocking,
                                 MachMessageServer::kReceiveLargeError,
-                                MACH_MSG_TIMEOUT_NONE);
+                                kMachMessageTimeoutWaitIndefinitely);
     EXPECT_EQ(MACH_MSG_SUCCESS, mr)
         << MachErrorMessage(mr, "MachMessageServer::Run");
   }

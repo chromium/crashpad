@@ -20,12 +20,24 @@
 
 namespace crashpad {
 
+//! \brief Special constants used as `mach_msg_timeout_t` values.
+enum : mach_msg_timeout_t {
+  //! \brief When passed to MachMessageDeadlineFromTimeout(), that function will
+  //!     return #kMachMessageDeadlineNonblocking.
+  kMachMessageTimeoutNonblocking = 0,
+
+  //! \brief When passed to MachMessageDeadlineFromTimeout(), that function will
+  //!     return #kMachMessageDeadlineWaitIndefinitely.
+  kMachMessageTimeoutWaitIndefinitely = 0xffffffff,
+};
+
 //! \brief The time before which a MachMessageWithDeadline() call should
 //!     complete.
 //!
 //! A value of this type may be one of the special constants
-//! #kMachMessageNonblocking or #kMachMessageWaitIndefinitely. Any other values
-//! should be produced by calling MachMessageDeadlineFromTimeout().
+//! #kMachMessageDeadlineNonblocking or #kMachMessageDeadlineWaitIndefinitely.
+//! Any other values should be produced by calling
+//! MachMessageDeadlineFromTimeout().
 //!
 //! Internally, these are currently specified on the same time base as
 //! ClockMonotonicNanoseconds(), although this is an implementation detail.
@@ -34,11 +46,11 @@ using MachMessageDeadline = uint64_t;
 //! \brief Special constants used as \ref MachMessageDeadline values.
 enum : MachMessageDeadline {
   //! \brief MachMessageWithDeadline() should not block at all in its operation.
-  kMachMessageNonblocking = 0,
+  kMachMessageDeadlineNonblocking = 0,
 
   //! \brief MachMessageWithDeadline() should wait indefinitely for the
   //!     requested operation to complete.
-  kMachMessageWaitIndefinitely = 0xffffffffffffffff,
+  kMachMessageDeadlineWaitIndefinitely = 0xffffffffffffffff,
 };
 
 //! \brief Computes the deadline for a specified timeout value.
@@ -47,7 +59,10 @@ enum : MachMessageDeadline {
 //! function calculates the deadline as \a timeout_ms milliseconds after it
 //! executes.
 //!
-//! If \a timeout_ms is `0`, this function will return #kMachMessageNonblocking.
+//! If \a timeout_ms is #kMachMessageDeadlineNonblocking, this function will
+//! return #kMachMessageDeadlineNonblocking. If \a timeout_ms is
+//! #kMachMessageTimeoutWaitIndefinitely, this function will return
+//! #kMachMessageDeadlineWaitIndefinitely.
 MachMessageDeadline MachMessageDeadlineFromTimeout(
     mach_msg_timeout_t timeout_ms);
 
@@ -78,10 +93,10 @@ MachMessageDeadline MachMessageDeadlineFromTimeout(
 //!     `MACH_RCV_TIMED_OUT`.
 //! \param[in] run_even_if_expired If `true`, a deadline that is expired when
 //!     this function is called will be treated as though a deadline of
-//!     #kMachMessageNonblocking had been specified. When `false`, an expired
-//!     deadline will result in a `MACH_SEND_TIMED_OUT` or `MACH_RCV_TIMED_OUT`
-//!     return value, even if the deadline is already expired when the function
-//!     is called.
+//!     #kMachMessageDeadlineNonblocking had been specified. When `false`, an
+//!     expired deadline will result in a `MACH_SEND_TIMED_OUT` or
+//!     `MACH_RCV_TIMED_OUT` return value, even if the deadline is already
+//!     expired when the function is called.
 mach_msg_return_t MachMessageWithDeadline(mach_msg_header_t* message,
                                           mach_msg_option_t options,
                                           mach_msg_size_t receive_size,

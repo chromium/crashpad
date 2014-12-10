@@ -34,6 +34,7 @@
 #include "util/file/fd_io.h"
 #include "util/mach/child_port.h"
 #include "util/mach/mach_extensions.h"
+#include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 
 namespace crashpad {
@@ -213,9 +214,8 @@ mach_port_t ChildPortHandshake::RunServer() {
                                      server_port_set,
                                      MACH_MSG_OPTION_NONE,
                                      MachMessageServer::kOneShot,
-                                     MachMessageServer::kNonblocking,
                                      MachMessageServer::kReceiveLargeIgnore,
-                                     MACH_MSG_TIMEOUT_NONE);
+                                     kMachMessageTimeoutNonblocking);
           if (mr == MACH_RCV_TIMED_OUT) {
             break;
           } else if (mr != MACH_MSG_SUCCESS) {

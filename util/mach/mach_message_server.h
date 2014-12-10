@@ -99,16 +99,6 @@ class MachMessageServer {
     kPersistent,
   };
 
-  //! \brief Informs Run() whether or not to block while waiting for requests.
-  enum Nonblocking {
-    //! \brief Wait for a request message if none is queued.
-    kBlocking = false,
-
-    //! \brief Return as soon as there no request messages queued. This may
-    //!     result in an immediate return without handling any requests.
-    kNonblocking,
-  };
-
   //! \brief Determines how to handle the reception of messages larger than the
   //!     size of the buffer allocated to store them.
   enum ReceiveLarge {
@@ -159,28 +149,24 @@ class MachMessageServer {
   //!     `MACH_MSG_OPTION_NONE`. `MACH_RCV_LARGE` when specified here is
   //!     ignored. Set \a receive_large to #kReceiveLargeResize instead.
   //! \param[in] persistent Chooses between one-shot and persistent operation.
-  //! \param[in] nonblocking Chooses between blocking and nonblocking operation.
   //! \param[in] receive_large Determines the behavior upon encountering a
   //!     message larger than the receive buffer’s size.
-  //! \param[in] timeout_ms When \a nonblocking is `false`, the the maximum
-  //!     duration that this entire function will run, in milliseconds, or
-  //!     `MACH_MSG_TIMEOUT_NONE` to specify no timeout (infinite waiting). When
-  //!     \a nonblocking is `true`, this parameter has no effect. When \a
-  //!     persistent is `true`, the timeout applies to the overall duration of
-  //!     this function, not to any individual `mach_msg()` call.
+  //! \param[in] timeout_ms The maximum duration that this entire function will
+  //!     run, in milliseconds. This may be #kMachMessageTimeoutNonblocking or
+  //!     #kMachMessageTimeoutWaitIndefinitely. When \a persistent is `true`,
+  //!     the timeout applies to the overall duration of this function, not to
+  //!     any individual `mach_msg()` call.
   //!
   //! \return On success, `KERN_SUCCESS` (when \a persistent is `false`) or
-  //!     `MACH_RCV_TIMED_OUT` (when \a persistent and \a nonblocking are both
-  //!     `true`, or when \a persistent is `true`, \a nonblocking is `false`,
-  //!     and \a timeout is not `MACH_MSG_TIMEOUT_NONE`. This function has no
-  //!     successful return value when \a persistent is `true`, \a nonblocking
-  //!     is `false`, and \a timeout is `MACH_MSG_TIMEOUT_NONE`. On failure,
-  //!     returns a value identifying the nature of the error.
+  //!     `MACH_RCV_TIMED_OUT` (when \a persistent is `true` and \a timeout_ms
+  //!     is not #kMachMessageTimeoutWaitIndefinitely). This function has no
+  //!     successful return value when \a persistent is `true` and \a timeout_ms
+  //!     is #kMachMessageTimeoutWaitIndefinitely. On failure, returns a value
+  //!     identifying the nature of the error.
   static mach_msg_return_t Run(Interface* interface,
                                mach_port_t receive_port,
                                mach_msg_options_t options,
                                Persistent persistent,
-                               Nonblocking nonblocking,
                                ReceiveLarge receive_large,
                                mach_msg_timeout_t timeout_ms);
 
