@@ -40,6 +40,7 @@
         'mac/mac_util.h',
         'mac/service_management.cc',
         'mac/service_management.h',
+        'mach/child_port.defs',
         'mach/child_port_handshake.cc',
         'mach/child_port_handshake.h',
         'mach/child_port_server.cc',
@@ -113,58 +114,50 @@
       ],
       'conditions': [
         ['OS=="mac"', {
-          'actions': [
-            {
-              'action_name': 'mig child_port.defs',
-              'variables': {
-                'child_port_defs_file': 'mach/child_port.defs',
-              },
-              'inputs': [
-                'mach/mig.py',
-                '<(child_port_defs_file)',
+          'conditions': [
+            ['GENERATOR=="ninja"', {
+              # ninja’s rules can’t deal with sources that have paths relative
+              # to environment variables like SDKROOT. Copy the .defs files out
+              # of SDKROOT and into a place they can be referenced without any
+              # environment variables.
+              'copies': [
+                {
+                  'destination': '<(INTERMEDIATE_DIR)/util/mach',
+                  'files': [
+                    '$(SDKROOT)/usr/include/mach/exc.defs',
+                    '$(SDKROOT)/usr/include/mach/mach_exc.defs',
+                  ],
+                },
               ],
-              'outputs': [
-                '<(INTERMEDIATE_DIR)/util/mach/child_portUser.c',
-                '<(INTERMEDIATE_DIR)/util/mach/child_portServer.c',
-                '<(INTERMEDIATE_DIR)/util/mach/child_port.h',
-                '<(INTERMEDIATE_DIR)/util/mach/child_portServer.h',
+              'sources': [
+                '<(INTERMEDIATE_DIR)/util/mach/exc.defs',
+                '<(INTERMEDIATE_DIR)/util/mach/mach_exc.defs',
               ],
-              'action': [
-                'python', '<@(_inputs)', '<@(_outputs)'
-              ],
-              'process_outputs_as_sources': 1,
-            },
-            {
-              'action_name': 'mig exc.defs',
-              'inputs': [
-                'mach/mig.py',
+            }, {  # else: GENERATOR!="ninja"
+              # The Xcode generator does copies after rules, so the above trick
+              # won’t work, but its rules tolerate sources with SDKROOT-relative
+              # paths.
+              'sources': [
                 '$(SDKROOT)/usr/include/mach/exc.defs',
-              ],
-              'outputs': [
-                '<(INTERMEDIATE_DIR)/util/mach/excUser.c',
-                '<(INTERMEDIATE_DIR)/util/mach/excServer.c',
-                '<(INTERMEDIATE_DIR)/util/mach/exc.h',
-                '<(INTERMEDIATE_DIR)/util/mach/excServer.h',
-              ],
-              'action': [
-                'python', '<@(_inputs)', '<@(_outputs)'
-              ],
-              'process_outputs_as_sources': 1,
-            },
-            {
-              'action_name': 'mig mach_exc.defs',
-              'inputs': [
-                'mach/mig.py',
                 '$(SDKROOT)/usr/include/mach/mach_exc.defs',
               ],
+            }],
+          ],
+          'rules': [
+            {
+              'rule_name': 'mig',
+              'extension': 'defs',
+              'inputs': [
+                'mach/mig.py',
+              ],
               'outputs': [
-                '<(INTERMEDIATE_DIR)/util/mach/mach_excUser.c',
-                '<(INTERMEDIATE_DIR)/util/mach/mach_excServer.c',
-                '<(INTERMEDIATE_DIR)/util/mach/mach_exc.h',
-                '<(INTERMEDIATE_DIR)/util/mach/mach_excServer.h',
+                '<(INTERMEDIATE_DIR)/util/mach/<(RULE_INPUT_ROOT)User.c',
+                '<(INTERMEDIATE_DIR)/util/mach/<(RULE_INPUT_ROOT)Server.c',
+                '<(INTERMEDIATE_DIR)/util/mach/<(RULE_INPUT_ROOT).h',
+                '<(INTERMEDIATE_DIR)/util/mach/<(RULE_INPUT_ROOT)Server.h',
               ],
               'action': [
-                'python', '<@(_inputs)', '<@(_outputs)'
+                'python', '<@(_inputs)', '<(RULE_INPUT_PATH)', '<@(_outputs)'
               ],
               'process_outputs_as_sources': 1,
             },
