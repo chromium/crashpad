@@ -28,7 +28,7 @@ deps = {
       '46282cedf40ff7fe803be4af357b9d59050f02e4',  # svn r1977
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '1d3523dbda93d792ef9e65d42e58e877f1ac01eb',
+      '9427a679aa584c939103b91f77782998f841ec01',
 }
 
 hooks = [
