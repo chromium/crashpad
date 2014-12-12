@@ -18,9 +18,6 @@ import os
 import subprocess
 import sys
 
-script_dir = os.path.dirname(__file__)
-crashpad_dir = os.path.dirname(script_dir) if script_dir is not '' else '..'
-
 
 # This script is primarily used from the waterfall so that the list of tests
 # that are run is maintained in-tree, rather than in a separate infrastructure
@@ -29,7 +26,14 @@ def main(args):
   if len(args) != 1:
     print >>sys.stderr, 'usage: run_tests.py {Debug|Release}'
     return 1;
-  binary_dir = os.path.join(crashpad_dir, 'out', args[0])
+
+  # Until https://code.google.com/p/crashpad/issues/detail?id=4 is fixed, tests
+  # need to be run from a specific working directory.
+  crashpad_dir = \
+      os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
+  os.chdir(crashpad_dir)
+
+  binary_dir = os.path.join('out', args[0])
   tests = [
       'client_test',
       'minidump_test',
