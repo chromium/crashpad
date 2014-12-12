@@ -27,7 +27,7 @@ struct TIME_ZONE_INFORMATION {
 
   //! \brief The UTF-16-encoded name of the time zone when observing standard
   //!     time.
-  char16 StandardName[32];
+  base::char16 StandardName[32];
 
   //! \brief The date and time to switch from daylight saving time to standard
   //!     time.
@@ -45,7 +45,7 @@ struct TIME_ZONE_INFORMATION {
 
   //! \brief The UTF-16-encoded name of the time zone when observing daylight
   //!     saving time.
-  char16 DaylightName[32];
+  base::char16 DaylightName[32];
 
   //! \brief The date and time to switch from standard time to daylight saving
   //!     time.

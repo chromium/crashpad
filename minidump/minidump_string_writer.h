@@ -32,7 +32,7 @@ namespace internal {
 //! \cond
 
 struct MinidumpStringWriterUTF16Traits {
-  using StringType = string16;
+  using StringType = base::string16;
   using MinidumpStringType = MINIDUMP_STRING;
 };
 

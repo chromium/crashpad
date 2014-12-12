@@ -16,7 +16,9 @@
 
 namespace crashpad {
 
-size_t c16lcpy(char16* destination, const char16* source, size_t length) {
+size_t c16lcpy(base::char16* destination,
+               const base::char16* source,
+               size_t length) {
   size_t source_length = base::c16len(source);
   if (source_length < length) {
     base::c16memcpy(destination, source, source_length + 1);

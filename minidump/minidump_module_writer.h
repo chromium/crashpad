@@ -172,7 +172,7 @@ class MinidumpModuleMiscDebugRecordWriter final
  private:
   IMAGE_DEBUG_MISC image_debug_misc_;
   std::string data_;
-  string16 data_utf16_;
+  base::string16 data_utf16_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleMiscDebugRecordWriter);
 };

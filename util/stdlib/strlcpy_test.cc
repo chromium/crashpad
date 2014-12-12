@@ -31,24 +31,24 @@ TEST(strlcpy, c16lcpy) {
   // Use a destination buffer that’s larger than the length passed to c16lcpy.
   // The unused portion is a guard area that must not be written to.
   struct TestBuffer {
-    char16 lead_guard[64];
-    char16 data[128];
-    char16 trail_guard[64];
+    base::char16 lead_guard[64];
+    base::char16 data[128];
+    base::char16 trail_guard[64];
   };
   TestBuffer expected_untouched;
   memset(&expected_untouched, 0xa5, sizeof(expected_untouched));
 
   // Test with M, é, Ā, ő, and Ḙ. This is a mix of characters that have zero and
   // nonzero low and high bytes.
-  const char16 test_characters[] = {0x4d, 0xe9, 0x100, 0x151, 0x1e18};
+  const base::char16 test_characters[] = {0x4d, 0xe9, 0x100, 0x151, 0x1e18};
 
   for (size_t index = 0; index < arraysize(test_characters); ++index) {
-    char16 test_character = test_characters[index];
+    base::char16 test_character = test_characters[index];
     SCOPED_TRACE(base::StringPrintf(
         "character index %zu, character 0x%x", index, test_character));
     for (size_t length = 0; length < 256; ++length) {
       SCOPED_TRACE(base::StringPrintf("index %zu", length));
-      string16 test_string(length, test_character);
+      base::string16 test_string(length, test_character);
 
       TestBuffer destination;
       memset(&destination, 0xa5, sizeof(destination));

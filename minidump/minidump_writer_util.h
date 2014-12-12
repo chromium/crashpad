@@ -57,7 +57,7 @@ class MinidumpWriterUtil final {
   //! \return The \a utf8 string, converted to UTF-16 encoding. If the
   //!     conversion is lossy, U+FFFD “replacement characters” will be
   //!     introduced.
-  static string16 ConvertUTF8ToUTF16(const std::string& utf8);
+  static base::string16 ConvertUTF8ToUTF16(const std::string& utf8);
 
   //! \brief Converts a UTF-8 string to UTF-16 and places it into a buffer of
   //!     fixed size, taking care to `NUL`-terminate the buffer and not to
@@ -76,7 +76,7 @@ class MinidumpWriterUtil final {
   //! \param[in] destination_size The size of \a destination in `char16` units,
   //!     including space used by a `NUL` terminator.
   //! \param[in] source The UTF-8-encoded input string.
-  static void AssignUTF8ToUTF16(char16* destination,
+  static void AssignUTF8ToUTF16(base::char16* destination,
                                 size_t destination_size,
                                 const std::string& source);
 

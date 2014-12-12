@@ -78,7 +78,8 @@ const MinidumpUTF8String* MinidumpUTF8StringAtRVA(
 //!     failure, raises a gtest assertion and returns an empty string.
 //!
 //! \sa MinidumpUTF8StringAtRVAAsString()
-string16 MinidumpStringAtRVAAsString(const std::string& file_contents, RVA rva);
+base::string16 MinidumpStringAtRVAAsString(const std::string& file_contents,
+                                           RVA rva);
 
 //! \brief Returns the contents of a MinidumpUTF8String as a `std::string`.
 //!

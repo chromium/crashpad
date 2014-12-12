@@ -32,8 +32,8 @@ void MinidumpWriterUtil::AssignTimeT(uint32_t* destination, time_t source) {
 }
 
 // static
-string16 MinidumpWriterUtil::ConvertUTF8ToUTF16(const std::string& utf8) {
-  string16 utf16;
+base::string16 MinidumpWriterUtil::ConvertUTF8ToUTF16(const std::string& utf8) {
+  base::string16 utf16;
   if (!base::UTF8ToUTF16(utf8.data(), utf8.length(), &utf16)) {
     LOG(WARNING) << "string " << utf8
                  << " cannot be converted to UTF-16 losslessly";
@@ -42,10 +42,10 @@ string16 MinidumpWriterUtil::ConvertUTF8ToUTF16(const std::string& utf8) {
 }
 
 // static
-void MinidumpWriterUtil::AssignUTF8ToUTF16(char16* destination,
+void MinidumpWriterUtil::AssignUTF8ToUTF16(base::char16* destination,
                                            size_t destination_size,
                                            const std::string& source) {
-  string16 source_utf16 = ConvertUTF8ToUTF16(source);
+  base::string16 source_utf16 = ConvertUTF8ToUTF16(source);
   if (source_utf16.size() > destination_size - 1) {
     LOG(WARNING) << "string " << source << " UTF-16 length "
                  << source_utf16.size()

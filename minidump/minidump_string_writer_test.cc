@@ -46,14 +46,15 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
     const MINIDUMP_STRING* minidump_string =
         MinidumpStringAtRVA(file_writer.string(), 0);
     EXPECT_TRUE(minidump_string);
-    EXPECT_EQ(string16(), MinidumpStringAtRVAAsString(file_writer.string(), 0));
+    EXPECT_EQ(base::string16(),
+              MinidumpStringAtRVAAsString(file_writer.string(), 0));
   }
 
   const struct {
     size_t input_length;
     const char* input_string;
     size_t output_length;
-    const char16 output_string[10];
+    const base::char16 output_string[10];
   } kTestData[] = {
       {0, "", 0, {}},
       {1, "a", 1, {'a'}},
@@ -95,8 +96,8 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
     const MINIDUMP_STRING* minidump_string =
         MinidumpStringAtRVA(file_writer.string(), 0);
     EXPECT_TRUE(minidump_string);
-    string16 expect_string = string16(kTestData[index].output_string,
-                                      kTestData[index].output_length);
+    base::string16 expect_string = base::string16(
+        kTestData[index].output_string, kTestData[index].output_length);
     EXPECT_EQ(expect_string,
               MinidumpStringAtRVAAsString(file_writer.string(), 0));
   }
@@ -133,10 +134,10 @@ TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
     EXPECT_EQ(file_writer.string().size() - sizeof(MINIDUMP_STRING) -
                   sizeof(MINIDUMP_STRING::Buffer[0]),
               minidump_string->Length);
-    string16 output_string =
+    base::string16 output_string =
         MinidumpStringAtRVAAsString(file_writer.string(), 0);
     EXPECT_FALSE(output_string.empty());
-    EXPECT_NE(string16::npos, output_string.find(0xfffd));
+    EXPECT_NE(base::string16::npos, output_string.find(0xfffd));
   }
 }
 
@@ -199,10 +200,11 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
 
 struct MinidumpUTF16StringListWriterTraits {
   using MinidumpStringListWriterType = MinidumpUTF16StringListWriter;
-  static string16 ExpectationForUTF8(const std::string& utf8) {
+  static base::string16 ExpectationForUTF8(const std::string& utf8) {
     return base::UTF8ToUTF16(utf8);
   }
-  static string16 ObservationAtRVA(const std::string& file_contents, RVA rva) {
+  static base::string16 ObservationAtRVA(const std::string& file_contents,
+                                         RVA rva) {
     return MinidumpStringAtRVAAsString(file_contents, rva);
   }
 };

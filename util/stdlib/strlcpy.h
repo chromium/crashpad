@@ -45,7 +45,9 @@ namespace crashpad {
 //! \return The length of the \a source string in char16 units, not including
 //!     its `NUL` terminator. When truncation occurs, the return value will be
 //!     equal to or greater than than the \a length parameter.
-size_t c16lcpy(char16* destination, const char16* source, size_t length);
+size_t c16lcpy(base::char16* destination,
+               const base::char16* source,
+               size_t length);
 
 }  // namespace crashpad
 
