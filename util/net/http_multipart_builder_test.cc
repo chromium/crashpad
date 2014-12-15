@@ -110,6 +110,7 @@ TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
+  ASSERT_EQ(16u, lines.size());
   auto lines_it = lines.begin();
 
   const std::string& boundary = *lines_it++;
@@ -184,6 +185,7 @@ TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
+  ASSERT_EQ(15u, lines.size());
   auto lines_it = lines.begin();
 
   const std::string& boundary = *lines_it++;

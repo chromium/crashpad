@@ -33,10 +33,13 @@ class TestMultiprocessExec final : public MultiprocessExec {
 
  private:
   void MultiprocessParent() override {
-    char c = 'z';
-    CheckedWriteFD(WritePipeFD(), &c, 1);
+    // Use Logging*FD() instead of Checked*FD() so that the test can fail
+    // gracefully with a gtest assertion if the child does not execute properly.
 
-    CheckedReadFD(ReadPipeFD(), &c, 1);
+    char c = 'z';
+    ASSERT_TRUE(LoggingWriteFD(WritePipeFD(), &c, 1));
+
+    ASSERT_TRUE(LoggingReadFD(ReadPipeFD(), &c, 1));
     EXPECT_EQ('Z', c);
   }
 
