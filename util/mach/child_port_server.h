@@ -17,6 +17,8 @@
 
 #include <mach/mach.h>
 
+#include <set>
+
 #include "base/basictypes.h"
 #include "util/mach/child_port_types.h"
 #include "util/mach/mach_message_server.h"
@@ -45,7 +47,7 @@ class ChildPortServer : public MachMessageServer::Interface {
         mach_port_t port,
         mach_msg_type_name_t right_type,
         const mach_msg_trailer_t* trailer,
-        bool* destroy_complex_request) = 0;
+        bool* destroy_request) = 0;
 
    protected:
     ~Interface() {}

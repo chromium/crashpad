@@ -261,14 +261,14 @@ kern_return_t ChildPortHandshake::HandleChildPortCheckIn(
     mach_port_t port,
     mach_msg_type_name_t right_type,
     const mach_msg_trailer_t* trailer,
-    bool* destroy_complex_request) {
+    bool* destroy_request) {
   DCHECK_EQ(child_port_, kMachPortNull);
 
   if (token != token_) {
     // If the token’s not correct, someone’s attempting to spoof the legitimate
     // client.
     LOG(WARNING) << "ignoring incorrect token";
-    *destroy_complex_request = true;
+    *destroy_request = true;
   } else {
     checked_in_ = true;
 
@@ -279,12 +279,11 @@ kern_return_t ChildPortHandshake::HandleChildPortCheckIn(
       // by base::mac::ScopedMachSendRight. It is invalid to store a receive
       // right in that scoper.
       LOG(WARNING) << "ignoring MACH_MSG_TYPE_PORT_RECEIVE";
-      *destroy_complex_request = true;
+      *destroy_request = true;
     } else {
       // Communicate the child port back to the RunServer().
-      // *destroy_complex_request is left at false, because RunServer() needs
-      // the right to remain intact. It gives ownership of the right to its
-      // caller.
+      // *destroy_request is left at false, because RunServer() needs the right
+      // to remain intact. It gives ownership of the right to its caller.
       child_port_ = port;
     }
   }

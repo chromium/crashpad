@@ -476,10 +476,12 @@ bool ExcServer<Traits>::MachMessageServerFunction(
           sizeof(out_reply->new_state[0]) * out_reply->new_stateCnt;
       return true;
     }
-  }
 
-  SetMIGReplyError(out_header, MIG_BAD_ID);
-  return false;
+    default: {
+      SetMIGReplyError(out_header, MIG_BAD_ID);
+      return false;
+    }
+  }
 }
 
 //! \brief A server interface for the `exc` or `mach_exc` Mach subsystems,

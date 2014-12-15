@@ -94,7 +94,7 @@ class MockChildPortServerInterface : public ChildPortServer::Interface {
                              mach_port_t port,
                              mach_msg_type_name_t right_type,
                              const mach_msg_trailer_t* trailer,
-                             bool* destroy_complex_request));
+                             bool* destroy_request));
 };
 
 TEST(ChildPortServer, MockChildPortCheckIn) {
@@ -106,10 +106,10 @@ TEST(ChildPortServer, MockChildPortCheckIn) {
   EXPECT_EQ(expect_request_ids, server.MachMessageServerRequestIDs());
 
   ChildPortCheckInRequest request;
-  EXPECT_LE(request.Head.msgh_size, server.MachMessageServerRequestSize());
+  EXPECT_EQ(request.Head.msgh_size, server.MachMessageServerRequestSize());
 
   MIGReply reply;
-  EXPECT_LE(sizeof(reply), server.MachMessageServerReplySize());
+  EXPECT_EQ(sizeof(reply), server.MachMessageServerReplySize());
 
   EXPECT_CALL(server_interface,
               HandleChildPortCheckIn(kServerLocalPort,
@@ -121,12 +121,12 @@ TEST(ChildPortServer, MockChildPortCheckIn) {
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
-  bool destroy_complex_request = false;
+  bool destroy_request = false;
   EXPECT_TRUE(server.MachMessageServerFunction(
       reinterpret_cast<mach_msg_header_t*>(&request),
       reinterpret_cast<mach_msg_header_t*>(&reply),
-      &destroy_complex_request));
-  EXPECT_FALSE(destroy_complex_request);
+      &destroy_request));
+  EXPECT_FALSE(destroy_request);
 
   reply.Verify();
 }

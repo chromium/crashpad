@@ -97,16 +97,18 @@ bool ChildPortServer::MachMessageServerFunction(
                                              destroy_complex_request);
       return true;
     }
-  }
 
-  SetMIGReplyError(out_header, MIG_BAD_ID);
-  return false;
+    default: {
+      SetMIGReplyError(out_header, MIG_BAD_ID);
+      return false;
+    }
+  }
 }
 
 std::set<mach_msg_id_t> ChildPortServer::MachMessageServerRequestIDs() {
   const mach_msg_id_t request_ids[] = {kMachMessageIDChildPortCheckIn};
-  return std::set<mach_msg_id_t>(
-      &request_ids[0], &request_ids[arraysize(request_ids)]);
+  return std::set<mach_msg_id_t>(&request_ids[0],
+                                 &request_ids[arraysize(request_ids)]);
 }
 
 mach_msg_size_t ChildPortServer::MachMessageServerRequestSize() {
