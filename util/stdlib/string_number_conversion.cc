@@ -29,7 +29,7 @@
 // the std::numeric_limits<>::min() and max() functions will not be marked as
 // constexpr, and thus won’t be usable with C++11’s static_assert(). In that
 // case, a run-time CHECK() will have to do.
-#if CXX_LIBRARY_VERSION >= 2011
+#if CXX_LIBRARY_VERSION >= 2011 && CXX_LIBRARY_HAS_CONSTEXPR
 #define CONSTEXPR_STATIC_ASSERT(condition, message) \
   static_assert(condition, message)
 #else

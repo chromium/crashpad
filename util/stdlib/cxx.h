@@ -15,6 +15,15 @@
 #ifndef CRASHPAD_UTIL_STDLIB_CXX_H_
 #define CRASHPAD_UTIL_STDLIB_CXX_H_
 
+#include "build/build_config.h"
+
+#if defined(COMPILER_MSVC)
+
+#define CXX_LIBRARY_VERSION 2011
+#define CXX_LIBRARY_HAS_CONSTEXPR 0
+
+#else  // !COMPILER_MSVC
+
 // <ciso646> doesn’t do very much, and under libc++, it will cause the
 // _LIBCPP_VERSION macro to be defined properly. Under libstdc++, it doesn’t
 // cause __GLIBCXX__ to be defined, but if _LIBCPP_VERSION isn’t defined after
@@ -50,8 +59,12 @@
       __GLIBCXX__ != 20120702ul) ||  /* GCC 4.5.4 */                          \
      (defined(_LIBCPP_VERSION)))
 #define CXX_LIBRARY_VERSION 2011
+#define CXX_LIBRARY_HAS_CONSTEXPR 1
 #else
 #define CXX_LIBRARY_VERSION 2003
+#define CXX_LIBRARY_HAS_CONSTEXPR 0
 #endif
+
+#endif  // COMPILER_MSVC
 
 #endif  // CRASHPAD_UTIL_STDLIB_CXX_H_
