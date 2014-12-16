@@ -14,9 +14,12 @@
 
 #include "client/crashpad_info.h"
 
-#include <mach-o/loader.h>
-
+#include "build/build_config.h"
 #include "util/stdlib/cxx.h"
+
+#if defined(OS_MACOSX)
+#include <mach-o/loader.h>
+#endif
 
 #if CXX_LIBRARY_VERSION >= 2011
 #include <type_traits>
@@ -45,20 +48,33 @@ union Compile_Assert {
 };
 #endif
 
-// Put the structure in __DATA,__crashpad_info where it can be easily found
-// without having to consult the symbol table. The “used” attribute prevents it
-// from being dead-stripped. This isn’t placed in an unnamed namespace:
-// hopefully, this will catch attempts to place multiple copies of this
-// structure into the same module. If that’s attempted, and the name of the
-// symbol is the same in each translation unit, it will result in a linker
-// error, which is better than having multiple structures show up.
+// This structure needs to be stored somewhere that is easy to find without
+// external information.
+//
+// It isn’t placed in an unnamed namespace: hopefully, this will catch attempts
+// to place multiple copies of this structure into the same module. If that’s
+// attempted, and the name of the symbol is the same in each translation unit,
+// it will result in a linker error, which is better than having multiple
+// structures show up.
 //
 // This may result in a static module initializer in debug-mode builds, but
 // because it’s POD, no code should need to run to initialize this under
 // release-mode optimization.
+#if defined(OS_MACOSX)
+
+// Put the structure in __DATA,__crashpad_info where it can be easily found
+// without having to consult the symbol table. The “used” attribute prevents it
+// from being dead-stripped.
 __attribute__((section(SEG_DATA ",__crashpad_info"),
                used,
                visibility("hidden"))) CrashpadInfo g_crashpad_info;
+
+#elif defined(OS_WIN)
+
+// TODO(scottmg): Tag in a way that makes it easy to locate on Windows.
+CrashpadInfo g_crashpad_info;
+
+#endif
 
 // static
 CrashpadInfo* CrashpadInfo::GetCrashpadInfo() {
