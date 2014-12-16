@@ -48,15 +48,21 @@ struct CrashpadInfo {
   // shouldn’t warn about that. These fields aren’t intended for use by the
   // process they’re found in, they’re supposed to be read by the crash
   // reporting process.
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-private-field"
+#endif
+
   // Fields present in version 1:
   uint32_t signature_;  // kSignature
   uint32_t size_;  // The size of the entire CrashpadInfo structure.
   uint32_t version_;  // kVersion
   uint32_t padding_0_;
   SimpleStringDictionary* simple_annotations_;  // weak
+
+#if defined(__clang__)
 #pragma clang diagnostic pop
+#endif
 
   DISALLOW_COPY_AND_ASSIGN(CrashpadInfo);
 };
