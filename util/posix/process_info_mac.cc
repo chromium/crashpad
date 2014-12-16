@@ -110,7 +110,7 @@ std::set<gid_t> ProcessInfo::SupplementaryGroups() const {
 
   const short ngroups = kern_proc_info_.kp_eproc.e_ucred.cr_ngroups;
   DCHECK_GE(ngroups, 0);
-  DCHECK_LT(static_cast<size_t>(ngroups),
+  DCHECK_LE(static_cast<size_t>(ngroups),
             arraysize(kern_proc_info_.kp_eproc.e_ucred.cr_groups));
 
   const gid_t* groups = kern_proc_info_.kp_eproc.e_ucred.cr_groups;
