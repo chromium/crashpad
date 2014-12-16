@@ -32,11 +32,11 @@ namespace crashpad {
 template <typename Destination, typename Source>
 Destination InRangeCast(Source source, Destination default_value) {
   if (base::IsValueInRangeForNumericType<Destination>(source)) {
-    return source;
+    return static_cast<Destination>(source);
   }
 
   LOG(WARNING) << "value " << source << " out of range";
-  return default_value;
+  return static_cast<Destination>(default_value);
 }
 
 }  // namespace crashpad
