@@ -25,11 +25,11 @@
 #include "util/stdlib/cxx.h"
 
 // CONSTEXPR_STATIC_ASSERT will be a normal static_assert if the C++ library is
-// the C++11 library. If using an older C++ library when compiling C++11 code,
-// the std::numeric_limits<>::min() and max() functions will not be marked as
-// constexpr, and thus won’t be usable with C++11’s static_assert(). In that
-// case, a run-time CHECK() will have to do.
-#if CXX_LIBRARY_VERSION >= 2011 && CXX_LIBRARY_HAS_CONSTEXPR
+// the C++11 library. If using an older C++ library, the
+// std::numeric_limits<>::min() and max() functions will not be marked as
+// constexpr, and thus won’t be usable with static_assert(). In that case, a
+// run-time CHECK() will have to do.
+#if CXX_LIBRARY_HAS_CONSTEXPR
 #define CONSTEXPR_STATIC_ASSERT(condition, message) \
   static_assert(condition, message)
 #else
