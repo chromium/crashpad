@@ -62,6 +62,8 @@
         'mach/mach_message.h',
         'mach/mach_message_server.cc',
         'mach/mach_message_server.h',
+        'mach/notify_server.cc',
+        'mach/notify_server.h',
         'mach/scoped_task_suspend.cc',
         'mach/scoped_task_suspend.h',
         'mach/symbolic_constants_mach.cc',
@@ -126,12 +128,14 @@
                   'files': [
                     '$(SDKROOT)/usr/include/mach/exc.defs',
                     '$(SDKROOT)/usr/include/mach/mach_exc.defs',
+                    '$(SDKROOT)/usr/include/mach/notify.defs',
                   ],
                 },
               ],
               'sources': [
                 '<(INTERMEDIATE_DIR)/util/mach/exc.defs',
                 '<(INTERMEDIATE_DIR)/util/mach/mach_exc.defs',
+                '<(INTERMEDIATE_DIR)/util/mach/notify.defs',
               ],
             }, {  # else: GENERATOR!="ninja"
               # The Xcode generator does copies after rules, so the above trick
@@ -140,6 +144,7 @@
               'sources': [
                 '$(SDKROOT)/usr/include/mach/exc.defs',
                 '$(SDKROOT)/usr/include/mach/mach_exc.defs',
+                '$(SDKROOT)/usr/include/mach/notify.defs',
               ],
             }],
           ],
@@ -243,6 +248,7 @@
         'mach/mach_extensions_test.cc',
         'mach/mach_message_server_test.cc',
         'mach/mach_message_test.cc',
+        'mach/notify_server_test.cc',
         'mach/scoped_task_suspend_test.cc',
         'mach/symbolic_constants_mach_test.cc',
         'mach/task_memory_test.cc',
