@@ -25,7 +25,7 @@
 #include "base/mac/scoped_mach_port.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
@@ -242,10 +242,10 @@ class TestExceptionPorts : public MachMultiprocess,
 
       // Tell the parent process that everything is set up.
       char c = '\0';
-      CheckedWriteFD(test_exception_ports_->WritePipeFD(), &c, 1);
+      CheckedWriteFile(test_exception_ports_->WritePipeFD(), &c, 1);
 
       // Wait for the parent process to say that its end is set up.
-      CheckedReadFD(test_exception_ports_->ReadPipeFD(), &c, 1);
+      CheckedReadFile(test_exception_ports_->ReadPipeFD(), &c, 1);
       EXPECT_EQ('\0', c);
 
       // Regardless of where ExceptionPorts::SetExceptionPort() ran,
@@ -359,7 +359,7 @@ class TestExceptionPorts : public MachMultiprocess,
     // Wait for the child process to be ready. It needs to have all of its
     // threads set up before proceeding if in kSetOutOfProcess mode.
     char c;
-    CheckedReadFD(ReadPipeFD(), &c, 1);
+    CheckedReadFile(ReadPipeFD(), &c, 1);
     EXPECT_EQ('\0', c);
 
     mach_port_t local_port = LocalPort();
@@ -442,7 +442,7 @@ class TestExceptionPorts : public MachMultiprocess,
     // Let the child process know that everything in the parent process is set
     // up.
     c = '\0';
-    CheckedWriteFD(WritePipeFD(), &c, 1);
+    CheckedWriteFile(WritePipeFD(), &c, 1);
 
     if (who_crashes_ != kNobodyCrashes) {
       UniversalMachExcServer universal_mach_exc_server(this);
@@ -463,7 +463,7 @@ class TestExceptionPorts : public MachMultiprocess,
     // Wait for the child process to exit or terminate, as indicated by it
     // closing its pipe. This keeps LocalPort() alive in the child as
     // RemotePort(), for the child’s use in its TestGetExceptionPorts().
-    CheckedReadFDAtEOF(ReadPipeFD());
+    CheckedReadFileAtEOF(ReadPipeFD());
   }
 
   void MachMultiprocessChild() override {

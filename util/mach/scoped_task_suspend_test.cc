@@ -17,7 +17,6 @@
 #include <mach/mach.h>
 
 #include "gtest/gtest.h"
-#include "util/file/fd_io.h"
 #include "util/test/mac/mach_errors.h"
 #include "util/test/mac/mach_multiprocess.h"
 

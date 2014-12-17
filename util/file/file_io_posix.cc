@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 
 #include <unistd.h>
 
@@ -66,70 +66,18 @@ ssize_t ReadOrWrite(int fd,
 
 namespace crashpad {
 
-ssize_t ReadFD(int fd, void* buffer, size_t size) {
-  return ReadOrWrite<ReadTraits>(fd, buffer, size);
+ssize_t ReadFile(FileHandle file, void* buffer, size_t size) {
+  return ReadOrWrite<ReadTraits>(file, buffer, size);
 }
 
-ssize_t WriteFD(int fd, const void* buffer, size_t size) {
-  return ReadOrWrite<WriteTraits>(fd, buffer, size);
+ssize_t WriteFile(FileHandle file, const void* buffer, size_t size) {
+  return ReadOrWrite<WriteTraits>(file, buffer, size);
 }
 
-bool LoggingReadFD(int fd, void* buffer, size_t size) {
-  ssize_t expect = base::checked_cast<ssize_t>(size);
-  ssize_t rv = ReadFD(fd, buffer, size);
-  if (rv < 0) {
-    PLOG(ERROR) << "read";
-    return false;
-  }
-  if (rv != expect) {
-    LOG(ERROR) << "read: expected " << expect << ", observed " << rv;
-    return false;
-  }
-
-  return true;
-}
-
-bool LoggingWriteFD(int fd, const void* buffer, size_t size) {
-  ssize_t expect = base::checked_cast<ssize_t>(size);
-  ssize_t rv = WriteFD(fd, buffer, size);
-  if (rv < 0) {
-    PLOG(ERROR) << "write";
-    return false;
-  }
-  if (rv != expect) {
-    LOG(ERROR) << "write: expected " << expect << ", observed " << rv;
-    return false;
-  }
-
-  return true;
-}
-
-void CheckedReadFD(int fd, void* buffer, size_t size) {
-  CHECK(LoggingReadFD(fd, buffer, size));
-}
-
-void CheckedWriteFD(int fd, const void* buffer, size_t size) {
-  CHECK(LoggingWriteFD(fd, buffer, size));
-}
-
-void CheckedReadFDAtEOF(int fd) {
-  char c;
-  ssize_t rv = ReadFD(fd, &c, 1);
-  if (rv < 0) {
-    PCHECK(rv == 0) << "read";
-  } else {
-    CHECK_EQ(rv, 0) << "read";
-  }
-}
-
-bool LoggingCloseFD(int fd) {
-  int rv = IGNORE_EINTR(close(fd));
+bool LoggingCloseFile(FileHandle file) {
+  int rv = IGNORE_EINTR(close(file));
   PLOG_IF(ERROR, rv != 0) << "close";
   return rv == 0;
-}
-
-void CheckedCloseFD(int fd) {
-  CHECK(LoggingCloseFD(fd));
 }
 
 }  // namespace crashpad

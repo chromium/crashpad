@@ -31,7 +31,7 @@
 #include "base/posix/eintr_wrapper.h"
 #include "base/rand_util.h"
 #include "base/strings/stringprintf.h"
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 #include "util/mach/child_port.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
@@ -85,7 +85,7 @@ mach_port_t ChildPortHandshake::RunServer() {
   // Initialize the token and share it with the client via the pipe.
   token_ = base::RandUint64();
   int pipe_write = pipe_write_owner.get();
-  if (!LoggingWriteFD(pipe_write, &token_, sizeof(token_))) {
+  if (!LoggingWriteFile(pipe_write, &token_, sizeof(token_))) {
     LOG(WARNING) << "no client check-in";
     return MACH_PORT_NULL;
   }
@@ -113,13 +113,14 @@ mach_port_t ChildPortHandshake::RunServer() {
 
   // Share the service name with the client via the pipe.
   uint32_t service_name_length = service_name.size();
-  if (!LoggingWriteFD(
+  if (!LoggingWriteFile(
           pipe_write, &service_name_length, sizeof(service_name_length))) {
     LOG(WARNING) << "no client check-in";
     return MACH_PORT_NULL;
   }
 
-  if (!LoggingWriteFD(pipe_write, service_name.c_str(), service_name_length)) {
+  if (!LoggingWriteFile(
+          pipe_write, service_name.c_str(), service_name_length)) {
     LOG(WARNING) << "no client check-in";
     return MACH_PORT_NULL;
   }
@@ -310,17 +311,17 @@ void ChildPortHandshake::RunClientInternal_ReadPipe(int pipe_read,
                                                     child_port_token_t* token,
                                                     std::string* service_name) {
   // Read the token from the pipe.
-  CheckedReadFD(pipe_read, token, sizeof(*token));
+  CheckedReadFile(pipe_read, token, sizeof(*token));
 
   // Read the service name from the pipe.
   uint32_t service_name_length;
-  CheckedReadFD(pipe_read, &service_name_length, sizeof(service_name_length));
+  CheckedReadFile(pipe_read, &service_name_length, sizeof(service_name_length));
   DCHECK_LT(service_name_length,
             implicit_cast<uint32_t>(BOOTSTRAP_MAX_NAME_LEN));
 
   if (service_name_length > 0) {
     service_name->resize(service_name_length);
-    CheckedReadFD(pipe_read, &(*service_name)[0], service_name_length);
+    CheckedReadFile(pipe_read, &(*service_name)[0], service_name_length);
   }
 }
 

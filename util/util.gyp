@@ -26,8 +26,10 @@
         '<(INTERMEDIATE_DIR)',
       ],
       'sources': [
-        'file/fd_io.cc',
-        'file/fd_io.h',
+        'file/file_io.cc',
+        'file/file_io.h',
+        'file/file_io_posix.cc',
+        'file/file_io_win.cc',
         'file/file_writer.cc',
         'file/file_writer.h',
         'file/string_file_writer.cc',

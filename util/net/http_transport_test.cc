@@ -24,7 +24,7 @@
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 #include "util/net/http_body.h"
 #include "util/net/http_headers.h"
 #include "util/net/http_multipart_builder.h"
@@ -63,12 +63,12 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     // The child will write the HTTP server port number as a packed unsigned
     // short to stdout.
     uint16_t port;
-    ASSERT_TRUE(LoggingReadFD(ReadPipeFD(), &port, sizeof(port)));
+    ASSERT_TRUE(LoggingReadFile(ReadPipeFD(), &port, sizeof(port)));
 
     // Then the parent will tell the web server what response code to send
     // for the HTTP request.
-    ASSERT_TRUE(
-        LoggingWriteFD(WritePipeFD(), &response_code_, sizeof(response_code_)));
+    ASSERT_TRUE(LoggingWriteFile(
+        WritePipeFD(), &response_code_, sizeof(response_code_)));
 
     // Now execute the HTTP request.
     scoped_ptr<HTTPTransport> transport(HTTPTransport::Create());
@@ -85,7 +85,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     std::string request;
     char buf[32];
     ssize_t bytes_read;
-    while ((bytes_read = ReadFD(ReadPipeFD(), buf, sizeof(buf))) != 0) {
+    while ((bytes_read = ReadFile(ReadPipeFD(), buf, sizeof(buf))) != 0) {
       ASSERT_GE(bytes_read, 0);
       request.append(buf, bytes_read);
     }

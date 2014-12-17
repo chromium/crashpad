@@ -22,7 +22,7 @@
 #include "base/basictypes.h"
 #include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/test/mac/mach_errors.h"
@@ -335,13 +335,13 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     if (options_.child_wait_for_parent_pipe_early) {
       // Tell the child to begin sending messages.
       char c = '\0';
-      CheckedWriteFD(WritePipeFD(), &c, 1);
+      CheckedWriteFile(WritePipeFD(), &c, 1);
     }
 
     if (options_.parent_wait_for_child_pipe) {
       // Wait until the child is done sending what it’s going to send.
       char c;
-      CheckedReadFD(ReadPipeFD(), &c, 1);
+      CheckedReadFile(ReadPipeFD(), &c, 1);
       EXPECT_EQ('\0', c);
     }
 
@@ -386,7 +386,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     if (options_.child_wait_for_parent_pipe_late) {
       // Let the child know it’s safe to exit.
       char c = '\0';
-      CheckedWriteFD(WritePipeFD(), &c, 1);
+      CheckedWriteFile(WritePipeFD(), &c, 1);
     }
   }
 
@@ -394,7 +394,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     if (options_.child_wait_for_parent_pipe_early) {
       // Wait until the parent is done setting things up on its end.
       char c;
-      CheckedReadFD(ReadPipeFD(), &c, 1);
+      CheckedReadFile(ReadPipeFD(), &c, 1);
       EXPECT_EQ('\0', c);
     }
 
@@ -428,7 +428,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
 
     if (options_.child_wait_for_parent_pipe_late) {
       char c;
-      CheckedReadFD(ReadPipeFD(), &c, 1);
+      CheckedReadFile(ReadPipeFD(), &c, 1);
       ASSERT_EQ('\0', c);
     }
   }
@@ -550,7 +550,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   // running MachMessageServer() once it’s received.
   void ChildNotifyParentViaPipe() {
     char c = '\0';
-    CheckedWriteFD(WritePipeFD(), &c, 1);
+    CheckedWriteFile(WritePipeFD(), &c, 1);
   }
 
   // In the child process, sends a request message to the server and then

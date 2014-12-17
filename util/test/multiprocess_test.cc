@@ -20,7 +20,7 @@
 
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 
 namespace crashpad {
 namespace test {
@@ -38,31 +38,31 @@ class TestMultiprocess final : public Multiprocess {
   void MultiprocessParent() override {
     int read_fd = ReadPipeFD();
     char c;
-    CheckedReadFD(read_fd, &c, 1);
+    CheckedReadFile(read_fd, &c, 1);
     EXPECT_EQ('M', c);
 
     pid_t pid;
-    CheckedReadFD(read_fd, &pid, sizeof(pid));
+    CheckedReadFile(read_fd, &pid, sizeof(pid));
     EXPECT_EQ(pid, ChildPID());
 
     c = 'm';
-    CheckedWriteFD(WritePipeFD(), &c, 1);
+    CheckedWriteFile(WritePipeFD(), &c, 1);
 
     // The child will close its end of the pipe and exit. Make sure that the
     // parent sees EOF.
-    CheckedReadFDAtEOF(read_fd);
+    CheckedReadFileAtEOF(read_fd);
   }
 
   void MultiprocessChild() override {
     int write_fd = WritePipeFD();
 
     char c = 'M';
-    CheckedWriteFD(write_fd, &c, 1);
+    CheckedWriteFile(write_fd, &c, 1);
 
     pid_t pid = getpid();
-    CheckedWriteFD(write_fd, &pid, sizeof(pid));
+    CheckedWriteFile(write_fd, &pid, sizeof(pid));
 
-    CheckedReadFD(ReadPipeFD(), &c, 1);
+    CheckedReadFile(ReadPipeFD(), &c, 1);
     EXPECT_EQ('m', c);
   }
 
@@ -178,18 +178,18 @@ class TestMultiprocessClosePipe final : public Multiprocess {
   // the read pipe in this process to show end-of-file.
   void VerifyPartner() {
     if (what_closes_ == kWriteCloses) {
-      CheckedReadFDAtEOF(ReadPipeFD());
+      CheckedReadFileAtEOF(ReadPipeFD());
     } else if (what_closes_ == kReadAndWriteClose) {
-      CheckedReadFDAtEOF(ReadPipeFD());
+      CheckedReadFileAtEOF(ReadPipeFD());
       char c = '\0';
 
       // This will raise SIGPIPE. If fatal (the normal case), that will cause
       // process termination. If SIGPIPE is being handled somewhere, the write
-      // will still fail and set errno to EPIPE, and CheckedWriteFD() will abort
-      // execution. Regardless of how SIGPIPE is handled, the process will be
-      // terminated. Because the actual termination mechanism is not known, no
-      // regex can be specified.
-      EXPECT_DEATH(CheckedWriteFD(WritePipeFD(), &c, 1), "");
+      // will still fail and set errno to EPIPE, and CheckedWriteFile() will
+      // abort execution. Regardless of how SIGPIPE is handled, the process will
+      // be terminated. Because the actual termination mechanism is not known,
+      // no regex can be specified.
+      EXPECT_DEATH(CheckedWriteFile(WritePipeFD(), &c, 1), "");
     }
   }
 

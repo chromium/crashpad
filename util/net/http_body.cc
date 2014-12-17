@@ -24,7 +24,7 @@
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/stl_util.h"
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 
 namespace crashpad {
 
@@ -55,7 +55,7 @@ FileHTTPBodyStream::FileHTTPBodyStream(const base::FilePath& path)
 
 FileHTTPBodyStream::~FileHTTPBodyStream() {
   if (fd_ >= 0) {
-    LoggingCloseFD(fd_);
+    LoggingCloseFile(fd_);
   }
 }
 
@@ -77,9 +77,9 @@ ssize_t FileHTTPBodyStream::GetBytesBuffer(uint8_t* buffer, size_t max_len) {
       break;
   }
 
-  ssize_t rv = ReadFD(fd_, buffer, max_len);
+  ssize_t rv = ReadFile(fd_, buffer, max_len);
   if (rv == 0) {
-    LoggingCloseFD(fd_);
+    LoggingCloseFile(fd_);
     fd_ = kClosedAtEOF;
   } else if (rv < 0) {
     PLOG(ERROR) << "read";

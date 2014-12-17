@@ -18,7 +18,7 @@
 
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 #include "util/test/executable_path.h"
 
 namespace crashpad {
@@ -37,9 +37,9 @@ class TestMultiprocessExec final : public MultiprocessExec {
     // gracefully with a gtest assertion if the child does not execute properly.
 
     char c = 'z';
-    ASSERT_TRUE(LoggingWriteFD(WritePipeFD(), &c, 1));
+    ASSERT_TRUE(LoggingWriteFile(WritePipeFD(), &c, 1));
 
-    ASSERT_TRUE(LoggingReadFD(ReadPipeFD(), &c, 1));
+    ASSERT_TRUE(LoggingReadFile(ReadPipeFD(), &c, 1));
     EXPECT_EQ('Z', c);
   }
 

@@ -30,7 +30,7 @@
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/process_reader.h"
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
@@ -193,7 +193,7 @@ class TestMachOImageAnnotationsReader final
     // Wait for the child process to indicate that it’s done setting up its
     // annotations via the CrashpadInfo interface.
     char c;
-    CheckedReadFD(ReadPipeFD(), &c, sizeof(c));
+    CheckedReadFile(ReadPipeFD(), &c, sizeof(c));
 
     // Verify the “simple map” annotations set via the CrashpadInfo interface.
     const std::vector<ProcessReader::Module>& modules =
@@ -216,7 +216,7 @@ class TestMachOImageAnnotationsReader final
     EXPECT_EQ("", all_annotations_simple_map["#TEST# empty_value"]);
 
     // Tell the child process that it’s permitted to crash.
-    CheckedWriteFD(WritePipeFD(), &c, sizeof(c));
+    CheckedWriteFile(WritePipeFD(), &c, sizeof(c));
 
     if (test_type_ != kDontCrash) {
       // Handle the child’s crash. Further validation will be done in
@@ -268,10 +268,10 @@ class TestMachOImageAnnotationsReader final
 
     // Tell the parent that the environment has been set up.
     char c = '\0';
-    CheckedWriteFD(WritePipeFD(), &c, sizeof(c));
+    CheckedWriteFile(WritePipeFD(), &c, sizeof(c));
 
     // Wait for the parent to indicate that it’s safe to crash.
-    CheckedReadFD(ReadPipeFD(), &c, sizeof(c));
+    CheckedReadFile(ReadPipeFD(), &c, sizeof(c));
 
     // Direct an exception message to the exception server running in the
     // parent.

@@ -20,7 +20,7 @@
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 
 namespace crashpad {
 
@@ -61,7 +61,7 @@ bool FileWriter::Write(const void* data, size_t size) {
   DCHECK(fd_.is_valid());
 
   // TODO(mark): Write no more than SSIZE_MAX bytes in a single call.
-  ssize_t written = WriteFD(fd_.get(), data, size);
+  ssize_t written = WriteFile(fd_.get(), data, size);
   if (written < 0) {
     PLOG(ERROR) << "write";
     return false;

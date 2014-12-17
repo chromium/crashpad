@@ -31,7 +31,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/mach_o_image_reader.h"
-#include "util/file/fd_io.h"
+#include "util/file/file_io.h"
 #include "util/mach/mach_extensions.h"
 #include "util/stdlib/pointer_container.h"
 #include "util/synchronization/semaphore.h"
@@ -91,7 +91,7 @@ class ProcessReaderChild final : public MachMultiprocess {
     int read_fd = ReadPipeFD();
 
     mach_vm_address_t address;
-    CheckedReadFD(read_fd, &address, sizeof(address));
+    CheckedReadFile(read_fd, &address, sizeof(address));
 
     std::string read_string;
     ASSERT_TRUE(process_reader.Memory()->ReadCString(address, &read_string));
@@ -103,11 +103,11 @@ class ProcessReaderChild final : public MachMultiprocess {
 
     mach_vm_address_t address =
         reinterpret_cast<mach_vm_address_t>(kTestMemory);
-    CheckedWriteFD(write_fd, &address, sizeof(address));
+    CheckedWriteFile(write_fd, &address, sizeof(address));
 
     // Wait for the parent to signal that it’s OK to exit by closing its end of
     // the pipe.
-    CheckedReadFDAtEOF(ReadPipeFD());
+    CheckedReadFileAtEOF(ReadPipeFD());
   }
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderChild);
@@ -434,15 +434,15 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
          thread_index < thread_count_ + 1;
          ++thread_index) {
       uint64_t thread_id;
-      CheckedReadFD(read_fd, &thread_id, sizeof(thread_id));
+      CheckedReadFile(read_fd, &thread_id, sizeof(thread_id));
 
       TestThreadPool::ThreadExpectation expectation;
-      CheckedReadFD(read_fd,
-                    &expectation.stack_address,
-                    sizeof(expectation.stack_address));
-      CheckedReadFD(read_fd,
-                    &expectation.suspend_count,
-                    sizeof(expectation.suspend_count));
+      CheckedReadFile(read_fd,
+                      &expectation.stack_address,
+                      sizeof(expectation.stack_address));
+      CheckedReadFile(read_fd,
+                      &expectation.suspend_count,
+                      sizeof(expectation.suspend_count));
 
       // There can’t be any duplicate thread IDs.
       EXPECT_EQ(0u, thread_map.count(thread_id));
@@ -467,18 +467,18 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
     // to inspect it. Write an entry for it.
     uint64_t thread_id = PthreadToThreadID(pthread_self());
 
-    CheckedWriteFD(write_fd, &thread_id, sizeof(thread_id));
+    CheckedWriteFile(write_fd, &thread_id, sizeof(thread_id));
 
     TestThreadPool::ThreadExpectation expectation;
     expectation.stack_address = reinterpret_cast<mach_vm_address_t>(&thread_id);
     expectation.suspend_count = 0;
 
-    CheckedWriteFD(write_fd,
-                   &expectation.stack_address,
-                   sizeof(expectation.stack_address));
-    CheckedWriteFD(write_fd,
-                   &expectation.suspend_count,
-                   sizeof(expectation.suspend_count));
+    CheckedWriteFile(write_fd,
+                     &expectation.stack_address,
+                     sizeof(expectation.stack_address));
+    CheckedWriteFile(write_fd,
+                     &expectation.suspend_count,
+                     sizeof(expectation.suspend_count));
 
     // Write an entry for everything in the thread pool.
     for (size_t thread_index = 0;
@@ -487,18 +487,18 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
       uint64_t thread_id =
           thread_pool.GetThreadInfo(thread_index, &expectation);
 
-      CheckedWriteFD(write_fd, &thread_id, sizeof(thread_id));
-      CheckedWriteFD(write_fd,
-                     &expectation.stack_address,
-                     sizeof(expectation.stack_address));
-      CheckedWriteFD(write_fd,
-                     &expectation.suspend_count,
-                     sizeof(expectation.suspend_count));
+      CheckedWriteFile(write_fd, &thread_id, sizeof(thread_id));
+      CheckedWriteFile(write_fd,
+                       &expectation.stack_address,
+                       sizeof(expectation.stack_address));
+      CheckedWriteFile(write_fd,
+                       &expectation.suspend_count,
+                       sizeof(expectation.suspend_count));
     }
 
     // Wait for the parent to signal that it’s OK to exit by closing its end of
     // the pipe.
-    CheckedReadFDAtEOF(ReadPipeFD());
+    CheckedReadFileAtEOF(ReadPipeFD());
   }
 
   size_t thread_count_;
@@ -597,7 +597,7 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
     int read_fd = ReadPipeFD();
 
     uint32_t expect_modules;
-    CheckedReadFD(read_fd, &expect_modules, sizeof(expect_modules));
+    CheckedReadFile(read_fd, &expect_modules, sizeof(expect_modules));
 
     ASSERT_EQ(expect_modules, modules.size());
 
@@ -606,16 +606,16 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
           "index %zu, name %s", index, modules[index].name.c_str()));
 
       uint32_t expect_name_length;
-      CheckedReadFD(
+      CheckedReadFile(
           read_fd, &expect_name_length, sizeof(expect_name_length));
 
       // The NUL terminator is not read.
       std::string expect_name(expect_name_length, '\0');
-      CheckedReadFD(read_fd, &expect_name[0], expect_name_length);
+      CheckedReadFile(read_fd, &expect_name[0], expect_name_length);
       EXPECT_EQ(expect_name, modules[index].name);
 
       mach_vm_address_t expect_address;
-      CheckedReadFD(read_fd, &expect_address, sizeof(expect_address));
+      CheckedReadFile(read_fd, &expect_address, sizeof(expect_address));
       EXPECT_EQ(expect_address, modules[index].reader->Address());
 
       if (index == 0 || index == modules.size() - 1) {
@@ -648,7 +648,7 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       ++write_image_count;
     }
 
-    CheckedWriteFD(write_fd, &write_image_count, sizeof(write_image_count));
+    CheckedWriteFile(write_fd, &write_image_count, sizeof(write_image_count));
 
     for (size_t index = 0; index < write_image_count; ++index) {
       const char* dyld_image_name;
@@ -665,18 +665,19 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       }
 
       uint32_t dyld_image_name_length = strlen(dyld_image_name);
-      CheckedWriteFD(
+      CheckedWriteFile(
           write_fd, &dyld_image_name_length, sizeof(dyld_image_name_length));
 
       // The NUL terminator is not written.
-      CheckedWriteFD(write_fd, dyld_image_name, dyld_image_name_length);
+      CheckedWriteFile(write_fd, dyld_image_name, dyld_image_name_length);
 
-      CheckedWriteFD(write_fd, &dyld_image_address, sizeof(dyld_image_address));
+      CheckedWriteFile(
+          write_fd, &dyld_image_address, sizeof(dyld_image_address));
     }
 
     // Wait for the parent to signal that it’s OK to exit by closing its end of
     // the pipe.
-    CheckedReadFDAtEOF(ReadPipeFD());
+    CheckedReadFileAtEOF(ReadPipeFD());
   }
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderModulesChild);
