@@ -153,16 +153,16 @@ class MachMessageServer {
   //!     message larger than the receive buffer’s size.
   //! \param[in] timeout_ms The maximum duration that this entire function will
   //!     run, in milliseconds. This may be #kMachMessageTimeoutNonblocking or
-  //!     #kMachMessageTimeoutWaitIndefinitely. When \a persistent is `true`,
-  //!     the timeout applies to the overall duration of this function, not to
-  //!     any individual `mach_msg()` call.
+  //!     #kMachMessageTimeoutWaitIndefinitely. When \a persistent is
+  //!     #kPersistent, the timeout applies to the overall duration of this
+  //!     function, not to any individual `mach_msg()` call.
   //!
-  //! \return On success, `KERN_SUCCESS` (when \a persistent is `false`) or
-  //!     `MACH_RCV_TIMED_OUT` (when \a persistent is `true` and \a timeout_ms
-  //!     is not #kMachMessageTimeoutWaitIndefinitely). This function has no
-  //!     successful return value when \a persistent is `true` and \a timeout_ms
-  //!     is #kMachMessageTimeoutWaitIndefinitely. On failure, returns a value
-  //!     identifying the nature of the error.
+  //! \return On success, `KERN_SUCCESS` (when \a persistent is #kOneShot) or
+  //!     `MACH_RCV_TIMED_OUT` (when \a persistent is #kOneShot and \a
+  //!     timeout_ms is not #kMachMessageTimeoutWaitIndefinitely). This function
+  //!     has no successful return value when \a persistent is #kPersistent and
+  //!     \a timeout_ms is #kMachMessageTimeoutWaitIndefinitely. On failure,
+  //!     returns a value identifying the nature of the error.
   static mach_msg_return_t Run(Interface* interface,
                                mach_port_t receive_port,
                                mach_msg_options_t options,
