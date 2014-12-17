@@ -43,7 +43,7 @@
             '..',
           ],
           'sources': [
-            'catch_exception_tool.cc',
+            'mac/catch_exception_tool.cc',
           ],
         },
         {
@@ -59,7 +59,7 @@
             '..',
           ],
           'sources': [
-            'exception_port_tool.cc',
+            'mac/exception_port_tool.cc',
           ],
         },
         {
@@ -99,7 +99,7 @@
             ],
           },
           'sources': [
-            'on_demand_service_tool.mm',
+            'mac/on_demand_service_tool.mm',
           ],
         },
       ],
