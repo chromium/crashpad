@@ -46,7 +46,7 @@ std::string GenerateBoundaryString() {
   for (int index = 0; index < 32; ++index) {
     const char kCharacters[] =
         "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    int random_value = base::RandGenerator(strlen(kCharacters));
+    int random_value = base::RandInt(0, strlen(kCharacters) - 1);
     boundary_string += kCharacters[random_value];
   }
   boundary_string += "---";
