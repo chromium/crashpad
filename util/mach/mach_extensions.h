@@ -67,6 +67,17 @@ const exception_type_t kMachExceptionSimulated = 'CPsx';
 //!     thread continues to exist as a `pthread_t`.
 thread_t MachThreadSelf();
 
+//! \brief Creates a new Mach port in the current task.
+//!
+//! This function wraps the `mach_port_allocate()` providing a simpler
+//! interface.
+//!
+//! \param[in] right The type of right to create.
+//!
+//! \return The new Mach port. On failure, `MACH_PORT_NULL` with a message
+//!     logged.
+mach_port_t NewMachPort(mach_port_right_t right);
+
 //! \brief The value for `EXC_MASK_ALL` appropriate for the operating system at
 //!     run time.
 //!

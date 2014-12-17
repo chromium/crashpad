@@ -465,12 +465,9 @@ class TestMachMessageServer : public MachMessageServer::Interface,
         // method returns. A send right will be made from this receive right and
         // carried in the request message to the server. By the time the server
         // looks at the right, it will have become a dead name.
-        kr = mach_port_allocate(mach_task_self(),
-                                MACH_PORT_RIGHT_RECEIVE,
-                                &request.header.msgh_local_port);
-        ASSERT_EQ(KERN_SUCCESS, kr)
-            << MachErrorMessage(kr, "mach_port_allocate");
-        local_receive_port_owner.reset(request.header.msgh_local_port);
+        local_receive_port_owner.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
+        ASSERT_NE(kMachPortNull, local_receive_port_owner);
+        request.header.msgh_local_port = local_receive_port_owner;
         break;
       }
     }
@@ -480,12 +477,9 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       // will appear in the parent process. This is used to test that the server
       // properly handles ownership of resources received in complex messages.
       request.body.msgh_descriptor_count = 1;
-      kr = mach_port_allocate(mach_task_self(),
-                              MACH_PORT_RIGHT_RECEIVE,
-                              &request.port_descriptor.name);
-      ASSERT_EQ(KERN_SUCCESS, kr)
-          << MachErrorMessage(kr, "mach_port_allocate");
-      child_complex_message_port_.reset(request.port_descriptor.name);
+      child_complex_message_port_.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
+      ASSERT_NE(kMachPortNull, child_complex_message_port_);
+      request.port_descriptor.name = child_complex_message_port_;
       request.port_descriptor.disposition = MACH_MSG_TYPE_MAKE_SEND;
       request.port_descriptor.type = MACH_MSG_PORT_DESCRIPTOR;
     } else {

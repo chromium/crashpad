@@ -126,11 +126,9 @@ mach_port_t ChildPortHandshake::RunServer() {
 
   // A kqueue cannot monitor a raw Mach receive right with EVFILT_MACHPORT. It
   // requires a port set. Create a new port set and add the receive right to it.
-  mach_port_t server_port_set;
-  kr = mach_port_allocate(
-      mach_task_self(), MACH_PORT_RIGHT_PORT_SET, &server_port_set);
-  MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_allocate";
-  base::mac::ScopedMachPortSet server_port_set_owner(server_port_set);
+  base::mac::ScopedMachPortSet server_port_set(
+      NewMachPort(MACH_PORT_RIGHT_PORT_SET));
+  CHECK_NE(server_port_set, kMachPortNull);
 
   kr = mach_port_insert_member(mach_task_self(), server_port, server_port_set);
   MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_insert_member";

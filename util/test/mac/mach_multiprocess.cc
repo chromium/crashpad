@@ -215,15 +215,12 @@ void MachMultiprocess::MultiprocessChild() {
   // local_port is not valid in the forked child process.
   ignore_result(info_->local_port.release());
 
-  mach_port_t local_port;
-  kern_return_t kr = mach_port_allocate(
-      mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &local_port);
-  ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_allocate");
-  info_->local_port.reset(local_port);
+  info_->local_port.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
+  ASSERT_NE(kMachPortNull, info_->local_port);
 
   // The remote port can be obtained from the bootstrap server.
   mach_port_t remote_port;
-  kr = bootstrap_look_up(
+  kern_return_t kr = bootstrap_look_up(
       bootstrap_port, info_->service_name.c_str(), &remote_port);
   ASSERT_EQ(BOOTSTRAP_SUCCESS, kr)
       << BootstrapErrorMessage(kr, "bootstrap_look_up");

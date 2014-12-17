@@ -17,6 +17,7 @@
 #include <AvailabilityMacros.h>
 #include <pthread.h>
 
+#include "base/mac/mach_logging.h"
 #include "util/mac/mac_util.h"
 
 namespace crashpad {
@@ -25,6 +26,13 @@ thread_t MachThreadSelf() {
   // The pthreads library keeps its own copy of the thread port. Using it does
   // not increment its reference count.
   return pthread_mach_thread_np(pthread_self());
+}
+
+mach_port_t NewMachPort(mach_port_right_t right) {
+  mach_port_t port = MACH_PORT_NULL;
+  kern_return_t kr = mach_port_allocate(mach_task_self(), right, &port);
+  MACH_LOG_IF(ERROR, kr != KERN_SUCCESS, kr) << "mach_port_allocate";
+  return port;
 }
 
 exception_mask_t ExcMaskAll() {

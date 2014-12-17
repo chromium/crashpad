@@ -38,21 +38,6 @@ using testing::SetArgPointee;
 using testing::StrictMock;
 using testing::WithArg;
 
-//! \brief Allocates and returns a new receive right.
-//!
-//! \return The new receive right. On failure, `MACH_PORT_NULL` with a gtest
-//!     failure added.
-mach_port_t NewReceiveRight() {
-  mach_port_t receive_right;
-  kern_return_t kr = mach_port_allocate(
-      mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &receive_right);
-  if (kr != KERN_SUCCESS) {
-    EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_allocate");
-    return MACH_PORT_NULL;
-  }
-  return receive_right;
-}
-
 //! \brief Adds a send right to an existing receive right.
 //!
 //! \param[in] receive_right The receive right to add a send right to.
@@ -272,7 +257,8 @@ class NotifyServerTestBase : public testing::Test,
   //!     with a gtest failure added.
   mach_port_t ServerPort() {
     if (!server_port_) {
-      server_port_.reset(NewReceiveRight());
+      server_port_.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
+      EXPECT_NE(kMachPortNull, server_port_);
     }
 
     return server_port_;
@@ -321,7 +307,8 @@ TEST_F(NotifyServerTest, NoNotification) {
 // When a send-once right with a dead-name notification request is deallocated,
 // a port-deleted notification should be generated.
 TEST_F(NotifyServerTest, MachNotifyPortDeleted) {
-  base::mac::ScopedMachReceiveRight receive_right(NewReceiveRight());
+  base::mac::ScopedMachReceiveRight receive_right(
+      NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(kMachPortNull, receive_right);
 
   base::mac::ScopedMachSendRight send_once_right(
@@ -345,7 +332,8 @@ TEST_F(NotifyServerTest, MachNotifyPortDeleted) {
 // When a receive right with a port-destroyed notification request is destroyed,
 // a port-destroyed notification should be generated.
 TEST_F(NotifyServerTest, MachNotifyPortDestroyed) {
-  base::mac::ScopedMachReceiveRight receive_right(NewReceiveRight());
+  base::mac::ScopedMachReceiveRight receive_right(
+      NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(kMachPortNull, receive_right);
 
   ASSERT_TRUE(RequestMachPortNotification(
@@ -366,7 +354,8 @@ TEST_F(NotifyServerTest, MachNotifyPortDestroyed) {
 // When a receive right with a port-destroyed notification request is not
 // destroyed, no port-destroyed notification should be generated.
 TEST_F(NotifyServerTest, MachNotifyPortDestroyed_NoNotification) {
-  base::mac::ScopedMachReceiveRight receive_right(NewReceiveRight());
+  base::mac::ScopedMachReceiveRight receive_right(
+      NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(kMachPortNull, receive_right);
 
   ASSERT_TRUE(RequestMachPortNotification(
@@ -378,7 +367,8 @@ TEST_F(NotifyServerTest, MachNotifyPortDestroyed_NoNotification) {
 // When a no-senders notification request is registered for a receive right with
 // no senders, a no-senders notification should be generated.
 TEST_F(NotifyServerTest, MachNotifyNoSenders_NoSendRight) {
-  base::mac::ScopedMachReceiveRight receive_right(NewReceiveRight());
+  base::mac::ScopedMachReceiveRight receive_right(
+      NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(kMachPortNull, receive_right);
 
   ASSERT_TRUE(RequestMachPortNotification(
@@ -395,7 +385,8 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_NoSendRight) {
 // notification request is deallocated, a no-senders notification should be
 // generated.
 TEST_F(NotifyServerTest, MachNotifyNoSenders_SendRightDeallocated) {
-  base::mac::ScopedMachReceiveRight receive_right(NewReceiveRight());
+  base::mac::ScopedMachReceiveRight receive_right(
+      NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(kMachPortNull, receive_right);
 
   base::mac::ScopedMachSendRight send_right(
@@ -417,7 +408,8 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_SendRightDeallocated) {
 // When the a receive right with a no-senders notification request never loses
 // all senders, no no-senders notification should be generated.
 TEST_F(NotifyServerTest, MachNotifyNoSenders_NoNotification) {
-  base::mac::ScopedMachReceiveRight receive_right(NewReceiveRight());
+  base::mac::ScopedMachReceiveRight receive_right(
+      NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(kMachPortNull, receive_right);
 
   base::mac::ScopedMachSendRight send_right_0(
@@ -459,7 +451,8 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ExplicitDeallocation) {
 // the send-once right is destroyed, and a send-once notification should appear
 // on the reply port.
 TEST_F(NotifyServerTest, MachNotifySendOnce_ImplicitDeallocation) {
-  base::mac::ScopedMachReceiveRight receive_right(NewReceiveRight());
+  base::mac::ScopedMachReceiveRight receive_right(
+      NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(kMachPortNull, receive_right);
 
   mach_msg_empty_send_t message = {};
@@ -490,7 +483,8 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ImplicitDeallocation) {
 // notification request is destroyed, a dead-name notification should be
 // generated.
 TEST_F(NotifyServerTest, MachNotifyDeadName) {
-  base::mac::ScopedMachReceiveRight receive_right(NewReceiveRight());
+  base::mac::ScopedMachReceiveRight receive_right(
+      NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(kMachPortNull, receive_right);
 
   base::mac::ScopedMachSendRight send_once_right(
@@ -527,7 +521,8 @@ TEST_F(NotifyServerTest, MachNotifyDeadName) {
 // notification request is not destroyed, no dead-name notification should be
 // generated.
 TEST_F(NotifyServerTest, MachNotifyDeadName_NoNotification) {
-  base::mac::ScopedMachReceiveRight receive_right(NewReceiveRight());
+  base::mac::ScopedMachReceiveRight receive_right(
+      NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(kMachPortNull, receive_right);
 
   base::mac::ScopedMachSendRight send_once_right(
