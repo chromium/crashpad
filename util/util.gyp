@@ -116,6 +116,8 @@
         'stdlib/strnlen.h',
         'synchronization/semaphore.cc',
         'synchronization/semaphore.h',
+        'win/scoped_handle.cc',
+        'win/scoped_handle.h',
       ],
       'conditions': [
         ['OS=="mac"', {
