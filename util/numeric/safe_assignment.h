@@ -35,7 +35,7 @@ bool AssignIfInRange(Destination* destination, Source source) {
     return false;
   }
 
-  *destination = source;
+  *destination = static_cast<Destination>(source);
   return true;
 }
 
