@@ -19,6 +19,8 @@
 
 #if defined(OS_MACOSX)
 #include <dispatch/dispatch.h>
+#elif defined(OS_WIN)
+#include <windows.h>
 #else
 #include <semaphore.h>
 #endif
@@ -53,6 +55,8 @@ class Semaphore {
  private:
 #if defined(OS_MACOSX)
   dispatch_semaphore_t semaphore_;
+#elif defined(OS_WIN)
+  HANDLE semaphore_;
 #else
   sem_t semaphore_;
 #endif

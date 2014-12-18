@@ -14,6 +14,8 @@
 
 #include "util/synchronization/semaphore.h"
 
+#include <limits>
+
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 
@@ -36,6 +38,28 @@ void Semaphore::Wait() {
 
 void Semaphore::Signal() {
   dispatch_semaphore_signal(semaphore_);
+}
+
+#elif defined(OS_WIN)
+
+Semaphore::Semaphore(int value)
+    : semaphore_(CreateSemaphore(nullptr,
+                                 value,
+                                 std::numeric_limits<LONG>::max(),
+                                 nullptr)) {
+  PCHECK(semaphore_) << "CreateSemaphore";
+}
+
+Semaphore::~Semaphore() {
+  PCHECK(CloseHandle(semaphore_));
+}
+
+void Semaphore::Wait() {
+  PCHECK(WaitForSingleObject(semaphore_, INFINITE) == WAIT_OBJECT_0);
+}
+
+void Semaphore::Signal() {
+  PCHECK(ReleaseSemaphore(semaphore_, 1, nullptr));
 }
 
 #else
