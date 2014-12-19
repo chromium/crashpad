@@ -99,6 +99,8 @@
         'numeric/in_range_cast.h',
         'numeric/int128.h',
         'numeric/safe_assignment.h',
+        'posix/close_stdio.cc',
+        'posix/close_stdio.h',
         'posix/drop_privileges.cc',
         'posix/drop_privileges.h',
         'posix/process_info.h',
