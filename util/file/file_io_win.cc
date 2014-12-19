@@ -103,6 +103,34 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
   return file;
 }
 
+FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence) {
+  DWORD method = 0;
+  switch (whence) {
+    case SEEK_SET:
+      method = FILE_BEGIN;
+      break;
+    case SEEK_CUR:
+      method = FILE_CURRENT;
+      break;
+    case SEEK_END:
+      method = FILE_END;
+      break;
+    default:
+      NOTREACHED();
+      break;
+  }
+
+  LARGE_INTEGER distance_to_move;
+  distance_to_move.QuadPart = offset;
+  LARGE_INTEGER new_offset;
+  BOOL result = SetFilePointerEx(file, distance_to_move, &new_offset, method);
+  if (!result) {
+    PLOG(ERROR) << "SetFilePointerEx";
+    return -1;
+  }
+  return new_offset.QuadPart;
+}
+
 bool LoggingCloseFile(FileHandle file) {
   BOOL rv = CloseHandle(file);
   PLOG_IF(ERROR, !rv) << "CloseHandle";

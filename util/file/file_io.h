@@ -30,10 +30,18 @@ class FilePath;
 namespace crashpad {
 
 #if defined(OS_POSIX) || DOXYGEN
+
 //! \brief Platform-specific alias for a low-level file handle.
 using FileHandle = int;
+
+//! \brief Platform-specific alias for a position in an open file.
+using FileOffset = off_t;
+
 #elif defined(OS_WIN)
+
 using FileHandle = HANDLE;
+using FileOffset = LONGLONG;
+
 #endif
 
 //! \brief Determines the mode that LoggingOpenFileForWrite() uses.
@@ -165,6 +173,17 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path);
 FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode write_mode,
                                    bool world_readable);
+
+//! \brief Wraps `lseek()` or `SetFilePointerEx()`. Logs an error if the
+//!     operation fails.
+//!
+//! Repositions the offset of the open \a file to the specified \a offset,
+//! relative to \a whence. \a whence must be one of `SEEK_SET`, `SEEK_CUR`, or
+//! `SEEK_END`, and is interpreted in the usual way.
+//!
+//! \return The resulting offset in bytes from the beginning of the file, or
+//!     `-1` on failure.
+FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence);
 
 //! \brief Wraps `close()` or `CloseHandle()`, logging an error if the operation
 //!     fails.
