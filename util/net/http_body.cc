@@ -14,17 +14,13 @@
 
 #include "util/net/http_body.h"
 
-#include <fcntl.h>
 #include <string.h>
-#include <unistd.h>
 
 #include <algorithm>
 #include <limits>
 
 #include "base/logging.h"
-#include "base/posix/eintr_wrapper.h"
 #include "base/stl_util.h"
-#include "util/file/file_io.h"
 
 namespace crashpad {
 
@@ -50,37 +46,34 @@ ssize_t StringHTTPBodyStream::GetBytesBuffer(uint8_t* buffer, size_t max_len) {
 }
 
 FileHTTPBodyStream::FileHTTPBodyStream(const base::FilePath& path)
-    : HTTPBodyStream(), path_(path), fd_(kUnopenedFile) {
+    : HTTPBodyStream(), path_(path), file_(), file_state_(kUnopenedFile) {
 }
 
 FileHTTPBodyStream::~FileHTTPBodyStream() {
-  if (fd_ >= 0) {
-    LoggingCloseFile(fd_);
-  }
 }
 
 ssize_t FileHTTPBodyStream::GetBytesBuffer(uint8_t* buffer, size_t max_len) {
-  switch (fd_) {
+  switch (file_state_) {
     case kUnopenedFile:
-      fd_ = HANDLE_EINTR(open(path_.value().c_str(), O_RDONLY));
-      if (fd_ < 0) {
-        fd_ = kFileOpenError;
-        PLOG(ERROR) << "Cannot open " << path_.value();
+      file_.reset(LoggingOpenFileForRead(path_));
+      if (!file_.is_valid()) {
+        file_state_ = kFileOpenError;
         return -1;
       }
+      file_state_ = kReading;
       break;
     case kFileOpenError:
       return -1;
     case kClosedAtEOF:
       return 0;
-    default:
+    case kReading:
       break;
   }
 
-  ssize_t rv = ReadFile(fd_, buffer, max_len);
+  ssize_t rv = ReadFile(file_.get(), buffer, max_len);
   if (rv == 0) {
-    LoggingCloseFile(fd_);
-    fd_ = kClosedAtEOF;
+    file_.reset();
+    file_state_ = kClosedAtEOF;
   } else if (rv < 0) {
     PLOG(ERROR) << "read";
   }

@@ -23,6 +23,7 @@
 
 #include "base/basictypes.h"
 #include "base/files/file_path.h"
+#include "util/file/file_io.h"
 
 namespace crashpad {
 
@@ -83,18 +84,16 @@ class FileHTTPBodyStream : public HTTPBodyStream {
   ssize_t GetBytesBuffer(uint8_t* buffer, size_t max_len) override;
 
  private:
-  enum InvalidFD {
-    kUnopenedFile = -1,
-    kFileOpenError = -2,
-    kClosedAtEOF = -3,
+  enum FileState {
+    kUnopenedFile,
+    kFileOpenError,
+    kClosedAtEOF,
+    kReading,
   };
 
   base::FilePath path_;
-
-  // If |fd_| is greater than or equal to zero, it is an opened descriptor
-  // from which an instance of this class is reading. If |fd_| is less than
-  // zero, the value corresponds to an InvalidFD value.
-  int fd_;
+  ScopedFileHandle file_;
+  FileState file_state_;
 
   DISALLOW_COPY_AND_ASSIGN(FileHTTPBodyStream);
 };
