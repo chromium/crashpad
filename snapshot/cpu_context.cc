@@ -93,7 +93,7 @@ uint64_t CPUContext::InstructionPointer() const {
       return x86_64->rip;
     default:
       NOTREACHED();
-      return -1;
+      return ~0ull;
   }
 }
 
