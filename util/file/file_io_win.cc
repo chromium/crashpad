@@ -83,7 +83,7 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path) {
 
 FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode mode,
-                                   bool world_readable) {
+                                   FilePermissions permissions) {
   DWORD disposition = 0;
   switch (mode) {
     case FileWriteMode::kReuseOrCreate:

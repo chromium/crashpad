@@ -64,6 +64,15 @@ enum class FileWriteMode {
   kCreateOrFail,
 };
 
+//! \brief Determines the permissions bits for files created on POSIX systems.
+enum class FilePermissions : bool {
+  //! \brief Equivalent to `0600`.
+  kOwnerOnly,
+
+  //! \brief Equivalent to `0644`.
+  kWorldReadable,
+};
+
 //! \brief Reads from a file, retrying when interrupted on POSIX or following a
 //!     short read.
 //!
@@ -166,18 +175,18 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path);
 //!     an error if the operation fails.
 //!
 //! \a write_mode determines the style (truncate, reuse, etc.) that is used to
-//! open the file. On POSIX, if \a world_readable, `0644` will be used as
-//! `mode` permissions bits for `open()`, otherwise `0600` will be used. On
-//! Windows, the file is always opened in binary mode (that is, no CRLF
-//! translation).
+//! open the file. On POSIX, \a permissions determines the value that is passed
+//! as `mode` to `open()`. On Windows, the file is always opened in binary mode
+//! (that is, no CRLF translation).
 //!
 //! \return The newly opened FileHandle, or an invalid FileHandle on failure.
 //!
 //! \sa FileWriteMode
+//! \sa FilePermissions
 //! \sa ScopedFileHandle
 FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode write_mode,
-                                   bool world_readable);
+                                   FilePermissions permissions);
 
 //! \brief Wraps `lseek()` or `SetFilePointerEx()`. Logs an error if the
 //!     operation fails.

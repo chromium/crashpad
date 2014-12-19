@@ -84,7 +84,7 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path) {
 
 FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode mode,
-                                   bool world_readable) {
+                                   FilePermissions permissions) {
   int flags = O_WRONLY | O_CREAT;
   // kReuseOrCreate does not need any additional flags.
   if (mode == FileWriteMode::kTruncateOrCreate)
@@ -93,7 +93,9 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
     flags |= O_EXCL;
 
   int fd = HANDLE_EINTR(
-      open(path.value().c_str(), flags, world_readable ? 0644 : 0600));
+      open(path.value().c_str(),
+           flags,
+           permissions == FilePermissions::kWorldReadable ? 0644 : 0600));
   PLOG_IF(ERROR, fd < 0) << "open " << path.value();
   return fd;
 }

@@ -153,7 +153,7 @@ int GenerateDumpMain(int argc, char* argv[]) {
     FileWriter file_writer;
     if (!file_writer.Open(base::FilePath(options.dump_path),
                           FileWriteMode::kTruncateOrCreate,
-                          true)) {
+                          FilePermissions::kWorldReadable)) {
       return EXIT_FAILURE;
     }
 

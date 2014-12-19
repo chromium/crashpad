@@ -45,9 +45,9 @@ FileWriter::~FileWriter() {
 
 bool FileWriter::Open(const base::FilePath& path,
                       FileWriteMode write_mode,
-                      bool world_readable) {
+                      FilePermissions permissions) {
   CHECK(!file_.is_valid());
-  file_.reset(LoggingOpenFileForWrite(path, write_mode, world_readable));
+  file_.reset(LoggingOpenFileForWrite(path, write_mode, permissions));
   return file_.is_valid();
 }
 

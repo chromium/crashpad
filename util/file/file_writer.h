@@ -91,7 +91,7 @@ class FileWriter : public FileWriterInterface {
   //!     after Close().
   bool Open(const base::FilePath& path,
             FileWriteMode write_mode,
-            bool world_readable);
+            FilePermissions permissions);
 
   //! \brief Wraps CheckedCloseHandle().
   //!
