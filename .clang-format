@@ -15,4 +15,5 @@
 {
   BasedOnStyle: Chromium,
   AlignTrailingComments: false,
+  BinPackArguments: false,
 }
