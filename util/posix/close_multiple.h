@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_TEST_POSIX_CLOSE_MULTIPLE_H_
-#define CRASHPAD_UTIL_TEST_POSIX_CLOSE_MULTIPLE_H_
+#ifndef CRASHPAD_UTIL_POSIX_CLOSE_MULTIPLE_H_
+#define CRASHPAD_UTIL_POSIX_CLOSE_MULTIPLE_H_
 
 namespace crashpad {
 
@@ -41,4 +41,4 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd);
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_TEST_POSIX_CLOSE_MULTIPLE_H_
+#endif  // CRASHPAD_UTIL_POSIX_CLOSE_MULTIPLE_H_

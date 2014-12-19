@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/test/posix/close_multiple.h"
+#include "util/posix/close_multiple.h"
 
 #include <dirent.h>
 #include <errno.h>

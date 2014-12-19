@@ -99,6 +99,8 @@
         'numeric/in_range_cast.h',
         'numeric/int128.h',
         'numeric/safe_assignment.h',
+        'posix/close_multiple.cc',
+        'posix/close_multiple.h',
         'posix/close_stdio.cc',
         'posix/close_stdio.h',
         'posix/drop_privileges.cc',
@@ -210,8 +212,6 @@
         'test/multiprocess.h',
         'test/multiprocess_exec.cc',
         'test/multiprocess_exec.h',
-        'test/posix/close_multiple.cc',
-        'test/posix/close_multiple.h',
       ],
       'conditions': [
         ['OS=="mac"', {

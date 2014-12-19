@@ -21,8 +21,8 @@
 #include "base/posix/eintr_wrapper.h"
 #include "gtest/gtest.h"
 #include "util/misc/scoped_forbid_return.h"
+#include "util/posix/close_multiple.h"
 #include "util/test/errors.h"
-#include "util/test/posix/close_multiple.h"
 
 namespace crashpad {
 namespace test {
