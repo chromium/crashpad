@@ -14,6 +14,7 @@
 
 #include "util/file/file_io.h"
 
+#include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 
@@ -70,6 +71,36 @@ ssize_t WriteFile(FileHandle file, const void* buffer, size_t size) {
     return -1;
   CHECK_EQ(bytes_written, size_dword);
   return bytes_written;
+}
+
+FileHandle LoggingOpenFileForRead(const base::FilePath& path) {
+  HANDLE file = CreateFile(path.value().c_str(), GENERIC_READ, FILE_SHARE_READ,
+                           nullptr, OPEN_EXISTING, 0, nullptr);
+  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE) << "CreateFile "
+                                               << path.value().c_str();
+  return file;
+}
+
+FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
+                                   FileWriteMode mode,
+                                   bool world_readable) {
+  DWORD disposition = 0;
+  switch (mode) {
+    case FileWriteMode::kReuseOrCreate:
+      disposition = OPEN_ALWAYS;
+      break;
+    case FileWriteMode::kTruncateOrCreate:
+      disposition = CREATE_ALWAYS;
+      break;
+    case FileWriteMode::kCreateOrFail:
+      disposition = CREATE_NEW;
+      break;
+  }
+  HANDLE file = CreateFile(path.value().c_str(), GENERIC_WRITE, 0, nullptr,
+                           disposition, FILE_ATTRIBUTE_NORMAL, nullptr);
+  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE) << "CreateFile "
+                                               << path.value().c_str();
+  return file;
 }
 
 bool LoggingCloseFile(FileHandle file) {

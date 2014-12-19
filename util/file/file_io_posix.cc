@@ -14,8 +14,10 @@
 
 #include "util/file/file_io.h"
 
+#include <fcntl.h>
 #include <unistd.h>
 
+#include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/posix/eintr_wrapper.h"
@@ -72,6 +74,28 @@ ssize_t ReadFile(FileHandle file, void* buffer, size_t size) {
 
 ssize_t WriteFile(FileHandle file, const void* buffer, size_t size) {
   return ReadOrWrite<WriteTraits>(file, buffer, size);
+}
+
+FileHandle LoggingOpenFileForRead(const base::FilePath& path) {
+  int fd = HANDLE_EINTR(open(path.value().c_str(), O_RDONLY));
+  PLOG_IF(ERROR, fd < 0) << "open " << path.value();
+  return fd;
+}
+
+FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
+                                   FileWriteMode mode,
+                                   bool world_readable) {
+  int flags = O_WRONLY | O_CREAT;
+  // kReuseOrCreate does not need any additional flags.
+  if (mode == FileWriteMode::kTruncateOrCreate)
+    flags |= O_TRUNC;
+  else if (mode == FileWriteMode::kCreateOrFail)
+    flags |= O_EXCL;
+
+  int fd = HANDLE_EINTR(
+      open(path.value().c_str(), flags, world_readable ? 0644 : 0600));
+  PLOG_IF(ERROR, fd < 0) << "open " << path.value();
+  return fd;
 }
 
 bool LoggingCloseFile(FileHandle file) {

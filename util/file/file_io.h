@@ -23,16 +23,34 @@
 #include <windows.h>
 #endif
 
+namespace base {
+class FilePath;
+}  // namespace base
+
 namespace crashpad {
 
-#if defined(OS_POSIX)
+#if defined(OS_POSIX) || DOXYGEN
+//! \brief Platform-specific alias for a low-level file handle.
 using FileHandle = int;
 #elif defined(OS_WIN)
 using FileHandle = HANDLE;
 #endif
 
+//! \brief Determines the mode that LoggingOpenFileForWrite() uses.
+enum class FileWriteMode {
+  //! \brief Opens the file if it exists, or creates a new file.
+  kReuseOrCreate,
+
+  //! \brief Creates a new file. If the file already exists, it will be
+  //!     overwritten.
+  kTruncateOrCreate,
+
+  //! \brief Creates a new file. If the file already exists, the open will fail.
+  kCreateOrFail,
+};
+
 //! \brief Reads from a file, retrying when interrupted on POSIX or following a
-//!        short read.
+//!     short read.
 //!
 //! This function reads into \a buffer, stopping only when \a size bytes have
 //! been read or when end-of-file has been reached. On Windows, reading from
@@ -49,7 +67,7 @@ using FileHandle = HANDLE;
 ssize_t ReadFile(FileHandle file, void* buffer, size_t size);
 
 //! \brief Writes to a file, retrying when interrupted or following a short
-//!        write on POSIX.
+//!     write on POSIX.
 //!
 //! This function writes to \a file, stopping only when \a size bytes have been
 //! written.
@@ -121,8 +139,35 @@ void CheckedWriteFile(FileHandle file, const void* buffer, size_t size);
 //! \sa ReadFile
 void CheckedReadFileAtEOF(FileHandle file);
 
+//! \brief Wraps `open()` or `CreateFile()`, opening an existing file for
+//!     reading. Logs an error if the operation fails.
+//!
+//! \return The newly opened FileHandle, or an invalid FileHandle on failure.
+//!
+//! \sa ScopedFD
+//! \sa ScopedFileHANDLE
+FileHandle LoggingOpenFileForRead(const base::FilePath& path);
+
+//! \brief Wraps `open()` or `CreateFile()`, creating a file for output. Logs
+//!     an error if the operation fails.
+//!
+//! \a write_mode determines the style (truncate, reuse, etc.) that is used to
+//! open the file. On POSIX, if \a world_readable, `0644` will be used as
+//! `mode` permissions bits for `open()`, otherwise `0600` will be used. On
+//! Windows, the file is always opened in binary mode (that is, no CRLF
+//! translation).
+//!
+//! \return The newly opened FileHandle, or an invalid FileHandle on failure.
+//!
+//! \sa FileWriteMode
+//! \sa ScopedFD
+//! \sa ScopedFileHANDLE
+FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
+                                   FileWriteMode write_mode,
+                                   bool world_readable);
+
 //! \brief Wraps `close()` or `CloseHandle()`, logging an error if the operation
-//!        fails.
+//!     fails.
 //!
 //! \return On success, `true` is returned. On failure, an error is logged and
 //!     `false` is returned.
