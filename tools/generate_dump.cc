@@ -152,8 +152,8 @@ int GenerateDumpMain(int argc, char* argv[]) {
 
     FileWriter file_writer;
     if (!file_writer.Open(base::FilePath(options.dump_path),
-                          O_WRONLY | O_CREAT | O_TRUNC,
-                          0644)) {
+                          FileWriteMode::kTruncateOrCreate,
+                          true)) {
       return EXIT_FAILURE;
     }
 

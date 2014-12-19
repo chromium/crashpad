@@ -87,7 +87,7 @@ bool StringFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
   return true;
 }
 
-off_t StringFileWriter::Seek(off_t offset, int whence) {
+FileOffset StringFileWriter::Seek(FileOffset offset, int whence) {
   DCHECK(offset_.IsValid());
 
   size_t base_offset;
@@ -110,21 +110,22 @@ off_t StringFileWriter::Seek(off_t offset, int whence) {
       return -1;
   }
 
-  off_t base_offset_offt;
-  if (!AssignIfInRange(&base_offset_offt, base_offset)) {
-    LOG(ERROR) << "Seek(): base_offset " << base_offset << " invalid for off_t";
+  FileOffset base_offset_fileoffset;
+  if (!AssignIfInRange(&base_offset_fileoffset, base_offset)) {
+    LOG(ERROR) << "Seek(): base_offset " << base_offset
+               << " invalid for FileOffset";
     return -1;
   }
-  base::CheckedNumeric<off_t> new_offset(base_offset_offt);
+  base::CheckedNumeric<FileOffset> new_offset(base_offset_fileoffset);
   new_offset += offset;
   if (!new_offset.IsValid()) {
     LOG(ERROR) << "Seek(): new_offset invalid";
     return -1;
   }
-  off_t new_offset_offt = new_offset.ValueOrDie();
+  FileOffset new_offset_fileoffset = new_offset.ValueOrDie();
   size_t new_offset_sizet;
-  if (!AssignIfInRange(&new_offset_sizet, new_offset_offt)) {
-    LOG(ERROR) << "Seek(): new_offset " << new_offset_offt
+  if (!AssignIfInRange(&new_offset_sizet, new_offset_fileoffset)) {
+    LOG(ERROR) << "Seek(): new_offset " << new_offset_fileoffset
                << " invalid for size_t";
     return -1;
   }

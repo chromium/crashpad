@@ -19,8 +19,11 @@
 
 #include "build/build_config.h"
 
-#if defined(OS_WIN)
+#if defined(OS_POSIX)
+#include "base/files/scoped_file.h"
+#elif defined(OS_WIN)
 #include <windows.h>
+#include "util/win/scoped_handle.h"
 #endif
 
 namespace base {
@@ -37,10 +40,14 @@ using FileHandle = int;
 //! \brief Platform-specific alias for a position in an open file.
 using FileOffset = off_t;
 
+//! \brief Scoped wrapper of a FileHandle.
+using ScopedFileHandle = base::ScopedFD;
+
 #elif defined(OS_WIN)
 
 using FileHandle = HANDLE;
 using FileOffset = LONGLONG;
+using ScopedFileHandle = ScopedFileHANDLE;
 
 #endif
 
@@ -152,8 +159,7 @@ void CheckedReadFileAtEOF(FileHandle file);
 //!
 //! \return The newly opened FileHandle, or an invalid FileHandle on failure.
 //!
-//! \sa ScopedFD
-//! \sa ScopedFileHANDLE
+//! \sa ScopedFileHandle
 FileHandle LoggingOpenFileForRead(const base::FilePath& path);
 
 //! \brief Wraps `open()` or `CreateFile()`, creating a file for output. Logs
@@ -168,8 +174,7 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path);
 //! \return The newly opened FileHandle, or an invalid FileHandle on failure.
 //!
 //! \sa FileWriteMode
-//! \sa ScopedFD
-//! \sa ScopedFileHANDLE
+//! \sa ScopedFileHandle
 FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode write_mode,
                                    bool world_readable);

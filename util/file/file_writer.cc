@@ -19,49 +19,49 @@
 #include <limits.h>
 
 #include "base/logging.h"
+
+#if defined(OS_POSIX)
+#include <sys/uio.h>
+#include <unistd.h>
 #include "base/posix/eintr_wrapper.h"
-#include "util/file/file_io.h"
+#endif  // OS_POSIX
 
 namespace crashpad {
 
+#if defined(OS_POSIX)
 // Ensure type compatibility between WritableIoVec and iovec.
 static_assert(sizeof(WritableIoVec) == sizeof(iovec), "WritableIoVec size");
 static_assert(offsetof(WritableIoVec, iov_base) == offsetof(iovec, iov_base),
               "WritableIoVec base offset");
 static_assert(offsetof(WritableIoVec, iov_len) == offsetof(iovec, iov_len),
               "WritableIoVec len offset");
+#endif  // OS_POSIX
 
-FileWriter::FileWriter() : fd_() {
+FileWriter::FileWriter() : file_() {
 }
 
 FileWriter::~FileWriter() {
 }
 
-bool FileWriter::Open(const base::FilePath& path, int oflag, mode_t mode) {
-  CHECK(!fd_.is_valid());
-
-  DCHECK((oflag & O_WRONLY) || (oflag & O_RDWR));
-
-  fd_.reset(HANDLE_EINTR(open(path.value().c_str(), oflag, mode)));
-  if (!fd_.is_valid()) {
-    PLOG(ERROR) << "open " << path.value();
-    return false;
-  }
-
-  return true;
+bool FileWriter::Open(const base::FilePath& path,
+                      FileWriteMode write_mode,
+                      bool world_readable) {
+  CHECK(!file_.is_valid());
+  file_.reset(LoggingOpenFileForWrite(path, write_mode, world_readable));
+  return file_.is_valid();
 }
 
 void FileWriter::Close() {
-  CHECK(fd_.is_valid());
+  CHECK(file_.is_valid());
 
-  fd_.reset();
+  file_.reset();
 }
 
 bool FileWriter::Write(const void* data, size_t size) {
-  DCHECK(fd_.is_valid());
+  DCHECK(file_.is_valid());
 
   // TODO(mark): Write no more than SSIZE_MAX bytes in a single call.
-  ssize_t written = WriteFile(fd_.get(), data, size);
+  ssize_t written = WriteFile(file_.get(), data, size);
   if (written < 0) {
     PLOG(ERROR) << "write";
     return false;
@@ -74,7 +74,9 @@ bool FileWriter::Write(const void* data, size_t size) {
 }
 
 bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
-  DCHECK(fd_.is_valid());
+  DCHECK(file_.is_valid());
+
+#if defined(OS_POSIX)
 
   ssize_t size = 0;
   for (const WritableIoVec& iov : *iovecs) {
@@ -94,7 +96,8 @@ bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
   while (size > 0) {
     size_t writev_iovec_count =
         std::min(remaining_iovecs, implicit_cast<size_t>(IOV_MAX));
-    ssize_t written = HANDLE_EINTR(writev(fd_.get(), iov, writev_iovec_count));
+    ssize_t written =
+        HANDLE_EINTR(writev(file_.get(), iov, writev_iovec_count));
     if (written < 0) {
       PLOG(ERROR) << "writev";
       return false;
@@ -128,6 +131,15 @@ bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
 
   DCHECK_EQ(remaining_iovecs, 0u);
 
+#else  // !OS_POSIX
+
+  for (const WritableIoVec& iov : *iovecs) {
+    if (!Write(iov.iov_base, iov.iov_len))
+      return false;
+  }
+
+#endif  // OS_POSIX
+
 #ifndef NDEBUG
   // The interface says that |iovecs| is not sacred, so scramble it to make sure
   // that nobody depends on it.
@@ -137,15 +149,9 @@ bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
   return true;
 }
 
-off_t FileWriter::Seek(off_t offset, int whence) {
-  DCHECK(fd_.is_valid());
-
-  off_t rv = lseek(fd_.get(), offset, whence);
-  if (rv < 0) {
-    PLOG(ERROR) << "lseek";
-  }
-
-  return rv;
+FileOffset FileWriter::Seek(FileOffset offset, int whence) {
+  DCHECK(file_.is_valid());
+  return LoggingSeekFile(file_.get(), offset, whence);
 }
 
 }  // namespace crashpad

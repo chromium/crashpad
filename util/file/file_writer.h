@@ -17,15 +17,14 @@
 
 #include <fcntl.h>
 #include <stddef.h>
-#include <sys/uio.h>
-#include <unistd.h>
 
 #include <string>
 #include <vector>
 
 #include "base/basictypes.h"
 #include "base/files/file_path.h"
-#include "base/files/scoped_file.h"
+#include "build/build_config.h"
+#include "util/file/file_io.h"
 
 namespace crashpad {
 
@@ -43,21 +42,21 @@ struct WritableIoVec {
   size_t iov_len;
 };
 
-//! \brief An interface to write to files and other file-like objects with POSIX
-//!     semantics.
+//! \brief An interface to write to files and other file-like objects with
+//!     semantics matching the underlying platform (POSIX or Windows).
 class FileWriterInterface {
  public:
-  //! \brief Wraps `write()` or provides an alternate implementation with
-  //!     identical semantics. This method will write the entire buffer,
-  //!     continuing after a short write or after being interrupted.
+  //! \brief Wraps WriteFile(), or provides an implementation with identical
+  //!     semantics.
   //!
   //! \return `true` if the operation succeeded, `false` if it failed, with an
   //!     error message logged.
   virtual bool Write(const void* data, size_t size) = 0;
 
-  //! \brief Wraps `writev()` or provides an alternate implementation with
-  //!     identical semantics. This method will write the entire buffer,
-  //!     continuing after a short write or after being interrupted.
+  //! \brief Wraps `writev()` on POSIX or provides an alternate implementation
+  //!     with identical semantics. This method will write entire buffers,
+  //!     continuing after a short write or after being interrupted. On
+  //!     non-POSIX this is a simple wrapper around Write().
   //!
   //! \return `true` if the operation succeeded, `false` if it failed, with an
   //!     error message logged.
@@ -65,34 +64,36 @@ class FileWriterInterface {
   //! \note The contents of \a iovecs are undefined when this method returns.
   virtual bool WriteIoVec(std::vector<WritableIoVec>* iovecs) = 0;
 
-  //! \brief Wraps `lseek()` or provides an alternate implementation with
-  //!     identical semantics.
+  //! \brief Wraps LoggingFileSeek() or provides an alternate implementation
+  //!     with identical semantics.
   //!
-  //! \return The return value of `lseek()`. `-1` on failure, with an error
-  //!     message logged.
-  virtual off_t Seek(off_t offset, int whence) = 0;
+  //! \return The return value of LoggingFileSeek(). `-1` on failure,
+  //!     with an error message logged.
+  virtual FileOffset Seek(FileOffset offset, int whence) = 0;
 
  protected:
   ~FileWriterInterface() {}
 };
 
-//! \brief A file writer implementation that wraps traditional POSIX file
+//! \brief A file writer implementation that wraps traditional system file
 //!     operations on files accessed through the filesystem.
 class FileWriter : public FileWriterInterface {
  public:
   FileWriter();
   ~FileWriter();
 
-  //! \brief Wraps `open()`.
+  //! \brief Wraps LoggingOpenFileForWrite().
   //!
   //! \return `true` if the operation succeeded, `false` if it failed, with an
   //!     error message logged.
   //!
   //! \note After a successful call, this method cannot be called again until
   //!     after Close().
-  bool Open(const base::FilePath& path, int oflag, mode_t mode);
+  bool Open(const base::FilePath& path,
+            FileWriteMode write_mode,
+            bool world_readable);
 
-  //! \brief Wraps `close().`
+  //! \brief Wraps CheckedCloseHandle().
   //!
   //! \note It is only valid to call this method on an object that has had a
   //!     successful Open() that has not yet been matched by a subsequent call
@@ -117,10 +118,10 @@ class FileWriter : public FileWriterInterface {
   //!
   //! \note It is only valid to call this method between a successful Open() and
   //!     a Close().
-  off_t Seek(off_t offset, int whence) override;
+  FileOffset Seek(FileOffset offset, int whence) override;
 
  private:
-  base::ScopedFD fd_;
+  ScopedFileHandle file_;
 
   DISALLOW_COPY_AND_ASSIGN(FileWriter);
 };

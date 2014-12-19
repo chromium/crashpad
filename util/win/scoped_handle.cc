@@ -15,12 +15,13 @@
 #include "util/win/scoped_handle.h"
 
 #include "base/logging.h"
+#include "util/file/file_io.h"
 
 namespace crashpad {
 namespace internal {
 
 void ScopedFileHANDLECloseTraits::Free(HANDLE handle) {
-  PCHECK(CloseHandle(handle));
+  CheckedCloseFile(handle);
 }
 
 void ScopedKernelHANDLECloseTraits::Free(HANDLE handle) {

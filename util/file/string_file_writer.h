@@ -47,7 +47,7 @@ class StringFileWriter : public FileWriterInterface {
   // FileWriterInterface:
   bool Write(const void* data, size_t size) override;
   bool WriteIoVec(std::vector<WritableIoVec>* iovecs) override;
-  off_t Seek(off_t offset, int whence) override;
+  FileOffset Seek(FileOffset offset, int whence) override;
 
  private:
   //! \brief The virtual file’s contents.
