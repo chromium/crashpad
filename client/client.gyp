@@ -19,6 +19,7 @@
       'type': 'static_library',
       'dependencies': [
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        '../util/util.gyp:util',
       ],
       'include_dirs': [
         '..',
@@ -26,6 +27,8 @@
       'sources': [
         'capture_context_mac.h',
         'capture_context_mac.S',
+        'crashpad_client.h',
+        'crashpad_client_mac.cc',
         'crashpad_info.cc',
         'crashpad_info.h',
         'simple_string_dictionary.cc',
