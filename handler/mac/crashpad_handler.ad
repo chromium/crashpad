@@ -1,0 +1,67 @@
+// Copyright 2014 The Crashpad Authors. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+:doctype: manpage
+
+= crashpad_handler(8)
+
+== Name
+
+crashpad_handler - Crashpad’s exception handler server
+
+== Synopsis
+
+[verse]
+*crashpad_handler* ['OPTION…']
+
+== Description
+
+This program is Crashpad’s main exception-handling server. This server is
+normally started by its initial client, and it performs a handshake with this
+client via a pipe established by the client that is inherited by the server,
+referenced by the *--handshake-fd* argument. During the handshake, the server
+furnishes the client with a send right that the client may use as an exception
+port. The server retains the corresponding receive right, which it monitors for
+exception messages. When the receive right loses all senders, the server exits.
+
+It is not normally appropriate to invoke this program directly. Usually, it will
+be invoked by a Crashpad client using the Crashpad client library. Arbitrary
+programs may be run with a Crashpad handler by using run_with_crashpad(1) to
+establish the Crashpad client environment before running a program.
+
+== Options
+*-h*, *--handshake-fd*='FD'::
+Perform the handshake with the initial client on the file descriptor at 'FD'.
+
+*--help*::
+Display help and exit.
+
+*--version*::
+Output version information and exit.
+
+== Exit Status
+
+*0*::
+Success.
+
+*1*::
+Failure, with a message printed to the standard error stream.
+
+== See Also
+
+catch_exception_tool(1),
+generate_dump(1),
+run_with_crashpad(1)
+
+include::../../tools/man_footer.ad[]

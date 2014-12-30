@@ -21,6 +21,7 @@
       'dependencies': [
         'client/client.gyp:*',
         'compat/compat.gyp:*',
+        'handler/handler.gyp:*',
         'minidump/minidump.gyp:*',
         'snapshot/snapshot.gyp:*',
         'tools/tools.gyp:*',
