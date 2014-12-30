@@ -102,6 +102,22 @@
             'mac/on_demand_service_tool.mm',
           ],
         },
+        {
+          'target_name': 'run_with_crashpad',
+          'type': 'executable',
+          'dependencies': [
+            'tool_support',
+            '../client/client.gyp:client',
+            '../compat/compat.gyp:compat',
+            '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'mac/run_with_crashpad.cc',
+          ],
+        },
       ],
     }, {
       'targets': [],
