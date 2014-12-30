@@ -92,10 +92,11 @@ with process id 'PID' instead of the current task associated with the tool. When
 this option is supplied, 'COMMAND' must not be specified.
 +
 This option uses +task_for_pid()+ to access the process’ task port. This
-operation may be restricted to use by the superuser or processes permitted by
-taskgated(8). Consequently, this program must normally be invoked by root to use
-this option. It is possible to install this program as a setuid root executable
-to overcome this limitation.
+operation may be restricted to use by the superuser, executables signed by an
+authority trusted by the system, and processes otherwise permitted by
+taskgated(8). Consequently, this program must normally either be signed or be
+invoked by root to use this option. It is possible to install this program as a
+setuid root executable to overcome this limitation.
 
 *-h*, *--show-host*::
 Shows the original host exception ports before making any changes requested by

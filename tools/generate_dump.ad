@@ -40,10 +40,11 @@ it will be generated from a live running process, not as a result of an
 exception occurring.
 
 This program uses +task_for_pid()+ to access the process’ task port. This
-operation may be restricted to use by the superuser or processes permitted by
-taskgated(8). Consequently, this program must normally be invoked by root. It is
-possible to install this program as a setuid root executable to overcome this
-limitation.
+operation may be restricted to use by the superuser, executables signed by an
+authority trusted by the system, and processes otherwise permitted by
+taskgated(8). Consequently, this program must normally either be signed or be
+invoked by root. It is possible to install this program as a setuid root
+executable to overcome this limitation.
 
 This program is similar to the gcore(1) program available on some operating
 systems.
