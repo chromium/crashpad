@@ -214,6 +214,9 @@
         'test/multiprocess.h',
         'test/multiprocess_exec.cc',
         'test/multiprocess_exec.h',
+        'test/scoped_temp_dir.cc',
+        'test/scoped_temp_dir.h',
+        'test/scoped_temp_dir_posix.cc',
       ],
       'conditions': [
         ['OS=="mac"', {
@@ -285,6 +288,7 @@
         'test/mac/mach_multiprocess_test.cc',
         'test/multiprocess_exec_test.cc',
         'test/multiprocess_test.cc',
+        'test/scoped_temp_dir_test.cc',
       ],
       'conditions': [
         ['OS=="mac"', {

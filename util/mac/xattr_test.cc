@@ -25,20 +25,18 @@
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "util/test/errors.h"
+#include "util/test/scoped_temp_dir.h"
 
 namespace crashpad {
 namespace test {
 namespace {
 
 class Xattr : public testing::Test {
- public:
+ protected:
   // testing::Test:
 
   void SetUp() override {
-    path_ = base::FilePath(
-        base::StringPrintf("/tmp/com.googlecode.crashpad.test.xattr.%d.%p",
-            getpid(), this));
-    // TODO(rsesek): This should use something like ScopedTempDir.
+    path_ = temp_dir_.path().Append("xattr_file");
     base::ScopedFD tmp(HANDLE_EINTR(
           open(path_.value().c_str(), O_CREAT | O_TRUNC, 0644)));
     EXPECT_GE(tmp.get(), 0) << ErrnoMessage("open");
@@ -48,9 +46,10 @@ class Xattr : public testing::Test {
     EXPECT_EQ(0, unlink(path_.value().c_str())) << ErrnoMessage("unlink");
   }
 
-  base::FilePath path() { return path_; }
+  const base::FilePath& path() const { return path_; }
 
  private:
+  ScopedTempDir temp_dir_;
   base::FilePath path_;
 };
 
