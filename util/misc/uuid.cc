@@ -14,6 +14,8 @@
 
 #include "util/misc/uuid.h"
 
+#include <inttypes.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "base/basictypes.h"
@@ -50,6 +52,35 @@ void UUID::InitializeFromBytes(const uint8_t* bytes) {
   data_1 = base::NetToHost32(data_1);
   data_2 = base::NetToHost16(data_2);
   data_3 = base::NetToHost16(data_3);
+}
+
+bool UUID::InitializeFromString(const base::StringPiece& string) {
+  if (string.length() != 36)
+    return false;
+
+  UUID temp;
+  const char kScanFormat[] =
+      "%08" SCNx32 "-%04" SCNx16 "-%04" SCNx16
+      "-%02" SCNx8 "%02" SCNx8
+      "-%02" SCNx8 "%02" SCNx8 "%02" SCNx8 "%02" SCNx8 "%02" SCNx8 "%02" SCNx8;
+  int rv = sscanf(string.data(),
+                  kScanFormat,
+                  &temp.data_1,
+                  &temp.data_2,
+                  &temp.data_3,
+                  &temp.data_4[0],
+                  &temp.data_4[1],
+                  &temp.data_5[0],
+                  &temp.data_5[1],
+                  &temp.data_5[2],
+                  &temp.data_5[3],
+                  &temp.data_5[4],
+                  &temp.data_5[5]);
+  if (rv != 11)
+    return false;
+
+  *this = temp;
+  return true;
 }
 
 std::string UUID::ToString() const {

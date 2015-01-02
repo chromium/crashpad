@@ -19,6 +19,7 @@
 #include <string>
 
 #include "base/basictypes.h"
+#include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
 namespace crashpad {
@@ -150,6 +151,56 @@ TEST(UUID, UUID) {
   EXPECT_EQ(0x45u, uuid.data_5[4]);
   EXPECT_EQ(0x45u, uuid.data_5[5]);
   EXPECT_EQ("45454545-4545-4545-4545-454545454545", uuid.ToString());
+}
+
+TEST(UUID, FromString) {
+  const struct TestCase {
+    const char* uuid_string;
+    bool success;
+  } kCases[] = {
+    // Valid:
+    {"c6849cb5-fe14-4a79-8978-9ae6034c521d", true},
+    {"00000000-0000-0000-0000-000000000000", true},
+    {"ffffffff-ffff-ffff-ffff-ffffffffffff", true},
+    // Outside HEX range:
+    {"7318z10b-c453-4cef-9dc8-015655cb4bbc", false},
+    {"7318a10b-c453-4cef-9dz8-015655cb4bbc", false},
+    // Incomplete:
+    {"15655cb4-", false},
+    {"7318f10b-c453-4cef-9dc8-015655cb4bb", false},
+    {"318f10b-c453-4cef-9dc8-015655cb4bb2", false},
+    {"7318f10b-c453-4ef-9dc8-015655cb4bb2", false},
+    {"", false},
+    {"abcd", false},
+    // Trailing data:
+    {"6d247a34-53d5-40ec-a90d-d8dea9e94cc01", false}
+  };
+
+  const std::string empty_uuid = UUID().ToString();
+
+  for (size_t index = 0; index < arraysize(kCases); ++index) {
+    const TestCase& test_case = kCases[index];
+    SCOPED_TRACE(
+        base::StringPrintf("index %zu: %s", index, test_case.uuid_string));
+
+    UUID uuid;
+    EXPECT_EQ(test_case.success,
+              uuid.InitializeFromString(test_case.uuid_string));
+    if (test_case.success) {
+      EXPECT_EQ(test_case.uuid_string, uuid.ToString());
+    } else {
+      EXPECT_EQ(empty_uuid, uuid.ToString());
+    }
+  }
+
+  // Test for case insensitivty.
+  UUID uuid;
+  uuid.InitializeFromString("F32E5BDC-2681-4C73-A4E6-911FFD89B846");
+  EXPECT_EQ("f32e5bdc-2681-4c73-a4e6-911ffd89b846", uuid.ToString());
+
+  // Mixed case.
+  uuid.InitializeFromString("5762C15D-50b5-4171-a2e9-7429C9EC6CAB");
+  EXPECT_EQ("5762c15d-50b5-4171-a2e9-7429c9ec6cab", uuid.ToString());
 }
 
 }  // namespace

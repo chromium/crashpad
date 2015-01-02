@@ -19,6 +19,8 @@
 
 #include <string>
 
+#include "base/strings/string_piece.h"
+
 namespace crashpad {
 
 //! \brief A universally unique identifier (%UUID).
@@ -48,6 +50,16 @@ struct UUID {
   //! \param[in] bytes A buffer of exactly 16 bytes that will be assigned to the
   //!     %UUID.
   void InitializeFromBytes(const uint8_t* bytes);
+
+  //! \brief Initializes the %UUID from a RFC 4122 §3 formatted string.
+  //!
+  //! \param[in] string A string of the form
+  //!     `"00112233-4455-6677-8899-aabbccddeeff"`.
+  //!
+  //! \return `true` if the string was formatted correctly and the object has
+  //!     been initialized with the data. `false` if the string could not be
+  //!     parsed, with the object state untouched.
+  bool InitializeFromString(const base::StringPiece& string);
 
   //! \brief Formats the %UUID per RFC 4122 §3.
   //!
