@@ -14,7 +14,6 @@
 
 #include "util/net/http_body.h"
 
-#include "base/memory/scoped_ptr.h"
 #include "gtest/gtest.h"
 #include "util/net/http_body_test_util.h"
 
@@ -96,7 +95,8 @@ TEST(StringHTTPBodyStream, MultipleReads) {
 TEST(FileHTTPBodyStream, ReadASCIIFile) {
   // TODO(rsesek): Use a more robust mechanism to locate testdata
   // <https://code.google.com/p/crashpad/issues/detail?id=4>.
-  base::FilePath path = base::FilePath("util/net/testdata/ascii_http_body.txt");
+  base::FilePath path = base::FilePath(
+      FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
   FileHTTPBodyStream stream(path);
   std::string contents = ReadStreamToString(&stream, 32);
   EXPECT_EQ("This is a test.\n", contents);
@@ -115,8 +115,8 @@ TEST(FileHTTPBodyStream, ReadBinaryFile) {
   // HEX contents of file: |FEEDFACE A11A15|.
   // TODO(rsesek): Use a more robust mechanism to locate testdata
   // <https://code.google.com/p/crashpad/issues/detail?id=4>.
-  base::FilePath path =
-      base::FilePath("util/net/testdata/binary_http_body.dat");
+  base::FilePath path = base::FilePath(
+      FILE_PATH_LITERAL("util/net/testdata/binary_http_body.dat"));
   // This buffer size was chosen so that reading the file takes multiple reads.
   uint8_t buf[4];
 
@@ -144,8 +144,8 @@ TEST(FileHTTPBodyStream, ReadBinaryFile) {
 }
 
 TEST(FileHTTPBodyStream, NonExistentFile) {
-  base::FilePath path =
-      base::FilePath("/var/empty/crashpad/util/net/http_body/null");
+  base::FilePath path = base::FilePath(
+      FILE_PATH_LITERAL("/var/empty/crashpad/util/net/http_body/null"));
   FileHTTPBodyStream stream(path);
 
   uint8_t buf = 0xff;
@@ -176,10 +176,9 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, ThreeStringParts) {
   std::string string1("crashpad");
   std::string string2("test");
   std::string string3("foobar");
-  const size_t all_strings_length = string1.length() + string2.length() +
-      string3.length();
-  uint8_t buf[all_strings_length + 3];
-  memset(buf, '!', sizeof(buf));
+  const size_t all_strings_length =
+      string1.length() + string2.length() + string3.length();
+  std::string buf(all_strings_length + 3, '!');
 
   std::vector<HTTPBodyStream*> parts;
   parts.push_back(new StringHTTPBodyStream(string1));
@@ -191,8 +190,7 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, ThreeStringParts) {
   std::string actual_string = ReadStreamToString(&stream, GetParam());
   EXPECT_EQ(string1 + string2 + string3, actual_string);
 
-  ExpectBufferSet(buf + all_strings_length, '!',
-      sizeof(buf) - all_strings_length);
+  ExpectBufferSet(reinterpret_cast<uint8_t*>(&buf[all_strings_length]), '!', 3);
 }
 
 TEST_P(CompositeHTTPBodyStreamBufferSize, StringsAndFile) {
@@ -201,8 +199,8 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, StringsAndFile) {
 
   std::vector<HTTPBodyStream*> parts;
   parts.push_back(new StringHTTPBodyStream(string1));
-  parts.push_back(new FileHTTPBodyStream(
-      base::FilePath("util/net/testdata/ascii_http_body.txt")));
+  parts.push_back(new FileHTTPBodyStream(base::FilePath(
+      FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"))));
   parts.push_back(new StringHTTPBodyStream(string2));
 
   CompositeHTTPBodyStream stream(parts);
