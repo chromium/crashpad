@@ -24,7 +24,7 @@ namespace {
 TEST(ExecutablePath, ExecutablePath) {
   base::FilePath executable_path = ExecutablePath();
   base::FilePath executable_name = executable_path.BaseName();
-  EXPECT_EQ("util_test", executable_name.value());
+  EXPECT_EQ(FILE_PATH_LITERAL("util_test"), executable_name.value());
 }
 
 }  // namespace
