@@ -14,7 +14,9 @@
 
 #include "util/synchronization/semaphore.h"
 
+#if defined(OS_POSIX)
 #include <pthread.h>
+#endif  // OS_POSIX
 
 #include "gtest/gtest.h"
 
@@ -29,17 +31,50 @@ TEST(Semaphore, Simple) {
 }
 
 struct ThreadMainInfo {
+#if defined(OS_POSIX)
   pthread_t pthread;
+#elif defined(OS_WIN)
+  HANDLE thread;
+#endif
   Semaphore* semaphore;
   size_t iterations;
 };
 
-void* ThreadMain(void* argument) {
+#if defined(OS_POSIX)
+void*
+#elif defined(OS_WIN)
+DWORD WINAPI
+#endif  // OS_POSIX
+ThreadMain(void* argument) {
   ThreadMainInfo* info = reinterpret_cast<ThreadMainInfo*>(argument);
   for (size_t iteration = 0; iteration < info->iterations; ++iteration) {
     info->semaphore->Wait();
   }
+#if defined(OS_POSIX)
   return nullptr;
+#elif defined(OS_WIN)
+  return 0;
+#endif  // OS_POSIX
+}
+
+void StartThread(ThreadMainInfo* info) {
+#if defined(OS_POSIX)
+  int rv = pthread_create(&info->pthread, nullptr, ThreadMain, info);
+  ASSERT_EQ(0, rv) << "pthread_create";
+#elif defined(OS_WIN)
+  info->thread = CreateThread(nullptr, 0, ThreadMain, info, 0, nullptr);
+  ASSERT_NE(nullptr, info->thread) << "CreateThread";
+#endif  // OS_POSIX
+}
+
+void JoinThread(ThreadMainInfo* info) {
+#if defined(OS_POSIX)
+  int rv = pthread_join(info->pthread, nullptr);
+  EXPECT_EQ(0, rv) << "pthread_join";
+#elif defined(OS_WIN)
+  DWORD result = WaitForSingleObject(info->thread, INFINITE);
+  EXPECT_EQ(WAIT_OBJECT_0, result) << "WaitForSingleObject";
+#endif  // OS_POSIX
 }
 
 TEST(Semaphore, Threaded) {
@@ -48,13 +83,11 @@ TEST(Semaphore, Threaded) {
   info.semaphore = &semaphore;
   info.iterations = 1;
 
-  int rv = pthread_create(&info.pthread, nullptr, ThreadMain, &info);
-  ASSERT_EQ(0, rv) << "pthread_create";
+  ASSERT_NO_FATAL_FAILURE(StartThread(&info));
 
   semaphore.Signal();
 
-  rv = pthread_join(info.pthread, nullptr);
-  ASSERT_EQ(0, rv) << "pthread_join";
+  JoinThread(&info);
 }
 
 TEST(Semaphore, TenThreaded) {
@@ -65,15 +98,12 @@ TEST(Semaphore, TenThreaded) {
   const size_t kThreads = 10;
   ThreadMainInfo info[kThreads];
   size_t iterations = 0;
-  int rv;
   for (size_t index = 0; index < kThreads; ++index) {
     info[index].semaphore = &semaphore;
     info[index].iterations = index;
     iterations += info[index].iterations;
 
-    rv =
-        pthread_create(&info[index].pthread, nullptr, ThreadMain, &info[index]);
-    ASSERT_EQ(0, rv) << "pthread_create";
+    ASSERT_NO_FATAL_FAILURE(StartThread(&info[index]));
   }
 
   for (size_t iteration = 0; iteration < iterations; ++iteration) {
@@ -81,8 +111,7 @@ TEST(Semaphore, TenThreaded) {
   }
 
   for (size_t index = 0; index < kThreads; ++index) {
-    rv = pthread_join(info[index].pthread, nullptr);
-    ASSERT_EQ(0, rv) << "pthread_join";
+    JoinThread(&info[index]);
   }
 }
 
