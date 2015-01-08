@@ -14,8 +14,6 @@
 
 #include "util/test/multiprocess_exec.h"
 
-#include <unistd.h>
-
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
 #include "util/file/file_io.h"
