@@ -18,11 +18,18 @@
 #include <fcntl.h>
 #include <string.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
 #include "base/posix/eintr_wrapper.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/test/errors.h"
+
+#if defined(OS_POSIX)
+#include <unistd.h>
+#elif defined(OS_WIN)
+#include <direct.h>
+#include <io.h>
+#endif  // OS_POSIX
 
 namespace crashpad {
 namespace test {
@@ -32,14 +39,17 @@ bool FileExists(const base::FilePath& path) {
 #if defined(OS_POSIX)
   struct stat st;
   int rv = lstat(path.value().c_str(), &st);
+#elif defined(OS_WIN)
+  struct _stat st;
+  int rv = _wstat(path.value().c_str(), &st);
+#else
+#error "Not implemented"
+#endif
   if (rv < 0) {
     EXPECT_EQ(ENOENT, errno) << ErrnoMessage("lstat") << " " << path.value();
     return false;
   }
   return true;
-#else
-#error "Not implemented"
-#endif
 }
 
 void CreateFile(const base::FilePath& path) {
@@ -48,6 +58,10 @@ void CreateFile(const base::FilePath& path) {
   ASSERT_GE(fd, 0) << ErrnoMessage("creat") << " " << path.value();
   ASSERT_EQ(0, IGNORE_EINTR(close(fd)))
       << ErrnoMessage("close") << " " << path.value();
+#elif defined(OS_WIN)
+  int fd = _wcreat(path.value().c_str(), 0644);
+  ASSERT_GE(fd, 0) << ErrnoMessage("_wcreat") << " " << path.value();
+  ASSERT_EQ(0, _close(fd)) << ErrnoMessage("_close") << " " << path.value();
 #else
 #error "Not implemented"
 #endif
@@ -58,6 +72,9 @@ void CreateDirectory(const base::FilePath& path) {
 #if defined(OS_POSIX)
   ASSERT_EQ(0, mkdir(path.value().c_str(), 0755))
       << ErrnoMessage("mkdir") << " " << path.value();
+#elif defined(OS_WIN)
+  ASSERT_EQ(0, _wmkdir(path.value().c_str()))
+      << ErrnoMessage("_wmkdir") << " " << path.value();
 #else
 #error "Not implemented"
 #endif
@@ -82,10 +99,10 @@ TEST(ScopedTempDir, WithTwoFiles) {
     parent = dir.path();
     ASSERT_TRUE(FileExists(parent));
 
-    file1 = parent.Append("test1");
+    file1 = parent.Append(FILE_PATH_LITERAL("test1"));
     CreateFile(file1);
 
-    file2 = parent.Append("test 2");
+    file2 = parent.Append(FILE_PATH_LITERAL("test 2"));
     CreateFile(file2);
   }
 
@@ -102,13 +119,13 @@ TEST(ScopedTempDir, WithRecursiveDirectory) {
     parent = dir.path();
     ASSERT_TRUE(FileExists(parent));
 
-    file1 = parent.Append(".first-level file");
+    file1 = parent.Append(FILE_PATH_LITERAL(".first-level file"));
     CreateFile(file1);
 
-    child_dir = parent.Append("subdir");
+    child_dir = parent.Append(FILE_PATH_LITERAL("subdir"));
     CreateDirectory(child_dir);
 
-    file2 = child_dir.Append("second level file");
+    file2 = child_dir.Append(FILE_PATH_LITERAL("second level file"));
     CreateFile(file2);
   }
 
