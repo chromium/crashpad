@@ -41,13 +41,17 @@ TEST(Clock, ClockMonotonicNanoseconds) {
     EXPECT_GE(now, last);
   }
 
+#if !defined(OS_WIN)  // No SleepNanoseconds implemented on Windows.
   // SleepNanoseconds() should sleep for at least the value of the clock’s
   // resolution, so the clock’s value should definitely increase after a sleep.
   // EXPECT_GT can be used instead of EXPECT_GE after the sleep.
   SleepNanoseconds(1);
   now = ClockMonotonicNanoseconds();
   EXPECT_GT(now, start);
+#endif  // OS_WIN
 }
+
+#if !defined(OS_WIN)  // No SleepNanoseconds implemented on Windows.
 
 void TestSleepNanoseconds(uint64_t nanoseconds) {
   uint64_t start = ClockMonotonicNanoseconds();
@@ -86,6 +90,8 @@ TEST(Clock, SleepNanoseconds) {
     TestSleepNanoseconds(nanoseconds);
   }
 }
+
+#endif  // OS_WIN
 
 }  // namespace
 }  // namespace test
