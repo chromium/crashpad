@@ -39,14 +39,17 @@ bool FileExists(const base::FilePath& path) {
 #if defined(OS_POSIX)
   struct stat st;
   int rv = lstat(path.value().c_str(), &st);
+  const char stat_function[] = "lstat";
 #elif defined(OS_WIN)
   struct _stat st;
   int rv = _wstat(path.value().c_str(), &st);
+  const char stat_function[] = "_wstat";
 #else
 #error "Not implemented"
 #endif
   if (rv < 0) {
-    EXPECT_EQ(ENOENT, errno) << ErrnoMessage("lstat") << " " << path.value();
+    EXPECT_EQ(ENOENT, errno) << ErrnoMessage(stat_function) << " "
+                             << path.value();
     return false;
   }
   return true;
