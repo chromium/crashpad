@@ -14,6 +14,7 @@
 
 #include "util/mac/xattr.h"
 
+#include <errno.h>
 #include <stdint.h>
 #include <sys/xattr.h>
 
@@ -25,15 +26,17 @@
 
 namespace crashpad {
 
-bool ReadXattr(const base::FilePath& file,
-               const base::StringPiece& name,
-               std::string* value) {
+XattrStatus ReadXattr(const base::FilePath& file,
+                      const base::StringPiece& name,
+                      std::string* value) {
   // First get the size of the attribute value.
   ssize_t buffer_size = getxattr(file.value().c_str(), name.data(), nullptr,
                                  0, 0, 0);
   if (buffer_size < 0) {
+    if (errno == ENOATTR)
+      return XattrStatus::kNoAttribute;
     PLOG(ERROR) << "getxattr size " << name << " on file " << file.value();
-    return false;
+    return XattrStatus::kOtherError;
   }
 
   // Resize the buffer and read into it.
@@ -43,11 +46,11 @@ bool ReadXattr(const base::FilePath& file,
                                 0, 0);
   if (bytes_read < 0) {
     PLOG(ERROR) << "getxattr " << name << " on file " << file.value();
-    return false;
+    return XattrStatus::kOtherError;
   }
   DCHECK_EQ(bytes_read, buffer_size);
 
-  return true;
+  return XattrStatus::kOK;
 }
 
 bool WriteXattr(const base::FilePath& file,
@@ -60,22 +63,23 @@ bool WriteXattr(const base::FilePath& file,
   return rv == 0;
 }
 
-bool ReadXattrBool(const base::FilePath& file,
-                   const base::StringPiece& name,
-                   bool* value) {
+XattrStatus ReadXattrBool(const base::FilePath& file,
+                          const base::StringPiece& name,
+                          bool* value) {
   std::string tmp;
-  if (!ReadXattr(file, name, &tmp))
-    return false;
+  XattrStatus status;
+  if ((status = ReadXattr(file, name, &tmp)) != XattrStatus::kOK)
+    return status;
   if (tmp == "1") {
     *value = true;
-    return true;
+    return XattrStatus::kOK;
   } else if (tmp == "0") {
     *value = false;
-    return true;
+    return XattrStatus::kOK;
   } else {
     LOG(ERROR) << "ReadXattrBool " << name << " on file " << file.value()
                << " could not be interpreted as boolean";
-    return false;
+    return XattrStatus::kOtherError;
   }
 }
 
@@ -85,18 +89,19 @@ bool WriteXattrBool(const base::FilePath& file,
   return WriteXattr(file, name, (value ? "1" : "0"));
 }
 
-bool ReadXattrInt(const base::FilePath& file,
-                  const base::StringPiece& name,
-                  int* value) {
+XattrStatus ReadXattrInt(const base::FilePath& file,
+                         const base::StringPiece& name,
+                         int* value) {
   std::string tmp;
-  if (!ReadXattr(file, name, &tmp))
-    return false;
+  XattrStatus status;
+  if ((status = ReadXattr(file, name, &tmp)) != XattrStatus::kOK)
+    return status;
   if (!base::StringToInt(tmp, value)) {
     LOG(ERROR) << "ReadXattrInt " << name << " on file " << file.value()
                << " could not be converted to an int";
-    return false;
+    return XattrStatus::kOtherError;
   }
-  return true;
+  return XattrStatus::kOK;
 }
 
 bool WriteXattrInt(const base::FilePath& file,
@@ -106,30 +111,31 @@ bool WriteXattrInt(const base::FilePath& file,
   return WriteXattr(file, name, tmp);
 }
 
-bool ReadXattrTimeT(const base::FilePath& file,
-                    const base::StringPiece& name,
-                    time_t* value) {
+XattrStatus ReadXattrTimeT(const base::FilePath& file,
+                           const base::StringPiece& name,
+                           time_t* value) {
   // time_t on OS X is defined as a long, but it will be read into an
   // int64_t here, since there is no string conversion method for long.
   std::string tmp;
-  if (!ReadXattr(file, name, &tmp))
-    return false;
+  XattrStatus status;
+  if ((status = ReadXattr(file, name, &tmp)) != XattrStatus::kOK)
+    return status;
 
   int64_t encoded_value;
   if (!base::StringToInt64(tmp, &encoded_value)) {
     LOG(ERROR) << "ReadXattrTimeT " << name << " on file " << file.value()
                << " could not be converted to an int";
-    return false;
+    return XattrStatus::kOtherError;
   }
 
   *value = base::saturated_cast<time_t>(encoded_value);
   if (!base::IsValueInRangeForNumericType<time_t>(encoded_value)) {
     LOG(ERROR) << "ReadXattrTimeT " << name << " on file " << file.value()
                << " read over-sized value and will saturate";
-    return false;
+    return XattrStatus::kOtherError;
   }
 
-  return true;
+  return XattrStatus::kOK;
 }
 
 bool WriteXattrTimeT(const base::FilePath& file,

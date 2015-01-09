@@ -24,17 +24,28 @@
 
 namespace crashpad {
 
+//! \brief The result code for a ReadXattr operation.
+enum class XattrStatus {
+  //! \brief No error occured. No message is logged.
+  kOK = 0,
+
+  //! \brief The attribute does not exist. No message is logged.
+  kNoAttribute,
+
+  //! \brief An error occurred and an error message was logged.
+  kOtherError,
+};
+
 //! \brief Reads an extended attribute on a file.
 //!
 //! \param[in] file The path to the file.
 //! \param[in] name The name of the extended attribute to read.
 //! \param[out] value The value of the attribute.
 //!
-//! \return `true` if the read was successful, with \a value filled in. `false`
-//!     on error, with a message logged.
-bool ReadXattr(const base::FilePath& file,
-               const base::StringPiece& name,
-               std::string* value);
+//! \return XattrStatus
+XattrStatus ReadXattr(const base::FilePath& file,
+                      const base::StringPiece& name,
+                      std::string* value);
 
 //! \brief Writes an extended attribute on a file.
 //!
@@ -52,9 +63,9 @@ bool WriteXattr(const base::FilePath& file,
 //!
 //! Only the values `"0"` and `"1"`, for `false` and `true` respectively, are
 //! valid conversions.
-bool ReadXattrBool(const base::FilePath& file,
-                   const base::StringPiece& name,
-                   bool* value);
+XattrStatus ReadXattrBool(const base::FilePath& file,
+                          const base::StringPiece& name,
+                          bool* value);
 
 //! \copydoc WriteXattr
 bool WriteXattrBool(const base::FilePath& file,
@@ -62,9 +73,9 @@ bool WriteXattrBool(const base::FilePath& file,
                     bool value);
 
 //! \copydoc ReadXattr
-bool ReadXattrInt(const base::FilePath& file,
-                  const base::StringPiece& name,
-                  int* value);
+XattrStatus ReadXattrInt(const base::FilePath& file,
+                         const base::StringPiece& name,
+                         int* value);
 
 //! \copydoc WriteXattr
 bool WriteXattrInt(const base::FilePath& file,
@@ -72,9 +83,9 @@ bool WriteXattrInt(const base::FilePath& file,
                    int value);
 
 //! \copydoc ReadXattr
-bool ReadXattrTimeT(const base::FilePath& file,
-                    const base::StringPiece& name,
-                    time_t* value);
+XattrStatus ReadXattrTimeT(const base::FilePath& file,
+                           const base::StringPiece& name,
+                           time_t* value);
 
 //! \copydoc WriteXattr
 bool WriteXattrTimeT(const base::FilePath& file,

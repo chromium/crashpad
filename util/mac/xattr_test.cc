@@ -57,7 +57,7 @@ const char kKey[] = "com.google.crashpad.test";
 
 TEST_F(Xattr, ReadNonExistentXattr) {
   std::string value;
-  EXPECT_FALSE(ReadXattr(path(), kKey, &value));
+  EXPECT_EQ(XattrStatus::kNoAttribute, ReadXattr(path(), kKey, &value));
 }
 
 TEST_F(Xattr, WriteAndReadString) {
@@ -65,7 +65,7 @@ TEST_F(Xattr, WriteAndReadString) {
   EXPECT_TRUE(WriteXattr(path(), kKey, value));
 
   std::string actual;
-  EXPECT_TRUE(ReadXattr(path(), kKey, &actual));
+  EXPECT_EQ(XattrStatus::kOK, ReadXattr(path(), kKey, &actual));
   EXPECT_EQ(value, actual);
 }
 
@@ -74,18 +74,18 @@ TEST_F(Xattr, WriteAndReadVeryLongString) {
   EXPECT_TRUE(WriteXattr(path(), kKey, value));
 
   std::string actual;
-  EXPECT_TRUE(ReadXattr(path(), kKey, &actual));
+  EXPECT_EQ(XattrStatus::kOK, ReadXattr(path(), kKey, &actual));
   EXPECT_EQ(value, actual);
 }
 
 TEST_F(Xattr, WriteAndReadBool) {
   EXPECT_TRUE(WriteXattrBool(path(), kKey, true));
   bool actual = false;
-  EXPECT_TRUE(ReadXattrBool(path(), kKey, &actual));
+  EXPECT_EQ(XattrStatus::kOK, ReadXattrBool(path(), kKey, &actual));
   EXPECT_TRUE(actual);
 
   EXPECT_TRUE(WriteXattrBool(path(), kKey, false));
-  EXPECT_TRUE(ReadXattrBool(path(), kKey, &actual));
+  EXPECT_EQ(XattrStatus::kOK, ReadXattrBool(path(), kKey, &actual));
   EXPECT_FALSE(actual);
 }
 
@@ -94,12 +94,12 @@ TEST_F(Xattr, WriteAndReadInt) {
   int actual;
 
   EXPECT_TRUE(WriteXattrInt(path(), kKey, expected));
-  EXPECT_TRUE(ReadXattrInt(path(), kKey, &actual));
+  EXPECT_EQ(XattrStatus::kOK, ReadXattrInt(path(), kKey, &actual));
   EXPECT_EQ(expected, actual);
 
   expected = std::numeric_limits<int>::max();
   EXPECT_TRUE(WriteXattrInt(path(), kKey, expected));
-  EXPECT_TRUE(ReadXattrInt(path(), kKey, &actual));
+  EXPECT_EQ(XattrStatus::kOK, ReadXattrInt(path(), kKey, &actual));
   EXPECT_EQ(expected, actual);
 }
 
@@ -108,12 +108,12 @@ TEST_F(Xattr, WriteAndReadTimeT) {
   time_t actual;
 
   EXPECT_TRUE(WriteXattrTimeT(path(), kKey, expected));
-  EXPECT_TRUE(ReadXattrTimeT(path(), kKey, &actual));
+  EXPECT_EQ(XattrStatus::kOK, ReadXattrTimeT(path(), kKey, &actual));
   EXPECT_EQ(expected, actual);
 
   expected = std::numeric_limits<time_t>::max();
   EXPECT_TRUE(WriteXattrTimeT(path(), kKey, expected));
-  EXPECT_TRUE(ReadXattrTimeT(path(), kKey, &actual));
+  EXPECT_EQ(XattrStatus::kOK, ReadXattrTimeT(path(), kKey, &actual));
   EXPECT_EQ(expected, actual);
 }
 
