@@ -217,6 +217,7 @@
         'test/scoped_temp_dir.cc',
         'test/scoped_temp_dir.h',
         'test/scoped_temp_dir_posix.cc',
+        'test/scoped_temp_dir_win.cc',
       ],
       'conditions': [
         ['OS=="mac"', {

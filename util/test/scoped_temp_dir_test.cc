@@ -62,7 +62,7 @@ void CreateFile(const base::FilePath& path) {
   ASSERT_EQ(0, IGNORE_EINTR(close(fd)))
       << ErrnoMessage("close") << " " << path.value();
 #elif defined(OS_WIN)
-  int fd = _wcreat(path.value().c_str(), 0644);
+  int fd = _wcreat(path.value().c_str(), _S_IREAD | _S_IWRITE);
   ASSERT_GE(fd, 0) << ErrnoMessage("_wcreat") << " " << path.value();
   ASSERT_EQ(0, _close(fd)) << ErrnoMessage("_close") << " " << path.value();
 #else

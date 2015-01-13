@@ -27,9 +27,9 @@ namespace test {
 
 // static
 base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
-  char dir_tempalate[] = "/tmp/com.googlecode.crashpad.test.XXXXXX";
-  PCHECK(mkdtemp(dir_tempalate)) << "mkdtemp " << dir_tempalate;
-  return base::FilePath(dir_tempalate);
+  char dir_template[] = "/tmp/com.googlecode.crashpad.test.XXXXXX";
+  PCHECK(mkdtemp(dir_template)) << "mkdtemp " << dir_template;
+  return base::FilePath(dir_template);
 }
 
 // static
