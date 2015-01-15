@@ -350,7 +350,7 @@ TEST(StringFileWriter, SeekInvalid) {
   EXPECT_EQ(1, writer.Seek(0, SEEK_CUR));
   EXPECT_LT(writer.Seek(std::numeric_limits<ssize_t>::min(), SEEK_SET), 0);
   EXPECT_EQ(1, writer.Seek(0, SEEK_CUR));
-  EXPECT_LT(writer.Seek(std::numeric_limits<off_t>::min(), SEEK_SET), 0);
+  EXPECT_LT(writer.Seek(std::numeric_limits<FileOffset>::min(), SEEK_SET), 0);
   EXPECT_EQ(1, writer.Seek(0, SEEK_CUR));
   EXPECT_TRUE(writer.string().empty());
 
@@ -362,8 +362,8 @@ TEST(StringFileWriter, SeekInvalid) {
   EXPECT_EQ(0, writer.Seek(0, SEEK_CUR));
   EXPECT_TRUE(writer.string().empty());
 
-  const off_t kMaxOffset = static_cast<off_t>(
-      std::min(implicit_cast<uint64_t>(std::numeric_limits<off_t>::max()),
+  const FileOffset kMaxOffset = static_cast<FileOffset>(
+      std::min(implicit_cast<uint64_t>(std::numeric_limits<FileOffset>::max()),
                implicit_cast<uint64_t>(std::numeric_limits<size_t>::max())));
 
   EXPECT_EQ(kMaxOffset, writer.Seek(kMaxOffset, SEEK_SET));
