@@ -205,6 +205,7 @@
         'test/errors.h',
         'test/executable_path.h',
         'test/executable_path_mac.cc',
+        'test/executable_path_win.cc',
         'test/mac/dyld.h',
         'test/mac/mach_errors.cc',
         'test/mac/mach_errors.h',
