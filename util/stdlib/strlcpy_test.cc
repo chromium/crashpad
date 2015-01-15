@@ -19,6 +19,7 @@
 #include <algorithm>
 
 #include "base/basictypes.h"
+#include "base/format_macros.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
@@ -45,9 +46,10 @@ TEST(strlcpy, c16lcpy) {
   for (size_t index = 0; index < arraysize(test_characters); ++index) {
     base::char16 test_character = test_characters[index];
     SCOPED_TRACE(base::StringPrintf(
-        "character index %zu, character 0x%x", index, test_character));
+        "character index %" PRIuS ", character 0x%x", index, test_character));
     for (size_t length = 0; length < 256; ++length) {
-      SCOPED_TRACE(base::StringPrintf("index %zu", length));
+      SCOPED_TRACE(
+          base::StringPrintf("index %" PRIuS, length));
       base::string16 test_string(length, test_character);
 
       TestBuffer destination;

@@ -19,6 +19,7 @@
 #include <string>
 
 #include "base/basictypes.h"
+#include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
@@ -180,8 +181,8 @@ TEST(UUID, FromString) {
 
   for (size_t index = 0; index < arraysize(kCases); ++index) {
     const TestCase& test_case = kCases[index];
-    SCOPED_TRACE(
-        base::StringPrintf("index %zu: %s", index, test_case.uuid_string));
+    SCOPED_TRACE(base::StringPrintf(
+        "index %" PRIuS ": %s", index, test_case.uuid_string));
 
     UUID uuid;
     EXPECT_EQ(test_case.success,

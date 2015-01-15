@@ -19,6 +19,7 @@
 #include <limits>
 
 #include "base/basictypes.h"
+#include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
@@ -78,7 +79,8 @@ TEST(CheckedRange, IsValid) {
 
   for (size_t index = 0; index < arraysize(kUnsignedTestData); ++index) {
     const UnsignedTestData& testcase = kUnsignedTestData[index];
-    SCOPED_TRACE(base::StringPrintf("unsigned index %zu, base 0x%x, size 0x%x",
+    SCOPED_TRACE(base::StringPrintf("unsigned index %" PRIuS
+                                    ", base 0x%x, size 0x%x",
                                     index,
                                     testcase.base,
                                     testcase.size));
@@ -139,7 +141,8 @@ TEST(CheckedRange, IsValid) {
 
   for (size_t index = 0; index < arraysize(kSignedTestData); ++index) {
     const SignedTestData& testcase = kSignedTestData[index];
-    SCOPED_TRACE(base::StringPrintf("signed index %zu, base 0x%x, size 0x%x",
+    SCOPED_TRACE(base::StringPrintf("signed index %" PRIuS
+                                    ", base 0x%x, size 0x%x",
                                     index,
                                     testcase.base,
                                     testcase.size));
@@ -184,8 +187,8 @@ TEST(CheckedRange, ContainsValue) {
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
     const TestData& testcase = kTestData[index];
-    SCOPED_TRACE(
-        base::StringPrintf("index %zu, value 0x%x", index, testcase.value));
+    SCOPED_TRACE(base::StringPrintf(
+        "index %" PRIuS ", value 0x%x", index, testcase.value));
 
     EXPECT_EQ(testcase.valid, parent_range.ContainsValue(testcase.value));
   }
@@ -232,7 +235,7 @@ TEST(CheckedRange, ContainsRange) {
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
     const TestData& testcase = kTestData[index];
-    SCOPED_TRACE(base::StringPrintf("index %zu, base 0x%x, size 0x%x",
+    SCOPED_TRACE(base::StringPrintf("index %" PRIuS ", base 0x%x, size 0x%x",
                                     index,
                                     testcase.base,
                                     testcase.size));
