@@ -77,6 +77,8 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
       body = self.rfile.read(length)
 
     self.send_response(self.response_code)
+    self.end_headers()
+
     writer.write(body)
     writer.flush()
 
@@ -118,6 +120,10 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
 
 def Main():
+  if sys.platform == 'win32':
+    import os, msvcrt
+    msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
+
   # Start the server.
   server = BaseHTTPServer.HTTPServer(('127.0.0.1', 0), RequestHandler)
 

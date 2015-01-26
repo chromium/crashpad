@@ -97,6 +97,7 @@
         'net/http_transport.cc',
         'net/http_transport.h',
         'net/http_transport_mac.mm',
+        'net/http_transport_win.cc',
         'numeric/checked_range.h',
         'numeric/in_range_cast.h',
         'numeric/int128.h',
@@ -183,6 +184,13 @@
               '$(SDKROOT)/System/Library/Frameworks/CoreFoundation.framework',
               '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
               '$(SDKROOT)/System/Library/Frameworks/IOKit.framework',
+            ],
+          },
+        }],
+        ['OS=="win"', {
+          'link_settings': {
+            'libraries': [
+              '-lwinhttp.lib',
             ],
           },
         }],

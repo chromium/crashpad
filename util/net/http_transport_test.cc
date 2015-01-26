@@ -15,10 +15,12 @@
 #include "util/net/http_transport.h"
 
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <vector>
 
+#include "base/format_macros.h"
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
@@ -50,7 +52,17 @@ class HTTPTransportTestFixture : public MultiprocessExec {
         request_validator_(request_validator) {
     // TODO(rsesek): Use a more robust mechanism to locate testdata
     // <https://code.google.com/p/crashpad/issues/detail?id=4>.
+#if defined(OS_POSIX)
     SetChildCommand("util/net/http_transport_test_server.py", nullptr);
+#elif defined(OS_WIN)
+    // Explicitly invoke a shell and python so that python can be found in the
+    // path, and run the test script.
+    std::vector<std::string> args;
+    args.push_back("/c");
+    args.push_back("python");
+    args.push_back("util/net/http_transport_test_server.py");
+    SetChildCommand(getenv("COMSPEC"), &args);
+#endif  // OS_POSIX
   }
 
   const HTTPHeaders& headers() { return headers_; }
@@ -234,7 +246,7 @@ TEST(HTTPTransport, UnchunkedPlainText) {
 
   HTTPHeaders headers;
   headers[kContentType] = kTextPlain;
-  headers[kContentLength] = base::StringPrintf("%zu", strlen(kTextBody));
+  headers[kContentLength] = base::StringPrintf("%" PRIuS, strlen(kTextBody));
 
   HTTPTransportTestFixture test(headers, body_stream.Pass(), 200,
       &UnchunkedPlainText);
