@@ -31,6 +31,9 @@
         'crashpad_client_mac.cc',
         'crashpad_info.cc',
         'crashpad_info.h',
+        'crash_report_database_mac.mm',
+        'crash_report_database.cc',
+        'crash_report_database.h',
         'simple_string_dictionary.cc',
         'simple_string_dictionary.h',
         'simulate_crash.h',
@@ -54,6 +57,7 @@
       ],
       'sources': [
         'capture_context_mac_test.cc',
+        'crash_report_database_test.cc',
         'simple_string_dictionary_test.cc',
         'simulate_crash_mac_test.cc',
       ],
