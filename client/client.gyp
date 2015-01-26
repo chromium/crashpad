@@ -18,6 +18,7 @@
       'target_name': 'client',
       'type': 'static_library',
       'dependencies': [
+        '../compat/compat.gyp:compat',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
         '../util/util.gyp:util',
       ],
@@ -46,6 +47,7 @@
       'type': 'executable',
       'dependencies': [
         'client',
+        '../compat/compat.gyp:compat',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',

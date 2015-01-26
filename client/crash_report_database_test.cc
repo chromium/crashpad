@@ -28,6 +28,9 @@ bool FileExistsAtPath(const base::FilePath& path) {
 #if defined(OS_POSIX)
   struct stat st;
   return lstat(path.value().c_str(), &st) == 0;
+#elif defined(OS_WIN)
+  struct _stat st;
+  return _wstat(path.value().c_str(), &st);
 #else
 #error "Not implemented"
 #endif
@@ -37,7 +40,11 @@ void CreateFile(const base::FilePath& path) {
   FileHandle handle = LoggingOpenFileForWrite(path,
                                               FileWriteMode::kCreateOrFail,
                                               FilePermissions::kWorldReadable);
+#if defined(OS_POSIX)
   ASSERT_GE(handle, 0);
+#elif defined(OS_WIN)
+  ASSERT_NE(handle, nullptr);
+#endif
   ASSERT_TRUE(
       LoggingWriteFile(handle, path.value().c_str(), path.value().length()));
   ASSERT_TRUE(LoggingCloseFile(handle));
