@@ -242,10 +242,10 @@ class TestExceptionPorts : public MachMultiprocess,
 
       // Tell the parent process that everything is set up.
       char c = '\0';
-      CheckedWriteFile(test_exception_ports_->WritePipeFD(), &c, 1);
+      CheckedWriteFile(test_exception_ports_->WritePipeHandle(), &c, 1);
 
       // Wait for the parent process to say that its end is set up.
-      CheckedReadFile(test_exception_ports_->ReadPipeFD(), &c, 1);
+      CheckedReadFile(test_exception_ports_->ReadPipeHandle(), &c, 1);
       EXPECT_EQ('\0', c);
 
       // Regardless of where ExceptionPorts::SetExceptionPort() ran,
@@ -359,7 +359,7 @@ class TestExceptionPorts : public MachMultiprocess,
     // Wait for the child process to be ready. It needs to have all of its
     // threads set up before proceeding if in kSetOutOfProcess mode.
     char c;
-    CheckedReadFile(ReadPipeFD(), &c, 1);
+    CheckedReadFile(ReadPipeHandle(), &c, 1);
     EXPECT_EQ('\0', c);
 
     mach_port_t local_port = LocalPort();
@@ -442,7 +442,7 @@ class TestExceptionPorts : public MachMultiprocess,
     // Let the child process know that everything in the parent process is set
     // up.
     c = '\0';
-    CheckedWriteFile(WritePipeFD(), &c, 1);
+    CheckedWriteFile(WritePipeHandle(), &c, 1);
 
     if (who_crashes_ != kNobodyCrashes) {
       UniversalMachExcServer universal_mach_exc_server(this);
@@ -463,7 +463,7 @@ class TestExceptionPorts : public MachMultiprocess,
     // Wait for the child process to exit or terminate, as indicated by it
     // closing its pipe. This keeps LocalPort() alive in the child as
     // RemotePort(), for the child’s use in its TestGetExceptionPorts().
-    CheckedReadFileAtEOF(ReadPipeFD());
+    CheckedReadFileAtEOF(ReadPipeHandle());
   }
 
   void MachMultiprocessChild() override {

@@ -17,6 +17,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 #include <string>
 
@@ -153,14 +154,14 @@ pid_t Multiprocess::ChildPID() const {
   return info_->child_pid;
 }
 
-int Multiprocess::ReadPipeFD() const {
+FileHandle Multiprocess::ReadPipeHandle() const {
   int fd = info_->child_pid ? info_->pipe_c2p_read.get()
                             : info_->pipe_p2c_read.get();
   CHECK_NE(fd, -1);
   return fd;
 }
 
-int Multiprocess::WritePipeFD() const {
+FileHandle Multiprocess::WritePipeHandle() const {
   int fd = info_->child_pid ? info_->pipe_p2c_write.get()
                             : info_->pipe_c2p_write.get();
   CHECK_NE(fd, -1);

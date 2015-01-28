@@ -15,6 +15,8 @@
 #include "util/test/multiprocess_exec.h"
 
 #include "base/basictypes.h"
+#include "base/strings/utf_string_conversions.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/file/file_io.h"
 #include "util/test/executable_path.h"
@@ -31,13 +33,13 @@ class TestMultiprocessExec final : public MultiprocessExec {
 
  private:
   void MultiprocessParent() override {
-    // Use Logging*FD() instead of Checked*FD() so that the test can fail
+    // Use Logging*File() instead of Checked*File() so that the test can fail
     // gracefully with a gtest assertion if the child does not execute properly.
 
     char c = 'z';
-    ASSERT_TRUE(LoggingWriteFile(WritePipeFD(), &c, 1));
+    ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &c, 1));
 
-    ASSERT_TRUE(LoggingReadFile(ReadPipeFD(), &c, 1));
+    ASSERT_TRUE(LoggingReadFile(ReadPipeHandle(), &c, 1));
     EXPECT_EQ('Z', c);
   }
 
@@ -47,8 +49,16 @@ class TestMultiprocessExec final : public MultiprocessExec {
 TEST(MultiprocessExec, MultiprocessExec) {
   TestMultiprocessExec multiprocess_exec;
   base::FilePath test_executable = ExecutablePath();
+#if defined(OS_POSIX)
+  std::string child_test_executable = test_executable.value();
+#elif defined(OS_WIN)
   std::string child_test_executable =
-      test_executable.value() + "_multiprocess_exec_test_child";
+      base::UTF16ToUTF8(test_executable.RemoveFinalExtension().value());
+#endif  // OS_POSIX
+  child_test_executable += "_multiprocess_exec_test_child";
+#if defined(OS_WIN)
+  child_test_executable += ".exe";
+#endif
   multiprocess_exec.SetChildCommand(child_test_executable, nullptr);
   multiprocess_exec.Run();
 }

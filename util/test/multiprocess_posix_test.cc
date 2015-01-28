@@ -36,33 +36,33 @@ class TestMultiprocess final : public Multiprocess {
   // Multiprocess:
 
   void MultiprocessParent() override {
-    int read_fd = ReadPipeFD();
+    FileHandle read_handle = ReadPipeHandle();
     char c;
-    CheckedReadFile(read_fd, &c, 1);
+    CheckedReadFile(read_handle, &c, 1);
     EXPECT_EQ('M', c);
 
     pid_t pid;
-    CheckedReadFile(read_fd, &pid, sizeof(pid));
+    CheckedReadFile(read_handle, &pid, sizeof(pid));
     EXPECT_EQ(pid, ChildPID());
 
     c = 'm';
-    CheckedWriteFile(WritePipeFD(), &c, 1);
+    CheckedWriteFile(WritePipeHandle(), &c, 1);
 
     // The child will close its end of the pipe and exit. Make sure that the
     // parent sees EOF.
-    CheckedReadFileAtEOF(read_fd);
+    CheckedReadFileAtEOF(read_handle);
   }
 
   void MultiprocessChild() override {
-    int write_fd = WritePipeFD();
+    FileHandle write_handle = WritePipeHandle();
 
     char c = 'M';
-    CheckedWriteFile(write_fd, &c, 1);
+    CheckedWriteFile(write_handle, &c, 1);
 
     pid_t pid = getpid();
-    CheckedWriteFile(write_fd, &pid, sizeof(pid));
+    CheckedWriteFile(write_handle, &pid, sizeof(pid));
 
-    CheckedReadFile(ReadPipeFD(), &c, 1);
+    CheckedReadFile(ReadPipeHandle(), &c, 1);
     EXPECT_EQ('m', c);
   }
 
@@ -160,8 +160,8 @@ class TestMultiprocessClosePipe final : public Multiprocess {
 
  private:
   void VerifyInitial() {
-    ASSERT_NE(-1, ReadPipeFD());
-    ASSERT_NE(-1, WritePipeFD());
+    ASSERT_NE(-1, ReadPipeHandle());
+    ASSERT_NE(-1, WritePipeHandle());
   }
 
   // Verifies that the partner process did what it was supposed to do. This must
@@ -178,9 +178,9 @@ class TestMultiprocessClosePipe final : public Multiprocess {
   // the read pipe in this process to show end-of-file.
   void VerifyPartner() {
     if (what_closes_ == kWriteCloses) {
-      CheckedReadFileAtEOF(ReadPipeFD());
+      CheckedReadFileAtEOF(ReadPipeHandle());
     } else if (what_closes_ == kReadAndWriteClose) {
-      CheckedReadFileAtEOF(ReadPipeFD());
+      CheckedReadFileAtEOF(ReadPipeHandle());
       char c = '\0';
 
       // This will raise SIGPIPE. If fatal (the normal case), that will cause
@@ -189,7 +189,7 @@ class TestMultiprocessClosePipe final : public Multiprocess {
       // abort execution. Regardless of how SIGPIPE is handled, the process will
       // be terminated. Because the actual termination mechanism is not known,
       // no regex can be specified.
-      EXPECT_DEATH(CheckedWriteFile(WritePipeFD(), &c, 1), "");
+      EXPECT_DEATH(CheckedWriteFile(WritePipeHandle(), &c, 1), "");
     }
   }
 
@@ -197,19 +197,19 @@ class TestMultiprocessClosePipe final : public Multiprocess {
     switch (what_closes_) {
       case kReadCloses:
         CloseReadPipe();
-        EXPECT_NE(-1, WritePipeFD());
-        EXPECT_DEATH(ReadPipeFD(), "fd");
+        EXPECT_NE(-1, WritePipeHandle());
+        EXPECT_DEATH(ReadPipeHandle(), "fd");
         break;
       case kWriteCloses:
         CloseWritePipe();
-        EXPECT_NE(-1, ReadPipeFD());
-        EXPECT_DEATH(WritePipeFD(), "fd");
+        EXPECT_NE(-1, ReadPipeHandle());
+        EXPECT_DEATH(WritePipeHandle(), "fd");
         break;
       case kReadAndWriteClose:
         CloseReadPipe();
         CloseWritePipe();
-        EXPECT_DEATH(ReadPipeFD(), "fd");
-        EXPECT_DEATH(WritePipeFD(), "fd");
+        EXPECT_DEATH(ReadPipeHandle(), "fd");
+        EXPECT_DEATH(WritePipeHandle(), "fd");
         break;
     }
   }

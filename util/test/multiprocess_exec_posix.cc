@@ -17,6 +17,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "base/posix/eintr_wrapper.h"
 #include "gtest/gtest.h"
@@ -72,21 +73,21 @@ void MultiprocessExec::MultiprocessChild() {
   static_assert(STDERR_FILENO == 2, "stderr must be fd 2");
 
   // Move the read pipe to stdin.
-  int read_fd = ReadPipeFD();
-  ASSERT_NE(read_fd, STDIN_FILENO);
-  ASSERT_NE(read_fd, STDOUT_FILENO);
+  FileHandle read_handle = ReadPipeHandle();
+  ASSERT_NE(read_handle, STDIN_FILENO);
+  ASSERT_NE(read_handle, STDOUT_FILENO);
   ASSERT_EQ(STDIN_FILENO, fileno(stdin));
 
   int rv = fpurge(stdin);
   ASSERT_EQ(0, rv) << ErrnoMessage("fpurge");
 
-  rv = HANDLE_EINTR(dup2(read_fd, STDIN_FILENO));
+  rv = HANDLE_EINTR(dup2(read_handle, STDIN_FILENO));
   ASSERT_EQ(STDIN_FILENO, rv) << ErrnoMessage("dup2");
 
   // Move the write pipe to stdout.
-  int write_fd = WritePipeFD();
-  ASSERT_NE(write_fd, STDIN_FILENO);
-  ASSERT_NE(write_fd, STDOUT_FILENO);
+  FileHandle write_handle = WritePipeHandle();
+  ASSERT_NE(write_handle, STDIN_FILENO);
+  ASSERT_NE(write_handle, STDOUT_FILENO);
   ASSERT_EQ(STDOUT_FILENO, fileno(stdout));
 
   // Make a copy of the original stdout file descriptor so that in case there’s
@@ -104,7 +105,7 @@ void MultiprocessExec::MultiprocessChild() {
   rv = HANDLE_EINTR(fflush(stdout));
   ASSERT_EQ(0, rv) << ErrnoMessage("fflush");
 
-  rv = HANDLE_EINTR(dup2(write_fd, STDOUT_FILENO));
+  rv = HANDLE_EINTR(dup2(write_handle, STDOUT_FILENO));
   ASSERT_EQ(STDOUT_FILENO, rv) << ErrnoMessage("dup2");
 
   CloseMultipleNowOrOnExec(STDERR_FILENO + 1, dup_orig_stdout_fd);

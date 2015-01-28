@@ -262,7 +262,7 @@ void MachMultiprocess::MultiprocessChild() {
   // Wait for the parent process to close its end of the pipe. The child process
   // needs to remain alive until then because the parent process will attempt to
   // verify it using the task port it has access to via ChildTask().
-  CheckedReadFileAtEOF(ReadPipeFD());
+  CheckedReadFileAtEOF(ReadPipeHandle());
 
   if (testing::Test::HasFailure()) {
     // Trigger the ScopedForbidReturn destructor.

@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "build/build_config.h"
 #include "util/test/multiprocess.h"
 
 namespace crashpad {
@@ -62,7 +63,11 @@ class MultiprocessExec : public Multiprocess {
 
   std::string command_;
   std::vector<std::string> arguments_;
+#if defined(OS_POSIX)
   std::vector<const char*> argv_;
+#elif defined(OS_WIN)
+  std::wstring command_line_;
+#endif  // OS_POSIX
 
   DISALLOW_COPY_AND_ASSIGN(MultiprocessExec);
 };

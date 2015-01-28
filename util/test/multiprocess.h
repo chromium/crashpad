@@ -15,9 +15,11 @@
 #ifndef CRASHPAD_UTIL_TEST_MULTIPROCESS_H_
 #define CRASHPAD_UTIL_TEST_MULTIPROCESS_H_
 
-#include <unistd.h>
+#include <sys/types.h>
 
 #include "base/basictypes.h"
+#include "build/build_config.h"
+#include "util/file/file_io.h"
 
 namespace crashpad {
 namespace test {
@@ -33,6 +35,9 @@ struct MultiprocessInfo;
 //!
 //! Subclasses are expected to implement the parent and child by overriding the
 //! appropriate methods.
+//!
+//! On Windows, this class is only an internal implementation detail of
+//! MultiprocessExec and all tests must use that class.
 class Multiprocess {
  public:
   //! \brief The termination type for a child process.
@@ -103,46 +108,51 @@ class Multiprocess {
   //! gtest assertions.
   virtual void PreFork();
 
+#if !defined(OS_WIN)
   //! \brief Returns the child process’ process ID.
   //!
   //! This method may only be called by the parent process.
   pid_t ChildPID() const;
+#endif  // !OS_WIN
 
-  //! \brief Returns the read pipe’s file descriptor.
+  //! \brief Returns the read pipe’s file handle.
   //!
   //! This method may be called by either the parent or the child process.
   //! Anything written to the write pipe in the partner process will appear
-  //! on the this file descriptor in this process.
+  //! on this file handle in this process.
   //!
   //! It is an error to call this after CloseReadPipe() has been called.
   //!
-  //! \return The read pipe’s file descriptor.
-  int ReadPipeFD() const;
+  //! \return The read pipe’s file handle.
+  FileHandle ReadPipeHandle() const;
 
-  //! \brief Returns the write pipe’s file descriptor.
+  //! \brief Returns the write pipe’s file handle.
   //!
   //! This method may be called by either the parent or the child process.
-  //! Anything written to this file descriptor in this process will appear on
+  //! Anything written to this file handle in this process will appear on
   //! the read pipe in the partner process.
   //!
   //! It is an error to call this after CloseWritePipe() has been called.
   //!
-  //! \return The write pipe’s file descriptor.
-  int WritePipeFD() const;
+  //! \return The write pipe’s file handle.
+  FileHandle WritePipeHandle() const;
 
   //! \brief Closes the read pipe.
   //!
   //! This method may be called by either the parent or the child process. An
   //! attempt to write to the write pipe in the partner process will fail with
-  //! `EPIPE` or `SIGPIPE`. ReadPipeFD() must not be called after this.
+  //! `EPIPE` or `SIGPIPE`. ReadPipeHandle() must not be called after this.
   void CloseReadPipe();
 
   //! \brief Closes the write pipe.
   //!
   //! This method may be called by either the parent or the child process. An
   //! attempt to read from the read pipe in the partner process will indicate
-  //! end-of-file. WritePipeFD() must not be called after this.
+  //! end-of-file. WritePipeHandle() must not be called after this.
   void CloseWritePipe();
+
+  void set_info(internal::MultiprocessInfo* info) { info_ = info; }
+  internal::MultiprocessInfo* info() const { return info_; }
 
  private:
   //! \brief Runs the parent side of the test.

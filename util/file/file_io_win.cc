@@ -44,10 +44,16 @@ ssize_t ReadFile(FileHandle file, void* buffer, size_t size) {
   while (size_dword > 0) {
     DWORD bytes_read;
     BOOL success = ::ReadFile(file, buffer_c, size_dword, &bytes_read, nullptr);
-    if (!success && GetLastError() != ERROR_MORE_DATA) {
-      return -1;
-    } else if (success && bytes_read == 0 &&
-               GetFileType(file) != FILE_TYPE_PIPE) {
+    if (!success) {
+      if (GetLastError() == ERROR_BROKEN_PIPE) {
+        // When reading a pipe and the write handle has been closed, ReadFile
+        // fails with ERROR_BROKEN_PIPE, but only once all pending data has been
+        // read.
+        break;
+      } else if (GetLastError() != ERROR_MORE_DATA) {
+        return -1;
+      }
+    } else if (bytes_read == 0 && GetFileType(file) != FILE_TYPE_PIPE) {
       // Zero bytes read for a file indicates reaching EOF. Zero bytes read from
       // a pipe indicates only that there was a zero byte WriteFile issued on
       // the other end, so continue reading.

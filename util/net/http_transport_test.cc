@@ -69,18 +69,18 @@ class HTTPTransportTestFixture : public MultiprocessExec {
 
  private:
   void MultiprocessParent() override {
-    // Use Logging*FD() instead of Checked*FD() so that the test can fail
+    // Use Logging*File() instead of Checked*File() so that the test can fail
     // gracefully with a gtest assertion if the child does not execute properly.
 
     // The child will write the HTTP server port number as a packed unsigned
     // short to stdout.
     uint16_t port;
-    ASSERT_TRUE(LoggingReadFile(ReadPipeFD(), &port, sizeof(port)));
+    ASSERT_TRUE(LoggingReadFile(ReadPipeHandle(), &port, sizeof(port)));
 
     // Then the parent will tell the web server what response code to send
     // for the HTTP request.
     ASSERT_TRUE(LoggingWriteFile(
-        WritePipeFD(), &response_code_, sizeof(response_code_)));
+        WritePipeHandle(), &response_code_, sizeof(response_code_)));
 
     // Now execute the HTTP request.
     scoped_ptr<HTTPTransport> transport(HTTPTransport::Create());
@@ -97,7 +97,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     std::string request;
     char buf[32];
     ssize_t bytes_read;
-    while ((bytes_read = ReadFile(ReadPipeFD(), buf, sizeof(buf))) != 0) {
+    while ((bytes_read = ReadFile(ReadPipeHandle(), buf, sizeof(buf))) != 0) {
       ASSERT_GE(bytes_read, 0);
       request.append(buf, bytes_read);
     }
