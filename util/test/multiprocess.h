@@ -152,7 +152,7 @@ class Multiprocess {
   void CloseWritePipe();
 
   void set_info(internal::MultiprocessInfo* info) { info_ = info; }
-  internal::MultiprocessInfo* info() const { return info_; }
+  internal::MultiprocessInfo* info() { return info_; }
 
  private:
   //! \brief Runs the parent side of the test.
