@@ -145,7 +145,7 @@ class CrashReportDatabase {
   //!
   //! Callers can then write the crash report using the file handle provided.
   //! The caller does not own this handle, and it must be explicitly closed with
-  //! FinishedWritingCrashReport().
+  //! FinishedWritingCrashReport() or ErrorWritingCrashReport().
   //!
   //! \param[out] report A file handle to which the crash report data should be
   //!     written. Only valid if this returns #kNoError. The caller must not
@@ -157,7 +157,7 @@ class CrashReportDatabase {
   //! \brief Informs the database that a crash report has been written.
   //!
   //! After calling this method, the database is permitted to move and rename
-  //! the file at Report::file_path.
+  //! the file at NewReport::path.
   //!
   //! \param[in] report A handle obtained with PrepareNewCrashReport(). The
   //!     handle will be invalidated as part of this call.
@@ -166,6 +166,19 @@ class CrashReportDatabase {
   //! \return The operation status code.
   virtual OperationStatus FinishedWritingCrashReport(NewReport* report,
                                                      UUID* uuid) = 0;
+
+  //! \brief Informs the database that an error occurred while attempting to
+  //!     write a crash report, and that any resources associated with it should
+  //!     be cleaned up.
+  //!
+  //! After calling this method, the database is permitted to remove the file at
+  //! NewReport::path.
+  //!
+  //! \param[in] report A handle obtained with PrepareNewCrashReport(). The
+  //!     handle will be invalidated as part of this call.
+  //!
+  //! \return The operation status code.
+  virtual OperationStatus ErrorWritingCrashReport(NewReport* report) = 0;
 
   //! \brief Returns the crash report record for the unique identifier.
   //!

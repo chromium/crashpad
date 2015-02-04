@@ -133,6 +133,7 @@ TEST_F(CrashReportDatabaseTest, NewCrashReport) {
   CrashReportDatabase::NewReport* new_report;
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->PrepareNewCrashReport(&new_report));
+  EXPECT_TRUE(FileExistsAtPath(new_report->path)) << new_report->path.value();
   UUID uuid;
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->FinishedWritingCrashReport(new_report, &uuid));
@@ -152,6 +153,17 @@ TEST_F(CrashReportDatabaseTest, NewCrashReport) {
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->GetCompletedReports(&reports));
   EXPECT_TRUE(reports.empty());
+}
+
+TEST_F(CrashReportDatabaseTest, ErrorWritingCrashReport) {
+  CrashReportDatabase::NewReport* new_report;
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->PrepareNewCrashReport(&new_report));
+  base::FilePath new_report_path = new_report->path;
+  EXPECT_TRUE(FileExistsAtPath(new_report_path)) << new_report_path.value();
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->ErrorWritingCrashReport(new_report));
+  EXPECT_FALSE(FileExistsAtPath(new_report_path)) << new_report_path.value();
 }
 
 TEST_F(CrashReportDatabaseTest, LookUpCrashReport) {

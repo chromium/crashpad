@@ -109,6 +109,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   OperationStatus PrepareNewCrashReport(NewReport** report) override;
   OperationStatus FinishedWritingCrashReport(NewReport* report,
                                              UUID* uuid) override;
+  OperationStatus ErrorWritingCrashReport(NewReport* report) override;
   OperationStatus LookUpCrashReport(const UUID& uuid,
                                     Report* report) override;
   OperationStatus GetPendingReports(
@@ -273,6 +274,24 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
   if (rename(report->path.value().c_str(), new_path.value().c_str()) != 0) {
     PLOG(ERROR) << "rename " << report->path.value() << " to "
                 << new_path.value();
+    return kFileSystemError;
+  }
+
+  return kNoError;
+}
+
+CrashReportDatabase::OperationStatus
+CrashReportDatabaseMac::ErrorWritingCrashReport(NewReport* report) {
+  // Takes ownership of the |handle| and the O_EXLOCK.
+  base::ScopedFD lock(report->handle);
+
+  // Take ownership of the report.
+  scoped_ptr<NewReport> scoped_report(report);
+
+  // Remove the file that the report would have been written to had no error
+  // occurred.
+  if (unlink(report->path.value().c_str()) != 0) {
+    PLOG(ERROR) << "unlink " << report->path.value();
     return kFileSystemError;
   }
 
