@@ -20,7 +20,10 @@
           'target_name': 'crashpad_handler',
           'type': 'executable',
           'dependencies': [
+            '../client/client.gyp:client',
             '../compat/compat.gyp:compat',
+            '../minidump/minidump.gyp:minidump',
+            '../snapshot/snapshot.gyp:snapshot',
             '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
             '../tools/tools.gyp:tool_support',
             '../util/util.gyp:util',
@@ -29,6 +32,8 @@
             '..',
           ],
           'sources': [
+            'mac/crash_report_exception_handler.cc',
+            'mac/crash_report_exception_handler.h',
             'mac/exception_handler_server.cc',
             'mac/exception_handler_server.h',
             'mac/main.cc',

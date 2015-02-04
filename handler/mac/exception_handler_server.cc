@@ -16,10 +16,7 @@
 
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
-#include "base/strings/stringprintf.h"
 #include "util/mach/composite_mach_message_server.h"
-#include "util/mach/exc_server_variants.h"
-#include "util/mach/exception_behaviors.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
@@ -33,12 +30,15 @@ class ExceptionHandlerServerRun
     : public UniversalMachExcServer::Interface,
       public NotifyServer::Interface {
  public:
-  explicit ExceptionHandlerServerRun(mach_port_t exception_port)
+  ExceptionHandlerServerRun(
+      mach_port_t exception_port,
+      UniversalMachExcServer::Interface* exception_interface)
       : UniversalMachExcServer::Interface(),
         NotifyServer::Interface(),
         mach_exc_server_(this),
         notify_server_(this),
         composite_mach_message_server_(),
+        exception_interface_(exception_interface),
         exception_port_(exception_port),
         notify_port_(NewMachPort(MACH_PORT_RIGHT_RECEIVE)),
         running_(true) {
@@ -124,28 +124,25 @@ class ExceptionHandlerServerRun
                                    mach_msg_type_number_t* new_state_count,
                                    const mach_msg_trailer_t* trailer,
                                    bool* destroy_complex_request) override {
-    *destroy_complex_request = true;
-
     if (exception_port != exception_port_) {
       LOG(WARNING) << "exception port mismatch";
       return MIG_BAD_ID;
     }
 
-    // The expected behavior is EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
-    // but it’s possible to deal with any exception behavior as long as it
-    // carries identity information (valid thread and task ports).
-    if (!ExceptionBehaviorHasIdentity(behavior)) {
-      LOG(WARNING) << base::StringPrintf(
-          "unexpected exception behavior 0x%x, rejecting", behavior);
-      return KERN_FAILURE;
-    } else if (behavior != (EXCEPTION_STATE_IDENTITY | kMachExceptionCodes)) {
-      LOG(WARNING) << base::StringPrintf(
-          "unexpected exception behavior 0x%x, proceeding", behavior);
-    }
-
-    // TODO(mark): Implement.
-
-    return ExcServerSuccessfulReturnValue(behavior, false);
+    return exception_interface_->CatchMachException(behavior,
+                                                    exception_port,
+                                                    thread,
+                                                    task,
+                                                    exception,
+                                                    code,
+                                                    code_count,
+                                                    flavor,
+                                                    old_state,
+                                                    old_state_count,
+                                                    new_state,
+                                                    new_state_count,
+                                                    trailer,
+                                                    destroy_complex_request);
   }
 
   // NotifyServer::Interface:
@@ -213,6 +210,7 @@ class ExceptionHandlerServerRun
   UniversalMachExcServer mach_exc_server_;
   NotifyServer notify_server_;
   CompositeMachMessageServer composite_mach_message_server_;
+  UniversalMachExcServer::Interface* exception_interface_;  // weak
   mach_port_t exception_port_;  // weak
   base::mac::ScopedMachReceiveRight notify_port_;
   bool running_;
@@ -230,8 +228,9 @@ ExceptionHandlerServer::ExceptionHandlerServer()
 ExceptionHandlerServer::~ExceptionHandlerServer() {
 }
 
-void ExceptionHandlerServer::Run() {
-  ExceptionHandlerServerRun run(receive_port_);
+void ExceptionHandlerServer::Run(
+    UniversalMachExcServer::Interface* exception_interface) {
+  ExceptionHandlerServerRun run(receive_port_, exception_interface);
   run.Run();
 }
 

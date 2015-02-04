@@ -18,7 +18,11 @@
 
 #include <string>
 
+#include "base/files/file_path.h"
+#include "base/memory/scoped_ptr.h"
+#include "client/crash_report_database.h"
 #include "tools/tool_support.h"
+#include "handler/mac/crash_report_exception_handler.h"
 #include "handler/mac/exception_handler_server.h"
 #include "util/mach/child_port_handshake.h"
 #include "util/posix/close_stdio.h"
@@ -32,6 +36,7 @@ void Usage(const std::string& me) {
 "Usage: %s [OPTION]...\n"
 "Crashpad's exception handler server.\n"
 "\n"
+"      --database=PATH    store the crash report database at PATH\n"
 "      --handshake-fd=FD  establish communication with the client over FD\n"
 "      --help             display this help and exit\n"
 "      --version          output version information and exit\n",
@@ -45,6 +50,7 @@ int HandlerMain(int argc, char* argv[]) {
   enum OptionFlags {
     // Long options without short equivalents.
     kOptionLastChar = 255,
+    kOptionDatabase,
     kOptionHandshakeFD,
 
     // Standard options.
@@ -53,11 +59,13 @@ int HandlerMain(int argc, char* argv[]) {
   };
 
   struct {
+    const char* database;
     int handshake_fd;
   } options = {};
   options.handshake_fd = -1;
 
   const struct option long_options[] = {
+      {"database", required_argument, nullptr, kOptionDatabase},
       {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
       {"help", no_argument, nullptr, kOptionHelp},
       {"version", no_argument, nullptr, kOptionVersion},
@@ -67,6 +75,9 @@ int HandlerMain(int argc, char* argv[]) {
   int opt;
   while ((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1) {
     switch (opt) {
+      case kOptionDatabase:
+        options.database = optarg;
+        break;
       case kOptionHandshakeFD:
         if (!StringToNumber(optarg, &options.handshake_fd) ||
             options.handshake_fd < 0) {
@@ -94,6 +105,11 @@ int HandlerMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
+  if (!options.database) {
+    ToolSupport::UsageHint(me, "--database is required");
+    return EXIT_FAILURE;
+  }
+
   if (argc) {
     ToolSupport::UsageHint(me, nullptr);
     return EXIT_FAILURE;
@@ -107,7 +123,15 @@ int HandlerMain(int argc, char* argv[]) {
                                 exception_handler_server.receive_port(),
                                 MACH_MSG_TYPE_MAKE_SEND);
 
-  exception_handler_server.Run();
+  scoped_ptr<CrashReportDatabase> database(
+      CrashReportDatabase::Initialize(base::FilePath(options.database)));
+  if (!database) {
+    return EXIT_FAILURE;
+  }
+
+  CrashReportExceptionHandler exception_handler(database.get());
+
+  exception_handler_server.Run(&exception_handler);
 
   return EXIT_SUCCESS;
 }

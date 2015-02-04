@@ -20,6 +20,7 @@
 #include <mach/mach.h>
 
 #include "base/mac/scoped_mach_port.h"
+#include "util/mach/exc_server_variants.h"
 
 namespace crashpad {
 
@@ -32,20 +33,24 @@ class ExceptionHandlerServer {
 
   //! \brief Runs the exception-handling server.
   //!
-  //! This method monitors \a receive_port_ for exception messages and
-  //! no-senders notifications. It continues running until it has no more
-  //! clients, indicated by the receipt of a no-senders notification. It is
-  //! important to assure that a send right has been transferred to a client
-  //! (or queued by `mach_msg()` to be sent to a client) prior to calling this
-  //! method, or it will detect that it is sender-less and return immediately.
+  //! \param[in] exception_interface An object to send exception messages to.
+  //!
+  //! This method monitors receive_port() for exception messages and no-senders
+  //! notifications. It continues running until it has no more clients,
+  //! indicated by the receipt of a no-senders notification. It is important to
+  //! assure that a send right has been transferred to a client (or queued by
+  //! `mach_msg()` to be sent to a client) prior to calling this method, or it
+  //! will detect that it is sender-less and return immediately.
+  //!
+  //! All exception messages will be passed to \a exception_interface.
   //!
   //! This method must only be called once on an ExceptionHandlerServer object.
   //!
   //! If an unexpected condition that prevents this method from functioning is
   //! encountered, it will log a message and terminate execution. Receipt of an
-  //! invalid message on \a receive_port_ will cause a message to be logged, but
+  //! invalid message on receive_port() will cause a message to be logged, but
   //! this method will continue running normally.
-  void Run();
+  void Run(UniversalMachExcServer::Interface* exception_interface);
 
   //! \brief Returns the receive right that will be monitored for exception
   //!     messages.
