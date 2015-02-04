@@ -37,31 +37,18 @@ static_assert(offsetof(WritableIoVec, iov_len) == offsetof(iovec, iov_len),
               "WritableIoVec len offset");
 #endif  // OS_POSIX
 
-FileWriter::FileWriter() : file_() {
+WeakFileHandleFileWriter::WeakFileHandleFileWriter(FileHandle file_handle)
+    : file_handle_(file_handle) {
 }
 
-FileWriter::~FileWriter() {
+WeakFileHandleFileWriter::~WeakFileHandleFileWriter() {
 }
 
-bool FileWriter::Open(const base::FilePath& path,
-                      FileWriteMode write_mode,
-                      FilePermissions permissions) {
-  CHECK(!file_.is_valid());
-  file_.reset(LoggingOpenFileForWrite(path, write_mode, permissions));
-  return file_.is_valid();
-}
-
-void FileWriter::Close() {
-  CHECK(file_.is_valid());
-
-  file_.reset();
-}
-
-bool FileWriter::Write(const void* data, size_t size) {
-  DCHECK(file_.is_valid());
+bool WeakFileHandleFileWriter::Write(const void* data, size_t size) {
+  DCHECK_NE(file_handle_, kInvalidFileHandle);
 
   // TODO(mark): Write no more than SSIZE_MAX bytes in a single call.
-  ssize_t written = WriteFile(file_.get(), data, size);
+  ssize_t written = WriteFile(file_handle_, data, size);
   if (written < 0) {
     PLOG(ERROR) << "write";
     return false;
@@ -73,8 +60,8 @@ bool FileWriter::Write(const void* data, size_t size) {
   return true;
 }
 
-bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
-  DCHECK(file_.is_valid());
+bool WeakFileHandleFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
+  DCHECK_NE(file_handle_, kInvalidFileHandle);
 
 #if defined(OS_POSIX)
 
@@ -97,7 +84,7 @@ bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
     size_t writev_iovec_count =
         std::min(remaining_iovecs, implicit_cast<size_t>(IOV_MAX));
     ssize_t written =
-        HANDLE_EINTR(writev(file_.get(), iov, writev_iovec_count));
+        HANDLE_EINTR(writev(file_handle_, iov, writev_iovec_count));
     if (written < 0) {
       PLOG(ERROR) << "writev";
       return false;
@@ -149,9 +136,52 @@ bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
   return true;
 }
 
+FileOffset WeakFileHandleFileWriter::Seek(FileOffset offset, int whence) {
+  DCHECK_NE(file_handle_, kInvalidFileHandle);
+  return LoggingSeekFile(file_handle_, offset, whence);
+}
+
+FileWriter::FileWriter()
+    : file_(),
+      weak_file_handle_file_writer_(kInvalidFileHandle) {
+}
+
+FileWriter::~FileWriter() {
+}
+
+bool FileWriter::Open(const base::FilePath& path,
+                      FileWriteMode write_mode,
+                      FilePermissions permissions) {
+  CHECK(!file_.is_valid());
+  file_.reset(LoggingOpenFileForWrite(path, write_mode, permissions));
+  if (!file_.is_valid()) {
+    return false;
+  }
+
+  weak_file_handle_file_writer_.set_file_handle(file_.get());
+  return true;
+}
+
+void FileWriter::Close() {
+  CHECK(file_.is_valid());
+
+  weak_file_handle_file_writer_.set_file_handle(kInvalidFileHandle);
+  file_.reset();
+}
+
+bool FileWriter::Write(const void* data, size_t size) {
+  DCHECK(file_.is_valid());
+  return weak_file_handle_file_writer_.Write(data, size);
+}
+
+bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
+  DCHECK(file_.is_valid());
+  return weak_file_handle_file_writer_.WriteIoVec(iovecs);
+}
+
 FileOffset FileWriter::Seek(FileOffset offset, int whence) {
   DCHECK(file_.is_valid());
-  return LoggingSeekFile(file_.get(), offset, whence);
+  return weak_file_handle_file_writer_.Seek(offset, whence);
 }
 
 }  // namespace crashpad

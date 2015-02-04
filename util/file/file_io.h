@@ -43,11 +43,16 @@ using FileOffset = off_t;
 //! \brief Scoped wrapper of a FileHandle.
 using ScopedFileHandle = base::ScopedFD;
 
+//! \brief A value that can never be a valid FileHandle.
+const FileHandle kInvalidFileHandle = -1;
+
 #elif defined(OS_WIN)
 
 using FileHandle = HANDLE;
 using FileOffset = LONGLONG;
 using ScopedFileHandle = ScopedFileHANDLE;
+
+const FileHandle kInvalidFileHandle = INVALID_HANDLE_VALUE;
 
 #endif
 
