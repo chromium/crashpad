@@ -87,7 +87,7 @@ TEST(MinidumpThreadWriter, EmptyThreadList) {
                 sizeof(MINIDUMP_THREAD_LIST),
             file_writer.string().size());
 
-  const MINIDUMP_THREAD_LIST* thread_list;
+  const MINIDUMP_THREAD_LIST* thread_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetThreadListStream(file_writer.string(), &thread_list, nullptr));
 
@@ -168,7 +168,7 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
                 1 * sizeof(MinidumpContextX86),
             file_writer.string().size());
 
-  const MINIDUMP_THREAD_LIST* thread_list;
+  const MINIDUMP_THREAD_LIST* thread_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetThreadListStream(file_writer.string(), &thread_list, nullptr));
 
@@ -182,7 +182,7 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
   expected.Teb = kTEB;
   expected.ThreadContext.DataSize = sizeof(MinidumpContextX86);
 
-  const MinidumpContextX86* observed_context;
+  const MinidumpContextX86* observed_context = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       ExpectThread(&expected,
                    &thread_list->Threads[0],
@@ -219,6 +219,7 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
       new TestMinidumpMemoryWriter(kMemoryBase, kMemorySize, kMemoryValue));
   thread_writer->SetStack(memory_writer.Pass());
 
+  MSVC_SUPPRESS_WARNING(4316)  // Object allocated on heap may not be aligned.
   auto context_amd64_writer = make_scoped_ptr(new MinidumpContextAMD64Writer());
   InitializeMinidumpContextAMD64(context_amd64_writer->context(), kSeed);
   thread_writer->SetContext(context_amd64_writer.Pass());
@@ -234,7 +235,7 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
                 1 * sizeof(MinidumpContextAMD64) + kMemorySize,
             file_writer.string().size());
 
-  const MINIDUMP_THREAD_LIST* thread_list;
+  const MINIDUMP_THREAD_LIST* thread_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetThreadListStream(file_writer.string(), &thread_list, nullptr));
 
@@ -250,8 +251,8 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
   expected.Stack.Memory.DataSize = kMemorySize;
   expected.ThreadContext.DataSize = sizeof(MinidumpContextAMD64);
 
-  const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack;
-  const MinidumpContextAMD64* observed_context;
+  const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack = nullptr;
+  const MinidumpContextAMD64* observed_context = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       ExpectThread(&expected,
                    &thread_list->Threads[0],
@@ -370,8 +371,8 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
                 kMemorySize2 + 12,  // 12 for alignment
             file_writer.string().size());
 
-  const MINIDUMP_THREAD_LIST* thread_list;
-  const MINIDUMP_MEMORY_LIST* memory_list;
+  const MINIDUMP_THREAD_LIST* thread_list = nullptr;
+  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetThreadListStream(file_writer.string(), &thread_list, &memory_list));
 
@@ -391,8 +392,8 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
     expected.Stack.Memory.DataSize = kMemorySize0;
     expected.ThreadContext.DataSize = sizeof(MinidumpContextX86);
 
-    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack;
-    const MinidumpContextX86* observed_context;
+    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack = nullptr;
+    const MinidumpContextX86* observed_context = nullptr;
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expected,
                      &thread_list->Threads[0],
@@ -425,8 +426,8 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
     expected.Stack.Memory.DataSize = kMemorySize1;
     expected.ThreadContext.DataSize = sizeof(MinidumpContextX86);
 
-    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack;
-    const MinidumpContextX86* observed_context;
+    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack = nullptr;
+    const MinidumpContextX86* observed_context = nullptr;
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expected,
                      &thread_list->Threads[1],
@@ -459,8 +460,8 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
     expected.Stack.Memory.DataSize = kMemorySize2;
     expected.ThreadContext.DataSize = sizeof(MinidumpContextX86);
 
-    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack;
-    const MinidumpContextX86* observed_context;
+    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack = nullptr;
+    const MinidumpContextX86* observed_context = nullptr;
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expected,
                      &thread_list->Threads[2],
@@ -563,9 +564,9 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
     thread_ids[0] = 1;
     thread_ids[1] = 11;
     thread_ids[2] = 22;
-    expect_threads[0].ThreadId = thread_ids[0];
-    expect_threads[1].ThreadId = thread_ids[1];
-    expect_threads[2].ThreadId = thread_ids[2];
+    expect_threads[0].ThreadId = static_cast<uint32_t>(thread_ids[0]);
+    expect_threads[1].ThreadId = static_cast<uint32_t>(thread_ids[1]);
+    expect_threads[2].ThreadId = static_cast<uint32_t>(thread_ids[2]);
   }
 
   PointerVector<TestThreadSnapshot> thread_snapshots_owner;
@@ -607,8 +608,8 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_THREAD_LIST* thread_list;
-  const MINIDUMP_MEMORY_LIST* memory_list;
+  const MINIDUMP_THREAD_LIST* thread_list = nullptr;
+  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetThreadListStream(file_writer.string(), &thread_list, &memory_list));
 
@@ -619,10 +620,10 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
   for (size_t index = 0; index < thread_list->NumberOfThreads; ++index) {
     SCOPED_TRACE(base::StringPrintf("index %zu", index));
 
-    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack;
+    const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack = nullptr;
     const MINIDUMP_MEMORY_DESCRIPTOR** observed_stack_p =
         expect_threads[index].Stack.Memory.DataSize ? &observed_stack : nullptr;
-    const MinidumpContextType* observed_context;
+    const MinidumpContextType* observed_context = nullptr;
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expect_threads[index],
                      &thread_list->Threads[index],
