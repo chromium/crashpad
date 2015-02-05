@@ -21,6 +21,7 @@
 #include <string>
 
 #include "base/basictypes.h"
+#include "base/compiler_specific.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/strings/string16.h"
 #include "base/strings/utf_string_conversions.h"
@@ -99,7 +100,9 @@ template <>
 void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_2>(
     const MINIDUMP_MISC_INFO_2* expected,
     const MINIDUMP_MISC_INFO_2* observed) {
-  ExpectMiscInfoEqual<MINIDUMP_MISC_INFO>(expected, observed);
+  ExpectMiscInfoEqual<MINIDUMP_MISC_INFO>(
+      reinterpret_cast<const MINIDUMP_MISC_INFO*>(expected),
+      reinterpret_cast<const MINIDUMP_MISC_INFO*>(observed));
   EXPECT_EQ(expected->ProcessorMaxMhz, observed->ProcessorMaxMhz);
   EXPECT_EQ(expected->ProcessorCurrentMhz, observed->ProcessorCurrentMhz);
   EXPECT_EQ(expected->ProcessorMhzLimit, observed->ProcessorMhzLimit);
@@ -112,7 +115,9 @@ template <>
 void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_3>(
     const MINIDUMP_MISC_INFO_3* expected,
     const MINIDUMP_MISC_INFO_3* observed) {
-  ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_2>(expected, observed);
+  ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_2>(
+      reinterpret_cast<const MINIDUMP_MISC_INFO_2*>(expected),
+      reinterpret_cast<const MINIDUMP_MISC_INFO_2*>(observed));
   EXPECT_EQ(expected->ProcessIntegrityLevel, observed->ProcessIntegrityLevel);
   EXPECT_EQ(expected->ProcessExecuteFlags, observed->ProcessExecuteFlags);
   EXPECT_EQ(expected->ProtectedProcess, observed->ProtectedProcess);
@@ -142,7 +147,9 @@ template <>
 void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_4>(
     const MINIDUMP_MISC_INFO_4* expected,
     const MINIDUMP_MISC_INFO_4* observed) {
-  ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_3>(expected, observed);
+  ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_3>(
+      reinterpret_cast<const MINIDUMP_MISC_INFO_3*>(expected),
+      reinterpret_cast<const MINIDUMP_MISC_INFO_3*>(observed));
   {
     SCOPED_TRACE("BuildString");
     ExpectNULPaddedString16Equal(expected->BuildString,
@@ -392,12 +399,11 @@ TEST(MinidumpMiscInfoWriter, TimeZoneStringsOverflow) {
 
   const uint32_t kTimeZoneId = 2;
   const int32_t kBias = 300;
-  std::string standard_name(
-      arraysize(decltype(MINIDUMP_MISC_INFO_N::TimeZone)::StandardName) + 1,
-      's');
+  MINIDUMP_MISC_INFO_N tmp;
+  ALLOW_UNUSED_LOCAL(tmp);
+  std::string standard_name(arraysize(tmp.TimeZone.StandardName) + 1, 's');
   const int32_t kStandardBias = 0;
-  std::string daylight_name(
-      arraysize(decltype(MINIDUMP_MISC_INFO_N::TimeZone)::DaylightName), 'd');
+  std::string daylight_name(arraysize(tmp.TimeZone.DaylightName), 'd');
   const int32_t kDaylightBias = -60;
 
   // Test using kSystemTimeZero, because not all platforms will be able to
@@ -484,10 +490,10 @@ TEST(MinidumpMiscInfoWriter, BuildStringsOverflow) {
   MinidumpFileWriter minidump_file_writer;
   auto misc_info_writer = make_scoped_ptr(new MinidumpMiscInfoWriter());
 
-  std::string build_string(arraysize(MINIDUMP_MISC_INFO_N::BuildString) + 1,
-                           'B');
-  std::string debug_build_string(arraysize(MINIDUMP_MISC_INFO_N::DbgBldStr),
-                                 'D');
+  MINIDUMP_MISC_INFO_4 tmp;
+  ALLOW_UNUSED_LOCAL(tmp);
+  std::string build_string(arraysize(tmp.BuildString) + 1, 'B');
+  std::string debug_build_string(arraysize(tmp.DbgBldStr), 'D');
 
   misc_info_writer->SetBuildString(build_string, debug_build_string);
 
@@ -670,11 +676,11 @@ TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
           arraysize(expect_misc_info.DbgBldStr));
 
   const timeval kStartTime =
-      { implicit_cast<time_t>(expect_misc_info.ProcessCreateTime), 0 };
+      { static_cast<time_t>(expect_misc_info.ProcessCreateTime), 0 };
   const timeval kUserCPUTime =
-      { implicit_cast<time_t>(expect_misc_info.ProcessUserTime), 0 };
+      { static_cast<time_t>(expect_misc_info.ProcessUserTime), 0 };
   const timeval kSystemCPUTime =
-      { implicit_cast<time_t>(expect_misc_info.ProcessKernelTime), 0 };
+      { static_cast<time_t>(expect_misc_info.ProcessKernelTime), 0 };
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetProcessID(expect_misc_info.ProcessId);
@@ -682,7 +688,7 @@ TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
   process_snapshot.SetProcessCPUTimes(kUserCPUTime, kSystemCPUTime);
 
   auto system_snapshot = make_scoped_ptr(new TestSystemSnapshot());
-  const uint64_t kHzPerMHz = 1E6;
+  const uint64_t kHzPerMHz = static_cast<uint64_t>(1E6);
   system_snapshot->SetCPUFrequency(
       expect_misc_info.ProcessorCurrentMhz * kHzPerMHz,
       expect_misc_info.ProcessorMaxMhz * kHzPerMHz);
