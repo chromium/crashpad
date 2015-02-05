@@ -110,14 +110,14 @@ TEST(MinidumpExceptionWriter, Minimal) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_EXCEPTION_STREAM* observed_exception_stream;
+  const MINIDUMP_EXCEPTION_STREAM* observed_exception_stream = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetExceptionStream(file_writer.string(), &observed_exception_stream));
 
   MINIDUMP_EXCEPTION_STREAM expected_exception_stream = {};
   expected_exception_stream.ThreadContext.DataSize = sizeof(MinidumpContextX86);
 
-  const MinidumpContextX86* observed_context;
+  const MinidumpContextX86* observed_context = nullptr;
   ASSERT_NO_FATAL_FAILURE(ExpectExceptionStream(&expected_exception_stream,
                                                 observed_exception_stream,
                                                 file_writer.string(),
@@ -169,7 +169,7 @@ TEST(MinidumpExceptionWriter, Standard) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_EXCEPTION_STREAM* observed_exception_stream;
+  const MINIDUMP_EXCEPTION_STREAM* observed_exception_stream = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetExceptionStream(file_writer.string(), &observed_exception_stream));
 
@@ -188,7 +188,7 @@ TEST(MinidumpExceptionWriter, Standard) {
   }
   expected_exception_stream.ThreadContext.DataSize = sizeof(MinidumpContextX86);
 
-  const MinidumpContextX86* observed_context;
+  const MinidumpContextX86* observed_context = nullptr;
   ASSERT_NO_FATAL_FAILURE(ExpectExceptionStream(&expected_exception_stream,
                                                 observed_exception_stream,
                                                 file_writer.string(),
@@ -241,10 +241,10 @@ TEST(MinidumpExceptionWriter, InitializeFromSnapshot) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_EXCEPTION_STREAM* exception;
+  const MINIDUMP_EXCEPTION_STREAM* exception = nullptr;
   ASSERT_NO_FATAL_FAILURE(GetExceptionStream(file_writer.string(), &exception));
 
-  const MinidumpContextX86* observed_context;
+  const MinidumpContextX86* observed_context = nullptr;
   ASSERT_NO_FATAL_FAILURE(ExpectExceptionStream(&expect_exception,
                                                 exception,
                                                 file_writer.string(),
