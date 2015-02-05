@@ -24,15 +24,13 @@
 #include "base/basictypes.h"
 #include "base/memory/scoped_ptr.h"
 #include "snapshot/exception_snapshot.h"
+#include "snapshot/module_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
+#include "snapshot/thread_snapshot.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
-
-class ModuleSnapshot;
-class ThreadSnapshot;
-
 namespace test {
 
 //! \brief A test ProcessSnapshot that can carry arbitrary data for testing

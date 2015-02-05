@@ -13,10 +13,8 @@
 // limitations under the License.
 
 #include "snapshot/exception_snapshot.h"
-#include "snapshot/module_snapshot.h"
 #include "snapshot/system_snapshot.h"
 #include "snapshot/test/test_process_snapshot.h"
-#include "snapshot/thread_snapshot.h"
 
 namespace crashpad {
 namespace test {
