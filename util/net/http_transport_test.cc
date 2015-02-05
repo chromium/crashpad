@@ -23,6 +23,7 @@
 #include "base/format_macros.h"
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
+#include "base/rand_util.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
@@ -82,6 +83,18 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     ASSERT_TRUE(LoggingWriteFile(
         WritePipeHandle(), &response_code_, sizeof(response_code_)));
 
+    // The parent will also tell the web server what response body to send back.
+    // The web server will only send the response body if the response code is
+    // 200.
+    std::string expect_response_body;
+    for (size_t index = 0; index < 8; ++index) {
+      expect_response_body += static_cast<char>(base::RandInt(' ', '~'));
+    }
+
+    ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(),
+                                 expect_response_body.c_str(),
+                                 expect_response_body.size()));
+
     // Now execute the HTTP request.
     scoped_ptr<HTTPTransport> transport(HTTPTransport::Create());
     transport->SetMethod("POST");
@@ -91,7 +104,16 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     }
     transport->SetBodyStream(body_stream_.Pass());
 
-    EXPECT_EQ(transport->ExecuteSynchronously(), (response_code_ == 200));
+    std::string response_body;
+    bool success = transport->ExecuteSynchronously(&response_body);
+    if (response_code_ == 200) {
+      EXPECT_TRUE(success);
+      expect_response_body += "\r\n";
+      EXPECT_EQ(expect_response_body, response_body);
+    } else {
+      EXPECT_FALSE(success);
+      EXPECT_TRUE(response_body.empty());
+    }
 
     // Read until the child's stdout closes.
     std::string request;

@@ -73,7 +73,7 @@ class HTTPTransportWin final : public HTTPTransport {
   HTTPTransportWin();
   ~HTTPTransportWin() override;
 
-  bool ExecuteSynchronously() override;
+  bool ExecuteSynchronously(std::string* response_body) override;
 
  private:
   DISALLOW_COPY_AND_ASSIGN(HTTPTransportWin);
@@ -85,7 +85,7 @@ HTTPTransportWin::HTTPTransportWin() : HTTPTransport() {
 HTTPTransportWin::~HTTPTransportWin() {
 }
 
-bool HTTPTransportWin::ExecuteSynchronously() {
+bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   ScopedHINTERNET session(
       WinHttpOpen(base::UTF8ToUTF16(PACKAGE_NAME "/" PACKAGE_VERSION).c_str(),
                   WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
@@ -154,8 +154,9 @@ bool HTTPTransportWin::ExecuteSynchronously() {
   std::vector<uint8_t> post_data;
 
   // Write the body of a POST if any.
+  const size_t kBufferSize = 4096;
   for (;;) {
-    uint8_t buffer[4096];
+    uint8_t buffer[kBufferSize];
     ssize_t bytes_to_write =
         body_stream()->GetBytesBuffer(buffer, sizeof(buffer));
     if (bytes_to_write == 0)
@@ -198,8 +199,25 @@ bool HTTPTransportWin::ExecuteSynchronously() {
     return false;
   }
 
-  // TODO(scottmg): Retrieve body of response if necessary with
-  // WinHttpQueryDataAvailable and WinHttpReadData.
+  if (response_body) {
+    response_body->clear();
+
+    // There isn’t any reason to call WinHttpQueryDataAvailable(), because it
+    // returns the number of bytes available to be read without blocking at the
+    // time of the call, not the number of bytes until end-of-file. This method,
+    // which executes synchronously, is only concerned with reading until EOF.
+    DWORD bytes_read = 0;
+    do {
+      char read_buffer[kBufferSize];
+      if (!WinHttpReadData(
+              request.get(), read_buffer, sizeof(read_buffer), &bytes_read)) {
+        LogErrorWinHttpMessage("WinHttpReadData");
+        return false;
+      }
+
+      response_body->append(read_buffer, bytes_read);
+    } while (bytes_read > 0);
+  }
 
   return true;
 }

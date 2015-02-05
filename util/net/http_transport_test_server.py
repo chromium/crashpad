@@ -17,10 +17,13 @@
 
 """A one-shot testing webserver.
 
-When invoked, this server will write an integer to stdout, indiciating on which
-port the server is listening. It will then read one integer from stdin,
-indiciating the response code to set for a request. The server will process
-one HTTP request, writing it out entirely to stdout, and will then terminate.
+When invoked, this server will write a short integer to stdout, indiciating on
+which port the server is listening. It will then read one integer from stdin,
+indiciating the response code to be sent in response to a request. It also reads
+8 characters from stdin, which, after having "\r\n" appended, will form the
+response body in a successful response (one with code 200). The server will
+process one HTTP request, deliver the prearranged response to the client, and
+write the entire request to stdout. It will then terminate.
 
 This server is written in Python since it provides a simple HTTP stack, and
 because parsing Chunked encoding is safer and easier in a memory-safe language.
@@ -57,6 +60,7 @@ class BufferedReadFile(object):
 
 class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
   response_code = 500
+  response_body = ''
 
   def handle_one_request(self):
     # Wrap the rfile in the buffering file object so that the raw header block
@@ -78,6 +82,9 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     self.send_response(self.response_code)
     self.end_headers()
+    if self.response_code == 200:
+      self.wfile.write(self.response_body)
+      self.wfile.write('\r\n')
 
     writer.write(body)
     writer.flush()
@@ -131,10 +138,10 @@ def Main():
   sys.stdout.write(struct.pack('=H', server.server_address[1]))
   sys.stdout.flush()
 
-  # Read the desired test response code as an unsigned short from the parent
-  # process.
-  RequestHandler.response_code = \
-      struct.unpack('=H', sys.stdin.read(struct.calcsize('=H')))[0]
+  # Read the desired test response code as an unsigned short and the desired
+  # response body as an 8-byte string from the parent process.
+  RequestHandler.response_code, RequestHandler.response_body = \
+      struct.unpack('=H8s', sys.stdin.read(struct.calcsize('=H8s')))
 
   # Handle the request.
   server.handle_request()

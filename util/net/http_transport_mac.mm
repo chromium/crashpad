@@ -116,7 +116,7 @@ class HTTPTransportMac final : public HTTPTransport {
   HTTPTransportMac();
   ~HTTPTransportMac() override;
 
-  bool ExecuteSynchronously() override;
+  bool ExecuteSynchronously(std::string* response_body) override;
 
  private:
   DISALLOW_COPY_AND_ASSIGN(HTTPTransportMac);
@@ -128,7 +128,7 @@ HTTPTransportMac::HTTPTransportMac() : HTTPTransport() {
 HTTPTransportMac::~HTTPTransportMac() {
 }
 
-bool HTTPTransportMac::ExecuteSynchronously() {
+bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
   DCHECK(body_stream());
 
   @autoreleasepool {
@@ -152,9 +152,9 @@ bool HTTPTransportMac::ExecuteSynchronously() {
 
     NSURLResponse* response = nil;
     NSError* error = nil;
-    [NSURLConnection sendSynchronousRequest:request
-                          returningResponse:&response
-                                      error:&error];
+    NSData* body = [NSURLConnection sendSynchronousRequest:request
+                                         returningResponse:&response
+                                                     error:&error];
 
     if (error) {
       LOG(ERROR) << [[error localizedDescription] UTF8String] << " ("
@@ -176,6 +176,11 @@ bool HTTPTransportMac::ExecuteSynchronously() {
       LOG(ERROR) << base::StringPrintf("HTTP status %ld",
                                        implicit_cast<long>(http_status));
       return false;
+    }
+
+    if (response_body) {
+      response_body->assign(static_cast<const char*>([body bytes]),
+                            [body length]);
     }
 
     return true;

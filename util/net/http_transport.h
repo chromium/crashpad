@@ -74,9 +74,13 @@ class HTTPTransport {
   //! \brief Performs the HTTP request with the configured parameters and waits
   //!     for the execution to complete.
   //!
+  //! \param[out] response On success, this will be set to the HTTP response
+  //!     body. This parameter is optional and may be set to `nullptr` if the
+  //!     response body is not required.
+  //!
   //! \return Whether or not the request was successful, defined as returning
   //!     a HTTP status 200 (OK) code.
-  virtual bool ExecuteSynchronously() = 0;
+  virtual bool ExecuteSynchronously(std::string* response_body) = 0;
 
  protected:
   HTTPTransport();
