@@ -129,9 +129,9 @@ bool MinidumpThreadWriter::WriteObject(FileWriterInterface* file_writer) {
 
 MinidumpThreadListWriter::MinidumpThreadListWriter()
     : MinidumpStreamWriter(),
-      thread_list_base_(),
       threads_(),
-      memory_list_writer_(nullptr) {
+      memory_list_writer_(nullptr),
+      thread_list_base_() {
 }
 
 MinidumpThreadListWriter::~MinidumpThreadListWriter() {

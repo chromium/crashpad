@@ -346,8 +346,8 @@ class MinidumpModuleListWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  MINIDUMP_MODULE_LIST module_list_base_;
   PointerVector<MinidumpModuleWriter> modules_;
+  MINIDUMP_MODULE_LIST module_list_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleListWriter);
 };

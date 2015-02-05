@@ -162,9 +162,9 @@ internal::MinidumpWritable::Phase MinidumpMemoryWriter::WritePhase() {
 
 MinidumpMemoryListWriter::MinidumpMemoryListWriter()
     : MinidumpStreamWriter(),
-      memory_list_base_(),
       memory_writers_(),
-      children_() {
+      children_(),
+      memory_list_base_() {
 }
 
 MinidumpMemoryListWriter::~MinidumpMemoryListWriter() {

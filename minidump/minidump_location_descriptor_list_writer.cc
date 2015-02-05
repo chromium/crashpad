@@ -23,7 +23,7 @@ namespace internal {
 
 MinidumpLocationDescriptorListWriter::MinidumpLocationDescriptorListWriter()
     : MinidumpWritable(),
-      location_descriptor_list_base_(),
+      location_descriptor_list_base_(new MinidumpLocationDescriptorList()),
       children_(),
       child_location_descriptors_() {
 }
@@ -47,7 +47,8 @@ bool MinidumpLocationDescriptorListWriter::Freeze() {
   }
 
   size_t child_count = children_.size();
-  if (!AssignIfInRange(&location_descriptor_list_base_.count, child_count)) {
+  if (!AssignIfInRange(&location_descriptor_list_base_->count,
+                       child_count)) {
     LOG(ERROR) << "child_count " << child_count << " out of range";
     return false;
   }
@@ -64,7 +65,7 @@ bool MinidumpLocationDescriptorListWriter::Freeze() {
 size_t MinidumpLocationDescriptorListWriter::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
 
-  return sizeof(location_descriptor_list_base_) +
+  return sizeof(*location_descriptor_list_base_) +
          children_.size() * sizeof(MINIDUMP_LOCATION_DESCRIPTOR);
 }
 
@@ -86,8 +87,8 @@ bool MinidumpLocationDescriptorListWriter::WriteObject(
   DCHECK_EQ(children_.size(), child_location_descriptors_.size());
 
   WritableIoVec iov;
-  iov.iov_base = &location_descriptor_list_base_;
-  iov.iov_len = sizeof(location_descriptor_list_base_);
+  iov.iov_base = location_descriptor_list_base_.get();
+  iov.iov_len = sizeof(*location_descriptor_list_base_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
   if (!child_location_descriptors_.empty()) {

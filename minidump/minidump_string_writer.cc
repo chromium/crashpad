@@ -26,7 +26,7 @@ namespace internal {
 
 template <typename Traits>
 MinidumpStringWriter<Traits>::MinidumpStringWriter()
-    : MinidumpWritable(), string_base_(), string_() {
+    : MinidumpWritable(), string_base_(new MinidumpStringType()), string_() {
 }
 
 template <typename Traits>
@@ -42,7 +42,7 @@ bool MinidumpStringWriter<Traits>::Freeze() {
   }
 
   size_t string_bytes = string_.size() * sizeof(string_[0]);
-  if (!AssignIfInRange(&string_base_.Length, string_bytes)) {
+  if (!AssignIfInRange(&string_base_->Length, string_bytes)) {
     LOG(ERROR) << "string_bytes " << string_bytes << " out of range";
     return false;
   }
@@ -55,7 +55,7 @@ size_t MinidumpStringWriter<Traits>::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
 
   // Include the NUL terminator.
-  return sizeof(string_base_) + (string_.size() + 1) * sizeof(string_[0]);
+  return sizeof(*string_base_) + (string_.size() + 1) * sizeof(string_[0]);
 }
 
 template <typename Traits>
@@ -66,8 +66,8 @@ bool MinidumpStringWriter<Traits>::WriteObject(
   // The string’s length is stored in string_base_, and its data is stored in
   // string_. Write them both.
   WritableIoVec iov;
-  iov.iov_base = &string_base_;
-  iov.iov_len = sizeof(string_base_);
+  iov.iov_base = string_base_.get();
+  iov.iov_len = sizeof(*string_base_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
   // Include the NUL terminator.

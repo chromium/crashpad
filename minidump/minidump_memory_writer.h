@@ -180,9 +180,9 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  MINIDUMP_MEMORY_LIST memory_list_base_;
   std::vector<MinidumpMemoryWriter*> memory_writers_;  // weak
   PointerVector<MinidumpMemoryWriter> children_;
+  MINIDUMP_MEMORY_LIST memory_list_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpMemoryListWriter);
 };

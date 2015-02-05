@@ -66,7 +66,7 @@ class MinidumpRVAListWriter : public MinidumpWritable {
   bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
-  MinidumpRVAList rva_list_base_;
+  scoped_ptr<MinidumpRVAList> rva_list_base_;
   PointerVector<MinidumpWritable> children_;
   std::vector<RVA> child_rvas_;
 

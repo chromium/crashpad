@@ -202,9 +202,9 @@ class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  MINIDUMP_THREAD_LIST thread_list_base_;
   PointerVector<MinidumpThreadWriter> threads_;
   MinidumpMemoryListWriter* memory_list_writer_;  // weak
+  MINIDUMP_THREAD_LIST thread_list_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpThreadListWriter);
 };

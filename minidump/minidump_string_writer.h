@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "base/memory/scoped_ptr.h"
 #include "base/strings/string16.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_rva_list_writer.h"
@@ -75,7 +76,7 @@ class MinidumpStringWriter : public MinidumpWritable {
   const StringType& string() const { return string_; }
 
  private:
-  MinidumpStringType string_base_;
+  scoped_ptr<MinidumpStringType> string_base_;
   StringType string_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpStringWriter);

@@ -23,7 +23,7 @@ namespace internal {
 
 MinidumpRVAListWriter::MinidumpRVAListWriter()
     : MinidumpWritable(),
-      rva_list_base_(),
+      rva_list_base_(new MinidumpRVAList()),
       children_(),
       child_rvas_() {
 }
@@ -46,7 +46,7 @@ bool MinidumpRVAListWriter::Freeze() {
   }
 
   size_t child_count = children_.size();
-  if (!AssignIfInRange(&rva_list_base_.count, child_count)) {
+  if (!AssignIfInRange(&rva_list_base_->count, child_count)) {
     LOG(ERROR) << "child_count " << child_count << " out of range";
     return false;
   }
@@ -62,7 +62,7 @@ bool MinidumpRVAListWriter::Freeze() {
 size_t MinidumpRVAListWriter::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
 
-  return sizeof(rva_list_base_) + children_.size() * sizeof(RVA);
+  return sizeof(*rva_list_base_) + children_.size() * sizeof(RVA);
 }
 
 std::vector<MinidumpWritable*> MinidumpRVAListWriter::Children() {
@@ -81,8 +81,8 @@ bool MinidumpRVAListWriter::WriteObject(FileWriterInterface* file_writer) {
   DCHECK_EQ(children_.size(), child_rvas_.size());
 
   WritableIoVec iov;
-  iov.iov_base = &rva_list_base_;
-  iov.iov_len = sizeof(rva_list_base_);
+  iov.iov_base = rva_list_base_.get();
+  iov.iov_len = sizeof(*rva_list_base_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
   if (!child_rvas_.empty()) {

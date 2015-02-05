@@ -70,7 +70,7 @@ class MinidumpLocationDescriptorListWriter : public MinidumpWritable {
   bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
-  MinidumpLocationDescriptorList location_descriptor_list_base_;
+  scoped_ptr<MinidumpLocationDescriptorList> location_descriptor_list_base_;
   PointerVector<MinidumpWritable> children_;
   std::vector<MINIDUMP_LOCATION_DESCRIPTOR> child_location_descriptors_;
 

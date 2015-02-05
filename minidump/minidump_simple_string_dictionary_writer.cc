@@ -91,7 +91,7 @@ bool MinidumpSimpleStringDictionaryEntryWriter::WriteObject(
 }
 
 MinidumpSimpleStringDictionaryWriter::MinidumpSimpleStringDictionaryWriter()
-    : MinidumpWritable(), simple_string_dictionary_base_(), entries_() {
+    : MinidumpWritable(), entries_(), simple_string_dictionary_base_() {
 }
 
 MinidumpSimpleStringDictionaryWriter::~MinidumpSimpleStringDictionaryWriter() {

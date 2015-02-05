@@ -375,7 +375,7 @@ bool MinidumpModuleWriter::WriteObject(FileWriterInterface* file_writer) {
 }
 
 MinidumpModuleListWriter::MinidumpModuleListWriter()
-    : MinidumpStreamWriter(), module_list_base_(), modules_() {
+    : MinidumpStreamWriter(), modules_(), module_list_base_() {
 }
 
 MinidumpModuleListWriter::~MinidumpModuleListWriter() {
