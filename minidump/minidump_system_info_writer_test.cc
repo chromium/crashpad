@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <string>
 
+#include "base/compiler_specific.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
@@ -39,10 +40,11 @@ void GetSystemInfoStream(const std::string& file_contents,
                          const MINIDUMP_SYSTEM_INFO** system_info,
                          const MINIDUMP_STRING** csd_version) {
   // The expected number of bytes for the CSD version’s MINIDUMP_STRING::Buffer.
-  const size_t kCSDVersionBytes =
-      csd_version_length * sizeof(MINIDUMP_STRING::Buffer[0]);
+  MINIDUMP_STRING tmp = {0};
+  ALLOW_UNUSED_LOCAL(tmp);
+  const size_t kCSDVersionBytes = csd_version_length * sizeof(tmp.Buffer[0]);
   const size_t kCSDVersionBytesWithNUL =
-      kCSDVersionBytes + sizeof(MINIDUMP_STRING::Buffer[0]);
+      kCSDVersionBytes + sizeof(tmp.Buffer[0]);
 
   const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
   const size_t kSystemInfoStreamOffset =
@@ -85,8 +87,8 @@ TEST(MinidumpSystemInfoWriter, Empty) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_SYSTEM_INFO* system_info;
-  const MINIDUMP_STRING* csd_version;
+  const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
+  const MINIDUMP_STRING* csd_version = nullptr;
 
   ASSERT_NO_FATAL_FAILURE(
       GetSystemInfoStream(file_writer.string(), 0, &system_info, &csd_version));
@@ -156,8 +158,8 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_SYSTEM_INFO* system_info;
-  const MINIDUMP_STRING* csd_version;
+  const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
+  const MINIDUMP_STRING* csd_version = nullptr;
 
   ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(
       file_writer.string(), strlen(kCSDVersion), &system_info, &csd_version));
@@ -216,7 +218,7 @@ TEST(MinidumpSystemInfoWriter, AMD64_Mac) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_SYSTEM_INFO* system_info;
+  const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
   const MINIDUMP_STRING* csd_version;
 
   ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(
@@ -258,7 +260,7 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_SYSTEM_INFO* system_info;
+  const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
   const MINIDUMP_STRING* csd_version;
 
   ASSERT_NO_FATAL_FAILURE(
@@ -280,7 +282,7 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
   const uint8_t kCPUStepping = 1;
 
   const uint8_t kCPUBasicFamily =
-      std::min(kCPUFamily, implicit_cast<uint16_t>(15));
+      static_cast<uint8_t>(std::min(kCPUFamily, static_cast<uint16_t>(15)));
   const uint8_t kCPUExtendedFamily = kCPUFamily - kCPUBasicFamily;
 
   // These checks ensure that even if the constants above change, they represent
@@ -338,8 +340,8 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_SYSTEM_INFO* system_info;
-  const MINIDUMP_STRING* csd_version;
+  const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
+  const MINIDUMP_STRING* csd_version = nullptr;
   ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(file_writer.string(),
                                               strlen(kOSVersionBuild),
                                               &system_info,
@@ -433,8 +435,8 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_SYSTEM_INFO* system_info;
-  const MINIDUMP_STRING* csd_version;
+  const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
+  const MINIDUMP_STRING* csd_version = nullptr;
   ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(file_writer.string(),
                                               strlen(kOSVersionBuild),
                                               &system_info,
