@@ -14,6 +14,7 @@
 
 #include "minidump/minidump_crashpad_info_writer.h"
 
+#include <windows.h>
 #include <dbghelp.h>
 
 #include "gtest/gtest.h"

@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_MINIDUMP_MINIDUMP_MEMORY_WRITER_H_
 #define CRASHPAD_MINIDUMP_MINIDUMP_MEMORY_WRITER_H_
 
+#include <windows.h>
 #include <dbghelp.h>
 #include <stdint.h>
 #include <sys/types.h>

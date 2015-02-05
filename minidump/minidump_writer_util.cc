@@ -28,7 +28,7 @@ void MinidumpWriterUtil::AssignTimeT(uint32_t* destination, time_t source) {
     LOG(WARNING) << "timestamp " << source << " out of range";
   }
 
-  *destination = source;
+  *destination = static_cast<uint32_t>(source);
 }
 
 // static

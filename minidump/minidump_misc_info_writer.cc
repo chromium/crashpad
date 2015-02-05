@@ -39,7 +39,7 @@ namespace {
 uint32_t TimevalToRoundedSeconds(const timeval& tv) {
   uint32_t seconds =
       InRangeCast<uint32_t>(tv.tv_sec, std::numeric_limits<uint32_t>::max());
-  const int kMicrosecondsPerSecond = 1E6;
+  const int kMicrosecondsPerSecond = static_cast<int>(1E6);
   if (tv.tv_usec >= kMicrosecondsPerSecond / 2 &&
       seconds != std::numeric_limits<uint32_t>::max()) {
     ++seconds;
@@ -101,6 +101,8 @@ std::string MinidumpMiscInfoDebugBuildString() {
   const char kOS[] = "mac";
 #elif defined(OS_LINUX)
   const char kOS[] = "linux";
+#elif defined(OS_WIN)
+  const char kOS[] = "win";
 #else
 #error define kOS for this operating system
 #endif
@@ -150,7 +152,7 @@ void MinidumpMiscInfoWriter::InitializeFromSnapshot(
   uint64_t current_mhz;
   uint64_t max_mhz;
   system_snapshot->CPUFrequency(&current_mhz, &max_mhz);
-  const uint32_t kHzPerMHz = 1E6;
+  const uint32_t kHzPerMHz = static_cast<const uint32_t>(1E6);
   SetProcessorPowerInfo(
       InRangeCast<uint32_t>(current_mhz / kHzPerMHz,
                             std::numeric_limits<uint32_t>::max()),

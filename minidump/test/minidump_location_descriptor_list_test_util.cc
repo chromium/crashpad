@@ -14,6 +14,7 @@
 
 #include "minidump/test/minidump_location_descriptor_list_test_util.h"
 
+#include <windows.h>
 #include <dbghelp.h>
 
 #include "minidump/minidump_extensions.h"

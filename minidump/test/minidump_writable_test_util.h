@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_MINIDUMP_TEST_MINIDUMP_WRITABLE_TEST_UTIL_H_
 #define CRASHPAD_MINIDUMP_TEST_MINIDUMP_WRITABLE_TEST_UTIL_H_
 
+#include <windows.h>
 #include <dbghelp.h>
 #include <stdint.h>
 #include <sys/types.h>

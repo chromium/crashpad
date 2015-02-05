@@ -125,7 +125,7 @@ void MinidumpFileWriter::AddStream(
 bool MinidumpFileWriter::WriteEverything(FileWriterInterface* file_writer) {
   DCHECK_EQ(state(), kStateMutable);
 
-  off_t start_offset = file_writer->Seek(0, SEEK_CUR);
+  FileOffset start_offset = file_writer->Seek(0, SEEK_CUR);
   if (start_offset < 0) {
     return false;
   }
@@ -134,7 +134,7 @@ bool MinidumpFileWriter::WriteEverything(FileWriterInterface* file_writer) {
     return false;
   }
 
-  off_t end_offset = file_writer->Seek(0, SEEK_CUR);
+  FileOffset end_offset = file_writer->Seek(0, SEEK_CUR);
   if (end_offset < 0) {
     return false;
   }

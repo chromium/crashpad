@@ -28,6 +28,7 @@
         'non_win/minwinbase.h',
         'non_win/timezoneapi.h',
         'non_win/verrsrc.h',
+        'non_win/windows.h',
         'non_win/winnt.h',
         'win/sys/types.h',
       ],

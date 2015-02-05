@@ -15,11 +15,21 @@
 #ifndef CRASHPAD_MINIDUMP_MINIDUMP_EXTENSIONS_H_
 #define CRASHPAD_MINIDUMP_MINIDUMP_EXTENSIONS_H_
 
+#include <windows.h>
 #include <dbghelp.h>
 #include <stdint.h>
 #include <winnt.h>
 
+#include "base/compiler_specific.h"
+#include "build/build_config.h"
 #include "util/misc/uuid.h"
+
+#if defined(COMPILER_MSVC)
+#define PACKED
+#pragma pack(push, 1)
+#else
+#define PACKED __attribute__((packed))
+#endif  // COMPILER_MSVC
 
 namespace crashpad {
 
@@ -69,7 +79,7 @@ enum MinidumpStreamType : uint32_t {
 //!     file.
 //!
 //! \sa MINIDUMP_STRING
-struct __attribute__((packed, aligned(4))) MinidumpUTF8String {
+struct ALIGNAS(4) PACKED MinidumpUTF8String {
   // The field names do not conform to typical style, they match the names used
   // in MINIDUMP_STRING. This makes it easier to operate on MINIDUMP_STRING (for
   // UTF-16 strings) and MinidumpUTF8String using templates.
@@ -297,7 +307,7 @@ struct MinidumpModuleCodeViewRecordPDB70 {
 };
 
 //! \brief A list of ::RVA pointers.
-struct __attribute__((packed, aligned(4))) MinidumpRVAList {
+struct ALIGNAS(4) PACKED MinidumpRVAList {
   //! \brief The number of children present in the #children array.
   uint32_t count;
 
@@ -306,7 +316,7 @@ struct __attribute__((packed, aligned(4))) MinidumpRVAList {
 };
 
 //! \brief A list of MINIDUMP_LOCATION_DESCRIPTOR objects.
-struct __attribute__((packed, aligned(4))) MinidumpLocationDescriptorList {
+struct ALIGNAS(4) PACKED MinidumpLocationDescriptorList {
   //! \brief The number of children present in the #children array.
   uint32_t count;
 
@@ -315,7 +325,7 @@ struct __attribute__((packed, aligned(4))) MinidumpLocationDescriptorList {
 };
 
 //! \brief A key-value pair.
-struct __attribute__((packed, aligned(4))) MinidumpSimpleStringDictionaryEntry {
+struct ALIGNAS(4) PACKED MinidumpSimpleStringDictionaryEntry {
   //! \brief ::RVA of a MinidumpUTF8String containing the key of a key-value
   //!     pair.
   RVA key;
@@ -326,7 +336,7 @@ struct __attribute__((packed, aligned(4))) MinidumpSimpleStringDictionaryEntry {
 };
 
 //! \brief A list of key-value pairs.
-struct __attribute__((packed, aligned(4))) MinidumpSimpleStringDictionary {
+struct ALIGNAS(4) PACKED MinidumpSimpleStringDictionary {
   //! \brief The number of key-value pairs present.
   uint32_t count;
 
@@ -349,7 +359,7 @@ struct __attribute__((packed, aligned(4))) MinidumpSimpleStringDictionary {
 //! fields are valid or not.
 //!
 //! \sa #MinidumpModuleCrashpadInfoList
-struct __attribute__((packed, aligned(4))) MinidumpModuleCrashpadInfo {
+struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfo {
   //! \brief The structure’s currently-defined version number.
   //!
   //! \sa version
@@ -422,7 +432,7 @@ using MinidumpModuleCrashpadInfoList = MinidumpLocationDescriptorList;
 //! structure. Revise #kVersion and document each field’s validity based on
 //! #version, so that newer parsers will be able to determine whether the added
 //! fields are valid or not.
-struct __attribute__((packed, aligned(4))) MinidumpCrashpadInfo {
+struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
   //! \brief The structure’s currently-defined version number.
   //!
   //! \sa version
@@ -444,6 +454,11 @@ struct __attribute__((packed, aligned(4))) MinidumpCrashpadInfo {
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR module_list;
 };
+
+#if defined(COMPILER_MSVC)
+#pragma pack(pop)
+#endif  // COMPILER_MSVC
+#undef PACKED
 
 }  // namespace crashpad
 

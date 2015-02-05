@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 
+#include "base/compiler_specific.h"
 #include "snapshot/cpu_context.h"
 #include "util/numeric/int128.h"
 
@@ -187,7 +188,7 @@ struct MinidumpContextX86 {
   CPUContextX86::Fxsave fxsave;
 };
 
-//! \brief x86_64-specifc flags for MinidumpContextAMD64::context_flags.
+//! \brief x86_64-specific flags for MinidumpContextAMD64::context_flags.
 enum MinidumpContextAMD64Flags : uint32_t {
   //! \brief Identifies the context structure as x86_64. This is the same as
   //!     `CONTEXT_AMD64` on Windows for this architecture.
@@ -253,7 +254,7 @@ enum MinidumpContextAMD64Flags : uint32_t {
 //!     normally alias `dr6` and `dr7`, respectively. See Intel Software
 //!     Developer’s Manual, Volume 3B: System Programming, Part 2 (253669-052),
 //!     17.2.2 “Debug Registers DR4 and DR5”.
-struct __attribute__((aligned(16))) MinidumpContextAMD64 {
+struct ALIGNAS(16) MinidumpContextAMD64 {
   //! \brief Register parameter home address.
   //!
   //! On Windows, this field may contain the “home” address (on-stack, in the

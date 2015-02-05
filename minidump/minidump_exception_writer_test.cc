@@ -14,6 +14,7 @@
 
 #include "minidump/minidump_exception_writer.h"
 
+#include <windows.h>
 #include <dbghelp.h>
 #include <stdint.h>
 #include <sys/types.h>

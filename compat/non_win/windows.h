@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_COMPAT_WIN_SYS_TYPES_H_
-#define CRASHPAD_COMPAT_WIN_SYS_TYPES_H_
-
-// This is intended to be roughly equivalent to #include_next.
-#include <../include/sys/types.h>
-
-#ifdef _WIN64
-typedef __int64 ssize_t;
-#else
-typedef __w64 int ssize_t;
-#endif
-
-typedef unsigned long pid_t;
-
-#endif  // CRASHPAD_COMPAT_WIN_SYS_TYPES_H_
+// dbghelp.h on Windows requires inclusion of windows.h before it. To avoid
+// cluttering all inclusions of dbghelp.h with #ifdefs, always include windows.h
+// and have an empty one on non-Windows platforms.

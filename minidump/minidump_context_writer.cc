@@ -160,7 +160,8 @@ void MinidumpContextAMD64Writer::InitializeFromSnapshot(
   context_.cs = context_snapshot->cs;
   context_.fs = context_snapshot->fs;
   context_.gs = context_snapshot->gs;
-  context_.eflags = context_snapshot->rflags;
+  // The top 32 bits of rflags are reserved/unused.
+  context_.eflags = static_cast<uint32_t>(context_snapshot->rflags);
   context_.dr0 = context_snapshot->dr0;
   context_.dr1 = context_snapshot->dr1;
   context_.dr2 = context_snapshot->dr2;
