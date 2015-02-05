@@ -79,6 +79,7 @@
       'type': 'static_library',
       'dependencies': [
         'snapshot',
+        '../compat/compat.gyp:compat',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
         '../util/util.gyp:util',
       ],
