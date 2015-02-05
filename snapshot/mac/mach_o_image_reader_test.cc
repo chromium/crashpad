@@ -393,14 +393,8 @@ void ExpectSymbol(const Nlist* entry,
 
   uint32_t entry_type = entry->n_type & N_TYPE;
   if ((entry->n_type & N_STAB) == 0 && (entry->n_type & N_PEXT) == 0 &&
-      entry_type != N_UNDF && entry_type != N_PBUD &&
+      (entry_type == N_ABS || entry_type == N_SECT) &&
       (entry->n_type & N_EXT) == 1) {
-    // Note that this catches more symbols than MachOImageSymbolTableReader
-    // does. This test looks for all external defined symbols, but the
-    // implementation excludes indirect (N_INDR) symbols. This is intentional,
-    // because indirect symbols are currently not seen in the wild, but if they
-    // begin to be used more widely, this test is expected to catch them so that
-    // a decision can be made regarding whether support ought to be implemented.
     mach_vm_address_t actual_address;
     ASSERT_TRUE(
         actual_image->LookUpExternalDefinedSymbol(name, &actual_address));

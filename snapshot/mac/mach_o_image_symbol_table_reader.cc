@@ -111,58 +111,74 @@ class MachOImageSymbolTableReaderInitializer {
       std::string symbol_info = base::StringPrintf(", symbol index %zu%s",
                                                    skip_count + symbol_index,
                                                    module_info_.c_str());
-      uint8_t symbol_type = symbol.n_type & N_TYPE;
+      bool valid_symbol = true;
       if ((symbol.n_type & N_STAB) == 0 && (symbol.n_type & N_PEXT) == 0 &&
-          (symbol_type == N_ABS || symbol_type == N_SECT) &&
           (symbol.n_type & N_EXT)) {
-        if (symbol.n_strx >= strtab_size) {
-          LOG(WARNING) << base::StringPrintf(
-                              "string at 0x%x out of bounds (0x%llx)",
-                              symbol.n_strx,
-                              strtab_size) << symbol_info;
-          return false;
-        }
-
-        if (!string_table) {
-          string_table = process_reader_->Memory()->ReadMapped(
-              strtab_address, strtab_size);
-          if (!string_table) {
-            LOG(WARNING) << "could not read string table" << module_info_;
+        uint8_t symbol_type = symbol.n_type & N_TYPE;
+        if (symbol_type == N_ABS || symbol_type == N_SECT) {
+          if (symbol.n_strx >= strtab_size) {
+            LOG(WARNING) << base::StringPrintf(
+                                "string at 0x%x out of bounds (0x%llx)",
+                                symbol.n_strx,
+                                strtab_size) << symbol_info;
             return false;
           }
-        }
 
-        std::string name;
-        if (!string_table->ReadCString(symbol.n_strx, &name)) {
-          LOG(WARNING) << "could not read string" << symbol_info;
-          return false;
-        }
+          if (!string_table) {
+            string_table = process_reader_->Memory()->ReadMapped(
+                strtab_address, strtab_size);
+            if (!string_table) {
+              LOG(WARNING) << "could not read string table" << module_info_;
+              return false;
+            }
+          }
 
-        if (symbol_type == N_ABS && symbol.n_sect != NO_SECT) {
-          LOG(WARNING) << base::StringPrintf("N_ABS symbol %s in section %u",
-                                             name.c_str(),
-                                             symbol.n_sect) << symbol_info;
-          return false;
-        }
+          std::string name;
+          if (!string_table->ReadCString(symbol.n_strx, &name)) {
+            LOG(WARNING) << "could not read string" << symbol_info;
+            return false;
+          }
 
-        if (symbol_type == N_SECT && symbol.n_sect == NO_SECT) {
-          LOG(WARNING) << base::StringPrintf(
-                              "N_SECT symbol %s in section NO_SECT",
-                              name.c_str()) << symbol_info;
-          return false;
-        }
+          if (symbol_type == N_ABS && symbol.n_sect != NO_SECT) {
+            LOG(WARNING) << base::StringPrintf("N_ABS symbol %s in section %u",
+                                               name.c_str(),
+                                               symbol.n_sect) << symbol_info;
+            return false;
+          }
 
-        if (external_defined_symbols->count(name)) {
-          LOG(WARNING) << "duplicate symbol " << name << symbol_info;
-          return false;
-        }
+          if (symbol_type == N_SECT && symbol.n_sect == NO_SECT) {
+            LOG(WARNING) << base::StringPrintf(
+                                "N_SECT symbol %s in section NO_SECT",
+                                name.c_str()) << symbol_info;
+            return false;
+          }
 
-        MachOImageSymbolTableReader::SymbolInformation symbol_info;
-        symbol_info.value = symbol.n_value;
-        symbol_info.section = symbol.n_sect;
-        (*external_defined_symbols)[name] = symbol_info;
-      } else if (dysymtab_command) {
-        LOG(WARNING) << "non-external symbol in extdefsym" << symbol_info;
+          if (external_defined_symbols->count(name)) {
+            LOG(WARNING) << "duplicate symbol " << name << symbol_info;
+            return false;
+          }
+
+          MachOImageSymbolTableReader::SymbolInformation this_symbol_info;
+          this_symbol_info.value = symbol.n_value;
+          this_symbol_info.section = symbol.n_sect;
+          (*external_defined_symbols)[name] = this_symbol_info;
+        } else {
+          // External indirect symbols may be found in the portion of the symbol
+          // table used for external symbols as opposed to indirect symbols when
+          // the indirect symbols are also external. These can be produced by
+          // Xcode 5.1 ld64-236.3/src/ld/LinkEditClassic.hpp
+          // ld::tool::SymbolTableAtom<>::addGlobal(). Indirect symbols are not
+          // currently supported by this symbol table reader, so ignore them
+          // without failing or logging a message when encountering them. See
+          // https://groups.google.com/a/chromium.org/d/topic/crashpad-dev/k7QkLwO71Zo
+          valid_symbol = symbol_type == N_INDR;
+        }
+      } else {
+        valid_symbol = false;
+      }
+      if (!valid_symbol && dysymtab_command) {
+        LOG(WARNING) << "non-external symbol with type " << symbol.n_type
+                     << " in extdefsym" << symbol_info;
         return false;
       }
     }
