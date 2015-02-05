@@ -88,7 +88,7 @@ TEST(MinidumpMemoryWriter, EmptyMemoryList) {
                 sizeof(MINIDUMP_MEMORY_LIST),
             file_writer.string().size());
 
-  const MINIDUMP_MEMORY_LIST* memory_list;
+  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryListStream(file_writer.string(), &memory_list, 1));
 
@@ -112,7 +112,7 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_MEMORY_LIST* memory_list;
+  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryListStream(file_writer.string(), &memory_list, 1));
 
@@ -153,7 +153,7 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_MEMORY_LIST* memory_list;
+  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryListStream(file_writer.string(), &memory_list, 1));
 
@@ -262,7 +262,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_MEMORY_LIST* memory_list;
+  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryListStream(file_writer.string(), &memory_list, 2));
 
@@ -340,7 +340,7 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_MEMORY_LIST* memory_list;
+  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryListStream(file_writer.string(), &memory_list, 1));
 
