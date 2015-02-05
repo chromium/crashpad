@@ -74,7 +74,7 @@ TEST(MinidumpModuleWriter, EmptyModuleList) {
                 sizeof(MINIDUMP_MODULE_LIST),
             file_writer.string().size());
 
-  const MINIDUMP_MODULE_LIST* module_list;
+  const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetModuleListStream(file_writer.string(), &module_list));
 
@@ -120,7 +120,7 @@ void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
               MinidumpModuleCodeViewRecordPDB20>(file_contents,
                                                  *codeview_record);
       ASSERT_TRUE(codeview_pdb20_record);
-      EXPECT_EQ(implicit_cast<uint32_t>(expected_pdb_timestamp),
+      EXPECT_EQ(static_cast<uint32_t>(expected_pdb_timestamp),
                 codeview_pdb20_record->timestamp);
       EXPECT_EQ(expected_pdb_age, codeview_pdb20_record->age);
 
@@ -159,7 +159,8 @@ void ExpectMiscellaneousDebugRecord(
                                                                *misc_record);
     ASSERT_TRUE(misc_debug_record);
     EXPECT_EQ(expected_debug_type, misc_debug_record->DataType);
-    EXPECT_EQ(expected_debug_utf16, misc_debug_record->Unicode);
+    EXPECT_EQ(expected_debug_utf16,
+              static_cast<bool>(misc_debug_record->Unicode));
     EXPECT_EQ(0u, misc_debug_record->Reserved[0]);
     EXPECT_EQ(0u, misc_debug_record->Reserved[1]);
     EXPECT_EQ(0u, misc_debug_record->Reserved[2]);
@@ -287,7 +288,7 @@ TEST(MinidumpModuleWriter, EmptyModule) {
             sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
-  const MINIDUMP_MODULE_LIST* module_list;
+  const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetModuleListStream(file_writer.string(), &module_list));
 
@@ -378,7 +379,7 @@ TEST(MinidumpModuleWriter, OneModule) {
             sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
-  const MINIDUMP_MODULE_LIST* module_list;
+  const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetModuleListStream(file_writer.string(), &module_list));
 
@@ -453,7 +454,7 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
             sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
-  const MINIDUMP_MODULE_LIST* module_list;
+  const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetModuleListStream(file_writer.string(), &module_list));
 
@@ -545,7 +546,7 @@ TEST(MinidumpModuleWriter, ThreeModules) {
             sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
-  const MINIDUMP_MODULE_LIST* module_list;
+  const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetModuleListStream(file_writer.string(), &module_list));
 
@@ -721,7 +722,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MINIDUMP_MODULE_LIST* module_list;
+  const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetModuleListStream(file_writer.string(), &module_list));
 
