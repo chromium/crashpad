@@ -39,8 +39,16 @@ scoped_ptr<MinidumpContextWriter> MinidumpContextWriter::CreateFromSnapshot(
     }
 
     case kCPUArchitectureX86_64: {
+#if defined(COMPILER_MSVC) && defined(ARCH_CPU_X86)
+#pragma warning(push)
+#pragma warning(disable: 4316)  // Object allocated on the heap may not be 16
+                                // byte aligned.
+#endif
       MinidumpContextAMD64Writer* context_amd64 =
           new MinidumpContextAMD64Writer();
+#if defined(COMPILER_MSVC) && defined(ARCH_CPU_X86)
+#pragma warning(pop)
+#endif
       context.reset(context_amd64);
       context_amd64->InitializeFromSnapshot(context_snapshot->x86_64);
       break;
