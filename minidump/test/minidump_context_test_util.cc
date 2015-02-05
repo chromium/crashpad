@@ -15,6 +15,7 @@
 #include "minidump/test/minidump_context_test_util.h"
 
 #include "base/basictypes.h"
+#include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "snapshot/cpu_context.h"
@@ -183,7 +184,7 @@ void ExpectMinidumpContextFxsave(const FxsaveType* expected,
   for (size_t st_mm_index = 0;
        st_mm_index < arraysize(expected->st_mm);
        ++st_mm_index) {
-    SCOPED_TRACE(base::StringPrintf("st_mm_index %zu", st_mm_index));
+    SCOPED_TRACE(base::StringPrintf("st_mm_index %" PRIuS, st_mm_index));
     for (size_t byte = 0;
          byte < arraysize(expected->st_mm[st_mm_index].st);
          ++byte) {
@@ -201,7 +202,7 @@ void ExpectMinidumpContextFxsave(const FxsaveType* expected,
   for (size_t xmm_index = 0;
        xmm_index < arraysize(expected->xmm);
        ++xmm_index) {
-    SCOPED_TRACE(base::StringPrintf("xmm_index %zu", xmm_index));
+    SCOPED_TRACE(base::StringPrintf("xmm_index %" PRIuS, xmm_index));
     for (size_t byte = 0; byte < arraysize(expected->xmm[xmm_index]); ++byte) {
       EXPECT_EQ(expected->xmm[xmm_index][byte], observed->xmm[xmm_index][byte])
           << "byte " << byte;

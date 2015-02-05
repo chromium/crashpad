@@ -22,6 +22,7 @@
 
 #include "base/basictypes.h"
 #include "base/compiler_specific.h"
+#include "base/format_macros.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
@@ -73,7 +74,7 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
     SCOPED_TRACE(base::StringPrintf(
-        "index %zu, input %s", index, kTestData[index].input_string));
+        "index %" PRIuS ", input %s", index, kTestData[index].input_string));
 
     // Make sure that the expected output string with its NUL terminator fits in
     // the space provided.
@@ -120,8 +121,8 @@ TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
   };
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
-    SCOPED_TRACE(
-        base::StringPrintf("index %zu, input %s", index, kTestData[index]));
+    SCOPED_TRACE(base::StringPrintf(
+        "index %" PRIuS ", input %s", index, kTestData[index]));
     file_writer.Reset();
     crashpad::internal::MinidumpUTF16StringWriter string_writer;
     string_writer.SetUTF8(kTestData[index]);
@@ -183,7 +184,7 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
     SCOPED_TRACE(base::StringPrintf(
-        "index %zu, input %s", index, kTestData[index].string));
+        "index %" PRIuS ", input %s", index, kTestData[index].string));
 
     file_writer.Reset();
     crashpad::internal::MinidumpUTF8StringWriter string_writer;

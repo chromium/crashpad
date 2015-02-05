@@ -20,6 +20,7 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
@@ -729,7 +730,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   ASSERT_EQ(3u, module_list->NumberOfModules);
 
   for (size_t index = 0; index < module_list->NumberOfModules; ++index) {
-    SCOPED_TRACE(base::StringPrintf("index %zu", index));
+    SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
     ASSERT_NO_FATAL_FAILURE(ExpectModule(&expect_modules[index],
                                          &module_list->Modules[index],
                                          file_writer.string(),

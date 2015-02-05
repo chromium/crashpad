@@ -19,6 +19,7 @@
 #include <stdint.h>
 
 #include "base/basictypes.h"
+#include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
@@ -347,7 +348,7 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
   ASSERT_EQ(3u, memory_list->NumberOfMemoryRanges);
 
   for (size_t index = 0; index < memory_list->NumberOfMemoryRanges; ++index) {
-    SCOPED_TRACE(base::StringPrintf("index %zu", index));
+    SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
     ExpectMinidumpMemoryDescriptorAndContents(
         &expect_memory_descriptors[index],
         &memory_list->MemoryRanges[index],

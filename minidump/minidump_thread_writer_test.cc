@@ -19,6 +19,7 @@
 #include <sys/types.h>
 
 #include "base/compiler_specific.h"
+#include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_context_writer.h"
@@ -619,7 +620,7 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
 
   size_t memory_index = 0;
   for (size_t index = 0; index < thread_list->NumberOfThreads; ++index) {
-    SCOPED_TRACE(base::StringPrintf("index %zu", index));
+    SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
 
     const MINIDUMP_MEMORY_DESCRIPTOR* observed_stack = nullptr;
     const MINIDUMP_MEMORY_DESCRIPTOR** observed_stack_p =

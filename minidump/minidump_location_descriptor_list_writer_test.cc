@@ -14,6 +14,7 @@
 
 #include "minidump/minidump_location_descriptor_list_writer.h"
 
+#include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/test/minidump_location_descriptor_list_test_util.h"
@@ -95,7 +96,7 @@ TEST(MinidumpLocationDescriptorListWriter, ThreeChildren) {
   ASSERT_TRUE(list);
 
   for (size_t index = 0; index < arraysize(kValues); ++index) {
-    SCOPED_TRACE(base::StringPrintf("index %zu", index));
+    SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
 
     const uint32_t* child = MinidumpWritableAtLocationDescriptor<uint32_t>(
         file_writer.string(), list->children[index]);
