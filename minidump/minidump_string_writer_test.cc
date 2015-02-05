@@ -21,6 +21,7 @@
 #include <string>
 
 #include "base/basictypes.h"
+#include "base/compiler_specific.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
@@ -55,7 +56,7 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
     size_t input_length;
     const char* input_string;
     size_t output_length;
-    const base::char16 output_string[10];
+    base::char16 output_string[10];
   } kTestData[] = {
       {0, "", 0, {}},
       {1, "a", 1, {'a'}},
@@ -89,8 +90,10 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
 
     const size_t expected_utf16_units_with_nul =
         kTestData[index].output_length + 1;
+    MINIDUMP_STRING tmp = {0};
+    ALLOW_UNUSED_LOCAL(tmp);
     const size_t expected_utf16_bytes =
-        expected_utf16_units_with_nul * sizeof(MINIDUMP_STRING::Buffer[0]);
+        expected_utf16_units_with_nul * sizeof(tmp.Buffer[0]);
     ASSERT_EQ(sizeof(MINIDUMP_STRING) + expected_utf16_bytes,
               file_writer.string().size());
 
@@ -132,8 +135,10 @@ TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
     const MINIDUMP_STRING* minidump_string =
         MinidumpStringAtRVA(file_writer.string(), 0);
     EXPECT_TRUE(minidump_string);
+    MINIDUMP_STRING tmp = {0};
+    ALLOW_UNUSED_LOCAL(tmp);
     EXPECT_EQ(file_writer.string().size() - sizeof(MINIDUMP_STRING) -
-                  sizeof(MINIDUMP_STRING::Buffer[0]),
+                  sizeof(tmp.Buffer[0]),
               minidump_string->Length);
     base::string16 output_string =
         MinidumpStringAtRVAAsString(file_writer.string(), 0);
