@@ -119,9 +119,9 @@ void InitializeMinidumpContextAMD64(MinidumpContextAMD64* context,
   context->r15 = value++;
   context->rip = value++;
   context->eflags = value++;
-  context->cs = value++;
-  context->fs = value++;
-  context->gs = value++;
+  context->cs = static_cast<uint16_t>(value++);
+  context->fs = static_cast<uint16_t>(value++);
+  context->gs = static_cast<uint16_t>(value++);
 
   InitializeCPUContextX86_64Fxsave(&context->fxsave, &value);
 
@@ -143,9 +143,9 @@ void InitializeMinidumpContextAMD64(MinidumpContextAMD64* context,
   context->p4_home = value++;
   context->p5_home = value++;
   context->p6_home = value++;
-  context->ds = value++;
-  context->es = value++;
-  context->ss = value++;
+  context->ds = static_cast<uint16_t>(value++);
+  context->es = static_cast<uint16_t>(value++);
+  context->ss = static_cast<uint16_t>(value++);
   for (size_t index = 0; index < arraysize(context->vector_register); ++index) {
     context->vector_register[index].lo = value++;
     context->vector_register[index].hi = value++;
