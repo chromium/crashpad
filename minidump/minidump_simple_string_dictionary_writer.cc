@@ -91,7 +91,9 @@ bool MinidumpSimpleStringDictionaryEntryWriter::WriteObject(
 }
 
 MinidumpSimpleStringDictionaryWriter::MinidumpSimpleStringDictionaryWriter()
-    : MinidumpWritable(), entries_(), simple_string_dictionary_base_() {
+    : MinidumpWritable(),
+      entries_(),
+      simple_string_dictionary_base_(new MinidumpSimpleStringDictionary()) {
 }
 
 MinidumpSimpleStringDictionaryWriter::~MinidumpSimpleStringDictionaryWriter() {
@@ -137,7 +139,7 @@ bool MinidumpSimpleStringDictionaryWriter::Freeze() {
   }
 
   size_t entry_count = entries_.size();
-  if (!AssignIfInRange(&simple_string_dictionary_base_.count, entry_count)) {
+  if (!AssignIfInRange(&simple_string_dictionary_base_->count, entry_count)) {
     LOG(ERROR) << "entry_count " << entry_count << " out of range";
     return false;
   }
@@ -148,7 +150,7 @@ bool MinidumpSimpleStringDictionaryWriter::Freeze() {
 size_t MinidumpSimpleStringDictionaryWriter::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
 
-  return sizeof(simple_string_dictionary_base_) +
+  return sizeof(*simple_string_dictionary_base_) +
          entries_.size() * sizeof(MinidumpSimpleStringDictionaryEntry);
 }
 
@@ -169,8 +171,8 @@ bool MinidumpSimpleStringDictionaryWriter::WriteObject(
   DCHECK_GE(state(), kStateWritable);
 
   WritableIoVec iov;
-  iov.iov_base = &simple_string_dictionary_base_;
-  iov.iov_len = sizeof(simple_string_dictionary_base_);
+  iov.iov_base = simple_string_dictionary_base_.get();
+  iov.iov_len = sizeof(*simple_string_dictionary_base_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
   for (const auto& key_entry : entries_) {

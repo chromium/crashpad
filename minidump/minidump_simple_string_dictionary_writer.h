@@ -135,7 +135,7 @@ class MinidumpSimpleStringDictionaryWriter final
   // This object owns the MinidumpSimpleStringDictionaryEntryWriter objects.
   std::map<std::string, MinidumpSimpleStringDictionaryEntryWriter*> entries_;
 
-  MinidumpSimpleStringDictionary simple_string_dictionary_base_;
+  scoped_ptr<MinidumpSimpleStringDictionary> simple_string_dictionary_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpSimpleStringDictionaryWriter);
 };
