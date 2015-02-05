@@ -241,7 +241,7 @@ TEST(MinidumpFileWriter, ZeroLengthStream) {
 
 TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
   const uint32_t kSnapshotTime = 0x4976043c;
-  const timeval kSnapshotTimeval = { implicit_cast<time_t>(kSnapshotTime), 0 };
+  const timeval kSnapshotTimeval = { static_cast<time_t>(kSnapshotTime), 0 };
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);
@@ -287,8 +287,15 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
 TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
   // In a 32-bit environment, this will give a “timestamp out of range” warning,
   // but the test should complete without failure.
+#if defined(OS_WIN) && defined(ARCH_CPU_X86)
+#pragma warning(push)
+#pragma warning(disable: 4309)  // Truncation of constant value.
+#endif  // OS_WIN && ARCH_CPU_X86
   const uint32_t kSnapshotTime = 0xfd469ab8;
-  const timeval kSnapshotTimeval = { implicit_cast<time_t>(kSnapshotTime), 0 };
+  const timeval kSnapshotTimeval = { static_cast<time_t>(kSnapshotTime), 0 };
+#if defined(OS_WIN) && defined(ARCH_CPU_X86)
+#pragma warning(pop)
+#endif  // OS_WIN && ARCH_CPU_X86
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);
@@ -352,7 +359,7 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
 
 TEST(MinidumpFileWriter, InitializeFromSnapshot_CrashpadInfo) {
   const uint32_t kSnapshotTime = 0x15393bd3;
-  const timeval kSnapshotTimeval = { implicit_cast<time_t>(kSnapshotTime), 0 };
+  const timeval kSnapshotTimeval = { static_cast<time_t>(kSnapshotTime), 0 };
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);

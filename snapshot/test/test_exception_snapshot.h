@@ -50,8 +50,8 @@ class TestExceptionSnapshot final : public ExceptionSnapshot {
 
   void SetThreadID(uint64_t thread_id) { thread_id_ = thread_id; }
   void SetException(uint32_t exception) { exception_ = exception; }
-  void SetExceptionInfo(uint32_t exception_info) {
-    exception_info_ = exception_info;
+  void SetExceptionInfo(uint32_t exception_information) {
+    exception_info_ = exception_information;
   }
   void SetExceptionAddress(uint64_t exception_address) {
     exception_address_ = exception_address;
