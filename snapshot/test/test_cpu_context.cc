@@ -39,12 +39,12 @@ void InitializeCPUContextX86(CPUContext* context, uint32_t seed) {
   context->x86->esp = value++;
   context->x86->eip = value++;
   context->x86->eflags = value++;
-  context->x86->cs = value++;
-  context->x86->ds = value++;
-  context->x86->es = value++;
-  context->x86->fs = value++;
-  context->x86->gs = value++;
-  context->x86->ss = value++;
+  context->x86->cs = static_cast<uint16_t>(value++);
+  context->x86->ds = static_cast<uint16_t>(value++);
+  context->x86->es = static_cast<uint16_t>(value++);
+  context->x86->fs = static_cast<uint16_t>(value++);
+  context->x86->gs = static_cast<uint16_t>(value++);
+  context->x86->ss = static_cast<uint16_t>(value++);
   InitializeCPUContextX86Fxsave(&context->x86->fxsave, &value);
   context->x86->dr0 = value++;
   context->x86->dr1 = value++;
@@ -84,9 +84,9 @@ void InitializeCPUContextX86_64(CPUContext* context, uint32_t seed) {
   context->x86_64->r15 = value++;
   context->x86_64->rip = value++;
   context->x86_64->rflags = value++;
-  context->x86_64->cs = value++;
-  context->x86_64->fs = value++;
-  context->x86_64->gs = value++;
+  context->x86_64->cs = static_cast<uint16_t>(value++);
+  context->x86_64->fs = static_cast<uint16_t>(value++);
+  context->x86_64->gs = static_cast<uint16_t>(value++);
   InitializeCPUContextX86_64Fxsave(&context->x86_64->fxsave, &value);
   context->x86_64->dr0 = value++;
   context->x86_64->dr1 = value++;
@@ -107,17 +107,17 @@ template <typename FxsaveType>
 void InitializeCPUContextFxsave(FxsaveType* fxsave, uint32_t* seed) {
   uint32_t value = *seed;
 
-  fxsave->fcw = value++;
-  fxsave->fsw = value++;
-  fxsave->ftw = value++;
-  fxsave->reserved_1 = value++;
-  fxsave->fop = value++;
+  fxsave->fcw = static_cast<uint16_t>(value++);
+  fxsave->fsw = static_cast<uint16_t>(value++);
+  fxsave->ftw = static_cast<uint8_t>(value++);
+  fxsave->reserved_1 = static_cast<uint8_t>(value++);
+  fxsave->fop = static_cast<uint16_t>(value++);
   fxsave->fpu_ip = value++;
-  fxsave->fpu_cs = value++;
-  fxsave->reserved_2 = value++;
+  fxsave->fpu_cs = static_cast<uint16_t>(value++);
+  fxsave->reserved_2 = static_cast<uint16_t>(value++);
   fxsave->fpu_dp = value++;
-  fxsave->fpu_ds = value++;
-  fxsave->reserved_3 = value++;
+  fxsave->fpu_ds = static_cast<uint16_t>(value++);
+  fxsave->reserved_3 = static_cast<uint16_t>(value++);
   fxsave->mxcsr = value++;
   fxsave->mxcsr_mask = value++;
   for (size_t st_mm_index = 0;
@@ -126,24 +126,25 @@ void InitializeCPUContextFxsave(FxsaveType* fxsave, uint32_t* seed) {
     for (size_t byte = 0;
          byte < arraysize(fxsave->st_mm[st_mm_index].st);
          ++byte) {
-      fxsave->st_mm[st_mm_index].st[byte] = value++;
+      fxsave->st_mm[st_mm_index].st[byte] = static_cast<uint8_t>(value++);
     }
     for (size_t byte = 0;
          byte < arraysize(fxsave->st_mm[st_mm_index].st_reserved);
          ++byte) {
-      fxsave->st_mm[st_mm_index].st_reserved[byte] = value;
+      fxsave->st_mm[st_mm_index].st_reserved[byte] =
+          static_cast<uint8_t>(value);
     }
   }
   for (size_t xmm_index = 0; xmm_index < arraysize(fxsave->xmm); ++xmm_index) {
     for (size_t byte = 0; byte < arraysize(fxsave->xmm[xmm_index]); ++byte) {
-      fxsave->xmm[xmm_index][byte] = value++;
+      fxsave->xmm[xmm_index][byte] = static_cast<uint8_t>(value++);
     }
   }
   for (size_t byte = 0; byte < arraysize(fxsave->reserved_4); ++byte) {
-    fxsave->reserved_4[byte] = value++;
+    fxsave->reserved_4[byte] = static_cast<uint8_t>(value++);
   }
   for (size_t byte = 0; byte < arraysize(fxsave->available); ++byte) {
-    fxsave->available[byte] = value++;
+    fxsave->available[byte] = static_cast<uint8_t>(value++);
   }
 
   *seed = value;
