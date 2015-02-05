@@ -62,8 +62,8 @@ TEST(MinidumpCrashpadInfoWriter, Empty) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MinidumpCrashpadInfo* crashpad_info;
-  const MinidumpModuleCrashpadInfoList* module_list;
+  const MinidumpCrashpadInfo* crashpad_info = nullptr;
+  const MinidumpModuleCrashpadInfoList* module_list = nullptr;
 
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
       file_writer.string(), &crashpad_info, &module_list));
@@ -92,7 +92,7 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MinidumpCrashpadInfo* crashpad_info;
+  const MinidumpCrashpadInfo* crashpad_info = nullptr;
   const MinidumpModuleCrashpadInfoList* module_list;
 
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
@@ -147,7 +147,7 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
   StringFileWriter file_writer;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
 
-  const MinidumpCrashpadInfo* info;
+  const MinidumpCrashpadInfo* info = nullptr;
   const MinidumpModuleCrashpadInfoList* module_list;
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
       file_writer.string(), &info, &module_list));
