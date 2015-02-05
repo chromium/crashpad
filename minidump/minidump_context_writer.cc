@@ -16,6 +16,7 @@
 
 #include <string.h>
 
+#include "base/compiler_specific.h"
 #include "base/logging.h"
 #include "snapshot/cpu_context.h"
 #include "util/file/file_writer.h"
@@ -39,16 +40,10 @@ scoped_ptr<MinidumpContextWriter> MinidumpContextWriter::CreateFromSnapshot(
     }
 
     case kCPUArchitectureX86_64: {
-#if defined(COMPILER_MSVC) && defined(ARCH_CPU_X86)
-#pragma warning(push)
-#pragma warning(disable: 4316)  // Object allocated on the heap may not be 16
-                                // byte aligned.
-#endif
+      MSVC_PUSH_DISABLE_WARNING(4316);  // Object on heap may not be aligned.
       MinidumpContextAMD64Writer* context_amd64 =
           new MinidumpContextAMD64Writer();
-#if defined(COMPILER_MSVC) && defined(ARCH_CPU_X86)
-#pragma warning(pop)
-#endif
+      MSVC_POP_WARNING();  // C4316
       context.reset(context_amd64);
       context_amd64->InitializeFromSnapshot(context_snapshot->x86_64);
       break;

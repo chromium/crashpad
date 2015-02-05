@@ -18,6 +18,7 @@
 #include <dbghelp.h>
 #include <sys/types.h>
 
+#include "base/compiler_specific.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_context_writer.h"
@@ -219,7 +220,7 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
       new TestMinidumpMemoryWriter(kMemoryBase, kMemorySize, kMemoryValue));
   thread_writer->SetStack(memory_writer.Pass());
 
-  MSVC_SUPPRESS_WARNING(4316)  // Object allocated on heap may not be aligned.
+  MSVC_SUPPRESS_WARNING(4316);  // Object allocated on heap may not be aligned.
   auto context_amd64_writer = make_scoped_ptr(new MinidumpContextAMD64Writer());
   InitializeMinidumpContextAMD64(context_amd64_writer->context(), kSeed);
   thread_writer->SetContext(context_amd64_writer.Pass());

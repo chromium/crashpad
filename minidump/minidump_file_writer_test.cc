@@ -20,6 +20,7 @@
 #include <string>
 
 #include "base/basictypes.h"
+#include "base/compiler_specific.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
@@ -287,15 +288,9 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
 TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
   // In a 32-bit environment, this will give a “timestamp out of range” warning,
   // but the test should complete without failure.
-#if defined(OS_WIN) && defined(ARCH_CPU_X86)
-#pragma warning(push)
-#pragma warning(disable: 4309)  // Truncation of constant value.
-#endif  // OS_WIN && ARCH_CPU_X86
   const uint32_t kSnapshotTime = 0xfd469ab8;
+  MSVC_SUPPRESS_WARNING(4309);  // Truncation of constant value.
   const timeval kSnapshotTimeval = { static_cast<time_t>(kSnapshotTime), 0 };
-#if defined(OS_WIN) && defined(ARCH_CPU_X86)
-#pragma warning(pop)
-#endif  // OS_WIN && ARCH_CPU_X86
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);

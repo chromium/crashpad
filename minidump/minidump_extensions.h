@@ -24,15 +24,12 @@
 #include "build/build_config.h"
 #include "util/misc/uuid.h"
 
-#if defined(COMPILER_MSVC)
 // C4200 is "nonstandard extension used : zero-sized array in struct/union".
 // We would like to globally disable this warning, but unfortunately, the
 // compiler is buggy and only supports disabling it with a pragma, so we can't
 // disable it with other silly warnings in build/common.gypi. See:
 //   https://connect.microsoft.com/VisualStudio/feedback/details/1114440
-#pragma warning(push)
-#pragma warning(disable: 4200)
-#endif  // COMPILER_MSVC
+MSVC_PUSH_DISABLE_WARNING(4200);
 
 #if defined(COMPILER_MSVC)
 #define PACKED
@@ -470,9 +467,7 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
 #endif  // COMPILER_MSVC
 #undef PACKED
 
-#if defined(COMPILER_MSVC)
-#pragma warning(pop)  // C4200
-#endif  // COMPILER_MSVC
+MSVC_POP_WARNING();  // C4200
 
 }  // namespace crashpad
 
