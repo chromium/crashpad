@@ -97,6 +97,16 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
     return false;
   }
 
+  int timeout_in_ms = static_cast<int>(timeout() * 1000);
+  if (!WinHttpSetTimeouts(session.get(),
+                          timeout_in_ms,
+                          timeout_in_ms,
+                          timeout_in_ms,
+                          timeout_in_ms)) {
+    LogErrorWinHttpMessage("WinHttpSetTimeouts");
+    return false;
+  }
+
   URL_COMPONENTS url_components = {0};
   url_components.dwStructSize = sizeof(URL_COMPONENTS);
   url_components.dwHostNameLength = 1;
