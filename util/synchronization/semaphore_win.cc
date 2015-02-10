@@ -17,30 +17,8 @@
 #include <limits>
 
 #include "base/logging.h"
-#include "base/posix/eintr_wrapper.h"
 
 namespace crashpad {
-
-#if defined(OS_MACOSX)
-
-Semaphore::Semaphore(int value)
-    : semaphore_(dispatch_semaphore_create(value)) {
-  CHECK(semaphore_) << "dispatch_semaphore_create";
-}
-
-Semaphore::~Semaphore() {
-  dispatch_release(semaphore_);
-}
-
-void Semaphore::Wait() {
-  CHECK_EQ(dispatch_semaphore_wait(semaphore_, DISPATCH_TIME_FOREVER), 0);
-}
-
-void Semaphore::Signal() {
-  dispatch_semaphore_signal(semaphore_);
-}
-
-#elif defined(OS_WIN)
 
 Semaphore::Semaphore(int value)
     : semaphore_(CreateSemaphore(nullptr,
@@ -58,28 +36,15 @@ void Semaphore::Wait() {
   PCHECK(WaitForSingleObject(semaphore_, INFINITE) == WAIT_OBJECT_0);
 }
 
+bool Semaphore::TimedWait(double seconds) {
+  DCHECK_GE(seconds, 0.0);
+  DWORD rv = WaitForSingleObject(semaphore_, static_cast<DWORD>(seconds * 1E3));
+  PCHECK(rv == WAIT_OBJECT_0 || rv == WAIT_TIMEOUT) << "WaitForSingleObject";
+  return rv == WAIT_OBJECT_0;
+}
+
 void Semaphore::Signal() {
   PCHECK(ReleaseSemaphore(semaphore_, 1, nullptr));
 }
-
-#else
-
-Semaphore::Semaphore(int value) {
-  PCHECK(sem_init(&semaphore_, 0, value) == 0) << "sem_init";
-}
-
-Semaphore::~Semaphore() {
-  PCHECK(sem_destroy(&semaphore_)) << "sem_destroy";
-}
-
-void Semaphore::Wait() {
-  PCHECK(HANDLE_EINTR(sem_wait(&semaphore_))) << "sem_wait";
-}
-
-void Semaphore::Signal() {
-  PCHECK(sem_post(&semaphore_)) << "sem_post";
-}
-
-#endif
 
 }  // namespace crashpad

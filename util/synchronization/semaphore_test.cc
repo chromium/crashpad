@@ -30,6 +30,17 @@ TEST(Semaphore, Simple) {
   semaphore.Signal();
 }
 
+TEST(Semaphore, TimedWait) {
+  Semaphore semaphore(0);
+  semaphore.Signal();
+  EXPECT_TRUE(semaphore.TimedWait(0.01));  // 10ms
+}
+
+TEST(Semaphore, TimedWaitTimeout) {
+  Semaphore semaphore(0);
+  EXPECT_FALSE(semaphore.TimedWait(0.01));  // 10ms
+}
+
 struct ThreadMainInfo {
 #if defined(OS_POSIX)
   pthread_t pthread;

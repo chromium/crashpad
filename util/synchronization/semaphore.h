@@ -44,7 +44,20 @@ class Semaphore {
   //! Atomically decrements the value of the semaphore by 1. If the new value is
   //! negative, this function blocks and will not return until the semaphore’s
   //! value is incremented to 0 by Signal().
+  //!
+  //! \sa TimedWait()
   void Wait();
+
+  //! \brief Performs a timed wait (or “procure”) operation on the semaphore.
+  //!
+  //! \param[in] seconds The maximum number of seconds to wait for the operation
+  //!     to complete.
+  //!
+  //! \return `false` if the wait timed out, `true` otherwise.
+  //!
+  //! This method is simlar to Wait(), except that the amount of time that it
+  //! blocks is limited.
+  bool TimedWait(double seconds);
 
   //! \brief Performs the signal (or “post”) operation on the semaphore.
   //!
