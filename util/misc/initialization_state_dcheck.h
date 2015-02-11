@@ -18,7 +18,9 @@
 //! \file
 
 #include "base/basictypes.h"
+#include "base/compiler_specific.h"
 #include "base/logging.h"
+#include "build/build_config.h"
 #include "util/misc/initialization_state.h"
 
 namespace crashpad {
@@ -154,6 +156,11 @@ class InitializationStateDcheck : public InitializationState {
 
 #else
 
+#if defined(COMPILER_MSVC)
+// bool[0] (below) is not accepted by MSVC.
+struct InitializationStateDcheck {
+};
+#else
 // Since this is to be used as a DCHECK (for debugging), it should be
 // non-intrusive in non-DCHECK (non-debug, release) builds. An empty struct
 // would still have a nonzero size (rationale:
@@ -163,30 +170,16 @@ class InitializationStateDcheck : public InitializationState {
 // and they can be “initialized” with the same () syntax used to initialize
 // objects of the DCHECK_IS_ON InitializationStateDcheck class above.
 using InitializationStateDcheck = bool[0];
+#endif  // COMPILER_MSVC
 
-namespace internal {
-
-// This function exists to make use of the InitializationStateDcheck object so
-// that it appears to be used. It always returns true, so that it can be used
-// as the argument to a no-op DCHECK.
-inline bool EatInitializationState(const InitializationStateDcheck*) {
-  return true;
-}
-
-}  // namepspace internal
-
-// The contents of these DCHECKs will never be evaluated, but they make use of
-// initialization_state_dcheck to avoid triggering -Wunused-private-field
-// warnings.
+// Avoid triggering warnings by repurposing these macros when DCHECKs are
+// disabled.
 #define INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck) \
-  DCHECK(::crashpad::internal::EatInitializationState( \
-      &(initialization_state_dcheck)))
+  ALLOW_UNUSED_LOCAL(initialization_state_dcheck)
 #define INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck) \
-  DCHECK(::crashpad::internal::EatInitializationState( \
-      &(initialization_state_dcheck)))
+  ALLOW_UNUSED_LOCAL(initialization_state_dcheck)
 #define INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck) \
-  DCHECK(::crashpad::internal::EatInitializationState( \
-      &(initialization_state_dcheck)))
+  ALLOW_UNUSED_LOCAL(initialization_state_dcheck)
 
 #endif
 
