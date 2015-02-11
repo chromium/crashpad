@@ -20,6 +20,7 @@
 
 #include "base/basictypes.h"
 #include "base/strings/stringprintf.h"
+#include "base/strings/utf_string_conversions.h"
 #include "base/sys_byteorder.h"
 #include "util/stdlib/cxx.h"
 
@@ -97,5 +98,11 @@ std::string UUID::ToString() const {
                             data_5[4],
                             data_5[5]);
 }
+
+#if defined(OS_WIN)
+std::wstring UUID::ToWideString() const {
+  return base::UTF8ToUTF16(ToString());
+}
+#endif  // OS_WIN
 
 }  // namespace crashpad

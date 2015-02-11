@@ -26,21 +26,44 @@
 namespace crashpad {
 namespace test {
 
-// static
-base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
+namespace {
+
+base::FilePath GenerateCandidateName() {
   wchar_t temp_path[MAX_PATH + 1];
   DWORD path_len = GetTempPath(MAX_PATH, temp_path);
   PCHECK(path_len != 0) << "GetTempPath";
   base::FilePath system_temp_dir(temp_path);
-
-  for (int count = 0; count < 50; ++count) {
-    // Try create a new temporary directory with random generated name. If the
-    // one we generate exists, keep trying another path name until we reach some
-    // limit.
-    base::string16 new_dir_name = base::UTF8ToUTF16(base::StringPrintf(
+  base::string16 new_dir_name = base::UTF8ToUTF16(base::StringPrintf(
         "crashpad.test.%d.%I64x", GetCurrentProcessId(), base::RandUint64()));
+  return system_temp_dir.Append(new_dir_name);
+}
 
-    base::FilePath path_to_create = system_temp_dir.Append(new_dir_name);
+const int kRetries = 50;
+
+}  // namespace
+
+void ScopedTempDir::Rename() {
+  for (int count = 0; count < kRetries; ++count) {
+    // Try to move to a new temporary directory with a randomly generated name.
+    // If the one we try exists, retry with a new name until we reach some
+    // limit.
+    base::FilePath target_path = GenerateCandidateName();
+    if (MoveFileEx(path_.value().c_str(), target_path.value().c_str(), 0)) {
+      path_ = target_path;
+      return;
+    }
+  }
+
+  CHECK(false) << "Couldn't find temp dir name";
+}
+
+// static
+base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
+  for (int count = 0; count < kRetries; ++count) {
+    // Try to create a new temporary directory with random generated name. If
+    // the one we generate exists, keep trying another path name until we reach
+    // some limit.
+    base::FilePath path_to_create = GenerateCandidateName();
     if (CreateDirectory(path_to_create.value().c_str(), NULL))
       return path_to_create;
   }

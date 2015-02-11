@@ -30,7 +30,7 @@ bool FileExistsAtPath(const base::FilePath& path) {
   return lstat(path.value().c_str(), &st) == 0;
 #elif defined(OS_WIN)
   struct _stat st;
-  return _wstat(path.value().c_str(), &st);
+  return _wstat(path.value().c_str(), &st) == 0;
 #else
 #error "Not implemented"
 #endif
@@ -105,6 +105,12 @@ class CrashReportDatabaseTest : public testing::Test {
     EXPECT_FALSE(report.uploaded);
     EXPECT_EQ(0, report.last_upload_attempt_time);
     EXPECT_EQ(0, report.upload_attempts);
+  }
+
+  void RelocateDatabase() {
+    ResetDatabase();
+    temp_dir_.Rename();
+    SetUp();
   }
 
  private:
@@ -432,6 +438,24 @@ TEST_F(CrashReportDatabaseTest, DuelingUploads) {
 
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->RecordUploadAttempt(upload_report, true, ""));
+}
+
+TEST_F(CrashReportDatabaseTest, MoveDatabase) {
+  CrashReportDatabase::NewReport* new_report;
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->PrepareNewCrashReport(&new_report));
+  EXPECT_TRUE(FileExistsAtPath(new_report->path)) << new_report->path.value();
+  UUID uuid;
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->FinishedWritingCrashReport(new_report, &uuid));
+
+  RelocateDatabase();
+
+  CrashReportDatabase::Report report;
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->LookUpCrashReport(uuid, &report));
+  ExpectPreparedCrashReport(report);
+  EXPECT_TRUE(FileExistsAtPath(report.file_path)) << report.file_path.value();
 }
 
 }  // namespace

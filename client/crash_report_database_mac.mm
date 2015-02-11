@@ -89,7 +89,7 @@ bool CreateOrEnsureDirectoryExists(const base::FilePath& path) {
 //!
 //! The database maintains three directories of reports: `"new"` to hold crash
 //! reports that are in the process of being written, `"completed"` to hold
-//! reports that have been written and are awaing upload, and `"uploaded"` to
+//! reports that have been written and are awaiting upload, and `"uploaded"` to
 //! hold reports successfully uploaded to a collection server. If the user has
 //! opted out of report collection, reports will still be written and moved
 //! to the completed directory, but they just will not be uploaded.
@@ -150,7 +150,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   //! This does not block, and so callers must ensure that the lock is valid
   //! after calling.
   //!
-  //! \param[in] path The path of the file to lcok.
+  //! \param[in] path The path of the file to lock.
   //!
   //! \return A scoped lock object. If the result is not valid, an error is
   //!     logged.
@@ -504,8 +504,7 @@ bool CrashReportDatabaseMac::ReadReportMetadataLocked(
 }
 
 // static
-CrashReportDatabase::OperationStatus
-CrashReportDatabaseMac::ReportsInDirectory(
+CrashReportDatabase::OperationStatus CrashReportDatabaseMac::ReportsInDirectory(
     const base::FilePath& path,
     std::vector<const CrashReportDatabase::Report>* reports) {
   DCHECK(reports->empty());

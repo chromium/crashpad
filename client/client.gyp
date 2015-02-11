@@ -26,20 +26,30 @@
         '..',
       ],
       'sources': [
-        'capture_context_mac.h',
         'capture_context_mac.S',
+        'capture_context_mac.h',
+        'crash_report_database.cc',
+        'crash_report_database.h',
+        'crash_report_database_mac.mm',
+        'crash_report_database_win.cc',
         'crashpad_client.h',
         'crashpad_client_mac.cc',
         'crashpad_info.cc',
         'crashpad_info.h',
-        'crash_report_database_mac.mm',
-        'crash_report_database.cc',
-        'crash_report_database.h',
         'simple_string_dictionary.cc',
         'simple_string_dictionary.h',
         'simulate_crash.h',
         'simulate_crash_mac.cc',
         'simulate_crash_mac.h',
+      ],
+      'conditions': [
+        ['OS=="win"', {
+          'link_settings': {
+            'libraries': [
+              '-lrpcrt4.lib',
+            ],
+          },
+        }],
       ],
     },
     {

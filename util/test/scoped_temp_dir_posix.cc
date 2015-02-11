@@ -25,6 +25,12 @@
 namespace crashpad {
 namespace test {
 
+void ScopedTempDir::Rename() {
+  base::FilePath move_to = CreateTemporaryDirectory();
+  PCHECK(rename(path_.value().c_str(), move_to.value().c_str()) == 0);
+  path_ = move_to;
+}
+
 // static
 base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
   char dir_template[] = "/tmp/com.googlecode.crashpad.test.XXXXXX";

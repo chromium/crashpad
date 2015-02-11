@@ -36,6 +36,9 @@ class ScopedTempDir {
   //! \return The temporary directory path.
   const base::FilePath& path() const { return path_; }
 
+  //! \brief Move the temporary directory to a new temporary location.
+  void Rename();
+
  private:
   //! \brief Creates the temporary directory and asserts success of the
   //!     operation.
@@ -50,7 +53,7 @@ class ScopedTempDir {
   //!     reference a directory.
   static void RecursivelyDeleteTemporaryDirectory(const base::FilePath& path);
 
-  const base::FilePath path_;
+  base::FilePath path_;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedTempDir);
 };

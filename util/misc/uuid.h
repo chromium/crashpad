@@ -20,6 +20,7 @@
 #include <string>
 
 #include "base/strings/string_piece.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -65,6 +66,11 @@ struct UUID {
   //!
   //! \return A string of the form `"00112233-4455-6677-8899-aabbccddeeff"`.
   std::string ToString() const;
+
+#if defined(OS_WIN)
+  //! \brief The same as ToString, but returned as a wstring.
+  std::wstring ToWideString() const;
+#endif  // OS_WIN
 
   // These fields are laid out according to RFC 4122 §4.1.2.
   uint32_t data_1;
