@@ -34,6 +34,8 @@
           'sources': [
             'mac/crash_report_exception_handler.cc',
             'mac/crash_report_exception_handler.h',
+            'mac/crash_report_upload_thread.cc',
+            'mac/crash_report_upload_thread.h',
             'mac/exception_handler_server.cc',
             'mac/exception_handler_server.h',
             'mac/main.cc',

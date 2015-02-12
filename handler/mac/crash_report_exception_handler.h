@@ -19,6 +19,7 @@
 
 #include "base/basictypes.h"
 #include "client/crash_report_database.h"
+#include "handler/mac/crash_report_upload_thread.h"
 #include "util/mach/exc_server_variants.h"
 
 namespace crashpad {
@@ -30,7 +31,10 @@ class CrashReportExceptionHandler : public UniversalMachExcServer::Interface {
   //! \brief Creates a new object that will store crash reports in \a database.
   //!
   //! \param[in] database The database to store crash reports in. Weak.
-  explicit CrashReportExceptionHandler(CrashReportDatabase* database);
+  //! \param[in] upload_thread The upload thread to notify when a new crash
+  //!     report is written into \a database.
+  CrashReportExceptionHandler(CrashReportDatabase* database,
+                              CrashReportUploadThread* upload_thread);
 
   ~CrashReportExceptionHandler();
 
@@ -56,6 +60,7 @@ class CrashReportExceptionHandler : public UniversalMachExcServer::Interface {
 
  private:
   CrashReportDatabase* database_;  // weak
+  CrashReportUploadThread* upload_thread_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };

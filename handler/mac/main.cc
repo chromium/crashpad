@@ -19,14 +19,17 @@
 #include <string>
 
 #include "base/files/file_path.h"
+#include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "client/crash_report_database.h"
 #include "tools/tool_support.h"
 #include "handler/mac/crash_report_exception_handler.h"
+#include "handler/mac/crash_report_upload_thread.h"
 #include "handler/mac/exception_handler_server.h"
 #include "util/mach/child_port_handshake.h"
 #include "util/posix/close_stdio.h"
 #include "util/stdlib/string_number_conversion.h"
+#include "util/synchronization/semaphore.h"
 
 namespace crashpad {
 namespace {
@@ -129,9 +132,14 @@ int HandlerMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  CrashReportExceptionHandler exception_handler(database.get());
+  CrashReportUploadThread upload_thread(database.get());
+  upload_thread.Start();
+
+  CrashReportExceptionHandler exception_handler(database.get(), &upload_thread);
 
   exception_handler_server.Run(&exception_handler);
+
+  upload_thread.Stop();
 
   return EXIT_SUCCESS;
 }

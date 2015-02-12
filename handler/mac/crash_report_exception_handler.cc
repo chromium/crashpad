@@ -58,8 +58,10 @@ class CallErrorWritingCrashReport {
 }  // namespace
 
 CrashReportExceptionHandler::CrashReportExceptionHandler(
-    CrashReportDatabase* database)
-    : database_(database) {
+    CrashReportDatabase* database,
+    CrashReportUploadThread* upload_thread)
+    : database_(database),
+      upload_thread_(upload_thread) {
 }
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {
@@ -131,6 +133,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   if (database_status != CrashReportDatabase::kNoError) {
     return KERN_FAILURE;
   }
+
+  upload_thread_->ReportPending();
 
   return ExcServerSuccessfulReturnValue(behavior, false);
 }
