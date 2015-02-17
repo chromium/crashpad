@@ -26,6 +26,7 @@ TestProcessSnapshot::TestProcessSnapshot()
       process_start_time_(),
       process_cpu_user_time_(),
       process_cpu_system_time_(),
+      annotations_simple_map_(),
       system_(),
       threads_(),
       modules_(),
@@ -55,6 +56,11 @@ void TestProcessSnapshot::ProcessCPUTimes(timeval* user_time,
                                           timeval* system_time) const {
   *user_time = process_cpu_user_time_;
   *system_time = process_cpu_system_time_;
+}
+
+const std::map<std::string, std::string>&
+TestProcessSnapshot::AnnotationsSimpleMap() const {
+  return annotations_simple_map_;
 }
 
 const SystemSnapshot* TestProcessSnapshot::System() const {

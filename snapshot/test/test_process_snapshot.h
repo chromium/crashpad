@@ -19,6 +19,8 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
+#include <map>
+#include <string>
 #include <vector>
 
 #include "base/basictypes.h"
@@ -54,6 +56,10 @@ class TestProcessSnapshot final : public ProcessSnapshot {
                           const timeval& system_time) {
     process_cpu_user_time_ = user_time;
     process_cpu_system_time_ = system_time;
+  }
+  void SetAnnotationsSimpleMap(
+      const std::map<std::string, std::string>& annotations_simple_map) {
+    annotations_simple_map_ = annotations_simple_map;
   }
 
   //! \brief Sets the system snapshot to be returned by System().
@@ -93,6 +99,8 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   void SnapshotTime(timeval* snapshot_time) const override;
   void ProcessStartTime(timeval* start_time) const override;
   void ProcessCPUTimes(timeval* user_time, timeval* system_time) const override;
+  const std::map<std::string, std::string>& AnnotationsSimpleMap()
+      const override;
   const SystemSnapshot* System() const override;
   std::vector<const ThreadSnapshot*> Threads() const override;
   std::vector<const ModuleSnapshot*> Modules() const override;
@@ -105,6 +113,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   timeval process_start_time_;
   timeval process_cpu_user_time_;
   timeval process_cpu_system_time_;
+  std::map<std::string, std::string> annotations_simple_map_;
   scoped_ptr<SystemSnapshot> system_;
   PointerVector<ThreadSnapshot> threads_;
   PointerVector<ModuleSnapshot> modules_;

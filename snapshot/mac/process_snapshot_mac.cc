@@ -23,6 +23,7 @@ ProcessSnapshotMac::ProcessSnapshotMac()
       modules_(),
       exception_(),
       process_reader_(),
+      annotations_simple_map_(),
       snapshot_time_(),
       initialized_() {
 }
@@ -102,6 +103,11 @@ void ProcessSnapshotMac::ProcessCPUTimes(timeval* user_time,
                                          timeval* system_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   process_reader_.CPUTimes(user_time, system_time);
+}
+
+const std::map<std::string, std::string>&
+ProcessSnapshotMac::AnnotationsSimpleMap() const {
+  return annotations_simple_map_;
 }
 
 const SystemSnapshot* ProcessSnapshotMac::System() const {

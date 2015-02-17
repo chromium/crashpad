@@ -16,13 +16,17 @@
 
 #include "base/logging.h"
 #include "minidump/minidump_module_crashpad_info_writer.h"
+#include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "snapshot/process_snapshot.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {
 
 MinidumpCrashpadInfoWriter::MinidumpCrashpadInfoWriter()
-    : MinidumpStreamWriter(), crashpad_info_(), module_list_(nullptr) {
+    : MinidumpStreamWriter(),
+      crashpad_info_(),
+      simple_annotations_(nullptr),
+      module_list_(nullptr) {
   crashpad_info_.version = MinidumpCrashpadInfo::kVersion;
 }
 
@@ -34,12 +38,27 @@ void MinidumpCrashpadInfoWriter::InitializeFromSnapshot(
   DCHECK_EQ(state(), kStateMutable);
   DCHECK(!module_list_);
 
+  auto simple_annotations =
+      make_scoped_ptr(new MinidumpSimpleStringDictionaryWriter());
+  simple_annotations->InitializeFromMap(
+      process_snapshot->AnnotationsSimpleMap());
+  if (simple_annotations->IsUseful()) {
+    SetSimpleAnnotations(simple_annotations.Pass());
+  }
+
   auto modules = make_scoped_ptr(new MinidumpModuleCrashpadInfoListWriter());
   modules->InitializeFromSnapshot(process_snapshot->Modules());
 
   if (modules->IsUseful()) {
     SetModuleList(modules.Pass());
   }
+}
+
+void MinidumpCrashpadInfoWriter::SetSimpleAnnotations(
+    scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  simple_annotations_ = simple_annotations.Pass();
 }
 
 void MinidumpCrashpadInfoWriter::SetModuleList(
@@ -56,6 +75,10 @@ bool MinidumpCrashpadInfoWriter::Freeze() {
     return false;
   }
 
+  if (simple_annotations_) {
+    simple_annotations_->RegisterLocationDescriptor(
+        &crashpad_info_.simple_annotations);
+  }
   if (module_list_) {
     module_list_->RegisterLocationDescriptor(&crashpad_info_.module_list);
   }
@@ -74,6 +97,9 @@ MinidumpCrashpadInfoWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
   std::vector<MinidumpWritable*> children;
+  if (simple_annotations_) {
+    children.push_back(simple_annotations_.get());
+  }
   if (module_list_) {
     children.push_back(module_list_.get());
   }
@@ -92,7 +118,7 @@ MinidumpStreamType MinidumpCrashpadInfoWriter::StreamType() const {
 }
 
 bool MinidumpCrashpadInfoWriter::IsUseful() const {
-  return module_list_;
+  return simple_annotations_ || module_list_;
 }
 
 }  // namespace crashpad

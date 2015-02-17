@@ -19,6 +19,8 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+#include <map>
+#include <string>
 #include <vector>
 
 #include "base/basictypes.h"
@@ -72,6 +74,17 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
                            const natural_t* state,
                            mach_msg_type_number_t state_count);
 
+  //! \brief Sets the value to be returned by AnnotationsSimpleMap().
+  //!
+  //! On Mac OS X, all process annotations are under the control of the snapshot
+  //! producer, which may call this method to establish these annotations.
+  //! Contrast this with module annotations, which are under the control of the
+  //! process being snapshotted.
+  void SetAnnotationsSimpleMap(
+      const std::map<std::string, std::string>& annotations_simple_map) {
+    annotations_simple_map_ = annotations_simple_map;
+  }
+
   // ProcessSnapshot:
 
   pid_t ProcessID() const override;
@@ -79,6 +92,8 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
   void SnapshotTime(timeval* snapshot_time) const override;
   void ProcessStartTime(timeval* start_time) const override;
   void ProcessCPUTimes(timeval* user_time, timeval* system_time) const override;
+  const std::map<std::string, std::string>& AnnotationsSimpleMap()
+      const override;
   const SystemSnapshot* System() const override;
   std::vector<const ThreadSnapshot*> Threads() const override;
   std::vector<const ModuleSnapshot*> Modules() const override;
@@ -96,6 +111,7 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
   PointerVector<internal::ModuleSnapshotMac> modules_;
   scoped_ptr<internal::ExceptionSnapshotMac> exception_;
   ProcessReader process_reader_;
+  std::map<std::string, std::string> annotations_simple_map_;
   timeval snapshot_time_;
   InitializationStateDcheck initialized_;
 

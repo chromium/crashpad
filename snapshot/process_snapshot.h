@@ -18,6 +18,8 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
+#include <map>
+#include <string>
 #include <vector>
 
 namespace crashpad {
@@ -74,6 +76,32 @@ class ProcessSnapshot {
   //!     system (kernel) mode.
   virtual void ProcessCPUTimes(timeval* user_time,
                                timeval* system_time) const = 0;
+
+  //! \brief Returns key-value string annotations recorded for the process,
+  //!     system, or snapshot producer.
+  //!
+  //! This method retrieves annotations recorded for a process. These
+  //! annotations are intended for diagnostic use, including crash analysis.
+  //! “Simple annotations” are structured as a sequence of key-value pairs,
+  //! where all keys and values are strings. These are referred to in Chrome as
+  //! “crash keys.”
+  //!
+  //! Annotations stored here may reflect the process, system, or snapshot
+  //! producer. Most annotations not under the client’s direct control will be
+  //! retrievable by this method. For clients such as Chrome, this includes the
+  //! product name and version.
+  //!
+  //! Additional per-module annotations may be obtained by calling
+  //! ModuleSnapshot::AnnotationsSimpleMap().
+  //
+  // This interface currently returns a const& because all implementations store
+  // the data within their objects in this format, and are therefore able to
+  // provide this access without requiring a copy. Future implementations may
+  // obtain data on demand or store data in a different format, at which point
+  // the cost of maintaining this data in ProcessSnapshot subclass objects will
+  // need to be taken into account, and this interface possibly revised.
+  virtual const std::map<std::string, std::string>& AnnotationsSimpleMap()
+      const = 0;
 
   //! \brief Returns a SystemSnapshot reflecting the characteristics of the
   //!     system that ran the snapshot process at the time of the snapshot.

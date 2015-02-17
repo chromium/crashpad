@@ -142,10 +142,14 @@ class ModuleSnapshot {
   //!
   //! For Mac OS X snapshots, these annotations are found by interpreting the
   //! `__DATA, __crashpad_info` section as `CrashpadInfo`. Clients can use the
-  //! Crashpad client interface to store annotations in this structure.
+  //! Crashpad client interface to store annotations in this structure. Most
+  //! annotations under the client’s direct control will be retrievable by this
+  //! method. For clients such as Chrome, this includes the process type.
   //!
   //! The annotations returned by this method do not duplicate those returned by
-  //! AnnotationsVector().
+  //! AnnotationsVector(). Additional annotations related to the process,
+  //! system, or snapshot producer may be obtained by calling
+  //! ProcessSnapshot::AnnotationsSimpleMap().
   virtual std::map<std::string, std::string> AnnotationsSimpleMap() const = 0;
 };
 

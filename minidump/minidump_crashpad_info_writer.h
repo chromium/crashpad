@@ -25,6 +25,7 @@
 namespace crashpad {
 
 class MinidumpModuleCrashpadInfoListWriter;
+class MinidumpSimpleStringDictionaryWriter;
 class ProcessSnapshot;
 
 //! \brief The writer for a MinidumpCrashpadInfo stream in a minidump file.
@@ -49,6 +50,17 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
   //!     this method, and it is not normally necessary to call any mutator
   //!     methods after this method.
   void InitializeFromSnapshot(const ProcessSnapshot* process_snapshot);
+
+  //! \brief Arranges for MinidumpCrashpadInfo::simple_annotations to point to
+  //!     the MinidumpSimpleStringDictionaryWriter object to be written by \a
+  //!     simple_annotations.
+  //!
+  //! This object takes ownership of \a simple_annotations and becomes its
+  //! parent in the overall tree of internal::MinidumpWritable objects.
+  //!
+  //! \note Valid in #kStateMutable.
+  void SetSimpleAnnotations(
+      scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations);
 
   //! \brief Arranges for MinidumpCrashpadInfo::module_list to point to the
   //!     MinidumpModuleCrashpadInfoList object to be written by \a
@@ -82,6 +94,7 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
 
  private:
   MinidumpCrashpadInfo crashpad_info_;
+  scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations_;
   scoped_ptr<MinidumpModuleCrashpadInfoListWriter> module_list_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpCrashpadInfoWriter);

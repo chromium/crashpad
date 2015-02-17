@@ -456,6 +456,15 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
   //! no need for any fields present in later versions.
   uint32_t version;
 
+  //! \brief A MinidumpSimpleStringDictionary pointing to strings interpreted as
+  //!     key-value pairs.
+  //!
+  //! These key-value pairs correspond to
+  //! ProcessSnapshot::AnnotationsSimpleMap().
+  //!
+  //! This field is present when #version is at least `1`.
+  MINIDUMP_LOCATION_DESCRIPTOR simple_annotations;
+
   //! \brief A pointer to a #MinidumpModuleCrashpadInfoList structure.
   //!
   //! This field is present when #version is at least `1`.
