@@ -19,6 +19,7 @@
 
 #include <string>
 
+#include "base/strings/string16.h"
 #include "base/strings/string_piece.h"
 #include "build/build_config.h"
 
@@ -68,8 +69,8 @@ struct UUID {
   std::string ToString() const;
 
 #if defined(OS_WIN)
-  //! \brief The same as ToString, but returned as a wstring.
-  std::wstring ToWideString() const;
+  //! \brief The same as ToString, but returned as a string16.
+  base::string16 ToString16() const;
 #endif  // OS_WIN
 
   // These fields are laid out according to RFC 4122 §4.1.2.

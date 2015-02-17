@@ -54,7 +54,7 @@ void ScopedTempDir::Rename() {
     }
   }
 
-  CHECK(false) << "Couldn't find temp dir name";
+  CHECK(false) << "Couldn't move to a new unique temp dir";
 }
 
 // static
@@ -68,40 +68,33 @@ base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
       return path_to_create;
   }
 
-  CHECK(false) << "Couldn't find temp dir name";
+  CHECK(false) << "Couldn't create a new unique temp dir";
   return base::FilePath();
 }
 
 // static
 void ScopedTempDir::RecursivelyDeleteTemporaryDirectory(
     const base::FilePath& path) {
-  const std::wstring all_files_mask(L"\\*");
+  const base::string16 all_files_mask(L"\\*");
 
-  std::wstring search_mask = path.value() + all_files_mask;
+  base::string16 search_mask = path.value() + all_files_mask;
   WIN32_FIND_DATA find_data;
   HANDLE search_handle = FindFirstFile(search_mask.c_str(), &find_data);
-  if (search_handle == INVALID_HANDLE_VALUE) {
-    ASSERT_EQ(GetLastError(), ERROR_FILE_NOT_FOUND);
-    return;
-  }
-  for (;;) {
-    if (wcscmp(find_data.cFileName, L".") != 0 &&
-        wcscmp(find_data.cFileName, L"..") != 0) {
-      bool is_dir =
-          (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0 ||
-          (find_data.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0;
-      base::FilePath entry_path = path.Append(find_data.cFileName);
-      if (is_dir)
-        RecursivelyDeleteTemporaryDirectory(entry_path);
-      else
-        EXPECT_TRUE(DeleteFile(entry_path.value().c_str()));
+  if (search_handle == INVALID_HANDLE_VALUE)
+    ASSERT_EQ(ERROR_FILE_NOT_FOUND, GetLastError());
+  do {
+    if (wcscmp(find_data.cFileName, L".") == 0 ||
+        wcscmp(find_data.cFileName, L"..") == 0) {
+      continue;
     }
-
-    if (!FindNextFile(search_handle, &find_data)) {
-      EXPECT_EQ(GetLastError(), ERROR_NO_MORE_FILES);
-      break;
-    }
-  }
+    base::FilePath entry_path = path.Append(find_data.cFileName);
+    ASSERT_FALSE(find_data.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT);
+    if (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+      RecursivelyDeleteTemporaryDirectory(entry_path);
+    else
+      EXPECT_TRUE(DeleteFile(entry_path.value().c_str()));
+  } while (FindNextFile(search_handle, &find_data));
+  EXPECT_EQ(ERROR_NO_MORE_FILES, GetLastError());
 
   EXPECT_TRUE(FindClose(search_handle));
   EXPECT_TRUE(RemoveDirectory(path.value().c_str()));

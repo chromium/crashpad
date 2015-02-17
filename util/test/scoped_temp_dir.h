@@ -36,7 +36,7 @@ class ScopedTempDir {
   //! \return The temporary directory path.
   const base::FilePath& path() const { return path_; }
 
-  //! \brief Move the temporary directory to a new temporary location.
+  //! \brief Moves the temporary directory to a new temporary location.
   void Rename();
 
  private:

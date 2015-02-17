@@ -100,7 +100,7 @@ std::string UUID::ToString() const {
 }
 
 #if defined(OS_WIN)
-std::wstring UUID::ToWideString() const {
+base::string16 UUID::ToString16() const {
   return base::UTF8ToUTF16(ToString());
 }
 #endif  // OS_WIN
