@@ -32,8 +32,8 @@
 #include "snapshot/test/test_process_snapshot.h"
 #include "snapshot/test/test_system_snapshot.h"
 #include "snapshot/test/test_thread_snapshot.h"
-#include "util/file/file_writer.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
+#include "util/file/string_file.h"
 
 namespace crashpad {
 namespace test {
@@ -41,13 +41,13 @@ namespace {
 
 TEST(MinidumpFileWriter, Empty) {
   MinidumpFileWriter minidump_file;
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file.WriteEverything(&file_writer));
-  ASSERT_EQ(sizeof(MINIDUMP_HEADER), file_writer.string().size());
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
+  ASSERT_EQ(sizeof(MINIDUMP_HEADER), string_file.string().size());
 
   const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      MinidumpHeaderAtStart(file_writer.string(), &directory);
+      MinidumpHeaderAtStart(string_file.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 0, 0));
   EXPECT_FALSE(directory);
 }
@@ -97,18 +97,18 @@ TEST(MinidumpFileWriter, OneStream) {
       make_scoped_ptr(new TestStream(kStreamType, kStreamSize, kStreamValue));
   minidump_file.AddStream(stream.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
 
   const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
   const size_t kStreamOffset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
   const size_t kFileSize = kStreamOffset + kStreamSize;
 
-  ASSERT_EQ(kFileSize, file_writer.string().size());
+  ASSERT_EQ(kFileSize, string_file.string().size());
 
   const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      MinidumpHeaderAtStart(file_writer.string(), &directory);
+      MinidumpHeaderAtStart(string_file.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, kTimestamp));
   ASSERT_TRUE(directory);
 
@@ -117,7 +117,7 @@ TEST(MinidumpFileWriter, OneStream) {
   EXPECT_EQ(kStreamOffset, directory[0].Location.Rva);
 
   const uint8_t* stream_data = MinidumpWritableAtLocationDescriptor<uint8_t>(
-      file_writer.string(), directory[0].Location);
+      string_file.string(), directory[0].Location);
   ASSERT_TRUE(stream_data);
 
   std::string expected_stream(kStreamSize, kStreamValue);
@@ -153,8 +153,8 @@ TEST(MinidumpFileWriter, ThreeStreams) {
       new TestStream(kStream2Type, kStream2Size, kStream2Value));
   minidump_file.AddStream(stream2.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
 
   const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
   const size_t kStream0Offset =
@@ -165,11 +165,11 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   const size_t kStream2Offset = kStream1Offset + kStream1Size + kStream2Padding;
   const size_t kFileSize = kStream2Offset + kStream2Size;
 
-  ASSERT_EQ(kFileSize, file_writer.string().size());
+  ASSERT_EQ(kFileSize, string_file.string().size());
 
   const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      MinidumpHeaderAtStart(file_writer.string(), &directory);
+      MinidumpHeaderAtStart(string_file.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 3, kTimestamp));
   ASSERT_TRUE(directory);
 
@@ -184,7 +184,7 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   EXPECT_EQ(kStream2Offset, directory[2].Location.Rva);
 
   const uint8_t* stream0_data = MinidumpWritableAtLocationDescriptor<uint8_t>(
-      file_writer.string(), directory[0].Location);
+      string_file.string(), directory[0].Location);
   ASSERT_TRUE(stream0_data);
 
   std::string expected_stream0(kStream0Size, kStream0Value);
@@ -195,7 +195,7 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   EXPECT_EQ(0, memcmp(stream0_data + kStream0Size, kZeroes, kStream1Padding));
 
   const uint8_t* stream1_data = MinidumpWritableAtLocationDescriptor<uint8_t>(
-      file_writer.string(), directory[1].Location);
+      string_file.string(), directory[1].Location);
   ASSERT_TRUE(stream1_data);
 
   std::string expected_stream1(kStream1Size, kStream1Value);
@@ -205,7 +205,7 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   EXPECT_EQ(0, memcmp(stream1_data + kStream1Size, kZeroes, kStream2Padding));
 
   const uint8_t* stream2_data = MinidumpWritableAtLocationDescriptor<uint8_t>(
-      file_writer.string(), directory[2].Location);
+      string_file.string(), directory[2].Location);
   ASSERT_TRUE(stream2_data);
 
   std::string expected_stream2(kStream2Size, kStream2Value);
@@ -220,18 +220,18 @@ TEST(MinidumpFileWriter, ZeroLengthStream) {
   auto stream = make_scoped_ptr(new TestStream(kStreamType, kStreamSize, 0));
   minidump_file.AddStream(stream.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
 
   const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
   const size_t kStreamOffset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
   const size_t kFileSize = kStreamOffset + kStreamSize;
 
-  ASSERT_EQ(kFileSize, file_writer.string().size());
+  ASSERT_EQ(kFileSize, string_file.string().size());
 
   const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      MinidumpHeaderAtStart(file_writer.string(), &directory);
+      MinidumpHeaderAtStart(string_file.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
   ASSERT_TRUE(directory);
 
@@ -255,34 +255,34 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.InitializeFromSnapshot(&process_snapshot);
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      MinidumpHeaderAtStart(file_writer.string(), &directory);
+      MinidumpHeaderAtStart(string_file.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 5, kSnapshotTime));
   ASSERT_TRUE(directory);
 
   EXPECT_EQ(kMinidumpStreamTypeSystemInfo, directory[0].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_SYSTEM_INFO>(
-                  file_writer.string(), directory[0].Location));
+                  string_file.string(), directory[0].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeMiscInfo, directory[1].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MISC_INFO_4>(
-                  file_writer.string(), directory[1].Location));
+                  string_file.string(), directory[1].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeThreadList, directory[2].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
-                  file_writer.string(), directory[2].Location));
+                  string_file.string(), directory[2].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeModuleList, directory[3].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MODULE_LIST>(
-                  file_writer.string(), directory[3].Location));
+                  string_file.string(), directory[3].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeMemoryList, directory[4].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
-                  file_writer.string(), directory[4].Location));
+                  string_file.string(), directory[4].Location));
 }
 
 TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
@@ -318,38 +318,38 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.InitializeFromSnapshot(&process_snapshot);
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      MinidumpHeaderAtStart(file_writer.string(), &directory);
+      MinidumpHeaderAtStart(string_file.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 6, kSnapshotTime));
   ASSERT_TRUE(directory);
 
   EXPECT_EQ(kMinidumpStreamTypeSystemInfo, directory[0].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_SYSTEM_INFO>(
-                  file_writer.string(), directory[0].Location));
+                  string_file.string(), directory[0].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeMiscInfo, directory[1].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MISC_INFO_4>(
-                  file_writer.string(), directory[1].Location));
+                  string_file.string(), directory[1].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeThreadList, directory[2].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
-                  file_writer.string(), directory[2].Location));
+                  string_file.string(), directory[2].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeException, directory[3].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_EXCEPTION_STREAM>(
-                  file_writer.string(), directory[3].Location));
+                  string_file.string(), directory[3].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeModuleList, directory[4].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MODULE_LIST>(
-                  file_writer.string(), directory[4].Location));
+                  string_file.string(), directory[4].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeMemoryList, directory[5].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
-                  file_writer.string(), directory[5].Location));
+                  string_file.string(), directory[5].Location));
 }
 
 TEST(MinidumpFileWriter, InitializeFromSnapshot_CrashpadInfo) {
@@ -382,42 +382,42 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_CrashpadInfo) {
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.InitializeFromSnapshot(&process_snapshot);
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
-      MinidumpHeaderAtStart(file_writer.string(), &directory);
+      MinidumpHeaderAtStart(string_file.string(), &directory);
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 7, kSnapshotTime));
   ASSERT_TRUE(directory);
 
   EXPECT_EQ(kMinidumpStreamTypeSystemInfo, directory[0].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_SYSTEM_INFO>(
-                  file_writer.string(), directory[0].Location));
+                  string_file.string(), directory[0].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeMiscInfo, directory[1].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MISC_INFO_4>(
-                  file_writer.string(), directory[1].Location));
+                  string_file.string(), directory[1].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeThreadList, directory[2].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_THREAD_LIST>(
-                  file_writer.string(), directory[2].Location));
+                  string_file.string(), directory[2].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeException, directory[3].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_EXCEPTION_STREAM>(
-                  file_writer.string(), directory[3].Location));
+                  string_file.string(), directory[3].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeModuleList, directory[4].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MODULE_LIST>(
-                  file_writer.string(), directory[4].Location));
+                  string_file.string(), directory[4].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeCrashpadInfo, directory[5].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MinidumpCrashpadInfo>(
-                  file_writer.string(), directory[5].Location));
+                  string_file.string(), directory[5].Location));
 
   EXPECT_EQ(kMinidumpStreamTypeMemoryList, directory[6].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
-                  file_writer.string(), directory[6].Location));
+                  string_file.string(), directory[6].Location));
 }
 
 TEST(MinidumpFileWriterDeathTest, SameStreamType) {

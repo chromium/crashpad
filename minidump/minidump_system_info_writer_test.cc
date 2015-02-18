@@ -29,7 +29,7 @@
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_system_snapshot.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 
 namespace crashpad {
 namespace test {
@@ -84,14 +84,14 @@ TEST(MinidumpSystemInfoWriter, Empty) {
 
   minidump_file_writer.AddStream(system_info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
   const MINIDUMP_STRING* csd_version = nullptr;
 
   ASSERT_NO_FATAL_FAILURE(
-      GetSystemInfoStream(file_writer.string(), 0, &system_info, &csd_version));
+      GetSystemInfoStream(string_file.string(), 0, &system_info, &csd_version));
 
   EXPECT_EQ(kMinidumpCPUArchitectureUnknown,
             system_info->ProcessorArchitecture);
@@ -155,14 +155,14 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
 
   minidump_file_writer.AddStream(system_info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
   const MINIDUMP_STRING* csd_version = nullptr;
 
   ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(
-      file_writer.string(), strlen(kCSDVersion), &system_info, &csd_version));
+      string_file.string(), strlen(kCSDVersion), &system_info, &csd_version));
 
   EXPECT_EQ(kCPUArchitecture, system_info->ProcessorArchitecture);
   EXPECT_EQ(kCPULevel, system_info->ProcessorLevel);
@@ -215,14 +215,14 @@ TEST(MinidumpSystemInfoWriter, AMD64_Mac) {
 
   minidump_file_writer.AddStream(system_info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
   const MINIDUMP_STRING* csd_version;
 
   ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(
-      file_writer.string(), strlen(kCSDVersion), &system_info, &csd_version));
+      string_file.string(), strlen(kCSDVersion), &system_info, &csd_version));
 
   EXPECT_EQ(kCPUArchitecture, system_info->ProcessorArchitecture);
   EXPECT_EQ(kCPULevel, system_info->ProcessorLevel);
@@ -257,14 +257,14 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
 
   minidump_file_writer.AddStream(system_info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
   const MINIDUMP_STRING* csd_version;
 
   ASSERT_NO_FATAL_FAILURE(
-      GetSystemInfoStream(file_writer.string(), 0, &system_info, &csd_version));
+      GetSystemInfoStream(string_file.string(), 0, &system_info, &csd_version));
 
   EXPECT_EQ(kCPUArchitecture, system_info->ProcessorArchitecture);
   EXPECT_EQ(0u, system_info->ProcessorLevel);
@@ -337,12 +337,12 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.AddStream(system_info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
   const MINIDUMP_STRING* csd_version = nullptr;
-  ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(file_writer.string(),
+  ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(string_file.string(),
                                               strlen(kOSVersionBuild),
                                               &system_info,
                                               &csd_version));
@@ -432,12 +432,12 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.AddStream(system_info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_SYSTEM_INFO* system_info = nullptr;
   const MINIDUMP_STRING* csd_version = nullptr;
-  ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(file_writer.string(),
+  ASSERT_NO_FATAL_FAILURE(GetSystemInfoStream(string_file.string(),
                                               strlen(kOSVersionBuild),
                                               &system_info,
                                               &csd_version));
@@ -470,8 +470,8 @@ TEST(MinidumpSystemInfoWriterDeathTest, NoCSDVersion) {
   auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
   minidump_file_writer.AddStream(system_info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_DEATH(minidump_file_writer.WriteEverything(&file_writer),
+  StringFile string_file;
+  ASSERT_DEATH(minidump_file_writer.WriteEverything(&string_file),
                "csd_version_");
 }
 

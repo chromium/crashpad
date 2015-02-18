@@ -19,7 +19,7 @@
 #include "gtest/gtest.h"
 #include "minidump/test/minidump_rva_list_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 
 namespace crashpad {
 namespace test {
@@ -42,12 +42,12 @@ class TestMinidumpRVAListWriter final : public internal::MinidumpRVAListWriter {
 TEST(MinidumpRVAListWriter, Empty) {
   TestMinidumpRVAListWriter list_writer;
 
-  StringFileWriter file_writer;
+  StringFile string_file;
 
-  ASSERT_TRUE(list_writer.WriteEverything(&file_writer));
-  EXPECT_EQ(sizeof(MinidumpRVAList), file_writer.string().size());
+  ASSERT_TRUE(list_writer.WriteEverything(&string_file));
+  EXPECT_EQ(sizeof(MinidumpRVAList), string_file.string().size());
 
-  const MinidumpRVAList* list = MinidumpRVAListAtStart(file_writer.string(), 0);
+  const MinidumpRVAList* list = MinidumpRVAListAtStart(string_file.string(), 0);
   ASSERT_TRUE(list);
 }
 
@@ -57,15 +57,15 @@ TEST(MinidumpRVAListWriter, OneChild) {
   const uint32_t kValue = 0;
   list_writer.AddChild(kValue);
 
-  StringFileWriter file_writer;
+  StringFile string_file;
 
-  ASSERT_TRUE(list_writer.WriteEverything(&file_writer));
+  ASSERT_TRUE(list_writer.WriteEverything(&string_file));
 
-  const MinidumpRVAList* list = MinidumpRVAListAtStart(file_writer.string(), 1);
+  const MinidumpRVAList* list = MinidumpRVAListAtStart(string_file.string(), 1);
   ASSERT_TRUE(list);
 
   const uint32_t* child = MinidumpWritableAtRVA<uint32_t>(
-      file_writer.string(), list->children[0]);
+      string_file.string(), list->children[0]);
   ASSERT_TRUE(child);
   EXPECT_EQ(kValue, *child);
 }
@@ -79,19 +79,19 @@ TEST(MinidumpRVAListWriter, ThreeChildren) {
   list_writer.AddChild(kValues[1]);
   list_writer.AddChild(kValues[2]);
 
-  StringFileWriter file_writer;
+  StringFile string_file;
 
-  ASSERT_TRUE(list_writer.WriteEverything(&file_writer));
+  ASSERT_TRUE(list_writer.WriteEverything(&string_file));
 
   const MinidumpRVAList* list =
-      MinidumpRVAListAtStart(file_writer.string(), arraysize(kValues));
+      MinidumpRVAListAtStart(string_file.string(), arraysize(kValues));
   ASSERT_TRUE(list);
 
   for (size_t index = 0; index < arraysize(kValues); ++index) {
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
 
     const uint32_t* child = MinidumpWritableAtRVA<uint32_t>(
-        file_writer.string(), list->children[index]);
+        string_file.string(), list->children[index]);
     ASSERT_TRUE(child);
     EXPECT_EQ(kValues[index], *child);
   }

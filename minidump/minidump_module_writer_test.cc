@@ -30,7 +30,7 @@
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_module_snapshot.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
 
@@ -68,16 +68,16 @@ TEST(MinidumpModuleWriter, EmptyModuleList) {
 
   minidump_file_writer.AddStream(module_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MODULE_LIST),
-            file_writer.string().size());
+            string_file.string().size());
 
   const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetModuleListStream(file_writer.string(), &module_list));
+      GetModuleListStream(string_file.string(), &module_list));
 
   EXPECT_EQ(0u, module_list->NumberOfModules);
 }
@@ -282,23 +282,23 @@ TEST(MinidumpModuleWriter, EmptyModule) {
   module_list_writer->AddModule(module_writer.Pass());
   minidump_file_writer.AddStream(module_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
-  ASSERT_GT(file_writer.string().size(),
+  ASSERT_GT(string_file.string().size(),
             sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
   const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetModuleListStream(file_writer.string(), &module_list));
+      GetModuleListStream(string_file.string(), &module_list));
 
   EXPECT_EQ(1u, module_list->NumberOfModules);
 
   MINIDUMP_MODULE expected = {};
   ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
                                        &module_list->Modules[0],
-                                       file_writer.string(),
+                                       string_file.string(),
                                        kModuleName,
                                        nullptr,
                                        nullptr,
@@ -373,16 +373,16 @@ TEST(MinidumpModuleWriter, OneModule) {
   module_list_writer->AddModule(module_writer.Pass());
   minidump_file_writer.AddStream(module_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
-  ASSERT_GT(file_writer.string().size(),
+  ASSERT_GT(string_file.string().size(),
             sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
   const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetModuleListStream(file_writer.string(), &module_list));
+      GetModuleListStream(string_file.string(), &module_list));
 
   EXPECT_EQ(1u, module_list->NumberOfModules);
 
@@ -403,7 +403,7 @@ TEST(MinidumpModuleWriter, OneModule) {
 
   ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
                                        &module_list->Modules[0],
-                                       file_writer.string(),
+                                       string_file.string(),
                                        kModuleName,
                                        kPDBName,
                                        &pdb_uuid,
@@ -448,16 +448,16 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
   module_list_writer->AddModule(module_writer.Pass());
   minidump_file_writer.AddStream(module_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
-  ASSERT_GT(file_writer.string().size(),
+  ASSERT_GT(string_file.string().size(),
             sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
   const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetModuleListStream(file_writer.string(), &module_list));
+      GetModuleListStream(string_file.string(), &module_list));
 
   EXPECT_EQ(1u, module_list->NumberOfModules);
 
@@ -465,7 +465,7 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
 
   ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
                                        &module_list->Modules[0],
-                                       file_writer.string(),
+                                       string_file.string(),
                                        kModuleName,
                                        kPDBName,
                                        nullptr,
@@ -540,16 +540,16 @@ TEST(MinidumpModuleWriter, ThreeModules) {
 
   minidump_file_writer.AddStream(module_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
-  ASSERT_GT(file_writer.string().size(),
+  ASSERT_GT(string_file.string().size(),
             sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MODULE_LIST) + 1 * sizeof(MINIDUMP_MODULE));
 
   const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetModuleListStream(file_writer.string(), &module_list));
+      GetModuleListStream(string_file.string(), &module_list));
 
   EXPECT_EQ(3u, module_list->NumberOfModules);
 
@@ -563,7 +563,7 @@ TEST(MinidumpModuleWriter, ThreeModules) {
 
     ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
                                          &module_list->Modules[0],
-                                         file_writer.string(),
+                                         string_file.string(),
                                          kModuleName0,
                                          kPDBName0,
                                          &pdb_uuid_0,
@@ -582,7 +582,7 @@ TEST(MinidumpModuleWriter, ThreeModules) {
 
     ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
                                          &module_list->Modules[1],
-                                         file_writer.string(),
+                                         string_file.string(),
                                          kModuleName1,
                                          nullptr,
                                          nullptr,
@@ -601,7 +601,7 @@ TEST(MinidumpModuleWriter, ThreeModules) {
 
     ASSERT_NO_FATAL_FAILURE(ExpectModule(&expected,
                                          &module_list->Modules[2],
-                                         file_writer.string(),
+                                         string_file.string(),
                                          kModuleName2,
                                          kPDBName2,
                                          nullptr,
@@ -720,12 +720,12 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.AddStream(module_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_MODULE_LIST* module_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetModuleListStream(file_writer.string(), &module_list));
+      GetModuleListStream(string_file.string(), &module_list));
 
   ASSERT_EQ(3u, module_list->NumberOfModules);
 
@@ -733,7 +733,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
     ASSERT_NO_FATAL_FAILURE(ExpectModule(&expect_modules[index],
                                          &module_list->Modules[index],
-                                         file_writer.string(),
+                                         string_file.string(),
                                          module_paths[index],
                                          module_names[index],
                                          &uuids[index],
@@ -752,8 +752,8 @@ TEST(MinidumpModuleWriterDeathTest, NoModuleName) {
   module_list_writer->AddModule(module_writer.Pass());
   minidump_file_writer.AddStream(module_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_DEATH(minidump_file_writer.WriteEverything(&file_writer), "name_");
+  StringFile string_file;
+  ASSERT_DEATH(minidump_file_writer.WriteEverything(&string_file), "name_");
 }
 
 }  // namespace

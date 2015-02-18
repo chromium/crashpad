@@ -21,7 +21,7 @@
 #include "minidump/minidump_extensions.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 
 namespace crashpad {
 namespace test {
@@ -40,24 +40,24 @@ const MinidumpSimpleStringDictionary* MinidumpSimpleStringDictionaryAtStart(
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, EmptySimpleStringDictionary) {
-  StringFileWriter file_writer;
+  StringFile string_file;
 
   MinidumpSimpleStringDictionaryWriter dictionary_writer;
 
   EXPECT_FALSE(dictionary_writer.IsUseful());
 
-  EXPECT_TRUE(dictionary_writer.WriteEverything(&file_writer));
+  EXPECT_TRUE(dictionary_writer.WriteEverything(&string_file));
   ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary),
-            file_writer.string().size());
+            string_file.string().size());
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), 0);
+      MinidumpSimpleStringDictionaryAtStart(string_file.string(), 0);
   ASSERT_TRUE(dictionary);
   EXPECT_EQ(0u, dictionary->count);
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, EmptyKeyValue) {
-  StringFileWriter file_writer;
+  StringFile string_file;
 
   MinidumpSimpleStringDictionaryWriter dictionary_writer;
   auto entry_writer =
@@ -66,28 +66,28 @@ TEST(MinidumpSimpleStringDictionaryWriter, EmptyKeyValue) {
 
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
-  EXPECT_TRUE(dictionary_writer.WriteEverything(&file_writer));
+  EXPECT_TRUE(dictionary_writer.WriteEverything(&string_file));
   ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
                 sizeof(MinidumpSimpleStringDictionaryEntry) +
                 2 * sizeof(MinidumpUTF8String) + 1 + 3 + 1,  // 3 for padding
-            file_writer.string().size());
+            string_file.string().size());
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), 1);
+      MinidumpSimpleStringDictionaryAtStart(string_file.string(), 1);
   ASSERT_TRUE(dictionary);
   EXPECT_EQ(1u, dictionary->count);
   EXPECT_EQ(12u, dictionary->entries[0].key);
   EXPECT_EQ(20u, dictionary->entries[0].value);
   EXPECT_EQ("",
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[0].key));
   EXPECT_EQ("",
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[0].value));
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, OneKeyValue) {
-  StringFileWriter file_writer;
+  StringFile string_file;
 
   char kKey[] = "key";
   char kValue[] = "value";
@@ -100,28 +100,28 @@ TEST(MinidumpSimpleStringDictionaryWriter, OneKeyValue) {
 
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
-  EXPECT_TRUE(dictionary_writer.WriteEverything(&file_writer));
+  EXPECT_TRUE(dictionary_writer.WriteEverything(&string_file));
   ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
                 sizeof(MinidumpSimpleStringDictionaryEntry) +
                 2 * sizeof(MinidumpUTF8String) + sizeof(kKey) + sizeof(kValue),
-            file_writer.string().size());
+            string_file.string().size());
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), 1);
+      MinidumpSimpleStringDictionaryAtStart(string_file.string(), 1);
   ASSERT_TRUE(dictionary);
   EXPECT_EQ(1u, dictionary->count);
   EXPECT_EQ(12u, dictionary->entries[0].key);
   EXPECT_EQ(20u, dictionary->entries[0].value);
   EXPECT_EQ(kKey,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[0].key));
   EXPECT_EQ(kValue,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[0].value));
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
-  StringFileWriter file_writer;
+  StringFile string_file;
 
   char kKey0[] = "m0";
   char kValue0[] = "value0";
@@ -146,16 +146,16 @@ TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
 
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
-  EXPECT_TRUE(dictionary_writer.WriteEverything(&file_writer));
+  EXPECT_TRUE(dictionary_writer.WriteEverything(&string_file));
   ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
                 3 * sizeof(MinidumpSimpleStringDictionaryEntry) +
                 6 * sizeof(MinidumpUTF8String) + sizeof(kKey2) +
                 sizeof(kValue2) + 3 + sizeof(kKey0) + 1 + sizeof(kValue0) + 1 +
                 sizeof(kKey1) + 3 + sizeof(kValue1),
-            file_writer.string().size());
+            string_file.string().size());
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), 3);
+      MinidumpSimpleStringDictionaryAtStart(string_file.string(), 3);
   ASSERT_TRUE(dictionary);
   EXPECT_EQ(3u, dictionary->count);
   EXPECT_EQ(28u, dictionary->entries[0].key);
@@ -172,27 +172,27 @@ TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
   // just the easiest way to write this test while the writer will output things
   // in a known order.
   EXPECT_EQ(kKey2,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[0].key));
   EXPECT_EQ(kValue2,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[0].value));
   EXPECT_EQ(kKey0,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[1].key));
   EXPECT_EQ(kValue0,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[1].value));
   EXPECT_EQ(kKey1,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[2].key));
   EXPECT_EQ(kValue1,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[2].value));
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, DuplicateKeyValue) {
-  StringFileWriter file_writer;
+  StringFile string_file;
 
   char kKey[] = "key";
   char kValue0[] = "fake_value";
@@ -210,23 +210,23 @@ TEST(MinidumpSimpleStringDictionaryWriter, DuplicateKeyValue) {
 
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
-  EXPECT_TRUE(dictionary_writer.WriteEverything(&file_writer));
+  EXPECT_TRUE(dictionary_writer.WriteEverything(&string_file));
   ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
                 sizeof(MinidumpSimpleStringDictionaryEntry) +
                 2 * sizeof(MinidumpUTF8String) + sizeof(kKey) + sizeof(kValue1),
-            file_writer.string().size());
+            string_file.string().size());
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), 1);
+      MinidumpSimpleStringDictionaryAtStart(string_file.string(), 1);
   ASSERT_TRUE(dictionary);
   EXPECT_EQ(1u, dictionary->count);
   EXPECT_EQ(12u, dictionary->entries[0].key);
   EXPECT_EQ(20u, dictionary->entries[0].value);
   EXPECT_EQ(kKey,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[0].key));
   EXPECT_EQ(kValue1,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[0].value));
 }
 
@@ -248,11 +248,11 @@ TEST(MinidumpSimpleStringDictionaryWriter, InitializeFromMap) {
 
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(dictionary_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(dictionary_writer.WriteEverything(&string_file));
 
   const MinidumpSimpleStringDictionary* dictionary =
-      MinidumpSimpleStringDictionaryAtStart(file_writer.string(), map.size());
+      MinidumpSimpleStringDictionaryAtStart(string_file.string(), map.size());
   ASSERT_TRUE(dictionary);
   ASSERT_EQ(3u, dictionary->count);
 
@@ -263,22 +263,22 @@ TEST(MinidumpSimpleStringDictionaryWriter, InitializeFromMap) {
   // just the easiest way to write this test while the writer will output things
   // in a known order.
   EXPECT_EQ(kKey1,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[0].key));
   EXPECT_EQ(kValue1,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[0].value));
   EXPECT_EQ(kKey0,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[1].key));
   EXPECT_EQ(kValue0,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[1].value));
   EXPECT_EQ(kKey2,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[2].key));
   EXPECT_EQ(kValue2,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             dictionary->entries[2].value));
 }
 

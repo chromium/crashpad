@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_FILE_STRING_FILE_WRITER_H_
-#define CRASHPAD_UTIL_FILE_STRING_FILE_WRITER_H_
+#ifndef CRASHPAD_UTIL_FILE_STRING_FILE_H_
+#define CRASHPAD_UTIL_FILE_STRING_FILE_H_
 
 #include <sys/types.h>
 
@@ -21,32 +21,42 @@
 
 #include "base/basictypes.h"
 #include "base/numerics/safe_math.h"
+#include "util/file/file_reader.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {
 
-//! \brief A file writer backed by a virtual file, as opposed to a file on disk
-//!     or other operating system file descriptor-based file.
+//! \brief A file reader and writer backed by a virtual file, as opposed to a
+//!     file on disk or other operating system file descriptor-based file.
 //!
 //! The virtual file is a buffer in memory. This class is convenient for use
-//! with other code that normally expects to write files, when it is impractical
-//! or inconvenient to write a file. It is expected that tests, in particular,
-//! will benefit from using this class.
-class StringFileWriter : public FileWriterInterface {
+//! with other code that normally expects to read or write files, when it is
+//! impractical or inconvenient to read or write a file. It is expected that
+//! tests, in particular, will benefit from using this class.
+class StringFile : public FileReaderInterface, public FileWriterInterface {
  public:
-  StringFileWriter();
-  ~StringFileWriter();
+  StringFile();
+  ~StringFile();
 
   //! \brief Returns a string containing the virtual file’s contents.
   const std::string& string() const { return string_; }
+
+  //! \brief Sets the virtual file’s contents to \a string, and resets its file
+  //!     position to `0`.
+  void SetString(const std::string& string);
 
   //! \brief Resets the virtual file’s contents to be empty, and resets its file
   //!     position to `0`.
   void Reset();
 
+  // FileReaderInterface:
+  ssize_t Read(void* data, size_t size) override;
+
   // FileWriterInterface:
   bool Write(const void* data, size_t size) override;
   bool WriteIoVec(std::vector<WritableIoVec>* iovecs) override;
+
+  // FileSeekerInterface:
   FileOffset Seek(FileOffset offset, int whence) override;
 
  private:
@@ -62,9 +72,9 @@ class StringFileWriter : public FileWriterInterface {
   //!     between these distinct types.
   base::CheckedNumeric<size_t> offset_;
 
-  DISALLOW_COPY_AND_ASSIGN(StringFileWriter);
+  DISALLOW_COPY_AND_ASSIGN(StringFile);
 };
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_FILE_STRING_FILE_WRITER_H_
+#endif  // CRASHPAD_UTIL_FILE_STRING_FILE_H_

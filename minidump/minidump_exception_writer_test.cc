@@ -33,7 +33,7 @@
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_cpu_context.h"
 #include "snapshot/test/test_exception_snapshot.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 
 namespace crashpad {
 namespace test {
@@ -107,12 +107,12 @@ TEST(MinidumpExceptionWriter, Minimal) {
 
   minidump_file_writer.AddStream(exception_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_EXCEPTION_STREAM* observed_exception_stream = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetExceptionStream(file_writer.string(), &observed_exception_stream));
+      GetExceptionStream(string_file.string(), &observed_exception_stream));
 
   MINIDUMP_EXCEPTION_STREAM expected_exception_stream = {};
   expected_exception_stream.ThreadContext.DataSize = sizeof(MinidumpContextX86);
@@ -120,7 +120,7 @@ TEST(MinidumpExceptionWriter, Minimal) {
   const MinidumpContextX86* observed_context = nullptr;
   ASSERT_NO_FATAL_FAILURE(ExpectExceptionStream(&expected_exception_stream,
                                                 observed_exception_stream,
-                                                file_writer.string(),
+                                                string_file.string(),
                                                 &observed_context));
 
   ASSERT_NO_FATAL_FAILURE(
@@ -166,12 +166,12 @@ TEST(MinidumpExceptionWriter, Standard) {
 
   minidump_file_writer.AddStream(exception_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_EXCEPTION_STREAM* observed_exception_stream = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetExceptionStream(file_writer.string(), &observed_exception_stream));
+      GetExceptionStream(string_file.string(), &observed_exception_stream));
 
   MINIDUMP_EXCEPTION_STREAM expected_exception_stream = {};
   expected_exception_stream.ThreadId = kThreadID;
@@ -191,7 +191,7 @@ TEST(MinidumpExceptionWriter, Standard) {
   const MinidumpContextX86* observed_context = nullptr;
   ASSERT_NO_FATAL_FAILURE(ExpectExceptionStream(&expected_exception_stream,
                                                 observed_exception_stream,
-                                                file_writer.string(),
+                                                string_file.string(),
                                                 &observed_context));
 
   ASSERT_NO_FATAL_FAILURE(
@@ -238,16 +238,16 @@ TEST(MinidumpExceptionWriter, InitializeFromSnapshot) {
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.AddStream(exception_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_EXCEPTION_STREAM* exception = nullptr;
-  ASSERT_NO_FATAL_FAILURE(GetExceptionStream(file_writer.string(), &exception));
+  ASSERT_NO_FATAL_FAILURE(GetExceptionStream(string_file.string(), &exception));
 
   const MinidumpContextX86* observed_context = nullptr;
   ASSERT_NO_FATAL_FAILURE(ExpectExceptionStream(&expect_exception,
                                                 exception,
-                                                file_writer.string(),
+                                                string_file.string(),
                                                 &observed_context));
 
   ASSERT_NO_FATAL_FAILURE(
@@ -260,8 +260,8 @@ TEST(MinidumpExceptionWriterDeathTest, NoContext) {
 
   minidump_file_writer.AddStream(exception_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_DEATH(minidump_file_writer.WriteEverything(&file_writer), "context_");
+  StringFile string_file;
+  ASSERT_DEATH(minidump_file_writer.WriteEverything(&string_file), "context_");
 }
 
 TEST(MinidumpExceptionWriterDeathTest, TooMuchInformation) {

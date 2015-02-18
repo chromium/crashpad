@@ -30,7 +30,7 @@
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_module_snapshot.h"
 #include "snapshot/test/test_process_snapshot.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 
 namespace crashpad {
 namespace test {
@@ -69,15 +69,15 @@ TEST(MinidumpCrashpadInfoWriter, Empty) {
 
   minidump_file_writer.AddStream(crashpad_info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MinidumpCrashpadInfo* crashpad_info = nullptr;
   const MinidumpSimpleStringDictionary* simple_annotations = nullptr;
   const MinidumpModuleCrashpadInfoList* module_list = nullptr;
 
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
-      file_writer.string(), &crashpad_info, &simple_annotations, &module_list));
+      string_file.string(), &crashpad_info, &simple_annotations, &module_list));
 
   EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
   EXPECT_FALSE(simple_annotations);
@@ -108,15 +108,15 @@ TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
 
   minidump_file_writer.AddStream(crashpad_info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MinidumpCrashpadInfo* crashpad_info = nullptr;
   const MinidumpSimpleStringDictionary* simple_annotations = nullptr;
   const MinidumpModuleCrashpadInfoList* module_list = nullptr;
 
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
-      file_writer.string(), &crashpad_info, &simple_annotations, &module_list));
+      string_file.string(), &crashpad_info, &simple_annotations, &module_list));
 
   EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
   EXPECT_FALSE(module_list);
@@ -125,10 +125,10 @@ TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
   ASSERT_EQ(1u, simple_annotations->count);
   EXPECT_EQ(kKey,
             MinidumpUTF8StringAtRVAAsString(
-                file_writer.string(), simple_annotations->entries[0].key));
+                string_file.string(), simple_annotations->entries[0].key));
   EXPECT_EQ(kValue,
             MinidumpUTF8StringAtRVAAsString(
-                file_writer.string(), simple_annotations->entries[0].value));
+                string_file.string(), simple_annotations->entries[0].value));
 }
 
 TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
@@ -148,15 +148,15 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
 
   minidump_file_writer.AddStream(crashpad_info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MinidumpCrashpadInfo* crashpad_info = nullptr;
   const MinidumpSimpleStringDictionary* simple_annotations = nullptr;
   const MinidumpModuleCrashpadInfoList* module_list = nullptr;
 
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
-      file_writer.string(), &crashpad_info, &simple_annotations, &module_list));
+      string_file.string(), &crashpad_info, &simple_annotations, &module_list));
 
   EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
   EXPECT_FALSE(simple_annotations);
@@ -166,7 +166,7 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
 
   const MinidumpModuleCrashpadInfo* module =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          file_writer.string(), module_list->children[0]);
+          string_file.string(), module_list->children[0]);
   ASSERT_TRUE(module);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module->version);
@@ -212,14 +212,14 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.AddStream(info_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MinidumpCrashpadInfo* info = nullptr;
   const MinidumpSimpleStringDictionary* simple_annotations;
   const MinidumpModuleCrashpadInfoList* module_list;
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
-      file_writer.string(), &info, &simple_annotations, &module_list));
+      string_file.string(), &info, &simple_annotations, &module_list));
 
   EXPECT_EQ(MinidumpCrashpadInfo::kVersion, info->version);
 
@@ -227,17 +227,17 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
   ASSERT_EQ(1u, simple_annotations->count);
   EXPECT_EQ(kKey,
             MinidumpUTF8StringAtRVAAsString(
-                file_writer.string(), simple_annotations->entries[0].key));
+                string_file.string(), simple_annotations->entries[0].key));
   EXPECT_EQ(kValue,
             MinidumpUTF8StringAtRVAAsString(
-                file_writer.string(), simple_annotations->entries[0].value));
+                string_file.string(), simple_annotations->entries[0].value));
 
   ASSERT_TRUE(module_list);
   ASSERT_EQ(1u, module_list->count);
 
   const MinidumpModuleCrashpadInfo* module =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          file_writer.string(), module_list->children[0]);
+          string_file.string(), module_list->children[0]);
   ASSERT_TRUE(module);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module->version);
@@ -245,17 +245,17 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
 
   const MinidumpRVAList* list_annotations =
       MinidumpWritableAtLocationDescriptor<MinidumpRVAList>(
-          file_writer.string(), module->list_annotations);
+          string_file.string(), module->list_annotations);
   ASSERT_TRUE(list_annotations);
 
   ASSERT_EQ(1u, list_annotations->count);
   EXPECT_EQ(kEntry,
-            MinidumpUTF8StringAtRVAAsString(file_writer.string(),
+            MinidumpUTF8StringAtRVAAsString(string_file.string(),
                                             list_annotations->children[0]));
 
   const MinidumpSimpleStringDictionary* module_simple_annotations =
       MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
-          file_writer.string(), module->simple_annotations);
+          string_file.string(), module->simple_annotations);
   EXPECT_FALSE(module_simple_annotations);
 }
 

@@ -15,16 +15,14 @@
 #ifndef CRASHPAD_UTIL_FILE_FILE_WRITER_H_
 #define CRASHPAD_UTIL_FILE_FILE_WRITER_H_
 
-#include <fcntl.h>
-#include <stddef.h>
+#include <sys/types.h>
 
-#include <string>
 #include <vector>
 
 #include "base/basictypes.h"
 #include "base/files/file_path.h"
-#include "build/build_config.h"
 #include "util/file/file_io.h"
+#include "util/file/file_seeker.h"
 
 namespace crashpad {
 
@@ -44,10 +42,10 @@ struct WritableIoVec {
 
 //! \brief An interface to write to files and other file-like objects with
 //!     semantics matching the underlying platform (POSIX or Windows).
-class FileWriterInterface {
+class FileWriterInterface : public FileSeekerInterface {
  public:
-  //! \brief Wraps WriteFile(), or provides an implementation with identical
-  //!     semantics.
+  //! \brief Wraps LoggingWriteFile(), or provides an implementation with
+  //!     identical semantics.
   //!
   //! \return `true` if the operation succeeded, `false` if it failed, with an
   //!     error message logged.
@@ -63,13 +61,6 @@ class FileWriterInterface {
   //!
   //! \note The contents of \a iovecs are undefined when this method returns.
   virtual bool WriteIoVec(std::vector<WritableIoVec>* iovecs) = 0;
-
-  //! \brief Wraps LoggingFileSeek() or provides an alternate implementation
-  //!     with identical semantics.
-  //!
-  //! \return The return value of LoggingFileSeek(). `-1` on failure,
-  //!     with an error message logged.
-  virtual FileOffset Seek(FileOffset offset, int whence) = 0;
 
  protected:
   ~FileWriterInterface() {}
@@ -98,6 +89,8 @@ class WeakFileHandleFileWriter : public FileWriterInterface {
   bool Write(const void* data, size_t size) override;
   bool WriteIoVec(std::vector<WritableIoVec>* iovecs) override;
 
+  // FileSeekerInterface:
+
   //! \copydoc FileWriterInterface::Seek()
   //!
   //! \note This method is only guaranteed to function on file handles referring
@@ -110,7 +103,7 @@ class WeakFileHandleFileWriter : public FileWriterInterface {
   FileHandle file_handle_;  // weak
 
   // FileWriter uses this class as its internal implementation, and it needs to
-  // be able to call set_file_handle(). FileWriter cannot initialize an
+  // be able to call set_file_handle(). FileWriter cannot initialize a
   // WeakFileHandleFileWriter with a correct file descriptor at the time of
   // construction because no file descriptor will be available until
   // FileWriter::Open() is called.
@@ -125,6 +118,8 @@ class FileWriter : public FileWriterInterface {
  public:
   FileWriter();
   ~FileWriter();
+
+  // FileWriterInterface:
 
   //! \brief Wraps LoggingOpenFileForWrite().
   //!
@@ -157,6 +152,8 @@ class FileWriter : public FileWriterInterface {
   //! \note It is only valid to call this method between a successful Open() and
   //!     a Close().
   bool WriteIoVec(std::vector<WritableIoVec>* iovecs) override;
+
+  // FileSeekerInterface:
 
   //! \copydoc FileWriterInterface::Seek()
   //!

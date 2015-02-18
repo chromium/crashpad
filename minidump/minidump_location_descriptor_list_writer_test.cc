@@ -19,7 +19,7 @@
 #include "gtest/gtest.h"
 #include "minidump/test/minidump_location_descriptor_list_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 
 namespace crashpad {
 namespace test {
@@ -46,14 +46,14 @@ class TestMinidumpLocationDescriptorListWriter final
 TEST(MinidumpLocationDescriptorListWriter, Empty) {
   TestMinidumpLocationDescriptorListWriter list_writer;
 
-  StringFileWriter file_writer;
+  StringFile string_file;
 
-  ASSERT_TRUE(list_writer.WriteEverything(&file_writer));
+  ASSERT_TRUE(list_writer.WriteEverything(&string_file));
   EXPECT_EQ(sizeof(MinidumpLocationDescriptorList),
-            file_writer.string().size());
+            string_file.string().size());
 
   const MinidumpLocationDescriptorList* list =
-      MinidumpLocationDescriptorListAtStart(file_writer.string(), 0);
+      MinidumpLocationDescriptorListAtStart(string_file.string(), 0);
   ASSERT_TRUE(list);
 }
 
@@ -63,16 +63,16 @@ TEST(MinidumpLocationDescriptorListWriter, OneChild) {
   const uint32_t kValue = 0;
   list_writer.AddChild(kValue);
 
-  StringFileWriter file_writer;
+  StringFile string_file;
 
-  ASSERT_TRUE(list_writer.WriteEverything(&file_writer));
+  ASSERT_TRUE(list_writer.WriteEverything(&string_file));
 
   const MinidumpLocationDescriptorList* list =
-      MinidumpLocationDescriptorListAtStart(file_writer.string(), 1);
+      MinidumpLocationDescriptorListAtStart(string_file.string(), 1);
   ASSERT_TRUE(list);
 
   const uint32_t* child = MinidumpWritableAtLocationDescriptor<uint32_t>(
-      file_writer.string(), list->children[0]);
+      string_file.string(), list->children[0]);
   ASSERT_TRUE(child);
   EXPECT_EQ(kValue, *child);
 }
@@ -86,12 +86,12 @@ TEST(MinidumpLocationDescriptorListWriter, ThreeChildren) {
   list_writer.AddChild(kValues[1]);
   list_writer.AddChild(kValues[2]);
 
-  StringFileWriter file_writer;
+  StringFile string_file;
 
-  ASSERT_TRUE(list_writer.WriteEverything(&file_writer));
+  ASSERT_TRUE(list_writer.WriteEverything(&string_file));
 
   const MinidumpLocationDescriptorList* list =
-      MinidumpLocationDescriptorListAtStart(file_writer.string(),
+      MinidumpLocationDescriptorListAtStart(string_file.string(),
                                             arraysize(kValues));
   ASSERT_TRUE(list);
 
@@ -99,7 +99,7 @@ TEST(MinidumpLocationDescriptorListWriter, ThreeChildren) {
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
 
     const uint32_t* child = MinidumpWritableAtLocationDescriptor<uint32_t>(
-        file_writer.string(), list->children[index]);
+        string_file.string(), list->children[index]);
     ASSERT_TRUE(child);
     EXPECT_EQ(kValues[index], *child);
   }

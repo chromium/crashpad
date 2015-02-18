@@ -29,7 +29,7 @@
 #include "minidump/test/minidump_memory_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_memory_snapshot.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
@@ -82,16 +82,16 @@ TEST(MinidumpMemoryWriter, EmptyMemoryList) {
 
   minidump_file_writer.AddStream(memory_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MEMORY_LIST),
-            file_writer.string().size());
+            string_file.string().size());
 
   const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetMemoryListStream(file_writer.string(), &memory_list, 1));
+      GetMemoryListStream(string_file.string(), &memory_list, 1));
 
   EXPECT_EQ(0u, memory_list->NumberOfMemoryRanges);
 }
@@ -110,12 +110,12 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
 
   minidump_file_writer.AddStream(memory_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetMemoryListStream(file_writer.string(), &memory_list, 1));
+      GetMemoryListStream(string_file.string(), &memory_list, 1));
 
   MINIDUMP_MEMORY_DESCRIPTOR expected;
   expected.StartOfMemoryRange = kBaseAddress;
@@ -126,7 +126,7 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
       memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
   ExpectMinidumpMemoryDescriptorAndContents(&expected,
                                             &memory_list->MemoryRanges[0],
-                                            file_writer.string(),
+                                            string_file.string(),
                                             kValue,
                                             true);
 }
@@ -151,12 +151,12 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
 
   minidump_file_writer.AddStream(memory_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetMemoryListStream(file_writer.string(), &memory_list, 1));
+      GetMemoryListStream(string_file.string(), &memory_list, 1));
 
   EXPECT_EQ(2u, memory_list->NumberOfMemoryRanges);
 
@@ -173,7 +173,7 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
         memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
     ExpectMinidumpMemoryDescriptorAndContents(&expected,
                                               &memory_list->MemoryRanges[0],
-                                              file_writer.string(),
+                                              string_file.string(),
                                               kValue0,
                                               false);
   }
@@ -187,7 +187,7 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
                           memory_list->MemoryRanges[0].Memory.DataSize;
     ExpectMinidumpMemoryDescriptorAndContents(&expected,
                                               &memory_list->MemoryRanges[1],
-                                              file_writer.string(),
+                                              string_file.string(),
                                               kValue1,
                                               true);
   }
@@ -260,12 +260,12 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
 
   minidump_file_writer.AddStream(memory_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetMemoryListStream(file_writer.string(), &memory_list, 2));
+      GetMemoryListStream(string_file.string(), &memory_list, 2));
 
   EXPECT_EQ(2u, memory_list->NumberOfMemoryRanges);
 
@@ -282,7 +282,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
         memory_list->NumberOfMemoryRanges * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
     ExpectMinidumpMemoryDescriptorAndContents(&expected,
                                               &memory_list->MemoryRanges[0],
-                                              file_writer.string(),
+                                              string_file.string(),
                                               kValue0,
                                               false);
   }
@@ -296,7 +296,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
                           memory_list->MemoryRanges[0].Memory.DataSize;
     ExpectMinidumpMemoryDescriptorAndContents(&expected,
                                               &memory_list->MemoryRanges[1],
-                                              file_writer.string(),
+                                              string_file.string(),
                                               kValue1,
                                               true);
   }
@@ -338,12 +338,12 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.AddStream(memory_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetMemoryListStream(file_writer.string(), &memory_list, 1));
+      GetMemoryListStream(string_file.string(), &memory_list, 1));
 
   ASSERT_EQ(3u, memory_list->NumberOfMemoryRanges);
 
@@ -352,7 +352,7 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
     ExpectMinidumpMemoryDescriptorAndContents(
         &expect_memory_descriptors[index],
         &memory_list->MemoryRanges[index],
-        file_writer.string(),
+        string_file.string(),
         values[index],
         index == memory_list->NumberOfMemoryRanges - 1);
   }

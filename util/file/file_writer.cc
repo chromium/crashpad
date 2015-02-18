@@ -19,6 +19,8 @@
 #include <limits.h>
 
 #include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
+#include "build/build_config.h"
 
 #if defined(OS_POSIX)
 #include <sys/uio.h>
@@ -46,18 +48,7 @@ WeakFileHandleFileWriter::~WeakFileHandleFileWriter() {
 
 bool WeakFileHandleFileWriter::Write(const void* data, size_t size) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
-
-  // TODO(mark): Write no more than SSIZE_MAX bytes in a single call.
-  ssize_t written = WriteFile(file_handle_, data, size);
-  if (written < 0) {
-    PLOG(ERROR) << "write";
-    return false;
-  } else if (written == 0) {
-    LOG(ERROR) << "write: returned 0";
-    return false;
-  }
-
-  return true;
+  return LoggingWriteFile(file_handle_, data, size);
 }
 
 bool WeakFileHandleFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {

@@ -19,7 +19,7 @@
 
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 
 namespace crashpad {
 namespace test {
@@ -145,101 +145,101 @@ class TestStringMinidumpWritable final : public BaseTestMinidumpWritable {
 };
 
 TEST(MinidumpWritable, MinidumpWritable) {
-  StringFileWriter writer;
+  StringFile string_file;
 
   {
     SCOPED_TRACE("empty");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable string_writable;
-    EXPECT_TRUE(string_writable.WriteEverything(&writer));
-    EXPECT_TRUE(writer.string().empty());
+    EXPECT_TRUE(string_writable.WriteEverything(&string_file));
+    EXPECT_TRUE(string_file.string().empty());
     string_writable.Verify();
   }
 
   {
     SCOPED_TRACE("childless");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable string_writable;
     string_writable.SetData("a");
-    EXPECT_TRUE(string_writable.WriteEverything(&writer));
-    EXPECT_EQ(1u, writer.string().size());
-    EXPECT_EQ("a", writer.string());
+    EXPECT_TRUE(string_writable.WriteEverything(&string_file));
+    EXPECT_EQ(1u, string_file.string().size());
+    EXPECT_EQ("a", string_file.string());
     string_writable.Verify();
   }
 
   {
     SCOPED_TRACE("parent-child");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("b");
     TestStringMinidumpWritable child;
     child.SetData("c");
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(5u, writer.string().size());
-    EXPECT_EQ(std::string("b\0\0\0c", 5), writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(5u, string_file.string().size());
+    EXPECT_EQ(std::string("b\0\0\0c", 5), string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("base alignment 2");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("de");
     TestStringMinidumpWritable child;
     child.SetData("f");
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(5u, writer.string().size());
-    EXPECT_EQ(std::string("de\0\0f", 5), writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(5u, string_file.string().size());
+    EXPECT_EQ(std::string("de\0\0f", 5), string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("base alignment 3");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("ghi");
     TestStringMinidumpWritable child;
     child.SetData("j");
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(5u, writer.string().size());
-    EXPECT_EQ(std::string("ghi\0j", 5), writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(5u, string_file.string().size());
+    EXPECT_EQ(std::string("ghi\0j", 5), string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("base alignment 4");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("klmn");
     TestStringMinidumpWritable child;
     child.SetData("o");
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(5u, writer.string().size());
-    EXPECT_EQ("klmno", writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(5u, string_file.string().size());
+    EXPECT_EQ("klmno", string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("base alignment 5");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("pqrst");
     TestStringMinidumpWritable child;
     child.SetData("u");
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(9u, writer.string().size());
-    EXPECT_EQ(std::string("pqrst\0\0\0u", 9), writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(9u, string_file.string().size());
+    EXPECT_EQ(std::string("pqrst\0\0\0u", 9), string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("two children");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("parent");
     TestStringMinidumpWritable child_0;
@@ -248,15 +248,15 @@ TEST(MinidumpWritable, MinidumpWritable) {
     TestStringMinidumpWritable child_1;
     child_1.SetData("child_1");
     parent.AddChild(&child_1);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(23u, writer.string().size());
-    EXPECT_EQ(std::string("parent\0\0child_0\0child_1", 23), writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(23u, string_file.string().size());
+    EXPECT_EQ(std::string("parent\0\0child_0\0child_1", 23), string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("grandchild");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("parent");
     TestStringMinidumpWritable child;
@@ -265,16 +265,16 @@ TEST(MinidumpWritable, MinidumpWritable) {
     TestStringMinidumpWritable grandchild;
     grandchild.SetData("grandchild");
     child.AddChild(&grandchild);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(26u, writer.string().size());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(26u, string_file.string().size());
     EXPECT_EQ(std::string("parent\0\0child\0\0\0grandchild", 26),
-              writer.string());
+              string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("grandchild with empty parent");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     TestStringMinidumpWritable child;
     child.SetData("child");
@@ -282,15 +282,15 @@ TEST(MinidumpWritable, MinidumpWritable) {
     TestStringMinidumpWritable grandchild;
     grandchild.SetData("grandchild");
     child.AddChild(&grandchild);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(18u, writer.string().size());
-    EXPECT_EQ(std::string("child\0\0\0grandchild", 18), writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(18u, string_file.string().size());
+    EXPECT_EQ(std::string("child\0\0\0grandchild", 18), string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("grandchild with empty child");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("parent");
     TestStringMinidumpWritable child;
@@ -298,15 +298,15 @@ TEST(MinidumpWritable, MinidumpWritable) {
     TestStringMinidumpWritable grandchild;
     grandchild.SetData("grandchild");
     child.AddChild(&grandchild);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(18u, writer.string().size());
-    EXPECT_EQ(std::string("parent\0\0grandchild", 18), writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(18u, string_file.string().size());
+    EXPECT_EQ(std::string("parent\0\0grandchild", 18), string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("grandchild with empty grandchild");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("parent");
     TestStringMinidumpWritable child;
@@ -314,15 +314,15 @@ TEST(MinidumpWritable, MinidumpWritable) {
     parent.AddChild(&child);
     TestStringMinidumpWritable grandchild;
     child.AddChild(&grandchild);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(13u, writer.string().size());
-    EXPECT_EQ(std::string("parent\0\0child", 13), writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(13u, string_file.string().size());
+    EXPECT_EQ(std::string("parent\0\0child", 13), string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("grandchild with late-phase grandchild");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("parent");
     TestStringMinidumpWritable child;
@@ -332,16 +332,16 @@ TEST(MinidumpWritable, MinidumpWritable) {
     grandchild.SetData("grandchild");
     grandchild.SetPhaseLate();
     child.AddChild(&grandchild);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(26u, writer.string().size());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(26u, string_file.string().size());
     EXPECT_EQ(std::string("parent\0\0child\0\0\0grandchild", 26),
-              writer.string());
+              string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("grandchild with late-phase child");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("parent");
     TestStringMinidumpWritable child;
@@ -351,16 +351,16 @@ TEST(MinidumpWritable, MinidumpWritable) {
     TestStringMinidumpWritable grandchild;
     grandchild.SetData("grandchild");
     child.AddChild(&grandchild);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(25u, writer.string().size());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(25u, string_file.string().size());
     EXPECT_EQ(std::string("parent\0\0grandchild\0\0child", 25),
-              writer.string());
+              string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("family tree");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("P..");
     TestStringMinidumpWritable child_0;
@@ -381,16 +381,16 @@ TEST(MinidumpWritable, MinidumpWritable) {
     TestStringMinidumpWritable grandchild_11;
     grandchild_11.SetData("G11");
     child_1.AddChild(&grandchild_11);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(27u, writer.string().size());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(27u, string_file.string().size());
     EXPECT_EQ(std::string("P..\0C0.\0G00\0G01\0C1.\0G10\0G11", 27),
-              writer.string());
+              string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("family tree with C0 late");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("P..");
     TestStringMinidumpWritable child_0;
@@ -412,16 +412,16 @@ TEST(MinidumpWritable, MinidumpWritable) {
     TestStringMinidumpWritable grandchild_11;
     grandchild_11.SetData("G11");
     child_1.AddChild(&grandchild_11);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(27u, writer.string().size());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(27u, string_file.string().size());
     EXPECT_EQ(std::string("P..\0G00\0G01\0C1.\0G10\0G11\0C0.", 27),
-              writer.string());
+              string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("family tree with G0 late");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("P..");
     TestStringMinidumpWritable child_0;
@@ -444,40 +444,40 @@ TEST(MinidumpWritable, MinidumpWritable) {
     TestStringMinidumpWritable grandchild_11;
     grandchild_11.SetData("G11");
     child_1.AddChild(&grandchild_11);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(27u, writer.string().size());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(27u, string_file.string().size());
     EXPECT_EQ(std::string("P..\0C0.\0C1.\0G10\0G11\0G00\0G01", 27),
-              writer.string());
+              string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("align 1");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("p");
     TestStringMinidumpWritable child;
     child.SetData("c");
     child.SetAlignment(1);
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(2u, writer.string().size());
-    EXPECT_EQ("pc", writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(2u, string_file.string().size());
+    EXPECT_EQ("pc", string_file.string());
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("align 2");
-    writer.Reset();
+    string_file.Reset();
     TestStringMinidumpWritable parent;
     parent.SetData("p");
     TestStringMinidumpWritable child;
     child.SetData("c");
     child.SetAlignment(2);
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
-    EXPECT_EQ(3u, writer.string().size());
-    EXPECT_EQ(std::string("p\0c", 3), writer.string());
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
+    EXPECT_EQ(3u, string_file.string().size());
+    EXPECT_EQ(std::string("p\0c", 3), string_file.string());
     parent.Verify();
   }
 }
@@ -513,81 +513,81 @@ RVA RVAAtIndex(const std::string& string, size_t index) {
 }
 
 TEST(MinidumpWritable, RVA) {
-  StringFileWriter writer;
+  StringFile string_file;
 
   {
     SCOPED_TRACE("unset");
-    writer.Reset();
+    string_file.Reset();
     TestRVAMinidumpWritable rva_writable;
-    EXPECT_TRUE(rva_writable.WriteEverything(&writer));
+    EXPECT_TRUE(rva_writable.WriteEverything(&string_file));
 
-    ASSERT_EQ(sizeof(RVA), writer.string().size());
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(writer.string(), 0));
+    ASSERT_EQ(sizeof(RVA), string_file.string().size());
+    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
     rva_writable.Verify();
   }
 
   {
     SCOPED_TRACE("self");
-    writer.Reset();
+    string_file.Reset();
     TestRVAMinidumpWritable rva_writable;
     rva_writable.SetRVA(&rva_writable);
-    EXPECT_TRUE(rva_writable.WriteEverything(&writer));
+    EXPECT_TRUE(rva_writable.WriteEverything(&string_file));
 
-    ASSERT_EQ(sizeof(RVA), writer.string().size());
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(writer.string(), 0));
+    ASSERT_EQ(sizeof(RVA), string_file.string().size());
+    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
     rva_writable.Verify();
   }
 
   {
     SCOPED_TRACE("parent-child self");
-    writer.Reset();
+    string_file.Reset();
     TestRVAMinidumpWritable parent;
     parent.SetRVA(&parent);
     TestRVAMinidumpWritable child;
     child.SetRVA(&child);
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(2 * sizeof(RVA), writer.string().size());
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(writer.string(), 0));
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(writer.string(), 1));
+    ASSERT_EQ(2 * sizeof(RVA), string_file.string().size());
+    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
+    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 1));
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("parent-child only");
-    writer.Reset();
+    string_file.Reset();
     TestRVAMinidumpWritable parent;
     TestRVAMinidumpWritable child;
     parent.SetRVA(&child);
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(2 * sizeof(RVA), writer.string().size());
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(writer.string(), 0));
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(writer.string(), 1));
+    ASSERT_EQ(2 * sizeof(RVA), string_file.string().size());
+    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
+    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 1));
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("parent-child circular");
-    writer.Reset();
+    string_file.Reset();
     TestRVAMinidumpWritable parent;
     TestRVAMinidumpWritable child;
     parent.SetRVA(&child);
     child.SetRVA(&parent);
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(2 * sizeof(RVA), writer.string().size());
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(writer.string(), 0));
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(writer.string(), 1));
+    ASSERT_EQ(2 * sizeof(RVA), string_file.string().size());
+    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
+    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 1));
     parent.Verify();
   }
 
   {
     SCOPED_TRACE("grandchildren");
-    writer.Reset();
+    string_file.Reset();
     TestRVAMinidumpWritable parent;
     TestRVAMinidumpWritable child;
     parent.SetRVA(&child);
@@ -601,14 +601,14 @@ TEST(MinidumpWritable, RVA) {
     TestRVAMinidumpWritable grandchild_2;
     grandchild_2.SetRVA(&child);
     child.AddChild(&grandchild_2);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(5 * sizeof(RVA), writer.string().size());
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(writer.string(), 0));
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(writer.string(), 1));
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(writer.string(), 2));
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(writer.string(), 3));
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(writer.string(), 4));
+    ASSERT_EQ(5 * sizeof(RVA), string_file.string().size());
+    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
+    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 1));
+    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 2));
+    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 3));
+    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 4));
     parent.Verify();
   }
 }
@@ -666,16 +666,16 @@ const LocationDescriptorAndData* LDDAtIndex(const std::string& string,
 }
 
 TEST(MinidumpWritable, LocationDescriptor) {
-  StringFileWriter writer;
+  StringFile string_file;
 
   {
     SCOPED_TRACE("unset");
-    writer.Reset();
+    string_file.Reset();
     TestLocationDescriptorMinidumpWritable location_descriptor_writable;
-    EXPECT_TRUE(location_descriptor_writable.WriteEverything(&writer));
+    EXPECT_TRUE(location_descriptor_writable.WriteEverything(&string_file));
 
-    ASSERT_EQ(9u, writer.string().size());
-    const LocationDescriptorAndData* ldd = LDDAtIndex(writer.string(), 0);
+    ASSERT_EQ(9u, string_file.string().size());
+    const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
     EXPECT_EQ(0u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(0u, ldd->location_descriptor.Rva);
     location_descriptor_writable.Verify();
@@ -683,14 +683,14 @@ TEST(MinidumpWritable, LocationDescriptor) {
 
   {
     SCOPED_TRACE("self");
-    writer.Reset();
+    string_file.Reset();
     TestLocationDescriptorMinidumpWritable location_descriptor_writable;
     location_descriptor_writable.SetLocationDescriptor(
         &location_descriptor_writable);
-    EXPECT_TRUE(location_descriptor_writable.WriteEverything(&writer));
+    EXPECT_TRUE(location_descriptor_writable.WriteEverything(&string_file));
 
-    ASSERT_EQ(9u, writer.string().size());
-    const LocationDescriptorAndData* ldd = LDDAtIndex(writer.string(), 0);
+    ASSERT_EQ(9u, string_file.string().size());
+    const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
     EXPECT_EQ(9u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(0u, ldd->location_descriptor.Rva);
     location_descriptor_writable.Verify();
@@ -698,15 +698,15 @@ TEST(MinidumpWritable, LocationDescriptor) {
 
   {
     SCOPED_TRACE("self with data");
-    writer.Reset();
+    string_file.Reset();
     TestLocationDescriptorMinidumpWritable location_descriptor_writable;
     location_descriptor_writable.SetLocationDescriptor(
         &location_descriptor_writable);
     location_descriptor_writable.SetString("zz");
-    EXPECT_TRUE(location_descriptor_writable.WriteEverything(&writer));
+    EXPECT_TRUE(location_descriptor_writable.WriteEverything(&string_file));
 
-    ASSERT_EQ(11u, writer.string().size());
-    const LocationDescriptorAndData* ldd = LDDAtIndex(writer.string(), 0);
+    ASSERT_EQ(11u, string_file.string().size());
+    const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
     EXPECT_EQ(11u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(0u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("zz", ldd->string);
@@ -715,7 +715,7 @@ TEST(MinidumpWritable, LocationDescriptor) {
 
   {
     SCOPED_TRACE("parent-child self");
-    writer.Reset();
+    string_file.Reset();
     TestLocationDescriptorMinidumpWritable parent;
     parent.SetLocationDescriptor(&parent);
     parent.SetString("yy");
@@ -723,14 +723,14 @@ TEST(MinidumpWritable, LocationDescriptor) {
     child.SetLocationDescriptor(&child);
     child.SetString("x");
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(22u, writer.string().size());
-    const LocationDescriptorAndData* ldd = LDDAtIndex(writer.string(), 0);
+    ASSERT_EQ(22u, string_file.string().size());
+    const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
     EXPECT_EQ(11u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(0u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("yy", ldd->string);
-    ldd = LDDAtIndex(writer.string(), 12);
+    ldd = LDDAtIndex(string_file.string(), 12);
     EXPECT_EQ(10u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(12u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("x", ldd->string);
@@ -739,21 +739,21 @@ TEST(MinidumpWritable, LocationDescriptor) {
 
   {
     SCOPED_TRACE("parent-child only");
-    writer.Reset();
+    string_file.Reset();
     TestLocationDescriptorMinidumpWritable parent;
     TestLocationDescriptorMinidumpWritable child;
     parent.SetLocationDescriptor(&child);
     parent.SetString("www");
     child.SetString("vv");
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(23u, writer.string().size());
-    const LocationDescriptorAndData* ldd = LDDAtIndex(writer.string(), 0);
+    ASSERT_EQ(23u, string_file.string().size());
+    const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
     EXPECT_EQ(11u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(12u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("www", ldd->string);
-    ldd = LDDAtIndex(writer.string(), 12);
+    ldd = LDDAtIndex(string_file.string(), 12);
     EXPECT_EQ(0u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(0u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("vv", ldd->string);
@@ -762,7 +762,7 @@ TEST(MinidumpWritable, LocationDescriptor) {
 
   {
     SCOPED_TRACE("parent-child circular");
-    writer.Reset();
+    string_file.Reset();
     TestLocationDescriptorMinidumpWritable parent;
     TestLocationDescriptorMinidumpWritable child;
     parent.SetLocationDescriptor(&child);
@@ -770,14 +770,14 @@ TEST(MinidumpWritable, LocationDescriptor) {
     child.SetLocationDescriptor(&parent);
     child.SetString("tttt");
     parent.AddChild(&child);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(29u, writer.string().size());
-    const LocationDescriptorAndData* ldd = LDDAtIndex(writer.string(), 0);
+    ASSERT_EQ(29u, string_file.string().size());
+    const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
     EXPECT_EQ(13u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(16u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("uuuu", ldd->string);
-    ldd = LDDAtIndex(writer.string(), 16);
+    ldd = LDDAtIndex(string_file.string(), 16);
     EXPECT_EQ(13u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(0u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("tttt", ldd->string);
@@ -786,7 +786,7 @@ TEST(MinidumpWritable, LocationDescriptor) {
 
   {
     SCOPED_TRACE("grandchildren");
-    writer.Reset();
+    string_file.Reset();
     TestLocationDescriptorMinidumpWritable parent;
     TestLocationDescriptorMinidumpWritable child;
     parent.SetLocationDescriptor(&child);
@@ -805,26 +805,26 @@ TEST(MinidumpWritable, LocationDescriptor) {
     grandchild_2.SetLocationDescriptor(&child);
     grandchild_2.SetString("o");
     child.AddChild(&grandchild_2);
-    EXPECT_TRUE(parent.WriteEverything(&writer));
+    EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(58u, writer.string().size());
-    const LocationDescriptorAndData* ldd = LDDAtIndex(writer.string(), 0);
+    ASSERT_EQ(58u, string_file.string().size());
+    const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
     EXPECT_EQ(10u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(12u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("s", ldd->string);
-    ldd = LDDAtIndex(writer.string(), 12);
+    ldd = LDDAtIndex(string_file.string(), 12);
     EXPECT_EQ(0u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(0u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("r", ldd->string);
-    ldd = LDDAtIndex(writer.string(), 24);
+    ldd = LDDAtIndex(string_file.string(), 24);
     EXPECT_EQ(10u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(12u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("q", ldd->string);
-    ldd = LDDAtIndex(writer.string(), 36);
+    ldd = LDDAtIndex(string_file.string(), 36);
     EXPECT_EQ(10u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(12u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("p", ldd->string);
-    ldd = LDDAtIndex(writer.string(), 48);
+    ldd = LDDAtIndex(string_file.string(), 48);
     EXPECT_EQ(10u, ldd->location_descriptor.DataSize);
     EXPECT_EQ(12u, ldd->location_descriptor.Rva);
     EXPECT_STREQ("o", ldd->string);

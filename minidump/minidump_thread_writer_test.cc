@@ -33,7 +33,7 @@
 #include "snapshot/test/test_cpu_context.h"
 #include "snapshot/test/test_memory_snapshot.h"
 #include "snapshot/test/test_thread_snapshot.h"
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 
 namespace crashpad {
 namespace test {
@@ -82,16 +82,16 @@ TEST(MinidumpThreadWriter, EmptyThreadList) {
 
   minidump_file_writer.AddStream(thread_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_THREAD_LIST),
-            file_writer.string().size());
+            string_file.string().size());
 
   const MINIDUMP_THREAD_LIST* thread_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetThreadListStream(file_writer.string(), &thread_list, nullptr));
+      GetThreadListStream(string_file.string(), &thread_list, nullptr));
 
   EXPECT_EQ(0u, thread_list->NumberOfThreads);
 }
@@ -162,17 +162,17 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
   thread_list_writer->AddThread(thread_writer.Pass());
   minidump_file_writer.AddStream(thread_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_THREAD_LIST) + 1 * sizeof(MINIDUMP_THREAD) +
                 1 * sizeof(MinidumpContextX86),
-            file_writer.string().size());
+            string_file.string().size());
 
   const MINIDUMP_THREAD_LIST* thread_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetThreadListStream(file_writer.string(), &thread_list, nullptr));
+      GetThreadListStream(string_file.string(), &thread_list, nullptr));
 
   EXPECT_EQ(1u, thread_list->NumberOfThreads);
 
@@ -188,7 +188,7 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
   ASSERT_NO_FATAL_FAILURE(
       ExpectThread(&expected,
                    &thread_list->Threads[0],
-                   file_writer.string(),
+                   string_file.string(),
                    nullptr,
                    reinterpret_cast<const void**>(&observed_context)));
 
@@ -229,17 +229,17 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
   thread_list_writer->AddThread(thread_writer.Pass());
   minidump_file_writer.AddStream(thread_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_THREAD_LIST) + 1 * sizeof(MINIDUMP_THREAD) +
                 1 * sizeof(MinidumpContextAMD64) + kMemorySize,
-            file_writer.string().size());
+            string_file.string().size());
 
   const MINIDUMP_THREAD_LIST* thread_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetThreadListStream(file_writer.string(), &thread_list, nullptr));
+      GetThreadListStream(string_file.string(), &thread_list, nullptr));
 
   EXPECT_EQ(1u, thread_list->NumberOfThreads);
 
@@ -258,14 +258,14 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
   ASSERT_NO_FATAL_FAILURE(
       ExpectThread(&expected,
                    &thread_list->Threads[0],
-                   file_writer.string(),
+                   string_file.string(),
                    &observed_stack,
                    reinterpret_cast<const void**>(&observed_context)));
 
   ASSERT_NO_FATAL_FAILURE(
       ExpectMinidumpMemoryDescriptorAndContents(&expected.Stack,
                                                 observed_stack,
-                                                file_writer.string(),
+                                                string_file.string(),
                                                 kMemoryValue,
                                                 true));
   ASSERT_NO_FATAL_FAILURE(
@@ -362,8 +362,8 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   minidump_file_writer.AddStream(thread_list_writer.Pass());
   minidump_file_writer.AddStream(memory_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   ASSERT_EQ(sizeof(MINIDUMP_HEADER) + 2 * sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_THREAD_LIST) + 3 * sizeof(MINIDUMP_THREAD) +
@@ -371,12 +371,12 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
                 3 * sizeof(MINIDUMP_MEMORY_DESCRIPTOR) +
                 3 * sizeof(MinidumpContextX86) + kMemorySize0 + kMemorySize1 +
                 kMemorySize2 + 12,  // 12 for alignment
-            file_writer.string().size());
+            string_file.string().size());
 
   const MINIDUMP_THREAD_LIST* thread_list = nullptr;
   const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetThreadListStream(file_writer.string(), &thread_list, &memory_list));
+      GetThreadListStream(string_file.string(), &thread_list, &memory_list));
 
   EXPECT_EQ(3u, thread_list->NumberOfThreads);
   EXPECT_EQ(3u, memory_list->NumberOfMemoryRanges);
@@ -399,14 +399,14 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expected,
                      &thread_list->Threads[0],
-                     file_writer.string(),
+                     string_file.string(),
                      &observed_stack,
                      reinterpret_cast<const void**>(&observed_context)));
 
     ASSERT_NO_FATAL_FAILURE(
         ExpectMinidumpMemoryDescriptorAndContents(&expected.Stack,
                                                   observed_stack,
-                                                  file_writer.string(),
+                                                  string_file.string(),
                                                   kMemoryValue0,
                                                   false));
     ASSERT_NO_FATAL_FAILURE(
@@ -433,14 +433,14 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expected,
                      &thread_list->Threads[1],
-                     file_writer.string(),
+                     string_file.string(),
                      &observed_stack,
                      reinterpret_cast<const void**>(&observed_context)));
 
     ASSERT_NO_FATAL_FAILURE(
         ExpectMinidumpMemoryDescriptorAndContents(&expected.Stack,
                                                   observed_stack,
-                                                  file_writer.string(),
+                                                  string_file.string(),
                                                   kMemoryValue1,
                                                   false));
     ASSERT_NO_FATAL_FAILURE(
@@ -467,14 +467,14 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expected,
                      &thread_list->Threads[2],
-                     file_writer.string(),
+                     string_file.string(),
                      &observed_stack,
                      reinterpret_cast<const void**>(&observed_context)));
 
     ASSERT_NO_FATAL_FAILURE(
         ExpectMinidumpMemoryDescriptorAndContents(&expected.Stack,
                                                   observed_stack,
-                                                  file_writer.string(),
+                                                  string_file.string(),
                                                   kMemoryValue2,
                                                   true));
     ASSERT_NO_FATAL_FAILURE(
@@ -607,13 +607,13 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
   minidump_file_writer.AddStream(thread_list_writer.Pass());
   minidump_file_writer.AddStream(memory_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_TRUE(minidump_file_writer.WriteEverything(&file_writer));
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const MINIDUMP_THREAD_LIST* thread_list = nullptr;
   const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
-      GetThreadListStream(file_writer.string(), &thread_list, &memory_list));
+      GetThreadListStream(string_file.string(), &thread_list, &memory_list));
 
   ASSERT_EQ(3u, thread_list->NumberOfThreads);
   ASSERT_EQ(2u, memory_list->NumberOfMemoryRanges);
@@ -629,7 +629,7 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
     ASSERT_NO_FATAL_FAILURE(
         ExpectThread(&expect_threads[index],
                      &thread_list->Threads[index],
-                     file_writer.string(),
+                     string_file.string(),
                      observed_stack_p,
                      reinterpret_cast<const void**>(&observed_context)));
 
@@ -640,7 +640,7 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
       ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptorAndContents(
           &expect_threads[index].Stack,
           observed_stack,
-          file_writer.string(),
+          string_file.string(),
           memory_values[index],
           index == thread_list->NumberOfThreads - 1));
 
@@ -673,8 +673,8 @@ TEST(MinidumpThreadWriterDeathTest, NoContext) {
   thread_list_writer->AddThread(thread_writer.Pass());
   minidump_file_writer.AddStream(thread_list_writer.Pass());
 
-  StringFileWriter file_writer;
-  ASSERT_DEATH(minidump_file_writer.WriteEverything(&file_writer), "context_");
+  StringFile string_file;
+  ASSERT_DEATH(minidump_file_writer.WriteEverything(&string_file), "context_");
 }
 
 TEST(MinidumpThreadWriterDeathTest, InitializeFromSnapshot_NoContext) {

@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/file/string_file_writer.h"
+#include "util/file/string_file.h"
 
 #include <string.h>
+
+#include <algorithm>
+#include <limits>
 
 #include "base/logging.h"
 #include "base/numerics/safe_math.h"
@@ -22,18 +25,48 @@
 
 namespace crashpad {
 
-StringFileWriter::StringFileWriter() : string_(), offset_(0) {
+StringFile::StringFile() : string_(), offset_(0) {
 }
 
-StringFileWriter::~StringFileWriter() {
+StringFile::~StringFile() {
 }
 
-void StringFileWriter::Reset() {
+void StringFile::SetString(const std::string& string) {
+  CHECK_LE(string.size(),
+           implicit_cast<size_t>(std::numeric_limits<ssize_t>::max()));
+  string_ = string;
+  offset_ = 0;
+}
+
+void StringFile::Reset() {
   string_.clear();
   offset_ = 0;
 }
 
-bool StringFileWriter::Write(const void* data, size_t size) {
+ssize_t StringFile::Read(void* data, size_t size) {
+  DCHECK(offset_.IsValid());
+
+  const size_t offset = offset_.ValueOrDie();
+  if (offset >= string_.size()) {
+    return 0;
+  }
+
+  const size_t nread = std::min(size, string_.size() - offset);
+
+  base::CheckedNumeric<ssize_t> new_offset = offset_;
+  new_offset += nread;
+  if (!new_offset.IsValid()) {
+    LOG(ERROR) << "Read(): file too large";
+    return -1;
+  }
+
+  memcpy(data, &string_[offset], nread);
+  offset_ = new_offset;
+
+  return nread;
+}
+
+bool StringFile::Write(const void* data, size_t size) {
   DCHECK(offset_.IsValid());
 
   const size_t offset = offset_.ValueOrDie();
@@ -54,7 +87,7 @@ bool StringFileWriter::Write(const void* data, size_t size) {
   return true;
 }
 
-bool StringFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
+bool StringFile::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
   DCHECK(offset_.IsValid());
 
   if (iovecs->empty()) {
@@ -87,7 +120,7 @@ bool StringFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
   return true;
 }
 
-FileOffset StringFileWriter::Seek(FileOffset offset, int whence) {
+FileOffset StringFile::Seek(FileOffset offset, int whence) {
   DCHECK(offset_.IsValid());
 
   size_t base_offset;
