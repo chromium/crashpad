@@ -26,7 +26,7 @@ namespace crashpad {
 
 //! \brief An interface to read to files and other file-like objects with
 //!     semantics matching the underlying platform (POSIX or Windows).
-class FileReaderInterface : public FileSeekerInterface {
+class FileReaderInterface : public virtual FileSeekerInterface {
  public:
   //! \brief Wraps ReadFile(), or provides an implementation with identical
   //!     semantics.
@@ -35,6 +35,15 @@ class FileReaderInterface : public FileSeekerInterface {
   //!     which may be `0` or any positive value less than or equal to \a size.
   //!     `-1` if the operation failed, with an error message logged.
   virtual ssize_t Read(void* data, size_t size) = 0;
+
+  //! \brief Wraps Read(), ensuring that the read succeeded and exactly \a size
+  //!     bytes were read.
+  //!
+  //! Semantically, this behaves as LoggingReadFile().
+  //!
+  //! \return `true` if the operation succeeded, `false` if it failed, with an
+  //!     error message logged. Short reads are treated as failures.
+  bool ReadExactly(void* data, size_t size);
 
  protected:
   ~FileReaderInterface() {}

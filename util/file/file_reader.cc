@@ -19,6 +19,20 @@
 
 namespace crashpad {
 
+bool FileReaderInterface::ReadExactly(void* data, size_t size) {
+  ssize_t expect = base::checked_cast<ssize_t>(size);
+  ssize_t rv = Read(data, size);
+  if (rv < 0) {
+    // Read() will have logged its own error.
+    return false;
+  } else if (rv != expect) {
+    LOG(ERROR) << "ReadExactly(): expected " << expect << ", observed " << rv;
+    return false;
+  }
+
+  return true;
+}
+
 WeakFileHandleFileReader::WeakFileHandleFileReader(FileHandle file_handle)
     : file_handle_(file_handle) {
 }

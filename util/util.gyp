@@ -32,6 +32,7 @@
         'file/file_io_win.cc',
         'file/file_reader.cc',
         'file/file_reader.h',
+        'file/file_seeker.cc',
         'file/file_seeker.h',
         'file/file_writer.cc',
         'file/file_writer.h',

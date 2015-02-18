@@ -30,6 +30,21 @@ class FileSeekerInterface {
   //!     with an error message logged.
   virtual FileOffset Seek(FileOffset offset, int whence) = 0;
 
+  //! \brief Wraps Seek(), using `SEEK_CUR` to obtain the file’s current
+  //!     position.
+  //!
+  //! \return The file’s current position on success. `-1` on failure, with an
+  //!     error message logged.
+  FileOffset SeekGet();
+
+  //! \brief Wraps Seek(), using `SEEK_SET`, ensuring that the seek succeeded
+  //!     and the file is positioned as desired.
+  //!
+  //! \return `true` if the operation succeeded, `false` if it failed, with an
+  //!     error message logged. A failure to reposition the file as desired is
+  //!     treated as a failure.
+  bool SeekSet(FileOffset offset);
+
  protected:
   ~FileSeekerInterface() {}
 };

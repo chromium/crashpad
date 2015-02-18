@@ -117,6 +117,17 @@ TEST(StringFile, SetString) {
   EXPECT_EQ(kString3, string_file.string());
 }
 
+TEST(StringFile, ReadExactly) {
+  StringFile string_file;
+  string_file.SetString("1234567");
+  char buf[4] = "***";
+  EXPECT_TRUE(string_file.ReadExactly(buf, 3));
+  EXPECT_STREQ("123", buf);
+  EXPECT_TRUE(string_file.ReadExactly(buf, 3));
+  EXPECT_STREQ("456", buf);
+  EXPECT_FALSE(string_file.ReadExactly(buf, 3));
+}
+
 TEST(StringFile, Reset) {
   StringFile string_file;
 
@@ -463,6 +474,22 @@ TEST(StringFile, SeekInvalid) {
   EXPECT_EQ(1, string_file.Seek(1, SEEK_SET));
   EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
   EXPECT_LT(string_file.Seek(kMaxOffset, SEEK_CUR), 0);
+}
+
+TEST(StringFile, SeekSet) {
+  StringFile string_file;
+  EXPECT_TRUE(string_file.SeekSet(1));
+  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_TRUE(string_file.SeekSet(0));
+  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_TRUE(string_file.SeekSet(10));
+  EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
+  EXPECT_FALSE(string_file.SeekSet(-1));
+  EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
+  EXPECT_FALSE(string_file.SeekSet(std::numeric_limits<ssize_t>::min()));
+  EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
+  EXPECT_FALSE(string_file.SeekSet(std::numeric_limits<FileOffset>::min()));
+  EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
 }
 
 }  // namespace

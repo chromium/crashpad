@@ -42,7 +42,7 @@ struct WritableIoVec {
 
 //! \brief An interface to write to files and other file-like objects with
 //!     semantics matching the underlying platform (POSIX or Windows).
-class FileWriterInterface : public FileSeekerInterface {
+class FileWriterInterface : public virtual FileSeekerInterface {
  public:
   //! \brief Wraps LoggingWriteFile(), or provides an implementation with
   //!     identical semantics.
