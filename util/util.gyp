@@ -131,6 +131,8 @@
         'synchronization/semaphore.h',
         'win/scoped_handle.cc',
         'win/scoped_handle.h',
+        'win/time.cc',
+        'win/time.h',
       ],
       'conditions': [
         ['OS=="mac"', {
@@ -306,6 +308,7 @@
         'test/multiprocess_exec_test.cc',
         'test/multiprocess_posix_test.cc',
         'test/scoped_temp_dir_test.cc',
+        'win/time_test.cc',
       ],
       'conditions': [
         ['OS=="mac"', {
