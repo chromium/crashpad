@@ -107,6 +107,7 @@ void ProcessSnapshotMac::ProcessCPUTimes(timeval* user_time,
 
 const std::map<std::string, std::string>&
 ProcessSnapshotMac::AnnotationsSimpleMap() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return annotations_simple_map_;
 }
 
