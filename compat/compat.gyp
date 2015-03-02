@@ -31,6 +31,7 @@
         'non_win/windows.h',
         'non_win/winnt.h',
         'win/sys/types.h',
+        'win/winnt.h',
       ],
       'conditions': [
         ['OS=="mac"', {

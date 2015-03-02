@@ -38,6 +38,9 @@ class SystemSnapshot {
 
     //! \brief Mac OS X.
     kOperatingSystemMacOSX,
+
+    //! \brief Windows.
+    kOperatingSystemWindows,
   };
 
   //! \brief A system’s daylight saving time status.

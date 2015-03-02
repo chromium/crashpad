@@ -78,7 +78,21 @@
         'process_snapshot.h',
         'system_snapshot.h',
         'thread_snapshot.h',
+        'win/process_reader_win.cc',
+        'win/process_reader_win.h',
+        'win/system_snapshot_win.cc',
+        'win/system_snapshot_win.h',
       ],
+      'conditions': [
+        ['OS=="win"', {
+          'link_settings': {
+            'libraries': [
+              '-lpowrprof.lib',
+              '-lversion.lib',
+            ],
+          },
+        }],
+      ]
     },
     {
       'target_name': 'snapshot_test_lib',
@@ -135,6 +149,7 @@
         'mac/process_types_test.cc',
         'mac/system_snapshot_mac_test.cc',
         'minidump/process_snapshot_minidump_test.cc',
+        'win/system_snapshot_win_test.cc',
       ],
     },
   ],
