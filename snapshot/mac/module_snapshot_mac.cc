@@ -136,6 +136,7 @@ void ModuleSnapshotMac::UUID(crashpad::UUID* uuid) const {
 }
 
 std::vector<std::string> ModuleSnapshotMac::AnnotationsVector() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   MachOImageAnnotationsReader annotations_reader(
       process_reader_, mach_o_image_reader_, name_);
   return annotations_reader.Vector();
@@ -143,6 +144,7 @@ std::vector<std::string> ModuleSnapshotMac::AnnotationsVector() const {
 
 std::map<std::string, std::string> ModuleSnapshotMac::AnnotationsSimpleMap()
     const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   MachOImageAnnotationsReader annotations_reader(
       process_reader_, mach_o_image_reader_, name_);
   return annotations_reader.SimpleMap();

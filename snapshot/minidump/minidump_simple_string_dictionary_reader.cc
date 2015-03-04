@@ -48,7 +48,8 @@ bool ReadMinidumpSimpleStringDictionary(
   }
 
   if (location.DataSize !=
-      entry_count * sizeof(MinidumpSimpleStringDictionaryEntry)) {
+      sizeof(MinidumpSimpleStringDictionary) +
+          entry_count * sizeof(MinidumpSimpleStringDictionaryEntry)) {
     LOG(ERROR) << "simple_string_dictionary size mismatch";
     return false;
   }
@@ -63,19 +64,17 @@ bool ReadMinidumpSimpleStringDictionary(
   for (const MinidumpSimpleStringDictionaryEntry& entry : entries) {
     std::string key;
     if (!ReadMinidumpUTF8String(file_reader, entry.key, &key)) {
-      // Not a hard error, keep trying.
-      continue;
+      return false;
     }
 
     std::string value;
     if (!ReadMinidumpUTF8String(file_reader, entry.value, &value)) {
-      // Not a hard error, keep trying.
-      continue;
+      return false;
     }
 
     if (local_dictionary.find(key) != local_dictionary.end()) {
       LOG(WARNING) << "duplicate key " << key << ", discarding value " << value;
-      continue;
+      return false;
     }
 
     local_dictionary.insert(std::make_pair(key, value));

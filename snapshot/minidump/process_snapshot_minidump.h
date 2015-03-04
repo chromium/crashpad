@@ -26,12 +26,14 @@
 #include "base/basictypes.h"
 #include "minidump/minidump_extensions.h"
 #include "snapshot/exception_snapshot.h"
+#include "snapshot/minidump/module_snapshot_minidump.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
 #include "snapshot/thread_snapshot.h"
 #include "util/file/file_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -67,11 +69,23 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
  private:
   // Initializes data carried in a MinidumpCrashpadInfo stream on behalf of
   // Initialize().
-  void InitializeCrashpadInfo();
+  bool InitializeCrashpadInfo();
+
+  // Initializes data carried in a MINIDUMP_MODULE_LIST stream on behalf of
+  // Initialize().
+  bool InitializeModules();
+
+  // Initializes data carried in a MinidumpModuleCrashpadInfoList structure on
+  // behalf of InitializeModules(). This makes use of MinidumpCrashpadInfo as
+  // well, so it must be called after InitializeCrashpadInfo().
+  bool InitializeModulesCrashpadInfo(
+      std::map<uint32_t, MINIDUMP_LOCATION_DESCRIPTOR>*
+          module_crashpad_info_links);
 
   MINIDUMP_HEADER header_;
   std::vector<MINIDUMP_DIRECTORY> stream_directory_;
   std::map<MinidumpStreamType, const MINIDUMP_LOCATION_DESCRIPTOR*> stream_map_;
+  PointerVector<internal::ModuleSnapshotMinidump> modules_;
   MinidumpCrashpadInfo crashpad_info_;
   std::map<std::string, std::string> annotations_simple_map_;
   FileReaderInterface* file_reader_;  // weak

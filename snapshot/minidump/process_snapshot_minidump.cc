@@ -14,6 +14,9 @@
 
 #include "snapshot/minidump/process_snapshot_minidump.h"
 
+#include <utility>
+
+#include "base/memory/scoped_ptr.h"
 #include "util/file/file_io.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 
@@ -24,6 +27,7 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       header_(),
       stream_directory_(),
       stream_map_(),
+      modules_(),
       crashpad_info_(),
       annotations_simple_map_(),
       file_reader_(nullptr),
@@ -80,33 +84,35 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
 
-  InitializeCrashpadInfo();
+  if (!InitializeCrashpadInfo()) {
+    return false;
+  }
 
-  return true;
+  return InitializeModules();
 }
 
 pid_t ProcessSnapshotMinidump::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
   return 0;
 }
 
 pid_t ProcessSnapshotMinidump::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
   return 0;
 }
 
 void ProcessSnapshotMinidump::SnapshotTime(timeval* snapshot_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
   snapshot_time->tv_sec = 0;
   snapshot_time->tv_usec = 0;
 }
 
 void ProcessSnapshotMinidump::ProcessStartTime(timeval* start_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
   start_time->tv_sec = 0;
   start_time->tv_usec = 0;
 }
@@ -114,7 +120,7 @@ void ProcessSnapshotMinidump::ProcessStartTime(timeval* start_time) const {
 void ProcessSnapshotMinidump::ProcessCPUTimes(timeval* user_time,
                                               timeval* system_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
   user_time->tv_sec = 0;
   user_time->tv_usec = 0;
   system_time->tv_sec = 0;
@@ -128,62 +134,185 @@ ProcessSnapshotMinidump::AnnotationsSimpleMap() const {
   // annotations_simple_map_ to be lazily constructed: InitializeCrashpadInfo()
   // could be called here, and from other locations that require it, rather than
   // calling it from Initialize().
+  // https://code.google.com/p/crashpad/issues/detail?id=9
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return annotations_simple_map_;
 }
 
 const SystemSnapshot* ProcessSnapshotMinidump::System() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
   return nullptr;
 }
 
 std::vector<const ThreadSnapshot*> ProcessSnapshotMinidump::Threads() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
   return std::vector<const ThreadSnapshot*>();
 }
 
 std::vector<const ModuleSnapshot*> ProcessSnapshotMinidump::Modules() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
-  return std::vector<const ModuleSnapshot*>();
+  std::vector<const ModuleSnapshot*> modules;
+  for (internal::ModuleSnapshotMinidump* module : modules_) {
+    modules.push_back(module);
+  }
+  return modules;
 }
 
 const ExceptionSnapshot* ProcessSnapshotMinidump::Exception() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
   return nullptr;
 }
 
-void ProcessSnapshotMinidump::InitializeCrashpadInfo() {
-  const auto& it = stream_map_.find(kMinidumpStreamTypeCrashpadInfo);
-  if (it == stream_map_.end()) {
-    return;
+bool ProcessSnapshotMinidump::InitializeCrashpadInfo() {
+  const auto& stream_it = stream_map_.find(kMinidumpStreamTypeCrashpadInfo);
+  if (stream_it == stream_map_.end()) {
+    return true;
   }
 
-  if (it->second->DataSize < sizeof(crashpad_info_)) {
+  if (stream_it->second->DataSize < sizeof(crashpad_info_)) {
     LOG(ERROR) << "crashpad_info size mismatch";
-    return;
+    return false;
   }
 
-  if (!file_reader_->SeekSet(it->second->Rva)) {
-    return;
+  if (!file_reader_->SeekSet(stream_it->second->Rva)) {
+    return false;
   }
 
   if (!file_reader_->ReadExactly(&crashpad_info_, sizeof(crashpad_info_))) {
-    return;
+    return false;
   }
 
   if (crashpad_info_.version != MinidumpCrashpadInfo::kVersion) {
     LOG(ERROR) << "crashpad_info version mismatch";
-    return;
+    return false;
   }
 
-  internal::ReadMinidumpSimpleStringDictionary(
+  return internal::ReadMinidumpSimpleStringDictionary(
       file_reader_,
       crashpad_info_.simple_annotations,
       &annotations_simple_map_);
+}
+
+bool ProcessSnapshotMinidump::InitializeModules() {
+  const auto& stream_it = stream_map_.find(kMinidumpStreamTypeModuleList);
+  if (stream_it == stream_map_.end()) {
+    return true;
+  }
+
+  std::map<uint32_t, MINIDUMP_LOCATION_DESCRIPTOR> module_crashpad_info_links;
+  if (!InitializeModulesCrashpadInfo(&module_crashpad_info_links)) {
+    return false;
+  }
+
+  if (stream_it->second->DataSize < sizeof(MINIDUMP_MODULE_LIST)) {
+    LOG(ERROR) << "module_list size mismatch";
+    return false;
+  }
+
+  if (!file_reader_->SeekSet(stream_it->second->Rva)) {
+    return false;
+  }
+
+  uint32_t module_count;
+  if (!file_reader_->ReadExactly(&module_count, sizeof(module_count))) {
+    return false;
+  }
+
+  if (sizeof(MINIDUMP_MODULE_LIST) + module_count * sizeof(MINIDUMP_MODULE) !=
+          stream_it->second->DataSize) {
+    LOG(ERROR) << "module_list size mismatch";
+    return false;
+  }
+
+  for (uint32_t module_index = 0; module_index < module_count; ++module_index) {
+    const RVA module_rva = stream_it->second->Rva + sizeof(module_count) +
+                           module_index * sizeof(MINIDUMP_MODULE);
+
+    const auto& module_crashpad_info_it =
+        module_crashpad_info_links.find(module_index);
+    const MINIDUMP_LOCATION_DESCRIPTOR* module_crashpad_info_location =
+        module_crashpad_info_it != module_crashpad_info_links.end()
+            ? &module_crashpad_info_it->second
+            : nullptr;
+
+    auto module = make_scoped_ptr(new internal::ModuleSnapshotMinidump());
+    if (!module->Initialize(
+            file_reader_, module_rva, module_crashpad_info_location)) {
+      return false;
+    }
+
+    modules_.push_back(module.release());
+  }
+
+  return true;
+}
+
+bool ProcessSnapshotMinidump::InitializeModulesCrashpadInfo(
+    std::map<uint32_t, MINIDUMP_LOCATION_DESCRIPTOR>*
+        module_crashpad_info_links) {
+  module_crashpad_info_links->clear();
+
+  if (crashpad_info_.version != MinidumpCrashpadInfo::kVersion) {
+    return false;
+  }
+
+  if (crashpad_info_.module_list.Rva == 0) {
+    return true;
+  }
+
+  if (crashpad_info_.module_list.DataSize <
+          sizeof(MinidumpModuleCrashpadInfoList)) {
+    LOG(ERROR) << "module_crashpad_info_list size mismatch";
+    return false;
+  }
+
+  if (!file_reader_->SeekSet(crashpad_info_.module_list.Rva)) {
+    return false;
+  }
+
+  uint32_t crashpad_module_count;
+  if (!file_reader_->ReadExactly(&crashpad_module_count,
+                                 sizeof(crashpad_module_count))) {
+    return false;
+  }
+
+  if (crashpad_info_.module_list.DataSize !=
+          sizeof(MinidumpModuleCrashpadInfoList) +
+              crashpad_module_count * sizeof(MinidumpModuleCrashpadInfoLink)) {
+    LOG(ERROR) << "module_crashpad_info_list size mismatch";
+    return false;
+  }
+
+  scoped_ptr<MinidumpModuleCrashpadInfoLink[]> minidump_links(
+      new MinidumpModuleCrashpadInfoLink[crashpad_module_count]);
+  if (!file_reader_->ReadExactly(
+          &minidump_links[0],
+          crashpad_module_count * sizeof(MinidumpModuleCrashpadInfoLink))) {
+    return false;
+  }
+
+  for (uint32_t crashpad_module_index = 0;
+       crashpad_module_index < crashpad_module_count;
+       ++crashpad_module_index) {
+    const MinidumpModuleCrashpadInfoLink& minidump_link =
+        minidump_links[crashpad_module_index];
+    if (module_crashpad_info_links->find(
+            minidump_link.minidump_module_list_index) !=
+        module_crashpad_info_links->end()) {
+      LOG(WARNING)
+          << "duplicate module_crashpad_info_list minidump_module_list_index "
+          << minidump_link.minidump_module_list_index;
+      return false;
+    } else {
+      module_crashpad_info_links->insert(std::make_pair(
+          minidump_link.minidump_module_list_index, minidump_link.location));
+    }
+  }
+
+  return true;
 }
 
 }  // namespace crashpad

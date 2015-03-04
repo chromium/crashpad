@@ -12,31 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_MINIDUMP_MINIDUMP_SIMPLE_STRING_DICTIONARY_READER_H_
-#define CRASHPAD_SNAPSHOT_MINIDUMP_MINIDUMP_SIMPLE_STRING_DICTIONARY_READER_H_
+#ifndef CRASHPAD_SNAPSHOT_MINIDUMP_MINIDUMP_STRING_LIST_READER_H_
+#define CRASHPAD_SNAPSHOT_MINIDUMP_MINIDUMP_STRING_LIST_READER_H_
 
 #include <windows.h>
 #include <dbghelp.h>
 
-#include <map>
 #include <string>
+#include <vector>
 
 #include "util/file/file_reader.h"
 
 namespace crashpad {
 namespace internal {
 
-//! \brief Reads a MinidumpSimpleStringDictionary from a minidump file \a
-//!     location in \a file_reader, and returns it in \a dictionary.
+//! \brief Reads a list of MinidumpUTF8String objects in a MinidumpRVAList from
+//!     a minidump file \a location in \a file_reader, and returns it in \a
+//!     list.
 //!
-//! \return `true` on success, with \a dictionary set by replacing its contents.
+//! \return `true` on success, with \a list set by replacing its contents.
 //!     `false` on failure, with a message logged.
-bool ReadMinidumpSimpleStringDictionary(
-    FileReaderInterface* file_reader,
-    const MINIDUMP_LOCATION_DESCRIPTOR& location,
-    std::map<std::string, std::string>* dictionary);
+bool ReadMinidumpStringList(FileReaderInterface* file_reader,
+                            const MINIDUMP_LOCATION_DESCRIPTOR& location,
+                            std::vector<std::string>* list);
 
 }  // namespace internal
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_MINIDUMP_MINIDUMP_SIMPLE_STRING_DICTIONARY_READER_H_
+#endif  // CRASHPAD_SNAPSHOT_MINIDUMP_MINIDUMP_STRING_LIST_READER_H_

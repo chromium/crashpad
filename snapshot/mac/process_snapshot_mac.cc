@@ -144,10 +144,9 @@ void ProcessSnapshotMac::InitializeThreads() {
       process_reader_.Threads();
   for (const ProcessReader::Thread& process_reader_thread :
        process_reader_threads) {
-    internal::ThreadSnapshotMac* thread = new internal::ThreadSnapshotMac();
-    threads_.push_back(thread);
-    if (!thread->Initialize(&process_reader_, process_reader_thread)) {
-      threads_.pop_back();
+    auto thread = make_scoped_ptr(new internal::ThreadSnapshotMac());
+    if (thread->Initialize(&process_reader_, process_reader_thread)) {
+      threads_.push_back(thread.release());
     }
   }
 }
@@ -157,10 +156,9 @@ void ProcessSnapshotMac::InitializeModules() {
       process_reader_.Modules();
   for (const ProcessReader::Module& process_reader_module :
        process_reader_modules) {
-    internal::ModuleSnapshotMac* module = new internal::ModuleSnapshotMac();
-    modules_.push_back(module);
-    if (!module->Initialize(&process_reader_, process_reader_module)) {
-      modules_.pop_back();
+    auto module = make_scoped_ptr(new internal::ModuleSnapshotMac());
+    if (module->Initialize(&process_reader_, process_reader_module)) {
+      modules_.push_back(module.release());
     }
   }
 }
