@@ -23,7 +23,6 @@
 #include "base/basictypes.h"
 #include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
-#include "minidump/minidump_location_descriptor_list_writer.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writable.h"
 #include "util/stdlib/pointer_container.h"
@@ -48,20 +47,11 @@ class MinidumpModuleCrashpadInfoWriter final
   //! MinidumpSimpleStringDictionaryWriter::IsUseful().
   //!
   //! \param[in] module_snapshot The module snapshot to use as source data.
-  //! \param[in] module_list_index The index of the MINIDUMP_MODULE initialized
-  //!     from \a module_snapshot in the minidump file’s MINIDUMP_MODULE_LIST
-  //!     stream.
   //!
   //! \note Valid in #kStateMutable. No mutator methods may be called before
   //!     this method, and it is not normally necessary to call any mutator
   //!     methods after this method.
-  void InitializeFromSnapshot(const ModuleSnapshot* module_snapshot,
-                              size_t module_list_index);
-
-  //! \brief Sets MinidumpModuleCrashpadInfo::minidump_module_list_index.
-  void SetMinidumpModuleListIndex(uint32_t minidump_module_list_index) {
-    module_.minidump_module_list_index = minidump_module_list_index;
-  }
+  void InitializeFromSnapshot(const ModuleSnapshot* module_snapshot);
 
   //! \brief Arranges for MinidumpModuleCrashpadInfo::list_annotations to point
   //!     to the internal::MinidumpUTF8StringListWriter object to be written by
@@ -112,7 +102,7 @@ class MinidumpModuleCrashpadInfoWriter final
 //! \brief The writer for a MinidumpModuleCrashpadInfoList object in a minidump
 //!     file, containing a list of MinidumpModuleCrashpadInfo objects.
 class MinidumpModuleCrashpadInfoListWriter final
-    : public internal::MinidumpLocationDescriptorListWriter {
+    : public internal::MinidumpWritable {
  public:
   MinidumpModuleCrashpadInfoListWriter();
   ~MinidumpModuleCrashpadInfoListWriter() override;
@@ -135,11 +125,17 @@ class MinidumpModuleCrashpadInfoListWriter final
   //! \brief Adds a MinidumpModuleCrashpadInfo to the
   //!     MinidumpModuleCrashpadInfoList.
   //!
-  //! This object takes ownership of \a module and becomes its parent in the
-  //! overall tree of internal::MinidumpWritable objects.
+  //! \param[in] module Extended Crashpad-specific information about the module.
+  //!     This object takes ownership of \a module and becomes its parent in the
+  //!     overall tree of internal::MinidumpWritable objects.
+  //! \param[in] module_list_index The index of the MINIDUMP_MODULE in the
+  //!     minidump file’s MINIDUMP_MODULE_LIST stream that corresponds to \a
+  //!     module_crashpad_info.
   //!
   //! \note Valid in #kStateMutable.
-  void AddModule(scoped_ptr<MinidumpModuleCrashpadInfoWriter> module);
+  void AddModule(
+      scoped_ptr<MinidumpModuleCrashpadInfoWriter> module_crashpad_info,
+      size_t minidump_module_list_index);
 
   //! \brief Determines whether the object is useful.
   //!
@@ -150,7 +146,18 @@ class MinidumpModuleCrashpadInfoListWriter final
   //! \return `true` if the object is useful, `false` otherwise.
   bool IsUseful() const;
 
+ protected:
+  // MinidumpWritable:
+  bool Freeze() override;
+  size_t SizeOfObject() override;
+  std::vector<MinidumpWritable*> Children() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
+
  private:
+  PointerVector<MinidumpModuleCrashpadInfoWriter> module_crashpad_infos_;
+  std::vector<MinidumpModuleCrashpadInfoLink> module_crashpad_info_links_;
+  MinidumpModuleCrashpadInfoList module_crashpad_info_list_base_;
+
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCrashpadInfoListWriter);
 };
 

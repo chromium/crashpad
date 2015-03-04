@@ -181,9 +181,9 @@ struct MinidumpThreadListTraits {
   }
 };
 
-struct MinidumpLocationDescriptorListTraits {
-  using ListType = MinidumpLocationDescriptorList;
-  enum : size_t { kElementSize = sizeof(MINIDUMP_LOCATION_DESCRIPTOR) };
+struct MinidumpModuleCrashpadInfoListTraits {
+  using ListType = MinidumpModuleCrashpadInfoList;
+  enum : size_t { kElementSize = sizeof(MinidumpModuleCrashpadInfoLink) };
   static size_t ElementCount(const ListType* list) {
     return list->count;
   }
@@ -245,11 +245,11 @@ const MINIDUMP_THREAD_LIST* MinidumpWritableAtLocationDescriptor<
 }
 
 template <>
-const MinidumpLocationDescriptorList*
-MinidumpWritableAtLocationDescriptor<MinidumpLocationDescriptorList>(
+const MinidumpModuleCrashpadInfoList*
+MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfoList>(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location) {
-  return MinidumpListAtLocationDescriptor<MinidumpLocationDescriptorListTraits>(
+  return MinidumpListAtLocationDescriptor<MinidumpModuleCrashpadInfoListTraits>(
       file_contents, location);
 }
 

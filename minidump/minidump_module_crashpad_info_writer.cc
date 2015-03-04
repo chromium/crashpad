@@ -36,17 +36,10 @@ MinidumpModuleCrashpadInfoWriter::~MinidumpModuleCrashpadInfoWriter() {
 }
 
 void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
-    const ModuleSnapshot* module_snapshot, size_t module_list_index) {
+    const ModuleSnapshot* module_snapshot) {
   DCHECK_EQ(state(), kStateMutable);
   DCHECK(!list_annotations_);
   DCHECK(!simple_annotations_);
-
-  uint32_t module_list_index_u32;
-  if (!AssignIfInRange(&module_list_index_u32, module_list_index)) {
-    LOG(ERROR) << "module_list_index " << module_list_index << " out of range";
-    return;
-  }
-  SetMinidumpModuleListIndex(module_list_index_u32);
 
   auto list_annotations = make_scoped_ptr(new MinidumpUTF8StringListWriter());
   list_annotations->InitializeFromVector(module_snapshot->AnnotationsVector());
@@ -129,7 +122,10 @@ bool MinidumpModuleCrashpadInfoWriter::WriteObject(
 }
 
 MinidumpModuleCrashpadInfoListWriter::MinidumpModuleCrashpadInfoListWriter()
-    : MinidumpLocationDescriptorListWriter() {
+    : MinidumpWritable(),
+      module_crashpad_infos_(),
+      module_crashpad_info_links_(),
+      module_crashpad_info_list_base_() {
 }
 
 MinidumpModuleCrashpadInfoListWriter::~MinidumpModuleCrashpadInfoListWriter() {
@@ -138,30 +134,106 @@ MinidumpModuleCrashpadInfoListWriter::~MinidumpModuleCrashpadInfoListWriter() {
 void MinidumpModuleCrashpadInfoListWriter::InitializeFromSnapshot(
     const std::vector<const ModuleSnapshot*>& module_snapshots) {
   DCHECK_EQ(state(), kStateMutable);
-  DCHECK(IsEmpty());
-  DCHECK(child_location_descriptors().empty());
+  DCHECK(module_crashpad_infos_.empty());
+  DCHECK(module_crashpad_info_links_.empty());
 
   size_t count = module_snapshots.size();
   for (size_t index = 0; index < count; ++index) {
     const ModuleSnapshot* module_snapshot = module_snapshots[index];
 
     auto module = make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
-    module->InitializeFromSnapshot(module_snapshot, index);
+    module->InitializeFromSnapshot(module_snapshot);
     if (module->IsUseful()) {
-      AddModule(module.Pass());
+      AddModule(module.Pass(), index);
     }
   }
 }
 
 void MinidumpModuleCrashpadInfoListWriter::AddModule(
-    scoped_ptr<MinidumpModuleCrashpadInfoWriter> module) {
+    scoped_ptr<MinidumpModuleCrashpadInfoWriter> module_crashpad_info,
+    size_t minidump_module_list_index) {
   DCHECK_EQ(state(), kStateMutable);
+  DCHECK_EQ(module_crashpad_infos_.size(), module_crashpad_info_links_.size());
 
-  AddChild(module.Pass());
+  MinidumpModuleCrashpadInfoLink module_crashpad_info_link = {};
+  if (!AssignIfInRange(&module_crashpad_info_link.minidump_module_list_index,
+                       minidump_module_list_index)) {
+    LOG(ERROR) << "minidump_module_list_index " << minidump_module_list_index
+               << " out of range";
+    return;
+  }
+
+  module_crashpad_info_links_.push_back(module_crashpad_info_link);
+  module_crashpad_infos_.push_back(module_crashpad_info.release());
 }
 
 bool MinidumpModuleCrashpadInfoListWriter::IsUseful() const {
-  return !IsEmpty();
+  DCHECK_EQ(module_crashpad_infos_.size(), module_crashpad_info_links_.size());
+  return !module_crashpad_infos_.empty();
+}
+
+bool MinidumpModuleCrashpadInfoListWriter::Freeze() {
+  DCHECK_EQ(state(), kStateMutable);
+  CHECK_EQ(module_crashpad_infos_.size(), module_crashpad_info_links_.size());
+
+  if (!MinidumpWritable::Freeze()) {
+    return false;
+  }
+
+  size_t module_count = module_crashpad_infos_.size();
+  if (!AssignIfInRange(&module_crashpad_info_list_base_.count, module_count)) {
+    LOG(ERROR) << "module_count " << module_count << " out of range";
+    return false;
+  }
+
+  for (size_t index = 0; index < module_count; ++index) {
+    module_crashpad_infos_[index]->RegisterLocationDescriptor(
+        &module_crashpad_info_links_[index].location);
+  }
+
+  return true;
+}
+
+size_t MinidumpModuleCrashpadInfoListWriter::SizeOfObject() {
+  DCHECK_GE(state(), kStateFrozen);
+  DCHECK_EQ(module_crashpad_infos_.size(), module_crashpad_info_links_.size());
+
+  return sizeof(module_crashpad_info_list_base_) +
+         module_crashpad_info_links_.size() *
+             sizeof(module_crashpad_info_links_[0]);
+}
+
+std::vector<internal::MinidumpWritable*>
+MinidumpModuleCrashpadInfoListWriter::Children() {
+  DCHECK_GE(state(), kStateFrozen);
+  DCHECK_EQ(module_crashpad_infos_.size(), module_crashpad_info_links_.size());
+
+  std::vector<MinidumpWritable*> children;
+  for (MinidumpModuleCrashpadInfoWriter* module : module_crashpad_infos_) {
+    children.push_back(module);
+  }
+
+  return children;
+}
+
+bool MinidumpModuleCrashpadInfoListWriter::WriteObject(
+    FileWriterInterface* file_writer) {
+  DCHECK_EQ(state(), kStateWritable);
+  DCHECK_EQ(module_crashpad_infos_.size(), module_crashpad_info_links_.size());
+
+  WritableIoVec iov;
+  iov.iov_base = &module_crashpad_info_list_base_;
+  iov.iov_len = sizeof(module_crashpad_info_list_base_);
+  std::vector<WritableIoVec> iovecs(1, iov);
+
+  if (!module_crashpad_info_links_.empty()) {
+    iov.iov_base = &module_crashpad_info_links_[0];
+    iov.iov_len = module_crashpad_info_links_.size() *
+                  sizeof(module_crashpad_info_links_[0]);
+    iovecs.push_back(iov);
+  }
+
+  return file_writer->WriteIoVec(&iovecs);
 }
 
 }  // namespace crashpad

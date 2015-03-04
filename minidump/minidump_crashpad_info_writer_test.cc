@@ -140,8 +140,7 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
   auto module_list_writer =
       make_scoped_ptr(new MinidumpModuleCrashpadInfoListWriter());
   auto module_writer = make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
-  module_writer->SetMinidumpModuleListIndex(kMinidumpModuleListIndex);
-  module_list_writer->AddModule(module_writer.Pass());
+  module_list_writer->AddModule(module_writer.Pass(), kMinidumpModuleListIndex);
   crashpad_info_writer->SetModuleList(module_list_writer.Pass());
 
   EXPECT_TRUE(crashpad_info_writer->IsUseful());
@@ -164,13 +163,14 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
   ASSERT_TRUE(module_list);
   ASSERT_EQ(1u, module_list->count);
 
+  EXPECT_EQ(kMinidumpModuleListIndex,
+            module_list->modules[0].minidump_module_list_index);
   const MinidumpModuleCrashpadInfo* module =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          string_file.string(), module_list->children[0]);
+          string_file.string(), module_list->modules[0].location);
   ASSERT_TRUE(module);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module->version);
-  EXPECT_EQ(kMinidumpModuleListIndex, module->minidump_module_list_index);
   EXPECT_EQ(0u, module->list_annotations.DataSize);
   EXPECT_EQ(0u, module->list_annotations.Rva);
   EXPECT_EQ(0u, module->simple_annotations.DataSize);
@@ -235,13 +235,13 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
   ASSERT_TRUE(module_list);
   ASSERT_EQ(1u, module_list->count);
 
+  EXPECT_EQ(0u, module_list->modules[0].minidump_module_list_index);
   const MinidumpModuleCrashpadInfo* module =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
-          string_file.string(), module_list->children[0]);
+          string_file.string(), module_list->modules[0].location);
   ASSERT_TRUE(module);
 
   EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module->version);
-  EXPECT_EQ(0u, module->minidump_module_list_index);
 
   const MinidumpRVAList* list_annotations =
       MinidumpWritableAtLocationDescriptor<MinidumpRVAList>(

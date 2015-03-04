@@ -322,15 +322,6 @@ struct ALIGNAS(4) PACKED MinidumpRVAList {
   RVA children[0];
 };
 
-//! \brief A list of MINIDUMP_LOCATION_DESCRIPTOR objects.
-struct ALIGNAS(4) PACKED MinidumpLocationDescriptorList {
-  //! \brief The number of children present in the #children array.
-  uint32_t count;
-
-  //! \brief Pointers to other structures in the minidump file.
-  MINIDUMP_LOCATION_DESCRIPTOR children[0];
-};
-
 //! \brief A key-value pair.
 struct ALIGNAS(4) PACKED MinidumpSimpleStringDictionaryEntry {
   //! \brief ::RVA of a MinidumpUTF8String containing the key of a key-value
@@ -383,14 +374,6 @@ struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfo {
   //! no need for any fields present in later versions.
   uint32_t version;
 
-  //! \brief A link to a MINIDUMP_MODULE structure in the module list stream.
-  //!
-  //! This field is an index into MINIDUMP_MODULE_LIST::Modules. This field’s
-  //! value must be in the range of MINIDUMP_MODULE_LIST::NumberOfEntries.
-  //!
-  //! This field is present when #version is at least `1`.
-  uint32_t minidump_module_list_index;
-
   //! \brief A MinidumpRVAList pointing to MinidumpUTF8String objects. The
   //!     module controls the data that appears here.
   //!
@@ -411,6 +394,24 @@ struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfo {
   MINIDUMP_LOCATION_DESCRIPTOR simple_annotations;
 };
 
+//! \brief A link between a MINIDUMP_MODULE structure and additional
+//!     Crashpad-specific information about a module carried within a minidump
+//!     file.
+struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfoLink {
+  //! \brief A link to a MINIDUMP_MODULE structure in the module list stream.
+  //!
+  //! This field is an index into MINIDUMP_MODULE_LIST::Modules. This field’s
+  //! value must be in the range of MINIDUMP_MODULE_LIST::NumberOfEntries.
+  uint32_t minidump_module_list_index;
+
+  //! \brief A link to a MinidumpModuleCrashpadInfo structure.
+  //!
+  //! MinidumpModuleCrashpadInfo structures are accessed indirectly through
+  //! MINIDUMP_LOCATION_DESCRIPTOR pointers to allow for future growth of the
+  //! MinidumpModuleCrashpadInfo structure.
+  MINIDUMP_LOCATION_DESCRIPTOR location;
+};
+
 //! \brief Additional Crashpad-specific information about modules carried within
 //!     a minidump file.
 //!
@@ -423,12 +424,15 @@ struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfo {
 //! structure carried within the minidump file will necessarily have
 //! Crashpad-specific information provided by a MinidumpModuleCrashpadInfo
 //! structure.
-//!
-//! MinidumpModuleCrashpadInfoList::children references
-//! MinidumpModuleCrashpadInfo children indirectly through
-//! MINIDUMP_LOCATION_DESCRIPTOR pointers to allow for future growth of the
-//! MinidumpModuleCrashpadInfo structure.
-using MinidumpModuleCrashpadInfoList = MinidumpLocationDescriptorList;
+struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfoList {
+  //! \brief The number of children present in the #modules array.
+  uint32_t count;
+
+  //! \brief Crashpad-specific information about modules, along with links to
+  //!     MINIDUMP_MODULE structures that contain module information
+  //!     traditionally carried within minidump files.
+  MinidumpModuleCrashpadInfoLink modules[0];
+};
 
 //! \brief Additional Crashpad-specific information carried within a minidump
 //!     file.

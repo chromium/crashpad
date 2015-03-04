@@ -90,7 +90,7 @@ MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_DIRECTORY);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MODULE_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_THREAD_LIST);
-MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpLocationDescriptorList);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpModuleCrashpadInfoList);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpRVAList);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpSimpleStringDictionary);
 
@@ -190,12 +190,6 @@ const MINIDUMP_THREAD_LIST* MinidumpWritableAtLocationDescriptor<
                           const MINIDUMP_LOCATION_DESCRIPTOR& location);
 
 template <>
-const MinidumpLocationDescriptorList*
-MinidumpWritableAtLocationDescriptor<MinidumpLocationDescriptorList>(
-    const std::string& file_contents,
-    const MINIDUMP_LOCATION_DESCRIPTOR& location);
-
-template <>
 const MinidumpModuleCodeViewRecordPDB20*
 MinidumpWritableAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB20>(
     const std::string& file_contents,
@@ -204,6 +198,12 @@ MinidumpWritableAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB20>(
 template <>
 const MinidumpModuleCodeViewRecordPDB70*
 MinidumpWritableAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB70>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MinidumpModuleCrashpadInfoList*
+MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfoList>(
     const std::string& file_contents,
     const MINIDUMP_LOCATION_DESCRIPTOR& location);
 

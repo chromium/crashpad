@@ -26,8 +26,7 @@ namespace test {
 const MinidumpRVAList* MinidumpRVAListAtStart(const std::string& file_contents,
                                               size_t count) {
   MINIDUMP_LOCATION_DESCRIPTOR location_descriptor;
-  location_descriptor.DataSize =
-      sizeof(MinidumpLocationDescriptorList) + count * sizeof(RVA);
+  location_descriptor.DataSize = sizeof(MinidumpRVAList) + count * sizeof(RVA);
   location_descriptor.Rva = 0;
 
   const MinidumpRVAList* list =
