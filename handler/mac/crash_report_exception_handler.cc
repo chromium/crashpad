@@ -59,9 +59,11 @@ class CallErrorWritingCrashReport {
 
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
-    CrashReportUploadThread* upload_thread)
+    CrashReportUploadThread* upload_thread,
+    const std::map<std::string, std::string>* process_annotations)
     : database_(database),
-      upload_thread_(upload_thread) {
+      upload_thread_(upload_thread),
+      process_annotations_(process_annotations) {
 }
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {
@@ -107,6 +109,18 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   if (!process_snapshot.Initialize(task)) {
     return KERN_FAILURE;
   }
+
+  if (!process_snapshot.InitializeException(thread,
+                                            exception,
+                                            code,
+                                            code_count,
+                                            *flavor,
+                                            old_state,
+                                            old_state_count)) {
+    return KERN_FAILURE;
+  }
+
+  process_snapshot.SetAnnotationsSimpleMap(*process_annotations_);
 
   CrashReportDatabase::NewReport* new_report;
   CrashReportDatabase::OperationStatus database_status =

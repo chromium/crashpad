@@ -19,6 +19,8 @@
 
 #include <pthread.h>
 
+#include <string>
+
 #include "client/crash_report_database.h"
 #include "util/synchronization/semaphore.h"
 
@@ -39,7 +41,12 @@ namespace crashpad {
 //! processes.
 class CrashReportUploadThread {
  public:
-  explicit CrashReportUploadThread(CrashReportDatabase* database);
+  //! \brief Constructs a new object.
+  //!
+  //! \param[in] database The database to upload crash reports from.
+  //! \param[in] url The URL of the server to upload crash reports to.
+  CrashReportUploadThread(CrashReportDatabase* database,
+                          const std::string& url);
   ~CrashReportUploadThread();
 
   //! \brief Starts a dedicated upload thread, which executes ThreadMain().
@@ -69,6 +76,26 @@ class CrashReportUploadThread {
   void ReportPending();
 
  private:
+  //! \brief The result code from UploadReport().
+  enum class UploadResult {
+    //! \brief The crash report was uploaded successfully.
+    kSuccess,
+
+    //! \brief The crash report upload failed in such a way that recovery is
+    //!     impossible.
+    //!
+    //! No further upload attempts should be made for the report.
+    kPermanentFailure,
+
+    //! \brief The crash report upload failed, but it might succeed again if
+    //!     retried in the future.
+    //!
+    //! If the report has not already been retried too many times, the caller
+    //! may arrange to call UploadReport() for the report again in the future,
+    //! after a suitable delay.
+    kRetry,
+  };
+
   //! \brief Calls ProcessPendingReports() in response to ReportPending() having
   //!     been called on any thread, as well as periodically on a timer.
   void ThreadMain();
@@ -81,14 +108,30 @@ class CrashReportUploadThread {
   //!
   //! \param[in] report The crash report to process.
   //!
-  //! If report upload is enabled, this method attempts to upload \a report. If
-  //! the upload is successful, the report will be marked as “completed” in the
-  //! database. If the upload fails and more retries are desired, the report’s
-  //! upload-attempt count and last-upload-attempt time will be updated in the
-  //! database and it will remain in the “pending” state. If the upload fails
-  //! and no more retries are desired, or report upload is disabled, it will be
-  //! marked as “completed” in the database without ever having been uploaded.
+  //! If report upload is enabled, this method attempts to upload \a report by
+  //! calling UplaodReport(). If the upload is successful, the report will be
+  //! marked as “completed” in the database. If the upload fails and more
+  //! retries are desired, the report’s upload-attempt count and
+  //! last-upload-attempt time will be updated in the database and it will
+  //! remain in the “pending” state. If the upload fails and no more retries are
+  //! desired, or report upload is disabled, it will be marked as “completed” in
+  //! the database without ever having been uploaded.
   void ProcessPendingReport(const CrashReportDatabase::Report& report);
+
+  //! \brief Attempts to upload a crash report.
+  //!
+  //! \param[in] report The report to upload. The caller is responsible for
+  //!     calling CrashReportDatabase::GetReportForUploading() before calling
+  //!     this method, and for calling
+  //!     CrashReportDatabase::RecordUploadAttempt() after calling this method.
+  //! \param[out] response_body If the upload attempt is successful, this will
+  //!     be set to the response body sent by the server. Breakpad-type servers
+  //!     provide the crash ID assigned by the server in the response body.
+  //!
+  //! \return A member of UploadResult indicating the result of the upload
+  //!    attempt.
+  UploadResult UploadReport(const CrashReportDatabase::Report* report,
+                            std::string* response_body);
 
   //! \brief Cals ThreadMain().
   //!
@@ -97,6 +140,7 @@ class CrashReportUploadThread {
   //! \return `nullptr`.
   static void* RunThreadMain(void* arg);
 
+  std::string url_;
   CrashReportDatabase* database_;  // weak
   Semaphore semaphore_;  // TODO(mark): Use a condition variable instead?
   pthread_t thread_;

@@ -110,9 +110,7 @@ class FileReader : public FileReaderInterface {
   //!
   //! \note After a successful call, this method cannot be called again until
   //!     after Close().
-  bool Open(const base::FilePath& path,
-            FileWriteMode write_mode,
-            FilePermissions permissions);
+  bool Open(const base::FilePath& path);
 
   //! \brief Wraps CheckedCloseHandle().
   //!

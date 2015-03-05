@@ -17,6 +17,9 @@
 
 #include <mach/mach.h>
 
+#include <map>
+#include <string>
+
 #include "base/basictypes.h"
 #include "client/crash_report_database.h"
 #include "handler/mac/crash_report_upload_thread.h"
@@ -33,8 +36,20 @@ class CrashReportExceptionHandler : public UniversalMachExcServer::Interface {
   //! \param[in] database The database to store crash reports in. Weak.
   //! \param[in] upload_thread The upload thread to notify when a new crash
   //!     report is written into \a database.
-  CrashReportExceptionHandler(CrashReportDatabase* database,
-                              CrashReportUploadThread* upload_thread);
+  //! \param[in] process_annotations A map of annotations to insert as
+  //!     process-level annotations into each crash report that is written. Do
+  //!     not confuse this with module-level annotations, which are under the
+  //!     control of the crashing process, and are used to implement Chrome’s
+  //!     “crash keys.” Process-level annotations are those that are beyond the
+  //!     control of the crashing process, which must reliably be set even if
+  //!     the process crashes before it’s able to establish its own annotations.
+  //!     To interoperate with Breakpad servers, the recommended practice is to
+  //!     specify values for the `"prod"` and `"ver"` keys as process
+  //!     annotations.
+  CrashReportExceptionHandler(
+      CrashReportDatabase* database,
+      CrashReportUploadThread* upload_thread,
+      const std::map<std::string, std::string>* process_annotations);
 
   ~CrashReportExceptionHandler();
 
@@ -61,6 +76,7 @@ class CrashReportExceptionHandler : public UniversalMachExcServer::Interface {
  private:
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
+  const std::map<std::string, std::string>* process_annotations_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };

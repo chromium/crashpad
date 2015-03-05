@@ -16,7 +16,9 @@
 #include <libgen.h>
 #include <stdlib.h>
 
+#include <map>
 #include <string>
+#include <utility>
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
@@ -34,15 +36,29 @@
 namespace crashpad {
 namespace {
 
+bool SplitString(const std::string& string,
+                 std::string* left,
+                 std::string* right) {
+  size_t equals_pos = string.find('=');
+  if (equals_pos == 0 || equals_pos == std::string::npos) {
+    return false;
+  }
+
+  left->assign(string, 0, equals_pos);
+  right->assign(string, equals_pos + 1, std::string::npos);
+  return true;
+}
+
 void Usage(const std::string& me) {
   fprintf(stderr,
 "Usage: %s [OPTION]...\n"
 "Crashpad's exception handler server.\n"
 "\n"
-"      --database=PATH    store the crash report database at PATH\n"
-"      --handshake-fd=FD  establish communication with the client over FD\n"
-"      --help             display this help and exit\n"
-"      --version          output version information and exit\n",
+"      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
+"      --database=PATH         store the crash report database at PATH\n"
+"      --handshake-fd=FD       establish communication with the client over FD\n"
+"      --help                  display this help and exit\n"
+"      --version               output version information and exit\n",
           me.c_str());
   ToolSupport::UsageTail(me);
 }
@@ -53,8 +69,10 @@ int HandlerMain(int argc, char* argv[]) {
   enum OptionFlags {
     // Long options without short equivalents.
     kOptionLastChar = 255,
+    kOptionAnnotation,
     kOptionDatabase,
     kOptionHandshakeFD,
+    kOptionURL,
 
     // Standard options.
     kOptionHelp = -2,
@@ -62,14 +80,18 @@ int HandlerMain(int argc, char* argv[]) {
   };
 
   struct {
+    std::map<std::string, std::string> annotations;
+    std::string url;
     const char* database;
     int handshake_fd;
   } options = {};
   options.handshake_fd = -1;
 
   const struct option long_options[] = {
+      {"annotation", required_argument, nullptr, kOptionAnnotation},
       {"database", required_argument, nullptr, kOptionDatabase},
       {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
+      {"url", required_argument, nullptr, kOptionURL},
       {"help", no_argument, nullptr, kOptionHelp},
       {"version", no_argument, nullptr, kOptionVersion},
       {nullptr, 0, nullptr, 0},
@@ -78,10 +100,28 @@ int HandlerMain(int argc, char* argv[]) {
   int opt;
   while ((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1) {
     switch (opt) {
-      case kOptionDatabase:
+      case kOptionAnnotation: {
+        std::string key;
+        std::string value;
+        if (!SplitString(optarg, &key, &value)) {
+          ToolSupport::UsageHint(me, "--annotation requires KEY=VALUE");
+          return EXIT_FAILURE;
+        }
+        auto it = options.annotations.find(key);
+        if (it != options.annotations.end()) {
+          LOG(WARNING) << "duplicate key " << key << ", discarding value "
+                       << it->second;
+          it->second = value;
+        } else {
+          options.annotations.insert(std::make_pair(key, value));
+        }
+        break;
+      }
+      case kOptionDatabase: {
         options.database = optarg;
         break;
-      case kOptionHandshakeFD:
+      }
+      case kOptionHandshakeFD: {
         if (!StringToNumber(optarg, &options.handshake_fd) ||
             options.handshake_fd < 0) {
           ToolSupport::UsageHint(me,
@@ -89,15 +129,23 @@ int HandlerMain(int argc, char* argv[]) {
           return EXIT_FAILURE;
         }
         break;
-      case kOptionHelp:
+      }
+      case kOptionURL: {
+        options.url = optarg;
+        break;
+      }
+      case kOptionHelp: {
         Usage(me);
         return EXIT_SUCCESS;
-      case kOptionVersion:
+      }
+      case kOptionVersion: {
         ToolSupport::Version(me);
         return EXIT_SUCCESS;
-      default:
+      }
+      default: {
         ToolSupport::UsageHint(me, nullptr);
         return EXIT_FAILURE;
+      }
     }
   }
   argc -= optind;
@@ -132,10 +180,11 @@ int HandlerMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  CrashReportUploadThread upload_thread(database.get());
+  CrashReportUploadThread upload_thread(database.get(), options.url);
   upload_thread.Start();
 
-  CrashReportExceptionHandler exception_handler(database.get(), &upload_thread);
+  CrashReportExceptionHandler exception_handler(
+      database.get(), &upload_thread, &options.annotations);
 
   exception_handler_server.Run(&exception_handler);
 

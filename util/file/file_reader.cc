@@ -69,9 +69,7 @@ FileReader::FileReader()
 FileReader::~FileReader() {
 }
 
-bool FileReader::Open(const base::FilePath& path,
-                      FileWriteMode write_mode,
-                      FilePermissions permissions) {
+bool FileReader::Open(const base::FilePath& path) {
   CHECK(!file_.is_valid());
   file_.reset(LoggingOpenFileForRead(path));
   if (!file_.is_valid()) {

@@ -16,14 +16,119 @@
 
 #include <errno.h>
 
+#include <map>
 #include <vector>
+#include <utility>
 
 #include "base/logging.h"
+#include "base/memory/scoped_ptr.h"
+#include "snapshot/minidump/process_snapshot_minidump.h"
+#include "snapshot/module_snapshot.h"
+#include "util/file/file_reader.h"
+#include "util/net/http_body.h"
+#include "util/net/http_multipart_builder.h"
+#include "util/net/http_transport.h"
 
 namespace crashpad {
 
-CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database)
-    : database_(database),
+namespace {
+
+// Given a minidump file readable by |minidump_file_reader|, returns a map of
+// key-value pairs to use as HTTP form parameters for upload to a Breakpad
+// server. The map is built by combining the process simple annotations map with
+// each module’s simple annotations map. In the case of duplicate keys, the map
+// will retain the first value found for any key, and will log a warning about
+// discarded values. Each module’s annotations vector is also examined and built
+// into a single string value, with distinct elements separated by newlines, and
+// stored at the key named “list_annotations”, which supersedes any other key
+// found by that name.
+//
+// In the event of an error reading the minidump file, a message will be logged.
+std::map<std::string, std::string> BreakpadHTTPFormParametersFromMinidump(
+    FileReader* minidump_file_reader) {
+  ProcessSnapshotMinidump minidump_process_snapshot;
+  if (!minidump_process_snapshot.Initialize(minidump_file_reader)) {
+    return std::map<std::string, std::string>();
+  }
+
+  std::map<std::string, std::string> parameters =
+      minidump_process_snapshot.AnnotationsSimpleMap();
+
+  std::string list_annotations;
+  for (const ModuleSnapshot* module : minidump_process_snapshot.Modules()) {
+    for (const auto& kv : module->AnnotationsSimpleMap()) {
+      if (parameters.find(kv.first) != parameters.end()) {
+        LOG(WARNING) << "duplicate key " << kv.first << ", discarding value "
+                     << kv.second;
+      } else {
+        parameters.insert(kv);
+      }
+    }
+
+    for (std::string annotation : module->AnnotationsVector()) {
+      list_annotations.append(annotation);
+      list_annotations.append("\n");
+    }
+  }
+
+  if (!list_annotations.empty()) {
+    // Remove the final newline character.
+    list_annotations.pop_back();
+
+    const char kListAnnotationsKey[] = "list_annotations";
+    auto it = parameters.find(kListAnnotationsKey);
+    if (it != parameters.end()) {
+      LOG(WARNING) << "duplicate key " << kListAnnotationsKey
+                   << ", discarding value " << it->second;
+      it->second = list_annotations;
+    } else {
+      parameters.insert(std::make_pair(kListAnnotationsKey, list_annotations));
+    }
+  }
+
+  return parameters;
+}
+
+// Calls CrashReportDatabase::RecordUploadAttempt() with |successful| set to
+// false upon destruction unless disarmed by calling Fire() or Disarm(). Fire()
+// triggers an immediate call. Armed upon construction.
+class CallRecordUploadAttempt {
+ public:
+  CallRecordUploadAttempt(CrashReportDatabase* database,
+                          const CrashReportDatabase::Report* report)
+      : database_(database),
+        report_(report) {
+  }
+
+  ~CallRecordUploadAttempt() {
+    Fire();
+  }
+
+  void Fire() {
+    if (report_) {
+      database_->RecordUploadAttempt(report_, false, std::string());
+    }
+
+    Disarm();
+  }
+
+  void Disarm() {
+    report_ = nullptr;
+  }
+
+ private:
+  CrashReportDatabase* database_;  // weak
+  const CrashReportDatabase::Report* report_;  // weak
+
+  DISALLOW_COPY_AND_ASSIGN(CallRecordUploadAttempt);
+};
+
+}  // namespace
+
+CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
+                                                 const std::string& url)
+    : url_(url),
+      database_(database),
       semaphore_(0),
       thread_(0),
       running_(false) {
@@ -104,8 +209,99 @@ void CrashReportUploadThread::ProcessPendingReports() {
 
 void CrashReportUploadThread::ProcessPendingReport(
     const CrashReportDatabase::Report& report) {
-  // TODO(mark): Actually upload the report, if uploads are enabled.
-  database_->SkipReportUpload(report.uuid);
+  // TODO(mark): Allow uploads to be disabled.
+  // TODO(mark): Rate-limit uploads.
+
+  const CrashReportDatabase::Report* upload_report;
+  CrashReportDatabase::OperationStatus status =
+      database_->GetReportForUploading(report.uuid, &upload_report);
+  switch (status) {
+    case CrashReportDatabase::kNoError:
+      break;
+
+    case CrashReportDatabase::kBusyError:
+      return;
+
+    case CrashReportDatabase::kReportNotFound:
+    case CrashReportDatabase::kFileSystemError:
+    case CrashReportDatabase::kDatabaseError:
+      // In these cases, SkipReportUpload() might not work either, but it’s best
+      // to at least try to get the report out of the way.
+      database_->SkipReportUpload(report.uuid);
+      return;
+  }
+
+  CallRecordUploadAttempt call_record_upload_attempt(database_, upload_report);
+
+  std::string response_body;
+  UploadResult upload_result = UploadReport(upload_report, &response_body);
+  switch (upload_result) {
+    case UploadResult::kSuccess:
+      call_record_upload_attempt.Disarm();
+      database_->RecordUploadAttempt(upload_report, true, response_body);
+      break;
+    case UploadResult::kPermanentFailure:
+    case UploadResult::kRetry:
+      call_record_upload_attempt.Fire();
+
+      // TODO(mark): Deal with retries properly: don’t call SkipReportUplaod()
+      // if the result was kRetry and the report hasn’t already been retried
+      // too many times.
+      database_->SkipReportUpload(report.uuid);
+      break;
+  }
+}
+
+CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
+    const CrashReportDatabase::Report* report,
+    std::string* response_body) {
+  std::map<std::string, std::string> parameters;
+
+  {
+    FileReader minidump_file_reader;
+    if (!minidump_file_reader.Open(report->file_path)) {
+      // If the minidump file can’t be opened, all hope is lost.
+      return UploadResult::kPermanentFailure;
+    }
+
+    // If the minidump file could be opened, ignore any errors that might occur
+    // when attempting to interpret it. This may result in its being uploaded
+    // with few or no parameters, but as long as there’s a dump file, the server
+    // can decide what to do with it.
+    parameters = BreakpadHTTPFormParametersFromMinidump(&minidump_file_reader);
+  }
+
+  HTTPMultipartBuilder http_multipart_builder;
+
+  const char kMinidumpKey[] = "upload_file_minidump";
+
+  for (const auto& kv : parameters) {
+    if (kv.first == kMinidumpKey) {
+      LOG(WARNING) << "reserved key " << kv.first << ", discarding value "
+                   << kv.second;
+    } else {
+      http_multipart_builder.SetFormData(kv.first, kv.second);
+    }
+  }
+
+  http_multipart_builder.SetFileAttachment(kMinidumpKey,
+                                           report->file_path.BaseName().value(),
+                                           report->file_path,
+                                           "application/octet-stream");
+
+  // TODO(mark): There should be a timeout option for upload.
+  scoped_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
+  http_transport->SetURL(url_);
+  HTTPHeaders::value_type content_type =
+      http_multipart_builder.GetContentType();
+  http_transport->SetHeader(content_type.first, content_type.second);
+  http_transport->SetBodyStream(http_multipart_builder.GetBodyStream().Pass());
+
+  if (!http_transport->ExecuteSynchronously(response_body)) {
+    return UploadResult::kRetry;
+  }
+
+  return UploadResult::kSuccess;
 }
 
 // static
