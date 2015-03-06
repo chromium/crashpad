@@ -55,6 +55,13 @@ PROCESS_TYPE_STRUCT_BEGIN(dyld_all_image_infos)
   // Version 2 (Mac OS X 10.6)
   PROCESS_TYPE_STRUCT_MEMBER(bool, libSystemInitialized)
 
+  // This field does not appear in the system’s structure definition but is
+  // necessary to ensure that when building in 32-bit mode, the 64-bit version
+  // of the process_types structure matches the genuine 64-bit structure. This
+  // is required because the alignment constraints on 64-bit types are more
+  // stringent in 64-bit mode.
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved64Only, alignment)
+
   // const mach_header*
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, dyldImageLoadAddress)
 

@@ -26,7 +26,7 @@
 // __VA_ARGS__, which is intended to set the alignment of the 64-bit types, is
 // not used for that type alias.
 #define DECLARE_PROCESS_TYPE_TRAITS_CLASS(traits_name, lp_bits, ...) \
-  namespace crashpad {                                                  \
+  namespace crashpad {                                               \
   namespace process_types {                                          \
   namespace internal {                                               \
   struct Traits##traits_name {                                       \
