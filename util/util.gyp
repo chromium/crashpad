@@ -129,6 +129,8 @@
         'synchronization/semaphore_posix.cc',
         'synchronization/semaphore_win.cc',
         'synchronization/semaphore.h',
+        'win/process_info.cc',
+        'win/process_info.h',
         'win/scoped_handle.cc',
         'win/scoped_handle.h',
         'win/time.cc',
@@ -308,6 +310,7 @@
         'test/multiprocess_exec_test.cc',
         'test/multiprocess_posix_test.cc',
         'test/scoped_temp_dir_test.cc',
+        'win/process_info_test.cc',
         'win/time_test.cc',
       ],
       'conditions': [
@@ -315,6 +318,13 @@
           'link_settings': {
             'libraries': [
               '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
+            ],
+          },
+        }],
+        ['OS=="win"', {
+          'link_settings': {
+            'libraries': [
+              '-lrpcrt4.lib',
             ],
           },
         }],
@@ -327,5 +337,29 @@
         'test/multiprocess_exec_test_child.cc',
       ],
     },
+  ],
+  'conditions': [
+    ['OS=="win"', {
+      'targets': [
+        {
+          'target_name': 'util_test_process_info_test_child',
+          'type': 'executable',
+          'sources': [
+            'win/process_info_test_child.cc',
+          ],
+          # Set an unusually high load address to make sure that the main
+          # executable still appears as the first element in
+          # ProcessInfo::Modules().
+          'msvs_settings': {
+            'VCLinkerTool': {
+              'AdditionalOptions': [
+                '/BASE:0x78000000',
+                '/FIXED',
+              ],
+            },
+          },
+        },
+      ]
+    }],
   ],
 }
