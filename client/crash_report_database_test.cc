@@ -120,7 +120,7 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
   auto db = CrashReportDatabase::Initialize(path());
   ASSERT_TRUE(db);
 
-  std::vector<const CrashReportDatabase::Report> reports;
+  std::vector<CrashReportDatabase::Report> reports;
   EXPECT_EQ(CrashReportDatabase::kNoError, db->GetPendingReports(&reports));
   EXPECT_TRUE(reports.empty());
   reports.clear();
@@ -142,7 +142,7 @@ TEST_F(CrashReportDatabaseTest, NewCrashReport) {
             db()->LookUpCrashReport(uuid, &report));
   ExpectPreparedCrashReport(report);
 
-  std::vector<const CrashReportDatabase::Report> reports;
+  std::vector<CrashReportDatabase::Report> reports;
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->GetPendingReports(&reports));
   ASSERT_EQ(1u, reports.size());
@@ -299,11 +299,11 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   const UUID& report_3_uuid = reports[3].uuid;
   const UUID& report_4_uuid = reports[4].uuid;
 
-  std::vector<const CrashReportDatabase::Report> pending;
+  std::vector<CrashReportDatabase::Report> pending;
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->GetPendingReports(&pending));
 
-  std::vector<const CrashReportDatabase::Report> completed;
+  std::vector<CrashReportDatabase::Report> completed;
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->GetCompletedReports(&completed));
 

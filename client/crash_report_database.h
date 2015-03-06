@@ -196,8 +196,7 @@ class CrashReportDatabase {
   //!     empty on entry. Only valid if this returns #kNoError.
   //!
   //! \return The operation status code.
-  virtual OperationStatus GetPendingReports(
-      std::vector<const Report>* reports) = 0;
+  virtual OperationStatus GetPendingReports(std::vector<Report>* reports) = 0;
 
   //! \brief Returns a list of crash report records that have been completed,
   //!     either by being uploaded or by skipping upload.
@@ -206,8 +205,7 @@ class CrashReportDatabase {
   //!     empty on entry. Only valid if this returns #kNoError.
   //!
   //! \return The operation status code.
-  virtual OperationStatus GetCompletedReports(
-      std::vector<const Report>* reports) = 0;
+  virtual OperationStatus GetCompletedReports(std::vector<Report>* reports) = 0;
 
   //! \brief Obtains a report object for uploading to a collection server.
   //!

@@ -73,7 +73,7 @@ std::map<std::string, std::string> BreakpadHTTPFormParametersFromMinidump(
 
   if (!list_annotations.empty()) {
     // Remove the final newline character.
-    list_annotations.pop_back();
+    list_annotations.resize(list_annotations.size() - 1);
 
     const char kListAnnotationsKey[] = "list_annotations";
     auto it = parameters.find(kListAnnotationsKey);
@@ -187,7 +187,7 @@ void CrashReportUploadThread::ThreadMain() {
 }
 
 void CrashReportUploadThread::ProcessPendingReports() {
-  std::vector<const CrashReportDatabase::Report> reports;
+  std::vector<CrashReportDatabase::Report> reports;
   if (database_->GetPendingReports(&reports) != CrashReportDatabase::kNoError) {
     // The database is sick. It might be prudent to stop trying to poke it from
     // this thread by abandoning the thread altogether. On the other hand, if

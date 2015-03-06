@@ -112,10 +112,8 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   OperationStatus ErrorWritingCrashReport(NewReport* report) override;
   OperationStatus LookUpCrashReport(const UUID& uuid,
                                     Report* report) override;
-  OperationStatus GetPendingReports(
-      std::vector<const Report>* reports) override;
-  OperationStatus GetCompletedReports(
-      std::vector<const Report>* reports) override;
+  OperationStatus GetPendingReports(std::vector<Report>* reports) override;
+  OperationStatus GetCompletedReports(std::vector<Report>* reports) override;
   OperationStatus GetReportForUploading(const UUID& uuid,
                                         const Report** report) override;
   OperationStatus RecordUploadAttempt(const Report* report,
@@ -175,7 +173,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   //!
   //! \return The operation status code.
   static OperationStatus ReportsInDirectory(const base::FilePath& path,
-                                            std::vector<const Report>* reports);
+                                            std::vector<Report>* reports);
 
 
   //! \brief Creates a database xattr name from the short constant name.
@@ -319,13 +317,13 @@ CrashReportDatabaseMac::LookUpCrashReport(const UUID& uuid,
 
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::GetPendingReports(
-    std::vector<const CrashReportDatabase::Report>* reports) {
+    std::vector<CrashReportDatabase::Report>* reports) {
   return ReportsInDirectory(base_dir_.Append(kUploadPendingDirectory), reports);
 }
 
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::GetCompletedReports(
-    std::vector<const CrashReportDatabase::Report>* reports) {
+    std::vector<CrashReportDatabase::Report>* reports) {
   return ReportsInDirectory(base_dir_.Append(kCompletedDirectory), reports);
 }
 
@@ -455,7 +453,7 @@ base::FilePath CrashReportDatabaseMac::LocateCrashReport(const UUID& uuid) {
 base::ScopedFD CrashReportDatabaseMac::ObtainReportLock(
     const base::FilePath& path) {
   int fd = HANDLE_EINTR(open(path.value().c_str(),
-                             O_RDONLY | O_EXLOCK | O_CLOEXEC | O_NONBLOCK));
+                             O_RDONLY | O_EXLOCK | O_NONBLOCK));
   PLOG_IF(ERROR, fd < 0) << "open lock " << path.value();
   return base::ScopedFD(fd);
 }
@@ -506,7 +504,7 @@ bool CrashReportDatabaseMac::ReadReportMetadataLocked(
 // static
 CrashReportDatabase::OperationStatus CrashReportDatabaseMac::ReportsInDirectory(
     const base::FilePath& path,
-    std::vector<const CrashReportDatabase::Report>* reports) {
+    std::vector<CrashReportDatabase::Report>* reports) {
   DCHECK(reports->empty());
 
   NSError* error = nil;

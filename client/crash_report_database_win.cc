@@ -209,7 +209,7 @@ class Metadata {
   //! \param[out] reports Matching reports, must be empty on entry.
   OperationStatus FindReports(
       ReportState desired_state,
-      std::vector<const CrashReportDatabase::Report>* reports) const;
+      std::vector<CrashReportDatabase::Report>* reports) const;
 
   //! \brief Finds the report matching the given UUID.
   //!
@@ -314,7 +314,7 @@ void Metadata::AddNewRecord(const ReportDisk& new_report_disk) {
 
 OperationStatus Metadata::FindReports(
     ReportState desired_state,
-    std::vector<const CrashReportDatabase::Report>* reports) const {
+    std::vector<CrashReportDatabase::Report>* reports) const {
   DCHECK(reports->empty());
   for (const auto& report : reports_) {
     if (report.state == desired_state &&
@@ -529,10 +529,8 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
                                              UUID* uuid) override;
   OperationStatus ErrorWritingCrashReport(NewReport* report) override;
   OperationStatus LookUpCrashReport(const UUID& uuid, Report* report) override;
-  OperationStatus GetPendingReports(
-      std::vector<const Report>* reports) override;
-  OperationStatus GetCompletedReports(
-      std::vector<const Report>* reports) override;
+  OperationStatus GetPendingReports(std::vector<Report>* reports) override;
+  OperationStatus GetCompletedReports(std::vector<Report>* reports) override;
   OperationStatus GetReportForUploading(const UUID& uuid,
                                         const Report** report) override;
   OperationStatus RecordUploadAttempt(const Report* report,
@@ -642,14 +640,14 @@ OperationStatus CrashReportDatabaseWin::LookUpCrashReport(const UUID& uuid,
 }
 
 OperationStatus CrashReportDatabaseWin::GetPendingReports(
-    std::vector<const Report>* reports) {
+    std::vector<Report>* reports) {
   scoped_ptr<Metadata> metadata(AcquireMetadata());
   return metadata ? metadata->FindReports(ReportState::kPending, reports)
                   : kDatabaseError;
 }
 
 OperationStatus CrashReportDatabaseWin::GetCompletedReports(
-    std::vector<const Report>* reports) {
+    std::vector<Report>* reports) {
   scoped_ptr<Metadata> metadata(AcquireMetadata());
   return metadata ? metadata->FindReports(ReportState::kCompleted, reports)
                   : kDatabaseError;
