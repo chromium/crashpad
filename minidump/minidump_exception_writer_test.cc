@@ -181,7 +181,7 @@ TEST(MinidumpExceptionWriter, Standard) {
   expected_exception_stream.ExceptionRecord.ExceptionAddress =
       kExceptionAddress;
   expected_exception_stream.ExceptionRecord.NumberParameters =
-      exception_information.size();
+      static_cast<uint32_t>(exception_information.size());
   for (size_t index = 0; index < exception_information.size(); ++index) {
     expected_exception_stream.ExceptionRecord.ExceptionInformation[index] =
         exception_information[index];
@@ -209,7 +209,8 @@ TEST(MinidumpExceptionWriter, InitializeFromSnapshot) {
   expect_exception.ExceptionRecord.ExceptionCode = 100;
   expect_exception.ExceptionRecord.ExceptionFlags = 1;
   expect_exception.ExceptionRecord.ExceptionAddress = 0xfedcba9876543210;
-  expect_exception.ExceptionRecord.NumberParameters = exception_codes.size();
+  expect_exception.ExceptionRecord.NumberParameters =
+      static_cast<uint32_t>(exception_codes.size());
   for (size_t index = 0; index < exception_codes.size(); ++index) {
     expect_exception.ExceptionRecord.ExceptionInformation[index] =
         exception_codes[index];

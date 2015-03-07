@@ -194,7 +194,7 @@ std::vector<internal::MinidumpWritable*> MinidumpFileWriter::Children() {
   return children;
 }
 
-bool MinidumpFileWriter::WillWriteAtOffsetImpl(off_t offset) {
+bool MinidumpFileWriter::WillWriteAtOffsetImpl(FileOffset offset) {
   DCHECK_EQ(state(), kStateFrozen);
   DCHECK_EQ(offset, 0);
   DCHECK_EQ(streams_.size(), stream_types_.size());

@@ -18,6 +18,7 @@
 #include <windows.h>
 
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/win/process_info.h"
 
 namespace crashpad {
 
@@ -39,10 +40,10 @@ class ProcessReaderWin {
   bool Initialize(HANDLE process);
 
   //! \return `true` if the target task is a 64-bit process.
-  bool Is64Bit() const { return is_64_bit_; }
+  bool Is64Bit() const { return process_info_.Is64Bit(); }
 
  private:
-  bool is_64_bit_;
+  ProcessInfo process_info_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderWin);

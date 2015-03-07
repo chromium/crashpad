@@ -26,6 +26,7 @@
 #include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
+#include "util/file/file_io.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
@@ -105,7 +106,7 @@ class MinidumpMemoryWriter : public internal::MinidumpWritable {
   //! \note Valid in #kStateFrozen or any subsequent state.
   size_t Alignment() override;
 
-  bool WillWriteAtOffsetImpl(off_t offset) override;
+  bool WillWriteAtOffsetImpl(FileOffset offset) override;
 
   //! \brief Returns the object’s desired write phase.
   //!

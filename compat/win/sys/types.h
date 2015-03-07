@@ -18,12 +18,15 @@
 // This is intended to be roughly equivalent to #include_next.
 #include <../include/sys/types.h>
 
+#include <stdint.h>
+
 #ifdef _WIN64
-typedef __int64 ssize_t;
+typedef int64_t ssize_t;
+typedef uint64_t pid_t;
 #else
 typedef __w64 int ssize_t;
+typedef __w64 unsigned int pid_t;
 #endif
 
-typedef unsigned long pid_t;
 
 #endif  // CRASHPAD_COMPAT_WIN_SYS_TYPES_H_

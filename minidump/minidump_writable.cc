@@ -43,7 +43,7 @@ bool MinidumpWritable::WriteEverything(FileWriterInterface* file_writer) {
 
   DCHECK_EQ(state_, kStateFrozen);
 
-  off_t offset = 0;
+  FileOffset offset = 0;
   std::vector<MinidumpWritable*> write_sequence;
   size_t size = WillWriteAtOffset(kPhaseEarly, &offset, &write_sequence);
   if (size == kInvalidSize) {
@@ -124,9 +124,9 @@ MinidumpWritable::Phase MinidumpWritable::WritePhase() {
 
 size_t MinidumpWritable::WillWriteAtOffset(
     Phase phase,
-    off_t* offset,
+    FileOffset* offset,
     std::vector<MinidumpWritable*>* write_sequence) {
-  off_t local_offset = *offset;
+  FileOffset local_offset = *offset;
   CHECK_GE(local_offset, 0);
 
   size_t leading_pad_bytes_this_phase;
@@ -218,10 +218,10 @@ size_t MinidumpWritable::WillWriteAtOffset(
   std::vector<MinidumpWritable*> children = Children();
   for (MinidumpWritable* child : children) {
     // Use “auto” here because it’s impossible to know whether size_t (size) or
-    // off_t (local_offset) is the wider type, and thus what type the result of
-    // adding these two variables will have.
+    // FileOffset (local_offset) is the wider type, and thus what type the
+    // result of adding these two variables will have.
     auto unaligned_child_offset = local_offset + size;
-    off_t child_offset;
+    FileOffset child_offset;
     if (!AssignIfInRange(&child_offset, unaligned_child_offset)) {
       LOG(ERROR) << "offset " << unaligned_child_offset << " out of range";
       return kInvalidSize;
@@ -239,7 +239,7 @@ size_t MinidumpWritable::WillWriteAtOffset(
   return leading_pad_bytes_this_phase + size;
 }
 
-bool MinidumpWritable::WillWriteAtOffsetImpl(off_t offset) {
+bool MinidumpWritable::WillWriteAtOffsetImpl(FileOffset offset) {
   return true;
 }
 

@@ -63,7 +63,7 @@ TEST(ProcessSnapshotMinidump, Empty) {
 RVA WriteString(FileWriterInterface* writer, const std::string& string) {
   RVA rva = static_cast<RVA>(writer->SeekGet());
 
-  uint32_t string_size = string.size();
+  uint32_t string_size = static_cast<uint32_t>(string.size());
   EXPECT_TRUE(writer->Write(&string_size, sizeof(string_size)));
 
   // Include the trailing NUL character.
@@ -88,16 +88,17 @@ void WriteMinidumpSimpleStringDictionary(
 
   location->Rva = static_cast<RVA>(writer->SeekGet());
 
-  const uint32_t simple_string_dictionary_entries = entries.size();
+  const uint32_t simple_string_dictionary_entries =
+      static_cast<uint32_t>(entries.size());
   EXPECT_TRUE(writer->Write(&simple_string_dictionary_entries,
                             sizeof(simple_string_dictionary_entries)));
   for (const MinidumpSimpleStringDictionaryEntry& entry : entries) {
     EXPECT_TRUE(writer->Write(&entry, sizeof(entry)));
   }
 
-  location->DataSize =
+  location->DataSize = static_cast<uint32_t>(
       sizeof(simple_string_dictionary_entries) +
-      entries.size() * sizeof(MinidumpSimpleStringDictionaryEntry);
+      entries.size() * sizeof(MinidumpSimpleStringDictionaryEntry));
 }
 
 // Writes |strings| to |writer| as a MinidumpRVAList referencing
@@ -113,13 +114,14 @@ void WriteMinidumpStringList(MINIDUMP_LOCATION_DESCRIPTOR* location,
 
   location->Rva = static_cast<RVA>(writer->SeekGet());
 
-  const uint32_t string_list_entries = rvas.size();
+  const uint32_t string_list_entries = static_cast<uint32_t>(rvas.size());
   EXPECT_TRUE(writer->Write(&string_list_entries, sizeof(string_list_entries)));
   for (RVA rva : rvas) {
     EXPECT_TRUE(writer->Write(&rva, sizeof(rva)));
   }
 
-  location->DataSize = sizeof(string_list_entries) + rvas.size() * sizeof(RVA);
+  location->DataSize = static_cast<uint32_t>(sizeof(string_list_entries) +
+                                             rvas.size() * sizeof(RVA));
 }
 
 TEST(ProcessSnapshotMinidump, AnnotationsSimpleMap) {

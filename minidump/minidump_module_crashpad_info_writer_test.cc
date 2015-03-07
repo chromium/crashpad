@@ -34,8 +34,9 @@ const MinidumpModuleCrashpadInfoList* MinidumpModuleCrashpadInfoListAtStart(
     const std::string& file_contents,
     size_t count) {
   MINIDUMP_LOCATION_DESCRIPTOR location_descriptor;
-  location_descriptor.DataSize = sizeof(MinidumpModuleCrashpadInfoList) +
-                                 count * sizeof(MinidumpModuleCrashpadInfoLink);
+  location_descriptor.DataSize =
+      static_cast<uint32_t>(sizeof(MinidumpModuleCrashpadInfoList) +
+                            count * sizeof(MinidumpModuleCrashpadInfoLink));
   location_descriptor.Rva = 0;
 
   const MinidumpModuleCrashpadInfoList* list =

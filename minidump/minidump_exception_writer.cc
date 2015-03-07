@@ -17,6 +17,7 @@
 #include <sys/types.h>
 
 #include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
 #include "minidump/minidump_context_writer.h"
 #include "snapshot/exception_snapshot.h"
 #include "util/file/file_writer.h"
@@ -66,7 +67,8 @@ void MinidumpExceptionWriter::SetExceptionInformation(
       arraysize(exception_.ExceptionRecord.ExceptionInformation);
   CHECK_LE(parameters, kMaxParameters);
 
-  exception_.ExceptionRecord.NumberParameters = parameters;
+  exception_.ExceptionRecord.NumberParameters =
+      base::checked_cast<uint32_t>(parameters);
   size_t parameter = 0;
   for (; parameter < parameters; ++parameter) {
     exception_.ExceptionRecord.ExceptionInformation[parameter] =

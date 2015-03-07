@@ -31,9 +31,9 @@ const MinidumpSimpleStringDictionary* MinidumpSimpleStringDictionaryAtStart(
     const std::string& file_contents,
     size_t count) {
   MINIDUMP_LOCATION_DESCRIPTOR location_descriptor;
-  location_descriptor.DataSize =
+  location_descriptor.DataSize = static_cast<uint32_t>(
       sizeof(MinidumpSimpleStringDictionary) +
-      count * sizeof(MinidumpSimpleStringDictionaryEntry);
+      count * sizeof(MinidumpSimpleStringDictionaryEntry));
   location_descriptor.Rva = 0;
   return MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(
       file_contents, location_descriptor);

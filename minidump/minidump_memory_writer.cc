@@ -129,7 +129,7 @@ size_t MinidumpMemoryWriter::SizeOfObject() {
   return MemoryRangeSize();
 }
 
-bool MinidumpMemoryWriter::WillWriteAtOffsetImpl(off_t offset) {
+bool MinidumpMemoryWriter::WillWriteAtOffsetImpl(FileOffset offset) {
   DCHECK_EQ(state(), kStateFrozen);
 
   // There will always be at least one registered descriptor, the one for this

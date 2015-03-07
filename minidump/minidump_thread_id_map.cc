@@ -19,6 +19,7 @@
 #include <utility>
 
 #include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
 #include "snapshot/thread_snapshot.h"
 
 namespace crashpad {
@@ -54,7 +55,8 @@ void BuildMinidumpThreadIDMap(
     for (const ThreadSnapshot* thread_snapshot : thread_snapshots) {
       uint64_t thread_id_64 = thread_snapshot->ThreadID();
       if (thread_id_map->find(thread_id_64) == thread_id_map->end()) {
-        uint32_t thread_id_32 = thread_id_map->size();
+        uint32_t thread_id_32 =
+            base::checked_cast<uint32_t>(thread_id_map->size());
         thread_id_map->insert(std::make_pair(thread_id_64, thread_id_32));
       }
     }

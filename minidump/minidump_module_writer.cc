@@ -19,6 +19,7 @@
 #include <limits>
 
 #include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writer_util.h"
 #include "snapshot/module_snapshot.h"
@@ -154,13 +155,14 @@ bool MinidumpModuleMiscDebugRecordWriter::Freeze() {
   // NUL-terminate.
   if (!image_debug_misc_.Unicode) {
     DCHECK(data_utf16_.empty());
-    image_debug_misc_.Length = offsetof(decltype(image_debug_misc_), Data) +
-                               (data_.size() + 1) * sizeof(data_[0]);
+    image_debug_misc_.Length = base::checked_cast<uint32_t>(
+        offsetof(decltype(image_debug_misc_), Data) +
+        (data_.size() + 1) * sizeof(data_[0]));
   } else {
     DCHECK(data_.empty());
-    image_debug_misc_.Length =
+    image_debug_misc_.Length = base::checked_cast<uint32_t>(
         offsetof(decltype(image_debug_misc_), Data) +
-        (data_utf16_.size() + 1) * sizeof(data_utf16_[0]);
+        (data_utf16_.size() + 1) * sizeof(data_utf16_[0]));
   }
 
   return true;

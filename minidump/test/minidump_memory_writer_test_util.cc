@@ -42,7 +42,7 @@ size_t TestMinidumpMemoryWriter::MemoryRangeSize() const {
   return size_;
 }
 
-bool TestMinidumpMemoryWriter::WillWriteAtOffsetImpl(off_t offset) {
+bool TestMinidumpMemoryWriter::WillWriteAtOffsetImpl(FileOffset offset) {
   EXPECT_EQ(state(), kStateFrozen);
   expected_offset_ = offset;
   bool rv = MinidumpMemoryWriter::WillWriteAtOffsetImpl(offset);

@@ -89,7 +89,7 @@ class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
     return has_phase_ ? phase_ : MinidumpWritable::Phase();
   }
 
-  bool WillWriteAtOffsetImpl(off_t offset) override {
+  bool WillWriteAtOffsetImpl(FileOffset offset) override {
     EXPECT_EQ(state(), kStateFrozen);
     expected_offset_ = offset;
     bool rv = MinidumpWritable::WillWriteAtOffsetImpl(offset);
@@ -107,7 +107,7 @@ class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
 
  private:
   std::vector<BaseTestMinidumpWritable*> children_;
-  off_t expected_offset_;
+  FileOffset expected_offset_;
   size_t alignment_;
   Phase phase_;
   bool has_alignment_;

@@ -16,9 +16,7 @@
 
 namespace crashpad {
 
-ProcessReaderWin::ProcessReaderWin()
-    : initialized_(),
-      is_64_bit_(false) {
+ProcessReaderWin::ProcessReaderWin() : process_info_(), initialized_() {
 }
 
 ProcessReaderWin::~ProcessReaderWin() {
@@ -26,6 +24,8 @@ ProcessReaderWin::~ProcessReaderWin() {
 
 bool ProcessReaderWin::Initialize(HANDLE process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  process_info_.Initialize(process);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;

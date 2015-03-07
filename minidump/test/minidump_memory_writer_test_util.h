@@ -44,12 +44,12 @@ class TestMinidumpMemoryWriter final : public MinidumpMemoryWriter {
   size_t MemoryRangeSize() const override;
 
   // MinidumpWritable:
-  bool WillWriteAtOffsetImpl(off_t offset) override;
+  bool WillWriteAtOffsetImpl(FileOffset offset) override;
   bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
   uint64_t base_address_;
-  off_t expected_offset_;
+  FileOffset expected_offset_;
   size_t size_;
   uint8_t value_;
 

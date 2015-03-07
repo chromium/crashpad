@@ -37,8 +37,8 @@ struct FULL_PROCESS_BASIC_INFORMATION {
   PPEB PebBaseAddress;
   KAFFINITY AffinityMask;
   PVOID BasePriority;
-  ULONG UniqueProcessId;
-  ULONG InheritedFromUniqueProcessId;
+  ULONG_PTR UniqueProcessId;
+  ULONG_PTR InheritedFromUniqueProcessId;
 };
 
 }  // namespace internal

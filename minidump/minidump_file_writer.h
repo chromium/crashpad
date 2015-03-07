@@ -27,6 +27,7 @@
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
+#include "util/file/file_io.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
@@ -105,7 +106,7 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   bool Freeze() override;
   size_t SizeOfObject() override;
   std::vector<MinidumpWritable*> Children() override;
-  bool WillWriteAtOffsetImpl(off_t offset) override;
+  bool WillWriteAtOffsetImpl(FileOffset offset) override;
   bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:

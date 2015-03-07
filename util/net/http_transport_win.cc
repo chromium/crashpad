@@ -18,6 +18,7 @@
 #include <winhttp.h>
 
 #include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
 #include "base/scoped_generic.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
@@ -149,10 +150,11 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   for (const auto& pair : headers()) {
     std::wstring header_string =
         base::UTF8ToUTF16(pair.first) + L": " + base::UTF8ToUTF16(pair.second);
-    if (!WinHttpAddRequestHeaders(request.get(),
-                                  header_string.c_str(),
-                                  header_string.size(),
-                                  WINHTTP_ADDREQ_FLAG_ADD)) {
+    if (!WinHttpAddRequestHeaders(
+            request.get(),
+            header_string.c_str(),
+            base::checked_cast<DWORD>(header_string.size()),
+            WINHTTP_ADDREQ_FLAG_ADD)) {
       LogErrorWinHttpMessage("WinHttpAddRequestHeaders");
       return false;
     }
@@ -178,8 +180,8 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
                           WINHTTP_NO_ADDITIONAL_HEADERS,
                           0,
                           &post_data[0],
-                          post_data.size(),
-                          post_data.size(),
+                          base::checked_cast<DWORD>(post_data.size()),
+                          base::checked_cast<DWORD>(post_data.size()),
                           0)) {
     LogErrorWinHttpMessage("WinHttpSendRequest");
     return false;

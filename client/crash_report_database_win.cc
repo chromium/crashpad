@@ -390,7 +390,7 @@ void Metadata::Read() {
 
   base::CheckedNumeric<uint32_t> records_size =
       base::CheckedNumeric<uint32_t>(header.num_records) *
-      sizeof(MetadataFileReportRecord);
+      static_cast<uint32_t>(sizeof(MetadataFileReportRecord));
   if (!records_size.IsValid()) {
     LOG(ERROR) << "record size out of range";
     return;

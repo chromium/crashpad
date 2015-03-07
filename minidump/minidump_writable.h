@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "util/file/file_io.h"
 
 namespace crashpad {
 
@@ -212,7 +213,7 @@ class MinidumpWritable {
   //!     processing when an object transitions to #kStateWritable should
   //!     implement WillWriteAtOffsetImpl(), which is called by this method.
   size_t WillWriteAtOffset(Phase phase,
-                           off_t* offset,
+                           FileOffset* offset,
                            std::vector<MinidumpWritable*>* write_sequence);
 
   //! \brief Called once an object’s writable file offset is determined, as it
@@ -232,7 +233,7 @@ class MinidumpWritable {
   //!
   //! \note Valid in #kStateFrozen. The object will transition to
   //!     #kStateWritable after this method returns.
-  virtual bool WillWriteAtOffsetImpl(off_t offset);
+  virtual bool WillWriteAtOffsetImpl(FileOffset offset);
 
   //! \brief Writes the object, transitioning it from #kStateWritable to
   //!     #kStateWritten.
