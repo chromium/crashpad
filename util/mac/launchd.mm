@@ -37,7 +37,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
       NSDictionary* dictionary_ns = base::mac::CFToNSCast(
           base::mac::CFCastStrict<CFDictionaryRef>(property_cf));
       base::mac::ScopedLaunchData dictionary_launch(
-          launch_data_alloc(LAUNCH_DATA_DICTIONARY));
+          LaunchDataAlloc(LAUNCH_DATA_DICTIONARY));
 
       for (NSString* key in dictionary_ns) {
         if (![key isKindOfClass:[NSString class]]) {
@@ -51,8 +51,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
           return nullptr;
         }
 
-        launch_data_dict_insert(
-            dictionary_launch, value_launch, [key UTF8String]);
+        LaunchDataDictInsert(dictionary_launch, value_launch, [key UTF8String]);
       }
 
       data_launch = dictionary_launch.release();
@@ -61,7 +60,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
       NSArray* array_ns = base::mac::CFToNSCast(
           base::mac::CFCastStrict<CFArrayRef>(property_cf));
       base::mac::ScopedLaunchData array_launch(
-          launch_data_alloc(LAUNCH_DATA_ARRAY));
+          LaunchDataAlloc(LAUNCH_DATA_ARRAY));
       size_t index = 0;
 
       for (id element_ns in array_ns) {
@@ -72,7 +71,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
           return nullptr;
         }
 
-        launch_data_array_set_index(array_launch, element_launch, index++);
+        LaunchDataArraySetIndex(array_launch, element_launch, index++);
       }
 
       data_launch = array_launch.release();
@@ -92,7 +91,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
         case kCFNumberLongLongType:
         case kCFNumberCFIndexType:
         case kCFNumberNSIntegerType: {
-          data_launch = launch_data_new_integer([number_ns longLongValue]);
+          data_launch = LaunchDataNewInteger([number_ns longLongValue]);
           break;
         }
 
@@ -100,7 +99,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
         case kCFNumberFloat64Type:
         case kCFNumberFloatType:
         case kCFNumberDoubleType: {
-          data_launch = launch_data_new_real([number_ns doubleValue]);
+          data_launch = LaunchDataNewReal([number_ns doubleValue]);
           break;
         }
 
@@ -110,7 +109,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
     } else if (type_id_cf == CFBooleanGetTypeID()) {
       CFBooleanRef boolean_cf =
           base::mac::CFCastStrict<CFBooleanRef>(property_cf);
-      data_launch = launch_data_new_bool(CFBooleanGetValue(boolean_cf));
+      data_launch = LaunchDataNewBool(CFBooleanGetValue(boolean_cf));
 
     } else if (type_id_cf == CFStringGetTypeID()) {
       NSString* string_ns = base::mac::CFToNSCast(
@@ -122,12 +121,12 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
       // launchd-842.92.1/support/launchctl.c), uses UTF-8 instead of filesystem
       // encoding, so do the same here. Note that there’s another occurrence of
       // -UTF8String above, used for dictionary keys.
-      data_launch = launch_data_new_string([string_ns UTF8String]);
+      data_launch = LaunchDataNewString([string_ns UTF8String]);
 
     } else if (type_id_cf == CFDataGetTypeID()) {
       NSData* data_ns = base::mac::CFToNSCast(
           base::mac::CFCastStrict<CFDataRef>(property_cf));
-      data_launch = launch_data_new_opaque([data_ns bytes], [data_ns length]);
+      data_launch = LaunchDataNewOpaque([data_ns bytes], [data_ns length]);
     } else {
       base::ScopedCFTypeRef<CFStringRef> type_name_cf(
           CFCopyTypeIDDescription(type_id_cf));

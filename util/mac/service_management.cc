@@ -21,16 +21,17 @@
 #include "util/mac/launchd.h"
 #include "util/misc/clock.h"
 
+namespace crashpad {
+
 namespace {
 
 launch_data_t LaunchDataDictionaryForJob(const std::string& label) {
-  base::mac::ScopedLaunchData request(
-      launch_data_alloc(LAUNCH_DATA_DICTIONARY));
-  launch_data_dict_insert(
-      request, launch_data_new_string(label.c_str()), LAUNCH_KEY_GETJOB);
+  base::mac::ScopedLaunchData request(LaunchDataAlloc(LAUNCH_DATA_DICTIONARY));
+  LaunchDataDictInsert(
+      request, LaunchDataNewString(label.c_str()), LAUNCH_KEY_GETJOB);
 
   base::mac::ScopedLaunchData response(launch_msg(request));
-  if (launch_data_get_type(response) != LAUNCH_DATA_DICTIONARY) {
+  if (LaunchDataGetType(response) != LAUNCH_DATA_DICTIONARY) {
     return nullptr;
   }
 
@@ -39,37 +40,34 @@ launch_data_t LaunchDataDictionaryForJob(const std::string& label) {
 
 }  // namespace
 
-namespace crashpad {
-
 bool ServiceManagementSubmitJob(CFDictionaryRef job_cf) {
   base::mac::ScopedLaunchData job_launch(CFPropertyToLaunchData(job_cf));
   if (!job_launch.get()) {
     return false;
   }
 
-  base::mac::ScopedLaunchData jobs(launch_data_alloc(LAUNCH_DATA_ARRAY));
-  launch_data_array_set_index(jobs, job_launch.release(), 0);
+  base::mac::ScopedLaunchData jobs(LaunchDataAlloc(LAUNCH_DATA_ARRAY));
+  LaunchDataArraySetIndex(jobs, job_launch.release(), 0);
 
-  base::mac::ScopedLaunchData request(
-      launch_data_alloc(LAUNCH_DATA_DICTIONARY));
-  launch_data_dict_insert(request, jobs.release(), LAUNCH_KEY_SUBMITJOB);
+  base::mac::ScopedLaunchData request(LaunchDataAlloc(LAUNCH_DATA_DICTIONARY));
+  LaunchDataDictInsert(request, jobs.release(), LAUNCH_KEY_SUBMITJOB);
 
   base::mac::ScopedLaunchData response(launch_msg(request));
 
-  if (launch_data_get_type(response) != LAUNCH_DATA_ARRAY) {
+  if (LaunchDataGetType(response) != LAUNCH_DATA_ARRAY) {
     return false;
   }
 
-  if (launch_data_array_get_count(response) != 1) {
+  if (LaunchDataArrayGetCount(response) != 1) {
     return false;
   }
 
-  launch_data_t response_element = launch_data_array_get_index(response, 0);
-  if (launch_data_get_type(response_element) != LAUNCH_DATA_ERRNO) {
+  launch_data_t response_element = LaunchDataArrayGetIndex(response, 0);
+  if (LaunchDataGetType(response_element) != LAUNCH_DATA_ERRNO) {
     return false;
   }
 
-  int err = launch_data_get_errno(response_element);
+  int err = LaunchDataGetErrno(response_element);
   if (err != 0) {
     return false;
   }
@@ -78,17 +76,16 @@ bool ServiceManagementSubmitJob(CFDictionaryRef job_cf) {
 }
 
 bool ServiceManagementRemoveJob(const std::string& label, bool wait) {
-  base::mac::ScopedLaunchData request(
-      launch_data_alloc(LAUNCH_DATA_DICTIONARY));
-  launch_data_dict_insert(
-      request, launch_data_new_string(label.c_str()), LAUNCH_KEY_REMOVEJOB);
+  base::mac::ScopedLaunchData request(LaunchDataAlloc(LAUNCH_DATA_DICTIONARY));
+  LaunchDataDictInsert(
+      request, LaunchDataNewString(label.c_str()), LAUNCH_KEY_REMOVEJOB);
 
   base::mac::ScopedLaunchData response(launch_msg(request));
-  if (launch_data_get_type(response) != LAUNCH_DATA_ERRNO) {
+  if (LaunchDataGetType(response) != LAUNCH_DATA_ERRNO) {
     return false;
   }
 
-  int err = launch_data_get_errno(response);
+  int err = LaunchDataGetErrno(response);
   if (err == EINPROGRESS) {
     if (wait) {
       // TODO(mark): Use a kqueue to wait for the process to exit. To avoid a
@@ -125,12 +122,12 @@ pid_t ServiceManagementIsJobRunning(const std::string& label) {
     return 0;
   }
 
-  launch_data_t pid = launch_data_dict_lookup(dictionary, LAUNCH_JOBKEY_PID);
+  launch_data_t pid = LaunchDataDictLookup(dictionary, LAUNCH_JOBKEY_PID);
   if (!pid) {
     return 0;
   }
 
-  if (launch_data_get_type(pid) != LAUNCH_DATA_INTEGER) {
+  if (LaunchDataGetType(pid) != LAUNCH_DATA_INTEGER) {
     return 0;
   }
 
