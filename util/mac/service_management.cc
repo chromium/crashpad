@@ -30,7 +30,7 @@ launch_data_t LaunchDataDictionaryForJob(const std::string& label) {
   LaunchDataDictInsert(
       request, LaunchDataNewString(label.c_str()), LAUNCH_KEY_GETJOB);
 
-  base::mac::ScopedLaunchData response(launch_msg(request));
+  base::mac::ScopedLaunchData response(LaunchMsg(request));
   if (LaunchDataGetType(response) != LAUNCH_DATA_DICTIONARY) {
     return nullptr;
   }
@@ -52,8 +52,7 @@ bool ServiceManagementSubmitJob(CFDictionaryRef job_cf) {
   base::mac::ScopedLaunchData request(LaunchDataAlloc(LAUNCH_DATA_DICTIONARY));
   LaunchDataDictInsert(request, jobs.release(), LAUNCH_KEY_SUBMITJOB);
 
-  base::mac::ScopedLaunchData response(launch_msg(request));
-
+  base::mac::ScopedLaunchData response(LaunchMsg(request));
   if (LaunchDataGetType(response) != LAUNCH_DATA_ARRAY) {
     return false;
   }
@@ -80,7 +79,7 @@ bool ServiceManagementRemoveJob(const std::string& label, bool wait) {
   LaunchDataDictInsert(
       request, LaunchDataNewString(label.c_str()), LAUNCH_KEY_REMOVEJOB);
 
-  base::mac::ScopedLaunchData response(launch_msg(request));
+  base::mac::ScopedLaunchData response(LaunchMsg(request));
   if (LaunchDataGetType(response) != LAUNCH_DATA_ERRNO) {
     return false;
   }
@@ -131,7 +130,7 @@ pid_t ServiceManagementIsJobRunning(const std::string& label) {
     return 0;
   }
 
-  return launch_data_get_integer(pid);
+  return LaunchDataGetInteger(pid);
 }
 
 }  // namespace crashpad
