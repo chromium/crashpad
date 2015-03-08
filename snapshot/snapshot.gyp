@@ -13,6 +13,9 @@
 # limitations under the License.
 
 {
+  'includes': [
+    '../build/crashpad.gypi',
+  ],
   'targets': [
     {
       'target_name': 'snapshot',
