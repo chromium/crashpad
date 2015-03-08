@@ -18,7 +18,7 @@
   ],
   'targets': [
     {
-      'target_name': 'compat',
+      'target_name': 'crashpad_compat',
       'type': 'static_library',
       'sources': [
         'mac/AvailabilityMacros.h',

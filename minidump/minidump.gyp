@@ -18,16 +18,16 @@
   ],
   'targets': [
     {
-      'target_name': 'minidump',
+      'target_name': 'crashpad_minidump',
       'type': 'static_library',
       'dependencies': [
-        '../compat/compat.gyp:compat',
-        '../snapshot/snapshot.gyp:snapshot',
+        '../compat/compat.gyp:crashpad_compat',
+        '../snapshot/snapshot.gyp:crashpad_snapshot',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        '../util/util.gyp:util',
+        '../util/util.gyp:crashpad_util',
       ],
       'export_dependent_settings': [
-        '../compat/compat.gyp:compat',
+        '../compat/compat.gyp:crashpad_compat',
       ],
       'include_dirs': [
         '..',
@@ -73,11 +73,11 @@
       ],
     },
     {
-      'target_name': 'minidump_test',
+      'target_name': 'crashpad_minidump_test',
       'type': 'executable',
       'dependencies': [
-        'minidump',
-        '../snapshot/snapshot.gyp:snapshot_test_lib',
+        'crashpad_minidump',
+        '../snapshot/snapshot.gyp:crashpad_snapshot_test_lib',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',

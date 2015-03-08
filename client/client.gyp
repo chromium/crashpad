@@ -18,12 +18,12 @@
   ],
   'targets': [
     {
-      'target_name': 'client',
+      'target_name': 'crashpad_client',
       'type': 'static_library',
       'dependencies': [
-        '../compat/compat.gyp:compat',
+        '../compat/compat.gyp:crashpad_compat',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        '../util/util.gyp:util',
+        '../util/util.gyp:crashpad_util',
       ],
       'include_dirs': [
         '..',
@@ -56,16 +56,16 @@
       ],
     },
     {
-      'target_name': 'client_test',
+      'target_name': 'crashpad_client_test',
       'type': 'executable',
       'dependencies': [
-        'client',
-        '../compat/compat.gyp:compat',
+        'crashpad_client',
+        '../compat/compat.gyp:crashpad_compat',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        '../util/util.gyp:util',
-        '../util/util.gyp:util_test_lib',
+        '../util/util.gyp:crashpad_util',
+        '../util/util.gyp:crashpad_util_test_lib',
       ],
       'include_dirs': [
         '..',

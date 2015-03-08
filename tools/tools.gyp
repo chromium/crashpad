@@ -47,7 +47,7 @@
 
       'targets': [
         {
-          'target_name': 'tool_support',
+          'target_name': 'crashpad_tool_support',
           'type': 'static_library',
           'dependencies': [
             '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
@@ -64,10 +64,10 @@
           'target_name': 'catch_exception_tool',
           'type': 'executable',
           'dependencies': [
-            'tool_support',
-            '../compat/compat.gyp:compat',
+            'crashpad_tool_support',
+            '../compat/compat.gyp:crashpad_compat',
             '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-            '../util/util.gyp:util',
+            '../util/util.gyp:crashpad_util',
           ],
           'include_dirs': [
             '..',
@@ -80,10 +80,10 @@
           'target_name': 'exception_port_tool',
           'type': 'executable',
           'dependencies': [
-            'tool_support',
-            '../compat/compat.gyp:compat',
+            'crashpad_tool_support',
+            '../compat/compat.gyp:crashpad_compat',
             '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-            '../util/util.gyp:util',
+            '../util/util.gyp:crashpad_util',
           ],
           'include_dirs': [
             '..',
@@ -104,12 +104,12 @@
           'target_name': 'generate_dump',
           'type': 'executable',
           'dependencies': [
-            'tool_support',
-            '../compat/compat.gyp:compat',
-            '../minidump/minidump.gyp:minidump',
-            '../snapshot/snapshot.gyp:snapshot',
+            'crashpad_tool_support',
+            '../compat/compat.gyp:crashpad_compat',
+            '../minidump/minidump.gyp:crashpad_minidump',
+            '../snapshot/snapshot.gyp:crashpad_snapshot',
             '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-            '../util/util.gyp:util',
+            '../util/util.gyp:crashpad_util',
           ],
           'include_dirs': [
             '..',
@@ -130,10 +130,10 @@
           'target_name': 'on_demand_service_tool',
           'type': 'executable',
           'dependencies': [
-            'tool_support',
-            '../compat/compat.gyp:compat',
+            'crashpad_tool_support',
+            '../compat/compat.gyp:crashpad_compat',
             '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-            '../util/util.gyp:util',
+            '../util/util.gyp:crashpad_util',
           ],
           'include_dirs': [
             '..',
@@ -152,9 +152,9 @@
           'target_name': 'run_with_crashpad',
           'type': 'executable',
           'dependencies': [
-            'tool_support',
-            '../client/client.gyp:client',
-            '../compat/compat.gyp:compat',
+            'crashpad_tool_support',
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
             '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
           ],
           'include_dirs': [

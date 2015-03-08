@@ -52,7 +52,7 @@ TEST(ProcessInfo, Self) {
   std::vector<std::wstring> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 2u);
-  const wchar_t kSelfName[] = L"\\util_test.exe";
+  const wchar_t kSelfName[] = L"\\crashpad_util_test.exe";
   ASSERT_GE(modules[0].size(), wcslen(kSelfName));
   EXPECT_EQ(kSelfName,
             modules[0].substr(modules[0].size() - wcslen(kSelfName)));
@@ -113,7 +113,8 @@ TEST(ProcessInfo, SomeOtherProcess) {
   std::vector<std::wstring> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 3u);
-  const wchar_t kChildName[] = L"\\util_test_process_info_test_child.exe";
+  const wchar_t kChildName[] =
+      L"\\crashpad_util_test_process_info_test_child.exe";
   ASSERT_GE(modules[0].size(), wcslen(kChildName));
   EXPECT_EQ(kChildName,
             modules[0].substr(modules[0].size() - wcslen(kChildName)));

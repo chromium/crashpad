@@ -18,13 +18,13 @@
   ],
   'targets': [
     {
-      'target_name': 'snapshot',
+      'target_name': 'crashpad_snapshot',
       'type': 'static_library',
       'dependencies': [
-        '../client/client.gyp:client',
-        '../compat/compat.gyp:compat',
+        '../client/client.gyp:crashpad_client',
+        '../compat/compat.gyp:crashpad_compat',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        '../util/util.gyp:util',
+        '../util/util.gyp:crashpad_util',
       ],
       'include_dirs': [
         '..',
@@ -102,13 +102,13 @@
       ]
     },
     {
-      'target_name': 'snapshot_test_lib',
+      'target_name': 'crashpad_snapshot_test_lib',
       'type': 'static_library',
       'dependencies': [
-        'snapshot',
-        '../compat/compat.gyp:compat',
+        'crashpad_snapshot',
+        '../compat/compat.gyp:crashpad_compat',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        '../util/util.gyp:util',
+        '../util/util.gyp:crashpad_util',
       ],
       'include_dirs': [
         '..',
@@ -131,17 +131,17 @@
       ],
     },
     {
-      'target_name': 'snapshot_test',
+      'target_name': 'crashpad_snapshot_test',
       'type': 'executable',
       'dependencies': [
-        'snapshot',
-        '../client/client.gyp:client',
-        '../compat/compat.gyp:compat',
+        'crashpad_snapshot',
+        '../client/client.gyp:crashpad_client',
+        '../compat/compat.gyp:crashpad_compat',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        '../util/util.gyp:util',
-        '../util/util.gyp:util_test_lib',
+        '../util/util.gyp:crashpad_util',
+        '../util/util.gyp:crashpad_util_test_lib',
       ],
       'include_dirs': [
         '..',

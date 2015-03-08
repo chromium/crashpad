@@ -18,10 +18,10 @@
   ],
   'targets': [
     {
-      'target_name': 'util',
+      'target_name': 'crashpad_util',
       'type': 'static_library',
       'dependencies': [
-        '../compat/compat.gyp:compat',
+        '../compat/compat.gyp:crashpad_compat',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
       ],
       'include_dirs': [
@@ -210,13 +210,13 @@
       ],
     },
     {
-      'target_name': 'util_test_lib',
+      'target_name': 'crashpad_util_test_lib',
       'type': 'static_library',
       'dependencies': [
-        '../compat/compat.gyp:compat',
+        '../compat/compat.gyp:crashpad_compat',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        'util',
+        'crashpad_util',
       ],
       'include_dirs': [
         '..',
@@ -253,13 +253,13 @@
       ],
     },
     {
-      'target_name': 'util_test',
+      'target_name': 'crashpad_util_test',
       'type': 'executable',
       'dependencies': [
-        'util',
-        'util_test_lib',
-        'util_test_multiprocess_exec_test_child',
-        '../compat/compat.gyp:compat',
+        'crashpad_util',
+        'crashpad_util_test_lib',
+        'crashpad_util_test_multiprocess_exec_test_child',
+        '../compat/compat.gyp:crashpad_compat',
         '../third_party/gmock/gmock.gyp:gmock',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
@@ -334,7 +334,7 @@
       ],
     },
     {
-      'target_name': 'util_test_multiprocess_exec_test_child',
+      'target_name': 'crashpad_util_test_multiprocess_exec_test_child',
       'type': 'executable',
       'sources': [
         'test/multiprocess_exec_test_child.cc',
@@ -345,7 +345,7 @@
     ['OS=="win"', {
       'targets': [
         {
-          'target_name': 'util_test_process_info_test_child',
+          'target_name': 'crashpad_util_test_process_info_test_child',
           'type': 'executable',
           'sources': [
             'win/process_info_test_child.cc',

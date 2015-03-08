@@ -35,10 +35,10 @@ def main(args):
 
   binary_dir = os.path.join('out', args[0])
   tests = [
-      'client_test',
-      'minidump_test',
-      'snapshot_test',
-      'util_test',
+      'crashpad_client_test',
+      'crashpad_minidump_test',
+      'crashpad_snapshot_test',
+      'crashpad_util_test',
   ]
   for test in tests:
     print '-' * 80

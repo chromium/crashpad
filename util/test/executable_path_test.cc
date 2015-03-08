@@ -26,9 +26,10 @@ TEST(ExecutablePath, ExecutablePath) {
   base::FilePath executable_path = ExecutablePath();
   base::FilePath executable_name = executable_path.BaseName();
 #if defined(OS_WIN)
-  EXPECT_EQ(FILE_PATH_LITERAL("util_test.exe"), executable_name.value());
+  EXPECT_EQ(FILE_PATH_LITERAL("crashpad_util_test.exe"),
+            executable_name.value());
 #else
-  EXPECT_EQ("util_test", executable_name.value());
+  EXPECT_EQ("crashpad_util_test", executable_name.value());
 #endif  // OS_WIN
 }
 
