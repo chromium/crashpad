@@ -153,7 +153,6 @@ struct ExcTraits {
   static kern_return_t MIGCheckRequestExceptionRaiseState(
       const ExceptionRaiseStateRequest* in_request,
       const ExceptionRaiseStateRequest** in_request_1) {
-    using Request = __Request__exception_raise_state_t;
     return __MIG_check__Request__exception_raise_state_t(
         const_cast<ExceptionRaiseStateRequest*>(in_request),
         const_cast<ExceptionRaiseStateRequest**>(in_request_1));
@@ -206,7 +205,6 @@ struct MachExcTraits {
   static kern_return_t MIGCheckRequestExceptionRaiseState(
       const ExceptionRaiseStateRequest* in_request,
       const ExceptionRaiseStateRequest** in_request_1) {
-    using Request = __Request__exception_raise_state_t;
     return __MIG_check__Request__mach_exception_raise_state_t(
         const_cast<ExceptionRaiseStateRequest*>(in_request),
         const_cast<ExceptionRaiseStateRequest**>(in_request_1));
