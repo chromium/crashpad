@@ -14,7 +14,11 @@
 
 #include "util/win/process_info.h"
 
+#include <winternl.h>
+
 #include "base/logging.h"
+#include "util/numeric/safe_assignment.h"
+#include "util/win/process_structs.h"
 
 namespace crashpad {
 
@@ -50,8 +54,9 @@ bool IsProcessWow64(HANDLE process_handle) {
   return is_wow64;
 }
 
+template <class T>
 bool ReadUnicodeString(HANDLE process,
-                       const UNICODE_STRING& us,
+                       const process_types::UNICODE_STRING<T>& us,
                        std::wstring* result) {
   if (us.Length == 0) {
     result->clear();
@@ -60,8 +65,11 @@ bool ReadUnicodeString(HANDLE process,
   DCHECK_EQ(us.Length % sizeof(wchar_t), 0u);
   result->resize(us.Length / sizeof(wchar_t));
   SIZE_T bytes_read;
-  if (!ReadProcessMemory(
-          process, us.Buffer, &result->operator[](0), us.Length, &bytes_read)) {
+  if (!ReadProcessMemory(process,
+                         reinterpret_cast<const void*>(us.Buffer),
+                         &result->operator[](0),
+                         us.Length,
+                         &bytes_read)) {
     PLOG(ERROR) << "ReadProcessMemory UNICODE_STRING";
     return false;
   }
@@ -91,35 +99,89 @@ template <class T> bool ReadStruct(HANDLE process, uintptr_t at, T* into) {
   return true;
 }
 
-// PEB_LDR_DATA in winternl.h doesn't document the trailing
-// InInitializationOrderModuleList field. See `dt ntdll!PEB_LDR_DATA`.
-struct FULL_PEB_LDR_DATA : public PEB_LDR_DATA {
-  LIST_ENTRY InInitializationOrderModuleList;
-};
-
-// LDR_DATA_TABLE_ENTRY doesn't include InInitializationOrderLinks, define a
-// complete version here. See `dt ntdll!_LDR_DATA_TABLE_ENTRY`.
-struct FULL_LDR_DATA_TABLE_ENTRY {
-  LIST_ENTRY InLoadOrderLinks;
-  LIST_ENTRY InMemoryOrderLinks;
-  LIST_ENTRY InInitializationOrderLinks;
-  PVOID DllBase;
-  PVOID EntryPoint;
-  ULONG SizeOfImage;
-  UNICODE_STRING FullDllName;
-  UNICODE_STRING BaseDllName;
-  ULONG Flags;
-  WORD LoadCount;
-  WORD TlsIndex;
-  LIST_ENTRY HashLinks;
-  ULONG TimeDateStamp;
-  _ACTIVATION_CONTEXT* EntryPointActivationContext;
-};
-
 }  // namespace
 
+template <class Traits>
+bool ReadProcessData(HANDLE process,
+                     uintptr_t peb_address_uintptr,
+                     ProcessInfo* process_info) {
+  Traits::Pointer peb_address;
+  if (!AssignIfInRange(&peb_address, peb_address_uintptr)) {
+    LOG(ERROR) << "peb_address_uintptr " << peb_address_uintptr
+               << " out of range";
+    return false;
+  }
+
+  // Try to read the process environment block.
+  process_types::PEB<Traits> peb;
+  if (!ReadStruct(process, peb_address, &peb))
+    return false;
+
+  process_types::RTL_USER_PROCESS_PARAMETERS<Traits> process_parameters;
+  if (!ReadStruct(process, peb.ProcessParameters, &process_parameters))
+    return false;
+
+  if (!ReadUnicodeString(process,
+                         process_parameters.CommandLine,
+                         &process_info->command_line_)) {
+    return false;
+  }
+
+  process_types::PEB_LDR_DATA<Traits> peb_ldr_data;
+  if (!ReadStruct(process, peb.Ldr, &peb_ldr_data))
+    return false;
+
+  std::wstring module;
+  process_types::LDR_DATA_TABLE_ENTRY<Traits> ldr_data_table_entry;
+
+  // Include the first module in the memory order list to get our the main
+  // executable's name, as it's not included in initialization order below.
+  if (!ReadStruct(process,
+                  reinterpret_cast<uintptr_t>(
+                      reinterpret_cast<const char*>(
+                          peb_ldr_data.InMemoryOrderModuleList.Flink) -
+                      offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>,
+                               InMemoryOrderLinks)),
+                  &ldr_data_table_entry)) {
+    return false;
+  }
+  if (!ReadUnicodeString(process, ldr_data_table_entry.FullDllName, &module))
+    return false;
+  process_info->modules_.push_back(module);
+
+  // Walk the PEB LDR structure (doubly-linked list) to get the list of loaded
+  // modules. We use this method rather than EnumProcessModules to get the
+  // modules in initialization order rather than memory order.
+  Traits::Pointer last = peb_ldr_data.InInitializationOrderModuleList.Blink;
+  for (Traits::Pointer cur = peb_ldr_data.InInitializationOrderModuleList.Flink;
+       ;
+       cur = ldr_data_table_entry.InInitializationOrderLinks.Flink) {
+    // |cur| is the pointer to the LIST_ENTRY embedded in the
+    // LDR_DATA_TABLE_ENTRY, in the target process's address space. So we need
+    // to read from the target, and also offset back to the beginning of the
+    // structure.
+    if (!ReadStruct(process,
+                    reinterpret_cast<uintptr_t>(
+                        reinterpret_cast<const char*>(cur) -
+                        offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>,
+                                 InInitializationOrderLinks)),
+                    &ldr_data_table_entry)) {
+      break;
+    }
+    // TODO(scottmg): Capture TimeDateStamp, Checksum, etc. too?
+    if (!ReadUnicodeString(process, ldr_data_table_entry.FullDllName, &module))
+      break;
+    process_info->modules_.push_back(module);
+    if (cur == last)
+      break;
+  }
+
+  return true;
+}
+
 ProcessInfo::ProcessInfo()
-    : process_basic_information_(),
+    : process_id_(),
+      inherited_from_process_id_(),
       command_line_(),
       modules_(),
       is_64_bit_(false),
@@ -147,12 +209,7 @@ bool ProcessInfo::Initialize(HANDLE process) {
         system_info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64;
   }
 
-#if ARCH_CPU_64_BITS
-  if (!is_64_bit_) {
-    LOG(ERROR) << "Reading different bitness not yet supported";
-    return false;
-  }
-#else
+#if ARCH_CPU_32_BITS
   if (is_64_bit_) {
     LOG(ERROR) << "Reading x64 process from x86 process not supported";
     return false;
@@ -160,93 +217,67 @@ bool ProcessInfo::Initialize(HANDLE process) {
 #endif
 
   ULONG bytes_returned;
+  // We assume this process is not running on Wow64. The
+  // PROCESS_BASIC_INFORMATION uses the OS size (that is, even Wow64 has a 64
+  // bit one.)
+  // TODO(scottmg): Either support running as Wow64, or check/resolve this at a
+  // higher level.
+#if ARCH_CPU_32_BITS
+  process_types::PROCESS_BASIC_INFORMATION<process_types::internal::Traits32>
+      process_basic_information;
+#else
+  process_types::PROCESS_BASIC_INFORMATION<process_types::internal::Traits64>
+      process_basic_information;
+#endif
   NTSTATUS status =
       crashpad::NtQueryInformationProcess(process,
                                           ProcessBasicInformation,
-                                          &process_basic_information_,
-                                          sizeof(process_basic_information_),
+                                          &process_basic_information,
+                                          sizeof(process_basic_information),
                                           &bytes_returned);
   if (status < 0) {
     LOG(ERROR) << "NtQueryInformationProcess: status=" << status;
     return false;
   }
-  if (bytes_returned != sizeof(process_basic_information_)) {
+  if (bytes_returned != sizeof(process_basic_information)) {
     LOG(ERROR) << "NtQueryInformationProcess incorrect size";
     return false;
   }
+  process_id_ = process_basic_information.UniqueProcessId;
+  inherited_from_process_id_ =
+      process_basic_information.InheritedFromUniqueProcessId;
 
-  // Try to read the process environment block.
-  PEB peb;
-  if (!ReadStruct(process,
-                  reinterpret_cast<uintptr_t>(
-                      process_basic_information_.PebBaseAddress),
-                  &peb)) {
-    return false;
-  }
-
-  RTL_USER_PROCESS_PARAMETERS process_parameters;
-  if (!ReadStruct(process,
-                  reinterpret_cast<uintptr_t>(peb.ProcessParameters),
-                  &process_parameters)) {
-    return false;
-  }
-
-  if (!ReadUnicodeString(
-          process, process_parameters.CommandLine, &command_line_)) {
-    return false;
-  }
-
-  FULL_PEB_LDR_DATA peb_ldr_data;
-  if (!ReadStruct(process, reinterpret_cast<uintptr_t>(peb.Ldr), &peb_ldr_data))
-    return false;
-
-  // Include the first module in the memory order list to get our own name as
-  // it's not included in initialization order below.
-  std::wstring self_module;
-  FULL_LDR_DATA_TABLE_ENTRY self_ldr_data_table_entry;
-  if (!ReadStruct(process,
-                  reinterpret_cast<uintptr_t>(
-                      reinterpret_cast<const char*>(
-                          peb_ldr_data.InMemoryOrderModuleList.Flink) -
-                      offsetof(FULL_LDR_DATA_TABLE_ENTRY, InMemoryOrderLinks)),
-                  &self_ldr_data_table_entry)) {
-    return false;
-  }
-  if (!ReadUnicodeString(
-          process, self_ldr_data_table_entry.FullDllName, &self_module)) {
-    return false;
-  }
-  modules_.push_back(self_module);
-
-  // Walk the PEB LDR structure (doubly-linked list) to get the list of loaded
-  // modules. We use this method rather than EnumProcessModules to get the
-  // modules in initialization order rather than memory order.
-  const LIST_ENTRY* last = peb_ldr_data.InInitializationOrderModuleList.Blink;
-  FULL_LDR_DATA_TABLE_ENTRY ldr_data_table_entry;
-  for (const LIST_ENTRY* cur =
-           peb_ldr_data.InInitializationOrderModuleList.Flink;
-       ;
-       cur = ldr_data_table_entry.InInitializationOrderLinks.Flink) {
-    // |cur| is the pointer to the LIST_ENTRY embedded in the
-    // FULL_LDR_DATA_TABLE_ENTRY, in the target process's address space. So we
-    // need to read from the target, and also offset back to the beginning of
-    // the structure.
-    if (!ReadStruct(
-            process,
-            reinterpret_cast<uintptr_t>(reinterpret_cast<const char*>(cur) -
-                                        offsetof(FULL_LDR_DATA_TABLE_ENTRY,
-                                                 InInitializationOrderLinks)),
-            &ldr_data_table_entry)) {
-      break;
+  // We now want to read the PEB to gather the rest of our information. The
+  // PebBaseAddress as returned above is what we want for 64-on-64 and 32-on-32,
+  // but for Wow64, we want to read the 32 bit PEB (a Wow64 process has both).
+  // The address of this is found by a second call to NtQueryInformationProcess.
+  uintptr_t peb_address = process_basic_information.PebBaseAddress;
+  if (is_wow64_) {
+    ULONG_PTR wow64_peb_address;
+    status =
+        crashpad::NtQueryInformationProcess(process,
+                                            ProcessWow64Information,
+                                            &wow64_peb_address,
+                                            sizeof(wow64_peb_address),
+                                            &bytes_returned);
+    if (status < 0) {
+      LOG(ERROR) << "NtQueryInformationProcess: status=" << status;
+      return false;
     }
-    // TODO(scottmg): Capture TimeDateStamp, Checksum, etc. too?
-    std::wstring module;
-    if (!ReadUnicodeString(process, ldr_data_table_entry.FullDllName, &module))
-      break;
-    modules_.push_back(module);
-    if (cur == last)
-      break;
+    if (bytes_returned != sizeof(wow64_peb_address)) {
+      LOG(ERROR) << "NtQueryInformationProcess incorrect size";
+      return false;
+    }
+    peb_address = wow64_peb_address;
   }
+
+  // Read the PEB data using the correct word size.
+  bool result = is_64_bit_ ? ReadProcessData<process_types::internal::Traits64>(
+                                 process, peb_address, this)
+                           : ReadProcessData<process_types::internal::Traits32>(
+                                 process, peb_address, this);
+  if (!result)
+    return false;
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -264,12 +295,12 @@ bool ProcessInfo::IsWow64() const {
 
 pid_t ProcessInfo::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return process_basic_information_.UniqueProcessId;
+  return process_id_;
 }
 
 pid_t ProcessInfo::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return process_basic_information_.InheritedFromUniqueProcessId;
+  return inherited_from_process_id_;
 }
 
 bool ProcessInfo::CommandLine(std::wstring* command_line) const {

@@ -61,7 +61,7 @@ TEST(ProcessInfo, Self) {
             modules[1].substr(modules[1].size() - wcslen(kNtdllName)));
 }
 
-TEST(ProcessInfo, SomeOtherProcess) {
+void TestOtherProcess(const std::wstring& child_name_suffix) {
   ProcessInfo process_info;
 
   ::UUID system_uuid;
@@ -80,7 +80,7 @@ TEST(ProcessInfo, SomeOtherProcess) {
   base::FilePath test_executable = Paths::Executable();
   std::wstring child_test_executable =
       test_executable.RemoveFinalExtension().value() +
-      L"_process_info_test_child.exe";
+      L"_process_info_test_child_" + child_name_suffix + L".exe";
   // TODO(scottmg): Command line escaping utility.
   std::wstring command_line = child_test_executable + L" " +
                               started_uuid.ToString16() + L" " +
@@ -113,11 +113,11 @@ TEST(ProcessInfo, SomeOtherProcess) {
   std::vector<std::wstring> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 3u);
-  const wchar_t kChildName[] =
-      L"\\crashpad_util_test_process_info_test_child.exe";
-  ASSERT_GE(modules[0].size(), wcslen(kChildName));
-  EXPECT_EQ(kChildName,
-            modules[0].substr(modules[0].size() - wcslen(kChildName)));
+  std::wstring child_name = L"\\crashpad_util_test_process_info_test_child_" +
+                            child_name_suffix + L".exe";
+  ASSERT_GE(modules[0].size(), child_name.size());
+  EXPECT_EQ(child_name,
+            modules[0].substr(modules[0].size() - child_name.size()));
   ASSERT_GE(modules[1].size(), wcslen(kNtdllName));
   EXPECT_EQ(kNtdllName,
             modules[1].substr(modules[1].size() - wcslen(kNtdllName)));
@@ -128,6 +128,14 @@ TEST(ProcessInfo, SomeOtherProcess) {
   EXPECT_EQ(
       kLz32dllName,
       modules.back().substr(modules.back().size() - wcslen(kLz32dllName)));
+}
+
+TEST(ProcessInfo, OtherProcessX64) {
+  TestOtherProcess(L"x64");
+}
+
+TEST(ProcessInfo, OtherProcessX86) {
+  TestOtherProcess(L"x86");
 }
 
 }  // namespace

@@ -134,6 +134,7 @@
         'synchronization/semaphore.h',
         'win/process_info.cc',
         'win/process_info.h',
+        'win/process_structs.h',
         'win/scoped_handle.cc',
         'win/scoped_handle.h',
         'win/time.cc',
@@ -347,11 +348,12 @@
     ['OS=="win"', {
       'targets': [
         {
-          'target_name': 'crashpad_util_test_process_info_test_child',
+          'target_name': 'crashpad_util_test_process_info_test_child_x64',
           'type': 'executable',
           'sources': [
             'win/process_info_test_child.cc',
           ],
+          'msvs_configuration_platform': 'x64',
           # Set an unusually high load address to make sure that the main
           # executable still appears as the first element in
           # ProcessInfo::Modules().
@@ -361,6 +363,28 @@
                 '/BASE:0x78000000',
                 '/FIXED',
               ],
+              'TargetMachine': '17',  # x64.
+            },
+          },
+        },
+        {
+          # Same as above, but explicitly x86 to test 64->32 access.
+          'target_name': 'crashpad_util_test_process_info_test_child_x86',
+          'type': 'executable',
+          'sources': [
+            'win/process_info_test_child.cc',
+          ],
+          'msvs_configuration_platform': 'x86',
+          # Set an unusually high load address to make sure that the main
+          # executable still appears as the first element in
+          # ProcessInfo::Modules().
+          'msvs_settings': {
+            'VCLinkerTool': {
+              'AdditionalOptions': [
+                '/BASE:0x78000000',
+                '/FIXED',
+              ],
+              'TargetMachine': '1',  # x86.
             },
           },
         },

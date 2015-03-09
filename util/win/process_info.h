@@ -15,10 +15,8 @@
 #ifndef CRASHPAD_UTIL_WIN_PROCESS_INFO_H_
 #define CRASHPAD_UTIL_WIN_PROCESS_INFO_H_
 
-#include <basetsd.h>
 #include <sys/types.h>
 #include <windows.h>
-#include <winternl.h>
 
 #include <string>
 #include <vector>
@@ -27,21 +25,6 @@
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
-
-namespace internal {
-
-//! \brief This structure matches PROCESS_BASIC_INFORMATION in winternl.h but
-//!     gives names to the Reserved fields (matching the WDK's ntddk.h).
-struct FULL_PROCESS_BASIC_INFORMATION {
-  NTSTATUS ExitStatus;
-  PPEB PebBaseAddress;
-  KAFFINITY AffinityMask;
-  PVOID BasePriority;
-  ULONG_PTR UniqueProcessId;
-  ULONG_PTR InheritedFromUniqueProcessId;
-};
-
-}  // namespace internal
 
 //! \brief Gathers information about a process given its `HANDLE`. This consists
 //!     primarily of information stored in the Process Environment Block.
@@ -84,7 +67,13 @@ class ProcessInfo {
   bool Modules(std::vector<std::wstring>* modules) const;
 
  private:
-  internal::FULL_PROCESS_BASIC_INFORMATION process_basic_information_;
+  template <class T>
+  friend bool ReadProcessData(HANDLE process,
+                              uintptr_t peb_address_uintptr,
+                              ProcessInfo* process_info);
+
+  pid_t process_id_;
+  pid_t inherited_from_process_id_;
   std::wstring command_line_;
   std::vector<std::wstring> modules_;
   bool is_64_bit_;
