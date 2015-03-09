@@ -53,6 +53,17 @@
       'sources!': [
         'gtest/src/gtest-all.cc',
       ],
+
+      # gtest relies heavily on objects with static storage duration.
+      'xcode_settings': {
+        'WARNING_CFLAGS!': [
+          '-Wexit-time-destructors',
+        ],
+      },
+      'cflags!': [
+        '-Wexit-time-destructors',
+      ],
+
       'direct_dependent_settings': {
         'include_dirs': [
           'gtest/include',

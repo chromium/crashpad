@@ -49,9 +49,47 @@
       'sources!': [
         'gmock/src/gmock-all.cc',
       ],
+
+      # gmock relies heavily on objects with static storage duration.
+      'xcode_settings': {
+        'WARNING_CFLAGS!': [
+          '-Wexit-time-destructors',
+        ],
+      },
+      'cflags!': [
+        '-Wexit-time-destructors',
+      ],
+
       'direct_dependent_settings': {
         'include_dirs': [
           'gmock/include',
+        ],
+        'conditions': [
+          ['clang!=0', {
+            # The MOCK_METHODn() macros do not specify “override”, which
+            # triggers this warning in users: “error: 'Method' overrides a
+            # member function but is not marked 'override'
+            # [-Werror,-Winconsistent-missing-override]”. Suppress these
+            # warnings, and add -Wno-unknown-warning-option because only recent
+            # versions of clang (trunk r220703 and later, version 3.6 and
+            # later) recognize it.
+            'conditions': [
+              ['OS=="mac"', {
+                'xcode_settings': {
+                  'WARNING_CFLAGS': [
+                    '-Wno-inconsistent-missing-override',
+                    '-Wno-unknown-warning-option',
+                  ],
+                },
+              }],
+              ['OS=="linux"', {
+                'cflags': [
+                  '-Wno-inconsistent-missing-override',
+                  '-Wno-unknown-warning-option',
+                ],
+              }],
+            ],
+          }],
         ],
       },
       'export_dependent_settings': [
