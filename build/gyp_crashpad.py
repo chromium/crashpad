@@ -30,6 +30,7 @@ def main(args):
 
   crashpad_dir_or_dot = crashpad_dir if crashpad_dir is not '' else '.'
 
+  args.extend(['-D', 'crashpad_standalone=1'])
   args.extend(['--include', os.path.join(crashpad_dir,
                                          'third_party',
                                          'mini_chromium',

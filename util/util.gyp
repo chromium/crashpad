@@ -22,7 +22,7 @@
       'type': 'static_library',
       'dependencies': [
         '../compat/compat.gyp:crashpad_compat',
-        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
       ],
       'include_dirs': [
         '..',
@@ -213,10 +213,10 @@
       'target_name': 'crashpad_util_test_lib',
       'type': 'static_library',
       'dependencies': [
+        'crashpad_util',
         '../compat/compat.gyp:crashpad_compat',
         '../third_party/gtest/gtest.gyp:gtest',
-        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
-        'crashpad_util',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
       ],
       'include_dirs': [
         '..',
@@ -262,9 +262,9 @@
         'crashpad_util_test_multiprocess_exec_test_child',
         '../compat/compat.gyp:crashpad_compat',
         '../third_party/gmock/gmock.gyp:gmock',
+        '../third_party/gmock/gmock.gyp:gmock_main',
         '../third_party/gtest/gtest.gyp:gtest',
-        '../third_party/gtest/gtest.gyp:gtest_main',
-        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
       ],
       'include_dirs': [
         '..',

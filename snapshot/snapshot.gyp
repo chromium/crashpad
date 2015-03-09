@@ -23,7 +23,7 @@
       'dependencies': [
         '../client/client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
-        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
       ],
       'include_dirs': [
@@ -107,7 +107,7 @@
       'dependencies': [
         'crashpad_snapshot',
         '../compat/compat.gyp:crashpad_compat',
-        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
       ],
       'include_dirs': [
@@ -139,7 +139,7 @@
         '../compat/compat.gyp:crashpad_compat',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
-        '../third_party/mini_chromium/mini_chromium/base/base.gyp:base',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
         '../util/util.gyp:crashpad_util_test_lib',
       ],
