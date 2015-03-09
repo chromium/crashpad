@@ -33,6 +33,7 @@
 #include "util/file/string_file.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
+#include "util/test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -753,7 +754,8 @@ TEST(MinidumpModuleWriterDeathTest, NoModuleName) {
   minidump_file_writer.AddStream(module_list_writer.Pass());
 
   StringFile string_file;
-  ASSERT_DEATH(minidump_file_writer.WriteEverything(&string_file), "name_");
+  ASSERT_DEATH_CHECK(minidump_file_writer.WriteEverything(&string_file),
+                     "name_");
 }
 
 }  // namespace

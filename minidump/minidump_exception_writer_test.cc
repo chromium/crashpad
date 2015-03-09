@@ -34,6 +34,7 @@
 #include "snapshot/test/test_cpu_context.h"
 #include "snapshot/test/test_exception_snapshot.h"
 #include "util/file/string_file.h"
+#include "util/test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -262,15 +263,17 @@ TEST(MinidumpExceptionWriterDeathTest, NoContext) {
   minidump_file_writer.AddStream(exception_writer.Pass());
 
   StringFile string_file;
-  ASSERT_DEATH(minidump_file_writer.WriteEverything(&string_file), "context_");
+  ASSERT_DEATH_CHECK(minidump_file_writer.WriteEverything(&string_file),
+                     "context_");
 }
 
 TEST(MinidumpExceptionWriterDeathTest, TooMuchInformation) {
   MinidumpExceptionWriter exception_writer;
   std::vector<uint64_t> exception_information(EXCEPTION_MAXIMUM_PARAMETERS + 1,
                                               0x5a5a5a5a5a5a5a5a);
-  ASSERT_DEATH(exception_writer.SetExceptionInformation(exception_information),
-               "kMaxParameters");
+  ASSERT_DEATH_CHECK(
+      exception_writer.SetExceptionInformation(exception_information),
+      "kMaxParameters");
 }
 
 }  // namespace

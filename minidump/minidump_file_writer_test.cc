@@ -33,7 +33,7 @@
 #include "snapshot/test/test_system_snapshot.h"
 #include "snapshot/test/test_thread_snapshot.h"
 #include "util/file/string_file.h"
-#include "util/file/string_file.h"
+#include "util/test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -436,7 +436,8 @@ TEST(MinidumpFileWriterDeathTest, SameStreamType) {
   const uint8_t kStream1Value = 0xa5;
   auto stream1 = make_scoped_ptr(
       new TestStream(kStream1Type, kStream1Size, kStream1Value));
-  ASSERT_DEATH(minidump_file.AddStream(stream1.Pass()), "already present");
+  ASSERT_DEATH_CHECK(minidump_file.AddStream(stream1.Pass()),
+                     "already present");
 }
 
 }  // namespace

@@ -224,6 +224,7 @@
       'sources': [
         'test/errors.cc',
         'test/errors.h',
+        'test/gtest_death_check.h',
         'test/mac/dyld.h',
         'test/mac/mach_errors.cc',
         'test/mac/mach_errors.h',

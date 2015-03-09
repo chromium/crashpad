@@ -34,6 +34,7 @@
 #include "snapshot/test/test_memory_snapshot.h"
 #include "snapshot/test/test_thread_snapshot.h"
 #include "util/file/string_file.h"
+#include "util/test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -674,11 +675,12 @@ TEST(MinidumpThreadWriterDeathTest, NoContext) {
   minidump_file_writer.AddStream(thread_list_writer.Pass());
 
   StringFile string_file;
-  ASSERT_DEATH(minidump_file_writer.WriteEverything(&string_file), "context_");
+  ASSERT_DEATH_CHECK(minidump_file_writer.WriteEverything(&string_file),
+                     "context_");
 }
 
 TEST(MinidumpThreadWriterDeathTest, InitializeFromSnapshot_NoContext) {
-  ASSERT_DEATH(
+  ASSERT_DEATH_CHECK(
       RunInitializeFromSnapshotTest<InitializeFromSnapshotNoContextTraits>(
           false), "context_");
 }

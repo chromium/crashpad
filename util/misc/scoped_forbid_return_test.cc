@@ -14,7 +14,9 @@
 
 #include "util/misc/scoped_forbid_return.h"
 
+#include "base/compiler_specific.h"
 #include "gtest/gtest.h"
+#include "util/test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -44,12 +46,17 @@ void ScopedForbidReturnHelper(ForbidReturnType type) {
 const char kForbiddenMessage[] = "attempt to exit scope forbidden";
 
 TEST(ScopedForbidReturnDeathTest, Default) {
-  ASSERT_DEATH(ScopedForbidReturnHelper(kForbidReturnDefault),
-               kForbiddenMessage);
+  // kForbiddenMessage may appear to be unused if ASSERT_DEATH_CHECK() throws it
+  // away.
+  ALLOW_UNUSED_LOCAL(kForbiddenMessage);
+
+  ASSERT_DEATH_CHECK(ScopedForbidReturnHelper(kForbidReturnDefault),
+                     kForbiddenMessage);
 }
 
 TEST(ScopedForbidReturnDeathTest, Armed) {
-  ASSERT_DEATH(ScopedForbidReturnHelper(kForbidReturnArmed), kForbiddenMessage);
+  ASSERT_DEATH_CHECK(ScopedForbidReturnHelper(kForbidReturnArmed),
+                     kForbiddenMessage);
 }
 
 TEST(ScopedForbidReturn, Disarmed) {

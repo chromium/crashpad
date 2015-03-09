@@ -21,6 +21,7 @@
 #include "base/basictypes.h"
 #include "gtest/gtest.h"
 #include "util/file/file_io.h"
+#include "util/test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -189,7 +190,7 @@ class TestMultiprocessClosePipe final : public Multiprocess {
       // abort execution. Regardless of how SIGPIPE is handled, the process will
       // be terminated. Because the actual termination mechanism is not known,
       // no regex can be specified.
-      EXPECT_DEATH(CheckedWriteFile(WritePipeHandle(), &c, 1), "");
+      EXPECT_DEATH_CHECK(CheckedWriteFile(WritePipeHandle(), &c, 1), "");
     }
   }
 
@@ -198,18 +199,18 @@ class TestMultiprocessClosePipe final : public Multiprocess {
       case kReadCloses:
         CloseReadPipe();
         EXPECT_NE(-1, WritePipeHandle());
-        EXPECT_DEATH(ReadPipeHandle(), "fd");
+        EXPECT_DEATH_CHECK(ReadPipeHandle(), "fd");
         break;
       case kWriteCloses:
         CloseWritePipe();
         EXPECT_NE(-1, ReadPipeHandle());
-        EXPECT_DEATH(WritePipeHandle(), "fd");
+        EXPECT_DEATH_CHECK(WritePipeHandle(), "fd");
         break;
       case kReadAndWriteClose:
         CloseReadPipe();
         CloseWritePipe();
-        EXPECT_DEATH(ReadPipeHandle(), "fd");
-        EXPECT_DEATH(WritePipeHandle(), "fd");
+        EXPECT_DEATH_CHECK(ReadPipeHandle(), "fd");
+        EXPECT_DEATH_CHECK(WritePipeHandle(), "fd");
         break;
     }
   }

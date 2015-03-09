@@ -16,6 +16,7 @@
 
 #include "base/logging.h"
 #include "gtest/gtest.h"
+#include "util/test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -37,16 +38,18 @@ TEST(InitializationStateDcheckDeathTest, Uninitialized_NotInvalid) {
   // This tests that an attempt to set an uninitialized object as valid without
   // transitioning through the initializing (invalid) state fails.
   InitializationStateDcheck initialization_state_dcheck;
-  ASSERT_DEATH(INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck),
-               "kStateInvalid");
+  ASSERT_DEATH_CHECK(
+      INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck),
+      "kStateInvalid");
 }
 
 TEST(InitializationStateDcheckDeathTest, Uninitialized_NotValid) {
   // This tests that an attempt to use an uninitialized object as though it
   // were valid fails.
   InitializationStateDcheck initialization_state_dcheck;
-  ASSERT_DEATH(INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck),
-               "kStateValid");
+  ASSERT_DEATH_CHECK(
+      INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck),
+      "kStateValid");
 }
 
 TEST(InitializationStateDcheckDeathTest, Invalid_NotUninitialized) {
@@ -54,7 +57,7 @@ TEST(InitializationStateDcheckDeathTest, Invalid_NotUninitialized) {
   // initialization was already attempted fails.
   InitializationStateDcheck initialization_state_dcheck;
   INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck);
-  ASSERT_DEATH(
+  ASSERT_DEATH_CHECK(
       INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck),
       "kStateUninitialized");
 }
@@ -64,8 +67,9 @@ TEST(InitializationStateDcheckDeathTest, Invalid_NotValid) {
   // were valid fails.
   InitializationStateDcheck initialization_state_dcheck;
   INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck);
-  ASSERT_DEATH(INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck),
-               "kStateValid");
+  ASSERT_DEATH_CHECK(
+      INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck),
+      "kStateValid");
 }
 
 TEST(InitializationStateDcheckDeathTest, Valid_NotUninitialized) {
@@ -74,7 +78,7 @@ TEST(InitializationStateDcheckDeathTest, Valid_NotUninitialized) {
   InitializationStateDcheck initialization_state_dcheck;
   INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck);
   INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck);
-  ASSERT_DEATH(
+  ASSERT_DEATH_CHECK(
       INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck),
       "kStateUninitialized");
 }
@@ -85,8 +89,9 @@ TEST(InitializationStateDcheckDeathTest, Valid_NotInvalid) {
   InitializationStateDcheck initialization_state_dcheck;
   INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck);
   INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck);
-  ASSERT_DEATH(INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck),
-               "kStateInvalid");
+  ASSERT_DEATH_CHECK(
+      INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck),
+      "kStateInvalid");
 }
 
 TEST(InitializationStateDcheckDeathTest, Destroyed_NotUninitialized) {
@@ -101,9 +106,9 @@ TEST(InitializationStateDcheckDeathTest, Destroyed_NotUninitialized) {
     INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck);
     INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck);
   }
-  ASSERT_DEATH(INITIALIZATION_STATE_SET_INITIALIZING(
-                   *initialization_state_dcheck_pointer),
-               "kStateUninitialized");
+  ASSERT_DEATH_CHECK(INITIALIZATION_STATE_SET_INITIALIZING(
+                         *initialization_state_dcheck_pointer),
+                     "kStateUninitialized");
 }
 
 TEST(InitializationStateDcheckDeathTest, Destroyed_NotValid) {
@@ -118,7 +123,7 @@ TEST(InitializationStateDcheckDeathTest, Destroyed_NotValid) {
     INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck);
     INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck);
   }
-  ASSERT_DEATH(
+  ASSERT_DEATH_CHECK(
       INITIALIZATION_STATE_DCHECK_VALID(*initialization_state_dcheck_pointer),
       "kStateValid");
 }

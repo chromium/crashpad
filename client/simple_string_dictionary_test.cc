@@ -16,6 +16,7 @@
 
 #include "base/logging.h"
 #include "gtest/gtest.h"
+#include "util/test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -279,13 +280,13 @@ TEST(SimpleStringDictionary, OutOfSpace) {
 
 TEST(SimpleStringDictionaryDeathTest, NullKey) {
   TSimpleStringDictionary<4, 6, 6> map;
-  ASSERT_DEATH(map.SetKeyValue(nullptr, "hello"), "key");
+  ASSERT_DEATH_CHECK(map.SetKeyValue(nullptr, "hello"), "key");
 
   map.SetKeyValue("hi", "there");
-  ASSERT_DEATH(map.GetValueForKey(nullptr), "key");
+  ASSERT_DEATH_CHECK(map.GetValueForKey(nullptr), "key");
   EXPECT_STREQ("there", map.GetValueForKey("hi"));
 
-  ASSERT_DEATH(map.GetValueForKey(nullptr), "key");
+  ASSERT_DEATH_CHECK(map.GetValueForKey(nullptr), "key");
   map.RemoveKey("hi");
   EXPECT_EQ(0u, map.GetCount());
 }

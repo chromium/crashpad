@@ -19,6 +19,7 @@
 #include "gtest/gtest.h"
 #include "util/net/http_body.h"
 #include "util/net/http_body_test_util.h"
+#include "util/test/gtest_death_check.h"
 #include "util/test/paths.h"
 
 namespace crashpad {
@@ -273,10 +274,14 @@ TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
 TEST(HTTPMultipartBuilderDeathTest, AssertUnsafeMIMEType) {
   HTTPMultipartBuilder builder;
   // Invalid and potentially dangerous:
-  ASSERT_DEATH(builder.SetFileAttachment("", "", base::FilePath(), "\r\n"), "");
-  ASSERT_DEATH(builder.SetFileAttachment("", "", base::FilePath(), "\""), "");
-  ASSERT_DEATH(builder.SetFileAttachment("", "", base::FilePath(), "\x12"), "");
-  ASSERT_DEATH(builder.SetFileAttachment("", "", base::FilePath(), "<>"), "");
+  ASSERT_DEATH_CHECK(
+      builder.SetFileAttachment("", "", base::FilePath(), "\r\n"), "");
+  ASSERT_DEATH_CHECK(
+      builder.SetFileAttachment("", "", base::FilePath(), "\""), "");
+  ASSERT_DEATH_CHECK(
+      builder.SetFileAttachment("", "", base::FilePath(), "\x12"), "");
+  ASSERT_DEATH_CHECK(
+      builder.SetFileAttachment("", "", base::FilePath(), "<>"), "");
   // Invalid but safe:
   builder.SetFileAttachment("", "", base::FilePath(), "0/totally/-invalid.pdf");
   // Valid and safe:

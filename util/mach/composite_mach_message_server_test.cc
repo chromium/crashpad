@@ -17,6 +17,7 @@
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "util/mach/mach_message.h"
+#include "util/test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -295,7 +296,7 @@ TEST(CompositeMachMessageServerDeathTest, DuplicateRequestID) {
   CompositeMachMessageServer server;
 
   server.AddHandler(&handlers[0]);
-  EXPECT_DEATH(server.AddHandler(&handlers[1]), "duplicate request ID");
+  EXPECT_DEATH_CHECK(server.AddHandler(&handlers[1]), "duplicate request ID");
 }
 
 }  // namespace
