@@ -98,13 +98,17 @@ class TestMachOImageAnnotationsReader final
           process_reader.Modules();
       std::vector<std::string> all_annotations_vector;
       for (const ProcessReader::Module& module : modules) {
-        MachOImageAnnotationsReader module_annotations_reader(
-            &process_reader, module.reader, module.name);
-        std::vector<std::string> module_annotations_vector =
-            module_annotations_reader.Vector();
-        all_annotations_vector.insert(all_annotations_vector.end(),
-                                      module_annotations_vector.begin(),
-                                      module_annotations_vector.end());
+        if (module.reader) {
+          MachOImageAnnotationsReader module_annotations_reader(
+              &process_reader, module.reader, module.name);
+          std::vector<std::string> module_annotations_vector =
+              module_annotations_reader.Vector();
+          all_annotations_vector.insert(all_annotations_vector.end(),
+                                        module_annotations_vector.begin(),
+                                        module_annotations_vector.end());
+        } else {
+          EXPECT_TRUE(module.reader);
+        }
       }
 
       // Mac OS X 10.6 doesn’t have support for CrashReporter annotations

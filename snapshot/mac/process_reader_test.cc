@@ -540,6 +540,7 @@ TEST(ProcessReader, SelfModules) {
 
     const char* dyld_image_name = _dyld_get_image_name(index);
     EXPECT_EQ(dyld_image_name, modules[index].name);
+    ASSERT_TRUE(modules[index].reader);
     EXPECT_EQ(
         reinterpret_cast<mach_vm_address_t>(_dyld_get_image_header(index)),
         modules[index].reader->Address());
@@ -569,6 +570,7 @@ TEST(ProcessReader, SelfModules) {
   const struct dyld_all_image_infos* dyld_image_infos =
       _dyld_get_all_image_infos();
   if (dyld_image_infos->version >= 2) {
+    ASSERT_TRUE(modules[index].reader);
     EXPECT_EQ(
         reinterpret_cast<mach_vm_address_t>(
             dyld_image_infos->dyldImageLoadAddress),
@@ -616,6 +618,7 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
 
       mach_vm_address_t expect_address;
       CheckedReadFile(read_handle, &expect_address, sizeof(expect_address));
+      ASSERT_TRUE(modules[index].reader);
       EXPECT_EQ(expect_address, modules[index].reader->Address());
 
       if (index == 0 || index == modules.size() - 1) {

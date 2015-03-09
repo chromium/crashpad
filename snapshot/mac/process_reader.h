@@ -84,6 +84,9 @@ class ProcessReader {
     //!
     //! The lifetime of this MachOImageReader is scoped to the lifetime of the
     //! ProcessReader that created it.
+    //!
+    //! This field may be `nullptr` if a reader could not be created for the
+    //! module.
     const MachOImageReader* reader;
 
     //! \brief The module’s timestamp.
