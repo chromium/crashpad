@@ -30,7 +30,19 @@ def main(args):
   crashpad_dir = \
       os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
 
-  binary_dir = os.path.join(crashpad_dir, 'out', args[0])
+  # In a standalone Crashpad build, the out directory is in the Crashpad root.
+  out_dir = os.path.join(crashpad_dir, 'out')
+  if not os.path.exists(out_dir):
+    # In an in-Chromium build, the out directory is in the Chromium root, and
+    # the Crashpad root is in third_party/crashpad/crashpad relative to the
+    # Chromium root.
+    chromium_dir = os.path.join(crashpad_dir, os.pardir, os.pardir, os.pardir)
+    out_dir = os.path.join(chromium_dir, 'out')
+  if not os.path.exists(out_dir):
+    raise Exception('could not determine out_dir', crashpad_dir)
+
+  binary_dir = os.path.join(out_dir, args[0])
+
   tests = [
       'crashpad_client_test',
       'crashpad_minidump_test',
