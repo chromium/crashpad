@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2014 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/test/executable_path.h"
+#include "util/test/paths.h"
 
-#include <windows.h>
+#include <mach-o/dyld.h>
+#include <stdint.h>
+
+#include "base/logging.h"
 
 namespace crashpad {
 namespace test {
 
-base::FilePath ExecutablePath() {
-  wchar_t executable_path[_MAX_PATH];
-  GetModuleFileName(nullptr, executable_path, sizeof(executable_path));
+// static
+base::FilePath Paths::Executable() {
+  uint32_t executable_length = 0;
+  _NSGetExecutablePath(nullptr, &executable_length);
+  DCHECK_GT(executable_length, 1u);
+  std::string executable_path(executable_length, std::string::value_type());
+  int rv = _NSGetExecutablePath(&executable_path[0], &executable_length);
+  DCHECK_EQ(rv, 0);
+
   return base::FilePath(executable_path);
 }
 

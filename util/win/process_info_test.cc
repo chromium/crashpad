@@ -21,7 +21,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/misc/uuid.h"
-#include "util/test/executable_path.h"
+#include "util/test/paths.h"
 #include "util/win/scoped_handle.h"
 
 namespace crashpad {
@@ -77,7 +77,7 @@ TEST(ProcessInfo, SomeOtherProcess) {
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
   ASSERT_TRUE(done.get());
 
-  base::FilePath test_executable = ExecutablePath();
+  base::FilePath test_executable = Paths::Executable();
   std::wstring child_test_executable =
       test_executable.RemoveFinalExtension().value() +
       L"_process_info_test_child.exe";

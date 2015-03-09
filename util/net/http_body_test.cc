@@ -16,6 +16,7 @@
 
 #include "gtest/gtest.h"
 #include "util/net/http_body_test_util.h"
+#include "util/test/paths.h"
 
 namespace crashpad {
 namespace test {
@@ -93,9 +94,7 @@ TEST(StringHTTPBodyStream, MultipleReads) {
 }
 
 TEST(FileHTTPBodyStream, ReadASCIIFile) {
-  // TODO(rsesek): Use a more robust mechanism to locate testdata
-  // <https://code.google.com/p/crashpad/issues/detail?id=4>.
-  base::FilePath path = base::FilePath(
+  base::FilePath path = Paths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
   FileHTTPBodyStream stream(path);
   std::string contents = ReadStreamToString(&stream, 32);
@@ -113,9 +112,7 @@ TEST(FileHTTPBodyStream, ReadASCIIFile) {
 
 TEST(FileHTTPBodyStream, ReadBinaryFile) {
   // HEX contents of file: |FEEDFACE A11A15|.
-  // TODO(rsesek): Use a more robust mechanism to locate testdata
-  // <https://code.google.com/p/crashpad/issues/detail?id=4>.
-  base::FilePath path = base::FilePath(
+  base::FilePath path = Paths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/binary_http_body.dat"));
   // This buffer size was chosen so that reading the file takes multiple reads.
   uint8_t buf[4];
@@ -199,8 +196,9 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, StringsAndFile) {
 
   std::vector<HTTPBodyStream*> parts;
   parts.push_back(new StringHTTPBodyStream(string1));
-  parts.push_back(new FileHTTPBodyStream(base::FilePath(
-      FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"))));
+  base::FilePath path = Paths::TestDataRoot().Append(
+      FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
+  parts.push_back(new FileHTTPBodyStream(path));
   parts.push_back(new StringHTTPBodyStream(string2));
 
   CompositeHTTPBodyStream stream(parts);

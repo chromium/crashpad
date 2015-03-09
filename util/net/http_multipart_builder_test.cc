@@ -19,6 +19,7 @@
 #include "gtest/gtest.h"
 #include "util/net/http_body.h"
 #include "util/net/http_body_test_util.h"
+#include "util/test/paths.h"
 
 namespace crashpad {
 namespace test {
@@ -95,22 +96,19 @@ TEST(HTTPMultipartBuilder, ThreeStringFields) {
 
 TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
   HTTPMultipartBuilder builder;
-  // TODO(rsesek): Use a more robust mechanism to locate testdata
-  // <https://code.google.com/p/crashpad/issues/detail?id=4>.
+  base::FilePath ascii_http_body_path = Paths::TestDataRoot().Append(
+      FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
   builder.SetFileAttachment("first",
                             "minidump.dmp",
-                            base::FilePath(FILE_PATH_LITERAL(
-                                "util/net/testdata/ascii_http_body.txt")),
+                            ascii_http_body_path,
                             "");
   builder.SetFileAttachment("second",
                             "minidump.dmp",
-                            base::FilePath(FILE_PATH_LITERAL(
-                                "util/net/testdata/ascii_http_body.txt")),
+                            ascii_http_body_path,
                             "text/plain");
   builder.SetFileAttachment("\"third 50% silly\"",
                             "test%foo.txt",
-                            base::FilePath(FILE_PATH_LITERAL(
-                                "util/net/testdata/ascii_http_body.txt")),
+                            ascii_http_body_path,
                             "text/plain");
 
   const char kFileContents[] = "This is a test.\n";
@@ -182,22 +180,22 @@ TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
   HTTPMultipartBuilder builder;
   const char kValue[] = "1 2 3 test";
   builder.SetFormData("a key", kValue);
-  // TODO(rsesek): Use a more robust mechanism to locate testdata
-  // <https://code.google.com/p/crashpad/issues/detail?id=4>.
+  base::FilePath testdata_path =
+      Paths::TestDataRoot().Append(FILE_PATH_LITERAL("util/net/testdata"));
   builder.SetFileAttachment("minidump",
                             "minidump.dmp",
-                            base::FilePath(FILE_PATH_LITERAL(
-                                "util/net/testdata/binary_http_body.dat")),
+                            testdata_path.Append(FILE_PATH_LITERAL(
+                                "binary_http_body.dat")),
                             "");
   builder.SetFileAttachment("minidump2",
                             "minidump.dmp",
-                            base::FilePath(FILE_PATH_LITERAL(
-                                "util/net/testdata/binary_http_body.dat")),
+                            testdata_path.Append(FILE_PATH_LITERAL(
+                                "binary_http_body.dat")),
                             "");
   builder.SetFileAttachment("minidump",
                             "minidump.dmp",
-                            base::FilePath(FILE_PATH_LITERAL(
-                                "util/net/testdata/ascii_http_body.txt")),
+                            testdata_path.Append(FILE_PATH_LITERAL(
+                                "ascii_http_body.txt")),
                             "text/plain");
   scoped_ptr<HTTPBodyStream> body(builder.GetBodyStream());
   ASSERT_TRUE(body.get());
@@ -239,10 +237,11 @@ TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
   HTTPMultipartBuilder builder;
   const char kValue1[] = "11111";
   builder.SetFormData("one", kValue1);
+  base::FilePath ascii_http_body_path = Paths::TestDataRoot().Append(
+      FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
   builder.SetFileAttachment("minidump",
                             "minidump.dmp",
-                            base::FilePath(FILE_PATH_LITERAL(
-                                "util/net/testdata/ascii_http_body.txt")),
+                            ascii_http_body_path,
                             "");
   const char kValue2[] = "this is not a file";
   builder.SetFormData("minidump", kValue2);

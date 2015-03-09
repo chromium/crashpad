@@ -20,11 +20,13 @@
 
 #include <vector>
 
+#include "base/files/file_path.h"
 #include "base/format_macros.h"
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/rand_util.h"
 #include "base/strings/stringprintf.h"
+#include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/file/file_io.h"
@@ -32,6 +34,7 @@
 #include "util/net/http_headers.h"
 #include "util/net/http_multipart_builder.h"
 #include "util/test/multiprocess_exec.h"
+#include "util/test/paths.h"
 
 namespace crashpad {
 namespace test {
@@ -51,17 +54,17 @@ class HTTPTransportTestFixture : public MultiprocessExec {
         body_stream_(body_stream.Pass()),
         response_code_(http_response_code),
         request_validator_(request_validator) {
-    // TODO(rsesek): Use a more robust mechanism to locate testdata
-    // <https://code.google.com/p/crashpad/issues/detail?id=4>.
+    base::FilePath server_path = Paths::TestDataRoot().Append(
+        FILE_PATH_LITERAL("util/net/http_transport_test_server.py"));
 #if defined(OS_POSIX)
-    SetChildCommand("util/net/http_transport_test_server.py", nullptr);
+    SetChildCommand(server_path.value(), nullptr);
 #elif defined(OS_WIN)
     // Explicitly invoke a shell and python so that python can be found in the
     // path, and run the test script.
     std::vector<std::string> args;
     args.push_back("/c");
     args.push_back("python");
-    args.push_back("util/net/http_transport_test_server.py");
+    args.push_back(base::UTF16ToUTF8(server_path.value()));
     SetChildCommand(getenv("COMSPEC"), &args);
 #endif  // OS_POSIX
   }

@@ -19,7 +19,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/file/file_io.h"
-#include "util/test/executable_path.h"
+#include "util/test/paths.h"
 
 namespace crashpad {
 namespace test {
@@ -48,7 +48,7 @@ class TestMultiprocessExec final : public MultiprocessExec {
 
 TEST(MultiprocessExec, MultiprocessExec) {
   TestMultiprocessExec multiprocess_exec;
-  base::FilePath test_executable = ExecutablePath();
+  base::FilePath test_executable = Paths::Executable();
 #if defined(OS_POSIX)
   std::string child_test_executable = test_executable.value();
 #elif defined(OS_WIN)

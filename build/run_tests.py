@@ -27,13 +27,10 @@ def main(args):
     print >>sys.stderr, 'usage: run_tests.py {Debug|Release}'
     return 1;
 
-  # Until https://code.google.com/p/crashpad/issues/detail?id=4 is fixed, tests
-  # need to be run from a specific working directory.
   crashpad_dir = \
       os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
-  os.chdir(crashpad_dir)
 
-  binary_dir = os.path.join('out', args[0])
+  binary_dir = os.path.join(crashpad_dir, 'out', args[0])
   tests = [
       'crashpad_client_test',
       'crashpad_minidump_test',
