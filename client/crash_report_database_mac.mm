@@ -24,11 +24,13 @@
 #include <uuid/uuid.h>
 
 #include "base/logging.h"
+#include "base/mac/scoped_nsautorelease_pool.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/scoped_generic.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
+#include "client/settings.h"
 #include "util/file/file_io.h"
 #include "util/mac/xattr.h"
 
@@ -41,6 +43,8 @@ const char kDatabaseDirectoryName[] = "Crashpad";
 const char kWriteDirectory[] = "new";
 const char kUploadPendingDirectory[] = "pending";
 const char kCompletedDirectory[] = "completed";
+
+const char kSettings[] = "settings.dat";
 
 const char* const kReportDirectories[] = {
   kWriteDirectory,
@@ -106,6 +110,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   bool Initialize();
 
   // CrashReportDatabase:
+  Settings* GetSettings() override;
   OperationStatus PrepareNewCrashReport(NewReport** report) override;
   OperationStatus FinishedWritingCrashReport(NewReport* report,
                                              UUID* uuid) override;
@@ -184,12 +189,15 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   static std::string XattrName(const base::StringPiece& name);
 
   base::FilePath base_dir_;
+  Settings settings_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseMac);
 };
 
 CrashReportDatabaseMac::CrashReportDatabaseMac(const base::FilePath& path)
-    : CrashReportDatabase(), base_dir_(path) {
+    : CrashReportDatabase(),
+      base_dir_(path),
+      settings_(base_dir_.Append(kSettings)) {
 }
 
 CrashReportDatabaseMac::~CrashReportDatabaseMac() {}
@@ -205,9 +213,16 @@ bool CrashReportDatabaseMac::Initialize() {
       return false;
   }
 
+  if (!settings_.Initialize())
+    return false;
+
   // Write an xattr as the last step, to ensure the filesystem has support for
   // them. This attribute will never be read.
   return WriteXattrBool(base_dir_, XattrName(kXattrDatabaseInitialized), true);
+}
+
+Settings* CrashReportDatabaseMac::GetSettings() {
+  return &settings_;
 }
 
 CrashReportDatabase::OperationStatus
@@ -505,6 +520,8 @@ bool CrashReportDatabaseMac::ReadReportMetadataLocked(
 CrashReportDatabase::OperationStatus CrashReportDatabaseMac::ReportsInDirectory(
     const base::FilePath& path,
     std::vector<CrashReportDatabase::Report>* reports) {
+  base::mac::ScopedNSAutoreleasePool pool;
+
   DCHECK(reports->empty());
 
   NSError* error = nil;

@@ -28,6 +28,8 @@
 
 namespace crashpad {
 
+class Settings;
+
 //! \brief An interface for managing a collection of crash report files and
 //!     metadata associated with the crash reports.
 //!
@@ -140,6 +142,12 @@ class CrashReportDatabase {
   //! \return A database object on success, `nullptr` on failure with an error
   //!     logged.
   static scoped_ptr<CrashReportDatabase> Initialize(const base::FilePath& path);
+
+  //! \brief Returns the Settings object for this database.
+  //!
+  //! \return A weak pointer to the Settings object, which is owned by the
+  //!     database.
+  virtual Settings* GetSettings() = 0;
 
   //! \brief Creates a record of a new crash report.
   //!

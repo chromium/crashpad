@@ -39,6 +39,8 @@
         'crashpad_client_mac.cc',
         'crashpad_info.cc',
         'crashpad_info.h',
+        'settings.cc',
+        'settings.h',
         'simple_string_dictionary.cc',
         'simple_string_dictionary.h',
         'simulate_crash.h',
@@ -52,6 +54,10 @@
               '-lrpcrt4.lib',
             ],
           },
+          'sources!': [
+            # Port to Win https://code.google.com/p/crashpad/issues/detail?id=13
+            'settings.cc',
+          ],
         }],
       ],
     },
@@ -73,8 +79,17 @@
       'sources': [
         'capture_context_mac_test.cc',
         'crash_report_database_test.cc',
+        'settings_test.cc',
         'simple_string_dictionary_test.cc',
         'simulate_crash_mac_test.cc',
+      ],
+      'conditions': [
+        ['OS=="win"', {
+          'sources!': [
+            # Port to Win https://code.google.com/p/crashpad/issues/detail?id=13
+            'settings_test.cc',
+          ],
+        }],
       ],
     },
   ],

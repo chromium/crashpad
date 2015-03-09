@@ -524,6 +524,7 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   bool Initialize();
 
   // CrashReportDatabase:
+  Settings* GetSettings() override;
   OperationStatus PrepareNewCrashReport(NewReport** report) override;
   OperationStatus FinishedWritingCrashReport(NewReport* report,
                                              UUID* uuid) override;
@@ -563,6 +564,12 @@ bool CrashReportDatabaseWin::Initialize() {
   // maybe on AcquireMetadata().
 
   return true;
+}
+
+Settings* CrashReportDatabaseWin::GetSettings() {
+  // Port to Win https://code.google.com/p/crashpad/issues/detail?id=13.
+  NOTREACHED();
+  return nullptr;
 }
 
 OperationStatus CrashReportDatabaseWin::PrepareNewCrashReport(
