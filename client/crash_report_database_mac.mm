@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <time.h>
 #include <unistd.h>
 #include <uuid/uuid.h>
 
@@ -399,9 +400,9 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
   if (!WriteXattr(report_path, XattrName(kXattrCollectorID), id)) {
     return kDatabaseError;
   }
-  if (!WriteXattrTimeT(report_path,
-                       XattrName(kXattrLastUploadTime),
-                       time(nullptr))) {
+
+  time_t now = time(nullptr);
+  if (!WriteXattrTimeT(report_path, XattrName(kXattrLastUploadTime), now)) {
     return kDatabaseError;
   }
 
@@ -412,6 +413,10 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
     return kDatabaseError;
   }
   if (!WriteXattrInt(report_path, name, ++upload_attempts)) {
+    return kDatabaseError;
+  }
+
+  if (!settings_.SetLastUploadAttemptTime(now)) {
     return kDatabaseError;
   }
 

@@ -119,12 +119,13 @@ class CrashReportDatabase {
     //! will be logged.
     kFileSystemError,
 
-    //! \brief An error occured while recording metadata for a crash report.
+    //! \brief An error occured while recording metadata for a crash report or
+    //!     database-wide settings.
     //!
     //! A database is responsible for managing both the metadata about a report
     //! and the actual crash report itself. This error is returned when an
-    //! error occurred when managing the metadata about a crash report.
-    //! Additional information will be logged.
+    //! error occurred when managing the metadata about a crash report or
+    //! database-wide settings. Additional information will be logged.
     kDatabaseError,
 
     //! \brief The operation could not be completed because a concurrent
@@ -234,7 +235,8 @@ class CrashReportDatabase {
                                                 const Report** report) = 0;
 
   //! \brief Adjusts a crash report record’s metadata to account for an upload
-  //!     attempt.
+  //!     attempt, and updates the last upload attempt time as returned by
+  //!     Settings::GetLastUploadAttemptTime().
   //!
   //! After calling this method, the database is permitted to move and rename
   //! the file at Report::file_path.

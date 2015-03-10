@@ -708,6 +708,10 @@ OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
     report_disk->state =
         successful ? ReportState::kCompleted : ReportState::kPending;
   }
+
+  // Call Settings::SetLastUploadAttemptTime().
+  // https://code.google.com/p/crashpad/issues/detail?id=13.
+
   return os;
 }
 
