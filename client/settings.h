@@ -133,7 +133,7 @@ class Settings {
   // on success and false on failure, with an error logged.
   bool InitializeSettings(FileHandle handle);
 
-  const char* file_path() { return file_path_.value().c_str(); }
+  const base::FilePath& file_path() const { return file_path_; }
 
   base::FilePath file_path_;
 

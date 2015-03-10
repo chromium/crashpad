@@ -57,7 +57,7 @@ bool Settings::Initialize() {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   ScopedFileHandle handle(HANDLE_EINTR(
-      open(file_path(),
+      open(file_path().value().c_str(),
            O_CREAT | O_EXCL | O_WRONLY | O_EXLOCK,
            0644)));
 
@@ -145,14 +145,15 @@ bool Settings::SetLastUploadAttemptTime(time_t time) {
 }
 
 ScopedFileHandle Settings::OpenForReading() {
-  ScopedFileHandle handle(HANDLE_EINTR(open(file_path(), O_RDONLY | O_SHLOCK)));
+  ScopedFileHandle handle(HANDLE_EINTR(
+      open(file_path().value().c_str(), O_RDONLY | O_SHLOCK)));
   PLOG_IF(ERROR, !handle.is_valid()) << "open for reading";
   return handle.Pass();
 }
 
 ScopedFileHandle Settings::OpenForReadingAndWriting() {
   ScopedFileHandle handle(HANDLE_EINTR(
-      open(file_path(), O_RDWR | O_EXLOCK | O_CREAT, 0644)));
+      open(file_path().value().c_str(), O_RDWR | O_EXLOCK | O_CREAT, 0644)));
   PLOG_IF(ERROR, !handle.is_valid()) << "open for writing";
   return handle.Pass();
 }
@@ -224,7 +225,7 @@ bool Settings::RecoverSettings(FileHandle handle, Data* out_data) {
       return true;
   }
 
-  LOG(INFO) << "Recovering settings file " << file_path();
+  LOG(INFO) << "Recovering settings file " << file_path().value();
 
   if (handle == kInvalidFileHandle) {
     LOG(ERROR) << "Invalid file handle";

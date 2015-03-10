@@ -17,14 +17,11 @@
 #include <sys/stat.h>
 
 #include "build/build_config.h"
+#include "client/settings.h"
 #include "gtest/gtest.h"
 #include "util/file/file_io.h"
 #include "util/test/errors.h"
 #include "util/test/scoped_temp_dir.h"
-
-#if !defined(OS_WIN)
-#include "client/settings.h"
-#endif
 
 namespace crashpad {
 namespace test {
