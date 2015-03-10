@@ -14,11 +14,17 @@
 
 #include "handler/mac/crash_report_exception_handler.h"
 
+#include <servers/bootstrap.h>
+
+#include <vector>
+
 #include "base/logging.h"
+#include "base/mac/mach_logging.h"
 #include "base/strings/stringprintf.h"
 #include "minidump/minidump_file_writer.h"
 #include "snapshot/mac/process_snapshot_mac.h"
 #include "util/file/file_writer.h"
+#include "util/mach/exc_client_variants.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/scoped_task_suspend.h"
@@ -149,6 +155,60 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   }
 
   upload_thread_->ReportPending();
+
+  if (exception == EXC_CRASH ||
+      exception == EXC_RESOURCE ||
+      exception == EXC_GUARD) {
+    // Don’t forward simulated exceptions such as kMachExceptionSimulated to the
+    // system crash reporter. Only forward the types of exceptions that it would
+    // receive under normal conditions. Although the system crash reporter is
+    // able to deal with other exceptions including simulated ones, forwarding
+    // them to the system crash reporter could present the system’s crash UI for
+    // processes that haven’t actually crashed, and could result in reports not
+    // actually associated with crashes being sent to the operating system
+    // vendor.
+    mach_port_t system_crash_reporter_port;
+    const char kSystemCrashReporterServiceName[] = "com.apple.ReportCrash";
+    kern_return_t kr = bootstrap_look_up(bootstrap_port,
+                                         kSystemCrashReporterServiceName,
+                                         &system_crash_reporter_port);
+    if (kr != BOOTSTRAP_SUCCESS) {
+      BOOTSTRAP_LOG(ERROR, kr) << "bootstrap_look_up "
+                               << kSystemCrashReporterServiceName;
+    } else {
+      // Make copies of mutable out parameters so that the system crash reporter
+      // can’t influence the state returned by this method.
+      thread_state_flavor_t flavor_forward = *flavor;
+      mach_msg_type_number_t new_state_forward_count = *new_state_count;
+      std::vector<natural_t> new_state_forward(
+          new_state, new_state + new_state_forward_count);
+
+      // The system crash reporter requires the behavior to be
+      // EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES. It uses the identity
+      // parameters but doesn’t appear to use the state parameters, including
+      // |flavor|, and doesn’t care if they are 0 or invalid. As long as an
+      // identity is available (checked above), any other exception behavior is
+      // converted to what the system crash reporter wants, with the caveat that
+      // problems may arise if the state wasn’t available and the system crash
+      // reporter changes in the future to use it. However, normally, the state
+      // will be available.
+      kr = UniversalExceptionRaise(
+          EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
+          system_crash_reporter_port,
+          thread,
+          task,
+          exception,
+          code,
+          code_count,
+          &flavor_forward,
+          old_state,
+          old_state_count,
+          new_state_forward_count ? &new_state_forward[0] : nullptr,
+          &new_state_forward_count);
+      MACH_LOG_IF(WARNING, kr != KERN_SUCCESS, kr)
+          << "UniversalExceptionRaise " << kSystemCrashReporterServiceName;
+    }
+  }
 
   return ExcServerSuccessfulReturnValue(behavior, false);
 }
