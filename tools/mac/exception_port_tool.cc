@@ -186,7 +186,7 @@ void ShowBootstrapService(const std::string& service_name,
                           MachSendRightPool* mach_send_right_pool) {
   mach_port_t service_port;
   kern_return_t kr = bootstrap_look_up(
-      bootstrap_port, const_cast<char*>(service_name.c_str()), &service_port);
+      bootstrap_port, service_name.c_str(), &service_port);
   if (kr != BOOTSTRAP_SUCCESS) {
     BOOTSTRAP_LOG(ERROR, kr) << "bootstrap_look_up " << service_name;
     return;
@@ -287,8 +287,7 @@ bool SetExceptionPort(const ExceptionHandlerDescription* description,
           0, strlen(kHandlerBootstrapColon), kHandlerBootstrapColon) == 0) {
     const char* service_name =
         description->handler.c_str() + strlen(kHandlerBootstrapColon);
-    kr = bootstrap_look_up(
-        bootstrap_port, const_cast<char*>(service_name), &service_port);
+    kr = bootstrap_look_up(bootstrap_port, service_name, &service_port);
     if (kr != BOOTSTRAP_SUCCESS) {
       BOOTSTRAP_LOG(ERROR, kr) << "bootstrap_look_up " << service_name;
       return false;
