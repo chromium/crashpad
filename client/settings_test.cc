@@ -14,7 +14,6 @@
 
 #include "client/settings.h"
 
-#include "client/crash_report_database.h"
 #include "gtest/gtest.h"
 #include "util/file/file_io.h"
 #include "util/test/scoped_temp_dir.h"

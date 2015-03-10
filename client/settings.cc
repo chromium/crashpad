@@ -30,14 +30,14 @@ namespace crashpad {
 struct ALIGNAS(4) Settings::Data {
   static const uint16_t kSettingsVersion = 1;
 
+  enum Options : uint32_t {
+    kUploadsEnabled = 1 << 0,
+  };
+
   Data() : version(kSettingsVersion),
            options(0),
            last_upload_attempt_time(0),
            client_id() {}
-
-  enum Options : uint32_t {
-    kUploadsEnabled = 1 << 0,
-  };
 
   uint32_t version;
   uint32_t options;
@@ -152,7 +152,7 @@ ScopedFileHandle Settings::OpenForReading() {
 
 ScopedFileHandle Settings::OpenForReadingAndWriting() {
   ScopedFileHandle handle(HANDLE_EINTR(
-      open(file_path(), O_RDWR | O_EXLOCK | O_CREAT)));
+      open(file_path(), O_RDWR | O_EXLOCK | O_CREAT, 0644)));
   PLOG_IF(ERROR, !handle.is_valid()) << "open for writing";
   return handle.Pass();
 }
