@@ -24,6 +24,7 @@
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
 
@@ -543,18 +544,21 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   scoped_ptr<Metadata> AcquireMetadata();
 
   base::FilePath base_dir_;
+  InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseWin);
 };
 
 CrashReportDatabaseWin::CrashReportDatabaseWin(const base::FilePath& path)
-    : CrashReportDatabase(), base_dir_(path) {
+    : CrashReportDatabase(), base_dir_(path), initialized_() {
 }
 
 CrashReportDatabaseWin::~CrashReportDatabaseWin() {
 }
 
 bool CrashReportDatabaseWin::Initialize() {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
   // Ensure the database and report subdirectories exist.
   if (!CreateDirectoryIfNecessary(base_dir_) ||
       !CreateDirectoryIfNecessary(base_dir_.Append(kReportsDirectory)))
@@ -563,10 +567,13 @@ bool CrashReportDatabaseWin::Initialize() {
   // TODO(scottmg): When are completed reports pruned from disk? Delete here or
   // maybe on AcquireMetadata().
 
+  INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
 
 Settings* CrashReportDatabaseWin::GetSettings() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   // Port to Win https://code.google.com/p/crashpad/issues/detail?id=13.
   NOTREACHED();
   return nullptr;
@@ -574,6 +581,8 @@ Settings* CrashReportDatabaseWin::GetSettings() {
 
 OperationStatus CrashReportDatabaseWin::PrepareNewCrashReport(
     NewReport** report) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   ::UUID system_uuid;
   if (UuidCreate(&system_uuid) != RPC_S_OK)
     return kFileSystemError;
@@ -599,6 +608,8 @@ OperationStatus CrashReportDatabaseWin::PrepareNewCrashReport(
 OperationStatus CrashReportDatabaseWin::FinishedWritingCrashReport(
     NewReport* report,
     UUID* uuid) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   // Take ownership of the report, and cast to our private version with UUID.
   scoped_ptr<NewReportDisk> scoped_report(static_cast<NewReportDisk*>(report));
   // Take ownership of the file handle.
@@ -617,6 +628,8 @@ OperationStatus CrashReportDatabaseWin::FinishedWritingCrashReport(
 
 OperationStatus CrashReportDatabaseWin::ErrorWritingCrashReport(
     NewReport* report) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   // Take ownership of the report, and cast to our private version with UUID.
   scoped_ptr<NewReportDisk> scoped_report(static_cast<NewReportDisk*>(report));
 
@@ -635,6 +648,8 @@ OperationStatus CrashReportDatabaseWin::ErrorWritingCrashReport(
 
 OperationStatus CrashReportDatabaseWin::LookUpCrashReport(const UUID& uuid,
                                                           Report* report) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   scoped_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;
@@ -648,6 +663,8 @@ OperationStatus CrashReportDatabaseWin::LookUpCrashReport(const UUID& uuid,
 
 OperationStatus CrashReportDatabaseWin::GetPendingReports(
     std::vector<Report>* reports) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   scoped_ptr<Metadata> metadata(AcquireMetadata());
   return metadata ? metadata->FindReports(ReportState::kPending, reports)
                   : kDatabaseError;
@@ -655,6 +672,8 @@ OperationStatus CrashReportDatabaseWin::GetPendingReports(
 
 OperationStatus CrashReportDatabaseWin::GetCompletedReports(
     std::vector<Report>* reports) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   scoped_ptr<Metadata> metadata(AcquireMetadata());
   return metadata ? metadata->FindReports(ReportState::kCompleted, reports)
                   : kDatabaseError;
@@ -663,6 +682,8 @@ OperationStatus CrashReportDatabaseWin::GetCompletedReports(
 OperationStatus CrashReportDatabaseWin::GetReportForUploading(
     const UUID& uuid,
     const Report** report) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   scoped_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;
@@ -692,6 +713,8 @@ OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
     const Report* report,
     bool successful,
     const std::string& id) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   // Take ownership, allocated in GetReportForUploading.
   scoped_ptr<const Report> upload_report(report);
   scoped_ptr<Metadata> metadata(AcquireMetadata());
@@ -716,6 +739,8 @@ OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
 }
 
 OperationStatus CrashReportDatabaseWin::SkipReportUpload(const UUID& uuid) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   scoped_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;

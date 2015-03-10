@@ -34,6 +34,7 @@
 #include "client/settings.h"
 #include "util/file/file_io.h"
 #include "util/mac/xattr.h"
+#include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
 
@@ -191,6 +192,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
 
   base::FilePath base_dir_;
   Settings settings_;
+  InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseMac);
 };
@@ -198,12 +200,15 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
 CrashReportDatabaseMac::CrashReportDatabaseMac(const base::FilePath& path)
     : CrashReportDatabase(),
       base_dir_(path),
-      settings_(base_dir_.Append(kSettings)) {
+      settings_(base_dir_.Append(kSettings)),
+      initialized_() {
 }
 
 CrashReportDatabaseMac::~CrashReportDatabaseMac() {}
 
 bool CrashReportDatabaseMac::Initialize() {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
   // Check if the database already exists.
   if (!CreateOrEnsureDirectoryExists(base_dir_))
     return false;
@@ -219,15 +224,22 @@ bool CrashReportDatabaseMac::Initialize() {
 
   // Write an xattr as the last step, to ensure the filesystem has support for
   // them. This attribute will never be read.
-  return WriteXattrBool(base_dir_, XattrName(kXattrDatabaseInitialized), true);
+  if (!WriteXattrBool(base_dir_, XattrName(kXattrDatabaseInitialized), true))
+    return false;
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
 }
 
 Settings* CrashReportDatabaseMac::GetSettings() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return &settings_;
 }
 
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::PrepareNewCrashReport(NewReport** out_report) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   uuid_t uuid_gen;
   uuid_generate(uuid_gen);
   UUID uuid(uuid_gen);
@@ -260,6 +272,8 @@ CrashReportDatabaseMac::PrepareNewCrashReport(NewReport** out_report) {
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
                                                    UUID* uuid) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   // Takes ownership of the |handle| and the O_EXLOCK.
   base::ScopedFD lock(report->handle);
 
@@ -296,6 +310,8 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
 
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::ErrorWritingCrashReport(NewReport* report) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   // Takes ownership of the |handle| and the O_EXLOCK.
   base::ScopedFD lock(report->handle);
 
@@ -315,6 +331,8 @@ CrashReportDatabaseMac::ErrorWritingCrashReport(NewReport* report) {
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::LookUpCrashReport(const UUID& uuid,
                                           CrashReportDatabase::Report* report) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   base::FilePath path = LocateCrashReport(uuid);
   if (path.empty())
     return kReportNotFound;
@@ -334,18 +352,24 @@ CrashReportDatabaseMac::LookUpCrashReport(const UUID& uuid,
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::GetPendingReports(
     std::vector<CrashReportDatabase::Report>* reports) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   return ReportsInDirectory(base_dir_.Append(kUploadPendingDirectory), reports);
 }
 
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::GetCompletedReports(
     std::vector<CrashReportDatabase::Report>* reports) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   return ReportsInDirectory(base_dir_.Append(kCompletedDirectory), reports);
 }
 
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::GetReportForUploading(const UUID& uuid,
                                               const Report** report) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   base::FilePath report_path = LocateCrashReport(uuid);
   if (report_path.empty())
     return kReportNotFound;
@@ -369,6 +393,8 @@ CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
                                             bool successful,
                                             const std::string& id) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   DCHECK(report);
   DCHECK(successful || id.empty());
 
@@ -425,6 +451,8 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
 
 CrashReportDatabase::OperationStatus CrashReportDatabaseMac::SkipReportUpload(
     const UUID& uuid) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   base::FilePath report_path = LocateCrashReport(uuid);
   if (report_path.empty())
     return kReportNotFound;
