@@ -15,6 +15,7 @@
 #include "handler/mac/crash_report_upload_thread.h"
 
 #include <errno.h>
+#include <time.h>
 
 #include <map>
 #include <vector>
@@ -22,6 +23,7 @@
 
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
+#include "client/settings.h"
 #include "snapshot/minidump/process_snapshot_minidump.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_reader.h"
@@ -209,8 +211,48 @@ void CrashReportUploadThread::ProcessPendingReports() {
 
 void CrashReportUploadThread::ProcessPendingReport(
     const CrashReportDatabase::Report& report) {
-  // TODO(mark): Allow uploads to be disabled.
-  // TODO(mark): Rate-limit uploads.
+  Settings* const settings = database_->GetSettings();
+
+  bool uploads_enabled;
+  if (!settings->GetUploadsEnabled(&uploads_enabled) || !uploads_enabled) {
+    // If uploads are disabled or the upload-enabled state can’t be determined,
+    // don’t attempt to upload the new report.
+    database_->SkipReportUpload(report.uuid);
+    return;
+  }
+
+  // This currently implements very simplistic rate-limiting, compatible with
+  // the Breakpad client, where the strategy is to permit one upload attempt per
+  // hour, and retire reports that would exceed this limit or for which the
+  // upload fails on the first attempt.
+  //
+  // TODO(mark): Provide a proper rate-limiting strategy and allow for failed
+  // upload attempts to be retried.
+  time_t last_upload_attempt_time;
+  if (settings->GetLastUploadAttemptTime(&last_upload_attempt_time)) {
+    time_t now = time(nullptr);
+    if (now >= last_upload_attempt_time) {
+      // If the most recent upload attempt occurred within the past hour, don’t
+      // attempt to upload the new report. If it happened longer ago, attempt to
+      // upload the report.
+      const int kUploadAttemptIntervalSeconds = 60 * 60;  // 1 hour
+      if (now - last_upload_attempt_time < kUploadAttemptIntervalSeconds) {
+        database_->SkipReportUpload(report.uuid);
+        return;
+      }
+    } else {
+      // The most recent upload attempt purportedly occurred in the future. If
+      // it “happened” at least one day in the future, assume that the last
+      // upload attempt time is bogus, and attempt to upload the report. If the
+      // most recent upload time is in the future but within one day, accept it
+      // and don’t attempt to upload the report.
+      const int kBackwardsClockTolerance = 60 * 60 * 24;  // 1 day
+      if (last_upload_attempt_time - now < kBackwardsClockTolerance) {
+        database_->SkipReportUpload(report.uuid);
+        return;
+      }
+    }
+  }
 
   const CrashReportDatabase::Report* upload_report;
   CrashReportDatabase::OperationStatus status =
