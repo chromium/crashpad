@@ -137,8 +137,7 @@ class CrashReportDatabase {
 
   //! \brief Initializes a database of crash reports.
   //!
-  //! \param[in] path A path to a writable directory, where the database can
-  //!     be created or opened.
+  //! \param[in] path A path to the database to be created or opened.
   //!
   //! \return A database object on success, `nullptr` on failure with an error
   //!     logged.

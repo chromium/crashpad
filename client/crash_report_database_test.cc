@@ -56,7 +56,9 @@ class CrashReportDatabaseTest : public testing::Test {
   }
 
   CrashReportDatabase* db() { return db_.get(); }
-  const base::FilePath& path() const { return temp_dir_.path(); }
+  base::FilePath path() const {
+    return temp_dir_.path().Append(FILE_PATH_LITERAL("crashpad_test_database"));
+  }
 
   void CreateCrashReport(CrashReportDatabase::Report* report) {
     CrashReportDatabase::NewReport* new_report = nullptr;

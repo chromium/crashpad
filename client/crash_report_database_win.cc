@@ -30,8 +30,6 @@ namespace crashpad {
 
 namespace {
 
-const wchar_t kDatabaseDirectoryName[] = L"Crashpad";
-
 const wchar_t kReportsDirectory[] = L"reports";
 const wchar_t kMetadataFileName[] = L"metadata";
 
@@ -763,7 +761,7 @@ scoped_ptr<Metadata> CrashReportDatabaseWin::AcquireMetadata() {
 scoped_ptr<CrashReportDatabase> CrashReportDatabase::Initialize(
     const base::FilePath& path) {
   scoped_ptr<CrashReportDatabaseWin> database_win(
-      new CrashReportDatabaseWin(path.Append(kDatabaseDirectoryName)));
+      new CrashReportDatabaseWin(path));
   return database_win->Initialize() ? database_win.Pass()
                                     : scoped_ptr<CrashReportDatabaseWin>();
 }

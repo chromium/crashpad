@@ -40,8 +40,6 @@ namespace crashpad {
 
 namespace {
 
-const char kDatabaseDirectoryName[] = "Crashpad";
-
 const char kWriteDirectory[] = "new";
 const char kUploadPendingDirectory[] = "pending";
 const char kCompletedDirectory[] = "completed";
@@ -597,7 +595,7 @@ std::string CrashReportDatabaseMac::XattrName(const base::StringPiece& name) {
 scoped_ptr<CrashReportDatabase> CrashReportDatabase::Initialize(
     const base::FilePath& path) {
   scoped_ptr<CrashReportDatabaseMac> database_mac(
-      new CrashReportDatabaseMac(path.Append(kDatabaseDirectoryName)));
+      new CrashReportDatabaseMac(path));
   if (!database_mac->Initialize())
     database_mac.reset();
 
