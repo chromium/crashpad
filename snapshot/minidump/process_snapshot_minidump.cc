@@ -127,6 +127,11 @@ void ProcessSnapshotMinidump::ProcessCPUTimes(timeval* user_time,
   system_time->tv_usec = 0;
 }
 
+void ProcessSnapshotMinidump::ClientID(UUID* client_id) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  *client_id = crashpad_info_.client_id;
+}
+
 const std::map<std::string, std::string>&
 ProcessSnapshotMinidump::AnnotationsSimpleMap() const {
   // TODO(mark): This method should not be const, although the interface

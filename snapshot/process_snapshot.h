@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 
+#include "util/misc/uuid.h"
+
 namespace crashpad {
 
 class ExceptionSnapshot;
@@ -76,6 +78,17 @@ class ProcessSnapshot {
   //!     system (kernel) mode.
   virtual void ProcessCPUTimes(timeval* user_time,
                                timeval* system_time) const = 0;
+
+  //! \brief Returns a %UUID identifying the client that the snapshot
+  //!     represents.
+  //!
+  //! Client identification is within the scope of the application, but it is
+  //! expected that the identifier will be unique for an instance of Crashpad
+  //! monitoring an application or set of applications for a user. The
+  //! identifier shall remain stable over time.
+  //!
+  //! If no identifier is available, this field will contain zeroes.
+  virtual void ClientID(UUID* client_id) const = 0;
 
   //! \brief Returns key-value string annotations recorded for the process,
   //!     system, or snapshot producer.

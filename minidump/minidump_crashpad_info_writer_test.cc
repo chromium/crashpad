@@ -80,6 +80,36 @@ TEST(MinidumpCrashpadInfoWriter, Empty) {
       string_file.string(), &crashpad_info, &simple_annotations, &module_list));
 
   EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
+  EXPECT_EQ(UUID(), crashpad_info->client_id);
+  EXPECT_FALSE(simple_annotations);
+  EXPECT_FALSE(module_list);
+}
+
+TEST(MinidumpCrashpadInfoWriter, ClientID) {
+  MinidumpFileWriter minidump_file_writer;
+  auto crashpad_info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
+
+  UUID client_id;
+  ASSERT_TRUE(
+      client_id.InitializeFromString("00112233-4455-6677-8899-aabbccddeeff"));
+  crashpad_info_writer->SetClientID(client_id);
+
+  EXPECT_TRUE(crashpad_info_writer->IsUseful());
+
+  minidump_file_writer.AddStream(crashpad_info_writer.Pass());
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+
+  const MinidumpCrashpadInfo* crashpad_info = nullptr;
+  const MinidumpSimpleStringDictionary* simple_annotations = nullptr;
+  const MinidumpModuleCrashpadInfoList* module_list = nullptr;
+
+  ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
+      string_file.string(), &crashpad_info, &simple_annotations, &module_list));
+
+  EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
+  EXPECT_EQ(client_id, crashpad_info->client_id);
   EXPECT_FALSE(simple_annotations);
   EXPECT_FALSE(module_list);
 }
@@ -178,6 +208,10 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
 }
 
 TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
+  UUID client_id;
+  ASSERT_TRUE(
+      client_id.InitializeFromString("fedcba98-7654-3210-0123-456789abcdef"));
+
   const char kKey[] = "version";
   const char kValue[] = "40.0.2214.111";
   const char kEntry[] = "This is a simple annotation in a list.";
@@ -195,6 +229,8 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
 
   // Try again with a useful module.
   process_snapshot.reset(new TestProcessSnapshot());
+
+  process_snapshot->SetClientID(client_id);
 
   std::map<std::string, std::string> annotations_simple_map;
   annotations_simple_map[kKey] = kValue;
@@ -222,6 +258,8 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
       string_file.string(), &info, &simple_annotations, &module_list));
 
   EXPECT_EQ(MinidumpCrashpadInfo::kVersion, info->version);
+
+  EXPECT_EQ(client_id, info->client_id);
 
   ASSERT_TRUE(simple_annotations);
   ASSERT_EQ(1u, simple_annotations->count);

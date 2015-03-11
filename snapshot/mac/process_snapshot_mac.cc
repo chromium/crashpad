@@ -25,6 +25,7 @@ ProcessSnapshotMac::ProcessSnapshotMac()
       modules_(),
       exception_(),
       process_reader_(),
+      client_id_(),
       annotations_simple_map_(),
       snapshot_time_(),
       initialized_() {
@@ -135,6 +136,11 @@ void ProcessSnapshotMac::ProcessCPUTimes(timeval* user_time,
                                          timeval* system_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   process_reader_.CPUTimes(user_time, system_time);
+}
+
+void ProcessSnapshotMac::ClientID(UUID* client_id) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  *client_id = client_id_;
 }
 
 const std::map<std::string, std::string>&

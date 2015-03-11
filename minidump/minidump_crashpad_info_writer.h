@@ -21,6 +21,7 @@
 #include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
+#include "util/misc/uuid.h"
 
 namespace crashpad {
 
@@ -50,6 +51,9 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
   //!     this method, and it is not normally necessary to call any mutator
   //!     methods after this method.
   void InitializeFromSnapshot(const ProcessSnapshot* process_snapshot);
+
+  //! \brief Sets MinidumpCrashpadInfo::client_id.
+  void SetClientID(const UUID& client_id);
 
   //! \brief Arranges for MinidumpCrashpadInfo::simple_annotations to point to
   //!     the MinidumpSimpleStringDictionaryWriter object to be written by \a

@@ -21,6 +21,7 @@
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "base/strings/stringprintf.h"
+#include "client/settings.h"
 #include "minidump/minidump_file_writer.h"
 #include "snapshot/mac/crashpad_info_client_options.h"
 #include "snapshot/mac/process_snapshot_mac.h"
@@ -132,6 +133,16 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
       return KERN_FAILURE;
     }
 
+    UUID client_id;
+    Settings* const settings = database_->GetSettings();
+    if (settings) {
+      // If GetSettings() or GetClientID() fails, something else will log a
+      // message and client_id will be left at its default value, all zeroes,
+      // which is appropriate.
+      settings->GetClientID(&client_id);
+    }
+
+    process_snapshot.SetClientID(client_id);
     process_snapshot.SetAnnotationsSimpleMap(*process_annotations_);
 
     CrashReportDatabase::NewReport* new_report;

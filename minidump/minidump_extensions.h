@@ -460,6 +460,18 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
   //! no need for any fields present in later versions.
   uint32_t version;
 
+  //! \brief A %UUID identifying the client that crashed.
+  //!
+  //! Client identification is within the scope of the application, but it is
+  //! expected that the identifier will be unique for an instance of Crashpad
+  //! monitoring an application or set of applications for a user. The
+  //! identifier shall remain stable over time.
+  //!
+  //! If no identifier is available, this field will contain zeroes.
+  //!
+  //! This field is present when #version is at least `1`.
+  UUID client_id;
+
   //! \brief A MinidumpSimpleStringDictionary pointing to strings interpreted as
   //!     key-value pairs.
   //!

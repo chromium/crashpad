@@ -27,6 +27,7 @@
 #include "snapshot/minidump/process_snapshot_minidump.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_reader.h"
+#include "util/misc/uuid.h"
 #include "util/net/http_body.h"
 #include "util/net/http_multipart_builder.h"
 #include "util/net/http_transport.h"
@@ -34,6 +35,19 @@
 namespace crashpad {
 
 namespace {
+
+void InsertOrReplaceMapEntry(std::map<std::string, std::string>* map,
+                             const std::string& key,
+                             const std::string& value) {
+  auto it = map->find(key);
+  if (it != map->end()) {
+    LOG(WARNING) << "duplicate key " << key << ", discarding value "
+                 << it->second;
+    it->second = value;
+  } else {
+    map->insert(std::make_pair(key, value));
+  }
+}
 
 // Given a minidump file readable by |minidump_file_reader|, returns a map of
 // key-value pairs to use as HTTP form parameters for upload to a Breakpad
@@ -43,6 +57,8 @@ namespace {
 // discarded values. Each module’s annotations vector is also examined and built
 // into a single string value, with distinct elements separated by newlines, and
 // stored at the key named “list_annotations”, which supersedes any other key
+// found by that name. The client ID stored in the minidump is converted to
+// a string and stored at the key named “guid”, which supersedes any other key
 // found by that name.
 //
 // In the event of an error reading the minidump file, a message will be logged.
@@ -77,16 +93,12 @@ std::map<std::string, std::string> BreakpadHTTPFormParametersFromMinidump(
     // Remove the final newline character.
     list_annotations.resize(list_annotations.size() - 1);
 
-    const char kListAnnotationsKey[] = "list_annotations";
-    auto it = parameters.find(kListAnnotationsKey);
-    if (it != parameters.end()) {
-      LOG(WARNING) << "duplicate key " << kListAnnotationsKey
-                   << ", discarding value " << it->second;
-      it->second = list_annotations;
-    } else {
-      parameters.insert(std::make_pair(kListAnnotationsKey, list_annotations));
-    }
+    InsertOrReplaceMapEntry(&parameters, "list_annotations", list_annotations);
   }
+
+  UUID client_id;
+  minidump_process_snapshot.ClientID(&client_id);
+  InsertOrReplaceMapEntry(&parameters, "guid", client_id.ToString());
 
   return parameters;
 }

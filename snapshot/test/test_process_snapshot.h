@@ -30,6 +30,7 @@
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
 #include "snapshot/thread_snapshot.h"
+#include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
@@ -57,6 +58,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
     process_cpu_user_time_ = user_time;
     process_cpu_system_time_ = system_time;
   }
+  void SetClientID(const UUID& client_id) { client_id_ = client_id; }
   void SetAnnotationsSimpleMap(
       const std::map<std::string, std::string>& annotations_simple_map) {
     annotations_simple_map_ = annotations_simple_map;
@@ -99,6 +101,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   void SnapshotTime(timeval* snapshot_time) const override;
   void ProcessStartTime(timeval* start_time) const override;
   void ProcessCPUTimes(timeval* user_time, timeval* system_time) const override;
+  void ClientID(UUID* client_id) const override;
   const std::map<std::string, std::string>& AnnotationsSimpleMap()
       const override;
   const SystemSnapshot* System() const override;
@@ -113,6 +116,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   timeval process_start_time_;
   timeval process_cpu_user_time_;
   timeval process_cpu_system_time_;
+  UUID client_id_;
   std::map<std::string, std::string> annotations_simple_map_;
   scoped_ptr<SystemSnapshot> system_;
   PointerVector<ThreadSnapshot> threads_;

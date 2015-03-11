@@ -56,6 +56,12 @@ TEST(ProcessSnapshotMinidump, Empty) {
 
   ProcessSnapshotMinidump process_snapshot;
   EXPECT_TRUE(process_snapshot.Initialize(&string_file));
+
+  UUID client_id;
+  process_snapshot.ClientID(&client_id);
+  EXPECT_EQ(UUID(), client_id);
+
+  EXPECT_TRUE(process_snapshot.AnnotationsSimpleMap().empty());
 }
 
 // Writes |string| to |writer| as a MinidumpUTF8String, and returns the file
@@ -124,6 +130,47 @@ void WriteMinidumpStringList(MINIDUMP_LOCATION_DESCRIPTOR* location,
                                              rvas.size() * sizeof(RVA));
 }
 
+TEST(ProcessSnapshotMinidump, ClientID) {
+  StringFile string_file;
+
+  MINIDUMP_HEADER header = {};
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  UUID client_id;
+  ASSERT_TRUE(
+      client_id.InitializeFromString("0001f4a9-d00d-5155-0a55-c0ffeec0ffee"));
+
+  MinidumpCrashpadInfo crashpad_info = {};
+  crashpad_info.version = MinidumpCrashpadInfo::kVersion;
+  crashpad_info.client_id = client_id;
+
+  MINIDUMP_DIRECTORY crashpad_info_directory = {};
+  crashpad_info_directory.StreamType = kMinidumpStreamTypeCrashpadInfo;
+  crashpad_info_directory.Location.Rva =
+      static_cast<RVA>(string_file.SeekGet());
+  EXPECT_TRUE(string_file.Write(&crashpad_info, sizeof(crashpad_info)));
+  crashpad_info_directory.Location.DataSize = sizeof(crashpad_info);
+
+  header.StreamDirectoryRva = static_cast<RVA>(string_file.SeekGet());
+  EXPECT_TRUE(string_file.Write(&crashpad_info_directory,
+                                sizeof(crashpad_info_directory)));
+
+  header.Signature = MINIDUMP_SIGNATURE;
+  header.Version = MINIDUMP_VERSION;
+  header.NumberOfStreams = 1;
+  EXPECT_TRUE(string_file.SeekSet(0));
+  EXPECT_TRUE(string_file.Write(&header, sizeof(header)));
+
+  ProcessSnapshotMinidump process_snapshot;
+  EXPECT_TRUE(process_snapshot.Initialize(&string_file));
+
+  UUID actual_client_id;
+  process_snapshot.ClientID(&actual_client_id);
+  EXPECT_EQ(client_id, actual_client_id);
+
+  EXPECT_TRUE(process_snapshot.AnnotationsSimpleMap().empty());
+}
+
 TEST(ProcessSnapshotMinidump, AnnotationsSimpleMap) {
   StringFile string_file;
 
@@ -158,6 +205,10 @@ TEST(ProcessSnapshotMinidump, AnnotationsSimpleMap) {
 
   ProcessSnapshotMinidump process_snapshot;
   EXPECT_TRUE(process_snapshot.Initialize(&string_file));
+
+  UUID client_id;
+  process_snapshot.ClientID(&client_id);
+  EXPECT_EQ(UUID(), client_id);
 
   const auto annotations_simple_map = process_snapshot.AnnotationsSimpleMap();
   EXPECT_EQ(dictionary, annotations_simple_map);

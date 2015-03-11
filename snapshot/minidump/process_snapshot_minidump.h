@@ -33,6 +33,7 @@
 #include "snapshot/thread_snapshot.h"
 #include "util/file/file_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
@@ -59,6 +60,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   void SnapshotTime(timeval* snapshot_time) const override;
   void ProcessStartTime(timeval* start_time) const override;
   void ProcessCPUTimes(timeval* user_time, timeval* system_time) const override;
+  void ClientID(UUID* client_id) const override;
   const std::map<std::string, std::string>& AnnotationsSimpleMap()
       const override;
   const SystemSnapshot* System() const override;
