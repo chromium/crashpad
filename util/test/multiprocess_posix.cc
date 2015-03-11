@@ -212,7 +212,8 @@ void Multiprocess::RunChild() {
     return;
   }
 
-  exit(0);
+  // In a forked child, exit() is unsafe. Use _exit() instead.
+  _exit(EXIT_SUCCESS);
 }
 
 }  // namespace test

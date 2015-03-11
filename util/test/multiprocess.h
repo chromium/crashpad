@@ -164,9 +164,9 @@ class Multiprocess {
   //! \brief Runs the child side of the test.
   //!
   //! This method establishes the child’s environment, calls
-  //! MultiprocessChild(), and exits cleanly. However, if any failure (via fatal
-  //! or nonfatal gtest assertion) is detected, the child will exit with a
-  //! failure status.
+  //! MultiprocessChild(), and exits cleanly by calling `_exit(0)`. However, if
+  //! any failure (via fatal or nonfatal gtest assertion) is detected, the child
+  //! will exit with a failure status.
   void RunChild();
 
   //! \brief The subclass-provided parent routine.
@@ -186,6 +186,11 @@ class Multiprocess {
   //! `FAIL()`, etc.
   //!
   //! Subclasses must implement this method to define how the child operates.
+  //! Subclasses may exit with a failure status by using `LOG(FATAL)`,
+  //! `abort()`, or similar. They may exit cleanly by returning from this method
+  //! or by calling `_exit(0)`. Under no circumstances may `exit()` be called
+  //! by the child without having the child process `exec()`. Use
+  //! MultiprocessExec if the child should call `exec()`.
   virtual void MultiprocessChild() = 0;
 
   internal::MultiprocessInfo* info_;
