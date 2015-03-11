@@ -25,7 +25,9 @@
 
 #include "base/basictypes.h"
 #include "base/memory/scoped_ptr.h"
+#include "client/crashpad_info.h"
 #include "snapshot/exception_snapshot.h"
+#include "snapshot/mac/crashpad_info_client_options.h"
 #include "snapshot/mac/exception_snapshot_mac.h"
 #include "snapshot/mac/module_snapshot_mac.h"
 #include "snapshot/mac/process_reader.h"
@@ -84,6 +86,13 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
       const std::map<std::string, std::string>& annotations_simple_map) {
     annotations_simple_map_ = annotations_simple_map;
   }
+
+  //! \brief Returns options from CrashpadInfo structures found in modules in
+  //!     the process.
+  //!
+  //! \param[out] options Options set in CrashpadInfo structures in modules in
+  //!     the process.
+  void GetCrashpadOptions(CrashpadInfoClientOptions* options);
 
   // ProcessSnapshot:
 

@@ -23,6 +23,7 @@
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
+#include "client/crashpad_info.h"
 #include "snapshot/mac/mach_o_image_segment_reader.h"
 #include "snapshot/mac/mach_o_image_symbol_table_reader.h"
 #include "snapshot/mac/process_reader.h"
@@ -452,6 +453,39 @@ uint32_t MachOImageReader::DylibVersion() const {
 void MachOImageReader::UUID(crashpad::UUID* uuid) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   memcpy(uuid, &uuid_, sizeof(uuid_));
+}
+
+bool MachOImageReader::GetCrashpadInfo(
+    process_types::CrashpadInfo* crashpad_info) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  mach_vm_address_t crashpad_info_address;
+  const process_types::section* crashpad_info_section =
+      GetSectionByName(SEG_DATA, "__crashpad_info", &crashpad_info_address);
+  if (!crashpad_info_section) {
+    return false;
+  }
+
+  if (crashpad_info_section->size <
+      crashpad_info->ExpectedSize(process_reader_)) {
+    LOG(WARNING) << "small crashpad info section size "
+                 << crashpad_info_section->size << module_info_;
+    return false;
+  }
+
+  if (!crashpad_info->Read(process_reader_, crashpad_info_address)) {
+    LOG(WARNING) << "could not read crashpad info" << module_info_;
+    return false;
+  }
+
+  if (crashpad_info->signature != CrashpadInfo::kSignature ||
+      crashpad_info->size != crashpad_info_section->size ||
+      crashpad_info->version < 1) {
+    LOG(WARNING) << "unexpected crashpad info data" << module_info_;
+    return false;
+  }
+
+  return true;
 }
 
 template <typename T>

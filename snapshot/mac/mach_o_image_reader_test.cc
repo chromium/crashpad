@@ -26,6 +26,7 @@
 
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
+#include "client/crashpad_info.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/mach_o_image_segment_reader.h"
 #include "snapshot/mac/process_reader.h"
@@ -532,6 +533,8 @@ TEST(MachOImageReader, Self_DyldImages) {
   uint32_t count = _dyld_image_count();
   ASSERT_GE(count, 1u);
 
+  size_t modules_with_crashpad_info = 0;
+
   for (uint32_t index = 0; index < count; ++index) {
     const char* image_name = _dyld_get_image_name(index);
     SCOPED_TRACE(base::StringPrintf("index %u, image %s", index, image_name));
@@ -560,7 +563,14 @@ TEST(MachOImageReader, Self_DyldImages) {
         mach_header, image_address, image_slide, &image_reader, false));
 
     ASSERT_NO_FATAL_FAILURE(ExpectSymbolTable(mach_header, &image_reader));
+
+    process_types::CrashpadInfo crashpad_info;
+    if (image_reader.GetCrashpadInfo(&crashpad_info)) {
+      ++modules_with_crashpad_info;
+    }
   }
+
+  EXPECT_GE(modules_with_crashpad_info, 1u);
 
   // Now that all of the modules have been verified, make sure that dyld itself
   // can be read properly too.

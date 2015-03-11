@@ -20,6 +20,7 @@
 #include "base/strings/stringprintf.h"
 #include "snapshot/mac/mach_o_image_annotations_reader.h"
 #include "snapshot/mac/mach_o_image_reader.h"
+#include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/strnlen.h"
 
@@ -53,6 +54,25 @@ bool ModuleSnapshotMac::Initialize(
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
+}
+
+void ModuleSnapshotMac::GetCrashpadOptions(CrashpadInfoClientOptions* options) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  process_types::CrashpadInfo crashpad_info;
+  if (!mach_o_image_reader_->GetCrashpadInfo(&crashpad_info)) {
+    options->crashpad_handler_behavior = TriState::kUnset;
+    options->system_crash_reporter_forwarding = TriState::kUnset;
+    return;
+  }
+
+  options->crashpad_handler_behavior =
+      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
+          crashpad_info.crashpad_handler_behavior);
+
+  options->system_crash_reporter_forwarding =
+      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
+          crashpad_info.system_crash_reporter_forwarding);
 }
 
 std::string ModuleSnapshotMac::Name() const {

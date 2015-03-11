@@ -85,6 +85,8 @@ CrashpadInfo::CrashpadInfo()
     : signature_(kSignature),
       size_(sizeof(*this)),
       version_(kCrashpadInfoVersion),
+      crashpad_handler_behavior_(TriState::kUnset),
+      system_crash_reporter_forwarding_(TriState::kUnset),
       padding_0_(0),
       simple_annotations_(nullptr) {
 }

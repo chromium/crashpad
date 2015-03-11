@@ -20,6 +20,7 @@
 #include <stdint.h>
 
 #include "client/simple_string_dictionary.h"
+#include "util/misc/tri_state.h"
 
 namespace crashpad {
 
@@ -41,6 +42,43 @@ struct CrashpadInfo {
     simple_annotations_ = simple_annotations;
   }
 
+  //! \brief Enables or disables Crashpad handler processing.
+  //!
+  //! When handling an exception, the Crashpad handler will scan all modules in
+  //! a process. The first one that has a CrashpadInfo structure populated with
+  //! a value other than #kUnset for this field will dictate whether the handler
+  //! is functional or not. If all modules with a CrashpadInfo structure specify
+  //! #kUnset, the handler will be enabled. If disabled, the Crashpad handler
+  //! will still run and receive exceptions, but will not take any action on an
+  //! exception on its own behalf, except for the action necessary to determine
+  //! that it has been disabled.
+  //!
+  //! The Crashpad handler should not normally be disabled. More commonly, it
+  //! is appropraite to disable crash report upload by calling
+  //! Settings::SetUploadsEnabled().
+  void set_crashpad_handler_behavior(TriState crashpad_handler_behavior) {
+    crashpad_handler_behavior_ = crashpad_handler_behavior;
+  }
+
+  //! \brief Enables or disables Crashpad forwarding of exceptions to the
+  //!     system’s crash reporter.
+  //!
+  //! When handling an exception, the Crashpad handler will scan all modules in
+  //! a process. The first one that has a CrashpadInfo structure populated with
+  //! a value other than #kUnset for this field will dictate whether the
+  //! exception is forwarded to the system’s crash reporter. If all modules with
+  //! a CrashpadInfo structure specify #kUnset, forwarding will be enabled.
+  //! Unless disabled, forwarding may still occur if the Crashpad handler is
+  //! disabled by SetCrashpadHandlerState(). Even when forwarding is enabled,
+  //! the Crashpad handler may choose not to forward all exceptions to the
+  //! system’s crash reporter in cases where it has reason to believe that the
+  //! system’s crash reporter would not normally have handled the exception in
+  //! Crashpad’s absence.
+  void set_system_crash_reporter_forwarding(
+      TriState system_crash_reporter_forwarding) {
+    system_crash_reporter_forwarding_ = system_crash_reporter_forwarding;
+  }
+
   static const uint32_t kSignature = 'CPad';
 
  private:
@@ -57,7 +95,9 @@ struct CrashpadInfo {
   uint32_t signature_;  // kSignature
   uint32_t size_;  // The size of the entire CrashpadInfo structure.
   uint32_t version_;  // kVersion
-  uint32_t padding_0_;
+  TriState crashpad_handler_behavior_;
+  TriState system_crash_reporter_forwarding_;
+  uint16_t padding_0_;
   SimpleStringDictionary* simple_annotations_;  // weak
 
 #if defined(__clang__)

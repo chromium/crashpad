@@ -93,6 +93,7 @@
         'misc/scoped_forbid_return.cc',
         'misc/scoped_forbid_return.h',
         'misc/symbolic_constants_common.h',
+        'misc/tri_state.h',
         'misc/uuid.cc',
         'misc/uuid.h',
         'net/http_body.cc',

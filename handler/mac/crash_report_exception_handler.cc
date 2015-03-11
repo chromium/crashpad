@@ -22,12 +22,14 @@
 #include "base/mac/mach_logging.h"
 #include "base/strings/stringprintf.h"
 #include "minidump/minidump_file_writer.h"
+#include "snapshot/mac/crashpad_info_client_options.h"
 #include "snapshot/mac/process_snapshot_mac.h"
 #include "util/file/file_writer.h"
 #include "util/mach/exc_client_variants.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/scoped_task_suspend.h"
+#include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 
 namespace crashpad {
@@ -116,49 +118,55 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     return KERN_FAILURE;
   }
 
-  if (!process_snapshot.InitializeException(thread,
-                                            exception,
-                                            code,
-                                            code_count,
-                                            *flavor,
-                                            old_state,
-                                            old_state_count)) {
-    return KERN_FAILURE;
+  CrashpadInfoClientOptions client_options;
+  process_snapshot.GetCrashpadOptions(&client_options);
+
+  if (client_options.crashpad_handler_behavior != TriState::kDisabled) {
+    if (!process_snapshot.InitializeException(thread,
+                                              exception,
+                                              code,
+                                              code_count,
+                                              *flavor,
+                                              old_state,
+                                              old_state_count)) {
+      return KERN_FAILURE;
+    }
+
+    process_snapshot.SetAnnotationsSimpleMap(*process_annotations_);
+
+    CrashReportDatabase::NewReport* new_report;
+    CrashReportDatabase::OperationStatus database_status =
+        database_->PrepareNewCrashReport(&new_report);
+    if (database_status != CrashReportDatabase::kNoError) {
+      return KERN_FAILURE;
+    }
+
+    CallErrorWritingCrashReport call_error_writing_crash_report(database_,
+                                                                new_report);
+
+    WeakFileHandleFileWriter file_writer(new_report->handle);
+
+    MinidumpFileWriter minidump;
+    minidump.InitializeFromSnapshot(&process_snapshot);
+    if (!minidump.WriteEverything(&file_writer)) {
+      return KERN_FAILURE;
+    }
+
+    call_error_writing_crash_report.Disarm();
+
+    UUID uuid;
+    database_status = database_->FinishedWritingCrashReport(new_report, &uuid);
+    if (database_status != CrashReportDatabase::kNoError) {
+      return KERN_FAILURE;
+    }
+
+    upload_thread_->ReportPending();
   }
 
-  process_snapshot.SetAnnotationsSimpleMap(*process_annotations_);
-
-  CrashReportDatabase::NewReport* new_report;
-  CrashReportDatabase::OperationStatus database_status =
-      database_->PrepareNewCrashReport(&new_report);
-  if (database_status != CrashReportDatabase::kNoError) {
-    return KERN_FAILURE;
-  }
-
-  CallErrorWritingCrashReport call_error_writing_crash_report(database_,
-                                                              new_report);
-
-  WeakFileHandleFileWriter file_writer(new_report->handle);
-
-  MinidumpFileWriter minidump;
-  minidump.InitializeFromSnapshot(&process_snapshot);
-  if (!minidump.WriteEverything(&file_writer)) {
-    return KERN_FAILURE;
-  }
-
-  call_error_writing_crash_report.Disarm();
-
-  UUID uuid;
-  database_status = database_->FinishedWritingCrashReport(new_report, &uuid);
-  if (database_status != CrashReportDatabase::kNoError) {
-    return KERN_FAILURE;
-  }
-
-  upload_thread_->ReportPending();
-
-  if (exception == EXC_CRASH ||
-      exception == EXC_RESOURCE ||
-      exception == EXC_GUARD) {
+  if (client_options.system_crash_reporter_forwarding != TriState::kDisabled &&
+      (exception == EXC_CRASH ||
+       exception == EXC_RESOURCE ||
+       exception == EXC_GUARD)) {
     // Don’t forward simulated exceptions such as kMachExceptionSimulated to the
     // system crash reporter. Only forward the types of exceptions that it would
     // receive under normal conditions. Although the system crash reporter is

@@ -22,7 +22,6 @@
 #include "client/simple_string_dictionary.h"
 #include "snapshot/mac/mach_o_image_reader.h"
 #include "snapshot/mac/process_reader.h"
-#include "snapshot/mac/process_types.h"
 #include "util/mach/task_memory.h"
 #include "util/stdlib/strnlen.h"
 
@@ -138,31 +137,8 @@ void MachOImageAnnotationsReader::ReadDyldErrorStringAnnotation(
 
 void MachOImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
     std::map<std::string, std::string>* simple_map_annotations) const {
-  mach_vm_address_t crashpad_info_address;
-  const process_types::section* crashpad_info_section =
-      image_reader_->GetSectionByName(
-          SEG_DATA, "__crashpad_info", &crashpad_info_address);
-  if (!crashpad_info_section) {
-    return;
-  }
-
   process_types::CrashpadInfo crashpad_info;
-  if (crashpad_info_section->size <
-      crashpad_info.ExpectedSize(process_reader_)) {
-    LOG(WARNING) << "small crashpad info section size "
-                 << crashpad_info_section->size << " in " << name_;
-    return;
-  }
-
-  if (!crashpad_info.Read(process_reader_, crashpad_info_address)) {
-    LOG(WARNING) << "could not read crashpad info from " << name_;
-    return;
-  }
-
-  if (crashpad_info.signature != CrashpadInfo::kSignature ||
-      crashpad_info.size != crashpad_info_section->size ||
-      crashpad_info.version < 1) {
-    LOG(WARNING) << "unexpected crashpad info data in " << name_;
+  if (!image_reader_->GetCrashpadInfo(&crashpad_info)) {
     return;
   }
 

@@ -36,6 +36,8 @@
         'exception_snapshot.h',
         'mac/cpu_context_mac.cc',
         'mac/cpu_context_mac.h',
+        'mac/crashpad_info_client_options.cc',
+        'mac/crashpad_info_client_options.h',
         'mac/exception_snapshot_mac.cc',
         'mac/exception_snapshot_mac.h',
         'mac/mach_o_image_annotations_reader.cc',
@@ -149,6 +151,7 @@
       'sources': [
         'cpu_context_test.cc',
         'mac/cpu_context_mac_test.cc',
+        'mac/crashpad_info_client_options_test.cc',
         'mac/mach_o_image_annotations_reader_test.cc',
         'mac/mach_o_image_reader_test.cc',
         'mac/mach_o_image_segment_reader_test.cc',
@@ -158,6 +161,33 @@
         'minidump/process_snapshot_minidump_test.cc',
         'win/system_snapshot_win_test.cc',
       ],
+      'conditions': [
+        ['OS=="mac"', {
+          'dependencies': [
+            'crashpad_snapshot_test_module',
+          ],
+        }],
+      ],
     },
+  ],
+  'conditions': [
+    ['OS=="mac"', {
+      'targets': [
+        {
+          'target_name': 'crashpad_snapshot_test_module',
+          'type': 'loadable_module',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'mac/crashpad_info_client_options_test_module.cc',
+          ],
+        },
+      ],
+    }],
   ],
 }

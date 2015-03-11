@@ -14,6 +14,8 @@
 
 #include "snapshot/mac/process_snapshot_mac.h"
 
+#include "util/misc/tri_state.h"
+
 namespace crashpad {
 
 ProcessSnapshotMac::ProcessSnapshotMac()
@@ -77,6 +79,36 @@ bool ProcessSnapshotMac::InitializeException(
   }
 
   return true;
+}
+
+void ProcessSnapshotMac::GetCrashpadOptions(
+    CrashpadInfoClientOptions* options) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  CrashpadInfoClientOptions local_options;
+
+  for (internal::ModuleSnapshotMac* module : modules_) {
+    CrashpadInfoClientOptions module_options;
+    module->GetCrashpadOptions(&module_options);
+
+    if (local_options.crashpad_handler_behavior == TriState::kUnset) {
+      local_options.crashpad_handler_behavior =
+          module_options.crashpad_handler_behavior;
+    }
+    if (local_options.system_crash_reporter_forwarding == TriState::kUnset) {
+      local_options.system_crash_reporter_forwarding =
+          module_options.system_crash_reporter_forwarding;
+    }
+
+    // If non-default values have been found for all options, the loop can end
+    // early.
+    if (local_options.crashpad_handler_behavior != TriState::kUnset &&
+        local_options.system_crash_reporter_forwarding != TriState::kUnset) {
+      break;
+    }
+  }
+
+  *options = local_options;
 }
 
 pid_t ProcessSnapshotMac::ProcessID() const {

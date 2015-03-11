@@ -23,6 +23,8 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "client/crashpad_info.h"
+#include "snapshot/mac/crashpad_info_client_options.h"
 #include "snapshot/mac/process_reader.h"
 #include "snapshot/module_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
@@ -52,6 +54,11 @@ class ModuleSnapshotMac final : public ModuleSnapshot {
   //!     an appropriate message logged.
   bool Initialize(ProcessReader* process_reader,
                   const ProcessReader::Module& process_reader_module);
+
+  //! \brief Returns options from the module’s CrashpadInfo structure.
+  //!
+  //! \param[out] options Options set in the module’s CrashpadInfo structure.
+  void GetCrashpadOptions(CrashpadInfoClientOptions* options);
 
   // ModuleSnapshot:
 

@@ -27,7 +27,12 @@ PROCESS_TYPE_STRUCT_BEGIN(CrashpadInfo)
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, signature)
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, size)
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, version)
-  PROCESS_TYPE_STRUCT_MEMBER(uint32_t, padding_0)
+  PROCESS_TYPE_STRUCT_MEMBER(uint8_t, crashpad_handler_behavior)  // TriState
+
+  // TriState
+  PROCESS_TYPE_STRUCT_MEMBER(uint8_t, system_crash_reporter_forwarding)
+
+  PROCESS_TYPE_STRUCT_MEMBER(uint16_t, padding_0)
 
   // SimpleStringDictionary*
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, simple_annotations)

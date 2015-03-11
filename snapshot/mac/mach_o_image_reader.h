@@ -265,6 +265,13 @@ class MachOImageReader {
   //! be empty.
   std::string DylinkerName() const { return dylinker_name_; }
 
+  //! \brief Obtains the module’s CrashpadInfo structure.
+  //!
+  //! \return `true` on success, `false` on failure. If the module does not have
+  //!     a `__crashpad_info` section, this will return `false` without logging
+  //!     any messages. Other failures will result in messages being logged.
+  bool GetCrashpadInfo(process_types::CrashpadInfo* crashpad_info) const;
+
  private:
   // A generic helper routine for the other Read*Command() methods.
   template <typename T>

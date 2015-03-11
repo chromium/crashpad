@@ -20,6 +20,7 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "snapshot/mac/process_types.h"
 
 namespace crashpad {
 
