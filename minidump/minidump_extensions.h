@@ -283,6 +283,16 @@ struct MinidumpModuleCodeViewRecordPDB20 {
 //! \sa MinidumpModuleCodeViewRecordPDB20
 //! \sa IMAGE_DEBUG_MISC
 struct MinidumpModuleCodeViewRecordPDB70 {
+  // UUID has a constructor, which makes it non-POD, which makes this structure
+  // non-POD. In order for the default constructor to zero-initialize other
+  // members, an explicit constructor must be provided.
+  MinidumpModuleCodeViewRecordPDB70()
+      : signature(),
+        uuid(),
+        age(),
+        pdb_name() {
+  }
+
   //! \brief The magic number identifying this structure version, stored in
   //!     #signature.
   //!
@@ -444,6 +454,16 @@ struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfoList {
 //! #version, so that newer parsers will be able to determine whether the added
 //! fields are valid or not.
 struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
+  // UUID has a constructor, which makes it non-POD, which makes this structure
+  // non-POD. In order for the default constructor to zero-initialize other
+  // members, an explicit constructor must be provided.
+  MinidumpCrashpadInfo()
+      : version(),
+        client_id(),
+        simple_annotations(),
+        module_list() {
+  }
+
   //! \brief The structure’s currently-defined version number.
   //!
   //! \sa version
