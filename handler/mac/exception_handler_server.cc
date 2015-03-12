@@ -26,9 +26,8 @@ namespace crashpad {
 
 namespace {
 
-class ExceptionHandlerServerRun
-    : public UniversalMachExcServer::Interface,
-      public NotifyServer::Interface {
+class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
+                                  public NotifyServer::Interface {
  public:
   ExceptionHandlerServerRun(
       mach_port_t exception_port,
@@ -100,7 +99,7 @@ class ExceptionHandlerServerRun
       mach_msg_return_t mr =
           MachMessageServer::Run(&composite_mach_message_server_,
                                  server_port_set,
-                                 MACH_MSG_OPTION_NONE,
+                                 kMachMessageReceiveAuditTrailer,
                                  MachMessageServer::kOneShot,
                                  MachMessageServer::kReceiveLargeIgnore,
                                  kMachMessageTimeoutWaitIndefinitely);
@@ -148,9 +147,9 @@ class ExceptionHandlerServerRun
   // NotifyServer::Interface:
 
   kern_return_t DoMachNotifyPortDeleted(
-        notify_port_t notify,
-        mach_port_name_t name,
-        const mach_msg_trailer_t* trailer) override {
+      notify_port_t notify,
+      mach_port_name_t name,
+      const mach_msg_trailer_t* trailer) override {
     return UnimplementedNotifyRoutine(notify);
   }
 

@@ -197,6 +197,8 @@ class TestExceptionPorts : public MachMultiprocess,
       SetExpectedChildTermination(kTerminationSignal, signal);
     }
 
+    EXPECT_EQ(0, AuditPIDFromMachMessageTrailer(trailer));
+
     return ExcServerSuccessfulReturnValue(behavior, false);
   }
 
@@ -443,7 +445,7 @@ class TestExceptionPorts : public MachMultiprocess,
       kern_return_t kr =
           MachMessageServer::Run(&universal_mach_exc_server,
                                  local_port,
-                                 MACH_MSG_OPTION_NONE,
+                                 kMachMessageReceiveAuditTrailer,
                                  MachMessageServer::kOneShot,
                                  MachMessageServer::kReceiveLargeError,
                                  kTimeoutMs);

@@ -30,7 +30,6 @@ namespace {
 using testing::AllOf;
 using testing::Eq;
 using testing::Invoke;
-using testing::Ne;
 using testing::Pointee;
 using testing::ResultOf;
 using testing::Return;
@@ -239,7 +238,7 @@ class NotifyServerTestBase : public testing::Test,
     mach_msg_return_t mr =
         MachMessageServer::Run(&notify_server,
                                ServerPort(),
-                               MACH_MSG_OPTION_NONE,
+                               kMachMessageReceiveAuditTrailer,
                                MachMessageServer::kPersistent,
                                MachMessageServer::kReceiveLargeError,
                                kMachMessageTimeoutNonblocking);
@@ -315,12 +314,14 @@ TEST_F(NotifyServerTest, MachNotifyPortDeleted) {
       SendOnceRightFromReceiveRight(receive_right));
   ASSERT_NE(kMachPortNull, send_once_right);
 
-  ASSERT_TRUE(RequestMachPortNotification(
-      send_once_right, MACH_NOTIFY_DEAD_NAME, 0));
+  ASSERT_TRUE(
+      RequestMachPortNotification(send_once_right, MACH_NOTIFY_DEAD_NAME, 0));
 
-  EXPECT_CALL(*this, DoMachNotifyPortDeleted(ServerPort(),
-                                             send_once_right.get(),
-                                             Ne(nullptr)))
+  EXPECT_CALL(
+      *this,
+      DoMachNotifyPortDeleted(ServerPort(),
+                              send_once_right.get(),
+                              ResultOf(AuditPIDFromMachMessageTrailer, 0)))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
@@ -339,10 +340,12 @@ TEST_F(NotifyServerTest, MachNotifyPortDestroyed) {
   ASSERT_TRUE(RequestMachPortNotification(
       receive_right, MACH_NOTIFY_PORT_DESTROYED, 0));
 
-  EXPECT_CALL(*this, DoMachNotifyPortDestroyed(ServerPort(),
-                                               ResultOf(IsReceiveRight, true),
-                                               Ne(nullptr),
-                                               Pointee(Eq(false))))
+  EXPECT_CALL(
+      *this,
+      DoMachNotifyPortDestroyed(ServerPort(),
+                                ResultOf(IsReceiveRight, true),
+                                ResultOf(AuditPIDFromMachMessageTrailer, 0),
+                                Pointee(Eq(false))))
       .WillOnce(DoAll(SetArgPointee<3>(true), Return(MIG_NO_REPLY)))
       .RetiresOnSaturation();
 
@@ -371,10 +374,12 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_NoSendRight) {
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
   ASSERT_NE(kMachPortNull, receive_right);
 
-  ASSERT_TRUE(RequestMachPortNotification(
-      receive_right, MACH_NOTIFY_NO_SENDERS, 0));
+  ASSERT_TRUE(
+      RequestMachPortNotification(receive_right, MACH_NOTIFY_NO_SENDERS, 0));
 
-  EXPECT_CALL(*this, DoMachNotifyNoSenders(ServerPort(), 0, Ne(nullptr)))
+  EXPECT_CALL(*this,
+              DoMachNotifyNoSenders(
+                  ServerPort(), 0, ResultOf(AuditPIDFromMachMessageTrailer, 0)))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
@@ -393,10 +398,12 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_SendRightDeallocated) {
       SendRightFromReceiveRight(receive_right));
   ASSERT_NE(kMachPortNull, send_right);
 
-  ASSERT_TRUE(RequestMachPortNotification(
-      receive_right, MACH_NOTIFY_NO_SENDERS, 1));
+  ASSERT_TRUE(
+      RequestMachPortNotification(receive_right, MACH_NOTIFY_NO_SENDERS, 1));
 
-  EXPECT_CALL(*this, DoMachNotifyNoSenders(ServerPort(), 1, Ne(nullptr)))
+  EXPECT_CALL(*this,
+              DoMachNotifyNoSenders(
+                  ServerPort(), 1, ResultOf(AuditPIDFromMachMessageTrailer, 0)))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
@@ -420,8 +427,8 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_NoNotification) {
       SendRightFromReceiveRight(receive_right));
   ASSERT_NE(kMachPortNull, send_right_1);
 
-  ASSERT_TRUE(RequestMachPortNotification(
-      receive_right, MACH_NOTIFY_NO_SENDERS, 1));
+  ASSERT_TRUE(
+      RequestMachPortNotification(receive_right, MACH_NOTIFY_NO_SENDERS, 1));
 
   send_right_1.reset();
 
@@ -438,7 +445,9 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ExplicitDeallocation) {
       SendOnceRightFromReceiveRight(ServerPort()));
   ASSERT_NE(kMachPortNull, send_once_right);
 
-  EXPECT_CALL(*this, DoMachNotifySendOnce(ServerPort(), Ne(nullptr)))
+  EXPECT_CALL(*this,
+              DoMachNotifySendOnce(ServerPort(),
+                                   ResultOf(AuditPIDFromMachMessageTrailer, 0)))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
@@ -470,7 +479,9 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ImplicitDeallocation) {
                                   MACH_PORT_NULL);
   ASSERT_EQ(MACH_MSG_SUCCESS, mr) << MachErrorMessage(mr, "mach_msg");
 
-  EXPECT_CALL(*this, DoMachNotifySendOnce(ServerPort(), Ne(nullptr)))
+  EXPECT_CALL(*this,
+              DoMachNotifySendOnce(ServerPort(),
+                                   ResultOf(AuditPIDFromMachMessageTrailer, 0)))
       .WillOnce(Return(MIG_NO_REPLY))
       .RetiresOnSaturation();
 
@@ -491,8 +502,8 @@ TEST_F(NotifyServerTest, MachNotifyDeadName) {
       SendOnceRightFromReceiveRight(receive_right));
   ASSERT_NE(kMachPortNull, send_once_right);
 
-  ASSERT_TRUE(RequestMachPortNotification(
-      send_once_right, MACH_NOTIFY_DEAD_NAME, 0));
+  ASSERT_TRUE(
+      RequestMachPortNotification(send_once_right, MACH_NOTIFY_DEAD_NAME, 0));
 
   // send_once_right becomes a dead name with the send-once right’s original
   // user reference count of 1, but the dead-name notification increments the
@@ -502,9 +513,9 @@ TEST_F(NotifyServerTest, MachNotifyDeadName) {
               DoMachNotifyDeadName(ServerPort(),
                                    AllOf(send_once_right.get(),
                                          ResultOf(DeadNameRightRefCount, 2)),
-                                   Ne(nullptr)))
-      .WillOnce(DoAll(WithArg<1>(Invoke(MachPortDeallocate)),
-                      Return(MIG_NO_REPLY)))
+                                   ResultOf(AuditPIDFromMachMessageTrailer, 0)))
+      .WillOnce(
+           DoAll(WithArg<1>(Invoke(MachPortDeallocate)), Return(MIG_NO_REPLY)))
       .RetiresOnSaturation();
 
   receive_right.reset();
@@ -529,8 +540,8 @@ TEST_F(NotifyServerTest, MachNotifyDeadName_NoNotification) {
       SendOnceRightFromReceiveRight(receive_right));
   ASSERT_NE(kMachPortNull, send_once_right);
 
-  ASSERT_TRUE(RequestMachPortNotification(
-      send_once_right, MACH_NOTIFY_DEAD_NAME, 0));
+  ASSERT_TRUE(
+      RequestMachPortNotification(send_once_right, MACH_NOTIFY_DEAD_NAME, 0));
 
   RunServer();
 

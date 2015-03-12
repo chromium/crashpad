@@ -17,8 +17,18 @@
 
 #include <mach/mach.h>
 #include <stdint.h>
+#include <sys/types.h>
 
 namespace crashpad {
+
+//! \brief A Mach message option specifying that an audit trailer should be
+//!     delivered during a receive operation.
+//!
+//! This constant is provided because the macros normally used to request this
+//! behavior are cumbersome.
+const mach_msg_option_t kMachMessageReceiveAuditTrailer =
+    MACH_RCV_TRAILER_TYPE(MACH_MSG_TRAILER_FORMAT_0) |
+    MACH_RCV_TRAILER_ELEMENTS(MACH_RCV_TRAILER_AUDIT);
 
 //! \brief Special constants used as `mach_msg_timeout_t` values.
 enum : mach_msg_timeout_t {
@@ -147,6 +157,22 @@ void SetMIGReplyError(mach_msg_header_t* out_header, kern_return_t error);
 //!     `mach_msg()` or a similar function when the message was received.
 const mach_msg_trailer_t* MachMessageTrailerFromHeader(
     const mach_msg_header_t* header);
+
+//! \brief Returns the process ID of a Mach message’s sender from its audit
+//!     trailer.
+//!
+//! For the audit trailer to be present, the message must have been received
+//! with #kMachMessageReceiveAuditTrailer or its macro equivalent specified in
+//! the receive options.
+//!
+//! If the kernel is the message’s sender, a process ID of `0` will be returned.
+//!
+//! \param[in] trailer The trailer received with a Mach message.
+//!
+//! \return The process ID of the message’s sender, or `-1` on failure with a
+//!     message logged. It is considered a failure for \a trailer to not contain
+//!     audit information.
+pid_t AuditPIDFromMachMessageTrailer(const mach_msg_trailer_t* trailer);
 
 }  // namespace crashpad
 

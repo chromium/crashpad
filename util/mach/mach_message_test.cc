@@ -14,9 +14,13 @@
 
 #include "util/mach/mach_message.h"
 
+#include <unistd.h>
+
 #include "base/basictypes.h"
+#include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
 #include "util/mach/mach_extensions.h"
+#include "util/test/mac/mach_errors.h"
 
 namespace crashpad {
 namespace test {
@@ -102,6 +106,46 @@ TEST(MachMessage, MachMessageTrailerFromHeader) {
   TestMessage test;
   test.send.msgh_size = sizeof(TestSendMessage);
   EXPECT_EQ(&test.receive.trailer, MachMessageTrailerFromHeader(&test.receive));
+}
+
+TEST(MachMessage, AuditPIDFromMachMessageTrailer) {
+  base::mac::ScopedMachReceiveRight port(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
+  ASSERT_NE(kMachPortNull, port);
+
+  mach_msg_empty_send_t send = {};
+  send.header.msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_MAKE_SEND_ONCE, 0);
+  send.header.msgh_size = sizeof(send);
+  send.header.msgh_remote_port = port;
+  mach_msg_return_t mr =
+      MachMessageWithDeadline(&send.header,
+                              MACH_SEND_MSG,
+                              0,
+                              MACH_PORT_NULL,
+                              kMachMessageDeadlineNonblocking,
+                              MACH_PORT_NULL,
+                              false);
+  ASSERT_EQ(MACH_MSG_SUCCESS, mr)
+      << MachErrorMessage(mr, "MachMessageWithDeadline send");
+
+  struct EmptyReceiveMessageWithAuditTrailer : public mach_msg_empty_send_t {
+    union {
+      mach_msg_trailer_t trailer;
+      mach_msg_audit_trailer_t audit_trailer;
+    };
+  };
+
+  EmptyReceiveMessageWithAuditTrailer receive;
+  mr = MachMessageWithDeadline(&receive.header,
+                               MACH_RCV_MSG | kMachMessageReceiveAuditTrailer,
+                               sizeof(receive),
+                               port,
+                               kMachMessageDeadlineNonblocking,
+                               MACH_PORT_NULL,
+                               false);
+  ASSERT_EQ(MACH_MSG_SUCCESS, mr)
+      << MachErrorMessage(mr, "MachMessageWithDeadline receive");
+
+  EXPECT_EQ(getpid(), AuditPIDFromMachMessageTrailer(&receive.trailer));
 }
 
 }  // namespace

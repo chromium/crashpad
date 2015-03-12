@@ -14,9 +14,13 @@
 
 #include "util/mach/mach_message.h"
 
+#include <AvailabilityMacros.h>
+#include <bsm/libbsm.h>
+
 #include <limits>
 
 #include "base/basictypes.h"
+#include "base/logging.h"
 #include "util/misc/clock.h"
 
 namespace crashpad {
@@ -211,6 +215,38 @@ const mach_msg_trailer_t* MachMessageTrailerFromHeader(
   vm_address_t header_address = reinterpret_cast<vm_address_t>(header);
   vm_address_t trailer_address = header_address + round_msg(header->msgh_size);
   return reinterpret_cast<const mach_msg_trailer_t*>(trailer_address);
+}
+
+pid_t AuditPIDFromMachMessageTrailer(const mach_msg_trailer_t* trailer) {
+  if (trailer->msgh_trailer_type != MACH_MSG_TRAILER_FORMAT_0) {
+    LOG(ERROR) << "unexpected msgh_trailer_type " << trailer->msgh_trailer_type;
+    return -1;
+  }
+  if (trailer->msgh_trailer_size <
+      REQUESTED_TRAILER_SIZE(kMachMessageReceiveAuditTrailer)) {
+    LOG(ERROR) << "small msgh_trailer_size " << trailer->msgh_trailer_size;
+    return -1;
+  }
+
+  const mach_msg_audit_trailer_t* audit_trailer =
+      reinterpret_cast<const mach_msg_audit_trailer_t*>(trailer);
+
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
+  pid_t audit_pid;
+  audit_token_to_au32(audit_trailer->msgh_audit,
+                      nullptr,
+                      nullptr,
+                      nullptr,
+                      nullptr,
+                      nullptr,
+                      &audit_pid,
+                      nullptr,
+                      nullptr);
+#else
+  pid_t audit_pid = audit_token_to_pid(audit_trailer->msgh_audit);
+#endif
+
+  return audit_pid;
 }
 
 }  // namespace crashpad

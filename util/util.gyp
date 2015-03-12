@@ -199,6 +199,7 @@
               '$(SDKROOT)/System/Library/Frameworks/CoreFoundation.framework',
               '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
               '$(SDKROOT)/System/Library/Frameworks/IOKit.framework',
+              '$(SDKROOT)/usr/lib/libbsm.dylib',
             ],
           },
         }],

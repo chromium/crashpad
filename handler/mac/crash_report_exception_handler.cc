@@ -29,6 +29,7 @@
 #include "util/mach/exc_client_variants.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/mach_extensions.h"
+#include "util/mach/mach_message.h"
 #include "util/mach/scoped_task_suspend.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
@@ -117,6 +118,22 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   ProcessSnapshotMac process_snapshot;
   if (!process_snapshot.Initialize(task)) {
     return KERN_FAILURE;
+  }
+
+  // Check for suspicious message sources. A suspicious exception message comes
+  // from a source other than the kernel or the process that the exception
+  // purportedly occurred in.
+  //
+  // TODO(mark): Consider exceptions outside of the range (0, 32) from the
+  // kernel to be suspicious, and exceptions other than kMachExceptionSimulated
+  // from the process itself to be suspicious.
+  pid_t audit_pid = AuditPIDFromMachMessageTrailer(trailer);
+  if (audit_pid != -1 && audit_pid != 0) {
+    pid_t exception_pid = process_snapshot.ProcessID();
+    if (exception_pid != audit_pid) {
+      LOG(WARNING) << "exception for pid " << exception_pid << " sent by pid "
+                   << audit_pid;
+    }
   }
 
   CrashpadInfoClientOptions client_options;

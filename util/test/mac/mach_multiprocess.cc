@@ -28,6 +28,7 @@
 #include "gtest/gtest.h"
 #include "util/file/file_io.h"
 #include "util/mach/mach_extensions.h"
+#include "util/mach/mach_message.h"
 #include "util/misc/scoped_forbid_return.h"
 #include "util/test/errors.h"
 #include "util/test/mac/mach_errors.h"
@@ -40,7 +41,10 @@ struct SendHelloMessage : public mach_msg_base_t {
 };
 
 struct ReceiveHelloMessage : public SendHelloMessage {
-  mach_msg_audit_trailer_t audit_trailer;
+  union {
+    mach_msg_trailer_t trailer;
+    mach_msg_audit_trailer_t audit_trailer;
+  };
 };
 
 }  // namespace
@@ -120,15 +124,13 @@ task_t MachMultiprocess::ChildTask() const {
 void MachMultiprocess::MultiprocessParent() {
   ReceiveHelloMessage message = {};
 
-  kern_return_t kr =
-      mach_msg(&message.header,
-               MACH_RCV_MSG | MACH_RCV_TRAILER_TYPE(MACH_MSG_TRAILER_FORMAT_0) |
-                   MACH_RCV_TRAILER_ELEMENTS(MACH_RCV_TRAILER_AUDIT),
-               0,
-               sizeof(message),
-               info_->local_port,
-               MACH_MSG_TIMEOUT_NONE,
-               MACH_PORT_NULL);
+  kern_return_t kr = mach_msg(&message.header,
+                              MACH_RCV_MSG | kMachMessageReceiveAuditTrailer,
+                              0,
+                              sizeof(message),
+                              info_->local_port,
+                              MACH_MSG_TIMEOUT_NONE,
+                              MACH_PORT_NULL);
   ASSERT_EQ(MACH_MSG_SUCCESS, kr) << MachErrorMessage(kr, "mach_msg");
 
   // Comb through the entire message, checking every field against its expected
@@ -185,6 +187,8 @@ void MachMultiprocess::MultiprocessParent() {
   EXPECT_EQ(getuid(), audit_ruid);
   EXPECT_EQ(getgid(), audit_rgid);
   ASSERT_EQ(ChildPID(), audit_pid);
+
+  ASSERT_EQ(ChildPID(), AuditPIDFromMachMessageTrailer(&message.trailer));
 
   auditinfo_addr_t audit_info;
   int rv = getaudit_addr(&audit_info, sizeof(audit_info));
