@@ -343,13 +343,14 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
                                            report->file_path,
                                            "application/octet-stream");
 
-  // TODO(mark): There should be a timeout option for upload.
   scoped_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
   http_transport->SetURL(url_);
   HTTPHeaders::value_type content_type =
       http_multipart_builder.GetContentType();
   http_transport->SetHeader(content_type.first, content_type.second);
   http_transport->SetBodyStream(http_multipart_builder.GetBodyStream().Pass());
+  // TODO(mark): The timeout should be configurable by the client.
+  http_transport->SetTimeout(60.0);  // 1 minute.
 
   if (!http_transport->ExecuteSynchronously(response_body)) {
     return UploadResult::kRetry;
