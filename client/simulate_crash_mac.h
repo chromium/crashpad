@@ -52,7 +52,7 @@ void SimulateCrash(const NativeCPUContext* cpu_context);
 //! \brief Captures the CPU context and simulates an exception without crashing.
 #define CRASHPAD_SIMULATE_CRASH()           \
   do {                                      \
-    NativeCPUContext cpu_context;           \
+    crashpad::NativeCPUContext cpu_context; \
     crashpad::CaptureContext(&cpu_context); \
     crashpad::SimulateCrash(&cpu_context);  \
   } while (false)
