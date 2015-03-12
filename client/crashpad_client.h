@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_CLIENT_CRASHPAD_CLIENT_H_
 #define CRASHPAD_CLIENT_CRASHPAD_CLIENT_H_
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -49,13 +50,24 @@ class CrashpadClient {
   //! The handler process runs an exception server on this port.
   //!
   //! \param[in] handler The path to a Crashpad handler executable.
-  //! \param[in] handler_arguments Arguments to pass to the Crashpad handler.
-  //!     Arguments required to perform the handshake are the responsibility of
-  //!     this method, and must not be specified in this parameter.
+  //! \param[in] database The path to a Crashpad database. The handler will be
+  //!     started with this path as its `--database` argument.
+  //! \param[in] url The URL of an upload server. The handler will be started
+  //!     with this URL as its `--url` argument.
+  //! \param[in] annotations Process annotations to set in each crash report.
+  //!     The handler will be started with an `--annotation` argument for each
+  //!     element in this map.
+  //! \param[in] arguments Additional arguments to pass to the Crashpad handler.
+  //!     Arguments passed in other parameters and arguments required to perform
+  //!     the handshake are the responsibility of this method, and must not be
+  //!     specified in this parameter.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
   bool StartHandler(const base::FilePath& handler,
-                    const std::vector<std::string>& handler_arguments);
+                    const base::FilePath& database,
+                    const std::string& url,
+                    const std::map<std::string, std::string>& annotations,
+                    const std::vector<std::string>& arguments);
 
   //! \brief Configures the process to direct its crashes to a Crashpad handler.
   //!

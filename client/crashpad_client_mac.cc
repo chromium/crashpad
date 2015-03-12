@@ -27,6 +27,19 @@
 #include "util/mach/mach_extensions.h"
 #include "util/posix/close_multiple.h"
 
+namespace {
+
+std::string FormatArgumentString(const std::string& name,
+                                 const std::string& value) {
+  return base::StringPrintf("--%s=%s", name.c_str(), value.c_str());
+}
+
+std::string FormatArgumentInt(const std::string& name, int value) {
+  return base::StringPrintf("--%s=%d", name.c_str(), value);
+}
+
+}  // namespace
+
 namespace crashpad {
 
 CrashpadClient::CrashpadClient()
@@ -38,28 +51,49 @@ CrashpadClient::~CrashpadClient() {
 
 bool CrashpadClient::StartHandler(
     const base::FilePath& handler,
-    const std::vector<std::string>& handler_arguments) {
+    const base::FilePath& database,
+    const std::string& url,
+    const std::map<std::string, std::string>& annotations,
+    const std::vector<std::string>& arguments) {
   DCHECK_EQ(exception_port_, kMachPortNull);
 
   // Set up the arguments for execve() first. These aren’t needed until execve()
   // is called, but it’s dangerous to do this in a child process after fork().
   ChildPortHandshake child_port_handshake;
   int handshake_fd = child_port_handshake.ReadPipeFD();
-  std::string handshake_fd_arg =
-      base::StringPrintf("--handshake-fd=%d", handshake_fd);
 
-  const std::string& handler_s = handler.value();
-  const char* const handler_c = handler_s.c_str();
-
-  // Use handler as argv[0], followed by handler_arguments, handshake_fd_arg,
-  // and a nullptr terminator.
-  std::vector<const char*> argv(1, handler_c);
-  argv.reserve(1 + handler_arguments.size() + 1 + 1);
-  for (const std::string& handler_argument : handler_arguments) {
-    argv.push_back(handler_argument.c_str());
+  // Use handler as argv[0], followed by arguments directed by this method’s
+  // parameters and a --handshake-fd argument. |arguments| are added first so
+  // that if it erroneously contains an argument such as --url, the actual |url|
+  // argument passed to this method will supersede it. In normal command-line
+  // processing, the last parameter wins in the case of a conflict.
+  std::vector<std::string> argv(1, handler.value());
+  argv.reserve(1 + arguments.size() + 2 + annotations.size() + 1);
+  for (const std::string& argument : arguments) {
+    argv.push_back(argument);
   }
-  argv.push_back(handshake_fd_arg.c_str());
-  argv.push_back(nullptr);
+  if (!database.value().empty()) {
+    argv.push_back(FormatArgumentString("database", database.value()));
+  }
+  if (!url.empty()) {
+    argv.push_back(FormatArgumentString("url", url));
+  }
+  for (const auto& kv : annotations) {
+    argv.push_back(
+        FormatArgumentString("annotation", kv.first + '=' + kv.second));
+  }
+  argv.push_back(FormatArgumentInt("handshake-fd", handshake_fd));
+
+  // argv_c contains const char* pointers and is terminated by nullptr. argv
+  // is required because the pointers in argv_c need to point somewhere, and
+  // they can’t point to temporaries such as those returned by
+  // FormatArgumentString().
+  std::vector<const char*> argv_c;
+  argv_c.reserve(argv.size() + 1);
+  for (const std::string& argument : argv) {
+    argv_c.push_back(argument.c_str());
+  }
+  argv_c.push_back(nullptr);
 
   // Double-fork(). The three processes involved are parent, child, and
   // grandchild. The grandchild will become the handler process. The child exits
@@ -112,12 +146,12 @@ bool CrashpadClient::StartHandler(
 
     CloseMultipleNowOrOnExec(STDERR_FILENO + 1, handshake_fd);
 
-    // &argv[0] is a pointer to a pointer to const char data, but because of how
-    // C (not C++) works, execvp() wants a pointer to a const pointer to char
-    // data. It modifies neither the data nor the pointers, so the const_cast is
-    // safe.
-    execvp(handler_c, const_cast<char* const*>(&argv[0]));
-    PLOG(FATAL) << "execvp " << handler_s;
+    // &argv_c[0] is a pointer to a pointer to const char data, but because of
+    // how C (not C++) works, execvp() wants a pointer to a const pointer to
+    // char data. It modifies neither the data nor the pointers, so the
+    // const_cast is safe.
+    execvp(handler.value().c_str(), const_cast<char* const*>(&argv_c[0]));
+    PLOG(FATAL) << "execvp " << handler.value();
   }
 
   // Parent process.

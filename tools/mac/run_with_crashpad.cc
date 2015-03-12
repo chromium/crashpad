@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -26,6 +27,7 @@
 #include "base/logging.h"
 #include "client/crashpad_client.h"
 #include "tools/tool_support.h"
+#include "util/string/split_string.h"
 
 namespace crashpad {
 namespace {
@@ -35,10 +37,13 @@ void Usage(const std::string& me) {
 "Usage: %s [OPTION]... COMMAND [ARG]...\n"
 "Start a Crashpad handler and have it handle crashes from COMMAND.\n"
 "\n"
-"  -h, --handler=HANDLER            invoke HANDLER instead of crashpad_handler\n"
-"  -a, --handler-argument=ARGUMENT  invoke the handler with ARGUMENT\n"
-"      --help                       display this help and exit\n"
-"      --version                    output version information and exit\n",
+"  -h, --handler=HANDLER       invoke HANDLER instead of crashpad_handler\n"
+"      --annotation=KEY=VALUE  passed to the handler as an --annotation argument\n"
+"      --database=PATH         passed to the handler as its --database argument\n"
+"      --url=URL               passed to the handler as its --url argument\n"
+"  -a, --argument=ARGUMENT     invoke the handler with ARGUMENT\n"
+"      --help                  display this help and exit\n"
+"      --version               output version information and exit\n",
           me.c_str());
   ToolSupport::UsageTail(me);
 }
@@ -65,10 +70,13 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
   enum OptionFlags {
     // “Short” (single-character) options.
     kOptionHandler = 'h',
-    kOptionHandlerArgument = 'a',
+    kOptionArgument = 'a',
 
     // Long options without short equivalents.
     kOptionLastChar = 255,
+    kOptionAnnotation,
+    kOptionDatabase,
+    kOptionURL,
 
     // Standard options.
     kOptionHelp = -2,
@@ -77,7 +85,10 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
 
   const struct option long_options[] = {
       {"handler", required_argument, nullptr, kOptionHandler},
-      {"handler-argument", required_argument, nullptr, kOptionHandlerArgument},
+      {"annotation", required_argument, nullptr, kOptionAnnotation},
+      {"database", required_argument, nullptr, kOptionDatabase},
+      {"url", required_argument, nullptr, kOptionURL},
+      {"argument", required_argument, nullptr, kOptionArgument},
       {"help", no_argument, nullptr, kOptionHelp},
       {"version", no_argument, nullptr, kOptionVersion},
       {nullptr, 0, nullptr, 0},
@@ -85,7 +96,10 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
 
   struct {
     std::string handler;
-    std::vector<std::string> handler_arguments;
+    std::map<std::string, std::string> annotations;
+    std::string database;
+    std::string url;
+    std::vector<std::string> arguments;
   } options = {};
   options.handler = "crashpad_handler";
 
@@ -93,21 +107,51 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
   while ((opt = getopt_long(argc, argv, "+a:h:", long_options, nullptr)) !=
          -1) {
     switch (opt) {
-      case kOptionHandler:
+      case kOptionHandler: {
         options.handler = optarg;
         break;
-      case kOptionHandlerArgument:
-        options.handler_arguments.push_back(optarg);
+      }
+      case kOptionAnnotation: {
+        std::string key;
+        std::string value;
+        if (!SplitString(optarg, '=', &key, &value)) {
+          ToolSupport::UsageHint(me, "--annotation requires KEY=VALUE");
+          return EXIT_FAILURE;
+        }
+        auto it = options.annotations.find(key);
+        if (it != options.annotations.end()) {
+          LOG(WARNING) << "duplicate key " << key << ", discarding value "
+                       << it->second;
+          it->second = value;
+        } else {
+          options.annotations.insert(std::make_pair(key, value));
+        }
         break;
-      case kOptionHelp:
+      }
+      case kOptionDatabase: {
+        options.database = optarg;
+        break;
+      }
+      case kOptionURL: {
+        options.url = optarg;
+        break;
+      }
+      case kOptionArgument: {
+        options.arguments.push_back(optarg);
+        break;
+      }
+      case kOptionHelp: {
         Usage(me);
         return kExitSuccess;
-      case kOptionVersion:
+      }
+      case kOptionVersion: {
         ToolSupport::Version(me);
         return kExitSuccess;
-      default:
+      }
+      default: {
         ToolSupport::UsageHint(me, nullptr);
         return kExitFailure;
+      }
     }
   }
   argc -= optind;
@@ -121,7 +165,10 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
   // Start the handler process and direct exceptions to it.
   CrashpadClient crashpad_client;
   if (!crashpad_client.StartHandler(base::FilePath(options.handler),
-                                    options.handler_arguments)) {
+                                    base::FilePath(options.database),
+                                    options.url,
+                                    options.annotations,
+                                    options.arguments)) {
     return kExitFailure;
   }
 

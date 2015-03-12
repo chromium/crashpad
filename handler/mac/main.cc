@@ -31,23 +31,11 @@
 #include "util/mach/child_port_handshake.h"
 #include "util/posix/close_stdio.h"
 #include "util/stdlib/string_number_conversion.h"
+#include "util/string/split_string.h"
 #include "util/synchronization/semaphore.h"
 
 namespace crashpad {
 namespace {
-
-bool SplitString(const std::string& string,
-                 std::string* left,
-                 std::string* right) {
-  size_t equals_pos = string.find('=');
-  if (equals_pos == 0 || equals_pos == std::string::npos) {
-    return false;
-  }
-
-  left->assign(string, 0, equals_pos);
-  right->assign(string, equals_pos + 1, std::string::npos);
-  return true;
-}
 
 void Usage(const std::string& me) {
   fprintf(stderr,
@@ -57,6 +45,7 @@ void Usage(const std::string& me) {
 "      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
 "      --database=PATH         store the crash report database at PATH\n"
 "      --handshake-fd=FD       establish communication with the client over FD\n"
+"      --url=URL               send crash reports to this Breakpad server URL\n"
 "      --help                  display this help and exit\n"
 "      --version               output version information and exit\n",
           me.c_str());
@@ -103,7 +92,7 @@ int HandlerMain(int argc, char* argv[]) {
       case kOptionAnnotation: {
         std::string key;
         std::string value;
-        if (!SplitString(optarg, &key, &value)) {
+        if (!SplitString(optarg, '=', &key, &value)) {
           ToolSupport::UsageHint(me, "--annotation requires KEY=VALUE");
           return EXIT_FAILURE;
         }
