@@ -216,7 +216,7 @@ bool Settings::WriteSettings(FileHandle handle, const Data& data) {
 bool Settings::RecoverSettings(FileHandle handle, Data* out_data) {
   ScopedFileHandle scoped_handle;
   if (handle == kInvalidFileHandle) {
-    scoped_handle.reset(OpenForReadingAndWriting().release());
+    scoped_handle = OpenForReadingAndWriting();
     handle = scoped_handle.get();
 
     // Test if the file has already been recovered now that the exclusive lock

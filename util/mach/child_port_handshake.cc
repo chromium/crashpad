@@ -80,7 +80,7 @@ mach_port_t ChildPortHandshake::RunServer() {
   pipe_read_.reset();
 
   // Transfer ownership of the write pipe into this method’s scope.
-  base::ScopedFD pipe_write_owner(pipe_write_.release());
+  base::ScopedFD pipe_write_owner = pipe_write_.Pass();
 
   // Initialize the token and share it with the client via the pipe.
   token_ = base::RandUint64();
