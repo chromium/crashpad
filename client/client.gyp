@@ -60,6 +60,11 @@
           ],
         }],
       ],
+      'direct_dependent_settings': {
+        'include_dirs': [
+          '..',
+        ],
+      },
     },
     {
       'target_name': 'crashpad_client_test',
