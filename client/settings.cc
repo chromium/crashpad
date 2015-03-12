@@ -28,19 +28,24 @@
 namespace crashpad {
 
 struct ALIGNAS(4) Settings::Data {
-  static const uint16_t kSettingsVersion = 1;
+  static const uint32_t kSettingsMagic = 'CPds';
+  static const uint32_t kSettingsVersion = 1;
 
   enum Options : uint32_t {
     kUploadsEnabled = 1 << 0,
   };
 
-  Data() : version(kSettingsVersion),
+  Data() : magic(kSettingsMagic),
+           version(kSettingsVersion),
            options(0),
+           padding_0(0),
            last_upload_attempt_time(0),
            client_id() {}
 
+  uint32_t magic;
   uint32_t version;
   uint32_t options;
+  uint32_t padding_0;
   uint64_t last_upload_attempt_time;  // time_t
   UUID client_id;
 };
@@ -192,6 +197,11 @@ bool Settings::ReadSettings(FileHandle handle, Data* out_data) {
 
   if (!LoggingReadFile(handle, out_data, sizeof(*out_data)))
     return false;
+
+  if (out_data->magic != Data::kSettingsMagic) {
+    LOG(ERROR) << "Settings magic is not " << Data::kSettingsMagic;
+    return false;
+  }
 
   if (out_data->version != Data::kSettingsVersion) {
     LOG(ERROR) << "Settings version is not " << Data::kSettingsVersion;
