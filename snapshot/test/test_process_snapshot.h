@@ -58,6 +58,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
     process_cpu_user_time_ = user_time;
     process_cpu_system_time_ = system_time;
   }
+  void SetReportID(const UUID& report_id) { report_id_ = report_id; }
   void SetClientID(const UUID& client_id) { client_id_ = client_id; }
   void SetAnnotationsSimpleMap(
       const std::map<std::string, std::string>& annotations_simple_map) {
@@ -101,6 +102,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   void SnapshotTime(timeval* snapshot_time) const override;
   void ProcessStartTime(timeval* start_time) const override;
   void ProcessCPUTimes(timeval* user_time, timeval* system_time) const override;
+  void ReportID(UUID* report_id) const override;
   void ClientID(UUID* client_id) const override;
   const std::map<std::string, std::string>& AnnotationsSimpleMap()
       const override;
@@ -116,6 +118,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   timeval process_start_time_;
   timeval process_cpu_user_time_;
   timeval process_cpu_system_time_;
+  UUID report_id_;
   UUID client_id_;
   std::map<std::string, std::string> annotations_simple_map_;
   scoped_ptr<SystemSnapshot> system_;

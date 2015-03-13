@@ -179,10 +179,12 @@ TEST_F(CrashReportDatabaseTest, NewCrashReport) {
   CrashReportDatabase::NewReport* new_report;
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->PrepareNewCrashReport(&new_report));
+  UUID expect_uuid = new_report->uuid;
   EXPECT_TRUE(FileExistsAtPath(new_report->path)) << new_report->path.value();
   UUID uuid;
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->FinishedWritingCrashReport(new_report, &uuid));
+  EXPECT_EQ(expect_uuid, uuid);
 
   CrashReportDatabase::Report report;
   EXPECT_EQ(CrashReportDatabase::kNoError,

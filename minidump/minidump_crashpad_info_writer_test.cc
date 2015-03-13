@@ -80,14 +80,20 @@ TEST(MinidumpCrashpadInfoWriter, Empty) {
       string_file.string(), &crashpad_info, &simple_annotations, &module_list));
 
   EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
+  EXPECT_EQ(UUID(), crashpad_info->report_id);
   EXPECT_EQ(UUID(), crashpad_info->client_id);
   EXPECT_FALSE(simple_annotations);
   EXPECT_FALSE(module_list);
 }
 
-TEST(MinidumpCrashpadInfoWriter, ClientID) {
+TEST(MinidumpCrashpadInfoWriter, ReportAndClientID) {
   MinidumpFileWriter minidump_file_writer;
   auto crashpad_info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
+
+  UUID report_id;
+  ASSERT_TRUE(
+      report_id.InitializeFromString("01234567-89ab-cdef-0123-456789abcdef"));
+  crashpad_info_writer->SetReportID(report_id);
 
   UUID client_id;
   ASSERT_TRUE(
@@ -109,6 +115,7 @@ TEST(MinidumpCrashpadInfoWriter, ClientID) {
       string_file.string(), &crashpad_info, &simple_annotations, &module_list));
 
   EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
+  EXPECT_EQ(report_id, crashpad_info->report_id);
   EXPECT_EQ(client_id, crashpad_info->client_id);
   EXPECT_FALSE(simple_annotations);
   EXPECT_FALSE(module_list);
@@ -208,6 +215,10 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
 }
 
 TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
+  UUID report_id;
+  ASSERT_TRUE(
+      report_id.InitializeFromString("fedcba98-7654-3210-fedc-ba9876543210"));
+
   UUID client_id;
   ASSERT_TRUE(
       client_id.InitializeFromString("fedcba98-7654-3210-0123-456789abcdef"));
@@ -230,6 +241,7 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
   // Try again with a useful module.
   process_snapshot.reset(new TestProcessSnapshot());
 
+  process_snapshot->SetReportID(report_id);
   process_snapshot->SetClientID(client_id);
 
   std::map<std::string, std::string> annotations_simple_map;
@@ -259,6 +271,7 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
 
   EXPECT_EQ(MinidumpCrashpadInfo::kVersion, info->version);
 
+  EXPECT_EQ(report_id, info->report_id);
   EXPECT_EQ(client_id, info->client_id);
 
   ASSERT_TRUE(simple_annotations);

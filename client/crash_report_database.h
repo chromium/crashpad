@@ -98,6 +98,10 @@ class CrashReportDatabase {
     //! The file handle to which the report should be written.
     FileHandle handle;
 
+    //! A unique identifier by which this report will always be known to the
+    //! database.
+    UUID uuid;
+
     //! The path to the crash report being written.
     base::FilePath path;
   };

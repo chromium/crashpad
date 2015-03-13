@@ -79,6 +79,17 @@ class ProcessSnapshot {
   virtual void ProcessCPUTimes(timeval* user_time,
                                timeval* system_time) const = 0;
 
+  //! \brief Returns a %UUID identifying the event that the snapshot describes.
+  //!
+  //! This provides a stable identifier for a crash even as the report is
+  //! converted to different formats, provided that all formats support storing
+  //! a crash report ID. When a report is originally created, a report ID should
+  //! be assigned. From that point on, any operations involving the same report
+  //! should preserve the same report ID.
+  //!
+  //! If no identifier is available, this field will contain zeroes.
+  virtual void ReportID(UUID* client_id) const = 0;
+
   //! \brief Returns a %UUID identifying the client that the snapshot
   //!     represents.
   //!

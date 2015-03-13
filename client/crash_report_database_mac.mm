@@ -238,15 +238,15 @@ CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::PrepareNewCrashReport(NewReport** out_report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+  scoped_ptr<NewReport> report(new NewReport());
+
   uuid_t uuid_gen;
   uuid_generate(uuid_gen);
-  UUID uuid(uuid_gen);
-
-  scoped_ptr<NewReport> report(new NewReport());
+  report->uuid.InitializeFromBytes(uuid_gen);
 
   report->path =
       base_dir_.Append(kWriteDirectory)
-               .Append(uuid.ToString() + "." + kCrashReportFileExtension);
+          .Append(report->uuid.ToString() + "." + kCrashReportFileExtension);
 
   report->handle = HANDLE_EINTR(open(report->path.value().c_str(),
                                      O_CREAT | O_WRONLY | O_EXCL | O_EXLOCK,
@@ -257,7 +257,8 @@ CrashReportDatabaseMac::PrepareNewCrashReport(NewReport** out_report) {
   }
 
   // TODO(rsesek): Potentially use an fsetxattr() here instead.
-  if (!WriteXattr(report->path, XattrName(kXattrUUID), uuid.ToString())) {
+  if (!WriteXattr(
+          report->path, XattrName(kXattrUUID), report->uuid.ToString())) {
     PLOG_IF(ERROR, IGNORE_EINTR(close(report->handle)) != 0) << "close";
     return kDatabaseError;
   }
@@ -285,6 +286,11 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
       !uuid->InitializeFromString(uuid_string)) {
     LOG(ERROR) << "Failed to read UUID for crash report "
                << report->path.value();
+    return kDatabaseError;
+  }
+
+  if (*uuid != report->uuid) {
+    LOG(ERROR) << "UUID mismatch for crash report " << report->path.value();
     return kDatabaseError;
   }
 

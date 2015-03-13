@@ -25,6 +25,7 @@ ProcessSnapshotMac::ProcessSnapshotMac()
       modules_(),
       exception_(),
       process_reader_(),
+      report_id_(),
       client_id_(),
       annotations_simple_map_(),
       snapshot_time_(),
@@ -136,6 +137,11 @@ void ProcessSnapshotMac::ProcessCPUTimes(timeval* user_time,
                                          timeval* system_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   process_reader_.CPUTimes(user_time, system_time);
+}
+
+void ProcessSnapshotMac::ReportID(UUID* report_id) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  *report_id = report_id_;
 }
 
 void ProcessSnapshotMac::ClientID(UUID* client_id) const {

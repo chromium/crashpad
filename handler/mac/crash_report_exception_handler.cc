@@ -169,6 +169,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
       return KERN_FAILURE;
     }
 
+    process_snapshot.SetReportID(new_report->uuid);
+
     CallErrorWritingCrashReport call_error_writing_crash_report(database_,
                                                                 new_report);
 

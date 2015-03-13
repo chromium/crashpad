@@ -459,6 +459,7 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
   // members, an explicit constructor must be provided.
   MinidumpCrashpadInfo()
       : version(),
+        report_id(),
         client_id(),
         simple_annotations(),
         module_list() {
@@ -479,6 +480,17 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
   //! Writers may produce values less than #kVersion in this field if there is
   //! no need for any fields present in later versions.
   uint32_t version;
+
+  //! \brief A %UUID identifying an individual crash report.
+  //!
+  //! This provides a stable identifier for a crash even as the report is
+  //! converted to different formats, provided that all formats support storing
+  //! a crash report ID.
+  //!
+  //! If no identifier is available, this field will contain zeroes.
+  //!
+  //! This field is present when #version is at least `1`.
+  UUID report_id;
 
   //! \brief A %UUID identifying the client that crashed.
   //!

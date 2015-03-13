@@ -77,6 +77,13 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
                            const natural_t* state,
                            mach_msg_type_number_t state_count);
 
+  //! \brief Sets the value to be returned by ReportID().
+  //!
+  //! On Mac OS X, the crash report ID is under the control of the snapshot
+  //! producer, which may call this method to set the report ID. If this is not
+  //! done, ReportID() will return an identifier consisting entirely of zeroes.
+  void SetReportID(const UUID& report_id) { report_id_ = report_id; }
+
   //! \brief Sets the value to be returned by ClientID().
   //!
   //! On Mac OS X, the client ID is under the control of the snapshot producer,
@@ -109,6 +116,7 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
   void SnapshotTime(timeval* snapshot_time) const override;
   void ProcessStartTime(timeval* start_time) const override;
   void ProcessCPUTimes(timeval* user_time, timeval* system_time) const override;
+  void ReportID(UUID* report_id) const override;
   void ClientID(UUID* client_id) const override;
   const std::map<std::string, std::string>& AnnotationsSimpleMap()
       const override;
@@ -129,6 +137,7 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
   PointerVector<internal::ModuleSnapshotMac> modules_;
   scoped_ptr<internal::ExceptionSnapshotMac> exception_;
   ProcessReader process_reader_;
+  UUID report_id_;
   UUID client_id_;
   std::map<std::string, std::string> annotations_simple_map_;
   timeval snapshot_time_;

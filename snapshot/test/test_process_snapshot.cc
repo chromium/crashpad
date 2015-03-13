@@ -26,6 +26,7 @@ TestProcessSnapshot::TestProcessSnapshot()
       process_start_time_(),
       process_cpu_user_time_(),
       process_cpu_system_time_(),
+      report_id_(),
       client_id_(),
       annotations_simple_map_(),
       system_(),
@@ -57,6 +58,10 @@ void TestProcessSnapshot::ProcessCPUTimes(timeval* user_time,
                                           timeval* system_time) const {
   *user_time = process_cpu_user_time_;
   *system_time = process_cpu_system_time_;
+}
+
+void TestProcessSnapshot::ReportID(UUID* report_id) const {
+  *report_id = report_id_;
 }
 
 void TestProcessSnapshot::ClientID(UUID* client_id) const {

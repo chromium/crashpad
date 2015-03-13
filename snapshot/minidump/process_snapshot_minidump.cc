@@ -127,6 +127,11 @@ void ProcessSnapshotMinidump::ProcessCPUTimes(timeval* user_time,
   system_time->tv_usec = 0;
 }
 
+void ProcessSnapshotMinidump::ReportID(UUID* report_id) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  *report_id = crashpad_info_.report_id;
+}
+
 void ProcessSnapshotMinidump::ClientID(UUID* client_id) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *client_id = crashpad_info_.client_id;

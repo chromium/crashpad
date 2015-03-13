@@ -52,6 +52,9 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
   //!     methods after this method.
   void InitializeFromSnapshot(const ProcessSnapshot* process_snapshot);
 
+  //! \brief Sets MinidumpCrashpadInfo::report_id.
+  void SetReportID(const UUID& report_id);
+
   //! \brief Sets MinidumpCrashpadInfo::client_id.
   void SetClientID(const UUID& client_id);
 

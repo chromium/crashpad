@@ -174,14 +174,6 @@ ReportDisk::ReportDisk(const UUID& uuid,
   this->state = state;
 }
 
-//! \brief A private extension of the NewReport class to hold the UUID during
-//!     initial write. We don't store metadata in dump's file attributes, so we
-//!     use the UUID to identify the dump on write completion.
-struct NewReportDisk : public CrashReportDatabase::NewReport {
-  //! \brief The UUID for this crash report.
-  UUID uuid;
-};
-
 // Metadata --------------------------------------------------------------------
 
 //! \brief Manages the metadata for the set of reports, handling serialization
@@ -586,13 +578,13 @@ OperationStatus CrashReportDatabaseWin::PrepareNewCrashReport(
     return kFileSystemError;
   static_assert(sizeof(system_uuid) == 16, "unexpected system uuid size");
   static_assert(offsetof(::UUID, Data1) == 0, "unexpected uuid layout");
-  UUID uuid(reinterpret_cast<const uint8_t*>(&system_uuid.Data1));
 
-  scoped_ptr<NewReportDisk> new_report(new NewReportDisk());
-  new_report->uuid = uuid;
-  new_report->path =
-      base_dir_.Append(kReportsDirectory)
-          .Append(uuid.ToString16() + L"." + kCrashReportFileExtension);
+  scoped_ptr<NewReport> new_report(new NewReport());
+  new_report->uuid.InitializeFromBytes(
+      reinterpret_cast<const uint8_t*>(&system_uuid.Data1));
+  new_report->path = base_dir_.Append(kReportsDirectory)
+                         .Append(new_report->uuid.ToString16() + L"." +
+                                 kCrashReportFileExtension);
   new_report->handle = LoggingOpenFileForWrite(new_report->path,
                                                FileWriteMode::kCreateOrFail,
                                                FilePermissions::kOwnerOnly);
@@ -608,8 +600,8 @@ OperationStatus CrashReportDatabaseWin::FinishedWritingCrashReport(
     UUID* uuid) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  // Take ownership of the report, and cast to our private version with UUID.
-  scoped_ptr<NewReportDisk> scoped_report(static_cast<NewReportDisk*>(report));
+  // Take ownership of the report.
+  scoped_ptr<NewReport> scoped_report(report);
   // Take ownership of the file handle.
   ScopedFileHandle handle(report->handle);
 
@@ -628,8 +620,8 @@ OperationStatus CrashReportDatabaseWin::ErrorWritingCrashReport(
     NewReport* report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  // Take ownership of the report, and cast to our private version with UUID.
-  scoped_ptr<NewReportDisk> scoped_report(static_cast<NewReportDisk*>(report));
+  // Take ownership of the report.
+  scoped_ptr<NewReport> scoped_report(report);
 
   // Close the outstanding handle.
   LoggingCloseFile(report->handle);

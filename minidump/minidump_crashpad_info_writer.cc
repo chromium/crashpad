@@ -38,6 +38,10 @@ void MinidumpCrashpadInfoWriter::InitializeFromSnapshot(
   DCHECK_EQ(state(), kStateMutable);
   DCHECK(!module_list_);
 
+  UUID report_id;
+  process_snapshot->ReportID(&report_id);
+  SetReportID(report_id);
+
   UUID client_id;
   process_snapshot->ClientID(&client_id);
   SetClientID(client_id);
@@ -56,6 +60,12 @@ void MinidumpCrashpadInfoWriter::InitializeFromSnapshot(
   if (modules->IsUseful()) {
     SetModuleList(modules.Pass());
   }
+}
+
+void MinidumpCrashpadInfoWriter::SetReportID(const UUID& report_id) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  crashpad_info_.report_id = report_id;
 }
 
 void MinidumpCrashpadInfoWriter::SetClientID(const UUID& client_id) {
@@ -128,7 +138,8 @@ MinidumpStreamType MinidumpCrashpadInfoWriter::StreamType() const {
 }
 
 bool MinidumpCrashpadInfoWriter::IsUseful() const {
-  return crashpad_info_.client_id != UUID() ||
+  return crashpad_info_.report_id != UUID() ||
+         crashpad_info_.client_id != UUID() ||
          simple_annotations_ ||
          module_list_;
 }
