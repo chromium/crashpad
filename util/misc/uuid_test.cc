@@ -20,6 +20,7 @@
 
 #include "base/basictypes.h"
 #include "base/format_macros.h"
+#include "base/scoped_generic.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
@@ -203,6 +204,33 @@ TEST(UUID, FromString) {
   uuid.InitializeFromString("5762C15D-50b5-4171-a2e9-7429C9EC6CAB");
   EXPECT_EQ("5762c15d-50b5-4171-a2e9-7429c9ec6cab", uuid.ToString());
 }
+
+#if defined(OS_WIN)
+
+TEST(UUID, FromSystem) {
+  ::GUID system_uuid;
+  ASSERT_EQ(RPC_S_OK, UuidCreate(&system_uuid));
+
+  UUID uuid;
+  uuid.InitializeFromSystemUUID(&system_uuid);
+
+  RPC_WSTR system_string;
+  ASSERT_EQ(RPC_S_OK, UuidToString(&system_uuid, &system_string));
+
+  struct ScopedRpcStringFreeTraits {
+    static RPC_WSTR* InvalidValue() { return nullptr; }
+    static void Free(RPC_WSTR* rpc_string) {
+      EXPECT_EQ(RPC_S_OK, RpcStringFree(rpc_string));
+    }
+  };
+  using ScopedRpcString =
+      base::ScopedGeneric<RPC_WSTR*, ScopedRpcStringFreeTraits>;
+  ScopedRpcString scoped_system_string(&system_string);
+
+  EXPECT_EQ(reinterpret_cast<wchar_t*>(system_string), uuid.ToString16());
+}
+
+#endif  // OS_WIN
 
 }  // namespace
 }  // namespace test

@@ -88,6 +88,16 @@ bool UUID::InitializeFromString(const base::StringPiece& string) {
   return true;
 }
 
+#if defined(OS_WIN)
+void UUID::InitializeFromSystemUUID(const ::UUID* system_uuid) {
+  static_assert(sizeof(::UUID) == sizeof(UUID),
+                "unexpected system uuid size");
+  static_assert(offsetof(::UUID, Data1) == offsetof(UUID, data_1),
+                "unexpected system uuid layout");
+  memcpy(this, system_uuid, sizeof(::UUID));
+}
+#endif  // OS_WIN
+
 std::string UUID::ToString() const {
   return base::StringPrintf("%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
                             data_1,

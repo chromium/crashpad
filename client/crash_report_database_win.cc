@@ -576,12 +576,9 @@ OperationStatus CrashReportDatabaseWin::PrepareNewCrashReport(
   ::UUID system_uuid;
   if (UuidCreate(&system_uuid) != RPC_S_OK)
     return kFileSystemError;
-  static_assert(sizeof(system_uuid) == 16, "unexpected system uuid size");
-  static_assert(offsetof(::UUID, Data1) == 0, "unexpected uuid layout");
 
   scoped_ptr<NewReport> new_report(new NewReport());
-  new_report->uuid.InitializeFromBytes(
-      reinterpret_cast<const uint8_t*>(&system_uuid.Data1));
+  new_report->uuid.InitializeFromSystemUUID(&system_uuid);
   new_report->path = base_dir_.Append(kReportsDirectory)
                          .Append(new_report->uuid.ToString16() + L"." +
                                  kCrashReportFileExtension);

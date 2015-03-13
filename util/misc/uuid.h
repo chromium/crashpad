@@ -23,6 +23,10 @@
 #include "base/strings/string_piece.h"
 #include "build/build_config.h"
 
+#if defined(OS_WIN)
+#include <rpc.h>
+#endif
+
 namespace crashpad {
 
 //! \brief A universally unique identifier (%UUID).
@@ -63,12 +67,19 @@ struct UUID {
   //!     parsed, with the object state untouched.
   bool InitializeFromString(const base::StringPiece& string);
 
+#if defined(OS_WIN) || DOXYGEN
+  //! \brief Initializes the %UUID from a system `UUID` or `GUID` structure.
+  //!
+  //! \param[in] system_uuid A system `UUID` or `GUID` structure.
+  void InitializeFromSystemUUID(const ::UUID* system_uuid);
+#endif  // OS_WIN
+
   //! \brief Formats the %UUID per RFC 4122 §3.
   //!
   //! \return A string of the form `"00112233-4455-6677-8899-aabbccddeeff"`.
   std::string ToString() const;
 
-#if defined(OS_WIN)
+#if defined(OS_WIN) || DOXYGEN
   //! \brief The same as ToString, but returned as a string16.
   base::string16 ToString16() const;
 #endif  // OS_WIN

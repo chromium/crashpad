@@ -208,6 +208,7 @@
         ['OS=="win"', {
           'link_settings': {
             'libraries': [
+              '-lrpcrt4.lib',
               '-lwinhttp.lib',
             ],
           },
