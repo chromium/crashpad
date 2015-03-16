@@ -50,11 +50,11 @@ restricted to the superuser.
 'MASK' defines the mask of exception types to handle, from
 +<mach/exception_types.h>+. This can be *BAD_ACCESS*, *BAD_INSTRUCTION*,
 *ARITHMETIC*, *EMULATION*, *SOFTWARE*, *BREAKPOINT*, *SYSCALL*, *MACH_SYSCALL*,
-*RPC_ALERT*, *CRASH*, *RESOURCE*, *GUARD*, or *CRASH*. Different exception types
-may be combined by combining them with pipe characters (*|*). The special value
-*ALL* includes each exception type except for *CRASH*. To truly specify all
-exception types including *CRASH*, use *ALL|CRASH*. The default value of 'MASK'
-is *CRASH*.
+*RPC_ALERT*, *CRASH*, *RESOURCE*, or *GUARD*. Different exception types may be
+combined by combining them with pipe characters (*|*). The special value *ALL*
+includes each exception type except for *CRASH*. To truly specify all exception
+types including *CRASH*, use *ALL|CRASH*. The default value of 'MASK' is
+*CRASH*.
 +
 *behavior*='BEHAVIOR':::
 'BEHAVIOR' defines the specific exception handler routine to be called when an

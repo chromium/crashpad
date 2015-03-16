@@ -46,11 +46,22 @@ run with a Crashpad exception handler.
 Invoke 'HANDLER' as the Crashpad handler program instead of the default,
 *crashpad_handler*.
 
-*-a*, *--handler-argument*='ARGUMENT'::
+*--annotation*='KEY=VALUE'::
+Passed to the Crashpad handler program as an *--annotation* argument.
+
+*--database*='PATH'::
+Passed to the Crashpad handler program as its *--database* argument.
+
+*--url*='URL'::
+Passed to the Crashpad handler program as its *--url* argument.
+
+*-a*, *--argument*='ARGUMENT'::
 Invokes the Crashpad handler program with 'ARGUMENT' as one of its arguments.
-This option may appear zero, one, or more times. Regardless of this option’s
-presence, the handler will always be invoked with the necessary arguments to
-perform a handshake.
+This option may appear zero, one, or more times. If this program has a specific
+option such as *--database* matching the desired Crashpad handler program
+option, the specific option should be used in preference to *--argument*.
+Regardless of this option’s presence, the handler will always be invoked with
+the necessary arguments to perform a handshake.
 
 *--help*::
 Display help and exit.
@@ -64,7 +75,7 @@ Starts a Crashpad exception handler server by its default name,
 *crashpad_handler*, and runs a program with this handler in effect.
 [subs="quotes"]
 ----
-$ *run_with_crashpad crash*
+$ *run_with_crashpad --database=/tmp/crashpad_database crash*
 Illegal instruction: 4
 ----
 
@@ -72,9 +83,11 @@ Starts a Crashpad exception handler server at a nonstandard path, and runs
 exception_port_tool(1) to show the task-level exception ports.
 [subs="quotes"]
 ----
-$ *run_with_crashpad --handler=/tmp/crashpad_handler exception_port_tool*
-task exception port 0, mask 0x1c00 (CRASH|RESOURCE|GUARD), port 0x30b, behavior
-0x80000003 (STATE_IDENTITY|MACH), flavor 7 (THREAD)
+$ *run_with_crashpad --handler=/tmp/crashpad_handler \
+      --database=/tmp/crashpad_database exception_port_tool \
+      --show-task*
+task exception port 0, mask 0x1c00 (CRASH|RESOURCE|GUARD), port
+0x30b, behavior 0x80000003 (STATE_IDENTITY|MACH), flavor 7 (THREAD)
 ----
 
 == Exit Status
