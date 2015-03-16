@@ -61,6 +61,23 @@
 
 // <mach/i386/thread_status.h>
 
+// 10.6 SDK
+//
+// Earlier versions of this SDK didn’t have AVX definitions. They didn’t appear
+// until the version of the 10.6 SDK that shipped with Xcode 4.2, although
+// versions of this SDK appeared with Xcode releases as early as Xcode 3.2.
+// Similarly, the kernel didn’t handle AVX state until Mac OS X 10.6.8
+// (xnu-1504.15.3) and presumably the hardware-specific versions of Mac OS X
+// 10.6.7 intended to run on processors with AVX.
+
+#ifndef x86_AVX_STATE32
+#define x86_AVX_STATE32 16
+#endif
+
+#ifndef x86_AVX_STATE64
+#define x86_AVX_STATE64 17
+#endif
+
 // 10.8 SDK
 
 #ifndef x86_AVX_STATE
