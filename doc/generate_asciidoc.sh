@@ -88,6 +88,7 @@ for input in \
       --attribute manversion="${version}" \
       --attribute manmanual="Crashpad Manual" \
       --attribute revdate="${git_date}" \
+      --asciidoc-opts=--conf-file=doc/asciidoc.conf \
       --doctype manpage \
       --format manpage \
       --destination-dir "${output_dir}/man" \

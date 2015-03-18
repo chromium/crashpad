@@ -43,8 +43,9 @@ senders, the server exits after allowing any upload in progress to complete.
 
 It is not normally appropriate to invoke this program directly. Usually, it will
 be invoked by a Crashpad client using the Crashpad client library. Arbitrary
-programs may be run with a Crashpad handler by using run_with_crashpad(1) to
-establish the Crashpad client environment before running a program.
+programs may be run with a Crashpad handler by using
+man_link:run_with_crashpad[1] to establish the Crashpad client environment
+before running a program.
 
 == Options
 *--annotation*='KEY=VALUE'::
@@ -99,8 +100,8 @@ Failure, with a message printed to the standard error stream.
 
 == See Also
 
-catch_exception_tool(1),
-generate_dump(1),
-run_with_crashpad(1)
+man_link:catch_exception_tool[1],
+man_link:generate_dump[1],
+man_link:run_with_crashpad[1]
 
 include::../../doc/man_footer.ad[]

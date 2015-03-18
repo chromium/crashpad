@@ -68,8 +68,8 @@ Output version information and exit.
 
 == Examples
 
-Registers an on-demand server that will execute catch_exception_tool(1) when a
-Mach message is sent to a Mach port obtained from the bootstrap server by
+Registers an on-demand server that will execute man_link:catch_exception_tool[1]
+when a Mach message is sent to a Mach port obtained from the bootstrap server by
 looking up the name +svc+:
 [subs="quotes"]
 ----
@@ -95,8 +95,8 @@ Failure, with a message printed to the standard error stream.
 
 == See Also
 
-exception_port_tool(1),
+man_link:catch_exception_tool[1],
+man_link:exception_port_tool[1],
 launchctl(1)
-on_demand_service_tool(1)
 
 include::../../doc/man_footer.ad[]
