@@ -64,4 +64,4 @@ catch_exception_tool(1),
 generate_dump(1),
 run_with_crashpad(1)
 
-include::../../tools/man_footer.ad[]
+include::../../doc/man_footer.ad[]

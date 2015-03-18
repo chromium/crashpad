@@ -185,4 +185,4 @@ The program specified by 'COMMAND' could not be found.
 catch_exception_tool(1),
 on_demand_service_tool(1)
 
-include::../man_footer.ad[]
+include::../../doc/man_footer.ad[]

@@ -109,4 +109,4 @@ The program specified by 'COMMAND' could not be found.
 crashpad_handler(8),
 exception_port_tool(1)
 
-include::../man_footer.ad[]
+include::../../doc/man_footer.ad[]

@@ -1,4 +1,6 @@
-# Copyright 2014 The Crashpad Authors. All rights reserved.
+#!/bin/sh
+
+# Copyright 2015 The Crashpad Authors. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,25 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{
-  'targets': [
-    {
-      'target_name': 'All',
-      'type': 'none',
-      'suppress_wildcard': 1,
-      'dependencies': [
-        'client/client.gyp:*',
-        'compat/compat.gyp:*',
-        'handler/handler.gyp:*',
-        'minidump/minidump.gyp:*',
-        'snapshot/snapshot.gyp:*',
-        'tools/tools.gyp:*',
-        'util/util.gyp:*',
-      ],
-      'sources': [
-        'doc/crashpad.doxy.h',
-        'package.h',
-      ],
-    },
-  ],
-}
+set -e
+
+# Generating Doxygen documentation requires Doxygen, http://www.doxygen.org/.
+
+# Run from the Crashpad project root directory.
+cd "$(dirname "${0}")/.."
+
+output_dir=out/doc/doxygen
+
+rm -rf "${output_dir}"
+mkdir -p "${output_dir}"
+
+doxygen doc/crashpad.doxy

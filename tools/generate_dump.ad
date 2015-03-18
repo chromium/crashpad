@@ -93,4 +93,4 @@ Failure, with a message printed to the standard error stream.
 
 catch_exception_tool(1)
 
-include::man_footer.ad[]
+include::../doc/man_footer.ad[]
