@@ -45,7 +45,8 @@ void Usage(const std::string& me) {
 "      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
 "      --database=PATH         store the crash report database at PATH\n"
 "      --handshake-fd=FD       establish communication with the client over FD\n"
-"      --url=URL               send crash reports to this Breakpad server URL\n"
+"      --url=URL               send crash reports to this Breakpad server URL,\n"
+"                              only if uploads are enabled for the database\n"
 "      --help                  display this help and exit\n"
 "      --version               output version information and exit\n",
           me.c_str());

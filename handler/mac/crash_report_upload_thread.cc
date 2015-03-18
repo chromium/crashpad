@@ -226,9 +226,11 @@ void CrashReportUploadThread::ProcessPendingReport(
   Settings* const settings = database_->GetSettings();
 
   bool uploads_enabled;
-  if (!settings->GetUploadsEnabled(&uploads_enabled) || !uploads_enabled) {
-    // If uploads are disabled or the upload-enabled state can’t be determined,
-    // don’t attempt to upload the new report.
+  if (!settings->GetUploadsEnabled(&uploads_enabled) ||
+      !uploads_enabled ||
+      url_.empty()) {
+    // If the upload-enabled state can’t be determined, uploads are disabled, or
+    // there’s no URL to upload to, don’t attempt to upload the new report.
     database_->SkipReportUpload(report.uuid);
     return;
   }

@@ -27,13 +27,19 @@ crashpad_handler - Crashpad’s exception handler server
 
 == Description
 
-This program is Crashpad’s main exception-handling server. This server is
-normally started by its initial client, and it performs a handshake with this
-client via a pipe established by the client that is inherited by the server,
-referenced by the *--handshake-fd* argument. During the handshake, the server
-furnishes the client with a send right that the client may use as an exception
-port. The server retains the corresponding receive right, which it monitors for
-exception messages. When the receive right loses all senders, the server exits.
+This program is Crashpad’s main exception-handling server. It is responsible for
+catching exceptions, writing crash reports, and uploading them to a crash report
+collection server. Uploads are disabled by default, and can only be enabled by a
+Crashpad client using the Crashpad client library, typically in response to a
+user requesting this behavior.
+
+This server is normally started by its initial client, and it performs a
+handshake with this client via a pipe established by the client that is
+inherited by the server, referenced by the *--handshake-fd* argument. During the
+handshake, the server furnishes the client with a send right that the client may
+use as an exception port. The server retains the corresponding receive right,
+which it monitors for exception messages. When the receive right loses all
+senders, the server exits after allowing any upload in progress to complete.
 
 It is not normally appropriate to invoke this program directly. Usually, it will
 be invoked by a Crashpad client using the Crashpad client library. Arbitrary
@@ -41,8 +47,41 @@ programs may be run with a Crashpad handler by using run_with_crashpad(1) to
 establish the Crashpad client environment before running a program.
 
 == Options
-*-h*, *--handshake-fd*='FD'::
+*--annotation*='KEY=VALUE'::
+Sets a process-level annotation mapping 'KEY' to 'VALUE' in each crash report
+that is written. This option may appear zero, one, or multiple times.
++
+Most annotations should be provided by the Crashpad client as module-level
+annotations instead of process-level annotations. Module-level annotations are
+more flexible in that they can be modified and cleared during the client
+program’s lifetime. Module-level annotations can be set via the Crashpad client
+library. Process-level annotations are useful for annotations that the
+collection server requires be present, that have fixed values, and for cases
+where a program that does not use the Crashpad client library is being
+monitored.
++
+Breakpad-type collection servers only require the +"prod"+ and +"ver"+
+annotations, which should be set to the product name or identifier and product
+version, respectively. It is unusual to specify other annotations as
+process-level annotations via this argument.
+
+*--database*='PATH'::
+Use 'PATH' as the path to the Crashpad crash report database. This option is
+required. Crash reports are written to this database, and if uploads are
+enabled, uploaded from this database to a crash report collection server. If the
+database does not exist, it will be created, provided that the parent directory
+of 'PATH' exists.
+
+*--handshake-fd*='FD'::
 Perform the handshake with the initial client on the file descriptor at 'FD'.
+This option is required.
+
+*--url*='URL'::
+If uploads are enabled, sends crash reports to the Breakpad-type crash report
+collection server at 'URL'. Uploads are disabled by default, and can only be
+enabled for a database by a Crashpad client using the Crashpad client library,
+typically in response to a user requesting this behavior. If this option is not
+specified, this program will behave as if uploads are disabled.
 
 *--help*::
 Display help and exit.
