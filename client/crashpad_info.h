@@ -38,6 +38,20 @@ struct CrashpadInfo {
 
   CrashpadInfo();
 
+  //! \brief Sets the simple annotations dictionary.
+  //!
+  //! Simple annotations set on a CrashpadInfo structure are interpreted by
+  //! Crashpad as module-level annotations.
+  //!
+  //! Annotations may exist in \a simple_annotations at the time that this
+  //! method is called, or they may be added, removed, or modified in \a
+  //! simple_annotations after this method is called.
+  //!
+  //! \param[in] simple_annotations A dictionary that maps string keys to string
+  //!     values. The CrashpadInfo object does not take ownership of the
+  //!     SimpleStringDictionary object. It is the caller’s responsibility to
+  //!     ensure that this pointer remains valid while it is in effect for a
+  //!     CrashpadInfo object.
   void set_simple_annotations(SimpleStringDictionary* simple_annotations) {
     simple_annotations_ = simple_annotations;
   }
