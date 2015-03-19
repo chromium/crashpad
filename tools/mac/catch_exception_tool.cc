@@ -200,7 +200,7 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
 
   Options options = {};
 
-  const struct option long_options[] = {
+  const option long_options[] = {
       {"file", required_argument, nullptr, kOptionFile},
       {"mach-service", required_argument, nullptr, kOptionMachService},
       {"persistent", no_argument, nullptr, kOptionPersistent},

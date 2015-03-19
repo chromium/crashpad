@@ -372,8 +372,10 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   EXPECT_EQ(4u, pending.size());
   ASSERT_EQ(1u, completed.size());
 
-  for (const auto& report : pending)
+  for (const auto& report : pending) {
     EXPECT_NE(report_1_uuid, report.uuid);
+    EXPECT_FALSE(report.file_path.empty());
+  }
   EXPECT_EQ(report_1_uuid, completed[0].uuid);
   EXPECT_EQ("report1", completed[0].id);
   EXPECT_EQ(true, completed[0].uploaded);
@@ -400,6 +402,7 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
       EXPECT_FALSE(report.uploaded);
       EXPECT_TRUE(report.id.empty());
     }
+    EXPECT_FALSE(report.file_path.empty());
   }
 
   // Upload a second report.
@@ -431,6 +434,7 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   for (const auto& report : pending) {
     EXPECT_TRUE(report.uuid == report_0_uuid ||
                 report.uuid == report_3_uuid);
+    EXPECT_FALSE(report.file_path.empty());
   }
 
   // Skip upload for one report.
@@ -459,6 +463,7 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
       EXPECT_GT(report.upload_attempts, 0);
       EXPECT_GT(report.last_upload_attempt_time, 0);
     }
+    EXPECT_FALSE(report.file_path.empty());
   }
 }
 

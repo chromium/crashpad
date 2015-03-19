@@ -401,7 +401,7 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
     bool numeric;
   } options = {};
 
-  const struct option long_options[] = {
+  const option long_options[] = {
       {"set-handler", required_argument, nullptr, kOptionSetPort},
       {"show-bootstrap", required_argument, nullptr, kOptionShowBootstrap},
       {"pid", required_argument, nullptr, kOptionPid},

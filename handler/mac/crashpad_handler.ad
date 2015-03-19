@@ -101,6 +101,7 @@ Failure, with a message printed to the standard error stream.
 == See Also
 
 man_link:catch_exception_tool[1],
+man_link:crashpad_database_util[1],
 man_link:generate_dump[1],
 man_link:run_with_crashpad[1]
 

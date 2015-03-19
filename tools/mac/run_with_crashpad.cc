@@ -83,7 +83,7 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
     kOptionVersion = -3,
   };
 
-  const struct option long_options[] = {
+  const option long_options[] = {
       {"handler", required_argument, nullptr, kOptionHandler},
       {"annotation", required_argument, nullptr, kOptionAnnotation},
       {"database", required_argument, nullptr, kOptionDatabase},

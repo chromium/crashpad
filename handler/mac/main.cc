@@ -77,7 +77,7 @@ int HandlerMain(int argc, char* argv[]) {
   } options = {};
   options.handshake_fd = -1;
 
-  const struct option long_options[] = {
+  const option long_options[] = {
       {"annotation", required_argument, nullptr, kOptionAnnotation},
       {"database", required_argument, nullptr, kOptionDatabase},
       {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},

@@ -76,7 +76,7 @@ int GenerateDumpMain(int argc, char* argv[]) {
   Options options = {};
   options.suspend = true;
 
-  const struct option long_options[] = {
+  const option long_options[] = {
       {"no-suspend", no_argument, nullptr, kOptionNoSuspend},
       {"output", required_argument, nullptr, kOptionOutput},
       {"help", no_argument, nullptr, kOptionHelp},

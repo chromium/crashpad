@@ -573,15 +573,15 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::ReportsInDirectory(
 
   reports->reserve([paths count]);
   for (NSString* entry in paths) {
-    base::FilePath report_path = path.Append([entry fileSystemRepresentation]);
-    base::ScopedFD lock(ObtainReportLock(report_path));
+    Report report;
+    report.file_path = path.Append([entry fileSystemRepresentation]);
+    base::ScopedFD lock(ObtainReportLock(report.file_path));
     if (!lock.is_valid())
       continue;
 
-    Report report;
-    if (!ReadReportMetadataLocked(report_path, &report)) {
+    if (!ReadReportMetadataLocked(report.file_path, &report)) {
       LOG(WARNING) << "Failed to read report metadata for "
-                   << report_path.value();
+                   << report.file_path.value();
       continue;
     }
     reports->push_back(report);

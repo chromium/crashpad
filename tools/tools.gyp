@@ -60,6 +60,23 @@
           ],
         },
         {
+          'target_name': 'crashpad_database_util',
+          'type': 'executable',
+          'dependencies': [
+            'crashpad_tool_support',
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'crashpad_database_util.cc',
+          ],
+        },
+        {
           'target_name': 'catch_exception_tool',
           'type': 'executable',
           'dependencies': [
