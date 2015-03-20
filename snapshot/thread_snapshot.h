@@ -45,8 +45,8 @@ class ThreadSnapshot {
 
   //! \brief Returns the thread’s identifier.
   //!
-  //! Thread identifiers are at least unique within a process, and may be unique
-  //! system-wide.
+  //! %Thread identifiers are at least unique within a process, and may be
+  //! unique system-wide.
   virtual uint64_t ThreadID() const = 0;
 
   //! \brief Returns the thread’s suspend count.
