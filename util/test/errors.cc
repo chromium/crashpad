@@ -16,13 +16,15 @@
 
 #include <errno.h>
 
-#include "build/build_config.h"
+#include "base/logging.h"
 #include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 
 #if defined(OS_POSIX)
 #include "base/safe_strerror_posix.h"
 #elif defined(OS_WIN)
 #include <string.h>
+#include <windows.h>
 #endif
 
 namespace crashpad {
@@ -46,6 +48,16 @@ std::string ErrnoMessage(int err, const std::string& base) {
 std::string ErrnoMessage(const std::string& base) {
   return ErrnoMessage(errno, base);
 }
+
+#if defined(OS_WIN)
+std::string ErrorMessage(const std::string& base) {
+  return base::StringPrintf(
+      "%s%s%s",
+      base.c_str(),
+      base.empty() ? "" : ": ",
+      logging::SystemErrorCodeToString(GetLastError()).c_str());
+}
+#endif
 
 }  // namespace test
 }  // namespace crashpad

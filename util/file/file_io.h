@@ -78,6 +78,15 @@ enum class FilePermissions : bool {
   kWorldReadable,
 };
 
+//! \brief Determines the locking mode that LoggingLockFile() uses.
+enum class FileLocking : bool {
+  //! \brief Equivalent to `flock()` with `LOCK_SH`.
+  kShared,
+
+  //! \brief Equivalent to `flock()` with `LOCK_EX`.
+  kExclusive,
+};
+
 //! \brief Reads from a file, retrying when interrupted on POSIX or following a
 //!     short read.
 //!
@@ -182,7 +191,8 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path);
 //! \a write_mode determines the style (truncate, reuse, etc.) that is used to
 //! open the file. On POSIX, \a permissions determines the value that is passed
 //! as `mode` to `open()`. On Windows, the file is always opened in binary mode
-//! (that is, no CRLF translation).
+//! (that is, no CRLF translation). On Windows, the file is opened for sharing,
+//! see LoggingLockFile() and LoggingUnlockFile() to control concurrent access.
 //!
 //! \return The newly opened FileHandle, or an invalid FileHandle on failure.
 //!
@@ -192,6 +202,35 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path);
 FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode write_mode,
                                    FilePermissions permissions);
+
+//! \brief Locks the given \a file using `flock()` on POSIX or `LockFileEx()` on
+//!     Windows.
+//!
+//! It is an error to attempt to lock a file in a different mode when it is
+//! already locked. This call will block until the lock is acquired. The
+//! entire file is locked.
+//!
+//! If \a locking is FileLocking::kShared, \a file must have been opened for
+//! reading, and if it's FileLocking::kExclusive, \a file must have been opened
+//! for writing.
+//!
+//! \param[in] file The open file handle to be locked.
+//! \param[in] locking Controls whether the lock is a shared reader lock, or an
+//!     exclusive writer lock.
+//!
+//! \return `true` on success, or `false` and a message will be logged.
+bool LoggingLockFile(FileHandle file, FileLocking locking);
+
+//! \brief Unlocks a file previously locked with LoggingLockFile().
+//!
+//! It is an error to attempt to unlock a file that was not previously locked.
+//! A previously-locked file should be unlocked before closing the file handle,
+//! otherwise on some OSs the lock may not be released immediately.
+//!
+//! \param[in] file The open locked file handle to be unlocked.
+//!
+//! \return `true` on success, or `false` and a message will be logged.
+bool LoggingUnlockFile(FileHandle file);
 
 //! \brief Wraps `lseek()` or `SetFilePointerEx()`. Logs an error if the
 //!     operation fails.

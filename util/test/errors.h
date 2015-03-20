@@ -17,6 +17,8 @@
 
 #include <string>
 
+#include "build/build_config.h"
+
 namespace crashpad {
 namespace test {
 
@@ -64,6 +66,15 @@ std::string ErrnoMessage(int err, const std::string& base = std::string());
 //!     \a base is not empty, it will be prepended to this string, separated by
 //!     a colon.
 std::string ErrnoMessage(const std::string& base = std::string());
+
+#if defined(OS_WIN) || DOXYGEN
+//! \brief Formats an error message using `GetLastError()`.
+//!
+//! The returned string will combine the \a base string, if supplied, with a
+//! a textual and numeric description of the error. The format is the same as
+//! the `PLOG()` formatting in base.
+std::string ErrorMessage(const std::string& base = std::string());
+#endif
 
 }  // namespace test
 }  // namespace crashpad

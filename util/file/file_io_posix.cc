@@ -15,6 +15,7 @@
 #include "util/file/file_io.h"
 
 #include <fcntl.h>
+#include <sys/file.h>
 #include <unistd.h>
 
 #include "base/files/file_path.h"
@@ -98,6 +99,19 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
            permissions == FilePermissions::kWorldReadable ? 0644 : 0600));
   PLOG_IF(ERROR, fd < 0) << "open " << path.value();
   return fd;
+}
+
+bool LoggingLockFile(FileHandle file, FileLocking locking) {
+  int operation = locking == FileLocking::kShared ? LOCK_SH : LOCK_EX;
+  int rv = HANDLE_EINTR(flock(file, operation));
+  PLOG_IF(ERROR, rv != 0) << "flock";
+  return rv == 0;
+}
+
+bool LoggingUnlockFile(FileHandle file) {
+  int rv = flock(file, LOCK_UN);
+  PLOG_IF(ERROR, rv != 0) << "flock";
+  return rv == 0;
 }
 
 FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence) {

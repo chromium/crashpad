@@ -80,8 +80,13 @@ ssize_t WriteFile(FileHandle file, const void* buffer, size_t size) {
 }
 
 FileHandle LoggingOpenFileForRead(const base::FilePath& path) {
-  HANDLE file = CreateFile(path.value().c_str(), GENERIC_READ, FILE_SHARE_READ,
-                           nullptr, OPEN_EXISTING, 0, nullptr);
+  HANDLE file = CreateFile(path.value().c_str(),
+                           GENERIC_READ,
+                           FILE_SHARE_READ | FILE_SHARE_WRITE,
+                           nullptr,
+                           OPEN_EXISTING,
+                           0,
+                           nullptr);
   PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE) << "CreateFile "
                                                << path.value().c_str();
   return file;
@@ -102,11 +107,43 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
       disposition = CREATE_NEW;
       break;
   }
-  HANDLE file = CreateFile(path.value().c_str(), GENERIC_WRITE, 0, nullptr,
-                           disposition, FILE_ATTRIBUTE_NORMAL, nullptr);
+  HANDLE file = CreateFile(path.value().c_str(),
+                           GENERIC_WRITE,
+                           FILE_SHARE_READ | FILE_SHARE_WRITE,
+                           nullptr,
+                           disposition,
+                           FILE_ATTRIBUTE_NORMAL,
+                           nullptr);
   PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE) << "CreateFile "
                                                << path.value().c_str();
   return file;
+}
+
+bool LoggingLockFile(FileHandle file, FileLocking locking) {
+  DWORD flags =
+      (locking == FileLocking::kExclusive) ? LOCKFILE_EXCLUSIVE_LOCK : 0;
+
+  // Note that the `Offset` fields of overlapped indicate the start location for
+  // locking (beginning of file in this case), and `hEvent` must be also be set
+  // to 0.
+  OVERLAPPED overlapped = {0};
+  if (!LockFileEx(file, flags, 0, MAXDWORD, MAXDWORD, &overlapped)) {
+    PLOG(ERROR) << "LockFileEx";
+    return false;
+  }
+  return true;
+}
+
+bool LoggingUnlockFile(FileHandle file) {
+  // Note that the `Offset` fields of overlapped indicate the start location for
+  // locking (beginning of file in this case), and `hEvent` must be also be set
+  // to 0.
+  OVERLAPPED overlapped = {0};
+  if (!UnlockFileEx(file, 0, MAXDWORD, MAXDWORD, &overlapped)) {
+    PLOG(ERROR) << "UnlockFileEx";
+    return false;
+  }
+  return true;
 }
 
 FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence) {

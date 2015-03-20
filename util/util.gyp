@@ -249,6 +249,10 @@
         'test/scoped_temp_dir.h',
         'test/scoped_temp_dir_posix.cc',
         'test/scoped_temp_dir_win.cc',
+        'test/thread.cc',
+        'test/thread.h',
+        'test/thread_posix.cc',
+        'test/thread_win.cc',
       ],
       'conditions': [
         ['OS=="mac"', {
@@ -277,6 +281,7 @@
         '..',
       ],
       'sources': [
+        'file/file_io_test.cc',
         'file/string_file_test.cc',
         'mac/checked_mach_address_range_test.cc',
         'mac/launchd_test.mm',
