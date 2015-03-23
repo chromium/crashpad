@@ -102,7 +102,7 @@ FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
 }
 
 bool LoggingLockFile(FileHandle file, FileLocking locking) {
-  int operation = locking == FileLocking::kShared ? LOCK_SH : LOCK_EX;
+  int operation = (locking == FileLocking::kShared) ? LOCK_SH : LOCK_EX;
   int rv = HANDLE_EINTR(flock(file, operation));
   PLOG_IF(ERROR, rv != 0) << "flock";
   return rv == 0;

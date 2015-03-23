@@ -28,7 +28,7 @@ void Thread::Start() {
 }
 
 void Thread::Join() {
-  ASSERT_FALSE(platform_thread_);
+  ASSERT_TRUE(platform_thread_);
   DWORD result = WaitForSingleObject(platform_thread_, INFINITE);
   EXPECT_EQ(WAIT_OBJECT_0, result) << ErrorMessage("WaitForSingleObject");
   platform_thread_ = 0;
