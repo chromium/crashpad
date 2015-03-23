@@ -20,6 +20,7 @@
 #include "base/strings/stringprintf.h"
 #include "snapshot/mac/process_reader.h"
 #include "util/mac/checked_mach_address_range.h"
+#include "util/mac/mac_util.h"
 #include "util/stdlib/strnlen.h"
 
 namespace crashpad {
@@ -46,7 +47,9 @@ MachOImageSegmentReader::~MachOImageSegmentReader() {
 
 bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
                                          mach_vm_address_t load_command_address,
-                                         const std::string& load_command_info) {
+                                         const std::string& load_command_info,
+                                         const std::string& module_name,
+                                         uint32_t file_type) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   if (!segment_command_.Read(process_reader, load_command_address)) {
@@ -115,9 +118,29 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
                                                   load_command_info.c_str());
 
     if (section_segment_name != segment_name) {
-      LOG(WARNING) << "section.segname incorrect in segment " << segment_name
-                   << section_info;
-      return false;
+      // cl_kernels modules (for OpenCL) aren’t ld output, and they’re formatted
+      // incorrectly on Mac OS X 10.10. They have a single __TEXT segment, but
+      // one of the sections within it claims to belong to the __LD segment.
+      // This mismatch shouldn’t happen. This errant section also has the
+      // S_ATTR_DEBUG flag set, which shouldn’t happen unless all of the other
+      // sections in the segment also have this bit set (they don’t). These odd
+      // sections are reminiscent of unwind information stored in MH_OBJECT
+      // images, although cl_kernels images claim to be MH_BUNDLE. Because at
+      // least one cl_kernels module will commonly be found in a process, and
+      // sometimes more will be, tolerate this quirk.
+      //
+      // https://openradar.appspot.com/20239912
+      if (!(file_type == MH_BUNDLE &&
+            module_name == "cl_kernels" &&
+            MacOSXMinorVersion() == 10 &&
+            segment_name == SEG_TEXT &&
+            section_segment_name == "__LD" &&
+            section_name == "__compact_unwind" &&
+            (section.flags & S_ATTR_DEBUG))) {
+        LOG(WARNING) << "section.segname incorrect in segment " << segment_name
+                     << section_info;
+        return false;
+      }
     }
 
     CheckedMachAddressRange section_range(

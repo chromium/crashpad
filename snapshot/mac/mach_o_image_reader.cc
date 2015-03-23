@@ -40,6 +40,7 @@ namespace crashpad {
 MachOImageReader::MachOImageReader()
     : segments_(),
       segment_map_(),
+      module_name_(),
       module_info_(),
       dylinker_name_(),
       uuid_(),
@@ -67,6 +68,7 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
 
   process_reader_ = process_reader;
   address_ = address;
+  module_name_ = name;
 
   module_info_ =
       base::StringPrintf(", module %s, address 0x%llx", name.c_str(), address);
@@ -85,7 +87,19 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
     return false;
   }
 
-  file_type_ = mach_header.filetype;
+  switch (mach_header.filetype) {
+    case MH_EXECUTE:
+    case MH_DYLIB:
+    case MH_DYLINKER:
+    case MH_BUNDLE:
+      file_type_ = mach_header.filetype;
+      break;
+    default:
+      LOG(WARNING) << base::StringPrintf(
+                          "unexpected mach_header::filetype 0x%08x",
+                          mach_header.filetype) << module_info_;
+      return false;
+  }
 
   const uint32_t kExpectedSegmentCommand =
       is_64_bit ? LC_SEGMENT_64 : LC_SEGMENT;
@@ -510,8 +524,11 @@ bool MachOImageReader::ReadSegmentCommand(
   size_t segment_index = segments_.size();
   segments_.push_back(segment);  // Takes ownership.
 
-  if (!segment->Initialize(
-          process_reader_, load_command_address, load_command_info)) {
+  if (!segment->Initialize(process_reader_,
+                           load_command_address,
+                           load_command_info,
+                           module_name_,
+                           file_type_)) {
     segments_.pop_back();
     return false;
   }

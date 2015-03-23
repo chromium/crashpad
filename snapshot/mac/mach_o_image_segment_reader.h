@@ -54,12 +54,19 @@ class MachOImageSegmentReader {
   //!     reader, such as MachOImageReader, as it walks Mach-O load commands.
   //! \param[in] load_command_info A string to be used in logged messages. This
   //!     string is for diagnostic purposes only, and may be empty.
+  //! \param[in] module_name The path used to load the module. This string is
+  //!     used to relax otherwise strict parsing rules for common modules with
+  //!     known defects.
+  //! \param[in] file_type The module’s Mach-O file type. This is used to relax
+  //!     otherwise strict parsing rules for common modules with known defects.
   //!
   //! \return `true` if the load command was read successfully. `false`
   //!     otherwise, with an appropriate message logged.
   bool Initialize(ProcessReader* process_reader,
                   mach_vm_address_t load_command_address,
-                  const std::string& load_command_info);
+                  const std::string& load_command_info,
+                  const std::string& module_name,
+                  uint32_t file_type);
 
   //! \brief Sets the image’s slide value.
   //!

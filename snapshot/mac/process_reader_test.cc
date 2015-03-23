@@ -14,9 +14,11 @@
 
 #include "snapshot/mac/process_reader.h"
 
+#include <AvailabilityMacros.h>
 #include <mach-o/dyld.h>
 #include <mach-o/dyld_images.h>
 #include <mach/mach.h>
+#include <OpenCL/opencl.h>
 #include <string.h>
 #include <sys/stat.h>
 
@@ -32,6 +34,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/mac/mach_o_image_reader.h"
 #include "util/file/file_io.h"
+#include "util/mac/mac_util.h"
 #include "util/mach/mach_extensions.h"
 #include "util/stdlib/pointer_container.h"
 #include "util/synchronization/semaphore.h"
@@ -519,7 +522,116 @@ TEST(ProcessReader, ChildSeveralThreads) {
   process_reader_threaded_child.Run();
 }
 
+// cl_kernels images (OpenCL kernels) are weird. They’re not ld output and don’t
+// exist as files on disk. On Mac OS X 10.10, their Mach-O structure isn’t
+// perfect. They show up loaded into many executables, so these quirks should be
+// tolerated.
+//
+// Create an object of this class to ensure that at least one cl_kernels image
+// is present in a process, to be able to test that all of the process-reading
+// machinery tolerates them. On systems where cl_kernels modules have known
+// quirks, the image that an object of this class produces will also have those
+// quirks.
+//
+// https://openradar.appspot.com/20239912
+class ScopedOpenCLNoOpKernel {
+ public:
+  ScopedOpenCLNoOpKernel()
+      : context_(nullptr),
+        program_(nullptr),
+        kernel_(nullptr) {
+  }
+
+  ~ScopedOpenCLNoOpKernel() {
+    if (kernel_) {
+      cl_int rv = clReleaseKernel(kernel_);
+      EXPECT_EQ(CL_SUCCESS, rv) << "clReleaseKernel";
+    }
+
+    if (program_) {
+      cl_int rv = clReleaseProgram(program_);
+      EXPECT_EQ(CL_SUCCESS, rv) << "clReleaseProgram";
+    }
+
+    if (context_) {
+      cl_int rv = clReleaseContext(context_);
+      EXPECT_EQ(CL_SUCCESS, rv) << "clReleaseContext";
+    }
+  }
+
+  void SetUp() {
+    cl_platform_id platform_id;
+    cl_int rv = clGetPlatformIDs(1, &platform_id, nullptr);
+    ASSERT_EQ(CL_SUCCESS, rv) << "clGetPlatformIDs";
+
+    // Use CL_DEVICE_TYPE_CPU to ensure that the kernel would execute on the
+    // CPU. This is the only device type that a cl_kernels image will be created
+    // for.
+    cl_device_id device_id;
+    rv =
+        clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_CPU, 1, &device_id, nullptr);
+    ASSERT_EQ(CL_SUCCESS, rv) << "clGetDeviceIDs";
+
+    context_ = clCreateContext(nullptr, 1, &device_id, nullptr, nullptr, &rv);
+    ASSERT_EQ(CL_SUCCESS, rv) << "clCreateContext";
+
+    // The goal of the program in |sources| is to produce a cl_kernels image
+    // that doesn’t strictly conform to Mach-O expectations. On Mac OS X 10.10,
+    // cl_kernels modules show up with an __LD,__compact_unwind section, showing
+    // up in the __TEXT segment. MachOImageSegmentReader would normally reject
+    // modules for this problem, but a special exception is made when this
+    // occurs in cl_kernels images. This portion of the test is aimed at making
+    // sure that this exception works correctly.
+    //
+    // A true no-op program doesn’t actually produce unwind data, so there would
+    // be no errant __LD,__compact_unwind section on 10.10, and the test
+    // wouldn’t be complete. This simple no-op, which calls a built-in function,
+    // does produce unwind data provided optimization is disabled.
+    // "-cl-opt-disable" is given to clBuildProgram() below.
+    const char* sources[] = {
+        "__kernel void NoOp(void) {barrier(CLK_LOCAL_MEM_FENCE);}",
+    };
+    const size_t source_lengths[] = {
+        strlen(sources[0]),
+    };
+    static_assert(arraysize(sources) == arraysize(source_lengths),
+                  "arrays must be parallel");
+
+    program_ = clCreateProgramWithSource(
+        context_, arraysize(sources), sources, source_lengths, &rv);
+    ASSERT_EQ(CL_SUCCESS, rv) << "clCreateProgramWithSource";
+
+    rv = clBuildProgram(
+        program_, 1, &device_id, "-cl-opt-disable", nullptr, nullptr);
+    ASSERT_EQ(CL_SUCCESS, rv) << "clBuildProgram";
+
+    kernel_ = clCreateKernel(program_, "NoOp", &rv);
+    ASSERT_EQ(CL_SUCCESS, rv) << "clCreateKernel";
+  }
+
+ private:
+  cl_context context_;
+  cl_program program_;
+  cl_kernel kernel_;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedOpenCLNoOpKernel);
+};
+
+// Although Mac OS X 10.6 has OpenCL and can compile and execute OpenCL code,
+// OpenCL kernels that run on the CPU do not result in cl_kernels images
+// appearing on that OS version.
+bool ExpectCLKernels() {
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_7
+  return true;
+#else
+  return MacOSXMinorVersion() >= 7;
+#endif
+}
+
 TEST(ProcessReader, SelfModules) {
+  ScopedOpenCLNoOpKernel ensure_cl_kernels;
+  ASSERT_NO_FATAL_FAILURE(ensure_cl_kernels.SetUp());
+
   ProcessReader process_reader;
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
@@ -534,6 +646,7 @@ TEST(ProcessReader, SelfModules) {
   // does.
   ASSERT_EQ(dyld_image_count + 1, modules.size());
 
+  bool found_cl_kernels = false;
   for (uint32_t index = 0; index < dyld_image_count; ++index) {
     SCOPED_TRACE(base::StringPrintf(
         "index %u, name %s", index, modules[index].name.c_str()));
@@ -549,6 +662,11 @@ TEST(ProcessReader, SelfModules) {
       // dyld didn’t load the main executable, so it couldn’t record its
       // timestamp, and it is reported as 0.
       EXPECT_EQ(0, modules[index].timestamp);
+    } else if (modules[index].reader->FileType() == MH_BUNDLE &&
+               modules[index].name == "cl_kernels") {
+      // cl_kernels doesn’t exist as a file.
+      EXPECT_EQ(0, modules[index].timestamp);
+      found_cl_kernels = true;
     } else {
       // Hope that the module didn’t change on disk.
       struct stat stat_buf;
@@ -559,6 +677,8 @@ TEST(ProcessReader, SelfModules) {
       }
     }
   }
+
+  EXPECT_EQ(ExpectCLKernels(), found_cl_kernels);
 
   size_t index = modules.size() - 1;
   EXPECT_EQ("/usr/lib/dyld", modules[index].name);
@@ -603,6 +723,7 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
 
     ASSERT_EQ(expect_modules, modules.size());
 
+    bool found_cl_kernels = false;
     for (size_t index = 0; index < modules.size(); ++index) {
       SCOPED_TRACE(base::StringPrintf(
           "index %zu, name %s", index, modules[index].name.c_str()));
@@ -625,6 +746,11 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
         // dyld didn’t load the main executable or itself, so it couldn’t record
         // these timestamps, and they are reported as 0.
         EXPECT_EQ(0, modules[index].timestamp);
+      } else if (modules[index].reader->FileType() == MH_BUNDLE &&
+                 modules[index].name == "cl_kernels") {
+        // cl_kernels doesn’t exist as a file.
+        EXPECT_EQ(0, modules[index].timestamp);
+        found_cl_kernels = true;
       } else {
         // Hope that the module didn’t change on disk.
         struct stat stat_buf;
@@ -635,6 +761,8 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
         }
       }
     }
+
+    EXPECT_EQ(ExpectCLKernels(), found_cl_kernels);
   }
 
   void MachMultiprocessChild() override {
@@ -689,6 +817,9 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
 };
 
 TEST(ProcessReader, ChildModules) {
+  ScopedOpenCLNoOpKernel ensure_cl_kernels;
+  ASSERT_NO_FATAL_FAILURE(ensure_cl_kernels.SetUp());
+
   ProcessReaderModulesChild process_reader_modules_child;
   process_reader_modules_child.Run();
 }

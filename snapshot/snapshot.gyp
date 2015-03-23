@@ -166,6 +166,11 @@
           'dependencies': [
             'crashpad_snapshot_test_module',
           ],
+          'link_settings': {
+            'libraries': [
+              '$(SDKROOT)/System/Library/Frameworks/OpenCL.framework',
+            ],
+          },
         }],
       ],
     },

@@ -58,7 +58,8 @@ class MachOImageReader {
   //!     the remote process’ dyld information (see
   //!     snapshot/mac/process_types/dyld_images.proctype).
   //! \param[in] name The module’s name, a string to be used in logged messages.
-  //!     This string is for diagnostic purposes only, and may be empty.
+  //!     This string is for diagnostic purposes and to relax otherwise strict
+  //!     parsing rules for common modules with known defects.
   //!
   //! \return `true` if the image was read successfully, including all load
   //!     commands. `false` otherwise, with an appropriate message logged.
@@ -316,6 +317,7 @@ class MachOImageReader {
 
   PointerVector<MachOImageSegmentReader> segments_;
   std::map<std::string, size_t> segment_map_;
+  std::string module_name_;
   std::string module_info_;
   std::string dylinker_name_;
   crashpad::UUID uuid_;
