@@ -143,7 +143,7 @@ class LoggingTestThread : public Thread {
     ThreadLogMessages thread_log_messages;
 
     std::vector<std::string> expected_messages;
-    for (int index = start_; index <= start_ + count_; ++index) {
+    for (int index = start_; index < start_ + count_; ++index) {
       std::string message = base::StringPrintf("message %d", index);
       expected_messages.push_back(message);
       LOG(WARNING) << message;
@@ -152,7 +152,7 @@ class LoggingTestThread : public Thread {
     const std::vector<std::string>& log_messages =
         thread_log_messages.log_messages();
 
-    ASSERT_EQ(expected_messages.size(), log_messages.size());
+    ASSERT_EQ(static_cast<size_t>(count_), log_messages.size());
     for (size_t index = 0; index < log_messages.size(); ++index) {
       EXPECT_EQ(expected_messages[index], MessageString(log_messages[index]))
           << "thread_number_ " << thread_number_ << ", index " << index;
