@@ -45,13 +45,13 @@
             'mac/main.cc',
           ],
 
-	  # In an in-Chromium build with component=shared_library,
-	  # crashpad_handler will depend on shared libraries such as
-	  # libbase.dylib located in out/{Debug,Release} via the @rpath
-	  # mechanism. When crashpad_handler is copied to its home deep inside
-	  # the Chromium app bundle, it needs to have an LC_RPATH command
-	  # pointing back to the directory containing these dependency
-	  # libraries.
+          # In an in-Chromium build with component=shared_library,
+          # crashpad_handler will depend on shared libraries such as
+          # libbase.dylib located in out/{Debug,Release} via the @rpath
+          # mechanism. When crashpad_handler is copied to its home deep inside
+          # the Chromium app bundle, it needs to have an LC_RPATH command
+          # pointing back to the directory containing these dependency
+          # libraries.
           'variables': {
             'component%': 'static_library',
           },
