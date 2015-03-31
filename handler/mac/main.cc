@@ -18,7 +18,6 @@
 
 #include <map>
 #include <string>
-#include <utility>
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
@@ -30,6 +29,7 @@
 #include "handler/mac/exception_handler_server.h"
 #include "util/mach/child_port_handshake.h"
 #include "util/posix/close_stdio.h"
+#include "util/stdlib/map_insert.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
 #include "util/synchronization/semaphore.h"
@@ -97,13 +97,10 @@ int HandlerMain(int argc, char* argv[]) {
           ToolSupport::UsageHint(me, "--annotation requires KEY=VALUE");
           return EXIT_FAILURE;
         }
-        auto it = options.annotations.find(key);
-        if (it != options.annotations.end()) {
+        std::string old_value;
+        if (!MapInsertOrReplace(&options.annotations, key, value, &old_value)) {
           LOG(WARNING) << "duplicate key " << key << ", discarding value "
-                       << it->second;
-          it->second = value;
-        } else {
-          options.annotations.insert(std::make_pair(key, value));
+                       << old_value;
         }
         break;
       }

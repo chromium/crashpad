@@ -20,6 +20,7 @@
 
 #include <limits>
 #include <vector>
+#include <utility>
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
@@ -543,15 +544,15 @@ bool MachOImageReader::ReadSegmentCommand(
   // become inconsistent or require cleanup.
 
   const std::string segment_name = segment->Name();
-  const auto& iterator = segment_map_.find(segment_name);
-  if (iterator != segment_map_.end()) {
+  const auto insert_result =
+      segment_map_.insert(std::make_pair(segment_name, segment_index));
+  if (!insert_result.second) {
     LOG(WARNING) << base::StringPrintf("duplicate %s segment at %zu and %zu",
                                        segment_name.c_str(),
-                                       iterator->second,
+                                       insert_result.first->second,
                                        segment_index) << load_command_info;
     return false;
   }
-  segment_map_[segment_name] = segment_index;
 
   mach_vm_size_t vmsize = segment->vmsize();
 

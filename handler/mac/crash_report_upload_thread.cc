@@ -19,7 +19,6 @@
 
 #include <map>
 #include <vector>
-#include <utility>
 
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
@@ -31,6 +30,7 @@
 #include "util/net/http_body.h"
 #include "util/net/http_multipart_builder.h"
 #include "util/net/http_transport.h"
+#include "util/stdlib/map_insert.h"
 
 namespace crashpad {
 
@@ -39,13 +39,10 @@ namespace {
 void InsertOrReplaceMapEntry(std::map<std::string, std::string>* map,
                              const std::string& key,
                              const std::string& value) {
-  auto it = map->find(key);
-  if (it != map->end()) {
+  std::string old_value;
+  if (!MapInsertOrReplace(map, key, value, &old_value)) {
     LOG(WARNING) << "duplicate key " << key << ", discarding value "
-                 << it->second;
-    it->second = value;
-  } else {
-    map->insert(std::make_pair(key, value));
+                 << old_value;
   }
 }
 
@@ -75,11 +72,9 @@ std::map<std::string, std::string> BreakpadHTTPFormParametersFromMinidump(
   std::string list_annotations;
   for (const ModuleSnapshot* module : minidump_process_snapshot.Modules()) {
     for (const auto& kv : module->AnnotationsSimpleMap()) {
-      if (parameters.find(kv.first) != parameters.end()) {
+      if (!parameters.insert(kv).second) {
         LOG(WARNING) << "duplicate key " << kv.first << ", discarding value "
                      << kv.second;
-      } else {
-        parameters.insert(kv);
       }
     }
 

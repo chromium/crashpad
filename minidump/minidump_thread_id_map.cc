@@ -38,11 +38,10 @@ void BuildMinidumpThreadIDMap(
     uint64_t thread_id_64 = thread_snapshot->ThreadID();
     if (thread_id_map->find(thread_id_64) == thread_id_map->end()) {
       uint32_t thread_id_32 = static_cast<uint32_t>(thread_id_64);
-      if (thread_ids_32.find(thread_id_32) != thread_ids_32.end()) {
+      if (!thread_ids_32.insert(thread_id_32).second) {
         collision = true;
         break;
       }
-      thread_ids_32.insert(thread_id_32);
       thread_id_map->insert(std::make_pair(thread_id_64, thread_id_32));
     }
   }

@@ -16,6 +16,8 @@
 
 #include <mach-o/loader.h>
 
+#include <utility>
+
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "snapshot/mac/process_reader.h"
@@ -185,14 +187,14 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
       return false;
     }
 
-    const auto& iterator = section_map_.find(section_name);
-    if (iterator != section_map_.end()) {
+    const auto insert_result =
+        section_map_.insert(std::make_pair(section_name, section_index));
+    if (!insert_result.second) {
       LOG(WARNING) << base::StringPrintf("duplicate section name at %zu",
-                                         iterator->second) << section_info;
+                                         insert_result.first->second)
+                   << section_info;
       return false;
     }
-
-    section_map_[section_name] = section_index;
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);

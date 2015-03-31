@@ -72,12 +72,10 @@ bool ReadMinidumpSimpleStringDictionary(
       return false;
     }
 
-    if (local_dictionary.find(key) != local_dictionary.end()) {
-      LOG(WARNING) << "duplicate key " << key << ", discarding value " << value;
+    if (!local_dictionary.insert(std::make_pair(key, value)).second) {
+      LOG(ERROR) << "duplicate key " << key;
       return false;
     }
-
-    local_dictionary.insert(std::make_pair(key, value));
   }
 
   dictionary->swap(local_dictionary);

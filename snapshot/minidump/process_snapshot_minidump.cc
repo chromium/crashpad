@@ -309,16 +309,13 @@ bool ProcessSnapshotMinidump::InitializeModulesCrashpadInfo(
        ++crashpad_module_index) {
     const MinidumpModuleCrashpadInfoLink& minidump_link =
         minidump_links[crashpad_module_index];
-    if (module_crashpad_info_links->find(
-            minidump_link.minidump_module_list_index) !=
-        module_crashpad_info_links->end()) {
+    if (!module_crashpad_info_links
+             ->insert(std::make_pair(minidump_link.minidump_module_list_index,
+                                     minidump_link.location)).second) {
       LOG(WARNING)
           << "duplicate module_crashpad_info_list minidump_module_list_index "
           << minidump_link.minidump_module_list_index;
       return false;
-    } else {
-      module_crashpad_info_links->insert(std::make_pair(
-          minidump_link.minidump_module_list_index, minidump_link.location));
     }
   }
 

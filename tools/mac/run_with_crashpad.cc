@@ -27,6 +27,7 @@
 #include "base/logging.h"
 #include "client/crashpad_client.h"
 #include "tools/tool_support.h"
+#include "util/stdlib/map_insert.h"
 #include "util/string/split_string.h"
 
 namespace crashpad {
@@ -118,13 +119,10 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
           ToolSupport::UsageHint(me, "--annotation requires KEY=VALUE");
           return EXIT_FAILURE;
         }
-        auto it = options.annotations.find(key);
-        if (it != options.annotations.end()) {
+        std::string old_value;
+        if (!MapInsertOrReplace(&options.annotations, key, value, &old_value)) {
           LOG(WARNING) << "duplicate key " << key << ", discarding value "
-                       << it->second;
-          it->second = value;
-        } else {
-          options.annotations.insert(std::make_pair(key, value));
+                       << old_value;
         }
         break;
       }

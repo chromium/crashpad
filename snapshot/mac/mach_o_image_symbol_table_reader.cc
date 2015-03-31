@@ -17,6 +17,8 @@
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
 
+#include <utility>
+
 #include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
 #include "util/mac/checked_mach_address_range.h"
@@ -153,15 +155,14 @@ class MachOImageSymbolTableReaderInitializer {
             return false;
           }
 
-          if (external_defined_symbols->count(name)) {
-            LOG(WARNING) << "duplicate symbol " << name << symbol_info;
-            return false;
-          }
-
           MachOImageSymbolTableReader::SymbolInformation this_symbol_info;
           this_symbol_info.value = symbol.n_value;
           this_symbol_info.section = symbol.n_sect;
-          (*external_defined_symbols)[name] = this_symbol_info;
+          if (!external_defined_symbols->insert(
+                  std::make_pair(name, this_symbol_info)).second) {
+            LOG(WARNING) << "duplicate symbol " << name << symbol_info;
+            return false;
+          }
         } else {
           // External indirect symbols may be found in the portion of the symbol
           // table used for external symbols as opposed to indirect symbols when

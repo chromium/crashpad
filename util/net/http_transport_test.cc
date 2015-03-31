@@ -222,7 +222,7 @@ TEST(HTTPTransport, ValidFormData) {
   builder.SetFormData("key2", "--abcdefg123");
 
   HTTPHeaders headers;
-  headers.insert(builder.GetContentType());
+  EXPECT_TRUE(headers.insert(builder.GetContentType()).second);
 
   HTTPTransportTestFixture test(headers, builder.GetBodyStream(), 200,
       &ValidFormData);

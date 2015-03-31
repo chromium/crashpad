@@ -17,6 +17,8 @@
 #include <mach-o/loader.h>
 #include <mach/mach.h>
 
+#include <utility>
+
 #include "base/logging.h"
 #include "client/crashpad_info.h"
 #include "client/simple_string_dictionary.h"
@@ -161,10 +163,7 @@ void MachOImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
     if (key_length) {
       std::string key(entry.key, key_length);
       std::string value(entry.value, strnlen(entry.value, sizeof(entry.value)));
-      if (!simple_map_annotations->count(key)) {
-        simple_map_annotations->insert(
-            std::pair<std::string, std::string>(key, value));
-      } else {
+      if (!simple_map_annotations->insert(std::make_pair(key, value)).second) {
         LOG(INFO) << "duplicate simple annotation " << key << " in " << name_;
       }
     }
