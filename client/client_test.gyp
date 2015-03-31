@@ -18,53 +18,35 @@
   ],
   'targets': [
     {
-      'target_name': 'crashpad_client',
-      'type': 'static_library',
+      'target_name': 'crashpad_client_test',
+      'type': 'executable',
       'dependencies': [
+        'client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
+        '../third_party/gtest/gtest.gyp:gtest',
+        '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
+        '../util/util_test.gyp:crashpad_util_test_lib',
       ],
       'include_dirs': [
         '..',
       ],
       'sources': [
-        'capture_context_mac.S',
-        'capture_context_mac.h',
-        'crash_report_database.cc',
-        'crash_report_database.h',
-        'crash_report_database_mac.mm',
-        'crash_report_database_win.cc',
-        'crashpad_client.h',
-        'crashpad_client_mac.cc',
-        'crashpad_info.cc',
-        'crashpad_info.h',
-        'settings.cc',
-        'settings.h',
-        'simple_string_dictionary.cc',
-        'simple_string_dictionary.h',
-        'simulate_crash.h',
-        'simulate_crash_mac.cc',
-        'simulate_crash_mac.h',
+        'capture_context_mac_test.cc',
+        'crash_report_database_test.cc',
+        'settings_test.cc',
+        'simple_string_dictionary_test.cc',
+        'simulate_crash_mac_test.cc',
       ],
       'conditions': [
         ['OS=="win"', {
-          'link_settings': {
-            'libraries': [
-              '-lrpcrt4.lib',
-            ],
-          },
           'sources!': [
             # Port to Win https://code.google.com/p/crashpad/issues/detail?id=13
-            'settings.cc',
+            'settings_test.cc',
           ],
         }],
       ],
-      'direct_dependent_settings': {
-        'include_dirs': [
-          '..',
-        ],
-      },
     },
   ],
 }

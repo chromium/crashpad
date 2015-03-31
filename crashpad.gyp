@@ -20,12 +20,16 @@
       'suppress_wildcard': 1,
       'dependencies': [
         'client/client.gyp:*',
+        'client/client_test.gyp:*',
         'compat/compat.gyp:*',
         'handler/handler.gyp:*',
         'minidump/minidump.gyp:*',
+        'minidump/minidump_test.gyp:*',
         'snapshot/snapshot.gyp:*',
+        'snapshot/snapshot_test.gyp:*',
         'tools/tools.gyp:*',
         'util/util.gyp:*',
+        'util/util_test.gyp:*',
       ],
       'sources': [
         'doc/crashpad.doxy.h',
