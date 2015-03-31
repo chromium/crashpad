@@ -18,62 +18,12 @@
   ],
   'targets': [
     {
-      'target_name': 'crashpad_util_test_lib',
-      'type': 'static_library',
-      'dependencies': [
-        'util.gyp:crashpad_util',
-        '../compat/compat.gyp:crashpad_compat',
-        '../third_party/gtest/gtest.gyp:gtest',
-        '../third_party/mini_chromium/mini_chromium.gyp:base',
-      ],
-      'include_dirs': [
-        '..',
-      ],
-      'sources': [
-        'test/errors.cc',
-        'test/errors.h',
-        'test/gtest_death_check.h',
-        'test/mac/dyld.h',
-        'test/mac/mach_errors.cc',
-        'test/mac/mach_errors.h',
-        'test/mac/mach_multiprocess.cc',
-        'test/mac/mach_multiprocess.h',
-        'test/multiprocess.h',
-        'test/multiprocess_exec.h',
-        'test/multiprocess_exec_posix.cc',
-        'test/multiprocess_exec_win.cc',
-        'test/multiprocess_posix.cc',
-        'test/paths.cc',
-        'test/paths.h',
-        'test/paths_mac.cc',
-        'test/paths_win.cc',
-        'test/scoped_temp_dir.cc',
-        'test/scoped_temp_dir.h',
-        'test/scoped_temp_dir_posix.cc',
-        'test/scoped_temp_dir_win.cc',
-        'test/thread.cc',
-        'test/thread.h',
-        'test/thread_posix.cc',
-        'test/thread_win.cc',
-      ],
-      'conditions': [
-        ['OS=="mac"', {
-          'link_settings': {
-            'libraries': [
-              '$(SDKROOT)/usr/lib/libbsm.dylib',
-            ],
-          },
-        }],
-      ],
-    },
-    {
       'target_name': 'crashpad_util_test',
       'type': 'executable',
       'dependencies': [
-        'crashpad_util_test_lib',
-        'crashpad_util_test_multiprocess_exec_test_child',
         'util.gyp:crashpad_util',
         '../compat/compat.gyp:crashpad_compat',
+        '../test/test.gyp:crashpad_test',
         '../third_party/gmock/gmock.gyp:gmock',
         '../third_party/gmock/gmock.gyp:gmock_main',
         '../third_party/gtest/gtest.gyp:gtest',
@@ -125,11 +75,6 @@
         'stdlib/strnlen_test.cc',
         'string/split_string_test.cc',
         'synchronization/semaphore_test.cc',
-        'test/mac/mach_multiprocess_test.cc',
-        'test/multiprocess_exec_test.cc',
-        'test/multiprocess_posix_test.cc',
-        'test/paths_test.cc',
-        'test/scoped_temp_dir_test.cc',
         'thread/thread_log_messages_test.cc',
         'win/process_info_test.cc',
         'win/time_test.cc',
@@ -143,19 +88,16 @@
           },
         }],
         ['OS=="win"', {
+          'dependencies': [
+            'crashpad_util_test_process_info_test_child_x64',
+            'crashpad_util_test_process_info_test_child_x86',
+          ],
           'link_settings': {
             'libraries': [
               '-lrpcrt4.lib',
             ],
           },
         }],
-      ],
-    },
-    {
-      'target_name': 'crashpad_util_test_multiprocess_exec_test_child',
-      'type': 'executable',
-      'sources': [
-        'test/multiprocess_exec_test_child.cc',
       ],
     },
   ],

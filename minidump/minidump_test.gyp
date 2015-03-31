@@ -23,11 +23,11 @@
       'dependencies': [
         'minidump.gyp:crashpad_minidump',
         '../snapshot/snapshot_test.gyp:crashpad_snapshot_test_lib',
+        '../test/test.gyp:crashpad_test',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
-        '../util/util_test.gyp:crashpad_util_test',
       ],
       'include_dirs': [
         '..',

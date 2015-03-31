@@ -33,15 +33,15 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/mach_o_image_reader.h"
+#include "test/errors.h"
+#include "test/mac/dyld.h"
+#include "test/mac/mach_errors.h"
+#include "test/mac/mach_multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/mach_extensions.h"
 #include "util/stdlib/pointer_container.h"
 #include "util/synchronization/semaphore.h"
-#include "util/test/errors.h"
-#include "util/test/mac/dyld.h"
-#include "util/test/mac/mach_errors.h"
-#include "util/test/mac/mach_multiprocess.h"
 
 namespace crashpad {
 namespace test {

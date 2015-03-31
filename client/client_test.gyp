@@ -23,11 +23,11 @@
       'dependencies': [
         'client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
+        '../test/test.gyp:crashpad_test',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
-        '../util/util_test.gyp:crashpad_util_test_lib',
       ],
       'include_dirs': [
         '..',

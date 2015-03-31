@@ -16,7 +16,7 @@
 
 #include "base/compiler_specific.h"
 #include "gtest/gtest.h"
-#include "util/test/gtest_death_check.h"
+#include "test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {

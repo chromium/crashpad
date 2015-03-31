@@ -15,8 +15,8 @@
 #include "util/net/http_body.h"
 
 #include "gtest/gtest.h"
+#include "test/paths.h"
 #include "util/net/http_body_test_util.h"
-#include "util/test/paths.h"
 
 namespace crashpad {
 namespace test {

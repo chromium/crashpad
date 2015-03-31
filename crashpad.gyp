@@ -27,6 +27,8 @@
         'minidump/minidump_test.gyp:*',
         'snapshot/snapshot.gyp:*',
         'snapshot/snapshot_test.gyp:*',
+        'test/test.gyp:*',
+        'test/test_test.gyp:*',
         'tools/tools.gyp:*',
         'util/util.gyp:*',
         'util/util_test.gyp:*',

@@ -30,10 +30,10 @@
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_module_snapshot.h"
+#include "test/gtest_death_check.h"
 #include "util/file/string_file.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
-#include "util/test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {

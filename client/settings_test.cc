@@ -15,8 +15,8 @@
 #include "client/settings.h"
 
 #include "gtest/gtest.h"
+#include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
-#include "util/test/scoped_temp_dir.h"
 
 namespace crashpad {
 namespace test {

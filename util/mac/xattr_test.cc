@@ -24,8 +24,8 @@
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
-#include "util/test/errors.h"
-#include "util/test/scoped_temp_dir.h"
+#include "test/errors.h"
+#include "test/scoped_temp_dir.h"
 
 namespace crashpad {
 namespace test {

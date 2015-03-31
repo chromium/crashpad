@@ -23,8 +23,8 @@
 #include "base/basictypes.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
+#include "test/mac/dyld.h"
 #include "util/mac/mac_util.h"
-#include "util/test/mac/dyld.h"
 
 namespace crashpad {
 namespace test {

@@ -17,10 +17,10 @@
 #include <vector>
 
 #include "gtest/gtest.h"
+#include "test/gtest_death_check.h"
+#include "test/paths.h"
 #include "util/net/http_body.h"
 #include "util/net/http_body_test_util.h"
-#include "util/test/gtest_death_check.h"
-#include "util/test/paths.h"
 
 namespace crashpad {
 namespace test {

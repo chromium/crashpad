@@ -22,8 +22,8 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/process_reader.h"
+#include "test/errors.h"
 #include "util/mac/mac_util.h"
-#include "util/test/errors.h"
 
 namespace crashpad {
 namespace test {

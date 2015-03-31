@@ -25,6 +25,8 @@
 #include "base/mac/scoped_mach_port.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
+#include "test/mac/mach_errors.h"
+#include "test/mac/mach_multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/mach_extensions.h"
@@ -32,8 +34,6 @@
 #include "util/mach/mach_message_server.h"
 #include "util/misc/scoped_forbid_return.h"
 #include "util/synchronization/semaphore.h"
-#include "util/test/mac/mach_errors.h"
-#include "util/test/mac/mach_multiprocess.h"
 
 namespace crashpad {
 namespace test {

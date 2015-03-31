@@ -22,11 +22,11 @@
 #include "base/basictypes.h"
 #include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
+#include "test/mac/mach_errors.h"
+#include "test/mac/mach_multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
-#include "util/test/mac/mach_errors.h"
-#include "util/test/mac/mach_multiprocess.h"
 
 namespace crashpad {
 namespace test {

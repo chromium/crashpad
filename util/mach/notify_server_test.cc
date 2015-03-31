@@ -18,10 +18,10 @@
 #include "base/mac/scoped_mach_port.h"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
+#include "test/mac/mach_errors.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
-#include "util/test/mac/mach_errors.h"
 
 namespace crashpad {
 namespace test {

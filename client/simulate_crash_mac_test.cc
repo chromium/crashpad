@@ -21,6 +21,8 @@
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/mac/mach_errors.h"
+#include "test/mac/mach_multiprocess.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/exception_ports.h"
@@ -28,8 +30,6 @@
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/mach/symbolic_constants_mach.h"
-#include "util/test/mac/mach_errors.h"
-#include "util/test/mac/mach_multiprocess.h"
 
 namespace crashpad {
 namespace test {

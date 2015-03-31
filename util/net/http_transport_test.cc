@@ -29,12 +29,12 @@
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/multiprocess_exec.h"
+#include "test/paths.h"
 #include "util/file/file_io.h"
 #include "util/net/http_body.h"
 #include "util/net/http_headers.h"
 #include "util/net/http_multipart_builder.h"
-#include "util/test/multiprocess_exec.h"
-#include "util/test/paths.h"
 
 namespace crashpad {
 namespace test {

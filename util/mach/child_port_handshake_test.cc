@@ -16,9 +16,9 @@
 
 #include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
+#include "test/multiprocess.h"
 #include "util/mach/child_port_types.h"
 #include "util/mach/mach_extensions.h"
-#include "util/test/multiprocess.h"
 
 namespace crashpad {
 namespace test {

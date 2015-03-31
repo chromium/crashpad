@@ -30,15 +30,15 @@
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/process_reader.h"
+#include "test/errors.h"
+#include "test/mac/mach_errors.h"
+#include "test/mac/mach_multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
-#include "util/test/errors.h"
-#include "util/test/mac/mach_errors.h"
-#include "util/test/mac/mach_multiprocess.h"
 
 namespace crashpad {
 namespace test {

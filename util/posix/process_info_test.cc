@@ -24,7 +24,7 @@
 #include "base/basictypes.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "util/test/errors.h"
+#include "test/errors.h"
 
 #if defined(OS_MACOSX)
 #include <crt_externs.h>

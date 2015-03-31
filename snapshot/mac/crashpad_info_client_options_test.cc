@@ -20,7 +20,7 @@
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/process_snapshot_mac.h"
-#include "util/test/paths.h"
+#include "test/paths.h"
 
 namespace crashpad {
 namespace test {

@@ -47,6 +47,7 @@ def main(args):
       'crashpad_client_test',
       'crashpad_minidump_test',
       'crashpad_snapshot_test',
+      'crashpad_test_test',
       'crashpad_util_test',
   ]
   for test in tests:

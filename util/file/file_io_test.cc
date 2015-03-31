@@ -18,9 +18,9 @@
 #include "base/basictypes.h"
 #include "base/files/file_path.h"
 #include "gtest/gtest.h"
-#include "util/test/errors.h"
-#include "util/test/scoped_temp_dir.h"
-#include "util/test/thread.h"
+#include "test/errors.h"
+#include "test/scoped_temp_dir.h"
+#include "test/thread.h"
 
 namespace crashpad {
 namespace test {

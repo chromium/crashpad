@@ -20,8 +20,8 @@
 #include "base/files/file_path.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/paths.h"
 #include "util/misc/uuid.h"
-#include "util/test/paths.h"
 #include "util/win/scoped_handle.h"
 
 namespace crashpad {
