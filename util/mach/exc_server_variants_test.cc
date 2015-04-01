@@ -1032,6 +1032,9 @@ class TestExcServerVariants : public MachMultiprocess,
     EXPECT_EQ(REQUESTED_TRAILER_SIZE(kMachMessageOptions),
               trailer->msgh_trailer_size);
 
+    ExcServerCopyState(
+        behavior, old_state, old_state_count, new_state, new_state_count);
+
     return ExcServerSuccessfulReturnValue(behavior, false);
   }
 
@@ -1272,6 +1275,80 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
     EXPECT_EQ(test_data.kr,
               ExcServerSuccessfulReturnValue(test_data.behavior,
                                              test_data.set_thread_state));
+  }
+}
+
+TEST(ExcServerVariants, ExcServerCopyState) {
+  const natural_t old_state[] = {1, 2, 3, 4, 5};
+  natural_t new_state[10] = {};
+
+  const mach_msg_type_number_t old_state_count = arraysize(old_state);
+  mach_msg_type_number_t new_state_count = arraysize(new_state);
+
+  // EXCEPTION_DEFAULT (with or without MACH_EXCEPTION_CODES) is not
+  // state-carrying. new_state and new_state_count should be untouched.
+  ExcServerCopyState(EXCEPTION_DEFAULT,
+                     old_state,
+                     old_state_count,
+                     new_state,
+                     &new_state_count);
+  EXPECT_EQ(arraysize(new_state), new_state_count);
+  for (size_t i = 0; i < arraysize(new_state); ++i) {
+    EXPECT_EQ(0u, new_state[i]) << "i " << i;
+  }
+
+  ExcServerCopyState(MACH_EXCEPTION_CODES | EXCEPTION_DEFAULT,
+                     old_state,
+                     old_state_count,
+                     new_state,
+                     &new_state_count);
+  EXPECT_EQ(arraysize(new_state), new_state_count);
+  for (size_t i = 0; i < arraysize(new_state); ++i) {
+    EXPECT_EQ(0u, new_state[i]) << "i " << i;
+  }
+
+  // This is a state-carrying exception where old_state_count is small.
+  mach_msg_type_number_t copy_limit = 2;
+  ExcServerCopyState(
+      EXCEPTION_STATE, old_state, copy_limit, new_state, &new_state_count);
+  EXPECT_EQ(copy_limit, new_state_count);
+  for (size_t i = 0; i < copy_limit; ++i) {
+    EXPECT_EQ(old_state[i], new_state[i]) << "i " << i;
+  }
+  for (size_t i = copy_limit; i < arraysize(new_state); ++i) {
+    EXPECT_EQ(0u, new_state[i]) << "i " << i;
+  }
+
+  // This is a state-carrying exception where new_state_count is small.
+  copy_limit = 3;
+  new_state_count = copy_limit;
+  ExcServerCopyState(EXCEPTION_STATE_IDENTITY,
+                     old_state,
+                     old_state_count,
+                     new_state,
+                     &new_state_count);
+  EXPECT_EQ(copy_limit, new_state_count);
+  for (size_t i = 0; i < copy_limit; ++i) {
+    EXPECT_EQ(old_state[i], new_state[i]) << "i " << i;
+  }
+  for (size_t i = copy_limit; i < arraysize(new_state); ++i) {
+    EXPECT_EQ(0u, new_state[i]) << "i " << i;
+  }
+
+  // This is a state-carrying exception where all of old_state is copied to
+  // new_state, which is large enough to receive it and then some.
+  new_state_count = arraysize(new_state);
+  ExcServerCopyState(MACH_EXCEPTION_CODES | EXCEPTION_STATE_IDENTITY,
+                     old_state,
+                     old_state_count,
+                     new_state,
+                     &new_state_count);
+  EXPECT_EQ(old_state_count, new_state_count);
+  for (size_t i = 0; i < arraysize(old_state); ++i) {
+    EXPECT_EQ(old_state[i], new_state[i]) << "i " << i;
+  }
+  for (size_t i = arraysize(old_state); i < arraysize(new_state); ++i) {
+    EXPECT_EQ(0u, new_state[i]) << "i " << i;
   }
 }
 

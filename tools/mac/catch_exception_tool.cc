@@ -133,13 +133,6 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
     }
 
     if (ExceptionBehaviorHasState(behavior)) {
-      // If this is a state-carrying exception, make new_state something valid.
-      memcpy(
-          new_state,
-          old_state,
-          std::min(old_state_count, *new_state_count) * sizeof(old_state[0]));
-      *new_state_count = old_state_count;
-
       std::string flavor_string =
           ThreadStateFlavorToString(*flavor, kUseFullName | kUnknownIsNumeric);
       fprintf(options_.file,
@@ -155,6 +148,9 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
       // Find another handler.
       return KERN_FAILURE;
     }
+
+    ExcServerCopyState(
+        behavior, old_state, old_state_count, new_state, new_state_count);
 
     return ExcServerSuccessfulReturnValue(behavior, false);
   }

@@ -199,6 +199,43 @@ exception_type_t ExcCrashRecoverOriginalException(
 kern_return_t ExcServerSuccessfulReturnValue(exception_behavior_t behavior,
                                              bool set_thread_state);
 
+//! \brief Copies the old state to the new state for state-carrying exceptions.
+//!
+//! When the kernel sends a state-carrying exception request and the response is
+//! successful (`MACH_MSG_SUCCESS`, a synonym for `KERN_SUCCESS`), it will set
+//! a new thread state based on \a new_state and \a new_state_count. To ease
+//! initialization of the new state, this function copies \a old_state and
+//! \a old_state_count. This is only done if \a behavior indicates a
+//! state-carrying exception.
+//!
+//! \param[in] behavior The behavior of the exception handler as invoked. This
+//!     may be taken directly from the \a behavior parameter of
+//!     internal::SimplifiedExcServer::Interface::CatchException(), for example.
+//! \param[in] old_state The original state value. This may be taken directly
+//!     from the \a old_state parameter of
+//!     internal::SimplifiedExcServer::Interface::CatchException(), for example.
+//! \param[in] old_state_count The number of significant `natural_t` words in \a
+//!     old_state. This may be taken directly from the \a old_state_count
+//!     parameter of internal::SimplifiedExcServer::Interface::CatchException(),
+//!     for example.
+//! \param[out] new_state The state value to be set. This may be taken directly
+//!     from the \a new_state parameter of
+//!     internal::SimplifiedExcServer::Interface::CatchException(), for example.
+//!     This parameter is untouched if \a behavior is not state-carrying.
+//! \param[inout] new_state_count On entry, the number of `natural_t` words
+//!     available to be written to in \a new_state. On return, the number of
+//!     significant `natural_t` words in \a new_state. This may be taken
+//!     directly from the \a new_state_count parameter of
+//!     internal::SimplifiedExcServer::Interface::CatchException(), for example.
+//!     This parameter is untouched if \a behavior is not state-carrying. If \a
+//!     \a behavior is state-carrying, this parameter should be at least as
+//!     large as \a old_state_count.
+void ExcServerCopyState(exception_behavior_t behavior,
+                        const natural_t* old_state,
+                        mach_msg_type_number_t old_state_count,
+                        thread_state_t new_state,
+                        mach_msg_type_number_t* new_state_count);
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_MACH_EXC_SERVER_VARIANTS_H_

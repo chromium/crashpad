@@ -14,6 +14,8 @@
 
 #include "util/mach/exc_server_variants.h"
 
+#include <string.h>
+
 #include <algorithm>
 #include <vector>
 
@@ -799,6 +801,17 @@ kern_return_t ExcServerSuccessfulReturnValue(exception_behavior_t behavior,
   }
 
   return KERN_SUCCESS;
+}
+
+void ExcServerCopyState(exception_behavior_t behavior,
+                        const natural_t* old_state,
+                        mach_msg_type_number_t old_state_count,
+                        thread_state_t new_state,
+                        mach_msg_type_number_t* new_state_count) {
+  if (ExceptionBehaviorHasState(behavior)) {
+    *new_state_count = std::min(old_state_count, *new_state_count);
+    memcpy(new_state, old_state, *new_state_count * sizeof(old_state[0]));
+  }
 }
 
 }  // namespace crashpad
