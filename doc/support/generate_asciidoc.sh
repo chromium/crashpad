@@ -21,14 +21,17 @@ set -e
 # toolchain including docbook-xml and docbook-xsl is also required.
 
 # Run from the Crashpad project root directory.
-cd "$(dirname "${0}")/.."
+cd "$(dirname "${0}")/../.."
 
-output_dir=out/doc/man
+output_dir=out/doc
 
-rm -rf "${output_dir}"
-mkdir -p \
-    "${output_dir}/html" \
+rm -rf \
+    "${output_dir}/doc" \
     "${output_dir}/man"
+mkdir -p \
+    "${output_dir}/doc/html" \
+    "${output_dir}/man/html" \
+    "${output_dir}/man/man"
 
 # Some extensions of command-line tools behave differently on different systems.
 # $sed_ext should be a sed invocation that enables extended regular expressions.
@@ -53,10 +56,23 @@ esac
 # Get the version from package.h.
 version=$(${sed_ext} -n -e 's/^#define PACKAGE_VERSION "(.*)"$/\1/p' package.h)
 
-for input in \
-    handler/mac/crashpad_handler.ad \
-    tools/*.ad \
-    tools/mac/*.ad; do
+generate() {
+  input="$1"
+  type="$2"
+
+  case "${type}" in
+    doc)
+      doctype="article"
+      ;;
+    man)
+      doctype="manpage"
+      ;;
+    *)
+      echo "${0}: unknown type ${type}" >& 2
+      exit 1
+      ;;
+  esac
+
   echo "${input}"
 
   base=$(${sed_ext} -e 's%^.*/([^/]+)\.ad$%\1%' <<< "${input}")
@@ -70,30 +86,44 @@ for input in \
       --attribute mansource=Crashpad \
       --attribute manversion="${version}" \
       --attribute manmanual="Crashpad Manual" \
-      --attribute revdate="${git_date}" \
-      --conf-file doc/asciidoc.conf \
-      --doctype manpage \
+      --attribute git_date="${git_date}" \
+      --conf-file doc/support/asciidoc.conf \
+      --doctype "${doctype}" \
       --backend html5 \
-      --attribute stylesheet="${PWD}/doc/asciidoc.css" \
-      --out-file "${output_dir}/html/${base}.html" \
+      --attribute stylesheet="${PWD}/doc/support/asciidoc.css" \
+      --out-file "${output_dir}/${type}/html/${base}.html" \
       "${input}"
 
-  # Create “man” output.
-  #
-  # AsciiDoc 8.6.9 produces harmless incorrect warnings each time this is run:
-  # “a2x: WARNING: --destination-dir option is only applicable to HTML based
-  # outputs”. https://github.com/asciidoc/asciidoc/issues/44
-  a2x \
-      --attribute mansource=Crashpad \
-      --attribute manversion="${version}" \
-      --attribute manmanual="Crashpad Manual" \
-      --attribute revdate="${git_date}" \
-      --asciidoc-opts=--conf-file=doc/asciidoc.conf \
-      --doctype manpage \
-      --format manpage \
-      --destination-dir "${output_dir}/man" \
-      "${input}"
+  if [[ "${type}" = "man" ]]; then
+    # Create “man” output.
+    #
+    # AsciiDoc 8.6.9 produces harmless incorrect warnings each time this is run:
+    # “a2x: WARNING: --destination-dir option is only applicable to HTML based
+    # outputs”. https://github.com/asciidoc/asciidoc/issues/44
+    a2x \
+        --attribute mansource=Crashpad \
+        --attribute manversion="${version}" \
+        --attribute manmanual="Crashpad Manual" \
+        --attribute git_date="${git_date}" \
+        --asciidoc-opts=--conf-file=doc/support/asciidoc.conf \
+        --doctype "${doctype}" \
+        --format manpage \
+        --destination-dir "${output_dir}/${type}/man" \
+        "${input}"
+  fi
 
   # For PDF output, use an a2x command like the one above, with these options:
-  # --format pdf --fop --destination-dir "${output_dir}/pdf"
+  # --format pdf --fop --destination-dir "${output_dir}/${type}/pdf"
+}
+
+for input in \
+    doc/*.ad; do
+  generate "${input}" "doc"
+done
+
+for input in \
+    handler/mac/crashpad_handler.ad \
+    tools/*.ad \
+    tools/mac/*.ad; do
+  generate "${input}" "man"
 done

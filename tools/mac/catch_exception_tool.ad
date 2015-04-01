@@ -114,4 +114,4 @@ Failure, with a message printed to the standard error stream.
 man_link:exception_port_tool[1],
 man_link:on_demand_service_tool[1]
 
-include::../../doc/man_footer.ad[]
+include::../../doc/support/man_footer.ad[]

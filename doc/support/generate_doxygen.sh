@@ -19,11 +19,11 @@ set -e
 # Generating Doxygen documentation requires Doxygen, http://www.doxygen.org/.
 
 # Run from the Crashpad project root directory.
-cd "$(dirname "${0}")/.."
+cd "$(dirname "${0}")/../.."
 
 output_dir=out/doc/doxygen
 
 rm -rf "${output_dir}"
 mkdir -p "${output_dir}"
 
-doxygen doc/crashpad.doxy
+doxygen doc/support/crashpad.doxy

@@ -99,4 +99,4 @@ man_link:catch_exception_tool[1],
 man_link:exception_port_tool[1],
 launchctl(1)
 
-include::../../doc/man_footer.ad[]
+include::../../doc/support/man_footer.ad[]

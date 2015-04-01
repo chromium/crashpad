@@ -1,0 +1,213 @@
+// Copyright 2015 The Crashpad Authors. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+:doctype: article
+
+= Developing Crashpad
+
+== Status
+
+link:status.html[Project status] information has moved to its own page.
+
+== Introduction
+
+Crashpad is a https://dev.chromium.org/Home[Chromium project]. Most of
+its development practices follow Chromium’s. In order to function on its
+own in other projects, Crashpad uses
+https://chromium.googlesource.com/chromium/mini_chromium/[mini_chromium],
+a small, self-contained library that provides many of Chromium’s useful
+low-level base routines.
+https://chromium.googlesource.com/chromium/mini_chromium/+/master/README[mini_chromium’s
+README] provides more detail.
+
+== Prerequisites
+
+To develop Crashpad, the following tools are necessary, and must be
+present in the `$PATH` environment variable:
+
+ * Chromium’s
+   https://dev.chromium.org/developers/how-tos/depottools[depot_tools].
+ * http://git-scm.com/[Git]. This is provided by Xcode on Mac OS X and by
+   depot_tools on Windows.
+ * https://www.python.org/[Python]. This is provided by the operating system on
+   Mac OS X, and by depot_tools on Windows.
+ * Appropriate development tools. For Mac OS X, this is
+   https://developer.apple.com/xcode/[Xcode], and for Windows, it’s
+   https://www.visualstudio.com/[Visual Studio].
+
+== Getting the Source Code
+
+The main source code repository is a Git repository hosted at
+https://chromium.googlesource.com/crashpad/crashpad. Although it is possible to
+check out this repository directly with `git clone`, Crashpad’s dependencies are
+managed by
+https://dev.chromium.org/developers/how-tos/depottools#TOC-gclient[`gclient`]
+instead of Git submodules, so to work on Crashpad, it is best to use `gclient`
+to get the source code.
+
+`gclient` is part of the
+https://dev.chromium.org/developers/how-tos/depottools[depot_tools]. There’s no
+need to install it separately.
+
+=== Initial Checkout
+
+[subs="verbatim,quotes"]
+----
+$ *mkdir \~/crashpad*
+$ *cd ~/crashpad*
+$ *gclient config --unmanaged https://chromium.googlesource.com/crashpad/crashpad*
+$ *gclient sync*
+----
+
+=== Subsequent Checkouts
+
+[subs="verbatim,quotes"]
+----
+$ *cd ~/crashpad/crashpad*
+$ *git pull -r*
+$ *gclient sync*
+----
+
+== Building
+
+Crashpad uses https://gyp.googlecode.com/[GYP] to generate
+https://martine.github.io/ninja/[Ninja] build files. The build is described by
+`.gyp` files throughout the Crashpad source code tree. The
+`build/gyp_crashpad.py` script runs GYP properly for Crashpad, and is also
+called when you run `gclient sync` or `gclient runhooks`.
+
+The Ninja build files and build output are in the `out` directory. Both debug-
+and release-mode configurations are available. The examples below show the debug
+configuration. To build and test the release configuration, substitute `Release`
+for `Debug`.
+
+[subs="verbatim,quotes"]
+----
+$ *cd ~/crashpad/crashpad*
+$ *ninja -C out/Debug*
+----
+
+Ninja is part of the
+https://dev.chromium.org/developers/how-tos/depottools[depot_tools]. There’s no
+need to install it separately.
+
+== Testing
+
+Crashpad uses https://googletest.googlecode.com/[Google Test] as its
+unit-testing framework, and some tests use
+https://googlemock.googlecode.com/[Google Mock] as well. Its tests are currently
+split up into several test executables, each dedicated to testing a different
+component. This may change in the future. After a successful build, the test
+executables will be found at `out/Debug/crashpad_*_test`.
+
+[subs="verbatim,quotes"]
+----
+$ *cd ~/crashpad/crashpad*
+$ *out/Debug/crashpad_minidump_test*
+$ *out/Debug/crashpad_util_test*
+----
+
+A script is provided to run all of Crashpad’s tests. It accepts a single
+argument that tells it which configuration to test.
+
+[subs="verbatim,quotes"]
+----
+$ *cd ~/crashpad/crashpad*
+$ *python build/run_tests.py Debug*
+----
+
+== Contributing
+
+Crashpad’s contribution process is very similar to
+https://dev.chromium.org/developers/contributing-code[Chromium’s contribution
+process].
+
+=== Code Review
+
+A code review must be conducted for every change to Crashpad’s source code. Code
+review is conducted on https://codereview.chromium.org/[Chromium’s Rietveld]
+system, and all code reviews must be sent to an appropriate reviewer, with a Cc
+sent to
+https://groups.google.com/a/chromium.org/group/crashpad-dev[crashpad-dev]. The
+`codereview.settings` file specifies this environment to `git-cl`.
+
+`git-cl` is part of the
+https://dev.chromium.org/developers/how-tos/depottools[depot_tools]. There’s no
+need to install it separately.
+
+[subs="verbatim,quotes"]
+----
+$ *cd ~/crashpad/crashpad*
+$ *git checkout -b work_branch origin/master*
+_…do some work…_
+$ *git add …*
+$ *git commit*
+$ *git cl upload*
+----
+
+Uploading a patch to Rietveld does not automatically request a review. You must
+select a reviewer and mail your request to them (with a Cc to crashpad-dev) from
+the Rietveld issue page after running `git cl upload`. If you have lost track of
+the issue page, `git cl issue` will remind you of its URL. Alternatively, you
+can request review when uploading to Rietveld by using `git cl upload
+--send-mail`
+
+Git branches maintain their association with Rietveld issues, so if you need to
+make changes based on review feedback, you can do so on the correct Git branch,
+committing your changes locally with `git commit`. You can then upload a new
+patch set with `git cl upload` and let your reviewer know you’ve addressed the
+feedback.
+
+=== Landing Changes
+
+After code review is complete and “LGTM” (“looks good to me”) has been received
+from all reviewers, project members can commit the patch themselves:
+
+[subs="verbatim,quotes"]
+----
+$ *cd ~/crashpad/crashpad*
+$ *git checkout work_branch*
+$ *git cl land*
+----
+
+Crashpad does not currently have a
+https://dev.chromium.org/developers/testing/commit-queue[commit queue], so
+contributors that are not project members will have to ask a project member to
+commit the patch for them. Project members can commit changes on behalf of
+external contributors by patching the change into a local branch and landing it:
+
+[subs="verbatim,quotes"]
+----
+$ *cd ~/crashpad/crashpad*
+$ *git checkout -b for_external_contributor origin/master*
+$ *git cl patch 12345678*  _# 12345678 is the Rietveld issue number_
+$ *git cl land -c \'External Contributor <external@contributor.org>'*
+----
+
+=== External Contributions
+
+Copyright holders must complete the
+https://developers.google.com/open-source/cla/individual[Individual Contributor
+License Agreement] or
+https://developers.google.com/open-source/cla/corporate[Corporate Contributor
+License Agreement] as appropriate before any submission can be accepted, and
+must be listed in the `AUTHORS` file. Contributors may be listed in the
+`CONTRIBUTORS` file.
+
+== Buildbot
+
+The https://build.chromium.org/p/client.crashpad/[Crashpad Buildbot] performs
+automated builds and tests of Crashpad. Before checking out or updating the
+Crashpad source code, and after checking in a new change, it is prudent to check
+the Buildbot to ensure that “the tree is green.”

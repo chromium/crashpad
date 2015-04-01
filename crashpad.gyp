@@ -34,7 +34,7 @@
         'util/util_test.gyp:*',
       ],
       'sources': [
-        'doc/crashpad.doxy.h',
+        'doc/support/crashpad.doxy.h',
         'package.h',
       ],
     },
