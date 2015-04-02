@@ -60,10 +60,15 @@ class ExceptionSnapshot {
   //! This is an operating system-specific value.
   //!
   //! For Mac OS X, this will be the value of the exception code at index 0 as
-  //! received by a Mach exception handler. For `EXC_CRASH` exceptions generated
-  //! from another preceding exception, the original exception code will appear
-  //! here, not the code as received by the Mach exception handler. The code as
-  //! it was received will appear at index 1 of Codes().
+  //! received by a Mach exception handler, except:
+  //!  * For `EXC_CRASH` exceptions generated from another preceding exception,
+  //!    the original exception code will appear here, not the code as received
+  //!    by the Mach exception handler.
+  //!  * For `EXC_RESOURCE` and `EXC_GUARD` exceptions, the high 32 bits of the
+  //!    exception code at index 0 will appear here.
+  //!
+  //! In all cases on Mac OS X, the full exception code at index 0 as it was
+  //! received will appear at index 1 of Codes().
   virtual uint32_t ExceptionInfo() const = 0;
 
   //! \brief Returns the address that triggered the exception.

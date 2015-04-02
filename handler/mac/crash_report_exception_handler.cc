@@ -31,6 +31,7 @@
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/scoped_task_suspend.h"
+#include "util/mach/symbolic_constants_mach.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 
@@ -101,11 +102,15 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   // carries identity information (valid thread and task ports).
   if (!ExceptionBehaviorHasIdentity(behavior)) {
     LOG(ERROR) << base::StringPrintf(
-        "unexpected exception behavior 0x%x, rejecting", behavior);
+        "unexpected exception behavior %s, rejecting",
+        ExceptionBehaviorToString(
+            behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str());
     return KERN_FAILURE;
   } else if (behavior != (EXCEPTION_STATE_IDENTITY | kMachExceptionCodes)) {
     LOG(WARNING) << base::StringPrintf(
-        "unexpected exception behavior 0x%x, proceeding", behavior);
+        "unexpected exception behavior %s, proceeding",
+        ExceptionBehaviorToString(
+            behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str());
   }
 
   if (task == mach_task_self()) {
@@ -140,7 +145,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   process_snapshot.GetCrashpadOptions(&client_options);
 
   if (client_options.crashpad_handler_behavior != TriState::kDisabled) {
-    if (!process_snapshot.InitializeException(thread,
+    if (!process_snapshot.InitializeException(behavior,
+                                              thread,
                                               exception,
                                               code,
                                               code_count,
@@ -206,6 +212,10 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     // processes that haven’t actually crashed, and could result in reports not
     // actually associated with crashes being sent to the operating system
     // vendor.
+    //
+    // Note that normally, EXC_RESOURCE and EXC_GUARD exceptions are sent to the
+    // system-level com.apple.ReportCrash.Root job, and not to the user-level
+    // job that they are forwarded to here.
     mach_port_t system_crash_reporter_port;
     const char kSystemCrashReporterServiceName[] = "com.apple.ReportCrash";
     kern_return_t kr = bootstrap_look_up(bootstrap_port,

@@ -57,6 +57,7 @@ bool ProcessSnapshotMac::Initialize(task_t task) {
 }
 
 bool ProcessSnapshotMac::InitializeException(
+    exception_behavior_t behavior,
     thread_t exception_thread,
     exception_type_t exception,
     const mach_exception_data_type_t* code,
@@ -69,6 +70,7 @@ bool ProcessSnapshotMac::InitializeException(
 
   exception_.reset(new internal::ExceptionSnapshotMac());
   if (!exception_->Initialize(&process_reader_,
+                              behavior,
                               exception_thread,
                               exception,
                               code,

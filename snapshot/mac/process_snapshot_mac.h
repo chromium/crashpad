@@ -70,7 +70,8 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
   //! \return `true` if the exception information could be initialized, `false`
   //!     otherwise with an appropriate message logged. When this method returns
   //!     `false`, the ProcessSnapshotMac object’s validity remains unchanged.
-  bool InitializeException(thread_t exception_thread,
+  bool InitializeException(exception_behavior_t behavior,
+                           thread_t exception_thread,
                            exception_type_t exception,
                            const mach_exception_data_type_t* code,
                            mach_msg_type_number_t code_count,

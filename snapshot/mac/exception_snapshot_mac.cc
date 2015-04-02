@@ -19,6 +19,8 @@
 #include "snapshot/mac/cpu_context_mac.h"
 #include "snapshot/mac/process_reader.h"
 #include "util/mach/exc_server_variants.h"
+#include "util/mach/exception_behaviors.h"
+#include "util/mach/symbolic_constants_mach.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
@@ -40,6 +42,7 @@ ExceptionSnapshotMac::~ExceptionSnapshotMac() {
 }
 
 bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
+                                      exception_behavior_t behavior,
                                       thread_t exception_thread,
                                       exception_type_t exception,
                                       const mach_exception_data_type_t* code,
@@ -62,16 +65,75 @@ bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
   if (exception_ == EXC_CRASH) {
     exception_ = ExcCrashRecoverOriginalException(
         exception_code_0, &exception_code_0, nullptr);
+
+    if (exception_ == EXC_RESOURCE || exception_ == EXC_GUARD) {
+      // These are software exceptions that are never mapped to EXC_CRASH. The
+      // only time EXC_CRASH is generated is for processes exiting due to an
+      // unhandled core-generating signal or being killed by SIGKILL for
+      // code-signing reasons. Neither of these applies to EXC_RESOURCE or
+      // EXC_GUARD. See 10.10 xnu-2782.1.97/bsd/kern/kern_exit.c
+      // proc_prepareexit().
+      //
+      // Receiving these exception types wrapped in EXC_CRASH would lose
+      // information because their code[0] uses all 64 bits (see below) and the
+      // code[0] recovered from EXC_CRASH only contains 20 significant bits.
+      LOG(WARNING) << base::StringPrintf(
+          "exception %s invalid in EXC_CRASH",
+          ExceptionToString(exception_, kUseFullName | kUnknownIsNumeric)
+              .c_str());
+    }
   }
 
-  // ExceptionInfo() returns code[0] in a 32-bit field. This shouldn’t be a
-  // problem because code[0]’s values never exceed 32 bits. Only code[1] is ever
-  // expected to be that wide.
-  if (!AssignIfInRange(&exception_code_0_, exception_code_0)) {
-    LOG(WARNING)
-        << base::StringPrintf("exception_code_0 0x%llx out of range",
-                              exception_code_0);
-    return false;
+  // The operations that follow put exception_code_0 (a mach_exception_code_t,
+  // a typedef for int64_t) into exception_code_0_ (a uint32_t). The range
+  // checks and bit shifts involved need the same signedness on both sides to
+  // work properly.
+  const uint64_t unsigned_exception_code_0 = exception_code_0;
+
+  // ExceptionInfo() returns code[0] as a 32-bit value, but exception_code_0 is
+  // a 64-bit value. The best treatment for this inconsistency depends on the
+  // exception type.
+  if (exception_ == EXC_RESOURCE || exception_ == EXC_GUARD) {
+    // All 64 bits of code[0] are significant for these exceptions. See
+    // <mach/exc_resource.h> for EXC_RESOURCE and 10.10
+    // xnu-2782.1.97/bsd/kern/kern_guarded.c fd_guard_ast() for EXC_GUARD.
+    // code[0] is structured similarly for these two exceptions.
+    //
+    // EXC_RESOURCE: see <kern/exc_resource.h>. The resource type and “flavor”
+    // together define the resource and are in the highest bits. The resource
+    // limit is in the lowest bits.
+    //
+    // EXC_GUARD: see 10.10 xnu-2782.1.97/osfmk/ipc/mach_port.c
+    // mach_port_guard_exception() and xnu-2782.1.97/bsd/kern/kern_guarded.c
+    // fd_guard_ast(). The guard type (GUARD_TYPE_MACH_PORT or GUARD_TYPE_FD)
+    // and “flavor” (from the mach_port_guard_exception_codes or
+    // guard_exception_codes enums) are in the highest bits. The violating Mach
+    // port name or file descriptor number is in the lowest bits.
+
+    // If MACH_EXCEPTION_CODES is not set in |behavior|, code[0] will only carry
+    // 32 significant bits, and the interesting high bits will have been
+    // truncated.
+    if (!ExceptionBehaviorHasMachExceptionCodes(behavior)) {
+      LOG(WARNING) << base::StringPrintf(
+          "behavior %s invalid for exception %s",
+          ExceptionBehaviorToString(
+              behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str(),
+          ExceptionToString(exception_, kUseFullName | kUnknownIsNumeric)
+              .c_str());
+    }
+
+    // Include the more-significant information from the high bits of code[0] in
+    // the value to be returned by ExceptionInfo(). The full value of codes[0]
+    // including the less-significant lower bits is still available via Codes().
+    exception_code_0_ = unsigned_exception_code_0 >> 32;
+  } else {
+    // For other exceptions, code[0]’s values never exceed 32 bits.
+    if (!base::IsValueInRangeForNumericType<decltype(exception_code_0_)>(
+            unsigned_exception_code_0)) {
+      LOG(WARNING) << base::StringPrintf("exception_code_0 0x%llx out of range",
+                                         unsigned_exception_code_0);
+    }
+    exception_code_0_ = unsigned_exception_code_0;
   }
 
   const ProcessReader::Thread* thread = nullptr;
@@ -83,7 +145,7 @@ bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
   }
 
   if (!thread) {
-    LOG(WARNING) << "exception_thread not found in task";
+    LOG(ERROR) << "exception_thread not found in task";
     return false;
   }
 
@@ -132,6 +194,19 @@ bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
 #endif
 
   if (code_1_is_exception_address) {
+    if (process_reader->Is64Bit() &&
+        !ExceptionBehaviorHasMachExceptionCodes(behavior)) {
+      // If code[1] is an address from a 64-bit process, the exception must have
+      // been received with MACH_EXCEPTION_CODES or the address will have been
+      // truncated.
+      LOG(WARNING) << base::StringPrintf(
+          "behavior %s invalid for exception %s code %d in 64-bit process",
+          ExceptionBehaviorToString(
+              behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str(),
+          ExceptionToString(exception_, kUseFullName | kUnknownIsNumeric)
+              .c_str(),
+          exception_code_0_);
+    }
     exception_address_ = code[1];
   } else {
     exception_address_ = context_.InstructionPointer();

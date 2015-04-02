@@ -188,7 +188,8 @@ bool CrashpadClient::UseHandler() {
   // xnu-2422.115.4/bsd/uxkern/ux_exception.c catch_mach_exception_raise(). If a
   // core-generating signal (triggered through this hardware mechanism or a
   // software mechanism such as abort() sending SIGABRT) is unhandled and the
-  // process exits, the exception becomes EXC_CRASH. See 10.9.5
+  // process exits, or if the process is killed with SIGKILL for code-signing
+  // reasons, an EXC_CRASH exception will be sent. See 10.9.5
   // xnu-2422.115.4/bsd/kern/kern_exit.c proc_prepareexit().
   //
   // EXC_RESOURCE and EXC_GUARD do not become signals or EXC_CRASH exceptions.

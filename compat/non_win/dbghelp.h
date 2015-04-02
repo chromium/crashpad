@@ -422,11 +422,15 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //!     operating system-specific values.
   //!
   //! For Mac OS X minidumps, this will be the value of the exception code at
-  //! index 0 as received by a Mach exception handler. For exception type
-  //! `EXC_CRASH` generated from another preceding exception, the original
-  //! exception code will appear here, not the code as received by the Mach
-  //! exception handler. The code as it was received will appear at index 1 of
-  //! #ExceptionInformation.
+  //! index 0 as received by a Mach exception handler, except:
+  //!  * For exception type `EXC_CRASH` generated from another preceding
+  //!    exception, the original exception code will appear here, not the code
+  //!    as received by the Mach exception handler.
+  //!  * For exception types `EXC_RESOURCE` and `EXC_GUARD`, the high 32 bits of
+  //!    the code received by the Mach exception handler will appear here.
+  //!
+  //! In all cases for Mac OS X minidumps, the code as it was received by the
+  //! Mach exception handler will appear at index 1 of #ExceptionInformation.
   //!
   //! \todo Document the possible values by OS. There may be OS-specific enums
   //!     in minidump_extensions.h.
@@ -456,7 +460,7 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //! `codes[1]` (exception code and subcode) parameters supplied to the Mach
   //! exception handler. Unlike #ExceptionCode and #ExceptionFlags, the values
   //! received by a Mach exception handler are used directly here even for the
-  //! `EXC_CRASH` exception type.
+  //! `EXC_CRASH`, `EXC_RESOURCE`, and `EXC_GUARD` exception types.
   uint64_t ExceptionInformation[EXCEPTION_MAXIMUM_PARAMETERS];
 };
 

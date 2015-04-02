@@ -51,6 +51,7 @@ class ExceptionSnapshotMac final : public ExceptionSnapshot {
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
   bool Initialize(ProcessReader* process_reader,
+                  exception_behavior_t behavior,
                   thread_t exception_thread,
                   exception_type_t exception,
                   const mach_exception_data_type_t* code,
