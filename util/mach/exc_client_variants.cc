@@ -19,7 +19,6 @@
 #include "base/logging.h"
 #include "util/mach/exc.h"
 #include "util/mach/mach_exc.h"
-#include "util/mach/mach_extensions.h"
 
 namespace crashpad {
 
@@ -31,7 +30,7 @@ kern_return_t UniversalExceptionRaise(exception_behavior_t behavior,
                                       const mach_exception_data_type_t* code,
                                       mach_msg_type_number_t code_count,
                                       thread_state_flavor_t* flavor,
-                                      const natural_t* old_state,
+                                      ConstThreadState old_state,
                                       mach_msg_type_number_t old_state_count,
                                       thread_state_t new_state,
                                       mach_msg_type_number_t* new_state_count) {

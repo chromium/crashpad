@@ -83,7 +83,7 @@ void InitializeCPUContextX86Debug(
 thread_state_flavor_t InitializeCPUContextX86Flavor(
     CPUContextX86* context,
     thread_state_flavor_t flavor,
-    const natural_t* state,
+    ConstThreadState state,
     mach_msg_type_number_t state_count) {
   mach_msg_type_number_t expected_state_count;
   switch (flavor) {
@@ -131,7 +131,7 @@ thread_state_flavor_t InitializeCPUContextX86Flavor(
       return InitializeCPUContextX86Flavor(
           context,
           x86_thread_state->tsh.flavor,
-          reinterpret_cast<const natural_t*>(&x86_thread_state->uts.ts32),
+          reinterpret_cast<ConstThreadState>(&x86_thread_state->uts.ts32),
           x86_thread_state->tsh.count);
     }
 
@@ -146,7 +146,7 @@ thread_state_flavor_t InitializeCPUContextX86Flavor(
       return InitializeCPUContextX86Flavor(
           context,
           x86_float_state->fsh.flavor,
-          reinterpret_cast<const natural_t*>(&x86_float_state->ufs.fs32),
+          reinterpret_cast<ConstThreadState>(&x86_float_state->ufs.fs32),
           x86_float_state->fsh.count);
     }
 
@@ -161,7 +161,7 @@ thread_state_flavor_t InitializeCPUContextX86Flavor(
       return InitializeCPUContextX86Flavor(
           context,
           x86_debug_state->dsh.flavor,
-          reinterpret_cast<const natural_t*>(&x86_debug_state->uds.ds32),
+          reinterpret_cast<ConstThreadState>(&x86_debug_state->uds.ds32),
           x86_debug_state->dsh.count);
     }
 
@@ -264,7 +264,7 @@ void InitializeCPUContextX86_64Debug(
 thread_state_flavor_t InitializeCPUContextX86_64Flavor(
     CPUContextX86_64* context,
     thread_state_flavor_t flavor,
-    const natural_t* state,
+    ConstThreadState state,
     mach_msg_type_number_t state_count) {
   mach_msg_type_number_t expected_state_count;
   switch (flavor) {
@@ -312,7 +312,7 @@ thread_state_flavor_t InitializeCPUContextX86_64Flavor(
       return InitializeCPUContextX86_64Flavor(
           context,
           x86_thread_state->tsh.flavor,
-          reinterpret_cast<const natural_t*>(&x86_thread_state->uts.ts64),
+          reinterpret_cast<ConstThreadState>(&x86_thread_state->uts.ts64),
           x86_thread_state->tsh.count);
     }
 
@@ -327,7 +327,7 @@ thread_state_flavor_t InitializeCPUContextX86_64Flavor(
       return InitializeCPUContextX86_64Flavor(
           context,
           x86_float_state->fsh.flavor,
-          reinterpret_cast<const natural_t*>(&x86_float_state->ufs.fs64),
+          reinterpret_cast<ConstThreadState>(&x86_float_state->ufs.fs64),
           x86_float_state->fsh.count);
     }
 
@@ -342,7 +342,7 @@ thread_state_flavor_t InitializeCPUContextX86_64Flavor(
       return InitializeCPUContextX86_64Flavor(
           context,
           x86_debug_state->dsh.flavor,
-          reinterpret_cast<const natural_t*>(&x86_debug_state->uds.ds64),
+          reinterpret_cast<ConstThreadState>(&x86_debug_state->uds.ds64),
           x86_debug_state->dsh.count);
     }
 
@@ -387,7 +387,7 @@ namespace internal {
 
 void InitializeCPUContextX86(CPUContextX86* context,
                              thread_state_flavor_t flavor,
-                             const natural_t* state,
+                             ConstThreadState state,
                              mach_msg_type_number_t state_count,
                              const x86_thread_state32_t* x86_thread_state32,
                              const x86_float_state32_t* x86_float_state32,
@@ -411,7 +411,7 @@ void InitializeCPUContextX86(CPUContextX86* context,
 
 void InitializeCPUContextX86_64(CPUContextX86_64* context,
                                 thread_state_flavor_t flavor,
-                                const natural_t* state,
+                                ConstThreadState state,
                                 mach_msg_type_number_t state_count,
                                 const x86_thread_state64_t* x86_thread_state64,
                                 const x86_float_state64_t* x86_float_state64,

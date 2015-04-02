@@ -37,6 +37,7 @@
 #include "util/mac/mac_util.h"
 #include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_ports.h"
+#include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 
@@ -79,7 +80,7 @@ class TestMachOImageAnnotationsReader final
                                    const mach_exception_data_type_t* code,
                                    mach_msg_type_number_t code_count,
                                    thread_state_flavor_t* flavor,
-                                   const natural_t* old_state,
+                                   ConstThreadState old_state,
                                    mach_msg_type_number_t old_state_count,
                                    thread_state_t new_state,
                                    mach_msg_type_number_t* new_state_count,

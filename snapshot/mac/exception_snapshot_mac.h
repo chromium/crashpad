@@ -24,6 +24,7 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
+#include "util/mach/mach_extensions.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
@@ -55,7 +56,7 @@ class ExceptionSnapshotMac final : public ExceptionSnapshot {
                   const mach_exception_data_type_t* code,
                   mach_msg_type_number_t code_count,
                   thread_state_flavor_t flavor,
-                  const natural_t* state,
+                  ConstThreadState state,
                   mach_msg_type_number_t state_count);
 
   // ExceptionSnapshot:

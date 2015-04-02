@@ -37,6 +37,7 @@
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
 #include "snapshot/thread_snapshot.h"
+#include "util/mach/mach_extensions.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
@@ -74,7 +75,7 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
                            const mach_exception_data_type_t* code,
                            mach_msg_type_number_t code_count,
                            thread_state_flavor_t flavor,
-                           const natural_t* state,
+                           ConstThreadState state,
                            mach_msg_type_number_t state_count);
 
   //! \brief Sets the value to be returned by ReportID().

@@ -62,7 +62,7 @@ bool ProcessSnapshotMac::InitializeException(
     const mach_exception_data_type_t* code,
     mach_msg_type_number_t code_count,
     thread_state_flavor_t flavor,
-    const natural_t* state,
+    ConstThreadState state,
     mach_msg_type_number_t state_count) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   DCHECK(!exception_);

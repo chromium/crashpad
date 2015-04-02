@@ -19,6 +19,7 @@
 
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
+#include "util/mach/mach_extensions.h"
 
 namespace crashpad {
 namespace internal {
@@ -60,7 +61,7 @@ namespace internal {
 //! \param[in] x86_debug_state32 The state of the thread’s debug registers.
 void InitializeCPUContextX86(CPUContextX86* context,
                              thread_state_flavor_t flavor,
-                             const natural_t* state,
+                             ConstThreadState state,
                              mach_msg_type_number_t state_count,
                              const x86_thread_state32_t* x86_thread_state32,
                              const x86_float_state32_t* x86_float_state32,
@@ -101,7 +102,7 @@ void InitializeCPUContextX86(CPUContextX86* context,
 //! \param[in] x86_debug_state64 The state of the thread’s debug registers.
 void InitializeCPUContextX86_64(CPUContextX86_64* context,
                                 thread_state_flavor_t flavor,
-                                const natural_t* state,
+                                ConstThreadState state,
                                 mach_msg_type_number_t state_count,
                                 const x86_thread_state64_t* x86_thread_state64,
                                 const x86_float_state64_t* x86_float_state64,

@@ -21,6 +21,7 @@
 
 #include "base/basictypes.h"
 #include "base/memory/scoped_ptr.h"
+#include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message_server.h"
 
 namespace crashpad {
@@ -83,7 +84,7 @@ class UniversalMachExcServer final : public MachMessageServer::Interface {
         const mach_exception_data_type_t* code,
         mach_msg_type_number_t code_count,
         thread_state_flavor_t* flavor,
-        const natural_t* old_state,
+        ConstThreadState old_state,
         mach_msg_type_number_t old_state_count,
         thread_state_t new_state,
         mach_msg_type_number_t* new_state_count,
@@ -231,7 +232,7 @@ kern_return_t ExcServerSuccessfulReturnValue(exception_behavior_t behavior,
 //!     \a behavior is state-carrying, this parameter should be at least as
 //!     large as \a old_state_count.
 void ExcServerCopyState(exception_behavior_t behavior,
-                        const natural_t* old_state,
+                        ConstThreadState old_state,
                         mach_msg_type_number_t old_state_count,
                         thread_state_t new_state,
                         mach_msg_type_number_t* new_state_count);

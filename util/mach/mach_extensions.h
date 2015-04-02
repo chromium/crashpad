@@ -47,6 +47,13 @@ const exception_behavior_t kMachExceptionCodes = MACH_EXCEPTION_CODES;
 //! \brief An exception type to use for simulated exceptions.
 const exception_type_t kMachExceptionSimulated = 'CPsx';
 
+//! \brief A const version of `thread_state_t`.
+//!
+//! This is useful as the \a old_state parameter to exception handler functions.
+//! Normally, these parameters are of type `thread_state_t`, but this allows
+//! modification of the state, which is conceptually `const`.
+using ConstThreadState = const natural_t*;
+
 //! \brief Like `mach_thread_self()`, but without the obligation to release the
 //!     send right.
 //!

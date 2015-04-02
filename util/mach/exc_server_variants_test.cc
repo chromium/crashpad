@@ -24,7 +24,6 @@
 #include "test/mac/mach_errors.h"
 #include "test/mac/mach_multiprocess.h"
 #include "util/mach/exception_behaviors.h"
-#include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 
 namespace crashpad {
@@ -455,12 +454,12 @@ class MockUniversalMachExcServer : public UniversalMachExcServer::Interface {
     const mach_exception_data_type_t* code;
     mach_msg_type_number_t code_count;
   };
-  struct ThreadState {
+  struct ThreadStateAndCount {
     thread_state_t state;
     mach_msg_type_number_t* state_count;
   };
-  struct ConstThreadState {
-    const natural_t* state;
+  struct ConstThreadStateAndCount {
+    ConstThreadState state;
     mach_msg_type_number_t* state_count;
   };
 
@@ -478,7 +477,7 @@ class MockUniversalMachExcServer : public UniversalMachExcServer::Interface {
       const mach_exception_data_type_t* code,
       mach_msg_type_number_t code_count,
       thread_state_flavor_t* flavor,
-      const natural_t* old_state,
+      ConstThreadState old_state,
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count,
@@ -486,8 +485,9 @@ class MockUniversalMachExcServer : public UniversalMachExcServer::Interface {
       bool* destroy_complex_request) override {
     *destroy_complex_request = true;
     const ConstExceptionCodes exception_codes = {code, code_count};
-    const ConstThreadState old_thread_state = {old_state, &old_state_count};
-    ThreadState new_thread_state = {new_state, new_state_count};
+    const ConstThreadStateAndCount old_thread_state = {old_state,
+                                                       &old_state_count};
+    ThreadStateAndCount new_thread_state = {new_state, new_state_count};
     return MockCatchMachException(behavior,
                                   exception_port,
                                   thread,
@@ -508,8 +508,8 @@ class MockUniversalMachExcServer : public UniversalMachExcServer::Interface {
                               exception_type_t exception,
                               const ConstExceptionCodes* exception_codes,
                               thread_state_flavor_t* flavor,
-                              const ConstThreadState* old_thread_state,
-                              ThreadState* new_thread_state,
+                              const ConstThreadStateAndCount* old_thread_state,
+                              ThreadStateAndCount* new_thread_state,
                               const mach_msg_trailer_t* trailer));
 };
 
@@ -537,11 +537,11 @@ MATCHER_P2(AreExceptionCodes, code_0, code_1, "") {
   return false;
 }
 
-// Matcher for ThreadState and ConstThreadState, testing that *state_count is
-// present and matches the specified value. If 0 is specified for the count,
-// |state| must be nullptr (not present), otherwise |state| must not be nullptr
-// (present).
-MATCHER_P(IsThreadStateCount, state_count, "") {
+// Matcher for ThreadStateAndCount and ConstThreadStateAndCount, testing that
+// *state_count is present and matches the specified value. If 0 is specified
+// for the count, |state| must be nullptr (not present), otherwise |state| must
+// not be nullptr (present).
+MATCHER_P(IsThreadStateAndCount, state_count, "") {
   if (!arg) {
     return false;
   }
@@ -607,8 +607,8 @@ TEST(ExcServerVariants, MockExceptionRaise) {
                                      AreExceptionCodes(kTestExceptonCodes[0],
                                                        kTestExceptonCodes[1]),
                                      Pointee(Eq(THREAD_STATE_NONE)),
-                                     IsThreadStateCount(0u),
-                                     IsThreadStateCount(0u),
+                                     IsThreadStateAndCount(0u),
+                                     IsThreadStateAndCount(0u),
                                      Eq(&request.trailer)))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
@@ -653,8 +653,8 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
           kExceptionType,
           AreExceptionCodes(kTestExceptonCodes[0], kTestExceptonCodes[1]),
           Pointee(Eq(kThreadStateFlavor)),
-          IsThreadStateCount(kThreadStateFlavorCount),
-          IsThreadStateCount(arraysize(reply.new_state)),
+          IsThreadStateAndCount(kThreadStateFlavorCount),
+          IsThreadStateAndCount(arraysize(reply.new_state)),
           Eq(request.Trailer())))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
@@ -702,8 +702,8 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
           kExceptionType,
           AreExceptionCodes(kTestExceptonCodes[0], kTestExceptonCodes[1]),
           Pointee(Eq(kThreadStateFlavor)),
-          IsThreadStateCount(kThreadStateFlavorCount),
-          IsThreadStateCount(arraysize(reply.new_state)),
+          IsThreadStateAndCount(kThreadStateFlavorCount),
+          IsThreadStateAndCount(arraysize(reply.new_state)),
           Eq(request.Trailer())))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
@@ -749,8 +749,8 @@ TEST(ExcServerVariants, MockMachExceptionRaise) {
                              AreExceptionCodes(kTestMachExceptionCodes[0],
                                                kTestMachExceptionCodes[1]),
                              Pointee(Eq(THREAD_STATE_NONE)),
-                             IsThreadStateCount(0u),
-                             IsThreadStateCount(0u),
+                             IsThreadStateAndCount(0u),
+                             IsThreadStateAndCount(0u),
                              Eq(&request.trailer)))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
@@ -796,8 +796,8 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
                              AreExceptionCodes(kTestMachExceptionCodes[0],
                                                kTestMachExceptionCodes[1]),
                              Pointee(Eq(kThreadStateFlavor)),
-                             IsThreadStateCount(kThreadStateFlavorCount),
-                             IsThreadStateCount(arraysize(reply.new_state)),
+                             IsThreadStateAndCount(kThreadStateFlavorCount),
+                             IsThreadStateAndCount(arraysize(reply.new_state)),
                              Eq(request.Trailer())))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
@@ -846,8 +846,8 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
                              AreExceptionCodes(kTestMachExceptionCodes[0],
                                                kTestMachExceptionCodes[1]),
                              Pointee(Eq(kThreadStateFlavor)),
-                             IsThreadStateCount(kThreadStateFlavorCount),
-                             IsThreadStateCount(arraysize(reply.new_state)),
+                             IsThreadStateAndCount(kThreadStateFlavorCount),
+                             IsThreadStateAndCount(arraysize(reply.new_state)),
                              Eq(request.Trailer())))
       .WillOnce(Return(KERN_SUCCESS))
       .RetiresOnSaturation();
@@ -976,7 +976,7 @@ class TestExcServerVariants : public MachMultiprocess,
       const mach_exception_data_type_t* code,
       mach_msg_type_number_t code_count,
       thread_state_flavor_t* flavor,
-      const natural_t* old_state,
+      ConstThreadState old_state,
       mach_msg_type_number_t old_state_count,
       thread_state_t new_state,
       mach_msg_type_number_t* new_state_count,
