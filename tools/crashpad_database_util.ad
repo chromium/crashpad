@@ -49,6 +49,8 @@ parent directory of 'PATH' exists.
 *--show-client-id*::
 Show the client ID stored in the database’s settings. The client ID is formatted
 as a UUID. The client ID is set when the database is created.
+man_link:crashpad_handler[8] retrieves the client ID and stores it in crash
+reports as they are written.
 
 *--show-uploads-enabled*::
 Show the status of the uploads-enabled bit stored in the database’s settings.
@@ -86,7 +88,8 @@ be formatted in string representation per RFC 4122 §3. All metadata for each
 report found via a *--show-report* option will be shown. If 'UUID' is not found,
 the string +"not found"+ will be printed. If this program is only requested to
 show a single report and it is not found, it will treat this as a failure for
-the purposes of determining its exit status.
+the purposes of determining its exit status. This option may appear multiple
+times.
 
 *--set-report-uploads-enabled*='BOOL'::
 Enable or disable report upload in the database’s settings. 'BOOL' is a string
@@ -100,6 +103,11 @@ representation of a time, which may be in 'yyyy-mm-dd hh:mm:ss' format, a
 numeric +time_t+ value, or the special string +"never"+.
 +
 See also *--show-last-upload-attempt-time*.
+
+*--new-report*='PATH'::
+Submit a new report located at 'PATH' to the database. The new report will be in
+the “pending” state. The UUID assigned to the new report will be printed. This
+option may appear multiple times.
 
 *--utc*::
 When showing times, do so in UTC as opposed to the local time zone. When setting

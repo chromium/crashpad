@@ -17,8 +17,31 @@
 namespace crashpad {
 
 CrashReportDatabase::Report::Report()
-    : uuid(), file_path(), id(), creation_time(0), uploaded(false),
-      last_upload_attempt_time(0), upload_attempts(0) {
+    : uuid(),
+      file_path(),
+      id(),
+      creation_time(0),
+      uploaded(false),
+      last_upload_attempt_time(0),
+      upload_attempts(0) {
+}
+
+CrashReportDatabase::CallErrorWritingCrashReport::CallErrorWritingCrashReport(
+    CrashReportDatabase* database,
+    NewReport* new_report)
+    : database_(database),
+      new_report_(new_report) {
+}
+
+CrashReportDatabase::CallErrorWritingCrashReport::
+    ~CallErrorWritingCrashReport() {
+  if (new_report_) {
+    database_->ErrorWritingCrashReport(new_report_);
+  }
+}
+
+void CrashReportDatabase::CallErrorWritingCrashReport::Disarm() {
+  new_report_ = nullptr;
 }
 
 }  // namespace crashpad

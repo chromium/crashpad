@@ -37,37 +37,6 @@
 
 namespace crashpad {
 
-namespace {
-
-// Calls CrashReportDatabase::ErrorWritingCrashReport() upon destruction unless
-// disarmed by calling Disarm(). Armed upon construction.
-class CallErrorWritingCrashReport {
- public:
-  CallErrorWritingCrashReport(CrashReportDatabase* database,
-                              CrashReportDatabase::NewReport* new_report)
-      : database_(database),
-        new_report_(new_report) {
-  }
-
-  ~CallErrorWritingCrashReport() {
-    if (new_report_) {
-      database_->ErrorWritingCrashReport(new_report_);
-    }
-  }
-
-  void Disarm() {
-    new_report_ = nullptr;
-  }
-
- private:
-  CrashReportDatabase* database_;  // weak
-  CrashReportDatabase::NewReport* new_report_;  // weak
-
-  DISALLOW_COPY_AND_ASSIGN(CallErrorWritingCrashReport);
-};
-
-}  // namespace
-
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
@@ -177,8 +146,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
 
     process_snapshot.SetReportID(new_report->uuid);
 
-    CallErrorWritingCrashReport call_error_writing_crash_report(database_,
-                                                                new_report);
+    CrashReportDatabase::CallErrorWritingCrashReport
+        call_error_writing_crash_report(database_, new_report);
 
     WeakFileHandleFileWriter file_writer(new_report->handle);
 

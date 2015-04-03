@@ -106,6 +106,32 @@ class CrashReportDatabase {
     base::FilePath path;
   };
 
+  //! \brief A scoper to cleanly handle the interface requirement imposed by
+  //!     PrepareNewCrashReport().
+  //!
+  //! Calls ErrorWritingCrashReport() upon destruction unless disarmed by
+  //! calling Disarm(). Armed upon construction.
+  class CallErrorWritingCrashReport {
+   public:
+    //! \brief Arms the object to call ErrorWritingCrashReport() on \a database
+    //!     with an argument of \a new_report on destruction.
+    CallErrorWritingCrashReport(CrashReportDatabase* database,
+                                NewReport* new_report);
+
+    //! \brief Calls ErrorWritingCrashReport() if the object is armed.
+    ~CallErrorWritingCrashReport();
+
+    //! \brief Disarms the object so that CallErrorWritingCrashReport() will not
+    //!     be called upon destruction.
+    void Disarm();
+
+   private:
+    CrashReportDatabase* database_;  // weak
+    NewReport* new_report_;  // weak
+
+    DISALLOW_COPY_AND_ASSIGN(CallErrorWritingCrashReport);
+  };
+
   //! \brief The result code for operations performed on a database.
   enum OperationStatus {
     //! \brief No error occurred.
@@ -156,12 +182,17 @@ class CrashReportDatabase {
   //! \brief Creates a record of a new crash report.
   //!
   //! Callers can then write the crash report using the file handle provided.
-  //! The caller does not own this handle, and it must be explicitly closed with
+  //! The caller does not own the new crash report record or its file handle,
+  //! both of which must be explicitly disposed of by calling
   //! FinishedWritingCrashReport() or ErrorWritingCrashReport().
   //!
-  //! \param[out] report A file handle to which the crash report data should be
-  //!     written. Only valid if this returns #kNoError. The caller must not
-  //!     close this handle.
+  //! To arrange to call ErrorWritingCrashReport() during any early return, use
+  //! CallErrorWritingCrashReport.
+  //!
+  //! \param[out] report A NewReport object containing a file handle to which
+  //!     the crash report data should be written. Only valid if this returns
+  //!     #kNoError. The caller must not delete the NewReport object or close
+  //!     the file handle within.
   //!
   //! \return The operation status code.
   virtual OperationStatus PrepareNewCrashReport(NewReport** report) = 0;
@@ -171,8 +202,9 @@ class CrashReportDatabase {
   //! After calling this method, the database is permitted to move and rename
   //! the file at NewReport::path.
   //!
-  //! \param[in] report A handle obtained with PrepareNewCrashReport(). The
-  //!     handle will be invalidated as part of this call.
+  //! \param[in] report A NewReport obtained with PrepareNewCrashReport(). The
+  //!     NewReport object and file handle within will be invalidated as part of
+  //!     this call.
   //! \param[out] uuid The UUID of this crash report.
   //!
   //! \return The operation status code.
@@ -186,8 +218,9 @@ class CrashReportDatabase {
   //! After calling this method, the database is permitted to remove the file at
   //! NewReport::path.
   //!
-  //! \param[in] report A handle obtained with PrepareNewCrashReport(). The
-  //!     handle will be invalidated as part of this call.
+  //! \param[in] report A NewReport obtained with PrepareNewCrashReport(). The
+  //!     NewReport object and file handle within will be invalidated as part of
+  //!     this call.
   //!
   //! \return The operation status code.
   virtual OperationStatus ErrorWritingCrashReport(NewReport* report) = 0;

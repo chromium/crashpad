@@ -32,6 +32,8 @@
 #include "client/crash_report_database.h"
 #include "client/settings.h"
 #include "tools/tool_support.h"
+#include "util/file/file_io.h"
+#include "util/file/file_reader.h"
 #include "util/misc/uuid.h"
 
 namespace crashpad {
@@ -54,6 +56,7 @@ void Usage(const std::string& me) {
 "      --set-uploads-enabled=BOOL  enable or disable uploads\n"
 "      --set-last-upload-attempt-time=TIME\n"
 "                                  set the last-upload-attempt time to TIME\n"
+"      --new-report=PATH           submit a new report at PATH\n"
 "      --utc                       show and set UTC times instead of local\n"
 "      --help                      display this help and exit\n"
 "      --version                   output version information and exit\n",
@@ -63,6 +66,7 @@ void Usage(const std::string& me) {
 
 struct Options {
   std::vector<UUID> show_reports;
+  std::vector<base::FilePath> new_report_paths;
   const char* database;
   const char* set_last_upload_attempt_time_string;
   time_t set_last_upload_attempt_time;
@@ -252,6 +256,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
     kOptionShowReport,
     kOptionSetUploadsEnabled,
     kOptionSetLastUploadAttemptTime,
+    kOptionNewReport,
     kOptionUTC,
 
     // Standard options.
@@ -282,6 +287,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
        required_argument,
        nullptr,
        kOptionSetLastUploadAttemptTime},
+      {"new-report", required_argument, nullptr, kOptionNewReport},
       {"utc", no_argument, nullptr, kOptionUTC},
       {"help", no_argument, nullptr, kOptionHelp},
       {"version", no_argument, nullptr, kOptionVersion},
@@ -342,6 +348,10 @@ int DatabaseUtilMain(int argc, char* argv[]) {
         options.set_last_upload_attempt_time_string = optarg;
         break;
       }
+      case kOptionNewReport: {
+        options.new_report_paths.push_back(base::FilePath(optarg));
+        break;
+      }
       case kOptionUTC: {
         options.utc = true;
         break;
@@ -381,12 +391,14 @@ int DatabaseUtilMain(int argc, char* argv[]) {
     }
   }
 
+  // --new-report is treated as a show operation because it produces output.
   const size_t show_operations = options.show_client_id +
                                  options.show_uploads_enabled +
                                  options.show_last_upload_attempt_time +
                                  options.show_pending_reports +
                                  options.show_completed_reports +
-                                 options.show_reports.size();
+                                 options.show_reports.size() +
+                                 options.new_report_paths.size();
   const size_t set_operations =
       options.has_set_uploads_enabled +
       (options.set_last_upload_attempt_time_string != nullptr);
@@ -503,6 +515,45 @@ int DatabaseUtilMain(int argc, char* argv[]) {
       !settings->SetLastUploadAttemptTime(
           options.set_last_upload_attempt_time)) {
     return EXIT_FAILURE;
+  }
+
+  for (const base::FilePath new_report_path : options.new_report_paths) {
+    FileReader file_reader;
+    if (!file_reader.Open(new_report_path)) {
+      return EXIT_FAILURE;
+    }
+
+    CrashReportDatabase::NewReport* new_report;
+    CrashReportDatabase::OperationStatus status =
+        database->PrepareNewCrashReport(&new_report);
+    if (status != CrashReportDatabase::kNoError) {
+      return EXIT_FAILURE;
+    }
+
+    CrashReportDatabase::CallErrorWritingCrashReport
+        call_error_writing_crash_report(database.get(), new_report);
+
+    char buf[4096];
+    ssize_t read_result;
+    while ((read_result = file_reader.Read(buf, sizeof(buf))) > 0) {
+      if (!LoggingWriteFile(new_report->handle, buf, read_result)) {
+        return EXIT_FAILURE;
+      }
+    }
+    if (read_result < 0) {
+      return EXIT_FAILURE;
+    }
+
+    call_error_writing_crash_report.Disarm();
+
+    UUID uuid;
+    status = database->FinishedWritingCrashReport(new_report, &uuid);
+    if (status != CrashReportDatabase::kNoError) {
+      return EXIT_FAILURE;
+    }
+
+    const char* prefix = (show_operations > 1) ? "New report ID: " : "";
+    printf("%s%s\n", prefix, uuid.ToString().c_str());
   }
 
   return EXIT_SUCCESS;
