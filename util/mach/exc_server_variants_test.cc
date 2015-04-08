@@ -15,7 +15,6 @@
 #include "util/mach/exc_server_variants.h"
 
 #include <mach/mach.h>
-#include <signal.h>
 #include <string.h>
 
 #include "base/strings/stringprintf.h"
@@ -24,6 +23,7 @@
 #include "test/mac/mach_errors.h"
 #include "test/mac/mach_multiprocess.h"
 #include "util/mach/exception_behaviors.h"
+#include "util/mach/exception_types.h"
 #include "util/mach/mach_message.h"
 
 namespace crashpad {
@@ -1183,62 +1183,6 @@ TEST(ExcServerVariants, ThreadStates) {
         test.count);
     test_exc_server_variants.Run();
   }
-}
-
-TEST(ExcServerVariants, ExcCrashRecoverOriginalException) {
-  struct TestData {
-    mach_exception_code_t code_0;
-    exception_type_t exception;
-    mach_exception_code_t original_code_0;
-    int signal;
-  };
-  const TestData kTestData[] = {
-      {0xb100001, EXC_BAD_ACCESS, KERN_INVALID_ADDRESS, SIGSEGV},
-      {0xb100002, EXC_BAD_ACCESS, KERN_PROTECTION_FAILURE, SIGSEGV},
-      {0xa100002, EXC_BAD_ACCESS, KERN_PROTECTION_FAILURE, SIGBUS},
-      {0x4200001, EXC_BAD_INSTRUCTION, 1, SIGILL},
-      {0x8300001, EXC_ARITHMETIC, 1, SIGFPE},
-      {0x5600002, EXC_BREAKPOINT, 2, SIGTRAP},
-      {0x3000000, 0, 0, SIGQUIT},
-      {0x6000000, 0, 0, SIGABRT},
-      {0xc000000, 0, 0, SIGSYS},
-      {0, 0, 0, 0},
-  };
-
-  for (size_t index = 0; index < arraysize(kTestData); ++index) {
-    const TestData& test_data = kTestData[index];
-    SCOPED_TRACE(base::StringPrintf(
-        "index %zu, code_0 0x%llx", index, test_data.code_0));
-
-    mach_exception_code_t original_code_0;
-    int signal;
-    exception_type_t exception = ExcCrashRecoverOriginalException(
-        test_data.code_0, &original_code_0, &signal);
-
-    EXPECT_EQ(test_data.exception, exception);
-    EXPECT_EQ(test_data.original_code_0, original_code_0);
-    EXPECT_EQ(test_data.signal, signal);
-  }
-
-  // Now make sure that ExcCrashRecoverOriginalException() properly ignores
-  // optional arguments.
-  static_assert(arraysize(kTestData) >= 1, "must have something to test");
-  const TestData& test_data = kTestData[0];
-  EXPECT_EQ(
-      test_data.exception,
-      ExcCrashRecoverOriginalException(test_data.code_0, nullptr, nullptr));
-
-  mach_exception_code_t original_code_0;
-  EXPECT_EQ(test_data.exception,
-            ExcCrashRecoverOriginalException(
-                test_data.code_0, &original_code_0, nullptr));
-  EXPECT_EQ(test_data.original_code_0, original_code_0);
-
-  int signal;
-  EXPECT_EQ(
-      test_data.exception,
-      ExcCrashRecoverOriginalException(test_data.code_0, nullptr, &signal));
-  EXPECT_EQ(test_data.signal, signal);
 }
 
 TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {

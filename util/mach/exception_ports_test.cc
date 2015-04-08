@@ -29,6 +29,7 @@
 #include "test/mac/mach_multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/mach/exc_server_variants.h"
+#include "util/mach/exception_types.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"

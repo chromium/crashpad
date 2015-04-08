@@ -43,7 +43,7 @@ void* SystemLibMachOHandle() {
   if (!dladdr(reinterpret_cast<void*>(getsectbyname), &info)) {
     return nullptr;
   }
-  return dlopen(info.dli_fname, RTLD_LAZY | RTLD_LOCAL);
+  return dlopen(info.dli_fname, RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD);
 }
 
 // Returns a function pointer to a function in libmacho based on a lookup of

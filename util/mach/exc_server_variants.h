@@ -116,40 +116,6 @@ class UniversalMachExcServer final : public MachMessageServer::Interface {
   DISALLOW_COPY_AND_ASSIGN(UniversalMachExcServer);
 };
 
-//! \brief Recovers the original exception, first exception code, and signal
-//!     from the encoded form of the first exception code delivered with
-//!     `EXC_CRASH` exceptions.
-//!
-//! `EXC_CRASH` exceptions are generated when the kernel has committed to
-//! terminating a process as a result of a core-generating POSIX signal and, for
-//! hardware exceptions, an earlier Mach exception. Information about this
-//! earlier exception and signal is made available to the `EXC_CRASH` handler
-//! via its `code[0]` parameter. This function recovers the original exception,
-//! the value of `code[0]` from the original exception, and the value of the
-//! signal responsible for process termination.
-//!
-//! \param[in] code_0 The first exception code (`code[0]`) passed to a Mach
-//!     exception handler in an `EXC_CRASH` exception. It is invalid to call
-//!     this function with an exception code from any exception other than
-//!     `EXC_CRASH`.
-//! \param[out] original_code_0 The first exception code (`code[0]`) passed to
-//!     the Mach exception handler for a hardware exception that resulted in the
-//!     generation of a POSIX signal that caused process termination. If the
-//!     signal that caused termination was not sent as a result of a hardware
-//!     exception, this will be `0`. Callers that do not need this value may
-//!     pass `nullptr`.
-//! \param[out] signal The POSIX signal that caused process termination. Callers
-//!     that do not need this value may pass `nullptr`.
-//!
-//! \return The original exception for a hardware exception that resulted in the
-//!     generation of a POSIX signal that caused process termination. If the
-//!     signal that caused termination was not sent as a result of a hardware
-//!     exception, this will be `0`.
-exception_type_t ExcCrashRecoverOriginalException(
-    mach_exception_code_t code_0,
-    mach_exception_code_t* original_code_0,
-    int* signal);
-
 //! \brief Computes an approriate successful return value for an exception
 //!     handler function.
 //!

@@ -28,6 +28,7 @@
 #include "util/file/file_writer.h"
 #include "util/mach/exc_client_variants.h"
 #include "util/mach/exception_behaviors.h"
+#include "util/mach/exception_types.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/scoped_task_suspend.h"
@@ -101,13 +102,30 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   // TODO(mark): Consider exceptions outside of the range (0, 32) from the
   // kernel to be suspicious, and exceptions other than kMachExceptionSimulated
   // from the process itself to be suspicious.
+  const pid_t pid = process_snapshot.ProcessID();
   pid_t audit_pid = AuditPIDFromMachMessageTrailer(trailer);
   if (audit_pid != -1 && audit_pid != 0) {
-    pid_t exception_pid = process_snapshot.ProcessID();
-    if (exception_pid != audit_pid) {
-      LOG(WARNING) << "exception for pid " << exception_pid << " sent by pid "
+    if (audit_pid != pid) {
+      LOG(WARNING) << "exception for pid " << pid << " sent by pid "
                    << audit_pid;
     }
+  }
+
+  if (IsExceptionNonfatalResource(exception, code[0], pid)) {
+    // Swallow non-fatal resource exceptions.
+    //
+    // Normally, all EXC_RESOURCE exceptions go to the host-level EXC_RESOURCE
+    // handler, com.apple.ReportCrash.root, which invokes spindump to handle
+    // them. These non-fatal exceptions are never user-visible and are not
+    // currently of interest to Crashpad. Returning success here gets the
+    // process going again quickly, without generating a crash report.
+    //
+    // Alternatively, this could return KERN_FAILURE to let the exception go to
+    // the host-level handler, but there doesn’t seem to be much value in doing
+    // so.
+    ExcServerCopyState(
+        behavior, old_state, old_state_count, new_state, new_state_count);
+    return ExcServerSuccessfulReturnValue(behavior, false);
   }
 
   CrashpadInfoClientOptions client_options;

@@ -47,6 +47,7 @@
         'mach/exc_server_variants_test.cc',
         'mach/exception_behaviors_test.cc',
         'mach/exception_ports_test.cc',
+        'mach/exception_types_test.cc',
         'mach/mach_extensions_test.cc',
         'mach/mach_message_server_test.cc',
         'mach/mach_message_test.cc',

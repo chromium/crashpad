@@ -18,8 +18,8 @@
 #include "base/strings/stringprintf.h"
 #include "snapshot/mac/cpu_context_mac.h"
 #include "snapshot/mac/process_reader.h"
-#include "util/mach/exc_server_variants.h"
 #include "util/mach/exception_behaviors.h"
+#include "util/mach/exception_types.h"
 #include "util/mach/symbolic_constants_mach.h"
 #include "util/numeric/safe_assignment.h"
 

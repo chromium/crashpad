@@ -22,10 +22,12 @@
       'type': 'static_library',
       'sources': [
         'mac/AvailabilityMacros.h',
+        'mac/kern/exc_resource.h'
         'mac/mach/mach.h',
         'mac/mach-o/getsect.cc',
         'mac/mach-o/getsect.h',
         'mac/mach-o/loader.h',
+        'mac/sys/resource.h',
         'non_mac/mach/mach.h',
         'non_win/dbghelp.h',
         'non_win/minwinbase.h',

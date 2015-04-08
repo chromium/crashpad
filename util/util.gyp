@@ -67,6 +67,8 @@
         'mach/exception_behaviors.h',
         'mach/exception_ports.cc',
         'mach/exception_ports.h',
+        'mach/exception_types.cc',
+        'mach/exception_types.h',
         'mach/mach_extensions.cc',
         'mach/mach_extensions.h',
         'mach/mach_message.cc',
