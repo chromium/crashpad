@@ -15,6 +15,7 @@
 #include "client/settings.h"
 
 #include "gtest/gtest.h"
+#include "test/errors.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 
@@ -27,7 +28,7 @@ class SettingsTest : public testing::Test {
   SettingsTest() : settings_(settings_path()) {}
 
   base::FilePath settings_path() {
-    return temp_dir_.path().Append("settings");
+    return temp_dir_.path().Append(FILE_PATH_LITERAL("settings"));
   }
 
   Settings* settings() { return &settings_; }
@@ -151,7 +152,13 @@ TEST_F(SettingsTest, UnlinkFile) {
   EXPECT_TRUE(settings()->SetUploadsEnabled(true));
   EXPECT_TRUE(settings()->SetLastUploadAttemptTime(time(nullptr)));
 
-  EXPECT_EQ(0, unlink(settings_path().value().c_str()));
+#if defined(OS_WIN)
+  EXPECT_EQ(0, _wunlink(settings_path().value().c_str()))
+      << ErrnoMessage("_wunlink");
+#else
+  EXPECT_EQ(0, unlink(settings_path().value().c_str()))
+      << ErrnoMessage("unlink");
+#endif
 
   Settings local_settings(settings_path());
   EXPECT_TRUE(local_settings.Initialize());

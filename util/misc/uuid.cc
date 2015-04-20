@@ -23,10 +23,15 @@
 #include <string.h>
 
 #include "base/basictypes.h"
+#include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/sys_byteorder.h"
 #include "util/stdlib/cxx.h"
+
+#if defined(OS_MACOSX)
+#include <uuid/uuid.h>
+#endif  // OS_MACOSX
 
 #if CXX_LIBRARY_VERSION >= 2011
 #include <type_traits>
@@ -42,6 +47,10 @@ static_assert(std::is_standard_layout<UUID>::value,
 #endif
 
 UUID::UUID() : data_1(0), data_2(0), data_3(0), data_4(), data_5() {
+}
+
+UUID::UUID(InitializeWithNewTag) {
+  CHECK(InitializeWithNew());
 }
 
 UUID::UUID(const uint8_t* bytes) {
@@ -86,6 +95,25 @@ bool UUID::InitializeFromString(const base::StringPiece& string) {
 
   *this = temp;
   return true;
+}
+
+bool UUID::InitializeWithNew() {
+#if defined(OS_MACOSX)
+  uuid_t uuid;
+  uuid_generate(uuid);
+  InitializeFromBytes(uuid);
+  return true;
+#elif defined(OS_WIN)
+  ::UUID system_uuid;
+  if (UuidCreate(&system_uuid) != RPC_S_OK) {
+    LOG(ERROR) << "UuidCreate";
+    return false;
+  }
+  InitializeFromSystemUUID(&system_uuid);
+  return true;
+#else
+#error Port.
+#endif  // OS_MACOSX
 }
 
 #if defined(OS_WIN)

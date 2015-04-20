@@ -188,9 +188,9 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path);
 //! \brief Wraps `open()` or `CreateFile()`, creating a file for output. Logs
 //!     an error if the operation fails.
 //!
-//! \a write_mode determines the style (truncate, reuse, etc.) that is used to
-//! open the file. On POSIX, \a permissions determines the value that is passed
-//! as `mode` to `open()`. On Windows, the file is always opened in binary mode
+//! \a mode determines the style (truncate, reuse, etc.) that is used to open
+//! the file. On POSIX, \a permissions determines the value that is passed as
+//! `mode` to `open()`. On Windows, the file is always opened in binary mode
 //! (that is, no CRLF translation). On Windows, the file is opened for sharing,
 //! see LoggingLockFile() and LoggingUnlockFile() to control concurrent access.
 //!
@@ -200,8 +200,26 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path);
 //! \sa FilePermissions
 //! \sa ScopedFileHandle
 FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
-                                   FileWriteMode write_mode,
+                                   FileWriteMode mode,
                                    FilePermissions permissions);
+
+//! \brief Wraps `open()` or `CreateFile()`, creating a file for both input and
+//!     output. Logs an error if the operation fails.
+//!
+//! \a mode determines the style (truncate, reuse, etc.) that is used to open
+//! the file. On POSIX, \a permissions determines the value that is passed as
+//! `mode` to `open()`. On Windows, the file is always opened in binary mode
+//! (that is, no CRLF translation). On Windows, the file is opened for sharing,
+//! see LoggingLockFile() and LoggingUnlockFile() to control concurrent access.
+//!
+//! \return The newly opened FileHandle, or an invalid FileHandle on failure.
+//!
+//! \sa FileWriteMode
+//! \sa FilePermissions
+//! \sa ScopedFileHandle
+FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
+                                          FileWriteMode mode,
+                                          FilePermissions permissions);
 
 //! \brief Locks the given \a file using `flock()` on POSIX or `LockFileEx()` on
 //!     Windows.
@@ -242,6 +260,11 @@ bool LoggingUnlockFile(FileHandle file);
 //! \return The resulting offset in bytes from the beginning of the file, or
 //!     `-1` on failure.
 FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence);
+
+//! \brief Truncates the given \a file to zero bytes in length.
+//!
+//! \return `true` on success, or `false`, and a message will be logged.
+bool LoggingTruncateFile(FileHandle file);
 
 //! \brief Wraps `close()` or `CloseHandle()`, logging an error if the operation
 //!     fails.

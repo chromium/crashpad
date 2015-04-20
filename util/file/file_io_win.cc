@@ -34,6 +34,38 @@ bool IsSocketHandle(HANDLE file) {
 
 namespace crashpad {
 
+namespace {
+
+FileHandle LoggingOpenFileForOutput(DWORD access,
+                                    const base::FilePath& path,
+                                    FileWriteMode mode,
+                                    FilePermissions permissions) {
+  DWORD disposition = 0;
+  switch (mode) {
+    case FileWriteMode::kReuseOrCreate:
+      disposition = OPEN_ALWAYS;
+      break;
+    case FileWriteMode::kTruncateOrCreate:
+      disposition = CREATE_ALWAYS;
+      break;
+    case FileWriteMode::kCreateOrFail:
+      disposition = CREATE_NEW;
+      break;
+  }
+  HANDLE file = CreateFile(path.value().c_str(),
+                           access,
+                           FILE_SHARE_READ | FILE_SHARE_WRITE,
+                           nullptr,
+                           disposition,
+                           FILE_ATTRIBUTE_NORMAL,
+                           nullptr);
+  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE) << "CreateFile "
+                                               << path.value().c_str();
+  return file;
+}
+
+}  // namespace
+
 // TODO(scottmg): Handle > DWORD sized writes if necessary.
 
 ssize_t ReadFile(FileHandle file, void* buffer, size_t size) {
@@ -95,28 +127,14 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path) {
 FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode mode,
                                    FilePermissions permissions) {
-  DWORD disposition = 0;
-  switch (mode) {
-    case FileWriteMode::kReuseOrCreate:
-      disposition = OPEN_ALWAYS;
-      break;
-    case FileWriteMode::kTruncateOrCreate:
-      disposition = CREATE_ALWAYS;
-      break;
-    case FileWriteMode::kCreateOrFail:
-      disposition = CREATE_NEW;
-      break;
-  }
-  HANDLE file = CreateFile(path.value().c_str(),
-                           GENERIC_WRITE,
-                           FILE_SHARE_READ | FILE_SHARE_WRITE,
-                           nullptr,
-                           disposition,
-                           FILE_ATTRIBUTE_NORMAL,
-                           nullptr);
-  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE) << "CreateFile "
-                                               << path.value().c_str();
-  return file;
+  return LoggingOpenFileForOutput(GENERIC_WRITE, path, mode, permissions);
+}
+
+FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
+                                          FileWriteMode mode,
+                                          FilePermissions permissions) {
+  return LoggingOpenFileForOutput(
+      GENERIC_READ | GENERIC_WRITE, path, mode, permissions);
 }
 
 bool LoggingLockFile(FileHandle file, FileLocking locking) {
@@ -172,6 +190,16 @@ FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence) {
     return -1;
   }
   return new_offset.QuadPart;
+}
+
+bool LoggingTruncateFile(FileHandle file) {
+  if (LoggingSeekFile(file, 0, SEEK_SET) != 0)
+    return false;
+  if (!SetEndOfFile(file)) {
+    PLOG(ERROR) << "SetEndOfFile";
+    return false;
+  }
+  return true;
 }
 
 bool LoggingCloseFile(FileHandle file) {

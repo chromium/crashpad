@@ -153,6 +153,9 @@ TEST(UUID, UUID) {
   EXPECT_EQ(0x45u, uuid.data_5[4]);
   EXPECT_EQ(0x45u, uuid.data_5[5]);
   EXPECT_EQ("45454545-4545-4545-4545-454545454545", uuid.ToString());
+
+  UUID initialized_generated(UUID::InitializeWithNewTag{});
+  EXPECT_NE(initialized_generated, uuid_zero);
 }
 
 TEST(UUID, FromString) {

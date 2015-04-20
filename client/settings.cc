@@ -16,16 +16,29 @@
 
 #include <limits>
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <uuid/uuid.h>
-
 #include "base/compiler_specific.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "util/numeric/in_range_cast.h"
 
 namespace crashpad {
+
+namespace internal {
+
+// static
+FileHandle ScopedLockedFileHandleTraits::InvalidValue() {
+  return kInvalidFileHandle;
+}
+
+// static
+void ScopedLockedFileHandleTraits::Free(FileHandle handle) {
+  if (handle != kInvalidFileHandle) {
+    LoggingUnlockFile(handle);
+    CheckedCloseFile(handle);
+  }
+}
+
+}  // namespace internal
 
 struct ALIGNAS(4) Settings::Data {
   static const uint32_t kSettingsMagic = 'CPds';
@@ -61,23 +74,6 @@ Settings::~Settings() {
 bool Settings::Initialize() {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  ScopedFileHandle handle(HANDLE_EINTR(
-      open(file_path().value().c_str(),
-           O_CREAT | O_EXCL | O_WRONLY | O_EXLOCK,
-           0644)));
-
-  // The file was created, so this is a new database that needs to be
-  // initialized with a client ID.
-  if (handle.is_valid()) {
-    bool initialized = InitializeSettings(handle.get());
-    if (initialized)
-      INITIALIZATION_STATE_SET_VALID(initialized_);
-    return initialized;
-  }
-
-  // The file wasn't created, try opening it for a write operation. If the file
-  // needs to be recovered, writing is necessary. This also ensures that the
-  // process has permission to write the file.
   Data settings;
   if (!OpenForWritingAndReadSettings(&settings).is_valid())
     return false;
@@ -112,7 +108,7 @@ bool Settings::SetUploadsEnabled(bool enabled) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   Data settings;
-  ScopedFileHandle handle = OpenForWritingAndReadSettings(&settings);
+  ScopedLockedFileHandle handle = OpenForWritingAndReadSettings(&settings);
   if (!handle.is_valid())
     return false;
 
@@ -140,7 +136,7 @@ bool Settings::SetLastUploadAttemptTime(time_t time) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   Data settings;
-  ScopedFileHandle handle = OpenForWritingAndReadSettings(&settings);
+  ScopedLockedFileHandle handle = OpenForWritingAndReadSettings(&settings);
   if (!handle.is_valid())
     return false;
 
@@ -149,22 +145,33 @@ bool Settings::SetLastUploadAttemptTime(time_t time) {
   return WriteSettings(handle.get(), settings);
 }
 
-ScopedFileHandle Settings::OpenForReading() {
-  ScopedFileHandle handle(HANDLE_EINTR(
-      open(file_path().value().c_str(), O_RDONLY | O_SHLOCK)));
-  PLOG_IF(ERROR, !handle.is_valid()) << "open for reading";
-  return handle.Pass();
+// static
+Settings::ScopedLockedFileHandle Settings::MakeScopedLockedFileHandle(
+    FileHandle file,
+    FileLocking locking) {
+  ScopedFileHandle scoped(file);
+  if (scoped.is_valid()) {
+    if (!LoggingLockFile(scoped.get(), locking))
+      scoped.reset();
+  }
+  return ScopedLockedFileHandle(scoped.release());
 }
 
-ScopedFileHandle Settings::OpenForReadingAndWriting() {
-  ScopedFileHandle handle(HANDLE_EINTR(
-      open(file_path().value().c_str(), O_RDWR | O_EXLOCK | O_CREAT, 0644)));
-  PLOG_IF(ERROR, !handle.is_valid()) << "open for writing";
-  return handle.Pass();
+Settings::ScopedLockedFileHandle Settings::OpenForReading() {
+  return MakeScopedLockedFileHandle(LoggingOpenFileForRead(file_path()),
+                                    FileLocking::kShared);
+}
+
+Settings::ScopedLockedFileHandle Settings::OpenForReadingAndWriting() {
+  return MakeScopedLockedFileHandle(
+      LoggingOpenFileForReadAndWrite(file_path(),
+                                     FileWriteMode::kReuseOrCreate,
+                                     FilePermissions::kWorldReadable),
+      FileLocking::kExclusive);
 }
 
 bool Settings::OpenAndReadSettings(Data* out_data) {
-  ScopedFileHandle handle = OpenForReading();
+  ScopedLockedFileHandle handle = OpenForReading();
   if (!handle.is_valid())
     return false;
 
@@ -178,14 +185,15 @@ bool Settings::OpenAndReadSettings(Data* out_data) {
   return RecoverSettings(kInvalidFileHandle, out_data);
 }
 
-ScopedFileHandle Settings::OpenForWritingAndReadSettings(Data* out_data) {
-  ScopedFileHandle handle = OpenForReadingAndWriting();
+Settings::ScopedLockedFileHandle Settings::OpenForWritingAndReadSettings(
+    Data* out_data) {
+  ScopedLockedFileHandle handle = OpenForReadingAndWriting();
   if (!handle.is_valid())
-    return ScopedFileHandle();
+    return ScopedLockedFileHandle();
 
   if (!ReadSettings(handle.get(), out_data)) {
     if (!RecoverSettings(handle.get(), out_data))
-      return ScopedFileHandle();
+      return ScopedLockedFileHandle();
   }
 
   return handle.Pass();
@@ -215,16 +223,14 @@ bool Settings::WriteSettings(FileHandle handle, const Data& data) {
   if (LoggingSeekFile(handle, 0, SEEK_SET) != 0)
     return false;
 
-  if (HANDLE_EINTR(ftruncate(handle, 0)) != 0) {
-    PLOG(ERROR) << "ftruncate settings file";
+  if (!LoggingTruncateFile(handle))
     return false;
-  }
 
   return LoggingWriteFile(handle, &data, sizeof(Data));
 }
 
 bool Settings::RecoverSettings(FileHandle handle, Data* out_data) {
-  ScopedFileHandle scoped_handle;
+  ScopedLockedFileHandle scoped_handle;
   if (handle == kInvalidFileHandle) {
     scoped_handle = OpenForReadingAndWriting();
     handle = scoped_handle.get();
@@ -234,8 +240,6 @@ bool Settings::RecoverSettings(FileHandle handle, Data* out_data) {
     if (ReadSettings(handle, out_data))
       return true;
   }
-
-  LOG(INFO) << "Recovering settings file " << file_path().value();
 
   if (handle == kInvalidFileHandle) {
     LOG(ERROR) << "Invalid file handle";
@@ -249,11 +253,9 @@ bool Settings::RecoverSettings(FileHandle handle, Data* out_data) {
 }
 
 bool Settings::InitializeSettings(FileHandle handle) {
-  uuid_t uuid;
-  uuid_generate(uuid);
-
   Data settings;
-  settings.client_id.InitializeFromBytes(uuid);
+  if (!settings.client_id.InitializeWithNew())
+    return false;
 
   return WriteSettings(handle, settings);
 }

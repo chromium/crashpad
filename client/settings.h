@@ -21,11 +21,21 @@
 
 #include "base/basictypes.h"
 #include "base/files/file_path.h"
+#include "base/scoped_generic.h"
 #include "util/file/file_io.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
 
 namespace crashpad {
+
+namespace internal {
+
+struct ScopedLockedFileHandleTraits {
+  static FileHandle InvalidValue();
+  static void Free(FileHandle handle);
+};
+
+}  // namespace internal
 
 //! \brief An interface for accessing and modifying the settings of a
 //!     CrashReportDatabase.
@@ -95,13 +105,21 @@ class Settings {
  private:
   struct Data;
 
+  // This must be constructed with MakeScopedLockedFileHandle(). It both unlocks
+  // and closes the file on destruction.
+  using ScopedLockedFileHandle =
+      base::ScopedGeneric<FileHandle,
+                          internal::ScopedLockedFileHandleTraits>;
+  static ScopedLockedFileHandle MakeScopedLockedFileHandle(FileHandle file,
+                                                           FileLocking locking);
+
   // Opens the settings file for reading. On error, logs a message and returns
   // the invalid handle.
-  ScopedFileHandle OpenForReading();
+  ScopedLockedFileHandle OpenForReading();
 
   // Opens the settings file for reading and writing. On error, logs a message
   // and returns the invalid handle.
-  ScopedFileHandle OpenForReadingAndWriting();
+  ScopedLockedFileHandle OpenForReadingAndWriting();
 
   // Opens the settings file and reads the data. If that fails, an error will
   // be logged and the settings will be recovered and re-initialized. If that
@@ -111,7 +129,7 @@ class Settings {
   // Opens the settings file for writing and reads the data. If reading fails,
   // recovery is attempted. Returns the opened file handle on success, or the
   // invalid file handle on failure, with an error logged.
-  ScopedFileHandle OpenForWritingAndReadSettings(Data* out_data);
+  ScopedLockedFileHandle OpenForWritingAndReadSettings(Data* out_data);
 
   // Reads the settings from |handle|. Logs an error and returns false on
   // failure. This does not perform recovery.

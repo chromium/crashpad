@@ -39,14 +39,6 @@
         'simple_string_dictionary_test.cc',
         'simulate_crash_mac_test.cc',
       ],
-      'conditions': [
-        ['OS=="win"', {
-          'sources!': [
-            # Port to Win https://code.google.com/p/crashpad/issues/detail?id=13
-            'settings_test.cc',
-          ],
-        }],
-      ],
     },
   ],
 }

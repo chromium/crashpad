@@ -69,6 +69,29 @@ ssize_t ReadOrWrite(int fd,
 
 namespace crashpad {
 
+namespace {
+
+FileHandle LoggingOpenFileForOutput(int rdwr_or_wronly,
+                                    const base::FilePath& path,
+                                    FileWriteMode mode,
+                                    FilePermissions permissions) {
+  int flags = rdwr_or_wronly | O_CREAT;
+  // kReuseOrCreate does not need any additional flags.
+  if (mode == FileWriteMode::kTruncateOrCreate)
+    flags |= O_TRUNC;
+  else if (mode == FileWriteMode::kCreateOrFail)
+    flags |= O_EXCL;
+
+  int fd = HANDLE_EINTR(
+      open(path.value().c_str(),
+           flags,
+           permissions == FilePermissions::kWorldReadable ? 0644 : 0600));
+  PLOG_IF(ERROR, fd < 0) << "open " << path.value();
+  return fd;
+}
+
+}  // namespace
+
 ssize_t ReadFile(FileHandle file, void* buffer, size_t size) {
   return ReadOrWrite<ReadTraits>(file, buffer, size);
 }
@@ -86,19 +109,13 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path) {
 FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode mode,
                                    FilePermissions permissions) {
-  int flags = O_WRONLY | O_CREAT;
-  // kReuseOrCreate does not need any additional flags.
-  if (mode == FileWriteMode::kTruncateOrCreate)
-    flags |= O_TRUNC;
-  else if (mode == FileWriteMode::kCreateOrFail)
-    flags |= O_EXCL;
+  return LoggingOpenFileForOutput(O_WRONLY, path, mode, permissions);
+}
 
-  int fd = HANDLE_EINTR(
-      open(path.value().c_str(),
-           flags,
-           permissions == FilePermissions::kWorldReadable ? 0644 : 0600));
-  PLOG_IF(ERROR, fd < 0) << "open " << path.value();
-  return fd;
+FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
+                                          FileWriteMode mode,
+                                          FilePermissions permissions) {
+  return LoggingOpenFileForOutput(O_RDWR, path, mode, permissions);
 }
 
 bool LoggingLockFile(FileHandle file, FileLocking locking) {
@@ -118,6 +135,14 @@ FileOffset LoggingSeekFile(FileHandle file, FileOffset offset, int whence) {
   off_t rv = lseek(file, offset, whence);
   PLOG_IF(ERROR, rv < 0) << "lseek";
   return rv;
+}
+
+bool LoggingTruncateFile(FileHandle file) {
+  if (HANDLE_EINTR(ftruncate(file, 0)) != 0) {
+    PLOG(ERROR) << "ftruncate";
+    return false;
+  }
+  return true;
 }
 
 bool LoggingCloseFile(FileHandle file) {

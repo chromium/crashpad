@@ -14,7 +14,6 @@
 
 #include "client/crash_report_database.h"
 
-#include <rpc.h>
 #include <string.h>
 #include <time.h>
 #include <windows.h>
@@ -573,12 +572,9 @@ OperationStatus CrashReportDatabaseWin::PrepareNewCrashReport(
     NewReport** report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  ::UUID system_uuid;
-  if (UuidCreate(&system_uuid) != RPC_S_OK)
-    return kFileSystemError;
-
   scoped_ptr<NewReport> new_report(new NewReport());
-  new_report->uuid.InitializeFromSystemUUID(&system_uuid);
+  if (!new_report->uuid.InitializeWithNew())
+    return kFileSystemError;
   new_report->path = base_dir_.Append(kReportsDirectory)
                          .Append(new_report->uuid.ToString16() + L"." +
                                  kCrashReportFileExtension);

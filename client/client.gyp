@@ -54,10 +54,6 @@
               '-lrpcrt4.lib',
             ],
           },
-          'sources!': [
-            # Port to Win https://code.google.com/p/crashpad/issues/detail?id=13
-            'settings.cc',
-          ],
         }],
       ],
       'direct_dependent_settings': {

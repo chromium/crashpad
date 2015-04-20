@@ -41,6 +41,16 @@ struct UUID {
   //! \brief Initializes the %UUID to zero.
   UUID();
 
+  //! \brief Tag to pass to constructor to indicate it should initialize with
+  //!     generated data.
+  struct InitializeWithNewTag {};
+
+  //! \brief Initializes the %UUID using a standard system facility to generate
+  //!     the value.
+  //!
+  //! CHECKs on failure with a message logged.
+  explicit UUID(InitializeWithNewTag);
+
   //! \copydoc InitializeFromBytes()
   explicit UUID(const uint8_t* bytes);
 
@@ -66,6 +76,13 @@ struct UUID {
   //!     been initialized with the data. `false` if the string could not be
   //!     parsed, with the object state untouched.
   bool InitializeFromString(const base::StringPiece& string);
+
+  //! \brief Initializes the %UUID using a standard system facility to generate
+  //!     the value.
+  //!
+  //! \return `true` if the %UUID was initialized correctly, `false` otherwise
+  //!     with a message logged.
+  bool InitializeWithNew();
 
 #if defined(OS_WIN) || DOXYGEN
   //! \brief Initializes the %UUID from a system `UUID` or `GUID` structure.
