@@ -122,7 +122,7 @@ pid_t ProcessSnapshotMac::ProcessID() const {
 
 pid_t ProcessSnapshotMac::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return process_reader_.ProcessID();
+  return process_reader_.ParentProcessID();
 }
 
 void ProcessSnapshotMac::SnapshotTime(timeval* snapshot_time) const {
