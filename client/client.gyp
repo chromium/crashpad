@@ -37,6 +37,7 @@
         'crash_report_database_win.cc',
         'crashpad_client.h',
         'crashpad_client_mac.cc',
+        'crashpad_client_win.cc',
         'crashpad_info.cc',
         'crashpad_info.h',
         'settings.cc',

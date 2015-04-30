@@ -49,6 +49,9 @@ class CrashpadClient {
   //! send right corresponding to a receive right held by the handler process.
   //! The handler process runs an exception server on this port.
   //!
+  //! On Windows, SetHandler() is normally used instead since the handler is
+  //! started by other means.
+  //!
   //! \param[in] handler The path to a Crashpad handler executable.
   //! \param[in] database The path to a Crashpad database. The handler will be
   //!     started with this path as its `--database` argument.
@@ -69,9 +72,27 @@ class CrashpadClient {
                     const std::map<std::string, std::string>& annotations,
                     const std::vector<std::string>& arguments);
 
+#if defined(OS_WIN) || DOXYGEN
+  //! \brief Sets the IPC port of a presumably-running Crashpad handler process
+  //!     which was started with StartHandler() or by other compatible means
+  //!     and does an IPC message exchange to register this process with the
+  //!     handler. However, just like StartHandler(), crashes are not serviced
+  //!     until UseHandler() is called.
+  //!
+  //! The IPC port name (somehow) encodes enough information so that
+  //! registration is done with a crash handler using the appropriate database
+  //! and upload server.
+  //!
+  //! \param[in] ipc_port The full name of the crash handler IPC port.
+  //!
+  //! \return `true` on success and `false` on failure.
+  bool SetHandler(const std::string& ipc_port);
+#endif
+
   //! \brief Configures the process to direct its crashes to a Crashpad handler.
   //!
-  //! The Crashpad handler must previously have been started by StartHandler().
+  //! The Crashpad handler must previously have been started by StartHandler()
+  //! or configured by SetHandler().
   //!
   //! On Mac OS X, this method sets the task’s exception port for `EXC_CRASH`,
   //! `EXC_RESOURCE`, and `EXC_GUARD` exceptions to the Mach send right obtained
@@ -84,6 +105,10 @@ class CrashpadClient {
   //! way. The Crashpad handler will receive crashes from child processes that
   //! have inherited it as their exception handler even after the process that
   //! called StartHandler() exits.
+  //!
+  //! On Windows, this method sets the unhandled exception handler to a local
+  //! function that when reached will "signal and wait" for the crash handler
+  //! process to create the dump.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
   bool UseHandler();
