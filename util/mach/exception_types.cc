@@ -35,6 +35,10 @@ extern "C" {
 int proc_get_wakemon_params(pid_t pid, int* rate_hz, int* flags)
     __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0);
 
+// Redeclare the method without the availability annotation to suppress the
+// -Wpartial-availability warning.
+int proc_get_wakemon_params(pid_t pid, int* rate_hz, int* flags);
+
 }  // extern "C"
 
 #else
