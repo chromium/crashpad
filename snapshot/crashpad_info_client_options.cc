@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/mac/crashpad_info_client_options.h"
+#include "snapshot/crashpad_info_client_options.h"
 
 #include "base/logging.h"
 #include "client/crashpad_info.h"

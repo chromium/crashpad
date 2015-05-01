@@ -80,7 +80,7 @@ bool ReadUnicodeString(HANDLE process,
   return true;
 }
 
-template <class T> bool ReadStruct(HANDLE process, uintptr_t at, T* into) {
+template <class T> bool ReadStruct(HANDLE process, WinVMAddress at, T* into) {
   SIZE_T bytes_read;
   if (!ReadProcessMemory(process,
                          reinterpret_cast<const void*>(at),
@@ -103,11 +103,11 @@ template <class T> bool ReadStruct(HANDLE process, uintptr_t at, T* into) {
 
 template <class Traits>
 bool ReadProcessData(HANDLE process,
-                     uintptr_t peb_address_uintptr,
+                     WinVMAddress peb_address_vmaddr,
                      ProcessInfo* process_info) {
   Traits::Pointer peb_address;
-  if (!AssignIfInRange(&peb_address, peb_address_uintptr)) {
-    LOG(ERROR) << "peb_address_uintptr " << peb_address_uintptr
+  if (!AssignIfInRange(&peb_address, peb_address_vmaddr)) {
+    LOG(ERROR) << "peb_address_vmaddr " << peb_address_vmaddr
                << " out of range";
     return false;
   }
@@ -131,13 +131,12 @@ bool ReadProcessData(HANDLE process,
   if (!ReadStruct(process, peb.Ldr, &peb_ldr_data))
     return false;
 
-  std::wstring module;
   process_types::LDR_DATA_TABLE_ENTRY<Traits> ldr_data_table_entry;
 
   // Include the first module in the memory order list to get our the main
   // executable's name, as it's not included in initialization order below.
   if (!ReadStruct(process,
-                  reinterpret_cast<uintptr_t>(
+                  reinterpret_cast<WinVMAddress>(
                       reinterpret_cast<const char*>(
                           peb_ldr_data.InMemoryOrderModuleList.Flink) -
                       offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>,
@@ -145,8 +144,14 @@ bool ReadProcessData(HANDLE process,
                   &ldr_data_table_entry)) {
     return false;
   }
-  if (!ReadUnicodeString(process, ldr_data_table_entry.FullDllName, &module))
+  ProcessInfo::Module module;
+  if (!ReadUnicodeString(
+          process, ldr_data_table_entry.FullDllName, &module.name)) {
     return false;
+  }
+  module.dll_base = ldr_data_table_entry.DllBase;
+  module.size = ldr_data_table_entry.SizeOfImage;
+  module.timestamp = ldr_data_table_entry.TimeDateStamp;
   process_info->modules_.push_back(module);
 
   // Walk the PEB LDR structure (doubly-linked list) to get the list of loaded
@@ -161,22 +166,33 @@ bool ReadProcessData(HANDLE process,
     // to read from the target, and also offset back to the beginning of the
     // structure.
     if (!ReadStruct(process,
-                    reinterpret_cast<uintptr_t>(
+                    reinterpret_cast<WinVMAddress>(
                         reinterpret_cast<const char*>(cur) -
                         offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>,
                                  InInitializationOrderLinks)),
                     &ldr_data_table_entry)) {
       break;
     }
-    // TODO(scottmg): Capture TimeDateStamp, Checksum, etc. too?
-    if (!ReadUnicodeString(process, ldr_data_table_entry.FullDllName, &module))
+    // TODO(scottmg): Capture Checksum, etc. too?
+    if (!ReadUnicodeString(
+            process, ldr_data_table_entry.FullDllName, &module.name)) {
       break;
+    }
+    module.dll_base = ldr_data_table_entry.DllBase;
+    module.size = ldr_data_table_entry.SizeOfImage;
+    module.timestamp = ldr_data_table_entry.TimeDateStamp;
     process_info->modules_.push_back(module);
     if (cur == last)
       break;
   }
 
   return true;
+}
+
+ProcessInfo::Module::Module() : name(), dll_base(0), size(0), timestamp() {
+}
+
+ProcessInfo::Module::~Module() {
 }
 
 ProcessInfo::ProcessInfo()
@@ -251,7 +267,7 @@ bool ProcessInfo::Initialize(HANDLE process) {
   // PebBaseAddress as returned above is what we want for 64-on-64 and 32-on-32,
   // but for Wow64, we want to read the 32 bit PEB (a Wow64 process has both).
   // The address of this is found by a second call to NtQueryInformationProcess.
-  uintptr_t peb_address = process_basic_information.PebBaseAddress;
+  WinVMAddress peb_address = process_basic_information.PebBaseAddress;
   if (is_wow64_) {
     ULONG_PTR wow64_peb_address;
     status =
@@ -309,7 +325,7 @@ bool ProcessInfo::CommandLine(std::wstring* command_line) const {
   return true;
 }
 
-bool ProcessInfo::Modules(std::vector<std::wstring>* modules) const {
+bool ProcessInfo::Modules(std::vector<Module>* modules) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *modules = modules_;
   return true;

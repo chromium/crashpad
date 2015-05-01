@@ -18,6 +18,7 @@
 #include <windows.h>
 
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/win/address_types.h"
 #include "util/win/process_info.h"
 
 namespace crashpad {
@@ -42,8 +43,19 @@ class ProcessReaderWin {
   //! \return `true` if the target task is a 64-bit process.
   bool Is64Bit() const { return process_info_.Is64Bit(); }
 
+  pid_t ProcessID() const { return process_info_.ProcessID(); }
+  pid_t ParentProcessID() const { return process_info_.ParentProcessID(); }
+
+  bool ReadMemory(WinVMAddress at, WinVMSize num_bytes, void* into);
+
+  //! \return The modules loaded in the process. The first element (at index
+  //!     `0`) corresponds to the main executable.
+  const std::vector<ProcessInfo::Module>& Modules();
+
  private:
+  HANDLE process_;
   ProcessInfo process_info_;
+  std::vector<ProcessInfo::Module> modules_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderWin);

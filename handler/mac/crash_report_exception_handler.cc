@@ -23,7 +23,7 @@
 #include "base/strings/stringprintf.h"
 #include "client/settings.h"
 #include "minidump/minidump_file_writer.h"
-#include "snapshot/mac/crashpad_info_client_options.h"
+#include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/mac/process_snapshot_mac.h"
 #include "util/file/file_writer.h"
 #include "util/mach/exc_client_variants.h"

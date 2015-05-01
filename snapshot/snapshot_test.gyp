@@ -50,6 +50,7 @@
       'target_name': 'crashpad_snapshot_test',
       'type': 'executable',
       'dependencies': [
+        'crashpad_snapshot_test_module',
         'snapshot.gyp:crashpad_snapshot',
         '../client/client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
@@ -64,8 +65,8 @@
       ],
       'sources': [
         'cpu_context_test.cc',
+        'crashpad_info_client_options_test.cc',
         'mac/cpu_context_mac_test.cc',
-        'mac/crashpad_info_client_options_test.cc',
         'mac/mach_o_image_annotations_reader_test.cc',
         'mac/mach_o_image_reader_test.cc',
         'mac/mach_o_image_segment_reader_test.cc',
@@ -73,13 +74,11 @@
         'mac/process_types_test.cc',
         'mac/system_snapshot_mac_test.cc',
         'minidump/process_snapshot_minidump_test.cc',
+        'win/process_reader_win_test.cc',
         'win/system_snapshot_win_test.cc',
       ],
       'conditions': [
         ['OS=="mac"', {
-          'dependencies': [
-            'crashpad_snapshot_test_module',
-          ],
           'link_settings': {
             'libraries': [
               '$(SDKROOT)/System/Library/Frameworks/OpenCL.framework',
@@ -88,25 +87,19 @@
         }],
       ],
     },
-  ],
-  'conditions': [
-    ['OS=="mac"', {
-      'targets': [
-        {
-          'target_name': 'crashpad_snapshot_test_module',
-          'type': 'loadable_module',
-          'dependencies': [
-            '../client/client.gyp:crashpad_client',
-            '../third_party/mini_chromium/mini_chromium.gyp:base',
-          ],
-          'include_dirs': [
-            '..',
-          ],
-          'sources': [
-            'mac/crashpad_info_client_options_test_module.cc',
-          ],
-        },
+    {
+      'target_name': 'crashpad_snapshot_test_module',
+      'type': 'loadable_module',
+      'dependencies': [
+        '../client/client.gyp:crashpad_client',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
       ],
-    }],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'crashpad_info_client_options_test_module.cc',
+      ],
+    },
   ],
 }

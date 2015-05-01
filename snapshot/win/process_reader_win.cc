@@ -14,9 +14,15 @@
 
 #include "snapshot/win/process_reader_win.h"
 
+#include "base/numerics/safe_conversions.h"
+
 namespace crashpad {
 
-ProcessReaderWin::ProcessReaderWin() : process_info_(), initialized_() {
+ProcessReaderWin::ProcessReaderWin()
+    : process_(INVALID_HANDLE_VALUE),
+      process_info_(),
+      modules_(),
+      initialized_() {
 }
 
 ProcessReaderWin::~ProcessReaderWin() {
@@ -25,10 +31,37 @@ ProcessReaderWin::~ProcessReaderWin() {
 bool ProcessReaderWin::Initialize(HANDLE process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
+  process_ = process;
   process_info_.Initialize(process);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
+}
+
+bool ProcessReaderWin::ReadMemory(WinVMAddress at,
+                                  WinVMSize num_bytes,
+                                  void* into) {
+  SIZE_T bytes_read;
+  if (!ReadProcessMemory(process_,
+                         reinterpret_cast<void*>(at),
+                         into,
+                         base::checked_cast<SIZE_T>(num_bytes),
+                         &bytes_read) ||
+      num_bytes != bytes_read) {
+    PLOG(ERROR) << "ReadMemory at " << at << " of " << num_bytes << " failed";
+    return false;
+  }
+  return true;
+}
+
+const std::vector<ProcessInfo::Module>& ProcessReaderWin::Modules() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  if (!process_info_.Modules(&modules_)) {
+    LOG(ERROR) << "couldn't retrieve modules";
+  }
+
+  return modules_;
 }
 
 }  // namespace crashpad

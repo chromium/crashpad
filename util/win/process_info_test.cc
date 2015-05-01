@@ -21,6 +21,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/paths.h"
+#include "util/file/file_io.h"
 #include "util/misc/uuid.h"
 #include "util/win/scoped_handle.h"
 
@@ -29,6 +30,18 @@ namespace test {
 namespace {
 
 const wchar_t kNtdllName[] = L"\\ntdll.dll";
+
+time_t GetTimestampForModule(HMODULE module) {
+  wchar_t filename[MAX_PATH];
+  if (!GetModuleFileName(module, filename, arraysize(filename)))
+    return 0;
+  struct _stat stat_buf;
+  int rv = _wstat(filename, &stat_buf);
+  EXPECT_EQ(0, rv);
+  if (rv != 0)
+    return 0;
+  return stat_buf.st_mtime;
+}
 
 TEST(ProcessInfo, Self) {
   ProcessInfo process_info;
@@ -49,16 +62,31 @@ TEST(ProcessInfo, Self) {
   EXPECT_TRUE(process_info.CommandLine(&command_line));
   EXPECT_EQ(std::wstring(GetCommandLine()), command_line);
 
-  std::vector<std::wstring> modules;
+  std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 2u);
   const wchar_t kSelfName[] = L"\\crashpad_util_test.exe";
-  ASSERT_GE(modules[0].size(), wcslen(kSelfName));
+  ASSERT_GE(modules[0].name.size(), wcslen(kSelfName));
   EXPECT_EQ(kSelfName,
-            modules[0].substr(modules[0].size() - wcslen(kSelfName)));
-  ASSERT_GE(modules[1].size(), wcslen(kNtdllName));
-  EXPECT_EQ(kNtdllName,
-            modules[1].substr(modules[1].size() - wcslen(kNtdllName)));
+            modules[0].name.substr(modules[0].name.size() - wcslen(kSelfName)));
+  ASSERT_GE(modules[1].name.size(), wcslen(kNtdllName));
+  EXPECT_EQ(
+      kNtdllName,
+      modules[1].name.substr(modules[1].name.size() - wcslen(kNtdllName)));
+
+  EXPECT_EQ(modules[0].dll_base,
+            reinterpret_cast<uintptr_t>(GetModuleHandle(nullptr)));
+  EXPECT_EQ(modules[1].dll_base,
+            reinterpret_cast<uintptr_t>(GetModuleHandle(L"ntdll.dll")));
+
+  EXPECT_GT(modules[0].size, 0);
+  EXPECT_GT(modules[1].size, 0);
+
+  EXPECT_EQ(modules[0].timestamp,
+            GetTimestampForModule(GetModuleHandle(nullptr)));
+  // System modules are forced to particular stamps and the file header values
+  // don't match the on-disk times. Just make sure we got some data here.
+  EXPECT_GT(modules[1].timestamp, 0);
 }
 
 void TestOtherProcess(const std::wstring& child_name_suffix) {
@@ -110,24 +138,25 @@ void TestOtherProcess(const std::wstring& child_name_suffix) {
   // Tell the test it's OK to shut down now that we've read our data.
   SetEvent(done.get());
 
-  std::vector<std::wstring> modules;
+  std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 3u);
   std::wstring child_name = L"\\crashpad_util_test_process_info_test_child_" +
                             child_name_suffix + L".exe";
-  ASSERT_GE(modules[0].size(), child_name.size());
+  ASSERT_GE(modules[0].name.size(), child_name.size());
   EXPECT_EQ(child_name,
-            modules[0].substr(modules[0].size() - child_name.size()));
-  ASSERT_GE(modules[1].size(), wcslen(kNtdllName));
-  EXPECT_EQ(kNtdllName,
-            modules[1].substr(modules[1].size() - wcslen(kNtdllName)));
+            modules[0].name.substr(modules[0].name.size() - child_name.size()));
+  ASSERT_GE(modules[1].name.size(), wcslen(kNtdllName));
+  EXPECT_EQ(
+      kNtdllName,
+      modules[1].name.substr(modules[1].name.size() - wcslen(kNtdllName)));
   // lz32.dll is an uncommonly-used-but-always-available module that the test
   // binary manually loads.
   const wchar_t kLz32dllName[] = L"\\lz32.dll";
-  ASSERT_GE(modules.back().size(), wcslen(kLz32dllName));
-  EXPECT_EQ(
-      kLz32dllName,
-      modules.back().substr(modules.back().size() - wcslen(kLz32dllName)));
+  ASSERT_GE(modules.back().name.size(), wcslen(kLz32dllName));
+  EXPECT_EQ(kLz32dllName,
+            modules.back().name.substr(modules.back().name.size() -
+                                       wcslen(kLz32dllName)));
 }
 
 TEST(ProcessInfo, OtherProcessX64) {

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_MAC_CRASHPAD_INFO_CLIENT_OPTIONS_H_
-#define CRASHPAD_SNAPSHOT_MAC_CRASHPAD_INFO_CLIENT_OPTIONS_H_
+#ifndef CRASHPAD_SNAPSHOT_CRASHPAD_INFO_CLIENT_OPTIONS_H_
+#define CRASHPAD_SNAPSHOT_CRASHPAD_INFO_CLIENT_OPTIONS_H_
 
 #include "util/misc/tri_state.h"
 
@@ -61,4 +61,4 @@ struct CrashpadInfoClientOptions {
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_MAC_CRASHPAD_INFO_CLIENT_OPTIONS_H_
+#endif  // CRASHPAD_SNAPSHOT_CRASHPAD_INFO_CLIENT_OPTIONS_H_

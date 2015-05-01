@@ -35,7 +35,6 @@
       'sources': [
         'file/file_io_test.cc',
         'file/string_file_test.cc',
-        'mac/checked_mach_address_range_test.cc',
         'mac/launchd_test.mm',
         'mac/mac_util_test.mm',
         'mac/service_management_test.mm',
@@ -65,6 +64,7 @@
         'net/http_body_test_util.h',
         'net/http_multipart_builder_test.cc',
         'net/http_transport_test.cc',
+        'numeric/checked_address_range_test.cc',
         'numeric/checked_range_test.cc',
         'numeric/in_range_cast_test.cc',
         'numeric/int128_test.cc',

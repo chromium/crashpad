@@ -23,6 +23,7 @@
 
 #include "base/basictypes.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/win/address_types.h"
 
 namespace crashpad {
 
@@ -30,6 +31,24 @@ namespace crashpad {
 //!     primarily of information stored in the Process Environment Block.
 class ProcessInfo {
  public:
+  //! \brief Contains information about a module loaded into a process.
+  struct Module {
+    Module();
+    ~Module();
+
+    //! \brief The pathname used to load the module from disk.
+    std::wstring name;
+
+    //! \brief The base address of the loaded DLL.
+    WinVMAddress dll_base;
+
+    //! \brief The size of the module.
+    WinVMSize size;
+
+    //! \brief The module's timestamp.
+    time_t timestamp;
+  };
+
   ProcessInfo();
   ~ProcessInfo();
 
@@ -64,18 +83,18 @@ class ProcessInfo {
   //! The modules are enumerated in initialization order as detailed in the
   //!     Process Environment Block. The main executable will always be the
   //!     first element.
-  bool Modules(std::vector<std::wstring>* modules) const;
+  bool Modules(std::vector<Module>* modules) const;
 
  private:
   template <class T>
   friend bool ReadProcessData(HANDLE process,
-                              uintptr_t peb_address_uintptr,
+                              WinVMAddress peb_address_vmaddr,
                               ProcessInfo* process_info);
 
   pid_t process_id_;
   pid_t inherited_from_process_id_;
   std::wstring command_line_;
-  std::vector<std::wstring> modules_;
+  std::vector<Module> modules_;
   bool is_64_bit_;
   bool is_wow64_;
   InitializationStateDcheck initialized_;

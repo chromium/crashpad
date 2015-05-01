@@ -12,15 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/mac/crashpad_info_client_options.h"
-
-#include <dlfcn.h>
+#include "snapshot/crashpad_info_client_options.h"
 
 #include "base/files/file_path.h"
+#include "build/build_config.h"
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
-#include "snapshot/mac/process_snapshot_mac.h"
+#include "test/errors.h"
 #include "test/paths.h"
+
+#if defined(OS_MACOSX)
+#include <dlfcn.h>
+#include "snapshot/mac/process_snapshot_mac.h"
+#elif defined(OS_WIN)
+#include <windows.h>
+#include "snapshot/win/process_snapshot_win.h"
+#endif
 
 namespace crashpad {
 namespace test {
@@ -62,8 +69,15 @@ class ScopedUnsetCrashpadInfoOptions {
 
 TEST(CrashpadInfoClientOptions, OneModule) {
   // Make sure that the initial state has all values unset.
+#if defined(OS_MACOSX)
   ProcessSnapshotMac process_snapshot;
   ASSERT_TRUE(process_snapshot.Initialize(mach_task_self()));
+#elif defined(OS_WIN)
+  ProcessSnapshotWin process_snapshot;
+  ASSERT_TRUE(process_snapshot.Initialize(GetCurrentProcess()));
+#else
+#error Port.
+#endif  // OS_MACOSX
 
   CrashpadInfoClientOptions options;
   process_snapshot.GetCrashpadOptions(&options);
@@ -95,17 +109,28 @@ TEST(CrashpadInfoClientOptions, OneModule) {
   }
 }
 
+#if defined(OS_POSIX)
+using DlHandle = void*;
+#elif defined(OS_WIN)
+using DlHandle = HMODULE;
+#endif  // OS_POSIX
+
 class ScopedDlHandle {
  public:
-  explicit ScopedDlHandle(void* dl_handle)
+  explicit ScopedDlHandle(DlHandle dl_handle)
       : dl_handle_(dl_handle) {
   }
 
   ~ScopedDlHandle() {
     if (dl_handle_) {
+#if defined(OS_POSIX)
       if (dlclose(dl_handle_) != 0) {
         LOG(ERROR) << "dlclose: " << dlerror();
       }
+#elif defined(OS_WIN)
+      if (!FreeLibrary(dl_handle_))
+        PLOG(ERROR) << "FreeLibrary";
+#endif  // OS_POSIX
     }
   }
 
@@ -113,23 +138,41 @@ class ScopedDlHandle {
 
   template <typename T>
   T LookUpSymbol(const char* symbol_name) {
+#if defined(OS_POSIX)
     return reinterpret_cast<T>(dlsym(dl_handle_, symbol_name));
+#elif defined(OS_WIN)
+    return reinterpret_cast<T>(GetProcAddress(dl_handle_, symbol_name));
+#endif  // OS_POSIX
   }
 
  private:
-  void* dl_handle_;
+  DlHandle dl_handle_;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedDlHandle);
 };
 
 TEST(CrashpadInfoClientOptions, TwoModules) {
   // Open the module, which has its own CrashpadInfo structure.
-  base::FilePath module_path =
-      Paths::Executable().DirName().Append("crashpad_snapshot_test_module.so");
+#if defined(OS_MACOSX)
+  const base::FilePath::StringType kDlExtension = FILE_PATH_LITERAL(".so");
+#elif defined(OS_WIN)
+  const base::FilePath::StringType kDlExtension = FILE_PATH_LITERAL(".dll");
+#endif
+  base::FilePath module_path = Paths::Executable().DirName().Append(
+      FILE_PATH_LITERAL("crashpad_snapshot_test_module") + kDlExtension);
+#if defined(OS_MACOSX)
   ScopedDlHandle dl_handle(
       dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
   ASSERT_TRUE(dl_handle.valid()) << "dlopen " << module_path.value() << ": "
                                  << dlerror();
+#elif defined(OS_WIN)
+  ScopedDlHandle dl_handle(LoadLibrary(module_path.value().c_str()));
+  ASSERT_TRUE(dl_handle.valid()) << "LoadLibrary "
+                                 << module_path.value().c_str() << ": "
+                                 << ErrorMessage();
+#else
+#error Port.
+#endif  // OS_MACOSX
 
   // Get the function pointer from the module. This wraps GetCrashpadInfo(), but
   // because it runs in the module, it returns the remote module’s CrashpadInfo
@@ -139,8 +182,15 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
   ASSERT_TRUE(TestModule_GetCrashpadInfo);
 
   // Make sure that the initial state has all values unset.
+#if defined(OS_MACOSX)
   ProcessSnapshotMac process_snapshot;
   ASSERT_TRUE(process_snapshot.Initialize(mach_task_self()));
+#elif defined(OS_WIN)
+  ProcessSnapshotWin process_snapshot;
+  ASSERT_TRUE(process_snapshot.Initialize(GetCurrentProcess()));
+#else
+#error Port.
+#endif  // OS_MACOSX
 
   CrashpadInfoClientOptions options;
   process_snapshot.GetCrashpadOptions(&options);

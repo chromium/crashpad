@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_MAC_PROCESS_SNAPSHOT_MAC_H_
-#define CRASHPAD_SNAPSHOT_MAC_PROCESS_SNAPSHOT_MAC_H_
+#ifndef CRASHPAD_SNAPSHOT_WIN_PROCESS_SNAPSHOT_WIN_H_
+#define CRASHPAD_SNAPSHOT_WIN_PROCESS_SNAPSHOT_WIN_H_
 
-#include <mach/mach.h>
+#include <windows.h>
 #include <sys/time.h>
-#include <unistd.h>
 
 #include <map>
 #include <string>
@@ -28,77 +27,53 @@
 #include "client/crashpad_info.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/exception_snapshot.h"
-#include "snapshot/mac/exception_snapshot_mac.h"
-#include "snapshot/mac/module_snapshot_mac.h"
-#include "snapshot/mac/process_reader.h"
-#include "snapshot/mac/system_snapshot_mac.h"
-#include "snapshot/mac/thread_snapshot_mac.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
 #include "snapshot/thread_snapshot.h"
-#include "util/mach/mach_extensions.h"
+#include "snapshot/win/module_snapshot_win.h"
+#include "snapshot/win/system_snapshot_win.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
-//! \brief A ProcessSnapshot of a running (or crashed) process running on a Mac
-//!     OS X system.
-class ProcessSnapshotMac final : public ProcessSnapshot {
+//! \brief A ProcessSnapshot of a running (or crashed) process running on a
+//!     Windows system.
+class ProcessSnapshotWin final : public ProcessSnapshot {
  public:
-  ProcessSnapshotMac();
-  ~ProcessSnapshotMac() override;
+  ProcessSnapshotWin();
+  ~ProcessSnapshotWin() override;
 
   //! \brief Initializes the object.
   //!
-  //! \param[in] task The task to create a snapshot from.
+  //! \param[in] process The handle to create a snapshot from.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(task_t task);
-
-  //! \brief Initializes the object’s exception.
-  //!
-  //! This populates the data to be returned by Exception(). The parameters may
-  //! be passed directly through from a Mach exception handler.
-  //!
-  //! This method must not be called until after a successful call to
-  //! Initialize().
-  //!
-  //! \return `true` if the exception information could be initialized, `false`
-  //!     otherwise with an appropriate message logged. When this method returns
-  //!     `false`, the ProcessSnapshotMac object’s validity remains unchanged.
-  bool InitializeException(exception_behavior_t behavior,
-                           thread_t exception_thread,
-                           exception_type_t exception,
-                           const mach_exception_data_type_t* code,
-                           mach_msg_type_number_t code_count,
-                           thread_state_flavor_t flavor,
-                           ConstThreadState state,
-                           mach_msg_type_number_t state_count);
+  bool Initialize(HANDLE process);
 
   //! \brief Sets the value to be returned by ReportID().
   //!
-  //! On Mac OS X, the crash report ID is under the control of the snapshot
-  //! producer, which may call this method to set the report ID. If this is not
-  //! done, ReportID() will return an identifier consisting entirely of zeroes.
+  //! The crash report ID is under the control of the snapshot producer, which
+  //! may call this method to set the report ID. If this is not done, ReportID()
+  //! will return an identifier consisting entirely of zeroes.
   void SetReportID(const UUID& report_id) { report_id_ = report_id; }
 
   //! \brief Sets the value to be returned by ClientID().
   //!
-  //! On Mac OS X, the client ID is under the control of the snapshot producer,
-  //! which may call this method to set the client ID. If this is not done,
-  //! ClientID() will return an identifier consisting entirely of zeroes.
+  //! The client ID is under the control of the snapshot producer, which may
+  //! call this method to set the client ID. If this is not done, ClientID()
+  //! will return an identifier consisting entirely of zeroes.
   void SetClientID(const UUID& client_id) { client_id_ = client_id; }
 
   //! \brief Sets the value to be returned by AnnotationsSimpleMap().
   //!
-  //! On Mac OS X, all process annotations are under the control of the snapshot
-  //! producer, which may call this method to establish these annotations.
-  //! Contrast this with module annotations, which are under the control of the
-  //! process being snapshotted.
+  //! All process annotations are under the control of the snapshot producer,
+  //! which may call this method to establish these annotations. Contrast this
+  //! with module annotations, which are under the control of the process being
+  //! snapshotted.
   void SetAnnotationsSimpleMap(
       const std::map<std::string, std::string>& annotations_simple_map) {
     annotations_simple_map_ = annotations_simple_map;
@@ -129,25 +104,25 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
 
  private:
   // Initializes threads_ on behalf of Initialize().
-  void InitializeThreads();
+  // TODO(scottmg): void InitializeThreads();
 
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
 
-  internal::SystemSnapshotMac system_;
-  PointerVector<internal::ThreadSnapshotMac> threads_;
-  PointerVector<internal::ModuleSnapshotMac> modules_;
-  scoped_ptr<internal::ExceptionSnapshotMac> exception_;
-  ProcessReader process_reader_;
+  internal::SystemSnapshotWin system_;
+  // TODO(scottmg): PointerVector<internal::ThreadSnapshotWin> threads_;
+  PointerVector<internal::ModuleSnapshotWin> modules_;
+  // TODO(scottmg): scoped_ptr<internal::ExceptionSnapshotWin> exception_;
+  ProcessReaderWin process_reader_;
   UUID report_id_;
   UUID client_id_;
   std::map<std::string, std::string> annotations_simple_map_;
   timeval snapshot_time_;
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotMac);
+  DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotWin);
 };
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_MAC_PROCESS_SNAPSHOT_MAC_H_
+#endif  // CRASHPAD_SNAPSHOT_WIN_PROCESS_SNAPSHOT_WIN_H_

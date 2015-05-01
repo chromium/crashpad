@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_MAC_MODULE_SNAPSHOT_MAC_H_
-#define CRASHPAD_SNAPSHOT_MAC_MODULE_SNAPSHOT_MAC_H_
+#ifndef CRASHPAD_SNAPSHOT_WIN_MODULE_SNAPSHOT_WIN_H_
+#define CRASHPAD_SNAPSHOT_WIN_MODULE_SNAPSHOT_WIN_H_
 
 #include <stdint.h>
 #include <sys/types.h>
@@ -23,25 +23,26 @@
 #include <vector>
 
 #include "base/basictypes.h"
-#include "client/crashpad_info.h"
+#include "base/memory/scoped_ptr.h"
 #include "snapshot/crashpad_info_client_options.h"
-#include "snapshot/mac/process_reader.h"
 #include "snapshot/module_snapshot.h"
+#include "snapshot/win/process_reader_win.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/win/process_info.h"
 
 namespace crashpad {
 
-class MachOImageReader;
+class PEImageReader;
 struct UUID;
 
 namespace internal {
 
 //! \brief A ModuleSnapshot of a code module (binary image) loaded into a
-//!     running (or crashed) process on a Mac OS X system.
-class ModuleSnapshotMac final : public ModuleSnapshot {
+//!     running (or crashed) process on a Windows system.
+class ModuleSnapshotWin final : public ModuleSnapshot {
  public:
-  ModuleSnapshotMac();
-  ~ModuleSnapshotMac() override;
+  ModuleSnapshotWin();
+  ~ModuleSnapshotWin() override;
 
   //! \brief Initializes the object.
   //!
@@ -52,12 +53,12 @@ class ModuleSnapshotMac final : public ModuleSnapshot {
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(ProcessReader* process_reader,
-                  const ProcessReader::Module& process_reader_module);
+  bool Initialize(ProcessReaderWin* process_reader,
+                  const ProcessInfo::Module& process_reader_module);
 
-  //! \brief Returns options from the module’s CrashpadInfo structure.
+  //! \brief Returns options from the module's CrashpadInfo structure.
   //!
-  //! \param[out] options Options set in the module’s CrashpadInfo structure.
+  //! \param[out] options Options set in the module's CrashpadInfo structure.
   void GetCrashpadOptions(CrashpadInfoClientOptions* options);
 
   // ModuleSnapshot:
@@ -82,14 +83,14 @@ class ModuleSnapshotMac final : public ModuleSnapshot {
  private:
   std::string name_;
   time_t timestamp_;
-  const MachOImageReader* mach_o_image_reader_;  // weak
-  ProcessReader* process_reader_;  // weak
+  scoped_ptr<PEImageReader> pe_image_reader_;
+  ProcessReaderWin* process_reader_;  // weak
   InitializationStateDcheck initialized_;
 
-  DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotMac);
+  DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotWin);
 };
 
 }  // namespace internal
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_MAC_MODULE_SNAPSHOT_MAC_H_
+#endif  // CRASHPAD_SNAPSHOT_WIN_MODULE_SNAPSHOT_WIN_H_
