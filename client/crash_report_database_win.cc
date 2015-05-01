@@ -23,6 +23,7 @@
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "client/settings.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 namespace crashpad {
@@ -31,6 +32,8 @@ namespace {
 
 const wchar_t kReportsDirectory[] = L"reports";
 const wchar_t kMetadataFileName[] = L"metadata";
+
+const wchar_t kSettings[] = L"settings.dat";
 
 const wchar_t kCrashReportFileExtension[] = L"dmp";
 
@@ -533,13 +536,17 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   scoped_ptr<Metadata> AcquireMetadata();
 
   base::FilePath base_dir_;
+  Settings settings_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseWin);
 };
 
 CrashReportDatabaseWin::CrashReportDatabaseWin(const base::FilePath& path)
-    : CrashReportDatabase(), base_dir_(path), initialized_() {
+    : CrashReportDatabase(),
+      base_dir_(path),
+      settings_(base_dir_.Append(kSettings)),
+      initialized_() {
 }
 
 CrashReportDatabaseWin::~CrashReportDatabaseWin() {
@@ -562,10 +569,7 @@ bool CrashReportDatabaseWin::Initialize() {
 
 Settings* CrashReportDatabaseWin::GetSettings() {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  // Port to Win https://code.google.com/p/crashpad/issues/detail?id=13.
-  NOTREACHED();
-  return nullptr;
+  return &settings_;
 }
 
 OperationStatus CrashReportDatabaseWin::PrepareNewCrashReport(
