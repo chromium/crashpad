@@ -17,6 +17,7 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
+#include "base/strings/utf_string_conversions.h"
 
 namespace {
 
@@ -59,8 +60,8 @@ FileHandle LoggingOpenFileForOutput(DWORD access,
                            disposition,
                            FILE_ATTRIBUTE_NORMAL,
                            nullptr);
-  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE) << "CreateFile "
-                                               << path.value().c_str();
+  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE)
+      << "CreateFile " << base::UTF16ToUTF8(path.value());
   return file;
 }
 
@@ -119,8 +120,8 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path) {
                            OPEN_EXISTING,
                            0,
                            nullptr);
-  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE) << "CreateFile "
-                                               << path.value().c_str();
+  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE)
+      << "CreateFile " << base::UTF16ToUTF8(path.value());
   return file;
 }
 

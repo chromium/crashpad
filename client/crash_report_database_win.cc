@@ -446,7 +446,7 @@ void Metadata::Write() {
     const base::FilePath& path = report.file_path;
     if (path.DirName() != report_dir_) {
       LOG(ERROR) << path.value().c_str() << " expected to start with "
-                 << report_dir_.value().c_str();
+                 << base::UTF16ToUTF8(report_dir_.value());
       return;
     }
     records.push_back(MetadataFileReportRecord(report, &string_table));
@@ -626,7 +626,8 @@ OperationStatus CrashReportDatabaseWin::ErrorWritingCrashReport(
   // We failed to write, so remove the dump file. There's no entry in the
   // metadata table yet.
   if (!DeleteFile(scoped_report->path.value().c_str())) {
-    PLOG(ERROR) << "DeleteFile " << scoped_report->path.value().c_str();
+    PLOG(ERROR) << "DeleteFile "
+                << base::UTF16ToUTF8(scoped_report->path.value());
     return CrashReportDatabase::kFileSystemError;
   }
 

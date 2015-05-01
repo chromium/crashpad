@@ -15,6 +15,7 @@
 #include "snapshot/crashpad_info_client_options.h"
 
 #include "base/files/file_path.h"
+#include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
@@ -167,9 +168,9 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
                                  << dlerror();
 #elif defined(OS_WIN)
   ScopedDlHandle dl_handle(LoadLibrary(module_path.value().c_str()));
-  ASSERT_TRUE(dl_handle.valid()) << "LoadLibrary "
-                                 << module_path.value().c_str() << ": "
-                                 << ErrorMessage();
+  ASSERT_TRUE(dl_handle.valid())
+      << "LoadLibrary " << base::UTF16ToUTF8(module_path.value()) << ": "
+      << ErrorMessage();
 #else
 #error Port.
 #endif  // OS_MACOSX
