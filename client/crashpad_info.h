@@ -93,7 +93,9 @@ struct CrashpadInfo {
     system_crash_reporter_forwarding_ = system_crash_reporter_forwarding;
   }
 
-  static const uint32_t kSignature = 'CPad';
+  enum : uint32_t {
+    kSignature = 'CPad',
+  };
 
  private:
   // The compiler won’t necessarily see anyone using these fields, but it

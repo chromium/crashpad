@@ -93,6 +93,4 @@ CrashpadInfo::CrashpadInfo()
       simple_annotations_(nullptr) {
 }
 
-const uint32_t CrashpadInfo::kSignature;
-
 }  // namespace crashpad
