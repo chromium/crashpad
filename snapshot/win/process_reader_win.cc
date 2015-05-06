@@ -15,6 +15,7 @@
 #include "snapshot/win/process_reader_win.h"
 
 #include "base/numerics/safe_conversions.h"
+#include "util/win/time.h"
 
 namespace crashpad {
 
@@ -51,6 +52,28 @@ bool ProcessReaderWin::ReadMemory(WinVMAddress at,
     PLOG(ERROR) << "ReadMemory at " << at << " of " << num_bytes << " failed";
     return false;
   }
+  return true;
+}
+
+bool ProcessReaderWin::StartTime(timeval* start_time) const {
+  FILETIME creation, exit, kernel, user;
+  if (!GetProcessTimes(process_, &creation, &exit, &kernel, &user)) {
+    PLOG(ERROR) << "GetProcessTimes";
+    return false;
+  }
+  *start_time = FiletimeToTimevalEpoch(creation);
+  return true;
+}
+
+bool ProcessReaderWin::CPUTimes(timeval* user_time,
+                                timeval* system_time) const {
+  FILETIME creation, exit, kernel, user;
+  if (!GetProcessTimes(process_, &creation, &exit, &kernel, &user)) {
+    PLOG(ERROR) << "GetProcessTimes";
+    return false;
+  }
+  *user_time = FiletimeToTimevalInterval(user);
+  *system_time = FiletimeToTimevalInterval(kernel);
   return true;
 }
 

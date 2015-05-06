@@ -15,15 +15,25 @@
 #include "util/win/time.h"
 
 #include <inttypes.h>
-#include <windows.h>
 
 #include "base/logging.h"
 
 namespace crashpad {
 
-void GetTimeOfDay(timeval* tv) {
-  FILETIME filetime;
-  GetSystemTimeAsFileTime(&filetime);
+namespace {
+
+const uint64_t kMicrosecondsPerSecond = static_cast<uint64_t>(1E6);
+
+timeval MicrosecondsToTimeval(uint64_t t) {
+  timeval tv;
+  tv.tv_sec = static_cast<long>(t / kMicrosecondsPerSecond);
+  tv.tv_usec = static_cast<long>(t % kMicrosecondsPerSecond);
+  return tv;
+}
+
+}  // namespace
+
+timeval FiletimeToTimevalEpoch(const FILETIME& filetime) {
   uint64_t t = (static_cast<uint64_t>(filetime.dwHighDateTime) << 32) |
                filetime.dwLowDateTime;
   t /= 10;  // 100 nanosecond intervals to microseconds.
@@ -32,11 +42,22 @@ void GetTimeOfDay(timeval* tv) {
   // day. It's not entirely clear, but it appears that these are solar seconds,
   // not SI seconds, so there are no leap seconds to be considered.
   const uint64_t kNumSecondsFrom1601To1970 = (369 * 365 + 89) * 86400ULL;
-  const uint64_t kMicrosecondsPerSecond = static_cast<uint64_t>(1E6);
   DCHECK_GE(t, kNumSecondsFrom1601To1970 * kMicrosecondsPerSecond);
   t -= kNumSecondsFrom1601To1970 * kMicrosecondsPerSecond;
-  tv->tv_sec = static_cast<long>(t / kMicrosecondsPerSecond);
-  tv->tv_usec = static_cast<long>(t % kMicrosecondsPerSecond);
+  return MicrosecondsToTimeval(t);
+}
+
+timeval FiletimeToTimevalInterval(const FILETIME& filetime) {
+  uint64_t t = (static_cast<uint64_t>(filetime.dwHighDateTime) << 32) |
+               filetime.dwLowDateTime;
+  t /= 10;  // 100 nanosecond intervals to microseconds.
+  return MicrosecondsToTimeval(t);
+}
+
+void GetTimeOfDay(timeval* tv) {
+  FILETIME filetime;
+  GetSystemTimeAsFileTime(&filetime);
+  *tv = FiletimeToTimevalEpoch(filetime);
 }
 
 }  // namespace crashpad

@@ -99,12 +99,14 @@ void ProcessSnapshotWin::SnapshotTime(timeval* snapshot_time) const {
 }
 
 void ProcessSnapshotWin::ProcessStartTime(timeval* start_time) const {
-  CHECK(false) << "TODO(scottmg)";
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  process_reader_.StartTime(start_time);
 }
 
 void ProcessSnapshotWin::ProcessCPUTimes(timeval* user_time,
                                          timeval* system_time) const {
-  CHECK(false) << "TODO(scottmg)";
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  process_reader_.CPUTimes(user_time, system_time);
 }
 
 void ProcessSnapshotWin::ReportID(UUID* report_id) const {

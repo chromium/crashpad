@@ -16,8 +16,17 @@
 #define CRASHPAD_UTIL_WIN_TIME_H_
 
 #include <sys/time.h>
+#include <windows.h>
 
 namespace crashpad {
+
+//! \brief Convert Windows `FILETIME` to `timeval`, converting from Windows
+//!     epoch to POSIX epoch.
+timeval FiletimeToTimevalEpoch(const FILETIME& filetime);
+
+//! \brief Convert Windows `FILETIME` to `timeval`, treating the values as
+//!     an interval of elapsed time.
+timeval FiletimeToTimevalInterval(const FILETIME& filetime);
 
 //! \brief Similar to POSIX gettimeofday(), gets the current system time in UTC.
 void GetTimeOfDay(timeval* tv);
