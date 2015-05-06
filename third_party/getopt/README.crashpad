@@ -9,4 +9,6 @@ Description:
 A public domain implementation of getopt.
 
 Local Modifications:
-Minor compilation fixes applied for Windows.
+- Minor compilation fixes applied for Windows.
+- Add copy of copyright (Public domain) to the top of both files for Chromium's
+  checklicenses step.
