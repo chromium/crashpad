@@ -259,9 +259,14 @@ bool ProcessInfo::Initialize(HANDLE process) {
     LOG(ERROR) << "NtQueryInformationProcess incorrect size";
     return false;
   }
-  process_id_ = process_basic_information.UniqueProcessId;
-  inherited_from_process_id_ =
-      process_basic_information.InheritedFromUniqueProcessId;
+
+  // See https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203 on
+  // 32 bit being the correct size for HANDLEs for proceses, even on Windows
+  // x64. API functions (e.g. OpenProcess) take only a DWORD, so there's no
+  // sense in maintaining the top bits.
+  process_id_ = static_cast<DWORD>(process_basic_information.UniqueProcessId);
+  inherited_from_process_id_ = static_cast<DWORD>(
+      process_basic_information.InheritedFromUniqueProcessId);
 
   // We now want to read the PEB to gather the rest of our information. The
   // PebBaseAddress as returned above is what we want for 64-on-64 and 32-on-32,

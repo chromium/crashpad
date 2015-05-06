@@ -154,6 +154,9 @@ void MinidumpSystemInfoWriter::InitializeFromSnapshot(
     case SystemSnapshot::kOperatingSystemMacOSX:
       operating_system = kMinidumpOSMacOSX;
       break;
+    case SystemSnapshot::kOperatingSystemWindows:
+      operating_system = kMinidumpOSWin32NT;
+      break;
     default:
       NOTREACHED();
       operating_system = kMinidumpOSUnknown;

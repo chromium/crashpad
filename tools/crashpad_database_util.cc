@@ -38,16 +38,6 @@
 #include "util/file/file_reader.h"
 #include "util/misc/uuid.h"
 
-#if defined(OS_POSIX)
-base::FilePath::StringType UTF8ToFilePathStringType(const char* path) {
-  return path;
-}
-#elif defined(OS_WIN)
-base::FilePath::StringType UTF8ToFilePathStringType(const char* path) {
-  return base::UTF8ToUTF16(path);
-}
-#endif
-
 namespace crashpad {
 namespace {
 
@@ -253,8 +243,9 @@ void ShowReports(const std::vector<CrashReportDatabase::Report>& reports,
 }
 
 int DatabaseUtilMain(int argc, char* argv[]) {
-  const base::FilePath me(
-      base::FilePath(UTF8ToFilePathStringType(argv[0])).BaseName());
+  const base::FilePath argv0(
+      ToolSupport::CommandLineArgumentToFilePathStringType(argv[0]));
+  const base::FilePath me(argv0.BaseName());
 
   enum OptionFlags {
     // “Short” (single-character) options.
@@ -364,8 +355,8 @@ int DatabaseUtilMain(int argc, char* argv[]) {
         break;
       }
       case kOptionNewReport: {
-        options.new_report_paths.push_back(
-            base::FilePath(UTF8ToFilePathStringType(optarg)));
+        options.new_report_paths.push_back(base::FilePath(
+            ToolSupport::CommandLineArgumentToFilePathStringType(optarg)));
         break;
       }
       case kOptionUTC: {
@@ -425,7 +416,8 @@ int DatabaseUtilMain(int argc, char* argv[]) {
   }
 
   scoped_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(
-      base::FilePath(UTF8ToFilePathStringType(options.database))));
+      base::FilePath(ToolSupport::CommandLineArgumentToFilePathStringType(
+          options.database))));
   if (!database) {
     return EXIT_FAILURE;
   }
@@ -585,13 +577,6 @@ int main(int argc, char* argv[]) {
 }
 #elif defined(OS_WIN)
 int wmain(int argc, wchar_t* argv[]) {
-  scoped_ptr<char*[]> argv_as_utf8(new char*[argc]);
-  std::vector<std::string> storage;
-  storage.reserve(argc);
-  for (int i = 0; i < argc; ++i) {
-    storage.push_back(base::UTF16ToUTF8(argv[i]));
-    argv_as_utf8[i] = &storage[i][0];
-  }
-  return crashpad::DatabaseUtilMain(argc, argv_as_utf8.get());
+  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::DatabaseUtilMain);
 }
 #endif  // OS_POSIX

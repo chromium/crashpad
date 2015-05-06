@@ -14,26 +14,34 @@
 
 #include <fcntl.h>
 #include <getopt.h>
-#include <libgen.h>
-#include <mach/mach.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <sys/types.h>
 
 #include <string>
 
 #include "base/logging.h"
-#include "base/mac/scoped_mach_port.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 #include "minidump/minidump_file_writer.h"
-#include "snapshot/mac/process_snapshot_mac.h"
 #include "tools/tool_support.h"
 #include "util/file/file_writer.h"
-#include "util/mach/scoped_task_suspend.h"
-#include "util/mach/task_for_pid.h"
 #include "util/posix/drop_privileges.h"
 #include "util/stdlib/string_number_conversion.h"
+
+#if defined(OS_MACOSX)
+#include <mach/mach.h>
+#include <unistd.h>
+
+#include "base/mac/scoped_mach_port.h"
+#include "snapshot/mac/process_snapshot_mac.h"
+#include "util/mach/scoped_task_suspend.h"
+#include "util/mach/task_for_pid.h"
+#elif defined(OS_WIN)
+#include "base/strings/utf_string_conversions.h"
+#include "snapshot/win/process_snapshot_win.h"
+#endif  // OS_MACOSX
 
 namespace crashpad {
 namespace {
@@ -44,21 +52,23 @@ struct Options {
   bool suspend;
 };
 
-void Usage(const std::string& me) {
+void Usage(const base::FilePath& me) {
   fprintf(stderr,
-"Usage: %s [OPTION]... PID\n"
+"Usage: %" PRFilePath " [OPTION]... PID\n"
 "Generate a minidump file containing a snapshot of a running process.\n"
 "\n"
 "  -r, --no-suspend   don't suspend the target process during dump generation\n"
 "  -o, --output=FILE  write the minidump to FILE instead of minidump.PID\n"
 "      --help         display this help and exit\n"
 "      --version      output version information and exit\n",
-          me.c_str());
+          me.value().c_str());
   ToolSupport::UsageTail(me);
 }
 
 int GenerateDumpMain(int argc, char* argv[]) {
-  const std::string me(basename(argv[0]));
+  const base::FilePath argv0(
+      ToolSupport::CommandLineArgumentToFilePathStringType(argv[0]));
+  const base::FilePath me(argv0.BaseName());
 
   enum OptionFlags {
     // “Short” (single-character) options.
@@ -113,10 +123,14 @@ int GenerateDumpMain(int argc, char* argv[]) {
   }
 
   if (!StringToNumber(argv[0], &options.pid) || options.pid <= 0) {
-    fprintf(stderr, "%s: invalid PID: %s\n", me.c_str(), argv[0]);
+    fprintf(stderr,
+            "%" PRFilePath ": invalid PID: %s\n",
+            me.value().c_str(),
+            argv[0]);
     return EXIT_FAILURE;
   }
 
+#if defined(OS_MACOSX)
   task_t task = TaskForPID(options.pid);
   if (task == TASK_NULL) {
     return EXIT_FAILURE;
@@ -134,24 +148,49 @@ int GenerateDumpMain(int argc, char* argv[]) {
     }
     LOG(WARNING) << "operating on myself";
   }
+#elif defined(OS_WIN)
+  ScopedKernelHANDLE process(
+      OpenProcess(PROCESS_ALL_ACCESS, false, options.pid));
+  if (!process.is_valid()) {
+    LOG(ERROR) << "could not open process " << options.pid;
+    return EXIT_FAILURE;
+  }
+#endif  // OS_MACOSX
 
   if (options.dump_path.empty()) {
     options.dump_path = base::StringPrintf("minidump.%d", options.pid);
   }
 
   {
+#if defined(OS_MACOSX)
     scoped_ptr<ScopedTaskSuspend> suspend;
     if (options.suspend) {
       suspend.reset(new ScopedTaskSuspend(task));
     }
+#elif defined(OS_WIN)
+    if (options.suspend) {
+      LOG(ERROR) << "TODO(scottmg): --no-suspend is required for now.";
+      return EXIT_FAILURE;
+    }
+#endif  // OS_MACOSX
 
+#if defined(OS_MACOSX)
     ProcessSnapshotMac process_snapshot;
     if (!process_snapshot.Initialize(task)) {
       return EXIT_FAILURE;
     }
+#elif defined(OS_WIN)
+    ProcessSnapshotWin process_snapshot;
+    if (!process_snapshot.Initialize(process.get())) {
+      return EXIT_FAILURE;
+    }
+#endif  // OS_MACOSX
 
     FileWriter file_writer;
-    if (!file_writer.Open(base::FilePath(options.dump_path),
+    base::FilePath dump_path(
+        ToolSupport::CommandLineArgumentToFilePathStringType(
+            options.dump_path));
+    if (!file_writer.Open(dump_path,
                           FileWriteMode::kTruncateOrCreate,
                           FilePermissions::kWorldReadable)) {
       return EXIT_FAILURE;
@@ -173,6 +212,12 @@ int GenerateDumpMain(int argc, char* argv[]) {
 }  // namespace
 }  // namespace crashpad
 
+#if defined(OS_POSIX)
 int main(int argc, char* argv[]) {
   return crashpad::GenerateDumpMain(argc, argv);
 }
+#elif defined(OS_WIN)
+int wmain(int argc, wchar_t* argv[]) {
+  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::GenerateDumpMain);
+}
+#endif  // OS_POSIX

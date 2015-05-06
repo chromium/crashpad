@@ -16,6 +16,10 @@
 
 #include <stdio.h>
 
+#include <vector>
+
+#include "base/memory/scoped_ptr.h"
+#include "base/strings/utf_string_conversions.h"
 #include "package.h"
 
 namespace crashpad {
@@ -66,5 +70,32 @@ void ToolSupport::UsageHint(const std::string& me, const char* hint) {
   UsageHint(base::FilePath(me), hint);
 }
 #endif  // OS_POSIX
+
+#if defined(OS_WIN)
+
+// static
+int ToolSupport::Wmain(int argc, wchar_t* argv[], int (*entry)(int, char* [])) {
+  scoped_ptr<char* []> argv_as_utf8(new char* [argc + 1]);
+  std::vector<std::string> storage;
+  storage.reserve(argc);
+  for (int i = 0; i < argc; ++i) {
+    storage.push_back(base::UTF16ToUTF8(argv[i]));
+    argv_as_utf8[i] = &storage[i][0];
+  }
+  argv_as_utf8[argc] = nullptr;
+  return entry(argc, argv_as_utf8.get());
+}
+
+#endif  // OS_WIN
+
+// static
+base::FilePath::StringType ToolSupport::CommandLineArgumentToFilePathStringType(
+    const base::StringPiece& path) {
+#if defined(OS_POSIX)
+  return path.as_string();
+#elif defined(OS_WIN)
+  return base::UTF8ToUTF16(path);
+#endif  // OS_POSIX
+}
 
 }  // namespace crashpad

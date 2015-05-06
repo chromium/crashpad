@@ -22,11 +22,10 @@
 
 #ifdef _WIN64
 typedef int64_t ssize_t;
-typedef uint64_t pid_t;
 #else
 typedef __w64 int ssize_t;
-typedef __w64 unsigned int pid_t;
 #endif
 
+typedef unsigned int pid_t;
 
 #endif  // CRASHPAD_COMPAT_WIN_SYS_TYPES_H_

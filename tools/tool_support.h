@@ -19,6 +19,7 @@
 
 #include "base/basictypes.h"
 #include "base/files/file_path.h"
+#include "base/strings/string_piece.h"
 #include "build/build_config.h"
 
 namespace crashpad {
@@ -52,6 +53,25 @@ class ToolSupport {
   //! \copydoc UsageHint
   static void UsageHint(const std::string& me, const char* hint);
 #endif  // OS_POSIX
+
+#if defined(OS_WIN) || DOXYGEN
+  //! \brief Converts \a argv `wchar_t` UTF-16 to UTF-8, and passes onwards to a
+  //!     UTF-8 entry point.
+  //!
+  //! \return The return value of \a entry.
+  static int Wmain(int argc, wchar_t* argv[], int (*entry)(int, char*[]));
+#endif  // OS_WIN
+
+  //! \brief Converts a command line argument to the string type suitable for
+  //!     base::FilePath.
+  //!
+  //! On POSIX, this is a no-op. On Windows, assumes that Wmain() was used, and
+  //! the input argument was converted from UTF-16 in a `wchar_t*` to UTF-8 in a
+  //! `char*`. This undoes that transformation.
+  //!
+  //! \sa Wmain()
+  static base::FilePath::StringType CommandLineArgumentToFilePathStringType(
+      const base::StringPiece& arg);
 
  private:
   DISALLOW_IMPLICIT_CONSTRUCTORS(ToolSupport);
