@@ -36,7 +36,8 @@ class ThreadLogMessagesMaster {
  public:
   ThreadLogMessagesMaster() {
     DCHECK(!tls_.initialized());
-    CHECK(tls_.Initialize(nullptr));
+    tls_.Initialize(nullptr);
+    DCHECK(tls_.initialized());
 
     DCHECK(!logging::GetLogMessageHandler());
     logging::SetLogMessageHandler(LogMessageHandler);
