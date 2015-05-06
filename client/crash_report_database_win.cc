@@ -563,6 +563,9 @@ bool CrashReportDatabaseWin::Initialize() {
   // TODO(scottmg): When are completed reports pruned from disk? Delete here or
   // maybe on AcquireMetadata().
 
+  if (!settings_.Initialize())
+    return false;
+
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }

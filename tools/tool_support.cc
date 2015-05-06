@@ -21,31 +21,50 @@
 namespace crashpad {
 
 // static
-void ToolSupport::Version(const std::string& me) {
+void ToolSupport::Version(const base::FilePath& me) {
   fprintf(stderr,
-          "%s (%s) %s\n%s\n",
-          me.c_str(),
+          "%s" PRFilePath " (%s) %s\n%s\n",
+          me.value().c_str(),
           PACKAGE_NAME,
           PACKAGE_VERSION,
           PACKAGE_COPYRIGHT);
 }
 
 // static
-void ToolSupport::UsageTail(const std::string& me) {
+void ToolSupport::UsageTail(const base::FilePath& me) {
   fprintf(stderr,
-          "\nReport %s bugs to\n%s\n%s home page: <%s>\n",
-          me.c_str(),
+          "\nReport %" PRFilePath " bugs to\n%s\n%s home page: <%s>\n",
+          me.value().c_str(),
           PACKAGE_BUGREPORT,
           PACKAGE_NAME,
           PACKAGE_URL);
 }
 
 // static
-void ToolSupport::UsageHint(const std::string& me, const char* hint) {
+void ToolSupport::UsageHint(const base::FilePath& me, const char* hint) {
   if (hint) {
-    fprintf(stderr, "%s: %s\n", me.c_str(), hint);
+    fprintf(stderr, "%" PRFilePath ": %s\n", me.value().c_str(), hint);
   }
-  fprintf(stderr, "Try '%s --help' for more information.\n", me.c_str());
+  fprintf(stderr,
+          "Try '%" PRFilePath " --help' for more information.\n",
+          me.value().c_str());
 }
+
+#if defined(OS_POSIX)
+// static
+void ToolSupport::Version(const std::string& me) {
+  Version(base::FilePath(me));
+}
+
+// static
+void ToolSupport::UsageTail(const std::string& me) {
+  UsageTail(base::FilePath(me));
+}
+
+// static
+void ToolSupport::UsageHint(const std::string& me, const char* hint) {
+  UsageHint(base::FilePath(me), hint);
+}
+#endif  // OS_POSIX
 
 }  // namespace crashpad

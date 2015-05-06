@@ -16,6 +16,39 @@
   'includes': [
     '../build/crashpad.gypi',
   ],
+  'targets': [
+    {
+      'target_name': 'crashpad_tool_support',
+      'type': 'static_library',
+      'dependencies': [
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'tool_support.cc',
+        'tool_support.h',
+      ],
+    },
+    {
+      'target_name': 'crashpad_database_util',
+      'type': 'executable',
+      'dependencies': [
+        'crashpad_tool_support',
+        '../client/client.gyp:crashpad_client',
+        '../compat/compat.gyp:crashpad_compat',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+        '../util/util.gyp:crashpad_util',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'crashpad_database_util.cc',
+      ],
+    },
+  ],
   'conditions': [
     ['OS=="mac"', {
       'variables': {
@@ -45,37 +78,6 @@
       },
 
       'targets': [
-        {
-          'target_name': 'crashpad_tool_support',
-          'type': 'static_library',
-          'dependencies': [
-            '../third_party/mini_chromium/mini_chromium.gyp:base',
-          ],
-          'include_dirs': [
-            '..',
-          ],
-          'sources': [
-            'tool_support.cc',
-            'tool_support.h',
-          ],
-        },
-        {
-          'target_name': 'crashpad_database_util',
-          'type': 'executable',
-          'dependencies': [
-            'crashpad_tool_support',
-            '../client/client.gyp:crashpad_client',
-            '../compat/compat.gyp:crashpad_compat',
-            '../third_party/mini_chromium/mini_chromium.gyp:base',
-            '../util/util.gyp:crashpad_util',
-          ],
-          'include_dirs': [
-            '..',
-          ],
-          'sources': [
-            'crashpad_database_util.cc',
-          ],
-        },
         {
           'target_name': 'catch_exception_tool',
           'type': 'executable',
@@ -182,8 +184,6 @@
           ],
         },
       ],
-    }, {
-      'targets': [],
     }],
   ],
 }

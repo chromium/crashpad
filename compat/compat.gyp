@@ -35,7 +35,10 @@
         'non_win/verrsrc.h',
         'non_win/windows.h',
         'non_win/winnt.h',
+        'win/getopt.h',
         'win/sys/types.h',
+        'win/time.cc',
+        'win/time.h',
         'win/winnt.h',
       ],
       'conditions': [
@@ -61,6 +64,9 @@
               'win',
             ],
           },
+          'dependencies': [
+            '../third_party/getopt/getopt.gyp:getopt',
+          ],
         }, {
           'include_dirs': [
             'non_win',

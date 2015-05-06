@@ -18,6 +18,8 @@
 #include <string>
 
 #include "base/basictypes.h"
+#include "base/files/file_path.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -27,18 +29,29 @@ class ToolSupport {
   //! \brief Handles `--version`.
   //!
   //! \param[in] me The tool’s name, the basename of `argv[0]`.
-  static void Version(const std::string& me);
+  static void Version(const base::FilePath& me);
 
   //! \brief Prints the footer for `--help`.
   //!
   //! \param[in] me The tool’s name, the basename of `argv[0]`.
-  static void UsageTail(const std::string& me);
+  static void UsageTail(const base::FilePath& me);
 
   //! \brief Suggests using `--help` when a command line tool can’t make sense
   //!     of its arguments.
   //!
   //! \param[in] me The tool’s name, the basename of `argv[0]`.
+  static void UsageHint(const base::FilePath& me, const char* hint);
+
+#if defined(OS_POSIX) || DOXYGEN
+  //! \copydoc Version
+  static void Version(const std::string& me);
+
+  //! \copydoc UsageTail
+  static void UsageTail(const std::string& me);
+
+  //! \copydoc UsageHint
   static void UsageHint(const std::string& me, const char* hint);
+#endif  // OS_POSIX
 
  private:
   DISALLOW_IMPLICIT_CONSTRUCTORS(ToolSupport);
