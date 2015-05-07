@@ -218,7 +218,6 @@ int main(int argc, char* argv[]) {
 }
 #elif defined(OS_WIN)
 int wmain(int argc, wchar_t* argv[]) {
-  This is an intentional compile error to test the bots.
   return crashpad::ToolSupport::Wmain(argc, argv, crashpad::GenerateDumpMain);
 }
 #endif  // OS_POSIX
