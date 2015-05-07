@@ -27,7 +27,7 @@ namespace crashpad {
 // static
 void ToolSupport::Version(const base::FilePath& me) {
   fprintf(stderr,
-          "%s" PRFilePath " (%s) %s\n%s\n",
+          "%" PRFilePath " (%s) %s\n%s\n",
           me.value().c_str(),
           PACKAGE_NAME,
           PACKAGE_VERSION,
