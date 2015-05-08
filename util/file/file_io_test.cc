@@ -178,7 +178,7 @@ void LockingTest(FileLocking main_lock, FileLocking other_locks) {
   }
 
   base::subtle::Atomic32 result =
-      base::subtle::Release_Load(&actual_iterations);
+      base::subtle::NoBarrier_Load(&actual_iterations);
   EXPECT_EQ(0, result);
 
   ASSERT_TRUE(LoggingUnlockFile(initial.get()));
@@ -186,7 +186,7 @@ void LockingTest(FileLocking main_lock, FileLocking other_locks) {
   for (auto& t : threads)
     t.Join();
 
-  result = base::subtle::Release_Load(&actual_iterations);
+  result = base::subtle::NoBarrier_Load(&actual_iterations);
   EXPECT_EQ(expected_iterations, result);
 }
 
