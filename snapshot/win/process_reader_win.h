@@ -18,6 +18,8 @@
 #include <sys/time.h>
 #include <windows.h>
 
+#include <vector>
+
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/win/address_types.h"
 #include "util/win/process_info.h"
@@ -27,6 +29,20 @@ namespace crashpad {
 //! \brief Accesses information about another process, identified by a HANDLE.
 class ProcessReaderWin {
  public:
+  //! \brief Contains information about a thread that belongs to a process.
+  struct Thread {
+    Thread();
+    ~Thread() {}
+
+    uint64_t id;
+    WinVMAddress teb;
+    WinVMAddress stack_region_address;
+    WinVMSize stack_region_size;
+    uint32_t suspend_count;
+    uint32_t priority_class;
+    uint32_t priority;
+  };
+
   ProcessReaderWin();
   ~ProcessReaderWin();
 
@@ -66,6 +82,10 @@ class ProcessReaderWin {
   //! \return `true` on success, `false` on failure, with a warning logged.
   bool CPUTimes(timeval* user_time, timeval* system_time) const;
 
+  //! \return The threads that are in the process. The first element (at index
+  //!     `0`) corresponds to the main thread.
+  const std::vector<Thread>& Threads();
+
   //! \return The modules loaded in the process. The first element (at index
   //!     `0`) corresponds to the main executable.
   const std::vector<ProcessInfo::Module>& Modules();
@@ -73,7 +93,9 @@ class ProcessReaderWin {
  private:
   HANDLE process_;
   ProcessInfo process_info_;
+  std::vector<Thread> threads_;
   std::vector<ProcessInfo::Module> modules_;
+  bool initialized_threads_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessReaderWin);

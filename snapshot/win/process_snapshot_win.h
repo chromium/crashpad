@@ -33,6 +33,7 @@
 #include "snapshot/thread_snapshot.h"
 #include "snapshot/win/module_snapshot_win.h"
 #include "snapshot/win/system_snapshot_win.h"
+#include "snapshot/win/thread_snapshot_win.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
@@ -104,13 +105,13 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
 
  private:
   // Initializes threads_ on behalf of Initialize().
-  // TODO(scottmg): void InitializeThreads();
+  void InitializeThreads();
 
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
 
   internal::SystemSnapshotWin system_;
-  // TODO(scottmg): PointerVector<internal::ThreadSnapshotWin> threads_;
+  PointerVector<internal::ThreadSnapshotWin> threads_;
   PointerVector<internal::ModuleSnapshotWin> modules_;
   // TODO(scottmg): scoped_ptr<internal::ExceptionSnapshotWin> exception_;
   ProcessReaderWin process_reader_;

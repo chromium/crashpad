@@ -281,6 +281,107 @@ struct PEB {
   DWORD FlsHighIndex;
 };
 
+template <class Traits>
+struct NT_TIB {
+  typename Traits::Pointer ExceptionList;
+  typename Traits::Pointer StackBase;
+  typename Traits::Pointer StackLimit;
+  typename Traits::Pointer SubSystemTib;
+  union {
+    typename Traits::Pointer FiberData;
+    BYTE Version[4];
+  };
+  typename Traits::Pointer ArbitraryUserPointer;
+  typename Traits::Pointer Self;
+};
+
+// See https://msdn.microsoft.com/en-us/library/gg750647.aspx.
+template <class Traits>
+struct CLIENT_ID {
+  typename Traits::Pointer UniqueProcess;
+  typename Traits::Pointer UniqueThread;
+};
+
+// See https://msdn.microsoft.com/en-us/library/gg750724.aspx for the base
+// structure, and 
+// http://processhacker.sourceforge.net/doc/struct___s_y_s_t_e_m___e_x_t_e_n_d_e_d___t_h_r_e_a_d___i_n_f_o_r_m_a_t_i_o_n.html
+// for the extension part.
+template <class Traits>
+struct SYSTEM_EXTENDED_THREAD_INFORMATION {
+  LARGE_INTEGER KernelTime;
+  LARGE_INTEGER UserTime;
+  LARGE_INTEGER CreateTime;
+  union {
+    ULONG WaitTime;
+    typename Traits::Pad padding_for_x64_0;
+  };
+  typename Traits::Pointer StartAddress;
+  CLIENT_ID<Traits> ClientId;
+  LONG Priority;
+  LONG BasePriority;
+  ULONG ContextSwitches;
+  ULONG ThreadState;
+  union {
+    ULONG WaitReason;
+    typename Traits::Pad padding_for_x64_1;
+  };
+  typename Traits::Pointer StackBase;  // These don't appear to be correct.
+  typename Traits::Pointer StackLimit;
+  typename Traits::Pointer Win32StartAddress;
+  typename Traits::Pointer TebBase;
+  typename Traits::Pointer Reserved;
+  typename Traits::Pointer Reserved2;
+  typename Traits::Pointer Reserved3;
+};
+
+// See http://undocumented.ntinternals.net/source/usermode/undocumented%20functions/system%20information/structures/system_process_information.html
+template <class Traits>
+struct SYSTEM_PROCESS_INFORMATION {
+  ULONG NextEntryOffset;
+  ULONG NumberOfThreads;
+  LARGE_INTEGER Reserved[3];
+  LARGE_INTEGER CreateTime;
+  LARGE_INTEGER UserTime;
+  LARGE_INTEGER KernelTime;
+  UNICODE_STRING<Traits> ImageName;
+  union {
+    LONG BasePriority;
+    typename Traits::Pad padding_for_x64_0;
+  };
+  union {
+    DWORD UniqueProcessId;
+    typename Traits::Pad padding_for_x64_1;
+  };
+  union {
+    DWORD InheritedFromUniqueProcessId;
+    typename Traits::Pad padding_for_x64_2;
+  };
+  ULONG HandleCount;
+  ULONG Reserved2[3];
+  SIZE_T PeakVirtualSize;
+  SIZE_T VirtualSize;
+  union {
+    ULONG PageFaultCount;
+    typename Traits::Pad padding_for_x64_3;
+  };
+  SIZE_T PeakWorkingSetSize;
+  SIZE_T WorkingSetSize;
+  SIZE_T QuotaPeakPagedPoolUsage;
+  SIZE_T QuotaPagedPoolUsage;
+  SIZE_T QuotaPeakNonPagedPoolUsage;
+  SIZE_T QuotaNonPagedPoolUsage;
+  SIZE_T PagefileUsage;
+  SIZE_T PeakPagefileUsage;
+  SIZE_T PrivatePageCount;
+  LARGE_INTEGER ReadOperationCount;
+  LARGE_INTEGER WriteOperationCount;
+  LARGE_INTEGER OtherOperationCount;
+  LARGE_INTEGER ReadTransferCount;
+  LARGE_INTEGER WriteTransferCount;
+  LARGE_INTEGER OtherTransferCount;
+  SYSTEM_EXTENDED_THREAD_INFORMATION<Traits> Threads[1];
+};
+
 #pragma pack(pop)
 
 //! \}

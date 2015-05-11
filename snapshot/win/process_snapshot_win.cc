@@ -22,7 +22,7 @@ namespace crashpad {
 ProcessSnapshotWin::ProcessSnapshotWin()
     : ProcessSnapshot(),
       system_(),
-      // TODO(scottmg): threads_(),
+      threads_(),
       modules_(),
       // TODO(scottmg): exception_(),
       process_reader_(),
@@ -46,7 +46,7 @@ bool ProcessSnapshotWin::Initialize(HANDLE process) {
 
   system_.Initialize(&process_reader_);
 
-  // TODO(scottmg): InitializeThreads();
+  InitializeThreads();
   InitializeModules();
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -131,8 +131,12 @@ const SystemSnapshot* ProcessSnapshotWin::System() const {
 }
 
 std::vector<const ThreadSnapshot*> ProcessSnapshotWin::Threads() const {
-  CHECK(false) << "TODO(scottmg)";
-  return std::vector<const ThreadSnapshot*>();
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  std::vector<const ThreadSnapshot*> threads;
+  for (internal::ThreadSnapshotWin* thread : threads_) {
+    threads.push_back(thread);
+  }
+  return threads;
 }
 
 std::vector<const ModuleSnapshot*> ProcessSnapshotWin::Modules() const {
@@ -145,8 +149,20 @@ std::vector<const ModuleSnapshot*> ProcessSnapshotWin::Modules() const {
 }
 
 const ExceptionSnapshot* ProcessSnapshotWin::Exception() const {
-  CHECK(false) << "TODO(scottmg)";
+  CHECK(false) << "TODO(scottmg): Exception()";
   return nullptr;
+}
+
+void ProcessSnapshotWin::InitializeThreads() {
+  const std::vector<ProcessReaderWin::Thread>& process_reader_threads =
+      process_reader_.Threads();
+  for (const ProcessReaderWin::Thread& process_reader_thread :
+       process_reader_threads) {
+    auto thread = make_scoped_ptr(new internal::ThreadSnapshotWin());
+    if (thread->Initialize(&process_reader_, process_reader_thread)) {
+      threads_.push_back(thread.release());
+    }
+  }
 }
 
 void ProcessSnapshotWin::InitializeModules() {

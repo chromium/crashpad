@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/mac/memory_snapshot_mac.h"
+#include "snapshot/win/memory_snapshot_win.h"
 
 #include "base/memory/scoped_ptr.h"
-#include "util/mach/task_memory.h"
 
 namespace crashpad {
 namespace internal {
 
-MemorySnapshotMac::MemorySnapshotMac()
+MemorySnapshotWin::MemorySnapshotWin()
     : MemorySnapshot(),
       process_reader_(nullptr),
       address_(0),
@@ -28,30 +27,32 @@ MemorySnapshotMac::MemorySnapshotMac()
       initialized_() {
 }
 
-MemorySnapshotMac::~MemorySnapshotMac() {
+MemorySnapshotWin::~MemorySnapshotWin() {
 }
 
-void MemorySnapshotMac::Initialize(ProcessReader* process_reader,
+void MemorySnapshotWin::Initialize(ProcessReaderWin* process_reader,
                                    uint64_t address,
                                    uint64_t size) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   process_reader_ = process_reader;
   address_ = address;
-  size_ = size;
+  DLOG_IF(WARNING, size >= std::numeric_limits<size_t>::max())
+      << "size overflow";
+  size_ = static_cast<size_t>(size);
   INITIALIZATION_STATE_SET_VALID(initialized_);
 }
 
-uint64_t MemorySnapshotMac::Address() const {
+uint64_t MemorySnapshotWin::Address() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return address_;
 }
 
-size_t MemorySnapshotMac::Size() const {
+size_t MemorySnapshotWin::Size() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return size_;
 }
 
-bool MemorySnapshotMac::Read(Delegate* delegate) const {
+bool MemorySnapshotWin::Read(Delegate* delegate) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   if (size_ == 0) {
@@ -59,7 +60,7 @@ bool MemorySnapshotMac::Read(Delegate* delegate) const {
   }
 
   scoped_ptr<uint8_t[]> buffer(new uint8_t[size_]);
-  if (!process_reader_->Memory()->Read(address_, size_, buffer.get())) {
+  if (!process_reader_->ReadMemory(address_, size_, buffer.get())) {
     return false;
   }
   return delegate->MemorySnapshotDelegateRead(buffer.get(), size_);
