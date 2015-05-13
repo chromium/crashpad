@@ -51,10 +51,6 @@
         'scoped_temp_dir.h',
         'scoped_temp_dir_posix.cc',
         'scoped_temp_dir_win.cc',
-        'thread.cc',
-        'thread.h',
-        'thread_posix.cc',
-        'thread_win.cc',
       ],
       'conditions': [
         ['OS=="mac"', {

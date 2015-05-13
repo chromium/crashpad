@@ -12,19 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/thread.h"
+#include "util/thread/thread.h"
 
-#include "gtest/gtest.h"
+#include "base/logging.h"
 
 namespace crashpad {
-namespace test {
 
-Thread::Thread() : platform_thread_(0) {
+void Thread::Start() {
+  DCHECK(!platform_thread_);
+  platform_thread_ =
+      CreateThread(nullptr, 0, ThreadEntryThunk, this, 0, nullptr);
+  PCHECK(platform_thread_);
 }
 
-Thread::~Thread() {
-  EXPECT_FALSE(platform_thread_);
+void Thread::Join() {
+  DCHECK(platform_thread_);
+  DWORD result = WaitForSingleObject(platform_thread_, INFINITE);
+  PCHECK(WAIT_OBJECT_0 == result);
+  platform_thread_ = 0;
 }
 
-}  // namespace test
+// static
+DWORD WINAPI Thread::ThreadEntryThunk(void* argument) {
+  Thread* self = reinterpret_cast<Thread*>(argument);
+  self->ThreadMain();
+  return 0;
+}
+
 }  // namespace crashpad

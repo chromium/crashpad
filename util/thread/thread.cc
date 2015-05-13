@@ -12,33 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/thread.h"
+#include "util/thread/thread.h"
 
-#include "gtest/gtest.h"
-#include "test/errors.h"
+#include "base/logging.h"
 
 namespace crashpad {
-namespace test {
 
-void Thread::Start() {
-  ASSERT_FALSE(platform_thread_);
-  int rv = pthread_create(&platform_thread_, nullptr, ThreadEntryThunk, this);
-  ASSERT_EQ(0, rv) << ErrnoMessage(rv, "pthread_create");
+Thread::Thread() : platform_thread_(0) {
 }
 
-void Thread::Join() {
-  ASSERT_TRUE(platform_thread_);
-  int rv = pthread_join(platform_thread_, nullptr);
-  EXPECT_EQ(0, rv) << ErrnoMessage(rv, "pthread_join");
-  platform_thread_ = 0;
+Thread::~Thread() {
+  DCHECK(!platform_thread_);
 }
 
-// static
-void* Thread::ThreadEntryThunk(void* argument) {
-  Thread* self = reinterpret_cast<Thread*>(argument);
-  self->ThreadMain();
-  return nullptr;
-}
-
-}  // namespace test
 }  // namespace crashpad

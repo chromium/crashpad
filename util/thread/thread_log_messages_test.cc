@@ -19,7 +19,7 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
-#include "test/thread.h"
+#include "util/thread/thread.h"
 
 namespace crashpad {
 namespace test {

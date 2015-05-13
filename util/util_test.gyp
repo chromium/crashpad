@@ -77,6 +77,7 @@
         'string/split_string_test.cc',
         'synchronization/semaphore_test.cc',
         'thread/thread_log_messages_test.cc',
+        'thread/thread_test.cc',
         'win/process_info_test.cc',
         'win/time_test.cc',
       ],

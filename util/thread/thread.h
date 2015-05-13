@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_TEST_THREAD_H_
-#define CRASHPAD_TEST_THREAD_H_
+#ifndef CRASHPAD_UTIL_THREAD_THREAD_H_
+#define CRASHPAD_UTIL_THREAD_THREAD_H_
 
 #include "base/basictypes.h"
 #include "build/build_config.h"
@@ -25,9 +25,8 @@
 #endif  // OS_POSIX
 
 namespace crashpad {
-namespace test {
 
-//! \brief Basic thread abstraction for testing. Users should derive from this
+//! \brief Basic thread abstraction. Users should derive from this
 //!     class and implement ThreadMain().
 class Thread {
  public:
@@ -43,8 +42,7 @@ class Thread {
   void Join();
 
  private:
-  //! \brief The entry point to be overridden to implement the test-specific
-  //!     functionality.
+  //! \brief The thread entry point to be implemented by the subclass.
   virtual void ThreadMain() = 0;
 
   static
@@ -64,7 +62,6 @@ class Thread {
   DISALLOW_COPY_AND_ASSIGN(Thread);
 };
 
-}  // namespace test
 }  // namespace crashpad
 
-#endif  // CRASHPAD_TEST_THREAD_H_
+#endif  // CRASHPAD_UTIL_THREAD_THREAD_H_
