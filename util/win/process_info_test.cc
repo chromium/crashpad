@@ -14,6 +14,7 @@
 
 #include "util/win/process_info.h"
 
+#include <imagehlp.h>
 #include <rpc.h>
 #include <wchar.h>
 
@@ -32,15 +33,12 @@ namespace {
 const wchar_t kNtdllName[] = L"\\ntdll.dll";
 
 time_t GetTimestampForModule(HMODULE module) {
-  wchar_t filename[MAX_PATH];
-  if (!GetModuleFileName(module, filename, arraysize(filename)))
+  char filename[MAX_PATH];
+  // `char` and GetModuleFileNameA because ImageLoad is ANSI only.
+  if (!GetModuleFileNameA(module, filename, arraysize(filename)))
     return 0;
-  struct _stat stat_buf;
-  int rv = _wstat(filename, &stat_buf);
-  EXPECT_EQ(0, rv);
-  if (rv != 0)
-    return 0;
-  return stat_buf.st_mtime;
+  LOADED_IMAGE* loaded_image = ImageLoad(filename, nullptr);
+  return loaded_image->FileHeader->FileHeader.TimeDateStamp;
 }
 
 TEST(ProcessInfo, Self) {

@@ -96,6 +96,7 @@
           ],
           'link_settings': {
             'libraries': [
+              '-limagehlp.lib',
               '-lrpcrt4.lib',
             ],
           },
