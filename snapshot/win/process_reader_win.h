@@ -34,6 +34,7 @@ class ProcessReaderWin {
     Thread();
     ~Thread() {}
 
+    CONTEXT context;
     uint64_t id;
     WinVMAddress teb;
     WinVMAddress stack_region_address;

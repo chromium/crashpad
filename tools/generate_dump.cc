@@ -199,6 +199,7 @@ int GenerateDumpMain(int argc, char* argv[]) {
     MinidumpFileWriter minidump;
     minidump.InitializeFromSnapshot(&process_snapshot);
     if (!minidump.WriteEverything(&file_writer)) {
+      file_writer.Close();
       if (unlink(options.dump_path.c_str()) != 0) {
         PLOG(ERROR) << "unlink";
       }

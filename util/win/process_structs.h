@@ -302,6 +302,15 @@ struct CLIENT_ID {
   typename Traits::Pointer UniqueThread;
 };
 
+// This is a partial definition of the TEB, as we do not currently use many
+// fields of it. See http://www.nirsoft.net/kernel_struct/vista/TEB.html.
+template <class Traits>
+struct TEB {
+  NT_TIB<Traits> NtTib;
+  typename Traits::Pointer EnvironmentPointer;
+  CLIENT_ID<Traits> ClientId;
+};
+
 // See https://msdn.microsoft.com/en-us/library/gg750724.aspx for the base
 // structure, and 
 // http://processhacker.sourceforge.net/doc/struct___s_y_s_t_e_m___e_x_t_e_n_d_e_d___t_h_r_e_a_d___i_n_f_o_r_m_a_t_i_o_n.html

@@ -64,22 +64,6 @@ NTSTATUS NtOpenThread(PHANDLE thread_handle,
                         static_cast<const void*>(client_id));
 }
 
-NTSTATUS NtQueryInformationThread(HANDLE thread_handle,
-                                  THREADINFOCLASS thread_information_class,
-                                  PVOID thread_information,
-                                  ULONG thread_information_length,
-                                  PULONG return_length) {
-  static decltype(::NtQueryInformationThread)* nt_query_information_thread =
-      reinterpret_cast<decltype(::NtQueryInformationThread)*>(GetProcAddress(
-          LoadLibrary(L"ntdll.dll"), "NtQueryInformationThread"));
-  DCHECK(nt_query_information_thread);
-  return nt_query_information_thread(thread_handle,
-                                     thread_information_class,
-                                     thread_information,
-                                     thread_information_length,
-                                     return_length);
-}
-
 // Copied from ntstatus.h because um/winnt.h conflicts with general inclusion of
 // ntstatus.h.
 #define STATUS_BUFFER_TOO_SMALL ((NTSTATUS)0xC0000023L)
@@ -153,63 +137,69 @@ process_types::SYSTEM_PROCESS_INFORMATION<Traits>* GetProcessInformation(
 }
 
 template <class Traits>
-uint32_t GetThreadSuspendCount(
-    const process_types::SYSTEM_EXTENDED_THREAD_INFORMATION<Traits>&
-        thread_info) {
-  // Wait reason values are from KWAIT_REASON in wdm.h. We don't need all of
-  // them, so just declare the one we need.
-  const ULONG kWaitReasonSuspended = 5;
-
-  // Kernel mode enumerations for thread state come from
-  // http://www.nirsoft.net/kernel_struct/vista/KTHREAD_STATE.html and
-  // https://msdn.microsoft.com/en-us/library/system.diagnostics.threadstate(v=vs.110).aspx
-  const ULONG kThreadStateWaiting = 5;
-  const ULONG kThreadStateGateWait = 8;
-
-  bool suspended = (thread_info.ThreadState == kThreadStateWaiting ||
-                    thread_info.ThreadState == kThreadStateGateWait) &&
-                   thread_info.WaitReason == kWaitReasonSuspended;
-  if (!suspended)
-    return 0;
-
-  HANDLE thread_handle;
-  ACCESS_MASK query_access = THREAD_QUERY_LIMITED_INFORMATION;
+HANDLE OpenThread(const process_types::SYSTEM_EXTENDED_THREAD_INFORMATION<
+    Traits>& thread_info) {
+  HANDLE handle;
+  ACCESS_MASK query_access = THREAD_GET_CONTEXT | THREAD_SUSPEND_RESUME;
   OBJECT_ATTRIBUTES object_attributes;
   InitializeObjectAttributes(&object_attributes, nullptr, 0, nullptr, nullptr);
   NTSTATUS status = crashpad::NtOpenThread(
-      &thread_handle, query_access, &object_attributes, &thread_info.ClientId);
+      &handle, query_access, &object_attributes, &thread_info.ClientId);
   if (!NT_SUCCESS(status)) {
-    LOG(WARNING) << "couldn't open thread to retrieve suspend count";
-    // Fall back to something semi-reasonable. We know we're suspended at this
-    // point, so just return 1.
-    return 1;
+    LOG(ERROR) << "NtOpenThread failed";
+    return nullptr;
   }
+  return handle;
+}
 
-  // Take ownership of this handle so we close on exit. NtClose and CloseHandle
-  // are identical.
-  ScopedKernelHANDLE handle(thread_handle);
+// It's necessary to suspend the thread to grab CONTEXT. SuspendThread has a
+// side-effect of returning the SuspendCount of the thread on success, so we
+// fill out these two pieces of semi-unrelated data in the same function.
+template <class Traits>
+void FillThreadContextAndSuspendCount(
+    const process_types::SYSTEM_EXTENDED_THREAD_INFORMATION<Traits>&
+        thread_info,
+    ProcessReaderWin::Thread* thread) {
 
-  // From ntddk.h. winternl.h defines THREADINFOCLASS, but only one value.
-  const int kThreadSuspendCount = 35;
-  ULONG suspend_count;
-  status = crashpad::NtQueryInformationThread(
-      handle.get(),
-      static_cast<THREADINFOCLASS>(kThreadSuspendCount),
-      &suspend_count,
-      sizeof(suspend_count),
-      nullptr);
-  if (!NT_SUCCESS(status)) {
-    LOG(WARNING) << "NtQueryInformationThread failed" << std::hex << status;
-    return 1;
+  // Don't suspend the thread if it's this thread. This is really only for test
+  // binaries, as we won't be walking ourselves, in general.
+  bool is_current_thread = thread_info.ClientId.UniqueThread ==
+                           reinterpret_cast<process_types::TEB<Traits>*>(
+                               NtCurrentTeb())->ClientId.UniqueThread;
+
+  ScopedKernelHANDLE thread_handle(OpenThread(thread_info));
+
+  // TODO(scottmg): Handle cross-bitness in this function.
+
+  if (is_current_thread) {
+    thread->suspend_count = 0;
+    RtlCaptureContext(&thread->context);
+  } else {
+    DWORD previous_suspend_count = SuspendThread(thread_handle.get());
+    if (previous_suspend_count == -1) {
+      PLOG(ERROR) << "SuspendThread failed";
+      return;
+    }
+    thread->suspend_count = previous_suspend_count;
+
+    memset(&thread->context, 0, sizeof(thread->context));
+    thread->context.ContextFlags = CONTEXT_ALL;
+    if (!GetThreadContext(thread_handle.get(), &thread->context)) {
+      PLOG(ERROR) << "GetThreadContext failed";
+      return;
+    }
+
+    if (!ResumeThread(thread_handle.get())) {
+      PLOG(ERROR) << "ResumeThread failed";
+    }
   }
-
-  return suspend_count;
 }
 
 }  // namespace
 
 ProcessReaderWin::Thread::Thread()
-    : id(0),
+    : context(),
+      id(0),
       teb(0),
       stack_region_address(0),
       stack_region_size(0),
@@ -250,7 +240,8 @@ bool ProcessReaderWin::ReadMemory(WinVMAddress at,
                          base::checked_cast<SIZE_T>(num_bytes),
                          &bytes_read) ||
       num_bytes != bytes_read) {
-    PLOG(ERROR) << "ReadMemory at " << at << " of " << num_bytes << " failed";
+    PLOG(ERROR) << "ReadMemory at 0x" << std::hex << at << std::dec << " of "
+                << num_bytes << " bytes failed";
     return false;
   }
   return true;
@@ -304,7 +295,8 @@ const std::vector<ProcessReaderWin::Thread>& ProcessReaderWin::Threads() {
         thread_info = process_information->Threads[i];
     Thread thread;
     thread.id = thread_info.ClientId.UniqueThread;
-    thread.suspend_count = GetThreadSuspendCount(thread_info);
+
+    FillThreadContextAndSuspendCount(thread_info, &thread);
 
     // TODO(scottmg): I believe we could reverse engineer the PriorityClass from
     // the Priority, BasePriority, and
@@ -323,8 +315,8 @@ const std::vector<ProcessReaderWin::Thread>& ProcessReaderWin::Threads() {
     // its stack fields.
     process_types::NT_TIB<SizeTraits> tib;
     if (ReadMemory(thread_info.TebBase, sizeof(tib), &tib)) {
-      thread.stack_region_address = tib.StackBase;
       // Note, "backwards" because of direction of stack growth.
+      thread.stack_region_address = tib.StackLimit;
       thread.stack_region_size = tib.StackBase - tib.StackLimit;
     }
     threads_.push_back(thread);

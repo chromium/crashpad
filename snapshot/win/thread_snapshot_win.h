@@ -60,6 +60,12 @@ class ThreadSnapshotWin final : public ThreadSnapshot {
   uint64_t ThreadSpecificDataAddress() const override;
 
  private:
+#if defined(ARCH_CPU_X86_FAMILY)
+  union {
+    CPUContextX86 x86;
+    CPUContextX86_64 x86_64;
+  } context_union_;
+#endif
   CPUContext context_;
   MemorySnapshotWin stack_;
   ProcessReaderWin::Thread thread_;

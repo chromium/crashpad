@@ -43,6 +43,28 @@ TEST(ProcessReaderWin, SelfBasic) {
   EXPECT_STREQ(kTestMemory, buffer);
 }
 
+TEST(ProcessReaderWin, SelfOneThread) {
+  ProcessReaderWin process_reader;
+  ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess()));
+
+  const std::vector<ProcessReaderWin::Thread>& threads =
+      process_reader.Threads();
+
+  // If other tests ran in this process previously, threads may have been
+  // created and may still be running. This check must look for at least one
+  // thread, not exactly one thread.
+  ASSERT_GE(threads.size(), 1u);
+
+  EXPECT_EQ(GetThreadId(GetCurrentThread()), threads[0].id);
+#if defined(ARCH_CPU_64_BITS)
+  EXPECT_NE(0, threads[0].context.Rip);
+#else
+  EXPECT_NE(0, threads[0].context.Eip);
+#endif
+
+  EXPECT_EQ(0, threads[0].suspend_count);
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
