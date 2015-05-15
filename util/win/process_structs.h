@@ -312,7 +312,7 @@ struct TEB {
 };
 
 // See https://msdn.microsoft.com/en-us/library/gg750724.aspx for the base
-// structure, and 
+// structure, and
 // http://processhacker.sourceforge.net/doc/struct___s_y_s_t_e_m___e_x_t_e_n_d_e_d___t_h_r_e_a_d___i_n_f_o_r_m_a_t_i_o_n.html
 // for the extension part.
 template <class Traits>

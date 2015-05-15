@@ -23,10 +23,10 @@
 #include <utility>
 #include <vector>
 
-#include "base/memory/scoped_ptr.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "util/win/module_version.h"
 
 namespace crashpad {
 
@@ -95,45 +95,25 @@ void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
     PLOG(WARNING) << "GetVersionEx";
   } else {
     const wchar_t kSystemDll[] = L"kernel32.dll";
-    DWORD size = GetFileVersionInfoSize(kSystemDll, nullptr);
-    if (!size) {
-      PLOG(WARNING) << "GetFileVersionInfoSize";
-    } else {
-      scoped_ptr<uint8_t[]> data(new uint8_t[size]);
-      if (!GetFileVersionInfo(kSystemDll, 0, size, data.get())) {
-        PLOG(WARNING) << "GetFileVersionInfo";
-      } else {
-        VS_FIXEDFILEINFO* fixed_file_info;
-        UINT size;
-        if (!VerQueryValue(data.get(),
-                           L"\\",
-                           reinterpret_cast<void**>(&fixed_file_info),
-                           &size)) {
-          PLOG(WARNING) << "VerQueryValue";
-        } else {
-          uint32_t valid_flags =
-              fixed_file_info->dwFileFlags & fixed_file_info->dwFileFlagsMask;
-          std::string flags_string = GetStringForFileFlags(valid_flags);
-          os_version_major_ =
-              (fixed_file_info->dwFileVersionMS & 0xffff0000) >> 16;
-          os_version_minor_ = fixed_file_info->dwFileVersionMS & 0xffff;
-          os_version_bugfix_ =
-              (fixed_file_info->dwFileVersionLS & 0xffff0000) >> 16;
-          os_version_build_ = base::StringPrintf(
-              "%d", fixed_file_info->dwFileVersionLS & 0xffff);
-          os_server_ = version_info.wProductType != VER_NT_WORKSTATION;
-          std::string os_name = GetStringForFileOS(fixed_file_info->dwFileOS);
-          os_version_full_ = base::StringPrintf(
-              "%s %d.%d.%d.%s%s",
-              os_name.c_str(),
-              os_version_major_,
-              os_version_minor_,
-              os_version_bugfix_,
-              os_version_build_.c_str(),
-              flags_string.empty() ? "" : (std::string(" (") + flags_string +
-                                           ")").c_str());
-        }
-      }
+    VS_FIXEDFILEINFO ffi;
+    if (GetModuleVersionAndType(base::FilePath(kSystemDll), &ffi)) {
+      std::string flags_string = GetStringForFileFlags(ffi.dwFileFlags);
+      os_server_ = version_info.wProductType != VER_NT_WORKSTATION;
+      std::string os_name = GetStringForFileOS(ffi.dwFileOS);
+      os_version_major_ = ffi.dwFileVersionMS >> 16;
+      os_version_minor_ = ffi.dwFileVersionMS & 0xffff;
+      os_version_bugfix_ = ffi.dwFileVersionLS >> 16;
+      os_version_build_ =
+          base::StringPrintf("%d", ffi.dwFileVersionLS & 0xffff);
+      os_version_full_ = base::StringPrintf(
+          "%s %d.%d.%d.%s%s",
+          os_name.c_str(),
+          os_version_major_,
+          os_version_minor_,
+          os_version_bugfix_,
+          os_version_build_.c_str(),
+          flags_string.empty() ? "" : (std::string(" (") + flags_string + ")")
+                                          .c_str());
     }
   }
 

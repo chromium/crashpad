@@ -147,6 +147,8 @@
         'thread/thread_win.cc',
         'win/address_types.h',
         'win/checked_win_address_range.h',
+        'win/module_version.cc',
+        'win/module_version.h',
         'win/process_info.cc',
         'win/process_info.h',
         'win/process_structs.h',

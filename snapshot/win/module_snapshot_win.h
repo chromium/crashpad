@@ -81,7 +81,7 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
 
  private:
-  std::string name_;
+  std::wstring name_;
   time_t timestamp_;
   scoped_ptr<PEImageReader> pe_image_reader_;
   ProcessReaderWin* process_reader_;  // weak
