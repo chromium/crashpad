@@ -43,6 +43,15 @@
 #include "util/stdlib/pointer_container.h"
 #include "util/synchronization/semaphore.h"
 
+#if !defined(MAC_OS_X_VERSION_10_10) || \
+    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_10
+extern "C" {
+// Redeclare a typedef whose availability (OSX 10.10) is newer than the
+// deployment target.
+typedef struct _cl_device_id* cl_device_id;
+}  // extern "C"
+#endif
+
 namespace crashpad {
 namespace test {
 namespace {
