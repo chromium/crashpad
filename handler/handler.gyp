@@ -68,6 +68,28 @@
           ],
         },
       ],
+    },],
+    ['OS=="win"', {
+      'targets': [
+        {
+          'target_name': 'crashpad_handler',
+          'type': 'static_library',
+          'dependencies': [
+             '../client/client.gyp:crashpad_client',
+             '../third_party/mini_chromium/mini_chromium.gyp:base',
+             '../util/util.gyp:crashpad_util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'win/registration_pipe_state.cc',
+            'win/registration_pipe_state.h',
+            'win/registration_server.cc',
+            'win/registration_server.h',
+          ],
+        },
+      ],
     }, {
       'targets': [],
     }],

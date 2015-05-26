@@ -23,6 +23,7 @@
         'client/client_test.gyp:*',
         'compat/compat.gyp:*',
         'handler/handler.gyp:*',
+        'handler/handler_test.gyp:*',
         'minidump/minidump.gyp:*',
         'minidump/minidump_test.gyp:*',
         'snapshot/snapshot.gyp:*',
