@@ -15,6 +15,7 @@
 #include "snapshot/win/module_snapshot_win.h"
 
 #include "base/strings/utf_string_conversions.h"
+#include "snapshot/win/pe_image_annotations_reader.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
@@ -152,15 +153,18 @@ void ModuleSnapshotWin::UUID(crashpad::UUID* uuid) const {
 
 std::vector<std::string> ModuleSnapshotWin::AnnotationsVector() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  CHECK(false) << "TODO(scottmg)";
+  // These correspond to system-logged things on Mac. We don't currently track
+  // any of these on Windows, but could in the future.
+  // See https://code.google.com/p/crashpad/issues/detail?id=38.
   return std::vector<std::string>();
 }
 
 std::map<std::string, std::string> ModuleSnapshotWin::AnnotationsSimpleMap()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  CHECK(false) << "TODO(scottmg)";
-  return std::map<std::string, std::string>();
+  PEImageAnnotationsReader annotations_reader(
+      process_reader_, pe_image_reader_.get(), name_);
+  return annotations_reader.SimpleMap();
 }
 
 }  // namespace internal

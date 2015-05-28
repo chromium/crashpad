@@ -74,6 +74,7 @@
         'mac/process_types_test.cc',
         'mac/system_snapshot_mac_test.cc',
         'minidump/process_snapshot_minidump_test.cc',
+        'win/pe_image_annotations_reader_test.cc',
         'win/process_reader_win_test.cc',
         'win/system_snapshot_win_test.cc',
       ],

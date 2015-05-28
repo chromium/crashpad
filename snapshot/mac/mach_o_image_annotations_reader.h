@@ -31,7 +31,7 @@ class ProcessReader;
 //!     process.
 //!
 //! These annotations are stored for the benefit of crash reporters, and provide
-//! information though to be potentially useful for crash analysis. This class
+//! information thought to be potentially useful for crash analysis. This class
 //! can decode annotations stored in these formats:
 //!  - CrashpadInfo. This format is used by Crashpad clients. The “simple
 //!    annotations” are recovered from any module with a compatible data

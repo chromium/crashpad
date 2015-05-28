@@ -69,6 +69,13 @@
             ],
           },
         }],
+        ['OS=="win"', {
+          'link_settings': {
+            'libraries': [
+              '-lshell32.lib',
+            ],
+          },
+        }],
       ],
     },
   ],
