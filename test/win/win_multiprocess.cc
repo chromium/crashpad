@@ -100,7 +100,10 @@ void WinMultiprocess::Run() {
 
     // Invoke the child side of the test.
     WinMultiprocessChild();
-    exit(0);
+
+    if (testing::Test::HasFailure())
+      exit(255);
+    exit(EXIT_SUCCESS);
   } else {
     // If we're in the parent, make pipes for child-to-parent and
     // parent-to-child communication. Mark them as inheritable via the
