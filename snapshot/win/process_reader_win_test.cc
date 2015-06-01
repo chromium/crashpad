@@ -14,9 +14,11 @@
 
 #include "snapshot/win/process_reader_win.h"
 
+#include <string.h>
 #include <windows.h>
 
 #include "gtest/gtest.h"
+#include "test/win/win_multiprocess.h"
 
 namespace crashpad {
 namespace test {
@@ -41,6 +43,50 @@ TEST(ProcessReaderWin, SelfBasic) {
                                 sizeof(kTestMemory),
                                 &buffer));
   EXPECT_STREQ(kTestMemory, buffer);
+}
+
+const char kTestMemory[] = "Read me from another process";
+
+class ProcessReaderChild final : public WinMultiprocess {
+ public:
+  ProcessReaderChild() : WinMultiprocess() {}
+  ~ProcessReaderChild() {}
+
+ private:
+  void WinMultiprocessParent() override {
+    ProcessReaderWin process_reader;
+    ASSERT_TRUE(process_reader.Initialize(ChildProcess()));
+
+#if !defined(ARCH_CPU_64_BITS)
+    EXPECT_FALSE(process_reader.Is64Bit());
+#else
+    EXPECT_TRUE(process_reader.Is64Bit());
+#endif
+
+    WinVMAddress address;
+    CheckedReadFile(ReadPipeHandle(), &address, sizeof(address));
+
+    char buffer[sizeof(kTestMemory)];
+    ASSERT_TRUE(
+        process_reader.ReadMemory(address, sizeof(kTestMemory), &buffer));
+    EXPECT_EQ(0, strcmp(kTestMemory, buffer));
+  }
+
+  void WinMultiprocessChild() override {
+    WinVMAddress address = reinterpret_cast<WinVMAddress>(kTestMemory);
+    CheckedWriteFile(WritePipeHandle(), &address, sizeof(address));
+
+    // Wait for the parent to signal that it's OK to exit by closing its end of
+    // the pipe.
+    CheckedReadFileAtEOF(ReadPipeHandle());
+  }
+
+  DISALLOW_COPY_AND_ASSIGN(ProcessReaderChild);
+};
+
+TEST(ProcessReaderWin, ChildBasic) {
+  ProcessReaderChild process_reader_child;
+  process_reader_child.Run();
 }
 
 TEST(ProcessReaderWin, SelfOneThread) {

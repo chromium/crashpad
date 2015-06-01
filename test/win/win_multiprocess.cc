@@ -168,6 +168,11 @@ void WinMultiprocess::Run() {
 
     WinMultiprocessParent();
 
+    // Close our side of the handles now that we're done. The child can
+    // use this to know when it's safe to complete.
+    pipe_p2c_write_.reset();
+    pipe_c2p_read_.reset();
+
     // Wait for the child to complete.
     ASSERT_EQ(WAIT_OBJECT_0,
               WaitForSingleObject(child_handle_.get(), INFINITE));
