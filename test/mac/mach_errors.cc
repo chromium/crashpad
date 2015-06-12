@@ -16,7 +16,6 @@
 
 #include <servers/bootstrap.h>
 
-#include "base/safe_strerror_posix.h"
 #include "base/strings/stringprintf.h"
 
 namespace {

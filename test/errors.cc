@@ -21,7 +21,7 @@
 #include "build/build_config.h"
 
 #if defined(OS_POSIX)
-#include "base/safe_strerror_posix.h"
+#include "base/posix/safe_strerror.h"
 #elif defined(OS_WIN)
 #include <string.h>
 #include <windows.h>
@@ -32,7 +32,7 @@ namespace test {
 
 std::string ErrnoMessage(int err, const std::string& base) {
 #if defined(OS_POSIX)
-  std::string err_as_string = safe_strerror(errno);
+  std::string err_as_string = base::safe_strerror(errno);
   const char* err_string = err_as_string.c_str();
 #elif defined(OS_WIN)
   char err_string[256];
