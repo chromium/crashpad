@@ -85,8 +85,7 @@ class ProcessReaderChild final : public WinMultiprocess {
 };
 
 TEST(ProcessReaderWin, ChildBasic) {
-  ProcessReaderChild process_reader_child;
-  process_reader_child.Run();
+  WinMultiprocess::Run<ProcessReaderChild>();
 }
 
 TEST(ProcessReaderWin, SelfOneThread) {

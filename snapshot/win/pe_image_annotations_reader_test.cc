@@ -36,19 +36,18 @@ namespace crashpad {
 namespace test {
 namespace {
 
+enum TestType {
+  // Don't crash, just test the CrashpadInfo interface.
+  kDontCrash = 0,
+
+  // The child process should crash by __debugbreak().
+  kCrashDebugBreak,
+};
+
+template <TestType Type>
 class TestPEImageAnnotationsReader final : public WinMultiprocess {
  public:
-  enum TestType {
-    // Don't crash, just test the CrashpadInfo interface.
-    kDontCrash = 0,
-
-    // The child process should crash by __debugbreak().
-    kCrashDebugBreak,
-  };
-
-  explicit TestPEImageAnnotationsReader(TestType test_type)
-      : WinMultiprocess(), test_type_(test_type) {}
-
+  TestPEImageAnnotationsReader() {}
   ~TestPEImageAnnotationsReader() {}
 
  private:
@@ -87,7 +86,7 @@ class TestPEImageAnnotationsReader final : public WinMultiprocess {
     EXPECT_EQ("shorter", all_annotations_simple_map["#TEST# longer"]);
     EXPECT_EQ("", all_annotations_simple_map["#TEST# empty_value"]);
 
-    if (test_type_ == kCrashDebugBreak)
+    if (Type == kCrashDebugBreak)
       SetExpectedChildExitCode(STATUS_BREAKPOINT);
 
     // Tell the child process to continue.
@@ -115,7 +114,7 @@ class TestPEImageAnnotationsReader final : public WinMultiprocess {
     // Wait for the parent to indicate that it's safe to continue/crash.
     CheckedReadFile(ReadPipeHandle(), &c, sizeof(c));
 
-    switch (test_type_) {
+    switch (Type) {
       case kDontCrash:
         break;
 
@@ -125,21 +124,15 @@ class TestPEImageAnnotationsReader final : public WinMultiprocess {
     }
   }
 
-  TestType test_type_;
-
   DISALLOW_COPY_AND_ASSIGN(TestPEImageAnnotationsReader);
 };
 
 TEST(PEImageAnnotationsReader, DontCrash) {
-  TestPEImageAnnotationsReader test_pe_image_annotations_reader(
-      TestPEImageAnnotationsReader::kDontCrash);
-  test_pe_image_annotations_reader.Run();
+  WinMultiprocess::Run<TestPEImageAnnotationsReader<kDontCrash>>();
 }
 
 TEST(PEImageAnnotationsReader, CrashDebugBreak) {
-  TestPEImageAnnotationsReader test_pe_image_annotations_reader(
-      TestPEImageAnnotationsReader::kCrashDebugBreak);
-  test_pe_image_annotations_reader.Run();
+  WinMultiprocess::Run<TestPEImageAnnotationsReader<kCrashDebugBreak>>();
 }
 
 }  // namespace

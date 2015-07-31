@@ -21,79 +21,62 @@ namespace crashpad {
 namespace test {
 namespace {
 
+template <int ExitCode>
 class TestWinMultiprocess final : public WinMultiprocess {
  public:
-  explicit TestWinMultiprocess(unsigned int exit_code)
-      : WinMultiprocess(), exit_code_(exit_code) {}
-
-  ~TestWinMultiprocess() {}
+  TestWinMultiprocess() {}
 
  private:
   // WinMultiprocess will have already exercised the pipes.
-  void WinMultiprocessParent() override {}
+  void WinMultiprocessParent() override { SetExpectedChildExitCode(ExitCode); }
 
   void WinMultiprocessChild() override {
-    exit(exit_code_);
+    exit(ExitCode);
   }
-
-  unsigned int exit_code_;
 
   DISALLOW_COPY_AND_ASSIGN(TestWinMultiprocess);
 };
 
-enum class FailureType {
-  kExpect,
-  kAssert,
-};
-
-class TestWinMultiprocessChildFails final : public WinMultiprocess {
+class TestWinMultiprocessChildAsserts final : public WinMultiprocess {
  public:
-  explicit TestWinMultiprocessChildFails(FailureType failure_type)
-      : WinMultiprocess(), failure_type_(failure_type) {}
-  ~TestWinMultiprocessChildFails() {}
+  TestWinMultiprocessChildAsserts() {}
 
  private:
-  void WinMultiprocessParent() override {}
+  void WinMultiprocessParent() override { SetExpectedChildExitCode(255); }
   void WinMultiprocessChild() override {
-    switch (failure_type_) {
-      case FailureType::kExpect:
-        EXPECT_FALSE(true);
-        break;
-      case FailureType::kAssert:
-        ASSERT_FALSE(true);
-        break;
-    }
+    ASSERT_FALSE(true);
   }
 
-  FailureType failure_type_;
-
-  DISALLOW_COPY_AND_ASSIGN(TestWinMultiprocessChildFails);
+  DISALLOW_COPY_AND_ASSIGN(TestWinMultiprocessChildAsserts);
 };
 
+class TestWinMultiprocessChildExpects final : public WinMultiprocess {
+ public:
+  TestWinMultiprocessChildExpects() {}
+
+ private:
+  void WinMultiprocessParent() override { SetExpectedChildExitCode(255); }
+  void WinMultiprocessChild() override {
+    EXPECT_FALSE(true);
+  }
+
+  DISALLOW_COPY_AND_ASSIGN(TestWinMultiprocessChildExpects);
+};
 
 TEST(WinMultiprocess, WinMultiprocess) {
-  TestWinMultiprocess win_multiprocess(0);
-  win_multiprocess.Run();
+  WinMultiprocess::Run<TestWinMultiprocess<0>>();
 }
 
 TEST(WinMultiprocess, WinMultiprocessNonSuccessExitCode) {
-  TestWinMultiprocess win_multiprocess(100);
-  win_multiprocess.SetExpectedChildExitCode(100);
-  win_multiprocess.Run();
+  WinMultiprocess::Run<TestWinMultiprocess<100>>();
 }
 
 TEST(WinMultiprocessChildFails, ChildExpectFailure) {
-  TestWinMultiprocessChildFails multiprocess_failing_child(
-      FailureType::kExpect);
-  multiprocess_failing_child.SetExpectedChildExitCode(255);
-  multiprocess_failing_child.Run();
+  WinMultiprocess::Run<TestWinMultiprocessChildExpects>();
 }
 
 TEST(WinMultiprocessChildFails, ChildAssertFailure) {
-  TestWinMultiprocessChildFails multiprocess_failing_child(
-      FailureType::kAssert);
-  multiprocess_failing_child.SetExpectedChildExitCode(255);
-  multiprocess_failing_child.Run();
+  WinMultiprocess::Run<TestWinMultiprocessChildAsserts>();
 }
 
 }  // namespace

@@ -18,6 +18,8 @@
 #include <windows.h>
 
 #include "base/basictypes.h"
+#include "gtest/gtest.h"
+#include "test/win/win_child_process.h"
 #include "util/file/file_io.h"
 #include "util/win/scoped_handle.h"
 
@@ -36,7 +38,34 @@ class WinMultiprocess {
   //!
   //! In the parent process, WinMultiprocessParent() is run, and in the child
   //! WinMultiprocessChild().
-  void Run();
+  template <class T>
+  static void Run() {
+    ASSERT_NO_FATAL_FAILURE(
+        WinChildProcess::EntryPoint<ChildProcessHelper<T>>());
+    // If WinChildProcess::EntryPoint returns, we are in the parent process.
+    scoped_ptr<WinChildProcess::Handles> child_handles =
+        WinChildProcess::Launch();
+    ASSERT_TRUE(child_handles.get());
+    T parent_process;
+    parent_process.child_handles_ = child_handles.get();
+    static_cast<WinMultiprocess*>(&parent_process)->WinMultiprocessParent();
+
+    // Close our side of the handles now that we're done. The child can
+    // use this to know when it's safe to complete.
+    child_handles->read.reset();
+    child_handles->write.reset();
+
+    // Wait for the child to complete.
+    ASSERT_EQ(WAIT_OBJECT_0,
+              WaitForSingleObject(child_handles->process.get(), INFINITE));
+
+    DWORD exit_code;
+    ASSERT_TRUE(GetExitCodeProcess(child_handles->process.get(), &exit_code));
+    ASSERT_EQ(parent_process.exit_code_, exit_code);
+  }
+
+ protected:
+  virtual ~WinMultiprocess();
 
   //! \brief Sets the expected exit code of the child process.
   //!
@@ -44,9 +73,6 @@ class WinMultiprocess {
   //!
   //! \param[in] code The expected exit status of the child.
   void SetExpectedChildExitCode(unsigned int exit_code);
-
- protected:
-  virtual ~WinMultiprocess();
 
   //! \brief Returns the read pipe's file handle.
   //!
@@ -89,6 +115,42 @@ class WinMultiprocess {
   HANDLE ChildProcess() const;
 
  private:
+  // Implements an adapter to provide WinMultiprocess with access to the
+  // anonymous pipe handles from WinChildProcess.
+  class ChildProcessHelperBase : public WinChildProcess {
+   public:
+    ChildProcessHelperBase() {}
+    ~ChildProcessHelperBase() override {}
+
+    void CloseWritePipeForwarder() { CloseWritePipe(); }
+    void CloseReadPipeForwarder() { CloseReadPipe(); }
+    FileHandle ReadPipeHandleForwarder() const { return ReadPipeHandle(); }
+    FileHandle WritePipeHandleForwarder() const { return WritePipeHandle(); }
+
+   private:
+    DISALLOW_COPY_AND_ASSIGN(ChildProcessHelperBase);
+  };
+
+  // Forwards WinChildProcess::Run to T::WinMultiprocessChild.
+  template <class T>
+  class ChildProcessHelper : public ChildProcessHelperBase {
+   public:
+    ChildProcessHelper() {}
+    ~ChildProcessHelper() override {}
+
+   private:
+    int Run() override {
+      T child_process;
+      child_process.child_process_helper_ = this;
+      static_cast<WinMultiprocess*>(&child_process)->WinMultiprocessChild();
+      if (testing::Test::HasFailure())
+        return 255;
+      return EXIT_SUCCESS;
+    }
+
+    DISALLOW_COPY_AND_ASSIGN(ChildProcessHelper);
+  };
+
   //! \brief The subclass-provided parent routine.
   //!
   //! Test failures should be reported via gtest: `EXPECT_*()`, `ASSERT_*()`,
@@ -111,12 +173,9 @@ class WinMultiprocess {
   //! method.
   virtual void WinMultiprocessChild() = 0;
 
-  ScopedFileHANDLE pipe_c2p_read_;
-  ScopedFileHANDLE pipe_c2p_write_;
-  ScopedFileHANDLE pipe_p2c_read_;
-  ScopedFileHANDLE pipe_p2c_write_;
-  ScopedKernelHANDLE child_handle_;
   unsigned int exit_code_;
+  WinChildProcess::Handles* child_handles_;
+  ChildProcessHelperBase* child_process_helper_;
 
   DISALLOW_COPY_AND_ASSIGN(WinMultiprocess);
 };

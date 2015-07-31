@@ -51,6 +51,8 @@
         'scoped_temp_dir.h',
         'scoped_temp_dir_posix.cc',
         'scoped_temp_dir_win.cc',
+        'win/win_child_process.cc',
+        'win/win_child_process.h',
         'win/win_multiprocess.cc',
         'win/win_multiprocess.h',
       ],
@@ -59,13 +61,6 @@
           'link_settings': {
             'libraries': [
               '$(SDKROOT)/usr/lib/libbsm.dylib',
-            ],
-          },
-        }],
-        ['OS=="win"', {
-          'link_settings': {
-            'libraries': [
-              '-lshell32.lib',
             ],
           },
         }],
