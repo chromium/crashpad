@@ -36,6 +36,8 @@
         'non_win/windows.h',
         'non_win/winnt.h',
         'win/getopt.h',
+        'win/strings.cc',
+        'win/strings.h',
         'win/sys/types.h',
         'win/time.cc',
         'win/time.h',

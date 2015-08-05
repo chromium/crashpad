@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <sys/types.h>
 #include <time.h>
 
@@ -106,14 +107,14 @@ bool StringToBool(const char* string, bool* boolean) {
   };
 
   for (size_t index = 0; index < arraysize(kFalseWords); ++index) {
-    if (base::strcasecmp(string, kFalseWords[index]) == 0) {
+    if (strcasecmp(string, kFalseWords[index]) == 0) {
       *boolean = false;
       return true;
     }
   }
 
   for (size_t index = 0; index < arraysize(kTrueWords); ++index) {
-    if (base::strcasecmp(string, kTrueWords[index]) == 0) {
+    if (strcasecmp(string, kTrueWords[index]) == 0) {
       *boolean = true;
       return true;
     }
@@ -135,7 +136,7 @@ std::string BoolToString(bool boolean) {
 // when true, causes |string| to be interpreted as a UTC time rather than a
 // local time when the time zone is ambiguous.
 bool StringToTime(const char* string, time_t* time, bool utc) {
-  if (base::strcasecmp(string, "never") == 0) {
+  if (strcasecmp(string, "never") == 0) {
     *time = 0;
     return true;
   }
