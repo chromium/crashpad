@@ -532,7 +532,7 @@ TEST(ProcessReader, ChildSeveralThreads) {
 }
 
 // cl_kernels images (OpenCL kernels) are weird. They’re not ld output and don’t
-// exist as files on disk. On Mac OS X 10.10, their Mach-O structure isn’t
+// exist as files on disk. On OS X 10.10 and 10.11, their Mach-O structure isn’t
 // perfect. They show up loaded into many executables, so these quirks should be
 // tolerated.
 //
