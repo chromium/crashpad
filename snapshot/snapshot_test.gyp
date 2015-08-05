@@ -80,6 +80,9 @@
       ],
       'conditions': [
         ['OS=="mac"', {
+          'dependencies': [
+            'crashpad_snapshot_test_no_op',
+          ],
           'link_settings': {
             'libraries': [
               '$(SDKROOT)/System/Library/Frameworks/OpenCL.framework',
@@ -102,5 +105,18 @@
         'crashpad_info_client_options_test_module.cc',
       ],
     },
+  ],
+  'conditions': [
+    ['OS=="mac"', {
+      'targets': [
+        {
+          'target_name': 'crashpad_snapshot_test_no_op',
+          'type': 'executable',
+          'sources': [
+            'mac/mach_o_image_annotations_reader_test_no_op.cc',
+          ],
+        },
+      ],
+    }],
   ],
 }

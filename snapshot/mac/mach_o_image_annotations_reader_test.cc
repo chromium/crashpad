@@ -26,6 +26,7 @@
 #include <vector>
 
 #include "base/basictypes.h"
+#include "base/files/file_path.h"
 #include "client/crashpad_info.h"
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"
@@ -33,6 +34,7 @@
 #include "test/errors.h"
 #include "test/mac/mach_errors.h"
 #include "test/mac/mach_multiprocess.h"
+#include "test/paths.h"
 #include "util/file/file_io.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/exc_server_variants.h"
@@ -44,6 +46,11 @@
 namespace crashpad {
 namespace test {
 namespace {
+
+//! \return The path to the crashpad_snapshot_test_no_op executable.
+base::FilePath NoOpExecutable() {
+  return base::FilePath(Paths::Executable().value() + "_no_op");
+}
 
 class TestMachOImageAnnotationsReader final
     : public MachMultiprocess,
@@ -304,9 +311,14 @@ class TestMachOImageAnnotationsReader final
 
         // The actual executable doesn’t matter very much, because dyld won’t
         // ever launch it. It just needs to be an executable that uses dyld as
-        // its LC_LOAD_DYLINKER (all normal executables do). /usr/bin/true is on
-        // every system, so use it.
-        ASSERT_EQ(0, execl("/usr/bin/true", "true", nullptr))
+        // its LC_LOAD_DYLINKER (all normal executables do). A custom no-op
+        // executable is provided because DYLD_INSERT_LIBRARIES does not work
+        // with system executables on OS X 10.11 due to System Integrity
+        // Protection.
+        base::FilePath no_op_executable = NoOpExecutable();
+        ASSERT_EQ(0, execl(no_op_executable.value().c_str(),
+                           no_op_executable.BaseName().value().c_str(),
+                           nullptr))
             << ErrnoMessage("execl");
         break;
       }
