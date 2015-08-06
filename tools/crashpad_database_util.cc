@@ -29,7 +29,6 @@
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/numerics/safe_conversions.h"
-#include "base/strings/string_util.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/crash_report_database.h"
