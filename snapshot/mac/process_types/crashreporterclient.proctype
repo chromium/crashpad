@@ -27,14 +27,32 @@
 
 // Client Mach-O images will contain a __DATA,__crash_info section formatted
 // according to this structure.
+//
+// crashreporter_annotations_t is variable-length. Its length dictated by its
+// |version| field which is always present. A custom implementation of the
+// flavored ReadSpecificInto function that understands how to map this field to
+// the structure’s actual size is provided in
+// snapshot/mac/process_types/custom.cc. No implementation of ReadArrayInto is
+// provided because dyld_all_image_infos structs are singletons in a process and
+// are never present in arrays, so the functionality is unnecessary.
+
+#if !defined(PROCESS_TYPE_STRUCT_IMPLEMENT_INTERNAL_READ_INTO) && \
+    !defined(PROCESS_TYPE_STRUCT_IMPLEMENT_ARRAY)
+
 PROCESS_TYPE_STRUCT_BEGIN(crashreporter_annotations_t)
-  // The only known version is 4.
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, version)  // unsigned long
 
+  // Version 4 (Mac OS X 10.7)
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, message)  // char*
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, signature_string)  // char*
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, backtrace)  // char*
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, message2)  // char*
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, thread)
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, dialog_mode)  // unsigned int
+
+  // Version 5 (OS X 10.11)
+  PROCESS_TYPE_STRUCT_MEMBER(uint64_t, unknown_0)
 PROCESS_TYPE_STRUCT_END(crashreporter_annotations_t)
+
+#endif  // ! PROCESS_TYPE_STRUCT_IMPLEMENT_INTERNAL_READ_INTO &&
+        // ! PROCESS_TYPE_STRUCT_IMPLEMENT_ARRAY

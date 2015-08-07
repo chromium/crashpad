@@ -16,6 +16,7 @@
 
 #include <string.h>
 
+#include "base/logging.h"
 #include "snapshot/mac/process_types/internal.h"
 #include "util/mach/task_memory.h"
 
@@ -23,47 +24,17 @@ namespace crashpad {
 namespace process_types {
 namespace internal {
 
-template <typename Traits>
-bool dyld_all_image_infos<Traits>::ReadInto(
-    ProcessReader* process_reader,
-    mach_vm_address_t address,
-    dyld_all_image_infos<Traits>* specific) {
+template <typename T>
+bool ReadIntoVersioned(ProcessReader* process_reader,
+                       mach_vm_address_t address,
+                       T* specific) {
   TaskMemory* task_memory = process_reader->Memory();
   if (!task_memory->Read(
           address, sizeof(specific->version), &specific->version)) {
     return false;
   }
 
-  mach_vm_size_t size;
-  if (specific->version >= 14) {
-    size = sizeof(dyld_all_image_infos<Traits>);
-  } else if (specific->version >= 13) {
-    size = offsetof(dyld_all_image_infos<Traits>, reserved);
-  } else if (specific->version >= 12) {
-    size = offsetof(dyld_all_image_infos<Traits>, sharedCacheUUID);
-  } else if (specific->version >= 11) {
-    size = offsetof(dyld_all_image_infos<Traits>, sharedCacheSlide);
-  } else if (specific->version >= 10) {
-    size = offsetof(dyld_all_image_infos<Traits>, errorKind);
-  } else if (specific->version >= 9) {
-    size = offsetof(dyld_all_image_infos<Traits>, initialImageCount);
-  } else if (specific->version >= 8) {
-    size = offsetof(dyld_all_image_infos<Traits>, dyldAllImageInfosAddress);
-  } else if (specific->version >= 7) {
-    size = offsetof(dyld_all_image_infos<Traits>, uuidArrayCount);
-  } else if (specific->version >= 6) {
-    size = offsetof(dyld_all_image_infos<Traits>, systemOrderFlag);
-  } else if (specific->version >= 5) {
-    size = offsetof(dyld_all_image_infos<Traits>, coreSymbolicationShmPage);
-  } else if (specific->version >= 3) {
-    size = offsetof(dyld_all_image_infos<Traits>, dyldVersion);
-  } else if (specific->version >= 2) {
-    size = offsetof(dyld_all_image_infos<Traits>, jitInfo);
-  } else if (specific->version >= 1) {
-    size = offsetof(dyld_all_image_infos<Traits>, libSystemInitialized);
-  } else {
-    size = offsetof(dyld_all_image_infos<Traits>, infoArrayCount);
-  }
+  mach_vm_size_t size = T::ExpectedSizeForVersion(specific->version);
 
   if (!task_memory->Read(address, size, specific)) {
     return false;
@@ -80,11 +51,96 @@ bool dyld_all_image_infos<Traits>::ReadInto(
   return true;
 }
 
-#define PROCESS_TYPE_FLAVOR_TRAITS(lp_bits)                      \
-  template bool dyld_all_image_infos<Traits##lp_bits>::ReadInto( \
-      ProcessReader*,                                            \
-      mach_vm_address_t,                                         \
-      dyld_all_image_infos<Traits##lp_bits>*);
+// static
+template <typename Traits>
+size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(uint64_t version) {
+  if (version >= 14) {
+    return sizeof(dyld_all_image_infos<Traits>);
+  }
+  if (version >= 13) {
+    return offsetof(dyld_all_image_infos<Traits>, reserved);
+  }
+  if (version >= 12) {
+    return offsetof(dyld_all_image_infos<Traits>, sharedCacheUUID);
+  }
+  if (version >= 11) {
+    return offsetof(dyld_all_image_infos<Traits>, sharedCacheSlide);
+  }
+  if (version >= 10) {
+    return offsetof(dyld_all_image_infos<Traits>, errorKind);
+  }
+  if (version >= 9) {
+    return offsetof(dyld_all_image_infos<Traits>, initialImageCount);
+  }
+  if (version >= 8) {
+    return offsetof(dyld_all_image_infos<Traits>, dyldAllImageInfosAddress);
+  }
+  if (version >= 7) {
+    return offsetof(dyld_all_image_infos<Traits>, uuidArrayCount);
+  }
+  if (version >= 6) {
+    return offsetof(dyld_all_image_infos<Traits>, systemOrderFlag);
+  }
+  if (version >= 5) {
+    return offsetof(dyld_all_image_infos<Traits>, coreSymbolicationShmPage);
+  }
+  if (version >= 3) {
+    return offsetof(dyld_all_image_infos<Traits>, dyldVersion);
+  }
+  if (version >= 2) {
+    return offsetof(dyld_all_image_infos<Traits>, jitInfo);
+  }
+  if (version >= 1) {
+    return offsetof(dyld_all_image_infos<Traits>, libSystemInitialized);
+  }
+  return offsetof(dyld_all_image_infos<Traits>, infoArrayCount);
+}
+
+// static
+template <typename Traits>
+bool dyld_all_image_infos<Traits>::ReadInto(
+    ProcessReader* process_reader,
+    mach_vm_address_t address,
+    dyld_all_image_infos<Traits>* specific) {
+  return ReadIntoVersioned(process_reader, address, specific);
+}
+
+// static
+template <typename Traits>
+size_t crashreporter_annotations_t<Traits>::ExpectedSizeForVersion(
+    uint64_t version) {
+  if (version >= 5) {
+    return sizeof(crashreporter_annotations_t<Traits>);
+  }
+  if (version >= 4) {
+    return offsetof(crashreporter_annotations_t<Traits>, unknown_0);
+  }
+  return offsetof(crashreporter_annotations_t<Traits>, message);
+}
+
+// static
+template <typename Traits>
+bool crashreporter_annotations_t<Traits>::ReadInto(
+    ProcessReader* process_reader,
+    mach_vm_address_t address,
+    crashreporter_annotations_t<Traits>* specific) {
+  return ReadIntoVersioned(process_reader, address, specific);
+}
+
+#define PROCESS_TYPE_FLAVOR_TRAITS(lp_bits)                                    \
+  template size_t                                                              \
+      dyld_all_image_infos<Traits##lp_bits>::ExpectedSizeForVersion(uint64_t); \
+  template bool dyld_all_image_infos<Traits##lp_bits>::ReadInto(               \
+      ProcessReader*,                                                          \
+      mach_vm_address_t,                                                       \
+      dyld_all_image_infos<Traits##lp_bits>*);                                 \
+  template size_t                                                              \
+      crashreporter_annotations_t<Traits##lp_bits>::ExpectedSizeForVersion(    \
+          uint64_t);                                                           \
+  template bool crashreporter_annotations_t<Traits##lp_bits>::ReadInto(        \
+      ProcessReader*,                                                          \
+      mach_vm_address_t,                                                       \
+      crashreporter_annotations_t<Traits##lp_bits>*);
 
 #include "snapshot/mac/process_types/flavors.h"
 

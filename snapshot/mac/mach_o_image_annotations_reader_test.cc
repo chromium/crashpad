@@ -47,6 +47,11 @@ namespace crashpad {
 namespace test {
 namespace {
 
+// \return The path to crashpad_snapshot_test_module_crashy_initializer.so
+std::string ModuleWithCrashyInitializer() {
+  return Paths::Executable().value() + "_module_crashy_initializer.so";
+}
+
 //! \return The path to the crashpad_snapshot_test_no_op executable.
 base::FilePath NoOpExecutable() {
   return base::FilePath(Paths::Executable().value() + "_no_op");
@@ -62,7 +67,23 @@ class TestMachOImageAnnotationsReader final
 
     // The child process should crash by calling abort(). The parent verifies
     // that the system libraries set the expected annotations.
+    //
+    // This test verifies that the message field in crashreporter_annotations_t
+    // can be recovered. Either 10.10.2 Libc-1044.1.2/stdlib/FreeBSD/abort.c
+    // abort() or 10.10.2 Libc-1044.10.1/sys/_libc_fork_child.c
+    // _libc_fork_child() calls CRSetCrashLogMessage() to set the message field.
     kCrashAbort,
+
+    // The child process should crash at module initialization time, when dyld
+    // will have set an annotation matching the path of the module being
+    // initialized.
+    //
+    // This test exists to verify that the message2 field in
+    // crashreporter_annotations_t can be recovered. 10.10.2
+    // dyld-353.2.1/src/ImageLoaderMachO.cpp
+    // ImageLoaderMachO::doInitialization() calls CRSetCrashLogMessage2() to set
+    // the message2 field.
+    kCrashModuleInitialization,
 
     // The child process should crash by setting DYLD_INSERT_LIBRARIES to
     // contain a nonexistent library. The parent verifies that dyld sets the
@@ -126,7 +147,7 @@ class TestMachOImageAnnotationsReader final
       if (mac_os_x_minor_version > 7) {
         EXPECT_GE(all_annotations_vector.size(), 1u);
 
-        const char* expected_annotation = nullptr;
+        std::string expected_annotation;
         switch (test_type_) {
           case kCrashAbort:
             // The child process calls abort(), so the expected annotation
@@ -145,6 +166,12 @@ class TestMachOImageAnnotationsReader final
                     : "crashed on child side of fork pre-exec";
             break;
 
+          case kCrashModuleInitialization:
+            // This message is set by dyld-353.2.1/src/ImageLoaderMachO.cpp
+            // ImageLoaderMachO::doInitialization().
+            expected_annotation = ModuleWithCrashyInitializer();
+            break;
+
           case kCrashDyld:
             // This is independent of dyld’s error_string, which is tested
             // below.
@@ -156,20 +183,19 @@ class TestMachOImageAnnotationsReader final
             break;
         }
 
-        size_t expected_annotation_length = strlen(expected_annotation);
         bool found = false;
         for (const std::string& annotation : all_annotations_vector) {
           // Look for the expectation as a leading susbtring, because the actual
           // string that dyld uses will have the contents of the
           // DYLD_INSERT_LIBRARIES environment variable appended to it on Mac
           // OS X 10.10.
-          if (annotation.substr(0, expected_annotation_length) ==
+          if (annotation.substr(0, expected_annotation.length()) ==
                   expected_annotation) {
             found = true;
             break;
           }
         }
-        EXPECT_TRUE(found);
+        EXPECT_TRUE(found) << expected_annotation;
       }
 
       // dyld exposes its error_string at least as far back as Mac OS X 10.4.
@@ -188,7 +214,7 @@ class TestMachOImageAnnotationsReader final
           }
         }
 
-        EXPECT_TRUE(found);
+        EXPECT_TRUE(found) << kExpectedAnnotation;
       }
     }
 
@@ -250,6 +276,12 @@ class TestMachOImageAnnotationsReader final
           SetExpectedChildTermination(kTerminationSignal, SIGABRT);
           break;
 
+        case kCrashModuleInitialization:
+          // This crash is triggered by __builtin_trap(), which shows up as
+          // SIGILL.
+          SetExpectedChildTermination(kTerminationSignal, SIGILL);
+          break;
+
         case kCrashDyld:
           // dyld fatal errors result in the execution of an int3 instruction on
           // x86 and a trap instruction on ARM, both of which raise SIGTRAP.
@@ -293,12 +325,27 @@ class TestMachOImageAnnotationsReader final
         EXC_MASK_CRASH, RemotePort(), EXCEPTION_DEFAULT, THREAD_STATE_NONE));
 
     switch (test_type_) {
-      case kDontCrash:
+      case kDontCrash: {
         break;
+      }
 
-      case kCrashAbort:
+      case kCrashAbort: {
         abort();
         break;
+      }
+
+      case kCrashModuleInitialization: {
+        // Load a module that crashes while executing a module initializer.
+        void* dl_handle = dlopen(ModuleWithCrashyInitializer().c_str(),
+                                 RTLD_LAZY | RTLD_LOCAL);
+
+        // This should have crashed in the dlopen(). If dlopen() failed, the
+        // ASSERT_NE() will show the message. If it succeeded without crashing,
+        // the FAIL() will fail the test.
+        ASSERT_NE(nullptr, dl_handle) << dlerror();
+        FAIL();
+        break;
+      }
 
       case kCrashDyld: {
         // Set DYLD_INSERT_LIBRARIES to contain a library that does not exist.
@@ -342,6 +389,12 @@ TEST(MachOImageAnnotationsReader, DontCrash) {
 TEST(MachOImageAnnotationsReader, CrashAbort) {
   TestMachOImageAnnotationsReader test_mach_o_image_annotations_reader(
       TestMachOImageAnnotationsReader::kCrashAbort);
+  test_mach_o_image_annotations_reader.Run();
+}
+
+TEST(MachOImageAnnotationsReader, CrashModuleInitialization) {
+  TestMachOImageAnnotationsReader test_mach_o_image_annotations_reader(
+      TestMachOImageAnnotationsReader::kCrashModuleInitialization);
   test_mach_o_image_annotations_reader.Run();
 }
 

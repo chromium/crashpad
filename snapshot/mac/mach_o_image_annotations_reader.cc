@@ -67,20 +67,24 @@ void MachOImageAnnotationsReader::ReadCrashReporterClientAnnotations(
   }
 
   process_types::crashreporter_annotations_t crash_info;
-  if (crash_info_section->size < crash_info.ExpectedSize(process_reader_)) {
-    LOG(WARNING) << "small crash info section size " << crash_info_section->size
-                 << " in " << name_;
-    return;
-  }
-
   if (!crash_info.Read(process_reader_, crash_info_address)) {
     LOG(WARNING) << "could not read crash info from " << name_;
     return;
   }
 
-  if (crash_info.version != 4) {
+  if (crash_info.version != 4 && crash_info.version != 5) {
     LOG(WARNING) << "unexpected crash info version " << crash_info.version
                  << " in " << name_;
+    return;
+  }
+
+  size_t expected_size =
+      process_types::crashreporter_annotations_t::ExpectedSizeForVersion(
+          process_reader_, crash_info.version);
+  if (crash_info_section->size < expected_size) {
+    LOG(WARNING) << "small crash info section size " << crash_info_section->size
+                 << " < " << expected_size << " for version "
+                 << crash_info.version << " in " << name_;
     return;
   }
 
@@ -89,9 +93,8 @@ void MachOImageAnnotationsReader::ReadCrashReporterClientAnnotations(
   const size_t kMaxMessageSize = 1024;
   if (crash_info.message) {
     std::string message;
-    if (process_reader_->Memory()->
-            ReadCStringSizeLimited(
-                crash_info.message, kMaxMessageSize, &message)) {
+    if (process_reader_->Memory()->ReadCStringSizeLimited(
+            crash_info.message, kMaxMessageSize, &message)) {
       vector_annotations->push_back(message);
     } else {
       LOG(WARNING) << "could not read crash message in " << name_;
@@ -100,9 +103,8 @@ void MachOImageAnnotationsReader::ReadCrashReporterClientAnnotations(
 
   if (crash_info.message2) {
     std::string message;
-    if (process_reader_->Memory()->
-            ReadCStringSizeLimited(
-                crash_info.message2, kMaxMessageSize, &message)) {
+    if (process_reader_->Memory()->ReadCStringSizeLimited(
+            crash_info.message2, kMaxMessageSize, &message)) {
       vector_annotations->push_back(message);
     } else {
       LOG(WARNING) << "could not read crash message 2 in " << name_;
@@ -127,8 +129,8 @@ void MachOImageAnnotationsReader::ReadDyldErrorStringAnnotation(
   std::string message;
   // 1024 here is distinct from kMaxMessageSize above, because it refers to a
   // precisely-sized buffer inside dyld.
-  if (process_reader_->Memory()->
-          ReadCStringSizeLimited(error_string_address, 1024, &message)) {
+  if (process_reader_->Memory()->ReadCStringSizeLimited(
+          error_string_address, 1024, &message)) {
     if (!message.empty()) {
       vector_annotations->push_back(message);
     }
@@ -150,10 +152,10 @@ void MachOImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
 
   std::vector<SimpleStringDictionary::Entry>
       simple_annotations(SimpleStringDictionary::num_entries);
-  if (!process_reader_->Memory()
-           ->Read(crashpad_info.simple_annotations,
-                  simple_annotations.size() * sizeof(simple_annotations[0]),
-                  &simple_annotations[0])) {
+  if (!process_reader_->Memory()->Read(
+          crashpad_info.simple_annotations,
+          simple_annotations.size() * sizeof(simple_annotations[0]),
+          &simple_annotations[0])) {
     LOG(WARNING) << "could not read simple annotations from " << name_;
     return;
   }

@@ -85,7 +85,14 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     /* Similar to Size(), but computes the expected size of a structure based  \
      * on the process’ bitness. This can be used prior to reading any data     \
      * from a process. */                                                      \
-    static size_t ExpectedSize(ProcessReader* process_reader);
+    static size_t ExpectedSize(ProcessReader* process_reader);                 \
+                                                                               \
+    /* Similar to ExpectedSize(), but computes the expected size of a          \
+     * structure based on the process’ bitness and a custom value, such as a   \
+     * structure version number. This can be used prior to reading any data    \
+     * from a process. */                                                      \
+    static size_t ExpectedSizeForVersion(ProcessReader* process_reader,        \
+                                         uint64_t version);
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)              \
     member_type member_name __VA_ARGS__;
@@ -143,8 +150,8 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     using UIntPtr = typename Traits::UIntPtr;                                  \
     using Reserved64Only = typename Traits::Reserved64Only;                    \
                                                                                \
-    /* Read(), ReadArrayInto(), and Size() are as in the generic user-visible  \
-     * struct above. */                                                        \
+    /* Read(), ReadArrayInto(), Size(), and ExpectedSizeForVersion() are as in \
+     * the generic user-visible struct above. */                               \
     bool Read(ProcessReader* process_reader, mach_vm_address_t address) {      \
       return ReadInto(process_reader, address, this);                          \
     }                                                                          \
@@ -153,6 +160,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
                               size_t count,                                    \
                               struct_name<Traits>* specific);                  \
     static size_t Size() { return sizeof(struct_name<Traits>); }               \
+    static size_t ExpectedSizeForVersion(uint64_t version);                    \
                                                                                \
     /* Translates a struct from the representation used in the remote process  \
      * into the generic form. */                                               \

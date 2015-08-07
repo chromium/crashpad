@@ -81,6 +81,7 @@
       'conditions': [
         ['OS=="mac"', {
           'dependencies': [
+            'crashpad_snapshot_test_module_crashy_initializer',
             'crashpad_snapshot_test_no_op',
           ],
           'link_settings': {
@@ -109,6 +110,13 @@
   'conditions': [
     ['OS=="mac"', {
       'targets': [
+        {
+          'target_name': 'crashpad_snapshot_test_module_crashy_initializer',
+          'type': 'loadable_module',
+          'sources': [
+            'mac/mach_o_image_annotations_reader_test_module_crashy_initializer.cc',
+          ],
+        },
         {
           'target_name': 'crashpad_snapshot_test_no_op',
           'type': 'executable',
