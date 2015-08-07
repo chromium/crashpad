@@ -44,6 +44,8 @@ struct WritableIoVec {
 //!     semantics matching the underlying platform (POSIX or Windows).
 class FileWriterInterface : public virtual FileSeekerInterface {
  public:
+  virtual ~FileWriterInterface() {}
+
   //! \brief Wraps LoggingWriteFile(), or provides an implementation with
   //!     identical semantics.
   //!
@@ -61,9 +63,6 @@ class FileWriterInterface : public virtual FileSeekerInterface {
   //!
   //! \note The contents of \a iovecs are undefined when this method returns.
   virtual bool WriteIoVec(std::vector<WritableIoVec>* iovecs) = 0;
-
- protected:
-  ~FileWriterInterface() {}
 };
 
 //! \brief A file writer backed by a FileHandle.
@@ -83,7 +82,7 @@ class FileWriterInterface : public virtual FileSeekerInterface {
 class WeakFileHandleFileWriter : public FileWriterInterface {
  public:
   explicit WeakFileHandleFileWriter(FileHandle file_handle);
-  ~WeakFileHandleFileWriter();
+  ~WeakFileHandleFileWriter() override;
 
   // FileWriterInterface:
   bool Write(const void* data, size_t size) override;
@@ -117,7 +116,7 @@ class WeakFileHandleFileWriter : public FileWriterInterface {
 class FileWriter : public FileWriterInterface {
  public:
   FileWriter();
-  ~FileWriter();
+  ~FileWriter() override;
 
   // FileWriterInterface:
 

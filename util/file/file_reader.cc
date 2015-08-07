@@ -16,6 +16,7 @@
 
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -95,6 +96,41 @@ ssize_t FileReader::Read(void* data, size_t size) {
 FileOffset FileReader::Seek(FileOffset offset, int whence) {
   DCHECK(file_.is_valid());
   return weak_file_handle_file_reader_.Seek(offset, whence);
+}
+
+WeakStdioFileReader::WeakStdioFileReader(FILE* file)
+    : file_(file) {
+}
+
+WeakStdioFileReader::~WeakStdioFileReader() {
+}
+
+ssize_t WeakStdioFileReader::Read(void* data, size_t size) {
+  DCHECK(file_);
+
+  size_t rv = fread(data, 1, size, file_);
+  if (rv < size && ferror(file_)) {
+    STDIO_PLOG(ERROR) << "fread";
+    return -1;
+  }
+
+  return rv;
+}
+
+FileOffset WeakStdioFileReader::Seek(FileOffset offset, int whence) {
+  DCHECK(file_);
+  if (fseeko(file_, offset, whence) == -1) {
+    STDIO_PLOG(ERROR) << "fseeko";
+    return -1;
+  }
+
+  FileOffset new_offset = ftello(file_);
+  if (new_offset == -1) {
+    STDIO_PLOG(ERROR) << "ftello";
+    return -1;
+  }
+
+  return new_offset;
 }
 
 }  // namespace crashpad

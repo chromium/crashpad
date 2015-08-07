@@ -105,8 +105,9 @@ numeric +time_t+ value, or the special string +"never"+.
 See also *--show-last-upload-attempt-time*.
 
 *--new-report*='PATH'::
-Submit a new report located at 'PATH' to the database. The new report will be in
-the “pending” state. The UUID assigned to the new report will be printed. This
+Submit a new report located at 'PATH' to the database. If 'PATH' is +"-"+, the
+new report will be read from standard input. The new report will be in the
+“pending” state. The UUID assigned to the new report will be printed. This
 option may appear multiple times.
 
 *--utc*::

@@ -36,7 +36,7 @@ namespace crashpad {
 class StringFile : public FileReaderInterface, public FileWriterInterface {
  public:
   StringFile();
-  ~StringFile();
+  ~StringFile() override;
 
   //! \brief Returns a string containing the virtual file’s contents.
   const std::string& string() const { return string_; }

@@ -58,7 +58,7 @@ void Usage(const base::FilePath& me) {
 "      --set-uploads-enabled=BOOL  enable or disable uploads\n"
 "      --set-last-upload-attempt-time=TIME\n"
 "                                  set the last-upload-attempt time to TIME\n"
-"      --new-report=PATH           submit a new report at PATH\n"
+"      --new-report=PATH           submit a new report at PATH, or - for stdin\n"
 "      --utc                       show and set UTC times instead of local\n"
 "      --help                      display this help and exit\n"
 "      --version                   output version information and exit\n",
@@ -527,9 +527,19 @@ int DatabaseUtilMain(int argc, char* argv[]) {
   }
 
   for (const base::FilePath new_report_path : options.new_report_paths) {
-    FileReader file_reader;
-    if (!file_reader.Open(new_report_path)) {
-      return EXIT_FAILURE;
+    scoped_ptr<FileReaderInterface> file_reader;
+
+    bool is_stdin = false;
+    if (new_report_path.value() == FILE_PATH_LITERAL("-")) {
+      is_stdin = true;
+      file_reader.reset(new WeakStdioFileReader(stdin));
+    } else {
+      scoped_ptr<FileReader> file_path_reader(new FileReader());
+      if (!file_path_reader->Open(new_report_path)) {
+        return EXIT_FAILURE;
+      }
+
+      file_reader = file_path_reader.Pass();
     }
 
     CrashReportDatabase::NewReport* new_report;
@@ -544,14 +554,16 @@ int DatabaseUtilMain(int argc, char* argv[]) {
 
     char buf[4096];
     ssize_t read_result;
-    while ((read_result = file_reader.Read(buf, sizeof(buf))) > 0) {
-      if (!LoggingWriteFile(new_report->handle, buf, read_result)) {
+    do {
+      read_result = file_reader->Read(buf, sizeof(buf));
+      if (read_result < 0) {
         return EXIT_FAILURE;
       }
-    }
-    if (read_result < 0) {
-      return EXIT_FAILURE;
-    }
+      if (read_result > 0 &&
+          !LoggingWriteFile(new_report->handle, buf, read_result)) {
+        return EXIT_FAILURE;
+      }
+    } while (read_result == sizeof(buf));
 
     call_error_writing_crash_report.Disarm();
 
@@ -559,6 +571,13 @@ int DatabaseUtilMain(int argc, char* argv[]) {
     status = database->FinishedWritingCrashReport(new_report, &uuid);
     if (status != CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
+    }
+
+    file_reader.reset();
+    if (is_stdin) {
+      if (fclose(stdin) == EOF) {
+        STDIO_PLOG(ERROR) << "fclose";
+      }
     }
 
     const char* prefix = (show_operations > 1) ? "New report ID: " : "";
