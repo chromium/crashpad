@@ -24,6 +24,8 @@ namespace crashpad {
 namespace process_types {
 namespace internal {
 
+namespace {
+
 template <typename T>
 bool ReadIntoVersioned(ProcessReader* process_reader,
                        mach_vm_address_t address,
@@ -51,9 +53,12 @@ bool ReadIntoVersioned(ProcessReader* process_reader,
   return true;
 }
 
+}  // namespace
+
 // static
 template <typename Traits>
-size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(uint64_t version) {
+size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
+    decltype(dyld_all_image_infos<Traits>::version) version) {
   if (version >= 14) {
     return sizeof(dyld_all_image_infos<Traits>);
   }
@@ -108,7 +113,7 @@ bool dyld_all_image_infos<Traits>::ReadInto(
 // static
 template <typename Traits>
 size_t crashreporter_annotations_t<Traits>::ExpectedSizeForVersion(
-    uint64_t version) {
+    decltype(crashreporter_annotations_t<Traits>::version) version) {
   if (version >= 5) {
     return sizeof(crashreporter_annotations_t<Traits>);
   }
@@ -127,16 +132,18 @@ bool crashreporter_annotations_t<Traits>::ReadInto(
   return ReadIntoVersioned(process_reader, address, specific);
 }
 
+// Explicit template instantiation of the above.
 #define PROCESS_TYPE_FLAVOR_TRAITS(lp_bits)                                    \
   template size_t                                                              \
-      dyld_all_image_infos<Traits##lp_bits>::ExpectedSizeForVersion(uint64_t); \
+      dyld_all_image_infos<Traits##lp_bits>::ExpectedSizeForVersion(           \
+         decltype(dyld_all_image_infos<Traits##lp_bits>::version));            \
   template bool dyld_all_image_infos<Traits##lp_bits>::ReadInto(               \
       ProcessReader*,                                                          \
       mach_vm_address_t,                                                       \
       dyld_all_image_infos<Traits##lp_bits>*);                                 \
   template size_t                                                              \
       crashreporter_annotations_t<Traits##lp_bits>::ExpectedSizeForVersion(    \
-          uint64_t);                                                           \
+          decltype(crashreporter_annotations_t<Traits##lp_bits>::version));    \
   template bool crashreporter_annotations_t<Traits##lp_bits>::ReadInto(        \
       ProcessReader*,                                                          \
       mach_vm_address_t,                                                       \

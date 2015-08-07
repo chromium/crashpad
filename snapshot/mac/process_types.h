@@ -86,16 +86,18 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
      * on the process’ bitness. This can be used prior to reading any data     \
      * from a process. */                                                      \
     static size_t ExpectedSize(ProcessReader* process_reader);                 \
-                                                                               \
+
+#define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)              \
+    member_type member_name __VA_ARGS__;
+
+#define PROCESS_TYPE_STRUCT_VERSIONED(struct_name, version_field)              \
     /* Similar to ExpectedSize(), but computes the expected size of a          \
      * structure based on the process’ bitness and a custom value, such as a   \
      * structure version number. This can be used prior to reading any data    \
      * from a process. */                                                      \
-    static size_t ExpectedSizeForVersion(ProcessReader* process_reader,        \
-                                         uint64_t version);
-
-#define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)              \
-    member_type member_name __VA_ARGS__;
+    static size_t ExpectedSizeForVersion(                                      \
+        ProcessReader* process_reader,                                         \
+        decltype(struct_name::version_field) version);
 
 #define PROCESS_TYPE_STRUCT_END(struct_name)                                   \
    private:                                                                    \
@@ -122,6 +124,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
 
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER
+#undef PROCESS_TYPE_STRUCT_VERSIONED
 #undef PROCESS_TYPE_STRUCT_END
 #undef PROCESS_TYPE_STRUCT_DECLARE
 
@@ -130,7 +133,6 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
 // layout of objects in another process. This is repeated instead of being
 // shared with the generic declaration above because both the generic and
 // templatized specific structs need all of the struct members declared.
-//
 //
 // GenericizeInto() translates a struct from the representation used in the
 // remote process into the generic form.
@@ -150,8 +152,8 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     using UIntPtr = typename Traits::UIntPtr;                                  \
     using Reserved64Only = typename Traits::Reserved64Only;                    \
                                                                                \
-    /* Read(), ReadArrayInto(), Size(), and ExpectedSizeForVersion() are as in \
-     * the generic user-visible struct above. */                               \
+    /* Read(), ReadArrayInto(), and Size() are as in the generic user-visible  \
+     * struct above. */                                                        \
     bool Read(ProcessReader* process_reader, mach_vm_address_t address) {      \
       return ReadInto(process_reader, address, this);                          \
     }                                                                          \
@@ -160,7 +162,6 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
                               size_t count,                                    \
                               struct_name<Traits>* specific);                  \
     static size_t Size() { return sizeof(struct_name<Traits>); }               \
-    static size_t ExpectedSizeForVersion(uint64_t version);                    \
                                                                                \
     /* Translates a struct from the representation used in the remote process  \
      * into the generic form. */                                               \
@@ -169,6 +170,12 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)              \
     member_type member_name __VA_ARGS__;
+
+#define PROCESS_TYPE_STRUCT_VERSIONED(struct_name, version_field)              \
+    /* ExpectedSizeForVersion() is as in the generic user-visible struct       \
+     * above. */                                                               \
+    static size_t ExpectedSizeForVersion(                                      \
+        decltype(struct_name::version_field) version);
 
 #define PROCESS_TYPE_STRUCT_END(struct_name)                                   \
    private:                                                                    \
@@ -185,6 +192,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
 
 #undef PROCESS_TYPE_STRUCT_BEGIN
 #undef PROCESS_TYPE_STRUCT_MEMBER
+#undef PROCESS_TYPE_STRUCT_VERSIONED
 #undef PROCESS_TYPE_STRUCT_END
 #undef PROCESS_TYPE_STRUCT_DECLARE_INTERNAL
 

@@ -45,6 +45,7 @@ PROCESS_TYPE_STRUCT_END(dyld_uuid_info)
 
 PROCESS_TYPE_STRUCT_BEGIN(dyld_all_image_infos)
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, version)
+  PROCESS_TYPE_STRUCT_VERSIONED(dyld_all_image_infos, version)
 
   // Version 1 (Mac OS X 10.4)
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, infoArrayCount)
