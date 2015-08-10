@@ -26,7 +26,7 @@
 
 namespace crashpad {
 
-//! \brief Accesses information about another process, identified by a HANDLE.
+//! \brief Accesses information about another process, identified by a `HANDLE`.
 class ProcessReaderWin {
  public:
   //! \brief Contains information about a thread that belongs to a process.
@@ -50,8 +50,8 @@ class ProcessReaderWin {
   //! \brief Initializes this object. This method must be called before any
   //!     other.
   //!
-  //! \param[in] process Process handle, must have PROCESS_QUERY_INFORMATION,
-  //!     PROCESS_VM_READ, and PROCESS_DUP_HANDLE access.
+  //! \param[in] process Process handle, must have `PROCESS_QUERY_INFORMATION`,
+  //!     `PROCESS_VM_READ`, and `PROCESS_DUP_HANDLE` access.
   //!
   //! \return `true` on success, indicating that this object will respond
   //!     validly to further method calls. `false` on failure. On failure, no

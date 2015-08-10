@@ -23,10 +23,10 @@ namespace crashpad {
 //!     semantics matching the underlying platform (POSIX or Windows).
 class FileSeekerInterface {
  public:
-  //! \brief Wraps LoggingFileSeek() or provides an alternate implementation
+  //! \brief Wraps LoggingSeekFile() or provides an alternate implementation
   //!     with identical semantics.
   //!
-  //! \return The return value of LoggingFileSeek(). `-1` on failure,
+  //! \return The return value of LoggingSeekFile(). `-1` on failure,
   //!     with an error message logged.
   virtual FileOffset Seek(FileOffset offset, int whence) = 0;
 

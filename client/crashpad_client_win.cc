@@ -71,7 +71,7 @@ bool CrashpadClient::StartHandler(
   return false;
 }
 
-bool SetHandler(const std::string& ipc_port) {
+bool CrashpadClient::SetHandler(const std::string& ipc_port) {
   // TODO (cpu): Contact the handler and obtain g_signal_exception and
   // g_wait_termination.
   return false;
