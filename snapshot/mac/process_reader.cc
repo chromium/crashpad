@@ -374,7 +374,21 @@ void ProcessReader::InitializeModules() {
     return;
   }
 
-  DCHECK_GE(all_image_infos.version, 1u);
+  if (all_image_infos.version < 1) {
+    LOG(WARNING) << "unexpected dyld_all_image_infos version "
+                 << all_image_infos.version;
+    return;
+  }
+
+  size_t expected_size =
+      process_types::dyld_all_image_infos::ExpectedSizeForVersion(
+          this, all_image_infos.version);
+  if (dyld_info.all_image_info_size < expected_size) {
+    LOG(WARNING) << "small dyld_all_image_infos size "
+                 << dyld_info.all_image_info_size << " < " << expected_size
+                 << " for version " << all_image_infos.version;
+    return;
+  }
 
   // Note that all_image_infos.infoArrayCount may be 0 if a crash occurred while
   // dyld was loading the executable. This can happen if a required dynamic
