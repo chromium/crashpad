@@ -29,7 +29,7 @@ TEST(InitializationStateDcheck, InitializationStateDcheck) {
   INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck);
 }
 
-#if DCHECK_IS_ON
+#if DCHECK_IS_ON()
 
 // InitializationStateDcheck only DCHECKs, so the death tests can only run
 // when DCHECKs are enabled.

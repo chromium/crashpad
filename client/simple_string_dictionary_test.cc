@@ -276,7 +276,7 @@ TEST(SimpleStringDictionary, OutOfSpace) {
   EXPECT_FALSE(map.GetValueForKey("c"));
 }
 
-#if DCHECK_IS_ON
+#if DCHECK_IS_ON()
 
 TEST(SimpleStringDictionaryDeathTest, NullKey) {
   TSimpleStringDictionary<4, 6, 6> map;

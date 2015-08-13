@@ -16,7 +16,7 @@
 
 namespace crashpad {
 
-#if DCHECK_IS_ON
+#if DCHECK_IS_ON()
 
 InitializationStateDcheck::State InitializationStateDcheck::SetInitializing() {
   State old_state = state();

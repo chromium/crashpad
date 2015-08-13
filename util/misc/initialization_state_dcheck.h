@@ -25,7 +25,7 @@
 
 namespace crashpad {
 
-#if DCHECK_IS_ON || DOXYGEN
+#if DCHECK_IS_ON() || DOXYGEN
 
 //! \brief Tracks whether data are initialized, triggering a DCHECK assertion
 //!     on an invalid data access.
@@ -168,7 +168,7 @@ struct InitializationStateDcheck {
 // technically invalid according to the standard, but clang and g++ accept them
 // without complaint even with warnings turned up. They take up no space at all,
 // and they can be “initialized” with the same () syntax used to initialize
-// objects of the DCHECK_IS_ON InitializationStateDcheck class above.
+// objects of the DCHECK_IS_ON() InitializationStateDcheck class above.
 using InitializationStateDcheck = bool[0];
 #endif  // COMPILER_MSVC
 
