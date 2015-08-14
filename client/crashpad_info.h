@@ -19,8 +19,13 @@
 
 #include <stdint.h>
 
+#include "build/build_config.h"
 #include "client/simple_string_dictionary.h"
 #include "util/misc/tri_state.h"
+
+#if defined(OS_WIN)
+#include <windows.h>
+#endif  // OS_WIN
 
 namespace crashpad {
 
@@ -93,6 +98,13 @@ struct CrashpadInfo {
     system_crash_reporter_forwarding_ = system_crash_reporter_forwarding;
   }
 
+#if defined(OS_WIN)
+  //! \brief Save an EXCEPTION_POINTERS record for the crash handler.
+  void set_exception_pointers(EXCEPTION_POINTERS* exception_pointers) {
+    exception_pointers_ = exception_pointers;
+  }
+#endif  // OS_WIN
+
   enum : uint32_t {
     kSignature = 'CPad',
   };
@@ -115,6 +127,10 @@ struct CrashpadInfo {
   TriState system_crash_reporter_forwarding_;
   uint16_t padding_0_;
   SimpleStringDictionary* simple_annotations_;  // weak
+
+#if defined(OS_WIN)
+  EXCEPTION_POINTERS* exception_pointers_;
+#endif  // OS_WIN
 
 #if defined(__clang__)
 #pragma clang diagnostic pop

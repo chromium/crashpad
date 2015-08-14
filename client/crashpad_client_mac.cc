@@ -21,7 +21,6 @@
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/stringprintf.h"
-#include "client/crashpad_client.h"
 #include "util/mach/child_port_handshake.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
