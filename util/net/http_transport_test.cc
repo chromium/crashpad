@@ -278,6 +278,28 @@ TEST(HTTPTransport, UnchunkedPlainText) {
   test.Run();
 }
 
+TEST(HTTPTransport, Upload33k) {
+  // On OS X, NSMutableURLRequest winds up calling into a CFReadStream’s Read()
+  // callback with a 32kB buffer. Make sure that it’s able to get everything
+  // when enough is available to fill this buffer, requiring more than one
+  // Read().
+
+  std::string request_string(33 * 1024, 'a');
+  scoped_ptr<HTTPBodyStream> body_stream(
+      new StringHTTPBodyStream(request_string));
+
+  HTTPHeaders headers;
+  headers[kContentType] = "application/octet-stream";
+  headers[kContentLength] =
+      base::StringPrintf("%" PRIuS, request_string.size());
+  HTTPTransportTestFixture test(headers, body_stream.Pass(), 200,
+      [](HTTPTransportTestFixture* fixture, const std::string& request) {
+        size_t body_start = request.rfind("\r\n");
+        EXPECT_EQ(33 * 1024u + 2, request.size() - body_start);
+      });
+  test.Run();
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
