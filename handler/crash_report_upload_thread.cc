@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "handler/mac/crash_report_upload_thread.h"
+#include "handler/crash_report_upload_thread.h"
 
 #include <errno.h>
 #include <time.h>
@@ -22,6 +22,8 @@
 
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
+#include "base/strings/utf_string_conversions.h"
+#include "build/build_config.h"
 #include "client/settings.h"
 #include "snapshot/minidump/process_snapshot_minidump.h"
 #include "snapshot/module_snapshot.h"
@@ -31,6 +33,7 @@
 #include "util/net/http_multipart_builder.h"
 #include "util/net/http_transport.h"
 #include "util/stdlib/map_insert.h"
+#include "util/thread/thread.h"
 
 namespace crashpad {
 
@@ -134,12 +137,32 @@ class CallRecordUploadAttempt {
 
 }  // namespace
 
+namespace internal {
+
+class CrashReportUploadHelperThread final : public Thread {
+ public:
+  explicit CrashReportUploadHelperThread(CrashReportUploadThread* self)
+      : self_(self) {}
+  ~CrashReportUploadHelperThread() override {}
+
+  virtual void ThreadMain() {
+    self_->ThreadMain();
+  }
+
+ private:
+  CrashReportUploadThread* self_;
+
+  DISALLOW_COPY_AND_ASSIGN(CrashReportUploadHelperThread);
+};
+
+}  // namespace internal
+
 CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
                                                  const std::string& url)
     : url_(url),
       database_(database),
       semaphore_(0),
-      thread_(0),
+      thread_(),
       running_(false) {
 }
 
@@ -153,11 +176,7 @@ void CrashReportUploadThread::Start() {
   DCHECK(!thread_);
 
   running_ = true;
-  if ((errno = pthread_create(&thread_, nullptr, RunThreadMain, this)) != 0) {
-    PLOG(ERROR) << "pthread_create";
-    DCHECK(false);
-    running_ = false;
-  }
+  thread_.reset(new internal::CrashReportUploadHelperThread(this));
 }
 
 void CrashReportUploadThread::Stop() {
@@ -171,12 +190,8 @@ void CrashReportUploadThread::Stop() {
   running_ = false;
   semaphore_.Signal();
 
-  if ((errno = pthread_join(thread_, nullptr)) != 0) {
-    PLOG(ERROR) << "pthread_join";
-    DCHECK(false);
-  }
-
-  thread_ = 0;
+  thread_->Join();
+  thread_.reset();
 }
 
 void CrashReportUploadThread::ReportPending() {
@@ -335,10 +350,15 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
     }
   }
 
-  http_multipart_builder.SetFileAttachment(kMinidumpKey,
-                                           report->file_path.BaseName().value(),
-                                           report->file_path,
-                                           "application/octet-stream");
+  http_multipart_builder.SetFileAttachment(
+      kMinidumpKey,
+#if defined(OS_WIN)
+      base::UTF16ToUTF8(report->file_path.BaseName().value()),
+#else
+      report->file_path.BaseName().value(),
+#endif
+      report->file_path,
+      "application/octet-stream");
 
   scoped_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
   http_transport->SetURL(url_);
@@ -354,13 +374,6 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
   }
 
   return UploadResult::kSuccess;
-}
-
-// static
-void* CrashReportUploadThread::RunThreadMain(void* arg) {
-  CrashReportUploadThread* self = static_cast<CrashReportUploadThread*>(arg);
-  self->ThreadMain();
-  return nullptr;
 }
 
 }  // namespace crashpad

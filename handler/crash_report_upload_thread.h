@@ -12,19 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_HANDLER_MAC_CRASH_REPORT_UPLOAD_THREAD_H_
-#define CRASHPAD_HANDLER_MAC_CRASH_REPORT_UPLOAD_THREAD_H_
+#ifndef CRASHPAD_HANDLER_CRASH_REPORT_UPLOAD_THREAD_H_
+#define CRASHPAD_HANDLER_CRASH_REPORT_UPLOAD_THREAD_H_
 
 #include "base/basictypes.h"
 
-#include <pthread.h>
-
 #include <string>
 
+#include "base/memory/scoped_ptr.h"
 #include "client/crash_report_database.h"
 #include "util/synchronization/semaphore.h"
 
 namespace crashpad {
+
+namespace internal {
+class CrashReportUploadHelperThread;
+}  // namespace internal
 
 //! \brief A thread that processes pending crash reports in a
 //!     CrashReportDatabase by uploading them or marking them as completed
@@ -76,6 +79,8 @@ class CrashReportUploadThread {
   void ReportPending();
 
  private:
+  friend internal::CrashReportUploadHelperThread;
+
   //! \brief The result code from UploadReport().
   enum class UploadResult {
     //! \brief The crash report was uploaded successfully.
@@ -133,20 +138,13 @@ class CrashReportUploadThread {
   UploadResult UploadReport(const CrashReportDatabase::Report* report,
                             std::string* response_body);
 
-  //! \brief Cals ThreadMain().
-  //!
-  //! \param[in] arg A pointer to the object on which to invoke ThreadMain().
-  //!
-  //! \return `nullptr`.
-  static void* RunThreadMain(void* arg);
-
   std::string url_;
   CrashReportDatabase* database_;  // weak
   Semaphore semaphore_;  // TODO(mark): Use a condition variable instead?
-  pthread_t thread_;
+  scoped_ptr<internal::CrashReportUploadHelperThread> thread_;
   bool running_;
 };
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_HANDLER_MAC_CRASH_REPORT_UPLOAD_THREAD_H_
+#endif  // CRASHPAD_HANDLER_CRASH_REPORT_UPLOAD_THREAD_H_
