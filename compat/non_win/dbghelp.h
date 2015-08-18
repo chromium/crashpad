@@ -410,6 +410,9 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //! the original exception code will appear instead. The exception type as it
   //! was received will appear at index 0 of #ExceptionInformation.
   //!
+  //! For Windows minidumps, this will be an \ref EXCEPTION_x "EXCEPTION_*"
+  //! exception type, such as `EXCEPTION_ACCESS_VIOLATION`.
+  //!
   //! \note This field is named ExceptionCode, but what is known as the
   //!     “exception code” on Mac OS X/Mach is actually stored in the
   //!     #ExceptionFlags field of a minidump file.
@@ -431,6 +434,10 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //!
   //! In all cases for Mac OS X minidumps, the code as it was received by the
   //! Mach exception handler will appear at index 1 of #ExceptionInformation.
+  //!
+  //! For Windows minidumps, this will either be `0` if the exception is
+  //! continuable, or `EXCEPTION_NONCONTINUABLE` to indicate a noncontinuable
+  //! exception.
   //!
   //! \todo Document the possible values by OS. There may be OS-specific enums
   //!     in minidump_extensions.h.
@@ -461,6 +468,9 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //! exception handler. Unlike #ExceptionCode and #ExceptionFlags, the values
   //! received by a Mach exception handler are used directly here even for the
   //! `EXC_CRASH`, `EXC_RESOURCE`, and `EXC_GUARD` exception types.
+
+  //! For Windows, these are additional arguments (if any) as provided to
+  //! `RaiseException()`.
   uint64_t ExceptionInformation[EXCEPTION_MAXIMUM_PARAMETERS];
 };
 

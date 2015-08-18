@@ -56,17 +56,19 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   // contention here is very unlikely, and we'll still have a stack that's
   // blocked at this location.
   if (base::subtle::Barrier_AtomicIncrement(&g_have_crashed, 1) > 1) {
-    SleepEx(false, INFINITE);
+    SleepEx(INFINITE, false);
   }
 
   // Otherwise, we're the first thread, so record the exception pointer and
   // signal the crash handler.
+  crashpad::CrashpadInfo::GetCrashpadInfo()->set_thread_id(
+      GetCurrentThreadId());
   crashpad::CrashpadInfo::GetCrashpadInfo()->set_exception_pointers(
       exception_pointers);
   DWORD rv = SignalObjectAndWait(g_signal_exception,
                                  g_wait_termination,
                                  kMillisecondsUntilTerminate,
-                                 FALSE);
+                                 false);
   if (rv != WAIT_OBJECT_0) {
     // Something went wrong. It is likely that a dump has not been created.
     if (rv == WAIT_TIMEOUT) {

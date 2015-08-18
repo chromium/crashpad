@@ -14,6 +14,7 @@
 
 #include "snapshot/mac/process_snapshot_mac.h"
 
+#include "base/logging.h"
 #include "util/misc/tri_state.h"
 
 namespace crashpad {

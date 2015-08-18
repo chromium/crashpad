@@ -99,10 +99,15 @@ struct CrashpadInfo {
   }
 
 #if defined(OS_WIN)
-  //! \brief Save an EXCEPTION_POINTERS record for the crash handler.
+  //! \brief Save the crashing thread ID for the crash handler.
+  void set_thread_id(DWORD thread_id) { thread_id_ = thread_id; }
+  DWORD thread_id() const { return thread_id_; }
+
+  //! \brief Save an `EXCEPTION_POINTERS` record for the crash handler.
   void set_exception_pointers(EXCEPTION_POINTERS* exception_pointers) {
     exception_pointers_ = exception_pointers;
   }
+  EXCEPTION_POINTERS* exception_pointers() const { return exception_pointers_; }
 #endif  // OS_WIN
 
   enum : uint32_t {
@@ -130,6 +135,7 @@ struct CrashpadInfo {
 
 #if defined(OS_WIN)
   EXCEPTION_POINTERS* exception_pointers_;
+  DWORD thread_id_;
 #endif  // OS_WIN
 
 #if defined(__clang__)

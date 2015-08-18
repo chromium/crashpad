@@ -18,6 +18,7 @@
 
 #include "base/memory/scoped_ptr.h"
 #include "base/numerics/safe_conversions.h"
+#include "util/win/nt_internals.h"
 #include "util/win/process_structs.h"
 #include "util/win/scoped_handle.h"
 #include "util/win/time.h"
@@ -25,49 +26,6 @@
 namespace crashpad {
 
 namespace {
-
-NTSTATUS NtQuerySystemInformation(
-    SYSTEM_INFORMATION_CLASS system_information_class,
-    PVOID system_information,
-    ULONG system_information_length,
-    PULONG return_length) {
-  static decltype(::NtQuerySystemInformation)* nt_query_system_information =
-      reinterpret_cast<decltype(::NtQuerySystemInformation)*>(GetProcAddress(
-          LoadLibrary(L"ntdll.dll"), "NtQuerySystemInformation"));
-  DCHECK(nt_query_system_information);
-  return nt_query_system_information(system_information_class,
-                                     system_information,
-                                     system_information_length,
-                                     return_length);
-}
-
-// The 4th argument is CLIENT_ID*, but as we can't typedef that, we simply cast
-// to void* here.
-typedef NTSTATUS(WINAPI* NtOpenThreadFunction)(
-    PHANDLE ThreadHandle,
-    ACCESS_MASK DesiredAccess,
-    POBJECT_ATTRIBUTES ObjectAttributes,
-    const void* ClientId);
-
-template <class Traits>
-NTSTATUS NtOpenThread(PHANDLE thread_handle,
-                      ACCESS_MASK desired_access,
-                      POBJECT_ATTRIBUTES object_attributes,
-                      const process_types::CLIENT_ID<Traits>* client_id) {
-  static NtOpenThreadFunction nt_open_thread =
-      reinterpret_cast<NtOpenThreadFunction>(
-          GetProcAddress(LoadLibrary(L"ntdll.dll"), "NtOpenThread"));
-  DCHECK(nt_open_thread);
-  return nt_open_thread(thread_handle,
-                        desired_access,
-                        object_attributes,
-                        static_cast<const void*>(client_id));
-}
-
-// Copied from ntstatus.h because um/winnt.h conflicts with general inclusion of
-// ntstatus.h.
-#define STATUS_BUFFER_TOO_SMALL ((NTSTATUS)0xC0000023L)
-#define STATUS_INFO_LENGTH_MISMATCH ((NTSTATUS)0xC0000004L)
 
 // Gets a pointer to the process information structure after a given one, or
 // null when iteration is complete, assuming they've been retrieved in a block

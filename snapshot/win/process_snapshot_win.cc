@@ -14,6 +14,7 @@
 
 #include "snapshot/win/process_snapshot_win.h"
 
+#include "base/logging.h"
 #include "snapshot/win/module_snapshot_win.h"
 #include "util/win/time.h"
 
@@ -24,7 +25,7 @@ ProcessSnapshotWin::ProcessSnapshotWin()
       system_(),
       threads_(),
       modules_(),
-      // TODO(scottmg): exception_(),
+      exception_(),
       process_reader_(),
       report_id_(),
       client_id_(),
@@ -50,6 +51,22 @@ bool ProcessSnapshotWin::Initialize(HANDLE process) {
   InitializeModules();
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+bool ProcessSnapshotWin::InitializeException(
+    DWORD thread_id,
+    WinVMAddress exception_pointers) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK(!exception_);
+
+  exception_.reset(new internal::ExceptionSnapshotWin());
+  if (!exception_->Initialize(
+          &process_reader_, thread_id, exception_pointers)) {
+    exception_.reset();
+    return false;
+  }
+
   return true;
 }
 
@@ -149,8 +166,7 @@ std::vector<const ModuleSnapshot*> ProcessSnapshotWin::Modules() const {
 }
 
 const ExceptionSnapshot* ProcessSnapshotWin::Exception() const {
-  CHECK(false) << "TODO(scottmg): Exception()";
-  return nullptr;
+  return exception_.get();
 }
 
 void ProcessSnapshotWin::InitializeThreads() {

@@ -149,6 +149,8 @@
         'win/checked_win_address_range.h',
         'win/module_version.cc',
         'win/module_version.h',
+        'win/nt_internals.cc',
+        'win/nt_internals.h',
         'win/process_info.cc',
         'win/process_info.h',
         'win/process_structs.h',

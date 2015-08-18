@@ -53,6 +53,9 @@ class ExceptionSnapshot {
   //! processed as `EXC_CRASH` when generated from another preceding exception:
   //! the original exception code will appear instead. The exception type as it
   //! was received will appear at index 0 of Codes().
+  //!
+  //! For Windows, this will be an \ref EXCEPTION_x "EXCEPTION_*" exception type
+  //! such as `EXCEPTION_ACCESS_VIOLATION`.
   virtual uint32_t Exception() const = 0;
 
   //! \brief Returns the second-level exception code identifying the exception.
@@ -69,6 +72,9 @@ class ExceptionSnapshot {
   //!
   //! In all cases on Mac OS X, the full exception code at index 0 as it was
   //! received will appear at index 1 of Codes().
+  //!
+  //! On Windows, this will either be `0` if the exception is continuable, or
+  //! `EXCEPTION_NONCONTINUABLE` to indicate a noncontinuable exception.
   virtual uint32_t ExceptionInfo() const = 0;
 
   //! \brief Returns the address that triggered the exception.
@@ -92,6 +98,10 @@ class ExceptionSnapshot {
   //! For Mac OS X, this will be a vector containing the original exception type
   //! and the values of `code[0]` and `code[1]` as received by a Mach exception
   //! handler.
+  //!
+  //! For Windows, these are additional arguments (if any) as provided to
+  //! `RaiseException()`. See the documentation for `ExceptionInformation` in
+  //! `EXCEPTION_RECORD`.
   virtual const std::vector<uint64_t>& Codes() const = 0;
 };
 
