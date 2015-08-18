@@ -278,7 +278,7 @@ TEST(HTTPTransport, UnchunkedPlainText) {
   test.Run();
 }
 
-TEST(HTTPTransport, Upload33k) {
+void RunUpload33k(bool has_content_length) {
   // On OS X, NSMutableURLRequest winds up calling into a CFReadStream’s Read()
   // callback with a 32kB buffer. Make sure that it’s able to get everything
   // when enough is available to fill this buffer, requiring more than one
@@ -290,14 +290,25 @@ TEST(HTTPTransport, Upload33k) {
 
   HTTPHeaders headers;
   headers[kContentType] = "application/octet-stream";
-  headers[kContentLength] =
-      base::StringPrintf("%" PRIuS, request_string.size());
+  if (has_content_length) {
+    headers[kContentLength] =
+        base::StringPrintf("%" PRIuS, request_string.size());
+  }
   HTTPTransportTestFixture test(headers, body_stream.Pass(), 200,
       [](HTTPTransportTestFixture* fixture, const std::string& request) {
         size_t body_start = request.rfind("\r\n");
         EXPECT_EQ(33 * 1024u + 2, request.size() - body_start);
       });
   test.Run();
+}
+
+TEST(HTTPTransport, Upload33k) {
+  RunUpload33k(true);
+}
+
+TEST(HTTPTransport, Upload33k_LengthUnknown) {
+  // The same as Upload33k, but without declaring Content-Length ahead of time.
+  RunUpload33k(false);
 }
 
 }  // namespace

@@ -59,6 +59,14 @@ class BufferedReadFile(object):
 
 
 class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+  # Everything to be written to stdout is collected into this string. It can’t
+  # be written to stdout until after the HTTP transaction is complete, because
+  # stdout is a pipe being read by a test program that’s also the HTTP client.
+  # The test program expects to complete the entire HTTP transaction before it
+  # even starts reading this script’s stdout. If the stdout pipe buffer fills up
+  # during an HTTP transaction, deadlock would result.
+  raw_request = ''
+
   response_code = 500
   response_body = ''
 
@@ -69,9 +77,7 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     BaseHTTPServer.BaseHTTPRequestHandler.handle_one_request(self)
 
   def do_POST(self):
-    writer = sys.stdout
-
-    writer.write(self.rfile.buffer)
+    RequestHandler.raw_request = self.rfile.buffer
     self.rfile.buffer = ''
 
     if self.headers.get('Transfer-Encoding', '') == 'Chunked':
@@ -80,14 +86,13 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
       length = int(self.headers.get('Content-Length', -1))
       body = self.rfile.read(length)
 
+    RequestHandler.raw_request += body
+
     self.send_response(self.response_code)
     self.end_headers()
     if self.response_code == 200:
       self.wfile.write(self.response_body)
       self.wfile.write('\r\n')
-
-    writer.write(body)
-    writer.flush()
 
   def handle_chunked_encoding(self):
     """This parses a "Transfer-Encoding: Chunked" body in accordance with
@@ -145,6 +150,10 @@ def Main():
 
   # Handle the request.
   server.handle_request()
+
+  # Share the entire request with the test program, which will validate it.
+  sys.stdout.write(RequestHandler.raw_request)
+  sys.stdout.flush()
 
 if __name__ == '__main__':
   Main()
