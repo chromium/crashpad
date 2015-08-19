@@ -361,7 +361,7 @@ class TestExceptionPorts : public MachMultiprocess,
 
     // Get an ExceptionPorts object for the task and each of its threads.
     ExceptionPorts task_ports(ExceptionPorts::kTargetTypeTask, ChildTask());
-    EXPECT_EQ("task", task_ports.TargetTypeName());
+    EXPECT_STREQ("task", task_ports.TargetTypeName());
 
     // Hopefully the threads returned by task_threads() are in order, with the
     // main thread first and the other thread second. This is currently always
@@ -381,8 +381,8 @@ class TestExceptionPorts : public MachMultiprocess,
                                      main_thread);
     ExceptionPorts other_thread_ports(ExceptionPorts::kTargetTypeThread,
                                       other_thread);
-    EXPECT_EQ("thread", main_thread_ports.TargetTypeName());
-    EXPECT_EQ("thread", other_thread_ports.TargetTypeName());
+    EXPECT_STREQ("thread", main_thread_ports.TargetTypeName());
+    EXPECT_STREQ("thread", other_thread_ports.TargetTypeName());
 
     if (set_type_ == kSetOutOfProcess) {
       // Test ExceptionPorts::SetExceptionPorts() being called from
@@ -587,7 +587,7 @@ TEST(ExceptionPorts, HostExceptionPorts) {
 
   base::mac::ScopedMachSendRight host(mach_host_self());
   ExceptionPorts explicit_host_ports(ExceptionPorts::kTargetTypeHost, host);
-  EXPECT_EQ("host", explicit_host_ports.TargetTypeName());
+  EXPECT_STREQ("host", explicit_host_ports.TargetTypeName());
 
   std::vector<ExceptionPorts::ExceptionHandler> handlers;
   bool rv = explicit_host_ports.GetExceptionPorts(
@@ -600,7 +600,7 @@ TEST(ExceptionPorts, HostExceptionPorts) {
 
   ExceptionPorts implicit_host_ports(ExceptionPorts::kTargetTypeHost,
                                      HOST_NULL);
-  EXPECT_EQ("host", implicit_host_ports.TargetTypeName());
+  EXPECT_STREQ("host", implicit_host_ports.TargetTypeName());
 
   rv = implicit_host_ports.GetExceptionPorts(
       ExcMaskAll() | EXC_MASK_CRASH, &handlers);
