@@ -102,10 +102,14 @@ void TestCaptureContext() {
   // The program counter reference value is this function’s address. The
   // captured program counter should be slightly greater than or equal to the
   // reference program counter.
+  uintptr_t pc = ProgramCounterFromContext(&context_1);
+#if !__has_feature(address_sanitizer)
+  // AddressSanitizer can cause enough code bloat that the “nearby” check would
+  // likely fail.
   const uintptr_t kReferencePC =
       reinterpret_cast<uintptr_t>(TestCaptureContext);
-  uintptr_t pc = ProgramCounterFromContext(&context_1);
   EXPECT_LT(pc - kReferencePC, 64u);
+#endif
 
   // Declare sp and context_2 here because all local variables need to be
   // declared before computing the stack pointer reference value, so that the
