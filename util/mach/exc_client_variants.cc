@@ -45,7 +45,7 @@ kern_return_t UniversalExceptionRaise(exception_behavior_t behavior,
   if ((behavior & MACH_EXCEPTION_CODES) == 0 && code_count) {
     small_code_vector.reserve(code_count);
     for (size_t code_index = 0; code_index < code_count; ++code_index) {
-      small_code_vector[code_index] = code[code_index];
+      small_code_vector.push_back(code[code_index]);
     }
     small_code = &small_code_vector[0];
   }
