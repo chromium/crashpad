@@ -177,6 +177,7 @@ void CrashReportUploadThread::Start() {
 
   running_ = true;
   thread_.reset(new internal::CrashReportUploadHelperThread(this));
+  thread_->Start();
 }
 
 void CrashReportUploadThread::Stop() {
