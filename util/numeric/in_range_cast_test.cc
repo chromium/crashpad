@@ -39,6 +39,7 @@ TEST(InRangeCast, Uint32) {
   EXPECT_EQ(1u, InRangeCast<uint32_t>(UINT64_C(0x100000000), 1));
   EXPECT_EQ(1u, InRangeCast<uint32_t>(UINT64_C(0x100000001), 1));
   EXPECT_EQ(1u, InRangeCast<uint32_t>(kInt32Min, 1));
+  EXPECT_EQ(1u, InRangeCast<uint32_t>(kInt64Min, 1));
   EXPECT_EQ(0xffffffffu, InRangeCast<uint32_t>(-1, 0xffffffffu));
 }
 
@@ -58,6 +59,7 @@ TEST(InRangeCast, Int32) {
   EXPECT_EQ(kInt32Min,
             InRangeCast<int32_t>(implicit_cast<int64_t>(kInt32Min), 1));
   EXPECT_EQ(1, InRangeCast<int32_t>(implicit_cast<int64_t>(kInt32Min) - 1, 1));
+  EXPECT_EQ(1, InRangeCast<int32_t>(kInt64Min, 1));
   EXPECT_EQ(0, InRangeCast<int32_t>(0xffffffffu, 0));
   EXPECT_EQ(-1, InRangeCast<int32_t>(0xffffffffu, -1));
   EXPECT_EQ(kInt32Min, InRangeCast<int32_t>(0xffffffffu, kInt32Min));
@@ -79,7 +81,6 @@ TEST(InRangeCast, Uint64) {
             InRangeCast<uint64_t>(UINT64_C(0x100000001), 1));
   EXPECT_EQ(1u, InRangeCast<uint64_t>(kInt32Min, 1));
   EXPECT_EQ(1u, InRangeCast<uint64_t>(INT64_C(-1), 1));
-  EXPECT_EQ(1u, InRangeCast<uint64_t>(kInt32Min, 1));
   EXPECT_EQ(1u, InRangeCast<uint64_t>(kInt64Min, 1));
   EXPECT_EQ(UINT64_C(0xffffffffffffffff),
             InRangeCast<uint64_t>(-1, UINT64_C(0xffffffffffffffff)));
@@ -100,11 +101,14 @@ TEST(InRangeCast, Int64) {
             InRangeCast<int64_t>(INT64_C(0x100000000), 1));
   EXPECT_EQ(INT64_C(0x7fffffffffffffff),
             InRangeCast<int64_t>(INT64_C(0x7fffffffffffffff), 1));
+  EXPECT_EQ(INT64_C(0x7fffffffffffffff),
+            InRangeCast<int64_t>(UINT64_C(0x7fffffffffffffff), 1));
   EXPECT_EQ(1, InRangeCast<int64_t>(UINT64_C(0x8000000000000000), 1));
   EXPECT_EQ(1, InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), 1));
   EXPECT_EQ(kInt32Min, InRangeCast<int64_t>(kInt32Min, 1));
   EXPECT_EQ(kInt32Min,
             InRangeCast<int64_t>(implicit_cast<int64_t>(kInt32Min), 1));
+  EXPECT_EQ(kInt64Min, InRangeCast<int64_t>(kInt64Min, 1));
   EXPECT_EQ(0, InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), 0));
   EXPECT_EQ(-1, InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), -1));
   EXPECT_EQ(kInt64Min,
