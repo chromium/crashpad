@@ -66,7 +66,17 @@ union Compile_Assert {
 // from being dead-stripped.
 __attribute__((section(SEG_DATA ",__crashpad_info"),
                used,
-               visibility("hidden"))) CrashpadInfo g_crashpad_info;
+               visibility("hidden")
+#if __has_feature(address_sanitizer)
+// AddressSanitizer would add a trailing red zone of at least 32 bytes, which
+// would be reflected in the size of the custom section. This confuses
+// MachOImageReader::GetCrashpadInfo(), which finds that the section’s size
+// disagrees with the structure’s size_ field. By specifying an alignment
+// greater than the red zone size, the red zone will be suppressed.
+               ,
+               aligned(64)
+#endif
+             )) CrashpadInfo g_crashpad_info;
 
 #elif defined(OS_WIN)
 
