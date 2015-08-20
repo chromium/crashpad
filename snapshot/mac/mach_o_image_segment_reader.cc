@@ -95,7 +95,8 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
   }
 
   sections_.resize(segment_command_.nsects);
-  if (!process_types::section::ReadArrayInto(
+  if (!sections_.empty() &&
+      !process_types::section::ReadArrayInto(
           process_reader,
           load_command_address + segment_command_.Size(),
           segment_command_.nsects,

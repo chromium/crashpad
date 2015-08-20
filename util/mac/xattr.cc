@@ -41,14 +41,16 @@ XattrStatus ReadXattr(const base::FilePath& file,
 
   // Resize the buffer and read into it.
   value->resize(buffer_size);
-  ssize_t bytes_read = getxattr(file.value().c_str(), name.data(),
-                                &(*value)[0], value->size(),
-                                0, 0);
-  if (bytes_read < 0) {
-    PLOG(ERROR) << "getxattr " << name << " on file " << file.value();
-    return XattrStatus::kOtherError;
+  if (!value->empty()) {
+    ssize_t bytes_read = getxattr(file.value().c_str(), name.data(),
+                                  &(*value)[0], value->size(),
+                                  0, 0);
+    if (bytes_read < 0) {
+      PLOG(ERROR) << "getxattr " << name << " on file " << file.value();
+      return XattrStatus::kOtherError;
+    }
+    DCHECK_EQ(bytes_read, buffer_size);
   }
-  DCHECK_EQ(bytes_read, buffer_size);
 
   return XattrStatus::kOK;
 }
