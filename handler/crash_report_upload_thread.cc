@@ -145,7 +145,7 @@ class CrashReportUploadHelperThread final : public Thread {
       : self_(self) {}
   ~CrashReportUploadHelperThread() override {}
 
-  virtual void ThreadMain() {
+  void ThreadMain() override {
     self_->ThreadMain();
   }
 
