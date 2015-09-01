@@ -291,21 +291,19 @@ const T* MinidumpCVPDBAtLocationDescriptor(
 }  // namespace
 
 template <>
-const MinidumpModuleCodeViewRecordPDB20*
-MinidumpWritableAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB20>(
-    const std::string& file_contents,
-    const MINIDUMP_LOCATION_DESCRIPTOR& location) {
-  return MinidumpCVPDBAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB20>(
-      file_contents, location);
+const CodeViewRecordPDB20* MinidumpWritableAtLocationDescriptor<
+    CodeViewRecordPDB20>(const std::string& file_contents,
+                         const MINIDUMP_LOCATION_DESCRIPTOR& location) {
+  return MinidumpCVPDBAtLocationDescriptor<CodeViewRecordPDB20>(file_contents,
+                                                                location);
 }
 
 template <>
-const MinidumpModuleCodeViewRecordPDB70*
-MinidumpWritableAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB70>(
-    const std::string& file_contents,
-    const MINIDUMP_LOCATION_DESCRIPTOR& location) {
-  return MinidumpCVPDBAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB70>(
-      file_contents, location);
+const CodeViewRecordPDB70* MinidumpWritableAtLocationDescriptor<
+    CodeViewRecordPDB70>(const std::string& file_contents,
+                         const MINIDUMP_LOCATION_DESCRIPTOR& location) {
+  return MinidumpCVPDBAtLocationDescriptor<CodeViewRecordPDB70>(file_contents,
+                                                                location);
 }
 
 TestUInt32MinidumpWritable::TestUInt32MinidumpWritable(uint32_t value)

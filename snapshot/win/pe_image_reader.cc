@@ -17,9 +17,11 @@
 #include <string.h>
 
 #include "base/logging.h"
+#include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
 #include "client/crashpad_info.h"
 #include "snapshot/win/process_reader_win.h"
+#include "util/misc/pdb_structures.h"
 
 namespace crashpad {
 
@@ -110,13 +112,70 @@ bool PEImageReader::GetCrashpadInfo(
   return true;
 }
 
-bool PEImageReader::GetSectionByName(const std::string& name,
-                                     IMAGE_SECTION_HEADER* section) const {
-  if (name.size() > sizeof(section->Name)) {
-    LOG(WARNING) << "supplied section name too long " << name;
+bool PEImageReader::DebugDirectoryInformation(UUID* uuid,
+                                              DWORD* age,
+                                              std::string* pdbname) {
+  WinVMAddress nt_headers_address;
+  IMAGE_NT_HEADERS nt_headers;
+  if (!ReadNtHeaders(&nt_headers_address, &nt_headers))
     return false;
+
+  const IMAGE_DATA_DIRECTORY& data_directory =
+      nt_headers.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG];
+  if (data_directory.VirtualAddress == 0 || data_directory.Size == 0)
+    return false;
+  IMAGE_DEBUG_DIRECTORY debug_directory;
+  if (data_directory.Size % sizeof(debug_directory) != 0)
+    return false;
+  for (size_t offset = 0; offset < data_directory.Size;
+       offset += sizeof(debug_directory)) {
+    if (!CheckedReadMemory(Address() + data_directory.VirtualAddress + offset,
+                           sizeof(debug_directory),
+                           &debug_directory)) {
+      LOG(WARNING) << "could not read data directory";
+      return false;
+    }
+
+    if (debug_directory.Type != IMAGE_DEBUG_TYPE_CODEVIEW)
+      continue;
+
+    if (debug_directory.SizeOfData < sizeof(CodeViewRecordPDB70)) {
+      LOG(WARNING) << "CodeView debug entry of unexpected size";
+      continue;
+    }
+    scoped_ptr<char[]> data(new char[debug_directory.SizeOfData]);
+    if (!CheckedReadMemory(Address() + debug_directory.AddressOfRawData,
+                           debug_directory.SizeOfData,
+                           data.get())) {
+      LOG(WARNING) << "could not read debug directory";
+      return false;
+    }
+
+    if (*reinterpret_cast<DWORD*>(data.get()) !=
+        CodeViewRecordPDB70::kSignature) {
+      // TODO(scottmg): Consider supporting other record types, see
+      // https://code.google.com/p/crashpad/issues/detail?id=47.
+      LOG(WARNING) << "encountered non-7.0 CodeView debug record";
+      continue;
+    }
+
+    CodeViewRecordPDB70* codeview =
+        reinterpret_cast<CodeViewRecordPDB70*>(data.get());
+    *uuid = codeview->uuid;
+    *age = codeview->age;
+    // This is a NUL-terminated string encoded in the codepage of the system
+    // where the binary was linked. We have no idea what that was, so we just
+    // assume ASCII.
+    *pdbname = std::string(reinterpret_cast<char*>(&codeview->pdb_name[0]));
+    return true;
   }
 
+  return false;
+}
+
+// TODO(scottmg): This needs to be made cross-bitness supporting.
+bool PEImageReader::ReadNtHeaders(WinVMAddress* nt_headers_address,
+                                  IMAGE_NT_HEADERS* nt_headers) const {
   IMAGE_DOS_HEADER dos_header;
   if (!CheckedReadMemory(Address(), sizeof(IMAGE_DOS_HEADER), &dos_header)) {
     LOG(WARNING) << "could not read dos header of " << module_name_;
@@ -128,19 +187,32 @@ bool PEImageReader::GetSectionByName(const std::string& name,
     return false;
   }
 
-  // TODO(scottmg): This is reading a same-bitness sized structure.
-  IMAGE_NT_HEADERS nt_headers;
-  WinVMAddress nt_headers_address = Address() + dos_header.e_lfanew;
+  *nt_headers_address = Address() + dos_header.e_lfanew;
   if (!CheckedReadMemory(
-          nt_headers_address, sizeof(IMAGE_NT_HEADERS), &nt_headers)) {
+          *nt_headers_address, sizeof(IMAGE_NT_HEADERS), nt_headers)) {
     LOG(WARNING) << "could not read nt headers of " << module_name_;
     return false;
   }
 
-  if (nt_headers.Signature != IMAGE_NT_SIGNATURE) {
+  if (nt_headers->Signature != IMAGE_NT_SIGNATURE) {
     LOG(WARNING) << "invalid signature in nt headers of " << module_name_;
     return false;
   }
+
+  return true;
+}
+
+bool PEImageReader::GetSectionByName(const std::string& name,
+                                     IMAGE_SECTION_HEADER* section) const {
+  if (name.size() > sizeof(section->Name)) {
+    LOG(WARNING) << "supplied section name too long " << name;
+    return false;
+  }
+
+  WinVMAddress nt_headers_address;
+  IMAGE_NT_HEADERS nt_headers;
+  if (!ReadNtHeaders(&nt_headers_address, &nt_headers))
+    return false;
 
   WinVMAddress first_section_address =
       nt_headers_address + offsetof(IMAGE_NT_HEADERS, OptionalHeader) +

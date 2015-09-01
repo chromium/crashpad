@@ -86,42 +86,38 @@ class MinidumpModuleCodeViewRecordPDBLinkWriter
 
 }  // namespace internal
 
-//! \brief The writer for a MinidumpModuleCodeViewRecordPDB20 object in a
-//!     minidump file.
+//! \brief The writer for a CodeViewRecordPDB20 object in a minidump file.
 //!
 //! Most users will want MinidumpModuleCodeViewRecordPDB70Writer instead.
 class MinidumpModuleCodeViewRecordPDB20Writer final
     : public internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
-          MinidumpModuleCodeViewRecordPDB20> {
+          CodeViewRecordPDB20> {
  public:
   MinidumpModuleCodeViewRecordPDB20Writer()
       : internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
-            MinidumpModuleCodeViewRecordPDB20>() {}
+            CodeViewRecordPDB20>() {}
 
   ~MinidumpModuleCodeViewRecordPDB20Writer() override;
 
-  //! \brief Sets MinidumpModuleCodeViewRecordPDB20::timestamp and
-  //!     MinidumpModuleCodeViewRecordPDB20::age.
+  //! \brief Sets CodeViewRecordPDB20::timestamp and CodeViewRecordPDB20::age.
   void SetTimestampAndAge(time_t timestamp, uint32_t age);
 
  private:
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCodeViewRecordPDB20Writer);
 };
 
-//! \brief The writer for a MinidumpModuleCodeViewRecordPDB70 object in a
-//!     minidump file.
+//! \brief The writer for a CodeViewRecordPDB70 object in a minidump file.
 class MinidumpModuleCodeViewRecordPDB70Writer final
     : public internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
-          MinidumpModuleCodeViewRecordPDB70> {
+          CodeViewRecordPDB70> {
  public:
   MinidumpModuleCodeViewRecordPDB70Writer()
       : internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
-            MinidumpModuleCodeViewRecordPDB70>() {}
+            CodeViewRecordPDB70>() {}
 
   ~MinidumpModuleCodeViewRecordPDB70Writer() override;
 
-  //! \brief Initializes the MinidumpModuleCodeViewRecordPDB70 based on \a
-  //!     module_snapshot.
+  //! \brief Initializes the CodeViewRecordPDB70 based on \a module_snapshot.
   //!
   //! \param[in] module_snapshot The module snapshot to use as source data.
   //!
@@ -130,8 +126,7 @@ class MinidumpModuleCodeViewRecordPDB70Writer final
   //!     methods after this method.
   void InitializeFromSnapshot(const ModuleSnapshot* module_snapshot);
 
-  //! \brief Sets MinidumpModuleCodeViewRecordPDB70::uuid and
-  //!     MinidumpModuleCodeViewRecordPDB70::age.
+  //! \brief Sets CodeViewRecordPDB70::uuid and CodeViewRecordPDB70::age.
   void SetUUIDAndAge(const UUID& uuid, uint32_t age) {
     codeview_record()->uuid = uuid;
     codeview_record()->age = age;

@@ -77,7 +77,7 @@ bool MinidumpModuleCodeViewRecordPDBLinkWriter<CodeViewRecordType>::WriteObject(
 }  // namespace internal
 
 template class internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
-    MinidumpModuleCodeViewRecordPDB20>;
+    CodeViewRecordPDB20>;
 
 MinidumpModuleCodeViewRecordPDB20Writer::
     ~MinidumpModuleCodeViewRecordPDB20Writer() {
@@ -95,7 +95,7 @@ void MinidumpModuleCodeViewRecordPDB20Writer::SetTimestampAndAge(
 }
 
 template class internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
-    MinidumpModuleCodeViewRecordPDB70>;
+    CodeViewRecordPDB70>;
 
 MinidumpModuleCodeViewRecordPDB70Writer::
     ~MinidumpModuleCodeViewRecordPDB70Writer() {

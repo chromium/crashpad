@@ -148,7 +148,11 @@ ModuleSnapshot::ModuleType ModuleSnapshotWin::GetModuleType() const {
 
 void ModuleSnapshotWin::UUID(crashpad::UUID* uuid) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  CHECK(false) << "TODO(scottmg)";
+  // TODO(scottmg): Also pass the age and pdbname through to snapshot?
+  DWORD age;
+  std::string pdbname;
+  if (!pe_image_reader_->DebugDirectoryInformation(uuid, &age, &pdbname))
+    *uuid = crashpad::UUID();
 }
 
 std::vector<std::string> ModuleSnapshotWin::AnnotationsVector() const {

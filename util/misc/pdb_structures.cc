@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2015 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_extensions.h"
+#include "util/misc/pdb_structures.h"
 
 namespace crashpad {
 
-const uint32_t MinidumpModuleCrashpadInfo::kVersion;
-const uint32_t MinidumpCrashpadInfo::kVersion;
+const uint32_t CodeViewRecordPDB20::kSignature;
+const uint32_t CodeViewRecordPDB70::kSignature;
 
 }  // namespace crashpad

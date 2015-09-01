@@ -100,10 +100,9 @@ void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
     std::string observed_pdb_name;
     if (expected_pdb_uuid) {
       // The CodeView record should be a PDB 7.0 link.
-      const MinidumpModuleCodeViewRecordPDB70* codeview_pdb70_record =
-          MinidumpWritableAtLocationDescriptor<
-              MinidumpModuleCodeViewRecordPDB70>(file_contents,
-                                                 *codeview_record);
+      const CodeViewRecordPDB70* codeview_pdb70_record =
+          MinidumpWritableAtLocationDescriptor<CodeViewRecordPDB70>(
+              file_contents, *codeview_record);
       ASSERT_TRUE(codeview_pdb70_record);
       EXPECT_EQ(0,
                 memcmp(expected_pdb_uuid,
@@ -113,14 +112,12 @@ void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
 
       observed_pdb_name.assign(
           reinterpret_cast<const char*>(&codeview_pdb70_record->pdb_name[0]),
-          codeview_record->DataSize -
-              offsetof(MinidumpModuleCodeViewRecordPDB70, pdb_name));
+          codeview_record->DataSize - offsetof(CodeViewRecordPDB70, pdb_name));
     } else {
       // The CodeView record should be a PDB 2.0 link.
-      const MinidumpModuleCodeViewRecordPDB20* codeview_pdb20_record =
-          MinidumpWritableAtLocationDescriptor<
-              MinidumpModuleCodeViewRecordPDB20>(file_contents,
-                                                 *codeview_record);
+      const CodeViewRecordPDB20* codeview_pdb20_record =
+          MinidumpWritableAtLocationDescriptor<CodeViewRecordPDB20>(
+              file_contents, *codeview_record);
       ASSERT_TRUE(codeview_pdb20_record);
       EXPECT_EQ(static_cast<uint32_t>(expected_pdb_timestamp),
                 codeview_pdb20_record->timestamp);
@@ -128,8 +125,7 @@ void ExpectCodeViewRecord(const MINIDUMP_LOCATION_DESCRIPTOR* codeview_record,
 
       observed_pdb_name.assign(
           reinterpret_cast<const char*>(&codeview_pdb20_record->pdb_name[0]),
-          codeview_record->DataSize -
-              offsetof(MinidumpModuleCodeViewRecordPDB20, pdb_name));
+          codeview_record->DataSize - offsetof(CodeViewRecordPDB20, pdb_name));
     }
 
     // Check for, and then remove, the NUL terminator.

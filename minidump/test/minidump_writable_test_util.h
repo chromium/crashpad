@@ -98,8 +98,8 @@ MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpSimpleStringDictionary);
 // data).
 MINIDUMP_ALLOW_OVERSIZED_DATA(IMAGE_DEBUG_MISC);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_STRING);
-MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpModuleCodeViewRecordPDB20);
-MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpModuleCodeViewRecordPDB70);
+MINIDUMP_ALLOW_OVERSIZED_DATA(CodeViewRecordPDB20);
+MINIDUMP_ALLOW_OVERSIZED_DATA(CodeViewRecordPDB70);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpUTF8String);
 
 // minidump_file_writer_test accesses its variable-sized test streams via a
@@ -142,10 +142,10 @@ const T* TMinidumpWritableAtLocationDescriptor(
 //!    specializations ensure that the size given by \a location matches the
 //!    size expected of a stream containing the number of elements it claims to
 //!    have.
-//!  - With an IMAGE_DEBUG_MISC, MinidumpModuleCodeViewRecordPDB20, or
-//!    MinidumpModuleCodeViewRecordPDB70 template parameter, template
-//!    specializations ensure that the structure has the expected format
-//!    including any magic number and the `NUL`-terminated string.
+//!  - With an IMAGE_DEBUG_MISC, CodeViewRecordPDB20, or CodeViewRecordPDB70
+//!    template parameter, template specializations ensure that the structure
+//!    has the expected format including any magic number and the `NUL`-
+//!    terminated string.
 //!
 //! \param[in] file_contents The contents of the minidump file.
 //! \param[in] location A MINIDUMP_LOCATION_DESCRIPTOR giving the offset within
@@ -190,16 +190,14 @@ const MINIDUMP_THREAD_LIST* MinidumpWritableAtLocationDescriptor<
                           const MINIDUMP_LOCATION_DESCRIPTOR& location);
 
 template <>
-const MinidumpModuleCodeViewRecordPDB20*
-MinidumpWritableAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB20>(
-    const std::string& file_contents,
-    const MINIDUMP_LOCATION_DESCRIPTOR& location);
+const CodeViewRecordPDB20* MinidumpWritableAtLocationDescriptor<
+    CodeViewRecordPDB20>(const std::string& file_contents,
+                         const MINIDUMP_LOCATION_DESCRIPTOR& location);
 
 template <>
-const MinidumpModuleCodeViewRecordPDB70*
-MinidumpWritableAtLocationDescriptor<MinidumpModuleCodeViewRecordPDB70>(
-    const std::string& file_contents,
-    const MINIDUMP_LOCATION_DESCRIPTOR& location);
+const CodeViewRecordPDB70* MinidumpWritableAtLocationDescriptor<
+    CodeViewRecordPDB70>(const std::string& file_contents,
+                         const MINIDUMP_LOCATION_DESCRIPTOR& location);
 
 template <>
 const MinidumpModuleCrashpadInfoList*
