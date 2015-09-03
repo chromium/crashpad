@@ -20,7 +20,6 @@
 #include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_client.h"
 #include "gtest/gtest.h"
-#include "snapshot/win/process_reader_win.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "test/win/win_child_process.h"
 #include "util/thread/thread.h"
@@ -63,22 +62,9 @@ class ExceptionSnapshotWinTest : public testing::Test {
     unsigned int ExceptionHandlerServerException(
         HANDLE process,
         WinVMAddress exception_information_address) override {
-      // Snapshot the process and exception.
-      ProcessReaderWin process_reader;
-      EXPECT_TRUE(process_reader.Initialize(process));
-      if (HasFatalFailure())
-        return 0xffffffff;
-      ExceptionInformation exception_information;
-      EXPECT_TRUE(
-          process_reader.ReadMemory(exception_information_address,
-                                    sizeof(exception_information),
-                                    &exception_information));
-      if (HasFatalFailure())
-        return 0xffffffff;
       ProcessSnapshotWin snapshot;
       snapshot.Initialize(process);
-      snapshot.InitializeException(exception_information.thread_id,
-                                   exception_information.exception_pointers);
+      snapshot.InitializeException(exception_information_address);
 
       // Confirm the exception record was read correctly.
       EXPECT_NE(snapshot.Exception()->ThreadID(), 0u);
@@ -113,17 +99,19 @@ class ExceptionSnapshotWinTest : public testing::Test {
 // Runs the ExceptionHandlerServer on a background thread.
 class RunServerThread : public Thread {
  public:
-  // Instantiates a thread which will invoke server->Run(pipe_name);
-  explicit RunServerThread(ExceptionHandlerServer* server,
-                           const std::string& pipe_name)
-      : server_(server), pipe_name_(pipe_name) {}
+  // Instantiates a thread which will invoke server->Run(delegate, pipe_name);
+  RunServerThread(ExceptionHandlerServer* server,
+                  ExceptionHandlerServer::Delegate* delegate,
+                  const std::string& pipe_name)
+      : server_(server), delegate_(delegate), pipe_name_(pipe_name) {}
   ~RunServerThread() override {}
 
  private:
   // Thread:
-  void ThreadMain() override { server_->Run(pipe_name_); }
+  void ThreadMain() override { server_->Run(delegate_, pipe_name_); }
 
   ExceptionHandlerServer* server_;
+  ExceptionHandlerServer::Delegate* delegate_;
   std::string pipe_name_;
 
   DISALLOW_COPY_AND_ASSIGN(RunServerThread);
@@ -133,8 +121,7 @@ class RunServerThread : public Thread {
 // thread joined.
 class ScopedStopServerAndJoinThread {
  public:
-  explicit ScopedStopServerAndJoinThread(ExceptionHandlerServer* server,
-                                         Thread* thread)
+  ScopedStopServerAndJoinThread(ExceptionHandlerServer* server, Thread* thread)
       : server_(server), thread_(thread) {}
   ~ScopedStopServerAndJoinThread() {
     server_->Stop();
@@ -199,8 +186,9 @@ TEST_F(ExceptionSnapshotWinTest, ChildCrash) {
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
   Delegate delegate(server_ready.get(), completed.get());
 
-  ExceptionHandlerServer exception_handler_server(&delegate);
-  RunServerThread server_thread(&exception_handler_server, pipe_name);
+  ExceptionHandlerServer exception_handler_server;
+  RunServerThread server_thread(
+      &exception_handler_server, &delegate, pipe_name);
   server_thread.Start();
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
       &exception_handler_server, &server_thread);

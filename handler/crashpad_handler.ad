@@ -75,7 +75,12 @@ of 'PATH' exists.
 
 *--handshake-fd*='FD'::
 Perform the handshake with the initial client on the file descriptor at 'FD'.
-This option is required.
+This option is required. This option is only valid on Mac OS X.
+
+*--pipe-name*='PIPE'::
+Listen on the given pipe name for connections from clients. 'PIPE' must be of
+the form +\\.\pipe\<somename>+. This option is required. This option is only
+valid on Windows.
 
 *--url*='URL'::
 If uploads are enabled, sends crash reports to the Breakpad-type crash report

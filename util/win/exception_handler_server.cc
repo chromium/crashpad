@@ -184,9 +184,8 @@ class ClientData {
 ExceptionHandlerServer::Delegate::~Delegate() {
 }
 
-ExceptionHandlerServer::ExceptionHandlerServer(Delegate* delegate)
-    : delegate_(delegate),
-      port_(CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, 0, 1)),
+ExceptionHandlerServer::ExceptionHandlerServer()
+    : port_(CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, 0, 1)),
       clients_lock_(),
       clients_() {
 }
@@ -194,7 +193,8 @@ ExceptionHandlerServer::ExceptionHandlerServer(Delegate* delegate)
 ExceptionHandlerServer::~ExceptionHandlerServer() {
 }
 
-void ExceptionHandlerServer::Run(const std::string& pipe_name) {
+void ExceptionHandlerServer::Run(Delegate* delegate,
+                                 const std::string& pipe_name) {
   uint64_t shutdown_token = base::RandUint64();
   // We create two pipe instances, so that there's one listening while the
   // PipeServiceProc is processing a registration.
@@ -217,7 +217,7 @@ void ExceptionHandlerServer::Run(const std::string& pipe_name) {
     internal::PipeServiceContext* context =
         new internal::PipeServiceContext(port_.get(),
                                          pipe,
-                                         delegate_,
+                                         delegate,
                                          &clients_lock_,
                                          &clients_,
                                          shutdown_token);
@@ -225,7 +225,7 @@ void ExceptionHandlerServer::Run(const std::string& pipe_name) {
         CreateThread(nullptr, 0, &PipeServiceProc, context, 0, nullptr));
   }
 
-  delegate_->ExceptionHandlerServerStarted();
+  delegate->ExceptionHandlerServerStarted();
 
   // This is the main loop of the server. Most work is done on the threadpool,
   // other than process end handling which is posted back to this main thread,

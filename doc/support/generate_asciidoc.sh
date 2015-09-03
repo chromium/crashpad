@@ -122,7 +122,7 @@ for input in \
 done
 
 for input in \
-    handler/mac/crashpad_handler.ad \
+    handler/crashpad_handler.ad \
     tools/*.ad \
     tools/mac/*.ad; do
   generate "${input}" "man"

@@ -57,18 +57,16 @@ class ExceptionHandlerServer {
   };
 
   //! \brief Constructs the exception handling server.
-  //!
-  //! \param[in] delegate The interface to which the exceptions are delegated
-  //!     when they are caught in Run(). Ownership is not transferred and it
-  //!     must outlive this object.
-  explicit ExceptionHandlerServer(Delegate* delegate);
+  ExceptionHandlerServer();
   ~ExceptionHandlerServer();
 
   //! \brief Runs the exception-handling server.
   //!
+  //! \param[in] delegate The interface to which the exceptions are delegated
+  //!     when they are caught in Run(). Ownership is not transferred.
   //! \param[in] pipe_name The name of the pipe to listen on. Must be of the
   //!     form "\\.\pipe\<some_name>".
-  void Run(const std::string& pipe_name);
+  void Run(Delegate* delegate, const std::string& pipe_name);
 
   //! \brief Stops the exception-handling server. Returns immediately. The
   //!     object must not be destroyed until Run() returns.
@@ -81,7 +79,6 @@ class ExceptionHandlerServer {
   static void __stdcall OnDumpEvent(void* ctx, BOOLEAN);
   static void __stdcall OnProcessEnd(void* ctx, BOOLEAN);
 
-  Delegate* delegate_;  // Weak.
   ScopedKernelHANDLE port_;
 
   base::Lock clients_lock_;

@@ -16,6 +16,7 @@
 
 #include "base/logging.h"
 #include "snapshot/win/module_snapshot_win.h"
+#include "util/win/registration_protocol_win.h"
 #include "util/win/time.h"
 
 namespace crashpad {
@@ -55,14 +56,22 @@ bool ProcessSnapshotWin::Initialize(HANDLE process) {
 }
 
 bool ProcessSnapshotWin::InitializeException(
-    DWORD thread_id,
-    WinVMAddress exception_pointers) {
+    WinVMAddress exception_information_address) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   DCHECK(!exception_);
 
+  ExceptionInformation exception_information;
+  if (!process_reader_.ReadMemory(exception_information_address,
+                                  sizeof(exception_information),
+                                  &exception_information)) {
+    LOG(WARNING) << "ReadMemory ExceptionInformation failed";
+    return false;
+  }
+
   exception_.reset(new internal::ExceptionSnapshotWin());
-  if (!exception_->Initialize(
-          &process_reader_, thread_id, exception_pointers)) {
+  if (!exception_->Initialize(&process_reader_,
+                              exception_information.thread_id,
+                              exception_information.exception_pointers)) {
     exception_.reset();
     return false;
   }

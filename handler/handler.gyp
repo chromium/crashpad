@@ -17,34 +17,36 @@
     '../build/crashpad.gypi',
     '../build/crashpad_in_chromium.gypi',
   ],
-  'conditions': [
-    ['OS=="mac"', {
-      'targets': [
-        {
-          'target_name': 'crashpad_handler',
-          'type': 'executable',
-          'dependencies': [
-            '../client/client.gyp:crashpad_client',
-            '../compat/compat.gyp:crashpad_compat',
-            '../minidump/minidump.gyp:crashpad_minidump',
-            '../snapshot/snapshot.gyp:crashpad_snapshot',
-            '../third_party/mini_chromium/mini_chromium.gyp:base',
-            '../tools/tools.gyp:crashpad_tool_support',
-            '../util/util.gyp:crashpad_util',
-          ],
-          'include_dirs': [
-            '..',
-          ],
-          'sources': [
-            'crash_report_upload_thread.cc',
-            'crash_report_upload_thread.h',
-            'mac/crash_report_exception_handler.cc',
-            'mac/crash_report_exception_handler.h',
-            'mac/exception_handler_server.cc',
-            'mac/exception_handler_server.h',
-            'mac/main.cc',
-          ],
+  'targets': [
+    {
+      'target_name': 'crashpad_handler',
+      'type': 'executable',
+      'dependencies': [
+        '../client/client.gyp:crashpad_client',
+        '../compat/compat.gyp:crashpad_compat',
+        '../minidump/minidump.gyp:crashpad_minidump',
+        '../snapshot/snapshot.gyp:crashpad_snapshot',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+        '../tools/tools.gyp:crashpad_tool_support',
+        '../util/util.gyp:crashpad_util',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'crash_report_upload_thread.cc',
+        'crash_report_upload_thread.h',
+        'mac/crash_report_exception_handler.cc',
+        'mac/crash_report_exception_handler.h',
+        'mac/exception_handler_server.cc',
+        'mac/exception_handler_server.h',
+        'main.cc',
+        'win/crash_report_exception_handler.cc',
+        'win/crash_report_exception_handler.h',
+      ],
 
+      'conditions': [
+        ['OS=="mac"', {
           # In an in-Chromium build with component=shared_library,
           # crashpad_handler will depend on shared libraries such as
           # libbase.dylib located in out/{Debug,Release} via the @rpath
@@ -66,26 +68,26 @@
               },
             }],
           ],
-        },
+        }],
       ],
-    },],
+    },
+  ],
+  'conditions': [
     ['OS=="win"', {
       'targets': [
         {
-          'target_name': 'crashpad_handler',
-          # TODO(scottmg): This will soon be an executable, once main.cc exists.
-          'type': 'static_library',
+          'target_name': 'crashy_program',
+          'type': 'executable',
           'dependencies': [
-            '../compat/compat.gyp:crashpad_compat',
+            '../client/client.gyp:crashpad_client',
             '../third_party/mini_chromium/mini_chromium.gyp:base',
-            '../util/util.gyp:crashpad_util',
+            '../tools/tools.gyp:crashpad_tool_support',
           ],
           'include_dirs': [
             '..',
           ],
           'sources': [
-            'crash_report_upload_thread.cc',
-            'crash_report_upload_thread.h',
+            'win/crashy_test_program.cc',
           ],
         },
       ],

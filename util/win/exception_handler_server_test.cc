@@ -36,16 +36,19 @@ namespace {
 // Runs the ExceptionHandlerServer on a background thread.
 class RunServerThread : public Thread {
  public:
-  // Instantiates a thread which will invoke server->Run(pipe_name).
-  RunServerThread(ExceptionHandlerServer* server, const std::string& pipe_name)
-      : server_(server), pipe_name_(pipe_name) {}
+  // Instantiates a thread which will invoke server->Run(delegate, pipe_name).
+  RunServerThread(ExceptionHandlerServer* server,
+                  ExceptionHandlerServer::Delegate* delegate,
+                  const std::string& pipe_name)
+      : server_(server), delegate_(delegate), pipe_name_(pipe_name) {}
   ~RunServerThread() override {}
 
  private:
   // Thread:
-  void ThreadMain() override { server_->Run(pipe_name_); }
+  void ThreadMain() override { server_->Run(delegate_, pipe_name_); }
 
   ExceptionHandlerServer* server_;
+  ExceptionHandlerServer::Delegate* delegate_;
   std::string pipe_name_;
 
   DISALLOW_COPY_AND_ASSIGN(RunServerThread);
@@ -81,8 +84,8 @@ class ExceptionHandlerServerTest : public testing::Test {
                    base::StringPrintf("%08x", GetCurrentProcessId())),
         server_ready_(CreateEvent(nullptr, false, false, nullptr)),
         delegate_(server_ready_.get()),
-        server_(&delegate_),
-        server_thread_(&server_, pipe_name_) {}
+        server_(),
+        server_thread_(&server_, &delegate_, pipe_name_) {}
 
   TestDelegate& delegate() { return delegate_; }
   ExceptionHandlerServer& server() { return server_; }

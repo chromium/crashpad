@@ -59,17 +59,18 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
 
   //! \brief Initializes the object's exception.
   //!
-  //! This populates the data to be returned by Exception(). The parameters may
-  //! be passed directly through from a Windows exception handler.
+  //! This populates the data to be returned by Exception().
   //!
   //! This method must not be called until after a successful call to
   //! Initialize().
   //!
+  //! \param[in] exception_information_address The address in the client
+  //!     process's address space of an ExceptionInformation structure.
+  //!
   //! \return `true` if the exception information could be initialized, `false`
   //!     otherwise with an appropriate message logged. When this method returns
   //!     `false`, the ProcessSnapshotWin object's validity remains unchanged.
-  bool InitializeException(DWORD thread_id,
-                           WinVMAddress exception_pointers);
+  bool InitializeException(WinVMAddress exception_information_address);
 
   //! \brief Sets the value to be returned by ReportID().
   //!
