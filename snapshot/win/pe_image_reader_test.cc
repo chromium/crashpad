@@ -42,7 +42,7 @@ TEST(PEImageReader, DebugDirectory) {
   DWORD age;
   std::string pdbname;
   EXPECT_TRUE(pe_image_reader.DebugDirectoryInformation(&uuid, &age, &pdbname));
-  EXPECT_NE(-1, pdbname.find("crashpad_snapshot_test"));
+  EXPECT_NE(std::string::npos, pdbname.find("crashpad_snapshot_test"));
   const std::string suffix(".pdb");
   EXPECT_EQ(
       0,

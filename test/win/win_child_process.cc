@@ -54,7 +54,7 @@ bool GetSwitch(const char* switch_name, std::string* value) {
 
   std::string switch_name_with_equals(switch_name);
   switch_name_with_equals += "=";
-  for (size_t i = 1; i < num_args; ++i) {
+  for (int i = 1; i < num_args; ++i) {
     const wchar_t* arg = args[i];
     std::string arg_as_utf8 = base::UTF16ToUTF8(arg);
     if (arg_as_utf8.compare(
