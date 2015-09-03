@@ -40,7 +40,6 @@
         'crashpad_client_win.cc',
         'crashpad_info.cc',
         'crashpad_info.h',
-        'registration_protocol_win.h',
         'settings.cc',
         'settings.h',
         'simple_string_dictionary.cc',

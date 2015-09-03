@@ -22,6 +22,7 @@
       'type': 'executable',
       'dependencies': [
         'util.gyp:crashpad_util',
+        '../client/client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
         '../test/test.gyp:crashpad_test',
         '../third_party/gmock/gmock.gyp:gmock',
@@ -78,6 +79,7 @@
         'synchronization/semaphore_test.cc',
         'thread/thread_log_messages_test.cc',
         'thread/thread_test.cc',
+        'win/exception_handler_server_test.cc',
         'win/process_info_test.cc',
         'win/time_test.cc',
       ],

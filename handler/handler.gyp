@@ -73,11 +73,10 @@
       'targets': [
         {
           'target_name': 'crashpad_handler',
+          # TODO(scottmg): This will soon be an executable, once main.cc exists.
           'type': 'static_library',
           'dependencies': [
-            '../client/client.gyp:crashpad_client',
             '../compat/compat.gyp:crashpad_compat',
-            '../snapshot/snapshot.gyp:crashpad_snapshot',
             '../third_party/mini_chromium/mini_chromium.gyp:base',
             '../util/util.gyp:crashpad_util',
           ],
@@ -87,10 +86,6 @@
           'sources': [
             'crash_report_upload_thread.cc',
             'crash_report_upload_thread.h',
-            'win/registration_pipe_state.cc',
-            'win/registration_pipe_state.h',
-            'win/registration_server.cc',
-            'win/registration_server.h',
           ],
         },
       ],

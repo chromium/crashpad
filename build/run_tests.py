@@ -51,10 +51,6 @@ def main(args):
       'crashpad_test_test',
       'crashpad_util_test',
   ]
-  if platform.system() == 'Windows':
-    tests += [
-        'crashpad_handler_test',
-    ]
   for test in tests:
     print '-' * 80
     print test

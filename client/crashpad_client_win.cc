@@ -14,111 +14,71 @@
 
 #include "client/crashpad_client.h"
 
+#include <string.h>
 #include <windows.h>
 
 #include "base/atomicops.h"
 #include "base/logging.h"
 #include "base/strings/string16.h"
 #include "base/strings/utf_string_conversions.h"
-#include "client/crashpad_info.h"
-#include "client/registration_protocol_win.h"
 #include "util/file/file_io.h"
+#include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
 
 namespace {
-// Time to wait for the handler to create a dump. This is tricky to figure out.
-const DWORD kMillisecondsUntilTerminate = 5000;
 
-// This is the exit code that the process will return to the system once the
-// crash has been handled by Crashpad. We don't want to clash with the
-// application-defined exit codes but we don't know them so we use one that is
-// unlikely to be used.
-const UINT kCrashExitCode = 0xffff7001;
+// This handle is never closed.
+HANDLE g_signal_exception = INVALID_HANDLE_VALUE;
 
-// These two handles to events are leaked.
-HANDLE g_signal_exception = nullptr;
-HANDLE g_wait_termination = nullptr;
-
-// Tracks whether a thread has already entered UnhandledExceptionHandler.
-base::subtle::AtomicWord g_have_crashed;
+// Where we store the exception information that the crash handler reads.
+crashpad::ExceptionInformation g_exception_information;
 
 LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
+  // Tracks whether a thread has already entered UnhandledExceptionHandler.
+  static base::subtle::AtomicWord have_crashed;
+
   // This is a per-process handler. While this handler is being invoked, other
   // threads are still executing as usual, so multiple threads could enter at
   // the same time. Because we're in a crashing state, we shouldn't be doing
   // anything that might cause allocations, call into kernel mode, etc. So, we
   // don't want to take a critical section here to avoid simultaneous access to
-  // the global exception pointers in CrashpadInfo. Because the crash handler
-  // will record all threads, it's fine to simply have the second and subsequent
-  // entrants block here. They will soon be suspended by the crash handler, and
-  // then the entire process will be terminated below. This means that we won't
-  // save the exception pointers from the second and further crashes, but
-  // contention here is very unlikely, and we'll still have a stack that's
-  // blocked at this location.
-  if (base::subtle::Barrier_AtomicIncrement(&g_have_crashed, 1) > 1) {
+  // the global exception pointers in ExceptionInformation. Because the crash
+  // handler will record all threads, it's fine to simply have the second and
+  // subsequent entrants block here. They will soon be suspended by the crash
+  // handler, and then the entire process will be terminated below. This means
+  // that we won't save the exception pointers from the second and further
+  // crashes, but contention here is very unlikely, and we'll still have a stack
+  // that's blocked at this location.
+  if (base::subtle::Barrier_AtomicIncrement(&have_crashed, 1) > 1) {
     SleepEx(INFINITE, false);
   }
 
   // Otherwise, we're the first thread, so record the exception pointer and
   // signal the crash handler.
-  crashpad::CrashpadInfo::GetCrashpadInfo()->set_thread_id(
-      GetCurrentThreadId());
-  crashpad::CrashpadInfo::GetCrashpadInfo()->set_exception_pointers(
-      exception_pointers);
-  DWORD rv = SignalObjectAndWait(g_signal_exception,
-                                 g_wait_termination,
-                                 kMillisecondsUntilTerminate,
-                                 false);
-  if (rv != WAIT_OBJECT_0) {
-    // Something went wrong. It is likely that a dump has not been created.
-    if (rv == WAIT_TIMEOUT) {
-      LOG(WARNING) << "SignalObjectAndWait timed out";
-    } else {
-      PLOG(WARNING) << "SignalObjectAndWait error";
-    }
-  }
-  // We don't want to generate more exceptions, so we take the fast route.
-  TerminateProcess(GetCurrentProcess(), kCrashExitCode);
-  return 0L;
-}
+  g_exception_information.thread_id = GetCurrentThreadId();
+  g_exception_information.exception_pointers =
+      reinterpret_cast<crashpad::WinVMAddress>(exception_pointers);
 
-// Returns a pipe handle connected to the RegistrationServer.
-crashpad::ScopedFileHANDLE Connect(const base::string16& pipe_name) {
-  crashpad::ScopedFileHANDLE pipe;
-  const int kMaxTries = 5;
-  for (int tries = 0; tries < kMaxTries; ++tries) {
-    pipe.reset(CreateFile(pipe_name.c_str(),
-                          GENERIC_READ | GENERIC_WRITE,
-                          0,
-                          nullptr,
-                          OPEN_EXISTING,
-                          SECURITY_SQOS_PRESENT | SECURITY_ANONYMOUS,
-                          nullptr));
-    if (pipe.is_valid())
-      break;
+  // Now signal the crash server, which will take a dump and then terminate us
+  // when it's complete.
+  SetEvent(g_signal_exception);
 
-    // If busy, wait 60s before retrying.
-    if (GetLastError() != ERROR_PIPE_BUSY) {
-      PLOG(ERROR) << "CreateFile pipe connection";
-      return crashpad::ScopedFileHANDLE();
-    } else if (!WaitNamedPipe(pipe_name.c_str(), 60000)) {
-      PLOG(ERROR) << "WaitNamedPipe";
-    }
-  }
+  // Time to wait for the handler to create a dump.
+  const DWORD kMillisecondsUntilTerminate = 60 * 1000;
 
-  if (!pipe.is_valid())
-    return crashpad::ScopedFileHANDLE();
+  // Sleep for a while to allow it to process us. Eventually, we terminate
+  // ourselves in case the crash server is gone, so that we don't leave zombies
+  // around. This would ideally never happen.
+  // TODO(scottmg): Re-add the "reply" event here, for implementing
+  // DumpWithoutCrashing.
+  Sleep(kMillisecondsUntilTerminate);
 
-  DWORD mode = PIPE_READMODE_MESSAGE;
-  if (!SetNamedPipeHandleState(pipe.get(),
-                               &mode,
-                               nullptr,  // Don't set maximum bytes.
-                               nullptr)) {  // Don't set maximum time.
-    PLOG(ERROR) << "SetNamedPipeHandleState";
-    return crashpad::ScopedFileHANDLE();
-  }
+  LOG(ERROR) << "crash server did not respond, self-terminating";
 
-  return pipe.Pass();
+  const UINT kCrashExitCodeNoDump = 0xffff7001;
+  TerminateProcess(GetCurrentProcess(), kCrashExitCodeNoDump);
+
+  return EXCEPTION_CONTINUE_SEARCH;
 }
 
 }  // namespace
@@ -137,36 +97,33 @@ bool CrashpadClient::StartHandler(
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments) {
+  LOG(FATAL) << "SetHandler should be used on Windows";
   return false;
 }
 
 bool CrashpadClient::SetHandler(const std::string& ipc_port) {
-  RegistrationRequest request = {0};
-  request.client_process_id = GetCurrentProcessId();
-  request.crashpad_info_address =
-      reinterpret_cast<WinVMAddress>(CrashpadInfo::GetCrashpadInfo());
+  ClientToServerMessage message;
+  memset(&message, 0, sizeof(message));
+  message.type = ClientToServerMessage::kRegister;
+  message.registration.client_process_id = GetCurrentProcessId();
+  message.registration.exception_information =
+      reinterpret_cast<WinVMAddress>(&g_exception_information);
 
-  RegistrationResponse response = {0};
+  ServerToClientMessage response = {0};
 
-  ScopedFileHANDLE pipe = Connect(base::UTF8ToUTF16(ipc_port));
-  if (!pipe.is_valid())
+  if (!SendToCrashHandlerServer(
+          base::UTF8ToUTF16(ipc_port), message, &response)) {
     return false;
-  bool result = LoggingWriteFile(pipe.get(), &request, sizeof(request)) &&
-                LoggingReadFile(pipe.get(), &response, sizeof(response));
-  if (!result)
-    return result;
+  }
 
   // The server returns these already duplicated to be valid in this process.
-  g_signal_exception = reinterpret_cast<HANDLE>(response.request_report_event);
-  g_wait_termination =
-      reinterpret_cast<HANDLE>(response.report_complete_event);
+  g_signal_exception =
+      reinterpret_cast<HANDLE>(response.registration.request_report_event);
   return true;
 }
 
 bool CrashpadClient::UseHandler() {
-  if (!g_signal_exception)
-    return false;
-  if (!g_wait_termination)
+  if (g_signal_exception == INVALID_HANDLE_VALUE)
     return false;
   // In theory we could store the previous handler but it is not clear what
   // use we have for it.

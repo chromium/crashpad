@@ -54,7 +54,6 @@
         'snapshot.gyp:crashpad_snapshot',
         '../client/client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
-        '../handler/handler.gyp:crashpad_handler',
         '../test/test.gyp:crashpad_test',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',

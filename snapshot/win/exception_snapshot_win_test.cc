@@ -19,13 +19,13 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_client.h"
-#include "client/crashpad_info.h"
-#include "handler/win/registration_server.h"
 #include "gtest/gtest.h"
 #include "snapshot/win/process_reader_win.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "test/win/win_child_process.h"
 #include "util/thread/thread.h"
+#include "util/win/exception_handler_server.h"
+#include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
 
 namespace crashpad {
@@ -48,62 +48,37 @@ HANDLE DuplicateEvent(HANDLE process, HANDLE event) {
 
 class ExceptionSnapshotWinTest : public testing::Test {
  public:
-  class Delegate : public RegistrationServer::Delegate {
+  class Delegate : public ExceptionHandlerServer::Delegate {
    public:
-    Delegate()
-        : crashpad_info_address_(0),
-          client_process_(),
-          started_event_(CreateEvent(nullptr, false, false, nullptr)),
-          request_dump_event_(CreateEvent(nullptr, false, false, nullptr)),
-          dump_complete_event_(CreateEvent(nullptr, true, false, nullptr)) {
-      EXPECT_TRUE(started_event_.is_valid());
-      EXPECT_TRUE(request_dump_event_.is_valid());
-      EXPECT_TRUE(dump_complete_event_.is_valid());
-    }
+    Delegate(HANDLE server_ready, HANDLE completed_test_event)
+        : server_ready_(server_ready),
+          completed_test_event_(completed_test_event),
+          break_near_(nullptr) {}
+    ~Delegate() override {}
 
-    ~Delegate() override {
-    }
+    void set_break_near(void* break_near) { break_near_ = break_near; }
 
-    void OnStarted() override {
-      EXPECT_EQ(WAIT_TIMEOUT, WaitForSingleObject(started_event_.get(), 0));
-      SetEvent(started_event_.get());
-    }
+    void ExceptionHandlerServerStarted() override { SetEvent(server_ready_); }
 
-    bool RegisterClient(ScopedKernelHANDLE client_process,
-                        WinVMAddress crashpad_info_address,
-                        HANDLE* request_dump_event,
-                        HANDLE* dump_complete_event) override {
-      client_process_ = client_process.Pass();
-      crashpad_info_address_ = crashpad_info_address;
-      *request_dump_event =
-          DuplicateEvent(client_process_.get(), request_dump_event_.get());
-      *dump_complete_event =
-          DuplicateEvent(client_process_.get(), dump_complete_event_.get());
-      return true;
-    }
-
-    void WaitForStart() {
-      DWORD wait_result = WaitForSingleObject(started_event_.get(), INFINITE);
-      if (wait_result == WAIT_FAILED)
-        PLOG(ERROR);
-      ASSERT_EQ(wait_result, WAIT_OBJECT_0);
-    }
-
-    void WaitForDumpRequestAndValidateException(void* break_near) {
-      // Wait until triggered, and then grab information from the child.
-      WaitForSingleObject(request_dump_event_.get(), INFINITE);
-
+    unsigned int ExceptionHandlerServerException(
+        HANDLE process,
+        WinVMAddress exception_information_address) override {
       // Snapshot the process and exception.
       ProcessReaderWin process_reader;
-      ASSERT_TRUE(process_reader.Initialize(client_process_.get()));
-      CrashpadInfo crashpad_info;
-      ASSERT_TRUE(process_reader.ReadMemory(
-          crashpad_info_address_, sizeof(crashpad_info), &crashpad_info));
+      EXPECT_TRUE(process_reader.Initialize(process));
+      if (HasFatalFailure())
+        return 0xffffffff;
+      ExceptionInformation exception_information;
+      EXPECT_TRUE(
+          process_reader.ReadMemory(exception_information_address,
+                                    sizeof(exception_information),
+                                    &exception_information));
+      if (HasFatalFailure())
+        return 0xffffffff;
       ProcessSnapshotWin snapshot;
-      snapshot.Initialize(client_process_.get());
-      snapshot.InitializeException(
-          crashpad_info.thread_id(),
-          reinterpret_cast<WinVMAddress>(crashpad_info.exception_pointers()));
+      snapshot.Initialize(process);
+      snapshot.InitializeException(exception_information.thread_id,
+                                   exception_information.exception_pointers);
 
       // Confirm the exception record was read correctly.
       EXPECT_NE(snapshot.Exception()->ThreadID(), 0u);
@@ -114,43 +89,42 @@ class ExceptionSnapshotWinTest : public testing::Test {
       // happens. See CrashingChildProcess::Run().
       const uint64_t kAllowedOffset = 64;
       EXPECT_GT(snapshot.Exception()->ExceptionAddress(),
-                reinterpret_cast<uint64_t>(break_near));
+                reinterpret_cast<uint64_t>(break_near_));
       EXPECT_LT(snapshot.Exception()->ExceptionAddress(),
-                reinterpret_cast<uint64_t>(break_near) + kAllowedOffset);
+                reinterpret_cast<uint64_t>(break_near_) + kAllowedOffset);
 
-      // Notify the child that we're done.
-      SetEvent(dump_complete_event_.get());
+      SetEvent(completed_test_event_);
+
+      return snapshot.Exception()->Exception();
     }
 
-    ScopedKernelHANDLE* request_dump_event() { return &request_dump_event_; }
-    ScopedKernelHANDLE* dump_complete_event() { return &dump_complete_event_; }
-
    private:
-    WinVMAddress crashpad_info_address_;
-    ScopedKernelHANDLE client_process_;
-    ScopedKernelHANDLE started_event_;
-    ScopedKernelHANDLE request_dump_event_;
-    ScopedKernelHANDLE dump_complete_event_;
+    HANDLE server_ready_;  // weak
+    HANDLE completed_test_event_;  // weak
+    void* break_near_;
+
+    DISALLOW_COPY_AND_ASSIGN(Delegate);
   };
+
+ private:
+  ScopedKernelHANDLE exception_happened_;
 };
 
-// Runs the RegistrationServer on a background thread.
+// Runs the ExceptionHandlerServer on a background thread.
 class RunServerThread : public Thread {
  public:
-  // Instantiates a thread which will invoke server->Run(pipe_name, delegate).
-  RunServerThread(RegistrationServer* server,
-                  const base::string16& pipe_name,
-                  RegistrationServer::Delegate* delegate)
-      : server_(server), pipe_name_(pipe_name), delegate_(delegate) {}
+  // Instantiates a thread which will invoke server->Run(pipe_name);
+  explicit RunServerThread(ExceptionHandlerServer* server,
+                           const std::string& pipe_name)
+      : server_(server), pipe_name_(pipe_name) {}
   ~RunServerThread() override {}
 
  private:
   // Thread:
-  void ThreadMain() override { server_->Run(pipe_name_, delegate_); }
+  void ThreadMain() override { server_->Run(pipe_name_); }
 
-  RegistrationServer* server_;
-  base::string16 pipe_name_;
-  RegistrationServer::Delegate* delegate_;
+  ExceptionHandlerServer* server_;
+  std::string pipe_name_;
 
   DISALLOW_COPY_AND_ASSIGN(RunServerThread);
 };
@@ -159,7 +133,7 @@ class RunServerThread : public Thread {
 // thread joined.
 class ScopedStopServerAndJoinThread {
  public:
-  explicit ScopedStopServerAndJoinThread(RegistrationServer* server,
+  explicit ScopedStopServerAndJoinThread(ExceptionHandlerServer* server,
                                          Thread* thread)
       : server_(server), thread_(thread) {}
   ~ScopedStopServerAndJoinThread() {
@@ -168,7 +142,7 @@ class ScopedStopServerAndJoinThread {
   }
 
  private:
-  RegistrationServer* server_;
+  ExceptionHandlerServer* server_;
   Thread* thread_;
   DISALLOW_COPY_AND_ASSIGN(ScopedStopServerAndJoinThread);
 };
@@ -213,29 +187,36 @@ class CrashingChildProcess final : public WinChildProcess {
 };
 
 TEST_F(ExceptionSnapshotWinTest, ChildCrash) {
-  // Set up the registration server on a background thread.
-  RegistrationServer server;
-  std::string pipe_name = "\\\\.\\pipe\\handler_test_pipe_" +
-                          base::StringPrintf("%08x", GetCurrentProcessId());
-  base::string16 pipe_name_16 = base::UTF8ToUTF16(pipe_name);
-  Delegate delegate;
-  RunServerThread server_thread(&server, pipe_name_16, &delegate);
-  server_thread.Start();
-  ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
-      &server, &server_thread);
-  ASSERT_NO_FATAL_FAILURE(delegate.WaitForStart());
-
-  // Spawn a child process that immediately crashes.
+  // Spawn a child process that will immediately crash (once we let it
+  // run below by telling it what to connect to).
   WinChildProcess::EntryPoint<CrashingChildProcess>();
   scoped_ptr<WinChildProcess::Handles> handle = WinChildProcess::Launch();
+
+  // Set up the registration server on a background thread.
+  std::string pipe_name = "\\\\.\\pipe\\handler_test_pipe_" +
+                          base::StringPrintf("%08x", GetCurrentProcessId());
+  ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
+  ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
+  Delegate delegate(server_ready.get(), completed.get());
+
+  ExceptionHandlerServer exception_handler_server(&delegate);
+  RunServerThread server_thread(&exception_handler_server, pipe_name);
+  server_thread.Start();
+  ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
+      &exception_handler_server, &server_thread);
+
+  WaitForSingleObject(server_ready.get(), INFINITE);
+  // Allow the child to continue and tell it where to connect to.
   WriteString(handle->write.get(), pipe_name);
 
+  // The child tells us (approximately) where it will crash.
   void* break_near_address;
   LoggingReadFile(
       handle->read.get(), &break_near_address, sizeof(break_near_address));
+  delegate.set_break_near(break_near_address);
 
-  // Verify the exception information is as expected.
-  delegate.WaitForDumpRequestAndValidateException(break_near_address);
+  // Wait for the child to crash and the exception information to be validated.
+  WaitForSingleObject(completed.get(), INFINITE);
 }
 
 }  // namespace
