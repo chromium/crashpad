@@ -317,6 +317,12 @@ bool ExceptionHandlerServer::ServiceClientConnection(
       return false;
   }
 
+  if (message.registration.version != RegistrationRequest::kMessageVersion) {
+    LOG(ERROR) << "unexpected version. got: " << message.registration.version
+               << " expecting: " << RegistrationRequest::kMessageVersion;
+    return false;
+  }
+
   decltype(GetNamedPipeClientProcessId)* get_named_pipe_client_process_id =
       GetNamedPipeClientProcessIdFunction();
   if (get_named_pipe_client_process_id) {

@@ -38,12 +38,20 @@ struct ExceptionInformation {
 
 //! \brief A client registration request.
 struct RegistrationRequest {
-  //! \brief The address, in the client process address space, of an
-  //!     ExceptionInformation structure.
-  WinVMAddress exception_information;
+  //! \brief The expected value of `version`. This should be changed whenever
+  //!     the messages or ExceptionInformation are modified incompatibly.
+  enum { kMessageVersion = 1 };
+
+  //! \brief Version field to detect skew between client and server. Should be
+  //!     set to kMessageVersion.
+  int version;
 
   //! \brief The PID of the client process.
   DWORD client_process_id;
+
+  //! \brief The address, in the client process address space, of an
+  //!     ExceptionInformation structure.
+  WinVMAddress exception_information;
 };
 
 //! \brief A message only sent to the server by itself to trigger shutdown.

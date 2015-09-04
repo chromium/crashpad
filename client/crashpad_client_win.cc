@@ -105,6 +105,7 @@ bool CrashpadClient::SetHandler(const std::string& ipc_port) {
   ClientToServerMessage message;
   memset(&message, 0, sizeof(message));
   message.type = ClientToServerMessage::kRegister;
+  message.registration.version = RegistrationRequest::kMessageVersion;
   message.registration.client_process_id = GetCurrentProcessId();
   message.registration.exception_information =
       reinterpret_cast<WinVMAddress>(&g_exception_information);
