@@ -41,6 +41,7 @@ const char* kExceptionNames[] = {
     "CRASH",
     "RESOURCE",
     "GUARD",
+    "CORPSE_NOTIFY",
 };
 static_assert(arraysize(kExceptionNames) == EXC_TYPES_COUNT,
               "kExceptionNames length");

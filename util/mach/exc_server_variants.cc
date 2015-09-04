@@ -14,12 +14,14 @@
 
 #include "util/mach/exc_server_variants.h"
 
+#include <AvailabilityMacros.h>
 #include <string.h>
 
 #include <algorithm>
 #include <vector>
 
 #include "base/logging.h"
+#include "util/mac/mac_util.h"
 #include "util/mach/composite_mach_message_server.h"
 #include "util/mach/exc.h"
 #include "util/mach/exception_behaviors.h"
@@ -767,8 +769,17 @@ mach_msg_size_t UniversalMachExcServer::MachMessageServerReplySize() {
   return impl_->MachMessageServerReplySize();
 }
 
-kern_return_t ExcServerSuccessfulReturnValue(exception_behavior_t behavior,
+kern_return_t ExcServerSuccessfulReturnValue(exception_type_t exception,
+                                             exception_behavior_t behavior,
                                              bool set_thread_state) {
+  if (exception == EXC_CRASH
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_11
+      && MacOSXMinorVersion() >= 11
+#endif
+     ) {
+    return KERN_SUCCESS;
+  }
+
   if (!set_thread_state && ExceptionBehaviorHasState(behavior)) {
     return MACH_RCV_PORT_DIED;
   }

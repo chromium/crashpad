@@ -94,10 +94,26 @@ mach_port_t NewMachPort(mach_port_right_t right);
 //! recognize. Calling this function will return a value for `EXC_MASK_ALL`
 //! appropriate for the system at run time.
 //!
-//! \note `EXC_MASK_ALL` does not include the value of `EXC_MASK_CRASH`.
-//!     Consumers that want `EXC_MASK_ALL` along with `EXC_MASK_CRASH` must use
-//!     ExcMaskAll() | `EXC_MASK_CRASH` explicitly.
+//! \note `EXC_MASK_ALL` does not include the value of `EXC_MASK_CRASH` or
+//!     `EXC_MASK_CORPSE_NOTIFY`. Consumers that want `EXC_MASK_ALL` along with
+//!     `EXC_MASK_CRASH` may use ExcMaskAll() `| EXC_MASK_CRASH`. Consumers may
+//!     use ExcMaskValid() for `EXC_MASK_ALL` along with `EXC_MASK_CRASH`,
+//!     `EXC_MASK_CORPSE_NOTIFY`, and any values that come into existence in the
+//!     future.
 exception_mask_t ExcMaskAll();
+
+//! \brief An exception mask containing every possible exception understood by
+//!     the operating system at run time.
+//!
+//! `EXC_MASK_ALL`, and thus ExcMaskAll(), never includes the value of
+//! `EXC_MASK_CRASH` or `EXC_MASK_CORPSE_NOTIFY`. For situations where an
+//! exception mask corresponding to every possible exception understood by the
+//! running kernel is desired, use this function instead.
+//!
+//! Should new exception types be introduced in the future, this function will
+//! be updated to include their bits in the returned mask value when run time
+//! support is present.
+exception_mask_t ExcMaskValid();
 
 }  // namespace crashpad
 

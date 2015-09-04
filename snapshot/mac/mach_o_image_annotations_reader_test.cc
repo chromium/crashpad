@@ -218,7 +218,9 @@ class TestMachOImageAnnotationsReader final
       }
     }
 
-    return ExcServerSuccessfulReturnValue(behavior, false);
+    ExcServerCopyState(
+        behavior, old_state, old_state_count, new_state, new_state_count);
+    return ExcServerSuccessfulReturnValue(exception, behavior, false);
   }
 
  private:

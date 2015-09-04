@@ -228,7 +228,7 @@ class TestSimulateCrashMac final : public MachMultiprocess,
     ExcServerCopyState(
         behavior, old_state, old_state_count, new_state, new_state_count);
 
-    return ExcServerSuccessfulReturnValue(behavior, true);
+    return ExcServerSuccessfulReturnValue(exception, behavior, true);
   }
 
  private:

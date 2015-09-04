@@ -22,6 +22,7 @@
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
 #include "test/mac/mach_multiprocess.h"
+#include "util/mac/mac_util.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/exception_types.h"
 #include "util/mach/mach_message.h"
@@ -1035,7 +1036,7 @@ class TestExcServerVariants : public MachMultiprocess,
     ExcServerCopyState(
         behavior, old_state, old_state_count, new_state, new_state_count);
 
-    return ExcServerSuccessfulReturnValue(behavior, false);
+    return ExcServerSuccessfulReturnValue(exception, behavior, false);
   }
 
  private:
@@ -1186,26 +1187,64 @@ TEST(ExcServerVariants, ThreadStates) {
 }
 
 TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
+  const kern_return_t prefer_not_set_thread_state =
+      MacOSXMinorVersion() < 11 ? MACH_RCV_PORT_DIED : KERN_SUCCESS;
+
   struct TestData {
+    exception_type_t exception;
     exception_behavior_t behavior;
     bool set_thread_state;
     kern_return_t kr;
   };
   const TestData kTestData[] = {
-      {EXCEPTION_DEFAULT, false, KERN_SUCCESS},
-      {EXCEPTION_STATE, false, MACH_RCV_PORT_DIED},
-      {EXCEPTION_STATE_IDENTITY, false, MACH_RCV_PORT_DIED},
-      {kMachExceptionCodes | EXCEPTION_DEFAULT, false, KERN_SUCCESS},
-      {kMachExceptionCodes | EXCEPTION_STATE, false, MACH_RCV_PORT_DIED},
-      {kMachExceptionCodes | EXCEPTION_STATE_IDENTITY,
+      {EXC_CRASH, EXCEPTION_DEFAULT, false, KERN_SUCCESS},
+      {EXC_CRASH, EXCEPTION_STATE, false, prefer_not_set_thread_state},
+      {EXC_CRASH, EXCEPTION_STATE_IDENTITY, false, prefer_not_set_thread_state},
+      {EXC_CRASH, kMachExceptionCodes | EXCEPTION_DEFAULT, false, KERN_SUCCESS},
+      {EXC_CRASH,
+       kMachExceptionCodes | EXCEPTION_STATE,
+       false,
+       prefer_not_set_thread_state},
+      {EXC_CRASH,
+       kMachExceptionCodes | EXCEPTION_STATE_IDENTITY,
+       false,
+       prefer_not_set_thread_state},
+      {EXC_CRASH, EXCEPTION_DEFAULT, true, KERN_SUCCESS},
+      {EXC_CRASH, EXCEPTION_STATE, true, KERN_SUCCESS},
+      {EXC_CRASH, EXCEPTION_STATE_IDENTITY, true, KERN_SUCCESS},
+      {EXC_CRASH, kMachExceptionCodes | EXCEPTION_DEFAULT, true, KERN_SUCCESS},
+      {EXC_CRASH, kMachExceptionCodes | EXCEPTION_STATE, true, KERN_SUCCESS},
+      {EXC_CRASH,
+       kMachExceptionCodes | EXCEPTION_STATE_IDENTITY,
+       true,
+       KERN_SUCCESS},
+      {EXC_BAD_ACCESS, EXCEPTION_DEFAULT, false, KERN_SUCCESS},
+      {EXC_BAD_INSTRUCTION, EXCEPTION_STATE, false, MACH_RCV_PORT_DIED},
+      {EXC_ARITHMETIC, EXCEPTION_STATE_IDENTITY, false, MACH_RCV_PORT_DIED},
+      {EXC_EMULATION,
+       kMachExceptionCodes | EXCEPTION_DEFAULT,
+       false,
+       KERN_SUCCESS},
+      {EXC_SOFTWARE,
+       kMachExceptionCodes | EXCEPTION_STATE,
        false,
        MACH_RCV_PORT_DIED},
-      {EXCEPTION_DEFAULT, true, KERN_SUCCESS},
-      {EXCEPTION_STATE, true, KERN_SUCCESS},
-      {EXCEPTION_STATE_IDENTITY, true, KERN_SUCCESS},
-      {kMachExceptionCodes | EXCEPTION_DEFAULT, true, KERN_SUCCESS},
-      {kMachExceptionCodes | EXCEPTION_STATE, true, KERN_SUCCESS},
-      {kMachExceptionCodes | EXCEPTION_STATE_IDENTITY, true, KERN_SUCCESS},
+      {EXC_BREAKPOINT,
+       kMachExceptionCodes | EXCEPTION_STATE_IDENTITY,
+       false,
+       MACH_RCV_PORT_DIED},
+      {EXC_SYSCALL, EXCEPTION_DEFAULT, true, KERN_SUCCESS},
+      {EXC_MACH_SYSCALL, EXCEPTION_STATE, true, KERN_SUCCESS},
+      {EXC_RPC_ALERT, EXCEPTION_STATE_IDENTITY, true, KERN_SUCCESS},
+      {EXC_RESOURCE,
+       kMachExceptionCodes | EXCEPTION_DEFAULT,
+       true,
+       KERN_SUCCESS},
+      {EXC_GUARD, kMachExceptionCodes | EXCEPTION_STATE, true, KERN_SUCCESS},
+      {EXC_CORPSE_NOTIFY,
+       kMachExceptionCodes | EXCEPTION_STATE_IDENTITY,
+       true,
+       KERN_SUCCESS},
   };
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
@@ -1217,7 +1256,8 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
                            test_data.set_thread_state ? "true" : "false"));
 
     EXPECT_EQ(test_data.kr,
-              ExcServerSuccessfulReturnValue(test_data.behavior,
+              ExcServerSuccessfulReturnValue(test_data.exception,
+                                             test_data.behavior,
                                              test_data.set_thread_state));
   }
 }

@@ -211,8 +211,7 @@ void ShowExceptionPorts(const ExceptionPorts& exception_ports,
   const char* target_name = exception_ports.TargetTypeName();
 
   std::vector<ExceptionPorts::ExceptionHandler> handlers;
-  if (!exception_ports.GetExceptionPorts(ExcMaskAll() | EXC_MASK_CRASH,
-                                         &handlers)) {
+  if (!exception_ports.GetExceptionPorts(ExcMaskValid(), &handlers)) {
     return;
   }
 

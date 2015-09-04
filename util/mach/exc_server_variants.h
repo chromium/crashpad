@@ -150,6 +150,17 @@ class UniversalMachExcServer final : public MachMessageServer::Interface {
 //! schedulable, so there is no point in setting the states of any of its
 //! threads.
 //!
+//! On OS X 10.11, the `MACH_RCV_PORT_DIED` mechanism cannot be used with an
+//! `EXC_CRASH` handler without triggering an undesirable `EXC_CORPSE_NOTIFY`
+//! exception. In that case, `KERN_SUCCESS` is always returned. Because this
+//! function may return `KERN_SUCCESS` for a state-carrying exception, it is
+//! important to ensure that the state returned by a state-carrying exception
+//! handler is valid, because it will be passed to `thread_set_status()`.
+//! ExcServerCopyState() may be used to achieve this.
+//!
+//! \param[in] exception The exception type passed to the exception handler.
+//!     This may be taken directly from the \a exception parameter of
+//!     internal::SimplifiedExcServer::Interface::CatchException(), for example.
 //! \param[in] behavior The behavior of the exception handler as invoked. This
 //!     may be taken directly from the \a behavior parameter of
 //!     internal::SimplifiedExcServer::Interface::CatchException(), for example.
@@ -160,10 +171,11 @@ class UniversalMachExcServer final : public MachMessageServer::Interface {
 //!
 //! \return `KERN_SUCCESS` or `MACH_RCV_PORT_DIED`. `KERN_SUCCESS` is used when
 //!     \a behavior is not a state-carrying behavior, or when it is a
-//!     state-carrying behavior and \a set_thread_state is `true`.
-//!     `MACH_RCV_PORT_DIED` is used when \a behavior is a state-carrying
-//!     behavior and \a set_thread_state is `false`.
-kern_return_t ExcServerSuccessfulReturnValue(exception_behavior_t behavior,
+//!     state-carrying behavior and \a set_thread_state is `true`, or for
+//!     `EXC_CRASH` exceptions on OS X 10.11 and later. Otherwise,
+//!     `MACH_RCV_PORT_DIED` is used.
+kern_return_t ExcServerSuccessfulReturnValue(exception_type_t exception,
+                                             exception_behavior_t behavior,
                                              bool set_thread_state);
 
 //! \brief Copies the old state to the new state for state-carrying exceptions.

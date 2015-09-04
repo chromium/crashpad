@@ -125,7 +125,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     // so.
     ExcServerCopyState(
         behavior, old_state, old_state_count, new_state, new_state_count);
-    return ExcServerSuccessfulReturnValue(behavior, false);
+    return ExcServerSuccessfulReturnValue(exception, behavior, false);
   }
 
   CrashpadInfoClientOptions client_options;
@@ -186,7 +186,6 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     upload_thread_->ReportPending();
   }
 
-  bool forwarded = false;
   if (client_options.system_crash_reporter_forwarding != TriState::kDisabled &&
       (exception == EXC_CRASH ||
        exception == EXC_RESOURCE ||
@@ -241,21 +240,15 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
           old_state_count,
           new_state_forward_count ? &new_state_forward[0] : nullptr,
           &new_state_forward_count);
-      if (kr == KERN_SUCCESS) {
-        forwarded = true;
-      } else {
-        MACH_LOG(WARNING, kr)
-            << "UniversalExceptionRaise " << kSystemCrashReporterServiceName;
-      }
+      MACH_LOG_IF(WARNING, kr != KERN_SUCCESS, kr)
+          << "UniversalExceptionRaise " << kSystemCrashReporterServiceName;
     }
   }
 
-  if (!forwarded) {
-    ExcServerCopyState(
-        behavior, old_state, old_state_count, new_state, new_state_count);
-  }
+  ExcServerCopyState(
+      behavior, old_state, old_state_count, new_state, new_state_count);
 
-  return ExcServerSuccessfulReturnValue(behavior, false);
+  return ExcServerSuccessfulReturnValue(exception, behavior, false);
 }
 
 }  // namespace crashpad

@@ -36,6 +36,9 @@
 #define EXC_CRASH 10
 #define EXC_RESOURCE 11
 #define EXC_GUARD 12
+#define EXC_CORPSE_NOTIFY 13
+
+#define EXC_TYPES_COUNT 14
 //! \}
 
 #endif  // CRASHPAD_COMPAT_NON_MAC_MACH_MACH_H_

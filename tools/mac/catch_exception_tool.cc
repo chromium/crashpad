@@ -79,20 +79,34 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
     ++*exceptions_handled_;
 
     fprintf(options_.file,
-            "%s: behavior %s, ",
+            "%s: behavior %s",
             me_.c_str(),
             ExceptionBehaviorToString(
                 behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str());
 
     kern_return_t kr;
     if (ExceptionBehaviorHasIdentity(behavior)) {
-      pid_t pid;
-      kr = pid_for_task(task, &pid);
-      if (kr != KERN_SUCCESS) {
-        MACH_LOG(ERROR, kr) << "pid_for_task";
-        return KERN_FAILURE;
+      // It’s not possible to call pid_for_task() once EXC_CORPSE_NOTIFY has
+      // been generated. It is possible to obtain the process ID by mapping the
+      // corpse kcdata area from the task’s address space at code[0] (size
+      // code[1]) and locating TASK_CRASHINFO_PID within that area. This area
+      // also includes TASK_CRASHINFO_CRASHED_THREADID which could be used
+      // instead of thread_info() below, and TASK_CRASHINFO_EXCEPTION_CODES
+      // which could be used to recover the exception codes passed to the
+      // EXC_CRASH handler. None of this is currently done because corpses are a
+      // new 10.11-only feature. See 10.11 <corpses/task_corpse.h> and
+      // <kern/kern_cdata.h>.
+      if (exception != EXC_CORPSE_NOTIFY) {
+        pid_t pid;
+        kr = pid_for_task(task, &pid);
+        if (kr != KERN_SUCCESS) {
+          fprintf(options_.file, "\n");
+          fflush(options_.file);
+          MACH_LOG(ERROR, kr) << "pid_for_task";
+          return KERN_FAILURE;
+        }
+        fprintf(options_.file, ", pid %d", pid);
       }
-      fprintf(options_.file, "pid %d, ", pid);
 
       thread_identifier_info identifier_info;
       mach_msg_type_number_t count = THREAD_IDENTIFIER_INFO_COUNT;
@@ -101,23 +115,25 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
                        reinterpret_cast<thread_info_t>(&identifier_info),
                        &count);
       if (kr != KERN_SUCCESS) {
+        fprintf(options_.file, "\n");
+        fflush(options_.file);
         MACH_LOG(ERROR, kr) << "thread_info";
         return KERN_FAILURE;
       }
-      fprintf(options_.file, "thread %lld, ", identifier_info.thread_id);
+      fprintf(options_.file, ", thread %lld", identifier_info.thread_id);
     }
 
     fprintf(
         options_.file,
-        "exception %s, codes[%d] ",
+        ", exception %s, codes[%d]",
         ExceptionToString(exception, kUseFullName | kUnknownIsNumeric).c_str(),
         code_count);
 
     for (size_t index = 0; index < code_count; ++index) {
       fprintf(options_.file,
-              "%#llx%s",
-              code[index],
-              index != code_count - 1 ? ", " : "");
+              "%s %#llx",
+              index != 0 ? "," : "",
+              code[index]);
     }
 
     if (exception == EXC_CRASH) {
@@ -153,7 +169,7 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
     ExcServerCopyState(
         behavior, old_state, old_state_count, new_state, new_state_count);
 
-    return ExcServerSuccessfulReturnValue(behavior, false);
+    return ExcServerSuccessfulReturnValue(exception, behavior, false);
   }
 
  private:

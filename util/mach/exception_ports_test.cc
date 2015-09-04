@@ -81,8 +81,7 @@ void TestGetExceptionPorts(const ExceptionPorts& exception_ports,
   }
 
   std::vector<ExceptionPorts::ExceptionHandler> handlers;
-  ASSERT_TRUE(exception_ports.GetExceptionPorts(
-      ExcMaskAll() | EXC_MASK_CRASH, &handlers));
+  ASSERT_TRUE(exception_ports.GetExceptionPorts(ExcMaskValid(), &handlers));
 
   EXPECT_GE(handlers.size(), crash_handler.size());
   bool found = false;
@@ -200,7 +199,9 @@ class TestExceptionPorts : public MachMultiprocess,
 
     EXPECT_EQ(0, AuditPIDFromMachMessageTrailer(trailer));
 
-    return ExcServerSuccessfulReturnValue(behavior, false);
+    ExcServerCopyState(
+        behavior, old_state, old_state_count, new_state, new_state_count);
+    return ExcServerSuccessfulReturnValue(exception, behavior, false);
   }
 
  private:
@@ -590,8 +591,7 @@ TEST(ExceptionPorts, HostExceptionPorts) {
   EXPECT_STREQ("host", explicit_host_ports.TargetTypeName());
 
   std::vector<ExceptionPorts::ExceptionHandler> handlers;
-  bool rv = explicit_host_ports.GetExceptionPorts(
-      ExcMaskAll() | EXC_MASK_CRASH, &handlers);
+  bool rv = explicit_host_ports.GetExceptionPorts(ExcMaskValid(), &handlers);
   if (geteuid() == 0) {
     EXPECT_TRUE(rv);
   } else {
@@ -602,8 +602,7 @@ TEST(ExceptionPorts, HostExceptionPorts) {
                                      HOST_NULL);
   EXPECT_STREQ("host", implicit_host_ports.TargetTypeName());
 
-  rv = implicit_host_ports.GetExceptionPorts(
-      ExcMaskAll() | EXC_MASK_CRASH, &handlers);
+  rv = implicit_host_ports.GetExceptionPorts(ExcMaskValid(), &handlers);
   if (geteuid() == 0) {
     EXPECT_TRUE(rv);
   } else {

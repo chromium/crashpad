@@ -39,24 +39,33 @@
 #define EXC_MASK_GUARD (1 << EXC_GUARD)
 #endif
 
-// Don’t expose EXC_MASK_ALL or EXC_MASK_VALID at all, because their definitions
-// vary with SDK, and older kernels will reject values that they don’t
-// understand. Instead, use crashpad::ExcMaskAll(), which computes the correct
-// value of EXC_MASK_ALL for the running system.
+// 10.11 SDK
+
+#ifndef EXC_CORPSE_NOTIFY
+#define EXC_CORPSE_NOTIFY 13
+#endif
+
+#ifndef EXC_MASK_CORPSE_NOTIFY
+#define EXC_MASK_CORPSE_NOTIFY (1 << EXC_CORPSE_NOTIFY)
+#endif
+
+// Don’t expose EXC_MASK_ALL at all, because its definition varies with SDK, and
+// older kernels will reject values that they don’t understand. Instead, use
+// crashpad::ExcMaskAll(), which computes the correct value of EXC_MASK_ALL for
+// the running system.
 #undef EXC_MASK_ALL
-#undef EXC_MASK_VALID
 
 #if defined(__i386__) || defined(__x86_64__)
 
 // <mach/i386/exception.h>
 
-// 10.9 SDK
+// 10.11 SDK
 
-#if EXC_TYPES_COUNT > 13  // Definition varies with SDK
+#if EXC_TYPES_COUNT > 14  // Definition varies with SDK
 #error Update this file for new exception types
-#elif EXC_TYPES_COUNT != 13
+#elif EXC_TYPES_COUNT != 14
 #undef EXC_TYPES_COUNT
-#define EXC_TYPES_COUNT 13
+#define EXC_TYPES_COUNT 14
 #endif
 
 // <mach/i386/thread_status.h>
