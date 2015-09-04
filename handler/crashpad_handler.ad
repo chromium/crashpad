@@ -110,4 +110,4 @@ man_link:crashpad_database_util[1],
 man_link:generate_dump[1],
 man_link:run_with_crashpad[1]
 
-include::../../doc/support/man_footer.ad[]
+include::../doc/support/man_footer.ad[]
