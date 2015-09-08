@@ -162,6 +162,8 @@
         'win/registration_protocol_win.h',
         'win/scoped_handle.cc',
         'win/scoped_handle.h',
+        'win/scoped_process_suspend.cc',
+        'win/scoped_process_suspend.h',
         'win/time.cc',
         'win/time.h',
       ],

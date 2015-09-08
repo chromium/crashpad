@@ -21,6 +21,7 @@
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
 #include "util/win/registration_protocol_win.h"
+#include "util/win/scoped_process_suspend.h"
 
 namespace crashpad {
 
@@ -44,7 +45,7 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     WinVMAddress exception_information_address) {
   const unsigned int kFailedTerminationCode = 0xffff7002;
 
-  // TODO(scottmg): ScopedProcessSuspend
+  ScopedProcessSuspend suspend(process);
 
   ProcessSnapshotWin process_snapshot;
   if (!process_snapshot.Initialize(process)) {

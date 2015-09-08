@@ -41,6 +41,7 @@
 #elif defined(OS_WIN)
 #include "base/strings/utf_string_conversions.h"
 #include "snapshot/win/process_snapshot_win.h"
+#include "util/win/scoped_process_suspend.h"
 #endif  // OS_MACOSX
 
 namespace crashpad {
@@ -168,9 +169,9 @@ int GenerateDumpMain(int argc, char* argv[]) {
       suspend.reset(new ScopedTaskSuspend(task));
     }
 #elif defined(OS_WIN)
+    scoped_ptr<ScopedProcessSuspend> suspend;
     if (options.suspend) {
-      LOG(ERROR) << "TODO(scottmg): --no-suspend is required for now.";
-      return EXIT_FAILURE;
+      suspend.reset(new ScopedProcessSuspend(process.get()));
     }
 #endif  // OS_MACOSX
 
