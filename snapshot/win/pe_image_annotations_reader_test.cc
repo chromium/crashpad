@@ -55,7 +55,8 @@ class TestPEImageAnnotationsReader final : public WinMultiprocess {
 
   void WinMultiprocessParent() override {
     ProcessReaderWin process_reader;
-    ASSERT_TRUE(process_reader.Initialize(ChildProcess()));
+    ASSERT_TRUE(process_reader.Initialize(ChildProcess(),
+                                          ProcessSuspensionState::kRunning));
 
     // Wait for the child process to indicate that it's done setting up its
     // annotations via the CrashpadInfo interface.

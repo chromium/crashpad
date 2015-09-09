@@ -26,6 +26,15 @@
 
 namespace crashpad {
 
+//! \brief State of process being read by ProcessReaderWin.
+enum class ProcessSuspensionState : bool {
+  //! \brief The process has not been suspended.
+  kRunning,
+
+  //! \brief The process is suspended.
+  kSuspended,
+};
+
 //! \brief Accesses information about another process, identified by a `HANDLE`.
 class ProcessReaderWin {
  public:
@@ -52,11 +61,17 @@ class ProcessReaderWin {
   //!
   //! \param[in] process Process handle, must have `PROCESS_QUERY_INFORMATION`,
   //!     `PROCESS_VM_READ`, and `PROCESS_DUP_HANDLE` access.
+  //! \param[in] suspension_state Whether \a process has already been suspended
+  //!     by the caller. Typically, this will be
+  //!     ProcessSuspensionState::kSuspended, except for testing uses and where
+  //!     the reader is reading itself.
   //!
   //! \return `true` on success, indicating that this object will respond
   //!     validly to further method calls. `false` on failure. On failure, no
   //!     further method calls should be made.
-  bool Initialize(HANDLE process);
+  //!
+  //! \sa ScopedProcessSuspend
+  bool Initialize(HANDLE process, ProcessSuspensionState suspension_state);
 
   //! \return `true` if the target task is a 64-bit process.
   bool Is64Bit() const { return process_info_.Is64Bit(); }
@@ -96,6 +111,7 @@ class ProcessReaderWin {
   ProcessInfo process_info_;
   std::vector<Thread> threads_;
   std::vector<ProcessInfo::Module> modules_;
+  ProcessSuspensionState suspension_state_;
   bool initialized_threads_;
   InitializationStateDcheck initialized_;
 

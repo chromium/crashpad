@@ -26,6 +26,7 @@
 #include "util/win/exception_handler_server.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
+#include "util/win/scoped_process_suspend.h"
 
 namespace crashpad {
 namespace test {
@@ -62,8 +63,9 @@ class ExceptionSnapshotWinTest : public testing::Test {
     unsigned int ExceptionHandlerServerException(
         HANDLE process,
         WinVMAddress exception_information_address) override {
+      ScopedProcessSuspend suspend(process);
       ProcessSnapshotWin snapshot;
-      snapshot.Initialize(process);
+      snapshot.Initialize(process, ProcessSuspensionState::kSuspended);
       snapshot.InitializeException(exception_information_address);
 
       // Confirm the exception record was read correctly.

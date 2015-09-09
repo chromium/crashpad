@@ -41,7 +41,8 @@ class SystemSnapshotWinTest : public testing::Test {
 
   // testing::Test:
   void SetUp() override {
-    ASSERT_TRUE(process_reader_.Initialize(GetCurrentProcess()));
+    ASSERT_TRUE(process_reader_.Initialize(GetCurrentProcess(),
+                                           ProcessSuspensionState::kRunning));
     system_snapshot_.Initialize(&process_reader_);
   }
 

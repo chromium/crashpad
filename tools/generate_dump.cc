@@ -182,7 +182,10 @@ int GenerateDumpMain(int argc, char* argv[]) {
     }
 #elif defined(OS_WIN)
     ProcessSnapshotWin process_snapshot;
-    if (!process_snapshot.Initialize(process.get())) {
+    if (!process_snapshot.Initialize(process.get(),
+                                     options.suspend
+                                         ? ProcessSuspensionState::kSuspended
+                                         : ProcessSuspensionState::kRunning)) {
       return EXIT_FAILURE;
     }
 #endif  // OS_MACOSX

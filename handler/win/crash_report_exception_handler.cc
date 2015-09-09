@@ -48,7 +48,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
   ScopedProcessSuspend suspend(process);
 
   ProcessSnapshotWin process_snapshot;
-  if (!process_snapshot.Initialize(process)) {
+  if (!process_snapshot.Initialize(process,
+                                   ProcessSuspensionState::kSuspended)) {
     LOG(WARNING) << "ProcessSnapshotWin::Initialize failed";
     return kFailedTerminationCode;
   }

@@ -117,8 +117,8 @@ template <class Traits>
 void FillThreadContextAndSuspendCount(
     const process_types::SYSTEM_EXTENDED_THREAD_INFORMATION<Traits>&
         thread_info,
-    ProcessReaderWin::Thread* thread) {
-
+    ProcessReaderWin::Thread* thread,
+    ProcessSuspensionState suspension_state) {
   // Don't suspend the thread if it's this thread. This is really only for test
   // binaries, as we won't be walking ourselves, in general.
   bool is_current_thread = thread_info.ClientId.UniqueThread ==
@@ -130,6 +130,7 @@ void FillThreadContextAndSuspendCount(
   // TODO(scottmg): Handle cross-bitness in this function.
 
   if (is_current_thread) {
+    DCHECK(suspension_state == ProcessSuspensionState::kRunning);
     thread->suspend_count = 0;
     RtlCaptureContext(&thread->context);
   } else {
@@ -138,7 +139,11 @@ void FillThreadContextAndSuspendCount(
       PLOG(ERROR) << "SuspendThread failed";
       return;
     }
-    thread->suspend_count = previous_suspend_count;
+    DCHECK(previous_suspend_count > 0 ||
+           suspension_state == ProcessSuspensionState::kRunning);
+    thread->suspend_count =
+        previous_suspend_count -
+        (suspension_state == ProcessSuspensionState::kSuspended ? 1 : 0);
 
     memset(&thread->context, 0, sizeof(thread->context));
     thread->context.ContextFlags = CONTEXT_ALL;
@@ -171,6 +176,7 @@ ProcessReaderWin::ProcessReaderWin()
       process_info_(),
       threads_(),
       modules_(),
+      suspension_state_(),
       initialized_threads_(false),
       initialized_() {
 }
@@ -178,10 +184,12 @@ ProcessReaderWin::ProcessReaderWin()
 ProcessReaderWin::~ProcessReaderWin() {
 }
 
-bool ProcessReaderWin::Initialize(HANDLE process) {
+bool ProcessReaderWin::Initialize(HANDLE process,
+                                  ProcessSuspensionState suspension_state) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   process_ = process;
+  suspension_state_ = suspension_state;
   process_info_.Initialize(process);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -254,7 +262,7 @@ const std::vector<ProcessReaderWin::Thread>& ProcessReaderWin::Threads() {
     Thread thread;
     thread.id = thread_info.ClientId.UniqueThread;
 
-    FillThreadContextAndSuspendCount(thread_info, &thread);
+    FillThreadContextAndSuspendCount(thread_info, &thread, suspension_state_);
 
     // TODO(scottmg): I believe we could reverse engineer the PriorityClass from
     // the Priority, BasePriority, and

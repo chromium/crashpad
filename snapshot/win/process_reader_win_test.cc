@@ -19,6 +19,7 @@
 
 #include "gtest/gtest.h"
 #include "test/win/win_multiprocess.h"
+#include "util/win/scoped_process_suspend.h"
 
 namespace crashpad {
 namespace test {
@@ -26,7 +27,8 @@ namespace {
 
 TEST(ProcessReaderWin, SelfBasic) {
   ProcessReaderWin process_reader;
-  ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess()));
+  ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess(),
+                                        ProcessSuspensionState::kRunning));
 
 #if !defined(ARCH_CPU_64_BITS)
   EXPECT_FALSE(process_reader.Is64Bit());
@@ -55,7 +57,8 @@ class ProcessReaderChild final : public WinMultiprocess {
  private:
   void WinMultiprocessParent() override {
     ProcessReaderWin process_reader;
-    ASSERT_TRUE(process_reader.Initialize(ChildProcess()));
+    ASSERT_TRUE(process_reader.Initialize(ChildProcess(),
+                                          ProcessSuspensionState::kRunning));
 
 #if !defined(ARCH_CPU_64_BITS)
     EXPECT_FALSE(process_reader.Is64Bit());
@@ -90,7 +93,8 @@ TEST(ProcessReaderWin, ChildBasic) {
 
 TEST(ProcessReaderWin, SelfOneThread) {
   ProcessReaderWin process_reader;
-  ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess()));
+  ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess(),
+                                        ProcessSuspensionState::kRunning));
 
   const std::vector<ProcessReaderWin::Thread>& threads =
       process_reader.Threads();
@@ -108,6 +112,56 @@ TEST(ProcessReaderWin, SelfOneThread) {
 #endif
 
   EXPECT_EQ(0, threads[0].suspend_count);
+}
+
+class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
+ public:
+  ProcessReaderChildThreadSuspendCount() : WinMultiprocess() {}
+  ~ProcessReaderChildThreadSuspendCount() {}
+
+ private:
+  void WinMultiprocessParent() override {
+    {
+      ProcessReaderWin process_reader;
+      ASSERT_TRUE(process_reader.Initialize(ChildProcess(),
+                                            ProcessSuspensionState::kRunning));
+
+      const auto& threads = process_reader.Threads();
+      ASSERT_FALSE(threads.empty());
+      for (const auto& thread : threads)
+        EXPECT_EQ(0u, thread.suspend_count);
+    }
+
+    {
+      ScopedProcessSuspend suspend(ChildProcess());
+
+      ProcessReaderWin process_reader;
+      ASSERT_TRUE(process_reader.Initialize(
+          ChildProcess(), ProcessSuspensionState::kSuspended));
+
+      // Confirm that thread counts are adjusted correctly for the process being
+      // suspended.
+      const auto& threads = process_reader.Threads();
+      ASSERT_FALSE(threads.empty());
+      for (const auto& thread : threads)
+        EXPECT_EQ(0u, thread.suspend_count);
+    }
+  }
+
+  void WinMultiprocessChild() override {
+    WinVMAddress address = reinterpret_cast<WinVMAddress>(kTestMemory);
+    CheckedWriteFile(WritePipeHandle(), &address, sizeof(address));
+
+    // Wait for the parent to signal that it's OK to exit by closing its end of
+    // the pipe.
+    CheckedReadFileAtEOF(ReadPipeHandle());
+  }
+
+  DISALLOW_COPY_AND_ASSIGN(ProcessReaderChildThreadSuspendCount);
+};
+
+TEST(ProcessReaderWin, ChildThreadSuspendCounts) {
+  WinMultiprocess::Run<ProcessReaderChildThreadSuspendCount>();
 }
 
 }  // namespace

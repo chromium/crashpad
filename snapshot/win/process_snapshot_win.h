@@ -52,10 +52,14 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   //! \brief Initializes the object.
   //!
   //! \param[in] process The handle to create a snapshot from.
+  //! \param[in] suspension_state Whether \a process has been suspended by the
+  //!     caller.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(HANDLE process);
+  //!
+  //! \sa ScopedProcessSuspend
+  bool Initialize(HANDLE process, ProcessSuspensionState suspension_state);
 
   //! \brief Initializes the object's exception.
   //!

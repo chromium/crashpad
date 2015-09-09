@@ -28,7 +28,8 @@ namespace {
 TEST(PEImageReader, DebugDirectory) {
   PEImageReader pe_image_reader;
   ProcessReaderWin process_reader;
-  ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess()));
+  ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess(),
+                                        ProcessSuspensionState::kRunning));
   HMODULE self = reinterpret_cast<HMODULE>(&__ImageBase);
   MODULEINFO module_info;
   ASSERT_TRUE(GetModuleInformation(

@@ -38,12 +38,13 @@ ProcessSnapshotWin::ProcessSnapshotWin()
 ProcessSnapshotWin::~ProcessSnapshotWin() {
 }
 
-bool ProcessSnapshotWin::Initialize(HANDLE process) {
+bool ProcessSnapshotWin::Initialize(HANDLE process,
+                                    ProcessSuspensionState suspension_state) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   GetTimeOfDay(&snapshot_time_);
 
-  if (!process_reader_.Initialize(process))
+  if (!process_reader_.Initialize(process, suspension_state))
     return false;
 
   system_.Initialize(&process_reader_);
