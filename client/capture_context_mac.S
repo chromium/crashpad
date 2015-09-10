@@ -39,11 +39,11 @@ CAPTURECONTEXT_SYMBOL:
   // does not call out to any other.
 
   // pushfl first, because some instructions (but probably none used here)
-  // affect %eflags. %eflags will be in -4(%rbp).
+  // affect %eflags. %eflags will be in -4(%ebp).
   pushfl
 
   // Save the original value of %eax, and use %eax to hold the x86_thread_state*
-  // argument. The original value of %eax will be in -8(%rbp).
+  // argument. The original value of %eax will be in -8(%ebp).
   pushl %eax
   movl 8(%ebp), %eax
 
@@ -107,6 +107,7 @@ CAPTURECONTEXT_SYMBOL:
   // Clean up by restoring clobbered registers, even those considered volatile
   // by the ABI, so that the captured context represents the state at this
   // function’s exit.
+  movl 20(%eax), %edx  // x86_thread_state->uts.ts32.__edx
   popl %eax
   popfl
 
