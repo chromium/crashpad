@@ -211,6 +211,7 @@ void ExceptionHandlerServer::Run(Delegate* delegate,
                         512,
                         0,
                         nullptr);
+    PCHECK(pipe != INVALID_HANDLE_VALUE) << "CreateNamedPipe";
 
     // Ownership of this object (and the pipe instance) is given to the new
     // thread. We close the thread handles at the end of the scope. They clean
@@ -224,6 +225,7 @@ void ExceptionHandlerServer::Run(Delegate* delegate,
                                          shutdown_token);
     thread_handles[i].reset(
         CreateThread(nullptr, 0, &PipeServiceProc, context, 0, nullptr));
+    PCHECK(thread_handles[i].is_valid()) << "CreateThread";
   }
 
   delegate->ExceptionHandlerServerStarted();

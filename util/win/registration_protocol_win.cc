@@ -17,6 +17,7 @@
 #include <windows.h>
 
 #include "base/logging.h"
+#include "util/win/scoped_handle.h"
 
 namespace crashpad {
 
@@ -25,26 +26,27 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
                               crashpad::ServerToClientMessage* response) {
   int tries = 5;
   while (tries > 0) {
-    HANDLE pipe = CreateFile(pipe_name.c_str(),
-                             GENERIC_READ | GENERIC_WRITE,
-                             0,
-                             nullptr,
-                             OPEN_EXISTING,
-                             SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION,
-                             nullptr);
-    if (pipe == INVALID_HANDLE_VALUE) {
+    ScopedFileHANDLE pipe(
+        CreateFile(pipe_name.c_str(),
+                   GENERIC_READ | GENERIC_WRITE,
+                   0,
+                   nullptr,
+                   OPEN_EXISTING,
+                   SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION,
+                   nullptr));
+    if (!pipe.is_valid()) {
       Sleep(10);
       --tries;
       continue;
     }
     DWORD mode = PIPE_READMODE_MESSAGE;
-    if (!SetNamedPipeHandleState(pipe, &mode, nullptr, nullptr)) {
+    if (!SetNamedPipeHandleState(pipe.get(), &mode, nullptr, nullptr)) {
       PLOG(ERROR) << "SetNamedPipeHandleState";
       return false;
     }
     DWORD bytes_read = 0;
     BOOL result = TransactNamedPipe(
-        pipe,
+        pipe.get(),
         // This is [in], but is incorrectly declared non-const.
         const_cast<crashpad::ClientToServerMessage*>(&message),
         sizeof(message),
