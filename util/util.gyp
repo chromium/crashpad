@@ -166,6 +166,7 @@
         'win/scoped_process_suspend.h',
         'win/time.cc',
         'win/time.h',
+        'win/xp_compat.h',
       ],
       'conditions': [
         ['OS=="mac"', {

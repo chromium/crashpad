@@ -27,6 +27,7 @@
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 #include "util/win/registration_protocol_win.h"
+#include "util/win/xp_compat.h"
 
 namespace crashpad {
 
@@ -342,14 +343,14 @@ bool ExceptionHandlerServer::ServiceClientConnection(
   // the process, but the client will be able to, so we make a second attempt
   // having impersonated the client.
   HANDLE client_process = OpenProcess(
-      PROCESS_ALL_ACCESS, false, message.registration.client_process_id);
+      kXPProcessAllAccess, false, message.registration.client_process_id);
   if (!client_process) {
     if (!ImpersonateNamedPipeClient(service_context.pipe())) {
       PLOG(ERROR) << "ImpersonateNamedPipeClient";
       return false;
     }
     HANDLE client_process = OpenProcess(
-        PROCESS_ALL_ACCESS, false, message.registration.client_process_id);
+        kXPProcessAllAccess, false, message.registration.client_process_id);
     PCHECK(RevertToSelf());
     if (!client_process) {
       LOG(ERROR) << "failed to open " << message.registration.client_process_id;

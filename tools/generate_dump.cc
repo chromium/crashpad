@@ -42,6 +42,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/win/scoped_process_suspend.h"
+#include "util/win/xp_compat.h"
 #endif  // OS_MACOSX
 
 namespace crashpad {
@@ -151,7 +152,7 @@ int GenerateDumpMain(int argc, char* argv[]) {
   }
 #elif defined(OS_WIN)
   ScopedKernelHANDLE process(
-      OpenProcess(PROCESS_ALL_ACCESS, false, options.pid));
+      OpenProcess(kXPProcessAllAccess, false, options.pid));
   if (!process.is_valid()) {
     LOG(ERROR) << "could not open process " << options.pid;
     return EXIT_FAILURE;
