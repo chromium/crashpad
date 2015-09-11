@@ -157,9 +157,14 @@ void TestOtherProcess(const std::wstring& child_name_suffix) {
                                        wcslen(kLz32dllName)));
 }
 
+// This test can't run the child if the host OS is x86, and can't read from the
+// child if it is x86 and the child is x64, so it only makes sense to run this
+// if we built as x64.
+#if defined(ARCH_CPU_64_BITS)
 TEST(ProcessInfo, OtherProcessX64) {
   TestOtherProcess(L"x64");
 }
+#endif  // ARCH_CPU_64_BITS
 
 TEST(ProcessInfo, OtherProcessX86) {
   TestOtherProcess(L"x86");
