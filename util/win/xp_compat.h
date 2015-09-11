@@ -25,7 +25,14 @@ enum {
   //! Requesting `PROCESS_ALL_ACCESS` with the value defined when building
   //! against a Vista+ SDK results in `ERROR_ACCESS_DENIED` when running on XP.
   //! See https://msdn.microsoft.com/en-ca/library/windows/desktop/ms684880.aspx
-  kXPProcessAllAccess = STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0xFFF
+  kXPProcessAllAccess = STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0xFFF,
+
+  //! \brief This is the XP-suitable value of `THREAD_ALL_ACCESS`.
+  //!
+  //! Requesting `THREAD_ALL_ACCESS` with the value defined when building
+  //! against a Vista+ SDK results in `ERROR_ACCESS_DENIED` when running on XP.
+  //! See https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769.aspx
+  kXPThreadAllAccess = STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0x3FF,
 };
 
 }  // namespace crashpad

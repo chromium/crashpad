@@ -20,7 +20,9 @@
 #include <vector>
 
 #include "gtest/gtest.h"
+#include "test/errors.h"
 #include "test/win/win_child_process.h"
+#include "util/win/xp_compat.h"
 
 namespace crashpad {
 namespace test {
@@ -33,23 +35,33 @@ bool SuspendCountMatches(HANDLE process, DWORD desired_suspend_count) {
   DWORD process_id = GetProcessId(process);
 
   ScopedKernelHANDLE snapshot(CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0));
-  if (!snapshot.is_valid())
+  if (!snapshot.is_valid()) {
+    ADD_FAILURE() << ErrorMessage("CreateToolhelp32Snapshot");
     return false;
+  }
 
   THREADENTRY32 te;
   te.dwSize = sizeof(te);
-  if (!Thread32First(snapshot.get(), &te))
+
+  BOOL ret = Thread32First(snapshot.get(), &te);
+  if (!ret) {
+    ADD_FAILURE() << ErrorMessage("Thread32First");
     return false;
+  }
   do {
     if (te.dwSize >= offsetof(THREADENTRY32, th32OwnerProcessID) +
                          sizeof(te.th32OwnerProcessID) &&
         te.th32OwnerProcessID == process_id) {
       ScopedKernelHANDLE thread(
-          OpenThread(THREAD_ALL_ACCESS, false, te.th32ThreadID));
+          OpenThread(kXPThreadAllAccess, false, te.th32ThreadID));
+      EXPECT_TRUE(thread.is_valid()) << ErrorMessage("OpenThread");
       DWORD result = SuspendThread(thread.get());
-      EXPECT_NE(result, static_cast<DWORD>(-1));
-      if (result != static_cast<DWORD>(-1))
-        ResumeThread(thread.get());
+      EXPECT_NE(result, static_cast<DWORD>(-1))
+          << ErrorMessage("SuspendThread");
+      if (result != static_cast<DWORD>(-1)) {
+        EXPECT_NE(ResumeThread(thread.get()), static_cast<DWORD>(-1))
+            << ErrorMessage("ResumeThread");
+      }
       if (result != desired_suspend_count)
         return false;
     }
