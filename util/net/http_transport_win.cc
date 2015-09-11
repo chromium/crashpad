@@ -114,8 +114,10 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   url_components.dwUrlPathLength = 1;
   url_components.dwExtraInfoLength = 1;
   std::wstring url_wide(base::UTF8ToUTF16(url()));
+  // dwFlags = ICU_REJECT_USERPWD fails on XP. See "Community Additions" at:
+  // https://msdn.microsoft.com/en-us/library/aa384092.aspx
   if (!WinHttpCrackUrl(
-          url_wide.c_str(), 0, ICU_REJECT_USERPWD, &url_components)) {
+          url_wide.c_str(), 0, 0, &url_components)) {
     LogErrorWinHttpMessage("WinHttpCrackUrl");
     return false;
   }
