@@ -21,6 +21,7 @@
 #include "minidump/minidump_string_writer.h"
 #include "snapshot/system_snapshot.h"
 #include "util/file/file_writer.h"
+#include "util/misc/implicit_cast.h"
 
 namespace crashpad {
 

@@ -28,6 +28,7 @@
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
+#include "util/misc/implicit_cast.h"
 
 namespace crashpad {
 

@@ -24,6 +24,7 @@
 #include "minidump/minidump_writer_util.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_writer.h"
+#include "util/misc/implicit_cast.h"
 #include "util/numeric/in_range_cast.h"
 #include "util/numeric/safe_assignment.h"
 

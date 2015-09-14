@@ -19,9 +19,9 @@
 
 #include <algorithm>
 
-#include "base/basictypes.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "util/misc/implicit_cast.h"
 
 namespace crashpad {
 namespace test {

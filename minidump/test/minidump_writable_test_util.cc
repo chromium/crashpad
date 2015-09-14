@@ -16,10 +16,10 @@
 
 #include <string>
 
-#include "base/basictypes.h"
 #include "base/strings/string16.h"
 #include "gtest/gtest.h"
 #include "util/file/file_writer.h"
+#include "util/misc/implicit_cast.h"
 
 namespace crashpad {
 namespace test {

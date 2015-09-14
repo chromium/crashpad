@@ -32,6 +32,7 @@
 #include "snapshot/test/test_module_snapshot.h"
 #include "test/gtest_death_check.h"
 #include "util/file/string_file.h"
+#include "util/misc/implicit_cast.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
 

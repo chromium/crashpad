@@ -32,6 +32,7 @@
 #include "snapshot/mac/process_reader.h"
 #include "snapshot/mac/process_types.h"
 #include "test/mac/dyld.h"
+#include "util/misc/implicit_cast.h"
 #include "util/misc/uuid.h"
 
 // This file is responsible for testing MachOImageReader,
