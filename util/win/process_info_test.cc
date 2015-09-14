@@ -41,6 +41,20 @@ time_t GetTimestampForModule(HMODULE module) {
   return loaded_image->FileHeader->FileHeader.TimeDateStamp;
 }
 
+bool IsProcessWow64(HANDLE process_handle) {
+  static decltype(IsWow64Process)* is_wow64_process =
+      reinterpret_cast<decltype(IsWow64Process)*>(
+          GetProcAddress(LoadLibrary(L"kernel32.dll"), "IsWow64Process"));
+  if (!is_wow64_process)
+    return false;
+  BOOL is_wow64;
+  if (!is_wow64_process(process_handle, &is_wow64)) {
+    PLOG(ERROR) << "IsWow64Process";
+    return false;
+  }
+  return is_wow64;
+}
+
 TEST(ProcessInfo, Self) {
   ProcessInfo process_info;
   ASSERT_TRUE(process_info.Initialize(GetCurrentProcess()));
@@ -52,8 +66,10 @@ TEST(ProcessInfo, Self) {
   EXPECT_FALSE(process_info.IsWow64());
 #else
   EXPECT_FALSE(process_info.Is64Bit());
-  // Assume we won't be running these tests on a 32 bit host OS.
-  EXPECT_TRUE(process_info.IsWow64());
+  if (IsProcessWow64(GetCurrentProcess()))
+    EXPECT_TRUE(process_info.IsWow64());
+  else
+    EXPECT_FALSE(process_info.IsWow64());
 #endif
 
   std::wstring command_line;
