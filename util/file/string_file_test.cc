@@ -20,6 +20,7 @@
 #include <limits>
 
 #include "gtest/gtest.h"
+#include "util/misc/implicit_cast.h"
 
 namespace crashpad {
 namespace test {

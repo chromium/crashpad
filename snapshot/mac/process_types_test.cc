@@ -25,6 +25,7 @@
 #include "gtest/gtest.h"
 #include "test/mac/dyld.h"
 #include "util/mac/mac_util.h"
+#include "util/misc/implicit_cast.h"
 
 namespace crashpad {
 namespace test {

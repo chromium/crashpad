@@ -21,6 +21,7 @@
 
 #include "base/logging.h"
 #include "base/numerics/safe_math.h"
+#include "util/misc/implicit_cast.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {

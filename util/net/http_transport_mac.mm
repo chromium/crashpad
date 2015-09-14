@@ -22,6 +22,7 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
 #include "third_party/apple_cf/CFStreamAbstract.h"
+#include "util/misc/implicit_cast.h"
 #include "util/net/http_body.h"
 
 namespace crashpad {

@@ -22,6 +22,7 @@
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
+#include "util/misc/implicit_cast.h"
 
 namespace crashpad {
 namespace test {

@@ -19,6 +19,7 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 #include "util/mach/mach_extensions.h"
+#include "util/misc/implicit_cast.h"
 
 namespace crashpad {
 namespace test {

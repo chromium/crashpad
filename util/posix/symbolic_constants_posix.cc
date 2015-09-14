@@ -18,6 +18,7 @@
 
 #include "base/basictypes.h"
 #include "base/strings/stringprintf.h"
+#include "util/misc/implicit_cast.h"
 #include "util/stdlib/string_number_conversion.h"
 
 namespace {

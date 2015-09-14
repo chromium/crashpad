@@ -31,6 +31,7 @@
 #include "util/file/file_io.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
+#include "util/misc/implicit_cast.h"
 #include "util/misc/scoped_forbid_return.h"
 
 namespace {

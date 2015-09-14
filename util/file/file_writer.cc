@@ -21,6 +21,7 @@
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "build/build_config.h"
+#include "util/misc/implicit_cast.h"
 
 #if defined(OS_POSIX)
 #include <sys/uio.h>

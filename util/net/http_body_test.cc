@@ -16,6 +16,7 @@
 
 #include "gtest/gtest.h"
 #include "test/paths.h"
+#include "util/misc/implicit_cast.h"
 #include "util/net/http_body_test_util.h"
 
 namespace crashpad {

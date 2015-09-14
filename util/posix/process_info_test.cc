@@ -25,6 +25,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "util/misc/implicit_cast.h"
 
 #if defined(OS_MACOSX)
 #include <crt_externs.h>

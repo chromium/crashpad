@@ -21,6 +21,7 @@
 
 #include "base/logging.h"
 #include "base/stl_util.h"
+#include "util/misc/implicit_cast.h"
 
 namespace crashpad {
 

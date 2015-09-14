@@ -20,6 +20,7 @@
 #include "base/strings/stringprintf.h"
 #include "util/mach/exception_behaviors.h"
 #include "util/mach/mach_extensions.h"
+#include "util/misc/implicit_cast.h"
 #include "util/stdlib/string_number_conversion.h"
 
 namespace {

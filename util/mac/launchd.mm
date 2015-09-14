@@ -21,6 +21,7 @@
 #include "base/mac/scoped_launch_data.h"
 #include "base/mac/scoped_cftyperef.h"
 #include "base/strings/sys_string_conversions.h"
+#include "util/misc/implicit_cast.h"
 
 namespace crashpad {
 
