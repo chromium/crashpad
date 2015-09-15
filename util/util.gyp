@@ -156,6 +156,8 @@
         'win/module_version.h',
         'win/nt_internals.cc',
         'win/nt_internals.h',
+        'win/ntstatus_logging.cc',
+        'win/ntstatus_logging.h',
         'win/process_info.cc',
         'win/process_info.h',
         'win/process_structs.h',
