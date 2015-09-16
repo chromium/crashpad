@@ -126,6 +126,7 @@
                 '/BASE:0x78000000',
                 '/FIXED',
               ],
+              'MinimumRequiredVersion': '5.02',  # Server 2003.
               'TargetMachine': '17',  # x64.
             },
           },

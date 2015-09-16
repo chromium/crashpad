@@ -14,6 +14,7 @@
 
 #include "snapshot/win/pe_image_reader.h"
 
+#define PSAPI_VERSION 1
 #include <psapi.h>
 
 #include "gtest/gtest.h"
@@ -25,6 +26,17 @@ namespace crashpad {
 namespace test {
 namespace {
 
+BOOL CrashpadGetModuleInformation(HANDLE process,
+                          HMODULE module,
+                          MODULEINFO* module_info,
+                          DWORD cb) {
+  static decltype(GetModuleInformation)* get_module_information =
+      reinterpret_cast<decltype(GetModuleInformation)*>(
+          GetProcAddress(LoadLibrary(L"psapi.dll"), "GetModuleInformation"));
+  DCHECK(get_module_information);
+  return get_module_information(process, module, module_info, cb);
+}
+
 TEST(PEImageReader, DebugDirectory) {
   PEImageReader pe_image_reader;
   ProcessReaderWin process_reader;
@@ -32,7 +44,7 @@ TEST(PEImageReader, DebugDirectory) {
                                         ProcessSuspensionState::kRunning));
   HMODULE self = reinterpret_cast<HMODULE>(&__ImageBase);
   MODULEINFO module_info;
-  ASSERT_TRUE(GetModuleInformation(
+  ASSERT_TRUE(CrashpadGetModuleInformation(
       GetCurrentProcess(), self, &module_info, sizeof(module_info)));
   EXPECT_EQ(self, module_info.lpBaseOfDll);
   EXPECT_TRUE(pe_image_reader.Initialize(&process_reader,

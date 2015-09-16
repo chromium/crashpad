@@ -50,7 +50,11 @@ bool ThreadSnapshotWin::Initialize(
         context_.x86);
   }
 #else
-#error ARCH_CPU_X86
+  context_.architecture = kCPUArchitectureX86;
+  context_.x86 = &context_union_.x86;
+  InitializeX86Context(
+      *reinterpret_cast<const CONTEXT*>(&process_reader_thread.context),
+      context_.x86);
 #endif  // ARCH_CPU_X86_64
 
   INITIALIZATION_STATE_SET_VALID(initialized_);

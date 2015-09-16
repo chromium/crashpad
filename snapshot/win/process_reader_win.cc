@@ -19,6 +19,7 @@
 #include "base/memory/scoped_ptr.h"
 #include "base/numerics/safe_conversions.h"
 #include "util/win/nt_internals.h"
+#include "util/win/ntstatus_logging.h"
 #include "util/win/process_structs.h"
 #include "util/win/scoped_handle.h"
 #include "util/win/time.h"
@@ -57,10 +58,8 @@ process_types::SYSTEM_PROCESS_INFORMATION<Traits>* GetProcessInformation(
   // This must be in retry loop, as we're racing with process creation on the
   // system to find a buffer large enough to hold all process information.
   for (int tries = 0; tries < 20; ++tries) {
-    const int kSystemExtendedProcessInformation = 57;
     status = crashpad::NtQuerySystemInformation(
-        static_cast<SYSTEM_INFORMATION_CLASS>(
-            kSystemExtendedProcessInformation),
+        SystemProcessInformation,
         reinterpret_cast<void*>(buffer->get()),
         buffer_size,
         &buffer_size);
@@ -77,7 +76,7 @@ process_types::SYSTEM_PROCESS_INFORMATION<Traits>* GetProcessInformation(
   }
 
   if (!NT_SUCCESS(status)) {
-    LOG(ERROR) << "NtQuerySystemInformation failed: " << std::hex << status;
+    NTSTATUS_LOG(ERROR, status) << "NtQuerySystemInformation";
     return nullptr;
   }
 
@@ -95,16 +94,17 @@ process_types::SYSTEM_PROCESS_INFORMATION<Traits>* GetProcessInformation(
 }
 
 template <class Traits>
-HANDLE OpenThread(const process_types::SYSTEM_EXTENDED_THREAD_INFORMATION<
-    Traits>& thread_info) {
+HANDLE OpenThread(
+    const process_types::SYSTEM_THREAD_INFORMATION<Traits>& thread_info) {
   HANDLE handle;
-  ACCESS_MASK query_access = THREAD_GET_CONTEXT | THREAD_SUSPEND_RESUME;
+  ACCESS_MASK query_access =
+      THREAD_GET_CONTEXT | THREAD_SUSPEND_RESUME | THREAD_QUERY_INFORMATION;
   OBJECT_ATTRIBUTES object_attributes;
   InitializeObjectAttributes(&object_attributes, nullptr, 0, nullptr, nullptr);
   NTSTATUS status = crashpad::NtOpenThread(
       &handle, query_access, &object_attributes, &thread_info.ClientId);
   if (!NT_SUCCESS(status)) {
-    LOG(ERROR) << "NtOpenThread failed";
+    NTSTATUS_LOG(ERROR, status) << "NtOpenThread";
     return nullptr;
   }
   return handle;
@@ -114,18 +114,14 @@ HANDLE OpenThread(const process_types::SYSTEM_EXTENDED_THREAD_INFORMATION<
 // side-effect of returning the SuspendCount of the thread on success, so we
 // fill out these two pieces of semi-unrelated data in the same function.
 template <class Traits>
-void FillThreadContextAndSuspendCount(
-    const process_types::SYSTEM_EXTENDED_THREAD_INFORMATION<Traits>&
-        thread_info,
-    ProcessReaderWin::Thread* thread,
-    ProcessSuspensionState suspension_state) {
+bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
+                                      ProcessReaderWin::Thread* thread,
+                                      ProcessSuspensionState suspension_state) {
   // Don't suspend the thread if it's this thread. This is really only for test
   // binaries, as we won't be walking ourselves, in general.
-  bool is_current_thread = thread_info.ClientId.UniqueThread ==
+  bool is_current_thread = thread->id ==
                            reinterpret_cast<process_types::TEB<Traits>*>(
                                NtCurrentTeb())->ClientId.UniqueThread;
-
-  ScopedKernelHANDLE thread_handle(OpenThread(thread_info));
 
   // TODO(scottmg): Handle cross-bitness in this function.
 
@@ -134,10 +130,10 @@ void FillThreadContextAndSuspendCount(
     thread->suspend_count = 0;
     RtlCaptureContext(&thread->context);
   } else {
-    DWORD previous_suspend_count = SuspendThread(thread_handle.get());
+    DWORD previous_suspend_count = SuspendThread(thread_handle);
     if (previous_suspend_count == -1) {
       PLOG(ERROR) << "SuspendThread failed";
-      return;
+      return false;
     }
     DCHECK(previous_suspend_count > 0 ||
            suspension_state == ProcessSuspensionState::kRunning);
@@ -147,15 +143,18 @@ void FillThreadContextAndSuspendCount(
 
     memset(&thread->context, 0, sizeof(thread->context));
     thread->context.ContextFlags = CONTEXT_ALL;
-    if (!GetThreadContext(thread_handle.get(), &thread->context)) {
+    if (!GetThreadContext(thread_handle, &thread->context)) {
       PLOG(ERROR) << "GetThreadContext failed";
-      return;
+      return false;
     }
 
-    if (!ResumeThread(thread_handle.get())) {
+    if (!ResumeThread(thread_handle)) {
       PLOG(ERROR) << "ResumeThread failed";
+      return false;
     }
   }
+
+  return true;
 }
 
 }  // namespace
@@ -198,7 +197,7 @@ bool ProcessReaderWin::Initialize(HANDLE process,
 
 bool ProcessReaderWin::ReadMemory(WinVMAddress at,
                                   WinVMSize num_bytes,
-                                  void* into) {
+                                  void* into) const {
   SIZE_T bytes_read;
   if (!ReadProcessMemory(process_,
                          reinterpret_cast<void*>(at),
@@ -243,50 +242,10 @@ const std::vector<ProcessReaderWin::Thread>& ProcessReaderWin::Threads() {
 
   initialized_threads_ = true;
 
-  DCHECK(threads_.empty());
-
-#if ARCH_CPU_32_BITS
-  using SizeTraits = process_types::internal::Traits32;
-#else
-  using SizeTraits = process_types::internal::Traits64;
-#endif
-  scoped_ptr<uint8_t[]> buffer;
-  process_types::SYSTEM_PROCESS_INFORMATION<SizeTraits>* process_information =
-      GetProcessInformation<SizeTraits>(process_, &buffer);
-  if (!process_information)
-    return threads_;
-
-  for (unsigned long i = 0; i < process_information->NumberOfThreads; ++i) {
-    const process_types::SYSTEM_EXTENDED_THREAD_INFORMATION<SizeTraits>&
-        thread_info = process_information->Threads[i];
-    Thread thread;
-    thread.id = thread_info.ClientId.UniqueThread;
-
-    FillThreadContextAndSuspendCount(thread_info, &thread, suspension_state_);
-
-    // TODO(scottmg): I believe we could reverse engineer the PriorityClass from
-    // the Priority, BasePriority, and
-    // https://msdn.microsoft.com/en-us/library/windows/desktop/ms685100 .
-    // MinidumpThreadWriter doesn't handle it yet in any case, so investigate
-    // both of those at the same time if it's useful.
-    thread.priority_class = NORMAL_PRIORITY_CLASS;
-
-    thread.priority = thread_info.Priority;
-    thread.teb = thread_info.TebBase;
-
-    // While there are semi-documented fields in the thread structure called
-    // StackBase and StackLimit, they don't appear to be correct in practice (or
-    // at least, I don't know how to interpret them). Instead, read the TIB
-    // (Thread Information Block) which is the first element of the TEB, and use
-    // its stack fields.
-    process_types::NT_TIB<SizeTraits> tib;
-    if (ReadMemory(thread_info.TebBase, sizeof(tib), &tib)) {
-      // Note, "backwards" because of direction of stack growth.
-      thread.stack_region_address = tib.StackLimit;
-      thread.stack_region_size = tib.StackBase - tib.StackLimit;
-    }
-    threads_.push_back(thread);
-  }
+  if (process_info_.Is64Bit())
+    ReadThreadData<process_types::internal::Traits64>();
+  else
+    ReadThreadData<process_types::internal::Traits32>();
 
   return threads_;
 }
@@ -299,6 +258,70 @@ const std::vector<ProcessInfo::Module>& ProcessReaderWin::Modules() {
   }
 
   return modules_;
+}
+
+template <class Traits>
+void ProcessReaderWin::ReadThreadData() {
+  DCHECK(threads_.empty());
+
+  scoped_ptr<uint8_t[]> buffer;
+  process_types::SYSTEM_PROCESS_INFORMATION<Traits>* process_information =
+      GetProcessInformation<Traits>(process_, &buffer);
+  if (!process_information)
+    return;
+
+  for (unsigned long i = 0; i < process_information->NumberOfThreads; ++i) {
+    const process_types::SYSTEM_THREAD_INFORMATION<Traits>& thread_info =
+        process_information->Threads[i];
+    ProcessReaderWin::Thread thread;
+    thread.id = thread_info.ClientId.UniqueThread;
+
+    ScopedKernelHANDLE thread_handle(OpenThread(thread_info));
+    if (!thread_handle.is_valid())
+      continue;
+
+    if (!FillThreadContextAndSuspendCount<Traits>(
+            thread_handle.get(), &thread, suspension_state_)) {
+      continue;
+    }
+
+    // TODO(scottmg): I believe we could reverse engineer the PriorityClass from
+    // the Priority, BasePriority, and
+    // https://msdn.microsoft.com/en-us/library/windows/desktop/ms685100 .
+    // MinidumpThreadWriter doesn't handle it yet in any case, so investigate
+    // both of those at the same time if it's useful.
+    thread.priority_class = NORMAL_PRIORITY_CLASS;
+
+    thread.priority = thread_info.Priority;
+
+    process_types::THREAD_BASIC_INFORMATION<Traits> thread_basic_info;
+    NTSTATUS status = crashpad::NtQueryInformationThread(
+        thread_handle.get(),
+        static_cast<THREADINFOCLASS>(ThreadBasicInformation),
+        &thread_basic_info,
+        sizeof(thread_basic_info),
+        nullptr);
+    if (!NT_SUCCESS(status)) {
+      NTSTATUS_LOG(ERROR, status) << "NtQueryInformationThread";
+      continue;
+    }
+
+    // Read the TIB (Thread Information Block) which is the first element of the
+    // TEB, for its stack fields.
+    process_types::NT_TIB<Traits> tib;
+    if (ReadMemory(thread_basic_info.TebBaseAddress, sizeof(tib), &tib)) {
+      // Note, "backwards" because of direction of stack growth.
+      thread.stack_region_address = tib.StackLimit;
+      if (tib.StackLimit > tib.StackBase) {
+        LOG(ERROR) << "invalid stack range: " << tib.StackBase << " - "
+                   << tib.StackLimit;
+        thread.stack_region_size = 0;
+      } else {
+        thread.stack_region_size = tib.StackBase - tib.StackLimit;
+      }
+    }
+    threads_.push_back(thread);
+  }
 }
 
 }  // namespace crashpad

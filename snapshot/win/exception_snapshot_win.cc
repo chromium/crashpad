@@ -69,42 +69,30 @@ bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
     return false;
   }
 
+#if defined(ARCH_CPU_64_BITS)
   if (process_reader->Is64Bit()) {
-    EXCEPTION_RECORD64 first_record;
-    if (!process_reader->ReadMemory(
-            reinterpret_cast<WinVMAddress>(exception_pointers.ExceptionRecord),
-            sizeof(first_record),
-            &first_record)) {
-      LOG(ERROR) << "ExceptionRecord";
+    CONTEXT context_record;
+    if (!InitializeFromExceptionPointers<EXCEPTION_RECORD64>(
+            *process_reader, exception_pointers, &context_record)) {
       return false;
     }
-    exception_code_ = first_record.ExceptionCode;
-    exception_flags_ = first_record.ExceptionFlags;
-    exception_address_ = first_record.ExceptionAddress;
-    for (DWORD i = 0; i < first_record.NumberParameters; ++i)
-      codes_.push_back(first_record.ExceptionInformation[i]);
-    if (first_record.ExceptionRecord) {
-      // https://code.google.com/p/crashpad/issues/detail?id=43
-      LOG(WARNING) << "dropping chained ExceptionRecord";
-    }
-
     context_.architecture = kCPUArchitectureX86_64;
     context_.x86_64 = &context_union_.x86_64;
-    // We assume 64-on-64 here in that we're relying on the CONTEXT definition
-    // to be the x64 one.
-    CONTEXT context_record;
-    if (!process_reader->ReadMemory(
-            reinterpret_cast<WinVMAddress>(exception_pointers.ContextRecord),
-            sizeof(context_record),
-            &context_record)) {
-      LOG(ERROR) << "ContextRecord";
-      return false;
-    }
     InitializeX64Context(context_record, context_.x86_64);
   } else {
-    CHECK(false) << "TODO(scottmg) x86";
+    CHECK(false) << "TODO(scottmg) WOW64";
     return false;
   }
+#else
+  CONTEXT context_record;
+  if (!InitializeFromExceptionPointers<EXCEPTION_RECORD32>(
+          *process_reader, exception_pointers, &context_record)) {
+    return false;
+  }
+  context_.architecture = kCPUArchitectureX86;
+  context_.x86 = &context_union_.x86;
+  InitializeX86Context(context_record, context_.x86);
+#endif  // ARCH_CPU_64_BITS
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -138,6 +126,40 @@ uint64_t ExceptionSnapshotWin::ExceptionAddress() const {
 const std::vector<uint64_t>& ExceptionSnapshotWin::Codes() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return codes_;
+}
+
+template <class ExceptionRecordType, class ContextType>
+bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
+    const ProcessReaderWin& process_reader,
+    const EXCEPTION_POINTERS& exception_pointers,
+    ContextType* context_record) {
+  ExceptionRecordType first_record;
+  if (!process_reader.ReadMemory(
+          reinterpret_cast<WinVMAddress>(exception_pointers.ExceptionRecord),
+          sizeof(first_record),
+          &first_record)) {
+    LOG(ERROR) << "ExceptionRecord";
+    return false;
+  }
+  exception_code_ = first_record.ExceptionCode;
+  exception_flags_ = first_record.ExceptionFlags;
+  exception_address_ = first_record.ExceptionAddress;
+  for (DWORD i = 0; i < first_record.NumberParameters; ++i)
+    codes_.push_back(first_record.ExceptionInformation[i]);
+  if (first_record.ExceptionRecord) {
+    // https://code.google.com/p/crashpad/issues/detail?id=43
+    LOG(WARNING) << "dropping chained ExceptionRecord";
+  }
+
+  if (!process_reader.ReadMemory(
+          reinterpret_cast<WinVMAddress>(exception_pointers.ContextRecord),
+          sizeof(*context_record),
+          context_record)) {
+    LOG(ERROR) << "ContextRecord";
+    return false;
+  }
+
+  return true;
 }
 
 }  // namespace internal

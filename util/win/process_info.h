@@ -86,7 +86,12 @@ class ProcessInfo {
   bool Modules(std::vector<Module>* modules) const;
 
  private:
-  template <class T>
+  template <class Traits>
+  friend bool GetProcessBasicInformation(HANDLE process,
+                                         bool is_wow64,
+                                         ProcessInfo* process_info,
+                                         WinVMAddress* peb_address);
+  template <class Traits>
   friend bool ReadProcessData(HANDLE process,
                               WinVMAddress peb_address_vmaddr,
                               ProcessInfo* process_info);

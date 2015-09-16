@@ -311,36 +311,70 @@ struct TEB {
   CLIENT_ID<Traits> ClientId;
 };
 
-// See https://msdn.microsoft.com/en-us/library/gg750724.aspx for the base
-// structure, and
-// http://processhacker.sourceforge.net/doc/struct___s_y_s_t_e_m___e_x_t_e_n_d_e_d___t_h_r_e_a_d___i_n_f_o_r_m_a_t_i_o_n.html
-// for the extension part.
+// See https://msdn.microsoft.com/en-us/library/gg750724.aspx.
 template <class Traits>
-struct SYSTEM_EXTENDED_THREAD_INFORMATION {
-  LARGE_INTEGER KernelTime;
-  LARGE_INTEGER UserTime;
-  LARGE_INTEGER CreateTime;
+struct SYSTEM_THREAD_INFORMATION {
   union {
-    ULONG WaitTime;
-    typename Traits::Pad padding_for_x64_0;
+    struct {
+      LARGE_INTEGER KernelTime;
+      LARGE_INTEGER UserTime;
+      LARGE_INTEGER CreateTime;
+      union {
+        ULONG WaitTime;
+        typename Traits::Pad padding_for_x64_0;
+      };
+      typename Traits::Pointer StartAddress;
+      CLIENT_ID<Traits> ClientId;
+      LONG Priority;
+      LONG BasePriority;
+      ULONG ContextSwitches;
+      ULONG ThreadState;
+      union {
+        ULONG WaitReason;
+        typename Traits::Pad padding_for_x64_1;
+      };
+    };
+    LARGE_INTEGER alignment_for_x86[8];
   };
-  typename Traits::Pointer StartAddress;
-  CLIENT_ID<Traits> ClientId;
-  LONG Priority;
-  LONG BasePriority;
-  ULONG ContextSwitches;
-  ULONG ThreadState;
+};
+
+// There's an extra field in the x64 VM_COUNTERS (or maybe it's VM_COUNTERS_EX,
+// it's not clear), so we just make separate specializations for 32/64.
+template <class Traits>
+class VM_COUNTERS {};
+
+template <>
+class VM_COUNTERS<internal::Traits32> {
+  SIZE_T PeakVirtualSize;
+  SIZE_T VirtualSize;
+  ULONG PageFaultCount;
+  SIZE_T PeakWorkingSetSize;
+  SIZE_T WorkingSetSize;
+  SIZE_T QuotaPeakPagedPoolUsage;
+  SIZE_T QuotaPagedPoolUsage;
+  SIZE_T QuotaPeakNonPagedPoolUsage;
+  SIZE_T QuotaNonPagedPoolUsage;
+  SIZE_T PagefileUsage;
+  SIZE_T PeakPagefileUsage;
+};
+
+template <>
+class VM_COUNTERS<internal::Traits64> {
+  SIZE_T PeakVirtualSize;
+  SIZE_T VirtualSize;
   union {
-    ULONG WaitReason;
-    typename Traits::Pad padding_for_x64_1;
+    ULONG PageFaultCount;
+    internal::Traits64::Pad padding_for_x64;
   };
-  typename Traits::Pointer StackBase;  // These don't appear to be correct.
-  typename Traits::Pointer StackLimit;
-  typename Traits::Pointer Win32StartAddress;
-  typename Traits::Pointer TebBase;
-  typename Traits::Pointer Reserved;
-  typename Traits::Pointer Reserved2;
-  typename Traits::Pointer Reserved3;
+  SIZE_T PeakWorkingSetSize;
+  SIZE_T WorkingSetSize;
+  SIZE_T QuotaPeakPagedPoolUsage;
+  SIZE_T QuotaPagedPoolUsage;
+  SIZE_T QuotaPeakNonPagedPoolUsage;
+  SIZE_T QuotaNonPagedPoolUsage;
+  SIZE_T PagefileUsage;
+  SIZE_T PeakPagefileUsage;
+  SIZE_T PrivateUsage;
 };
 
 // See http://undocumented.ntinternals.net/source/usermode/undocumented%20functions/system%20information/structures/system_process_information.html
@@ -348,7 +382,10 @@ template <class Traits>
 struct SYSTEM_PROCESS_INFORMATION {
   ULONG NextEntryOffset;
   ULONG NumberOfThreads;
-  LARGE_INTEGER Reserved[3];
+  LARGE_INTEGER WorkingSetPrivateSize;
+  ULONG HardFaultCount;
+  ULONG NumberOfThreadsHighWatermark;
+  ULONGLONG CycleTime;
   LARGE_INTEGER CreateTime;
   LARGE_INTEGER UserTime;
   LARGE_INTEGER KernelTime;
@@ -366,29 +403,28 @@ struct SYSTEM_PROCESS_INFORMATION {
     typename Traits::Pad padding_for_x64_2;
   };
   ULONG HandleCount;
-  ULONG Reserved2[3];
-  SIZE_T PeakVirtualSize;
-  SIZE_T VirtualSize;
+  ULONG SessionId;
+  typename Traits::Pointer UniqueProcessKey;
   union {
-    ULONG PageFaultCount;
-    typename Traits::Pad padding_for_x64_3;
+    VM_COUNTERS<Traits> VirtualMemoryCounters;
+    LARGE_INTEGER alignment_for_x86[6];
   };
-  SIZE_T PeakWorkingSetSize;
-  SIZE_T WorkingSetSize;
-  SIZE_T QuotaPeakPagedPoolUsage;
-  SIZE_T QuotaPagedPoolUsage;
-  SIZE_T QuotaPeakNonPagedPoolUsage;
-  SIZE_T QuotaNonPagedPoolUsage;
-  SIZE_T PagefileUsage;
-  SIZE_T PeakPagefileUsage;
-  SIZE_T PrivatePageCount;
-  LARGE_INTEGER ReadOperationCount;
-  LARGE_INTEGER WriteOperationCount;
-  LARGE_INTEGER OtherOperationCount;
-  LARGE_INTEGER ReadTransferCount;
-  LARGE_INTEGER WriteTransferCount;
-  LARGE_INTEGER OtherTransferCount;
-  SYSTEM_EXTENDED_THREAD_INFORMATION<Traits> Threads[1];
+  IO_COUNTERS IoCounters;
+  SYSTEM_THREAD_INFORMATION<Traits> Threads[1];
+};
+
+// http://undocumented.ntinternals.net/source/usermode/structures/thread_basic_information.html
+template <class Traits>
+struct THREAD_BASIC_INFORMATION {
+  union {
+    NTSTATUS ExitStatus;
+    typename Traits::Pad padding_for_x64_0;
+  };
+  typename Traits::Pointer TebBaseAddress;
+  CLIENT_ID<Traits> ClientId;
+  typename Traits::Pointer AffinityMask;
+  ULONG Priority;
+  LONG BasePriority;
 };
 
 #pragma pack(pop)

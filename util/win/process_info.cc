@@ -17,7 +17,10 @@
 #include <winternl.h>
 
 #include "base/logging.h"
+#include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 #include "util/numeric/safe_assignment.h"
+#include "util/win/ntstatus_logging.h"
 #include "util/win/process_structs.h"
 
 namespace crashpad {
@@ -80,7 +83,8 @@ bool ReadUnicodeString(HANDLE process,
   return true;
 }
 
-template <class T> bool ReadStruct(HANDLE process, WinVMAddress at, T* into) {
+template <class T>
+bool ReadStruct(HANDLE process, WinVMAddress at, T* into) {
   SIZE_T bytes_read;
   if (!ReadProcessMemory(process,
                          reinterpret_cast<const void*>(at),
@@ -102,13 +106,71 @@ template <class T> bool ReadStruct(HANDLE process, WinVMAddress at, T* into) {
 }  // namespace
 
 template <class Traits>
+bool GetProcessBasicInformation(HANDLE process,
+                                bool is_wow64,
+                                ProcessInfo* process_info,
+                                WinVMAddress* peb_address) {
+  ULONG bytes_returned;
+  process_types::PROCESS_BASIC_INFORMATION<Traits> process_basic_information;
+  NTSTATUS status =
+      crashpad::NtQueryInformationProcess(process,
+                                          ProcessBasicInformation,
+                                          &process_basic_information,
+                                          sizeof(process_basic_information),
+                                          &bytes_returned);
+  if (!NT_SUCCESS(status)) {
+    NTSTATUS_LOG(ERROR, status) << "NtQueryInformationProcess";
+    return false;
+  }
+  if (bytes_returned != sizeof(process_basic_information)) {
+    LOG(ERROR) << "NtQueryInformationProcess incorrect size";
+    return false;
+  }
+
+  // See https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203 on
+  // 32 bit being the correct size for HANDLEs for proceses, even on Windows
+  // x64. API functions (e.g. OpenProcess) take only a DWORD, so there's no
+  // sense in maintaining the top bits.
+  process_info->process_id_ =
+      static_cast<DWORD>(process_basic_information.UniqueProcessId);
+  process_info->inherited_from_process_id_ = static_cast<DWORD>(
+      process_basic_information.InheritedFromUniqueProcessId);
+
+  // We now want to read the PEB to gather the rest of our information. The
+  // PebBaseAddress as returned above is what we want for 64-on-64 and 32-on-32,
+  // but for Wow64, we want to read the 32 bit PEB (a Wow64 process has both).
+  // The address of this is found by a second call to NtQueryInformationProcess.
+  if (!is_wow64) {
+    *peb_address = process_basic_information.PebBaseAddress;
+  } else {
+    ULONG_PTR wow64_peb_address;
+    status = crashpad::NtQueryInformationProcess(process,
+                                                 ProcessWow64Information,
+                                                 &wow64_peb_address,
+                                                 sizeof(wow64_peb_address),
+                                                 &bytes_returned);
+    if (!NT_SUCCESS(status)) {
+      NTSTATUS_LOG(ERROR, status), "NtQueryInformationProcess";
+      return false;
+    }
+    if (bytes_returned != sizeof(wow64_peb_address)) {
+      LOG(ERROR) << "NtQueryInformationProcess incorrect size";
+      return false;
+    }
+    *peb_address = wow64_peb_address;
+  }
+
+  return true;
+}
+
+template <class Traits>
 bool ReadProcessData(HANDLE process,
                      WinVMAddress peb_address_vmaddr,
                      ProcessInfo* process_info) {
   Traits::Pointer peb_address;
   if (!AssignIfInRange(&peb_address, peb_address_vmaddr)) {
-    LOG(ERROR) << "peb_address_vmaddr " << peb_address_vmaddr
-               << " out of range";
+    LOG(ERROR) << base::StringPrintf("peb address 0x%x out of range",
+                                     peb_address_vmaddr);
     return false;
   }
 
@@ -232,73 +294,28 @@ bool ProcessInfo::Initialize(HANDLE process) {
   }
 #endif
 
-  ULONG bytes_returned;
-  // We assume this process is not running on Wow64. The
-  // PROCESS_BASIC_INFORMATION uses the OS size (that is, even Wow64 has a 64
-  // bit one.)
-  // TODO(scottmg): Either support running as Wow64, or check/resolve this at a
-  // higher level.
-#if ARCH_CPU_32_BITS
-  process_types::PROCESS_BASIC_INFORMATION<process_types::internal::Traits32>
-      process_basic_information;
+  WinVMAddress peb_address;
+#if ARCH_CPU_64_BITS
+  bool result = GetProcessBasicInformation<process_types::internal::Traits64>(
+      process, is_wow64_, this, &peb_address);
 #else
-  process_types::PROCESS_BASIC_INFORMATION<process_types::internal::Traits64>
-      process_basic_information;
-#endif
-  NTSTATUS status =
-      crashpad::NtQueryInformationProcess(process,
-                                          ProcessBasicInformation,
-                                          &process_basic_information,
-                                          sizeof(process_basic_information),
-                                          &bytes_returned);
-  if (status < 0) {
-    LOG(ERROR) << "NtQueryInformationProcess: status=" << status;
-    return false;
-  }
-  if (bytes_returned != sizeof(process_basic_information)) {
-    LOG(ERROR) << "NtQueryInformationProcess incorrect size";
+  bool result = GetProcessBasicInformation<process_types::internal::Traits32>(
+      process, false, this, &peb_address);
+#endif  // ARCH_CPU_64_BITS
+
+  if (!result) {
+    LOG(ERROR) << "GetProcessBasicInformation failed";
     return false;
   }
 
-  // See https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203 on
-  // 32 bit being the correct size for HANDLEs for proceses, even on Windows
-  // x64. API functions (e.g. OpenProcess) take only a DWORD, so there's no
-  // sense in maintaining the top bits.
-  process_id_ = static_cast<DWORD>(process_basic_information.UniqueProcessId);
-  inherited_from_process_id_ = static_cast<DWORD>(
-      process_basic_information.InheritedFromUniqueProcessId);
-
-  // We now want to read the PEB to gather the rest of our information. The
-  // PebBaseAddress as returned above is what we want for 64-on-64 and 32-on-32,
-  // but for Wow64, we want to read the 32 bit PEB (a Wow64 process has both).
-  // The address of this is found by a second call to NtQueryInformationProcess.
-  WinVMAddress peb_address = process_basic_information.PebBaseAddress;
-  if (is_wow64_) {
-    ULONG_PTR wow64_peb_address;
-    status =
-        crashpad::NtQueryInformationProcess(process,
-                                            ProcessWow64Information,
-                                            &wow64_peb_address,
-                                            sizeof(wow64_peb_address),
-                                            &bytes_returned);
-    if (status < 0) {
-      LOG(ERROR) << "NtQueryInformationProcess: status=" << status;
-      return false;
-    }
-    if (bytes_returned != sizeof(wow64_peb_address)) {
-      LOG(ERROR) << "NtQueryInformationProcess incorrect size";
-      return false;
-    }
-    peb_address = wow64_peb_address;
-  }
-
-  // Read the PEB data using the correct word size.
-  bool result = is_64_bit_ ? ReadProcessData<process_types::internal::Traits64>(
+  result = is_64_bit_ ? ReadProcessData<process_types::internal::Traits64>(
                                  process, peb_address, this)
                            : ReadProcessData<process_types::internal::Traits32>(
                                  process, peb_address, this);
-  if (!result)
+  if (!result) {
+    LOG(ERROR) << "ReadProcessData failed";
     return false;
+  }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;

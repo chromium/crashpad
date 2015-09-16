@@ -61,6 +61,12 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   const std::vector<uint64_t>& Codes() const override;
 
  private:
+  template <class ExceptionRecordType, class ContextType>
+  bool InitializeFromExceptionPointers(
+      const ProcessReaderWin& process_reader,
+      const EXCEPTION_POINTERS& exception_pointers,
+      ContextType* context_record);
+
 #if defined(ARCH_CPU_X86_FAMILY)
   union {
     CPUContextX86 x86;

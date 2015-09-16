@@ -14,6 +14,7 @@
 
 #include "test/win/win_child_process.h"
 
+#include <stdlib.h>
 #include <windows.h>
 
 #include "base/basictypes.h"
@@ -49,7 +50,7 @@ class TestWinChildProcess final : public WinChildProcess {
   int Run() override {
     int value = ReadInt(ReadPipeHandle());
     WriteInt(WritePipeHandle(), value);
-    return EXIT_SUCCESS;
+    return testing::Test::HasFailure() ? EXIT_FAILURE : EXIT_SUCCESS;
   }
 
   DISALLOW_COPY_AND_ASSIGN(TestWinChildProcess);
@@ -58,7 +59,9 @@ class TestWinChildProcess final : public WinChildProcess {
 TEST(WinChildProcessTest, WinChildProcess) {
   WinChildProcess::EntryPoint<TestWinChildProcess>();
 
-  WinChildProcess::Launch();
+  scoped_ptr<WinChildProcess::Handles> handles = WinChildProcess::Launch();
+  WriteInt(handles->write.get(), 1);
+  ASSERT_EQ(1, ReadInt(handles->read.get()));
 }
 
 TEST(WinChildProcessTest, MultipleChildren) {

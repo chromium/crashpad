@@ -27,10 +27,12 @@ namespace {
 #if defined(ARCH_CPU_X86_64)
 
 TEST(CPUContextWin, InitializeX64Context) {
-  CONTEXT context;
+  CONTEXT context = {0};
   context.Rax = 10;
   context.FltSave.TagWord = 11;
   context.Dr0 = 12;
+  context.ContextFlags =
+      CONTEXT_INTEGER | CONTEXT_FLOATING_POINT | CONTEXT_DEBUG_REGISTERS;
 
   // Test the simple case, where everything in the CPUContextX86_64 argument is
   // set directly from the supplied thread, float, and debug state parameters.
@@ -43,9 +45,26 @@ TEST(CPUContextWin, InitializeX64Context) {
   }
 }
 
-#else  // ARCH_CPU_X86_64
+#else
 
-#error ARCH_CPU_X86
+TEST(CPUContextWin, InitializeX86Context) {
+  CONTEXT context = {0};
+  context.ContextFlags =
+      CONTEXT_INTEGER | CONTEXT_EXTENDED_REGISTERS | CONTEXT_DEBUG_REGISTERS;
+  context.Eax = 1;
+  context.ExtendedRegisters[4] = 2;  // FTW.
+  context.Dr0 = 3;
+
+  // Test the simple case, where everything in the CPUContextX86 argument is
+  // set directly from the supplied thread, float, and debug state parameters.
+  {
+    CPUContextX86 cpu_context_x86 = {};
+    InitializeX86Context(context, &cpu_context_x86);
+    EXPECT_EQ(1u, cpu_context_x86.eax);
+    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
+    EXPECT_EQ(3u, cpu_context_x86.dr0);
+  }
+}
 
 #endif  // ARCH_CPU_X86_64
 

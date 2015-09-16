@@ -79,7 +79,7 @@ class ProcessReaderWin {
   pid_t ProcessID() const { return process_info_.ProcessID(); }
   pid_t ParentProcessID() const { return process_info_.ParentProcessID(); }
 
-  bool ReadMemory(WinVMAddress at, WinVMSize num_bytes, void* into);
+  bool ReadMemory(WinVMAddress at, WinVMSize num_bytes, void* into) const;
 
   //! \brief Determines the target process' start time.
   //!
@@ -107,6 +107,9 @@ class ProcessReaderWin {
   const std::vector<ProcessInfo::Module>& Modules();
 
  private:
+  template <class Traits>
+  void ReadThreadData();
+
   HANDLE process_;
   ProcessInfo process_info_;
   std::vector<Thread> threads_;
