@@ -16,7 +16,6 @@
 
 #include <unistd.h>
 
-#include "base/basictypes.h"
 #include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
