@@ -25,7 +25,7 @@ deps = {
       '8245545b6dc9c4703e6496d1efd19e975ad2b038',  # svn r700
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
-      '32ca1cd8e010d013a606a752fb49a603a3598071',  # svn r2015
+      '01528c7244837168a1c80f06ff60fa5a9793c824',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
       '302e4e7d9aa0a8d39ad62b193a4c8a8357ad9d0c',
