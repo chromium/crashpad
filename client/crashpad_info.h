@@ -98,18 +98,6 @@ struct CrashpadInfo {
     system_crash_reporter_forwarding_ = system_crash_reporter_forwarding;
   }
 
-#if defined(OS_WIN)
-  //! \brief Save the crashing thread ID for the crash handler.
-  void set_thread_id(DWORD thread_id) { thread_id_ = thread_id; }
-  DWORD thread_id() const { return thread_id_; }
-
-  //! \brief Save an `EXCEPTION_POINTERS` record for the crash handler.
-  void set_exception_pointers(EXCEPTION_POINTERS* exception_pointers) {
-    exception_pointers_ = exception_pointers;
-  }
-  EXCEPTION_POINTERS* exception_pointers() const { return exception_pointers_; }
-#endif  // OS_WIN
-
   enum : uint32_t {
     kSignature = 'CPad',
   };
@@ -132,11 +120,6 @@ struct CrashpadInfo {
   TriState system_crash_reporter_forwarding_;
   uint16_t padding_0_;
   SimpleStringDictionary* simple_annotations_;  // weak
-
-#if defined(OS_WIN)
-  EXCEPTION_POINTERS* exception_pointers_;
-  DWORD thread_id_;
-#endif  // OS_WIN
 
 #if defined(__clang__)
 #pragma clang diagnostic pop
