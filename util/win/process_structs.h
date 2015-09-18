@@ -283,16 +283,22 @@ struct PEB {
 
 template <class Traits>
 struct NT_TIB {
-  typename Traits::Pointer ExceptionList;
-  typename Traits::Pointer StackBase;
-  typename Traits::Pointer StackLimit;
-  typename Traits::Pointer SubSystemTib;
   union {
-    typename Traits::Pointer FiberData;
-    BYTE Version[4];
+    // See https://msdn.microsoft.com/en-us/library/dn424783.aspx.
+    typename Traits::Pointer Wow64Teb;
+    struct {
+      typename Traits::Pointer ExceptionList;
+      typename Traits::Pointer StackBase;
+      typename Traits::Pointer StackLimit;
+      typename Traits::Pointer SubSystemTib;
+      union {
+        typename Traits::Pointer FiberData;
+        BYTE Version[4];
+      };
+      typename Traits::Pointer ArbitraryUserPointer;
+      typename Traits::Pointer Self;
+    };
   };
-  typename Traits::Pointer ArbitraryUserPointer;
-  typename Traits::Pointer Self;
 };
 
 // See https://msdn.microsoft.com/en-us/library/gg750647.aspx.
@@ -417,7 +423,7 @@ struct SYSTEM_PROCESS_INFORMATION {
 template <class Traits>
 struct THREAD_BASIC_INFORMATION {
   union {
-    NTSTATUS ExitStatus;
+    LONG ExitStatus;
     typename Traits::Pad padding_for_x64_0;
   };
   typename Traits::Pointer TebBaseAddress;
@@ -426,6 +432,15 @@ struct THREAD_BASIC_INFORMATION {
   ULONG Priority;
   LONG BasePriority;
 };
+
+template <class Traits>
+struct EXCEPTION_POINTERS {
+  typename Traits::Pointer ExceptionRecord;
+  typename Traits::Pointer ContextRecord;
+};
+
+using EXCEPTION_POINTERS32 = EXCEPTION_POINTERS<internal::Traits32>;
+using EXCEPTION_POINTERS64 = EXCEPTION_POINTERS<internal::Traits64>;
 
 #pragma pack(pop)
 

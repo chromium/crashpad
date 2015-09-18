@@ -17,7 +17,6 @@
 #include "snapshot/win/cpu_context_win.h"
 #include "snapshot/win/process_reader_win.h"
 #include "util/win/nt_internals.h"
-#include "util/win/process_structs.h"
 
 namespace crashpad {
 namespace internal {
@@ -51,48 +50,41 @@ bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
   }
 
   if (!found_thread) {
-    LOG(ERROR) << "thread ID " << thread_id << "not found in process";
+    LOG(ERROR) << "thread ID " << thread_id << " not found in process";
     return false;
   } else {
     thread_id_ = thread_id;
   }
 
-  EXCEPTION_POINTERS exception_pointers;
-  if (!process_reader->ReadMemory(exception_pointers_address,
-                                  sizeof(EXCEPTION_POINTERS),
-                                  &exception_pointers)) {
-    LOG(ERROR) << "EXCEPTION_POINTERS read failed";
-    return false;
-  }
-  if (!exception_pointers.ExceptionRecord) {
-    LOG(ERROR) << "null ExceptionRecord";
-    return false;
-  }
-
-#if defined(ARCH_CPU_64_BITS)
-  if (process_reader->Is64Bit()) {
+#if defined(ARCH_CPU_32_BITS)
+  const bool is_64_bit = false;
+  using Context32 = CONTEXT;
+#elif defined(ARCH_CPU_64_BITS)
+  const bool is_64_bit = process_reader->Is64Bit();
+  using Context32 = WOW64_CONTEXT;
+  if (is_64_bit) {
     CONTEXT context_record;
-    if (!InitializeFromExceptionPointers<EXCEPTION_RECORD64>(
-            *process_reader, exception_pointers, &context_record)) {
+    if (!InitializeFromExceptionPointers<EXCEPTION_RECORD64,
+                                         process_types::EXCEPTION_POINTERS64>(
+            *process_reader, exception_pointers_address, &context_record)) {
       return false;
     }
     context_.architecture = kCPUArchitectureX86_64;
     context_.x86_64 = &context_union_.x86_64;
     InitializeX64Context(context_record, context_.x86_64);
-  } else {
-    CHECK(false) << "TODO(scottmg) WOW64";
-    return false;
   }
-#else
-  CONTEXT context_record;
-  if (!InitializeFromExceptionPointers<EXCEPTION_RECORD32>(
-          *process_reader, exception_pointers, &context_record)) {
-    return false;
+#endif
+  if (!is_64_bit) {
+    Context32 context_record;
+    if (!InitializeFromExceptionPointers<EXCEPTION_RECORD32,
+                                         process_types::EXCEPTION_POINTERS32>(
+            *process_reader, exception_pointers_address, &context_record)) {
+      return false;
+    }
+    context_.architecture = kCPUArchitectureX86;
+    context_.x86 = &context_union_.x86;
+    InitializeX86Context(context_record, context_.x86);
   }
-  context_.architecture = kCPUArchitectureX86;
-  context_.x86 = &context_union_.x86;
-  InitializeX86Context(context_record, context_.x86);
-#endif  // ARCH_CPU_64_BITS
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -128,14 +120,28 @@ const std::vector<uint64_t>& ExceptionSnapshotWin::Codes() const {
   return codes_;
 }
 
-template <class ExceptionRecordType, class ContextType>
+template <class ExceptionRecordType,
+          class ExceptionPointersType,
+          class ContextType>
 bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
     const ProcessReaderWin& process_reader,
-    const EXCEPTION_POINTERS& exception_pointers,
+    WinVMAddress exception_pointers_address,
     ContextType* context_record) {
+  ExceptionPointersType exception_pointers;
+  if (!process_reader.ReadMemory(exception_pointers_address,
+                                 sizeof(exception_pointers),
+                                 &exception_pointers)) {
+    LOG(ERROR) << "EXCEPTION_POINTERS read failed";
+    return false;
+  }
+  if (!exception_pointers.ExceptionRecord) {
+    LOG(ERROR) << "null ExceptionRecord";
+    return false;
+  }
+
   ExceptionRecordType first_record;
   if (!process_reader.ReadMemory(
-          reinterpret_cast<WinVMAddress>(exception_pointers.ExceptionRecord),
+          static_cast<WinVMAddress>(exception_pointers.ExceptionRecord),
           sizeof(first_record),
           &first_record)) {
     LOG(ERROR) << "ExceptionRecord";
@@ -152,7 +158,7 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
   }
 
   if (!process_reader.ReadMemory(
-          reinterpret_cast<WinVMAddress>(exception_pointers.ContextRecord),
+          static_cast<WinVMAddress>(exception_pointers.ContextRecord),
           sizeof(*context_record),
           context_record)) {
     LOG(ERROR) << "ContextRecord";

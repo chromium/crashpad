@@ -93,6 +93,11 @@
             ],
           },
         }],
+        ['OS=="win"', {
+          'dependencies': [
+            'crashpad_snapshot_test_crashing_child',
+          ],
+        }],
       ],
     },
     {
@@ -125,6 +130,23 @@
           'type': 'executable',
           'sources': [
             'mac/mach_o_image_annotations_reader_test_no_op.cc',
+          ],
+        },
+      ],
+    }],
+    ['OS=="win"', {
+      'targets': [
+        {
+          'target_name': 'crashpad_snapshot_test_crashing_child',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'sources': [
+            'win/crashpad_snapshot_test_crashing_child.cc',
           ],
         },
       ],

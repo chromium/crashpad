@@ -103,7 +103,7 @@ TEST(ProcessInfo, Self) {
   EXPECT_GT(modules[1].timestamp, 0);
 }
 
-void TestOtherProcess(const std::wstring& child_name_suffix) {
+void TestOtherProcess(const base::string16& directory_modification) {
   ProcessInfo process_info;
 
   ::UUID system_uuid;
@@ -120,9 +120,13 @@ void TestOtherProcess(const std::wstring& child_name_suffix) {
   ASSERT_TRUE(done.get());
 
   base::FilePath test_executable = Paths::Executable();
+
   std::wstring child_test_executable =
-      test_executable.RemoveFinalExtension().value() +
-      L"_process_info_test_child_" + child_name_suffix + L".exe";
+      test_executable.DirName()
+          .Append(directory_modification)
+          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
+                  L"_process_info_test_child.exe")
+          .value();
   // TODO(scottmg): Command line escaping utility.
   std::wstring command_line = child_test_executable + L" " +
                               started_uuid.ToString16() + L" " +
@@ -155,8 +159,7 @@ void TestOtherProcess(const std::wstring& child_name_suffix) {
   std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 3u);
-  std::wstring child_name = L"\\crashpad_util_test_process_info_test_child_" +
-                            child_name_suffix + L".exe";
+  std::wstring child_name = L"\\crashpad_util_test_process_info_test_child.exe";
   ASSERT_GE(modules[0].name.size(), child_name.size());
   EXPECT_EQ(child_name,
             modules[0].name.substr(modules[0].name.size() - child_name.size()));
@@ -173,18 +176,19 @@ void TestOtherProcess(const std::wstring& child_name_suffix) {
                                        wcslen(kLz32dllName)));
 }
 
-// This test can't run the child if the host OS is x86, and can't read from the
-// child if it is x86 and the child is x64, so it only makes sense to run this
-// if we built as x64.
+TEST(ProcessInfo, OtherProcess) {
+  TestOtherProcess(FILE_PATH_LITERAL("."));
+}
+
 #if defined(ARCH_CPU_64_BITS)
-TEST(ProcessInfo, OtherProcessX64) {
-  TestOtherProcess(L"x64");
+TEST(ProcessInfo, OtherProcessWOW64) {
+#ifndef NDEBUG
+  TestOtherProcess(FILE_PATH_LITERAL("..\\..\\out\\Debug"));
+#else
+  TestOtherProcess(FILE_PATH_LITERAL("..\\..\\out\\Release"));
+#endif
 }
 #endif  // ARCH_CPU_64_BITS
-
-TEST(ProcessInfo, OtherProcessX86) {
-  TestOtherProcess(L"x86");
-}
 
 }  // namespace
 }  // namespace test

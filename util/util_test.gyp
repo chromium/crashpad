@@ -94,8 +94,7 @@
         }],
         ['OS=="win"', {
           'dependencies': [
-            'crashpad_util_test_process_info_test_child_x64',
-            'crashpad_util_test_process_info_test_child_x86',
+            'crashpad_util_test_process_info_test_child',
           ],
           'link_settings': {
             'libraries': [
@@ -111,12 +110,11 @@
     ['OS=="win"', {
       'targets': [
         {
-          'target_name': 'crashpad_util_test_process_info_test_child_x64',
+          'target_name': 'crashpad_util_test_process_info_test_child',
           'type': 'executable',
           'sources': [
             'win/process_info_test_child.cc',
           ],
-          'msvs_configuration_platform': 'x64',
           # Set an unusually high load address to make sure that the main
           # executable still appears as the first element in
           # ProcessInfo::Modules().
@@ -126,29 +124,6 @@
                 '/BASE:0x78000000',
                 '/FIXED',
               ],
-              'MinimumRequiredVersion': '5.02',  # Server 2003.
-              'TargetMachine': '17',  # x64.
-            },
-          },
-        },
-        {
-          # Same as above, but explicitly x86 to test 64->32 access.
-          'target_name': 'crashpad_util_test_process_info_test_child_x86',
-          'type': 'executable',
-          'sources': [
-            'win/process_info_test_child.cc',
-          ],
-          'msvs_configuration_platform': 'x86',
-          # Set an unusually high load address to make sure that the main
-          # executable still appears as the first element in
-          # ProcessInfo::Modules().
-          'msvs_settings': {
-            'VCLinkerTool': {
-              'AdditionalOptions': [
-                '/BASE:0x78000000',
-                '/FIXED',
-              ],
-              'TargetMachine': '1',  # x86.
             },
           },
         },

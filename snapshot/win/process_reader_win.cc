@@ -116,23 +116,23 @@ HANDLE OpenThread(
 template <class Traits>
 bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
                                       ProcessReaderWin::Thread* thread,
-                                      ProcessSuspensionState suspension_state) {
+                                      ProcessSuspensionState suspension_state,
+                                      bool is_64_reading_32) {
   // Don't suspend the thread if it's this thread. This is really only for test
   // binaries, as we won't be walking ourselves, in general.
   bool is_current_thread = thread->id ==
                            reinterpret_cast<process_types::TEB<Traits>*>(
                                NtCurrentTeb())->ClientId.UniqueThread;
 
-  // TODO(scottmg): Handle cross-bitness in this function.
-
   if (is_current_thread) {
     DCHECK(suspension_state == ProcessSuspensionState::kRunning);
     thread->suspend_count = 0;
-    RtlCaptureContext(&thread->context);
+    DCHECK(!is_64_reading_32);
+    RtlCaptureContext(&thread->context.native);
   } else {
     DWORD previous_suspend_count = SuspendThread(thread_handle);
     if (previous_suspend_count == -1) {
-      PLOG(ERROR) << "SuspendThread failed";
+      PLOG(ERROR) << "SuspendThread";
       return false;
     }
     DCHECK(previous_suspend_count > 0 ||
@@ -142,14 +142,28 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
         (suspension_state == ProcessSuspensionState::kSuspended ? 1 : 0);
 
     memset(&thread->context, 0, sizeof(thread->context));
-    thread->context.ContextFlags = CONTEXT_ALL;
-    if (!GetThreadContext(thread_handle, &thread->context)) {
-      PLOG(ERROR) << "GetThreadContext failed";
-      return false;
+#if defined(ARCH_CPU_32_BITS)
+    const bool is_native = true;
+#elif defined(ARCH_CPU_64_BITS)
+    const bool is_native = !is_64_reading_32;
+    if (is_64_reading_32) {
+      thread->context.wow64.ContextFlags = CONTEXT_ALL;
+      if (!Wow64GetThreadContext(thread_handle, &thread->context.wow64)) {
+        PLOG(ERROR) << "Wow64GetThreadContext";
+        return false;
+      }
+    }
+#endif
+    if (is_native) {
+      thread->context.native.ContextFlags = CONTEXT_ALL;
+      if (!GetThreadContext(thread_handle, &thread->context.native)) {
+        PLOG(ERROR) << "GetThreadContext";
+        return false;
+      }
     }
 
     if (!ResumeThread(thread_handle)) {
-      PLOG(ERROR) << "ResumeThread failed";
+      PLOG(ERROR) << "ResumeThread";
       return false;
     }
   }
@@ -242,10 +256,11 @@ const std::vector<ProcessReaderWin::Thread>& ProcessReaderWin::Threads() {
 
   initialized_threads_ = true;
 
-  if (process_info_.Is64Bit())
-    ReadThreadData<process_types::internal::Traits64>();
-  else
-    ReadThreadData<process_types::internal::Traits32>();
+#if defined(ARCH_CPU_64_BITS)
+  ReadThreadData<process_types::internal::Traits64>(process_info_.IsWow64());
+#else
+  ReadThreadData<process_types::internal::Traits32>(false);
+#endif
 
   return threads_;
 }
@@ -261,7 +276,7 @@ const std::vector<ProcessInfo::Module>& ProcessReaderWin::Modules() {
 }
 
 template <class Traits>
-void ProcessReaderWin::ReadThreadData() {
+void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
   DCHECK(threads_.empty());
 
   scoped_ptr<uint8_t[]> buffer;
@@ -280,8 +295,10 @@ void ProcessReaderWin::ReadThreadData() {
     if (!thread_handle.is_valid())
       continue;
 
-    if (!FillThreadContextAndSuspendCount<Traits>(
-            thread_handle.get(), &thread, suspension_state_)) {
+    if (!FillThreadContextAndSuspendCount<Traits>(thread_handle.get(),
+                                                  &thread,
+                                                  suspension_state_,
+                                                  is_64_reading_32)) {
       continue;
     }
 
@@ -309,15 +326,32 @@ void ProcessReaderWin::ReadThreadData() {
     // Read the TIB (Thread Information Block) which is the first element of the
     // TEB, for its stack fields.
     process_types::NT_TIB<Traits> tib;
-    if (ReadMemory(thread_basic_info.TebBaseAddress, sizeof(tib), &tib)) {
+    thread.teb = thread_basic_info.TebBaseAddress;
+    if (ReadMemory(thread.teb, sizeof(tib), &tib)) {
+      WinVMAddress base = 0;
+      WinVMAddress limit = 0;
+      // If we're reading a WOW64 process, then the TIB we just retrieved is the
+      // x64 one. The first word of the x64 TIB points at the x86 TIB. See
+      // https://msdn.microsoft.com/en-us/library/dn424783.aspx
+      if (is_64_reading_32) {
+        process_types::NT_TIB<process_types::internal::Traits32> tib32;
+        thread.teb = tib.Wow64Teb;
+        if (ReadMemory(thread.teb, sizeof(tib32), &tib32)) {
+          base = tib32.StackBase;
+          limit = tib32.StackLimit;
+        }
+      } else {
+        base = tib.StackBase;
+        limit = tib.StackLimit;
+      }
+
       // Note, "backwards" because of direction of stack growth.
-      thread.stack_region_address = tib.StackLimit;
-      if (tib.StackLimit > tib.StackBase) {
-        LOG(ERROR) << "invalid stack range: " << tib.StackBase << " - "
-                   << tib.StackLimit;
+      thread.stack_region_address = limit;
+      if (limit > base) {
+        LOG(ERROR) << "invalid stack range: " << base << " - " << limit;
         thread.stack_region_size = 0;
       } else {
-        thread.stack_region_size = tib.StackBase - tib.StackLimit;
+        thread.stack_region_size = base - limit;
       }
     }
     threads_.push_back(thread);

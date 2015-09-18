@@ -20,6 +20,7 @@
 
 #include <vector>
 
+#include "build/build_config.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/win/address_types.h"
 #include "util/win/process_info.h"
@@ -43,7 +44,12 @@ class ProcessReaderWin {
     Thread();
     ~Thread() {}
 
-    CONTEXT context;
+    union {
+      CONTEXT native;
+#if defined(ARCH_CPU_64_BITS)
+      WOW64_CONTEXT wow64;
+#endif;
+    } context;
     uint64_t id;
     WinVMAddress teb;
     WinVMAddress stack_region_address;
@@ -108,7 +114,7 @@ class ProcessReaderWin {
 
  private:
   template <class Traits>
-  void ReadThreadData();
+  void ReadThreadData(bool is_64_reading_32);
 
   HANDLE process_;
   ProcessInfo process_info_;

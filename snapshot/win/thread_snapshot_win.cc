@@ -41,20 +41,16 @@ bool ThreadSnapshotWin::Initialize(
   if (process_reader->Is64Bit()) {
     context_.architecture = kCPUArchitectureX86_64;
     context_.x86_64 = &context_union_.x86_64;
-    InitializeX64Context(process_reader_thread.context, context_.x86_64);
+    InitializeX64Context(process_reader_thread.context.native, context_.x86_64);
   } else {
     context_.architecture = kCPUArchitectureX86;
     context_.x86 = &context_union_.x86;
-    InitializeX86Context(
-        *reinterpret_cast<const WOW64_CONTEXT*>(&process_reader_thread.context),
-        context_.x86);
+    InitializeX86Context(process_reader_thread.context.wow64, context_.x86);
   }
 #else
   context_.architecture = kCPUArchitectureX86;
   context_.x86 = &context_union_.x86;
-  InitializeX86Context(
-      *reinterpret_cast<const CONTEXT*>(&process_reader_thread.context),
-      context_.x86);
+  InitializeX86Context(process_reader_thread.context.native, context_.x86);
 #endif  // ARCH_CPU_X86_64
 
   INITIALIZATION_STATE_SET_VALID(initialized_);

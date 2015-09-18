@@ -108,9 +108,9 @@ TEST(ProcessReaderWin, SelfOneThread) {
 
   EXPECT_EQ(GetCurrentThreadId(), threads[0].id);
 #if defined(ARCH_CPU_64_BITS)
-  EXPECT_NE(0, threads[0].context.Rip);
+  EXPECT_NE(0, threads[0].context.native.Rip);
 #else
-  EXPECT_NE(0u, threads[0].context.Eip);
+  EXPECT_NE(0u, threads[0].context.native.Eip);
 #endif
 
   EXPECT_EQ(0, threads[0].suspend_count);

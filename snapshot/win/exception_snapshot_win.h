@@ -24,6 +24,7 @@
 #include "snapshot/exception_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/win/address_types.h"
+#include "util/win/process_structs.h"
 
 namespace crashpad {
 
@@ -61,11 +62,12 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   const std::vector<uint64_t>& Codes() const override;
 
  private:
-  template <class ExceptionRecordType, class ContextType>
-  bool InitializeFromExceptionPointers(
-      const ProcessReaderWin& process_reader,
-      const EXCEPTION_POINTERS& exception_pointers,
-      ContextType* context_record);
+  template <class ExceptionRecordType,
+            class ExceptionPointersType,
+            class ContextType>
+  bool InitializeFromExceptionPointers(const ProcessReaderWin& process_reader,
+                                       WinVMAddress exception_pointers_address,
+                                       ContextType* context_record);
 
 #if defined(ARCH_CPU_X86_FAMILY)
   union {
