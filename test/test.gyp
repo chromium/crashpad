@@ -51,6 +51,8 @@
         'scoped_temp_dir.h',
         'scoped_temp_dir_posix.cc',
         'scoped_temp_dir_win.cc',
+        'win/child_launcher.cc',
+        'win/child_launcher.h',
         'win/win_child_process.cc',
         'win/win_child_process.h',
         'win/win_multiprocess.cc',

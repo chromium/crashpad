@@ -61,6 +61,10 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   //! \param[out] options Options set in the module's CrashpadInfo structure.
   void GetCrashpadOptions(CrashpadInfoClientOptions* options);
 
+  //! \brief Returns the PEImageReader used to read this module. Only valid
+  //!     after Initialize() is called.
+  const PEImageReader& pe_image_reader() const { return *pe_image_reader_; }
+
   // ModuleSnapshot:
 
   std::string Name() const override;

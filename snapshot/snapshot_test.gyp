@@ -79,6 +79,7 @@
         'win/pe_image_annotations_reader_test.cc',
         'win/pe_image_reader_test.cc',
         'win/process_reader_win_test.cc',
+        'win/process_snapshot_win_test.cc',
         'win/system_snapshot_win_test.cc',
       ],
       'conditions': [
@@ -96,6 +97,8 @@
         ['OS=="win"', {
           'dependencies': [
             'crashpad_snapshot_test_crashing_child',
+            'crashpad_snapshot_test_image_reader',
+            'crashpad_snapshot_test_image_reader_module',
           ],
         }],
       ],
@@ -147,6 +150,30 @@
           ],
           'sources': [
             'win/crashpad_snapshot_test_crashing_child.cc',
+          ],
+        },
+        {
+          'target_name': 'crashpad_snapshot_test_image_reader',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'sources': [
+            'win/crashpad_snapshot_test_image_reader.cc',
+          ],
+        },
+        {
+          'target_name': 'crashpad_snapshot_test_image_reader_module',
+          'type': 'loadable_module',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'sources': [
+            'win/crashpad_snapshot_test_image_reader_module.cc',
           ],
         },
       ],

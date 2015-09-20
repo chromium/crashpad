@@ -102,14 +102,25 @@ class PEImageReader {
   //! \param[out] pdbname Name of the pdb file.
   //! \return `true` on success, or `false` if the module has no debug directory
   //!     entry.
-  bool DebugDirectoryInformation(UUID* uuid, DWORD* age, std::string* pdbname);
+  bool DebugDirectoryInformation(UUID* uuid,
+                                 DWORD* age,
+                                 std::string* pdbname) const;
 
  private:
+  //! \brief Implementation helper for DebugDirectoryInformation() templated by
+  //!     `IMAGE_NT_HEADERS` type for different bitnesses.
+  template <class NtHeadersType>
+  bool ReadDebugDirectoryInformation(UUID* uuid,
+                                     DWORD* age,
+                                     std::string* pdbname) const;
+
   //! \brief Reads the `IMAGE_NT_HEADERS` from the beginning of the image.
+  template <class NtHeadersType>
   bool ReadNtHeaders(WinVMAddress* nt_header_address,
-                     IMAGE_NT_HEADERS* nt_headers) const;
+                     NtHeadersType* nt_headers) const;
 
   //! \brief Finds a given section by name in the image.
+  template <class NtHeadersType>
   bool GetSectionByName(const std::string& name,
                         IMAGE_SECTION_HEADER* section) const;
 

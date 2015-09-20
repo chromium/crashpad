@@ -15,27 +15,24 @@
 #include <windows.h>
 
 #include "base/logging.h"
-#include "client/crashpad_client.h"
 #include "util/file/file_io.h"
-#include "util/win/address_types.h"
+#include "util/win/scoped_handle.h"
 
-__declspec(noinline) crashpad::WinVMAddress CurrentAddress() {
-  return reinterpret_cast<crashpad::WinVMAddress>(_ReturnAddress());
-}
-
-int main(int argc, char* argv[]) {
+int wmain(int argc, wchar_t* argv[]) {
   CHECK_EQ(argc, 2);
 
-  crashpad::CrashpadClient client;
-  CHECK(client.SetHandler(argv[1]));
-  CHECK(client.UseHandler());
+  crashpad::ScopedKernelHANDLE done(CreateEvent(nullptr, true, false, argv[1]));
+
+  PCHECK(LoadLibrary(L"crashpad_snapshot_test_image_reader_module.dll"))
+      << "LoadLibrary";
 
   HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
   PCHECK(out != INVALID_HANDLE_VALUE) << "GetStdHandle";
-  crashpad::WinVMAddress break_address = CurrentAddress();
-  crashpad::CheckedWriteFile(out, &break_address, sizeof(break_address));
+  char c = ' ';
+  crashpad::CheckedWriteFile(out, &c, sizeof(c));
 
-  __debugbreak();
+  CHECK_EQ(WAIT_OBJECT_0, WaitForSingleObject(done.get(), INFINITE));
 
   return 0;
 }
+

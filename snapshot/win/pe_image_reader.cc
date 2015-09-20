@@ -70,8 +70,13 @@ bool PEImageReader::GetCrashpadInfo(
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   IMAGE_SECTION_HEADER section;
-  if (!GetSectionByName("CPADinfo", &section))
-    return false;
+  if (process_reader_->Is64Bit()) {
+    if (!GetSectionByName<IMAGE_NT_HEADERS64>("CPADinfo", &section))
+      return false;
+  } else {
+    if (!GetSectionByName<IMAGE_NT_HEADERS32>("CPADinfo", &section))
+      return false;
+  }
 
   if (section.Misc.VirtualSize < sizeof(process_types::CrashpadInfo)) {
     LOG(WARNING) << "small crashpad info section size "
@@ -114,9 +119,22 @@ bool PEImageReader::GetCrashpadInfo(
 
 bool PEImageReader::DebugDirectoryInformation(UUID* uuid,
                                               DWORD* age,
-                                              std::string* pdbname) {
+                                              std::string* pdbname) const {
+  if (process_reader_->Is64Bit()) {
+    return ReadDebugDirectoryInformation<IMAGE_NT_HEADERS64>(
+        uuid, age, pdbname);
+  } else {
+    return ReadDebugDirectoryInformation<IMAGE_NT_HEADERS32>(
+        uuid, age, pdbname);
+  }
+}
+
+template <class NtHeadersType>
+bool PEImageReader::ReadDebugDirectoryInformation(UUID* uuid,
+                                                  DWORD* age,
+                                                  std::string* pdbname) const {
   WinVMAddress nt_headers_address;
-  IMAGE_NT_HEADERS nt_headers;
+  NtHeadersType nt_headers;
   if (!ReadNtHeaders(&nt_headers_address, &nt_headers))
     return false;
 
@@ -173,9 +191,9 @@ bool PEImageReader::DebugDirectoryInformation(UUID* uuid,
   return false;
 }
 
-// TODO(scottmg): This needs to be made cross-bitness supporting.
+template <class NtHeadersType>
 bool PEImageReader::ReadNtHeaders(WinVMAddress* nt_headers_address,
-                                  IMAGE_NT_HEADERS* nt_headers) const {
+                                  NtHeadersType* nt_headers) const {
   IMAGE_DOS_HEADER dos_header;
   if (!CheckedReadMemory(Address(), sizeof(IMAGE_DOS_HEADER), &dos_header)) {
     LOG(WARNING) << "could not read dos header of " << module_name_;
@@ -189,7 +207,7 @@ bool PEImageReader::ReadNtHeaders(WinVMAddress* nt_headers_address,
 
   *nt_headers_address = Address() + dos_header.e_lfanew;
   if (!CheckedReadMemory(
-          *nt_headers_address, sizeof(IMAGE_NT_HEADERS), nt_headers)) {
+          *nt_headers_address, sizeof(NtHeadersType), nt_headers)) {
     LOG(WARNING) << "could not read nt headers of " << module_name_;
     return false;
   }
@@ -202,6 +220,7 @@ bool PEImageReader::ReadNtHeaders(WinVMAddress* nt_headers_address,
   return true;
 }
 
+template <class NtHeadersType>
 bool PEImageReader::GetSectionByName(const std::string& name,
                                      IMAGE_SECTION_HEADER* section) const {
   if (name.size() > sizeof(section->Name)) {
@@ -210,12 +229,12 @@ bool PEImageReader::GetSectionByName(const std::string& name,
   }
 
   WinVMAddress nt_headers_address;
-  IMAGE_NT_HEADERS nt_headers;
+  NtHeadersType nt_headers;
   if (!ReadNtHeaders(&nt_headers_address, &nt_headers))
     return false;
 
   WinVMAddress first_section_address =
-      nt_headers_address + offsetof(IMAGE_NT_HEADERS, OptionalHeader) +
+      nt_headers_address + offsetof(NtHeadersType, OptionalHeader) +
       nt_headers.FileHeader.SizeOfOptionalHeader;
   for (DWORD i = 0; i < nt_headers.FileHeader.NumberOfSections; ++i) {
     WinVMAddress section_address =

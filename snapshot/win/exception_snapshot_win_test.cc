@@ -24,7 +24,8 @@
 #include "gtest/gtest.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "test/paths.h"
-#include "test/win/win_child_process.h"
+#include "test/win/child_launcher.h"
+#include "util/file/file_io.h"
 #include "util/thread/thread.h"
 #include "util/win/exception_handler_server.h"
 #include "util/win/registration_protocol_win.h"
@@ -157,45 +158,14 @@ void TestCrashingChild(const base::string16& directory_modification) {
           .Append(test_executable.BaseName().RemoveFinalExtension().value() +
                   L"_crashing_child.exe")
           .value();
-
-  // Create a pipe for the stdout of the child.
-  SECURITY_ATTRIBUTES security_attributes = {0};
-  security_attributes.nLength = sizeof(SECURITY_ATTRIBUTES);
-  security_attributes.bInheritHandle = true;
-  HANDLE stdout_read;
-  HANDLE stdout_write;
-  ASSERT_TRUE(CreatePipe(&stdout_read, &stdout_write, &security_attributes, 0));
-  ScopedFileHANDLE read_handle(stdout_read);
-  ScopedFileHANDLE write_handle(stdout_write);
-  ASSERT_TRUE(SetHandleInformation(read_handle.get(), HANDLE_FLAG_INHERIT, 0));
-
-  std::wstring command_line =
-      child_test_executable + L" " + base::UTF8ToUTF16(pipe_name);
-  STARTUPINFO startup_info = {0};
-  startup_info.cb = sizeof(startup_info);
-  startup_info.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
-  startup_info.hStdOutput = write_handle.get();
-  startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
-  startup_info.dwFlags = STARTF_USESTDHANDLES;
-  PROCESS_INFORMATION process_information;
-  ASSERT_TRUE(CreateProcess(child_test_executable.c_str(),
-                            &command_line[0],
-                            nullptr,
-                            nullptr,
-                            true,
-                            0,
-                            nullptr,
-                            nullptr,
-                            &startup_info,
-                            &process_information));
-  // Take ownership of the two process handles returned.
-  ScopedKernelHANDLE process_main_thread_handle(process_information.hThread);
-  ScopedKernelHANDLE process_handle(process_information.hProcess);
+  ChildLauncher child(child_test_executable, base::UTF8ToUTF16(pipe_name));
+  child.Start();
 
   // The child tells us (approximately) where it will crash.
   WinVMAddress break_near_address;
-  LoggingReadFile(
-      read_handle.get(), &break_near_address, sizeof(break_near_address));
+  LoggingReadFile(child.stdout_read_handle(),
+                  &break_near_address,
+                  sizeof(break_near_address));
   delegate.set_break_near(break_near_address);
 
   // Wait for the child to crash and the exception information to be validated.

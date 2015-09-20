@@ -15,13 +15,13 @@
 #include "util/win/process_info.h"
 
 #include <imagehlp.h>
-#include <rpc.h>
 #include <wchar.h>
 
 #include "base/files/file_path.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/paths.h"
+#include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
 #include "util/misc/uuid.h"
 #include "util/win/scoped_handle.h"
@@ -106,11 +106,8 @@ TEST(ProcessInfo, Self) {
 void TestOtherProcess(const base::string16& directory_modification) {
   ProcessInfo process_info;
 
-  ::UUID system_uuid;
-  ASSERT_EQ(RPC_S_OK, UuidCreate(&system_uuid));
-  UUID started_uuid(reinterpret_cast<const uint8_t*>(&system_uuid.Data1));
-  ASSERT_EQ(RPC_S_OK, UuidCreate(&system_uuid));
-  UUID done_uuid(reinterpret_cast<const uint8_t*>(&system_uuid.Data1));
+  UUID started_uuid(UUID::InitializeWithNewTag{});
+  UUID done_uuid(UUID::InitializeWithNewTag{});
 
   ScopedKernelHANDLE started(
       CreateEvent(nullptr, true, false, started_uuid.ToString16().c_str()));
@@ -128,30 +125,15 @@ void TestOtherProcess(const base::string16& directory_modification) {
                   L"_process_info_test_child.exe")
           .value();
   // TODO(scottmg): Command line escaping utility.
-  std::wstring command_line = child_test_executable + L" " +
-                              started_uuid.ToString16() + L" " +
-                              done_uuid.ToString16();
-  STARTUPINFO startup_info = {0};
-  startup_info.cb = sizeof(startup_info);
-  PROCESS_INFORMATION process_information;
-  ASSERT_TRUE(CreateProcess(child_test_executable.c_str(),
-                            &command_line[0],
-                            nullptr,
-                            nullptr,
-                            false,
-                            0,
-                            nullptr,
-                            nullptr,
-                            &startup_info,
-                            &process_information));
-  // Take ownership of the two process handles returned.
-  ScopedKernelHANDLE process_main_thread_handle(process_information.hThread);
-  ScopedKernelHANDLE process_handle(process_information.hProcess);
+  ChildLauncher child(
+      child_test_executable,
+      started_uuid.ToString16() + L" " + done_uuid.ToString16());
+  child.Start();
 
   // Wait until the test has completed initialization.
   ASSERT_EQ(WaitForSingleObject(started.get(), INFINITE), WAIT_OBJECT_0);
 
-  ASSERT_TRUE(process_info.Initialize(process_information.hProcess));
+  ASSERT_TRUE(process_info.Initialize(child.process_handle()));
 
   // Tell the test it's OK to shut down now that we've read our data.
   SetEvent(done.get());
