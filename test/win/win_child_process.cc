@@ -152,8 +152,8 @@ WinChildProcess::WinChildProcess() {
   unsigned int write, read;
   CHECK(StringToNumber(left, &write));
   CHECK(StringToNumber(right, &read));
-  pipe_write_.reset(reinterpret_cast<HANDLE>(write));
-  pipe_read_.reset(reinterpret_cast<HANDLE>(read));
+  pipe_write_.reset(reinterpret_cast<HANDLE>(static_cast<uintptr_t>(write)));
+  pipe_read_.reset(reinterpret_cast<HANDLE>(static_cast<uintptr_t>(read)));
 
   // Notify the parent that it's OK to proceed. We only need to wait to get to
   // the process entry point, but this is the easiest place we can notify.

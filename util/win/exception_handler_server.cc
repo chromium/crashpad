@@ -17,6 +17,7 @@
 #include <string.h>
 
 #include "base/logging.h"
+#include "base/numerics/safe_conversions.h"
 #include "base/rand_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
@@ -351,7 +352,7 @@ bool ExceptionHandlerServer::ServiceClientConnection(
       PLOG(ERROR) << "ImpersonateNamedPipeClient";
       return false;
     }
-    HANDLE client_process = OpenProcess(
+    client_process = OpenProcess(
         kXPProcessAllAccess, false, message.registration.client_process_id);
     PCHECK(RevertToSelf());
     if (!client_process) {
@@ -375,8 +376,9 @@ bool ExceptionHandlerServer::ServiceClientConnection(
 
   // Duplicate the events back to the client so they can request a dump.
   ServerToClientMessage response;
-  response.registration.request_report_event = reinterpret_cast<uint32_t>(
-      DuplicateEvent(client->process(), client->dump_requested_event()));
+  response.registration.request_report_event =
+      base::checked_cast<uint32_t>(reinterpret_cast<uintptr_t>(
+          DuplicateEvent(client->process(), client->dump_requested_event())));
 
   if (!LoggingWriteFile(service_context.pipe(), &response, sizeof(response)))
     return false;

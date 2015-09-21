@@ -16,7 +16,6 @@
 
 #include <limits>
 
-#include "base/compiler_specific.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "util/numeric/in_range_cast.h"
@@ -40,7 +39,7 @@ void ScopedLockedFileHandleTraits::Free(FileHandle handle) {
 
 }  // namespace internal
 
-struct ALIGNAS(4) Settings::Data {
+struct Settings::Data {
   static const uint32_t kSettingsMagic = 'CPds';
   static const uint32_t kSettingsVersion = 1;
 

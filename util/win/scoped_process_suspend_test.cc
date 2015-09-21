@@ -95,11 +95,11 @@ TEST(ScopedProcessSuspend, ScopedProcessSuspend) {
   EXPECT_TRUE(SuspendCountMatches(handles->process.get(), 0));
 
   {
-    ScopedProcessSuspend suspend(handles->process.get());
+    ScopedProcessSuspend suspend0(handles->process.get());
     EXPECT_TRUE(SuspendCountMatches(handles->process.get(), 1));
 
     {
-      ScopedProcessSuspend suspend(handles->process.get());
+      ScopedProcessSuspend suspend1(handles->process.get());
       EXPECT_TRUE(SuspendCountMatches(handles->process.get(), 2));
     }
 

@@ -35,11 +35,11 @@ bool GetModuleVersionAndType(const base::FilePath& path,
                     << base::UTF16ToUTF8(path.value());
     } else {
       VS_FIXEDFILEINFO* fixed_file_info;
-      UINT size;
+      UINT ffi_size;
       if (!VerQueryValue(data.get(),
                          L"\\",
                          reinterpret_cast<void**>(&fixed_file_info),
-                         &size)) {
+                         &ffi_size)) {
         PLOG(WARNING) << "VerQueryValue";
       } else {
         *vs_fixedfileinfo = *fixed_file_info;

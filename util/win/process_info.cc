@@ -68,11 +68,12 @@ bool ReadUnicodeString(HANDLE process,
   DCHECK_EQ(us.Length % sizeof(wchar_t), 0u);
   result->resize(us.Length / sizeof(wchar_t));
   SIZE_T bytes_read;
-  if (!ReadProcessMemory(process,
-                         reinterpret_cast<const void*>(us.Buffer),
-                         &result->operator[](0),
-                         us.Length,
-                         &bytes_read)) {
+  if (!ReadProcessMemory(
+          process,
+          reinterpret_cast<const void*>(static_cast<uintptr_t>(us.Buffer)),
+          &result->operator[](0),
+          us.Length,
+          &bytes_read)) {
     PLOG(ERROR) << "ReadProcessMemory UNICODE_STRING";
     return false;
   }
@@ -198,11 +199,10 @@ bool ReadProcessData(HANDLE process,
   // Include the first module in the memory order list to get our the main
   // executable's name, as it's not included in initialization order below.
   if (!ReadStruct(process,
-                  reinterpret_cast<WinVMAddress>(
-                      reinterpret_cast<const char*>(
-                          peb_ldr_data.InMemoryOrderModuleList.Flink) -
+                  static_cast<WinVMAddress>(
+                      peb_ldr_data.InMemoryOrderModuleList.Flink) -
                       offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>,
-                               InMemoryOrderLinks)),
+                               InMemoryOrderLinks),
                   &ldr_data_table_entry)) {
     return false;
   }
@@ -228,10 +228,9 @@ bool ReadProcessData(HANDLE process,
     // to read from the target, and also offset back to the beginning of the
     // structure.
     if (!ReadStruct(process,
-                    reinterpret_cast<WinVMAddress>(
-                        reinterpret_cast<const char*>(cur) -
+                    static_cast<WinVMAddress>(cur) -
                         offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>,
-                                 InInitializationOrderLinks)),
+                                 InInitializationOrderLinks),
                     &ldr_data_table_entry)) {
       break;
     }

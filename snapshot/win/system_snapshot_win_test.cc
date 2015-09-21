@@ -123,6 +123,10 @@ TEST_F(SystemSnapshotWinTest, TimeZone) {
 
   // |standard_offset_seconds| gives seconds east of UTC, and |timezone| gives
   // seconds west of UTC.
+#if _MSC_VER >= 1900
+  long timezone = 0;
+  _get_timezone(&timezone);
+#endif
   EXPECT_EQ(-timezone, standard_offset_seconds);
 
   // In contemporary usage, most time zones have an integer hour offset from

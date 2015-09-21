@@ -118,8 +118,8 @@ bool CrashpadClient::SetHandler(const std::string& ipc_port) {
   }
 
   // The server returns these already duplicated to be valid in this process.
-  g_signal_exception =
-      reinterpret_cast<HANDLE>(response.registration.request_report_event);
+  g_signal_exception = reinterpret_cast<HANDLE>(
+      static_cast<uintptr_t>(response.registration.request_report_event));
   return true;
 }
 

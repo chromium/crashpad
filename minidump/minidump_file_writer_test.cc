@@ -290,6 +290,7 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
   // but the test should complete without failure.
   const uint32_t kSnapshotTime = 0xfd469ab8;
   MSVC_SUPPRESS_WARNING(4309);  // Truncation of constant value.
+  MSVC_SUPPRESS_WARNING(4838);  // Narrowing conversion.
   const timeval kSnapshotTimeval = { static_cast<time_t>(kSnapshotTime), 0 };
 
   TestProcessSnapshot process_snapshot;
