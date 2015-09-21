@@ -175,6 +175,9 @@
           'sources': [
             'win/crashpad_snapshot_test_image_reader_module.cc',
           ],
+          'msvs_settings': {
+            'NoImportLibrary': 'true',
+          },
         },
       ],
     }],
