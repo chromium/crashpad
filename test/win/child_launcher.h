@@ -26,7 +26,8 @@ namespace test {
 
 //! \brief Creates a child process for testing. Uses gtest `ASSERT_*` to
 //!     indicate failure. The child's output is passed through a pipe and is
-//!     available via stdout_read_handle().
+//!     available via stdout_read_handle(), and the child's input is attached to
+//!     a second pipe available via stdin_write_handle().
 class ChildLauncher {
  public:
   //! \brief Creates the object. \a executable will be escaped and prepended to
@@ -40,6 +41,11 @@ class ChildLauncher {
   //!     will be valid.
   void Start();
 
+  //! \brief Waits for the child process to exit.
+  //! 
+  //! \return The process exit code.
+  DWORD WaitForExit();
+
   //! \brief The child process's `HANDLE`.
   HANDLE process_handle() const { return process_handle_.get(); }
 
@@ -49,12 +55,16 @@ class ChildLauncher {
   //! \brief The read end of a pipe attached to the child's stdout.
   HANDLE stdout_read_handle() const { return stdout_read_handle_.get(); }
 
+  //! \brief The write end of a pipe attached to the child's stdin.
+  HANDLE stdin_write_handle() const { return stdin_write_handle_.get(); }
+
  private:
   std::wstring executable_;
   std::wstring command_line_;
   ScopedKernelHANDLE process_handle_;
   ScopedKernelHANDLE main_thread_handle_;
   ScopedFileHANDLE stdout_read_handle_;
+  ScopedFileHANDLE stdin_write_handle_;
 };
 
 //! \brief Utility function for building escaped command lines.

@@ -22,6 +22,7 @@
 #include "client/crashpad_info.h"
 #include "snapshot/win/process_reader_win.h"
 #include "util/misc/pdb_structures.h"
+#include "util/win/process_structs.h"
 
 namespace crashpad {
 
@@ -33,6 +34,20 @@ std::string RangeToString(const CheckedWinAddressRange& range) {
                             range.Size(),
                             range.Is64Bit() ? "64" : "32");
 }
+
+// Map from Traits to an IMAGE_NT_HEADERSxx.
+template <class Traits>
+struct NtHeadersForTraits;
+
+template <>
+struct NtHeadersForTraits<process_types::internal::Traits32> {
+  using type = IMAGE_NT_HEADERS32;
+};
+
+template <>
+struct NtHeadersForTraits<process_types::internal::Traits64> {
+  using type = IMAGE_NT_HEADERS64;
+};
 
 }  // namespace
 
@@ -65,20 +80,16 @@ bool PEImageReader::Initialize(ProcessReaderWin* process_reader,
   return true;
 }
 
+template <class Traits>
 bool PEImageReader::GetCrashpadInfo(
-    process_types::CrashpadInfo* crashpad_info) const {
+    process_types::CrashpadInfo<Traits>* crashpad_info) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   IMAGE_SECTION_HEADER section;
-  if (process_reader_->Is64Bit()) {
-    if (!GetSectionByName<IMAGE_NT_HEADERS64>("CPADinfo", &section))
-      return false;
-  } else {
-    if (!GetSectionByName<IMAGE_NT_HEADERS32>("CPADinfo", &section))
-      return false;
-  }
+  if (!GetSectionByName<NtHeadersForTraits<Traits>::type>("CPADinfo", &section))
+    return false;
 
-  if (section.Misc.VirtualSize < sizeof(process_types::CrashpadInfo)) {
+  if (section.Misc.VirtualSize < sizeof(process_types::CrashpadInfo<Traits>)) {
     LOG(WARNING) << "small crashpad info section size "
                  << section.Misc.VirtualSize << ", " << module_name_;
     return false;
@@ -100,9 +111,8 @@ bool PEImageReader::GetCrashpadInfo(
     return false;
   }
 
-  // TODO(scottmg): process_types for cross-bitness.
   if (!process_reader_->ReadMemory(crashpad_info_address,
-                                   sizeof(process_types::CrashpadInfo),
+                                   sizeof(process_types::CrashpadInfo<Traits>),
                                    crashpad_info)) {
     LOG(WARNING) << "could not read crashpad info " << module_name_;
     return false;
@@ -269,5 +279,14 @@ bool PEImageReader::CheckedReadMemory(WinVMAddress address,
   }
   return process_reader_->ReadMemory(address, size, into);
 }
+
+// Explicit instantiations with the only 2 valid template arguments to avoid
+// putting the body of the function in the header.
+template bool PEImageReader::GetCrashpadInfo<process_types::internal::Traits32>(
+    process_types::CrashpadInfo<process_types::internal::Traits32>*
+        crashpad_info) const;
+template bool PEImageReader::GetCrashpadInfo<process_types::internal::Traits64>(
+    process_types::CrashpadInfo<process_types::internal::Traits64>*
+        crashpad_info) const;
 
 }  // namespace crashpad

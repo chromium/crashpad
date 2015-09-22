@@ -85,6 +85,9 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
 
  private:
+  template <class Traits>
+  void GetCrashpadOptionsInternal(CrashpadInfoClientOptions* options);
+
   std::wstring name_;
   time_t timestamp_;
   scoped_ptr<PEImageReader> pe_image_reader_;

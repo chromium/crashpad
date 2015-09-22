@@ -99,7 +99,13 @@ CrashpadInfo::CrashpadInfo()
       crashpad_handler_behavior_(TriState::kUnset),
       system_crash_reporter_forwarding_(TriState::kUnset),
       padding_0_(0),
-      simple_annotations_(nullptr) {
+      simple_annotations_(nullptr)
+#if !defined(NDEBUG) && defined(OS_WIN)
+      ,
+      invalid_read_detection_(0xbadc0de)
+#endif
+{
+
 }
 
 }  // namespace crashpad

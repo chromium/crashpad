@@ -56,6 +56,7 @@ class PEImageAnnotationsReader {
 
  private:
   // Reads CrashpadInfo::simple_annotations_ on behalf of SimpleMap().
+  template <class Traits>
   void ReadCrashpadSimpleAnnotations(
       std::map<std::string, std::string>* simple_map_annotations) const;
 

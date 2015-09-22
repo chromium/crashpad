@@ -25,12 +25,13 @@ ChildLauncher::ChildLauncher(const std::wstring& executable,
       command_line_(command_line),
       process_handle_(),
       main_thread_handle_(),
-      stdout_read_handle_() {
+      stdout_read_handle_(),
+      stdin_write_handle_() {
 }
 
 ChildLauncher::~ChildLauncher() {
-  EXPECT_EQ(WAIT_OBJECT_0,
-            WaitForSingleObject(process_handle_.get(), INFINITE));
+  if (process_handle_.is_valid())
+    WaitForExit();
 }
 
 void ChildLauncher::Start() {
@@ -38,10 +39,11 @@ void ChildLauncher::Start() {
   ASSERT_FALSE(main_thread_handle_.is_valid());
   ASSERT_FALSE(stdout_read_handle_.is_valid());
 
-  // Create a pipe for the stdout of the child.
+  // Create pipes for the stdin/stdout of the child.
   SECURITY_ATTRIBUTES security_attributes = {0};
   security_attributes.nLength = sizeof(SECURITY_ATTRIBUTES);
   security_attributes.bInheritHandle = true;
+
   HANDLE stdout_read;
   HANDLE stdout_write;
   ASSERT_TRUE(CreatePipe(&stdout_read, &stdout_write, &security_attributes, 0));
@@ -50,9 +52,17 @@ void ChildLauncher::Start() {
   ASSERT_TRUE(
       SetHandleInformation(stdout_read_handle_.get(), HANDLE_FLAG_INHERIT, 0));
 
+  HANDLE stdin_read;
+  HANDLE stdin_write;
+  ASSERT_TRUE(CreatePipe(&stdin_read, &stdin_write, &security_attributes, 0));
+  stdin_write_handle_.reset(stdin_write);
+  ScopedFileHANDLE read_handle(stdin_read);
+  ASSERT_TRUE(
+      SetHandleInformation(stdin_write_handle_.get(), HANDLE_FLAG_INHERIT, 0));
+
   STARTUPINFO startup_info = {0};
   startup_info.cb = sizeof(startup_info);
-  startup_info.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
+  startup_info.hStdInput = read_handle.get();
   startup_info.hStdOutput = write_handle.get();
   startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
   startup_info.dwFlags = STARTF_USESTDHANDLES;
@@ -74,6 +84,16 @@ void ChildLauncher::Start() {
   // Take ownership of the two process handles returned.
   main_thread_handle_.reset(process_information.hThread);
   process_handle_.reset(process_information.hProcess);
+}
+
+DWORD ChildLauncher::WaitForExit() {
+  EXPECT_TRUE(process_handle_.is_valid());
+  EXPECT_EQ(WAIT_OBJECT_0,
+            WaitForSingleObject(process_handle_.get(), INFINITE));
+  DWORD exit_code = 0;
+  EXPECT_TRUE(GetExitCodeProcess(process_handle_.get(), &exit_code));
+  process_handle_.reset();
+  return exit_code;
 }
 
 // Ref: http://blogs.msdn.com/b/twistylittlepassagesallalike/archive/2011/04/23/everyone-quotes-arguments-the-wrong-way.aspx

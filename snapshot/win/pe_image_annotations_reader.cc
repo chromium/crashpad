@@ -20,6 +20,7 @@
 #include "client/simple_string_dictionary.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
+#include "util/win/process_structs.h"
 
 namespace crashpad {
 
@@ -34,13 +35,20 @@ PEImageAnnotationsReader::PEImageAnnotationsReader(
 
 std::map<std::string, std::string> PEImageAnnotationsReader::SimpleMap() const {
   std::map<std::string, std::string> simple_map_annotations;
-  ReadCrashpadSimpleAnnotations(&simple_map_annotations);
+  if (process_reader_->Is64Bit()) {
+    ReadCrashpadSimpleAnnotations<process_types::internal::Traits64>(
+        &simple_map_annotations);
+  } else {
+    ReadCrashpadSimpleAnnotations<process_types::internal::Traits32>(
+        &simple_map_annotations);
+  }
   return simple_map_annotations;
 }
 
+template <class Traits>
 void PEImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
     std::map<std::string, std::string>* simple_map_annotations) const {
-  process_types::CrashpadInfo crashpad_info;
+  process_types::CrashpadInfo<Traits> crashpad_info;
   if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
     return;
 

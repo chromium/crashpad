@@ -57,21 +57,10 @@ bool ModuleSnapshotWin::Initialize(
 
 void ModuleSnapshotWin::GetCrashpadOptions(CrashpadInfoClientOptions* options) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  process_types::CrashpadInfo crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info)) {
-    options->crashpad_handler_behavior = TriState::kUnset;
-    options->system_crash_reporter_forwarding = TriState::kUnset;
-    return;
-  }
-
-  options->crashpad_handler_behavior =
-      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
-          crashpad_info.crashpad_handler_behavior);
-
-  options->system_crash_reporter_forwarding =
-      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
-          crashpad_info.system_crash_reporter_forwarding);
+  if (process_reader_->Is64Bit())
+    GetCrashpadOptionsInternal<process_types::internal::Traits64>(options);
+  else
+    GetCrashpadOptionsInternal<process_types::internal::Traits32>(options);
 }
 
 std::string ModuleSnapshotWin::Name() const {
@@ -169,6 +158,25 @@ std::map<std::string, std::string> ModuleSnapshotWin::AnnotationsSimpleMap()
   PEImageAnnotationsReader annotations_reader(
       process_reader_, pe_image_reader_.get(), name_);
   return annotations_reader.SimpleMap();
+}
+
+template <class Traits>
+void ModuleSnapshotWin::GetCrashpadOptionsInternal(
+    CrashpadInfoClientOptions* options) {
+  process_types::CrashpadInfo<Traits> crashpad_info;
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info)) {
+    options->crashpad_handler_behavior = TriState::kUnset;
+    options->system_crash_reporter_forwarding = TriState::kUnset;
+    return;
+  }
+
+  options->crashpad_handler_behavior =
+      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
+          crashpad_info.crashpad_handler_behavior);
+
+  options->system_crash_reporter_forwarding =
+      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
+          crashpad_info.system_crash_reporter_forwarding);
 }
 
 }  // namespace internal
