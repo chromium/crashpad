@@ -124,10 +124,13 @@ void TestOtherProcess(const base::string16& directory_modification) {
           .Append(test_executable.BaseName().RemoveFinalExtension().value() +
                   L"_process_info_test_child.exe")
           .value();
-  // TODO(scottmg): Command line escaping utility.
-  ChildLauncher child(
-      child_test_executable,
-      started_uuid.ToString16() + L" " + done_uuid.ToString16());
+
+  std::wstring args;
+  AppendCommandLineArgument(started_uuid.ToString16(), &args);
+  args += L" ";
+  AppendCommandLineArgument(done_uuid.ToString16(), &args);
+
+  ChildLauncher child(child_test_executable, args);
   child.Start();
 
   // Wait until the test has completed initialization.
