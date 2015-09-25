@@ -50,8 +50,14 @@ struct RegistrationRequest {
   DWORD client_process_id;
 
   //! \brief The address, in the client process address space, of an
-  //!     ExceptionInformation structure.
-  WinVMAddress exception_information;
+  //!     ExceptionInformation structure, used when handling a crash dump
+  //!     request.
+  WinVMAddress crash_exception_information;
+
+  //! \brief The address, in the client process address space, of an
+  //!     ExceptionInformation structure, used when handling a non-crashing dump
+  //!     request.
+  WinVMAddress non_crash_exception_information;
 };
 
 //! \brief A message only sent to the server by itself to trigger shutdown.
@@ -88,7 +94,17 @@ struct RegistrationResponse {
   //! \brief An event `HANDLE`, valid in the client process, that should be
   //!     signaled to request a crash report. 64-bit clients should convert the
   //!     value to a `HANDLE` using sign-extension.
-  uint32_t request_report_event;
+  uint32_t request_crash_dump_event;
+
+  //! \brief An event `HANDLE`, valid in the client process, that should be
+  //!     signaled to request a non-crashing dump be taken. 64-bit clients
+  //!     should convert the value to `HANDLEEE` using sign-extension.
+  uint32_t request_non_crash_dump_event;
+
+  //! \brief An event `HANDLE`, valid in the client process, that will be
+  //!     signaled by the server when the non-crashing dump is complete. 64-bit
+  //!     clients should convert the value to `HANDLEEE` using sign-extension.
+  uint32_t non_crash_dump_completed_event;
 };
 
 //! \brief The response sent back to the client via SendToCrashHandlerServer().

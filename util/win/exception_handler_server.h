@@ -76,7 +76,8 @@ class ExceptionHandlerServer {
   static bool ServiceClientConnection(
       const internal::PipeServiceContext& service_context);
   static DWORD __stdcall PipeServiceProc(void* ctx);
-  static void __stdcall OnDumpEvent(void* ctx, BOOLEAN);
+  static void __stdcall OnCrashDumpEvent(void* ctx, BOOLEAN);
+  static void __stdcall OnNonCrashDumpEvent(void* ctx, BOOLEAN);
   static void __stdcall OnProcessEnd(void* ctx, BOOLEAN);
 
   ScopedKernelHANDLE port_;

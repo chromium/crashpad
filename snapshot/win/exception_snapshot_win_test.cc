@@ -36,65 +36,6 @@ namespace crashpad {
 namespace test {
 namespace {
 
-HANDLE DuplicateEvent(HANDLE process, HANDLE event) {
-  HANDLE handle;
-  if (DuplicateHandle(GetCurrentProcess(),
-                      event,
-                      process,
-                      &handle,
-                      SYNCHRONIZE | EVENT_MODIFY_STATE,
-                      false,
-                      0)) {
-    return handle;
-  }
-  return nullptr;
-}
-
-class Delegate : public ExceptionHandlerServer::Delegate {
- public:
-  Delegate(HANDLE server_ready, HANDLE completed_test_event)
-      : server_ready_(server_ready),
-        completed_test_event_(completed_test_event),
-        break_near_(0) {}
-  ~Delegate() override {}
-
-  void set_break_near(WinVMAddress break_near) { break_near_ = break_near; }
-
-  void ExceptionHandlerServerStarted() override { SetEvent(server_ready_); }
-
-  unsigned int ExceptionHandlerServerException(
-      HANDLE process,
-      WinVMAddress exception_information_address) override {
-    ScopedProcessSuspend suspend(process);
-    ProcessSnapshotWin snapshot;
-    snapshot.Initialize(process, ProcessSuspensionState::kSuspended);
-    snapshot.InitializeException(exception_information_address);
-
-    // Confirm the exception record was read correctly.
-    EXPECT_NE(snapshot.Exception()->ThreadID(), 0u);
-    EXPECT_EQ(snapshot.Exception()->Exception(), EXCEPTION_BREAKPOINT);
-
-    // Verify the exception happened at the expected location with a bit of
-    // slop space to allow for reading the current PC before the exception
-    // happens. See CrashingChildProcess::Run().
-    const uint64_t kAllowedOffset = 64;
-    EXPECT_GT(snapshot.Exception()->ExceptionAddress(), break_near_);
-    EXPECT_LT(snapshot.Exception()->ExceptionAddress(),
-              break_near_ + kAllowedOffset);
-
-    SetEvent(completed_test_event_);
-
-    return snapshot.Exception()->Exception();
-  }
-
- private:
-  HANDLE server_ready_;  // weak
-  HANDLE completed_test_event_;  // weak
-  WinVMAddress break_near_;
-
-  DISALLOW_COPY_AND_ASSIGN(Delegate);
-};
-
 // Runs the ExceptionHandlerServer on a background thread.
 class RunServerThread : public Thread {
  public:
@@ -133,13 +74,58 @@ class ScopedStopServerAndJoinThread {
   DISALLOW_COPY_AND_ASSIGN(ScopedStopServerAndJoinThread);
 };
 
+class CrashingDelegate : public ExceptionHandlerServer::Delegate {
+ public:
+  CrashingDelegate(HANDLE server_ready, HANDLE completed_test_event)
+      : server_ready_(server_ready),
+        completed_test_event_(completed_test_event),
+        break_near_(0) {}
+  ~CrashingDelegate() override {}
+
+  void set_break_near(WinVMAddress break_near) { break_near_ = break_near; }
+
+  void ExceptionHandlerServerStarted() override { SetEvent(server_ready_); }
+
+  unsigned int ExceptionHandlerServerException(
+      HANDLE process,
+      WinVMAddress exception_information_address) override {
+    ScopedProcessSuspend suspend(process);
+    ProcessSnapshotWin snapshot;
+    snapshot.Initialize(process, ProcessSuspensionState::kSuspended);
+    snapshot.InitializeException(exception_information_address);
+
+    // Confirm the exception record was read correctly.
+    EXPECT_NE(snapshot.Exception()->ThreadID(), 0u);
+    EXPECT_EQ(snapshot.Exception()->Exception(), EXCEPTION_BREAKPOINT);
+
+    // Verify the exception happened at the expected location with a bit of
+    // slop space to allow for reading the current PC before the exception
+    // happens. See TestCrashingChild().
+    const uint64_t kAllowedOffset = 64;
+    EXPECT_GT(snapshot.Exception()->ExceptionAddress(), break_near_);
+    EXPECT_LT(snapshot.Exception()->ExceptionAddress(),
+              break_near_ + kAllowedOffset);
+
+    SetEvent(completed_test_event_);
+
+    return snapshot.Exception()->Exception();
+  }
+
+ private:
+  HANDLE server_ready_;  // weak
+  HANDLE completed_test_event_;  // weak
+  WinVMAddress break_near_;
+
+  DISALLOW_COPY_AND_ASSIGN(CrashingDelegate);
+};
+
 void TestCrashingChild(const base::string16& directory_modification) {
   // Set up the registration server on a background thread.
   std::string pipe_name = "\\\\.\\pipe\\handler_test_pipe_" +
                           base::StringPrintf("%08x", GetCurrentProcessId());
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
-  Delegate delegate(server_ready.get(), completed.get());
+  CrashingDelegate delegate(server_ready.get(), completed.get());
 
   ExceptionHandlerServer exception_handler_server;
   RunServerThread server_thread(
@@ -182,6 +168,104 @@ TEST(ExceptionSnapshotWinTest, ChildCrashWOW64) {
   TestCrashingChild(FILE_PATH_LITERAL("..\\..\\out\\Debug"));
 #else
   TestCrashingChild(FILE_PATH_LITERAL("..\\..\\out\\Release"));
+#endif
+}
+#endif  // ARCH_CPU_64_BITS
+
+class SimulateDelegate : public ExceptionHandlerServer::Delegate {
+ public:
+  SimulateDelegate(HANDLE server_ready, HANDLE completed_test_event)
+      : server_ready_(server_ready),
+        completed_test_event_(completed_test_event),
+        dump_near_(0) {}
+  ~SimulateDelegate() override {}
+
+  void set_dump_near(WinVMAddress dump_near) { dump_near_ = dump_near; }
+
+  void ExceptionHandlerServerStarted() override { SetEvent(server_ready_); }
+
+  unsigned int ExceptionHandlerServerException(
+      HANDLE process,
+      WinVMAddress exception_information_address) override {
+    ScopedProcessSuspend suspend(process);
+    ProcessSnapshotWin snapshot;
+    snapshot.Initialize(process, ProcessSuspensionState::kSuspended);
+    snapshot.InitializeException(exception_information_address);
+    EXPECT_TRUE(snapshot.Exception());
+    EXPECT_EQ(0, snapshot.Exception()->Exception());
+    EXPECT_EQ(0, snapshot.Exception()->ExceptionAddress());
+
+    // Verify the dump was captured at the expected location with some slop
+    // space.
+    const uint64_t kAllowedOffset = 64;
+    EXPECT_GT(snapshot.Exception()->Context()->InstructionPointer(),
+              dump_near_);
+    EXPECT_LT(snapshot.Exception()->Context()->InstructionPointer(),
+              dump_near_ + kAllowedOffset);
+
+    SetEvent(completed_test_event_);
+
+    return 0;
+  }
+
+ private:
+  HANDLE server_ready_;  // weak
+  HANDLE completed_test_event_;  // weak
+  WinVMAddress dump_near_;
+
+  DISALLOW_COPY_AND_ASSIGN(SimulateDelegate);
+};
+
+void TestDumpWithoutCrashingChild(
+    const base::string16& directory_modification) {
+  // Set up the registration server on a background thread.
+  std::string pipe_name = "\\\\.\\pipe\\handler_test_pipe_" +
+                          base::StringPrintf("%08x", GetCurrentProcessId());
+  ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
+  ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
+  SimulateDelegate delegate(server_ready.get(), completed.get());
+
+  ExceptionHandlerServer exception_handler_server;
+  RunServerThread server_thread(
+      &exception_handler_server, &delegate, pipe_name);
+  server_thread.Start();
+  ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
+      &exception_handler_server, &server_thread);
+
+  WaitForSingleObject(server_ready.get(), INFINITE);
+
+  // Spawn a child process, passing it the pipe name to connect to.
+  base::FilePath test_executable = Paths::Executable();
+  std::wstring child_test_executable =
+      test_executable.DirName()
+          .Append(directory_modification)
+          .Append(test_executable.BaseName().RemoveFinalExtension().value() +
+                  L"_dump_without_crashing.exe")
+          .value();
+  ChildLauncher child(child_test_executable, base::UTF8ToUTF16(pipe_name));
+  child.Start();
+
+  // The child tells us (approximately) where it will capture a dump.
+  WinVMAddress dump_near_address;
+  LoggingReadFile(child.stdout_read_handle(),
+                  &dump_near_address,
+                  sizeof(dump_near_address));
+  delegate.set_dump_near(dump_near_address);
+
+  // Wait for the child to crash and the exception information to be validated.
+  WaitForSingleObject(completed.get(), INFINITE);
+}
+
+TEST(SimulateCrash, ChildDumpWithoutCrashing) {
+  TestDumpWithoutCrashingChild(FILE_PATH_LITERAL("."));
+}
+
+#if defined(ARCH_CPU_64_BITS)
+TEST(SimulateCrash, ChildDumpWithoutCrashingWOW64) {
+#ifndef NDEBUG
+  TestDumpWithoutCrashingChild(FILE_PATH_LITERAL("..\\..\\out\\Debug"));
+#else
+  TestDumpWithoutCrashingChild(FILE_PATH_LITERAL("..\\..\\out\\Release"));
 #endif
 }
 #endif  // ARCH_CPU_64_BITS

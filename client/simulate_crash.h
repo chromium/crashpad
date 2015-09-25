@@ -19,6 +19,8 @@
 
 #if defined(OS_MACOSX)
 #include "client/simulate_crash_mac.h"
+#elif defined(OS_WIN)
+#include "client/simulate_crash_win.h"
 #endif
 
 #endif  // CRASHPAD_CLIENT_SIMULATE_CRASH_H_

@@ -25,6 +25,8 @@
 
 #if defined(OS_MACOSX)
 #include "base/mac/scoped_mach_port.h"
+#elif defined(OS_WIN)
+#include <windows.h>
 #endif
 
 namespace crashpad {
@@ -87,6 +89,13 @@ class CrashpadClient {
   //!
   //! \return `true` on success and `false` on failure.
   bool SetHandler(const std::string& ipc_port);
+
+  //! \brief Requests that the handler capture a dump even though there hasn't
+  //!     been a crash.
+  //!
+  //! \param[in] context A CONTEXT, generally captured by `RtlCaptureContext()`
+  //!     or similar.
+  static void DumpWithoutCrash(const CONTEXT& context);
 #endif
 
   //! \brief Configures the process to direct its crashes to a Crashpad handler.

@@ -103,19 +103,31 @@ class ClientData {
   ClientData(HANDLE port,
              ExceptionHandlerServer::Delegate* delegate,
              ScopedKernelHANDLE process,
-             WinVMAddress exception_information_address,
-             WAITORTIMERCALLBACK dump_request_callback,
+             WinVMAddress crash_exception_information_address,
+             WinVMAddress non_crash_exception_information_address,
+             WAITORTIMERCALLBACK crash_dump_request_callback,
+             WAITORTIMERCALLBACK non_crash_dump_request_callback,
              WAITORTIMERCALLBACK process_end_callback)
-      : dump_request_thread_pool_wait_(INVALID_HANDLE_VALUE),
+      : crash_dump_request_thread_pool_wait_(INVALID_HANDLE_VALUE),
+        non_crash_dump_request_thread_pool_wait_(INVALID_HANDLE_VALUE),
         process_end_thread_pool_wait_(INVALID_HANDLE_VALUE),
         lock_(),
         port_(port),
         delegate_(delegate),
-        dump_requested_event_(
+        crash_dump_requested_event_(
+            CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
+        non_crash_dump_requested_event_(
+            CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
+        non_crash_dump_completed_event_(
             CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
         process_(process.Pass()),
-        exception_information_address_(exception_information_address) {
-    RegisterThreadPoolWaits(dump_request_callback, process_end_callback);
+        crash_exception_information_address_(
+            crash_exception_information_address),
+        non_crash_exception_information_address_(
+            non_crash_exception_information_address) {
+    RegisterThreadPoolWaits(crash_dump_request_callback,
+                            non_crash_dump_request_callback,
+                            process_end_callback);
   }
 
   ~ClientData() {
@@ -128,22 +140,44 @@ class ClientData {
   base::Lock* lock() { return &lock_; }
   HANDLE port() const { return port_; }
   ExceptionHandlerServer::Delegate* delegate() const { return delegate_; }
-  HANDLE dump_requested_event() const { return dump_requested_event_.get(); }
-  WinVMAddress exception_information_address() const {
-    return exception_information_address_;
+  HANDLE crash_dump_requested_event() const {
+    return crash_dump_requested_event_.get();
+  }
+  HANDLE non_crash_dump_requested_event() const {
+    return non_crash_dump_requested_event_.get();
+  }
+  HANDLE non_crash_dump_completed_event() const {
+    return non_crash_dump_completed_event_.get();
+  }
+  WinVMAddress crash_exception_information_address() const {
+    return crash_exception_information_address_;
+  }
+  WinVMAddress non_crash_exception_information_address() const {
+    return non_crash_exception_information_address_;
   }
   HANDLE process() const { return process_.get(); }
 
  private:
-  void RegisterThreadPoolWaits(WAITORTIMERCALLBACK dump_request_callback,
-                               WAITORTIMERCALLBACK process_end_callback) {
-    if (!RegisterWaitForSingleObject(&dump_request_thread_pool_wait_,
-                                     dump_requested_event_.get(),
-                                     dump_request_callback,
+  void RegisterThreadPoolWaits(
+      WAITORTIMERCALLBACK crash_dump_request_callback,
+      WAITORTIMERCALLBACK non_crash_dump_request_callback,
+      WAITORTIMERCALLBACK process_end_callback) {
+    if (!RegisterWaitForSingleObject(&crash_dump_request_thread_pool_wait_,
+                                     crash_dump_requested_event_.get(),
+                                     crash_dump_request_callback,
                                      this,
                                      INFINITE,
                                      WT_EXECUTEDEFAULT)) {
-      LOG(ERROR) << "RegisterWaitForSingleObject dump requested";
+      LOG(ERROR) << "RegisterWaitForSingleObject crash dump requested";
+    }
+
+    if (!RegisterWaitForSingleObject(&non_crash_dump_request_thread_pool_wait_,
+                                     non_crash_dump_requested_event_.get(),
+                                     non_crash_dump_request_callback,
+                                     this,
+                                     INFINITE,
+                                     WT_EXECUTEDEFAULT)) {
+      LOG(ERROR) << "RegisterWaitForSingleObject non-crash dump requested";
     }
 
     if (!RegisterWaitForSingleObject(&process_end_thread_pool_wait_,
@@ -160,23 +194,31 @@ class ClientData {
   // delete this object. Because of this, it must be executed on the main
   // thread, not a threadpool thread.
   void UnregisterThreadPoolWaits() {
-    UnregisterWaitEx(dump_request_thread_pool_wait_, INVALID_HANDLE_VALUE);
-    dump_request_thread_pool_wait_ = INVALID_HANDLE_VALUE;
+    UnregisterWaitEx(crash_dump_request_thread_pool_wait_,
+                     INVALID_HANDLE_VALUE);
+    crash_dump_request_thread_pool_wait_ = INVALID_HANDLE_VALUE;
+    UnregisterWaitEx(non_crash_dump_request_thread_pool_wait_,
+                     INVALID_HANDLE_VALUE);
+    non_crash_dump_request_thread_pool_wait_ = INVALID_HANDLE_VALUE;
     UnregisterWaitEx(process_end_thread_pool_wait_, INVALID_HANDLE_VALUE);
     process_end_thread_pool_wait_ = INVALID_HANDLE_VALUE;
   }
 
   // These are only accessed on the main thread.
-  HANDLE dump_request_thread_pool_wait_;
+  HANDLE crash_dump_request_thread_pool_wait_;
+  HANDLE non_crash_dump_request_thread_pool_wait_;
   HANDLE process_end_thread_pool_wait_;
 
   base::Lock lock_;
   // Access to these fields must be guarded by lock_.
   HANDLE port_;  // weak
   ExceptionHandlerServer::Delegate* delegate_;  // weak
-  ScopedKernelHANDLE dump_requested_event_;
+  ScopedKernelHANDLE crash_dump_requested_event_;
+  ScopedKernelHANDLE non_crash_dump_requested_event_;
+  ScopedKernelHANDLE non_crash_dump_completed_event_;
   ScopedKernelHANDLE process_;
-  WinVMAddress exception_information_address_;
+  WinVMAddress crash_exception_information_address_;
+  WinVMAddress non_crash_exception_information_address_;
 
   DISALLOW_COPY_AND_ASSIGN(ClientData);
 };
@@ -364,21 +406,29 @@ bool ExceptionHandlerServer::ServiceClientConnection(
   internal::ClientData* client;
   {
     base::AutoLock lock(*service_context.clients_lock());
-    client =
-        new internal::ClientData(service_context.port(),
-                                 service_context.delegate(),
-                                 ScopedKernelHANDLE(client_process),
-                                 message.registration.exception_information,
-                                 &OnDumpEvent,
-                                 &OnProcessEnd);
+    client = new internal::ClientData(
+        service_context.port(),
+        service_context.delegate(),
+        ScopedKernelHANDLE(client_process),
+        message.registration.crash_exception_information,
+        message.registration.non_crash_exception_information,
+        &OnCrashDumpEvent,
+        &OnNonCrashDumpEvent,
+        &OnProcessEnd);
     service_context.clients()->insert(client);
   }
 
   // Duplicate the events back to the client so they can request a dump.
   ServerToClientMessage response;
-  response.registration.request_report_event =
-      base::checked_cast<uint32_t>(reinterpret_cast<uintptr_t>(
-          DuplicateEvent(client->process(), client->dump_requested_event())));
+  response.registration.request_crash_dump_event =
+      base::checked_cast<uint32_t>(reinterpret_cast<uintptr_t>(DuplicateEvent(
+          client->process(), client->crash_dump_requested_event())));
+  response.registration.request_non_crash_dump_event =
+      base::checked_cast<uint32_t>(reinterpret_cast<uintptr_t>(DuplicateEvent(
+          client->process(), client->non_crash_dump_requested_event())));
+  response.registration.non_crash_dump_completed_event =
+      base::checked_cast<uint32_t>(reinterpret_cast<uintptr_t>(DuplicateEvent(
+          client->process(), client->non_crash_dump_completed_event())));
 
   if (!LoggingWriteFile(service_context.pipe(), &response, sizeof(response)))
     return false;
@@ -408,16 +458,30 @@ DWORD __stdcall ExceptionHandlerServer::PipeServiceProc(void* ctx) {
 }
 
 // static
-void __stdcall ExceptionHandlerServer::OnDumpEvent(void* ctx, BOOLEAN) {
+void __stdcall ExceptionHandlerServer::OnCrashDumpEvent(void* ctx, BOOLEAN) {
   // This function is executed on the thread pool.
   internal::ClientData* client = reinterpret_cast<internal::ClientData*>(ctx);
   base::AutoLock lock(*client->lock());
 
   // Capture the exception.
   unsigned int exit_code = client->delegate()->ExceptionHandlerServerException(
-      client->process(), client->exception_information_address());
+      client->process(), client->crash_exception_information_address());
 
   TerminateProcess(client->process(), exit_code);
+}
+
+// static
+void __stdcall ExceptionHandlerServer::OnNonCrashDumpEvent(void* ctx, BOOLEAN) {
+  // This function is executed on the thread pool.
+  internal::ClientData* client = reinterpret_cast<internal::ClientData*>(ctx);
+  base::AutoLock lock(*client->lock());
+
+  // Capture the exception.
+  client->delegate()->ExceptionHandlerServerException(
+      client->process(), client->non_crash_exception_information_address());
+
+  bool result = SetEvent(client->non_crash_dump_completed_event());
+  PLOG_IF(ERROR, !result) << "SetEvent";
 }
 
 // static

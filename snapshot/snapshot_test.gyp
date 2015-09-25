@@ -97,6 +97,7 @@
         ['OS=="win"', {
           'dependencies': [
             'crashpad_snapshot_test_crashing_child',
+            'crashpad_snapshot_test_dump_without_crashing',
             'crashpad_snapshot_test_image_reader',
             'crashpad_snapshot_test_image_reader_module',
           ],
@@ -150,6 +151,19 @@
           ],
           'sources': [
             'win/crashpad_snapshot_test_crashing_child.cc',
+          ],
+        },
+        {
+          'target_name': 'crashpad_snapshot_test_dump_without_crashing',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'sources': [
+            'win/crashpad_snapshot_test_dump_without_crashing.cc',
           ],
         },
         {

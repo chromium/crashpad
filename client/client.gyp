@@ -47,6 +47,7 @@
         'simulate_crash.h',
         'simulate_crash_mac.cc',
         'simulate_crash_mac.h',
+        'simulate_crash_win.h',
       ],
       'conditions': [
         ['OS=="win"', {
