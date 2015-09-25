@@ -45,7 +45,7 @@ namespace crashpad {
 //!     state flavor that the exception handler accepts. If it is not
 //!     compatible, the correct thread state for the handler will be obtained by
 //!     calling `thread_get_state()`.
-void SimulateCrash(const NativeCPUContext* cpu_context);
+void SimulateCrash(const NativeCPUContext& cpu_context);
 
 }  // namespace crashpad
 
@@ -54,7 +54,7 @@ void SimulateCrash(const NativeCPUContext* cpu_context);
   do {                                      \
     crashpad::NativeCPUContext cpu_context; \
     crashpad::CaptureContext(&cpu_context); \
-    crashpad::SimulateCrash(&cpu_context);  \
+    crashpad::SimulateCrash(cpu_context);   \
   } while (false)
 
 #endif  // CRASHPAD_CLIENT_SIMULATE_CRASH_MAC_H_

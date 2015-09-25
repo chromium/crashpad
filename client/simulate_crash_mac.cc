@@ -59,7 +59,7 @@ bool DeliverException(thread_t thread,
                       exception_type_t exception,
                       const mach_exception_data_t code,
                       mach_msg_type_number_t code_count,
-                      const NativeCPUContext* cpu_context,
+                      const NativeCPUContext& cpu_context,
                       const ExceptionPorts::ExceptionHandler& handler,
                       bool set_state) {
   kern_return_t kr;
@@ -81,18 +81,18 @@ bool DeliverException(thread_t thread,
   switch (flavor) {
 #if defined(ARCH_CPU_X86_FAMILY)
     case x86_THREAD_STATE:
-      state = reinterpret_cast<ConstThreadState>(cpu_context);
+      state = reinterpret_cast<ConstThreadState>(&cpu_context);
       state_count = x86_THREAD_STATE_COUNT;
       break;
 #if defined(ARCH_CPU_X86)
     case x86_THREAD_STATE32:
-      state = reinterpret_cast<ConstThreadState>(&cpu_context->uts.ts32);
-      state_count = cpu_context->tsh.count;
+      state = reinterpret_cast<ConstThreadState>(&cpu_context.uts.ts32);
+      state_count = cpu_context.tsh.count;
       break;
 #elif defined(ARCH_CPU_X86_64)
     case x86_THREAD_STATE64:
-      state = reinterpret_cast<ConstThreadState>(&cpu_context->uts.ts64);
-      state_count = cpu_context->tsh.count;
+      state = reinterpret_cast<ConstThreadState>(&cpu_context.uts.ts64);
+      state_count = cpu_context.tsh.count;
       break;
 #endif
 #else
@@ -176,16 +176,16 @@ bool DeliverException(thread_t thread,
 
 }  // namespace
 
-void SimulateCrash(const NativeCPUContext* cpu_context) {
+void SimulateCrash(const NativeCPUContext& cpu_context) {
 #if defined(ARCH_CPU_X86)
-  DCHECK_EQ(cpu_context->tsh.flavor,
+  DCHECK_EQ(cpu_context.tsh.flavor,
             implicit_cast<thread_state_flavor_t>(x86_THREAD_STATE32));
-  DCHECK_EQ(implicit_cast<mach_msg_type_number_t>(cpu_context->tsh.count),
+  DCHECK_EQ(implicit_cast<mach_msg_type_number_t>(cpu_context.tsh.count),
             x86_THREAD_STATE32_COUNT);
 #elif defined(ARCH_CPU_X86_64)
-  DCHECK_EQ(cpu_context->tsh.flavor,
+  DCHECK_EQ(cpu_context.tsh.flavor,
             implicit_cast<thread_state_flavor_t>(x86_THREAD_STATE64));
-  DCHECK_EQ(implicit_cast<mach_msg_type_number_t>(cpu_context->tsh.count),
+  DCHECK_EQ(implicit_cast<mach_msg_type_number_t>(cpu_context.tsh.count),
             x86_THREAD_STATE64_COUNT);
 #endif
 
