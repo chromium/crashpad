@@ -27,6 +27,7 @@
 #include "minidump/minidump_extensions.h"
 #include "snapshot/exception_snapshot.h"
 #include "snapshot/minidump/module_snapshot_minidump.h"
+#include "snapshot/memory_snapshot.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
@@ -68,6 +69,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   std::vector<const ThreadSnapshot*> Threads() const override;
   std::vector<const ModuleSnapshot*> Modules() const override;
   const ExceptionSnapshot* Exception() const override;
+  std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
   // Initializes data carried in a MinidumpCrashpadInfo stream on behalf of

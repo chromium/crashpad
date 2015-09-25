@@ -48,6 +48,10 @@ bool ProcessSnapshotWin::Initialize(HANDLE process,
     return false;
 
   system_.Initialize(&process_reader_);
+  WinVMAddress peb_address;
+  WinVMSize peb_size;
+  process_reader_.GetProcessInfo().Peb(&peb_address, &peb_size);
+  peb_.Initialize(&process_reader_, peb_address, peb_size);
 
   InitializeThreads();
   InitializeModules();
@@ -112,12 +116,12 @@ void ProcessSnapshotWin::GetCrashpadOptions(
 
 pid_t ProcessSnapshotWin::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return process_reader_.ProcessID();
+  return process_reader_.GetProcessInfo().ProcessID();
 }
 
 pid_t ProcessSnapshotWin::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return process_reader_.ParentProcessID();
+  return process_reader_.GetProcessInfo().ParentProcessID();
 }
 
 void ProcessSnapshotWin::SnapshotTime(timeval* snapshot_time) const {
@@ -177,6 +181,13 @@ std::vector<const ModuleSnapshot*> ProcessSnapshotWin::Modules() const {
 
 const ExceptionSnapshot* ProcessSnapshotWin::Exception() const {
   return exception_.get();
+}
+
+std::vector<const MemorySnapshot*> ProcessSnapshotWin::ExtraMemory() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  std::vector<const MemorySnapshot*> extra_memory;
+  extra_memory.push_back(&peb_);
+  return extra_memory;
 }
 
 void ProcessSnapshotWin::InitializeThreads() {

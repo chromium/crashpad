@@ -26,6 +26,7 @@
 #include "base/basictypes.h"
 #include "base/memory/scoped_ptr.h"
 #include "snapshot/exception_snapshot.h"
+#include "snapshot/memory_snapshot.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
@@ -95,6 +96,14 @@ class TestProcessSnapshot final : public ProcessSnapshot {
     exception_ = exception.Pass();
   }
 
+  //! \brief Add a memory snapshot to be returned by ExtraMemory().
+  //!
+  //! \param[in] peb The memory snapshot that will be included in ExtraMemory().
+  //!     The TestProcessSnapshot object takes ownership of \a extra_memory.
+  void AddExtraMemory(scoped_ptr<MemorySnapshot> extra_memory) {
+    extra_memory_.push_back(extra_memory.release());
+  }
+
   // ProcessSnapshot:
 
   pid_t ProcessID() const override;
@@ -110,6 +119,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   std::vector<const ThreadSnapshot*> Threads() const override;
   std::vector<const ModuleSnapshot*> Modules() const override;
   const ExceptionSnapshot* Exception() const override;
+  std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
   pid_t process_id_;
@@ -125,6 +135,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   PointerVector<ThreadSnapshot> threads_;
   PointerVector<ModuleSnapshot> modules_;
   scoped_ptr<ExceptionSnapshot> exception_;
+  PointerVector<MemorySnapshot> extra_memory_;
 
   DISALLOW_COPY_AND_ASSIGN(TestProcessSnapshot);
 };

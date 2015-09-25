@@ -38,7 +38,7 @@ TEST(ProcessReaderWin, SelfBasic) {
   EXPECT_TRUE(process_reader.Is64Bit());
 #endif
 
-  EXPECT_EQ(GetCurrentProcessId(), process_reader.ProcessID());
+  EXPECT_EQ(GetCurrentProcessId(), process_reader.GetProcessInfo().ProcessID());
 
   const char kTestMemory[] = "Some test memory";
   char buffer[arraysize(kTestMemory)];

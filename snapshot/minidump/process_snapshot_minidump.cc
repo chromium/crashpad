@@ -177,6 +177,13 @@ const ExceptionSnapshot* ProcessSnapshotMinidump::Exception() const {
   return nullptr;
 }
 
+std::vector<const MemorySnapshot*> ProcessSnapshotMinidump::ExtraMemory()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  return std::vector<const MemorySnapshot*>();
+}
+
 bool ProcessSnapshotMinidump::InitializeCrashpadInfo() {
   const auto& stream_it = stream_map_.find(kMinidumpStreamTypeCrashpadInfo);
   if (stream_it == stream_map_.end()) {

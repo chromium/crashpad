@@ -186,6 +186,11 @@ const ExceptionSnapshot* ProcessSnapshotMac::Exception() const {
   return exception_.get();
 }
 
+std::vector<const MemorySnapshot*> ProcessSnapshotMac::ExtraMemory() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::vector<const MemorySnapshot*>();
+}
+
 void ProcessSnapshotMac::InitializeThreads() {
   const std::vector<ProcessReader::Thread>& process_reader_threads =
       process_reader_.Threads();

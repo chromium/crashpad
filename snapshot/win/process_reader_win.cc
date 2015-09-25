@@ -275,6 +275,11 @@ const std::vector<ProcessInfo::Module>& ProcessReaderWin::Modules() {
   return modules_;
 }
 
+const ProcessInfo& ProcessReaderWin::GetProcessInfo() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return process_info_;
+}
+
 template <class Traits>
 void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
   DCHECK(threads_.empty());

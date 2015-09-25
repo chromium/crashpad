@@ -28,6 +28,7 @@
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_cpu_context.h"
 #include "snapshot/test/test_exception_snapshot.h"
+#include "snapshot/test/test_memory_snapshot.h"
 #include "snapshot/test/test_module_snapshot.h"
 #include "snapshot/test/test_process_snapshot.h"
 #include "snapshot/test/test_system_snapshot.h"
@@ -252,6 +253,14 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
   system_snapshot->SetOperatingSystem(SystemSnapshot::kOperatingSystemMacOSX);
   process_snapshot.SetSystem(system_snapshot.Pass());
 
+  auto peb_snapshot = make_scoped_ptr(new TestMemorySnapshot());
+  const uint64_t kPebAddress = 0x07f90000;
+  peb_snapshot->SetAddress(kPebAddress);
+  const size_t kPebSize = 0x280;
+  peb_snapshot->SetSize(kPebSize);
+  peb_snapshot->SetValue('p');
+  process_snapshot.AddExtraMemory(peb_snapshot.Pass());
+
   MinidumpFileWriter minidump_file_writer;
   minidump_file_writer.InitializeFromSnapshot(&process_snapshot);
 
@@ -283,6 +292,13 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
   EXPECT_EQ(kMinidumpStreamTypeMemoryList, directory[4].StreamType);
   EXPECT_TRUE(MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
                   string_file.string(), directory[4].Location));
+
+  const MINIDUMP_MEMORY_LIST* memory_list =
+      MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
+          string_file.string(), directory[4].Location);
+  EXPECT_EQ(1u, memory_list->NumberOfMemoryRanges);
+  EXPECT_EQ(kPebAddress, memory_list->MemoryRanges[0].StartOfMemoryRange);
+  EXPECT_EQ(kPebSize, memory_list->MemoryRanges[0].Memory.DataSize);
 }
 
 TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {

@@ -27,6 +27,7 @@
 namespace crashpad {
 
 class ExceptionSnapshot;
+class MemorySnapshot;
 class ModuleSnapshot;
 class SystemSnapshot;
 class ThreadSnapshot;
@@ -160,6 +161,15 @@ class ProcessSnapshot {
   //!     object that it was obtained from. If the snapshot is not a result of
   //!     an exception, returns `nullptr`.
   virtual const ExceptionSnapshot* Exception() const = 0;
+
+  //! \brief Returns a vector of additional memory blocks that should be
+  //!     included in a minidump.
+  //!
+  //! \return An vector of MemorySnapshot objects that will be included in the
+  //!     crash dump. The caller does not take ownership of these objects, they
+  //!     are scoped to the lifetime of the ProcessSnapshot object that they
+  //!     were obtained from.
+  virtual std::vector<const MemorySnapshot*> ExtraMemory() const = 0;
 };
 
 }  // namespace crashpad

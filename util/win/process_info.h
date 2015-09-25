@@ -78,6 +78,13 @@ class ProcessInfo {
   //!     Block.
   bool CommandLine(std::wstring* command_line) const;
 
+  //! \brief Gets the address and size of the process's Process Environment
+  //!     Block.
+  //!
+  //! \param[out] peb_address The address of the Process Environment Block.
+  //! \param[out] peb_size The size of the Process Environment Block.
+  void Peb(WinVMAddress* peb_address, WinVMSize* peb_size) const;
+
   //! \brief Retrieves the modules loaded into the target process.
   //!
   //! The modules are enumerated in initialization order as detailed in the
@@ -90,7 +97,8 @@ class ProcessInfo {
   friend bool GetProcessBasicInformation(HANDLE process,
                                          bool is_wow64,
                                          ProcessInfo* process_info,
-                                         WinVMAddress* peb_address);
+                                         WinVMAddress* peb_address,
+                                         WinVMSize* peb_size);
   template <class Traits>
   friend bool ReadProcessData(HANDLE process,
                               WinVMAddress peb_address_vmaddr,
@@ -99,6 +107,8 @@ class ProcessInfo {
   pid_t process_id_;
   pid_t inherited_from_process_id_;
   std::wstring command_line_;
+  WinVMAddress peb_address_;
+  WinVMSize peb_size_;
   std::vector<Module> modules_;
   bool is_64_bit_;
   bool is_wow64_;

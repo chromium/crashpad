@@ -110,7 +110,8 @@ template <class Traits>
 bool GetProcessBasicInformation(HANDLE process,
                                 bool is_wow64,
                                 ProcessInfo* process_info,
-                                WinVMAddress* peb_address) {
+                                WinVMAddress* peb_address,
+                                WinVMSize* peb_size) {
   ULONG bytes_returned;
   process_types::PROCESS_BASIC_INFORMATION<Traits> process_basic_information;
   NTSTATUS status =
@@ -143,6 +144,7 @@ bool GetProcessBasicInformation(HANDLE process,
   // The address of this is found by a second call to NtQueryInformationProcess.
   if (!is_wow64) {
     *peb_address = process_basic_information.PebBaseAddress;
+    *peb_size = sizeof(process_types::PEB<Traits>);
   } else {
     ULONG_PTR wow64_peb_address;
     status = crashpad::NtQueryInformationProcess(process,
@@ -159,6 +161,7 @@ bool GetProcessBasicInformation(HANDLE process,
       return false;
     }
     *peb_address = wow64_peb_address;
+    *peb_size = sizeof(process_types::PEB<process_types::internal::Traits32>);
   }
 
   return true;
@@ -260,6 +263,8 @@ ProcessInfo::ProcessInfo()
     : process_id_(),
       inherited_from_process_id_(),
       command_line_(),
+      peb_address_(0),
+      peb_size_(0),
       modules_(),
       is_64_bit_(false),
       is_wow64_(false),
@@ -293,13 +298,12 @@ bool ProcessInfo::Initialize(HANDLE process) {
   }
 #endif
 
-  WinVMAddress peb_address;
 #if ARCH_CPU_64_BITS
   bool result = GetProcessBasicInformation<process_types::internal::Traits64>(
-      process, is_wow64_, this, &peb_address);
+      process, is_wow64_, this, &peb_address_, &peb_size_);
 #else
   bool result = GetProcessBasicInformation<process_types::internal::Traits32>(
-      process, false, this, &peb_address);
+      process, false, this, &peb_address_, &peb_size_);
 #endif  // ARCH_CPU_64_BITS
 
   if (!result) {
@@ -308,9 +312,9 @@ bool ProcessInfo::Initialize(HANDLE process) {
   }
 
   result = is_64_bit_ ? ReadProcessData<process_types::internal::Traits64>(
-                                 process, peb_address, this)
-                           : ReadProcessData<process_types::internal::Traits32>(
-                                 process, peb_address, this);
+                            process, peb_address_, this)
+                      : ReadProcessData<process_types::internal::Traits32>(
+                            process, peb_address_, this);
   if (!result) {
     LOG(ERROR) << "ReadProcessData failed";
     return false;
@@ -344,6 +348,11 @@ bool ProcessInfo::CommandLine(std::wstring* command_line) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *command_line = command_line_;
   return true;
+}
+
+void ProcessInfo::Peb(WinVMAddress* peb_address, WinVMSize* peb_size) const {
+  *peb_address = peb_address_;
+  *peb_size = peb_size_;
 }
 
 bool ProcessInfo::Modules(std::vector<Module>* modules) const {

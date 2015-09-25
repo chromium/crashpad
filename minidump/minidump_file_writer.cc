@@ -93,6 +93,8 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   auto crashpad_info = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
   crashpad_info->InitializeFromSnapshot(process_snapshot);
 
+  memory_list->AddFromSnapshot(process_snapshot->ExtraMemory());
+
   // Since the MinidumpCrashpadInfo stream is an extension, it’s safe to not add
   // it to the minidump file if it wouldn’t carry any useful information.
   if (crashpad_info->IsUseful()) {
