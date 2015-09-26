@@ -253,10 +253,56 @@ bool ReadProcessData(HANDLE process,
   return true;
 }
 
+bool ReadMemoryInfo(HANDLE process, ProcessInfo* process_info) {
+  DCHECK(process_info->memory_info_.empty());
+
+  SYSTEM_INFO system_info;
+  GetSystemInfo(&system_info);
+  const WinVMAddress min_address =
+      reinterpret_cast<WinVMAddress>(system_info.lpMinimumApplicationAddress);
+  const WinVMAddress max_address =
+      reinterpret_cast<WinVMAddress>(system_info.lpMaximumApplicationAddress);
+  MEMORY_BASIC_INFORMATION memory_basic_information;
+  for (WinVMAddress address = min_address; address <= max_address;
+       address += memory_basic_information.RegionSize) {
+    size_t result = VirtualQueryEx(process,
+                                   reinterpret_cast<void*>(address),
+                                   &memory_basic_information,
+                                   sizeof(memory_basic_information));
+    if (result == 0) {
+      PLOG(ERROR) << "VirtualQueryEx";
+      return false;
+    }
+
+    process_info->memory_info_.push_back(
+        ProcessInfo::MemoryInfo(memory_basic_information));
+
+    if (memory_basic_information.RegionSize == 0) {
+      LOG(ERROR) << "RegionSize == 0";
+      return false;
+    }
+  }
+
+  return true;
+}
+
 ProcessInfo::Module::Module() : name(), dll_base(0), size(0), timestamp() {
 }
 
 ProcessInfo::Module::~Module() {
+}
+
+ProcessInfo::MemoryInfo::MemoryInfo(const MEMORY_BASIC_INFORMATION& mbi)
+    : base_address(reinterpret_cast<WinVMAddress>(mbi.BaseAddress)),
+      region_size(mbi.RegionSize),
+      allocation_base(reinterpret_cast<WinVMAddress>(mbi.AllocationBase)),
+      state(mbi.State),
+      allocation_protect(mbi.AllocationProtect),
+      protect(mbi.Protect),
+      type(mbi.Type) {
+}
+
+ProcessInfo::MemoryInfo::~MemoryInfo() {
 }
 
 ProcessInfo::ProcessInfo()
@@ -266,6 +312,7 @@ ProcessInfo::ProcessInfo()
       peb_address_(0),
       peb_size_(0),
       modules_(),
+      memory_info_(),
       is_64_bit_(false),
       is_wow64_(false),
       initialized_() {
@@ -320,6 +367,11 @@ bool ProcessInfo::Initialize(HANDLE process) {
     return false;
   }
 
+  if (!ReadMemoryInfo(process, this)) {
+    LOG(ERROR) << "ReadMemoryInfo failed";
+    return false;
+  }
+
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
@@ -359,6 +411,11 @@ bool ProcessInfo::Modules(std::vector<Module>* modules) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *modules = modules_;
   return true;
+}
+
+const std::vector<ProcessInfo::MemoryInfo>& ProcessInfo::MemoryInformation()
+    const {
+  return memory_info_;
 }
 
 }  // namespace crashpad

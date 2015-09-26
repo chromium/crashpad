@@ -15,6 +15,7 @@
 #include "util/win/process_info.h"
 
 #include <imagehlp.h>
+#include <intrin.h>
 #include <wchar.h>
 
 #include "base/files/file_path.h"
@@ -53,6 +54,26 @@ bool IsProcessWow64(HANDLE process_handle) {
     return false;
   }
   return is_wow64;
+}
+
+void VerifyAddressInInCodePage(const ProcessInfo& process_info,
+                               WinVMAddress code_address) {
+  // Make sure the child code address is an code page address with the right
+  // information.
+  const std::vector<ProcessInfo::MemoryInfo>& memory_info =
+      process_info.MemoryInformation();
+  bool found_region = false;
+  for (const auto& mi : memory_info) {
+    if (mi.base_address <= code_address &&
+        mi.base_address + mi.region_size > code_address) {
+      EXPECT_EQ(MEM_COMMIT, mi.state);
+      EXPECT_EQ(PAGE_EXECUTE_READ, mi.protect);
+      EXPECT_EQ(MEM_IMAGE, mi.type);
+      EXPECT_FALSE(found_region);
+      found_region = true;
+    }
+  }
+  EXPECT_TRUE(found_region);
 }
 
 TEST(ProcessInfo, Self) {
@@ -101,17 +122,18 @@ TEST(ProcessInfo, Self) {
   // System modules are forced to particular stamps and the file header values
   // don't match the on-disk times. Just make sure we got some data here.
   EXPECT_GT(modules[1].timestamp, 0);
+
+  // Find something we know is a code address and confirm expected memory
+  // information settings.
+  VerifyAddressInInCodePage(process_info,
+                            reinterpret_cast<WinVMAddress>(_ReturnAddress()));
 }
 
 void TestOtherProcess(const base::string16& directory_modification) {
   ProcessInfo process_info;
 
-  UUID started_uuid(UUID::InitializeWithNewTag{});
   UUID done_uuid(UUID::InitializeWithNewTag{});
 
-  ScopedKernelHANDLE started(
-      CreateEvent(nullptr, true, false, started_uuid.ToString16().c_str()));
-  ASSERT_TRUE(started.get());
   ScopedKernelHANDLE done(
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
   ASSERT_TRUE(done.get());
@@ -126,20 +148,20 @@ void TestOtherProcess(const base::string16& directory_modification) {
           .value();
 
   std::wstring args;
-  AppendCommandLineArgument(started_uuid.ToString16(), &args);
-  args += L" ";
   AppendCommandLineArgument(done_uuid.ToString16(), &args);
 
   ChildLauncher child(child_test_executable, args);
   child.Start();
 
-  // Wait until the test has completed initialization.
-  ASSERT_EQ(WaitForSingleObject(started.get(), INFINITE), WAIT_OBJECT_0);
+  // The child sends us a code address we can look up in the memory map.
+  WinVMAddress code_address;
+  CheckedReadFile(
+      child.stdout_read_handle(), &code_address, sizeof(code_address));
 
   ASSERT_TRUE(process_info.Initialize(child.process_handle()));
 
   // Tell the test it's OK to shut down now that we've read our data.
-  SetEvent(done.get());
+  EXPECT_TRUE(SetEvent(done.get()));
 
   std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
@@ -159,6 +181,8 @@ void TestOtherProcess(const base::string16& directory_modification) {
   EXPECT_EQ(kLz32dllName,
             modules.back().name.substr(modules.back().name.size() -
                                        wcslen(kLz32dllName)));
+
+  VerifyAddressInInCodePage(process_info, code_address);
 }
 
 TEST(ProcessInfo, OtherProcess) {
