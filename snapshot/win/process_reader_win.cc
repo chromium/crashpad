@@ -18,6 +18,7 @@
 
 #include "base/memory/scoped_ptr.h"
 #include "base/numerics/safe_conversions.h"
+#include "util/win/capture_context.h"
 #include "util/win/nt_internals.h"
 #include "util/win/ntstatus_logging.h"
 #include "util/win/process_structs.h"
@@ -128,7 +129,7 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
     DCHECK(suspension_state == ProcessSuspensionState::kRunning);
     thread->suspend_count = 0;
     DCHECK(!is_64_reading_32);
-    RtlCaptureContext(&thread->context.native);
+    CaptureContext(&thread->context.native);
   } else {
     DWORD previous_suspend_count = SuspendThread(thread_handle);
     if (previous_suspend_count == -1) {

@@ -79,6 +79,7 @@
         'synchronization/semaphore_test.cc',
         'thread/thread_log_messages_test.cc',
         'thread/thread_test.cc',
+        'win/capture_context_test.cc',
         'win/exception_handler_server_test.cc',
         'win/process_info_test.cc',
         'win/scoped_process_suspend_test.cc',

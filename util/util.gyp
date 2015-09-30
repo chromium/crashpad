@@ -149,6 +149,8 @@
         'thread/thread_posix.cc',
         'thread/thread_win.cc',
         'win/address_types.h',
+        'win/capture_context.asm',
+        'win/capture_context.h',
         'win/checked_win_address_range.h',
         'win/exception_handler_server.cc',
         'win/exception_handler_server.h',
@@ -240,6 +242,15 @@
               '-lwinhttp.lib',
             ],
           },
+          'conditions': [
+            ['target_arch=="ia32"', {
+              'msvs_settings': {
+                'MASM': {
+                  'UseSafeExceptionHandlers': 'true',
+                },
+              },
+            }],
+          ],
         }],
       ],
     },

@@ -93,8 +93,8 @@ class CrashpadClient {
   //! \brief Requests that the handler capture a dump even though there hasn't
   //!     been a crash.
   //!
-  //! \param[in] context A CONTEXT, generally captured by `RtlCaptureContext()`
-  //!     or similar.
+  //! \param[in] context A `CONTEXT`, generally captured by CaptureContext() or
+  //!     similar.
   static void DumpWithoutCrash(const CONTEXT& context);
 #endif
 

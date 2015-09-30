@@ -192,8 +192,7 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
     snapshot.Initialize(process, ProcessSuspensionState::kSuspended);
     snapshot.InitializeException(exception_information_address);
     EXPECT_TRUE(snapshot.Exception());
-    EXPECT_EQ(0, snapshot.Exception()->Exception());
-    EXPECT_EQ(0, snapshot.Exception()->ExceptionAddress());
+    EXPECT_EQ(0x517a7ed, snapshot.Exception()->Exception());
 
     // Verify the dump was captured at the expected location with some slop
     // space.
@@ -202,6 +201,9 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
               dump_near_);
     EXPECT_LT(snapshot.Exception()->Context()->InstructionPointer(),
               dump_near_ + kAllowedOffset);
+
+    EXPECT_EQ(snapshot.Exception()->Context()->InstructionPointer(),
+              snapshot.Exception()->ExceptionAddress());
 
     SetEvent(completed_test_event_);
 
