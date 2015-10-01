@@ -123,8 +123,9 @@
             'VCLinkerTool': {
               'AdditionalOptions': [
                 '/BASE:0x78000000',
-                '/FIXED',
               ],
+              'RandomizedBaseAddress': '1',  # /DYNAMICBASE:NO.
+              'FixedBaseAddress': '2',  # /FIXED.
             },
           },
         },
