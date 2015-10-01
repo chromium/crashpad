@@ -111,5 +111,9 @@ uint64_t ThreadSnapshotMac::ThreadSpecificDataAddress() const {
   return thread_specific_data_address_;
 }
 
+std::vector<const MemorySnapshot*> ThreadSnapshotMac::ExtraMemory() const {
+  return std::vector<const MemorySnapshot*>();
+}
+
 }  // namespace internal
 }  // namespace crashpad
