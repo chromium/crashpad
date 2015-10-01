@@ -16,6 +16,7 @@
 
 #include <winternl.h>
 
+#include <algorithm>
 #include <limits>
 
 #include "base/logging.h"
@@ -104,6 +105,13 @@ bool ReadStruct(HANDLE process, WinVMAddress at, T* into) {
     return false;
   }
   return true;
+}
+
+bool RegionIsInaccessible(const ProcessInfo::MemoryInfo& memory_info) {
+  return memory_info.state == MEM_FREE ||
+         (memory_info.state == MEM_COMMIT &&
+          ((memory_info.protect & PAGE_NOACCESS) ||
+           (memory_info.protect & PAGE_GUARD)));
 }
 
 }  // namespace
@@ -421,7 +429,72 @@ bool ProcessInfo::Modules(std::vector<Module>* modules) const {
 
 const std::vector<ProcessInfo::MemoryInfo>& ProcessInfo::MemoryInformation()
     const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return memory_info_;
+}
+
+std::vector<CheckedRange<WinVMAddress, WinVMSize>>
+ProcessInfo::GetReadableRanges(
+    const CheckedRange<WinVMAddress, WinVMSize>& range) const {
+  return GetReadableRangesOfMemoryMap(range, MemoryInformation());
+}
+
+std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
+    const CheckedRange<WinVMAddress, WinVMSize>& range,
+    const std::vector<ProcessInfo::MemoryInfo>& memory_info) {
+  using Range = CheckedRange<WinVMAddress, WinVMSize>;
+
+  // Find all the ranges that overlap the target range, maintaining their order.
+  std::vector<ProcessInfo::MemoryInfo> overlapping;
+  for (const auto& mi : memory_info) {
+    if (range.OverlapsRange(Range(mi.base_address, mi.region_size)))
+      overlapping.push_back(mi);
+  }
+  if (overlapping.empty())
+    return std::vector<Range>();
+
+  // For the first and last, trim to the boundary of the incoming range.
+  ProcessInfo::MemoryInfo& front = overlapping.front();
+  WinVMAddress original_front_base_address = front.base_address;
+  front.base_address = std::max(front.base_address, range.base());
+  front.region_size =
+      (original_front_base_address + front.region_size) - front.base_address;
+
+  ProcessInfo::MemoryInfo& back = overlapping.back();
+  WinVMAddress back_end = back.base_address + back.region_size;
+  back.region_size = std::min(range.end(), back_end) - back.base_address;
+
+  // Discard all non-accessible.
+  overlapping.erase(std::remove_if(overlapping.begin(),
+                                   overlapping.end(),
+                                   [](const ProcessInfo::MemoryInfo& mi) {
+                                     return RegionIsInaccessible(mi);
+                                   }),
+                    overlapping.end());
+  if (overlapping.empty())
+    return std::vector<Range>();
+
+  // Convert to return type.
+  std::vector<Range> as_ranges;
+  for (const auto& mi : overlapping) {
+    as_ranges.push_back(Range(mi.base_address, mi.region_size));
+    DCHECK(as_ranges.back().IsValid());
+  }
+
+  // Coalesce remaining regions.
+  std::vector<Range> result;
+  result.push_back(as_ranges[0]);
+  for (size_t i = 1; i < as_ranges.size(); ++i) {
+    if (result.back().end() == as_ranges[i].base()) {
+      result.back().SetRange(result.back().base(),
+                             result.back().size() + as_ranges[i].size());
+    } else {
+      result.push_back(as_ranges[i]);
+    }
+    DCHECK(result.back().IsValid());
+  }
+
+  return result;
 }
 
 }  // namespace crashpad

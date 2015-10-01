@@ -104,11 +104,31 @@ class CheckedRange {
     return that.base() >= base() && that.end() <= end();
   }
 
+  //! \brief Returns whether the range overlaps another range.
+  //!
+  //! \param[in] that The (possibly) overlapping range.
+  //!
+  //! \return `true` if `this` range, the first range, overlaps \a that,
+  //!     the provided range. `false` otherwise.
+  //!
+  //! Ranges are considered to be closed-open [base, end) for this test. Zero
+  //! length ranges are never considered to overlap another range.
+  //!
+  //! This method must only be called if IsValid() would return `true` for both
+  //! CheckedRange objects involved.
+  bool OverlapsRange(const CheckedRange<ValueType, SizeType>& that) const {
+    DCHECK(IsValid());
+    DCHECK(that.IsValid());
+
+    if (size() == 0 || that.size() == 0)
+      return false;
+
+    return base() < that.end() && that.base() < end();
+  }
+
  private:
   ValueType base_;
   SizeType size_;
-
-  DISALLOW_COPY_AND_ASSIGN(CheckedRange);
 };
 
 }  // namespace crashpad

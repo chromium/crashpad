@@ -155,7 +155,7 @@ TEST(CheckedRange, IsValid) {
 TEST(CheckedRange, ContainsValue) {
   const struct TestData {
     uint32_t value;
-    bool valid;
+    bool contains;
   } kTestData[] = {
       {0, false},
       {1, false},
@@ -190,7 +190,7 @@ TEST(CheckedRange, ContainsValue) {
     SCOPED_TRACE(base::StringPrintf(
         "index %" PRIuS ", value 0x%x", index, testcase.value));
 
-    EXPECT_EQ(testcase.valid, parent_range.ContainsValue(testcase.value));
+    EXPECT_EQ(testcase.contains, parent_range.ContainsValue(testcase.value));
   }
 }
 
@@ -198,7 +198,7 @@ TEST(CheckedRange, ContainsRange) {
   const struct TestData {
     uint32_t base;
     uint32_t size;
-    bool valid;
+    bool contains;
   } kTestData[] = {
       {0, 0, false},
       {0, 1, false},
@@ -242,7 +242,60 @@ TEST(CheckedRange, ContainsRange) {
 
     CheckedRange<uint32_t> child_range(testcase.base, testcase.size);
     ASSERT_TRUE(child_range.IsValid());
-    EXPECT_EQ(testcase.valid, parent_range.ContainsRange(child_range));
+    EXPECT_EQ(testcase.contains, parent_range.ContainsRange(child_range));
+  }
+}
+
+TEST(CheckedRange, OverlapsRange) {
+  const struct TestData {
+    uint32_t base;
+    uint32_t size;
+    bool overlaps;
+  } kTestData[] = {
+      {0, 0, false},
+      {0, 1, false},
+      {0x2000, 0x1000, true},
+      {0, 0x2000, false},
+      {0x3000, 0x1000, false},
+      {0x1800, 0x1000, true},
+      {0x1800, 0x2000, true},
+      {0x2800, 0x1000, true},
+      {0x2000, 0x800, true},
+      {0x2800, 0x800, true},
+      {0x2400, 0x800, true},
+      {0x2800, 0, false},
+      {0x2000, 0xffffdfff, true},
+      {0x2800, 0xffffd7ff, true},
+      {0x3000, 0xffffcfff, false},
+      {0xfffffffe, 1, false},
+      {0xffffffff, 0, false},
+      {0x1fff, 0, false},
+      {0x2000, 0, false},
+      {0x2001, 0, false},
+      {0x2fff, 0, false},
+      {0x3000, 0, false},
+      {0x3001, 0, false},
+      {0x1fff, 1, false},
+      {0x2000, 1, true},
+      {0x2001, 1, true},
+      {0x2fff, 1, true},
+      {0x3000, 1, false},
+      {0x3001, 1, false},
+  };
+
+  CheckedRange<uint32_t> first_range(0x2000, 0x1000);
+  ASSERT_TRUE(first_range.IsValid());
+
+  for (size_t index = 0; index < arraysize(kTestData); ++index) {
+    const TestData& testcase = kTestData[index];
+    SCOPED_TRACE(base::StringPrintf("index %" PRIuS ", base 0x%x, size 0x%x",
+                                    index,
+                                    testcase.base,
+                                    testcase.size));
+
+    CheckedRange<uint32_t> second_range(testcase.base, testcase.size);
+    ASSERT_TRUE(second_range.IsValid());
+    EXPECT_EQ(testcase.overlaps, first_range.OverlapsRange(second_range));
   }
 }
 

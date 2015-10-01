@@ -23,6 +23,7 @@
 
 #include "base/basictypes.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/numeric/checked_range.h"
 #include "util/win/address_types.h"
 
 namespace crashpad {
@@ -129,6 +130,16 @@ class ProcessInfo {
   //! \brief Retrieves information about all pages mapped into the process.
   const std::vector<MemoryInfo>& MemoryInformation() const;
 
+  //! \brief Given a range to be read from the target process, returns a vector
+  //!     of ranges, representing the readable portions of the original range.
+  //!
+  //! \param[in] range The range being identified.
+  //!
+  //! \return A vector of ranges corresponding to the portion of \a range that
+  //!     is readable based on the memory map.
+  std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRanges(
+      const CheckedRange<WinVMAddress, WinVMSize>& range) const;
+
  private:
   template <class Traits>
   friend bool GetProcessBasicInformation(HANDLE process,
@@ -158,6 +169,16 @@ class ProcessInfo {
 
   DISALLOW_COPY_AND_ASSIGN(ProcessInfo);
 };
+
+//! \brief Given a memory map of a process, and a range to be read from the
+//!     target process, returns a vector of ranges, representing the readable
+//!     portions of the original range.
+//!
+//! This is a free function for testing, but prefer
+//! ProcessInfo::GetReadableRanges().
+std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
+    const CheckedRange<WinVMAddress, WinVMSize>& range,
+    const std::vector<ProcessInfo::MemoryInfo>& memory_info);
 
 }  // namespace crashpad
 
