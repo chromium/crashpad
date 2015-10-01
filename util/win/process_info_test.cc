@@ -19,6 +19,7 @@
 #include <wchar.h>
 
 #include "base/files/file_path.h"
+#include "base/memory/scoped_ptr.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/paths.h"
@@ -228,7 +229,7 @@ TEST(ProcessInfo, AccessibleRangesOneInside) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(2, 4),
                                    memory_info);
 
-  ASSERT_EQ(result.size(), 1u);
+  ASSERT_EQ(1u, result.size());
   EXPECT_EQ(2, result[0].base());
   EXPECT_EQ(4, result[0].size());
 }
@@ -251,7 +252,7 @@ TEST(ProcessInfo, AccessibleRangesOneTruncatedSize) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
                                    memory_info);
 
-  ASSERT_EQ(result.size(), 1u);
+  ASSERT_EQ(1u, result.size());
   EXPECT_EQ(5, result[0].base());
   EXPECT_EQ(5, result[0].size());
 }
@@ -274,7 +275,80 @@ TEST(ProcessInfo, AccessibleRangesOneMovedStart) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
                                    memory_info);
 
-  ASSERT_EQ(result.size(), 1u);
+  ASSERT_EQ(1u, result.size());
+  EXPECT_EQ(10, result[0].base());
+  EXPECT_EQ(5, result[0].size());
+}
+
+TEST(ProcessInfo, ReserveIsInaccessible) {
+  std::vector<ProcessInfo::MemoryInfo> memory_info;
+  MEMORY_BASIC_INFORMATION mbi = {0};
+
+  mbi.BaseAddress = 0;
+  mbi.RegionSize = 10;
+  mbi.State = MEM_RESERVE;
+  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+
+  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.RegionSize = 20;
+  mbi.State = MEM_COMMIT;
+  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+
+  std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
+      GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
+                                   memory_info);
+
+  ASSERT_EQ(1u, result.size());
+  EXPECT_EQ(10, result[0].base());
+  EXPECT_EQ(5, result[0].size());
+}
+
+TEST(ProcessInfo, PageGuardIsInaccessible) {
+  std::vector<ProcessInfo::MemoryInfo> memory_info;
+  MEMORY_BASIC_INFORMATION mbi = {0};
+
+  mbi.BaseAddress = 0;
+  mbi.RegionSize = 10;
+  mbi.State = MEM_COMMIT;
+  mbi.Protect = PAGE_GUARD;
+  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+
+  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.RegionSize = 20;
+  mbi.State = MEM_COMMIT;
+  mbi.Protect = 0;
+  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+
+  std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
+      GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
+                                   memory_info);
+
+  ASSERT_EQ(1u, result.size());
+  EXPECT_EQ(10, result[0].base());
+  EXPECT_EQ(5, result[0].size());
+}
+
+TEST(ProcessInfo, PageNoAccessIsInaccessible) {
+  std::vector<ProcessInfo::MemoryInfo> memory_info;
+  MEMORY_BASIC_INFORMATION mbi = {0};
+
+  mbi.BaseAddress = 0;
+  mbi.RegionSize = 10;
+  mbi.State = MEM_COMMIT;
+  mbi.Protect = PAGE_NOACCESS;
+  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+
+  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.RegionSize = 20;
+  mbi.State = MEM_COMMIT;
+  mbi.Protect = 0;
+  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+
+  std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
+      GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
+                                   memory_info);
+
+  ASSERT_EQ(1u, result.size());
   EXPECT_EQ(10, result[0].base());
   EXPECT_EQ(5, result[0].size());
 }
@@ -295,14 +369,14 @@ TEST(ProcessInfo, AccessibleRangesCoalesced) {
 
   mbi.BaseAddress = reinterpret_cast<void*>(12);
   mbi.RegionSize = 5;
-  mbi.State = MEM_RESERVE;
+  mbi.State = MEM_COMMIT;
   memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(11, 4),
                                    memory_info);
 
-  ASSERT_EQ(result.size(), 1u);
+  ASSERT_EQ(1u, result.size());
   EXPECT_EQ(11, result[0].base());
   EXPECT_EQ(4, result[0].size());
 }
@@ -330,7 +404,7 @@ TEST(ProcessInfo, AccessibleRangesMiddleUnavailable) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 45),
                                    memory_info);
 
-  ASSERT_EQ(result.size(), 2u);
+  ASSERT_EQ(2u, result.size());
   EXPECT_EQ(5, result[0].base());
   EXPECT_EQ(5, result[0].size());
   EXPECT_EQ(15, result[1].base());
@@ -350,7 +424,7 @@ TEST(ProcessInfo, RequestedBeforeMap) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
                                    memory_info);
 
-  ASSERT_EQ(result.size(), 1u);
+  ASSERT_EQ(1u, result.size());
   EXPECT_EQ(10, result[0].base());
   EXPECT_EQ(5, result[0].size());
 }
@@ -368,9 +442,81 @@ TEST(ProcessInfo, RequestedAfterMap) {
       GetReadableRangesOfMemoryMap(
           CheckedRange<WinVMAddress, WinVMSize>(15, 100), memory_info);
 
-  ASSERT_EQ(result.size(), 1u);
+  ASSERT_EQ(1u, result.size());
   EXPECT_EQ(15, result[0].base());
   EXPECT_EQ(5, result[0].size());
+}
+
+TEST(ProcessInfo, ReadableRanges) {
+  SYSTEM_INFO system_info;
+  GetSystemInfo(&system_info);
+
+  const size_t kBlockSize = system_info.dwPageSize;
+
+  // Allocate 6 pages, and then commit the second, fourth, and fifth, and mark
+  // two as committed, but PAGE_NOACCESS, so we have a setup like this:
+  // 0       1       2       3       4       5
+  // +-----------------------------------------------+
+  // | ????? |       | xxxxx |       |       | ????? |
+  // +-----------------------------------------------+
+  void* reserve_region =
+      VirtualAlloc(nullptr, kBlockSize * 6, MEM_RESERVE, PAGE_READWRITE);
+  ASSERT_TRUE(reserve_region);
+  uintptr_t reserved_as_int = reinterpret_cast<uintptr_t>(reserve_region);
+  void* readable1 =
+      VirtualAlloc(reinterpret_cast<void*>(reserved_as_int + kBlockSize),
+                   kBlockSize,
+                   MEM_COMMIT,
+                   PAGE_READWRITE);
+  ASSERT_TRUE(readable1);
+  void* readable2 =
+      VirtualAlloc(reinterpret_cast<void*>(reserved_as_int + (kBlockSize * 3)),
+                   kBlockSize * 2,
+                   MEM_COMMIT,
+                   PAGE_READWRITE);
+  ASSERT_TRUE(readable2);
+
+  void* no_access =
+      VirtualAlloc(reinterpret_cast<void*>(reserved_as_int + (kBlockSize * 2)),
+                   kBlockSize,
+                   MEM_COMMIT,
+                   PAGE_NOACCESS);
+  ASSERT_TRUE(no_access);
+
+  HANDLE current_process = GetCurrentProcess();
+  ProcessInfo info;
+  info.Initialize(current_process);
+  auto ranges = info.GetReadableRanges(
+      CheckedRange<WinVMAddress, WinVMSize>(reserved_as_int, kBlockSize * 6));
+
+  ASSERT_EQ(2u, ranges.size());
+  EXPECT_EQ(reserved_as_int + kBlockSize, ranges[0].base());
+  EXPECT_EQ(kBlockSize, ranges[0].size());
+  EXPECT_EQ(reserved_as_int + (kBlockSize * 3), ranges[1].base());
+  EXPECT_EQ(kBlockSize * 2, ranges[1].size());
+
+  // Also make sure what we think we can read corresponds with what we can
+  // actually read.
+  scoped_ptr<unsigned char[]> into(new unsigned char[kBlockSize * 6]);
+  SIZE_T bytes_read;
+
+  EXPECT_TRUE(ReadProcessMemory(
+      current_process, readable1, into.get(), kBlockSize, &bytes_read));
+  EXPECT_EQ(kBlockSize, bytes_read);
+
+  EXPECT_TRUE(ReadProcessMemory(
+      current_process, readable2, into.get(), kBlockSize * 2, &bytes_read));
+  EXPECT_EQ(kBlockSize * 2, bytes_read);
+
+  EXPECT_FALSE(ReadProcessMemory(
+      current_process, no_access, into.get(), kBlockSize, &bytes_read));
+  EXPECT_FALSE(ReadProcessMemory(
+      current_process, reserve_region, into.get(), kBlockSize, &bytes_read));
+  EXPECT_FALSE(ReadProcessMemory(current_process,
+                                 reserve_region,
+                                 into.get(),
+                                 kBlockSize * 6,
+                                 &bytes_read));
 }
 
 }  // namespace

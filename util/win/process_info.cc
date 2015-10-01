@@ -107,11 +107,10 @@ bool ReadStruct(HANDLE process, WinVMAddress at, T* into) {
   return true;
 }
 
-bool RegionIsInaccessible(const ProcessInfo::MemoryInfo& memory_info) {
-  return memory_info.state == MEM_FREE ||
-         (memory_info.state == MEM_COMMIT &&
-          ((memory_info.protect & PAGE_NOACCESS) ||
-           (memory_info.protect & PAGE_GUARD)));
+bool RegionIsAccessible(const ProcessInfo::MemoryInfo& memory_info) {
+  return memory_info.state == MEM_COMMIT &&
+         (memory_info.protect & PAGE_NOACCESS) == 0 &&
+         (memory_info.protect & PAGE_GUARD) == 0;
 }
 
 }  // namespace
@@ -468,7 +467,7 @@ std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
   overlapping.erase(std::remove_if(overlapping.begin(),
                                    overlapping.end(),
                                    [](const ProcessInfo::MemoryInfo& mi) {
-                                     return RegionIsInaccessible(mi);
+                                     return !RegionIsAccessible(mi);
                                    }),
                     overlapping.end());
   if (overlapping.empty())
