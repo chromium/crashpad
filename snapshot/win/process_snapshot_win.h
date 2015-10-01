@@ -40,6 +40,7 @@
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
 #include "util/win/address_types.h"
+#include "util/win/process_structs.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
@@ -134,8 +135,30 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
 
+  // Initializes peb_memory_ on behalf of Initialize().
+  template <class Traits>
+  void InitializePebData();
+
+  void AddMemorySnapshot(WinVMAddress address,
+                         WinVMSize size,
+                         PointerVector<internal::MemorySnapshotWin>* into);
+
+  template <class Traits>
+  void AddMemorySnapshotForUNICODE_STRING(
+      const process_types::UNICODE_STRING<Traits>& us,
+      PointerVector<internal::MemorySnapshotWin>* into);
+
+  template <class Traits>
+  void AddMemorySnapshotForLdrLIST_ENTRY(
+      const process_types::LIST_ENTRY<Traits>& le,
+      size_t offset_of_member,
+      PointerVector<internal::MemorySnapshotWin>* into);
+
+  WinVMSize DetermineSizeOfEnvironmentBlock(
+      WinVMAddress start_of_environment_block);
+
   internal::SystemSnapshotWin system_;
-  internal::MemorySnapshotWin peb_;
+  PointerVector<internal::MemorySnapshotWin> peb_memory_;
   PointerVector<internal::ThreadSnapshotWin> threads_;
   PointerVector<internal::ModuleSnapshotWin> modules_;
   scoped_ptr<internal::ExceptionSnapshotWin> exception_;

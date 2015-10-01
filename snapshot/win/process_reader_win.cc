@@ -18,6 +18,7 @@
 
 #include "base/memory/scoped_ptr.h"
 #include "base/numerics/safe_conversions.h"
+#include "base/strings/stringprintf.h"
 #include "util/win/capture_context.h"
 #include "util/win/nt_internals.h"
 #include "util/win/ntstatus_logging.h"
@@ -214,6 +215,9 @@ bool ProcessReaderWin::Initialize(HANDLE process,
 bool ProcessReaderWin::ReadMemory(WinVMAddress at,
                                   WinVMSize num_bytes,
                                   void* into) const {
+  if (num_bytes == 0)
+    return 0;
+
   SIZE_T bytes_read;
   if (!ReadProcessMemory(process_,
                          reinterpret_cast<void*>(at),
@@ -226,6 +230,41 @@ bool ProcessReaderWin::ReadMemory(WinVMAddress at,
     return false;
   }
   return true;
+}
+
+WinVMSize ProcessReaderWin::ReadAvailableMemory(WinVMAddress at,
+                                                WinVMSize num_bytes,
+                                                void* into) const {
+  if (num_bytes == 0)
+    return 0;
+
+  auto ranges = process_info_.GetReadableRanges(
+      CheckedRange<WinVMAddress, WinVMSize>(at, num_bytes));
+
+  // We only read up until the first unavailable byte, so we only read from the
+  // first range. If we have no ranges, then no bytes were accessible anywhere
+  // in the range.
+  if (ranges.empty()) {
+    LOG(ERROR) << base::StringPrintf(
+        "range at 0x%llx, size 0x%llx completely inaccessible", at, num_bytes);
+    return 0;
+  }
+
+  // If the start address was adjusted, we couldn't read even the first
+  // requested byte.
+  if (ranges.front().base() != at) {
+    LOG(ERROR) << base::StringPrintf(
+        "start of range at 0x%llx, size 0x%llx inaccessible", at, num_bytes);
+    return 0;
+  }
+
+  DCHECK_LE(ranges.front().size(), num_bytes);
+
+  // If we fail on a normal read, then something went very wrong.
+  if (!ReadMemory(ranges.front().base(), ranges.front().size(), into))
+    return 0;
+
+  return ranges.front().size();
 }
 
 bool ProcessReaderWin::StartTime(timeval* start_time) const {

@@ -83,7 +83,25 @@ class ProcessReaderWin {
   //! \return `true` if the target task is a 64-bit process.
   bool Is64Bit() const { return process_info_.Is64Bit(); }
 
+  //! \brief Attempts to read \a num_bytes bytes from the target process
+  //!     starting at address \a at into \a into.
+  //!
+  //! \return `true` if the entire region could be read, or `false` with an
+  //!     error logged.
+  //!
+  //! \sa ReadAvailableMemory
   bool ReadMemory(WinVMAddress at, WinVMSize num_bytes, void* into) const;
+
+  //! \brief Attempts to read \a num_bytes bytes from the target process
+  //!     starting at address \a at into \a into. If some of the specified range
+  //!     is not accessible, reads up to the first inaccessible byte.
+  //!
+  //! \return The actual number of bytes read.
+  //!
+  //! \sa ReadMemory
+  WinVMSize ReadAvailableMemory(WinVMAddress at,
+                                WinVMSize num_bytes,
+                                void* into) const;
 
   //! \brief Determines the target process' start time.
   //!
