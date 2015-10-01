@@ -141,7 +141,9 @@ class ProcessInfo {
                               WinVMAddress peb_address_vmaddr,
                               ProcessInfo* process_info);
 
-  friend bool ReadMemoryInfo(HANDLE process, ProcessInfo* process_info);
+  friend bool ReadMemoryInfo(HANDLE process,
+                             bool is_64_bit,
+                             ProcessInfo* process_info);
 
   pid_t process_id_;
   pid_t inherited_from_process_id_;

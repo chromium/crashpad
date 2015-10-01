@@ -16,6 +16,8 @@
 
 #include <winternl.h>
 
+#include <limits>
+
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
@@ -253,15 +255,17 @@ bool ReadProcessData(HANDLE process,
   return true;
 }
 
-bool ReadMemoryInfo(HANDLE process, ProcessInfo* process_info) {
+bool ReadMemoryInfo(HANDLE process, bool is_64_bit, ProcessInfo* process_info) {
   DCHECK(process_info->memory_info_.empty());
 
-  SYSTEM_INFO system_info;
-  GetSystemInfo(&system_info);
-  const WinVMAddress min_address =
-      reinterpret_cast<WinVMAddress>(system_info.lpMinimumApplicationAddress);
-  const WinVMAddress max_address =
-      reinterpret_cast<WinVMAddress>(system_info.lpMaximumApplicationAddress);
+  const WinVMAddress min_address = 0;
+  // We can't use GetSystemInfo() to get the address space range for another
+  // process. VirtualQueryEx() will fail with ERROR_INVALID_PARAMETER if the
+  // address is above the highest memory address accessible to the process, so
+  // we just probe the entire potential range (2^32 for x86, or 2^64 for x64).
+  const WinVMAddress max_address = is_64_bit
+                                       ? std::numeric_limits<uint64_t>::max()
+                                       : std::numeric_limits<uint32_t>::max();
   MEMORY_BASIC_INFORMATION memory_basic_information;
   for (WinVMAddress address = min_address; address <= max_address;
        address += memory_basic_information.RegionSize) {
@@ -270,6 +274,8 @@ bool ReadMemoryInfo(HANDLE process, ProcessInfo* process_info) {
                                    &memory_basic_information,
                                    sizeof(memory_basic_information));
     if (result == 0) {
+      if (GetLastError() == ERROR_INVALID_PARAMETER)
+        break;
       PLOG(ERROR) << "VirtualQueryEx";
       return false;
     }
@@ -367,7 +373,7 @@ bool ProcessInfo::Initialize(HANDLE process) {
     return false;
   }
 
-  if (!ReadMemoryInfo(process, this)) {
+  if (!ReadMemoryInfo(process, is_64_bit_, this)) {
     LOG(ERROR) << "ReadMemoryInfo failed";
     return false;
   }
