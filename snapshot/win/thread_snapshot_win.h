@@ -17,6 +17,8 @@
 
 #include <stdint.h>
 
+#include <vector>
+
 #include "base/basictypes.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/memory_snapshot.h"
@@ -24,6 +26,7 @@
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/process_reader_win.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -58,6 +61,7 @@ class ThreadSnapshotWin final : public ThreadSnapshot {
   int SuspendCount() const override;
   int Priority() const override;
   uint64_t ThreadSpecificDataAddress() const override;
+  std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
 #if defined(ARCH_CPU_X86_FAMILY)
@@ -68,6 +72,7 @@ class ThreadSnapshotWin final : public ThreadSnapshot {
 #endif
   CPUContext context_;
   MemorySnapshotWin stack_;
+  internal::MemorySnapshotWin teb_;
   ProcessReaderWin::Thread thread_;
   InitializationStateDcheck initialized_;
 

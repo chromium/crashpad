@@ -14,6 +14,8 @@
 
 #include "snapshot/win/thread_snapshot_win.h"
 
+#include <vector>
+
 #include "base/logging.h"
 #include "snapshot/win/cpu_context_win.h"
 #include "snapshot/win/process_reader_win.h"
@@ -22,7 +24,12 @@ namespace crashpad {
 namespace internal {
 
 ThreadSnapshotWin::ThreadSnapshotWin()
-    : ThreadSnapshot(), context_(), stack_(), thread_(), initialized_() {
+    : ThreadSnapshot(),
+      context_(),
+      stack_(),
+      teb_(),
+      thread_(),
+      initialized_() {
 }
 
 ThreadSnapshotWin::~ThreadSnapshotWin() {
@@ -34,8 +41,11 @@ bool ThreadSnapshotWin::Initialize(
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   thread_ = process_reader_thread;
+  // TODO(scottmg): Ensure these regions are readable
+  // https://code.google.com/p/crashpad/issues/detail?id=59
   stack_.Initialize(
       process_reader, thread_.stack_region_address, thread_.stack_region_size);
+  teb_.Initialize(process_reader, thread_.teb_address, thread_.teb_size);
 
 #if defined(ARCH_CPU_X86_64)
   if (process_reader->Is64Bit()) {
@@ -84,7 +94,15 @@ int ThreadSnapshotWin::Priority() const {
 
 uint64_t ThreadSnapshotWin::ThreadSpecificDataAddress() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return thread_.teb;
+  return thread_.teb_address;
+}
+
+std::vector<const MemorySnapshot*> ThreadSnapshotWin::ExtraMemory() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  // TODO(scottmg): Ensure this region is readable, and make sure we don't
+  // discard the entire dump if it isn't.
+  // https://code.google.com/p/crashpad/issues/detail?id=59
+  return std::vector<const MemorySnapshot*>(1, &teb_);
 }
 
 }  // namespace internal

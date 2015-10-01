@@ -98,8 +98,9 @@ class TestProcessSnapshot final : public ProcessSnapshot {
 
   //! \brief Add a memory snapshot to be returned by ExtraMemory().
   //!
-  //! \param[in] peb The memory snapshot that will be included in ExtraMemory().
-  //!     The TestProcessSnapshot object takes ownership of \a extra_memory.
+  //! \param[in] extra_memory The memory snapshot that will be included in
+  //!     ExtraMemory(). The TestProcessSnapshot object takes ownership of \a
+  //!     extra_memory.
   void AddExtraMemory(scoped_ptr<MemorySnapshot> extra_memory) {
     extra_memory_.push_back(extra_memory.release());
   }

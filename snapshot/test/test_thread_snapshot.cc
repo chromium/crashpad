@@ -55,5 +55,12 @@ uint64_t TestThreadSnapshot::ThreadSpecificDataAddress() const {
   return thread_specific_data_address_;
 }
 
+std::vector<const MemorySnapshot*> TestThreadSnapshot::ExtraMemory() const {
+  std::vector<const MemorySnapshot*> extra_memory;
+  for (const auto& em : extra_memory_)
+    extra_memory.push_back(em);
+  return extra_memory;
+}
+
 }  // namespace test
 }  // namespace crashpad

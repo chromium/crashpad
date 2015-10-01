@@ -177,7 +177,8 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
 ProcessReaderWin::Thread::Thread()
     : context(),
       id(0),
-      teb(0),
+      teb_address(0),
+      teb_size(0),
       stack_region_address(0),
       stack_region_size(0),
       suspend_count(0),
@@ -332,8 +333,9 @@ void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
     // Read the TIB (Thread Information Block) which is the first element of the
     // TEB, for its stack fields.
     process_types::NT_TIB<Traits> tib;
-    thread.teb = thread_basic_info.TebBaseAddress;
-    if (ReadMemory(thread.teb, sizeof(tib), &tib)) {
+    thread.teb_address = thread_basic_info.TebBaseAddress;
+    thread.teb_size = sizeof(process_types::TEB<Traits>);
+    if (ReadMemory(thread.teb_address, sizeof(tib), &tib)) {
       WinVMAddress base = 0;
       WinVMAddress limit = 0;
       // If we're reading a WOW64 process, then the TIB we just retrieved is the
@@ -341,8 +343,10 @@ void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
       // https://msdn.microsoft.com/en-us/library/dn424783.aspx
       if (is_64_reading_32) {
         process_types::NT_TIB<process_types::internal::Traits32> tib32;
-        thread.teb = tib.Wow64Teb;
-        if (ReadMemory(thread.teb, sizeof(tib32), &tib32)) {
+        thread.teb_address = tib.Wow64Teb;
+        thread.teb_size =
+            sizeof(process_types::TEB<process_types::internal::Traits32>);
+        if (ReadMemory(thread.teb_address, sizeof(tib32), &tib32)) {
           base = tib32.StackBase;
           limit = tib32.StackLimit;
         }

@@ -48,10 +48,11 @@ class ProcessReaderWin {
       CONTEXT native;
 #if defined(ARCH_CPU_64_BITS)
       WOW64_CONTEXT wow64;
-#endif;
+#endif
     } context;
     uint64_t id;
-    WinVMAddress teb;
+    WinVMAddress teb_address;
+    WinVMSize teb_size;
     WinVMAddress stack_region_address;
     WinVMSize stack_region_size;
     uint32_t suspend_count;

@@ -12,15 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "client/crashpad_client.h"
+#include <windows.h>
+#include <winternl.h>
+
+// ntstatus.h conflicts with windows.h so define this locally.
+#ifndef STATUS_NO_SUCH_FILE
+#define STATUS_NO_SUCH_FILE static_cast<NTSTATUS>(0xC000000F)
+#endif
 
 #include "base/logging.h"
+#include "client/crashpad_client.h"
 #include "tools/tool_support.h"
 
 namespace crashpad {
 namespace {
 
+ULONG RtlNtStatusToDosError(NTSTATUS status) {
+  static decltype(::RtlNtStatusToDosError)* rtl_nt_status_to_dos_error =
+      reinterpret_cast<decltype(::RtlNtStatusToDosError)*>(
+          GetProcAddress(LoadLibrary(L"ntdll.dll"), "RtlNtStatusToDosError"));
+  DCHECK(rtl_nt_status_to_dos_error);
+  return rtl_nt_status_to_dos_error(status);
+}
+
 void SomeCrashyFunction() {
+  // SetLastError and NTSTATUS so that we have something to view in !gle in
+  // windbg. RtlNtStatusToDosError() stores STATUS_NO_SUCH_FILE into the
+  // LastStatusError of the TEB as a side-effect, and we'll be setting
+  // ERROR_FILE_NOT_FOUND for GetLastError().
+  SetLastError(RtlNtStatusToDosError(STATUS_NO_SUCH_FILE));
   volatile int* foo = reinterpret_cast<volatile int*>(7);
   *foo = 42;
 }

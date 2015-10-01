@@ -17,11 +17,14 @@
 
 #include <stdint.h>
 
+#include <vector>
+
 #include "base/basictypes.h"
 #include "base/memory/scoped_ptr.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/thread_snapshot.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 namespace test {
@@ -61,6 +64,15 @@ class TestThreadSnapshot final : public ThreadSnapshot {
     thread_specific_data_address_ = thread_specific_data_address;
   }
 
+  //! \brief Add a memory snapshot to be returned by ExtraMemory().
+  //!
+  //! \param[in] extra_memory The memory snapshot that will be included in
+  //!     ExtraMemory(). The TestThreadSnapshot object takes ownership of \a
+  //!     extra_memory.
+  void AddExtraMemory(scoped_ptr<MemorySnapshot> extra_memory) {
+    extra_memory_.push_back(extra_memory.release());
+  }
+
   // ThreadSnapshot:
 
   const CPUContext* Context() const override;
@@ -69,6 +81,7 @@ class TestThreadSnapshot final : public ThreadSnapshot {
   int SuspendCount() const override;
   int Priority() const override;
   uint64_t ThreadSpecificDataAddress() const override;
+  std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
   union {
@@ -81,6 +94,7 @@ class TestThreadSnapshot final : public ThreadSnapshot {
   int suspend_count_;
   int priority_;
   uint64_t thread_specific_data_address_;
+  PointerVector<MemorySnapshot> extra_memory_;
 
   DISALLOW_COPY_AND_ASSIGN(TestThreadSnapshot);
 };

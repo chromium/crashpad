@@ -309,12 +309,24 @@ struct CLIENT_ID {
 };
 
 // This is a partial definition of the TEB, as we do not currently use many
-// fields of it. See http://www.nirsoft.net/kernel_struct/vista/TEB.html.
+// fields of it. See http://www.nirsoft.net/kernel_struct/vista/TEB.html, and
+// the (arch-specific) definition of _TEB in winternl.h.
 template <class Traits>
 struct TEB {
   NT_TIB<Traits> NtTib;
-  typename Traits::Pointer EnvironmentPointer;
+  typename Traits::Pointer ProcessEnvironmentBlock;
   CLIENT_ID<Traits> ClientId;
+
+  // Not identical to Reserved2 in winternl's _TEB because we define ClientId.
+  typename Traits::Pointer RemainderOfReserved2[397];
+
+  BYTE Reserved3[1952];
+  typename Traits::Pointer TlsSlots[64];
+  BYTE Reserved4[8];
+  typename Traits::Pointer Reserved5[26];
+  typename Traits::Pointer ReservedForOle;
+  typename Traits::Pointer Reserved6[4];
+  typename Traits::Pointer TlsExpansionSlots;
 };
 
 // See https://msdn.microsoft.com/en-us/library/gg750724.aspx.

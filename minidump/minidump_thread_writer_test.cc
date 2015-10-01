@@ -18,6 +18,8 @@
 #include <dbghelp.h>
 #include <sys/types.h>
 
+#include <string>
+
 #include "base/compiler_specific.h"
 #include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
@@ -527,6 +529,9 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
   uint64_t thread_ids[arraysize(expect_threads)] = {};
   uint8_t memory_values[arraysize(expect_threads)] = {};
   uint32_t context_seeds[arraysize(expect_threads)] = {};
+  MINIDUMP_MEMORY_DESCRIPTOR tebs[arraysize(expect_threads)] = {};
+
+  const size_t kTebSize = 1024;
 
   expect_threads[0].ThreadId = 1;
   expect_threads[0].SuspendCount = 2;
@@ -537,6 +542,8 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
   expect_threads[0].ThreadContext.DataSize = sizeof(MinidumpContextType);
   memory_values[0] = 'A';
   context_seeds[0] = 0x80000000;
+  tebs[0].StartOfMemoryRange = expect_threads[0].Teb;
+  tebs[0].Memory.DataSize = kTebSize;
 
   // The thread at index 1 has no stack.
   expect_threads[1].ThreadId = 11;
@@ -545,6 +552,8 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
   expect_threads[1].Teb = 0xfedcba9876543210;
   expect_threads[1].ThreadContext.DataSize = sizeof(MinidumpContextType);
   context_seeds[1] = 0x40000001;
+  tebs[1].StartOfMemoryRange = expect_threads[1].Teb;
+  tebs[1].Memory.DataSize = kTebSize;
 
   expect_threads[2].ThreadId = 21;
   expect_threads[2].SuspendCount = 22;
@@ -555,6 +564,8 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
   expect_threads[2].ThreadContext.DataSize = sizeof(MinidumpContextType);
   memory_values[2] = 'd';
   context_seeds[2] = 0x20000002;
+  tebs[2].StartOfMemoryRange = expect_threads[2].Teb;
+  tebs[2].Memory.DataSize = kTebSize;
 
   if (thread_id_collision) {
     thread_ids[0] = 0x0123456700000001;
@@ -595,6 +606,12 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
     Traits::InitializeCPUContext(thread_snapshot->MutableContext(),
                                  context_seeds[index]);
 
+    auto teb_snapshot = make_scoped_ptr(new TestMemorySnapshot());
+    teb_snapshot->SetAddress(expect_threads[index].Teb);
+    teb_snapshot->SetSize(kTebSize);
+    teb_snapshot->SetValue(static_cast<char>('t' + index));
+    thread_snapshot->AddExtraMemory(teb_snapshot.Pass());
+
     thread_snapshots.push_back(thread_snapshot);
   }
 
@@ -617,7 +634,7 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
       GetThreadListStream(string_file.string(), &thread_list, &memory_list));
 
   ASSERT_EQ(3u, thread_list->NumberOfThreads);
-  ASSERT_EQ(2u, memory_list->NumberOfMemoryRanges);
+  ASSERT_EQ(5u, memory_list->NumberOfMemoryRanges);
 
   size_t memory_index = 0;
   for (size_t index = 0; index < thread_list->NumberOfThreads; ++index) {
@@ -643,13 +660,25 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
           observed_stack,
           string_file.string(),
           memory_values[index],
-          index == thread_list->NumberOfThreads - 1));
+          false));
 
       ASSERT_NO_FATAL_FAILURE(ExpectMinidumpMemoryDescriptor(
           observed_stack, &memory_list->MemoryRanges[memory_index]));
 
       ++memory_index;
     }
+  }
+
+  for (size_t index = 0; index < thread_list->NumberOfThreads; ++index) {
+    const MINIDUMP_MEMORY_DESCRIPTOR* memory =
+        &memory_list->MemoryRanges[memory_index];
+    ASSERT_NO_FATAL_FAILURE(
+        ExpectMinidumpMemoryDescriptor(&tebs[index], memory));
+    std::string expected_data(kTebSize, static_cast<char>('t' + index));
+    std::string observed_data(&string_file.string()[memory->Memory.Rva],
+                              memory->Memory.DataSize);
+    EXPECT_EQ(expected_data, observed_data);
+    ++memory_index;
   }
 }
 

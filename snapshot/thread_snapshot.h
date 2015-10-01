@@ -17,6 +17,8 @@
 
 #include <stdint.h>
 
+#include <vector>
+
 namespace crashpad {
 
 struct CPUContext;
@@ -62,6 +64,15 @@ class ThreadSnapshot {
   //! \brief Returns the base address of a region used to store thread-specific
   //!     data.
   virtual uint64_t ThreadSpecificDataAddress() const = 0;
+
+  //! \brief Returns a vector of additional memory blocks that should be
+  //!     included in a minidump.
+  //!
+  //! \return A vector of MemorySnapshot objects that will be included in the
+  //!     crash dump. The caller does not take ownership of these objects, they
+  //!     are scoped to the lifetime of the ThreadSnapshot object that they
+  //!     were obtained from.
+  virtual std::vector<const MemorySnapshot*> ExtraMemory() const = 0;
 };
 
 }  // namespace crashpad

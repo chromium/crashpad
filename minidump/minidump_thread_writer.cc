@@ -150,6 +150,11 @@ void MinidumpThreadListWriter::InitializeFromSnapshot(
     thread->InitializeFromSnapshot(thread_snapshot, thread_id_map);
     AddThread(thread.Pass());
   }
+
+  // Do this in a separate loop to keep the thread stacks earlier in the dump,
+  // and together.
+  for (const ThreadSnapshot* thread_snapshot : thread_snapshots)
+    memory_list_writer_->AddFromSnapshot(thread_snapshot->ExtraMemory());
 }
 
 void MinidumpThreadListWriter::SetMemoryListWriter(
