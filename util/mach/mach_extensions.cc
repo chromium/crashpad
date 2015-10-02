@@ -16,6 +16,7 @@
 
 #include <AvailabilityMacros.h>
 #include <pthread.h>
+#include <servers/bootstrap.h>
 
 #include "base/mac/mach_logging.h"
 #include "util/mac/mac_util.h"
@@ -94,6 +95,21 @@ exception_mask_t ExcMaskValid() {
   const exception_mask_t kExcMaskValid_10_11 =
       kExcMaskValid_10_6 | EXC_MASK_CORPSE_NOTIFY;
   return kExcMaskValid_10_11;
+}
+
+base::mac::ScopedMachSendRight SystemCrashReporterHandler() {
+  const char kSystemCrashReporterServiceName[] = "com.apple.ReportCrash";
+  exception_handler_t system_crash_reporter_handler;
+  kern_return_t kr = bootstrap_look_up(bootstrap_port,
+                                       kSystemCrashReporterServiceName,
+                                       &system_crash_reporter_handler);
+  if (kr != BOOTSTRAP_SUCCESS) {
+    BOOTSTRAP_LOG(ERROR, kr) << "bootstrap_look_up "
+                             << kSystemCrashReporterServiceName;
+    system_crash_reporter_handler = MACH_PORT_NULL;
+  }
+
+  return base::mac::ScopedMachSendRight(system_crash_reporter_handler);
 }
 
 }  // namespace crashpad

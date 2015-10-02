@@ -131,6 +131,12 @@ TEST(MachExtensions, ExcMaskValid) {
   EXPECT_TRUE(ExcMaskValid() & ~ExcMaskAll());
 }
 
+TEST(MachExtensions, SystemCrashReporterHandler) {
+  base::mac::ScopedMachSendRight
+      system_crash_reporter_handler(SystemCrashReporterHandler());
+  EXPECT_TRUE(system_crash_reporter_handler);
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

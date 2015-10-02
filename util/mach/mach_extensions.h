@@ -17,6 +17,8 @@
 
 #include <mach/mach.h>
 
+#include "base/mac/scoped_mach_port.h"
+
 namespace crashpad {
 
 //! \brief `MACH_PORT_NULL` with the correct type for a Mach port,
@@ -114,6 +116,20 @@ exception_mask_t ExcMaskAll();
 //! be updated to include their bits in the returned mask value when run time
 //! support is present.
 exception_mask_t ExcMaskValid();
+
+//! \brief Obtains the system’s default Mach exception handler for crash-type
+//!     exceptions.
+//!
+//! This is obtained by looking up `"com.apple.ReportCrash"` with the bootstrap
+//! server. The service name comes from the first launch agent loaded by
+//! `launchd` with a `MachServices` entry having `ExceptionServer` set. This
+//! launch agent is normally loaded from
+//! `/System/Library/LaunchAgents/com.apple.ReportCrash.plist`.
+//!
+//! \return On success, a send right to an `exception_handler_t` corresponding
+//!     to the system’s default crash reporter. On failure, `MACH_PORT_NULL`,
+//!     with a message logged.
+base::mac::ScopedMachSendRight SystemCrashReporterHandler();
 
 }  // namespace crashpad
 
