@@ -110,27 +110,14 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     }
   }
 
-  if (IsExceptionNonfatalResource(exception, code[0], pid)) {
-    // Swallow non-fatal resource exceptions.
-    //
-    // Normally, all EXC_RESOURCE exceptions go to the host-level EXC_RESOURCE
-    // handler, com.apple.ReportCrash.root, which invokes spindump to handle
-    // them. These non-fatal exceptions are never user-visible and are not
-    // currently of interest to Crashpad. Returning success here gets the
-    // process going again quickly, without generating a crash report.
-    //
-    // Alternatively, this could return KERN_FAILURE to let the exception go to
-    // the host-level handler, but there doesn’t seem to be much value in doing
-    // so.
-    ExcServerCopyState(
-        behavior, old_state, old_state_count, new_state, new_state_count);
-    return ExcServerSuccessfulReturnValue(exception, behavior, false);
-  }
-
   CrashpadInfoClientOptions client_options;
   process_snapshot.GetCrashpadOptions(&client_options);
 
-  if (client_options.crashpad_handler_behavior != TriState::kDisabled) {
+  if (client_options.crashpad_handler_behavior != TriState::kDisabled &&
+      !IsExceptionNonfatalResource(exception, code[0], pid)) {
+    // Non-fatal resource exceptions are never user-visible and are not
+    // currently of interest to Crashpad.
+
     if (!process_snapshot.InitializeException(behavior,
                                               thread,
                                               exception,
@@ -197,10 +184,6 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     // processes that haven’t actually crashed, and could result in reports not
     // actually associated with crashes being sent to the operating system
     // vendor.
-    //
-    // Note that normally, EXC_RESOURCE and EXC_GUARD exceptions are sent to the
-    // system-level com.apple.ReportCrash.Root job, and not to the user-level
-    // job that they are forwarded to here.
     base::mac::ScopedMachSendRight
         system_crash_reporter_handler(SystemCrashReporterHandler());
     if (system_crash_reporter_handler) {
