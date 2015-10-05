@@ -16,7 +16,6 @@
 #include <getopt.h>
 #include <libgen.h>
 #include <mach/mach.h>
-#include <servers/bootstrap.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -184,17 +183,14 @@ bool ParseHandlerString(const char* handler_string_ro,
 // |mach_send_right_pool|.
 void ShowBootstrapService(const std::string& service_name,
                           MachSendRightPool* mach_send_right_pool) {
-  mach_port_t service_port;
-  kern_return_t kr = bootstrap_look_up(
-      bootstrap_port, service_name.c_str(), &service_port);
-  if (kr != BOOTSTRAP_SUCCESS) {
-    BOOTSTRAP_LOG(ERROR, kr) << "bootstrap_look_up " << service_name;
+  base::mac::ScopedMachSendRight service_port(BootstrapLookUp(service_name));
+  if (service_port == kMachPortNull) {
     return;
   }
 
-  mach_send_right_pool->AddSendRight(service_port);
+  printf("service %s %#x\n", service_name.c_str(), service_port.get());
 
-  printf("service %s %#x\n", service_name.c_str(), service_port);
+  mach_send_right_pool->AddSendRight(service_port.release());
 }
 
 // Prints information about all exception ports known for |exception_ports|. If
@@ -279,22 +275,18 @@ void ShowExceptionPorts(const ExceptionPorts& exception_ports,
 // desired.
 bool SetExceptionPort(const ExceptionHandlerDescription* description,
                       mach_port_t target_port) {
-  base::mac::ScopedMachSendRight service_port_owner;
-  exception_handler_t service_port = MACH_PORT_NULL;
-  kern_return_t kr;
+  base::mac::ScopedMachSendRight service_port;
   if (description->handler.compare(
           0, strlen(kHandlerBootstrapColon), kHandlerBootstrapColon) == 0) {
     const char* service_name =
         description->handler.c_str() + strlen(kHandlerBootstrapColon);
-    kr = bootstrap_look_up(bootstrap_port, service_name, &service_port);
-    if (kr != BOOTSTRAP_SUCCESS) {
-      BOOTSTRAP_LOG(ERROR, kr) << "bootstrap_look_up " << service_name;
+    service_port = BootstrapLookUp(service_name);
+    if (service_port == kMachPortNull) {
       return false;
     }
 
     // The service port doesn’t need to be added to a MachSendRightPool because
     // it’s not used for display at all. ScopedMachSendRight is sufficient.
-    service_port_owner.reset(service_port);
   } else if (description->handler != kHandlerNull) {
     return false;
   }

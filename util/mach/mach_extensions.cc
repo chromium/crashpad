@@ -21,6 +21,59 @@
 #include "base/mac/mach_logging.h"
 #include "util/mac/mac_util.h"
 
+namespace {
+
+// This forms the internal implementation for BootstrapCheckIn() and
+// BootstrapLookUp(), which follow the same logic aside from the routine called
+// and the right type returned.
+
+struct BootstrapCheckInTraits {
+  using Type = base::mac::ScopedMachReceiveRight;
+  static kern_return_t Call(mach_port_t bootstrap_port,
+                            const char* service_name,
+                            mach_port_t* service_port) {
+    return bootstrap_check_in(bootstrap_port, service_name, service_port);
+  }
+  static const char kName[];
+};
+const char BootstrapCheckInTraits::kName[] = "bootstrap_check_in";
+
+struct BootstrapLookUpTraits {
+  using Type = base::mac::ScopedMachSendRight;
+  static kern_return_t Call(mach_port_t bootstrap_port,
+                            const char* service_name,
+                            mach_port_t* service_port) {
+    return bootstrap_look_up(bootstrap_port, service_name, service_port);
+  }
+  static const char kName[];
+};
+const char BootstrapLookUpTraits::kName[] = "bootstrap_look_up";
+
+template <typename Traits>
+typename Traits::Type BootstrapCheckInOrLookUp(
+    const std::string& service_name) {
+  // bootstrap_check_in() and bootstrap_look_up() silently truncate service
+  // names longer than BOOTSTRAP_MAX_NAME_LEN. This check ensures that the name
+  // will not be truncated.
+  if (service_name.size() >= BOOTSTRAP_MAX_NAME_LEN) {
+    LOG(ERROR) << Traits::kName << " " << service_name << ": name too long";
+    return typename Traits::Type(MACH_PORT_NULL);
+  }
+
+  mach_port_t service_port;
+  kern_return_t kr = Traits::Call(bootstrap_port,
+                                  service_name.c_str(),
+                                  &service_port);
+  if (kr != BOOTSTRAP_SUCCESS) {
+    BOOTSTRAP_LOG(ERROR, kr) << Traits::kName << " " << service_name;
+    service_port = MACH_PORT_NULL;
+  }
+
+  return typename Traits::Type(service_port);
+}
+
+}  // namespace
+
 namespace crashpad {
 
 thread_t MachThreadSelf() {
@@ -97,19 +150,18 @@ exception_mask_t ExcMaskValid() {
   return kExcMaskValid_10_11;
 }
 
-base::mac::ScopedMachSendRight SystemCrashReporterHandler() {
-  const char kSystemCrashReporterServiceName[] = "com.apple.ReportCrash";
-  exception_handler_t system_crash_reporter_handler;
-  kern_return_t kr = bootstrap_look_up(bootstrap_port,
-                                       kSystemCrashReporterServiceName,
-                                       &system_crash_reporter_handler);
-  if (kr != BOOTSTRAP_SUCCESS) {
-    BOOTSTRAP_LOG(ERROR, kr) << "bootstrap_look_up "
-                             << kSystemCrashReporterServiceName;
-    system_crash_reporter_handler = MACH_PORT_NULL;
-  }
+base::mac::ScopedMachReceiveRight BootstrapCheckIn(
+    const std::string& service_name) {
+  return BootstrapCheckInOrLookUp<BootstrapCheckInTraits>(service_name);
+}
 
-  return base::mac::ScopedMachSendRight(system_crash_reporter_handler);
+base::mac::ScopedMachSendRight BootstrapLookUp(
+    const std::string& service_name) {
+  return BootstrapCheckInOrLookUp<BootstrapLookUpTraits>(service_name);
+}
+
+base::mac::ScopedMachSendRight SystemCrashReporterHandler() {
+  return BootstrapLookUp("com.apple.ReportCrash");
 }
 
 }  // namespace crashpad

@@ -17,6 +17,8 @@
 
 #include <mach/mach.h>
 
+#include <string>
+
 #include "base/mac/scoped_mach_port.h"
 
 namespace crashpad {
@@ -116,6 +118,29 @@ exception_mask_t ExcMaskAll();
 //! be updated to include their bits in the returned mask value when run time
 //! support is present.
 exception_mask_t ExcMaskValid();
+
+//! \brief Makes a `boostrap_check_in()` call to the process’ bootstrap server.
+//!
+//! This function is provided to make it easier to call `bootstrap_check_in()`
+//! while avoiding accidental leaks of the returned receive right.
+//!
+//! \param[in] service_name The service name to check in.
+//!
+//! \return On success, a receive right to the service port. On failure,
+//!     `MACH_PORT_NULL` with a message logged.
+base::mac::ScopedMachReceiveRight BootstrapCheckIn(
+    const std::string& service_name);
+
+//! \brief Makes a `boostrap_look_up()` call to the process’ bootstrap server.
+//!
+//! This function is provided to make it easier to call `bootstrap_look_up()`
+//! while avoiding accidental leaks of the returned send right.
+//!
+//! \param[in] service_name The service name to look up.
+//!
+//! \return On success, a send right to the service port. On failure,
+//!     `MACH_PORT_NULL` with a message logged.
+base::mac::ScopedMachSendRight BootstrapLookUp(const std::string& service_name);
 
 //! \brief Obtains the system’s default Mach exception handler for crash-type
 //!     exceptions.

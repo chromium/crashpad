@@ -14,7 +14,6 @@
 
 #include <getopt.h>
 #include <libgen.h>
-#include <servers/bootstrap.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -263,11 +262,9 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  mach_port_t service_port;
-  kern_return_t kr = bootstrap_check_in(
-      bootstrap_port, options.mach_service.c_str(), &service_port);
-  if (kr != BOOTSTRAP_SUCCESS) {
-    BOOTSTRAP_LOG(ERROR, kr) << "bootstrap_check_in " << options.mach_service;
+  base::mac::ScopedMachReceiveRight
+      service_port(BootstrapCheckIn(options.mach_service));
+  if (service_port == kMachPortNull) {
     return EXIT_FAILURE;
   }
 

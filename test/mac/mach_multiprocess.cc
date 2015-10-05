@@ -16,7 +16,6 @@
 
 #include <AvailabilityMacros.h>
 #include <bsm/libbsm.h>
-#include <servers/bootstrap.h>
 
 #include <string>
 
@@ -98,13 +97,8 @@ void MachMultiprocess::PreFork() {
     info_->service_name.append(1, base::RandInt('A', 'Z'));
   }
 
-  mach_port_t local_port;
-  kern_return_t kr = bootstrap_check_in(bootstrap_port,
-                                        info_->service_name.c_str(),
-                                        &local_port);
-  ASSERT_EQ(BOOTSTRAP_SUCCESS, kr)
-      << BootstrapErrorMessage(kr, "bootstrap_check_in");
-  info_->local_port.reset(local_port);
+  info_->local_port = BootstrapCheckIn(info_->service_name);
+  ASSERT_NE(kMachPortNull, info_->local_port);
 }
 
 mach_port_t MachMultiprocess::LocalPort() const {
@@ -224,12 +218,8 @@ void MachMultiprocess::MultiprocessChild() {
   ASSERT_NE(kMachPortNull, info_->local_port);
 
   // The remote port can be obtained from the bootstrap server.
-  mach_port_t remote_port;
-  kern_return_t kr = bootstrap_look_up(
-      bootstrap_port, info_->service_name.c_str(), &remote_port);
-  ASSERT_EQ(BOOTSTRAP_SUCCESS, kr)
-      << BootstrapErrorMessage(kr, "bootstrap_look_up");
-  info_->remote_port.reset(remote_port);
+  info_->remote_port = BootstrapLookUp(info_->service_name);
+  ASSERT_NE(kMachPortNull, info_->remote_port);
 
   // The “hello” message will provide the parent with its remote port, a send
   // right to the child task’s local port receive right. It will also carry a
@@ -246,13 +236,13 @@ void MachMultiprocess::MultiprocessChild() {
   message.port_descriptor.disposition = MACH_MSG_TYPE_COPY_SEND;
   message.port_descriptor.type = MACH_MSG_PORT_DESCRIPTOR;
 
-  kr = mach_msg(&message.header,
-                MACH_SEND_MSG,
-                message.header.msgh_size,
-                0,
-                MACH_PORT_NULL,
-                MACH_MSG_TIMEOUT_NONE,
-                MACH_PORT_NULL);
+  kern_return_t kr = mach_msg(&message.header,
+                              MACH_SEND_MSG,
+                              message.header.msgh_size,
+                              0,
+                              MACH_PORT_NULL,
+                              MACH_MSG_TIMEOUT_NONE,
+                              MACH_PORT_NULL);
   ASSERT_EQ(MACH_MSG_SUCCESS, kr) << MachErrorMessage(kr, "mach_msg");
 
   MachMultiprocessChild();

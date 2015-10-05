@@ -15,6 +15,7 @@
 #include "util/mach/mach_extensions.h"
 
 #include "base/mac/scoped_mach_port.h"
+#include "base/rand_util.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
 #include "util/mac/mac_util.h"
@@ -129,6 +130,44 @@ TEST(MachExtensions, ExcMaskValid) {
 
   // There must be bits set in ExcMaskValid() that are not set in ExcMaskAll().
   EXPECT_TRUE(ExcMaskValid() & ~ExcMaskAll());
+}
+
+TEST(MachExtensions, BootstrapCheckInAndLookUp) {
+  // This should always exist.
+  base::mac::ScopedMachSendRight
+      report_crash(BootstrapLookUp("com.apple.ReportCrash"));
+  EXPECT_NE(report_crash, kMachPortNull);
+
+  std::string service_name = "com.googlecode.crashpad.test.bootstrap_check_in.";
+  for (int index = 0; index < 16; ++index) {
+    service_name.append(1, base::RandInt('A', 'Z'));
+  }
+
+  {
+    // The new service hasn’t checked in yet, so this should fail.
+    base::mac::ScopedMachSendRight send(BootstrapLookUp(service_name));
+    EXPECT_EQ(kMachPortNull, send);
+
+    // Check it in.
+    base::mac::ScopedMachReceiveRight receive(BootstrapCheckIn(service_name));
+    EXPECT_NE(receive, kMachPortNull);
+
+    // Now it should be possible to look up the new service.
+    send = BootstrapLookUp(service_name);
+    EXPECT_NE(send, kMachPortNull);
+
+    // It shouldn’t be possible to check the service in while it’s active.
+    base::mac::ScopedMachReceiveRight receive_2(BootstrapCheckIn(service_name));
+    EXPECT_EQ(kMachPortNull, receive_2);
+  }
+
+  // The new service should be gone now.
+  base::mac::ScopedMachSendRight send(BootstrapLookUp(service_name));
+  EXPECT_EQ(kMachPortNull, send);
+
+  // It should be possible to check it in again.
+  base::mac::ScopedMachReceiveRight receive(BootstrapCheckIn(service_name));
+  EXPECT_NE(receive, kMachPortNull);
 }
 
 TEST(MachExtensions, SystemCrashReporterHandler) {

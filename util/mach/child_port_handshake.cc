@@ -16,7 +16,6 @@
 
 #include <errno.h>
 #include <pthread.h>
-#include <servers/bootstrap.h>
 #include <sys/event.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -102,15 +101,11 @@ mach_port_t ChildPortHandshake::RunServer() {
       getpid(),
       thread_id,
       base::RandUint64());
-  DCHECK_LT(service_name.size(), implicit_cast<size_t>(BOOTSTRAP_MAX_NAME_LEN));
 
   // Check the new service in with the bootstrap server, obtaining a receive
   // right for it.
-  mach_port_t server_port;
-  kern_return_t kr =
-      bootstrap_check_in(bootstrap_port, service_name.c_str(), &server_port);
-  BOOTSTRAP_CHECK(kr == BOOTSTRAP_SUCCESS, kr) << "bootstrap_check_in";
-  base::mac::ScopedMachReceiveRight server_port_owner(server_port);
+  base::mac::ScopedMachReceiveRight server_port(BootstrapCheckIn(service_name));
+  CHECK_NE(server_port, kMachPortNull);
 
   // Share the service name with the client via the pipe.
   uint32_t service_name_length = service_name.size();
@@ -132,7 +127,8 @@ mach_port_t ChildPortHandshake::RunServer() {
       NewMachPort(MACH_PORT_RIGHT_PORT_SET));
   CHECK_NE(server_port_set, kMachPortNull);
 
-  kr = mach_port_insert_member(mach_task_self(), server_port, server_port_set);
+  kern_return_t kr =
+      mach_port_insert_member(mach_task_self(), server_port, server_port_set);
   MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_insert_member";
 
   // Set up a kqueue to monitor both the server’s receive right and the write
@@ -317,8 +313,6 @@ void ChildPortHandshake::RunClientInternal_ReadPipe(int pipe_read,
   // Read the service name from the pipe.
   uint32_t service_name_length;
   CheckedReadFile(pipe_read, &service_name_length, sizeof(service_name_length));
-  DCHECK_LT(service_name_length,
-            implicit_cast<uint32_t>(BOOTSTRAP_MAX_NAME_LEN));
 
   service_name->resize(service_name_length);
   if (!service_name->empty()) {
@@ -334,14 +328,11 @@ void ChildPortHandshake::RunClientInternal_SendCheckIn(
     mach_msg_type_name_t right_type) {
   // Get a send right to the server by looking up the service with the bootstrap
   // server by name.
-  mach_port_t server_port;
-  kern_return_t kr =
-      bootstrap_look_up(bootstrap_port, service_name.c_str(), &server_port);
-  BOOTSTRAP_CHECK(kr == BOOTSTRAP_SUCCESS, kr) << "bootstrap_look_up";
-  base::mac::ScopedMachSendRight server_port_owner(server_port);
+  base::mac::ScopedMachSendRight server_port(BootstrapLookUp(service_name));
+  CHECK_NE(server_port, kMachPortNull);
 
   // Check in with the server.
-  kr = child_port_check_in(server_port, token, port, right_type);
+  kern_return_t kr = child_port_check_in(server_port, token, port, right_type);
   MACH_CHECK(kr == KERN_SUCCESS, kr) << "child_port_check_in";
 }
 
