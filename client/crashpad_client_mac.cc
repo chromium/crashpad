@@ -221,13 +221,15 @@ bool CrashpadClient::UseHandler() {
 }
 
 // static
-bool CrashpadClient::UseSystemDefaultHandler() {
+void CrashpadClient::UseSystemDefaultHandler() {
   base::mac::ScopedMachSendRight
       system_crash_reporter_handler(SystemCrashReporterHandler());
 
   // Proceed even if SystemCrashReporterHandler() failed, setting MACH_PORT_NULL
   // to clear the current exception ports.
-  return SetCrashExceptionPorts(system_crash_reporter_handler);
+  if (!SetCrashExceptionPorts(system_crash_reporter_handler)) {
+    SetCrashExceptionPorts(MACH_PORT_NULL);
+  }
 }
 
 }  // namespace crashpad

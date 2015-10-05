@@ -128,22 +128,19 @@ class CrashpadClient {
   //!
   //! On OS X, this sets the task’s exception port as in UseHandler(), but the
   //! exception handler used is obtained from SystemCrashReporterHandler(). If
-  //! the system’s crash reporter handler cannot be determined, the task’s
-  //! exception ports for crash-type exceptions are cleared.
+  //! the system’s crash reporter handler cannot be determined or set, the
+  //! task’s exception ports for crash-type exceptions are cleared.
   //!
   //! Use of this function is strongly discouraged.
   //!
-  //! \warning After a successful call to this function, Crashpad will no longer
-  //!     monitor the process for crashes until a subsequent call to
-  //!     UseHandler().
+  //! \warning After a call to this function, Crashpad will no longer monitor
+  //!     the process for crashes until a subsequent call to UseHandler().
   //!
   //! \note This is provided as a static function to allow it to be used in
   //!     situations where a CrashpadClient object is not otherwise available.
   //!     This may be useful when a child process inherits its parent’s Crashpad
   //!     handler, but wants to sever this tie.
-  //!
-  //! \return `true` on success, `false` on failure with a message logged.
-  static bool UseSystemDefaultHandler();
+  static void UseSystemDefaultHandler();
 #endif
 
  private:
