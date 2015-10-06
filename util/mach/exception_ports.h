@@ -85,6 +85,38 @@ class ExceptionPorts {
     thread_state_flavor_t flavor;
   };
 
+  //! \brief Wraps `std::vector<ExceptionHandler>`, providing proper cleanup of
+  //!     the send rights contained in each element’s ExceptionHandler::port.
+  //!
+  //! Upon destruction or clear(), an object of this class will deallocate all
+  //! send rights it contains. Otherwise, it is an interface-compatible drop-in
+  //! replacement for `std::vector<ExceptionHandler>`. Note that non-`const`
+  //! mutators are not provided to avoid accidental Mach right leaks.
+  class ExceptionHandlerVector {
+   public:
+    using VectorType = std::vector<ExceptionHandler>;
+
+    ExceptionHandlerVector();
+    ~ExceptionHandlerVector();
+
+    VectorType::const_iterator begin() const { return vector_.begin(); }
+    VectorType::const_iterator end() const { return vector_.end(); }
+    VectorType::size_type size() const { return vector_.size(); }
+    bool empty() const { return vector_.empty(); }
+    VectorType::const_reference operator[](VectorType::size_type index) const {
+      return vector_[index];
+    }
+    void push_back(VectorType::value_type& value) { vector_.push_back(value); }
+    void clear();
+
+   private:
+    void Deallocate();
+
+    VectorType vector_;
+
+    DISALLOW_COPY_AND_ASSIGN(ExceptionHandlerVector);
+  };
+
   //! \brief Constructs an interface object to get or set exception ports on a
   //!     host, task, or thread port.
   //!
@@ -111,19 +143,18 @@ class ExceptionPorts {
   //! \param[in] mask The exception mask, containing the `EXC_MASK_*` values to
   //!     be looked up and returned in \a handlers.
   //! \param[out] handlers The exception handlers registered for \a target_port
-  //!     to handle exceptions indicated in \a mask. The caller must take
-  //!     ownership of the \a port members of the returned ExceptionHandler
-  //!     objects. If no execption port is registered for a bit in \a mask, \a
-  //!     handlers will not contain an entry corresponding to that bit. This is
-  //!     a departure from the `*_get_exception_ports()` functions, which may
-  //!     return a handler whose port is set to `EXCEPTION_PORT_NULL` in this
-  //!     case. On failure, this argument is untouched.
+  //!     to handle exceptions indicated in \a mask. If no execption port is
+  //!     registered for a bit in \a mask, \a handlers will not contain an entry
+  //!     corresponding to that bit. This is a departure from the
+  //!     `*_get_exception_ports()` functions, which may return a handler whose
+  //!     port is set to `EXCEPTION_PORT_NULL` in this case. On failure, this
+  //!     argument is untouched.
   //!
   //! \return `true` if `*_get_exception_ports()` returned `KERN_SUCCESS`, with
   //!     \a handlers set appropriately. `false` otherwise, with an appropriate
   //!     message logged.
   bool GetExceptionPorts(exception_mask_t mask,
-                         std::vector<ExceptionHandler>* handlers) const;
+                         ExceptionHandlerVector* handlers) const;
 
   //! \brief Calls `*_set_exception_ports()` on the target.
   //!

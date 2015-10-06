@@ -74,13 +74,20 @@ class MachSendRightPool {
   //! \brief Adds a send right to the pool.
   //!
   //! \param[in] send_right The send right to be added. The pool object takes
-  //!     ownership of the send right, which remains valid until the pool object
-  //!     is destroyed.
+  //!     its own reference to the send right, which remains valid until the
+  //!     pool object is destroyed. The caller remains responsible for its
+  //!     reference to the send right.
   //!
   //! It is possible and in fact likely that one pool will wind up owning the
   //! same send right multiple times. This is acceptable, because send rights
   //! are reference-counted.
   void AddSendRight(mach_port_t send_right) {
+    kern_return_t kr = mach_port_mod_refs(mach_task_self(),
+                                          send_right,
+                                          MACH_PORT_RIGHT_SEND,
+                                          1);
+    MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_mod_refs";
+
     send_rights_.push_back(send_right);
   }
 
@@ -188,9 +195,9 @@ void ShowBootstrapService(const std::string& service_name,
     return;
   }
 
-  printf("service %s %#x\n", service_name.c_str(), service_port.get());
+  mach_send_right_pool->AddSendRight(service_port);
 
-  mach_send_right_pool->AddSendRight(service_port.release());
+  printf("service %s %#x\n", service_name.c_str(), service_port.get());
 }
 
 // Prints information about all exception ports known for |exception_ports|. If
@@ -206,14 +213,14 @@ void ShowExceptionPorts(const ExceptionPorts& exception_ports,
                         MachSendRightPool* mach_send_right_pool) {
   const char* target_name = exception_ports.TargetTypeName();
 
-  std::vector<ExceptionPorts::ExceptionHandler> handlers;
+  ExceptionPorts::ExceptionHandlerVector handlers;
   if (!exception_ports.GetExceptionPorts(ExcMaskValid(), &handlers)) {
     return;
   }
 
   const char* age_name = is_new ? "new " : "";
 
-  if (handlers.size() == 0) {
+  if (handlers.empty()) {
     printf("no %s%s exception ports\n", age_name, target_name);
   }
 

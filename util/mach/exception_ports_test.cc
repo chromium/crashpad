@@ -64,13 +64,12 @@ void TestGetExceptionPorts(const ExceptionPorts& exception_ports,
                                             ? THREAD_STATE_NONE
                                             : MACHINE_THREAD_STATE;
 
-  std::vector<ExceptionPorts::ExceptionHandler> crash_handler;
+  ExceptionPorts::ExceptionHandlerVector crash_handler;
   ASSERT_TRUE(
       exception_ports.GetExceptionPorts(kExceptionMask, &crash_handler));
 
   if (expect_port != MACH_PORT_NULL) {
     ASSERT_EQ(1u, crash_handler.size());
-    base::mac::ScopedMachSendRight port_owner(crash_handler[0].port);
 
     EXPECT_EQ(kExceptionMask, crash_handler[0].mask);
     EXPECT_EQ(expect_port, crash_handler[0].port);
@@ -80,15 +79,13 @@ void TestGetExceptionPorts(const ExceptionPorts& exception_ports,
     EXPECT_TRUE(crash_handler.empty());
   }
 
-  std::vector<ExceptionPorts::ExceptionHandler> handlers;
+  ExceptionPorts::ExceptionHandlerVector handlers;
   ASSERT_TRUE(exception_ports.GetExceptionPorts(ExcMaskValid(), &handlers));
 
   EXPECT_GE(handlers.size(), crash_handler.size());
   bool found = false;
   for (const ExceptionPorts::ExceptionHandler& handler : handlers) {
     if ((handler.mask & kExceptionMask) != 0) {
-      base::mac::ScopedMachSendRight port_owner(handler.port);
-
       EXPECT_FALSE(found);
       found = true;
       EXPECT_EQ(expect_port, handler.port);
@@ -586,28 +583,27 @@ TEST(ExceptionPorts, HostExceptionPorts) {
   // host_set_exception_ports() is not tested, because if the test were running
   // as root and the call succeeded, it would have global effects.
 
+  const bool expect_success = geteuid() == 0;
+
   base::mac::ScopedMachSendRight host(mach_host_self());
   ExceptionPorts explicit_host_ports(ExceptionPorts::kTargetTypeHost, host);
   EXPECT_STREQ("host", explicit_host_ports.TargetTypeName());
 
-  std::vector<ExceptionPorts::ExceptionHandler> handlers;
-  bool rv = explicit_host_ports.GetExceptionPorts(ExcMaskValid(), &handlers);
-  if (geteuid() == 0) {
-    EXPECT_TRUE(rv);
-  } else {
-    EXPECT_FALSE(rv);
-  }
+  ExceptionPorts::ExceptionHandlerVector explicit_handlers;
+  bool rv =
+      explicit_host_ports.GetExceptionPorts(ExcMaskValid(), &explicit_handlers);
+  EXPECT_EQ(expect_success, rv);
 
   ExceptionPorts implicit_host_ports(ExceptionPorts::kTargetTypeHost,
                                      HOST_NULL);
   EXPECT_STREQ("host", implicit_host_ports.TargetTypeName());
 
-  rv = implicit_host_ports.GetExceptionPorts(ExcMaskValid(), &handlers);
-  if (geteuid() == 0) {
-    EXPECT_TRUE(rv);
-  } else {
-    EXPECT_FALSE(rv);
-  }
+  ExceptionPorts::ExceptionHandlerVector implicit_handlers;
+  rv =
+      implicit_host_ports.GetExceptionPorts(ExcMaskValid(), &implicit_handlers);
+  EXPECT_EQ(expect_success, rv);
+
+  EXPECT_EQ(explicit_handlers.size(), implicit_handlers.size());
 }
 
 }  // namespace

@@ -16,8 +16,6 @@
 
 #include <string.h>
 
-#include <vector>
-
 #include "base/basictypes.h"
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
@@ -216,7 +214,7 @@ void SimulateCrash(const NativeCPUContext& cpu_context) {
   for (size_t target_type_index = 0;
        !success && target_type_index < arraysize(kTargetTypes);
        ++target_type_index) {
-    std::vector<ExceptionPorts::ExceptionHandler> handlers;
+    ExceptionPorts::ExceptionHandlerVector handlers;
     ExceptionPorts exception_ports(kTargetTypes[target_type_index],
                                    MACH_PORT_NULL);
     if (exception_ports.GetExceptionPorts(EXC_MASK_CRASH, &handlers)) {

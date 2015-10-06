@@ -19,6 +19,29 @@
 
 namespace crashpad {
 
+ExceptionPorts::ExceptionHandlerVector::ExceptionHandlerVector()
+    : vector_() {
+}
+
+ExceptionPorts::ExceptionHandlerVector::~ExceptionHandlerVector() {
+  Deallocate();
+}
+
+void ExceptionPorts::ExceptionHandlerVector::clear() {
+  Deallocate();
+  vector_.clear();
+}
+
+void ExceptionPorts::ExceptionHandlerVector::Deallocate() {
+  for (ExceptionHandler& exception_handler : vector_) {
+    if (exception_handler.port != MACH_PORT_NULL) {
+      kern_return_t kr =
+          mach_port_deallocate(mach_task_self(), exception_handler.port);
+      MACH_LOG_IF(ERROR, kr != KERN_SUCCESS, kr) << "mach_port_deallocate";
+    }
+  }
+}
+
 ExceptionPorts::ExceptionPorts(TargetType target_type, mach_port_t target_port)
     : target_port_(target_port), dealloc_target_port_(false) {
   switch (target_type) {
@@ -69,9 +92,8 @@ ExceptionPorts::~ExceptionPorts() {
   }
 }
 
-bool ExceptionPorts::GetExceptionPorts(
-    exception_mask_t mask,
-    std::vector<ExceptionHandler>* handlers) const {
+bool ExceptionPorts::GetExceptionPorts(exception_mask_t mask,
+                                       ExceptionHandlerVector* handlers) const {
   // <mach/mach_types.defs> says that these arrays have room for 32 elements,
   // despite EXC_TYPES_COUNT only being as low as 11 (in the 10.6 SDK), and
   // later operating system versions have defined more exception types. The
