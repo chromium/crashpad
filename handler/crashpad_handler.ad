@@ -82,6 +82,13 @@ Listen on the given pipe name for connections from clients. 'PIPE' must be of
 the form +\\.\pipe\<somename>+. This option is required. This option is only
 valid on Windows.
 
+*--reset-own-crash-exception-port-to-system-default*::
+Causes the exception handler server to set its own crash handler to the system
+default before beginning operation. This is only expected to be useful in cases
+where the server inherits an inappropriate crash handler from its parent
+process. This option is only valid on OS X. Use of this option is discouraged.
+It should not be used absent extraordinary circumstances.
+
 *--url*='URL'::
 If uploads are enabled, sends crash reports to the Breakpad-type crash report
 collection server at 'URL'. Uploads are disabled by default, and can only be

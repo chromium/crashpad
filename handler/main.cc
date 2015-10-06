@@ -24,6 +24,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/crash_report_database.h"
+#include "client/crashpad_client.h"
 #include "tools/tool_support.h"
 #include "handler/crash_report_upload_thread.h"
 #include "util/stdlib/map_insert.h"
@@ -55,6 +56,8 @@ void Usage(const base::FilePath& me) {
 "      --database=PATH         store the crash report database at PATH\n"
 #if defined(OS_MACOSX)
 "      --handshake-fd=FD       establish communication with the client over FD\n"
+"      --reset-own-crash-exception-port-to-system-default\n"
+"                              reset the server's exception handler to default\n"
 #elif defined(OS_WIN)
 "      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_MACOSX
@@ -78,6 +81,7 @@ int HandlerMain(int argc, char* argv[]) {
     kOptionDatabase,
 #if defined(OS_MACOSX)
     kOptionHandshakeFD,
+    kOptionResetOwnCrashExceptionPortToSystemDefault,
 #elif defined(OS_WIN)
     kOptionPipeName,
 #endif  // OS_MACOSX
@@ -94,12 +98,14 @@ int HandlerMain(int argc, char* argv[]) {
     const char* database;
 #if defined(OS_MACOSX)
     int handshake_fd;
+    bool reset_own_crash_exception_port_to_system_default;
 #elif defined(OS_WIN)
     std::string pipe_name;
 #endif
   } options = {};
 #if defined(OS_MACOSX)
   options.handshake_fd = -1;
+  options.reset_own_crash_exception_port_to_system_default = false;
 #endif
 
   const option long_options[] = {
@@ -107,6 +113,10 @@ int HandlerMain(int argc, char* argv[]) {
       {"database", required_argument, nullptr, kOptionDatabase},
 #if defined(OS_MACOSX)
       {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
+      {"reset-own-crash-exception-port-to-system-default",
+       no_argument,
+       nullptr,
+       kOptionResetOwnCrashExceptionPortToSystemDefault},
 #elif defined(OS_WIN)
       {"pipe-name", required_argument, nullptr, kOptionPipeName},
 #endif
@@ -145,6 +155,10 @@ int HandlerMain(int argc, char* argv[]) {
                                  "--handshake-fd requires a file descriptor");
           return EXIT_FAILURE;
         }
+        break;
+      }
+      case kOptionResetOwnCrashExceptionPortToSystemDefault: {
+        options.reset_own_crash_exception_port_to_system_default = true;
         break;
       }
 #elif defined(OS_WIN)
@@ -195,6 +209,12 @@ int HandlerMain(int argc, char* argv[]) {
     ToolSupport::UsageHint(me, nullptr);
     return EXIT_FAILURE;
   }
+
+#if defined(OS_MACOSX)
+  if (options.reset_own_crash_exception_port_to_system_default) {
+    CrashpadClient::UseSystemDefaultHandler();
+  }
+#endif
 
   ExceptionHandlerServer exception_handler_server;
 
