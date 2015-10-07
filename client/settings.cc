@@ -71,18 +71,18 @@ Settings::~Settings() {
 }
 
 bool Settings::Initialize() {
-  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+  initialized_.set_invalid();
 
   Data settings;
   if (!OpenForWritingAndReadSettings(&settings).is_valid())
     return false;
 
-  INITIALIZATION_STATE_SET_VALID(initialized_);
+  initialized_.set_valid();
   return true;
 }
 
 bool Settings::GetClientID(UUID* client_id) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK(initialized_.is_valid());
 
   Data settings;
   if (!OpenAndReadSettings(&settings))
@@ -93,7 +93,7 @@ bool Settings::GetClientID(UUID* client_id) {
 }
 
 bool Settings::GetUploadsEnabled(bool* enabled) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK(initialized_.is_valid());
 
   Data settings;
   if (!OpenAndReadSettings(&settings))
@@ -104,7 +104,7 @@ bool Settings::GetUploadsEnabled(bool* enabled) {
 }
 
 bool Settings::SetUploadsEnabled(bool enabled) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK(initialized_.is_valid());
 
   Data settings;
   ScopedLockedFileHandle handle = OpenForWritingAndReadSettings(&settings);
@@ -120,7 +120,7 @@ bool Settings::SetUploadsEnabled(bool enabled) {
 }
 
 bool Settings::GetLastUploadAttemptTime(time_t* time) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK(initialized_.is_valid());
 
   Data settings;
   if (!OpenAndReadSettings(&settings))
@@ -132,7 +132,7 @@ bool Settings::GetLastUploadAttemptTime(time_t* time) {
 }
 
 bool Settings::SetLastUploadAttemptTime(time_t time) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK(initialized_.is_valid());
 
   Data settings;
   ScopedLockedFileHandle handle = OpenForWritingAndReadSettings(&settings);
@@ -161,12 +161,20 @@ Settings::ScopedLockedFileHandle Settings::OpenForReading() {
                                     FileLocking::kShared);
 }
 
-Settings::ScopedLockedFileHandle Settings::OpenForReadingAndWriting() {
-  return MakeScopedLockedFileHandle(
-      LoggingOpenFileForReadAndWrite(file_path(),
-                                     FileWriteMode::kReuseOrCreate,
-                                     FilePermissions::kWorldReadable),
-      FileLocking::kExclusive);
+Settings::ScopedLockedFileHandle Settings::OpenForReadingAndWriting(
+    FileWriteMode mode, bool log_open_error) {
+  DCHECK(mode != FileWriteMode::kTruncateOrCreate);
+
+  FileHandle handle;
+  if (log_open_error) {
+    handle = LoggingOpenFileForReadAndWrite(
+        file_path(), mode, FilePermissions::kWorldReadable);
+  } else {
+    handle = OpenFileForReadAndWrite(
+        file_path(), mode, FilePermissions::kWorldReadable);
+  }
+
+  return MakeScopedLockedFileHandle(handle, FileLocking::kExclusive);
 }
 
 bool Settings::OpenAndReadSettings(Data* out_data) {
@@ -174,7 +182,7 @@ bool Settings::OpenAndReadSettings(Data* out_data) {
   if (!handle.is_valid())
     return false;
 
-  if (ReadSettings(handle.get(), out_data))
+  if (ReadSettings(handle.get(), out_data, true))
     return true;
 
   // The settings file is corrupt, so reinitialize it.
@@ -186,11 +194,48 @@ bool Settings::OpenAndReadSettings(Data* out_data) {
 
 Settings::ScopedLockedFileHandle Settings::OpenForWritingAndReadSettings(
     Data* out_data) {
-  ScopedLockedFileHandle handle = OpenForReadingAndWriting();
+  ScopedLockedFileHandle handle;
+  bool created = false;
+  if (!initialized_.is_valid()) {
+    // If this object is initializing, it hasn’t seen a settings file already,
+    // so go easy on errors. Creating a new settings file for the first time
+    // shouldn’t spew log messages.
+    //
+    // First, try to use an existing settings file.
+    handle = OpenForReadingAndWriting(FileWriteMode::kReuseOrFail, false);
+
+    if (!handle.is_valid()) {
+      // Create a new settings file if it didn’t already exist.
+      handle = OpenForReadingAndWriting(FileWriteMode::kCreateOrFail, false);
+
+      if (handle.is_valid()) {
+        created = true;
+      }
+
+      // There may have been a race to create the file, and something else may
+      // have won. There will be one more attempt to try to open or create the
+      // file below.
+    }
+  }
+
+  if (!handle.is_valid()) {
+    // Either the object is initialized, meaning it’s already seen a valid
+    // settings file, or the object is initializing and none of the above
+    // attempts to create the settings file succeeded. Either way, this is the
+    // last chance for success, so if this fails, log a message.
+    handle = OpenForReadingAndWriting(FileWriteMode::kReuseOrCreate, true);
+  }
+
   if (!handle.is_valid())
     return ScopedLockedFileHandle();
 
-  if (!ReadSettings(handle.get(), out_data)) {
+  // Attempt reading the settings even if the file is known to have just been
+  // created. The file-create and file-lock operations don’t occur atomically,
+  // and something else may have written the settings before this invocation
+  // took the lock. If the settings file was definitely just created, though,
+  // don’t log any read errors. The expected non-race behavior in this case is a
+  // zero-length read, with ReadSettings() failing.
+  if (!ReadSettings(handle.get(), out_data, !created)) {
     if (!RecoverSettings(handle.get(), out_data))
       return ScopedLockedFileHandle();
   }
@@ -198,11 +243,19 @@ Settings::ScopedLockedFileHandle Settings::OpenForWritingAndReadSettings(
   return handle.Pass();
 }
 
-bool Settings::ReadSettings(FileHandle handle, Data* out_data) {
+bool Settings::ReadSettings(FileHandle handle,
+                            Data* out_data,
+                            bool log_read_error) {
   if (LoggingSeekFile(handle, 0, SEEK_SET) != 0)
     return false;
 
-  if (!LoggingReadFile(handle, out_data, sizeof(*out_data)))
+  bool read_result;
+  if (log_read_error)
+    read_result = LoggingReadFile(handle, out_data, sizeof(*out_data));
+  else
+    read_result = ReadFile(handle, out_data, sizeof(*out_data));
+
+  if (!read_result)
     return false;
 
   if (out_data->magic != Data::kSettingsMagic) {
@@ -231,12 +284,13 @@ bool Settings::WriteSettings(FileHandle handle, const Data& data) {
 bool Settings::RecoverSettings(FileHandle handle, Data* out_data) {
   ScopedLockedFileHandle scoped_handle;
   if (handle == kInvalidFileHandle) {
-    scoped_handle = OpenForReadingAndWriting();
+    scoped_handle =
+        OpenForReadingAndWriting(FileWriteMode::kReuseOrCreate, true);
     handle = scoped_handle.get();
 
     // Test if the file has already been recovered now that the exclusive lock
     // is held.
-    if (ReadSettings(handle, out_data))
+    if (ReadSettings(handle, out_data, true))
       return true;
   }
 
@@ -248,7 +302,7 @@ bool Settings::RecoverSettings(FileHandle handle, Data* out_data) {
   if (!InitializeSettings(handle))
     return false;
 
-  return ReadSettings(handle, out_data);
+  return ReadSettings(handle, out_data, true);
 }
 
 bool Settings::InitializeSettings(FileHandle handle) {

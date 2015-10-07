@@ -23,7 +23,7 @@
 #include "base/files/file_path.h"
 #include "base/scoped_generic.h"
 #include "util/file/file_io.h"
-#include "util/misc/initialization_state_dcheck.h"
+#include "util/misc/initialization_state.h"
 #include "util/misc/uuid.h"
 
 namespace crashpad {
@@ -108,8 +108,7 @@ class Settings {
   // This must be constructed with MakeScopedLockedFileHandle(). It both unlocks
   // and closes the file on destruction.
   using ScopedLockedFileHandle =
-      base::ScopedGeneric<FileHandle,
-                          internal::ScopedLockedFileHandleTraits>;
+      base::ScopedGeneric<FileHandle, internal::ScopedLockedFileHandleTraits>;
   static ScopedLockedFileHandle MakeScopedLockedFileHandle(FileHandle file,
                                                            FileLocking locking);
 
@@ -118,8 +117,15 @@ class Settings {
   ScopedLockedFileHandle OpenForReading();
 
   // Opens the settings file for reading and writing. On error, logs a message
-  // and returns the invalid handle.
-  ScopedLockedFileHandle OpenForReadingAndWriting();
+  // and returns the invalid handle. |mode| determines how the file will be
+  // opened. |mode| must not be FileWriteMode::kTruncateOrCreate.
+  //
+  // If |log_open_error| is false, nothing will be logged for an error
+  // encountered when attempting to open the file, but this method will still
+  // return false. This is intended to be used to suppress error messages when
+  // attempting to create a new settings file when multiple attempts are made.
+  ScopedLockedFileHandle OpenForReadingAndWriting(FileWriteMode mode,
+                                                  bool log_open_error);
 
   // Opens the settings file and reads the data. If that fails, an error will
   // be logged and the settings will be recovered and re-initialized. If that
@@ -133,10 +139,20 @@ class Settings {
 
   // Reads the settings from |handle|. Logs an error and returns false on
   // failure. This does not perform recovery.
-  bool ReadSettings(FileHandle handle, Data* out_data);
+  //
+  // |handle| must be the result of OpenForReading() or
+  // OpenForReadingAndWriting().
+  //
+  // If |log_read_error| is false, nothing will be logged for a read error, but
+  // this method will still return false. This is intended to be used to
+  // suppress error messages when attempting to read a newly created settings
+  // file.
+  bool ReadSettings(FileHandle handle, Data* out_data, bool log_read_error);
 
   // Writes the settings to |handle|. Logs an error and returns false on
   // failure. This does not perform recovery.
+  //
+  // |handle| must be the result of OpenForReadingAndWriting().
   bool WriteSettings(FileHandle handle, const Data& data);
 
   // Recovers the settings file by re-initializing the data. If |handle| is the
@@ -149,13 +165,15 @@ class Settings {
 
   // Initializes a settings file and writes the data to |handle|. Returns true
   // on success and false on failure, with an error logged.
+  //
+  // |handle| must be the result of OpenForReadingAndWriting().
   bool InitializeSettings(FileHandle handle);
 
   const base::FilePath& file_path() const { return file_path_; }
 
   base::FilePath file_path_;
 
-  InitializationStateDcheck initialized_;
+  InitializationState initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(Settings);
 };
