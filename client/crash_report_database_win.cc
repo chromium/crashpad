@@ -631,7 +631,7 @@ OperationStatus CrashReportDatabaseWin::ErrorWritingCrashReport(
   if (!DeleteFile(scoped_report->path.value().c_str())) {
     PLOG(ERROR) << "DeleteFile "
                 << base::UTF16ToUTF8(scoped_report->path.value());
-    return CrashReportDatabase::kFileSystemError;
+    return kFileSystemError;
   }
 
   return kNoError;
@@ -691,7 +691,7 @@ OperationStatus CrashReportDatabaseWin::GetReportForUploading(
   ReportDisk* report_disk;
   OperationStatus os = metadata->FindSingleReportAndMarkDirty(
       uuid, ReportState::kPending, &report_disk);
-  if (os == CrashReportDatabase::kNoError) {
+  if (os == kNoError) {
     report_disk->state = ReportState::kUploading;
     // Create a copy for passing back to client. This will be freed in
     // RecordUploadAttempt.
@@ -714,19 +714,22 @@ OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
   ReportDisk* report_disk;
   OperationStatus os = metadata->FindSingleReportAndMarkDirty(
       report->uuid, ReportState::kUploading, &report_disk);
-  if (os == CrashReportDatabaseWin::kNoError) {
-    report_disk->uploaded = successful;
-    report_disk->id = id;
-    report_disk->last_upload_attempt_time = time(nullptr);
-    report_disk->upload_attempts++;
-    report_disk->state =
-        successful ? ReportState::kCompleted : ReportState::kPending;
-  }
+  if (os != kNoError)
+    return os;
 
-  // Call Settings::SetLastUploadAttemptTime().
-  // https://code.google.com/p/crashpad/issues/detail?id=13.
+  time_t now = time(nullptr);
 
-  return os;
+  report_disk->uploaded = successful;
+  report_disk->id = id;
+  report_disk->last_upload_attempt_time = now;
+  report_disk->upload_attempts++;
+  report_disk->state =
+      successful ? ReportState::kCompleted : ReportState::kPending;
+
+  if (!settings_.SetLastUploadAttemptTime(now))
+    return kDatabaseError;
+
+  return kNoError;
 }
 
 OperationStatus CrashReportDatabaseWin::SkipReportUpload(const UUID& uuid) {
@@ -738,7 +741,7 @@ OperationStatus CrashReportDatabaseWin::SkipReportUpload(const UUID& uuid) {
   ReportDisk* report_disk;
   OperationStatus os = metadata->FindSingleReportAndMarkDirty(
       uuid, ReportState::kPending, &report_disk);
-  if (os == CrashReportDatabase::kNoError)
+  if (os == kNoError)
     report_disk->state = ReportState::kCompleted;
   return os;
 }

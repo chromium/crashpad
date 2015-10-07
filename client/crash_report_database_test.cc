@@ -65,14 +65,10 @@ class CrashReportDatabaseTest : public testing::Test {
   }
 
   void UploadReport(const UUID& uuid, bool successful, const std::string& id) {
-#if !defined(OS_WIN)
-    // Enable when ported to Windows.
-    // https://code.google.com/p/crashpad/issues/detail?id=13
     Settings* const settings = db_->GetSettings();
     ASSERT_TRUE(settings);
     time_t times[2];
     ASSERT_TRUE(settings->GetLastUploadAttemptTime(&times[0]));
-#endif
 
     const CrashReportDatabase::Report* report = nullptr;
     ASSERT_EQ(CrashReportDatabase::kNoError,
@@ -85,13 +81,9 @@ class CrashReportDatabaseTest : public testing::Test {
     EXPECT_EQ(CrashReportDatabase::kNoError,
               db_->RecordUploadAttempt(report, successful, id));
 
-#if !defined(OS_WIN)
-    // Enable when ported to Windows.
-    // https://code.google.com/p/crashpad/issues/detail?id=13
     ASSERT_TRUE(settings->GetLastUploadAttemptTime(&times[1]));
     EXPECT_NE(times[1], 0);
     EXPECT_GE(times[1], times[0]);
-#endif
   }
 
   void ExpectPreparedCrashReport(const CrashReportDatabase::Report& report) {
@@ -122,9 +114,6 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
   // Initialize the database for the first time, creating it.
   ASSERT_TRUE(db());
 
-#if !defined(OS_WIN)
-  // Enable when ported to Windows.
-  // https://code.google.com/p/crashpad/issues/detail?id=13
   Settings* settings = db()->GetSettings();
 
   UUID client_ids[2];
@@ -134,7 +123,6 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
   time_t last_upload_attempt_time;
   ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
   EXPECT_EQ(0, last_upload_attempt_time);
-#endif
 
   // Close and reopen the database at the same path.
   ResetDatabase();
@@ -142,9 +130,6 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
   auto db = CrashReportDatabase::Initialize(path());
   ASSERT_TRUE(db);
 
-#if !defined(OS_WIN)
-  // Enable when ported to Windows.
-  // https://code.google.com/p/crashpad/issues/detail?id=13
   settings = db->GetSettings();
 
   ASSERT_TRUE(settings->GetClientID(&client_ids[1]));
@@ -152,7 +137,6 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
 
   ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
   EXPECT_EQ(0, last_upload_attempt_time);
-#endif
 
   std::vector<CrashReportDatabase::Report> reports;
   EXPECT_EQ(CrashReportDatabase::kNoError, db->GetPendingReports(&reports));
