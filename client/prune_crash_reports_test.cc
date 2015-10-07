@@ -87,7 +87,7 @@ TEST(PruneCrashReports, SizeCondition) {
     for (int i = 0; i < 128; ++i)
       string.push_back(static_cast<char>(i));
 
-    for (int i = 0; i < 1024; i += string.size()) {
+    for (size_t i = 0; i < 1024; i += string.size()) {
       ASSERT_TRUE(LoggingWriteFile(scoped_file_1k.get(),
                                    string.c_str(), string.length()));
     }
@@ -98,7 +98,7 @@ TEST(PruneCrashReports, SizeCondition) {
                                 FilePermissions::kOwnerOnly));
     ASSERT_TRUE(scoped_file_3k.is_valid());
 
-    for (int i = 0; i < 3072; i += string.size()) {
+    for (size_t i = 0; i < 3072; i += string.size()) {
       ASSERT_TRUE(LoggingWriteFile(scoped_file_3k.get(),
                                    string.c_str(), string.length()));
     }
