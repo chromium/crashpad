@@ -50,40 +50,6 @@ class ProcessInfo {
     time_t timestamp;
   };
 
-  // \brief Contains information about a range of pages in the virtual address
-  //    space of a process.
-  struct MemoryInfo {
-    explicit MemoryInfo(const MEMORY_BASIC_INFORMATION& mbi);
-    ~MemoryInfo();
-
-    //! \brief The base address of the region of pages.
-    WinVMAddress base_address;
-
-    //! \brief The size of the region beginning at base_address in bytes.
-    WinVMSize region_size;
-
-    //! \brief The base address of a range of pages that was allocated by
-    //!     `VirtualAlloc()`. The page pointed to base_address is within this
-    //!     range of pages.
-    WinVMAddress allocation_base;
-
-    //! \brief The state of the pages, one of `MEM_COMMIT`, `MEM_FREE`, or
-    //!     `MEM_RESERVE`.
-    uint32_t state;
-
-    //! \brief The memory protection option when this page was originally
-    //!     allocated. This will be `PAGE_EXECUTE`, `PAGE_EXECUTE_READ`, etc.
-    uint32_t allocation_protect;
-
-    //! \brief The current memoryprotection state. This will be `PAGE_EXECUTE`,
-    //!   `PAGE_EXECUTE_READ`, etc.
-    uint32_t protect;
-
-    //! \brief The type of the pages. This will be one of `MEM_IMAGE`,
-    //!     `MEM_MAPPED`, or `MEM_PRIVATE`.
-    uint32_t type;
-  };
-
   ProcessInfo();
   ~ProcessInfo();
 
@@ -128,7 +94,7 @@ class ProcessInfo {
   bool Modules(std::vector<Module>* modules) const;
 
   //! \brief Retrieves information about all pages mapped into the process.
-  const std::vector<MemoryInfo>& MemoryInformation() const;
+  const std::vector<MEMORY_BASIC_INFORMATION64>& MemoryInfo() const;
 
   //! \brief Given a range to be read from the target process, returns a vector
   //!     of ranges, representing the readable portions of the original range.
@@ -162,7 +128,7 @@ class ProcessInfo {
   WinVMAddress peb_address_;
   WinVMSize peb_size_;
   std::vector<Module> modules_;
-  std::vector<MemoryInfo> memory_info_;
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info_;
   bool is_64_bit_;
   bool is_wow64_;
   InitializationStateDcheck initialized_;
@@ -178,7 +144,7 @@ class ProcessInfo {
 //! ProcessInfo::GetReadableRanges().
 std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
     const CheckedRange<WinVMAddress, WinVMSize>& range,
-    const std::vector<ProcessInfo::MemoryInfo>& memory_info);
+    const std::vector<MEMORY_BASIC_INFORMATION64>& memory_info);
 
 }  // namespace crashpad
 

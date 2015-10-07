@@ -21,6 +21,7 @@
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
+#include "base/template_util.h"
 #include "build/build_config.h"
 #include "util/numeric/safe_assignment.h"
 #include "util/win/ntstatus_logging.h"
@@ -107,10 +108,23 @@ bool ReadStruct(HANDLE process, WinVMAddress at, T* into) {
   return true;
 }
 
-bool RegionIsAccessible(const ProcessInfo::MemoryInfo& memory_info) {
-  return memory_info.state == MEM_COMMIT &&
-         (memory_info.protect & PAGE_NOACCESS) == 0 &&
-         (memory_info.protect & PAGE_GUARD) == 0;
+bool RegionIsAccessible(const MEMORY_BASIC_INFORMATION64& memory_info) {
+  return memory_info.State == MEM_COMMIT &&
+         (memory_info.Protect & PAGE_NOACCESS) == 0 &&
+         (memory_info.Protect & PAGE_GUARD) == 0;
+}
+
+MEMORY_BASIC_INFORMATION64 MemoryBasicInformationToMemoryBasicInformation64(
+    const MEMORY_BASIC_INFORMATION& mbi) {
+  MEMORY_BASIC_INFORMATION64 mbi64 = {0};
+  mbi64.BaseAddress = reinterpret_cast<ULONGLONG>(mbi.BaseAddress);
+  mbi64.AllocationBase = reinterpret_cast<ULONGLONG>(mbi.AllocationBase);
+  mbi64.AllocationProtect = mbi.AllocationProtect;
+  mbi64.RegionSize = mbi.RegionSize;
+  mbi64.State = mbi.State;
+  mbi64.Protect = mbi.Protect;
+  mbi64.Type = mbi.Type;
+  return mbi64;
 }
 
 }  // namespace
@@ -288,7 +302,8 @@ bool ReadMemoryInfo(HANDLE process, bool is_64_bit, ProcessInfo* process_info) {
     }
 
     process_info->memory_info_.push_back(
-        ProcessInfo::MemoryInfo(memory_basic_information));
+        MemoryBasicInformationToMemoryBasicInformation64(
+            memory_basic_information));
 
     if (memory_basic_information.RegionSize == 0) {
       LOG(ERROR) << "RegionSize == 0";
@@ -303,19 +318,6 @@ ProcessInfo::Module::Module() : name(), dll_base(0), size(0), timestamp() {
 }
 
 ProcessInfo::Module::~Module() {
-}
-
-ProcessInfo::MemoryInfo::MemoryInfo(const MEMORY_BASIC_INFORMATION& mbi)
-    : base_address(reinterpret_cast<WinVMAddress>(mbi.BaseAddress)),
-      region_size(mbi.RegionSize),
-      allocation_base(reinterpret_cast<WinVMAddress>(mbi.AllocationBase)),
-      state(mbi.State),
-      allocation_protect(mbi.AllocationProtect),
-      protect(mbi.Protect),
-      type(mbi.Type) {
-}
-
-ProcessInfo::MemoryInfo::~MemoryInfo() {
 }
 
 ProcessInfo::ProcessInfo()
@@ -426,8 +428,7 @@ bool ProcessInfo::Modules(std::vector<Module>* modules) const {
   return true;
 }
 
-const std::vector<ProcessInfo::MemoryInfo>& ProcessInfo::MemoryInformation()
-    const {
+const std::vector<MEMORY_BASIC_INFORMATION64>& ProcessInfo::MemoryInfo() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return memory_info_;
 }
@@ -435,39 +436,43 @@ const std::vector<ProcessInfo::MemoryInfo>& ProcessInfo::MemoryInformation()
 std::vector<CheckedRange<WinVMAddress, WinVMSize>>
 ProcessInfo::GetReadableRanges(
     const CheckedRange<WinVMAddress, WinVMSize>& range) const {
-  return GetReadableRangesOfMemoryMap(range, MemoryInformation());
+  return GetReadableRangesOfMemoryMap(range, MemoryInfo());
 }
 
 std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
     const CheckedRange<WinVMAddress, WinVMSize>& range,
-    const std::vector<ProcessInfo::MemoryInfo>& memory_info) {
+    const std::vector<MEMORY_BASIC_INFORMATION64>& memory_info) {
   using Range = CheckedRange<WinVMAddress, WinVMSize>;
 
   // Find all the ranges that overlap the target range, maintaining their order.
-  std::vector<ProcessInfo::MemoryInfo> overlapping;
+  std::vector<MEMORY_BASIC_INFORMATION64> overlapping;
   for (const auto& mi : memory_info) {
-    if (range.OverlapsRange(Range(mi.base_address, mi.region_size)))
+    static_assert(base::is_same<decltype(mi.BaseAddress), WinVMAddress>::value,
+                  "expected range address to be WinVMAddress");
+    static_assert(base::is_same<decltype(mi.RegionSize), WinVMSize>::value,
+                  "expected range size to be WinVMSize");
+    if (range.OverlapsRange(Range(mi.BaseAddress, mi.RegionSize)))
       overlapping.push_back(mi);
   }
   if (overlapping.empty())
     return std::vector<Range>();
 
   // For the first and last, trim to the boundary of the incoming range.
-  ProcessInfo::MemoryInfo& front = overlapping.front();
-  WinVMAddress original_front_base_address = front.base_address;
-  front.base_address = std::max(front.base_address, range.base());
-  front.region_size =
-      (original_front_base_address + front.region_size) - front.base_address;
+  MEMORY_BASIC_INFORMATION64& front = overlapping.front();
+  WinVMAddress original_front_base_address = front.BaseAddress;
+  front.BaseAddress = std::max(front.BaseAddress, range.base());
+  front.RegionSize =
+      (original_front_base_address + front.RegionSize) - front.BaseAddress;
 
-  ProcessInfo::MemoryInfo& back = overlapping.back();
-  WinVMAddress back_end = back.base_address + back.region_size;
-  back.region_size = std::min(range.end(), back_end) - back.base_address;
+  MEMORY_BASIC_INFORMATION64& back = overlapping.back();
+  WinVMAddress back_end = back.BaseAddress + back.RegionSize;
+  back.RegionSize = std::min(range.end(), back_end) - back.BaseAddress;
 
   // Discard all non-accessible.
   overlapping.erase(std::remove_if(overlapping.begin(),
                                    overlapping.end(),
-                                   [](const ProcessInfo::MemoryInfo& mi) {
-                                     return !RegionIsAccessible(mi);
+                                   [](const MEMORY_BASIC_INFORMATION64& mbi) {
+                                     return !RegionIsAccessible(mbi);
                                    }),
                     overlapping.end());
   if (overlapping.empty())
@@ -476,7 +481,7 @@ std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
   // Convert to return type.
   std::vector<Range> as_ranges;
   for (const auto& mi : overlapping) {
-    as_ranges.push_back(Range(mi.base_address, mi.region_size));
+    as_ranges.push_back(Range(mi.BaseAddress, mi.RegionSize));
     DCHECK(as_ranges.back().IsValid());
   }
 

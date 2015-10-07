@@ -14,7 +14,7 @@
 
 #include "util/win/process_info.h"
 
-#include <imagehlp.h>
+#include <dbghelp.h>
 #include <intrin.h>
 #include <wchar.h>
 
@@ -34,15 +34,6 @@ namespace {
 
 const wchar_t kNtdllName[] = L"\\ntdll.dll";
 
-time_t GetTimestampForModule(HMODULE module) {
-  char filename[MAX_PATH];
-  // `char` and GetModuleFileNameA because ImageLoad is ANSI only.
-  if (!GetModuleFileNameA(module, filename, arraysize(filename)))
-    return 0;
-  LOADED_IMAGE* loaded_image = ImageLoad(filename, nullptr);
-  return loaded_image->FileHeader->FileHeader.TimeDateStamp;
-}
-
 bool IsProcessWow64(HANDLE process_handle) {
   static decltype(IsWow64Process)* is_wow64_process =
       reinterpret_cast<decltype(IsWow64Process)*>(
@@ -61,15 +52,15 @@ void VerifyAddressInInCodePage(const ProcessInfo& process_info,
                                WinVMAddress code_address) {
   // Make sure the child code address is an code page address with the right
   // information.
-  const std::vector<ProcessInfo::MemoryInfo>& memory_info =
-      process_info.MemoryInformation();
+  const std::vector<MEMORY_BASIC_INFORMATION64>& memory_info =
+      process_info.MemoryInfo();
   bool found_region = false;
   for (const auto& mi : memory_info) {
-    if (mi.base_address <= code_address &&
-        mi.base_address + mi.region_size > code_address) {
-      EXPECT_EQ(MEM_COMMIT, mi.state);
-      EXPECT_EQ(PAGE_EXECUTE_READ, mi.protect);
-      EXPECT_EQ(MEM_IMAGE, mi.type);
+    if (mi.BaseAddress <= code_address &&
+        mi.BaseAddress + mi.RegionSize > code_address) {
+      EXPECT_EQ(MEM_COMMIT, mi.State);
+      EXPECT_EQ(PAGE_EXECUTE_READ, mi.Protect);
+      EXPECT_EQ(MEM_IMAGE, mi.Type);
       EXPECT_FALSE(found_region);
       found_region = true;
     }
@@ -110,16 +101,16 @@ TEST(ProcessInfo, Self) {
       kNtdllName,
       modules[1].name.substr(modules[1].name.size() - wcslen(kNtdllName)));
 
-  EXPECT_EQ(modules[0].dll_base,
-            reinterpret_cast<uintptr_t>(GetModuleHandle(nullptr)));
-  EXPECT_EQ(modules[1].dll_base,
-            reinterpret_cast<uintptr_t>(GetModuleHandle(L"ntdll.dll")));
+  EXPECT_EQ(reinterpret_cast<uintptr_t>(GetModuleHandle(nullptr)),
+            modules[0].dll_base);
+  EXPECT_EQ(reinterpret_cast<uintptr_t>(GetModuleHandle(L"ntdll.dll")),
+            modules[1].dll_base);
 
   EXPECT_GT(modules[0].size, 0);
   EXPECT_GT(modules[1].size, 0);
 
-  EXPECT_EQ(modules[0].timestamp,
-            GetTimestampForModule(GetModuleHandle(nullptr)));
+  EXPECT_EQ(GetTimestampForLoadedLibrary(GetModuleHandle(nullptr)),
+            modules[0].timestamp);
   // System modules are forced to particular stamps and the file header values
   // don't match the on-disk times. Just make sure we got some data here.
   EXPECT_GT(modules[1].timestamp, 0);
@@ -201,13 +192,13 @@ TEST(ProcessInfo, OtherProcessWOW64) {
 #endif  // ARCH_CPU_64_BITS
 
 TEST(ProcessInfo, AccessibleRangesNone) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
   mbi.BaseAddress = 0;
   mbi.RegionSize = 10;
   mbi.State = MEM_FREE;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(2, 4),
@@ -217,13 +208,13 @@ TEST(ProcessInfo, AccessibleRangesNone) {
 }
 
 TEST(ProcessInfo, AccessibleRangesOneInside) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
   mbi.BaseAddress = 0;
   mbi.RegionSize = 10;
   mbi.State = MEM_COMMIT;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(2, 4),
@@ -235,18 +226,18 @@ TEST(ProcessInfo, AccessibleRangesOneInside) {
 }
 
 TEST(ProcessInfo, AccessibleRangesOneTruncatedSize) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
   mbi.BaseAddress = 0;
   mbi.RegionSize = 10;
   mbi.State = MEM_COMMIT;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
-  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.BaseAddress = 10;
   mbi.RegionSize = 20;
   mbi.State = MEM_FREE;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
@@ -258,18 +249,18 @@ TEST(ProcessInfo, AccessibleRangesOneTruncatedSize) {
 }
 
 TEST(ProcessInfo, AccessibleRangesOneMovedStart) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
   mbi.BaseAddress = 0;
   mbi.RegionSize = 10;
   mbi.State = MEM_FREE;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
-  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.BaseAddress = 10;
   mbi.RegionSize = 20;
   mbi.State = MEM_COMMIT;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
@@ -281,18 +272,18 @@ TEST(ProcessInfo, AccessibleRangesOneMovedStart) {
 }
 
 TEST(ProcessInfo, ReserveIsInaccessible) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
   mbi.BaseAddress = 0;
   mbi.RegionSize = 10;
   mbi.State = MEM_RESERVE;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
-  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.BaseAddress = 10;
   mbi.RegionSize = 20;
   mbi.State = MEM_COMMIT;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
@@ -304,20 +295,20 @@ TEST(ProcessInfo, ReserveIsInaccessible) {
 }
 
 TEST(ProcessInfo, PageGuardIsInaccessible) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
   mbi.BaseAddress = 0;
   mbi.RegionSize = 10;
   mbi.State = MEM_COMMIT;
   mbi.Protect = PAGE_GUARD;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
-  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.BaseAddress = 10;
   mbi.RegionSize = 20;
   mbi.State = MEM_COMMIT;
   mbi.Protect = 0;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
@@ -329,20 +320,20 @@ TEST(ProcessInfo, PageGuardIsInaccessible) {
 }
 
 TEST(ProcessInfo, PageNoAccessIsInaccessible) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
   mbi.BaseAddress = 0;
   mbi.RegionSize = 10;
   mbi.State = MEM_COMMIT;
   mbi.Protect = PAGE_NOACCESS;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
-  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.BaseAddress = 10;
   mbi.RegionSize = 20;
   mbi.State = MEM_COMMIT;
   mbi.Protect = 0;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
@@ -354,23 +345,23 @@ TEST(ProcessInfo, PageNoAccessIsInaccessible) {
 }
 
 TEST(ProcessInfo, AccessibleRangesCoalesced) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
   mbi.BaseAddress = 0;
   mbi.RegionSize = 10;
   mbi.State = MEM_FREE;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
-  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.BaseAddress = 10;
   mbi.RegionSize = 2;
   mbi.State = MEM_COMMIT;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
-  mbi.BaseAddress = reinterpret_cast<void*>(12);
+  mbi.BaseAddress = 12;
   mbi.RegionSize = 5;
   mbi.State = MEM_COMMIT;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(11, 4),
@@ -382,23 +373,23 @@ TEST(ProcessInfo, AccessibleRangesCoalesced) {
 }
 
 TEST(ProcessInfo, AccessibleRangesMiddleUnavailable) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
   mbi.BaseAddress = 0;
   mbi.RegionSize = 10;
   mbi.State = MEM_COMMIT;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
-  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.BaseAddress = 10;
   mbi.RegionSize = 5;
   mbi.State = MEM_FREE;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
-  mbi.BaseAddress = reinterpret_cast<void*>(15);
+  mbi.BaseAddress = 15;
   mbi.RegionSize = 100;
   mbi.State = MEM_COMMIT;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 45),
@@ -412,13 +403,13 @@ TEST(ProcessInfo, AccessibleRangesMiddleUnavailable) {
 }
 
 TEST(ProcessInfo, RequestedBeforeMap) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
-  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.BaseAddress = 10;
   mbi.RegionSize = 10;
   mbi.State = MEM_COMMIT;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
@@ -430,13 +421,13 @@ TEST(ProcessInfo, RequestedBeforeMap) {
 }
 
 TEST(ProcessInfo, RequestedAfterMap) {
-  std::vector<ProcessInfo::MemoryInfo> memory_info;
-  MEMORY_BASIC_INFORMATION mbi = {0};
+  std::vector<MEMORY_BASIC_INFORMATION64> memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
 
-  mbi.BaseAddress = reinterpret_cast<void*>(10);
+  mbi.BaseAddress = 10;
   mbi.RegionSize = 10;
   mbi.State = MEM_COMMIT;
-  memory_info.push_back(ProcessInfo::MemoryInfo(mbi));
+  memory_info.push_back(mbi);
 
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> result =
       GetReadableRangesOfMemoryMap(
