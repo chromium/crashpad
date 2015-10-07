@@ -181,9 +181,15 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
 
     NSURLResponse* response = nil;
     NSError* error = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    // Deprecated in OS X 10.11. The suggested replacement, NSURLSession, is
+    // only available on 10.9 and later, and this needs to run on earlier
+    // releases.
     NSData* body = [NSURLConnection sendSynchronousRequest:request
                                          returningResponse:&response
                                                      error:&error];
+#pragma clang diagnostic pop
 
     if (error) {
       LOG(ERROR) << [[error localizedDescription] UTF8String] << " ("
