@@ -43,6 +43,9 @@ FileHandle LoggingOpenFileForOutput(DWORD access,
                                     FilePermissions permissions) {
   DWORD disposition = 0;
   switch (mode) {
+    case FileWriteMode::kReuseOrFail:
+      disposition = OPEN_EXISTING;
+      break;
     case FileWriteMode::kReuseOrCreate:
       disposition = OPEN_ALWAYS;
       break;

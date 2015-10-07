@@ -32,6 +32,8 @@
       'sources': [
         'errors.cc',
         'errors.h',
+        'file.cc',
+        'file.h',
         'gtest_death_check.h',
         'mac/dyld.h',
         'mac/mach_errors.cc',

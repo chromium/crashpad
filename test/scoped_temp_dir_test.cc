@@ -14,15 +14,14 @@
 
 #include "test/scoped_temp_dir.h"
 
-#include <errno.h>
 #include <fcntl.h>
 #include <string.h>
-#include <sys/stat.h>
 
 #include "base/posix/eintr_wrapper.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "test/file.h"
 
 #if defined(OS_POSIX)
 #include <unistd.h>
@@ -34,26 +33,6 @@
 namespace crashpad {
 namespace test {
 namespace {
-
-bool FileExists(const base::FilePath& path) {
-#if defined(OS_POSIX)
-  struct stat st;
-  int rv = lstat(path.value().c_str(), &st);
-  const char stat_function[] = "lstat";
-#elif defined(OS_WIN)
-  struct _stat st;
-  int rv = _wstat(path.value().c_str(), &st);
-  const char stat_function[] = "_wstat";
-#else
-#error "Not implemented"
-#endif
-  if (rv < 0) {
-    EXPECT_EQ(ENOENT, errno) << ErrnoMessage(stat_function) << " "
-                             << path.value();
-    return false;
-  }
-  return true;
-}
 
 void CreateFile(const base::FilePath& path) {
 #if defined(OS_POSIX)

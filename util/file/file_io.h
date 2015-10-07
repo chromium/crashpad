@@ -79,6 +79,9 @@ const FileHandle kInvalidFileHandle = INVALID_HANDLE_VALUE;
 
 //! \brief Determines the mode that LoggingOpenFileForWrite() uses.
 enum class FileWriteMode {
+  //! \brief Opens the file if it exists, or fails if it does not.
+  kReuseOrFail,
+
   //! \brief Opens the file if it exists, or creates a new file.
   kReuseOrCreate,
 

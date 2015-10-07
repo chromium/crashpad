@@ -75,12 +75,22 @@ FileHandle LoggingOpenFileForOutput(int rdwr_or_wronly,
                                     const base::FilePath& path,
                                     FileWriteMode mode,
                                     FilePermissions permissions) {
-  int flags = rdwr_or_wronly | O_CREAT;
-  // kReuseOrCreate does not need any additional flags.
-  if (mode == FileWriteMode::kTruncateOrCreate)
-    flags |= O_TRUNC;
-  else if (mode == FileWriteMode::kCreateOrFail)
-    flags |= O_EXCL;
+  int flags = rdwr_or_wronly & (O_RDWR | O_WRONLY);
+  DCHECK_NE(flags, 0);
+
+  switch (mode) {
+    case FileWriteMode::kReuseOrFail:
+      break;
+    case FileWriteMode::kReuseOrCreate:
+      flags |= O_CREAT;
+      break;
+    case FileWriteMode::kTruncateOrCreate:
+      flags |= O_CREAT | O_TRUNC;
+      break;
+    case FileWriteMode::kCreateOrFail:
+      flags |= O_CREAT | O_EXCL;
+      break;
+  }
 
   int fd = HANDLE_EINTR(
       open(path.value().c_str(),
