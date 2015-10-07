@@ -37,10 +37,13 @@ namespace crashpad {
 
 namespace {
 
-FileHandle LoggingOpenFileForOutput(DWORD access,
-                                    const base::FilePath& path,
-                                    FileWriteMode mode,
-                                    FilePermissions permissions) {
+FileHandle OpenFileForOutput(DWORD access,
+                             const base::FilePath& path,
+                             FileWriteMode mode,
+                             FilePermissions permissions) {
+  DCHECK(access & GENERIC_WRITE);
+  DCHECK_EQ(access & ~(GENERIC_READ | GENERIC_WRITE), 0u);
+
   DWORD disposition = 0;
   switch (mode) {
     case FileWriteMode::kReuseOrFail:
@@ -56,16 +59,13 @@ FileHandle LoggingOpenFileForOutput(DWORD access,
       disposition = CREATE_NEW;
       break;
   }
-  HANDLE file = CreateFile(path.value().c_str(),
-                           access,
-                           FILE_SHARE_READ | FILE_SHARE_WRITE,
-                           nullptr,
-                           disposition,
-                           FILE_ATTRIBUTE_NORMAL,
-                           nullptr);
-  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE)
-      << "CreateFile " << base::UTF16ToUTF8(path.value());
-  return file;
+  return CreateFile(path.value().c_str(),
+                    access,
+                    FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    nullptr,
+                    disposition,
+                    FILE_ATTRIBUTE_NORMAL,
+                    nullptr);
 }
 
 }  // namespace
@@ -115,14 +115,31 @@ ssize_t WriteFile(FileHandle file, const void* buffer, size_t size) {
   return bytes_written;
 }
 
+FileHandle OpenFileForRead(const base::FilePath& path) {
+  return CreateFile(path.value().c_str(),
+                    GENERIC_READ,
+                    FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    nullptr,
+                    OPEN_EXISTING,
+                    0,
+                    nullptr);
+}
+
+FileHandle OpenFileForWrite(const base::FilePath& path,
+                            FileWriteMode mode,
+                            FilePermissions permissions) {
+  return OpenFileForOutput(GENERIC_WRITE, path, mode, permissions);
+}
+
+FileHandle OpenFileForReadAndWrite(const base::FilePath& path,
+                                   FileWriteMode mode,
+                                   FilePermissions permissions) {
+  return OpenFileForOutput(
+      GENERIC_READ | GENERIC_WRITE, path, mode, permissions);
+}
+
 FileHandle LoggingOpenFileForRead(const base::FilePath& path) {
-  HANDLE file = CreateFile(path.value().c_str(),
-                           GENERIC_READ,
-                           FILE_SHARE_READ | FILE_SHARE_WRITE,
-                           nullptr,
-                           OPEN_EXISTING,
-                           0,
-                           nullptr);
+  FileHandle file = OpenFileForRead(path);
   PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE)
       << "CreateFile " << base::UTF16ToUTF8(path.value());
   return file;
@@ -131,14 +148,19 @@ FileHandle LoggingOpenFileForRead(const base::FilePath& path) {
 FileHandle LoggingOpenFileForWrite(const base::FilePath& path,
                                    FileWriteMode mode,
                                    FilePermissions permissions) {
-  return LoggingOpenFileForOutput(GENERIC_WRITE, path, mode, permissions);
+  FileHandle file = OpenFileForWrite(path, mode, permissions);
+  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE)
+      << "CreateFile " << base::UTF16ToUTF8(path.value());
+  return file;
 }
 
 FileHandle LoggingOpenFileForReadAndWrite(const base::FilePath& path,
                                           FileWriteMode mode,
                                           FilePermissions permissions) {
-  return LoggingOpenFileForOutput(
-      GENERIC_READ | GENERIC_WRITE, path, mode, permissions);
+  FileHandle file = OpenFileForReadAndWrite(path, mode, permissions);
+  PLOG_IF(ERROR, file == INVALID_HANDLE_VALUE)
+      << "CreateFile " << base::UTF16ToUTF8(path.value());
+  return file;
 }
 
 bool LoggingLockFile(FileHandle file, FileLocking locking) {
