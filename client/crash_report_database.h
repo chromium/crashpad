@@ -300,6 +300,13 @@ class CrashReportDatabase {
   //! \return The operation status code.
   virtual OperationStatus SkipReportUpload(const UUID& uuid) = 0;
 
+  //! \brief Deletes a crash report file and its associated metadata.
+  //!
+  //! \param[in] uuid The UUID of the report to delete.
+  //!
+  //! \return The operation status code.
+  virtual OperationStatus DeleteReport(const UUID& uuid) = 0;
+
  protected:
   CrashReportDatabase() {}
 

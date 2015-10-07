@@ -24,6 +24,7 @@
         'client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
         '../test/test.gyp:crashpad_test',
+        '../third_party/gmock/gmock.gyp:gmock',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
@@ -35,6 +36,7 @@
       'sources': [
         'capture_context_mac_test.cc',
         'crash_report_database_test.cc',
+        'prune_crash_reports_test.cc',
         'settings_test.cc',
         'simple_string_dictionary_test.cc',
         'simulate_crash_mac_test.cc',

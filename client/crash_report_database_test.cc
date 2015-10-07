@@ -497,6 +497,55 @@ TEST_F(CrashReportDatabaseTest, ReportRemoved) {
             db()->LookUpCrashReport(uuid, &report));
 }
 
+TEST_F(CrashReportDatabaseTest, DeleteReport) {
+  CrashReportDatabase::Report keep_pending;
+  CrashReportDatabase::Report delete_pending;
+  CrashReportDatabase::Report keep_completed;
+  CrashReportDatabase::Report delete_completed;
+
+  CreateCrashReport(&keep_pending);
+  CreateCrashReport(&delete_pending);
+  CreateCrashReport(&keep_completed);
+  CreateCrashReport(&delete_completed);
+
+  EXPECT_TRUE(FileExists(keep_pending.file_path));
+  EXPECT_TRUE(FileExists(delete_pending.file_path));
+  EXPECT_TRUE(FileExists(keep_completed.file_path));
+  EXPECT_TRUE(FileExists(delete_completed.file_path));
+
+  UploadReport(keep_completed.uuid, true, "1");
+  UploadReport(delete_completed.uuid, true, "2");
+
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->LookUpCrashReport(keep_completed.uuid, &keep_completed));
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->LookUpCrashReport(delete_completed.uuid, &delete_completed));
+
+  EXPECT_TRUE(FileExists(keep_completed.file_path));
+  EXPECT_TRUE(FileExists(delete_completed.file_path));
+
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->DeleteReport(delete_pending.uuid));
+  EXPECT_FALSE(FileExists(delete_pending.file_path));
+  EXPECT_EQ(CrashReportDatabase::kReportNotFound,
+            db()->LookUpCrashReport(delete_pending.uuid, &delete_pending));
+  EXPECT_EQ(CrashReportDatabase::kReportNotFound,
+            db()->DeleteReport(delete_pending.uuid));
+
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->DeleteReport(delete_completed.uuid));
+  EXPECT_FALSE(FileExists(delete_completed.file_path));
+  EXPECT_EQ(CrashReportDatabase::kReportNotFound,
+            db()->LookUpCrashReport(delete_completed.uuid, &delete_completed));
+  EXPECT_EQ(CrashReportDatabase::kReportNotFound,
+            db()->DeleteReport(delete_completed.uuid));
+
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->LookUpCrashReport(keep_pending.uuid, &keep_pending));
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->LookUpCrashReport(keep_completed.uuid, &keep_completed));
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

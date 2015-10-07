@@ -229,6 +229,19 @@ class Metadata {
                                                ReportState desired_state,
                                                ReportDisk** report_disk);
 
+  //! \brief Removes a report from the metadata database, without touching the
+  //!     on-disk file.
+  //!
+  //! The returned report is only valid if CrashReportDatabase::kNoError is
+  //! returned. This will mark the database as dirty. Future metadata
+  //! operations for this report will not succeed.
+  //!
+  //! \param[in] uuid The report identifier to remove.
+  //! \param[out] report_path The found report's file_path, valid only if
+  //!     CrashReportDatabase::kNoError is returned.
+  OperationStatus DeleteReport(const UUID& uuid,
+                               base::FilePath* report_path);
+
  private:
   Metadata(FileHandle handle, const base::FilePath& report_dir);
 
@@ -349,6 +362,20 @@ OperationStatus Metadata::FindSingleReportAndMarkDirty(
     *report_disk = &*report_iter;
   }
   return os;
+}
+
+OperationStatus Metadata::DeleteReport(const UUID& uuid,
+                                       base::FilePath* report_path) {
+  auto report_iter = std::find_if(
+      reports_.begin(), reports_.end(), [uuid](const ReportDisk& report) {
+        return report.uuid == uuid;
+      });
+  if (report_iter == reports_.end())
+    return CrashReportDatabase::kReportNotFound;
+  *report_path = report_iter->file_path;
+  reports_.erase(report_iter);
+  dirty_ = true;
+  return CrashReportDatabase::kNoError;
 }
 
 Metadata::Metadata(FileHandle handle, const base::FilePath& report_dir)
@@ -531,6 +558,7 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
                                       bool successful,
                                       const std::string& id) override;
   OperationStatus SkipReportUpload(const UUID& uuid) override;
+  OperationStatus DeleteReport(const UUID& uuid) override;
 
  private:
   scoped_ptr<Metadata> AcquireMetadata();
@@ -559,9 +587,6 @@ bool CrashReportDatabaseWin::Initialize() {
   if (!CreateDirectoryIfNecessary(base_dir_) ||
       !CreateDirectoryIfNecessary(base_dir_.Append(kReportsDirectory)))
     return false;
-
-  // TODO(scottmg): When are completed reports pruned from disk? Delete here or
-  // maybe on AcquireMetadata().
 
   if (!settings_.Initialize())
     return false;
@@ -729,6 +754,26 @@ OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
   if (!settings_.SetLastUploadAttemptTime(now))
     return kDatabaseError;
 
+  return kNoError;
+}
+
+OperationStatus CrashReportDatabaseWin::DeleteReport(const UUID& uuid) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  scoped_ptr<Metadata> metadata(AcquireMetadata());
+  if (!metadata)
+    return kDatabaseError;
+
+  base::FilePath report_path;
+  OperationStatus os = metadata->DeleteReport(uuid, &report_path);
+  if (os != kNoError)
+    return os;
+
+  if (!DeleteFile(report_path.value().c_str())) {
+    PLOG(ERROR) << "DeleteFile "
+                << base::UTF16ToUTF8(report_path.value());
+    return kFileSystemError;
+  }
   return kNoError;
 }
 

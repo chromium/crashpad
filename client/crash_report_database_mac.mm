@@ -125,6 +125,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
                                       bool successful,
                                       const std::string& id) override;
   OperationStatus SkipReportUpload(const UUID& uuid) override;
+  OperationStatus DeleteReport(const UUID& uuid) override;
 
  private:
   //! \brief A private extension of the Report class that maintains bookkeeping
@@ -470,6 +471,26 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::SkipReportUpload(
   if (rename(report_path.value().c_str(), new_path.value().c_str()) != 0) {
     PLOG(ERROR) << "rename " << report_path.value() << " to "
                 << new_path.value();
+    return kFileSystemError;
+  }
+
+  return kNoError;
+}
+
+CrashReportDatabase::OperationStatus CrashReportDatabaseMac::DeleteReport(
+    const UUID& uuid) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  base::FilePath report_path = LocateCrashReport(uuid);
+  if (report_path.empty())
+    return kReportNotFound;
+
+  base::ScopedFD lock(ObtainReportLock(report_path));
+  if (!lock.is_valid())
+    return kBusyError;
+
+  if (unlink(report_path.value().c_str()) != 0) {
+    PLOG(ERROR) << "unlink " << report_path.value();
     return kFileSystemError;
   }
 
