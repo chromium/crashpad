@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['scopedfilehandleclosetraits',['ScopedFileHANDLECloseTraits',['../structcrashpad_1_1internal_1_1ScopedFileHANDLECloseTraits.html',1,'crashpad::internal']]],
+  ['scopedforbidreturn',['ScopedForbidReturn',['../classcrashpad_1_1ScopedForbidReturn.html',1,'crashpad']]],
+  ['scopedkernelhandleclosetraits',['ScopedKernelHANDLECloseTraits',['../structcrashpad_1_1internal_1_1ScopedKernelHANDLECloseTraits.html',1,'crashpad::internal']]],
+  ['scopedlockedfilehandletraits',['ScopedLockedFileHandleTraits',['../structcrashpad_1_1internal_1_1ScopedLockedFileHandleTraits.html',1,'crashpad::internal']]],
+  ['scopedprocesssuspend',['ScopedProcessSuspend',['../classcrashpad_1_1ScopedProcessSuspend.html',1,'crashpad']]],
+  ['scopedtasksuspend',['ScopedTaskSuspend',['../classcrashpad_1_1ScopedTaskSuspend.html',1,'crashpad']]],
+  ['scopedtempdir',['ScopedTempDir',['../classcrashpad_1_1test_1_1ScopedTempDir.html',1,'crashpad::test']]],
+  ['semaphore',['Semaphore',['../classcrashpad_1_1Semaphore.html',1,'crashpad']]],
+  ['servertoclientmessage',['ServerToClientMessage',['../unioncrashpad_1_1ServerToClientMessage.html',1,'crashpad']]],
+  ['settings',['Settings',['../classcrashpad_1_1Settings.html',1,'crashpad']]],
+  ['shutdownrequest',['ShutdownRequest',['../structcrashpad_1_1ShutdownRequest.html',1,'crashpad']]],
+  ['string',['STRING',['../structcrashpad_1_1process__types_1_1STRING.html',1,'crashpad::process_types']]],
+  ['stringfile',['StringFile',['../classcrashpad_1_1StringFile.html',1,'crashpad']]],
+  ['stringhttpbodystream',['StringHTTPBodyStream',['../classcrashpad_1_1StringHTTPBodyStream.html',1,'crashpad']]],
+  ['symbolinformation',['SymbolInformation',['../structcrashpad_1_1MachOImageSymbolTableReader_1_1SymbolInformation.html',1,'crashpad::MachOImageSymbolTableReader']]],
+  ['system_5fprocess_5finformation',['SYSTEM_PROCESS_INFORMATION',['../structcrashpad_1_1process__types_1_1SYSTEM__PROCESS__INFORMATION.html',1,'crashpad::process_types']]],
+  ['system_5fthread_5finformation',['SYSTEM_THREAD_INFORMATION',['../structcrashpad_1_1process__types_1_1SYSTEM__THREAD__INFORMATION.html',1,'crashpad::process_types']]],
+  ['systemsnapshot',['SystemSnapshot',['../classcrashpad_1_1SystemSnapshot.html',1,'crashpad']]],
+  ['systemsnapshotmac',['SystemSnapshotMac',['../classcrashpad_1_1internal_1_1SystemSnapshotMac.html',1,'crashpad::internal']]],
+  ['systemsnapshotwin',['SystemSnapshotWin',['../classcrashpad_1_1internal_1_1SystemSnapshotWin.html',1,'crashpad::internal']]],
+  ['systemtime',['SYSTEMTIME',['../structSYSTEMTIME.html',1,'']]]
+];
