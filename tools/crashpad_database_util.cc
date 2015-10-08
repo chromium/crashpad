@@ -46,6 +46,7 @@ void Usage(const base::FilePath& me) {
 "Usage: %" PRFilePath " [OPTION]... PID\n"
 "Operate on Crashpad crash report databases.\n"
 "\n"
+"      --create                    allow database at PATH to be created\n"
 "  -d, --database=PATH             operate on the crash report database at PATH\n"
 "      --show-client-id            show the client ID\n"
 "      --show-uploads-enabled      show whether uploads are enabled\n"
@@ -72,6 +73,7 @@ struct Options {
   const char* database;
   const char* set_last_upload_attempt_time_string;
   time_t set_last_upload_attempt_time;
+  bool create;
   bool show_client_id;
   bool show_uploads_enabled;
   bool show_last_upload_attempt_time;
@@ -253,6 +255,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
 
     // Long options without short equivalents.
     kOptionLastChar = 255,
+    kOptionCreate,
     kOptionShowClientID,
     kOptionShowUploadsEnabled,
     kOptionShowLastUploadAttemptTime,
@@ -271,6 +274,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
   };
 
   const option long_options[] = {
+      {"create", no_argument, nullptr, kOptionCreate},
       {"database", required_argument, nullptr, kOptionDatabase},
       {"show-client-id", no_argument, nullptr, kOptionShowClientID},
       {"show-uploads-enabled", no_argument, nullptr, kOptionShowUploadsEnabled},
@@ -305,6 +309,10 @@ int DatabaseUtilMain(int argc, char* argv[]) {
   int opt;
   while ((opt = getopt_long(argc, argv, "d:", long_options, nullptr)) != -1) {
     switch (opt) {
+      case kOptionCreate: {
+        options.create = true;
+        break;
+      }
       case kOptionDatabase: {
         options.database = optarg;
         break;
@@ -410,14 +418,19 @@ int DatabaseUtilMain(int argc, char* argv[]) {
       options.has_set_uploads_enabled +
       (options.set_last_upload_attempt_time_string != nullptr);
 
-  if (show_operations + set_operations == 0) {
+  if ((options.create ? 1 : 0) + show_operations + set_operations == 0) {
     ToolSupport::UsageHint(me, "nothing to do");
     return EXIT_FAILURE;
   }
 
-  scoped_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(
-      base::FilePath(ToolSupport::CommandLineArgumentToFilePathStringType(
-          options.database))));
+  scoped_ptr<CrashReportDatabase> database;
+  base::FilePath database_path = base::FilePath(
+      ToolSupport::CommandLineArgumentToFilePathStringType(options.database));
+  if (options.create) {
+    database = CrashReportDatabase::Initialize(database_path);
+  } else {
+    database = CrashReportDatabase::InitializeWithoutCreating(database_path);
+  }
   if (!database) {
     return EXIT_FAILURE;
   }

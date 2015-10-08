@@ -165,13 +165,33 @@ class CrashReportDatabase {
 
   virtual ~CrashReportDatabase() {}
 
-  //! \brief Initializes a database of crash reports.
+  //! \brief Opens a database of crash reports, possibly creating it.
   //!
-  //! \param[in] path A path to the database to be created or opened.
+  //! \param[in] path A path to the database to be created or opened. If the
+  //!     database does not yet exist, it will be created if possible. Note that
+  //!     for databases implemented as directory structures, existence refers
+  //!     solely to the outermost directory.
   //!
   //! \return A database object on success, `nullptr` on failure with an error
   //!     logged.
+  //!
+  //! \sa InitializeWithoutCreating
   static scoped_ptr<CrashReportDatabase> Initialize(const base::FilePath& path);
+
+  //! \brief Opens an existing database of crash reports.
+  //!
+  //! \param[in] path A path to the database to be opened. If the database does
+  //!     not yet exist, it will not be created. Note that for databases
+  //!     implemented as directory structures, existence refers solely to the
+  //!     outermost directory. On such databases, as long as the outermost
+  //!     directory is present, this method will create the inner structure.
+  //!
+  //! \return A database object on success, `nullptr` on failure with an error
+  //!     logged.
+  //!
+  //! \sa Initialize
+  static scoped_ptr<CrashReportDatabase> InitializeWithoutCreating(
+      const base::FilePath& path);
 
   //! \brief Returns the Settings object for this database.
   //!

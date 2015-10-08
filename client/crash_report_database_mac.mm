@@ -63,29 +63,35 @@ const char kXattrUploadAttemptCount[] = "upload_count";
 
 const char kXattrDatabaseInitialized[] = "initialized";
 
+// Ensures that the node at |path| is a directory. If the |path| refers to a
+// file, rather than a directory, returns false. Otherwise, returns true,
+// indicating that |path| already was a directory.
+bool EnsureDirectoryExists(const base::FilePath& path) {
+  struct stat st;
+  if (stat(path.value().c_str(), &st) != 0) {
+    PLOG(ERROR) << "stat " << path.value();
+    return false;
+  }
+  if (!S_ISDIR(st.st_mode)) {
+    LOG(ERROR) << "stat " << path.value() << ": not a directory";
+    return false;
+  }
+  return true;
+}
+
 // Ensures that the node at |path| is a directory, and creates it if it does
-// not exist. If the |path| points to a file, rather than a directory, or the
+// not exist. If the |path| refers to a file, rather than a directory, or the
 // directory could not be created, returns false. Otherwise, returns true,
 // indicating that |path| already was or now is a directory.
 bool CreateOrEnsureDirectoryExists(const base::FilePath& path) {
   if (mkdir(path.value().c_str(), 0755) == 0) {
     return true;
-  } else if (errno == EEXIST) {
-    struct stat st;
-    if (stat(path.value().c_str(), &st) != 0) {
-      PLOG(ERROR) << "stat";
-      return false;
-    }
-    if (S_ISDIR(st.st_mode)) {
-      return true;
-    } else {
-      LOG(ERROR) << "not a directory";
-      return false;
-    }
-  } else {
-    PLOG(ERROR) << "mkdir";
+  }
+  if (errno != EEXIST) {
+    PLOG(ERROR) << "mkdir " << path.value();
     return false;
   }
+  return EnsureDirectoryExists(path);
 }
 
 //! \brief A CrashReportDatabase that uses HFS+ extended attributes to store
@@ -107,7 +113,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   explicit CrashReportDatabaseMac(const base::FilePath& path);
   virtual ~CrashReportDatabaseMac();
 
-  bool Initialize();
+  bool Initialize(bool may_create);
 
   // CrashReportDatabase:
   Settings* GetSettings() override;
@@ -115,8 +121,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   OperationStatus FinishedWritingCrashReport(NewReport* report,
                                              UUID* uuid) override;
   OperationStatus ErrorWritingCrashReport(NewReport* report) override;
-  OperationStatus LookUpCrashReport(const UUID& uuid,
-                                    Report* report) override;
+  OperationStatus LookUpCrashReport(const UUID& uuid, Report* report) override;
   OperationStatus GetPendingReports(std::vector<Report>* reports) override;
   OperationStatus GetCompletedReports(std::vector<Report>* reports) override;
   OperationStatus GetReportForUploading(const UUID& uuid,
@@ -181,7 +186,6 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   static OperationStatus ReportsInDirectory(const base::FilePath& path,
                                             std::vector<Report>* reports);
 
-
   //! \brief Creates a database xattr name from the short constant name.
   //!
   //! \param[in] name The short name of the extended attribute.
@@ -205,12 +209,17 @@ CrashReportDatabaseMac::CrashReportDatabaseMac(const base::FilePath& path)
 
 CrashReportDatabaseMac::~CrashReportDatabaseMac() {}
 
-bool CrashReportDatabaseMac::Initialize() {
+bool CrashReportDatabaseMac::Initialize(bool may_create) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   // Check if the database already exists.
-  if (!CreateOrEnsureDirectoryExists(base_dir_))
+  if (may_create) {
+    if (!CreateOrEnsureDirectoryExists(base_dir_)) {
+      return false;
+    }
+  } else if (!EnsureDirectoryExists(base_dir_)) {
     return false;
+  }
 
   // Create the three processing directories for the database.
   for (size_t i = 0; i < arraysize(kReportDirectories); ++i) {
@@ -501,8 +510,8 @@ base::FilePath CrashReportDatabaseMac::LocateCrashReport(const UUID& uuid) {
   const std::string target_uuid = uuid.ToString();
   for (size_t i = 0; i < arraysize(kReportDirectories); ++i) {
     base::FilePath path =
-       base_dir_.Append(kReportDirectories[i])
-                .Append(target_uuid + "." + kCrashReportFileExtension);
+        base_dir_.Append(kReportDirectories[i])
+                 .Append(target_uuid + "." + kCrashReportFileExtension);
 
     // Test if the path exists.
     struct stat st;
@@ -616,17 +625,28 @@ std::string CrashReportDatabaseMac::XattrName(const base::StringPiece& name) {
   return base::StringPrintf("com.googlecode.crashpad.%s", name.data());
 }
 
+scoped_ptr<CrashReportDatabase> InitializeInternal(const base::FilePath& path,
+                                                   bool may_create) {
+  scoped_ptr<CrashReportDatabaseMac> database_mac(
+      new CrashReportDatabaseMac(path));
+  if (!database_mac->Initialize(may_create))
+    database_mac.reset();
+
+  return scoped_ptr<CrashReportDatabase>(database_mac.release());
+}
+
 }  // namespace
 
 // static
 scoped_ptr<CrashReportDatabase> CrashReportDatabase::Initialize(
     const base::FilePath& path) {
-  scoped_ptr<CrashReportDatabaseMac> database_mac(
-      new CrashReportDatabaseMac(path));
-  if (!database_mac->Initialize())
-    database_mac.reset();
+  return InitializeInternal(path, true);
+}
 
-  return scoped_ptr<CrashReportDatabase>(database_mac.release());
+// static
+scoped_ptr<CrashReportDatabase> CrashReportDatabase::InitializeWithoutCreating(
+    const base::FilePath& path) {
+  return InitializeInternal(path, false);
 }
 
 }  // namespace crashpad

@@ -21,7 +21,6 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
-#include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/crash_report_database.h"
 #include "client/crashpad_client.h"
@@ -225,14 +224,9 @@ int HandlerMain(int argc, char* argv[]) {
                                 MACH_MSG_TYPE_MAKE_SEND);
 #endif  // OS_MACOSX
 
-  scoped_ptr<CrashReportDatabase> database(
-      CrashReportDatabase::Initialize(base::FilePath(
-#if defined(OS_MACOSX)
-          options.database
-#elif defined(OS_WIN)
-          base::UTF8ToUTF16(options.database)
-#endif
-          )));
+  scoped_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(
+      base::FilePath(ToolSupport::CommandLineArgumentToFilePathStringType(
+          options.database))));
   if (!database) {
     return EXIT_FAILURE;
   }

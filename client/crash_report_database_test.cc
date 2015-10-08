@@ -75,8 +75,7 @@ class CrashReportDatabaseTest : public testing::Test {
               db_->GetReportForUploading(uuid, &report));
     EXPECT_NE(UUID(), report->uuid);
     EXPECT_FALSE(report->file_path.empty());
-    EXPECT_TRUE(FileExists(report->file_path))
-        << report->file_path.value();
+    EXPECT_TRUE(FileExists(report->file_path)) << report->file_path.value();
     EXPECT_GT(report->creation_time, 0);
     EXPECT_EQ(CrashReportDatabase::kNoError,
               db_->RecordUploadAttempt(report, successful, id));
@@ -116,7 +115,7 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
 
   Settings* settings = db()->GetSettings();
 
-  UUID client_ids[2];
+  UUID client_ids[3];
   ASSERT_TRUE(settings->GetClientID(&client_ids[0]));
   EXPECT_NE(client_ids[0], UUID());
 
@@ -127,7 +126,7 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
   // Close and reopen the database at the same path.
   ResetDatabase();
   EXPECT_FALSE(db());
-  auto db = CrashReportDatabase::Initialize(path());
+  auto db = CrashReportDatabase::InitializeWithoutCreating(path());
   ASSERT_TRUE(db);
 
   settings = db->GetSettings();
@@ -138,12 +137,31 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
   ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
   EXPECT_EQ(0, last_upload_attempt_time);
 
+  // Check that the database can also be opened by the method that is permitted
+  // to create it.
+  db = CrashReportDatabase::Initialize(path());
+  ASSERT_TRUE(db);
+
+  settings = db->GetSettings();
+
+  ASSERT_TRUE(settings->GetClientID(&client_ids[2]));
+  EXPECT_EQ(client_ids[0], client_ids[2]);
+
+  ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
+  EXPECT_EQ(0, last_upload_attempt_time);
+
   std::vector<CrashReportDatabase::Report> reports;
   EXPECT_EQ(CrashReportDatabase::kNoError, db->GetPendingReports(&reports));
   EXPECT_TRUE(reports.empty());
   reports.clear();
   EXPECT_EQ(CrashReportDatabase::kNoError, db->GetCompletedReports(&reports));
   EXPECT_TRUE(reports.empty());
+
+  // InitializeWithoutCreating() shouldn’t create a nonexistent database.
+  base::FilePath non_database_path =
+      path().DirName().Append(FILE_PATH_LITERAL("not_a_database"));
+  db = CrashReportDatabase::InitializeWithoutCreating(non_database_path);
+  EXPECT_FALSE(db);
 }
 
 TEST_F(CrashReportDatabaseTest, NewCrashReport) {
@@ -163,14 +181,12 @@ TEST_F(CrashReportDatabaseTest, NewCrashReport) {
   ExpectPreparedCrashReport(report);
 
   std::vector<CrashReportDatabase::Report> reports;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetPendingReports(&reports));
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&reports));
   ASSERT_EQ(1u, reports.size());
   EXPECT_EQ(report.uuid, reports[0].uuid);
 
   reports.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetCompletedReports(&reports));
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetCompletedReports(&reports));
   EXPECT_TRUE(reports.empty());
 }
 
@@ -320,8 +336,7 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   const UUID& report_4_uuid = reports[4].uuid;
 
   std::vector<CrashReportDatabase::Report> pending;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetPendingReports(&pending));
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
 
   std::vector<CrashReportDatabase::Report> completed;
   EXPECT_EQ(CrashReportDatabase::kNoError,
@@ -334,8 +349,7 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   UploadReport(report_1_uuid, true, "report1");
 
   pending.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetPendingReports(&pending));
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
   completed.clear();
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->GetCompletedReports(&completed));
@@ -357,8 +371,7 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   UploadReport(report_2_uuid, false, std::string());
 
   pending.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetPendingReports(&pending));
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
   completed.clear();
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->GetCompletedReports(&completed));
@@ -380,8 +393,7 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   UploadReport(report_4_uuid, true, "report_4");
 
   pending.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetPendingReports(&pending));
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
   completed.clear();
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->GetCompletedReports(&completed));
@@ -393,8 +405,7 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   UploadReport(report_2_uuid, true, "report 2");
 
   pending.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetPendingReports(&pending));
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
   completed.clear();
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->GetCompletedReports(&completed));
@@ -403,8 +414,7 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   ASSERT_EQ(3u, completed.size());
 
   for (const auto& report : pending) {
-    EXPECT_TRUE(report.uuid == report_0_uuid ||
-                report.uuid == report_3_uuid);
+    EXPECT_TRUE(report.uuid == report_0_uuid || report.uuid == report_3_uuid);
     EXPECT_FALSE(report.file_path.empty());
   }
 
@@ -413,8 +423,7 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
             db()->SkipReportUpload(report_3_uuid));
 
   pending.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetPendingReports(&pending));
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
   completed.clear();
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->GetCompletedReports(&completed));

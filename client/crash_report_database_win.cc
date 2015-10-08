@@ -510,6 +510,21 @@ OperationStatus Metadata::VerifyReport(const ReportDisk& report_disk,
              : CrashReportDatabase::kBusyError;
 }
 
+bool EnsureDirectory(const base::FilePath& path) {
+  DWORD fileattr = GetFileAttributes(path.value().c_str());
+  if (fileattr == INVALID_FILE_ATTRIBUTES) {
+    PLOG(ERROR) << "GetFileAttributes " << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+  if ((fileattr & FILE_ATTRIBUTE_DIRECTORY) == 0) {
+    LOG(ERROR) << "GetFileAttributes "
+               << base::UTF16ToUTF8(path.value())
+               << ": not a directory";
+    return false;
+  }
+  return true;
+}
+
 //! \brief Ensures that the node at path is a directory, and creates it if it
 //!     does not exist.
 //!
@@ -520,18 +535,10 @@ bool CreateDirectoryIfNecessary(const base::FilePath& path) {
   if (CreateDirectory(path.value().c_str(), nullptr))
     return true;
   if (GetLastError() != ERROR_ALREADY_EXISTS) {
-    PLOG(ERROR) << "CreateDirectory";
+    PLOG(ERROR) << "CreateDirectory " << base::UTF16ToUTF8(path.value());
     return false;
   }
-  DWORD fileattr = GetFileAttributes(path.value().c_str());
-  if (fileattr == INVALID_FILE_ATTRIBUTES) {
-    PLOG(ERROR) << "GetFileAttributes";
-    return false;
-  }
-  if ((fileattr & FILE_ATTRIBUTE_DIRECTORY) != 0)
-    return true;
-  LOG(ERROR) << "not a directory";
-  return false;
+  return EnsureDirectory(path);
 }
 
 // CrashReportDatabaseWin ------------------------------------------------------
@@ -541,7 +548,7 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   explicit CrashReportDatabaseWin(const base::FilePath& path);
   ~CrashReportDatabaseWin() override;
 
-  bool Initialize();
+  bool Initialize(bool may_create);
 
   // CrashReportDatabase:
   Settings* GetSettings() override;
@@ -580,12 +587,19 @@ CrashReportDatabaseWin::CrashReportDatabaseWin(const base::FilePath& path)
 CrashReportDatabaseWin::~CrashReportDatabaseWin() {
 }
 
-bool CrashReportDatabaseWin::Initialize() {
+bool CrashReportDatabaseWin::Initialize(bool may_create) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  // Ensure the database and report subdirectories exist.
-  if (!CreateDirectoryIfNecessary(base_dir_) ||
-      !CreateDirectoryIfNecessary(base_dir_.Append(kReportsDirectory)))
+  // Ensure the database directory exists.
+  if (may_create) {
+    if (!CreateDirectoryIfNecessary(base_dir_))
+      return false;
+  } else if (!EnsureDirectory(base_dir_)) {
+    return false;
+  }
+
+  // Ensure that the report subdirectory exists.
+  if (!CreateDirectoryIfNecessary(base_dir_.Append(kReportsDirectory)))
     return false;
 
   if (!settings_.Initialize())
@@ -796,15 +810,27 @@ scoped_ptr<Metadata> CrashReportDatabaseWin::AcquireMetadata() {
   return Metadata::Create(metadata_file, base_dir_.Append(kReportsDirectory));
 }
 
+scoped_ptr<CrashReportDatabase> InitializeInternal(
+    const base::FilePath& path, bool may_create) {
+  scoped_ptr<CrashReportDatabaseWin> database_win(
+      new CrashReportDatabaseWin(path));
+  return database_win->Initialize(may_create)
+             ? database_win.Pass()
+             : scoped_ptr<CrashReportDatabaseWin>();
+}
+
 }  // namespace
 
 // static
 scoped_ptr<CrashReportDatabase> CrashReportDatabase::Initialize(
     const base::FilePath& path) {
-  scoped_ptr<CrashReportDatabaseWin> database_win(
-      new CrashReportDatabaseWin(path));
-  return database_win->Initialize() ? database_win.Pass()
-                                    : scoped_ptr<CrashReportDatabaseWin>();
+  return InitializeInternal(path, true);
+}
+
+// static
+scoped_ptr<CrashReportDatabase> CrashReportDatabase::InitializeWithoutCreating(
+    const base::FilePath& path) {
+  return InitializeInternal(path, false);
 }
 
 }  // namespace crashpad

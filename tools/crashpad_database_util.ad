@@ -41,10 +41,13 @@ client library. This tool exists to allow developers to manipulate a Crashpad
 database.
 
 == Options
+*--create*::
+Creates the database identified by *--database* if it does not exist, provided
+that the parent directory of 'PATH' exists.
+
 *-d*, *--database*='PATH'::
 Use 'PATH' as the path to the Crashpad crash report database. This option is
-required. If the database does not exist, it will be created, provided that the
-parent directory of 'PATH' exists.
+required. The database must already exist unless *--create* is also specified.
 
 *--show-client-id*::
 Show the client ID stored in the database’s settings. The client ID is formatted
