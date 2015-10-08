@@ -23,6 +23,8 @@ set -e
 # Run from the Crashpad project root directory.
 cd "$(dirname "${0}")/../.."
 
+source doc/support/compat.sh
+
 output_dir=out/doc
 
 rm -rf \
@@ -32,26 +34,6 @@ mkdir -p \
     "${output_dir}/doc/html" \
     "${output_dir}/man/html" \
     "${output_dir}/man/man"
-
-# Some extensions of command-line tools behave differently on different systems.
-# $sed_ext should be a sed invocation that enables extended regular expressions.
-# $date_time_t should be a date invocation that causes it to print the date and
-# time corresponding to a time_t string that immediately follows it.
-uname_s="$(uname -s)"
-case "${uname_s}" in
-  Darwin)
-    sed_ext="sed -E"
-    date_time_t="date -r"
-    ;;
-  Linux)
-    sed_ext="sed -r"
-    date_time_t="date -d@"
-    ;;
-  *)
-    echo "${0}: unknown operating system" >& 2
-    exit 1
-    ;;
-esac
 
 # Get the version from package.h.
 version=$(${sed_ext} -n -e 's/^#define PACKAGE_VERSION "(.*)"$/\1/p' package.h)
