@@ -24,6 +24,6 @@
 #define PACKAGE_STRING PACKAGE_NAME " " PACKAGE_VERSION
 #define PACKAGE_TARNAME "crashpad"
 #define PACKAGE_VERSION "0.7.0"
-#define PACKAGE_URL "https://crashpad.googlecode.com/"
+#define PACKAGE_URL "https://crashpad-home.appspot.com/"
 
 #endif  // CRASHPAD_PACKAGE_H_

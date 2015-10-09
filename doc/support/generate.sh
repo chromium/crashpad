@@ -45,6 +45,7 @@ done
 # doc.
 ${sed_ext} -e 's%<a href="([^/]+)\.html">%<a href="doc/\1.html">%g' \
     < "${output_dir}/doc/index.html" > "${output_dir}/index.html"
+rm "${output_dir}/doc/index.html"
 
 # Create man/index.html
 cd "${output_dir}/man"

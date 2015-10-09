@@ -16,16 +16,16 @@
 
 = Crashpad
 
-https://crashpad.googlecode.com/[Crashpad] is a crash-reporting system.
+https://crashpad-home.appspot.com/[Crashpad] is a crash-reporting system.
 
 == Documentation
 
  * link:status.html[Project status]
  * link:developing.html[Developing Crashpad]: instructions for getting the
    source code, building, testing, and contributing to the project.
- * http://docs.crashpad.googlecode.com/git/doxygen/index.html[Crashpad
-   interface documentation]
- * http://docs.crashpad.googlecode.com/git/man/[Crashpad tool man pages]
+ * https://crashpad-home.appspot.com/doxygen/index.html[Crashpad interface
+   documentation]
+ * https://crashpad-home.appspot.com/man/index.html[Crashpad tool man pages]
 
 == Source Code
 
