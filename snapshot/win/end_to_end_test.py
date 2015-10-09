@@ -127,8 +127,8 @@ class CdbRun(object):
         '-c', command + ';q'
     ])
 
-  def Check(self, pattern, message):
-    match_obj = re.search(pattern, self.out)
+  def Check(self, pattern, message, re_flags=0):
+    match_obj = re.search(pattern, self.out, re_flags)
     if match_obj:
       # Matched. Consume up to end of match.
       self.out = self.out[match_obj.end(0):]
@@ -163,7 +163,8 @@ def RunTests(cdb_path, dump_path, pipe_name):
   pipe_name_escaped = pipe_name.replace('\\', '\\\\')
   out.Check(r'CommandLine: *\'.*crashy_program.exe *' + pipe_name_escaped,
             'some PEB data is correct')
-  out.Check(r'SystemRoot=C:\\Windows', 'some of environment captured')
+  out.Check(r'SystemRoot=C:\\Windows', 'some of environment captured',
+            re.IGNORECASE)
 
   out = CdbRun(cdb_path, dump_path, '!teb')
   out.Check(r'TEB at', 'found the TEB')
