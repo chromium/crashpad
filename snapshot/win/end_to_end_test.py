@@ -187,7 +187,7 @@ def RunTests(cdb_path, dump_path, pipe_name):
 def main(args):
   try:
     if len(args) != 1:
-      print >>sys.stderr, 'must supply out dir'
+      print >>sys.stderr, 'must supply binary dir'
       return 1
 
     cdb_path = GetCdbPath()
