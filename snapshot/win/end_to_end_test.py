@@ -81,6 +81,7 @@ def GetDumpFromCrashyProgram(out_dir, pipe_name):
   crash_handler for further testing.
   """
   test_database = MakeTempDir()
+  handler = None
 
   try:
     if subprocess.call(
@@ -106,7 +107,6 @@ def GetDumpFromCrashyProgram(out_dir, pipe_name):
     for line in out.splitlines():
       if line.strip().startswith('Path:'):
         return line.partition(':')[2].strip()
-
   finally:
     if handler:
       handler.kill()
@@ -177,10 +177,11 @@ def RunTests(cdb_path, dump_path, pipe_name):
             'file %hs does not exist.', '!gle gets last ntstatus')
 
   # Locks.
-  out = CdbRun(cdb_path, dump_path, '!locks')
-  out.Check(r'CritSec crashy_program!crashpad::`anonymous namespace\'::'
-            r'g_test_critical_section', 'lock was captured')
-  out.Check(r'\*\*\* Locked', 'lock debug info was captured, and is locked')
+  if False:  # The code for these isn't landed yet.
+    out = CdbRun(cdb_path, dump_path, '!locks')
+    out.Check(r'CritSec crashy_program!crashpad::`anonymous namespace\'::'
+              r'g_test_critical_section', 'lock was captured')
+    out.Check(r'\*\*\* Locked', 'lock debug info was captured, and is locked')
 
 
 def main(args):
