@@ -195,6 +195,12 @@ def main(args):
       print >>sys.stderr, 'could not find cdb'
       return 1
 
+    # Make sure we can download Windows symbols.
+    if not os.environ.get('_NT_SYMBOL_PATH'):
+      symbol_dir = MakeTempDir()
+      os.environ['_NT_SYMBOL_PATH'] = (
+          'SRV*' + symbol_dir + '*https://msdl.microsoft.com/download/symbols')
+
     pipe_name = r'\\.\pipe\end-to-end_%s_%s' % (
         os.getpid(), str(random.getrandbits(64)))
 
