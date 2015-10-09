@@ -64,7 +64,7 @@ def main(args):
     print name
     print '-' * 80
     subprocess.check_call(
-        [sys.executable, os.path.join(crashpad_dir, name), args[0]])
+        [sys.executable, os.path.join(crashpad_dir, name), out_dir])
 
   return 0
 
