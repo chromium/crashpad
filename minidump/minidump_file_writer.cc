@@ -17,6 +17,7 @@
 #include "base/logging.h"
 #include "minidump/minidump_crashpad_info_writer.h"
 #include "minidump/minidump_exception_writer.h"
+#include "minidump/minidump_memory_info_writer.h"
 #include "minidump/minidump_memory_writer.h"
 #include "minidump/minidump_misc_info_writer.h"
 #include "minidump/minidump_module_writer.h"
@@ -97,6 +98,14 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   // it to the minidump file if it wouldn’t carry any useful information.
   if (crashpad_info->IsUseful()) {
     AddStream(crashpad_info.Pass());
+  }
+
+  std::vector<const MemoryMapRegionSnapshot*> memory_map_snapshot =
+      process_snapshot->MemoryMap();
+  if (!memory_map_snapshot.empty()) {
+    auto memory_info_list = make_scoped_ptr(new MinidumpMemoryInfoListWriter());
+    memory_info_list->InitializeFromSnapshot(memory_map_snapshot);
+    AddStream(memory_info_list.Pass());
   }
 
   memory_list->AddFromSnapshot(process_snapshot->ExtraMemory());

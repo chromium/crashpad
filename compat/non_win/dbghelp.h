@@ -167,6 +167,9 @@ enum MINIDUMP_STREAM_TYPE {
   //! MINIDUMP_MISC_INFO::Flags1, that indicates which data is present and
   //! valid.
   MiscInfoStream = 15,
+
+  //! \brief The stream type for MINIDUMP_MEMORY_INFO_LIST.
+  MemoryInfoListStream = 16,
 };
 
 //! \brief Information about the CPU (or CPUs) that ran the process that the
@@ -847,8 +850,8 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO {
 
   //! \brief The memory protection when the region was initially allocated. This
   //!     member can be one of the memory protection options (such as
-  //!     `PAGE_EXECUTE`, `PAGE_NOACCESS`, etc.), along with `PAGE_GUARD` or
-  //!     `PAGE_NOCACHE`, as needed.
+  //!     \ref PAGE_x PAGE_EXECUTE, \ref PAGE_x PAGE_NOACCESS, etc.), along with
+  //!     \ref PAGE_x PAGE_GUARD or \ref PAGE_x PAGE_NOCACHE, as needed.
   uint32_t AllocationProtect;
 
   uint32_t __alignment1;
@@ -858,18 +861,33 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO {
   uint64_t RegionSize;
 
   //! \brief The state of the pages in the region. This can be one of
-  //!     `MEM_COMMIT`, `MEM_FREE`, or `MEM_RESERVE`.
+  //!     \ref MEM_x MEM_COMMIT, \ref MEM_x MEM_FREE, or \ref MEM_x MEM_RESERVE.
   uint32_t State;
 
   //! \brief The access protection of the pages in the region. This member is
   //!     one of the values listed for the #AllocationProtect member.
   uint32_t Protect;
 
-  //! \brief The type of pages in the region. This can be one of `MEM_IMAGE`,
-  //!     `MEM_MAPPED`, or `MEM_PRIVATE`.
+  //! \brief The type of pages in the region. This can be one of \ref MEM_x
+  //!     MEM_IMAGE, \ref MEM_x MEM_MAPPED, or \ref MEM_x MEM_PRIVATE.
   uint32_t Type;
 
   uint32_t __alignment2;
+};
+
+//! \brief Contains a list of memory regions.
+struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO_LIST {
+  //! \brief The size of the header data for the stream, in bytes. This is
+  //!     generally sizeof(MINIDUMP_MEMORY_INFO_LIST).
+  uint32_t SizeOfHeader;
+
+  //! \brief The size of each entry following the header, in bytes. This is
+  //!     generally sizeof(MINIDUMP_MEMORY_INFO).
+  uint32_t SizeOfEntry;
+
+  //! \brief The number of entries in the stream. These are generally
+  //!     MINIDUMP_MEMORY_INFO structures. The entries follow the header.
+  uint64_t NumberOfEntries;
 };
 
 //! \brief Minidump file type values for MINIDUMP_HEADER::Flags. These bits
