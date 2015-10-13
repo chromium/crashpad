@@ -186,6 +186,12 @@ const ExceptionSnapshot* ProcessSnapshotMac::Exception() const {
   return exception_.get();
 }
 
+std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotMac::MemoryMap()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::vector<const MemoryMapRegionSnapshot*>();
+}
+
 std::vector<const MemorySnapshot*> ProcessSnapshotMac::ExtraMemory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return std::vector<const MemorySnapshot*>();

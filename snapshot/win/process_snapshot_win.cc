@@ -18,6 +18,7 @@
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
+#include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/module_snapshot_win.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/time.h"
@@ -30,6 +31,7 @@ ProcessSnapshotWin::ProcessSnapshotWin()
       threads_(),
       modules_(),
       exception_(),
+      memory_map_(),
       process_reader_(),
       report_id_(),
       client_id_(),
@@ -59,6 +61,11 @@ bool ProcessSnapshotWin::Initialize(HANDLE process,
 
   InitializeThreads();
   InitializeModules();
+
+  for (const MEMORY_BASIC_INFORMATION64& mbi :
+       process_reader_.GetProcessInfo().MemoryInfo()) {
+    memory_map_.push_back(new internal::MemoryMapRegionSnapshotWin(mbi));
+  }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -185,6 +192,14 @@ std::vector<const ModuleSnapshot*> ProcessSnapshotWin::Modules() const {
 
 const ExceptionSnapshot* ProcessSnapshotWin::Exception() const {
   return exception_.get();
+}
+
+std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotWin::MemoryMap()
+    const {
+  std::vector<const MemoryMapRegionSnapshot*> memory_map;
+  for (const auto& item : memory_map_)
+    memory_map.push_back(item);
+  return memory_map;
 }
 
 std::vector<const MemorySnapshot*> ProcessSnapshotWin::ExtraMemory() const {

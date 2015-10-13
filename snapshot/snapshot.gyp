@@ -91,6 +91,8 @@
         'win/cpu_context_win.h',
         'win/exception_snapshot_win.cc',
         'win/exception_snapshot_win.h',
+        'win/memory_map_region_snapshot_win.cc',
+        'win/memory_map_region_snapshot_win.h',
         'win/memory_snapshot_win.cc',
         'win/memory_snapshot_win.h',
         'win/module_snapshot_win.cc',

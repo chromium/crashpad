@@ -27,12 +27,14 @@
 #include "client/crashpad_info.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/exception_snapshot.h"
+#include "snapshot/memory_map_region_snapshot.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
 #include "snapshot/thread_snapshot.h"
 #include "snapshot/win/exception_snapshot_win.h"
+#include "snapshot/win/memory_map_region_snapshot_win.h"
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/module_snapshot_win.h"
 #include "snapshot/win/system_snapshot_win.h"
@@ -126,6 +128,7 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   std::vector<const ThreadSnapshot*> Threads() const override;
   std::vector<const ModuleSnapshot*> Modules() const override;
   const ExceptionSnapshot* Exception() const override;
+  std::vector<const MemoryMapRegionSnapshot*> MemoryMap() const override;
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
@@ -162,6 +165,7 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   PointerVector<internal::ThreadSnapshotWin> threads_;
   PointerVector<internal::ModuleSnapshotWin> modules_;
   scoped_ptr<internal::ExceptionSnapshotWin> exception_;
+  PointerVector<internal::MemoryMapRegionSnapshotWin> memory_map_;
   ProcessReaderWin process_reader_;
   UUID report_id_;
   UUID client_id_;

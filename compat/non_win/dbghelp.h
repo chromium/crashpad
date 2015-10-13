@@ -836,6 +836,42 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MISC_INFO_4
 //! \brief The latest known version of the MINIDUMP_MISC_INFO structure.
 typedef MINIDUMP_MISC_INFO_4 MINIDUMP_MISC_INFO_N;
 
+//! \brief Describes a region of memory.
+struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO {
+  //! \brief The base address of the region of pages.
+  uint64_t BaseAddress;
+
+  //! \brief The base address of a range of pages in this region. The page is
+  //!     contained within this memory region.
+  uint64_t AllocationBase;
+
+  //! \brief The memory protection when the region was initially allocated. This
+  //!     member can be one of the memory protection options (such as
+  //!     `PAGE_EXECUTE`, `PAGE_NOACCESS`, etc.), along with `PAGE_GUARD` or
+  //!     `PAGE_NOCACHE`, as needed.
+  uint32_t AllocationProtect;
+
+  uint32_t __alignment1;
+
+  //! \brief The size of the region beginning at the base address in which all
+  //!     pages have identical attributes, in bytes.
+  uint64_t RegionSize;
+
+  //! \brief The state of the pages in the region. This can be one of
+  //!     `MEM_COMMIT`, `MEM_FREE`, or `MEM_RESERVE`.
+  uint32_t State;
+
+  //! \brief The access protection of the pages in the region. This member is
+  //!     one of the values listed for the #AllocationProtect member.
+  uint32_t Protect;
+
+  //! \brief The type of pages in the region. This can be one of `MEM_IMAGE`,
+  //!     `MEM_MAPPED`, or `MEM_PRIVATE`.
+  uint32_t Type;
+
+  uint32_t __alignment2;
+};
+
 //! \brief Minidump file type values for MINIDUMP_HEADER::Flags. These bits
 //!     describe the types of data carried within a minidump file.
 enum MINIDUMP_TYPE {
