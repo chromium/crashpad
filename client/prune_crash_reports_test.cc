@@ -207,9 +207,10 @@ TEST(PruneCrashReports, PruneOrder) {
     reports.push_back(temp);
   }
   // The randomness from std::rand() is not, so use a better rand() instead.
-  std::random_shuffle(reports.begin(), reports.end(), [](int rand_max) {
+  const auto random_generator = [](int rand_max) {
     return base::RandUint64() % rand_max;
-  });
+  };
+  std::random_shuffle(reports.begin(), reports.end(), random_generator);
   std::vector<CrashReportDatabase::Report> pending_reports(
       reports.begin(), reports.begin() + 5);
   std::vector<CrashReportDatabase::Report> completed_reports(
