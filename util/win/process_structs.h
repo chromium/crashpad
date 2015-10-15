@@ -232,6 +232,7 @@ struct PEB {
   typename Traits::Pointer UnicodeCaseTableData;
   DWORD NumberOfProcessors;
   DWORD NtGlobalFlag;
+  DWORD alignment_for_x86;
   LARGE_INTEGER CriticalSectionTimeout;
   typename Traits::UnsignedIntegral HeapSegmentReserve;
   typename Traits::UnsignedIntegral HeapSegmentCommit;
@@ -453,6 +454,35 @@ struct EXCEPTION_POINTERS {
 
 using EXCEPTION_POINTERS32 = EXCEPTION_POINTERS<internal::Traits32>;
 using EXCEPTION_POINTERS64 = EXCEPTION_POINTERS<internal::Traits64>;
+
+// This is defined in winnt.h, but not for cross-bitness.
+template <class Traits>
+struct RTL_CRITICAL_SECTION {
+  typename Traits::Pointer DebugInfo;
+  LONG LockCount;
+  LONG RecursionCount;
+  typename Traits::Pointer OwningThread;
+  typename Traits::Pointer LockSemaphore;
+  typename Traits::UnsignedIntegral SpinCount;
+};
+
+template <class Traits>
+struct RTL_CRITICAL_SECTION_DEBUG {
+  union {
+    struct {
+      WORD Type;
+      WORD CreatorBackTraceIndex;
+    };
+    typename Traits::Pad alignment_for_x64;
+  };
+  typename Traits::Pointer CriticalSection;
+  LIST_ENTRY<Traits> ProcessLocksList;
+  DWORD EntryCount;
+  DWORD ContentionCount;
+  DWORD Flags;
+  WORD CreatorBackTraceIndexHigh;
+  WORD SpareWORD;
+};
 
 #pragma pack(pop)
 

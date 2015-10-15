@@ -88,10 +88,13 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
 
   unsigned int ExceptionHandlerServerException(
       HANDLE process,
-      WinVMAddress exception_information_address) override {
+      WinVMAddress exception_information_address,
+      WinVMAddress debug_critical_section_address) override {
     ScopedProcessSuspend suspend(process);
     ProcessSnapshotWin snapshot;
-    snapshot.Initialize(process, ProcessSuspensionState::kSuspended);
+    snapshot.Initialize(process,
+                        ProcessSuspensionState::kSuspended,
+                        debug_critical_section_address);
     snapshot.InitializeException(exception_information_address);
 
     // Confirm the exception record was read correctly.
@@ -186,10 +189,13 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
 
   unsigned int ExceptionHandlerServerException(
       HANDLE process,
-      WinVMAddress exception_information_address) override {
+      WinVMAddress exception_information_address,
+      WinVMAddress debug_critical_section_address) override {
     ScopedProcessSuspend suspend(process);
     ProcessSnapshotWin snapshot;
-    snapshot.Initialize(process, ProcessSuspensionState::kSuspended);
+    snapshot.Initialize(process,
+                        ProcessSuspensionState::kSuspended,
+                        debug_critical_section_address);
     snapshot.InitializeException(exception_information_address);
     EXPECT_TRUE(snapshot.Exception());
     EXPECT_EQ(0x517a7ed, snapshot.Exception()->Exception());

@@ -42,14 +42,16 @@ void CrashReportExceptionHandler::ExceptionHandlerServerStarted() {
 
 unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     HANDLE process,
-    WinVMAddress exception_information_address) {
+    WinVMAddress exception_information_address,
+    WinVMAddress debug_critical_section_address) {
   const unsigned int kFailedTerminationCode = 0xffff7002;
 
   ScopedProcessSuspend suspend(process);
 
   ProcessSnapshotWin process_snapshot;
   if (!process_snapshot.Initialize(process,
-                                   ProcessSuspensionState::kSuspended)) {
+                                   ProcessSuspensionState::kSuspended,
+                                   debug_critical_section_address)) {
     LOG(WARNING) << "ProcessSnapshotWin::Initialize failed";
     return kFailedTerminationCode;
   }

@@ -75,8 +75,8 @@ TEST(CrashpadInfoClientOptions, OneModule) {
   ASSERT_TRUE(process_snapshot.Initialize(mach_task_self()));
 #elif defined(OS_WIN)
   ProcessSnapshotWin process_snapshot;
-  ASSERT_TRUE(process_snapshot.Initialize(GetCurrentProcess(),
-                                          ProcessSuspensionState::kRunning));
+  ASSERT_TRUE(process_snapshot.Initialize(
+      GetCurrentProcess(), ProcessSuspensionState::kRunning, 0));
 #else
 #error Port.
 #endif  // OS_MACOSX
@@ -189,8 +189,8 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
   ASSERT_TRUE(process_snapshot.Initialize(mach_task_self()));
 #elif defined(OS_WIN)
   ProcessSnapshotWin process_snapshot;
-  ASSERT_TRUE(process_snapshot.Initialize(GetCurrentProcess(),
-                                          ProcessSuspensionState::kRunning));
+  ASSERT_TRUE(process_snapshot.Initialize(
+      GetCurrentProcess(), ProcessSuspensionState::kRunning, 0));
 #else
 #error Port.
 #endif  // OS_MACOSX

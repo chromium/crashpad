@@ -43,8 +43,10 @@ ProcessSnapshotWin::ProcessSnapshotWin()
 ProcessSnapshotWin::~ProcessSnapshotWin() {
 }
 
-bool ProcessSnapshotWin::Initialize(HANDLE process,
-                                    ProcessSuspensionState suspension_state) {
+bool ProcessSnapshotWin::Initialize(
+    HANDLE process,
+    ProcessSuspensionState suspension_state,
+    WinVMAddress debug_critical_section_address) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   GetTimeOfDay(&snapshot_time_);
@@ -54,10 +56,13 @@ bool ProcessSnapshotWin::Initialize(HANDLE process,
 
   system_.Initialize(&process_reader_);
 
-  if (process_reader_.Is64Bit())
-    InitializePebData<process_types::internal::Traits64>();
-  else
-    InitializePebData<process_types::internal::Traits32>();
+  if (process_reader_.Is64Bit()) {
+    InitializePebData<process_types::internal::Traits64>(
+        debug_critical_section_address);
+  } else {
+    InitializePebData<process_types::internal::Traits32>(
+        debug_critical_section_address);
+  }
 
   InitializeThreads();
   InitializeModules();
@@ -205,8 +210,8 @@ std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotWin::MemoryMap()
 std::vector<const MemorySnapshot*> ProcessSnapshotWin::ExtraMemory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<const MemorySnapshot*> extra_memory;
-  for (const auto& peb_memory : peb_memory_)
-    extra_memory.push_back(peb_memory);
+  for (const auto& em : extra_memory_)
+    extra_memory.push_back(em);
   return extra_memory;
 }
 
@@ -235,11 +240,12 @@ void ProcessSnapshotWin::InitializeModules() {
 }
 
 template <class Traits>
-void ProcessSnapshotWin::InitializePebData() {
+void ProcessSnapshotWin::InitializePebData(
+    WinVMAddress debug_critical_section_address) {
   WinVMAddress peb_address;
   WinVMSize peb_size;
   process_reader_.GetProcessInfo().Peb(&peb_address, &peb_size);
-  AddMemorySnapshot(peb_address, peb_size, &peb_memory_);
+  AddMemorySnapshot(peb_address, peb_size, &extra_memory_);
 
   process_types::PEB<Traits> peb_data;
   if (!process_reader_.ReadMemory(peb_address, peb_size, &peb_data)) {
@@ -248,7 +254,7 @@ void ProcessSnapshotWin::InitializePebData() {
   }
 
   process_types::PEB_LDR_DATA<Traits> peb_ldr_data;
-  AddMemorySnapshot(peb_data.Ldr, sizeof(peb_ldr_data), &peb_memory_);
+  AddMemorySnapshot(peb_data.Ldr, sizeof(peb_ldr_data), &extra_memory_);
   if (!process_reader_.ReadMemory(
           peb_data.Ldr, sizeof(peb_ldr_data), &peb_ldr_data)) {
     LOG(ERROR) << "ReadMemory PEB_LDR_DATA";
@@ -257,17 +263,17 @@ void ProcessSnapshotWin::InitializePebData() {
     AddMemorySnapshotForLdrLIST_ENTRY(
         peb_ldr_data.InLoadOrderModuleList,
         offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>, InLoadOrderLinks),
-        &peb_memory_);
+        &extra_memory_);
     AddMemorySnapshotForLdrLIST_ENTRY(
         peb_ldr_data.InMemoryOrderModuleList,
         offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>,
                  InMemoryOrderLinks),
-        &peb_memory_);
+        &extra_memory_);
     AddMemorySnapshotForLdrLIST_ENTRY(
         peb_ldr_data.InInitializationOrderModuleList,
         offsetof(process_types::LDR_DATA_TABLE_ENTRY<Traits>,
                  InInitializationOrderLinks),
-        &peb_memory_);
+        &extra_memory_);
   }
 
   process_types::RTL_USER_PROCESS_PARAMETERS<Traits> process_parameters;
@@ -278,27 +284,38 @@ void ProcessSnapshotWin::InitializePebData() {
     return;
   }
   AddMemorySnapshot(
-      peb_data.ProcessParameters, sizeof(process_parameters), &peb_memory_);
+      peb_data.ProcessParameters, sizeof(process_parameters), &extra_memory_);
 
   AddMemorySnapshotForUNICODE_STRING(
-      process_parameters.CurrentDirectory.DosPath, &peb_memory_);
-  AddMemorySnapshotForUNICODE_STRING(process_parameters.DllPath, &peb_memory_);
+      process_parameters.CurrentDirectory.DosPath, &extra_memory_);
+  AddMemorySnapshotForUNICODE_STRING(process_parameters.DllPath,
+                                     &extra_memory_);
   AddMemorySnapshotForUNICODE_STRING(process_parameters.ImagePathName,
-                                     &peb_memory_);
+                                     &extra_memory_);
   AddMemorySnapshotForUNICODE_STRING(process_parameters.CommandLine,
-                                     &peb_memory_);
+                                     &extra_memory_);
   AddMemorySnapshotForUNICODE_STRING(process_parameters.WindowTitle,
-                                     &peb_memory_);
+                                     &extra_memory_);
   AddMemorySnapshotForUNICODE_STRING(process_parameters.DesktopInfo,
-                                     &peb_memory_);
+                                     &extra_memory_);
   AddMemorySnapshotForUNICODE_STRING(process_parameters.ShellInfo,
-                                     &peb_memory_);
+                                     &extra_memory_);
   AddMemorySnapshotForUNICODE_STRING(process_parameters.RuntimeData,
-                                     &peb_memory_);
+                                     &extra_memory_);
   AddMemorySnapshot(
       process_parameters.Environment,
       DetermineSizeOfEnvironmentBlock(process_parameters.Environment),
-      &peb_memory_);
+      &extra_memory_);
+
+  // Walk the loader lock which is directly referenced by the PEB. It may or may
+  // not have a .DebugInfo list, but doesn't on more recent OSs (it does on
+  // Vista). If it does, then we may walk the lock list more than once, but
+  // AddMemorySnapshot() will take care of deduplicating the added regions.
+  ReadLocks<Traits>(peb_data.LoaderLock, &extra_memory_);
+
+  // Traverse the locks with valid .DebugInfo if a starting point was supplied.
+  if (debug_critical_section_address)
+    ReadLocks<Traits>(debug_critical_section_address, &extra_memory_);
 }
 
 void ProcessSnapshotWin::AddMemorySnapshot(
@@ -397,6 +414,99 @@ WinVMSize ProcessSnapshotWin::DetermineSizeOfEnvironmentBlock(
     env_block.resize(at + arraysize(terminator));
 
   return env_block.size() * sizeof(env_block[0]);
+}
+
+template <class Traits>
+void ProcessSnapshotWin::ReadLocks(
+    WinVMAddress start,
+    PointerVector<internal::MemorySnapshotWin>* into) {
+  // We're walking the RTL_CRITICAL_SECTION_DEBUG ProcessLocksList, but starting
+  // from an actual RTL_CRITICAL_SECTION, so start by getting to the first
+  // RTL_CRITICAL_SECTION_DEBUG.
+
+  process_types::RTL_CRITICAL_SECTION<Traits> critical_section;
+  if (!process_reader_.ReadMemory(
+          start, sizeof(critical_section), &critical_section)) {
+    LOG(ERROR) << "failed to read RTL_CRITICAL_SECTION";
+    return;
+  }
+
+  const decltype(critical_section.DebugInfo) kInvalid =
+      static_cast<decltype(critical_section.DebugInfo)>(-1);
+  if (critical_section.DebugInfo == kInvalid)
+    return;
+
+  const WinVMAddress start_address_backward = critical_section.DebugInfo;
+  WinVMAddress current_address = start_address_backward;
+  WinVMAddress last_good_address;
+
+  // Typically, this seems to be a circular list, but it's not clear that it
+  // always is, so follow Blink fields back to the head (or where we started)
+  // before following Flink to capture memory.
+  do {
+    last_good_address = current_address;
+    // Read the RTL_CRITICAL_SECTION_DEBUG structure to get ProcessLocksList.
+    process_types::RTL_CRITICAL_SECTION_DEBUG<Traits> critical_section_debug;
+    if (!process_reader_.ReadMemory(current_address,
+                                    sizeof(critical_section_debug),
+                                    &critical_section_debug)) {
+      LOG(ERROR) << "failed to read RTL_CRITICAL_SECTION_DEBUG";
+      return;
+    }
+
+    if (critical_section_debug.ProcessLocksList.Blink == 0) {
+      // At the head of the list.
+      break;
+    }
+
+    // Move to the previous RTL_CRITICAL_SECTION_DEBUG by walking
+    // ProcessLocksList.Blink.
+    current_address =
+        critical_section_debug.ProcessLocksList.Blink -
+        offsetof(process_types::RTL_CRITICAL_SECTION_DEBUG<Traits>,
+                 ProcessLocksList);
+  } while (current_address != start_address_backward &&
+           current_address != kInvalid);
+
+  if (current_address == kInvalid) {
+    // Unexpectedly encountered a bad record, so step back one.
+    current_address = last_good_address;
+  }
+
+  const WinVMAddress start_address_forward = current_address;
+
+  // current_address is now the head of the list, walk Flink to add the whole
+  // list.
+  do {
+    // Read the RTL_CRITICAL_SECTION_DEBUG structure to get ProcessLocksList.
+    process_types::RTL_CRITICAL_SECTION_DEBUG<Traits> critical_section_debug;
+    if (!process_reader_.ReadMemory(current_address,
+                                    sizeof(critical_section_debug),
+                                    &critical_section_debug)) {
+      LOG(ERROR) << "failed to read RTL_CRITICAL_SECTION_DEBUG";
+      return;
+    }
+
+    // Add both RTL_CRITICAL_SECTION_DEBUG and RTL_CRITICAL_SECTION to the extra
+    // memory to be saved.
+    AddMemorySnapshot(current_address,
+                      sizeof(process_types::RTL_CRITICAL_SECTION_DEBUG<Traits>),
+                      into);
+    AddMemorySnapshot(critical_section_debug.CriticalSection,
+                      sizeof(process_types::RTL_CRITICAL_SECTION<Traits>),
+                      into);
+
+    if (critical_section_debug.ProcessLocksList.Flink == 0)
+      break;
+
+    // Move to the next RTL_CRITICAL_SECTION_DEBUG by walking
+    // ProcessLocksList.Flink.
+    current_address =
+        critical_section_debug.ProcessLocksList.Flink -
+        offsetof(process_types::RTL_CRITICAL_SECTION_DEBUG<Traits>,
+                 ProcessLocksList);
+  } while (current_address != start_address_forward &&
+           current_address != kInvalid);
 }
 
 }  // namespace crashpad

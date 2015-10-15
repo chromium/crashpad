@@ -28,6 +28,8 @@
 namespace crashpad {
 namespace {
 
+CRITICAL_SECTION g_test_critical_section;
+
 ULONG RtlNtStatusToDosError(NTSTATUS status) {
   static decltype(::RtlNtStatusToDosError)* rtl_nt_status_to_dos_error =
       reinterpret_cast<decltype(::RtlNtStatusToDosError)*>(
@@ -75,6 +77,18 @@ void AllocateMemoryOfVariousProtections() {
   }
 }
 
+BOOL CrashpadInitializeCriticalSectionEx(
+    CRITICAL_SECTION* critical_section,
+    DWORD spin_count,
+    DWORD flags) {
+  static decltype(InitializeCriticalSectionEx)* initialize_critical_section_ex =
+      reinterpret_cast<decltype(InitializeCriticalSectionEx)*>(GetProcAddress(
+          LoadLibrary(L"kernel32.dll"), "InitializeCriticalSectionEx"));
+  if (!initialize_critical_section_ex)
+    return false;
+  return initialize_critical_section_ex(critical_section, spin_count, flags);
+}
+
 void SomeCrashyFunction() {
   // SetLastError and NTSTATUS so that we have something to view in !gle in
   // windbg. RtlNtStatusToDosError() stores STATUS_NO_SUCH_FILE into the
@@ -102,6 +116,10 @@ int CrashyMain(int argc, char* argv[]) {
   }
 
   AllocateMemoryOfVariousProtections();
+
+  CrashpadInitializeCriticalSectionEx(
+      &g_test_critical_section, 0, RTL_CRITICAL_SECTION_FLAG_FORCE_DEBUG_INFO);
+  EnterCriticalSection(&g_test_critical_section);
 
   SomeCrashyFunction();
 

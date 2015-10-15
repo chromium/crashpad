@@ -177,12 +177,10 @@ def RunTests(cdb_path, dump_path, pipe_name):
   out.Check('LastStatusValue: \(NTSTATUS\) 0xc000000f - {File Not Found}  The '
             'file %hs does not exist.', '!gle gets last ntstatus')
 
-  # Locks.
-  if False:  # The code for these isn't landed yet.
-    out = CdbRun(cdb_path, dump_path, '!locks')
-    out.Check(r'CritSec crashy_program!crashpad::`anonymous namespace\'::'
-              r'g_test_critical_section', 'lock was captured')
-    out.Check(r'\*\*\* Locked', 'lock debug info was captured, and is locked')
+  out = CdbRun(cdb_path, dump_path, '!locks')
+  out.Check(r'CritSec crashy_program!crashpad::`anonymous namespace\'::'
+            r'g_test_critical_section', 'lock was captured')
+  out.Check(r'\*\*\* Locked', 'lock debug info was captured, and is locked')
 
 
 def main(args):

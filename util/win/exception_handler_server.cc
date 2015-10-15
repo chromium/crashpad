@@ -105,6 +105,7 @@ class ClientData {
              ScopedKernelHANDLE process,
              WinVMAddress crash_exception_information_address,
              WinVMAddress non_crash_exception_information_address,
+             WinVMAddress debug_critical_section_address,
              WAITORTIMERCALLBACK crash_dump_request_callback,
              WAITORTIMERCALLBACK non_crash_dump_request_callback,
              WAITORTIMERCALLBACK process_end_callback)
@@ -124,7 +125,8 @@ class ClientData {
         crash_exception_information_address_(
             crash_exception_information_address),
         non_crash_exception_information_address_(
-            non_crash_exception_information_address) {
+            non_crash_exception_information_address),
+        debug_critical_section_address_(debug_critical_section_address) {
     RegisterThreadPoolWaits(crash_dump_request_callback,
                             non_crash_dump_request_callback,
                             process_end_callback);
@@ -154,6 +156,9 @@ class ClientData {
   }
   WinVMAddress non_crash_exception_information_address() const {
     return non_crash_exception_information_address_;
+  }
+  WinVMAddress debug_critical_section_address() const {
+    return debug_critical_section_address_;
   }
   HANDLE process() const { return process_.get(); }
 
@@ -219,6 +224,7 @@ class ClientData {
   ScopedKernelHANDLE process_;
   WinVMAddress crash_exception_information_address_;
   WinVMAddress non_crash_exception_information_address_;
+  WinVMAddress debug_critical_section_address_;
 
   DISALLOW_COPY_AND_ASSIGN(ClientData);
 };
@@ -412,6 +418,7 @@ bool ExceptionHandlerServer::ServiceClientConnection(
         ScopedKernelHANDLE(client_process),
         message.registration.crash_exception_information,
         message.registration.non_crash_exception_information,
+        message.registration.critical_section_address,
         &OnCrashDumpEvent,
         &OnNonCrashDumpEvent,
         &OnProcessEnd);
@@ -465,7 +472,9 @@ void __stdcall ExceptionHandlerServer::OnCrashDumpEvent(void* ctx, BOOLEAN) {
 
   // Capture the exception.
   unsigned int exit_code = client->delegate()->ExceptionHandlerServerException(
-      client->process(), client->crash_exception_information_address());
+      client->process(),
+      client->crash_exception_information_address(),
+      client->debug_critical_section_address());
 
   TerminateProcess(client->process(), exit_code);
 }
@@ -478,7 +487,9 @@ void __stdcall ExceptionHandlerServer::OnNonCrashDumpEvent(void* ctx, BOOLEAN) {
 
   // Capture the exception.
   client->delegate()->ExceptionHandlerServerException(
-      client->process(), client->non_crash_exception_information_address());
+      client->process(),
+      client->non_crash_exception_information_address(),
+      client->debug_critical_section_address());
 
   bool result = SetEvent(client->non_crash_dump_completed_event());
   PLOG_IF(ERROR, !result) << "SetEvent";
