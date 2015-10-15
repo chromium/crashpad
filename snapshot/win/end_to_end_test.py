@@ -133,6 +133,7 @@ class CdbRun(object):
       # Matched. Consume up to end of match.
       self.out = self.out[match_obj.end(0):]
       print 'ok - %s' % message
+      sys.stdout.flush()
     else:
       print >>sys.stderr, '-' * 80
       print >>sys.stderr, 'FAILED - %s' % message
@@ -141,6 +142,7 @@ class CdbRun(object):
       print >>sys.stderr, '-' * 80
       print >>sys.stderr, 'remaining output was:\n  %s' % self.out
       print >>sys.stderr, '-' * 80
+      sys.stderr.flush()
       sys.exit(1)
 
 
