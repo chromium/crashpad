@@ -61,10 +61,10 @@ struct RegistrationRequest {
 
   //! \brief The address, in the client process's address space, of a
   //!     `CRITICAL_SECTION` allocated with a valid .DebugInfo field. This can
-  //!     be accomplished by using the
-  //!     `RTL_CRITICAL_SECTION_FLAG_FORCE_DEBUG_INFO` flag to
-  //!     `InitializeCriticalSectionEx()`. This value can be `0`, however then
-  //!     limited lock data will be available in minidumps.
+  //!     be accomplished by using
+  //!     InitializeCriticalSectionWithDebugInfoIfPossible() or equivalent. This
+  //!     value can be `0`, however then limited lock data will be available in
+  //!     minidumps.
   WinVMAddress critical_section_address;
 };
 

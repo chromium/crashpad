@@ -15,6 +15,7 @@
 # limitations under the License.
 
 import os
+import platform
 import random
 import re
 import subprocess
@@ -182,7 +183,9 @@ def RunTests(cdb_path, dump_path, pipe_name):
   out = CdbRun(cdb_path, dump_path, '!locks')
   out.Check(r'CritSec crashy_program!crashpad::`anonymous namespace\'::'
             r'g_test_critical_section', 'lock was captured')
-  out.Check(r'\*\*\* Locked', 'lock debug info was captured, and is locked')
+  if float(platform.win32_ver()[0]) != 7:
+    # We can't allocate CRITICAL_SECTIONs with .DebugInfo on Win 7.
+    out.Check(r'\*\*\* Locked', 'lock debug info was captured, and is locked')
 
 
 def main(args):

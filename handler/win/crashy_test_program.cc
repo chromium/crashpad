@@ -24,6 +24,7 @@
 #include "base/logging.h"
 #include "client/crashpad_client.h"
 #include "tools/tool_support.h"
+#include "util/win/critical_section_with_debug_info.h"
 
 namespace crashpad {
 namespace {
@@ -77,18 +78,6 @@ void AllocateMemoryOfVariousProtections() {
   }
 }
 
-BOOL CrashpadInitializeCriticalSectionEx(
-    CRITICAL_SECTION* critical_section,
-    DWORD spin_count,
-    DWORD flags) {
-  static decltype(InitializeCriticalSectionEx)* initialize_critical_section_ex =
-      reinterpret_cast<decltype(InitializeCriticalSectionEx)*>(GetProcAddress(
-          LoadLibrary(L"kernel32.dll"), "InitializeCriticalSectionEx"));
-  if (!initialize_critical_section_ex)
-    return false;
-  return initialize_critical_section_ex(critical_section, spin_count, flags);
-}
-
 void SomeCrashyFunction() {
   // SetLastError and NTSTATUS so that we have something to view in !gle in
   // windbg. RtlNtStatusToDosError() stores STATUS_NO_SUCH_FILE into the
@@ -117,9 +106,10 @@ int CrashyMain(int argc, char* argv[]) {
 
   AllocateMemoryOfVariousProtections();
 
-  CrashpadInitializeCriticalSectionEx(
-      &g_test_critical_section, 0, RTL_CRITICAL_SECTION_FLAG_FORCE_DEBUG_INFO);
-  EnterCriticalSection(&g_test_critical_section);
+  if (InitializeCriticalSectionWithDebugInfoIfPossible(
+          &g_test_critical_section)) {
+    EnterCriticalSection(&g_test_critical_section);
+  }
 
   SomeCrashyFunction();
 

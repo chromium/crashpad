@@ -23,6 +23,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock.h"
 #include "util/file/file_io.h"
+#include "util/win/critical_section_with_debug_info.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
 
@@ -101,18 +102,6 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   return EXCEPTION_CONTINUE_SEARCH;
 }
 
-BOOL CrashpadInitializeCriticalSectionEx(
-    CRITICAL_SECTION* critical_section,
-    DWORD spin_count,
-    DWORD flags) {
-  static decltype(InitializeCriticalSectionEx)* initialize_critical_section_ex =
-      reinterpret_cast<decltype(InitializeCriticalSectionEx)*>(GetProcAddress(
-          LoadLibrary(L"kernel32.dll"), "InitializeCriticalSectionEx"));
-  if (!initialize_critical_section_ex)
-    return false;
-  return initialize_critical_section_ex(critical_section, spin_count, flags);
-}
-
 }  // namespace
 
 namespace crashpad {
@@ -156,14 +145,10 @@ bool CrashpadClient::SetHandler(const std::string& ipc_port) {
   // debugger would instead inspect ntdll!RtlCriticalSectionList to get the head
   // of the list. But that is not an exported symbol, so on an arbitrary client
   // machine, we don't have a way of getting that pointer.
-  if (CrashpadInitializeCriticalSectionEx(
-          &g_critical_section_with_debug_info,
-          0,
-          RTL_CRITICAL_SECTION_FLAG_FORCE_DEBUG_INFO)) {
+  if (InitializeCriticalSectionWithDebugInfoIfPossible(
+          &g_critical_section_with_debug_info)) {
     message.registration.critical_section_address =
         reinterpret_cast<WinVMAddress>(&g_critical_section_with_debug_info);
-  } else {
-    PLOG(ERROR) << "InitializeCriticalSectionEx";
   }
 
   ServerToClientMessage response = {0};
