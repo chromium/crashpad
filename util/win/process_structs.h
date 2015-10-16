@@ -484,6 +484,23 @@ struct RTL_CRITICAL_SECTION_DEBUG {
   WORD SpareWORD;
 };
 
+struct SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX {
+  void* Object;
+  ULONG_PTR UniqueProcessId;
+  HANDLE HandleValue;
+  ULONG GrantedAccess;
+  USHORT CreatorBackTraceIndex;
+  USHORT ObjectTypeIndex;
+  ULONG HandleAttributes;
+  ULONG Reserved;
+};
+
+struct SYSTEM_HANDLE_INFORMATION_EX {
+  ULONG_PTR NumberOfHandles;
+  ULONG_PTR Reserved;
+  SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX Handles[1];
+};
+
 #pragma pack(pop)
 
 //! \}

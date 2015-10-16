@@ -20,8 +20,12 @@
 
 #include "base/files/file_path.h"
 #include "base/memory/scoped_ptr.h"
+#include "base/rand_util.h"
+#include "base/strings/stringprintf.h"
+#include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/scoped_temp_dir.h"
 #include "test/paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
@@ -508,6 +512,114 @@ TEST(ProcessInfo, ReadableRanges) {
                                  into.get(),
                                  kBlockSize * 6,
                                  &bytes_read));
+}
+
+struct ScopedRegistryKeyCloseTraits {
+  static HKEY InvalidValue() {
+    return nullptr;
+  }
+  static void Free(HKEY key) {
+    RegCloseKey(key);
+  }
+};
+using ScopedRegistryKey =
+    base::ScopedGeneric<HKEY, ScopedRegistryKeyCloseTraits>;
+
+TEST(ProcessInfo, Handles) {
+  ScopedTempDir temp_dir;
+
+  ScopedFileHandle file(LoggingOpenFileForWrite(
+      temp_dir.path().Append(FILE_PATH_LITERAL("test_file")),
+      FileWriteMode::kTruncateOrCreate,
+      FilePermissions::kWorldReadable));
+  ASSERT_TRUE(file.is_valid());
+
+  SECURITY_ATTRIBUTES security_attributes = {0};
+  security_attributes.bInheritHandle = true;
+  ScopedFileHandle inherited_file(CreateFile(L"CONOUT$",
+                                             GENERIC_WRITE,
+                                             0,
+                                             &security_attributes,
+                                             OPEN_EXISTING,
+                                             FILE_ATTRIBUTE_NORMAL,
+                                             nullptr));
+  ASSERT_TRUE(inherited_file.is_valid());
+
+  HKEY key;
+  ASSERT_EQ(ERROR_SUCCESS,
+            RegOpenKeyEx(
+                HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft", 0, KEY_READ, &key));
+  ScopedRegistryKey scoped_key(key);
+  ASSERT_TRUE(scoped_key.is_valid());
+
+  std::wstring mapping_name =
+      base::UTF8ToUTF16(base::StringPrintf("Global\\test_mapping_%d_%I64x",
+                                           GetCurrentProcessId(),
+                                           base::RandUint64()));
+  ScopedKernelHANDLE mapping(CreateFileMapping(INVALID_HANDLE_VALUE,
+                                               nullptr,
+                                               PAGE_READWRITE,
+                                               0,
+                                               1024,
+                                               mapping_name.c_str()));
+  ASSERT_TRUE(mapping.is_valid());
+
+  ProcessInfo info;
+  info.Initialize(GetCurrentProcess());
+  bool found_file_handle = false;
+  bool found_inherited_file_handle = false;
+  bool found_key_handle = false;
+  bool found_mapping_handle = false;
+  for (auto handle : info.Handles()) {
+    if (reinterpret_cast<uint32_t>(file.get()) == handle.handle) {
+      EXPECT_FALSE(found_file_handle);
+      found_file_handle = true;
+      EXPECT_EQ(L"File", handle.type_name);
+      EXPECT_EQ(1, handle.handle_count);
+      EXPECT_NE(0u, handle.pointer_count);
+      EXPECT_EQ(STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE | SYNCHRONIZE,
+                handle.granted_access & STANDARD_RIGHTS_ALL);
+      EXPECT_EQ(0, handle.attributes);
+    }
+    if (reinterpret_cast<uint32_t>(inherited_file.get()) == handle.handle) {
+      EXPECT_FALSE(found_inherited_file_handle);
+      found_inherited_file_handle = true;
+      EXPECT_EQ(L"File", handle.type_name);
+      EXPECT_EQ(1, handle.handle_count);
+      EXPECT_NE(0u, handle.pointer_count);
+      EXPECT_EQ(STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE | SYNCHRONIZE,
+                handle.granted_access & STANDARD_RIGHTS_ALL);
+
+      // OBJ_INHERIT from ntdef.h, but including that conflicts with other
+      // headers.
+      const int kObjInherit = 0x2;
+      EXPECT_EQ(kObjInherit, handle.attributes);
+    }
+    if (reinterpret_cast<uint32_t>(scoped_key.get()) == handle.handle) {
+      EXPECT_FALSE(found_key_handle);
+      found_key_handle = true;
+      EXPECT_EQ(L"Key", handle.type_name);
+      EXPECT_EQ(1, handle.handle_count);
+      EXPECT_NE(0u, handle.pointer_count);
+      EXPECT_EQ(STANDARD_RIGHTS_READ,
+                handle.granted_access & STANDARD_RIGHTS_ALL);
+      EXPECT_EQ(0, handle.attributes);
+    }
+    if (reinterpret_cast<uint32_t>(mapping.get()) == handle.handle) {
+      EXPECT_FALSE(found_mapping_handle);
+      found_mapping_handle = true;
+      EXPECT_EQ(L"Section", handle.type_name);
+      EXPECT_EQ(1, handle.handle_count);
+      EXPECT_NE(0u, handle.pointer_count);
+      EXPECT_EQ(DELETE | READ_CONTROL | WRITE_DAC | WRITE_OWNER |
+                    STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE,
+                handle.granted_access & STANDARD_RIGHTS_ALL);
+      EXPECT_EQ(0, handle.attributes);
+    }
+  }
+  EXPECT_TRUE(found_file_handle);
+  EXPECT_TRUE(found_key_handle);
+  EXPECT_TRUE(found_mapping_handle);
 }
 
 }  // namespace

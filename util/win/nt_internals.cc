@@ -72,6 +72,22 @@ NTSTATUS NtOpenThread(PHANDLE thread_handle,
                         static_cast<const void*>(client_id));
 }
 
+NTSTATUS NtQueryObject(HANDLE handle,
+                       OBJECT_INFORMATION_CLASS object_information_class,
+                       void* object_information,
+                       ULONG object_information_length,
+                       ULONG* return_length) {
+  static decltype(::NtQueryObject)* nt_query_object =
+      reinterpret_cast<decltype(::NtQueryObject)*>(
+          GetProcAddress(LoadLibrary(L"ntdll.dll"), "NtQueryObject"));
+  DCHECK(nt_query_object);
+  return nt_query_object(handle,
+                         object_information_class,
+                         object_information,
+                         object_information_length,
+                         return_length);
+}
+
 // Explicit instantiations with the only 2 valid template arguments to avoid
 // putting the body of the function in the header.
 template NTSTATUS NtOpenThread<process_types::internal::Traits32>(
