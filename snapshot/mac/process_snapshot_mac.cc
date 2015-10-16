@@ -192,6 +192,11 @@ std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotMac::MemoryMap()
   return std::vector<const MemoryMapRegionSnapshot*>();
 }
 
+std::vector<HandleSnapshot> ProcessSnapshotMac::Handles() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::vector<HandleSnapshot>();
+}
+
 std::vector<const MemorySnapshot*> ProcessSnapshotMac::ExtraMemory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return std::vector<const MemorySnapshot*>();
