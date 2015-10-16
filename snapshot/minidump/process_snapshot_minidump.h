@@ -70,6 +70,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   std::vector<const ModuleSnapshot*> Modules() const override;
   const ExceptionSnapshot* Exception() const override;
   std::vector<const MemoryMapRegionSnapshot*> MemoryMap() const override;
+  std::vector<HandleSnapshot> Handles() const override;
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:

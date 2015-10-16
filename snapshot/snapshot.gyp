@@ -36,6 +36,8 @@
         'crashpad_info_client_options.cc',
         'crashpad_info_client_options.h',
         'exception_snapshot.h',
+        'handle_snapshot.cc',
+        'handle_snapshot.h',
         'mac/cpu_context_mac.cc',
         'mac/cpu_context_mac.h',
         'mac/exception_snapshot_mac.cc',

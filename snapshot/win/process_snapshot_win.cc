@@ -207,6 +207,21 @@ std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotWin::MemoryMap()
   return memory_map;
 }
 
+std::vector<HandleSnapshot> ProcessSnapshotWin::Handles() const {
+  std::vector<HandleSnapshot> result;
+  for (const auto& handle : process_reader_.GetProcessInfo().Handles()) {
+    HandleSnapshot snapshot;
+    snapshot.type_name = handle.type_name;
+    snapshot.handle = handle.handle;
+    snapshot.attributes = handle.attributes;
+    snapshot.granted_access = handle.granted_access;
+    snapshot.pointer_count = handle.pointer_count;
+    snapshot.handle_count = handle.handle_count;
+    result.push_back(snapshot);
+  }
+  return result;
+}
+
 std::vector<const MemorySnapshot*> ProcessSnapshotWin::ExtraMemory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   std::vector<const MemorySnapshot*> extra_memory;

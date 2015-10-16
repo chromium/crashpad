@@ -34,6 +34,7 @@ TestProcessSnapshot::TestProcessSnapshot()
       modules_(),
       exception_(),
       memory_map_(),
+      handles_(),
       extra_memory_() {
 }
 
@@ -105,6 +106,10 @@ std::vector<const MemoryMapRegionSnapshot*> TestProcessSnapshot::MemoryMap()
   for (const auto& item : memory_map_)
     memory_map.push_back(item);
   return memory_map;
+}
+
+std::vector<HandleSnapshot> TestProcessSnapshot::Handles() const {
+  return handles_;
 }
 
 std::vector<const MemorySnapshot*> TestProcessSnapshot::ExtraMemory() const {

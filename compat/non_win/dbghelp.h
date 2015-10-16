@@ -621,6 +621,71 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_LIST {
   MINIDUMP_MEMORY_DESCRIPTOR MemoryRanges[0];
 };
 
+//! \brief Contains the state of an individual system handle at the time the
+//!     snapshot was taken. This structure is Windows-specific.
+//!
+//! \sa MINIDUMP_HANDLE_DESCRIPTOR_2
+struct __attribute__((packed, aligned(4))) MINIDUMP_HANDLE_DESCRIPTOR {
+  //! \brief The Windows `HANDLE` value.
+  uint64_t Handle;
+
+  //! \brief An RVA to a MINIDUMP_STRING structure that specifies the object
+  //!     type of the handle. This member can be zero.
+  RVA TypeNameRva;
+
+  //! \brief An RVA to a MINIDUMP_STRING structure that specifies the object
+  //!     name of the handle. This member can be zero.
+  RVA ObjectNameRva;
+
+  //! \brief The attributes for the handle, this corresponds to `OBJ_INHERIT`,
+  //!     `OBJ_CASE_INSENSITIVE`, etc.
+  uint32_t Attributes;
+
+  //! \brief The `ACCESS_MASK` for the handle.
+  uint32_t GrantedAccess;
+
+  //! \brief This is the number of open handles to the object that this handle
+  //!     refers to.
+  uint32_t HandleCount;
+
+  //! \brief This is the number kernel references to the object that this
+  //!     handle refers to.
+  uint32_t PointerCount;
+};
+
+//! \brief Contains the state of an individual system handle at the time the
+//!     snapshot was taken. This structure is Windows-specific.
+//!
+//! \sa MINIDUMP_HANDLE_DESCRIPTOR
+struct __attribute__((packed, aligned(4))) MINIDUMP_HANDLE_DESCRIPTOR_2
+    : public MINIDUMP_HANDLE_DESCRIPTOR {
+  //! \brief An RVA to a MINIDUMP_HANDLE_OBJECT_INFORMATION structure that
+  //!     specifies object-specific information. This member can be zero if
+  //!     there is no extra information.
+  RVA ObjectInfoRva;
+
+  //! \brief Must be zero.
+  uint32_t Reserved0;
+};
+
+//! \brief Represents the header for a handle data stream.
+struct __attribute((packed, aligned(4))) MINIDUMP_HANDLE_DATA_STREAM {
+  //! \brief The size of the header information for the stream, in bytes. This
+  //!     value is `sizeof(MINIDUMP_HANDLE_DATA_STREAM)`.
+  uint32_t SizeOfHeader;
+
+  //! \brief The size of a descriptor in the stream, in bytes. This value is
+  //!     `sizeof(MINIDUMP_HANDLE_DESCRIPTOR)` or
+  //!     `sizeof(MINIDUMP_HANDLE_DESCRIPTOR_2)`.
+  uint32_t SizeOfDescriptor;
+
+  //! \brief The number of descriptors in the stream.
+  uint32_t NumberOfDescriptors;
+
+  //! \brief Must be zero.
+  uint32_t Reserved;
+};
+
 //! \anchor MINIDUMP_MISCx
 //! \name MINIDUMP_MISC*
 //!

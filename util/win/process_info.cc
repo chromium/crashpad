@@ -602,7 +602,7 @@ ProcessInfo::GetReadableRanges(
   return GetReadableRangesOfMemoryMap(range, MemoryInfo());
 }
 
-const std::vector<ProcessInfo::Handle>& ProcessInfo::Handles() {
+const std::vector<ProcessInfo::Handle>& ProcessInfo::Handles() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   if (handles_.empty())
     handles_ = BuildHandleVector(process_);

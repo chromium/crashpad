@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 
+#include "snapshot/handle_snapshot.h"
 #include "util/misc/uuid.h"
 
 namespace crashpad {
@@ -170,6 +171,12 @@ class ProcessSnapshot {
   //!     take ownership of these objects, they are scoped to the lifetime of
   //!     the ProcessSnapshot object that they were obtained from.
   virtual std::vector<const MemoryMapRegionSnapshot*> MemoryMap() const = 0;
+
+  //! \brief Returns HandleSnapshot objects reflecting the open handles in the
+  //!     snapshot process at the time of the snapshot.
+  //!
+  //! \return A vector of HandleSnapshot objects.
+  virtual std::vector<HandleSnapshot> Handles() const = 0;
 
   //! \brief Returns a vector of additional memory blocks that should be
   //!     included in a minidump.

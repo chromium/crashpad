@@ -184,6 +184,12 @@ std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotMinidump::MemoryMap()
   return std::vector<const MemoryMapRegionSnapshot*>();
 }
 
+std::vector<HandleSnapshot> ProcessSnapshotMinidump::Handles() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  return std::vector<HandleSnapshot>();
+}
+
 std::vector<const MemorySnapshot*> ProcessSnapshotMinidump::ExtraMemory()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);

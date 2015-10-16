@@ -106,6 +106,13 @@ class TestProcessSnapshot final : public ProcessSnapshot {
     memory_map_.push_back(region.release());
   }
 
+  //! \brief Adds a handle snapshot to be returned by Handles().
+  //!
+  //! \param[in] region The handle snapshot that will be included in Handles().
+  void AddHandle(const HandleSnapshot& handle) {
+    handles_.push_back(handle);
+  }
+
   //! \brief Add a memory snapshot to be returned by ExtraMemory().
   //!
   //! \param[in] extra_memory The memory snapshot that will be included in
@@ -131,6 +138,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   std::vector<const ModuleSnapshot*> Modules() const override;
   const ExceptionSnapshot* Exception() const override;
   std::vector<const MemoryMapRegionSnapshot*> MemoryMap() const override;
+  std::vector<HandleSnapshot> Handles() const override;
   std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
@@ -148,6 +156,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   PointerVector<ModuleSnapshot> modules_;
   scoped_ptr<ExceptionSnapshot> exception_;
   PointerVector<MemoryMapRegionSnapshot> memory_map_;
+  std::vector<HandleSnapshot> handles_;
   PointerVector<MemorySnapshot> extra_memory_;
 
   DISALLOW_COPY_AND_ASSIGN(TestProcessSnapshot);

@@ -140,7 +140,7 @@ class ProcessInfo {
       const CheckedRange<WinVMAddress, WinVMSize>& range) const;
 
   //! \brief Retrieves information about open handles in the target process.
-  const std::vector<Handle>& Handles();
+  const std::vector<Handle>& Handles() const;
 
  private:
   template <class Traits>
@@ -168,7 +168,11 @@ class ProcessInfo {
   WinVMSize peb_size_;
   std::vector<Module> modules_;
   std::vector<MEMORY_BASIC_INFORMATION64> memory_info_;
-  std::vector<Handle> handles_;
+
+  // Handles() is logically const, but updates this member on first retrieval.
+  // See https://code.google.com/p/crashpad/issues/detail?id=9.
+  mutable std::vector<Handle> handles_;
+
   bool is_64_bit_;
   bool is_wow64_;
   InitializationStateDcheck initialized_;
