@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['vs_5fffi_5fsignature',['VS_FFI_SIGNATURE',['../verrsrc_8h.html#a323849bf0740c974e68b19ae551e1a18',1,'verrsrc.h']]],
-  ['vs_5fffi_5fstrucversion',['VS_FFI_STRUCVERSION',['../verrsrc_8h.html#a5d5a4b05d359ca879b652292498d49b9',1,'verrsrc.h']]]
+  ['stdio_5fplog',['STDIO_PLOG',['../file__io_8h.html#a2f8d366bb03ceee04e91bb38c9c41e5e',1,'file_io.h']]]
 ];
