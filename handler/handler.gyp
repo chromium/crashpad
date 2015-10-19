@@ -82,6 +82,7 @@
             '../client/client.gyp:crashpad_client',
             '../third_party/mini_chromium/mini_chromium.gyp:base',
             '../tools/tools.gyp:crashpad_tool_support',
+            '../util/util.gyp:crashpad_util',
           ],
           'include_dirs': [
             '..',

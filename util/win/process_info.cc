@@ -20,12 +20,15 @@
 #include <limits>
 
 #include "base/logging.h"
+#include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
 #include "base/template_util.h"
 #include "build/build_config.h"
 #include "util/numeric/safe_assignment.h"
+#include "util/win/nt_internals.h"
 #include "util/win/ntstatus_logging.h"
 #include "util/win/process_structs.h"
+#include "util/win/scoped_handle.h"
 
 namespace crashpad {
 
@@ -125,6 +128,34 @@ MEMORY_BASIC_INFORMATION64 MemoryBasicInformationToMemoryBasicInformation64(
   mbi64.Protect = mbi.Protect;
   mbi64.Type = mbi.Type;
   return mbi64;
+}
+
+// NtQueryObject with a retry for size mismatch as well as a minimum size to
+// retrieve (and expect).
+scoped_ptr<uint8_t[]> QueryObject(
+    HANDLE handle,
+    OBJECT_INFORMATION_CLASS object_information_class,
+    ULONG minimum_size) {
+  ULONG size = minimum_size;
+  ULONG return_length;
+  scoped_ptr<uint8_t[]> buffer(new uint8_t[size]);
+  NTSTATUS status = crashpad::NtQueryObject(
+      handle, object_information_class, buffer.get(), size, &return_length);
+  if (status == STATUS_INFO_LENGTH_MISMATCH) {
+    DCHECK_GT(return_length, size);
+    size = return_length;
+    buffer.reset(new uint8_t[size]);
+    status = crashpad::NtQueryObject(
+        handle, object_information_class, buffer.get(), size, &return_length);
+  }
+
+  if (!NT_SUCCESS(status)) {
+    NTSTATUS_LOG(ERROR, status) << "NtQueryObject";
+    return scoped_ptr<uint8_t[]>();
+  }
+
+  DCHECK_GE(return_length, minimum_size);
+  return buffer.Pass();
 }
 
 }  // namespace
@@ -314,20 +345,150 @@ bool ReadMemoryInfo(HANDLE process, bool is_64_bit, ProcessInfo* process_info) {
   return true;
 }
 
+std::vector<ProcessInfo::Handle> ProcessInfo::BuildHandleVector(
+    HANDLE process) const {
+  ULONG buffer_size = 2 * 1024 * 1024;
+  scoped_ptr<uint8_t[]> buffer(new uint8_t[buffer_size]);
+
+  // Typically if the buffer were too small, STATUS_INFO_LENGTH_MISMATCH would
+  // return the correct size in the final argument, but it does not for
+  // SystemExtendedHandleInformation, so we loop and attempt larger sizes.
+  NTSTATUS status;
+  ULONG returned_length;
+  for (int tries = 0; tries < 5; ++tries) {
+    status = crashpad::NtQuerySystemInformation(
+        static_cast<SYSTEM_INFORMATION_CLASS>(SystemExtendedHandleInformation),
+        buffer.get(),
+        buffer_size,
+        &returned_length);
+    if (NT_SUCCESS(status) || status != STATUS_INFO_LENGTH_MISMATCH)
+      break;
+
+    buffer_size *= 2;
+    buffer.reset();
+    buffer.reset(new uint8_t[buffer_size]);
+  }
+
+  if (!NT_SUCCESS(status)) {
+    NTSTATUS_LOG(ERROR, status)
+        << "NtQuerySystemInformation SystemExtendedHandleInformation";
+    return std::vector<Handle>();
+  }
+
+  const auto& system_handle_information_ex =
+      *reinterpret_cast<process_types::SYSTEM_HANDLE_INFORMATION_EX*>(
+          buffer.get());
+
+  DCHECK_LE(offsetof(process_types::SYSTEM_HANDLE_INFORMATION_EX, Handles) +
+                system_handle_information_ex.NumberOfHandles *
+                    sizeof(system_handle_information_ex.Handles[0]),
+            returned_length);
+
+  std::vector<Handle> handles;
+
+  for (size_t i = 0; i < system_handle_information_ex.NumberOfHandles; ++i) {
+    const auto& handle = system_handle_information_ex.Handles[i];
+    if (handle.UniqueProcessId != process_id_)
+      continue;
+
+    Handle result_handle;
+    result_handle.handle =
+        static_cast<uint32_t>(reinterpret_cast<uintptr_t>(handle.HandleValue));
+    result_handle.attributes = handle.HandleAttributes;
+    result_handle.granted_access = handle.GrantedAccess;
+
+    // TODO(scottmg): Could special case for self.
+    HANDLE dup_handle;
+    if (DuplicateHandle(process,
+                        reinterpret_cast<HANDLE>(handle.HandleValue),
+                        GetCurrentProcess(),
+                        &dup_handle,
+                        0,
+                        false,
+                        DUPLICATE_SAME_ACCESS)) {
+      // Some handles cannot be duplicated, for example, handles of type
+      // EtwRegistration. If we fail to duplicate, then we can't gather any more
+      // information, but include the information that we do have already.
+      ScopedKernelHANDLE scoped_dup_handle(dup_handle);
+
+      scoped_ptr<uint8_t[]> object_basic_information_buffer =
+          QueryObject(dup_handle,
+                      ObjectBasicInformation,
+                      sizeof(PUBLIC_OBJECT_BASIC_INFORMATION));
+      if (object_basic_information_buffer) {
+        PUBLIC_OBJECT_BASIC_INFORMATION* object_basic_information =
+            reinterpret_cast<PUBLIC_OBJECT_BASIC_INFORMATION*>(
+                object_basic_information_buffer.get());
+        // The Attributes and GrantedAccess sometimes differ slightly between
+        // the data retrieved in SYSTEM_HANDLE_INFORMATION_EX and
+        // PUBLIC_OBJECT_TYPE_INFORMATION. We prefer the values in
+        // SYSTEM_HANDLE_INFORMATION_EX because they were retrieved from the
+        // target process, rather than on the duplicated handle, so don't use
+        // them here.
+
+        // Subtract one to account for our DuplicateHandle() and another for
+        // NtQueryObject() while the query was being executed.
+        DCHECK_GT(object_basic_information->PointerCount, 2u);
+        result_handle.pointer_count =
+            object_basic_information->PointerCount - 2;
+
+        // Subtract one to account for our DuplicateHandle().
+        DCHECK_GT(object_basic_information->HandleCount, 1u);
+        result_handle.handle_count = object_basic_information->HandleCount - 1;
+      }
+
+      scoped_ptr<uint8_t[]> object_type_information_buffer =
+          QueryObject(dup_handle,
+                      ObjectTypeInformation,
+                      sizeof(PUBLIC_OBJECT_TYPE_INFORMATION));
+      if (object_type_information_buffer) {
+        PUBLIC_OBJECT_TYPE_INFORMATION* object_type_information =
+            reinterpret_cast<PUBLIC_OBJECT_TYPE_INFORMATION*>(
+                object_type_information_buffer.get());
+
+        DCHECK_EQ(object_type_information->TypeName.Length %
+                      sizeof(result_handle.type_name[0]),
+                  0u);
+        result_handle.type_name =
+            std::wstring(object_type_information->TypeName.Buffer,
+                         object_type_information->TypeName.Length /
+                             sizeof(result_handle.type_name[0]));
+      }
+    }
+
+    handles.push_back(result_handle);
+  }
+  return handles;
+}
+
 ProcessInfo::Module::Module() : name(), dll_base(0), size(0), timestamp() {
 }
 
 ProcessInfo::Module::~Module() {
 }
 
+ProcessInfo::Handle::Handle()
+    : type_name(),
+      handle(0),
+      attributes(0),
+      granted_access(0),
+      pointer_count(0),
+      handle_count(0) {
+}
+
+ProcessInfo::Handle::~Handle() {
+}
+
 ProcessInfo::ProcessInfo()
     : process_id_(),
       inherited_from_process_id_(),
+      process_(),
       command_line_(),
       peb_address_(0),
       peb_size_(0),
       modules_(),
       memory_info_(),
+      handles_(),
       is_64_bit_(false),
       is_wow64_(false),
       initialized_() {
@@ -338,6 +499,8 @@ ProcessInfo::~ProcessInfo() {
 
 bool ProcessInfo::Initialize(HANDLE process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  process_ = process;
 
   is_wow64_ = IsProcessWow64(process);
 
@@ -437,6 +600,13 @@ std::vector<CheckedRange<WinVMAddress, WinVMSize>>
 ProcessInfo::GetReadableRanges(
     const CheckedRange<WinVMAddress, WinVMSize>& range) const {
   return GetReadableRangesOfMemoryMap(range, MemoryInfo());
+}
+
+const std::vector<ProcessInfo::Handle>& ProcessInfo::Handles() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (handles_.empty())
+    handles_ = BuildHandleVector(process_);
+  return handles_;
 }
 
 std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(

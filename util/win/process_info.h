@@ -50,6 +50,39 @@ class ProcessInfo {
     time_t timestamp;
   };
 
+  struct Handle {
+    Handle();
+    ~Handle();
+
+    //! \brief A string representation of the handle's type.
+    std::wstring type_name;
+
+    //! \brief The handle's value.
+    //!
+    //! See https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203 on
+    //! 32 bits being the correct size for `HANDLE`s, even on Windows x64.
+    uint32_t handle;
+
+    //! \brief The attributes for the handle, e.g. `OBJ_INHERIT`,
+    //!     `OBJ_CASE_INSENSITIVE`, etc.
+    uint32_t attributes;
+
+    //! \brief The `ACCESS_MASK` for the handle in this process.
+    //!
+    //! See
+    //! http://blogs.msdn.com/b/openspecification/archive/2010/04/01/about-the-access-mask-structure.aspx
+    //! for more information.
+    uint32_t granted_access;
+
+    //! \brief The number of kernel references to the object that this handle
+    //!     refers to.
+    uint32_t pointer_count;
+
+    //! \brief The number of open handles to the object that this handle refers
+    //!     to.
+    uint32_t handle_count;
+  };
+
   ProcessInfo();
   ~ProcessInfo();
 
@@ -106,6 +139,9 @@ class ProcessInfo {
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRanges(
       const CheckedRange<WinVMAddress, WinVMSize>& range) const;
 
+  //! \brief Retrieves information about open handles in the target process.
+  const std::vector<Handle>& Handles() const;
+
  private:
   template <class Traits>
   friend bool GetProcessBasicInformation(HANDLE process,
@@ -122,13 +158,21 @@ class ProcessInfo {
                              bool is_64_bit,
                              ProcessInfo* process_info);
 
+  std::vector<Handle> BuildHandleVector(HANDLE process) const;
+
   pid_t process_id_;
   pid_t inherited_from_process_id_;
+  HANDLE process_;
   std::wstring command_line_;
   WinVMAddress peb_address_;
   WinVMSize peb_size_;
   std::vector<Module> modules_;
   std::vector<MEMORY_BASIC_INFORMATION64> memory_info_;
+
+  // Handles() is logically const, but updates this member on first retrieval.
+  // See https://code.google.com/p/crashpad/issues/detail?id=9.
+  mutable std::vector<Handle> handles_;
+
   bool is_64_bit_;
   bool is_wow64_;
   InitializationStateDcheck initialized_;

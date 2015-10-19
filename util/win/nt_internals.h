@@ -27,6 +27,9 @@ namespace crashpad {
 // winternal.h defines THREADINFOCLASS, but not all members.
 enum { ThreadBasicInformation = 0 };
 
+// winternal.h defines SYSTEM_INFORMATION_CLASS, but not all members.
+enum { SystemExtendedHandleInformation = 64 };
+
 NTSTATUS NtQuerySystemInformation(
     SYSTEM_INFORMATION_CLASS system_information_class,
     PVOID system_information,
@@ -44,5 +47,11 @@ NTSTATUS NtOpenThread(PHANDLE thread_handle,
                       ACCESS_MASK desired_access,
                       POBJECT_ATTRIBUTES object_attributes,
                       const process_types::CLIENT_ID<Traits>* client_id);
+
+NTSTATUS NtQueryObject(HANDLE handle,
+                       OBJECT_INFORMATION_CLASS object_information_class,
+                       void* object_information,
+                       ULONG object_information_length,
+                       ULONG* return_length);
 
 }  // namespace crashpad

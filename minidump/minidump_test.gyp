@@ -37,6 +37,7 @@
         'minidump_crashpad_info_writer_test.cc',
         'minidump_exception_writer_test.cc',
         'minidump_file_writer_test.cc',
+        'minidump_memory_info_writer_test.cc',
         'minidump_memory_writer_test.cc',
         'minidump_misc_info_writer_test.cc',
         'minidump_module_crashpad_info_writer_test.cc',

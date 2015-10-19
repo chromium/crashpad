@@ -167,6 +167,9 @@ enum MINIDUMP_STREAM_TYPE {
   //! MINIDUMP_MISC_INFO::Flags1, that indicates which data is present and
   //! valid.
   MiscInfoStream = 15,
+
+  //! \brief The stream type for MINIDUMP_MEMORY_INFO_LIST.
+  MemoryInfoListStream = 16,
 };
 
 //! \brief Information about the CPU (or CPUs) that ran the process that the
@@ -618,6 +621,71 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_LIST {
   MINIDUMP_MEMORY_DESCRIPTOR MemoryRanges[0];
 };
 
+//! \brief Contains the state of an individual system handle at the time the
+//!     snapshot was taken. This structure is Windows-specific.
+//!
+//! \sa MINIDUMP_HANDLE_DESCRIPTOR_2
+struct __attribute__((packed, aligned(4))) MINIDUMP_HANDLE_DESCRIPTOR {
+  //! \brief The Windows `HANDLE` value.
+  uint64_t Handle;
+
+  //! \brief An RVA to a MINIDUMP_STRING structure that specifies the object
+  //!     type of the handle. This member can be zero.
+  RVA TypeNameRva;
+
+  //! \brief An RVA to a MINIDUMP_STRING structure that specifies the object
+  //!     name of the handle. This member can be zero.
+  RVA ObjectNameRva;
+
+  //! \brief The attributes for the handle, this corresponds to `OBJ_INHERIT`,
+  //!     `OBJ_CASE_INSENSITIVE`, etc.
+  uint32_t Attributes;
+
+  //! \brief The `ACCESS_MASK` for the handle.
+  uint32_t GrantedAccess;
+
+  //! \brief This is the number of open handles to the object that this handle
+  //!     refers to.
+  uint32_t HandleCount;
+
+  //! \brief This is the number kernel references to the object that this
+  //!     handle refers to.
+  uint32_t PointerCount;
+};
+
+//! \brief Contains the state of an individual system handle at the time the
+//!     snapshot was taken. This structure is Windows-specific.
+//!
+//! \sa MINIDUMP_HANDLE_DESCRIPTOR
+struct __attribute__((packed, aligned(4))) MINIDUMP_HANDLE_DESCRIPTOR_2
+    : public MINIDUMP_HANDLE_DESCRIPTOR {
+  //! \brief An RVA to a MINIDUMP_HANDLE_OBJECT_INFORMATION structure that
+  //!     specifies object-specific information. This member can be zero if
+  //!     there is no extra information.
+  RVA ObjectInfoRva;
+
+  //! \brief Must be zero.
+  uint32_t Reserved0;
+};
+
+//! \brief Represents the header for a handle data stream.
+struct __attribute((packed, aligned(4))) MINIDUMP_HANDLE_DATA_STREAM {
+  //! \brief The size of the header information for the stream, in bytes. This
+  //!     value is `sizeof(MINIDUMP_HANDLE_DATA_STREAM)`.
+  uint32_t SizeOfHeader;
+
+  //! \brief The size of a descriptor in the stream, in bytes. This value is
+  //!     `sizeof(MINIDUMP_HANDLE_DESCRIPTOR)` or
+  //!     `sizeof(MINIDUMP_HANDLE_DESCRIPTOR_2)`.
+  uint32_t SizeOfDescriptor;
+
+  //! \brief The number of descriptors in the stream.
+  uint32_t NumberOfDescriptors;
+
+  //! \brief Must be zero.
+  uint32_t Reserved;
+};
+
 //! \anchor MINIDUMP_MISCx
 //! \name MINIDUMP_MISC*
 //!
@@ -835,6 +903,57 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MISC_INFO_4
 
 //! \brief The latest known version of the MINIDUMP_MISC_INFO structure.
 typedef MINIDUMP_MISC_INFO_4 MINIDUMP_MISC_INFO_N;
+
+//! \brief Describes a region of memory.
+struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO {
+  //! \brief The base address of the region of pages.
+  uint64_t BaseAddress;
+
+  //! \brief The base address of a range of pages in this region. The page is
+  //!     contained within this memory region.
+  uint64_t AllocationBase;
+
+  //! \brief The memory protection when the region was initially allocated. This
+  //!     member can be one of the memory protection options (such as
+  //!     \ref PAGE_x PAGE_EXECUTE, \ref PAGE_x PAGE_NOACCESS, etc.), along with
+  //!     \ref PAGE_x PAGE_GUARD or \ref PAGE_x PAGE_NOCACHE, as needed.
+  uint32_t AllocationProtect;
+
+  uint32_t __alignment1;
+
+  //! \brief The size of the region beginning at the base address in which all
+  //!     pages have identical attributes, in bytes.
+  uint64_t RegionSize;
+
+  //! \brief The state of the pages in the region. This can be one of
+  //!     \ref MEM_x MEM_COMMIT, \ref MEM_x MEM_FREE, or \ref MEM_x MEM_RESERVE.
+  uint32_t State;
+
+  //! \brief The access protection of the pages in the region. This member is
+  //!     one of the values listed for the #AllocationProtect member.
+  uint32_t Protect;
+
+  //! \brief The type of pages in the region. This can be one of \ref MEM_x
+  //!     MEM_IMAGE, \ref MEM_x MEM_MAPPED, or \ref MEM_x MEM_PRIVATE.
+  uint32_t Type;
+
+  uint32_t __alignment2;
+};
+
+//! \brief Contains a list of memory regions.
+struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO_LIST {
+  //! \brief The size of the header data for the stream, in bytes. This is
+  //!     generally sizeof(MINIDUMP_MEMORY_INFO_LIST).
+  uint32_t SizeOfHeader;
+
+  //! \brief The size of each entry following the header, in bytes. This is
+  //!     generally sizeof(MINIDUMP_MEMORY_INFO).
+  uint32_t SizeOfEntry;
+
+  //! \brief The number of entries in the stream. These are generally
+  //!     MINIDUMP_MEMORY_INFO structures. The entries follow the header.
+  uint64_t NumberOfEntries;
+};
 
 //! \brief Minidump file type values for MINIDUMP_HEADER::Flags. These bits
 //!     describe the types of data carried within a minidump file.

@@ -53,22 +53,24 @@ https://chromium.googlesource.com/crashpad/crashpad. Although it is possible to
 check out this repository directly with `git clone`, Crashpad’s dependencies are
 managed by
 https://dev.chromium.org/developers/how-tos/depottools#TOC-gclient[`gclient`]
-instead of Git submodules, so to work on Crashpad, it is best to use `gclient`
-to get the source code.
+instead of Git submodules, so to work on Crashpad, it is best to use `fetch` to
+get the source code.
 
-`gclient` is part of the
+`fetch` and `gclient` are part of the
 https://dev.chromium.org/developers/how-tos/depottools[depot_tools]. There’s no
-need to install it separately.
+need to install them separately.
 
 === Initial Checkout
 
 [subs="verbatim,quotes"]
 ----
-$ *mkdir \~/crashpad*
+$ *mkdir ~/crashpad*
 $ *cd ~/crashpad*
-$ *gclient config --unmanaged https://chromium.googlesource.com/crashpad/crashpad*
-$ *gclient sync*
+$ *fetch crashpad*
 ----
+
+`fetch crashpad` performs the initial `gclient sync`, establishing a
+fully-functional local checkout.
 
 === Subsequent Checkouts
 
@@ -85,7 +87,7 @@ Crashpad uses https://gyp.googlecode.com/[GYP] to generate
 https://martine.github.io/ninja/[Ninja] build files. The build is described by
 `.gyp` files throughout the Crashpad source code tree. The
 `build/gyp_crashpad.py` script runs GYP properly for Crashpad, and is also
-called when you run `gclient sync` or `gclient runhooks`.
+called when you run `fetch crashpad`, `gclient sync`, or `gclient runhooks`.
 
 The Ninja build files and build output are in the `out` directory. Both debug-
 and release-mode configurations are available. The examples below show the debug

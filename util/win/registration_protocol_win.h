@@ -49,15 +49,23 @@ struct RegistrationRequest {
   //! \brief The PID of the client process.
   DWORD client_process_id;
 
-  //! \brief The address, in the client process address space, of an
+  //! \brief The address, in the client process's address space, of an
   //!     ExceptionInformation structure, used when handling a crash dump
   //!     request.
   WinVMAddress crash_exception_information;
 
-  //! \brief The address, in the client process address space, of an
+  //! \brief The address, in the client process's address space, of an
   //!     ExceptionInformation structure, used when handling a non-crashing dump
   //!     request.
   WinVMAddress non_crash_exception_information;
+
+  //! \brief The address, in the client process's address space, of a
+  //!     `CRITICAL_SECTION` allocated with a valid .DebugInfo field. This can
+  //!     be accomplished by using
+  //!     InitializeCriticalSectionWithDebugInfoIfPossible() or equivalent. This
+  //!     value can be `0`, however then limited lock data will be available in
+  //!     minidumps.
+  WinVMAddress critical_section_address;
 };
 
 //! \brief A message only sent to the server by itself to trigger shutdown.

@@ -90,6 +90,7 @@ MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_DIRECTORY);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MODULE_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_THREAD_LIST);
+MINIDUMP_ALLOW_OVERSIZED_DATA(MINIDUMP_MEMORY_INFO_LIST);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpModuleCrashpadInfoList);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpRVAList);
 MINIDUMP_ALLOW_OVERSIZED_DATA(MinidumpSimpleStringDictionary);
@@ -138,10 +139,10 @@ const T* TMinidumpWritableAtLocationDescriptor(
 //!  - With a MINIDUMP_HEADER template parameter, a template specialization
 //!    ensures that the structure’s magic number and version fields are correct.
 //!  - With a MINIDUMP_MEMORY_LIST, MINIDUMP_THREAD_LIST, MINIDUMP_MODULE_LIST,
-//!    or MinidumpSimpleStringDictionary template parameter, template
-//!    specializations ensure that the size given by \a location matches the
-//!    size expected of a stream containing the number of elements it claims to
-//!    have.
+//!    MINIDUMP_MEMORY_INFO_LIST, or MinidumpSimpleStringDictionary template
+//!    parameter, template specializations ensure that the size given by \a
+//!    location matches the size expected of a stream containing the number of
+//!    elements it claims to have.
 //!  - With an IMAGE_DEBUG_MISC, CodeViewRecordPDB20, or CodeViewRecordPDB70
 //!    template parameter, template specializations ensure that the structure
 //!    has the expected format including any magic number and the `NUL`-
@@ -188,6 +189,11 @@ template <>
 const MINIDUMP_THREAD_LIST* MinidumpWritableAtLocationDescriptor<
     MINIDUMP_THREAD_LIST>(const std::string& file_contents,
                           const MINIDUMP_LOCATION_DESCRIPTOR& location);
+
+template <>
+const MINIDUMP_MEMORY_INFO_LIST* MinidumpWritableAtLocationDescriptor<
+    MINIDUMP_MEMORY_INFO_LIST>(const std::string& file_contents,
+                               const MINIDUMP_LOCATION_DESCRIPTOR& location);
 
 template <>
 const CodeViewRecordPDB20* MinidumpWritableAtLocationDescriptor<

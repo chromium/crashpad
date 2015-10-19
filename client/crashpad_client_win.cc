@@ -23,6 +23,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock.h"
 #include "util/file/file_io.h"
+#include "util/win/critical_section_with_debug_info.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
 
@@ -47,6 +48,13 @@ base::Lock* g_non_crash_dump_lock;
 // Where we store a pointer to the context information when taking a non-crash
 // dump.
 crashpad::ExceptionInformation g_non_crash_exception_information;
+
+// A CRITICAL_SECTION initialized with
+// RTL_CRITICAL_SECTION_FLAG_FORCE_DEBUG_INFO to force it to be allocated with a
+// valid .DebugInfo field. The address of this critical section is given to the
+// handler. All critical sections with debug info are linked in a doubly-linked
+// list, so this allows the handler to capture all of them.
+CRITICAL_SECTION g_critical_section_with_debug_info;
 
 LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   // Tracks whether a thread has already entered UnhandledExceptionHandler.
@@ -118,6 +126,7 @@ bool CrashpadClient::SetHandler(const std::string& ipc_port) {
   DCHECK_EQ(g_signal_exception, INVALID_HANDLE_VALUE);
   DCHECK_EQ(g_signal_non_crash_dump, INVALID_HANDLE_VALUE);
   DCHECK_EQ(g_non_crash_dump_done, INVALID_HANDLE_VALUE);
+  DCHECK(!g_critical_section_with_debug_info.DebugInfo);
 
   ClientToServerMessage message;
   memset(&message, 0, sizeof(message));
@@ -128,6 +137,19 @@ bool CrashpadClient::SetHandler(const std::string& ipc_port) {
       reinterpret_cast<WinVMAddress>(&g_crash_exception_information);
   message.registration.non_crash_exception_information =
       reinterpret_cast<WinVMAddress>(&g_non_crash_exception_information);
+
+  // We create this dummy CRITICAL_SECTION with the
+  // RTL_CRITICAL_SECTION_FLAG_FORCE_DEBUG_INFO flag set to have an entry point
+  // into the doubly-linked list of RTL_CRITICAL_SECTION_DEBUG objects. This
+  // allows us to walk the list at crash time to gather data for !locks. A
+  // debugger would instead inspect ntdll!RtlCriticalSectionList to get the head
+  // of the list. But that is not an exported symbol, so on an arbitrary client
+  // machine, we don't have a way of getting that pointer.
+  if (InitializeCriticalSectionWithDebugInfoIfPossible(
+          &g_critical_section_with_debug_info)) {
+    message.registration.critical_section_address =
+        reinterpret_cast<WinVMAddress>(&g_critical_section_with_debug_info);
+  }
 
   ServerToClientMessage response = {0};
 

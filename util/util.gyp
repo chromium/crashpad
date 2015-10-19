@@ -152,6 +152,8 @@
         'win/capture_context.asm',
         'win/capture_context.h',
         'win/checked_win_address_range.h',
+        'win/critical_section_with_debug_info.cc',
+        'win/critical_section_with_debug_info.h',
         'win/exception_handler_server.cc',
         'win/exception_handler_server.h',
         'win/module_version.cc',

@@ -20,12 +20,16 @@
 #define STATUS_NO_SUCH_FILE static_cast<NTSTATUS>(0xC000000F)
 #endif
 
+#include "base/basictypes.h"
 #include "base/logging.h"
 #include "client/crashpad_client.h"
 #include "tools/tool_support.h"
+#include "util/win/critical_section_with_debug_info.h"
 
 namespace crashpad {
 namespace {
+
+CRITICAL_SECTION g_test_critical_section;
 
 ULONG RtlNtStatusToDosError(NTSTATUS status) {
   static decltype(::RtlNtStatusToDosError)* rtl_nt_status_to_dos_error =
@@ -33,6 +37,45 @@ ULONG RtlNtStatusToDosError(NTSTATUS status) {
           GetProcAddress(LoadLibrary(L"ntdll.dll"), "RtlNtStatusToDosError"));
   DCHECK(rtl_nt_status_to_dos_error);
   return rtl_nt_status_to_dos_error(status);
+}
+
+void AllocateMemoryOfVariousProtections() {
+  SYSTEM_INFO system_info;
+  GetSystemInfo(&system_info);
+
+  const size_t kPageSize = system_info.dwPageSize;
+
+  const uint32_t kPageTypes[] = {
+    PAGE_NOACCESS,
+    PAGE_READONLY,
+    PAGE_READWRITE,
+    PAGE_EXECUTE,
+    PAGE_EXECUTE_READ,
+    PAGE_EXECUTE_READWRITE,
+
+    // PAGE_NOACCESS is invalid with PAGE_GUARD.
+    PAGE_READONLY | PAGE_GUARD,
+    PAGE_READWRITE | PAGE_GUARD,
+    PAGE_EXECUTE | PAGE_GUARD,
+    PAGE_EXECUTE_READ | PAGE_GUARD,
+    PAGE_EXECUTE_READWRITE | PAGE_GUARD,
+  };
+
+  // All of these allocations are leaked, we want to view them in windbg via
+  // !vprot.
+  void* reserve = VirtualAlloc(
+      nullptr, arraysize(kPageTypes) * kPageSize, MEM_RESERVE, PAGE_READWRITE);
+  PCHECK(reserve) << "VirtualAlloc MEM_RESERVE";
+  uintptr_t reserve_as_int = reinterpret_cast<uintptr_t>(reserve);
+
+  for (size_t i = 0; i < arraysize(kPageTypes); ++i) {
+    void* result =
+        VirtualAlloc(reinterpret_cast<void*>(reserve_as_int + (kPageSize * i)),
+                     kPageSize,
+                     MEM_COMMIT,
+                     kPageTypes[i]);
+    PCHECK(result) << "VirtualAlloc MEM_COMMIT " << i;
+  }
 }
 
 void SomeCrashyFunction() {
@@ -59,6 +102,13 @@ int CrashyMain(int argc, char* argv[]) {
   if (!client.UseHandler()) {
     LOG(ERROR) << "UseHandler";
     return 1;
+  }
+
+  AllocateMemoryOfVariousProtections();
+
+  if (InitializeCriticalSectionWithDebugInfoIfPossible(
+          &g_test_critical_section)) {
+    EnterCriticalSection(&g_test_critical_section);
   }
 
   SomeCrashyFunction();

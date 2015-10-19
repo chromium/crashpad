@@ -49,11 +49,15 @@ class ExceptionHandlerServer {
     //!     lifetime of this handle is not passed to the delegate.
     //! \param[in] exception_information_address The address in the client's
     //!     address space of an ExceptionInformation structure.
+    //! \param[in] debug_critical_section_address The address in the client's
+    //!     address space of a `CRITICAL_SECTION` allocated with a valid
+    //!     `.DebugInfo` field, or `0` if unavailable.
     //! \return The exit code that should be used when terminating the client
     //!     process.
     virtual unsigned int ExceptionHandlerServerException(
         HANDLE process,
-        WinVMAddress exception_information_address) = 0;
+        WinVMAddress exception_information_address,
+        WinVMAddress debug_critical_section_address) = 0;
   };
 
   //! \brief Constructs the exception handling server.
