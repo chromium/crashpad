@@ -25,6 +25,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/errors.h"
 #include "test/scoped_temp_dir.h"
 #include "test/paths.h"
 #include "test/win/child_launcher.h"
@@ -553,7 +554,7 @@ TEST(ProcessInfo, Handles) {
   ASSERT_TRUE(scoped_key.is_valid());
 
   std::wstring mapping_name =
-      base::UTF8ToUTF16(base::StringPrintf("Global\\test_mapping_%d_%I64x",
+      base::UTF8ToUTF16(base::StringPrintf("Local\\test_mapping_%d_%I64x",
                                            GetCurrentProcessId(),
                                            base::RandUint64()));
   ScopedKernelHANDLE mapping(CreateFileMapping(INVALID_HANDLE_VALUE,
@@ -562,7 +563,7 @@ TEST(ProcessInfo, Handles) {
                                                0,
                                                1024,
                                                mapping_name.c_str()));
-  ASSERT_TRUE(mapping.is_valid());
+  ASSERT_TRUE(mapping.is_valid()) << ErrorMessage("CreateFileMapping");
 
   ProcessInfo info;
   info.Initialize(GetCurrentProcess());
