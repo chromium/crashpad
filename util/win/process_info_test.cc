@@ -31,6 +31,7 @@
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
 #include "util/misc/uuid.h"
+#include "util/win/get_function.h"
 #include "util/win/scoped_handle.h"
 
 namespace crashpad {
@@ -40,9 +41,8 @@ namespace {
 const wchar_t kNtdllName[] = L"\\ntdll.dll";
 
 bool IsProcessWow64(HANDLE process_handle) {
-  static decltype(IsWow64Process)* is_wow64_process =
-      reinterpret_cast<decltype(IsWow64Process)*>(
-          GetProcAddress(LoadLibrary(L"kernel32.dll"), "IsWow64Process"));
+  static const auto is_wow64_process =
+      GET_FUNCTION(L"kernel32.dll", ::IsWow64Process);
   if (!is_wow64_process)
     return false;
   BOOL is_wow64;

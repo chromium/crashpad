@@ -25,6 +25,7 @@
 #include "client/crashpad_client.h"
 #include "tools/tool_support.h"
 #include "util/win/critical_section_with_debug_info.h"
+#include "util/win/get_function.h"
 
 namespace crashpad {
 namespace {
@@ -32,10 +33,8 @@ namespace {
 CRITICAL_SECTION g_test_critical_section;
 
 ULONG RtlNtStatusToDosError(NTSTATUS status) {
-  static decltype(::RtlNtStatusToDosError)* rtl_nt_status_to_dos_error =
-      reinterpret_cast<decltype(::RtlNtStatusToDosError)*>(
-          GetProcAddress(LoadLibrary(L"ntdll.dll"), "RtlNtStatusToDosError"));
-  DCHECK(rtl_nt_status_to_dos_error);
+  static const auto rtl_nt_status_to_dos_error =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::RtlNtStatusToDosError);
   return rtl_nt_status_to_dos_error(status);
 }
 
