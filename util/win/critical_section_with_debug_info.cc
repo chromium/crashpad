@@ -15,6 +15,7 @@
 #include "util/win/critical_section_with_debug_info.h"
 
 #include "base/logging.h"
+#include "util/win/get_function.h"
 
 namespace crashpad {
 
@@ -24,13 +25,8 @@ BOOL CrashpadInitializeCriticalSectionEx(
     CRITICAL_SECTION* critical_section,
     DWORD spin_count,
     DWORD flags) {
-  static decltype(InitializeCriticalSectionEx)* initialize_critical_section_ex =
-      reinterpret_cast<decltype(InitializeCriticalSectionEx)*>(GetProcAddress(
-          LoadLibrary(L"kernel32.dll"), "InitializeCriticalSectionEx"));
-  if (!initialize_critical_section_ex) {
-    PLOG(ERROR) << "GetProcAddress";
-    return false;
-  }
+  static const auto initialize_critical_section_ex =
+      GET_FUNCTION_REQUIRED(L"kernel32.dll", ::InitializeCriticalSectionEx);
   bool ret =
       initialize_critical_section_ex(critical_section, spin_count, flags);
   if (!ret) {

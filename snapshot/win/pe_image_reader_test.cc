@@ -19,6 +19,7 @@
 
 #include "gtest/gtest.h"
 #include "snapshot/win/process_reader_win.h"
+#include "util/win/get_function.h"
 
 extern "C" IMAGE_DOS_HEADER __ImageBase;
 
@@ -30,10 +31,8 @@ BOOL CrashpadGetModuleInformation(HANDLE process,
                           HMODULE module,
                           MODULEINFO* module_info,
                           DWORD cb) {
-  static decltype(GetModuleInformation)* get_module_information =
-      reinterpret_cast<decltype(GetModuleInformation)*>(
-          GetProcAddress(LoadLibrary(L"psapi.dll"), "GetModuleInformation"));
-  DCHECK(get_module_information);
+  static const auto get_module_information =
+      GET_FUNCTION_REQUIRED(L"psapi.dll", ::GetModuleInformation);
   return get_module_information(process, module, module_info, cb);
 }
 

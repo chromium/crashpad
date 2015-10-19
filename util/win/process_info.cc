@@ -25,6 +25,7 @@
 #include "base/template_util.h"
 #include "build/build_config.h"
 #include "util/numeric/safe_assignment.h"
+#include "util/win/get_function.h"
 #include "util/win/nt_internals.h"
 #include "util/win/ntstatus_logging.h"
 #include "util/win/process_structs.h"
@@ -39,10 +40,8 @@ NTSTATUS NtQueryInformationProcess(HANDLE process_handle,
                                    PVOID process_information,
                                    ULONG process_information_length,
                                    PULONG return_length) {
-  static decltype(::NtQueryInformationProcess)* nt_query_information_process =
-      reinterpret_cast<decltype(::NtQueryInformationProcess)*>(GetProcAddress(
-          LoadLibrary(L"ntdll.dll"), "NtQueryInformationProcess"));
-  DCHECK(nt_query_information_process);
+  static const auto nt_query_information_process =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtQueryInformationProcess);
   return nt_query_information_process(process_handle,
                                       process_information_class,
                                       process_information,
@@ -51,9 +50,8 @@ NTSTATUS NtQueryInformationProcess(HANDLE process_handle,
 }
 
 bool IsProcessWow64(HANDLE process_handle) {
-  static decltype(IsWow64Process)* is_wow64_process =
-      reinterpret_cast<decltype(IsWow64Process)*>(
-          GetProcAddress(LoadLibrary(L"kernel32.dll"), "IsWow64Process"));
+  static const auto is_wow64_process =
+      GET_FUNCTION(L"kernel32.dll", ::IsWow64Process);
   if (!is_wow64_process)
     return false;
   BOOL is_wow64;

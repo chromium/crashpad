@@ -15,6 +15,16 @@
 #include "util/win/nt_internals.h"
 
 #include "base/logging.h"
+#include "util/win/get_function.h"
+
+// Declarations that the system headers should provide but don’t.
+
+struct CLIENT_ID;
+
+NTSTATUS NTAPI NtOpenThread(HANDLE* ThreadHandle,
+                            ACCESS_MASK DesiredAccess,
+                            OBJECT_ATTRIBUTES* ObjectAttributes,
+                            CLIENT_ID* ClientId);
 
 namespace crashpad {
 
@@ -23,10 +33,8 @@ NTSTATUS NtQuerySystemInformation(
     PVOID system_information,
     ULONG system_information_length,
     PULONG return_length) {
-  static decltype(::NtQuerySystemInformation)* nt_query_system_information =
-      reinterpret_cast<decltype(::NtQuerySystemInformation)*>(GetProcAddress(
-          LoadLibrary(L"ntdll.dll"), "NtQuerySystemInformation"));
-  DCHECK(nt_query_system_information);
+  static const auto nt_query_system_information =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtQuerySystemInformation);
   return nt_query_system_information(system_information_class,
                                      system_information,
                                      system_information_length,
@@ -38,10 +46,8 @@ NTSTATUS NtQueryInformationThread(HANDLE thread_handle,
                                   PVOID thread_information,
                                   ULONG thread_information_length,
                                   PULONG return_length) {
-  static decltype(::NtQueryInformationThread)* nt_query_information_thread =
-      reinterpret_cast<decltype(::NtQueryInformationThread)*>(GetProcAddress(
-          LoadLibrary(L"ntdll.dll"), "NtQueryInformationThread"));
-  DCHECK(nt_query_information_thread);
+  static const auto nt_query_information_thread =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtQueryInformationThread);
   return nt_query_information_thread(thread_handle,
                                      thread_information_class,
                                      thread_information,
@@ -49,27 +55,18 @@ NTSTATUS NtQueryInformationThread(HANDLE thread_handle,
                                      return_length);
 }
 
-// The 4th argument is CLIENT_ID*, but as we can't typedef that, we simply cast
-// to void* here.
-typedef NTSTATUS(WINAPI* NtOpenThreadFunction)(
-    PHANDLE ThreadHandle,
-    ACCESS_MASK DesiredAccess,
-    POBJECT_ATTRIBUTES ObjectAttributes,
-    const void* ClientId);
-
 template <class Traits>
 NTSTATUS NtOpenThread(PHANDLE thread_handle,
                       ACCESS_MASK desired_access,
                       POBJECT_ATTRIBUTES object_attributes,
                       const process_types::CLIENT_ID<Traits>* client_id) {
-  static NtOpenThreadFunction nt_open_thread =
-      reinterpret_cast<NtOpenThreadFunction>(
-          GetProcAddress(LoadLibrary(L"ntdll.dll"), "NtOpenThread"));
-  DCHECK(nt_open_thread);
-  return nt_open_thread(thread_handle,
-                        desired_access,
-                        object_attributes,
-                        static_cast<const void*>(client_id));
+  static const auto nt_open_thread =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtOpenThread);
+  return nt_open_thread(
+      thread_handle,
+      desired_access,
+      object_attributes,
+      const_cast<CLIENT_ID*>(reinterpret_cast<const CLIENT_ID*>(client_id)));
 }
 
 NTSTATUS NtQueryObject(HANDLE handle,
@@ -77,10 +74,8 @@ NTSTATUS NtQueryObject(HANDLE handle,
                        void* object_information,
                        ULONG object_information_length,
                        ULONG* return_length) {
-  static decltype(::NtQueryObject)* nt_query_object =
-      reinterpret_cast<decltype(::NtQueryObject)*>(
-          GetProcAddress(LoadLibrary(L"ntdll.dll"), "NtQueryObject"));
-  DCHECK(nt_query_object);
+  static const auto nt_query_object =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtQueryObject);
   return nt_query_object(handle,
                          object_information_class,
                          object_information,

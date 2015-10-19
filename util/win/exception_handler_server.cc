@@ -27,6 +27,7 @@
 #include "util/file/file_writer.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
+#include "util/win/get_function.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/xp_compat.h"
 
@@ -35,10 +36,9 @@ namespace crashpad {
 namespace {
 
 decltype(GetNamedPipeClientProcessId)* GetNamedPipeClientProcessIdFunction() {
-  static decltype(GetNamedPipeClientProcessId)* func =
-      reinterpret_cast<decltype(GetNamedPipeClientProcessId)*>(GetProcAddress(
-          GetModuleHandle(L"kernel32.dll"), "GetNamedPipeClientProcessId"));
-  return func;
+  static const auto get_named_pipe_client_process_id =
+      GET_FUNCTION(L"kernel32.dll", ::GetNamedPipeClientProcessId);
+  return get_named_pipe_client_process_id;
 }
 
 HANDLE DuplicateEvent(HANDLE process, HANDLE event) {

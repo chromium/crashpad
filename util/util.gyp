@@ -156,6 +156,8 @@
         'win/critical_section_with_debug_info.h',
         'win/exception_handler_server.cc',
         'win/exception_handler_server.h',
+        'win/get_function.cc',
+        'win/get_function.h',
         'win/module_version.cc',
         'win/module_version.h',
         'win/nt_internals.cc',

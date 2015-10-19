@@ -64,7 +64,7 @@ need to install them separately.
 
 [subs="verbatim,quotes"]
 ----
-$ *mkdir ~/crashpad*
+$ *mkdir \~/crashpad*
 $ *cd ~/crashpad*
 $ *fetch crashpad*
 ----
