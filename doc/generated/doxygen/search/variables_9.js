@@ -1,12 +1,16 @@
 var searchData=
 [
-  ['last_5fbranch_5ffrom_5frip',['last_branch_from_rip',['../structcrashpad_1_1MinidumpContextAMD64.html#a12fa155fe145da64a263608a730a8bd0',1,'crashpad::MinidumpContextAMD64']]],
-  ['last_5fbranch_5fto_5frip',['last_branch_to_rip',['../structcrashpad_1_1MinidumpContextAMD64.html#a97d843d787b98ac66727eec0370f5fba',1,'crashpad::MinidumpContextAMD64']]],
-  ['last_5fexception_5ffrom_5frip',['last_exception_from_rip',['../structcrashpad_1_1MinidumpContextAMD64.html#a9ccedfe70b69c6d4fd4479578a859698',1,'crashpad::MinidumpContextAMD64']]],
-  ['last_5fexception_5fto_5frip',['last_exception_to_rip',['../structcrashpad_1_1MinidumpContextAMD64.html#a428db4b73e349e452c15f74aab491631',1,'crashpad::MinidumpContextAMD64']]],
-  ['last_5fupload_5fattempt_5ftime',['last_upload_attempt_time',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html#a443ff8d2cf61e4c8f539470285286638',1,'crashpad::CrashReportDatabase::Report']]],
-  ['length',['Length',['../structMINIDUMP__STRING.html#a1dbda2f62d1b74e2a13fdbae7a13252d',1,'MINIDUMP_STRING::Length()'],['../structIMAGE__DEBUG__MISC.html#a4b887ef30968ade59175e44d4c1b3be7',1,'IMAGE_DEBUG_MISC::Length()'],['../structcrashpad_1_1MinidumpUTF8String.html#a5c2b5d489a10e6a896cd53b903589e43',1,'crashpad::MinidumpUTF8String::Length()']]],
-  ['list_5fannotations',['list_annotations',['../structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a2ff38a7202adb5f8d3b8a3ede61ca4ec',1,'crashpad::MinidumpModuleCrashpadInfo']]],
-  ['lo',['lo',['../structcrashpad_1_1uint128__struct.html#aa96483c6fb42bba3fb6e35165a089ff0',1,'crashpad::uint128_struct']]],
-  ['location',['Location',['../structMINIDUMP__DIRECTORY.html#a7e0e309a9e7c63c1205843a34fa0006a',1,'MINIDUMP_DIRECTORY::Location()'],['../structcrashpad_1_1MinidumpModuleCrashpadInfoLink.html#ad788b55dbeadc796d40b907de7fa9f9e',1,'crashpad::MinidumpModuleCrashpadInfoLink::location()']]]
+  ['kallowoversizeddata',['kAllowOversizedData',['../structcrashpad_1_1test_1_1MinidumpWritableTraits.html#a2d3ce0be9fa795fd033dba2462a33c43',1,'crashpad::test::MinidumpWritableTraits']]],
+  ['kcontentlength',['kContentLength',['../namespacecrashpad.html#a281b3c75cd8b0ae8ba3c9658a60bf2b3',1,'crashpad']]],
+  ['kcontenttype',['kContentType',['../namespacecrashpad.html#ae0af855b48de54cc50ef186da37cb769',1,'crashpad']]],
+  ['key',['key',['../structcrashpad_1_1TSimpleStringDictionary_1_1Entry.html#ac3f80433c4f089b1e91aaabd74559cdc',1,'crashpad::TSimpleStringDictionary::Entry::key()'],['../structcrashpad_1_1MinidumpSimpleStringDictionaryEntry.html#a3878fb58068c3988ae83fab6c7e2b04e',1,'crashpad::MinidumpSimpleStringDictionaryEntry::key()']]],
+  ['key_5fsize',['key_size',['../classcrashpad_1_1TSimpleStringDictionary.html#acafb62dfc7bd68d9744124779b84a926',1,'crashpad::TSimpleStringDictionary']]],
+  ['kinvalidfilehandle',['kInvalidFileHandle',['../namespacecrashpad.html#add54baa0f53825b93f3aab2fcafce367',1,'crashpad']]],
+  ['kinvalidsize',['kInvalidSize',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#ae7c01f317a519213ac16bfeca94125d1',1,'crashpad::internal::MinidumpWritable']]],
+  ['kmachexceptioncodes',['kMachExceptionCodes',['../namespacecrashpad.html#a7dbcba9449a5dd47d2911b1f85bc1a58',1,'crashpad']]],
+  ['kmachexceptionsimulated',['kMachExceptionSimulated',['../namespacecrashpad.html#ad22bbde846a82173474ba002116c325c',1,'crashpad']]],
+  ['kmachmessagereceiveaudittrailer',['kMachMessageReceiveAuditTrailer',['../namespacecrashpad.html#a2673983f0177685e048be73ee578eddb',1,'crashpad']]],
+  ['kmachportnull',['kMachPortNull',['../namespacecrashpad.html#a7c7b6c8b4f44c95c7f0fb70a56342277',1,'crashpad']]],
+  ['ksignature',['kSignature',['../structcrashpad_1_1CodeViewRecordPDB20.html#a44ae151e658264089c48724635cbc789',1,'crashpad::CodeViewRecordPDB20::kSignature()'],['../structcrashpad_1_1CodeViewRecordPDB70.html#a0a52adc79bf1bc9ba3eb444848d89dda',1,'crashpad::CodeViewRecordPDB70::kSignature()']]],
+  ['kversion',['kVersion',['../structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a18fb60c0add35baf294f4faadc697963',1,'crashpad::MinidumpModuleCrashpadInfo::kVersion()'],['../structcrashpad_1_1MinidumpCrashpadInfo.html#a69d7f1d4aaa3626731c87dbb93502c79',1,'crashpad::MinidumpCrashpadInfo::kVersion()']]]
 ];

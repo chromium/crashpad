@@ -1,19 +1,11 @@
 var searchData=
 [
-  ['section',['section',['../structcrashpad_1_1MachOImageSymbolTableReader_1_1SymbolInformation.html#ab02e2ba00bda304ee3fcb47df8aab35c',1,'crashpad::MachOImageSymbolTableReader::SymbolInformation']]],
-  ['signature',['signature',['../structcrashpad_1_1CodeViewRecordPDB20.html#a321660d3f7297b1fe30fafd424e717a4',1,'crashpad::CodeViewRecordPDB20::signature()'],['../structcrashpad_1_1CodeViewRecordPDB70.html#a6a9ffe7537ebe4ac3eb03f18ce90bc58',1,'crashpad::CodeViewRecordPDB70::signature()'],['../structMINIDUMP__HEADER.html#ae1c77644aa56ab70fd6f50c343eafda8',1,'MINIDUMP_HEADER::Signature()']]],
-  ['simple_5fannotations',['simple_annotations',['../structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a6d064fcc880ad2933443f9f27e5f434a',1,'crashpad::MinidumpModuleCrashpadInfo::simple_annotations()'],['../structcrashpad_1_1MinidumpCrashpadInfo.html#a8a6300d72ebb8dab13ca50947e37348f',1,'crashpad::MinidumpCrashpadInfo::simple_annotations()']]],
-  ['size',['size',['../structcrashpad_1_1ProcessInfo_1_1Module.html#ab30169ec240fd5e56981e937a8f364b9',1,'crashpad::ProcessInfo::Module']]],
-  ['sizeofimage',['SizeOfImage',['../structMINIDUMP__MODULE.html#a701a839b502151638e18d66cc83445ee',1,'MINIDUMP_MODULE']]],
-  ['sizeofinfo',['SizeOfInfo',['../structMINIDUMP__MISC__INFO.html#aae8fc8a4f276d8e6d51d0caa1355cd51',1,'MINIDUMP_MISC_INFO']]],
-  ['stack',['Stack',['../structMINIDUMP__THREAD.html#a4affab2d1a0995fdb085d302d78fbb81',1,'MINIDUMP_THREAD']]],
-  ['standardbias',['StandardBias',['../structTIME__ZONE__INFORMATION.html#a8e7f32fd867379097bde8f2512652478',1,'TIME_ZONE_INFORMATION']]],
-  ['standarddate',['StandardDate',['../structTIME__ZONE__INFORMATION.html#a841443a2a5fa7a3e3b768a823e8f8cfa',1,'TIME_ZONE_INFORMATION']]],
-  ['standardname',['StandardName',['../structTIME__ZONE__INFORMATION.html#ac8aa1a1661d3af7c79f1421a1c5fe4a3',1,'TIME_ZONE_INFORMATION']]],
-  ['startofmemoryrange',['StartOfMemoryRange',['../structMINIDUMP__MEMORY__DESCRIPTOR.html#ac6d589aa4a3b82315866f2a27bee770c',1,'MINIDUMP_MEMORY_DESCRIPTOR']]],
-  ['streamdirectoryrva',['StreamDirectoryRva',['../structMINIDUMP__HEADER.html#afc88b1f46827fbeae6ef6e0718a23b57',1,'MINIDUMP_HEADER']]],
-  ['streamtype',['StreamType',['../structMINIDUMP__DIRECTORY.html#a425b8b68da6810a126c759c5f5a94f7d',1,'MINIDUMP_DIRECTORY']]],
-  ['suitemask',['SuiteMask',['../structMINIDUMP__SYSTEM__INFO.html#a8b9c73ce707c57a0280a395051f67945',1,'MINIDUMP_SYSTEM_INFO']]],
-  ['suspendcount',['SuspendCount',['../structMINIDUMP__THREAD.html#a3ab33039a1c9f00facc2a137a74cbc06',1,'MINIDUMP_THREAD']]],
-  ['system_5fcrash_5freporter_5fforwarding',['system_crash_reporter_forwarding',['../structcrashpad_1_1CrashpadInfoClientOptions.html#a7813481d6849f01b15a1d8ba0e984587',1,'crashpad::CrashpadInfoClientOptions']]]
+  ['read',['read',['../structcrashpad_1_1test_1_1WinChildProcess_1_1Handles.html#afdb549c4b1fd8c86b64dccc3cbdc08b2',1,'crashpad::test::WinChildProcess::Handles']]],
+  ['reader',['reader',['../structcrashpad_1_1ProcessReader_1_1Module.html#a3be41f4fae388989c30bbb3046f2a854',1,'crashpad::ProcessReader::Module']]],
+  ['regionsize',['RegionSize',['../structMINIDUMP__MEMORY__INFO.html#af1b29639a9edec37d2b8f431134e3181',1,'MINIDUMP_MEMORY_INFO']]],
+  ['report_5fid',['report_id',['../structcrashpad_1_1MinidumpCrashpadInfo.html#aafc76da0c1b16c5de7ef2c76800508df',1,'crashpad::MinidumpCrashpadInfo']]],
+  ['request_5fcrash_5fdump_5fevent',['request_crash_dump_event',['../structcrashpad_1_1RegistrationResponse.html#a9fa6ca1449c3efef3bf1d2ef2503fca7',1,'crashpad::RegistrationResponse']]],
+  ['request_5fnon_5fcrash_5fdump_5fevent',['request_non_crash_dump_event',['../structcrashpad_1_1RegistrationResponse.html#a3e7fd2570f39c4ad1b11fbb8a8a163a8',1,'crashpad::RegistrationResponse']]],
+  ['reserved0',['Reserved0',['../structMINIDUMP__HANDLE__DESCRIPTOR__2.html#a25fb5497c9679ae7138dee19fb03b929',1,'MINIDUMP_HANDLE_DESCRIPTOR_2']]],
+  ['rva',['Rva',['../structMINIDUMP__LOCATION__DESCRIPTOR.html#ae877992492577366d7185721b8239877',1,'MINIDUMP_LOCATION_DESCRIPTOR']]]
 ];

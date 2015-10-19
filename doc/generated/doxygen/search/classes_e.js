@@ -15,6 +15,8 @@ var searchData=
   ['stringfile',['StringFile',['../classcrashpad_1_1StringFile.html',1,'crashpad']]],
   ['stringhttpbodystream',['StringHTTPBodyStream',['../classcrashpad_1_1StringHTTPBodyStream.html',1,'crashpad']]],
   ['symbolinformation',['SymbolInformation',['../structcrashpad_1_1MachOImageSymbolTableReader_1_1SymbolInformation.html',1,'crashpad::MachOImageSymbolTableReader']]],
+  ['system_5fhandle_5finformation_5fex',['SYSTEM_HANDLE_INFORMATION_EX',['../structcrashpad_1_1process__types_1_1SYSTEM__HANDLE__INFORMATION__EX.html',1,'crashpad::process_types']]],
+  ['system_5fhandle_5ftable_5fentry_5finfo_5fex',['SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX',['../structcrashpad_1_1process__types_1_1SYSTEM__HANDLE__TABLE__ENTRY__INFO__EX.html',1,'crashpad::process_types']]],
   ['system_5fprocess_5finformation',['SYSTEM_PROCESS_INFORMATION',['../structcrashpad_1_1process__types_1_1SYSTEM__PROCESS__INFORMATION.html',1,'crashpad::process_types']]],
   ['system_5fthread_5finformation',['SYSTEM_THREAD_INFORMATION',['../structcrashpad_1_1process__types_1_1SYSTEM__THREAD__INFORMATION.html',1,'crashpad::process_types']]],
   ['systemsnapshot',['SystemSnapshot',['../classcrashpad_1_1SystemSnapshot.html',1,'crashpad']]],

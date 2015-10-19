@@ -127,9 +127,9 @@ kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#aced3c98628a1f723dbd7952f8e3b421f">ExceptionHandlerServerStarted</a> () override</td></tr>
 <tr class="memdesc:aced3c98628a1f723dbd7952f8e3b421f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes an exception message by writing a crash report to this object's <a class="el" href="classcrashpad_1_1CrashReportDatabase.html" title="An interface for managing a collection of crash report files and metadata associated with the crash r...">CrashReportDatabase</a>. <br /></td></tr>
 <tr class="separator:aced3c98628a1f723dbd7952f8e3b421f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb43542c921a32f04eed32d3d3174910"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#adb43542c921a32f04eed32d3d3174910">ExceptionHandlerServerException</a> (HANDLE process, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> exception_information_address) override</td></tr>
-<tr class="memdesc:adb43542c921a32f04eed32d3d3174910"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the client has signalled that it has encountered an exception and so wants a crash dump to be taken.  <a href="#adb43542c921a32f04eed32d3d3174910">More...</a><br /></td></tr>
-<tr class="separator:adb43542c921a32f04eed32d3d3174910"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dcfab1bbc889f638b828bd5af296e62"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a1dcfab1bbc889f638b828bd5af296e62">ExceptionHandlerServerException</a> (HANDLE process, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> exception_information_address, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> debug_critical_section_address) override</td></tr>
+<tr class="memdesc:a1dcfab1bbc889f638b828bd5af296e62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the client has signalled that it has encountered an exception and so wants a crash dump to be taken.  <a href="#a1dcfab1bbc889f638b828bd5af296e62">More...</a><br /></td></tr>
+<tr class="separator:a1dcfab1bbc889f638b828bd5af296e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An exception handler that writes crash reports for exception messages to a <a class="el" href="classcrashpad_1_1CrashReportDatabase.html" title="An interface for managing a collection of crash report files and metadata associated with the crash r...">CrashReportDatabase</a>. </p>
@@ -219,7 +219,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="adb43542c921a32f04eed32d3d3174910"></a>
+<a class="anchor" id="a1dcfab1bbc889f638b828bd5af296e62"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -236,7 +236,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>&#160;</td>
-          <td class="paramname"><em>exception_information_address</em>&#160;</td>
+          <td class="paramname"><em>exception_information_address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>&#160;</td>
+          <td class="paramname"><em>debug_critical_section_address</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -256,12 +262,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">process</td><td>A handle to the client process. Ownership of the lifetime of this handle is not passed to the delegate. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">exception_information_address</td><td>The address in the client's address space of an <a class="el" href="structcrashpad_1_1ExceptionInformation.html" title="Structure read out of the client process by the crash handler when an exception occurs. ">ExceptionInformation</a> structure. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">debug_critical_section_address</td><td>The address in the client's address space of a <code>CRITICAL_SECTION</code> allocated with a valid <code>.DebugInfo</code> field, or <code>0</code> if unavailable. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The exit code that should be used when terminating the client process. </dd></dl>
 
-<p>Implements <a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html#aa37bf9016c28cfa56a58c4e5e8c38cac">crashpad::ExceptionHandlerServer::Delegate</a>.</p>
+<p>Implements <a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html#aa882e662bcede440ba8078edf4cbd14f">crashpad::ExceptionHandlerServer::Delegate</a>.</p>
 
 </div>
 </div>

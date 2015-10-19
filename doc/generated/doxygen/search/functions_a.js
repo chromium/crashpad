@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['key',['Key',['../classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html#a0f335b071b3d9e9e929075955122abb7',1,'crashpad::MinidumpSimpleStringDictionaryEntryWriter']]]
+  ['join',['Join',['../classcrashpad_1_1Thread.html#a955be81e744804474a126719f66bb3e6',1,'crashpad::Thread']]]
 ];

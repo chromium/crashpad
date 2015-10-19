@@ -90,7 +90,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">dbghelp.h File Reference</div>  </div>
 </div><!--header-->
@@ -145,6 +146,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MEMORY__LIST.html">MINIDUMP_MEMORY_LIST</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about memory regions within the process.  <a href="structMINIDUMP__MEMORY__LIST.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__HANDLE__DESCRIPTOR.html">MINIDUMP_HANDLE_DESCRIPTOR</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the state of an individual system handle at the time the snapshot was taken. This structure is Windows-specific.  <a href="structMINIDUMP__HANDLE__DESCRIPTOR.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__HANDLE__DESCRIPTOR__2.html">MINIDUMP_HANDLE_DESCRIPTOR_2</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the state of an individual system handle at the time the snapshot was taken. This structure is Windows-specific.  <a href="structMINIDUMP__HANDLE__DESCRIPTOR__2.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MISC__INFO.html">MINIDUMP_MISC_INFO</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about the process that the minidump file contains a snapshot of, as well as the system that hosted that process.  <a href="structMINIDUMP__MISC__INFO.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,6 +163,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MISC__INFO__4.html">MINIDUMP_MISC_INFO_4</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about the process that the minidump file contains a snapshot of, as well as the system that hosted that process.  <a href="structMINIDUMP__MISC__INFO__4.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MEMORY__INFO.html">MINIDUMP_MEMORY_INFO</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes a region of memory.  <a href="structMINIDUMP__MEMORY__INFO.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MEMORY__INFO__LIST.html">MINIDUMP_MEMORY_INFO_LIST</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains a list of memory regions.  <a href="structMINIDUMP__MEMORY__INFO__LIST.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -218,6 +231,12 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a7580bc5aa0738de92a9766904fc7e79b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbghelp_8h.html#a7580bc5aa0738de92a9766904fc7e79b">MINIDUMP_TYPE</a> </td></tr>
 <tr class="memdesc:a7580bc5aa0738de92a9766904fc7e79b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minidump file type values for <a class="el" href="structMINIDUMP__HEADER.html#a052f2280538826d030c4cb5154963e27" title="A bitfield containing members of MINIDUMP_TYPE, describing the types of data carried within this mini...">MINIDUMP_HEADER::Flags</a>. These bits describe the types of data carried within a minidump file.  <a href="dbghelp_8h.html#a7580bc5aa0738de92a9766904fc7e79b">More...</a><br /></td></tr>
 <tr class="separator:a7580bc5aa0738de92a9766904fc7e79b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aafb7d051302a59d0a4f9a548a0421028"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbghelp_8h.html#aafb7d051302a59d0a4f9a548a0421028">__attribute</a> ((packed, aligned(4))) MINIDUMP_HANDLE_DATA_STREAM</td></tr>
+<tr class="memdesc:aafb7d051302a59d0a4f9a548a0421028"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the header for a handle data stream.  <a href="#aafb7d051302a59d0a4f9a548a0421028">More...</a><br /></td></tr>
+<tr class="separator:aafb7d051302a59d0a4f9a548a0421028"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="ab3edfa814438bfee50c43b21693ca121"></a>
@@ -363,6 +382,9 @@ Enumerations</h2></td></tr>
 <p>More recent versions of this stream are supersets of earlier versions.</p>
 <p>The exact version of the stream that is present is implied by the stream’s size. Furthermore, this stream contains a field, <a class="el" href="structMINIDUMP__MISC__INFO.html#ac1c8ca04b2a85e2070e1b43b26d26e47" title="A bit field of MINIDUMP_MISC* values indicating which fields of this structure contain valid data...">MINIDUMP_MISC_INFO::Flags1</a>, that indicates which data is present and valid. </p>
 </td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a64711234318a4a002f399dffb474ca08ab3437fce4862d62ca22f4933cada4d43"></a>MemoryInfoListStream&#160;</td><td class="fielddoc">
+<p>The stream type for <a class="el" href="structMINIDUMP__MEMORY__INFO__LIST.html" title="Contains a list of memory regions. ">MINIDUMP_MEMORY_INFO_LIST</a>. </p>
+</td></tr>
 </table>
 
 </div>
@@ -391,6 +413,29 @@ Enumerations</h2></td></tr>
 </ul>
 </td></tr>
 </table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="aafb7d051302a59d0a4f9a548a0421028"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct __attribute </td>
+          <td>(</td>
+          <td class="paramtype">(packed, aligned(4))&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Represents the header for a handle data stream. </p>
+<p>The size of the header information for the stream, in bytes. This value is <code>sizeof(MINIDUMP_HANDLE_DATA_STREAM)</code>.</p>
+<p>The size of a descriptor in the stream, in bytes. This value is <code>sizeof(MINIDUMP_HANDLE_DESCRIPTOR)</code> or <code>sizeof(MINIDUMP_HANDLE_DESCRIPTOR_2)</code>.</p>
+<p>The number of descriptors in the stream.</p>
+<p>Must be zero. </p>
 
 </div>
 </div>

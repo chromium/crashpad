@@ -111,12 +111,12 @@ Public Member Functions</h2></td></tr>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html#aeab0d0a0e52dc9ec0be773ce7f08c73a">ExceptionHandlerServerStarted</a> ()=0</td></tr>
 <tr class="memdesc:aeab0d0a0e52dc9ec0be773ce7f08c73a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the server has created the named pipe connection points and is ready to service requests. <br /></td></tr>
 <tr class="separator:aeab0d0a0e52dc9ec0be773ce7f08c73a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa37bf9016c28cfa56a58c4e5e8c38cac"><td class="memItemLeft" align="right" valign="top">virtual unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html#aa37bf9016c28cfa56a58c4e5e8c38cac">ExceptionHandlerServerException</a> (HANDLE process, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> exception_information_address)=0</td></tr>
-<tr class="memdesc:aa37bf9016c28cfa56a58c4e5e8c38cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the client has signalled that it has encountered an exception and so wants a crash dump to be taken.  <a href="#aa37bf9016c28cfa56a58c4e5e8c38cac">More...</a><br /></td></tr>
-<tr class="separator:aa37bf9016c28cfa56a58c4e5e8c38cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa882e662bcede440ba8078edf4cbd14f"><td class="memItemLeft" align="right" valign="top">virtual unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html#aa882e662bcede440ba8078edf4cbd14f">ExceptionHandlerServerException</a> (HANDLE process, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> exception_information_address, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> debug_critical_section_address)=0</td></tr>
+<tr class="memdesc:aa882e662bcede440ba8078edf4cbd14f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the client has signalled that it has encountered an exception and so wants a crash dump to be taken.  <a href="#aa882e662bcede440ba8078edf4cbd14f">More...</a><br /></td></tr>
+<tr class="separator:aa882e662bcede440ba8078edf4cbd14f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa37bf9016c28cfa56a58c4e5e8c38cac"></a>
+<a class="anchor" id="aa882e662bcede440ba8078edf4cbd14f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -133,7 +133,13 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>&#160;</td>
-          <td class="paramname"><em>exception_information_address</em>&#160;</td>
+          <td class="paramname"><em>exception_information_address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>&#160;</td>
+          <td class="paramname"><em>debug_critical_section_address</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -153,12 +159,13 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">process</td><td>A handle to the client process. Ownership of the lifetime of this handle is not passed to the delegate. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">exception_information_address</td><td>The address in the client's address space of an <a class="el" href="structcrashpad_1_1ExceptionInformation.html" title="Structure read out of the client process by the crash handler when an exception occurs. ">ExceptionInformation</a> structure. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">debug_critical_section_address</td><td>The address in the client's address space of a <code>CRITICAL_SECTION</code> allocated with a valid <code>.DebugInfo</code> field, or <code>0</code> if unavailable. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The exit code that should be used when terminating the client process. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#adb43542c921a32f04eed32d3d3174910">crashpad::CrashReportExceptionHandler</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a1dcfab1bbc889f638b828bd5af296e62">crashpad::CrashReportExceptionHandler</a>.</p>
 
 </div>
 </div>

@@ -816,20 +816,21 @@ Appropriate development tools. For Mac OS X, this is
 check out this repository directly with <span class="monospaced">git clone</span>, Crashpad’s dependencies are
 managed by
 <a href="https://dev.chromium.org/developers/how-tos/depottools#TOC-gclient"><span class="monospaced">gclient</span></a>
-instead of Git submodules, so to work on Crashpad, it is best to use <span class="monospaced">gclient</span>
-to get the source code.</p></div>
-<div class="paragraph"><p><span class="monospaced">gclient</span> is part of the
+instead of Git submodules, so to work on Crashpad, it is best to use <span class="monospaced">fetch</span> to
+get the source code.</p></div>
+<div class="paragraph"><p><span class="monospaced">fetch</span> and <span class="monospaced">gclient</span> are part of the
 <a href="https://dev.chromium.org/developers/how-tos/depottools">depot_tools</a>. There’s no
-need to install it separately.</p></div>
+need to install them separately.</p></div>
 <div class="sect2">
 <h3 id="_initial_checkout">Initial Checkout</h3>
 <div class="listingblock">
 <div class="content monospaced">
-<pre>$ <strong>mkdir ~/crashpad</strong>
-$ <strong>cd ~/crashpad</strong>
-$ <strong>gclient config --unmanaged https://chromium.googlesource.com/crashpad/crashpad</strong>
-$ <strong>gclient sync</strong></pre>
+<pre>$ <strong>mkdir <sub>/crashpad</strong>
+$ <strong>cd </sub>/crashpad</strong>
+$ <strong>fetch crashpad</strong></pre>
 </div></div>
+<div class="paragraph"><p><span class="monospaced">fetch crashpad</span> performs the initial <span class="monospaced">gclient sync</span>, establishing a
+fully-functional local checkout.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_subsequent_checkouts">Subsequent Checkouts</h3>
@@ -849,7 +850,7 @@ $ <strong>gclient sync</strong></pre>
 <a href="https://martine.github.io/ninja/">Ninja</a> build files. The build is described by
 <span class="monospaced">.gyp</span> files throughout the Crashpad source code tree. The
 <span class="monospaced">build/gyp_crashpad.py</span> script runs GYP properly for Crashpad, and is also
-called when you run <span class="monospaced">gclient sync</span> or <span class="monospaced">gclient runhooks</span>.</p></div>
+called when you run <span class="monospaced">fetch crashpad</span>, <span class="monospaced">gclient sync</span>, or <span class="monospaced">gclient runhooks</span>.</p></div>
 <div class="paragraph"><p>The Ninja build files and build output are in the <span class="monospaced">out</span> directory. Both debug-
 and release-mode configurations are available. The examples below show the debug
 configuration. To build and test the release configuration, substitute <span class="monospaced">Release</span>
@@ -974,7 +975,7 @@ the Buildbot to ensure that “the tree is green.”</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated April 1, 2015
+Last updated October 19, 2015
 </div>
 </div>
 </body>

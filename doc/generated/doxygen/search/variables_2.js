@@ -10,6 +10,7 @@ var searchData=
   ['crash_5fexception_5finformation',['crash_exception_information',['../structcrashpad_1_1RegistrationRequest.html#a3366228626d095d8a4b0000fa04c05fb',1,'crashpad::RegistrationRequest']]],
   ['crashpad_5fhandler_5fbehavior',['crashpad_handler_behavior',['../structcrashpad_1_1CrashpadInfoClientOptions.html#a1bb1434593a93634c9f352145e002d41',1,'crashpad::CrashpadInfoClientOptions']]],
   ['creation_5ftime',['creation_time',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html#a8011cd1a4b4fcd84ecbc21e5c5fd80b8',1,'crashpad::CrashReportDatabase::Report']]],
+  ['critical_5fsection_5faddress',['critical_section_address',['../structcrashpad_1_1RegistrationRequest.html#a72b1c9a78b88b019f699ee8e8793e80c',1,'crashpad::RegistrationRequest']]],
   ['csdversionrva',['CSDVersionRva',['../structMINIDUMP__SYSTEM__INFO.html#a36f5669d9d4f8dc7d5d3ab0132d60943',1,'MINIDUMP_SYSTEM_INFO']]],
   ['cvrecord',['CvRecord',['../structMINIDUMP__MODULE.html#acd07e35faf066880eeabea8a91aa887a',1,'MINIDUMP_MODULE']]]
 ];

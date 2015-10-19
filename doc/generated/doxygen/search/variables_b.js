@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['name',['name',['../structcrashpad_1_1ProcessReader_1_1Module.html#af3802ec0731bda1cf066b050b23debf7',1,'crashpad::ProcessReader::Module::name()'],['../structcrashpad_1_1ProcessInfo_1_1Module.html#a95e6c0515e0703bf1c503c836bdc492f',1,'crashpad::ProcessInfo::Module::name()']]],
-  ['non_5fcrash_5fdump_5fcompleted_5fevent',['non_crash_dump_completed_event',['../structcrashpad_1_1RegistrationResponse.html#ad34bff3deb04b253d8b53b97a9fabe0d',1,'crashpad::RegistrationResponse']]],
-  ['non_5fcrash_5fexception_5finformation',['non_crash_exception_information',['../structcrashpad_1_1RegistrationRequest.html#aae8ec20740a85ff73e4346cc0979e1b2',1,'crashpad::RegistrationRequest']]],
-  ['num_5fentries',['num_entries',['../classcrashpad_1_1TSimpleStringDictionary.html#a7b3e25235f37f2ea7d0d05e37da6df13',1,'crashpad::TSimpleStringDictionary']]],
-  ['numberofmemoryranges',['NumberOfMemoryRanges',['../structMINIDUMP__MEMORY__LIST.html#a10c9a4bb206872c102aaffac05a4d924',1,'MINIDUMP_MEMORY_LIST']]],
-  ['numberofmodules',['NumberOfModules',['../structMINIDUMP__MODULE__LIST.html#a01eb8324809082c67f7374ca6e977c74',1,'MINIDUMP_MODULE_LIST']]],
-  ['numberofprocessors',['NumberOfProcessors',['../structMINIDUMP__SYSTEM__INFO.html#ac340b7a265a50ac7744b6aba6d9d87a9',1,'MINIDUMP_SYSTEM_INFO']]],
-  ['numberofstreams',['NumberOfStreams',['../structMINIDUMP__HEADER.html#ac64203d27bba37f630437048a0e19630',1,'MINIDUMP_HEADER']]],
-  ['numberofthreads',['NumberOfThreads',['../structMINIDUMP__THREAD__LIST.html#ad5be905c0b6b716c2e1b2b52447de11d',1,'MINIDUMP_THREAD_LIST']]],
-  ['numberparameters',['NumberParameters',['../structMINIDUMP__EXCEPTION.html#a29c7d61cd5eddf5c4f493bae40cd2679',1,'MINIDUMP_EXCEPTION']]]
+  ['majorversion',['MajorVersion',['../structMINIDUMP__SYSTEM__INFO.html#af657b2ed0798f5962ae59e459133d735',1,'MINIDUMP_SYSTEM_INFO']]],
+  ['mask',['mask',['../structcrashpad_1_1ExceptionPorts_1_1ExceptionHandler.html#aa7ce5b800c439f511278954f60f528b4',1,'crashpad::ExceptionPorts::ExceptionHandler']]],
+  ['memory',['Memory',['../structMINIDUMP__MEMORY__DESCRIPTOR.html#a4ee410c410207ff4a18fddd82127a7e4',1,'MINIDUMP_MEMORY_DESCRIPTOR']]],
+  ['memoryranges',['MemoryRanges',['../structMINIDUMP__MEMORY__LIST.html#a7c2359575a803000e228bcdef33b42d0',1,'MINIDUMP_MEMORY_LIST']]],
+  ['minidump_5fmodule_5flist_5findex',['minidump_module_list_index',['../structcrashpad_1_1MinidumpModuleCrashpadInfoLink.html#ab5fb4ad788957d9e272b31e97324a324',1,'crashpad::MinidumpModuleCrashpadInfoLink']]],
+  ['minorversion',['MinorVersion',['../structMINIDUMP__SYSTEM__INFO.html#af83527912e589bbc4d9937f94fb6496c',1,'MINIDUMP_SYSTEM_INFO']]],
+  ['miscrecord',['MiscRecord',['../structMINIDUMP__MODULE.html#a749bc0bb7492a1b9463631eec006b4d1',1,'MINIDUMP_MODULE']]],
+  ['module_5flist',['module_list',['../structcrashpad_1_1MinidumpCrashpadInfo.html#a343f824f5f16c241eb8ff11b71cf39ec',1,'crashpad::MinidumpCrashpadInfo']]],
+  ['modulenamerva',['ModuleNameRva',['../structMINIDUMP__MODULE.html#a8aa1ae48a9a32640573747cba5a00274',1,'MINIDUMP_MODULE']]],
+  ['modules',['modules',['../structcrashpad_1_1MinidumpModuleCrashpadInfoList.html#ab9bb5d82505839440903e0fe9253ea7b',1,'crashpad::MinidumpModuleCrashpadInfoList::modules()'],['../structMINIDUMP__MODULE__LIST.html#aff6c222b00169e3135815e7c11e876c2',1,'MINIDUMP_MODULE_LIST::Modules()']]]
 ];
