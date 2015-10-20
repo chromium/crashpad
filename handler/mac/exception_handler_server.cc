@@ -41,7 +41,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
         exception_port_(exception_port),
         notify_port_(NewMachPort(MACH_PORT_RIGHT_RECEIVE)),
         running_(true) {
-    CHECK_NE(notify_port_, kMachPortNull);
+    CHECK(notify_port_.is_valid());
 
     composite_mach_message_server_.AddHandler(&mach_exc_server_);
     composite_mach_message_server_.AddHandler(&notify_server_);
@@ -61,7 +61,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
                                        exception_port_,
                                        MACH_NOTIFY_NO_SENDERS,
                                        0,
-                                       notify_port_,
+                                       notify_port_.get(),
                                        MACH_MSG_TYPE_MAKE_SEND_ONCE,
                                        &previous);
     MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_request_notification";
@@ -83,11 +83,11 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
         NewMachPort(MACH_PORT_RIGHT_PORT_SET));
 
     kr = mach_port_insert_member(
-        mach_task_self(), exception_port_, server_port_set);
+        mach_task_self(), exception_port_, server_port_set.get());
     MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_insert_member";
 
     kr = mach_port_insert_member(
-        mach_task_self(), notify_port_, server_port_set);
+        mach_task_self(), notify_port_.get(), server_port_set.get());
     MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_insert_member";
 
     // Run the server in kOneShot mode so that running_ can be reevaluated after
@@ -98,7 +98,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
       // DoMachNotifyNoSenders() as appropriate.
       mach_msg_return_t mr =
           MachMessageServer::Run(&composite_mach_message_server_,
-                                 server_port_set,
+                                 server_port_set.get(),
                                  kMachMessageReceiveAuditTrailer,
                                  MachMessageServer::kOneShot,
                                  MachMessageServer::kReceiveLargeIgnore,
@@ -221,7 +221,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
 
 ExceptionHandlerServer::ExceptionHandlerServer()
     : receive_port_(NewMachPort(MACH_PORT_RIGHT_RECEIVE)) {
-  CHECK_NE(receive_port_, kMachPortNull);
+  CHECK(receive_port_.is_valid());
 }
 
 ExceptionHandlerServer::~ExceptionHandlerServer() {
@@ -229,7 +229,7 @@ ExceptionHandlerServer::~ExceptionHandlerServer() {
 
 void ExceptionHandlerServer::Run(
     UniversalMachExcServer::Interface* exception_interface) {
-  ExceptionHandlerServerRun run(receive_port_, exception_interface);
+  ExceptionHandlerServerRun run(receive_port_.get(), exception_interface);
   run.Run();
 }
 

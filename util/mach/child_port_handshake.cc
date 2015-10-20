@@ -105,7 +105,7 @@ mach_port_t ChildPortHandshake::RunServer() {
   // Check the new service in with the bootstrap server, obtaining a receive
   // right for it.
   base::mac::ScopedMachReceiveRight server_port(BootstrapCheckIn(service_name));
-  CHECK_NE(server_port, kMachPortNull);
+  CHECK(server_port.is_valid());
 
   // Share the service name with the client via the pipe.
   uint32_t service_name_length = service_name.size();
@@ -125,10 +125,10 @@ mach_port_t ChildPortHandshake::RunServer() {
   // requires a port set. Create a new port set and add the receive right to it.
   base::mac::ScopedMachPortSet server_port_set(
       NewMachPort(MACH_PORT_RIGHT_PORT_SET));
-  CHECK_NE(server_port_set, kMachPortNull);
+  CHECK(server_port_set.is_valid());
 
-  kern_return_t kr =
-      mach_port_insert_member(mach_task_self(), server_port, server_port_set);
+  kern_return_t kr = mach_port_insert_member(
+      mach_task_self(), server_port.get(), server_port_set.get());
   MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_insert_member";
 
   // Set up a kqueue to monitor both the server’s receive right and the write
@@ -140,7 +140,7 @@ mach_port_t ChildPortHandshake::RunServer() {
 
   struct kevent changelist[2];
   EV_SET(&changelist[0],
-         server_port_set,
+         server_port_set.get(),
          EVFILT_MACHPORT,
          EV_ADD | EV_CLEAR,
          0,
@@ -194,7 +194,7 @@ mach_port_t ChildPortHandshake::RunServer() {
     switch (event.filter) {
       case EVFILT_MACHPORT: {
         // There’s something to receive on the port set.
-        DCHECK_EQ(event.ident, server_port_set);
+        DCHECK_EQ(event.ident, server_port_set.get());
 
         // Run the message server in an inner loop instead of using
         // MachMessageServer::kPersistent. This allows the loop to exit as soon
@@ -207,7 +207,7 @@ mach_port_t ChildPortHandshake::RunServer() {
           // this will call HandleChildPortCheckIn().
           mach_msg_return_t mr =
               MachMessageServer::Run(&child_port_server,
-                                     server_port_set,
+                                     server_port_set.get(),
                                      MACH_MSG_OPTION_NONE,
                                      MachMessageServer::kOneShot,
                                      MachMessageServer::kReceiveLargeIgnore,
@@ -329,10 +329,11 @@ void ChildPortHandshake::RunClientInternal_SendCheckIn(
   // Get a send right to the server by looking up the service with the bootstrap
   // server by name.
   base::mac::ScopedMachSendRight server_port(BootstrapLookUp(service_name));
-  CHECK_NE(server_port, kMachPortNull);
+  CHECK(server_port.is_valid());
 
   // Check in with the server.
-  kern_return_t kr = child_port_check_in(server_port, token, port, right_type);
+  kern_return_t kr =
+      child_port_check_in(server_port.get(), token, port, right_type);
   MACH_CHECK(kr == KERN_SUCCESS, kr) << "child_port_check_in";
 }
 

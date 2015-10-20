@@ -115,7 +115,7 @@ TEST(MachMessage, AuditPIDFromMachMessageTrailer) {
   mach_msg_empty_send_t send = {};
   send.header.msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_MAKE_SEND_ONCE, 0);
   send.header.msgh_size = sizeof(send);
-  send.header.msgh_remote_port = port;
+  send.header.msgh_remote_port = port.get();
   mach_msg_return_t mr =
       MachMessageWithDeadline(&send.header,
                               MACH_SEND_MSG,
@@ -138,7 +138,7 @@ TEST(MachMessage, AuditPIDFromMachMessageTrailer) {
   mr = MachMessageWithDeadline(&receive.header,
                                MACH_RCV_MSG | kMachMessageReceiveAuditTrailer,
                                sizeof(receive),
-                               port,
+                               port.get(),
                                kMachMessageDeadlineNonblocking,
                                MACH_PORT_NULL,
                                false);

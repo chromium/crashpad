@@ -57,7 +57,7 @@ class ExceptionHandlerServer {
   //!
   //! The caller does not take ownership of this port. The caller must not use
   //! this port for any purpose other than to make send rights for clients.
-  mach_port_t receive_port() const { return receive_port_; }
+  mach_port_t receive_port() const { return receive_port_.get(); }
 
  private:
   base::mac::ScopedMachReceiveRight receive_port_;

@@ -221,7 +221,7 @@ void SimulateCrash(const NativeCPUContext& cpu_context) {
       DCHECK_LE(handlers.size(), 1u);
       if (handlers.size() == 1) {
         DCHECK(handlers[0].mask & EXC_MASK_CRASH);
-        success = DeliverException(thread,
+        success = DeliverException(thread.get(),
                                    mach_task_self(),
                                    exception,
                                    codes,

@@ -301,7 +301,7 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
   }
 
   mach_msg_return_t mr = MachMessageServer::Run(&universal_mach_exc_server,
-                                                service_port,
+                                                service_port.get(),
                                                 MACH_MSG_OPTION_NONE,
                                                 options.persistent,
                                                 receive_large,

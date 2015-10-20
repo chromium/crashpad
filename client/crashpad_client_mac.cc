@@ -92,7 +92,7 @@ bool CrashpadClient::StartHandler(
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments) {
-  DCHECK_EQ(exception_port_, kMachPortNull);
+  DCHECK(!exception_port_.is_valid());
 
   // Set up the arguments for execve() first. These aren’t needed until execve()
   // is called, but it’s dangerous to do this in a child process after fork().
@@ -211,13 +211,13 @@ bool CrashpadClient::StartHandler(
   // Rendezvous with the handler running in the grandchild process.
   exception_port_.reset(child_port_handshake.RunServer());
 
-  return exception_port_ ? true : false;
+  return exception_port_.is_valid();
 }
 
 bool CrashpadClient::UseHandler() {
-  DCHECK_NE(exception_port_, kMachPortNull);
+  DCHECK(exception_port_.is_valid());
 
-  return SetCrashExceptionPorts(exception_port_);
+  return SetCrashExceptionPorts(exception_port_.get());
 }
 
 // static
@@ -227,7 +227,7 @@ void CrashpadClient::UseSystemDefaultHandler() {
 
   // Proceed even if SystemCrashReporterHandler() failed, setting MACH_PORT_NULL
   // to clear the current exception ports.
-  if (!SetCrashExceptionPorts(system_crash_reporter_handler)) {
+  if (!SetCrashExceptionPorts(system_crash_reporter_handler.get())) {
     SetCrashExceptionPorts(MACH_PORT_NULL);
   }
 }

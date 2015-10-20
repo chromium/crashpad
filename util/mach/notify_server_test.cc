@@ -256,12 +256,12 @@ class NotifyServerTestBase : public testing::Test,
   //!     established for the current test. On failure, returns `MACH_PORT_NULL`
   //!     with a gtest failure added.
   mach_port_t ServerPort() {
-    if (!server_port_) {
+    if (!server_port_.is_valid()) {
       server_port_.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-      EXPECT_NE(kMachPortNull, server_port_);
+      EXPECT_TRUE(server_port_.is_valid());
     }
 
-    return server_port_;
+    return server_port_.get();
   }
 
   // testing::Test:
@@ -309,14 +309,14 @@ TEST_F(NotifyServerTest, NoNotification) {
 TEST_F(NotifyServerTest, MachNotifyPortDeleted) {
   base::mac::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, receive_right);
+  ASSERT_TRUE(receive_right.is_valid());
 
   base::mac::ScopedMachSendRight send_once_right(
-      SendOnceRightFromReceiveRight(receive_right));
-  ASSERT_NE(kMachPortNull, send_once_right);
+      SendOnceRightFromReceiveRight(receive_right.get()));
+  ASSERT_TRUE(send_once_right.is_valid());
 
-  ASSERT_TRUE(
-      RequestMachPortNotification(send_once_right, MACH_NOTIFY_DEAD_NAME, 0));
+  ASSERT_TRUE(RequestMachPortNotification(
+      send_once_right.get(), MACH_NOTIFY_DEAD_NAME, 0));
 
   EXPECT_CALL(
       *this,
@@ -336,10 +336,10 @@ TEST_F(NotifyServerTest, MachNotifyPortDeleted) {
 TEST_F(NotifyServerTest, MachNotifyPortDestroyed) {
   base::mac::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, receive_right);
+  ASSERT_TRUE(receive_right.is_valid());
 
   ASSERT_TRUE(RequestMachPortNotification(
-      receive_right, MACH_NOTIFY_PORT_DESTROYED, 0));
+      receive_right.get(), MACH_NOTIFY_PORT_DESTROYED, 0));
 
   EXPECT_CALL(
       *this,
@@ -360,10 +360,10 @@ TEST_F(NotifyServerTest, MachNotifyPortDestroyed) {
 TEST_F(NotifyServerTest, MachNotifyPortDestroyed_NoNotification) {
   base::mac::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, receive_right);
+  ASSERT_TRUE(receive_right.is_valid());
 
   ASSERT_TRUE(RequestMachPortNotification(
-      receive_right, MACH_NOTIFY_PORT_DESTROYED, 0));
+      receive_right.get(), MACH_NOTIFY_PORT_DESTROYED, 0));
 
   RunServer();
 }
@@ -373,10 +373,10 @@ TEST_F(NotifyServerTest, MachNotifyPortDestroyed_NoNotification) {
 TEST_F(NotifyServerTest, MachNotifyNoSenders_NoSendRight) {
   base::mac::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, receive_right);
+  ASSERT_TRUE(receive_right.is_valid());
 
-  ASSERT_TRUE(
-      RequestMachPortNotification(receive_right, MACH_NOTIFY_NO_SENDERS, 0));
+  ASSERT_TRUE(RequestMachPortNotification(
+      receive_right.get(), MACH_NOTIFY_NO_SENDERS, 0));
 
   EXPECT_CALL(*this,
               DoMachNotifyNoSenders(
@@ -393,14 +393,14 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_NoSendRight) {
 TEST_F(NotifyServerTest, MachNotifyNoSenders_SendRightDeallocated) {
   base::mac::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, receive_right);
+  ASSERT_TRUE(receive_right.is_valid());
 
   base::mac::ScopedMachSendRight send_right(
-      SendRightFromReceiveRight(receive_right));
-  ASSERT_NE(kMachPortNull, send_right);
+      SendRightFromReceiveRight(receive_right.get()));
+  ASSERT_TRUE(send_right.is_valid());
 
-  ASSERT_TRUE(
-      RequestMachPortNotification(receive_right, MACH_NOTIFY_NO_SENDERS, 1));
+  ASSERT_TRUE(RequestMachPortNotification(
+      receive_right.get(), MACH_NOTIFY_NO_SENDERS, 1));
 
   EXPECT_CALL(*this,
               DoMachNotifyNoSenders(
@@ -418,25 +418,25 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_SendRightDeallocated) {
 TEST_F(NotifyServerTest, MachNotifyNoSenders_NoNotification) {
   base::mac::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, receive_right);
+  ASSERT_TRUE(receive_right.is_valid());
 
   base::mac::ScopedMachSendRight send_right_0(
-      SendRightFromReceiveRight(receive_right));
-  ASSERT_NE(kMachPortNull, send_right_0);
+      SendRightFromReceiveRight(receive_right.get()));
+  ASSERT_TRUE(send_right_0.is_valid());
 
   base::mac::ScopedMachSendRight send_right_1(
-      SendRightFromReceiveRight(receive_right));
-  ASSERT_NE(kMachPortNull, send_right_1);
+      SendRightFromReceiveRight(receive_right.get()));
+  ASSERT_TRUE(send_right_1.is_valid());
 
-  ASSERT_TRUE(
-      RequestMachPortNotification(receive_right, MACH_NOTIFY_NO_SENDERS, 1));
+  ASSERT_TRUE(RequestMachPortNotification(
+      receive_right.get(), MACH_NOTIFY_NO_SENDERS, 1));
 
   send_right_1.reset();
 
   RunServer();
 
-  EXPECT_EQ(1u, RightRefCount(receive_right, MACH_PORT_RIGHT_RECEIVE));
-  EXPECT_EQ(1u, RightRefCount(receive_right, MACH_PORT_RIGHT_SEND));
+  EXPECT_EQ(1u, RightRefCount(receive_right.get(), MACH_PORT_RIGHT_RECEIVE));
+  EXPECT_EQ(1u, RightRefCount(receive_right.get(), MACH_PORT_RIGHT_SEND));
 }
 
 // When a send-once right is deallocated without being used, a send-once
@@ -444,7 +444,7 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_NoNotification) {
 TEST_F(NotifyServerTest, MachNotifySendOnce_ExplicitDeallocation) {
   base::mac::ScopedMachSendRight send_once_right(
       SendOnceRightFromReceiveRight(ServerPort()));
-  ASSERT_NE(kMachPortNull, send_once_right);
+  ASSERT_TRUE(send_once_right.is_valid());
 
   EXPECT_CALL(*this,
               DoMachNotifySendOnce(ServerPort(),
@@ -463,13 +463,13 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ExplicitDeallocation) {
 TEST_F(NotifyServerTest, MachNotifySendOnce_ImplicitDeallocation) {
   base::mac::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, receive_right);
+  ASSERT_TRUE(receive_right.is_valid());
 
   mach_msg_empty_send_t message = {};
   message.header.msgh_bits =
       MACH_MSGH_BITS(MACH_MSG_TYPE_MAKE_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE);
   message.header.msgh_size = sizeof(message);
-  message.header.msgh_remote_port = receive_right;
+  message.header.msgh_remote_port = receive_right.get();
   message.header.msgh_local_port = ServerPort();
   mach_msg_return_t mr = mach_msg(&message.header,
                                   MACH_SEND_MSG | MACH_SEND_TIMEOUT,
@@ -497,14 +497,14 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ImplicitDeallocation) {
 TEST_F(NotifyServerTest, MachNotifyDeadName) {
   base::mac::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, receive_right);
+  ASSERT_TRUE(receive_right.is_valid());
 
   base::mac::ScopedMachSendRight send_once_right(
-      SendOnceRightFromReceiveRight(receive_right));
-  ASSERT_NE(kMachPortNull, send_once_right);
+      SendOnceRightFromReceiveRight(receive_right.get()));
+  ASSERT_TRUE(send_once_right.is_valid());
 
-  ASSERT_TRUE(
-      RequestMachPortNotification(send_once_right, MACH_NOTIFY_DEAD_NAME, 0));
+  ASSERT_TRUE(RequestMachPortNotification(
+      send_once_right.get(), MACH_NOTIFY_DEAD_NAME, 0));
 
   // send_once_right becomes a dead name with the send-once right’s original
   // user reference count of 1, but the dead-name notification increments the
@@ -523,10 +523,11 @@ TEST_F(NotifyServerTest, MachNotifyDeadName) {
 
   RunServer();
 
-  EXPECT_TRUE(IsRight(send_once_right, MACH_PORT_TYPE_DEAD_NAME));
+  EXPECT_TRUE(IsRight(send_once_right.get(), MACH_PORT_TYPE_DEAD_NAME));
 
-  EXPECT_EQ(0u, RightRefCount(send_once_right, MACH_PORT_RIGHT_SEND_ONCE));
-  EXPECT_EQ(1u, DeadNameRightRefCount(send_once_right));
+  EXPECT_EQ(0u,
+            RightRefCount(send_once_right.get(), MACH_PORT_RIGHT_SEND_ONCE));
+  EXPECT_EQ(1u, DeadNameRightRefCount(send_once_right.get()));
 }
 
 // When the receive right corresponding to a send-once right with a dead-name
@@ -535,21 +536,22 @@ TEST_F(NotifyServerTest, MachNotifyDeadName) {
 TEST_F(NotifyServerTest, MachNotifyDeadName_NoNotification) {
   base::mac::ScopedMachReceiveRight receive_right(
       NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, receive_right);
+  ASSERT_TRUE(receive_right.is_valid());
 
   base::mac::ScopedMachSendRight send_once_right(
-      SendOnceRightFromReceiveRight(receive_right));
-  ASSERT_NE(kMachPortNull, send_once_right);
+      SendOnceRightFromReceiveRight(receive_right.get()));
+  ASSERT_TRUE(send_once_right.is_valid());
 
-  ASSERT_TRUE(
-      RequestMachPortNotification(send_once_right, MACH_NOTIFY_DEAD_NAME, 0));
+  ASSERT_TRUE(RequestMachPortNotification(
+      send_once_right.get(), MACH_NOTIFY_DEAD_NAME, 0));
 
   RunServer();
 
-  EXPECT_FALSE(IsRight(send_once_right, MACH_PORT_TYPE_DEAD_NAME));
+  EXPECT_FALSE(IsRight(send_once_right.get(), MACH_PORT_TYPE_DEAD_NAME));
 
-  EXPECT_EQ(1u, RightRefCount(send_once_right, MACH_PORT_RIGHT_SEND_ONCE));
-  EXPECT_EQ(0u, DeadNameRightRefCount(send_once_right));
+  EXPECT_EQ(1u,
+            RightRefCount(send_once_right.get(), MACH_PORT_RIGHT_SEND_ONCE));
+  EXPECT_EQ(0u, DeadNameRightRefCount(send_once_right.get()));
 }
 
 }  // namespace

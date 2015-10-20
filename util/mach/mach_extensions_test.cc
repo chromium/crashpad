@@ -34,7 +34,7 @@ TEST(MachExtensions, NewMachPort_Receive) {
   ASSERT_NE(kMachPortNull, port);
 
   mach_port_type_t type;
-  kern_return_t kr = mach_port_type(mach_task_self(), port, &type);
+  kern_return_t kr = mach_port_type(mach_task_self(), port.get(), &type);
   ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_get_type");
 
   EXPECT_EQ(MACH_PORT_TYPE_RECEIVE, type);
@@ -45,7 +45,7 @@ TEST(MachExtensions, NewMachPort_PortSet) {
   ASSERT_NE(kMachPortNull, port);
 
   mach_port_type_t type;
-  kern_return_t kr = mach_port_type(mach_task_self(), port, &type);
+  kern_return_t kr = mach_port_type(mach_task_self(), port.get(), &type);
   ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_get_type");
 
   EXPECT_EQ(MACH_PORT_TYPE_PORT_SET, type);
@@ -56,7 +56,7 @@ TEST(MachExtensions, NewMachPort_DeadName) {
   ASSERT_NE(kMachPortNull, port);
 
   mach_port_type_t type;
-  kern_return_t kr = mach_port_type(mach_task_self(), port, &type);
+  kern_return_t kr = mach_port_type(mach_task_self(), port.get(), &type);
   ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_get_type");
 
   EXPECT_EQ(MACH_PORT_TYPE_DEAD_NAME, type);
@@ -173,7 +173,7 @@ TEST(MachExtensions, BootstrapCheckInAndLookUp) {
 TEST(MachExtensions, SystemCrashReporterHandler) {
   base::mac::ScopedMachSendRight
       system_crash_reporter_handler(SystemCrashReporterHandler());
-  EXPECT_TRUE(system_crash_reporter_handler);
+  EXPECT_TRUE(system_crash_reporter_handler.is_valid());
 }
 
 }  // namespace
