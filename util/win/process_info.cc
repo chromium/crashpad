@@ -600,6 +600,26 @@ ProcessInfo::GetReadableRanges(
   return GetReadableRangesOfMemoryMap(range, MemoryInfo());
 }
 
+bool ProcessInfo::LoggingRangeIsFullyReadable(
+    const CheckedRange<WinVMAddress, WinVMSize>& range) const {
+  const auto ranges = GetReadableRanges(range);
+  if (ranges.size() != 1) {
+    LOG(ERROR) << base::StringPrintf(
+        "range at 0x%llx, size 0x%llx fully unreadable",
+        range.base(),
+        range.size());
+    return false;
+  }
+  if (ranges[0].base() != range.base() || ranges[0].size() != range.size()) {
+    LOG(ERROR) << base::StringPrintf(
+        "some of range at 0x%llx, size 0x%llx unreadable",
+        range.base(),
+        range.size());
+    return false;
+  }
+  return true;
+}
+
 const std::vector<ProcessInfo::Handle>& ProcessInfo::Handles() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   if (handles_.empty())

@@ -91,6 +91,24 @@
             'win/crashy_test_program.cc',
           ],
         },
+        {
+          'target_name': 'self_destroying_program',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
+            '../snapshot/snapshot.gyp:crashpad_snapshot',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../tools/tools.gyp:crashpad_tool_support',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'win/self_destroying_test_program.cc',
+          ],
+        },
       ],
     }, {
       'targets': [],

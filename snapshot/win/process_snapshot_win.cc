@@ -344,19 +344,8 @@ void ProcessSnapshotWin::AddMemorySnapshot(
   if (size == 0)
     return;
 
-  // Ensure that the entire range is readable. TODO(scottmg): Consider
-  // generalizing this as part of
-  // https://code.google.com/p/crashpad/issues/detail?id=59.
-  auto ranges = process_reader_.GetProcessInfo().GetReadableRanges(
-      CheckedRange<WinVMAddress, WinVMSize>(address, size));
-  if (ranges.size() != 1) {
-    LOG(ERROR) << base::StringPrintf(
-        "range at 0x%llx, size 0x%llx fully unreadable", address, size);
-    return;
-  }
-  if (ranges[0].base() != address || ranges[0].size() != size) {
-    LOG(ERROR) << base::StringPrintf(
-        "some of range at 0x%llx, size 0x%llx unreadable", address, size);
+  if (!process_reader_.GetProcessInfo().LoggingRangeIsFullyReadable(
+          CheckedRange<WinVMAddress, WinVMSize>(address, size))) {
     return;
   }
 
