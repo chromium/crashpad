@@ -18,13 +18,14 @@
 #include <windows.h>
 #include <dbghelp.h>
 
+#include <map>
+#include <string>
 #include <vector>
 
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writable.h"
 #include "snapshot/handle_snapshot.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -65,7 +66,7 @@ class MinidumpHandleDataWriter final : public internal::MinidumpStreamWriter {
  private:
   MINIDUMP_HANDLE_DATA_STREAM handle_data_stream_base_;
   std::vector<MINIDUMP_HANDLE_DESCRIPTOR> handle_descriptors_;
-  PointerVector<internal::MinidumpUTF16StringWriter> strings_;
+  std::map<std::string, internal::MinidumpUTF16StringWriter*> strings_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpHandleDataWriter);
 };

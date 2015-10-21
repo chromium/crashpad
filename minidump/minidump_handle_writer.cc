@@ -17,6 +17,7 @@
 #include <string>
 
 #include "base/logging.h"
+#include "base/stl_util.h"
 #include "minidump/minidump_extensions.h"
 #include "util/file/file_writer.h"
 
@@ -27,6 +28,7 @@ MinidumpHandleDataWriter::MinidumpHandleDataWriter()
 }
 
 MinidumpHandleDataWriter::~MinidumpHandleDataWriter() {
+  STLDeleteContainerPairSecondPointers(strings_.begin(), strings_.end());
 }
 
 void MinidumpHandleDataWriter::InitializeFromSnapshot(
@@ -37,7 +39,6 @@ void MinidumpHandleDataWriter::InitializeFromSnapshot(
   // Because we RegisterRVA() on the string writer below, we preallocate and
   // never resize the handle_descriptors_ vector.
   handle_descriptors_.resize(handle_snapshots.size());
-  strings_.reserve(handle_snapshots.size());
   for (size_t i = 0; i < handle_snapshots.size(); ++i) {
     const HandleSnapshot& handle_snapshot = handle_snapshots[i];
     MINIDUMP_HANDLE_DESCRIPTOR& descriptor = handle_descriptors_[i];
@@ -47,11 +48,16 @@ void MinidumpHandleDataWriter::InitializeFromSnapshot(
     if (handle_snapshot.type_name.empty()) {
       descriptor.TypeNameRva = 0;
     } else {
-      // TODO(scottmg): There is often a number of repeated type names here, the
-      // strings ought to be pooled.
-      strings_.push_back(new internal::MinidumpUTF16StringWriter());
-      strings_.back()->SetUTF8(handle_snapshot.type_name);
-      strings_.back()->RegisterRVA(&descriptor.TypeNameRva);
+      auto it = strings_.lower_bound(handle_snapshot.type_name);
+      internal::MinidumpUTF16StringWriter* writer;
+      if (it != strings_.end() && it->first == handle_snapshot.type_name) {
+        writer = it->second;
+      } else {
+        writer = new internal::MinidumpUTF16StringWriter();
+        strings_.insert(it, std::make_pair(handle_snapshot.type_name, writer));
+        writer->SetUTF8(handle_snapshot.type_name);
+      }
+      writer->RegisterRVA(&descriptor.TypeNameRva);
     }
 
     descriptor.ObjectNameRva = 0;
@@ -86,8 +92,8 @@ std::vector<internal::MinidumpWritable*> MinidumpHandleDataWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
 
   std::vector<MinidumpWritable*> children;
-  for (auto* string : strings_)
-    children.push_back(string);
+  for (const auto& pair : strings_)
+    children.push_back(pair.second);
   return children;
 }
 
