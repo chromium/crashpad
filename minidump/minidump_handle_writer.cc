@@ -20,6 +20,7 @@
 #include "base/stl_util.h"
 #include "minidump/minidump_extensions.h"
 #include "util/file/file_writer.h"
+#include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
 
@@ -76,7 +77,12 @@ bool MinidumpHandleDataWriter::Freeze() {
 
   handle_data_stream_base_.SizeOfHeader = sizeof(handle_data_stream_base_);
   handle_data_stream_base_.SizeOfDescriptor = sizeof(handle_descriptors_[0]);
-  handle_data_stream_base_.NumberOfDescriptors = handle_descriptors_.size();
+  const size_t handle_count = handle_descriptors_.size();
+  if (!AssignIfInRange(&handle_data_stream_base_.NumberOfDescriptors,
+                       handle_count)) {
+    LOG(ERROR) << "handle_count " << handle_count << " out of range";
+    return false;
+  }
   handle_data_stream_base_.Reserved = 0;
 
   return true;
