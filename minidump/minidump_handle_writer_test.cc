@@ -16,6 +16,7 @@
 
 #include <string>
 
+#include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
@@ -78,7 +79,7 @@ TEST(MinidumpHandleDataWriter, OneHandle) {
 
   HandleSnapshot handle_snapshot;
   handle_snapshot.handle = 0x1234;
-  handle_snapshot.type_name = L"Something";
+  handle_snapshot.type_name = "Something";
   handle_snapshot.attributes = 0x12345678;
   handle_snapshot.granted_access = 0x9abcdef0;
   handle_snapshot.pointer_count = 4567;
@@ -95,8 +96,7 @@ TEST(MinidumpHandleDataWriter, OneHandle) {
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
   const size_t kTypeNameStringDataLength =
-      (handle_snapshot.type_name.size() + 1) *
-      sizeof(handle_snapshot.type_name[0]);
+      (handle_snapshot.type_name.size() + 1) * sizeof(base::char16);
   ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_HANDLE_DATA_STREAM) +
                 sizeof(MINIDUMP_HANDLE_DESCRIPTOR) + sizeof(MINIDUMP_STRING) +
@@ -113,8 +113,8 @@ TEST(MinidumpHandleDataWriter, OneHandle) {
           &handle_data_stream[1]);
   EXPECT_EQ(handle_snapshot.handle, handle_descriptor->Handle);
   EXPECT_EQ(handle_snapshot.type_name,
-            MinidumpStringAtRVAAsString(string_file.string(),
-                                        handle_descriptor->TypeNameRva));
+            base::UTF16ToUTF8(MinidumpStringAtRVAAsString(
+                string_file.string(), handle_descriptor->TypeNameRva)));
   EXPECT_EQ(0u, handle_descriptor->ObjectNameRva);
   EXPECT_EQ(handle_snapshot.attributes, handle_descriptor->Attributes);
   EXPECT_EQ(handle_snapshot.granted_access, handle_descriptor->GrantedAccess);

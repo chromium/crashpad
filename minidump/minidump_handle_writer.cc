@@ -50,7 +50,7 @@ void MinidumpHandleDataWriter::InitializeFromSnapshot(
       // TODO(scottmg): There is often a number of repeated type names here, the
       // strings ought to be pooled.
       strings_.push_back(new internal::MinidumpUTF16StringWriter());
-      strings_.back()->SetUTF16(handle_snapshot.type_name);
+      strings_.back()->SetUTF8(handle_snapshot.type_name);
       strings_.back()->RegisterRVA(&descriptor.TypeNameRva);
     }
 

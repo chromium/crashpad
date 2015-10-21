@@ -53,23 +53,6 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
               MinidumpStringAtRVAAsString(string_file.string(), 0));
   }
 
-  {
-    SCOPED_TRACE("no conversion");
-    string_file.Reset();
-    crashpad::internal::MinidumpUTF16StringWriter string_writer;
-    const base::string16 kString(L"oóöőo");
-    string_writer.SetUTF16(kString);
-    EXPECT_TRUE(string_writer.WriteEverything(&string_file));
-    ASSERT_EQ(
-        sizeof(MINIDUMP_STRING) + (kString.size() + 1) * sizeof(kString[0]),
-        string_file.string().size());
-
-    const MINIDUMP_STRING* minidump_string =
-        MinidumpStringAtRVA(string_file.string(), 0);
-    EXPECT_TRUE(minidump_string);
-    EXPECT_EQ(kString, MinidumpStringAtRVAAsString(string_file.string(), 0));
-  }
-
   const struct {
     size_t input_length;
     const char* input_string;
