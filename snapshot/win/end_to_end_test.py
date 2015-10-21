@@ -183,10 +183,14 @@ def RunTests(cdb_path, dump_path, pipe_name):
   out = CdbRun(cdb_path, dump_path, '!locks')
   out.Check(r'CritSec crashy_program!crashpad::`anonymous namespace\'::'
             r'g_test_critical_section', 'lock was captured')
-  if float(platform.win32_ver()[0]) != 7:
+  if platform.win32_ver()[0] != '7':
     # We can't allocate CRITICAL_SECTIONs with .DebugInfo on Win 7.
     out.Check(r'\*\*\* Locked', 'lock debug info was captured, and is locked')
 
+  out = CdbRun(cdb_path, dump_path, '!handle')
+  out.Check(r'\d+ Handles', 'captured handles')
+  out.Check(r'Event\s+\d+', 'capture some event handles')
+  out.Check(r'File\s+\d+', 'capture some file handles')
 
 def main(args):
   try:
@@ -202,8 +206,10 @@ def main(args):
     # Make sure we can download Windows symbols.
     if not os.environ.get('_NT_SYMBOL_PATH'):
       symbol_dir = MakeTempDir()
+      protocol = 'https' if platform.win32_ver()[0] != 'XP' else 'http'
       os.environ['_NT_SYMBOL_PATH'] = (
-          'SRV*' + symbol_dir + '*https://msdl.microsoft.com/download/symbols')
+          'SRV*' + symbol_dir + '*' +
+          protocol + '://msdl.microsoft.com/download/symbols')
 
     pipe_name = r'\\.\pipe\end-to-end_%s_%s' % (
         os.getpid(), str(random.getrandbits(64)))

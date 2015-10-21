@@ -157,6 +157,9 @@ enum MINIDUMP_STREAM_TYPE {
   //! \brief The stream type for MINIDUMP_SYSTEM_INFO.
   SystemInfoStream = 7,
 
+  //! \brief The stream contains information about active `HANDLE`s.
+  HandleDataStream = 12,
+
   //! \brief The stream type for MINIDUMP_MISC_INFO, MINIDUMP_MISC_INFO_2,
   //!     MINIDUMP_MISC_INFO_3, and MINIDUMP_MISC_INFO_4.
   //!

@@ -44,6 +44,8 @@
         'minidump_extensions.h',
         'minidump_file_writer.cc',
         'minidump_file_writer.h',
+        'minidump_handle_writer.cc',
+        'minidump_handle_writer.h',
         'minidump_memory_info_writer.cc',
         'minidump_memory_info_writer.h',
         'minidump_memory_writer.cc',

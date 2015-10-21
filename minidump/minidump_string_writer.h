@@ -99,6 +99,13 @@ class MinidumpUTF16StringWriter final
   //! \note Valid in #kStateMutable.
   void SetUTF8(const std::string& string_utf8);
 
+  //! \brief Sets the given UTF-16 string as the string to be written.
+  //!
+  //! \note Valid in #kStateMutable.
+  void SetUTF16(const base::string16& string_utf16) {
+    set_string(string_utf16);
+  }
+
  private:
   DISALLOW_COPY_AND_ASSIGN(MinidumpUTF16StringWriter);
 };
