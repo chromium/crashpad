@@ -25,8 +25,8 @@ struct HandleSnapshot {
   HandleSnapshot();
   ~HandleSnapshot();
 
-  //! \brief A string representation of the handle's type.
-  std::wstring type_name;
+  //! \brief A UTF-8 string representation of the handle's type.
+  std::string type_name;
 
   //! \brief The handle's value.
   uint32_t handle;

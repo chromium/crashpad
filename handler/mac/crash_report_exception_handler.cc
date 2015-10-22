@@ -186,7 +186,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     // vendor.
     base::mac::ScopedMachSendRight
         system_crash_reporter_handler(SystemCrashReporterHandler());
-    if (system_crash_reporter_handler) {
+    if (system_crash_reporter_handler.get()) {
       // Make copies of mutable out parameters so that the system crash reporter
       // can’t influence the state returned by this method.
       thread_state_flavor_t flavor_forward = *flavor;
@@ -205,7 +205,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
       // will be available.
       kern_return_t kr = UniversalExceptionRaise(
           EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
-          system_crash_reporter_handler,
+          system_crash_reporter_handler.get(),
           thread,
           task,
           exception,

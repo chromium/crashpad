@@ -139,6 +139,16 @@ class ProcessInfo {
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRanges(
       const CheckedRange<WinVMAddress, WinVMSize>& range) const;
 
+  //! \brief Given a range in the target process, determines if the entire range
+  //!     is readable.
+  //!
+  //! \param[in] range The range being inspected.
+  //!
+  //! \return `true` if the range is fully readable, otherwise `false` with a
+  //!     message logged.
+  bool LoggingRangeIsFullyReadable(
+      const CheckedRange<WinVMAddress, WinVMSize>& range) const;
+
   //! \brief Retrieves information about open handles in the target process.
   const std::vector<Handle>& Handles() const;
 

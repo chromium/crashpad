@@ -467,8 +467,8 @@ class TestMachMessageServer : public MachMessageServer::Interface,
         // carried in the request message to the server. By the time the server
         // looks at the right, it will have become a dead name.
         local_receive_port_owner.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-        ASSERT_NE(kMachPortNull, local_receive_port_owner);
-        request.header.msgh_local_port = local_receive_port_owner;
+        ASSERT_TRUE(local_receive_port_owner.is_valid());
+        request.header.msgh_local_port = local_receive_port_owner.get();
         break;
       }
     }
@@ -479,8 +479,8 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       // properly handles ownership of resources received in complex messages.
       request.body.msgh_descriptor_count = 1;
       child_complex_message_port_.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-      ASSERT_NE(kMachPortNull, child_complex_message_port_);
-      request.port_descriptor.name = child_complex_message_port_;
+      ASSERT_TRUE(child_complex_message_port_.is_valid());
+      request.port_descriptor.name = child_complex_message_port_.get();
       request.port_descriptor.disposition = MACH_MSG_TYPE_MAKE_SEND;
       request.port_descriptor.type = MACH_MSG_PORT_DESCRIPTOR;
     } else {

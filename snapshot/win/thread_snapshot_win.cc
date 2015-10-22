@@ -41,11 +41,23 @@ bool ThreadSnapshotWin::Initialize(
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   thread_ = process_reader_thread;
-  // TODO(scottmg): Ensure these regions are readable
-  // https://code.google.com/p/crashpad/issues/detail?id=59
-  stack_.Initialize(
-      process_reader, thread_.stack_region_address, thread_.stack_region_size);
-  teb_.Initialize(process_reader, thread_.teb_address, thread_.teb_size);
+  if (process_reader->GetProcessInfo().LoggingRangeIsFullyReadable(
+          CheckedRange<WinVMAddress, WinVMSize>(thread_.stack_region_address,
+                                                thread_.stack_region_size))) {
+    stack_.Initialize(process_reader,
+                      thread_.stack_region_address,
+                      thread_.stack_region_size);
+  } else {
+    stack_.Initialize(process_reader, 0, 0);
+  }
+
+  if (process_reader->GetProcessInfo().LoggingRangeIsFullyReadable(
+          CheckedRange<WinVMAddress, WinVMSize>(thread_.teb_address,
+                                                thread_.teb_size))) {
+    teb_.Initialize(process_reader, thread_.teb_address, thread_.teb_size);
+  } else {
+    teb_.Initialize(process_reader, 0, 0);
+  }
 
 #if defined(ARCH_CPU_X86_64)
   if (process_reader->Is64Bit()) {

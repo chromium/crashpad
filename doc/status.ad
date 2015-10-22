@@ -28,15 +28,18 @@ https://chromium.googlesource.com/chromium/src/+/d413b2dcb54d523811d386f1ff4084f
 == In Progress
 
 Crashpad is actively being bootstrapped on
-https://code.google.com/p/crashpad/issues/detail?id=1[Windows]. With the
-exception of the snapshot library, most major components are now working on
-Windows, and work is progressing on the Windows snapshot implementation.
+https://code.google.com/p/crashpad/issues/detail?id=1[Windows]. All major
+components are now working on Windows, and integration into Chromium is expected
+shortly.
+
+Initial work on a Crashpad client for
+https://code.google.com/p/crashpad/issues/detail?id=30[Android] has begun. This
+is currently in the design phase.
 
 == Future
 
 There are plans to bring Crashpad clients to other operating systems in the
-future, including
-https://code.google.com/p/crashpad/issues/detail?id=30[Android] and, more
-generically, Linux. There are also plans to implement a
+future, including a more generic non-Android Linux implementation. There are
+also plans to implement a
 https://code.google.com/p/crashpad/issues/detail?id=29[crash report processor]
 as part of Crashpad. No timeline for completing this work has been set yet.

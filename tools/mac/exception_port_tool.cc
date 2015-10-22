@@ -195,7 +195,7 @@ void ShowBootstrapService(const std::string& service_name,
     return;
   }
 
-  mach_send_right_pool->AddSendRight(service_port);
+  mach_send_right_pool->AddSendRight(service_port.get());
 
   printf("service %s %#x\n", service_name.c_str(), service_port.get());
 }
@@ -300,7 +300,7 @@ bool SetExceptionPort(const ExceptionHandlerDescription* description,
 
   ExceptionPorts exception_ports(description->target_type, target_port);
   if (!exception_ports.SetExceptionPort(description->mask,
-                                        service_port,
+                                        service_port.get(),
                                         description->behavior,
                                         description->flavor)) {
     return false;

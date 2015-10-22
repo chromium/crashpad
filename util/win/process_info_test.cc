@@ -623,6 +623,20 @@ TEST(ProcessInfo, Handles) {
   EXPECT_TRUE(found_mapping_handle);
 }
 
+TEST(ProcessInfo, OutOfRangeCheck) {
+  const size_t kAllocationSize = 12345;
+  scoped_ptr<char[]> safe_memory(new char[kAllocationSize]);
+
+  ProcessInfo info;
+  info.Initialize(GetCurrentProcess());
+
+  EXPECT_TRUE(
+      info.LoggingRangeIsFullyReadable(CheckedRange<WinVMAddress, WinVMSize>(
+          reinterpret_cast<WinVMAddress>(safe_memory.get()), kAllocationSize)));
+  EXPECT_FALSE(info.LoggingRangeIsFullyReadable(
+      CheckedRange<WinVMAddress, WinVMSize>(0, 1024)));
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

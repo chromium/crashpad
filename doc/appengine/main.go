@@ -31,19 +31,33 @@ import (
 	"google.golang.org/appengine/urlfetch"
 )
 
-const baseURL = "https://chromium.googlesource.com/crashpad/crashpad/+/doc/doc/generated/?format=TEXT"
-
 func init() {
 	http.HandleFunc("/", handler)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	const (
+		baseURL    = "https://chromium.googlesource.com/crashpad/crashpad/+/doc/doc/generated/?format=TEXT"
+		bugBaseURL = "https://bugs.chromium.org/p/crashpad/"
+	)
+
 	ctx := appengine.NewContext(r)
 	client := urlfetch.Client(ctx)
 
 	// Don’t show dotfiles.
 	if strings.HasPrefix(path.Base(r.URL.Path), ".") {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
+	if r.URL.Path == "/bug" || r.URL.Path == "/bug/" {
+		http.Redirect(w, r, bugBaseURL, http.StatusFound)
+		return
+	} else if r.URL.Path == "/bug/new" {
+		http.Redirect(w, r, bugBaseURL+"issues/entry", http.StatusFound)
+		return
+	} else if strings.HasPrefix(r.URL.Path, "/bug/") {
+		http.Redirect(w, r, bugBaseURL+"issues/detail?id="+r.URL.Path[5:], http.StatusFound)
 		return
 	}
 

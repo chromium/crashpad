@@ -18,6 +18,7 @@
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
+#include "base/strings/utf_string_conversions.h"
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/module_snapshot_win.h"
 #include "util/win/registration_protocol_win.h"
@@ -211,7 +212,10 @@ std::vector<HandleSnapshot> ProcessSnapshotWin::Handles() const {
   std::vector<HandleSnapshot> result;
   for (const auto& handle : process_reader_.GetProcessInfo().Handles()) {
     HandleSnapshot snapshot;
-    snapshot.type_name = handle.type_name;
+    // This is probably not strictly correct, but these are not localized so we
+    // expect them all to be in ASCII range anyway. This will need to be more
+    // carefully done if the object name is added.
+    snapshot.type_name = base::UTF16ToUTF8(handle.type_name);
     snapshot.handle = handle.handle;
     snapshot.attributes = handle.attributes;
     snapshot.granted_access = handle.granted_access;
@@ -340,19 +344,8 @@ void ProcessSnapshotWin::AddMemorySnapshot(
   if (size == 0)
     return;
 
-  // Ensure that the entire range is readable. TODO(scottmg): Consider
-  // generalizing this as part of
-  // https://code.google.com/p/crashpad/issues/detail?id=59.
-  auto ranges = process_reader_.GetProcessInfo().GetReadableRanges(
-      CheckedRange<WinVMAddress, WinVMSize>(address, size));
-  if (ranges.size() != 1) {
-    LOG(ERROR) << base::StringPrintf(
-        "range at 0x%llx, size 0x%llx fully unreadable", address, size);
-    return;
-  }
-  if (ranges[0].base() != address || ranges[0].size() != size) {
-    LOG(ERROR) << base::StringPrintf(
-        "some of range at 0x%llx, size 0x%llx unreadable", address, size);
+  if (!process_reader_.GetProcessInfo().LoggingRangeIsFullyReadable(
+          CheckedRange<WinVMAddress, WinVMSize>(address, size))) {
     return;
   }
 

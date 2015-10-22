@@ -51,7 +51,7 @@ void GetMemoryInfoListStream(
   *memory_info_list =
       MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_INFO_LIST>(
           file_contents, directory[kDirectoryIndex].Location);
-  ASSERT_TRUE(memory_info_list);
+  ASSERT_TRUE(*memory_info_list);
 }
 
 TEST(MinidumpMemoryInfoWriter, Empty) {

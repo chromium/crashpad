@@ -181,6 +181,14 @@ struct MinidumpThreadListTraits {
   }
 };
 
+struct MinidumpHandleDataStreamTraits {
+  using ListType = MINIDUMP_HANDLE_DATA_STREAM;
+  enum : size_t { kElementSize = sizeof(MINIDUMP_HANDLE_DESCRIPTOR) };
+  static size_t ElementCount(const ListType* list) {
+    return static_cast<size_t>(list->NumberOfDescriptors);
+  }
+};
+
 struct MinidumpMemoryInfoListTraits {
   using ListType = MINIDUMP_MEMORY_INFO_LIST;
   enum : size_t { kElementSize = sizeof(MINIDUMP_MEMORY_INFO) };
@@ -249,6 +257,14 @@ const MINIDUMP_THREAD_LIST* MinidumpWritableAtLocationDescriptor<
     MINIDUMP_THREAD_LIST>(const std::string& file_contents,
                           const MINIDUMP_LOCATION_DESCRIPTOR& location) {
   return MinidumpListAtLocationDescriptor<MinidumpThreadListTraits>(
+      file_contents, location);
+}
+
+template <>
+const MINIDUMP_HANDLE_DATA_STREAM* MinidumpWritableAtLocationDescriptor<
+    MINIDUMP_HANDLE_DATA_STREAM>(const std::string& file_contents,
+                                 const MINIDUMP_LOCATION_DESCRIPTOR& location) {
+  return MinidumpListAtLocationDescriptor<MinidumpHandleDataStreamTraits>(
       file_contents, location);
 }
 

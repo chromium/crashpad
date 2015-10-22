@@ -98,22 +98,22 @@ void MachMultiprocess::PreFork() {
   }
 
   info_->local_port = BootstrapCheckIn(info_->service_name);
-  ASSERT_NE(kMachPortNull, info_->local_port);
+  ASSERT_TRUE(info_->local_port.is_valid());
 }
 
 mach_port_t MachMultiprocess::LocalPort() const {
-  EXPECT_NE(kMachPortNull, info_->local_port);
-  return info_->local_port;
+  EXPECT_TRUE(info_->local_port.is_valid());
+  return info_->local_port.get();
 }
 
 mach_port_t MachMultiprocess::RemotePort() const {
-  EXPECT_NE(kMachPortNull, info_->remote_port);
-  return info_->remote_port;
+  EXPECT_TRUE(info_->remote_port.is_valid());
+  return info_->remote_port.get();
 }
 
 task_t MachMultiprocess::ChildTask() const {
-  EXPECT_NE(TASK_NULL, info_->child_task);
-  return info_->child_task;
+  EXPECT_TRUE(info_->child_task.is_valid());
+  return info_->child_task.get();
 }
 
 void MachMultiprocess::MultiprocessParent() {
@@ -123,7 +123,7 @@ void MachMultiprocess::MultiprocessParent() {
                               MACH_RCV_MSG | kMachMessageReceiveAuditTrailer,
                               0,
                               sizeof(message),
-                              info_->local_port,
+                              info_->local_port.get(),
                               MACH_MSG_TIMEOUT_NONE,
                               MACH_PORT_NULL);
   ASSERT_EQ(MACH_MSG_SUCCESS, kr) << MachErrorMessage(kr, "mach_msg");
@@ -198,7 +198,7 @@ void MachMultiprocess::MultiprocessParent() {
 
   // Verify that the child’s task port is what it purports to be.
   int mach_pid;
-  kr = pid_for_task(info_->child_task, &mach_pid);
+  kr = pid_for_task(info_->child_task.get(), &mach_pid);
   ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "pid_for_task");
   ASSERT_EQ(ChildPID(), mach_pid);
 
@@ -229,8 +229,8 @@ void MachMultiprocess::MultiprocessChild() {
       MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND) |
       MACH_MSGH_BITS_COMPLEX;
   message.header.msgh_size = sizeof(message);
-  message.header.msgh_remote_port = info_->remote_port;
-  message.header.msgh_local_port = info_->local_port;
+  message.header.msgh_remote_port = info_->remote_port.get();
+  message.header.msgh_local_port = info_->local_port.get();
   message.body.msgh_descriptor_count = 1;
   message.port_descriptor.name = mach_task_self();
   message.port_descriptor.disposition = MACH_MSG_TYPE_COPY_SEND;

@@ -376,9 +376,9 @@ class TestExceptionPorts : public MachMultiprocess,
     threads_need_owners.Disarm();
 
     ExceptionPorts main_thread_ports(ExceptionPorts::kTargetTypeThread,
-                                     main_thread);
+                                     main_thread.get());
     ExceptionPorts other_thread_ports(ExceptionPorts::kTargetTypeThread,
-                                      other_thread);
+                                      other_thread.get());
     EXPECT_STREQ("thread", main_thread_ports.TargetTypeName());
     EXPECT_STREQ("thread", other_thread_ports.TargetTypeName());
 
@@ -586,7 +586,8 @@ TEST(ExceptionPorts, HostExceptionPorts) {
   const bool expect_success = geteuid() == 0;
 
   base::mac::ScopedMachSendRight host(mach_host_self());
-  ExceptionPorts explicit_host_ports(ExceptionPorts::kTargetTypeHost, host);
+  ExceptionPorts explicit_host_ports(ExceptionPorts::kTargetTypeHost,
+                                     host.get());
   EXPECT_STREQ("host", explicit_host_ports.TargetTypeName());
 
   ExceptionPorts::ExceptionHandlerVector explicit_handlers;
