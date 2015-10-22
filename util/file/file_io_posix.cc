@@ -28,9 +28,9 @@ namespace {
 struct ReadTraits {
   using VoidBufferType = void*;
   using CharBufferType = char*;
-  static FileOperationResult Operate(int fd,
-                                     CharBufferType buffer,
-                                     size_t size) {
+  static crashpad::FileOperationResult Operate(int fd,
+                                               CharBufferType buffer,
+                                               size_t size) {
     return read(fd, buffer, size);
   }
 };
@@ -38,23 +38,22 @@ struct ReadTraits {
 struct WriteTraits {
   using VoidBufferType = const void*;
   using CharBufferType = const char*;
-  static FileOperationResult Operate(int fd,
-                                     CharBufferType buffer,
-                                     size_t size) {
+  static crashpad::FileOperationResult Operate(int fd,
+                                               CharBufferType buffer,
+                                               size_t size) {
     return write(fd, buffer, size);
   }
 };
 
 template <typename Traits>
-FileOperationResult ReadOrWrite(int fd,
-                                typename Traits::VoidBufferType buffer,
-                                size_t size) {
+crashpad::FileOperationResult
+ReadOrWrite(int fd, typename Traits::VoidBufferType buffer, size_t size) {
   typename Traits::CharBufferType buffer_c =
       reinterpret_cast<typename Traits::CharBufferType>(buffer);
 
-  FileOperationResult total_bytes = 0;
+  crashpad::FileOperationResult total_bytes = 0;
   while (size > 0) {
-    FileOperationResult bytes =
+    crashpad::FileOperationResult bytes =
         HANDLE_EINTR(Traits::Operate(fd, buffer_c, size));
     if (bytes < 0) {
       return bytes;
