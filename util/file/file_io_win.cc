@@ -72,7 +72,7 @@ FileHandle OpenFileForOutput(DWORD access,
 
 // TODO(scottmg): Handle > DWORD sized writes if necessary.
 
-ssize_t ReadFile(FileHandle file, void* buffer, size_t size) {
+FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
   DCHECK(!IsSocketHandle(file));
   DWORD size_dword = base::checked_cast<DWORD>(size);
   DWORD total_read = 0;
@@ -103,7 +103,9 @@ ssize_t ReadFile(FileHandle file, void* buffer, size_t size) {
   return total_read;
 }
 
-ssize_t WriteFile(FileHandle file, const void* buffer, size_t size) {
+FileOperationResult WriteFile(FileHandle file,
+                              const void* buffer,
+                              size_t size) {
   // TODO(scottmg): This might need to handle the limit for pipes across a
   // network in the future.
   DWORD size_dword = base::checked_cast<DWORD>(size);
