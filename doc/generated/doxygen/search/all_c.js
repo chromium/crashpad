@@ -41,6 +41,7 @@ var searchData=
   ['loggingopenfileforread',['LoggingOpenFileForRead',['../namespacecrashpad.html#ab3712d59104f641109b170c78a912b4d',1,'crashpad']]],
   ['loggingopenfileforreadandwrite',['LoggingOpenFileForReadAndWrite',['../namespacecrashpad.html#aab3e964bdba04aaf74e7a27a36efe108',1,'crashpad']]],
   ['loggingopenfileforwrite',['LoggingOpenFileForWrite',['../namespacecrashpad.html#a62fc6876cc0c660f0ea8bd1dd0a07e82',1,'crashpad']]],
+  ['loggingrangeisfullyreadable',['LoggingRangeIsFullyReadable',['../classcrashpad_1_1ProcessInfo.html#ae810325b119291c166ec3beedde6ecfc',1,'crashpad::ProcessInfo']]],
   ['loggingreadfile',['LoggingReadFile',['../namespacecrashpad.html#abd2a51526c1f15e3f21a962457cbc53a',1,'crashpad']]],
   ['loggingseekfile',['LoggingSeekFile',['../namespacecrashpad.html#a3d6cedc10e24145d4a0c1000c33f8a10',1,'crashpad']]],
   ['loggingtruncatefile',['LoggingTruncateFile',['../namespacecrashpad.html#a06ba30c1a4b2974f1d4ea842db55b068',1,'crashpad']]],

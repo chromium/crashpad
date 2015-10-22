@@ -176,6 +176,9 @@ const std::vector&lt; MEMORY_BASIC_INFORMATION64 &gt; &amp;&#160;</td><td class=
 <tr class="memitem:ad546c7ae58c573a15949e16bbff6d0a6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>, <a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#ad546c7ae58c573a15949e16bbff6d0a6">GetReadableRanges</a> (const <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>, <a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a> &gt; &amp;range) const </td></tr>
 <tr class="memdesc:ad546c7ae58c573a15949e16bbff6d0a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a range to be read from the target process, returns a vector of ranges, representing the readable portions of the original range.  <a href="#ad546c7ae58c573a15949e16bbff6d0a6">More...</a><br /></td></tr>
 <tr class="separator:ad546c7ae58c573a15949e16bbff6d0a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae810325b119291c166ec3beedde6ecfc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#ae810325b119291c166ec3beedde6ecfc">LoggingRangeIsFullyReadable</a> (const <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>, <a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a> &gt; &amp;range) const </td></tr>
+<tr class="memdesc:ae810325b119291c166ec3beedde6ecfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a range in the target process, determines if the entire range is readable.  <a href="#ae810325b119291c166ec3beedde6ecfc">More...</a><br /></td></tr>
+<tr class="separator:ae810325b119291c166ec3beedde6ecfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6071acc2eb50c49820155fe67e28e50"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6071acc2eb50c49820155fe67e28e50"></a>
 const std::vector&lt; <a class="el" href="structcrashpad_1_1ProcessInfo_1_1Handle.html">Handle</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#ac6071acc2eb50c49820155fe67e28e50">Handles</a> () const </td></tr>
 <tr class="memdesc:ac6071acc2eb50c49820155fe67e28e50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves information about open handles in the target process. <br /></td></tr>
@@ -451,6 +454,31 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
       </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the target process is running on the Win32-on-Win64 subsystem. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae810325b119291c166ec3beedde6ecfc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::ProcessInfo::LoggingRangeIsFullyReadable </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>, <a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>range</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Given a range in the target process, determines if the entire range is readable. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">range</td><td>The range being inspected.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the range is fully readable, otherwise <code>false</code> with a message logged. </dd></dl>
 
 </div>
 </div>
