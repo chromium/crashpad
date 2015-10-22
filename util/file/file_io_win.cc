@@ -233,7 +233,7 @@ bool LoggingTruncateFile(FileHandle file) {
 bool LoggingCloseFile(FileHandle file) {
   BOOL rv = CloseHandle(file);
   PLOG_IF(ERROR, !rv) << "CloseHandle";
-  return rv;
+  return !!rv;
 }
 
 }  // namespace crashpad

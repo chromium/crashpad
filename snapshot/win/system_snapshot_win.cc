@@ -274,7 +274,7 @@ bool SystemSnapshotWin::CPUX86SupportsDAZ() const {
   uint32_t mxcsr_mask = extended_registers[7];
 
   // Test the DAZ bit.
-  return mxcsr_mask & (1 << 6);
+  return (mxcsr_mask & (1 << 6)) != 0;
 }
 
 SystemSnapshot::OperatingSystem SystemSnapshotWin::GetOperatingSystem() const {
@@ -311,7 +311,7 @@ std::string SystemSnapshotWin::MachineDescription() const {
 
 bool SystemSnapshotWin::NXEnabled() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return IsProcessorFeaturePresent(PF_NX_ENABLED);
+  return !!IsProcessorFeaturePresent(PF_NX_ENABLED);
 }
 
 void SystemSnapshotWin::TimeZone(DaylightSavingTimeStatus* dst_status,

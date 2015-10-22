@@ -229,7 +229,7 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   g_non_crash_exception_information.exception_pointers =
       reinterpret_cast<crashpad::WinVMAddress>(&exception_pointers);
 
-  bool set_event_result = SetEvent(g_signal_non_crash_dump);
+  bool set_event_result = !!SetEvent(g_signal_non_crash_dump);
   PLOG_IF(ERROR, !set_event_result) << "SetEvent";
 
   DWORD wfso_result = WaitForSingleObject(g_non_crash_dump_done, INFINITE);

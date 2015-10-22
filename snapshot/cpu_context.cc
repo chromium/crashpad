@@ -40,7 +40,7 @@ uint16_t CPUContextX86::FxsaveToFsaveTagWord(
 
   uint16_t fsave_tag = 0;
   for (int physical_index = 0; physical_index < 8; ++physical_index) {
-    bool fxsave_bit = fxsave_tag & (1 << physical_index);
+    bool fxsave_bit = (fxsave_tag & (1 << physical_index)) != 0;
     uint8_t fsave_bits;
 
     if (fxsave_bit) {
@@ -55,7 +55,7 @@ uint16_t CPUContextX86::FxsaveToFsaveTagWord(
         fsave_bits = kX87TagSpecial;
       } else {
         // The integer bit the “J bit”.
-        bool integer_bit = st[7] & 0x80;
+        bool integer_bit = (st[7] & 0x80) != 0;
         if (exponent == 0) {
           uint64_t fraction = ((implicit_cast<uint64_t>(st[7]) & 0x7f) << 56) |
                               (implicit_cast<uint64_t>(st[6]) << 48) |

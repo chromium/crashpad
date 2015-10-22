@@ -158,8 +158,7 @@ void ExpectMiscellaneousDebugRecord(
                                                                *misc_record);
     ASSERT_TRUE(misc_debug_record);
     EXPECT_EQ(expected_debug_type, misc_debug_record->DataType);
-    EXPECT_EQ(expected_debug_utf16,
-              static_cast<bool>(misc_debug_record->Unicode));
+    EXPECT_EQ(expected_debug_utf16, misc_debug_record->Unicode != 0);
     EXPECT_EQ(0u, misc_debug_record->Reserved[0]);
     EXPECT_EQ(0u, misc_debug_record->Reserved[1]);
     EXPECT_EQ(0u, misc_debug_record->Reserved[2]);

@@ -250,10 +250,12 @@ bool Settings::ReadSettings(FileHandle handle,
     return false;
 
   bool read_result;
-  if (log_read_error)
+  if (log_read_error) {
     read_result = LoggingReadFile(handle, out_data, sizeof(*out_data));
-  else
-    read_result = ReadFile(handle, out_data, sizeof(*out_data));
+  } else {
+    read_result =
+        ReadFile(handle, out_data, sizeof(*out_data)) == sizeof(*out_data);
+  }
 
   if (!read_result)
     return false;
