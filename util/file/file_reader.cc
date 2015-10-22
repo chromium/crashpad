@@ -21,8 +21,8 @@
 namespace crashpad {
 
 bool FileReaderInterface::ReadExactly(void* data, size_t size) {
-  ssize_t expect = base::checked_cast<ssize_t>(size);
-  ssize_t rv = Read(data, size);
+  FileOperationResult expect = base::checked_cast<FileOperationResult>(size);
+  FileOperationResult rv = Read(data, size);
   if (rv < 0) {
     // Read() will have logged its own error.
     return false;
@@ -41,14 +41,14 @@ WeakFileHandleFileReader::WeakFileHandleFileReader(FileHandle file_handle)
 WeakFileHandleFileReader::~WeakFileHandleFileReader() {
 }
 
-ssize_t WeakFileHandleFileReader::Read(void* data, size_t size) {
+FileOperationResult WeakFileHandleFileReader::Read(void* data, size_t size) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
 
   // Don’t use LoggingReadFile(), which insists on a full read and only returns
   // a bool. This method permits short reads and returns the number of bytes
   // read.
-  base::checked_cast<ssize_t>(size);
-  ssize_t rv = ReadFile(file_handle_, data, size);
+  base::checked_cast<FileOperationResult>(size);
+  FileOperationResult rv = ReadFile(file_handle_, data, size);
   if (rv < 0) {
     PLOG(ERROR) << "read";
     return -1;
@@ -88,7 +88,7 @@ void FileReader::Close() {
   file_.reset();
 }
 
-ssize_t FileReader::Read(void* data, size_t size) {
+FileOperationResult FileReader::Read(void* data, size_t size) {
   DCHECK(file_.is_valid());
   return weak_file_handle_file_reader_.Read(data, size);
 }
@@ -105,7 +105,7 @@ WeakStdioFileReader::WeakStdioFileReader(FILE* file)
 WeakStdioFileReader::~WeakStdioFileReader() {
 }
 
-ssize_t WeakStdioFileReader::Read(void* data, size_t size) {
+FileOperationResult WeakStdioFileReader::Read(void* data, size_t size) {
   DCHECK(file_);
 
   size_t rv = fread(data, 1, size, file_);

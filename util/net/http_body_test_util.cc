@@ -18,6 +18,7 @@
 
 #include "base/memory/scoped_ptr.h"
 #include "gtest/gtest.h"
+#include "util/file/file_io.h"
 #include "util/net/http_body.h"
 
 namespace crashpad {
@@ -31,7 +32,7 @@ std::string ReadStreamToString(HTTPBodyStream* stream, size_t buffer_size) {
   scoped_ptr<uint8_t[]> buf(new uint8_t[buffer_size]);
   std::string result;
 
-  ssize_t bytes_read;
+  FileOperationResult bytes_read;
   while ((bytes_read = stream->GetBytesBuffer(buf.get(), buffer_size)) != 0) {
     if (bytes_read < 0) {
       ADD_FAILURE() << "Failed to read from stream: " << bytes_read;

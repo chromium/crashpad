@@ -20,8 +20,8 @@
 namespace crashpad {
 
 bool LoggingReadFile(FileHandle file, void* buffer, size_t size) {
-  ssize_t expect = base::checked_cast<ssize_t>(size);
-  ssize_t rv = ReadFile(file, buffer, size);
+  FileOperationResult expect = base::checked_cast<FileOperationResult>(size);
+  FileOperationResult rv = ReadFile(file, buffer, size);
   if (rv < 0) {
     PLOG(ERROR) << "read";
     return false;
@@ -35,8 +35,8 @@ bool LoggingReadFile(FileHandle file, void* buffer, size_t size) {
 }
 
 bool LoggingWriteFile(FileHandle file, const void* buffer, size_t size) {
-  ssize_t expect = base::checked_cast<ssize_t>(size);
-  ssize_t rv = WriteFile(file, buffer, size);
+  FileOperationResult expect = base::checked_cast<FileOperationResult>(size);
+  FileOperationResult rv = WriteFile(file, buffer, size);
   if (rv < 0) {
     PLOG(ERROR) << "write";
     return false;
@@ -59,7 +59,7 @@ void CheckedWriteFile(FileHandle file, const void* buffer, size_t size) {
 
 void CheckedReadFileAtEOF(FileHandle file) {
   char c;
-  ssize_t rv = ReadFile(file, &c, 1);
+  FileOperationResult rv = ReadFile(file, &c, 1);
   if (rv < 0) {
     PCHECK(rv == 0) << "read";
   } else {

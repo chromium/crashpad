@@ -22,8 +22,9 @@
 #include "base/scoped_generic.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
-#include "util/net/http_body.h"
 #include "package.h"
+#include "util/file/file_io.h"
+#include "util/net/http_body.h"
 
 namespace crashpad {
 
@@ -174,7 +175,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   const size_t kBufferSize = 4096;
   for (;;) {
     uint8_t buffer[kBufferSize];
-    ssize_t bytes_to_write =
+    FileOperationResult bytes_to_write =
         body_stream()->GetBytesBuffer(buffer, sizeof(buffer));
     if (bytes_to_write == 0)
       break;

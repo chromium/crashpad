@@ -33,8 +33,9 @@ StringFile::~StringFile() {
 }
 
 void StringFile::SetString(const std::string& string) {
-  CHECK_LE(string.size(),
-           implicit_cast<size_t>(std::numeric_limits<ssize_t>::max()));
+  CHECK_LE(
+      string.size(),
+      implicit_cast<size_t>(std::numeric_limits<FileOperationResult>::max()));
   string_ = string;
   offset_ = 0;
 }
@@ -44,7 +45,7 @@ void StringFile::Reset() {
   offset_ = 0;
 }
 
-ssize_t StringFile::Read(void* data, size_t size) {
+FileOperationResult StringFile::Read(void* data, size_t size) {
   DCHECK(offset_.IsValid());
 
   const size_t offset = offset_.ValueOrDie();
@@ -54,7 +55,7 @@ ssize_t StringFile::Read(void* data, size_t size) {
 
   const size_t nread = std::min(size, string_.size() - offset);
 
-  base::CheckedNumeric<ssize_t> new_offset = offset_;
+  base::CheckedNumeric<FileOperationResult> new_offset = offset_;
   new_offset += nread;
   if (!new_offset.IsValid()) {
     LOG(ERROR) << "Read(): file too large";
@@ -75,7 +76,7 @@ bool StringFile::Write(const void* data, size_t size) {
     string_.resize(offset);
   }
 
-  base::CheckedNumeric<ssize_t> new_offset = offset_;
+  base::CheckedNumeric<FileOperationResult> new_offset = offset_;
   new_offset += size;
   if (!new_offset.IsValid()) {
     LOG(ERROR) << "Write(): file too large";
@@ -97,7 +98,7 @@ bool StringFile::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
   }
 
   // Avoid writing anything at all if it would cause an overflow.
-  base::CheckedNumeric<ssize_t> new_offset = offset_;
+  base::CheckedNumeric<FileOperationResult> new_offset = offset_;
   for (const WritableIoVec& iov : *iovecs) {
     new_offset += iov.iov_len;
     if (!new_offset.IsValid()) {

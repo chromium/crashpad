@@ -42,7 +42,8 @@ class HTTPBodyStream {
   //! \return On success, a positive number indicating the number of bytes
   //!     actually copied to \a buffer. On failure, a negative number. When
   //!     the stream has no more data, returns `0`.
-  virtual ssize_t GetBytesBuffer(uint8_t* buffer, size_t max_len) = 0;
+  virtual FileOperationResult GetBytesBuffer(uint8_t* buffer,
+                                             size_t max_len) = 0;
 
  protected:
   HTTPBodyStream() {}
@@ -60,7 +61,7 @@ class StringHTTPBodyStream : public HTTPBodyStream {
   ~StringHTTPBodyStream() override;
 
   // HTTPBodyStream:
-  ssize_t GetBytesBuffer(uint8_t* buffer, size_t max_len) override;
+  FileOperationResult GetBytesBuffer(uint8_t* buffer, size_t max_len) override;
 
  private:
   std::string string_;
@@ -81,7 +82,7 @@ class FileHTTPBodyStream : public HTTPBodyStream {
   ~FileHTTPBodyStream() override;
 
   // HTTPBodyStream:
-  ssize_t GetBytesBuffer(uint8_t* buffer, size_t max_len) override;
+  FileOperationResult GetBytesBuffer(uint8_t* buffer, size_t max_len) override;
 
  private:
   enum FileState {
@@ -115,7 +116,7 @@ class CompositeHTTPBodyStream : public HTTPBodyStream {
   ~CompositeHTTPBodyStream() override;
 
   // HTTPBodyStream:
-  ssize_t GetBytesBuffer(uint8_t* buffer, size_t max_len) override;
+  FileOperationResult GetBytesBuffer(uint8_t* buffer, size_t max_len) override;
 
  private:
   PartsList parts_;
