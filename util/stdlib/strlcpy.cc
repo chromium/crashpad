@@ -14,7 +14,26 @@
 
 #include "util/stdlib/strlcpy.h"
 
+#include "base/logging.h"
+#include "build/build_config.h"
+
+#if defined(OS_WIN) && defined(WCHAR_T_IS_UTF16)
+#include <strsafe.h>
+#endif
+
 namespace crashpad {
+
+#if defined(OS_WIN) && defined(WCHAR_T_IS_UTF16)
+
+size_t c16lcpy(base::char16* destination,
+               const base::char16* source,
+               size_t length) {
+  HRESULT result = StringCchCopyW(destination, length, source);
+  CHECK(result == S_OK || result == STRSAFE_E_INSUFFICIENT_BUFFER);
+  return wcslen(source);
+}
+
+#elif defined(WCHAR_T_IS_UTF32)
 
 size_t c16lcpy(base::char16* destination,
                const base::char16* source,
@@ -28,5 +47,7 @@ size_t c16lcpy(base::char16* destination,
   }
   return source_length;
 }
+
+#endif  // WCHAR_T_IS_UTF32
 
 }  // namespace crashpad
