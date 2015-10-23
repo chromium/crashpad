@@ -246,6 +246,9 @@
               '-lwinhttp.lib',
             ],
           },
+          'msvs_disabled_warnings': [
+            4201,  # nonstandard extension used : nameless struct/union.
+          ],
           'conditions': [
             ['target_arch=="ia32"', {
               'msvs_settings': {
