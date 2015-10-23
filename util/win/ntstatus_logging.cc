@@ -43,16 +43,22 @@ std::string FormatNtstatus(DWORD ntstatus) {
 
 namespace logging {
 
-NtstatusLogMessage::NtstatusLogMessage(const char* function,
-                                       const char* file_path,
-                                       int line,
-                                       LogSeverity severity,
-                                       DWORD ntstatus)
+NtstatusLogMessage::NtstatusLogMessage(
+#if defined(MINI_CHROMIUM_BASE_LOGGING_H_)
+    const char* function,
+#endif
+    const char* file_path,
+    int line,
+    LogSeverity severity,
+    DWORD ntstatus)
     : LogMessage(
 #if defined(MINI_CHROMIUM_BASE_LOGGING_H_)
-        function,
+          function,
 #endif
-        file_path, line, severity), ntstatus_(ntstatus) {
+          file_path,
+          line,
+          severity),
+      ntstatus_(ntstatus) {
 }
 
 NtstatusLogMessage::~NtstatusLogMessage() {
