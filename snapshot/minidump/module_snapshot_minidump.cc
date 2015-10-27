@@ -110,10 +110,12 @@ ModuleSnapshot::ModuleType ModuleSnapshotMinidump::GetModuleType() const {
   return kModuleTypeUnknown;
 }
 
-void ModuleSnapshotMinidump::UUID(crashpad::UUID* uuid) const {
+void ModuleSnapshotMinidump::UUIDAndAge(crashpad::UUID* uuid,
+                                        uint32_t* age) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
   *uuid = crashpad::UUID();
+  *age = 0;
 }
 
 std::vector<std::string> ModuleSnapshotMinidump::AnnotationsVector() const {

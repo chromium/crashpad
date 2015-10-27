@@ -150,9 +150,10 @@ ModuleSnapshot::ModuleType ModuleSnapshotMac::GetModuleType() const {
   }
 }
 
-void ModuleSnapshotMac::UUID(crashpad::UUID* uuid) const {
+void ModuleSnapshotMac::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return mach_o_image_reader_->UUID(uuid);
+  mach_o_image_reader_->UUID(uuid);
+  *age = 0;
 }
 
 std::vector<std::string> ModuleSnapshotMac::AnnotationsVector() const {
