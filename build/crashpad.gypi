@@ -20,4 +20,10 @@
     # build, this variable has no effect.
     'chromium_code': 1,
   },
+  'target_defaults': {
+    'msvs_disabled_warnings': [
+      4201,  # nonstandard extension used : nameless struct/union.
+      4324,  # structure was padded due to __declspec(align()).
+    ],
+  },
 }
