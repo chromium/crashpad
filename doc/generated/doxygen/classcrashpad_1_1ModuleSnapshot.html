@@ -150,9 +150,9 @@ virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 virtual <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d87ece6e04d48d219f7">ModuleType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#abbed0f3c66180be9ab625fc07375dea8">GetModuleType</a> () const =0</td></tr>
 <tr class="memdesc:abbed0f3c66180be9ab625fc07375dea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the module’s type. <br /></td></tr>
 <tr class="separator:abbed0f3c66180be9ab625fc07375dea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe496c52eb77c0dced87a644331ea9b1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#abe496c52eb77c0dced87a644331ea9b1">UUID</a> (<a class="el" href="structcrashpad_1_1UUID.html">crashpad::UUID</a> *uuid) const =0</td></tr>
-<tr class="memdesc:abe496c52eb77c0dced87a644331ea9b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the module’s <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> in the <em>uuid</em> parameter.  <a href="#abe496c52eb77c0dced87a644331ea9b1">More...</a><br /></td></tr>
-<tr class="separator:abe496c52eb77c0dced87a644331ea9b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24a9de66bb92e51ac5bb3f04f076a119"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a24a9de66bb92e51ac5bb3f04f076a119">UUIDAndAge</a> (<a class="el" href="structcrashpad_1_1UUID.html">crashpad::UUID</a> *uuid, uint32_t *age) const =0</td></tr>
+<tr class="memdesc:a24a9de66bb92e51ac5bb3f04f076a119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the module’s <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> in the <em>uuid</em> parameter, and the age of that <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> in <em>age</em>.  <a href="#a24a9de66bb92e51ac5bb3f04f076a119">More...</a><br /></td></tr>
+<tr class="separator:a24a9de66bb92e51ac5bb3f04f076a119"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11075b25729fda7cf96ed8c8b25061a2"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a11075b25729fda7cf96ed8c8b25061a2">AnnotationsVector</a> () const =0</td></tr>
 <tr class="memdesc:a11075b25729fda7cf96ed8c8b25061a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns string annotations recorded in the module.  <a href="#a11075b25729fda7cf96ed8c8b25061a2">More...</a><br /></td></tr>
 <tr class="separator:a11075b25729fda7cf96ed8c8b25061a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -418,7 +418,7 @@ virtual <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d
 
 </div>
 </div>
-<a class="anchor" id="abe496c52eb77c0dced87a644331ea9b1"></a>
+<a class="anchor" id="a24a9de66bb92e51ac5bb3f04f076a119"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -426,11 +426,21 @@ virtual <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void crashpad::ModuleSnapshot::UUID </td>
+          <td class="memname">virtual void crashpad::ModuleSnapshot::UUIDAndAge </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structcrashpad_1_1UUID.html">crashpad::UUID</a> *&#160;</td>
-          <td class="paramname"><em>uuid</em></td><td>)</td>
-          <td> const</td>
+          <td class="paramname"><em>uuid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>age</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
         </tr>
       </table>
   </td>
@@ -440,10 +450,11 @@ virtual <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d
 </table>
 </div><div class="memdoc">
 
-<p>Returns the module’s <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> in the <em>uuid</em> parameter. </p>
-<p>A snapshot module’s <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> is taken directly from the module itself. If the module does not have a <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a>, the <em>uuid</em> parameter will be zeroed out. </p>
+<p>Returns the module’s <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> in the <em>uuid</em> parameter, and the age of that <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> in <em>age</em>. </p>
+<p>A snapshot module’s <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> is taken directly from the module itself. If the module does not have a <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a>, the <em>uuid</em> parameter will be zeroed out.</p>
+<p><em>age</em> is the number of times the <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> has been reused. This occurs on Windows with incremental linking. On other platforms <em>age</em> will always be <code>0</code>. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#af1420f760358c7946669c9ed46e5b3a4">crashpad::test::TestModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a6dd6d469da8f26dee4c96aedf01d8557">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a926b8fb41ff115085d2118d54a2580ad">crashpad::internal::ModuleSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#aa9c70e3ae61087d8197d48b5e1d697f3">crashpad::internal::ModuleSnapshotMinidump</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#a74ace0376367c9f1fccdbc52f8922de0">crashpad::test::TestModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a7a18b084cf48b7a53f9d660e9339428f">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a83c57596fdff2d1bc67d2727be72c2ee">crashpad::internal::ModuleSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#ac874f6717e8e81464bff57db2274add5">crashpad::internal::ModuleSnapshotMinidump</a>.</p>
 
 </div>
 </div>

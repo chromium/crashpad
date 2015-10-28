@@ -115,9 +115,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a22c14df64745c7aeca6da61004a30a7b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringHTTPBodyStream.html#a22c14df64745c7aeca6da61004a30a7b">StringHTTPBodyStream</a> (const std::string &amp;string)</td></tr>
 <tr class="memdesc:a22c14df64745c7aeca6da61004a30a7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a stream with the specified string.  <a href="#a22c14df64745c7aeca6da61004a30a7b">More...</a><br /></td></tr>
 <tr class="separator:a22c14df64745c7aeca6da61004a30a7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef52b9001e6111900c7836d601dee2b3"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringHTTPBodyStream.html#aef52b9001e6111900c7836d601dee2b3">GetBytesBuffer</a> (uint8_t *buffer, size_t max_len) override</td></tr>
-<tr class="memdesc:aef52b9001e6111900c7836d601dee2b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies up to <em>max_len</em> bytes into the user-supplied buffer.  <a href="#aef52b9001e6111900c7836d601dee2b3">More...</a><br /></td></tr>
-<tr class="separator:aef52b9001e6111900c7836d601dee2b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa56035c89a4cfcc0e028c8c1838a56d"><td class="memItemLeft" align="right" valign="top">FileOperationResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringHTTPBodyStream.html#afa56035c89a4cfcc0e028c8c1838a56d">GetBytesBuffer</a> (uint8_t *buffer, size_t max_len) override</td></tr>
+<tr class="memdesc:afa56035c89a4cfcc0e028c8c1838a56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies up to <em>max_len</em> bytes into the user-supplied buffer.  <a href="#afa56035c89a4cfcc0e028c8c1838a56d">More...</a><br /></td></tr>
+<tr class="separator:afa56035c89a4cfcc0e028c8c1838a56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An implementation of <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> that turns a fixed string into a stream. </p>
@@ -155,7 +155,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aef52b9001e6111900c7836d601dee2b3"></a>
+<a class="anchor" id="afa56035c89a4cfcc0e028c8c1838a56d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -163,7 +163,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ssize_t crashpad::StringHTTPBodyStream::GetBytesBuffer </td>
+          <td class="memname">FileOperationResult crashpad::StringHTTPBodyStream::GetBytesBuffer </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>buffer</em>, </td>
@@ -197,7 +197,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>On success, a positive number indicating the number of bytes actually copied to <em>buffer</em>. On failure, a negative number. When the stream has no more data, returns <code>0</code>. </dd></dl>
 
-<p>Implements <a class="el" href="classcrashpad_1_1HTTPBodyStream.html#a1bb6a644866c3e01f15818be23bde9ef">crashpad::HTTPBodyStream</a>.</p>
+<p>Implements <a class="el" href="classcrashpad_1_1HTTPBodyStream.html#aa6a460e23c34ff7b2edc056a5ffd11b2">crashpad::HTTPBodyStream</a>.</p>
 
 </div>
 </div>

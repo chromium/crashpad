@@ -127,9 +127,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringFile.html#acc9180465c3147b38c6d6aa4049f8958">Reset</a> ()</td></tr>
 <tr class="memdesc:acc9180465c3147b38c6d6aa4049f8958"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the virtual file’s contents to be empty, and resets its file position to <code>0</code>. <br /></td></tr>
 <tr class="separator:acc9180465c3147b38c6d6aa4049f8958"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3090a365d3db2cbf4e0bb816ce4ba03"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringFile.html#ae3090a365d3db2cbf4e0bb816ce4ba03">Read</a> (void *data, size_t size) override</td></tr>
-<tr class="memdesc:ae3090a365d3db2cbf4e0bb816ce4ba03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#ab67b32918c334cd86e1d2ebf367badaa" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics.  <a href="#ae3090a365d3db2cbf4e0bb816ce4ba03">More...</a><br /></td></tr>
-<tr class="separator:ae3090a365d3db2cbf4e0bb816ce4ba03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05de4b2d8ef91a974181d7340c61b346"><td class="memItemLeft" align="right" valign="top">FileOperationResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringFile.html#a05de4b2d8ef91a974181d7340c61b346">Read</a> (void *data, size_t size) override</td></tr>
+<tr class="memdesc:a05de4b2d8ef91a974181d7340c61b346"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics.  <a href="#a05de4b2d8ef91a974181d7340c61b346">More...</a><br /></td></tr>
+<tr class="separator:a05de4b2d8ef91a974181d7340c61b346"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7e22ad48bbedf3e1e6a257cfba0c137"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringFile.html#aa7e22ad48bbedf3e1e6a257cfba0c137">Write</a> (const void *data, size_t size) override</td></tr>
 <tr class="memdesc:aa7e22ad48bbedf3e1e6a257cfba0c137"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b" title="Wraps WriteFile(), ensuring that exactly size bytes are written. ">LoggingWriteFile()</a>, or provides an implementation with identical semantics.  <a href="#aa7e22ad48bbedf3e1e6a257cfba0c137">More...</a><br /></td></tr>
 <tr class="separator:aa7e22ad48bbedf3e1e6a257cfba0c137"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,7 +141,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:acabb59b99e86bea5949f7a9a47c6dbcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcrashpad_1_1FileReaderInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcrashpad_1_1FileReaderInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1FileReaderInterface.html">crashpad::FileReaderInterface</a></td></tr>
 <tr class="memitem:ad046f1ebf1071eb6b92a2a8d06c14a56 inherit pub_methods_classcrashpad_1_1FileReaderInterface"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad046f1ebf1071eb6b92a2a8d06c14a56">ReadExactly</a> (void *data, size_t size)</td></tr>
-<tr class="memdesc:ad046f1ebf1071eb6b92a2a8d06c14a56 inherit pub_methods_classcrashpad_1_1FileReaderInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="classcrashpad_1_1FileReaderInterface.html#a67ef8aff0f95c94627479f2fe48e0503" title="Wraps ReadFile(), or provides an implementation with identical semantics. ">Read()</a>, ensuring that the read succeeded and exactly <em>size</em> bytes were read.  <a href="#ad046f1ebf1071eb6b92a2a8d06c14a56">More...</a><br /></td></tr>
+<tr class="memdesc:ad046f1ebf1071eb6b92a2a8d06c14a56 inherit pub_methods_classcrashpad_1_1FileReaderInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad9035ff345274f33cef248712d53d9e1" title="Wraps ReadFile(), or provides an implementation with identical semantics. ">Read()</a>, ensuring that the read succeeded and exactly <em>size</em> bytes were read.  <a href="#ad046f1ebf1071eb6b92a2a8d06c14a56">More...</a><br /></td></tr>
 <tr class="separator:ad046f1ebf1071eb6b92a2a8d06c14a56 inherit pub_methods_classcrashpad_1_1FileReaderInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcrashpad_1_1FileSeekerInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcrashpad_1_1FileSeekerInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1FileSeekerInterface.html">crashpad::FileSeekerInterface</a></td></tr>
 <tr class="memitem:a49a884bfb0a61461b0291c975aa15382 inherit pub_methods_classcrashpad_1_1FileSeekerInterface"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2">FileOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileSeekerInterface.html#a49a884bfb0a61461b0291c975aa15382">SeekGet</a> ()</td></tr>
@@ -155,7 +155,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="textblock"><p>A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating system file descriptor-based file. </p>
 <p>The virtual file is a buffer in memory. This class is convenient for use with other code that normally expects to read or write files, when it is impractical or inconvenient to read or write a file. It is expected that tests, in particular, will benefit from using this class. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae3090a365d3db2cbf4e0bb816ce4ba03"></a>
+<a class="anchor" id="a05de4b2d8ef91a974181d7340c61b346"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -163,7 +163,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ssize_t crashpad::StringFile::Read </td>
+          <td class="memname">FileOperationResult crashpad::StringFile::Read </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>data</em>, </td>
@@ -187,10 +187,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table>
 </div><div class="memdoc">
 
-<p>Wraps <a class="el" href="namespacecrashpad.html#ab67b32918c334cd86e1d2ebf367badaa" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics. </p>
+<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics. </p>
 <dl class="section return"><dt>Returns</dt><dd>The number of bytes actually read if the operation succeeded, which may be <code>0</code> or any positive value less than or equal to <em>size</em>. <code>-1</code> if the operation failed, with an error message logged. </dd></dl>
 
-<p>Implements <a class="el" href="classcrashpad_1_1FileReaderInterface.html#a67ef8aff0f95c94627479f2fe48e0503">crashpad::FileReaderInterface</a>.</p>
+<p>Implements <a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad9035ff345274f33cef248712d53d9e1">crashpad::FileReaderInterface</a>.</p>
 
 </div>
 </div>

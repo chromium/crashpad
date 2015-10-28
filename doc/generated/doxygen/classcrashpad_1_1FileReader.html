@@ -119,15 +119,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a95e3c16213d1b2eb9a6896057afd7463"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReader.html#a95e3c16213d1b2eb9a6896057afd7463">Close</a> ()</td></tr>
 <tr class="memdesc:a95e3c16213d1b2eb9a6896057afd7463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps CheckedCloseHandle().  <a href="#a95e3c16213d1b2eb9a6896057afd7463">More...</a><br /></td></tr>
 <tr class="separator:a95e3c16213d1b2eb9a6896057afd7463"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21e7cad5ba35ac895a3640e06ec75783"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReader.html#a21e7cad5ba35ac895a3640e06ec75783">Read</a> (void *data, size_t size) override</td></tr>
-<tr class="memdesc:a21e7cad5ba35ac895a3640e06ec75783"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#ab67b32918c334cd86e1d2ebf367badaa" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics.  <a href="#a21e7cad5ba35ac895a3640e06ec75783">More...</a><br /></td></tr>
-<tr class="separator:a21e7cad5ba35ac895a3640e06ec75783"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71bb3e12f135a0e84b1385ab89e46611"><td class="memItemLeft" align="right" valign="top">FileOperationResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReader.html#a71bb3e12f135a0e84b1385ab89e46611">Read</a> (void *data, size_t size) override</td></tr>
+<tr class="memdesc:a71bb3e12f135a0e84b1385ab89e46611"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics.  <a href="#a71bb3e12f135a0e84b1385ab89e46611">More...</a><br /></td></tr>
+<tr class="separator:a71bb3e12f135a0e84b1385ab89e46611"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa468e6ee52895d46173aed720230f4b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2">FileOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReader.html#aa468e6ee52895d46173aed720230f4b8">Seek</a> (<a class="el" href="namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2">FileOffset</a> offset, int whence) override</td></tr>
 <tr class="memdesc:aa468e6ee52895d46173aed720230f4b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a3d6cedc10e24145d4a0c1000c33f8a10" title="Wraps lseek() or SetFilePointerEx(). Logs an error if the operation fails. ">LoggingSeekFile()</a> or provides an alternate implementation with identical semantics.  <a href="#aa468e6ee52895d46173aed720230f4b8">More...</a><br /></td></tr>
 <tr class="separator:aa468e6ee52895d46173aed720230f4b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcrashpad_1_1FileReaderInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcrashpad_1_1FileReaderInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1FileReaderInterface.html">crashpad::FileReaderInterface</a></td></tr>
 <tr class="memitem:ad046f1ebf1071eb6b92a2a8d06c14a56 inherit pub_methods_classcrashpad_1_1FileReaderInterface"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad046f1ebf1071eb6b92a2a8d06c14a56">ReadExactly</a> (void *data, size_t size)</td></tr>
-<tr class="memdesc:ad046f1ebf1071eb6b92a2a8d06c14a56 inherit pub_methods_classcrashpad_1_1FileReaderInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="classcrashpad_1_1FileReaderInterface.html#a67ef8aff0f95c94627479f2fe48e0503" title="Wraps ReadFile(), or provides an implementation with identical semantics. ">Read()</a>, ensuring that the read succeeded and exactly <em>size</em> bytes were read.  <a href="#ad046f1ebf1071eb6b92a2a8d06c14a56">More...</a><br /></td></tr>
+<tr class="memdesc:ad046f1ebf1071eb6b92a2a8d06c14a56 inherit pub_methods_classcrashpad_1_1FileReaderInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad9035ff345274f33cef248712d53d9e1" title="Wraps ReadFile(), or provides an implementation with identical semantics. ">Read()</a>, ensuring that the read succeeded and exactly <em>size</em> bytes were read.  <a href="#ad046f1ebf1071eb6b92a2a8d06c14a56">More...</a><br /></td></tr>
 <tr class="separator:ad046f1ebf1071eb6b92a2a8d06c14a56 inherit pub_methods_classcrashpad_1_1FileReaderInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcrashpad_1_1FileSeekerInterface"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcrashpad_1_1FileSeekerInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1FileSeekerInterface.html">crashpad::FileSeekerInterface</a></td></tr>
 <tr class="memitem:a49a884bfb0a61461b0291c975aa15382 inherit pub_methods_classcrashpad_1_1FileSeekerInterface"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2">FileOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileSeekerInterface.html#a49a884bfb0a61461b0291c975aa15382">SeekGet</a> ()</td></tr>
@@ -178,7 +178,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a21e7cad5ba35ac895a3640e06ec75783"></a>
+<a class="anchor" id="a71bb3e12f135a0e84b1385ab89e46611"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -186,7 +186,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ssize_t crashpad::FileReader::Read </td>
+          <td class="memname">FileOperationResult crashpad::FileReader::Read </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>data</em>, </td>
@@ -210,11 +210,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Wraps <a class="el" href="namespacecrashpad.html#ab67b32918c334cd86e1d2ebf367badaa" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics. </p>
+<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics. </p>
 <dl class="section return"><dt>Returns</dt><dd>The number of bytes actually read if the operation succeeded, which may be <code>0</code> or any positive value less than or equal to <em>size</em>. <code>-1</code> if the operation failed, with an error message logged.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>It is only valid to call this method between a successful <a class="el" href="classcrashpad_1_1FileReader.html#a7b1d936d3040a4ba89fca13fc6566ddd" title="Wraps LoggingOpenFileForRead(). ">Open()</a> and a <a class="el" href="classcrashpad_1_1FileReader.html#a95e3c16213d1b2eb9a6896057afd7463" title="Wraps CheckedCloseHandle(). ">Close()</a>. </dd></dl>
 
-<p>Implements <a class="el" href="classcrashpad_1_1FileReaderInterface.html#a67ef8aff0f95c94627479f2fe48e0503">crashpad::FileReaderInterface</a>.</p>
+<p>Implements <a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad9035ff345274f33cef248712d53d9e1">crashpad::FileReaderInterface</a>.</p>
 
 </div>
 </div>

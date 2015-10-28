@@ -114,14 +114,14 @@ Inheritance diagram for crashpad::HTTPBodyStream:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1bb6a644866c3e01f15818be23bde9ef"><td class="memItemLeft" align="right" valign="top">virtual ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPBodyStream.html#a1bb6a644866c3e01f15818be23bde9ef">GetBytesBuffer</a> (uint8_t *buffer, size_t max_len)=0</td></tr>
-<tr class="memdesc:a1bb6a644866c3e01f15818be23bde9ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies up to <em>max_len</em> bytes into the user-supplied buffer.  <a href="#a1bb6a644866c3e01f15818be23bde9ef">More...</a><br /></td></tr>
-<tr class="separator:a1bb6a644866c3e01f15818be23bde9ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a460e23c34ff7b2edc056a5ffd11b2"><td class="memItemLeft" align="right" valign="top">virtual FileOperationResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPBodyStream.html#aa6a460e23c34ff7b2edc056a5ffd11b2">GetBytesBuffer</a> (uint8_t *buffer, size_t max_len)=0</td></tr>
+<tr class="memdesc:aa6a460e23c34ff7b2edc056a5ffd11b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies up to <em>max_len</em> bytes into the user-supplied buffer.  <a href="#aa6a460e23c34ff7b2edc056a5ffd11b2">More...</a><br /></td></tr>
+<tr class="separator:aa6a460e23c34ff7b2edc056a5ffd11b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An interface to a stream that can be used for an HTTP request body. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a1bb6a644866c3e01f15818be23bde9ef"></a>
+<a class="anchor" id="aa6a460e23c34ff7b2edc056a5ffd11b2"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -129,7 +129,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual ssize_t crashpad::HTTPBodyStream::GetBytesBuffer </td>
+          <td class="memname">virtual FileOperationResult crashpad::HTTPBodyStream::GetBytesBuffer </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>buffer</em>, </td>
@@ -163,7 +163,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>On success, a positive number indicating the number of bytes actually copied to <em>buffer</em>. On failure, a negative number. When the stream has no more data, returns <code>0</code>. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1CompositeHTTPBodyStream.html#a8ed6efc6155915b464f0b8a02d67605b">crashpad::CompositeHTTPBodyStream</a>, <a class="el" href="classcrashpad_1_1FileHTTPBodyStream.html#af6774ed1f81fe667da00cd071b32a9c6">crashpad::FileHTTPBodyStream</a>, and <a class="el" href="classcrashpad_1_1StringHTTPBodyStream.html#aef52b9001e6111900c7836d601dee2b3">crashpad::StringHTTPBodyStream</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1CompositeHTTPBodyStream.html#a66355480dd05beba77261f0a512d3e70">crashpad::CompositeHTTPBodyStream</a>, <a class="el" href="classcrashpad_1_1FileHTTPBodyStream.html#a0495ba46a1dcdaedaf525d340972d771">crashpad::FileHTTPBodyStream</a>, and <a class="el" href="classcrashpad_1_1StringHTTPBodyStream.html#afa56035c89a4cfcc0e028c8c1838a56d">crashpad::StringHTTPBodyStream</a>.</p>
 
 </div>
 </div>
