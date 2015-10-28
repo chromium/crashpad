@@ -158,8 +158,7 @@ void ExpectMiscellaneousDebugRecord(
                                                                *misc_record);
     ASSERT_TRUE(misc_debug_record);
     EXPECT_EQ(expected_debug_type, misc_debug_record->DataType);
-    EXPECT_EQ(expected_debug_utf16,
-              static_cast<bool>(misc_debug_record->Unicode));
+    EXPECT_EQ(expected_debug_utf16, misc_debug_record->Unicode != 0);
     EXPECT_EQ(0u, misc_debug_record->Reserved[0]);
     EXPECT_EQ(0u, misc_debug_record->Reserved[1]);
     EXPECT_EQ(0u, misc_debug_record->Reserved[2]);
@@ -615,7 +614,8 @@ void InitializeTestModuleSnapshotFromMinidumpModule(
     TestModuleSnapshot* module_snapshot,
     const MINIDUMP_MODULE& minidump_module,
     const std::string& name,
-    const crashpad::UUID& uuid) {
+    const crashpad::UUID& uuid,
+    uint32_t age) {
   module_snapshot->SetName(name);
 
   module_snapshot->SetAddressAndSize(minidump_module.BaseOfImage,
@@ -646,7 +646,7 @@ void InitializeTestModuleSnapshotFromMinidumpModule(
   }
   module_snapshot->SetModuleType(module_type);
 
-  module_snapshot->SetUUID(uuid);
+  module_snapshot->SetUUIDAndAge(uuid, age);
 }
 
 TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
@@ -654,6 +654,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   const char* module_paths[arraysize(expect_modules)] = {};
   const char* module_names[arraysize(expect_modules)] = {};
   UUID uuids[arraysize(expect_modules)] = {};
+  uint32_t ages[arraysize(expect_modules)] = {};
 
   expect_modules[0].BaseOfImage = 0x100101000;
   expect_modules[0].SizeOfImage = 0xf000;
@@ -669,6 +670,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
       {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
        0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
   uuids[0].InitializeFromBytes(kUUIDBytes0);
+  ages[0] = 10;
 
   expect_modules[1].BaseOfImage = 0x200202000;
   expect_modules[1].SizeOfImage = 0x1e1000;
@@ -684,6 +686,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
       {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
        0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
   uuids[1].InitializeFromBytes(kUUIDBytes1);
+  ages[1] = 20;
 
   expect_modules[2].BaseOfImage = 0x300303000;
   expect_modules[2].SizeOfImage = 0x2d000;
@@ -699,6 +702,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
       {0xff, 0xfe, 0xfd, 0xfc, 0xfb, 0xfa, 0xf9, 0xf8,
        0xf7, 0xf6, 0xf5, 0xf4, 0xf3, 0xf2, 0xf1, 0xf0};
   uuids[2].InitializeFromBytes(kUUIDBytes2);
+  ages[2] = 30;
 
   PointerVector<TestModuleSnapshot> module_snapshots_owner;
   std::vector<const ModuleSnapshot*> module_snapshots;
@@ -708,7 +712,8 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
     InitializeTestModuleSnapshotFromMinidumpModule(module_snapshot,
                                                    expect_modules[index],
                                                    module_paths[index],
-                                                   uuids[index]);
+                                                   uuids[index],
+                                                   ages[index]);
     module_snapshots.push_back(module_snapshot);
   }
 
@@ -736,7 +741,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
                                          module_names[index],
                                          &uuids[index],
                                          0,
-                                         0,
+                                         ages[index],
                                          nullptr,
                                          0,
                                          false));

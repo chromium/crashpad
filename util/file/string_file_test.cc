@@ -197,13 +197,16 @@ TEST(StringFile, WriteInvalid) {
   EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
 
   EXPECT_FALSE(string_file.Write(
-      "", implicit_cast<size_t>(std::numeric_limits<ssize_t>::max()) + 1));
+      "",
+      implicit_cast<size_t>(std::numeric_limits<FileOperationResult>::max()) +
+          1));
   EXPECT_TRUE(string_file.string().empty());
   EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
 
   EXPECT_TRUE(string_file.Write("a", 1));
   EXPECT_FALSE(string_file.Write(
-      "", implicit_cast<size_t>(std::numeric_limits<ssize_t>::max())));
+      "",
+      implicit_cast<size_t>(std::numeric_limits<FileOperationResult>::max())));
   EXPECT_EQ(1u, string_file.string().size());
   EXPECT_EQ("a", string_file.string());
   EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
@@ -290,7 +293,7 @@ TEST(StringFile, WriteIoVecInvalid) {
   WritableIoVec iov;
   EXPECT_EQ(1, string_file.Seek(1, SEEK_CUR));
   iov.iov_base = "a";
-  iov.iov_len = std::numeric_limits<ssize_t>::max();
+  iov.iov_len = std::numeric_limits<FileOperationResult>::max();
   iovecs.push_back(iov);
   EXPECT_FALSE(string_file.WriteIoVec(&iovecs));
   EXPECT_TRUE(string_file.string().empty());
@@ -300,7 +303,7 @@ TEST(StringFile, WriteIoVecInvalid) {
   iov.iov_base = "a";
   iov.iov_len = 1;
   iovecs.push_back(iov);
-  iov.iov_len = std::numeric_limits<ssize_t>::max() - 1;
+  iov.iov_len = std::numeric_limits<FileOperationResult>::max() - 1;
   iovecs.push_back(iov);
   EXPECT_FALSE(string_file.WriteIoVec(&iovecs));
   EXPECT_TRUE(string_file.string().empty());
@@ -449,7 +452,9 @@ TEST(StringFile, SeekInvalid) {
   EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
   EXPECT_LT(string_file.Seek(-1, SEEK_SET), 0);
   EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
-  EXPECT_LT(string_file.Seek(std::numeric_limits<ssize_t>::min(), SEEK_SET), 0);
+  EXPECT_LT(string_file.Seek(std::numeric_limits<FileOperationResult>::min(),
+                             SEEK_SET),
+            0);
   EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
   EXPECT_LT(string_file.Seek(std::numeric_limits<FileOffset>::min(), SEEK_SET),
             0);
@@ -487,7 +492,8 @@ TEST(StringFile, SeekSet) {
   EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
   EXPECT_FALSE(string_file.SeekSet(-1));
   EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
-  EXPECT_FALSE(string_file.SeekSet(std::numeric_limits<ssize_t>::min()));
+  EXPECT_FALSE(
+      string_file.SeekSet(std::numeric_limits<FileOperationResult>::min()));
   EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
   EXPECT_FALSE(string_file.SeekSet(std::numeric_limits<FileOffset>::min()));
   EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));

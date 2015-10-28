@@ -117,8 +117,9 @@ void MinidumpModuleCodeViewRecordPDB70Writer::InitializeFromSnapshot(
   SetPDBName(leaf_name);
 
   UUID uuid;
-  module_snapshot->UUID(&uuid);
-  SetUUIDAndAge(uuid, 0);
+  uint32_t age;
+  module_snapshot->UUIDAndAge(&uuid, &age);
+  SetUUIDAndAge(uuid, age);
 }
 
 MinidumpModuleMiscDebugRecordWriter::MinidumpModuleMiscDebugRecordWriter()

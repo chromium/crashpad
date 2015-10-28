@@ -24,12 +24,6 @@
 
 #include <stdint.h>
 
-#ifdef _WIN64
-typedef int64_t ssize_t;
-#else
-typedef __w64 int ssize_t;
-#endif
-
 typedef unsigned int pid_t;
 
 #endif  // CRASHPAD_COMPAT_WIN_SYS_TYPES_H_

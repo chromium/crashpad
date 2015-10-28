@@ -32,15 +32,16 @@ StringHTTPBodyStream::StringHTTPBodyStream(const std::string& string)
 StringHTTPBodyStream::~StringHTTPBodyStream() {
 }
 
-ssize_t StringHTTPBodyStream::GetBytesBuffer(uint8_t* buffer, size_t max_len) {
+FileOperationResult StringHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
+                                                         size_t max_len) {
   size_t num_bytes_remaining = string_.length() - bytes_read_;
   if (num_bytes_remaining == 0) {
     return num_bytes_remaining;
   }
 
-  size_t num_bytes_returned =
-      std::min(std::min(num_bytes_remaining, max_len),
-               implicit_cast<size_t>(std::numeric_limits<ssize_t>::max()));
+  size_t num_bytes_returned = std::min(
+      std::min(num_bytes_remaining, max_len),
+      implicit_cast<size_t>(std::numeric_limits<FileOperationResult>::max()));
   memcpy(buffer, &string_[bytes_read_], num_bytes_returned);
   bytes_read_ += num_bytes_returned;
   return num_bytes_returned;
@@ -53,7 +54,8 @@ FileHTTPBodyStream::FileHTTPBodyStream(const base::FilePath& path)
 FileHTTPBodyStream::~FileHTTPBodyStream() {
 }
 
-ssize_t FileHTTPBodyStream::GetBytesBuffer(uint8_t* buffer, size_t max_len) {
+FileOperationResult FileHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
+                                                       size_t max_len) {
   switch (file_state_) {
     case kUnopenedFile:
       file_.reset(LoggingOpenFileForRead(path_));
@@ -71,7 +73,7 @@ ssize_t FileHTTPBodyStream::GetBytesBuffer(uint8_t* buffer, size_t max_len) {
       break;
   }
 
-  ssize_t rv = ReadFile(file_.get(), buffer, max_len);
+  FileOperationResult rv = ReadFile(file_.get(), buffer, max_len);
   if (rv == 0) {
     file_.reset();
     file_state_ = kClosedAtEOF;
@@ -90,14 +92,16 @@ CompositeHTTPBodyStream::~CompositeHTTPBodyStream() {
   STLDeleteContainerPointers(parts_.begin(), parts_.end());
 }
 
-ssize_t CompositeHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
-                                                size_t buffer_len) {
-  ssize_t max_len = std::min(
-      buffer_len, implicit_cast<size_t>(std::numeric_limits<ssize_t>::max()));
-  ssize_t bytes_copied = 0;
+FileOperationResult CompositeHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
+                                                            size_t buffer_len) {
+  FileOperationResult max_len = std::min(
+      buffer_len,
+      implicit_cast<size_t>(std::numeric_limits<FileOperationResult>::max()));
+  FileOperationResult bytes_copied = 0;
   while (bytes_copied < max_len && current_part_ != parts_.end()) {
-    ssize_t this_read = (*current_part_)->GetBytesBuffer(
-        buffer + bytes_copied, max_len - bytes_copied);
+    FileOperationResult this_read =
+        (*current_part_)
+            ->GetBytesBuffer(buffer + bytes_copied, max_len - bytes_copied);
 
     if (this_read == 0) {
       // If the current part has returned 0 indicating EOF, advance the current

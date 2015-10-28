@@ -25,6 +25,7 @@ TestModuleSnapshot::TestModuleSnapshot()
       file_version_(),
       source_version_(),
       module_type_(kModuleTypeUnknown),
+      age_(0),
       uuid_(),
       annotations_vector_(),
       annotations_simple_map_() {
@@ -73,8 +74,9 @@ ModuleSnapshot::ModuleType TestModuleSnapshot::GetModuleType() const {
   return module_type_;
 }
 
-void TestModuleSnapshot::UUID(crashpad::UUID* uuid) const {
+void TestModuleSnapshot::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   *uuid = uuid_;
+  *age = age_;
 }
 
 std::vector<std::string> TestModuleSnapshot::AnnotationsVector() const {

@@ -173,7 +173,7 @@ bool MinidumpFileWriter::WriteEverything(FileWriterInterface* file_writer) {
 
   // Seek back to the end of the file, in case some non-minidump content will be
   // written to the file after the minidump content.
-  return file_writer->Seek(end_offset, SEEK_SET);
+  return file_writer->Seek(end_offset, SEEK_SET) >= 0;
 }
 
 bool MinidumpFileWriter::Freeze() {

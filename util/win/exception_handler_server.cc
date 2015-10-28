@@ -450,7 +450,7 @@ DWORD __stdcall ExceptionHandlerServer::PipeServiceProc(void* ctx) {
   DCHECK(service_context);
 
   for (;;) {
-    bool ret = ConnectNamedPipe(service_context->pipe(), nullptr);
+    bool ret = !!ConnectNamedPipe(service_context->pipe(), nullptr);
     if (!ret && GetLastError() != ERROR_PIPE_CONNECTED) {
       PLOG(ERROR) << "ConnectNamedPipe";
     } else if (ServiceClientConnection(*service_context)) {
@@ -491,7 +491,7 @@ void __stdcall ExceptionHandlerServer::OnNonCrashDumpEvent(void* ctx, BOOLEAN) {
       client->non_crash_exception_information_address(),
       client->debug_critical_section_address());
 
-  bool result = SetEvent(client->non_crash_dump_completed_event());
+  bool result = !!SetEvent(client->non_crash_dump_completed_event());
   PLOG_IF(ERROR, !result) << "SetEvent";
 }
 

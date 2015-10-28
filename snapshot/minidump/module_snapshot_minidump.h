@@ -72,7 +72,7 @@ class ModuleSnapshotMinidump final : public ModuleSnapshot {
                      uint16_t* version_2,
                      uint16_t* version_3) const override;
   ModuleType GetModuleType() const override;
-  void UUID(crashpad::UUID* uuid) const override;
+  void UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const override;
   std::vector<std::string> AnnotationsVector() const override;
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
 

@@ -21,13 +21,13 @@ namespace crashpad {
 
 namespace {
 
-BOOL CrashpadInitializeCriticalSectionEx(
+bool CrashpadInitializeCriticalSectionEx(
     CRITICAL_SECTION* critical_section,
     DWORD spin_count,
     DWORD flags) {
   static const auto initialize_critical_section_ex =
       GET_FUNCTION_REQUIRED(L"kernel32.dll", ::InitializeCriticalSectionEx);
-  bool ret =
+  BOOL ret =
       initialize_critical_section_ex(critical_section, spin_count, flags);
   if (!ret) {
     PLOG(ERROR) << "InitializeCriticalSectionEx";

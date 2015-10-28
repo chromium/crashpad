@@ -566,7 +566,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
         call_error_writing_crash_report(database.get(), new_report);
 
     char buf[4096];
-    ssize_t read_result;
+    FileOperationResult read_result;
     do {
       read_result = file_reader->Read(buf, sizeof(buf));
       if (read_result < 0) {

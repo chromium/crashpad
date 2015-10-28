@@ -159,7 +159,7 @@ ReportDisk::ReportDisk(const MetadataFileReportRecord& record,
       base::UTF8ToUTF16(&string_table[record.file_path_index]));
   id = &string_table[record.id_index];
   creation_time = record.creation_time;
-  uploaded = record.uploaded;
+  uploaded = record.uploaded != 0;
   last_upload_attempt_time = record.last_upload_attempt_time;
   upload_attempts = record.upload_attempts;
   state = static_cast<ReportState>(record.state);

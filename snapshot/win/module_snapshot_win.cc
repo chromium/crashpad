@@ -135,13 +135,18 @@ ModuleSnapshot::ModuleType ModuleSnapshotWin::GetModuleType() const {
   return ModuleSnapshot::kModuleTypeUnknown;
 }
 
-void ModuleSnapshotWin::UUID(crashpad::UUID* uuid) const {
+void ModuleSnapshotWin::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  // TODO(scottmg): Also pass the age and pdbname through to snapshot?
-  DWORD age;
+  // TODO(scottmg): Consider passing pdbname through to snapshot.
   std::string pdbname;
-  if (!pe_image_reader_->DebugDirectoryInformation(uuid, &age, &pdbname))
+  DWORD age_dword;
+  if (!pe_image_reader_->DebugDirectoryInformation(
+          uuid, &age_dword, &pdbname)) {
     *uuid = crashpad::UUID();
+    *age = 0;
+  }
+  static_assert(sizeof(DWORD) == sizeof(uint32_t), "unexpected age size");
+  *age = age_dword;
 }
 
 std::vector<std::string> ModuleSnapshotWin::AnnotationsVector() const {

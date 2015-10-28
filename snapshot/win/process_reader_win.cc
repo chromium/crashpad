@@ -86,10 +86,13 @@ process_types::SYSTEM_PROCESS_INFORMATION<Traits>* GetProcessInformation(
       reinterpret_cast<process_types::SYSTEM_PROCESS_INFORMATION<Traits>*>(
           buffer->get());
   DWORD process_id = GetProcessId(process_handle);
-  do {
+  for (;;) {
     if (process->UniqueProcessId == process_id)
       return process;
-  } while (process = NextProcess(process));
+    process = NextProcess(process);
+    if (!process)
+      break;
+  }
 
   LOG(ERROR) << "process " << process_id << " not found";
   return nullptr;

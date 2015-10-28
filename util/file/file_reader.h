@@ -37,7 +37,7 @@ class FileReaderInterface : public virtual FileSeekerInterface {
   //! \return The number of bytes actually read if the operation succeeded,
   //!     which may be `0` or any positive value less than or equal to \a size.
   //!     `-1` if the operation failed, with an error message logged.
-  virtual ssize_t Read(void* data, size_t size) = 0;
+  virtual FileOperationResult Read(void* data, size_t size) = 0;
 
   //! \brief Wraps Read(), ensuring that the read succeeded and exactly \a size
   //!     bytes were read.
@@ -69,7 +69,7 @@ class WeakFileHandleFileReader : public FileReaderInterface {
   ~WeakFileHandleFileReader() override;
 
   // FileReaderInterface:
-  ssize_t Read(void* data, size_t size) override;
+  FileOperationResult Read(void* data, size_t size) override;
 
   // FileSeekerInterface:
 
@@ -125,7 +125,7 @@ class FileReader : public FileReaderInterface {
   //!
   //! \note It is only valid to call this method between a successful Open() and
   //!     a Close().
-  ssize_t Read(void* data, size_t size) override;
+  FileOperationResult Read(void* data, size_t size) override;
 
   // FileSeekerInterface:
 
@@ -160,7 +160,7 @@ class WeakStdioFileReader : public FileReaderInterface {
   ~WeakStdioFileReader() override;
 
   // FileReaderInterface:
-  ssize_t Read(void* data, size_t size) override;
+  FileOperationResult Read(void* data, size_t size) override;
 
   // FileSeekerInterface:
 

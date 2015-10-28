@@ -121,7 +121,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     // Read until the child's stdout closes.
     std::string request;
     char buf[32];
-    ssize_t bytes_read;
+    FileOperationResult bytes_read;
     while ((bytes_read = ReadFile(ReadPipeHandle(), buf, sizeof(buf))) != 0) {
       ASSERT_GE(bytes_read, 0);
       request.append(buf, bytes_read);

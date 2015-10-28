@@ -28,7 +28,9 @@ namespace {
 struct ReadTraits {
   using VoidBufferType = void*;
   using CharBufferType = char*;
-  static ssize_t Operate(int fd, CharBufferType buffer, size_t size) {
+  static crashpad::FileOperationResult Operate(int fd,
+                                               CharBufferType buffer,
+                                               size_t size) {
     return read(fd, buffer, size);
   }
 };
@@ -36,21 +38,23 @@ struct ReadTraits {
 struct WriteTraits {
   using VoidBufferType = const void*;
   using CharBufferType = const char*;
-  static ssize_t Operate(int fd, CharBufferType buffer, size_t size) {
+  static crashpad::FileOperationResult Operate(int fd,
+                                               CharBufferType buffer,
+                                               size_t size) {
     return write(fd, buffer, size);
   }
 };
 
 template <typename Traits>
-ssize_t ReadOrWrite(int fd,
-                    typename Traits::VoidBufferType buffer,
-                    size_t size) {
+crashpad::FileOperationResult
+ReadOrWrite(int fd, typename Traits::VoidBufferType buffer, size_t size) {
   typename Traits::CharBufferType buffer_c =
       reinterpret_cast<typename Traits::CharBufferType>(buffer);
 
-  ssize_t total_bytes = 0;
+  crashpad::FileOperationResult total_bytes = 0;
   while (size > 0) {
-    ssize_t bytes = HANDLE_EINTR(Traits::Operate(fd, buffer_c, size));
+    crashpad::FileOperationResult bytes =
+        HANDLE_EINTR(Traits::Operate(fd, buffer_c, size));
     if (bytes < 0) {
       return bytes;
     } else if (bytes == 0) {
@@ -102,11 +106,13 @@ FileHandle OpenFileForOutput(int rdwr_or_wronly,
 
 }  // namespace
 
-ssize_t ReadFile(FileHandle file, void* buffer, size_t size) {
+FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
   return ReadOrWrite<ReadTraits>(file, buffer, size);
 }
 
-ssize_t WriteFile(FileHandle file, const void* buffer, size_t size) {
+FileOperationResult WriteFile(FileHandle file,
+                              const void* buffer,
+                              size_t size) {
   return ReadOrWrite<WriteTraits>(file, buffer, size);
 }
 

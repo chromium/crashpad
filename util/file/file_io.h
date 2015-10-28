@@ -67,11 +67,14 @@ using ScopedFileHandle = base::ScopedFD;
 //! \brief A value that can never be a valid FileHandle.
 const FileHandle kInvalidFileHandle = -1;
 
+using FileOperationResult = ssize_t;
+
 #elif defined(OS_WIN)
 
 using FileHandle = HANDLE;
 using FileOffset = LONGLONG;
 using ScopedFileHandle = ScopedFileHANDLE;
+using FileOperationResult = LONG_PTR;
 
 const FileHandle kInvalidFileHandle = INVALID_HANDLE_VALUE;
 
@@ -126,7 +129,7 @@ enum class FileLocking : bool {
 //! \sa LoggingReadFile
 //! \sa CheckedReadFile
 //! \sa CheckedReadFileAtEOF
-ssize_t ReadFile(FileHandle file, void* buffer, size_t size);
+FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size);
 
 //! \brief Writes to a file, retrying when interrupted or following a short
 //!     write on POSIX.
@@ -141,7 +144,7 @@ ssize_t ReadFile(FileHandle file, void* buffer, size_t size);
 //! \sa ReadFile
 //! \sa LoggingWriteFile
 //! \sa CheckedWriteFile
-ssize_t WriteFile(FileHandle file, const void* buffer, size_t size);
+FileOperationResult WriteFile(FileHandle file, const void* buffer, size_t size);
 
 //! \brief Wraps ReadFile(), ensuring that exactly \a size bytes are read.
 //!

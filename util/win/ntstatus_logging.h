@@ -24,11 +24,14 @@ namespace logging {
 
 class NtstatusLogMessage : public logging::LogMessage {
  public:
-  NtstatusLogMessage(const char* function,
-                     const char* file_path,
-                     int line,
-                     LogSeverity severity,
-                     DWORD ntstatus);
+  NtstatusLogMessage(
+#if defined(MINI_CHROMIUM_BASE_LOGGING_H_)
+      const char* function,
+#endif
+      const char* file_path,
+      int line,
+      LogSeverity severity,
+      DWORD ntstatus);
   ~NtstatusLogMessage();
 
  private:
@@ -41,10 +44,21 @@ class NtstatusLogMessage : public logging::LogMessage {
 
 #define NTSTATUS_LOG_STREAM(severity, ntstatus) \
   COMPACT_GOOGLE_LOG_EX_##severity(NtstatusLogMessage, ntstatus).stream()
+
+#if defined(MINI_CHROMIUM_BASE_LOGGING_H_)
+
 #define NTSTATUS_VLOG_STREAM(verbose_level, ntstatus)                    \
   logging::NtstatusLogMessage(                                           \
       __PRETTY_FUNCTION__, __FILE__, __LINE__, -verbose_level, ntstatus) \
       .stream()
+
+#else
+
+#define NTSTATUS_VLOG_STREAM(verbose_level, ntstatus)                       \
+  logging::NtstatusLogMessage(__FILE__, __LINE__, -verbose_level, ntstatus) \
+      .stream()
+
+#endif  // MINI_CHROMIUM_BASE_LOGGING_H_
 
 #define NTSTATUS_LOG(severity, ntstatus) \
   LAZY_STREAM(NTSTATUS_LOG_STREAM(severity, ntstatus), LOG_IS_ON(severity))

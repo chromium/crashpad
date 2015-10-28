@@ -59,7 +59,7 @@ bool IsProcessWow64(HANDLE process_handle) {
     PLOG(ERROR) << "IsWow64Process";
     return false;
   }
-  return is_wow64;
+  return !!is_wow64;
 }
 
 template <class T>

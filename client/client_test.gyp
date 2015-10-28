@@ -22,7 +22,6 @@
       'type': 'executable',
       'dependencies': [
         'client.gyp:crashpad_client',
-        '../compat/compat.gyp:crashpad_compat',
         '../test/test.gyp:crashpad_test',
         '../third_party/gmock/gmock.gyp:gmock',
         '../third_party/gtest/gtest.gyp:gtest',
