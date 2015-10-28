@@ -143,10 +143,19 @@ template <class NtHeadersType>
 bool PEImageReader::ReadDebugDirectoryInformation(UUID* uuid,
                                                   DWORD* age,
                                                   std::string* pdbname) const {
-  WinVMAddress nt_headers_address;
   NtHeadersType nt_headers;
-  if (!ReadNtHeaders(&nt_headers_address, &nt_headers))
+  if (!ReadNtHeaders(&nt_headers, nullptr))
     return false;
+
+  if (nt_headers.FileHeader.SizeOfOptionalHeader <
+          offsetof(decltype(nt_headers.OptionalHeader),
+                   DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG]) +
+              sizeof(nt_headers.OptionalHeader
+                         .DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG]) ||
+      nt_headers.OptionalHeader.NumberOfRvaAndSizes <=
+          IMAGE_DIRECTORY_ENTRY_DEBUG) {
+    return false;
+  }
 
   const IMAGE_DATA_DIRECTORY& data_directory =
       nt_headers.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG];
@@ -202,8 +211,8 @@ bool PEImageReader::ReadDebugDirectoryInformation(UUID* uuid,
 }
 
 template <class NtHeadersType>
-bool PEImageReader::ReadNtHeaders(WinVMAddress* nt_headers_address,
-                                  NtHeadersType* nt_headers) const {
+bool PEImageReader::ReadNtHeaders(NtHeadersType* nt_headers,
+                                  WinVMAddress* nt_headers_address) const {
   IMAGE_DOS_HEADER dos_header;
   if (!CheckedReadMemory(Address(), sizeof(IMAGE_DOS_HEADER), &dos_header)) {
     LOG(WARNING) << "could not read dos header of " << module_name_;
@@ -215,9 +224,9 @@ bool PEImageReader::ReadNtHeaders(WinVMAddress* nt_headers_address,
     return false;
   }
 
-  *nt_headers_address = Address() + dos_header.e_lfanew;
+  WinVMAddress local_nt_headers_address = Address() + dos_header.e_lfanew;
   if (!CheckedReadMemory(
-          *nt_headers_address, sizeof(NtHeadersType), nt_headers)) {
+          local_nt_headers_address, sizeof(NtHeadersType), nt_headers)) {
     LOG(WARNING) << "could not read nt headers of " << module_name_;
     return false;
   }
@@ -226,6 +235,9 @@ bool PEImageReader::ReadNtHeaders(WinVMAddress* nt_headers_address,
     LOG(WARNING) << "invalid signature in nt headers of " << module_name_;
     return false;
   }
+
+  if (nt_headers_address)
+    *nt_headers_address = local_nt_headers_address;
 
   return true;
 }
@@ -238,9 +250,9 @@ bool PEImageReader::GetSectionByName(const std::string& name,
     return false;
   }
 
-  WinVMAddress nt_headers_address;
   NtHeadersType nt_headers;
-  if (!ReadNtHeaders(&nt_headers_address, &nt_headers))
+  WinVMAddress nt_headers_address;
+  if (!ReadNtHeaders(&nt_headers, &nt_headers_address))
     return false;
 
   WinVMAddress first_section_address =

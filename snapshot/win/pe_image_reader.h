@@ -109,15 +109,30 @@ class PEImageReader {
  private:
   //! \brief Implementation helper for DebugDirectoryInformation() templated by
   //!     `IMAGE_NT_HEADERS` type for different bitnesses.
+  //!
+  //! \return `true` on success, with the parameters set appropriately. `false`
+  //!     on failure. This method may return `false` without logging anything in
+  //!     the case of a module that does not contain relevant debugging
+  //!     information but is otherwise properly structured.
   template <class NtHeadersType>
   bool ReadDebugDirectoryInformation(UUID* uuid,
                                      DWORD* age,
                                      std::string* pdbname) const;
 
   //! \brief Reads the `IMAGE_NT_HEADERS` from the beginning of the image.
+  //!
+  //! \param[out] nt_headers The contents of the templated NtHeadersType
+  //!     structure read from the remote process.
+  //! \param[out] nt_headers_address The address of the templated NtHeadersType
+  //!     structure in the remote process’ address space. If this information is
+  //!     not needed, this parameter may be `nullptr`.
+  //!
+  //! \return `true` on success, with \a nt_headers and optionally \a
+  //!     nt_headers_address set appropriately. `false` on failure, with a
+  //!     message logged.
   template <class NtHeadersType>
-  bool ReadNtHeaders(WinVMAddress* nt_header_address,
-                     NtHeadersType* nt_headers) const;
+  bool ReadNtHeaders(NtHeadersType* nt_headers,
+                     WinVMAddress* nt_headers_address) const;
 
   //! \brief Finds a given section by name in the image.
   template <class NtHeadersType>
