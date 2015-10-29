@@ -45,6 +45,7 @@ var searchData=
   ['pointercount',['PointerCount',['../structMINIDUMP__HANDLE__DESCRIPTOR.html#a7dc58866837f85360fb1185cf1588bdf',1,'MINIDUMP_HANDLE_DESCRIPTOR']]],
   ['pointervector',['PointerVector',['../namespacecrashpad.html#a9cae195b61eb9fe7cd4ae9a66e13f00f',1,'crashpad']]],
   ['port',['port',['../structcrashpad_1_1ExceptionPorts_1_1ExceptionHandler.html#a49e5ff609eb445e649fed720978c56d0',1,'crashpad::ExceptionPorts::ExceptionHandler']]],
+  ['portrighttype',['PortRightType',['../classcrashpad_1_1ChildPortHandshake.html#a727e01831df67754b0ff439735f41608',1,'crashpad::ChildPortHandshake']]],
   ['prefork',['PreFork',['../classcrashpad_1_1test_1_1MachMultiprocess.html#aac4af4a4c943686538069de230fe7abe',1,'crashpad::test::MachMultiprocess::PreFork()'],['../classcrashpad_1_1test_1_1Multiprocess.html#a122d18401346cf600a4f6ab63d83c8ca',1,'crashpad::test::Multiprocess::PreFork()'],['../classcrashpad_1_1test_1_1MultiprocessExec.html#a4fbe35bfe7dd75624b417c435ae2208b',1,'crashpad::test::MultiprocessExec::PreFork()']]],
   ['preparemigreplyfromrequest',['PrepareMIGReplyFromRequest',['../namespacecrashpad.html#a2274adc0459f68b93ffe51d8f975f14e',1,'crashpad']]],
   ['preparenewcrashreport',['PrepareNewCrashReport',['../classcrashpad_1_1CrashReportDatabase.html#a6af53890d1e551800330e6ad53be995b',1,'crashpad::CrashReportDatabase']]],

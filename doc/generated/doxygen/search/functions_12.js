@@ -13,6 +13,7 @@ var searchData=
   ['semaphore',['Semaphore',['../classcrashpad_1_1Semaphore.html#affe042d8a25991c90213370af5453010',1,'crashpad::Semaphore']]],
   ['sendtocrashhandlerserver',['SendToCrashHandlerServer',['../namespacecrashpad.html#a638d7916642f81df8063d300f08ff2ca',1,'crashpad']]],
   ['serialize',['Serialize',['../classcrashpad_1_1TSimpleStringDictionary.html#a897b860dcc0820c362ef54669ea88599',1,'crashpad::TSimpleStringDictionary']]],
+  ['serverwritefd',['ServerWriteFD',['../classcrashpad_1_1ChildPortHandshake.html#a13c305bc7f510f7ec0696ea3257fef35',1,'crashpad::ChildPortHandshake']]],
   ['servicemanagementisjobloaded',['ServiceManagementIsJobLoaded',['../namespacecrashpad.html#aead5f04bd94549956a7f2826aeccf495',1,'crashpad']]],
   ['servicemanagementisjobrunning',['ServiceManagementIsJobRunning',['../namespacecrashpad.html#a3bc3a94386dd27968d48619f42154463',1,'crashpad']]],
   ['servicemanagementremovejob',['ServiceManagementRemoveJob',['../namespacecrashpad.html#a8cc130fecf996b7d7c76a56200afccb1',1,'crashpad']]],

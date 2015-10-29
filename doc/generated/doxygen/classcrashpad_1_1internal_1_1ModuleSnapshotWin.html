@@ -150,6 +150,9 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="memitem:a7a18b084cf48b7a53f9d660e9339428f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a7a18b084cf48b7a53f9d660e9339428f">UUIDAndAge</a> (<a class="el" href="structcrashpad_1_1UUID.html">crashpad::UUID</a> *uuid, uint32_t *age) const override</td></tr>
 <tr class="memdesc:a7a18b084cf48b7a53f9d660e9339428f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the module’s <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> in the <em>uuid</em> parameter, and the age of that <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> in <em>age</em>.  <a href="#a7a18b084cf48b7a53f9d660e9339428f">More...</a><br /></td></tr>
 <tr class="separator:a7a18b084cf48b7a53f9d660e9339428f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae819d7011878cb9aed89cd1b693cc721"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#ae819d7011878cb9aed89cd1b693cc721">DebugFileName</a> () const override</td></tr>
+<tr class="memdesc:ae819d7011878cb9aed89cd1b693cc721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the module’s debug file info name.  <a href="#ae819d7011878cb9aed89cd1b693cc721">More...</a><br /></td></tr>
+<tr class="separator:ae819d7011878cb9aed89cd1b693cc721"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fdf9a63074896bf2c12e6df89689411"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a6fdf9a63074896bf2c12e6df89689411">AnnotationsVector</a> () const override</td></tr>
 <tr class="memdesc:a6fdf9a63074896bf2c12e6df89689411"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns string annotations recorded in the module.  <a href="#a6fdf9a63074896bf2c12e6df89689411">More...</a><br /></td></tr>
 <tr class="separator:a6fdf9a63074896bf2c12e6df89689411"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,6 +227,35 @@ Additional Inherited Members</h2></td></tr>
 <p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a4122d0649c3513608f070f234a6013b9" title="Returns key-value string annotations recorded in the module. ">AnnotationsSimpleMap()</a>. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a11075b25729fda7cf96ed8c8b25061a2">crashpad::ModuleSnapshot</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae819d7011878cb9aed89cd1b693cc721"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string crashpad::internal::ModuleSnapshotWin::DebugFileName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the module’s debug file info name. </p>
+<p>On Windows, this references the PDB file, which contains symbol information held separately from the module itself. On other platforms, this is normally just be the basename of the module, because the debug info file’s name is not relevant even in split-debug scenarios.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a7a18b084cf48b7a53f9d660e9339428f" title="Returns the module’s UUID in the uuid parameter, and the age of that UUID in age. ">UUIDAndAge()</a> </dd></dl>
+
+<p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#aa08595e35c34bb13e456cddb4f40f698">crashpad::ModuleSnapshot</a>.</p>
 
 </div>
 </div>
@@ -481,7 +513,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Returns the module’s <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> in the <em>uuid</em> parameter, and the age of that <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> in <em>age</em>. </p>
 <p>A snapshot module’s <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> is taken directly from the module itself. If the module does not have a <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a>, the <em>uuid</em> parameter will be zeroed out.</p>
-<p><em>age</em> is the number of times the <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> has been reused. This occurs on Windows with incremental linking. On other platforms <em>age</em> will always be <code>0</code>. </p>
+<p><em>age</em> is the number of times the <a class="el" href="structcrashpad_1_1UUID.html" title="A universally unique identifier (UUID). ">UUID</a> has been reused. This occurs on Windows with incremental linking. On other platforms <em>age</em> will always be <code>0</code>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#ae819d7011878cb9aed89cd1b693cc721" title="Returns the module’s debug file info name. ">DebugFileName()</a> </dd></dl>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a24a9de66bb92e51ac5bb3f04f076a119">crashpad::ModuleSnapshot</a>.</p>
 

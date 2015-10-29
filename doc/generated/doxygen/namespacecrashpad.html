@@ -118,7 +118,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensures that a range, composed of a base and size, does not overflow its data type.  <a href="classcrashpad_1_1CheckedRange.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ChildPortHandshake.html">ChildPortHandshake</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a handshake protocol that allows a parent process to obtain a Mach port right from a child process.  <a href="classcrashpad_1_1ChildPortHandshake.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a handshake protocol that allows processes to exchange port rights.  <a href="classcrashpad_1_1ChildPortHandshake.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ChildPortServer.html">ChildPortServer</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A server interface for the <code>child_port</code> Mach subsystem.  <a href="classcrashpad_1_1ChildPortServer.html#details">More...</a><br /></td></tr>
@@ -793,6 +793,9 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 <tr class="memitem:a2c18eae8148ec3304733581a28c2da3b"><td class="memItemLeft" align="right" valign="top">pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a2c18eae8148ec3304733581a28c2da3b">AuditPIDFromMachMessageTrailer</a> (const mach_msg_trailer_t *trailer)</td></tr>
 <tr class="memdesc:a2c18eae8148ec3304733581a28c2da3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the process ID of a Mach message’s sender from its audit trailer.  <a href="#a2c18eae8148ec3304733581a28c2da3b">More...</a><br /></td></tr>
 <tr class="separator:a2c18eae8148ec3304733581a28c2da3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2670a96d46f33b0e88db50a6222c0b47"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a2670a96d46f33b0e88db50a6222c0b47">MachMessageDestroyReceivedPort</a> (mach_port_t port, mach_msg_type_name_t port_right_type)</td></tr>
+<tr class="memdesc:a2670a96d46f33b0e88db50a6222c0b47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys or deallocates a Mach port received in a Mach message.  <a href="#a2670a96d46f33b0e88db50a6222c0b47">More...</a><br /></td></tr>
+<tr class="separator:a2670a96d46f33b0e88db50a6222c0b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05296bfd23550f42639067355410811e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a05296bfd23550f42639067355410811e">ExceptionToString</a> (exception_type_t exception, <a class="el" href="namespacecrashpad.html#a0f13feba965ef7750b3d49064936e5ee">SymbolicConstantToStringOptions</a> options)</td></tr>
 <tr class="memdesc:a05296bfd23550f42639067355410811e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a Mach exception value to a textual representation.  <a href="#a05296bfd23550f42639067355410811e">More...</a><br /></td></tr>
 <tr class="separator:a05296bfd23550f42639067355410811e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3864,6 +3867,43 @@ template&lt;typename Destination , typename Source &gt; </div>
 <p>Computes the deadline for a specified timeout value. </p>
 <p>While deadlines exist on an absolute time scale, timeouts are relative. This function calculates the deadline as <em>timeout_ms</em> milliseconds after it executes.</p>
 <p>If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a4147bdf38269283184784857b63588e3a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>, this function will return <a class="el" href="namespacecrashpad.html#a4147bdf38269283184784857b63588e3a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#aa9956dc9a17e385dcb02c9118d34669baaf4f2c8a649ea6bcfe896e77c312315f" title="When passed to MachMessageDeadlineFromTimeout(), that function will return kMachMessageDeadlineWaitIn...">kMachMessageTimeoutWaitIndefinitely</a>, this function will return <a class="el" href="namespacecrashpad.html#a4147bdf38269283184784857b63588e3a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
+
+</div>
+</div>
+<a class="anchor" id="a2670a96d46f33b0e88db50a6222c0b47"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::MachMessageDestroyReceivedPort </td>
+          <td>(</td>
+          <td class="paramtype">mach_port_t&#160;</td>
+          <td class="paramname"><em>port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mach_msg_type_name_t&#160;</td>
+          <td class="paramname"><em>port_right_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroys or deallocates a Mach port received in a Mach message. </p>
+<p>This function disposes of port rights received in a Mach message. Receive rights will be destroyed with <code>mach_port_mod_refs()</code>. Send and send-once rights will be deallocated with <code>mach_port_deallocate()</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">port</td><td>The port to destroy or deallocate. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">port_right_type</td><td>The right type held for <em>port:</em> <code>MACH_MSG_TYPE_PORT_RECEIVE</code>, <code>MACH_MSG_TYPE_PORT_SEND</code>, or <code>MACH_MSG_TYPE_PORT_SEND_ONCE</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, or <code>false</code> on failure with a message logged. </dd></dl>
 
 </div>
 </div>

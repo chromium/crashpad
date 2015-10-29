@@ -846,7 +846,7 @@ $ <strong>gclient sync</strong></pre>
 <div class="sect1">
 <h2 id="_building">Building</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Crashpad uses <a href="https://gyp.googlecode.com/">GYP</a> to generate
+<div class="paragraph"><p>Crashpad uses <a href="https://gyp.gsrc.io/">GYP</a> to generate
 <a href="https://martine.github.io/ninja/">Ninja</a> build files. The build is described by
 <span class="monospaced">.gyp</span> files throughout the Crashpad source code tree. The
 <span class="monospaced">build/gyp_crashpad.py</span> script runs GYP properly for Crashpad, and is also
@@ -868,12 +868,13 @@ need to install it separately.</p></div>
 <div class="sect1">
 <h2 id="_testing">Testing</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Crashpad uses <a href="https://googletest.googlecode.com/">Google Test</a> as its
+<div class="paragraph"><p>Crashpad uses <a href="https://github.com/google/googletest/">Google Test</a> as its
 unit-testing framework, and some tests use
-<a href="https://googlemock.googlecode.com/">Google Mock</a> as well. Its tests are currently
-split up into several test executables, each dedicated to testing a different
-component. This may change in the future. After a successful build, the test
-executables will be found at <span class="monospaced">out/Debug/crashpad_*_test</span>.</p></div>
+<a href="https://github.com/google/googletest/tree/master/googlemock/">Google Mock</a> as
+well. Its tests are currently split up into several test executables, each
+dedicated to testing a different component. This may change in the future. After
+a successful build, the test executables will be found at
+<span class="monospaced">out/Debug/crashpad_*_test</span>.</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>$ <strong>cd ~/crashpad/crashpad</strong>
@@ -975,7 +976,7 @@ the Buildbot to ensure that “the tree is green.”</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated October 19, 2015
+Last updated October 29, 2015
 </div>
 </div>
 </body>
