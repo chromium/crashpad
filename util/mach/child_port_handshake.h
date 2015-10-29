@@ -87,7 +87,7 @@ class ChildPortHandshakeTest;
 //!   ChildPortHandshake child_port_handshake;
 //!   base::ScopedFD server_write_fd = child_port_handshake.ServerWriteFD();
 //!   std::string server_write_fd_string =
-//!       base::StringPrintf("%d", server_write_fd);
+//!       base::StringPrintf("%d", server_write_fd.get());
 //!
 //!   pid_t pid = fork();
 //!   if (pid == 0) {
@@ -97,8 +97,8 @@ class ChildPortHandshakeTest;
 //!     // server_write_fd. Let the child know what file descriptor to use for
 //!     // server_write_fd by passing it as argv[1]. Example code for the child
 //!     // process is below.
-//!     CloseMultipleNowOrOnExec(STDERR_FILENO + 1, server_write_fd);
-//!     execlp("child", "child", server_write_fd_string.c_str(), nullptr);
+//!     CloseMultipleNowOrOnExec(STDERR_FILENO + 1, server_write_fd.get());
+//!     execlp("./child", "child", server_write_fd_string.c_str(), nullptr);
 //!   }
 //!
 //!   // Parent
@@ -122,7 +122,7 @@ class ChildPortHandshakeTest;
 //!
 //!   // Send the receive right to the child process, retaining the send right
 //!   // for use in the parent process.
-//!   if (child_port_handshake.RunClient(receive_right,
+//!   if (child_port_handshake.RunClient(receive_right.get(),
 //!                                      MACH_MSG_TYPE_MOVE_RECEIVE)) {
 //!     ignore_result(receive_right.release());
 //!   }

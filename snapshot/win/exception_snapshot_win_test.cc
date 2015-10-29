@@ -41,16 +41,18 @@ class RunServerThread : public Thread {
  public:
   // Instantiates a thread which will invoke server->Run(delegate, pipe_name);
   RunServerThread(ExceptionHandlerServer* server,
-                  ExceptionHandlerServer::Delegate* delegate)
-      : server_(server), delegate_(delegate) {}
+                  ExceptionHandlerServer::Delegate* delegate,
+                  const std::string& pipe_name)
+      : server_(server), delegate_(delegate), pipe_name_(pipe_name) {}
   ~RunServerThread() override {}
 
  private:
   // Thread:
-  void ThreadMain() override { server_->Run(delegate_); }
+  void ThreadMain() override { server_->Run(delegate_, pipe_name_); }
 
   ExceptionHandlerServer* server_;
   ExceptionHandlerServer::Delegate* delegate_;
+  std::string pipe_name_;
 
   DISALLOW_COPY_AND_ASSIGN(RunServerThread);
 };
@@ -128,8 +130,9 @@ void TestCrashingChild(const base::string16& directory_modification) {
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
   CrashingDelegate delegate(server_ready.get(), completed.get());
 
-  ExceptionHandlerServer exception_handler_server(pipe_name);
-  RunServerThread server_thread(&exception_handler_server, &delegate);
+  ExceptionHandlerServer exception_handler_server;
+  RunServerThread server_thread(
+      &exception_handler_server, &delegate, pipe_name);
   server_thread.Start();
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
       &exception_handler_server, &server_thread);
@@ -230,8 +233,9 @@ void TestDumpWithoutCrashingChild(
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
   SimulateDelegate delegate(server_ready.get(), completed.get());
 
-  ExceptionHandlerServer exception_handler_server(pipe_name);
-  RunServerThread server_thread(&exception_handler_server, &delegate);
+  ExceptionHandlerServer exception_handler_server;
+  RunServerThread server_thread(
+      &exception_handler_server, &delegate, pipe_name);
   server_thread.Start();
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
       &exception_handler_server, &server_thread);

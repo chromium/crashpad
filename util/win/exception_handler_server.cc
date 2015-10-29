@@ -234,9 +234,8 @@ class ClientData {
 ExceptionHandlerServer::Delegate::~Delegate() {
 }
 
-ExceptionHandlerServer::ExceptionHandlerServer(const std::string& pipe_name)
-    : pipe_name_(pipe_name),
-      port_(CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, 0, 1)),
+ExceptionHandlerServer::ExceptionHandlerServer()
+    : port_(CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, 0, 1)),
       clients_lock_(),
       clients_() {
 }
@@ -244,12 +243,13 @@ ExceptionHandlerServer::ExceptionHandlerServer(const std::string& pipe_name)
 ExceptionHandlerServer::~ExceptionHandlerServer() {
 }
 
-void ExceptionHandlerServer::Run(Delegate* delegate) {
+void ExceptionHandlerServer::Run(Delegate* delegate,
+                                 const std::string& pipe_name) {
   uint64_t shutdown_token = base::RandUint64();
   // We create two pipe instances, so that there's one listening while the
   // PipeServiceProc is processing a registration.
   ScopedKernelHANDLE thread_handles[2];
-  base::string16 pipe_name_16(base::UTF8ToUTF16(pipe_name_));
+  base::string16 pipe_name_16(base::UTF8ToUTF16(pipe_name));
   for (int i = 0; i < arraysize(thread_handles); ++i) {
     HANDLE pipe =
         CreateNamedPipe(pipe_name_16.c_str(),
@@ -311,7 +311,7 @@ void ExceptionHandlerServer::Run(Delegate* delegate) {
     message.type = ClientToServerMessage::kShutdown;
     message.shutdown.token = shutdown_token;
     ServerToClientMessage response;
-    SendToCrashHandlerServer(pipe_name_16,
+    SendToCrashHandlerServer(base::UTF8ToUTF16(pipe_name),
                              reinterpret_cast<ClientToServerMessage&>(message),
                              &response);
   }

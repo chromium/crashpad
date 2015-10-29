@@ -34,6 +34,7 @@
 
 #if defined(OS_MACOSX)
 #include <libgen.h>
+#include "base/mac/scoped_mach_port.h"
 #include "handler/mac/crash_report_exception_handler.h"
 #include "handler/mac/exception_handler_server.h"
 #include "util/mach/child_port_handshake.h"
@@ -211,21 +212,21 @@ int HandlerMain(int argc, char* argv[]) {
   }
 
 #if defined(OS_MACOSX)
+  CloseStdinAndStdout();
+
   if (options.reset_own_crash_exception_port_to_system_default) {
     CrashpadClient::UseSystemDefaultHandler();
   }
-#endif
 
-#if defined(OS_MACOSX)
-  ExceptionHandlerServer exception_handler_server;
-
-  CloseStdinAndStdout();
-  if (!ChildPortHandshake::RunClientForFD(
+  base::mac::ScopedMachReceiveRight receive_right(
+      ChildPortHandshake::RunServerForFD(
           base::ScopedFD(options.handshake_fd),
-          exception_handler_server.receive_port(),
-          MACH_MSG_TYPE_MAKE_SEND)) {
+          ChildPortHandshake::PortRightType::kReceiveRight));
+  if (!receive_right.is_valid()) {
     return EXIT_FAILURE;
   }
+
+  ExceptionHandlerServer exception_handler_server(receive_right.Pass());
 #elif defined(OS_WIN)
   ExceptionHandlerServer exception_handler_server(options.pipe_name);
 #endif  // OS_MACOSX

@@ -157,8 +157,8 @@ class MachMessageServer {
   //!     #kPersistent, the timeout applies to the overall duration of this
   //!     function, not to any individual `mach_msg()` call.
   //!
-  //! \return On success, `KERN_SUCCESS` (when \a persistent is #kOneShot) or
-  //!     `MACH_RCV_TIMED_OUT` (when \a persistent is #kOneShot and \a
+  //! \return On success, `MACH_MSG_SUCCESS` (when \a persistent is #kOneShot)
+  //!     or `MACH_RCV_TIMED_OUT` (when \a persistent is #kOneShot and \a
   //!     timeout_ms is not #kMachMessageTimeoutWaitIndefinitely). This function
   //!     has no successful return value when \a persistent is #kPersistent and
   //!     \a timeout_ms is #kMachMessageTimeoutWaitIndefinitely. On failure,
