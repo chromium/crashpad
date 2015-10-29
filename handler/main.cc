@@ -216,9 +216,9 @@ int HandlerMain(int argc, char* argv[]) {
   }
 #endif
 
+#if defined(OS_MACOSX)
   ExceptionHandlerServer exception_handler_server;
 
-#if defined(OS_MACOSX)
   CloseStdinAndStdout();
   if (!ChildPortHandshake::RunClientForFD(
           base::ScopedFD(options.handshake_fd),
@@ -226,6 +226,8 @@ int HandlerMain(int argc, char* argv[]) {
           MACH_MSG_TYPE_MAKE_SEND)) {
     return EXIT_FAILURE;
   }
+#elif defined(OS_WIN)
+  ExceptionHandlerServer exception_handler_server(options.pipe_name);
 #endif  // OS_MACOSX
 
   scoped_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(
@@ -241,11 +243,7 @@ int HandlerMain(int argc, char* argv[]) {
   CrashReportExceptionHandler exception_handler(
       database.get(), &upload_thread, &options.annotations);
 
-#if defined(OS_MACOSX)
   exception_handler_server.Run(&exception_handler);
-#elif defined(OS_WIN)
-  exception_handler_server.Run(&exception_handler, options.pipe_name);
-#endif  // OS_MACOSX
 
   upload_thread.Stop();
 
