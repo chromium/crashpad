@@ -106,15 +106,7 @@ void MinidumpModuleCodeViewRecordPDB70Writer::InitializeFromSnapshot(
     const ModuleSnapshot* module_snapshot) {
   DCHECK_EQ(state(), kStateMutable);
 
-  std::string name = module_snapshot->Name();
-  std::string leaf_name;
-  size_t last_slash = name.find_last_of('/');
-  if (last_slash != std::string::npos) {
-    leaf_name = name.substr(last_slash + 1);
-  } else {
-    leaf_name = name;
-  }
-  SetPDBName(leaf_name);
+  SetPDBName(module_snapshot->DebugFileName());
 
   UUID uuid;
   uint32_t age;

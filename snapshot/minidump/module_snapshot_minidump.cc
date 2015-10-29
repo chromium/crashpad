@@ -118,6 +118,12 @@ void ModuleSnapshotMinidump::UUIDAndAge(crashpad::UUID* uuid,
   *age = 0;
 }
 
+std::string ModuleSnapshotMinidump::DebugFileName() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  return std::string();
+}
+
 std::vector<std::string> ModuleSnapshotMinidump::AnnotationsVector() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return annotations_vector_;

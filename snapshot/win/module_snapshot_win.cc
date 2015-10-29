@@ -27,8 +27,12 @@ namespace internal {
 ModuleSnapshotWin::ModuleSnapshotWin()
     : ModuleSnapshot(),
       name_(),
-      timestamp_(0),
+      pdb_name_(),
+      uuid_(),
+      pe_image_reader_(),
       process_reader_(nullptr),
+      timestamp_(0),
+      age_(0),
       initialized_() {
 }
 
@@ -49,6 +53,13 @@ bool ModuleSnapshotWin::Initialize(
                                     process_reader_module.size,
                                     base::UTF16ToUTF8(name_))) {
     return false;
+  }
+
+  DWORD age_dword;
+  if (pe_image_reader_->DebugDirectoryInformation(
+          &uuid_, &age_dword, &pdb_name_)) {
+    static_assert(sizeof(DWORD) == sizeof(uint32_t), "unexpected age size");
+    age_ = age_dword;
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -137,16 +148,13 @@ ModuleSnapshot::ModuleType ModuleSnapshotWin::GetModuleType() const {
 
 void ModuleSnapshotWin::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  // TODO(scottmg): Consider passing pdbname through to snapshot.
-  std::string pdbname;
-  DWORD age_dword;
-  if (!pe_image_reader_->DebugDirectoryInformation(
-          uuid, &age_dword, &pdbname)) {
-    *uuid = crashpad::UUID();
-    *age = 0;
-  }
-  static_assert(sizeof(DWORD) == sizeof(uint32_t), "unexpected age size");
-  *age = age_dword;
+  *uuid = uuid_;
+  *age = age_;
+}
+
+std::string ModuleSnapshotWin::DebugFileName() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return pdb_name_;
 }
 
 std::vector<std::string> ModuleSnapshotWin::AnnotationsVector() const {
