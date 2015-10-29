@@ -1,4 +1,4 @@
-This is the App Engine app that serves https://crashpad-home.appspot.com/.
+This is the App Engine app that serves https://crashpad.chromium.org/.
 
 To work on this app, obtain the App Engine SDK for Go from
 https://cloud.google.com/appengine/downloads. Unpacking it produces a

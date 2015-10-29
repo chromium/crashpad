@@ -112,8 +112,7 @@ uint64_t ThreadSnapshotWin::ThreadSpecificDataAddress() const {
 std::vector<const MemorySnapshot*> ThreadSnapshotWin::ExtraMemory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   // TODO(scottmg): Ensure this region is readable, and make sure we don't
-  // discard the entire dump if it isn't.
-  // https://code.google.com/p/crashpad/issues/detail?id=59
+  // discard the entire dump if it isn't. https://crashpad.chromium.org/bug/59
   return std::vector<const MemorySnapshot*>(1, &teb_);
 }
 

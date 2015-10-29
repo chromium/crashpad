@@ -138,7 +138,7 @@ TEST(MachExtensions, BootstrapCheckInAndLookUp) {
       report_crash(BootstrapLookUp("com.apple.ReportCrash"));
   EXPECT_NE(report_crash, kMachPortNull);
 
-  std::string service_name = "com.googlecode.crashpad.test.bootstrap_check_in.";
+  std::string service_name = "org.chromium.crashpad.test.bootstrap_check_in.";
   for (int index = 0; index < 16; ++index) {
     service_name.append(1, base::RandInt('A', 'Z'));
   }

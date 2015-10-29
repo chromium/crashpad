@@ -94,26 +94,26 @@ bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
 
 pid_t ProcessSnapshotMinidump::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   return 0;
 }
 
 pid_t ProcessSnapshotMinidump::ParentProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   return 0;
 }
 
 void ProcessSnapshotMinidump::SnapshotTime(timeval* snapshot_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   snapshot_time->tv_sec = 0;
   snapshot_time->tv_usec = 0;
 }
 
 void ProcessSnapshotMinidump::ProcessStartTime(timeval* start_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   start_time->tv_sec = 0;
   start_time->tv_usec = 0;
 }
@@ -121,7 +121,7 @@ void ProcessSnapshotMinidump::ProcessStartTime(timeval* start_time) const {
 void ProcessSnapshotMinidump::ProcessCPUTimes(timeval* user_time,
                                               timeval* system_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   user_time->tv_sec = 0;
   user_time->tv_usec = 0;
   system_time->tv_sec = 0;
@@ -145,20 +145,20 @@ ProcessSnapshotMinidump::AnnotationsSimpleMap() const {
   // annotations_simple_map_ to be lazily constructed: InitializeCrashpadInfo()
   // could be called here, and from other locations that require it, rather than
   // calling it from Initialize().
-  // https://code.google.com/p/crashpad/issues/detail?id=9
+  // https://crashpad.chromium.org/bug/9
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return annotations_simple_map_;
 }
 
 const SystemSnapshot* ProcessSnapshotMinidump::System() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   return nullptr;
 }
 
 std::vector<const ThreadSnapshot*> ProcessSnapshotMinidump::Threads() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   return std::vector<const ThreadSnapshot*>();
 }
 
@@ -173,27 +173,27 @@ std::vector<const ModuleSnapshot*> ProcessSnapshotMinidump::Modules() const {
 
 const ExceptionSnapshot* ProcessSnapshotMinidump::Exception() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   return nullptr;
 }
 
 std::vector<const MemoryMapRegionSnapshot*> ProcessSnapshotMinidump::MemoryMap()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   return std::vector<const MemoryMapRegionSnapshot*>();
 }
 
 std::vector<HandleSnapshot> ProcessSnapshotMinidump::Handles() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   return std::vector<HandleSnapshot>();
 }
 
 std::vector<const MemorySnapshot*> ProcessSnapshotMinidump::ExtraMemory()
     const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  NOTREACHED();  // https://code.google.com/p/crashpad/issues/detail?id=10
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
   return std::vector<const MemorySnapshot*>();
 }
 

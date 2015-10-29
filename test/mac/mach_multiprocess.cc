@@ -92,7 +92,7 @@ void MachMultiprocess::PreFork() {
   // Set up the parent port and register it with the bootstrap server before
   // forking, so that it’s guaranteed to be there when the child attempts to
   // look it up.
-  info_->service_name = "com.googlecode.crashpad.test.mach_multiprocess.";
+  info_->service_name = "org.chromium.crashpad.test.mach_multiprocess.";
   for (int index = 0; index < 16; ++index) {
     info_->service_name.append(1, base::RandInt('A', 'Z'));
   }
