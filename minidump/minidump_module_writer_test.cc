@@ -614,6 +614,7 @@ void InitializeTestModuleSnapshotFromMinidumpModule(
     TestModuleSnapshot* module_snapshot,
     const MINIDUMP_MODULE& minidump_module,
     const std::string& name,
+    const std::string& pdb_name,
     const crashpad::UUID& uuid,
     uint32_t age) {
   module_snapshot->SetName(name);
@@ -647,12 +648,14 @@ void InitializeTestModuleSnapshotFromMinidumpModule(
   module_snapshot->SetModuleType(module_type);
 
   module_snapshot->SetUUIDAndAge(uuid, age);
+  module_snapshot->SetDebugFileName(pdb_name);
 }
 
 TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   MINIDUMP_MODULE expect_modules[3] = {};
   const char* module_paths[arraysize(expect_modules)] = {};
   const char* module_names[arraysize(expect_modules)] = {};
+  const char* module_pdbs[arraysize(expect_modules)] = {};
   UUID uuids[arraysize(expect_modules)] = {};
   uint32_t ages[arraysize(expect_modules)] = {};
 
@@ -666,6 +669,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   expect_modules[0].VersionInfo.dwFileType = VFT_APP;
   module_paths[0] = "/usr/bin/true";
   module_names[0] = "true";
+  module_pdbs[0] = "true";
   const uint8_t kUUIDBytes0[16] =
       {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
        0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
@@ -682,6 +686,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   expect_modules[1].VersionInfo.dwFileType = VFT_DLL;
   module_paths[1] = "/usr/lib/libSystem.B.dylib";
   module_names[1] = "libSystem.B.dylib";
+  module_pdbs[1] = "libSystem.B.dylib.pdb";
   const uint8_t kUUIDBytes1[16] =
       {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
        0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
@@ -698,6 +703,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   expect_modules[2].VersionInfo.dwFileType = VFT_UNKNOWN;
   module_paths[2] = "/usr/lib/dyld";
   module_names[2] = "dyld";
+  module_pdbs[2] = "/usr/lib/dyld.pdb";
   const uint8_t kUUIDBytes2[16] =
       {0xff, 0xfe, 0xfd, 0xfc, 0xfb, 0xfa, 0xf9, 0xf8,
        0xf7, 0xf6, 0xf5, 0xf4, 0xf3, 0xf2, 0xf1, 0xf0};
@@ -712,6 +718,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
     InitializeTestModuleSnapshotFromMinidumpModule(module_snapshot,
                                                    expect_modules[index],
                                                    module_paths[index],
+                                                   module_pdbs[index],
                                                    uuids[index],
                                                    ages[index]);
     module_snapshots.push_back(module_snapshot);
@@ -738,7 +745,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
                                          &module_list->Modules[index],
                                          string_file.string(),
                                          module_paths[index],
-                                         module_names[index],
+                                         module_pdbs[index],
                                          &uuids[index],
                                          0,
                                          ages[index],

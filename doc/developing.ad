@@ -83,7 +83,7 @@ $ *gclient sync*
 
 == Building
 
-Crashpad uses https://gyp.googlecode.com/[GYP] to generate
+Crashpad uses https://gyp.gsrc.io/[GYP] to generate
 https://martine.github.io/ninja/[Ninja] build files. The build is described by
 `.gyp` files throughout the Crashpad source code tree. The
 `build/gyp_crashpad.py` script runs GYP properly for Crashpad, and is also
@@ -106,12 +106,13 @@ need to install it separately.
 
 == Testing
 
-Crashpad uses https://googletest.googlecode.com/[Google Test] as its
+Crashpad uses https://github.com/google/googletest/[Google Test] as its
 unit-testing framework, and some tests use
-https://googlemock.googlecode.com/[Google Mock] as well. Its tests are currently
-split up into several test executables, each dedicated to testing a different
-component. This may change in the future. After a successful build, the test
-executables will be found at `out/Debug/crashpad_*_test`.
+https://github.com/google/googletest/tree/master/googlemock/[Google Mock] as
+well. Its tests are currently split up into several test executables, each
+dedicated to testing a different component. This may change in the future. After
+a successful build, the test executables will be found at
+`out/Debug/crashpad_*_test`.
 
 [subs="verbatim,quotes"]
 ----

@@ -94,6 +94,15 @@ bool CreateOrEnsureDirectoryExists(const base::FilePath& path) {
   return EnsureDirectoryExists(path);
 }
 
+// Creates a long database xattr name from the short constant name. These names
+// have changed, and new_name determines whether the returned xattr name will be
+// the old name or its new equivalent.
+std::string XattrNameInternal(const base::StringPiece& name, bool new_name) {
+  return base::StringPrintf(new_name ? "org.chromium.crashpad.database.%s"
+                                     : "com.googlecode.crashpad.%s",
+                            name.data());
+}
+
 //! \brief A CrashReportDatabase that uses HFS+ extended attributes to store
 //!     report metadata.
 //!
@@ -173,8 +182,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   //!
   //! \return `true` if all the metadata was read successfully, `false`
   //!     otherwise.
-  static bool ReadReportMetadataLocked(const base::FilePath& path,
-                                       Report* report);
+  bool ReadReportMetadataLocked(const base::FilePath& path, Report* report);
 
   //! \brief Reads the metadata from all the reports in a database subdirectory.
   //!      Invalid reports are skipped.
@@ -183,18 +191,19 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   //! \param[out] reports An empty vector of reports, which will be filled.
   //!
   //! \return The operation status code.
-  static OperationStatus ReportsInDirectory(const base::FilePath& path,
-                                            std::vector<Report>* reports);
+  OperationStatus ReportsInDirectory(const base::FilePath& path,
+                                     std::vector<Report>* reports);
 
   //! \brief Creates a database xattr name from the short constant name.
   //!
   //! \param[in] name The short name of the extended attribute.
   //!
   //! \return The long name of the extended attribute.
-  static std::string XattrName(const base::StringPiece& name);
+  std::string XattrName(const base::StringPiece& name);
 
   base::FilePath base_dir_;
   Settings settings_;
+  bool xattr_new_names_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseMac);
@@ -204,6 +213,7 @@ CrashReportDatabaseMac::CrashReportDatabaseMac(const base::FilePath& path)
     : CrashReportDatabase(),
       base_dir_(path),
       settings_(base_dir_.Append(kSettings)),
+      xattr_new_names_(false),
       initialized_() {
 }
 
@@ -230,10 +240,25 @@ bool CrashReportDatabaseMac::Initialize(bool may_create) {
   if (!settings_.Initialize())
     return false;
 
-  // Write an xattr as the last step, to ensure the filesystem has support for
-  // them. This attribute will never be read.
-  if (!WriteXattrBool(base_dir_, XattrName(kXattrDatabaseInitialized), true))
-    return false;
+  // Do an xattr operation as the last step, to ensure the filesystem has
+  // support for them. This xattr also serves as a marker for whether the
+  // database uses old or new xattr names.
+  bool value;
+  if (ReadXattrBool(base_dir_,
+                    XattrNameInternal(kXattrDatabaseInitialized, true),
+                    &value) == XattrStatus::kOK &&
+      value) {
+    xattr_new_names_ = true;
+  } else if (ReadXattrBool(base_dir_,
+                           XattrNameInternal(kXattrDatabaseInitialized, false),
+                           &value) == XattrStatus::kOK &&
+             value) {
+    xattr_new_names_ = false;
+  } else {
+    xattr_new_names_ = true;
+    if (!WriteXattrBool(base_dir_, XattrName(kXattrDatabaseInitialized), true))
+      return false;
+  }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -540,7 +565,6 @@ base::ScopedFD CrashReportDatabaseMac::ObtainReportLock(
   return base::ScopedFD(fd);
 }
 
-// static
 bool CrashReportDatabaseMac::ReadReportMetadataLocked(
     const base::FilePath& path, Report* report) {
   std::string uuid_string;
@@ -583,7 +607,6 @@ bool CrashReportDatabaseMac::ReadReportMetadataLocked(
   return true;
 }
 
-// static
 CrashReportDatabase::OperationStatus CrashReportDatabaseMac::ReportsInDirectory(
     const base::FilePath& path,
     std::vector<CrashReportDatabase::Report>* reports) {
@@ -620,9 +643,8 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::ReportsInDirectory(
   return kNoError;
 }
 
-// static
 std::string CrashReportDatabaseMac::XattrName(const base::StringPiece& name) {
-  return base::StringPrintf("com.googlecode.crashpad.%s", name.data());
+  return XattrNameInternal(name, xattr_new_names_);
 }
 
 scoped_ptr<CrashReportDatabase> InitializeInternal(const base::FilePath& path,

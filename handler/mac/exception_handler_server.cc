@@ -125,7 +125,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
                                    bool* destroy_complex_request) override {
     if (exception_port != exception_port_) {
       LOG(WARNING) << "exception port mismatch";
-      return MIG_BAD_ID;
+      return KERN_FAILURE;
     }
 
     return exception_interface_->CatchMachException(behavior,
@@ -172,7 +172,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
       // to craft and send a no-senders notification via its exception port, and
       // cause the handler to stop processing exceptions and exit.
       LOG(WARNING) << "notify port mismatch";
-      return MIG_BAD_ID;
+      return KERN_FAILURE;
     }
 
     running_ = false;
@@ -199,11 +199,11 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
     // called.
     if (notify != notify_port_) {
       LOG(WARNING) << "notify port mismatch";
-      return MIG_BAD_ID;
+      return KERN_FAILURE;
     }
 
     NOTREACHED();
-    return KERN_FAILURE;
+    return MIG_BAD_ID;
   }
 
   UniversalMachExcServer mach_exc_server_;
@@ -219,8 +219,9 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
 
 }  // namespace
 
-ExceptionHandlerServer::ExceptionHandlerServer()
-    : receive_port_(NewMachPort(MACH_PORT_RIGHT_RECEIVE)) {
+ExceptionHandlerServer::ExceptionHandlerServer(
+    base::mac::ScopedMachReceiveRight receive_port)
+    : receive_port_(receive_port.Pass()) {
   CHECK(receive_port_.is_valid());
 }
 

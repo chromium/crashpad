@@ -216,8 +216,8 @@ class TestMachMessageServer : public MachMessageServer::Interface,
         MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND, MACH_MSG_TYPE_MOVE_SEND) |
         (options_.client_send_complex ? MACH_MSGH_BITS_COMPLEX : 0);
     EXPECT_EQ(expect_msgh_bits, request->header.msgh_bits);
-    EXPECT_EQ(options_.client_send_large ? sizeof(LargeRequestMessage) :
-                                           sizeof(RequestMessage),
+    EXPECT_EQ(options_.client_send_large ? sizeof(LargeRequestMessage)
+                                         : sizeof(RequestMessage),
               request->header.msgh_size);
     if (options_.client_reply_port_type == Options::kReplyPortNormal) {
       EXPECT_EQ(RemotePort(), request->header.msgh_remote_port);
@@ -277,8 +277,8 @@ class TestMachMessageServer : public MachMessageServer::Interface,
 
   std::set<mach_msg_id_t> MachMessageServerRequestIDs() override {
     const mach_msg_id_t request_ids[] = {kRequestMessageID};
-    return std::set<mach_msg_id_t>(
-        &request_ids[0], &request_ids[arraysize(request_ids)]);
+    return std::set<mach_msg_id_t>(&request_ids[0],
+                                   &request_ids[arraysize(request_ids)]);
   }
 
   mach_msg_size_t MachMessageServerRequestSize() override {
@@ -368,8 +368,8 @@ class TestMachMessageServer : public MachMessageServer::Interface,
         EXPECT_EQ(MACH_PORT_TYPE_SEND, type);
 
         // Destroy the resources here.
-        kr = mach_port_deallocate(
-            mach_task_self(), parent_complex_message_port_);
+        kr = mach_port_deallocate(mach_task_self(),
+                                  parent_complex_message_port_);
         EXPECT_EQ(KERN_SUCCESS, kr)
             << MachErrorMessage(kr, "mach_port_deallocate");
       }
@@ -378,8 +378,8 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       // this task so soon. It’s possible that something else in this task could
       // have reused the name, but it’s unlikely for that to have happened in
       // this test environment.
-      kr = mach_port_type(
-          mach_task_self(), parent_complex_message_port_, &type);
+      kr =
+          mach_port_type(mach_task_self(), parent_complex_message_port_, &type);
       EXPECT_EQ(KERN_INVALID_NAME, kr)
           << MachErrorMessage(kr, "mach_port_type");
     }

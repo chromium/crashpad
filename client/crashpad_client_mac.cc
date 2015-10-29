@@ -19,11 +19,13 @@
 #include <unistd.h>
 
 #include "base/logging.h"
+#include "base/mac/mach_logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/stringprintf.h"
 #include "util/mach/child_port_handshake.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
+#include "util/misc/implicit_cast.h"
 #include "util/posix/close_multiple.h"
 
 namespace crashpad {
@@ -77,6 +79,199 @@ bool SetCrashExceptionPorts(exception_handler_t exception_handler) {
       MACHINE_THREAD_STATE);
 }
 
+//! \brief Starts a Crashpad handler.
+class HandlerStarter final {
+ public:
+  //! \brief Starts a Crashpad handler.
+  //!
+  //! All parameters are as in CrashpadClient::StartHandler().
+  //!
+  //! \return On success, a send right to the Crashpad handler that has been
+  //!     started. On failure, `MACH_PORT_NULL` with a message logged.
+  static base::mac::ScopedMachSendRight Start(
+      const base::FilePath& handler,
+      const base::FilePath& database,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::vector<std::string>& arguments) {
+    base::mac::ScopedMachReceiveRight receive_right(
+        NewMachPort(MACH_PORT_RIGHT_RECEIVE));
+    if (receive_right == kMachPortNull) {
+      return base::mac::ScopedMachSendRight();
+    }
+
+    mach_port_t port;
+    mach_msg_type_name_t right_type;
+    kern_return_t kr = mach_port_extract_right(mach_task_self(),
+                                               receive_right.get(),
+                                               MACH_MSG_TYPE_MAKE_SEND,
+                                               &port,
+                                               &right_type);
+    if (kr != KERN_SUCCESS) {
+      MACH_LOG(ERROR, kr) << "mach_port_extract_right";
+      return base::mac::ScopedMachSendRight();
+    }
+    base::mac::ScopedMachSendRight send_right(port);
+    DCHECK_EQ(port, receive_right.get());
+    DCHECK_EQ(right_type,
+              implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND));
+
+    if (!CommonStart(handler,
+                     database,
+                     url,
+                     annotations,
+                     arguments,
+                     receive_right.Pass())) {
+      return base::mac::ScopedMachSendRight();
+    }
+
+    return send_right;
+  }
+
+ private:
+  static bool CommonStart(const base::FilePath& handler,
+                          const base::FilePath& database,
+                          const std::string& url,
+                          const std::map<std::string, std::string>& annotations,
+                          const std::vector<std::string>& arguments,
+                          base::mac::ScopedMachReceiveRight receive_right) {
+    // Set up the arguments for execve() first. These aren’t needed until
+    // execve() is called, but it’s dangerous to do this in a child process
+    // after fork().
+    ChildPortHandshake child_port_handshake;
+    base::ScopedFD server_write_fd = child_port_handshake.ServerWriteFD();
+
+    // Use handler as argv[0], followed by arguments directed by this method’s
+    // parameters and a --handshake-fd argument. |arguments| are added first so
+    // that if it erroneously contains an argument such as --url, the actual
+    // |url| argument passed to this method will supersede it. In normal
+    // command-line processing, the last parameter wins in the case of a
+    // conflict.
+    std::vector<std::string> argv(1, handler.value());
+    argv.reserve(1 + arguments.size() + 2 + annotations.size() + 1);
+    for (const std::string& argument : arguments) {
+      argv.push_back(argument);
+    }
+    if (!database.value().empty()) {
+      argv.push_back(FormatArgumentString("database", database.value()));
+    }
+    if (!url.empty()) {
+      argv.push_back(FormatArgumentString("url", url));
+    }
+    for (const auto& kv : annotations) {
+      argv.push_back(
+          FormatArgumentString("annotation", kv.first + '=' + kv.second));
+    }
+    argv.push_back(FormatArgumentInt("handshake-fd", server_write_fd.get()));
+
+    const char* handler_c = handler.value().c_str();
+
+    // argv_c contains const char* pointers and is terminated by nullptr. argv
+    // is required because the pointers in argv_c need to point somewhere, and
+    // they can’t point to temporaries such as those returned by
+    // FormatArgumentString().
+    std::vector<const char*> argv_c;
+    argv_c.reserve(argv.size() + 1);
+    for (const std::string& argument : argv) {
+      argv_c.push_back(argument.c_str());
+    }
+    argv_c.push_back(nullptr);
+
+    // Double-fork(). The three processes involved are parent, child, and
+    // grandchild. The grandchild will become the handler process. The child
+    // exits immediately after spawning the grandchild, so the grandchild
+    // becomes an orphan and its parent process ID becomes 1. This relieves the
+    // parent and child of the responsibility for reaping the grandchild with
+    // waitpid() or similar. The handler process is expected to outlive the
+    // parent process, so the parent shouldn’t be concerned with reaping it.
+    // This approach means that accidental early termination of the handler
+    // process will not result in a zombie process.
+    pid_t pid = fork();
+    if (pid < 0) {
+      PLOG(ERROR) << "fork";
+      return false;
+    }
+
+    if (pid == 0) {
+      // Child process.
+
+      // Call setsid(), creating a new process group and a new session, both led
+      // by this process. The new process group has no controlling terminal.
+      // This disconnects it from signals generated by the parent process’
+      // terminal.
+      //
+      // setsid() is done in the child instead of the grandchild so that the
+      // grandchild will not be a session leader. If it were a session leader,
+      // an accidental open() of a terminal device without O_NOCTTY would make
+      // that terminal the controlling terminal.
+      //
+      // It’s not desirable for the handler to have a controlling terminal. The
+      // handler monitors clients on its own and manages its own lifetime,
+      // exiting when it loses all clients and when it deems it appropraite to
+      // do so. It may serve clients in different process groups or sessions
+      // than its original client, and receiving signals intended for its
+      // original client’s process group could be harmful in that case.
+      PCHECK(setsid() != -1) << "setsid";
+
+      pid = fork();
+      if (pid < 0) {
+        PLOG(FATAL) << "fork";
+      }
+
+      if (pid > 0) {
+        // Child process.
+
+        // _exit() instead of exit(), because fork() was called.
+        _exit(EXIT_SUCCESS);
+      }
+
+      // Grandchild process.
+
+      CloseMultipleNowOrOnExec(STDERR_FILENO + 1, server_write_fd.get());
+
+      // &argv_c[0] is a pointer to a pointer to const char data, but because of
+      // how C (not C++) works, execvp() wants a pointer to a const pointer to
+      // char data. It modifies neither the data nor the pointers, so the
+      // const_cast is safe.
+      execvp(handler_c, const_cast<char* const*>(&argv_c[0]));
+      PLOG(FATAL) << "execvp " << handler_c;
+    }
+
+    // Parent process.
+
+    // Close the write side of the pipe, so that the handler process is the only
+    // process that can write to it.
+    server_write_fd.reset();
+
+    // waitpid() for the child, so that it does not become a zombie process. The
+    // child normally exits quickly.
+    int status;
+    pid_t wait_pid = HANDLE_EINTR(waitpid(pid, &status, 0));
+    PCHECK(wait_pid != -1) << "waitpid";
+    DCHECK_EQ(wait_pid, pid);
+
+    if (WIFSIGNALED(status)) {
+      LOG(WARNING) << "intermediate process: signal " << WTERMSIG(status);
+    } else if (!WIFEXITED(status)) {
+      DLOG(WARNING) << "intermediate process: unknown termination " << status;
+    } else if (WEXITSTATUS(status) != EXIT_SUCCESS) {
+      LOG(WARNING) << "intermediate process: exit status "
+                   << WEXITSTATUS(status);
+    }
+
+    // Rendezvous with the handler running in the grandchild process.
+    if (!child_port_handshake.RunClient(receive_right.get(),
+                                        MACH_MSG_TYPE_MOVE_RECEIVE)) {
+      return false;
+    }
+
+    ignore_result(receive_right.release());
+    return true;
+  }
+
+  DISALLOW_IMPLICIT_CONSTRUCTORS(HandlerStarter);
+};
+
 }  // namespace
 
 CrashpadClient::CrashpadClient()
@@ -94,124 +289,13 @@ bool CrashpadClient::StartHandler(
     const std::vector<std::string>& arguments) {
   DCHECK(!exception_port_.is_valid());
 
-  // Set up the arguments for execve() first. These aren’t needed until execve()
-  // is called, but it’s dangerous to do this in a child process after fork().
-  ChildPortHandshake child_port_handshake;
-  int handshake_fd = child_port_handshake.ReadPipeFD();
-
-  // Use handler as argv[0], followed by arguments directed by this method’s
-  // parameters and a --handshake-fd argument. |arguments| are added first so
-  // that if it erroneously contains an argument such as --url, the actual |url|
-  // argument passed to this method will supersede it. In normal command-line
-  // processing, the last parameter wins in the case of a conflict.
-  std::vector<std::string> argv(1, handler.value());
-  argv.reserve(1 + arguments.size() + 2 + annotations.size() + 1);
-  for (const std::string& argument : arguments) {
-    argv.push_back(argument);
-  }
-  if (!database.value().empty()) {
-    argv.push_back(FormatArgumentString("database", database.value()));
-  }
-  if (!url.empty()) {
-    argv.push_back(FormatArgumentString("url", url));
-  }
-  for (const auto& kv : annotations) {
-    argv.push_back(
-        FormatArgumentString("annotation", kv.first + '=' + kv.second));
-  }
-  argv.push_back(FormatArgumentInt("handshake-fd", handshake_fd));
-
-  // argv_c contains const char* pointers and is terminated by nullptr. argv
-  // is required because the pointers in argv_c need to point somewhere, and
-  // they can’t point to temporaries such as those returned by
-  // FormatArgumentString().
-  std::vector<const char*> argv_c;
-  argv_c.reserve(argv.size() + 1);
-  for (const std::string& argument : argv) {
-    argv_c.push_back(argument.c_str());
-  }
-  argv_c.push_back(nullptr);
-
-  // Double-fork(). The three processes involved are parent, child, and
-  // grandchild. The grandchild will become the handler process. The child exits
-  // immediately after spawning the grandchild, so the grandchild becomes an
-  // orphan and its parent process ID becomes 1. This relieves the parent and
-  // child of the responsibility for reaping the grandchild with waitpid() or
-  // similar. The handler process is expected to outlive the parent process, so
-  // the parent shouldn’t be concerned with reaping it. This approach means that
-  // accidental early termination of the handler process will not result in a
-  // zombie process.
-  pid_t pid = fork();
-  if (pid < 0) {
-    PLOG(ERROR) << "fork";
+  exception_port_ = HandlerStarter::Start(
+      handler, database, url, annotations, arguments);
+  if (!exception_port_.is_valid()) {
     return false;
   }
 
-  if (pid == 0) {
-    // Child process.
-
-    // Call setsid(), creating a new process group and a new session, both led
-    // by this process. The new process group has no controlling terminal. This
-    // disconnects it from signals generated by the parent process’ terminal.
-    //
-    // setsid() is done in the child instead of the grandchild so that the
-    // grandchild will not be a session leader. If it were a session leader, an
-    // accidental open() of a terminal device without O_NOCTTY would make that
-    // terminal the controlling terminal.
-    //
-    // It’s not desirable for the handler to have a controlling terminal. The
-    // handler monitors clients on its own and manages its own lifetime, exiting
-    // when it loses all clients and when it deems it appropraite to do so. It
-    // may serve clients in different process groups or sessions than its
-    // original client, and receiving signals intended for its original client’s
-    // process group could be harmful in that case.
-    PCHECK(setsid() != -1) << "setsid";
-
-    pid = fork();
-    if (pid < 0) {
-      PLOG(FATAL) << "fork";
-    }
-
-    if (pid > 0) {
-      // Child process.
-
-      // _exit() instead of exit(), because fork() was called.
-      _exit(EXIT_SUCCESS);
-    }
-
-    // Grandchild process.
-
-    CloseMultipleNowOrOnExec(STDERR_FILENO + 1, handshake_fd);
-
-    // &argv_c[0] is a pointer to a pointer to const char data, but because of
-    // how C (not C++) works, execvp() wants a pointer to a const pointer to
-    // char data. It modifies neither the data nor the pointers, so the
-    // const_cast is safe.
-    execvp(handler.value().c_str(), const_cast<char* const*>(&argv_c[0]));
-    PLOG(FATAL) << "execvp " << handler.value();
-  }
-
-  // Parent process.
-
-  // waitpid() for the child, so that it does not become a zombie process. The
-  // child normally exits quickly.
-  int status;
-  pid_t wait_pid = HANDLE_EINTR(waitpid(pid, &status, 0));
-  PCHECK(wait_pid != -1) << "waitpid";
-  DCHECK_EQ(wait_pid, pid);
-
-  if (WIFSIGNALED(status)) {
-    LOG(WARNING) << "intermediate process: signal " << WTERMSIG(status);
-  } else if (!WIFEXITED(status)) {
-    DLOG(WARNING) << "intermediate process: unknown termination " << status;
-  } else if (WEXITSTATUS(status) != EXIT_SUCCESS) {
-    LOG(WARNING) << "intermediate process: exit status " << WEXITSTATUS(status);
-  }
-
-  // Rendezvous with the handler running in the grandchild process.
-  exception_port_.reset(child_port_handshake.RunServer());
-
-  return exception_port_.is_valid();
+  return true;
 }
 
 bool CrashpadClient::UseHandler() {

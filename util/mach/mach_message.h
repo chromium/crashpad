@@ -174,6 +174,21 @@ const mach_msg_trailer_t* MachMessageTrailerFromHeader(
 //!     audit information.
 pid_t AuditPIDFromMachMessageTrailer(const mach_msg_trailer_t* trailer);
 
+//! \brief Destroys or deallocates a Mach port received in a Mach message.
+//!
+//! This function disposes of port rights received in a Mach message. Receive
+//! rights will be destroyed with `mach_port_mod_refs()`. Send and send-once
+//! rights will be deallocated with `mach_port_deallocate()`.
+//!
+//! \param[in] port The port to destroy or deallocate.
+//! \param[in] port_right_type The right type held for \a port:
+//!     `MACH_MSG_TYPE_PORT_RECEIVE`, `MACH_MSG_TYPE_PORT_SEND`, or
+//!     `MACH_MSG_TYPE_PORT_SEND_ONCE`.
+//!
+//! \return `true` on success, or `false` on failure with a message logged.
+bool MachMessageDestroyReceivedPort(mach_port_t port,
+                                    mach_msg_type_name_t port_right_type);
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_MACH_MACH_MESSAGE_H_

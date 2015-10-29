@@ -19,6 +19,7 @@
 #include <string>
 
 #include "base/files/file_path.h"
+#include "base/files/scoped_file.h"
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "build/build_config.h"
@@ -33,6 +34,7 @@
 
 #if defined(OS_MACOSX)
 #include <libgen.h>
+#include "base/mac/scoped_mach_port.h"
 #include "handler/mac/crash_report_exception_handler.h"
 #include "handler/mac/exception_handler_server.h"
 #include "util/mach/child_port_handshake.h"
@@ -210,18 +212,23 @@ int HandlerMain(int argc, char* argv[]) {
   }
 
 #if defined(OS_MACOSX)
+  CloseStdinAndStdout();
+
   if (options.reset_own_crash_exception_port_to_system_default) {
     CrashpadClient::UseSystemDefaultHandler();
   }
-#endif
 
-  ExceptionHandlerServer exception_handler_server;
+  base::mac::ScopedMachReceiveRight receive_right(
+      ChildPortHandshake::RunServerForFD(
+          base::ScopedFD(options.handshake_fd),
+          ChildPortHandshake::PortRightType::kReceiveRight));
+  if (!receive_right.is_valid()) {
+    return EXIT_FAILURE;
+  }
 
-#if defined(OS_MACOSX)
-  CloseStdinAndStdout();
-  ChildPortHandshake::RunClient(options.handshake_fd,
-                                exception_handler_server.receive_port(),
-                                MACH_MSG_TYPE_MAKE_SEND);
+  ExceptionHandlerServer exception_handler_server(receive_right.Pass());
+#elif defined(OS_WIN)
+  ExceptionHandlerServer exception_handler_server(options.pipe_name);
 #endif  // OS_MACOSX
 
   scoped_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(
@@ -237,11 +244,7 @@ int HandlerMain(int argc, char* argv[]) {
   CrashReportExceptionHandler exception_handler(
       database.get(), &upload_thread, &options.annotations);
 
-#if defined(OS_MACOSX)
   exception_handler_server.Run(&exception_handler);
-#elif defined(OS_WIN)
-  exception_handler_server.Run(&exception_handler, options.pipe_name);
-#endif  // OS_MACOSX
 
   upload_thread.Stop();
 

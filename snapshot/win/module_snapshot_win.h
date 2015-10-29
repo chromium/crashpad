@@ -81,6 +81,7 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
                      uint16_t* version_3) const override;
   ModuleType GetModuleType() const override;
   void UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const override;
+  std::string DebugFileName() const override;
   std::vector<std::string> AnnotationsVector() const override;
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
 
@@ -89,9 +90,12 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   void GetCrashpadOptionsInternal(CrashpadInfoClientOptions* options);
 
   std::wstring name_;
-  time_t timestamp_;
+  std::string pdb_name_;
+  UUID uuid_;
   scoped_ptr<PEImageReader> pe_image_reader_;
   ProcessReaderWin* process_reader_;  // weak
+  time_t timestamp_;
+  uint32_t age_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ModuleSnapshotWin);

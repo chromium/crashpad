@@ -353,7 +353,7 @@ void ProcessSnapshotWin::AddMemorySnapshot(
   // useful for the LDR module lists which are a set of doubly-linked lists, all
   // pointing to the same module name strings.
   // TODO(scottmg): A more general version of this, handling overlapping,
-  // contained, etc. https://code.google.com/p/crashpad/issues/detail?id=61.
+  // contained, etc. https://crashpad.chromium.org/bug/61.
   for (const auto& memory_snapshot : *into) {
     if (memory_snapshot->Address() == address &&
         memory_snapshot->Size() == size) {

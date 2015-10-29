@@ -76,6 +76,7 @@ class ModuleSnapshotMac final : public ModuleSnapshot {
                      uint16_t* version_3) const override;
   ModuleType GetModuleType() const override;
   void UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const override;
+  std::string DebugFileName() const override;
   std::vector<std::string> AnnotationsVector() const override;
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
 

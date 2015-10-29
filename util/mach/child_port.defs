@@ -16,10 +16,10 @@
 #include <mach/std_types.defs>
 
 // child_port provides an interface for port rights to be transferred between
-// tasks. Its expected usage is for child processes to be able to pass port
-// rights to their parent processes. A child may wish to give its parent a copy
-// of a send right to its own task port, or a child may hold a receive right for
-// a server and wish to furnish its parent with a send right to that server.
+// tasks. Its expected usage is for processes to be able to pass port rights
+// across IPC boundaries. A child process may wish to give its parent a copy of
+// of a send right to its own task port, or a parent process may wish to give a
+// receive right to a child process that implements a server.
 //
 // This Mach subsystem defines the lowest-level interface for these rights to
 // be transferred. Most users will not user this interface directly, but will
@@ -48,9 +48,7 @@ import "util/mach/child_port_types.h";
 //     secret allowing the server to verify that it has received a request from
 //     the intended client. |server| will reject requests with an invalid
 //     |token|.
-// port[in]: A port right to transfer to the server. In expected usage, this may
-//     be a send or send-once right, and the |server| will reject a receive
-//     right. It is permissible to specify make-send for a receive right.
+// port[in]: A port right to transfer to the server.
 //
 // Return value: As this is a “simpleroutine”, the server does not respond to
 //     the client request, and the client does not block waiting for a response

@@ -118,7 +118,19 @@ class ModuleSnapshot {
   //! \a age is the number of times the UUID has been reused. This occurs on
   //! Windows with incremental linking. On other platforms \a age will always be
   //! `0`.
+  //!
+  //! \sa DebugFileName()
   virtual void UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const = 0;
+
+  //! \brief Returns the module’s debug file info name.
+  //!
+  //! On Windows, this references the PDB file, which contains symbol
+  //! information held separately from the module itself. On other platforms,
+  //! this is normally just be the basename of the module, because the debug
+  //! info file’s name is not relevant even in split-debug scenarios.
+  //!
+  //! \sa UUIDAndAge()
+  virtual std::string DebugFileName() const = 0;
 
   //! \brief Returns string annotations recorded in the module.
   //!

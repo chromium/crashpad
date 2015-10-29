@@ -1,6 +1,6 @@
 Name: Google C++ Mocking Framework (googlemock)
 Short Name: gmock
-URL: https://googlemock.googlecode.com/
+URL: https://github.com/google/googletest/tree/master/googlemock/
 Revision: See DEPS
 License: BSD 3-clause
 License File: gmock/LICENSE

@@ -33,7 +33,7 @@ void ScopedTempDir::Rename() {
 
 // static
 base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
-  char dir_template[] = "/tmp/com.googlecode.crashpad.test.XXXXXX";
+  char dir_template[] = "/tmp/org.chromium.crashpad.test.XXXXXX";
   PCHECK(mkdtemp(dir_template)) << "mkdtemp " << dir_template;
   return base::FilePath(dir_template);
 }

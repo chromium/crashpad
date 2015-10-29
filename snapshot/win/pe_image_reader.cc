@@ -191,7 +191,7 @@ bool PEImageReader::ReadDebugDirectoryInformation(UUID* uuid,
     if (*reinterpret_cast<DWORD*>(data.get()) !=
         CodeViewRecordPDB70::kSignature) {
       // TODO(scottmg): Consider supporting other record types, see
-      // https://code.google.com/p/crashpad/issues/detail?id=47.
+      // https://crashpad.chromium.org/bug/47.
       LOG(WARNING) << "encountered non-7.0 CodeView debug record";
       continue;
     }

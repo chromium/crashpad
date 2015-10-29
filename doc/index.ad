@@ -16,16 +16,16 @@
 
 = Crashpad
 
-https://crashpad-home.appspot.com/[Crashpad] is a crash-reporting system.
+https://crashpad.chromium.org/[Crashpad] is a crash-reporting system.
 
 == Documentation
 
  * link:status.html[Project status]
  * link:developing.html[Developing Crashpad]: instructions for getting the
    source code, building, testing, and contributing to the project.
- * https://crashpad-home.appspot.com/doxygen/index.html[Crashpad interface
+ * https://crashpad.chromium.org/doxygen/index.html[Crashpad interface
    documentation]
- * https://crashpad-home.appspot.com/man/index.html[Crashpad tool man pages]
+ * https://crashpad.chromium.org/man/index.html[Crashpad tool man pages]
 
 == Source Code
 
@@ -34,8 +34,8 @@ https://chromium.googlesource.com/crashpad/crashpad.
 
 == Other Links
 
- * Bugs can be reported at the
-   https://code.google.com/p/crashpad/issues/entry[Crashpad issue tracker].
+ * Bugs can be reported at the https://crashpad.chromium.org/bug/new[Crashpad
+   issue tracker].
  * The https://build.chromium.org/p/client.crashpad[Crashpad Buildbot] performs
    automated builds and tests.
  * https://groups.google.com/a/chromium.org/group/crashpad-dev[crashpad-dev] is

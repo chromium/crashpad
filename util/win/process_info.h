@@ -180,7 +180,7 @@ class ProcessInfo {
   std::vector<MEMORY_BASIC_INFORMATION64> memory_info_;
 
   // Handles() is logically const, but updates this member on first retrieval.
-  // See https://code.google.com/p/crashpad/issues/detail?id=9.
+  // See https://crashpad.chromium.org/bug/9.
   mutable std::vector<Handle> handles_;
 
   bool is_64_bit_;

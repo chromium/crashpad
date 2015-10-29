@@ -28,19 +28,24 @@ namespace crashpad {
 //!     process.
 class ExceptionHandlerServer {
  public:
-  ExceptionHandlerServer();
+  //! \brief Constructs an ExceptionHandlerServer object.
+  //!
+  //! \param[in] receive_port The port that exception messages and no-senders
+  //!     notifications will be received on.
+  explicit ExceptionHandlerServer(
+      base::mac::ScopedMachReceiveRight receive_port);
   ~ExceptionHandlerServer();
 
   //! \brief Runs the exception-handling server.
   //!
   //! \param[in] exception_interface An object to send exception messages to.
   //!
-  //! This method monitors receive_port() for exception messages and no-senders
-  //! notifications. It continues running until it has no more clients,
-  //! indicated by the receipt of a no-senders notification. It is important to
-  //! assure that a send right has been transferred to a client (or queued by
-  //! `mach_msg()` to be sent to a client) prior to calling this method, or it
-  //! will detect that it is sender-less and return immediately.
+  //! This method monitors the receive port for exception messages and
+  //! no-senders notifications. It continues running until it has no more
+  //! clients, indicated by the receipt of a no-senders notification. It is
+  //! important to assure that a send right exists in a client (or has been
+  //! queued by `mach_msg()` to be sent to a client) prior to calling this
+  //! method, or it will detect that it is sender-less and return immediately.
   //!
   //! All exception messages will be passed to \a exception_interface.
   //!
@@ -48,16 +53,9 @@ class ExceptionHandlerServer {
   //!
   //! If an unexpected condition that prevents this method from functioning is
   //! encountered, it will log a message and terminate execution. Receipt of an
-  //! invalid message on receive_port() will cause a message to be logged, but
+  //! invalid message on the receive port will cause a message to be logged, but
   //! this method will continue running normally.
   void Run(UniversalMachExcServer::Interface* exception_interface);
-
-  //! \brief Returns the receive right that will be monitored for exception
-  //!     messages.
-  //!
-  //! The caller does not take ownership of this port. The caller must not use
-  //! this port for any purpose other than to make send rights for clients.
-  mach_port_t receive_port() const { return receive_port_.get(); }
 
  private:
   base::mac::ScopedMachReceiveRight receive_port_;

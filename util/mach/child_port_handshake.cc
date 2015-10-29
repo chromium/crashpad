@@ -32,60 +32,60 @@
 #include "base/strings/stringprintf.h"
 #include "util/file/file_io.h"
 #include "util/mach/child_port.h"
+#include "util/mach/child_port_server.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
+namespace {
 
-ChildPortHandshake::ChildPortHandshake()
+class ChildPortHandshakeServer final : public ChildPortServer::Interface {
+ public:
+  ChildPortHandshakeServer();
+  ~ChildPortHandshakeServer();
+
+  mach_port_t RunServer(base::ScopedFD server_write_fd,
+                        ChildPortHandshake::PortRightType port_right_type);
+
+ private:
+  // ChildPortServer::Interface:
+  kern_return_t HandleChildPortCheckIn(child_port_server_t server,
+                                       child_port_token_t token,
+                                       mach_port_t port,
+                                       mach_msg_type_name_t right_type,
+                                       const mach_msg_trailer_t* trailer,
+                                       bool* destroy_request) override;
+
+  child_port_token_t token_;
+  mach_port_t port_;
+  mach_msg_type_name_t right_type_;
+  bool checked_in_;
+
+  DISALLOW_COPY_AND_ASSIGN(ChildPortHandshakeServer);
+};
+
+ChildPortHandshakeServer::ChildPortHandshakeServer()
     : token_(0),
-      pipe_read_(),
-      pipe_write_(),
-      child_port_(MACH_PORT_NULL),
+      port_(MACH_PORT_NULL),
+      right_type_(MACH_MSG_TYPE_PORT_NONE),
       checked_in_(false) {
-  // Use socketpair() instead of pipe(). There is no way to suppress SIGPIPE on
-  // pipes in Mac OS X 10.6, because the F_SETNOSIGPIPE fcntl() command was not
-  // introduced until 10.7.
-  int pipe_fds[2];
-  PCHECK(socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, pipe_fds) == 0)
-      << "socketpair";
-
-  pipe_read_.reset(pipe_fds[0]);
-  pipe_write_.reset(pipe_fds[1]);
-
-  // Simulate pipe() semantics by shutting down the “wrong” sides of the socket.
-  PCHECK(shutdown(pipe_write_.get(), SHUT_RD) == 0) << "shutdown";
-  PCHECK(shutdown(pipe_read_.get(), SHUT_WR) == 0) << "shutdown";
-
-  // SIGPIPE is undesirable when writing to this pipe. Allow broken-pipe writes
-  // to fail with EPIPE instead.
-  const int value = 1;
-  PCHECK(setsockopt(
-      pipe_write_.get(), SOL_SOCKET, SO_NOSIGPIPE, &value, sizeof(value)) == 0)
-      << "setsockopt";
 }
 
-ChildPortHandshake::~ChildPortHandshake() {
+ChildPortHandshakeServer::~ChildPortHandshakeServer() {
 }
 
-int ChildPortHandshake::ReadPipeFD() const {
-  DCHECK_NE(pipe_read_.get(), -1);
-  return pipe_read_.get();
-}
-
-mach_port_t ChildPortHandshake::RunServer() {
-  DCHECK_NE(pipe_read_.get(), -1);
-  pipe_read_.reset();
-
-  // Transfer ownership of the write pipe into this method’s scope.
-  base::ScopedFD pipe_write_owner = pipe_write_.Pass();
+mach_port_t ChildPortHandshakeServer::RunServer(
+    base::ScopedFD server_write_fd,
+    ChildPortHandshake::PortRightType port_right_type) {
+  DCHECK_EQ(port_, kMachPortNull);
+  DCHECK(!checked_in_);
+  DCHECK(server_write_fd.is_valid());
 
   // Initialize the token and share it with the client via the pipe.
   token_ = base::RandUint64();
-  int pipe_write = pipe_write_owner.get();
-  if (!LoggingWriteFile(pipe_write, &token_, sizeof(token_))) {
+  if (!LoggingWriteFile(server_write_fd.get(), &token_, sizeof(token_))) {
     LOG(WARNING) << "no client check-in";
     return MACH_PORT_NULL;
   }
@@ -97,7 +97,7 @@ mach_port_t ChildPortHandshake::RunServer() {
   errno = pthread_threadid_np(pthread_self(), &thread_id);
   PCHECK(errno == 0) << "pthread_threadid_np";
   std::string service_name = base::StringPrintf(
-      "com.googlecode.crashpad.child_port_handshake.%d.%llu.%016llx",
+      "org.chromium.crashpad.child_port_handshake.%d.%llu.%016llx",
       getpid(),
       thread_id,
       base::RandUint64());
@@ -109,14 +109,15 @@ mach_port_t ChildPortHandshake::RunServer() {
 
   // Share the service name with the client via the pipe.
   uint32_t service_name_length = service_name.size();
-  if (!LoggingWriteFile(
-          pipe_write, &service_name_length, sizeof(service_name_length))) {
+  if (!LoggingWriteFile(server_write_fd.get(),
+                        &service_name_length,
+                        sizeof(service_name_length))) {
     LOG(WARNING) << "no client check-in";
     return MACH_PORT_NULL;
   }
 
   if (!LoggingWriteFile(
-          pipe_write, service_name.c_str(), service_name_length)) {
+          server_write_fd.get(), service_name.c_str(), service_name_length)) {
     LOG(WARNING) << "no client check-in";
     return MACH_PORT_NULL;
   }
@@ -147,7 +148,7 @@ mach_port_t ChildPortHandshake::RunServer() {
          0,
          nullptr);
   EV_SET(&changelist[1],
-         pipe_write,
+         server_write_fd.get(),
          EVFILT_WRITE,
          EV_ADD | EV_CLEAR,
          0,
@@ -162,7 +163,7 @@ mach_port_t ChildPortHandshake::RunServer() {
   bool blocking = true;
   DCHECK(!checked_in_);
   while (!checked_in_) {
-    DCHECK_EQ(child_port_, kMachPortNull);
+    DCHECK_EQ(port_, kMachPortNull);
 
     // Get a kevent from the kqueue. Block while waiting for an event unless the
     // write pipe has arrived at EOF, in which case the kevent() should be
@@ -230,7 +231,7 @@ mach_port_t ChildPortHandshake::RunServer() {
         // pipe. Ignore that case. Multiple notifications for that situation
         // will not be generated because edge triggering (EV_CLEAR) is used
         // above.
-        DCHECK_EQ(implicit_cast<int>(event.ident), pipe_write);
+        DCHECK_EQ(implicit_cast<int>(event.ident), server_write_fd.get());
         if (event.flags & EV_EOF) {
           // There are no readers attached to the write pipe. The client has
           // closed its side of the pipe. There can be one last shot at
@@ -246,19 +247,48 @@ mach_port_t ChildPortHandshake::RunServer() {
     }
   }
 
-  mach_port_t child_port = MACH_PORT_NULL;
-  std::swap(child_port_, child_port);
-  return child_port;
+  if (port_ == MACH_PORT_NULL) {
+    return MACH_PORT_NULL;
+  }
+
+  bool mismatch = false;
+  switch (port_right_type) {
+    case ChildPortHandshake::PortRightType::kReceiveRight:
+      if (right_type_ != MACH_MSG_TYPE_PORT_RECEIVE) {
+        LOG(ERROR) << "expected receive right, observed " << right_type_;
+        mismatch = true;
+      }
+      break;
+    case ChildPortHandshake::PortRightType::kSendRight:
+      if (right_type_ != MACH_MSG_TYPE_PORT_SEND &&
+          right_type_ != MACH_MSG_TYPE_PORT_SEND_ONCE) {
+        LOG(ERROR) << "expected send or send-once right, observed "
+                   << right_type_;
+        mismatch = true;
+      }
+      break;
+  }
+
+  if (mismatch) {
+    MachMessageDestroyReceivedPort(port_, right_type_);
+    port_ = MACH_PORT_NULL;
+    return MACH_PORT_NULL;
+  }
+
+  mach_port_t port = MACH_PORT_NULL;
+  std::swap(port_, port);
+  return port;
 }
 
-kern_return_t ChildPortHandshake::HandleChildPortCheckIn(
+kern_return_t ChildPortHandshakeServer::HandleChildPortCheckIn(
     child_port_server_t server,
     const child_port_token_t token,
     mach_port_t port,
     mach_msg_type_name_t right_type,
     const mach_msg_trailer_t* trailer,
     bool* destroy_request) {
-  DCHECK_EQ(child_port_, kMachPortNull);
+  DCHECK_EQ(port_, kMachPortNull);
+  DCHECK(!checked_in_);
 
   if (token != token_) {
     // If the token’s not correct, someone’s attempting to spoof the legitimate
@@ -268,19 +298,18 @@ kern_return_t ChildPortHandshake::HandleChildPortCheckIn(
   } else {
     checked_in_ = true;
 
-    if (right_type == MACH_MSG_TYPE_PORT_RECEIVE) {
-      // The message needs to carry a send right or a send-once right. This
-      // isn’t a strict requirement of the protocol, but users of this class
-      // expect a send right or a send-once right, both of which can be managed
-      // by base::mac::ScopedMachSendRight. It is invalid to store a receive
-      // right in that scoper.
-      LOG(WARNING) << "ignoring MACH_MSG_TYPE_PORT_RECEIVE";
+    if (right_type != MACH_MSG_TYPE_PORT_RECEIVE &&
+        right_type != MACH_MSG_TYPE_PORT_SEND &&
+        right_type != MACH_MSG_TYPE_PORT_SEND_ONCE) {
+      // The message needs to carry a receive, send, or send-once right.
+      LOG(ERROR) << "invalid right type " << right_type;
       *destroy_request = true;
     } else {
-      // Communicate the child port back to the RunServer().
+      // Communicate the child port and right type back to the RunServer().
       // *destroy_request is left at false, because RunServer() needs the right
       // to remain intact. It gives ownership of the right to its caller.
-      child_port_ = port;
+      port_ = port;
+      right_type_ = right_type;
     }
   }
 
@@ -288,40 +317,112 @@ kern_return_t ChildPortHandshake::HandleChildPortCheckIn(
   return MIG_NO_REPLY;
 }
 
-// static
-void ChildPortHandshake::RunClient(int pipe_read,
-                                   mach_port_t port,
+}  // namespace
+
+ChildPortHandshake::ChildPortHandshake()
+    : client_read_fd_(),
+      server_write_fd_() {
+  // Use socketpair() instead of pipe(). There is no way to suppress SIGPIPE on
+  // pipes in Mac OS X 10.6, because the F_SETNOSIGPIPE fcntl() command was not
+  // introduced until 10.7.
+  int pipe_fds[2];
+  PCHECK(socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, pipe_fds) == 0)
+      << "socketpair";
+
+  client_read_fd_.reset(pipe_fds[0]);
+  server_write_fd_.reset(pipe_fds[1]);
+
+  // Simulate pipe() semantics by shutting down the “wrong” sides of the socket.
+  PCHECK(shutdown(server_write_fd_.get(), SHUT_RD) == 0) << "shutdown SHUT_RD";
+  PCHECK(shutdown(client_read_fd_.get(), SHUT_WR) == 0) << "shutdown SHUT_WR";
+
+  // SIGPIPE is undesirable when writing to this pipe. Allow broken-pipe writes
+  // to fail with EPIPE instead.
+  const int value = 1;
+  PCHECK(setsockopt(server_write_fd_.get(),
+                    SOL_SOCKET,
+                    SO_NOSIGPIPE,
+                    &value,
+                    sizeof(value)) == 0) << "setsockopt";
+}
+
+ChildPortHandshake::~ChildPortHandshake() {
+}
+
+base::ScopedFD ChildPortHandshake::ClientReadFD() {
+  DCHECK(client_read_fd_.is_valid());
+  return client_read_fd_.Pass();
+}
+
+base::ScopedFD ChildPortHandshake::ServerWriteFD() {
+  DCHECK(server_write_fd_.is_valid());
+  return server_write_fd_.Pass();
+}
+
+mach_port_t ChildPortHandshake::RunServer(PortRightType port_right_type) {
+  client_read_fd_.reset();
+  return RunServerForFD(server_write_fd_.Pass(), port_right_type);
+}
+
+bool ChildPortHandshake::RunClient(mach_port_t port,
                                    mach_msg_type_name_t right_type) {
-  base::ScopedFD pipe_read_owner(pipe_read);
+  server_write_fd_.reset();
+  return RunClientForFD(client_read_fd_.Pass(), port, right_type);
+}
+
+// static
+mach_port_t ChildPortHandshake::RunServerForFD(base::ScopedFD server_write_fd,
+                                               PortRightType port_right_type) {
+  ChildPortHandshakeServer server;
+  return server.RunServer(server_write_fd.Pass(), port_right_type);
+}
+
+// static
+bool ChildPortHandshake::RunClientForFD(base::ScopedFD client_read_fd,
+                                        mach_port_t port,
+                                        mach_msg_type_name_t right_type) {
+  DCHECK(client_read_fd.is_valid());
 
   // Read the token and the service name from the read side of the pipe.
   child_port_token_t token;
   std::string service_name;
-  RunClientInternal_ReadPipe(pipe_read, &token, &service_name);
+  if (!RunClientInternal_ReadPipe(
+          client_read_fd.get(), &token, &service_name)) {
+    return false;
+  }
 
   // Look up the server and check in with it by providing the token and port.
-  RunClientInternal_SendCheckIn(service_name, token, port, right_type);
+  return RunClientInternal_SendCheckIn(service_name, token, port, right_type);
 }
 
 // static
-void ChildPortHandshake::RunClientInternal_ReadPipe(int pipe_read,
+bool ChildPortHandshake::RunClientInternal_ReadPipe(int client_read_fd,
                                                     child_port_token_t* token,
                                                     std::string* service_name) {
   // Read the token from the pipe.
-  CheckedReadFile(pipe_read, token, sizeof(*token));
+  if (!LoggingReadFile(client_read_fd, token, sizeof(*token))) {
+    return false;
+  }
 
   // Read the service name from the pipe.
   uint32_t service_name_length;
-  CheckedReadFile(pipe_read, &service_name_length, sizeof(service_name_length));
+  if (!LoggingReadFile(
+      client_read_fd, &service_name_length, sizeof(service_name_length))) {
+    return false;
+  }
 
   service_name->resize(service_name_length);
-  if (!service_name->empty()) {
-    CheckedReadFile(pipe_read, &(*service_name)[0], service_name_length);
+  if (!service_name->empty() &&
+      !LoggingReadFile(
+          client_read_fd, &(*service_name)[0], service_name_length)) {
+    return false;
   }
+
+  return true;
 }
 
 // static
-void ChildPortHandshake::RunClientInternal_SendCheckIn(
+bool ChildPortHandshake::RunClientInternal_SendCheckIn(
     const std::string& service_name,
     child_port_token_t token,
     mach_port_t port,
@@ -329,12 +430,19 @@ void ChildPortHandshake::RunClientInternal_SendCheckIn(
   // Get a send right to the server by looking up the service with the bootstrap
   // server by name.
   base::mac::ScopedMachSendRight server_port(BootstrapLookUp(service_name));
-  CHECK(server_port.is_valid());
+  if (server_port == kMachPortNull) {
+    return false;
+  }
 
   // Check in with the server.
-  kern_return_t kr =
-      child_port_check_in(server_port.get(), token, port, right_type);
-  MACH_CHECK(kr == KERN_SUCCESS, kr) << "child_port_check_in";
+  kern_return_t kr = child_port_check_in(
+      server_port.get(), token, port, right_type);
+  if (kr != KERN_SUCCESS) {
+    MACH_LOG(ERROR, kr) << "child_port_check_in";
+    return false;
+  }
+
+  return true;
 }
 
 }  // namespace crashpad
