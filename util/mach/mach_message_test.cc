@@ -16,6 +16,7 @@
 
 #include <unistd.h>
 
+#include "base/basictypes.h"
 #include "base/mac/scoped_mach_port.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
@@ -146,6 +147,55 @@ TEST(MachMessage, AuditPIDFromMachMessageTrailer) {
       << MachErrorMessage(mr, "MachMessageWithDeadline receive");
 
   EXPECT_EQ(getpid(), AuditPIDFromMachMessageTrailer(&receive.trailer));
+}
+
+TEST(MachMessage, MachMessageDestroyReceivedPort) {
+  mach_port_t port = NewMachPort(MACH_PORT_RIGHT_RECEIVE);
+  ASSERT_NE(kMachPortNull, port);
+  EXPECT_TRUE(MachMessageDestroyReceivedPort(port, MACH_MSG_TYPE_PORT_RECEIVE));
+
+  base::mac::ScopedMachReceiveRight receive(
+      NewMachPort(MACH_PORT_RIGHT_RECEIVE));
+  mach_msg_type_name_t right_type;
+  kern_return_t kr = mach_port_extract_right(mach_task_self(),
+                                             receive.get(),
+                                             MACH_MSG_TYPE_MAKE_SEND,
+                                             &port,
+                                             &right_type);
+  ASSERT_EQ(KERN_SUCCESS, kr)
+      << MachErrorMessage(kr, "mach_port_extract_right");
+  ASSERT_EQ(receive, port);
+  ASSERT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND),
+            right_type);
+  EXPECT_TRUE(MachMessageDestroyReceivedPort(port, MACH_MSG_TYPE_PORT_SEND));
+
+  kr = mach_port_extract_right(mach_task_self(),
+                               receive.get(),
+                               MACH_MSG_TYPE_MAKE_SEND_ONCE,
+                               &port,
+                               &right_type);
+  ASSERT_EQ(KERN_SUCCESS, kr)
+      << MachErrorMessage(kr, "mach_port_extract_right");
+  ASSERT_NE(kMachPortNull, port);
+  EXPECT_NE(receive, port);
+  ASSERT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND_ONCE),
+            right_type);
+  EXPECT_TRUE(
+      MachMessageDestroyReceivedPort(port, MACH_MSG_TYPE_PORT_SEND_ONCE));
+
+  kr = mach_port_extract_right(mach_task_self(),
+                               receive.get(),
+                               MACH_MSG_TYPE_MAKE_SEND,
+                               &port,
+                               &right_type);
+  ASSERT_EQ(KERN_SUCCESS, kr)
+      << MachErrorMessage(kr, "mach_port_extract_right");
+  ASSERT_EQ(receive, port);
+  ASSERT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND),
+            right_type);
+  EXPECT_TRUE(MachMessageDestroyReceivedPort(port, MACH_MSG_TYPE_PORT_RECEIVE));
+  ignore_result(receive.release());
+  EXPECT_TRUE(MachMessageDestroyReceivedPort(port, MACH_MSG_TYPE_PORT_SEND));
 }
 
 }  // namespace

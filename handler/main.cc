@@ -19,6 +19,7 @@
 #include <string>
 
 #include "base/files/file_path.h"
+#include "base/files/scoped_file.h"
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "build/build_config.h"
@@ -219,9 +220,12 @@ int HandlerMain(int argc, char* argv[]) {
 
 #if defined(OS_MACOSX)
   CloseStdinAndStdout();
-  ChildPortHandshake::RunClient(options.handshake_fd,
-                                exception_handler_server.receive_port(),
-                                MACH_MSG_TYPE_MAKE_SEND);
+  if (!ChildPortHandshake::RunClientForFD(
+          base::ScopedFD(options.handshake_fd),
+          exception_handler_server.receive_port(),
+          MACH_MSG_TYPE_MAKE_SEND)) {
+    return EXIT_FAILURE;
+  }
 #endif  // OS_MACOSX
 
   scoped_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(

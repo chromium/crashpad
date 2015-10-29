@@ -20,6 +20,7 @@
 #include <limits>
 
 #include "base/logging.h"
+#include "base/mac/mach_logging.h"
 #include "util/misc/clock.h"
 #include "util/misc/implicit_cast.h"
 
@@ -247,6 +248,39 @@ pid_t AuditPIDFromMachMessageTrailer(const mach_msg_trailer_t* trailer) {
 #endif
 
   return audit_pid;
+}
+
+bool MachMessageDestroyReceivedPort(mach_port_t port,
+                                    mach_msg_type_name_t port_right_type) {
+  // This implements a subset of 10.10.5
+  // xnu-2782.40.9/libsyscall/mach/mach_msg.c mach_msg_destroy_port() that deals
+  // only with port rights that can be received in Mach messages.
+  switch (port_right_type) {
+    case MACH_MSG_TYPE_PORT_RECEIVE: {
+      kern_return_t kr = mach_port_mod_refs(
+          mach_task_self(), port, MACH_PORT_RIGHT_RECEIVE, -1);
+      if (kr != KERN_SUCCESS) {
+        MACH_LOG(ERROR, kr) << "mach_port_mod_refs";
+        return false;
+      }
+      return true;
+    }
+
+    case MACH_MSG_TYPE_PORT_SEND:
+    case MACH_MSG_TYPE_PORT_SEND_ONCE: {
+      kern_return_t kr = mach_port_deallocate(mach_task_self(), port);
+      if (kr != KERN_SUCCESS) {
+        MACH_LOG(ERROR, kr) << "mach_port_deallocate";
+        return false;
+      }
+      return true;
+    }
+
+    default: {
+      LOG(ERROR) << "unexpected port right type " << port_right_type;
+      return false;
+    }
+  }
 }
 
 }  // namespace crashpad

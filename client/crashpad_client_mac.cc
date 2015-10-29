@@ -97,7 +97,7 @@ bool CrashpadClient::StartHandler(
   // Set up the arguments for execve() first. These aren’t needed until execve()
   // is called, but it’s dangerous to do this in a child process after fork().
   ChildPortHandshake child_port_handshake;
-  int handshake_fd = child_port_handshake.ReadPipeFD();
+  base::ScopedFD client_read_fd = child_port_handshake.ClientReadFD();
 
   // Use handler as argv[0], followed by arguments directed by this method’s
   // parameters and a --handshake-fd argument. |arguments| are added first so
@@ -119,7 +119,7 @@ bool CrashpadClient::StartHandler(
     argv.push_back(
         FormatArgumentString("annotation", kv.first + '=' + kv.second));
   }
-  argv.push_back(FormatArgumentInt("handshake-fd", handshake_fd));
+  argv.push_back(FormatArgumentInt("handshake-fd", client_read_fd.get()));
 
   // argv_c contains const char* pointers and is terminated by nullptr. argv
   // is required because the pointers in argv_c need to point somewhere, and
@@ -181,7 +181,7 @@ bool CrashpadClient::StartHandler(
 
     // Grandchild process.
 
-    CloseMultipleNowOrOnExec(STDERR_FILENO + 1, handshake_fd);
+    CloseMultipleNowOrOnExec(STDERR_FILENO + 1, client_read_fd.get());
 
     // &argv_c[0] is a pointer to a pointer to const char data, but because of
     // how C (not C++) works, execvp() wants a pointer to a const pointer to
@@ -192,6 +192,8 @@ bool CrashpadClient::StartHandler(
   }
 
   // Parent process.
+
+  client_read_fd.reset();
 
   // waitpid() for the child, so that it does not become a zombie process. The
   // child normally exits quickly.
@@ -209,7 +211,8 @@ bool CrashpadClient::StartHandler(
   }
 
   // Rendezvous with the handler running in the grandchild process.
-  exception_port_.reset(child_port_handshake.RunServer());
+  exception_port_.reset(child_port_handshake.RunServer(
+      ChildPortHandshake::PortRightType::kSendRight));
 
   return exception_port_.is_valid();
 }
