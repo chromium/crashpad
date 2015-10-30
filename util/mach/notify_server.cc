@@ -105,6 +105,42 @@ kern_return_t MIGCheckRequestMachNotifyDeadName(
 
 namespace crashpad {
 
+kern_return_t NotifyServer::DefaultInterface::DoMachNotifyPortDeleted(
+    notify_port_t notify,
+    mach_port_name_t name,
+    const mach_msg_trailer_t* trailer) {
+  return MIG_BAD_ID;
+}
+
+kern_return_t NotifyServer::DefaultInterface::DoMachNotifyPortDestroyed(
+    notify_port_t notify,
+    mach_port_t rights,
+    const mach_msg_trailer_t* trailer,
+    bool* destroy_request) {
+  *destroy_request = true;
+  return MIG_BAD_ID;
+}
+
+kern_return_t NotifyServer::DefaultInterface::DoMachNotifyNoSenders(
+    notify_port_t notify,
+    mach_port_mscount_t mscount,
+    const mach_msg_trailer_t* trailer) {
+  return MIG_BAD_ID;
+}
+
+kern_return_t NotifyServer::DefaultInterface::DoMachNotifySendOnce(
+    notify_port_t notify,
+    const mach_msg_trailer_t* trailer) {
+  return MIG_BAD_ID;
+}
+
+kern_return_t NotifyServer::DefaultInterface::DoMachNotifyDeadName(
+    notify_port_t notify,
+    mach_port_name_t name,
+    const mach_msg_trailer_t* trailer) {
+  return MIG_BAD_ID;
+}
+
 NotifyServer::NotifyServer(NotifyServer::Interface* interface)
     : MachMessageServer::Interface(),
       interface_(interface) {

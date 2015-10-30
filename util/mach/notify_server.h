@@ -37,6 +37,9 @@ class NotifyServer : public MachMessageServer::Interface {
  public:
   //! \brief An interface that the different request messages that are a part of
   //!     the `notify` Mach subsystem can be dispatched to.
+  //!
+  //! Default implementations of all methods are available in the
+  //! DefaultInterface class.
   class Interface {
    public:
     //! \brief Handles port-deleted notifications sent by
@@ -164,6 +167,52 @@ class NotifyServer : public MachMessageServer::Interface {
 
    protected:
     ~Interface() {}
+  };
+
+  //! \brief A concrete implementation of Interface that provides a default
+  //!     behavior for all `notify` routines.
+  //!
+  //! The Mach `notify` subsystem contains a collection of unrelated routines,
+  //! and a single server would rarely need to implement all of them. To make it
+  //! easier to use NotifyServer, a server can inherit from DefaultInterface
+  //! instead of Interface. Unless overridden, each routine in DefaultInterface
+  //! returns `MIG_BAD_ID` to indicate to the caller that the `notify` message
+  //! was unexpected and not processed.
+  class DefaultInterface : public Interface {
+   public:
+    // Interface:
+
+    kern_return_t DoMachNotifyPortDeleted(
+        notify_port_t notify,
+        mach_port_name_t name,
+        const mach_msg_trailer_t* trailer) override;
+
+    kern_return_t DoMachNotifyPortDestroyed(
+        notify_port_t notify,
+        mach_port_t rights,
+        const mach_msg_trailer_t* trailer,
+        bool* destroy_request) override;
+
+    kern_return_t DoMachNotifyNoSenders(
+        notify_port_t notify,
+        mach_port_mscount_t mscount,
+        const mach_msg_trailer_t* trailer) override;
+
+    kern_return_t DoMachNotifySendOnce(
+        notify_port_t notify,
+        const mach_msg_trailer_t* trailer) override;
+
+    kern_return_t DoMachNotifyDeadName(
+        notify_port_t notify,
+        mach_port_name_t name,
+        const mach_msg_trailer_t* trailer) override;
+
+   protected:
+    DefaultInterface() : Interface() {}
+    ~DefaultInterface() {}
+
+   private:
+    DISALLOW_COPY_AND_ASSIGN(DefaultInterface);
   };
 
   //! \brief Constructs an object of this class.

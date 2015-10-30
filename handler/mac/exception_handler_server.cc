@@ -27,13 +27,13 @@ namespace crashpad {
 namespace {
 
 class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
-                                  public NotifyServer::Interface {
+                                  public NotifyServer::DefaultInterface {
  public:
   ExceptionHandlerServerRun(
       mach_port_t exception_port,
       UniversalMachExcServer::Interface* exception_interface)
       : UniversalMachExcServer::Interface(),
-        NotifyServer::Interface(),
+        NotifyServer::DefaultInterface(),
         mach_exc_server_(this),
         notify_server_(this),
         composite_mach_message_server_(),
@@ -144,22 +144,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
                                                     destroy_complex_request);
   }
 
-  // NotifyServer::Interface:
-
-  kern_return_t DoMachNotifyPortDeleted(
-      notify_port_t notify,
-      mach_port_name_t name,
-      const mach_msg_trailer_t* trailer) override {
-    return UnimplementedNotifyRoutine(notify);
-  }
-
-  kern_return_t DoMachNotifyPortDestroyed(notify_port_t notify,
-                                          mach_port_t rights,
-                                          const mach_msg_trailer_t* trailer,
-                                          bool* destroy_request) override {
-    *destroy_request = true;
-    return UnimplementedNotifyRoutine(notify);
-  }
+  // NotifyServer::DefaultInterface:
 
   kern_return_t DoMachNotifyNoSenders(
       notify_port_t notify,
@@ -180,32 +165,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
     return KERN_SUCCESS;
   }
 
-  kern_return_t DoMachNotifySendOnce(
-      notify_port_t notify,
-      const mach_msg_trailer_t* trailer) override {
-    return UnimplementedNotifyRoutine(notify);
-  }
-
-  kern_return_t DoMachNotifyDeadName(
-      notify_port_t notify,
-      mach_port_name_t name,
-      const mach_msg_trailer_t* trailer) override {
-    return UnimplementedNotifyRoutine(notify);
-  }
-
  private:
-  kern_return_t UnimplementedNotifyRoutine(notify_port_t notify) {
-    // Most of the routines in the notify subsystem are not expected to be
-    // called.
-    if (notify != notify_port_) {
-      LOG(WARNING) << "notify port mismatch";
-      return KERN_FAILURE;
-    }
-
-    NOTREACHED();
-    return MIG_BAD_ID;
-  }
-
   UniversalMachExcServer mach_exc_server_;
   NotifyServer notify_server_;
   CompositeMachMessageServer composite_mach_message_server_;
