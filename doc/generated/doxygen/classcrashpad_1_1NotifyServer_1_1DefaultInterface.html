@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Crashpad: crashpad::NotifyServer::Interface Class Reference</title>
+<title>Crashpad: crashpad::NotifyServer::DefaultInterface Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -84,55 +84,55 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1NotifyServer.html">NotifyServer</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html">Interface</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1NotifyServer.html">NotifyServer</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html">DefaultInterface</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classcrashpad_1_1NotifyServer_1_1Interface-members.html">List of all members</a>  </div>
+<a href="classcrashpad_1_1NotifyServer_1_1DefaultInterface-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">crashpad::NotifyServer::Interface Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">crashpad::NotifyServer::DefaultInterface Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>An interface that the different request messages that are a part of the <code>notify</code> Mach subsystem can be dispatched to.  
- <a href="classcrashpad_1_1NotifyServer_1_1Interface.html#details">More...</a></p>
+<p>A concrete implementation of <a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html" title="An interface that the different request messages that are a part of the notify Mach subsystem can be ...">Interface</a> that provides a default behavior for all <code>notify</code> routines.  
+ <a href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#details">More...</a></p>
 
 <p><code>#include &quot;util/mach/notify_server.h&quot;</code></p>
 <div class="dynheader">
-Inheritance diagram for crashpad::NotifyServer::Interface:</div>
+Inheritance diagram for crashpad::NotifyServer::DefaultInterface:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="classcrashpad_1_1NotifyServer_1_1Interface.png" usemap="#crashpad::NotifyServer::Interface_map" alt=""/>
-  <map id="crashpad::NotifyServer::Interface_map" name="crashpad::NotifyServer::Interface_map">
-<area href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html" title="A concrete implementation of Interface that provides a default behavior for all notify routines..." alt="crashpad::NotifyServer::DefaultInterface" shape="rect" coords="0,56,239,80"/>
+  <img src="classcrashpad_1_1NotifyServer_1_1DefaultInterface.png" usemap="#crashpad::NotifyServer::DefaultInterface_map" alt=""/>
+  <map id="crashpad::NotifyServer::DefaultInterface_map" name="crashpad::NotifyServer::DefaultInterface_map">
+<area href="classcrashpad_1_1NotifyServer_1_1Interface.html" title="An interface that the different request messages that are a part of the notify Mach subsystem can be ..." alt="crashpad::NotifyServer::Interface" shape="rect" coords="0,0,239,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afb31bdbba0f94be2efa0caff19a89fa4"><td class="memItemLeft" align="right" valign="top">virtual kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#afb31bdbba0f94be2efa0caff19a89fa4">DoMachNotifyPortDeleted</a> (notify_port_t notify, mach_port_name_t name, const mach_msg_trailer_t *trailer)=0</td></tr>
-<tr class="memdesc:afb31bdbba0f94be2efa0caff19a89fa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles port-deleted notifications sent by <code>mach_notify_port_deleted()</code>.  <a href="#afb31bdbba0f94be2efa0caff19a89fa4">More...</a><br /></td></tr>
-<tr class="separator:afb31bdbba0f94be2efa0caff19a89fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd3f056edee7243e1b388aed2dcd6505"><td class="memItemLeft" align="right" valign="top">virtual kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#afd3f056edee7243e1b388aed2dcd6505">DoMachNotifyPortDestroyed</a> (notify_port_t notify, mach_port_t rights, const mach_msg_trailer_t *trailer, bool *destroy_request)=0</td></tr>
-<tr class="memdesc:afd3f056edee7243e1b388aed2dcd6505"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles port-destroyed notifications sent by <code>mach_notify_port_destroyed()</code>.  <a href="#afd3f056edee7243e1b388aed2dcd6505">More...</a><br /></td></tr>
-<tr class="separator:afd3f056edee7243e1b388aed2dcd6505"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9818bb1f746ab470b06daffa53f4a3f6"><td class="memItemLeft" align="right" valign="top">virtual kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#a9818bb1f746ab470b06daffa53f4a3f6">DoMachNotifyNoSenders</a> (notify_port_t notify, mach_port_mscount_t mscount, const mach_msg_trailer_t *trailer)=0</td></tr>
-<tr class="memdesc:a9818bb1f746ab470b06daffa53f4a3f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles no-senders notifications sent by <code>mach_notify_no_senders()</code>.  <a href="#a9818bb1f746ab470b06daffa53f4a3f6">More...</a><br /></td></tr>
-<tr class="separator:a9818bb1f746ab470b06daffa53f4a3f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39d4166913a905e3354cc2f689869b0e"><td class="memItemLeft" align="right" valign="top">virtual kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#a39d4166913a905e3354cc2f689869b0e">DoMachNotifySendOnce</a> (notify_port_t notify, const mach_msg_trailer_t *trailer)=0</td></tr>
-<tr class="memdesc:a39d4166913a905e3354cc2f689869b0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles send-once notifications sent by <code>mach_notify_send_once()</code>.  <a href="#a39d4166913a905e3354cc2f689869b0e">More...</a><br /></td></tr>
-<tr class="separator:a39d4166913a905e3354cc2f689869b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14dd1d58279338be03f2d8bcb4cec552"><td class="memItemLeft" align="right" valign="top">virtual kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#a14dd1d58279338be03f2d8bcb4cec552">DoMachNotifyDeadName</a> (notify_port_t notify, mach_port_name_t name, const mach_msg_trailer_t *trailer)=0</td></tr>
-<tr class="memdesc:a14dd1d58279338be03f2d8bcb4cec552"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles dead-name notifications sent by <code>mach_notify_dead_name()</code>.  <a href="#a14dd1d58279338be03f2d8bcb4cec552">More...</a><br /></td></tr>
-<tr class="separator:a14dd1d58279338be03f2d8bcb4cec552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a462b8fbfe77693bc77e4dc394d89398f"><td class="memItemLeft" align="right" valign="top">kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a462b8fbfe77693bc77e4dc394d89398f">DoMachNotifyPortDeleted</a> (notify_port_t notify, mach_port_name_t name, const mach_msg_trailer_t *trailer) override</td></tr>
+<tr class="memdesc:a462b8fbfe77693bc77e4dc394d89398f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles port-deleted notifications sent by <code>mach_notify_port_deleted()</code>.  <a href="#a462b8fbfe77693bc77e4dc394d89398f">More...</a><br /></td></tr>
+<tr class="separator:a462b8fbfe77693bc77e4dc394d89398f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26e577092f3d7289a950545319e29d7f"><td class="memItemLeft" align="right" valign="top">kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a26e577092f3d7289a950545319e29d7f">DoMachNotifyPortDestroyed</a> (notify_port_t notify, mach_port_t rights, const mach_msg_trailer_t *trailer, bool *destroy_request) override</td></tr>
+<tr class="memdesc:a26e577092f3d7289a950545319e29d7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles port-destroyed notifications sent by <code>mach_notify_port_destroyed()</code>.  <a href="#a26e577092f3d7289a950545319e29d7f">More...</a><br /></td></tr>
+<tr class="separator:a26e577092f3d7289a950545319e29d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed9cb9e85f275edd5ee72eca34888188"><td class="memItemLeft" align="right" valign="top">kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#aed9cb9e85f275edd5ee72eca34888188">DoMachNotifyNoSenders</a> (notify_port_t notify, mach_port_mscount_t mscount, const mach_msg_trailer_t *trailer) override</td></tr>
+<tr class="memdesc:aed9cb9e85f275edd5ee72eca34888188"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles no-senders notifications sent by <code>mach_notify_no_senders()</code>.  <a href="#aed9cb9e85f275edd5ee72eca34888188">More...</a><br /></td></tr>
+<tr class="separator:aed9cb9e85f275edd5ee72eca34888188"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a5e82e6bd51eac1dbff7aac2c7b6bf4"><td class="memItemLeft" align="right" valign="top">kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a3a5e82e6bd51eac1dbff7aac2c7b6bf4">DoMachNotifySendOnce</a> (notify_port_t notify, const mach_msg_trailer_t *trailer) override</td></tr>
+<tr class="memdesc:a3a5e82e6bd51eac1dbff7aac2c7b6bf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles send-once notifications sent by <code>mach_notify_send_once()</code>.  <a href="#a3a5e82e6bd51eac1dbff7aac2c7b6bf4">More...</a><br /></td></tr>
+<tr class="separator:a3a5e82e6bd51eac1dbff7aac2c7b6bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0373d989a72ee8c37ab4977f8ffb836a"><td class="memItemLeft" align="right" valign="top">kern_return_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a0373d989a72ee8c37ab4977f8ffb836a">DoMachNotifyDeadName</a> (notify_port_t notify, mach_port_name_t name, const mach_msg_trailer_t *trailer) override</td></tr>
+<tr class="memdesc:a0373d989a72ee8c37ab4977f8ffb836a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles dead-name notifications sent by <code>mach_notify_dead_name()</code>.  <a href="#a0373d989a72ee8c37ab4977f8ffb836a">More...</a><br /></td></tr>
+<tr class="separator:a0373d989a72ee8c37ab4977f8ffb836a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>An interface that the different request messages that are a part of the <code>notify</code> Mach subsystem can be dispatched to. </p>
-<p>Default implementations of all methods are available in the <a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html" title="A concrete implementation of Interface that provides a default behavior for all notify routines...">DefaultInterface</a> class. </p>
+<div class="textblock"><p>A concrete implementation of <a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html" title="An interface that the different request messages that are a part of the notify Mach subsystem can be ...">Interface</a> that provides a default behavior for all <code>notify</code> routines. </p>
+<p>The Mach <code>notify</code> subsystem contains a collection of unrelated routines, and a single server would rarely need to implement all of them. To make it easier to use <a class="el" href="classcrashpad_1_1NotifyServer.html" title="A server interface for the notify Mach subsystem. ">NotifyServer</a>, a server can inherit from <a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html" title="A concrete implementation of Interface that provides a default behavior for all notify routines...">DefaultInterface</a> instead of <a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html" title="An interface that the different request messages that are a part of the notify Mach subsystem can be ...">Interface</a>. Unless overridden, each routine in <a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html" title="A concrete implementation of Interface that provides a default behavior for all notify routines...">DefaultInterface</a> returns <code>MIG_BAD_ID</code> to indicate to the caller that the <code>notify</code> message was unexpected and not processed. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a14dd1d58279338be03f2d8bcb4cec552"></a>
+<a class="anchor" id="a0373d989a72ee8c37ab4977f8ffb836a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -140,7 +140,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual kern_return_t crashpad::NotifyServer::Interface::DoMachNotifyDeadName </td>
+          <td class="memname">kern_return_t crashpad::NotifyServer::DefaultInterface::DoMachNotifyDeadName </td>
           <td>(</td>
           <td class="paramtype">notify_port_t&#160;</td>
           <td class="paramname"><em>notify</em>, </td>
@@ -165,7 +165,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -181,13 +181,13 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>When a dead-name notification is generated, the user reference count of the dead name is incremented. A send right with one reference that becomes a dead name will have one dead-name reference, and the dead-name notification will add another dead-name reference, for a total of 2. <a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#a14dd1d58279338be03f2d8bcb4cec552" title="Handles dead-name notifications sent by mach_notify_dead_name(). ">DoMachNotifyDeadName()</a> implementations must take care to deallocate this extra reference. There is no <em>destroy_request</em> parameter to simplify this operation because dead-name notifications carry a port name only (<em>name</em> is of type <code>mach_port_name_t</code>) without transferring port rights, and are thus not complex Mach messages. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>When a dead-name notification is generated, the user reference count of the dead name is incremented. A send right with one reference that becomes a dead name will have one dead-name reference, and the dead-name notification will add another dead-name reference, for a total of 2. <a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a0373d989a72ee8c37ab4977f8ffb836a" title="Handles dead-name notifications sent by mach_notify_dead_name(). ">DoMachNotifyDeadName()</a> implementations must take care to deallocate this extra reference. There is no <em>destroy_request</em> parameter to simplify this operation because dead-name notifications carry a port name only (<em>name</em> is of type <code>mach_port_name_t</code>) without transferring port rights, and are thus not complex Mach messages. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a0373d989a72ee8c37ab4977f8ffb836a">crashpad::NotifyServer::DefaultInterface</a>.</p>
+<p>Implements <a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#a14dd1d58279338be03f2d8bcb4cec552">crashpad::NotifyServer::Interface</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9818bb1f746ab470b06daffa53f4a3f6"></a>
+<a class="anchor" id="aed9cb9e85f275edd5ee72eca34888188"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -195,7 +195,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual kern_return_t crashpad::NotifyServer::Interface::DoMachNotifyNoSenders </td>
+          <td class="memname">kern_return_t crashpad::NotifyServer::DefaultInterface::DoMachNotifyNoSenders </td>
           <td>(</td>
           <td class="paramtype">notify_port_t&#160;</td>
           <td class="paramname"><em>notify</em>, </td>
@@ -220,7 +220,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -237,11 +237,11 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#aed9cb9e85f275edd5ee72eca34888188">crashpad::NotifyServer::DefaultInterface</a>.</p>
+<p>Implements <a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#a9818bb1f746ab470b06daffa53f4a3f6">crashpad::NotifyServer::Interface</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="afb31bdbba0f94be2efa0caff19a89fa4"></a>
+<a class="anchor" id="a462b8fbfe77693bc77e4dc394d89398f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -249,7 +249,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual kern_return_t crashpad::NotifyServer::Interface::DoMachNotifyPortDeleted </td>
+          <td class="memname">kern_return_t crashpad::NotifyServer::DefaultInterface::DoMachNotifyPortDeleted </td>
           <td>(</td>
           <td class="paramtype">notify_port_t&#160;</td>
           <td class="paramname"><em>notify</em>, </td>
@@ -274,7 +274,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -291,11 +291,11 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a462b8fbfe77693bc77e4dc394d89398f">crashpad::NotifyServer::DefaultInterface</a>.</p>
+<p>Implements <a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#afb31bdbba0f94be2efa0caff19a89fa4">crashpad::NotifyServer::Interface</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="afd3f056edee7243e1b388aed2dcd6505"></a>
+<a class="anchor" id="a26e577092f3d7289a950545319e29d7f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -303,7 +303,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual kern_return_t crashpad::NotifyServer::Interface::DoMachNotifyPortDestroyed </td>
+          <td class="memname">kern_return_t crashpad::NotifyServer::DefaultInterface::DoMachNotifyPortDestroyed </td>
           <td>(</td>
           <td class="paramtype">notify_port_t&#160;</td>
           <td class="paramname"><em>notify</em>, </td>
@@ -334,7 +334,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -352,11 +352,11 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a26e577092f3d7289a950545319e29d7f">crashpad::NotifyServer::DefaultInterface</a>.</p>
+<p>Implements <a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#afd3f056edee7243e1b388aed2dcd6505">crashpad::NotifyServer::Interface</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a39d4166913a905e3354cc2f689869b0e"></a>
+<a class="anchor" id="a3a5e82e6bd51eac1dbff7aac2c7b6bf4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -364,7 +364,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual kern_return_t crashpad::NotifyServer::Interface::DoMachNotifySendOnce </td>
+          <td class="memname">kern_return_t crashpad::NotifyServer::DefaultInterface::DoMachNotifySendOnce </td>
           <td>(</td>
           <td class="paramtype">notify_port_t&#160;</td>
           <td class="paramname"><em>notify</em>, </td>
@@ -383,7 +383,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -400,12 +400,13 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>Unlike the other notifications in the <code>notify</code> subsystem, send-once notifications are not generated as a result of a notification request, but are generated any time a send-once right is destroyed rather than being used. The notification is sent via the send-once right to its receiver. These notifications are more useful for clients, not servers. Send-once notifications are normally handled by MIG-generated client routines, which make send-once rights for their reply ports and interpret send-once notifications as a signal that there will be no reply. Although not expected to be primarily useful for servers, this method is provided because send-once notifications are defined as a part of the <code>notify</code> subsystem. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a3a5e82e6bd51eac1dbff7aac2c7b6bf4">crashpad::NotifyServer::DefaultInterface</a>.</p>
+<p>Implements <a class="el" href="classcrashpad_1_1NotifyServer_1_1Interface.html#a39d4166913a905e3354cc2f689869b0e">crashpad::NotifyServer::Interface</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>util/mach/notify_server.h</li>
+<li>util/mach/notify_server.cc</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
