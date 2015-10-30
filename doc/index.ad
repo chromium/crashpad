@@ -34,8 +34,8 @@ https://chromium.googlesource.com/crashpad/crashpad.
 
 == Other Links
 
- * Bugs can be reported at the https://crashpad.chromium.org/bug/new[Crashpad
-   issue tracker].
+ * Bugs can be reported at the https://crashpad.chromium.org/bug/[Crashpad issue
+   tracker].
  * The https://build.chromium.org/p/client.crashpad[Crashpad Buildbot] performs
    automated builds and tests.
  * https://groups.google.com/a/chromium.org/group/crashpad-dev[crashpad-dev] is
