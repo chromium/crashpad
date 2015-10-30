@@ -34,10 +34,10 @@
           ],
         }, {  # else: crashpad_in_chromium!=0
           'dependencies': [
-            '../../../../../base/base.gyp:base',
+            '<(DEPTH)/base/base.gyp:base',
           ],
           'export_dependent_settings': [
-            '../../../../../base/base.gyp:base',
+            '<(DEPTH)/base/base.gyp:base',
           ],
         }],
       ],

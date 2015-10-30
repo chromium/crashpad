@@ -198,20 +198,20 @@
           'target_name': 'gmock',
           'type': 'none',
           'dependencies': [
-            '../../../../../testing/gmock.gyp:gmock',
+            '<(DEPTH)/testing/gmock.gyp:gmock',
           ],
           'export_dependent_settings': [
-            '../../../../../testing/gmock.gyp:gmock',
+            '<(DEPTH)/testing/gmock.gyp:gmock',
           ],
         },
         {
           'target_name': 'gmock_main',
           'type': 'none',
           'dependencies': [
-            '../../../../../testing/gmock.gyp:gmock_main',
+            '<(DEPTH)/testing/gmock.gyp:gmock_main',
           ],
           'export_dependent_settings': [
-            '../../../../../testing/gmock.gyp:gmock_main',
+            '<(DEPTH)/testing/gmock.gyp:gmock_main',
           ],
         },
       ],
