@@ -233,20 +233,20 @@
           'target_name': 'gtest',
           'type': 'none',
           'dependencies': [
-            '../../../../../testing/gtest.gyp:gtest',
+            '<(DEPTH)/testing/gtest.gyp:gtest',
           ],
           'export_dependent_settings': [
-            '../../../../../testing/gtest.gyp:gtest',
+            '<(DEPTH)/testing/gtest.gyp:gtest',
           ],
         },
         {
           'target_name': 'gtest_main',
           'type': 'none',
           'dependencies': [
-            '../../../../../testing/gtest.gyp:gtest_main',
+            '<(DEPTH)/testing/gtest.gyp:gtest_main',
           ],
           'export_dependent_settings': [
-            '../../../../../testing/gtest.gyp:gtest_main',
+            '<(DEPTH)/testing/gtest.gyp:gtest_main',
           ],
         },
       ],
