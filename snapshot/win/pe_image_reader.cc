@@ -176,35 +176,41 @@ bool PEImageReader::ReadDebugDirectoryInformation(UUID* uuid,
     if (debug_directory.Type != IMAGE_DEBUG_TYPE_CODEVIEW)
       continue;
 
-    if (debug_directory.SizeOfData < sizeof(CodeViewRecordPDB70)) {
-      LOG(WARNING) << "CodeView debug entry of unexpected size";
-      continue;
-    }
-    scoped_ptr<char[]> data(new char[debug_directory.SizeOfData]);
-    if (!CheckedReadMemory(Address() + debug_directory.AddressOfRawData,
-                           debug_directory.SizeOfData,
-                           data.get())) {
-      LOG(WARNING) << "could not read debug directory";
-      return false;
-    }
+    if (debug_directory.AddressOfRawData) {
+      if (debug_directory.SizeOfData < sizeof(CodeViewRecordPDB70)) {
+        LOG(WARNING) << "CodeView debug entry of unexpected size";
+        continue;
+      }
 
-    if (*reinterpret_cast<DWORD*>(data.get()) !=
-        CodeViewRecordPDB70::kSignature) {
-      // TODO(scottmg): Consider supporting other record types, see
+      scoped_ptr<char[]> data(new char[debug_directory.SizeOfData]);
+      if (!CheckedReadMemory(Address() + debug_directory.AddressOfRawData,
+                             debug_directory.SizeOfData,
+                             data.get())) {
+        LOG(WARNING) << "could not read debug directory";
+        return false;
+      }
+
+      if (*reinterpret_cast<DWORD*>(data.get()) !=
+          CodeViewRecordPDB70::kSignature) {
+        LOG(WARNING) << "encountered non-7.0 CodeView debug record";
+        continue;
+      }
+
+      CodeViewRecordPDB70* codeview =
+          reinterpret_cast<CodeViewRecordPDB70*>(data.get());
+      *uuid = codeview->uuid;
+      *age = codeview->age;
+      // This is a NUL-terminated string encoded in the codepage of the system
+      // where the binary was linked. We have no idea what that was, so we just
+      // assume ASCII.
+      *pdbname = std::string(reinterpret_cast<char*>(&codeview->pdb_name[0]));
+      return true;
+    } else if (debug_directory.PointerToRawData) {
+      // This occurs for non-PDB based debug information. We simply ignore these
+      // as we don't expect to encounter modules that will be in this format
+      // for which we'll actually have symbols. See
       // https://crashpad.chromium.org/bug/47.
-      LOG(WARNING) << "encountered non-7.0 CodeView debug record";
-      continue;
     }
-
-    CodeViewRecordPDB70* codeview =
-        reinterpret_cast<CodeViewRecordPDB70*>(data.get());
-    *uuid = codeview->uuid;
-    *age = codeview->age;
-    // This is a NUL-terminated string encoded in the codepage of the system
-    // where the binary was linked. We have no idea what that was, so we just
-    // assume ASCII.
-    *pdbname = std::string(reinterpret_cast<char*>(&codeview->pdb_name[0]));
-    return true;
   }
 
   return false;

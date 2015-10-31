@@ -121,6 +121,10 @@ def GetDumpFromSelfDestroyingProgram(out_dir, pipe_name):
   return GetDumpFromProgram(out_dir, pipe_name, 'self_destroying_program.exe')
 
 
+def GetDumpFromZ7Program(out_dir, pipe_name):
+  return GetDumpFromProgram(out_dir, pipe_name, 'crashy_z7_loader.exe')
+
+
 class CdbRun(object):
   """Run cdb.exe passing it a cdb command and capturing the output.
   `Check()` searches for regex patterns in sequence allowing verification of
@@ -155,7 +159,7 @@ class CdbRun(object):
       sys.exit(1)
 
 
-def RunTests(cdb_path, dump_path, destroyed_dump_path, pipe_name):
+def RunTests(cdb_path, dump_path, destroyed_dump_path, z7_dump_path, pipe_name):
   """Runs various tests in sequence. Runs a new cdb instance on the dump for
   each block of tests to reduce the chances that output from one command is
   confused for output from another.
@@ -212,6 +216,15 @@ def RunTests(cdb_path, dump_path, destroyed_dump_path, pipe_name):
                 r'FreeOwnStackAndBreak.*\nquit:',
             'at correct location, no additional stack entries')
 
+  if z7_dump_path:
+    out = CdbRun(cdb_path, z7_dump_path, '.ecxr;lm')
+    out.Check('This dump file has an exception of interest stored in it',
+              'captured exception in z7 module')
+    out.Check(r'z7_test\+0x[0-8a-f]+:', 'exception in z7 at correct location')
+    out.Check(r'z7_test  C \(codeview symbols\)     z7_test.dll',
+              'expected non-pdb symbol format')
+
+
 def main(args):
   try:
     if len(args) != 1:
@@ -242,7 +255,14 @@ def main(args):
     if not destroyed_dump_path:
       return 1
 
-    RunTests(cdb_path, crashy_dump_path, destroyed_dump_path, pipe_name)
+    z7_dump_path = None
+    if not args[0].endswith('x64'):
+      z7_dump_path = GetDumpFromZ7Program(args[0], pipe_name)
+      if not z7_dump_path:
+        return 1
+
+    RunTests(cdb_path, crashy_dump_path, destroyed_dump_path, z7_dump_path,
+             pipe_name)
 
     return 0
   finally:

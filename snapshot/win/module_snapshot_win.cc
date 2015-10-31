@@ -60,6 +60,14 @@ bool ModuleSnapshotWin::Initialize(
           &uuid_, &age_dword, &pdb_name_)) {
     static_assert(sizeof(DWORD) == sizeof(uint32_t), "unexpected age size");
     age_ = age_dword;
+  } else {
+    // If we fully supported all old debugging formats, we would want to extract
+    // and emit a different type of CodeView record here (as old Microsoft tools
+    // would do). As we don't expect to ever encounter a module that wouldn't be
+    // be using .PDB that we actually have symbols for, we simply set a
+    // plausible name here, but this will never correspond to symbols that we
+    // have.
+    pdb_name_ = base::UTF16ToUTF8(name_);
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
