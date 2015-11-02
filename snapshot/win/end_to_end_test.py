@@ -41,6 +41,7 @@ def CleanUpTempDirs():
 def FindInstalledWindowsApplication(app_path):
   search_paths = [os.getenv('PROGRAMFILES(X86)'),
                   os.getenv('PROGRAMFILES'),
+                  os.getenv('PROGRAMW6432'),
                   os.getenv('LOCALAPPDATA')]
   search_paths += os.getenv('PATH', '').split(os.pathsep)
 
