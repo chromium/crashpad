@@ -20,6 +20,8 @@
 #include "client/crashpad_client.h"
 #include "util/win/capture_context.h"
 
+//! \file
+
 //! \brief Captures the CPU context and captures a dump without an exception.
 #define CRASHPAD_SIMULATE_CRASH()                        \
   do {                                                   \
