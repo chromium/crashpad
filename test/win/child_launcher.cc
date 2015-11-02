@@ -15,6 +15,7 @@
 #include "test/win/child_launcher.h"
 
 #include "gtest/gtest.h"
+#include "util/win/command_line.h"
 
 namespace crashpad {
 namespace test {
@@ -94,40 +95,6 @@ DWORD ChildLauncher::WaitForExit() {
   EXPECT_TRUE(GetExitCodeProcess(process_handle_.get(), &exit_code));
   process_handle_.reset();
   return exit_code;
-}
-
-// Ref: http://blogs.msdn.com/b/twistylittlepassagesallalike/archive/2011/04/23/everyone-quotes-arguments-the-wrong-way.aspx
-void AppendCommandLineArgument(const std::wstring& argument,
-                               std::wstring* command_line) {
-  // Don't bother quoting if unnecessary.
-  if (!argument.empty() &&
-      argument.find_first_of(L" \t\n\v\"") == std::wstring::npos) {
-    command_line->append(argument);
-  } else {
-    command_line->push_back(L'"');
-    for (std::wstring::const_iterator i = argument.begin();; ++i) {
-      size_t backslash_count = 0;
-      while (i != argument.end() && *i == L'\\') {
-        ++i;
-        ++backslash_count;
-      }
-      if (i == argument.end()) {
-        // Escape all backslashes, but let the terminating double quotation mark
-        // we add below be interpreted as a metacharacter.
-        command_line->append(backslash_count * 2, L'\\');
-        break;
-      } else if (*i == L'"') {
-        // Escape all backslashes and the following double quotation mark.
-        command_line->append(backslash_count * 2 + 1, L'\\');
-        command_line->push_back(*i);
-      } else {
-        // Backslashes aren't special here.
-        command_line->append(backslash_count, L'\\');
-        command_line->push_back(*i);
-      }
-    }
-    command_line->push_back(L'"');
-  }
 }
 
 }  // namespace test

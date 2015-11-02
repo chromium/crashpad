@@ -12,8 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <stdlib.h>
 #include <windows.h>
 #include <winternl.h>
+
+#include <string>
+#include <map>
+#include <vector>
 
 // ntstatus.h conflicts with windows.h so define this locally.
 #ifndef STATUS_NO_SUCH_FILE
@@ -21,7 +26,9 @@
 #endif
 
 #include "base/basictypes.h"
+#include "base/files/file_path.h"
 #include "base/logging.h"
+#include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_client.h"
 #include "tools/tool_support.h"
 #include "util/win/critical_section_with_debug_info.h"
@@ -88,19 +95,31 @@ void SomeCrashyFunction() {
 }
 
 int CrashyMain(int argc, char* argv[]) {
-  if (argc != 2) {
+  CrashpadClient client;
+
+  if (argc == 2) {
+    if (!client.SetHandler(argv[1])) {
+      LOG(ERROR) << "SetHandler";
+      return EXIT_FAILURE;
+    }
+  } else if (argc == 3) {
+    if (!client.StartHandler(base::FilePath(base::UTF8ToUTF16(argv[1])),
+                             base::FilePath(base::UTF8ToUTF16(argv[2])),
+                             std::string(),
+                             std::map<std::string, std::string>(),
+                             std::vector<std::string>())) {
+      LOG(ERROR) << "StartHandler";
+      return EXIT_FAILURE;
+    }
+  } else {
     fprintf(stderr, "Usage: %s <server_pipe_name>\n", argv[0]);
-    return 1;
+    fprintf(stderr, "       %s <handler_path> <database_path>\n", argv[0]);
+    return EXIT_FAILURE;
   }
 
-  CrashpadClient client;
-  if (!client.SetHandler(argv[1])) {
-    LOG(ERROR) << "SetHandler";
-    return 1;
-  }
   if (!client.UseHandler()) {
     LOG(ERROR) << "UseHandler";
-    return 1;
+    return EXIT_FAILURE;
   }
 
   AllocateMemoryOfVariousProtections();
@@ -112,7 +131,7 @@ int CrashyMain(int argc, char* argv[]) {
 
   SomeCrashyFunction();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 }  // namespace

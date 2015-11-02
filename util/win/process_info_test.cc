@@ -31,6 +31,7 @@
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
 #include "util/misc/uuid.h"
+#include "util/win/command_line.h"
 #include "util/win/get_function.h"
 #include "util/win/scoped_handle.h"
 

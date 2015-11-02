@@ -146,6 +146,8 @@ class CrashpadClient {
  private:
 #if defined(OS_MACOSX)
   base::mac::ScopedMachSendRight exception_port_;
+#elif defined(OS_WIN)
+  std::string ipc_port_;
 #endif
 
   DISALLOW_COPY_AND_ASSIGN(CrashpadClient);

@@ -60,6 +60,7 @@ void Usage(const base::FilePath& me) {
 "      --reset-own-crash-exception-port-to-system-default\n"
 "                              reset the server's exception handler to default\n"
 #elif defined(OS_WIN)
+"      --persistent            continue running after all clients exit\n"
 "      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_MACOSX
 "      --url=URL               send crash reports to this Breakpad server URL,\n"
@@ -84,6 +85,7 @@ int HandlerMain(int argc, char* argv[]) {
     kOptionHandshakeFD,
     kOptionResetOwnCrashExceptionPortToSystemDefault,
 #elif defined(OS_WIN)
+    kOptionPersistent,
     kOptionPipeName,
 #endif  // OS_MACOSX
     kOptionURL,
@@ -101,8 +103,9 @@ int HandlerMain(int argc, char* argv[]) {
     int handshake_fd;
     bool reset_own_crash_exception_port_to_system_default;
 #elif defined(OS_WIN)
+    bool persistent;
     std::string pipe_name;
-#endif
+#endif  // OS_MACOSX
   } options = {};
 #if defined(OS_MACOSX)
   options.handshake_fd = -1;
@@ -119,8 +122,9 @@ int HandlerMain(int argc, char* argv[]) {
        nullptr,
        kOptionResetOwnCrashExceptionPortToSystemDefault},
 #elif defined(OS_WIN)
+      {"persistent", no_argument, nullptr, kOptionPersistent},
       {"pipe-name", required_argument, nullptr, kOptionPipeName},
-#endif
+#endif  // OS_MACOSX
       {"url", required_argument, nullptr, kOptionURL},
       {"help", no_argument, nullptr, kOptionHelp},
       {"version", no_argument, nullptr, kOptionVersion},
@@ -163,6 +167,10 @@ int HandlerMain(int argc, char* argv[]) {
         break;
       }
 #elif defined(OS_WIN)
+      case kOptionPersistent: {
+        options.persistent = true;
+        break;
+      }
       case kOptionPipeName: {
         options.pipe_name = optarg;
         break;
@@ -228,7 +236,8 @@ int HandlerMain(int argc, char* argv[]) {
 
   ExceptionHandlerServer exception_handler_server(receive_right.Pass());
 #elif defined(OS_WIN)
-  ExceptionHandlerServer exception_handler_server(options.pipe_name);
+  ExceptionHandlerServer exception_handler_server(options.pipe_name,
+                                                  options.persistent);
 #endif  // OS_MACOSX
 
   scoped_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(

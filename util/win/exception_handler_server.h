@@ -64,7 +64,10 @@ class ExceptionHandlerServer {
   //!
   //! \param[in] pipe_name The name of the pipe to listen on. Must be of the
   //!     form "\\.\pipe\<some_name>".
-  explicit ExceptionHandlerServer(const std::string& pipe_name);
+  //! \param[in] persistent `true` if Run() should not return until Stop() is
+  //!     called. If `false`, Run() will return when all clients have exited,
+  //!     although Run() will always wait for the first client to connect.
+  ExceptionHandlerServer(const std::string& pipe_name, bool persistent);
 
   ~ExceptionHandlerServer();
 
@@ -91,6 +94,8 @@ class ExceptionHandlerServer {
 
   base::Lock clients_lock_;
   std::set<internal::ClientData*> clients_;
+
+  bool persistent_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionHandlerServer);
 };

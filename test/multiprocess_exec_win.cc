@@ -17,7 +17,7 @@
 #include "base/logging.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
-#include "test/win/child_launcher.h"
+#include "util/win/command_line.h"
 
 namespace crashpad {
 namespace test {
@@ -119,7 +119,6 @@ void MultiprocessExec::PreFork() {
   command_line_.clear();
   AppendCommandLineArgument(base::UTF8ToUTF16(command_), &command_line_);
   for (size_t i = 0; i < arguments_.size(); ++i) {
-    command_line_ += L" ";
     AppendCommandLineArgument(base::UTF8ToUTF16(arguments_[i]), &command_line_);
   }
 

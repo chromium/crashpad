@@ -83,7 +83,7 @@ class ExceptionHandlerServerTest : public testing::Test {
                    base::StringPrintf("%08x", GetCurrentProcessId())),
         server_ready_(CreateEvent(nullptr, false, false, nullptr)),
         delegate_(server_ready_.get()),
-        server_(pipe_name_),
+        server_(pipe_name_, true),
         server_thread_(&server_, &delegate_) {}
 
   TestDelegate& delegate() { return delegate_; }
