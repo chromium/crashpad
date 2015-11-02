@@ -20,7 +20,6 @@
 #include "build/build_config.h"
 #include "client/crashpad_client.h"
 #include "test/paths.h"
-#include "tools/tool_support.h"
 
 #if !defined(ARCH_CPU_X86)
 #error This test is only supported on x86.
@@ -29,14 +28,14 @@
 namespace crashpad {
 namespace {
 
-int CrashyLoadZ7Main(int argc, char* argv[]) {
+int CrashyLoadZ7Main(int argc, wchar_t* argv[]) {
   if (argc != 2) {
-    fprintf(stderr, "Usage: %s <server_pipe_name>\n", argv[0]);
+    fprintf(stderr, "Usage: %ls <server_pipe_name>\n", argv[0]);
     return EXIT_FAILURE;
   }
 
   CrashpadClient client;
-  if (!client.SetHandler(argv[1])) {
+  if (!client.SetHandlerIPCPipe(argv[1])) {
     LOG(ERROR) << "SetHandler";
     return EXIT_FAILURE;
   }
@@ -69,5 +68,5 @@ int CrashyLoadZ7Main(int argc, char* argv[]) {
 }  // namespace crashpad
 
 int wmain(int argc, wchar_t* argv[]) {
-  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::CrashyLoadZ7Main);
+  return crashpad::CrashyLoadZ7Main(argc, argv);
 }

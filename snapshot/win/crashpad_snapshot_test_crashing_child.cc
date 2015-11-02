@@ -14,20 +14,25 @@
 
 #include <windows.h>
 
+#include "base/files/file_path.h"
 #include "base/logging.h"
 #include "client/crashpad_client.h"
 #include "util/file/file_io.h"
 #include "util/win/address_types.h"
 
+namespace {
+
 __declspec(noinline) crashpad::WinVMAddress CurrentAddress() {
   return reinterpret_cast<crashpad::WinVMAddress>(_ReturnAddress());
 }
 
-int main(int argc, char* argv[]) {
+}  // namespace
+
+int wmain(int argc, wchar_t* argv[]) {
   CHECK_EQ(argc, 2);
 
   crashpad::CrashpadClient client;
-  CHECK(client.SetHandler(argv[1]));
+  CHECK(client.SetHandlerIPCPipe(argv[1]));
   CHECK(client.UseHandler());
 
   HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);

@@ -51,9 +51,6 @@ class CrashpadClient {
   //! send right corresponding to a receive right held by the handler process.
   //! The handler process runs an exception server on this port.
   //!
-  //! On Windows, SetHandler() is normally used instead since the handler is
-  //! started by other means.
-  //!
   //! \param[in] handler The path to a Crashpad handler executable.
   //! \param[in] database The path to a Crashpad database. The handler will be
   //!     started with this path as its `--database` argument.
@@ -85,10 +82,11 @@ class CrashpadClient {
   //! registration is done with a crash handler using the appropriate database
   //! and upload server.
   //!
-  //! \param[in] ipc_port The full name of the crash handler IPC port.
+  //! \param[in] ipc_pipe The full name of the crash handler IPC pipe. This is
+  //!     a string of the form `&quot;\\.\pipe\NAME&quot;`.
   //!
   //! \return `true` on success and `false` on failure.
-  bool SetHandler(const std::string& ipc_port);
+  bool SetHandlerIPCPipe(const std::wstring& ipc_pipe);
 
   //! \brief Requests that the handler capture a dump even though there hasn't
   //!     been a crash.
@@ -101,7 +99,7 @@ class CrashpadClient {
   //! \brief Configures the process to direct its crashes to a Crashpad handler.
   //!
   //! The Crashpad handler must previously have been started by StartHandler()
-  //! or configured by SetHandler().
+  //! or configured by SetHandlerIPCPipe().
   //!
   //! On Mac OS X, this method sets the task’s exception port for `EXC_CRASH`,
   //! `EXC_RESOURCE`, and `EXC_GUARD` exceptions to the Mach send right obtained
@@ -147,7 +145,7 @@ class CrashpadClient {
 #if defined(OS_MACOSX)
   base::mac::ScopedMachSendRight exception_port_;
 #elif defined(OS_WIN)
-  std::string ipc_port_;
+  std::wstring ipc_pipe_;
 #endif
 
   DISALLOW_COPY_AND_ASSIGN(CrashpadClient);

@@ -115,7 +115,7 @@ std::wstring FormatArgumentString(const std::string& name,
 namespace crashpad {
 
 CrashpadClient::CrashpadClient()
-    : ipc_port_() {
+    : ipc_pipe_() {
 }
 
 CrashpadClient::~CrashpadClient() {
@@ -127,13 +127,14 @@ bool CrashpadClient::StartHandler(
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments) {
-  DCHECK(ipc_port_.empty());
+  DCHECK(ipc_pipe_.empty());
 
-  ipc_port_ =
+  std::string ipc_pipe =
       base::StringPrintf("\\\\.\\pipe\\crashpad_%d_", GetCurrentProcessId());
   for (int index = 0; index < 16; ++index) {
-    ipc_port_.append(1, static_cast<char>(base::RandInt('A', 'Z')));
+    ipc_pipe.append(1, static_cast<char>(base::RandInt('A', 'Z')));
   }
+  ipc_pipe_ = base::UTF8ToUTF16(ipc_pipe);
 
   std::wstring command_line;
   AppendCommandLineArgument(handler.value(), &command_line);
@@ -156,8 +157,7 @@ bool CrashpadClient::StartHandler(
                              base::UTF8ToUTF16(kv.first + '=' + kv.second)),
         &command_line);
   }
-  AppendCommandLineArgument(FormatArgumentString("pipe-name",
-                                                 base::UTF8ToUTF16(ipc_port_)),
+  AppendCommandLineArgument(FormatArgumentString("pipe-name", ipc_pipe_),
                             &command_line);
 
   STARTUPINFO startup_info = {};
@@ -191,17 +191,17 @@ bool CrashpadClient::StartHandler(
   return true;
 }
 
-bool CrashpadClient::SetHandler(const std::string& ipc_port) {
-  DCHECK(ipc_port_.empty());
-  DCHECK(!ipc_port.empty());
+bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
+  DCHECK(ipc_pipe_.empty());
+  DCHECK(!ipc_pipe.empty());
 
-  ipc_port_ = ipc_port;
+  ipc_pipe_ = ipc_pipe;
 
   return true;
 }
 
 bool CrashpadClient::UseHandler() {
-  DCHECK(!ipc_port_.empty());
+  DCHECK(!ipc_pipe_.empty());
   DCHECK_EQ(g_signal_exception, INVALID_HANDLE_VALUE);
   DCHECK_EQ(g_signal_non_crash_dump, INVALID_HANDLE_VALUE);
   DCHECK_EQ(g_non_crash_dump_done, INVALID_HANDLE_VALUE);
@@ -232,8 +232,7 @@ bool CrashpadClient::UseHandler() {
 
   ServerToClientMessage response = {0};
 
-  if (!SendToCrashHandlerServer(
-          base::UTF8ToUTF16(ipc_port_), message, &response)) {
+  if (!SendToCrashHandlerServer(ipc_pipe_, message, &response)) {
     return false;
   }
 

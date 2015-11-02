@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <stdint.h>
 #include <stdlib.h>
 #include <windows.h>
 #include <winternl.h>
@@ -28,9 +29,7 @@
 #include "base/basictypes.h"
 #include "base/files/file_path.h"
 #include "base/logging.h"
-#include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_client.h"
-#include "tools/tool_support.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
 
@@ -94,17 +93,17 @@ void SomeCrashyFunction() {
   *foo = 42;
 }
 
-int CrashyMain(int argc, char* argv[]) {
+int CrashyMain(int argc, wchar_t* argv[]) {
   CrashpadClient client;
 
   if (argc == 2) {
-    if (!client.SetHandler(argv[1])) {
+    if (!client.SetHandlerIPCPipe(argv[1])) {
       LOG(ERROR) << "SetHandler";
       return EXIT_FAILURE;
     }
   } else if (argc == 3) {
-    if (!client.StartHandler(base::FilePath(base::UTF8ToUTF16(argv[1])),
-                             base::FilePath(base::UTF8ToUTF16(argv[2])),
+    if (!client.StartHandler(base::FilePath(argv[1]),
+                             base::FilePath(argv[2]),
                              std::string(),
                              std::map<std::string, std::string>(),
                              std::vector<std::string>())) {
@@ -138,5 +137,5 @@ int CrashyMain(int argc, char* argv[]) {
 }  // namespace crashpad
 
 int wmain(int argc, wchar_t* argv[]) {
-  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::CrashyMain);
+  return crashpad::CrashyMain(argc, argv);
 }
