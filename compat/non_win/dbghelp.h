@@ -564,7 +564,9 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MODULE {
   //! CodeView 4.1 format. Signatures seen in the wild include “NB09”
   //! (0x3930424e) for CodeView 4.1 and “NB11” (0x3131424e) for CodeView 5.0.
   //! This form of debugging information within the module, as opposed to a link
-  //! to an external `.pdb` file, is chosen by building with `/Z7`.
+  //! to an external `.pdb` file, is chosen by building with `/Z7` in Visual
+  //! Studio 6.0 (1998) and earlier. This embedded form of debugging information
+  //! is now considered obsolete.
   //!
   //! On Windows, the CodeView record is taken from a module’s
   //! IMAGE_DEBUG_DIRECTORY entry whose Type field has the value
