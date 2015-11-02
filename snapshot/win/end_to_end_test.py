@@ -221,7 +221,10 @@ def RunTests(cdb_path, dump_path, destroyed_dump_path, z7_dump_path, pipe_name):
     out = CdbRun(cdb_path, z7_dump_path, '.ecxr;lm')
     out.Check('This dump file has an exception of interest stored in it',
               'captured exception in z7 module')
-    out.Check(r'z7_test\+0x[0-8a-f]+:', 'exception in z7 at correct location')
+    # Older versions of cdb display relative to exports for /Z7 modules, newer
+    # ones just display the offset.
+    out.Check(r'z7_test(!CrashMe\+0xe|\+0x100e):',
+              'exception in z7 at correct location')
     out.Check(r'z7_test  C \(codeview symbols\)     z7_test.dll',
               'expected non-pdb symbol format')
 
