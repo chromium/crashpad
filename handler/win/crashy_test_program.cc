@@ -12,8 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <stdint.h>
+#include <stdlib.h>
 #include <windows.h>
 #include <winternl.h>
+
+#include <string>
+#include <map>
+#include <vector>
 
 // ntstatus.h conflicts with windows.h so define this locally.
 #ifndef STATUS_NO_SUCH_FILE
@@ -21,9 +27,9 @@
 #endif
 
 #include "base/basictypes.h"
+#include "base/files/file_path.h"
 #include "base/logging.h"
 #include "client/crashpad_client.h"
-#include "tools/tool_support.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
 
@@ -87,20 +93,32 @@ void SomeCrashyFunction() {
   *foo = 42;
 }
 
-int CrashyMain(int argc, char* argv[]) {
-  if (argc != 2) {
+int CrashyMain(int argc, wchar_t* argv[]) {
+  CrashpadClient client;
+
+  if (argc == 2) {
+    if (!client.SetHandlerIPCPipe(argv[1])) {
+      LOG(ERROR) << "SetHandler";
+      return EXIT_FAILURE;
+    }
+  } else if (argc == 3) {
+    if (!client.StartHandler(base::FilePath(argv[1]),
+                             base::FilePath(argv[2]),
+                             std::string(),
+                             std::map<std::string, std::string>(),
+                             std::vector<std::string>())) {
+      LOG(ERROR) << "StartHandler";
+      return EXIT_FAILURE;
+    }
+  } else {
     fprintf(stderr, "Usage: %s <server_pipe_name>\n", argv[0]);
-    return 1;
+    fprintf(stderr, "       %s <handler_path> <database_path>\n", argv[0]);
+    return EXIT_FAILURE;
   }
 
-  CrashpadClient client;
-  if (!client.SetHandler(argv[1])) {
-    LOG(ERROR) << "SetHandler";
-    return 1;
-  }
   if (!client.UseHandler()) {
     LOG(ERROR) << "UseHandler";
-    return 1;
+    return EXIT_FAILURE;
   }
 
   AllocateMemoryOfVariousProtections();
@@ -112,12 +130,12 @@ int CrashyMain(int argc, char* argv[]) {
 
   SomeCrashyFunction();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 }  // namespace
 }  // namespace crashpad
 
 int wmain(int argc, wchar_t* argv[]) {
-  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::CrashyMain);
+  return crashpad::CrashyMain(argc, argv);
 }

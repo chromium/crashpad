@@ -21,6 +21,7 @@
 
 #include "base/basictypes.h"
 #include "base/strings/stringprintf.h"
+#include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_client.h"
 #include "gtest/gtest.h"
 #include "test/win/win_child_process.h"
@@ -83,7 +84,7 @@ class ExceptionHandlerServerTest : public testing::Test {
                    base::StringPrintf("%08x", GetCurrentProcessId())),
         server_ready_(CreateEvent(nullptr, false, false, nullptr)),
         delegate_(server_ready_.get()),
-        server_(pipe_name_),
+        server_(pipe_name_, true),
         server_thread_(&server_, &delegate_) {}
 
   TestDelegate& delegate() { return delegate_; }
@@ -134,7 +135,7 @@ TEST_F(ExceptionHandlerServerTest, StopWhileConnected) {
       &server(), &server_thread());
   ASSERT_NO_FATAL_FAILURE(delegate().WaitForStart());
   CrashpadClient client;
-  client.SetHandler(pipe_name());  // Connect to server.
+  client.SetHandlerIPCPipe(base::UTF8ToUTF16(pipe_name()));
   // Leaving this scope causes the server to be stopped, while the connection
   // is still open.
 }
@@ -161,9 +162,9 @@ class TestClient final : public WinChildProcess {
 
  private:
   int Run() override {
-    std::string pipe_name = ReadString(ReadPipeHandle());
+    std::wstring pipe_name = base::UTF8ToUTF16(ReadString(ReadPipeHandle()));
     CrashpadClient client;
-    if (!client.SetHandler(pipe_name)) {
+    if (!client.SetHandlerIPCPipe(pipe_name)) {
       ADD_FAILURE();
       return EXIT_FAILURE;
     }

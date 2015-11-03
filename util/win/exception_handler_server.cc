@@ -234,11 +234,13 @@ class ClientData {
 ExceptionHandlerServer::Delegate::~Delegate() {
 }
 
-ExceptionHandlerServer::ExceptionHandlerServer(const std::string& pipe_name)
+ExceptionHandlerServer::ExceptionHandlerServer(const std::string& pipe_name,
+                                               bool persistent)
     : pipe_name_(pipe_name),
       port_(CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, 0, 1)),
       clients_lock_(),
-      clients_() {
+      clients_(),
+      persistent_(persistent) {
 }
 
 ExceptionHandlerServer::~ExceptionHandlerServer() {
@@ -297,11 +299,11 @@ void ExceptionHandlerServer::Run(Delegate* delegate) {
     // outstanding threadpool waits are complete. This is important because the
     // process handle can be signalled *before* the dump request is signalled.
     internal::ClientData* client = reinterpret_cast<internal::ClientData*>(key);
-    {
-      base::AutoLock lock(clients_lock_);
-      clients_.erase(client);
-    }
+    base::AutoLock lock(clients_lock_);
+    clients_.erase(client);
     delete client;
+    if (!persistent_ && clients_.empty())
+      break;
   }
 
   // Signal to the named pipe instances that they should terminate.

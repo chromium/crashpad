@@ -81,7 +81,6 @@
           'dependencies': [
             '../client/client.gyp:crashpad_client',
             '../third_party/mini_chromium/mini_chromium.gyp:base',
-            '../tools/tools.gyp:crashpad_tool_support',
             '../util/util.gyp:crashpad_util',
           ],
           'include_dirs': [
@@ -99,7 +98,6 @@
             '../compat/compat.gyp:crashpad_compat',
             '../snapshot/snapshot.gyp:crashpad_snapshot',
             '../third_party/mini_chromium/mini_chromium.gyp:base',
-            '../tools/tools.gyp:crashpad_tool_support',
             '../util/util.gyp:crashpad_util',
           ],
           'include_dirs': [
@@ -109,6 +107,28 @@
             'win/self_destroying_test_program.cc',
           ],
         },
+      ],
+      'conditions': [
+        # Cannot create an x64 DLL with embedded debug info.
+        ['target_arch=="ia32"', {
+          'targets': [
+            {
+              'target_name': 'crashy_z7_loader',
+              'type': 'executable',
+              'dependencies': [
+                '../client/client.gyp:crashpad_client',
+                '../test/test.gyp:crashpad_test',
+                '../third_party/mini_chromium/mini_chromium.gyp:base',
+              ],
+              'include_dirs': [
+                '..',
+              ],
+              'sources': [
+                'win/crashy_test_z7_loader.cc',
+              ],
+            },
+          ],
+        }],
       ],
     }, {
       'targets': [],

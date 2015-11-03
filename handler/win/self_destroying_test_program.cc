@@ -21,7 +21,6 @@
 #include "base/strings/stringprintf.h"
 #include "client/crashpad_client.h"
 #include "snapshot/win/process_reader_win.h"
-#include "tools/tool_support.h"
 
 namespace crashpad {
 namespace {
@@ -65,14 +64,14 @@ bool FreeOwnStackAndBreak() {
   return true;
 }
 
-int SelfDestroyingMain(int argc, char* argv[]) {
+int SelfDestroyingMain(int argc, wchar_t* argv[]) {
   if (argc != 2) {
-    fprintf(stderr, "Usage: %s <server_pipe_name>\n", argv[0]);
+    fprintf(stderr, "Usage: %ls <server_pipe_name>\n", argv[0]);
     return EXIT_FAILURE;
   }
 
   CrashpadClient client;
-  if (!client.SetHandler(argv[1])) {
+  if (!client.SetHandlerIPCPipe(argv[1])) {
     LOG(ERROR) << "SetHandler";
     return EXIT_FAILURE;
   }
@@ -93,5 +92,5 @@ int SelfDestroyingMain(int argc, char* argv[]) {
 }  // namespace crashpad
 
 int wmain(int argc, wchar_t* argv[]) {
-  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::SelfDestroyingMain);
+  return crashpad::SelfDestroyingMain(argc, argv);
 }

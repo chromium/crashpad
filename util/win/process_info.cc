@@ -514,14 +514,14 @@ bool ProcessInfo::Initialize(HANDLE process) {
         system_info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64;
   }
 
-#if ARCH_CPU_32_BITS
+#if defined(ARCH_CPU_32_BITS)
   if (is_64_bit_) {
     LOG(ERROR) << "Reading x64 process from x86 process not supported";
     return false;
   }
-#endif
+#endif  // ARCH_CPU_32_BITS
 
-#if ARCH_CPU_64_BITS
+#if defined(ARCH_CPU_64_BITS)
   bool result = GetProcessBasicInformation<process_types::internal::Traits64>(
       process, is_wow64_, this, &peb_address_, &peb_size_);
 #else

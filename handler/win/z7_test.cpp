@@ -12,22 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_CLIENT_SIMULATE_CRASH_WIN_H_
-#define CRASHPAD_CLIENT_SIMULATE_CRASH_WIN_H_
+// Build in VC++6 or older command prompt with:
+//
+// cl /nologo /W4 /MT /Z7 z7_test.cpp /link /dll /out:z7_test.dll /debugtype:cv /pdb:none
+//
+// Given that this is quite tedious to build, the result is also checked in.
 
 #include <windows.h>
+#include <stdio.h>
 
-#include "client/crashpad_client.h"
-#include "util/win/capture_context.h"
+extern "C" __declspec(dllexport) void CrashMe() {
+  volatile int* foo = reinterpret_cast<volatile int*>(7);
+  *foo = 42;
+}
 
-//! \file
-
-//! \brief Captures the CPU context and captures a dump without an exception.
-#define CRASHPAD_SIMULATE_CRASH()                        \
-  do {                                                   \
-    CONTEXT context;                                     \
-    crashpad::CaptureContext(&context);                  \
-    crashpad::CrashpadClient::DumpWithoutCrash(context); \
-  } while (false)
-
-#endif  // CRASHPAD_CLIENT_SIMULATE_CRASH_WIN_H_
+BOOL WINAPI DllMain(HINSTANCE hinstance, DWORD reason, LPVOID) {
+  printf("%p %d\n", hinstance, reason);
+  return TRUE;
+}

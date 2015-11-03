@@ -19,10 +19,13 @@
 
 #include "base/atomicops.h"
 #include "base/logging.h"
+#include "base/rand_util.h"
 #include "base/strings/string16.h"
+#include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock.h"
 #include "util/file/file_io.h"
+#include "util/win/command_line.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
@@ -102,11 +105,17 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   return EXCEPTION_CONTINUE_SEARCH;
 }
 
+std::wstring FormatArgumentString(const std::string& name,
+                                  const std::wstring& value) {
+  return std::wstring(L"--") + base::UTF8ToUTF16(name) + L"=" + value;
+}
+
 }  // namespace
 
 namespace crashpad {
 
-CrashpadClient::CrashpadClient() {
+CrashpadClient::CrashpadClient()
+    : ipc_pipe_() {
 }
 
 CrashpadClient::~CrashpadClient() {
@@ -118,11 +127,86 @@ bool CrashpadClient::StartHandler(
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments) {
-  LOG(FATAL) << "SetHandler should be used on Windows";
-  return false;
+  DCHECK(ipc_pipe_.empty());
+
+  std::string ipc_pipe =
+      base::StringPrintf("\\\\.\\pipe\\crashpad_%d_", GetCurrentProcessId());
+  for (int index = 0; index < 16; ++index) {
+    ipc_pipe.append(1, static_cast<char>(base::RandInt('A', 'Z')));
+  }
+  ipc_pipe_ = base::UTF8ToUTF16(ipc_pipe);
+
+  std::wstring command_line;
+  AppendCommandLineArgument(handler.value(), &command_line);
+  for (const std::string& argument : arguments) {
+    AppendCommandLineArgument(base::UTF8ToUTF16(argument), &command_line);
+  }
+  if (!database.value().empty()) {
+    AppendCommandLineArgument(FormatArgumentString("database",
+                                                   database.value()),
+                              &command_line);
+  }
+  if (!url.empty()) {
+    AppendCommandLineArgument(FormatArgumentString("url",
+                                                   base::UTF8ToUTF16(url)),
+                              &command_line);
+  }
+  for (const auto& kv : annotations) {
+    AppendCommandLineArgument(
+        FormatArgumentString("annotation",
+                             base::UTF8ToUTF16(kv.first + '=' + kv.second)),
+        &command_line);
+  }
+  AppendCommandLineArgument(FormatArgumentString("pipe-name", ipc_pipe_),
+                            &command_line);
+
+  STARTUPINFO startup_info = {};
+  startup_info.cb = sizeof(startup_info);
+  startup_info.dwFlags = STARTF_USESTDHANDLES;
+  startup_info.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
+  startup_info.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+  startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
+  PROCESS_INFORMATION process_info;
+  BOOL rv = CreateProcess(handler.value().c_str(),
+                          &command_line[0],
+                          nullptr,
+                          nullptr,
+                          true,
+                          0,
+                          nullptr,
+                          nullptr,
+                          &startup_info,
+                          &process_info);
+  if (!rv) {
+    PLOG(ERROR) << "CreateProcess";
+    return false;
+  }
+
+  rv = CloseHandle(process_info.hThread);
+  PLOG_IF(WARNING, !rv) << "CloseHandle thread";
+
+  rv = CloseHandle(process_info.hProcess);
+  PLOG_IF(WARNING, !rv) << "CloseHandle process";
+
+  return true;
 }
 
-bool CrashpadClient::SetHandler(const std::string& ipc_port) {
+bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
+  DCHECK(ipc_pipe_.empty());
+  DCHECK(!ipc_pipe.empty());
+
+  ipc_pipe_ = ipc_pipe;
+
+  return true;
+}
+
+std::wstring CrashpadClient::GetHandlerIPCPipe() const {
+  DCHECK(!ipc_pipe_.empty());
+  return ipc_pipe_;
+}
+
+bool CrashpadClient::UseHandler() {
+  DCHECK(!ipc_pipe_.empty());
   DCHECK_EQ(g_signal_exception, INVALID_HANDLE_VALUE);
   DCHECK_EQ(g_signal_non_crash_dump, INVALID_HANDLE_VALUE);
   DCHECK_EQ(g_non_crash_dump_done, INVALID_HANDLE_VALUE);
@@ -153,8 +237,7 @@ bool CrashpadClient::SetHandler(const std::string& ipc_port) {
 
   ServerToClientMessage response = {0};
 
-  if (!SendToCrashHandlerServer(
-          base::UTF8ToUTF16(ipc_port), message, &response)) {
+  if (!SendToCrashHandlerServer(ipc_pipe_, message, &response)) {
     return false;
   }
 
@@ -168,16 +251,6 @@ bool CrashpadClient::SetHandler(const std::string& ipc_port) {
 
   g_non_crash_dump_lock = new base::Lock();
 
-  return true;
-}
-
-bool CrashpadClient::UseHandler() {
-  if (g_signal_exception == INVALID_HANDLE_VALUE ||
-      g_signal_non_crash_dump == INVALID_HANDLE_VALUE ||
-      g_non_crash_dump_done == INVALID_HANDLE_VALUE) {
-    return false;
-  }
-
   // In theory we could store the previous handler but it is not clear what
   // use we have for it.
   SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
@@ -188,7 +261,7 @@ bool CrashpadClient::UseHandler() {
 void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   if (g_signal_non_crash_dump == INVALID_HANDLE_VALUE ||
       g_non_crash_dump_done == INVALID_HANDLE_VALUE) {
-    LOG(ERROR) << "haven't called SetHandler()";
+    LOG(ERROR) << "haven't called UseHandler()";
     return;
   }
 

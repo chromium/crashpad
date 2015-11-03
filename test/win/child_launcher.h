@@ -42,7 +42,7 @@ class ChildLauncher {
   void Start();
 
   //! \brief Waits for the child process to exit.
-  //! 
+  //!
   //! \return The process exit code.
   DWORD WaitForExit();
 
@@ -66,14 +66,6 @@ class ChildLauncher {
   ScopedFileHANDLE stdout_read_handle_;
   ScopedFileHANDLE stdin_write_handle_;
 };
-
-//! \brief Utility function for building escaped command lines.
-//!
-//! \param[in] argument Appended to \a command_line surrounded by properly
-//!     escaped quotation marks, if necessary.
-//! \param[inout] command_line The command line being constructed.
-void AppendCommandLineArgument(const std::wstring& argument,
-                               std::wstring* command_line);
 
 }  // namespace test
 }  // namespace crashpad

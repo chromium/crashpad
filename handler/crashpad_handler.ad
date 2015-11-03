@@ -33,13 +33,22 @@ collection server. Uploads are disabled by default, and can only be enabled by a
 Crashpad client using the Crashpad client library, typically in response to a
 user requesting this behavior.
 
-This server is normally started by its initial client, and it performs a
-handshake with this client via a pipe established by the client that is
+On OS X, this server is normally started by its initial client, and it performs
+a handshake with this client via a pipe established by the client that is
 inherited by the server, referenced by the *--handshake-fd* argument. During the
 handshake, the server furnishes the client with a send right that the client may
 use as an exception port. The server retains the corresponding receive right,
 which it monitors for exception messages. When the receive right loses all
 senders, the server exits after allowing any upload in progress to complete.
+
+On Windows, clients register with this server by communicating with it via the
+named pipe identified by the *--pipe-name* argument. During registration, a
+client provides the server with an OS event object that it will signal should it
+crash. The server obtains the client’s process handle and waits on the crash
+event object for a crash, as well as the client’s process handle for the client
+to exit cleanly without crashing. When the server loses all clients and
+*--persistent* is not specified, it exits after allowing any upload in progress
+to complete.
 
 It is not normally appropriate to invoke this program directly. Usually, it will
 be invoked by a Crashpad client using the Crashpad client library. Arbitrary
@@ -76,6 +85,12 @@ of 'PATH' exists.
 *--handshake-fd*='FD'::
 Perform the handshake with the initial client on the file descriptor at 'FD'.
 This option is required. This option is only valid on Mac OS X.
+
+*--persistent*::
+Continue running after the last client exits. If this option is not specified,
+this server will exit as soon as it has no clients, although on startup, it
+always waits for at least one client to connect. This option is only valid on
+Windows.
 
 *--pipe-name*='PIPE'::
 Listen on the given pipe name for connections from clients. 'PIPE' must be of

@@ -128,7 +128,7 @@ void TestCrashingChild(const base::string16& directory_modification) {
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
   CrashingDelegate delegate(server_ready.get(), completed.get());
 
-  ExceptionHandlerServer exception_handler_server(pipe_name);
+  ExceptionHandlerServer exception_handler_server(pipe_name, true);
   RunServerThread server_thread(&exception_handler_server, &delegate);
   server_thread.Start();
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
@@ -230,7 +230,7 @@ void TestDumpWithoutCrashingChild(
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
   SimulateDelegate delegate(server_ready.get(), completed.get());
 
-  ExceptionHandlerServer exception_handler_server(pipe_name);
+  ExceptionHandlerServer exception_handler_server(pipe_name, true);
   RunServerThread server_thread(&exception_handler_server, &delegate);
   server_thread.Start();
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
