@@ -200,6 +200,11 @@ bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
   return true;
 }
 
+std::wstring CrashpadClient::GetHandlerIPCPipe() const {
+  DCHECK(!ipc_pipe_.empty());
+  return ipc_pipe_;
+}
+
 bool CrashpadClient::UseHandler() {
   DCHECK(!ipc_pipe_.empty());
   DCHECK_EQ(g_signal_exception, INVALID_HANDLE_VALUE);

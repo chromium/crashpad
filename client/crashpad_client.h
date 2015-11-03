@@ -72,21 +72,32 @@ class CrashpadClient {
                     const std::vector<std::string>& arguments);
 
 #if defined(OS_WIN) || DOXYGEN
-  //! \brief Sets the IPC port of a presumably-running Crashpad handler process
+  //! \brief Sets the IPC pipe of a presumably-running Crashpad handler process
   //!     which was started with StartHandler() or by other compatible means
   //!     and does an IPC message exchange to register this process with the
   //!     handler. However, just like StartHandler(), crashes are not serviced
   //!     until UseHandler() is called.
-  //!
-  //! The IPC port name (somehow) encodes enough information so that
-  //! registration is done with a crash handler using the appropriate database
-  //! and upload server.
   //!
   //! \param[in] ipc_pipe The full name of the crash handler IPC pipe. This is
   //!     a string of the form `&quot;\\.\pipe\NAME&quot;`.
   //!
   //! \return `true` on success and `false` on failure.
   bool SetHandlerIPCPipe(const std::wstring& ipc_pipe);
+
+  //! \brief Retrieves the IPC pipe name used to register with the Crashpad
+  //!     handler.
+  //!
+  //! This method retrieves the IPC pipe name set by SetHandlerIPCPipe(), or a
+  //! suitable IPC pipe name chosen by StartHandler(). It is intended to be used
+  //! to obtain the IPC pipe name so that it may be passed to other processes,
+  //! so that they may register with an existing Crashpad handler by calling
+  //! SetHandlerIPCPipe().
+  //!
+  //! This method is only defined on Windows.
+  //!
+  //! \return The full name of the crash handler IPC pipe, a string of the form
+  //!     `&quot;\\.\pipe\NAME&quot;`.
+  std::wstring GetHandlerIPCPipe() const;
 
   //! \brief Requests that the handler capture a dump even though there hasn't
   //!     been a crash.
