@@ -872,6 +872,9 @@ template&lt;typename To , typename From &gt; </td></tr>
 <tr class="memitem:adbc9204d047dd250fe5f6b4ce0dd27ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#adbc9204d047dd250fe5f6b4ce0dd27ae">CaptureContext</a> (CONTEXT *context)</td></tr>
 <tr class="memdesc:adbc9204d047dd250fe5f6b4ce0dd27ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves the CPU context.  <a href="#adbc9204d047dd250fe5f6b4ce0dd27ae">More...</a><br /></td></tr>
 <tr class="separator:adbc9204d047dd250fe5f6b4ce0dd27ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52a7dee343e392e5bf1794e8136df7f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a52a7dee343e392e5bf1794e8136df7f9">AppendCommandLineArgument</a> (const std::wstring &amp;argument, std::wstring *command_line)</td></tr>
+<tr class="memdesc:a52a7dee343e392e5bf1794e8136df7f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function for building escaped command lines.  <a href="#a52a7dee343e392e5bf1794e8136df7f9">More...</a><br /></td></tr>
+<tr class="separator:a52a7dee343e392e5bf1794e8136df7f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8340c24a2983e788d2a3ba90d1d4846"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af8340c24a2983e788d2a3ba90d1d4846">InitializeCriticalSectionWithDebugInfoIfPossible</a> (CRITICAL_SECTION *critical_section)</td></tr>
 <tr class="memdesc:af8340c24a2983e788d2a3ba90d1d4846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>InitializeCritialSection()</code>, but attempts to allocate with a valid <code>.DebugInfo</code> field on versions of Windows where it's possible to do so.  <a href="#af8340c24a2983e788d2a3ba90d1d4846">More...</a><br /></td></tr>
 <tr class="separator:af8340c24a2983e788d2a3ba90d1d4846"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1805,6 +1808,43 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a52a7dee343e392e5bf1794e8136df7f9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::AppendCommandLineArgument </td>
+          <td>(</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>argument</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::wstring *&#160;</td>
+          <td class="paramname"><em>command_line</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Utility function for building escaped command lines. </p>
+<p>This builds a command line so that individual arguments can be reliably decoded by <code>CommandLineToArgvW()</code>.</p>
+<p><em>argument</em> is appended to <em>command_line</em>. If necessary, it will be placed in quotation marks and escaped properly. If <em>command_line</em> is initially non-empty, a space will precede <em>argument</em>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">argument</td><td>The argument to append to <em>command_line</em>. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">command_line</td><td>The command line being constructed. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="aeb040202b4562c8c4087b9c9db2ce430"></a>
 <div class="memitem">
 <div class="memproto">
@@ -4656,8 +4696,8 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Connect over the given <em>pipe_name</em>, passing <em>message</em> to the server, storing the server's reply into <em>response</em>. </p>
-<p>Typically clients will not use this directly, instead using <a class="el" href="classcrashpad_1_1CrashpadClient.html#abb9c0047585f204aa2d6656173153c0b" title="Sets the IPC port of a presumably-running Crashpad handler process which was started with StartHandle...">CrashpadClient::SetHandler()</a>.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1CrashpadClient.html#abb9c0047585f204aa2d6656173153c0b" title="Sets the IPC port of a presumably-running Crashpad handler process which was started with StartHandle...">CrashpadClient::SetHandler()</a> </dd></dl>
+<p>Typically clients will not use this directly, instead using CrashpadClient::SetHandler().</p>
+<dl class="section see"><dt>See also</dt><dd>CrashpadClient::SetHandler() </dd></dl>
 
 </div>
 </div>

@@ -115,9 +115,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a348789edd93bcd388ddd38c77230583d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d">Run</a> (<a class="el" href="classcrashpad_1_1UniversalMachExcServer_1_1Interface.html">UniversalMachExcServer::Interface</a> *exception_interface)</td></tr>
 <tr class="memdesc:a348789edd93bcd388ddd38c77230583d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the exception-handling server.  <a href="#a348789edd93bcd388ddd38c77230583d">More...</a><br /></td></tr>
 <tr class="separator:a348789edd93bcd388ddd38c77230583d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0b65ce21f6fc930f9f33cdd7bc6993e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#ac0b65ce21f6fc930f9f33cdd7bc6993e">ExceptionHandlerServer</a> (const std::string &amp;pipe_name)</td></tr>
-<tr class="memdesc:ac0b65ce21f6fc930f9f33cdd7bc6993e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the exception handling server.  <a href="#ac0b65ce21f6fc930f9f33cdd7bc6993e">More...</a><br /></td></tr>
-<tr class="separator:ac0b65ce21f6fc930f9f33cdd7bc6993e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace4c84fec4a086ab941da7442024dffa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#ace4c84fec4a086ab941da7442024dffa">ExceptionHandlerServer</a> (const std::string &amp;pipe_name, bool persistent)</td></tr>
+<tr class="memdesc:ace4c84fec4a086ab941da7442024dffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the exception handling server.  <a href="#ace4c84fec4a086ab941da7442024dffa">More...</a><br /></td></tr>
+<tr class="separator:ace4c84fec4a086ab941da7442024dffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ddcf9cff0364e46378ef575ded9a773"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a8ddcf9cff0364e46378ef575ded9a773">Run</a> (<a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html">Delegate</a> *delegate)</td></tr>
 <tr class="memdesc:a8ddcf9cff0364e46378ef575ded9a773"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the exception-handling server.  <a href="#a8ddcf9cff0364e46378ef575ded9a773">More...</a><br /></td></tr>
 <tr class="separator:a8ddcf9cff0364e46378ef575ded9a773"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,32 +162,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="ac0b65ce21f6fc930f9f33cdd7bc6993e"></a>
+<a class="anchor" id="ace4c84fec4a086ab941da7442024dffa"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">crashpad::ExceptionHandlerServer::ExceptionHandlerServer </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>pipe_name</em></td><td>)</td>
+          <td class="paramname"><em>pipe_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>persistent</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Constructs the exception handling server. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">pipe_name</td><td>The name of the pipe to listen on. Must be of the form "\\.\pipe\&lt;some_name&gt;". </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">persistent</td><td><code>true</code> if <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> should not return until <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be" title="Stops the exception-handling server. Returns immediately. The object must not be destroyed until Run(...">Stop()</a> is called. If <code>false</code>, <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> will return when all clients have exited, although <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> will always wait for the first client to connect. </td></tr>
   </table>
   </dd>
 </dl>

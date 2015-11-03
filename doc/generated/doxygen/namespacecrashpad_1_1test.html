@@ -308,9 +308,6 @@ template&lt;&gt; </td></tr>
 <tr class="memitem:a8db2fa97998b00a8ee57398fa8c8b14e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#a8db2fa97998b00a8ee57398fa8c8b14e">BootstrapErrorMessage</a> (kern_return_t bootstrap_err, const std::string &amp;base=std::string())</td></tr>
 <tr class="memdesc:a8db2fa97998b00a8ee57398fa8c8b14e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a bootstrap error message.  <a href="#a8db2fa97998b00a8ee57398fa8c8b14e">More...</a><br /></td></tr>
 <tr class="separator:a8db2fa97998b00a8ee57398fa8c8b14e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad87d177ebfa793d37d737c8e298c709a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#ad87d177ebfa793d37d737c8e298c709a">AppendCommandLineArgument</a> (const std::wstring &amp;argument, std::wstring *command_line)</td></tr>
-<tr class="memdesc:ad87d177ebfa793d37d737c8e298c709a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function for building escaped command lines.  <a href="#ad87d177ebfa793d37d737c8e298c709a">More...</a><br /></td></tr>
-<tr class="separator:ad87d177ebfa793d37d737c8e298c709a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35412b33d0a275fa43e8633296059534"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#a35412b33d0a275fa43e8633296059534">ReadStreamToString</a> (<a class="el" href="classcrashpad_1_1HTTPBodyStream.html">HTTPBodyStream</a> *stream)</td></tr>
 <tr class="memdesc:a35412b33d0a275fa43e8633296059534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> to a string. If an error occurs, adds a test failure and returns an empty string.  <a href="#a35412b33d0a275fa43e8633296059534">More...</a><br /></td></tr>
 <tr class="separator:a35412b33d0a275fa43e8633296059534"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -349,41 +346,6 @@ template&lt;&gt; </td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The testing namespace, for use in test code only. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ad87d177ebfa793d37d737c8e298c709a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void crashpad::test::AppendCommandLineArgument </td>
-          <td>(</td>
-          <td class="paramtype">const std::wstring &amp;&#160;</td>
-          <td class="paramname"><em>argument</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::wstring *&#160;</td>
-          <td class="paramname"><em>command_line</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Utility function for building escaped command lines. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">argument</td><td>Appended to <em>command_line</em> surrounded by properly escaped quotation marks, if necessary. </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">command_line</td><td>The command line being constructed. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="a8db2fa97998b00a8ee57398fa8c8b14e"></a>
 <div class="memitem">
 <div class="memproto">

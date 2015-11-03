@@ -79,7 +79,7 @@ var searchData=
   ['crash_5fexception_5finformation',['crash_exception_information',['../structcrashpad_1_1RegistrationRequest.html#a3366228626d095d8a4b0000fa04c05fb',1,'crashpad::RegistrationRequest']]],
   ['crashpad',['crashpad',['../namespacecrashpad.html',1,'']]],
   ['crashpad_5fhandler_5fbehavior',['crashpad_handler_behavior',['../structcrashpad_1_1CrashpadInfoClientOptions.html#a1bb1434593a93634c9f352145e002d41',1,'crashpad::CrashpadInfoClientOptions']]],
-  ['crashpad_5fsimulate_5fcrash',['CRASHPAD_SIMULATE_CRASH',['../simulate__crash__mac_8h.html#a0ac6f4df5ed356f04dd12be3f07f9ed2',1,'simulate_crash_mac.h']]],
+  ['crashpad_5fsimulate_5fcrash',['CRASHPAD_SIMULATE_CRASH',['../simulate__crash__mac_8h.html#a0ac6f4df5ed356f04dd12be3f07f9ed2',1,'CRASHPAD_SIMULATE_CRASH():&#160;simulate_crash_mac.h'],['../simulate__crash__win_8h.html#a0ac6f4df5ed356f04dd12be3f07f9ed2',1,'CRASHPAD_SIMULATE_CRASH():&#160;simulate_crash_win.h']]],
   ['crashpadclient',['CrashpadClient',['../classcrashpad_1_1CrashpadClient.html',1,'crashpad']]],
   ['crashpadinfo',['CrashpadInfo',['../structcrashpad_1_1process__types_1_1CrashpadInfo.html',1,'crashpad::process_types']]],
   ['crashpadinfo',['CrashpadInfo',['../structcrashpad_1_1CrashpadInfo.html',1,'crashpad']]],

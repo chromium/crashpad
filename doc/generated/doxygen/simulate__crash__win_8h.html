@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Crashpad: handler/win Directory Reference</title>
+<title>Crashpad: client/simulate_crash_win.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -41,7 +41,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
+      <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -60,6 +60,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
+    </ul>
+  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -76,28 +82,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_86b4fd221cb82d33529a1c1884b50833.html">handler</a></li><li class="navelem"><a class="el" href="dir_699f12cd5aeab29476020b39ba65594e.html">win</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_db3a54907829b36871118d03417739cd.html">client</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">win Directory Reference</div>  </div>
+<div class="title">simulate_crash_win.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="files"></a>
-Files</h2></td></tr>
-<tr class="memitem:win_2crash__report__exception__handler_8cc"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><b>crash_report_exception_handler.cc</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:win_2crash__report__exception__handler_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><b>crash_report_exception_handler.h</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:crashy__test__program_8cc"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><b>crashy_test_program.cc</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:crashy__test__z7__loader_8cc"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><b>crashy_test_z7_loader.cc</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:self__destroying__test__program_8cc"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><b>self_destroying_test_program.cc</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<div class="textblock"><code>#include &lt;windows.h&gt;</code><br />
+<code>#include &quot;client/crashpad_client.h&quot;</code><br />
+<code>#include &quot;util/win/capture_context.h&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a0ac6f4df5ed356f04dd12be3f07f9ed2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="simulate__crash__win_8h.html#a0ac6f4df5ed356f04dd12be3f07f9ed2">CRASHPAD_SIMULATE_CRASH</a>()</td></tr>
+<tr class="memdesc:a0ac6f4df5ed356f04dd12be3f07f9ed2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Captures the CPU context and captures a dump without an exception.  <a href="#a0ac6f4df5ed356f04dd12be3f07f9ed2">More...</a><br /></td></tr>
+<tr class="separator:a0ac6f4df5ed356f04dd12be3f07f9ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="a0ac6f4df5ed356f04dd12be3f07f9ed2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CRASHPAD_SIMULATE_CRASH</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> {                                                   \</div>
+<div class="line">    CONTEXT context;                                     \</div>
+<div class="line">    crashpad::CaptureContext(&amp;context);                  <a class="code" href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">\</a></div>
+<div class="line"><a class="code" href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">    crashpad::CrashpadClient::DumpWithoutCrash</a>(context); \</div>
+<div class="line">  } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
+<div class="ttc" id="classcrashpad_1_1CrashpadClient_html_a8ac211aa3a8cf278eb10f4058a7776fb"><div class="ttname"><a href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">crashpad::CrashpadClient::DumpWithoutCrash</a></div><div class="ttdeci">static void DumpWithoutCrash(const CONTEXT &amp;context)</div><div class="ttdoc">Requests that the handler capture a dump even though there hasn&#39;t been a crash. </div><div class="ttdef"><b>Definition:</b> crashpad_client_win.cc:261</div></div>
+</div><!-- fragment -->
+<p>Captures the CPU context and captures a dump without an exception. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -107,9 +107,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aff59b81264227e71e3b5d205e9bd517a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a">StartHandler</a> (const base::FilePath &amp;handler, const base::FilePath &amp;database, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments)</td></tr>
 <tr class="memdesc:aff59b81264227e71e3b5d205e9bd517a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a Crashpad handler process, performing any necessary handshake to configure it.  <a href="#aff59b81264227e71e3b5d205e9bd517a">More...</a><br /></td></tr>
 <tr class="separator:aff59b81264227e71e3b5d205e9bd517a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb9c0047585f204aa2d6656173153c0b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#abb9c0047585f204aa2d6656173153c0b">SetHandler</a> (const std::string &amp;ipc_port)</td></tr>
-<tr class="memdesc:abb9c0047585f204aa2d6656173153c0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the IPC port of a presumably-running Crashpad handler process which was started with <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or by other compatible means and does an IPC message exchange to register this process with the handler. However, just like <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a>, crashes are not serviced until <a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e" title="Configures the process to direct its crashes to a Crashpad handler. ">UseHandler()</a> is called.  <a href="#abb9c0047585f204aa2d6656173153c0b">More...</a><br /></td></tr>
-<tr class="separator:abb9c0047585f204aa2d6656173153c0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f1d5d38e9b4f5781e3821551dcc39d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a9f1d5d38e9b4f5781e3821551dcc39d5">SetHandlerIPCPipe</a> (const std::wstring &amp;ipc_pipe)</td></tr>
+<tr class="memdesc:a9f1d5d38e9b4f5781e3821551dcc39d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the IPC pipe of a presumably-running Crashpad handler process which was started with <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or by other compatible means and does an IPC message exchange to register this process with the handler. However, just like <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a>, crashes are not serviced until <a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e" title="Configures the process to direct its crashes to a Crashpad handler. ">UseHandler()</a> is called.  <a href="#a9f1d5d38e9b4f5781e3821551dcc39d5">More...</a><br /></td></tr>
+<tr class="separator:a9f1d5d38e9b4f5781e3821551dcc39d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af65cb31a1de191f1403c99c11e5cd855"><td class="memItemLeft" align="right" valign="top">std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#af65cb31a1de191f1403c99c11e5cd855">GetHandlerIPCPipe</a> () const </td></tr>
+<tr class="memdesc:af65cb31a1de191f1403c99c11e5cd855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the IPC pipe name used to register with the Crashpad handler.  <a href="#af65cb31a1de191f1403c99c11e5cd855">More...</a><br /></td></tr>
+<tr class="separator:af65cb31a1de191f1403c99c11e5cd855"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58476a5f7a1910ad67ba2bce69ead38e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e">UseHandler</a> ()</td></tr>
 <tr class="memdesc:a58476a5f7a1910ad67ba2bce69ead38e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the process to direct its crashes to a Crashpad handler.  <a href="#a58476a5f7a1910ad67ba2bce69ead38e">More...</a><br /></td></tr>
 <tr class="separator:a58476a5f7a1910ad67ba2bce69ead38e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,25 +161,44 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="abb9c0047585f204aa2d6656173153c0b"></a>
+<a class="anchor" id="af65cb31a1de191f1403c99c11e5cd855"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool crashpad::CrashpadClient::SetHandler </td>
+          <td class="memname">std::wstring crashpad::CrashpadClient::GetHandlerIPCPipe </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>ipc_port</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves the IPC pipe name used to register with the Crashpad handler. </p>
+<p>This method retrieves the IPC pipe name set by <a class="el" href="classcrashpad_1_1CrashpadClient.html#a9f1d5d38e9b4f5781e3821551dcc39d5" title="Sets the IPC pipe of a presumably-running Crashpad handler process which was started with StartHandle...">SetHandlerIPCPipe()</a>, or a suitable IPC pipe name chosen by <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a>. It is intended to be used to obtain the IPC pipe name so that it may be passed to other processes, so that they may register with an existing Crashpad handler by calling <a class="el" href="classcrashpad_1_1CrashpadClient.html#a9f1d5d38e9b4f5781e3821551dcc39d5" title="Sets the IPC pipe of a presumably-running Crashpad handler process which was started with StartHandle...">SetHandlerIPCPipe()</a>.</p>
+<p>This method is only defined on Windows.</p>
+<dl class="section return"><dt>Returns</dt><dd>The full name of the crash handler IPC pipe, a string of the form <code>&quot;\\.\pipe\NAME&quot;</code>. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a9f1d5d38e9b4f5781e3821551dcc39d5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::CrashpadClient::SetHandlerIPCPipe </td>
+          <td>(</td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>ipc_pipe</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sets the IPC port of a presumably-running Crashpad handler process which was started with <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or by other compatible means and does an IPC message exchange to register this process with the handler. However, just like <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a>, crashes are not serviced until <a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e" title="Configures the process to direct its crashes to a Crashpad handler. ">UseHandler()</a> is called. </p>
-<p>The IPC port name (somehow) encodes enough information so that registration is done with a crash handler using the appropriate database and upload server.</p>
+<p>Sets the IPC pipe of a presumably-running Crashpad handler process which was started with <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or by other compatible means and does an IPC message exchange to register this process with the handler. However, just like <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a>, crashes are not serviced until <a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e" title="Configures the process to direct its crashes to a Crashpad handler. ">UseHandler()</a> is called. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ipc_port</td><td>The full name of the crash handler IPC port.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ipc_pipe</td><td>The full name of the crash handler IPC pipe. This is a string of the form <code>&quot;\\.\pipe\NAME&quot;</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -229,7 +251,6 @@ Static Public Member Functions</h2></td></tr>
 <p>Starts a Crashpad handler process, performing any necessary handshake to configure it. </p>
 <p>This method does not actually direct any crashes to the Crashpad handler, because there may be alternative ways to use an existing Crashpad handler without having to start one. To begin directing crashes to the handler, started by this method, call <a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e" title="Configures the process to direct its crashes to a Crashpad handler. ">UseHandler()</a> after this method returns successfully.</p>
 <p>On Mac OS X, this method starts a Crashpad handler and obtains a Mach send right corresponding to a receive right held by the handler process. The handler process runs an exception server on this port.</p>
-<p>On Windows, <a class="el" href="classcrashpad_1_1CrashpadClient.html#abb9c0047585f204aa2d6656173153c0b" title="Sets the IPC port of a presumably-running Crashpad handler process which was started with StartHandle...">SetHandler()</a> is normally used instead since the handler is started by other means.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">handler</td><td>The path to a Crashpad handler executable. </td></tr>
@@ -258,7 +279,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Configures the process to direct its crashes to a Crashpad handler. </p>
-<p>The Crashpad handler must previously have been started by <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or configured by <a class="el" href="classcrashpad_1_1CrashpadClient.html#abb9c0047585f204aa2d6656173153c0b" title="Sets the IPC port of a presumably-running Crashpad handler process which was started with StartHandle...">SetHandler()</a>.</p>
+<p>The Crashpad handler must previously have been started by <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or configured by <a class="el" href="classcrashpad_1_1CrashpadClient.html#a9f1d5d38e9b4f5781e3821551dcc39d5" title="Sets the IPC pipe of a presumably-running Crashpad handler process which was started with StartHandle...">SetHandlerIPCPipe()</a>.</p>
 <p>On Mac OS X, this method sets the task’s exception port for <code>EXC_CRASH</code>, <code>EXC_RESOURCE</code>, and <code>EXC_GUARD</code> exceptions to the Mach send right obtained by <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a>. The handler will be installed with behavior <code>EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES</code> and thread state flavor <code>MACHINE_THREAD_STATE</code>. Exception ports are inherited, so a Crashpad handler chosen by <a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e" title="Configures the process to direct its crashes to a Crashpad handler. ">UseHandler()</a> will remain the handler for any child processes created after <a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e" title="Configures the process to direct its crashes to a Crashpad handler. ">UseHandler()</a> is called. Child processes do not need to call <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or <a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e" title="Configures the process to direct its crashes to a Crashpad handler. ">UseHandler()</a> or be aware of Crashpad in any way. The Crashpad handler will receive crashes from child processes that have inherited it as their exception handler even after the process that called <a class="el" href="classcrashpad_1_1CrashpadClient.html#aff59b81264227e71e3b5d205e9bd517a" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> exits.</p>
 <p>On Windows, this method sets the unhandled exception handler to a local function that when reached will "signal and wait" for the crash handler process to create the dump.</p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> on failure with a message logged. </dd></dl>
