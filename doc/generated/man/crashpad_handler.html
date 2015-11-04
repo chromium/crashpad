@@ -780,26 +780,35 @@ catching exceptions, writing crash reports, and uploading them to a crash report
 collection server. Uploads are disabled by default, and can only be enabled by a
 Crashpad client using the Crashpad client library, typically in response to a
 user requesting this behavior.</p></div>
-<div class="paragraph"><p>On OS X, this server is normally started by its initial client, and it performs
-a handshake with this client via a pipe established by the client that is
-inherited by the server, referenced by the <strong>--handshake-fd</strong> argument. During the
-handshake, the server furnishes the client with a send right that the client may
-use as an exception port. The server retains the corresponding receive right,
-which it monitors for exception messages. When the receive right loses all
-senders, the server exits after allowing any upload in progress to complete.</p></div>
+<div class="paragraph"><p>On OS X, this server may be started by its initial client, in which case it
+performs a handshake with this client via a pipe established by the client that
+is inherited by the server, referenced by the <strong>--handshake-fd</strong> argument. During
+the handshake, the server furnishes the client with a send right that the client
+may use as an exception port. The server retains the corresponding receive
+right, which it monitors for exception messages. When the receive right loses
+all senders, the server exits after allowing any upload in progress to complete.</p></div>
+<div class="paragraph"><p>Alternatively, on OS X, this server may be started from launchd(8), where it
+receives the Mach service name in a <strong>--mach-service</strong> argument. It checks in with
+the bootstrap server under this service name, and clients may look it up with
+the bootstrap server under this service name. It monitors this service for
+exception messages. Upon receipt of <span class="monospaced">SIGTERM</span>, the server exits after allowing
+any upload in progress to complete. <span class="monospaced">SIGTERM</span> is normally sent by launchd(8)
+when it determines that the server should exit.</p></div>
 <div class="paragraph"><p>On Windows, clients register with this server by communicating with it via the
-named pipe identified by the <strong>--pipe-name</strong> argument. During registration, a
-client provides the server with an OS event object that it will signal should it
-crash. The server obtains the client’s process handle and waits on the crash
-event object for a crash, as well as the client’s process handle for the client
-to exit cleanly without crashing. When the server loses all clients and
-<strong>--persistent</strong> is not specified, it exits after allowing any upload in progress
-to complete.</p></div>
+named pipe identified by the <strong>--pipe-name</strong> argument. Alternatively, the server
+can create a new pipe with a random name and inform a client of this name via
+the <strong>--handshake-handle</strong> mechanism; clients may then register by communicating
+with it via that named pipe. During registration, a client provides the server
+with an OS event object that it will signal should it crash. The server obtains
+the client’s process handle and waits on the crash event object for a crash, as
+well as the client’s process handle for the client to exit cleanly without
+crashing. When a server started via the <strong>--handshake-handle</strong> mechanism loses all
+of its clients, it exits after allowing any upload in progress to complete.</p></div>
 <div class="paragraph"><p>It is not normally appropriate to invoke this program directly. Usually, it will
-be invoked by a Crashpad client using the Crashpad client library. Arbitrary
-programs may be run with a Crashpad handler by using
-<a href="run_with_crashpad.html">run_with_crashpad(1)</a> to establish the Crashpad client environment
-before running a program.</p></div>
+be invoked by a Crashpad client using the Crashpad client library, or started by
+another system service. On OS X, arbitrary programs may be run with a Crashpad
+handler by using <a href="run_with_crashpad.html">run_with_crashpad(1)</a> to establish the Crashpad client
+environment before running a program.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -845,19 +854,37 @@ of <em>PATH</em> exists.
 <dd>
 <p>
 Perform the handshake with the initial client on the file descriptor at <em>FD</em>.
-This option is required. This option is only valid on Mac OS X.
+Either this option or <strong>--mach-service</strong>, but not both, is required. This option
+is only valid on OS X.
 </p>
 </dd>
 <dt class="hdlist1">
-<strong>--persistent</strong>
+<strong>--mach-service</strong>=<em>SERVICE</em>
 </dt>
 <dd>
 <p>
-Continue running after the last client exits. If this option is not specified,
-this server will exit as soon as it has no clients, although on startup, it
-always waits for at least one client to connect. This option is only valid on
-Windows.
+Check in with the bootstrap server under the name <em>SERVICE</em>. Either this option
+or <strong>--handshake-fd</strong>, but not both, is required. This option is only valid on OS
+X.
 </p>
+<div class="paragraph"><p><em>SERVICE</em> may already be reserved with the bootstrap server in cases where this
+tool is started by launchd(8) as a result of a message being sent to a service
+declared in a job’s <span class="monospaced">MachServices</span> dictionary (see launchd.plist(5)). The
+service name may also be completely unknown to the system.</p></div>
+</dd>
+<dt class="hdlist1">
+<strong>--handshake-handle</strong>=<em>HANDLE</em>
+</dt>
+<dd>
+<p>
+Perform the handshake with the initial client on the HANDLE at <em>HANDLE</em>. Either
+this option or <strong>--pipe-name</strong>, but not both, is required. This option is only
+valid on Windows.
+</p>
+<div class="paragraph"><p>When this option is present, the server creates a new named pipe at a random
+name and informs its client of the name. The server waits for at least one
+client to register, and exits when all clients have exited, after waiting for
+any uploads in progress to complete.</p></div>
 </dd>
 <dt class="hdlist1">
 <strong>--pipe-name</strong>=<em>PIPE</em>
@@ -865,9 +892,12 @@ Windows.
 <dd>
 <p>
 Listen on the given pipe name for connections from clients. <em>PIPE</em> must be of
-the form <span class="monospaced">\\.\pipe\&lt;somename&gt;</span>. This option is required. This option is only
-valid on Windows.
+the form <span class="monospaced">\\.\pipe\&lt;somename&gt;</span>. Either this option or <strong>--handshake-handle</strong>, but
+not both, is required. This option is only valid on Windows.
 </p>
+<div class="paragraph"><p>When this option is present, the server creates a named pipe at <em>PIPE</em>, a name
+known to both the server and its clients. The server continues running even
+after all clients have exited.</p></div>
 </dd>
 <dt class="hdlist1">
 <strong>--reset-own-crash-exception-port-to-system-default</strong>
@@ -981,7 +1011,7 @@ limitations under the License.</p></div>
 <div id="footer">
 <div id="footer-text">
 Crashpad 0.7.0<br>
-Last updated November 2, 2015
+Last updated November 4, 2015
 </div>
 </div>
 </body>
