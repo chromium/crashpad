@@ -14,7 +14,9 @@
 
 #include "client/crashpad_client.h"
 
+#include <errno.h>
 #include <mach/mach.h>
+#include <pthread.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -22,9 +24,13 @@
 #include "base/mac/mach_logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/stringprintf.h"
+#include "util/mac/mac_util.h"
 #include "util/mach/child_port_handshake.h"
 #include "util/mach/exception_ports.h"
 #include "util/mach/mach_extensions.h"
+#include "util/mach/mach_message.h"
+#include "util/mach/notify_server.h"
+#include "util/misc/clock.h"
 #include "util/misc/implicit_cast.h"
 #include "util/posix/close_multiple.h"
 
@@ -79,24 +85,45 @@ bool SetCrashExceptionPorts(exception_handler_t exception_handler) {
       MACHINE_THREAD_STATE);
 }
 
-//! \brief Starts a Crashpad handler.
-class HandlerStarter final {
+class ScopedPthreadAttrDestroy {
  public:
-  //! \brief Starts a Crashpad handler.
+  explicit ScopedPthreadAttrDestroy(pthread_attr_t* pthread_attr)
+      : pthread_attr_(pthread_attr) {
+  }
+
+  ~ScopedPthreadAttrDestroy() {
+    errno = pthread_attr_destroy(pthread_attr_);
+    PLOG_IF(WARNING, errno != 0) << "pthread_attr_destroy";
+  }
+
+ private:
+  pthread_attr_t* pthread_attr_;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedPthreadAttrDestroy);
+};
+
+//! \brief Starts a Crashpad handler, possibly restarting it if it dies.
+class HandlerStarter final : public NotifyServer::DefaultInterface {
+ public:
+  ~HandlerStarter() {}
+
+  //! \brief Starts a Crashpad handler initially, as opposed to starting it for
+  //!     subsequent restarts.
   //!
   //! All parameters are as in CrashpadClient::StartHandler().
   //!
   //! \return On success, a send right to the Crashpad handler that has been
   //!     started. On failure, `MACH_PORT_NULL` with a message logged.
-  static base::mac::ScopedMachSendRight Start(
+  static base::mac::ScopedMachSendRight InitialStart(
       const base::FilePath& handler,
       const base::FilePath& database,
       const std::string& url,
       const std::map<std::string, std::string>& annotations,
-      const std::vector<std::string>& arguments) {
+      const std::vector<std::string>& arguments,
+      bool restartable) {
     base::mac::ScopedMachReceiveRight receive_right(
         NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-    if (receive_right == kMachPortNull) {
+    if (!receive_right.is_valid()) {
       return base::mac::ScopedMachSendRight();
     }
 
@@ -116,25 +143,149 @@ class HandlerStarter final {
     DCHECK_EQ(right_type,
               implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND));
 
+    scoped_ptr<HandlerStarter> handler_restarter;
+    if (restartable) {
+      handler_restarter.reset(new HandlerStarter());
+      if (!handler_restarter->notify_port_.is_valid()) {
+        // This is an error that NewMachPort() would have logged. Proceed anyway
+        // without the ability to restart.
+        handler_restarter.reset();
+      }
+    }
+
     if (!CommonStart(handler,
                      database,
                      url,
                      annotations,
                      arguments,
-                     receive_right.Pass())) {
+                     receive_right.Pass(),
+                     handler_restarter.get(),
+                     false)) {
       return base::mac::ScopedMachSendRight();
     }
+
+    if (handler_restarter && handler_restarter->StartRestartThread(
+            handler, database, url, annotations, arguments)) {
+      // The thread owns the object now.
+      ignore_result(handler_restarter.release());
+    }
+
+    // If StartRestartThread() failed, proceed without the ability to restart.
+    // handler_restarter will be released when this function returns.
 
     return send_right;
   }
 
+  // NotifyServer::DefaultInterface:
+
+  kern_return_t DoMachNotifyPortDestroyed(notify_port_t notify,
+                                          mach_port_t rights,
+                                          const mach_msg_trailer_t* trailer,
+                                          bool* destroy_request) override {
+    // The receive right corresponding to this process’ crash exception port is
+    // now owned by this process. Any crashes that occur before the receive
+    // right is moved to a new handler process will cause the process to hang in
+    // an unkillable state prior to OS X 10.10.
+
+    if (notify != notify_port_) {
+      LOG(WARNING) << "notify port mismatch";
+      return KERN_FAILURE;
+    }
+
+    // If CommonStart() fails, the receive right will die, and this will just
+    // be called again for another try.
+    CommonStart(handler_,
+                database_,
+                url_,
+                annotations_,
+                arguments_,
+                base::mac::ScopedMachReceiveRight(rights),
+                this,
+                true);
+
+    return KERN_SUCCESS;
+  }
+
  private:
+  HandlerStarter()
+      : NotifyServer::DefaultInterface(),
+        handler_(),
+        database_(),
+        url_(),
+        annotations_(),
+        arguments_(),
+        notify_port_(NewMachPort(MACH_PORT_RIGHT_RECEIVE)),
+        last_start_time_(0) {
+  }
+
+  //! \brief Starts a Crashpad handler.
+  //!
+  //! All parameters are as in CrashpadClient::StartHandler(), with these
+  //! additions:
+  //!
+  //! \param[in] receive_right The receive right to move to the Crashpad
+  //!     handler. The handler will use this receive right to run its exception
+  //!     server.
+  //! \param[in] handler_restarter If CrashpadClient::StartHandler() was invoked
+  //!     with \a restartable set to `true`, this is the restart state object.
+  //!     Otherwise, this is `nullptr`.
+  //! \param[in] restart If CrashpadClient::StartHandler() was invoked with \a
+  //!     restartable set to `true` and CommonStart() is being called to restart
+  //!     a previously-started handler, this is `true`. Otherwise, this is
+  //!     `false`.
+  //!
+  //! \return `true` on success, `false` on failure, with a message logged.
+  //!     Failures include failure to start the handler process and failure to
+  //!     rendezvous with it via ChildPortHandshake.
   static bool CommonStart(const base::FilePath& handler,
                           const base::FilePath& database,
                           const std::string& url,
                           const std::map<std::string, std::string>& annotations,
                           const std::vector<std::string>& arguments,
-                          base::mac::ScopedMachReceiveRight receive_right) {
+                          base::mac::ScopedMachReceiveRight receive_right,
+                          HandlerStarter* handler_restarter,
+                          bool restart) {
+    if (handler_restarter) {
+      // The port-destroyed notification must be requested each time. It uses
+      // a send-once right, so once the notification is received, it won’t be
+      // sent again unless re-requested.
+      mach_port_t previous;
+      kern_return_t kr =
+          mach_port_request_notification(mach_task_self(),
+                                         receive_right.get(),
+                                         MACH_NOTIFY_PORT_DESTROYED,
+                                         0,
+                                         handler_restarter->notify_port_.get(),
+                                         MACH_MSG_TYPE_MAKE_SEND_ONCE,
+                                         &previous);
+      if (kr != KERN_SUCCESS) {
+        MACH_LOG(WARNING, kr) << "mach_port_request_notification";
+
+        // This will cause the restart thread to terminate after this restart
+        // attempt. There’s no longer any need for it, because no more
+        // port-destroyed notifications can be delivered.
+        handler_restarter->notify_port_.reset();
+      } else {
+        base::mac::ScopedMachSendRight previous_owner(previous);
+        DCHECK(restart || !previous_owner.is_valid());
+      }
+
+      if (handler_restarter->last_start_time_) {
+        // If the handler was ever started before, don’t restart it too quickly.
+        const uint64_t kNanosecondsPerSecond = 1E9;
+        const uint64_t kMinimumStartInterval = 1 * kNanosecondsPerSecond;
+
+        const uint64_t earliest_next_start_time =
+            handler_restarter->last_start_time_ + kMinimumStartInterval;
+        const uint64_t now_time = ClockMonotonicNanoseconds();
+        if (earliest_next_start_time > now_time) {
+          SleepNanoseconds(earliest_next_start_time - now_time);
+        }
+      }
+
+      handler_restarter->last_start_time_ = ClockMonotonicNanoseconds();
+    }
+
     // Set up the arguments for execve() first. These aren’t needed until
     // execve() is called, but it’s dangerous to do this in a child process
     // after fork().
@@ -194,6 +345,15 @@ class HandlerStarter final {
 
     if (pid == 0) {
       // Child process.
+
+      if (restart) {
+        // When restarting, reset the system default crash handler first.
+        // Otherwise, the crash exception port here will have been inherited
+        // from the parent process, which was probably using the exception
+        // server now being restarted. The handler can’t monitor itself for its
+        // own crashes via this interface.
+        CrashpadClient::UseSystemDefaultHandler();
+      }
 
       // Call setsid(), creating a new process group and a new session, both led
       // by this process. The new process group has no controlling terminal.
@@ -269,7 +429,71 @@ class HandlerStarter final {
     return true;
   }
 
-  DISALLOW_IMPLICIT_CONSTRUCTORS(HandlerStarter);
+  bool StartRestartThread(const base::FilePath& handler,
+                          const base::FilePath& database,
+                          const std::string& url,
+                          const std::map<std::string, std::string>& annotations,
+                          const std::vector<std::string>& arguments) {
+    handler_ = handler;
+    database_ = database;
+    url_ = url;
+    annotations_ = annotations;
+    arguments_ = arguments;
+
+    pthread_attr_t pthread_attr;
+    errno = pthread_attr_init(&pthread_attr);
+    if (errno != 0) {
+      PLOG(WARNING) << "pthread_attr_init";
+      return false;
+    }
+    ScopedPthreadAttrDestroy pthread_attr_owner(&pthread_attr);
+
+    errno = pthread_attr_setdetachstate(&pthread_attr, PTHREAD_CREATE_DETACHED);
+    if (errno != 0) {
+      PLOG(WARNING) << "pthread_attr_setdetachstate";
+      return false;
+    }
+
+    pthread_t pthread;
+    errno = pthread_create(&pthread, &pthread_attr, RestartThreadMain, this);
+    if (errno != 0) {
+      PLOG(WARNING) << "pthread_create";
+      return false;
+    }
+
+    return true;
+  }
+
+  static void* RestartThreadMain(void* argument) {
+    HandlerStarter* self = reinterpret_cast<HandlerStarter*>(argument);
+
+    NotifyServer notify_server(self);
+    mach_msg_return_t mr;
+    do {
+      mr = MachMessageServer::Run(&notify_server,
+                                  self->notify_port_.get(),
+                                  0,
+                                  MachMessageServer::kPersistent,
+                                  MachMessageServer::kReceiveLargeError,
+                                  kMachMessageTimeoutWaitIndefinitely);
+      MACH_LOG_IF(ERROR, mr != MACH_MSG_SUCCESS, mr)
+          << "MachMessageServer::Run";
+    } while (self->notify_port_.is_valid() && mr == MACH_MSG_SUCCESS);
+
+    delete self;
+
+    return nullptr;
+  }
+
+  base::FilePath handler_;
+  base::FilePath database_;
+  std::string url_;
+  std::map<std::string, std::string> annotations_;
+  std::vector<std::string> arguments_;
+  base::mac::ScopedMachReceiveRight notify_port_;
+  uint64_t last_start_time_;
+
+  DISALLOW_COPY_AND_ASSIGN(HandlerStarter);
 };
 
 }  // namespace
@@ -286,16 +510,42 @@ bool CrashpadClient::StartHandler(
     const base::FilePath& database,
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
-    const std::vector<std::string>& arguments) {
+    const std::vector<std::string>& arguments,
+    bool restartable) {
   DCHECK(!exception_port_.is_valid());
 
-  exception_port_ = HandlerStarter::Start(
-      handler, database, url, annotations, arguments);
-  if (!exception_port_.is_valid()) {
+  // The “restartable” behavior can only be selected on OS X 10.10 and later. In
+  // previous OS versions, if the initial client were to crash while attempting
+  // to restart the handler, it would become an unkillable process.
+  base::mac::ScopedMachSendRight exception_port(HandlerStarter::InitialStart(
+      handler,
+      database,
+      url,
+      annotations,
+      arguments,
+      restartable && MacOSXMinorVersion() >= 10));
+  if (!exception_port.is_valid()) {
     return false;
   }
 
+  SetHandlerMachPort(exception_port.Pass());
   return true;
+}
+
+bool CrashpadClient::SetHandlerMachService(const std::string& service_name) {
+  base::mac::ScopedMachSendRight exception_port(BootstrapLookUp(service_name));
+  if (!exception_port.is_valid()) {
+    return false;
+  }
+
+  SetHandlerMachPort(exception_port.Pass());
+  return true;
+}
+
+void CrashpadClient::SetHandlerMachPort(
+    base::mac::ScopedMachSendRight exception_port) {
+  DCHECK(exception_port.is_valid());
+  exception_port_ = exception_port.Pass();
 }
 
 bool CrashpadClient::UseHandler() {

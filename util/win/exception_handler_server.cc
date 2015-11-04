@@ -35,6 +35,29 @@ namespace crashpad {
 
 namespace {
 
+// We create two pipe instances, so that there's one listening while the
+// PipeServiceProc is processing a registration.
+const size_t kPipeInstances = 2;
+
+// Wraps CreateNamedPipe() to create a single named pipe instance.
+//
+// If first_instance is true, the named pipe instance will be created with
+// FILE_FLAG_FIRST_PIPE_INSTANCE. This ensures that the the pipe name is not
+// already in use when created.
+HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
+                               bool first_instance) {
+  return CreateNamedPipe(pipe_name.c_str(),
+                         PIPE_ACCESS_DUPLEX |
+                             (first_instance ? FILE_FLAG_FIRST_PIPE_INSTANCE
+                                             : 0),
+                         PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
+                         kPipeInstances,
+                         512,
+                         512,
+                         0,
+                         nullptr);
+}
+
 decltype(GetNamedPipeClientProcessId)* GetNamedPipeClientProcessIdFunction() {
   static const auto get_named_pipe_client_process_id =
       GET_FUNCTION(L"kernel32.dll", ::GetNamedPipeClientProcessId);
@@ -234,10 +257,10 @@ class ClientData {
 ExceptionHandlerServer::Delegate::~Delegate() {
 }
 
-ExceptionHandlerServer::ExceptionHandlerServer(const std::string& pipe_name,
-                                               bool persistent)
-    : pipe_name_(pipe_name),
+ExceptionHandlerServer::ExceptionHandlerServer(bool persistent)
+    : pipe_name_(),
       port_(CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, 0, 1)),
+      first_pipe_instance_(),
       clients_lock_(),
       clients_(),
       persistent_(persistent) {
@@ -246,23 +269,59 @@ ExceptionHandlerServer::ExceptionHandlerServer(const std::string& pipe_name,
 ExceptionHandlerServer::~ExceptionHandlerServer() {
 }
 
+void ExceptionHandlerServer::SetPipeName(const std::wstring& pipe_name) {
+  DCHECK(pipe_name_.empty());
+  DCHECK(!pipe_name.empty());
+
+  pipe_name_ = pipe_name;
+}
+
+std::wstring ExceptionHandlerServer::CreatePipe() {
+  DCHECK(!first_pipe_instance_.is_valid());
+
+  int tries = 5;
+  std::string pipe_name_base =
+      base::StringPrintf("\\\\.\\pipe\\crashpad_%d_", GetCurrentProcessId());
+  std::wstring pipe_name;
+  do {
+    pipe_name = base::UTF8ToUTF16(pipe_name_base);
+    for (int index = 0; index < 16; ++index) {
+      pipe_name.append(1, static_cast<wchar_t>(base::RandInt('A', 'Z')));
+    }
+
+    first_pipe_instance_.reset(CreateNamedPipeInstance(pipe_name, true));
+
+    // CreateNamedPipe() is documented as setting the error to
+    // ERROR_ACCESS_DENIED if FILE_FLAG_FIRST_PIPE_INSTANCE is specified and the
+    // pipe name is already in use. However it may set the error to other codes
+    // such as ERROR_PIPE_BUSY (if the pipe already exists and has reached its
+    // maximum instance count) or ERROR_INVALID_PARAMETER (if the pipe already
+    // exists and its attributes differ from those specified to
+    // CreateNamedPipe()). Some of these errors may be ambiguous: for example,
+    // ERROR_INVALID_PARAMETER may also occur if CreateNamedPipe() is called
+    // incorrectly even in the absence of an existing pipe by the same name.
+    //
+    // Rather than chasing down all of the possible errors that might indicate
+    // that a pipe name is already in use, retry up to a few times on any error.
+  } while (!first_pipe_instance_.is_valid() && --tries);
+
+  PCHECK(first_pipe_instance_.is_valid()) << "CreateNamedPipe";
+
+  SetPipeName(pipe_name);
+  return pipe_name;
+}
+
 void ExceptionHandlerServer::Run(Delegate* delegate) {
   uint64_t shutdown_token = base::RandUint64();
-  // We create two pipe instances, so that there's one listening while the
-  // PipeServiceProc is processing a registration.
-  ScopedKernelHANDLE thread_handles[2];
-  base::string16 pipe_name_16(base::UTF8ToUTF16(pipe_name_));
+  ScopedKernelHANDLE thread_handles[kPipeInstances];
   for (int i = 0; i < arraysize(thread_handles); ++i) {
-    HANDLE pipe =
-        CreateNamedPipe(pipe_name_16.c_str(),
-                        PIPE_ACCESS_DUPLEX,
-                        PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
-                        arraysize(thread_handles),
-                        512,
-                        512,
-                        0,
-                        nullptr);
-    PCHECK(pipe != INVALID_HANDLE_VALUE) << "CreateNamedPipe";
+    HANDLE pipe;
+    if (first_pipe_instance_.is_valid()) {
+      pipe = first_pipe_instance_.release();
+    } else {
+      pipe = CreateNamedPipeInstance(pipe_name_, false);
+      PCHECK(pipe != INVALID_HANDLE_VALUE) << "CreateNamedPipe";
+    }
 
     // Ownership of this object (and the pipe instance) is given to the new
     // thread. We close the thread handles at the end of the scope. They clean
@@ -313,7 +372,7 @@ void ExceptionHandlerServer::Run(Delegate* delegate) {
     message.type = ClientToServerMessage::kShutdown;
     message.shutdown.token = shutdown_token;
     ServerToClientMessage response;
-    SendToCrashHandlerServer(pipe_name_16,
+    SendToCrashHandlerServer(pipe_name_,
                              reinterpret_cast<ClientToServerMessage&>(message),
                              &response);
   }

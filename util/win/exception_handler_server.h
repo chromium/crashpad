@@ -20,6 +20,7 @@
 
 #include "base/basictypes.h"
 #include "base/synchronization/lock.h"
+#include "util/file/file_io.h"
 #include "util/win/address_types.h"
 #include "util/win/scoped_handle.h"
 
@@ -62,14 +63,30 @@ class ExceptionHandlerServer {
 
   //! \brief Constructs the exception handling server.
   //!
-  //! \param[in] pipe_name The name of the pipe to listen on. Must be of the
-  //!     form "\\.\pipe\<some_name>".
   //! \param[in] persistent `true` if Run() should not return until Stop() is
   //!     called. If `false`, Run() will return when all clients have exited,
   //!     although Run() will always wait for the first client to connect.
-  ExceptionHandlerServer(const std::string& pipe_name, bool persistent);
+  explicit ExceptionHandlerServer(bool persistent);
 
   ~ExceptionHandlerServer();
+
+  //! \brief Sets the pipe name to listen for client registrations on.
+  //!
+  //! Either this method or CreatePipe(), but not both, must be called before
+  //! Run().
+  //!
+  //! \param[in] pipe_name The name of the pipe to listen on. Must be of the
+  //!     form "\\.\pipe\<some_name>".
+  void SetPipeName(const std::wstring& pipe_name);
+
+  //! \brief Creates a randomized pipe name to listen for client registrations
+  //!     on and returns its name.
+  //!
+  //! Either this method or CreatePipe(), but not both, must be called before
+  //! Run().
+  //!
+  //! \return The pipe name that will be listened on.
+  std::wstring CreatePipe();
 
   //! \brief Runs the exception-handling server.
   //!
@@ -89,8 +106,9 @@ class ExceptionHandlerServer {
   static void __stdcall OnNonCrashDumpEvent(void* ctx, BOOLEAN);
   static void __stdcall OnProcessEnd(void* ctx, BOOLEAN);
 
-  std::string pipe_name_;
+  std::wstring pipe_name_;
   ScopedKernelHANDLE port_;
+  ScopedFileHandle first_pipe_instance_;
 
   base::Lock clients_lock_;
   std::set<internal::ClientData*> clients_;

@@ -17,7 +17,6 @@
 #include <string>
 
 #include "base/files/file_path.h"
-#include "base/strings/stringprintf.h"
 #include "base/strings/string16.h"
 #include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_client.h"
@@ -39,7 +38,7 @@ namespace {
 // Runs the ExceptionHandlerServer on a background thread.
 class RunServerThread : public Thread {
  public:
-  // Instantiates a thread which will invoke server->Run(delegate, pipe_name);
+  // Instantiates a thread which will invoke server->Run(delegate);
   RunServerThread(ExceptionHandlerServer* server,
                   ExceptionHandlerServer::Delegate* delegate)
       : server_(server), delegate_(delegate) {}
@@ -122,13 +121,12 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
 
 void TestCrashingChild(const base::string16& directory_modification) {
   // Set up the registration server on a background thread.
-  std::string pipe_name = "\\\\.\\pipe\\handler_test_pipe_" +
-                          base::StringPrintf("%08x", GetCurrentProcessId());
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
   CrashingDelegate delegate(server_ready.get(), completed.get());
 
-  ExceptionHandlerServer exception_handler_server(pipe_name, true);
+  ExceptionHandlerServer exception_handler_server(true);
+  std::wstring pipe_name = exception_handler_server.CreatePipe();
   RunServerThread server_thread(&exception_handler_server, &delegate);
   server_thread.Start();
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
@@ -144,7 +142,7 @@ void TestCrashingChild(const base::string16& directory_modification) {
           .Append(test_executable.BaseName().RemoveFinalExtension().value() +
                   L"_crashing_child.exe")
           .value();
-  ChildLauncher child(child_test_executable, base::UTF8ToUTF16(pipe_name));
+  ChildLauncher child(child_test_executable, pipe_name);
   child.Start();
 
   // The child tells us (approximately) where it will crash.
@@ -224,13 +222,12 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
 void TestDumpWithoutCrashingChild(
     const base::string16& directory_modification) {
   // Set up the registration server on a background thread.
-  std::string pipe_name = "\\\\.\\pipe\\handler_test_pipe_" +
-                          base::StringPrintf("%08x", GetCurrentProcessId());
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
   SimulateDelegate delegate(server_ready.get(), completed.get());
 
-  ExceptionHandlerServer exception_handler_server(pipe_name, true);
+  ExceptionHandlerServer exception_handler_server(true);
+  std::wstring pipe_name = exception_handler_server.CreatePipe();
   RunServerThread server_thread(&exception_handler_server, &delegate);
   server_thread.Start();
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
@@ -246,7 +243,7 @@ void TestDumpWithoutCrashingChild(
           .Append(test_executable.BaseName().RemoveFinalExtension().value() +
                   L"_dump_without_crashing.exe")
           .value();
-  ChildLauncher child(child_test_executable, base::UTF8ToUTF16(pipe_name));
+  ChildLauncher child(child_test_executable, pipe_name);
   child.Start();
 
   // The child tells us (approximately) where it will capture a dump.

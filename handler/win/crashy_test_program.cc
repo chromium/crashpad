@@ -106,13 +106,14 @@ int CrashyMain(int argc, wchar_t* argv[]) {
                              base::FilePath(argv[2]),
                              std::string(),
                              std::map<std::string, std::string>(),
-                             std::vector<std::string>())) {
+                             std::vector<std::string>(),
+                             false)) {
       LOG(ERROR) << "StartHandler";
       return EXIT_FAILURE;
     }
   } else {
-    fprintf(stderr, "Usage: %s <server_pipe_name>\n", argv[0]);
-    fprintf(stderr, "       %s <handler_path> <database_path>\n", argv[0]);
+    fprintf(stderr, "Usage: %ls <server_pipe_name>\n", argv[0]);
+    fprintf(stderr, "       %ls <handler_path> <database_path>\n", argv[0]);
     return EXIT_FAILURE;
   }
 

@@ -14,7 +14,12 @@
 
 #include "handler/mac/exception_handler_server.h"
 
+#include <signal.h>
+
+#include "base/auto_reset.h"
 #include "base/logging.h"
+#include "base/memory/scoped_ptr.h"
+#include "base/scoped_generic.h"
 #include "base/mac/mach_logging.h"
 #include "util/mach/composite_mach_message_server.h"
 #include "util/mach/mach_extensions.h"
@@ -26,11 +31,59 @@ namespace crashpad {
 
 namespace {
 
+struct ResetSIGTERMTraits {
+  static struct sigaction* InvalidValue() {
+    return nullptr;
+  }
+
+  static void Free(struct sigaction* sa) {
+    int rv = sigaction(SIGTERM, sa, nullptr);
+    PLOG_IF(ERROR, rv != 0) << "sigaction";
+  }
+};
+using ScopedResetSIGTERM =
+    base::ScopedGeneric<struct sigaction*, ResetSIGTERMTraits>;
+
+mach_port_t g_signal_notify_port;
+
+// This signal handler is only operative when being run from launchd. It causes
+// the exception handler server to stop running by sending it a synthesized
+// no-senders notification.
+void HandleSIGTERM(int sig, siginfo_t* siginfo, void* context) {
+  DCHECK(g_signal_notify_port);
+
+  // mach_no_senders_notification_t defines the receive side of this structure,
+  // with a trailer element that’s undesirable for the send side.
+  struct {
+    mach_msg_header_t header;
+    NDR_record_t ndr;
+    mach_msg_type_number_t mscount;
+  } no_senders_notification = {};
+  no_senders_notification.header.msgh_bits =
+      MACH_MSGH_BITS(MACH_MSG_TYPE_MAKE_SEND_ONCE, 0);
+  no_senders_notification.header.msgh_size = sizeof(no_senders_notification);
+  no_senders_notification.header.msgh_remote_port = g_signal_notify_port;
+  no_senders_notification.header.msgh_local_port = MACH_PORT_NULL;
+  no_senders_notification.header.msgh_id = MACH_NOTIFY_NO_SENDERS;
+  no_senders_notification.ndr = NDR_record;
+  no_senders_notification.mscount = 0;
+
+  kern_return_t kr = mach_msg(&no_senders_notification.header,
+                              MACH_SEND_MSG,
+                              sizeof(no_senders_notification),
+                              0,
+                              MACH_PORT_NULL,
+                              MACH_MSG_TIMEOUT_NONE,
+                              MACH_PORT_NULL);
+  MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_msg";
+}
+
 class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
                                   public NotifyServer::DefaultInterface {
  public:
   ExceptionHandlerServerRun(
       mach_port_t exception_port,
+      bool launchd,
       UniversalMachExcServer::Interface* exception_interface)
       : UniversalMachExcServer::Interface(),
         NotifyServer::DefaultInterface(),
@@ -40,7 +93,8 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
         exception_interface_(exception_interface),
         exception_port_(exception_port),
         notify_port_(NewMachPort(MACH_PORT_RIGHT_RECEIVE)),
-        running_(true) {
+        running_(true),
+        launchd_(launchd) {
     CHECK(notify_port_.is_valid());
 
     composite_mach_message_server_.AddHandler(&mach_exc_server_);
@@ -53,22 +107,45 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
   void Run() {
     DCHECK(running_);
 
-    // Request that a no-senders notification for exception_port_ be sent to
-    // notify_port_.
-    mach_port_t previous;
-    kern_return_t kr =
-        mach_port_request_notification(mach_task_self(),
-                                       exception_port_,
-                                       MACH_NOTIFY_NO_SENDERS,
-                                       0,
-                                       notify_port_.get(),
-                                       MACH_MSG_TYPE_MAKE_SEND_ONCE,
-                                       &previous);
-    MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_request_notification";
+    kern_return_t kr;
+    scoped_ptr<base::AutoReset<mach_port_t>> reset_signal_notify_port;
+    struct sigaction old_sa;
+    ScopedResetSIGTERM reset_sigterm;
+    if (!launchd_) {
+      // Request that a no-senders notification for exception_port_ be sent to
+      // notify_port_.
+      mach_port_t previous;
+      kr = mach_port_request_notification(mach_task_self(),
+                                          exception_port_,
+                                          MACH_NOTIFY_NO_SENDERS,
+                                          0,
+                                          notify_port_.get(),
+                                          MACH_MSG_TYPE_MAKE_SEND_ONCE,
+                                          &previous);
+      MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_request_notification";
 
-    if (previous != MACH_PORT_NULL) {
-      kr = mach_port_deallocate(mach_task_self(), previous);
-      MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_deallocate";
+      if (previous != MACH_PORT_NULL) {
+        kr = mach_port_deallocate(mach_task_self(), previous);
+        MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_deallocate";
+      }
+    } else {
+      // A real no-senders notification would never be triggered, because
+      // launchd maintains a send right to the service. When launchd wants the
+      // job to exit, it will send a SIGTERM. See launchd.plist(5).
+      //
+      // Set up a SIGTERM handler that will cause Run() to return (incidentally,
+      // by sending a synthetic no-senders notification).
+      struct sigaction sa = {};
+      sigemptyset(&sa.sa_mask);
+      sa.sa_flags = SA_SIGINFO;
+      sa.sa_sigaction = HandleSIGTERM;
+      int rv = sigaction(SIGTERM, &sa, &old_sa);
+      PCHECK(rv == 0) << "sigaction";
+      reset_sigterm.reset(&old_sa);
+
+      DCHECK(!g_signal_notify_port);
+      reset_signal_notify_port.reset(new base::AutoReset<mach_port_t>(
+          &g_signal_notify_port, notify_port_.get()));
     }
 
     // A single CompositeMachMessageServer will dispatch both exception messages
@@ -81,6 +158,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
     // the proper send right.
     base::mac::ScopedMachPortSet server_port_set(
         NewMachPort(MACH_PORT_RIGHT_PORT_SET));
+    CHECK(server_port_set.is_valid());
 
     kr = mach_port_insert_member(
         mach_task_self(), exception_port_, server_port_set.get());
@@ -173,6 +251,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
   mach_port_t exception_port_;  // weak
   base::mac::ScopedMachReceiveRight notify_port_;
   bool running_;
+  bool launchd_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionHandlerServerRun);
 };
@@ -180,8 +259,10 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
 }  // namespace
 
 ExceptionHandlerServer::ExceptionHandlerServer(
-    base::mac::ScopedMachReceiveRight receive_port)
-    : receive_port_(receive_port.Pass()) {
+    base::mac::ScopedMachReceiveRight receive_port,
+    bool launchd)
+    : receive_port_(receive_port.Pass()),
+      launchd_(launchd) {
   CHECK(receive_port_.is_valid());
 }
 
@@ -190,7 +271,8 @@ ExceptionHandlerServer::~ExceptionHandlerServer() {
 
 void ExceptionHandlerServer::Run(
     UniversalMachExcServer::Interface* exception_interface) {
-  ExceptionHandlerServerRun run(receive_port_.get(), exception_interface);
+  ExceptionHandlerServerRun run(
+      receive_port_.get(), launchd_, exception_interface);
   run.Run();
 }
 
