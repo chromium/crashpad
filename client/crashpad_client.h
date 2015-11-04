@@ -42,10 +42,9 @@ class CrashpadClient {
   //!     handshake to configure it.
   //!
   //! This method does not actually direct any crashes to the Crashpad handler,
-  //! because there may be alternative ways to use an existing Crashpad handler
-  //! without having to start one. To begin directing crashes to the handler,
-  //! started by this method, call UseHandler() after this method returns
-  //! successfully.
+  //! because there are alternative ways to use an existing Crashpad handler. To
+  //! begin directing crashes to the handler started by this method, call
+  //! UseHandler() after this method returns successfully.
   //!
   //! On Mac OS X, this method starts a Crashpad handler and obtains a Mach
   //! send right corresponding to a receive right held by the handler process.
@@ -76,12 +75,45 @@ class CrashpadClient {
                     const std::vector<std::string>& arguments,
                     bool restartable);
 
+#if defined(OS_MACOSX) || DOXYGEN
+  //! \brief Sets the process’ crash handler to a Mach service registered with
+  //!     the bootstrap server.
+  //!
+  //! This method does not actually direct any crashes to the Crashpad handler,
+  //! because there are alternative ways to start or use an existing Crashpad
+  //! handler. To begin directing crashes to the handler set by this method,
+  //! call UseHandler() after this method returns successfully.
+  //!
+  //! This method is only defined on OS X.
+  //!
+  //! \param[in] service_name The service name of a Crashpad exception handler
+  //!     service previously registered with the bootstrap server.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool SetHandlerMachService(const std::string& service_name);
+
+  //! \brief Sets the process’ crash handler to a Mach port.
+  //!
+  //! This method does not actually direct any crashes to the Crashpad handler,
+  //! because there are alternative ways to start or use an existing Crashpad
+  //! handler. To begin directing crashes to the handler set by this method,
+  //! call UseHandler() after this method.
+  //!
+  //! This method is only defined on OS X.
+  //!
+  //! \param[in] exception_port An `exception_port_t` corresponding to a
+  //!     Crashpad exception handler service.
+  void SetHandlerMachPort(base::mac::ScopedMachSendRight exception_port);
+#endif
+
 #if defined(OS_WIN) || DOXYGEN
   //! \brief Sets the IPC pipe of a presumably-running Crashpad handler process
   //!     which was started with StartHandler() or by other compatible means
   //!     and does an IPC message exchange to register this process with the
   //!     handler. However, just like StartHandler(), crashes are not serviced
   //!     until UseHandler() is called.
+  //!
+  //! This method is only defined on Windows.
   //!
   //! \param[in] ipc_pipe The full name of the crash handler IPC pipe. This is
   //!     a string of the form `&quot;\\.\pipe\NAME&quot;`.
@@ -115,7 +147,8 @@ class CrashpadClient {
   //! \brief Configures the process to direct its crashes to a Crashpad handler.
   //!
   //! The Crashpad handler must previously have been started by StartHandler()
-  //! or configured by SetHandlerIPCPipe().
+  //! or configured by SetHandlerMachService(), SetHandlerMachPort(), or
+  //! SetHandlerIPCPipe().
   //!
   //! On Mac OS X, this method sets the task’s exception port for `EXC_CRASH`,
   //! `EXC_RESOURCE`, and `EXC_GUARD` exceptions to the Mach send right obtained

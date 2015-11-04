@@ -517,18 +517,35 @@ bool CrashpadClient::StartHandler(
   // The “restartable” behavior can only be selected on OS X 10.10 and later. In
   // previous OS versions, if the initial client were to crash while attempting
   // to restart the handler, it would become an unkillable process.
-  exception_port_ = HandlerStarter::InitialStart(
+  base::mac::ScopedMachSendRight exception_port(HandlerStarter::InitialStart(
       handler,
       database,
       url,
       annotations,
       arguments,
-      restartable && MacOSXMinorVersion() >= 10);
-  if (!exception_port_.is_valid()) {
+      restartable && MacOSXMinorVersion() >= 10));
+  if (!exception_port.is_valid()) {
     return false;
   }
 
+  SetHandlerMachPort(exception_port.Pass());
   return true;
+}
+
+bool CrashpadClient::SetHandlerMachService(const std::string& service_name) {
+  base::mac::ScopedMachSendRight exception_port(BootstrapLookUp(service_name));
+  if (!exception_port.is_valid()) {
+    return false;
+  }
+
+  SetHandlerMachPort(exception_port.Pass());
+  return true;
+}
+
+void CrashpadClient::SetHandlerMachPort(
+    base::mac::ScopedMachSendRight exception_port) {
+  DCHECK(exception_port.is_valid());
+  exception_port_ = exception_port.Pass();
 }
 
 bool CrashpadClient::UseHandler() {

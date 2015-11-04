@@ -33,13 +33,21 @@ collection server. Uploads are disabled by default, and can only be enabled by a
 Crashpad client using the Crashpad client library, typically in response to a
 user requesting this behavior.
 
-On OS X, this server is normally started by its initial client, and it performs
-a handshake with this client via a pipe established by the client that is
-inherited by the server, referenced by the *--handshake-fd* argument. During the
-handshake, the server furnishes the client with a send right that the client may
-use as an exception port. The server retains the corresponding receive right,
-which it monitors for exception messages. When the receive right loses all
-senders, the server exits after allowing any upload in progress to complete.
+On OS X, this server may be started by its initial client, in which case it
+performs a handshake with this client via a pipe established by the client that
+is inherited by the server, referenced by the *--handshake-fd* argument. During
+the handshake, the server furnishes the client with a send right that the client
+may use as an exception port. The server retains the corresponding receive
+right, which it monitors for exception messages. When the receive right loses
+all senders, the server exits after allowing any upload in progress to complete.
+
+Alternatively, on OS X, this server may be started from launchd(8), where it
+receives the Mach service name in a *--mach-service* argument. It checks in with
+the bootstrap server under this service name, and clients may look it up with
+the bootstrap server under this service name. It monitors this service for
+exception messages. Upon receipt of +SIGTERM+, the server exits after allowing
+any upload in progress to complete. +SIGTERM+ is normally sent by launchd(8)
+when it determines that the server should exit.
 
 On Windows, clients register with this server by communicating with it via the
 named pipe identified by the *--pipe-name* argument. During registration, a
@@ -51,10 +59,10 @@ to exit cleanly without crashing. When the server loses all clients and
 to complete.
 
 It is not normally appropriate to invoke this program directly. Usually, it will
-be invoked by a Crashpad client using the Crashpad client library. Arbitrary
-programs may be run with a Crashpad handler by using
-man_link:run_with_crashpad[1] to establish the Crashpad client environment
-before running a program.
+be invoked by a Crashpad client using the Crashpad client library, or started by
+another system service. On OS X, arbitrary programs may be run with a Crashpad
+handler by using man_link:run_with_crashpad[1] to establish the Crashpad client
+environment before running a program.
 
 == Options
 *--annotation*='KEY=VALUE'::
@@ -84,7 +92,18 @@ of 'PATH' exists.
 
 *--handshake-fd*='FD'::
 Perform the handshake with the initial client on the file descriptor at 'FD'.
-This option is required. This option is only valid on Mac OS X.
+Either this option or *--mach-service*, but not both, is required. This option
+is only valid on OS X.
+
+*--mach-service*='SERVICE'::
+Check in with the bootstrap server under the name 'SERVICE'. Either this option
+or *--handshake-fd*, but not both, is required. This option is only valid on OS
+X.
++
+'SERVICE' may already be reserved with the bootstrap server in cases where this
+tool is started by launchd(8) as a result of a message being sent to a service
+declared in a job’s +MachServices+ dictionary (see launchd.plist(5)). The
+service name may also be completely unknown to the system.
 
 *--persistent*::
 Continue running after the last client exits. If this option is not specified,

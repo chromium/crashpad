@@ -38,6 +38,7 @@
 #include "handler/mac/crash_report_exception_handler.h"
 #include "handler/mac/exception_handler_server.h"
 #include "util/mach/child_port_handshake.h"
+#include "util/mach/mach_extensions.h"
 #include "util/posix/close_stdio.h"
 #elif defined(OS_WIN)
 #include <windows.h>
@@ -57,6 +58,7 @@ void Usage(const base::FilePath& me) {
 "      --database=PATH         store the crash report database at PATH\n"
 #if defined(OS_MACOSX)
 "      --handshake-fd=FD       establish communication with the client over FD\n"
+"      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
 "      --reset-own-crash-exception-port-to-system-default\n"
 "                              reset the server's exception handler to default\n"
 #elif defined(OS_WIN)
@@ -83,6 +85,7 @@ int HandlerMain(int argc, char* argv[]) {
     kOptionDatabase,
 #if defined(OS_MACOSX)
     kOptionHandshakeFD,
+    kOptionMachService,
     kOptionResetOwnCrashExceptionPortToSystemDefault,
 #elif defined(OS_WIN)
     kOptionPersistent,
@@ -101,6 +104,7 @@ int HandlerMain(int argc, char* argv[]) {
     const char* database;
 #if defined(OS_MACOSX)
     int handshake_fd;
+    std::string mach_service;
     bool reset_own_crash_exception_port_to_system_default;
 #elif defined(OS_WIN)
     bool persistent;
@@ -117,6 +121,7 @@ int HandlerMain(int argc, char* argv[]) {
       {"database", required_argument, nullptr, kOptionDatabase},
 #if defined(OS_MACOSX)
       {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
+      {"mach-service", required_argument, nullptr, kOptionMachService},
       {"reset-own-crash-exception-port-to-system-default",
        no_argument,
        nullptr,
@@ -162,6 +167,10 @@ int HandlerMain(int argc, char* argv[]) {
         }
         break;
       }
+      case kOptionMachService: {
+        options.mach_service = optarg;
+        break;
+      }
       case kOptionResetOwnCrashExceptionPortToSystemDefault: {
         options.reset_own_crash_exception_port_to_system_default = true;
         break;
@@ -198,8 +207,13 @@ int HandlerMain(int argc, char* argv[]) {
   argv += optind;
 
 #if defined(OS_MACOSX)
-  if (options.handshake_fd < 0) {
-    ToolSupport::UsageHint(me, "--handshake-fd is required");
+  if (options.handshake_fd < 0 && options.mach_service.empty()) {
+    ToolSupport::UsageHint(me, "--handshake-fd or --mach-service is required");
+    return EXIT_FAILURE;
+  }
+  if (options.handshake_fd >= 0 && !options.mach_service.empty()) {
+    ToolSupport::UsageHint(
+        me, "--handshake-fd and --mach-service are incompatible");
     return EXIT_FAILURE;
   }
 #elif defined(OS_WIN)
@@ -220,21 +234,32 @@ int HandlerMain(int argc, char* argv[]) {
   }
 
 #if defined(OS_MACOSX)
-  CloseStdinAndStdout();
+  if (options.mach_service.empty()) {
+    // Don’t do this when being run by launchd. See launchd.plist(5).
+    CloseStdinAndStdout();
+  }
 
   if (options.reset_own_crash_exception_port_to_system_default) {
     CrashpadClient::UseSystemDefaultHandler();
   }
 
-  base::mac::ScopedMachReceiveRight receive_right(
-      ChildPortHandshake::RunServerForFD(
-          base::ScopedFD(options.handshake_fd),
-          ChildPortHandshake::PortRightType::kReceiveRight));
+  base::mac::ScopedMachReceiveRight receive_right;
+
+  if (options.handshake_fd >= 0) {
+    receive_right.reset(
+        ChildPortHandshake::RunServerForFD(
+            base::ScopedFD(options.handshake_fd),
+            ChildPortHandshake::PortRightType::kReceiveRight));
+  } else if (!options.mach_service.empty()) {
+    receive_right = BootstrapCheckIn(options.mach_service);
+  }
+
   if (!receive_right.is_valid()) {
     return EXIT_FAILURE;
   }
 
-  ExceptionHandlerServer exception_handler_server(receive_right.Pass());
+  ExceptionHandlerServer exception_handler_server(
+      receive_right.Pass(), !options.mach_service.empty());
 #elif defined(OS_WIN)
   ExceptionHandlerServer exception_handler_server(options.pipe_name,
                                                   options.persistent);
