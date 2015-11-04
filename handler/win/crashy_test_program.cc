@@ -112,8 +112,8 @@ int CrashyMain(int argc, wchar_t* argv[]) {
       return EXIT_FAILURE;
     }
   } else {
-    fprintf(stderr, "Usage: %s <server_pipe_name>\n", argv[0]);
-    fprintf(stderr, "       %s <handler_path> <database_path>\n", argv[0]);
+    fprintf(stderr, "Usage: %ls <server_pipe_name>\n", argv[0]);
+    fprintf(stderr, "       %ls <handler_path> <database_path>\n", argv[0]);
     return EXIT_FAILURE;
   }
 

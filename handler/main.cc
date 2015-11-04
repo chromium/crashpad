@@ -22,11 +22,13 @@
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
+#include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/crash_report_database.h"
 #include "client/crashpad_client.h"
 #include "tools/tool_support.h"
 #include "handler/crash_report_upload_thread.h"
+#include "util/file/file_io.h"
 #include "util/stdlib/map_insert.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
@@ -62,7 +64,8 @@ void Usage(const base::FilePath& me) {
 "      --reset-own-crash-exception-port-to-system-default\n"
 "                              reset the server's exception handler to default\n"
 #elif defined(OS_WIN)
-"      --persistent            continue running after all clients exit\n"
+"      --handshake-handle=HANDLE\n"
+"                              create a new pipe and send its name via HANDLE\n"
 "      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_MACOSX
 "      --url=URL               send crash reports to this Breakpad server URL,\n"
@@ -88,7 +91,7 @@ int HandlerMain(int argc, char* argv[]) {
     kOptionMachService,
     kOptionResetOwnCrashExceptionPortToSystemDefault,
 #elif defined(OS_WIN)
-    kOptionPersistent,
+    kOptionHandshakeHandle,
     kOptionPipeName,
 #endif  // OS_MACOSX
     kOptionURL,
@@ -107,13 +110,14 @@ int HandlerMain(int argc, char* argv[]) {
     std::string mach_service;
     bool reset_own_crash_exception_port_to_system_default;
 #elif defined(OS_WIN)
-    bool persistent;
+    HANDLE handshake_handle;
     std::string pipe_name;
 #endif  // OS_MACOSX
   } options = {};
 #if defined(OS_MACOSX)
   options.handshake_fd = -1;
-  options.reset_own_crash_exception_port_to_system_default = false;
+#elif defined(OS_WIN)
+  options.handshake_handle = INVALID_HANDLE_VALUE;
 #endif
 
   const option long_options[] = {
@@ -127,7 +131,7 @@ int HandlerMain(int argc, char* argv[]) {
        nullptr,
        kOptionResetOwnCrashExceptionPortToSystemDefault},
 #elif defined(OS_WIN)
-      {"persistent", no_argument, nullptr, kOptionPersistent},
+      {"handshake-handle", required_argument, nullptr, kOptionHandshakeHandle},
       {"pipe-name", required_argument, nullptr, kOptionPipeName},
 #endif  // OS_MACOSX
       {"url", required_argument, nullptr, kOptionURL},
@@ -176,8 +180,19 @@ int HandlerMain(int argc, char* argv[]) {
         break;
       }
 #elif defined(OS_WIN)
-      case kOptionPersistent: {
-        options.persistent = true;
+      case kOptionHandshakeHandle: {
+        // According to
+        // https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203,
+        // HANDLEs are always 32 bits. This construction is used to read a full
+        // 32-bit number presented by the client, which uses 0x%x format, and
+        // sign-extend it.
+        unsigned int handle_uint;
+        if (!StringToNumber(optarg, &handle_uint) ||
+            (options.handshake_handle = reinterpret_cast<HANDLE>(
+                 static_cast<int>(handle_uint))) == INVALID_HANDLE_VALUE) {
+          ToolSupport::UsageHint(me, "--handshake-handle requires a HANDLE");
+          return EXIT_FAILURE;
+        }
         break;
       }
       case kOptionPipeName: {
@@ -217,11 +232,18 @@ int HandlerMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 #elif defined(OS_WIN)
-  if (options.pipe_name.empty()) {
-    ToolSupport::UsageHint(me, "--pipe-name is required");
+  if (options.handshake_handle == INVALID_HANDLE_VALUE &&
+      options.pipe_name.empty()) {
+    ToolSupport::UsageHint(me, "--handshake-handle or --pipe-name is required");
     return EXIT_FAILURE;
   }
-#endif
+  if (options.handshake_handle != INVALID_HANDLE_VALUE &&
+      !options.pipe_name.empty()) {
+    ToolSupport::UsageHint(
+        me, "--handshake-handle and --pipe-name are incompatible");
+    return EXIT_FAILURE;
+  }
+#endif  // OS_MACOSX
 
   if (!options.database) {
     ToolSupport::UsageHint(me, "--database is required");
@@ -261,8 +283,26 @@ int HandlerMain(int argc, char* argv[]) {
   ExceptionHandlerServer exception_handler_server(
       receive_right.Pass(), !options.mach_service.empty());
 #elif defined(OS_WIN)
-  ExceptionHandlerServer exception_handler_server(options.pipe_name,
-                                                  options.persistent);
+  ExceptionHandlerServer exception_handler_server(!options.pipe_name.empty());
+
+  std::string pipe_name;
+  if (!options.pipe_name.empty()) {
+    exception_handler_server.SetPipeName(base::UTF8ToUTF16(options.pipe_name));
+  } else if (options.handshake_handle != INVALID_HANDLE_VALUE) {
+    std::wstring pipe_name = exception_handler_server.CreatePipe();
+
+    uint32_t pipe_name_length = static_cast<uint32_t>(pipe_name.size());
+    if (!LoggingWriteFile(options.handshake_handle,
+                          &pipe_name_length,
+                          sizeof(pipe_name_length))) {
+      return EXIT_FAILURE;
+    }
+    if (!LoggingWriteFile(options.handshake_handle,
+                          pipe_name.c_str(),
+                          pipe_name.size() * sizeof(pipe_name[0]))) {
+      return EXIT_FAILURE;
+    }
+  }
 #endif  // OS_MACOSX
 
   scoped_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(

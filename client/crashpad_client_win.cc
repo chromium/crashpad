@@ -19,7 +19,6 @@
 
 #include "base/atomicops.h"
 #include "base/logging.h"
-#include "base/rand_util.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
@@ -130,12 +129,21 @@ bool CrashpadClient::StartHandler(
     bool restartable) {
   DCHECK(ipc_pipe_.empty());
 
-  std::string ipc_pipe =
-      base::StringPrintf("\\\\.\\pipe\\crashpad_%d_", GetCurrentProcessId());
-  for (int index = 0; index < 16; ++index) {
-    ipc_pipe.append(1, static_cast<char>(base::RandInt('A', 'Z')));
+  HANDLE pipe_read;
+  HANDLE pipe_write;
+  SECURITY_ATTRIBUTES security_attributes = {};
+  security_attributes.nLength = sizeof(security_attributes);
+  security_attributes.bInheritHandle = TRUE;
+  if (!CreatePipe(&pipe_read, &pipe_write, &security_attributes, 0)) {
+    PLOG(ERROR) << "CreatePipe";
+    return false;
   }
-  ipc_pipe_ = base::UTF8ToUTF16(ipc_pipe);
+  ScopedFileHandle pipe_read_owner(pipe_read);
+  ScopedFileHandle pipe_write_owner(pipe_write);
+
+  // The new process only needs the write side of the pipe.
+  BOOL rv = SetHandleInformation(pipe_read, HANDLE_FLAG_INHERIT, 0);
+  PLOG_IF(WARNING, !rv) << "SetHandleInformation";
 
   std::wstring command_line;
   AppendCommandLineArgument(handler.value(), &command_line);
@@ -158,8 +166,14 @@ bool CrashpadClient::StartHandler(
                              base::UTF8ToUTF16(kv.first + '=' + kv.second)),
         &command_line);
   }
-  AppendCommandLineArgument(FormatArgumentString("pipe-name", ipc_pipe_),
-                            &command_line);
+
+  // According to
+  // https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203, HANDLEs
+  // are always 32 bits.
+  AppendCommandLineArgument(
+      base::UTF8ToUTF16(base::StringPrintf("--handshake-handle=0x%x",
+                                           pipe_write)),
+      &command_line);
 
   STARTUPINFO startup_info = {};
   startup_info.cb = sizeof(startup_info);
@@ -168,16 +182,16 @@ bool CrashpadClient::StartHandler(
   startup_info.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
   startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
   PROCESS_INFORMATION process_info;
-  BOOL rv = CreateProcess(handler.value().c_str(),
-                          &command_line[0],
-                          nullptr,
-                          nullptr,
-                          true,
-                          0,
-                          nullptr,
-                          nullptr,
-                          &startup_info,
-                          &process_info);
+  rv = CreateProcess(handler.value().c_str(),
+                     &command_line[0],
+                     nullptr,
+                     nullptr,
+                     true,
+                     0,
+                     nullptr,
+                     nullptr,
+                     &startup_info,
+                     &process_info);
   if (!rv) {
     PLOG(ERROR) << "CreateProcess";
     return false;
@@ -188,6 +202,20 @@ bool CrashpadClient::StartHandler(
 
   rv = CloseHandle(process_info.hProcess);
   PLOG_IF(WARNING, !rv) << "CloseHandle process";
+
+  pipe_write_owner.reset();
+
+  uint32_t ipc_pipe_length;
+  if (!LoggingReadFile(pipe_read, &ipc_pipe_length, sizeof(ipc_pipe_length))) {
+    return false;
+  }
+
+  ipc_pipe_.resize(ipc_pipe_length);
+  if (ipc_pipe_length &&
+      !LoggingReadFile(
+          pipe_read, &ipc_pipe_[0], ipc_pipe_length * sizeof(ipc_pipe_[0]))) {
+    return false;
+  }
 
   return true;
 }

@@ -20,7 +20,6 @@
 #include <vector>
 
 #include "base/basictypes.h"
-#include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_client.h"
 #include "gtest/gtest.h"
@@ -80,23 +79,22 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
 class ExceptionHandlerServerTest : public testing::Test {
  public:
   ExceptionHandlerServerTest()
-      : pipe_name_("\\\\.\\pipe\\exception_handler_server_test_pipe_" +
-                   base::StringPrintf("%08x", GetCurrentProcessId())),
+      : server_(true),
+        pipe_name_(server_.CreatePipe()),
         server_ready_(CreateEvent(nullptr, false, false, nullptr)),
         delegate_(server_ready_.get()),
-        server_(pipe_name_, true),
         server_thread_(&server_, &delegate_) {}
 
   TestDelegate& delegate() { return delegate_; }
   ExceptionHandlerServer& server() { return server_; }
   Thread& server_thread() { return server_thread_; }
-  const std::string& pipe_name() const { return pipe_name_; }
+  const std::wstring& pipe_name() const { return pipe_name_; }
 
  private:
-  std::string pipe_name_;
+  ExceptionHandlerServer server_;
+  std::wstring pipe_name_;
   ScopedKernelHANDLE server_ready_;
   TestDelegate delegate_;
-  ExceptionHandlerServer server_;
   RunServerThread server_thread_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionHandlerServerTest);
@@ -135,23 +133,27 @@ TEST_F(ExceptionHandlerServerTest, StopWhileConnected) {
       &server(), &server_thread());
   ASSERT_NO_FATAL_FAILURE(delegate().WaitForStart());
   CrashpadClient client;
-  client.SetHandlerIPCPipe(base::UTF8ToUTF16(pipe_name()));
+  client.SetHandlerIPCPipe(pipe_name());
   // Leaving this scope causes the server to be stopped, while the connection
   // is still open.
 }
 
-std::string ReadString(FileHandle handle) {
+std::wstring ReadWString(FileHandle handle) {
   size_t length = 0;
   EXPECT_TRUE(LoggingReadFile(handle, &length, sizeof(length)));
-  scoped_ptr<char[]> buffer(new char[length]);
-  EXPECT_TRUE(LoggingReadFile(handle, &buffer[0], length));
-  return std::string(&buffer[0], length);
+  std::wstring str(length, L'\0');
+  if (length > 0) {
+    EXPECT_TRUE(LoggingReadFile(handle, &str[0], length * sizeof(str[0])));
+  }
+  return str;
 }
 
-void WriteString(FileHandle handle, const std::string& str) {
+void WriteWString(FileHandle handle, const std::wstring& str) {
   size_t length = str.size();
   EXPECT_TRUE(LoggingWriteFile(handle, &length, sizeof(length)));
-  EXPECT_TRUE(LoggingWriteFile(handle, &str[0], length));
+  if (length > 0) {
+    EXPECT_TRUE(LoggingWriteFile(handle, &str[0], length * sizeof(str[0])));
+  }
 }
 
 class TestClient final : public WinChildProcess {
@@ -162,7 +164,7 @@ class TestClient final : public WinChildProcess {
 
  private:
   int Run() override {
-    std::wstring pipe_name = base::UTF8ToUTF16(ReadString(ReadPipeHandle()));
+    std::wstring pipe_name = ReadWString(ReadPipeHandle());
     CrashpadClient client;
     if (!client.SetHandlerIPCPipe(pipe_name)) {
       ADD_FAILURE();
@@ -172,7 +174,7 @@ class TestClient final : public WinChildProcess {
       ADD_FAILURE();
       return EXIT_FAILURE;
     }
-    WriteString(WritePipeHandle(), "OK");
+    WriteWString(WritePipeHandle(), L"OK");
     return EXIT_SUCCESS;
   }
 
@@ -194,13 +196,13 @@ TEST_F(ExceptionHandlerServerTest, MultipleConnections) {
     ASSERT_NO_FATAL_FAILURE(delegate().WaitForStart());
 
     // Tell all the children where to connect.
-    WriteString(handles_1->write.get(), pipe_name());
-    WriteString(handles_2->write.get(), pipe_name());
-    WriteString(handles_3->write.get(), pipe_name());
+    WriteWString(handles_1->write.get(), pipe_name());
+    WriteWString(handles_2->write.get(), pipe_name());
+    WriteWString(handles_3->write.get(), pipe_name());
 
-    ASSERT_EQ("OK", ReadString(handles_3->read.get()));
-    ASSERT_EQ("OK", ReadString(handles_2->read.get()));
-    ASSERT_EQ("OK", ReadString(handles_1->read.get()));
+    ASSERT_EQ(L"OK", ReadWString(handles_3->read.get()));
+    ASSERT_EQ(L"OK", ReadWString(handles_2->read.get()));
+    ASSERT_EQ(L"OK", ReadWString(handles_1->read.get()));
   }
 }
 
