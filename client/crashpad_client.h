@@ -63,13 +63,18 @@ class CrashpadClient {
   //!     Arguments passed in other parameters and arguments required to perform
   //!     the handshake are the responsibility of this method, and must not be
   //!     specified in this parameter.
+  //! \param[in] restartable If `true`, the handler will be restarted if it
+  //!     dies, if this behavior is supported. This option is not available on
+  //!     all platforms, and does not function on all OS versions. If it is
+  //!     not supported, it will be ignored.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
   bool StartHandler(const base::FilePath& handler,
                     const base::FilePath& database,
                     const std::string& url,
                     const std::map<std::string, std::string>& annotations,
-                    const std::vector<std::string>& arguments);
+                    const std::vector<std::string>& arguments,
+                    bool restartable);
 
 #if defined(OS_WIN) || DOXYGEN
   //! \brief Sets the IPC pipe of a presumably-running Crashpad handler process

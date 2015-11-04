@@ -166,7 +166,8 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
                                     base::FilePath(options.database),
                                     options.url,
                                     options.annotations,
-                                    options.arguments)) {
+                                    options.arguments,
+                                    false)) {
     return kExitFailure;
   }
 

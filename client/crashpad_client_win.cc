@@ -126,7 +126,8 @@ bool CrashpadClient::StartHandler(
     const base::FilePath& database,
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
-    const std::vector<std::string>& arguments) {
+    const std::vector<std::string>& arguments,
+    bool restartable) {
   DCHECK(ipc_pipe_.empty());
 
   std::string ipc_pipe =
