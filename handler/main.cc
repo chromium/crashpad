@@ -190,6 +190,7 @@ int HandlerMain(int argc, char* argv[]) {
                 INVALID_HANDLE_VALUE) {
           ToolSupport::UsageHint(me, "--handshake-handle requires a HANDLE");
           return EXIT_FAILURE;
+        }
         break;
       }
       case kOptionPipeName: {
