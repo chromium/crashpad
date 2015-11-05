@@ -26,6 +26,7 @@
 #include "build/build_config.h"
 #include "util/numeric/safe_assignment.h"
 #include "util/win/get_function.h"
+#include "util/win/handle.h"
 #include "util/win/nt_internals.h"
 #include "util/win/ntstatus_logging.h"
 #include "util/win/process_structs.h"
@@ -181,10 +182,8 @@ bool GetProcessBasicInformation(HANDLE process,
     return false;
   }
 
-  // See https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203 on
-  // 32 bit being the correct size for HANDLEs for proceses, even on Windows
-  // x64. API functions (e.g. OpenProcess) take only a DWORD, so there's no
-  // sense in maintaining the top bits.
+  // API functions (e.g. OpenProcess) take only a DWORD, so there's no sense in
+  // maintaining the top bits.
   process_info->process_id_ =
       static_cast<DWORD>(process_basic_information.UniqueProcessId);
   process_info->inherited_from_process_id_ = static_cast<DWORD>(
@@ -390,15 +389,14 @@ std::vector<ProcessInfo::Handle> ProcessInfo::BuildHandleVector(
       continue;
 
     Handle result_handle;
-    result_handle.handle =
-        static_cast<uint32_t>(reinterpret_cast<uintptr_t>(handle.HandleValue));
+    result_handle.handle = HandleToInt(handle.HandleValue);
     result_handle.attributes = handle.HandleAttributes;
     result_handle.granted_access = handle.GrantedAccess;
 
     // TODO(scottmg): Could special case for self.
     HANDLE dup_handle;
     if (DuplicateHandle(process,
-                        reinterpret_cast<HANDLE>(handle.HandleValue),
+                        handle.HandleValue,
                         GetCurrentProcess(),
                         &dup_handle,
                         0,

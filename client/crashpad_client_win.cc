@@ -26,6 +26,7 @@
 #include "util/file/file_io.h"
 #include "util/win/command_line.h"
 #include "util/win/critical_section_with_debug_info.h"
+#include "util/win/handle.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
 
@@ -166,13 +167,9 @@ bool CrashpadClient::StartHandler(
                              base::UTF8ToUTF16(kv.first + '=' + kv.second)),
         &command_line);
   }
-
-  // According to
-  // https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203, HANDLEs
-  // are always 32 bits.
   AppendCommandLineArgument(
       base::UTF8ToUTF16(base::StringPrintf("--handshake-handle=0x%x",
-                                           pipe_write)),
+                                           HandleToInt(pipe_write))),
       &command_line);
 
   STARTUPINFO startup_info = {};
@@ -271,12 +268,12 @@ bool CrashpadClient::UseHandler() {
   }
 
   // The server returns these already duplicated to be valid in this process.
-  g_signal_exception = reinterpret_cast<HANDLE>(
-      static_cast<uintptr_t>(response.registration.request_crash_dump_event));
-  g_signal_non_crash_dump = reinterpret_cast<HANDLE>(static_cast<uintptr_t>(
-      response.registration.request_non_crash_dump_event));
-  g_non_crash_dump_done = reinterpret_cast<HANDLE>(static_cast<uintptr_t>(
-      response.registration.non_crash_dump_completed_event));
+  g_signal_exception =
+      IntToHandle(response.registration.request_crash_dump_event);
+  g_signal_non_crash_dump =
+      IntToHandle(response.registration.request_non_crash_dump_event);
+  g_non_crash_dump_done =
+      IntToHandle(response.registration.non_crash_dump_completed_event);
 
   g_non_crash_dump_lock = new base::Lock();
 

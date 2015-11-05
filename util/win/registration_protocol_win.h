@@ -93,11 +93,6 @@ struct ClientToServerMessage {
 };
 
 //! \brief  A client registration response.
-//!
-//! See <a
-//! href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203">Interprocess
-//! Communication Between 32-bit and 64-bit Applications</a> for details on
-//! communicating handle values between processes of varying bitness.
 struct RegistrationResponse {
   //! \brief An event `HANDLE`, valid in the client process, that should be
   //!     signaled to request a crash report. 64-bit clients should convert the

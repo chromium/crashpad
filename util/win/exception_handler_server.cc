@@ -28,6 +28,7 @@
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 #include "util/win/get_function.h"
+#include "util/win/handle.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/xp_compat.h"
 
@@ -489,14 +490,14 @@ bool ExceptionHandlerServer::ServiceClientConnection(
   // Duplicate the events back to the client so they can request a dump.
   ServerToClientMessage response;
   response.registration.request_crash_dump_event =
-      base::checked_cast<uint32_t>(reinterpret_cast<uintptr_t>(DuplicateEvent(
-          client->process(), client->crash_dump_requested_event())));
+      HandleToInt(DuplicateEvent(
+          client->process(), client->crash_dump_requested_event()));
   response.registration.request_non_crash_dump_event =
-      base::checked_cast<uint32_t>(reinterpret_cast<uintptr_t>(DuplicateEvent(
-          client->process(), client->non_crash_dump_requested_event())));
+      HandleToInt(DuplicateEvent(
+          client->process(), client->non_crash_dump_requested_event()));
   response.registration.non_crash_dump_completed_event =
-      base::checked_cast<uint32_t>(reinterpret_cast<uintptr_t>(DuplicateEvent(
-          client->process(), client->non_crash_dump_completed_event())));
+      HandleToInt(DuplicateEvent(
+          client->process(), client->non_crash_dump_completed_event()));
 
   if (!LoggingWriteFile(service_context.pipe(), &response, sizeof(response)))
     return false;

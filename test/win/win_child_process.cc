@@ -25,6 +25,7 @@
 #include "gtest/gtest.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
+#include "util/win/handle.h"
 #include "test/paths.h"
 
 namespace crashpad {
@@ -152,8 +153,8 @@ WinChildProcess::WinChildProcess() {
   unsigned int write, read;
   CHECK(StringToNumber(left, &write));
   CHECK(StringToNumber(right, &read));
-  pipe_write_.reset(reinterpret_cast<HANDLE>(static_cast<uintptr_t>(write)));
-  pipe_read_.reset(reinterpret_cast<HANDLE>(static_cast<uintptr_t>(read)));
+  pipe_write_.reset(IntToHandle(write));
+  pipe_read_.reset(IntToHandle(read));
 
   // Notify the parent that it's OK to proceed. We only need to wait to get to
   // the process entry point, but this is the easiest place we can notify.
@@ -193,8 +194,8 @@ scoped_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
                                            test_info->test_case_name(),
                                            test_info->name(),
                                            kIsMultiprocessChild,
-                                           write_for_child,
-                                           read_for_child.get()));
+                                           HandleToInt(write_for_child.get()),
+                                           HandleToInt(read_for_child.get())));
 
   // Command-line buffer cannot be constant, per CreateProcess signature.
   handles_for_parent->process = LaunchCommandLine(&command_line[0]);

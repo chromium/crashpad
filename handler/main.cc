@@ -46,6 +46,7 @@
 #include <windows.h>
 #include "handler/win/crash_report_exception_handler.h"
 #include "util/win/exception_handler_server.h"
+#include "util/win/handle.h"
 #endif  // OS_MACOSX
 
 namespace crashpad {
@@ -181,18 +182,14 @@ int HandlerMain(int argc, char* argv[]) {
       }
 #elif defined(OS_WIN)
       case kOptionHandshakeHandle: {
-        // According to
-        // https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203,
-        // HANDLEs are always 32 bits. This construction is used to read a full
-        // 32-bit number presented by the client, which uses 0x%x format, and
-        // sign-extend it.
+        // Use unsigned int, because the handle was presented by the client in
+        // 0x%x format.
         unsigned int handle_uint;
         if (!StringToNumber(optarg, &handle_uint) ||
-            (options.handshake_handle = reinterpret_cast<HANDLE>(
-                 static_cast<int>(handle_uint))) == INVALID_HANDLE_VALUE) {
+            (options.handshake_handle = IntToHandle(handle_uint)) ==
+                INVALID_HANDLE_VALUE) {
           ToolSupport::UsageHint(me, "--handshake-handle requires a HANDLE");
           return EXIT_FAILURE;
-        }
         break;
       }
       case kOptionPipeName: {

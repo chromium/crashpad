@@ -160,6 +160,8 @@
         'win/exception_handler_server.h',
         'win/get_function.cc',
         'win/get_function.h',
+        'win/handle.cc',
+        'win/handle.h',
         'win/module_version.cc',
         'win/module_version.h',
         'win/nt_internals.cc',
