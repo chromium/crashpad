@@ -538,14 +538,16 @@ TEST(ProcessInfo, Handles) {
   ASSERT_TRUE(file.is_valid());
 
   SECURITY_ATTRIBUTES security_attributes = {0};
+  security_attributes.nLength = sizeof(security_attributes);
   security_attributes.bInheritHandle = true;
-  ScopedFileHandle inherited_file(CreateFile(L"CONOUT$",
-                                             GENERIC_WRITE,
-                                             0,
-                                             &security_attributes,
-                                             OPEN_EXISTING,
-                                             FILE_ATTRIBUTE_NORMAL,
-                                             nullptr));
+  ScopedFileHandle inherited_file(CreateFile(
+      temp_dir.path().Append(FILE_PATH_LITERAL("inheritable")).value().c_str(),
+      GENERIC_WRITE,
+      0,
+      &security_attributes,
+      CREATE_NEW,
+      FILE_ATTRIBUTE_NORMAL,
+      nullptr));
   ASSERT_TRUE(inherited_file.is_valid());
 
   HKEY key;
