@@ -19,6 +19,8 @@
 
 #include "base/atomicops.h"
 #include "base/logging.h"
+#include "base/memory/scoped_ptr.h"
+#include "base/scoped_generic.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
@@ -26,6 +28,7 @@
 #include "util/file/file_io.h"
 #include "util/win/command_line.h"
 #include "util/win/critical_section_with_debug_info.h"
+#include "util/win/get_function.h"
 #include "util/win/handle.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
@@ -110,6 +113,40 @@ std::wstring FormatArgumentString(const std::string& name,
   return std::wstring(L"--") + base::UTF8ToUTF16(name) + L"=" + value;
 }
 
+struct ScopedProcThreadAttributeListTraits {
+  static PPROC_THREAD_ATTRIBUTE_LIST InvalidValue() {
+    return nullptr;
+  }
+
+  static void Free(PPROC_THREAD_ATTRIBUTE_LIST proc_thread_attribute_list) {
+    // This is able to use GET_FUNCTION_REQUIRED() instead of GET_FUNCTION()
+    // because it will only be called if InitializeProcThreadAttributeList() and
+    // UpdateProcThreadAttribute() are present.
+    static const auto delete_proc_thread_attribute_list =
+        GET_FUNCTION_REQUIRED(L"kernel32.dll", ::DeleteProcThreadAttributeList);
+    delete_proc_thread_attribute_list(proc_thread_attribute_list);
+  }
+};
+
+using ScopedProcThreadAttributeList =
+    base::ScopedGeneric<PPROC_THREAD_ATTRIBUTE_LIST,
+                        ScopedProcThreadAttributeListTraits>;
+
+// Adds |handle| to |handle_list| if it appears valid.
+//
+// Invalid handles (including INVALID_HANDLE_VALUE and null handles) cannot be
+// added to a PPROC_THREAD_ATTRIBUTE_LIST’s PROC_THREAD_ATTRIBUTE_HANDLE_LIST.
+// If INVALID_HANDLE_VALUE appears, CreateProcess() will fail with
+// ERROR_INVALID_PARAMETER. If a null handle appears, the child process will
+// silently not inherit any handles.
+//
+// Use this function to add handles with uncertain validities.
+void AddHandleToListIfValid(std::vector<HANDLE>* handle_list, HANDLE handle) {
+  if (handle && handle != INVALID_HANDLE_VALUE) {
+    handle_list->push_back(handle);
+  }
+}
+
 }  // namespace
 
 namespace crashpad {
@@ -172,22 +209,85 @@ bool CrashpadClient::StartHandler(
                                            HandleToInt(pipe_write))),
       &command_line);
 
-  STARTUPINFO startup_info = {};
-  startup_info.cb = sizeof(startup_info);
-  startup_info.dwFlags = STARTF_USESTDHANDLES;
-  startup_info.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
-  startup_info.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-  startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
+  DWORD creation_flags;
+  STARTUPINFOEX startup_info = {};
+  startup_info.StartupInfo.dwFlags = STARTF_USESTDHANDLES;
+  startup_info.StartupInfo.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
+  startup_info.StartupInfo.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+  startup_info.StartupInfo.hStdError = GetStdHandle(STD_ERROR_HANDLE);
+
+  std::vector<HANDLE> handle_list;
+  scoped_ptr<uint8_t[]> proc_thread_attribute_list_storage;
+  ScopedProcThreadAttributeList proc_thread_attribute_list_owner;
+
+  static const auto initialize_proc_thread_attribute_list =
+      GET_FUNCTION(L"kernel32.dll", ::InitializeProcThreadAttributeList);
+  static const auto update_proc_thread_attribute =
+      initialize_proc_thread_attribute_list
+          ? GET_FUNCTION(L"kernel32.dll", ::UpdateProcThreadAttribute)
+          : nullptr;
+  if (!initialize_proc_thread_attribute_list || !update_proc_thread_attribute) {
+    // The OS doesn’t allow handle inheritance to be restricted, so the handler
+    // will inherit every inheritable handle.
+    creation_flags = 0;
+    startup_info.StartupInfo.cb = sizeof(startup_info.StartupInfo);
+  } else {
+    // Restrict handle inheritance to just those needed in the handler.
+
+    creation_flags = EXTENDED_STARTUPINFO_PRESENT;
+    startup_info.StartupInfo.cb = sizeof(startup_info);
+    SIZE_T size;
+    rv = initialize_proc_thread_attribute_list(nullptr, 1, 0, &size);
+    if (rv) {
+      LOG(ERROR) << "InitializeProcThreadAttributeList (size) succeeded, "
+                    "expected failure";
+      return false;
+    } else if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
+      PLOG(ERROR) << "InitializeProcThreadAttributeList (size)";
+      return false;
+    }
+
+    proc_thread_attribute_list_storage.reset(new uint8_t[size]);
+    startup_info.lpAttributeList =
+        reinterpret_cast<PPROC_THREAD_ATTRIBUTE_LIST>(
+            proc_thread_attribute_list_storage.get());
+    rv = initialize_proc_thread_attribute_list(
+        startup_info.lpAttributeList, 1, 0, &size);
+    if (!rv) {
+      PLOG(ERROR) << "InitializeProcThreadAttributeList";
+      return false;
+    }
+    proc_thread_attribute_list_owner.reset(startup_info.lpAttributeList);
+
+    handle_list.reserve(4);
+    handle_list.push_back(pipe_write);
+    AddHandleToListIfValid(&handle_list, startup_info.StartupInfo.hStdInput);
+    AddHandleToListIfValid(&handle_list, startup_info.StartupInfo.hStdOutput);
+    AddHandleToListIfValid(&handle_list, startup_info.StartupInfo.hStdError);
+    rv = update_proc_thread_attribute(
+        startup_info.lpAttributeList,
+        0,
+        PROC_THREAD_ATTRIBUTE_HANDLE_LIST,
+        &handle_list[0],
+        handle_list.size() * sizeof(handle_list[0]),
+        nullptr,
+        nullptr);
+    if (!rv) {
+      PLOG(ERROR) << "UpdateProcThreadAttribute";
+      return false;
+    }
+  }
+
   PROCESS_INFORMATION process_info;
   rv = CreateProcess(handler.value().c_str(),
                      &command_line[0],
                      nullptr,
                      nullptr,
                      true,
-                     0,
+                     creation_flags,
                      nullptr,
                      nullptr,
-                     &startup_info,
+                     &startup_info.StartupInfo,
                      &process_info);
   if (!rv) {
     PLOG(ERROR) << "CreateProcess";
