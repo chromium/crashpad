@@ -24,8 +24,8 @@ namespace crashpad {
 bool SendToCrashHandlerServer(const base::string16& pipe_name,
                               const crashpad::ClientToServerMessage& message,
                               crashpad::ServerToClientMessage* response) {
-  int tries = 5;
-  while (tries > 0) {
+  int tries = 0;
+  for (;;) {
     ScopedFileHANDLE pipe(
         CreateFile(pipe_name.c_str(),
                    GENERIC_READ | GENERIC_WRITE,
@@ -35,10 +35,20 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
                    SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION,
                    nullptr));
     if (!pipe.is_valid()) {
-      Sleep(10);
-      --tries;
+      if (++tries == 5 || GetLastError() != ERROR_PIPE_BUSY) {
+        PLOG(ERROR) << "CreateFile";
+        return false;
+      }
+
+      if (!WaitNamedPipe(pipe_name.c_str(), 1000) &&
+          GetLastError() != ERROR_SEM_TIMEOUT) {
+        PLOG(ERROR) << "WaitNamedPipe";
+        return false;
+      }
+
       continue;
     }
+
     DWORD mode = PIPE_READMODE_MESSAGE;
     if (!SetNamedPipeHandleState(pipe.get(), &mode, nullptr, nullptr)) {
       PLOG(ERROR) << "SetNamedPipeHandleState";
@@ -55,7 +65,8 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
         &bytes_read,
         nullptr);
     if (!result) {
-      PLOG(ERROR) << "TransactNamedPipe";
+      LOG(ERROR) << "TransactNamedPipe: expected " << sizeof(*response)
+                 << ", observed " << bytes_read;
       return false;
     }
     if (bytes_read != sizeof(*response)) {
@@ -64,9 +75,6 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
     }
     return true;
   }
-
-  LOG(ERROR) << "failed to connect after retrying";
-  return false;
 }
 
 }  // namespace crashpad

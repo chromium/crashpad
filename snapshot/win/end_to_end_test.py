@@ -21,6 +21,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
 
 g_temp_dirs = []
 
@@ -100,6 +101,14 @@ def GetDumpFromProgram(out_dir, pipe_name, executable_name):
           '--pipe-name=' + pipe_name,
           '--database=' + test_database
       ])
+
+      # Wait until the server is ready.
+      printed = False
+      while not os.path.exists(pipe_name):
+        if not printed:
+          print 'Waiting for crashpad_handler to be ready...'
+          printed = True
+        time.sleep(0.1)
 
       subprocess.call([os.path.join(out_dir, executable_name), pipe_name])
     else:
