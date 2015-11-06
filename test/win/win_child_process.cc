@@ -26,6 +26,7 @@
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
 #include "util/win/handle.h"
+#include "util/win/scoped_local_alloc.h"
 #include "test/paths.h"
 
 namespace crashpad {
@@ -34,20 +35,11 @@ namespace test {
 namespace {
 
 const char kIsMultiprocessChild[] = "--is-multiprocess-child";
-struct LocalFreeTraits {
-  static HLOCAL InvalidValue() { return nullptr; }
-  static void Free(HLOCAL mem) {
-    if (LocalFree(mem) != nullptr)
-      PLOG(ERROR) << "LocalFree";
-  }
-};
-
-using ScopedLocalFree = base::ScopedGeneric<HLOCAL, LocalFreeTraits>;
 
 bool GetSwitch(const char* switch_name, std::string* value) {
   int num_args;
   wchar_t** args = CommandLineToArgvW(GetCommandLine(), &num_args);
-  ScopedLocalFree scoped_args(args);  // Take ownership.
+  ScopedLocalAlloc scoped_args(args);  // Take ownership.
   if (!args) {
     PLOG(FATAL) << "CommandLineToArgvW";
     return false;

@@ -175,6 +175,8 @@
         'win/registration_protocol_win.h',
         'win/scoped_handle.cc',
         'win/scoped_handle.h',
+        'win/scoped_local_alloc.cc',
+        'win/scoped_local_alloc.h',
         'win/scoped_process_suspend.cc',
         'win/scoped_process_suspend.h',
         'win/time.cc',
@@ -246,6 +248,7 @@
         ['OS=="win"', {
           'link_settings': {
             'libraries': [
+              '-ladvapi32.lib',
               '-lrpcrt4.lib',
               '-lwinhttp.lib',
             ],

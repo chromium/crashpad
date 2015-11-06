@@ -14,6 +14,7 @@
 
 #include "util/win/exception_handler_server.h"
 
+#include <sddl.h>
 #include <string.h>
 
 #include "base/logging.h"
@@ -30,6 +31,7 @@
 #include "util/win/get_function.h"
 #include "util/win/handle.h"
 #include "util/win/registration_protocol_win.h"
+#include "util/win/scoped_local_alloc.h"
 #include "util/win/xp_compat.h"
 
 namespace crashpad {
@@ -44,19 +46,50 @@ const size_t kPipeInstances = 2;
 //
 // If first_instance is true, the named pipe instance will be created with
 // FILE_FLAG_FIRST_PIPE_INSTANCE. This ensures that the the pipe name is not
-// already in use when created.
+// already in use when created. The first instance will be created with an
+// untrusted integrity SACL so instances of this pipe can be connected to by
+// processes of any integrity level.
 HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
                                bool first_instance) {
-  return CreateNamedPipe(pipe_name.c_str(),
-                         PIPE_ACCESS_DUPLEX |
-                             (first_instance ? FILE_FLAG_FIRST_PIPE_INSTANCE
-                                             : 0),
-                         PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
-                         kPipeInstances,
-                         512,
-                         512,
-                         0,
-                         nullptr);
+  SECURITY_ATTRIBUTES security_attributes;
+  SECURITY_ATTRIBUTES* security_attributes_pointer = nullptr;
+  ScopedLocalAlloc scoped_sec_desc;
+
+  if (first_instance) {
+    // Pre-Vista does not have integrity levels.
+    const DWORD version = GetVersion();
+    const DWORD major_version = LOBYTE(LOWORD(version));
+    const bool is_vista_or_later = major_version >= 6;
+    if (is_vista_or_later) {
+      // Mandatory Label, no ACE flags, no ObjectType, integrity level
+      // untrusted.
+      const wchar_t kSddl[] = L"S:(ML;;;;;S-1-16-0)";
+
+      PSECURITY_DESCRIPTOR sec_desc;
+      PCHECK(ConvertStringSecurityDescriptorToSecurityDescriptor(
+          kSddl, SDDL_REVISION_1, &sec_desc, nullptr))
+          << "ConvertStringSecurityDescriptorToSecurityDescriptor";
+
+      // Take ownership of the allocated SECURITY_DESCRIPTOR.
+      scoped_sec_desc.reset(sec_desc);
+
+      memset(&security_attributes, 0, sizeof(security_attributes));
+      security_attributes.nLength = sizeof(SECURITY_ATTRIBUTES);
+      security_attributes.lpSecurityDescriptor = sec_desc;
+      security_attributes.bInheritHandle = FALSE;
+      security_attributes_pointer = &security_attributes;
+    }
+  }
+
+  return CreateNamedPipe(
+      pipe_name.c_str(),
+      PIPE_ACCESS_DUPLEX | (first_instance ? FILE_FLAG_FIRST_PIPE_INSTANCE : 0),
+      PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
+      kPipeInstances,
+      512,
+      512,
+      0,
+      security_attributes_pointer);
 }
 
 decltype(GetNamedPipeClientProcessId)* GetNamedPipeClientProcessIdFunction() {
@@ -320,7 +353,7 @@ void ExceptionHandlerServer::Run(Delegate* delegate) {
     if (first_pipe_instance_.is_valid()) {
       pipe = first_pipe_instance_.release();
     } else {
-      pipe = CreateNamedPipeInstance(pipe_name_, false);
+      pipe = CreateNamedPipeInstance(pipe_name_, i == 0);
       PCHECK(pipe != INVALID_HANDLE_VALUE) << "CreateNamedPipe";
     }
 
