@@ -92,22 +92,22 @@ struct ClientToServerMessage {
   };
 };
 
-//! \brief  A client registration response.
+//! \brief A client registration response.
 struct RegistrationResponse {
   //! \brief An event `HANDLE`, valid in the client process, that should be
-  //!     signaled to request a crash report. 64-bit clients should convert the
-  //!     value to a `HANDLE` using sign-extension.
-  uint32_t request_crash_dump_event;
+  //!     signaled to request a crash report. Clients should convert the value
+  //!     to a `HANDLE` by calling IntToHandle().
+  int request_crash_dump_event;
 
   //! \brief An event `HANDLE`, valid in the client process, that should be
-  //!     signaled to request a non-crashing dump be taken. 64-bit clients
-  //!     should convert the value to `HANDLEEE` using sign-extension.
-  uint32_t request_non_crash_dump_event;
+  //!     signaled to request a non-crashing dump be taken. Clients should
+  //!     convert the value to a `HANDLE` by calling IntToHandle().
+  int request_non_crash_dump_event;
 
   //! \brief An event `HANDLE`, valid in the client process, that will be
-  //!     signaled by the server when the non-crashing dump is complete. 64-bit
-  //!     clients should convert the value to `HANDLEEE` using sign-extension.
-  uint32_t non_crash_dump_completed_event;
+  //!     signaled by the server when the non-crashing dump is complete. Clients
+  //!     should convert the value to a `HANDLE` by calling IntToHandle().
+  int non_crash_dump_completed_event;
 };
 
 //! \brief The response sent back to the client via SendToCrashHandlerServer().

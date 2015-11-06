@@ -58,7 +58,7 @@ class ProcessInfo {
     std::wstring type_name;
 
     //! \brief The handle's value.
-    uint32_t handle;
+    int handle;
 
     //! \brief The attributes for the handle, e.g. `OBJ_INHERIT`,
     //!     `OBJ_CASE_INSENSITIVE`, etc.

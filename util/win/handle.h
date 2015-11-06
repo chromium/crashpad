@@ -21,17 +21,17 @@ namespace crashpad {
 
 //! \brief Converts a `HANDLE` to an `int`.
 //!
-//! `HANDLE` is a `typedef` for `void *`, but `HANDLE` values aren’t necessarily
-//! pointers to anything. Only 32 bits of shareable `HANDLE`s are significant,
-//! even in 64-bit processes on 64-bit operating systems. See <a
+//! `HANDLE` is a `typedef` for `void *`, but kernel `HANDLE` values aren’t
+//! pointers to anything. Only 32 bits of kernel `HANDLE`s are significant, even
+//! in 64-bit processes on 64-bit operating systems. See <a
 //! href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203">Interprocess
 //! Communication Between 32-bit and 64-bit Applications</a>.
 //!
-//! This function safely converts a shareable `HANDLE` to an `int` similarly to
-//! a cast operation. It checks that the operation can be performed safely, and
+//! This function safely converts a kernel `HANDLE` to an `int` similarly to a
+//! cast operation. It checks that the operation can be performed safely, and
 //! aborts execution if it cannot.
 //!
-//! \param[in] handle The shareable `HANDLE` to convert.
+//! \param[in] handle The kernel `HANDLE` to convert.
 //!
 //! \return An equivalent `int`, truncated (if necessary) from \a handle. If
 //!     truncation would have resulted in an `int` that could not be converted
@@ -42,20 +42,20 @@ int HandleToInt(HANDLE handle);
 
 //! \brief Converts an `int` to an `HANDLE`.
 //!
-//! `HANDLE` is a `typedef` for `void *`, but `HANDLE` values aren’t necessarily
-//! pointers to anything. Only 32 bits of shareable `HANDLE`s are significant,
-//! even in 64-bit processes on 64-bit operating systems. See <a
+//! `HANDLE` is a `typedef` for `void *`, but kernel `HANDLE` values aren’t
+//! pointers to anything. Only 32 bits of kernel `HANDLE`s are significant, even
+//! in 64-bit processes on 64-bit operating systems. See <a
 //! href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203">Interprocess
 //! Communication Between 32-bit and 64-bit Applications</a>.
 //!
-//! This function safely convert an `int` to a shareable `HANDLE` similarly to a
+//! This function safely convert an `int` to a kernel `HANDLE` similarly to a
 //! cast operation.
 //!
 //! \param[in] handle_int The `int` to convert. This must have been produced by
 //!     HandleToInt(), possibly in a different process.
 //!
-//! \return An equivalent shareable `HANDLE`, sign-extended (if necessary) from
-//!     \a handle_int.
+//! \return An equivalent kernel `HANDLE`, sign-extended (if necessary) from \a
+//!     handle_int.
 //!
 //! \sa HandleToInt()
 HANDLE IntToHandle(int handle_int);

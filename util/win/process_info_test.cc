@@ -576,8 +576,7 @@ TEST(ProcessInfo, Handles) {
   bool found_key_handle = false;
   bool found_mapping_handle = false;
   for (auto handle : info.Handles()) {
-    const int handle_int = implicit_cast<int>(handle.handle);
-    if (handle_int == HandleToInt(file.get())) {
+    if (handle.handle == HandleToInt(file.get())) {
       EXPECT_FALSE(found_file_handle);
       found_file_handle = true;
       EXPECT_EQ(L"File", handle.type_name);
@@ -587,7 +586,7 @@ TEST(ProcessInfo, Handles) {
                 handle.granted_access & STANDARD_RIGHTS_ALL);
       EXPECT_EQ(0, handle.attributes);
     }
-    if (handle_int == HandleToInt(inherited_file.get())) {
+    if (handle.handle == HandleToInt(inherited_file.get())) {
       EXPECT_FALSE(found_inherited_file_handle);
       found_inherited_file_handle = true;
       EXPECT_EQ(L"File", handle.type_name);
@@ -601,7 +600,7 @@ TEST(ProcessInfo, Handles) {
       const int kObjInherit = 0x2;
       EXPECT_EQ(kObjInherit, handle.attributes);
     }
-    if (handle_int == HandleToInt(scoped_key.get())) {
+    if (handle.handle == HandleToInt(scoped_key.get())) {
       EXPECT_FALSE(found_key_handle);
       found_key_handle = true;
       EXPECT_EQ(L"Key", handle.type_name);
@@ -611,7 +610,7 @@ TEST(ProcessInfo, Handles) {
                 handle.granted_access & STANDARD_RIGHTS_ALL);
       EXPECT_EQ(0, handle.attributes);
     }
-    if (handle_int == HandleToInt(mapping.get())) {
+    if (handle.handle == HandleToInt(mapping.get())) {
       EXPECT_FALSE(found_mapping_handle);
       found_mapping_handle = true;
       EXPECT_EQ(L"Section", handle.type_name);

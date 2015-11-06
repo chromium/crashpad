@@ -142,9 +142,13 @@ WinChildProcess::WinChildProcess() {
   // values are passed to the child on the command line.
   std::string left, right;
   CHECK(SplitString(switch_value, '|', &left, &right));
+
+  // left and right were formatted as 0x%x, so they need to be converted as
+  // unsigned ints.
   unsigned int write, read;
   CHECK(StringToNumber(left, &write));
   CHECK(StringToNumber(right, &read));
+
   pipe_write_.reset(IntToHandle(write));
   pipe_read_.reset(IntToHandle(read));
 
