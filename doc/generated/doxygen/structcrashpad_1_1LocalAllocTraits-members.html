@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Crashpad: client/simulate_crash_win.h File Reference</title>
+<title>Crashpad: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -40,8 +40,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
-      <li class="current"><a href="files.html"><span>Files</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -62,8 +62,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -82,51 +84,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_db3a54907829b36871118d03417739cd.html">client</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="structcrashpad_1_1LocalAllocTraits.html">LocalAllocTraits</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">simulate_crash_win.h File Reference</div>  </div>
+<div class="title">crashpad::LocalAllocTraits Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;windows.h&gt;</code><br />
-<code>#include &quot;client/crashpad_client.h&quot;</code><br />
-<code>#include &quot;util/win/capture_context.h&quot;</code><br />
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a0ac6f4df5ed356f04dd12be3f07f9ed2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="simulate__crash__win_8h.html#a0ac6f4df5ed356f04dd12be3f07f9ed2">CRASHPAD_SIMULATE_CRASH</a>()</td></tr>
-<tr class="memdesc:a0ac6f4df5ed356f04dd12be3f07f9ed2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Captures the CPU context and captures a dump without an exception.  <a href="#a0ac6f4df5ed356f04dd12be3f07f9ed2">More...</a><br /></td></tr>
-<tr class="separator:a0ac6f4df5ed356f04dd12be3f07f9ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a0ac6f4df5ed356f04dd12be3f07f9ed2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CRASHPAD_SIMULATE_CRASH</td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> {                                                   \</div>
-<div class="line">    CONTEXT context;                                     \</div>
-<div class="line">    crashpad::CaptureContext(&amp;context);                  <a class="code" href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">\</a></div>
-<div class="line"><a class="code" href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">    crashpad::CrashpadClient::DumpWithoutCrash</a>(context); \</div>
-<div class="line">  } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
-<div class="ttc" id="classcrashpad_1_1CrashpadClient_html_a8ac211aa3a8cf278eb10f4058a7776fb"><div class="ttname"><a href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">crashpad::CrashpadClient::DumpWithoutCrash</a></div><div class="ttdeci">static void DumpWithoutCrash(const CONTEXT &amp;context)</div><div class="ttdoc">Requests that the handler capture a dump even though there hasn&#39;t been a crash. </div><div class="ttdef"><b>Definition:</b> crashpad_client_win.cc:387</div></div>
-</div><!-- fragment -->
-<p>Captures the CPU context and captures a dump without an exception. </p>
 
-</div>
-</div>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="structcrashpad_1_1LocalAllocTraits.html">crashpad::LocalAllocTraits</a>, including all inherited members.</p>
+<table class="directory">
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Free</b>(HLOCAL mem) (defined in <a class="el" href="structcrashpad_1_1LocalAllocTraits.html">crashpad::LocalAllocTraits</a>)</td><td class="entry"><a class="el" href="structcrashpad_1_1LocalAllocTraits.html">crashpad::LocalAllocTraits</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>InvalidValue</b>() (defined in <a class="el" href="structcrashpad_1_1LocalAllocTraits.html">crashpad::LocalAllocTraits</a>)</td><td class="entry"><a class="el" href="structcrashpad_1_1LocalAllocTraits.html">crashpad::LocalAllocTraits</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+</table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

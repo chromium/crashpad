@@ -128,6 +128,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a8ac211aa3a8cf278eb10f4058a7776fb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb">DumpWithoutCrash</a> (const CONTEXT &amp;context)</td></tr>
 <tr class="memdesc:a8ac211aa3a8cf278eb10f4058a7776fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests that the handler capture a dump even though there hasn't been a crash.  <a href="#a8ac211aa3a8cf278eb10f4058a7776fb">More...</a><br /></td></tr>
 <tr class="separator:a8ac211aa3a8cf278eb10f4058a7776fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87d1fa142b0bf7094fc66fef3135a64a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a87d1fa142b0bf7094fc66fef3135a64a">DumpAndCrash</a> (EXCEPTION_POINTERS *exception_pointers)</td></tr>
+<tr class="memdesc:a87d1fa142b0bf7094fc66fef3135a64a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests that the handler capture a dump using the given <em>exception_pointers</em> to get the <code>EXCEPTION_RECORD</code> and <code>CONTEXT</code>.  <a href="#a87d1fa142b0bf7094fc66fef3135a64a">More...</a><br /></td></tr>
+<tr class="separator:a87d1fa142b0bf7094fc66fef3135a64a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a6a1e62d90a67db782664b1fe5a952f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a1a6a1e62d90a67db782664b1fe5a952f">UseSystemDefaultHandler</a> ()</td></tr>
 <tr class="memdesc:a1a6a1e62d90a67db782664b1fe5a952f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the process to direct its crashes to the default handler for the operating system.  <a href="#a1a6a1e62d90a67db782664b1fe5a952f">More...</a><br /></td></tr>
 <tr class="separator:a1a6a1e62d90a67db782664b1fe5a952f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,6 +138,39 @@ Static Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The primary interface for an application to have Crashpad monitor it for crashes. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a87d1fa142b0bf7094fc66fef3135a64a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::CrashpadClient::DumpAndCrash </td>
+          <td>(</td>
+          <td class="paramtype">EXCEPTION_POINTERS *&#160;</td>
+          <td class="paramname"><em>exception_pointers</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Requests that the handler capture a dump using the given <em>exception_pointers</em> to get the <code>EXCEPTION_RECORD</code> and <code>CONTEXT</code>. </p>
+<p>This function is not necessary in general usage as an unhandled exception filter is installed by <a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e" title="Configures the process to direct its crashes to a Crashpad handler. ">UseHandler()</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">exception_pointers</td><td>An <code>EXCEPTION_POINTERS</code>, as would generally passed to an unhandled exception filter. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a8ac211aa3a8cf278eb10f4058a7776fb"></a>
 <div class="memitem">
 <div class="memproto">

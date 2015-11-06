@@ -4,7 +4,7 @@ var searchData=
   ['newmachport',['NewMachPort',['../namespacecrashpad.html#a9c9bc6ad9973f794c425707617b63278',1,'crashpad']]],
   ['newreport',['NewReport',['../structcrashpad_1_1CrashReportDatabase_1_1NewReport.html',1,'crashpad::CrashReportDatabase']]],
   ['next',['Next',['../classcrashpad_1_1TSimpleStringDictionary_1_1Iterator.html#afbc84491b65539ff4d250f9d7122a4c4',1,'crashpad::TSimpleStringDictionary::Iterator']]],
-  ['non_5fcrash_5fdump_5fcompleted_5fevent',['non_crash_dump_completed_event',['../structcrashpad_1_1RegistrationResponse.html#ad34bff3deb04b253d8b53b97a9fabe0d',1,'crashpad::RegistrationResponse']]],
+  ['non_5fcrash_5fdump_5fcompleted_5fevent',['non_crash_dump_completed_event',['../structcrashpad_1_1RegistrationResponse.html#a1e64741ff3c4c5d0cea7cac1343d8e2c',1,'crashpad::RegistrationResponse']]],
   ['non_5fcrash_5fexception_5finformation',['non_crash_exception_information',['../structcrashpad_1_1RegistrationRequest.html#aae8ec20740a85ff73e4346cc0979e1b2',1,'crashpad::RegistrationRequest']]],
   ['notifyserver',['NotifyServer',['../classcrashpad_1_1NotifyServer.html#aa0c2780f12f549e8b7d6c4b9177bca40',1,'crashpad::NotifyServer']]],
   ['notifyserver',['NotifyServer',['../classcrashpad_1_1NotifyServer.html',1,'crashpad']]],

@@ -35,6 +35,7 @@ var searchData=
   ['interface',['Interface',['../classcrashpad_1_1ChildPortServer_1_1Interface.html',1,'crashpad::ChildPortServer']]],
   ['interface',['Interface',['../classcrashpad_1_1UniversalMachExcServer_1_1Interface.html',1,'crashpad::UniversalMachExcServer']]],
   ['interface',['Interface',['../classcrashpad_1_1MachMessageServer_1_1Interface.html',1,'crashpad::MachMessageServer']]],
+  ['inttohandle',['IntToHandle',['../namespacecrashpad.html#a83df06f1e4dc470676c1f86e93b6bc63',1,'crashpad']]],
   ['iov_5fbase',['iov_base',['../structcrashpad_1_1WritableIoVec.html#abcf5d801519cf50aa286c3baa8f55d05',1,'crashpad::WritableIoVec']]],
   ['iov_5flen',['iov_len',['../structcrashpad_1_1WritableIoVec.html#af1b5ee41c9beb80c82a6e815cbf473ee',1,'crashpad::WritableIoVec']]],
   ['is64bit',['Is64Bit',['../classcrashpad_1_1ProcessReader.html#a96a10b55b61e32a959c81dfa4198370c',1,'crashpad::ProcessReader::Is64Bit()'],['../classcrashpad_1_1ProcessReaderWin.html#aeb5b08f767846a50dc1854f55f3bd9a0',1,'crashpad::ProcessReaderWin::Is64Bit()'],['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#aba2bd35fa90f2a36c81336cc60329039',1,'crashpad::internal::CheckedAddressRangeGeneric::Is64Bit()'],['../classcrashpad_1_1ProcessInfo.html#a318726a865f9f91ea67c4db606aea7d6',1,'crashpad::ProcessInfo::Is64Bit() const '],['../classcrashpad_1_1ProcessInfo.html#a318726a865f9f91ea67c4db606aea7d6',1,'crashpad::ProcessInfo::Is64Bit() const ']]],

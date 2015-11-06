@@ -215,6 +215,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1InitializationStateDcheck.html">InitializationStateDcheck</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tracks whether data are initialized, triggering a DCHECK assertion on an invalid data access.  <a href="classcrashpad_1_1InitializationStateDcheck.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1LocalAllocTraits.html">LocalAllocTraits</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MachMessageServer.html">MachMessageServer</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs a Mach message server to handle a Mach RPC request for MIG servers.  <a href="classcrashpad_1_1MachMessageServer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -524,6 +526,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>ScopedFileHANDLE</b>
 <tr class="memitem:a76696c6339810ca1c46878023cb7bb09"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a76696c6339810ca1c46878023cb7bb09"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>ScopedKernelHANDLE</b> = base::ScopedGeneric&lt; HANDLE, <a class="el" href="structcrashpad_1_1internal_1_1ScopedKernelHANDLECloseTraits.html">internal::ScopedKernelHANDLECloseTraits</a> &gt;</td></tr>
 <tr class="separator:a76696c6339810ca1c46878023cb7bb09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afded64c9b72c45d41a7601dd694d2a03"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afded64c9b72c45d41a7601dd694d2a03"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ScopedLocalAlloc</b> = base::ScopedGeneric&lt; HLOCAL, <a class="el" href="structcrashpad_1_1LocalAllocTraits.html">LocalAllocTraits</a> &gt;</td></tr>
+<tr class="separator:afded64c9b72c45d41a7601dd694d2a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -602,6 +607,9 @@ scoped_ptr&lt; <a class="el" href="classcrashpad_1_1PruneCondition.html">PruneCo
 <tr class="memitem:a45a44a5552e00ceaf0917f94433ac104"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a45a44a5552e00ceaf0917f94433ac104">SimulateCrash</a> (const NativeCPUContext &amp;cpu_context)</td></tr>
 <tr class="memdesc:a45a44a5552e00ceaf0917f94433ac104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulates a exception without crashing.  <a href="#a45a44a5552e00ceaf0917f94433ac104">More...</a><br /></td></tr>
 <tr class="separator:a45a44a5552e00ceaf0917f94433ac104"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaad18d253c543d4f003b5803fd295f91"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#aaad18d253c543d4f003b5803fd295f91">HandlerMain</a> (int argc, char *argv[])</td></tr>
+<tr class="memdesc:aaad18d253c543d4f003b5803fd295f91"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>main()</code> of the <code>crashpad_handler</code> binary.  <a href="#aaad18d253c543d4f003b5803fd295f91">More...</a><br /></td></tr>
+<tr class="separator:aaad18d253c543d4f003b5803fd295f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58169a74e32daa2888614fcd2f2381ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a58169a74e32daa2888614fcd2f2381ce">BuildMinidumpThreadIDMap</a> (const std::vector&lt; const <a class="el" href="classcrashpad_1_1ThreadSnapshot.html">ThreadSnapshot</a> * &gt; &amp;thread_snapshots, <a class="el" href="namespacecrashpad.html#ae426d8c91f5448aaf543f91478d831da">MinidumpThreadIDMap</a> *thread_id_map)</td></tr>
 <tr class="memdesc:a58169a74e32daa2888614fcd2f2381ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds a MinidumpThreadIDMap for a group of <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> objects.  <a href="#a58169a74e32daa2888614fcd2f2381ce">More...</a><br /></td></tr>
 <tr class="separator:a58169a74e32daa2888614fcd2f2381ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -878,6 +886,12 @@ template&lt;typename To , typename From &gt; </td></tr>
 <tr class="memitem:af8340c24a2983e788d2a3ba90d1d4846"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af8340c24a2983e788d2a3ba90d1d4846">InitializeCriticalSectionWithDebugInfoIfPossible</a> (CRITICAL_SECTION *critical_section)</td></tr>
 <tr class="memdesc:af8340c24a2983e788d2a3ba90d1d4846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>InitializeCritialSection()</code>, but attempts to allocate with a valid <code>.DebugInfo</code> field on versions of Windows where it's possible to do so.  <a href="#af8340c24a2983e788d2a3ba90d1d4846">More...</a><br /></td></tr>
 <tr class="separator:af8340c24a2983e788d2a3ba90d1d4846"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae643b5c6bce4e11a0f51eb2f4d5fa1de"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ae643b5c6bce4e11a0f51eb2f4d5fa1de">HandleToInt</a> (HANDLE handle)</td></tr>
+<tr class="memdesc:ae643b5c6bce4e11a0f51eb2f4d5fa1de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a <code>HANDLE</code> to an <code>int</code>.  <a href="#ae643b5c6bce4e11a0f51eb2f4d5fa1de">More...</a><br /></td></tr>
+<tr class="separator:ae643b5c6bce4e11a0f51eb2f4d5fa1de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83df06f1e4dc470676c1f86e93b6bc63"><td class="memItemLeft" align="right" valign="top">HANDLE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a83df06f1e4dc470676c1f86e93b6bc63">IntToHandle</a> (int handle_int)</td></tr>
+<tr class="memdesc:a83df06f1e4dc470676c1f86e93b6bc63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an <code>int</code> to an <code>HANDLE</code>.  <a href="#a83df06f1e4dc470676c1f86e93b6bc63">More...</a><br /></td></tr>
+<tr class="separator:a83df06f1e4dc470676c1f86e93b6bc63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5f4414be804bdcd71f57053d7147eff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af5f4414be804bdcd71f57053d7147eff">GetModuleVersionAndType</a> (const base::FilePath &amp;path, <a class="el" href="structVS__FIXEDFILEINFO.html">VS_FIXEDFILEINFO</a> *vs_fixedfileinfo)</td></tr>
 <tr class="memdesc:af5f4414be804bdcd71f57053d7147eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the type and version information from a given module (exe, dll, etc.)  <a href="#af5f4414be804bdcd71f57053d7147eff">More...</a><br /></td></tr>
 <tr class="separator:af5f4414be804bdcd71f57053d7147eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2810,6 +2824,63 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="aaad18d253c543d4f003b5803fd295f91"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int crashpad::HandlerMain </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>argv</em>[]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The <code>main()</code> of the <code>crashpad_handler</code> binary. </p>
+<p>This is exposed so that <code>crashpad_handler</code> can be embedded into another binary, but called and used as if it were a standalone executable. </p>
+
+</div>
+</div>
+<a class="anchor" id="ae643b5c6bce4e11a0f51eb2f4d5fa1de"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int crashpad::HandleToInt </td>
+          <td>(</td>
+          <td class="paramtype">HANDLE&#160;</td>
+          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts a <code>HANDLE</code> to an <code>int</code>. </p>
+<p><code>HANDLE</code> is a <code>typedef</code> for <code>void *</code>, but kernel <code>HANDLE</code> values aren’t pointers to anything. Only 32 bits of kernel <code>HANDLE</code>s are significant, even in 64-bit processes on 64-bit operating systems. See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203">Interprocess Communication Between 32-bit and 64-bit Applications</a>.</p>
+<p>This function safely converts a kernel <code>HANDLE</code> to an <code>int</code> similarly to a cast operation. It checks that the operation can be performed safely, and aborts execution if it cannot.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">handle</td><td>The kernel <code>HANDLE</code> to convert.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An equivalent <code>int</code>, truncated (if necessary) from <em>handle</em>. If truncation would have resulted in an <code>int</code> that could not be converted back to <em>handle</em>, aborts execution.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a83df06f1e4dc470676c1f86e93b6bc63" title="Converts an int to an HANDLE. ">IntToHandle()</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="af8340c24a2983e788d2a3ba90d1d4846"></a>
 <div class="memitem">
 <div class="memproto">
@@ -2864,6 +2935,34 @@ template&lt;typename Destination , typename Source &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><em>source</em> if it can be represented in the destination type, otherwise <em>default_value</em>. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a83df06f1e4dc470676c1f86e93b6bc63"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">HANDLE crashpad::IntToHandle </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>handle_int</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts an <code>int</code> to an <code>HANDLE</code>. </p>
+<p><code>HANDLE</code> is a <code>typedef</code> for <code>void *</code>, but kernel <code>HANDLE</code> values aren’t pointers to anything. Only 32 bits of kernel <code>HANDLE</code>s are significant, even in 64-bit processes on 64-bit operating systems. See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203">Interprocess Communication Between 32-bit and 64-bit Applications</a>.</p>
+<p>This function safely convert an <code>int</code> to a kernel <code>HANDLE</code> similarly to a cast operation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">handle_int</td><td>The <code>int</code> to convert. This must have been produced by <a class="el" href="namespacecrashpad.html#ae643b5c6bce4e11a0f51eb2f4d5fa1de" title="Converts a HANDLE to an int. ">HandleToInt()</a>, possibly in a different process.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An equivalent kernel <code>HANDLE</code>, sign-extended (if necessary) from <em>handle_int</em>.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#ae643b5c6bce4e11a0f51eb2f4d5fa1de" title="Converts a HANDLE to an int. ">HandleToInt()</a> </dd></dl>
 
 </div>
 </div>
