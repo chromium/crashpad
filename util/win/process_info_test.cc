@@ -33,6 +33,7 @@
 #include "util/misc/uuid.h"
 #include "util/win/command_line.h"
 #include "util/win/get_function.h"
+#include "util/win/handle.h"
 #include "util/win/scoped_handle.h"
 
 namespace crashpad {
@@ -537,14 +538,16 @@ TEST(ProcessInfo, Handles) {
   ASSERT_TRUE(file.is_valid());
 
   SECURITY_ATTRIBUTES security_attributes = {0};
+  security_attributes.nLength = sizeof(security_attributes);
   security_attributes.bInheritHandle = true;
-  ScopedFileHandle inherited_file(CreateFile(L"CONOUT$",
-                                             GENERIC_WRITE,
-                                             0,
-                                             &security_attributes,
-                                             OPEN_EXISTING,
-                                             FILE_ATTRIBUTE_NORMAL,
-                                             nullptr));
+  ScopedFileHandle inherited_file(CreateFile(
+      temp_dir.path().Append(FILE_PATH_LITERAL("inheritable")).value().c_str(),
+      GENERIC_WRITE,
+      0,
+      &security_attributes,
+      CREATE_NEW,
+      FILE_ATTRIBUTE_NORMAL,
+      nullptr));
   ASSERT_TRUE(inherited_file.is_valid());
 
   HKEY key;
@@ -573,7 +576,7 @@ TEST(ProcessInfo, Handles) {
   bool found_key_handle = false;
   bool found_mapping_handle = false;
   for (auto handle : info.Handles()) {
-    if (reinterpret_cast<uint32_t>(file.get()) == handle.handle) {
+    if (handle.handle == HandleToInt(file.get())) {
       EXPECT_FALSE(found_file_handle);
       found_file_handle = true;
       EXPECT_EQ(L"File", handle.type_name);
@@ -583,7 +586,7 @@ TEST(ProcessInfo, Handles) {
                 handle.granted_access & STANDARD_RIGHTS_ALL);
       EXPECT_EQ(0, handle.attributes);
     }
-    if (reinterpret_cast<uint32_t>(inherited_file.get()) == handle.handle) {
+    if (handle.handle == HandleToInt(inherited_file.get())) {
       EXPECT_FALSE(found_inherited_file_handle);
       found_inherited_file_handle = true;
       EXPECT_EQ(L"File", handle.type_name);
@@ -597,7 +600,7 @@ TEST(ProcessInfo, Handles) {
       const int kObjInherit = 0x2;
       EXPECT_EQ(kObjInherit, handle.attributes);
     }
-    if (reinterpret_cast<uint32_t>(scoped_key.get()) == handle.handle) {
+    if (handle.handle == HandleToInt(scoped_key.get())) {
       EXPECT_FALSE(found_key_handle);
       found_key_handle = true;
       EXPECT_EQ(L"Key", handle.type_name);
@@ -607,7 +610,7 @@ TEST(ProcessInfo, Handles) {
                 handle.granted_access & STANDARD_RIGHTS_ALL);
       EXPECT_EQ(0, handle.attributes);
     }
-    if (reinterpret_cast<uint32_t>(mapping.get()) == handle.handle) {
+    if (handle.handle == HandleToInt(mapping.get())) {
       EXPECT_FALSE(found_mapping_handle);
       found_mapping_handle = true;
       EXPECT_EQ(L"Section", handle.type_name);
@@ -620,6 +623,7 @@ TEST(ProcessInfo, Handles) {
     }
   }
   EXPECT_TRUE(found_file_handle);
+  EXPECT_TRUE(found_inherited_file_handle);
   EXPECT_TRUE(found_key_handle);
   EXPECT_TRUE(found_mapping_handle);
 }

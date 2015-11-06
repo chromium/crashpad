@@ -19,8 +19,10 @@
   ],
   'targets': [
     {
-      'target_name': 'crashpad_handler',
-      'type': 'executable',
+      # This target exists so that the crashpad_handler can be embedded into
+      # another binary.
+      'target_name': 'crashpad_handler_lib',
+      'type': 'static_library',
       'dependencies': [
         '../client/client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
@@ -40,9 +42,25 @@
         'mac/crash_report_exception_handler.h',
         'mac/exception_handler_server.cc',
         'mac/exception_handler_server.h',
-        'main.cc',
+        'handler_main.cc',
+        'handler_main.h',
         'win/crash_report_exception_handler.cc',
         'win/crash_report_exception_handler.h',
+      ],
+    },
+    {
+      'target_name': 'crashpad_handler',
+      'type': 'executable',
+      'dependencies': [
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+        '../tools/tools.gyp:crashpad_tool_support',
+        'crashpad_handler_lib',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'main.cc',
       ],
 
       'conditions': [

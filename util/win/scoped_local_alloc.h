@@ -12,17 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "handler/handler_main.h"
+#ifndef CRASHPAD_UTIL_WIN_SCOPED_LOCAL_ALLOC_H_
+#define CRASHPAD_UTIL_WIN_SCOPED_LOCAL_ALLOC_H_
 
-#include "build/build_config.h"
-#include "tools/tool_support.h"
+#include <windows.h>
 
-#if defined(OS_MACOSX)
-int main(int argc, char* argv[]) {
-  return crashpad::HandlerMain(argc, argv);
-}
-#elif defined(OS_WIN)
-int wmain(int argc, wchar_t* argv[]) {
-  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::HandlerMain);
-}
-#endif  // OS_MACOSX
+#include "base/scoped_generic.h"
+
+namespace crashpad {
+
+struct LocalAllocTraits {
+  static HLOCAL InvalidValue() { return nullptr; }
+  static void Free(HLOCAL mem);
+};
+
+using ScopedLocalAlloc = base::ScopedGeneric<HLOCAL, LocalAllocTraits>;
+
+}  // namespace crashpad
+
+#endif  // CRASHPAD_UTIL_WIN_SCOPED_LOCAL_ALLOC_H_

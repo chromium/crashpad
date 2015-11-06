@@ -142,6 +142,16 @@ class CrashpadClient {
   //! \param[in] context A `CONTEXT`, generally captured by CaptureContext() or
   //!     similar.
   static void DumpWithoutCrash(const CONTEXT& context);
+
+  //! \brief Requests that the handler capture a dump using the given \a
+  //!     exception_pointers to get the `EXCEPTION_RECORD` and `CONTEXT`.
+  //!
+  //! This function is not necessary in general usage as an unhandled exception
+  //! filter is installed by UseHandler().
+  //!
+  //! \param[in] exception_pointers An `EXCEPTION_POINTERS`, as would generally
+  //!     passed to an unhandled exception filter.
+  static void DumpAndCrash(EXCEPTION_POINTERS* exception_pointers);
 #endif
 
   //! \brief Configures the process to direct its crashes to a Crashpad handler.

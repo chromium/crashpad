@@ -29,9 +29,40 @@ deps = {
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
       '8e12d3df2f1c0fcd84d649f4619323558db63a85',
+  'buildtools':
+      Var('chromium_git') + '/chromium/buildtools.git@' +
+      'c2f259809d5ede3275df5ea0842f0431990c4f98',
 }
 
 hooks = [
+  {
+    'name': 'clang_format_mac',
+    'pattern': '.',
+    'action': [
+      'download_from_google_storage',
+      '--platform=^darwin$',
+      '--no_resume',
+      '--no_auth',
+      '--bucket=chromium-clang-format',
+      '--output=buildtools/mac/clang-format',
+      '--sha1_file',
+      'buildtools/mac/clang-format.sha1',
+    ],
+  },
+  {
+    'name': 'clang_format_win',
+    'pattern': '.',
+    'action': [
+      'download_from_google_storage',
+      '--platform=^win32$',
+      '--no_resume',
+      '--no_auth',
+      '--bucket=chromium-clang-format',
+      '--output=buildtools/win/clang-format.exe',
+      '--sha1_file',
+      'buildtools/win/clang-format.exe.sha1',
+    ],
+  },
   {
     'name': 'gyp',
     'pattern': '\.gypi?$',

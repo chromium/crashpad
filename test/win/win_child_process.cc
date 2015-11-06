@@ -25,6 +25,8 @@
 #include "gtest/gtest.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
+#include "util/win/handle.h"
+#include "util/win/scoped_local_alloc.h"
 #include "test/paths.h"
 
 namespace crashpad {
@@ -33,20 +35,11 @@ namespace test {
 namespace {
 
 const char kIsMultiprocessChild[] = "--is-multiprocess-child";
-struct LocalFreeTraits {
-  static HLOCAL InvalidValue() { return nullptr; }
-  static void Free(HLOCAL mem) {
-    if (LocalFree(mem) != nullptr)
-      PLOG(ERROR) << "LocalFree";
-  }
-};
-
-using ScopedLocalFree = base::ScopedGeneric<HLOCAL, LocalFreeTraits>;
 
 bool GetSwitch(const char* switch_name, std::string* value) {
   int num_args;
   wchar_t** args = CommandLineToArgvW(GetCommandLine(), &num_args);
-  ScopedLocalFree scoped_args(args);  // Take ownership.
+  ScopedLocalAlloc scoped_args(args);  // Take ownership.
   if (!args) {
     PLOG(FATAL) << "CommandLineToArgvW";
     return false;
@@ -149,11 +142,15 @@ WinChildProcess::WinChildProcess() {
   // values are passed to the child on the command line.
   std::string left, right;
   CHECK(SplitString(switch_value, '|', &left, &right));
+
+  // left and right were formatted as 0x%x, so they need to be converted as
+  // unsigned ints.
   unsigned int write, read;
   CHECK(StringToNumber(left, &write));
   CHECK(StringToNumber(right, &read));
-  pipe_write_.reset(reinterpret_cast<HANDLE>(static_cast<uintptr_t>(write)));
-  pipe_read_.reset(reinterpret_cast<HANDLE>(static_cast<uintptr_t>(read)));
+
+  pipe_write_.reset(IntToHandle(write));
+  pipe_read_.reset(IntToHandle(read));
 
   // Notify the parent that it's OK to proceed. We only need to wait to get to
   // the process entry point, but this is the easiest place we can notify.
@@ -193,8 +190,8 @@ scoped_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
                                            test_info->test_case_name(),
                                            test_info->name(),
                                            kIsMultiprocessChild,
-                                           write_for_child,
-                                           read_for_child.get()));
+                                           HandleToInt(write_for_child.get()),
+                                           HandleToInt(read_for_child.get())));
 
   // Command-line buffer cannot be constant, per CreateProcess signature.
   handles_for_parent->process = LaunchCommandLine(&command_line[0]);

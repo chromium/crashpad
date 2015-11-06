@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "handler/handler_main.h"
+#ifndef CRASHPAD_HANDLER_HANDLER_MAIN_H_
+#define CRASHPAD_HANDLER_HANDLER_MAIN_H_
 
-#include "build/build_config.h"
-#include "tools/tool_support.h"
+namespace crashpad {
 
-#if defined(OS_MACOSX)
-int main(int argc, char* argv[]) {
-  return crashpad::HandlerMain(argc, argv);
-}
-#elif defined(OS_WIN)
-int wmain(int argc, wchar_t* argv[]) {
-  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::HandlerMain);
-}
-#endif  // OS_MACOSX
+//! \brief The `main()` of the `crashpad_handler` binary.
+//!
+//! This is exposed so that `crashpad_handler` can be embedded into another
+//! binary, but called and used as if it were a standalone executable.
+int HandlerMain(int argc, char* argv[]);
+
+}  // namespace crashpad
+
+#endif  // CRASHPAD_HANDLER_HANDLER_MAIN_H_

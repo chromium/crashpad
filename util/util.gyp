@@ -160,6 +160,8 @@
         'win/exception_handler_server.h',
         'win/get_function.cc',
         'win/get_function.h',
+        'win/handle.cc',
+        'win/handle.h',
         'win/module_version.cc',
         'win/module_version.h',
         'win/nt_internals.cc',
@@ -173,6 +175,8 @@
         'win/registration_protocol_win.h',
         'win/scoped_handle.cc',
         'win/scoped_handle.h',
+        'win/scoped_local_alloc.cc',
+        'win/scoped_local_alloc.h',
         'win/scoped_process_suspend.cc',
         'win/scoped_process_suspend.h',
         'win/time.cc',
@@ -244,6 +248,7 @@
         ['OS=="win"', {
           'link_settings': {
             'libraries': [
+              '-ladvapi32.lib',
               '-lrpcrt4.lib',
               '-lwinhttp.lib',
             ],

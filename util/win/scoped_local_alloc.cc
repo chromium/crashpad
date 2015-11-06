@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "handler/handler_main.h"
+#include "util/win/scoped_local_alloc.h"
 
-#include "build/build_config.h"
-#include "tools/tool_support.h"
+#include "base/logging.h"
 
-#if defined(OS_MACOSX)
-int main(int argc, char* argv[]) {
-  return crashpad::HandlerMain(argc, argv);
+namespace crashpad {
+
+// static
+void LocalAllocTraits::Free(HLOCAL memory) {
+  PLOG_IF(ERROR, LocalFree(memory) != nullptr) << "LocalFree";
 }
-#elif defined(OS_WIN)
-int wmain(int argc, wchar_t* argv[]) {
-  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::HandlerMain);
-}
-#endif  // OS_MACOSX
+
+}  // namespace crashpad

@@ -12,17 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "handler/handler_main.h"
+#include "util/win/handle.h"
 
-#include "build/build_config.h"
-#include "tools/tool_support.h"
+#include <stdint.h>
 
-#if defined(OS_MACOSX)
-int main(int argc, char* argv[]) {
-  return crashpad::HandlerMain(argc, argv);
+#include "base/numerics/safe_conversions.h"
+
+namespace crashpad {
+
+// These functions use “int” for the 32-bit integer handle type because
+// sign-extension needs to work correctly. INVALID_HANDLE_VALUE is defined as
+// ((HANDLE)(LONG_PTR)-1), and this needs to round-trip through an integer and
+// back to the same HANDLE value.
+
+int HandleToInt(HANDLE handle) {
+  return base::checked_cast<int>(reinterpret_cast<intptr_t>(handle));
 }
-#elif defined(OS_WIN)
-int wmain(int argc, wchar_t* argv[]) {
-  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::HandlerMain);
+
+HANDLE IntToHandle(int handle_int) {
+  return reinterpret_cast<HANDLE>(static_cast<intptr_t>(handle_int));
 }
-#endif  // OS_MACOSX
+
+}  // namespace crashpad

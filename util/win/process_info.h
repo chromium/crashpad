@@ -58,10 +58,7 @@ class ProcessInfo {
     std::wstring type_name;
 
     //! \brief The handle's value.
-    //!
-    //! See https://msdn.microsoft.com/en-us/library/windows/desktop/aa384203 on
-    //! 32 bits being the correct size for `HANDLE`s, even on Windows x64.
-    uint32_t handle;
+    int handle;
 
     //! \brief The attributes for the handle, e.g. `OBJ_INHERIT`,
     //!     `OBJ_CASE_INSENSITIVE`, etc.

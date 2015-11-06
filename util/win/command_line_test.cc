@@ -22,21 +22,11 @@
 #include "base/scoped_generic.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "util/win/scoped_local_alloc.h"
 
 namespace crashpad {
 namespace test {
 namespace {
-
-struct LocalAllocTraits {
-  static HLOCAL InvalidValue() {
-    return nullptr;
-  }
-
-  static void Free(HLOCAL memory) {
-    PLOG_IF(ERROR, LocalFree(memory) != nullptr) << "LocalFree";
-  }
-};
-using ScopedLocalAlloc = base::ScopedGeneric<HLOCAL, LocalAllocTraits>;
 
 // Calls AppendCommandLineArgument() for every argument in argv, then calls
 // CommandLineToArgvW() to decode the string into a vector again, and compares

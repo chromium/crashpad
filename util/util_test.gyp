@@ -84,6 +84,7 @@
         'win/critical_section_with_debug_info_test.cc',
         'win/exception_handler_server_test.cc',
         'win/get_function_test.cc',
+        'win/handle_test.cc',
         'win/process_info_test.cc',
         'win/scoped_process_suspend_test.cc',
         'win/time_test.cc',
