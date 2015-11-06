@@ -435,4 +435,9 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   PLOG_IF(ERROR, wfso_result != WAIT_OBJECT_0) << "WaitForSingleObject";
 }
 
+// static
+void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
+  UnhandledExceptionHandler(exception_pointers);
+}
+
 }  // namespace crashpad
