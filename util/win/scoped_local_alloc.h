@@ -21,12 +21,17 @@
 
 namespace crashpad {
 
+namespace internal {
+
 struct LocalAllocTraits {
   static HLOCAL InvalidValue() { return nullptr; }
   static void Free(HLOCAL mem);
 };
 
-using ScopedLocalAlloc = base::ScopedGeneric<HLOCAL, LocalAllocTraits>;
+}  // namespace internal
+
+using ScopedLocalAlloc =
+    base::ScopedGeneric<HLOCAL, internal::LocalAllocTraits>;
 
 }  // namespace crashpad
 

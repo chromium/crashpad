@@ -25,11 +25,6 @@ namespace crashpad {
 namespace internal {
 
 // static
-FileHandle ScopedLockedFileHandleTraits::InvalidValue() {
-  return kInvalidFileHandle;
-}
-
-// static
 void ScopedLockedFileHandleTraits::Free(FileHandle handle) {
   if (handle != kInvalidFileHandle) {
     LoggingUnlockFile(handle);

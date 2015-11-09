@@ -31,7 +31,7 @@ namespace crashpad {
 namespace internal {
 
 struct ScopedLockedFileHandleTraits {
-  static FileHandle InvalidValue();
+  static FileHandle InvalidValue() { return kInvalidFileHandle; }
   static void Free(FileHandle handle);
 };
 

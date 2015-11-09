@@ -525,6 +525,7 @@ struct ScopedRegistryKeyCloseTraits {
     RegCloseKey(key);
   }
 };
+
 using ScopedRegistryKey =
     base::ScopedGeneric<HKEY, ScopedRegistryKeyCloseTraits>;
 

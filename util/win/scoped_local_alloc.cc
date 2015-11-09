@@ -17,10 +17,12 @@
 #include "base/logging.h"
 
 namespace crashpad {
+namespace internal {
 
 // static
 void LocalAllocTraits::Free(HLOCAL memory) {
   PLOG_IF(ERROR, LocalFree(memory) != nullptr) << "LocalFree";
 }
 
+}  // namespace internal
 }  // namespace crashpad
