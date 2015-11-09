@@ -20,10 +20,12 @@
 #include <map>
 #include <string>
 
+#include "base/auto_reset.h"
 #include "base/files/file_path.h"
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
+#include "base/scoped_generic.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/crash_report_database.h"
@@ -38,6 +40,8 @@
 
 #if defined(OS_MACOSX)
 #include <libgen.h>
+#include <signal.h>
+
 #include "base/mac/scoped_mach_port.h"
 #include "handler/mac/crash_report_exception_handler.h"
 #include "handler/mac/exception_handler_server.h"
@@ -46,6 +50,7 @@
 #include "util/posix/close_stdio.h"
 #elif defined(OS_WIN)
 #include <windows.h>
+
 #include "handler/win/crash_report_exception_handler.h"
 #include "util/win/exception_handler_server.h"
 #include "util/win/handle.h"
@@ -79,6 +84,31 @@ void Usage(const base::FilePath& me) {
           me.value().c_str());
   ToolSupport::UsageTail(me);
 }
+
+#if defined(OS_MACOSX)
+
+struct ResetSIGTERMTraits {
+  static struct sigaction* InvalidValue() {
+    return nullptr;
+  }
+
+  static void Free(struct sigaction* sa) {
+    int rv = sigaction(SIGTERM, sa, nullptr);
+    PLOG_IF(ERROR, rv != 0) << "sigaction";
+  }
+};
+using ScopedResetSIGTERM =
+    base::ScopedGeneric<struct sigaction*, ResetSIGTERMTraits>;
+
+ExceptionHandlerServer* g_exception_handler_server;
+
+// This signal handler is only operative when being run from launchd.
+void HandleSIGTERM(int sig, siginfo_t* siginfo, void* context) {
+  DCHECK(g_exception_handler_server);
+  g_exception_handler_server->Stop();
+}
+
+#endif  // OS_MACOSX
 
 }  // namespace
 
@@ -285,6 +315,26 @@ int HandlerMain(int argc, char* argv[]) {
 
   ExceptionHandlerServer exception_handler_server(
       receive_right.Pass(), !options.mach_service.empty());
+  base::AutoReset<ExceptionHandlerServer*> reset_g_exception_handler_server(
+      &g_exception_handler_server, &exception_handler_server);
+
+  struct sigaction old_sa;
+  ScopedResetSIGTERM reset_sigterm;
+  if (!options.mach_service.empty()) {
+    // When running from launchd, no no-senders notification could ever be
+    // triggered, because launchd maintains a send right to the service. When
+    // launchd wants the job to exit, it will send a SIGTERM. See
+    // launchd.plist(5).
+    //
+    // Set up a SIGTERM handler that will call exception_handler_server.Stop().
+    struct sigaction sa = {};
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_SIGINFO;
+    sa.sa_sigaction = HandleSIGTERM;
+    int rv = sigaction(SIGTERM, &sa, &old_sa);
+    PCHECK(rv == 0) << "sigaction";
+    reset_sigterm.reset(&old_sa);
+  }
 #elif defined(OS_WIN)
   ExceptionHandlerServer exception_handler_server(!options.pipe_name.empty());
 
