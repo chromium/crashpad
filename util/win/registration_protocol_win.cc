@@ -24,8 +24,22 @@ namespace crashpad {
 bool SendToCrashHandlerServer(const base::string16& pipe_name,
                               const crashpad::ClientToServerMessage& message,
                               crashpad::ServerToClientMessage* response) {
-  int tries = 0;
-  for (;;) {
+  // Retry CreateFile() in a loop. If the handler isn’t actively waiting in
+  // ConnectNamedPipe() on a pipe instance because it’s busy doing something
+  // else, CreateFile() will fail with ERROR_PIPE_BUSY. WaitNamedPipe() waits
+  // until a pipe instance is ready, but there’s no way to wait for this
+  // condition and atomically open the client side of the pipe in a single
+  // operation. CallNamedPipe() implements similar retry logic to this, also in
+  // user-mode code.
+  //
+  // This loop is only intended to retry on ERROR_PIPE_BUSY. Notably, if the
+  // handler is so lazy that it hasn’t even called CreateNamedPipe() yet,
+  // CreateFile() will fail with ERROR_FILE_NOT_FOUND, and this function is
+  // expected to fail without retrying anything. If the handler is started at
+  // around the same time as its client, something external to this code must be
+  // done to guarantee correct ordering. When the client starts the handler
+  // itself, CrashpadClient::StartHandler() provides this synchronization.
+  for (int tries = 0;;) {
     ScopedFileHANDLE pipe(
         CreateFile(pipe_name.c_str(),
                    GENERIC_READ | GENERIC_WRITE,
@@ -65,12 +79,12 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
         &bytes_read,
         nullptr);
     if (!result) {
-      LOG(ERROR) << "TransactNamedPipe: expected " << sizeof(*response)
-                 << ", observed " << bytes_read;
+      PLOG(ERROR) << "TransactNamedPipe";
       return false;
     }
     if (bytes_read != sizeof(*response)) {
-      LOG(ERROR) << "TransactNamedPipe read incorrect number of bytes";
+      LOG(ERROR) << "TransactNamedPipe: expected " << sizeof(*response)
+                 << ", observed " << bytes_read;
       return false;
     }
     return true;
