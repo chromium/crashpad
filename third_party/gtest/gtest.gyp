@@ -18,60 +18,68 @@
   ],
   'conditions': [
     ['crashpad_in_chromium==0', {
+      'target_defaults': {
+        # gtest relies heavily on objects with static storage duration.
+        'xcode_settings': {
+          'WARNING_CFLAGS!': [
+            '-Wexit-time-destructors',
+          ],
+        },
+        'cflags!': [
+          '-Wexit-time-destructors',
+        ],
+      },
+
       'targets': [
         {
           'target_name': 'gtest',
           'type': 'static_library',
           'include_dirs': [
-            'gtest',
-            'gtest/include',
+            'gtest/googletest',
+            'gtest/googletest/include',
           ],
           'sources': [
-            'gtest/include/gtest/gtest-death-test.h',
-            'gtest/include/gtest/gtest-message.h',
-            'gtest/include/gtest/gtest-param-test.h',
-            'gtest/include/gtest/gtest-printers.h',
-            'gtest/include/gtest/gtest-spi.h',
-            'gtest/include/gtest/gtest-test-part.h',
-            'gtest/include/gtest/gtest-typed-test.h',
-            'gtest/include/gtest/gtest.h',
-            'gtest/include/gtest/gtest_pred_impl.h',
-            'gtest/include/gtest/gtest_prod.h',
-            'gtest/include/gtest/internal/gtest-death-test-internal.h',
-            'gtest/include/gtest/internal/gtest-filepath.h',
-            'gtest/include/gtest/internal/gtest-internal.h',
-            'gtest/include/gtest/internal/gtest-linked_ptr.h',
-            'gtest/include/gtest/internal/gtest-param-util-generated.h',
-            'gtest/include/gtest/internal/gtest-param-util.h',
-            'gtest/include/gtest/internal/gtest-port.h',
-            'gtest/include/gtest/internal/gtest-string.h',
-            'gtest/include/gtest/internal/gtest-tuple.h',
-            'gtest/include/gtest/internal/gtest-type-util.h',
-            'gtest/src/gtest.cc',
-            'gtest/src/gtest-death-test.cc',
-            'gtest/src/gtest-filepath.cc',
-            'gtest/src/gtest-port.cc',
-            'gtest/src/gtest-printers.cc',
-            'gtest/src/gtest-test-part.cc',
-            'gtest/src/gtest-typed-test.cc',
+            'gtest/googletest/include/gtest/gtest-death-test.h',
+            'gtest/googletest/include/gtest/gtest-message.h',
+            'gtest/googletest/include/gtest/gtest-param-test.h',
+            'gtest/googletest/include/gtest/gtest-printers.h',
+            'gtest/googletest/include/gtest/gtest-spi.h',
+            'gtest/googletest/include/gtest/gtest-test-part.h',
+            'gtest/googletest/include/gtest/gtest-typed-test.h',
+            'gtest/googletest/include/gtest/gtest.h',
+            'gtest/googletest/include/gtest/gtest_pred_impl.h',
+            'gtest/googletest/include/gtest/gtest_prod.h',
+            'gtest/googletest/include/gtest/internal/custom/gtest-port.h',
+            'gtest/googletest/include/gtest/internal/custom/gtest-printers.h',
+            'gtest/googletest/include/gtest/internal/custom/gtest.h',
+            'gtest/googletest/include/gtest/internal/gtest-death-test-internal.h',
+            'gtest/googletest/include/gtest/internal/gtest-filepath.h',
+            'gtest/googletest/include/gtest/internal/gtest-internal.h',
+            'gtest/googletest/include/gtest/internal/gtest-linked_ptr.h',
+            'gtest/googletest/include/gtest/internal/gtest-param-util-generated.h',
+            'gtest/googletest/include/gtest/internal/gtest-param-util.h',
+            'gtest/googletest/include/gtest/internal/gtest-port-arch.h',
+            'gtest/googletest/include/gtest/internal/gtest-port.h',
+            'gtest/googletest/include/gtest/internal/gtest-string.h',
+            'gtest/googletest/include/gtest/internal/gtest-tuple.h',
+            'gtest/googletest/include/gtest/internal/gtest-type-util.h',
+            'gtest/googletest/src/gtest-all.cc',
+            'gtest/googletest/src/gtest-death-test.cc',
+            'gtest/googletest/src/gtest-filepath.cc',
+            'gtest/googletest/src/gtest-internal-inl.h',
+            'gtest/googletest/src/gtest-port.cc',
+            'gtest/googletest/src/gtest-printers.cc',
+            'gtest/googletest/src/gtest-test-part.cc',
+            'gtest/googletest/src/gtest-typed-test.cc',
+            'gtest/googletest/src/gtest.cc',
           ],
           'sources!': [
-            'gtest/src/gtest-all.cc',
-          ],
-
-          # gtest relies heavily on objects with static storage duration.
-          'xcode_settings': {
-            'WARNING_CFLAGS!': [
-              '-Wexit-time-destructors',
-            ],
-          },
-          'cflags!': [
-            '-Wexit-time-destructors',
+            'gtest/googletest/src/gtest-all.cc',
           ],
 
           'direct_dependent_settings': {
             'include_dirs': [
-              'gtest/include',
+              'gtest/googletest/include',
             ],
           },
         },
@@ -82,7 +90,7 @@
             'gtest',
           ],
           'sources': [
-            'gtest/src/gtest_main.cc',
+            'gtest/googletest/src/gtest_main.cc',
           ],
         },
         {
@@ -94,7 +102,7 @@
           'direct_dependent_settings': {
             'type': 'executable',
             'include_dirs': [
-              'gtest',
+              'gtest/googletest',
             ],
           },
           'export_dependent_settings': [
@@ -108,23 +116,23 @@
             'gtest_main',
           ],
           'sources': [
-            'gtest/test/gtest-death-test_test.cc',
-            'gtest/test/gtest-filepath_test.cc',
-            'gtest/test/gtest-linked_ptr_test.cc',
-            'gtest/test/gtest-message_test.cc',
-            'gtest/test/gtest-options_test.cc',
-            'gtest/test/gtest-port_test.cc',
-            'gtest/test/gtest-printers_test.cc',
-            'gtest/test/gtest-test-part_test.cc',
-            'gtest/test/gtest-typed-test_test.cc',
-            'gtest/test/gtest-typed-test_test.h',
-            'gtest/test/gtest-typed-test2_test.cc',
-            'gtest/test/gtest_main_unittest.cc',
-            'gtest/test/gtest_pred_impl_unittest.cc',
-            'gtest/test/gtest_prod_test.cc',
-            'gtest/test/gtest_unittest.cc',
-            'gtest/test/production.cc',
-            'gtest/test/production.h',
+            'gtest/googletest/test/gtest-death-test_test.cc',
+            'gtest/googletest/test/gtest-filepath_test.cc',
+            'gtest/googletest/test/gtest-linked_ptr_test.cc',
+            'gtest/googletest/test/gtest-message_test.cc',
+            'gtest/googletest/test/gtest-options_test.cc',
+            'gtest/googletest/test/gtest-port_test.cc',
+            'gtest/googletest/test/gtest-printers_test.cc',
+            'gtest/googletest/test/gtest-test-part_test.cc',
+            'gtest/googletest/test/gtest-typed-test2_test.cc',
+            'gtest/googletest/test/gtest-typed-test_test.cc',
+            'gtest/googletest/test/gtest-typed-test_test.h',
+            'gtest/googletest/test/gtest_main_unittest.cc',
+            'gtest/googletest/test/gtest_pred_impl_unittest.cc',
+            'gtest/googletest/test/gtest_prod_test.cc',
+            'gtest/googletest/test/gtest_unittest.cc',
+            'gtest/googletest/test/production.cc',
+            'gtest/googletest/test/production.h',
           ],
         },
         {
@@ -133,7 +141,7 @@
             'gtest_test_executable',
           ],
           'sources': [
-            'gtest/test/gtest_environment_test.cc',
+            'gtest/googletest/test/gtest_environment_test.cc',
           ],
         },
         {
@@ -142,7 +150,7 @@
             'gtest_test_executable',
           ],
           'sources': [
-            'gtest/test/gtest-listener_test.cc',
+            'gtest/googletest/test/gtest-listener_test.cc',
           ],
         },
         {
@@ -151,7 +159,7 @@
             'gtest_test_executable',
           ],
           'sources': [
-            'gtest/test/gtest_no_test_unittest.cc',
+            'gtest/googletest/test/gtest_no_test_unittest.cc',
           ],
         },
         {
@@ -160,9 +168,9 @@
             'gtest_test_executable',
           ],
           'sources': [
-            'gtest/test/gtest-param-test_test.cc',
-            'gtest/test/gtest-param-test_test.h',
-            'gtest/test/gtest-param-test2_test.cc',
+            'gtest/googletest/test/gtest-param-test2_test.cc',
+            'gtest/googletest/test/gtest-param-test_test.cc',
+            'gtest/googletest/test/gtest-param-test_test.h',
           ],
         },
         {
@@ -171,7 +179,7 @@
             'gtest_test_executable',
           ],
           'sources': [
-            'gtest/test/gtest_premature_exit_test.cc',
+            'gtest/googletest/test/gtest_premature_exit_test.cc',
           ],
         },
         {
@@ -180,7 +188,7 @@
             'gtest_test_executable',
           ],
           'sources': [
-            'gtest/test/gtest_repeat_test.cc',
+            'gtest/googletest/test/gtest_repeat_test.cc',
           ],
         },
         {
@@ -190,7 +198,7 @@
             'gtest_main',
           ],
           'sources': [
-            'gtest/test/gtest_sole_header_test.cc',
+            'gtest/googletest/test/gtest_sole_header_test.cc',
           ],
         },
         {
@@ -199,7 +207,7 @@
             'gtest_test_executable',
           ],
           'sources': [
-            'gtest/test/gtest_stress_test.cc',
+            'gtest/googletest/test/gtest_stress_test.cc',
           ],
         },
         {
@@ -208,7 +216,7 @@
             'gtest_test_executable',
           ],
           'sources': [
-            'gtest/test/gtest-unittest-api_test.cc',
+            'gtest/googletest/test/gtest-unittest-api_test.cc',
           ],
         },
         {
@@ -217,6 +225,7 @@
           'dependencies': [
             'gtest_all_test',
             'gtest_environment_test',
+            'gtest_listener_test',
             'gtest_no_test',
             'gtest_param_test',
             'gtest_premature_exit_test',

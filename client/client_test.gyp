@@ -23,9 +23,9 @@
       'dependencies': [
         'client.gyp:crashpad_client',
         '../test/test.gyp:crashpad_test',
-        '../third_party/gmock/gmock.gyp:gmock',
+        '../third_party/gtest/gmock.gyp:gmock',
+        '../third_party/gtest/gmock.gyp:gmock_main',
         '../third_party/gtest/gtest.gyp:gtest',
-        '../third_party/gtest/gtest.gyp:gtest_main',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
       ],

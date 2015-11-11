@@ -17,12 +17,9 @@ vars = {
 }
 
 deps = {
-  'crashpad/third_party/gmock/gmock':
-      Var('chromium_git') + '/external/gmock@' +
-      '29763965ab52f24565299976b936d1265cb6a271',  # svn r501
   'crashpad/third_party/gtest/gtest':
-      Var('chromium_git') + '/external/gtest@' +
-      '8245545b6dc9c4703e6496d1efd19e975ad2b038',  # svn r700
+      Var('chromium_git') + '/external/github.com/google/googletest@' +
+      '71a26ac68b28c61686b8941730a6b2577912e239',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
       '01528c7244837168a1c80f06ff60fa5a9793c824',
