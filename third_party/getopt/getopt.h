@@ -18,6 +18,8 @@ using it.
 
 /* types defined by this include file */
 
+namespace crashpad {
+
 /* GETOPT_LONG_OPTION_T: The type of long option */
 typedef struct GETOPT_LONG_OPTION_T
 {
@@ -35,28 +37,26 @@ typedef struct GETOPT_LONG_OPTION_T
 
 typedef GETOPT_LONG_OPTION_T option;
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+/* externally-defined variables */
+extern char *optarg;
+extern int optind;
+extern int opterr;
+extern int optopt;
 
-  /* externally-defined variables */
-  extern char *optarg;
-  extern int optind;
-  extern int opterr;
-  extern int optopt;
+/* function prototypes */
+int getopt(int argc, char** argv, char* optstring);
+int getopt_long(int argc,
+                char** argv,
+                const char* shortopts,
+                const GETOPT_LONG_OPTION_T* longopts,
+                int* longind);
+int getopt_long_only(int argc,
+                     char** argv,
+                     const char* shortopts,
+                     const GETOPT_LONG_OPTION_T* longopts,
+                     int* longind);
 
-  /* function prototypes */
-  int getopt (int argc, char **argv, char *optstring);
-  int getopt_long (int argc, char **argv, const char *shortopts,
-                   const GETOPT_LONG_OPTION_T * longopts, int *longind);
-  int getopt_long_only (int argc, char **argv, const char *shortopts,
-                        const GETOPT_LONG_OPTION_T * longopts, int *longind);
-
-#ifdef __cplusplus
-};
-
-#endif
+}  // namespace crashpad
 
 #endif /* GETOPT_H */
 

@@ -34,8 +34,8 @@ class ExceptionHandlerServer {
   //!     notifications will be received on.
   //! \param[in] launchd If `true`, the exception handler is being run from
   //!     launchd. \a receive_port is not monitored for no-senders
-  //!     notifications, and instead, the expected “quit” signal is receipt of
-  //!     `SIGTERM`.
+  //!     notifications, and instead, Stop() must be called to provide a “quit”
+  //!     signal.
   ExceptionHandlerServer(base::mac::ScopedMachReceiveRight receive_port,
                          bool launchd);
   ~ExceptionHandlerServer();
@@ -47,11 +47,10 @@ class ExceptionHandlerServer {
   //! This method monitors the receive port for exception messages and, if
   //! not being run by launchd, no-senders notifications. It continues running
   //! until it has no more clients, indicated by the receipt of a no-senders
-  //! notification, or if being run by launchd, receipt of `SIGTERM`. When not
-  //! being run by launchd, it is important to assure that a send right exists
-  //! in a client (or has been queued by `mach_msg()` to be sent to a client)
-  //! prior to calling this method, or it will detect that it is sender-less and
-  //! return immediately.
+  //! notification, or until Stop() is called. When not being run by launchd, it
+  //! is important to assure that a send right exists in a client (or has been
+  //! queued by `mach_msg()` to be sent to a client) prior to calling this
+  //! method, or it will detect that it is sender-less and return immediately.
   //!
   //! All exception messages will be passed to \a exception_interface.
   //!
@@ -63,8 +62,19 @@ class ExceptionHandlerServer {
   //! this method will continue running normally.
   void Run(UniversalMachExcServer::Interface* exception_interface);
 
+  //! \brief Stops a running exception-handling server.
+  //!
+  //! The normal mode of operation is to call Stop() while Run() is running. It
+  //! is expected that Stop() would be called from a signal handler.
+  //!
+  //! If Stop() is called before Run() it will cause Run() to return as soon as
+  //! it is called. It is harmless to call Stop() after Run() has already
+  //! returned, or to call Stop() after it has already been called.
+  void Stop();
+
  private:
   base::mac::ScopedMachReceiveRight receive_port_;
+  base::mac::ScopedMachReceiveRight notify_port_;
   bool launchd_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionHandlerServer);

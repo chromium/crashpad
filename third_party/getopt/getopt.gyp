@@ -23,7 +23,7 @@
           'target_name': 'getopt',
           'type': 'static_library',
           'sources': [
-            'getopt.c',
+            'getopt.cc',
             'getopt.h',
           ],
         },

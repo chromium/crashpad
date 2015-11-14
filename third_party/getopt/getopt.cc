@@ -99,6 +99,8 @@ gpietsch@comcast.net
 #include "getopt.h"
 #endif
 
+namespace crashpad {
+
 /* macros */
 
 /* types */
@@ -414,5 +416,7 @@ getopt_long_only (int argc, char **argv, const char *shortopts,
 {
   return getopt_internal (argc, argv, (char*)shortopts, (GETOPT_LONG_OPTION_T*)longopts, longind, 1);
 }
+
+}  // namespace crashpad
 
 /* end of file GETOPT.C */

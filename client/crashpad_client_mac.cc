@@ -164,7 +164,8 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
       return base::mac::ScopedMachSendRight();
     }
 
-    if (handler_restarter && handler_restarter->StartRestartThread(
+    if (handler_restarter &&
+        handler_restarter->StartRestartThread(
             handler, database, url, annotations, arguments)) {
       // The thread owns the object now.
       ignore_result(handler_restarter.release());
@@ -245,6 +246,8 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
                           base::mac::ScopedMachReceiveRight receive_right,
                           HandlerStarter* handler_restarter,
                           bool restart) {
+    DCHECK(!restart || handler_restarter);
+
     if (handler_restarter) {
       // The port-destroyed notification must be requested each time. It uses
       // a send-once right, so once the notification is received, it won’t be
@@ -270,7 +273,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
         DCHECK(restart || !previous_owner.is_valid());
       }
 
-      if (handler_restarter->last_start_time_) {
+      if (restart) {
         // If the handler was ever started before, don’t restart it too quickly.
         const uint64_t kNanosecondsPerSecond = 1E9;
         const uint64_t kMinimumStartInterval = 1 * kNanosecondsPerSecond;
@@ -279,7 +282,14 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
             handler_restarter->last_start_time_ + kMinimumStartInterval;
         const uint64_t now_time = ClockMonotonicNanoseconds();
         if (earliest_next_start_time > now_time) {
+          const uint64_t sleep_time = earliest_next_start_time - now_time;
+          LOG(INFO) << "restarting handler"
+                    << base::StringPrintf(" in %.3fs",
+                                          static_cast<double>(sleep_time) /
+                                              kNanosecondsPerSecond);
           SleepNanoseconds(earliest_next_start_time - now_time);
+        } else {
+          LOG(INFO) << "restarting handler";
         }
       }
 
@@ -517,13 +527,13 @@ bool CrashpadClient::StartHandler(
   // The “restartable” behavior can only be selected on OS X 10.10 and later. In
   // previous OS versions, if the initial client were to crash while attempting
   // to restart the handler, it would become an unkillable process.
-  base::mac::ScopedMachSendRight exception_port(HandlerStarter::InitialStart(
-      handler,
-      database,
-      url,
-      annotations,
-      arguments,
-      restartable && MacOSXMinorVersion() >= 10));
+  base::mac::ScopedMachSendRight exception_port(
+      HandlerStarter::InitialStart(handler,
+                                   database,
+                                   url,
+                                   annotations,
+                                   arguments,
+                                   restartable && MacOSXMinorVersion() >= 10));
   if (!exception_port.is_valid()) {
     return false;
   }
