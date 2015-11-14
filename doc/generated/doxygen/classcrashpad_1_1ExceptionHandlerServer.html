@@ -115,6 +115,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a348789edd93bcd388ddd38c77230583d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d">Run</a> (<a class="el" href="classcrashpad_1_1UniversalMachExcServer_1_1Interface.html">UniversalMachExcServer::Interface</a> *exception_interface)</td></tr>
 <tr class="memdesc:a348789edd93bcd388ddd38c77230583d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the exception-handling server.  <a href="#a348789edd93bcd388ddd38c77230583d">More...</a><br /></td></tr>
 <tr class="separator:a348789edd93bcd388ddd38c77230583d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75dd814798b8f8224f53d84cea8368be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be">Stop</a> ()</td></tr>
+<tr class="memdesc:a75dd814798b8f8224f53d84cea8368be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops a running exception-handling server.  <a href="#a75dd814798b8f8224f53d84cea8368be">More...</a><br /></td></tr>
+<tr class="separator:a75dd814798b8f8224f53d84cea8368be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6493334c96948606db2553cbbc5a2877"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a6493334c96948606db2553cbbc5a2877">ExceptionHandlerServer</a> (bool persistent)</td></tr>
 <tr class="memdesc:a6493334c96948606db2553cbbc5a2877"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the exception handling server.  <a href="#a6493334c96948606db2553cbbc5a2877">More...</a><br /></td></tr>
 <tr class="separator:a6493334c96948606db2553cbbc5a2877"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,7 +167,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">receive_port</td><td>The port that exception messages and no-senders notifications will be received on. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">launchd</td><td>If <code>true</code>, the exception handler is being run from launchd. <em>receive_port</em> is not monitored for no-senders notifications, and instead, the expected “quit” signal is receipt of <code>SIGTERM</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">launchd</td><td>If <code>true</code>, the exception handler is being run from launchd. <em>receive_port</em> is not monitored for no-senders notifications, and instead, <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be" title="Stops a running exception-handling server. ">Stop()</a> must be called to provide a “quit” signal. </td></tr>
   </table>
   </dd>
 </dl>
@@ -196,7 +199,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Constructs the exception handling server. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">persistent</td><td><code>true</code> if <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> should not return until <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be" title="Stops the exception-handling server. Returns immediately. The object must not be destroyed until Run(...">Stop()</a> is called. If <code>false</code>, <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> will return when all clients have exited, although <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> will always wait for the first client to connect. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">persistent</td><td><code>true</code> if <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> should not return until <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be" title="Stops a running exception-handling server. ">Stop()</a> is called. If <code>false</code>, <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> will return when all clients have exited, although <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> will always wait for the first client to connect. </td></tr>
   </table>
   </dd>
 </dl>
@@ -244,7 +247,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </table>
   </dd>
 </dl>
-<p>This method monitors the receive port for exception messages and, if not being run by launchd, no-senders notifications. It continues running until it has no more clients, indicated by the receipt of a no-senders notification, or if being run by launchd, receipt of <code>SIGTERM</code>. When not being run by launchd, it is important to assure that a send right exists in a client (or has been queued by <code>mach_msg()</code> to be sent to a client) prior to calling this method, or it will detect that it is sender-less and return immediately.</p>
+<p>This method monitors the receive port for exception messages and, if not being run by launchd, no-senders notifications. It continues running until it has no more clients, indicated by the receipt of a no-senders notification, or until <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be" title="Stops a running exception-handling server. ">Stop()</a> is called. When not being run by launchd, it is important to assure that a send right exists in a client (or has been queued by <code>mach_msg()</code> to be sent to a client) prior to calling this method, or it will detect that it is sender-less and return immediately.</p>
 <p>All exception messages will be passed to <em>exception_interface</em>.</p>
 <p>This method must only be called once on an <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html" title="Runs the main exception-handling server in Crashpad’s handler process. ">ExceptionHandlerServer</a> object.</p>
 <p>If an unexpected condition that prevents this method from functioning is encountered, it will log a message and terminate execution. Receipt of an invalid message on the receive port will cause a message to be logged, but this method will continue running normally. </p>
@@ -297,6 +300,25 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a75dd814798b8f8224f53d84cea8368be"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::ExceptionHandlerServer::Stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stops a running exception-handling server. </p>
+<p>The normal mode of operation is to call <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be" title="Stops a running exception-handling server. ">Stop()</a> while <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> is running. It is expected that <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be" title="Stops a running exception-handling server. ">Stop()</a> would be called from a signal handler.</p>
+<p>If <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be" title="Stops a running exception-handling server. ">Stop()</a> is called before <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> it will cause <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> to return as soon as it is called. It is harmless to call <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be" title="Stops a running exception-handling server. ">Stop()</a> after <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> has already returned, or to call <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be" title="Stops a running exception-handling server. ">Stop()</a> after it has already been called. </p>
 
 </div>
 </div>
