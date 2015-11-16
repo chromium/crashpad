@@ -20,7 +20,6 @@
 
 #include "base/files/file_path.h"
 #include "base/memory/scoped_ptr.h"
-#include "base/rand_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -30,6 +29,7 @@
 #include "test/paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
+#include "util/misc/random_string.h"
 #include "util/misc/uuid.h"
 #include "util/win/command_line.h"
 #include "util/win/get_function.h"
@@ -559,9 +559,9 @@ TEST(ProcessInfo, Handles) {
   ASSERT_TRUE(scoped_key.is_valid());
 
   std::wstring mapping_name =
-      base::UTF8ToUTF16(base::StringPrintf("Local\\test_mapping_%d_%I64x",
+      base::UTF8ToUTF16(base::StringPrintf("Local\\test_mapping_%d_%s",
                                            GetCurrentProcessId(),
-                                           base::RandUint64()));
+                                           RandomString().c_str()));
   ScopedKernelHANDLE mapping(CreateFileMapping(INVALID_HANDLE_VALUE,
                                                nullptr,
                                                PAGE_READWRITE,

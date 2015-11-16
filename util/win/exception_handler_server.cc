@@ -26,6 +26,7 @@
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
+#include "util/misc/random_string.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 #include "util/win/get_function.h"
@@ -318,10 +319,7 @@ std::wstring ExceptionHandlerServer::CreatePipe() {
       base::StringPrintf("\\\\.\\pipe\\crashpad_%d_", GetCurrentProcessId());
   std::wstring pipe_name;
   do {
-    pipe_name = base::UTF8ToUTF16(pipe_name_base);
-    for (int index = 0; index < 16; ++index) {
-      pipe_name.append(1, static_cast<wchar_t>(base::RandInt('A', 'Z')));
-    }
+    pipe_name = base::UTF8ToUTF16(pipe_name_base + RandomString());
 
     first_pipe_instance_.reset(CreateNamedPipeInstance(pipe_name, true));
 

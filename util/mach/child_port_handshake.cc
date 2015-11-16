@@ -37,6 +37,7 @@
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/misc/implicit_cast.h"
+#include "util/misc/random_string.h"
 
 namespace crashpad {
 namespace {
@@ -97,10 +98,10 @@ mach_port_t ChildPortHandshakeServer::RunServer(
   errno = pthread_threadid_np(pthread_self(), &thread_id);
   PCHECK(errno == 0) << "pthread_threadid_np";
   std::string service_name = base::StringPrintf(
-      "org.chromium.crashpad.child_port_handshake.%d.%llu.%016llx",
+      "org.chromium.crashpad.child_port_handshake.%d.%llu.%s",
       getpid(),
       thread_id,
-      base::RandUint64());
+      RandomString().c_str());
 
   // Check the new service in with the bootstrap server, obtaining a receive
   // right for it.

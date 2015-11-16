@@ -20,7 +20,7 @@
 When invoked, this server will write a short integer to stdout, indiciating on
 which port the server is listening. It will then read one integer from stdin,
 indiciating the response code to be sent in response to a request. It also reads
-8 characters from stdin, which, after having "\r\n" appended, will form the
+16 characters from stdin, which, after having "\r\n" appended, will form the
 response body in a successful response (one with code 200). The server will
 process one HTTP request, deliver the prearranged response to the client, and
 write the entire request to stdout. It will then terminate.
@@ -144,9 +144,9 @@ def Main():
   sys.stdout.flush()
 
   # Read the desired test response code as an unsigned short and the desired
-  # response body as an 8-byte string from the parent process.
+  # response body as a 16-byte string from the parent process.
   RequestHandler.response_code, RequestHandler.response_body = \
-      struct.unpack('=H8s', sys.stdin.read(struct.calcsize('=H8s')))
+      struct.unpack('=H16s', sys.stdin.read(struct.calcsize('=H16s')))
 
   # Handle the request.
   server.handle_request()

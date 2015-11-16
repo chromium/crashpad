@@ -94,6 +94,8 @@
         'misc/initialization_state_dcheck.h',
         'misc/pdb_structures.cc',
         'misc/pdb_structures.h',
+        'misc/random_string.cc',
+        'misc/random_string.h',
         'misc/scoped_forbid_return.cc',
         'misc/scoped_forbid_return.h',
         'misc/symbolic_constants_common.h',

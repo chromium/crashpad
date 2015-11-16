@@ -15,10 +15,10 @@
 #include "util/mach/mach_extensions.h"
 
 #include "base/mac/scoped_mach_port.h"
-#include "base/rand_util.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
 #include "util/mac/mac_util.h"
+#include "util/misc/random_string.h"
 
 namespace crashpad {
 namespace test {
@@ -139,9 +139,7 @@ TEST(MachExtensions, BootstrapCheckInAndLookUp) {
   EXPECT_NE(report_crash, kMachPortNull);
 
   std::string service_name = "org.chromium.crashpad.test.bootstrap_check_in.";
-  for (int index = 0; index < 16; ++index) {
-    service_name.append(1, base::RandInt('A', 'Z'));
-  }
+  service_name.append(RandomString());
 
   {
     // The new service hasn’t checked in yet, so this should fail.

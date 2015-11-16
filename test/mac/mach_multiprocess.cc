@@ -23,7 +23,6 @@
 #include "base/logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "base/memory/scoped_ptr.h"
-#include "base/rand_util.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/mac/mach_errors.h"
@@ -31,6 +30,7 @@
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/misc/implicit_cast.h"
+#include "util/misc/random_string.h"
 #include "util/misc/scoped_forbid_return.h"
 
 namespace {
@@ -93,9 +93,7 @@ void MachMultiprocess::PreFork() {
   // forking, so that it’s guaranteed to be there when the child attempts to
   // look it up.
   info_->service_name = "org.chromium.crashpad.test.mach_multiprocess.";
-  for (int index = 0; index < 16; ++index) {
-    info_->service_name.append(1, base::RandInt('A', 'Z'));
-  }
+  info_->service_name.append(RandomString());
 
   info_->local_port = BootstrapCheckIn(info_->service_name);
   ASSERT_TRUE(info_->local_port.is_valid());
