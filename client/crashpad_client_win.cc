@@ -132,7 +132,8 @@ using ScopedProcThreadAttributeList =
     base::ScopedGeneric<PPROC_THREAD_ATTRIBUTE_LIST,
                         ScopedProcThreadAttributeListTraits>;
 
-// Adds |handle| to |handle_list| if it appears valid.
+// Adds |handle| to |handle_list| if it appears valid, and is not already in
+// |handle_list|.
 //
 // Invalid handles (including INVALID_HANDLE_VALUE and null handles) cannot be
 // added to a PPROC_THREAD_ATTRIBUTE_LIST’s PROC_THREAD_ATTRIBUTE_HANDLE_LIST.
@@ -142,7 +143,12 @@ using ScopedProcThreadAttributeList =
 //
 // Use this function to add handles with uncertain validities.
 void AddHandleToListIfValid(std::vector<HANDLE>* handle_list, HANDLE handle) {
-  if (handle && handle != INVALID_HANDLE_VALUE) {
+  // There doesn't seem to be any documentation of this, but if there's a handle
+  // duplicated in this list, CreateProcess() fails with
+  // ERROR_INVALID_PARAMETER.
+  if (handle && handle != INVALID_HANDLE_VALUE &&
+      std::find(handle_list->begin(), handle_list->end(), handle) ==
+          handle_list->end()) {
     handle_list->push_back(handle);
   }
 }
@@ -337,6 +343,7 @@ bool CrashpadClient::UseHandler() {
   DCHECK_EQ(g_signal_non_crash_dump, INVALID_HANDLE_VALUE);
   DCHECK_EQ(g_non_crash_dump_done, INVALID_HANDLE_VALUE);
   DCHECK(!g_critical_section_with_debug_info.DebugInfo);
+  DCHECK(!g_non_crash_dump_lock);
 
   ClientToServerMessage message;
   memset(&message, 0, sizeof(message));
