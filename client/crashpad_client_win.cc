@@ -368,7 +368,7 @@ bool CrashpadClient::UseHandler() {
         reinterpret_cast<WinVMAddress>(&g_critical_section_with_debug_info);
   }
 
-  ServerToClientMessage response = {0};
+  ServerToClientMessage response = {};
 
   if (!SendToCrashHandlerServer(ipc_pipe_, message, &response)) {
     return false;
@@ -408,7 +408,7 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
 
   // Create a fake EXCEPTION_POINTERS to give the handler something to work
   // with.
-  EXCEPTION_POINTERS exception_pointers = {0};
+  EXCEPTION_POINTERS exception_pointers = {};
 
   // This is logically const, but EXCEPTION_POINTERS does not declare it as
   // const, so we have to cast that away from the argument.
@@ -421,7 +421,7 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   // some of the top nibble set, so we make sure to pick a value that doesn't,
   // so as to be unlikely to conflict.
   const uint32_t kSimulatedExceptionCode = 0x517a7ed;
-  EXCEPTION_RECORD record = {0};
+  EXCEPTION_RECORD record = {};
   record.ExceptionCode = kSimulatedExceptionCode;
 #if defined(ARCH_CPU_64_BITS)
   record.ExceptionAddress = reinterpret_cast<void*>(context.Rip);

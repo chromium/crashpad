@@ -446,7 +446,7 @@ bool ExceptionHandlerServer::ServiceClientConnection(
                    << message.shutdown.token;
         return false;
       }
-      ServerToClientMessage shutdown_response = {0};
+      ServerToClientMessage shutdown_response = {};
       LoggingWriteFile(service_context.pipe(),
                        &shutdown_response,
                        sizeof(shutdown_response));
