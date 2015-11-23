@@ -22,6 +22,7 @@
       'type': 'executable',
       'dependencies': [
         'client.gyp:crashpad_client',
+        '../handler/handler.gyp:crashpad_handler',
         '../test/test.gyp:crashpad_test',
         '../third_party/gtest/gmock.gyp:gmock',
         '../third_party/gtest/gmock.gyp:gmock_main',
@@ -35,6 +36,7 @@
       'sources': [
         'capture_context_mac_test.cc',
         'crash_report_database_test.cc',
+        'crashpad_client_win_test.cc',
         'prune_crash_reports_test.cc',
         'settings_test.cc',
         'simple_string_dictionary_test.cc',

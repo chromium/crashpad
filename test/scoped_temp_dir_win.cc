@@ -17,10 +17,10 @@
 #include <windows.h>
 
 #include "base/logging.h"
-#include "base/rand_util.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "util/misc/random_string.h"
 #include "gtest/gtest.h"
 
 namespace crashpad {
@@ -34,7 +34,7 @@ base::FilePath GenerateCandidateName() {
   PCHECK(path_len != 0) << "GetTempPath";
   base::FilePath system_temp_dir(temp_path);
   base::string16 new_dir_name = base::UTF8ToUTF16(base::StringPrintf(
-        "crashpad.test.%d.%I64x", GetCurrentProcessId(), base::RandUint64()));
+        "crashpad.test.%d.%s", GetCurrentProcessId(), RandomString().c_str()));
   return system_temp_dir.Append(new_dir_name);
 }
 

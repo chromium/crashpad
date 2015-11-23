@@ -24,9 +24,9 @@
 #include "base/mac/scoped_cftyperef.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
-#include "base/rand_util.h"
 #include "gtest/gtest.h"
 #include "util/misc/clock.h"
+#include "util/misc/random_string.h"
 #include "util/posix/process_info.h"
 #include "util/stdlib/objc.h"
 
@@ -108,10 +108,7 @@ void ExpectProcessIsNotRunning(pid_t pid, std::string& last_arg) {
 
 TEST(ServiceManagement, SubmitRemoveJob) {
   @autoreleasepool {
-    std::string cookie;
-    for (int index = 0; index < 16; ++index) {
-      cookie.append(1, base::RandInt('A', 'Z'));
-    }
+    const std::string cookie = RandomString();
 
     std::string shell_script =
         base::StringPrintf("sleep 10; echo %s", cookie.c_str());

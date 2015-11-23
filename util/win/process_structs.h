@@ -360,10 +360,10 @@ struct SYSTEM_THREAD_INFORMATION {
 // There's an extra field in the x64 VM_COUNTERS (or maybe it's VM_COUNTERS_EX,
 // it's not clear), so we just make separate specializations for 32/64.
 template <class Traits>
-class VM_COUNTERS {};
+struct VM_COUNTERS {};
 
 template <>
-class VM_COUNTERS<internal::Traits32> {
+struct VM_COUNTERS<internal::Traits32> {
   SIZE_T PeakVirtualSize;
   SIZE_T VirtualSize;
   ULONG PageFaultCount;
@@ -378,7 +378,7 @@ class VM_COUNTERS<internal::Traits32> {
 };
 
 template <>
-class VM_COUNTERS<internal::Traits64> {
+struct VM_COUNTERS<internal::Traits64> {
   SIZE_T PeakVirtualSize;
   SIZE_T VirtualSize;
   union {

@@ -19,13 +19,13 @@ vars = {
 deps = {
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
-      '71a26ac68b28c61686b8941730a6b2577912e239',
+      '786564fa4a3c8e0f908acca32cce481de5481b9f',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
       '01528c7244837168a1c80f06ff60fa5a9793c824',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      'ea8d8de53f9407d57cab716fef2a36b6bf1b78b2',
+      '43f04e7299621f708801bf475c84d9f294826ff9',
   'buildtools':
       Var('chromium_git') + '/chromium/buildtools.git@' +
       'c2f259809d5ede3275df5ea0842f0431990c4f98',

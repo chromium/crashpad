@@ -222,7 +222,7 @@ template <class Traits>
 bool ReadProcessData(HANDLE process,
                      WinVMAddress peb_address_vmaddr,
                      ProcessInfo* process_info) {
-  Traits::Pointer peb_address;
+  typename Traits::Pointer peb_address;
   if (!AssignIfInRange(&peb_address, peb_address_vmaddr)) {
     LOG(ERROR) << base::StringPrintf("peb address 0x%x out of range",
                                      peb_address_vmaddr);
@@ -273,8 +273,10 @@ bool ReadProcessData(HANDLE process,
   // Walk the PEB LDR structure (doubly-linked list) to get the list of loaded
   // modules. We use this method rather than EnumProcessModules to get the
   // modules in initialization order rather than memory order.
-  Traits::Pointer last = peb_ldr_data.InInitializationOrderModuleList.Blink;
-  for (Traits::Pointer cur = peb_ldr_data.InInitializationOrderModuleList.Flink;
+  typename Traits::Pointer last =
+      peb_ldr_data.InInitializationOrderModuleList.Blink;
+  for (typename Traits::Pointer cur =
+           peb_ldr_data.InInitializationOrderModuleList.Flink;
        ;
        cur = ldr_data_table_entry.InInitializationOrderLinks.Flink) {
     // |cur| is the pointer to the LIST_ENTRY embedded in the

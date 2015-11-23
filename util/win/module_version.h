@@ -25,10 +25,12 @@ namespace crashpad {
 //!     dll, etc.)
 //!
 //! \param[in] path The path to the module to be inspected.
-//! \param[out] vs_fixedfileinfo The VS_FIXEDFILEINFO on success. `dwFileFlags`
-//!     will have been masked with `dwFileFlagsMask` already.
+//! \param[out] vs_fixedfileinfo The `VS_FIXEDFILEINFO` on success.
+//!    `dwFileFlags`  will have been masked with `dwFileFlagsMask` already.
 //!
-//! \return `true` on success, or `false` on failure with a message logged.
+//! \return `true` on success, or `false` on failure with a message logged. If
+//!     the module has no `VERSIONINFO` resource, `false` will be returned
+//!     without any messages logged.
 bool GetModuleVersionAndType(const base::FilePath& path,
                              VS_FIXEDFILEINFO* vs_fixedfileinfo);
 
