@@ -839,6 +839,9 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 template&lt;typename To , typename From &gt; </td></tr>
 <tr class="memitem:a076e2d18f70b3edd2e1195fe699aeb73"><td class="memTemplItemLeft" align="right" valign="top">To&#160;</td><td class="memTemplItemRight" valign="bottom"><b>implicit_cast</b> (From const &amp;f)</td></tr>
 <tr class="separator:a076e2d18f70b3edd2e1195fe699aeb73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ab15d0aff86a0aafe6f33cbd8913441c7">RandomString</a> ()</td></tr>
+<tr class="memdesc:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a random string.  <a href="#ab15d0aff86a0aafe6f33cbd8913441c7">More...</a><br /></td></tr>
+<tr class="separator:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e1b1c536af301cd418dad62348b1d29"><td class="memTemplParams" colspan="2">template&lt;typename Destination , typename Source &gt; </td></tr>
 <tr class="memitem:a6e1b1c536af301cd418dad62348b1d29"><td class="memTemplItemLeft" align="right" valign="top">Destination&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a6e1b1c536af301cd418dad62348b1d29">InRangeCast</a> (Source source, Destination default_value)</td></tr>
 <tr class="memdesc:a6e1b1c536af301cd418dad62348b1d29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts to a different type if it can be done without data loss, logging a warning message and returing a default value otherwise.  <a href="#a6e1b1c536af301cd418dad62348b1d29">More...</a><br /></td></tr>
@@ -2785,11 +2788,11 @@ template&lt;typename Destination , typename Source &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The path to the module to be inspected. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">vs_fixedfileinfo</td><td>The <a class="el" href="structVS__FIXEDFILEINFO.html" title="Version information for a file. ">VS_FIXEDFILEINFO</a> on success. <code>dwFileFlags</code> will have been masked with <code>dwFileFlagsMask</code> already.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">vs_fixedfileinfo</td><td>The <code><a class="el" href="structVS__FIXEDFILEINFO.html" title="Version information for a file. ">VS_FIXEDFILEINFO</a></code> on success. <code>dwFileFlags</code> will have been masked with <code>dwFileFlagsMask</code> already.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, or <code>false</code> on failure with a message logged. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, or <code>false</code> on failure with a message logged. If the module has no <code>VERSIONINFO</code> resource, <code>false</code> will be returned without any messages logged. </dd></dl>
 
 </div>
 </div>
@@ -4543,6 +4546,24 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="ab15d0aff86a0aafe6f33cbd8913441c7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string crashpad::RandomString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a random string. </p>
+<p>The string consists of 16 uppercase characters chosen at random. The returned string has over 75 bits of randomness (26<sup>16</sup> &gt; 2<sup>75</sup>). </p>
 
 </div>
 </div>
