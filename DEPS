@@ -19,7 +19,7 @@ vars = {
 deps = {
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
-      '71a26ac68b28c61686b8941730a6b2577912e239',
+      '786564fa4a3c8e0f908acca32cce481de5481b9f',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
       '01528c7244837168a1c80f06ff60fa5a9793c824',
