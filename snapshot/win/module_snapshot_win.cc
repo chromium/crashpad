@@ -33,7 +33,9 @@ ModuleSnapshotWin::ModuleSnapshotWin()
       process_reader_(nullptr),
       timestamp_(0),
       age_(0),
-      initialized_() {
+      initialized_(),
+      vs_fixed_file_info_(),
+      initialized_vs_fixed_file_info_() {
 }
 
 ModuleSnapshotWin::~ModuleSnapshotWin() {
@@ -107,12 +109,12 @@ void ModuleSnapshotWin::FileVersion(uint16_t* version_0,
                                     uint16_t* version_2,
                                     uint16_t* version_3) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  VS_FIXEDFILEINFO ffi;
-  if (GetModuleVersionAndType(base::FilePath(name_), &ffi)) {
-    *version_0 = ffi.dwFileVersionMS >> 16;
-    *version_1 = ffi.dwFileVersionMS & 0xffff;
-    *version_2 = ffi.dwFileVersionLS >> 16;
-    *version_3 = ffi.dwFileVersionLS & 0xffff;
+  const VS_FIXEDFILEINFO* ffi = VSFixedFileInfo();
+  if (ffi) {
+    *version_0 = ffi->dwFileVersionMS >> 16;
+    *version_1 = ffi->dwFileVersionMS & 0xffff;
+    *version_2 = ffi->dwFileVersionLS >> 16;
+    *version_3 = ffi->dwFileVersionLS & 0xffff;
   } else {
     *version_0 = 0;
     *version_1 = 0;
@@ -126,12 +128,12 @@ void ModuleSnapshotWin::SourceVersion(uint16_t* version_0,
                                       uint16_t* version_2,
                                       uint16_t* version_3) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  VS_FIXEDFILEINFO ffi;
-  if (GetModuleVersionAndType(base::FilePath(name_), &ffi)) {
-    *version_0 = ffi.dwProductVersionMS >> 16;
-    *version_1 = ffi.dwProductVersionMS & 0xffff;
-    *version_2 = ffi.dwProductVersionLS >> 16;
-    *version_3 = ffi.dwProductVersionLS & 0xffff;
+  const VS_FIXEDFILEINFO* ffi = VSFixedFileInfo();
+  if (ffi) {
+    *version_0 = ffi->dwProductVersionMS >> 16;
+    *version_1 = ffi->dwProductVersionMS & 0xffff;
+    *version_2 = ffi->dwProductVersionLS >> 16;
+    *version_3 = ffi->dwProductVersionLS & 0xffff;
   } else {
     *version_0 = 0;
     *version_1 = 0;
@@ -142,14 +144,17 @@ void ModuleSnapshotWin::SourceVersion(uint16_t* version_0,
 
 ModuleSnapshot::ModuleType ModuleSnapshotWin::GetModuleType() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  VS_FIXEDFILEINFO ffi;
-  if (GetModuleVersionAndType(base::FilePath(name_), &ffi)) {
-    if (ffi.dwFileType == VFT_APP)
-      return ModuleSnapshot::kModuleTypeExecutable;
-    if (ffi.dwFileType == VFT_DLL)
-      return ModuleSnapshot::kModuleTypeSharedLibrary;
-    if (ffi.dwFileType == VFT_DRV || ffi.dwFileType == VFT_VXD)
-      return ModuleSnapshot::kModuleTypeLoadableModule;
+  const VS_FIXEDFILEINFO* ffi = VSFixedFileInfo();
+  if (ffi) {
+    switch (ffi->dwFileType) {
+      case VFT_APP:
+        return ModuleSnapshot::kModuleTypeExecutable;
+      case VFT_DLL:
+        return ModuleSnapshot::kModuleTypeSharedLibrary;
+      case VFT_DRV:
+      case VFT_VXD:
+        return ModuleSnapshot::kModuleTypeLoadableModule;
+    }
   }
   return ModuleSnapshot::kModuleTypeUnknown;
 }
@@ -198,6 +203,20 @@ void ModuleSnapshotWin::GetCrashpadOptionsInternal(
   options->system_crash_reporter_forwarding =
       CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
           crashpad_info.system_crash_reporter_forwarding);
+}
+
+const VS_FIXEDFILEINFO* ModuleSnapshotWin::VSFixedFileInfo() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  if (initialized_vs_fixed_file_info_.is_uninitialized()) {
+    initialized_vs_fixed_file_info_.set_invalid();
+    if (GetModuleVersionAndType(base::FilePath(name_), &vs_fixed_file_info_)) {
+      initialized_vs_fixed_file_info_.set_valid();
+    }
+  }
+
+  return initialized_vs_fixed_file_info_.is_valid() ? &vs_fixed_file_info_
+                                                    : nullptr;
 }
 
 }  // namespace internal
