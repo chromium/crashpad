@@ -26,30 +26,31 @@ bool GetModuleVersionAndType(const base::FilePath& path,
                              VS_FIXEDFILEINFO* vs_fixedfileinfo) {
   DWORD size = GetFileVersionInfoSize(path.value().c_str(), nullptr);
   if (!size) {
-    PLOG(WARNING) << "GetFileVersionInfoSize: "
-                  << base::UTF16ToUTF8(path.value());
-  } else {
-    scoped_ptr<uint8_t[]> data(new uint8_t[size]);
-    if (!GetFileVersionInfo(path.value().c_str(), 0, size, data.get())) {
-      PLOG(WARNING) << "GetFileVersionInfo: "
-                    << base::UTF16ToUTF8(path.value());
-    } else {
-      VS_FIXEDFILEINFO* fixed_file_info;
-      UINT ffi_size;
-      if (!VerQueryValue(data.get(),
-                         L"\\",
-                         reinterpret_cast<void**>(&fixed_file_info),
-                         &ffi_size)) {
-        PLOG(WARNING) << "VerQueryValue";
-      } else {
-        *vs_fixedfileinfo = *fixed_file_info;
-        vs_fixedfileinfo->dwFileFlags &= vs_fixedfileinfo->dwFileFlagsMask;
-        return true;
-      }
-    }
+    PLOG_IF(WARNING, GetLastError() != ERROR_RESOURCE_TYPE_NOT_FOUND)
+        << "GetFileVersionInfoSize: " << base::UTF16ToUTF8(path.value());
+    return false;
   }
 
-  return false;
+  scoped_ptr<uint8_t[]> data(new uint8_t[size]);
+  if (!GetFileVersionInfo(path.value().c_str(), 0, size, data.get())) {
+    PLOG(WARNING) << "GetFileVersionInfo: "
+                  << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+
+  VS_FIXEDFILEINFO* fixed_file_info;
+  UINT ffi_size;
+  if (!VerQueryValue(data.get(),
+                     L"\\",
+                     reinterpret_cast<void**>(&fixed_file_info),
+                     &ffi_size)) {
+    PLOG(WARNING) << "VerQueryValue";
+    return false;
+  }
+
+  *vs_fixedfileinfo = *fixed_file_info;
+  vs_fixedfileinfo->dwFileFlags &= vs_fixedfileinfo->dwFileFlagsMask;
+  return true;
 }
 
 }  // namespace crashpad
