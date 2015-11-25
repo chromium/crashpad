@@ -132,6 +132,18 @@ using ScopedProcThreadAttributeList =
     base::ScopedGeneric<PPROC_THREAD_ATTRIBUTE_LIST,
                         ScopedProcThreadAttributeListTraits>;
 
+bool IsInheritableHandle(HANDLE handle) {
+  if (!handle || handle == INVALID_HANDLE_VALUE)
+    return false;
+
+  // File handles (FILE_TYPE_DISK) and pipe handles (FILE_TYPE_PIPE) are known
+  // to be inheritable. Console handles (FILE_TYPE_CHAR) are not inheritable via
+  // PROC_THREAD_ATTRIBUTE_HANDLE_LIST. See
+  // https://crashpad.chromium.org/bug/77.
+  DWORD handle_type = GetFileType(handle);
+  return handle_type == FILE_TYPE_DISK || handle_type == FILE_TYPE_PIPE;
+}
+
 // Adds |handle| to |handle_list| if it appears valid, and is not already in
 // |handle_list|.
 //
@@ -142,11 +154,12 @@ using ScopedProcThreadAttributeList =
 // silently not inherit any handles.
 //
 // Use this function to add handles with uncertain validities.
-void AddHandleToListIfValid(std::vector<HANDLE>* handle_list, HANDLE handle) {
+void AddHandleToListIfValidAndInheritable(std::vector<HANDLE>* handle_list,
+                                          HANDLE handle) {
   // There doesn't seem to be any documentation of this, but if there's a handle
   // duplicated in this list, CreateProcess() fails with
   // ERROR_INVALID_PARAMETER.
-  if (handle && handle != INVALID_HANDLE_VALUE &&
+  if (IsInheritableHandle(handle) &&
       std::find(handle_list->begin(), handle_list->end(), handle) ==
           handle_list->end()) {
     handle_list->push_back(handle);
@@ -267,9 +280,12 @@ bool CrashpadClient::StartHandler(
 
     handle_list.reserve(4);
     handle_list.push_back(pipe_write);
-    AddHandleToListIfValid(&handle_list, startup_info.StartupInfo.hStdInput);
-    AddHandleToListIfValid(&handle_list, startup_info.StartupInfo.hStdOutput);
-    AddHandleToListIfValid(&handle_list, startup_info.StartupInfo.hStdError);
+    AddHandleToListIfValidAndInheritable(&handle_list,
+                                         startup_info.StartupInfo.hStdInput);
+    AddHandleToListIfValidAndInheritable(&handle_list,
+                                         startup_info.StartupInfo.hStdOutput);
+    AddHandleToListIfValidAndInheritable(&handle_list,
+                                         startup_info.StartupInfo.hStdError);
     rv = update_proc_thread_attribute(
         startup_info.lpAttributeList,
         0,
