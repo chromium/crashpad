@@ -86,8 +86,10 @@ bool PEImageReader::GetCrashpadInfo(
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   IMAGE_SECTION_HEADER section;
-  if (!GetSectionByName<NtHeadersForTraits<Traits>::type>("CPADinfo", &section))
+  if (!GetSectionByName<typename NtHeadersForTraits<Traits>::type>("CPADinfo",
+                                                                   &section)) {
     return false;
+  }
 
   if (section.Misc.VirtualSize < sizeof(process_types::CrashpadInfo<Traits>)) {
     LOG(WARNING) << "small crashpad info section size "

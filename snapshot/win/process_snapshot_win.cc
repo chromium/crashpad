@@ -380,9 +380,9 @@ void ProcessSnapshotWin::AddMemorySnapshotForLdrLIST_ENTRY(
       PointerVector<internal::MemorySnapshotWin>* into) {
   // Walk the doubly-linked list of entries, adding the list memory itself, as
   // well as pointed-to strings.
-  Traits::Pointer last = le.Blink;
+  typename Traits::Pointer last = le.Blink;
   process_types::LDR_DATA_TABLE_ENTRY<Traits> entry;
-  Traits::Pointer cur = le.Flink;
+  typename Traits::Pointer cur = le.Flink;
   for (;;) {
     // |cur| is the pointer to LIST_ENTRY embedded in the LDR_DATA_TABLE_ENTRY.
     // So we need to offset back to the beginning of the structure.
