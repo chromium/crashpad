@@ -448,6 +448,10 @@ void ProcessSnapshotWin::ReadLocks(
   WinVMAddress current_address = start_address_backward;
   WinVMAddress last_good_address;
 
+  // Cap the list of locks we capture arbitrarily so we don't walk forever.
+  const int kMaxWalkLength = 100;
+  int walk_count = 0;
+
   // Typically, this seems to be a circular list, but it's not clear that it
   // always is, so follow Blink fields back to the head (or where we started)
   // before following Flink to capture memory.
@@ -473,6 +477,9 @@ void ProcessSnapshotWin::ReadLocks(
         critical_section_debug.ProcessLocksList.Blink -
         offsetof(process_types::RTL_CRITICAL_SECTION_DEBUG<Traits>,
                  ProcessLocksList);
+    walk_count++;
+    if (walk_count == kMaxWalkLength)
+      break;
   } while (current_address != start_address_backward &&
            current_address != kInvalid);
 
@@ -480,6 +487,8 @@ void ProcessSnapshotWin::ReadLocks(
     // Unexpectedly encountered a bad record, so step back one.
     current_address = last_good_address;
   }
+
+  walk_count = 0;
 
   const WinVMAddress start_address_forward = current_address;
 
@@ -513,6 +522,12 @@ void ProcessSnapshotWin::ReadLocks(
         critical_section_debug.ProcessLocksList.Flink -
         offsetof(process_types::RTL_CRITICAL_SECTION_DEBUG<Traits>,
                  ProcessLocksList);
+    walk_count++;
+    // Walk twice as far on the forward walk, so that if we started at an
+    // important one (for example the Loader Lock), we get it, and ones that
+    // were presumably allocated temporally near it.
+    if (walk_count == kMaxWalkLength * 2)
+      break;
   } while (current_address != start_address_forward &&
            current_address != kInvalid);
 }
