@@ -18,6 +18,7 @@
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
+#include "util/stdlib/move.h"
 #include "util/numeric/in_range_cast.h"
 
 namespace crashpad {
@@ -235,7 +236,7 @@ Settings::ScopedLockedFileHandle Settings::OpenForWritingAndReadSettings(
       return ScopedLockedFileHandle();
   }
 
-  return handle.Pass();
+  return handle;
 }
 
 bool Settings::ReadSettings(FileHandle handle,

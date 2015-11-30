@@ -24,6 +24,7 @@
 #include "snapshot/cpu_context.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/thread_snapshot.h"
+#include "util/stdlib/move.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
@@ -55,7 +56,9 @@ class TestThreadSnapshot final : public ThreadSnapshot {
   //!
   //! \param[in] stack The memory region that Stack() will return. The
   //!     TestThreadSnapshot object takes ownership of \a stack.
-  void SetStack(scoped_ptr<MemorySnapshot> stack) { stack_ = stack.Pass(); }
+  void SetStack(scoped_ptr<MemorySnapshot> stack) {
+    stack_ = crashpad::move(stack);
+  }
 
   void SetThreadID(uint64_t thread_id) { thread_id_ = thread_id; }
   void SetSuspendCount(int suspend_count) { suspend_count_ = suspend_count; }

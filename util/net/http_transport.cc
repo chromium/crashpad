@@ -14,6 +14,7 @@
 
 #include "util/net/http_transport.h"
 
+#include "util/stdlib/move.h"
 #include "util/net/http_body.h"
 
 namespace crashpad {
@@ -43,7 +44,7 @@ void HTTPTransport::SetHeader(const std::string& header,
 }
 
 void HTTPTransport::SetBodyStream(scoped_ptr<HTTPBodyStream> stream) {
-  body_stream_ = stream.Pass();
+  body_stream_ = crashpad::move(stream);
 }
 
 void HTTPTransport::SetTimeout(double timeout) {

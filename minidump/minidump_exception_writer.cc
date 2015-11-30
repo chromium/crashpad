@@ -21,6 +21,7 @@
 #include "minidump/minidump_context_writer.h"
 #include "snapshot/exception_snapshot.h"
 #include "util/file/file_writer.h"
+#include "util/stdlib/move.h"
 
 namespace crashpad {
 
@@ -48,14 +49,14 @@ void MinidumpExceptionWriter::InitializeFromSnapshot(
 
   scoped_ptr<MinidumpContextWriter> context =
       MinidumpContextWriter::CreateFromSnapshot(exception_snapshot->Context());
-  SetContext(context.Pass());
+  SetContext(crashpad::move(context));
 }
 
 void MinidumpExceptionWriter::SetContext(
     scoped_ptr<MinidumpContextWriter> context) {
   DCHECK_EQ(state(), kStateMutable);
 
-  context_ = context.Pass();
+  context_ = crashpad::move(context);
 }
 
 void MinidumpExceptionWriter::SetExceptionInformation(

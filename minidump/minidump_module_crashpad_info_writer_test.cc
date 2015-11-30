@@ -25,6 +25,7 @@
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_module_snapshot.h"
 #include "util/file/string_file.h"
+#include "util/stdlib/move.h"
 
 namespace crashpad {
 namespace test {
@@ -77,7 +78,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyModule) {
       make_scoped_ptr(new MinidumpModuleCrashpadInfoListWriter());
   auto module_writer = make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
   EXPECT_FALSE(module_writer->IsUseful());
-  module_list_writer->AddModule(module_writer.Pass(), 0);
+  module_list_writer->AddModule(crashpad::move(module_writer), 0);
 
   EXPECT_TRUE(module_list_writer->IsUseful());
 
@@ -119,17 +120,19 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
   auto module_writer = make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
   auto string_list_writer = make_scoped_ptr(new MinidumpUTF8StringListWriter());
   string_list_writer->InitializeFromVector(vector);
-  module_writer->SetListAnnotations(string_list_writer.Pass());
+  module_writer->SetListAnnotations(crashpad::move(string_list_writer));
   auto simple_string_dictionary_writer =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryWriter());
   auto simple_string_dictionary_entry_writer =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   simple_string_dictionary_entry_writer->SetKeyValue(kKey, kValue);
   simple_string_dictionary_writer->AddEntry(
-      simple_string_dictionary_entry_writer.Pass());
-  module_writer->SetSimpleAnnotations(simple_string_dictionary_writer.Pass());
+      crashpad::move(simple_string_dictionary_entry_writer));
+  module_writer->SetSimpleAnnotations(
+      crashpad::move(simple_string_dictionary_writer));
   EXPECT_TRUE(module_writer->IsUseful());
-  module_list_writer->AddModule(module_writer.Pass(), kMinidumpModuleListIndex);
+  module_list_writer->AddModule(crashpad::move(module_writer),
+                                kMinidumpModuleListIndex);
 
   EXPECT_TRUE(module_list_writer->IsUseful());
 
@@ -211,17 +214,17 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   simple_string_dictionary_entry_writer_0->SetKeyValue(kKey0, kValue0);
   simple_string_dictionary_writer_0->AddEntry(
-      simple_string_dictionary_entry_writer_0.Pass());
+      crashpad::move(simple_string_dictionary_entry_writer_0));
   module_writer_0->SetSimpleAnnotations(
-      simple_string_dictionary_writer_0.Pass());
+      crashpad::move(simple_string_dictionary_writer_0));
   EXPECT_TRUE(module_writer_0->IsUseful());
-  module_list_writer->AddModule(module_writer_0.Pass(),
+  module_list_writer->AddModule(crashpad::move(module_writer_0),
                                 kMinidumpModuleListIndex0);
 
   auto module_writer_1 =
       make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
   EXPECT_FALSE(module_writer_1->IsUseful());
-  module_list_writer->AddModule(module_writer_1.Pass(),
+  module_list_writer->AddModule(crashpad::move(module_writer_1),
                                 kMinidumpModuleListIndex1);
 
   auto module_writer_2 =
@@ -232,16 +235,16 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   simple_string_dictionary_entry_writer_2a->SetKeyValue(kKey2A, kValue2A);
   simple_string_dictionary_writer_2->AddEntry(
-      simple_string_dictionary_entry_writer_2a.Pass());
+      crashpad::move(simple_string_dictionary_entry_writer_2a));
   auto simple_string_dictionary_entry_writer_2b =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   simple_string_dictionary_entry_writer_2b->SetKeyValue(kKey2B, kValue2B);
   simple_string_dictionary_writer_2->AddEntry(
-      simple_string_dictionary_entry_writer_2b.Pass());
+      crashpad::move(simple_string_dictionary_entry_writer_2b));
   module_writer_2->SetSimpleAnnotations(
-      simple_string_dictionary_writer_2.Pass());
+      crashpad::move(simple_string_dictionary_writer_2));
   EXPECT_TRUE(module_writer_2->IsUseful());
-  module_list_writer->AddModule(module_writer_2.Pass(),
+  module_list_writer->AddModule(crashpad::move(module_writer_2),
                                 kMinidumpModuleListIndex2);
 
   EXPECT_TRUE(module_list_writer->IsUseful());

@@ -26,6 +26,7 @@
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
+#include "util/stdlib/move.h"
 #include "util/misc/random_string.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
@@ -179,7 +180,7 @@ class ClientData {
             CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
         non_crash_dump_completed_event_(
             CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
-        process_(process.Pass()),
+        process_(crashpad::move(process)),
         crash_exception_information_address_(
             crash_exception_information_address),
         non_crash_exception_information_address_(

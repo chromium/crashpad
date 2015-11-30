@@ -31,6 +31,7 @@
 #include "snapshot/test/test_module_snapshot.h"
 #include "snapshot/test/test_process_snapshot.h"
 #include "util/file/string_file.h"
+#include "util/stdlib/move.h"
 
 namespace crashpad {
 namespace test {
@@ -67,7 +68,7 @@ TEST(MinidumpCrashpadInfoWriter, Empty) {
   auto crashpad_info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
   EXPECT_FALSE(crashpad_info_writer->IsUseful());
 
-  minidump_file_writer.AddStream(crashpad_info_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(crashpad_info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -102,7 +103,7 @@ TEST(MinidumpCrashpadInfoWriter, ReportAndClientID) {
 
   EXPECT_TRUE(crashpad_info_writer->IsUseful());
 
-  minidump_file_writer.AddStream(crashpad_info_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(crashpad_info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -137,13 +138,13 @@ TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   simple_string_dictionary_entry_writer->SetKeyValue(kKey, kValue);
   simple_string_dictionary_writer->AddEntry(
-      simple_string_dictionary_entry_writer.Pass());
+      crashpad::move(simple_string_dictionary_entry_writer));
   crashpad_info_writer->SetSimpleAnnotations(
-      simple_string_dictionary_writer.Pass());
+      crashpad::move(simple_string_dictionary_writer));
 
   EXPECT_TRUE(crashpad_info_writer->IsUseful());
 
-  minidump_file_writer.AddStream(crashpad_info_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(crashpad_info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -177,12 +178,12 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
   auto module_list_writer =
       make_scoped_ptr(new MinidumpModuleCrashpadInfoListWriter());
   auto module_writer = make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
-  module_list_writer->AddModule(module_writer.Pass(), kMinidumpModuleListIndex);
-  crashpad_info_writer->SetModuleList(module_list_writer.Pass());
+  module_list_writer->AddModule(crashpad::move(module_writer), kMinidumpModuleListIndex);
+  crashpad_info_writer->SetModuleList(crashpad::move(module_list_writer));
 
   EXPECT_TRUE(crashpad_info_writer->IsUseful());
 
-  minidump_file_writer.AddStream(crashpad_info_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(crashpad_info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -232,7 +233,7 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
   auto process_snapshot = make_scoped_ptr(new TestProcessSnapshot());
 
   auto module_snapshot = make_scoped_ptr(new TestModuleSnapshot());
-  process_snapshot->AddModule(module_snapshot.Pass());
+  process_snapshot->AddModule(crashpad::move(module_snapshot));
 
   auto info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
   info_writer->InitializeFromSnapshot(process_snapshot.get());
@@ -251,14 +252,14 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
   module_snapshot.reset(new TestModuleSnapshot());
   std::vector<std::string> annotations_list(1, std::string(kEntry));
   module_snapshot->SetAnnotationsVector(annotations_list);
-  process_snapshot->AddModule(module_snapshot.Pass());
+  process_snapshot->AddModule(crashpad::move(module_snapshot));
 
   info_writer.reset(new MinidumpCrashpadInfoWriter());
   info_writer->InitializeFromSnapshot(process_snapshot.get());
   EXPECT_TRUE(info_writer->IsUseful());
 
   MinidumpFileWriter minidump_file_writer;
-  minidump_file_writer.AddStream(info_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));

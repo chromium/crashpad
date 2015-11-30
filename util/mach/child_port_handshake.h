@@ -138,7 +138,7 @@ class ChildPortHandshakeTest;
 //!     // Obtain a receive right from the parent process.
 //!     base::mac::ScopedMachReceiveRight receive_right(
 //!         ChildPortHandshake::RunServerForFD(
-//!             server_write_fd.Pass(),
+//!             crashpad::move(server_write_fd),
 //!             ChildPortHandshake::PortRightType::kReceiveRight));
 //!   }
 //! \endcode

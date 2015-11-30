@@ -150,11 +150,11 @@ scoped_ptr<uint8_t[]> QueryObject(
 
   if (!NT_SUCCESS(status)) {
     NTSTATUS_LOG(ERROR, status) << "NtQueryObject";
-    return scoped_ptr<uint8_t[]>();
+    return nullptr;
   }
 
   DCHECK_GE(return_length, minimum_size);
-  return buffer.Pass();
+  return buffer;
 }
 
 }  // namespace

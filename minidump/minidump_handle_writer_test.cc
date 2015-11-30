@@ -23,6 +23,7 @@
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file.h"
+#include "util/stdlib/move.h"
 
 namespace crashpad {
 namespace test {
@@ -57,7 +58,7 @@ void GetHandleDataStream(
 TEST(MinidumpHandleDataWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
   auto handle_data_writer = make_scoped_ptr(new MinidumpHandleDataWriter());
-  minidump_file_writer.AddStream(handle_data_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(handle_data_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -90,7 +91,7 @@ TEST(MinidumpHandleDataWriter, OneHandle) {
 
   handle_data_writer->InitializeFromSnapshot(snapshot);
 
-  minidump_file_writer.AddStream(handle_data_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(handle_data_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -148,7 +149,7 @@ TEST(MinidumpHandleDataWriter, RepeatedTypeName) {
 
   handle_data_writer->InitializeFromSnapshot(snapshot);
 
-  minidump_file_writer.AddStream(handle_data_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(handle_data_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));

@@ -21,6 +21,7 @@
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/mach/notify_server.h"
+#include "util/stdlib/move.h"
 
 namespace crashpad {
 
@@ -183,7 +184,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
 ExceptionHandlerServer::ExceptionHandlerServer(
     base::mac::ScopedMachReceiveRight receive_port,
     bool launchd)
-    : receive_port_(receive_port.Pass()),
+    : receive_port_(crashpad::move(receive_port)),
       notify_port_(NewMachPort(MACH_PORT_RIGHT_RECEIVE)),
       launchd_(launchd) {
   CHECK(receive_port_.is_valid());

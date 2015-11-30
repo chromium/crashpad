@@ -20,6 +20,7 @@
 #include "minidump/test/minidump_rva_list_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file.h"
+#include "util/stdlib/move.h"
 
 namespace crashpad {
 namespace test {
@@ -32,7 +33,7 @@ class TestMinidumpRVAListWriter final : public internal::MinidumpRVAListWriter {
 
   void AddChild(uint32_t value) {
     auto child = make_scoped_ptr(new TestUInt32MinidumpWritable(value));
-    MinidumpRVAListWriter::AddChild(child.Pass());
+    MinidumpRVAListWriter::AddChild(crashpad::move(child));
   }
 
  private:

@@ -19,6 +19,7 @@
 #include "base/logging.h"
 #include "minidump/minidump_writer_util.h"
 #include "util/file/file_writer.h"
+#include "util/stdlib/move.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
@@ -121,7 +122,7 @@ void MinidumpStringListWriter<MinidumpStringWriterType>::AddStringUTF8(
     const std::string& string_utf8) {
   auto string_writer = make_scoped_ptr(new MinidumpStringWriterType());
   string_writer->SetUTF8(string_utf8);
-  AddChild(string_writer.Pass());
+  AddChild(crashpad::move(string_writer));
 }
 
 template <typename MinidumpStringWriterType>

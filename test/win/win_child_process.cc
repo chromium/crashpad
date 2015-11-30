@@ -23,6 +23,7 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
+#include "util/stdlib/move.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
 #include "util/win/handle.h"
@@ -125,8 +126,8 @@ bool CreateInheritablePipe(ScopedFileHANDLE* read_handle,
   if (!write_inheritable && !UnsetHandleInheritance(temp_write.get()))
     return false;
 
-  *read_handle = temp_read.Pass();
-  *write_handle = temp_write.Pass();
+  *read_handle = crashpad::move(temp_read);
+  *write_handle = crashpad::move(temp_write);
 
   return true;
 }
@@ -212,7 +213,7 @@ scoped_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
     return scoped_ptr<Handles>();
   }
 
-  return handles_for_parent.Pass();
+  return crashpad::move(handles_for_parent);
 }
 
 FileHandle WinChildProcess::ReadPipeHandle() const {

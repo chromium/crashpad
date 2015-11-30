@@ -33,6 +33,7 @@
 #include "test/gtest_death_check.h"
 #include "util/file/string_file.h"
 #include "util/misc/implicit_cast.h"
+#include "util/stdlib/move.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
 
@@ -68,7 +69,7 @@ TEST(MinidumpModuleWriter, EmptyModuleList) {
   MinidumpFileWriter minidump_file_writer;
   auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
 
-  minidump_file_writer.AddStream(module_list_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(module_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -276,8 +277,8 @@ TEST(MinidumpModuleWriter, EmptyModule) {
   auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());
   module_writer->SetName(kModuleName);
 
-  module_list_writer->AddModule(module_writer.Pass());
-  minidump_file_writer.AddStream(module_list_writer.Pass());
+  module_list_writer->AddModule(crashpad::move(module_writer));
+  minidump_file_writer.AddStream(crashpad::move(module_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -359,16 +360,16 @@ TEST(MinidumpModuleWriter, OneModule) {
       make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB70Writer());
   codeview_pdb70_writer->SetPDBName(kPDBName);
   codeview_pdb70_writer->SetUUIDAndAge(pdb_uuid, kPDBAge);
-  module_writer->SetCodeViewRecord(codeview_pdb70_writer.Pass());
+  module_writer->SetCodeViewRecord(crashpad::move(codeview_pdb70_writer));
 
   auto misc_debug_writer =
       make_scoped_ptr(new MinidumpModuleMiscDebugRecordWriter());
   misc_debug_writer->SetDataType(kDebugType);
   misc_debug_writer->SetData(kDebugName, kDebugUTF16);
-  module_writer->SetMiscDebugRecord(misc_debug_writer.Pass());
+  module_writer->SetMiscDebugRecord(crashpad::move(misc_debug_writer));
 
-  module_list_writer->AddModule(module_writer.Pass());
-  minidump_file_writer.AddStream(module_list_writer.Pass());
+  module_list_writer->AddModule(crashpad::move(module_writer));
+  minidump_file_writer.AddStream(crashpad::move(module_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -434,16 +435,16 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
       make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB20Writer());
   codeview_pdb20_writer->SetPDBName(kPDBName);
   codeview_pdb20_writer->SetTimestampAndAge(kPDBTimestamp, kPDBAge);
-  module_writer->SetCodeViewRecord(codeview_pdb20_writer.Pass());
+  module_writer->SetCodeViewRecord(crashpad::move(codeview_pdb20_writer));
 
   auto misc_debug_writer =
       make_scoped_ptr(new MinidumpModuleMiscDebugRecordWriter());
   misc_debug_writer->SetDataType(kDebugType);
   misc_debug_writer->SetData(kDebugName, kDebugUTF16);
-  module_writer->SetMiscDebugRecord(misc_debug_writer.Pass());
+  module_writer->SetMiscDebugRecord(crashpad::move(misc_debug_writer));
 
-  module_list_writer->AddModule(module_writer.Pass());
-  minidump_file_writer.AddStream(module_list_writer.Pass());
+  module_list_writer->AddModule(crashpad::move(module_writer));
+  minidump_file_writer.AddStream(crashpad::move(module_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -511,16 +512,16 @@ TEST(MinidumpModuleWriter, ThreeModules) {
       make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB70Writer());
   codeview_pdb70_writer_0->SetPDBName(kPDBName0);
   codeview_pdb70_writer_0->SetUUIDAndAge(pdb_uuid_0, kPDBAge0);
-  module_writer_0->SetCodeViewRecord(codeview_pdb70_writer_0.Pass());
+  module_writer_0->SetCodeViewRecord(crashpad::move(codeview_pdb70_writer_0));
 
-  module_list_writer->AddModule(module_writer_0.Pass());
+  module_list_writer->AddModule(crashpad::move(module_writer_0));
 
   auto module_writer_1 = make_scoped_ptr(new MinidumpModuleWriter());
   module_writer_1->SetName(kModuleName1);
   module_writer_1->SetImageBaseAddress(kModuleBase1);
   module_writer_1->SetImageSize(kModuleSize1);
 
-  module_list_writer->AddModule(module_writer_1.Pass());
+  module_list_writer->AddModule(crashpad::move(module_writer_1));
 
   auto module_writer_2 = make_scoped_ptr(new MinidumpModuleWriter());
   module_writer_2->SetName(kModuleName2);
@@ -531,11 +532,11 @@ TEST(MinidumpModuleWriter, ThreeModules) {
       make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB20Writer());
   codeview_pdb70_writer_2->SetPDBName(kPDBName2);
   codeview_pdb70_writer_2->SetTimestampAndAge(kPDBTimestamp2, kPDBAge2);
-  module_writer_2->SetCodeViewRecord(codeview_pdb70_writer_2.Pass());
+  module_writer_2->SetCodeViewRecord(crashpad::move(codeview_pdb70_writer_2));
 
-  module_list_writer->AddModule(module_writer_2.Pass());
+  module_list_writer->AddModule(crashpad::move(module_writer_2));
 
-  minidump_file_writer.AddStream(module_list_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(module_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -728,7 +729,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   module_list_writer->InitializeFromSnapshot(module_snapshots);
 
   MinidumpFileWriter minidump_file_writer;
-  minidump_file_writer.AddStream(module_list_writer.Pass());
+  minidump_file_writer.AddStream(crashpad::move(module_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -759,8 +760,8 @@ TEST(MinidumpModuleWriterDeathTest, NoModuleName) {
   MinidumpFileWriter minidump_file_writer;
   auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
   auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());
-  module_list_writer->AddModule(module_writer.Pass());
-  minidump_file_writer.AddStream(module_list_writer.Pass());
+  module_list_writer->AddModule(crashpad::move(module_writer));
+  minidump_file_writer.AddStream(crashpad::move(module_list_writer));
 
   StringFile string_file;
   ASSERT_DEATH_CHECK(minidump_file_writer.WriteEverything(&string_file),

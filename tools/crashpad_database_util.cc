@@ -36,6 +36,7 @@
 #include "tools/tool_support.h"
 #include "util/file/file_io.h"
 #include "util/file/file_reader.h"
+#include "util/stdlib/move.h"
 #include "util/misc/uuid.h"
 
 namespace crashpad {
@@ -552,7 +553,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
         return EXIT_FAILURE;
       }
 
-      file_reader = file_path_reader.Pass();
+      file_reader = crashpad::move(file_path_reader);
     }
 
     CrashReportDatabase::NewReport* new_report;

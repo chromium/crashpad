@@ -22,6 +22,7 @@
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file.h"
+#include "util/stdlib/move.h"
 
 namespace crashpad {
 namespace test {
@@ -62,7 +63,7 @@ TEST(MinidumpSimpleStringDictionaryWriter, EmptyKeyValue) {
   MinidumpSimpleStringDictionaryWriter dictionary_writer;
   auto entry_writer =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
-  dictionary_writer.AddEntry(entry_writer.Pass());
+  dictionary_writer.AddEntry(crashpad::move(entry_writer));
 
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
@@ -96,7 +97,7 @@ TEST(MinidumpSimpleStringDictionaryWriter, OneKeyValue) {
   auto entry_writer =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   entry_writer->SetKeyValue(kKey, kValue);
-  dictionary_writer.AddEntry(entry_writer.Pass());
+  dictionary_writer.AddEntry(crashpad::move(entry_writer));
 
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
@@ -134,15 +135,15 @@ TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
   auto entry_writer_0 =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   entry_writer_0->SetKeyValue(kKey0, kValue0);
-  dictionary_writer.AddEntry(entry_writer_0.Pass());
+  dictionary_writer.AddEntry(crashpad::move(entry_writer_0));
   auto entry_writer_1 =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   entry_writer_1->SetKeyValue(kKey1, kValue1);
-  dictionary_writer.AddEntry(entry_writer_1.Pass());
+  dictionary_writer.AddEntry(crashpad::move(entry_writer_1));
   auto entry_writer_2 =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   entry_writer_2->SetKeyValue(kKey2, kValue2);
-  dictionary_writer.AddEntry(entry_writer_2.Pass());
+  dictionary_writer.AddEntry(crashpad::move(entry_writer_2));
 
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
@@ -202,11 +203,11 @@ TEST(MinidumpSimpleStringDictionaryWriter, DuplicateKeyValue) {
   auto entry_writer_0 =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   entry_writer_0->SetKeyValue(kKey, kValue0);
-  dictionary_writer.AddEntry(entry_writer_0.Pass());
+  dictionary_writer.AddEntry(crashpad::move(entry_writer_0));
   auto entry_writer_1 =
       make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
   entry_writer_1->SetKeyValue(kKey, kValue1);
-  dictionary_writer.AddEntry(entry_writer_1.Pass());
+  dictionary_writer.AddEntry(crashpad::move(entry_writer_1));
 
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
