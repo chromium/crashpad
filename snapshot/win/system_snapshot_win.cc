@@ -86,35 +86,37 @@ void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
 
   process_reader_ = process_reader;
 
-  // We use both GetVersionEx and VerQueryValue. GetVersionEx is not trustworthy
-  // after Windows 8 (depending on the application manifest) so its data is used
-  // only to fill the os_server_ field, and the rest comes from the version
+  // We use both GetVersionEx() and GetModuleVersionAndType() (which uses
+  // VerQueryValue() internally). GetVersionEx() is not trustworthy after
+  // Windows 8 (depending on the application manifest) so its data is used only
+  // to fill the os_server_ field, and the rest comes from the version
   // information stamped on kernel32.dll.
   OSVERSIONINFOEX version_info = {sizeof(version_info)};
   if (!GetVersionEx(reinterpret_cast<OSVERSIONINFO*>(&version_info))) {
     PLOG(WARNING) << "GetVersionEx";
   } else {
-    const wchar_t kSystemDll[] = L"kernel32.dll";
-    VS_FIXEDFILEINFO ffi;
-    if (GetModuleVersionAndType(base::FilePath(kSystemDll), &ffi)) {
-      std::string flags_string = GetStringForFileFlags(ffi.dwFileFlags);
-      os_server_ = version_info.wProductType != VER_NT_WORKSTATION;
-      std::string os_name = GetStringForFileOS(ffi.dwFileOS);
-      os_version_major_ = ffi.dwFileVersionMS >> 16;
-      os_version_minor_ = ffi.dwFileVersionMS & 0xffff;
-      os_version_bugfix_ = ffi.dwFileVersionLS >> 16;
-      os_version_build_ =
-          base::StringPrintf("%d", ffi.dwFileVersionLS & 0xffff);
-      os_version_full_ = base::StringPrintf(
-          "%s %d.%d.%d.%s%s",
-          os_name.c_str(),
-          os_version_major_,
-          os_version_minor_,
-          os_version_bugfix_,
-          os_version_build_.c_str(),
-          flags_string.empty() ? "" : (std::string(" (") + flags_string + ")")
-                                          .c_str());
-    }
+    os_server_ = version_info.wProductType != VER_NT_WORKSTATION;
+  }
+
+  const wchar_t kSystemDll[] = L"kernel32.dll";
+  VS_FIXEDFILEINFO ffi;
+  if (GetModuleVersionAndType(base::FilePath(kSystemDll), &ffi)) {
+    std::string flags_string = GetStringForFileFlags(ffi.dwFileFlags);
+    std::string os_name = GetStringForFileOS(ffi.dwFileOS);
+    os_version_major_ = ffi.dwFileVersionMS >> 16;
+    os_version_minor_ = ffi.dwFileVersionMS & 0xffff;
+    os_version_bugfix_ = ffi.dwFileVersionLS >> 16;
+    os_version_build_ =
+        base::StringPrintf("%d", ffi.dwFileVersionLS & 0xffff);
+    os_version_full_ = base::StringPrintf(
+        "%s %d.%d.%d.%s%s",
+        os_name.c_str(),
+        os_version_major_,
+        os_version_minor_,
+        os_version_bugfix_,
+        os_version_build_.c_str(),
+        flags_string.empty() ? "" : (std::string(" (") + flags_string + ")")
+                                        .c_str());
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);

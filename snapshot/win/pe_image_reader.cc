@@ -18,22 +18,14 @@
 
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
-#include "base/strings/stringprintf.h"
 #include "client/crashpad_info.h"
-#include "snapshot/win/process_reader_win.h"
+#include "snapshot/win/pe_image_resource_reader.h"
 #include "util/misc/pdb_structures.h"
 #include "util/win/process_structs.h"
 
 namespace crashpad {
 
 namespace {
-
-std::string RangeToString(const CheckedWinAddressRange& range) {
-  return base::StringPrintf("[0x%llx + 0x%llx (%s)]",
-                            range.Base(),
-                            range.Size(),
-                            range.Is64Bit() ? "64" : "32");
-}
 
 // Map from Traits to an IMAGE_NT_HEADERSxx.
 template <class Traits>
@@ -52,9 +44,7 @@ struct NtHeadersForTraits<process_types::internal::Traits64> {
 }  // namespace
 
 PEImageReader::PEImageReader()
-    : process_reader_(nullptr),
-      module_range_(),
-      module_name_(),
+    : module_subrange_reader_(),
       initialized_() {
 }
 
@@ -67,14 +57,10 @@ bool PEImageReader::Initialize(ProcessReaderWin* process_reader,
                                const std::string& module_name) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  process_reader_ = process_reader;
-  module_range_.SetRange(process_reader_->Is64Bit(), address, size);
-  if (!module_range_.IsValid()) {
-    LOG(WARNING) << "invalid module range for " << module_name << ": "
-                 << RangeToString(module_range_);
+  if (!module_subrange_reader_.Initialize(
+          process_reader, address, size, module_name)) {
     return false;
   }
-  module_name_ = module_name;
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -93,36 +79,34 @@ bool PEImageReader::GetCrashpadInfo(
 
   if (section.Misc.VirtualSize < sizeof(process_types::CrashpadInfo<Traits>)) {
     LOG(WARNING) << "small crashpad info section size "
-                 << section.Misc.VirtualSize << ", " << module_name_;
+                 << section.Misc.VirtualSize << ", "
+                 << module_subrange_reader_.name();
     return false;
   }
 
-  WinVMAddress crashpad_info_address = Address() + section.VirtualAddress;
-  CheckedWinAddressRange crashpad_info_range(process_reader_->Is64Bit(),
-                                             crashpad_info_address,
-                                             section.Misc.VirtualSize);
-  if (!crashpad_info_range.IsValid()) {
-    LOG(WARNING) << "invalid range for crashpad info: "
-                 << RangeToString(crashpad_info_range);
+  ProcessSubrangeReader crashpad_info_subrange_reader;
+  const WinVMAddress crashpad_info_address = Address() + section.VirtualAddress;
+  if (!crashpad_info_subrange_reader.InitializeSubrange(
+          module_subrange_reader_,
+          crashpad_info_address,
+          section.Misc.VirtualSize,
+          "crashpad_info")) {
     return false;
   }
 
-  if (!module_range_.ContainsRange(crashpad_info_range)) {
-    LOG(WARNING) << "crashpad info does not fall inside module "
-                 << module_name_;
-    return false;
-  }
-
-  if (!process_reader_->ReadMemory(crashpad_info_address,
-                                   sizeof(process_types::CrashpadInfo<Traits>),
-                                   crashpad_info)) {
-    LOG(WARNING) << "could not read crashpad info " << module_name_;
+  if (!crashpad_info_subrange_reader.ReadMemory(
+          crashpad_info_address,
+          sizeof(process_types::CrashpadInfo<Traits>),
+          crashpad_info)) {
+    LOG(WARNING) << "could not read crashpad info from "
+                 << module_subrange_reader_.name();
     return false;
   }
 
   if (crashpad_info->signature != CrashpadInfo::kSignature ||
       crashpad_info->version < 1) {
-    LOG(WARNING) << "unexpected crashpad info data " << module_name_;
+    LOG(WARNING) << "unexpected crashpad info data in "
+                 << module_subrange_reader_.name();
     return false;
   }
 
@@ -132,46 +116,23 @@ bool PEImageReader::GetCrashpadInfo(
 bool PEImageReader::DebugDirectoryInformation(UUID* uuid,
                                               DWORD* age,
                                               std::string* pdbname) const {
-  if (process_reader_->Is64Bit()) {
-    return ReadDebugDirectoryInformation<IMAGE_NT_HEADERS64>(
-        uuid, age, pdbname);
-  } else {
-    return ReadDebugDirectoryInformation<IMAGE_NT_HEADERS32>(
-        uuid, age, pdbname);
-  }
-}
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-template <class NtHeadersType>
-bool PEImageReader::ReadDebugDirectoryInformation(UUID* uuid,
-                                                  DWORD* age,
-                                                  std::string* pdbname) const {
-  NtHeadersType nt_headers;
-  if (!ReadNtHeaders(&nt_headers, nullptr))
+  IMAGE_DATA_DIRECTORY data_directory;
+  if (!ImageDataDirectoryEntry(IMAGE_DIRECTORY_ENTRY_DEBUG, &data_directory))
     return false;
 
-  if (nt_headers.FileHeader.SizeOfOptionalHeader <
-          offsetof(decltype(nt_headers.OptionalHeader),
-                   DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG]) +
-              sizeof(nt_headers.OptionalHeader
-                         .DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG]) ||
-      nt_headers.OptionalHeader.NumberOfRvaAndSizes <=
-          IMAGE_DIRECTORY_ENTRY_DEBUG) {
-    return false;
-  }
-
-  const IMAGE_DATA_DIRECTORY& data_directory =
-      nt_headers.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG];
-  if (data_directory.VirtualAddress == 0 || data_directory.Size == 0)
-    return false;
   IMAGE_DEBUG_DIRECTORY debug_directory;
   if (data_directory.Size % sizeof(debug_directory) != 0)
     return false;
   for (size_t offset = 0; offset < data_directory.Size;
        offset += sizeof(debug_directory)) {
-    if (!CheckedReadMemory(Address() + data_directory.VirtualAddress + offset,
-                           sizeof(debug_directory),
-                           &debug_directory)) {
-      LOG(WARNING) << "could not read data directory";
+    if (!module_subrange_reader_.ReadMemory(
+            Address() + data_directory.VirtualAddress + offset,
+            sizeof(debug_directory),
+            &debug_directory)) {
+      LOG(WARNING) << "could not read data directory from "
+                   << module_subrange_reader_.name();
       return false;
     }
 
@@ -180,21 +141,25 @@ bool PEImageReader::ReadDebugDirectoryInformation(UUID* uuid,
 
     if (debug_directory.AddressOfRawData) {
       if (debug_directory.SizeOfData < sizeof(CodeViewRecordPDB70)) {
-        LOG(WARNING) << "CodeView debug entry of unexpected size";
+        LOG(WARNING) << "CodeView debug entry of unexpected size in "
+                     << module_subrange_reader_.name();
         continue;
       }
 
       scoped_ptr<char[]> data(new char[debug_directory.SizeOfData]);
-      if (!CheckedReadMemory(Address() + debug_directory.AddressOfRawData,
-                             debug_directory.SizeOfData,
-                             data.get())) {
-        LOG(WARNING) << "could not read debug directory";
+      if (!module_subrange_reader_.ReadMemory(
+              Address() + debug_directory.AddressOfRawData,
+              debug_directory.SizeOfData,
+              data.get())) {
+        LOG(WARNING) << "could not read debug directory from "
+                     << module_subrange_reader_.name();
         return false;
       }
 
       if (*reinterpret_cast<DWORD*>(data.get()) !=
           CodeViewRecordPDB70::kSignature) {
-        LOG(WARNING) << "encountered non-7.0 CodeView debug record";
+        LOG(WARNING) << "encountered non-7.0 CodeView debug record in "
+                     << module_subrange_reader_.name();
         continue;
       }
 
@@ -218,29 +183,120 @@ bool PEImageReader::ReadDebugDirectoryInformation(UUID* uuid,
   return false;
 }
 
+bool PEImageReader::VSFixedFileInfo(
+    VS_FIXEDFILEINFO* vs_fixed_file_info) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  IMAGE_DATA_DIRECTORY data_directory;
+  if (!ImageDataDirectoryEntry(IMAGE_DIRECTORY_ENTRY_RESOURCE,
+                               &data_directory)) {
+    return false;
+  }
+
+  PEImageResourceReader resource_reader;
+  if (!resource_reader.Initialize(module_subrange_reader_, data_directory)) {
+    return false;
+  }
+
+  WinVMAddress address;
+  WinVMSize size;
+  if (!resource_reader.FindResourceByID(
+          reinterpret_cast<uint16_t>(VS_FILE_INFO),  // RT_VERSION
+          VS_VERSION_INFO,
+          MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
+          &address,
+          &size,
+          nullptr)) {
+    return false;
+  }
+
+  // This structure is not declared anywhere in the SDK, but is documented at
+  // https://msdn.microsoft.com/en-us/library/windows/desktop/ms647001.aspx.
+  struct VS_VERSIONINFO {
+    WORD wLength;
+    WORD wValueLength;
+    WORD wType;
+
+    // The structure documentation on MSDN doesn’t show the [16], but it does
+    // say that it’s supposed to be L"VS_VERSION_INFO", which is is in fact a
+    // 16-character string (including its NUL terminator).
+    WCHAR szKey[16];
+
+    WORD Padding1;
+    VS_FIXEDFILEINFO Value;
+
+    // Don’t include Children or the Padding2 that precedes it, because they may
+    // not be present.
+    // WORD Padding2;
+    // WORD Children;
+  };
+  VS_VERSIONINFO version_info;
+
+  if (size < sizeof(version_info)) {
+    LOG(WARNING) << "version info size " << size
+                 << " too small for structure of size " << sizeof(version_info)
+                 << " in " << module_subrange_reader_.name();
+    return false;
+  }
+
+  if (!module_subrange_reader_.ReadMemory(
+          address, sizeof(version_info), &version_info)) {
+    LOG(WARNING) << "could not read version info from "
+                 << module_subrange_reader_.name();
+    return false;
+  }
+
+  if (version_info.wLength < sizeof(version_info) ||
+      version_info.wValueLength != sizeof(version_info.Value) ||
+      version_info.wType != 0 ||
+      wcsncmp(version_info.szKey,
+              L"VS_VERSION_INFO",
+              arraysize(version_info.szKey)) != 0) {
+    LOG(WARNING) << "unexpected VS_VERSIONINFO in "
+                 << module_subrange_reader_.name();
+    return false;
+  }
+
+  if (version_info.Value.dwSignature != VS_FFI_SIGNATURE ||
+      version_info.Value.dwStrucVersion != VS_FFI_STRUCVERSION) {
+    LOG(WARNING) << "unexpected VS_FIXEDFILEINFO in "
+                 << module_subrange_reader_.name();
+    return false;
+  }
+
+  *vs_fixed_file_info = version_info.Value;
+  vs_fixed_file_info->dwFileFlags &= vs_fixed_file_info->dwFileFlagsMask;
+  return true;
+}
+
 template <class NtHeadersType>
 bool PEImageReader::ReadNtHeaders(NtHeadersType* nt_headers,
                                   WinVMAddress* nt_headers_address) const {
   IMAGE_DOS_HEADER dos_header;
-  if (!CheckedReadMemory(Address(), sizeof(IMAGE_DOS_HEADER), &dos_header)) {
-    LOG(WARNING) << "could not read dos header of " << module_name_;
+  if (!module_subrange_reader_.ReadMemory(
+          Address(), sizeof(IMAGE_DOS_HEADER), &dos_header)) {
+    LOG(WARNING) << "could not read dos header from "
+                 << module_subrange_reader_.name();
     return false;
   }
 
   if (dos_header.e_magic != IMAGE_DOS_SIGNATURE) {
-    LOG(WARNING) << "invalid e_magic in dos header of " << module_name_;
+    LOG(WARNING) << "invalid e_magic in dos header of "
+                 << module_subrange_reader_.name();
     return false;
   }
 
   WinVMAddress local_nt_headers_address = Address() + dos_header.e_lfanew;
-  if (!CheckedReadMemory(
+  if (!module_subrange_reader_.ReadMemory(
           local_nt_headers_address, sizeof(NtHeadersType), nt_headers)) {
-    LOG(WARNING) << "could not read nt headers of " << module_name_;
+    LOG(WARNING) << "could not read nt headers from "
+                 << module_subrange_reader_.name();
     return false;
   }
 
   if (nt_headers->Signature != IMAGE_NT_SIGNATURE) {
-    LOG(WARNING) << "invalid signature in nt headers of " << module_name_;
+    LOG(WARNING) << "invalid signature in nt headers of "
+                 << module_subrange_reader_.name();
     return false;
   }
 
@@ -269,9 +325,10 @@ bool PEImageReader::GetSectionByName(const std::string& name,
   for (DWORD i = 0; i < nt_headers.FileHeader.NumberOfSections; ++i) {
     WinVMAddress section_address =
         first_section_address + sizeof(IMAGE_SECTION_HEADER) * i;
-    if (!CheckedReadMemory(
+    if (!module_subrange_reader_.ReadMemory(
             section_address, sizeof(IMAGE_SECTION_HEADER), section)) {
-      LOG(WARNING) << "could not read section " << i << " of " << module_name_;
+      LOG(WARNING) << "could not read section " << i << " from "
+                   << module_subrange_reader_.name();
       return false;
     }
     if (strncmp(reinterpret_cast<const char*>(section->Name),
@@ -284,20 +341,36 @@ bool PEImageReader::GetSectionByName(const std::string& name,
   return false;
 }
 
-bool PEImageReader::CheckedReadMemory(WinVMAddress address,
-                                      WinVMSize size,
-                                      void* into) const {
-  CheckedWinAddressRange read_range(process_reader_->Is64Bit(), address, size);
-  if (!read_range.IsValid()) {
-    LOG(WARNING) << "invalid read range: " << RangeToString(read_range);
+bool PEImageReader::ImageDataDirectoryEntry(size_t index,
+                                            IMAGE_DATA_DIRECTORY* entry) const {
+  bool rv;
+  if (module_subrange_reader_.Is64Bit()) {
+    rv = ImageDataDirectoryEntryT<IMAGE_NT_HEADERS64>(index, entry);
+  } else {
+    rv = ImageDataDirectoryEntryT<IMAGE_NT_HEADERS32>(index, entry);
+  }
+
+  return rv && entry->VirtualAddress != 0 && entry->Size != 0;
+}
+
+template <class NtHeadersType>
+bool PEImageReader::ImageDataDirectoryEntryT(
+    size_t index,
+    IMAGE_DATA_DIRECTORY* entry) const {
+  NtHeadersType nt_headers;
+  if (!ReadNtHeaders(&nt_headers, nullptr)) {
     return false;
   }
-  if (!module_range_.ContainsRange(read_range)) {
-    LOG(WARNING) << "attempt to read outside of module " << module_name_
-                 << " at range: " << RangeToString(read_range);
+
+  if (nt_headers.FileHeader.SizeOfOptionalHeader <
+          offsetof(decltype(nt_headers.OptionalHeader), DataDirectory[index]) +
+              sizeof(nt_headers.OptionalHeader.DataDirectory[index]) ||
+      nt_headers.OptionalHeader.NumberOfRvaAndSizes <= index) {
     return false;
   }
-  return process_reader_->ReadMemory(address, size, into);
+
+  *entry = nt_headers.OptionalHeader.DataDirectory[index];
+  return true;
 }
 
 // Explicit instantiations with the only 2 valid template arguments to avoid
