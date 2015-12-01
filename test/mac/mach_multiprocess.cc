@@ -207,7 +207,7 @@ void MachMultiprocess::MultiprocessParent() {
 }
 
 void MachMultiprocess::MultiprocessChild() {
-  ScopedForbidReturn forbid_return;;
+  ScopedForbidReturn forbid_return;
 
   // local_port is not valid in the forked child process.
   ignore_result(info_->local_port.release());

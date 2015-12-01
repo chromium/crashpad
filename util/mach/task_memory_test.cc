@@ -445,7 +445,7 @@ bool IsAddressMapped(vm_address_t address) {
     return false;
   }
 
-  ADD_FAILURE() << MachErrorMessage(kr, "vm_region_64");;
+  ADD_FAILURE() << MachErrorMessage(kr, "vm_region_64");
   return false;
 }
 
