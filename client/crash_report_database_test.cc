@@ -555,6 +555,36 @@ TEST_F(CrashReportDatabaseTest, DeleteReport) {
             db()->LookUpCrashReport(keep_completed.uuid, &keep_completed));
 }
 
+TEST_F(CrashReportDatabaseTest, DeleteReportEmptyingDatabase) {
+  CrashReportDatabase::Report report;
+  CreateCrashReport(&report);
+
+  EXPECT_TRUE(FileExists(report.file_path));
+
+  UploadReport(report.uuid, true, "1");
+
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->LookUpCrashReport(report.uuid, &report));
+
+  EXPECT_TRUE(FileExists(report.file_path));
+
+  // This causes an empty database to be written, make sure this is handled.
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->DeleteReport(report.uuid));
+  EXPECT_FALSE(FileExists(report.file_path));
+}
+
+TEST_F(CrashReportDatabaseTest, ReadEmptyDatabase) {
+  CrashReportDatabase::Report report;
+  CreateCrashReport(&report);
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->DeleteReport(report.uuid));
+
+  // Deleting and the creating another report causes an empty database to be
+  // loaded. Make sure this is handled.
+
+  CrashReportDatabase::Report report2;
+  CreateCrashReport(&report2);
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

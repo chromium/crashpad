@@ -417,26 +417,29 @@ void Metadata::Read() {
     return;
   }
 
-  std::vector<MetadataFileReportRecord> records(header.num_records);
-  if (!LoggingReadFile(handle_.get(), &records[0], records_size.ValueOrDie())) {
-    LOG(ERROR) << "failed to read records";
-    return;
-  }
-
-  std::string string_table = ReadRestOfFileAsString(handle_.get());
-  if (string_table.empty() || string_table.back() != '\0') {
-    LOG(ERROR) << "bad string table";
-    return;
-  }
-
   std::vector<ReportDisk> reports;
-  for (const auto& record : records) {
-    if (record.file_path_index >= string_table.size() ||
-        record.id_index >= string_table.size()) {
-      LOG(ERROR) << "invalid string table index";
+  if (header.num_records > 0) {
+    std::vector<MetadataFileReportRecord> records(header.num_records);
+    if (!LoggingReadFile(
+            handle_.get(), &records[0], records_size.ValueOrDie())) {
+      LOG(ERROR) << "failed to read records";
       return;
     }
-    reports.push_back(ReportDisk(record, report_dir_, string_table));
+
+    std::string string_table = ReadRestOfFileAsString(handle_.get());
+    if (string_table.empty() || string_table.back() != '\0') {
+      LOG(ERROR) << "bad string table";
+      return;
+    }
+
+    for (const auto& record : records) {
+      if (record.file_path_index >= string_table.size() ||
+          record.id_index >= string_table.size()) {
+        LOG(ERROR) << "invalid string table index";
+        return;
+      }
+      reports.push_back(ReportDisk(record, report_dir_, string_table));
+    }
   }
   reports_.swap(reports);
 }
@@ -465,6 +468,9 @@ void Metadata::Write() {
     LOG(ERROR) << "failed to write header";
     return;
   }
+
+  if (num_records == 0)
+    return;
 
   // Build the records and string table we're going to write.
   std::string string_table;
