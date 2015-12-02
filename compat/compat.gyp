@@ -22,7 +22,7 @@
       'type': 'static_library',
       'sources': [
         'mac/AvailabilityMacros.h',
-        'mac/kern/exc_resource.h'
+        'mac/kern/exc_resource.h',
         'mac/mach/mach.h',
         'mac/mach-o/getsect.cc',
         'mac/mach-o/getsect.h',
