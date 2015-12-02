@@ -93,12 +93,23 @@ void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
     }
   }
 
-  // Use BaseName() to ensure that GetModuleVersionAndType() finds the
-  // already-loaded module with the specified name. Otherwise, dwFileVersionMS
-  // may not match.
+  base::FilePath module_path(module.name);
+
+  const DWORD version = GetVersion();
+  const int major_version = LOBYTE(LOWORD(version));
+  const int minor_version = HIBYTE(LOWORD(version));
+  if (major_version > 6 || (major_version == 6 && minor_version >= 2)) {
+    // Windows 8 or later.
+    //
+    // Use BaseName() to ensure that GetModuleVersionAndType() finds the
+    // already-loaded module with the specified name. Otherwise, dwFileVersionMS
+    // may not match. This appears to be related to the changes made in Windows
+    // 8.1 to GetVersion() and GetVersionEx() for non-manifested applications
+    module_path = module_path.BaseName();
+  }
+
   VS_FIXEDFILEINFO expected;
-  const bool expected_rv = GetModuleVersionAndType(
-      base::FilePath(module.name).BaseName(), &expected);
+  const bool expected_rv = GetModuleVersionAndType(module_path, &expected);
   ASSERT_TRUE(expected_rv || !known_dll);
 
   EXPECT_EQ(expected_rv, observed_rv);
