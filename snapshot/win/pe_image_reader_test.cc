@@ -24,6 +24,7 @@
 #include "test/errors.h"
 #include "util/win/get_function.h"
 #include "util/win/module_version.h"
+#include "util/win/process_info.h"
 
 extern "C" IMAGE_DOS_HEADER __ImageBase;
 
@@ -66,14 +67,66 @@ TEST(PEImageReader, DebugDirectory) {
       pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix));
 }
 
-TEST(PEImageReader, VSFixedFileInfo) {
+void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
+                         const ProcessInfo::Module& module,
+                         bool known_dll) {
+  PEImageReader pe_image_reader;
+  ASSERT_TRUE(pe_image_reader.Initialize(process_reader,
+                                         module.dll_base,
+                                         module.size,
+                                         base::UTF16ToUTF8(module.name)));
+
+  VS_FIXEDFILEINFO observed;
+  const bool observed_rv = pe_image_reader.VSFixedFileInfo(&observed);
+  ASSERT_TRUE(observed_rv || !known_dll);
+
+  if (observed_rv) {
+    EXPECT_EQ(VS_FFI_SIGNATURE, observed.dwSignature);
+    EXPECT_EQ(VS_FFI_STRUCVERSION, observed.dwStrucVersion);
+    EXPECT_EQ(0, observed.dwFileFlags & ~observed.dwFileFlagsMask);
+    EXPECT_EQ(VOS_NT_WINDOWS32, observed.dwFileOS);
+    if (known_dll) {
+      EXPECT_EQ(VFT_DLL, observed.dwFileType);
+    } else {
+      EXPECT_TRUE(observed.dwFileType == VFT_APP ||
+                  observed.dwFileType == VFT_DLL);
+    }
+  }
+
+  // Use BaseName() to ensure that GetModuleVersionAndType() finds the
+  // already-loaded module with the specified name. Otherwise, dwFileVersionMS
+  // may not match.
+  VS_FIXEDFILEINFO expected;
+  const bool expected_rv = GetModuleVersionAndType(
+      base::FilePath(module.name).BaseName(), &expected);
+  ASSERT_TRUE(expected_rv || !known_dll);
+
+  EXPECT_EQ(expected_rv, observed_rv);
+
+  if (observed_rv && expected_rv) {
+    EXPECT_EQ(expected.dwSignature, observed.dwSignature);
+    EXPECT_EQ(expected.dwStrucVersion, observed.dwStrucVersion);
+    EXPECT_EQ(expected.dwFileVersionMS, observed.dwFileVersionMS);
+    EXPECT_EQ(expected.dwFileVersionLS, observed.dwFileVersionLS);
+    EXPECT_EQ(expected.dwProductVersionMS, observed.dwProductVersionMS);
+    EXPECT_EQ(expected.dwProductVersionLS, observed.dwProductVersionLS);
+    EXPECT_EQ(expected.dwFileFlagsMask, observed.dwFileFlagsMask);
+    EXPECT_EQ(expected.dwFileFlags, observed.dwFileFlags);
+    EXPECT_EQ(expected.dwFileOS, observed.dwFileOS);
+    EXPECT_EQ(expected.dwFileType, observed.dwFileType);
+    EXPECT_EQ(expected.dwFileSubtype, observed.dwFileSubtype);
+    EXPECT_EQ(expected.dwFileDateMS, observed.dwFileDateMS);
+    EXPECT_EQ(expected.dwFileDateLS, observed.dwFileDateLS);
+  }
+}
+
+TEST(PEImageReader, VSFixedFileInfo_OneModule) {
   ProcessReaderWin process_reader;
   ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess(),
                                         ProcessSuspensionState::kRunning));
 
   const wchar_t kModuleName[] = L"kernel32.dll";
-
-  HMODULE module_handle = GetModuleHandle(kModuleName);
+  const HMODULE module_handle = GetModuleHandle(kModuleName);
   ASSERT_TRUE(module_handle) << ErrorMessage("GetModuleHandle");
 
   MODULEINFO module_info;
@@ -82,38 +135,26 @@ TEST(PEImageReader, VSFixedFileInfo) {
       << ErrorMessage("GetModuleInformation");
   EXPECT_EQ(module_handle, module_info.lpBaseOfDll);
 
-  PEImageReader pe_image_reader;
-  ASSERT_TRUE(
-      pe_image_reader.Initialize(&process_reader,
-                                 reinterpret_cast<WinVMAddress>(module_handle),
-                                 module_info.SizeOfImage,
-                                 base::UTF16ToUTF8(kModuleName)));
+  ProcessInfo::Module module;
+  module.name = kModuleName;
+  module.dll_base = reinterpret_cast<WinVMAddress>(module_info.lpBaseOfDll);
+  module.size = module_info.SizeOfImage;
 
-  VS_FIXEDFILEINFO observed;
-  ASSERT_TRUE(pe_image_reader.VSFixedFileInfo(&observed));
+  TestVSFixedFileInfo(&process_reader, module, true);
+}
 
-  EXPECT_EQ(VS_FFI_SIGNATURE, observed.dwSignature);
-  EXPECT_EQ(VS_FFI_STRUCVERSION, observed.dwStrucVersion);
-  EXPECT_EQ(0, observed.dwFileFlags & ~observed.dwFileFlagsMask);
-  EXPECT_EQ(VOS_NT_WINDOWS32, observed.dwFileOS);
-  EXPECT_EQ(VFT_DLL, observed.dwFileType);
+TEST(PEImageReader, VSFixedFileInfo_AllModules) {
+  ProcessReaderWin process_reader;
+  ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess(),
+                                        ProcessSuspensionState::kRunning));
 
-  VS_FIXEDFILEINFO expected;
-  ASSERT_TRUE(GetModuleVersionAndType(base::FilePath(kModuleName), &expected));
+  const std::vector<ProcessInfo::Module>& modules = process_reader.Modules();
+  EXPECT_GT(modules.size(), 2u);
 
-  EXPECT_EQ(expected.dwSignature, observed.dwSignature);
-  EXPECT_EQ(expected.dwStrucVersion, observed.dwStrucVersion);
-  EXPECT_EQ(expected.dwFileVersionMS, observed.dwFileVersionMS);
-  EXPECT_EQ(expected.dwFileVersionLS, observed.dwFileVersionLS);
-  EXPECT_EQ(expected.dwProductVersionMS, observed.dwProductVersionMS);
-  EXPECT_EQ(expected.dwProductVersionLS, observed.dwProductVersionLS);
-  EXPECT_EQ(expected.dwFileFlagsMask, observed.dwFileFlagsMask);
-  EXPECT_EQ(expected.dwFileFlags, observed.dwFileFlags);
-  EXPECT_EQ(expected.dwFileOS, observed.dwFileOS);
-  EXPECT_EQ(expected.dwFileType, observed.dwFileType);
-  EXPECT_EQ(expected.dwFileSubtype, observed.dwFileSubtype);
-  EXPECT_EQ(expected.dwFileDateMS, observed.dwFileDateMS);
-  EXPECT_EQ(expected.dwFileDateLS, observed.dwFileDateLS);
+  for (const auto& module : modules) {
+    SCOPED_TRACE(base::UTF16ToUTF8(module.name));
+    TestVSFixedFileInfo(&process_reader, module, false);
+  }
 }
 
 }  // namespace
