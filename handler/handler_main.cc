@@ -339,7 +339,6 @@ int HandlerMain(int argc, char* argv[]) {
 #elif defined(OS_WIN)
   ExceptionHandlerServer exception_handler_server(!options.pipe_name.empty());
 
-  std::string pipe_name;
   if (!options.pipe_name.empty()) {
     exception_handler_server.SetPipeName(base::UTF8ToUTF16(options.pipe_name));
   } else if (options.handshake_handle != INVALID_HANDLE_VALUE) {

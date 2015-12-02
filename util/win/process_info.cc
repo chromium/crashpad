@@ -224,7 +224,7 @@ bool ReadProcessData(HANDLE process,
                      ProcessInfo* process_info) {
   typename Traits::Pointer peb_address;
   if (!AssignIfInRange(&peb_address, peb_address_vmaddr)) {
-    LOG(ERROR) << base::StringPrintf("peb address 0x%x out of range",
+    LOG(ERROR) << base::StringPrintf("peb address 0x%llx out of range",
                                      peb_address_vmaddr);
     return false;
   }
