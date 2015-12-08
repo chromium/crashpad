@@ -24,6 +24,7 @@
 #include "base/basictypes.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/numeric/checked_range.h"
+#include "util/stdlib/aligned_allocator.h"
 #include "util/win/address_types.h"
 
 namespace crashpad {
@@ -32,6 +33,10 @@ namespace crashpad {
 //!     primarily of information stored in the Process Environment Block.
 class ProcessInfo {
  public:
+  //! \brief The return type of MemoryInfo(), for convenience.
+  using MemoryBasicInformation64Vector =
+      AlignedVector<MEMORY_BASIC_INFORMATION64>;
+
   //! \brief Contains information about a module loaded into a process.
   struct Module {
     Module();
@@ -124,7 +129,7 @@ class ProcessInfo {
   bool Modules(std::vector<Module>* modules) const;
 
   //! \brief Retrieves information about all pages mapped into the process.
-  const std::vector<MEMORY_BASIC_INFORMATION64>& MemoryInfo() const;
+  const MemoryBasicInformation64Vector& MemoryInfo() const;
 
   //! \brief Given a range to be read from the target process, returns a vector
   //!     of ranges, representing the readable portions of the original range.
@@ -174,7 +179,19 @@ class ProcessInfo {
   WinVMAddress peb_address_;
   WinVMSize peb_size_;
   std::vector<Module> modules_;
-  std::vector<MEMORY_BASIC_INFORMATION64> memory_info_;
+
+  // memory_info_ is a MemoryBasicInformation64Vector instead of a
+  // std::vector<MEMORY_BASIC_INFORMATION64> because MEMORY_BASIC_INFORMATION64
+  // is declared with __declspec(align(16)), but std::vector<> does not maintain
+  // this alignment on 32-bit x86. clang-cl (but not MSVC cl) takes advantage of
+  // the presumed alignment and emits SSE instructions that require aligned
+  // storage. clang-cl should relax (unfortunately), but in the mean time, this
+  // provides aligned storage. See https://crbug.com/564691 and
+  // http://llvm.org/PR25779.
+  //
+  // TODO(mark): Remove this workaround when http://llvm.org/PR25779 is fixed
+  // and the fix is present in the clang-cl that compiles this code.
+  MemoryBasicInformation64Vector memory_info_;
 
   // Handles() is logically const, but updates this member on first retrieval.
   // See https://crashpad.chromium.org/bug/9.
@@ -195,7 +212,7 @@ class ProcessInfo {
 //! ProcessInfo::GetReadableRanges().
 std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
     const CheckedRange<WinVMAddress, WinVMSize>& range,
-    const std::vector<MEMORY_BASIC_INFORMATION64>& memory_info);
+    const ProcessInfo::MemoryBasicInformation64Vector& memory_info);
 
 }  // namespace crashpad
 

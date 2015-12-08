@@ -72,6 +72,7 @@
         'numeric/int128_test.cc',
         'posix/process_info_test.cc',
         'posix/symbolic_constants_posix_test.cc',
+        'stdlib/aligned_allocator_test.cc',
         'stdlib/map_insert_test.cc',
         'stdlib/string_number_conversion_test.cc',
         'stdlib/strlcpy_test.cc',

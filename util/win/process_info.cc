@@ -589,7 +589,8 @@ bool ProcessInfo::Modules(std::vector<Module>* modules) const {
   return true;
 }
 
-const std::vector<MEMORY_BASIC_INFORMATION64>& ProcessInfo::MemoryInfo() const {
+const ProcessInfo::MemoryBasicInformation64Vector& ProcessInfo::MemoryInfo()
+    const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return memory_info_;
 }
@@ -629,11 +630,11 @@ const std::vector<ProcessInfo::Handle>& ProcessInfo::Handles() const {
 
 std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
     const CheckedRange<WinVMAddress, WinVMSize>& range,
-    const std::vector<MEMORY_BASIC_INFORMATION64>& memory_info) {
+    const ProcessInfo::MemoryBasicInformation64Vector& memory_info) {
   using Range = CheckedRange<WinVMAddress, WinVMSize>;
 
   // Find all the ranges that overlap the target range, maintaining their order.
-  std::vector<MEMORY_BASIC_INFORMATION64> overlapping;
+  ProcessInfo::MemoryBasicInformation64Vector overlapping;
   for (const auto& mi : memory_info) {
     static_assert(base::is_same<decltype(mi.BaseAddress), WinVMAddress>::value,
                   "expected range address to be WinVMAddress");
