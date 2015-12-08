@@ -136,7 +136,7 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
     CaptureContext(&thread->context.native);
   } else {
     DWORD previous_suspend_count = SuspendThread(thread_handle);
-    if (previous_suspend_count == -1) {
+    if (previous_suspend_count == static_cast<DWORD>(-1)) {
       PLOG(ERROR) << "SuspendThread";
       return false;
     }
