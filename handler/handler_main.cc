@@ -337,6 +337,10 @@ int HandlerMain(int argc, char* argv[]) {
     reset_sigterm.reset(&old_sa);
   }
 #elif defined(OS_WIN)
+  // Shut down as late as possible relative to programs we're watching.
+  if (!SetProcessShutdownParameters(0x100, SHUTDOWN_NORETRY))
+    PLOG(ERROR) << "SetProcessShutdownParameters";
+
   ExceptionHandlerServer exception_handler_server(!options.pipe_name.empty());
 
   if (!options.pipe_name.empty()) {
