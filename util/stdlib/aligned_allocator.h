@@ -25,6 +25,7 @@
 
 #include "base/compiler_specific.h"
 #include "build/build_config.h"
+#include "util/stdlib/cxx.h"
 
 #if defined(COMPILER_MSVC) && _MSC_VER < 1900
 #define CRASHPAD_NOEXCEPT _NOEXCEPT
@@ -79,8 +80,10 @@ struct AlignedAllocator {
 
   ~AlignedAllocator() {}
 
-  pointer address(reference x) CRASHPAD_NOEXCEPT { return &x; }
-  const_pointer address(const_reference x) CRASHPAD_NOEXCEPT { return &x; }
+  pointer address(reference x) const CRASHPAD_NOEXCEPT { return &x; }
+  const_pointer address(const_reference x) const CRASHPAD_NOEXCEPT {
+    return &x;
+  }
 
   pointer allocate(size_type n, std::allocator<void>::const_pointer hint = 0) {
     return reinterpret_cast<pointer>(
@@ -93,10 +96,16 @@ struct AlignedAllocator {
     return std::numeric_limits<size_type>::max() / sizeof(value_type);
   }
 
+#if CXX_LIBRARY_VERSION < 2011
+  void construct(pointer p, const T& val) {
+    new (reinterpret_cast<void*>(p)) T(val);
+  }
+#else
   template <class U, class... Args>
   void construct(U* p, Args&&... args) {
     new (reinterpret_cast<void*>(p)) U(std::forward<Args>(args)...);
   }
+#endif
 
   template <class U>
   void destroy(U* p) {
