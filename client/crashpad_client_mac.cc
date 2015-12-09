@@ -20,6 +20,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include <utility>
+
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "base/posix/eintr_wrapper.h"
@@ -32,7 +34,6 @@
 #include "util/mach/notify_server.h"
 #include "util/misc/clock.h"
 #include "util/misc/implicit_cast.h"
-#include "util/stdlib/move.h"
 #include "util/posix/close_multiple.h"
 
 namespace crashpad {
@@ -159,7 +160,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
                      url,
                      annotations,
                      arguments,
-                     crashpad::move(receive_right),
+                     std::move(receive_right),
                      handler_restarter.get(),
                      false)) {
       return base::mac::ScopedMachSendRight();
@@ -539,7 +540,7 @@ bool CrashpadClient::StartHandler(
     return false;
   }
 
-  SetHandlerMachPort(crashpad::move(exception_port));
+  SetHandlerMachPort(std::move(exception_port));
   return true;
 }
 
@@ -549,14 +550,14 @@ bool CrashpadClient::SetHandlerMachService(const std::string& service_name) {
     return false;
   }
 
-  SetHandlerMachPort(crashpad::move(exception_port));
+  SetHandlerMachPort(std::move(exception_port));
   return true;
 }
 
 void CrashpadClient::SetHandlerMachPort(
     base::mac::ScopedMachSendRight exception_port) {
   DCHECK(exception_port.is_valid());
-  exception_port_ = crashpad::move(exception_port);
+  exception_port_ = std::move(exception_port);
 }
 
 bool CrashpadClient::UseHandler() {

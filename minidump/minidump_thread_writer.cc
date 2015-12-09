@@ -16,13 +16,14 @@
 
 #include <sys/types.h>
 
+#include <utility>
+
 #include "base/logging.h"
 #include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_memory_writer.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/thread_snapshot.h"
 #include "util/file/file_writer.h"
-#include "util/stdlib/move.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
@@ -53,12 +54,12 @@ void MinidumpThreadWriter::InitializeFromSnapshot(
   if (stack_snapshot && stack_snapshot->Size() > 0) {
     scoped_ptr<MinidumpMemoryWriter> stack =
         MinidumpMemoryWriter::CreateFromSnapshot(stack_snapshot);
-    SetStack(crashpad::move(stack));
+    SetStack(std::move(stack));
   }
 
   scoped_ptr<MinidumpContextWriter> context =
       MinidumpContextWriter::CreateFromSnapshot(thread_snapshot->Context());
-  SetContext(crashpad::move(context));
+  SetContext(std::move(context));
 }
 
 const MINIDUMP_THREAD* MinidumpThreadWriter::MinidumpThread() const {
@@ -70,14 +71,14 @@ const MINIDUMP_THREAD* MinidumpThreadWriter::MinidumpThread() const {
 void MinidumpThreadWriter::SetStack(scoped_ptr<MinidumpMemoryWriter> stack) {
   DCHECK_EQ(state(), kStateMutable);
 
-  stack_ = crashpad::move(stack);
+  stack_ = std::move(stack);
 }
 
 void MinidumpThreadWriter::SetContext(
     scoped_ptr<MinidumpContextWriter> context) {
   DCHECK_EQ(state(), kStateMutable);
 
-  context_ = crashpad::move(context);
+  context_ = std::move(context);
 }
 
 bool MinidumpThreadWriter::Freeze() {
@@ -149,7 +150,7 @@ void MinidumpThreadListWriter::InitializeFromSnapshot(
   for (const ThreadSnapshot* thread_snapshot : thread_snapshots) {
     auto thread = make_scoped_ptr(new MinidumpThreadWriter());
     thread->InitializeFromSnapshot(thread_snapshot, thread_id_map);
-    AddThread(crashpad::move(thread));
+    AddThread(std::move(thread));
   }
 
   // Do this in a separate loop to keep the thread stacks earlier in the dump,

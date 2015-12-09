@@ -132,7 +132,6 @@
         'stdlib/aligned_allocator.h',
         'stdlib/cxx.h',
         'stdlib/map_insert.h',
-        'stdlib/move.h',
         'stdlib/objc.h',
         'stdlib/pointer_container.h',
         'stdlib/string_number_conversion.cc',

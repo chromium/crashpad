@@ -19,6 +19,7 @@
 
 #include <map>
 #include <string>
+#include <utility>
 
 #include "base/auto_reset.h"
 #include "base/files/file_path.h"
@@ -33,7 +34,6 @@
 #include "tools/tool_support.h"
 #include "handler/crash_report_upload_thread.h"
 #include "util/file/file_io.h"
-#include "util/stdlib/move.h"
 #include "util/stdlib/map_insert.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
@@ -315,7 +315,7 @@ int HandlerMain(int argc, char* argv[]) {
   }
 
   ExceptionHandlerServer exception_handler_server(
-      crashpad::move(receive_right), !options.mach_service.empty());
+      std::move(receive_right), !options.mach_service.empty());
   base::AutoReset<ExceptionHandlerServer*> reset_g_exception_handler_server(
       &g_exception_handler_server, &exception_handler_server);
 

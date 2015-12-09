@@ -18,12 +18,12 @@
 #include <shellapi.h>
 
 #include <string>
+#include <utility>
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
-#include "util/stdlib/move.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
 #include "util/win/handle.h"
@@ -126,8 +126,8 @@ bool CreateInheritablePipe(ScopedFileHANDLE* read_handle,
   if (!write_inheritable && !UnsetHandleInheritance(temp_write.get()))
     return false;
 
-  *read_handle = crashpad::move(temp_read);
-  *write_handle = crashpad::move(temp_write);
+  *read_handle = std::move(temp_read);
+  *write_handle = std::move(temp_write);
 
   return true;
 }
@@ -213,7 +213,7 @@ scoped_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
     return scoped_ptr<Handles>();
   }
 
-  return crashpad::move(handles_for_parent);
+  return std::move(handles_for_parent);
 }
 
 FileHandle WinChildProcess::ReadPipeHandle() const {

@@ -23,6 +23,7 @@
 #include <unistd.h>
 
 #include <algorithm>
+#include <utility>
 
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
@@ -37,7 +38,6 @@
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
 #include "util/misc/implicit_cast.h"
-#include "util/stdlib/move.h"
 #include "util/misc/random_string.h"
 
 namespace crashpad {
@@ -353,30 +353,30 @@ ChildPortHandshake::~ChildPortHandshake() {
 
 base::ScopedFD ChildPortHandshake::ClientReadFD() {
   DCHECK(client_read_fd_.is_valid());
-  return crashpad::move(client_read_fd_);
+  return std::move(client_read_fd_);
 }
 
 base::ScopedFD ChildPortHandshake::ServerWriteFD() {
   DCHECK(server_write_fd_.is_valid());
-  return crashpad::move(server_write_fd_);
+  return std::move(server_write_fd_);
 }
 
 mach_port_t ChildPortHandshake::RunServer(PortRightType port_right_type) {
   client_read_fd_.reset();
-  return RunServerForFD(crashpad::move(server_write_fd_), port_right_type);
+  return RunServerForFD(std::move(server_write_fd_), port_right_type);
 }
 
 bool ChildPortHandshake::RunClient(mach_port_t port,
                                    mach_msg_type_name_t right_type) {
   server_write_fd_.reset();
-  return RunClientForFD(crashpad::move(client_read_fd_), port, right_type);
+  return RunClientForFD(std::move(client_read_fd_), port, right_type);
 }
 
 // static
 mach_port_t ChildPortHandshake::RunServerForFD(base::ScopedFD server_write_fd,
                                                PortRightType port_right_type) {
   ChildPortHandshakeServer server;
-  return server.RunServer(crashpad::move(server_write_fd), port_right_type);
+  return server.RunServer(std::move(server_write_fd), port_right_type);
 }
 
 // static

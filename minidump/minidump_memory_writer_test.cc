@@ -18,6 +18,8 @@
 #include <dbghelp.h>
 #include <stdint.h>
 
+#include <utility>
+
 #include "base/basictypes.h"
 #include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
@@ -30,7 +32,6 @@
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_memory_snapshot.h"
 #include "util/file/string_file.h"
-#include "util/stdlib/move.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
@@ -81,7 +82,7 @@ TEST(MinidumpMemoryWriter, EmptyMemoryList) {
   MinidumpFileWriter minidump_file_writer;
   auto memory_list_writer = make_scoped_ptr(new MinidumpMemoryListWriter());
 
-  minidump_file_writer.AddStream(crashpad::move(memory_list_writer));
+  minidump_file_writer.AddStream(std::move(memory_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -107,9 +108,9 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
 
   auto memory_writer = make_scoped_ptr(
       new TestMinidumpMemoryWriter(kBaseAddress, kSize, kValue));
-  memory_list_writer->AddMemory(crashpad::move(memory_writer));
+  memory_list_writer->AddMemory(std::move(memory_writer));
 
-  minidump_file_writer.AddStream(crashpad::move(memory_list_writer));
+  minidump_file_writer.AddStream(std::move(memory_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -145,12 +146,12 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
 
   auto memory_writer_0 = make_scoped_ptr(
       new TestMinidumpMemoryWriter(kBaseAddress0, kSize0, kValue0));
-  memory_list_writer->AddMemory(crashpad::move(memory_writer_0));
+  memory_list_writer->AddMemory(std::move(memory_writer_0));
   auto memory_writer_1 = make_scoped_ptr(
       new TestMinidumpMemoryWriter(kBaseAddress1, kSize1, kValue1));
-  memory_list_writer->AddMemory(crashpad::move(memory_writer_1));
+  memory_list_writer->AddMemory(std::move(memory_writer_1));
 
-  minidump_file_writer.AddStream(crashpad::move(memory_list_writer));
+  minidump_file_writer.AddStream(std::move(memory_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -249,7 +250,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   auto memory_list_writer = make_scoped_ptr(new MinidumpMemoryListWriter());
   memory_list_writer->AddExtraMemory(test_memory_stream->memory());
 
-  minidump_file_writer.AddStream(crashpad::move(test_memory_stream));
+  minidump_file_writer.AddStream(std::move(test_memory_stream));
 
   const uint64_t kBaseAddress1 = 0x2000;
   const size_t kSize1 = 0x0400;
@@ -257,9 +258,9 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
 
   auto memory_writer = make_scoped_ptr(
       new TestMinidumpMemoryWriter(kBaseAddress1, kSize1, kValue1));
-  memory_list_writer->AddMemory(crashpad::move(memory_writer));
+  memory_list_writer->AddMemory(std::move(memory_writer));
 
-  minidump_file_writer.AddStream(crashpad::move(memory_list_writer));
+  minidump_file_writer.AddStream(std::move(memory_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -337,7 +338,7 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
   memory_list_writer->AddFromSnapshot(memory_snapshots);
 
   MinidumpFileWriter minidump_file_writer;
-  minidump_file_writer.AddStream(crashpad::move(memory_list_writer));
+  minidump_file_writer.AddStream(std::move(memory_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));

@@ -18,6 +18,8 @@
 #include <time.h>
 #include <windows.h>
 
+#include <utility>
+
 #include "base/logging.h"
 #include "base/numerics/safe_math.h"
 #include "base/strings/string16.h"
@@ -25,7 +27,6 @@
 #include "base/strings/utf_string_conversions.h"
 #include "client/settings.h"
 #include "util/misc/initialization_state_dcheck.h"
-#include "util/stdlib/move.h"
 
 namespace crashpad {
 
@@ -822,7 +823,7 @@ scoped_ptr<CrashReportDatabase> InitializeInternal(
   scoped_ptr<CrashReportDatabaseWin> database_win(
       new CrashReportDatabaseWin(path));
   return database_win->Initialize(may_create)
-             ? crashpad::move(database_win)
+             ? std::move(database_win)
              : scoped_ptr<CrashReportDatabaseWin>();
 }
 

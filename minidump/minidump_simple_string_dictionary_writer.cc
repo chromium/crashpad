@@ -14,10 +14,11 @@
 
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 
+#include <utility>
+
 #include "base/logging.h"
 #include "base/stl_util.h"
 #include "util/file/file_writer.h"
-#include "util/stdlib/move.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
@@ -110,7 +111,7 @@ void MinidumpSimpleStringDictionaryWriter::InitializeFromMap(
     auto entry =
         make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
     entry->SetKeyValue(iterator.first, iterator.second);
-    AddEntry(crashpad::move(entry));
+    AddEntry(std::move(entry));
   }
 }
 

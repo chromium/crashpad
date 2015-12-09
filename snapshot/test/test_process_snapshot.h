@@ -21,6 +21,7 @@
 
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "base/basictypes.h"
@@ -32,7 +33,6 @@
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
 #include "snapshot/thread_snapshot.h"
-#include "util/stdlib/move.h"
 #include "util/misc/uuid.h"
 #include "util/stdlib/pointer_container.h"
 
@@ -73,7 +73,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   //! \param[in] system The system snapshot that System() will return. The
   //!     TestProcessSnapshot object takes ownership of \a system.
   void SetSystem(scoped_ptr<SystemSnapshot> system) {
-    system_ = crashpad::move(system);
+    system_ = std::move(system);
   }
 
   //! \brief Adds a thread snapshot to be returned by Threads().
@@ -97,7 +97,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   //! \param[in] exception The exception snapshot that Exception() will return.
   //!     The TestProcessSnapshot object takes ownership of \a exception.
   void SetException(scoped_ptr<ExceptionSnapshot> exception) {
-    exception_ = crashpad::move(exception);
+    exception_ = std::move(exception);
   }
 
   //! \brief Adds a memory map region snapshot to be returned by MemoryMap().

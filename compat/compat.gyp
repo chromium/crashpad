@@ -28,6 +28,8 @@
         'mac/mach-o/getsect.h',
         'mac/mach-o/loader.h',
         'mac/sys/resource.h',
+        'non_cxx11_lib/type_traits',
+        'non_cxx11_lib/utility',
         'non_mac/mach/mach.h',
         'non_win/dbghelp.h',
         'non_win/minwinbase.h',
@@ -50,10 +52,12 @@
           ],
           'include_dirs': [
             'mac',
+            'non_cxx11_lib',
           ],
           'direct_dependent_settings': {
             'include_dirs': [
               'mac',
+              'non_cxx11_lib',
             ],
           },
         }],

@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <utility>
 #include <vector>
 
 #include "base/files/file_path.h"
@@ -31,7 +32,6 @@
 #include "test/multiprocess_exec.h"
 #include "test/paths.h"
 #include "util/file/file_io.h"
-#include "util/stdlib/move.h"
 #include "util/misc/random_string.h"
 #include "util/net/http_body.h"
 #include "util/net/http_headers.h"
@@ -52,7 +52,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
                            RequestValidator request_validator)
       : MultiprocessExec(),
         headers_(headers),
-        body_stream_(crashpad::move(body_stream)),
+        body_stream_(std::move(body_stream)),
         response_code_(http_response_code),
         request_validator_(request_validator) {
     base::FilePath server_path = Paths::TestDataRoot().Append(
@@ -103,7 +103,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     for (const auto& pair : headers_) {
       transport->SetHeader(pair.first, pair.second);
     }
-    transport->SetBodyStream(crashpad::move(body_stream_));
+    transport->SetBodyStream(std::move(body_stream_));
 
     std::string response_body;
     bool success = transport->ExecuteSynchronously(&response_body);
@@ -271,8 +271,8 @@ TEST(HTTPTransport, UnchunkedPlainText) {
   headers[kContentType] = kTextPlain;
   headers[kContentLength] = base::StringPrintf("%" PRIuS, strlen(kTextBody));
 
-  HTTPTransportTestFixture test(headers, crashpad::move(body_stream), 200,
-      &UnchunkedPlainText);
+  HTTPTransportTestFixture test(
+      headers, std::move(body_stream), 200, &UnchunkedPlainText);
   test.Run();
 }
 
@@ -292,7 +292,10 @@ void RunUpload33k(bool has_content_length) {
     headers[kContentLength] =
         base::StringPrintf("%" PRIuS, request_string.size());
   }
-  HTTPTransportTestFixture test(headers, crashpad::move(body_stream), 200,
+  HTTPTransportTestFixture test(
+      headers,
+      std::move(body_stream),
+      200,
       [](HTTPTransportTestFixture* fixture, const std::string& request) {
         size_t body_start = request.rfind("\r\n");
         EXPECT_EQ(33 * 1024u + 2, request.size() - body_start);

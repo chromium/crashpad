@@ -14,11 +14,12 @@
 
 #include "minidump/minidump_memory_writer.h"
 
+#include <utility>
+
 #include "base/auto_reset.h"
 #include "base/logging.h"
 #include "snapshot/memory_snapshot.h"
 #include "util/file/file_writer.h"
-#include "util/stdlib/move.h"
 #include "util/numeric/safe_assignment.h"
 
 namespace crashpad {
@@ -178,7 +179,7 @@ void MinidumpMemoryListWriter::AddFromSnapshot(
   for (const MemorySnapshot* memory_snapshot : memory_snapshots) {
     scoped_ptr<MinidumpMemoryWriter> memory =
         MinidumpMemoryWriter::CreateFromSnapshot(memory_snapshot);
-    AddMemory(crashpad::move(memory));
+    AddMemory(std::move(memory));
   }
 }
 
