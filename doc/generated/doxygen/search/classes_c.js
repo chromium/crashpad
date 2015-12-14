@@ -5,6 +5,7 @@ var searchData=
   ['peb_5fldr_5fdata',['PEB_LDR_DATA',['../structcrashpad_1_1process__types_1_1PEB__LDR__DATA.html',1,'crashpad::process_types']]],
   ['peimageannotationsreader',['PEImageAnnotationsReader',['../classcrashpad_1_1PEImageAnnotationsReader.html',1,'crashpad']]],
   ['peimagereader',['PEImageReader',['../classcrashpad_1_1PEImageReader.html',1,'crashpad']]],
+  ['peimageresourcereader',['PEImageResourceReader',['../classcrashpad_1_1PEImageResourceReader.html',1,'crashpad']]],
   ['pipeservicecontext',['PipeServiceContext',['../classcrashpad_1_1internal_1_1PipeServiceContext.html',1,'crashpad::internal']]],
   ['pointercontainer',['PointerContainer',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20crashpad_3a_3ainternal_3a_3aminidumpwritable_20_3e',['PointerContainer&lt; crashpad::internal::MinidumpWritable &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
@@ -35,5 +36,6 @@ var searchData=
   ['processsnapshotmac',['ProcessSnapshotMac',['../classcrashpad_1_1ProcessSnapshotMac.html',1,'crashpad']]],
   ['processsnapshotminidump',['ProcessSnapshotMinidump',['../classcrashpad_1_1ProcessSnapshotMinidump.html',1,'crashpad']]],
   ['processsnapshotwin',['ProcessSnapshotWin',['../classcrashpad_1_1ProcessSnapshotWin.html',1,'crashpad']]],
+  ['processsubrangereader',['ProcessSubrangeReader',['../classcrashpad_1_1ProcessSubrangeReader.html',1,'crashpad']]],
   ['prunecondition',['PruneCondition',['../classcrashpad_1_1PruneCondition.html',1,'crashpad']]]
 ];

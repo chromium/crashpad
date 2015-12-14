@@ -22,6 +22,7 @@ var searchData=
   ['filewritemode',['FileWriteMode',['../namespacecrashpad.html#afa69b0967d9a6df659ff5d2a02ff3e51',1,'crashpad']]],
   ['filewriter',['FileWriter',['../classcrashpad_1_1FileWriter.html',1,'crashpad']]],
   ['filewriterinterface',['FileWriterInterface',['../classcrashpad_1_1FileWriterInterface.html',1,'crashpad']]],
+  ['findresourcebyid',['FindResourceByID',['../classcrashpad_1_1PEImageResourceReader.html#a26cacada3a8ee3abaf6e794cee1219c1',1,'crashpad::PEImageResourceReader']]],
   ['finishedwritingcrashreport',['FinishedWritingCrashReport',['../classcrashpad_1_1CrashReportDatabase.html#ac77057d6b9f0b8d8fb88e7653456c0ff',1,'crashpad::CrashReportDatabase']]],
   ['flags',['Flags',['../structMINIDUMP__HEADER.html#a052f2280538826d030c4cb5154963e27',1,'MINIDUMP_HEADER']]],
   ['flags1',['Flags1',['../structMINIDUMP__MISC__INFO.html#ac1c8ca04b2a85e2070e1b43b26d26e47',1,'MINIDUMP_MISC_INFO']]],

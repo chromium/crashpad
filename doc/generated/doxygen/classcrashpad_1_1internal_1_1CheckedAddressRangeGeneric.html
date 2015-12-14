@@ -137,6 +137,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a0e13391aad98c12cabb5160d11b4de68"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a0e13391aad98c12cabb5160d11b4de68">ContainsRange</a> (const <a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html">CheckedAddressRangeGeneric</a> &amp;that) const </td></tr>
 <tr class="memdesc:a0e13391aad98c12cabb5160d11b4de68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the address range contains another address range.  <a href="#a0e13391aad98c12cabb5160d11b4de68">More...</a><br /></td></tr>
 <tr class="separator:a0e13391aad98c12cabb5160d11b4de68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaa6015377c90ed85441f4212a58483a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#adaa6015377c90ed85441f4212a58483a">AsString</a> () const </td></tr>
+<tr class="memdesc:adaa6015377c90ed85441f4212a58483a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string describing the address range.  <a href="#adaa6015377c90ed85441f4212a58483a">More...</a><br /></td></tr>
+<tr class="separator:adaa6015377c90ed85441f4212a58483a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class ValueType, class SizeType&gt;<br />
@@ -205,6 +208,26 @@ template&lt;class ValueType, class SizeType&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="adaa6015377c90ed85441f4212a58483a"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ValueType , class SizeType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string <a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html">crashpad::internal::CheckedAddressRangeGeneric</a>&lt; ValueType, SizeType &gt;::AsString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a string describing the address range. </p>
+<p>The string will be formatted as <code>"0x123 + 0x45 (64)"</code>, where the individual components are the address, size, and bitness. </p>
+
+</div>
+</div>
 <a class="anchor" id="a0e13391aad98c12cabb5160d11b4de68"></a>
 <div class="memitem">
 <div class="memproto">

@@ -14,8 +14,12 @@ var searchData=
   ['addstringutf8',['AddStringUTF8',['../classcrashpad_1_1internal_1_1MinidumpStringListWriter.html#a328ae898f2a5d1d991714822f682a610',1,'crashpad::internal::MinidumpStringListWriter']]],
   ['addthread',['AddThread',['../classcrashpad_1_1MinidumpThreadListWriter.html#ac33da280736ae969f1d168fe701a31e1',1,'crashpad::MinidumpThreadListWriter::AddThread()'],['../classcrashpad_1_1test_1_1TestProcessSnapshot.html#ac1a3eaadc83a1c275869d4a2f8248926',1,'crashpad::test::TestProcessSnapshot::AddThread()']]],
   ['age',['age',['../structcrashpad_1_1CodeViewRecordPDB20.html#a63b66c170fd97509ad079ff39d75a71f',1,'crashpad::CodeViewRecordPDB20::age()'],['../structcrashpad_1_1CodeViewRecordPDB70.html#a6ad58edc89d36bf7a9b7599ace6d96b2',1,'crashpad::CodeViewRecordPDB70::age()']]],
-  ['ageprunecondition',['AgePruneCondition',['../classcrashpad_1_1AgePruneCondition.html',1,'crashpad']]],
   ['ageprunecondition',['AgePruneCondition',['../classcrashpad_1_1AgePruneCondition.html#aad0e93370f6de214bd95c9c773350353',1,'crashpad::AgePruneCondition']]],
+  ['ageprunecondition',['AgePruneCondition',['../classcrashpad_1_1AgePruneCondition.html',1,'crashpad']]],
+  ['alignedallocate',['AlignedAllocate',['../namespacecrashpad_1_1internal.html#a009fda01516a2f6e3bec94db18c60a27',1,'crashpad::internal']]],
+  ['alignedallocator',['AlignedAllocator',['../structcrashpad_1_1AlignedAllocator.html',1,'crashpad']]],
+  ['alignedfree',['AlignedFree',['../namespacecrashpad_1_1internal.html#a248fec963c49d172027231280c27fc60',1,'crashpad::internal']]],
+  ['alignedvector',['AlignedVector',['../namespacecrashpad.html#a86fa676850a73fb41a996c8fe256c175',1,'crashpad']]],
   ['alignment',['Alignment',['../classcrashpad_1_1MinidumpContextAMD64Writer.html#a5cd8e0d919c2e260dfb715eed58c096e',1,'crashpad::MinidumpContextAMD64Writer::Alignment()'],['../classcrashpad_1_1MinidumpMemoryWriter.html#ab77268e3451a9927716f42541e53c4d1',1,'crashpad::MinidumpMemoryWriter::Alignment()'],['../classcrashpad_1_1internal_1_1MinidumpWritable.html#af4e92c46984eb73dbc1315ff5f4c7a9a',1,'crashpad::internal::MinidumpWritable::Alignment()']]],
   ['allgroups',['AllGroups',['../classcrashpad_1_1ProcessInfo.html#aa65d7b9976e3bd853e95e7e8db2fc25d',1,'crashpad::ProcessInfo']]],
   ['allocationbase',['AllocationBase',['../structMINIDUMP__MEMORY__INFO.html#a4b126ff573ae5fcb0dce239a16e8d4ae',1,'MINIDUMP_MEMORY_INFO']]],
@@ -32,6 +36,7 @@ var searchData=
   ['assignifinrange',['AssignIfInRange',['../namespacecrashpad.html#aeb040202b4562c8c4087b9c9db2ce430',1,'crashpad']]],
   ['assigntimet',['AssignTimeT',['../classcrashpad_1_1internal_1_1MinidumpWriterUtil.html#adf79feb4d657af5606d77a040b80c0a3',1,'crashpad::internal::MinidumpWriterUtil']]],
   ['assignutf8toutf16',['AssignUTF8ToUTF16',['../classcrashpad_1_1internal_1_1MinidumpWriterUtil.html#a8050fbfd03eaf9c799001d37f417adec',1,'crashpad::internal::MinidumpWriterUtil']]],
+  ['asstring',['AsString',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#adaa6015377c90ed85441f4212a58483a',1,'crashpad::internal::CheckedAddressRangeGeneric']]],
   ['attributes',['Attributes',['../structMINIDUMP__HANDLE__DESCRIPTOR.html#a7ec63771a91775fb8f02a7ef8bedc8ac',1,'MINIDUMP_HANDLE_DESCRIPTOR::Attributes()'],['../structcrashpad_1_1HandleSnapshot.html#a187c40310542f3b6e1a0f0250afb60f6',1,'crashpad::HandleSnapshot::attributes()'],['../structcrashpad_1_1ProcessInfo_1_1Handle.html#a5116d3d54e0509359480643f9fa5abad',1,'crashpad::ProcessInfo::Handle::attributes()']]],
   ['auditpidfrommachmessagetrailer',['AuditPIDFromMachMessageTrailer',['../namespacecrashpad.html#a2c18eae8148ec3304733581a28c2da3b',1,'crashpad']]]
 ];

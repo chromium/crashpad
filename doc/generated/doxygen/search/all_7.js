@@ -27,7 +27,7 @@ var searchData=
   ['getpendingreports',['GetPendingReports',['../classcrashpad_1_1CrashReportDatabase.html#a508353ae8893bf48a5ffcc9c74b03223',1,'crashpad::CrashReportDatabase']]],
   ['getprocessinfo',['GetProcessInfo',['../classcrashpad_1_1ProcessReaderWin.html#afd80dba16f98ffb4adf63bbf3145b663',1,'crashpad::ProcessReaderWin']]],
   ['getreadableranges',['GetReadableRanges',['../classcrashpad_1_1ProcessInfo.html#ad546c7ae58c573a15949e16bbff6d0a6',1,'crashpad::ProcessInfo']]],
-  ['getreadablerangesofmemorymap',['GetReadableRangesOfMemoryMap',['../namespacecrashpad.html#aad0079c0c1af5862ce536949577040ff',1,'crashpad']]],
+  ['getreadablerangesofmemorymap',['GetReadableRangesOfMemoryMap',['../namespacecrashpad.html#a794c1a44de599deb3e261eab0bd6c03b',1,'crashpad']]],
   ['getreportforuploading',['GetReportForUploading',['../classcrashpad_1_1CrashReportDatabase.html#ab87ae2586364bc46def5335c07c8eb04',1,'crashpad::CrashReportDatabase']]],
   ['getsectionatindex',['GetSectionAtIndex',['../classcrashpad_1_1MachOImageReader.html#a7703068b14568169920243aab67d8ed7',1,'crashpad::MachOImageReader::GetSectionAtIndex()'],['../classcrashpad_1_1MachOImageSegmentReader.html#af52b9e12741da1e7de053efdb0cc1de0',1,'crashpad::MachOImageSegmentReader::GetSectionAtIndex()']]],
   ['getsectionbyname',['GetSectionByName',['../classcrashpad_1_1MachOImageReader.html#ac31f05e37969e11ed7f78cdcba7ae027',1,'crashpad::MachOImageReader::GetSectionByName()'],['../classcrashpad_1_1MachOImageSegmentReader.html#abc297551eb97541888fe9268e600514a',1,'crashpad::MachOImageSegmentReader::GetSectionByName()']]],

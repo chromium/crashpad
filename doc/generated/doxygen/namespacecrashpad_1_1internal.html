@@ -205,6 +205,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a769d4791b91e4fffea817ad2e9dda54b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a769d4791b91e4fffea817ad2e9dda54b">ReadMinidumpUTF8String</a> (<a class="el" href="classcrashpad_1_1FileReaderInterface.html">FileReaderInterface</a> *file_reader, <a class="el" href="dbghelp_8h.html#acf465a1a77ecf067a9d946583bc6a3f8">RVA</a> rva, std::string *string)</td></tr>
 <tr class="memdesc:a769d4791b91e4fffea817ad2e9dda54b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <a class="el" href="structcrashpad_1_1MinidumpUTF8String.html" title="A variable-length UTF-8-encoded string carried within a minidump file. ">MinidumpUTF8String</a> from a minidump file at offset <em>rva</em> in <em>file_reader</em>, and returns it in <em>string</em>.  <a href="#a769d4791b91e4fffea817ad2e9dda54b">More...</a><br /></td></tr>
 <tr class="separator:a769d4791b91e4fffea817ad2e9dda54b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a009fda01516a2f6e3bec94db18c60a27"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a009fda01516a2f6e3bec94db18c60a27">AlignedAllocate</a> (size_t alignment, size_t size)</td></tr>
+<tr class="memdesc:a009fda01516a2f6e3bec94db18c60a27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates memory with the specified alignment constraint.  <a href="#a009fda01516a2f6e3bec94db18c60a27">More...</a><br /></td></tr>
+<tr class="separator:a009fda01516a2f6e3bec94db18c60a27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a248fec963c49d172027231280c27fc60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#a248fec963c49d172027231280c27fc60">AlignedFree</a> (void *pointer)</td></tr>
+<tr class="memdesc:a248fec963c49d172027231280c27fc60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated by <a class="el" href="namespacecrashpad_1_1internal.html#a009fda01516a2f6e3bec94db18c60a27" title="Allocates memory with the specified alignment constraint. ">AlignedAllocate()</a>.  <a href="#a248fec963c49d172027231280c27fc60">More...</a><br /></td></tr>
+<tr class="separator:a248fec963c49d172027231280c27fc60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa982a8cad0e72cddf1989d135db3c338"><td class="memItemLeft" align="right" valign="top">FARPROC&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1internal.html#aa982a8cad0e72cddf1989d135db3c338">GetFunctionInternal</a> (const wchar_t *library, const char *function, bool required)</td></tr>
 <tr class="memdesc:aa982a8cad0e72cddf1989d135db3c338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a function pointer to a named function in a library.  <a href="#aa982a8cad0e72cddf1989d135db3c338">More...</a><br /></td></tr>
 <tr class="separator:aa982a8cad0e72cddf1989d135db3c338"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -216,6 +222,54 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The internal namespace, not for public use. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a009fda01516a2f6e3bec94db18c60a27"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * crashpad::internal::AlignedAllocate </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>alignment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allocates memory with the specified alignment constraint. </p>
+<p>This function wraps <code>posix_memalign()</code> or <code>_aligned_malloc()</code>. Memory allocated by this function must be released by AlignFree(). </p>
+
+</div>
+</div>
+<a class="anchor" id="a248fec963c49d172027231280c27fc60"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::internal::AlignedFree </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>pointer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Frees memory allocated by <a class="el" href="namespacecrashpad_1_1internal.html#a009fda01516a2f6e3bec94db18c60a27" title="Allocates memory with the specified alignment constraint. ">AlignedAllocate()</a>. </p>
+<p>This function wraps <code>free()</code> or <code>_aligned_free()</code>. </p>
+
+</div>
+</div>
 <a class="anchor" id="a334a660002ce6e6f06432ccf7d3cc50f"></a>
 <div class="memitem">
 <div class="memproto">

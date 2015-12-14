@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['rebind',['rebind',['../structcrashpad_1_1AlignedAllocator_1_1rebind.html',1,'crashpad::AlignedAllocator']]],
   ['registrationrequest',['RegistrationRequest',['../structcrashpad_1_1RegistrationRequest.html',1,'crashpad']]],
   ['registrationresponse',['RegistrationResponse',['../structcrashpad_1_1RegistrationResponse.html',1,'crashpad']]],
   ['report',['Report',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html',1,'crashpad::CrashReportDatabase']]],

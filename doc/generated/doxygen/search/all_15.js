@@ -6,7 +6,7 @@ var searchData=
   ['vendorid',['VendorId',['../unionCPU__INFORMATION.html#af239b99d9ef6b86fb04ffeabd85831c6',1,'CPU_INFORMATION']]],
   ['verifyminidumpheader',['VerifyMinidumpHeader',['../namespacecrashpad_1_1test.html#a5e604ee6a23070a89e2a0015eb2854a9',1,'crashpad::test']]],
   ['verrsrc_2eh',['verrsrc.h',['../verrsrc_8h.html',1,'']]],
-  ['version',['version',['../structcrashpad_1_1MinidumpModuleCrashpadInfo.html#ace07d8872cdaa53ca20a04513deb56c3',1,'crashpad::MinidumpModuleCrashpadInfo::version()'],['../structcrashpad_1_1MinidumpCrashpadInfo.html#a481042efad46164dc43d9c824df9e6cf',1,'crashpad::MinidumpCrashpadInfo::version()'],['../structcrashpad_1_1RegistrationRequest.html#afa8008cc71aec2d142493cd0c7f5a98d',1,'crashpad::RegistrationRequest::version()'],['../structMINIDUMP__HEADER.html#a7ea8d51f5ca990eec9eb0b3643c6b406',1,'MINIDUMP_HEADER::Version()'],['../classcrashpad_1_1ToolSupport.html#acac2c96bbf2e77e8988f87af96f01315',1,'crashpad::ToolSupport::Version(const base::FilePath &amp;me)'],['../classcrashpad_1_1ToolSupport.html#a701225eea7643d837300d813c45bc6cd',1,'crashpad::ToolSupport::Version(const std::string &amp;me)']]],
+  ['version',['Version',['../structMINIDUMP__HEADER.html#a7ea8d51f5ca990eec9eb0b3643c6b406',1,'MINIDUMP_HEADER::Version()'],['../classcrashpad_1_1ToolSupport.html#acac2c96bbf2e77e8988f87af96f01315',1,'crashpad::ToolSupport::Version(const base::FilePath &amp;me)'],['../classcrashpad_1_1ToolSupport.html#a701225eea7643d837300d813c45bc6cd',1,'crashpad::ToolSupport::Version(const std::string &amp;me)'],['../structcrashpad_1_1MinidumpModuleCrashpadInfo.html#ace07d8872cdaa53ca20a04513deb56c3',1,'crashpad::MinidumpModuleCrashpadInfo::version()'],['../structcrashpad_1_1MinidumpCrashpadInfo.html#a481042efad46164dc43d9c824df9e6cf',1,'crashpad::MinidumpCrashpadInfo::version()'],['../structcrashpad_1_1RegistrationRequest.html#afa8008cc71aec2d142493cd0c7f5a98d',1,'crashpad::RegistrationRequest::version()']]],
   ['versioninfo',['VersionInfo',['../structMINIDUMP__MODULE.html#ac2babe58e6418124599ea2821f30bb84',1,'MINIDUMP_MODULE']]],
   ['versioninformation',['VersionInformation',['../unionCPU__INFORMATION.html#a6b072a6cae2e065111ef20acf21e355a',1,'CPU_INFORMATION']]],
   ['vm_5fcounters',['VM_COUNTERS',['../structcrashpad_1_1process__types_1_1VM__COUNTERS.html',1,'crashpad::process_types']]],
@@ -16,5 +16,6 @@ var searchData=
   ['vmsize',['vmsize',['../classcrashpad_1_1MachOImageSegmentReader.html#a987726b50e845b6a8b9b9260775df171',1,'crashpad::MachOImageSegmentReader']]],
   ['vs_5fffi_5fsignature',['VS_FFI_SIGNATURE',['../verrsrc_8h.html#a323849bf0740c974e68b19ae551e1a18',1,'verrsrc.h']]],
   ['vs_5fffi_5fstrucversion',['VS_FFI_STRUCVERSION',['../verrsrc_8h.html#a5d5a4b05d359ca879b652292498d49b9',1,'verrsrc.h']]],
-  ['vs_5ffixedfileinfo',['VS_FIXEDFILEINFO',['../structVS__FIXEDFILEINFO.html',1,'']]]
+  ['vs_5ffixedfileinfo',['VS_FIXEDFILEINFO',['../structVS__FIXEDFILEINFO.html',1,'']]],
+  ['vsfixedfileinfo',['VSFixedFileInfo',['../classcrashpad_1_1PEImageReader.html#a89c688fabe3cc22c13f90b12b5557dba',1,'crashpad::PEImageReader']]]
 ];

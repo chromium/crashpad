@@ -8,7 +8,7 @@ var searchData=
   ['readexactly',['ReadExactly',['../classcrashpad_1_1FileReaderInterface.html#ad046f1ebf1071eb6b92a2a8d06c14a56',1,'crashpad::FileReaderInterface']]],
   ['readfile',['ReadFile',['../namespacecrashpad.html#a8599600814a17d622766decd5f122a96',1,'crashpad']]],
   ['readmapped',['ReadMapped',['../classcrashpad_1_1TaskMemory.html#a17fe571f49eb7fef909b02937caff766',1,'crashpad::TaskMemory']]],
-  ['readmemory',['ReadMemory',['../classcrashpad_1_1ProcessReaderWin.html#a65d2258f0dcad73e223f904f7089e9f0',1,'crashpad::ProcessReaderWin']]],
+  ['readmemory',['ReadMemory',['../classcrashpad_1_1ProcessReaderWin.html#a65d2258f0dcad73e223f904f7089e9f0',1,'crashpad::ProcessReaderWin::ReadMemory()'],['../classcrashpad_1_1ProcessSubrangeReader.html#a95c1d172197802b38a432bdfc1fae3ae',1,'crashpad::ProcessSubrangeReader::ReadMemory()']]],
   ['readminidumpsimplestringdictionary',['ReadMinidumpSimpleStringDictionary',['../namespacecrashpad_1_1internal.html#aa9b358d36faf271ec17d7e9a829610a9',1,'crashpad::internal']]],
   ['readminidumpstringlist',['ReadMinidumpStringList',['../namespacecrashpad_1_1internal.html#afac4436aa35c86be47e56179a51662ca',1,'crashpad::internal']]],
   ['readminidumputf8string',['ReadMinidumpUTF8String',['../namespacecrashpad_1_1internal.html#a769d4791b91e4fffea817ad2e9dda54b',1,'crashpad::internal']]],

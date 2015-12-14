@@ -196,7 +196,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>test::ChildPortHands
 <div class="line">  <span class="comment">// Obtain a receive right from the parent process.</span></div>
 <div class="line">  base::mac::ScopedMachReceiveRight receive_right(</div>
 <div class="line">      <a class="code" href="classcrashpad_1_1ChildPortHandshake.html#a0f73b816d441e5e7f6650c8c5601e654">ChildPortHandshake::RunServerForFD</a>(</div>
-<div class="line">          server_write_fd.Pass(),</div>
+<div class="line">          std::move(server_write_fd),</div>
 <div class="line">          <a class="code" href="classcrashpad_1_1ChildPortHandshake.html#a727e01831df67754b0ff439735f41608aca4dfdef124043305e6880e006032603">ChildPortHandshake::PortRightType::kReceiveRight</a>));</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div><h2 class="groupheader">Member Enumeration Documentation</h2>

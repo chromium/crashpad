@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['httpheaders',['HTTPHeaders',['../namespacecrashpad.html#af6ffe10a8131fab8d1f8de60d9a812f9',1,'crashpad']]]
+  ['filehandle',['FileHandle',['../namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a',1,'crashpad']]],
+  ['fileoffset',['FileOffset',['../namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2',1,'crashpad']]]
 ];

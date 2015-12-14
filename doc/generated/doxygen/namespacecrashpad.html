@@ -111,6 +111,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1AgePruneCondition.html">AgePruneCondition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1PruneCondition.html" title="An abstract base class for evaluating crash reports for deletion. ">PruneCondition</a> that deletes reports older than the specified number days.  <a href="classcrashpad_1_1AgePruneCondition.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A standard allocator that aligns its allocations as requested, suitable for use as an allocator in standard containers.  <a href="structcrashpad_1_1AlignedAllocator.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1BinaryPruneCondition.html">BinaryPruneCondition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1PruneCondition.html" title="An abstract base class for evaluating crash reports for deletion. ">PruneCondition</a> that conjoins two other PruneConditions.  <a href="classcrashpad_1_1BinaryPruneCondition.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -350,6 +353,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PEImageReader.html">PEImageReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reader for PE images mapped into another process.  <a href="classcrashpad_1_1PEImageReader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PEImageResourceReader.html">PEImageResourceReader</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reader for resources stored in PE images mapped into another process.  <a href="classcrashpad_1_1PEImageResourceReader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PointerContainer.html">PointerContainer</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows a standard container to “own” pointer elements stored in it.  <a href="classcrashpad_1_1PointerContainer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -373,6 +379,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html">ProcessSnapshotWin</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process. ">ProcessSnapshot</a> of a running (or crashed) process running on a Windows system.  <a href="classcrashpad_1_1ProcessSnapshotWin.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSubrangeReader.html">ProcessSubrangeReader</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A wrapper for <a class="el" href="classcrashpad_1_1ProcessReaderWin.html" title="Accesses information about another process, identified by a HANDLE. ">ProcessReaderWin</a> that only allows a specific subrange to be read from.  <a href="classcrashpad_1_1ProcessSubrangeReader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCondition.html">PruneCondition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstract base class for evaluating crash reports for deletion.  <a href="classcrashpad_1_1PruneCondition.html#details">More...</a><br /></td></tr>
@@ -503,6 +512,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nam
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af6ffe10a8131fab8d1f8de60d9a812f9">HTTPHeaders</a> = std::map&lt; std::string, std::string &gt;</td></tr>
 <tr class="memdesc:af6ffe10a8131fab8d1f8de60d9a812f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A map of HTTP header fields to their values. <br /></td></tr>
 <tr class="separator:af6ffe10a8131fab8d1f8de60d9a812f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86fa676850a73fb41a996c8fe256c175"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </td></tr>
+<tr class="memitem:a86fa676850a73fb41a996c8fe256c175"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a86fa676850a73fb41a996c8fe256c175">AlignedVector</a> = std::vector&lt; T, <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T, Alignment &gt;&gt;</td></tr>
+<tr class="memdesc:a86fa676850a73fb41a996c8fe256c175"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <code>std::vector</code> using <a class="el" href="structcrashpad_1_1AlignedAllocator.html" title="A standard allocator that aligns its allocations as requested, suitable for use as an allocator in st...">AlignedAllocator</a>.  <a href="#a86fa676850a73fb41a996c8fe256c175">More...</a><br /></td></tr>
+<tr class="separator:a86fa676850a73fb41a996c8fe256c175"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cae195b61eb9fe7cd4ae9a66e13f00f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a9cae195b61eb9fe7cd4ae9a66e13f00f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a9cae195b61eb9fe7cd4ae9a66e13f00f">PointerVector</a> = <a class="el" href="classcrashpad_1_1PointerContainer.html">PointerContainer</a>&lt; std::vector&lt; T * &gt;&gt;</td></tr>
 <tr class="memdesc:a9cae195b61eb9fe7cd4ae9a66e13f00f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows a <code>std::vector</code> to “own” pointer elements stored in it.  <a href="#a9cae195b61eb9fe7cd4ae9a66e13f00f">More...</a><br /></td></tr>
@@ -865,6 +878,14 @@ template&lt;typename To , typename From &gt; </td></tr>
 <tr class="memitem:a6249dd58c6a81b300d64b25a943fa25c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a6249dd58c6a81b300d64b25a943fa25c">StringToSignal</a> (const base::StringPiece &amp;string, <a class="el" href="namespacecrashpad.html#a14f1de509869f929122998a2f88f08a6">StringToSymbolicConstantOptions</a> options, int *signal)</td></tr>
 <tr class="memdesc:a6249dd58c6a81b300d64b25a943fa25c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a string to its corresponding POSIX signal value.  <a href="#a6249dd58c6a81b300d64b25a943fa25c">More...</a><br /></td></tr>
 <tr class="separator:a6249dd58c6a81b300d64b25a943fa25c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcda4999ed1b6ac03aab90c8833dbebb"><td class="memTemplParams" colspan="2"><a class="anchor" id="afcda4999ed1b6ac03aab90c8833dbebb"></a>
+template&lt;class T1 , class T2 , size_t Alignment&gt; </td></tr>
+<tr class="memitem:afcda4999ed1b6ac03aab90c8833dbebb"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T1, Alignment &gt; &amp;lhs, const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T2, Alignment &gt; &amp;rhs) CRASHPAD_NOEXCEPT</td></tr>
+<tr class="separator:afcda4999ed1b6ac03aab90c8833dbebb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f9985c36e027f96f920b48d3c89aec7"><td class="memTemplParams" colspan="2"><a class="anchor" id="a9f9985c36e027f96f920b48d3c89aec7"></a>
+template&lt;class T1 , class T2 , size_t Alignment&gt; </td></tr>
+<tr class="memitem:a9f9985c36e027f96f920b48d3c89aec7"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T1, Alignment &gt; &amp;lhs, const <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T2, Alignment &gt; &amp;rhs) CRASHPAD_NOEXCEPT</td></tr>
+<tr class="separator:a9f9985c36e027f96f920b48d3c89aec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0486df983d8e9cecbe1e46e0059806df"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a0486df983d8e9cecbe1e46e0059806df"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a0486df983d8e9cecbe1e46e0059806df">MapInsertOrReplace</a> (T *map, const typename T::key_type &amp;key, const typename T::mapped_type &amp;value, typename T::mapped_type *old_value)</td></tr>
 <tr class="memdesc:a0486df983d8e9cecbe1e46e0059806df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a mapping from <em>key</em> to <em>value</em> into <em>map</em>, or replaces an existing mapping so that <em>key</em> maps to .  <a href="#a0486df983d8e9cecbe1e46e0059806df">More...</a><br /></td></tr>
@@ -926,9 +947,9 @@ template&lt;class Traits &gt; </td></tr>
 <tr class="memitem:a44ff5b9a1ac8271ebf0977880ec95ac3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a44ff5b9a1ac8271ebf0977880ec95ac3"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (HANDLE process, bool is_64_bit, <a class="el" href="classcrashpad_1_1ProcessInfo.html">ProcessInfo</a> *process_info)</td></tr>
 <tr class="separator:a44ff5b9a1ac8271ebf0977880ec95ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad0079c0c1af5862ce536949577040ff"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>, <a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#aad0079c0c1af5862ce536949577040ff">GetReadableRangesOfMemoryMap</a> (const <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>, <a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a> &gt; &amp;range, const std::vector&lt; MEMORY_BASIC_INFORMATION64 &gt; &amp;memory_info)</td></tr>
-<tr class="memdesc:aad0079c0c1af5862ce536949577040ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a memory map of a process, and a range to be read from the target process, returns a vector of ranges, representing the readable portions of the original range.  <a href="#aad0079c0c1af5862ce536949577040ff">More...</a><br /></td></tr>
-<tr class="separator:aad0079c0c1af5862ce536949577040ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a794c1a44de599deb3e261eab0bd6c03b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>, <a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a794c1a44de599deb3e261eab0bd6c03b">GetReadableRangesOfMemoryMap</a> (const <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>, <a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a> &gt; &amp;range, const <a class="el" href="classcrashpad_1_1ProcessInfo.html#a9b1bd70d4a58ec0afe0ce742f0e3fea8">ProcessInfo::MemoryBasicInformation64Vector</a> &amp;memory_info)</td></tr>
+<tr class="memdesc:a794c1a44de599deb3e261eab0bd6c03b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a memory map of a process, and a range to be read from the target process, returns a vector of ranges, representing the readable portions of the original range.  <a href="#a794c1a44de599deb3e261eab0bd6c03b">More...</a><br /></td></tr>
+<tr class="separator:a794c1a44de599deb3e261eab0bd6c03b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a638d7916642f81df8063d300f08ff2ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a638d7916642f81df8063d300f08ff2ca">SendToCrashHandlerServer</a> (const base::string16 &amp;pipe_name, const <a class="el" href="structcrashpad_1_1ClientToServerMessage.html">ClientToServerMessage</a> &amp;message, <a class="el" href="unioncrashpad_1_1ServerToClientMessage.html">ServerToClientMessage</a> *response)</td></tr>
 <tr class="memdesc:a638d7916642f81df8063d300f08ff2ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect over the given <em>pipe_name</em>, passing <em>message</em> to the server, storing the server's reply into <em>response</em>.  <a href="#a638d7916642f81df8063d300f08ff2ca">More...</a><br /></td></tr>
 <tr class="separator:a638d7916642f81df8063d300f08ff2ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1053,6 +1074,23 @@ const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main namespace. </p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
+<a class="anchor" id="a86fa676850a73fb41a996c8fe256c175"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacecrashpad.html#a86fa676850a73fb41a996c8fe256c175">crashpad::AlignedVector</a> = typedef std::vector&lt;T, <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt;T, Alignment&gt;&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A <code>std::vector</code> using <a class="el" href="structcrashpad_1_1AlignedAllocator.html" title="A standard allocator that aligns its allocations as requested, suitable for use as an allocator in st...">AlignedAllocator</a>. </p>
+<p>This is similar to <code>std::vector&lt;T&gt;</code>, with the addition of an alignment guarantee. <em>Alignment</em> must be a power of 2. If <em>Alignment</em> is not specified, the default alignment for type <em>T</em> is used. </p>
+
+</div>
+</div>
 <a class="anchor" id="a8d7f0170c573e59ca6b02e29735f4fad"></a>
 <div class="memitem">
 <div class="memproto">
@@ -2785,10 +2823,11 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Retrieve the type and version information from a given module (exe, dll, etc.) </p>
+<p>This function calls <code>GetFileVersionInfo()</code>, which can implicitly call <code>LoadLibrary()</code> to load <em>path</em> into the calling process. Do not call this function on an untrusted module, because there is a risk of executing the module’s code.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>The path to the module to be inspected. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">vs_fixedfileinfo</td><td>The <code><a class="el" href="structVS__FIXEDFILEINFO.html" title="Version information for a file. ">VS_FIXEDFILEINFO</a></code> on success. <code>dwFileFlags</code> will have been masked with <code>dwFileFlagsMask</code> already.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">vs_fixedfileinfo</td><td>The <a class="el" href="structVS__FIXEDFILEINFO.html" title="Version information for a file. ">VS_FIXEDFILEINFO</a> on success. <a class="el" href="structVS__FIXEDFILEINFO.html#a1ecf0351f90806354f987321c4d1ce0e" title="A bitmask of VS_FF_* values identifying attributes of the file. Only bits present in dwFileFlagsMask ...">VS_FIXEDFILEINFO::dwFileFlags</a> will have been masked with <a class="el" href="structVS__FIXEDFILEINFO.html#a1523cf64b0b010ecf5a8c3b02866041c" title="A bitmask of VS_FF_* values indicating which bits in dwFileFlags are valid. ">VS_FIXEDFILEINFO::dwFileFlagsMask</a> already.</td></tr>
   </table>
   </dd>
 </dl>
@@ -2796,7 +2835,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="aad0079c0c1af5862ce536949577040ff"></a>
+<a class="anchor" id="a794c1a44de599deb3e261eab0bd6c03b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -2809,7 +2848,7 @@ template&lt;typename Destination , typename Source &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; MEMORY_BASIC_INFORMATION64 &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classcrashpad_1_1ProcessInfo.html#a9b1bd70d4a58ec0afe0ce742f0e3fea8">ProcessInfo::MemoryBasicInformation64Vector</a> &amp;&#160;</td>
           <td class="paramname"><em>memory_info</em>&#160;</td>
         </tr>
         <tr>

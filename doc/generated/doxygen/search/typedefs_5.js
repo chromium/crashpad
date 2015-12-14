@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rva',['RVA',['../dbghelp_8h.html#acf465a1a77ecf067a9d946583bc6a3f8',1,'dbghelp.h']]]
+  ['pointervector',['PointerVector',['../namespacecrashpad.html#a9cae195b61eb9fe7cd4ae9a66e13f00f',1,'crashpad']]]
 ];
