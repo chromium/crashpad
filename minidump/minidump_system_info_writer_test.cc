@@ -21,6 +21,7 @@
 
 #include <algorithm>
 #include <string>
+#include <utility>
 
 #include "base/compiler_specific.h"
 #include "gtest/gtest.h"
@@ -83,7 +84,7 @@ TEST(MinidumpSystemInfoWriter, Empty) {
 
   system_info_writer->SetCSDVersion(std::string());
 
-  minidump_file_writer.AddStream(system_info_writer.Pass());
+  minidump_file_writer.AddStream(std::move(system_info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -154,7 +155,7 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
   system_info_writer->SetCPUX86VersionAndFeatures(kCPUVersion, kCPUFeatures);
   system_info_writer->SetCPUX86AMDExtendedFeatures(kAMDFeatures);
 
-  minidump_file_writer.AddStream(system_info_writer.Pass());
+  minidump_file_writer.AddStream(std::move(system_info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -214,7 +215,7 @@ TEST(MinidumpSystemInfoWriter, AMD64_Mac) {
   system_info_writer->SetCSDVersion(kCSDVersion);
   system_info_writer->SetCPUOtherFeatures(kCPUFeatures[0], kCPUFeatures[1]);
 
-  minidump_file_writer.AddStream(system_info_writer.Pass());
+  minidump_file_writer.AddStream(std::move(system_info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -256,7 +257,7 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
       kCPUVendor[0], kCPUVendor[1], kCPUVendor[2]);
   system_info_writer->SetCSDVersion(std::string());
 
-  minidump_file_writer.AddStream(system_info_writer.Pass());
+  minidump_file_writer.AddStream(std::move(system_info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -336,7 +337,7 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
   system_info_writer->InitializeFromSnapshot(&system_snapshot);
 
   MinidumpFileWriter minidump_file_writer;
-  minidump_file_writer.AddStream(system_info_writer.Pass());
+  minidump_file_writer.AddStream(std::move(system_info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -431,7 +432,7 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
   system_info_writer->InitializeFromSnapshot(&system_snapshot);
 
   MinidumpFileWriter minidump_file_writer;
-  minidump_file_writer.AddStream(system_info_writer.Pass());
+  minidump_file_writer.AddStream(std::move(system_info_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -469,7 +470,7 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
 TEST(MinidumpSystemInfoWriterDeathTest, NoCSDVersion) {
   MinidumpFileWriter minidump_file_writer;
   auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
-  minidump_file_writer.AddStream(system_info_writer.Pass());
+  minidump_file_writer.AddStream(std::move(system_info_writer));
 
   StringFile string_file;
   ASSERT_DEATH_CHECK(minidump_file_writer.WriteEverything(&string_file),

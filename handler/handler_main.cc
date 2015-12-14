@@ -19,6 +19,7 @@
 
 #include <map>
 #include <string>
+#include <utility>
 
 #include "base/auto_reset.h"
 #include "base/files/file_path.h"
@@ -314,7 +315,7 @@ int HandlerMain(int argc, char* argv[]) {
   }
 
   ExceptionHandlerServer exception_handler_server(
-      receive_right.Pass(), !options.mach_service.empty());
+      std::move(receive_right), !options.mach_service.empty());
   base::AutoReset<ExceptionHandlerServer*> reset_g_exception_handler_server(
       &g_exception_handler_server, &exception_handler_server);
 
@@ -336,9 +337,12 @@ int HandlerMain(int argc, char* argv[]) {
     reset_sigterm.reset(&old_sa);
   }
 #elif defined(OS_WIN)
+  // Shut down as late as possible relative to programs we're watching.
+  if (!SetProcessShutdownParameters(0x100, SHUTDOWN_NORETRY))
+    PLOG(ERROR) << "SetProcessShutdownParameters";
+
   ExceptionHandlerServer exception_handler_server(!options.pipe_name.empty());
 
-  std::string pipe_name;
   if (!options.pipe_name.empty()) {
     exception_handler_server.SetPipeName(base::UTF8ToUTF16(options.pipe_name));
   } else if (options.handshake_handle != INVALID_HANDLE_VALUE) {

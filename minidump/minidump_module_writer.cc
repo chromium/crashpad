@@ -17,6 +17,7 @@
 #include <sys/types.h>
 
 #include <limits>
+#include <utility>
 
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
@@ -244,7 +245,7 @@ void MinidumpModuleWriter::InitializeFromSnapshot(
   auto codeview_record =
       make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB70Writer());
   codeview_record->InitializeFromSnapshot(module_snapshot);
-  SetCodeViewRecord(codeview_record.Pass());
+  SetCodeViewRecord(std::move(codeview_record));
 }
 
 const MINIDUMP_MODULE* MinidumpModuleWriter::MinidumpModule() const {
@@ -266,14 +267,14 @@ void MinidumpModuleWriter::SetCodeViewRecord(
     scoped_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record) {
   DCHECK_EQ(state(), kStateMutable);
 
-  codeview_record_ = codeview_record.Pass();
+  codeview_record_ = std::move(codeview_record);
 }
 
 void MinidumpModuleWriter::SetMiscDebugRecord(
     scoped_ptr<MinidumpModuleMiscDebugRecordWriter> misc_debug_record) {
   DCHECK_EQ(state(), kStateMutable);
 
-  misc_debug_record_ = misc_debug_record.Pass();
+  misc_debug_record_ = std::move(misc_debug_record);
 }
 
 void MinidumpModuleWriter::SetTimestamp(time_t timestamp) {
@@ -385,7 +386,7 @@ void MinidumpModuleListWriter::InitializeFromSnapshot(
   for (const ModuleSnapshot* module_snapshot : module_snapshots) {
     auto module = make_scoped_ptr(new MinidumpModuleWriter());
     module->InitializeFromSnapshot(module_snapshot);
-    AddModule(module.Pass());
+    AddModule(std::move(module));
   }
 }
 

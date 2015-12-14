@@ -14,6 +14,8 @@
 
 #include "minidump/minidump_rva_list_writer.h"
 
+#include <utility>
+
 #include "base/format_macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
@@ -32,7 +34,7 @@ class TestMinidumpRVAListWriter final : public internal::MinidumpRVAListWriter {
 
   void AddChild(uint32_t value) {
     auto child = make_scoped_ptr(new TestUInt32MinidumpWritable(value));
-    MinidumpRVAListWriter::AddChild(child.Pass());
+    MinidumpRVAListWriter::AddChild(std::move(child));
   }
 
  private:

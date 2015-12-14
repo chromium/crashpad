@@ -366,7 +366,7 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
   HTTPHeaders::value_type content_type =
       http_multipart_builder.GetContentType();
   http_transport->SetHeader(content_type.first, content_type.second);
-  http_transport->SetBodyStream(http_multipart_builder.GetBodyStream().Pass());
+  http_transport->SetBodyStream(http_multipart_builder.GetBodyStream());
   // TODO(mark): The timeout should be configurable by the client.
   http_transport->SetTimeout(60.0);  // 1 minute.
 

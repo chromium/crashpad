@@ -22,6 +22,7 @@
 #include <time.h>
 
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "base/basictypes.h"
@@ -552,7 +553,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
         return EXIT_FAILURE;
       }
 
-      file_reader = file_path_reader.Pass();
+      file_reader = std::move(file_path_reader);
     }
 
     CrashReportDatabase::NewReport* new_report;

@@ -19,7 +19,6 @@
 #include "snapshot/win/pe_image_reader.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
-#include "util/win/module_version.h"
 
 namespace crashpad {
 namespace internal {
@@ -210,7 +209,7 @@ const VS_FIXEDFILEINFO* ModuleSnapshotWin::VSFixedFileInfo() const {
 
   if (initialized_vs_fixed_file_info_.is_uninitialized()) {
     initialized_vs_fixed_file_info_.set_invalid();
-    if (GetModuleVersionAndType(base::FilePath(name_), &vs_fixed_file_info_)) {
+    if (pe_image_reader_->VSFixedFileInfo(&vs_fixed_file_info_)) {
       initialized_vs_fixed_file_info_.set_valid();
     }
   }

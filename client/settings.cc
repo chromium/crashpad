@@ -235,7 +235,7 @@ Settings::ScopedLockedFileHandle Settings::OpenForWritingAndReadSettings(
       return ScopedLockedFileHandle();
   }
 
-  return handle.Pass();
+  return handle;
 }
 
 bool Settings::ReadSettings(FileHandle handle,

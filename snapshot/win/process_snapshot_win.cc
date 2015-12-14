@@ -326,15 +326,16 @@ void ProcessSnapshotWin::InitializePebData(
       DetermineSizeOfEnvironmentBlock(process_parameters.Environment),
       &extra_memory_);
 
-  // Walk the loader lock which is directly referenced by the PEB. It may or may
-  // not have a .DebugInfo list, but doesn't on more recent OSs (it does on
-  // Vista). If it does, then we may walk the lock list more than once, but
-  // AddMemorySnapshot() will take care of deduplicating the added regions.
-  ReadLocks<Traits>(peb_data.LoaderLock, &extra_memory_);
+  // Walk the loader lock which is directly referenced by the PEB.
+  ReadLock<Traits>(peb_data.LoaderLock, &extra_memory_);
 
-  // Traverse the locks with valid .DebugInfo if a starting point was supplied.
-  if (debug_critical_section_address)
-    ReadLocks<Traits>(debug_critical_section_address, &extra_memory_);
+  // TODO(scottmg): Use debug_critical_section_address to walk the list of
+  // locks (see history of this file for walking code). In some configurations
+  // this can walk many thousands of locks, so we may want to get some
+  // annotation from the client for which locks to grab. Unfortunately, without
+  // walking the list, the !locks command in windbg won't work because it
+  // requires the lock pointed to by ntdll!RtlCriticalSectionList, which we
+  // won't have captured.
 }
 
 void ProcessSnapshotWin::AddMemorySnapshot(
@@ -380,9 +381,9 @@ void ProcessSnapshotWin::AddMemorySnapshotForLdrLIST_ENTRY(
       PointerVector<internal::MemorySnapshotWin>* into) {
   // Walk the doubly-linked list of entries, adding the list memory itself, as
   // well as pointed-to strings.
-  Traits::Pointer last = le.Blink;
+  typename Traits::Pointer last = le.Blink;
   process_types::LDR_DATA_TABLE_ENTRY<Traits> entry;
-  Traits::Pointer cur = le.Flink;
+  typename Traits::Pointer cur = le.Flink;
   for (;;) {
     // |cur| is the pointer to LIST_ENTRY embedded in the LDR_DATA_TABLE_ENTRY.
     // So we need to offset back to the beginning of the structure.
@@ -425,7 +426,7 @@ WinVMSize ProcessSnapshotWin::DetermineSizeOfEnvironmentBlock(
 }
 
 template <class Traits>
-void ProcessSnapshotWin::ReadLocks(
+void ProcessSnapshotWin::ReadLock(
     WinVMAddress start,
     PointerVector<internal::MemorySnapshotWin>* into) {
   // We're walking the RTL_CRITICAL_SECTION_DEBUG ProcessLocksList, but starting
@@ -439,82 +440,17 @@ void ProcessSnapshotWin::ReadLocks(
     return;
   }
 
+  AddMemorySnapshot(
+      start, sizeof(process_types::RTL_CRITICAL_SECTION<Traits>), into);
+
   const decltype(critical_section.DebugInfo) kInvalid =
       static_cast<decltype(critical_section.DebugInfo)>(-1);
   if (critical_section.DebugInfo == kInvalid)
     return;
 
-  const WinVMAddress start_address_backward = critical_section.DebugInfo;
-  WinVMAddress current_address = start_address_backward;
-  WinVMAddress last_good_address;
-
-  // Typically, this seems to be a circular list, but it's not clear that it
-  // always is, so follow Blink fields back to the head (or where we started)
-  // before following Flink to capture memory.
-  do {
-    last_good_address = current_address;
-    // Read the RTL_CRITICAL_SECTION_DEBUG structure to get ProcessLocksList.
-    process_types::RTL_CRITICAL_SECTION_DEBUG<Traits> critical_section_debug;
-    if (!process_reader_.ReadMemory(current_address,
-                                    sizeof(critical_section_debug),
-                                    &critical_section_debug)) {
-      LOG(ERROR) << "failed to read RTL_CRITICAL_SECTION_DEBUG";
-      return;
-    }
-
-    if (critical_section_debug.ProcessLocksList.Blink == 0) {
-      // At the head of the list.
-      break;
-    }
-
-    // Move to the previous RTL_CRITICAL_SECTION_DEBUG by walking
-    // ProcessLocksList.Blink.
-    current_address =
-        critical_section_debug.ProcessLocksList.Blink -
-        offsetof(process_types::RTL_CRITICAL_SECTION_DEBUG<Traits>,
-                 ProcessLocksList);
-  } while (current_address != start_address_backward &&
-           current_address != kInvalid);
-
-  if (current_address == kInvalid) {
-    // Unexpectedly encountered a bad record, so step back one.
-    current_address = last_good_address;
-  }
-
-  const WinVMAddress start_address_forward = current_address;
-
-  // current_address is now the head of the list, walk Flink to add the whole
-  // list.
-  do {
-    // Read the RTL_CRITICAL_SECTION_DEBUG structure to get ProcessLocksList.
-    process_types::RTL_CRITICAL_SECTION_DEBUG<Traits> critical_section_debug;
-    if (!process_reader_.ReadMemory(current_address,
-                                    sizeof(critical_section_debug),
-                                    &critical_section_debug)) {
-      LOG(ERROR) << "failed to read RTL_CRITICAL_SECTION_DEBUG";
-      return;
-    }
-
-    // Add both RTL_CRITICAL_SECTION_DEBUG and RTL_CRITICAL_SECTION to the extra
-    // memory to be saved.
-    AddMemorySnapshot(current_address,
-                      sizeof(process_types::RTL_CRITICAL_SECTION_DEBUG<Traits>),
-                      into);
-    AddMemorySnapshot(critical_section_debug.CriticalSection,
-                      sizeof(process_types::RTL_CRITICAL_SECTION<Traits>),
-                      into);
-
-    if (critical_section_debug.ProcessLocksList.Flink == 0)
-      break;
-
-    // Move to the next RTL_CRITICAL_SECTION_DEBUG by walking
-    // ProcessLocksList.Flink.
-    current_address =
-        critical_section_debug.ProcessLocksList.Flink -
-        offsetof(process_types::RTL_CRITICAL_SECTION_DEBUG<Traits>,
-                 ProcessLocksList);
-  } while (current_address != start_address_forward &&
-           current_address != kInvalid);
+  AddMemorySnapshot(critical_section.DebugInfo,
+                    sizeof(process_types::RTL_CRITICAL_SECTION_DEBUG<Traits>),
+                    into);
 }
 
 }  // namespace crashpad

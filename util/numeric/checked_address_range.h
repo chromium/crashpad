@@ -17,6 +17,8 @@
 
 #include <stdint.h>
 
+#include <string>
+
 #include "build/build_config.h"
 #include "util/numeric/checked_range.h"
 
@@ -107,6 +109,12 @@ class CheckedAddressRangeGeneric {
   //! This method must only be called if IsValid() would return `true` for both
   //! CheckedAddressRangeGeneric objects involved.
   bool ContainsRange(const CheckedAddressRangeGeneric& that) const;
+
+  //! \brief Returns a string describing the address range.
+  //!
+  //! The string will be formatted as `"0x123 + 0x45 (64)"`, where the
+  //! individual components are the address, size, and bitness.
+  std::string AsString() const;
 
  private:
 #if defined(COMPILER_MSVC)

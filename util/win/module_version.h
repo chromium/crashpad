@@ -24,9 +24,15 @@ namespace crashpad {
 //! \brief Retrieve the type and version information from a given module (exe,
 //!     dll, etc.)
 //!
+//! This function calls `GetFileVersionInfo()`, which can implicitly call
+//! `LoadLibrary()` to load \a path into the calling process. Do not call this
+//! function on an untrusted module, because there is a risk of executing the
+//! module’s code.
+//!
 //! \param[in] path The path to the module to be inspected.
-//! \param[out] vs_fixedfileinfo The `VS_FIXEDFILEINFO` on success.
-//!    `dwFileFlags`  will have been masked with `dwFileFlagsMask` already.
+//! \param[out] vs_fixedfileinfo The VS_FIXEDFILEINFO on success.
+//!     VS_FIXEDFILEINFO::dwFileFlags will have been masked with
+//!     VS_FIXEDFILEINFO::dwFileFlagsMask already.
 //!
 //! \return `true` on success, or `false` on failure with a message logged. If
 //!     the module has no `VERSIONINFO` resource, `false` will be returned

@@ -14,6 +14,8 @@
 
 #include "minidump/minidump_crashpad_info_writer.h"
 
+#include <utility>
+
 #include "base/logging.h"
 #include "minidump/minidump_module_crashpad_info_writer.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
@@ -51,14 +53,14 @@ void MinidumpCrashpadInfoWriter::InitializeFromSnapshot(
   simple_annotations->InitializeFromMap(
       process_snapshot->AnnotationsSimpleMap());
   if (simple_annotations->IsUseful()) {
-    SetSimpleAnnotations(simple_annotations.Pass());
+    SetSimpleAnnotations(std::move(simple_annotations));
   }
 
   auto modules = make_scoped_ptr(new MinidumpModuleCrashpadInfoListWriter());
   modules->InitializeFromSnapshot(process_snapshot->Modules());
 
   if (modules->IsUseful()) {
-    SetModuleList(modules.Pass());
+    SetModuleList(std::move(modules));
   }
 }
 
@@ -78,14 +80,14 @@ void MinidumpCrashpadInfoWriter::SetSimpleAnnotations(
     scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations) {
   DCHECK_EQ(state(), kStateMutable);
 
-  simple_annotations_ = simple_annotations.Pass();
+  simple_annotations_ = std::move(simple_annotations);
 }
 
 void MinidumpCrashpadInfoWriter::SetModuleList(
     scoped_ptr<MinidumpModuleCrashpadInfoListWriter> module_list) {
   DCHECK_EQ(state(), kStateMutable);
 
-  module_list_ = module_list.Pass();
+  module_list_ = std::move(module_list);
 }
 
 bool MinidumpCrashpadInfoWriter::Freeze() {

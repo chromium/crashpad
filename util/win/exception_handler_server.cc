@@ -17,6 +17,8 @@
 #include <sddl.h>
 #include <string.h>
 
+#include <utility>
+
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/rand_util.h"
@@ -179,7 +181,7 @@ class ClientData {
             CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
         non_crash_dump_completed_event_(
             CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
-        process_(process.Pass()),
+        process_(std::move(process)),
         crash_exception_information_address_(
             crash_exception_information_address),
         non_crash_exception_information_address_(
@@ -346,7 +348,7 @@ std::wstring ExceptionHandlerServer::CreatePipe() {
 void ExceptionHandlerServer::Run(Delegate* delegate) {
   uint64_t shutdown_token = base::RandUint64();
   ScopedKernelHANDLE thread_handles[kPipeInstances];
-  for (int i = 0; i < arraysize(thread_handles); ++i) {
+  for (size_t i = 0; i < arraysize(thread_handles); ++i) {
     HANDLE pipe;
     if (first_pipe_instance_.is_valid()) {
       pipe = first_pipe_instance_.release();
@@ -398,7 +400,7 @@ void ExceptionHandlerServer::Run(Delegate* delegate) {
   }
 
   // Signal to the named pipe instances that they should terminate.
-  for (int i = 0; i < arraysize(thread_handles); ++i) {
+  for (size_t i = 0; i < arraysize(thread_handles); ++i) {
     ClientToServerMessage message;
     memset(&message, 0, sizeof(message));
     message.type = ClientToServerMessage::kShutdown;

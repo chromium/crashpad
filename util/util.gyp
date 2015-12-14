@@ -128,6 +128,8 @@
         'posix/process_info_mac.cc',
         'posix/symbolic_constants_posix.cc',
         'posix/symbolic_constants_posix.h',
+        'stdlib/aligned_allocator.cc',
+        'stdlib/aligned_allocator.h',
         'stdlib/cxx.h',
         'stdlib/map_insert.h',
         'stdlib/objc.h',

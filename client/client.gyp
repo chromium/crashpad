@@ -21,6 +21,7 @@
       'target_name': 'crashpad_client',
       'type': 'static_library',
       'dependencies': [
+        '../compat/compat.gyp:crashpad_compat',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
       ],

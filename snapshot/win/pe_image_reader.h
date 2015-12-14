@@ -20,10 +20,10 @@
 #include <string>
 
 #include "base/basictypes.h"
+#include "snapshot/win/process_subrange_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
 #include "util/win/address_types.h"
-#include "util/win/checked_win_address_range.h"
 #include "util/win/process_structs.h"
 
 namespace crashpad {
@@ -51,6 +51,7 @@ struct CrashpadInfo {
 //! bitness of the remote process.
 //!
 //! \sa PEImageAnnotationsReader
+//! \sa PEImageResourceReader
 class PEImageReader {
  public:
   PEImageReader();
@@ -65,8 +66,8 @@ class PEImageReader {
   //! \param[in] address The address, in the remote process' address space,
   //!     where the `IMAGE_DOS_HEADER` is located.
   //! \param[in] size The size of the image.
-  //! \param[in] name The module's name, a string to be used in logged messages.
-  //!     This string is for diagnostic purposes.
+  //! \param[in] module_name The module's name, a string to be used in logged
+  //!     messages. This string is for diagnostic purposes.
   //!
   //! \return `true` if the image was read successfully, `false` otherwise, with
   //!     an appropriate message logged.
@@ -78,12 +79,12 @@ class PEImageReader {
   //! \brief Returns the image's load address.
   //!
   //! This is the value passed as \a address to Initialize().
-  WinVMAddress Address() const { return module_range_.Base(); }
+  WinVMAddress Address() const { return module_subrange_reader_.Base(); }
 
   //! \brief Returns the image's size.
   //!
   //! This is the value passed as \a size to Initialize().
-  WinVMSize Size() const { return module_range_.Size(); }
+  WinVMSize Size() const { return module_subrange_reader_.Size(); }
 
   //! \brief Obtains the module's CrashpadInfo structure.
   //!
@@ -100,25 +101,34 @@ class PEImageReader {
   //! \param[out] age The age field for the pdb (the number of times it's been
   //!     relinked).
   //! \param[out] pdbname Name of the pdb file.
-  //! \return `true` on success, or `false` if the module has no debug directory
-  //!     entry.
-  bool DebugDirectoryInformation(UUID* uuid,
-                                 DWORD* age,
-                                 std::string* pdbname) const;
-
- private:
-  //! \brief Implementation helper for DebugDirectoryInformation() templated by
-  //!     `IMAGE_NT_HEADERS` type for different bitnesses.
   //!
   //! \return `true` on success, with the parameters set appropriately. `false`
   //!     on failure. This method may return `false` without logging anything in
   //!     the case of a module that does not contain relevant debugging
   //!     information but is otherwise properly structured.
-  template <class NtHeadersType>
-  bool ReadDebugDirectoryInformation(UUID* uuid,
-                                     DWORD* age,
-                                     std::string* pdbname) const;
+  bool DebugDirectoryInformation(UUID* uuid,
+                                 DWORD* age,
+                                 std::string* pdbname) const;
 
+  //! \brief Obtains the module’s `VS_FIXEDFILEINFO`, containing its version and
+  //!     type information.
+  //!
+  //! The data obtained from this method should be equivalent to what could be
+  //! obtained by calling GetModuleVersionAndType(). Avoiding that function
+  //! ensures that the data in the module loaded into the remote process will be
+  //! used as-is, without the risks associated with loading the module into the
+  //! reading process.
+  //!
+  //! \param[out] vs_fixed_file_info The VS_FIXEDFILEINFO on success.
+  //!     VS_FIXEDFILEINFO::dwFileFlags will have been masked with
+  //!     VS_FIXEDFILEINFO::dwFileFlagsMask already.
+  //!
+  //! \return `true` on success. `false` if the module does not contain this
+  //!     information, without logging any messages. `false` on failure, with
+  //!     a message logged.
+  bool VSFixedFileInfo(VS_FIXEDFILEINFO* vs_fixed_file_info) const;
+
+ private:
   //! \brief Reads the `IMAGE_NT_HEADERS` from the beginning of the image.
   //!
   //! \param[out] nt_headers The contents of the templated NtHeadersType
@@ -139,18 +149,25 @@ class PEImageReader {
   bool GetSectionByName(const std::string& name,
                         IMAGE_SECTION_HEADER* section) const;
 
-  //! \brief Reads memory from target process, first checking whether the range
-  //!     requested falls inside module_range_.
+  //! \brief Finds the `IMAGE_DATA_DIRECTORY` in
+  //!     `IMAGE_OPTIONAL_HEADER::DataDirectory` at the specified \a index.
   //!
-  //! \return `true` on success, with \a into filled out, otherwise `false` and
-  //!     a message will be logged.
-  bool CheckedReadMemory(WinVMAddress address,
-                         WinVMSize size,
-                         void* into) const;
+  //! \param[in] index An `IMAGE_DIRECTORY_ENTRY_*` constant specifying the
+  //!     data to be returned.
+  //! \param[out] entry The `IMAGE_DATA_DIRECTORY` found within the module.
+  //!
+  //! \return `true` on success, with \a entry set appropriately. `false` if the
+  //!     module does not contain the specified information, without logging a
+  //!     message. `false` on failure, with a message logged.
+  bool ImageDataDirectoryEntry(size_t index, IMAGE_DATA_DIRECTORY* entry) const;
 
-  ProcessReaderWin* process_reader_;  // weak
-  CheckedWinAddressRange module_range_;
-  std::string module_name_;
+  //! \brief A templatized helper for ImageDataDirectoryEntry() to account for
+  //!     differences in \a NtHeadersType.
+  template <class NtHeadersType>
+  bool ImageDataDirectoryEntryT(size_t index,
+                                IMAGE_DATA_DIRECTORY* entry) const;
+
+  ProcessSubrangeReader module_subrange_reader_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(PEImageReader);

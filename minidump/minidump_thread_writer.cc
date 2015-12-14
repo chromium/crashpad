@@ -16,6 +16,8 @@
 
 #include <sys/types.h>
 
+#include <utility>
+
 #include "base/logging.h"
 #include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_memory_writer.h"
@@ -52,12 +54,12 @@ void MinidumpThreadWriter::InitializeFromSnapshot(
   if (stack_snapshot && stack_snapshot->Size() > 0) {
     scoped_ptr<MinidumpMemoryWriter> stack =
         MinidumpMemoryWriter::CreateFromSnapshot(stack_snapshot);
-    SetStack(stack.Pass());
+    SetStack(std::move(stack));
   }
 
   scoped_ptr<MinidumpContextWriter> context =
       MinidumpContextWriter::CreateFromSnapshot(thread_snapshot->Context());
-  SetContext(context.Pass());
+  SetContext(std::move(context));
 }
 
 const MINIDUMP_THREAD* MinidumpThreadWriter::MinidumpThread() const {
@@ -69,14 +71,14 @@ const MINIDUMP_THREAD* MinidumpThreadWriter::MinidumpThread() const {
 void MinidumpThreadWriter::SetStack(scoped_ptr<MinidumpMemoryWriter> stack) {
   DCHECK_EQ(state(), kStateMutable);
 
-  stack_ = stack.Pass();
+  stack_ = std::move(stack);
 }
 
 void MinidumpThreadWriter::SetContext(
     scoped_ptr<MinidumpContextWriter> context) {
   DCHECK_EQ(state(), kStateMutable);
 
-  context_ = context.Pass();
+  context_ = std::move(context);
 }
 
 bool MinidumpThreadWriter::Freeze() {
@@ -148,7 +150,7 @@ void MinidumpThreadListWriter::InitializeFromSnapshot(
   for (const ThreadSnapshot* thread_snapshot : thread_snapshots) {
     auto thread = make_scoped_ptr(new MinidumpThreadWriter());
     thread->InitializeFromSnapshot(thread_snapshot, thread_id_map);
-    AddThread(thread.Pass());
+    AddThread(std::move(thread));
   }
 
   // Do this in a separate loop to keep the thread stacks earlier in the dump,

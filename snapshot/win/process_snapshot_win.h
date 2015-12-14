@@ -168,13 +168,11 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   WinVMSize DetermineSizeOfEnvironmentBlock(
       WinVMAddress start_of_environment_block);
 
-  // Starting from the address of a CRITICAL_SECTION, walks the doubly-linked
-  // list stored in RTL_CRITICAL_SECTION.DebugInfo.ProcessLocksList adding both
-  // the RTL_CRITICAL_SECTION and the RTL_CRITICAL_SECTION_DEBUG memory blocks
-  // to the snapshot.
+  // Starting from the address of a CRITICAL_SECTION, add a lock and, if valid,
+  // its .DebugInfo field to the snapshot.
   template <class Traits>
-  void ReadLocks(WinVMAddress start,
-                 PointerVector<internal::MemorySnapshotWin>* into);
+  void ReadLock(WinVMAddress start,
+                PointerVector<internal::MemorySnapshotWin>* into);
 
   internal::SystemSnapshotWin system_;
   PointerVector<internal::MemorySnapshotWin> extra_memory_;

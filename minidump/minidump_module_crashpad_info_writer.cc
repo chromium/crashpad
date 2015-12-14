@@ -16,6 +16,8 @@
 
 #include <sys/types.h>
 
+#include <utility>
+
 #include "base/logging.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "snapshot/module_snapshot.h"
@@ -44,7 +46,7 @@ void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
   auto list_annotations = make_scoped_ptr(new MinidumpUTF8StringListWriter());
   list_annotations->InitializeFromVector(module_snapshot->AnnotationsVector());
   if (list_annotations->IsUseful()) {
-    SetListAnnotations(list_annotations.Pass());
+    SetListAnnotations(std::move(list_annotations));
   }
 
   auto simple_annotations =
@@ -52,7 +54,7 @@ void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
   simple_annotations->InitializeFromMap(
       module_snapshot->AnnotationsSimpleMap());
   if (simple_annotations->IsUseful()) {
-    SetSimpleAnnotations(simple_annotations.Pass());
+    SetSimpleAnnotations(std::move(simple_annotations));
   }
 }
 
@@ -60,14 +62,14 @@ void MinidumpModuleCrashpadInfoWriter::SetListAnnotations(
     scoped_ptr<MinidumpUTF8StringListWriter> list_annotations) {
   DCHECK_EQ(state(), kStateMutable);
 
-  list_annotations_ = list_annotations.Pass();
+  list_annotations_ = std::move(list_annotations);
 }
 
 void MinidumpModuleCrashpadInfoWriter::SetSimpleAnnotations(
     scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations) {
   DCHECK_EQ(state(), kStateMutable);
 
-  simple_annotations_ = simple_annotations.Pass();
+  simple_annotations_ = std::move(simple_annotations);
 }
 
 bool MinidumpModuleCrashpadInfoWriter::IsUseful() const {
@@ -144,7 +146,7 @@ void MinidumpModuleCrashpadInfoListWriter::InitializeFromSnapshot(
     auto module = make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
     module->InitializeFromSnapshot(module_snapshot);
     if (module->IsUseful()) {
-      AddModule(module.Pass(), index);
+      AddModule(std::move(module), index);
     }
   }
 }

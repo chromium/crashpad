@@ -16,6 +16,8 @@
 
 #include <sys/types.h>
 
+#include <utility>
+
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "minidump/minidump_context_writer.h"
@@ -48,14 +50,14 @@ void MinidumpExceptionWriter::InitializeFromSnapshot(
 
   scoped_ptr<MinidumpContextWriter> context =
       MinidumpContextWriter::CreateFromSnapshot(exception_snapshot->Context());
-  SetContext(context.Pass());
+  SetContext(std::move(context));
 }
 
 void MinidumpExceptionWriter::SetContext(
     scoped_ptr<MinidumpContextWriter> context) {
   DCHECK_EQ(state(), kStateMutable);
 
-  context_ = context.Pass();
+  context_ = std::move(context);
 }
 
 void MinidumpExceptionWriter::SetExceptionInformation(

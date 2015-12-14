@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 
+#include <utility>
 #include <vector>
 
 #include "base/basictypes.h"
@@ -55,7 +56,7 @@ class TestThreadSnapshot final : public ThreadSnapshot {
   //!
   //! \param[in] stack The memory region that Stack() will return. The
   //!     TestThreadSnapshot object takes ownership of \a stack.
-  void SetStack(scoped_ptr<MemorySnapshot> stack) { stack_ = stack.Pass(); }
+  void SetStack(scoped_ptr<MemorySnapshot> stack) { stack_ = std::move(stack); }
 
   void SetThreadID(uint64_t thread_id) { thread_id_ = thread_id; }
   void SetSuspendCount(int suspend_count) { suspend_count_ = suspend_count; }

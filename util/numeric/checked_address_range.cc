@@ -14,6 +14,8 @@
 
 #include "util/numeric/checked_address_range.h"
 
+#include "base/strings/stringprintf.h"
+
 #if defined(OS_MACOSX)
 #include <mach/mach.h>
 #elif defined(OS_WIN)
@@ -107,6 +109,12 @@ bool CheckedAddressRangeGeneric<ValueType, SizeType>::ContainsRange(
 
   return is_64_bit_ ? range_64_.ContainsRange(that.range_64_)
                     : range_32_.ContainsRange(that.range_32_);
+}
+
+template <class ValueType, class SizeType>
+std::string CheckedAddressRangeGeneric<ValueType, SizeType>::AsString() const {
+  return base::StringPrintf(
+      "0x%llx + 0x%llx (%s)", Base(), Size(), Is64Bit() ? "64" : "32");
 }
 
 // Explicit instantiations for the cases we use.

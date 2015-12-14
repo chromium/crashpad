@@ -15,6 +15,7 @@
 #include "minidump/minidump_memory_info_writer.h"
 
 #include <string>
+#include <utility>
 
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
@@ -58,7 +59,7 @@ TEST(MinidumpMemoryInfoWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
   auto memory_info_list_writer =
       make_scoped_ptr(new MinidumpMemoryInfoListWriter());
-  minidump_file_writer.AddStream(memory_info_list_writer.Pass());
+  minidump_file_writer.AddStream(std::move(memory_info_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -95,7 +96,7 @@ TEST(MinidumpMemoryInfoWriter, OneRegion) {
   memory_map.push_back(memory_map_region.get());
   memory_info_list_writer->InitializeFromSnapshot(memory_map);
 
-  minidump_file_writer.AddStream(memory_info_list_writer.Pass());
+  minidump_file_writer.AddStream(std::move(memory_info_list_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));

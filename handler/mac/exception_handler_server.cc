@@ -14,6 +14,8 @@
 
 #include "handler/mac/exception_handler_server.h"
 
+#include <utility>
+
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "util/mach/composite_mach_message_server.h"
@@ -183,7 +185,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
 ExceptionHandlerServer::ExceptionHandlerServer(
     base::mac::ScopedMachReceiveRight receive_port,
     bool launchd)
-    : receive_port_(receive_port.Pass()),
+    : receive_port_(std::move(receive_port)),
       notify_port_(NewMachPort(MACH_PORT_RIGHT_RECEIVE)),
       launchd_(launchd) {
   CHECK(receive_port_.is_valid());

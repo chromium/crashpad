@@ -21,6 +21,7 @@
 
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "base/basictypes.h"
@@ -71,7 +72,9 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   //!
   //! \param[in] system The system snapshot that System() will return. The
   //!     TestProcessSnapshot object takes ownership of \a system.
-  void SetSystem(scoped_ptr<SystemSnapshot> system) { system_ = system.Pass(); }
+  void SetSystem(scoped_ptr<SystemSnapshot> system) {
+    system_ = std::move(system);
+  }
 
   //! \brief Adds a thread snapshot to be returned by Threads().
   //!
@@ -94,7 +97,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   //! \param[in] exception The exception snapshot that Exception() will return.
   //!     The TestProcessSnapshot object takes ownership of \a exception.
   void SetException(scoped_ptr<ExceptionSnapshot> exception) {
-    exception_ = exception.Pass();
+    exception_ = std::move(exception);
   }
 
   //! \brief Adds a memory map region snapshot to be returned by MemoryMap().

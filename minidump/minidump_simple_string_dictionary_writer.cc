@@ -14,6 +14,8 @@
 
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 
+#include <utility>
+
 #include "base/logging.h"
 #include "base/stl_util.h"
 #include "util/file/file_writer.h"
@@ -109,7 +111,7 @@ void MinidumpSimpleStringDictionaryWriter::InitializeFromMap(
     auto entry =
         make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
     entry->SetKeyValue(iterator.first, iterator.second);
-    AddEntry(entry.Pass());
+    AddEntry(std::move(entry));
   }
 }
 

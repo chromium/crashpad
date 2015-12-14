@@ -15,6 +15,7 @@
 #include "minidump/minidump_handle_writer.h"
 
 #include <string>
+#include <utility>
 
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
@@ -57,7 +58,7 @@ void GetHandleDataStream(
 TEST(MinidumpHandleDataWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
   auto handle_data_writer = make_scoped_ptr(new MinidumpHandleDataWriter());
-  minidump_file_writer.AddStream(handle_data_writer.Pass());
+  minidump_file_writer.AddStream(std::move(handle_data_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -90,7 +91,7 @@ TEST(MinidumpHandleDataWriter, OneHandle) {
 
   handle_data_writer->InitializeFromSnapshot(snapshot);
 
-  minidump_file_writer.AddStream(handle_data_writer.Pass());
+  minidump_file_writer.AddStream(std::move(handle_data_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -148,7 +149,7 @@ TEST(MinidumpHandleDataWriter, RepeatedTypeName) {
 
   handle_data_writer->InitializeFromSnapshot(snapshot);
 
-  minidump_file_writer.AddStream(handle_data_writer.Pass());
+  minidump_file_writer.AddStream(std::move(handle_data_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));

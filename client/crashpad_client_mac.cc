@@ -20,6 +20,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include <utility>
+
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "base/posix/eintr_wrapper.h"
@@ -158,7 +160,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
                      url,
                      annotations,
                      arguments,
-                     receive_right.Pass(),
+                     std::move(receive_right),
                      handler_restarter.get(),
                      false)) {
       return base::mac::ScopedMachSendRight();
@@ -538,7 +540,7 @@ bool CrashpadClient::StartHandler(
     return false;
   }
 
-  SetHandlerMachPort(exception_port.Pass());
+  SetHandlerMachPort(std::move(exception_port));
   return true;
 }
 
@@ -548,14 +550,14 @@ bool CrashpadClient::SetHandlerMachService(const std::string& service_name) {
     return false;
   }
 
-  SetHandlerMachPort(exception_port.Pass());
+  SetHandlerMachPort(std::move(exception_port));
   return true;
 }
 
 void CrashpadClient::SetHandlerMachPort(
     base::mac::ScopedMachSendRight exception_port) {
   DCHECK(exception_port.is_valid());
-  exception_port_ = exception_port.Pass();
+  exception_port_ = std::move(exception_port);
 }
 
 bool CrashpadClient::UseHandler() {

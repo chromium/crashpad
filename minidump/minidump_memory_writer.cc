@@ -14,6 +14,8 @@
 
 #include "minidump/minidump_memory_writer.h"
 
+#include <utility>
+
 #include "base/auto_reset.h"
 #include "base/logging.h"
 #include "snapshot/memory_snapshot.h"
@@ -177,7 +179,7 @@ void MinidumpMemoryListWriter::AddFromSnapshot(
   for (const MemorySnapshot* memory_snapshot : memory_snapshots) {
     scoped_ptr<MinidumpMemoryWriter> memory =
         MinidumpMemoryWriter::CreateFromSnapshot(memory_snapshot);
-    AddMemory(memory.Pass());
+    AddMemory(std::move(memory));
   }
 }
 
