@@ -139,12 +139,12 @@ class CallRecordUploadAttempt {
 CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
                                                  const std::string& url)
     : url_(url),
-      database_(database),
       // Check for pending reports every 15 minutes, even in the absence of a
       // signal from the handler thread. This allows for failed uploads to be
       // retried periodically, and for pending reports written by other
       // processes to be recognized.
-      thread_(15 * 60, this) {
+      thread_(15 * 60, this),
+      database_(database) {
 }
 
 CrashReportUploadThread::~CrashReportUploadThread() {
