@@ -152,6 +152,8 @@
         'thread/thread_log_messages.h',
         'thread/thread_posix.cc',
         'thread/thread_win.cc',
+        'thread/worker_thread.cc',
+        'thread/worker_thread.h',
         'win/address_types.h',
         'win/capture_context.asm',
         'win/capture_context.h',
