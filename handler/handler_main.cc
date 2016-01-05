@@ -31,8 +31,10 @@
 #include "build/build_config.h"
 #include "client/crash_report_database.h"
 #include "client/crashpad_client.h"
+#include "client/prune_crash_reports.h"
 #include "tools/tool_support.h"
 #include "handler/crash_report_upload_thread.h"
+#include "handler/prune_crash_reports_thread.h"
 #include "util/file/file_io.h"
 #include "util/stdlib/map_insert.h"
 #include "util/stdlib/string_number_conversion.h"
@@ -372,12 +374,17 @@ int HandlerMain(int argc, char* argv[]) {
   CrashReportUploadThread upload_thread(database.get(), options.url);
   upload_thread.Start();
 
+  PruneCrashReportThread prune_thread(database.get(),
+                                      PruneCondition::GetDefault());
+  prune_thread.Start();
+
   CrashReportExceptionHandler exception_handler(
       database.get(), &upload_thread, &options.annotations);
 
   exception_handler_server.Run(&exception_handler);
 
   upload_thread.Stop();
+  prune_thread.Stop();
 
   return EXIT_SUCCESS;
 }
