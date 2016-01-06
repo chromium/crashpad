@@ -74,11 +74,15 @@ void Usage(const base::FilePath& me) {
 #if defined(OS_MACOSX)
 "      --handshake-fd=FD       establish communication with the client over FD\n"
 "      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
-"      --reset-own-crash-exception-port-to-system-default\n"
-"                              reset the server's exception handler to default\n"
 #elif defined(OS_WIN)
 "      --handshake-handle=HANDLE\n"
 "                              create a new pipe and send its name via HANDLE\n"
+#endif  // OS_MACOSX
+"      --no-rate-limit         don't rate limit crash uploads\n"
+#if defined(OS_MACOSX)
+"      --reset-own-crash-exception-port-to-system-default\n"
+"                              reset the server's exception handler to default\n"
+#elif defined(OS_WIN)
 "      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_MACOSX
 "      --url=URL               send crash reports to this Breakpad server URL,\n"
@@ -129,9 +133,13 @@ int HandlerMain(int argc, char* argv[]) {
 #if defined(OS_MACOSX)
     kOptionHandshakeFD,
     kOptionMachService,
-    kOptionResetOwnCrashExceptionPortToSystemDefault,
 #elif defined(OS_WIN)
     kOptionHandshakeHandle,
+#endif  // OS_MACOSX
+    kOptionNoRateLimit,
+#if defined(OS_MACOSX)
+    kOptionResetOwnCrashExceptionPortToSystemDefault,
+#elif defined(OS_WIN)
     kOptionPipeName,
 #endif  // OS_MACOSX
     kOptionURL,
@@ -153,12 +161,14 @@ int HandlerMain(int argc, char* argv[]) {
     HANDLE handshake_handle;
     std::string pipe_name;
 #endif  // OS_MACOSX
+    bool rate_limit;
   } options = {};
 #if defined(OS_MACOSX)
   options.handshake_fd = -1;
 #elif defined(OS_WIN)
   options.handshake_handle = INVALID_HANDLE_VALUE;
 #endif
+  options.rate_limit = true;
 
   const option long_options[] = {
       {"annotation", required_argument, nullptr, kOptionAnnotation},
@@ -166,12 +176,16 @@ int HandlerMain(int argc, char* argv[]) {
 #if defined(OS_MACOSX)
       {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
       {"mach-service", required_argument, nullptr, kOptionMachService},
+#elif defined(OS_WIN)
+      {"handshake-handle", required_argument, nullptr, kOptionHandshakeHandle},
+#endif  // OS_MACOSX
+      {"no-rate-limit", no_argument, nullptr, kOptionNoRateLimit},
+#if defined(OS_MACOSX)
       {"reset-own-crash-exception-port-to-system-default",
        no_argument,
        nullptr,
        kOptionResetOwnCrashExceptionPortToSystemDefault},
 #elif defined(OS_WIN)
-      {"handshake-handle", required_argument, nullptr, kOptionHandshakeHandle},
       {"pipe-name", required_argument, nullptr, kOptionPipeName},
 #endif  // OS_MACOSX
       {"url", required_argument, nullptr, kOptionURL},
@@ -215,10 +229,6 @@ int HandlerMain(int argc, char* argv[]) {
         options.mach_service = optarg;
         break;
       }
-      case kOptionResetOwnCrashExceptionPortToSystemDefault: {
-        options.reset_own_crash_exception_port_to_system_default = true;
-        break;
-      }
 #elif defined(OS_WIN)
       case kOptionHandshakeHandle: {
         // Use unsigned int, because the handle was presented by the client in
@@ -232,6 +242,17 @@ int HandlerMain(int argc, char* argv[]) {
         }
         break;
       }
+#endif  // OS_MACOSX
+      case kOptionNoRateLimit: {
+        options.rate_limit = false;
+        break;
+      }
+#if defined(OS_MACOSX)
+      case kOptionResetOwnCrashExceptionPortToSystemDefault: {
+        options.reset_own_crash_exception_port_to_system_default = true;
+        break;
+      }
+#elif defined(OS_WIN)
       case kOptionPipeName: {
         options.pipe_name = optarg;
         break;
@@ -372,7 +393,11 @@ int HandlerMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  CrashReportUploadThread upload_thread(database.get(), options.url);
+  // TODO(scottmg): options.rate_limit should be removed when we have a
+  // configurable database setting to control upload limiting.
+  // See https://crashpad.chromium.org/bug/23.
+  CrashReportUploadThread upload_thread(
+      database.get(), options.url, options.rate_limit);
   upload_thread.Start();
 
   PruneCrashReportThread prune_thread(database.get(),

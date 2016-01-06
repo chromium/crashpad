@@ -137,14 +137,16 @@ class CallRecordUploadAttempt {
 }  // namespace
 
 CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
-                                                 const std::string& url)
+                                                 const std::string& url,
+                                                 bool rate_limit)
     : url_(url),
       // Check for pending reports every 15 minutes, even in the absence of a
       // signal from the handler thread. This allows for failed uploads to be
       // retried periodically, and for pending reports written by other
       // processes to be recognized.
       thread_(15 * 60, this),
-      database_(database) {
+      database_(database),
+      rate_limit_(rate_limit) {
 }
 
 CrashReportUploadThread::~CrashReportUploadThread() {
@@ -204,28 +206,30 @@ void CrashReportUploadThread::ProcessPendingReport(
   //
   // TODO(mark): Provide a proper rate-limiting strategy and allow for failed
   // upload attempts to be retried.
-  time_t last_upload_attempt_time;
-  if (settings->GetLastUploadAttemptTime(&last_upload_attempt_time)) {
-    time_t now = time(nullptr);
-    if (now >= last_upload_attempt_time) {
-      // If the most recent upload attempt occurred within the past hour, don’t
-      // attempt to upload the new report. If it happened longer ago, attempt to
-      // upload the report.
-      const int kUploadAttemptIntervalSeconds = 60 * 60;  // 1 hour
-      if (now - last_upload_attempt_time < kUploadAttemptIntervalSeconds) {
-        database_->SkipReportUpload(report.uuid);
-        return;
-      }
-    } else {
-      // The most recent upload attempt purportedly occurred in the future. If
-      // it “happened” at least one day in the future, assume that the last
-      // upload attempt time is bogus, and attempt to upload the report. If the
-      // most recent upload time is in the future but within one day, accept it
-      // and don’t attempt to upload the report.
-      const int kBackwardsClockTolerance = 60 * 60 * 24;  // 1 day
-      if (last_upload_attempt_time - now < kBackwardsClockTolerance) {
-        database_->SkipReportUpload(report.uuid);
-        return;
+  if (rate_limit_) {
+    time_t last_upload_attempt_time;
+    if (settings->GetLastUploadAttemptTime(&last_upload_attempt_time)) {
+      time_t now = time(nullptr);
+      if (now >= last_upload_attempt_time) {
+        // If the most recent upload attempt occurred within the past hour,
+        // don’t attempt to upload the new report. If it happened longer ago,
+        // attempt to upload the report.
+        const int kUploadAttemptIntervalSeconds = 60 * 60;  // 1 hour
+        if (now - last_upload_attempt_time < kUploadAttemptIntervalSeconds) {
+          database_->SkipReportUpload(report.uuid);
+          return;
+        }
+      } else {
+        // The most recent upload attempt purportedly occurred in the future. If
+        // it “happened” at least one day in the future, assume that the last
+        // upload attempt time is bogus, and attempt to upload the report. If
+        // the most recent upload time is in the future but within one day,
+        // accept it and don’t attempt to upload the report.
+        const int kBackwardsClockTolerance = 60 * 60 * 24;  // 1 day
+        if (last_upload_attempt_time - now < kBackwardsClockTolerance) {
+          database_->SkipReportUpload(report.uuid);
+          return;
+        }
       }
     }
   }

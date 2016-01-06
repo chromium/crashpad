@@ -43,8 +43,11 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   //!
   //! \param[in] database The database to upload crash reports from.
   //! \param[in] url The URL of the server to upload crash reports to.
+  //! \param[in] rate_limit Whether uploads should be throttled to a (currently
+  //!     hardcoded) rate.
   CrashReportUploadThread(CrashReportDatabase* database,
-                          const std::string& url);
+                          const std::string& url,
+                          bool rate_limit);
   ~CrashReportUploadThread();
 
   //! \brief Starts a dedicated upload thread, which executes ThreadMain().
@@ -135,6 +138,7 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   std::string url_;
   WorkerThread thread_;
   CrashReportDatabase* database_;  // weak
+  bool rate_limit_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportUploadThread);
 };

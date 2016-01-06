@@ -97,6 +97,16 @@ Perform the handshake with the initial client on the file descriptor at 'FD'.
 Either this option or *--mach-service*, but not both, is required. This option
 is only valid on OS X.
 
+*--handshake-handle*='HANDLE'::
+Perform the handshake with the initial client on the HANDLE at 'HANDLE'. Either
+this option or *--pipe-name*, but not both, is required. This option is only
+valid on Windows.
++
+When this option is present, the server creates a new named pipe at a random
+name and informs its client of the name. The server waits for at least one
+client to register, and exits when all clients have exited, after waiting for
+any uploads in progress to complete.
+
 *--mach-service*='SERVICE'::
 Check in with the bootstrap server under the name 'SERVICE'. Either this option
 or *--handshake-fd*, but not both, is required. This option is only valid on OS
@@ -107,15 +117,10 @@ tool is started by launchd(8) as a result of a message being sent to a service
 declared in a job’s +MachServices+ dictionary (see launchd.plist(5)). The
 service name may also be completely unknown to the system.
 
-*--handshake-handle*='HANDLE'::
-Perform the handshake with the initial client on the HANDLE at 'HANDLE'. Either
-this option or *--pipe-name*, but not both, is required. This option is only
-valid on Windows.
-+
-When this option is present, the server creates a new named pipe at a random
-name and informs its client of the name. The server waits for at least one
-client to register, and exits when all clients have exited, after waiting for
-any uploads in progress to complete.
+*--no-rate-limit*::
+Do not rate limit the upload of crash reports. By default uploads are throttled
+to one per hour. Using this option disables that behavior, and Crashpad will
+attempt to upload all captured reports.
 
 *--pipe-name*='PIPE'::
 Listen on the given pipe name for connections from clients. 'PIPE' must be of
