@@ -14,15 +14,11 @@
 
 #include "minidump/minidump_string_writer.h"
 
-#include <windows.h>
-#include <dbghelp.h>
-#include <sys/types.h>
-
 #include <string>
 
-#include "base/basictypes.h"
 #include "base/compiler_specific.h"
 #include "base/format_macros.h"
+#include "base/macros.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"

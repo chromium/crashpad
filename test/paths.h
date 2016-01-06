@@ -15,8 +15,8 @@
 #ifndef CRASHPAD_TEST_PATHS_H_
 #define CRASHPAD_TEST_PATHS_H_
 
-#include "base/basictypes.h"
 #include "base/files/file_path.h"
+#include "base/macros.h"
 
 namespace crashpad {
 namespace test {

@@ -21,7 +21,6 @@
 #include <iterator>
 #include <set>
 
-#include "base/basictypes.h"
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
 #include "util/posix/process_info.h"

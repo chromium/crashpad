@@ -14,9 +14,12 @@
 
 #include "client/crash_report_database.h"
 
-#include <string.h>
-#include <time.h>
 #include <windows.h>
+#include <stdint.h>
+#include <string.h>
+#include <sys/types.h>
+#include <time.h>
+#include <wchar.h>
 
 #include <utility>
 

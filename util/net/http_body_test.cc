@@ -14,6 +14,8 @@
 
 #include "util/net/http_body.h"
 
+#include <string.h>
+
 #include "gtest/gtest.h"
 #include "test/paths.h"
 #include "util/misc/implicit_cast.h"

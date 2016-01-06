@@ -15,6 +15,8 @@
 #ifndef CRASHPAD_SNAPSHOT_CRASHPAD_INFO_CLIENT_OPTIONS_H_
 #define CRASHPAD_SNAPSHOT_CRASHPAD_INFO_CLIENT_OPTIONS_H_
 
+#include <stdint.h>
+
 #include "util/misc/tri_state.h"
 
 namespace crashpad {

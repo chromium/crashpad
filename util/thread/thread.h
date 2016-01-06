@@ -15,7 +15,7 @@
 #ifndef CRASHPAD_UTIL_THREAD_THREAD_H_
 #define CRASHPAD_UTIL_THREAD_THREAD_H_
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "build/build_config.h"
 
 #if defined(OS_POSIX)

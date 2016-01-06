@@ -17,7 +17,7 @@
 
 #include <sys/types.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "build/build_config.h"
 #include "util/file/file_io.h"
 

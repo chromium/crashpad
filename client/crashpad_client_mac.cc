@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <mach/mach.h>
 #include <pthread.h>
+#include <stdint.h>
 #include <sys/wait.h>
 #include <unistd.h>
 

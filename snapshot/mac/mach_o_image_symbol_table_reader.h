@@ -15,14 +15,13 @@
 #ifndef CRASHPAD_SNAPSHOT_MAC_MACH_O_IMAGE_SYMBOL_TABLE_READER_H_
 #define CRASHPAD_SNAPSHOT_MAC_MACH_O_IMAGE_SYMBOL_TABLE_READER_H_
 
-#include "base/basictypes.h"
-
 #include <map>
 #include <string>
 
 #include <mach/mach.h>
 #include <stdint.h>
 
+#include "base/macros.h"
 #include "snapshot/mac/mach_o_image_segment_reader.h"
 #include "snapshot/mac/process_reader.h"
 #include "snapshot/mac/process_types.h"

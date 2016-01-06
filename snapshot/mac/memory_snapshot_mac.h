@@ -18,7 +18,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "snapshot/mac/process_reader.h"
 #include "snapshot/memory_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"

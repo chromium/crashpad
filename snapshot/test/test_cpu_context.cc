@@ -14,7 +14,10 @@
 
 #include "snapshot/test/test_cpu_context.h"
 
-#include "base/basictypes.h"
+#include <string.h>
+#include <sys/types.h>
+
+#include "base/macros.h"
 
 namespace crashpad {
 namespace test {

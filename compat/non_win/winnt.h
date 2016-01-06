@@ -15,6 +15,8 @@
 #ifndef CRASHPAD_COMPAT_NON_WIN_WINNT_H_
 #define CRASHPAD_COMPAT_NON_WIN_WINNT_H_
 
+#include <stdint.h>
+
 //! \file
 
 //! \anchor VER_SUITE_x

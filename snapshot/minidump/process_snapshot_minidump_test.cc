@@ -14,9 +14,9 @@
 
 #include "snapshot/minidump/process_snapshot_minidump.h"
 
-#include <string.h>
 #include <windows.h>
 #include <dbghelp.h>
+#include <string.h>
 
 #include "base/memory/scoped_ptr.h"
 #include "gtest/gtest.h"

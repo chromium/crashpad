@@ -14,8 +14,11 @@
 
 #include "minidump/test/minidump_context_test_util.h"
 
-#include "base/basictypes.h"
+#include <string.h>
+#include <sys/types.h>
+
 #include "base/format_macros.h"
+#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "snapshot/cpu_context.h"

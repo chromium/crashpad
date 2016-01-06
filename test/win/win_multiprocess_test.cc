@@ -14,7 +14,7 @@
 
 #include "test/win/win_multiprocess.h"
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "gtest/gtest.h"
 
 namespace crashpad {

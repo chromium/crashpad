@@ -14,7 +14,7 @@
 
 #include "util/thread/thread.h"
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "gtest/gtest.h"
 #include "util/synchronization/semaphore.h"
 

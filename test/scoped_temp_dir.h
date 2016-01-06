@@ -15,8 +15,8 @@
 #ifndef CRASHPAD_TEST_SCOPED_TEMP_DIR_
 #define CRASHPAD_TEST_SCOPED_TEMP_DIR_
 
-#include "base/basictypes.h"
 #include "base/files/file_path.h"
+#include "base/macros.h"
 
 namespace crashpad {
 namespace test {

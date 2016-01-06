@@ -15,13 +15,13 @@
 #ifndef CRASHPAD_UTIL_WIN_PROCESS_INFO_H_
 #define CRASHPAD_UTIL_WIN_PROCESS_INFO_H_
 
-#include <sys/types.h>
 #include <windows.h>
+#include <sys/types.h>
 
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/numeric/checked_range.h"
 #include "util/stdlib/aligned_allocator.h"

@@ -17,7 +17,7 @@
 
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/stl_util.h"
 
 namespace crashpad {

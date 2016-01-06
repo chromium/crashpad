@@ -15,10 +15,12 @@
 #include "util/posix/symbolic_constants_posix.h"
 
 #include <sys/signal.h>
+#include <sys/types.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 
 #define NUL_TEST_DATA(string) { string, arraysize(string) - 1 }

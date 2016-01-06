@@ -14,8 +14,6 @@
 
 #include "minidump/minidump_thread_writer.h"
 
-#include <sys/types.h>
-
 #include <utility>
 
 #include "base/logging.h"

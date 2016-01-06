@@ -20,7 +20,7 @@
 
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"

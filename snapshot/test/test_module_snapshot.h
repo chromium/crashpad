@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "snapshot/module_snapshot.h"
 
 namespace crashpad {

@@ -15,10 +15,9 @@
 #ifndef CRASHPAD_CLIENT_CRASHPAD_INFO_H_
 #define CRASHPAD_CLIENT_CRASHPAD_INFO_H_
 
-#include "base/basictypes.h"
-
 #include <stdint.h>
 
+#include "base/macros.h"
 #include "build/build_config.h"
 #include "client/simple_string_dictionary.h"
 #include "util/misc/tri_state.h"

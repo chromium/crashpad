@@ -17,7 +17,7 @@
 
 #include <sys/types.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_context.h"
 #include "minidump/minidump_writable.h"

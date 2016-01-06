@@ -15,6 +15,7 @@
 #include "snapshot/win/pe_image_annotations_reader.h"
 
 #include <string.h>
+#include <sys/types.h>
 
 #include "base/strings/utf_string_conversions.h"
 #include "client/simple_string_dictionary.h"

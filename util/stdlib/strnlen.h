@@ -16,6 +16,7 @@
 #define CRASHPAD_UTIL_STDLIB_STRNLEN_H_
 
 #include <string.h>
+#include <sys/types.h>
 
 #include "build/build_config.h"
 

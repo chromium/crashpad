@@ -15,7 +15,9 @@
 #include "util/win/exception_handler_server.h"
 
 #include <sddl.h>
+#include <stdint.h>
 #include <string.h>
+#include <sys/types.h>
 
 #include <utility>
 

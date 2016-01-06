@@ -15,6 +15,7 @@
 #include "snapshot/crashpad_info_client_options.h"
 
 #include "base/files/file_path.h"
+#include "base/macros.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/crashpad_info.h"

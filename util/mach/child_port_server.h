@@ -19,7 +19,7 @@
 
 #include <set>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "util/mach/child_port_types.h"
 #include "util/mach/mach_message_server.h"
 

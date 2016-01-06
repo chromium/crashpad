@@ -19,7 +19,8 @@
 
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
+#include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/thread_snapshot.h"

@@ -16,10 +16,11 @@
 
 #include <kern/exc_resource.h>
 #include <signal.h>
+#include <stdint.h>
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "util/mac/mac_util.h"

@@ -20,6 +20,7 @@
 #include <map>
 #include <string>
 
+#include "base/macros.h"
 #include "util/win/exception_handler_server.h"
 
 namespace crashpad {

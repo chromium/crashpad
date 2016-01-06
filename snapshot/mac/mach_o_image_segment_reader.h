@@ -23,7 +23,7 @@
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "snapshot/mac/process_types.h"
 #include "util/misc/initialization_state_dcheck.h"
 

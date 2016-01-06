@@ -14,24 +14,25 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <sys/types.h>
 #include <windows.h>
 #include <winternl.h>
 
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
+
+#include "base/files/file_path.h"
+#include "base/logging.h"
+#include "base/macros.h"
+#include "client/crashpad_client.h"
+#include "util/win/critical_section_with_debug_info.h"
+#include "util/win/get_function.h"
 
 // ntstatus.h conflicts with windows.h so define this locally.
 #ifndef STATUS_NO_SUCH_FILE
 #define STATUS_NO_SUCH_FILE static_cast<NTSTATUS>(0xC000000F)
 #endif
-
-#include "base/basictypes.h"
-#include "base/files/file_path.h"
-#include "base/logging.h"
-#include "client/crashpad_client.h"
-#include "util/win/critical_section_with_debug_info.h"
-#include "util/win/get_function.h"
 
 namespace crashpad {
 namespace {

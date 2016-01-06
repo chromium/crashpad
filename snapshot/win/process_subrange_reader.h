@@ -17,7 +17,7 @@
 
 #include <string>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/win/address_types.h"
 #include "util/win/checked_win_address_range.h"

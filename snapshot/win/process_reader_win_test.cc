@@ -14,8 +14,8 @@
 
 #include "snapshot/win/process_reader_win.h"
 
-#include <string.h>
 #include <windows.h>
+#include <string.h>
 
 #include "gtest/gtest.h"
 #include "test/win/win_multiprocess.h"

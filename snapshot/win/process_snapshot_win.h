@@ -17,12 +17,13 @@
 
 #include <windows.h>
 #include <sys/time.h>
+#include <sys/types.h>
 
 #include <map>
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "client/crashpad_info.h"
 #include "snapshot/crashpad_info_client_options.h"
@@ -41,9 +42,9 @@
 #include "snapshot/win/thread_snapshot_win.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"
+#include "util/stdlib/pointer_container.h"
 #include "util/win/address_types.h"
 #include "util/win/process_structs.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 

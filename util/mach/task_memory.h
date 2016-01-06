@@ -16,11 +16,12 @@
 #define CRASHPAD_UTIL_MACH_TASK_MEMORY_H_
 
 #include <mach/mach.h>
+#include <sys/types.h>
 
 #include <string>
 
-#include "base/basictypes.h"
 #include "base/mac/scoped_mach_vm.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 
 namespace crashpad {

@@ -15,6 +15,7 @@
 #include "snapshot/mac/process_types.h"
 
 #include <string.h>
+#include <sys/types.h>
 
 #include "base/logging.h"
 #include "snapshot/mac/process_types/internal.h"

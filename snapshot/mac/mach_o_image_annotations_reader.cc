@@ -16,6 +16,7 @@
 
 #include <mach-o/loader.h>
 #include <mach/mach.h>
+#include <sys/types.h>
 
 #include <utility>
 

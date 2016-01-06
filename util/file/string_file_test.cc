@@ -14,6 +14,7 @@
 
 #include "util/file/string_file.h"
 
+#include <stdint.h>
 #include <string.h>
 
 #include <algorithm>

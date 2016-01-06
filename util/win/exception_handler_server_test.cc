@@ -15,11 +15,12 @@
 #include "util/win/exception_handler_server.h"
 
 #include <windows.h>
+#include <sys/types.h>
 
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_client.h"
 #include "gtest/gtest.h"

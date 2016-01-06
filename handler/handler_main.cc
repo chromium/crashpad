@@ -15,6 +15,7 @@
 #include "handler/handler_main.h"
 
 #include <getopt.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include <map>
@@ -32,9 +33,9 @@
 #include "client/crash_report_database.h"
 #include "client/crashpad_client.h"
 #include "client/prune_crash_reports.h"
-#include "tools/tool_support.h"
 #include "handler/crash_report_upload_thread.h"
 #include "handler/prune_crash_reports_thread.h"
+#include "tools/tool_support.h"
 #include "util/file/file_io.h"
 #include "util/stdlib/map_insert.h"
 #include "util/stdlib/string_number_conversion.h"

@@ -16,8 +16,9 @@
 
 #include <mach/mach.h>
 #include <string.h>
+#include <sys/types.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"

@@ -15,7 +15,7 @@
 #ifndef CRASHPAD_HANDLER_PRUNE_CRASH_REPORTS_THREAD_H_
 #define CRASHPAD_HANDLER_PRUNE_CRASH_REPORTS_THREAD_H_
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "util/thread/worker_thread.h"
 

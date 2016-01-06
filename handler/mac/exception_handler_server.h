@@ -15,11 +15,10 @@
 #ifndef CRASHPAD_HANDLER_MAC_EXCEPTION_HANDLER_SERVER_H_
 #define CRASHPAD_HANDLER_MAC_EXCEPTION_HANDLER_SERVER_H_
 
-#include "base/basictypes.h"
-
 #include <mach/mach.h>
 
 #include "base/mac/scoped_mach_port.h"
+#include "base/macros.h"
 #include "util/mach/exc_server_variants.h"
 
 namespace crashpad {

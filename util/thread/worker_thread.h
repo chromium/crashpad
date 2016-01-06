@@ -15,7 +15,7 @@
 #ifndef CRASHPAD_UTIL_THREAD_WORKER_THREAD_H_
 #define CRASHPAD_UTIL_THREAD_WORKER_THREAD_H_
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 
 namespace crashpad {

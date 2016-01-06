@@ -16,13 +16,14 @@
 
 #import <Foundation/Foundation.h>
 #include <launch.h>
+#include <stdint.h>
 #include <string.h>
 
 #include <cmath>
 #include <limits>
 
-#include "base/basictypes.h"
 #include "base/mac/scoped_launch_data.h"
+#include "base/macros.h"
 #include "gtest/gtest.h"
 #include "util/stdlib/objc.h"
 

@@ -19,14 +19,15 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #include <map>
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
 #include "base/files/file_path.h"
+#include "base/macros.h"
 #include "client/crashpad_info.h"
 #include "client/simple_string_dictionary.h"
 #include "gtest/gtest.h"

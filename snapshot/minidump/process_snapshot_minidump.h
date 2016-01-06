@@ -15,19 +15,20 @@
 #ifndef CRASHPAD_SNAPSHOT_MINIDUMP_PROCESS_SNAPSHOT_MINIDUMP_H_
 #define CRASHPAD_SNAPSHOT_MINIDUMP_PROCESS_SNAPSHOT_MINIDUMP_H_
 
-#include <sys/time.h>
 #include <windows.h>
 #include <dbghelp.h>
+#include <stdint.h>
+#include <sys/time.h>
 
 #include <map>
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "minidump/minidump_extensions.h"
 #include "snapshot/exception_snapshot.h"
-#include "snapshot/minidump/module_snapshot_minidump.h"
 #include "snapshot/memory_snapshot.h"
+#include "snapshot/minidump/module_snapshot_minidump.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"

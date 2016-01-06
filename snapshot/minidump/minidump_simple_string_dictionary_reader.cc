@@ -14,8 +14,10 @@
 
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
 
-#include <vector>
+#include <stdint.h>
+
 #include <utility>
+#include <vector>
 
 #include "base/logging.h"
 #include "minidump/minidump_extensions.h"

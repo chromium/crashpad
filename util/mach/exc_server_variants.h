@@ -19,7 +19,7 @@
 
 #include <set>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message_server.h"

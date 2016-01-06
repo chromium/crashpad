@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 

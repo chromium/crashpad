@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_reader.h"
 #include "util/misc/initialization_state_dcheck.h"

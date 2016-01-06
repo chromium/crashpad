@@ -14,9 +14,9 @@
 
 #include "snapshot/win/system_snapshot_win.h"
 
+#include <windows.h>
 #include <intrin.h>
 #include <powrprof.h>
-#include <windows.h>
 #include <winnt.h>
 
 #include <algorithm>

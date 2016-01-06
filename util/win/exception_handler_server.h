@@ -18,7 +18,7 @@
 #include <set>
 #include <string>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/synchronization/lock.h"
 #include "util/file/file_io.h"
 #include "util/win/address_types.h"

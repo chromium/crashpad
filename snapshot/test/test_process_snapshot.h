@@ -24,7 +24,7 @@
 #include <utility>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "snapshot/exception_snapshot.h"
 #include "snapshot/memory_map_region_snapshot.h"

@@ -17,6 +17,7 @@
 #include <string.h>
 #include <uuid/uuid.h>
 
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "snapshot/mac/process_types/internal.h"
 #include "util/mach/task_memory.h"

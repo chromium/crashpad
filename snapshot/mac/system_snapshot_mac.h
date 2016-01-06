@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "snapshot/system_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
 

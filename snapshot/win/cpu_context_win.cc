@@ -14,6 +14,7 @@
 
 #include "snapshot/win/cpu_context_win.h"
 
+#include <stdint.h>
 #include <string.h>
 
 #include "base/logging.h"

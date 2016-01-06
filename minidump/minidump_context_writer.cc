@@ -14,6 +14,7 @@
 
 #include "minidump/minidump_context_writer.h"
 
+#include <stdint.h>
 #include <string.h>
 
 #include "base/compiler_specific.h"

@@ -15,10 +15,9 @@
 #ifndef CRASHPAD_HANDLER_CRASH_REPORT_UPLOAD_THREAD_H_
 #define CRASHPAD_HANDLER_CRASH_REPORT_UPLOAD_THREAD_H_
 
-#include "base/basictypes.h"
-
 #include <string>
 
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "client/crash_report_database.h"
 #include "util/thread/worker_thread.h"
@@ -136,6 +135,8 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   std::string url_;
   WorkerThread thread_;
   CrashReportDatabase* database_;  // weak
+
+  DISALLOW_COPY_AND_ASSIGN(CrashReportUploadThread);
 };
 
 }  // namespace crashpad

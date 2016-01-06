@@ -19,8 +19,8 @@
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
 #include "base/files/file_path.h"
+#include "base/macros.h"
 #include "build/build_config.h"
 
 #if defined(OS_MACOSX)

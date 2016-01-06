@@ -18,7 +18,7 @@
 #include <windows.h>
 #include <dbghelp.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_writable.h"
 
