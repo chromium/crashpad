@@ -62,8 +62,9 @@ TEST(Launchd, CFPropertyToLaunchData_Integer) {
       NSNumber* integer_ns = integer_nses[index];
       launch_data.reset(CFPropertyToLaunchData(integer_ns));
       ASSERT_TRUE(launch_data.get());
-      ASSERT_EQ(LAUNCH_DATA_INTEGER, LaunchDataGetType(launch_data));
-      EXPECT_EQ([integer_ns longLongValue], LaunchDataGetInteger(launch_data))
+      ASSERT_EQ(LAUNCH_DATA_INTEGER, LaunchDataGetType(launch_data.get()));
+      EXPECT_EQ([integer_ns longLongValue],
+                LaunchDataGetInteger(launch_data.get()))
           << "index " << index;
     }
   }
@@ -91,9 +92,9 @@ TEST(Launchd, CFPropertyToLaunchData_FloatingPoint) {
       NSNumber* double_ns = double_nses[index];
       launch_data.reset(CFPropertyToLaunchData(double_ns));
       ASSERT_TRUE(launch_data.get());
-      ASSERT_EQ(LAUNCH_DATA_REAL, LaunchDataGetType(launch_data));
+      ASSERT_EQ(LAUNCH_DATA_REAL, LaunchDataGetType(launch_data.get()));
       double expected_double_value = [double_ns doubleValue];
-      double observed_double_value = LaunchDataGetReal(launch_data);
+      double observed_double_value = LaunchDataGetReal(launch_data.get());
       bool expected_is_nan = std::isnan(expected_double_value);
       EXPECT_EQ(expected_is_nan, std::isnan(observed_double_value));
       if (!expected_is_nan) {
@@ -117,11 +118,11 @@ TEST(Launchd, CFPropertyToLaunchData_Boolean) {
       NSNumber* bool_ns = bool_nses[index];
       launch_data.reset(CFPropertyToLaunchData(bool_ns));
       ASSERT_TRUE(launch_data.get());
-      ASSERT_EQ(LAUNCH_DATA_BOOL, LaunchDataGetType(launch_data));
+      ASSERT_EQ(LAUNCH_DATA_BOOL, LaunchDataGetType(launch_data.get()));
       if ([bool_ns boolValue]) {
-        EXPECT_TRUE(LaunchDataGetBool(launch_data));
+        EXPECT_TRUE(LaunchDataGetBool(launch_data.get()));
       } else {
-        EXPECT_FALSE(LaunchDataGetBool(launch_data));
+        EXPECT_FALSE(LaunchDataGetBool(launch_data.get()));
       }
     }
   }
@@ -141,8 +142,9 @@ TEST(Launchd, CFPropertyToLaunchData_String) {
       NSString* string_ns = string_nses[index];
       launch_data.reset(CFPropertyToLaunchData(string_ns));
       ASSERT_TRUE(launch_data.get());
-      ASSERT_EQ(LAUNCH_DATA_STRING, LaunchDataGetType(launch_data));
-      EXPECT_STREQ([string_ns UTF8String], LaunchDataGetString(launch_data));
+      ASSERT_EQ(LAUNCH_DATA_STRING, LaunchDataGetType(launch_data.get()));
+      EXPECT_STREQ([string_ns UTF8String],
+                   LaunchDataGetString(launch_data.get()));
     }
   }
 }
@@ -156,10 +158,11 @@ TEST(Launchd, CFPropertyToLaunchData_Data) {
     NSData* data_ns = [NSData dataWithBytes:data_c length:sizeof(data_c)];
     launch_data.reset(CFPropertyToLaunchData(data_ns));
     ASSERT_TRUE(launch_data.get());
-    ASSERT_EQ(LAUNCH_DATA_OPAQUE, LaunchDataGetType(launch_data));
-    EXPECT_EQ(sizeof(data_c), LaunchDataGetOpaqueSize(launch_data));
-    EXPECT_EQ(0,
-              memcmp(LaunchDataGetOpaque(launch_data), data_c, sizeof(data_c)));
+    ASSERT_EQ(LAUNCH_DATA_OPAQUE, LaunchDataGetType(launch_data.get()));
+    EXPECT_EQ(sizeof(data_c), LaunchDataGetOpaqueSize(launch_data.get()));
+    EXPECT_EQ(
+        0,
+        memcmp(LaunchDataGetOpaque(launch_data.get()), data_c, sizeof(data_c)));
   }
 }
 
@@ -173,10 +176,11 @@ TEST(Launchd, CFPropertyToLaunchData_Dictionary) {
 
     launch_data.reset(CFPropertyToLaunchData(dictionary_ns));
     ASSERT_TRUE(launch_data.get());
-    ASSERT_EQ(LAUNCH_DATA_DICTIONARY, LaunchDataGetType(launch_data));
-    EXPECT_EQ([dictionary_ns count], LaunchDataDictGetCount(launch_data));
+    ASSERT_EQ(LAUNCH_DATA_DICTIONARY, LaunchDataGetType(launch_data.get()));
+    EXPECT_EQ([dictionary_ns count], LaunchDataDictGetCount(launch_data.get()));
 
-    launch_data_t launch_lookup_data = LaunchDataDictLookup(launch_data, "key");
+    launch_data_t launch_lookup_data =
+        LaunchDataDictLookup(launch_data.get(), "key");
     ASSERT_TRUE(launch_lookup_data);
     ASSERT_EQ(LAUNCH_DATA_STRING, LaunchDataGetType(launch_lookup_data));
     EXPECT_STREQ("value", LaunchDataGetString(launch_lookup_data));
@@ -191,15 +195,16 @@ TEST(Launchd, CFPropertyToLaunchData_Array) {
 
     launch_data.reset(CFPropertyToLaunchData(array_ns));
     ASSERT_TRUE(launch_data.get());
-    ASSERT_EQ(LAUNCH_DATA_ARRAY, LaunchDataGetType(launch_data));
-    EXPECT_EQ([array_ns count], LaunchDataArrayGetCount(launch_data));
+    ASSERT_EQ(LAUNCH_DATA_ARRAY, LaunchDataGetType(launch_data.get()));
+    EXPECT_EQ([array_ns count], LaunchDataArrayGetCount(launch_data.get()));
 
-    launch_data_t launch_lookup_data = LaunchDataArrayGetIndex(launch_data, 0);
+    launch_data_t launch_lookup_data =
+        LaunchDataArrayGetIndex(launch_data.get(), 0);
     ASSERT_TRUE(launch_lookup_data);
     ASSERT_EQ(LAUNCH_DATA_STRING, LaunchDataGetType(launch_lookup_data));
     EXPECT_STREQ("element_1", LaunchDataGetString(launch_lookup_data));
 
-    launch_lookup_data = LaunchDataArrayGetIndex(launch_data, 1);
+    launch_lookup_data = LaunchDataArrayGetIndex(launch_data.get(), 1);
     ASSERT_TRUE(launch_lookup_data);
     ASSERT_EQ(LAUNCH_DATA_STRING, LaunchDataGetType(launch_lookup_data));
     EXPECT_STREQ("element_2", LaunchDataGetString(launch_lookup_data));
@@ -215,18 +220,18 @@ TEST(Launchd, CFPropertyToLaunchData_NSDate) {
 
     NSDate* date = [NSDate date];
     launch_data.reset(CFPropertyToLaunchData(date));
-    EXPECT_FALSE(launch_data);
+    EXPECT_FALSE(launch_data.get());
 
     NSDictionary* date_dictionary = @{
       @"key" : @"value",
       @"date" : date,
     };
     launch_data.reset(CFPropertyToLaunchData(date_dictionary));
-    EXPECT_FALSE(launch_data);
+    EXPECT_FALSE(launch_data.get());
 
     NSArray* date_array = @[ @"string_1", date, @"string_2", ];
     launch_data.reset(CFPropertyToLaunchData(date_array));
-    EXPECT_FALSE(launch_data);
+    EXPECT_FALSE(launch_data.get());
   }
 }
 
@@ -246,24 +251,24 @@ TEST(Launchd, CFPropertyToLaunchData_RealWorldJobDictionary) {
 
     launch_data.reset(CFPropertyToLaunchData(job_dictionary));
     ASSERT_TRUE(launch_data.get());
-    ASSERT_EQ(LAUNCH_DATA_DICTIONARY, LaunchDataGetType(launch_data));
-    EXPECT_EQ(4u, LaunchDataDictGetCount(launch_data));
+    ASSERT_EQ(LAUNCH_DATA_DICTIONARY, LaunchDataGetType(launch_data.get()));
+    EXPECT_EQ(4u, LaunchDataDictGetCount(launch_data.get()));
 
     launch_data_t launch_lookup_data =
-        LaunchDataDictLookup(launch_data, LAUNCH_JOBKEY_LABEL);
+        LaunchDataDictLookup(launch_data.get(), LAUNCH_JOBKEY_LABEL);
     ASSERT_TRUE(launch_lookup_data);
     ASSERT_EQ(LAUNCH_DATA_STRING, LaunchDataGetType(launch_lookup_data));
     EXPECT_STREQ("com.example.job.rebooter",
                  LaunchDataGetString(launch_lookup_data));
 
     launch_lookup_data =
-        LaunchDataDictLookup(launch_data, LAUNCH_JOBKEY_ONDEMAND);
+        LaunchDataDictLookup(launch_data.get(), LAUNCH_JOBKEY_ONDEMAND);
     ASSERT_TRUE(launch_lookup_data);
     ASSERT_EQ(LAUNCH_DATA_BOOL, LaunchDataGetType(launch_lookup_data));
     EXPECT_TRUE(LaunchDataGetBool(launch_lookup_data));
 
     launch_lookup_data =
-        LaunchDataDictLookup(launch_data, LAUNCH_JOBKEY_PROGRAMARGUMENTS);
+        LaunchDataDictLookup(launch_data.get(), LAUNCH_JOBKEY_PROGRAMARGUMENTS);
     ASSERT_TRUE(launch_lookup_data);
     ASSERT_EQ(LAUNCH_DATA_ARRAY, LaunchDataGetType(launch_lookup_data));
     EXPECT_EQ(3u, LaunchDataArrayGetCount(launch_lookup_data));
@@ -285,7 +290,7 @@ TEST(Launchd, CFPropertyToLaunchData_RealWorldJobDictionary) {
     EXPECT_STREQ("/sbin/reboot", LaunchDataGetString(launch_sublookup_data));
 
     launch_lookup_data =
-        LaunchDataDictLookup(launch_data, LAUNCH_JOBKEY_MACHSERVICES);
+        LaunchDataDictLookup(launch_data.get(), LAUNCH_JOBKEY_MACHSERVICES);
     ASSERT_TRUE(launch_lookup_data);
     ASSERT_EQ(LAUNCH_DATA_DICTIONARY, LaunchDataGetType(launch_lookup_data));
     EXPECT_EQ(1u, LaunchDataDictGetCount(launch_lookup_data));

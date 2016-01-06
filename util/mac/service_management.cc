@@ -28,10 +28,10 @@ namespace {
 launch_data_t LaunchDataDictionaryForJob(const std::string& label) {
   base::mac::ScopedLaunchData request(LaunchDataAlloc(LAUNCH_DATA_DICTIONARY));
   LaunchDataDictInsert(
-      request, LaunchDataNewString(label.c_str()), LAUNCH_KEY_GETJOB);
+      request.get(), LaunchDataNewString(label.c_str()), LAUNCH_KEY_GETJOB);
 
-  base::mac::ScopedLaunchData response(LaunchMsg(request));
-  if (LaunchDataGetType(response) != LAUNCH_DATA_DICTIONARY) {
+  base::mac::ScopedLaunchData response(LaunchMsg(request.get()));
+  if (LaunchDataGetType(response.get()) != LAUNCH_DATA_DICTIONARY) {
     return nullptr;
   }
 
@@ -47,21 +47,21 @@ bool ServiceManagementSubmitJob(CFDictionaryRef job_cf) {
   }
 
   base::mac::ScopedLaunchData jobs(LaunchDataAlloc(LAUNCH_DATA_ARRAY));
-  LaunchDataArraySetIndex(jobs, job_launch.release(), 0);
+  LaunchDataArraySetIndex(jobs.get(), job_launch.release(), 0);
 
   base::mac::ScopedLaunchData request(LaunchDataAlloc(LAUNCH_DATA_DICTIONARY));
-  LaunchDataDictInsert(request, jobs.release(), LAUNCH_KEY_SUBMITJOB);
+  LaunchDataDictInsert(request.get(), jobs.release(), LAUNCH_KEY_SUBMITJOB);
 
-  base::mac::ScopedLaunchData response(LaunchMsg(request));
-  if (LaunchDataGetType(response) != LAUNCH_DATA_ARRAY) {
+  base::mac::ScopedLaunchData response(LaunchMsg(request.get()));
+  if (LaunchDataGetType(response.get()) != LAUNCH_DATA_ARRAY) {
     return false;
   }
 
-  if (LaunchDataArrayGetCount(response) != 1) {
+  if (LaunchDataArrayGetCount(response.get()) != 1) {
     return false;
   }
 
-  launch_data_t response_element = LaunchDataArrayGetIndex(response, 0);
+  launch_data_t response_element = LaunchDataArrayGetIndex(response.get(), 0);
   if (LaunchDataGetType(response_element) != LAUNCH_DATA_ERRNO) {
     return false;
   }
@@ -77,14 +77,14 @@ bool ServiceManagementSubmitJob(CFDictionaryRef job_cf) {
 bool ServiceManagementRemoveJob(const std::string& label, bool wait) {
   base::mac::ScopedLaunchData request(LaunchDataAlloc(LAUNCH_DATA_DICTIONARY));
   LaunchDataDictInsert(
-      request, LaunchDataNewString(label.c_str()), LAUNCH_KEY_REMOVEJOB);
+      request.get(), LaunchDataNewString(label.c_str()), LAUNCH_KEY_REMOVEJOB);
 
-  base::mac::ScopedLaunchData response(LaunchMsg(request));
-  if (LaunchDataGetType(response) != LAUNCH_DATA_ERRNO) {
+  base::mac::ScopedLaunchData response(LaunchMsg(request.get()));
+  if (LaunchDataGetType(response.get()) != LAUNCH_DATA_ERRNO) {
     return false;
   }
 
-  int err = LaunchDataGetErrno(response);
+  int err = LaunchDataGetErrno(response.get());
   if (err == EINPROGRESS) {
     if (wait) {
       // TODO(mark): Use a kqueue to wait for the process to exit. To avoid a
@@ -108,7 +108,7 @@ bool ServiceManagementRemoveJob(const std::string& label, bool wait) {
 
 bool ServiceManagementIsJobLoaded(const std::string& label) {
   base::mac::ScopedLaunchData dictionary(LaunchDataDictionaryForJob(label));
-  if (!dictionary) {
+  if (!dictionary.is_valid()) {
     return false;
   }
 
@@ -117,11 +117,11 @@ bool ServiceManagementIsJobLoaded(const std::string& label) {
 
 pid_t ServiceManagementIsJobRunning(const std::string& label) {
   base::mac::ScopedLaunchData dictionary(LaunchDataDictionaryForJob(label));
-  if (!dictionary) {
+  if (!dictionary.is_valid()) {
     return 0;
   }
 
-  launch_data_t pid = LaunchDataDictLookup(dictionary, LAUNCH_JOBKEY_PID);
+  launch_data_t pid = LaunchDataDictLookup(dictionary.get(), LAUNCH_JOBKEY_PID);
   if (!pid) {
     return 0;
   }

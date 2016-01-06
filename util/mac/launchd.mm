@@ -51,7 +51,8 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
           return nullptr;
         }
 
-        LaunchDataDictInsert(dictionary_launch, value_launch, [key UTF8String]);
+        LaunchDataDictInsert(
+            dictionary_launch.get(), value_launch, [key UTF8String]);
       }
 
       data_launch = dictionary_launch.release();
@@ -71,7 +72,7 @@ launch_data_t CFPropertyToLaunchData(CFPropertyListRef property_cf) {
           return nullptr;
         }
 
-        LaunchDataArraySetIndex(array_launch, element_launch, index++);
+        LaunchDataArraySetIndex(array_launch.get(), element_launch, index++);
       }
 
       data_launch = array_launch.release();
