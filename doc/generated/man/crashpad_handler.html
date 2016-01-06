@@ -859,6 +859,20 @@ is only valid on OS X.
 </p>
 </dd>
 <dt class="hdlist1">
+<strong>--handshake-handle</strong>=<em>HANDLE</em>
+</dt>
+<dd>
+<p>
+Perform the handshake with the initial client on the HANDLE at <em>HANDLE</em>. Either
+this option or <strong>--pipe-name</strong>, but not both, is required. This option is only
+valid on Windows.
+</p>
+<div class="paragraph"><p>When this option is present, the server creates a new named pipe at a random
+name and informs its client of the name. The server waits for at least one
+client to register, and exits when all clients have exited, after waiting for
+any uploads in progress to complete.</p></div>
+</dd>
+<dt class="hdlist1">
 <strong>--mach-service</strong>=<em>SERVICE</em>
 </dt>
 <dd>
@@ -873,18 +887,14 @@ declared in a job’s <span class="monospaced">MachServices</span> dictionary (s
 service name may also be completely unknown to the system.</p></div>
 </dd>
 <dt class="hdlist1">
-<strong>--handshake-handle</strong>=<em>HANDLE</em>
+<strong>--no-rate-limit</strong>
 </dt>
 <dd>
 <p>
-Perform the handshake with the initial client on the HANDLE at <em>HANDLE</em>. Either
-this option or <strong>--pipe-name</strong>, but not both, is required. This option is only
-valid on Windows.
+Do not rate limit the upload of crash reports. By default uploads are throttled
+to one per hour. Using this option disables that behavior, and Crashpad will
+attempt to upload all captured reports.
 </p>
-<div class="paragraph"><p>When this option is present, the server creates a new named pipe at a random
-name and informs its client of the name. The server waits for at least one
-client to register, and exits when all clients have exited, after waiting for
-any uploads in progress to complete.</p></div>
 </dd>
 <dt class="hdlist1">
 <strong>--pipe-name</strong>=<em>PIPE</em>
@@ -1011,7 +1021,7 @@ limitations under the License.</p></div>
 <div id="footer">
 <div id="footer-text">
 Crashpad 0.8.0<br>
-Last updated November 4, 2015
+Last updated January 6, 2016
 </div>
 </div>
 </body>

@@ -37,5 +37,6 @@ var searchData=
   ['processsnapshotminidump',['ProcessSnapshotMinidump',['../classcrashpad_1_1ProcessSnapshotMinidump.html',1,'crashpad']]],
   ['processsnapshotwin',['ProcessSnapshotWin',['../classcrashpad_1_1ProcessSnapshotWin.html',1,'crashpad']]],
   ['processsubrangereader',['ProcessSubrangeReader',['../classcrashpad_1_1ProcessSubrangeReader.html',1,'crashpad']]],
-  ['prunecondition',['PruneCondition',['../classcrashpad_1_1PruneCondition.html',1,'crashpad']]]
+  ['prunecondition',['PruneCondition',['../classcrashpad_1_1PruneCondition.html',1,'crashpad']]],
+  ['prunecrashreportthread',['PruneCrashReportThread',['../classcrashpad_1_1PruneCrashReportThread.html',1,'crashpad']]]
 ];

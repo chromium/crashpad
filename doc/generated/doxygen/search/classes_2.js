@@ -27,7 +27,6 @@ var searchData=
   ['crashpadinfoclientoptions',['CrashpadInfoClientOptions',['../structcrashpad_1_1CrashpadInfoClientOptions.html',1,'crashpad']]],
   ['crashreportdatabase',['CrashReportDatabase',['../classcrashpad_1_1CrashReportDatabase.html',1,'crashpad']]],
   ['crashreportexceptionhandler',['CrashReportExceptionHandler',['../classcrashpad_1_1CrashReportExceptionHandler.html',1,'crashpad']]],
-  ['crashreportuploadhelperthread',['CrashReportUploadHelperThread',['../classcrashpad_1_1internal_1_1CrashReportUploadHelperThread.html',1,'crashpad::internal']]],
   ['crashreportuploadthread',['CrashReportUploadThread',['../classcrashpad_1_1CrashReportUploadThread.html',1,'crashpad']]],
   ['curdir',['CURDIR',['../structcrashpad_1_1process__types_1_1CURDIR.html',1,'crashpad::process_types']]]
 ];

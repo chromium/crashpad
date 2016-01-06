@@ -4,5 +4,6 @@ var searchData=
   ['databasesizeprunecondition',['DatabaseSizePruneCondition',['../classcrashpad_1_1DatabaseSizePruneCondition.html',1,'crashpad']]],
   ['defaultinterface',['DefaultInterface',['../classcrashpad_1_1NotifyServer_1_1DefaultInterface.html',1,'crashpad::NotifyServer']]],
   ['delegate',['Delegate',['../classcrashpad_1_1MemorySnapshot_1_1Delegate.html',1,'crashpad::MemorySnapshot']]],
+  ['delegate',['Delegate',['../classcrashpad_1_1WorkerThread_1_1Delegate.html',1,'crashpad::WorkerThread']]],
   ['delegate',['Delegate',['../classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html',1,'crashpad::ExceptionHandlerServer']]]
 ];
