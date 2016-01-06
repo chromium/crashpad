@@ -14,6 +14,8 @@
 
 #include "handler/prune_crash_reports_thread.h"
 
+#include <utility>
+
 #include "client/prune_crash_reports.h"
 
 namespace crashpad {
@@ -22,7 +24,7 @@ PruneCrashReportThread::PruneCrashReportThread(
     CrashReportDatabase* database,
     scoped_ptr<PruneCondition> condition)
     : thread_(60 * 60 * 24, this),
-      condition_(condition.Pass()),
+      condition_(std::move(condition)),
       database_(database) {}
 
 PruneCrashReportThread::~PruneCrashReportThread() {}
