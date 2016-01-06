@@ -15,11 +15,12 @@
 #include "client/simulate_crash_mac.h"
 
 #include <string.h>
+#include <sys/types.h>
 
-#include "base/basictypes.h"
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
+#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "util/mach/exc_client_variants.h"

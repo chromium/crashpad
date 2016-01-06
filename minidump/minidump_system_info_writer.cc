@@ -15,7 +15,6 @@
 #include "minidump/minidump_system_info_writer.h"
 
 #include <string.h>
-#include <sys/types.h>
 
 #include "base/logging.h"
 #include "minidump/minidump_string_writer.h"

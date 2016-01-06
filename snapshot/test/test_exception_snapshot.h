@@ -19,7 +19,7 @@
 
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
 

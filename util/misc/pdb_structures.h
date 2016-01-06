@@ -15,6 +15,8 @@
 #ifndef CRASHPAD_UTIL_MISC_PDB_STRUCTURES_H_
 #define CRASHPAD_UTIL_MISC_PDB_STRUCTURES_H_
 
+#include <stdint.h>
+
 #include "util/misc/uuid.h"
 
 namespace crashpad {

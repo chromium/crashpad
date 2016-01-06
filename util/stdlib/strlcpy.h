@@ -15,7 +15,7 @@
 #ifndef CRASHPAD_UTIL_STDLIB_STRLCPY_H_
 #define CRASHPAD_UTIL_STDLIB_STRLCPY_H_
 
-#include <stdint.h>
+#include <sys/types.h>
 
 #include "base/strings/string16.h"
 

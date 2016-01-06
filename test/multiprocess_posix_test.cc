@@ -18,7 +18,7 @@
 #include <sys/signal.h>
 #include <unistd.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "gtest/gtest.h"
 #include "test/gtest_death_check.h"
 #include "util/file/file_io.h"

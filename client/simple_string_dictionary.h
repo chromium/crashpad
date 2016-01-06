@@ -16,9 +16,10 @@
 #define CRASHPAD_CLIENT_SIMPLE_STRING_DICTIONARY_H_
 
 #include <string.h>
+#include <sys/types.h>
 
-#include "base/basictypes.h"
 #include "base/logging.h"
+#include "base/macros.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {

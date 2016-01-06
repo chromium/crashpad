@@ -14,7 +14,9 @@
 
 #include "util/mach/exception_behaviors.h"
 
-#include "base/basictypes.h"
+#include <sys/types.h>
+
+#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "util/mach/mach_extensions.h"

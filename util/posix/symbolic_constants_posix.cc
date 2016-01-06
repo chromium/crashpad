@@ -14,10 +14,13 @@
 
 #include "util/posix/symbolic_constants_posix.h"
 
+#include <string.h>
+#include <sys/types.h>
 #include <sys/signal.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 #include "util/misc/implicit_cast.h"
 #include "util/stdlib/string_number_conversion.h"
 

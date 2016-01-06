@@ -14,15 +14,13 @@
 
 #include "minidump/minidump_misc_info_writer.h"
 
-#include <windows.h>
-#include <dbghelp.h>
 #include <string.h>
 
 #include <string>
 #include <utility>
 
-#include "base/basictypes.h"
 #include "base/compiler_specific.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/strings/string16.h"
 #include "base/strings/utf_string_conversions.h"

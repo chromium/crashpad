@@ -16,13 +16,14 @@
 
 #include <errno.h>
 #include <stdint.h>
+#include <sys/types.h>
 #include <sys/xattr.h>
 
-#include "base/basictypes.h"
 #include "base/logging.h"
+#include "base/macros.h"
 #include "base/numerics/safe_conversions.h"
-#include "base/strings/stringprintf.h"
 #include "base/strings/string_number_conversions.h"
+#include "base/strings/stringprintf.h"
 
 namespace crashpad {
 

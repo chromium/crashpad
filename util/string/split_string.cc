@@ -14,6 +14,8 @@
 
 #include "util/string/split_string.h"
 
+#include <sys/types.h>
+
 namespace crashpad {
 
 bool SplitString(const std::string& string,

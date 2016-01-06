@@ -14,10 +14,7 @@
 
 #include "minidump/minidump_system_info_writer.h"
 
-#include <windows.h>
-#include <dbghelp.h>
 #include <string.h>
-#include <sys/types.h>
 
 #include <algorithm>
 #include <string>

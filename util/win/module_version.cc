@@ -15,6 +15,7 @@
 #include "util/win/module_version.h"
 
 #include <windows.h>
+#include <stdint.h>
 
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"

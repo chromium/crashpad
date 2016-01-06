@@ -15,10 +15,10 @@
 #ifndef CRASHPAD_SNAPSHOT_WIN_EXCEPTION_SNAPSHOT_WIN_H_
 #define CRASHPAD_SNAPSHOT_WIN_EXCEPTION_SNAPSHOT_WIN_H_
 
-#include <stdint.h>
 #include <windows.h>
+#include <stdint.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"

@@ -14,6 +14,8 @@
 
 #include "snapshot/minidump/minidump_string_reader.h"
 
+#include <stdint.h>
+
 #include "base/logging.h"
 #include "minidump/minidump_extensions.h"
 

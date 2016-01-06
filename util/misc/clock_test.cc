@@ -15,11 +15,12 @@
 #include "util/misc/clock.h"
 
 #include <stdint.h>
+#include <sys/types.h>
 
 #include <algorithm>
 
-#include "base/basictypes.h"
 #include "base/logging.h"
+#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 

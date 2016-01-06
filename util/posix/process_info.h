@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "build/build_config.h"
 #include "util/misc/initialization_state_dcheck.h"
 

@@ -14,7 +14,6 @@
 
 #include "snapshot/cpu_context.h"
 
-#include "base/basictypes.h"
 #include "base/logging.h"
 #include "util/misc/implicit_cast.h"
 

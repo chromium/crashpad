@@ -15,19 +15,14 @@
 #ifndef CRASHPAD_HANDLER_CRASH_REPORT_UPLOAD_THREAD_H_
 #define CRASHPAD_HANDLER_CRASH_REPORT_UPLOAD_THREAD_H_
 
-#include "base/basictypes.h"
-
 #include <string>
 
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "client/crash_report_database.h"
-#include "util/synchronization/semaphore.h"
+#include "util/thread/worker_thread.h"
 
 namespace crashpad {
-
-namespace internal {
-class CrashReportUploadHelperThread;
-}  // namespace internal
 
 //! \brief A thread that processes pending crash reports in a
 //!     CrashReportDatabase by uploading them or marking them as completed
@@ -42,14 +37,17 @@ class CrashReportUploadHelperThread;
 //! catches reports that are added without a ReportPending() signal being
 //! caught. This may happen if crash reports are added to the database by other
 //! processes.
-class CrashReportUploadThread {
+class CrashReportUploadThread : public WorkerThread::Delegate {
  public:
   //! \brief Constructs a new object.
   //!
   //! \param[in] database The database to upload crash reports from.
   //! \param[in] url The URL of the server to upload crash reports to.
+  //! \param[in] rate_limit Whether uploads should be throttled to a (currently
+  //!     hardcoded) rate.
   CrashReportUploadThread(CrashReportDatabase* database,
-                          const std::string& url);
+                          const std::string& url,
+                          bool rate_limit);
   ~CrashReportUploadThread();
 
   //! \brief Starts a dedicated upload thread, which executes ThreadMain().
@@ -79,8 +77,6 @@ class CrashReportUploadThread {
   void ReportPending();
 
  private:
-  friend internal::CrashReportUploadHelperThread;
-
   //! \brief The result code from UploadReport().
   enum class UploadResult {
     //! \brief The crash report was uploaded successfully.
@@ -100,10 +96,6 @@ class CrashReportUploadThread {
     //! after a suitable delay.
     kRetry,
   };
-
-  //! \brief Calls ProcessPendingReports() in response to ReportPending() having
-  //!     been called on any thread, as well as periodically on a timer.
-  void ThreadMain();
 
   //! \brief Obtains all pending reports from the database, and calls
   //!     ProcessPendingReport() to process each one.
@@ -138,11 +130,17 @@ class CrashReportUploadThread {
   UploadResult UploadReport(const CrashReportDatabase::Report* report,
                             std::string* response_body);
 
+  // WorkerThread::Delegate:
+  //! \brief Calls ProcessPendingReports() in response to ReportPending() having
+  //!     been called on any thread, as well as periodically on a timer.
+  void DoWork(const WorkerThread* thread) override;
+
   std::string url_;
+  WorkerThread thread_;
   CrashReportDatabase* database_;  // weak
-  Semaphore semaphore_;  // TODO(mark): Use a condition variable instead?
-  scoped_ptr<internal::CrashReportUploadHelperThread> thread_;
-  bool running_;
+  bool rate_limit_;
+
+  DISALLOW_COPY_AND_ASSIGN(CrashReportUploadThread);
 };
 
 }  // namespace crashpad

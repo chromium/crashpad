@@ -14,10 +14,12 @@
 
 #include "util/stdlib/string_number_conversion.h"
 
-#include "base/basictypes.h"
-#include "gtest/gtest.h"
+#include <sys/types.h>
 
 #include <limits>
+
+#include "base/macros.h"
+#include "gtest/gtest.h"
 
 namespace crashpad {
 namespace test {

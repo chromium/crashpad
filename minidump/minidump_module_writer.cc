@@ -14,8 +14,6 @@
 
 #include "minidump/minidump_module_writer.h"
 
-#include <sys/types.h>
-
 #include <limits>
 #include <utility>
 

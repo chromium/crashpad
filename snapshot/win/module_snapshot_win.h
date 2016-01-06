@@ -15,15 +15,14 @@
 #ifndef CRASHPAD_SNAPSHOT_WIN_MODULE_SNAPSHOT_WIN_H_
 #define CRASHPAD_SNAPSHOT_WIN_MODULE_SNAPSHOT_WIN_H_
 
-#include <stdint.h>
-#include <sys/types.h>
 #include <windows.h>
+#include <stdint.h>
 
 #include <map>
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/module_snapshot.h"

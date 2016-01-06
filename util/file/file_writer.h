@@ -19,8 +19,8 @@
 
 #include <vector>
 
-#include "base/basictypes.h"
 #include "base/files/file_path.h"
+#include "base/macros.h"
 #include "util/file/file_io.h"
 #include "util/file/file_seeker.h"
 

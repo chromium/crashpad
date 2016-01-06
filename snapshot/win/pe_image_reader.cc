@@ -200,8 +200,10 @@ bool PEImageReader::VSFixedFileInfo(
 
   WinVMAddress address;
   WinVMSize size;
+  const uint16_t vs_file_info_type = static_cast<uint16_t>(
+      reinterpret_cast<uintptr_t>(VS_FILE_INFO));  // RT_VERSION
   if (!resource_reader.FindResourceByID(
-          reinterpret_cast<uint16_t>(VS_FILE_INFO),  // RT_VERSION
+          vs_file_info_type,
           VS_VERSION_INFO,
           MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
           &address,

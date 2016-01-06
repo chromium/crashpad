@@ -15,10 +15,11 @@
 #include "util/win/capture_context.h"
 
 #include <stdint.h>
+#include <sys/types.h>
 
 #include <algorithm>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 

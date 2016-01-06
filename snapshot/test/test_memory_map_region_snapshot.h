@@ -17,7 +17,7 @@
 
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "snapshot/memory_map_region_snapshot.h"
 
 namespace crashpad {

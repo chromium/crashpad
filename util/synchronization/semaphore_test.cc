@@ -14,11 +14,13 @@
 
 #include "util/synchronization/semaphore.h"
 
+#include <sys/types.h>
+
+#include "gtest/gtest.h"
+
 #if defined(OS_POSIX)
 #include <pthread.h>
 #endif  // OS_POSIX
-
-#include "gtest/gtest.h"
 
 namespace crashpad {
 namespace test {

@@ -20,10 +20,11 @@
 #include <windows.h>
 #include <dbghelp.h>
 #include <stdint.h>
+#include <sys/types.h>
 
 #include <string>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {

@@ -18,7 +18,7 @@
 #include <mach/mach.h>
 #include <unistd.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "test/multiprocess.h"
 
 namespace crashpad {

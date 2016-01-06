@@ -17,11 +17,11 @@
 
 #include <sys/types.h>
 
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_string_writer.h"

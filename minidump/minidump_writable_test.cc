@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "gtest/gtest.h"
 #include "util/file/string_file.h"
 

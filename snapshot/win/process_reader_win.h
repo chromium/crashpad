@@ -15,11 +15,12 @@
 #ifndef CRASHPAD_SNAPSHOT_WIN_PROCESS_READER_WIN_H_
 #define CRASHPAD_SNAPSHOT_WIN_PROCESS_READER_WIN_H_
 
-#include <sys/time.h>
 #include <windows.h>
+#include <sys/time.h>
 
 #include <vector>
 
+#include "base/macros.h"
 #include "build/build_config.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/win/address_types.h"

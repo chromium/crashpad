@@ -14,6 +14,8 @@
 
 #include "util/win/command_line.h"
 
+#include <sys/types.h>
+
 namespace crashpad {
 
 // Ref:

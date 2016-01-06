@@ -14,9 +14,11 @@
 
 #include "util/misc/random_string.h"
 
+#include <sys/types.h>
+
 #include <set>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "gtest/gtest.h"
 
 namespace crashpad {

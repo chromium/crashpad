@@ -15,7 +15,7 @@
 #ifndef CRASHPAD_TEST_WIN_WIN_CHILD_PROCESS_H_
 #define CRASHPAD_TEST_WIN_WIN_CHILD_PROCESS_H_
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "util/file/file_io.h"
 #include "util/win/scoped_handle.h"

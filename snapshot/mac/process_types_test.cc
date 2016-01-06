@@ -20,8 +20,9 @@
 
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/strings/stringprintf.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/mac/dyld.h"
 #include "util/mac/mac_util.h"

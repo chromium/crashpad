@@ -19,6 +19,7 @@
 
 #include <string>
 
+#include "base/macros.h"
 #include "build/build_config.h"
 #include "util/numeric/checked_range.h"
 

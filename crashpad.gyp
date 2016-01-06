@@ -17,7 +17,6 @@
     {
       'target_name': 'All',
       'type': 'none',
-      'suppress_wildcard': 1,
       'dependencies': [
         'client/client.gyp:*',
         'client/client_test.gyp:*',
@@ -36,6 +35,11 @@
       'sources': [
         'doc/support/crashpad.doxy.h',
         'package.h',
+      ],
+      'conditions': [
+        ['OS!="mac" and OS!="win"', {
+          'suppress_wildcard': 1,
+        }],
       ],
     },
   ],

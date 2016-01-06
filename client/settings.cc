@@ -14,6 +14,8 @@
 
 #include "client/settings.h"
 
+#include <stdint.h>
+
 #include <limits>
 
 #include "base/logging.h"

@@ -14,8 +14,6 @@
 
 #include "minidump/minidump_string_writer.h"
 
-#include <sys/types.h>
-
 #include <utility>
 
 #include "base/logging.h"

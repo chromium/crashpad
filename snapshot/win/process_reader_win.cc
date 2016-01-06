@@ -14,6 +14,7 @@
 
 #include "snapshot/win/process_reader_win.h"
 
+#include <string.h>
 #include <winternl.h>
 
 #include "base/memory/scoped_ptr.h"

@@ -16,6 +16,7 @@
 
 #include <windows.h>
 #include <dbghelp.h>
+#include <stdint.h>
 
 #include "minidump/minidump_extensions.h"
 #include "minidump/test/minidump_writable_test_util.h"

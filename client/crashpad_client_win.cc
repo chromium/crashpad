@@ -14,8 +14,9 @@
 
 #include "client/crashpad_client.h"
 
-#include <string.h>
 #include <windows.h>
+#include <stdint.h>
+#include <string.h>
 
 #include "base/atomicops.h"
 #include "base/logging.h"

@@ -14,14 +14,8 @@
 
 #include "minidump/minidump_exception_writer.h"
 
-#include <windows.h>
-#include <dbghelp.h>
-#include <stdint.h>
-#include <sys/types.h>
-
 #include <string>
 #include <utility>
-#include <vector>
 
 #include "gtest/gtest.h"
 #include "minidump/minidump_context.h"

@@ -15,6 +15,7 @@
 #include "util/thread/thread_log_messages.h"
 
 #include <string.h>
+#include <sys/types.h>
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"

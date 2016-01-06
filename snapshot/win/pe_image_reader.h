@@ -16,10 +16,12 @@
 #define CRASHPAD_SNAPSHOT_WIN_PE_IMAGE_READER_H_
 
 #include <windows.h>
+#include <stdint.h>
+#include <sys/types.h>
 
 #include <string>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "snapshot/win/process_subrange_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/misc/uuid.h"

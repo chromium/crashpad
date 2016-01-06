@@ -17,11 +17,12 @@
 
 #include <mach/mach.h>
 #include <stdint.h>
+#include <sys/types.h>
 
 #include <map>
 #include <string>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "snapshot/mac/process_types.h"
 #include "util/misc/initialization_state_dcheck.h"

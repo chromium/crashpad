@@ -17,6 +17,7 @@
 
 #include <windows.h>
 #include <dbghelp.h>
+#include <sys/types.h>
 
 #include <map>
 #include <string>

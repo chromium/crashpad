@@ -18,7 +18,7 @@
 #include <mach/mach.h>
 #include <stdint.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/mac/memory_snapshot_mac.h"

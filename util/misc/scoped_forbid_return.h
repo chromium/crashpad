@@ -15,7 +15,7 @@
 #ifndef CRASHPAD_UTIL_MISC_SCOPED_FORBID_RETURN_H_
 #define CRASHPAD_UTIL_MISC_SCOPED_FORBID_RETURN_H_
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 
 namespace crashpad {
 

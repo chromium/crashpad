@@ -14,6 +14,8 @@
 
 #include "util/net/http_multipart_builder.h"
 
+#include <sys/types.h>
+
 #include <vector>
 
 #include "gtest/gtest.h"

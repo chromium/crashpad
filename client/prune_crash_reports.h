@@ -15,9 +15,10 @@
 #ifndef CRASHPAD_CLIENT_PRUNE_CRASH_REPORTS_H_
 #define CRASHPAD_CLIENT_PRUNE_CRASH_REPORTS_H_
 
-#include <time.h>
 #include <sys/types.h>
+#include <time.h>
 
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "client/crash_report_database.h"
 

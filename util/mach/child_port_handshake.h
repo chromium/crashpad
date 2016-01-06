@@ -19,8 +19,8 @@
 
 #include <string>
 
-#include "base/basictypes.h"
 #include "base/files/scoped_file.h"
+#include "base/macros.h"
 #include "util/mach/child_port_types.h"
 
 namespace crashpad {

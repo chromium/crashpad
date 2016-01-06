@@ -17,7 +17,7 @@
 
 #include <windows.h>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "gtest/gtest.h"
 #include "test/win/win_child_process.h"
 #include "util/file/file_io.h"

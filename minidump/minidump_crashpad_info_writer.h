@@ -15,9 +15,11 @@
 #ifndef CRASHPAD_MINIDUMP_MINIDUMP_CRASHPAD_INFO_WRITER_H_
 #define CRASHPAD_MINIDUMP_MINIDUMP_CRASHPAD_INFO_WRITER_H_
 
+#include <sys/types.h>
+
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"

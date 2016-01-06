@@ -19,8 +19,8 @@
 
 #include <string>
 
-#include "base/basictypes.h"
 #include "base/files/file_path.h"
+#include "base/macros.h"
 #include "base/scoped_generic.h"
 #include "util/file/file_io.h"
 #include "util/misc/initialization_state.h"

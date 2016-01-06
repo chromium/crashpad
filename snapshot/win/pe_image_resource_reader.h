@@ -15,12 +15,12 @@
 #ifndef CRASHPAD_SNAPSHOT_WIN_PE_IMAGE_RESOURCE_READER_H_
 #define CRASHPAD_SNAPSHOT_WIN_PE_IMAGE_RESOURCE_READER_H_
 
-#include <stdint.h>
 #include <windows.h>
+#include <stdint.h>
 
 #include <vector>
 
-#include "base/basictypes.h"
+#include "base/macros.h"
 #include "snapshot/win/process_subrange_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/win/address_types.h"

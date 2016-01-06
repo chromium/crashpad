@@ -16,6 +16,7 @@
 
 #include <errno.h>
 #include <pthread.h>
+#include <stdint.h>
 #include <sys/event.h>
 #include <sys/socket.h>
 #include <sys/time.h>

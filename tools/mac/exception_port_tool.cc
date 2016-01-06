@@ -19,14 +19,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #include <string>
 #include <vector>
 
-#include "base/basictypes.h"
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
+#include "base/macros.h"
 #include "base/strings/stringprintf.h"
 #include "tools/tool_support.h"
 #include "util/mach/exception_ports.h"

@@ -14,8 +14,6 @@
 
 #include "minidump/minidump_exception_writer.h"
 
-#include <sys/types.h>
-
 #include <utility>
 
 #include "base/logging.h"
