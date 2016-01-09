@@ -31,6 +31,7 @@ namespace crashpad {
 
 class ExceptionSnapshot;
 class MinidumpContextWriter;
+class MinidumpMemoryListWriter;
 
 //! \brief The writer for a MINIDUMP_EXCEPTION_STREAM stream in a minidump file.
 class MinidumpExceptionWriter final : public internal::MinidumpStreamWriter {

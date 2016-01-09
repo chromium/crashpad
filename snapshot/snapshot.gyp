@@ -89,6 +89,8 @@
         'process_snapshot.h',
         'system_snapshot.h',
         'thread_snapshot.h',
+        'win/capture_context_memory.cc',
+        'win/capture_context_memory.h',
         'win/cpu_context_win.cc',
         'win/cpu_context_win.h',
         'win/exception_snapshot_win.cc',

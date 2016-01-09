@@ -14,7 +14,10 @@
 
 #include "snapshot/win/exception_snapshot_win.h"
 
+#include "snapshot/memory_snapshot.h"
+#include "snapshot/win/capture_context_memory.h"
 #include "snapshot/win/cpu_context_win.h"
+#include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/process_reader_win.h"
 #include "util/win/nt_internals.h"
 
@@ -41,15 +44,15 @@ bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
                                       WinVMAddress exception_pointers_address) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  bool found_thread = false;
+  const ProcessReaderWin::Thread* thread = nullptr;
   for (const auto& loop_thread : process_reader->Threads()) {
     if (thread_id == loop_thread.id) {
-      found_thread = true;
+      thread = &loop_thread;
       break;
     }
   }
 
-  if (!found_thread) {
+  if (!thread) {
     LOG(ERROR) << "thread ID " << thread_id << " not found in process";
     return false;
   } else {
@@ -86,6 +89,9 @@ bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
     InitializeX86Context(context_record, context_.x86);
   }
 
+  CaptureMemoryPointedToByContext(
+      context_, process_reader, *thread, &extra_memory_);
+
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
@@ -118,6 +124,15 @@ uint64_t ExceptionSnapshotWin::ExceptionAddress() const {
 const std::vector<uint64_t>& ExceptionSnapshotWin::Codes() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return codes_;
+}
+
+std::vector<const MemorySnapshot*> ExceptionSnapshotWin::ExtraMemory() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  std::vector<const MemorySnapshot*> result;
+  result.reserve(extra_memory_.size());
+  for (const auto& em : extra_memory_)
+    result.push_back(em);
+  return result;
 }
 
 template <class ExceptionRecordType,

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <intrin.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -38,6 +39,11 @@ namespace crashpad {
 namespace {
 
 CRITICAL_SECTION g_test_critical_section;
+
+unsigned char g_test_memory[] = {
+  99, 98, 97, 96, 95, 94, 93, 92, 91, 90,
+  89, 88, 87, 86, 85, 84, 83, 82, 81, 80,
+};
 
 ULONG RtlNtStatusToDosError(NTSTATUS status) {
   static const auto rtl_nt_status_to_dos_error =
@@ -90,6 +96,12 @@ void SomeCrashyFunction() {
   // LastStatusError of the TEB as a side-effect, and we'll be setting
   // ERROR_FILE_NOT_FOUND for GetLastError().
   SetLastError(RtlNtStatusToDosError(STATUS_NO_SUCH_FILE));
+
+  // Set a register to point at some memory we can test to confirm it makes it
+  // into the minidump. We use __movsb as a way to set SI/DI without needing an
+  // external .asm file.
+  __movsb(g_test_memory, g_test_memory, 0);
+
   volatile int* foo = reinterpret_cast<volatile int*>(7);
   *foo = 42;
 }
