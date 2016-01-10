@@ -26,6 +26,7 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/macros.h"
+#include "build/build_config.h"
 #include "client/crashpad_client.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
@@ -90,17 +91,45 @@ void AllocateMemoryOfVariousProtections() {
   }
 }
 
+DWORD WINAPI NullThreadProc(void* param) {
+  return 0;
+}
+
+// Creates a suspended background thread, and sets EDI/RDI to point at
+// g_test_memory so we can confirm it's available in the minidump.
+bool CreateThreadWithRegisterPointingToTestMemory() {
+  HANDLE thread = CreateThread(
+      nullptr, 0, &NullThreadProc, nullptr, CREATE_SUSPENDED, nullptr);
+  if (!thread) {
+    PLOG(ERROR) << "CreateThread";
+    return false;
+  }
+
+  CONTEXT context = {0};
+  context.ContextFlags = CONTEXT_INTEGER;
+  if (!GetThreadContext(thread, &context)) {
+    PLOG(ERROR) << "GetThreadContext";
+    return false;
+  }
+#if defined(ARCH_CPU_X86_64)
+  context.Rdi = reinterpret_cast<DWORD64>(g_test_memory);
+#elif defined(ARCH_CPU_X86)
+  context.Edi = reinterpret_cast<DWORD>(g_test_memory);
+#endif
+  if (!SetThreadContext(thread, &context)) {
+    PLOG(ERROR) << "SetThreadContext";
+    return false;
+  }
+
+  return true;
+}
+
 void SomeCrashyFunction() {
   // SetLastError and NTSTATUS so that we have something to view in !gle in
   // windbg. RtlNtStatusToDosError() stores STATUS_NO_SUCH_FILE into the
   // LastStatusError of the TEB as a side-effect, and we'll be setting
   // ERROR_FILE_NOT_FOUND for GetLastError().
   SetLastError(RtlNtStatusToDosError(STATUS_NO_SUCH_FILE));
-
-  // Set a register to point at some memory we can test to confirm it makes it
-  // into the minidump. We use __movsb as a way to set SI/DI without needing an
-  // external .asm file.
-  __movsb(g_test_memory, g_test_memory, 0);
 
   volatile int* foo = reinterpret_cast<volatile int*>(7);
   *foo = 42;
@@ -141,6 +170,9 @@ int CrashyMain(int argc, wchar_t* argv[]) {
           &g_test_critical_section)) {
     EnterCriticalSection(&g_test_critical_section);
   }
+
+  if (!CreateThreadWithRegisterPointingToTestMemory())
+    return EXIT_FAILURE;
 
   SomeCrashyFunction();
 

@@ -247,7 +247,7 @@ def RunTests(cdb_path,
                 r'FreeOwnStackAndBreak.*\nquit:',
             'at correct location, no additional stack entries')
 
-  out = CdbRun(cdb_path, dump_path, '.ecxr; db /c14 edi')
+  out = CdbRun(cdb_path, dump_path, '.ecxr; ~1s; db /c14 edi')
   out.Check(r'63 62 61 60 5f 5e 5d 5c-5b 5a 59 58 57 56 55 54 53 52 51 50',
             'data pointed to by registers captured')
 
