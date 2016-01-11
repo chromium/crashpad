@@ -133,6 +133,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac1f0ce60761dbfc9f1ccf3d5d2d31f7a"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; uint64_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#ac1f0ce60761dbfc9f1ccf3d5d2d31f7a">Codes</a> () const  override</td></tr>
 <tr class="memdesc:ac1f0ce60761dbfc9f1ccf3d5d2d31f7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a series of operating system-specific exception codes.  <a href="#ac1f0ce60761dbfc9f1ccf3d5d2d31f7a">More...</a><br /></td></tr>
 <tr class="separator:ac1f0ce60761dbfc9f1ccf3d5d2d31f7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab191e4a1838ad0f75b5714ee507feba3"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#ab191e4a1838ad0f75b5714ee507feba3">ExtraMemory</a> () const  override</td></tr>
+<tr class="memdesc:ab191e4a1838ad0f75b5714ee507feba3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector of additional memory blocks that should be included in a minidump.  <a href="#ab191e4a1838ad0f75b5714ee507feba3">More...</a><br /></td></tr>
+<tr class="separator:ab191e4a1838ad0f75b5714ee507feba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t...">ExceptionSnapshot</a> of an exception sustained by a running (or crashed) process on a Mac OS X system. </p>
@@ -285,6 +288,34 @@ Public Member Functions</h2></td></tr>
 <p>On Windows, this will either be <code>0</code> if the exception is continuable, or <code>EXCEPTION_NONCONTINUABLE</code> to indicate a noncontinuable exception. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html#ae4603f825047de9918ea13b129a64b44">crashpad::ExceptionSnapshot</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab191e4a1838ad0f75b5714ee507feba3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> * &gt; crashpad::internal::ExceptionSnapshotMac::ExtraMemory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a vector of additional memory blocks that should be included in a minidump. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector of <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> objects that will be included in the crash dump. The caller does not take ownership of these objects, they are scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> object that they were obtained from. </dd></dl>
+
+<p>Implements <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html#aa100b62618bf575b1de7898cc0feaf34">crashpad::ExceptionSnapshot</a>.</p>
 
 </div>
 </div>

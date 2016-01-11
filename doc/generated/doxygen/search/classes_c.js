@@ -19,6 +19,7 @@ var searchData=
   ['pointercontainer_3c_20crashpad_3a_3aminidumpthreadwriter_20_3e',['PointerContainer&lt; crashpad::MinidumpThreadWriter &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20crashpad_3a_3amodulesnapshot_20_3e',['PointerContainer&lt; crashpad::ModuleSnapshot &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20crashpad_3a_3athreadsnapshot_20_3e',['PointerContainer&lt; crashpad::ThreadSnapshot &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
+  ['pointercontainer_3c_20internal_3a_3acrashpad_3a_3ainternal_3a_3amemorysnapshotwin_20_3e',['PointerContainer&lt; internal::crashpad::internal::MemorySnapshotWin &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20internal_3a_3amemorymapregionsnapshotwin_20_3e',['PointerContainer&lt; internal::MemoryMapRegionSnapshotWin &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20internal_3a_3amemorysnapshotwin_20_3e',['PointerContainer&lt; internal::MemorySnapshotWin &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20internal_3a_3aminidumpstreamwriter_20_3e',['PointerContainer&lt; internal::MinidumpStreamWriter &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],

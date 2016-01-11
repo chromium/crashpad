@@ -130,6 +130,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetExceptionAddress</
 <tr class="memitem:ac7ef269c5848ece5ded38c1ef00179f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac7ef269c5848ece5ded38c1ef00179f4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetCodes</b> (const std::vector&lt; uint64_t &gt; &amp;codes)</td></tr>
 <tr class="separator:ac7ef269c5848ece5ded38c1ef00179f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af72ebc85873921feea9b2f023d8953a6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af72ebc85873921feea9b2f023d8953a6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>AddExtraMemory</b> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> &gt; extra_memory)</td></tr>
+<tr class="separator:af72ebc85873921feea9b2f023d8953a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad21a8c1b4eeea9094bcadece38dac86d"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structcrashpad_1_1CPUContext.html">CPUContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#ad21a8c1b4eeea9094bcadece38dac86d">Context</a> () const  override</td></tr>
 <tr class="memdesc:ad21a8c1b4eeea9094bcadece38dac86d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="structcrashpad_1_1CPUContext.html" title="A context structure capable of carrying the context of any supported CPU architecture. ">CPUContext</a> object corresponding to the exception thread’s CPU context at the time of the exception.  <a href="#ad21a8c1b4eeea9094bcadece38dac86d">More...</a><br /></td></tr>
 <tr class="separator:ad21a8c1b4eeea9094bcadece38dac86d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,6 +151,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetCodes</b> (const s
 <tr class="memitem:a9133ffb6eda55ef83b10e21c617142dc"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; uint64_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a9133ffb6eda55ef83b10e21c617142dc">Codes</a> () const  override</td></tr>
 <tr class="memdesc:a9133ffb6eda55ef83b10e21c617142dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a series of operating system-specific exception codes.  <a href="#a9133ffb6eda55ef83b10e21c617142dc">More...</a><br /></td></tr>
 <tr class="separator:a9133ffb6eda55ef83b10e21c617142dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dcc8870ce0912b83d6c98e1ce37df96"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a8dcc8870ce0912b83d6c98e1ce37df96">ExtraMemory</a> () const  override</td></tr>
+<tr class="memdesc:a8dcc8870ce0912b83d6c98e1ce37df96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector of additional memory blocks that should be included in a minidump.  <a href="#a8dcc8870ce0912b83d6c98e1ce37df96">More...</a><br /></td></tr>
+<tr class="separator:a8dcc8870ce0912b83d6c98e1ce37df96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A test <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t...">ExceptionSnapshot</a> that can carry arbitrary data for testing purposes. </p>
@@ -300,6 +306,34 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetCodes</b> (const s
 <p>On Windows, this will either be <code>0</code> if the exception is continuable, or <code>EXCEPTION_NONCONTINUABLE</code> to indicate a noncontinuable exception. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html#ae4603f825047de9918ea13b129a64b44">crashpad::ExceptionSnapshot</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8dcc8870ce0912b83d6c98e1ce37df96"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> * &gt; crashpad::test::TestExceptionSnapshot::ExtraMemory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a vector of additional memory blocks that should be included in a minidump. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector of <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> objects that will be included in the crash dump. The caller does not take ownership of these objects, they are scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> object that they were obtained from. </dd></dl>
+
+<p>Implements <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html#aa100b62618bf575b1de7898cc0feaf34">crashpad::ExceptionSnapshot</a>.</p>
 
 </div>
 </div>
