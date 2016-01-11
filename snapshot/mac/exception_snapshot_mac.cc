@@ -249,5 +249,10 @@ const std::vector<uint64_t>& ExceptionSnapshotMac::Codes() const {
   return codes_;
 }
 
+std::vector<const MemorySnapshot*> ExceptionSnapshotMac::ExtraMemory() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::vector<const MemorySnapshot*>();
+}
+
 }  // namespace internal
 }  // namespace crashpad

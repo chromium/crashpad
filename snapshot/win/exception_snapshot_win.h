@@ -23,6 +23,7 @@
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/stdlib/pointer_container.h"
 #include "util/win/address_types.h"
 #include "util/win/process_structs.h"
 
@@ -31,6 +32,8 @@ namespace crashpad {
 class ProcessReaderWin;
 
 namespace internal {
+
+class MemorySnapshotWin;
 
 class ExceptionSnapshotWin final : public ExceptionSnapshot {
  public:
@@ -60,6 +63,7 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   uint32_t ExceptionInfo() const override;
   uint64_t ExceptionAddress() const override;
   const std::vector<uint64_t>& Codes() const override;
+  std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
   template <class ExceptionRecordType,
@@ -77,6 +81,7 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
 #endif
   CPUContext context_;
   std::vector<uint64_t> codes_;
+  PointerVector<internal::MemorySnapshotWin> extra_memory_;
   uint64_t thread_id_;
   uint64_t exception_address_;
   uint32_t exception_flags_;

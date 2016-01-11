@@ -28,6 +28,7 @@
 #include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_thread_writer.h"
 #include "minidump/minidump_writer_util.h"
+#include "snapshot/exception_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
@@ -119,6 +120,8 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   }
 
   memory_list->AddFromSnapshot(process_snapshot->ExtraMemory());
+  if (exception_snapshot)
+    memory_list->AddFromSnapshot(exception_snapshot->ExtraMemory());
 
   AddStream(std::move(memory_list));
 }

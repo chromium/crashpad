@@ -20,8 +20,10 @@
 #include <vector>
 
 #include "base/macros.h"
+#include "base/memory/scoped_ptr.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 namespace test {
@@ -57,6 +59,9 @@ class TestExceptionSnapshot final : public ExceptionSnapshot {
     exception_address_ = exception_address;
   }
   void SetCodes(const std::vector<uint64_t>& codes) { codes_ = codes; }
+  void AddExtraMemory(scoped_ptr<MemorySnapshot> extra_memory) {
+    extra_memory_.push_back(extra_memory.release());
+  }
 
   // ExceptionSnapshot:
 
@@ -66,6 +71,7 @@ class TestExceptionSnapshot final : public ExceptionSnapshot {
   uint32_t ExceptionInfo() const override;
   uint64_t ExceptionAddress() const override;
   const std::vector<uint64_t>& Codes() const override;
+  std::vector<const MemorySnapshot*> ExtraMemory() const override;
 
  private:
   union {
@@ -78,6 +84,7 @@ class TestExceptionSnapshot final : public ExceptionSnapshot {
   uint32_t exception_info_;
   uint64_t exception_address_;
   std::vector<uint64_t> codes_;
+  PointerVector<MemorySnapshot> extra_memory_;
 
   DISALLOW_COPY_AND_ASSIGN(TestExceptionSnapshot);
 };

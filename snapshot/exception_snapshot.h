@@ -19,6 +19,8 @@
 
 #include <vector>
 
+#include "snapshot/memory_snapshot.h"
+
 namespace crashpad {
 
 struct CPUContext;
@@ -103,6 +105,15 @@ class ExceptionSnapshot {
   //! `RaiseException()`. See the documentation for `ExceptionInformation` in
   //! `EXCEPTION_RECORD`.
   virtual const std::vector<uint64_t>& Codes() const = 0;
+
+  //! \brief Returns a vector of additional memory blocks that should be
+  //!     included in a minidump.
+  //!
+  //! \return A vector of MemorySnapshot objects that will be included in the
+  //!     crash dump. The caller does not take ownership of these objects, they
+  //!     are scoped to the lifetime of the ThreadSnapshot object that they
+  //!     were obtained from.
+  virtual std::vector<const MemorySnapshot*> ExtraMemory() const = 0;
 };
 
 }  // namespace crashpad
