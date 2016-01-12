@@ -13,7 +13,6 @@
 # limitations under the License.
 
 GERRIT_HOST: True
-GERRIT_PORT: True
 CODE_REVIEW_SERVER: https://chromium-review.googlesource.com
 CC_LIST: crashpad-dev@chromium.org
 VIEW_VC: https://chromium.googlesource.com/crashpad/crashpad/+/
