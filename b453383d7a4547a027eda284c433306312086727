@@ -177,6 +177,24 @@
       "revId": "b453383d7a4547a027eda284c433306312086727",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27eadec4_7cc8f92a",
+        "filename": "codereview.settings",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1115495
+      },
+      "writtenOn": "2016-01-12T21:59:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87b2aaf4_972be451",
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
