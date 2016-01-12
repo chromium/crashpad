@@ -37,6 +37,46 @@
     },
     {
       "key": {
+        "uuid": "27c3be5c_54dcec09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-12T21:24:33Z",
+      "side": 1,
+      "message": "This file shows up as “Commit Message” in old Gerrit under “File Path” at https://chromium-review.googlesource.com/#/c/321730/, but /COMMIT_MESSAGE under “Path” in Polygerrit at https://chromium-review.googlesource.com/c/321730/. /COMMIT_MESSAGE is a little user-unfriendly.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 6
+      },
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27eadec4_fc9a4930",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-12T21:24:33Z",
+      "side": 1,
+      "message": "On https://chromium-review.googlesource.com/c/321730, polygerrit auto-links this to https://chromium-review.googlesource.com/c/undefined",
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87b2aaf4_d7355cb0",
         "filename": "codereview.settings",
         "patchSetId": 1
