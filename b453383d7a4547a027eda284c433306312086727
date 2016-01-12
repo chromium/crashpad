@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "87b2aaf4_d7355cb0",
+        "filename": "codereview.settings",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-12T21:17:07Z",
+      "side": 1,
+      "message": "Polygerrit UI wouldn’t let me enter comments on lines 14 or 16 on the “new” side.",
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67c93679_b61d4855",
+        "filename": "codereview.settings",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-12T21:17:07Z",
+      "side": 1,
+      "message": "Polygerrit UI doesn’t activate the link thing (Save-Cancel-Discard) in a draft comment when you tab to it and press the space bar. Return does work. I’m accustomed to space, probably because these are buttons in Rietveld.",
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07e5daf2_1b61bbb6",
         "filename": "codereview.settings",
         "patchSetId": 1
@@ -13,6 +47,23 @@
       "writtenOn": "2016-01-12T20:28:33Z",
       "side": 1,
       "message": "Trying to figure out what these are/whether they’re necessary.",
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87b2aaf4_972be451",
+        "filename": "codereview.settings",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-12T21:17:07Z",
+      "side": 1,
+      "message": "Trailing slash on URLs like this one.",
       "revId": "b453383d7a4547a027eda284c433306312086727",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
