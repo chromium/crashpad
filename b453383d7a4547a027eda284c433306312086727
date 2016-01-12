@@ -181,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "87b2aaf4_174b540b",
+        "filename": "codereview.settings",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1115495
+      },
+      "writtenOn": "2016-01-12T22:29:57Z",
+      "side": 1,
+      "message": "I believe so. git cl upload didn\u0027t complain when I used it.",
+      "parentUuid": "87b2aaf4_7731f094",
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87b2aaf4_972be451",
         "filename": "codereview.settings",
         "patchSetId": 1
