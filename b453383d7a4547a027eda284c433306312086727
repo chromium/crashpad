@@ -111,6 +111,23 @@
     },
     {
       "key": {
+        "uuid": "274e5eac_6b9daddc",
+        "filename": "codereview.settings",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1143764
+      },
+      "writtenOn": "2016-01-12T21:27:49Z",
+      "side": 1,
+      "message": "Took me a long time to figure out how to add a comment! :) Can we make double click open this dialog?",
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07e5daf2_1b61bbb6",
         "filename": "codereview.settings",
         "patchSetId": 1
