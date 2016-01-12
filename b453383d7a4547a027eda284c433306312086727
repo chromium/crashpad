@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "47c43261_1576f4b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1143759
+      },
+      "writtenOn": "2016-01-12T21:24:29Z",
+      "side": 1,
+      "message": "I filed https://code.google.com/p/gerrit/issues/detail?id\u003d3780 for the escape issue.",
+      "parentUuid": "27c3be5c_34d770ea",
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87b2aaf4_d7355cb0",
         "filename": "codereview.settings",
         "patchSetId": 1
