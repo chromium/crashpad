@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-CODE_REVIEW_SERVER: codereview.chromium.org
+GERRIT_HOST: True
+CODE_REVIEW_SERVER: https://canary-chromium-review.googlesource.com/
 CC_LIST: crashpad-dev@chromium.org
 VIEW_VC: https://chromium.googlesource.com/crashpad/crashpad/+/
 PROJECT: crashpad
