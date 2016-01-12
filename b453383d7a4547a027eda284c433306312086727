@@ -128,6 +128,24 @@
     },
     {
       "key": {
+        "uuid": "07bebac6_93e5bcc9",
+        "filename": "codereview.settings",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1115495
+      },
+      "writtenOn": "2016-01-12T21:55:31Z",
+      "side": 1,
+      "message": "One of the many holy wars of Google code review. :)\n\nSoon you’ll be able to select text and comment on the selection (which is the current functionality in Gerrit), so double-clicking will select whichever word is underneath your cursor to be commented on.\n\nAgreed that the numbers could look a bit more clickable. Will add underlines.",
+      "parentUuid": "274e5eac_6b9daddc",
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07e5daf2_1b61bbb6",
         "filename": "codereview.settings",
         "patchSetId": 1
