@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "27c3be5c_34d770ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-12T21:20:42Z",
+      "side": 1,
+      "message": "Might want to trigger “cancel” when pressing Escape while editing a draft. (Rietveld does this.)\n\n“Discard” and “cancel” don’t do different things for a brand-new comment that hasn’t ever been saved. Are they both necessary in that case? (Rietveld doesn’t show “discard” in this case.)",
+      "revId": "b453383d7a4547a027eda284c433306312086727",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87b2aaf4_d7355cb0",
         "filename": "codereview.settings",
         "patchSetId": 1
