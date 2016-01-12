@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-CODE_REVIEW_SERVER: codereview.chromium.org
+CODE_REVIEW_SERVER: https://chromium-review.googlesource.com/
 CC_LIST: crashpad-dev@chromium.org
 VIEW_VC: https://chromium.googlesource.com/crashpad/crashpad/+/
 PROJECT: crashpad
