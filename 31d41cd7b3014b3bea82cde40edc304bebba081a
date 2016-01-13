@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47a7d2d1_3d35ef16",
+        "filename": "codereview.settings",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1115495
+      },
+      "writtenOn": "2016-01-13T22:31:03Z",
+      "side": 1,
+      "message": "Turns out these WERE needed for it to work.",
+      "revId": "31d41cd7b3014b3bea82cde40edc304bebba081a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
