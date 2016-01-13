@@ -52,6 +52,24 @@
       "revId": "4465a8fb8e69f182b749f4aec89093bb34e97580",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6744d688_8171fc78",
+        "filename": "codereview.settings",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1106104
+      },
+      "writtenOn": "2016-01-13T21:28:34Z",
+      "side": 1,
+      "message": "Yes, it\u0027s all the same data. Canary vs. non-canary is just the version of the server that it\u0027s running.",
+      "parentUuid": "27cf3ea1_f499d894",
+      "revId": "4465a8fb8e69f182b749f4aec89093bb34e97580",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
