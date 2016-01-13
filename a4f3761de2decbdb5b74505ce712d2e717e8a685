@@ -1,0 +1,8 @@
+Code-Review+1: Mark Mentovai <mark@chromium.org>
+Code-Review+2: Andrii Shyshkalov <tandrii@google.com>
+Verified+1: Andrii Shyshkalov <tandrii@google.com>
+Submitted-by: Mark Mentovai <mark@chromium.org>
+Submitted-at: Wed, 13 Jan 2016 23:07:54 +0000
+Reviewed-on: https://chromium-review.googlesource.com/321730
+Project: crashpad/crashpad
+Branch: refs/heads/master
