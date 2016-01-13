@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a73a4ef4_4319b80a",
+        "filename": "codereview.settings",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1106104
+      },
+      "writtenOn": "2016-01-13T21:14:48Z",
+      "side": 1,
+      "message": "Maybe this should be canary-chromium-review so it picks up the latest and greatest all the time? Non-canary can lag by a day or two.",
+      "revId": "4465a8fb8e69f182b749f4aec89093bb34e97580",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
