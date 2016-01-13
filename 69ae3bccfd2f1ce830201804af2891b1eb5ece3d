@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27cf3ea1_f48b1809",
+        "filename": "codereview.settings",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-13T22:35:41Z",
+      "side": 1,
+      "message": "$ telnet canary-chromium-review.googlesource.com 29418\nTrying 173.194.68.82...\n[wait wait wait]\n\nAre you sure about this?\n\nLet’s find out where GERRIT_HOST and GERRIT_PORT are actually used and get to the bottom of this.",
+      "revId": "69ae3bccfd2f1ce830201804af2891b1eb5ece3d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
