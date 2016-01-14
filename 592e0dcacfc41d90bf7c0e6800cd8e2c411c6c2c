@@ -33,6 +33,24 @@
       "revId": "592e0dcacfc41d90bf7c0e6800cd8e2c411c6c2c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7c1a66d_9a176dd6",
+        "filename": "codereview.settings",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1115495
+      },
+      "writtenOn": "2016-01-14T16:13:39Z",
+      "side": 1,
+      "message": "VIEW_VC is used to construct the submitted link in git cl land, which I’m going test with this change, so we’ll see :)\n\nPROJECT looks to be, but I’m uncertain if --project affects Gerrit uploads. https://code.google.com/p/chromium/codesearch#chromium/tools/depot_tools/gcl.py\u0026q\u003dVIEW_VC\u0026sq\u003dpackage:chromium\u0026type\u003dcs\u0026l\u003d881\n\nWill test now.",
+      "parentUuid": "674856fe_fec7616c",
+      "revId": "592e0dcacfc41d90bf7c0e6800cd8e2c411c6c2c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
