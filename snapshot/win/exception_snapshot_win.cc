@@ -15,7 +15,7 @@
 #include "snapshot/win/exception_snapshot_win.h"
 
 #include "snapshot/memory_snapshot.h"
-#include "snapshot/win/capture_context_memory.h"
+#include "snapshot/win/capture_referenced_memory.h"
 #include "snapshot/win/cpu_context_win.h"
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/process_reader_win.h"

@@ -164,6 +164,14 @@ int CrashyMain(int argc, wchar_t* argv[]) {
     return EXIT_FAILURE;
   }
 
+  // Make sure data pointed to by the stack is captured.
+  int* pointed_to_data = new int[512];
+  for (int i = 0; i < 512; ++i)
+    pointed_to_data[i] = i;
+  int* offset_pointer = &pointed_to_data[128];
+  // Encourage the compiler to keep this variable around.
+  printf("%p, %p\n", offset_pointer, &offset_pointer);
+
   AllocateMemoryOfVariousProtections();
 
   if (InitializeCriticalSectionWithDebugInfoIfPossible(
