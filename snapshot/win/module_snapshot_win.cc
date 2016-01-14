@@ -192,6 +192,7 @@ void ModuleSnapshotWin::GetCrashpadOptionsInternal(
   if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info)) {
     options->crashpad_handler_behavior = TriState::kUnset;
     options->system_crash_reporter_forwarding = TriState::kUnset;
+    options->gather_indirectly_referenced_memory = TriState::kUnset;
     return;
   }
 
@@ -202,6 +203,10 @@ void ModuleSnapshotWin::GetCrashpadOptionsInternal(
   options->system_crash_reporter_forwarding =
       CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
           crashpad_info.system_crash_reporter_forwarding);
+
+  options->gather_indirectly_referenced_memory =
+      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
+          crashpad_info.gather_indirectly_referenced_memory);
 }
 
 const VS_FIXEDFILEINFO* ModuleSnapshotWin::VSFixedFileInfo() const {

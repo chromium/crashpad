@@ -97,6 +97,22 @@ struct CrashpadInfo {
     system_crash_reporter_forwarding_ = system_crash_reporter_forwarding;
   }
 
+  //! \brief Enables or disables Crashpad capturing indirectly referenced memory
+  //!     in the minidump.
+  //!
+  //! When handling an exception, the Crashpad handler will scan all modules in
+  //! a process. The first one that has a CrashpadInfo structure populated with
+  //! a value other than #kUnset for this field will dictate whether the extra
+  //! memory is captured.
+  //!
+  //! This causes Crashpad to include pages of data referenced by locals or
+  //! other stack memory. Turning this on can increase the size of the minidump
+  //! significantly.
+  void set_gather_indirectly_referenced_memory(
+      TriState gather_indirectly_referenced_memory) {
+    gather_indirectly_referenced_memory_ = gather_indirectly_referenced_memory;
+  }
+
   enum : uint32_t {
     kSignature = 'CPad',
   };
@@ -117,7 +133,8 @@ struct CrashpadInfo {
   uint32_t version_;  // kVersion
   TriState crashpad_handler_behavior_;
   TriState system_crash_reporter_forwarding_;
-  uint16_t padding_0_;
+  TriState gather_indirectly_referenced_memory_;
+  uint8_t padding_0_;
   SimpleStringDictionary* simple_annotations_;  // weak
 
 #if !defined(NDEBUG) && defined(OS_WIN)
