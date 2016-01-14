@@ -14,9 +14,10 @@
 
 #include "snapshot/win/exception_snapshot_win.h"
 
+#include "snapshot/capture_memory.h"
 #include "snapshot/memory_snapshot.h"
-#include "snapshot/win/capture_context_memory.h"
 #include "snapshot/win/cpu_context_win.h"
+#include "snapshot/win/capture_memory_delegate_win.h"
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/process_reader_win.h"
 #include "util/win/nt_internals.h"
@@ -89,8 +90,9 @@ bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
     InitializeX86Context(context_record, context_.x86);
   }
 
-  CaptureMemoryPointedToByContext(
-      context_, process_reader, *thread, &extra_memory_);
+  CaptureMemoryDelegateWin capture_memory_delegate(
+      process_reader, *thread, &extra_memory_);
+  CaptureMemory::PointedToByContext(context_, &capture_memory_delegate);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
