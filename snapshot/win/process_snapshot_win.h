@@ -141,10 +141,12 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
 
  private:
   // Initializes threads_ on behalf of Initialize().
-  void InitializeThreads();
+  void InitializeThreads(bool gather_indirectly_referenced_memory);
 
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
+
+  void GetCrashpadOptionsInternal(CrashpadInfoClientOptions* options);
 
   // Initializes various memory blocks reachable from the PEB on behalf of
   // Initialize().
