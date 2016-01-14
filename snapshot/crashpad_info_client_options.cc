@@ -38,7 +38,8 @@ TriState CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
 
 CrashpadInfoClientOptions::CrashpadInfoClientOptions()
     : crashpad_handler_behavior(TriState::kUnset),
-      system_crash_reporter_forwarding(TriState::kUnset) {
+      system_crash_reporter_forwarding(TriState::kUnset),
+      gather_indirectly_referenced_memory(TriState::kUnset) {
 }
 
 }  // namespace crashpad
