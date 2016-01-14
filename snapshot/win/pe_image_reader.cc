@@ -104,7 +104,7 @@ bool PEImageReader::GetCrashpadInfo(
   }
 
   if (crashpad_info->signature != CrashpadInfo::kSignature ||
-      crashpad_info->version < 1) {
+      crashpad_info->version < 2) {
     LOG(WARNING) << "unexpected crashpad info data in "
                  << module_subrange_reader_.name();
     return false;
