@@ -17,7 +17,7 @@
 #include <vector>
 
 #include "base/logging.h"
-#include "snapshot/win/capture_context_memory.h"
+#include "snapshot/win/capture_referenced_memory.h"
 #include "snapshot/win/cpu_context_win.h"
 #include "snapshot/win/process_reader_win.h"
 
@@ -78,6 +78,8 @@ bool ThreadSnapshotWin::Initialize(
 
   CaptureMemoryPointedToByContext(
       context_, process_reader, thread_, &pointed_to_memory_);
+  CaptureMemoryPointedToByMemoryRange(
+      stack_, process_reader, &pointed_to_memory_);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;

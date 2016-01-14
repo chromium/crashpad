@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_WIN_CAPTURE_CONTEXT_MEMORY_H_
-#define CRASHPAD_SNAPSHOT_WIN_CAPTURE_CONTEXT_MEMORY_H_
+#ifndef CRASHPAD_SNAPSHOT_WIN_CAPTURE_REFERENCED_MEMORY_H_
+#define CRASHPAD_SNAPSHOT_WIN_CAPTURE_REFERENCED_MEMORY_H_
 
 #include "snapshot/cpu_context.h"
 #include "snapshot/win/process_reader_win.h"
@@ -37,7 +37,21 @@ void CaptureMemoryPointedToByContext(const CPUContext& context,
                                      const ProcessReaderWin::Thread& thread,
                                      PointerVector<MemorySnapshotWin>* into);
 
+//! \brief For all pointer-like values in a memory range of the target process,
+//!     captures a small amount of memory near the pointed to location.
+//!
+//! \param[in] memory An existing MemorySnapshotWin of the range to search. The
+//!     base address and size must be pointer-aligned and an integral number of
+//!     pointers long.
+//! \param[in] process_reader A ProcessReaderWin to read from the target
+//!     process.
+//! \param[out] into A vector of pointers to append new ranges to.
+void CaptureMemoryPointedToByMemoryRange(
+    const MemorySnapshotWin& memory,
+    ProcessReaderWin* process_reader,
+    PointerVector<MemorySnapshotWin>* into);
+
 }  // namespace internal
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_WIN_CAPTURE_CONTEXT_MEMORY_H_
+#endif  // CRASHPAD_SNAPSHOT_WIN_CAPTURE_REFERENCED_MEMORY_H_
