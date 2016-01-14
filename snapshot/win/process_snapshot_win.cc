@@ -38,6 +38,7 @@ ProcessSnapshotWin::ProcessSnapshotWin()
       client_id_(),
       annotations_simple_map_(),
       snapshot_time_(),
+      options_(),
       initialized_() {
 }
 
@@ -65,8 +66,12 @@ bool ProcessSnapshotWin::Initialize(
         debug_critical_section_address);
   }
 
-  InitializeThreads();
   InitializeModules();
+
+  GetCrashpadOptionsInternal(&options_);
+
+  InitializeThreads(options_.gather_indirectly_referenced_memory ==
+                    TriState::kEnabled);
 
   for (const MEMORY_BASIC_INFORMATION64& mbi :
        process_reader_.GetProcessInfo().MemoryInfo()) {
@@ -104,35 +109,7 @@ bool ProcessSnapshotWin::InitializeException(
 void ProcessSnapshotWin::GetCrashpadOptions(
     CrashpadInfoClientOptions* options) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  CrashpadInfoClientOptions local_options;
-
-  for (internal::ModuleSnapshotWin* module : modules_) {
-    CrashpadInfoClientOptions module_options;
-    module->GetCrashpadOptions(&module_options);
-
-    if (local_options.crashpad_handler_behavior == TriState::kUnset) {
-      local_options.crashpad_handler_behavior =
-          module_options.crashpad_handler_behavior;
-    }
-    if (local_options.system_crash_reporter_forwarding == TriState::kUnset) {
-      local_options.system_crash_reporter_forwarding =
-          module_options.system_crash_reporter_forwarding;
-    }
-    if (local_options.gather_indirectly_referenced_memory == TriState::kUnset) {
-      local_options.gather_indirectly_referenced_memory =
-          module_options.gather_indirectly_referenced_memory;
-    }
-
-    // If non-default values have been found for all options, the loop can end
-    // early.
-    if (local_options.crashpad_handler_behavior != TriState::kUnset &&
-        local_options.system_crash_reporter_forwarding != TriState::kUnset) {
-      break;
-    }
-  }
-
-  *options = local_options;
+  *options = options_;
 }
 
 pid_t ProcessSnapshotWin::ProcessID() const {
@@ -238,13 +215,16 @@ std::vector<const MemorySnapshot*> ProcessSnapshotWin::ExtraMemory() const {
   return extra_memory;
 }
 
-void ProcessSnapshotWin::InitializeThreads() {
+void ProcessSnapshotWin::InitializeThreads(
+    bool gather_indirectly_referenced_memory) {
   const std::vector<ProcessReaderWin::Thread>& process_reader_threads =
       process_reader_.Threads();
   for (const ProcessReaderWin::Thread& process_reader_thread :
        process_reader_threads) {
     auto thread = make_scoped_ptr(new internal::ThreadSnapshotWin());
-    if (thread->Initialize(&process_reader_, process_reader_thread)) {
+    if (thread->Initialize(&process_reader_,
+                           process_reader_thread,
+                           gather_indirectly_referenced_memory)) {
       threads_.push_back(thread.release());
     }
   }
@@ -260,6 +240,38 @@ void ProcessSnapshotWin::InitializeModules() {
       modules_.push_back(module.release());
     }
   }
+}
+
+void ProcessSnapshotWin::GetCrashpadOptionsInternal(
+    CrashpadInfoClientOptions* options) {
+  CrashpadInfoClientOptions local_options;
+
+  for (internal::ModuleSnapshotWin* module : modules_) {
+    CrashpadInfoClientOptions module_options;
+    module->GetCrashpadOptions(&module_options);
+
+    if (local_options.crashpad_handler_behavior == TriState::kUnset) {
+      local_options.crashpad_handler_behavior =
+          module_options.crashpad_handler_behavior;
+    }
+    if (local_options.system_crash_reporter_forwarding == TriState::kUnset) {
+      local_options.system_crash_reporter_forwarding =
+          module_options.system_crash_reporter_forwarding;
+    }
+    if (local_options.gather_indirectly_referenced_memory == TriState::kUnset) {
+      local_options.gather_indirectly_referenced_memory =
+          module_options.gather_indirectly_referenced_memory;
+    }
+
+    // If non-default values have been found for all options, the loop can end
+    // early.
+    if (local_options.crashpad_handler_behavior != TriState::kUnset &&
+        local_options.system_crash_reporter_forwarding != TriState::kUnset) {
+      break;
+    }
+  }
+
+  *options = local_options;
 }
 
 template <class Traits>

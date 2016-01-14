@@ -28,6 +28,7 @@
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "client/crashpad_client.h"
+#include "client/crashpad_info.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
 
@@ -163,6 +164,18 @@ int CrashyMain(int argc, wchar_t* argv[]) {
     LOG(ERROR) << "UseHandler";
     return EXIT_FAILURE;
   }
+
+  // Make sure data pointed to by the stack is captured.
+  const int kDataSize = 512;
+  int* pointed_to_data = new int[kDataSize];
+  for (int i = 0; i < kDataSize; ++i)
+    pointed_to_data[i] = i | ((i % 2 == 0) ? 0x80000000 : 0);
+  int* offset_pointer = &pointed_to_data[128];
+  // Encourage the compiler to keep this variable around.
+  printf("%p, %p\n", offset_pointer, &offset_pointer);
+
+  crashpad::CrashpadInfo::GetCrashpadInfo()
+      ->set_gather_indirectly_referenced_memory(TriState::kEnabled);
 
   AllocateMemoryOfVariousProtections();
 
