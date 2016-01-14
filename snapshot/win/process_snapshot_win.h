@@ -141,10 +141,13 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
 
  private:
   // Initializes threads_ on behalf of Initialize().
-  void InitializeThreads();
+  void InitializeThreads(bool gather_indirectly_referenced_memory);
 
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
+
+  // Initializes options_ on behalf of Initialize().
+  void GetCrashpadOptionsInternal(CrashpadInfoClientOptions* options);
 
   // Initializes various memory blocks reachable from the PEB on behalf of
   // Initialize().
@@ -186,6 +189,7 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   UUID client_id_;
   std::map<std::string, std::string> annotations_simple_map_;
   timeval snapshot_time_;
+  CrashpadInfoClientOptions options_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcessSnapshotWin);
