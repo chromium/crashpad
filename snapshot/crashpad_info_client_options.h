@@ -59,6 +59,9 @@ struct CrashpadInfoClientOptions {
 
   //! \sa CrashpadInfo::set_system_crash_reporter_forwarding()
   TriState system_crash_reporter_forwarding;
+
+  //! \sa CrashpadInfo::set_gather_indirectly_referenced_memory()
+  TriState gather_indirectly_referenced_memory;
 };
 
 }  // namespace crashpad

@@ -119,6 +119,10 @@ void ProcessSnapshotWin::GetCrashpadOptions(
       local_options.system_crash_reporter_forwarding =
           module_options.system_crash_reporter_forwarding;
     }
+    if (local_options.gather_indirectly_referenced_memory == TriState::kUnset) {
+      local_options.gather_indirectly_referenced_memory =
+          module_options.gather_indirectly_referenced_memory;
+    }
 
     // If non-default values have been found for all options, the loop can end
     // early.

@@ -41,7 +41,8 @@ struct CrashpadInfo {
   uint32_t version;
   uint8_t crashpad_handler_behavior;  // TriState.
   uint8_t system_crash_reporter_forwarding;  // TriState.
-  uint16_t padding_0;
+  uint8_t gather_indirectly_referenced_memory;  // TriState.
+  uint8_t padding_0;
   typename Traits::Pointer simple_annotations;
 };
 
