@@ -17,7 +17,7 @@
 #include <vector>
 
 #include "base/logging.h"
-#include "snapshot/win/capture_context_memory.h"
+#include "snapshot/win/capture_referenced_memory.h"
 #include "snapshot/win/cpu_context_win.h"
 #include "snapshot/win/process_reader_win.h"
 
@@ -38,7 +38,8 @@ ThreadSnapshotWin::~ThreadSnapshotWin() {
 
 bool ThreadSnapshotWin::Initialize(
     ProcessReaderWin* process_reader,
-    const ProcessReaderWin::Thread& process_reader_thread) {
+    const ProcessReaderWin::Thread& process_reader_thread,
+    bool gather_indirectly_referenced_memory) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   thread_ = process_reader_thread;
@@ -78,6 +79,10 @@ bool ThreadSnapshotWin::Initialize(
 
   CaptureMemoryPointedToByContext(
       context_, process_reader, thread_, &pointed_to_memory_);
+  if (gather_indirectly_referenced_memory) {
+    CaptureMemoryPointedToByMemoryRange(
+        stack_, process_reader, &pointed_to_memory_);
+  }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
