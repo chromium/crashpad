@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/win/capture_context_memory.h"
+#include "snapshot/win/capture_referenced_memory.h"
 
 #include <stdint.h>
 
 #include <limits>
 
+#include "base/memory/scoped_ptr.h"
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/process_reader_win.h"
 
@@ -40,9 +41,9 @@ void MaybeCaptureMemoryAround(ProcessReaderWin* process_reader,
       return;
   }
 
-  const WinVMSize kRegisterByteOffset = 32;
+  const WinVMSize kRegisterByteOffset = 256;
   const WinVMAddress target = address - kRegisterByteOffset;
-  const WinVMSize size = 128;
+  const WinVMSize size = 1024;
   auto ranges = process_reader->GetProcessInfo().GetReadableRanges(
       CheckedRange<WinVMAddress, WinVMSize>(target, size));
   for (const auto& range : ranges) {
@@ -97,6 +98,55 @@ void CaptureMemoryPointedToByContext(const CPUContext& context,
 #if defined(ARCH_CPU_X86_64)
   }
 #endif
+}
+
+template <class T>
+void CaptureAtPointersInRange(uint8_t* buffer,
+                              WinVMSize buffer_size,
+                              ProcessReaderWin* process_reader,
+                              PointerVector<MemorySnapshotWin>* into) {
+  for (WinVMAddress address_offset = 0; address_offset < buffer_size;
+       address_offset += sizeof(T)) {
+    WinVMAddress target_address =
+        *reinterpret_cast<T*>(&buffer[address_offset]);
+    MaybeCaptureMemoryAround(process_reader, target_address, into);
+  }
+}
+void CaptureMemoryPointedToByMemoryRange(
+    const MemorySnapshotWin& memory,
+    ProcessReaderWin* process_reader,
+    PointerVector<MemorySnapshotWin>* into) {
+  if (memory.Size() == 0)
+    return;
+
+  if (process_reader->Is64Bit()) {
+    if (memory.Address() % sizeof(uint64_t) != 0 ||
+        memory.Size() % sizeof(uint64_t) != 0) {
+      LOG(ERROR) << "unaligned range";
+      return;
+    }
+  } else {
+    if (memory.Address() % sizeof(uint32_t) != 0 ||
+        memory.Size() % sizeof(uint32_t) != 0) {
+      LOG(ERROR) << "unaligned range";
+      return;
+    }
+  }
+
+  scoped_ptr<uint8_t[]> buffer(new uint8_t[memory.Size()]);
+  if (!process_reader->ReadMemory(
+          memory.Address(), memory.Size(), buffer.get())) {
+    LOG(ERROR) << "ReadMemory";
+    return;
+  }
+
+  if (process_reader->Is64Bit()) {
+    CaptureAtPointersInRange<uint64_t>(
+        buffer.get(), memory.Size(), process_reader, into);
+  } else {
+    CaptureAtPointersInRange<uint32_t>(
+        buffer.get(), memory.Size(), process_reader, into);
+  }
 }
 
 }  // namespace internal

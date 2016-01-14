@@ -247,9 +247,21 @@ def RunTests(cdb_path,
                 r'FreeOwnStackAndBreak.*\nquit:',
             'at correct location, no additional stack entries')
 
+  # Switch to the other thread after jumping to the exception, and examine
+  # memory.
   out = CdbRun(cdb_path, dump_path, '.ecxr; ~1s; db /c14 edi')
   out.Check(r'63 62 61 60 5f 5e 5d 5c-5b 5a 59 58 57 56 55 54 53 52 51 50',
             'data pointed to by registers captured')
+
+  # Move up one stack frame after jumping to the exception, and examine memory.
+  out = CdbRun(cdb_path, dump_path,
+               '.ecxr; .f+; dd /c100 poi(offset_pointer)-20')
+  out.Check(r'00000078 00000079 0000007a 0000007b 0000007c 0000007d 0000007e '
+            r'0000007f 00000080 00000081 00000082 00000083 00000084 00000085 '
+            r'00000086 00000087 00000088 00000089 0000008a 0000008b 0000008c '
+            r'0000008d 0000008e 0000008f 00000090 00000091 00000092 00000093 '
+            r'00000094 00000095 00000096 00000097',
+            'data pointed to by stack captured')
 
   if z7_dump_path:
     out = CdbRun(cdb_path, z7_dump_path, '.ecxr;lm')
