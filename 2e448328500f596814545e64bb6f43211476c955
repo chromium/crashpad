@@ -1,0 +1,7 @@
+Verified+1: Andrew Bonventre <andybons@chromium.org>
+Code-Review+2: Mark Mentovai <mark@chromium.org>
+Submitted-by: Mark Mentovai <mark@chromium.org>
+Submitted-at: Thu, 14 Jan 2016 16:19:53 +0000
+Reviewed-on: https://chromium-review.googlesource.com/322190
+Project: crashpad/crashpad
+Branch: refs/heads/master
