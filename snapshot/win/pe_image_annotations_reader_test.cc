@@ -31,7 +31,6 @@
 #include "snapshot/win/process_reader_win.h"
 #include "test/paths.h"
 #include "test/win/child_launcher.h"
-#include "test/win/win_multiprocess.h"
 #include "util/file/file_io.h"
 #include "util/win/process_info.h"
 

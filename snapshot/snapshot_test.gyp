@@ -54,6 +54,7 @@
       'dependencies': [
         'crashpad_snapshot_test_module',
         'snapshot.gyp:crashpad_snapshot',
+        'snapshot.gyp:crashpad_snapshot_api',
         '../client/client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
         '../test/test.gyp:crashpad_test',
@@ -68,6 +69,7 @@
       'sources': [
         'cpu_context_test.cc',
         'crashpad_info_client_options_test.cc',
+        'api/module_annotations_win_test.cc',
         'mac/cpu_context_mac_test.cc',
         'mac/mach_o_image_annotations_reader_test.cc',
         'mac/mach_o_image_reader_test.cc',
