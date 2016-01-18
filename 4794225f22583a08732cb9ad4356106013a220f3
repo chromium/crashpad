@@ -1,0 +1,8 @@
+Code-Review+1: Scott Graham <scottmg@chromium.org>
+Verified+1: Scott Graham <scottmg@chromium.org>
+Code-Review+2: Scott Graham <scottmg@google.com>
+Submitted-by: Scott Graham <scottmg@google.com>
+Submitted-at: Mon, 18 Jan 2016 20:35:45 +0000
+Reviewed-on: https://chromium-review.googlesource.com/322550
+Project: crashpad/crashpad
+Branch: refs/heads/master
