@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d437f269_616ad6f3",
+        "filename": "build/crashpad_dependencies.gypi",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-01-27T16:29:35Z",
+      "side": 1,
+      "message": "I know it\u0027s common to use integers for these things, but it\u0027s rather unclear IMO. Using strings may be more typo-prone, but it\u0027d make the conditions more clear. Thoughts?",
+      "revId": "acc636df389b8316b5fb77dd20cb3f5ba6a92a26",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b43efe47_c022bee1",
+        "filename": "build/gyp_crashpad.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-01-27T16:29:35Z",
+      "side": 1,
+      "message": "Can you write this as a \"\"\"Python doc string\"\"\" with param and return value called out explicitly? Also, it\u0027s not clear from this first sentence that these are paths to dependencies.",
+      "revId": "acc636df389b8316b5fb77dd20cb3f5ba6a92a26",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
