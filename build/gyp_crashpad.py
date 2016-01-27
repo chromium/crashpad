@@ -17,10 +17,38 @@
 import os
 import sys
 
+
+def ChooseDependencyPath(local_path, external_path):
+  """Chooses between a dependency located at local path and an external path.
+
+  The local path, used in standalone builds, is preferred. If it is not present
+  but the external path is, the external path will be used. If neither path is
+  present, the local path will be used, so that error messages uniformly refer
+  to the local path.
+
+  Args:
+    local_path: The preferred local path to use for a standalone build.
+    external_path: The external path to fall back to.
+
+  Returns:
+    A 2-tuple. The first element is 'standalone' or 'external', depending on
+    whether local_path or external_path was chosen. The second element is the
+    chosen path.
+  """
+  if os.path.exists(local_path) or not os.path.exists(external_path):
+    return ('standalone', local_path)
+  return ('external', external_path)
+
+
 script_dir = os.path.dirname(__file__)
-crashpad_dir = os.path.dirname(script_dir) if script_dir is not '' else '..'
-sys.path.insert(
-    0, os.path.join(crashpad_dir, 'third_party', 'gyp', 'gyp', 'pylib'))
+crashpad_dir = (os.path.dirname(script_dir) if script_dir not in ('', os.curdir)
+                else os.pardir)
+
+sys.path.insert(0,
+    ChooseDependencyPath(os.path.join(crashpad_dir, 'third_party', 'gyp', 'gyp',
+                                      'pylib'),
+                         os.path.join(crashpad_dir, os.pardir, 'gyp',
+                                      'pylib'))[1])
 
 import gyp
 
@@ -29,12 +57,15 @@ def main(args):
   if 'GYP_GENERATORS' not in os.environ:
     os.environ['GYP_GENERATORS'] = 'ninja'
 
-  crashpad_dir_or_dot = crashpad_dir if crashpad_dir is not '' else '.'
+  crashpad_dir_or_dot = crashpad_dir if crashpad_dir is not '' else os.curdir
 
-  args.extend(['-D', 'crashpad_standalone=1'])
-  args.extend(['--include',
-               os.path.join(crashpad_dir, 'third_party', 'mini_chromium',
-                            'mini_chromium', 'build', 'common.gypi')])
+  (dependencies, mini_chromium_dir) = (ChooseDependencyPath(
+      os.path.join(crashpad_dir, 'third_party', 'mini_chromium',
+                   'mini_chromium', 'build', 'common.gypi'),
+      os.path.join(crashpad_dir, os.pardir, 'mini_chromium', 'build',
+                   'common.gypi')))
+  args.extend(['-D', 'crashpad_dependencies=%s' % dependencies])
+  args.extend(['--include', mini_chromium_dir])
   args.extend(['--depth', crashpad_dir_or_dot])
   args.append(os.path.join(crashpad_dir, 'crashpad.gyp'))
 
