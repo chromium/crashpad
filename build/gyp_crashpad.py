@@ -17,10 +17,33 @@
 import os
 import sys
 
+
+DEPENDENCIES_LOCAL = 0
+DEPENDENCIES_CHROMIUM = 1
+DEPENDENCIES_EXTERNAL = 2
+
+# Chooses between a local path and an external path, preferring the local path.
+# If the local path is not present but the external path is, returns the
+# external path. If neither path is present, returns the local path, so that
+# error messages uniformly refer to the local path.
+#
+# The return value is a 2-tuple. The first element is DEPENDENCIES_LOCAL or
+# DEPENDENCIES_EXTERNAL, and the second element is the path. This will never
+# return DEPENDENCIES_CHROMIUM, as that mode is chosen by a different mechanism.
+# See build/crashpad_dependencies.gypi.
+def ChoosePath(local_path, external_path):
+  if os.path.exists(local_path) or not os.path.exists(external_path):
+    return (DEPENDENCIES_LOCAL, local_path)
+  return (DEPENDENCIES_EXTERNAL, external_path)
+
+
 script_dir = os.path.dirname(__file__)
-crashpad_dir = os.path.dirname(script_dir) if script_dir is not '' else '..'
-sys.path.insert(
-    0, os.path.join(crashpad_dir, 'third_party', 'gyp', 'gyp', 'pylib'))
+crashpad_dir = (os.path.dirname(script_dir) if script_dir not in ('', os.curdir)
+                else os.pardir)
+
+sys.path.insert(0,
+    ChoosePath(os.path.join(crashpad_dir, 'third_party', 'gyp', 'gyp', 'pylib'),
+               os.path.join(crashpad_dir, os.pardir, 'gyp', 'pylib'))[1])
 
 import gyp
 
@@ -29,12 +52,15 @@ def main(args):
   if 'GYP_GENERATORS' not in os.environ:
     os.environ['GYP_GENERATORS'] = 'ninja'
 
-  crashpad_dir_or_dot = crashpad_dir if crashpad_dir is not '' else '.'
+  crashpad_dir_or_dot = crashpad_dir if crashpad_dir is not '' else os.curdir
 
-  args.extend(['-D', 'crashpad_standalone=1'])
-  args.extend(['--include',
-               os.path.join(crashpad_dir, 'third_party', 'mini_chromium',
-                            'mini_chromium', 'build', 'common.gypi')])
+  (dependencies, mini_chromium_dir) = (
+      ChoosePath(os.path.join(crashpad_dir, 'third_party', 'mini_chromium',
+                              'mini_chromium', 'build', 'common.gypi'),
+                 os.path.join(crashpad_dir, os.pardir, 'mini_chromium', 'build',
+                              'common.gypi')))
+  args.extend(['-D', 'crashpad_dependencies=%d' % dependencies])
+  args.extend(['--include', mini_chromium_dir])
   args.extend(['--depth', crashpad_dir_or_dot])
   args.append(os.path.join(crashpad_dir, 'crashpad.gyp'))
 
