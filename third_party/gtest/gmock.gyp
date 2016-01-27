@@ -23,7 +23,7 @@
           ['crashpad_dependencies=="standalone"', {
             'gmock_dir': 'gtest/googlemock',
           }, {
-            'gmock_dir': '../../../gmock',
+            'gmock_dir': '../../../../gmock',
           }],
         ],
       },
