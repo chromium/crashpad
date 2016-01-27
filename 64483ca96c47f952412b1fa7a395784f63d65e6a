@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f4e6b627_f80f890f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-27T17:45:59Z",
+      "side": 1,
+      "message": "Great, now we can comment on commit messages, but I don’t see where to edit them when using the “git cl upload --squash” thing. “git cl description” doesn’t work. Andy, what do we do here?",
+      "parentUuid": "14beeac6_72bad1da",
+      "revId": "64483ca96c47f952412b1fa7a395784f63d65e6a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f49a3677_a78898dd",
         "filename": "build/crashpad_dependencies.gypi",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-27T17:41:28Z",
       "side": 1,
       "message": "0, 2, or \"chromium\"?",
+      "revId": "64483ca96c47f952412b1fa7a395784f63d65e6a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54d5c231_16a8e2f4",
+        "filename": "build/crashpad_dependencies.gypi",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-27T17:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f49a3677_a78898dd",
       "revId": "64483ca96c47f952412b1fa7a395784f63d65e6a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
