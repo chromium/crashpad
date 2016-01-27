@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "d437f269_c1df22fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-27T20:11:23Z",
+      "side": 1,
+      "message": "This is all screwed up.\n\nI did what you said, and that resulted in patch set 6, which has the updated commit message but the file content from patch set 1, losing all of the changes I made to address the non-commit message-releated review feedback through patch set 5.\n\nhttps://canary-chromium-review.googlesource.com/c/324230/1..6//COMMIT_MSG\n\nSo I did git cl upload --squash again, creating patch set 7, which has all of the other review feedback addressed. But guess what? It lost my change to the commit message!\n\nhttps://canary-chromium-review.googlesource.com/c/324230/6..7//COMMIT_MSG",
+      "parentUuid": "34e4ce25_12b58c92",
+      "revId": "64483ca96c47f952412b1fa7a395784f63d65e6a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f49a3677_a78898dd",
         "filename": "build/crashpad_dependencies.gypi",
         "patchSetId": 3
