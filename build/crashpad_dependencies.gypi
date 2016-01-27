@@ -15,13 +15,16 @@
 {
   # Crashpad can obtain dependencies in three different ways, directed by the
   # crashpad_standalone GYP variable. It may have these values:
-  #  0  A “standalone” Crashpad build, where the dependencies are in the
+  #   standalone
+  #     A “standalone” Crashpad build, where the dependencies are in the
   #     Crashpad tree. third_party/mini_chromium and third_party/gtest provide
   #     the base and gtest libraries.
-  #  1  An in-Chromium build, where Crashpad is within the Chromium tree.
+  #   chromium
+  #     An in-Chromium build, where Crashpad is within the Chromium tree.
   #     Chromium provides its own base library and its copy of the gtest
   #     library.
-  #  2  A build with external dependencies. mini_chromium provides the base
+  #   external
+  #     A build with external dependencies. mini_chromium provides the base
   #     library, but it’s located outside of the Crashpad tree, as is gtest.
   #
   # In order for Crashpad’s .gyp files to reference the correct versions
@@ -34,6 +37,6 @@
     # assignment will not override it. The variable will not be set by anything
     # else when building as part of Chromium, so in that case, this will define
     # it with value 0.
-    'crashpad_dependencies%': 1,
+    'crashpad_dependencies%': 'chromium',
   },
 }

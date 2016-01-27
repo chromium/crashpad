@@ -78,7 +78,7 @@
             'component%': 'static_library',
           },
           'conditions': [
-            ['crashpad_dependencies==1 and component=="shared_library"', {
+            ['crashpad_dependencies=="chromium" and component=="shared_library"', {
               'xcode_settings': {
                 'LD_RUNPATH_SEARCH_PATHS': [  # -Wl,-rpath
                   # Get back from

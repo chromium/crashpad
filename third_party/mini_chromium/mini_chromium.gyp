@@ -26,7 +26,7 @@
       'target_name': 'base',
       'type': 'none',
       'conditions': [
-        ['crashpad_dependencies==0', {
+        ['crashpad_dependencies=="standalone"', {
           'dependencies': [
             'mini_chromium/base/base.gyp:base',
           ],
@@ -34,7 +34,7 @@
             'mini_chromium/base/base.gyp:base',
           ],
         }],
-        ['crashpad_dependencies==1', {
+        ['crashpad_dependencies=="chromium"', {
           'dependencies': [
             '<(DEPTH)/base/base.gyp:base',
           ],
@@ -42,7 +42,7 @@
             '<(DEPTH)/base/base.gyp:base',
           ],
         }],
-        ['crashpad_dependencies==2', {
+        ['crashpad_dependencies=="external"', {
           'dependencies': [
             '<(DEPTH)/../mini_chromium/base/base.gyp:base',
           ],

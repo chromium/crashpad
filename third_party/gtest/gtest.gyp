@@ -17,10 +17,10 @@
     '../../build/crashpad_dependencies.gypi',
   ],
   'conditions': [
-    ['crashpad_dependencies==0 or crashpad_dependencies==2', {
+    ['crashpad_dependencies=="standalone" or crashpad_dependencies=="external"', {
       'variables': {
         'conditions': [
-          ['crashpad_dependencies==0', {
+          ['crashpad_dependencies=="standalone"', {
             'gtest_dir': 'gtest/googletest',
           }, {
             'gtest_dir': '../../../gtest',
@@ -91,7 +91,7 @@
             ],
           },
           'conditions': [
-            ['crashpad_dependencies==2', {
+            ['crashpad_dependencies=="external"', {
               'include_dirs': [
                 '<(gtest_dir)/../..',
               ],
@@ -263,7 +263,7 @@
         },
       ],
     }],
-    ['crashpad_dependencies==1', {
+    ['crashpad_dependencies=="chromium"', {
       'targets': [
         {
           'target_name': 'gtest',

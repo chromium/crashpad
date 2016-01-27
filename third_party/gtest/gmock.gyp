@@ -17,10 +17,10 @@
     '../../build/crashpad_dependencies.gypi',
   ],
   'conditions': [
-    ['crashpad_dependencies==0 or crashpad_dependencies==2', {
+    ['crashpad_dependencies=="standalone" or crashpad_dependencies=="external"', {
       'variables': {
         'conditions': [
-          ['crashpad_dependencies==0', {
+          ['crashpad_dependencies=="standalone"', {
             'gmock_dir': 'gtest/googlemock',
           }, {
             'gmock_dir': '../../../gmock',
@@ -201,7 +201,7 @@
         },
       ],
     }],
-    ['crashpad_dependencies==1', {
+    ['crashpad_dependencies=="chromium"', {
       'targets': [
         {
           'target_name': 'gmock',

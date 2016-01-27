@@ -18,22 +18,28 @@ import os
 import sys
 
 
-DEPENDENCIES_LOCAL = 0
-DEPENDENCIES_CHROMIUM = 1
-DEPENDENCIES_EXTERNAL = 2
+DEPENDENCIES_STANDALONE = 'standalone'
+DEPENDENCIES_EXTERNAL = 'external'
 
-# Chooses between a local path and an external path, preferring the local path.
-# If the local path is not present but the external path is, returns the
-# external path. If neither path is present, returns the local path, so that
-# error messages uniformly refer to the local path.
-#
-# The return value is a 2-tuple. The first element is DEPENDENCIES_LOCAL or
-# DEPENDENCIES_EXTERNAL, and the second element is the path. This will never
-# return DEPENDENCIES_CHROMIUM, as that mode is chosen by a different mechanism.
-# See build/crashpad_dependencies.gypi.
-def ChoosePath(local_path, external_path):
+def ChooseDependencyPath(local_path, external_path):
+  """Chooses between a dependency located at local path and an external path.
+
+  The local path, used in standalone builds, is preferred. If it is not present
+  but the external path is, the external path will be used. If neither path is
+  present, the local path will be used, so that error messages uniformly refer
+  to the local path.
+
+  Args:
+    local_path: The preferred local path to use for a standalone build.
+    external_path: The external path to fall back to.
+
+  Returns:
+    A 2-tuple. The first element is DEPENDENCIES_STANDALONE or
+    DEPENDENCIES_EXTERNAL, corresponding to the chosen path. The second element
+    is the chosen path.
+  """
   if os.path.exists(local_path) or not os.path.exists(external_path):
-    return (DEPENDENCIES_LOCAL, local_path)
+    return (DEPENDENCIES_STANDALONE, local_path)
   return (DEPENDENCIES_EXTERNAL, external_path)
 
 
@@ -42,8 +48,10 @@ crashpad_dir = (os.path.dirname(script_dir) if script_dir not in ('', os.curdir)
                 else os.pardir)
 
 sys.path.insert(0,
-    ChoosePath(os.path.join(crashpad_dir, 'third_party', 'gyp', 'gyp', 'pylib'),
-               os.path.join(crashpad_dir, os.pardir, 'gyp', 'pylib'))[1])
+    ChooseDependencyPath(os.path.join(crashpad_dir, 'third_party', 'gyp', 'gyp',
+                                      'pylib'),
+                         os.path.join(crashpad_dir, os.pardir, 'gyp',
+                                      'pylib'))[1])
 
 import gyp
 
@@ -54,12 +62,12 @@ def main(args):
 
   crashpad_dir_or_dot = crashpad_dir if crashpad_dir is not '' else os.curdir
 
-  (dependencies, mini_chromium_dir) = (
-      ChoosePath(os.path.join(crashpad_dir, 'third_party', 'mini_chromium',
-                              'mini_chromium', 'build', 'common.gypi'),
-                 os.path.join(crashpad_dir, os.pardir, 'mini_chromium', 'build',
-                              'common.gypi')))
-  args.extend(['-D', 'crashpad_dependencies=%d' % dependencies])
+  (dependencies, mini_chromium_dir) = (ChooseDependencyPath(
+      os.path.join(crashpad_dir, 'third_party', 'mini_chromium',
+                   'mini_chromium', 'build', 'common.gypi'),
+      os.path.join(crashpad_dir, os.pardir, 'mini_chromium', 'build',
+                   'common.gypi')))
+  args.extend(['-D', 'crashpad_dependencies=%s' % dependencies])
   args.extend(['--include', mini_chromium_dir])
   args.extend(['--depth', crashpad_dir_or_dot])
   args.append(os.path.join(crashpad_dir, 'crashpad.gyp'))
