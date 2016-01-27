@@ -47,7 +47,7 @@ crashpad_dir = (os.path.dirname(script_dir) if script_dir not in ('', os.curdir)
 sys.path.insert(0,
     ChooseDependencyPath(os.path.join(crashpad_dir, 'third_party', 'gyp', 'gyp',
                                       'pylib'),
-                         os.path.join(crashpad_dir, os.pardir, 'gyp',
+                         os.path.join(crashpad_dir, os.pardir, os.pardir, 'gyp',
                                       'pylib'))[1])
 
 import gyp
@@ -62,8 +62,8 @@ def main(args):
   (dependencies, mini_chromium_dir) = (ChooseDependencyPath(
       os.path.join(crashpad_dir, 'third_party', 'mini_chromium',
                    'mini_chromium', 'build', 'common.gypi'),
-      os.path.join(crashpad_dir, os.pardir, 'mini_chromium', 'build',
-                   'common.gypi')))
+      os.path.join(crashpad_dir, os.pardir, os.pardir, 'mini_chromium',
+                   'mini_chromium', 'build', 'common.gypi')))
   args.extend(['-D', 'crashpad_dependencies=%s' % dependencies])
   args.extend(['--include', mini_chromium_dir])
   args.extend(['--depth', crashpad_dir_or_dot])

@@ -23,7 +23,7 @@
           ['crashpad_dependencies=="standalone"', {
             'gtest_dir': 'gtest/googletest',
           }, {
-            'gtest_dir': '../../../gtest',
+            'gtest_dir': '../../../../gtest',
           }],
         ],
       },
