@@ -33,10 +33,10 @@
 
   'variables': {
     # When building as a standalone project or with external dependencies,
-    # build/gyp_crashpad.py sets crashpad_dependencies to 0 or 2, and this %
-    # assignment will not override it. The variable will not be set by anything
-    # else when building as part of Chromium, so in that case, this will define
-    # it with value 0.
+    # build/gyp_crashpad.py sets crashpad_dependencies to "standalone" or
+    # "external", and this % assignment will not override it. The variable will
+    # not be set by anything else when building as part of Chromium, so in that
+    # case, this will define it with value "chromium".
     'crashpad_dependencies%': 'chromium',
   },
 }
