@@ -14,30 +14,40 @@
 
 {
   'includes': [
-    '../../build/crashpad_in_chromium.gypi',
+    '../../build/crashpad_dependencies.gypi',
   ],
   'targets': [
     {
-      # To support both Crashpad’s standalone build and its in-Chromium build,
-      # Crashpad code depending on base should do so through this shim, which
-      # will either get base from mini_chromium or Chromium depending on the
-      # build type.
+      # To support Crashpad’s standalone build, its in-Chromium build, and its
+      # build depending on external libraries, Crashpad code depending on base
+      # should do so through this shim, which will either get base from
+      # mini_chromium, Chromium, or an external library depending on the build
+      # type.
       'target_name': 'base',
       'type': 'none',
       'conditions': [
-        ['crashpad_in_chromium==0', {
+        ['crashpad_dependencies=="standalone"', {
           'dependencies': [
             'mini_chromium/base/base.gyp:base',
           ],
           'export_dependent_settings': [
             'mini_chromium/base/base.gyp:base',
           ],
-        }, {  # else: crashpad_in_chromium!=0
+        }],
+        ['crashpad_dependencies=="chromium"', {
           'dependencies': [
             '<(DEPTH)/base/base.gyp:base',
           ],
           'export_dependent_settings': [
             '<(DEPTH)/base/base.gyp:base',
+          ],
+        }],
+        ['crashpad_dependencies=="external"', {
+          'dependencies': [
+            '<(DEPTH)/../mini_chromium/base/base.gyp:base',
+          ],
+          'export_dependent_settings': [
+            '<(DEPTH)/../mini_chromium/base/base.gyp:base',
           ],
         }],
       ],
