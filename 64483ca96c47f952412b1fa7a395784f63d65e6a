@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "b43efe47_a098da5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-27T20:14:17Z",
+      "side": 1,
+      "message": "Ugh, I hate this, now I have these bogus changes that I have to abandon and spam the list about.\n\nzsh% git rebase -i origin/master\n[detached HEAD 6d7ec021b89d] Add an “external” mode for obtaining dependencies\n Date: Wed Jan 27 11:05:20 2016 -0500\n 7 files changed, 249 insertions(+), 180 deletions(-)\n create mode 100644 build/crashpad_dependencies.gypi\n delete mode 100644 build/crashpad_in_chromium.gypi\nSuccessfully rebased and updated refs/heads/google3_3p_build.\nzsh% git push origin HEAD:refs/for/master\nCounting objects: 42, done.\nDelta compression using up to 8 threads.\nCompressing objects: 100% (42/42), done.\nWriting objects: 100% (42/42), 7.17 KiB | 0 bytes/s, done.\nTotal 42 (delta 29), reused 0 (delta 0)\nremote: Resolving deltas: 100% (29/29)\nremote: Processing changes: new: 4, updated: 1, done    \nremote: \nremote: New Changes:\nremote:   https://chromium-review.googlesource.com/324231 Fix gyp_crashpad.py\nremote:   https://chromium-review.googlesource.com/324232 Address review feedback\nremote:   https://chromium-review.googlesource.com/324233 Minor updates\nremote:   https://chromium-review.googlesource.com/324234 Address review comments\nremote: \nremote: \nremote: Updated Changes:\nremote:   https://chromium-review.googlesource.com/324230 Add an “external” mode for obtaining dependencies\nremote: \nTo https://chromium.googlesource.com/crashpad/crashpad\n * [new branch]                HEAD -\u003e refs/for/master",
+      "parentUuid": "d437f269_c1df22fb",
+      "revId": "64483ca96c47f952412b1fa7a395784f63d65e6a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f49a3677_a78898dd",
         "filename": "build/crashpad_dependencies.gypi",
         "patchSetId": 3
