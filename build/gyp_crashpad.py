@@ -33,8 +33,8 @@ DEPENDENCIES_EXTERNAL = 2
 # See build/crashpad_dependencies.gypi.
 def ChoosePath(local_path, external_path):
   if os.path.exists(local_path) or not os.path.exists(external_path):
-    return (LOCAL, local_path)
-  return (EXTERNAL, external_path)
+    return (DEPENDENCIES_LOCAL, local_path)
+  return (DEPENDENCIES_EXTERNAL, external_path)
 
 
 script_dir = os.path.dirname(__file__)
