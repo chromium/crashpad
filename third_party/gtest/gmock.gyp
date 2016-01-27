@@ -17,7 +17,7 @@
     '../../build/crashpad_dependencies.gypi',
   ],
   'conditions': [
-    ['crashpad_dependencies=="standalone" or crashpad_dependencies=="external"', {
+    ['crashpad_dependencies!="chromium"', {
       'variables': {
         'conditions': [
           ['crashpad_dependencies=="standalone"', {
@@ -200,8 +200,7 @@
           ],
         },
       ],
-    }],
-    ['crashpad_dependencies=="chromium"', {
+    }, {  # else: crashpad_dependencies=="chromium"
       'targets': [
         {
           'target_name': 'gmock',

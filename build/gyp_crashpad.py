@@ -18,9 +18,6 @@ import os
 import sys
 
 
-DEPENDENCIES_STANDALONE = 'standalone'
-DEPENDENCIES_EXTERNAL = 'external'
-
 def ChooseDependencyPath(local_path, external_path):
   """Chooses between a dependency located at local path and an external path.
 
@@ -34,13 +31,13 @@ def ChooseDependencyPath(local_path, external_path):
     external_path: The external path to fall back to.
 
   Returns:
-    A 2-tuple. The first element is DEPENDENCIES_STANDALONE or
-    DEPENDENCIES_EXTERNAL, corresponding to the chosen path. The second element
-    is the chosen path.
+    A 2-tuple. The first element is 'standalone' or 'external', depending on
+    whether local_path or external_path was chosen. The second element is the
+    chosen path.
   """
   if os.path.exists(local_path) or not os.path.exists(external_path):
-    return (DEPENDENCIES_STANDALONE, local_path)
-  return (DEPENDENCIES_EXTERNAL, external_path)
+    return ('standalone', local_path)
+  return ('external', external_path)
 
 
 script_dir = os.path.dirname(__file__)
