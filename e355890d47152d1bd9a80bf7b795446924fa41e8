@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54ef8232_7d00574a",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4823650_32cbd078",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1426ea4f_f3c4706c",
         "filename": "handler/win/crashy_test_program.cc",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-28T17:51:48Z",
       "side": 1,
       "message": "This is never promising…",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f40956de_9aef2ddc",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "I could pull base::debug::Alias() into mini_chromium if you think that\u0027s worthwhile. It just needs to pass the address to an externally defined function.",
+      "parentUuid": "1426ea4f_f3c4706c",
       "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f40956de_7ae979d2",
+        "filename": "snapshot/capture_referenced_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1426ea4f_93b97ce7",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1426ea4f_b3bef8ca",
         "filename": "snapshot/capture_referenced_memory.cc",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2016-01-28T17:51:48Z",
       "side": 1,
       "message": "compile_assert(kRegisterByteOffset \u003c\u003d size / 2) to ensure that future tweaks to this code don’t accidentally defeat its intent.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74f48602_7e5b317e",
+        "filename": "snapshot/capture_referenced_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1426ea4f_b3bef8ca",
       "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "14f98afe_bb1147a4",
+        "filename": "snapshot/capture_referenced_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4823650_d2ea84cd",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1426ea4f_53d44415",
         "filename": "snapshot/capture_referenced_memory.cc",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2016-01-28T17:51:48Z",
       "side": 1,
       "message": "On the fence about whether this should be templatized as you have it or non-templatized with a pointer-size parameter.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34fe8ee6_fc98e95e",
+        "filename": "snapshot/capture_referenced_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "It was mostly just easier for the `*reinterpret_cast\u003cT*\u003e`, but shrug.",
+      "parentUuid": "1426ea4f_53d44415",
       "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "34176efe_949d4480",
+        "filename": "snapshot/capture_referenced_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4823650_f2ef88da",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1426ea4f_33cbc878",
         "filename": "snapshot/capture_referenced_memory.h",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2016-01-28T17:51:48Z",
       "side": 1,
       "message": "\u003cstdint.h\u003e",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f40956de_7a069937",
+        "filename": "snapshot/capture_referenced_memory.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1426ea4f_33cbc878",
       "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "741d661a_d69d044d",
+        "filename": "snapshot/capture_referenced_memory.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4823650_92f4fcac",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4823650_b2f900a6",
         "filename": "snapshot/capture_referenced_memory.h",
         "patchSetId": 4
@@ -166,6 +328,24 @@
       "writtenOn": "2016-01-28T17:51:48Z",
       "side": 1,
       "message": "Consider (not required) putting these two functions into a class as static functions, and then putting the delegate into the class too as a nested class, CaptureMemory::Delegate. We have other delegates that work this way.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5418622c_f5b918e6",
+        "filename": "snapshot/capture_referenced_memory.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4823650_b2f900a6",
       "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -206,6 +386,24 @@
     },
     {
       "key": {
+        "uuid": "5418622c_9541c495",
+        "filename": "snapshot/win/memory_capture_delegate_win.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1426ea4f_13cecc87",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1426ea4f_d3ea94cd",
         "filename": "snapshot/win/process_snapshot_win.cc",
         "patchSetId": 4
@@ -217,6 +415,24 @@
       "writtenOn": "2016-01-28T17:51:48Z",
       "side": 1,
       "message": "Perhaps this should cache options_ in the ProcessSnapshot object so that we don’t need to do all of that stuff multiple times.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14f98afe_7befbfa7",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T20:10:36Z",
+      "side": 1,
+      "message": "In normal (non-test) usage, this will only be called once, right? So it doesn\u0027t necessarily seem worthwhile to cache.",
+      "parentUuid": "1426ea4f_d3ea94cd",
       "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
