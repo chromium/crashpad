@@ -436,6 +436,24 @@
       "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34804e4e_ece32b56",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T21:04:54Z",
+      "side": 1,
+      "message": "Well I was thinking that the call from Initialize() gets the options once, and the CrashReportExceptionHandler does it itself once, so that’s at least two during a normal pass through this code to handle a crash.",
+      "parentUuid": "14f98afe_7befbfa7",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
