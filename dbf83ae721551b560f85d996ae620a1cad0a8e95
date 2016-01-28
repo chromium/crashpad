@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "147b4a38_cb2df585",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T18:36:20Z",
+      "side": 1,
+      "message": "It can’t be both TriState and bool. :)\n\nBut the type isn’t really important to this change, you can just say “a field.”",
+      "revId": "dbf83ae721551b560f85d996ae620a1cad0a8e95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54714252_8d7e218c",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T18:36:20Z",
+      "side": 1,
+      "message": "I don’t think we need a version change yet unless we’re expecting cross-versioned handlers and clients, especially since the struct layout isn’t changing at all.",
+      "revId": "dbf83ae721551b560f85d996ae620a1cad0a8e95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4651e98_486a5ff3",
+        "filename": "snapshot/win/pe_image_reader.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T18:36:20Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "dbf83ae721551b560f85d996ae620a1cad0a8e95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
