@@ -32,7 +32,10 @@ PROCESS_TYPE_STRUCT_BEGIN(CrashpadInfo)
   // TriState
   PROCESS_TYPE_STRUCT_MEMBER(uint8_t, system_crash_reporter_forwarding)
 
-  PROCESS_TYPE_STRUCT_MEMBER(uint16_t, padding_0)
+  // TriState
+  PROCESS_TYPE_STRUCT_MEMBER(uint8_t, gather_indirectly_referenced_memory)
+
+  PROCESS_TYPE_STRUCT_MEMBER(uint8_t, padding_0)
 
   // SimpleStringDictionary*
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, simple_annotations)
