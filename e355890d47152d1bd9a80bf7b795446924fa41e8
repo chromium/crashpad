@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4823650_32cbd078",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "const /* or constexpr */ int kDataSize \u003d 512;\n\nand use kDataSize on the next two lines.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_f3c4706c",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "This is never promising…",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_93b97ce7",
+        "filename": "snapshot/capture_referenced_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "Maybe\n\n  const uint64_t max_address \u003d delegate-\u003eIs64Bit() ?\n      std::numeric_limits\u003cuint64_t\u003e::max() :\n      std::numeric_limits\u003cuint32_t\u003e::max();\n\nand then a single early return if (address \u003e max_address - non_address_offset). (Greater than, not greater than or equal to, to parallel line 32.)",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_b3bef8ca",
+        "filename": "snapshot/capture_referenced_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "compile_assert(kRegisterByteOffset \u003c\u003d size / 2) to ensure that future tweaks to this code don’t accidentally defeat its intent.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4823650_d2ea84cd",
+        "filename": "snapshot/capture_referenced_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "Wrap the entire body of this function in #if defined(ARCH_CPU_X86_FAMILY), and have an #else #error for non-x86-family. Non-x86 is about to become very relevant.\n\nFor that matter, on Mac, we can read 64 from 32, so stripping out this reads-64 from the 32 side is incorrect.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_53d44415",
+        "filename": "snapshot/capture_referenced_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "On the fence about whether this should be templatized as you have it or non-templatized with a pointer-size parameter.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4823650_f2ef88da",
+        "filename": "snapshot/capture_referenced_memory.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "Similar to the suggestion above, you might just want delegate-\u003eIs64Bit() to decide the alignment value, and then have the rest of the check be common to everything.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_33cbc878",
+        "filename": "snapshot/capture_referenced_memory.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "\u003cstdint.h\u003e",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4823650_92f4fcac",
+        "filename": "snapshot/capture_referenced_memory.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "Say a little more about “pointer-like.”",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4823650_b2f900a6",
+        "filename": "snapshot/capture_referenced_memory.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "Consider (not required) putting these two functions into a class as static functions, and then putting the delegate into the class too as a nested class, CaptureMemory::Delegate. We have other delegates that work this way.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_73d14024",
+        "filename": "snapshot/win/memory_capture_delegate_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "Having both “into” here and “into” as a ReadMemory() parameter is confusing. Rename this one to better describe what it’s doing.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_13cecc87",
+        "filename": "snapshot/win/memory_capture_delegate_win.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "already captured elsewhere",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1426ea4f_d3ea94cd",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-28T17:51:48Z",
+      "side": 1,
+      "message": "Perhaps this should cache options_ in the ProcessSnapshot object so that we don’t need to do all of that stuff multiple times.",
+      "revId": "e355890d47152d1bd9a80bf7b795446924fa41e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
