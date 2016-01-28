@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f49a3677_ad4a363c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T19:08:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "147b4a38_cb2df585",
+      "revId": "dbf83ae721551b560f85d996ae620a1cad0a8e95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54714252_8d7e218c",
         "filename": "client/crashpad_info.cc",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "14beeac6_45198c62",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T19:08:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54714252_8d7e218c",
+      "revId": "dbf83ae721551b560f85d996ae620a1cad0a8e95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4651e98_486a5ff3",
         "filename": "snapshot/win/pe_image_reader.cc",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2016-01-28T18:36:20Z",
       "side": 1,
       "message": "Same.",
+      "revId": "dbf83ae721551b560f85d996ae620a1cad0a8e95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "941ada01_91d16c27",
+        "filename": "snapshot/win/pe_image_reader.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-28T19:08:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4651e98_486a5ff3",
       "revId": "dbf83ae721551b560f85d996ae620a1cad0a8e95",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
