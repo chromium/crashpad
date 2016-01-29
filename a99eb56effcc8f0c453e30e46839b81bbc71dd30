@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54c6a2da_c5bedacb",
+        "filename": "snapshot/crashpad_info_client_options_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-29T14:54:57Z",
+      "side": 1,
+      "message": "Ideally, SelfProcessSnapshotAndGetCrashpadOptions() should now always be followed by an ASSERT_NO_FATAL_FAILURE() because “options” is otherwise invalid and there’s no good reason to continue the test and let other confusing failures pile up. But that only works if SelfProcessSnapshotAndGetCrashpadOptions() uses ASSERT, and you switched to EXPECT because you gave it a non-void return type.\n\nSo we could switch it to return void, have an out-param, use ASSERT there and ASSERT_NO_FATAL_FAILURE() here.\n\nBut I guess that’s really ugly and terrible. So we could switch it to return bool, have an out-param, use whatever there and wrap the call in ASSERT_TRUE() here.\n\nThat’s a little better, but it’s still a little ugly.\n\nExceptions are starting to sound good now.\n\nWhatever you like is fine, it’s just a test.",
+      "revId": "a99eb56effcc8f0c453e30e46839b81bbc71dd30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34c5aece_44b4aeee",
+        "filename": "snapshot/win/process_snapshot_win.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-01-29T14:54:57Z",
+      "side": 1,
+      "message": "// Initializes options_ on behalf of Initialize()\n\nlike the methods above and below it.",
+      "revId": "a99eb56effcc8f0c453e30e46839b81bbc71dd30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
