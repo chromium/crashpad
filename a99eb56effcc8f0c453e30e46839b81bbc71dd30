@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "548b02a3_d13254e1",
+        "filename": "snapshot/crashpad_info_client_options_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-29T17:52:39Z",
+      "side": 1,
+      "message": "Yeah, I went through this train of thought (but pulled up before going to exceptions -- I\u0027m not an animal!). Changing ASSERT to EXCEPT seemed simplest, given that in the current implementation it can\u0027t return false anyway.",
+      "parentUuid": "54c6a2da_c5bedacb",
+      "revId": "a99eb56effcc8f0c453e30e46839b81bbc71dd30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34c5aece_44b4aeee",
         "filename": "snapshot/win/process_snapshot_win.h",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-01-29T14:54:57Z",
       "side": 1,
       "message": "// Initializes options_ on behalf of Initialize()\n\nlike the methods above and below it.",
+      "revId": "a99eb56effcc8f0c453e30e46839b81bbc71dd30",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14950abd_611c5255",
+        "filename": "snapshot/win/process_snapshot_win.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-01-29T17:52:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34c5aece_44b4aeee",
       "revId": "a99eb56effcc8f0c453e30e46839b81bbc71dd30",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
