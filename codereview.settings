@@ -13,6 +13,7 @@
 # limitations under the License.
 
 GERRIT_HOST: True
+GERRIT_SQUASH_UPLOADS: True
 CODE_REVIEW_SERVER: https://canary-chromium-review.googlesource.com/
 VIEW_VC: https://chromium.googlesource.com/crashpad/crashpad/+/
 PROJECT: crashpad
