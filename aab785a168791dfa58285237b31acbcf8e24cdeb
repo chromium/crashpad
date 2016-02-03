@@ -50,6 +50,47 @@
       "revId": "aab785a168791dfa58285237b31acbcf8e24cdeb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91d90c41_3ff747f4",
+        "filename": "build/crashpad.gypi",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1115972
+      },
+      "writtenOn": "2016-02-03T16:23:58Z",
+      "side": 1,
+      "message": "apple_cctools is the only one that is needed by clients when they depend on crashpad/client/client.gyp:crashpad_client and crashpad/handler/handler.gyp:crashpad_handler\n\nDo we actually care about the other GYP files? How can I find which ones require the same change?",
+      "parentUuid": "d133841e_e12f26c4",
+      "revId": "aab785a168791dfa58285237b31acbcf8e24cdeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1cc087f_e58b9004",
+        "filename": "build/crashpad.gypi",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1115972
+      },
+      "writtenOn": "2016-02-03T16:23:58Z",
+      "side": 1,
+      "message": "I have tested mode and I think this conditional approach to include common,gypi is broken. It looks like GYP includes the files before evaluating the credentials, so it complains here that it does not file ../../../mini_chromium/mini_chromium/build/common.gypi even when I build this with \u0027crashpad_dependencies\u003d\u003d\"standalone\"\u0027\n\nI need to find a better strategy (I have no idea now how I could actually solve this include problem though).",
+      "range": {
+        "startLine": 19,
+        "startChar": 18,
+        "endLine": 19,
+        "endChar": 31
+      },
+      "revId": "aab785a168791dfa58285237b31acbcf8e24cdeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
