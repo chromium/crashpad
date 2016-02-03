@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d133841e_01332a32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-03T14:27:34Z",
+      "side": 1,
+      "message": "Actually, this might be a problem, because mini_chromium/build/common.gypi gets included into mini_chromium/base/base.gyp twice in the Crashpad standalone build.",
+      "revId": "aab785a168791dfa58285237b31acbcf8e24cdeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71c65832_ce4fc3bb",
+        "filename": "build/crashpad.gypi",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-03T14:27:34Z",
+      "side": 1,
+      "message": "You can’t use this variable without including crashpad_dependencies.gypi.",
+      "revId": "aab785a168791dfa58285237b31acbcf8e24cdeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d133841e_e12f26c4",
+        "filename": "build/crashpad.gypi",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-03T14:27:34Z",
+      "side": 1,
+      "message": "As far as I’m concerned, I think that we can include mini_chromium/build/common.gypi this way for the external and standalone builds (but not the chromium build). However, you’re missing a few files. You caught apple_cctools, but you missed a couple of other things in third_party that don’t include crashpad.gypi on their own.",
+      "revId": "aab785a168791dfa58285237b31acbcf8e24cdeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
