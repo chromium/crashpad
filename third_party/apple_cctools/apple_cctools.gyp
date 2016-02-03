@@ -13,6 +13,13 @@
 # limitations under the License.
 
 {
+  'conditions': [
+    ['crashpad_dependencies=="external"', {
+      'includes': [
+        '../../../../mini_chromium/mini_chromium/build/common.gypi',
+      ],
+    }],
+  ],
   'targets': [
     {
       'target_name': 'apple_cctools',

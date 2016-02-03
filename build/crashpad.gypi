@@ -13,6 +13,13 @@
 # limitations under the License.
 
 {
+  'conditions': [
+    ['crashpad_dependencies=="external"', {
+      'includes': [
+        '../../../mini_chromium/mini_chromium/build/common.gypi',
+      ],
+    }],
+  ],
   'variables': {
     # When building as a part of Chromium, this variable sets up the build to
     # treat Crashpad as Chromium code. This enables warnings at an appropriate
