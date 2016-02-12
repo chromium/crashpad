@@ -91,6 +91,8 @@
         'process_snapshot.h',
         'system_snapshot.h',
         'thread_snapshot.h',
+        'unloaded_module_snapshot.cc',
+        'unloaded_module_snapshot.h',
         'win/cpu_context_win.cc',
         'win/cpu_context_win.h',
         'win/exception_snapshot_win.cc',
