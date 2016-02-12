@@ -76,6 +76,11 @@ enum MinidumpStreamType : uint32_t {
   //! \sa HandleDataStream
   kMinidumpStreamTypeHandleData = HandleDataStream,
 
+  //! \brief The stream type for MINIDUMP_UNLOADED_MODULE_LIST.
+  //!
+  //! \sa UnloadedModuleListStream
+  kMinidumpStreamTypeUnloadedModuleList = UnloadedModuleListStream,
+
   //! \brief The stream type for MINIDUMP_MISC_INFO, MINIDUMP_MISC_INFO_2,
   //!     MINIDUMP_MISC_INFO_3, and MINIDUMP_MISC_INFO_4.
   //!
