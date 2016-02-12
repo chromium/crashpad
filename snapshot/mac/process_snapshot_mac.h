@@ -28,6 +28,7 @@
 #include "client/crashpad_info.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/exception_snapshot.h"
+#include "snapshot/unloaded_module_snapshot.h"
 #include "snapshot/mac/exception_snapshot_mac.h"
 #include "snapshot/mac/module_snapshot_mac.h"
 #include "snapshot/mac/process_reader.h"
@@ -126,6 +127,7 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
   const SystemSnapshot* System() const override;
   std::vector<const ThreadSnapshot*> Threads() const override;
   std::vector<const ModuleSnapshot*> Modules() const override;
+  std::vector<UnloadedModuleSnapshot> UnloadedModules() const override;
   const ExceptionSnapshot* Exception() const override;
   std::vector<const MemoryMapRegionSnapshot*> MemoryMap() const override;
   std::vector<HandleSnapshot> Handles() const override;

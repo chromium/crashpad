@@ -26,6 +26,8 @@ NTSTATUS NTAPI NtOpenThread(HANDLE* ThreadHandle,
                             OBJECT_ATTRIBUTES* ObjectAttributes,
                             CLIENT_ID* ClientId);
 
+void* NTAPI RtlGetUnloadEventTrace();
+
 namespace crashpad {
 
 NTSTATUS NtQuerySystemInformation(
@@ -83,6 +85,14 @@ NTSTATUS NtQueryObject(HANDLE handle,
                          return_length);
 }
 
+template <class Traits>
+RTL_UNLOAD_EVENT_TRACE<Traits>* RtlGetUnloadEventTrace() {
+  static const auto rtl_get_unload_event_trace =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::RtlGetUnloadEventTrace);
+  return reinterpret_cast<RTL_UNLOAD_EVENT_TRACE<Traits>*>(
+      rtl_get_unload_event_trace());
+}
+
 // Explicit instantiations with the only 2 valid template arguments to avoid
 // putting the body of the function in the header.
 template NTSTATUS NtOpenThread<process_types::internal::Traits32>(
@@ -98,5 +108,11 @@ template NTSTATUS NtOpenThread<process_types::internal::Traits64>(
     POBJECT_ATTRIBUTES object_attributes,
     const process_types::CLIENT_ID<process_types::internal::Traits64>*
         client_id);
+
+template RTL_UNLOAD_EVENT_TRACE<process_types::internal::Traits32>*
+RtlGetUnloadEventTrace<process_types::internal::Traits32>();
+
+template RTL_UNLOAD_EVENT_TRACE<process_types::internal::Traits64>*
+RtlGetUnloadEventTrace<process_types::internal::Traits64>();
 
 }  // namespace crashpad
