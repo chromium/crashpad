@@ -28,6 +28,7 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       stream_directory_(),
       stream_map_(),
       modules_(),
+      unloaded_modules_(),
       crashpad_info_(),
       annotations_simple_map_(),
       file_reader_(nullptr),
@@ -169,6 +170,13 @@ std::vector<const ModuleSnapshot*> ProcessSnapshotMinidump::Modules() const {
     modules.push_back(module);
   }
   return modules;
+}
+
+std::vector<UnloadedModuleSnapshot> ProcessSnapshotMinidump::UnloadedModules()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();  // https://crashpad.chromium.org/bug/10
+  return unloaded_modules_;
 }
 
 const ExceptionSnapshot* ProcessSnapshotMinidump::Exception() const {

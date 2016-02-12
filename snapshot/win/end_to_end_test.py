@@ -235,6 +235,11 @@ def RunTests(cdb_path,
   out.Check(r'Event\s+\d+', 'capture some event handles')
   out.Check(r'File\s+\d+', 'capture some file handles')
 
+  out = CdbRun(cdb_path, dump_path, 'lm')
+  out.Check(r'Unloaded modules:', 'captured some unloaded modules')
+  out.Check(r'lz32\.dll', 'found expected unloaded module lz32')
+  out.Check(r'wmerror\.dll', 'found expected unloaded module wmerror')
+
   out = CdbRun(cdb_path, destroyed_dump_path, '.ecxr;!peb;k 2')
   out.Check(r'Ldr\.InMemoryOrderModuleList:.*\d+ \. \d+', 'PEB_LDR_DATA saved')
   out.Check(r'ntdll\.dll', 'ntdll present', re.IGNORECASE)

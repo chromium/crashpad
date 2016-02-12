@@ -70,6 +70,8 @@
         'minidump_thread_id_map.h',
         'minidump_thread_writer.cc',
         'minidump_thread_writer.h',
+        'minidump_unloaded_module_writer.cc',
+        'minidump_unloaded_module_writer.h',
         'minidump_writable.cc',
         'minidump_writable.h',
         'minidump_writer_util.cc',

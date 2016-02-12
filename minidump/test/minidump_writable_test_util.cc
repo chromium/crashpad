@@ -173,6 +173,14 @@ struct MinidumpModuleListTraits {
   }
 };
 
+struct MinidumpUnloadedModuleListTraits {
+  using ListType = MINIDUMP_UNLOADED_MODULE_LIST;
+  enum : size_t { kElementSize = sizeof(MINIDUMP_UNLOADED_MODULE) };
+  static size_t ElementCount(const ListType* list) {
+    return list->NumberOfEntries;
+  }
+};
+
 struct MinidumpThreadListTraits {
   using ListType = MINIDUMP_THREAD_LIST;
   enum : size_t { kElementSize = sizeof(MINIDUMP_THREAD) };
@@ -249,6 +257,15 @@ const MINIDUMP_MODULE_LIST* MinidumpWritableAtLocationDescriptor<
     MINIDUMP_MODULE_LIST>(const std::string& file_contents,
                           const MINIDUMP_LOCATION_DESCRIPTOR& location) {
   return MinidumpListAtLocationDescriptor<MinidumpModuleListTraits>(
+      file_contents, location);
+}
+
+template <>
+const MINIDUMP_UNLOADED_MODULE_LIST*
+MinidumpWritableAtLocationDescriptor<MINIDUMP_UNLOADED_MODULE_LIST>(
+    const std::string& file_contents,
+    const MINIDUMP_LOCATION_DESCRIPTOR& location) {
+  return MinidumpListAtLocationDescriptor<MinidumpUnloadedModuleListTraits>(
       file_contents, location);
 }
 

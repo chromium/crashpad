@@ -34,6 +34,7 @@
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
 #include "snapshot/thread_snapshot.h"
+#include "snapshot/unloaded_module_snapshot.h"
 #include "snapshot/win/exception_snapshot_win.h"
 #include "snapshot/win/memory_map_region_snapshot_win.h"
 #include "snapshot/win/memory_snapshot_win.h"
@@ -134,6 +135,7 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   const SystemSnapshot* System() const override;
   std::vector<const ThreadSnapshot*> Threads() const override;
   std::vector<const ModuleSnapshot*> Modules() const override;
+  std::vector<UnloadedModuleSnapshot> UnloadedModules() const override;
   const ExceptionSnapshot* Exception() const override;
   std::vector<const MemoryMapRegionSnapshot*> MemoryMap() const override;
   std::vector<HandleSnapshot> Handles() const override;
@@ -145,6 +147,9 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
 
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
+
+  // Initializes unloaded_modules_ on behalf of Initialize().
+  void InitializeUnloadedModules();
 
   // Initializes options_ on behalf of Initialize().
   void GetCrashpadOptionsInternal(CrashpadInfoClientOptions* options);
@@ -182,6 +187,7 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   PointerVector<internal::MemorySnapshotWin> extra_memory_;
   PointerVector<internal::ThreadSnapshotWin> threads_;
   PointerVector<internal::ModuleSnapshotWin> modules_;
+  std::vector<UnloadedModuleSnapshot> unloaded_modules_;
   scoped_ptr<internal::ExceptionSnapshotWin> exception_;
   PointerVector<internal::MemoryMapRegionSnapshotWin> memory_map_;
   ProcessReaderWin process_reader_;

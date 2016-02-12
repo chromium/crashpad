@@ -49,6 +49,7 @@
         'minidump_system_info_writer_test.cc',
         'minidump_thread_id_map_test.cc',
         'minidump_thread_writer_test.cc',
+        'minidump_unloaded_module_writer_test.cc',
         'minidump_writable_test.cc',
         'test/minidump_context_test_util.cc',
         'test/minidump_context_test_util.h',

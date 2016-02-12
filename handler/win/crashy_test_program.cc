@@ -165,6 +165,16 @@ int CrashyMain(int argc, wchar_t* argv[]) {
     return EXIT_FAILURE;
   }
 
+  // Load and unload some uncommonly used modules so we can see them in the list
+  // reported by `lm`. At least two so that we confirm we got the size of
+  // RTL_UNLOAD_EVENT_TRACE right.
+  CHECK(GetModuleHandle(L"lz32.dll") == nullptr);
+  CHECK(GetModuleHandle(L"wmerror.dll") == nullptr);
+  HMODULE lz32 = LoadLibrary(L"lz32.dll");
+  HMODULE wmerror = LoadLibrary(L"wmerror.dll");
+  FreeLibrary(lz32);
+  FreeLibrary(wmerror);
+
   // Make sure data pointed to by the stack is captured.
   const int kDataSize = 512;
   int* pointed_to_data = new int[kDataSize];

@@ -21,6 +21,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/module_snapshot_win.h"
+#include "util/win/nt_internals.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/time.h"
 
@@ -67,6 +68,7 @@ bool ProcessSnapshotWin::Initialize(
   }
 
   InitializeModules();
+  InitializeUnloadedModules();
 
   GetCrashpadOptionsInternal(&options_);
 
@@ -177,6 +179,12 @@ std::vector<const ModuleSnapshot*> ProcessSnapshotWin::Modules() const {
   return modules;
 }
 
+std::vector<UnloadedModuleSnapshot> ProcessSnapshotWin::UnloadedModules()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return unloaded_modules_;
+}
+
 const ExceptionSnapshot* ProcessSnapshotWin::Exception() const {
   return exception_.get();
 }
@@ -238,6 +246,53 @@ void ProcessSnapshotWin::InitializeModules() {
     auto module = make_scoped_ptr(new internal::ModuleSnapshotWin());
     if (module->Initialize(&process_reader_, process_reader_module)) {
       modules_.push_back(module.release());
+    }
+  }
+}
+
+void ProcessSnapshotWin::InitializeUnloadedModules() {
+  // As documented by https://msdn.microsoft.com/en-us/library/cc678403.aspx
+  // we can retrieve the location for our unload events, and use that address in
+  // the target process. Unfortunately, this of course only works for
+  // 64-reading-64 and 32-reading-32, so at the moment, we simply do not
+  // retrieve unloaded modules for 64-reading-32. See
+  // https://crashpad.chromium.org/bug/89.
+
+#if defined(ARCH_CPU_X86_64)
+  if (!process_reader_.Is64Bit()) {
+    LOG(ERROR)
+        << "reading unloaded modules across bitness not currently supported";
+    return;
+  }
+  using Traits = process_types::internal::Traits64;
+#elif defined(ARCH_CPU_X86)
+  using Traits = process_types::internal::Traits32;
+#else
+#error port
+#endif
+
+  RTL_UNLOAD_EVENT_TRACE<Traits>* unload_event_trace_address =
+      RtlGetUnloadEventTrace<Traits>();
+  WinVMAddress address_in_target_process =
+      reinterpret_cast<WinVMAddress>(unload_event_trace_address);
+
+  std::vector<RTL_UNLOAD_EVENT_TRACE<Traits>> events(
+      RTL_UNLOAD_EVENT_TRACE_NUMBER);
+  if (!process_reader_.ReadMemory(address_in_target_process,
+                                  events.size() * sizeof(events[0]),
+                                  &events[0])) {
+    return;
+  }
+
+  for (const RTL_UNLOAD_EVENT_TRACE<Traits>& uet : events) {
+    if (uet.ImageName[0]) {
+      unloaded_modules_.push_back(UnloadedModuleSnapshot(
+          uet.BaseAddress,
+          uet.SizeOfImage,
+          uet.CheckSum,
+          uet.TimeDateStamp,
+          base::UTF16ToUTF8(
+              base::StringPiece16(uet.ImageName, arraysize(uet.ImageName)))));
     }
   }
 }

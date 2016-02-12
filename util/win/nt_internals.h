@@ -54,4 +54,26 @@ NTSTATUS NtQueryObject(HANDLE handle,
                        ULONG object_information_length,
                        ULONG* return_length);
 
+// From https://msdn.microsoft.com/en-us/library/bb432428(VS.85).aspx and
+// http://processhacker.sourceforge.net/doc/struct___r_t_l___u_n_l_o_a_d___e_v_e_n_t___t_r_a_c_e.html
+#define RTL_UNLOAD_EVENT_TRACE_NUMBER 64
+
+template <class Traits>
+struct RTL_UNLOAD_EVENT_TRACE {
+  typename Traits::Pointer BaseAddress;
+  typename Traits::UnsignedIntegral SizeOfImage;
+  ULONG Sequence;
+  ULONG TimeDateStamp;
+  ULONG CheckSum;
+  WCHAR ImageName[32];
+  ULONG Version0;
+  union {
+    ULONG Version1;
+    typename Traits::Pad alignment_for_x64;
+  };
+};
+
+template <class Traits>
+RTL_UNLOAD_EVENT_TRACE<Traits>* RtlGetUnloadEventTrace();
+
 }  // namespace crashpad
