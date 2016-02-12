@@ -27,6 +27,7 @@
 #include "minidump/minidump_system_info_writer.h"
 #include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_thread_writer.h"
+#include "minidump/minidump_unloaded_module_writer.h"
 #include "minidump/minidump_writer_util.h"
 #include "snapshot/exception_snapshot.h"
 #include "snapshot/process_snapshot.h"
@@ -94,6 +95,14 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   auto module_list = make_scoped_ptr(new MinidumpModuleListWriter());
   module_list->InitializeFromSnapshot(process_snapshot->Modules());
   AddStream(std::move(module_list));
+
+  auto unloaded_modules = process_snapshot->UnloadedModules();
+  if (!unloaded_modules.empty()) {
+    auto unloaded_module_list =
+        make_scoped_ptr(new MinidumpUnloadedModuleListWriter());
+    unloaded_module_list->InitializeFromSnapshot(unloaded_modules);
+    AddStream(std::move(unloaded_module_list));
+  }
 
   auto crashpad_info = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
   crashpad_info->InitializeFromSnapshot(process_snapshot);
