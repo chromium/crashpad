@@ -33,6 +33,7 @@ class MemorySnapshot;
 class ModuleSnapshot;
 class SystemSnapshot;
 class ThreadSnapshot;
+class UnloadedModuleSnapshot;
 
 //! \brief An abstract interface to a snapshot representing the state of a
 //!     process.
@@ -145,6 +146,12 @@ class ProcessSnapshot {
   //!     ownership of these objects, they are scoped to the lifetime of the
   //!     ProcessSnapshot object that they were obtained from.
   virtual std::vector<const ModuleSnapshot*> Modules() const = 0;
+
+  //! \brief Returns UnloadedModuleSnapshot objects reflecting the code modules
+  //!     the were recorded as unloaded at the time of the snapshot.
+  //!
+  //! \return A vector of UnloadedModuleSnapshot objects.
+  virtual std::vector<UnloadedModuleSnapshot> UnloadedModules() const = 0;
 
   //! \brief Returns ThreadSnapshot objects reflecting the threads (lightweight
   //!     processes) existing in the snapshot process at the time of the
