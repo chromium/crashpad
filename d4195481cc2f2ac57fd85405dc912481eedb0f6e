@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9de3e049_c1bd42e2",
+        "filename": "compat/non_win/dbghelp.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-17T22:15:51Z",
+      "side": 1,
+      "message": "Unloaded main executable, really?",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_a40a226f",
+        "filename": "compat/non_win/dbghelp.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-17T22:15:51Z",
+      "side": 1,
+      "message": "//! \\brief me. The \\brief should say that the MINIDUMP_UNLOADED_MODULE structures follow this one in a stream, since there’s no [0] member to make that implication directly. MINIDUMP_HANDLE_DATA_STREAM should get the same treatment, since it, like this, is another newer-style stream defined without a [0] member.",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9de3e049_a1c2be4f",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-17T22:15:51Z",
+      "side": 1,
+      "message": "Is it worth checking that GetModuleHandle() on both of these returns nullptr first, so that we know that we’re really loading and (hopefully) unloading it?",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9de3e049_01b8caed",
+        "filename": "minidump/minidump_module_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-17T22:15:51Z",
+      "side": 1,
+      "message": "This is a long file, can we break this new stuff into minidump_unloaded_module_writer.cc/h? It doesn’t actually look like you’re relying on any of the unnamed-namespace stuff in this file in the new code or otherwise sharing between loaded and unloaded modules, so it should refactor out into its own file pretty cleanly.\n\nIf you do find a way to share between loaded and unloaded, that’d be good, too. Better, even. But it’s not clear that that’s really doable easily in this case, because the structures are just different enough to get in the way.",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9de3e049_e1bcc6e3",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-17T22:15:51Z",
+      "side": 1,
+      "message": "That URL doesn’t work for me. Lose the “.85)” or add “(vs”, whatever we usually do for MSDN URLs.",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9de3e049_41d2d221",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-17T22:15:51Z",
+      "side": 1,
+      "message": "ntdll is never subjected to per-process ASLR? Wow.",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd585ce7_64fd0a83",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-17T22:15:51Z",
+      "side": 1,
+      "message": "Reading the bug and doing a little Googling on my own for where ntdll stores the unloaded module list, I can’t really fault you for punting on 64-reads-32 for now.",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
