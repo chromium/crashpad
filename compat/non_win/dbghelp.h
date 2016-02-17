@@ -677,6 +677,9 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_HANDLE_DESCRIPTOR_2
 };
 
 //! \brief Represents the header for a handle data stream.
+//!
+//! A list of MINIDUMP_HANDLE_DESCRIPTOR or MINIDUMP_HANDLE_DESCRIPTOR_2
+//! structures will immediately follow this one in the stream.
 struct __attribute((packed, aligned(4))) MINIDUMP_HANDLE_DATA_STREAM {
   //! \brief The size of the header information for the stream, in bytes. This
   //!     value is `sizeof(MINIDUMP_HANDLE_DATA_STREAM)`.
@@ -697,7 +700,7 @@ struct __attribute((packed, aligned(4))) MINIDUMP_HANDLE_DATA_STREAM {
 //! \brief Information about a specific module that was recorded as being
 //!     unloaded at the time the snapshot was taken.
 //!
-//! A module may be the main executable, a shared library, or a loadable module.
+//! An unloaded module may be a shared library or a loadable module.
 //!
 //! \sa MINIDUMP_UNLOADED_MODULE_LIST
 struct __attribute__((packed, aligned(4))) MINIDUMP_UNLOADED_MODULE {
@@ -728,6 +731,11 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_UNLOADED_MODULE {
   RVA ModuleNameRva;
 };
 
+//! \brief Information about all modules recorded as unloaded when the snapshot
+//!     was taken.
+//!
+//! A list of MINIDUMP_UNLOADED_MODULE structures will immediate follow in the
+//! stream.
 struct __attribute__((packed, aligned(4))) MINIDUMP_UNLOADED_MODULE_LIST {
   //! \brief The size of the header information for the stream, in bytes. This
   //!     value is `sizeof(MINIDUMP_UNLOADED_MODULE_LIST)`.

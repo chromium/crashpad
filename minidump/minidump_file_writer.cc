@@ -27,6 +27,7 @@
 #include "minidump/minidump_system_info_writer.h"
 #include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_thread_writer.h"
+#include "minidump/minidump_unloaded_module_writer.h"
 #include "minidump/minidump_writer_util.h"
 #include "snapshot/exception_snapshot.h"
 #include "snapshot/process_snapshot.h"
