@@ -161,7 +161,7 @@ enum MINIDUMP_STREAM_TYPE {
   HandleDataStream = 12,
 
   //! \brief The stream type for MINIDUMP_UNLOADED_MODULE_LIST.
-  HandleDataStream = 14,
+  UnloadedModuleListStream = 14,
 
   //! \brief The stream type for MINIDUMP_MISC_INFO, MINIDUMP_MISC_INFO_2,
   //!     MINIDUMP_MISC_INFO_3, and MINIDUMP_MISC_INFO_4.

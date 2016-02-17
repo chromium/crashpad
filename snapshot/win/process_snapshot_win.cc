@@ -251,7 +251,7 @@ void ProcessSnapshotWin::InitializeModules() {
 }
 
 void ProcessSnapshotWin::InitializeUnloadedModules() {
-  // As documented by https://msdn.microsoft.com/en-us/library/cc678403.85).aspx
+  // As documented by https://msdn.microsoft.com/en-us/library/cc678403.aspx
   // we can retrieve the location for our unload events, and use that address in
   // the target process. Unfortunately, this of course only works for
   // 64-reading-64 and 32-reading-32, so at the moment, we simply do not

@@ -150,9 +150,7 @@ class ProcessSnapshot {
   //! \brief Returns UnloadedModuleSnapshot objects reflecting the code modules
   //!     the were recorded as unloaded at the time of the snapshot.
   //!
-  //! \return A vector of UnloadedModuleSnapshot objects. The caller does not
-  //!     take ownership of these objects, they are scoped to the lifetime of
-  //!     the ProcessSnapshot object that they were obtained from.
+  //! \return A vector of UnloadedModuleSnapshot objects.
   virtual std::vector<UnloadedModuleSnapshot> UnloadedModules() const = 0;
 
   //! \brief Returns ThreadSnapshot objects reflecting the threads (lightweight

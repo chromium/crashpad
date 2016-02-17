@@ -186,6 +186,12 @@ std::vector<const ModuleSnapshot*> ProcessSnapshotMac::Modules() const {
   return modules;
 }
 
+std::vector<UnloadedModuleSnapshot> ProcessSnapshotMac::UnloadedModules()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::vector<UnloadedModuleSnapshot>();
+}
+
 const ExceptionSnapshot* ProcessSnapshotMac::Exception() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return exception_.get();
