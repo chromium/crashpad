@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bd6504c6_5afad58c",
+        "filename": "compat/non_win/dbghelp.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-18T00:00:44Z",
+      "side": 1,
+      "message": "Probably not really.",
+      "parentUuid": "9de3e049_c1bd42e2",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd585ce7_a40a226f",
         "filename": "compat/non_win/dbghelp.h",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-17T22:15:51Z",
       "side": 1,
       "message": "//! \\brief me. The \\brief should say that the MINIDUMP_UNLOADED_MODULE structures follow this one in a stream, since there’s no [0] member to make that implication directly. MINIDUMP_HANDLE_DATA_STREAM should get the same treatment, since it, like this, is another newer-style stream defined without a [0] member.",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d8968a7_5f564b33",
+        "filename": "compat/non_win/dbghelp.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-18T00:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd585ce7_a40a226f",
       "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3d9034ca_1e75add3",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-18T00:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9de3e049_a1c2be4f",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9de3e049_01b8caed",
         "filename": "minidump/minidump_module_writer.cc",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2016-02-17T22:15:51Z",
       "side": 1,
       "message": "This is a long file, can we break this new stuff into minidump_unloaded_module_writer.cc/h? It doesn’t actually look like you’re relying on any of the unnamed-namespace stuff in this file in the new code or otherwise sharing between loaded and unloaded modules, so it should refactor out into its own file pretty cleanly.\n\nIf you do find a way to share between loaded and unloaded, that’d be good, too. Better, even. But it’s not clear that that’s really doable easily in this case, because the structures are just different enough to get in the way.",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d862c98_e0ff824d",
+        "filename": "minidump/minidump_module_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-18T00:00:44Z",
+      "side": 1,
+      "message": "Split it out (and the test file too). Yeah, when I started I was hoping something could be shared, but they\u0027re a bit different.",
+      "parentUuid": "9de3e049_01b8caed",
       "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "bd7c2458_c26602f9",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-18T00:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9de3e049_e1bcc6e3",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9de3e049_41d2d221",
         "filename": "snapshot/win/process_snapshot_win.cc",
         "patchSetId": 4
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "5d8968a7_9fe61391",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-18T00:00:44Z",
+      "side": 1,
+      "message": "Yeah, I was pretty surprised by that documentation too!",
+      "parentUuid": "9de3e049_41d2d221",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd585ce7_64fd0a83",
         "filename": "snapshot/win/process_snapshot_win.cc",
         "patchSetId": 4
@@ -115,6 +223,24 @@
       "writtenOn": "2016-02-17T22:15:51Z",
       "side": 1,
       "message": "Reading the bug and doing a little Googling on my own for where ntdll stores the unloaded module list, I can’t really fault you for punting on 64-reads-32 for now.",
+      "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d7f604c_417bd250",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-18T00:00:44Z",
+      "side": 1,
+      "message": "I think it wouldn\u0027t be too bad to do, just need a little helper app to get the address, but Chrome isn\u0027t using cross-bitness reading, and running a sub-app would be a bit messy (in terms of hookup during deployment). Since it\u0027s not something that\u0027s only infrequently required when debugging crash dumps anyway, it\u0027s not too big of a loss.",
+      "parentUuid": "fd585ce7_64fd0a83",
       "revId": "d4195481cc2f2ac57fd85405dc912481eedb0f6e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
