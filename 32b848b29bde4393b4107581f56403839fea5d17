@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3d9034ca_fe5721f7",
+        "filename": "compat/non_win/dbghelp.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-18T00:08:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3df4b401_9e6efd90",
+      "revId": "32b848b29bde4393b4107581f56403839fea5d17",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d0cc0ef_3c47fd97",
         "filename": "minidump/minidump_unloaded_module_writer_test.cc",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-18T00:05:55Z",
       "side": 1,
       "message": "2016",
+      "revId": "32b848b29bde4393b4107581f56403839fea5d17",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d8968a7_ff547f9e",
+        "filename": "minidump/minidump_unloaded_module_writer_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-18T00:08:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d0cc0ef_3c47fd97",
       "revId": "32b848b29bde4393b4107581f56403839fea5d17",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
