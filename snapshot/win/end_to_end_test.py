@@ -23,6 +23,7 @@ import sys
 import tempfile
 import time
 
+
 g_temp_dirs = []
 
 
@@ -267,6 +268,17 @@ def RunTests(cdb_path,
             r'0000008d 8000008e 0000008f 80000090 00000091 80000092 00000093 '
             r'80000094 00000095 80000096 00000097',
             'data pointed to by stack captured')
+
+  # Attempt to retrieve the value of g_extra_memory_pointer (by name), and then
+  # examine the memory at which it points. Both should have been saved.
+  out = CdbRun(cdb_path, dump_path,
+               'dd poi(crashy_program!crashpad::g_extra_memory_pointer)+0x7c0 '
+               'L8')
+  out.Check(r'00001932 0000193f 0000194c 00001959',
+            'extra memory range captured')
+  out.Check(r'\?\?\?\?\?\?\?\? \?\?\?\?\?\?\?\? '
+            r'\?\?\?\?\?\?\?\? \?\?\?\?\?\?\?\?',
+            '  and not memory after range')
 
   if z7_dump_path:
     out = CdbRun(cdb_path, z7_dump_path, '.ecxr;lm')
