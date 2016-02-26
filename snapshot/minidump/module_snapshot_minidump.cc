@@ -135,6 +135,12 @@ ModuleSnapshotMinidump::AnnotationsSimpleMap() const {
   return annotations_simple_map_;
 }
 
+std::set<CheckedRange<uint64_t>> ModuleSnapshotMinidump::ExtraMemoryRanges()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::set<CheckedRange<uint64_t>>();
+}
+
 bool ModuleSnapshotMinidump::InitializeModuleCrashpadInfo(
     FileReaderInterface* file_reader,
     const MINIDUMP_LOCATION_DESCRIPTOR*

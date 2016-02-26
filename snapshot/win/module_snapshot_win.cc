@@ -15,6 +15,7 @@
 #include "snapshot/win/module_snapshot_win.h"
 
 #include "base/strings/utf_string_conversions.h"
+#include "client/simple_address_range_bag.h"
 #include "snapshot/win/pe_image_annotations_reader.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "util/misc/tri_state.h"
@@ -185,6 +186,16 @@ std::map<std::string, std::string> ModuleSnapshotWin::AnnotationsSimpleMap()
   return annotations_reader.SimpleMap();
 }
 
+std::set<CheckedRange<uint64_t>> ModuleSnapshotWin::ExtraMemoryRanges() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  std::set<CheckedRange<uint64_t>> ranges;
+  if (process_reader_->Is64Bit())
+    GetCrashpadExtraMemoryRanges<process_types::internal::Traits64>(&ranges);
+  else
+    GetCrashpadExtraMemoryRanges<process_types::internal::Traits32>(&ranges);
+  return ranges;
+}
+
 template <class Traits>
 void ModuleSnapshotWin::GetCrashpadOptionsInternal(
     CrashpadInfoClientOptions* options) {
@@ -220,6 +231,35 @@ const VS_FIXEDFILEINFO* ModuleSnapshotWin::VSFixedFileInfo() const {
 
   return initialized_vs_fixed_file_info_.is_valid() ? &vs_fixed_file_info_
                                                     : nullptr;
+}
+
+template <class Traits>
+void ModuleSnapshotWin::GetCrashpadExtraMemoryRanges(
+    std::set<CheckedRange<uint64_t>>* ranges) const {
+  process_types::CrashpadInfo<Traits> crashpad_info;
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
+    return;
+
+  if (!crashpad_info.extra_address_ranges)
+    return;
+
+  std::vector<SimpleAddressRangeBag::Entry> simple_ranges(
+      SimpleAddressRangeBag::num_entries);
+  if (!process_reader_->ReadMemory(
+          crashpad_info.extra_address_ranges,
+          simple_ranges.size() * sizeof(simple_ranges[0]),
+          &simple_ranges[0])) {
+    LOG(WARNING) << "could not read simple address_ranges from "
+                 << base::UTF16ToUTF8(name_);
+    return;
+  }
+
+  for (const auto& entry : simple_ranges) {
+    if (entry.base != 0 || entry.size != 0) {
+      // Deduplication here is fine.
+      ranges->insert(CheckedRange<uint64_t>(entry.base, entry.size));
+    }
+  }
 }
 
 }  // namespace internal
