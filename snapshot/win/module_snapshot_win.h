@@ -85,10 +85,15 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   std::string DebugFileName() const override;
   std::vector<std::string> AnnotationsVector() const override;
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
+  std::set<CheckedRange<uint64_t>> ExtraMemoryRanges() const override;
 
  private:
   template <class Traits>
   void GetCrashpadOptionsInternal(CrashpadInfoClientOptions* options);
+
+  template <class Traits>
+  void GetCrashpadExtraMemoryRanges(
+      std::set<CheckedRange<uint64_t>>* ranges) const;
 
   // Initializes vs_fixed_file_info_ if it has not yet been initialized, and
   // returns a pointer to it. Returns nullptr on failure, with a message logged
