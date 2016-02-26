@@ -80,6 +80,12 @@ bool ProcessSnapshotWin::Initialize(
     memory_map_.push_back(new internal::MemoryMapRegionSnapshotWin(mbi));
   }
 
+  for (const auto& module : modules_) {
+    for (const auto& range : module->ExtraMemoryRanges()) {
+      AddMemorySnapshot(range.base(), range.size(), &extra_memory_);
+    }
+  }
+
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
@@ -321,7 +327,8 @@ void ProcessSnapshotWin::GetCrashpadOptionsInternal(
     // If non-default values have been found for all options, the loop can end
     // early.
     if (local_options.crashpad_handler_behavior != TriState::kUnset &&
-        local_options.system_crash_reporter_forwarding != TriState::kUnset) {
+        local_options.system_crash_reporter_forwarding != TriState::kUnset &&
+        local_options.gather_indirectly_referenced_memory != TriState::kUnset) {
       break;
     }
   }
