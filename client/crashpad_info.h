@@ -19,6 +19,7 @@
 
 #include "base/macros.h"
 #include "build/build_config.h"
+#include "client/simple_address_range_bag.h"
 #include "client/simple_string_dictionary.h"
 #include "util/misc/tri_state.h"
 
@@ -41,6 +42,23 @@ struct CrashpadInfo {
   static CrashpadInfo* GetCrashpadInfo();
 
   CrashpadInfo();
+
+  //! \brief Sets the bag of extra address ranges to be included in the
+  //!     snapshot.
+  //!
+  //! Extra address ranges may exist in \a address_range_bag at the time that
+  //! this method is called, or they may be added, removed, or modified in \a
+  //! address_range_bag after this method is called.
+  //!
+  //! TODO(scottmg) This is currently only supported on Windows.
+  //!
+  //! \param[in] address_range_bag A bag of address ranges. The CrashpadInfo
+  //!     object does not take ownership of the SimpleAddressRangeBag object.
+  //!     It is the caller’s responsibility to ensure that this pointer remains
+  //!     valid while it is in effect for a CrashpadInfo object.
+  void set_extra_address_ranges(SimpleAddressRangeBag* address_range_bag) {
+    extra_address_ranges_ = address_range_bag;
+  }
 
   //! \brief Sets the simple annotations dictionary.
   //!
@@ -135,6 +153,7 @@ struct CrashpadInfo {
   TriState system_crash_reporter_forwarding_;
   TriState gather_indirectly_referenced_memory_;
   uint8_t padding_0_;
+  SimpleAddressRangeBag* extra_address_ranges_;  // weak
   SimpleStringDictionary* simple_annotations_;  // weak
 
 #if !defined(NDEBUG) && defined(OS_WIN)

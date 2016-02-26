@@ -106,7 +106,6 @@ CrashpadInfo::CrashpadInfo()
       invalid_read_detection_(0xbadc0de)
 #endif
 {
-
 }
 
 }  // namespace crashpad
