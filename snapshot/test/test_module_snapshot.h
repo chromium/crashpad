@@ -75,6 +75,10 @@ class TestModuleSnapshot final : public ModuleSnapshot {
       const std::map<std::string, std::string>& annotations_simple_map) {
     annotations_simple_map_ = annotations_simple_map;
   }
+  void SetExtraMemoryRanges(
+      const std::set<CheckedRange<uint64_t>>& extra_memory_ranges) {
+    extra_memory_ranges_ = extra_memory_ranges;
+  }
 
   // ModuleSnapshot:
 
@@ -95,6 +99,7 @@ class TestModuleSnapshot final : public ModuleSnapshot {
   std::string DebugFileName() const override;
   std::vector<std::string> AnnotationsVector() const override;
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
+  std::set<CheckedRange<uint64_t>> ExtraMemoryRanges() const override;
 
  private:
   std::string name_;
@@ -109,6 +114,7 @@ class TestModuleSnapshot final : public ModuleSnapshot {
   std::string debug_file_name_;
   std::vector<std::string> annotations_vector_;
   std::map<std::string, std::string> annotations_simple_map_;
+  std::set<CheckedRange<uint64_t>> extra_memory_ranges_;
 
   DISALLOW_COPY_AND_ASSIGN(TestModuleSnapshot);
 };

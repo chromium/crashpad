@@ -80,6 +80,7 @@
         'minidump/process_snapshot_minidump_test.cc',
         'win/cpu_context_win_test.cc',
         'win/exception_snapshot_win_test.cc',
+        'win/extra_memory_ranges_test.cc',
         'win/pe_image_annotations_reader_test.cc',
         'win/pe_image_reader_test.cc',
         'win/process_reader_win_test.cc',
@@ -168,6 +169,18 @@
           ],
           'sources': [
             'win/crashpad_snapshot_test_dump_without_crashing.cc',
+          ],
+        },
+        {
+          'target_name': 'crashpad_snapshot_test_extra_memory_ranges',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'sources': [
+            'win/crashpad_snapshot_test_extra_memory_ranges.cc',
           ],
         },
         {

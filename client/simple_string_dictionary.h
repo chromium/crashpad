@@ -24,11 +24,6 @@
 
 namespace crashpad {
 
-// Opaque type for the serialized representation of a TSimpleStringDictionary.
-// One is created in TSimpleStringDictionary::Serialize and can be deserialized
-// using one of the constructors.
-struct SerializedSimpleStringDictionary;
-
 //! \brief A map/dictionary collection implementation using a fixed amount of
 //!     storage, so that it does not perform any dynamic allocations for its
 //!     operations.
@@ -110,16 +105,6 @@ class TSimpleStringDictionary {
   TSimpleStringDictionary& operator=(const TSimpleStringDictionary& other) {
     memcpy(entries_, other.entries_, sizeof(entries_));
     return *this;
-  }
-
-  //! \brief Constructs a map from its serialized form. \a map should be the out
-  //!     parameter from Serialize(), and \a size should be its return value.
-  TSimpleStringDictionary(
-      const SerializedSimpleStringDictionary* map, size_t size) {
-    DCHECK_EQ(size, sizeof(entries_));
-    if (size == sizeof(entries_)) {
-      memcpy(entries_, map, size);
-    }
   }
 
   //! \brief Returns the number of active key/value pairs. The upper limit for
@@ -234,18 +219,6 @@ class TSimpleStringDictionary {
     }
 
     DCHECK_EQ(GetEntryForKey(key), implicit_cast<Entry*>(nullptr));
-  }
-
-  //! \brief Returns a serialized form of the map.
-  //!
-  //! Places a serialized version of the map into \a map and returns the size in
-  //! bytes. Both \a map and the size should be passed to the deserializing
-  //! constructor. Note that the serialized \a map is scoped to the lifetime of
-  //! the non-serialized instance of this class. The \a map data can be copied
-  //! across IPC boundaries.
-  size_t Serialize(const SerializedSimpleStringDictionary** map) const {
-    *map = reinterpret_cast<const SerializedSimpleStringDictionary*>(entries_);
-    return sizeof(entries_);
   }
 
  private:
