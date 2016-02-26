@@ -16,10 +16,12 @@
 #define CRASHPAD_SNAPSHOT_WIN_PE_IMAGE_ANNOTATIONS_READER_H_
 
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
+#include "util/numeric/checked_range.h"
 
 namespace crashpad {
 

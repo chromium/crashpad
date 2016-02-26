@@ -19,10 +19,12 @@
 #include <sys/types.h>
 
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "util/misc/uuid.h"
+#include "util/numeric/checked_range.h"
 
 namespace crashpad {
 
@@ -168,6 +170,9 @@ class ModuleSnapshot {
   //! system, or snapshot producer may be obtained by calling
   //! ProcessSnapshot::AnnotationsSimpleMap().
   virtual std::map<std::string, std::string> AnnotationsSimpleMap() const = 0;
+
+  //! XXX
+  virtual std::set<CheckedRange<uint64_t>> ExtraMemoryRanges() const = 0;
 };
 
 }  // namespace crashpad
