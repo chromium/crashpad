@@ -38,6 +38,10 @@
 #endif
 
 namespace crashpad {
+
+int* g_extra_memory_pointer;
+int* g_extra_memory_not_saved;
+
 namespace {
 
 CRITICAL_SECTION g_test_critical_section;
@@ -136,6 +140,33 @@ void SomeCrashyFunction() {
   *foo = 42;
 }
 
+void AllocateExtraMemoryToBeSaved(
+    crashpad::SimpleAddressRangeBag* extra_ranges) {
+  const size_t kNumInts = 2000;
+  int* extra_memory = new int[kNumInts];
+  g_extra_memory_pointer = extra_memory;
+  for (int i = 0; i < kNumInts; ++i)
+    extra_memory[i] = i * 13 + 2;
+  extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumInts);
+  extra_ranges->Insert(&g_extra_memory_pointer, sizeof(g_extra_memory_pointer));
+}
+
+void AllocateExtraUnsavedMemory(crashpad::SimpleAddressRangeBag* extra_ranges) {
+  // Allocate some extra memory, and then Insert() but also Remove() it so we
+  // can confirm it doesn't get saved.
+  const size_t kNumInts = 2000;
+  int* extra_memory = new int[kNumInts];
+  g_extra_memory_not_saved = extra_memory;
+  for (int i = 0; i < kNumInts; ++i)
+    extra_memory[i] = i * 17 + 7;
+  extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumInts);
+  extra_ranges->Insert(&g_extra_memory_not_saved,
+                       sizeof(g_extra_memory_not_saved));
+
+  // We keep the pointer's memory, but remove the pointed-to memory.
+  extra_ranges->Remove(extra_memory, sizeof(extra_memory[0]) * kNumInts);
+}
+
 int CrashyMain(int argc, wchar_t* argv[]) {
   CrashpadClient client;
 
@@ -164,6 +195,13 @@ int CrashyMain(int argc, wchar_t* argv[]) {
     LOG(ERROR) << "UseHandler";
     return EXIT_FAILURE;
   }
+
+  crashpad::SimpleAddressRangeBag* extra_ranges =
+      new crashpad::SimpleAddressRangeBag();
+  crashpad::CrashpadInfo::GetCrashpadInfo()->set_extra_memory_ranges(
+      extra_ranges);
+  AllocateExtraMemoryToBeSaved(extra_ranges);
+  AllocateExtraUnsavedMemory(extra_ranges);
 
   // Load and unload some uncommonly used modules so we can see them in the list
   // reported by `lm`. At least two so that we confirm we got the size of

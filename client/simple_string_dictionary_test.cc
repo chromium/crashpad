@@ -240,34 +240,6 @@ TEST(SimpleStringDictionary, AddRemove) {
   EXPECT_FALSE(map.GetValueForKey("mark"));
 }
 
-TEST(SimpleStringDictionary, Serialize) {
-  using TestMap = TSimpleStringDictionary<4, 5, 7>;
-  TestMap map;
-  map.SetKeyValue("one", "abc");
-  map.SetKeyValue("two", "def");
-  map.SetKeyValue("tre", "hig");
-
-  EXPECT_STREQ("abc", map.GetValueForKey("one"));
-  EXPECT_STREQ("def", map.GetValueForKey("two"));
-  EXPECT_STREQ("hig", map.GetValueForKey("tre"));
-
-  const SerializedSimpleStringDictionary* serialized;
-  size_t size = map.Serialize(&serialized);
-
-  SerializedSimpleStringDictionary* serialized_copy =
-      reinterpret_cast<SerializedSimpleStringDictionary*>(malloc(size));
-  ASSERT_TRUE(serialized_copy);
-  memcpy(serialized_copy, serialized, size);
-
-  TestMap deserialized(serialized_copy, size);
-  free(serialized_copy);
-
-  EXPECT_EQ(3u, deserialized.GetCount());
-  EXPECT_STREQ("abc", deserialized.GetValueForKey("one"));
-  EXPECT_STREQ("def", deserialized.GetValueForKey("two"));
-  EXPECT_STREQ("hig", deserialized.GetValueForKey("tre"));
-}
-
 // Running out of space shouldn't crash.
 TEST(SimpleStringDictionary, OutOfSpace) {
   TSimpleStringDictionary<3, 2, 2> map;

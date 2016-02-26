@@ -16,6 +16,7 @@
 #define CRASHPAD_UTIL_NUMERIC_CHECKED_RANGE_H_
 
 #include <limits>
+#include <tuple>
 
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
@@ -123,6 +124,10 @@ class CheckedRange {
       return false;
 
     return base() < that.end() && that.base() < end();
+  }
+
+  bool operator<(const CheckedRange& other) const {
+    return std::tie(base_, size_) < std::tie(other.base_, other.size_);
   }
 
  private:
