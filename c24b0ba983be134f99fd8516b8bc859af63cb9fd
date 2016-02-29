@@ -139,6 +139,41 @@
       "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2e0153f_82505a50",
+        "filename": "client/simple_address_range_bag.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-29T19:20:40Z",
+      "side": 1,
+      "message": "Yeah, I thought about the token thing too, I kind of like it, but it’s not too important. Practical users that want paired insert/remove will probably have it wrapped up in an object that does the removal on destruction.\n\nI suppose that as long as we’re deduplicating memory regions when we write the dump anyway, we can just treat this as an implementation detail for now.",
+      "parentUuid": "a2e32149_27efdea2",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20c01ef_b9e31ff3",
+        "filename": "client/simple_address_range_bag.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-29T19:20:40Z",
+      "side": 1,
+      "message": "If you’re keen on the paired Insert/Remove thing, then you should probably add a convenience Remove() that accepts a void* and size_t.",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
