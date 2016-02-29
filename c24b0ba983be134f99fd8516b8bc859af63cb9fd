@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2e0153f_e20b2672",
+        "filename": "client/simple_address_range_bag.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-29T15:59:26Z",
+      "side": 1,
+      "message": "TSimpleAddressRangeBag",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20c01ef_b995df5e",
+        "filename": "client/simple_address_range_bag.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-29T15:59:26Z",
+      "side": 1,
+      "message": "\u003cstdint.h\u003e",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a20c01ef_999a9b8a",
+        "filename": "client/simple_address_range_bag.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-02-29T15:59:26Z",
+      "side": 1,
+      "message": "Say something about how overlap or identical objects are handled.\n\nI’d prefer stronger semantics than what you implemented (which would make it less of a bag and more of a set).",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
