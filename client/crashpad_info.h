@@ -29,6 +29,20 @@
 
 namespace crashpad {
 
+namespace internal {
+
+// A linked list of blocks representing custom streams in the minidump, with
+// addresses (and size) stored as uint64_t to simplify reading from the
+// handler process.
+struct UserDataStreamListEntry {
+  uint64_t next;
+  uint64_t base_address;
+  uint64_t size;
+  uint32_t stream_type;
+};
+
+}  // namespace internal
+
 //! \brief A structure that can be used by a Crashpad-enabled program to
 //!     provide information to the Crashpad crash handler.
 //!
@@ -89,7 +103,7 @@ struct CrashpadInfo {
   //! that it has been disabled.
   //!
   //! The Crashpad handler should not normally be disabled. More commonly, it
-  //! is appropraite to disable crash report upload by calling
+  //! is appropriate to disable crash report upload by calling
   //! Settings::SetUploadsEnabled().
   void set_crashpad_handler_behavior(TriState crashpad_handler_behavior) {
     crashpad_handler_behavior_ = crashpad_handler_behavior;
@@ -130,6 +144,22 @@ struct CrashpadInfo {
     gather_indirectly_referenced_memory_ = gather_indirectly_referenced_memory;
   }
 
+  //! \brief Adds a custom stream to the minidump.
+  //!
+  //! The memory block referenced by \a data and \a size will added to the
+  //! minidump as separate stream with type \stream_type. The memory referred to
+  //! by \a data and \a size is owned by the caller and must remain valid while
+  //! it is in effect for the CrashpadInfo object.
+  //!
+  //! TODO(scottmg) This is currently only supported on Windows.
+  //!
+  //! \param[in] stream_type The stream type identifier to use. This should be
+  //!     normally be larger than `MINIDUMP_STREAM_TYPE::LastReservedStream`
+  //!     which is `0xffff`.
+  //! \param[in] data The base pointer of the stream data.
+  //! \param[in] size The size of the stream data.
+  void AddUserDataStream(uint32_t stream_type, const void* data, size_t size);
+
   enum : uint32_t {
     kSignature = 'CPad',
   };
@@ -154,6 +184,7 @@ struct CrashpadInfo {
   uint8_t padding_0_;
   SimpleAddressRangeBag* extra_memory_ranges_;  // weak
   SimpleStringDictionary* simple_annotations_;  // weak
+  internal::UserDataStreamListEntry* user_data_stream_head_;
 
 #if !defined(NDEBUG) && defined(OS_WIN)
   uint32_t invalid_read_detection_;
