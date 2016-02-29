@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22ef3134_83aa2247",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-29T20:02:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "428ee542_04cebfd0",
+      "revId": "a6f998c06e171ee928e7681fce58fcb8a95d4b71",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
