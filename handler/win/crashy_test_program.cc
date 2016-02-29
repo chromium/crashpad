@@ -225,6 +225,18 @@ int CrashyMain(int argc, wchar_t* argv[]) {
   crashpad::CrashpadInfo::GetCrashpadInfo()
       ->set_gather_indirectly_referenced_memory(TriState::kEnabled);
 
+  std::vector<uint8_t> data_stream1(128, 'x');
+  crashpad::CrashpadInfo::GetCrashpadInfo()->AddUserDataMinidumpStream(
+      222222,
+      reinterpret_cast<const void*>(data_stream1.data()),
+      data_stream1.size());
+
+  std::vector<uint8_t> data_stream2(4096, 'z');
+  crashpad::CrashpadInfo::GetCrashpadInfo()->AddUserDataMinidumpStream(
+      333333,
+      reinterpret_cast<const void*>(data_stream2.data()),
+      data_stream2.size());
+
   AllocateMemoryOfVariousProtections();
 
   if (InitializeCriticalSectionWithDebugInfoIfPossible(

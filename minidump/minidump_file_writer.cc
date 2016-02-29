@@ -28,8 +28,10 @@
 #include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_thread_writer.h"
 #include "minidump/minidump_unloaded_module_writer.h"
+#include "minidump/minidump_user_stream_writer.h"
 #include "minidump/minidump_writer_util.h"
 #include "snapshot/exception_snapshot.h"
+#include "snapshot/module_snapshot.h"
 #include "snapshot/process_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
@@ -95,6 +97,14 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   auto module_list = make_scoped_ptr(new MinidumpModuleListWriter());
   module_list->InitializeFromSnapshot(process_snapshot->Modules());
   AddStream(std::move(module_list));
+
+  for (const auto& module : process_snapshot->Modules()) {
+    for (const UserMinidumpStream* stream : module->CustomMinidumpStreams()) {
+      auto user_stream = make_scoped_ptr(new MinidumpUserStreamWriter());
+      user_stream->InitializeFromSnapshot(stream);
+      AddStream(std::move(user_stream));
+    }
+  }
 
   auto unloaded_modules = process_snapshot->UnloadedModules();
   if (!unloaded_modules.empty()) {

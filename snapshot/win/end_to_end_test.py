@@ -290,6 +290,12 @@ def RunTests(cdb_path,
             r'\?\?\?\?\?\?\?\? \?\?\?\?\?\?\?\?',
             'extra memory removal')
 
+  out = CdbRun(cdb_path, dump_path, '.dumpdebug')
+  out.Check(r'type \?\?\? \(333333\), size 00001000',
+            'first user stream')
+  out.Check(r'type \?\?\? \(222222\), size 00000080',
+            'second user stream')
+
   if z7_dump_path:
     out = CdbRun(cdb_path, z7_dump_path, '.ecxr;lm')
     out.Check('This dump file has an exception of interest stored in it',

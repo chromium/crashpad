@@ -176,6 +176,10 @@ enum MINIDUMP_STREAM_TYPE {
 
   //! \brief The stream type for MINIDUMP_MEMORY_INFO_LIST.
   MemoryInfoListStream = 16,
+
+  //! \brief Values greater than this value will not be used by the system
+  //!     and can be used for custom user data streams.
+  LastReservedStream = 0xffff,
 };
 
 //! \brief Information about the CPU (or CPUs) that ran the process that the

@@ -98,5 +98,10 @@ std::set<CheckedRange<uint64_t>> TestModuleSnapshot::ExtraMemoryRanges() const {
   return extra_memory_ranges_;
 }
 
+std::vector<const UserMinidumpStream*>
+TestModuleSnapshot::CustomMinidumpStreams() const {
+  return custom_minidump_streams_;
+}
+
 }  // namespace test
 }  // namespace crashpad
