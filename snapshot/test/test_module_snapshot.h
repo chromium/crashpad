@@ -24,6 +24,7 @@
 
 #include "base/macros.h"
 #include "snapshot/module_snapshot.h"
+#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 namespace test {
@@ -79,6 +80,9 @@ class TestModuleSnapshot final : public ModuleSnapshot {
       const std::set<CheckedRange<uint64_t>>& extra_memory_ranges) {
     extra_memory_ranges_ = extra_memory_ranges;
   }
+  void AddCustomMinidumpStream(const UserMinidumpStream* stream) {
+    custom_minidump_streams_.push_back(stream);
+  }
 
   // ModuleSnapshot:
 
@@ -100,6 +104,7 @@ class TestModuleSnapshot final : public ModuleSnapshot {
   std::vector<std::string> AnnotationsVector() const override;
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
   std::set<CheckedRange<uint64_t>> ExtraMemoryRanges() const override;
+  std::vector<const UserMinidumpStream*> CustomMinidumpStreams() const override;
 
  private:
   std::string name_;
@@ -115,6 +120,7 @@ class TestModuleSnapshot final : public ModuleSnapshot {
   std::vector<std::string> annotations_vector_;
   std::map<std::string, std::string> annotations_simple_map_;
   std::set<CheckedRange<uint64_t>> extra_memory_ranges_;
+  PointerVector<const UserMinidumpStream> custom_minidump_streams_;
 
   DISALLOW_COPY_AND_ASSIGN(TestModuleSnapshot);
 };
