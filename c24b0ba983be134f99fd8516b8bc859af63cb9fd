@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "a20c01ef_39aa6f9b",
+        "filename": "client/simple_address_range_bag.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-02-29T16:19:42Z",
+      "side": 1,
+      "message": "Is the serialization logic ever used? It doesn\u0027t look like it. TSimpleStringDictionary has it because of the way Breakpad used to handle crash keys (sending them over a pipe). But I\u0027m not even sure TSSD needs it, either.",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a20c01ef_b995df5e",
         "filename": "client/simple_address_range_bag.h",
         "patchSetId": 6
