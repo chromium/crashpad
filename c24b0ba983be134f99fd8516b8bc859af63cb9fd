@@ -174,6 +174,24 @@
       "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a26ec178_c3614ae1",
+        "filename": "client/simple_address_range_bag.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-29T20:02:43Z",
+      "side": 1,
+      "message": "\"Keen\" is a bit strong :), but it seems simplest.\n\nAdded Remove() and some test code for it.",
+      "parentUuid": "a20c01ef_b9e31ff3",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
