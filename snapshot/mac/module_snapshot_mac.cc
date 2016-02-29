@@ -187,5 +187,10 @@ std::set<CheckedRange<uint64_t>> ModuleSnapshotMac::ExtraMemoryRanges() const {
   return std::set<CheckedRange<uint64_t>>();
 }
 
+std::vector<const UserMinidumpStream*>
+ModuleSnapshotWin::CustomMinidumpStreams() const {
+  return std::vector<UserMinidumpStream>();
+}
+
 }  // namespace internal
 }  // namespace crashpad
