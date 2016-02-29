@@ -37,6 +37,9 @@ PROCESS_TYPE_STRUCT_BEGIN(CrashpadInfo)
 
   PROCESS_TYPE_STRUCT_MEMBER(uint8_t, padding_0)
 
+  // SimpleAddressRangeBag*
+  PROCESS_TYPE_STRUCT_MEMBER(Pointer, extra_memory_ranges)
+
   // SimpleStringDictionary*
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, simple_annotations)
 PROCESS_TYPE_STRUCT_END(CrashpadInfo)
