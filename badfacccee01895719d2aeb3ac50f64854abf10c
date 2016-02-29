@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "428ee542_04cebfd0",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-02-29T19:18:08Z",
+      "side": 0,
+      "message": "I think there\u0027s a test for this, too.",
+      "revId": "badfacccee01895719d2aeb3ac50f64854abf10c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
