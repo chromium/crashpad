@@ -72,6 +72,8 @@
         'minidump_thread_writer.h',
         'minidump_unloaded_module_writer.cc',
         'minidump_unloaded_module_writer.h',
+        'minidump_user_stream_writer.cc',
+        'minidump_user_stream_writer.h',
         'minidump_writable.cc',
         'minidump_writable.h',
         'minidump_writer_util.cc',
