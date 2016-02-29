@@ -32,13 +32,13 @@ TEST(SimpleAddressRangeBag, Entry) {
   bag.Insert(reinterpret_cast<void*>(0x1000), 200);
   entry = TestBag::Iterator(bag).Next();
   ASSERT_TRUE(entry);
-  EXPECT_EQ(entry->base, 0x1000);
-  EXPECT_EQ(entry->size, 200);
+  EXPECT_EQ(entry->base, 0x1000u);
+  EXPECT_EQ(entry->size, 200u);
 
   bag.Remove(reinterpret_cast<void*>(0x1000), 200);
   EXPECT_FALSE(entry->is_active());
-  EXPECT_EQ(entry->base, 0);
-  EXPECT_EQ(entry->size, 0);
+  EXPECT_EQ(entry->base, 0u);
+  EXPECT_EQ(entry->size, 0u);
 }
 
 TEST(SimpleAddressRangeBag, SimpleAddressRangeBag) {
@@ -59,13 +59,13 @@ TEST(SimpleAddressRangeBag, SimpleAddressRangeBag) {
   EXPECT_TRUE(bag.Remove(CheckedRange<uint64_t>(0x3000, 30)));
   EXPECT_TRUE(bag.Remove(CheckedRange<uint64_t>(0x3000, 30)));
   EXPECT_TRUE(bag.Remove(CheckedRange<uint64_t>(0x3000, 30)));
-  EXPECT_EQ(bag.GetCount(), 2);
+  EXPECT_EQ(bag.GetCount(), 2u);
   EXPECT_FALSE(bag.Remove(CheckedRange<uint64_t>(0x3000, 30)));
-  EXPECT_EQ(bag.GetCount(), 2);
+  EXPECT_EQ(bag.GetCount(), 2u);
 
   EXPECT_TRUE(bag.Remove(reinterpret_cast<void*>(0x1000), 10));
   EXPECT_TRUE(bag.Remove(reinterpret_cast<void*>(0x2000), 20));
-  EXPECT_EQ(bag.GetCount(), 0);
+  EXPECT_EQ(bag.GetCount(), 0u);
 }
 
 TEST(SimpleAddressRangeBag, CopyAndAssign) {
