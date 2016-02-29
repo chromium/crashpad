@@ -42,4 +42,7 @@ PROCESS_TYPE_STRUCT_BEGIN(CrashpadInfo)
 
   // SimpleStringDictionary*
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, simple_annotations)
+
+  // UserDataStreamListEntry*
+  PROCESS_TYPE_STRUCT_MEMBER(Pointer, user_data_minidump_stream_head)
 PROCESS_TYPE_STRUCT_END(CrashpadInfo)
