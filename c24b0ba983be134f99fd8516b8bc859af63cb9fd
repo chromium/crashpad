@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02feade5_df699f88",
+        "filename": "client/simple_address_range_bag.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-29T18:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2e0153f_e20b2672",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a20c01ef_39aa6f9b",
         "filename": "client/simple_address_range_bag.h",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-29T16:19:42Z",
       "side": 1,
       "message": "Is the serialization logic ever used? It doesn\u0027t look like it. TSimpleStringDictionary has it because of the way Breakpad used to handle crash keys (sending them over a pipe). But I\u0027m not even sure TSSD needs it, either.",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22ef3134_80e858f9",
+        "filename": "client/simple_address_range_bag.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-29T18:49:21Z",
+      "side": 1,
+      "message": "Oops, you\u0027re right! We just rely on the POD-ness, but Serialize(), etc. aren\u0027t used.",
+      "parentUuid": "a20c01ef_39aa6f9b",
       "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "02594de9_074bf829",
+        "filename": "client/simple_address_range_bag.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-29T18:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a20c01ef_b995df5e",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a20c01ef_999a9b8a",
         "filename": "client/simple_address_range_bag.h",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2016-02-29T15:59:26Z",
       "side": 1,
       "message": "Say something about how overlap or identical objects are handled.\n\nI’d prefer stronger semantics than what you implemented (which would make it less of a bag and more of a set).",
+      "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2e32149_27efdea2",
+        "filename": "client/simple_address_range_bag.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-02-29T18:49:21Z",
+      "side": 1,
+      "message": "I started implementing a set originally, and then switched. From the client side, the way this will be used is paired (maybe scoped) add/remove for a certain lifetime while a data structure to be captured is valid. So being able to just unconditionally add/remove seemed simpler.\n\nAnother interface might be to have Insert() return a token/handle, but that sort of boils down to the same thing.",
+      "parentUuid": "a20c01ef_999a9b8a",
       "revId": "c24b0ba983be134f99fd8516b8bc859af63cb9fd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
