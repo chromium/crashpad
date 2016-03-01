@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02714d1c_7633aeac",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-03-01T23:58:41Z",
+      "side": 1,
+      "message": "Doxygenate this.",
+      "revId": "c670df3c8a9d530998e99b4527bcdd5b035b76a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62804914_5a70946f",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-03-01T23:58:41Z",
+      "side": 1,
+      "message": "Snapshots and the stuff in client is supposed to be format-neutral. I think that it’s OK to have this minidump-specific stuff here, but we should note that it’s minidump-specific in the naming: AddUserDataMinidumpStream(), user_data_minidump_stream_head_. The concept of “stream” might not make sense in generic client or snapshot code in the future when we might be writing a core file instead of a minidump.",
+      "revId": "c670df3c8a9d530998e99b4527bcdd5b035b76a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a237a16a_9eade3fb",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-03-01T23:58:41Z",
+      "side": 1,
+      "message": "Looks like things are added in reverse order. Might be worth a comment.",
+      "revId": "c670df3c8a9d530998e99b4527bcdd5b035b76a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
