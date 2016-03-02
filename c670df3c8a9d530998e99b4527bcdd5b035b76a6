@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c26bb568_1e980fa3",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-03-02T00:22:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02714d1c_7633aeac",
+      "revId": "c670df3c8a9d530998e99b4527bcdd5b035b76a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62804914_5a70946f",
         "filename": "client/crashpad_info.h",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a2e32149_af4bb827",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-03-02T00:22:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62804914_5a70946f",
+      "revId": "c670df3c8a9d530998e99b4527bcdd5b035b76a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a237a16a_9eade3fb",
         "filename": "client/crashpad_info.h",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2016-03-01T23:58:41Z",
       "side": 1,
       "message": "Looks like things are added in reverse order. Might be worth a comment.",
+      "revId": "c670df3c8a9d530998e99b4527bcdd5b035b76a6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02feade5_5cd3d225",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-03-02T00:22:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a237a16a_9eade3fb",
       "revId": "c670df3c8a9d530998e99b4527bcdd5b035b76a6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
