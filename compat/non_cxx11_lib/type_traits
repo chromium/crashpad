@@ -30,6 +30,11 @@ struct remove_reference { using type = T; };
 template <class T>
 struct remove_reference<T&> { using type = T; };
 
+template <typename T, typename S>
+struct is_same { enum { value = false }; };
+template <typename T>
+struct is_same<T, T> { enum { value = true }; };
+
 }  // namespace std
 
 #endif  // CXX_LIBRARY_VERSION

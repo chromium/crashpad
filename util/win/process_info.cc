@@ -18,11 +18,11 @@
 
 #include <algorithm>
 #include <limits>
+#include <type_traits>
 
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
-#include "base/template_util.h"
 #include "build/build_config.h"
 #include "util/numeric/safe_assignment.h"
 #include "util/win/get_function.h"
@@ -636,9 +636,9 @@ std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
   // Find all the ranges that overlap the target range, maintaining their order.
   ProcessInfo::MemoryBasicInformation64Vector overlapping;
   for (const auto& mi : memory_info) {
-    static_assert(base::is_same<decltype(mi.BaseAddress), WinVMAddress>::value,
+    static_assert(std::is_same<decltype(mi.BaseAddress), WinVMAddress>::value,
                   "expected range address to be WinVMAddress");
-    static_assert(base::is_same<decltype(mi.RegionSize), WinVMSize>::value,
+    static_assert(std::is_same<decltype(mi.RegionSize), WinVMSize>::value,
                   "expected range size to be WinVMSize");
     if (range.OverlapsRange(Range(mi.BaseAddress, mi.RegionSize)))
       overlapping.push_back(mi);
