@@ -98,14 +98,29 @@ CrashpadInfo::CrashpadInfo()
       version_(kCrashpadInfoVersion),
       crashpad_handler_behavior_(TriState::kUnset),
       system_crash_reporter_forwarding_(TriState::kUnset),
+      gather_indirectly_referenced_memory_(TriState::kUnset),
       padding_0_(0),
-      simple_annotations_(nullptr)
+      extra_memory_ranges_(nullptr),
+      simple_annotations_(nullptr),
+      user_data_minidump_stream_head_(nullptr)
 #if !defined(NDEBUG) && defined(OS_WIN)
       ,
       invalid_read_detection_(0xbadc0de)
 #endif
 {
+}
 
+void CrashpadInfo::AddUserDataMinidumpStream(uint32_t stream_type,
+                                             const void* data,
+                                             size_t size) {
+  auto to_be_added = new internal::UserDataMinidumpStreamListEntry();
+  to_be_added->next = base::checked_cast<uint64_t>(
+      reinterpret_cast<uintptr_t>(user_data_minidump_stream_head_));
+  to_be_added->stream_type = stream_type;
+  to_be_added->base_address =
+      base::checked_cast<uint64_t>(reinterpret_cast<uintptr_t>(data));
+  to_be_added->size = base::checked_cast<uint64_t>(size);
+  user_data_minidump_stream_head_ = to_be_added;
 }
 
 }  // namespace crashpad

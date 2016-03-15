@@ -160,6 +160,9 @@ enum MINIDUMP_STREAM_TYPE {
   //! \brief The stream contains information about active `HANDLE`s.
   HandleDataStream = 12,
 
+  //! \brief The stream type for MINIDUMP_UNLOADED_MODULE_LIST.
+  UnloadedModuleListStream = 14,
+
   //! \brief The stream type for MINIDUMP_MISC_INFO, MINIDUMP_MISC_INFO_2,
   //!     MINIDUMP_MISC_INFO_3, and MINIDUMP_MISC_INFO_4.
   //!
@@ -173,6 +176,10 @@ enum MINIDUMP_STREAM_TYPE {
 
   //! \brief The stream type for MINIDUMP_MEMORY_INFO_LIST.
   MemoryInfoListStream = 16,
+
+  //! \brief Values greater than this value will not be used by the system
+  //!     and can be used for custom user data streams.
+  LastReservedStream = 0xffff,
 };
 
 //! \brief Information about the CPU (or CPUs) that ran the process that the
@@ -674,6 +681,9 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_HANDLE_DESCRIPTOR_2
 };
 
 //! \brief Represents the header for a handle data stream.
+//!
+//! A list of MINIDUMP_HANDLE_DESCRIPTOR or MINIDUMP_HANDLE_DESCRIPTOR_2
+//! structures will immediately follow in the stream.
 struct __attribute((packed, aligned(4))) MINIDUMP_HANDLE_DATA_STREAM {
   //! \brief The size of the header information for the stream, in bytes. This
   //!     value is `sizeof(MINIDUMP_HANDLE_DATA_STREAM)`.
@@ -689,6 +699,58 @@ struct __attribute((packed, aligned(4))) MINIDUMP_HANDLE_DATA_STREAM {
 
   //! \brief Must be zero.
   uint32_t Reserved;
+};
+
+//! \brief Information about a specific module that was recorded as being
+//!     unloaded at the time the snapshot was taken.
+//!
+//! An unloaded module may be a shared library or a loadable module.
+//!
+//! \sa MINIDUMP_UNLOADED_MODULE_LIST
+struct __attribute__((packed, aligned(4))) MINIDUMP_UNLOADED_MODULE {
+  //! \brief The base address where the module was loaded in the address space
+  //!     of the process that the minidump file contains a snapshot of.
+  uint64_t BaseOfImage;
+
+  //! \brief The size of the unloaded module.
+  uint32_t SizeOfImage;
+
+  //! \brief The module’s checksum, or `0` if unknown.
+  //!
+  //! On Windows, this field comes from the `CheckSum` field of the module’s
+  //! `IMAGE_OPTIONAL_HEADER` structure, if present. It reflects the checksum at
+  //! the time the module was linked.
+  uint32_t CheckSum;
+
+  //! \brief The module’s timestamp, in `time_t` units, seconds since the POSIX
+  //!     epoch.
+  //!
+  //! On Windows, this field comes from the `TimeDateStamp` field of the
+  //! module’s `IMAGE_HEADER` structure. It reflects the timestamp at the time
+  //! the module was linked.
+  uint32_t TimeDateStamp;
+
+  //! \brief ::RVA of a MINIDUMP_STRING containing the module’s path or file
+  //!     name.
+  RVA ModuleNameRva;
+};
+
+//! \brief Information about all modules recorded as unloaded when the snapshot
+//!     was taken.
+//!
+//! A list of MINIDUMP_UNLOADED_MODULE structures will immediately follow in the
+//! stream.
+struct __attribute__((packed, aligned(4))) MINIDUMP_UNLOADED_MODULE_LIST {
+  //! \brief The size of the header information for the stream, in bytes. This
+  //!     value is `sizeof(MINIDUMP_UNLOADED_MODULE_LIST)`.
+  uint32_t SizeOfHeader;
+
+  //! \brief The size of a descriptor in the stream, in bytes. This value is
+  //!     `sizeof(MINIDUMP_UNLOADED_MODULE)`.
+  uint32_t SizeOfEntry;
+
+  //! \brief The number of entries in the stream.
+  uint32_t NumberOfEntries;
 };
 
 //! \anchor MINIDUMP_MISCx

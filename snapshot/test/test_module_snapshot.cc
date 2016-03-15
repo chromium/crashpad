@@ -29,7 +29,8 @@ TestModuleSnapshot::TestModuleSnapshot()
       uuid_(),
       debug_file_name_(),
       annotations_vector_(),
-      annotations_simple_map_() {
+      annotations_simple_map_(),
+      extra_memory_ranges_() {
 }
 
 TestModuleSnapshot::~TestModuleSnapshot() {
@@ -91,6 +92,15 @@ std::vector<std::string> TestModuleSnapshot::AnnotationsVector() const {
 std::map<std::string, std::string> TestModuleSnapshot::AnnotationsSimpleMap()
     const {
   return annotations_simple_map_;
+}
+
+std::set<CheckedRange<uint64_t>> TestModuleSnapshot::ExtraMemoryRanges() const {
+  return extra_memory_ranges_;
+}
+
+std::vector<const UserMinidumpStream*>
+TestModuleSnapshot::CustomMinidumpStreams() const {
+  return custom_minidump_streams_;
 }
 
 }  // namespace test

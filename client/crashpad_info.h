@@ -19,6 +19,7 @@
 
 #include "base/macros.h"
 #include "build/build_config.h"
+#include "client/simple_address_range_bag.h"
 #include "client/simple_string_dictionary.h"
 #include "util/misc/tri_state.h"
 
@@ -27,6 +28,29 @@
 #endif  // OS_WIN
 
 namespace crashpad {
+
+namespace internal {
+
+//! \brief A linked list of blocks representing custom streams in the minidump,
+//!     with addresses (and size) stored as uint64_t to simplify reading from
+//!     the handler process.
+struct UserDataMinidumpStreamListEntry {
+  //! \brief The address of the next entry in the linked list.
+  uint64_t next;
+
+  //! \brief The base address of the memory block in the target process' address
+  //!     space that represents the user data stream.
+  uint64_t base_address;
+
+  //! \brief The size of memory block in the target process' address space that
+  //!     represents the user data stream.
+  uint64_t size;
+
+  //! \brief The stream type identifier.
+  uint32_t stream_type;
+};
+
+}  // namespace internal
 
 //! \brief A structure that can be used by a Crashpad-enabled program to
 //!     provide information to the Crashpad crash handler.
@@ -41,6 +65,22 @@ struct CrashpadInfo {
   static CrashpadInfo* GetCrashpadInfo();
 
   CrashpadInfo();
+
+  //! \brief Sets the bag of extra memory ranges to be included in the snapshot.
+  //!
+  //! Extra memory ranges may exist in \a address_range_bag at the time that
+  //! this method is called, or they may be added, removed, or modified in \a
+  //! address_range_bag after this method is called.
+  //!
+  //! TODO(scottmg) This is currently only supported on Windows.
+  //!
+  //! \param[in] address_range_bag A bag of address ranges. The CrashpadInfo
+  //!     object does not take ownership of the SimpleAddressRangeBag object.
+  //!     It is the caller’s responsibility to ensure that this pointer remains
+  //!     valid while it is in effect for a CrashpadInfo object.
+  void set_extra_memory_ranges(SimpleAddressRangeBag* address_range_bag) {
+    extra_memory_ranges_ = address_range_bag;
+  }
 
   //! \brief Sets the simple annotations dictionary.
   //!
@@ -72,7 +112,7 @@ struct CrashpadInfo {
   //! that it has been disabled.
   //!
   //! The Crashpad handler should not normally be disabled. More commonly, it
-  //! is appropraite to disable crash report upload by calling
+  //! is appropriate to disable crash report upload by calling
   //! Settings::SetUploadsEnabled().
   void set_crashpad_handler_behavior(TriState crashpad_handler_behavior) {
     crashpad_handler_behavior_ = crashpad_handler_behavior;
@@ -97,6 +137,43 @@ struct CrashpadInfo {
     system_crash_reporter_forwarding_ = system_crash_reporter_forwarding;
   }
 
+  //! \brief Enables or disables Crashpad capturing indirectly referenced memory
+  //!     in the minidump.
+  //!
+  //! When handling an exception, the Crashpad handler will scan all modules in
+  //! a process. The first one that has a CrashpadInfo structure populated with
+  //! a value other than #kUnset for this field will dictate whether the extra
+  //! memory is captured.
+  //!
+  //! This causes Crashpad to include pages of data referenced by locals or
+  //! other stack memory. Turning this on can increase the size of the minidump
+  //! significantly.
+  void set_gather_indirectly_referenced_memory(
+      TriState gather_indirectly_referenced_memory) {
+    gather_indirectly_referenced_memory_ = gather_indirectly_referenced_memory;
+  }
+
+  //! \brief Adds a custom stream to the minidump.
+  //!
+  //! The memory block referenced by \a data and \a size will added to the
+  //! minidump as separate stream with type \stream_type. The memory referred to
+  //! by \a data and \a size is owned by the caller and must remain valid while
+  //! it is in effect for the CrashpadInfo object.
+  //!
+  //! Note that streams will appear in the minidump in the reverse order to
+  //! which they are added.
+  //!
+  //! TODO(scottmg) This is currently only supported on Windows.
+  //!
+  //! \param[in] stream_type The stream type identifier to use. This should be
+  //!     normally be larger than `MINIDUMP_STREAM_TYPE::LastReservedStream`
+  //!     which is `0xffff`.
+  //! \param[in] data The base pointer of the stream data.
+  //! \param[in] size The size of the stream data.
+  void AddUserDataMinidumpStream(uint32_t stream_type,
+                                 const void* data,
+                                 size_t size);
+
   enum : uint32_t {
     kSignature = 'CPad',
   };
@@ -117,8 +194,11 @@ struct CrashpadInfo {
   uint32_t version_;  // kVersion
   TriState crashpad_handler_behavior_;
   TriState system_crash_reporter_forwarding_;
-  uint16_t padding_0_;
+  TriState gather_indirectly_referenced_memory_;
+  uint8_t padding_0_;
+  SimpleAddressRangeBag* extra_memory_ranges_;  // weak
   SimpleStringDictionary* simple_annotations_;  // weak
+  internal::UserDataMinidumpStreamListEntry* user_data_minidump_stream_head_;
 
 #if !defined(NDEBUG) && defined(OS_WIN)
   uint32_t invalid_read_detection_;

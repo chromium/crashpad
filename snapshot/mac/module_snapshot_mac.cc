@@ -64,6 +64,7 @@ void ModuleSnapshotMac::GetCrashpadOptions(CrashpadInfoClientOptions* options) {
   if (!mach_o_image_reader_->GetCrashpadInfo(&crashpad_info)) {
     options->crashpad_handler_behavior = TriState::kUnset;
     options->system_crash_reporter_forwarding = TriState::kUnset;
+    options->gather_indirectly_referenced_memory = TriState::kUnset;
     return;
   }
 
@@ -74,6 +75,10 @@ void ModuleSnapshotMac::GetCrashpadOptions(CrashpadInfoClientOptions* options) {
   options->system_crash_reporter_forwarding =
       CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
           crashpad_info.system_crash_reporter_forwarding);
+
+  options->gather_indirectly_referenced_memory =
+      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
+          crashpad_info.gather_indirectly_referenced_memory);
 }
 
 std::string ModuleSnapshotMac::Name() const {
@@ -175,6 +180,16 @@ std::map<std::string, std::string> ModuleSnapshotMac::AnnotationsSimpleMap()
   MachOImageAnnotationsReader annotations_reader(
       process_reader_, mach_o_image_reader_, name_);
   return annotations_reader.SimpleMap();
+}
+
+std::set<CheckedRange<uint64_t>> ModuleSnapshotMac::ExtraMemoryRanges() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::set<CheckedRange<uint64_t>>();
+}
+
+std::vector<const UserMinidumpStream*>
+ModuleSnapshotMac::CustomMinidumpStreams() const {
+  return std::vector<const UserMinidumpStream*>();
 }
 
 }  // namespace internal

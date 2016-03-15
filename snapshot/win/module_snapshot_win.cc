@@ -15,6 +15,9 @@
 #include "snapshot/win/module_snapshot_win.h"
 
 #include "base/strings/utf_string_conversions.h"
+#include "client/crashpad_info.h"
+#include "client/simple_address_range_bag.h"
+#include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/pe_image_annotations_reader.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "util/misc/tri_state.h"
@@ -185,6 +188,34 @@ std::map<std::string, std::string> ModuleSnapshotWin::AnnotationsSimpleMap()
   return annotations_reader.SimpleMap();
 }
 
+std::set<CheckedRange<uint64_t>> ModuleSnapshotWin::ExtraMemoryRanges() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  std::set<CheckedRange<uint64_t>> ranges;
+  if (process_reader_->Is64Bit())
+    GetCrashpadExtraMemoryRanges<process_types::internal::Traits64>(&ranges);
+  else
+    GetCrashpadExtraMemoryRanges<process_types::internal::Traits32>(&ranges);
+  return ranges;
+}
+
+std::vector<const UserMinidumpStream*>
+ModuleSnapshotWin::CustomMinidumpStreams() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  streams_.clear();
+  if (process_reader_->Is64Bit()) {
+    GetCrashpadUserMinidumpStreams<process_types::internal::Traits64>(
+        &streams_);
+  } else {
+    GetCrashpadUserMinidumpStreams<process_types::internal::Traits32>(
+        &streams_);
+  }
+
+  std::vector<const UserMinidumpStream*> result;
+  for (const auto* stream : streams_)
+    result.push_back(stream);
+  return result;
+}
+
 template <class Traits>
 void ModuleSnapshotWin::GetCrashpadOptionsInternal(
     CrashpadInfoClientOptions* options) {
@@ -202,6 +233,10 @@ void ModuleSnapshotWin::GetCrashpadOptionsInternal(
   options->system_crash_reporter_forwarding =
       CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
           crashpad_info.system_crash_reporter_forwarding);
+
+  options->gather_indirectly_referenced_memory =
+      CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
+          crashpad_info.gather_indirectly_referenced_memory);
 }
 
 const VS_FIXEDFILEINFO* ModuleSnapshotWin::VSFixedFileInfo() const {
@@ -216,6 +251,62 @@ const VS_FIXEDFILEINFO* ModuleSnapshotWin::VSFixedFileInfo() const {
 
   return initialized_vs_fixed_file_info_.is_valid() ? &vs_fixed_file_info_
                                                     : nullptr;
+}
+
+template <class Traits>
+void ModuleSnapshotWin::GetCrashpadExtraMemoryRanges(
+    std::set<CheckedRange<uint64_t>>* ranges) const {
+  process_types::CrashpadInfo<Traits> crashpad_info;
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
+    return;
+
+  if (!crashpad_info.extra_address_ranges)
+    return;
+
+  std::vector<SimpleAddressRangeBag::Entry> simple_ranges(
+      SimpleAddressRangeBag::num_entries);
+  if (!process_reader_->ReadMemory(
+          crashpad_info.extra_address_ranges,
+          simple_ranges.size() * sizeof(simple_ranges[0]),
+          &simple_ranges[0])) {
+    LOG(WARNING) << "could not read simple address_ranges from "
+                 << base::UTF16ToUTF8(name_);
+    return;
+  }
+
+  for (const auto& entry : simple_ranges) {
+    if (entry.base != 0 || entry.size != 0) {
+      // Deduplication here is fine.
+      ranges->insert(CheckedRange<uint64_t>(entry.base, entry.size));
+    }
+  }
+}
+
+template <class Traits>
+void ModuleSnapshotWin::GetCrashpadUserMinidumpStreams(
+    PointerVector<const UserMinidumpStream>* streams) const {
+  process_types::CrashpadInfo<Traits> crashpad_info;
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
+    return;
+
+  for (uint64_t cur = crashpad_info.user_data_minidump_stream_head; cur;) {
+    internal::UserDataMinidumpStreamListEntry list_entry;
+    if (!process_reader_->ReadMemory(
+          cur, sizeof(list_entry), &list_entry)) {
+      LOG(WARNING) << "could not read user data stream entry from "
+                   << base::UTF16ToUTF8(name_);
+      return;
+    }
+
+    scoped_ptr<internal::MemorySnapshotWin> memory(
+        new internal::MemorySnapshotWin());
+    memory->Initialize(
+        process_reader_, list_entry.base_address, list_entry.size);
+    streams->push_back(
+        new UserMinidumpStream(list_entry.stream_type, memory.release()));
+
+    cur = list_entry.next;
+  }
 }
 
 }  // namespace internal

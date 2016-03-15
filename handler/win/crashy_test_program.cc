@@ -28,6 +28,7 @@
 #include "base/macros.h"
 #include "build/build_config.h"
 #include "client/crashpad_client.h"
+#include "client/crashpad_info.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
 
@@ -37,6 +38,10 @@
 #endif
 
 namespace crashpad {
+
+int* g_extra_memory_pointer;
+int* g_extra_memory_not_saved;
+
 namespace {
 
 CRITICAL_SECTION g_test_critical_section;
@@ -135,6 +140,33 @@ void SomeCrashyFunction() {
   *foo = 42;
 }
 
+void AllocateExtraMemoryToBeSaved(
+    crashpad::SimpleAddressRangeBag* extra_ranges) {
+  const size_t kNumInts = 2000;
+  int* extra_memory = new int[kNumInts];
+  g_extra_memory_pointer = extra_memory;
+  for (int i = 0; i < kNumInts; ++i)
+    extra_memory[i] = i * 13 + 2;
+  extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumInts);
+  extra_ranges->Insert(&g_extra_memory_pointer, sizeof(g_extra_memory_pointer));
+}
+
+void AllocateExtraUnsavedMemory(crashpad::SimpleAddressRangeBag* extra_ranges) {
+  // Allocate some extra memory, and then Insert() but also Remove() it so we
+  // can confirm it doesn't get saved.
+  const size_t kNumInts = 2000;
+  int* extra_memory = new int[kNumInts];
+  g_extra_memory_not_saved = extra_memory;
+  for (int i = 0; i < kNumInts; ++i)
+    extra_memory[i] = i * 17 + 7;
+  extra_ranges->Insert(extra_memory, sizeof(extra_memory[0]) * kNumInts);
+  extra_ranges->Insert(&g_extra_memory_not_saved,
+                       sizeof(g_extra_memory_not_saved));
+
+  // We keep the pointer's memory, but remove the pointed-to memory.
+  extra_ranges->Remove(extra_memory, sizeof(extra_memory[0]) * kNumInts);
+}
+
 int CrashyMain(int argc, wchar_t* argv[]) {
   CrashpadClient client;
 
@@ -163,6 +195,47 @@ int CrashyMain(int argc, wchar_t* argv[]) {
     LOG(ERROR) << "UseHandler";
     return EXIT_FAILURE;
   }
+
+  crashpad::SimpleAddressRangeBag* extra_ranges =
+      new crashpad::SimpleAddressRangeBag();
+  crashpad::CrashpadInfo::GetCrashpadInfo()->set_extra_memory_ranges(
+      extra_ranges);
+  AllocateExtraMemoryToBeSaved(extra_ranges);
+  AllocateExtraUnsavedMemory(extra_ranges);
+
+  // Load and unload some uncommonly used modules so we can see them in the list
+  // reported by `lm`. At least two so that we confirm we got the size of
+  // RTL_UNLOAD_EVENT_TRACE right.
+  CHECK(GetModuleHandle(L"lz32.dll") == nullptr);
+  CHECK(GetModuleHandle(L"wmerror.dll") == nullptr);
+  HMODULE lz32 = LoadLibrary(L"lz32.dll");
+  HMODULE wmerror = LoadLibrary(L"wmerror.dll");
+  FreeLibrary(lz32);
+  FreeLibrary(wmerror);
+
+  // Make sure data pointed to by the stack is captured.
+  const int kDataSize = 512;
+  int* pointed_to_data = new int[kDataSize];
+  for (int i = 0; i < kDataSize; ++i)
+    pointed_to_data[i] = i | ((i % 2 == 0) ? 0x80000000 : 0);
+  int* offset_pointer = &pointed_to_data[128];
+  // Encourage the compiler to keep this variable around.
+  printf("%p, %p\n", offset_pointer, &offset_pointer);
+
+  crashpad::CrashpadInfo::GetCrashpadInfo()
+      ->set_gather_indirectly_referenced_memory(TriState::kEnabled);
+
+  std::vector<uint8_t> data_stream1(128, 'x');
+  crashpad::CrashpadInfo::GetCrashpadInfo()->AddUserDataMinidumpStream(
+      222222,
+      reinterpret_cast<const void*>(data_stream1.data()),
+      data_stream1.size());
+
+  std::vector<uint8_t> data_stream2(4096, 'z');
+  crashpad::CrashpadInfo::GetCrashpadInfo()->AddUserDataMinidumpStream(
+      333333,
+      reinterpret_cast<const void*>(data_stream2.data()),
+      data_stream2.size());
 
   AllocateMemoryOfVariousProtections();
 

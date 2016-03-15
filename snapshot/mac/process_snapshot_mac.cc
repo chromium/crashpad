@@ -104,11 +104,16 @@ void ProcessSnapshotMac::GetCrashpadOptions(
       local_options.system_crash_reporter_forwarding =
           module_options.system_crash_reporter_forwarding;
     }
+    if (local_options.gather_indirectly_referenced_memory == TriState::kUnset) {
+      local_options.gather_indirectly_referenced_memory =
+          module_options.gather_indirectly_referenced_memory;
+    }
 
     // If non-default values have been found for all options, the loop can end
     // early.
     if (local_options.crashpad_handler_behavior != TriState::kUnset &&
-        local_options.system_crash_reporter_forwarding != TriState::kUnset) {
+        local_options.system_crash_reporter_forwarding != TriState::kUnset &&
+        local_options.gather_indirectly_referenced_memory != TriState::kUnset) {
       break;
     }
   }
@@ -179,6 +184,12 @@ std::vector<const ModuleSnapshot*> ProcessSnapshotMac::Modules() const {
     modules.push_back(module);
   }
   return modules;
+}
+
+std::vector<UnloadedModuleSnapshot> ProcessSnapshotMac::UnloadedModules()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return std::vector<UnloadedModuleSnapshot>();
 }
 
 const ExceptionSnapshot* ProcessSnapshotMac::Exception() const {

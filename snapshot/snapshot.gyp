@@ -30,6 +30,8 @@
         '..',
       ],
       'sources': [
+        'capture_memory.cc',
+        'capture_memory.h',
         'cpu_architecture.h',
         'cpu_context.cc',
         'cpu_context.h',
@@ -89,12 +91,14 @@
         'process_snapshot.h',
         'system_snapshot.h',
         'thread_snapshot.h',
-        'win/capture_context_memory.cc',
-        'win/capture_context_memory.h',
+        'unloaded_module_snapshot.cc',
+        'unloaded_module_snapshot.h',
         'win/cpu_context_win.cc',
         'win/cpu_context_win.h',
         'win/exception_snapshot_win.cc',
         'win/exception_snapshot_win.h',
+        'win/capture_memory_delegate_win.cc',
+        'win/capture_memory_delegate_win.h',
         'win/memory_map_region_snapshot_win.cc',
         'win/memory_map_region_snapshot_win.h',
         'win/memory_snapshot_win.cc',
@@ -128,6 +132,33 @@
           },
         }],
       ]
+    },
+    {
+      'variables': {
+        'conditions': [
+          ['OS == "win"', {
+            'snapshot_api_target_type%': 'static_library',
+          }, {
+            # There are no source files except on Windows.
+            'snapshot_api_target_type%': 'none',
+          }],
+        ],
+      },
+      'target_name': 'crashpad_snapshot_api',
+      'type': '<(snapshot_api_target_type)',
+      'dependencies': [
+        'crashpad_snapshot',
+        '../compat/compat.gyp:crashpad_compat',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+        '../util/util.gyp:crashpad_util',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'api/module_annotations_win.cc',
+        'api/module_annotations_win.h',
+      ],
     },
   ],
 }

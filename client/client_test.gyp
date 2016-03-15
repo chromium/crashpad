@@ -39,6 +39,7 @@
         'crashpad_client_win_test.cc',
         'prune_crash_reports_test.cc',
         'settings_test.cc',
+        'simple_address_range_bag_test.cc',
         'simple_string_dictionary_test.cc',
         'simulate_crash_mac_test.cc',
       ],

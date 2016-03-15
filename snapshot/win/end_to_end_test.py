@@ -23,6 +23,7 @@ import sys
 import tempfile
 import time
 
+
 g_temp_dirs = []
 
 
@@ -235,6 +236,11 @@ def RunTests(cdb_path,
   out.Check(r'Event\s+\d+', 'capture some event handles')
   out.Check(r'File\s+\d+', 'capture some file handles')
 
+  out = CdbRun(cdb_path, dump_path, 'lm')
+  out.Check(r'Unloaded modules:', 'captured some unloaded modules')
+  out.Check(r'lz32\.dll', 'found expected unloaded module lz32')
+  out.Check(r'wmerror\.dll', 'found expected unloaded module wmerror')
+
   out = CdbRun(cdb_path, destroyed_dump_path, '.ecxr;!peb;k 2')
   out.Check(r'Ldr\.InMemoryOrderModuleList:.*\d+ \. \d+', 'PEB_LDR_DATA saved')
   out.Check(r'ntdll\.dll', 'ntdll present', re.IGNORECASE)
@@ -247,9 +253,48 @@ def RunTests(cdb_path,
                 r'FreeOwnStackAndBreak.*\nquit:',
             'at correct location, no additional stack entries')
 
+  # Switch to the other thread after jumping to the exception, and examine
+  # memory.
   out = CdbRun(cdb_path, dump_path, '.ecxr; ~1s; db /c14 edi')
   out.Check(r'63 62 61 60 5f 5e 5d 5c-5b 5a 59 58 57 56 55 54 53 52 51 50',
             'data pointed to by registers captured')
+
+  # Move up one stack frame after jumping to the exception, and examine memory.
+  out = CdbRun(cdb_path, dump_path,
+               '.ecxr; .f+; dd /c100 poi(offset_pointer)-20')
+  out.Check(r'80000078 00000079 8000007a 0000007b 8000007c 0000007d 8000007e '
+            r'0000007f 80000080 00000081 80000082 00000083 80000084 00000085 '
+            r'80000086 00000087 80000088 00000089 8000008a 0000008b 8000008c '
+            r'0000008d 8000008e 0000008f 80000090 00000091 80000092 00000093 '
+            r'80000094 00000095 80000096 00000097',
+            'data pointed to by stack captured')
+
+  # Attempt to retrieve the value of g_extra_memory_pointer (by name), and then
+  # examine the memory at which it points. Both should have been saved.
+  out = CdbRun(cdb_path, dump_path,
+               'dd poi(crashy_program!crashpad::g_extra_memory_pointer)+0x1f30 '
+               'L8')
+  out.Check(r'0000655e 0000656b 00006578 00006585',
+            'extra memory range captured')
+  out.Check(r'\?\?\?\?\?\?\?\? \?\?\?\?\?\?\?\? '
+            r'\?\?\?\?\?\?\?\? \?\?\?\?\?\?\?\?',
+            '  and not memory after range')
+
+  out = CdbRun(cdb_path, dump_path,
+               'dd poi(crashy_program!crashpad::g_extra_memory_not_saved)'
+               '+0x1f30 L4')
+  # We save only the pointer, not the pointed-to data. If the pointer itself
+  # wasn't saved, then we won't get any memory printed, so here we're confirming
+  # the pointer was saved but the memory wasn't.
+  out.Check(r'\?\?\?\?\?\?\?\? \?\?\?\?\?\?\?\? '
+            r'\?\?\?\?\?\?\?\? \?\?\?\?\?\?\?\?',
+            'extra memory removal')
+
+  out = CdbRun(cdb_path, dump_path, '.dumpdebug')
+  out.Check(r'type \?\?\? \(333333\), size 00001000',
+            'first user stream')
+  out.Check(r'type \?\?\? \(222222\), size 00000080',
+            'second user stream')
 
   if z7_dump_path:
     out = CdbRun(cdb_path, z7_dump_path, '.ecxr;lm')

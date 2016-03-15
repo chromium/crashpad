@@ -22,7 +22,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"
-#include "util/win/get_function.h"
+#include "util/win/get_module_information.h"
 #include "util/win/module_version.h"
 #include "util/win/process_info.h"
 
@@ -31,15 +31,6 @@ extern "C" IMAGE_DOS_HEADER __ImageBase;
 namespace crashpad {
 namespace test {
 namespace {
-
-BOOL CrashpadGetModuleInformation(HANDLE process,
-                                  HMODULE module,
-                                  MODULEINFO* module_info,
-                                  DWORD cb) {
-  static const auto get_module_information =
-      GET_FUNCTION_REQUIRED(L"psapi.dll", ::GetModuleInformation);
-  return get_module_information(process, module, module_info, cb);
-}
 
 TEST(PEImageReader, DebugDirectory) {
   PEImageReader pe_image_reader;

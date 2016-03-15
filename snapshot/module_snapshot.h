@@ -19,12 +19,38 @@
 #include <sys/types.h>
 
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
+#include "base/memory/scoped_ptr.h"
 #include "util/misc/uuid.h"
+#include "util/numeric/checked_range.h"
+#include "snapshot/memory_snapshot.h"
 
 namespace crashpad {
+
+class MemorySnapshot;
+
+//! \brief Information describing a custom user data stream in a minidump.
+class UserMinidumpStream {
+ public:
+  //! \brief Constructs a UserMinidumpStream, takes ownership of \a memory.
+  UserMinidumpStream(uint32_t stream_type, MemorySnapshot* memory)
+      : memory_(memory), stream_type_(stream_type) {}
+
+  const MemorySnapshot* memory() const { return memory_.get(); }
+  uint32_t stream_type() const { return stream_type_; }
+
+ private:
+  //! \brief The memory representing the custom minidump stream.
+  scoped_ptr<MemorySnapshot> memory_;
+
+  //! \brief The stream type that the minidump stream will be tagged with.
+  uint32_t stream_type_;
+
+  DISALLOW_COPY_AND_ASSIGN(UserMinidumpStream);
+};
 
 //! \brief An abstract interface to a snapshot representing a code module
 //!     (binary image) loaded into a snapshot process.
@@ -168,6 +194,19 @@ class ModuleSnapshot {
   //! system, or snapshot producer may be obtained by calling
   //! ProcessSnapshot::AnnotationsSimpleMap().
   virtual std::map<std::string, std::string> AnnotationsSimpleMap() const = 0;
+
+  //! \brief Returns a set of extra memory ranges specified in the module as
+  //!     being desirable to include in the crash dump.
+  virtual std::set<CheckedRange<uint64_t>> ExtraMemoryRanges() const = 0;
+
+  //! \brief Returns a list of custom minidump stream specified in the module to
+  //!     be included in the crash dump.
+  //!
+  //! \return The caller does not take ownership of the returned objects, they
+  //!     are scoped to the lifetime of the ModuleSnapshot object that they were
+  //!     obtained from.
+  virtual std::vector<const UserMinidumpStream*> CustomMinidumpStreams()
+      const = 0;
 };
 
 }  // namespace crashpad

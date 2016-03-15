@@ -46,6 +46,8 @@
         'settings.h',
         'simple_string_dictionary.cc',
         'simple_string_dictionary.h',
+        'simple_address_range_bag.cc',
+        'simple_address_range_bag.h',
         'simulate_crash.h',
         'simulate_crash_mac.cc',
         'simulate_crash_mac.h',

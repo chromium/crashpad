@@ -96,6 +96,11 @@ std::vector<const ModuleSnapshot*> TestProcessSnapshot::Modules() const {
   return modules;
 }
 
+std::vector<UnloadedModuleSnapshot> TestProcessSnapshot::UnloadedModules()
+    const {
+  return unloaded_modules_;
+}
+
 const ExceptionSnapshot* TestProcessSnapshot::Exception() const {
   return exception_.get();
 }

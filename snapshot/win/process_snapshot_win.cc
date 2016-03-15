@@ -21,6 +21,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/module_snapshot_win.h"
+#include "util/win/nt_internals.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/time.h"
 
@@ -38,6 +39,7 @@ ProcessSnapshotWin::ProcessSnapshotWin()
       client_id_(),
       annotations_simple_map_(),
       snapshot_time_(),
+      options_(),
       initialized_() {
 }
 
@@ -65,12 +67,23 @@ bool ProcessSnapshotWin::Initialize(
         debug_critical_section_address);
   }
 
-  InitializeThreads();
   InitializeModules();
+  InitializeUnloadedModules();
+
+  GetCrashpadOptionsInternal(&options_);
+
+  InitializeThreads(options_.gather_indirectly_referenced_memory ==
+                    TriState::kEnabled);
 
   for (const MEMORY_BASIC_INFORMATION64& mbi :
        process_reader_.GetProcessInfo().MemoryInfo()) {
     memory_map_.push_back(new internal::MemoryMapRegionSnapshotWin(mbi));
+  }
+
+  for (const auto& module : modules_) {
+    for (const auto& range : module->ExtraMemoryRanges()) {
+      AddMemorySnapshot(range.base(), range.size(), &extra_memory_);
+    }
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -104,31 +117,7 @@ bool ProcessSnapshotWin::InitializeException(
 void ProcessSnapshotWin::GetCrashpadOptions(
     CrashpadInfoClientOptions* options) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  CrashpadInfoClientOptions local_options;
-
-  for (internal::ModuleSnapshotWin* module : modules_) {
-    CrashpadInfoClientOptions module_options;
-    module->GetCrashpadOptions(&module_options);
-
-    if (local_options.crashpad_handler_behavior == TriState::kUnset) {
-      local_options.crashpad_handler_behavior =
-          module_options.crashpad_handler_behavior;
-    }
-    if (local_options.system_crash_reporter_forwarding == TriState::kUnset) {
-      local_options.system_crash_reporter_forwarding =
-          module_options.system_crash_reporter_forwarding;
-    }
-
-    // If non-default values have been found for all options, the loop can end
-    // early.
-    if (local_options.crashpad_handler_behavior != TriState::kUnset &&
-        local_options.system_crash_reporter_forwarding != TriState::kUnset) {
-      break;
-    }
-  }
-
-  *options = local_options;
+  *options = options_;
 }
 
 pid_t ProcessSnapshotWin::ProcessID() const {
@@ -196,6 +185,12 @@ std::vector<const ModuleSnapshot*> ProcessSnapshotWin::Modules() const {
   return modules;
 }
 
+std::vector<UnloadedModuleSnapshot> ProcessSnapshotWin::UnloadedModules()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return unloaded_modules_;
+}
+
 const ExceptionSnapshot* ProcessSnapshotWin::Exception() const {
   return exception_.get();
 }
@@ -234,13 +229,16 @@ std::vector<const MemorySnapshot*> ProcessSnapshotWin::ExtraMemory() const {
   return extra_memory;
 }
 
-void ProcessSnapshotWin::InitializeThreads() {
+void ProcessSnapshotWin::InitializeThreads(
+    bool gather_indirectly_referenced_memory) {
   const std::vector<ProcessReaderWin::Thread>& process_reader_threads =
       process_reader_.Threads();
   for (const ProcessReaderWin::Thread& process_reader_thread :
        process_reader_threads) {
     auto thread = make_scoped_ptr(new internal::ThreadSnapshotWin());
-    if (thread->Initialize(&process_reader_, process_reader_thread)) {
+    if (thread->Initialize(&process_reader_,
+                           process_reader_thread,
+                           gather_indirectly_referenced_memory)) {
       threads_.push_back(thread.release());
     }
   }
@@ -256,6 +254,86 @@ void ProcessSnapshotWin::InitializeModules() {
       modules_.push_back(module.release());
     }
   }
+}
+
+void ProcessSnapshotWin::InitializeUnloadedModules() {
+  // As documented by https://msdn.microsoft.com/en-us/library/cc678403.aspx
+  // we can retrieve the location for our unload events, and use that address in
+  // the target process. Unfortunately, this of course only works for
+  // 64-reading-64 and 32-reading-32, so at the moment, we simply do not
+  // retrieve unloaded modules for 64-reading-32. See
+  // https://crashpad.chromium.org/bug/89.
+
+#if defined(ARCH_CPU_X86_64)
+  if (!process_reader_.Is64Bit()) {
+    LOG(ERROR)
+        << "reading unloaded modules across bitness not currently supported";
+    return;
+  }
+  using Traits = process_types::internal::Traits64;
+#elif defined(ARCH_CPU_X86)
+  using Traits = process_types::internal::Traits32;
+#else
+#error port
+#endif
+
+  RTL_UNLOAD_EVENT_TRACE<Traits>* unload_event_trace_address =
+      RtlGetUnloadEventTrace<Traits>();
+  WinVMAddress address_in_target_process =
+      reinterpret_cast<WinVMAddress>(unload_event_trace_address);
+
+  std::vector<RTL_UNLOAD_EVENT_TRACE<Traits>> events(
+      RTL_UNLOAD_EVENT_TRACE_NUMBER);
+  if (!process_reader_.ReadMemory(address_in_target_process,
+                                  events.size() * sizeof(events[0]),
+                                  &events[0])) {
+    return;
+  }
+
+  for (const RTL_UNLOAD_EVENT_TRACE<Traits>& uet : events) {
+    if (uet.ImageName[0]) {
+      unloaded_modules_.push_back(UnloadedModuleSnapshot(
+          uet.BaseAddress,
+          uet.SizeOfImage,
+          uet.CheckSum,
+          uet.TimeDateStamp,
+          base::UTF16ToUTF8(
+              base::StringPiece16(uet.ImageName, arraysize(uet.ImageName)))));
+    }
+  }
+}
+
+void ProcessSnapshotWin::GetCrashpadOptionsInternal(
+    CrashpadInfoClientOptions* options) {
+  CrashpadInfoClientOptions local_options;
+
+  for (internal::ModuleSnapshotWin* module : modules_) {
+    CrashpadInfoClientOptions module_options;
+    module->GetCrashpadOptions(&module_options);
+
+    if (local_options.crashpad_handler_behavior == TriState::kUnset) {
+      local_options.crashpad_handler_behavior =
+          module_options.crashpad_handler_behavior;
+    }
+    if (local_options.system_crash_reporter_forwarding == TriState::kUnset) {
+      local_options.system_crash_reporter_forwarding =
+          module_options.system_crash_reporter_forwarding;
+    }
+    if (local_options.gather_indirectly_referenced_memory == TriState::kUnset) {
+      local_options.gather_indirectly_referenced_memory =
+          module_options.gather_indirectly_referenced_memory;
+    }
+
+    // If non-default values have been found for all options, the loop can end
+    // early.
+    if (local_options.crashpad_handler_behavior != TriState::kUnset &&
+        local_options.system_crash_reporter_forwarding != TriState::kUnset &&
+        local_options.gather_indirectly_referenced_memory != TriState::kUnset) {
+      break;
+    }
+  }
+
+  *options = local_options;
 }
 
 template <class Traits>
