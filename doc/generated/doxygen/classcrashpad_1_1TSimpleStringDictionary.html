@@ -119,10 +119,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aed1ad111853dd30f04e192ee1aa9b4c3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aed1ad111853dd30f04e192ee1aa9b4c3"></a>
 <a class="el" href="classcrashpad_1_1TSimpleStringDictionary.html">TSimpleStringDictionary</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classcrashpad_1_1TSimpleStringDictionary.html">TSimpleStringDictionary</a> &amp;other)</td></tr>
 <tr class="separator:aed1ad111853dd30f04e192ee1aa9b4c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a13b2f67b82411fc1d07f9fb6677b4b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a13b2f67b82411fc1d07f9fb6677b4b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1TSimpleStringDictionary.html#a0a13b2f67b82411fc1d07f9fb6677b4b">TSimpleStringDictionary</a> (const SerializedSimpleStringDictionary *map, size_t size)</td></tr>
-<tr class="memdesc:a0a13b2f67b82411fc1d07f9fb6677b4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a map from its serialized form. <em>map</em> should be the out parameter from <a class="el" href="classcrashpad_1_1TSimpleStringDictionary.html#a897b860dcc0820c362ef54669ea88599" title="Returns a serialized form of the map. ">Serialize()</a>, and <em>size</em> should be its return value. <br /></td></tr>
-<tr class="separator:a0a13b2f67b82411fc1d07f9fb6677b4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abea7cde3c95c514e0d74622182ab8eff"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abea7cde3c95c514e0d74622182ab8eff"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1TSimpleStringDictionary.html#abea7cde3c95c514e0d74622182ab8eff">GetCount</a> () const </td></tr>
 <tr class="memdesc:abea7cde3c95c514e0d74622182ab8eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of active key/value pairs. The upper limit for this is <em>NumEntries</em>. <br /></td></tr>
@@ -136,9 +132,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="memitem:ad50991fd8714c8bef7820482c7729efb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1TSimpleStringDictionary.html#ad50991fd8714c8bef7820482c7729efb">RemoveKey</a> (const char *key)</td></tr>
 <tr class="memdesc:ad50991fd8714c8bef7820482c7729efb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes <em>key</em> from the map.  <a href="#ad50991fd8714c8bef7820482c7729efb">More...</a><br /></td></tr>
 <tr class="separator:ad50991fd8714c8bef7820482c7729efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a897b860dcc0820c362ef54669ea88599"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1TSimpleStringDictionary.html#a897b860dcc0820c362ef54669ea88599">Serialize</a> (const SerializedSimpleStringDictionary **map) const </td></tr>
-<tr class="memdesc:a897b860dcc0820c362ef54669ea88599"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a serialized form of the map.  <a href="#a897b860dcc0820c362ef54669ea88599">More...</a><br /></td></tr>
-<tr class="separator:a897b860dcc0820c362ef54669ea88599"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -231,35 +224,6 @@ template&lt;size_t KeySize = 256, size_t ValueSize = 256, size_t NumEntries = 64
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a class="anchor" id="a897b860dcc0820c362ef54669ea88599"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t KeySize = 256, size_t ValueSize = 256, size_t NumEntries = 64&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t <a class="el" href="classcrashpad_1_1TSimpleStringDictionary.html">crashpad::TSimpleStringDictionary</a>&lt; KeySize, ValueSize, NumEntries &gt;::Serialize </td>
-          <td>(</td>
-          <td class="paramtype">const SerializedSimpleStringDictionary **&#160;</td>
-          <td class="paramname"><em>map</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns a serialized form of the map. </p>
-<p>Places a serialized version of the map into <em>map</em> and returns the size in bytes. Both <em>map</em> and the size should be passed to the deserializing constructor. Note that the serialized <em>map</em> is scoped to the lifetime of the non-serialized instance of this class. The <em>map</em> data can be copied across IPC boundaries. </p>
 
 </div>
 </div>

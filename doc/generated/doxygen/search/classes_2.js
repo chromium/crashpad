@@ -1,12 +1,15 @@
 var searchData=
 [
   ['callerrorwritingcrashreport',['CallErrorWritingCrashReport',['../classcrashpad_1_1CrashReportDatabase_1_1CallErrorWritingCrashReport.html',1,'crashpad::CrashReportDatabase']]],
+  ['capturememory',['CaptureMemory',['../classcrashpad_1_1internal_1_1CaptureMemory.html',1,'crashpad::internal']]],
+  ['capturememorydelegatewin',['CaptureMemoryDelegateWin',['../classcrashpad_1_1internal_1_1CaptureMemoryDelegateWin.html',1,'crashpad::internal']]],
   ['checkedaddressrangegeneric',['CheckedAddressRangeGeneric',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html',1,'crashpad::internal']]],
   ['checkedaddressrangegeneric_3c_20mach_5fvm_5faddress_5ft_2c_20mach_5fvm_5fsize_5ft_20_3e',['CheckedAddressRangeGeneric&lt; mach_vm_address_t, mach_vm_size_t &gt;',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html',1,'crashpad::internal']]],
   ['checkedaddressrangegeneric_3c_20winvmaddress_2c_20winvmsize_20_3e',['CheckedAddressRangeGeneric&lt; WinVMAddress, WinVMSize &gt;',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html',1,'crashpad::internal']]],
   ['checkedrange',['CheckedRange',['../classcrashpad_1_1CheckedRange.html',1,'crashpad']]],
   ['checkedrange_3c_20uint32_5ft_20_3e',['CheckedRange&lt; uint32_t &gt;',['../classcrashpad_1_1CheckedRange.html',1,'crashpad']]],
   ['checkedrange_3c_20uint64_5ft_20_3e',['CheckedRange&lt; uint64_t &gt;',['../classcrashpad_1_1CheckedRange.html',1,'crashpad']]],
+  ['checkedrange_3c_20uint64_5ft_2c_20uint64_5ft_20_3e',['CheckedRange&lt; uint64_t, uint64_t &gt;',['../classcrashpad_1_1CheckedRange.html',1,'crashpad']]],
   ['childlauncher',['ChildLauncher',['../classcrashpad_1_1test_1_1ChildLauncher.html',1,'crashpad::test']]],
   ['childporthandshake',['ChildPortHandshake',['../classcrashpad_1_1ChildPortHandshake.html',1,'crashpad']]],
   ['childportserver',['ChildPortServer',['../classcrashpad_1_1ChildPortServer.html',1,'crashpad']]],

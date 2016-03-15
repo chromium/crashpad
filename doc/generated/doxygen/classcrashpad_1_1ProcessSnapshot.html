@@ -147,6 +147,9 @@ virtual pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 <tr class="memitem:a177c4abc055f7347ec3d9d88fcec058c"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; const <a class="el" href="classcrashpad_1_1ModuleSnapshot.html">ModuleSnapshot</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a177c4abc055f7347ec3d9d88fcec058c">Modules</a> () const  =0</td></tr>
 <tr class="memdesc:a177c4abc055f7347ec3d9d88fcec058c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> objects reflecting the code modules (binary images) loaded into the snapshot process at the time of the snapshot.  <a href="#a177c4abc055f7347ec3d9d88fcec058c">More...</a><br /></td></tr>
 <tr class="separator:a177c4abc055f7347ec3d9d88fcec058c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2b9ee27270915d5147346361d73a7eb"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html">UnloadedModuleSnapshot</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#af2b9ee27270915d5147346361d73a7eb">UnloadedModules</a> () const  =0</td></tr>
+<tr class="memdesc:af2b9ee27270915d5147346361d73a7eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html" title="Information about an unloaded module that was previously loaded into a snapshot process. ">UnloadedModuleSnapshot</a> objects reflecting the code modules the were recorded as unloaded at the time of the snapshot.  <a href="#af2b9ee27270915d5147346361d73a7eb">More...</a><br /></td></tr>
+<tr class="separator:af2b9ee27270915d5147346361d73a7eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c1656c3e140e2e88c6a9538a17ded84"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; const <a class="el" href="classcrashpad_1_1ThreadSnapshot.html">ThreadSnapshot</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a0c1656c3e140e2e88c6a9538a17ded84">Threads</a> () const  =0</td></tr>
 <tr class="memdesc:a0c1656c3e140e2e88c6a9538a17ded84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> objects reflecting the threads (lightweight processes) existing in the snapshot process at the time of the snapshot.  <a href="#a0c1656c3e140e2e88c6a9538a17ded84">More...</a><br /></td></tr>
 <tr class="separator:a0c1656c3e140e2e88c6a9538a17ded84"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -564,6 +567,34 @@ virtual pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 <dl class="section return"><dt>Returns</dt><dd>A vector of <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> objects. The caller does not take ownership of these objects, they are scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process. ">ProcessSnapshot</a> object that they were obtained from. </dd></dl>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#ad04967fc9ddc3582c1b093441569cb8b">crashpad::test::TestProcessSnapshot</a>, <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#ae6b897bb9587f101e91462926d9cf1cd">crashpad::ProcessSnapshotWin</a>, <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a43ebdd54eeab5a06c81a5262afd58974">crashpad::ProcessSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html#a2f8299007a38babd16721b5c318b2dd8">crashpad::ProcessSnapshotMinidump</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af2b9ee27270915d5147346361d73a7eb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt;<a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html">UnloadedModuleSnapshot</a>&gt; crashpad::ProcessSnapshot::UnloadedModules </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html" title="Information about an unloaded module that was previously loaded into a snapshot process. ">UnloadedModuleSnapshot</a> objects reflecting the code modules the were recorded as unloaded at the time of the snapshot. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector of <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html" title="Information about an unloaded module that was previously loaded into a snapshot process. ">UnloadedModuleSnapshot</a> objects. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#af132cb71c174c54642598834d57c6ce5">crashpad::test::TestProcessSnapshot</a>, <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a708cfbf7253ba1f6973f2598a4a317d2">crashpad::ProcessSnapshotWin</a>, <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a2e36f68697cc5a594fa94cbf166039bb">crashpad::ProcessSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html#a02c3763043f3b993d67cd684e0b5f83b">crashpad::ProcessSnapshotMinidump</a>.</p>
 
 </div>
 </div>

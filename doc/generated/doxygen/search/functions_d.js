@@ -32,6 +32,7 @@ var searchData=
   ['minidumpstringatrva',['MinidumpStringAtRVA',['../namespacecrashpad_1_1test.html#a527731a826e40dd36ac112e7cd3dfcd2',1,'crashpad::test']]],
   ['minidumpstringatrvaasstring',['MinidumpStringAtRVAAsString',['../namespacecrashpad_1_1test.html#a2276ff84807d40b2fc4f7fd2ccc8b743',1,'crashpad::test']]],
   ['minidumpthread',['MinidumpThread',['../classcrashpad_1_1MinidumpThreadWriter.html#ac1007d28b55737a2d6202fadc31d1715',1,'crashpad::MinidumpThreadWriter']]],
+  ['minidumpunloadedmodule',['MinidumpUnloadedModule',['../classcrashpad_1_1MinidumpUnloadedModuleWriter.html#aa97f8e9defb7a17299163e66b8d78e66',1,'crashpad::MinidumpUnloadedModuleWriter']]],
   ['minidumputf8stringatrva',['MinidumpUTF8StringAtRVA',['../namespacecrashpad_1_1test.html#a9f5bbb381b32ca4c5276a5aacbef1c5f',1,'crashpad::test']]],
   ['minidumputf8stringatrvaasstring',['MinidumpUTF8StringAtRVAAsString',['../namespacecrashpad_1_1test.html#a4d8f1de3f021881b6464a1fedbddf956',1,'crashpad::test']]],
   ['minidumpwritableatlocationdescriptor',['MinidumpWritableAtLocationDescriptor',['../namespacecrashpad_1_1test.html#a0e98915fad73c8628924c3a900732fc0',1,'crashpad::test']]],

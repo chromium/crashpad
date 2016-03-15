@@ -152,6 +152,13 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="memitem:a2479a909d2c3775e89e3a9a19cda361f"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a2479a909d2c3775e89e3a9a19cda361f">AnnotationsSimpleMap</a> () const  override</td></tr>
 <tr class="memdesc:a2479a909d2c3775e89e3a9a19cda361f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns key-value string annotations recorded in the module.  <a href="#a2479a909d2c3775e89e3a9a19cda361f">More...</a><br /></td></tr>
 <tr class="separator:a2479a909d2c3775e89e3a9a19cda361f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bdc2b2844b9bb883f5502f7ba3615be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1bdc2b2844b9bb883f5502f7ba3615be"></a>
+std::set&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a1bdc2b2844b9bb883f5502f7ba3615be">ExtraMemoryRanges</a> () const  override</td></tr>
+<tr class="memdesc:a1bdc2b2844b9bb883f5502f7ba3615be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a set of extra memory ranges specified in the module as being desirable to include in the crash dump. <br /></td></tr>
+<tr class="separator:a1bdc2b2844b9bb883f5502f7ba3615be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafcb72253c9f89306f8d182b5ba1d902"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const <a class="el" href="classcrashpad_1_1UserMinidumpStream.html">UserMinidumpStream</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#aafcb72253c9f89306f8d182b5ba1d902">CustomMinidumpStreams</a> () const  override</td></tr>
+<tr class="memdesc:aafcb72253c9f89306f8d182b5ba1d902"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of custom minidump stream specified in the module to be included in the crash dump.  <a href="#aafcb72253c9f89306f8d182b5ba1d902">More...</a><br /></td></tr>
+<tr class="separator:aafcb72253c9f89306f8d182b5ba1d902"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -220,6 +227,34 @@ Additional Inherited Members</h2></td></tr>
 <p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a2479a909d2c3775e89e3a9a19cda361f" title="Returns key-value string annotations recorded in the module. ">AnnotationsSimpleMap()</a>. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a4d34e0cba050eea5dedd336fd3c8d3c3">crashpad::ModuleSnapshot</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aafcb72253c9f89306f8d182b5ba1d902"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; const <a class="el" href="classcrashpad_1_1UserMinidumpStream.html">UserMinidumpStream</a> * &gt; crashpad::internal::ModuleSnapshotMinidump::CustomMinidumpStreams </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a list of custom minidump stream specified in the module to be included in the crash dump. </p>
+<dl class="section return"><dt>Returns</dt><dd>The caller does not take ownership of the returned objects, they are scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> object that they were obtained from. </dd></dl>
+
+<p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a201e95ce36e3feea7b66c29ec95fe9de">crashpad::ModuleSnapshot</a>.</p>
 
 </div>
 </div>

@@ -162,6 +162,13 @@ virtual <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d
 <tr class="memitem:a353846c6b2594e429ea96a91a1c6cf54"><td class="memItemLeft" align="right" valign="top">virtual std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a353846c6b2594e429ea96a91a1c6cf54">AnnotationsSimpleMap</a> () const  =0</td></tr>
 <tr class="memdesc:a353846c6b2594e429ea96a91a1c6cf54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns key-value string annotations recorded in the module.  <a href="#a353846c6b2594e429ea96a91a1c6cf54">More...</a><br /></td></tr>
 <tr class="separator:a353846c6b2594e429ea96a91a1c6cf54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d91151c900075afae159c1b2a8adca1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2d91151c900075afae159c1b2a8adca1"></a>
+virtual std::set&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">CheckedRange</a>&lt; uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a2d91151c900075afae159c1b2a8adca1">ExtraMemoryRanges</a> () const  =0</td></tr>
+<tr class="memdesc:a2d91151c900075afae159c1b2a8adca1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a set of extra memory ranges specified in the module as being desirable to include in the crash dump. <br /></td></tr>
+<tr class="separator:a2d91151c900075afae159c1b2a8adca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a201e95ce36e3feea7b66c29ec95fe9de"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; const <a class="el" href="classcrashpad_1_1UserMinidumpStream.html">UserMinidumpStream</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a201e95ce36e3feea7b66c29ec95fe9de">CustomMinidumpStreams</a> () const  =0</td></tr>
+<tr class="memdesc:a201e95ce36e3feea7b66c29ec95fe9de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of custom minidump stream specified in the module to be included in the crash dump.  <a href="#a201e95ce36e3feea7b66c29ec95fe9de">More...</a><br /></td></tr>
+<tr class="separator:a201e95ce36e3feea7b66c29ec95fe9de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot process. </p>
@@ -258,6 +265,34 @@ virtual <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a7fd77f711ef04d
 <p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a353846c6b2594e429ea96a91a1c6cf54" title="Returns key-value string annotations recorded in the module. ">AnnotationsSimpleMap()</a>. </p>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#a7bec4311056fb3eafcaa893f57c9dcfc">crashpad::test::TestModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a68d63086357b87a6efb722ef505bf9ce">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#aa145849f18c1e13c12d9ae945497a016">crashpad::internal::ModuleSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#acec7873050d67bfe35eb7cb3a4b7e3e4">crashpad::internal::ModuleSnapshotMinidump</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a201e95ce36e3feea7b66c29ec95fe9de"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt;const <a class="el" href="classcrashpad_1_1UserMinidumpStream.html">UserMinidumpStream</a>*&gt; crashpad::ModuleSnapshot::CustomMinidumpStreams </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a list of custom minidump stream specified in the module to be included in the crash dump. </p>
+<dl class="section return"><dt>Returns</dt><dd>The caller does not take ownership of the returned objects, they are scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> object that they were obtained from. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#ac67d98efa088ef188b61ee5389313535">crashpad::test::TestModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#af66e21a067a9cae809697ad9df340655">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a9fc7d72f76b2bf7c466282b948647604">crashpad::internal::ModuleSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#aafcb72253c9f89306f8d182b5ba1d902">crashpad::internal::ModuleSnapshotMinidump</a>.</p>
 
 </div>
 </div>

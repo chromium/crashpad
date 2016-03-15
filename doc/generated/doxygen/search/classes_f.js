@@ -11,9 +11,9 @@ var searchData=
   ['testsystemsnapshot',['TestSystemSnapshot',['../classcrashpad_1_1test_1_1TestSystemSnapshot.html',1,'crashpad::test']]],
   ['testthreadsnapshot',['TestThreadSnapshot',['../classcrashpad_1_1test_1_1TestThreadSnapshot.html',1,'crashpad::test']]],
   ['testuint32minidumpwritable',['TestUInt32MinidumpWritable',['../classcrashpad_1_1test_1_1TestUInt32MinidumpWritable.html',1,'crashpad::test']]],
-  ['thread',['Thread',['../structcrashpad_1_1ProcessReader_1_1Thread.html',1,'crashpad::ProcessReader']]],
-  ['thread',['Thread',['../classcrashpad_1_1Thread.html',1,'crashpad']]],
   ['thread',['Thread',['../structcrashpad_1_1ProcessReaderWin_1_1Thread.html',1,'crashpad::ProcessReaderWin']]],
+  ['thread',['Thread',['../classcrashpad_1_1Thread.html',1,'crashpad']]],
+  ['thread',['Thread',['../structcrashpad_1_1ProcessReader_1_1Thread.html',1,'crashpad::ProcessReader']]],
   ['thread_5fbasic_5finformation',['THREAD_BASIC_INFORMATION',['../structcrashpad_1_1process__types_1_1THREAD__BASIC__INFORMATION.html',1,'crashpad::process_types']]],
   ['threadlogmessages',['ThreadLogMessages',['../classcrashpad_1_1ThreadLogMessages.html',1,'crashpad']]],
   ['threadsnapshot',['ThreadSnapshot',['../classcrashpad_1_1ThreadSnapshot.html',1,'crashpad']]],
@@ -24,5 +24,6 @@ var searchData=
   ['toolsupport',['ToolSupport',['../classcrashpad_1_1ToolSupport.html',1,'crashpad']]],
   ['traits32',['Traits32',['../structcrashpad_1_1process__types_1_1internal_1_1Traits32.html',1,'crashpad::process_types::internal']]],
   ['traits64',['Traits64',['../structcrashpad_1_1process__types_1_1internal_1_1Traits64.html',1,'crashpad::process_types::internal']]],
+  ['tsimpleaddressrangebag',['TSimpleAddressRangeBag',['../classcrashpad_1_1TSimpleAddressRangeBag.html',1,'crashpad']]],
   ['tsimplestringdictionary',['TSimpleStringDictionary',['../classcrashpad_1_1TSimpleStringDictionary.html',1,'crashpad']]]
 ];

@@ -22,8 +22,12 @@ var searchData=
   ['phase',['Phase',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9',1,'crashpad::internal::MinidumpWritable']]],
   ['pipeservicecontext',['PipeServiceContext',['../classcrashpad_1_1internal_1_1PipeServiceContext.html',1,'crashpad::internal']]],
   ['platformid',['PlatformId',['../structMINIDUMP__SYSTEM__INFO.html#a214e7bd61a89343a80a3c9a265fbbe96',1,'MINIDUMP_SYSTEM_INFO']]],
+  ['pointedtobycontext',['PointedToByContext',['../classcrashpad_1_1internal_1_1CaptureMemory.html#a5f68f64937ffc2af7101f64d956f1ebc',1,'crashpad::internal::CaptureMemory']]],
+  ['pointedtobymemoryrange',['PointedToByMemoryRange',['../classcrashpad_1_1internal_1_1CaptureMemory.html#a121ce92c4f64a030c10b4faf2b780a86',1,'crashpad::internal::CaptureMemory']]],
   ['pointer_5fcount',['pointer_count',['../structcrashpad_1_1HandleSnapshot.html#ad161095f340234195f1a6ac1ddb2ea0c',1,'crashpad::HandleSnapshot::pointer_count()'],['../structcrashpad_1_1ProcessInfo_1_1Handle.html#a91572bf4b3ddef4127c38ef64959e782',1,'crashpad::ProcessInfo::Handle::pointer_count()']]],
   ['pointercontainer',['PointerContainer',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
+  ['pointercontainer_3c_20const_20crashpad_3a_3auserminidumpstream_20_3e',['PointerContainer&lt; const crashpad::UserMinidumpStream &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
+  ['pointercontainer_3c_20crashpad_3a_3ainternal_3a_3amemorysnapshotwin_20_3e',['PointerContainer&lt; crashpad::internal::MemorySnapshotWin &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20crashpad_3a_3ainternal_3a_3aminidumpwritable_20_3e',['PointerContainer&lt; crashpad::internal::MinidumpWritable &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20crashpad_3a_3amachoimagereader_20_3e',['PointerContainer&lt; crashpad::MachOImageReader &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20crashpad_3a_3amachoimagesegmentreader_20_3e',['PointerContainer&lt; crashpad::MachOImageSegmentReader &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
@@ -33,6 +37,7 @@ var searchData=
   ['pointercontainer_3c_20crashpad_3a_3aminidumpmodulecrashpadinfowriter_20_3e',['PointerContainer&lt; crashpad::MinidumpModuleCrashpadInfoWriter &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20crashpad_3a_3aminidumpmodulewriter_20_3e',['PointerContainer&lt; crashpad::MinidumpModuleWriter &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20crashpad_3a_3aminidumpthreadwriter_20_3e',['PointerContainer&lt; crashpad::MinidumpThreadWriter &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
+  ['pointercontainer_3c_20crashpad_3a_3aminidumpunloadedmodulewriter_20_3e',['PointerContainer&lt; crashpad::MinidumpUnloadedModuleWriter &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20crashpad_3a_3amodulesnapshot_20_3e',['PointerContainer&lt; crashpad::ModuleSnapshot &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20crashpad_3a_3athreadsnapshot_20_3e',['PointerContainer&lt; crashpad::ThreadSnapshot &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['pointercontainer_3c_20internal_3a_3acrashpad_3a_3ainternal_3a_3amemorysnapshotwin_20_3e',['PointerContainer&lt; internal::crashpad::internal::MemorySnapshotWin &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
@@ -88,6 +93,6 @@ var searchData=
   ['protectedprocess',['ProtectedProcess',['../structMINIDUMP__MISC__INFO__3.html#a180d9ee433f89f02da0436376ec633aa',1,'MINIDUMP_MISC_INFO_3']]],
   ['prunecondition',['PruneCondition',['../classcrashpad_1_1PruneCondition.html',1,'crashpad']]],
   ['prunecrashreportdatabase',['PruneCrashReportDatabase',['../namespacecrashpad.html#a87aa3a36a41939af1166c336db41ec11',1,'crashpad']]],
-  ['prunecrashreportthread',['PruneCrashReportThread',['../classcrashpad_1_1PruneCrashReportThread.html',1,'crashpad']]],
-  ['prunecrashreportthread',['PruneCrashReportThread',['../classcrashpad_1_1PruneCrashReportThread.html#ab0d5ca0e4d899097eb08288568e1761d',1,'crashpad::PruneCrashReportThread']]]
+  ['prunecrashreportthread',['PruneCrashReportThread',['../classcrashpad_1_1PruneCrashReportThread.html#ab0d5ca0e4d899097eb08288568e1761d',1,'crashpad::PruneCrashReportThread']]],
+  ['prunecrashreportthread',['PruneCrashReportThread',['../classcrashpad_1_1PruneCrashReportThread.html',1,'crashpad']]]
 ];

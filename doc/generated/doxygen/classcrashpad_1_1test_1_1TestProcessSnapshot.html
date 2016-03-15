@@ -145,6 +145,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetAnnotationsSimpleM
 <tr class="memitem:acf698a558b4d5231db5ec029b0f52f7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#acf698a558b4d5231db5ec029b0f52f7d">AddModule</a> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1ModuleSnapshot.html">ModuleSnapshot</a> &gt; module)</td></tr>
 <tr class="memdesc:acf698a558b4d5231db5ec029b0f52f7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a module snapshot to be returned by <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#ada573bac7a25ff234576f18b87b80621" title="Returns ModuleSnapshot objects reflecting the code modules (binary images) loaded into the snapshot p...">Modules()</a>.  <a href="#acf698a558b4d5231db5ec029b0f52f7d">More...</a><br /></td></tr>
 <tr class="separator:acf698a558b4d5231db5ec029b0f52f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fb837d7a4f7e26715e1667da9deb9d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#a0fb837d7a4f7e26715e1667da9deb9d9">AddModule</a> (const <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html">UnloadedModuleSnapshot</a> &amp;unloaded_module)</td></tr>
+<tr class="memdesc:a0fb837d7a4f7e26715e1667da9deb9d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an unloaded module snapshot to be returned by <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#af132cb71c174c54642598834d57c6ce5" title="Returns UnloadedModuleSnapshot objects reflecting the code modules the were recorded as unloaded at t...">UnloadedModules()</a>.  <a href="#a0fb837d7a4f7e26715e1667da9deb9d9">More...</a><br /></td></tr>
+<tr class="separator:a0fb837d7a4f7e26715e1667da9deb9d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd28eb2d81e9e9811859781c30baa9c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#abd28eb2d81e9e9811859781c30baa9c3">SetException</a> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html">ExceptionSnapshot</a> &gt; exception)</td></tr>
 <tr class="memdesc:abd28eb2d81e9e9811859781c30baa9c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the exception snapshot to be returned by <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#a67c65ca01b5829ac6a98e7e6ca18e96e" title="Returns an ExceptionSnapshot reflecting the exception that the snapshot process sustained to trigger ...">Exception()</a>.  <a href="#abd28eb2d81e9e9811859781c30baa9c3">More...</a><br /></td></tr>
 <tr class="separator:abd28eb2d81e9e9811859781c30baa9c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,6 +195,9 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr class="memitem:ada573bac7a25ff234576f18b87b80621"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const <a class="el" href="classcrashpad_1_1ModuleSnapshot.html">ModuleSnapshot</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#ada573bac7a25ff234576f18b87b80621">Modules</a> () const  override</td></tr>
 <tr class="memdesc:ada573bac7a25ff234576f18b87b80621"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="classcrashpad_1_1ModuleSnapshot.html" title="An abstract interface to a snapshot representing a code module (binary image) loaded into a snapshot ...">ModuleSnapshot</a> objects reflecting the code modules (binary images) loaded into the snapshot process at the time of the snapshot.  <a href="#ada573bac7a25ff234576f18b87b80621">More...</a><br /></td></tr>
 <tr class="separator:ada573bac7a25ff234576f18b87b80621"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af132cb71c174c54642598834d57c6ce5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html">UnloadedModuleSnapshot</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#af132cb71c174c54642598834d57c6ce5">UnloadedModules</a> () const  override</td></tr>
+<tr class="memdesc:af132cb71c174c54642598834d57c6ce5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html" title="Information about an unloaded module that was previously loaded into a snapshot process. ">UnloadedModuleSnapshot</a> objects reflecting the code modules the were recorded as unloaded at the time of the snapshot.  <a href="#af132cb71c174c54642598834d57c6ce5">More...</a><br /></td></tr>
+<tr class="separator:af132cb71c174c54642598834d57c6ce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67c65ca01b5829ac6a98e7e6ca18e96e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html">ExceptionSnapshot</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#a67c65ca01b5829ac6a98e7e6ca18e96e">Exception</a> () const  override</td></tr>
 <tr class="memdesc:a67c65ca01b5829ac6a98e7e6ca18e96e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t...">ExceptionSnapshot</a> reflecting the exception that the snapshot process sustained to trigger the snapshot being taken.  <a href="#a67c65ca01b5829ac6a98e7e6ca18e96e">More...</a><br /></td></tr>
 <tr class="separator:a67c65ca01b5829ac6a98e7e6ca18e96e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -330,6 +336,38 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">module</td><td>The module snapshot that will be included in <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#ada573bac7a25ff234576f18b87b80621" title="Returns ModuleSnapshot objects reflecting the code modules (binary images) loaded into the snapshot p...">Modules()</a>. The <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html" title="A test ProcessSnapshot that can carry arbitrary data for testing purposes. ">TestProcessSnapshot</a> object takes ownership of <em>module</em>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a0fb837d7a4f7e26715e1667da9deb9d9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::test::TestProcessSnapshot::AddModule </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html">UnloadedModuleSnapshot</a> &amp;&#160;</td>
+          <td class="paramname"><em>unloaded_module</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds an unloaded module snapshot to be returned by <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#af132cb71c174c54642598834d57c6ce5" title="Returns UnloadedModuleSnapshot objects reflecting the code modules the were recorded as unloaded at t...">UnloadedModules()</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">unloaded_module</td><td>The unloaded module snapshot that will be included in <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#af132cb71c174c54642598834d57c6ce5" title="Returns UnloadedModuleSnapshot objects reflecting the code modules the were recorded as unloaded at t...">UnloadedModules()</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -829,6 +867,34 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <dl class="section return"><dt>Returns</dt><dd>A vector of <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> objects. The caller does not take ownership of these objects, they are scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process. ">ProcessSnapshot</a> object that they were obtained from. </dd></dl>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a0c1656c3e140e2e88c6a9538a17ded84">crashpad::ProcessSnapshot</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af132cb71c174c54642598834d57c6ce5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html">UnloadedModuleSnapshot</a> &gt; crashpad::test::TestProcessSnapshot::UnloadedModules </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html" title="Information about an unloaded module that was previously loaded into a snapshot process. ">UnloadedModuleSnapshot</a> objects reflecting the code modules the were recorded as unloaded at the time of the snapshot. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector of <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html" title="Information about an unloaded module that was previously loaded into a snapshot process. ">UnloadedModuleSnapshot</a> objects. </dd></dl>
+
+<p>Implements <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#af2b9ee27270915d5147346361d73a7eb">crashpad::ProcessSnapshot</a>.</p>
 
 </div>
 </div>

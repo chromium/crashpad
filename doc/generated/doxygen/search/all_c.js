@@ -5,6 +5,7 @@ var searchData=
   ['last_5fexception_5ffrom_5frip',['last_exception_from_rip',['../structcrashpad_1_1MinidumpContextAMD64.html#a9ccedfe70b69c6d4fd4479578a859698',1,'crashpad::MinidumpContextAMD64']]],
   ['last_5fexception_5fto_5frip',['last_exception_to_rip',['../structcrashpad_1_1MinidumpContextAMD64.html#a428db4b73e349e452c15f74aab491631',1,'crashpad::MinidumpContextAMD64']]],
   ['last_5fupload_5fattempt_5ftime',['last_upload_attempt_time',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html#a443ff8d2cf61e4c8f539470285286638',1,'crashpad::CrashReportDatabase::Report']]],
+  ['lastreservedstream',['LastReservedStream',['../dbghelp_8h.html#a64711234318a4a002f399dffb474ca08a63f8fcf1fc01df4351e89ea2e6b27074',1,'dbghelp.h']]],
   ['launch',['Launch',['../classcrashpad_1_1test_1_1WinChildProcess.html#a28881ace155060c59ffb42bd4898540e',1,'crashpad::test::WinChildProcess']]],
   ['launchdataalloc',['LaunchDataAlloc',['../namespacecrashpad.html#aec89d58359f33bb2ba3671feea0c15f4',1,'crashpad']]],
   ['launchdataarraygetcount',['LaunchDataArrayGetCount',['../namespacecrashpad.html#abeb060347d9343e720856380234cd6ff',1,'crashpad']]],

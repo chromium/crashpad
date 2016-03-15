@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['base',['Base',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a47a03bcf47a6ea7cd81a07ddf814c25c',1,'crashpad::internal::CheckedAddressRangeGeneric::Base()'],['../classcrashpad_1_1CheckedRange.html#a7a1eed88055c8780fce3acaf9699bb76',1,'crashpad::CheckedRange::base()']]],
+  ['base',['base',['../structcrashpad_1_1TSimpleAddressRangeBag_1_1Entry.html#a9517f0a7dce7c266a6fc34a22a389b72',1,'crashpad::TSimpleAddressRangeBag::Entry::base()'],['../classcrashpad_1_1CheckedRange.html#a7a1eed88055c8780fce3acaf9699bb76',1,'crashpad::CheckedRange::base()'],['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a47a03bcf47a6ea7cd81a07ddf814c25c',1,'crashpad::internal::CheckedAddressRangeGeneric::Base()']]],
+  ['base_5faddress',['base_address',['../structcrashpad_1_1internal_1_1UserDataMinidumpStreamListEntry.html#adff7d5348d3834baecaeb8954204959d',1,'crashpad::internal::UserDataMinidumpStreamListEntry']]],
   ['baseaddress',['BaseAddress',['../structMINIDUMP__MEMORY__INFO.html#aec6438bf8c20fe45e8b31c679b6e06a6',1,'MINIDUMP_MEMORY_INFO']]],
-  ['baseofimage',['BaseOfImage',['../structMINIDUMP__MODULE.html#af4b4a246ebfa54e57e4c953fb0c3dd31',1,'MINIDUMP_MODULE']]],
+  ['baseofimage',['BaseOfImage',['../structMINIDUMP__MODULE.html#af4b4a246ebfa54e57e4c953fb0c3dd31',1,'MINIDUMP_MODULE::BaseOfImage()'],['../structMINIDUMP__UNLOADED__MODULE.html#a57d74355789f2f6e363aafb60c53c6f4',1,'MINIDUMP_UNLOADED_MODULE::BaseOfImage()']]],
   ['behavior',['behavior',['../structcrashpad_1_1ExceptionPorts_1_1ExceptionHandler.html#afe1cc47a696cc12532e27f7e442c0364',1,'crashpad::ExceptionPorts::ExceptionHandler']]],
   ['bias',['Bias',['../structTIME__ZONE__INFORMATION.html#acf8f3a23cd1cabc4cdcf3c5c4b527b71',1,'TIME_ZONE_INFORMATION']]],
   ['binaryprunecondition',['BinaryPruneCondition',['../classcrashpad_1_1BinaryPruneCondition.html',1,'crashpad']]],

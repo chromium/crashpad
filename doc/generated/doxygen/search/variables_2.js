@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['checksum',['CheckSum',['../structMINIDUMP__HEADER.html#a007f6608822bbef3d289f0cb125c1d9a',1,'MINIDUMP_HEADER::CheckSum()'],['../structMINIDUMP__MODULE.html#a9e034dc1c99bf014191f44c90ebe7bd4',1,'MINIDUMP_MODULE::CheckSum()']]],
+  ['checksum',['CheckSum',['../structMINIDUMP__HEADER.html#a007f6608822bbef3d289f0cb125c1d9a',1,'MINIDUMP_HEADER::CheckSum()'],['../structMINIDUMP__MODULE.html#a9e034dc1c99bf014191f44c90ebe7bd4',1,'MINIDUMP_MODULE::CheckSum()'],['../structMINIDUMP__UNLOADED__MODULE.html#a3bcd1d1a409227a8d88c3892043b32b2',1,'MINIDUMP_UNLOADED_MODULE::CheckSum()']]],
   ['children',['children',['../structcrashpad_1_1MinidumpRVAList.html#a4f9dfed4283a44b46c6a77902c1bb5c1',1,'crashpad::MinidumpRVAList']]],
   ['client_5fid',['client_id',['../structcrashpad_1_1MinidumpCrashpadInfo.html#ad83ed0b5dd10f4ddaf138caf96861b97',1,'crashpad::MinidumpCrashpadInfo']]],
   ['client_5fprocess_5fid',['client_process_id',['../structcrashpad_1_1RegistrationRequest.html#ae3604e826a93327a3572654432797f21',1,'crashpad::RegistrationRequest']]],

@@ -152,6 +152,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__HANDLE__DESCRIPTOR__2.html">MINIDUMP_HANDLE_DESCRIPTOR_2</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the state of an individual system handle at the time the snapshot was taken. This structure is Windows-specific.  <a href="structMINIDUMP__HANDLE__DESCRIPTOR__2.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__UNLOADED__MODULE.html">MINIDUMP_UNLOADED_MODULE</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about a specific module that was recorded as being unloaded at the time the snapshot was taken.  <a href="structMINIDUMP__UNLOADED__MODULE.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__UNLOADED__MODULE__LIST.html">MINIDUMP_UNLOADED_MODULE_LIST</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about all modules recorded as unloaded when the snapshot was taken.  <a href="structMINIDUMP__UNLOADED__MODULE__LIST.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MISC__INFO.html">MINIDUMP_MISC_INFO</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about the process that the minidump file contains a snapshot of, as well as the system that hosted that process.  <a href="structMINIDUMP__MISC__INFO.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -380,6 +386,9 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a64711234318a4a002f399dffb474ca08ad7775c9c100abafc1b864499acf84757"></a>HandleDataStream&#160;</td><td class="fielddoc">
 <p>The stream contains information about active <code>HANDLE</code>s. </p>
 </td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a64711234318a4a002f399dffb474ca08ac9a369c7cfd7b0c05208e4af380c4bba"></a>UnloadedModuleListStream&#160;</td><td class="fielddoc">
+<p>The stream type for <a class="el" href="structMINIDUMP__UNLOADED__MODULE__LIST.html" title="Information about all modules recorded as unloaded when the snapshot was taken. ">MINIDUMP_UNLOADED_MODULE_LIST</a>. </p>
+</td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a64711234318a4a002f399dffb474ca08a02e9fb2f037d09f1cdb4eb0c9f115b33"></a>MiscInfoStream&#160;</td><td class="fielddoc">
 <p>The stream type for <a class="el" href="structMINIDUMP__MISC__INFO.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th...">MINIDUMP_MISC_INFO</a>, <a class="el" href="structMINIDUMP__MISC__INFO__2.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th...">MINIDUMP_MISC_INFO_2</a>, <a class="el" href="structMINIDUMP__MISC__INFO__3.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th...">MINIDUMP_MISC_INFO_3</a>, and <a class="el" href="structMINIDUMP__MISC__INFO__4.html" title="Information about the process that the minidump file contains a snapshot of, as well as the system th...">MINIDUMP_MISC_INFO_4</a>. </p>
 <p>More recent versions of this stream are supersets of earlier versions.</p>
@@ -387,6 +396,9 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a64711234318a4a002f399dffb474ca08ab3437fce4862d62ca22f4933cada4d43"></a>MemoryInfoListStream&#160;</td><td class="fielddoc">
 <p>The stream type for <a class="el" href="structMINIDUMP__MEMORY__INFO__LIST.html" title="Contains a list of memory regions. ">MINIDUMP_MEMORY_INFO_LIST</a>. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a64711234318a4a002f399dffb474ca08a63f8fcf1fc01df4351e89ea2e6b27074"></a>LastReservedStream&#160;</td><td class="fielddoc">
+<p>Values greater than this value will not be used by the system and can be used for custom user data streams. </p>
 </td></tr>
 </table>
 
@@ -435,6 +447,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Represents the header for a handle data stream. </p>
+<p>A list of <a class="el" href="structMINIDUMP__HANDLE__DESCRIPTOR.html" title="Contains the state of an individual system handle at the time the snapshot was taken. This structure is Windows-specific. ">MINIDUMP_HANDLE_DESCRIPTOR</a> or <a class="el" href="structMINIDUMP__HANDLE__DESCRIPTOR__2.html" title="Contains the state of an individual system handle at the time the snapshot was taken. This structure is Windows-specific. ">MINIDUMP_HANDLE_DESCRIPTOR_2</a> structures will immediately follow in the stream. </p>
 <p>The size of the header information for the stream, in bytes. This value is <code>sizeof(MINIDUMP_HANDLE_DATA_STREAM)</code>.</p>
 <p>The size of a descriptor in the stream, in bytes. This value is <code>sizeof(MINIDUMP_HANDLE_DESCRIPTOR)</code> or <code>sizeof(MINIDUMP_HANDLE_DESCRIPTOR_2)</code>.</p>
 <p>The number of descriptors in the stream.</p>
