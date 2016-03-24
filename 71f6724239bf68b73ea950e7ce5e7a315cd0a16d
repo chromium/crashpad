@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ce3e649_a1863e06",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-03-24T21:24:08Z",
+      "side": 1,
+      "message": "Or just https://crashpad.chromium.org/bug/101.",
+      "revId": "71f6724239bf68b73ea950e7ce5e7a315cd0a16d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
