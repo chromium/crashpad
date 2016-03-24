@@ -110,6 +110,9 @@
               '-lrpcrt4.lib',
             ],
           },
+          'msvs_disabled_warnings': [
+            4577,  # 'noexcept' used with no exception handling mode specified
+          ]
         }],
       ],
     },
