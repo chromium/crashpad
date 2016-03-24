@@ -16,6 +16,24 @@
       "revId": "71f6724239bf68b73ea950e7ce5e7a315cd0a16d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cb1265a_faef3dd4",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-03-24T21:35:32Z",
+      "side": 1,
+      "message": "Sorry, they\u0027re just not shortened enough. I try 3 combinations of url every time to re-guess the short form and then give up and use what\u0027s in the omnibox.",
+      "parentUuid": "9ce3e649_a1863e06",
+      "revId": "71f6724239bf68b73ea950e7ce5e7a315cd0a16d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
