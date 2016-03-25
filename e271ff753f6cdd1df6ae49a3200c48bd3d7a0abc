@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1196d73_73ba00e7",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-03-25T02:34:14Z",
+      "side": 1,
+      "message": "Maybe this should be part of util’s direct_dependent_settings, since that’s how it got here.",
+      "revId": "e271ff753f6cdd1df6ae49a3200c48bd3d7a0abc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
