@@ -461,6 +461,11 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
 
 // static
 void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
+  if (g_signal_exception == INVALID_HANDLE_VALUE) {
+    LOG(ERROR) << "haven't called UseHandler()";
+    return;
+  }
+
   UnhandledExceptionHandler(exception_pointers);
 }
 
