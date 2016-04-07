@@ -21,6 +21,7 @@
 #include <string>
 
 #include "base/macros.h"
+#include "snapshot/win/process_snapshot_win.h"
 #include "util/win/exception_handler_server.h"
 
 namespace crashpad {
@@ -56,18 +57,22 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
 
   // ExceptionHandlerServer::Delegate:
 
-  //! \brief Processes an exception message by writing a crash report to this
-  //!     object's CrashReportDatabase.
   void ExceptionHandlerServerStarted() override;
   unsigned int ExceptionHandlerServerException(
       HANDLE process,
       WinVMAddress exception_information_address,
       WinVMAddress debug_critical_section_address) override;
+  unsigned int ExceptionHandlerServerFabricateException(
+      HANDLE process, DWORD thread_id, DWORD exception_code) override;
 
  private:
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
+
+  // Common handling code between ExceptionHandlerServerException() and
+  // ExceptionHandlerServerFabricateException().
+  unsigned int ExceptionCommon(ProcessSnapshotWin* process_snapshot);
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };

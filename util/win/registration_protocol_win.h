@@ -36,11 +36,37 @@ struct ExceptionInformation {
   DWORD thread_id;
 };
 
+//! \brief Structure read out of the client process by the crash handler when
+//!     the client requests a non-crash dump for a process other than itself.
+struct NonCrashInformation {
+  union {
+    ExceptionInformation exception_information;
+
+    struct {
+      //! \brief A `HANDLE`, valid in the client process, referring to the
+      //!     process for which to capture a dump.
+      HANDLE target_process;
+
+      //! \brief The thread id to be used in fabricating an exception record.
+      DWORD thread_id;
+
+      //! \brief The exception code to be used in fabricating an exception
+      //!     record.
+      DWORD exception_code;
+    } other_process_information;
+  };
+
+  //! \brief If `false`, then #exception_information is valid. If `true`, then
+  //! #other_process_information is valid.
+  bool dump_other_process;
+};
+
 //! \brief A client registration request.
 struct RegistrationRequest {
   //! \brief The expected value of `version`. This should be changed whenever
-  //!     the messages or ExceptionInformation are modified incompatibly.
-  enum { kMessageVersion = 1 };
+  //!     the messages, ExceptionInformation, or NonCrashInformation are
+  //!     modified incompatibly.
+  enum { kMessageVersion = 2 };
 
   //! \brief Version field to detect skew between client and server. Should be
   //!     set to kMessageVersion.
@@ -49,15 +75,19 @@ struct RegistrationRequest {
   //! \brief The PID of the client process.
   DWORD client_process_id;
 
+  //! \brief The creation time of the client process. This is used to verify
+  //!     that the PID was not reused.
+  FILETIME client_creation_time;
+
   //! \brief The address, in the client process's address space, of an
   //!     ExceptionInformation structure, used when handling a crash dump
   //!     request.
   WinVMAddress crash_exception_information;
 
-  //! \brief The address, in the client process's address space, of an
-  //!     ExceptionInformation structure, used when handling a non-crashing dump
+  //! \brief The address, in the client process's address space, of a
+  //!     NonCrashInformation structure, used when handling a non-crashing dump
   //!     request.
-  WinVMAddress non_crash_exception_information;
+  WinVMAddress non_crash_information;
 
   //! \brief The address, in the client process's address space, of a
   //!     `CRITICAL_SECTION` allocated with a valid .DebugInfo field. This can

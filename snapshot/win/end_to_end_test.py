@@ -135,6 +135,10 @@ def GetDumpFromCrashyProgram(out_dir, pipe_name):
   return GetDumpFromProgram(out_dir, pipe_name, 'crashy_program.exe')
 
 
+def GetDumpFromOtherProgram(out_dir, pipe_name):
+  return GetDumpFromProgram(out_dir, pipe_name, 'crash_other_program.exe')
+
+
 def GetDumpFromSelfDestroyingProgram(out_dir, pipe_name):
   return GetDumpFromProgram(out_dir, pipe_name, 'self_destroying_program.exe')
 
@@ -182,6 +186,7 @@ def RunTests(cdb_path,
              start_handler_dump_path,
              destroyed_dump_path,
              z7_dump_path,
+             other_program_path,
              pipe_name):
   """Runs various tests in sequence. Runs a new cdb instance on the dump for
   each block of tests to reduce the chances that output from one command is
@@ -311,6 +316,12 @@ def RunTests(cdb_path,
     out.Check(r'z7_test  C \(codeview symbols\)     z7_test.dll',
               'expected non-pdb symbol format')
 
+  out = CdbRun(cdb_path, other_program_path, '.ecxr;k')
+  out.Check('Unknown exception - code deadbea7',
+            'other program dump exception code')
+  out.Check('!Sleep', 'other program reasonable location')
+  out.Check('hanging_program!Thread1', 'other program dump right thread')
+
 
 def main(args):
   try:
@@ -352,11 +363,16 @@ def main(args):
       if not z7_dump_path:
         return 1
 
+    other_program_path = GetDumpFromOtherProgram(args[0], pipe_name)
+    if not other_program_path:
+      return 1
+
     RunTests(cdb_path,
              crashy_dump_path,
              start_handler_dump_path,
              destroyed_dump_path,
              z7_dump_path,
+             other_program_path,
              pipe_name)
 
     return 0
