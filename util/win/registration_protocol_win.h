@@ -75,6 +75,25 @@ struct ShutdownRequest {
   uint64_t token;
 };
 
+//! \brief A message sent by the client to request a dump be gathered for a
+//!     process other than itself.
+struct CrashTargetRequest {
+  //! \brief The PID of the client process.
+  DWORD client_process_id;
+
+  //! \brief A `HANDLE`, valid in the client process, referring to the process
+  //!     that's to be dumped.
+  HANDLE target_process;
+
+  //! \brief The thread id of the thread in the target process that should be
+  //!     tagged as the crashing thread.
+  DWORD target_thread_id;
+
+  //! \brief The `ExceptionCode` to use in the `EXCEPTION_RECORD` when
+  //!     fabricating an exception record.
+  DWORD target_exception_code;
+};
+
 //! \brief The message passed from client to server by
 //!     SendToCrashHandlerServer().
 struct ClientToServerMessage {
@@ -84,11 +103,14 @@ struct ClientToServerMessage {
     kRegister,
     //! \brief For ShutdownRequest.
     kShutdown,
+    //! \brief For CrashTargetRequest.
+    kCrashTarget,
   } type;
 
   union {
     RegistrationRequest registration;
     ShutdownRequest shutdown;
+    CrashTargetRequest crash_target;
   };
 };
 
