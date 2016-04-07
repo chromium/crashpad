@@ -117,6 +117,59 @@ HANDLE DuplicateEvent(HANDLE process, HANDLE event) {
   return nullptr;
 }
 
+ScopedKernelHANDLE DuplicateSameAccess(HANDLE client_process,
+                                       HANDLE in_client_process) {
+  HANDLE target_raw;
+  if (!DuplicateHandle(client_process,
+                       in_client_process,
+                       GetCurrentProcess(),
+                       &target_raw,
+                       0,
+                       false,
+                       DUPLICATE_SAME_ACCESS)) {
+    PLOG(ERROR) << "DuplicateHandle";
+    return ScopedKernelHANDLE();
+  }
+  return ScopedKernelHANDLE(target_raw);
+}
+
+// Checks two separate conditions required to confirm that we got the client
+// process we expected to get when it was opened by PID. The first is that the
+// PID at the other end of the pipe is the one we expected to get. The second is
+// that the creation time of that process matches, so that we know the PID
+// wasn't replaced by a different process.
+bool EnsureValidClient(HANDLE service_pipe,
+                       HANDLE client_process,
+                       DWORD alleged_client_process_id,
+                       const FILETIME& alleged_creation_time) {
+  decltype(GetNamedPipeClientProcessId)* get_named_pipe_client_process_id =
+      GetNamedPipeClientProcessIdFunction();
+  if (get_named_pipe_client_process_id) {
+    // GetNamedPipeClientProcessId is only available on Vista+.
+    DWORD real_pid = 0;
+    if (get_named_pipe_client_process_id(service_pipe, &real_pid) &&
+        alleged_client_process_id != real_pid) {
+      LOG(ERROR) << "forged client pid, real pid: " << real_pid
+                 << ", got: " << alleged_client_process_id;
+      return false;
+    }
+  }
+
+  FILETIME creation_time;
+  FILETIME unused;
+  if (!GetProcessTimes(
+          client_process, &creation_time, &unused, &unused, &unused)) {
+    LOG(ERROR) << "GetProcessTimes";
+    return false;
+  }
+  if (creation_time.dwLowDateTime != alleged_creation_time.dwLowDateTime ||
+      creation_time.dwHighDateTime != alleged_creation_time.dwHighDateTime) {
+    LOG(ERROR) << "invalid process creation time";
+    return false;
+  }
+  return true;
+}
+
 }  // namespace
 
 namespace internal {
@@ -166,7 +219,7 @@ class ClientData {
              ExceptionHandlerServer::Delegate* delegate,
              ScopedKernelHANDLE process,
              WinVMAddress crash_exception_information_address,
-             WinVMAddress non_crash_exception_information_address,
+             WinVMAddress non_crash_information_address,
              WinVMAddress debug_critical_section_address,
              WAITORTIMERCALLBACK crash_dump_request_callback,
              WAITORTIMERCALLBACK non_crash_dump_request_callback,
@@ -186,12 +239,11 @@ class ClientData {
         process_(std::move(process)),
         crash_exception_information_address_(
             crash_exception_information_address),
-        non_crash_exception_information_address_(
-            non_crash_exception_information_address),
+        non_crash_information_address_(non_crash_information_address),
         debug_critical_section_address_(debug_critical_section_address) {
-    RegisterThreadPoolWaits(crash_dump_request_callback,
-                            non_crash_dump_request_callback,
-                            process_end_callback);
+        RegisterThreadPoolWaits(crash_dump_request_callback,
+                                non_crash_dump_request_callback,
+                                process_end_callback);
   }
 
   ~ClientData() {
@@ -216,8 +268,8 @@ class ClientData {
   WinVMAddress crash_exception_information_address() const {
     return crash_exception_information_address_;
   }
-  WinVMAddress non_crash_exception_information_address() const {
-    return non_crash_exception_information_address_;
+  WinVMAddress non_crash_information_address() const {
+    return non_crash_information_address_;
   }
   WinVMAddress debug_critical_section_address() const {
     return debug_critical_section_address_;
@@ -285,7 +337,7 @@ class ClientData {
   ScopedKernelHANDLE non_crash_dump_completed_event_;
   ScopedKernelHANDLE process_;
   WinVMAddress crash_exception_information_address_;
-  WinVMAddress non_crash_exception_information_address_;
+  WinVMAddress non_crash_information_address_;
   WinVMAddress debug_critical_section_address_;
 
   DISALLOW_COPY_AND_ASSIGN(ClientData);
@@ -472,19 +524,6 @@ bool ExceptionHandlerServer::ServiceClientConnection(
     return false;
   }
 
-  decltype(GetNamedPipeClientProcessId)* get_named_pipe_client_process_id =
-      GetNamedPipeClientProcessIdFunction();
-  if (get_named_pipe_client_process_id) {
-    // GetNamedPipeClientProcessId is only available on Vista+.
-    DWORD real_pid = 0;
-    if (get_named_pipe_client_process_id(service_context.pipe(), &real_pid) &&
-        message.registration.client_process_id != real_pid) {
-      LOG(ERROR) << "forged client pid, real pid: " << real_pid
-                 << ", got: " << message.registration.client_process_id;
-      return false;
-    }
-  }
-
   // We attempt to open the process as us. This is the main case that should
   // almost always succeed as the server will generally be more privileged. If
   // we're running as a different user, it may be that we will fail to open
@@ -506,6 +545,13 @@ bool ExceptionHandlerServer::ServiceClientConnection(
     }
   }
 
+  if (!EnsureValidClient(service_context.pipe(),
+                         client_process,
+                         message.registration.client_process_id,
+                         message.registration.client_creation_time)) {
+    return false;
+  }
+
   internal::ClientData* client;
   {
     base::AutoLock lock(*service_context.clients_lock());
@@ -514,7 +560,7 @@ bool ExceptionHandlerServer::ServiceClientConnection(
         service_context.delegate(),
         ScopedKernelHANDLE(client_process),
         message.registration.crash_exception_information,
-        message.registration.non_crash_exception_information,
+        message.registration.non_crash_information,
         message.registration.critical_section_address,
         &OnCrashDumpEvent,
         &OnNonCrashDumpEvent,
@@ -582,11 +628,42 @@ void __stdcall ExceptionHandlerServer::OnNonCrashDumpEvent(void* ctx, BOOLEAN) {
   internal::ClientData* client = reinterpret_cast<internal::ClientData*>(ctx);
   base::AutoLock lock(*client->lock());
 
-  // Capture the exception.
-  client->delegate()->ExceptionHandlerServerException(
-      client->process(),
-      client->non_crash_exception_information_address(),
-      client->debug_critical_section_address());
+  NonCrashInformation non_crash_information;
+  SIZE_T bytes_read;
+  if (!ReadProcessMemory(client->process(),
+                         reinterpret_cast<const void*>(
+                             client->non_crash_information_address()),
+                         &non_crash_information,
+                         sizeof(non_crash_information),
+                         &bytes_read)) {
+    PLOG(ERROR) << "ReadProcessMemory";
+    return;
+  }
+
+  if (bytes_read != sizeof(non_crash_information)) {
+    PLOG(ERROR) << "ReadProcessMemory incorrect size";
+    return;
+  }
+
+  if (non_crash_information.dump_other_process) {
+    // We're dumping a process other than the client. Duplicate the target
+    // process's HANDLE into ours to use, and then tell the delegate to
+    // fabricate the exception.
+    ScopedKernelHANDLE target_process(DuplicateSameAccess(
+        client->process(),
+        non_crash_information.other_process_information.target_process));
+    client->delegate()->ExceptionHandlerServerFabricateException(
+        target_process.get(),
+        non_crash_information.other_process_information.thread_id,
+        non_crash_information.other_process_information.exception_code);
+  } else {
+    // Capture the exception.
+    client->delegate()->ExceptionHandlerServerException(
+        client->process(),
+        client->non_crash_information_address() +
+            offsetof(NonCrashInformation, exception_information),
+        client->debug_critical_section_address());
+  }
 
   bool result = !!SetEvent(client->non_crash_dump_completed_event());
   PLOG_IF(ERROR, !result) << "SetEvent";
