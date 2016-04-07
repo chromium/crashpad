@@ -117,6 +117,82 @@ HANDLE DuplicateEvent(HANDLE process, HANDLE event) {
   return nullptr;
 }
 
+ScopedKernelHANDLE DuplicateSameAccess(HANDLE client_process,
+                                       HANDLE in_client_process) {
+  HANDLE target_raw;
+  if (!DuplicateHandle(client_process,
+                       in_client_process,
+                       GetCurrentProcess(),
+                       &target_raw,
+                       0,
+                       false,
+                       DUPLICATE_SAME_ACCESS)) {
+    PLOG(ERROR) << "DuplicateHandle";
+    return ScopedKernelHANDLE();
+  }
+  return ScopedKernelHANDLE(target_raw);
+}
+
+bool EnsureNamedPipePidMatches(HANDLE pipe, DWORD alleged_client_process_id) {
+  decltype(GetNamedPipeClientProcessId)* get_named_pipe_client_process_id =
+      GetNamedPipeClientProcessIdFunction();
+  if (get_named_pipe_client_process_id) {
+    // GetNamedPipeClientProcessId is only available on Vista+.
+    DWORD real_pid = 0;
+    if (get_named_pipe_client_process_id(pipe, &real_pid) &&
+        alleged_client_process_id != real_pid) {
+      LOG(ERROR) << "forged client pid, real pid: " << real_pid
+                 << ", got: " << alleged_client_process_id;
+      return false;
+    }
+  }
+  return true;
+}
+
+bool ValidateCreationTime(HANDLE process,
+                          const FILETIME& alleged_creation_time) {
+  FILETIME creation_time;
+  FILETIME unused;
+  if (!GetProcessTimes(process, &creation_time, &unused, &unused, &unused)) {
+    LOG(ERROR) << "GetProcessTimes";
+    return false;
+  }
+  if (creation_time.dwLowDateTime != alleged_creation_time.dwLowDateTime ||
+      creation_time.dwHighDateTime != alleged_creation_time.dwHighDateTime) {
+    LOG(ERROR) << "invalid process creation time";
+    return false;
+  }
+  return true;
+}
+
+bool DumpAndCrashTargetProcess(const CrashTargetRequest& crash_target,
+                               ExceptionHandlerServer::Delegate* delegate) {
+  HANDLE client_process_raw =
+      OpenProcess(kXPProcessAllAccess, false, crash_target.client_process_id);
+  if (!client_process_raw) {
+    PLOG(ERROR) << "OpenProcess";
+    return false;
+  }
+  ScopedKernelHANDLE client_process(client_process_raw);
+
+  if (!ValidateCreationTime(client_process.get(),
+                            crash_target.client_creation_time)) {
+    return false;
+  }
+
+  ScopedKernelHANDLE target_process(
+      DuplicateSameAccess(client_process.get(), crash_target.target_process));
+  if (!target_process.is_valid())
+    return false;
+
+  unsigned int exit_code = delegate->ExceptionHandlerServerFabricateException(
+      target_process.get(),
+      crash_target.target_thread_id,
+      crash_target.target_exception_code);
+  TerminateProcess(target_process.get(), exit_code);
+  return true;
+}
+
 }  // namespace
 
 namespace internal {
@@ -457,6 +533,19 @@ bool ExceptionHandlerServer::ServiceClientConnection(
       return true;
     }
 
+    case ClientToServerMessage::kCrashTarget: {
+      if (!EnsureNamedPipePidMatches(service_context.pipe(),
+                                     message.registration.client_process_id)) {
+        return false;
+      }
+
+      DumpAndCrashTargetProcess(message.crash_target,
+                                service_context.delegate());
+      ServerToClientMessage response;
+      LoggingWriteFile(service_context.pipe(), &response, sizeof(response));
+      return false;
+    }
+
     case ClientToServerMessage::kRegister:
       // Handled below.
       break;
@@ -472,17 +561,9 @@ bool ExceptionHandlerServer::ServiceClientConnection(
     return false;
   }
 
-  decltype(GetNamedPipeClientProcessId)* get_named_pipe_client_process_id =
-      GetNamedPipeClientProcessIdFunction();
-  if (get_named_pipe_client_process_id) {
-    // GetNamedPipeClientProcessId is only available on Vista+.
-    DWORD real_pid = 0;
-    if (get_named_pipe_client_process_id(service_context.pipe(), &real_pid) &&
-        message.registration.client_process_id != real_pid) {
-      LOG(ERROR) << "forged client pid, real pid: " << real_pid
-                 << ", got: " << message.registration.client_process_id;
-      return false;
-    }
+  if (!EnsureNamedPipePidMatches(service_context.pipe(),
+                            message.registration.client_process_id)) {
+    return false;
   }
 
   // We attempt to open the process as us. This is the main case that should
@@ -504,6 +585,11 @@ bool ExceptionHandlerServer::ServiceClientConnection(
       LOG(ERROR) << "failed to open " << message.registration.client_process_id;
       return false;
     }
+  }
+
+  if (!ValidateCreationTime(client_process,
+                            message.registration.client_creation_time)) {
+    return false;
   }
 
   internal::ClientData* client;
