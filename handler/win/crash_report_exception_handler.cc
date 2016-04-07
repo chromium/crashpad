@@ -25,6 +25,12 @@
 
 namespace crashpad {
 
+namespace {
+
+const unsigned int kFailedTerminationCode = 0xffff7002;
+
+}  // namespace
+
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
@@ -44,8 +50,6 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     HANDLE process,
     WinVMAddress exception_information_address,
     WinVMAddress debug_critical_section_address) {
-  const unsigned int kFailedTerminationCode = 0xffff7002;
-
   ScopedProcessSuspend suspend(process);
 
   ProcessSnapshotWin process_snapshot;
@@ -61,13 +65,38 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     return kFailedTerminationCode;
   }
 
-  // Now that we have the exception information, even if something else fails we
-  // can terminate the process with the correct exit code.
-  const unsigned int termination_code =
-      process_snapshot.Exception()->Exception();
+  ReportCommon(&process_snapshot);
+  return process_snapshot.Exception()->Exception();
+}
 
+void
+CrashReportExceptionHandler::ExceptionHandlerServerFabricateException(
+    HANDLE process,
+    DWORD thread_id,
+    DWORD exception_code) {
+  ScopedProcessSuspend suspend(process);
+
+  ProcessSnapshotWin process_snapshot;
+  if (!process_snapshot.Initialize(
+          process, ProcessSuspensionState::kSuspended, 0)) {
+    LOG(WARNING) << "ProcessSnapshotWin::Initialize failed";
+    return;
+  }
+
+  if (thread_id != 0) {
+    // Fabricate a fake exception in the given thread with exception code that
+    // the caller supplied.
+    process_snapshot.InitializeWithFabricatedException(thread_id,
+                                                       exception_code);
+  }
+
+  ReportCommon(&process_snapshot);
+}
+
+void CrashReportExceptionHandler::ReportCommon(
+    ProcessSnapshotWin* process_snapshot) {
   CrashpadInfoClientOptions client_options;
-  process_snapshot.GetCrashpadOptions(&client_options);
+  process_snapshot->GetCrashpadOptions(&client_options);
   if (client_options.crashpad_handler_behavior != TriState::kDisabled) {
     UUID client_id;
     Settings* const settings = database_->GetSettings();
@@ -78,18 +107,18 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
       settings->GetClientID(&client_id);
     }
 
-    process_snapshot.SetClientID(client_id);
-    process_snapshot.SetAnnotationsSimpleMap(*process_annotations_);
+    process_snapshot->SetClientID(client_id);
+    process_snapshot->SetAnnotationsSimpleMap(*process_annotations_);
 
     CrashReportDatabase::NewReport* new_report;
     CrashReportDatabase::OperationStatus database_status =
         database_->PrepareNewCrashReport(&new_report);
     if (database_status != CrashReportDatabase::kNoError) {
       LOG(ERROR) << "PrepareNewCrashReport failed";
-      return termination_code;
+      return;
     }
 
-    process_snapshot.SetReportID(new_report->uuid);
+    process_snapshot->SetReportID(new_report->uuid);
 
     CrashReportDatabase::CallErrorWritingCrashReport
         call_error_writing_crash_report(database_, new_report);
@@ -97,10 +126,10 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     WeakFileHandleFileWriter file_writer(new_report->handle);
 
     MinidumpFileWriter minidump;
-    minidump.InitializeFromSnapshot(&process_snapshot);
+    minidump.InitializeFromSnapshot(process_snapshot);
     if (!minidump.WriteEverything(&file_writer)) {
       LOG(ERROR) << "WriteEverything failed";
-      return termination_code;
+      return;
     }
 
     call_error_writing_crash_report.Disarm();
@@ -109,13 +138,11 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     database_status = database_->FinishedWritingCrashReport(new_report, &uuid);
     if (database_status != CrashReportDatabase::kNoError) {
       LOG(ERROR) << "FinishedWritingCrashReport failed";
-      return termination_code;
+      return;
     }
 
     upload_thread_->ReportPending();
   }
-
-  return termination_code;
 }
 
 }  // namespace crashpad

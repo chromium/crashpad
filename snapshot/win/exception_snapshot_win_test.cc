@@ -111,6 +111,11 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
     return snapshot.Exception()->Exception();
   }
 
+  void ExceptionHandlerServerFabricateException(HANDLE process,
+                                                DWORD thread_id,
+                                                DWORD exception_code) override {
+  }
+
  private:
   HANDLE server_ready_;  // weak
   HANDLE completed_test_event_;  // weak
@@ -209,6 +214,11 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
     SetEvent(completed_test_event_);
 
     return 0;
+  }
+
+  void ExceptionHandlerServerFabricateException(HANDLE process,
+                                                DWORD thread_id,
+                                                DWORD exception_code) override {
   }
 
  private:

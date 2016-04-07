@@ -59,6 +59,20 @@ class ExceptionHandlerServer {
         HANDLE process,
         WinVMAddress exception_information_address,
         WinVMAddress debug_critical_section_address) = 0;
+
+    //! \brief Called when the client would like to cause a fabricated exception
+    //!     in an unrelated target process.
+    //!
+    //! \param[in] process A handle to the target process. Ownership of the
+    //!     lifetime of this handle is not passed to the delegate.
+    //! \param[in] thread_id The thread ID to be referenced in the fabricated
+    //!     exception.
+    //! \param[in] exception_code The exception code to be used in the
+    //!     fabricated exception.
+    virtual void ExceptionHandlerServerFabricateException(
+        HANDLE process,
+        DWORD thread_id,
+        DWORD exception_code) = 0;
   };
 
   //! \brief Constructs the exception handling server.

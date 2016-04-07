@@ -52,9 +52,8 @@ HANDLE g_non_crash_dump_done = INVALID_HANDLE_VALUE;
 // Guards multiple simultaneous calls to DumpWithoutCrash(). This is leaked.
 base::Lock* g_non_crash_dump_lock;
 
-// Where we store a pointer to the context information when taking a non-crash
-// dump.
-crashpad::ExceptionInformation g_non_crash_exception_information;
+// Where we store context information when taking a non-crash dump.
+crashpad::NonCrashInformation g_non_crash_information;
 
 // A CRITICAL_SECTION initialized with
 // RTL_CRITICAL_SECTION_FLAG_FORCE_DEBUG_INFO to force it to be allocated with a
@@ -362,15 +361,23 @@ bool CrashpadClient::UseHandler() {
   DCHECK(!g_critical_section_with_debug_info.DebugInfo);
   DCHECK(!g_non_crash_dump_lock);
 
-  ClientToServerMessage message;
-  memset(&message, 0, sizeof(message));
+  ClientToServerMessage message = {};
   message.type = ClientToServerMessage::kRegister;
   message.registration.version = RegistrationRequest::kMessageVersion;
   message.registration.client_process_id = GetCurrentProcessId();
+  FILETIME unused;
+  if (!GetProcessTimes(GetCurrentProcess(),
+                       &message.registration.client_creation_time,
+                       &unused,
+                       &unused,
+                       &unused)) {
+    PLOG(ERROR) << "GetProcessTimes";
+    return false;
+  }
   message.registration.crash_exception_information =
       reinterpret_cast<WinVMAddress>(&g_crash_exception_information);
-  message.registration.non_crash_exception_information =
-      reinterpret_cast<WinVMAddress>(&g_non_crash_exception_information);
+  message.registration.non_crash_information =
+      reinterpret_cast<WinVMAddress>(&g_non_crash_information);
 
   // We create this dummy CRITICAL_SECTION with the
   // RTL_CRITICAL_SECTION_FLAG_FORCE_DEBUG_INFO flag set to have an entry point
@@ -448,8 +455,10 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
 
   exception_pointers.ExceptionRecord = &record;
 
-  g_non_crash_exception_information.thread_id = GetCurrentThreadId();
-  g_non_crash_exception_information.exception_pointers =
+  g_non_crash_information.dump_other_process = false;
+  g_non_crash_information.exception_information.thread_id =
+      GetCurrentThreadId();
+  g_non_crash_information.exception_information.exception_pointers =
       reinterpret_cast<crashpad::WinVMAddress>(&exception_pointers);
 
   bool set_event_result = !!SetEvent(g_signal_non_crash_dump);
@@ -467,6 +476,32 @@ void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   }
 
   UnhandledExceptionHandler(exception_pointers);
+}
+
+bool CrashpadClient::DumpTargetProcess(HANDLE process,
+                                       DWORD thread_id,
+                                       DWORD exception_code) const {
+  if (g_signal_non_crash_dump == INVALID_HANDLE_VALUE ||
+      g_non_crash_dump_done == INVALID_HANDLE_VALUE) {
+    LOG(ERROR) << "haven't called UseHandler()";
+    return false;
+  }
+
+  base::AutoLock lock(*g_non_crash_dump_lock);
+
+  g_non_crash_information.dump_other_process = true;
+  g_non_crash_information.other_process_information.target_process = process;
+  g_non_crash_information.other_process_information.thread_id = thread_id;
+  g_non_crash_information.other_process_information.exception_code =
+      exception_code;
+
+  bool set_event_result = !!SetEvent(g_signal_non_crash_dump);
+  PLOG_IF(ERROR, !set_event_result) << "SetEvent";
+
+  DWORD wfso_result = WaitForSingleObject(g_non_crash_dump_done, INFINITE);
+  PLOG_IF(ERROR, wfso_result != WAIT_OBJECT_0) << "WaitForSingleObject";
+
+  return true;
 }
 
 }  // namespace crashpad
