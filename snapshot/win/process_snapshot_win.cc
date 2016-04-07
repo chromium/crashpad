@@ -112,6 +112,22 @@ bool ProcessSnapshotWin::InitializeException(
   }
 
   return true;
+w
+
+bool ProcessSnapshotWin::InitializeWithFabricatedException(
+    DWORD thread_id,
+    DWORD exception_code) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  DCHECK(!exception_);
+
+  exception_.reset(new internal::ExceptionSnapshotWin());
+  if (!exception_->InitializeFabricated(
+          &process_reader_, thread_id, exception_code)) {
+    exception_.reset();
+    return false;
+  }
+
+  return true;
 }
 
 void ProcessSnapshotWin::GetCrashpadOptions(

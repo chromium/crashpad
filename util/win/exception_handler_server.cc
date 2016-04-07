@@ -117,6 +117,43 @@ HANDLE DuplicateEvent(HANDLE process, HANDLE event) {
   return nullptr;
 }
 
+ScopedKernelHANDLE DuplicateSameAccess(HANDLE client_process,
+                                       HANDLE in_client_process) {
+  HANDLE target_raw;
+  if (!DuplicateHandle(client_process,
+                       in_client_process,
+                       GetCurrentProcess(),
+                       &target_raw,
+                       0,
+                       false,
+                       DUPLICATE_SAME_ACCESS)) {
+    PLOG(ERROR) << "DuplicateHandle";
+    return ScopedKernelHANDLE();
+  }
+  return ScopedKernelHANDLE(target_raw);
+}
+
+bool DumpAndCrashTargetProcess(const CrashTargetRequest& crash_target,
+                               ExceptionHandlerServer::Delegate* delegate) {
+  HANDLE client_process_raw =
+      OpenProcess(kXPProcessAllAccess, false, crash_target.client_process_id);
+  if (!client_process_raw) {
+    PLOG(ERROR) << "OpenProcess";
+    return false;
+  }
+  ScopedKernelHANDLE client_process(client_process_raw);
+
+  ScopedKernelHANDLE target_process(
+      DuplicateSameAccess(client_process.get(), crash_target.target_process));
+  if (!target_process.is_valid())
+    return false;
+
+  unsigned int exit_code =
+      delegate->ExceptionHandlerServerException(target_process.get(), 0, 0);
+  TerminateProcess(target_process.get(), exit_code);
+  return true;
+}
+
 }  // namespace
 
 namespace internal {
@@ -455,6 +492,14 @@ bool ExceptionHandlerServer::ServiceClientConnection(
                        &shutdown_response,
                        sizeof(shutdown_response));
       return true;
+    }
+
+    case ClientToServerMessage::kCrashTarget: {
+      DumpAndCrashTargetProcess(message.crash_target,
+                                service_context.delegate());
+      ServerToClientMessage response;
+      LoggingWriteFile(service_context.pipe(), &response, sizeof(response));
+      return false;
     }
 
     case ClientToServerMessage::kRegister:

@@ -59,6 +59,12 @@ class ExceptionHandlerServer {
         HANDLE process,
         WinVMAddress exception_information_address,
         WinVMAddress debug_critical_section_address) = 0;
+
+    //! XXX
+    virtual unsigned int ExceptionHandlerServerFabricateException(
+        HANDLE process,
+        DWORD thread_id,
+        DWORD exception_code) = 0;
   };
 
   //! \brief Constructs the exception handling server.

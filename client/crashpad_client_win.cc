@@ -469,4 +469,19 @@ void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   UnhandledExceptionHandler(exception_pointers);
 }
 
+bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
+                                               DWORD thread_id,
+                                               DWORD exception_code) {
+  ClientToServerMessage message;
+  memset(&message, 0, sizeof(message));
+  message.type = ClientToServerMessage::kCrashTarget;
+  message.crash_target.client_process_id = GetCurrentProcessId();
+  message.crash_target.target_process = process;
+  message.crash_target.target_thread_id = thread_id;
+  message.crash_target.target_exception_code = exception_code;
+
+  ServerToClientMessage response = {};
+  return SendToCrashHandlerServer(ipc_pipe_, message, &response);
+}
+
 }  // namespace crashpad

@@ -55,6 +55,11 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
                   DWORD thread_id,
                   WinVMAddress exception_pointers);
 
+  //! XXX
+  bool InitializeFabricated(ProcessReaderWin* process_reader,
+                            DWORD thread_id,
+                            DWORD exception_code);
+
   // ExceptionSnapshot:
 
   const CPUContext* Context() const override;
