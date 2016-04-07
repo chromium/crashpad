@@ -111,6 +111,26 @@
           ],
         },
         {
+          'target_name': 'hanging_program',
+          'type': 'executable',
+          'sources': [
+            'win/hanging_program.cc',
+          ],
+        },
+        {
+          'target_name': 'crash_other_program',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../test/test.gyp:crashpad_test',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'sources': [
+            'win/crash_other_program.cc',
+          ],
+        },
+        {
           'target_name': 'self_destroying_program',
           'type': 'executable',
           'dependencies': [

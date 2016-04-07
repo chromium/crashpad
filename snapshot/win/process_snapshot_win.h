@@ -89,6 +89,22 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   //!     `false`, the ProcessSnapshotWin object's validity remains unchanged.
   bool InitializeException(WinVMAddress exception_information_address);
 
+  //! \brief Initializes the object's exception with a fake exception record.
+  //!
+  //! This populates the data to be returned by Exception(). This method must
+  //! not be called until after a successful call to Initialize() and only this
+  //! function or InitializeException() should be called, but not both.
+  //!
+  //! \param[in] thread_id The thread ID to be referenced in the fabricated
+  //!     exception.
+  //! \param[in] exception_code The exception code to use in the fabricated
+  //!     exception.
+  //!
+  //! \return `true` if the exception information could be initialized, `false`
+  //!     otherwise with an appropriate message logged. When this method returns
+  //!     `false`, the ProcessSnapshotWin object's validity remains unchanged.
+  bool InitializeWithFabricatedException(DWORD thread_id, DWORD exception_code);
+
   //! \brief Sets the value to be returned by ReportID().
   //!
   //! The crash report ID is under the control of the snapshot producer, which
