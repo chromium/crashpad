@@ -67,6 +67,12 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
       WinVMAddress debug_critical_section_address) override {
     return 0;
   }
+  unsigned int ExceptionHandlerServerFabricateException(
+      HANDLE process,
+      DWORD thread_id,
+      DWORD exception_code) override {
+    return 0;
+  }
 
   void WaitForStart() { WaitForSingleObject(server_ready_, INFINITE); }
 
