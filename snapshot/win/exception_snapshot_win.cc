@@ -19,7 +19,6 @@
 #include "snapshot/win/cpu_context_win.h"
 #include "snapshot/win/capture_memory_delegate_win.h"
 #include "snapshot/win/memory_snapshot_win.h"
-#include "snapshot/win/process_reader_win.h"
 #include "util/win/nt_internals.h"
 
 namespace crashpad {
@@ -45,20 +44,9 @@ bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
                                       WinVMAddress exception_pointers_address) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  const ProcessReaderWin::Thread* thread = nullptr;
-  for (const auto& loop_thread : process_reader->Threads()) {
-    if (thread_id == loop_thread.id) {
-      thread = &loop_thread;
-      break;
-    }
-  }
-
-  if (!thread) {
-    LOG(ERROR) << "thread ID " << thread_id << " not found in process";
+  const auto* thread = InitializeThreadID(process_reader, thread_id);
+  if (!thread)
     return false;
-  } else {
-    thread_id_ = thread_id;
-  }
 
 #if defined(ARCH_CPU_32_BITS)
   const bool is_64_bit = false;
@@ -90,9 +78,42 @@ bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
     InitializeX86Context(context_record, context_.x86);
   }
 
-  CaptureMemoryDelegateWin capture_memory_delegate(
-      process_reader, *thread, &extra_memory_);
-  CaptureMemory::PointedToByContext(context_, &capture_memory_delegate);
+  CaptureReferencedMemory(process_reader, *thread);
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+bool ExceptionSnapshotWin::InitializeFabricated(
+    ProcessReaderWin* process_reader,
+    DWORD thread_id,
+    DWORD exception_code) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  const auto* thread = InitializeThreadID(process_reader, thread_id);
+  if (!thread)
+    return false;
+
+#if defined(ARCH_CPU_X86_64)
+  if (process_reader->Is64Bit()) {
+    context_.architecture = kCPUArchitectureX86_64;
+    context_.x86_64 = &context_union_.x86_64;
+    InitializeX64Context(thread->context.native, context_.x86_64);
+  } else {
+    context_.architecture = kCPUArchitectureX86;
+    context_.x86 = &context_union_.x86;
+    InitializeX86Context(thread->context.wow64, context_.x86);
+  }
+#else
+  context_.architecture = kCPUArchitectureX86;
+  context_.x86 = &context_union_.x86;
+  InitializeX86Context(thread->context.native, context_.x86);
+#endif  // ARCH_CPU_X86_64
+
+  exception_address_ = context_.InstructionPointer();
+  exception_code_ = exception_code;
+
+  CaptureReferencedMemory(process_reader, *thread);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -183,6 +204,34 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
   }
 
   return true;
+}
+
+const ProcessReaderWin::Thread* ExceptionSnapshotWin::InitializeThreadID(
+    ProcessReaderWin* process_reader,
+    DWORD thread_id) {
+  const ProcessReaderWin::Thread* thread = nullptr;
+  for (const auto& loop_thread : process_reader->Threads()) {
+    if (thread_id == loop_thread.id) {
+      thread = &loop_thread;
+      break;
+    }
+  }
+
+  if (!thread) {
+    LOG(ERROR) << "thread ID " << thread_id << " not found in process";
+  } else {
+    thread_id_ = thread_id;
+  }
+
+  return thread;
+}
+
+void ExceptionSnapshotWin::CaptureReferencedMemory(
+    ProcessReaderWin* process_reader,
+    const ProcessReaderWin::Thread& thread) {
+  CaptureMemoryDelegateWin capture_memory_delegate(
+      process_reader, thread, &extra_memory_);
+  CaptureMemory::PointedToByContext(context_, &capture_memory_delegate);
 }
 
 }  // namespace internal
