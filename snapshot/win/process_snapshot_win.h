@@ -89,6 +89,9 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   //!     `false`, the ProcessSnapshotWin object's validity remains unchanged.
   bool InitializeException(WinVMAddress exception_information_address);
 
+  //! XXX
+  bool InitializeWithFabricatedException(DWORD thread_id, DWORD exception_code);
+
   //! \brief Sets the value to be returned by ReportID().
   //!
   //! The crash report ID is under the control of the snapshot producer, which

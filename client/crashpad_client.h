@@ -152,6 +152,11 @@ class CrashpadClient {
   //! \param[in] exception_pointers An `EXCEPTION_POINTERS`, as would generally
   //!     passed to an unhandled exception filter.
   static void DumpAndCrash(EXCEPTION_POINTERS* exception_pointers);
+
+  //! XXX
+  bool DumpAndCrashTargetProcess(HANDLE process,
+                                 DWORD thread_id,
+                                 DWORD exception_code) const;
 #endif
 
   //! \brief Configures the process to direct its crashes to a Crashpad handler.
