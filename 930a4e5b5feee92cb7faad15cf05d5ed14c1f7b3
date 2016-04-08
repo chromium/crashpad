@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ce33e4d5_f96563e8",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-08T21:55:35Z",
+      "side": 1,
+      "message": "That would definitely lock things down a bit and make this a less scary API. I think that\u0027s a good idea.\n\nOne problem is that an intended use is that a second browser process starting up (which would get its own crashpad_handler) tries to rendezvous with the first, realizes the first is hung, and then wants to call this API on the first browser.\n\nIn that case, it that won\u0027t work because the two processes will have been registered with different crashpad_handler instances. So, we\u0027d have to figure out a way to have the second browser connect to the first\u0027s crashpad_handler.",
+      "parentUuid": "cb5f5626_6a1c57b3",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb5f5626_8af42b98",
         "filename": "client/crashpad_client.h",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-08T20:10:36Z",
       "side": 1,
       "message": "Does this code also show up in the target process when it’s crashed?",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce33e4d5_997d478e",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-08T21:55:35Z",
+      "side": 1,
+      "message": "The target doesn\u0027t actually crash, it\u0027s just terminated. Renamed the function.",
+      "parentUuid": "cb5f5626_8af42b98",
       "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ce33e4d5_d9609fdb",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-08T21:55:35Z",
+      "side": 1,
+      "message": "I\u0027ll punt this question to Pierre-Antoine. I don\u0027t think it matters from a security point of view, so it\u0027s whatever is easiest to use for the API consumer.",
+      "parentUuid": "cb5f5626_2a3f7f0b",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb5f5626_6a357729",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2016-04-08T20:10:36Z",
       "side": 1,
       "message": "{} worked on 483 but not here? Union problem?",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce33e4d5_d9397fb7",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-08T21:55:35Z",
+      "side": 1,
+      "message": "Copy-paste from above, fixed both.",
+      "parentUuid": "cb5f5626_6a357729",
       "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ce33e4d5_1924f789",
+        "filename": "handler/win/crash_other_program.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-08T21:55:35Z",
+      "side": 1,
+      "message": "Done. (Was just to softly indicate it needed to be \u003e\u003d windows.h)",
+      "parentUuid": "cb5f5626_4a3ab31b",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb5f5626_ea4847ae",
         "filename": "snapshot/win/exception_snapshot_win.cc",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2016-04-08T20:10:36Z",
       "side": 1,
       "message": "These are 12 lines shared with Initialize(). Factor it out into a common helper.",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce33e4d5_d98fbfaa",
+        "filename": "snapshot/win/exception_snapshot_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-08T21:55:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb5f5626_ea4847ae",
       "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "ce33e4d5_797a5347",
+        "filename": "snapshot/win/exception_snapshot_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-08T21:55:35Z",
+      "side": 1,
+      "message": "It can only be 0 or EXCEPTION_NONCONTINUABLE, didn\u0027t think it meant much here.",
+      "parentUuid": "cb5f5626_aa524f56",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb5f5626_8a4f8bb2",
         "filename": "snapshot/win/exception_snapshot_win.cc",
         "patchSetId": 6
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "ce33e4d5_3997fbc5",
+        "filename": "snapshot/win/exception_snapshot_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-08T21:55:35Z",
+      "side": 1,
+      "message": "Maybe just barely? Done.",
+      "parentUuid": "cb5f5626_8a4f8bb2",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb5f5626_2a165f91",
         "filename": "snapshot/win/process_snapshot_win.h",
         "patchSetId": 6
@@ -149,6 +293,24 @@
       "writtenOn": "2016-04-08T20:10:36Z",
       "side": 1,
       "message": "//!\n//! \\sa InitializeWithFabricatedException",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce33e4d5_d9ddff8e",
+        "filename": "snapshot/win/process_snapshot_win.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-08T21:55:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb5f5626_2a165f91",
       "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
