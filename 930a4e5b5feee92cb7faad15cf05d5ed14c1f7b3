@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb5f5626_6a1c57b3",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2016-04-08T20:10:36Z",
+      "side": 1,
+      "message": "Does |process| have to be a handle to something that’s already registered with crashpad_handler?",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5f5626_8af42b98",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2016-04-08T20:10:36Z",
+      "side": 1,
+      "message": "Does this code also show up in the target process when it’s crashed?",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5f5626_2a3f7f0b",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2016-04-08T20:10:36Z",
+      "side": 1,
+      "message": "Does it make more sense for the interface to use a thread handle?",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5f5626_6a357729",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2016-04-08T20:10:36Z",
+      "side": 1,
+      "message": "{} worked on 483 but not here? Union problem?",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5f5626_4a3ab31b",
+        "filename": "handler/win/crash_other_program.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2016-04-08T20:10:36Z",
+      "side": 1,
+      "message": "No blank line.",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5f5626_ea4847ae",
+        "filename": "snapshot/win/exception_snapshot_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2016-04-08T20:10:36Z",
+      "side": 1,
+      "message": "These are 12 lines shared with Initialize(). Factor it out into a common helper.",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5f5626_aa524f56",
+        "filename": "snapshot/win/exception_snapshot_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2016-04-08T20:10:36Z",
+      "side": 1,
+      "message": "No way to push in exception flags? In the “crash” cases, what value do the exception flags normally have?",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5f5626_8a4f8bb2",
+        "filename": "snapshot/win/exception_snapshot_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2016-04-08T20:10:36Z",
+      "side": 1,
+      "message": "Probably not worth factoring this stuff out on its own.",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb5f5626_2a165f91",
+        "filename": "snapshot/win/process_snapshot_win.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1136770
+      },
+      "writtenOn": "2016-04-08T20:10:36Z",
+      "side": 1,
+      "message": "//!\n//! \\sa InitializeWithFabricatedException",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
