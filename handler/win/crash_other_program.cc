@@ -84,7 +84,7 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
   base::FilePath test_executable = Paths::Executable();
   std::wstring child_test_executable =
       test_executable.DirName().Append(L"hanging_program.exe").value();
-  ChildLauncher child(child_test_executable, L"");
+  ChildLauncher child(child_test_executable, argv[1]);
   child.Start();
 
   // Wait until it's ready.

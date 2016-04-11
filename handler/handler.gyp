@@ -113,6 +113,10 @@
         {
           'target_name': 'hanging_program',
           'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
           'sources': [
             'win/hanging_program.cc',
           ],

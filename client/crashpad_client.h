@@ -155,6 +155,9 @@ class CrashpadClient {
 
   //! \brief Requests that the handler capture a dump of a different process.
   //!
+  //! The target process is restricted to being a process that has also
+  //! registered with the crash handler.
+  //!
   //! \param[in] process A `HANDLE` identifying the process to be dumped.
   //! \param[in] thread_id The thread id of the thread in the target process
   //!     that should be used in fabricating an exception record.
