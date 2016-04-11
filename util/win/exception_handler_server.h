@@ -122,6 +122,9 @@ class ExceptionHandlerServer {
   static void __stdcall OnNonCrashDumpEvent(void* ctx, BOOLEAN);
   static void __stdcall OnProcessEnd(void* ctx, BOOLEAN);
 
+  bool VerifyThatProcessIsRegistered(HANDLE process,
+                                     internal::ClientData* current_client);
+
   std::wstring pipe_name_;
   ScopedKernelHANDLE port_;
   ScopedFileHandle first_pipe_instance_;
