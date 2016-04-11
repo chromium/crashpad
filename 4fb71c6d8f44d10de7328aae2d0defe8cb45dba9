@@ -22,6 +22,24 @@
       "revId": "4fb71c6d8f44d10de7328aae2d0defe8cb45dba9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce33e4d5_b8bcbb89",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-11T19:02:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ce33e4d5_a05e43bb",
+      "revId": "4fb71c6d8f44d10de7328aae2d0defe8cb45dba9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
