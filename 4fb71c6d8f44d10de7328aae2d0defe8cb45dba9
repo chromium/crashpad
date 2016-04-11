@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce33e4d5_a05e43bb",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001013
+      },
+      "writtenOn": "2016-04-11T16:11:06Z",
+      "side": 1,
+      "message": "Splitting the Pipe/PID, process/creation_time check in two creates a vanishingly small race. It also makes the code hard to follow and therefore moar brittle to regression.\nMaybe better to do the check all in one after the OpenProcess call has succeeded?",
+      "range": {
+        "startLine": 178,
+        "startChar": 7,
+        "endLine": 178,
+        "endChar": 27
+      },
+      "revId": "4fb71c6d8f44d10de7328aae2d0defe8cb45dba9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
