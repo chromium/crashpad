@@ -236,9 +236,14 @@ void ProcessSnapshotWin::InitializeThreads(
   for (const ProcessReaderWin::Thread& process_reader_thread :
        process_reader_threads) {
     auto thread = make_scoped_ptr(new internal::ThreadSnapshotWin());
+    int* budget_remaining_pointer = nullptr;
+    // TODO(scottmg): Configurability of this number.
+    int budget_remaining = 3 << 20;
+    if (gather_indirectly_referenced_memory)
+      budget_remaining_pointer = &budget_remaining;
     if (thread->Initialize(&process_reader_,
                            process_reader_thread,
-                           gather_indirectly_referenced_memory)) {
+                           budget_remaining_pointer)) {
       threads_.push_back(thread.release());
     }
   }
