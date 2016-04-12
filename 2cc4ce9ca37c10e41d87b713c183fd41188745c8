@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2baab253_9ac5795c",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001013
+      },
+      "writtenOn": "2016-04-12T14:49:10Z",
+      "side": 1,
+      "message": "Does this function CHECK if the function is not available but the system version indicates it should be?\nIf not, maybe it ought to?",
+      "revId": "2cc4ce9ca37c10e41d87b713c183fd41188745c8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
