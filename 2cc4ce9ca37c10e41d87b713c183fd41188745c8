@@ -16,6 +16,24 @@
       "revId": "2cc4ce9ca37c10e41d87b713c183fd41188745c8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebe41af9_a4f42833",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-12T20:06:20Z",
+      "side": 1,
+      "message": "It doesn\u0027t, we could do that generally I guess. We should probably just do a pass to depend on Win7+ now anyway. Filed https://bugs.chromium.org/p/crashpad/issues/detail?id\u003d102.",
+      "parentUuid": "2baab253_9ac5795c",
+      "revId": "2cc4ce9ca37c10e41d87b713c183fd41188745c8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
