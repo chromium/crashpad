@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb533ac8_83ea7e52",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-13T17:51:32Z",
+      "side": 1,
+      "message": "Log something about the process so that we can trace bad actors. Can we get the process ID of the target that we are refusing to dump? Can we identify who asked us to dump it?",
+      "revId": "1a86bd53c0322409b8021034f97525a8564cbb14",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
