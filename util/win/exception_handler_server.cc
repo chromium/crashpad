@@ -117,6 +117,22 @@ HANDLE DuplicateEvent(HANDLE process, HANDLE event) {
   return nullptr;
 }
 
+ScopedKernelHANDLE DuplicateSameAccess(HANDLE client_process,
+                                       HANDLE in_client_process) {
+  HANDLE target_raw;
+  if (!DuplicateHandle(client_process,
+                       in_client_process,
+                       GetCurrentProcess(),
+                       &target_raw,
+                       0,
+                       false,
+                       DUPLICATE_SAME_ACCESS)) {
+    PLOG(ERROR) << "DuplicateHandle";
+    return ScopedKernelHANDLE();
+  }
+  return ScopedKernelHANDLE(target_raw);
+}
+
 // Checks two separate conditions required to confirm that we got the client
 // process we expected to get when it was opened by PID. The first is that the
 // PID at the other end of the pipe is the one we expected to get. The second is
@@ -163,12 +179,14 @@ class PipeServiceContext {
  public:
   PipeServiceContext(HANDLE port,
                      HANDLE pipe,
+                     ExceptionHandlerServer* self,
                      ExceptionHandlerServer::Delegate* delegate,
                      base::Lock* clients_lock,
                      std::set<internal::ClientData*>* clients,
                      uint64_t shutdown_token)
       : port_(port),
         pipe_(pipe),
+        self_(self),
         delegate_(delegate),
         clients_lock_(clients_lock),
         clients_(clients),
@@ -176,6 +194,7 @@ class PipeServiceContext {
 
   HANDLE port() const { return port_; }
   HANDLE pipe() const { return pipe_.get(); }
+  ExceptionHandlerServer* self() const { return self_; }
   ExceptionHandlerServer::Delegate* delegate() const { return delegate_; }
   base::Lock* clients_lock() const { return clients_lock_; }
   std::set<internal::ClientData*>* clients() const { return clients_; }
@@ -184,6 +203,7 @@ class PipeServiceContext {
  private:
   HANDLE port_;  // weak
   ScopedKernelHANDLE pipe_;
+  ExceptionHandlerServer* self_;  // weak
   ExceptionHandlerServer::Delegate* delegate_;  // weak
   base::Lock* clients_lock_;  // weak
   std::set<internal::ClientData*>* clients_;  // weak
@@ -200,6 +220,7 @@ class PipeServiceContext {
 class ClientData {
  public:
   ClientData(HANDLE port,
+             ExceptionHandlerServer* self,
              ExceptionHandlerServer::Delegate* delegate,
              ScopedKernelHANDLE process,
              WinVMAddress crash_exception_information_address,
@@ -213,6 +234,7 @@ class ClientData {
         process_end_thread_pool_wait_(INVALID_HANDLE_VALUE),
         lock_(),
         port_(port),
+        self_(self),
         delegate_(delegate),
         crash_dump_requested_event_(
             CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
@@ -239,6 +261,7 @@ class ClientData {
 
   base::Lock* lock() { return &lock_; }
   HANDLE port() const { return port_; }
+  ExceptionHandlerServer* self() const { return self_; }
   ExceptionHandlerServer::Delegate* delegate() const { return delegate_; }
   HANDLE crash_dump_requested_event() const {
     return crash_dump_requested_event_.get();
@@ -315,6 +338,7 @@ class ClientData {
   base::Lock lock_;
   // Access to these fields must be guarded by lock_.
   HANDLE port_;  // weak
+  ExceptionHandlerServer* self_;  // weak
   ExceptionHandlerServer::Delegate* delegate_;  // weak
   ScopedKernelHANDLE crash_dump_requested_event_;
   ScopedKernelHANDLE non_crash_dump_requested_event_;
@@ -401,6 +425,7 @@ void ExceptionHandlerServer::Run(Delegate* delegate) {
     internal::PipeServiceContext* context =
         new internal::PipeServiceContext(port_.get(),
                                          pipe,
+                                         this,
                                          delegate,
                                          &clients_lock_,
                                          &clients_,
@@ -541,6 +566,7 @@ bool ExceptionHandlerServer::ServiceClientConnection(
     base::AutoLock lock(*service_context.clients_lock());
     client = new internal::ClientData(
         service_context.port(),
+        service_context.self(),
         service_context.delegate(),
         ScopedKernelHANDLE(client_process),
         message.registration.crash_exception_information,
@@ -633,22 +659,19 @@ void __stdcall ExceptionHandlerServer::OnNonCrashDumpEvent(void* ctx, BOOLEAN) {
     // We're dumping a process other than the client. Duplicate the target
     // process's HANDLE into ours to use, and then tell the delegate to
     // fabricate the exception.
-    HANDLE target_process_raw;
-    if (DuplicateHandle(
-            client->process(),
-            non_crash_information.other_process_information.target_process,
-            GetCurrentProcess(),
-            &target_process_raw,
-            0,
-            false,
-            DUPLICATE_SAME_ACCESS)) {
-      ScopedKernelHANDLE target_process(target_process_raw);
+    ScopedKernelHANDLE target_process(DuplicateSameAccess(
+        client->process(),
+        non_crash_information.other_process_information.target_process));
+
+    if (client->self()->VerifyThatProcessIsRegistered(target_process.get(),
+                                                      client)) {
       client->delegate()->ExceptionHandlerServerFabricateException(
           target_process.get(),
           non_crash_information.other_process_information.thread_id,
           non_crash_information.other_process_information.exception_code);
     } else {
-      PLOG(ERROR) << "DuplicateHandle";
+      LOG(ERROR) << "trying to dump a non-registered process, pid: "
+                 << GetProcessId(target_process.get());
     }
   } else {
     // Capture the exception.
@@ -671,6 +694,27 @@ void __stdcall ExceptionHandlerServer::OnProcessEnd(void* ctx, BOOLEAN) {
 
   // Post back to the main thread to have it delete this client record.
   PostQueuedCompletionStatus(client->port(), 0, ULONG_PTR(client), nullptr);
+}
+
+bool ExceptionHandlerServer::VerifyThatProcessIsRegistered(
+    HANDLE process,
+    internal::ClientData* current_client) {
+  base::AutoLock lock(clients_lock_);
+
+  // Because we're not manipulating handles here (they're already all open), we
+  // don't need to check the process creation time too. See
+  // https://blogs.msdn.microsoft.com/oldnewthing/20110107-00/?p=11803.
+  DWORD pid = GetProcessId(process);
+
+  for (auto* client : clients_) {
+    if (client == current_client)
+      continue;
+    base::AutoLock lock(*client->lock());
+    if (GetProcessId(client->process()) == pid)
+      return true;
+  }
+
+  return false;
 }
 
 }  // namespace crashpad

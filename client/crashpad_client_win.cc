@@ -371,7 +371,7 @@ bool CrashpadClient::UseHandler() {
                        &unused,
                        &unused,
                        &unused)) {
-    PLOG(ERROR) << "GetProcessTimes";
+    LOG(ERROR) << "GetProcessTimes";
     return false;
   }
   message.registration.crash_exception_information =

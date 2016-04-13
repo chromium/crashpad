@@ -16,7 +16,11 @@
 // by another process.
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <windows.h>
+
+#include "base/logging.h"
+#include "client/crashpad_client.h"
 
 DWORD WINAPI Thread1(LPVOID dummy) {
   Sleep(INFINITE);
@@ -28,7 +32,26 @@ DWORD WINAPI Thread2(LPVOID dummy) {
   return 0;
 }
 
-int wmain() {
+int wmain(int argc, wchar_t* argv[]) {
+  // We don't use any functionality of the client here, but the
+  // DumpTargetProcess() API restricts dumping to the targets that have been
+  // registered with the handler.
+  crashpad::CrashpadClient client;
+  if (argc == 2) {
+    if (!client.SetHandlerIPCPipe(argv[1])) {
+      LOG(ERROR) << "SetHandler";
+      return EXIT_FAILURE;
+    }
+  } else {
+    fprintf(stderr, "Usage: %ls <server_pipe_name>\n", argv[0]);
+    return EXIT_FAILURE;
+  }
+
+  if (!client.UseHandler()) {
+    LOG(ERROR) << "UseHandler";
+    return EXIT_FAILURE;
+  }
+
   HANDLE threads[2];
   threads[0] = CreateThread(nullptr, 0, Thread1, nullptr, 0, nullptr);
   threads[1] = CreateThread(nullptr, 0, Thread2, nullptr, 0, nullptr);
@@ -38,5 +61,5 @@ int wmain() {
 
   WaitForMultipleObjects(ARRAYSIZE(threads), threads, true, INFINITE);
 
-  return 0;
+  return EXIT_SUCCESS;
 }
