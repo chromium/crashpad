@@ -16,6 +16,8 @@
 
 namespace crashpad {
 
+// This is pipelined on uma3 branch.
+
 CrashReportDatabase::Report::Report()
     : uuid(),
       file_path(),
