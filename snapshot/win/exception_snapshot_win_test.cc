@@ -111,11 +111,9 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
     return snapshot.Exception()->Exception();
   }
 
-  unsigned int ExceptionHandlerServerFabricateException(
-      HANDLE process,
-      DWORD thread_id,
-      DWORD exception_code) override {
-    return 0;
+  void ExceptionHandlerServerFabricateException(HANDLE process,
+                                                DWORD thread_id,
+                                                DWORD exception_code) override {
   }
 
  private:
@@ -218,11 +216,9 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
     return 0;
   }
 
-  unsigned int ExceptionHandlerServerFabricateException(
-      HANDLE process,
-      DWORD thread_id,
-      DWORD exception_code) override {
-    return 0;
+  void ExceptionHandlerServerFabricateException(HANDLE process,
+                                                DWORD thread_id,
+                                                DWORD exception_code) override {
   }
 
  private:

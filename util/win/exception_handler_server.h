@@ -69,9 +69,7 @@ class ExceptionHandlerServer {
     //!     exception.
     //! \param[in] exception_code The exception code to be used in the
     //!     fabricated exception.
-    //! \return The exit code that should be used when terminating the client
-    //!     process.
-    virtual unsigned int ExceptionHandlerServerFabricateException(
+    virtual void ExceptionHandlerServerFabricateException(
         HANDLE process,
         DWORD thread_id,
         DWORD exception_code) = 0;

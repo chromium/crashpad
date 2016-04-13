@@ -65,13 +65,13 @@ bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
 int CrashOtherProgram(int argc, wchar_t* argv[]) {
   CrashpadClient client;
 
-  if (argc == 2) {
+  if (argc == 2 || argc == 3) {
     if (!client.SetHandlerIPCPipe(argv[1])) {
       LOG(ERROR) << "SetHandler";
       return EXIT_FAILURE;
     }
   } else {
-    fprintf(stderr, "Usage: %ls <server_pipe_name>\n", argv[0]);
+    fprintf(stderr, "Usage: %ls <server_pipe_name> [noexception]\n", argv[0]);
     return EXIT_FAILURE;
   }
 
@@ -94,8 +94,14 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
     return EXIT_FAILURE;
   }
 
-  if (CrashAndDumpTarget(client, child.process_handle()))
+  if (argc == 3 && wcscmp(argv[2], L"noexception") == 0) {
+    client.DumpTargetProcess(child.process_handle(), 0, 0);
+    TerminateProcess(child.process_handle(), 1);
     return EXIT_SUCCESS;
+  } else {
+    if (CrashAndDumpTarget(client, child.process_handle()))
+      return EXIT_SUCCESS;
+  }
 
   return EXIT_FAILURE;
 }

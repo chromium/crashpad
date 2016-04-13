@@ -157,7 +157,8 @@ class CrashpadClient {
   //!
   //! \param[in] process A `HANDLE` identifying the process to be dumped.
   //! \param[in] thread_id The thread id of the thread in the target process
-  //!     that should be used in fabricating an exception record.
+  //!     that should be used in fabricating an exception record. If this is
+  //!     `0`, no exception record will be generated in the dump.
   //! \param[in] exception_code The exception code to use in the fabricated
   //!     exception record.
   //!

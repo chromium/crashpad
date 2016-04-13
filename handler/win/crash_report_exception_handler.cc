@@ -65,10 +65,11 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     return kFailedTerminationCode;
   }
 
-  return ExceptionCommon(&process_snapshot);
+  ReportCommon(&process_snapshot);
+  return process_snapshot.Exception()->Exception();
 }
 
-unsigned int
+void
 CrashReportExceptionHandler::ExceptionHandlerServerFabricateException(
     HANDLE process,
     DWORD thread_id,
@@ -79,21 +80,21 @@ CrashReportExceptionHandler::ExceptionHandlerServerFabricateException(
   if (!process_snapshot.Initialize(
           process, ProcessSuspensionState::kSuspended, 0)) {
     LOG(WARNING) << "ProcessSnapshotWin::Initialize failed";
-    return kFailedTerminationCode;
+    return;
   }
 
-  // Fabricate a fake exception in the given thread with exception code that the
-  // caller supplied.
-  process_snapshot.InitializeWithFabricatedException(thread_id, exception_code);
+  if (thread_id != 0) {
+    // Fabricate a fake exception in the given thread with exception code that
+    // the caller supplied.
+    process_snapshot.InitializeWithFabricatedException(thread_id,
+                                                       exception_code);
+  }
 
-  return ExceptionCommon(&process_snapshot);
+  ReportCommon(&process_snapshot);
 }
 
-unsigned int CrashReportExceptionHandler::ExceptionCommon(
+void CrashReportExceptionHandler::ReportCommon(
     ProcessSnapshotWin* process_snapshot) {
-  const unsigned int termination_code =
-      process_snapshot->Exception()->Exception();
-
   CrashpadInfoClientOptions client_options;
   process_snapshot->GetCrashpadOptions(&client_options);
   if (client_options.crashpad_handler_behavior != TriState::kDisabled) {
@@ -114,7 +115,7 @@ unsigned int CrashReportExceptionHandler::ExceptionCommon(
         database_->PrepareNewCrashReport(&new_report);
     if (database_status != CrashReportDatabase::kNoError) {
       LOG(ERROR) << "PrepareNewCrashReport failed";
-      return termination_code;
+      return;
     }
 
     process_snapshot->SetReportID(new_report->uuid);
@@ -128,7 +129,7 @@ unsigned int CrashReportExceptionHandler::ExceptionCommon(
     minidump.InitializeFromSnapshot(process_snapshot);
     if (!minidump.WriteEverything(&file_writer)) {
       LOG(ERROR) << "WriteEverything failed";
-      return termination_code;
+      return;
     }
 
     call_error_writing_crash_report.Disarm();
@@ -137,13 +138,11 @@ unsigned int CrashReportExceptionHandler::ExceptionCommon(
     database_status = database_->FinishedWritingCrashReport(new_report, &uuid);
     if (database_status != CrashReportDatabase::kNoError) {
       LOG(ERROR) << "FinishedWritingCrashReport failed";
-      return termination_code;
+      return;
     }
 
     upload_thread_->ReportPending();
   }
-
-  return termination_code;
 }
 
 }  // namespace crashpad

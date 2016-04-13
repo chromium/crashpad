@@ -62,8 +62,9 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
       HANDLE process,
       WinVMAddress exception_information_address,
       WinVMAddress debug_critical_section_address) override;
-  unsigned int ExceptionHandlerServerFabricateException(
-      HANDLE process, DWORD thread_id, DWORD exception_code) override;
+  void ExceptionHandlerServerFabricateException(HANDLE process,
+                                                DWORD thread_id,
+                                                DWORD exception_code) override;
 
  private:
   CrashReportDatabase* database_;  // weak
@@ -72,7 +73,7 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
 
   // Common handling code between ExceptionHandlerServerException() and
   // ExceptionHandlerServerFabricateException().
-  unsigned int ExceptionCommon(ProcessSnapshotWin* process_snapshot);
+  void ReportCommon(ProcessSnapshotWin* process_snapshot);
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };
