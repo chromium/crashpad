@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb533ac8_a38bfae1",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-13T15:54:33Z",
+      "side": 1,
+      "message": "PLOG",
+      "revId": "7a4fe4f2980bd26b822ba276315280cc74a6a971",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
