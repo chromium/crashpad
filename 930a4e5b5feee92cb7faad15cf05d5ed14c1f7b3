@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "cbd7567d_deb6a5fa",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1141194
+      },
+      "writtenOn": "2016-04-13T19:25:30Z",
+      "side": 1,
+      "message": "Sorry to chime in so late on this. I\u0027m ok with both, but does it matter from a correctness pov? Does getting a handle pin the thread id, removing the risk of thread id recycling?",
+      "parentUuid": "ce33e4d5_d9609fdb",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb5f5626_6a357729",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 6
