@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "cbd7567d_3ee1c114",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-13T20:03:57Z",
+      "side": 1,
+      "message": "Maybe HANDLE is a little better. I don\u0027t think it matters too much, as in the unlikely case of reuse we\u0027ll just blame the wrong victim thread.\n\nOtherwise, we\u0027ll just have an invalid thread context (whether using handle or id). So we\u0027ll probably just be ignoring those dumps anyway.",
+      "parentUuid": "cbd7567d_deb6a5fa",
+      "revId": "930a4e5b5feee92cb7faad15cf05d5ed14c1f7b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb5f5626_6a357729",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 6
