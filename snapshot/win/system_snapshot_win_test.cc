@@ -21,7 +21,7 @@
 
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "snapshot/win/process_reader_win.h"
+#include "util/win/process_reader_win.h"
 
 namespace crashpad {
 namespace test {

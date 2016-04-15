@@ -18,10 +18,10 @@
 #include "client/crashpad_info.h"
 #include "client/simple_address_range_bag.h"
 #include "snapshot/win/memory_snapshot_win.h"
-#include "snapshot/win/pe_image_annotations_reader.h"
-#include "snapshot/win/pe_image_reader.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
+#include "util/win/pe_image_annotations_reader.h"
+#include "util/win/pe_image_reader.h"
 
 namespace crashpad {
 namespace internal {
