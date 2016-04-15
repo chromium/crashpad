@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/win/process_reader_win.h"
+#include "util/win/process_reader_win.h"
 
 #include <windows.h>
 #include <string.h>

@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/win/pe_image_reader.h"
+#include "util/win/pe_image_reader.h"
 
 #include <string.h>
 
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "client/crashpad_info.h"
-#include "snapshot/win/pe_image_resource_reader.h"
 #include "util/misc/pdb_structures.h"
+#include "util/win/pe_image_resource_reader.h"
 #include "util/win/process_structs.h"
 
 namespace crashpad {

@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/win/process_subrange_reader.h"
+#include "util/win/process_subrange_reader.h"
 
 #include "base/logging.h"
-#include "snapshot/win/process_reader_win.h"
+#include "util/win/process_reader_win.h"
 
 namespace crashpad {
 

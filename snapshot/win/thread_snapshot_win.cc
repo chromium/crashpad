@@ -20,7 +20,7 @@
 #include "snapshot/capture_memory.h"
 #include "snapshot/win/cpu_context_win.h"
 #include "snapshot/win/capture_memory_delegate_win.h"
-#include "snapshot/win/process_reader_win.h"
+#include "util/win/process_reader_win.h"
 
 namespace crashpad {
 namespace internal {

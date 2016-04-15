@@ -25,9 +25,9 @@
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/thread_snapshot.h"
 #include "snapshot/win/memory_snapshot_win.h"
-#include "snapshot/win/process_reader_win.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/stdlib/pointer_container.h"
+#include "util/win/process_reader_win.h"
 
 namespace crashpad {
 

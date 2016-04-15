@@ -20,8 +20,8 @@
 
 #include "base/macros.h"
 #include "snapshot/memory_snapshot.h"
-#include "snapshot/win/process_reader_win.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/win/process_reader_win.h"
 
 namespace crashpad {
 namespace internal {
