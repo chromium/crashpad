@@ -20,7 +20,7 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/crashpad_client.h"
-#include "snapshot/win/process_reader_win.h"
+#include "util/win/process_reader_win.h"
 
 namespace crashpad {
 namespace {

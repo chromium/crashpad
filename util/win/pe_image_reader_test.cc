@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/win/pe_image_reader.h"
+#include "util/win/pe_image_reader.h"
 
 #define PSAPI_VERSION 1
 #include <psapi.h>
@@ -20,11 +20,11 @@
 #include "base/files/file_path.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
-#include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"
 #include "util/win/get_module_information.h"
 #include "util/win/module_version.h"
 #include "util/win/process_info.h"
+#include "util/win/process_reader_win.h"
 
 extern "C" IMAGE_DOS_HEADER __ImageBase;
 
