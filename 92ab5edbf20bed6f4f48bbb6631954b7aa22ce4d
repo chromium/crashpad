@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8e83c68_1ca4edcb",
+        "filename": "util/win/pe_image_reader_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-15T17:20:48Z",
+      "side": 1,
+      "message": "This somewhat surprising addition is because the util_test binary elsewhere calls Http methods, which indirectly load C:\\Windows\\System32\\nsi.dll, which seems to be some sort of network dispatch driver thing.",
+      "revId": "92ab5edbf20bed6f4f48bbb6631954b7aa22ce4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
