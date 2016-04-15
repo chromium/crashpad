@@ -139,6 +139,18 @@
             },
           },
         },
+        {
+          'target_name': 'crashpad_util_test_simple_annotations',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'sources': [
+            'win/crashpad_util_test_simple_annotations.cc',
+          ],
+        },
       ]
     }],
   ],

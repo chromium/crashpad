@@ -51,7 +51,7 @@ TEST(PEImageReader, DebugDirectory) {
   DWORD age;
   std::string pdbname;
   EXPECT_TRUE(pe_image_reader.DebugDirectoryInformation(&uuid, &age, &pdbname));
-  EXPECT_NE(std::string::npos, pdbname.find("crashpad_snapshot_test"));
+  EXPECT_NE(std::string::npos, pdbname.find("crashpad_util_test"));
   const std::string suffix(".pdb");
   EXPECT_EQ(
       0,
@@ -80,7 +80,9 @@ void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
       EXPECT_EQ(VFT_DLL, observed.dwFileType);
     } else {
       EXPECT_TRUE(observed.dwFileType == VFT_APP ||
-                  observed.dwFileType == VFT_DLL);
+                  observed.dwFileType == VFT_DLL ||
+                  (observed.dwFileType == VFT_DRV &&
+                   observed.dwFileSubtype == VFT2_DRV_NETWORK));
     }
   }
 
