@@ -40,6 +40,8 @@
         'crashpad_client_win.cc',
         'crashpad_info.cc',
         'crashpad_info.h',
+        'module_annotations_win.cc',
+        'module_annotations_win.h',
         'prune_crash_reports.cc',
         'prune_crash_reports.h',
         'settings.cc',
