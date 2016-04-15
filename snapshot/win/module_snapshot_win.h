@@ -26,11 +26,11 @@
 #include "base/memory/scoped_ptr.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/module_snapshot.h"
-#include "snapshot/win/process_reader_win.h"
 #include "util/misc/initialization_state.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/stdlib/pointer_container.h"
 #include "util/win/process_info.h"
+#include "util/win/process_reader_win.h"
 
 namespace crashpad {
 

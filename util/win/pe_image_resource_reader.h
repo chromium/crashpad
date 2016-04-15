@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_WIN_PE_IMAGE_RESOURCE_READER_H_
-#define CRASHPAD_SNAPSHOT_WIN_PE_IMAGE_RESOURCE_READER_H_
+#ifndef CRASHPAD_UTIL_WIN_PE_IMAGE_RESOURCE_READER_H_
+#define CRASHPAD_UTIL_WIN_PE_IMAGE_RESOURCE_READER_H_
 
 #include <windows.h>
 #include <stdint.h>
@@ -21,9 +21,9 @@
 #include <vector>
 
 #include "base/macros.h"
-#include "snapshot/win/process_subrange_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/win/address_types.h"
+#include "util/win/process_subrange_reader.h"
 
 namespace crashpad {
 
@@ -176,4 +176,4 @@ class PEImageResourceReader {
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_WIN_PE_IMAGE_RESOURCE_READER_H_
+#endif  // CRASHPAD_UTIL_WIN_PE_IMAGE_RESOURCE_READER_H_

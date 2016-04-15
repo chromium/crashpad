@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_WIN_PROCESS_READER_WIN_H_
-#define CRASHPAD_SNAPSHOT_WIN_PROCESS_READER_WIN_H_
+#ifndef CRASHPAD_UTIL_WIN_PROCESS_READER_WIN_H_
+#define CRASHPAD_UTIL_WIN_PROCESS_READER_WIN_H_
 
 #include <windows.h>
 #include <sys/time.h>
@@ -149,4 +149,4 @@ class ProcessReaderWin {
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_WIN_PROCESS_READER_WIN_H_
+#endif  // CRASHPAD_UTIL_WIN_PROCESS_READER_WIN_H_
