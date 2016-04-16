@@ -50,7 +50,7 @@ template <class Traits>
 void PEImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
     std::map<std::string, std::string>* simple_map_annotations) const {
   process_types::CrashpadInfo<Traits> crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info, nullptr))
     return;
 
   if (!crashpad_info.simple_annotations)

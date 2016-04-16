@@ -26,13 +26,18 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock.h"
+#include "client/crashpad_info.h"
 #include "util/file/file_io.h"
+#include "util/win/address_types.h"
 #include "util/win/command_line.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
 #include "util/win/handle.h"
+#include "util/win/pe_image_reader.h"
+#include "util/win/process_reader_win.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
+#include "util/win/scoped_process_suspend.h"
 
 namespace {
 
@@ -467,6 +472,68 @@ void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   }
 
   UnhandledExceptionHandler(exception_pointers);
+}
+
+bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
+                                               DWORD thread_id,
+                                               DWORD exception_code) const {
+  ProcessReaderWin process_reader;
+  if (!process_reader.Initialize(process, ProcessSuspensionState::kRunning))
+    return false;
+
+  // Check the main module for a CrashpadInfo structure.
+  if (process_reader.Modules().empty()) {
+    LOG(ERROR) << "no modules in target process";
+    return false;
+  }
+
+  const ProcessInfo::Module& main_module = process_reader.Modules().front();
+  PEImageReader main_module_pe_reader;
+  if (!main_module_pe_reader.Initialize(&process_reader,
+                                        main_module.dll_base,
+                                        main_module.size,
+                                        base::UTF16ToUTF8(main_module.name))) {
+    return false;
+  }
+
+  WinVMAddress crashpad_info_address;
+  if (process_reader.Is64Bit()) {
+    process_types::CrashpadInfo<process_types::internal::Traits64> info;
+    if (!main_module_pe_reader.GetCrashpadInfo(&info, &crashpad_info_address)) {
+      LOG(ERROR) << "could not read CrashpadInfo 64";
+      return false;
+    }
+  } else {
+    process_types::CrashpadInfo<process_types::internal::Traits32> info;
+    if (!main_module_pe_reader.GetCrashpadInfo(&info, &crashpad_info_address)) {
+      LOG(ERROR) << "could not read CrashpadInfo 32";
+      return false;
+    }
+  }
+
+  SIZE_T bytes_written = 0;
+  if (!WriteProcessMemory(
+          process,
+          reinterpret_cast<void*>(crashpad_info_address +
+                                  offsetof(CrashpadInfo, target_thread_id_)),
+          &thread_id,
+          sizeof(thread_id),
+          &bytes_written) ||
+      bytes_written != sizeof(thread_id)) {
+    PLOG(ERROR) << "WriteProcessMemory";
+    return false;
+  }
+
+  // Cause an exception in the target process by creating a thread with an entry
+  // point of 0.
+  HANDLE remote_thread =
+      CreateRemoteThread(process, nullptr, 0, 0, 0, 0, nullptr);
+  if (!remote_thread) {
+    PLOG(ERROR) << "CreateRemoteThread";
+    return false;
+  }
+
+  return true;
 }
 
 }  // namespace crashpad

@@ -93,12 +93,15 @@ class PEImageReader {
 
   //! \brief Obtains the module's CrashpadInfo structure.
   //!
+  //! \param[out] crashpad_info The contents of the module's CrashpadInfo.
+  //! \param[out] address The base address of the structure. May be null.
+  //!
   //! \return `true` on success, `false` on failure. If the module does not have
   //!     a `CPADinfo` section, this will return `false` without logging any
   //!     messages. Other failures will result in messages being logged.
   template <class Traits>
-  bool GetCrashpadInfo(
-      process_types::CrashpadInfo<Traits>* crashpad_info) const;
+  bool GetCrashpadInfo(process_types::CrashpadInfo<Traits>* crashpad_info,
+                       WinVMAddress* address) const;
 
   //! \brief Obtains information from the module's debug directory, if any.
   //!
