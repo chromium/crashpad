@@ -29,7 +29,7 @@ namespace crashpad {
 //! \param[in] module The handle to the module from which the \a annotations
 //!     will be read. This module should be loaded in the target process.
 //! \param[out] annotations The map that will be filled with the annotations.
-//!     Remains unchanged if the function returns 'false'.
+//!     Remains unchanged if the function returns `false`.
 //!
 //! \return `true` if the annotations could be read succesfully, even if the
 //!     module doesn't contain any annotations.

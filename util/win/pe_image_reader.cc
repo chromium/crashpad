@@ -68,7 +68,8 @@ bool PEImageReader::Initialize(ProcessReaderWin* process_reader,
 
 template <class Traits>
 bool PEImageReader::GetCrashpadInfo(
-    process_types::CrashpadInfo<Traits>* crashpad_info) const {
+    process_types::CrashpadInfo<Traits>* crashpad_info,
+    WinVMAddress* address) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   IMAGE_SECTION_HEADER section;
@@ -110,6 +111,8 @@ bool PEImageReader::GetCrashpadInfo(
     return false;
   }
 
+  if (address)
+    *address = crashpad_info_address;
   return true;
 }
 
@@ -379,9 +382,11 @@ bool PEImageReader::ImageDataDirectoryEntryT(
 // putting the body of the function in the header.
 template bool PEImageReader::GetCrashpadInfo<process_types::internal::Traits32>(
     process_types::CrashpadInfo<process_types::internal::Traits32>*
-        crashpad_info) const;
+        crashpad_info,
+    WinVMAddress* address) const;
 template bool PEImageReader::GetCrashpadInfo<process_types::internal::Traits64>(
     process_types::CrashpadInfo<process_types::internal::Traits64>*
-        crashpad_info) const;
+        crashpad_info,
+    WinVMAddress* address) const;
 
 }  // namespace crashpad
