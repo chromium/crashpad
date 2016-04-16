@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e800a0f1_358b40e3",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1001013
+      },
+      "writtenOn": "2016-04-16T14:01:00Z",
+      "side": 1,
+      "message": "I\u0027m almost 100% sure that this won\u0027t do the trick for our purposes. If \"process\" is in a deadly embrace on the loader\u0027s lock, I\u0027m pretty sure this thread will just park against the same lock before attempting to execute the provided \"thread proc\".\nThis is because of DLL notifications, which are issued from the ntdll-underlying thread proc.",
+      "range": {
+        "startLine": 529,
+        "startChar": 9,
+        "endLine": 529,
+        "endChar": 22
+      },
+      "revId": "01042496df14183162c5ff8da2931056d876cb94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
