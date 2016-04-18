@@ -22,6 +22,24 @@
       "revId": "01042496df14183162c5ff8da2931056d876cb94",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28939819_f21cee4f",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-18T19:37:36Z",
+      "side": 1,
+      "message": "Yeah, you\u0027re right. :/\n\nI dug into this a bit, and came up with a workaround for the loader lock being held (using NtCreateThreadEx with the \"don\u0027t send attach notifications\" flag). I\u0027m not sure if is getting too ugly or not: https://github.com/sgraham/crash_target_test/blob/master/host.cc#L48.\n\nWDY\u0027allT?",
+      "parentUuid": "e800a0f1_358b40e3",
+      "revId": "01042496df14183162c5ff8da2931056d876cb94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
