@@ -19,6 +19,7 @@
 
 #include "base/macros.h"
 #include "build/build_config.h"
+#include "client/crashpad_client.h"
 #include "client/simple_address_range_bag.h"
 #include "client/simple_string_dictionary.h"
 #include "util/misc/tri_state.h"
@@ -199,9 +200,19 @@ struct CrashpadInfo {
   SimpleAddressRangeBag* extra_memory_ranges_;  // weak
   SimpleStringDictionary* simple_annotations_;  // weak
   internal::UserDataMinidumpStreamListEntry* user_data_minidump_stream_head_;
-
 #if !defined(NDEBUG) && defined(OS_WIN)
   uint32_t invalid_read_detection_;
+#endif
+
+#if defined(OS_WIN)
+  // This is written by CrashpadClient::DumpAndCrashTargetProcess() from a
+  // client to a target process before causing the target to crash. If non-zero
+  // it indicates that this thread should be used to fabricate an exception
+  // record blaming this thread.
+  friend bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE,
+                                                        DWORD,
+                                                        DWORD) const;
+  DWORD target_thread_id_;
 #endif
 
 #if defined(__clang__)
