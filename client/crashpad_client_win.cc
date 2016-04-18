@@ -33,6 +33,7 @@
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
 #include "util/win/handle.h"
+#include "util/win/nt_internals.h"
 #include "util/win/pe_image_reader.h"
 #include "util/win/process_reader_win.h"
 #include "util/win/registration_protocol_win.h"
@@ -525,11 +526,31 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
   }
 
   // Cause an exception in the target process by creating a thread with an entry
-  // point of 0.
-  HANDLE remote_thread =
-      CreateRemoteThread(process, nullptr, 0, 0, 0, 0, nullptr);
-  if (!remote_thread) {
-    PLOG(ERROR) << "CreateRemoteThread";
+  // point of 0. Note that we do not use DebugBreakProcess() as it only works
+  // when a debugger is attached, and we cannot use CreateRemoteThread() as it
+  // will not work if the loader lock is hung in the target. We use
+  // NtCreateThreadEx() with the SKIP_THREAD_ATTACH flag, which skips various
+  // notifications, letting this cause a crash even when the target is stuck in
+  // the loader lock.
+  HANDLE thread_handle;
+  NTSTATUS status = NtCreateThreadEx(&thread_handle,
+                                     0x1fffff,
+                                     nullptr,
+                                     process,
+                                     nullptr,
+                                     nullptr,
+                                     THREAD_CREATE_FLAGS_SKIP_THREAD_ATTACH,
+                                     0,
+                                     0,
+                                     0,
+                                     nullptr);
+  if (!NT_SUCCESS(status)) {
+    LOG(ERROR) << "NtCreateThreadEx";
+    return false;
+  }
+
+  if (!NT_SUCCESS(NtClose(thread_handle))) {
+    LOG(ERROR) << "NtClose";
     return false;
   }
 
