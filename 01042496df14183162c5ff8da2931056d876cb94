@@ -40,6 +40,24 @@
       "revId": "01042496df14183162c5ff8da2931056d876cb94",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28939819_32a816b1",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1001013
+      },
+      "writtenOn": "2016-04-18T20:11:51Z",
+      "side": 1,
+      "message": "I still think we\u0027ll end up needing to do this from out of process, but if this works, it works.",
+      "parentUuid": "28939819_f21cee4f",
+      "revId": "01042496df14183162c5ff8da2931056d876cb94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
