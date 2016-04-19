@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "88a2c4bd_435fb8b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-19T18:40:56Z",
+      "side": 1,
+      "message": "Unfortunately I can\u0027t due to https://bugs.chromium.org/p/chromium/issues/detail?id\u003d603207 . :( The only way to do so at the moment is on first upload, so I could reupload a new change for landing. But I only get one shot!",
+      "parentUuid": "a8b868d5_7993a7d8",
+      "revId": "92ab5edbf20bed6f4f48bbb6631954b7aa22ce4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8e83c68_1ca4edcb",
         "filename": "util/win/pe_image_reader_test.cc",
         "patchSetId": 2
