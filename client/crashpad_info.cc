@@ -100,6 +100,10 @@ CrashpadInfo::CrashpadInfo()
       system_crash_reporter_forwarding_(TriState::kUnset),
       gather_indirectly_referenced_memory_(TriState::kUnset),
       padding_0_(0),
+#if defined(OS_WIN)
+      target_thread_id_(0),
+      target_exception_code_(0),
+#endif
       extra_memory_ranges_(nullptr),
       simple_annotations_(nullptr),
       user_data_minidump_stream_head_(nullptr)

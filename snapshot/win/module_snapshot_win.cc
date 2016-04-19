@@ -220,7 +220,7 @@ template <class Traits>
 void ModuleSnapshotWin::GetCrashpadOptionsInternal(
     CrashpadInfoClientOptions* options) {
   process_types::CrashpadInfo<Traits> crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info)) {
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info, nullptr)) {
     options->crashpad_handler_behavior = TriState::kUnset;
     options->system_crash_reporter_forwarding = TriState::kUnset;
     return;
@@ -257,7 +257,7 @@ template <class Traits>
 void ModuleSnapshotWin::GetCrashpadExtraMemoryRanges(
     std::set<CheckedRange<uint64_t>>* ranges) const {
   process_types::CrashpadInfo<Traits> crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info, nullptr))
     return;
 
   if (!crashpad_info.extra_address_ranges)
@@ -286,7 +286,7 @@ template <class Traits>
 void ModuleSnapshotWin::GetCrashpadUserMinidumpStreams(
     PointerVector<const UserMinidumpStream>* streams) const {
   process_types::CrashpadInfo<Traits> crashpad_info;
-  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info))
+  if (!pe_image_reader_->GetCrashpadInfo(&crashpad_info, nullptr))
     return;
 
   for (uint64_t cur = crashpad_info.user_data_minidump_stream_head; cur;) {

@@ -43,6 +43,8 @@ struct CrashpadInfo {
   uint8_t system_crash_reporter_forwarding;  // TriState.
   uint8_t gather_indirectly_referenced_memory;  // TriState.
   uint8_t padding_0;
+  uint32_t target_thread_id;
+  uint32_t target_exception_code;
   typename Traits::Pointer extra_address_ranges;
   typename Traits::Pointer simple_annotations;
   typename Traits::Pointer user_data_minidump_stream_head;
@@ -93,12 +95,15 @@ class PEImageReader {
 
   //! \brief Obtains the module's CrashpadInfo structure.
   //!
+  //! \param[out] crashpad_info The contents of the module's CrashpadInfo.
+  //! \param[out] address The base address of the structure. May be null.
+  //!
   //! \return `true` on success, `false` on failure. If the module does not have
   //!     a `CPADinfo` section, this will return `false` without logging any
   //!     messages. Other failures will result in messages being logged.
   template <class Traits>
-  bool GetCrashpadInfo(
-      process_types::CrashpadInfo<Traits>* crashpad_info) const;
+  bool GetCrashpadInfo(process_types::CrashpadInfo<Traits>* crashpad_info,
+                       WinVMAddress* address) const;
 
   //! \brief Obtains information from the module's debug directory, if any.
   //!
