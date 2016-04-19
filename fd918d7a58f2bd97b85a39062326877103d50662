@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8b868d5_d9a1131c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:19:04Z",
+      "side": 1,
+      "message": "Wrap to 72 characters when feasible, because git log looks ugly otherwise.",
+      "revId": "fd918d7a58f2bd97b85a39062326877103d50662",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_196d4b94",
+        "filename": "snapshot/win/thread_snapshot_win.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:19:04Z",
+      "side": 1,
+      "message": "Lose the internal:: on this too, then.",
+      "revId": "fd918d7a58f2bd97b85a39062326877103d50662",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
