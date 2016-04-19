@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "88a2c4bd_2949355d",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-19T20:36:49Z",
+      "side": 1,
+      "message": "Injecting a call to RaiseException() is a good idea. The main drawback seems to be that we can\u0027t nominate the blamed thread as the API currently allows, as the exception would be raised from the injected thread. At least, I can\u0027t immediately think of a way to do that. (SetThreadContext() on the target thread? Seems a bit complicated and potentially tricky if the target thread was suspended.)\n\nOr did you mean stashing the thread id as data near the injected code to call RaiseException() and then having the handler still fabricate an exception record? I think that would work. In that case, we might as well just use ud2 followed by the two DWORDs we need to communicate.\n\nAt the moment, the signal for whether to fabricate an exception is whether the target_thread_id field in the CrashpadInfo is set to non-zero. In this new approach, we wouldn\u0027t have a definitive signal that it was a fake/target-kill exception, meaning it would have to attempt to fabricate a record for \n\nMore broadly, I do like writing some code into the target to avoid the CrashpadInfo dependency. It doesn\u0027t seem much additional risk/cost as we\u0027re already requiring enough space to create a thread stack (and for thread creation to succeed).",
+      "parentUuid": "a8b868d5_d97af343",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8b868d5_b9afffee",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 4
