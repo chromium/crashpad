@@ -20,6 +20,7 @@
 #include "minidump/minidump_file_writer.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
+#include "util/win/pe_image_reader.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_process_suspend.h"
 
@@ -56,9 +57,41 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     return kFailedTerminationCode;
   }
 
-  if (!process_snapshot.InitializeException(exception_information_address)) {
-    LOG(WARNING) << "ProcessSnapshotWin::InitializeException failed";
-    return kFailedTerminationCode;
+  // Check if the target has a CrashpadInfo structure, and if it does, if there
+  // was a thread ID and exception code stashed into the target's CrashpadInfo.
+  // This is done by CrashpadClient::DumpAndCrashTargetProcess() to indicate the
+  // thread that should be blamed in a fabricated exception. If the thread id is
+  // 0 or we are unable to retrieve a CrashpadInfo, process normally.
+  auto main_module = static_cast<const internal::ModuleSnapshotWin*>(
+      process_snapshot.Modules().front());
+  const PEImageReader& main_module_pe_reader = main_module->pe_image_reader();
+  DWORD target_thread_id = 0;
+  DWORD target_exception_code = 0;
+  if (process_snapshot.process_reader().Is64Bit()) {
+    process_types::CrashpadInfo<process_types::internal::Traits64> info;
+    if (main_module_pe_reader.GetCrashpadInfo(&info, nullptr)) {
+      target_thread_id = info.target_thread_id;
+      target_exception_code = info.target_exception_code;
+    }
+  } else {
+    process_types::CrashpadInfo<process_types::internal::Traits32> info;
+    if (main_module_pe_reader.GetCrashpadInfo(&info, nullptr)) {
+      target_thread_id = info.target_thread_id;
+      target_exception_code = info.target_exception_code;
+    }
+  }
+
+  if (target_thread_id != 0) {
+    // Fabricate a fake exception in the given thread with exception code that
+    // the caller supplied.
+    process_snapshot.InitializeWithFabricatedException(target_thread_id,
+                                                       target_exception_code);
+
+  } else {
+    if (!process_snapshot.InitializeException(exception_information_address)) {
+      LOG(WARNING) << "ProcessSnapshotWin::InitializeException failed";
+      return kFailedTerminationCode;
+    }
   }
 
   // Now that we have the exception information, even if something else fails we

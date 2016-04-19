@@ -152,6 +152,24 @@ class CrashpadClient {
   //! \param[in] exception_pointers An `EXCEPTION_POINTERS`, as would generally
   //!     passed to an unhandled exception filter.
   static void DumpAndCrash(EXCEPTION_POINTERS* exception_pointers);
+
+  //! \brief Requests that the handler capture a dump of a different process.
+  //!
+  //! The target process must be an already-registered Crashpad client. An
+  //! exception will be triggered in the target process, and the regular dump
+  //! mechanism used.
+  //!
+  //! \param[in] process A `HANDLE` identifying the process to be dumped.
+  //! \param[in] thread_id If non-zero, instead of the exception record
+  //!     referring to the debug break location, an exception record will be
+  //!     fabricated for the current location of the given thread.
+  //! \param[in] exception_code If \a thread_id is non-zero, this will be used
+  //!     as the exception code in the exception record.
+  //!
+  //! \return `true` if the debug break was successfully triggered.
+  bool DumpAndCrashTargetProcess(HANDLE process,
+                                 DWORD thread_id,
+                                 DWORD exception_code) const;
 #endif
 
   //! \brief Configures the process to direct its crashes to a Crashpad handler.

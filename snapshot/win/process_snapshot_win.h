@@ -87,7 +87,27 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   //! \return `true` if the exception information could be initialized, `false`
   //!     otherwise with an appropriate message logged. When this method returns
   //!     `false`, the ProcessSnapshotWin object's validity remains unchanged.
+  //!
+  //! \sa InitializeWithFabricatedException
   bool InitializeException(WinVMAddress exception_information_address);
+
+  //! \brief Initializes the object's exception with a fake exception record.
+  //!
+  //! This populates the data to be returned by Exception(). This method must
+  //! not be called until after a successful call to Initialize() and only this
+  //! function or InitializeException() should be called, but not both.
+  //!
+  //! \param[in] thread_id The thread ID to be referenced in the fabricated
+  //!     exception.
+  //! \param[in] exception_code The exception code to use in the fabricated
+  //!     exception.
+  //!
+  //! \return `true` if the exception information could be initialized, `false`
+  //!     otherwise with an appropriate message logged. When this method returns
+  //!     `false`, the ProcessSnapshotWin object's validity remains unchanged.
+  //!
+  //! \sa InitializeException
+  bool InitializeWithFabricatedException(DWORD thread_id, DWORD exception_code);
 
   //! \brief Sets the value to be returned by ReportID().
   //!
@@ -120,6 +140,9 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   //! \param[out] options Options set in CrashpadInfo structures in modules in
   //!     the process.
   void GetCrashpadOptions(CrashpadInfoClientOptions* options);
+
+  //! \brief Returns the ProcessReaderWin used for this snapshot.
+  const ProcessReaderWin& process_reader() const { return process_reader_; }
 
   // ProcessSnapshot:
 
