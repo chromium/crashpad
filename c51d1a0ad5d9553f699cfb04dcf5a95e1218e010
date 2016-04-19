@@ -175,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "88a2c4bd_f4bd60d9",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-19T20:58:33Z",
+      "side": 1,
+      "message": "Gotcha. It would be excellent if there was no extra code required at all in the handler, but it seems we can\u0027t avoid that.\n\nMy only other reservation for RaiseException() is the address lookup. It\u0027s easy to get for a process that\u0027s the same bitness (because kernel32 is in the same location for all processes) but if an x64 client requests a dump on an x86 target then the injected code would have to do a GetProcAddress() (I think?), and that requires a string argument which makes the generated code start to get fairly convoluted.",
+      "parentUuid": "a8b868d5_d9f753e4",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8b868d5_b9afffee",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 4
