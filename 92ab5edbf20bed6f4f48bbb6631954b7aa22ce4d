@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a8b868d5_7993a7d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:15:14Z",
+      "side": 1,
+      "message": "The BUG\u003d says so, but can you put a brief description of what wants to use this code right here in the change description too?",
+      "revId": "92ab5edbf20bed6f4f48bbb6631954b7aa22ce4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8e83c68_1ca4edcb",
         "filename": "util/win/pe_image_reader_test.cc",
         "patchSetId": 2
