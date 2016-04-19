@@ -76,10 +76,10 @@ class ThreadSnapshotWin final : public ThreadSnapshot {
 #endif
   CPUContext context_;
   MemorySnapshotWin stack_;
-  internal::MemorySnapshotWin teb_;
+  MemorySnapshotWin teb_;
   ProcessReaderWin::Thread thread_;
   InitializationStateDcheck initialized_;
-  PointerVector<internal::MemorySnapshotWin> pointed_to_memory_;
+  PointerVector<MemorySnapshotWin> pointed_to_memory_;
 
   DISALLOW_COPY_AND_ASSIGN(ThreadSnapshotWin);
 };

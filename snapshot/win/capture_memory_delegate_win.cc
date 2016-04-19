@@ -47,6 +47,8 @@ void CaptureMemoryDelegateWin::AddNewMemorySnapshot(
   // Don't bother storing this memory if it points back into the stack.
   if (stack_.ContainsRange(range))
     return;
+  if (range.size() == 0)
+    return;
   internal::MemorySnapshotWin* snapshot = new internal::MemorySnapshotWin();
   snapshot->Initialize(process_reader_, range.base(), range.size());
   snapshots_->push_back(snapshot);
