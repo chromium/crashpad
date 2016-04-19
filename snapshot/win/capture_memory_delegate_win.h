@@ -17,8 +17,8 @@
 
 #include "snapshot/capture_memory.h"
 
-#include "snapshot/win/process_reader_win.h"
 #include "util/stdlib/pointer_container.h"
+#include "util/win/process_reader_win.h"
 
 namespace crashpad {
 namespace internal {

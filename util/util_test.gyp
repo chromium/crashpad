@@ -88,7 +88,10 @@
         'win/exception_handler_server_test.cc',
         'win/get_function_test.cc',
         'win/handle_test.cc',
+        'win/pe_image_annotations_reader_test.cc',
+        'win/pe_image_reader_test.cc',
         'win/process_info_test.cc',
+        'win/process_reader_win_test.cc',
         'win/scoped_process_suspend_test.cc',
         'win/time_test.cc',
       ],
@@ -135,6 +138,18 @@
               'FixedBaseAddress': '2',  # /FIXED.
             },
           },
+        },
+        {
+          'target_name': 'crashpad_util_test_simple_annotations',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'sources': [
+            'win/crashpad_util_test_simple_annotations.cc',
+          ],
         },
       ]
     }],

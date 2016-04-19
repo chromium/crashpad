@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/win/pe_image_resource_reader.h"
+#include "util/win/pe_image_resource_reader.h"
 
 #include <algorithm>
 

@@ -18,10 +18,10 @@
 #include "client/crashpad_info.h"
 #include "client/simple_address_range_bag.h"
 #include "snapshot/win/memory_snapshot_win.h"
-#include "snapshot/win/pe_image_annotations_reader.h"
-#include "snapshot/win/pe_image_reader.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
+#include "util/win/pe_image_annotations_reader.h"
+#include "util/win/pe_image_reader.h"
 
 namespace crashpad {
 namespace internal {
@@ -298,12 +298,14 @@ void ModuleSnapshotWin::GetCrashpadUserMinidumpStreams(
       return;
     }
 
-    scoped_ptr<internal::MemorySnapshotWin> memory(
-        new internal::MemorySnapshotWin());
-    memory->Initialize(
-        process_reader_, list_entry.base_address, list_entry.size);
-    streams->push_back(
-        new UserMinidumpStream(list_entry.stream_type, memory.release()));
+    if (list_entry.size != 0) {
+      scoped_ptr<internal::MemorySnapshotWin> memory(
+          new internal::MemorySnapshotWin());
+      memory->Initialize(
+          process_reader_, list_entry.base_address, list_entry.size);
+      streams->push_back(
+          new UserMinidumpStream(list_entry.stream_type, memory.release()));
+    }
 
     cur = list_entry.next;
   }

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_API_MODULE_ANNOTATIONS_WIN_H_
-#define CRASHPAD_SNAPSHOT_API_MODULE_ANNOTATIONS_WIN_H_
+#ifndef CRASHPAD_CLIENT_MODULE_ANNOTATIONS_WIN_H_
+#define CRASHPAD_CLIENT_MODULE_ANNOTATIONS_WIN_H_
 
 #include <windows.h>
 
@@ -39,4 +39,4 @@ bool ReadModuleAnnotations(HANDLE process,
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_API_MODULE_ANNOTATIONS_WIN_H_
+#endif  // CRASHPAD_CLIENT_MODULE_ANNOTATIONS_WIN_H_

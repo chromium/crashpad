@@ -37,6 +37,7 @@
         'capture_context_mac_test.cc',
         'crash_report_database_test.cc',
         'crashpad_client_win_test.cc',
+        'module_annotations_win_test.cc',
         'prune_crash_reports_test.cc',
         'settings_test.cc',
         'simple_address_range_bag_test.cc',

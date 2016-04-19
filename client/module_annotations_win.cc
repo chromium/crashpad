@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/api/module_annotations_win.h"
+#include "client/module_annotations_win.h"
 
-#include "snapshot/win/pe_image_annotations_reader.h"
-#include "snapshot/win/pe_image_reader.h"
-#include "snapshot/win/process_reader_win.h"
 #include "util/win/get_module_information.h"
+#include "util/win/pe_image_annotations_reader.h"
+#include "util/win/pe_image_reader.h"
+#include "util/win/process_reader_win.h"
 
 namespace crashpad {
 
