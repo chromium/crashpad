@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a801483f_6bef7d62",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1001013
+      },
+      "writtenOn": "2016-04-19T12:21:50Z",
+      "side": 1,
+      "message": "These are synonymous with Win32 permission flags. Maybe you can simply ask for SYNCHRONIZE or some such?",
+      "range": {
+        "startLine": 537,
+        "startChar": 37,
+        "endLine": 537,
+        "endChar": 45
+      },
+      "revId": "21aa0f969afd2173789cd17453f0f3d397ff8cbf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a801483f_cbf3094a",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1001013
+      },
+      "writtenOn": "2016-04-19T12:21:50Z",
+      "side": 1,
+      "message": "maybe worth noting what these things are and how they crash the thread? I\u0027m guessing you\u0027ll end up with an attempted execute at address zero?",
+      "range": {
+        "startLine": 540,
+        "startChar": 37,
+        "endLine": 540,
+        "endChar": 44
+      },
+      "revId": "21aa0f969afd2173789cd17453f0f3d397ff8cbf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a801483f_abf0453e",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001013
+      },
+      "writtenOn": "2016-04-19T12:21:50Z",
+      "side": 1,
+      "message": "In the crash refinery we found that this wasn\u0027t always effective when the definition shares a compilation unit with the use - we had to hide the definition off in another compilation unit :/",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "21aa0f969afd2173789cd17453f0f3d397ff8cbf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
