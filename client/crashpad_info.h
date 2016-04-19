@@ -197,22 +197,22 @@ struct CrashpadInfo {
   TriState system_crash_reporter_forwarding_;
   TriState gather_indirectly_referenced_memory_;
   uint8_t padding_0_;
+#if defined(OS_WIN)
+  // These fields area written by CrashpadClient::DumpAndCrashTargetProcess()
+  // from a client to a target process before causing the target to crash. If
+  // target_thread_id is non-zero it indicates that this thread should be used
+  // to fabricate an exception record blaming this thread.
+  friend bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE,
+                                                        DWORD,
+                                                        DWORD) const;
+  DWORD target_thread_id_;
+  DWORD target_exception_code_;
+#endif
   SimpleAddressRangeBag* extra_memory_ranges_;  // weak
   SimpleStringDictionary* simple_annotations_;  // weak
   internal::UserDataMinidumpStreamListEntry* user_data_minidump_stream_head_;
 #if !defined(NDEBUG) && defined(OS_WIN)
   uint32_t invalid_read_detection_;
-#endif
-
-#if defined(OS_WIN)
-  // This is written by CrashpadClient::DumpAndCrashTargetProcess() from a
-  // client to a target process before causing the target to crash. If non-zero
-  // it indicates that this thread should be used to fabricate an exception
-  // record blaming this thread.
-  friend bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE,
-                                                        DWORD,
-                                                        DWORD) const;
-  DWORD target_thread_id_;
 #endif
 
 #if defined(__clang__)

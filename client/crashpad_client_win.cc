@@ -525,6 +525,18 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
     return false;
   }
 
+  if (!WriteProcessMemory(process,
+                          reinterpret_cast<void*>(
+                              crashpad_info_address +
+                              offsetof(CrashpadInfo, target_exception_code_)),
+                          &exception_code,
+                          sizeof(exception_code),
+                          &bytes_written) ||
+      bytes_written != sizeof(thread_id)) {
+    PLOG(ERROR) << "WriteProcessMemory";
+    return false;
+  }
+
   // Cause an exception in the target process by creating a thread with an entry
   // point of 0. Note that we do not use DebugBreakProcess() as it only works
   // when a debugger is attached, and we cannot use CreateRemoteThread() as it
@@ -534,10 +546,10 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
   // the loader lock.
   HANDLE thread_handle;
   NTSTATUS status = NtCreateThreadEx(&thread_handle,
-                                     0x1fffff,
+                                     STANDARD_RIGHTS_ALL | SPECIFIC_RIGHTS_ALL,
                                      nullptr,
                                      process,
-                                     nullptr,
+                                     nullptr,  // Entry point at 0.
                                      nullptr,
                                      THREAD_CREATE_FLAGS_SKIP_THREAD_ATTACH,
                                      0,

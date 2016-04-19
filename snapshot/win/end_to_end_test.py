@@ -326,11 +326,9 @@ def RunTests(cdb_path,
   out.Check('!Sleep', 'other program reasonable location')
   out.Check('hanging_program!Thread1', 'other program dump right thread')
 
-  out = CdbRun(cdb_path, other_program_no_exception_path, '.ecxr;k')
-  out.Check('Minidump doesn\'t have an exception context',
-            'other program without exception')
-  out.Check('!WaitForMultipleObjects',
-            'other program without exception reasonable stack')
+  out = CdbRun(cdb_path, other_program_no_exception_path, '.ecxr')
+  out.Check('code c0000005', 'other program with no exception given')
+  out.Check('00000000 \?\?', 'exception at 0')
 
 
 def main(args):

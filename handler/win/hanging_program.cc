@@ -15,21 +15,11 @@
 #include <stdio.h>
 #include <windows.h>
 
+#include "base/debug/alias.h"
 #include "base/logging.h"
 #include "base/macros.h"
 #include "client/crashpad_client.h"
 #include "client/crashpad_info.h"
-
-#if defined(COMPILER_MSVC)
-#pragma optimize("", off)
-#endif
-
-void Alias(const void* var) {
-}
-
-#if defined(COMPILER_MSVC)
-#pragma optimize("", on)
-#endif
 
 DWORD WINAPI Thread1(LPVOID dummy) {
   Sleep(INFINITE);
@@ -62,7 +52,7 @@ int wmain(int argc, wchar_t* argv[]) {
   // Make sure this module has a CrashpadInfo structure.
   crashpad::CrashpadInfo* crashpad_info =
       crashpad::CrashpadInfo::GetCrashpadInfo();
-  Alias(crashpad_info);
+  base::debug::Alias(crashpad_info);
 
   HANDLE threads[2];
   threads[0] = CreateThread(nullptr, 0, Thread1, nullptr, 0, nullptr);

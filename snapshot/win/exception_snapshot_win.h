@@ -25,6 +25,7 @@
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/stdlib/pointer_container.h"
 #include "util/win/address_types.h"
+#include "util/win/process_reader_win.h"
 #include "util/win/process_structs.h"
 
 namespace crashpad {
@@ -55,6 +56,27 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
                   DWORD thread_id,
                   WinVMAddress exception_pointers);
 
+  // \brief Initializes the object with a fabricated exception record.
+  //
+  // Typically, Initialize() will be used which reads `EXCEPTION_POINTERS` from
+  // the target process to initialize this object. This variant instead
+  // fabricates a fake exception record for the given thread using the supplied
+  // exception code. The location of the fabricated exception will be the
+  // current instruction pointer for the thread.
+  //
+  //! \param[in] process_reader A ProcessReader for the process for which the
+  //!     exception is being fabricated.
+  //! \param[in] thread_id The thread ID to be referenced in the fabricated
+  //!     exception.
+  //! \param[in] exception_code The exception code to use in the fabricated
+  //!     exception.
+  //!
+  //! \return `true` if the snapshot could be created, `false` otherwise with
+  //!     an appropriate message logged.
+  bool InitializeFabricated(ProcessReaderWin* process_reader,
+                            DWORD thread_id,
+                            DWORD exception_code);
+
   // ExceptionSnapshot:
 
   const CPUContext* Context() const override;
@@ -72,6 +94,11 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   bool InitializeFromExceptionPointers(const ProcessReaderWin& process_reader,
                                        WinVMAddress exception_pointers_address,
                                        ContextType* context_record);
+  const ProcessReaderWin::Thread* InitializeThreadID(
+      ProcessReaderWin* process_reader,
+      DWORD thread_id);
+  void CaptureReferencedMemory(ProcessReaderWin* process_reader,
+                               const ProcessReaderWin::Thread& thread);
 
 #if defined(ARCH_CPU_X86_FAMILY)
   union {
