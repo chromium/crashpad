@@ -139,6 +139,24 @@
     },
     {
       "key": {
+        "uuid": "88a2c4bd_a90785fd",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-19T20:40:10Z",
+      "side": 1,
+      "message": "[3rd paragraph should end \"meaning it would have to attempt to fabricate a record for all invalid opcode, or \u0027ud2\u0027 exceptions.\" Although now that I write that we could write\n\n ud2 \u003csome magic signature\u003e \u003cthread_id\u003e \u003cexception_code\u003e\n\nand be relatively confident it was really \"sent\" from DumpAndCrashTargetProcess().]",
+      "parentUuid": "88a2c4bd_2949355d",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8b868d5_b9afffee",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 4
