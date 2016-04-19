@@ -157,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "a8b868d5_d9f753e4",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T20:47:02Z",
+      "side": 1,
+      "message": "I thought we might be able to stash the extra bits in the exception itself, by using nNumberOfArguments and lpArguments when calling RaiseException(). On the other side, in the handler, we could detect our custom dwExceptionCode and then process those arguments. Our custom exception code becomes the clear signal that this was a remote dump-and-crash request, and then we could decide how to interpret the extra arguments.\n\nI guess that this is the same as ud2 blah, especially if we can cook up a signature that’s extremely unlikely to follow ud2. It requires reading the victim’s memory after every illegal-opcode exception to make the call, whereas the RaiseException() thing only requires us to do the extra processing when we see our magic exception code, and we’d get the rest of data in the EXCEPTION_RECORD without having to read memory. (Hopefully that’s all properly plumbed through to the handler already.)",
+      "parentUuid": "88a2c4bd_a90785fd",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8b868d5_b9afffee",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 4
