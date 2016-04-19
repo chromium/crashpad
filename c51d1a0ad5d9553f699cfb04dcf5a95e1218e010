@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8b868d5_39dbef9a",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "This implies that DebugBreak[Process]() is used, but that’s no longer the case.",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_d9d3d37b",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "Again.",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_f977b75a",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "Why’s it got to be in the main module?",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_39c4cfb3",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "So just give up if any of these things don’t work?",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_b9c61fbf",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "You should check that the CrashpadInfo structure is what you think it is before writing to it. Check the magic number, size, and version.",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_19d62b74",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "This and the next WriteProcessMemory() aren’t cross-bitness aware like the reads above are.",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_d97af343",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "I would have preferred an entry point that affirmatively crashes to help this stand out as what it really is in decoded crash reports, but I guess there are no guarantees about what code might be loaded into a remote process. A jump to 0 happens often enough in the real world that I’m afraid of ambiguity.\n\nWe could WriteProcessMemory() a crashy instruction sequence. ud2’s my favorite, but RaiseException() may be better, allowing these crashes to be identified pretty precisely AND probably eliminate the need to stash anything in CrashpadInfo. That’d be a little bit of extra work, it requires having a good place to write it available, might require allocating something (and maybe the map is full), etc. Basically, no good solutions. So I guess jump-to-0 is fine, it’s just a different set of compromises. Have you given any thought to the alternatives?\n\nUsing RaiseException() actually sounds particularly interesting. It’d let us eliminate the need to find any CrashpadInfo (and deal with the “which module” question) and to write to the target’s memory (and deal with the “which bitness” question, and other questions I haven’t asked like multiple DumpAndCrashTargetProcess() racing). It’d allow us to reuse more of the machinery that we already have, at the cost of some quirky and very machine-specific code right here, but maybe it’s not that bad given that it’d save us from some of the other contortions. All of this, of course, is subject to the “if we can get a place to write our instructions” thing. Or, if we’re not guaranteed that, to the “is the risk of not having a place to write our instructions smaller than the risk of the problems with this other approach” thing.",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_b9afffee",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "I kind of want to zero out the fields that you wrote to when things are done, so that this can all be recycled easily to form the pretty obvious DumpTargetProcessWithoutCrashing() alternative without leaving that state polluted so that future crashes look like dumps from the outside. But the actual crash is totally async with what happens here, so I guess you’d need to clear it from over in the handler.",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_59e0a342",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "area→are",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_79e56751",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "from→by",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_99c95bd2",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "“blah that this thread blah blaming this thread,” so that by the time I got to the end of the sentence, it wasn’t clear what the final “this thread” actually referred to.",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8b868d5_59b9833a",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-19T18:52:00Z",
+      "side": 1,
+      "message": "Here’s this main_module thing again. I don’t get that. The victim might be a Crashpad client but might have a Chrome-like structure where most of the app is in a dll. In Chrome’s case on Windows, Crashpad currently happens to live in the exe, but that’s something that wasn’t always certain when you were designing it, it might not always be the case for Chrome, and it might not be the case for other consumers.",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
