@@ -26,13 +26,18 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock.h"
+#include "client/crashpad_info.h"
 #include "util/file/file_io.h"
+#include "util/win/address_types.h"
 #include "util/win/command_line.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
 #include "util/win/handle.h"
+#include "util/win/nt_internals.h"
+#include "util/win/process_info.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
+#include "util/win/scoped_process_suspend.h"
 
 namespace {
 
@@ -165,6 +170,13 @@ void AddHandleToListIfValidAndInheritable(std::vector<HANDLE>* handle_list,
           handle_list->end()) {
     handle_list->push_back(handle);
   }
+}
+
+void AddUint32(std::vector<unsigned char>* data_vector, uint32_t data) {
+  data_vector->push_back(static_cast<unsigned char>(data & 0xff));
+  data_vector->push_back(static_cast<unsigned char>((data & 0xff00) >> 8));
+  data_vector->push_back(static_cast<unsigned char>((data & 0xff0000) >> 16));
+  data_vector->push_back(static_cast<unsigned char>((data & 0xff000000) >> 24));
 }
 
 }  // namespace
@@ -467,6 +479,144 @@ void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   }
 
   UnhandledExceptionHandler(exception_pointers);
+}
+
+bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
+                                               DWORD thread_id,
+                                               DWORD exception_code) const {
+  ProcessInfo process_info;
+  if (!process_info.Initialize(process)) {
+    LOG(ERROR) << "ProcessInfo::Initialize";
+    return false;
+  }
+
+  // Confirm that our bitness is the same as the process we're crashing.
+#if defined(ARCH_CPU_64_BITS)
+  if (!process_info.Is64Bit()) {
+    LOG(ERROR) << "DumpAndCrashTargetProcess currently not supported x64->x86";
+    return false;
+  }
+#endif  // ARCH_CPU_64_BITS
+
+  WinVMAddress inject_memory =
+      reinterpret_cast<WinVMAddress>(VirtualAllocEx(process,
+                                                    nullptr,
+                                                    4 << 10,
+                                                    MEM_RESERVE | MEM_COMMIT,
+                                                    PAGE_EXECUTE_READWRITE));
+  if (!inject_memory) {
+    PLOG(ERROR) << "VirtualAllocEx";
+    return false;
+  }
+
+  // Because we're the same bitness as our target, we can rely kernel32 being
+  // loaded at the same address in our process as the target, and just look up
+  // its address here.
+  WinVMAddress raise_exception_address = reinterpret_cast<WinVMAddress>(
+      GetProcAddress(GetModuleHandle(L"kernel32.dll"), "RaiseException"));
+
+  WinVMAddress code_entry_point = 0;
+
+  if (process_info.Is64Bit()) {
+    LOG(ERROR) << "TODO";
+    return false;
+  } else {
+    // Data written is first, the data for the 4th argument (lpArguments) to
+    // RaiseException(). A two element array:
+    //
+    // ULONG_PTR: thread_id
+    // ULONG_PTR: exception_code
+    //
+    // Following that, code which pushes our arguments to RaiseException() and
+    // then calls it:
+    //
+    // push <start_address>
+    // push 2  ; nNumberOfArguments
+    // push 1  ; dwExceptionFlags = EXCEPTION_NONCONTINUABLE
+    // push 0xcca11ed  ; dwExceptionCode, interpreted specially by the handler.
+    // call <address_of_RaiseException>
+    //
+    // No need to clean up the stack, as RaiseException() is __stdcall.
+    std::vector<unsigned char> data_to_write;
+
+    // The data array.
+    AddUint32(&data_to_write, thread_id);
+    AddUint32(&data_to_write, exception_code);
+
+    // Where we'll jump to.
+    code_entry_point = inject_memory + data_to_write.size();
+
+    // Push data address.
+    data_to_write.push_back(0x68);
+    AddUint32(&data_to_write, static_cast<uint32_t>(inject_memory));
+
+    // Push 2 for nNumberOfArguments.
+    data_to_write.push_back(0x6a);
+    data_to_write.push_back(2);
+
+    // Push 1 for dwExceptionCode.
+    data_to_write.push_back(0x6a);
+    data_to_write.push_back(1);
+
+    // Push dwExceptionCode:
+    data_to_write.push_back(0x68);
+    AddUint32(&data_to_write, kTriggeredExceptionCode);
+
+    int64_t relative_address_to_raise_exception =
+        raise_exception_address - (inject_memory + data_to_write.size() + 5);
+    data_to_write.push_back(0xe8);
+    AddUint32(&data_to_write,
+              static_cast<uint32_t>(relative_address_to_raise_exception));
+
+    SIZE_T bytes_written;
+    if (!WriteProcessMemory(process,
+                            reinterpret_cast<void*>(inject_memory),
+                            data_to_write.data(),
+                            data_to_write.size(),
+                            &bytes_written) ||
+        bytes_written != data_to_write.size()) {
+      PLOG(ERROR) << "WriteProcessMemory";
+      return false;
+    }
+
+    if (!FlushInstructionCache(
+            process, reinterpret_cast<void*>(inject_memory), bytes_written)) {
+      PLOG(ERROR) << "FlushInstructionCache";
+      return false;
+    }
+  }
+
+  // Cause an exception in the target process by creating a thread which calls
+  // RaiseException with our arguments above. Note that we cannot get away with
+  // using DebugBreakProcess() (nothing happens unless a debugger is attached)
+  // and we cannot get away with CreateRemoteThread() because it doesn't work if
+  // the target is hung waiting for the loader lock. We use NtCreateThreadEx()
+  // with the SKIP_THREAD_ATTACH flag, which skips various notifications,
+  // letting this cause an exception, even when the target is stuck in the
+  // loader lock.
+  HANDLE thread_handle;
+  NTSTATUS status = NtCreateThreadEx(&thread_handle,
+                                     STANDARD_RIGHTS_ALL | SPECIFIC_RIGHTS_ALL,
+                                     nullptr,
+                                     process,
+                                     reinterpret_cast<void*>(code_entry_point),
+                                     nullptr,
+                                     THREAD_CREATE_FLAGS_SKIP_THREAD_ATTACH,
+                                     0,
+                                     0,
+                                     0,
+                                     nullptr);
+  if (!NT_SUCCESS(status)) {
+    LOG(ERROR) << "NtCreateThreadEx";
+    return false;
+  }
+
+  if (!NT_SUCCESS(NtClose(thread_handle))) {
+    LOG(ERROR) << "NtClose";
+    return false;
+  }
+
+  return true;
 }
 
 }  // namespace crashpad
