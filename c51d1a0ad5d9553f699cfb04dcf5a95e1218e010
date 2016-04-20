@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "88a2c4bd_7a2ed9d4",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-20T18:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8b868d5_39dbef9a",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8b868d5_d9d3d37b",
         "filename": "client/crashpad_client.h",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-19T18:52:00Z",
       "side": 1,
       "message": "Again.",
+      "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88a2c4bd_9a7abdbd",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-20T18:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8b868d5_d9d3d37b",
       "revId": "c51d1a0ad5d9553f699cfb04dcf5a95e1218e010",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
