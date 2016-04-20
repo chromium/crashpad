@@ -298,14 +298,12 @@ void ModuleSnapshotWin::GetCrashpadUserMinidumpStreams(
       return;
     }
 
-    if (list_entry.size != 0) {
-      scoped_ptr<internal::MemorySnapshotWin> memory(
-          new internal::MemorySnapshotWin());
-      memory->Initialize(
-          process_reader_, list_entry.base_address, list_entry.size);
-      streams->push_back(
-          new UserMinidumpStream(list_entry.stream_type, memory.release()));
-    }
+    scoped_ptr<internal::MemorySnapshotWin> memory(
+        new internal::MemorySnapshotWin());
+    memory->Initialize(
+        process_reader_, list_entry.base_address, list_entry.size);
+    streams->push_back(
+        new UserMinidumpStream(list_entry.stream_type, memory.release()));
 
     cur = list_entry.next;
   }
