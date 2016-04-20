@@ -22,6 +22,7 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
+#include "snapshot/win/thread_snapshot_win.h"
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/stdlib/pointer_container.h"
 #include "util/win/address_types.h"
@@ -53,7 +54,8 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   //!     an appropriate message logged.
   bool Initialize(ProcessReaderWin* process_reader,
                   DWORD thread_id,
-                  WinVMAddress exception_pointers);
+                  WinVMAddress exception_pointers,
+                  const PointerVector<internal::ThreadSnapshotWin>& threads);
 
   // ExceptionSnapshot:
 
@@ -69,9 +71,12 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   template <class ExceptionRecordType,
             class ExceptionPointersType,
             class ContextType>
-  bool InitializeFromExceptionPointers(const ProcessReaderWin& process_reader,
-                                       WinVMAddress exception_pointers_address,
-                                       ContextType* context_record);
+  bool InitializeFromExceptionPointers(
+      const ProcessReaderWin& process_reader,
+      WinVMAddress exception_pointers_address,
+      const PointerVector<internal::ThreadSnapshotWin>& threads,
+      void (ExceptionSnapshotWin::*native_to_cpu_context)(
+          const ContextType& context_record));
 
 #if defined(ARCH_CPU_X86_FAMILY)
   union {
@@ -87,6 +92,14 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   uint32_t exception_flags_;
   DWORD exception_code_;
   InitializationStateDcheck initialized_;
+
+#if defined(ARCH_CPU_32_BITS)
+  using Context32 = CONTEXT;
+#elif defined(ARCH_CPU_64_BITS)
+  using Context32 = WOW64_CONTEXT;
+  void NativeContextToCPUContext64(const CONTEXT& context_record);
+#endif
+  void NativeContextToCPUContext32(const Context32& context_record);
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionSnapshotWin);
 };
