@@ -19,6 +19,8 @@
 #include <string>
 #include <vector>
 
+#include <stdint.h>
+
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "build/build_config.h"
@@ -152,6 +154,40 @@ class CrashpadClient {
   //! \param[in] exception_pointers An `EXCEPTION_POINTERS`, as would generally
   //!     passed to an unhandled exception filter.
   static void DumpAndCrash(EXCEPTION_POINTERS* exception_pointers);
+
+  //! \brief Requests that the handler capture a dump of a different process.
+  //!
+  //! The target process must be an already-registered Crashpad client. An
+  //! exception will be triggered in the target process, and the regular dump
+  //! mechanism used.
+  //!
+  //! This function is unavailable when running on Windows XP.
+  //!
+  //! \param[in] process A `HANDLE` identifying the process to be dumped.
+  //! \param[in] thread If non-null, a `HANDLE` valid in the caller's process,
+  //!     referring to a thread in the target process. If this is supplied,
+  //!     instead of the exception referring to the location where the exception
+  //!     was injected, an exception record will be fabricated that refers to
+  //!     the current location of the given thread.
+  //! \param[in] exception_code If \a thread is non-null, this will be used as
+  //!     the exception code in the exception record.
+  //!
+  //! \return `true` if the request to trigger an exception was sent
+  //!     succesfully.
+  bool DumpAndCrashTargetProcess(HANDLE process,
+                                 HANDLE thread,
+                                 DWORD exception_code) const;
+
+  enum : uint32_t {
+    //! \brief The exception code (roughly "Client called") used when
+    //!     DumpAndCrashTargetProcess() triggers an exception in a target
+    //!     process.
+    //!
+    //! \note This value does not have any bits of the top nibble set, to avoid
+    //!     confusion with real exception codes which tend to have those bits
+    //!     set.
+    kTriggeredExceptionCode = 0xcca11ed,
+  };
 #endif
 
   //! \brief Configures the process to direct its crashes to a Crashpad handler.
