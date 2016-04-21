@@ -16,6 +16,24 @@
       "revId": "032f8ab1fcb5f8e79ccb32d9647b031fa3992320",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_4428f133",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T23:04:28Z",
+      "side": 1,
+      "message": "Yeah, it was mostly laziness because subtracting was simpler in the delegate. Done.",
+      "parentUuid": "089a54ee_5fa2cf20",
+      "revId": "032f8ab1fcb5f8e79ccb32d9647b031fa3992320",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
