@@ -39,6 +39,7 @@ struct CrashpadInfo {
   uint32_t signature;
   uint32_t size;
   uint32_t version;
+  int indirectly_referenced_memory_cap;
   uint8_t crashpad_handler_behavior;  // TriState.
   uint8_t system_crash_reporter_forwarding;  // TriState.
   uint8_t gather_indirectly_referenced_memory;  // TriState.

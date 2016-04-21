@@ -38,9 +38,9 @@ void MaybeCaptureMemoryAround(CaptureMemory::Delegate* delegate,
   if (address > max_address - non_address_offset)
     return;
 
-  const uint64_t kRegisterByteOffset = 256;
+  const uint64_t kRegisterByteOffset = 128;
   const uint64_t target = address - kRegisterByteOffset;
-  const uint64_t size = 1024;
+  const uint64_t size = 512;
   static_assert(kRegisterByteOffset <= size / 2,
                 "negative offset too large");
   auto ranges =

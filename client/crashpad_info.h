@@ -148,9 +148,16 @@ struct CrashpadInfo {
   //! This causes Crashpad to include pages of data referenced by locals or
   //! other stack memory. Turning this on can increase the size of the minidump
   //! significantly.
+  //!
+  //! \param[in] gather_indirectly_referenced_memory Whether extra memory should
+  //!     be gathered.
+  //! \param[in] limit The amount of memory in bytes after which no more
+  //!     indirectly gathered memory should be captured.
   void set_gather_indirectly_referenced_memory(
-      TriState gather_indirectly_referenced_memory) {
+      TriState gather_indirectly_referenced_memory,
+      int limit) {
     gather_indirectly_referenced_memory_ = gather_indirectly_referenced_memory;
+    indirectly_referenced_memory_cap_ = limit;
   }
 
   //! \brief Adds a custom stream to the minidump.
@@ -192,6 +199,7 @@ struct CrashpadInfo {
   uint32_t signature_;  // kSignature
   uint32_t size_;  // The size of the entire CrashpadInfo structure.
   uint32_t version_;  // kVersion
+  int indirectly_referenced_memory_cap_;
   TriState crashpad_handler_behavior_;
   TriState system_crash_reporter_forwarding_;
   TriState gather_indirectly_referenced_memory_;
