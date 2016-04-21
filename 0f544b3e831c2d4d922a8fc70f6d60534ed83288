@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_d4a7b2e1",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T21:59:16Z",
+      "side": 1,
+      "message": "OK, I think I\u0027ll keep it. It\u0027s not adding a lot of complexity on our side.",
+      "parentUuid": "089a54ee_ff6b9b7b",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_ff59db07",
         "filename": "client/crashpad_client.h",
         "patchSetId": 13
@@ -195,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_efb3032b",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T21:59:16Z",
+      "side": 1,
+      "message": "OK. It seemed like the window was already quite small because we\u0027re going to crash, suspend, and terminate the process in short order here anyway.\n\nBut I guess it\u0027s a but smaller that way.",
+      "parentUuid": "089a54ee_1f812779",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_7f46ab27",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 13
@@ -283,6 +319,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_6f2873c5",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T21:59:16Z",
+      "side": 1,
+      "message": "AFAIK, all ways of creating a thread will get the default size. It\u0027s undocumented of course. I just poked around to see what DebugBreakProcess()\u0027s call to NtCreateThreadEx() eventually does and it passes.... 0x4000 (and 0 for zero_bits and maximum_stack_size). So I\u0027ll go with that, somewhat arbitrarily.",
+      "parentUuid": "089a54ee_7f786b4b",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_9f83778d",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 13
@@ -348,6 +402,24 @@
       "side": 1,
       "message": "Oh, and in the x86_64 case, RaiseException can still try to return, but it’ll jump to (a garbage address? the thing that our entry point would have returned to?) I don’t know if NtCreateThreadEx() sets things up so that the entry point can return or whether it cares about the return value.",
       "parentUuid": "88656498_b4ca3e6a",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_14878a42",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T21:59:16Z",
+      "side": 1,
+      "message": "Yes, it\u0027ll return to the kernel32 code that calls the user entry point (BaseThreadInitSomethingOrOther) and the thread would exit.",
+      "parentUuid": "089a54ee_dfdfbf82",
       "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
