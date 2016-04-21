@@ -50,6 +50,23 @@
       "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_1fb3e75c",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T20:37:40Z",
+      "side": 1,
+      "message": "This isn’t available pre-Vista, right?\n\nThat’s fine for Chrome, but we were just talking to someone that still wanted XP support.",
+      "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
