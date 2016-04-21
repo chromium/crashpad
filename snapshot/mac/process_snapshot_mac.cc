@@ -107,6 +107,8 @@ void ProcessSnapshotMac::GetCrashpadOptions(
     if (local_options.gather_indirectly_referenced_memory == TriState::kUnset) {
       local_options.gather_indirectly_referenced_memory =
           module_options.gather_indirectly_referenced_memory;
+      local_options.indirectly_referenced_memory_cap =
+          module_options.indirectly_referenced_memory_cap;
     }
 
     // If non-default values have been found for all options, the loop can end
