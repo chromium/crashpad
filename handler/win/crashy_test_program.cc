@@ -223,7 +223,8 @@ int CrashyMain(int argc, wchar_t* argv[]) {
   printf("%p, %p\n", offset_pointer, &offset_pointer);
 
   crashpad::CrashpadInfo::GetCrashpadInfo()
-      ->set_gather_indirectly_referenced_memory(TriState::kEnabled);
+      ->set_gather_indirectly_referenced_memory(
+          TriState::kEnabled, std::numeric_limits<int>::max());
 
   std::vector<uint8_t> data_stream1(128, 'x');
   crashpad::CrashpadInfo::GetCrashpadInfo()->AddUserDataMinidumpStream(
