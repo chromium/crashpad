@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_a9dd0b5a",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T19:46:06Z",
+      "side": 1,
+      "message": "I think if the client is controlling the thread id, it seems reasonable that they might want to set a particular exception code that makes sense to them. But it probably doesn\u0027t matter too much. I can remove it if you think it\u0027s more clear.",
+      "parentUuid": "089a54ee_df541fd3",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_ff59db07",
         "filename": "client/crashpad_client.h",
         "patchSetId": 13
@@ -47,6 +65,24 @@
       "writtenOn": "2016-04-21T19:05:37Z",
       "side": 1,
       "message": "The “note” sentence isn’t really “brief.” You can use \\note for this.",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_c9ae3fc6",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T19:46:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "089a54ee_ff59db07",
       "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_a978abfd",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T19:46:06Z",
+      "side": 1,
+      "message": "We need \u003c 100 bytes at the moment, but it\u0027s going to be a full page in any case.\n\nI guess we could get unlucky after a complicated refactor and end up allocating this right next to other memory that was writable, and then overflow into it. Added a DCHECK that we don\u0027t exceed the limit before the WriteProcessMemory().",
+      "parentUuid": "089a54ee_1f4f673d",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_3f4c2346",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 13
@@ -81,6 +135,24 @@
       "writtenOn": "2016-04-21T19:05:37Z",
       "side": 1,
       "message": "Beneficial to make this read-write while we’re splatting stuff into it and then read-execute when we’re ready to inject the thread?",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_298cbb61",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T19:46:06Z",
+      "side": 1,
+      "message": "I don\u0027t see any upside to doing that. The fewer calls we make here, the better, I think.",
+      "parentUuid": "089a54ee_3f4c2346",
       "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_499c8f93",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T19:46:06Z",
+      "side": 1,
+      "message": "Hah, GetProcAddress() on the brain. Done.",
+      "parentUuid": "089a54ee_7f46ab27",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_bf8833a8",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 13
@@ -115,6 +205,24 @@
       "writtenOn": "2016-04-21T19:05:37Z",
       "side": 1,
       "message": "Where’s the stack for this new thread? The same question applies for x86_64. Even though the code you wrote there doesn’t use the stack, RaiseException() might, and the unhandled exception filter definitely will.",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_f4b756f6",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T19:46:06Z",
+      "side": 1,
+      "message": "Yes, the injected stack will get the default stack size from the target\u0027s PE header: https://msdn.microsoft.com/en-us/library/windows/desktop/ms686774(v\u003dvs.85).aspx . Are you thinking maybe we want to try to squish it smaller?",
+      "parentUuid": "089a54ee_bf8833a8",
       "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_b4ca3e6a",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T19:46:06Z",
+      "side": 1,
+      "message": "How about ud2, since hlt is ring 0? Done. (Not in the x64 case, since there\u0027s no way we can return there.)",
+      "parentUuid": "089a54ee_9f83778d",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_ff92bbd3",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 13
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_74dda625",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T19:46:06Z",
+      "side": 1,
+      "message": "Hmm, true. It is documented as being required per Remarks in https://msdn.microsoft.com/en-us/library/windows/desktop/ms679350(v\u003dvs.85).aspx and Raymond even says it might be https://blogs.msdn.microsoft.com/oldnewthing/20031208-00/?p\u003d41583 (though I think he may be mistaken). But yeah, it doesn\u0027t actually do anything. I can remove it if you prefer.",
+      "parentUuid": "089a54ee_ff92bbd3",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_1f9847f1",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 13
@@ -166,6 +310,24 @@
       "writtenOn": "2016-04-21T19:05:37Z",
       "side": 1,
       "message": "These StackSize/MaximumStackSize arguments down here were going to answer my question about the stack from above, but they’re 0. Does that mean “default?”",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_d404926c",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T19:46:06Z",
+      "side": 1,
+      "message": "Right, defaults.",
+      "parentUuid": "089a54ee_1f9847f1",
       "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
