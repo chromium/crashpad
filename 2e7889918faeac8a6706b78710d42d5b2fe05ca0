@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_0f23f742",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T21:59:16Z",
+      "side": 1,
+      "message": "Yes, there\u0027s the possibility of a race here.\n\nI thought about it, but didn\u0027t thing the failure case was worth worrying about though (no thread being blamed, or the very unlikely case of the wrong thread being blamed).\n\nIf we add the time, then we just get no thread being blamed (always) at the cost of a kind of weird API. Hmm.\n\nOK, how about this? I switched the API to take a HANDLE. In the body of the injection function, we suspend the process, and then get the thread_id to pass on as before, but only if the thread hasn\u0027t already terminated. To avoid a race between our crash thread crashing (which starts immediately) and us letting the target go again and having the candidate thread exiting, we wait on the injected thread termination. This also is a nicer API from the client side I think because it means the dump is \"done\" at the point the function returns.\n\nThe only failure case I can think of then is an adversary process that\u0027s resuming threads underneath our nose, but at that point we\u0027re basically in a huge mess so very-unlikely-wrong-thread-blame seems like the least of our problems.",
+      "parentUuid": "089a54ee_bfc3d3ab",
+      "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_3fc7c3bd",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-21T20:20:53Z",
       "side": 1,
       "message": "Take care with %rsp alignment on x86_64. (But if we found the stack properly-aligned for function entry and we did a jmp instead of a call, we’re probably fine.)",
+      "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_8f4fe73b",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T21:59:16Z",
+      "side": 1,
+      "message": "Right, I think we\u0027re OK in the x64 case because we can assume we were called correctly by the thread entry point, and we\u0027re not modifying the stack here.",
+      "parentUuid": "089a54ee_3fc7c3bd",
       "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_ef59c307",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T21:59:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "089a54ee_9fbe1725",
+      "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_1fb3e75c",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 14
@@ -64,6 +118,24 @@
       "writtenOn": "2016-04-21T20:37:40Z",
       "side": 1,
       "message": "This isn’t available pre-Vista, right?\n\nThat’s fine for Chrome, but we were just talking to someone that still wanted XP support.",
+      "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_afb0ab4e",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-21T21:59:16Z",
+      "side": 1,
+      "message": "Oh, good catch. I\u0027m not going to write an alternate injection mechanism now, but just added a LOG+fail for pre-Vista.",
+      "parentUuid": "089a54ee_1fb3e75c",
       "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
