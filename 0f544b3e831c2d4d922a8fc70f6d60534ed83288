@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "089a54ee_ff6b9b7b",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T20:20:53Z",
+      "side": 1,
+      "message": "You can leave it if you want, it was just something that struck me as maybe more control than the client needs.",
+      "parentUuid": "88656498_a9dd0b5a",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_ff59db07",
         "filename": "client/crashpad_client.h",
         "patchSetId": 13
@@ -159,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "089a54ee_1f812779",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T20:20:53Z",
+      "side": 1,
+      "message": "The security guys always seem to want W xor X, but maybe not on Windows? I thought that it was because having a page that was both at the same time made it easier to abuse, but if it’s xor, your attack’s got to have spot-on timing or else it’ll just crash.",
+      "parentUuid": "88656498_298cbb61",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_7f46ab27",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 13
@@ -229,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "089a54ee_7f786b4b",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T20:20:53Z",
+      "side": 1,
+      "message": "I just wasn’t clear on whether NtCreateThreadEx() used the default or if that was a higher-level CreateThread()/CreateRemoteThread() thing.\n\nIf there’s no chance of running anyone else’s code on our new thread’s stack, I’d say we should make it smaller to reduce the risk of running out of address space. But if there’s an avenue to run something else (via VEH?) then we should probably leave it at the default.",
+      "parentUuid": "88656498_f4b756f6",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_9f83778d",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 13
@@ -264,6 +318,42 @@
     },
     {
       "key": {
+        "uuid": "089a54ee_bfdaf393",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T20:20:53Z",
+      "side": 1,
+      "message": "Right, hlt raises #gp. #gp vs. #ud, doesn’t make much of a difference to me. ud2’s good, I just didn’t want an errant return (from a debugger?) to try executing garbage and make things worse.",
+      "parentUuid": "88656498_b4ca3e6a",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_dfdfbf82",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T20:20:53Z",
+      "side": 1,
+      "message": "Oh, and in the x86_64 case, RaiseException can still try to return, but it’ll jump to (a garbage address? the thing that our entry point would have returned to?) I don’t know if NtCreateThreadEx() sets things up so that the entry point can return or whether it cares about the return value.",
+      "parentUuid": "88656498_b4ca3e6a",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089a54ee_ff92bbd3",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 13
@@ -293,6 +383,24 @@
       "side": 1,
       "message": "Hmm, true. It is documented as being required per Remarks in https://msdn.microsoft.com/en-us/library/windows/desktop/ms679350(v\u003dvs.85).aspx and Raymond even says it might be https://blogs.msdn.microsoft.com/oldnewthing/20031208-00/?p\u003d41583 (though I think he may be mistaken). But yeah, it doesn\u0027t actually do anything. I can remove it if you prefer.",
       "parentUuid": "089a54ee_ff92bbd3",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_ffe47b57",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T20:20:53Z",
+      "side": 1,
+      "message": "We can leave it as you have it to humor Raymond, but he’s way off base.",
+      "parentUuid": "88656498_74dda625",
       "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
