@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "089a54ee_bfc3d3ab",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T20:20:53Z",
+      "side": 1,
+      "message": "In light of the stuff that you and Siggi were discussing about IDs not being unique, do we need to use (thread_id, start_time) to accurately identify it?",
+      "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_3fc7c3bd",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T20:20:53Z",
+      "side": 1,
+      "message": "Take care with %rsp alignment on x86_64. (But if we found the stack properly-aligned for function entry and we did a jmp instead of a call, we’re probably fine.)",
+      "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_9fbe1725",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T20:20:53Z",
+      "side": 1,
+      "message": "The P in PLOG is wrong if you failed because bytes_written wasn’t the expected value.",
+      "revId": "2e7889918faeac8a6706b78710d42d5b2fe05ca0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
