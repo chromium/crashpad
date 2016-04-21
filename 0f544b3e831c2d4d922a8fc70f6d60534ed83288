@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "089a54ee_bf5f53ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T19:05:37Z",
+      "side": 1,
+      "message": "The commit message looks good!",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_df541fd3",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T19:05:37Z",
+      "side": 1,
+      "message": "Should we leave exception_code in the client’s control, or just send our magic one via this interface?",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_ff59db07",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T19:05:37Z",
+      "side": 1,
+      "message": "The “note” sentence isn’t really “brief.” You can use \\note for this.",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_1f4f673d",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T19:05:37Z",
+      "side": 1,
+      "message": "I match “* 1024” better than “\u003c\u003c 10”.\n\nI trust that our tests will catch any case in which 4kB isn’t enough. I don’t anticipate it being too little, we just need enough to raise the exception and run the unhandled exception filter, which we’ve intentionally kept very simple.",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_3f4c2346",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T19:05:37Z",
+      "side": 1,
+      "message": "Beneficial to make this read-write while we’re splatting stuff into it and then read-execute when we’re ready to inject the thread?",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_7f46ab27",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T19:05:37Z",
+      "side": 1,
+      "message": "I doubt you need to do this. Can’t you just say \u0026RaiseException?",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_bf8833a8",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T19:05:37Z",
+      "side": 1,
+      "message": "Where’s the stack for this new thread? The same question applies for x86_64. Even though the code you wrote there doesn’t use the stack, RaiseException() might, and the unhandled exception filter definitely will.",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_9f83778d",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T19:05:37Z",
+      "side": 1,
+      "message": "Can you stick some poison here like hlt in case of an unexpected return from RaiseException()?",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_ff92bbd3",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T19:05:37Z",
+      "side": 1,
+      "message": "Surprised to see this, since it’s not required on x86 and that’s all that we support.",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089a54ee_1f9847f1",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-21T19:05:37Z",
+      "side": 1,
+      "message": "These StackSize/MaximumStackSize arguments down here were going to answer my question about the stack from above, but they’re 0. Does that mean “default?”",
+      "revId": "0f544b3e831c2d4d922a8fc70f6d60534ed83288",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
