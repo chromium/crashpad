@@ -96,6 +96,7 @@ CrashpadInfo::CrashpadInfo()
     : signature_(kSignature),
       size_(sizeof(*this)),
       version_(kCrashpadInfoVersion),
+      indirectly_referenced_memory_cap_(0),
       crashpad_handler_behavior_(TriState::kUnset),
       system_crash_reporter_forwarding_(TriState::kUnset),
       gather_indirectly_referenced_memory_(TriState::kUnset),

@@ -143,7 +143,8 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
 
  private:
   // Initializes threads_ on behalf of Initialize().
-  void InitializeThreads(bool gather_indirectly_referenced_memory);
+  void InitializeThreads(bool gather_indirectly_referenced_memory,
+                         int indirectly_referenced_memory_cap);
 
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
