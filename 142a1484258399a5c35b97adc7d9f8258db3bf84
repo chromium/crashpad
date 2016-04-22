@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2839d8b4_ad363dc4",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T13:11:32Z",
+      "side": 1,
+      "message": "NTSTATUS_LOG here and on line 724.",
+      "revId": "142a1484258399a5c35b97adc7d9f8258db3bf84",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_8d3181d1",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T13:11:32Z",
+      "side": 1,
+      "message": "PLOG.",
+      "revId": "142a1484258399a5c35b97adc7d9f8258db3bf84",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
