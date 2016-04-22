@@ -79,6 +79,9 @@ void ModuleSnapshotMac::GetCrashpadOptions(CrashpadInfoClientOptions* options) {
   options->gather_indirectly_referenced_memory =
       CrashpadInfoClientOptions::TriStateFromCrashpadInfo(
           crashpad_info.gather_indirectly_referenced_memory);
+
+  options->indirectly_referenced_memory_cap =
+      crashpad_info.indirectly_referenced_memory_cap;
 }
 
 std::string ModuleSnapshotMac::Name() const {
