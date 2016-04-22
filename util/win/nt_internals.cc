@@ -21,6 +21,18 @@
 
 struct CLIENT_ID;
 
+NTSTATUS NTAPI NtCreateThreadEx(PHANDLE ThreadHandle,
+                                ACCESS_MASK DesiredAccess,
+                                POBJECT_ATTRIBUTES ObjectAttributes,
+                                HANDLE ProcessHandle,
+                                PVOID StartRoutine,
+                                PVOID Argument,
+                                ULONG CreateFlags,
+                                SIZE_T ZeroBits,
+                                SIZE_T StackSize,
+                                SIZE_T MaximumStackSize,
+                                PVOID /*PPS_ATTRIBUTE_LIST*/ AttributeList);
+
 NTSTATUS NTAPI NtOpenThread(HANDLE* ThreadHandle,
                             ACCESS_MASK DesiredAccess,
                             OBJECT_ATTRIBUTES* ObjectAttributes,
@@ -29,6 +41,38 @@ NTSTATUS NTAPI NtOpenThread(HANDLE* ThreadHandle,
 void* NTAPI RtlGetUnloadEventTrace();
 
 namespace crashpad {
+
+NTSTATUS NtClose(HANDLE handle) {
+  static const auto nt_close = GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtClose);
+  return nt_close(handle);
+}
+
+NTSTATUS
+NtCreateThreadEx(PHANDLE thread_handle,
+                 ACCESS_MASK desired_access,
+                 POBJECT_ATTRIBUTES object_attributes,
+                 HANDLE process_handle,
+                 PVOID start_routine,
+                 PVOID argument,
+                 ULONG create_flags,
+                 SIZE_T zero_bits,
+                 SIZE_T stack_size,
+                 SIZE_T maximum_stack_size,
+                 PVOID attribute_list) {
+  static const auto nt_create_thread_ex =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtCreateThreadEx);
+  return nt_create_thread_ex(thread_handle,
+                             desired_access,
+                             object_attributes,
+                             process_handle,
+                             start_routine,
+                             argument,
+                             create_flags,
+                             zero_bits,
+                             stack_size,
+                             maximum_stack_size,
+                             attribute_list);
+}
 
 NTSTATUS NtQuerySystemInformation(
     SYSTEM_INFORMATION_CLASS system_information_class,

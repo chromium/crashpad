@@ -107,7 +107,8 @@ bool ProcessSnapshotWin::InitializeException(
   exception_.reset(new internal::ExceptionSnapshotWin());
   if (!exception_->Initialize(&process_reader_,
                               exception_information.thread_id,
-                              exception_information.exception_pointers)) {
+                              exception_information.exception_pointers,
+                              threads_)) {
     exception_.reset();
     return false;
   }

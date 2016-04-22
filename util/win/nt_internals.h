@@ -19,6 +19,23 @@
 
 namespace crashpad {
 
+NTSTATUS NtClose(HANDLE handle);
+
+// http://processhacker.sourceforge.net/doc/ntpsapi_8h_source.html
+#define THREAD_CREATE_FLAGS_SKIP_THREAD_ATTACH 0x00000002
+NTSTATUS
+NtCreateThreadEx(PHANDLE thread_handle,
+                 ACCESS_MASK desired_access,
+                 POBJECT_ATTRIBUTES object_attributes,
+                 HANDLE process_handle,
+                 PVOID start_routine,
+                 PVOID argument,
+                 ULONG create_flags,
+                 SIZE_T zero_bits,
+                 SIZE_T stack_size,
+                 SIZE_T maximum_stack_size,
+                 PVOID /*PPS_ATTRIBUTE_LIST*/ attribute_list);
+
 // Copied from ntstatus.h because um/winnt.h conflicts with general inclusion of
 // ntstatus.h.
 #define STATUS_BUFFER_TOO_SMALL ((NTSTATUS)0xC0000023L)
