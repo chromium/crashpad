@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "2839d8b4_cdb389c4",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T03:37:12Z",
+      "side": 1,
+      "message": "Oh, right!",
+      "parentUuid": "88656498_303733dd",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2839d8b4_ad21dde9",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 16
