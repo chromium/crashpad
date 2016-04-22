@@ -16,6 +16,24 @@
       "revId": "6a6a0c27ed0c9cefd078195f826c31d8f46e9f22",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_ad7bc947",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T18:52:23Z",
+      "side": 1,
+      "message": "Oh, good point. I\u0027ll see how tricky that is now.",
+      "parentUuid": "2839d8b4_6d4375ef",
+      "revId": "6a6a0c27ed0c9cefd078195f826c31d8f46e9f22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
