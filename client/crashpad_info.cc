@@ -14,6 +14,8 @@
 
 #include "client/crashpad_info.h"
 
+#include <string.h>
+
 #include "util/stdlib/cxx.h"
 
 #if defined(OS_MACOSX)
@@ -96,10 +98,10 @@ CrashpadInfo::CrashpadInfo()
     : signature_(kSignature),
       size_(sizeof(*this)),
       version_(kCrashpadInfoVersion),
+      indirectly_referenced_memory_cap_(0),
       crashpad_handler_behavior_(TriState::kUnset),
       system_crash_reporter_forwarding_(TriState::kUnset),
       gather_indirectly_referenced_memory_(TriState::kUnset),
-      padding_0_(0),
       extra_memory_ranges_(nullptr),
       simple_annotations_(nullptr),
       user_data_minidump_stream_head_(nullptr)
@@ -108,6 +110,7 @@ CrashpadInfo::CrashpadInfo()
       invalid_read_detection_(0xbadc0de)
 #endif
 {
+  memset(padding_, 0, sizeof(padding_));
 }
 
 void CrashpadInfo::AddUserDataMinidumpStream(uint32_t stream_type,
