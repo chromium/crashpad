@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_4b8b1c14",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T04:40:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2839d8b4_8da9815a",
+      "revId": "328b880a276950c2883d4d452daa48ba938a8afc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2839d8b4_adae3d5d",
         "filename": "client/crashpad_client.h",
         "patchSetId": 17
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_cb2e2cd3",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T04:40:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2839d8b4_adae3d5d",
+      "revId": "328b880a276950c2883d4d452daa48ba938a8afc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2839d8b4_6d0c555d",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 17
@@ -47,6 +83,24 @@
       "writtenOn": "2016-04-22T03:37:12Z",
       "side": 1,
       "message": "There are two thread handles in this function now. Less confusing would be to give them descriptive names like blame_thread and injected_thread.",
+      "revId": "328b880a276950c2883d4d452daa48ba938a8afc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_8b8114f0",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T04:40:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2839d8b4_6d0c555d",
       "revId": "328b880a276950c2883d4d452daa48ba938a8afc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
