@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2839d8b4_6d4375ef",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 21
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T18:50:19Z",
+      "side": 1,
+      "message": "I just realized that we might want to account for this with another -1 in the suspension counts that we report for all except the blame thread.",
+      "revId": "6a6a0c27ed0c9cefd078195f826c31d8f46e9f22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
