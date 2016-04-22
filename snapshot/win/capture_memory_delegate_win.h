@@ -35,9 +35,13 @@ class CaptureMemoryDelegateWin : public CaptureMemory::Delegate {
   //!     already captured elsewhere.
   //! \param[in] snapshots A vector of MemorySnapshotWin to which the captured
   //!     memory will be added.
+  //! \param[in] budget_remaining If non-null, a pointer to the remaining number
+  //!     of bytes to capture. If this is `0`, no further memory will be
+  //!     captured.
   CaptureMemoryDelegateWin(ProcessReaderWin* process_reader,
                            const ProcessReaderWin::Thread& thread,
-                           PointerVector<MemorySnapshotWin>* snapshots);
+                           PointerVector<MemorySnapshotWin>* snapshots,
+                           uint32_t* budget_remaining);
 
   // MemoryCaptureDelegate:
   bool Is64Bit() const override;
@@ -50,6 +54,7 @@ class CaptureMemoryDelegateWin : public CaptureMemory::Delegate {
   CheckedRange<uint64_t, uint64_t> stack_;
   ProcessReaderWin* process_reader_;
   PointerVector<MemorySnapshotWin>* snapshots_;
+  uint32_t* budget_remaining_;
 };
 
 }  // namespace internal
