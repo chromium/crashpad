@@ -16,6 +16,7 @@
 #define CRASHPAD_SNAPSHOT_WIN_PROCESS_SNAPSHOT_WIN_H_
 
 #include <windows.h>
+#include <stdint.h>
 #include <sys/time.h>
 #include <sys/types.h>
 
@@ -143,7 +144,8 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
 
  private:
   // Initializes threads_ on behalf of Initialize().
-  void InitializeThreads(bool gather_indirectly_referenced_memory);
+  void InitializeThreads(bool gather_indirectly_referenced_memory,
+                         uint32_t indirectly_referenced_memory_cap);
 
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();

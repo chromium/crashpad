@@ -61,7 +61,8 @@ class ScopedUnsetCrashpadInfoOptions {
   ~ScopedUnsetCrashpadInfoOptions() {
     crashpad_info_->set_crashpad_handler_behavior(TriState::kUnset);
     crashpad_info_->set_system_crash_reporter_forwarding(TriState::kUnset);
-    crashpad_info_->set_gather_indirectly_referenced_memory(TriState::kUnset);
+    crashpad_info_->set_gather_indirectly_referenced_memory(TriState::kUnset,
+                                                            0);
   }
 
  private:
@@ -94,6 +95,7 @@ TEST(CrashpadInfoClientOptions, OneModule) {
   EXPECT_EQ(TriState::kUnset, options.crashpad_handler_behavior);
   EXPECT_EQ(TriState::kUnset, options.system_crash_reporter_forwarding);
   EXPECT_EQ(TriState::kUnset, options.gather_indirectly_referenced_memory);
+  EXPECT_EQ(0u, options.indirectly_referenced_memory_cap);
 
   CrashpadInfo* crashpad_info = CrashpadInfo::GetCrashpadInfo();
   ASSERT_TRUE(crashpad_info);
@@ -107,6 +109,7 @@ TEST(CrashpadInfoClientOptions, OneModule) {
     EXPECT_EQ(TriState::kEnabled, options.crashpad_handler_behavior);
     EXPECT_EQ(TriState::kUnset, options.system_crash_reporter_forwarding);
     EXPECT_EQ(TriState::kUnset, options.gather_indirectly_referenced_memory);
+    EXPECT_EQ(0u, options.indirectly_referenced_memory_cap);
   }
 
   {
@@ -118,17 +121,20 @@ TEST(CrashpadInfoClientOptions, OneModule) {
     EXPECT_EQ(TriState::kUnset, options.crashpad_handler_behavior);
     EXPECT_EQ(TriState::kDisabled, options.system_crash_reporter_forwarding);
     EXPECT_EQ(TriState::kUnset, options.gather_indirectly_referenced_memory);
+    EXPECT_EQ(0u, options.indirectly_referenced_memory_cap);
   }
 
   {
     ScopedUnsetCrashpadInfoOptions unset(crashpad_info);
 
-    crashpad_info->set_gather_indirectly_referenced_memory(TriState::kEnabled);
+    crashpad_info->set_gather_indirectly_referenced_memory(TriState::kEnabled,
+                                                           1234);
 
     options = SelfProcessSnapshotAndGetCrashpadOptions();
     EXPECT_EQ(TriState::kUnset, options.crashpad_handler_behavior);
     EXPECT_EQ(TriState::kUnset, options.system_crash_reporter_forwarding);
     EXPECT_EQ(TriState::kEnabled, options.gather_indirectly_referenced_memory);
+    EXPECT_EQ(1234u, options.indirectly_referenced_memory_cap);
   }
 }
 

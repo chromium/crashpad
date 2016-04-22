@@ -40,7 +40,7 @@ ThreadSnapshotWin::~ThreadSnapshotWin() {
 bool ThreadSnapshotWin::Initialize(
     ProcessReaderWin* process_reader,
     const ProcessReaderWin::Thread& process_reader_thread,
-    bool gather_indirectly_referenced_memory) {
+    uint32_t* gather_indirectly_referenced_memory_bytes_remaining) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   thread_ = process_reader_thread;
@@ -79,10 +79,14 @@ bool ThreadSnapshotWin::Initialize(
 #endif  // ARCH_CPU_X86_64
 
   CaptureMemoryDelegateWin capture_memory_delegate(
-      process_reader, thread_, &pointed_to_memory_);
+      process_reader,
+      thread_,
+      &pointed_to_memory_,
+      gather_indirectly_referenced_memory_bytes_remaining);
   CaptureMemory::PointedToByContext(context_, &capture_memory_delegate);
-  if (gather_indirectly_referenced_memory)
+  if (gather_indirectly_referenced_memory_bytes_remaining) {
     CaptureMemory::PointedToByMemoryRange(stack_, &capture_memory_delegate);
+  }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;

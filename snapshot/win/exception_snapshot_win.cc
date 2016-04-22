@@ -91,7 +91,7 @@ bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
   }
 
   CaptureMemoryDelegateWin capture_memory_delegate(
-      process_reader, *thread, &extra_memory_);
+      process_reader, *thread, &extra_memory_, nullptr);
   CaptureMemory::PointedToByContext(context_, &capture_memory_delegate);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
