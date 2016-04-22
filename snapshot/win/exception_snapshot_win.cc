@@ -63,6 +63,7 @@ ExceptionSnapshotWin::ExceptionSnapshotWin()
       exception_address_(0),
       exception_flags_(0),
       exception_code_(0),
+      exception_triggered_by_client_(false),
       initialized_() {
 }
 
@@ -193,6 +194,11 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
           &first_record)) {
     LOG(ERROR) << "ExceptionRecord";
     return false;
+  }
+
+  if (first_record.ExceptionCode == CrashpadClient::kTriggeredExceptionCode &&
+      first_record.NumberParameters == 2) {
+    exception_triggered_by_client_ = true;
   }
 
   if (first_record.ExceptionCode == CrashpadClient::kTriggeredExceptionCode &&

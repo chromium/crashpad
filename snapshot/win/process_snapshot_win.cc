@@ -113,6 +113,19 @@ bool ProcessSnapshotWin::InitializeException(
     return false;
   }
 
+  // If the exception was triggered by
+  // CrashpadClient::DumpAndCrashTargetProcess() the process was suspended there
+  // in addition to the suspension that the the handler did. Attempt to correct
+  // the thread suspend counts for this.
+  if (exception_->exception_triggered_by_client()) {
+    // Note that we do not decrement the count on the last thread on the
+    // assumption that this is the thread that was injected to cause the
+    // exception (and so was running, not suspended).
+    for (size_t i = 0; i < threads_.size() - 1; ++i) {
+      threads_[i]->DecrementSuspendCount();
+    }
+  }
+
   return true;
 }
 
