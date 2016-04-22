@@ -31,6 +31,8 @@ deps = {
       'c2f259809d5ede3275df5ea0842f0431990c4f98',
 }
 
+# TEST
+
 hooks = [
   {
     'name': 'clang_format_mac',
