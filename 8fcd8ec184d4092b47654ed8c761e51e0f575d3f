@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2839d8b4_2d608d07",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T01:04:55Z",
+      "side": 1,
+      "message": "Say that this is only effective if gather_indirectly_referenced_memory is TriState::kEnabled.",
+      "revId": "8fcd8ec184d4092b47654ed8c761e51e0f575d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_cd68e9f4",
+        "filename": "client/crashpad_info.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T01:04:55Z",
+      "side": 1,
+      "message": "There’s going to be some padding before this on 64-bit now, which we were trying to avoid.\n\nIt’s OK to put the new field where you did if we don’t care for this to have binary compatibility with existing deployed code yet, but you should arrange things so that they pad explicitly. That’s basically a requirement for proper cross-bitted operation with the process_types stuff.",
+      "revId": "8fcd8ec184d4092b47654ed8c761e51e0f575d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_ed6da501",
+        "filename": "snapshot/mac/process_types/crashpad_info.proctype",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T01:04:55Z",
+      "side": 1,
+      "message": "This is what I’m talking about. Not addressing the padding will break this struct for cross-bitted operation, I think.",
+      "revId": "8fcd8ec184d4092b47654ed8c761e51e0f575d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_0d63d116",
+        "filename": "snapshot/win/pe_image_reader.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T01:04:55Z",
+      "side": 1,
+      "message": "Maybe here too.",
+      "revId": "8fcd8ec184d4092b47654ed8c761e51e0f575d3f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
