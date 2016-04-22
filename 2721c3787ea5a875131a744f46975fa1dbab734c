@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_f0575bfb",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T02:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2839d8b4_4d2b19c3",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2839d8b4_8d6ee1fe",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 16
@@ -30,6 +48,24 @@
       "writtenOn": "2016-04-22T00:55:52Z",
       "side": 1,
       "message": "thread_id \u003d get_thread_id(thread);\n\notherwise, why did you just use GET_FUNCTION_REQUIRED?",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_5053c712",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T02:52:12Z",
+      "side": 1,
+      "message": "Oh shoot, of course. Done.",
+      "parentUuid": "2839d8b4_8d6ee1fe",
       "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_704ccb6d",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T02:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2839d8b4_ed42058e",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2839d8b4_cd3d4911",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 16
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_303733dd",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T02:52:12Z",
+      "side": 1,
+      "message": "This is calling crashpad::NtCreateThreadEx() in nt_internals.h. There\u0027s no prototype or import library that contains ntdll!NtCreateThreadEx().",
+      "parentUuid": "2839d8b4_cd3d4911",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2839d8b4_ad21dde9",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 16
@@ -81,6 +153,24 @@
       "writtenOn": "2016-04-22T00:55:52Z",
       "side": 1,
       "message": "The NtClose() should happen even if WaitForSingleObject() failed, so either use a scoper for the NtClose() or if you’re sick of that, have a bool to track the return value and get rid of the return above.",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_f030bbe2",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T02:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2839d8b4_ad21dde9",
       "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_1036afdc",
+        "filename": "handler/win/loader_lock_dll.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T02:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2839d8b4_8d850103",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2839d8b4_cd8f091d",
         "filename": "snapshot/win/exception_snapshot_win.cc",
         "patchSetId": 16
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "88656498_b02b2374",
+        "filename": "snapshot/win/exception_snapshot_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T02:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2839d8b4_cd8f091d",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2839d8b4_4d84f9fe",
         "filename": "snapshot/win/exception_snapshot_win.h",
         "patchSetId": 16
@@ -149,6 +275,24 @@
       "writtenOn": "2016-04-22T00:55:52Z",
       "side": 1,
       "message": "It looks like these could be static, and static + private \u003d a good candidate to move to the .cc’s unnamed namespace. I see that you’ve got the pointer-to-member thing going on up above, which must be why this is here. But maybe that can just be a simple function pointer?\n\nIf you move this to the .cc, Context32 should be able to go with it.",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88656498_30e09374",
+        "filename": "snapshot/win/exception_snapshot_win.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-04-22T02:52:12Z",
+      "side": 1,
+      "message": "Done. (I moved it out here because the union didn\u0027t have a name previously and it seemed a bit of a weird prototype having to pass both the context and the union... but anyway, you\u0027re right, better to keep it out of the header.)",
+      "parentUuid": "2839d8b4_4d84f9fe",
       "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
