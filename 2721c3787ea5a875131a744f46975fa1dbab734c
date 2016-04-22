@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2839d8b4_4d2b19c3",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T00:55:52Z",
+      "side": 1,
+      "message": "Ha, ambiguous!\n\nDoes |WaitForSingleObject(thread, 0) \u003d\u003d WAIT_TIMEOUT| work? If it does, it’s more what we mean to do here, even if it means that the code looks less like what we mean.",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_8d6ee1fe",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T00:55:52Z",
+      "side": 1,
+      "message": "thread_id \u003d get_thread_id(thread);\n\notherwise, why did you just use GET_FUNCTION_REQUIRED?",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_ed42058e",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T00:55:52Z",
+      "side": 1,
+      "message": "(in-line OK) // This is what DebugBreakProcess() uses.",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_cd3d4911",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T00:55:52Z",
+      "side": 1,
+      "message": "Does the fact that this call is here prevent this code from even loading pre-Vista? I thought that’s why we used GET_FUNCTION(), and why you used GET_FUNCTION_REQUIRED() for GetThreadId().",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_ad21dde9",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T00:55:52Z",
+      "side": 1,
+      "message": "The NtClose() should happen even if WaitForSingleObject() failed, so either use a scoper for the NtClose() or if you’re sick of that, have a bool to track the return value and get rid of the return above.",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_ad8abd0d",
+        "filename": "handler/win/loader_lock_dll.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T00:55:52Z",
+      "side": 1,
+      "message": "Good test.",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_8d850103",
+        "filename": "handler/win/loader_lock_dll.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T00:55:52Z",
+      "side": 1,
+      "message": "Lose the blank line here.",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_cd8f091d",
+        "filename": "snapshot/win/exception_snapshot_win.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T00:55:52Z",
+      "side": 1,
+      "message": "\"thread \" \u003c\u003c thread_id \u003c\u003c \" not found\"\n\nas a nice little extra tidbit for when we get crashpad_handler logs carried in minidumps.",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_4d84f9fe",
+        "filename": "snapshot/win/exception_snapshot_win.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T00:55:52Z",
+      "side": 1,
+      "message": "It looks like these could be static, and static + private \u003d a good candidate to move to the .cc’s unnamed namespace. I see that you’ve got the pointer-to-member thing going on up above, which must be why this is here. But maybe that can just be a simple function pointer?\n\nIf you move this to the .cc, Context32 should be able to go with it.",
+      "revId": "2721c3787ea5a875131a744f46975fa1dbab734c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
