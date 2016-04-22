@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2839d8b4_8da9815a",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T03:37:12Z",
+      "side": 1,
+      "message": "Say something quickly about how this blocks.",
+      "revId": "328b880a276950c2883d4d452daa48ba938a8afc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_adae3d5d",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T03:37:12Z",
+      "side": 1,
+      "message": "and will return `false`.",
+      "revId": "328b880a276950c2883d4d452daa48ba938a8afc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2839d8b4_6d0c555d",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-22T03:37:12Z",
+      "side": 1,
+      "message": "There are two thread handles in this function now. Less confusing would be to give them descriptive names like blame_thread and injected_thread.",
+      "revId": "328b880a276950c2883d4d452daa48ba938a8afc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
