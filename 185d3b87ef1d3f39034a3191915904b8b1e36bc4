@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2839d8b4_d016c290",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-04-23T00:26:59Z",
+      "side": 1,
+      "message": "I don’t know if there’s any real ordering guarantee here. Do we have easy access to the (real, not fabricated) exception thread ID at this point?",
+      "revId": "185d3b87ef1d3f39034a3191915904b8b1e36bc4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
