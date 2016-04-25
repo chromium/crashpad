@@ -18,10 +18,10 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <string>
 
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "minidump/minidump_file_writer.h"
@@ -165,12 +165,12 @@ int GenerateDumpMain(int argc, char* argv[]) {
 
   {
 #if defined(OS_MACOSX)
-    scoped_ptr<ScopedTaskSuspend> suspend;
+    std::unique_ptr<ScopedTaskSuspend> suspend;
     if (options.suspend) {
       suspend.reset(new ScopedTaskSuspend(task));
     }
 #elif defined(OS_WIN)
-    scoped_ptr<ScopedProcessSuspend> suspend;
+    std::unique_ptr<ScopedProcessSuspend> suspend;
     if (options.suspend) {
       suspend.reset(new ScopedProcessSuspend(process.get()));
     }

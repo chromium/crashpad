@@ -17,6 +17,7 @@
 #include <string>
 #include <utility>
 
+#include "base/memory/ptr_util.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
@@ -58,7 +59,7 @@ void GetMemoryInfoListStream(
 TEST(MinidumpMemoryInfoWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
   auto memory_info_list_writer =
-      make_scoped_ptr(new MinidumpMemoryInfoListWriter());
+      base::WrapUnique(new MinidumpMemoryInfoListWriter());
   minidump_file_writer.AddStream(std::move(memory_info_list_writer));
 
   StringFile string_file;
@@ -78,9 +79,9 @@ TEST(MinidumpMemoryInfoWriter, Empty) {
 TEST(MinidumpMemoryInfoWriter, OneRegion) {
   MinidumpFileWriter minidump_file_writer;
   auto memory_info_list_writer =
-      make_scoped_ptr(new MinidumpMemoryInfoListWriter());
+      base::WrapUnique(new MinidumpMemoryInfoListWriter());
 
-  auto memory_map_region = make_scoped_ptr(new TestMemoryMapRegionSnapshot());
+  auto memory_map_region = base::WrapUnique(new TestMemoryMapRegionSnapshot());
 
   MINIDUMP_MEMORY_INFO mmi = {0};
   mmi.BaseAddress = 0x12340000;

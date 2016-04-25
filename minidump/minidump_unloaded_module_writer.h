@@ -19,11 +19,11 @@
 #include <dbghelp.h>
 #include <stdint.h>
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writable.h"
@@ -96,7 +96,7 @@ class MinidumpUnloadedModuleWriter final : public internal::MinidumpWritable {
 
  private:
   MINIDUMP_UNLOADED_MODULE unloaded_module_;
-  scoped_ptr<internal::MinidumpUTF16StringWriter> name_;
+  std::unique_ptr<internal::MinidumpUTF16StringWriter> name_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpUnloadedModuleWriter);
 };
@@ -130,7 +130,7 @@ class MinidumpUnloadedModuleListWriter final
   //!
   //! \note Valid in #kStateMutable.
   void AddUnloadedModule(
-      scoped_ptr<MinidumpUnloadedModuleWriter> unloaded_module);
+      std::unique_ptr<MinidumpUnloadedModuleWriter> unloaded_module);
 
  protected:
   // MinidumpWritable:

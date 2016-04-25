@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <memory>
+
 #include "snapshot/win/memory_snapshot_win.h"
 
-#include "base/memory/scoped_ptr.h"
 
 namespace crashpad {
 namespace internal {
@@ -59,7 +60,7 @@ bool MemorySnapshotWin::Read(Delegate* delegate) const {
     return delegate->MemorySnapshotDelegateRead(nullptr, size_);
   }
 
-  scoped_ptr<uint8_t[]> buffer(new uint8_t[size_]);
+  std::unique_ptr<uint8_t[]> buffer(new uint8_t[size_]);
   if (!process_reader_->ReadMemory(address_, size_, buffer.get())) {
     return false;
   }

@@ -21,6 +21,7 @@
 #include <string>
 #include <utility>
 
+#include "base/memory/ptr_util.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_file_writer.h"
@@ -65,7 +66,8 @@ void GetCrashpadInfoStream(
 
 TEST(MinidumpCrashpadInfoWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
-  auto crashpad_info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
+  auto crashpad_info_writer =
+      base::WrapUnique(new MinidumpCrashpadInfoWriter());
   EXPECT_FALSE(crashpad_info_writer->IsUseful());
 
   minidump_file_writer.AddStream(std::move(crashpad_info_writer));
@@ -89,7 +91,8 @@ TEST(MinidumpCrashpadInfoWriter, Empty) {
 
 TEST(MinidumpCrashpadInfoWriter, ReportAndClientID) {
   MinidumpFileWriter minidump_file_writer;
-  auto crashpad_info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
+  auto crashpad_info_writer =
+      base::WrapUnique(new MinidumpCrashpadInfoWriter());
 
   UUID report_id;
   ASSERT_TRUE(
@@ -124,7 +127,8 @@ TEST(MinidumpCrashpadInfoWriter, ReportAndClientID) {
 
 TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
   MinidumpFileWriter minidump_file_writer;
-  auto crashpad_info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
+  auto crashpad_info_writer =
+      base::WrapUnique(new MinidumpCrashpadInfoWriter());
 
   const char kKey[] =
       "a thing that provides a means of gaining access to or understanding "
@@ -133,9 +137,9 @@ TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
       "the numerical amount denoted by an algebraic term; a magnitude, "
       "quantity, or number";
   auto simple_string_dictionary_writer =
-      make_scoped_ptr(new MinidumpSimpleStringDictionaryWriter());
+      base::WrapUnique(new MinidumpSimpleStringDictionaryWriter());
   auto simple_string_dictionary_entry_writer =
-      make_scoped_ptr(new MinidumpSimpleStringDictionaryEntryWriter());
+      base::WrapUnique(new MinidumpSimpleStringDictionaryEntryWriter());
   simple_string_dictionary_entry_writer->SetKeyValue(kKey, kValue);
   simple_string_dictionary_writer->AddEntry(
       std::move(simple_string_dictionary_entry_writer));
@@ -173,11 +177,12 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
   const uint32_t kMinidumpModuleListIndex = 3;
 
   MinidumpFileWriter minidump_file_writer;
-  auto crashpad_info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
+  auto crashpad_info_writer =
+      base::WrapUnique(new MinidumpCrashpadInfoWriter());
 
   auto module_list_writer =
-      make_scoped_ptr(new MinidumpModuleCrashpadInfoListWriter());
-  auto module_writer = make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
+      base::WrapUnique(new MinidumpModuleCrashpadInfoListWriter());
+  auto module_writer = base::WrapUnique(new MinidumpModuleCrashpadInfoWriter());
   module_list_writer->AddModule(std::move(module_writer),
                                 kMinidumpModuleListIndex);
   crashpad_info_writer->SetModuleList(std::move(module_list_writer));
@@ -231,12 +236,12 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
 
   // Test with a useless module, one that doesn’t carry anything that would
   // require MinidumpCrashpadInfo or any child object.
-  auto process_snapshot = make_scoped_ptr(new TestProcessSnapshot());
+  auto process_snapshot = base::WrapUnique(new TestProcessSnapshot());
 
-  auto module_snapshot = make_scoped_ptr(new TestModuleSnapshot());
+  auto module_snapshot = base::WrapUnique(new TestModuleSnapshot());
   process_snapshot->AddModule(std::move(module_snapshot));
 
-  auto info_writer = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
+  auto info_writer = base::WrapUnique(new MinidumpCrashpadInfoWriter());
   info_writer->InitializeFromSnapshot(process_snapshot.get());
   EXPECT_FALSE(info_writer->IsUseful());
 

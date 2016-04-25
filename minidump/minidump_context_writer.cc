@@ -28,9 +28,9 @@ MinidumpContextWriter::~MinidumpContextWriter() {
 }
 
 // static
-scoped_ptr<MinidumpContextWriter> MinidumpContextWriter::CreateFromSnapshot(
-    const CPUContext* context_snapshot) {
-  scoped_ptr<MinidumpContextWriter> context;
+std::unique_ptr<MinidumpContextWriter>
+MinidumpContextWriter::CreateFromSnapshot(const CPUContext* context_snapshot) {
+  std::unique_ptr<MinidumpContextWriter> context;
 
   switch (context_snapshot->architecture) {
     case kCPUArchitectureX86: {

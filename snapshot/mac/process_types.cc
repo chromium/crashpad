@@ -17,8 +17,9 @@
 #include <string.h>
 #include <uuid/uuid.h>
 
+#include <memory>
+
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "snapshot/mac/process_types/internal.h"
 #include "util/mach/task_memory.h"
 
@@ -210,7 +211,7 @@ inline void Assign<uuid_t, uuid_t>(uuid_t* destination, const uuid_t& source) {
         address, sizeof(struct_name<Traits>[count]), specific);               \
   }                                                                           \
                                                                               \
-  }  /* namespace internal */                                                 \
+  } /* namespace internal */                                                  \
                                                                               \
   /* static */                                                                \
   bool struct_name::ReadArrayInto(ProcessReader* process_reader,              \
@@ -235,7 +236,7 @@ inline void Assign<uuid_t, uuid_t>(uuid_t* destination, const uuid_t& source) {
                                           mach_vm_address_t address,          \
                                           size_t count,                       \
                                           struct_name* generic) {             \
-    scoped_ptr<T[]> specific(new T[count]);                                   \
+    std::unique_ptr<T[]> specific(new T[count]);                              \
     if (!T::ReadArrayInto(process_reader, address, count, &specific[0])) {    \
       return false;                                                           \
     }                                                                         \
@@ -244,8 +245,8 @@ inline void Assign<uuid_t, uuid_t>(uuid_t* destination, const uuid_t& source) {
     }                                                                         \
     return true;                                                              \
   }                                                                           \
-  }  /* namespace process_types */                                            \
-  }  /* namespace crashpad */
+  } /* namespace process_types */                                             \
+  } /* namespace crashpad */
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)
 

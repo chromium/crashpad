@@ -17,7 +17,8 @@
 #include <string.h>
 #include <winternl.h>
 
-#include "base/memory/scoped_ptr.h"
+#include <memory>
+
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "util/win/capture_context.h"
@@ -54,7 +55,7 @@ process_types::SYSTEM_PROCESS_INFORMATION<Traits>* NextProcess(
 template <class Traits>
 process_types::SYSTEM_PROCESS_INFORMATION<Traits>* GetProcessInformation(
     HANDLE process_handle,
-    scoped_ptr<uint8_t[]>* buffer) {
+    std::unique_ptr<uint8_t[]>* buffer) {
   ULONG buffer_size = 16384;
   buffer->reset(new uint8_t[buffer_size]);
   NTSTATUS status;
@@ -329,7 +330,7 @@ template <class Traits>
 void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
   DCHECK(threads_.empty());
 
-  scoped_ptr<uint8_t[]> buffer;
+  std::unique_ptr<uint8_t[]> buffer;
   process_types::SYSTEM_PROCESS_INFORMATION<Traits>* process_information =
       GetProcessInformation<Traits>(process_, &buffer);
   if (!process_information)

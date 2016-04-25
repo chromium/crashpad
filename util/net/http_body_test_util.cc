@@ -16,7 +16,8 @@
 
 #include <stdint.h>
 
-#include "base/memory/scoped_ptr.h"
+#include <memory>
+
 #include "gtest/gtest.h"
 #include "util/file/file_io.h"
 #include "util/net/http_body.h"
@@ -29,7 +30,7 @@ std::string ReadStreamToString(HTTPBodyStream* stream) {
 }
 
 std::string ReadStreamToString(HTTPBodyStream* stream, size_t buffer_size) {
-  scoped_ptr<uint8_t[]> buf(new uint8_t[buffer_size]);
+  std::unique_ptr<uint8_t[]> buf(new uint8_t[buffer_size]);
   std::string result;
 
   FileOperationResult bytes_read;
