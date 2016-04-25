@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_rva_list_writer.h"
-
 #include <utility>
 
 #include "base/format_macros.h"
+#include "base/memory/ptr_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
+#include "minidump/minidump_rva_list_writer.h"
 #include "minidump/test/minidump_rva_list_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "util/file/string_file.h"
@@ -33,7 +33,7 @@ class TestMinidumpRVAListWriter final : public internal::MinidumpRVAListWriter {
   ~TestMinidumpRVAListWriter() override {}
 
   void AddChild(uint32_t value) {
-    auto child = make_scoped_ptr(new TestUInt32MinidumpWritable(value));
+    auto child = base::WrapUnique(new TestUInt32MinidumpWritable(value));
     MinidumpRVAListWriter::AddChild(std::move(child));
   }
 

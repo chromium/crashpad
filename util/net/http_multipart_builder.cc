@@ -149,7 +149,7 @@ void HTTPMultipartBuilder::SetFileAttachment(
   file_attachments_[key] = attachment;
 }
 
-scoped_ptr<HTTPBodyStream> HTTPMultipartBuilder::GetBodyStream() {
+std::unique_ptr<HTTPBodyStream> HTTPMultipartBuilder::GetBodyStream() {
   // The objects inserted into this vector will be owned by the returned
   // CompositeHTTPBodyStream. Take care to not early-return without deleting
   // this memory.
@@ -179,7 +179,7 @@ scoped_ptr<HTTPBodyStream> HTTPMultipartBuilder::GetBodyStream() {
   streams.push_back(
       new StringHTTPBodyStream("--"  + boundary_ + "--" + kCRLF));
 
-  return scoped_ptr<HTTPBodyStream>(new CompositeHTTPBodyStream(streams));
+  return std::unique_ptr<HTTPBodyStream>(new CompositeHTTPBodyStream(streams));
 }
 
 HTTPHeaders::value_type HTTPMultipartBuilder::GetContentType() const {

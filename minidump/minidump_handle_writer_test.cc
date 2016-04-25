@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_handle_writer.h"
-
 #include <string>
 #include <utility>
 
+#include "base/memory/ptr_util.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
+#include "minidump/minidump_handle_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
@@ -57,7 +57,7 @@ void GetHandleDataStream(
 
 TEST(MinidumpHandleDataWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
-  auto handle_data_writer = make_scoped_ptr(new MinidumpHandleDataWriter());
+  auto handle_data_writer = base::WrapUnique(new MinidumpHandleDataWriter());
   minidump_file_writer.AddStream(std::move(handle_data_writer));
 
   StringFile string_file;
@@ -76,7 +76,7 @@ TEST(MinidumpHandleDataWriter, Empty) {
 
 TEST(MinidumpHandleDataWriter, OneHandle) {
   MinidumpFileWriter minidump_file_writer;
-  auto handle_data_writer = make_scoped_ptr(new MinidumpHandleDataWriter());
+  auto handle_data_writer = base::WrapUnique(new MinidumpHandleDataWriter());
 
   HandleSnapshot handle_snapshot;
   handle_snapshot.handle = 0x1234;
@@ -125,7 +125,7 @@ TEST(MinidumpHandleDataWriter, OneHandle) {
 
 TEST(MinidumpHandleDataWriter, RepeatedTypeName) {
   MinidumpFileWriter minidump_file_writer;
-  auto handle_data_writer = make_scoped_ptr(new MinidumpHandleDataWriter());
+  auto handle_data_writer = base::WrapUnique(new MinidumpHandleDataWriter());
 
   HandleSnapshot handle_snapshot;
   handle_snapshot.handle = 0x1234;

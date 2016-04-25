@@ -17,12 +17,12 @@
 #include <AvailabilityMacros.h>
 #include <bsm/libbsm.h>
 
+#include <memory>
 #include <string>
 
 #include "base/auto_reset.h"
 #include "base/logging.h"
 #include "base/mac/scoped_mach_port.h"
-#include "base/memory/scoped_ptr.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/mac/mach_errors.h"
@@ -75,7 +75,7 @@ MachMultiprocess::MachMultiprocess() : Multiprocess(), info_(nullptr) {
 
 void MachMultiprocess::Run() {
   ASSERT_EQ(nullptr, info_);
-  scoped_ptr<internal::MachMultiprocessInfo> info(
+  std::unique_ptr<internal::MachMultiprocessInfo> info(
       new internal::MachMultiprocessInfo);
   base::AutoReset<internal::MachMultiprocessInfo*> reset_info(&info_,
                                                               info.get());

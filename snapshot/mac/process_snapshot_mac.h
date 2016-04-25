@@ -20,11 +20,11 @@
 #include <unistd.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "client/crashpad_info.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/exception_snapshot.h"
@@ -143,7 +143,7 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
   internal::SystemSnapshotMac system_;
   PointerVector<internal::ThreadSnapshotMac> threads_;
   PointerVector<internal::ModuleSnapshotMac> modules_;
-  scoped_ptr<internal::ExceptionSnapshotMac> exception_;
+  std::unique_ptr<internal::ExceptionSnapshotMac> exception_;
   ProcessReader process_reader_;
   UUID report_id_;
   UUID client_id_;

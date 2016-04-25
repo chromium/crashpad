@@ -245,8 +245,8 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
 }  // namespace
 
 // static
-scoped_ptr<HTTPTransport> HTTPTransport::Create() {
-  return scoped_ptr<HTTPTransportWin>(new HTTPTransportWin);
+std::unique_ptr<HTTPTransport> HTTPTransport::Create() {
+  return std::unique_ptr<HTTPTransportWin>(new HTTPTransportWin);
 }
 
 }  // namespace crashpad

@@ -68,7 +68,7 @@ TaskMemory::TaskMemory(task_t task) : task_(task) {
 }
 
 bool TaskMemory::Read(mach_vm_address_t address, size_t size, void* buffer) {
-  scoped_ptr<MappedMemory> memory = ReadMapped(address, size);
+  std::unique_ptr<MappedMemory> memory = ReadMapped(address, size);
   if (!memory) {
     return false;
   }
@@ -77,10 +77,11 @@ bool TaskMemory::Read(mach_vm_address_t address, size_t size, void* buffer) {
   return true;
 }
 
-scoped_ptr<TaskMemory::MappedMemory> TaskMemory::ReadMapped(
-    mach_vm_address_t address, size_t size) {
+std::unique_ptr<TaskMemory::MappedMemory> TaskMemory::ReadMapped(
+    mach_vm_address_t address,
+    size_t size) {
   if (size == 0) {
-    return scoped_ptr<MappedMemory>(new MappedMemory(0, 0, 0, 0));
+    return std::unique_ptr<MappedMemory>(new MappedMemory(0, 0, 0, 0));
   }
 
   mach_vm_address_t region_address = mach_vm_trunc_page(address);
@@ -94,11 +95,11 @@ scoped_ptr<TaskMemory::MappedMemory> TaskMemory::ReadMapped(
   if (kr != KERN_SUCCESS) {
     MACH_LOG(WARNING, kr) << base::StringPrintf(
         "mach_vm_read(0x%llx, 0x%llx)", region_address, region_size);
-    return scoped_ptr<MappedMemory>();
+    return std::unique_ptr<MappedMemory>();
   }
 
   DCHECK_EQ(region_count, region_size);
-  return scoped_ptr<MappedMemory>(
+  return std::unique_ptr<MappedMemory>(
       new MappedMemory(region, region_size, address - region_address, size));
 }
 
@@ -130,7 +131,7 @@ bool TaskMemory::ReadCStringInternal(mach_vm_address_t address,
   do {
     mach_vm_size_t read_length =
         std::min(size, PAGE_SIZE - (read_address % PAGE_SIZE));
-    scoped_ptr<MappedMemory> read_region =
+    std::unique_ptr<MappedMemory> read_region =
         ReadMapped(read_address, read_length);
     if (!read_region) {
       return false;

@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_module_writer.h"
-
 #include <string.h>
 
 #include <utility>
 
 #include "base/format_macros.h"
+#include "base/memory/ptr_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_file_writer.h"
+#include "minidump/minidump_module_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
@@ -64,7 +64,7 @@ void GetModuleListStream(const std::string& file_contents,
 
 TEST(MinidumpModuleWriter, EmptyModuleList) {
   MinidumpFileWriter minidump_file_writer;
-  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
+  auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
 
   minidump_file_writer.AddStream(std::move(module_list_writer));
 
@@ -267,11 +267,11 @@ void ExpectModule(const MINIDUMP_MODULE* expected,
 
 TEST(MinidumpModuleWriter, EmptyModule) {
   MinidumpFileWriter minidump_file_writer;
-  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
+  auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
 
   const char kModuleName[] = "test_executable";
 
-  auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());
+  auto module_writer = base::WrapUnique(new MinidumpModuleWriter());
   module_writer->SetName(kModuleName);
 
   module_list_writer->AddModule(std::move(module_writer));
@@ -306,7 +306,7 @@ TEST(MinidumpModuleWriter, EmptyModule) {
 
 TEST(MinidumpModuleWriter, OneModule) {
   MinidumpFileWriter minidump_file_writer;
-  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
+  auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
 
   const char kModuleName[] = "statically_linked";
   const uint64_t kModuleBase = 0x10da69000;
@@ -335,7 +335,7 @@ TEST(MinidumpModuleWriter, OneModule) {
   const char kDebugName[] = "statical.dbg";
   const bool kDebugUTF16 = false;
 
-  auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());
+  auto module_writer = base::WrapUnique(new MinidumpModuleWriter());
   module_writer->SetName(kModuleName);
   module_writer->SetImageBaseAddress(kModuleBase);
   module_writer->SetImageSize(kModuleSize);
@@ -354,13 +354,13 @@ TEST(MinidumpModuleWriter, OneModule) {
   module_writer->SetFileTypeAndSubtype(kFileType, kFileSubtype);
 
   auto codeview_pdb70_writer =
-      make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB70Writer());
+      base::WrapUnique(new MinidumpModuleCodeViewRecordPDB70Writer());
   codeview_pdb70_writer->SetPDBName(kPDBName);
   codeview_pdb70_writer->SetUUIDAndAge(pdb_uuid, kPDBAge);
   module_writer->SetCodeViewRecord(std::move(codeview_pdb70_writer));
 
   auto misc_debug_writer =
-      make_scoped_ptr(new MinidumpModuleMiscDebugRecordWriter());
+      base::WrapUnique(new MinidumpModuleMiscDebugRecordWriter());
   misc_debug_writer->SetDataType(kDebugType);
   misc_debug_writer->SetData(kDebugName, kDebugUTF16);
   module_writer->SetMiscDebugRecord(std::move(misc_debug_writer));
@@ -415,7 +415,7 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
   // alternatives, a PDB 2.0 link as the CodeView record and an IMAGE_DEBUG_MISC
   // record with UTF-16 data.
   MinidumpFileWriter minidump_file_writer;
-  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
+  auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
 
   const char kModuleName[] = "dinosaur";
   const char kPDBName[] = "d1n05.pdb";
@@ -425,17 +425,17 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
   const char kDebugName[] = "d1n05.dbg";
   const bool kDebugUTF16 = true;
 
-  auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());
+  auto module_writer = base::WrapUnique(new MinidumpModuleWriter());
   module_writer->SetName(kModuleName);
 
   auto codeview_pdb20_writer =
-      make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB20Writer());
+      base::WrapUnique(new MinidumpModuleCodeViewRecordPDB20Writer());
   codeview_pdb20_writer->SetPDBName(kPDBName);
   codeview_pdb20_writer->SetTimestampAndAge(kPDBTimestamp, kPDBAge);
   module_writer->SetCodeViewRecord(std::move(codeview_pdb20_writer));
 
   auto misc_debug_writer =
-      make_scoped_ptr(new MinidumpModuleMiscDebugRecordWriter());
+      base::WrapUnique(new MinidumpModuleMiscDebugRecordWriter());
   misc_debug_writer->SetDataType(kDebugType);
   misc_debug_writer->SetData(kDebugName, kDebugUTF16);
   module_writer->SetMiscDebugRecord(std::move(misc_debug_writer));
@@ -476,7 +476,7 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   // its CodeView record, one with no CodeView record, and one with a PDB 2.0
   // link as its CodeView record.
   MinidumpFileWriter minidump_file_writer;
-  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
+  auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
 
   const char kModuleName0[] = "main";
   const uint64_t kModuleBase0 = 0x100101000;
@@ -500,33 +500,33 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   const time_t kPDBTimestamp2 = 0x386d4380;
   const uint32_t kPDBAge2 = 2;
 
-  auto module_writer_0 = make_scoped_ptr(new MinidumpModuleWriter());
+  auto module_writer_0 = base::WrapUnique(new MinidumpModuleWriter());
   module_writer_0->SetName(kModuleName0);
   module_writer_0->SetImageBaseAddress(kModuleBase0);
   module_writer_0->SetImageSize(kModuleSize0);
 
   auto codeview_pdb70_writer_0 =
-      make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB70Writer());
+      base::WrapUnique(new MinidumpModuleCodeViewRecordPDB70Writer());
   codeview_pdb70_writer_0->SetPDBName(kPDBName0);
   codeview_pdb70_writer_0->SetUUIDAndAge(pdb_uuid_0, kPDBAge0);
   module_writer_0->SetCodeViewRecord(std::move(codeview_pdb70_writer_0));
 
   module_list_writer->AddModule(std::move(module_writer_0));
 
-  auto module_writer_1 = make_scoped_ptr(new MinidumpModuleWriter());
+  auto module_writer_1 = base::WrapUnique(new MinidumpModuleWriter());
   module_writer_1->SetName(kModuleName1);
   module_writer_1->SetImageBaseAddress(kModuleBase1);
   module_writer_1->SetImageSize(kModuleSize1);
 
   module_list_writer->AddModule(std::move(module_writer_1));
 
-  auto module_writer_2 = make_scoped_ptr(new MinidumpModuleWriter());
+  auto module_writer_2 = base::WrapUnique(new MinidumpModuleWriter());
   module_writer_2->SetName(kModuleName2);
   module_writer_2->SetImageBaseAddress(kModuleBase2);
   module_writer_2->SetImageSize(kModuleSize2);
 
   auto codeview_pdb70_writer_2 =
-      make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB20Writer());
+      base::WrapUnique(new MinidumpModuleCodeViewRecordPDB20Writer());
   codeview_pdb70_writer_2->SetPDBName(kPDBName2);
   codeview_pdb70_writer_2->SetTimestampAndAge(kPDBTimestamp2, kPDBAge2);
   module_writer_2->SetCodeViewRecord(std::move(codeview_pdb70_writer_2));
@@ -722,7 +722,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
     module_snapshots.push_back(module_snapshot);
   }
 
-  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
+  auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
   module_list_writer->InitializeFromSnapshot(module_snapshots);
 
   MinidumpFileWriter minidump_file_writer;
@@ -755,8 +755,8 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
 
 TEST(MinidumpModuleWriterDeathTest, NoModuleName) {
   MinidumpFileWriter minidump_file_writer;
-  auto module_list_writer = make_scoped_ptr(new MinidumpModuleListWriter());
-  auto module_writer = make_scoped_ptr(new MinidumpModuleWriter());
+  auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
+  auto module_writer = base::WrapUnique(new MinidumpModuleWriter());
   module_list_writer->AddModule(std::move(module_writer));
   minidump_file_writer.AddStream(std::move(module_list_writer));
 

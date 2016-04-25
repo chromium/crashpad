@@ -67,7 +67,7 @@ TEST(HTTPMultipartBuilder, ThreeStringFields) {
   const char kValue3[] = "More tests";
   builder.SetFormData(kKey3, kValue3);
 
-  scoped_ptr<HTTPBodyStream> body(builder.GetBodyStream());
+  std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
@@ -116,7 +116,7 @@ TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
 
   const char kFileContents[] = "This is a test.\n";
 
-  scoped_ptr<HTTPBodyStream> body(builder.GetBodyStream());
+  std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
@@ -160,7 +160,7 @@ TEST(HTTPMultipartBuilder, OverwriteFormDataWithEscapedKey) {
   const char kKey[] = "a 100% \"silly\"\r\ntest";
   builder.SetFormData(kKey, "some dummy value");
   builder.SetFormData(kKey, "overwrite");
-  scoped_ptr<HTTPBodyStream> body(builder.GetBodyStream());
+  std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
@@ -200,7 +200,7 @@ TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
                             testdata_path.Append(FILE_PATH_LITERAL(
                                 "ascii_http_body.txt")),
                             "text/plain");
-  scoped_ptr<HTTPBodyStream> body(builder.GetBodyStream());
+  std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
@@ -249,7 +249,7 @@ TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
   const char kValue2[] = "this is not a file";
   builder.SetFormData("minidump", kValue2);
 
-  scoped_ptr<HTTPBodyStream> body(builder.GetBodyStream());
+  std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);

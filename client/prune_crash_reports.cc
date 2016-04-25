@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "client/prune_crash_reports.h"
-
 #include <sys/stat.h>
 
 #include <algorithm>
 #include <vector>
 
 #include "base/logging.h"
+#include "base/memory/ptr_util.h"
 #include "build/build_config.h"
+#include "client/prune_crash_reports.h"
 
 namespace crashpad {
 
@@ -66,11 +66,13 @@ void PruneCrashReportDatabase(CrashReportDatabase* database,
 }
 
 // static
-scoped_ptr<PruneCondition> PruneCondition::GetDefault() {
+std::unique_ptr<PruneCondition> PruneCondition::GetDefault() {
   // DatabaseSizePruneCondition must be the LHS so that it is always evaluated,
   // due to the short-circuting behavior of BinaryPruneCondition.
-  return make_scoped_ptr(new BinaryPruneCondition(BinaryPruneCondition::OR,
-      new DatabaseSizePruneCondition(1024 * 128), new AgePruneCondition(365)));
+  return base::WrapUnique(
+      new BinaryPruneCondition(BinaryPruneCondition::OR,
+                               new DatabaseSizePruneCondition(1024 * 128),
+                               new AgePruneCondition(365)));
 }
 
 static const time_t kSecondsInDay = 60 * 60 * 24;

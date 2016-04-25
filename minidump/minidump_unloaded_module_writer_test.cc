@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_unloaded_module_writer.h"
-
+#include "base/memory/ptr_util.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
+#include "minidump/minidump_unloaded_module_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_string_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
@@ -71,12 +71,12 @@ void GetUnloadedModuleListStream(
 TEST(MinidumpUnloadedModuleWriter, EmptyModule) {
   MinidumpFileWriter minidump_file_writer;
   auto unloaded_module_list_writer =
-      make_scoped_ptr(new MinidumpUnloadedModuleListWriter());
+      base::WrapUnique(new MinidumpUnloadedModuleListWriter());
 
   const char kModuleName[] = "test_dll";
 
   auto unloaded_module_writer =
-      make_scoped_ptr(new MinidumpUnloadedModuleWriter());
+      base::WrapUnique(new MinidumpUnloadedModuleWriter());
   unloaded_module_writer->SetName(kModuleName);
 
   unloaded_module_list_writer->AddUnloadedModule(
@@ -109,7 +109,7 @@ TEST(MinidumpUnloadedModuleWriter, EmptyModule) {
 TEST(MinidumpUnloadedModuleWriter, OneModule) {
   MinidumpFileWriter minidump_file_writer;
   auto unloaded_module_list_writer =
-      make_scoped_ptr(new MinidumpUnloadedModuleListWriter());
+      base::WrapUnique(new MinidumpUnloadedModuleListWriter());
 
   const char kModuleName[] = "statically_linked";
   const uint64_t kModuleBase = 0x10da69000;
@@ -118,7 +118,7 @@ TEST(MinidumpUnloadedModuleWriter, OneModule) {
   const time_t kTimestamp = 0x386d4380;
 
   auto unloaded_module_writer =
-      make_scoped_ptr(new MinidumpUnloadedModuleWriter());
+      base::WrapUnique(new MinidumpUnloadedModuleWriter());
   unloaded_module_writer->SetName(kModuleName);
   unloaded_module_writer->SetImageBaseAddress(kModuleBase);
   unloaded_module_writer->SetImageSize(kModuleSize);

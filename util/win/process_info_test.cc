@@ -18,8 +18,9 @@
 #include <intrin.h>
 #include <wchar.h>
 
+#include <memory>
+
 #include "base/files/file_path.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -495,7 +496,7 @@ TEST(ProcessInfo, ReadableRanges) {
 
   // Also make sure what we think we can read corresponds with what we can
   // actually read.
-  scoped_ptr<unsigned char[]> into(new unsigned char[kBlockSize * 6]);
+  std::unique_ptr<unsigned char[]> into(new unsigned char[kBlockSize * 6]);
   SIZE_T bytes_read;
 
   EXPECT_TRUE(ReadProcessMemory(
@@ -631,7 +632,7 @@ TEST(ProcessInfo, Handles) {
 
 TEST(ProcessInfo, OutOfRangeCheck) {
   const size_t kAllocationSize = 12345;
-  scoped_ptr<char[]> safe_memory(new char[kAllocationSize]);
+  std::unique_ptr<char[]> safe_memory(new char[kAllocationSize]);
 
   ProcessInfo info;
   info.Initialize(GetCurrentProcess());

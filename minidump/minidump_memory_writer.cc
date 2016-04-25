@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_memory_writer.h"
-
 #include <utility>
 
 #include "base/auto_reset.h"
 #include "base/logging.h"
+#include "base/memory/ptr_util.h"
+#include "minidump/minidump_memory_writer.h"
 #include "snapshot/memory_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
@@ -81,9 +81,9 @@ class SnapshotMinidumpMemoryWriter final : public MinidumpMemoryWriter,
 MinidumpMemoryWriter::~MinidumpMemoryWriter() {
 }
 
-scoped_ptr<MinidumpMemoryWriter> MinidumpMemoryWriter::CreateFromSnapshot(
+std::unique_ptr<MinidumpMemoryWriter> MinidumpMemoryWriter::CreateFromSnapshot(
     const MemorySnapshot* memory_snapshot) {
-  return make_scoped_ptr(new SnapshotMinidumpMemoryWriter(memory_snapshot));
+  return base::WrapUnique(new SnapshotMinidumpMemoryWriter(memory_snapshot));
 }
 
 const MINIDUMP_MEMORY_DESCRIPTOR*
@@ -177,14 +177,14 @@ void MinidumpMemoryListWriter::AddFromSnapshot(
   DCHECK_EQ(state(), kStateMutable);
 
   for (const MemorySnapshot* memory_snapshot : memory_snapshots) {
-    scoped_ptr<MinidumpMemoryWriter> memory =
+    std::unique_ptr<MinidumpMemoryWriter> memory =
         MinidumpMemoryWriter::CreateFromSnapshot(memory_snapshot);
     AddMemory(std::move(memory));
   }
 }
 
 void MinidumpMemoryListWriter::AddMemory(
-    scoped_ptr<MinidumpMemoryWriter> memory_writer) {
+    std::unique_ptr<MinidumpMemoryWriter> memory_writer) {
   DCHECK_EQ(state(), kStateMutable);
 
   AddExtraMemory(memory_writer.get());

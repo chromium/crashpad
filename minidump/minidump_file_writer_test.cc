@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_file_writer.h"
-
 #include <stdint.h>
 #include <string.h>
 
@@ -22,7 +20,9 @@
 
 #include "base/compiler_specific.h"
 #include "base/macros.h"
+#include "base/memory/ptr_util.h"
 #include "gtest/gtest.h"
+#include "minidump/minidump_file_writer.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
@@ -96,7 +96,7 @@ TEST(MinidumpFileWriter, OneStream) {
   const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
   const uint8_t kStreamValue = 0x5a;
   auto stream =
-      make_scoped_ptr(new TestStream(kStreamType, kStreamSize, kStreamValue));
+      base::WrapUnique(new TestStream(kStreamType, kStreamSize, kStreamValue));
   minidump_file.AddStream(std::move(stream));
 
   StringFile string_file;
@@ -134,7 +134,7 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   const size_t kStream0Size = 5;
   const MinidumpStreamType kStream0Type = static_cast<MinidumpStreamType>(0x6d);
   const uint8_t kStream0Value = 0x5a;
-  auto stream0 = make_scoped_ptr(
+  auto stream0 = base::WrapUnique(
       new TestStream(kStream0Type, kStream0Size, kStream0Value));
   minidump_file.AddStream(std::move(stream0));
 
@@ -144,14 +144,14 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   const size_t kStream1Size = 3;
   const MinidumpStreamType kStream1Type = static_cast<MinidumpStreamType>(0x4d);
   const uint8_t kStream1Value = 0xa5;
-  auto stream1 = make_scoped_ptr(
+  auto stream1 = base::WrapUnique(
       new TestStream(kStream1Type, kStream1Size, kStream1Value));
   minidump_file.AddStream(std::move(stream1));
 
   const size_t kStream2Size = 1;
   const MinidumpStreamType kStream2Type = static_cast<MinidumpStreamType>(0x7e);
   const uint8_t kStream2Value = 0x36;
-  auto stream2 = make_scoped_ptr(
+  auto stream2 = base::WrapUnique(
       new TestStream(kStream2Type, kStream2Size, kStream2Value));
   minidump_file.AddStream(std::move(stream2));
 
@@ -219,7 +219,7 @@ TEST(MinidumpFileWriter, ZeroLengthStream) {
 
   const size_t kStreamSize = 0;
   const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
-  auto stream = make_scoped_ptr(new TestStream(kStreamType, kStreamSize, 0));
+  auto stream = base::WrapUnique(new TestStream(kStreamType, kStreamSize, 0));
   minidump_file.AddStream(std::move(stream));
 
   StringFile string_file;
@@ -249,12 +249,12 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);
 
-  auto system_snapshot = make_scoped_ptr(new TestSystemSnapshot());
+  auto system_snapshot = base::WrapUnique(new TestSystemSnapshot());
   system_snapshot->SetCPUArchitecture(kCPUArchitectureX86_64);
   system_snapshot->SetOperatingSystem(SystemSnapshot::kOperatingSystemMacOSX);
   process_snapshot.SetSystem(std::move(system_snapshot));
 
-  auto peb_snapshot = make_scoped_ptr(new TestMemorySnapshot());
+  auto peb_snapshot = base::WrapUnique(new TestMemorySnapshot());
   const uint64_t kPebAddress = 0x07f90000;
   peb_snapshot->SetAddress(kPebAddress);
   const size_t kPebSize = 0x280;
@@ -313,16 +313,16 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);
 
-  auto system_snapshot = make_scoped_ptr(new TestSystemSnapshot());
+  auto system_snapshot = base::WrapUnique(new TestSystemSnapshot());
   system_snapshot->SetCPUArchitecture(kCPUArchitectureX86_64);
   system_snapshot->SetOperatingSystem(SystemSnapshot::kOperatingSystemMacOSX);
   process_snapshot.SetSystem(std::move(system_snapshot));
 
-  auto thread_snapshot = make_scoped_ptr(new TestThreadSnapshot());
+  auto thread_snapshot = base::WrapUnique(new TestThreadSnapshot());
   InitializeCPUContextX86_64(thread_snapshot->MutableContext(), 5);
   process_snapshot.AddThread(std::move(thread_snapshot));
 
-  auto exception_snapshot = make_scoped_ptr(new TestExceptionSnapshot());
+  auto exception_snapshot = base::WrapUnique(new TestExceptionSnapshot());
   InitializeCPUContextX86_64(exception_snapshot->MutableContext(), 11);
   process_snapshot.SetException(std::move(exception_snapshot));
 
@@ -330,7 +330,7 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
   // MinidumpModuleCrashpadInfo structure, so no such structure is expected to
   // be present, which will in turn suppress the addition of a
   // MinidumpCrashpadInfo stream.
-  auto module_snapshot = make_scoped_ptr(new TestModuleSnapshot());
+  auto module_snapshot = base::WrapUnique(new TestModuleSnapshot());
   process_snapshot.AddModule(std::move(module_snapshot));
 
   MinidumpFileWriter minidump_file_writer;
@@ -377,22 +377,22 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_CrashpadInfo) {
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);
 
-  auto system_snapshot = make_scoped_ptr(new TestSystemSnapshot());
+  auto system_snapshot = base::WrapUnique(new TestSystemSnapshot());
   system_snapshot->SetCPUArchitecture(kCPUArchitectureX86_64);
   system_snapshot->SetOperatingSystem(SystemSnapshot::kOperatingSystemMacOSX);
   process_snapshot.SetSystem(std::move(system_snapshot));
 
-  auto thread_snapshot = make_scoped_ptr(new TestThreadSnapshot());
+  auto thread_snapshot = base::WrapUnique(new TestThreadSnapshot());
   InitializeCPUContextX86_64(thread_snapshot->MutableContext(), 5);
   process_snapshot.AddThread(std::move(thread_snapshot));
 
-  auto exception_snapshot = make_scoped_ptr(new TestExceptionSnapshot());
+  auto exception_snapshot = base::WrapUnique(new TestExceptionSnapshot());
   InitializeCPUContextX86_64(exception_snapshot->MutableContext(), 11);
   process_snapshot.SetException(std::move(exception_snapshot));
 
   // The module needs an annotation for the MinidumpCrashpadInfo stream to be
   // considered useful and be included.
-  auto module_snapshot = make_scoped_ptr(new TestModuleSnapshot());
+  auto module_snapshot = base::WrapUnique(new TestModuleSnapshot());
   std::vector<std::string> annotations_list(1, std::string("annotation"));
   module_snapshot->SetAnnotationsVector(annotations_list);
   process_snapshot.AddModule(std::move(module_snapshot));
@@ -444,7 +444,7 @@ TEST(MinidumpFileWriterDeathTest, SameStreamType) {
   const size_t kStream0Size = 5;
   const MinidumpStreamType kStream0Type = static_cast<MinidumpStreamType>(0x4d);
   const uint8_t kStream0Value = 0x5a;
-  auto stream0 = make_scoped_ptr(
+  auto stream0 = base::WrapUnique(
       new TestStream(kStream0Type, kStream0Size, kStream0Value));
   minidump_file.AddStream(std::move(stream0));
 
@@ -452,7 +452,7 @@ TEST(MinidumpFileWriterDeathTest, SameStreamType) {
   const size_t kStream1Size = 3;
   const MinidumpStreamType kStream1Type = static_cast<MinidumpStreamType>(0x4d);
   const uint8_t kStream1Value = 0xa5;
-  auto stream1 = make_scoped_ptr(
+  auto stream1 = base::WrapUnique(
       new TestStream(kStream1Type, kStream1Size, kStream1Value));
   ASSERT_DEATH_CHECK(minidump_file.AddStream(std::move(stream1)),
                      "already present");

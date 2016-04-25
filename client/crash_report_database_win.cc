@@ -191,8 +191,8 @@ class Metadata {
   //!     handle.
   ~Metadata();
 
-  static scoped_ptr<Metadata> Create(const base::FilePath& metadata_file,
-                                     const base::FilePath& report_dir);
+  static std::unique_ptr<Metadata> Create(const base::FilePath& metadata_file,
+                                          const base::FilePath& report_dir);
 
   //! \brief Adds a new report to the set.
   //!
@@ -282,8 +282,8 @@ Metadata::~Metadata() {
 }
 
 // static
-scoped_ptr<Metadata> Metadata::Create(const base::FilePath& metadata_file,
-                                      const base::FilePath& report_dir) {
+std::unique_ptr<Metadata> Metadata::Create(const base::FilePath& metadata_file,
+                                           const base::FilePath& report_dir) {
   // It is important that dwShareMode be non-zero so that concurrent access to
   // this file results in a successful open. This allows us to get to LockFileEx
   // which then blocks to guard access.
@@ -295,7 +295,7 @@ scoped_ptr<Metadata> Metadata::Create(const base::FilePath& metadata_file,
                                  FILE_ATTRIBUTE_NORMAL,
                                  nullptr);
   if (handle == kInvalidFileHandle)
-    return scoped_ptr<Metadata>();
+    return std::unique_ptr<Metadata>();
   // Not actually async, LockFileEx requires the Offset fields.
   OVERLAPPED overlapped = {0};
   if (!LockFileEx(handle,
@@ -305,10 +305,10 @@ scoped_ptr<Metadata> Metadata::Create(const base::FilePath& metadata_file,
                   MAXDWORD,
                   &overlapped)) {
     PLOG(ERROR) << "LockFileEx";
-    return scoped_ptr<Metadata>();
+    return std::unique_ptr<Metadata>();
   }
 
-  scoped_ptr<Metadata> metadata(new Metadata(handle, report_dir));
+  std::unique_ptr<Metadata> metadata(new Metadata(handle, report_dir));
   // If Read() fails, for whatever reason (corruption, etc.) metadata will not
   // have been modified and will be in a clean empty state. We continue on and
   // return an empty database to hopefully recover. This means that existing
@@ -579,7 +579,7 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   OperationStatus DeleteReport(const UUID& uuid) override;
 
  private:
-  scoped_ptr<Metadata> AcquireMetadata();
+  std::unique_ptr<Metadata> AcquireMetadata();
 
   base::FilePath base_dir_;
   Settings settings_;
@@ -629,7 +629,7 @@ OperationStatus CrashReportDatabaseWin::PrepareNewCrashReport(
     NewReport** report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  scoped_ptr<NewReport> new_report(new NewReport());
+  std::unique_ptr<NewReport> new_report(new NewReport());
   if (!new_report->uuid.InitializeWithNew())
     return kFileSystemError;
   new_report->path = base_dir_.Append(kReportsDirectory)
@@ -651,11 +651,11 @@ OperationStatus CrashReportDatabaseWin::FinishedWritingCrashReport(
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   // Take ownership of the report.
-  scoped_ptr<NewReport> scoped_report(report);
+  std::unique_ptr<NewReport> scoped_report(report);
   // Take ownership of the file handle.
   ScopedFileHandle handle(report->handle);
 
-  scoped_ptr<Metadata> metadata(AcquireMetadata());
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;
   metadata->AddNewRecord(ReportDisk(scoped_report->uuid,
@@ -671,7 +671,7 @@ OperationStatus CrashReportDatabaseWin::ErrorWritingCrashReport(
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   // Take ownership of the report.
-  scoped_ptr<NewReport> scoped_report(report);
+  std::unique_ptr<NewReport> scoped_report(report);
 
   // Close the outstanding handle.
   LoggingCloseFile(report->handle);
@@ -691,7 +691,7 @@ OperationStatus CrashReportDatabaseWin::LookUpCrashReport(const UUID& uuid,
                                                           Report* report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  scoped_ptr<Metadata> metadata(AcquireMetadata());
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;
   // Find and return a copy of the matching report.
@@ -706,7 +706,7 @@ OperationStatus CrashReportDatabaseWin::GetPendingReports(
     std::vector<Report>* reports) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  scoped_ptr<Metadata> metadata(AcquireMetadata());
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
   return metadata ? metadata->FindReports(ReportState::kPending, reports)
                   : kDatabaseError;
 }
@@ -715,7 +715,7 @@ OperationStatus CrashReportDatabaseWin::GetCompletedReports(
     std::vector<Report>* reports) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  scoped_ptr<Metadata> metadata(AcquireMetadata());
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
   return metadata ? metadata->FindReports(ReportState::kCompleted, reports)
                   : kDatabaseError;
 }
@@ -725,7 +725,7 @@ OperationStatus CrashReportDatabaseWin::GetReportForUploading(
     const Report** report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  scoped_ptr<Metadata> metadata(AcquireMetadata());
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;
   // TODO(scottmg): After returning this report to the client, there is no way
@@ -757,8 +757,8 @@ OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   // Take ownership, allocated in GetReportForUploading.
-  scoped_ptr<const Report> upload_report(report);
-  scoped_ptr<Metadata> metadata(AcquireMetadata());
+  std::unique_ptr<const Report> upload_report(report);
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;
   ReportDisk* report_disk;
@@ -785,7 +785,7 @@ OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
 OperationStatus CrashReportDatabaseWin::DeleteReport(const UUID& uuid) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  scoped_ptr<Metadata> metadata(AcquireMetadata());
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;
 
@@ -805,7 +805,7 @@ OperationStatus CrashReportDatabaseWin::DeleteReport(const UUID& uuid) {
 OperationStatus CrashReportDatabaseWin::SkipReportUpload(const UUID& uuid) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  scoped_ptr<Metadata> metadata(AcquireMetadata());
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
     return kDatabaseError;
   ReportDisk* report_disk;
@@ -816,31 +816,32 @@ OperationStatus CrashReportDatabaseWin::SkipReportUpload(const UUID& uuid) {
   return os;
 }
 
-scoped_ptr<Metadata> CrashReportDatabaseWin::AcquireMetadata() {
+std::unique_ptr<Metadata> CrashReportDatabaseWin::AcquireMetadata() {
   base::FilePath metadata_file = base_dir_.Append(kMetadataFileName);
   return Metadata::Create(metadata_file, base_dir_.Append(kReportsDirectory));
 }
 
-scoped_ptr<CrashReportDatabase> InitializeInternal(
-    const base::FilePath& path, bool may_create) {
-  scoped_ptr<CrashReportDatabaseWin> database_win(
+std::unique_ptr<CrashReportDatabase> InitializeInternal(
+    const base::FilePath& path,
+    bool may_create) {
+  std::unique_ptr<CrashReportDatabaseWin> database_win(
       new CrashReportDatabaseWin(path));
   return database_win->Initialize(may_create)
              ? std::move(database_win)
-             : scoped_ptr<CrashReportDatabaseWin>();
+             : std::unique_ptr<CrashReportDatabaseWin>();
 }
 
 }  // namespace
 
 // static
-scoped_ptr<CrashReportDatabase> CrashReportDatabase::Initialize(
+std::unique_ptr<CrashReportDatabase> CrashReportDatabase::Initialize(
     const base::FilePath& path) {
   return InitializeInternal(path, true);
 }
 
 // static
-scoped_ptr<CrashReportDatabase> CrashReportDatabase::InitializeWithoutCreating(
-    const base::FilePath& path) {
+std::unique_ptr<CrashReportDatabase>
+CrashReportDatabase::InitializeWithoutCreating(const base::FilePath& path) {
   return InitializeInternal(path, false);
 }
 
