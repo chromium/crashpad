@@ -18,9 +18,10 @@
 #include <stdint.h>
 #include <string.h>
 
+#include <memory>
+
 #include "base/atomicops.h"
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/scoped_generic.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
@@ -255,7 +256,7 @@ bool CrashpadClient::StartHandler(
   startup_info.StartupInfo.hStdError = GetStdHandle(STD_ERROR_HANDLE);
 
   std::vector<HANDLE> handle_list;
-  scoped_ptr<uint8_t[]> proc_thread_attribute_list_storage;
+  std::unique_ptr<uint8_t[]> proc_thread_attribute_list_storage;
   ScopedProcThreadAttributeList proc_thread_attribute_list_owner;
 
   static const auto initialize_proc_thread_attribute_list =

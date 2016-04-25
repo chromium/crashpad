@@ -14,11 +14,12 @@
 
 #include "snapshot/minidump/process_snapshot_minidump.h"
 
+#include <memory>
 #include <utility>
 
-#include "base/memory/scoped_ptr.h"
-#include "util/file/file_io.h"
+#include "base/memory/ptr_util.h"
 #include "snapshot/minidump/minidump_simple_string_dictionary_reader.h"
+#include "util/file/file_io.h"
 
 namespace crashpad {
 
@@ -277,7 +278,7 @@ bool ProcessSnapshotMinidump::InitializeModules() {
             ? &module_crashpad_info_it->second
             : nullptr;
 
-    auto module = make_scoped_ptr(new internal::ModuleSnapshotMinidump());
+    auto module = base::WrapUnique(new internal::ModuleSnapshotMinidump());
     if (!module->Initialize(
             file_reader_, module_rva, module_crashpad_info_location)) {
       return false;
@@ -325,7 +326,7 @@ bool ProcessSnapshotMinidump::InitializeModulesCrashpadInfo(
     return false;
   }
 
-  scoped_ptr<MinidumpModuleCrashpadInfoLink[]> minidump_links(
+  std::unique_ptr<MinidumpModuleCrashpadInfoLink[]> minidump_links(
       new MinidumpModuleCrashpadInfoLink[crashpad_module_count]);
   if (!file_reader_->ReadExactly(
           &minidump_links[0],

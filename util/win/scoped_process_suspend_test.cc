@@ -90,7 +90,7 @@ class ScopedProcessSuspendTest final : public WinChildProcess {
 
 TEST(ScopedProcessSuspend, ScopedProcessSuspend) {
   WinChildProcess::EntryPoint<ScopedProcessSuspendTest>();
-  scoped_ptr<WinChildProcess::Handles> handles = WinChildProcess::Launch();
+  std::unique_ptr<WinChildProcess::Handles> handles = WinChildProcess::Launch();
 
   EXPECT_TRUE(SuspendCountMatches(handles->process.get(), 0));
 

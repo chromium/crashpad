@@ -18,10 +18,10 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_writable.h"
 #include "util/stdlib/pointer_container.h"
@@ -47,7 +47,7 @@ class MinidumpRVAListWriter : public MinidumpWritable {
   //! MinidumpWritable subclass, and call this method with that argument.
   //!
   //! \note Valid in #kStateMutable.
-  void AddChild(scoped_ptr<MinidumpWritable> child);
+  void AddChild(std::unique_ptr<MinidumpWritable> child);
 
   //! \brief Returns `true` if no child objects have been added by AddChild(),
   //!     and `false` if child objects are present.
@@ -66,7 +66,7 @@ class MinidumpRVAListWriter : public MinidumpWritable {
   bool WriteObject(FileWriterInterface* file_writer) override;
 
  private:
-  scoped_ptr<MinidumpRVAList> rva_list_base_;
+  std::unique_ptr<MinidumpRVAList> rva_list_base_;
   PointerVector<MinidumpWritable> children_;
   std::vector<RVA> child_rvas_;
 

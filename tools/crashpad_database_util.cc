@@ -21,6 +21,7 @@
 #include <sys/types.h>
 #include <time.h>
 
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -28,7 +29,6 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -424,7 +424,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  scoped_ptr<CrashReportDatabase> database;
+  std::unique_ptr<CrashReportDatabase> database;
   base::FilePath database_path = base::FilePath(
       ToolSupport::CommandLineArgumentToFilePathStringType(options.database));
   if (options.create) {
@@ -541,14 +541,14 @@ int DatabaseUtilMain(int argc, char* argv[]) {
   }
 
   for (const base::FilePath new_report_path : options.new_report_paths) {
-    scoped_ptr<FileReaderInterface> file_reader;
+    std::unique_ptr<FileReaderInterface> file_reader;
 
     bool is_stdin = false;
     if (new_report_path.value() == FILE_PATH_LITERAL("-")) {
       is_stdin = true;
       file_reader.reset(new WeakStdioFileReader(stdin));
     } else {
-      scoped_ptr<FileReader> file_path_reader(new FileReader());
+      std::unique_ptr<FileReader> file_path_reader(new FileReader());
       if (!file_path_reader->Open(new_report_path)) {
         return EXIT_FAILURE;
       }

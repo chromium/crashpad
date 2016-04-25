@@ -18,10 +18,10 @@
 
 #include <algorithm>
 #include <limits>
+#include <memory>
 #include <type_traits>
 
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "util/numeric/safe_assignment.h"
@@ -131,13 +131,13 @@ MEMORY_BASIC_INFORMATION64 MemoryBasicInformationToMemoryBasicInformation64(
 
 // NtQueryObject with a retry for size mismatch as well as a minimum size to
 // retrieve (and expect).
-scoped_ptr<uint8_t[]> QueryObject(
+std::unique_ptr<uint8_t[]> QueryObject(
     HANDLE handle,
     OBJECT_INFORMATION_CLASS object_information_class,
     ULONG minimum_size) {
   ULONG size = minimum_size;
   ULONG return_length;
-  scoped_ptr<uint8_t[]> buffer(new uint8_t[size]);
+  std::unique_ptr<uint8_t[]> buffer(new uint8_t[size]);
   NTSTATUS status = crashpad::NtQueryObject(
       handle, object_information_class, buffer.get(), size, &return_length);
   if (status == STATUS_INFO_LENGTH_MISMATCH) {
@@ -347,7 +347,7 @@ bool ReadMemoryInfo(HANDLE process, bool is_64_bit, ProcessInfo* process_info) {
 std::vector<ProcessInfo::Handle> ProcessInfo::BuildHandleVector(
     HANDLE process) const {
   ULONG buffer_size = 2 * 1024 * 1024;
-  scoped_ptr<uint8_t[]> buffer(new uint8_t[buffer_size]);
+  std::unique_ptr<uint8_t[]> buffer(new uint8_t[buffer_size]);
 
   // Typically if the buffer were too small, STATUS_INFO_LENGTH_MISMATCH would
   // return the correct size in the final argument, but it does not for
@@ -409,7 +409,7 @@ std::vector<ProcessInfo::Handle> ProcessInfo::BuildHandleVector(
       // information, but include the information that we do have already.
       ScopedKernelHANDLE scoped_dup_handle(dup_handle);
 
-      scoped_ptr<uint8_t[]> object_basic_information_buffer =
+      std::unique_ptr<uint8_t[]> object_basic_information_buffer =
           QueryObject(dup_handle,
                       ObjectBasicInformation,
                       sizeof(PUBLIC_OBJECT_BASIC_INFORMATION));
@@ -435,7 +435,7 @@ std::vector<ProcessInfo::Handle> ProcessInfo::BuildHandleVector(
         result_handle.handle_count = object_basic_information->HandleCount - 1;
       }
 
-      scoped_ptr<uint8_t[]> object_type_information_buffer =
+      std::unique_ptr<uint8_t[]> object_type_information_buffer =
           QueryObject(dup_handle,
                       ObjectTypeInformation,
                       sizeof(PUBLIC_OBJECT_TYPE_INFORMATION));

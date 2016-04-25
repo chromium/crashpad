@@ -14,7 +14,8 @@
 
 #include "snapshot/mac/memory_snapshot_mac.h"
 
-#include "base/memory/scoped_ptr.h"
+#include <memory>
+
 #include "util/mach/task_memory.h"
 
 namespace crashpad {
@@ -58,7 +59,7 @@ bool MemorySnapshotMac::Read(Delegate* delegate) const {
     return delegate->MemorySnapshotDelegateRead(nullptr, size_);
   }
 
-  scoped_ptr<uint8_t[]> buffer(new uint8_t[size_]);
+  std::unique_ptr<uint8_t[]> buffer(new uint8_t[size_]);
   if (!process_reader_->Memory()->Read(address_, size_, buffer.get())) {
     return false;
   }

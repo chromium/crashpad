@@ -20,10 +20,10 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_writable.h"
@@ -89,7 +89,7 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
   //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void SetStack(scoped_ptr<MinidumpMemoryWriter> stack);
+  void SetStack(std::unique_ptr<MinidumpMemoryWriter> stack);
 
   //! \brief Arranges for MINIDUMP_THREAD::ThreadContext to point to the CPU
   //!     context to be written by \a context.
@@ -100,7 +100,7 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
   //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void SetContext(scoped_ptr<MinidumpContextWriter> context);
+  void SetContext(std::unique_ptr<MinidumpContextWriter> context);
 
   //! \brief Sets MINIDUMP_THREAD::ThreadId.
   void SetThreadID(uint32_t thread_id) { thread_.ThreadId = thread_id; }
@@ -130,8 +130,8 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
 
  private:
   MINIDUMP_THREAD thread_;
-  scoped_ptr<MinidumpMemoryWriter> stack_;
-  scoped_ptr<MinidumpContextWriter> context_;
+  std::unique_ptr<MinidumpMemoryWriter> stack_;
+  std::unique_ptr<MinidumpContextWriter> context_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpThreadWriter);
 };
@@ -190,7 +190,7 @@ class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
   //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void AddThread(scoped_ptr<MinidumpThreadWriter> thread);
+  void AddThread(std::unique_ptr<MinidumpThreadWriter> thread);
 
  protected:
   // MinidumpWritable:

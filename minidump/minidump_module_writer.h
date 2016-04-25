@@ -21,11 +21,11 @@
 #include <sys/types.h>
 #include <time.h>
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/strings/string16.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
@@ -218,7 +218,7 @@ class MinidumpModuleWriter final : public internal::MinidumpWritable {
   //!
   //! \note Valid in #kStateMutable.
   void SetCodeViewRecord(
-      scoped_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record);
+      std::unique_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record);
 
   //! \brief Arranges for MINIDUMP_MODULE::MiscRecord to point to an
   //!     IMAGE_DEBUG_MISC object to be written by \a misc_debug_record.
@@ -228,7 +228,7 @@ class MinidumpModuleWriter final : public internal::MinidumpWritable {
   //!
   //! \note Valid in #kStateMutable.
   void SetMiscDebugRecord(
-      scoped_ptr<MinidumpModuleMiscDebugRecordWriter> misc_debug_record);
+      std::unique_ptr<MinidumpModuleMiscDebugRecordWriter> misc_debug_record);
 
   //! \brief Sets IMAGE_DEBUG_MISC::BaseOfImage.
   void SetImageBaseAddress(uint64_t image_base_address) {
@@ -298,9 +298,9 @@ class MinidumpModuleWriter final : public internal::MinidumpWritable {
 
  private:
   MINIDUMP_MODULE module_;
-  scoped_ptr<internal::MinidumpUTF16StringWriter> name_;
-  scoped_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record_;
-  scoped_ptr<MinidumpModuleMiscDebugRecordWriter> misc_debug_record_;
+  std::unique_ptr<internal::MinidumpUTF16StringWriter> name_;
+  std::unique_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record_;
+  std::unique_ptr<MinidumpModuleMiscDebugRecordWriter> misc_debug_record_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleWriter);
 };
@@ -329,7 +329,7 @@ class MinidumpModuleListWriter final : public internal::MinidumpStreamWriter {
   //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void AddModule(scoped_ptr<MinidumpModuleWriter> module);
+  void AddModule(std::unique_ptr<MinidumpModuleWriter> module);
 
  protected:
   // MinidumpWritable:

@@ -31,7 +31,7 @@ MinidumpRVAListWriter::MinidumpRVAListWriter()
 MinidumpRVAListWriter::~MinidumpRVAListWriter() {
 }
 
-void MinidumpRVAListWriter::AddChild(scoped_ptr<MinidumpWritable> child) {
+void MinidumpRVAListWriter::AddChild(std::unique_ptr<MinidumpWritable> child) {
   DCHECK_EQ(state(), kStateMutable);
 
   children_.push_back(child.release());

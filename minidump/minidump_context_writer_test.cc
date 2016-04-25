@@ -116,7 +116,7 @@ TEST(MinidumpContextWriter, CreateFromSnapshot_X86) {
   context_snapshot.x86 = &context_snapshot_x86;
   InitializeCPUContextX86(&context_snapshot, kSeed);
 
-  scoped_ptr<MinidumpContextWriter> context_writer =
+  std::unique_ptr<MinidumpContextWriter> context_writer =
       MinidumpContextWriter::CreateFromSnapshot(&context_snapshot);
   ASSERT_TRUE(context_writer);
 
@@ -138,7 +138,7 @@ TEST(MinidumpContextWriter, CreateFromSnapshot_AMD64) {
   context_snapshot.x86_64 = &context_snapshot_x86_64;
   InitializeCPUContextX86_64(&context_snapshot, kSeed);
 
-  scoped_ptr<MinidumpContextWriter> context_writer =
+  std::unique_ptr<MinidumpContextWriter> context_writer =
       MinidumpContextWriter::CreateFromSnapshot(&context_snapshot);
   ASSERT_TRUE(context_writer);
 

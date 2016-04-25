@@ -21,6 +21,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include <memory>
 #include <utility>
 
 #include "base/logging.h"
@@ -146,7 +147,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
     DCHECK_EQ(right_type,
               implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND));
 
-    scoped_ptr<HandlerStarter> handler_restarter;
+    std::unique_ptr<HandlerStarter> handler_restarter;
     if (restartable) {
       handler_restarter.reset(new HandlerStarter());
       if (!handler_restarter->notify_port_.is_valid()) {

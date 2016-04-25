@@ -15,10 +15,10 @@
 #ifndef CRASHPAD_HANDLER_CRASH_REPORT_UPLOAD_THREAD_H_
 #define CRASHPAD_HANDLER_CRASH_REPORT_UPLOAD_THREAD_H_
 
+#include <memory>
 #include <string>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "client/crash_report_database.h"
 #include "util/thread/worker_thread.h"
 

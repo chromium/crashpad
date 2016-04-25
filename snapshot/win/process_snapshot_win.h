@@ -21,11 +21,11 @@
 #include <sys/types.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "client/crashpad_info.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/exception_snapshot.h"
@@ -190,7 +190,7 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   PointerVector<internal::ThreadSnapshotWin> threads_;
   PointerVector<internal::ModuleSnapshotWin> modules_;
   std::vector<UnloadedModuleSnapshot> unloaded_modules_;
-  scoped_ptr<internal::ExceptionSnapshotWin> exception_;
+  std::unique_ptr<internal::ExceptionSnapshotWin> exception_;
   PointerVector<internal::MemoryMapRegionSnapshotWin> memory_map_;
   ProcessReaderWin process_reader_;
   UUID report_id_;

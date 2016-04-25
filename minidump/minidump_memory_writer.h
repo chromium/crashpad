@@ -20,10 +20,10 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
 #include "util/file/file_io.h"
@@ -52,7 +52,7 @@ class MinidumpMemoryWriter : public internal::MinidumpWritable {
   //!
   //! \return An object of a MinidumpMemoryWriter subclass initialized using the
   //!     source data in \a memory_snapshot.
-  static scoped_ptr<MinidumpMemoryWriter> CreateFromSnapshot(
+  static std::unique_ptr<MinidumpMemoryWriter> CreateFromSnapshot(
       const MemorySnapshot* memory_snapshot);
 
   //! \brief Returns a MINIDUMP_MEMORY_DESCRIPTOR referencing the data that this
@@ -152,7 +152,7 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   //! the overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void AddMemory(scoped_ptr<MinidumpMemoryWriter> memory_writer);
+  void AddMemory(std::unique_ptr<MinidumpMemoryWriter> memory_writer);
 
   //! \brief Adds a MinidumpMemoryWriter that’s a child of another
   //!     internal::MinidumpWritable object to the MINIDUMP_MEMORY_LIST.

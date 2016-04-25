@@ -104,7 +104,7 @@ class CrashReportDatabaseTest : public testing::Test {
 
  private:
   ScopedTempDir temp_dir_;
-  scoped_ptr<CrashReportDatabase> db_;
+  std::unique_ptr<CrashReportDatabase> db_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportDatabaseTest);
 };

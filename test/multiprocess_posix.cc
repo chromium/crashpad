@@ -19,12 +19,12 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include <memory>
 #include <string>
 
 #include "base/auto_reset.h"
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
@@ -61,7 +61,8 @@ Multiprocess::Multiprocess()
 
 void Multiprocess::Run() {
   ASSERT_EQ(nullptr, info_);
-  scoped_ptr<internal::MultiprocessInfo> info(new internal::MultiprocessInfo);
+  std::unique_ptr<internal::MultiprocessInfo> info(
+      new internal::MultiprocessInfo);
   base::AutoReset<internal::MultiprocessInfo*> reset_info(&info_, info.get());
 
   ASSERT_NO_FATAL_FAILURE(PreFork());

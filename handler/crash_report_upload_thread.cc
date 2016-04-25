@@ -18,10 +18,10 @@
 #include <time.h>
 
 #include <map>
+#include <memory>
 #include <vector>
 
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/settings.h"
@@ -316,7 +316,7 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
       report->file_path,
       "application/octet-stream");
 
-  scoped_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
+  std::unique_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
   http_transport->SetURL(url_);
   HTTPHeaders::value_type content_type =
       http_multipart_builder.GetContentType();
