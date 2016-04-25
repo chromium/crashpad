@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f8a0fc_1ec789bd",
+        "filename": "client/prune_crash_reports.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "This should remain the first include, right?",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_7ed4cd64",
+        "filename": "minidump/minidump_crashpad_info_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_5ed11173",
+        "filename": "minidump/minidump_file_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_9ec399ac",
+        "filename": "minidump/minidump_memory_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_feb8dd39",
+        "filename": "minidump/minidump_module_crashpad_info_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_debd2128",
+        "filename": "minidump/minidump_module_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_3eb3655d",
+        "filename": "minidump/minidump_simple_string_dictionary_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_7eadedf4",
+        "filename": "minidump/minidump_string_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_5eaab1de",
+        "filename": "minidump/minidump_thread_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_be277564",
+        "filename": "minidump/minidump_unloaded_module_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_9e2c3948",
+        "filename": "snapshot/mac/process_snapshot_mac.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_fe31fd9d",
+        "filename": "snapshot/minidump/process_snapshot_minidump.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f8a0fc_de36c193",
+        "filename": "snapshot/win/memory_snapshot_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-04-25T18:35:06Z",
+      "side": 1,
+      "message": "same",
+      "revId": "0cb11befb479e5ec6a778801ba388c23b0f06bc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
