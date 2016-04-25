@@ -429,7 +429,7 @@ void ProcessReader::InitializeModules() {
       // Proceed anyway with an empty module name.
     }
 
-    scoped_ptr<MachOImageReader> reader(new MachOImageReader());
+    std::unique_ptr<MachOImageReader> reader(new MachOImageReader());
     if (!reader->Initialize(this, image_info.imageLoadAddress, module.name)) {
       reader.reset();
     }
@@ -510,7 +510,7 @@ void ProcessReader::InitializeModules() {
     }
     std::string module_name = !module.name.empty() ? module.name : "(dyld)";
 
-    scoped_ptr<MachOImageReader> reader(new MachOImageReader());
+    std::unique_ptr<MachOImageReader> reader(new MachOImageReader());
     if (!reader->Initialize(
             this, all_image_infos.dyldImageLoadAddress, module_name)) {
       reader.reset();

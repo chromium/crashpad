@@ -19,6 +19,7 @@
 #include <stdlib.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 
@@ -26,7 +27,6 @@
 #include "base/files/file_path.h"
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/scoped_generic.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -386,7 +386,7 @@ int HandlerMain(int argc, char* argv[]) {
   }
 #endif  // OS_MACOSX
 
-  scoped_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(
+  std::unique_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(
       base::FilePath(ToolSupport::CommandLineArgumentToFilePathStringType(
           options.database))));
   if (!database) {

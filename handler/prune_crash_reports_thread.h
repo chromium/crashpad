@@ -15,8 +15,9 @@
 #ifndef CRASHPAD_HANDLER_PRUNE_CRASH_REPORTS_THREAD_H_
 #define CRASHPAD_HANDLER_PRUNE_CRASH_REPORTS_THREAD_H_
 
+#include <memory>
+
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "util/thread/worker_thread.h"
 
 namespace crashpad {
@@ -38,7 +39,7 @@ class PruneCrashReportThread : public WorkerThread::Delegate {
   //! \param[in] condition The condition used to evaluate crash reports for
   //!     pruning.
   PruneCrashReportThread(CrashReportDatabase* database,
-                         scoped_ptr<PruneCondition> condition);
+                         std::unique_ptr<PruneCondition> condition);
   ~PruneCrashReportThread();
 
   //! \brief Starts a dedicated pruning thread.
@@ -64,7 +65,7 @@ class PruneCrashReportThread : public WorkerThread::Delegate {
   void DoWork(const WorkerThread* thread) override;
 
   WorkerThread thread_;
-  scoped_ptr<PruneCondition> condition_;
+  std::unique_ptr<PruneCondition> condition_;
   CrashReportDatabase* database_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(PruneCrashReportThread);

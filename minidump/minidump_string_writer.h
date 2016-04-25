@@ -19,11 +19,11 @@
 #include <dbghelp.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/strings/string16.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_rva_list_writer.h"
@@ -77,7 +77,7 @@ class MinidumpStringWriter : public MinidumpWritable {
   const StringType& string() const { return string_; }
 
  private:
-  scoped_ptr<MinidumpStringType> string_base_;
+  std::unique_ptr<MinidumpStringType> string_base_;
   StringType string_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpStringWriter);

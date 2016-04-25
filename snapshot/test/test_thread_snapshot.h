@@ -17,11 +17,11 @@
 
 #include <stdint.h>
 
+#include <memory>
 #include <utility>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/thread_snapshot.h"
@@ -56,7 +56,9 @@ class TestThreadSnapshot final : public ThreadSnapshot {
   //!
   //! \param[in] stack The memory region that Stack() will return. The
   //!     TestThreadSnapshot object takes ownership of \a stack.
-  void SetStack(scoped_ptr<MemorySnapshot> stack) { stack_ = std::move(stack); }
+  void SetStack(std::unique_ptr<MemorySnapshot> stack) {
+    stack_ = std::move(stack);
+  }
 
   void SetThreadID(uint64_t thread_id) { thread_id_ = thread_id; }
   void SetSuspendCount(int suspend_count) { suspend_count_ = suspend_count; }
@@ -70,7 +72,7 @@ class TestThreadSnapshot final : public ThreadSnapshot {
   //! \param[in] extra_memory The memory snapshot that will be included in
   //!     ExtraMemory(). The TestThreadSnapshot object takes ownership of \a
   //!     extra_memory.
-  void AddExtraMemory(scoped_ptr<MemorySnapshot> extra_memory) {
+  void AddExtraMemory(std::unique_ptr<MemorySnapshot> extra_memory) {
     extra_memory_.push_back(extra_memory.release());
   }
 
@@ -90,7 +92,7 @@ class TestThreadSnapshot final : public ThreadSnapshot {
     CPUContextX86_64 x86_64;
   } context_union_;
   CPUContext context_;
-  scoped_ptr<MemorySnapshot> stack_;
+  std::unique_ptr<MemorySnapshot> stack_;
   uint64_t thread_id_;
   int suspend_count_;
   int priority_;

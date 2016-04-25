@@ -19,11 +19,11 @@
 #include <dbghelp.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <set>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
@@ -88,7 +88,7 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   //! streams with the same stream type.
   //!
   //! \note Valid in #kStateMutable.
-  void AddStream(scoped_ptr<internal::MinidumpStreamWriter> stream);
+  void AddStream(std::unique_ptr<internal::MinidumpStreamWriter> stream);
 
   // MinidumpWritable:
 
