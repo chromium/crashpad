@@ -21,6 +21,7 @@
 #include <utility>
 
 #include "base/compiler_specific.h"
+#include "base/memory/ptr_util.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
@@ -77,7 +78,7 @@ void GetSystemInfoStream(const std::string& file_contents,
 
 TEST(MinidumpSystemInfoWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
-  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
 
   system_info_writer->SetCSDVersion(std::string());
 
@@ -117,7 +118,7 @@ TEST(MinidumpSystemInfoWriter, Empty) {
 
 TEST(MinidumpSystemInfoWriter, X86_Win) {
   MinidumpFileWriter minidump_file_writer;
-  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
 
   const MinidumpCPUArchitecture kCPUArchitecture = kMinidumpCPUArchitectureX86;
   const uint16_t kCPULevel = 0x0010;
@@ -187,7 +188,7 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
 
 TEST(MinidumpSystemInfoWriter, AMD64_Mac) {
   MinidumpFileWriter minidump_file_writer;
-  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
 
   const MinidumpCPUArchitecture kCPUArchitecture =
       kMinidumpCPUArchitectureAMD64;
@@ -244,7 +245,7 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
   // This test exercises SetCPUX86Vendor() to set the vendor from register
   // values.
   MinidumpFileWriter minidump_file_writer;
-  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
 
   const MinidumpCPUArchitecture kCPUArchitecture = kMinidumpCPUArchitectureX86;
   const uint32_t kCPUVendor[] = {'uneG', 'Ieni', 'letn'};
@@ -330,7 +331,7 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
                                expect_system_info.BuildNumber,
                                kOSVersionBuild);
 
-  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
   system_info_writer->InitializeFromSnapshot(&system_snapshot);
 
   MinidumpFileWriter minidump_file_writer;
@@ -425,7 +426,7 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
                                kOSVersionBuild);
   system_snapshot.SetNXEnabled(true);
 
-  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
   system_info_writer->InitializeFromSnapshot(&system_snapshot);
 
   MinidumpFileWriter minidump_file_writer;
@@ -466,7 +467,7 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
 
 TEST(MinidumpSystemInfoWriterDeathTest, NoCSDVersion) {
   MinidumpFileWriter minidump_file_writer;
-  auto system_info_writer = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
   minidump_file_writer.AddStream(std::move(system_info_writer));
 
   StringFile string_file;

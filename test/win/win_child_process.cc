@@ -165,20 +165,20 @@ bool WinChildProcess::IsChildProcess() {
 }
 
 // static
-scoped_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
+std::unique_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
   // Make pipes for child-to-parent and parent-to-child communication.
-  scoped_ptr<Handles> handles_for_parent(new Handles);
+  std::unique_ptr<Handles> handles_for_parent(new Handles);
   ScopedFileHANDLE read_for_child;
   ScopedFileHANDLE write_for_child;
 
   if (!CreateInheritablePipe(
           &handles_for_parent->read, false, &write_for_child, true)) {
-    return scoped_ptr<Handles>();
+    return std::unique_ptr<Handles>();
   }
 
   if (!CreateInheritablePipe(
           &read_for_child, true, &handles_for_parent->write, false)) {
-    return scoped_ptr<Handles>();
+    return std::unique_ptr<Handles>();
   }
 
   // Build a command line for the child process that tells it only to run the
@@ -197,7 +197,7 @@ scoped_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
   // Command-line buffer cannot be constant, per CreateProcess signature.
   handles_for_parent->process = LaunchCommandLine(&command_line[0]);
   if (!handles_for_parent->process.is_valid())
-    return scoped_ptr<Handles>();
+    return std::unique_ptr<Handles>();
 
   // Block until the child process has launched. CreateProcess() returns
   // immediately, and test code expects process initialization to have
@@ -205,12 +205,12 @@ scoped_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
   char c;
   if (!LoggingReadFile(handles_for_parent->read.get(), &c, sizeof(c))) {
     ADD_FAILURE() << "LoggedReadFile";
-    return scoped_ptr<Handles>();
+    return std::unique_ptr<Handles>();
   }
 
   if (c != ' ') {
     ADD_FAILURE() << "invalid data read from child";
-    return scoped_ptr<Handles>();
+    return std::unique_ptr<Handles>();
   }
 
   return std::move(handles_for_parent);

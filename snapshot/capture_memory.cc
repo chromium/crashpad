@@ -17,8 +17,8 @@
 #include <stdint.h>
 
 #include <limits>
+#include <memory>
 
-#include "base/memory/scoped_ptr.h"
 #include "snapshot/memory_snapshot.h"
 
 namespace crashpad {
@@ -112,7 +112,7 @@ void CaptureMemory::PointedToByMemoryRange(const MemorySnapshot& memory,
     return;
   }
 
-  scoped_ptr<uint8_t[]> buffer(new uint8_t[memory.Size()]);
+  std::unique_ptr<uint8_t[]> buffer(new uint8_t[memory.Size()]);
   if (!delegate->ReadMemory(memory.Address(), memory.Size(), buffer.get())) {
     LOG(ERROR) << "ReadMemory";
     return;

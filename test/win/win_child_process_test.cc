@@ -59,7 +59,7 @@ class TestWinChildProcess final : public WinChildProcess {
 TEST(WinChildProcessTest, WinChildProcess) {
   WinChildProcess::EntryPoint<TestWinChildProcess>();
 
-  scoped_ptr<WinChildProcess::Handles> handles = WinChildProcess::Launch();
+  std::unique_ptr<WinChildProcess::Handles> handles = WinChildProcess::Launch();
   WriteInt(handles->write.get(), 1);
   ASSERT_EQ(1, ReadInt(handles->read.get()));
 }
@@ -67,9 +67,12 @@ TEST(WinChildProcessTest, WinChildProcess) {
 TEST(WinChildProcessTest, MultipleChildren) {
   WinChildProcess::EntryPoint<TestWinChildProcess>();
 
-  scoped_ptr<WinChildProcess::Handles> handles_1 = WinChildProcess::Launch();
-  scoped_ptr<WinChildProcess::Handles> handles_2 = WinChildProcess::Launch();
-  scoped_ptr<WinChildProcess::Handles> handles_3 = WinChildProcess::Launch();
+  std::unique_ptr<WinChildProcess::Handles> handles_1 =
+      WinChildProcess::Launch();
+  std::unique_ptr<WinChildProcess::Handles> handles_2 =
+      WinChildProcess::Launch();
+  std::unique_ptr<WinChildProcess::Handles> handles_3 =
+      WinChildProcess::Launch();
 
   WriteInt(handles_1->write.get(), 1);
   WriteInt(handles_2->write.get(), 2);

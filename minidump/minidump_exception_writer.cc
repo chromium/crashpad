@@ -46,13 +46,13 @@ void MinidumpExceptionWriter::InitializeFromSnapshot(
   SetExceptionAddress(exception_snapshot->ExceptionAddress());
   SetExceptionInformation(exception_snapshot->Codes());
 
-  scoped_ptr<MinidumpContextWriter> context =
+  std::unique_ptr<MinidumpContextWriter> context =
       MinidumpContextWriter::CreateFromSnapshot(exception_snapshot->Context());
   SetContext(std::move(context));
 }
 
 void MinidumpExceptionWriter::SetContext(
-    scoped_ptr<MinidumpContextWriter> context) {
+    std::unique_ptr<MinidumpContextWriter> context) {
   DCHECK_EQ(state(), kStateMutable);
 
   context_ = std::move(context);

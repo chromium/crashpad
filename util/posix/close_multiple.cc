@@ -23,9 +23,9 @@
 #include <unistd.h>
 
 #include <algorithm>
+#include <memory>
 
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/posix/eintr_wrapper.h"
 #include "build/build_config.h"
 #include "util/misc/implicit_cast.h"
@@ -73,7 +73,7 @@ struct ScopedDIRCloser {
   }
 };
 
-using ScopedDIR = scoped_ptr<DIR, ScopedDIRCloser>;
+using ScopedDIR = std::unique_ptr<DIR, ScopedDIRCloser>;
 
 // This function implements CloseMultipleNowOrOnExec() using an operating
 // system-specific FD directory to determine which file descriptors are open.

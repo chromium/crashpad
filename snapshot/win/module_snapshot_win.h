@@ -19,11 +19,11 @@
 #include <stdint.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/module_snapshot.h"
 #include "snapshot/win/process_reader_win.h"
@@ -109,7 +109,7 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   std::wstring name_;
   std::string pdb_name_;
   UUID uuid_;
-  scoped_ptr<PEImageReader> pe_image_reader_;
+  std::unique_ptr<PEImageReader> pe_image_reader_;
   ProcessReaderWin* process_reader_;  // weak
   time_t timestamp_;
   uint32_t age_;

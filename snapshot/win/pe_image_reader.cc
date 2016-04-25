@@ -16,8 +16,9 @@
 
 #include <string.h>
 
+#include <memory>
+
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 #include "client/crashpad_info.h"
 #include "snapshot/win/pe_image_resource_reader.h"
 #include "util/misc/pdb_structures.h"
@@ -146,7 +147,7 @@ bool PEImageReader::DebugDirectoryInformation(UUID* uuid,
         continue;
       }
 
-      scoped_ptr<char[]> data(new char[debug_directory.SizeOfData]);
+      std::unique_ptr<char[]> data(new char[debug_directory.SizeOfData]);
       if (!module_subrange_reader_.ReadMemory(
               Address() + debug_directory.AddressOfRawData,
               debug_directory.SizeOfData,

@@ -185,9 +185,12 @@ class TestClient final : public WinChildProcess {
 TEST_F(ExceptionHandlerServerTest, MultipleConnections) {
   WinChildProcess::EntryPoint<TestClient>();
 
-  scoped_ptr<WinChildProcess::Handles> handles_1 = WinChildProcess::Launch();
-  scoped_ptr<WinChildProcess::Handles> handles_2 = WinChildProcess::Launch();
-  scoped_ptr<WinChildProcess::Handles> handles_3 = WinChildProcess::Launch();
+  std::unique_ptr<WinChildProcess::Handles> handles_1 =
+      WinChildProcess::Launch();
+  std::unique_ptr<WinChildProcess::Handles> handles_2 =
+      WinChildProcess::Launch();
+  std::unique_ptr<WinChildProcess::Handles> handles_3 =
+      WinChildProcess::Launch();
 
   // Must ensure the delegate outlasts the server.
   {
