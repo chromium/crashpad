@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_thread_writer.h"
-
 #include <utility>
 
 #include "base/logging.h"
+#include "base/memory/ptr_util.h"
 #include "minidump/minidump_context_writer.h"
 #include "minidump/minidump_memory_writer.h"
+#include "minidump/minidump_thread_writer.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/thread_snapshot.h"
 #include "util/file/file_writer.h"
@@ -50,12 +50,12 @@ void MinidumpThreadWriter::InitializeFromSnapshot(
 
   const MemorySnapshot* stack_snapshot = thread_snapshot->Stack();
   if (stack_snapshot && stack_snapshot->Size() > 0) {
-    scoped_ptr<MinidumpMemoryWriter> stack =
+    std::unique_ptr<MinidumpMemoryWriter> stack =
         MinidumpMemoryWriter::CreateFromSnapshot(stack_snapshot);
     SetStack(std::move(stack));
   }
 
-  scoped_ptr<MinidumpContextWriter> context =
+  std::unique_ptr<MinidumpContextWriter> context =
       MinidumpContextWriter::CreateFromSnapshot(thread_snapshot->Context());
   SetContext(std::move(context));
 }
@@ -66,14 +66,15 @@ const MINIDUMP_THREAD* MinidumpThreadWriter::MinidumpThread() const {
   return &thread_;
 }
 
-void MinidumpThreadWriter::SetStack(scoped_ptr<MinidumpMemoryWriter> stack) {
+void MinidumpThreadWriter::SetStack(
+    std::unique_ptr<MinidumpMemoryWriter> stack) {
   DCHECK_EQ(state(), kStateMutable);
 
   stack_ = std::move(stack);
 }
 
 void MinidumpThreadWriter::SetContext(
-    scoped_ptr<MinidumpContextWriter> context) {
+    std::unique_ptr<MinidumpContextWriter> context) {
   DCHECK_EQ(state(), kStateMutable);
 
   context_ = std::move(context);
@@ -146,7 +147,7 @@ void MinidumpThreadListWriter::InitializeFromSnapshot(
   BuildMinidumpThreadIDMap(thread_snapshots, thread_id_map);
 
   for (const ThreadSnapshot* thread_snapshot : thread_snapshots) {
-    auto thread = make_scoped_ptr(new MinidumpThreadWriter());
+    auto thread = base::WrapUnique(new MinidumpThreadWriter());
     thread->InitializeFromSnapshot(thread_snapshot, thread_id_map);
     AddThread(std::move(thread));
   }
@@ -166,7 +167,7 @@ void MinidumpThreadListWriter::SetMemoryListWriter(
 }
 
 void MinidumpThreadListWriter::AddThread(
-    scoped_ptr<MinidumpThreadWriter> thread) {
+    std::unique_ptr<MinidumpThreadWriter> thread) {
   DCHECK_EQ(state(), kStateMutable);
 
   if (memory_list_writer_) {

@@ -20,11 +20,11 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
@@ -187,7 +187,7 @@ class MinidumpSystemInfoWriter final : public internal::MinidumpStreamWriter {
 
  private:
   MINIDUMP_SYSTEM_INFO system_info_;
-  scoped_ptr<internal::MinidumpUTF16StringWriter> csd_version_;
+  std::unique_ptr<internal::MinidumpUTF16StringWriter> csd_version_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpSystemInfoWriter);
 };

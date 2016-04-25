@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_crashpad_info_writer.h"
-
 #include <utility>
 
 #include "base/logging.h"
+#include "base/memory/ptr_util.h"
+#include "minidump/minidump_crashpad_info_writer.h"
 #include "minidump/minidump_module_crashpad_info_writer.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "snapshot/process_snapshot.h"
@@ -49,14 +49,14 @@ void MinidumpCrashpadInfoWriter::InitializeFromSnapshot(
   SetClientID(client_id);
 
   auto simple_annotations =
-      make_scoped_ptr(new MinidumpSimpleStringDictionaryWriter());
+      base::WrapUnique(new MinidumpSimpleStringDictionaryWriter());
   simple_annotations->InitializeFromMap(
       process_snapshot->AnnotationsSimpleMap());
   if (simple_annotations->IsUseful()) {
     SetSimpleAnnotations(std::move(simple_annotations));
   }
 
-  auto modules = make_scoped_ptr(new MinidumpModuleCrashpadInfoListWriter());
+  auto modules = base::WrapUnique(new MinidumpModuleCrashpadInfoListWriter());
   modules->InitializeFromSnapshot(process_snapshot->Modules());
 
   if (modules->IsUseful()) {
@@ -77,14 +77,14 @@ void MinidumpCrashpadInfoWriter::SetClientID(const UUID& client_id) {
 }
 
 void MinidumpCrashpadInfoWriter::SetSimpleAnnotations(
-    scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations) {
+    std::unique_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations) {
   DCHECK_EQ(state(), kStateMutable);
 
   simple_annotations_ = std::move(simple_annotations);
 }
 
 void MinidumpCrashpadInfoWriter::SetModuleList(
-    scoped_ptr<MinidumpModuleCrashpadInfoListWriter> module_list) {
+    std::unique_ptr<MinidumpModuleCrashpadInfoListWriter> module_list) {
   DCHECK_EQ(state(), kStateMutable);
 
   module_list_ = std::move(module_list);

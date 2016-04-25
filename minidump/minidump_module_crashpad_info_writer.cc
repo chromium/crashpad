@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_module_crashpad_info_writer.h"
-
 #include <utility>
 
 #include "base/logging.h"
+#include "base/memory/ptr_util.h"
+#include "minidump/minidump_module_crashpad_info_writer.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_writer.h"
@@ -41,14 +41,14 @@ void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
   DCHECK(!list_annotations_);
   DCHECK(!simple_annotations_);
 
-  auto list_annotations = make_scoped_ptr(new MinidumpUTF8StringListWriter());
+  auto list_annotations = base::WrapUnique(new MinidumpUTF8StringListWriter());
   list_annotations->InitializeFromVector(module_snapshot->AnnotationsVector());
   if (list_annotations->IsUseful()) {
     SetListAnnotations(std::move(list_annotations));
   }
 
   auto simple_annotations =
-      make_scoped_ptr(new MinidumpSimpleStringDictionaryWriter());
+      base::WrapUnique(new MinidumpSimpleStringDictionaryWriter());
   simple_annotations->InitializeFromMap(
       module_snapshot->AnnotationsSimpleMap());
   if (simple_annotations->IsUseful()) {
@@ -57,14 +57,14 @@ void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
 }
 
 void MinidumpModuleCrashpadInfoWriter::SetListAnnotations(
-    scoped_ptr<MinidumpUTF8StringListWriter> list_annotations) {
+    std::unique_ptr<MinidumpUTF8StringListWriter> list_annotations) {
   DCHECK_EQ(state(), kStateMutable);
 
   list_annotations_ = std::move(list_annotations);
 }
 
 void MinidumpModuleCrashpadInfoWriter::SetSimpleAnnotations(
-    scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations) {
+    std::unique_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations) {
   DCHECK_EQ(state(), kStateMutable);
 
   simple_annotations_ = std::move(simple_annotations);
@@ -141,7 +141,7 @@ void MinidumpModuleCrashpadInfoListWriter::InitializeFromSnapshot(
   for (size_t index = 0; index < count; ++index) {
     const ModuleSnapshot* module_snapshot = module_snapshots[index];
 
-    auto module = make_scoped_ptr(new MinidumpModuleCrashpadInfoWriter());
+    auto module = base::WrapUnique(new MinidumpModuleCrashpadInfoWriter());
     module->InitializeFromSnapshot(module_snapshot);
     if (module->IsUseful()) {
       AddModule(std::move(module), index);
@@ -150,7 +150,7 @@ void MinidumpModuleCrashpadInfoListWriter::InitializeFromSnapshot(
 }
 
 void MinidumpModuleCrashpadInfoListWriter::AddModule(
-    scoped_ptr<MinidumpModuleCrashpadInfoWriter> module_crashpad_info,
+    std::unique_ptr<MinidumpModuleCrashpadInfoWriter> module_crashpad_info,
     size_t minidump_module_list_index) {
   DCHECK_EQ(state(), kStateMutable);
   DCHECK_EQ(module_crashpad_infos_.size(), module_crashpad_info_links_.size());

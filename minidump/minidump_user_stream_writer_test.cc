@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_user_stream_writer.h"
-
 #include <string>
 #include <utility>
 
+#include "base/memory/ptr_util.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
+#include "minidump/minidump_user_stream_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_memory_snapshot.h"
@@ -51,9 +51,10 @@ void GetUserStream(const std::string& file_contents,
 
 TEST(MinidumpUserStreamWriter, NoData) {
   MinidumpFileWriter minidump_file_writer;
-  auto user_stream_writer = make_scoped_ptr(new MinidumpUserStreamWriter());
+  auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
   const uint32_t kTestStreamId = 0x123456;
-  auto stream = make_scoped_ptr(new UserMinidumpStream(kTestStreamId, nullptr));
+  auto stream =
+      base::WrapUnique(new UserMinidumpStream(kTestStreamId, nullptr));
   user_stream_writer->InitializeFromSnapshot(stream.get());
   minidump_file_writer.AddStream(std::move(user_stream_writer));
 
@@ -71,7 +72,7 @@ TEST(MinidumpUserStreamWriter, NoData) {
 
 TEST(MinidumpUserStreamWriter, OneStream) {
   MinidumpFileWriter minidump_file_writer;
-  auto user_stream_writer = make_scoped_ptr(new MinidumpUserStreamWriter());
+  auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
   const uint32_t kTestStreamId = 0x123456;
 
   TestMemorySnapshot* test_data = new TestMemorySnapshot();
@@ -80,7 +81,7 @@ TEST(MinidumpUserStreamWriter, OneStream) {
   test_data->SetSize(kStreamSize);
   test_data->SetValue('c');
   auto stream =
-      make_scoped_ptr(new UserMinidumpStream(kTestStreamId, test_data));
+      base::WrapUnique(new UserMinidumpStream(kTestStreamId, test_data));
   user_stream_writer->InitializeFromSnapshot(stream.get());
   minidump_file_writer.AddStream(std::move(user_stream_writer));
 

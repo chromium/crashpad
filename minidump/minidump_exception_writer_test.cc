@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_exception_writer.h"
-
 #include <string>
 #include <utility>
 
+#include "base/memory/ptr_util.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_context.h"
 #include "minidump/minidump_context_writer.h"
+#include "minidump/minidump_exception_writer.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/minidump_thread_id_map.h"
@@ -93,11 +93,11 @@ void ExpectExceptionStream(const MINIDUMP_EXCEPTION_STREAM* expected,
 
 TEST(MinidumpExceptionWriter, Minimal) {
   MinidumpFileWriter minidump_file_writer;
-  auto exception_writer = make_scoped_ptr(new MinidumpExceptionWriter());
+  auto exception_writer = base::WrapUnique(new MinidumpExceptionWriter());
 
   const uint32_t kSeed = 100;
 
-  auto context_x86_writer = make_scoped_ptr(new MinidumpContextX86Writer());
+  auto context_x86_writer = base::WrapUnique(new MinidumpContextX86Writer());
   InitializeMinidumpContextX86(context_x86_writer->context(), kSeed);
   exception_writer->SetContext(std::move(context_x86_writer));
 
@@ -125,7 +125,7 @@ TEST(MinidumpExceptionWriter, Minimal) {
 
 TEST(MinidumpExceptionWriter, Standard) {
   MinidumpFileWriter minidump_file_writer;
-  auto exception_writer = make_scoped_ptr(new MinidumpExceptionWriter());
+  auto exception_writer = base::WrapUnique(new MinidumpExceptionWriter());
 
   const uint32_t kSeed = 200;
   const uint32_t kThreadID = 1;
@@ -137,7 +137,7 @@ TEST(MinidumpExceptionWriter, Standard) {
   const uint64_t kExceptionInformation1 = 7;
   const uint64_t kExceptionInformation2 = 7;
 
-  auto context_x86_writer = make_scoped_ptr(new MinidumpContextX86Writer());
+  auto context_x86_writer = base::WrapUnique(new MinidumpContextX86Writer());
   InitializeMinidumpContextX86(context_x86_writer->context(), kSeed);
   exception_writer->SetContext(std::move(context_x86_writer));
 
@@ -229,7 +229,7 @@ TEST(MinidumpExceptionWriter, InitializeFromSnapshot) {
   MinidumpThreadIDMap thread_id_map;
   thread_id_map[kThreadID] = expect_exception.ThreadId;
 
-  auto exception_writer = make_scoped_ptr(new MinidumpExceptionWriter());
+  auto exception_writer = base::WrapUnique(new MinidumpExceptionWriter());
   exception_writer->InitializeFromSnapshot(&exception_snapshot, thread_id_map);
 
   MinidumpFileWriter minidump_file_writer;
@@ -253,7 +253,7 @@ TEST(MinidumpExceptionWriter, InitializeFromSnapshot) {
 
 TEST(MinidumpExceptionWriterDeathTest, NoContext) {
   MinidumpFileWriter minidump_file_writer;
-  auto exception_writer = make_scoped_ptr(new MinidumpExceptionWriter());
+  auto exception_writer = base::WrapUnique(new MinidumpExceptionWriter());
 
   minidump_file_writer.AddStream(std::move(exception_writer));
 

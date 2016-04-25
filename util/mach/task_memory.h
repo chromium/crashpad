@@ -18,11 +18,11 @@
 #include <mach/mach.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <string>
 
 #include "base/mac/scoped_mach_vm.h"
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 
 namespace crashpad {
 
@@ -123,7 +123,8 @@ class TaskMemory {
   //! \return On success, a MappedMemory object that provides access to the data
   //!     requested. On faliure, `nullptr`, with a warning logged. Failures can
   //!     occur, for example, when encountering unmapped or unreadable pages.
-  scoped_ptr<MappedMemory> ReadMapped(mach_vm_address_t address, size_t size);
+  std::unique_ptr<MappedMemory> ReadMapped(mach_vm_address_t address,
+                                           size_t size);
 
   //! \brief Reads a `NUL`-terminated C string from the target task into a
   //!     string in the current task.

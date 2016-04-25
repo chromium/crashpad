@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_file_writer.h"
-
 #include <utility>
 
 #include "base/logging.h"
+#include "base/memory/ptr_util.h"
 #include "minidump/minidump_crashpad_info_writer.h"
 #include "minidump/minidump_exception_writer.h"
+#include "minidump/minidump_file_writer.h"
 #include "minidump/minidump_handle_writer.h"
 #include "minidump/minidump_memory_info_writer.h"
 #include "minidump/minidump_memory_writer.h"
@@ -71,16 +71,16 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   SetTimestamp(snapshot_time.tv_sec);
 
   const SystemSnapshot* system_snapshot = process_snapshot->System();
-  auto system_info = make_scoped_ptr(new MinidumpSystemInfoWriter());
+  auto system_info = base::WrapUnique(new MinidumpSystemInfoWriter());
   system_info->InitializeFromSnapshot(system_snapshot);
   AddStream(std::move(system_info));
 
-  auto misc_info = make_scoped_ptr(new MinidumpMiscInfoWriter());
+  auto misc_info = base::WrapUnique(new MinidumpMiscInfoWriter());
   misc_info->InitializeFromSnapshot(process_snapshot);
   AddStream(std::move(misc_info));
 
-  auto memory_list = make_scoped_ptr(new MinidumpMemoryListWriter());
-  auto thread_list = make_scoped_ptr(new MinidumpThreadListWriter());
+  auto memory_list = base::WrapUnique(new MinidumpMemoryListWriter());
+  auto thread_list = base::WrapUnique(new MinidumpThreadListWriter());
   thread_list->SetMemoryListWriter(memory_list.get());
   MinidumpThreadIDMap thread_id_map;
   thread_list->InitializeFromSnapshot(process_snapshot->Threads(),
@@ -89,18 +89,18 @@ void MinidumpFileWriter::InitializeFromSnapshot(
 
   const ExceptionSnapshot* exception_snapshot = process_snapshot->Exception();
   if (exception_snapshot) {
-    auto exception = make_scoped_ptr(new MinidumpExceptionWriter());
+    auto exception = base::WrapUnique(new MinidumpExceptionWriter());
     exception->InitializeFromSnapshot(exception_snapshot, thread_id_map);
     AddStream(std::move(exception));
   }
 
-  auto module_list = make_scoped_ptr(new MinidumpModuleListWriter());
+  auto module_list = base::WrapUnique(new MinidumpModuleListWriter());
   module_list->InitializeFromSnapshot(process_snapshot->Modules());
   AddStream(std::move(module_list));
 
   for (const auto& module : process_snapshot->Modules()) {
     for (const UserMinidumpStream* stream : module->CustomMinidumpStreams()) {
-      auto user_stream = make_scoped_ptr(new MinidumpUserStreamWriter());
+      auto user_stream = base::WrapUnique(new MinidumpUserStreamWriter());
       user_stream->InitializeFromSnapshot(stream);
       AddStream(std::move(user_stream));
     }
@@ -109,12 +109,12 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   auto unloaded_modules = process_snapshot->UnloadedModules();
   if (!unloaded_modules.empty()) {
     auto unloaded_module_list =
-        make_scoped_ptr(new MinidumpUnloadedModuleListWriter());
+        base::WrapUnique(new MinidumpUnloadedModuleListWriter());
     unloaded_module_list->InitializeFromSnapshot(unloaded_modules);
     AddStream(std::move(unloaded_module_list));
   }
 
-  auto crashpad_info = make_scoped_ptr(new MinidumpCrashpadInfoWriter());
+  auto crashpad_info = base::WrapUnique(new MinidumpCrashpadInfoWriter());
   crashpad_info->InitializeFromSnapshot(process_snapshot);
 
   // Since the MinidumpCrashpadInfo stream is an extension, it’s safe to not add
@@ -126,14 +126,15 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   std::vector<const MemoryMapRegionSnapshot*> memory_map_snapshot =
       process_snapshot->MemoryMap();
   if (!memory_map_snapshot.empty()) {
-    auto memory_info_list = make_scoped_ptr(new MinidumpMemoryInfoListWriter());
+    auto memory_info_list =
+        base::WrapUnique(new MinidumpMemoryInfoListWriter());
     memory_info_list->InitializeFromSnapshot(memory_map_snapshot);
     AddStream(std::move(memory_info_list));
   }
 
   std::vector<HandleSnapshot> handles_snapshot = process_snapshot->Handles();
   if (!handles_snapshot.empty()) {
-    auto handle_data_writer = make_scoped_ptr(new MinidumpHandleDataWriter());
+    auto handle_data_writer = base::WrapUnique(new MinidumpHandleDataWriter());
     handle_data_writer->InitializeFromSnapshot(handles_snapshot);
     AddStream(std::move(handle_data_writer));
   }
@@ -152,7 +153,7 @@ void MinidumpFileWriter::SetTimestamp(time_t timestamp) {
 }
 
 void MinidumpFileWriter::AddStream(
-    scoped_ptr<internal::MinidumpStreamWriter> stream) {
+    std::unique_ptr<internal::MinidumpStreamWriter> stream) {
   DCHECK_EQ(state(), kStateMutable);
 
   MinidumpStreamType stream_type = stream->StreamType();

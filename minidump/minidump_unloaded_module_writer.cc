@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_unloaded_module_writer.h"
-
 #include <limits>
 
+#include "base/memory/ptr_util.h"
+#include "minidump/minidump_unloaded_module_writer.h"
 #include "minidump/minidump_writer_util.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/in_range_cast.h"
@@ -123,14 +123,14 @@ void MinidumpUnloadedModuleListWriter::InitializeFromSnapshot(
   DCHECK(unloaded_modules_.empty());
 
   for (auto unloaded_module_snapshot : unloaded_module_snapshots) {
-    auto unloaded_module = make_scoped_ptr(new MinidumpUnloadedModuleWriter());
+    auto unloaded_module = base::WrapUnique(new MinidumpUnloadedModuleWriter());
     unloaded_module->InitializeFromSnapshot(unloaded_module_snapshot);
     AddUnloadedModule(std::move(unloaded_module));
   }
 }
 
 void MinidumpUnloadedModuleListWriter::AddUnloadedModule(
-    scoped_ptr<MinidumpUnloadedModuleWriter> unloaded_module) {
+    std::unique_ptr<MinidumpUnloadedModuleWriter> unloaded_module) {
   DCHECK_EQ(state(), kStateMutable);
 
   unloaded_modules_.push_back(unloaded_module.release());

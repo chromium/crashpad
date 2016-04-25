@@ -17,6 +17,7 @@
 #include <algorithm>
 
 #include "base/logging.h"
+#include "base/memory/ptr_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "snapshot/win/memory_snapshot_win.h"
@@ -238,7 +239,7 @@ void ProcessSnapshotWin::InitializeThreads(
       process_reader_.Threads();
   for (const ProcessReaderWin::Thread& process_reader_thread :
        process_reader_threads) {
-    auto thread = make_scoped_ptr(new internal::ThreadSnapshotWin());
+    auto thread = base::WrapUnique(new internal::ThreadSnapshotWin());
     uint32_t* budget_remaining_pointer = nullptr;
     uint32_t budget_remaining = indirectly_referenced_memory_cap;
     if (gather_indirectly_referenced_memory)
@@ -256,7 +257,7 @@ void ProcessSnapshotWin::InitializeModules() {
       process_reader_.Modules();
   for (const ProcessInfo::Module& process_reader_module :
        process_reader_modules) {
-    auto module = make_scoped_ptr(new internal::ModuleSnapshotWin());
+    auto module = base::WrapUnique(new internal::ModuleSnapshotWin());
     if (module->Initialize(&process_reader_, process_reader_module)) {
       modules_.push_back(module.release());
     }

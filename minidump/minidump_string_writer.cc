@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_string_writer.h"
-
 #include <utility>
 
 #include "base/logging.h"
+#include "base/memory/ptr_util.h"
+#include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writer_util.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
@@ -119,7 +119,7 @@ void MinidumpStringListWriter<MinidumpStringWriterType>::InitializeFromVector(
 template <typename MinidumpStringWriterType>
 void MinidumpStringListWriter<MinidumpStringWriterType>::AddStringUTF8(
     const std::string& string_utf8) {
-  auto string_writer = make_scoped_ptr(new MinidumpStringWriterType());
+  auto string_writer = base::WrapUnique(new MinidumpStringWriterType());
   string_writer->SetUTF8(string_utf8);
   AddChild(std::move(string_writer));
 }

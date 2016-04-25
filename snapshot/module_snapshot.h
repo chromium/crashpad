@@ -19,14 +19,14 @@
 #include <sys/types.h>
 
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <vector>
 
-#include "base/memory/scoped_ptr.h"
+#include "snapshot/memory_snapshot.h"
 #include "util/misc/uuid.h"
 #include "util/numeric/checked_range.h"
-#include "snapshot/memory_snapshot.h"
 
 namespace crashpad {
 
@@ -44,7 +44,7 @@ class UserMinidumpStream {
 
  private:
   //! \brief The memory representing the custom minidump stream.
-  scoped_ptr<MemorySnapshot> memory_;
+  std::unique_ptr<MemorySnapshot> memory_;
 
   //! \brief The stream type that the minidump stream will be tagged with.
   uint32_t stream_type_;

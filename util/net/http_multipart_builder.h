@@ -16,11 +16,11 @@
 #define CRASHPAD_UTIL_NET_HTTP_MULTIPART_BUILDER_H_
 
 #include <map>
+#include <memory>
 #include <string>
 
 #include "base/files/file_path.h"
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "util/net/http_headers.h"
 
 namespace crashpad {
@@ -62,7 +62,7 @@ class HTTPMultipartBuilder {
   //!     the builder.
   //!
   //! \return A caller-owned HTTPBodyStream object.
-  scoped_ptr<HTTPBodyStream> GetBodyStream();
+  std::unique_ptr<HTTPBodyStream> GetBodyStream();
 
   //! \brief Gets the header pair for `"Content-Type"`.
   HTTPHeaders::value_type GetContentType() const;

@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "minidump/minidump_module_writer.h"
-
 #include <limits>
 #include <utility>
 
 #include "base/logging.h"
+#include "base/memory/ptr_util.h"
 #include "base/numerics/safe_conversions.h"
+#include "minidump/minidump_module_writer.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writer_util.h"
 #include "snapshot/module_snapshot.h"
@@ -241,7 +241,7 @@ void MinidumpModuleWriter::InitializeFromSnapshot(
   SetFileTypeAndSubtype(file_type, VFT2_UNKNOWN);
 
   auto codeview_record =
-      make_scoped_ptr(new MinidumpModuleCodeViewRecordPDB70Writer());
+      base::WrapUnique(new MinidumpModuleCodeViewRecordPDB70Writer());
   codeview_record->InitializeFromSnapshot(module_snapshot);
   SetCodeViewRecord(std::move(codeview_record));
 }
@@ -262,14 +262,14 @@ void MinidumpModuleWriter::SetName(const std::string& name) {
 }
 
 void MinidumpModuleWriter::SetCodeViewRecord(
-    scoped_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record) {
+    std::unique_ptr<MinidumpModuleCodeViewRecordWriter> codeview_record) {
   DCHECK_EQ(state(), kStateMutable);
 
   codeview_record_ = std::move(codeview_record);
 }
 
 void MinidumpModuleWriter::SetMiscDebugRecord(
-    scoped_ptr<MinidumpModuleMiscDebugRecordWriter> misc_debug_record) {
+    std::unique_ptr<MinidumpModuleMiscDebugRecordWriter> misc_debug_record) {
   DCHECK_EQ(state(), kStateMutable);
 
   misc_debug_record_ = std::move(misc_debug_record);
@@ -382,14 +382,14 @@ void MinidumpModuleListWriter::InitializeFromSnapshot(
   DCHECK(modules_.empty());
 
   for (const ModuleSnapshot* module_snapshot : module_snapshots) {
-    auto module = make_scoped_ptr(new MinidumpModuleWriter());
+    auto module = base::WrapUnique(new MinidumpModuleWriter());
     module->InitializeFromSnapshot(module_snapshot);
     AddModule(std::move(module));
   }
 }
 
 void MinidumpModuleListWriter::AddModule(
-    scoped_ptr<MinidumpModuleWriter> module) {
+    std::unique_ptr<MinidumpModuleWriter> module) {
   DCHECK_EQ(state(), kStateMutable);
 
   modules_.push_back(module.release());

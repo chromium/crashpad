@@ -17,12 +17,12 @@
 
 #include <time.h>
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/files/file_path.h"
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "util/file/file_io.h"
 #include "util/misc/uuid.h"
 
@@ -176,7 +176,8 @@ class CrashReportDatabase {
   //!     logged.
   //!
   //! \sa InitializeWithoutCreating
-  static scoped_ptr<CrashReportDatabase> Initialize(const base::FilePath& path);
+  static std::unique_ptr<CrashReportDatabase> Initialize(
+      const base::FilePath& path);
 
   //! \brief Opens an existing database of crash reports.
   //!
@@ -190,7 +191,7 @@ class CrashReportDatabase {
   //!     logged.
   //!
   //! \sa Initialize
-  static scoped_ptr<CrashReportDatabase> InitializeWithoutCreating(
+  static std::unique_ptr<CrashReportDatabase> InitializeWithoutCreating(
       const base::FilePath& path);
 
   //! \brief Returns the Settings object for this database.
