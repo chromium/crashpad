@@ -19,13 +19,13 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <utility>
 #include <vector>
 
 #include "base/files/file_path.h"
 #include "base/format_macros.h"
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -48,7 +48,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
       void(*)(HTTPTransportTestFixture*, const std::string&);
 
   HTTPTransportTestFixture(const HTTPHeaders& headers,
-                           scoped_ptr<HTTPBodyStream> body_stream,
+                           std::unique_ptr<HTTPBodyStream> body_stream,
                            uint16_t http_response_code,
                            RequestValidator request_validator)
       : MultiprocessExec(),
@@ -98,7 +98,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
                                  random_string.size()));
 
     // Now execute the HTTP request.
-    scoped_ptr<HTTPTransport> transport(HTTPTransport::Create());
+    std::unique_ptr<HTTPTransport> transport(HTTPTransport::Create());
     transport->SetMethod("POST");
     transport->SetURL(base::StringPrintf("http://127.0.0.1:%d/upload", port));
     for (const auto& pair : headers_) {
@@ -131,7 +131,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
   }
 
   HTTPHeaders headers_;
-  scoped_ptr<HTTPBodyStream> body_stream_;
+  std::unique_ptr<HTTPBodyStream> body_stream_;
   uint16_t response_code_;
   RequestValidator request_validator_;
 };
@@ -266,7 +266,8 @@ void UnchunkedPlainText(HTTPTransportTestFixture* fixture,
 }
 
 TEST(HTTPTransport, UnchunkedPlainText) {
-  scoped_ptr<HTTPBodyStream> body_stream(new StringHTTPBodyStream(kTextBody));
+  std::unique_ptr<HTTPBodyStream> body_stream(
+      new StringHTTPBodyStream(kTextBody));
 
   HTTPHeaders headers;
   headers[kContentType] = kTextPlain;
@@ -284,7 +285,7 @@ void RunUpload33k(bool has_content_length) {
   // Read().
 
   std::string request_string(33 * 1024, 'a');
-  scoped_ptr<HTTPBodyStream> body_stream(
+  std::unique_ptr<HTTPBodyStream> body_stream(
       new StringHTTPBodyStream(request_string));
 
   HTTPHeaders headers;

@@ -18,11 +18,11 @@
 #include <string.h>
 
 #include <algorithm>
+#include <memory>
 #include <string>
 
 #include "base/mac/scoped_mach_port.h"
 #include "base/mac/scoped_mach_vm.h"
-#include "base/memory/scoped_ptr.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
 
@@ -47,7 +47,7 @@ TEST(TaskMemory, ReadSelf) {
 
   // This tests using both the Read() and ReadMapped() interfaces.
   std::string result(kSize, '\0');
-  scoped_ptr<TaskMemory::MappedMemory> mapped;
+  std::unique_ptr<TaskMemory::MappedMemory> mapped;
 
   // Ensure that the entire region can be read.
   ASSERT_TRUE(memory.Read(address, kSize, &result[0]));
@@ -129,7 +129,7 @@ TEST(TaskMemory, ReadSelfUnmapped) {
   EXPECT_TRUE(memory.Read(address + PAGE_SIZE - 1, 1, &result[0]));
 
   // Do the same thing with the ReadMapped() interface.
-  scoped_ptr<TaskMemory::MappedMemory> mapped;
+  std::unique_ptr<TaskMemory::MappedMemory> mapped;
   EXPECT_FALSE((mapped = memory.ReadMapped(address, kSize)));
   EXPECT_FALSE((mapped = memory.ReadMapped(address + 1, kSize - 1)));
   EXPECT_FALSE((mapped = memory.ReadMapped(address + PAGE_SIZE, 1)));
@@ -458,7 +458,7 @@ TEST(TaskMemory, MappedMemoryDeallocates) {
   // nothing else should wind up mapped in the address.
 
   TaskMemory memory(mach_task_self());
-  scoped_ptr<TaskMemory::MappedMemory> mapped;
+  std::unique_ptr<TaskMemory::MappedMemory> mapped;
 
   static const char kTestBuffer[] = "hello!";
   mach_vm_address_t test_address =
@@ -476,7 +476,7 @@ TEST(TaskMemory, MappedMemoryDeallocates) {
   // single page. This makes sure that the whole mapped region winds up being
   // deallocated.
   const size_t kBigSize = 4 * PAGE_SIZE;
-  scoped_ptr<char[]> big_buffer(new char[kBigSize]);
+  std::unique_ptr<char[]> big_buffer(new char[kBigSize]);
   test_address = reinterpret_cast<mach_vm_address_t>(&big_buffer[0]);
   ASSERT_TRUE((mapped = memory.ReadMapped(test_address, kBigSize)));
 
@@ -495,7 +495,7 @@ TEST(TaskMemory, MappedMemoryDeallocates) {
 TEST(TaskMemory, MappedMemoryReadCString) {
   // This tests the behavior of TaskMemory::MappedMemory::ReadCString().
   TaskMemory memory(mach_task_self());
-  scoped_ptr<TaskMemory::MappedMemory> mapped;
+  std::unique_ptr<TaskMemory::MappedMemory> mapped;
 
   static const char kTestBuffer[] = "0\0" "2\0" "45\0" "789";
   const mach_vm_address_t kTestAddress =

@@ -15,10 +15,10 @@
 #ifndef CRASHPAD_UTIL_NET_HTTP_TRANSPORT_H_
 #define CRASHPAD_UTIL_NET_HTTP_TRANSPORT_H_
 
+#include <memory>
 #include <string>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "util/net/http_headers.h"
 
 namespace crashpad {
@@ -40,7 +40,7 @@ class HTTPTransport {
   //!     operating system.
   //!
   //! \return A new caller-owned HTTPTransport object.
-  static scoped_ptr<HTTPTransport> Create();
+  static std::unique_ptr<HTTPTransport> Create();
 
   //! \brief Sets URL to which the request will be made.
   //!
@@ -64,7 +64,7 @@ class HTTPTransport {
   //!
   //! \param[in] stream A HTTPBodyStream, of which this class will take
   //!     ownership.
-  void SetBodyStream(scoped_ptr<HTTPBodyStream> stream);
+  void SetBodyStream(std::unique_ptr<HTTPBodyStream> stream);
 
   //! \brief Sets the timeout for the HTTP request. The default is 15 seconds.
   //!
@@ -95,7 +95,7 @@ class HTTPTransport {
   std::string url_;
   std::string method_;
   HTTPHeaders headers_;
-  scoped_ptr<HTTPBodyStream> body_stream_;
+  std::unique_ptr<HTTPBodyStream> body_stream_;
   double timeout_;
 
   DISALLOW_COPY_AND_ASSIGN(HTTPTransport);

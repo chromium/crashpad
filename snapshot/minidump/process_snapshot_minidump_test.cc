@@ -18,7 +18,8 @@
 #include <dbghelp.h>
 #include <string.h>
 
-#include "base/memory/scoped_ptr.h"
+#include <memory>
+
 #include "gtest/gtest.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/string_file.h"

@@ -21,11 +21,11 @@
 #include <sys/types.h>
 #include <time.h>
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "build/build_config.h"
 #include "util/mach/task_memory.h"
 #include "util/misc/initialization_state_dcheck.h"
@@ -220,7 +220,7 @@ class ProcessReader {
   std::vector<Thread> threads_;  // owns send rights
   std::vector<Module> modules_;
   PointerVector<MachOImageReader> module_readers_;
-  scoped_ptr<TaskMemory> task_memory_;
+  std::unique_ptr<TaskMemory> task_memory_;
   task_t task_;  // weak
   InitializationStateDcheck initialized_;
 
