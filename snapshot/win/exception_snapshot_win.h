@@ -64,6 +64,15 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
                   WinVMAddress exception_pointers,
                   const PointerVector<internal::ThreadSnapshotWin>& threads);
 
+  //! \brief Whether this exception snapshot was triggered by
+  //!     CrashpadClient::DumpAndCrashTargetProcess().
+  //!
+  //! This is determined based on seeing the expected special exception code and
+  //! the expected number of arguments.
+  bool exception_triggered_by_client() const {
+    return exception_triggered_by_client_;
+  }
+
   // ExceptionSnapshot:
 
   const CPUContext* Context() const override;
@@ -96,6 +105,7 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   uint64_t exception_address_;
   uint32_t exception_flags_;
   DWORD exception_code_;
+  bool exception_triggered_by_client_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ExceptionSnapshotWin);
