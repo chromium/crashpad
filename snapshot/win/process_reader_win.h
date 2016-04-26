@@ -132,6 +132,9 @@ class ProcessReaderWin {
   //! \return A ProcessInfo object for the process being read.
   const ProcessInfo& GetProcessInfo() const;
 
+  //! \brief XXX
+  void DecrementThreadSuspendCounts(uint64_t except_thread_id);
+
  private:
   template <class Traits>
   void ReadThreadData(bool is_64_reading_32);

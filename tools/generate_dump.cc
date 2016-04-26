@@ -187,6 +187,7 @@ int GenerateDumpMain(int argc, char* argv[]) {
                                      options.suspend
                                          ? ProcessSuspensionState::kSuspended
                                          : ProcessSuspensionState::kRunning,
+                                     0,
                                      0)) {
       return EXIT_FAILURE;
     }

@@ -51,13 +51,9 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
   ProcessSnapshotWin process_snapshot;
   if (!process_snapshot.Initialize(process,
                                    ProcessSuspensionState::kSuspended,
-                                   debug_critical_section_address)) {
+                                   debug_critical_section_address,
+                                   exception_information_address)) {
     LOG(WARNING) << "ProcessSnapshotWin::Initialize failed";
-    return kFailedTerminationCode;
-  }
-
-  if (!process_snapshot.InitializeException(exception_information_address)) {
-    LOG(WARNING) << "ProcessSnapshotWin::InitializeException failed";
     return kFailedTerminationCode;
   }
 
