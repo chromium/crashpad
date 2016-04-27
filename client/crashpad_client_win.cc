@@ -488,9 +488,11 @@ void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   UnhandledExceptionHandler(exception_pointers);
 }
 
-bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
-                                               HANDLE blame_thread,
-                                               DWORD exception_code) const {
+bool CrashpadClient::DumpAndCrashTargetProcess(
+    HANDLE process,
+    HANDLE blame_thread,
+    DWORD exception_code,
+    SimpleStringDictionary* annotations) const {
   // Confirm we're on Vista or later.
   const DWORD version = GetVersion();
   const DWORD major_version = LOBYTE(LOWORD(version));
@@ -511,6 +513,8 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
     return false;
   }
 #endif  // ARCH_CPU_64_BITS
+
+  CHECK(false) << "use annotations";
 
   ScopedProcessSuspend suspend(process);
 

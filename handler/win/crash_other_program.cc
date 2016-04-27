@@ -55,8 +55,10 @@ bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
         // "Thread1" in the child.
         ScopedKernelHANDLE thread(
             OpenThread(kXPThreadAllAccess, false, te32.th32ThreadID));
+        SimpleStringDictionary extra_annotations;
+        extra_annotations.SetKeyValue("crashpants", "was here");
         if (!client.DumpAndCrashTargetProcess(
-                process, thread.get(), 0xdeadbea7)) {
+                process, thread.get(), 0xdeadbea7, &extra_annotations)) {
           LOG(ERROR) << "DumpAndCrashTargetProcess failed";
           return false;
         }
@@ -101,7 +103,7 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
   }
 
   if (argc == 3 && wcscmp(argv[2], L"noexception") == 0) {
-    client.DumpAndCrashTargetProcess(child.process_handle(), 0, 0);
+    client.DumpAndCrashTargetProcess(child.process_handle(), 0, 0, nullptr);
     return EXIT_SUCCESS;
   } else {
     if (CrashAndDumpTarget(client, child.process_handle()))

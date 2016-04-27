@@ -23,6 +23,7 @@
 #include "snapshot/win/exception_snapshot_win.h"
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/module_snapshot_win.h"
+#include "snapshot/win/pe_image_annotations_reader.h"
 #include "util/win/nt_internals.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/time.h"
@@ -61,6 +62,7 @@ bool ProcessSnapshotWin::Initialize(
     return false;
 
   ExceptionInformation exception_information = {};
+  WinVMAddress address_of_extra_annotations = 0;
   if (exception_information_address != 0) {
     if (!process_reader_.ReadMemory(exception_information_address,
                                     sizeof(exception_information),
@@ -70,7 +72,9 @@ bool ProcessSnapshotWin::Initialize(
     }
 
     if (internal::ExceptionSnapshotWin::ExceptionTriggeredByClient(
-            process_reader_, exception_information.exception_pointers)) {
+            process_reader_,
+            exception_information.exception_pointers,
+            &address_of_extra_annotations)) {
       process_reader_.DecrementThreadSuspendCounts(
           exception_information.thread_id);
     }
@@ -114,6 +118,18 @@ bool ProcessSnapshotWin::Initialize(
                                 threads_)) {
       exception_.reset();
       return false;
+    }
+
+    if (address_of_extra_annotations != 0) {
+      std::map<std::string, std::string> annotations;
+      PEImageAnnotationsReader::ReadAnnotationsAtAddress(
+          &process_reader_,
+          address_of_extra_annotations,
+          &annotations,
+          std::wstring());
+      // Use .insert() so that provided annotations don't override ones provided
+      // by the client originally.
+      annotations_simple_map_.insert(annotations.begin(), annotations.end());
     }
   }
 

@@ -53,8 +53,10 @@ void NativeContextToCPUContext32(const Context32& context_record,
 }
 
 template <class ExceptionRecordType, class ExceptionPointersType>
-bool ExceptionTriggeredByClientImpl(const ProcessReaderWin& process_reader,
-                                    WinVMAddress exception_pointers_address) {
+bool ExceptionTriggeredByClientImpl(
+    const ProcessReaderWin& process_reader,
+    WinVMAddress exception_pointers_address,
+    WinVMAddress* address_of_extra_annotations) {
   ExceptionPointersType exception_pointers;
   if (!process_reader.ReadMemory(exception_pointers_address,
                                  sizeof(exception_pointers),
@@ -76,9 +78,14 @@ bool ExceptionTriggeredByClientImpl(const ProcessReaderWin& process_reader,
     return false;
   }
 
-  return first_record.ExceptionCode ==
+  if (first_record.ExceptionCode ==
              CrashpadClient::kTriggeredExceptionCode &&
-         first_record.NumberParameters == 2;
+         first_record.NumberParameters == 3) {
+    *address_of_extra_annotations = first_record.ExceptionInformation[2];
+    return true;
+  }
+
+  return false;
 }
 
 }  // namespace
@@ -157,7 +164,8 @@ bool ExceptionSnapshotWin::Initialize(
 // static
 bool ExceptionSnapshotWin::ExceptionTriggeredByClient(
     const ProcessReaderWin& process_reader,
-    WinVMAddress exception_pointers_address) {
+    WinVMAddress exception_pointers_address,
+    WinVMAddress* extra_annotations_address) {
 #if defined(ARCH_CPU_32_BITS)
   const bool is_64_bit = false;
 #elif defined(ARCH_CPU_64_BITS)
@@ -165,13 +173,17 @@ bool ExceptionSnapshotWin::ExceptionTriggeredByClient(
   if (is_64_bit) {
     return ExceptionTriggeredByClientImpl<EXCEPTION_RECORD64,
                                           process_types::EXCEPTION_POINTERS64>(
-        process_reader, exception_pointers_address);
+        process_reader,
+        exception_pointers_address,
+        extra_annotations_address);
   }
 #endif
   if (!is_64_bit) {
     return ExceptionTriggeredByClientImpl<EXCEPTION_RECORD32,
                                           process_types::EXCEPTION_POINTERS32>(
-        process_reader, exception_pointers_address);
+        process_reader,
+        exception_pointers_address,
+        extra_annotations_address);
   }
 }
 
@@ -246,7 +258,7 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
   }
 
   if (first_record.ExceptionCode == CrashpadClient::kTriggeredExceptionCode &&
-      first_record.NumberParameters == 2 &&
+      first_record.NumberParameters == 3 &&
       first_record.ExceptionInformation[0] != 0) {
     // This special exception code indicates that the target was crashed by
     // another client calling CrashpadClient::DumpAndCrashTargetProcess(). In

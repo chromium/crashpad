@@ -24,6 +24,7 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "build/build_config.h"
+#include "client/simple_string_dictionary.h"
 
 #if defined(OS_MACOSX)
 #include "base/mac/scoped_mach_port.h"
@@ -173,11 +174,14 @@ class CrashpadClient {
   //!     refers to the current location of the given thread.
   //! \param[in] exception_code If \a blame_thread is non-null, this will be
   //!     used as the exception code in the exception record.
+  //! \param[in] annotations Extra annotations to include in the crash dump for
+  //!     the target process. May be null.
   //!
   //! \return `true` if the exception was triggered successfully.
   bool DumpAndCrashTargetProcess(HANDLE process,
                                  HANDLE blame_thread,
-                                 DWORD exception_code) const;
+                                 DWORD exception_code,
+                                 SimpleStringDictionary* annotations) const;
 
   enum : uint32_t {
     //! \brief The exception code (roughly "Client called") used when

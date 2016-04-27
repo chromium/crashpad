@@ -72,12 +72,17 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   //! \param[in] exception_pointers_address The address of an
   //!     `EXCEPTION_POINTERS` record in the target process, passed through from
   //!     the exception handler.
+  //! \param[out] extra_annotations_address The address of a
+  //!     SimpleStringDictionary containing extra annotations provided by the
+  //!     client that called DumpAndCrashTargetProcess(), or `0` if none was
+  //!     provided.
   //!
   //! This is determined based on seeing the expected special exception code and
   //! the expected number of arguments.
   static bool ExceptionTriggeredByClient(
       const ProcessReaderWin& process_reader,
-      WinVMAddress exception_pointers_address);
+      WinVMAddress exception_pointers_address,
+      WinVMAddress *extra_annotations_address);
 
   // ExceptionSnapshot:
 

@@ -20,6 +20,7 @@
 #include <vector>
 
 #include "base/macros.h"
+#include "util/win/address_types.h"
 
 namespace crashpad {
 
@@ -53,6 +54,13 @@ class PEImageAnnotationsReader {
   //! \brief Returns the module's annotations that are organized as key-value
   //!     pairs, where all keys and values are strings.
   std::map<std::string, std::string> SimpleMap() const;
+
+  //! XXX
+  static void ReadAnnotationsAtAddress(
+      ProcessReaderWin* process_reader,
+      WinVMAddress address,
+      std::map<std::string, std::string>* annotations,
+      const std::wstring& name);
 
  private:
   // Reads CrashpadInfo::simple_annotations_ on behalf of SimpleMap().

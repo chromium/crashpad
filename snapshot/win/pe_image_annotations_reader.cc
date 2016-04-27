@@ -46,6 +46,36 @@ std::map<std::string, std::string> PEImageAnnotationsReader::SimpleMap() const {
   return simple_map_annotations;
 }
 
+// static
+void PEImageAnnotationsReader::ReadAnnotationsAtAddress(
+    ProcessReaderWin* process_reader,
+    WinVMAddress address,
+    std::map<std::string, std::string>* annotations,
+    const std::wstring& name) {
+  std::vector<SimpleStringDictionary::Entry> simple_annotations(
+      SimpleStringDictionary::num_entries);
+  if (!process_reader->ReadMemory(
+          address,
+          simple_annotations.size() * sizeof(simple_annotations[0]),
+          &simple_annotations[0])) {
+    LOG(WARNING) << "could not read simple annotations from "
+                 << base::UTF16ToUTF8(name);
+    return;
+  }
+
+  for (const auto& entry : simple_annotations) {
+    size_t key_length = strnlen(entry.key, sizeof(entry.key));
+    if (key_length) {
+      std::string key(entry.key, key_length);
+      std::string value(entry.value, strnlen(entry.value, sizeof(entry.value)));
+      if (!annotations->insert(std::make_pair(key, value)).second) {
+        LOG(INFO) << "duplicate simple annotation " << key << " in "
+                  << base::UTF16ToUTF8(name);
+      }
+    }
+  }
+}
+
 template <class Traits>
 void PEImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
     std::map<std::string, std::string>* simple_map_annotations) const {
@@ -56,28 +86,10 @@ void PEImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
   if (!crashpad_info.simple_annotations)
     return;
 
-  std::vector<SimpleStringDictionary::Entry>
-      simple_annotations(SimpleStringDictionary::num_entries);
-  if (!process_reader_->ReadMemory(
-          crashpad_info.simple_annotations,
-          simple_annotations.size() * sizeof(simple_annotations[0]),
-          &simple_annotations[0])) {
-    LOG(WARNING) << "could not read simple annotations from "
-                 << base::UTF16ToUTF8(name_);
-    return;
-  }
-
-  for (const auto& entry : simple_annotations) {
-    size_t key_length = strnlen(entry.key, sizeof(entry.key));
-    if (key_length) {
-      std::string key(entry.key, key_length);
-      std::string value(entry.value, strnlen(entry.value, sizeof(entry.value)));
-      if (!simple_map_annotations->insert(std::make_pair(key, value)).second) {
-        LOG(INFO) << "duplicate simple annotation " << key << " in "
-                  << base::UTF16ToUTF8(name_);
-      }
-    }
-  }
+  ReadAnnotationsAtAddress(process_reader_,
+                           crashpad_info.simple_annotations,
+                           simple_map_annotations,
+                           name_);
 }
 
 }  // namespace crashpad
