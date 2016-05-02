@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e816e1ff_b4fe8013",
+        "filename": "snapshot/win/exception_snapshot_win.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-05-02T17:09:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e0693d_e224c6a0",
+      "revId": "4823e3ef0e451ae84e4014b21b6075d90a0793f5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e0693d_423ad2be",
         "filename": "snapshot/win/process_reader_win.h",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e816e1ff_741d0856",
+        "filename": "snapshot/win/process_reader_win.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-05-02T17:09:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e0693d_423ad2be",
+      "revId": "4823e3ef0e451ae84e4014b21b6075d90a0793f5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e0693d_2237ced4",
         "filename": "snapshot/win/process_snapshot_win.h",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2016-05-02T16:19:58Z",
       "side": 1,
       "message": "The exception_information thing is more important than the debug_critical_section thing, so reverse the order of these two arguments. (Sorry, I know that it bubbles out to lots of places, and that it’s painful because the two have the same type.)",
+      "revId": "4823e3ef0e451ae84e4014b21b6075d90a0793f5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e816e1ff_f47bd869",
+        "filename": "snapshot/win/process_snapshot_win.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-05-02T17:09:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8e0693d_2237ced4",
       "revId": "4823e3ef0e451ae84e4014b21b6075d90a0793f5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
