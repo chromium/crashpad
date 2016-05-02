@@ -78,7 +78,7 @@ CrashpadInfoClientOptions SelfProcessSnapshotAndGetCrashpadOptions() {
 #elif defined(OS_WIN)
   ProcessSnapshotWin process_snapshot;
   EXPECT_TRUE(process_snapshot.Initialize(
-      GetCurrentProcess(), ProcessSuspensionState::kRunning, 0));
+      GetCurrentProcess(), ProcessSuspensionState::kRunning, 0, 0));
 #else
 #error Port.
 #endif  // OS_MACOSX

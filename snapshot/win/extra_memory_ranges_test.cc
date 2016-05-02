@@ -62,7 +62,7 @@ void TestExtraMemoryRanges(TestType type,
 
   ProcessSnapshotWin snapshot;
   ASSERT_TRUE(snapshot.Initialize(
-      child.process_handle(), ProcessSuspensionState::kRunning, 0));
+      child.process_handle(), ProcessSuspensionState::kRunning, 0, 0));
 
   // Verify the extra memory ranges set via the CrashpadInfo interface.
   std::set<CheckedRange<uint64_t>> all_ranges;

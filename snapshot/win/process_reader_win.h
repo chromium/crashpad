@@ -132,6 +132,13 @@ class ProcessReaderWin {
   //! \return A ProcessInfo object for the process being read.
   const ProcessInfo& GetProcessInfo() const;
 
+  //! \brief Decrements the thread suspend counts for all thread ids other than
+  //!     \a except_thread_id.
+  //!
+  //! Used to adjust the thread suspend count to correspond to the actual values
+  //! for the process before Crashpad got involved.
+  void DecrementThreadSuspendCounts(uint64_t except_thread_id);
+
  private:
   template <class Traits>
   void ReadThreadData(bool is_64_reading_32);

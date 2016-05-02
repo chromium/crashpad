@@ -57,12 +57,15 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   //!     `EXCEPTION_POINTERS` record in the target process, passed through from
   //!     the exception handler.
   //!
+  //! \note If the exception was triggered by
+  //!     CrashpadClient::DumpAndCrashTargetProcess(), this has the side-effect
+  //!     of correcting the thread suspend counts for \a process_reader.
+  //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
   bool Initialize(ProcessReaderWin* process_reader,
                   DWORD thread_id,
-                  WinVMAddress exception_pointers,
-                  const PointerVector<internal::ThreadSnapshotWin>& threads);
+                  WinVMAddress exception_pointers);
 
   // ExceptionSnapshot:
 
@@ -79,9 +82,9 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
             class ExceptionPointersType,
             class ContextType>
   bool InitializeFromExceptionPointers(
-      const ProcessReaderWin& process_reader,
+      ProcessReaderWin* process_reader,
       WinVMAddress exception_pointers_address,
-      const PointerVector<internal::ThreadSnapshotWin>& threads,
+      DWORD thread_id,
       void (*native_to_cpu_context)(const ContextType& context_record,
                                     CPUContext* context,
                                     CPUContextUnion* context_union));

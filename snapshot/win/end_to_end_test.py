@@ -325,7 +325,10 @@ def RunTests(cdb_path,
             'other program dump exception code')
   out.Check('!Sleep', 'other program reasonable location')
   out.Check('hanging_program!Thread1', 'other program dump right thread')
-  out.Check('\.  1  Id', 'other program exception on correct thread')
+  out.Check('\.  1  Id.*Suspend: 0 ',
+            'other program exception on correct thread and correct suspend')
+  out.Check('   4  Id.*Suspend: 0 ',
+            'other program injection thread correct suspend')
 
   out = CdbRun(cdb_path, other_program_no_exception_path, '.ecxr;k')
   out.Check('Unknown exception - code 0cca11ed',

@@ -91,8 +91,8 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
     ProcessSnapshotWin snapshot;
     snapshot.Initialize(process,
                         ProcessSuspensionState::kSuspended,
+                        exception_information_address,
                         debug_critical_section_address);
-    snapshot.InitializeException(exception_information_address);
 
     // Confirm the exception record was read correctly.
     EXPECT_NE(snapshot.Exception()->ThreadID(), 0u);
@@ -190,8 +190,8 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
     ProcessSnapshotWin snapshot;
     snapshot.Initialize(process,
                         ProcessSuspensionState::kSuspended,
+                        exception_information_address,
                         debug_critical_section_address);
-    snapshot.InitializeException(exception_information_address);
     EXPECT_TRUE(snapshot.Exception());
     EXPECT_EQ(0x517a7ed, snapshot.Exception()->Exception());
 
