@@ -20,6 +20,7 @@
 #include "base/memory/ptr_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "snapshot/win/exception_snapshot_win.h"
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/module_snapshot_win.h"
 #include "util/win/nt_internals.h"
@@ -50,6 +51,7 @@ ProcessSnapshotWin::~ProcessSnapshotWin() {
 bool ProcessSnapshotWin::Initialize(
     HANDLE process,
     ProcessSuspensionState suspension_state,
+    WinVMAddress exception_information_address,
     WinVMAddress debug_critical_section_address) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
@@ -57,6 +59,22 @@ bool ProcessSnapshotWin::Initialize(
 
   if (!process_reader_.Initialize(process, suspension_state))
     return false;
+
+  ExceptionInformation exception_information = {};
+  if (exception_information_address != 0) {
+    if (!process_reader_.ReadMemory(exception_information_address,
+                                    sizeof(exception_information),
+                                    &exception_information)) {
+      LOG(WARNING) << "ReadMemory ExceptionInformation failed";
+      return false;
+    }
+
+    if (internal::ExceptionSnapshotWin::ExceptionTriggeredByClient(
+            process_reader_, exception_information.exception_pointers)) {
+      process_reader_.DecrementThreadSuspendCounts(
+          exception_information.thread_id);
+    }
+  }
 
   system_.Initialize(&process_reader_);
 
@@ -88,32 +106,18 @@ bool ProcessSnapshotWin::Initialize(
     }
   }
 
+  if (exception_information_address != 0) {
+    exception_.reset(new internal::ExceptionSnapshotWin());
+    if (!exception_->Initialize(&process_reader_,
+                                exception_information.thread_id,
+                                exception_information.exception_pointers,
+                                threads_)) {
+      exception_.reset();
+      return false;
+    }
+  }
+
   INITIALIZATION_STATE_SET_VALID(initialized_);
-  return true;
-}
-
-bool ProcessSnapshotWin::InitializeException(
-    WinVMAddress exception_information_address) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  DCHECK(!exception_);
-
-  ExceptionInformation exception_information;
-  if (!process_reader_.ReadMemory(exception_information_address,
-                                  sizeof(exception_information),
-                                  &exception_information)) {
-    LOG(WARNING) << "ReadMemory ExceptionInformation failed";
-    return false;
-  }
-
-  exception_.reset(new internal::ExceptionSnapshotWin());
-  if (!exception_->Initialize(&process_reader_,
-                              exception_information.thread_id,
-                              exception_information.exception_pointers,
-                              threads_)) {
-    exception_.reset();
-    return false;
-  }
-
   return true;
 }
 

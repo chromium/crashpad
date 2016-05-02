@@ -52,6 +52,35 @@ void NativeContextToCPUContext32(const Context32& context_record,
   InitializeX86Context(context_record, context->x86);
 }
 
+template <class ExceptionRecordType, class ExceptionPointersType>
+bool ExceptionTriggeredByClientImpl(const ProcessReaderWin& process_reader,
+                                    WinVMAddress exception_pointers_address) {
+  ExceptionPointersType exception_pointers;
+  if (!process_reader.ReadMemory(exception_pointers_address,
+                                 sizeof(exception_pointers),
+                                 &exception_pointers)) {
+    LOG(ERROR) << "EXCEPTION_POINTERS read failed";
+    return false;
+  }
+  if (!exception_pointers.ExceptionRecord) {
+    LOG(ERROR) << "null ExceptionRecord";
+    return false;
+  }
+
+  ExceptionRecordType first_record;
+  if (!process_reader.ReadMemory(
+          static_cast<WinVMAddress>(exception_pointers.ExceptionRecord),
+          sizeof(first_record),
+          &first_record)) {
+    LOG(ERROR) << "ExceptionRecord";
+    return false;
+  }
+
+  return first_record.ExceptionCode ==
+             CrashpadClient::kTriggeredExceptionCode &&
+         first_record.NumberParameters == 2;
+}
+
 }  // namespace
 
 ExceptionSnapshotWin::ExceptionSnapshotWin()
@@ -123,6 +152,29 @@ bool ExceptionSnapshotWin::Initialize(
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
+}
+
+// static
+bool ExceptionSnapshotWin::ExceptionTriggeredByClient(
+    const ProcessReaderWin& process_reader,
+    WinVMAddress exception_pointers_address) {
+#if defined(ARCH_CPU_32_BITS)
+  const bool is_64_bit = false;
+#elif defined(ARCH_CPU_64_BITS)
+  const bool is_64_bit = process_reader.Is64Bit();
+  if (is_64_bit) {
+    return ExceptionTriggeredByClientImpl<EXCEPTION_RECORD64,
+                                          process_types::EXCEPTION_POINTERS64>(
+        process_reader, exception_pointers_address);
+  }
+#endif
+  if (!is_64_bit) {
+    return ExceptionTriggeredByClientImpl<EXCEPTION_RECORD32,
+                                          process_types::EXCEPTION_POINTERS32>(
+        process_reader, exception_pointers_address);
+  }
+  NOTREACHED();
+  return false;
 }
 
 const CPUContext* ExceptionSnapshotWin::Context() const {
