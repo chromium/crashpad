@@ -16,6 +16,24 @@
       "revId": "25d8af38aae98ea2aa5c92d735284bfd3934d6a7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e816e1ff_f7a47a19",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-05-02T18:06:57Z",
+      "side": 1,
+      "message": "I think we raced on upload there, but does the \\note in ExceptionSnapshotWin::Initialize() cover this?",
+      "parentUuid": "a8e0693d_e2804659",
+      "revId": "25d8af38aae98ea2aa5c92d735284bfd3934d6a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
