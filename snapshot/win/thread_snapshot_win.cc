@@ -92,6 +92,10 @@ bool ThreadSnapshotWin::Initialize(
   return true;
 }
 
+void ThreadSnapshotWin::DecrementSuspendCount() {
+  thread_.suspend_count--;
+}
+
 const CPUContext* ThreadSnapshotWin::Context() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return &context_;

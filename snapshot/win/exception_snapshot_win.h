@@ -64,6 +64,22 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
                   WinVMAddress exception_pointers,
                   const PointerVector<internal::ThreadSnapshotWin>& threads);
 
+  //! \brief Whether the exception snapshot referred to by \a
+  //!     exception_pointers_address was triggered by
+  //!     CrashpadClient::DumpAndCrashTargetProcess().
+  //!
+  //! \param[in] process_reader A ProcessReader for the process that sustained
+  //!     the exception.
+  //! \param[in] exception_pointers_address The address of an
+  //!     `EXCEPTION_POINTERS` record in the target process, passed through from
+  //!     the exception handler.
+  //!
+  //! This is determined based on seeing the expected special exception code and
+  //! the expected number of arguments.
+  static bool ExceptionTriggeredByClient(
+      const ProcessReaderWin& process_reader,
+      WinVMAddress exception_pointers_address);
+
   // ExceptionSnapshot:
 
   const CPUContext* Context() const override;

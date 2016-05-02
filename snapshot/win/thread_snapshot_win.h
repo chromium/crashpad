@@ -60,6 +60,13 @@ class ThreadSnapshotWin final : public ThreadSnapshot {
       const ProcessReaderWin::Thread& process_reader_thread,
       uint32_t* gather_indirectly_referenced_memory_bytes_remaining);
 
+  //! \brief Decrements the thread's suspend count.
+  //!
+  //! This is used when it is known that the process was artificially suspended
+  //! by Crashpad so that the suspend count will match the state before Crashpad
+  //! got involved.
+  void DecrementSuspendCount();
+
   // ThreadSnapshot:
 
   const CPUContext* Context() const override;
