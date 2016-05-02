@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e0693d_a2511e01",
+        "filename": "client/prune_crash_reports.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-05-02T16:40:41Z",
+      "side": 1,
+      "message": "Isn\u0027t it used right here?",
+      "revId": "78f76d5784dd77575910db00149e189413bf2681",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
