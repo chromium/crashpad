@@ -16,6 +16,24 @@
       "revId": "454968daa1bf71d26ce6225b95b744be3045d004",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e816e1ff_d75b3e1d",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-05-02T18:01:50Z",
+      "side": 1,
+      "message": "Yeah, the duplication in the ExceptionTriggeredByClient() itself I didn\u0027t like much either.\n\nThe problem is that the thread information needs to be consumed by the exception initialization (because it needs to make the fake exception record to blame a thread) but it also is the place where we learn that we need to modify the suspend counts and have the information required to do so.\n\nSo, for a third attempt: move the exception initialization up higher, and have the exception snapshot use/modify the process reader thread data (rather than the thread snapshot data). I think this is a bit cleaner, in that things only happen in one place, and the thread initialization in ProcessSnapshotWin doesn\u0027t need to know about modified suspend counts.\n\nThe drawback is that ExceptionSnapshotWin::Initialize modifies suspend count, but that seems like the right place to do so because of the use+consume that we need to do here.",
+      "parentUuid": "a8e0693d_a29f5ec3",
+      "revId": "454968daa1bf71d26ce6225b95b744be3045d004",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
