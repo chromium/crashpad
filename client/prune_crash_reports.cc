@@ -17,6 +17,7 @@
 #include <sys/stat.h>
 
 #include <algorithm>
+#include <memory>
 #include <vector>
 
 #include "base/logging.h"

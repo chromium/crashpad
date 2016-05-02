@@ -18,8 +18,6 @@
 #include <sys/types.h>
 #include <time.h>
 
-#include <memory>
-
 #include "base/macros.h"
 #include "client/crash_report_database.h"
 
