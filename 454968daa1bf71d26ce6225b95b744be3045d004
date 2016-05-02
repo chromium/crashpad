@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8e0693d_a29f5ec3",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-05-02T17:14:37Z",
+      "side": 1,
+      "message": "It’s kind of a bummer that we wind up going to read the exception information to get this instead of relying on the exception read that we already have to do to set up the exception snapshot.\n\nCould ExceptionSnapshotWin::ExceptionTriggeredByClient() be made non-static, and the call moved after exception_-\u003eInitialize() below?",
+      "revId": "454968daa1bf71d26ce6225b95b744be3045d004",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
