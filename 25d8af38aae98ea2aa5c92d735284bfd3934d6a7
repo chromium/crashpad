@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a8e0693d_c2cf02c2",
+        "filename": "snapshot/win/exception_snapshot_win.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-05-02T18:36:40Z",
+      "side": 1,
+      "message": "I’m not sure if it’s a bug in PolyGerrit or if I’m just not using it correctly, but I see patch set 8 now.",
+      "parentUuid": "e816e1ff_57ee0efd",
+      "revId": "25d8af38aae98ea2aa5c92d735284bfd3934d6a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e0693d_e2804659",
         "filename": "snapshot/win/process_snapshot_win.cc",
         "patchSetId": 7
