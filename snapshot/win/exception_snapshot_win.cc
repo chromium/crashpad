@@ -72,8 +72,7 @@ ExceptionSnapshotWin::~ExceptionSnapshotWin() {
 bool ExceptionSnapshotWin::Initialize(
     ProcessReaderWin* process_reader,
     DWORD thread_id,
-    WinVMAddress exception_pointers_address,
-    const PointerVector<internal::ThreadSnapshotWin>& threads) {
+    WinVMAddress exception_pointers_address) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   const ProcessReaderWin::Thread* thread = nullptr;
@@ -98,9 +97,9 @@ bool ExceptionSnapshotWin::Initialize(
   if (is_64_bit) {
     if (!InitializeFromExceptionPointers<EXCEPTION_RECORD64,
                                          process_types::EXCEPTION_POINTERS64>(
-            *process_reader,
+            process_reader,
             exception_pointers_address,
-            threads,
+            thread_id,
             &NativeContextToCPUContext64)) {
       return false;
     }
@@ -109,9 +108,9 @@ bool ExceptionSnapshotWin::Initialize(
   if (!is_64_bit) {
     if (!InitializeFromExceptionPointers<EXCEPTION_RECORD32,
                                          process_types::EXCEPTION_POINTERS32>(
-            *process_reader,
+            process_reader,
             exception_pointers_address,
-            threads,
+            thread_id,
             &NativeContextToCPUContext32)) {
       return false;
     }
@@ -168,16 +167,16 @@ template <class ExceptionRecordType,
           class ExceptionPointersType,
           class ContextType>
 bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
-    const ProcessReaderWin& process_reader,
+    ProcessReaderWin* process_reader,
     WinVMAddress exception_pointers_address,
-    const PointerVector<internal::ThreadSnapshotWin>& threads,
+    DWORD thread_id,
     void (*native_to_cpu_context)(const ContextType& context_record,
                                   CPUContext* context,
                                   CPUContextUnion* context_union)) {
   ExceptionPointersType exception_pointers;
-  if (!process_reader.ReadMemory(exception_pointers_address,
-                                 sizeof(exception_pointers),
-                                 &exception_pointers)) {
+  if (!process_reader->ReadMemory(exception_pointers_address,
+                                  sizeof(exception_pointers),
+                                  &exception_pointers)) {
     LOG(ERROR) << "EXCEPTION_POINTERS read failed";
     return false;
   }
@@ -187,7 +186,7 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
   }
 
   ExceptionRecordType first_record;
-  if (!process_reader.ReadMemory(
+  if (!process_reader->ReadMemory(
           static_cast<WinVMAddress>(exception_pointers.ExceptionRecord),
           sizeof(first_record),
           &first_record)) {
@@ -195,9 +194,13 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
     return false;
   }
 
-  if (first_record.ExceptionCode == CrashpadClient::kTriggeredExceptionCode &&
-      first_record.NumberParameters == 2 &&
-      first_record.ExceptionInformation[0] != 0) {
+  const bool triggered_by_client =
+      first_record.ExceptionCode == CrashpadClient::kTriggeredExceptionCode &&
+      first_record.NumberParameters == 2;
+  if (triggered_by_client)
+    process_reader->DecrementThreadSuspendCounts(thread_id);
+
+  if (triggered_by_client && first_record.ExceptionInformation[0] != 0) {
     // This special exception code indicates that the target was crashed by
     // another client calling CrashpadClient::DumpAndCrashTargetProcess(). In
     // this case the parameters are a thread id and an exception code which we
@@ -206,18 +209,14 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
     const ArgumentType thread_id = first_record.ExceptionInformation[0];
     exception_code_ = static_cast<DWORD>(first_record.ExceptionInformation[1]);
     exception_flags_ = EXCEPTION_NONCONTINUABLE;
-    for (const auto* thread : threads) {
-      if (thread->ThreadID() == thread_id) {
+    for (const auto& thread : process_reader->Threads()) {
+      if (thread.id == thread_id) {
         thread_id_ = thread_id;
-        exception_address_ = thread->Context()->InstructionPointer();
-        context_.architecture = thread->Context()->architecture;
-        if (context_.architecture == kCPUArchitectureX86_64) {
-          context_union_.x86_64 = *thread->Context()->x86_64;
-          context_.x86_64 = &context_union_.x86_64;
-        } else {
-          context_union_.x86 = *thread->Context()->x86;
-          context_.x86 = &context_union_.x86;
-        }
+        native_to_cpu_context(
+            *reinterpret_cast<const ContextType*>(&thread.context),
+            &context_,
+            &context_union_);
+        exception_address_ = context_.InstructionPointer();
         break;
       }
     }
@@ -239,7 +238,7 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
     }
 
     ContextType context_record;
-    if (!process_reader.ReadMemory(
+    if (!process_reader->ReadMemory(
             static_cast<WinVMAddress>(exception_pointers.ContextRecord),
             sizeof(context_record),
             &context_record)) {

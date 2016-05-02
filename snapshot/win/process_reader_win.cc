@@ -326,6 +326,16 @@ const ProcessInfo& ProcessReaderWin::GetProcessInfo() const {
   return process_info_;
 }
 
+void ProcessReaderWin::DecrementThreadSuspendCounts(uint64_t except_thread_id) {
+  Threads();
+  for (auto& thread : threads_) {
+    if (thread.id != except_thread_id) {
+      DCHECK_GT(thread.suspend_count, 0u);
+      --thread.suspend_count;
+    }
+  }
+}
+
 template <class Traits>
 void ProcessReaderWin::ReadThreadData(bool is_64_reading_32) {
   DCHECK(threads_.empty());

@@ -61,8 +61,7 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   //!     an appropriate message logged.
   bool Initialize(ProcessReaderWin* process_reader,
                   DWORD thread_id,
-                  WinVMAddress exception_pointers,
-                  const PointerVector<internal::ThreadSnapshotWin>& threads);
+                  WinVMAddress exception_pointers);
 
   // ExceptionSnapshot:
 
@@ -79,9 +78,9 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
             class ExceptionPointersType,
             class ContextType>
   bool InitializeFromExceptionPointers(
-      const ProcessReaderWin& process_reader,
+      ProcessReaderWin* process_reader,
       WinVMAddress exception_pointers_address,
-      const PointerVector<internal::ThreadSnapshotWin>& threads,
+      DWORD thread_id,
       void (*native_to_cpu_context)(const ContextType& context_record,
                                     CPUContext* context,
                                     CPUContextUnion* context_union));
