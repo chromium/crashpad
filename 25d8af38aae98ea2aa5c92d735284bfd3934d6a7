@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "e816e1ff_ba8e6935",
+        "filename": "snapshot/win/exception_snapshot_win.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-05-02T18:37:57Z",
+      "side": 1,
+      "message": "It seems like sometimes the little dropdown in the top right gets unexpectedly stuck on something before N/N, but I\u0027m not sure what causes it yet.",
+      "parentUuid": "a8e0693d_c2cf02c2",
+      "revId": "25d8af38aae98ea2aa5c92d735284bfd3934d6a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e0693d_e2804659",
         "filename": "snapshot/win/process_snapshot_win.cc",
         "patchSetId": 7
