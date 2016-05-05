@@ -169,7 +169,7 @@ template <class ExceptionRecordType,
 bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
     ProcessReaderWin* process_reader,
     WinVMAddress exception_pointers_address,
-    DWORD thread_id,
+    DWORD exception_thread_id,
     void (*native_to_cpu_context)(const ContextType& context_record,
                                   CPUContext* context,
                                   CPUContextUnion* context_union)) {
@@ -198,7 +198,7 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
       first_record.ExceptionCode == CrashpadClient::kTriggeredExceptionCode &&
       first_record.NumberParameters == 2;
   if (triggered_by_client)
-    process_reader->DecrementThreadSuspendCounts(thread_id);
+    process_reader->DecrementThreadSuspendCounts(exception_thread_id);
 
   if (triggered_by_client && first_record.ExceptionInformation[0] != 0) {
     // This special exception code indicates that the target was crashed by
@@ -206,12 +206,12 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
     // this case the parameters are a thread id and an exception code which we
     // use to fabricate a new exception record.
     using ArgumentType = decltype(first_record.ExceptionInformation[0]);
-    const ArgumentType thread_id = first_record.ExceptionInformation[0];
+    const ArgumentType blame_thread_id = first_record.ExceptionInformation[0];
     exception_code_ = static_cast<DWORD>(first_record.ExceptionInformation[1]);
     exception_flags_ = EXCEPTION_NONCONTINUABLE;
     for (const auto& thread : process_reader->Threads()) {
-      if (thread.id == thread_id) {
-        thread_id_ = thread_id;
+      if (thread.id == blame_thread_id) {
+        thread_id_ = blame_thread_id;
         native_to_cpu_context(
             *reinterpret_cast<const ContextType*>(&thread.context),
             &context_,
@@ -222,7 +222,7 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
     }
 
     if (exception_address_ == 0) {
-      LOG(WARNING) << "thread " << thread_id << " not found";
+      LOG(WARNING) << "thread " << blame_thread_id << " not found";
       return false;
     }
   } else {
