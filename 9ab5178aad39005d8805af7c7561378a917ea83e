@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b798ce90_c2706297",
+        "filename": "util/win/scoped_process_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-05-18T23:11:50Z",
+      "side": 1,
+      "message": "Remove this and add \"util/win/ntstatus_logging.h\".",
+      "revId": "9ab5178aad39005d8805af7c7561378a917ea83e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b798ce90_e27b6678",
+        "filename": "util/win/scoped_process_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-05-18T23:11:50Z",
+      "side": 1,
+      "message": "I don’t see a matching change to the header to add “bool suspended_”.\n\nBut do we need a separate variable for this? We could do:\n\n  if (NT_SUCCESS(status)) {\n    process_ \u003d process;\n  } else {\n    process_ \u003d nullptr;\n    NTSTATUS_LOG(…);\n  }",
+      "revId": "9ab5178aad39005d8805af7c7561378a917ea83e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b798ce90_826b7aa8",
+        "filename": "util/win/scoped_process_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-05-18T23:11:50Z",
+      "side": 1,
+      "message": "GET_FUNCTION_REQUIRED()?\n\nI wonder how we missed this one when we added it. Did we intentionally omit things that used GetModuleHandle() instead of LoadLibrary()? I thought that we discussed it and decided that it wasn’t a big deal to take extra refs on things that were guaranteed to already be loaded like ntdll, because they’d never be unloaded anyway.",
+      "revId": "9ab5178aad39005d8805af7c7561378a917ea83e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
