@@ -38,6 +38,10 @@ NTSTATUS NTAPI NtOpenThread(HANDLE* ThreadHandle,
                             OBJECT_ATTRIBUTES* ObjectAttributes,
                             CLIENT_ID* ClientId);
 
+NTSTATUS NTAPI NtSuspendProcess(HANDLE);
+
+NTSTATUS NTAPI NtResumeProcess(HANDLE);
+
 void* NTAPI RtlGetUnloadEventTrace();
 
 namespace crashpad {
@@ -127,6 +131,18 @@ NTSTATUS NtQueryObject(HANDLE handle,
                          object_information,
                          object_information_length,
                          return_length);
+}
+
+NTSTATUS NtSuspendProcess(HANDLE handle) {
+  static const auto nt_suspend_process =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtSuspendProcess);
+  return nt_suspend_process(handle);
+}
+
+NTSTATUS NtResumeProcess(HANDLE handle) {
+  static const auto nt_resume_process =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtResumeProcess);
+  return nt_resume_process(handle);
 }
 
 template <class Traits>

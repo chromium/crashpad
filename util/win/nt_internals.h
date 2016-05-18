@@ -71,6 +71,10 @@ NTSTATUS NtQueryObject(HANDLE handle,
                        ULONG object_information_length,
                        ULONG* return_length);
 
+NTSTATUS NtSuspendProcess(HANDLE handle);
+
+NTSTATUS NtResumeProcess(HANDLE handle);
+
 // From https://msdn.microsoft.com/en-us/library/bb432428(VS.85).aspx and
 // http://processhacker.sourceforge.net/doc/struct___r_t_l___u_n_l_o_a_d___e_v_e_n_t___t_r_a_c_e.html
 #define RTL_UNLOAD_EVENT_TRACE_NUMBER 64

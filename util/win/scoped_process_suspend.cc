@@ -16,26 +16,28 @@
 
 #include <winternl.h>
 
-#include "base/logging.h"
+#include "util/win/nt_internals.h"
+#include "util/win/ntstatus_logging.h"
 
 namespace crashpad {
 
-ScopedProcessSuspend::ScopedProcessSuspend(HANDLE process) : process_(process) {
-  typedef NTSTATUS(__stdcall * NtSuspendProcessFunc)(HANDLE);
-  static NtSuspendProcessFunc func = reinterpret_cast<NtSuspendProcessFunc>(
-      GetProcAddress(GetModuleHandle(L"ntdll.dll"), "NtSuspendProcess"));
-  NTSTATUS status = func(process_);
-  if (status)
-    LOG(ERROR) << "NtSuspendProcess, ntstatus=" << status;
+ScopedProcessSuspend::ScopedProcessSuspend(HANDLE process) {
+  NTSTATUS status = NtSuspendProcess(process);
+  if (NT_SUCCESS(status)) {
+    process_ = process;
+  } else {
+    process_ = nullptr;
+    NTSTATUS_LOG(ERROR, status) << "NtSuspendProcess";
+  }
 }
 
 ScopedProcessSuspend::~ScopedProcessSuspend() {
-  typedef NTSTATUS(__stdcall * NtResumeProcessFunc)(HANDLE);
-  static NtResumeProcessFunc func = reinterpret_cast<NtResumeProcessFunc>(
-      GetProcAddress(GetModuleHandle(L"ntdll.dll"), "NtResumeProcess"));
-  NTSTATUS status = func(process_);
-  if (status)
-    LOG(ERROR) << "NtResumeProcess, ntstatus=" << status;
+  if (process_) {
+    NTSTATUS status = NtResumeProcess(process_);
+    if (!NT_SUCCESS(status)) {
+      NTSTATUS_LOG(ERROR, status) << "NtResumeProcess";
+    }
+  }
 }
 
 }  // namespace crashpad
