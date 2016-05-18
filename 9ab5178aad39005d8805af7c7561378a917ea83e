@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "37f21ea8_1ce5574a",
+        "filename": "util/win/scoped_process_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-05-18T23:25:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b798ce90_c2706297",
+      "revId": "9ab5178aad39005d8805af7c7561378a917ea83e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b798ce90_e27b6678",
         "filename": "util/win/scoped_process_suspend.cc",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-05-18T23:11:50Z",
       "side": 1,
       "message": "I don’t see a matching change to the header to add “bool suspended_”.\n\nBut do we need a separate variable for this? We could do:\n\n  if (NT_SUCCESS(status)) {\n    process_ \u003d process;\n  } else {\n    process_ \u003d nullptr;\n    NTSTATUS_LOG(…);\n  }",
+      "revId": "9ab5178aad39005d8805af7c7561378a917ea83e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37f21ea8_bc29a32b",
+        "filename": "util/win/scoped_process_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-05-18T23:25:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b798ce90_e27b6678",
       "revId": "9ab5178aad39005d8805af7c7561378a917ea83e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2016-05-18T23:14:40Z",
       "side": 1,
       "message": "Oh, right, it’s because we’d still need to provide our own declaration of NtSuspendProcess(). OK.",
+      "parentUuid": "b798ce90_826b7aa8",
+      "revId": "9ab5178aad39005d8805af7c7561378a917ea83e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37f21ea8_dc1f4ff4",
+        "filename": "util/win/scoped_process_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-05-18T23:25:04Z",
+      "side": 1,
+      "message": "Done, and moved to util/win/nt_internals with most of the rest.",
       "parentUuid": "b798ce90_826b7aa8",
       "revId": "9ab5178aad39005d8805af7c7561378a917ea83e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
