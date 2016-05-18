@@ -20,22 +20,27 @@
 
 namespace crashpad {
 
-ScopedProcessSuspend::ScopedProcessSuspend(HANDLE process) : process_(process) {
+ScopedProcessSuspend::ScopedProcessSuspend(HANDLE process)
+    : process_(process), suspended_(false) {
   typedef NTSTATUS(__stdcall * NtSuspendProcessFunc)(HANDLE);
   static NtSuspendProcessFunc func = reinterpret_cast<NtSuspendProcessFunc>(
       GetProcAddress(GetModuleHandle(L"ntdll.dll"), "NtSuspendProcess"));
   NTSTATUS status = func(process_);
-  if (status)
-    LOG(ERROR) << "NtSuspendProcess, ntstatus=" << status;
+  if (NT_SUCCESS(status))
+    suspended_ = true;
+  else
+    NTSTATUS_LOG(ERROR, status) << "NtSuspendProcess";
 }
 
 ScopedProcessSuspend::~ScopedProcessSuspend() {
-  typedef NTSTATUS(__stdcall * NtResumeProcessFunc)(HANDLE);
-  static NtResumeProcessFunc func = reinterpret_cast<NtResumeProcessFunc>(
-      GetProcAddress(GetModuleHandle(L"ntdll.dll"), "NtResumeProcess"));
-  NTSTATUS status = func(process_);
-  if (status)
-    LOG(ERROR) << "NtResumeProcess, ntstatus=" << status;
+  if (suspended_) {
+    typedef NTSTATUS(__stdcall * NtResumeProcessFunc)(HANDLE);
+    static NtResumeProcessFunc func = reinterpret_cast<NtResumeProcessFunc>(
+        GetProcAddress(GetModuleHandle(L"ntdll.dll"), "NtResumeProcess"));
+    NTSTATUS status = func(process_);
+    if (!NT_SUCCESS(status))
+      NTSTATUS_LOG(ERROR, status) << "NtResumeProcess";
+  }
 }
 
 }  // namespace crashpad
