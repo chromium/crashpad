@@ -50,6 +50,24 @@
       "revId": "9ab5178aad39005d8805af7c7561378a917ea83e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b798ce90_426572d1",
+        "filename": "util/win/scoped_process_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-05-18T23:14:40Z",
+      "side": 1,
+      "message": "Oh, right, it’s because we’d still need to provide our own declaration of NtSuspendProcess(). OK.",
+      "parentUuid": "b798ce90_826b7aa8",
+      "revId": "9ab5178aad39005d8805af7c7561378a917ea83e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
