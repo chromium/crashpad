@@ -111,6 +111,20 @@
           ],
         },
         {
+          'target_name': 'late_crashy_program',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'win/late_crashy_test_program.cc',
+          ],
+        },
+        {
           'target_name': 'crash_other_program',
           'type': 'executable',
           'dependencies': [
