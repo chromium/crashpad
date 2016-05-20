@@ -85,6 +85,22 @@ void TestImageReaderChild(const base::string16& directory_modification) {
       0,
       pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix));
 
+  // Sum the size of the extra memory in all the threads and confirm it's near
+  // the limit that the child process set in its CrashpadInfo.
+  EXPECT_GE(process_snapshot.Threads().size(), 100u);
+
+  size_t extra_memory_total = 0;
+  for (const auto* thread : process_snapshot.Threads()) {
+    for (const auto* extra_memory : thread->ExtraMemory()) {
+      extra_memory_total += extra_memory->Size();
+    }
+  }
+
+  // We confirm we gathered less than 1M of extra data. The cap is set to only
+  // 100K, but there are other "extra memory" regions that aren't included in
+  // the cap. (Completely uncapped it would be > 10M.)
+  EXPECT_LT(extra_memory_total, 1000000u);
+
   // Tell the child it can terminate.
   SetEvent(done.get());
 }

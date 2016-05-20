@@ -233,13 +233,13 @@ void ProcessSnapshotWin::InitializeThreads(
     uint32_t indirectly_referenced_memory_cap) {
   const std::vector<ProcessReaderWin::Thread>& process_reader_threads =
       process_reader_.Threads();
+  uint32_t* budget_remaining_pointer = nullptr;
+  uint32_t budget_remaining = indirectly_referenced_memory_cap;
+  if (gather_indirectly_referenced_memory)
+    budget_remaining_pointer = &budget_remaining;
   for (const ProcessReaderWin::Thread& process_reader_thread :
        process_reader_threads) {
     auto thread = base::WrapUnique(new internal::ThreadSnapshotWin());
-    uint32_t* budget_remaining_pointer = nullptr;
-    uint32_t budget_remaining = indirectly_referenced_memory_cap;
-    if (gather_indirectly_referenced_memory)
-      budget_remaining_pointer = &budget_remaining;
     if (thread->Initialize(&process_reader_,
                            process_reader_thread,
                            budget_remaining_pointer)) {
