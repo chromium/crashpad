@@ -34,10 +34,13 @@ class WorkDelegate : public WorkerThread::Delegate {
       semaphore_.Signal();
   }
 
-  //! \brief Suspends the calling thread until the DoWork() has been called
-  //!     the specified number of times.
-  void WaitForWorkCount(int times) {
+  void SetDesiredWorkCount(int times) {
     waiting_for_count_ = times;
+  }
+
+  //! \brief Suspends the calling thread until the DoWork() has been called
+  //!     the number of times specified by SetDesiredWorkCount().
+  void WaitForWorkCount() {
     semaphore_.Wait();
   }
 
@@ -56,10 +59,11 @@ TEST(WorkerThread, DoWork) {
   WorkerThread thread(0.05, &delegate);
 
   uint64_t start = ClockMonotonicNanoseconds();
+  delegate.SetDesiredWorkCount(2);
   thread.Start(0);
   EXPECT_TRUE(thread.is_running());
 
-  delegate.WaitForWorkCount(2);
+  delegate.WaitForWorkCount();
   thread.Stop();
   EXPECT_FALSE(thread.is_running());
 
@@ -80,15 +84,17 @@ TEST(WorkerThread, Restart) {
   WorkDelegate delegate;
   WorkerThread thread(0.05, &delegate);
 
+  delegate.SetDesiredWorkCount(1);
   thread.Start(0);
   EXPECT_TRUE(thread.is_running());
 
-  delegate.WaitForWorkCount(1);
+  delegate.WaitForWorkCount();
   thread.Stop();
   ASSERT_FALSE(thread.is_running());
 
+  delegate.SetDesiredWorkCount(2);
   thread.Start(0);
-  delegate.WaitForWorkCount(2);
+  delegate.WaitForWorkCount();
   thread.Stop();
   ASSERT_FALSE(thread.is_running());
 }
@@ -97,16 +103,18 @@ TEST(WorkerThread, DoWorkNow) {
   WorkDelegate delegate;
   WorkerThread thread(100, &delegate);
 
+  delegate.SetDesiredWorkCount(1);
   thread.Start(0);
   EXPECT_TRUE(thread.is_running());
 
   uint64_t start = ClockMonotonicNanoseconds();
 
-  delegate.WaitForWorkCount(1);
+  delegate.WaitForWorkCount();
   EXPECT_EQ(1, delegate.work_count());
 
+  delegate.SetDesiredWorkCount(2);
   thread.DoWorkNow();
-  delegate.WaitForWorkCount(2);
+  delegate.WaitForWorkCount();
   thread.Stop();
   EXPECT_EQ(2, delegate.work_count());
 
@@ -119,11 +127,12 @@ TEST(WorkerThread, DoWorkNowAtStart) {
 
   uint64_t start = ClockMonotonicNanoseconds();
 
+  delegate.SetDesiredWorkCount(1);
   thread.Start(100);
   EXPECT_TRUE(thread.is_running());
 
   thread.DoWorkNow();
-  delegate.WaitForWorkCount(1);
+  delegate.WaitForWorkCount();
   EXPECT_EQ(1, delegate.work_count());
 
   EXPECT_GE(100 * kNanosecondsPerSecond, ClockMonotonicNanoseconds() - start);
