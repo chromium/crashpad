@@ -16,6 +16,24 @@
       "revId": "7a5363397f4142659130bd2cf5e68f49e1b849d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57bb123b_a300f2f4",
+        "filename": "snapshot/win/crashpad_snapshot_test_image_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-05-20T15:45:01Z",
+      "side": 1,
+      "message": "Oops, I was initially going to EXPECT on the contents, but there didn\u0027t seem to be much benefit.",
+      "parentUuid": "d77aa232_0b945def",
+      "revId": "7a5363397f4142659130bd2cf5e68f49e1b849d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
