@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "772d7676_0801072d",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-05-20T17:15:42Z",
+      "side": 1,
+      "message": "Blank line between code and a comment that doesn’t apply to the code. Same on line 644.",
+      "revId": "6159e3577ff371fef7b70211ae4dac470132f25d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "772d7676_e8ebd387",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-05-20T17:15:42Z",
+      "side": 1,
+      "message": "const",
+      "revId": "6159e3577ff371fef7b70211ae4dac470132f25d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
