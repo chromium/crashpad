@@ -633,14 +633,27 @@ std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
     const ProcessInfo::MemoryBasicInformation64Vector& memory_info) {
   using Range = CheckedRange<WinVMAddress, WinVMSize>;
 
+  // Constructing Ranges and using OverlapsRange() is very, very slow in Debug
+  // builds, so do a manual check in this loop. The ranges are still validated
+  // by a CheckedRange before being returned.
+  WinVMAddress range_base = range.base();
+  WinVMAddress range_end = range.end();
+
   // Find all the ranges that overlap the target range, maintaining their order.
   ProcessInfo::MemoryBasicInformation64Vector overlapping;
-  for (const auto& mi : memory_info) {
+  const size_t size = memory_info.size();
+
+  // This loop is written in an ugly fashion to make Debug performance
+  // reasonable.
+  const MEMORY_BASIC_INFORMATION64* begin = &memory_info[0];
+  for (size_t i = 0; i < size; ++i) {
+    const MEMORY_BASIC_INFORMATION64& mi = *(begin + i);
     static_assert(std::is_same<decltype(mi.BaseAddress), WinVMAddress>::value,
                   "expected range address to be WinVMAddress");
     static_assert(std::is_same<decltype(mi.RegionSize), WinVMSize>::value,
                   "expected range size to be WinVMSize");
-    if (range.OverlapsRange(Range(mi.BaseAddress, mi.RegionSize)))
+    WinVMAddress mi_end = mi.BaseAddress + mi.RegionSize;
+    if (range_base < mi_end && mi.BaseAddress < range_end)
       overlapping.push_back(mi);
   }
   if (overlapping.empty())
