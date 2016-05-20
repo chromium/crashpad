@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d77aa232_0b945def",
+        "filename": "snapshot/win/crashpad_snapshot_test_image_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-05-20T00:43:27Z",
+      "side": 1,
+      "message": "?",
+      "revId": "7a5363397f4142659130bd2cf5e68f49e1b849d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
