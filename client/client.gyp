@@ -31,6 +31,8 @@
       'sources': [
         'capture_context_mac.S',
         'capture_context_mac.h',
+        'contiguous_string_map.cc',
+        'contiguous_string_map.h',
         'crash_report_database.cc',
         'crash_report_database.h',
         'crash_report_database_mac.mm',
