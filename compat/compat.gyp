@@ -38,6 +38,8 @@
         'non_win/windows.h',
         'non_win/winnt.h',
         'win/getopt.h',
+        'win/string.cc',
+        'win/string.h',
         'win/strings.cc',
         'win/strings.h',
         'win/sys/types.h',

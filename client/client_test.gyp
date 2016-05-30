@@ -35,6 +35,7 @@
       ],
       'sources': [
         'capture_context_mac_test.cc',
+        'contiguous_string_map_test.cc',
         'crash_report_database_test.cc',
         'crashpad_client_win_test.cc',
         'prune_crash_reports_test.cc',
