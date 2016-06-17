@@ -173,27 +173,6 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
       return false;
     }
 
-    uint32_t section_type = (section.flags & SECTION_TYPE);
-    bool zero_fill = section_type == S_ZEROFILL ||
-                     section_type == S_GB_ZEROFILL ||
-                     section_type == S_THREAD_LOCAL_ZEROFILL;
-
-    // Zero-fill section types aren’t mapped from the file, so their |offset|
-    // fields are irrelevant and are typically 0.
-    if (!zero_fill &&
-        section.offset - segment_command_.fileoff !=
-            section.addr - segment_command_.vmaddr) {
-      LOG(WARNING) << base::StringPrintf(
-                          "section type 0x%x at 0x%llx has unexpected offset "
-                          "0x%x in segment at 0x%llx with offset 0x%llx",
-                          section_type,
-                          section.addr,
-                          section.offset,
-                          segment_command_.vmaddr,
-                          segment_command_.fileoff) << section_info;
-      return false;
-    }
-
     const auto insert_result =
         section_map_.insert(std::make_pair(section_name, section_index));
     if (!insert_result.second) {
