@@ -36,7 +36,7 @@ PROCESS_TYPE_STRUCT_BEGIN(mach_header)  // 64-bit: mach_header_64
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, ncmds)
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, sizeofcmds)
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, flags)
-  PROCESS_TYPE_STRUCT_MEMBER(Reserved64Only, reserved)
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved32_64Only, reserved)
 PROCESS_TYPE_STRUCT_END(mach_header)
 
 PROCESS_TYPE_STRUCT_BEGIN(load_command)
@@ -136,5 +136,5 @@ PROCESS_TYPE_STRUCT_BEGIN(section)  // 64-bit: section_64
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, flags)
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, reserved1)
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, reserved2)
-  PROCESS_TYPE_STRUCT_MEMBER(Reserved64Only, reserved3)
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved32_64Only, reserved3)
 PROCESS_TYPE_STRUCT_END(section)

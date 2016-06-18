@@ -61,7 +61,7 @@ PROCESS_TYPE_STRUCT_BEGIN(dyld_all_image_infos)
   // of the process_types structure matches the genuine 64-bit structure. This
   // is required because the alignment constraints on 64-bit types are more
   // stringent in 64-bit mode.
-  PROCESS_TYPE_STRUCT_MEMBER(Reserved64Only, alignment)
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved32_64Only, alignment)
 
   // const mach_header*
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, dyldImageLoadAddress)
@@ -80,31 +80,46 @@ PROCESS_TYPE_STRUCT_BEGIN(dyld_all_image_infos)
   // Version 7 (Mac OS X 10.6)
   PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, systemOrderFlag)
 
-  // Version 8 (Mac OS X 10.7)
+  // Version 8 (OS X 10.7)
   PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, uuidArrayCount)
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, uuidArray)  // const dyld_uuid_info*
 
-  // Version 9 (Mac OS X 10.7)
+  // Version 9 (OS X 10.7)
   // dyld_all_image_infos*
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, dyldAllImageInfosAddress)
 
-  // Version 10 (Mac OS X 10.7)
+  // Version 10 (OS X 10.7)
   PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, initialImageCount)
 
-  // Version 11 (Mac OS X 10.7)
+  // Version 11 (OS X 10.7)
   PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, errorKind)
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, errorClientOfDylibPath)  // const char*
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, errorTargetDylibPath)  // const char*
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, errorSymbol)  // const char*
 
-  // Version 12 (Mac OS X 10.7)
+  // Version 12 (OS X 10.7)
   PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, sharedCacheSlide)
 
-  // Version 13 (Mac OS X 10.9)
+  // Version 13 (OS X 10.9)
   PROCESS_TYPE_STRUCT_MEMBER(uint8_t, sharedCacheUUID, [16])
 
-  // Version 14 (Mac OS X 10.9)
-  PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, reserved, [16])
+  // Version 15 (macOS 10.12)
+  // This space is also allocated in version 14 (OS X 10.9) as part of the
+  // “reserved” member.
+  PROCESS_TYPE_STRUCT_MEMBER(uint64_t, infoArrayChangeTimestamp)
+  PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, sharedCacheBaseAddress)
+  PROCESS_TYPE_STRUCT_MEMBER(Pointer, dyldPath)  // const char*
+
+  // These should be considered mach_port_name_t when interacting with them from
+  // another Mach IPC namespace (process).
+  PROCESS_TYPE_STRUCT_MEMBER(mach_port_t, notifyPorts, [2])
+
+  // Version 14 (OS X 10.9)
+  // As of the 10.12 SDK, this is declared as reserved[10] for 64-bit platforms
+  // and reserved[12] for 32-bit platforms.
+  PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, reserved, [10])
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_10)
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_11)
 PROCESS_TYPE_STRUCT_END(dyld_all_image_infos)
 
 #endif  // ! PROCESS_TYPE_STRUCT_IMPLEMENT_INTERNAL_READ_INTO &&
