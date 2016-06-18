@@ -444,6 +444,9 @@ void ProcessReader::InitializeModules() {
     if (all_image_infos.version >= 2 && all_image_infos.dyldImageLoadAddress &&
         image_info.imageLoadAddress == all_image_infos.dyldImageLoadAddress) {
       found_dyld = true;
+      LOG(WARNING) << base::StringPrintf(
+            "found dylinker (%s) in dyld_all_image_infos::infoArray",
+            module.name.c_str());
 
       LOG_IF(WARNING, file_type != MH_DYLINKER)
           << base::StringPrintf("dylinker (%s) has unexpected Mach-O type %d",
