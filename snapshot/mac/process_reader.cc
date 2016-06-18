@@ -444,6 +444,9 @@ void ProcessReader::InitializeModules() {
     if (all_image_infos.version >= 2 && all_image_infos.dyldImageLoadAddress &&
         image_info.imageLoadAddress == all_image_infos.dyldImageLoadAddress) {
       found_dyld = true;
+      LOG(WARNING) << base::StringPrintf(
+            "found dylinker (%s) in dyld_all_image_infos::infoArray",
+            module.name.c_str());
 
       LOG_IF(WARNING, file_type != MH_DYLINKER)
           << base::StringPrintf("dylinker (%s) has unexpected Mach-O type %d",
@@ -486,7 +489,7 @@ void ProcessReader::InitializeModules() {
   // all_image_infos.infoArray doesn’t include an entry for dyld, but dyld is
   // loaded into the process’ address space as a module. Its load address is
   // easily known given a sufficiently recent all_image_infos.version, but the
-  // timestamp and pathname are not given as they are for other modules.
+  // timestamp and pathname may not be given as they are for other modules.
   //
   // The timestamp is a lost cause, because the kernel doesn’t record the
   // timestamp of the dynamic linker at the time it’s loaded in the same way
@@ -495,17 +498,30 @@ void ProcessReader::InitializeModules() {
   // even when accessed via dyld APIs, because it’s loaded by the kernel, not by
   // dyld.)
   //
-  // The name can be determined, but it’s not as simple as hardcoding the
-  // default "/usr/lib/dyld" because an executable could have specified anything
-  // in its LC_LOAD_DYLINKER command.
-  if (!found_dyld && all_image_infos.version >= 2 &&
+  // As of dyld_all_image_infos version 15 (macOS 10.12), a field for the
+  // pathname is provided. For older versions, the name can be determined, but
+  // it’s not as simple as hardcoding the default "/usr/lib/dyld" because an
+  // executable could have specified anything in its LC_LOAD_DYLINKER command.
+  if (!found_dyld &&
+      all_image_infos.version >= 2 &&
       all_image_infos.dyldImageLoadAddress) {
     Module module;
     module.timestamp = 0;
 
+    bool found_dyld_name = false;
+    if (all_image_infos.version >= 15 && all_image_infos.dyldPath) {
+      found_dyld_name =
+          task_memory_->ReadCString(all_image_infos.dyldPath, &module.name);
+      if (!found_dyld_name) {
+        LOG(WARNING) << "could not read dyld_all_image_infos::dyldPath";
+      }
+    }
+
     // Examine the executable’s LC_LOAD_DYLINKER load command to find the path
     // used to load dyld.
-    if (all_image_infos.infoArrayCount >= 1 && main_executable_count >= 1) {
+    if (!found_dyld_name &&
+        all_image_infos.infoArrayCount >= 1 &&
+        main_executable_count >= 1) {
       module.name = modules_[0].reader->DylinkerName();
     }
     std::string module_name = !module.name.empty() ? module.name : "(dyld)";
