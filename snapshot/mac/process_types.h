@@ -29,10 +29,12 @@ namespace internal {
 
 // Some structure definitions differ in 32-bit and 64-bit environments by having
 // additional “reserved” padding fields present only in the 64-bit environment.
-// These Reserved64Only* types allow the process_types system to replicate these
-// structures more precisely.
-using Reserved64Only32 = char[0];
-using Reserved64Only64 = uint32_t;
+// These Reserved*_64Only* types allow the process_types system to replicate
+// these structures more precisely.
+using Reserved32_64Only32 = char[0];
+using Reserved32_64Only64 = uint32_t;
+using Reserved64_64Only32 = char[0];
+using Reserved64_64Only64 = uint64_t;
 
 }  // namespace internal
 }  // namespace process_types
@@ -61,7 +63,8 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     using Pointer = internal::TraitsGeneric::Pointer;                          \
     using IntPtr = internal::TraitsGeneric::IntPtr;                            \
     using UIntPtr = internal::TraitsGeneric::UIntPtr;                          \
-    using Reserved64Only = internal::TraitsGeneric::Reserved64Only;            \
+    using Reserved32_64Only = internal::TraitsGeneric::Reserved32_64Only;      \
+    using Reserved64_64Only = internal::TraitsGeneric::Reserved64_64Only;      \
                                                                                \
     /* Initializes an object with data read from |process_reader| at           \
      * |address|, properly genericized. */                                     \
@@ -150,7 +153,8 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     using Pointer = typename Traits::Pointer;                                  \
     using IntPtr = typename Traits::IntPtr;                                    \
     using UIntPtr = typename Traits::UIntPtr;                                  \
-    using Reserved64Only = typename Traits::Reserved64Only;                    \
+    using Reserved32_64Only = typename Traits::Reserved32_64Only;              \
+    using Reserved64_64Only = typename Traits::Reserved64_64Only;              \
                                                                                \
     /* Read(), ReadArrayInto(), and Size() are as in the generic user-visible  \
      * struct above. */                                                        \

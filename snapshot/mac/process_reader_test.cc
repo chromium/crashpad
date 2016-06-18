@@ -56,6 +56,8 @@ namespace crashpad {
 namespace test {
 namespace {
 
+const char kDyldPath[] = "/usr/lib/dyld";
+
 TEST(ProcessReader, SelfBasic) {
   ProcessReader process_reader;
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
@@ -690,7 +692,7 @@ TEST(ProcessReader, SelfModules) {
   EXPECT_EQ(ExpectCLKernels(), found_cl_kernels);
 
   size_t index = modules.size() - 1;
-  EXPECT_EQ("/usr/lib/dyld", modules[index].name);
+  EXPECT_EQ(kDyldPath, modules[index].name);
 
   // dyld didn’t load itself either, so it couldn’t record its timestamp, and it
   // is also reported as 0.
@@ -800,7 +802,7 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
         dyld_image_address =
             reinterpret_cast<mach_vm_address_t>(_dyld_get_image_header(index));
       } else {
-        dyld_image_name = "/usr/lib/dyld";
+        dyld_image_name = kDyldPath;
         dyld_image_address = reinterpret_cast<mach_vm_address_t>(
             dyld_image_infos->dyldImageLoadAddress);
       }
