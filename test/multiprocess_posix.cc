@@ -98,12 +98,12 @@ void Multiprocess::Run() {
     if (WIFEXITED(status)) {
       reason = kTerminationNormal;
       code = WEXITSTATUS(status);
-      message = base::StringPrintf("Child exited with code %d, expected", code);
+      message = base::StringPrintf("Child exited with code %d", code);
     } else if (WIFSIGNALED(status)) {
       reason = kTerminationSignal;
       code = WTERMSIG(status);
       message =
-          base::StringPrintf("Child terminated by signal %d (%s)%s, expected",
+          base::StringPrintf("Child terminated by signal %d (%s)%s",
                              code,
                              strsignal(code),
                              WCOREDUMP(status) ? " (core dumped)" : "");
@@ -112,9 +112,11 @@ void Multiprocess::Run() {
     }
 
     if (reason_ == kTerminationNormal) {
-      message += base::StringPrintf(" exit with code %d", code_);
-    } else if (reason == kTerminationSignal) {
-      message += base::StringPrintf(" termination by signal %d", code_);
+      message += base::StringPrintf(", expected exit with code %d", code_);
+    } else if (reason_ == kTerminationSignal) {
+      message += base::StringPrintf(", expected termination by signal %d (%s)",
+                                    code_,
+                                    strsignal(code_));
     }
 
     if (reason != reason_ || code != code_) {
