@@ -16,6 +16,24 @@
       "revId": "495a64fcdb7c979fe0f46eeaa1017087589d67cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9f798e0_434b469d",
+        "filename": "snapshot/mac/process_types.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-06-20T15:36:19Z",
+      "side": 0,
+      "message": "This got obsoleted by the overload that goes by Assign\u003cType\u003e(Type*, const Type\u0026).",
+      "parentUuid": "e94270dd_1da333b8",
+      "revId": "495a64fcdb7c979fe0f46eeaa1017087589d67cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
