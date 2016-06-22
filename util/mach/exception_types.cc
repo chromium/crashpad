@@ -201,6 +201,12 @@ bool IsExceptionNonfatalResource(exception_type_t exception,
     return true;
   }
 
+  if (resource_type == RESOURCE_TYPE_IO) {
+    // These exceptions don’t ever appear to be fatal. See
+    // https://crashpad.chromium.org/bug/124.
+    return true;
+  }
+
   // Treat unknown exceptions as fatal. This is the conservative approach: it
   // may result in more crash reports being generated, but the type-flavor
   // combinations can be evaluated to determine appropriate handling.
