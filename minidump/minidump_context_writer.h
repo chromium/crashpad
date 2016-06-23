@@ -17,8 +17,9 @@
 
 #include <sys/types.h>
 
+#include <memory>
+
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_context.h"
 #include "minidump/minidump_writable.h"
 
@@ -43,7 +44,7 @@ class MinidumpContextWriter : public internal::MinidumpWritable {
   //!     context_snapshot. The returned object is initialized using the source
   //!     data in \a context_snapshot. If \a context_snapshot is an unknown CPU
   //!     type’s context, logs a message and returns `nullptr`.
-  static scoped_ptr<MinidumpContextWriter> CreateFromSnapshot(
+  static std::unique_ptr<MinidumpContextWriter> CreateFromSnapshot(
       const CPUContext* context_snapshot);
 
  protected:

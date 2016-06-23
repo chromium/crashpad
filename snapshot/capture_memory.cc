@@ -17,8 +17,8 @@
 #include <stdint.h>
 
 #include <limits>
+#include <memory>
 
-#include "base/memory/scoped_ptr.h"
 #include "snapshot/memory_snapshot.h"
 
 namespace crashpad {
@@ -38,9 +38,9 @@ void MaybeCaptureMemoryAround(CaptureMemory::Delegate* delegate,
   if (address > max_address - non_address_offset)
     return;
 
-  const uint64_t kRegisterByteOffset = 256;
+  const uint64_t kRegisterByteOffset = 128;
   const uint64_t target = address - kRegisterByteOffset;
-  const uint64_t size = 1024;
+  const uint64_t size = 512;
   static_assert(kRegisterByteOffset <= size / 2,
                 "negative offset too large");
   auto ranges =
@@ -112,7 +112,7 @@ void CaptureMemory::PointedToByMemoryRange(const MemorySnapshot& memory,
     return;
   }
 
-  scoped_ptr<uint8_t[]> buffer(new uint8_t[memory.Size()]);
+  std::unique_ptr<uint8_t[]> buffer(new uint8_t[memory.Size()]);
   if (!delegate->ReadMemory(memory.Address(), memory.Size(), buffer.get())) {
     LOG(ERROR) << "ReadMemory";
     return;

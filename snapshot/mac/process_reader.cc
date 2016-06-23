@@ -429,7 +429,7 @@ void ProcessReader::InitializeModules() {
       // Proceed anyway with an empty module name.
     }
 
-    scoped_ptr<MachOImageReader> reader(new MachOImageReader());
+    std::unique_ptr<MachOImageReader> reader(new MachOImageReader());
     if (!reader->Initialize(this, image_info.imageLoadAddress, module.name)) {
       reader.reset();
     }
@@ -444,6 +444,9 @@ void ProcessReader::InitializeModules() {
     if (all_image_infos.version >= 2 && all_image_infos.dyldImageLoadAddress &&
         image_info.imageLoadAddress == all_image_infos.dyldImageLoadAddress) {
       found_dyld = true;
+      LOG(WARNING) << base::StringPrintf(
+            "found dylinker (%s) in dyld_all_image_infos::infoArray",
+            module.name.c_str());
 
       LOG_IF(WARNING, file_type != MH_DYLINKER)
           << base::StringPrintf("dylinker (%s) has unexpected Mach-O type %d",
@@ -510,7 +513,7 @@ void ProcessReader::InitializeModules() {
     }
     std::string module_name = !module.name.empty() ? module.name : "(dyld)";
 
-    scoped_ptr<MachOImageReader> reader(new MachOImageReader());
+    std::unique_ptr<MachOImageReader> reader(new MachOImageReader());
     if (!reader->Initialize(
             this, all_image_infos.dyldImageLoadAddress, module_name)) {
       reader.reset();

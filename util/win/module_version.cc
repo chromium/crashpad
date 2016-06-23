@@ -17,8 +17,9 @@
 #include <windows.h>
 #include <stdint.h>
 
+#include <memory>
+
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 #include "base/strings/utf_string_conversions.h"
 
 namespace crashpad {
@@ -32,7 +33,7 @@ bool GetModuleVersionAndType(const base::FilePath& path,
     return false;
   }
 
-  scoped_ptr<uint8_t[]> data(new uint8_t[size]);
+  std::unique_ptr<uint8_t[]> data(new uint8_t[size]);
   if (!GetFileVersionInfo(path.value().c_str(), 0, size, data.get())) {
     PLOG(WARNING) << "GetFileVersionInfo: "
                   << base::UTF16ToUTF8(path.value());

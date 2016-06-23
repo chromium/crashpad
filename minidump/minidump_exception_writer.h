@@ -20,10 +20,10 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_thread_id_map.h"
 
@@ -63,7 +63,7 @@ class MinidumpExceptionWriter final : public internal::MinidumpStreamWriter {
   //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void SetContext(scoped_ptr<MinidumpContextWriter> context);
+  void SetContext(std::unique_ptr<MinidumpContextWriter> context);
 
   //! \brief Sets MINIDUMP_EXCEPTION_STREAM::ThreadId.
   void SetThreadID(uint32_t thread_id) { exception_.ThreadId = thread_id; }
@@ -116,7 +116,7 @@ class MinidumpExceptionWriter final : public internal::MinidumpStreamWriter {
 
  private:
   MINIDUMP_EXCEPTION_STREAM exception_;
-  scoped_ptr<MinidumpContextWriter> context_;
+  std::unique_ptr<MinidumpContextWriter> context_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpExceptionWriter);
 };

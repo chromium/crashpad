@@ -265,6 +265,11 @@
             4201,  # nonstandard extension used : nameless struct/union.
             4577,  # 'noexcept' used with no exception handling mode specified
           ],
+          'direct_dependent_settings': {
+            'msvs_disabled_warnings': [
+              4577,  # 'noexcept' used with no exception handling mode specified
+            ],
+          },
           'conditions': [
             ['target_arch=="ia32"', {
               'msvs_settings': {

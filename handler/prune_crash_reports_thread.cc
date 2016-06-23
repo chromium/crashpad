@@ -22,7 +22,7 @@ namespace crashpad {
 
 PruneCrashReportThread::PruneCrashReportThread(
     CrashReportDatabase* database,
-    scoped_ptr<PruneCondition> condition)
+    std::unique_ptr<PruneCondition> condition)
     : thread_(60 * 60 * 24, this),
       condition_(std::move(condition)),
       database_(database) {}

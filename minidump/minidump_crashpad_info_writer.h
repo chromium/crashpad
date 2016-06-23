@@ -17,10 +17,10 @@
 
 #include <sys/types.h>
 
+#include <memory>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "util/misc/uuid.h"
@@ -69,7 +69,7 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
   //!
   //! \note Valid in #kStateMutable.
   void SetSimpleAnnotations(
-      scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations);
+      std::unique_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations);
 
   //! \brief Arranges for MinidumpCrashpadInfo::module_list to point to the
   //!     MinidumpModuleCrashpadInfoList object to be written by \a
@@ -80,7 +80,7 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
   //!
   //! \note Valid in #kStateMutable.
   void SetModuleList(
-      scoped_ptr<MinidumpModuleCrashpadInfoListWriter> module_list);
+      std::unique_ptr<MinidumpModuleCrashpadInfoListWriter> module_list);
 
   //! \brief Determines whether the object is useful.
   //!
@@ -103,8 +103,8 @@ class MinidumpCrashpadInfoWriter final : public internal::MinidumpStreamWriter {
 
  private:
   MinidumpCrashpadInfo crashpad_info_;
-  scoped_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations_;
-  scoped_ptr<MinidumpModuleCrashpadInfoListWriter> module_list_;
+  std::unique_ptr<MinidumpSimpleStringDictionaryWriter> simple_annotations_;
+  std::unique_ptr<MinidumpModuleCrashpadInfoListWriter> module_list_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpCrashpadInfoWriter);
 };

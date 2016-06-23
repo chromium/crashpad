@@ -273,7 +273,7 @@ CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::PrepareNewCrashReport(NewReport** out_report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  scoped_ptr<NewReport> report(new NewReport());
+  std::unique_ptr<NewReport> report(new NewReport());
 
   uuid_t uuid_gen;
   uuid_generate(uuid_gen);
@@ -312,7 +312,7 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
   base::ScopedFD lock(report->handle);
 
   // Take ownership of the report.
-  scoped_ptr<NewReport> scoped_report(report);
+  std::unique_ptr<NewReport> scoped_report(report);
 
   // Get the report's UUID to return.
   std::string uuid_string;
@@ -355,7 +355,7 @@ CrashReportDatabaseMac::ErrorWritingCrashReport(NewReport* report) {
   base::ScopedFD lock(report->handle);
 
   // Take ownership of the report.
-  scoped_ptr<NewReport> scoped_report(report);
+  std::unique_ptr<NewReport> scoped_report(report);
 
   // Remove the file that the report would have been written to had no error
   // occurred.
@@ -413,7 +413,7 @@ CrashReportDatabaseMac::GetReportForUploading(const UUID& uuid,
   if (report_path.empty())
     return kReportNotFound;
 
-  scoped_ptr<UploadReport> upload_report(new UploadReport());
+  std::unique_ptr<UploadReport> upload_report(new UploadReport());
   upload_report->file_path = report_path;
 
   base::ScopedFD lock(ObtainReportLock(report_path));
@@ -441,7 +441,7 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
   if (report_path.empty())
     return kReportNotFound;
 
-  scoped_ptr<const UploadReport> upload_report(
+  std::unique_ptr<const UploadReport> upload_report(
       static_cast<const UploadReport*>(report));
 
   base::ScopedFD lock(upload_report->lock_fd);
@@ -647,27 +647,28 @@ std::string CrashReportDatabaseMac::XattrName(const base::StringPiece& name) {
   return XattrNameInternal(name, xattr_new_names_);
 }
 
-scoped_ptr<CrashReportDatabase> InitializeInternal(const base::FilePath& path,
-                                                   bool may_create) {
-  scoped_ptr<CrashReportDatabaseMac> database_mac(
+std::unique_ptr<CrashReportDatabase> InitializeInternal(
+    const base::FilePath& path,
+    bool may_create) {
+  std::unique_ptr<CrashReportDatabaseMac> database_mac(
       new CrashReportDatabaseMac(path));
   if (!database_mac->Initialize(may_create))
     database_mac.reset();
 
-  return scoped_ptr<CrashReportDatabase>(database_mac.release());
+  return std::unique_ptr<CrashReportDatabase>(database_mac.release());
 }
 
 }  // namespace
 
 // static
-scoped_ptr<CrashReportDatabase> CrashReportDatabase::Initialize(
+std::unique_ptr<CrashReportDatabase> CrashReportDatabase::Initialize(
     const base::FilePath& path) {
   return InitializeInternal(path, true);
 }
 
 // static
-scoped_ptr<CrashReportDatabase> CrashReportDatabase::InitializeWithoutCreating(
-    const base::FilePath& path) {
+std::unique_ptr<CrashReportDatabase>
+CrashReportDatabase::InitializeWithoutCreating(const base::FilePath& path) {
   return InitializeInternal(path, false);
 }
 

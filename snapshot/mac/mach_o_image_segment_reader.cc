@@ -122,7 +122,7 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
 
     if (section_segment_name != segment_name) {
       // cl_kernels modules (for OpenCL) aren’t ld output, and they’re formatted
-      // incorrectly on OS X 10.10 and 10.11. They have a single __TEXT segment,
+      // incorrectly on OS X 10.10 and later. They have a single __TEXT segment,
       // but one of the sections within it claims to belong to the __LD segment.
       // This mismatch shouldn’t happen. This errant section also has the
       // S_ATTR_DEBUG flag set, which shouldn’t happen unless all of the other
@@ -136,7 +136,7 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
       bool ok = false;
       if (file_type == MH_BUNDLE && module_name == "cl_kernels") {
         int mac_os_x_minor_version = MacOSXMinorVersion();
-        if ((mac_os_x_minor_version == 10 || mac_os_x_minor_version == 11) &&
+        if ((mac_os_x_minor_version >= 10 && mac_os_x_minor_version <= 12) &&
             segment_name == SEG_TEXT &&
             section_segment_name == "__LD" &&
             section_name == "__compact_unwind" &&
@@ -170,27 +170,6 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
                           section.size,
                           segment_command_.vmaddr,
                           segment_command_.vmsize) << section_info;
-      return false;
-    }
-
-    uint32_t section_type = (section.flags & SECTION_TYPE);
-    bool zero_fill = section_type == S_ZEROFILL ||
-                     section_type == S_GB_ZEROFILL ||
-                     section_type == S_THREAD_LOCAL_ZEROFILL;
-
-    // Zero-fill section types aren’t mapped from the file, so their |offset|
-    // fields are irrelevant and are typically 0.
-    if (!zero_fill &&
-        section.offset - segment_command_.fileoff !=
-            section.addr - segment_command_.vmaddr) {
-      LOG(WARNING) << base::StringPrintf(
-                          "section type 0x%x at 0x%llx has unexpected offset "
-                          "0x%x in segment at 0x%llx with offset 0x%llx",
-                          section_type,
-                          section.addr,
-                          section.offset,
-                          segment_command_.vmaddr,
-                          segment_command_.fileoff) << section_info;
       return false;
     }
 

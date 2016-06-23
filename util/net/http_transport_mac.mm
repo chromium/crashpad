@@ -227,8 +227,8 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
 }  // namespace
 
 // static
-scoped_ptr<HTTPTransport> HTTPTransport::Create() {
-  return scoped_ptr<HTTPTransport>(new HTTPTransportMac());
+std::unique_ptr<HTTPTransport> HTTPTransport::Create() {
+  return std::unique_ptr<HTTPTransport>(new HTTPTransportMac());
 }
 
 }  // namespace crashpad

@@ -17,10 +17,10 @@
 
 #include <stdint.h>
 
+#include <memory>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/exception_snapshot.h"
 #include "util/stdlib/pointer_container.h"
@@ -59,7 +59,7 @@ class TestExceptionSnapshot final : public ExceptionSnapshot {
     exception_address_ = exception_address;
   }
   void SetCodes(const std::vector<uint64_t>& codes) { codes_ = codes; }
-  void AddExtraMemory(scoped_ptr<MemorySnapshot> extra_memory) {
+  void AddExtraMemory(std::unique_ptr<MemorySnapshot> extra_memory) {
     extra_memory_.push_back(extra_memory.release());
   }
 

@@ -15,8 +15,9 @@
 #ifndef CRASHPAD_UTIL_THREAD_WORKER_THREAD_H_
 #define CRASHPAD_UTIL_THREAD_WORKER_THREAD_H_
 
+#include <memory>
+
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 
 namespace crashpad {
 
@@ -82,7 +83,7 @@ class WorkerThread {
 
   double work_interval_;
   Delegate* delegate_;  // weak
-  scoped_ptr<internal::WorkerThreadImpl> impl_;
+  std::unique_ptr<internal::WorkerThreadImpl> impl_;
   bool running_;
 
   DISALLOW_COPY_AND_ASSIGN(WorkerThread);

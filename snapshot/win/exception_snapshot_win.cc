@@ -14,6 +14,7 @@
 
 #include "snapshot/win/exception_snapshot_win.h"
 
+#include "client/crashpad_client.h"
 #include "snapshot/capture_memory.h"
 #include "snapshot/memory_snapshot.h"
 #include "snapshot/win/cpu_context_win.h"
@@ -24,6 +25,34 @@
 
 namespace crashpad {
 namespace internal {
+
+namespace {
+
+#if defined(ARCH_CPU_32_BITS)
+using Context32 = CONTEXT;
+#elif defined(ARCH_CPU_64_BITS)
+using Context32 = WOW64_CONTEXT;
+#endif
+
+#if defined(ARCH_CPU_64_BITS)
+void NativeContextToCPUContext64(const CONTEXT& context_record,
+                                 CPUContext* context,
+                                 CPUContextUnion* context_union) {
+  context->architecture = kCPUArchitectureX86_64;
+  context->x86_64 = &context_union->x86_64;
+  InitializeX64Context(context_record, context->x86_64);
+}
+#endif
+
+void NativeContextToCPUContext32(const Context32& context_record,
+                                 CPUContext* context,
+                                 CPUContextUnion* context_union) {
+  context->architecture = kCPUArchitectureX86;
+  context->x86 = &context_union->x86;
+  InitializeX86Context(context_record, context->x86);
+}
+
+}  // namespace
 
 ExceptionSnapshotWin::ExceptionSnapshotWin()
     : ExceptionSnapshot(),
@@ -40,9 +69,10 @@ ExceptionSnapshotWin::ExceptionSnapshotWin()
 ExceptionSnapshotWin::~ExceptionSnapshotWin() {
 }
 
-bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
-                                      DWORD thread_id,
-                                      WinVMAddress exception_pointers_address) {
+bool ExceptionSnapshotWin::Initialize(
+    ProcessReaderWin* process_reader,
+    DWORD thread_id,
+    WinVMAddress exception_pointers_address) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   const ProcessReaderWin::Thread* thread = nullptr;
@@ -62,36 +92,32 @@ bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
 
 #if defined(ARCH_CPU_32_BITS)
   const bool is_64_bit = false;
-  using Context32 = CONTEXT;
 #elif defined(ARCH_CPU_64_BITS)
   const bool is_64_bit = process_reader->Is64Bit();
-  using Context32 = WOW64_CONTEXT;
   if (is_64_bit) {
-    CONTEXT context_record;
     if (!InitializeFromExceptionPointers<EXCEPTION_RECORD64,
                                          process_types::EXCEPTION_POINTERS64>(
-            *process_reader, exception_pointers_address, &context_record)) {
+            process_reader,
+            exception_pointers_address,
+            thread_id,
+            &NativeContextToCPUContext64)) {
       return false;
     }
-    context_.architecture = kCPUArchitectureX86_64;
-    context_.x86_64 = &context_union_.x86_64;
-    InitializeX64Context(context_record, context_.x86_64);
   }
 #endif
   if (!is_64_bit) {
-    Context32 context_record;
     if (!InitializeFromExceptionPointers<EXCEPTION_RECORD32,
                                          process_types::EXCEPTION_POINTERS32>(
-            *process_reader, exception_pointers_address, &context_record)) {
+            process_reader,
+            exception_pointers_address,
+            thread_id,
+            &NativeContextToCPUContext32)) {
       return false;
     }
-    context_.architecture = kCPUArchitectureX86;
-    context_.x86 = &context_union_.x86;
-    InitializeX86Context(context_record, context_.x86);
   }
 
   CaptureMemoryDelegateWin capture_memory_delegate(
-      process_reader, *thread, &extra_memory_);
+      process_reader, *thread, &extra_memory_, nullptr);
   CaptureMemory::PointedToByContext(context_, &capture_memory_delegate);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -141,13 +167,16 @@ template <class ExceptionRecordType,
           class ExceptionPointersType,
           class ContextType>
 bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
-    const ProcessReaderWin& process_reader,
+    ProcessReaderWin* process_reader,
     WinVMAddress exception_pointers_address,
-    ContextType* context_record) {
+    DWORD exception_thread_id,
+    void (*native_to_cpu_context)(const ContextType& context_record,
+                                  CPUContext* context,
+                                  CPUContextUnion* context_union)) {
   ExceptionPointersType exception_pointers;
-  if (!process_reader.ReadMemory(exception_pointers_address,
-                                 sizeof(exception_pointers),
-                                 &exception_pointers)) {
+  if (!process_reader->ReadMemory(exception_pointers_address,
+                                  sizeof(exception_pointers),
+                                  &exception_pointers)) {
     LOG(ERROR) << "EXCEPTION_POINTERS read failed";
     return false;
   }
@@ -157,29 +186,67 @@ bool ExceptionSnapshotWin::InitializeFromExceptionPointers(
   }
 
   ExceptionRecordType first_record;
-  if (!process_reader.ReadMemory(
+  if (!process_reader->ReadMemory(
           static_cast<WinVMAddress>(exception_pointers.ExceptionRecord),
           sizeof(first_record),
           &first_record)) {
     LOG(ERROR) << "ExceptionRecord";
     return false;
   }
-  exception_code_ = first_record.ExceptionCode;
-  exception_flags_ = first_record.ExceptionFlags;
-  exception_address_ = first_record.ExceptionAddress;
-  for (DWORD i = 0; i < first_record.NumberParameters; ++i)
-    codes_.push_back(first_record.ExceptionInformation[i]);
-  if (first_record.ExceptionRecord) {
-    // https://crashpad.chromium.org/bug/43
-    LOG(WARNING) << "dropping chained ExceptionRecord";
-  }
 
-  if (!process_reader.ReadMemory(
-          static_cast<WinVMAddress>(exception_pointers.ContextRecord),
-          sizeof(*context_record),
-          context_record)) {
-    LOG(ERROR) << "ContextRecord";
-    return false;
+  const bool triggered_by_client =
+      first_record.ExceptionCode == CrashpadClient::kTriggeredExceptionCode &&
+      first_record.NumberParameters == 2;
+  if (triggered_by_client)
+    process_reader->DecrementThreadSuspendCounts(exception_thread_id);
+
+  if (triggered_by_client && first_record.ExceptionInformation[0] != 0) {
+    // This special exception code indicates that the target was crashed by
+    // another client calling CrashpadClient::DumpAndCrashTargetProcess(). In
+    // this case the parameters are a thread id and an exception code which we
+    // use to fabricate a new exception record.
+    using ArgumentType = decltype(first_record.ExceptionInformation[0]);
+    const ArgumentType blame_thread_id = first_record.ExceptionInformation[0];
+    exception_code_ = static_cast<DWORD>(first_record.ExceptionInformation[1]);
+    exception_flags_ = EXCEPTION_NONCONTINUABLE;
+    for (const auto& thread : process_reader->Threads()) {
+      if (thread.id == blame_thread_id) {
+        thread_id_ = blame_thread_id;
+        native_to_cpu_context(
+            *reinterpret_cast<const ContextType*>(&thread.context),
+            &context_,
+            &context_union_);
+        exception_address_ = context_.InstructionPointer();
+        break;
+      }
+    }
+
+    if (exception_address_ == 0) {
+      LOG(WARNING) << "thread " << blame_thread_id << " not found";
+      return false;
+    }
+  } else {
+    // Normal case.
+    exception_code_ = first_record.ExceptionCode;
+    exception_flags_ = first_record.ExceptionFlags;
+    exception_address_ = first_record.ExceptionAddress;
+    for (DWORD i = 0; i < first_record.NumberParameters; ++i)
+      codes_.push_back(first_record.ExceptionInformation[i]);
+    if (first_record.ExceptionRecord) {
+      // https://crashpad.chromium.org/bug/43
+      LOG(WARNING) << "dropping chained ExceptionRecord";
+    }
+
+    ContextType context_record;
+    if (!process_reader->ReadMemory(
+            static_cast<WinVMAddress>(exception_pointers.ContextRecord),
+            sizeof(context_record),
+            &context_record)) {
+      LOG(ERROR) << "ContextRecord";
+      return false;
+    }
+
+    native_to_cpu_context(context_record, &context_, &context_union_);
   }
 
   return true;

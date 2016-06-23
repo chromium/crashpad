@@ -14,7 +14,7 @@
 
 #include "util/numeric/int128.h"
 
-#include "base/macros.h"
+#include "base/bit_cast.h"
 #include "gtest/gtest.h"
 
 namespace crashpad {

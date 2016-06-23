@@ -14,6 +14,7 @@
 
 #include "snapshot/win/capture_memory_delegate_win.h"
 
+#include "base/numerics/safe_conversions.h"
 #include "snapshot/win/memory_snapshot_win.h"
 
 namespace crashpad {
@@ -22,10 +23,12 @@ namespace internal {
 CaptureMemoryDelegateWin::CaptureMemoryDelegateWin(
     ProcessReaderWin* process_reader,
     const ProcessReaderWin::Thread& thread,
-    PointerVector<MemorySnapshotWin>* snapshots)
+    PointerVector<MemorySnapshotWin>* snapshots,
+    uint32_t* budget_remaining)
     : stack_(thread.stack_region_address, thread.stack_region_size),
       process_reader_(process_reader),
-      snapshots_(snapshots) {}
+      snapshots_(snapshots),
+      budget_remaining_(budget_remaining) {}
 
 bool CaptureMemoryDelegateWin::Is64Bit() const {
   return process_reader_->Is64Bit();
@@ -47,9 +50,22 @@ void CaptureMemoryDelegateWin::AddNewMemorySnapshot(
   // Don't bother storing this memory if it points back into the stack.
   if (stack_.ContainsRange(range))
     return;
+  if (range.size() == 0)
+    return;
+  if (budget_remaining_ && *budget_remaining_ == 0)
+    return;
   internal::MemorySnapshotWin* snapshot = new internal::MemorySnapshotWin();
   snapshot->Initialize(process_reader_, range.base(), range.size());
   snapshots_->push_back(snapshot);
+  if (budget_remaining_) {
+    if (!base::IsValueInRangeForNumericType<int64_t>(range.size())) {
+      *budget_remaining_ = 0;
+    } else {
+      int64_t temp = *budget_remaining_;
+      temp -= range.size();
+      *budget_remaining_ = base::saturated_cast<uint32_t>(temp);
+    }
+  }
 }
 
 }  // namespace internal

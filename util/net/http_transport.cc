@@ -44,7 +44,7 @@ void HTTPTransport::SetHeader(const std::string& header,
   headers_[header] = value;
 }
 
-void HTTPTransport::SetBodyStream(scoped_ptr<HTTPBodyStream> stream) {
+void HTTPTransport::SetBodyStream(std::unique_ptr<HTTPBodyStream> stream) {
   body_stream_ = std::move(stream);
 }
 

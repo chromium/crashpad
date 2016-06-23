@@ -17,8 +17,9 @@
 #include <string.h>
 #include <uuid/uuid.h>
 
+#include <memory>
+
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "snapshot/mac/process_types/internal.h"
 #include "util/mach/task_memory.h"
 
@@ -35,42 +36,37 @@ inline void Assign(DestinationType* destination, const SourceType& source) {
   *destination = source;
 }
 
+template <typename Type>
+inline void Assign(Type* destination, const Type& source) {
+  memcpy(destination, &source, sizeof(source));
+}
+
 template <>
-inline void Assign<process_types::internal::Reserved64Only64,
-                   process_types::internal::Reserved64Only32>(
-    process_types::internal::Reserved64Only64* destination,
-    const process_types::internal::Reserved64Only32& source) {
-  // Reserved64Only32 carries no data.
+inline void Assign<process_types::internal::Reserved32_64Only64,
+                   process_types::internal::Reserved32_64Only32>(
+    process_types::internal::Reserved32_64Only64* destination,
+    const process_types::internal::Reserved32_64Only32& source) {
+  // Reserved32_64Only32 carries no data.
   *destination = 0;
 }
 
-using CharArray16 = char[16];
 template <>
-inline void Assign<CharArray16, CharArray16>(CharArray16* destination,
-                                             const CharArray16& source) {
-  memcpy(destination, &source, sizeof(source));
+inline void Assign<process_types::internal::Reserved64_64Only64,
+                   process_types::internal::Reserved64_64Only32>(
+    process_types::internal::Reserved64_64Only64* destination,
+    const process_types::internal::Reserved64_64Only32& source) {
+  // Reserved64_64Only32 carries no data.
+  *destination = 0;
 }
 
-using UInt64Array16 = uint64_t[16];
+using UInt32Array10 = uint32_t[10];
+using UInt64Array10 = uint64_t[10];
 template <>
-inline void Assign<UInt64Array16, UInt64Array16>(UInt64Array16* destination,
-                                                 const UInt64Array16& source) {
-  memcpy(destination, &source, sizeof(source));
-}
-
-using UInt32Array16 = uint32_t[16];
-template <>
-inline void Assign<UInt64Array16, UInt32Array16>(UInt64Array16* destination,
-                                                 const UInt32Array16& source) {
+inline void Assign<UInt64Array10, UInt32Array10>(UInt64Array10* destination,
+                                                 const UInt32Array10& source) {
   for (size_t index = 0; index < arraysize(source); ++index) {
     (*destination)[index] = source[index];
   }
-}
-
-template <>
-inline void Assign<uuid_t, uuid_t>(uuid_t* destination, const uuid_t& source) {
-  // uuid_t is a type alias for unsigned char[16].
-  memcpy(destination, &source, sizeof(source));
 }
 
 }  // namespace
@@ -210,7 +206,7 @@ inline void Assign<uuid_t, uuid_t>(uuid_t* destination, const uuid_t& source) {
         address, sizeof(struct_name<Traits>[count]), specific);               \
   }                                                                           \
                                                                               \
-  }  /* namespace internal */                                                 \
+  } /* namespace internal */                                                  \
                                                                               \
   /* static */                                                                \
   bool struct_name::ReadArrayInto(ProcessReader* process_reader,              \
@@ -235,7 +231,7 @@ inline void Assign<uuid_t, uuid_t>(uuid_t* destination, const uuid_t& source) {
                                           mach_vm_address_t address,          \
                                           size_t count,                       \
                                           struct_name* generic) {             \
-    scoped_ptr<T[]> specific(new T[count]);                                   \
+    std::unique_ptr<T[]> specific(new T[count]);                              \
     if (!T::ReadArrayInto(process_reader, address, count, &specific[0])) {    \
       return false;                                                           \
     }                                                                         \
@@ -244,8 +240,8 @@ inline void Assign<uuid_t, uuid_t>(uuid_t* destination, const uuid_t& source) {
     }                                                                         \
     return true;                                                              \
   }                                                                           \
-  }  /* namespace process_types */                                            \
-  }  /* namespace crashpad */
+  } /* namespace process_types */                                             \
+  } /* namespace crashpad */
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)
 

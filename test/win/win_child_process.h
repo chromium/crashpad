@@ -15,8 +15,9 @@
 #ifndef CRASHPAD_TEST_WIN_WIN_CHILD_PROCESS_H_
 #define CRASHPAD_TEST_WIN_WIN_CHILD_PROCESS_H_
 
+#include <memory>
+
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "util/file/file_io.h"
 #include "util/win/scoped_handle.h"
 
@@ -63,7 +64,7 @@ class WinChildProcess {
   //! \brief Launches a child process and returns the Handles for that process.
   //!     The process is guaranteed to be executing by the time this method
   //!     returns. Returns null and logs a GTest failure in case of failure.
-  static scoped_ptr<Handles> Launch();
+  static std::unique_ptr<Handles> Launch();
 
  protected:
   //! \brief Returns a handle to read from an anonymous pipe shared with the

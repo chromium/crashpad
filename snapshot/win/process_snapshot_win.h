@@ -16,15 +16,16 @@
 #define CRASHPAD_SNAPSHOT_WIN_PROCESS_SNAPSHOT_WIN_H_
 
 #include <windows.h>
+#include <stdint.h>
 #include <sys/time.h>
 #include <sys/types.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "client/crashpad_info.h"
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/exception_snapshot.h"
@@ -61,6 +62,9 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   //! \param[in] process The handle to create a snapshot from.
   //! \param[in] suspension_state Whether \a process has been suspended by the
   //!     caller.
+  //! \param[in] exception_information_address The address in the client
+  //!     process's address space of an ExceptionInformation structure. May be
+  //!     `0`, in which case no exception data will be recorded.
   //! \param[in] debug_critical_section_address The address in the target
   //!     process's address space of a `CRITICAL_SECTION` allocated with valid
   //!     `.DebugInfo`. Used as a starting point to walk the process's locks.
@@ -72,22 +76,8 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   //! \sa ScopedProcessSuspend
   bool Initialize(HANDLE process,
                   ProcessSuspensionState suspension_state,
+                  WinVMAddress exception_information_address,
                   WinVMAddress debug_critical_section_address);
-
-  //! \brief Initializes the object's exception.
-  //!
-  //! This populates the data to be returned by Exception().
-  //!
-  //! This method must not be called until after a successful call to
-  //! Initialize().
-  //!
-  //! \param[in] exception_information_address The address in the client
-  //!     process's address space of an ExceptionInformation structure.
-  //!
-  //! \return `true` if the exception information could be initialized, `false`
-  //!     otherwise with an appropriate message logged. When this method returns
-  //!     `false`, the ProcessSnapshotWin object's validity remains unchanged.
-  bool InitializeException(WinVMAddress exception_information_address);
 
   //! \brief Sets the value to be returned by ReportID().
   //!
@@ -143,7 +133,8 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
 
  private:
   // Initializes threads_ on behalf of Initialize().
-  void InitializeThreads(bool gather_indirectly_referenced_memory);
+  void InitializeThreads(bool gather_indirectly_referenced_memory,
+                         uint32_t indirectly_referenced_memory_cap);
 
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
@@ -188,7 +179,7 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   PointerVector<internal::ThreadSnapshotWin> threads_;
   PointerVector<internal::ModuleSnapshotWin> modules_;
   std::vector<UnloadedModuleSnapshot> unloaded_modules_;
-  scoped_ptr<internal::ExceptionSnapshotWin> exception_;
+  std::unique_ptr<internal::ExceptionSnapshotWin> exception_;
   PointerVector<internal::MemoryMapRegionSnapshotWin> memory_map_;
   ProcessReaderWin process_reader_;
   UUID report_id_;

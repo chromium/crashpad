@@ -48,14 +48,17 @@ class ThreadSnapshotWin final : public ThreadSnapshot {
   //!     the thread.
   //! \param[in] process_reader_thread The thread within the ProcessReaderWin
   //!     for which the snapshot should be created.
-  //! \param[in] gather_indirectly_referenced_memory If `true`, adds extra
-  //!     memory regions to the snapshot pointed to by the thread's stack.
+  //! \param[in] gather_indirectly_referenced_memory_bytes_remaining. If
+  //!     non-null, add extra memory regions to the snapshot pointed to by the
+  //!     thread's stack. The size of the regions added is subtracted from the
+  //!     count, and when it's `0`, no more regions will be added.
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.
-  bool Initialize(ProcessReaderWin* process_reader,
-                  const ProcessReaderWin::Thread& process_reader_thread,
-                  bool gather_indirectly_referenced_memory);
+  bool Initialize(
+      ProcessReaderWin* process_reader,
+      const ProcessReaderWin::Thread& process_reader_thread,
+      uint32_t* gather_indirectly_referenced_memory_bytes_remaining);
 
   // ThreadSnapshot:
 
@@ -76,10 +79,10 @@ class ThreadSnapshotWin final : public ThreadSnapshot {
 #endif
   CPUContext context_;
   MemorySnapshotWin stack_;
-  internal::MemorySnapshotWin teb_;
+  MemorySnapshotWin teb_;
   ProcessReaderWin::Thread thread_;
   InitializationStateDcheck initialized_;
-  PointerVector<internal::MemorySnapshotWin> pointed_to_memory_;
+  PointerVector<MemorySnapshotWin> pointed_to_memory_;
 
   DISALLOW_COPY_AND_ASSIGN(ThreadSnapshotWin);
 };

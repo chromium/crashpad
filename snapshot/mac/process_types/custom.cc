@@ -64,7 +64,7 @@ size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
     return sizeof(dyld_all_image_infos<Traits>);
   }
   if (version >= 13) {
-    return offsetof(dyld_all_image_infos<Traits>, reserved);
+    return offsetof(dyld_all_image_infos<Traits>, infoArrayChangeTimestamp);
   }
   if (version >= 12) {
     return offsetof(dyld_all_image_infos<Traits>, sharedCacheUUID);

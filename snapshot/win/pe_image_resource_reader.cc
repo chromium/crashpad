@@ -15,9 +15,9 @@
 #include "snapshot/win/pe_image_resource_reader.h"
 
 #include <algorithm>
+#include <memory>
 
 #include "base/logging.h"
-#include "base/memory/scoped_ptr.h"
 
 namespace {
 
@@ -227,7 +227,7 @@ bool PEImageResourceReader::ReadResourceDirectory(
 
   // resource_directory is optional, but it’s still needed locally even if the
   // caller isn’t interested in it.
-  scoped_ptr<IMAGE_RESOURCE_DIRECTORY> local_resource_directory;
+  std::unique_ptr<IMAGE_RESOURCE_DIRECTORY> local_resource_directory;
   if (!resource_directory) {
     local_resource_directory.reset(new IMAGE_RESOURCE_DIRECTORY);
     resource_directory = local_resource_directory.get();

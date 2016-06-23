@@ -16,9 +16,9 @@
 
 #include <stdio.h>
 
+#include <memory>
 #include <vector>
 
-#include "base/memory/scoped_ptr.h"
 #include "base/strings/utf_string_conversions.h"
 #include "package.h"
 
@@ -75,7 +75,7 @@ void ToolSupport::UsageHint(const std::string& me, const char* hint) {
 
 // static
 int ToolSupport::Wmain(int argc, wchar_t* argv[], int (*entry)(int, char* [])) {
-  scoped_ptr<char* []> argv_as_utf8(new char* [argc + 1]);
+  std::unique_ptr<char* []> argv_as_utf8(new char*[argc + 1]);
   std::vector<std::string> storage;
   storage.reserve(argc);
   for (int i = 0; i < argc; ++i) {

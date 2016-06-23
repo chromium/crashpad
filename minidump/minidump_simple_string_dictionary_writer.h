@@ -18,11 +18,11 @@
 #include <sys/types.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_string_writer.h"
 #include "minidump/minidump_writable.h"
@@ -112,7 +112,8 @@ class MinidumpSimpleStringDictionaryWriter final
   //! replace the previous one.
   //!
   //! \note Valid in #kStateMutable.
-  void AddEntry(scoped_ptr<MinidumpSimpleStringDictionaryEntryWriter> entry);
+  void AddEntry(
+      std::unique_ptr<MinidumpSimpleStringDictionaryEntryWriter> entry);
 
   //! \brief Determines whether the object is useful.
   //!
@@ -135,7 +136,8 @@ class MinidumpSimpleStringDictionaryWriter final
   // This object owns the MinidumpSimpleStringDictionaryEntryWriter objects.
   std::map<std::string, MinidumpSimpleStringDictionaryEntryWriter*> entries_;
 
-  scoped_ptr<MinidumpSimpleStringDictionary> simple_string_dictionary_base_;
+  std::unique_ptr<MinidumpSimpleStringDictionary>
+      simple_string_dictionary_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpSimpleStringDictionaryWriter);
 };

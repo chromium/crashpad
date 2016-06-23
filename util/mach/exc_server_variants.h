@@ -17,10 +17,10 @@
 
 #include <mach/mach.h>
 
+#include <memory>
 #include <set>
 
 #include "base/macros.h"
-#include "base/memory/scoped_ptr.h"
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message_server.h"
 
@@ -111,7 +111,7 @@ class UniversalMachExcServer final : public MachMessageServer::Interface {
   mach_msg_size_t MachMessageServerReplySize() override;
 
  private:
-  scoped_ptr<internal::UniversalMachExcServerImpl> impl_;
+  std::unique_ptr<internal::UniversalMachExcServerImpl> impl_;
 
   DISALLOW_COPY_AND_ASSIGN(UniversalMachExcServer);
 };

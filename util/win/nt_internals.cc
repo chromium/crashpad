@@ -21,14 +21,62 @@
 
 struct CLIENT_ID;
 
+NTSTATUS NTAPI NtCreateThreadEx(PHANDLE ThreadHandle,
+                                ACCESS_MASK DesiredAccess,
+                                POBJECT_ATTRIBUTES ObjectAttributes,
+                                HANDLE ProcessHandle,
+                                PVOID StartRoutine,
+                                PVOID Argument,
+                                ULONG CreateFlags,
+                                SIZE_T ZeroBits,
+                                SIZE_T StackSize,
+                                SIZE_T MaximumStackSize,
+                                PVOID /*PPS_ATTRIBUTE_LIST*/ AttributeList);
+
 NTSTATUS NTAPI NtOpenThread(HANDLE* ThreadHandle,
                             ACCESS_MASK DesiredAccess,
                             OBJECT_ATTRIBUTES* ObjectAttributes,
                             CLIENT_ID* ClientId);
 
+NTSTATUS NTAPI NtSuspendProcess(HANDLE);
+
+NTSTATUS NTAPI NtResumeProcess(HANDLE);
+
 void* NTAPI RtlGetUnloadEventTrace();
 
 namespace crashpad {
+
+NTSTATUS NtClose(HANDLE handle) {
+  static const auto nt_close = GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtClose);
+  return nt_close(handle);
+}
+
+NTSTATUS
+NtCreateThreadEx(PHANDLE thread_handle,
+                 ACCESS_MASK desired_access,
+                 POBJECT_ATTRIBUTES object_attributes,
+                 HANDLE process_handle,
+                 PVOID start_routine,
+                 PVOID argument,
+                 ULONG create_flags,
+                 SIZE_T zero_bits,
+                 SIZE_T stack_size,
+                 SIZE_T maximum_stack_size,
+                 PVOID attribute_list) {
+  static const auto nt_create_thread_ex =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtCreateThreadEx);
+  return nt_create_thread_ex(thread_handle,
+                             desired_access,
+                             object_attributes,
+                             process_handle,
+                             start_routine,
+                             argument,
+                             create_flags,
+                             zero_bits,
+                             stack_size,
+                             maximum_stack_size,
+                             attribute_list);
+}
 
 NTSTATUS NtQuerySystemInformation(
     SYSTEM_INFORMATION_CLASS system_information_class,
@@ -83,6 +131,18 @@ NTSTATUS NtQueryObject(HANDLE handle,
                          object_information,
                          object_information_length,
                          return_length);
+}
+
+NTSTATUS NtSuspendProcess(HANDLE handle) {
+  static const auto nt_suspend_process =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtSuspendProcess);
+  return nt_suspend_process(handle);
+}
+
+NTSTATUS NtResumeProcess(HANDLE handle) {
+  static const auto nt_resume_process =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtResumeProcess);
+  return nt_resume_process(handle);
 }
 
 template <class Traits>

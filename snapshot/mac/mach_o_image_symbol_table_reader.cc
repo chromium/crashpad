@@ -18,9 +18,9 @@
 #include <mach-o/nlist.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <utility>
 
-#include "base/memory/scoped_ptr.h"
 #include "base/strings/stringprintf.h"
 #include "util/mac/checked_mach_address_range.h"
 #include "util/mach/task_memory.h"
@@ -100,7 +100,7 @@ class MachOImageSymbolTableReaderInitializer {
       return false;
     }
 
-    scoped_ptr<process_types::nlist[]> symbols(
+    std::unique_ptr<process_types::nlist[]> symbols(
         new process_types::nlist[symtab_command->nsyms]);
     if (!process_types::nlist::ReadArrayInto(
             process_reader_, symtab_address, symbol_count, &symbols[0])) {
@@ -108,7 +108,7 @@ class MachOImageSymbolTableReaderInitializer {
       return false;
     }
 
-    scoped_ptr<TaskMemory::MappedMemory> string_table;
+    std::unique_ptr<TaskMemory::MappedMemory> string_table;
     for (size_t symbol_index = 0; symbol_index < symbol_count; ++symbol_index) {
       const process_types::nlist& symbol = symbols[symbol_index];
       std::string symbol_info = base::StringPrintf(", symbol index %zu%s",

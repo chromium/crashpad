@@ -43,7 +43,7 @@ class WinMultiprocess {
     ASSERT_NO_FATAL_FAILURE(
         WinChildProcess::EntryPoint<ChildProcessHelper<T>>());
     // If WinChildProcess::EntryPoint returns, we are in the parent process.
-    scoped_ptr<WinChildProcess::Handles> child_handles =
+    std::unique_ptr<WinChildProcess::Handles> child_handles =
         WinChildProcess::Launch();
     ASSERT_TRUE(child_handles.get());
     T parent_process;

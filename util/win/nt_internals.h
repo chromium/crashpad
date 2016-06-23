@@ -19,6 +19,23 @@
 
 namespace crashpad {
 
+NTSTATUS NtClose(HANDLE handle);
+
+// http://processhacker.sourceforge.net/doc/ntpsapi_8h_source.html
+#define THREAD_CREATE_FLAGS_SKIP_THREAD_ATTACH 0x00000002
+NTSTATUS
+NtCreateThreadEx(PHANDLE thread_handle,
+                 ACCESS_MASK desired_access,
+                 POBJECT_ATTRIBUTES object_attributes,
+                 HANDLE process_handle,
+                 PVOID start_routine,
+                 PVOID argument,
+                 ULONG create_flags,
+                 SIZE_T zero_bits,
+                 SIZE_T stack_size,
+                 SIZE_T maximum_stack_size,
+                 PVOID /*PPS_ATTRIBUTE_LIST*/ attribute_list);
+
 // Copied from ntstatus.h because um/winnt.h conflicts with general inclusion of
 // ntstatus.h.
 #define STATUS_BUFFER_TOO_SMALL ((NTSTATUS)0xC0000023L)
@@ -53,6 +70,10 @@ NTSTATUS NtQueryObject(HANDLE handle,
                        void* object_information,
                        ULONG object_information_length,
                        ULONG* return_length);
+
+NTSTATUS NtSuspendProcess(HANDLE handle);
+
+NTSTATUS NtResumeProcess(HANDLE handle);
 
 // From https://msdn.microsoft.com/en-us/library/bb432428(VS.85).aspx and
 // http://processhacker.sourceforge.net/doc/struct___r_t_l___u_n_l_o_a_d___e_v_e_n_t___t_r_a_c_e.html
