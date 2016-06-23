@@ -105,7 +105,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a9cbd50ce0160938ab7925f3a44ff116b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9cbd50ce0160938ab7925f3a44ff116b"></a>enum &#160;</td><td class="memItemRight" valign="bottom">: uint32_t <tr class="separator:a9cbd50ce0160938ab7925f3a44ff116b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a174138bd8a05952894765ce7c1723f76"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a174138bd8a05952894765ce7c1723f76"></a>enum &#160;</td><td class="memItemRight" valign="bottom">: uint32_t <tr class="separator:a174138bd8a05952894765ce7c1723f76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -122,9 +122,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af055c05be2e7025d0931585bd6a9b755"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CrashpadInfo.html#af055c05be2e7025d0931585bd6a9b755">set_system_crash_reporter_forwarding</a> (<a class="el" href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">TriState</a> system_crash_reporter_forwarding)</td></tr>
 <tr class="memdesc:af055c05be2e7025d0931585bd6a9b755"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables Crashpad forwarding of exceptions to the system’s crash reporter.  <a href="#af055c05be2e7025d0931585bd6a9b755">More...</a><br /></td></tr>
 <tr class="separator:af055c05be2e7025d0931585bd6a9b755"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f472de3619f80c2844228b838a9fb8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CrashpadInfo.html#a7f472de3619f80c2844228b838a9fb8d">set_gather_indirectly_referenced_memory</a> (<a class="el" href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">TriState</a> gather_indirectly_referenced_memory)</td></tr>
-<tr class="memdesc:a7f472de3619f80c2844228b838a9fb8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables Crashpad capturing indirectly referenced memory in the minidump.  <a href="#a7f472de3619f80c2844228b838a9fb8d">More...</a><br /></td></tr>
-<tr class="separator:a7f472de3619f80c2844228b838a9fb8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e0a2a0a8a21007a3c7da69795c4eed8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CrashpadInfo.html#a2e0a2a0a8a21007a3c7da69795c4eed8">set_gather_indirectly_referenced_memory</a> (<a class="el" href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">TriState</a> gather_indirectly_referenced_memory, uint32_t limit)</td></tr>
+<tr class="memdesc:a2e0a2a0a8a21007a3c7da69795c4eed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables Crashpad capturing indirectly referenced memory in the minidump.  <a href="#a2e0a2a0a8a21007a3c7da69795c4eed8">More...</a><br /></td></tr>
+<tr class="separator:a2e0a2a0a8a21007a3c7da69795c4eed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f6213582b3b4cc22ca46f058343db8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CrashpadInfo.html#a5f6213582b3b4cc22ca46f058343db8e">AddUserDataMinidumpStream</a> (uint32_t stream_type, const void *data, size_t size)</td></tr>
 <tr class="memdesc:a5f6213582b3b4cc22ca46f058343db8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a custom stream to the minidump.  <a href="#a5f6213582b3b4cc22ca46f058343db8e">More...</a><br /></td></tr>
 <tr class="separator:a5f6213582b3b4cc22ca46f058343db8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -247,7 +247,7 @@ static <a class="el" href="structcrashpad_1_1CrashpadInfo.html">CrashpadInfo</a>
 
 </div>
 </div>
-<a class="anchor" id="a7f472de3619f80c2844228b838a9fb8d"></a>
+<a class="anchor" id="a2e0a2a0a8a21007a3c7da69795c4eed8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -258,8 +258,18 @@ static <a class="el" href="structcrashpad_1_1CrashpadInfo.html">CrashpadInfo</a>
           <td class="memname">void crashpad::CrashpadInfo::set_gather_indirectly_referenced_memory </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">TriState</a>&#160;</td>
-          <td class="paramname"><em>gather_indirectly_referenced_memory</em></td><td>)</td>
+          <td class="paramname"><em>gather_indirectly_referenced_memory</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>limit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -271,7 +281,14 @@ static <a class="el" href="structcrashpad_1_1CrashpadInfo.html">CrashpadInfo</a>
 
 <p>Enables or disables Crashpad capturing indirectly referenced memory in the minidump. </p>
 <p>When handling an exception, the Crashpad handler will scan all modules in a process. The first one that has a <a class="el" href="structcrashpad_1_1CrashpadInfo.html" title="A structure that can be used by a Crashpad-enabled program to provide information to the Crashpad cra...">CrashpadInfo</a> structure populated with a value other than <a class="el" href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292ac69d34d47bfd5244204004878441d53f" title="The value has not explicitly been set. ">kUnset</a> for this field will dictate whether the extra memory is captured.</p>
-<p>This causes Crashpad to include pages of data referenced by locals or other stack memory. Turning this on can increase the size of the minidump significantly. </p>
+<p>This causes Crashpad to include pages of data referenced by locals or other stack memory. Turning this on can increase the size of the minidump significantly.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">gather_indirectly_referenced_memory</td><td>Whether extra memory should be gathered. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">limit</td><td>The amount of memory in bytes after which no more indirectly gathered memory should be captured. This value is only used when <em>gather_indirectly_referenced_memory</em> is <a class="el" href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292ade1ec1870756a80dffbdc4cda53153e0" title="The value has explicitly been set to on, or a behavior has explicitly been enabled. ">TriState::kEnabled</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

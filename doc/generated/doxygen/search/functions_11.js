@@ -7,7 +7,7 @@ var searchData=
   ['readcstringsizelimited',['ReadCStringSizeLimited',['../classcrashpad_1_1TaskMemory.html#a51092ce134b41d605a9a4ae470826eb6',1,'crashpad::TaskMemory']]],
   ['readexactly',['ReadExactly',['../classcrashpad_1_1FileReaderInterface.html#ad046f1ebf1071eb6b92a2a8d06c14a56',1,'crashpad::FileReaderInterface']]],
   ['readfile',['ReadFile',['../namespacecrashpad.html#a8599600814a17d622766decd5f122a96',1,'crashpad']]],
-  ['readmapped',['ReadMapped',['../classcrashpad_1_1TaskMemory.html#a17fe571f49eb7fef909b02937caff766',1,'crashpad::TaskMemory']]],
+  ['readmapped',['ReadMapped',['../classcrashpad_1_1TaskMemory.html#ae4a62001732f11829cca98aecb02d693',1,'crashpad::TaskMemory']]],
   ['readmemory',['ReadMemory',['../classcrashpad_1_1internal_1_1CaptureMemory_1_1Delegate.html#ab6534f471abcf16123efd8b2c2e8bfd4',1,'crashpad::internal::CaptureMemory::Delegate::ReadMemory()'],['../classcrashpad_1_1internal_1_1CaptureMemoryDelegateWin.html#ac37eea2a0e403aa5eaae898c19106390',1,'crashpad::internal::CaptureMemoryDelegateWin::ReadMemory()'],['../classcrashpad_1_1ProcessReaderWin.html#a65d2258f0dcad73e223f904f7089e9f0',1,'crashpad::ProcessReaderWin::ReadMemory()'],['../classcrashpad_1_1ProcessSubrangeReader.html#a95c1d172197802b38a432bdfc1fae3ae',1,'crashpad::ProcessSubrangeReader::ReadMemory()']]],
   ['readminidumpsimplestringdictionary',['ReadMinidumpSimpleStringDictionary',['../namespacecrashpad_1_1internal.html#aa9b358d36faf271ec17d7e9a829610a9',1,'crashpad::internal']]],
   ['readminidumpstringlist',['ReadMinidumpStringList',['../namespacecrashpad_1_1internal.html#afac4436aa35c86be47e56179a51662ca',1,'crashpad::internal']]],

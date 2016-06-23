@@ -89,6 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classcrashpad_1_1CrashpadClient-members.html">List of all members</a>  </div>
@@ -102,6 +103,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p><code>#include &quot;client/crashpad_client.h&quot;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ac0b53a9db7d1958c321a0dcc3d73fec0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: uint32_t <tr class="separator:ac0b53a9db7d1958c321a0dcc3d73fec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ade0f63025116ed4ac3d89b598c9e7e49"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#ade0f63025116ed4ac3d89b598c9e7e49">StartHandler</a> (const base::FilePath &amp;handler, const base::FilePath &amp;database, const std::string &amp;url, const std::map&lt; std::string, std::string &gt; &amp;annotations, const std::vector&lt; std::string &gt; &amp;arguments, bool restartable)</td></tr>
@@ -119,6 +125,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af65cb31a1de191f1403c99c11e5cd855"><td class="memItemLeft" align="right" valign="top">std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#af65cb31a1de191f1403c99c11e5cd855">GetHandlerIPCPipe</a> () const </td></tr>
 <tr class="memdesc:af65cb31a1de191f1403c99c11e5cd855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the IPC pipe name used to register with the Crashpad handler.  <a href="#af65cb31a1de191f1403c99c11e5cd855">More...</a><br /></td></tr>
 <tr class="separator:af65cb31a1de191f1403c99c11e5cd855"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00540d42464336ee01307a5bdbf1826f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a00540d42464336ee01307a5bdbf1826f">DumpAndCrashTargetProcess</a> (HANDLE process, HANDLE blame_thread, DWORD exception_code) const </td></tr>
+<tr class="memdesc:a00540d42464336ee01307a5bdbf1826f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests that the handler capture a dump of a different process.  <a href="#a00540d42464336ee01307a5bdbf1826f">More...</a><br /></td></tr>
+<tr class="separator:a00540d42464336ee01307a5bdbf1826f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58476a5f7a1910ad67ba2bce69ead38e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a58476a5f7a1910ad67ba2bce69ead38e">UseHandler</a> ()</td></tr>
 <tr class="memdesc:a58476a5f7a1910ad67ba2bce69ead38e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the process to direct its crashes to a Crashpad handler.  <a href="#a58476a5f7a1910ad67ba2bce69ead38e">More...</a><br /></td></tr>
 <tr class="separator:a58476a5f7a1910ad67ba2bce69ead38e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,7 +146,26 @@ Static Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The primary interface for an application to have Crashpad monitor it for crashes. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a class="anchor" id="ac0b53a9db7d1958c321a0dcc3d73fec0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum : uint32_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="ac0b53a9db7d1958c321a0dcc3d73fec0a193286f9cde3032e18a06a4e6452e660"></a>kTriggeredExceptionCode&#160;</td><td class="fielddoc">
+<p>The exception code (roughly "Client called") used when <a class="el" href="classcrashpad_1_1CrashpadClient.html#a00540d42464336ee01307a5bdbf1826f" title="Requests that the handler capture a dump of a different process. ">DumpAndCrashTargetProcess()</a> triggers an exception in a target process. </p>
+<dl class="section note"><dt>Note</dt><dd>This value does not have any bits of the top nibble set, to avoid confusion with real exception codes which tend to have those bits set. </dd></dl>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a87d1fa142b0bf7094fc66fef3135a64a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -168,6 +196,51 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a00540d42464336ee01307a5bdbf1826f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::CrashpadClient::DumpAndCrashTargetProcess </td>
+          <td>(</td>
+          <td class="paramtype">HANDLE&#160;</td>
+          <td class="paramname"><em>process</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HANDLE&#160;</td>
+          <td class="paramname"><em>blame_thread</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DWORD&#160;</td>
+          <td class="paramname"><em>exception_code</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Requests that the handler capture a dump of a different process. </p>
+<p>The target process must be an already-registered Crashpad client. An exception will be triggered in the target process, and the regular dump mechanism used. This function will block until the exception in the target process has been handled by the Crashpad handler.</p>
+<p>This function is unavailable when running on Windows XP and will return <code>false</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">process</td><td>A <code>HANDLE</code> identifying the process to be dumped. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">blame_thread</td><td>If non-null, a <code>HANDLE</code> valid in the caller's process, referring to a thread in the target process. If this is supplied, instead of the exception referring to the location where the exception was injected, an exception record will be fabricated that refers to the current location of the given thread. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">exception_code</td><td>If <em>blame_thread</em> is non-null, this will be used as the exception code in the exception record.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the exception was triggered successfully. </dd></dl>
 
 </div>
 </div>

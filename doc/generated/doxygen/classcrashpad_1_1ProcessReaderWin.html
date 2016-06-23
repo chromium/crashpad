@@ -133,6 +133,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac6bca8a188dd098c864d497fef269cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd80dba16f98ffb4adf63bbf3145b663"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classcrashpad_1_1ProcessInfo.html">ProcessInfo</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReaderWin.html#afd80dba16f98ffb4adf63bbf3145b663">GetProcessInfo</a> () const </td></tr>
 <tr class="separator:afd80dba16f98ffb4adf63bbf3145b663"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e381af0ba9565d55d2bc6b58d0c55bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReaderWin.html#a7e381af0ba9565d55d2bc6b58d0c55bc">DecrementThreadSuspendCounts</a> (uint64_t except_thread_id)</td></tr>
+<tr class="memdesc:a7e381af0ba9565d55d2bc6b58d0c55bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrements the thread suspend counts for all thread ids other than <em>except_thread_id</em>.  <a href="#a7e381af0ba9565d55d2bc6b58d0c55bc">More...</a><br /></td></tr>
+<tr class="separator:a7e381af0ba9565d55d2bc6b58d0c55bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Accesses information about another process, identified by a <code>HANDLE</code>. </p>
@@ -170,6 +173,25 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> on failure, with a warning logged. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7e381af0ba9565d55d2bc6b58d0c55bc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::ProcessReaderWin::DecrementThreadSuspendCounts </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>except_thread_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Decrements the thread suspend counts for all thread ids other than <em>except_thread_id</em>. </p>
+<p>Used to adjust the thread suspend count to correspond to the actual values for the process before Crashpad got involved. </p>
 
 </div>
 </div>

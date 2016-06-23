@@ -116,9 +116,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9f84928de4e5b92dd7ffe169128829ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html#a9f84928de4e5b92dd7ffe169128829ac">InitializeFromMap</a> (const std::map&lt; std::string, std::string &gt; &amp;map)</td></tr>
 <tr class="memdesc:a9f84928de4e5b92dd7ffe169128829ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an initialized <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html" title="The writer for a MinidumpSimpleStringDictionaryEntry object in a minidump file. ">MinidumpSimpleStringDictionaryEntryWriter</a> for each key-value pair in <em>map</em> to the <a class="el" href="structcrashpad_1_1MinidumpSimpleStringDictionary.html" title="A list of key-value pairs. ">MinidumpSimpleStringDictionary</a>.  <a href="#a9f84928de4e5b92dd7ffe169128829ac">More...</a><br /></td></tr>
 <tr class="separator:a9f84928de4e5b92dd7ffe169128829ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3b96ede1efd4968a50c68301aa76330"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html#ae3b96ede1efd4968a50c68301aa76330">AddEntry</a> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html">MinidumpSimpleStringDictionaryEntryWriter</a> &gt; entry)</td></tr>
-<tr class="memdesc:ae3b96ede1efd4968a50c68301aa76330"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html" title="The writer for a MinidumpSimpleStringDictionaryEntry object in a minidump file. ">MinidumpSimpleStringDictionaryEntryWriter</a> to the <a class="el" href="structcrashpad_1_1MinidumpSimpleStringDictionary.html" title="A list of key-value pairs. ">MinidumpSimpleStringDictionary</a>.  <a href="#ae3b96ede1efd4968a50c68301aa76330">More...</a><br /></td></tr>
-<tr class="separator:ae3b96ede1efd4968a50c68301aa76330"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e2946de77a7c5b6f852e3fdc0c50521"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html#a1e2946de77a7c5b6f852e3fdc0c50521">AddEntry</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html">MinidumpSimpleStringDictionaryEntryWriter</a> &gt; entry)</td></tr>
+<tr class="memdesc:a1e2946de77a7c5b6f852e3fdc0c50521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html" title="The writer for a MinidumpSimpleStringDictionaryEntry object in a minidump file. ">MinidumpSimpleStringDictionaryEntryWriter</a> to the <a class="el" href="structcrashpad_1_1MinidumpSimpleStringDictionary.html" title="A list of key-value pairs. ">MinidumpSimpleStringDictionary</a>.  <a href="#a1e2946de77a7c5b6f852e3fdc0c50521">More...</a><br /></td></tr>
+<tr class="separator:a1e2946de77a7c5b6f852e3fdc0c50521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a464adf3f0c4a762f86947d9803ec6567"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html#a464adf3f0c4a762f86947d9803ec6567">IsUseful</a> () const </td></tr>
 <tr class="memdesc:a464adf3f0c4a762f86947d9803ec6567"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the object is useful.  <a href="#a464adf3f0c4a762f86947d9803ec6567">More...</a><br /></td></tr>
 <tr class="separator:a464adf3f0c4a762f86947d9803ec6567"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,14 +186,14 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>The writer for a <a class="el" href="structcrashpad_1_1MinidumpSimpleStringDictionary.html" title="A list of key-value pairs. ">MinidumpSimpleStringDictionary</a> object in a minidump file, containing a list of <a class="el" href="structcrashpad_1_1MinidumpSimpleStringDictionaryEntry.html" title="A key-value pair. ">MinidumpSimpleStringDictionaryEntry</a> objects. </p>
 <p>Because this class writes a representatin of a dictionary, the order of entries is insignificant. Entries may be written in any order. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae3b96ede1efd4968a50c68301aa76330"></a>
+<a class="anchor" id="a1e2946de77a7c5b6f852e3fdc0c50521"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void crashpad::MinidumpSimpleStringDictionaryWriter::AddEntry </td>
           <td>(</td>
-          <td class="paramtype">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html">MinidumpSimpleStringDictionaryEntryWriter</a> &gt;&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html">MinidumpSimpleStringDictionaryEntryWriter</a> &gt;&#160;</td>
           <td class="paramname"><em>entry</em></td><td>)</td>
           <td></td>
         </tr>

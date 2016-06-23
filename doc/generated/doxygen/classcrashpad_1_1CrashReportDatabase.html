@@ -160,12 +160,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a14b825d4fe73b7d3326ba2d3358cc268"><td class="memItemLeft" align="right" valign="top">static scoped_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a14b825d4fe73b7d3326ba2d3358cc268">Initialize</a> (const base::FilePath &amp;path)</td></tr>
-<tr class="memdesc:a14b825d4fe73b7d3326ba2d3358cc268"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens a database of crash reports, possibly creating it.  <a href="#a14b825d4fe73b7d3326ba2d3358cc268">More...</a><br /></td></tr>
-<tr class="separator:a14b825d4fe73b7d3326ba2d3358cc268"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57c417dfd0a82ddbd202b5d9607097eb"><td class="memItemLeft" align="right" valign="top">static scoped_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a57c417dfd0a82ddbd202b5d9607097eb">InitializeWithoutCreating</a> (const base::FilePath &amp;path)</td></tr>
-<tr class="memdesc:a57c417dfd0a82ddbd202b5d9607097eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing database of crash reports.  <a href="#a57c417dfd0a82ddbd202b5d9607097eb">More...</a><br /></td></tr>
-<tr class="separator:a57c417dfd0a82ddbd202b5d9607097eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00292742dfe4c0081d6987c5a32c7a3e"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a00292742dfe4c0081d6987c5a32c7a3e">Initialize</a> (const base::FilePath &amp;path)</td></tr>
+<tr class="memdesc:a00292742dfe4c0081d6987c5a32c7a3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens a database of crash reports, possibly creating it.  <a href="#a00292742dfe4c0081d6987c5a32c7a3e">More...</a><br /></td></tr>
+<tr class="separator:a00292742dfe4c0081d6987c5a32c7a3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc49f639a5880f51c7d69b955a3deae7"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#abc49f639a5880f51c7d69b955a3deae7">InitializeWithoutCreating</a> (const base::FilePath &amp;path)</td></tr>
+<tr class="memdesc:abc49f639a5880f51c7d69b955a3deae7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens an existing database of crash reports.  <a href="#abc49f639a5880f51c7d69b955a3deae7">More...</a><br /></td></tr>
+<tr class="separator:abc49f639a5880f51c7d69b955a3deae7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An interface for managing a collection of crash report files and metadata associated with the crash reports. </p>
@@ -461,7 +461,7 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a14b825d4fe73b7d3326ba2d3358cc268"></a>
+<a class="anchor" id="a00292742dfe4c0081d6987c5a32c7a3e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -469,7 +469,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> &gt; crashpad::CrashReportDatabase::Initialize </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> &gt; crashpad::CrashReportDatabase::Initialize </td>
           <td>(</td>
           <td class="paramtype">const base::FilePath &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
@@ -491,11 +491,11 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A database object on success, <code>nullptr</code> on failure with an error logged.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a57c417dfd0a82ddbd202b5d9607097eb" title="Opens an existing database of crash reports. ">InitializeWithoutCreating</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#abc49f639a5880f51c7d69b955a3deae7" title="Opens an existing database of crash reports. ">InitializeWithoutCreating</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a57c417dfd0a82ddbd202b5d9607097eb"></a>
+<a class="anchor" id="abc49f639a5880f51c7d69b955a3deae7"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -503,7 +503,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> &gt; crashpad::CrashReportDatabase::InitializeWithoutCreating </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> &gt; crashpad::CrashReportDatabase::InitializeWithoutCreating </td>
           <td>(</td>
           <td class="paramtype">const base::FilePath &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
@@ -525,7 +525,7 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A database object on success, <code>nullptr</code> on failure with an error logged.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a14b825d4fe73b7d3326ba2d3358cc268" title="Opens a database of crash reports, possibly creating it. ">Initialize</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1CrashReportDatabase.html#a00292742dfe4c0081d6987c5a32c7a3e" title="Opens a database of crash reports, possibly creating it. ">Initialize</a> </dd></dl>
 
 </div>
 </div>

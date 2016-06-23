@@ -123,12 +123,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa8137c202e58bc0a9fccee464e508cd3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpThreadWriter.html#aa8137c202e58bc0a9fccee464e508cd3">Stack</a> () const </td></tr>
 <tr class="memdesc:aa8137c202e58bc0a9fccee464e508cd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">MinidumpMemoryWriter</a> that will write the memory region corresponding to this object’s stack.  <a href="#aa8137c202e58bc0a9fccee464e508cd3">More...</a><br /></td></tr>
 <tr class="separator:aa8137c202e58bc0a9fccee464e508cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8966c0108645266ba43d9edf867fe22e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpThreadWriter.html#a8966c0108645266ba43d9edf867fe22e">SetStack</a> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> &gt; stack)</td></tr>
-<tr class="memdesc:a8966c0108645266ba43d9edf867fe22e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structMINIDUMP__THREAD.html#a4affab2d1a0995fdb085d302d78fbb81" title="A snapshot of the thread’s stack. ">MINIDUMP_THREAD::Stack</a> to point to the MINIDUMP_MEMORY object to be written by <em>stack</em>.  <a href="#a8966c0108645266ba43d9edf867fe22e">More...</a><br /></td></tr>
-<tr class="separator:a8966c0108645266ba43d9edf867fe22e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab211f74256029638ba05f5ffb0744344"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpThreadWriter.html#ab211f74256029638ba05f5ffb0744344">SetContext</a> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpContextWriter.html">MinidumpContextWriter</a> &gt; context)</td></tr>
-<tr class="memdesc:ab211f74256029638ba05f5ffb0744344"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structMINIDUMP__THREAD.html#a4bea75c1a353e346689b97aeaea22184" title="A pointer to a CPU-specific CONTEXT structure containing the thread’s context at the time the snapsh...">MINIDUMP_THREAD::ThreadContext</a> to point to the CPU context to be written by <em>context</em>.  <a href="#ab211f74256029638ba05f5ffb0744344">More...</a><br /></td></tr>
-<tr class="separator:ab211f74256029638ba05f5ffb0744344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a69400f8966815dfe57517cbdf98eec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpThreadWriter.html#a4a69400f8966815dfe57517cbdf98eec">SetStack</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> &gt; stack)</td></tr>
+<tr class="memdesc:a4a69400f8966815dfe57517cbdf98eec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structMINIDUMP__THREAD.html#a4affab2d1a0995fdb085d302d78fbb81" title="A snapshot of the thread’s stack. ">MINIDUMP_THREAD::Stack</a> to point to the MINIDUMP_MEMORY object to be written by <em>stack</em>.  <a href="#a4a69400f8966815dfe57517cbdf98eec">More...</a><br /></td></tr>
+<tr class="separator:a4a69400f8966815dfe57517cbdf98eec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae90c3afe6034b39f729ed87d00858cff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpThreadWriter.html#ae90c3afe6034b39f729ed87d00858cff">SetContext</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpContextWriter.html">MinidumpContextWriter</a> &gt; context)</td></tr>
+<tr class="memdesc:ae90c3afe6034b39f729ed87d00858cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structMINIDUMP__THREAD.html#a4bea75c1a353e346689b97aeaea22184" title="A pointer to a CPU-specific CONTEXT structure containing the thread’s context at the time the snapsh...">MINIDUMP_THREAD::ThreadContext</a> to point to the CPU context to be written by <em>context</em>.  <a href="#ae90c3afe6034b39f729ed87d00858cff">More...</a><br /></td></tr>
+<tr class="separator:ae90c3afe6034b39f729ed87d00858cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68d1707d04cdcddbf32fae18dec62f65"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68d1707d04cdcddbf32fae18dec62f65"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpThreadWriter.html#a68d1707d04cdcddbf32fae18dec62f65">SetThreadID</a> (uint32_t thread_id)</td></tr>
 <tr class="memdesc:a68d1707d04cdcddbf32fae18dec62f65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <a class="el" href="structMINIDUMP__THREAD.html#a1d2508187af6c3ec09e5836badb56fd2" title="The thread’s ID. This may be referenced by MINIDUMP_EXCEPTION_STREAM::ThreadId. ">MINIDUMP_THREAD::ThreadId</a>. <br /></td></tr>
@@ -325,14 +325,14 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab211f74256029638ba05f5ffb0744344"></a>
+<a class="anchor" id="ae90c3afe6034b39f729ed87d00858cff"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void crashpad::MinidumpThreadWriter::SetContext </td>
           <td>(</td>
-          <td class="paramtype">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpContextWriter.html">MinidumpContextWriter</a> &gt;&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpContextWriter.html">MinidumpContextWriter</a> &gt;&#160;</td>
           <td class="paramname"><em>context</em></td><td>)</td>
           <td></td>
         </tr>
@@ -346,14 +346,14 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a8966c0108645266ba43d9edf867fe22e"></a>
+<a class="anchor" id="a4a69400f8966815dfe57517cbdf98eec"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void crashpad::MinidumpThreadWriter::SetStack </td>
           <td>(</td>
-          <td class="paramtype">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> &gt;&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> &gt;&#160;</td>
           <td class="paramname"><em>stack</em></td><td>)</td>
           <td></td>
         </tr>

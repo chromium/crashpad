@@ -112,9 +112,9 @@ Inheritance diagram for crashpad::PruneCrashReportThread:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab0d5ca0e4d899097eb08288568e1761d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#ab0d5ca0e4d899097eb08288568e1761d">PruneCrashReportThread</a> (<a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> *database, scoped_ptr&lt; <a class="el" href="classcrashpad_1_1PruneCondition.html">PruneCondition</a> &gt; condition)</td></tr>
-<tr class="memdesc:ab0d5ca0e4d899097eb08288568e1761d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new object.  <a href="#ab0d5ca0e4d899097eb08288568e1761d">More...</a><br /></td></tr>
-<tr class="separator:ab0d5ca0e4d899097eb08288568e1761d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a611e02d9b7666df11d2484f682b771ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#a611e02d9b7666df11d2484f682b771ea">PruneCrashReportThread</a> (<a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> *database, std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1PruneCondition.html">PruneCondition</a> &gt; condition)</td></tr>
+<tr class="memdesc:a611e02d9b7666df11d2484f682b771ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new object.  <a href="#a611e02d9b7666df11d2484f682b771ea">More...</a><br /></td></tr>
+<tr class="separator:a611e02d9b7666df11d2484f682b771ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb763db67dfc1fefe7b2fb88e10ee760"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#adb763db67dfc1fefe7b2fb88e10ee760">Start</a> ()</td></tr>
 <tr class="memdesc:adb763db67dfc1fefe7b2fb88e10ee760"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a dedicated pruning thread.  <a href="#adb763db67dfc1fefe7b2fb88e10ee760">More...</a><br /></td></tr>
 <tr class="separator:adb763db67dfc1fefe7b2fb88e10ee760"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,7 +126,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>A thread that periodically prunes crash reports from the database using the specified condition. </p>
 <p>After the thread is started, the database is pruned using the condition every 24 hours. Upon calling <a class="el" href="classcrashpad_1_1PruneCrashReportThread.html#adb763db67dfc1fefe7b2fb88e10ee760" title="Starts a dedicated pruning thread. ">Start()</a>, the thread waits 10 minutes before performing the initial prune operation. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ab0d5ca0e4d899097eb08288568e1761d"></a>
+<a class="anchor" id="a611e02d9b7666df11d2484f682b771ea"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -139,7 +139,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1PruneCondition.html">PruneCondition</a> &gt;&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1PruneCondition.html">PruneCondition</a> &gt;&#160;</td>
           <td class="paramname"><em>condition</em>&#160;</td>
         </tr>
         <tr>

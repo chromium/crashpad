@@ -115,9 +115,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a323d157824f62eb286e4c39f8d99e3a9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1TaskMemory.html#a323d157824f62eb286e4c39f8d99e3a9">Read</a> (mach_vm_address_t address, size_t size, void *buffer)</td></tr>
 <tr class="memdesc:a323d157824f62eb286e4c39f8d99e3a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies memory from the target task into a caller-provided buffer in the current task.  <a href="#a323d157824f62eb286e4c39f8d99e3a9">More...</a><br /></td></tr>
 <tr class="separator:a323d157824f62eb286e4c39f8d99e3a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17fe571f49eb7fef909b02937caff766"><td class="memItemLeft" align="right" valign="top">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1TaskMemory_1_1MappedMemory.html">MappedMemory</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1TaskMemory.html#a17fe571f49eb7fef909b02937caff766">ReadMapped</a> (mach_vm_address_t address, size_t size)</td></tr>
-<tr class="memdesc:a17fe571f49eb7fef909b02937caff766"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps memory from the target task into the current task.  <a href="#a17fe571f49eb7fef909b02937caff766">More...</a><br /></td></tr>
-<tr class="separator:a17fe571f49eb7fef909b02937caff766"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4a62001732f11829cca98aecb02d693"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1TaskMemory_1_1MappedMemory.html">MappedMemory</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1TaskMemory.html#ae4a62001732f11829cca98aecb02d693">ReadMapped</a> (mach_vm_address_t address, size_t size)</td></tr>
+<tr class="memdesc:ae4a62001732f11829cca98aecb02d693"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps memory from the target task into the current task.  <a href="#ae4a62001732f11829cca98aecb02d693">More...</a><br /></td></tr>
+<tr class="separator:ae4a62001732f11829cca98aecb02d693"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9365a798d8140094cda73606ec132e87"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1TaskMemory.html#a9365a798d8140094cda73606ec132e87">ReadCString</a> (mach_vm_address_t address, std::string *string)</td></tr>
 <tr class="memdesc:a9365a798d8140094cda73606ec132e87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a <code>NUL</code>-terminated C string from the target task into a string in the current task.  <a href="#a9365a798d8140094cda73606ec132e87">More...</a><br /></td></tr>
 <tr class="separator:a9365a798d8140094cda73606ec132e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,7 +199,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, with <em>buffer</em> filled appropriately. <code>false</code> on failure, with a warning logged. Failures can occur, for example, when encountering unmapped or unreadable pages.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1TaskMemory.html#a17fe571f49eb7fef909b02937caff766" title="Maps memory from the target task into the current task. ">ReadMapped()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1TaskMemory.html#ae4a62001732f11829cca98aecb02d693" title="Maps memory from the target task into the current task. ">ReadMapped()</a> </dd></dl>
 
 </div>
 </div>
@@ -285,12 +285,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a17fe571f49eb7fef909b02937caff766"></a>
+<a class="anchor" id="ae4a62001732f11829cca98aecb02d693"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1TaskMemory_1_1MappedMemory.html">TaskMemory::MappedMemory</a> &gt; crashpad::TaskMemory::ReadMapped </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1TaskMemory_1_1MappedMemory.html">TaskMemory::MappedMemory</a> &gt; crashpad::TaskMemory::ReadMapped </td>
           <td>(</td>
           <td class="paramtype">mach_vm_address_t&#160;</td>
           <td class="paramname"><em>address</em>, </td>

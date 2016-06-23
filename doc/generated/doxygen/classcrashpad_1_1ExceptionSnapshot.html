@@ -165,7 +165,7 @@ Public Member Functions</h2></td></tr>
 <p>For Mac OS X, this will be a vector containing the original exception type and the values of <code>code[0]</code> and <code>code[1]</code> as received by a Mach exception handler.</p>
 <p>For Windows, these are additional arguments (if any) as provided to <code>RaiseException()</code>. See the documentation for <code><a class="el" href="structcrashpad_1_1ExceptionInformation.html" title="Structure read out of the client process by the crash handler when an exception occurs. ">ExceptionInformation</a></code> in <code>EXCEPTION_RECORD</code>. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a9133ffb6eda55ef83b10e21c617142dc">crashpad::test::TestExceptionSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#ac1f0ce60761dbfc9f1ccf3d5d2d31f7a">crashpad::internal::ExceptionSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a34df0516c41e42fd891a7f74ca4485c1">crashpad::internal::ExceptionSnapshotWin</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a34df0516c41e42fd891a7f74ca4485c1">crashpad::internal::ExceptionSnapshotWin</a>, <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a9133ffb6eda55ef83b10e21c617142dc">crashpad::test::TestExceptionSnapshot</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#ac1f0ce60761dbfc9f1ccf3d5d2d31f7a">crashpad::internal::ExceptionSnapshotMac</a>.</p>
 
 </div>
 </div>
@@ -193,7 +193,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns a <a class="el" href="structcrashpad_1_1CPUContext.html" title="A context structure capable of carrying the context of any supported CPU architecture. ">CPUContext</a> object corresponding to the exception thread’s CPU context at the time of the exception. </p>
 <p>The caller does not take ownership of this object, it is scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> object that it was obtained from. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#ad21a8c1b4eeea9094bcadece38dac86d">crashpad::test::TestExceptionSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#a73dd26bcfe528de14bc0b8b1f177449a">crashpad::internal::ExceptionSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#ac80687ea46ad9542b183abf1246973c0">crashpad::internal::ExceptionSnapshotWin</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#ac80687ea46ad9542b183abf1246973c0">crashpad::internal::ExceptionSnapshotWin</a>, <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#ad21a8c1b4eeea9094bcadece38dac86d">crashpad::test::TestExceptionSnapshot</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#a73dd26bcfe528de14bc0b8b1f177449a">crashpad::internal::ExceptionSnapshotMac</a>.</p>
 
 </div>
 </div>
@@ -223,7 +223,7 @@ Public Member Functions</h2></td></tr>
 <p>For Mac OS X, this will be an <a class="el" href="non__mac_2mach_2mach_8h.html#EXC_x">EXC_*</a> exception type, such as <code>EXC_BAD_ACCESS</code>. <code>EXC_CRASH</code> will not appear here for exceptions processed as <code>EXC_CRASH</code> when generated from another preceding exception: the original exception code will appear instead. The exception type as it was received will appear at index 0 of <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html#ab4fa67b763525c55cb5185c57d16a498" title="Returns a series of operating system-specific exception codes. ">Codes()</a>.</p>
 <p>For Windows, this will be an EXCEPTION_* exception type such as <code>EXCEPTION_ACCESS_VIOLATION</code>. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a9f7c53797558f62660ed6196845bed59">crashpad::test::TestExceptionSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#ab361b5aa9f4b77b1363898bdd5b3bbbb">crashpad::internal::ExceptionSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a081539ced0ac599376e252a402def61e">crashpad::internal::ExceptionSnapshotWin</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a081539ced0ac599376e252a402def61e">crashpad::internal::ExceptionSnapshotWin</a>, <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a9f7c53797558f62660ed6196845bed59">crashpad::test::TestExceptionSnapshot</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#ab361b5aa9f4b77b1363898bdd5b3bbbb">crashpad::internal::ExceptionSnapshotMac</a>.</p>
 
 </div>
 </div>
@@ -252,7 +252,7 @@ Public Member Functions</h2></td></tr>
 <p>This may be the address that caused a fault on data access, or it may be the instruction pointer that contained an offending instruction. For exceptions where this value cannot be determined, it will be <code>0</code>.</p>
 <p>For Mac OS X, this will be the value of the exception code at index 1 as received by a Mach exception handler. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a7f07d1ae79512f60308d49d353dd46d3">crashpad::test::TestExceptionSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#a9a7a8a27dc0a7f2695f99652a1b094bd">crashpad::internal::ExceptionSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a99e96c1b4d2c0b02408b96ee5cc4140b">crashpad::internal::ExceptionSnapshotWin</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a99e96c1b4d2c0b02408b96ee5cc4140b">crashpad::internal::ExceptionSnapshotWin</a>, <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a7f07d1ae79512f60308d49d353dd46d3">crashpad::test::TestExceptionSnapshot</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#a9a7a8a27dc0a7f2695f99652a1b094bd">crashpad::internal::ExceptionSnapshotMac</a>.</p>
 
 </div>
 </div>
@@ -286,7 +286,7 @@ Public Member Functions</h2></td></tr>
 <p>In all cases on Mac OS X, the full exception code at index 0 as it was received will appear at index 1 of <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html#ab4fa67b763525c55cb5185c57d16a498" title="Returns a series of operating system-specific exception codes. ">Codes()</a>.</p>
 <p>On Windows, this will either be <code>0</code> if the exception is continuable, or <code>EXCEPTION_NONCONTINUABLE</code> to indicate a noncontinuable exception. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a96ebe0bf56492dfb4f753ea89ec3b6c6">crashpad::test::TestExceptionSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#ad486a914f9bffe0119bf83d59fda7185">crashpad::internal::ExceptionSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a4e5002647b22e5b34bed8164fb836b14">crashpad::internal::ExceptionSnapshotWin</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#a4e5002647b22e5b34bed8164fb836b14">crashpad::internal::ExceptionSnapshotWin</a>, <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a96ebe0bf56492dfb4f753ea89ec3b6c6">crashpad::test::TestExceptionSnapshot</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#ad486a914f9bffe0119bf83d59fda7185">crashpad::internal::ExceptionSnapshotMac</a>.</p>
 
 </div>
 </div>
@@ -314,7 +314,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns a vector of additional memory blocks that should be included in a minidump. </p>
 <dl class="section return"><dt>Returns</dt><dd>A vector of <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> objects that will be included in the crash dump. The caller does not take ownership of these objects, they are scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> object that they were obtained from. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a8dcc8870ce0912b83d6c98e1ce37df96">crashpad::test::TestExceptionSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#ab191e4a1838ad0f75b5714ee507feba3">crashpad::internal::ExceptionSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#afe411b390d361297fe3aa4fe8f3e3241">crashpad::internal::ExceptionSnapshotWin</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#afe411b390d361297fe3aa4fe8f3e3241">crashpad::internal::ExceptionSnapshotWin</a>, <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a8dcc8870ce0912b83d6c98e1ce37df96">crashpad::test::TestExceptionSnapshot</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#ab191e4a1838ad0f75b5714ee507feba3">crashpad::internal::ExceptionSnapshotMac</a>.</p>
 
 </div>
 </div>
@@ -342,7 +342,7 @@ Public Member Functions</h2></td></tr>
 <p>Returns the thread identifier of the thread that triggered the exception. </p>
 <p>This value can be compared to <a class="el" href="classcrashpad_1_1ThreadSnapshot.html#a21b11bab41a09226db8cdb6e629ebfc4" title="Returns the thread’s identifier. ">ThreadSnapshot::ThreadID()</a> to associate an <a class="el" href="classcrashpad_1_1ExceptionSnapshot.html" title="An abstract interface to a snapshot representing an exception that a snapshot process sustained and t...">ExceptionSnapshot</a> object with the <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> that contains a snapshot of the thread that triggered the exception. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a7c566bf23ac2dea8c5a8dd8d0ad331ae">crashpad::test::TestExceptionSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#aed18279b8d96ab1db1de50a85b4076f2">crashpad::internal::ExceptionSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#aeb24a5a7b0c476e7bd1e8cd020cb1f07">crashpad::internal::ExceptionSnapshotWin</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#aeb24a5a7b0c476e7bd1e8cd020cb1f07">crashpad::internal::ExceptionSnapshotWin</a>, <a class="el" href="classcrashpad_1_1test_1_1TestExceptionSnapshot.html#a7c566bf23ac2dea8c5a8dd8d0ad331ae">crashpad::test::TestExceptionSnapshot</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html#aed18279b8d96ab1db1de50a85b4076f2">crashpad::internal::ExceptionSnapshotMac</a>.</p>
 
 </div>
 </div>

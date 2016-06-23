@@ -123,12 +123,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a288939e7e291379586310b13d5342a1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpModuleWriter.html#a288939e7e291379586310b13d5342a1c">SetName</a> (const std::string &amp;name)</td></tr>
 <tr class="memdesc:a288939e7e291379586310b13d5342a1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structMINIDUMP__MODULE.html#a8aa1ae48a9a32640573747cba5a00274" title="RVA of a MINIDUMP_STRING containing the module’s path or file name. ">MINIDUMP_MODULE::ModuleNameRva</a> to point to a <a class="el" href="structMINIDUMP__STRING.html" title="A variable-length UTF-16-encoded string carried within a minidump file. ">MINIDUMP_STRING</a> containing <em>name</em>.  <a href="#a288939e7e291379586310b13d5342a1c">More...</a><br /></td></tr>
 <tr class="separator:a288939e7e291379586310b13d5342a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eb53d8a144dfd15d3afbdb2570d6261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpModuleWriter.html#a4eb53d8a144dfd15d3afbdb2570d6261">SetCodeViewRecord</a> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpModuleCodeViewRecordWriter.html">MinidumpModuleCodeViewRecordWriter</a> &gt; codeview_record)</td></tr>
-<tr class="memdesc:a4eb53d8a144dfd15d3afbdb2570d6261"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structMINIDUMP__MODULE.html#acd07e35faf066880eeabea8a91aa887a" title="A pointer to the module’s CodeView record, typically a link to its debugging information in crashpad...">MINIDUMP_MODULE::CvRecord</a> to point to a CodeView record to be written by <em>codeview_record</em>.  <a href="#a4eb53d8a144dfd15d3afbdb2570d6261">More...</a><br /></td></tr>
-<tr class="separator:a4eb53d8a144dfd15d3afbdb2570d6261"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad059e55535014c5584a1d00af0612360"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpModuleWriter.html#ad059e55535014c5584a1d00af0612360">SetMiscDebugRecord</a> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpModuleMiscDebugRecordWriter.html">MinidumpModuleMiscDebugRecordWriter</a> &gt; misc_debug_record)</td></tr>
-<tr class="memdesc:ad059e55535014c5584a1d00af0612360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structMINIDUMP__MODULE.html#a749bc0bb7492a1b9463631eec006b4d1" title="A pointer to the module’s miscellaneous debugging record, a structure of type IMAGE_DEBUG_MISC. ">MINIDUMP_MODULE::MiscRecord</a> to point to an <a class="el" href="structIMAGE__DEBUG__MISC.html" title="Miscellaneous debugging record. ">IMAGE_DEBUG_MISC</a> object to be written by <em>misc_debug_record</em>.  <a href="#ad059e55535014c5584a1d00af0612360">More...</a><br /></td></tr>
-<tr class="separator:ad059e55535014c5584a1d00af0612360"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac94ef32c7c24abd5fdb467d03a26286f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpModuleWriter.html#ac94ef32c7c24abd5fdb467d03a26286f">SetCodeViewRecord</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpModuleCodeViewRecordWriter.html">MinidumpModuleCodeViewRecordWriter</a> &gt; codeview_record)</td></tr>
+<tr class="memdesc:ac94ef32c7c24abd5fdb467d03a26286f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structMINIDUMP__MODULE.html#acd07e35faf066880eeabea8a91aa887a" title="A pointer to the module’s CodeView record, typically a link to its debugging information in crashpad...">MINIDUMP_MODULE::CvRecord</a> to point to a CodeView record to be written by <em>codeview_record</em>.  <a href="#ac94ef32c7c24abd5fdb467d03a26286f">More...</a><br /></td></tr>
+<tr class="separator:ac94ef32c7c24abd5fdb467d03a26286f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea88f0d1077f51629d754ba5a03082d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpModuleWriter.html#aea88f0d1077f51629d754ba5a03082d3">SetMiscDebugRecord</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpModuleMiscDebugRecordWriter.html">MinidumpModuleMiscDebugRecordWriter</a> &gt; misc_debug_record)</td></tr>
+<tr class="memdesc:aea88f0d1077f51629d754ba5a03082d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arranges for <a class="el" href="structMINIDUMP__MODULE.html#a749bc0bb7492a1b9463631eec006b4d1" title="A pointer to the module’s miscellaneous debugging record, a structure of type IMAGE_DEBUG_MISC. ">MINIDUMP_MODULE::MiscRecord</a> to point to an <a class="el" href="structIMAGE__DEBUG__MISC.html" title="Miscellaneous debugging record. ">IMAGE_DEBUG_MISC</a> object to be written by <em>misc_debug_record</em>.  <a href="#aea88f0d1077f51629d754ba5a03082d3">More...</a><br /></td></tr>
+<tr class="separator:aea88f0d1077f51629d754ba5a03082d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a585b533fd4a4876b0545028e8060712c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a585b533fd4a4876b0545028e8060712c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpModuleWriter.html#a585b533fd4a4876b0545028e8060712c">SetImageBaseAddress</a> (uint64_t image_base_address)</td></tr>
 <tr class="memdesc:a585b533fd4a4876b0545028e8060712c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets IMAGE_DEBUG_MISC::BaseOfImage. <br /></td></tr>
@@ -326,14 +326,14 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4eb53d8a144dfd15d3afbdb2570d6261"></a>
+<a class="anchor" id="ac94ef32c7c24abd5fdb467d03a26286f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void crashpad::MinidumpModuleWriter::SetCodeViewRecord </td>
           <td>(</td>
-          <td class="paramtype">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpModuleCodeViewRecordWriter.html">MinidumpModuleCodeViewRecordWriter</a> &gt;&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpModuleCodeViewRecordWriter.html">MinidumpModuleCodeViewRecordWriter</a> &gt;&#160;</td>
           <td class="paramname"><em>codeview_record</em></td><td>)</td>
           <td></td>
         </tr>
@@ -416,14 +416,14 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad059e55535014c5584a1d00af0612360"></a>
+<a class="anchor" id="aea88f0d1077f51629d754ba5a03082d3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void crashpad::MinidumpModuleWriter::SetMiscDebugRecord </td>
           <td>(</td>
-          <td class="paramtype">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpModuleMiscDebugRecordWriter.html">MinidumpModuleMiscDebugRecordWriter</a> &gt;&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpModuleMiscDebugRecordWriter.html">MinidumpModuleMiscDebugRecordWriter</a> &gt;&#160;</td>
           <td class="paramname"><em>misc_debug_record</em></td><td>)</td>
           <td></td>
         </tr>

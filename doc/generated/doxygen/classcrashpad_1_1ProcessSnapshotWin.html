@@ -112,12 +112,9 @@ Inheritance diagram for crashpad::ProcessSnapshotWin:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af91e211585c98e81b5d406620b81fca6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#af91e211585c98e81b5d406620b81fca6">Initialize</a> (HANDLE process, <a class="el" href="namespacecrashpad.html#ab96bb7edb42a2e1ce28eda205a18a17a">ProcessSuspensionState</a> suspension_state, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> debug_critical_section_address)</td></tr>
-<tr class="memdesc:af91e211585c98e81b5d406620b81fca6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object.  <a href="#af91e211585c98e81b5d406620b81fca6">More...</a><br /></td></tr>
-<tr class="separator:af91e211585c98e81b5d406620b81fca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65a1d0a730f73db635ae09b17bd70445"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a65a1d0a730f73db635ae09b17bd70445">InitializeException</a> (<a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> exception_information_address)</td></tr>
-<tr class="memdesc:a65a1d0a730f73db635ae09b17bd70445"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object's exception.  <a href="#a65a1d0a730f73db635ae09b17bd70445">More...</a><br /></td></tr>
-<tr class="separator:a65a1d0a730f73db635ae09b17bd70445"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4f89f057ae0fbaed4a097cf16cb7ffd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#af4f89f057ae0fbaed4a097cf16cb7ffd">Initialize</a> (HANDLE process, <a class="el" href="namespacecrashpad.html#ab96bb7edb42a2e1ce28eda205a18a17a">ProcessSuspensionState</a> suspension_state, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> exception_information_address, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> debug_critical_section_address)</td></tr>
+<tr class="memdesc:af4f89f057ae0fbaed4a097cf16cb7ffd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the object.  <a href="#af4f89f057ae0fbaed4a097cf16cb7ffd">More...</a><br /></td></tr>
+<tr class="separator:af4f89f057ae0fbaed4a097cf16cb7ffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a754c51e80b6251259660b1c14feb3bc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a754c51e80b6251259660b1c14feb3bc4">SetReportID</a> (const <a class="el" href="structcrashpad_1_1UUID.html">UUID</a> &amp;report_id)</td></tr>
 <tr class="memdesc:a754c51e80b6251259660b1c14feb3bc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the value to be returned by <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#ace79d99575ee87baa77aa068b7ba4012" title="Returns a UUID identifying the event that the snapshot describes. ">ReportID()</a>.  <a href="#a754c51e80b6251259660b1c14feb3bc4">More...</a><br /></td></tr>
 <tr class="separator:a754c51e80b6251259660b1c14feb3bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -352,7 +349,7 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 
 </div>
 </div>
-<a class="anchor" id="af91e211585c98e81b5d406620b81fca6"></a>
+<a class="anchor" id="af4f89f057ae0fbaed4a097cf16cb7ffd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -367,6 +364,12 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
           <td></td>
           <td class="paramtype"><a class="el" href="namespacecrashpad.html#ab96bb7edb42a2e1ce28eda205a18a17a">ProcessSuspensionState</a>&#160;</td>
           <td class="paramname"><em>suspension_state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>&#160;</td>
+          <td class="paramname"><em>exception_information_address</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -387,39 +390,13 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">process</td><td>The handle to create a snapshot from. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">suspension_state</td><td>Whether <em>process</em> has been suspended by the caller. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">exception_information_address</td><td>The address in the client process's address space of an <a class="el" href="structcrashpad_1_1ExceptionInformation.html" title="Structure read out of the client process by the crash handler when an exception occurs. ">ExceptionInformation</a> structure. May be <code>0</code>, in which case no exception data will be recorded. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">debug_critical_section_address</td><td>The address in the target process's address space of a <code>CRITICAL_SECTION</code> allocated with valid <code>.DebugInfo</code>. Used as a starting point to walk the process's locks. May be <code>0</code>.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the snapshot could be created, <code>false</code> otherwise with an appropriate message logged.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1ScopedProcessSuspend.html" title="Manages the suspension of another process. ">ScopedProcessSuspend</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a65a1d0a730f73db635ae09b17bd70445"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool crashpad::ProcessSnapshotWin::InitializeException </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a>&#160;</td>
-          <td class="paramname"><em>exception_information_address</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initializes the object's exception. </p>
-<p>This populates the data to be returned by <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a2812b20224f12fa41c29de2ea5d6188f" title="Returns an ExceptionSnapshot reflecting the exception that the snapshot process sustained to trigger ...">Exception()</a>.</p>
-<p>This method must not be called until after a successful call to <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#af91e211585c98e81b5d406620b81fca6" title="Initializes the object. ">Initialize()</a>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">exception_information_address</td><td>The address in the client process's address space of an <a class="el" href="structcrashpad_1_1ExceptionInformation.html" title="Structure read out of the client process by the crash handler when an exception occurs. ">ExceptionInformation</a> structure.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the exception information could be initialized, <code>false</code> otherwise with an appropriate message logged. When this method returns <code>false</code>, the <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html" title="A ProcessSnapshot of a running (or crashed) process running on a Windows system. ">ProcessSnapshotWin</a> object's validity remains unchanged. </dd></dl>
 
 </div>
 </div>

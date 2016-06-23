@@ -24,11 +24,11 @@ var searchData=
   ['kinvalidsize',['kInvalidSize',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#ae7c01f317a519213ac16bfeca94125d1',1,'crashpad::internal::MinidumpWritable']]],
   ['kmachexceptioncodes',['kMachExceptionCodes',['../namespacecrashpad.html#a7dbcba9449a5dd47d2911b1f85bc1a58',1,'crashpad']]],
   ['kmachexceptionsimulated',['kMachExceptionSimulated',['../namespacecrashpad.html#ad22bbde846a82173474ba002116c325c',1,'crashpad']]],
-  ['kmachmessagedeadlinenonblocking',['kMachMessageDeadlineNonblocking',['../namespacecrashpad.html#af8ab5d94ccade9f4e3ed4001840850e0a6461bf9de012b5f2305fb3da6d0f82d5',1,'crashpad']]],
-  ['kmachmessagedeadlinewaitindefinitely',['kMachMessageDeadlineWaitIndefinitely',['../namespacecrashpad.html#af8ab5d94ccade9f4e3ed4001840850e0a848a739b3c252f4565161a6bd3f070d6',1,'crashpad']]],
+  ['kmachmessagedeadlinenonblocking',['kMachMessageDeadlineNonblocking',['../namespacecrashpad.html#a46a2c78f4fe37b22df7c9b846b07d2c9a6461bf9de012b5f2305fb3da6d0f82d5',1,'crashpad']]],
+  ['kmachmessagedeadlinewaitindefinitely',['kMachMessageDeadlineWaitIndefinitely',['../namespacecrashpad.html#a46a2c78f4fe37b22df7c9b846b07d2c9a848a739b3c252f4565161a6bd3f070d6',1,'crashpad']]],
   ['kmachmessagereceiveaudittrailer',['kMachMessageReceiveAuditTrailer',['../namespacecrashpad.html#a2673983f0177685e048be73ee578eddb',1,'crashpad']]],
-  ['kmachmessagetimeoutnonblocking',['kMachMessageTimeoutNonblocking',['../namespacecrashpad.html#aa1ce8853fb0b419e62986c97340a767da15aaf8991271871ab08493449c00a048',1,'crashpad']]],
-  ['kmachmessagetimeoutwaitindefinitely',['kMachMessageTimeoutWaitIndefinitely',['../namespacecrashpad.html#aa1ce8853fb0b419e62986c97340a767daaf4f2c8a649ea6bcfe896e77c312315f',1,'crashpad']]],
+  ['kmachmessagetimeoutnonblocking',['kMachMessageTimeoutNonblocking',['../namespacecrashpad.html#aa6a2a531804c5854bccfbcd1b767b46fa15aaf8991271871ab08493449c00a048',1,'crashpad']]],
+  ['kmachmessagetimeoutwaitindefinitely',['kMachMessageTimeoutWaitIndefinitely',['../namespacecrashpad.html#aa6a2a531804c5854bccfbcd1b767b46faaf4f2c8a649ea6bcfe896e77c312315f',1,'crashpad']]],
   ['kmachportnull',['kMachPortNull',['../namespacecrashpad.html#a7c7b6c8b4f44c95c7f0fb70a56342277',1,'crashpad']]],
   ['kminidumpcontextamd64',['kMinidumpContextAMD64',['../namespacecrashpad.html#aa197c419950bae99f1ba663f10b1891caaa3c47e2ec7565ce81b7cda3a4c101c6',1,'crashpad']]],
   ['kminidumpcontextamd64all',['kMinidumpContextAMD64All',['../namespacecrashpad.html#aa197c419950bae99f1ba663f10b1891cac84b1d90bf34dbb26631ca77d942abf8',1,'crashpad']]],
@@ -132,6 +132,7 @@ var searchData=
   ['ktargettypethread',['kTargetTypeThread',['../classcrashpad_1_1ExceptionPorts.html#af3bb7100d4bf2e8ead5115e187434fb0a80612d39e0a116cae2104f4f286d3c55',1,'crashpad::ExceptionPorts']]],
   ['kterminationnormal',['kTerminationNormal',['../classcrashpad_1_1test_1_1Multiprocess.html#adedaaa5fbbb57de1ae5af8ef7c84b4bfa9ac04c5400b6051e164ef9bcbb8c111a',1,'crashpad::test::Multiprocess']]],
   ['kterminationsignal',['kTerminationSignal',['../classcrashpad_1_1test_1_1Multiprocess.html#adedaaa5fbbb57de1ae5af8ef7c84b4bfa4a97a5b85c823c3404d160ca615f491c',1,'crashpad::test::Multiprocess']]],
+  ['ktriggeredexceptioncode',['kTriggeredExceptionCode',['../classcrashpad_1_1CrashpadClient.html#ac0b53a9db7d1958c321a0dcc3d73fec0a193286f9cde3032e18a06a4e6452e660',1,'crashpad::CrashpadClient']]],
   ['ktruncateorcreate',['kTruncateOrCreate',['../namespacecrashpad.html#afa69b0967d9a6df659ff5d2a02ff3e51a751805077642855501f572c876e1d907',1,'crashpad']]],
   ['kunknownisempty',['kUnknownIsEmpty',['../namespacecrashpad.html#a7856b82b71167792ea6103debb5105eda6fd207e044b85ec202143881fcd5eb2e',1,'crashpad']]],
   ['kunknownisnumeric',['kUnknownIsNumeric',['../namespacecrashpad.html#a7856b82b71167792ea6103debb5105edaf9da07820c9857c86422b70c3cc33c12',1,'crashpad']]],
@@ -141,6 +142,6 @@ var searchData=
   ['kuseshortname',['kUseShortName',['../namespacecrashpad.html#a7856b82b71167792ea6103debb5105eda127e077880ede5d2f87b87873d46ea55',1,'crashpad']]],
   ['kversion',['kVersion',['../structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a18fb60c0add35baf294f4faadc697963',1,'crashpad::MinidumpModuleCrashpadInfo::kVersion()'],['../structcrashpad_1_1MinidumpCrashpadInfo.html#a69d7f1d4aaa3626731c87dbb93502c79',1,'crashpad::MinidumpCrashpadInfo::kVersion()']]],
   ['kworldreadable',['kWorldReadable',['../namespacecrashpad.html#a034ccc90eb0d1f587ee89275d822175da5368ce91b6c60534fe1187a23e98924d',1,'crashpad']]],
-  ['kxpprocessallaccess',['kXPProcessAllAccess',['../namespacecrashpad.html#aedb97baa1482a3cfe007a39deb7a6be2ae4f1a3b637ac392d76826131e72ac832',1,'crashpad']]],
-  ['kxpthreadallaccess',['kXPThreadAllAccess',['../namespacecrashpad.html#aedb97baa1482a3cfe007a39deb7a6be2af4736ae0e9abf32de684ad33895eec0e',1,'crashpad']]]
+  ['kxpprocessallaccess',['kXPProcessAllAccess',['../namespacecrashpad.html#a24b09ceb3508dd862a91ce02f0583ae8ae4f1a3b637ac392d76826131e72ac832',1,'crashpad']]],
+  ['kxpthreadallaccess',['kXPThreadAllAccess',['../namespacecrashpad.html#a24b09ceb3508dd862a91ce02f0583ae8af4736ae0e9abf32de684ad33895eec0e',1,'crashpad']]]
 ];

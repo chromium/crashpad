@@ -110,9 +110,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9d5d01b6e435c0706e1a687a3b64ad62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a9d5d01b6e435c0706e1a687a3b64ad62">SetFileAttachment</a> (const std::string &amp;key, const std::string &amp;upload_file_name, const base::FilePath &amp;path, const std::string &amp;content_type)</td></tr>
 <tr class="memdesc:a9d5d01b6e435c0706e1a687a3b64ad62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the file at <em>path</em> to have its contents uploaded as multipart data, available at <code>name</code> of <em>upload_file_name</em>.  <a href="#a9d5d01b6e435c0706e1a687a3b64ad62">More...</a><br /></td></tr>
 <tr class="separator:a9d5d01b6e435c0706e1a687a3b64ad62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44bee6ddacb6b526b1a170e893d6b2b4"><td class="memItemLeft" align="right" valign="top">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1HTTPBodyStream.html">HTTPBodyStream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a44bee6ddacb6b526b1a170e893d6b2b4">GetBodyStream</a> ()</td></tr>
-<tr class="memdesc:a44bee6ddacb6b526b1a170e893d6b2b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates the <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> for the data currently supplied to the builder.  <a href="#a44bee6ddacb6b526b1a170e893d6b2b4">More...</a><br /></td></tr>
-<tr class="separator:a44bee6ddacb6b526b1a170e893d6b2b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a071e0642997cb00acdc966371c2d1100"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1HTTPBodyStream.html">HTTPBodyStream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a071e0642997cb00acdc966371c2d1100">GetBodyStream</a> ()</td></tr>
+<tr class="memdesc:a071e0642997cb00acdc966371c2d1100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates the <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> for the data currently supplied to the builder.  <a href="#a071e0642997cb00acdc966371c2d1100">More...</a><br /></td></tr>
+<tr class="separator:a071e0642997cb00acdc966371c2d1100"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a058686dbdc9e3703dd3190dc38d96e94"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a058686dbdc9e3703dd3190dc38d96e94"></a>
 HTTPHeaders::value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a058686dbdc9e3703dd3190dc38d96e94">GetContentType</a> () const </td></tr>
 <tr class="memdesc:a058686dbdc9e3703dd3190dc38d96e94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the header pair for <code>"Content-Type"</code>. <br /></td></tr>
@@ -121,12 +121,12 @@ HTTPHeaders::value_type&#160;</td><td class="memItemRight" valign="bottom"><a cl
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class is used to build a MIME multipart message, conforming to RFC 2046, for use as a HTTP request body. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a44bee6ddacb6b526b1a170e893d6b2b4"></a>
+<a class="anchor" id="a071e0642997cb00acdc966371c2d1100"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1HTTPBodyStream.html">HTTPBodyStream</a> &gt; crashpad::HTTPMultipartBuilder::GetBodyStream </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1HTTPBodyStream.html">HTTPBodyStream</a> &gt; crashpad::HTTPMultipartBuilder::GetBodyStream </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

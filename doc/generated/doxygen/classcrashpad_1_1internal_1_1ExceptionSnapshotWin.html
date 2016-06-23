@@ -131,6 +131,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afe411b390d361297fe3aa4fe8f3e3241"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html#afe411b390d361297fe3aa4fe8f3e3241">ExtraMemory</a> () const  override</td></tr>
 <tr class="memdesc:afe411b390d361297fe3aa4fe8f3e3241"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector of additional memory blocks that should be included in a minidump.  <a href="#afe411b390d361297fe3aa4fe8f3e3241">More...</a><br /></td></tr>
 <tr class="separator:afe411b390d361297fe3aa4fe8f3e3241"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0690060157934faa3b820faade0722c8"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0690060157934faa3b820faade0722c8"></a>
+template&lt;class ExceptionRecordType , class ExceptionPointersType , class ContextType &gt; </td></tr>
+<tr class="memitem:a0690060157934faa3b820faade0722c8"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>InitializeFromExceptionPointers</b> (<a class="el" href="classcrashpad_1_1ProcessReaderWin.html">ProcessReaderWin</a> *process_reader, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> exception_pointers_address, DWORD exception_thread_id, void(*native_to_cpu_context)(const ContextType &amp;context_record,                                                                                                                               <a class="el" href="structcrashpad_1_1CPUContext.html">CPUContext</a> *context,                                                                                                                               CPUContextUnion *context_union))</td></tr>
+<tr class="separator:a0690060157934faa3b820faade0722c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a34df0516c41e42fd891a7f74ca4485c1"></a>
@@ -351,6 +355,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>If the exception was triggered by <a class="el" href="classcrashpad_1_1CrashpadClient.html#a00540d42464336ee01307a5bdbf1826f" title="Requests that the handler capture a dump of a different process. ">CrashpadClient::DumpAndCrashTargetProcess()</a>, this has the side-effect of correcting the thread suspend counts for <em>process_reader</em>.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the snapshot could be created, <code>false</code> otherwise with an appropriate message logged. </dd></dl>
 
 </div>

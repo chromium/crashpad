@@ -115,9 +115,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9703c478f207a285d732821be657b50f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structcrashpad_1_1CPUContext.html">CPUContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a9703c478f207a285d732821be657b50f">MutableContext</a> ()</td></tr>
 <tr class="memdesc:a9703c478f207a285d732821be657b50f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains a pointer to the underlying mutable <a class="el" href="structcrashpad_1_1CPUContext.html" title="A context structure capable of carrying the context of any supported CPU architecture. ">CPUContext</a> structure.  <a href="#a9703c478f207a285d732821be657b50f">More...</a><br /></td></tr>
 <tr class="separator:a9703c478f207a285d732821be657b50f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afee1552ac00f5cac7db00ee32d3f78fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#afee1552ac00f5cac7db00ee32d3f78fc">SetStack</a> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> &gt; stack)</td></tr>
-<tr class="memdesc:afee1552ac00f5cac7db00ee32d3f78fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the memory region to be returned by <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#af4d76ef3adcadf3c02efb3ffb68dfdfe" title="Returns a MemorySnapshot object corresponding to the memory region that contains the thread’s stack...">Stack()</a>.  <a href="#afee1552ac00f5cac7db00ee32d3f78fc">More...</a><br /></td></tr>
-<tr class="separator:afee1552ac00f5cac7db00ee32d3f78fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1db1c6ce49c283e763c666c3fbf5964a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a1db1c6ce49c283e763c666c3fbf5964a">SetStack</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> &gt; stack)</td></tr>
+<tr class="memdesc:a1db1c6ce49c283e763c666c3fbf5964a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the memory region to be returned by <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#af4d76ef3adcadf3c02efb3ffb68dfdfe" title="Returns a MemorySnapshot object corresponding to the memory region that contains the thread’s stack...">Stack()</a>.  <a href="#a1db1c6ce49c283e763c666c3fbf5964a">More...</a><br /></td></tr>
+<tr class="separator:a1db1c6ce49c283e763c666c3fbf5964a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48b9e147c9ba09029e71e58b9ebdb365"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a48b9e147c9ba09029e71e58b9ebdb365"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetThreadID</b> (uint64_t thread_id)</td></tr>
 <tr class="separator:a48b9e147c9ba09029e71e58b9ebdb365"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,9 +130,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>SetPriority</b> (int 
 <tr class="memitem:a25c8c3ef70b9b6e6c25a648333867aef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25c8c3ef70b9b6e6c25a648333867aef"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetThreadSpecificDataAddress</b> (uint64_t thread_specific_data_address)</td></tr>
 <tr class="separator:a25c8c3ef70b9b6e6c25a648333867aef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79e826ed673fee6deda37d2ce3887c80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a79e826ed673fee6deda37d2ce3887c80">AddExtraMemory</a> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> &gt; extra_memory)</td></tr>
-<tr class="memdesc:a79e826ed673fee6deda37d2ce3887c80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a memory snapshot to be returned by <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#afde179275a9d3b01103264400c4e0e3e" title="Returns a vector of additional memory blocks that should be included in a minidump. ">ExtraMemory()</a>.  <a href="#a79e826ed673fee6deda37d2ce3887c80">More...</a><br /></td></tr>
-<tr class="separator:a79e826ed673fee6deda37d2ce3887c80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a645715913a5fe095cba580836647ff0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a645715913a5fe095cba580836647ff0a">AddExtraMemory</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> &gt; extra_memory)</td></tr>
+<tr class="memdesc:a645715913a5fe095cba580836647ff0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a memory snapshot to be returned by <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#afde179275a9d3b01103264400c4e0e3e" title="Returns a vector of additional memory blocks that should be included in a minidump. ">ExtraMemory()</a>.  <a href="#a645715913a5fe095cba580836647ff0a">More...</a><br /></td></tr>
+<tr class="separator:a645715913a5fe095cba580836647ff0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e936eb0a5e8b5792ee8804611d7e6f3"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structcrashpad_1_1CPUContext.html">CPUContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a9e936eb0a5e8b5792ee8804611d7e6f3">Context</a> () const  override</td></tr>
 <tr class="memdesc:a9e936eb0a5e8b5792ee8804611d7e6f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="structcrashpad_1_1CPUContext.html" title="A context structure capable of carrying the context of any supported CPU architecture. ">CPUContext</a> object corresponding to the thread’s CPU context.  <a href="#a9e936eb0a5e8b5792ee8804611d7e6f3">More...</a><br /></td></tr>
 <tr class="separator:a9e936eb0a5e8b5792ee8804611d7e6f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,7 +159,7 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A test <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> that can carry arbitrary data for testing purposes. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a79e826ed673fee6deda37d2ce3887c80"></a>
+<a class="anchor" id="a645715913a5fe095cba580836647ff0a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -169,7 +169,7 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
         <tr>
           <td class="memname">void crashpad::test::TestThreadSnapshot::AddExtraMemory </td>
           <td>(</td>
-          <td class="paramtype">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> &gt;&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> &gt;&#160;</td>
           <td class="paramname"><em>extra_memory</em></td><td>)</td>
           <td></td>
         </tr>
@@ -303,7 +303,7 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 
 </div>
 </div>
-<a class="anchor" id="afee1552ac00f5cac7db00ee32d3f78fc"></a>
+<a class="anchor" id="a1db1c6ce49c283e763c666c3fbf5964a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -313,7 +313,7 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
         <tr>
           <td class="memname">void crashpad::test::TestThreadSnapshot::SetStack </td>
           <td>(</td>
-          <td class="paramtype">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> &gt;&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> &gt;&#160;</td>
           <td class="paramname"><em>stack</em></td><td>)</td>
           <td></td>
         </tr>

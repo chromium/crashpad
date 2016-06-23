@@ -117,9 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae40e485eff3dd7eb224cdd13eb333dd7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryListWriter.html#ae40e485eff3dd7eb224cdd13eb333dd7">AddFromSnapshot</a> (const std::vector&lt; const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> * &gt; &amp;memory_snapshots)</td></tr>
 <tr class="memdesc:ae40e485eff3dd7eb224cdd13eb333dd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a concrete initialized <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">MinidumpMemoryWriter</a> for each memory snapshot in <em>memory_snapshots</em> to the <a class="el" href="structMINIDUMP__MEMORY__LIST.html" title="Information about memory regions within the process. ">MINIDUMP_MEMORY_LIST</a>.  <a href="#ae40e485eff3dd7eb224cdd13eb333dd7">More...</a><br /></td></tr>
 <tr class="separator:ae40e485eff3dd7eb224cdd13eb333dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae78274cf4453a01907e31289c6517509"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryListWriter.html#ae78274cf4453a01907e31289c6517509">AddMemory</a> (scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> &gt; memory_writer)</td></tr>
-<tr class="memdesc:ae78274cf4453a01907e31289c6517509"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">MinidumpMemoryWriter</a> to the <a class="el" href="structMINIDUMP__MEMORY__LIST.html" title="Information about memory regions within the process. ">MINIDUMP_MEMORY_LIST</a>.  <a href="#ae78274cf4453a01907e31289c6517509">More...</a><br /></td></tr>
-<tr class="separator:ae78274cf4453a01907e31289c6517509"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ddffe5912abbab2fdda5ec7a9a6ba2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryListWriter.html#a0ddffe5912abbab2fdda5ec7a9a6ba2f">AddMemory</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> &gt; memory_writer)</td></tr>
+<tr class="memdesc:a0ddffe5912abbab2fdda5ec7a9a6ba2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">MinidumpMemoryWriter</a> to the <a class="el" href="structMINIDUMP__MEMORY__LIST.html" title="Information about memory regions within the process. ">MINIDUMP_MEMORY_LIST</a>.  <a href="#a0ddffe5912abbab2fdda5ec7a9a6ba2f">More...</a><br /></td></tr>
+<tr class="separator:a0ddffe5912abbab2fdda5ec7a9a6ba2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13e55ac76770857b35f5b7f90eba33f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryListWriter.html#a13e55ac76770857b35f5b7f90eba33f8">AddExtraMemory</a> (<a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> *memory_writer)</td></tr>
 <tr class="memdesc:a13e55ac76770857b35f5b7f90eba33f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">MinidumpMemoryWriter</a> that’s a child of another <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file. ">internal::MinidumpWritable</a> object to the <a class="el" href="structMINIDUMP__MEMORY__LIST.html" title="Information about memory regions within the process. ">MINIDUMP_MEMORY_LIST</a>.  <a href="#a13e55ac76770857b35f5b7f90eba33f8">More...</a><br /></td></tr>
 <tr class="separator:a13e55ac76770857b35f5b7f90eba33f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -233,7 +233,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Adds a concrete initialized <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">MinidumpMemoryWriter</a> for each memory snapshot in <em>memory_snapshots</em> to the <a class="el" href="structMINIDUMP__MEMORY__LIST.html" title="Information about memory regions within the process. ">MINIDUMP_MEMORY_LIST</a>. </p>
-<p>Memory snapshots are added in the fashion of <a class="el" href="classcrashpad_1_1MinidumpMemoryListWriter.html#ae78274cf4453a01907e31289c6517509" title="Adds a MinidumpMemoryWriter to the MINIDUMP_MEMORY_LIST. ">AddMemory()</a>.</p>
+<p>Memory snapshots are added in the fashion of <a class="el" href="classcrashpad_1_1MinidumpMemoryListWriter.html#a0ddffe5912abbab2fdda5ec7a9a6ba2f" title="Adds a MinidumpMemoryWriter to the MINIDUMP_MEMORY_LIST. ">AddMemory()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">memory_snapshots</td><td>The memory snapshots to use as source data.</td></tr>
@@ -244,14 +244,14 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae78274cf4453a01907e31289c6517509"></a>
+<a class="anchor" id="a0ddffe5912abbab2fdda5ec7a9a6ba2f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void crashpad::MinidumpMemoryListWriter::AddMemory </td>
           <td>(</td>
-          <td class="paramtype">scoped_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> &gt;&#160;</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> &gt;&#160;</td>
           <td class="paramname"><em>memory_writer</em></td><td>)</td>
           <td></td>
         </tr>
