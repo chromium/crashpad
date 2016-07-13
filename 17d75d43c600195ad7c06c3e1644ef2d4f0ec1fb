@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a9b448d_e137e688",
+        "filename": "client/contiguous_string_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "SimpleStringDictionary imposed limits on key and value sizes. Should ContiguousStringMap prevent ultra-large data?",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_0133eaa0",
+        "filename": "client/contiguous_string_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "If the size of the new value is \u003c\u003d the one being replaced, you could Intern() overwrite it instead.",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_61fbd6c2",
+        "filename": "client/contiguous_string_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "DCHECK is not sufficient here. Need a return statement.",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_c113c208",
+        "filename": "client/contiguous_string_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "I\u0027m worried about crash keys that are set repeatedly with different values. The interned string table is going to collect a lot of garbage. Perhaps Grow() is a feature of the ContiguousStringMap instead. That way it can erase old string data as it doubles its capacity.",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_c12ce23f",
+        "filename": "client/contiguous_string_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "This name is kind of funny, because SimpleStringDictionary is truly contiguous, whereas this is more of a SimpleStringMap ;-).",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_4108d2d1",
+        "filename": "client/contiguous_string_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "I\u0027d like to figure out what the averages of these are in real-world crash reports, to give us a sense of how often the growing would occur.",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_a131de95",
+        "filename": "client/contiguous_string_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "The initial capacities for the Map should be user-configurable.",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_c15aa2dc",
+        "filename": "client/contiguous_string_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "Move most of this class out-of-line into the .cc file, since it\u0027s not entirely a template like SimpleStringDictionary.",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_a118be23",
+        "filename": "client/contiguous_string_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "Use StringPiece here and for Remove too?",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_e10ec6e2",
+        "filename": "client/contiguous_string_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "naming: Get() seems a little more natural.",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_010acad0",
+        "filename": "client/contiguous_string_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "Friend the test class instead and declare this method on it instead?",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_a15f9eca",
+        "filename": "client/contiguous_string_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "Comment.",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_8175ba48",
+        "filename": "client/contiguous_string_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "Unused in the header.",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_6172b660",
+        "filename": "client/contiguous_string_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "Some limit here to prevent blowing out capacity_ ?",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a9b448d_216cae7f",
+        "filename": "client/contiguous_string_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-07-13T14:55:38Z",
+      "side": 1,
+      "message": "Code coverage should at least have parity with SimpleStringDictionary.",
+      "revId": "17d75d43c600195ad7c06c3e1644ef2d4f0ec1fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
