@@ -20,6 +20,7 @@
 #include <stdint.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 #include <utility>
 
@@ -250,6 +251,13 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
                           HandlerStarter* handler_restarter,
                           bool restart) {
     DCHECK(!restart || handler_restarter);
+
+    // Avoiding restart loop when handler disappears unexpectedly (deleted out of order by a punk uninstaller for example)
+    struct stat buffer;
+    if (stat(handler.value().c_str(), &buffer) != 0) {	
+        PLOG(ERROR) << "handler is missing";
+        return false;
+    }
 
     if (handler_restarter) {
       // The port-destroyed notification must be requested each time. It uses
