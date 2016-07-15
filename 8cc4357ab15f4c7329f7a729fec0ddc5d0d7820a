@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a7c8857_22da4e83",
+        "filename": "client/crashpad_client_mac.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-07-15T14:53:34Z",
+      "side": 1,
+      "message": "I don’t think that this is the right way to go. There are other reasons that the execve() might fail, some having nothing to do with “file missing.”\n\nThis also doesn’t do what you think it does. Restarts come as a result of DoMachNotifyPortDestroyed() calling CommonStart(). If CommonStart() fails to start a handler, the receive right will die again and DoMachNotifyPortDestroyed() will be called again. DoMachNotifyPortDestroyed() doesn’t care about CommonStart()’s return value.\n\nYou will notice that the restarter will currently fail the child_port_handshake.RunClient() call below when the handler is missing, and it returns false from there. We don’t need stat to detect that.",
+      "revId": "8cc4357ab15f4c7329f7a729fec0ddc5d0d7820a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
