@@ -59,11 +59,11 @@ inline void Assign<process_types::internal::Reserved64_64Only64,
   *destination = 0;
 }
 
-using UInt32Array10 = uint32_t[10];
-using UInt64Array10 = uint64_t[10];
+using UInt32Array4 = uint32_t[4];
+using UInt64Array4 = uint64_t[4];
 template <>
-inline void Assign<UInt64Array10, UInt32Array10>(UInt64Array10* destination,
-                                                 const UInt32Array10& source) {
+inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
+                                               const UInt32Array4& source) {
   for (size_t index = 0; index < arraysize(source); ++index) {
     (*destination)[index] = source[index];
   }
