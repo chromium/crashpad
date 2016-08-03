@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "34a14aab_f0e6e0ac",
+        "filename": "client/annotations.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-03T20:48:44Z",
+      "side": 1,
+      "message": "I defer to Mark on this.",
+      "parentUuid": "b411ba9a_18fbb57b",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a14aab_d0e39ccc",
         "filename": "client/annotations.h",
         "patchSetId": 3
@@ -206,6 +224,24 @@
       "side": 1,
       "message": "Doesn\u0027t seem to be too much upside since we\u0027re already walking a list and chasing value anyway, so I think I\u0027ll leave it unless you feel strongly.",
       "parentUuid": "34a14aab_d0e39ccc",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34a14aab_50d6ccbd",
+        "filename": "client/annotations.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-03T20:48:44Z",
+      "side": 1,
+      "message": "Don\u0027t feel strongly.",
+      "parentUuid": "b411ba9a_981045a6",
       "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
