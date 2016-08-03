@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a14aab_709670ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-03T20:52:03Z",
+      "side": 1,
+      "message": "I guarantee you someone will, but whatever.",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 21,
+        "endChar": 42
+      },
+      "revId": "374ba985d7ba6934efd03063475e67e3c32bf5b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
