@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a14aab_d0cc7c65",
+        "filename": "client/annotations.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-03T17:18:44Z",
+      "side": 1,
+      "message": "Does this generate faster code than just traversing the linked list?",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34a14aab_f0c98052",
+        "filename": "client/annotations.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-03T17:18:44Z",
+      "side": 1,
+      "message": "In theory this strdup could fail with ENOMEM which would break the non-NULL key invariant.",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34a14aab_308228fc",
+        "filename": "client/annotations.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-03T17:18:44Z",
+      "side": 1,
+      "message": "Did we want to limit value lengths in some way (strndup)? Or should that be done at the base::debug level.\n\nSame question about keys.",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34a14aab_50232c12",
+        "filename": "client/annotations.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-03T17:18:44Z",
+      "side": 1,
+      "message": "Note that keys and values must be NUL-terminated C strings.",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74bca297_ea55c7c5",
+        "filename": "client/annotations.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-03T17:18:44Z",
+      "side": 1,
+      "message": "I don\u0027t know what Mark wants to do, but we could import this doc into the doc/ directory.",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34a14aab_d0e39ccc",
+        "filename": "client/annotations.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-03T17:18:44Z",
+      "side": 1,
+      "message": "Optional: We could limit the size of the key and inline it into the struct, to avoid chasing one more pointer.",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34a14aab_702830ee",
+        "filename": "client/annotations.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-03T17:18:44Z",
+      "side": 1,
+      "message": "I believe we also document private member functions.",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
