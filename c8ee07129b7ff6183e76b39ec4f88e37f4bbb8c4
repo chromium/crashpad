@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b411ba9a_18a9f57b",
+        "filename": "client/annotations.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-08-03T18:25:02Z",
+      "side": 1,
+      "message": "Just seemed more similar to GetNumKeys(), but... shrug. Done.",
+      "parentUuid": "34a14aab_d0cc7c65",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a14aab_f0c98052",
         "filename": "client/annotations.cc",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-03T17:18:44Z",
       "side": 1,
       "message": "In theory this strdup could fail with ENOMEM which would break the non-NULL key invariant.",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b411ba9a_cdade19b",
+        "filename": "client/annotations.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-08-03T18:25:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34a14aab_f0c98052",
       "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b411ba9a_4dc29152",
+        "filename": "client/annotations.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-08-03T18:25:02Z",
+      "side": 1,
+      "message": "That feels like it belongs in Chrome if we want to do so.",
+      "parentUuid": "34a14aab_308228fc",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a14aab_50232c12",
         "filename": "client/annotations.h",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-03T17:18:44Z",
       "side": 1,
       "message": "Note that keys and values must be NUL-terminated C strings.",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b411ba9a_98b4c5ce",
+        "filename": "client/annotations.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-08-03T18:25:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34a14aab_50232c12",
       "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "b411ba9a_18fbb57b",
+        "filename": "client/annotations.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-08-03T18:25:02Z",
+      "side": 1,
+      "message": "OK. I sort of like the history/revs of the doc, but we could do that and update here when we do. Or I could just remove the link as the code probably doesn\u0027t really need it now. I guess some of it could also be folded into our real-soon-now overall design docs.",
+      "parentUuid": "74bca297_ea55c7c5",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a14aab_d0e39ccc",
         "filename": "client/annotations.h",
         "patchSetId": 3
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "b411ba9a_981045a6",
+        "filename": "client/annotations.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-08-03T18:25:02Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to be too much upside since we\u0027re already walking a list and chasing value anyway, so I think I\u0027ll leave it unless you feel strongly.",
+      "parentUuid": "34a14aab_d0e39ccc",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34a14aab_702830ee",
         "filename": "client/annotations.h",
         "patchSetId": 3
@@ -115,6 +223,24 @@
       "writtenOn": "2016-08-03T17:18:44Z",
       "side": 1,
       "message": "I believe we also document private member functions.",
+      "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b411ba9a_f80df98f",
+        "filename": "client/annotations.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-08-03T18:25:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34a14aab_702830ee",
       "revId": "c8ee07129b7ff6183e76b39ec4f88e37f4bbb8c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
