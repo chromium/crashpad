@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d49f0ecb_0d5c9180",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-04T14:35:52Z",
+      "side": 1,
+      "message": "There’s no real meaning to the negative number that HTTPBodyStream::GetBytesBuffer() returns, so this should just be\n\n      LOG(ERROR) \u003c\u003c \"GetBytesBuffer failed\";",
+      "revId": "41bba10ad4d4de3ae1e7fdd3ffa7d991eaec2e76",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
