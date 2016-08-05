@@ -179,8 +179,12 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
     uint8_t buffer[kBufferSize];
     FileOperationResult bytes_to_write =
         body_stream()->GetBytesBuffer(buffer, sizeof(buffer));
-    if (bytes_to_write == 0)
+    if (bytes_to_write == 0) {
       break;
+    } else if (bytes_to_write < 0) {
+      LOG(ERROR) << "GetBytesBuffer failed";
+      return false;
+    }
     post_data.insert(post_data.end(), buffer, buffer + bytes_to_write);
   }
 
