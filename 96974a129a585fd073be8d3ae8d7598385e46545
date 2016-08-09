@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "599ef77d_c41f500f",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-09T21:17:50Z",
+      "side": 1,
+      "message": "\u003e I\u0027d like Mark to chime in, but I think the forced state can just be a variant of Pending. I\n\u003e think it would greatly reduce the size of the change.\n\nI agree. In fact, this is how I envisioned it when we discussed it on the list: as a “bit” on the pending state. (The implementation may need to write it to disk as a distinct state enum value in the Windows implementation, but the “bit” is at least conceptually valid there.) crashpad-dev link: https://groups.google.com/a/chromium.org/d/msg/crashpad-dev/Qhap0DeRWD4/5XwnIrDgBwAJ.",
+      "parentUuid": "599ef77d_e471347b",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "599ef77d_447b4055",
         "filename": "client/crash_report_database.h",
         "patchSetId": 1
