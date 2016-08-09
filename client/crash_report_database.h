@@ -264,6 +264,15 @@ class CrashReportDatabase {
   //! \return The operation status code.
   virtual OperationStatus GetPendingReports(std::vector<Report>* reports) = 0;
 
+  //! \brief Returns a list of crash report records that have been forced
+  //!     manually to be uploaded.
+  //!
+  //! \param[out] reports A list of crash report record objects. This must be
+  //!     empty on entry. Only valid if this returns #kNoError.
+  //!
+  //! \return The operation status code.
+  virtual OperationStatus GetForcedReports(std::vector<Report>* reports) = 0;
+
   //! \brief Returns a list of crash report records that have been completed,
   //!     either by being uploaded or by skipping upload.
   //!
@@ -327,6 +336,19 @@ class CrashReportDatabase {
   //!
   //! \return The operation status code.
   virtual OperationStatus DeleteReport(const UUID& uuid) = 0;
+
+  //! \brief Moves reports to forced upload state for completed but not uploaded
+  //! reports.
+  //!
+  //! \return The operation status code.
+  virtual OperationStatus ForceFailedReports() = 0;
+
+  //! \brief Moves a crash report to forced upload state.
+  //!
+  //! \param[in] uuid The unique identifier for the crash report record.
+  //!
+  //! \return The operation status code.
+  virtual OperationStatus ForceReport(const UUID& uuid) = 0;
 
  protected:
   CrashReportDatabase() {}

@@ -164,9 +164,13 @@ void CrashReportUploadThread::ReportPending() {
   thread_.DoWorkNow();
 }
 
-void CrashReportUploadThread::ProcessPendingReports() {
-  std::vector<CrashReportDatabase::Report> reports;
-  if (database_->GetPendingReports(&reports) != CrashReportDatabase::kNoError) {
+void CrashReportUploadThread::ProcessUnsentReports() {
+  std::vector<CrashReportDatabase::Report> pending_reports;
+  std::vector<CrashReportDatabase::Report> forced_reports;
+  if (database_->GetPendingReports(&pending_reports) !=
+          CrashReportDatabase::kNoError ||
+      database_->GetForcedReports(&forced_reports) !=
+          CrashReportDatabase::kNoError) {
     // The database is sick. It might be prudent to stop trying to poke it from
     // this thread by abandoning the thread altogether. On the other hand, if
     // the problem is transient, it might be possible to talk to it again on the
@@ -174,11 +178,19 @@ void CrashReportUploadThread::ProcessPendingReports() {
     return;
   }
 
-  for (const CrashReportDatabase::Report& report : reports) {
+  // After attempting each report respect Stop() being called after at least one
+  // attempt to process a report.
+  for (const CrashReportDatabase::Report& report : pending_reports) {
     ProcessPendingReport(report);
+    if (!thread_.is_running()) {
+      return;
+    }
+  }
 
-    // Respect Stop() being called after at least one attempt to process a
-    // report.
+  // Send forced reports for processing by calling ProcessReport without
+  // checking whether uploads are enabled or not.
+  for (const CrashReportDatabase::Report& report : forced_reports) {
+    ProcessReport(report);
     if (!thread_.is_running()) {
       return;
     }
@@ -198,6 +210,19 @@ void CrashReportUploadThread::ProcessPendingReport(
     database_->SkipReportUpload(report.uuid);
     return;
   }
+
+  ProcessReport(report);
+}
+
+void CrashReportUploadThread::ProcessReport(
+    const CrashReportDatabase::Report& report) {
+  if (url_.empty()) {
+    // If there’s no URL to upload to, don’t attempt to upload the new report.
+    database_->SkipReportUpload(report.uuid);
+    return;
+  }
+
+  Settings* const settings = database_->GetSettings();
 
   // This currently implements very simplistic rate-limiting, compatible with
   // the Breakpad client, where the strategy is to permit one upload attempt per
@@ -333,7 +358,7 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
 }
 
 void CrashReportUploadThread::DoWork(const WorkerThread* thread) {
-  ProcessPendingReports();
+  ProcessUnsentReports();
 }
 
 }  // namespace crashpad

@@ -97,6 +97,8 @@ struct ReportDisk;
 enum class ReportState {
   //! \brief Created and filled out by caller, owned by database.
   kPending,
+  //! \brief Created and filled out by caller, owned by database.
+  kForced,
   //! \brief In the process of uploading, owned by caller.
   kUploading,
   //! \brief Upload completed or skipped, owned by database.
@@ -577,6 +579,11 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
                                       const std::string& id) override;
   OperationStatus SkipReportUpload(const UUID& uuid) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
+  OperationStatus ForceFailedReports() override;
+  OperationStatus ForceReport(const UUID& uuid) override;
+  OperationStatus ChangeReportState(const UUID& uuid,
+                                    ReportState current_state,
+                                    ReportState desired_state);
 
  private:
   std::unique_ptr<Metadata> AcquireMetadata();
@@ -711,6 +718,15 @@ OperationStatus CrashReportDatabaseWin::GetPendingReports(
                   : kDatabaseError;
 }
 
+OperationStatus CrashReportDatabaseWin::GetForcedReports(
+    std::vector<Report>* reports) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
+  return metadata ? metadata->FindReports(ReportState::kForced, reports)
+                  : kDatabaseError;
+}
+
 OperationStatus CrashReportDatabaseWin::GetCompletedReports(
     std::vector<Report>* reports) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
@@ -803,17 +819,8 @@ OperationStatus CrashReportDatabaseWin::DeleteReport(const UUID& uuid) {
 }
 
 OperationStatus CrashReportDatabaseWin::SkipReportUpload(const UUID& uuid) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  std::unique_ptr<Metadata> metadata(AcquireMetadata());
-  if (!metadata)
-    return kDatabaseError;
-  ReportDisk* report_disk;
-  OperationStatus os = metadata->FindSingleReportAndMarkDirty(
-      uuid, ReportState::kPending, &report_disk);
-  if (os == kNoError)
-    report_disk->state = ReportState::kCompleted;
-  return os;
+  return ChangeReportState(
+      uuid, ReportState::kPending, ReportState::kCompleted);
 }
 
 std::unique_ptr<Metadata> CrashReportDatabaseWin::AcquireMetadata() {
@@ -829,6 +836,39 @@ std::unique_ptr<CrashReportDatabase> InitializeInternal(
   return database_win->Initialize(may_create)
              ? std::move(database_win)
              : std::unique_ptr<CrashReportDatabaseWin>();
+}
+
+OperationStatus CrashReportDatabaseWin::ForceFailedReports() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  std::vector<Report> reports;
+  OperationStatus os = GetCompletedReports(&reports);
+  for (const Report& report : reports) {
+    if (os == kNoError && !report.uploaded)
+      os = ForceReport(report.uuid);
+  }
+  return os;
+}
+
+OperationStatus CrashReportDatabaseWin::ForceReport(const UUID& uuid) {
+  return ChangeReportState(uuid, ReportState::kCompleted, ReportState::kForced);
+}
+
+OperationStatus CrashReportDatabaseWin::ChangeReportState(
+    const UUID& uuid,
+    ReportState current_state,
+    ReportState desired_state) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
+  if (!metadata)
+    return kDatabaseError;
+  ReportDisk* report_disk;
+  OperationStatus os =
+      metadata->FindSingleReportAndMarkDirty(uuid, current_state, &report_disk);
+  if (os == kNoError)
+    report_disk->state = desired_state;
+  return os;
 }
 
 }  // namespace

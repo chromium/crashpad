@@ -585,6 +585,37 @@ TEST_F(CrashReportDatabaseTest, ReadEmptyDatabase) {
   CreateCrashReport(&report2);
 }
 
+TEST_F(CrashReportDatabaseTest, ForcedReports) {
+  std::vector<CrashReportDatabase::Report> reports(2);
+  CreateCrashReport(&reports[0]);
+  CreateCrashReport(&reports[1]);
+
+  const UUID& report_0_uuid = reports[0].uuid;
+  const UUID& report_1_uuid = reports[1].uuid;
+
+  std::vector<CrashReportDatabase::Report> forced_reports;
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->GetForcedReports(&forced_reports));
+  EXPECT_EQ(0u, forced_reports.size());
+
+  // Force all failed reports.
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->SkipReportUpload(report_0_uuid));
+  db()->ForceFailedReports();
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->GetForcedReports(&forced_reports));
+  EXPECT_EQ(1u, forced_reports.size());
+
+  // Force a particular report.
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->SkipReportUpload(report_1_uuid));
+  db()->ForceReport(report_1_uuid);
+  forced_reports.clear();
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->GetForcedReports(&forced_reports));
+  EXPECT_EQ(2u, forced_reports.size());
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

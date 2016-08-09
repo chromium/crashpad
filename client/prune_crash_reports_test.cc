@@ -39,6 +39,7 @@ class MockDatabase : public CrashReportDatabase {
   MOCK_METHOD1(ErrorWritingCrashReport, OperationStatus(NewReport*));
   MOCK_METHOD2(LookUpCrashReport, OperationStatus(const UUID&, Report*));
   MOCK_METHOD1(GetPendingReports, OperationStatus(std::vector<Report>*));
+  MOCK_METHOD1(GetForcedReports, OperationStatus(std::vector<Report>*));
   MOCK_METHOD1(GetCompletedReports, OperationStatus(std::vector<Report>*));
   MOCK_METHOD2(GetReportForUploading,
                OperationStatus(const UUID&, const Report**));
@@ -46,6 +47,8 @@ class MockDatabase : public CrashReportDatabase {
                OperationStatus(const Report*, bool, const std::string&));
   MOCK_METHOD1(SkipReportUpload, OperationStatus(const UUID&));
   MOCK_METHOD1(DeleteReport, OperationStatus(const UUID&));
+  MOCK_METHOD0(ForceFailedReports, OperationStatus());
+  MOCK_METHOD1(ForceReport, OperationStatus(const UUID&));
 };
 
 time_t NDaysAgo(int num_days) {

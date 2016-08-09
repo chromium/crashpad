@@ -97,23 +97,38 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
     kRetry,
   };
 
-  //! \brief Obtains all pending reports from the database, and calls
-  //!     ProcessPendingReport() to process each one.
-  void ProcessPendingReports();
+  //! \brief Obtains all unsent reports from the database, and calls
+  //!     ProcessPendingReport() or ProcessForcedReport to process each one.
+  void ProcessUnsentReports();
 
   //! \brief Processes a single pending report from the database.
   //!
   //! \param[in] report The crash report to process.
   //!
-  //! If report upload is enabled, this method attempts to upload \a report by
-  //! calling UplaodReport(). If the upload is successful, the report will be
-  //! marked as “completed” in the database. If the upload fails and more
-  //! retries are desired, the report’s upload-attempt count and
-  //! last-upload-attempt time will be updated in the database and it will
-  //! remain in the “pending” state. If the upload fails and no more retries are
-  //! desired, or report upload is disabled, it will be marked as “completed” in
-  //! the database without ever having been uploaded.
+  //! If report upload is enabled and url for uploads exists, sends the report
+  //! for processing by calling ProcessReport.
   void ProcessPendingReport(const CrashReportDatabase::Report& report);
+
+  //! \brief Processes a single forced report from the database.
+  //!
+  //! \param[in] report The crash report to process.
+  //!
+  //! If url for uploads exists, sends the report for processing by calling
+  //! ProcessReport disregarding whether uploads are enabled or not.
+  void ProcessForcedReport(const CrashReportDatabase::Report& report);
+
+  //! \brief Processes a single unsent report.
+  //!
+  //! \param[in] report The crash report to process.
+  //!
+  //! This method attempts to upload \a report by calling UplaodReport(). If the
+  //! upload is successful, the report will be marked as “completed” in the
+  //! database. If the upload fails and more retries are desired, the report’s
+  //! upload-attempt count and last-upload-attempt time will be updated in the
+  //! database and it will remain in the its state. If the upload fails and no
+  //! more retries are desired, or report upload is disabled, it will be marked
+  //! as “completed” in the database without ever having been uploaded.
+  void ProcessReport(const CrashReportDatabase::Report& report);
 
   //! \brief Attempts to upload a crash report.
   //!

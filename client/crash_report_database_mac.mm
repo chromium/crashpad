@@ -42,14 +42,16 @@ namespace {
 
 const char kWriteDirectory[] = "new";
 const char kUploadPendingDirectory[] = "pending";
+const char kUploadForcedDirectory[] = "forced";
 const char kCompletedDirectory[] = "completed";
 
 const char kSettings[] = "settings.dat";
 
 const char* const kReportDirectories[] = {
-  kWriteDirectory,
-  kUploadPendingDirectory,
-  kCompletedDirectory,
+    kWriteDirectory,
+    kUploadPendingDirectory,
+    kUploadForcedDirectory,
+    kCompletedDirectory,
 };
 
 const char kCrashReportFileExtension[] = "dmp";
@@ -132,6 +134,7 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   OperationStatus ErrorWritingCrashReport(NewReport* report) override;
   OperationStatus LookUpCrashReport(const UUID& uuid, Report* report) override;
   OperationStatus GetPendingReports(std::vector<Report>* reports) override;
+  OperationStatus GetForcedReports(std::vector<Report>* reports) override;
   OperationStatus GetCompletedReports(std::vector<Report>* reports) override;
   OperationStatus GetReportForUploading(const UUID& uuid,
                                         const Report** report) override;
@@ -140,6 +143,10 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
                                       const std::string& id) override;
   OperationStatus SkipReportUpload(const UUID& uuid) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
+  OperationStatus ForceFailedReports() override;
+  OperationStatus ForceReport(const UUID& uuid) override;
+  OperationStatus ChangeReportState(const UUID& uuid,
+                                    const char* desired_state);
 
  private:
   //! \brief A private extension of the Report class that maintains bookkeeping
@@ -396,6 +403,13 @@ CrashReportDatabaseMac::GetPendingReports(
   return ReportsInDirectory(base_dir_.Append(kUploadPendingDirectory), reports);
 }
 
+CrashReportDatabase::OperationStatus CrashReportDatabaseMac::GetForcedReports(
+    std::vector<CrashReportDatabase::Report>* reports) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  return ReportsInDirectory(base_dir_.Append(kUploadForcedDirectory), reports);
+}
+
 CrashReportDatabase::OperationStatus
 CrashReportDatabaseMac::GetCompletedReports(
     std::vector<CrashReportDatabase::Report>* reports) {
@@ -490,25 +504,7 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
 
 CrashReportDatabase::OperationStatus CrashReportDatabaseMac::SkipReportUpload(
     const UUID& uuid) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  base::FilePath report_path = LocateCrashReport(uuid);
-  if (report_path.empty())
-    return kReportNotFound;
-
-  base::ScopedFD lock(ObtainReportLock(report_path));
-  if (!lock.is_valid())
-    return kBusyError;
-
-  base::FilePath new_path =
-      base_dir_.Append(kCompletedDirectory).Append(report_path.BaseName());
-  if (rename(report_path.value().c_str(), new_path.value().c_str()) != 0) {
-    PLOG(ERROR) << "rename " << report_path.value() << " to "
-                << new_path.value();
-    return kFileSystemError;
-  }
-
-  return kNoError;
+  return ChangeReportState(uuid, kCompletedDirectory);
 }
 
 CrashReportDatabase::OperationStatus CrashReportDatabaseMac::DeleteReport(
@@ -554,6 +550,46 @@ base::FilePath CrashReportDatabaseMac::LocateCrashReport(const UUID& uuid) {
   }
 
   return base::FilePath();
+}
+
+CrashReportDatabase::OperationStatus
+CrashReportDatabaseMac::ForceFailedReports() {
+  std::vector<Report> reports;
+  OperationStatus os = GetCompletedReports(&reports);
+  for (const Report& report : reports) {
+    if (os == kNoError && !report.uploaded)
+      os = ForceReport(report.uuid);
+  }
+  return os;
+}
+
+CrashReportDatabase::OperationStatus CrashReportDatabaseMac::ForceReport(
+    const UUID& uuid) {
+  return ChangeReportState(uuid, kUploadForcedDirectory);
+}
+
+CrashReportDatabase::OperationStatus CrashReportDatabaseMac::ChangeReportState(
+    const UUID& uuid,
+    const char* desired_state) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  base::FilePath report_path = LocateCrashReport(uuid);
+  if (report_path.empty())
+    return kReportNotFound;
+
+  base::ScopedFD lock(ObtainReportLock(report_path));
+  if (!lock.is_valid())
+    return kBusyError;
+
+  base::FilePath new_path =
+      base_dir_.Append(desired_state).Append(report_path.BaseName());
+  if (rename(report_path.value().c_str(), new_path.value().c_str()) != 0) {
+    PLOG(ERROR) << "rename " << report_path.value() << " to "
+                << new_path.value();
+    return kFileSystemError;
+  }
+
+  return kNoError;
 }
 
 // static
