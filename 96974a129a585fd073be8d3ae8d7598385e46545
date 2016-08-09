@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "599ef77d_647e4447",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-09T21:08:24Z",
+      "side": 1,
+      "message": "We should work on terminology here. We should come up with something better than “forced.” “forced report” doesn’t really mean what we want it to mean.",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "599ef77d_447b4055",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-09T21:08:24Z",
+      "side": 1,
+      "message": "I don’t think we ever want to do this. What you’re now calling “force” is an operation that should only ever be applied to single crash reports. That’s what should happen if the user is on about:crashes and decides “I want to upload this one report, but I don’t want to enable uploads for all reports.”\n\nWe wouldn’t want to bring all of these reports back to life and make them eligible for upload in one fell swoop. We certainly wouldn’t want to do that while circumventing the user’s upload-enabled preference.",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "599ef77d_24783c56",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-09T21:08:24Z",
+      "side": 1,
+      "message": "Ditto here on the terminology. “Force report” doesn’t mean what you want it to mean.",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "599ef77d_c46630c3",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-09T21:08:24Z",
+      "side": 1,
+      "message": "I don’t think we need a whole extra directory for this. It should be an xattr set on a file in the pending directory.",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "599ef77d_a46b2c89",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-09T21:08:24Z",
+      "side": 1,
+      "message": "These get written to a file on disk. Introducing a new value in the middle of existing values will change the interpretation of existing metadata files. Your new value should be at the end of this enum.",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
