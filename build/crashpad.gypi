@@ -19,6 +19,10 @@
     # level and applies Chromium’s build/filename_rules.gypi. In a standalone
     # build, this variable has no effect.
     'chromium_code': 1,
+
+    # Sets crashpad_handler to be a console app on Windows, useful for
+    # debugging to see logs.
+    'win_console_app%': 0,
   },
   'target_defaults': {
     'msvs_disabled_warnings': [

@@ -89,6 +89,21 @@
             }],
           ],
         }],
+        ['OS=="win"', {
+          'conditions': [
+            ['win_console_app == 0', {
+              'msvs_settings': {
+                'VCLinkerTool': {
+                  'SubSystem': '2',
+                },
+              },
+            }, {
+              'defines': [
+                'WIN_CONSOLE_APP=1',
+              ],
+            }],
+          ],
+        }],
       ],
     },
   ],
