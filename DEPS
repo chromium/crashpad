@@ -22,7 +22,7 @@ deps = {
       '786564fa4a3c8e0f908acca32cce481de5481b9f',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
-      '01528c7244837168a1c80f06ff60fa5a9793c824',
+      '93cc6e2c23e4d5ebd179f388e67aa907d0dfd43d',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
       '9c5463b4d4b3ad2540c718b7c87809ef4c1ea5c7',
