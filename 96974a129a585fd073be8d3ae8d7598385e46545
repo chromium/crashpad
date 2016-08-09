@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "599ef77d_845828ff",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-09T21:09:47Z",
+      "side": 1,
+      "message": "Update this documentation, too.",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "599ef77d_647e4447",
         "filename": "client/crash_report_database.h",
         "patchSetId": 1
@@ -13,6 +30,23 @@
       "writtenOn": "2016-08-09T21:08:24Z",
       "side": 1,
       "message": "We should work on terminology here. We should come up with something better than “forced.” “forced report” doesn’t really mean what we want it to mean.",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "599ef77d_e471347b",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-09T21:09:47Z",
+      "side": 1,
+      "message": "I\u0027d like Mark to chime in, but I think the forced state can just be a variant of Pending. I think it would greatly reduce the size of the change.",
       "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -70,6 +104,23 @@
     },
     {
       "key": {
+        "uuid": "599ef77d_245f1ce5",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-09T21:09:47Z",
+      "side": 1,
+      "message": "Given that this implementation is the same as in the Windows one, it can probably be shared. But I don\u0027t think this operation belongs on the database, as it\u0027s something that a higher-level component can perform.",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "599ef77d_a46b2c89",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 1
@@ -81,6 +132,23 @@
       "writtenOn": "2016-08-09T21:08:24Z",
       "side": 1,
       "message": "These get written to a file on disk. Introducing a new value in the middle of existing values will change the interpretation of existing metadata files. Your new value should be at the end of this enum.",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "599ef77d_a4520cdf",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-08-09T21:09:47Z",
+      "side": 1,
+      "message": "You can\u0027t add an enum value here in the middle, since data on-disk uses these values.",
       "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
