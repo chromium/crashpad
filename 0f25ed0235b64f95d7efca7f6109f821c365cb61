@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d973c75a_f3d22802",
+        "filename": "poo.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-10T23:46:30Z",
+      "side": 1,
+      "message": "Please write a test.",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 31,
+        "endChar": 18
+      },
+      "revId": "0f25ed0235b64f95d7efca7f6109f821c365cb61",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
