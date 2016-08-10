@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d973c75a_904cface",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-10T18:20:00Z",
+      "side": 0,
+      "message": "Apologize for the noise.",
+      "revId": "26c9d3fa6d9ba5ef3ed1e98ed621cb36932f5d0b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d973c75a_f0577e58",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-10T18:20:00Z",
+      "side": 0,
+      "message": "Test comment.",
+      "revId": "26c9d3fa6d9ba5ef3ed1e98ed621cb36932f5d0b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
