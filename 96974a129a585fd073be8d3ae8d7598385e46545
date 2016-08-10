@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d973c75a_10680a21",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-10T18:14:44Z",
+      "side": 1,
+      "message": "\u003e Do I understand right, that you prefer having some boolean like isForced in\n\u003e CrashReportDatabase::Report similar to isUploaded which is a bit on completed ?\n\nYes, exactly. (But I don’t know where the “is” is coming from here and in the examples below.)\n\n\u003e For terminology:  other options I can suggest are isManualUpload, isOnDemandUpload (the terms\n\u003e we used in discussion) or  isUserEnforced, isUserRequested\n\nHow about\n\n    bool upload_explicitly_requested;\n\nwhich should be documented as only being valid in the pending state.\n\nSince we care very much about not uploading something unless we know we’ve been given permission to do so, it’s wise to name it so that the notion of the user’s explicit action sticks with the bit itself. That’ll help us avoid misinterpreting it or losing sight of its purpose.",
+      "parentUuid": "99f6afe4_7dbc971d",
+      "revId": "96974a129a585fd073be8d3ae8d7598385e46545",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "599ef77d_447b4055",
         "filename": "client/crash_report_database.h",
         "patchSetId": 1
