@@ -13,3 +13,4 @@ Local Modifications:
 - Add copy of copyright (Public domain) to the top of both files for Chromium's
   checklicenses step.
 - Compiled as .cc, and wrapped in namespace crashpad.
+- Replaced calls to memcmp with strncmp to avoid ASan errors about OOB reads.
