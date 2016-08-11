@@ -190,9 +190,9 @@ void CrashReportUploadThread::ProcessPendingReport(
   Settings* const settings = database_->GetSettings();
 
   bool uploads_enabled;
-  if (!settings->GetUploadsEnabled(&uploads_enabled) ||
-      !uploads_enabled ||
-      url_.empty()) {
+  if (url_.empty() ||
+      (!report.upload_explicitly_requested &&
+       (!settings->GetUploadsEnabled(&uploads_enabled) || !uploads_enabled))) {
     // If the upload-enabled state can’t be determined, uploads are disabled, or
     // there’s no URL to upload to, don’t attempt to upload the new report.
     database_->SkipReportUpload(report.uuid);
@@ -251,6 +251,8 @@ void CrashReportUploadThread::ProcessPendingReport(
       // to at least try to get the report out of the way.
       database_->SkipReportUpload(report.uuid);
       return;
+    case CrashReportDatabase::kCannotRequestUpload:
+      return; // This error cannot be generated here.
   }
 
   CallRecordUploadAttempt call_record_upload_attempt(database_, upload_report);
