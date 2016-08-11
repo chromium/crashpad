@@ -76,6 +76,23 @@
     },
     {
       "key": {
+        "uuid": "9e46956a_c398d615",
+        "filename": "handler/handler.gyp",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-11T16:21:44Z",
+      "side": 1,
+      "message": "In case it was unclear, I don’t think that this macro needs to be renamed. Only the GYP variable.",
+      "revId": "d6c7d52987aab742e1ec02fe3510446579934f8f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e46956a_23a20a41",
         "filename": "handler/main.cc",
         "patchSetId": 4
