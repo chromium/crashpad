@@ -149,14 +149,14 @@ void MinidumpMiscInfoWriter::InitializeFromSnapshot(
 
   const SystemSnapshot* system_snapshot = process_snapshot->System();
 
-  uint64_t current_mhz;
-  uint64_t max_mhz;
-  system_snapshot->CPUFrequency(&current_mhz, &max_mhz);
+  uint64_t current_hz;
+  uint64_t max_hz;
+  system_snapshot->CPUFrequency(&current_hz, &max_hz);
   const uint32_t kHzPerMHz = static_cast<const uint32_t>(1E6);
   SetProcessorPowerInfo(
-      InRangeCast<uint32_t>(current_mhz / kHzPerMHz,
+      InRangeCast<uint32_t>(current_hz / kHzPerMHz,
                             std::numeric_limits<uint32_t>::max()),
-      InRangeCast<uint32_t>(max_mhz / kHzPerMHz,
+      InRangeCast<uint32_t>(max_hz / kHzPerMHz,
                             std::numeric_limits<uint32_t>::max()),
       0,
       0,
