@@ -16,6 +16,24 @@
       "revId": "256e2284b2b0dca91b309dc2cfdbc07cf3d46f75",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e46956a_8392deef",
+        "filename": "minidump/minidump_misc_info_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-11T16:22:36Z",
+      "side": 1,
+      "message": "Want me to just forgo the convention as confusing and call it hz_per_mhz?",
+      "parentUuid": "99414f2e_9438aaf7",
+      "revId": "256e2284b2b0dca91b309dc2cfdbc07cf3d46f75",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
