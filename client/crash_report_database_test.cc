@@ -585,6 +585,31 @@ TEST_F(CrashReportDatabaseTest, ReadEmptyDatabase) {
   CreateCrashReport(&report2);
 }
 
+TEST_F(CrashReportDatabaseTest, ExplicitlyRequestedUploads) {
+  std::vector<CrashReportDatabase::Report> reports(2);
+  CreateCrashReport(&reports[0]);
+  CreateCrashReport(&reports[1]);
+
+  const UUID& report_0_uuid = reports[0].uuid;
+  const UUID& report_1_uuid = reports[1].uuid;
+
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->SkipReportUpload(report_1_uuid));
+
+  std::vector<CrashReportDatabase::Report> pending_reports;
+  CrashReportDatabase::OperationStatus os =
+      db()->GetPendingReports(&pending_reports);
+  EXPECT_EQ(CrashReportDatabase::kNoError, os);
+  EXPECT_EQ(1u, pending_reports.size());
+  EXPECT_EQ(pending_reports[0].uuid, report_0_uuid);
+
+  pending_reports.clear();
+  EXPECT_EQ(CrashReportDatabase::kNoError, db()->RequestUpload(report_1_uuid));
+  os = db()->GetPendingReports(&pending_reports);
+  EXPECT_EQ(CrashReportDatabase::kNoError, os);
+  EXPECT_EQ(2u, pending_reports.size());
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
