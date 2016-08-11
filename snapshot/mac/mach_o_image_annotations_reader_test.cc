@@ -286,15 +286,14 @@ class TestMachOImageAnnotationsReader final
           break;
 
         case kCrashDyld:
-	    // Prior to 10.12, dyld fatal errors result in the execution of an
-	    // int3 instruction on x86 and a trap instruction on ARM, both of
-	    // which raise SIGTRAP. 10.9.5 dyld-239.4/src/dyldStartup.s
-	    // _dyld_fatal_error. This changed in 10.12 to use
-	    // abort_with_payload(), which appears as SIGABRT to a waiting
-            // parent.
-            SetExpectedChildTermination(
-                kTerminationSignal,
-                MacOSXMinorVersion() < 12 ? SIGTRAP : SIGABRT);
+          // Prior to 10.12, dyld fatal errors result in the execution of an
+          // int3 instruction on x86 and a trap instruction on ARM, both of
+          // which raise SIGTRAP. 10.9.5 dyld-239.4/src/dyldStartup.s
+          // _dyld_fatal_error. This changed in 10.12 to use
+          // abort_with_payload(), which appears as SIGABRT to a waiting parent.
+          SetExpectedChildTermination(
+              kTerminationSignal,
+              MacOSXMinorVersion() < 12 ? SIGTRAP : SIGABRT);
           break;
 
         default:
