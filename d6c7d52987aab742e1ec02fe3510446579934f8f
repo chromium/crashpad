@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e46956a_e374f2dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-11T16:21:03Z",
+      "side": 1,
+      "message": "Lead with the important bit. I think that this is more about changing crashpad_handler to /subsystem:windows by default than it being about GYP_DEFINES.",
+      "revId": "d6c7d52987aab742e1ec02fe3510446579934f8f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e46956a_837bfec9",
+        "filename": "build/crashpad.gypi",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-11T16:21:03Z",
+      "side": 1,
+      "message": "This is only used in handler.gyp, let’s put it there instead.",
+      "revId": "d6c7d52987aab742e1ec02fe3510446579934f8f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e46956a_c371f6eb",
+        "filename": "handler/handler.gyp",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-11T16:21:03Z",
+      "side": 1,
+      "message": "This is crashpad_handler-specific too, so let’s name it appropriately: win_crashpad_handler_console_app",
+      "range": {
+        "startLine": 94,
+        "startChar": 14,
+        "endLine": 94,
+        "endChar": 29
+      },
+      "revId": "d6c7d52987aab742e1ec02fe3510446579934f8f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e46956a_43ad0631",
+        "filename": "handler/handler.gyp",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-11T16:21:03Z",
+      "side": 1,
+      "message": "If it’s not commonly known that 2 means /SUBSYSTEM:WINDOWS, put that in a comment here. (See the -Wl,-rpath example above.) I personally have an easier time with “how will the linker be invoked?” than “what does the IDE want to hear?”",
+      "revId": "d6c7d52987aab742e1ec02fe3510446579934f8f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e46956a_23a20a41",
+        "filename": "handler/main.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-11T16:21:03Z",
+      "side": 1,
+      "message": "I still think there’s minimal down-side to using AttachConsole() here, but that can be done separately.\n\nAs this stands now, we’re losing crashpad_handler’s stderr from end_to_end_test.py, where it’s likely to be of high diagnostic value.",
+      "revId": "d6c7d52987aab742e1ec02fe3510446579934f8f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
