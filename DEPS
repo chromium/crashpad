@@ -28,7 +28,7 @@ deps = {
       '9c5463b4d4b3ad2540c718b7c87809ef4c1ea5c7',
   'buildtools':
       Var('chromium_git') + '/chromium/buildtools.git@' +
-      'c2f259809d5ede3275df5ea0842f0431990c4f98',
+      'f8fc76ea5ce4a60cda2fa5d7df3d4a62935b3113',
 }
 
 hooks = [
