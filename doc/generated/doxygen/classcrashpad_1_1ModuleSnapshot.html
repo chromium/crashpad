@@ -318,7 +318,7 @@ virtual std::set&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">Che
 </div><div class="memdoc">
 
 <p>Returns the module’s debug file info name. </p>
-<p>On Windows, this references the PDB file, which contains symbol information held separately from the module itself. On other platforms, this is normally just be the basename of the module, because the debug info file’s name is not relevant even in split-debug scenarios.</p>
+<p>On Windows, this references the PDB file, which contains symbol information held separately from the module itself. On other platforms, this is normally the basename of the module, because the debug info file’s name is not relevant even in split-debug scenarios.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a15c270f64a1e2170e3e189aea1fafb62" title="Returns the module’s UUID in the uuid parameter, and the age of that UUID in age. ">UUIDAndAge()</a> </dd></dl>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#a3435231fb34668948e23c509d022411e">crashpad::test::TestModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a96e58d8ff5c8d4561350ada9dbb9f926">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a4150391b860ca4876627eb9843c49ee3">crashpad::internal::ModuleSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a4d12e0ee8bbbbd754d85f9b92b1ef189">crashpad::internal::ModuleSnapshotMinidump</a>.</p>
