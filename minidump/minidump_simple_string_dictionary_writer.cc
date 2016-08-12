@@ -100,7 +100,7 @@ MinidumpSimpleStringDictionaryWriter::MinidumpSimpleStringDictionaryWriter()
 }
 
 MinidumpSimpleStringDictionaryWriter::~MinidumpSimpleStringDictionaryWriter() {
-  STLDeleteContainerPairSecondPointers(entries_.begin(), entries_.end());
+  base::STLDeleteContainerPairSecondPointers(entries_.begin(), entries_.end());
 }
 
 void MinidumpSimpleStringDictionaryWriter::InitializeFromMap(
