@@ -251,8 +251,11 @@ TEST(ProcessTypes, DyldImagesSelf) {
           << "index " << index;
     }
 #if defined(ARCH_CPU_64_BITS)
-    EXPECT_EQ(self_image_infos->reserved[10], proctype_image_infos.reserved_10);
-    EXPECT_EQ(self_image_infos->reserved[11], proctype_image_infos.reserved_11);
+    EXPECT_EQ(self_image_infos->reserved[4], proctype_image_infos.reserved_4);
+    EXPECT_EQ(self_image_infos->reserved[5], proctype_image_infos.reserved_5);
+    EXPECT_EQ(self_image_infos->reserved[6], proctype_image_infos.reserved_6);
+    EXPECT_EQ(self_image_infos->reserved[7], proctype_image_infos.reserved_7);
+    EXPECT_EQ(self_image_infos->reserved[8], proctype_image_infos.reserved_8);
 #endif
   }
 #endif

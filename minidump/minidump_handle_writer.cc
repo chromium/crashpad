@@ -29,7 +29,7 @@ MinidumpHandleDataWriter::MinidumpHandleDataWriter()
 }
 
 MinidumpHandleDataWriter::~MinidumpHandleDataWriter() {
-  STLDeleteContainerPairSecondPointers(strings_.begin(), strings_.end());
+  base::STLDeleteContainerPairSecondPointers(strings_.begin(), strings_.end());
 }
 
 void MinidumpHandleDataWriter::InitializeFromSnapshot(

@@ -13,3 +13,5 @@ Local Modifications:
 - Add copy of copyright (Public domain) to the top of both files for Chromium's
   checklicenses step.
 - Compiled as .cc, and wrapped in namespace crashpad.
+- memcmp() -> strncmp() in getopt.cc to make ASan happier about some string
+  manipulation.

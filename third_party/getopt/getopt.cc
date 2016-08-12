@@ -240,11 +240,11 @@ getopt_internal (int argc, char **argv, char *shortopts,
 
   /* first, is it a long option? */
   if (longopts != NULL
-      && (memcmp (argv[optind], "--", 2) == 0
+      && (strncmp (argv[optind], "--", 2) == 0
           || (only && argv[optind][0] == '+')) && optwhere == 1)
     {
       /* handle long options */
-      if (memcmp (argv[optind], "--", 2) == 0)
+      if (strncmp (argv[optind], "--", 2) == 0)
         optwhere = 2;
       longopt_match = -1;
       possible_arg = strchr (argv[optind] + optwhere, '=');
@@ -259,8 +259,8 @@ getopt_internal (int argc, char **argv, char *shortopts,
         match_chars = (possible_arg - argv[optind]) - optwhere;
       for (optindex = 0; longopts[optindex].name != NULL; optindex++)
         {
-          if (memcmp (argv[optind] + optwhere,
-                      longopts[optindex].name, match_chars) == 0)
+          if (strncmp (argv[optind] + optwhere,
+                       longopts[optindex].name, match_chars) == 0)
             {
               /* do we have an exact match? */
               if (match_chars == strlen (longopts[optindex].name))

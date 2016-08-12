@@ -152,8 +152,8 @@ class ModuleSnapshot {
   //!
   //! On Windows, this references the PDB file, which contains symbol
   //! information held separately from the module itself. On other platforms,
-  //! this is normally just be the basename of the module, because the debug
-  //! info file’s name is not relevant even in split-debug scenarios.
+  //! this is normally the basename of the module, because the debug info file’s
+  //! name is not relevant even in split-debug scenarios.
   //!
   //! \sa UUIDAndAge()
   virtual std::string DebugFileName() const = 0;

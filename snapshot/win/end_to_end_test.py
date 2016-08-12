@@ -199,16 +199,19 @@ def RunTests(cdb_path,
   out = CdbRun(cdb_path, dump_path, '.ecxr')
   out.Check('This dump file has an exception of interest stored in it',
             'captured exception')
-  out.Check(
-      'crashy_program!crashpad::`anonymous namespace\'::SomeCrashyFunction',
-      'exception at correct location')
+
+  # When SomeCrashyFunction is inlined, cdb doesn't demangle its namespace as
+  # "`anonymous namespace'" and instead gives the decorated form.
+  out.Check('crashy_program!crashpad::(`anonymous namespace\'|\?A0x[0-9a-f]+)::'
+                'SomeCrashyFunction',
+            'exception at correct location')
 
   out = CdbRun(cdb_path, start_handler_dump_path, '.ecxr')
   out.Check('This dump file has an exception of interest stored in it',
             'captured exception (using StartHandler())')
-  out.Check(
-      'crashy_program!crashpad::`anonymous namespace\'::SomeCrashyFunction',
-      'exception at correct location (using StartHandler())')
+  out.Check('crashy_program!crashpad::(`anonymous namespace\'|\?A0x[0-9a-f]+)::'
+                'SomeCrashyFunction',
+            'exception at correct location (using StartHandler())')
 
   out = CdbRun(cdb_path, dump_path, '!peb')
   out.Check(r'PEB at', 'found the PEB')

@@ -106,20 +106,23 @@ PROCESS_TYPE_STRUCT_BEGIN(dyld_all_image_infos)
   // Version 15 (macOS 10.12)
   // This space is also allocated in version 14 (OS X 10.9) as part of the
   // “reserved” member.
-  PROCESS_TYPE_STRUCT_MEMBER(uint64_t, infoArrayChangeTimestamp)
   PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, sharedCacheBaseAddress)
+  PROCESS_TYPE_STRUCT_MEMBER(uint64_t, infoArrayChangeTimestamp)
   PROCESS_TYPE_STRUCT_MEMBER(Pointer, dyldPath)  // const char*
 
   // These should be considered mach_port_name_t when interacting with them from
   // another Mach IPC namespace (process).
-  PROCESS_TYPE_STRUCT_MEMBER(mach_port_t, notifyPorts, [2])
+  PROCESS_TYPE_STRUCT_MEMBER(mach_port_t, notifyPorts, [8])
 
   // Version 14 (OS X 10.9)
-  // As of the 10.12 SDK, this is declared as reserved[10] for 64-bit platforms
-  // and reserved[12] for 32-bit platforms.
-  PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, reserved, [10])
-  PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_10)
-  PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_11)
+  // As of the 10.12 SDK, this is declared as reserved[9] for 64-bit platforms
+  // and reserved[4] for 32-bit platforms.
+  PROCESS_TYPE_STRUCT_MEMBER(UIntPtr, reserved, [4])
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_4)
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_5)
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_6)
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_7)
+  PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_8)
 PROCESS_TYPE_STRUCT_END(dyld_all_image_infos)
 
 #endif  // ! PROCESS_TYPE_STRUCT_IMPLEMENT_INTERNAL_READ_INTO &&
