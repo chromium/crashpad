@@ -1,0 +1,495 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ea09da5_b12f00ee",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Put a comma after “processed.” The “x but y or z” needs that, otherwise it’s unclear whether you mean “(x but y) or z” or “x but (y or z)”.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_d13c842d",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "is in the pending state.",
+      "range": {
+        "startLine": 94,
+        "startChar": 53,
+        "endLine": 94,
+        "endChar": 55
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_310b1084",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "“The report” instead of “a report”.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_117b6c22",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Use a hanging indent of 4 spaces on this line (see all of the \\brief examples above.)",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_318070f4",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Put a trailing comma here (as line 168, the former last element, already has).",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_11060c7b",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Revise so that the order of operations matches what is required of the Mac database.\n\nBasically, I can only see us having two types of databases: ones where the order matters (Mac) and ones where it doesn’t (Windows). And where the order matters, I can only see the upload-explicitly-requested thing needing to happen before the pending thing.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_f139883a",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Hanging indent here, too.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e37690e_20df4ada",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Is _what_ explicitly requested? kXattrIsUploadExplicitlyRequested.",
+      "range": {
+        "startLine": 63,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 38
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be4a7996_5c907df4",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "This xattr only makes sense in the pending state. Here, you’re moving the report to the completed state. We should remove the xattr altogether.\n\nYou should add XattrStatus RemoveXattr(const FilePath\u0026, const StringPiece\u0026) to util/mac/xattr.h and implement it in xattr.cc with a call to removexattr(). You should also add a test for it to xattr_test.cc. Then, use RemoveXattr() from right here.\n\nIn doing so, you probably only want to bail out if RemoveXattr() returns kOtherError, because we won’t care that the attribute is missing if we get back kNoAttribute. This might happen on reports written by an older version of Crashpad, and it won’t matter to us when we’re moving the report to completed (where the attribute doesn’t make sense anyway.) In fact, since you never wrote this xattr on reports that didn’t have RequestUpload() called on them, it won’t be set for ordinary reports in pending in this new version of Crashpad either.",
+      "range": {
+        "startLine": 462,
+        "startChar": 9,
+        "endLine": 463,
+        "endChar": 71
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e47758f_9bea0b6d",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 517,
+        "startChar": 7,
+        "endLine": 518,
+        "endChar": 66
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_5185f402",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "uploaded, don’t request upload again.",
+      "range": {
+        "startLine": 582,
+        "startChar": 42,
+        "endLine": 582,
+        "endChar": 75
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_f1950832",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "mark the crash report as having upload explicitly requested by the user",
+      "range": {
+        "startLine": 591,
+        "startChar": 14,
+        "endLine": 592,
+        "endChar": 13
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_d198046d",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "The rename() and WriteXattrBool() need to happen in an order reversed from how you have them here. The xattr needs to be on the file before it moves to the pending directory. Otherwise, crashpad_handler might pick it up in pending before the xattr is set. Not finding the xattr, it’ll just move it right back to completed, because it won’t look like an explicit request to upload.\n\nAlso, reverse the order that you list the operations in the comment above.",
+      "range": {
+        "startLine": 595,
+        "startChar": 6,
+        "endLine": 595,
+        "endChar": 67
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_f1ac2882",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "This should check that the new upload-explicitly-requested bit is false.",
+      "range": {
+        "startLine": 88,
+        "startChar": 7,
+        "endLine": 88,
+        "endChar": 32
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_31ceb063",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "You should also test the new bit in this block.",
+      "range": {
+        "startLine": 222,
+        "startChar": 4,
+        "endLine": 222,
+        "endChar": 41
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_71d83826",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "And in this one.",
+      "range": {
+        "startLine": 236,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 41
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_b1b2a0dd",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "The right side should be named for the method you’re testing when possible: RequestUpload() here (unless that name changes).",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_d1af2474",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "This test is a good start. However, you should also test:\n - that the UUIDs in pending at this point are report_0_uuid and report_1_uuid (beware that you may not get them back in that order, though)\n - that report_1 does have the upload-explicitly-requested bit set\n - that report_0 does NOT have this bit set.\n\nThen, you should RequestUpload() on something that’s already in pending, because that should work too, so RequestUpload on report_0_uuid, grab the pending reports again, and make sure that the upload-explicitly-requested bit HAS been set. You should also check that setting the bit on a pending report that already has the bit set works, too.\n\nYou should also be checking that the file path that’s claimed for the report actually exists after calling RequestUpload(), since some databases are supposed to move it around. You may wind up writing a bunch of similar LookUpCrashReport() code repeatedly, so it may make sense to put your RequestUpload() call for testing purposes into a wrapper on the test fixture class in the same fashion as CrashReportDatabaseTest::CreateCrashReport() and CrashReportDatabaseTest::UploadReport().\n\nFinally, it’s important to check that a report that has already been uploaded does not qualify for RequestUpload() and that instead, RequestUpload() returns your special new error code.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_31f5d083",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Don’t add new fields to this structure, because it’ll change its layout on disk and break everyone’s existing metadata files. This is similar to the problem we had before where a new enum value was being introduced in the middle of existing values, changing everything’s meaning. Here are the options that I see:\n\n1. Stick this in ReportState by adding a new kPendingUploadExplicitlyRequested state there.\n2. “Steal” a reserved byte from padding[7], turning it to padding[6].\n3. Redefining “uploaded” to be a bitfield. You can do this because right now, it’s defined to only carry 0 or 1, so we can say that bit 0 of the new field (f \u0026 (1 \u003c\u003c 0)) is “uploaded”, and we can make bit 1 (f \u0026 (1 \u003c\u003c 1)) be “upload_explicitly_requested”.\n\nThe first option, which is what we were looking at before, is probably less desirable on the second thought because it’d be something that’s used in the on-disk representation, but ideally not something used in the in-memory representation. Since the two share an enum, it gets hairy.\n\nI kinda like the third choice because it keeps our options for future expansion options in this structure open pretty wide, since it leaves all of those existing 7 padding bits available for future use.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_51ea54a2",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "{} around this, because it takes up multiple lines.",
+      "range": {
+        "startLine": 853,
+        "startChar": 4,
+        "endLine": 854,
+        "endChar": 51
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_91e3dcc9",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Reword as described in the Mac file.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_b1e0e0bd",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Reword as described in the Mac file, except that here, the order of operations isn’t significant because the two changes will take effect together.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_5100945b",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "This comment no longer directly matches the logic above.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_7105986a",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "Blank line before this.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea09da5_91191cdb",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-12T02:03:45Z",
+      "side": 1,
+      "message": "The way that we would write this, instead of the comment, is NOTREACHED();",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
