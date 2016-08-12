@@ -89,7 +89,7 @@ CompositeHTTPBodyStream::CompositeHTTPBodyStream(
 }
 
 CompositeHTTPBodyStream::~CompositeHTTPBodyStream() {
-  STLDeleteContainerPointers(parts_.begin(), parts_.end());
+  base::STLDeleteContainerPointers(parts_.begin(), parts_.end());
 }
 
 FileOperationResult CompositeHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,

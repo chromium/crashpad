@@ -37,7 +37,7 @@ class PointerContainer : public ContainerType {
   ~PointerContainer() {}
 
  private:
-  STLElementDeleter<ContainerType> pointer_deleter_;
+  base::STLElementDeleter<ContainerType> pointer_deleter_;
 
   DISALLOW_COPY_AND_ASSIGN(PointerContainer);
 };
