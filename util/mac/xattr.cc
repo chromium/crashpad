@@ -148,4 +148,18 @@ bool WriteXattrTimeT(const base::FilePath& file,
   return WriteXattr(file, name, tmp);
 }
 
+XattrStatus RemoveXattr(const base::FilePath& file,
+                        const base::StringPiece& name) {
+  int rv = removexattr(file.value().c_str(), name.data(), 0);
+  PLOG_IF(ERROR, rv != 0) << "removexattr " << name << " on file "
+                          << file.value();
+  if (rv != 0) {
+    if (errno == ENOATTR)
+      return XattrStatus::kNoAttribute;
+    return XattrStatus::kOtherError;
+  }
+
+  return XattrStatus::kOK;
+}
+
 }  // namespace crashpad

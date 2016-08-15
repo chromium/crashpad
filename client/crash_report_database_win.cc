@@ -121,7 +121,10 @@ struct MetadataFileReportRecord {
   int64_t last_upload_attempt_time;  // Holds a time_t.
   int32_t upload_attempts;
   int32_t state;  // A ReportState.
-  uint8_t uploaded;  // Boolean, 0 or 1.
+  // 0th and 1th bits represent reports uploaded state and
+  // upload_explicitly_requested state respectively. Rest of the bits are
+  // unused.
+  uint8_t report_state_params;
   uint8_t padding[7];
 };
 
@@ -150,9 +153,10 @@ MetadataFileReportRecord::MetadataFileReportRecord(const ReportDisk& report,
       creation_time(report.creation_time),
       last_upload_attempt_time(report.last_upload_attempt_time),
       upload_attempts(report.upload_attempts),
-      state(static_cast<uint32_t>(report.state)),
-      uploaded(report.uploaded) {
+      state(static_cast<uint32_t>(report.state)) {
   memset(&padding, 0, sizeof(padding));
+  report_state_params =
+      (report.upload_explicitly_requested << 1) | report.uploaded;
 }
 
 ReportDisk::ReportDisk(const MetadataFileReportRecord& record,
@@ -164,10 +168,11 @@ ReportDisk::ReportDisk(const MetadataFileReportRecord& record,
       base::UTF8ToUTF16(&string_table[record.file_path_index]));
   id = &string_table[record.id_index];
   creation_time = record.creation_time;
-  uploaded = record.uploaded != 0;
+  uploaded = record.report_state_params & 1;
   last_upload_attempt_time = record.last_upload_attempt_time;
   upload_attempts = record.upload_attempts;
   state = static_cast<ReportState>(record.state);
+  upload_explicitly_requested = (record.report_state_params & (1 << 1)) >> 1;
 }
 
 ReportDisk::ReportDisk(const UUID& uuid,
@@ -577,6 +582,7 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
                                       const std::string& id) override;
   OperationStatus SkipReportUpload(const UUID& uuid) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
+  OperationStatus RequestUpload(const UUID& uuid) override;
 
  private:
   std::unique_ptr<Metadata> AcquireMetadata();
@@ -775,6 +781,8 @@ OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
   report_disk->upload_attempts++;
   report_disk->state =
       successful ? ReportState::kCompleted : ReportState::kPending;
+  report_disk->upload_explicitly_requested =
+      successful ? false : report->upload_explicitly_requested;
 
   if (!settings_.SetLastUploadAttemptTime(now))
     return kDatabaseError;
@@ -811,8 +819,10 @@ OperationStatus CrashReportDatabaseWin::SkipReportUpload(const UUID& uuid) {
   ReportDisk* report_disk;
   OperationStatus os = metadata->FindSingleReportAndMarkDirty(
       uuid, ReportState::kPending, &report_disk);
-  if (os == kNoError)
+  if (os == kNoError) {
     report_disk->state = ReportState::kCompleted;
+    report_disk->upload_explicitly_requested = false;
+  }
   return os;
 }
 
@@ -829,6 +839,34 @@ std::unique_ptr<CrashReportDatabase> InitializeInternal(
   return database_win->Initialize(may_create)
              ? std::move(database_win)
              : std::unique_ptr<CrashReportDatabaseWin>();
+}
+
+OperationStatus CrashReportDatabaseWin::RequestUpload(const UUID& uuid) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  std::unique_ptr<Metadata> metadata(AcquireMetadata());
+  if (!metadata)
+    return kDatabaseError;
+
+  ReportDisk* report_disk;
+  OperationStatus os = metadata->FindSingleReportAndMarkDirty(
+      uuid, ReportState::kCompleted, &report_disk);
+  if (os == kReportNotFound) {
+    OperationStatus os = metadata->FindSingleReportAndMarkDirty(
+        uuid, ReportState::kPending, &report_disk);
+  }
+
+  if (os == kNoError) {
+    // If the crash report has already been uploaded, don't request new upload.
+    if (report_disk->uploaded)
+      return kCannotRequestUpload;
+
+    // Mark and move the crash report as having upload explicitly requested by
+    // the user.
+    report_disk->upload_explicitly_requested = true;
+    report_disk->state = ReportState::kPending;
+  }
+  return os;
 }
 
 }  // namespace
