@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "9e0e957b_722f66a2",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_b12f00ee",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_d13c842d",
         "filename": "client/crash_report_database.h",
         "patchSetId": 3
@@ -64,6 +82,30 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "is in the pending state.",
+      "range": {
+        "startLine": 94,
+        "startChar": 53,
+        "endLine": 94,
+        "endChar": 55
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e0e957b_5234eaf4",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_d13c842d",
       "range": {
         "startLine": 94,
         "startChar": 53,
@@ -93,6 +135,24 @@
     },
     {
       "key": {
+        "uuid": "9e0e957b_d21f3a71",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_310b1084",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_117b6c22",
         "filename": "client/crash_report_database.h",
         "patchSetId": 3
@@ -104,6 +164,24 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "Use a hanging indent of 4 spaces on this line (see all of the \\brief examples above.)",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e0e957b_320cce4a",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_117b6c22",
       "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -127,6 +205,24 @@
     },
     {
       "key": {
+        "uuid": "9e0e957b_1211d262",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_318070f4",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_11060c7b",
         "filename": "client/crash_report_database.h",
         "patchSetId": 3
@@ -138,6 +234,24 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "Revise so that the order of operations matches what is required of the Mac database.\n\nBasically, I can only see us having two types of databases: ones where the order matters (Mac) and ones where it doesn’t (Windows). And where the order matters, I can only see the upload-explicitly-requested thing needing to happen before the pending thing.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e0e957b_f2a356ee",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_11060c7b",
       "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -161,6 +275,24 @@
     },
     {
       "key": {
+        "uuid": "9e0e957b_d2a0dae4",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_f139883a",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e37690e_20df4ada",
         "filename": "client/crash_report_database_mac.mm",
         "patchSetId": 3
@@ -172,6 +304,30 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "Is _what_ explicitly requested? kXattrIsUploadExplicitlyRequested.",
+      "range": {
+        "startLine": 63,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 38
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e0e957b_32e4ce35",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e37690e_20df4ada",
       "range": {
         "startLine": 63,
         "startChar": 11,
@@ -207,6 +363,30 @@
     },
     {
       "key": {
+        "uuid": "9e0e957b_9d67931d",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done.\n\nRegarding the returned error removeXattr. RemoveXattr() can return kNoAttribute because I assume other callers of this method might be interested in that output but in here I ignore that error as it is expected that the attribute does not exists.",
+      "parentUuid": "be4a7996_5c907df4",
+      "range": {
+        "startLine": 462,
+        "startChar": 9,
+        "endLine": 463,
+        "endChar": 71
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e47758f_9bea0b6d",
         "filename": "client/crash_report_database_mac.mm",
         "patchSetId": 3
@@ -218,6 +398,30 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 517,
+        "startChar": 7,
+        "endLine": 518,
+        "endChar": 66
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e0e957b_fd74c7cb",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e47758f_9bea0b6d",
       "range": {
         "startLine": 517,
         "startChar": 7,
@@ -253,6 +457,30 @@
     },
     {
       "key": {
+        "uuid": "9e0e957b_dd710bda",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_5185f402",
+      "range": {
+        "startLine": 582,
+        "startChar": 42,
+        "endLine": 582,
+        "endChar": 75
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_f1950832",
         "filename": "client/crash_report_database_mac.mm",
         "patchSetId": 3
@@ -264,6 +492,30 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "mark the crash report as having upload explicitly requested by the user",
+      "range": {
+        "startLine": 591,
+        "startChar": 14,
+        "endLine": 592,
+        "endChar": 13
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e0e957b_1d43a372",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_f1950832",
       "range": {
         "startLine": 591,
         "startChar": 14,
@@ -299,6 +551,30 @@
     },
     {
       "key": {
+        "uuid": "9e0e957b_fd4b2783",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_d198046d",
+      "range": {
+        "startLine": 595,
+        "startChar": 6,
+        "endLine": 595,
+        "endChar": 67
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_f1ac2882",
         "filename": "client/crash_report_database_test.cc",
         "patchSetId": 3
@@ -310,6 +586,30 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "This should check that the new upload-explicitly-requested bit is false.",
+      "range": {
+        "startLine": 88,
+        "startChar": 7,
+        "endLine": 88,
+        "endChar": 32
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e0e957b_5d34fbf4",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_f1ac2882",
       "range": {
         "startLine": 88,
         "startChar": 7,
@@ -345,6 +645,30 @@
     },
     {
       "key": {
+        "uuid": "9e0e957b_bd188f8d",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_31ceb063",
+      "range": {
+        "startLine": 222,
+        "startChar": 4,
+        "endLine": 222,
+        "endChar": 41
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_71d83826",
         "filename": "client/crash_report_database_test.cc",
         "patchSetId": 3
@@ -356,6 +680,30 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "And in this one.",
+      "range": {
+        "startLine": 236,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 41
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e0e957b_fd2207b3",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_71d83826",
       "range": {
         "startLine": 236,
         "startChar": 4,
@@ -385,6 +733,24 @@
     },
     {
       "key": {
+        "uuid": "9e0e957b_7d06172a",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_b1b2a0dd",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_d1af2474",
         "filename": "client/crash_report_database_test.cc",
         "patchSetId": 3
@@ -402,6 +768,24 @@
     },
     {
       "key": {
+        "uuid": "fb2a4379_cefda308",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_d1af2474",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_31f5d083",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 3
@@ -413,6 +797,24 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "Don’t add new fields to this structure, because it’ll change its layout on disk and break everyone’s existing metadata files. This is similar to the problem we had before where a new enum value was being introduced in the middle of existing values, changing everything’s meaning. Here are the options that I see:\n\n1. Stick this in ReportState by adding a new kPendingUploadExplicitlyRequested state there.\n2. “Steal” a reserved byte from padding[7], turning it to padding[6].\n3. Redefining “uploaded” to be a bitfield. You can do this because right now, it’s defined to only carry 0 or 1, so we can say that bit 0 of the new field (f \u0026 (1 \u003c\u003c 0)) is “uploaded”, and we can make bit 1 (f \u0026 (1 \u003c\u003c 1)) be “upload_explicitly_requested”.\n\nThe first option, which is what we were looking at before, is probably less desirable on the second thought because it’d be something that’s used in the on-disk representation, but ideally not something used in the in-memory representation. Since the two share an enum, it gets hairy.\n\nI kinda like the third choice because it keeps our options for future expansion options in this structure open pretty wide, since it leaves all of those existing 7 padding bits available for future use.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_d152e6e3",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_31f5d083",
       "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -442,6 +844,30 @@
     },
     {
       "key": {
+        "uuid": "fb2a4379_3165aab1",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_51ea54a2",
+      "range": {
+        "startLine": 853,
+        "startChar": 4,
+        "endLine": 854,
+        "endChar": 51
+      },
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_91e3dcc9",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 3
@@ -453,6 +879,24 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "Reword as described in the Mac file.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_f12cc243",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_91e3dcc9",
       "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -476,6 +920,24 @@
     },
     {
       "key": {
+        "uuid": "fb2a4379_b1263a60",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_b1e0e0bd",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_5100945b",
         "filename": "handler/crash_report_upload_thread.cc",
         "patchSetId": 3
@@ -487,6 +949,24 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "This comment no longer directly matches the logic above.",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_91d9fe4e",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_5100945b",
       "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -510,6 +990,24 @@
     },
     {
       "key": {
+        "uuid": "fb2a4379_34d23808",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_7105986a",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ea09da5_91191cdb",
         "filename": "handler/crash_report_upload_thread.cc",
         "patchSetId": 3
@@ -521,6 +1019,24 @@
       "writtenOn": "2016-08-12T02:03:45Z",
       "side": 1,
       "message": "The way that we would write this, instead of the comment, is NOTREACHED();",
+      "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_14897c1e",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-15T22:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea09da5_91191cdb",
       "revId": "e4bccefe071eb8569b692d047d29cbc249e57393",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
