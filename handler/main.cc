@@ -17,12 +17,16 @@
 #include "build/build_config.h"
 #include "tools/tool_support.h"
 
+#if defined(OS_WIN)
+#include <windows.h>
+#endif
+
 #if defined(OS_MACOSX)
 int main(int argc, char* argv[]) {
   return crashpad::HandlerMain(argc, argv);
 }
 #elif defined(OS_WIN)
-int wmain(int argc, wchar_t* argv[]) {
-  return crashpad::ToolSupport::Wmain(argc, argv, crashpad::HandlerMain);
+int APIENTRY wWinMain(HINSTANCE, HINSTANCE, wchar_t*, int) {
+  return crashpad::ToolSupport::Wmain(__argc, __wargv, crashpad::HandlerMain);
 }
 #endif  // OS_MACOSX

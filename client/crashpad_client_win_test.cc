@@ -27,7 +27,7 @@ namespace {
 void StartAndUseHandler() {
   ScopedTempDir temp_dir;
   base::FilePath handler_path = Paths::Executable().DirName().Append(
-      FILE_PATH_LITERAL("crashpad_handler.exe"));
+      FILE_PATH_LITERAL("crashpad_handler.com"));
   CrashpadClient client;
   ASSERT_TRUE(client.StartHandler(handler_path,
                                   temp_dir.path(),
