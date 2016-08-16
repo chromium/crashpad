@@ -1,0 +1,299 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb2a4379_6238fed2",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "explicitly requested to be uploaded",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_220c3646",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "Noting that this code is basically entirely the same as lines 511–522, I think that we should pull it into a common private method, OperationStatus MarkReportCompletedLocked(const FilePath\u0026 report_path, FilePath* new_path /* optional */);\n\n(“Locked” in the name is an indication that it should only be called while the report lock is held, which would always be true for both callers.)",
+      "range": {
+        "startLine": 454,
+        "startChar": 0,
+        "endLine": 468,
+        "endChar": 0
+      },
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_02013a0e",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 5
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "The explicit request applies to the mark, not the move. “Mark the crash report as having upload explicitly requested by the user, and move it to the pending state.”",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_e2fd0e08",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "EXPECT something about this. If |os| isn’t what you expect at this point, you should probably |return os| early here.",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_c2fa120e",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "This should be an ASSERT_EQ, because if pending_reports is wrong (say, if it’s 0), pending_reports[0] is not valid and the next line may crash. We’d rather just end the test early with a failure, so ASSERT instead of EXPECT.",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_a2f70626",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "Same here. Line 657, too.",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_820aca24",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "These two should be pointers, rather than copying the reports around.",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_4214e24a",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "Instead of writing all of this out, let’s have some constants.\n\nenum {\n  kAttributeUploaded \u003d 1 \u003c\u003c 0,\n  kAttributeUploadExplicitlyRequested \u003d 1 \u003c\u003c 1,\n};",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_620fde36",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "I would just call this “attributes,” so:\n\n  uint8_t attributes;  // Bitfield of kAttribute*.",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_2219d680",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "Why don’t you initialize this in the constructor’s initializer list like all of the other (non-padding) fields?\n\n  attributes((report.uploaded ? kAttributeUploaded : 0) |\n             (report.upload_explicitly_requested ? kAttributeUploadExplicitlyRequested : 0))",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_021eda68",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "This is where things start to get too shift-y to read easily. That’s where the constants help.\n\nIn any case, you don’t need the right shift at all, because when the whole thing gets converted to a bool, any nonzero value will be “true”.",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_c227b2b4",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "Because we now have the same condition (“successful”) on lines 783 and 785, it’d be better to restructure this to avoid writing the same logic repeatedly. It’s easier to not have to think about the same test over and over.\n\n  if (successful) {\n    report_disk-\u003estate \u003d ReportState::kCompleted;\n    // …\n  } else {\n    // …\n  }",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_8233eaf8",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "The early return thing is more common in this code. It saves you an indentation level and prevents you from having to figure out “what was os again” when you get to line 869. So:\n\n  if (os !\u003d kNoError) {\n    return os;\n  }\n\n  // If the crash report has already been uploaded…\n\n  return kNoError;",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_a224a6b0",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "Revise this comment again as indicated in the Mac file.",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_422d028f",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "This comment still doesn’t match the logic above.\n\n“Don’t attempt an upload if there’s no URL to upload to. Allow upload if it has been explicitly requested by the user, otherwise, respect the upload-enabled state stored in the database’s settings.”",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_c2cfb227",
+        "filename": "util/mac/xattr.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "Don’t log anything if errno \u003d\u003d ENOATTR/return kNoAttribute, either. Be mindful of the documented logging contract: https://crashpad.chromium.org/doxygen/namespacecrashpad.html#a589b4d9bd6f2233b67148ab6793c3c13.\n\nTake a look at how this is handled in ReadXattr(). Basically, move this PLOG_IF() to an unconditional PLOG() in the (rv !\u003d 0) case below, but after the ENOATTR early return.",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb2a4379_e2c2ae01",
+        "filename": "util/mac/xattr_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-16T14:27:29Z",
+      "side": 1,
+      "message": "Now try to remove it again, and make sure that you get the expected return value (kNoAttribute).",
+      "revId": "d0a11db886e93f1b3691aa3d5c307186b8b85355",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
