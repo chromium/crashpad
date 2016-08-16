@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b0ea77b_c3cf76ae",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-16T20:59:55Z",
+      "side": 1,
+      "message": "!\u003d0 is added because compiler complains for int to bool conversation",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 1
+      },
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
