@@ -2,6 +2,125 @@
   "comments": [
     {
       "key": {
+        "uuid": "1b7f17e8_b08d3e33",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-17T20:32:54Z",
+      "side": 1,
+      "message": "Also say “This parameter is optional.”",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b7f17e8_30a22ea3",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-17T20:32:54Z",
+      "side": 1,
+      "message": "Don’t do this (which leaked, by the way)…",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b7f17e8_109d2a68",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-17T20:32:54Z",
+      "side": 1,
+      "message": "…you can just do MarkReportCompletedLocked(report_path, \u0026report_path)…",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b7f17e8_709ca669",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-17T20:32:54Z",
+      "side": 1,
+      "message": "…and get rid of this line.",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b7f17e8_f087b60e",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-17T20:32:54Z",
+      "side": 1,
+      "message": "This one should be MarkReportCompletedLocked(report_path, nullptr) since you don’t care about the return value. (And you don’t need the leaky preceding line.)",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b7f17e8_fb94f737",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-17T20:32:54Z",
+      "side": 1,
+      "message": "new_path should be optional, so have FilePath local_new_path and use it in the rename. Then, before returning kNoError, do\n\n  if (new_path) {\n    new_path-\u003eassign(local_new_path);\n  }",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b7f17e8_dbb013d9",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-17T20:32:54Z",
+      "side": 1,
+      "message": "Blank line before this, to break it up.",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b0ea77b_c3cf76ae",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 11
@@ -19,6 +138,23 @@
         "endLine": 183,
         "endChar": 1
       },
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b7f17e8_7bd727f7",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-17T20:32:54Z",
+      "side": 1,
+      "message": "I don’t think we should do this. We don’t do it anywhere else. If it was busy, it was busy. If we wanted to actually retry things when busy, we’d want to consolidate that in one location and do it consistently. We shouldn’t be doing it here.",
       "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
