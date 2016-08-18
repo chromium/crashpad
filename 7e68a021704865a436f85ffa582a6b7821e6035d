@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3b893b78_64e512ce",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-18T15:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b7f17e8_b08d3e33",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b7f17e8_30a22ea3",
         "filename": "client/crash_report_database_mac.mm",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-17T20:32:54Z",
       "side": 1,
       "message": "Don’t do this (which leaked, by the way)…",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b14dbd3_f8b2114c",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-18T15:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b7f17e8_30a22ea3",
       "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3b14dbd3_d8adcdea",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-18T15:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b7f17e8_109d2a68",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b7f17e8_709ca669",
         "filename": "client/crash_report_database_mac.mm",
         "patchSetId": 11
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-17T20:32:54Z",
       "side": 1,
       "message": "…and get rid of this line.",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b14dbd3_386c09c6",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-18T15:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b7f17e8_709ca669",
       "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3b14dbd3_186fc5bd",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-18T15:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b7f17e8_f087b60e",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b7f17e8_fb94f737",
         "filename": "client/crash_report_database_mac.mm",
         "patchSetId": 11
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "3b893b78_a400da5d",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-18T15:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b7f17e8_fb94f737",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b7f17e8_dbb013d9",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 11
@@ -115,6 +223,24 @@
       "writtenOn": "2016-08-17T20:32:54Z",
       "side": 1,
       "message": "Blank line before this, to break it up.",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b14dbd3_b8bc991d",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-18T15:24:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b7f17e8_dbb013d9",
       "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -155,6 +281,24 @@
       "writtenOn": "2016-08-17T20:32:54Z",
       "side": 1,
       "message": "I don’t think we should do this. We don’t do it anywhere else. If it was busy, it was busy. If we wanted to actually retry things when busy, we’d want to consolidate that in one location and do it consistently. We shouldn’t be doing it here.",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b893b78_04f68690",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-18T15:24:41Z",
+      "side": 1,
+      "message": "I think the error name is misleading. This error code is returned when the report exists but has different state than requested. The logic here is that I want to get the report regardless whether report is completed or pending",
+      "parentUuid": "1b7f17e8_7bd727f7",
       "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
