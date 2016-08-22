@@ -105,7 +105,8 @@ class TSimpleAddressRangeBag {
   }
 
   //! \brief Inserts the given range into the bag. Duplicates and overlapping
-  //! ranges are supported and allowed, but not coalesced.
+  //!     ranges are supported and allowed, and will be coalesced with other
+  //!     ranges in the dump.
   //!
   //! \param[in] range The range to be inserted. The range must have either a
   //!     non-zero base address or size.
