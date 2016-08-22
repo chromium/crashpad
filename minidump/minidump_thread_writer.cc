@@ -51,8 +51,8 @@ void MinidumpThreadWriter::InitializeFromSnapshot(
 
   const MemorySnapshot* stack_snapshot = thread_snapshot->Stack();
   if (stack_snapshot && stack_snapshot->Size() > 0) {
-    std::unique_ptr<MinidumpMemoryWriter> stack =
-        MinidumpMemoryWriter::CreateFromSnapshot(stack_snapshot);
+    std::unique_ptr<SnapshotMinidumpMemoryWriter> stack(
+        new SnapshotMinidumpMemoryWriter(stack_snapshot));
     SetStack(std::move(stack));
   }
 
@@ -68,7 +68,7 @@ const MINIDUMP_THREAD* MinidumpThreadWriter::MinidumpThread() const {
 }
 
 void MinidumpThreadWriter::SetStack(
-    std::unique_ptr<MinidumpMemoryWriter> stack) {
+    std::unique_ptr<SnapshotMinidumpMemoryWriter> stack) {
   DCHECK_EQ(state(), kStateMutable);
 
   stack_ = std::move(stack);
@@ -172,7 +172,7 @@ void MinidumpThreadListWriter::AddThread(
   DCHECK_EQ(state(), kStateMutable);
 
   if (memory_list_writer_) {
-    MinidumpMemoryWriter* stack = thread->Stack();
+    SnapshotMinidumpMemoryWriter* stack = thread->Stack();
     if (stack) {
       memory_list_writer_->AddExtraMemory(stack);
     }

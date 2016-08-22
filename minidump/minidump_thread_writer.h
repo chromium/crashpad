@@ -33,7 +33,7 @@ namespace crashpad {
 
 class MinidumpContextWriter;
 class MinidumpMemoryListWriter;
-class MinidumpMemoryWriter;
+class SnapshotMinidumpMemoryWriter;
 class ThreadSnapshot;
 
 //! \brief The writer for a MINIDUMP_THREAD object in a minidump file.
@@ -67,8 +67,8 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
   //! \note Valid in #kStateWritable.
   const MINIDUMP_THREAD* MinidumpThread() const;
 
-  //! \brief Returns a MinidumpMemoryWriter that will write the memory region
-  //!     corresponding to this object’s stack.
+  //! \brief Returns a SnapshotMinidumpMemoryWriter that will write the memory
+  //!     region corresponding to this object’s stack.
   //!
   //! If the thread does not have a stack, or its stack could not be determined,
   //! this will return `nullptr`.
@@ -80,7 +80,7 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
   //! MinidumpMemoryListWriter::AddExtraMemory().
   //!
   //! \note Valid in any state.
-  MinidumpMemoryWriter* Stack() const { return stack_.get(); }
+  SnapshotMinidumpMemoryWriter* Stack() const { return stack_.get(); }
 
   //! \brief Arranges for MINIDUMP_THREAD::Stack to point to the MINIDUMP_MEMORY
   //!     object to be written by \a stack.
@@ -89,7 +89,7 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
   //! overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void SetStack(std::unique_ptr<MinidumpMemoryWriter> stack);
+  void SetStack(std::unique_ptr<SnapshotMinidumpMemoryWriter> stack);
 
   //! \brief Arranges for MINIDUMP_THREAD::ThreadContext to point to the CPU
   //!     context to be written by \a context.
@@ -130,7 +130,7 @@ class MinidumpThreadWriter final : public internal::MinidumpWritable {
 
  private:
   MINIDUMP_THREAD thread_;
-  std::unique_ptr<MinidumpMemoryWriter> stack_;
+  std::unique_ptr<SnapshotMinidumpMemoryWriter> stack_;
   std::unique_ptr<MinidumpContextWriter> context_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpThreadWriter);
@@ -161,9 +161,9 @@ class MinidumpThreadListWriter final : public internal::MinidumpStreamWriter {
   //!     region should be added to as extra memory.
   //!
   //! Each MINIDUMP_THREAD object can contain a reference to a
-  //! MinidumpMemoryWriter object that contains a snapshot of its stack memory.
-  //! In the overall tree of internal::MinidumpWritable objects, these
-  //! MinidumpMemoryWriter objects are considered children of their
+  //! SnapshotMinidumpMemoryWriter object that contains a snapshot of its stac
+  //! memory. In the overall tree of internal::MinidumpWritable objects, these
+  //! SnapshotMinidumpMemoryWriter objects are considered children of their
   //! MINIDUMP_THREAD, and are referenced by a MINIDUMP_MEMORY_DESCRIPTOR
   //! contained in the MINIDUMP_THREAD. It is also possible for the same memory
   //! regions to have MINIDUMP_MEMORY_DESCRIPTOR objects present in a
