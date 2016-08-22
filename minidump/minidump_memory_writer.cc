@@ -46,6 +46,10 @@ class SnapshotMinidumpMemoryWriter final : public MinidumpMemoryWriter,
     return file_writer_->Write(data, size);
   }
 
+  const MemorySnapshot* GetUnderlyingMemorySnapshot() const override {
+    return memory_snapshot_;
+  }
+
  protected:
   // MinidumpMemoryWriter:
 
@@ -165,12 +169,14 @@ internal::MinidumpWritable::Phase MinidumpMemoryWriter::WritePhase() {
 
 MinidumpMemoryListWriter::MinidumpMemoryListWriter()
     : MinidumpStreamWriter(),
-      memory_writers_(),
+      all_memory_writers_(),
+      non_owned_memory_writers_(),
       children_(),
       memory_list_base_() {
 }
 
 MinidumpMemoryListWriter::~MinidumpMemoryListWriter() {
+  base::STLDeleteContainerPointers(children_.begin(), children_.end());
 }
 
 void MinidumpMemoryListWriter::AddFromSnapshot(
@@ -178,6 +184,24 @@ void MinidumpMemoryListWriter::AddFromSnapshot(
   DCHECK_EQ(state(), kStateMutable);
 
   for (const MemorySnapshot* memory_snapshot : memory_snapshots) {
+    LOG(ERROR) << "want to add " << memory_snapshot->Address() << " size "
+               << memory_snapshot->Size();
+
+    for (const auto* non_owned : non_owned_memory_writers_) {
+      const MemorySnapshot* non_owned_snapshot =
+          non_owned->GetUnderlyingMemorySnapshot();
+      if (non_owned_snapshot) {
+        CheckedRange<uint64_t, size_t> range(0, 0);
+        if (DetermineMergedRange(
+                *memory_snapshot, *non_owned_snapshot, &range) &&
+            range.base() == non_owned_snapshot->Address() &&
+            range.size() == non_owned_snapshot->Size()) {
+          // Already contained in stack, drop it.
+          LOG(ERROR) << "  skipping, already in a thread stack";
+          continue;
+        }
+      }
+    }
     std::unique_ptr<MinidumpMemoryWriter> memory =
         MinidumpMemoryWriter::CreateFromSnapshot(memory_snapshot);
     AddMemory(std::move(memory));
@@ -188,15 +212,50 @@ void MinidumpMemoryListWriter::AddMemory(
     std::unique_ptr<MinidumpMemoryWriter> memory_writer) {
   DCHECK_EQ(state(), kStateMutable);
 
-  AddExtraMemory(memory_writer.get());
+  all_memory_writers_.push_back(memory_writer.get());
   children_.push_back(memory_writer.release());
 }
 
-void MinidumpMemoryListWriter::AddExtraMemory(
+void MinidumpMemoryListWriter::AddNonOwnedMemory(
     MinidumpMemoryWriter* memory_writer) {
   DCHECK_EQ(state(), kStateMutable);
 
-  memory_writers_.push_back(memory_writer);
+  all_memory_writers_.push_back(memory_writer);
+  non_owned_memory_writers_.push_back(memory_writer);
+}
+
+size_t MinidumpMemoryListWriter::GetNonOwnedMemoryCount() {
+  return non_owned_memory_writers_.size();
+}
+
+void MinidumpMemoryListWriter::CoalesceOwnedMemory() {
+  // Only handle those that are actually SnapshotMinidumpMemoryWriters (this is
+  // expected to be all of them in non-test code).
+  auto beginning_of_non_snaphots =
+      std::partition(children_.begin(),
+                     children_.end(),
+                     [](const auto* writer) {
+                       return writer->GetUnderlyingMemorySnapshot() != nullptr;
+                     });
+  std::vector<MinidumpMemoryWriter*> non_snapshots(beginning_of_non_snaphots,
+                                                   children_.end());
+
+  // Sort by address in place.
+  std::sort(children_.begin(),
+            beginning_of_non_snaphots,
+            [](const auto* a, const auto* b) {
+              return std::tie(a->GetUnderlyingMemorySnapshot()->Address(),
+                              a->GetUnderlyingMemorySnapshot()->Size()) <
+                     std::tie(b->GetUnderlyingMemorySnapshot()->Address(),
+                              b->GetUnderlyingMemorySnapshot()->Size());
+            });
+
+
+  for (size_t i = 0; i < num_snapshots - 1; ++i) {
+    if (DetermineMergedRange(i, i+i, &range)) {
+      i = i->MergeMemorySnapshots(i+1);
+    }
+  }
 }
 
 bool MinidumpMemoryListWriter::Freeze() {
@@ -206,7 +265,7 @@ bool MinidumpMemoryListWriter::Freeze() {
     return false;
   }
 
-  size_t memory_region_count = memory_writers_.size();
+  size_t memory_region_count = all_memory_writers_.size();
   CHECK_LE(children_.size(), memory_region_count);
 
   if (!AssignIfInRange(&memory_list_base_.NumberOfMemoryRanges,
@@ -221,15 +280,15 @@ bool MinidumpMemoryListWriter::Freeze() {
 
 size_t MinidumpMemoryListWriter::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
-  DCHECK_LE(children_.size(), memory_writers_.size());
+  DCHECK_LE(children_.size(), all_memory_writers_.size());
 
   return sizeof(memory_list_base_) +
-         memory_writers_.size() * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
+         all_memory_writers_.size() * sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
 }
 
 std::vector<internal::MinidumpWritable*> MinidumpMemoryListWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
-  DCHECK_LE(children_.size(), memory_writers_.size());
+  DCHECK_LE(children_.size(), all_memory_writers_.size());
 
   std::vector<MinidumpWritable*> children;
   for (MinidumpMemoryWriter* child : children_) {
@@ -247,7 +306,7 @@ bool MinidumpMemoryListWriter::WriteObject(FileWriterInterface* file_writer) {
   iov.iov_len = sizeof(memory_list_base_);
   std::vector<WritableIoVec> iovecs(1, iov);
 
-  for (const MinidumpMemoryWriter* memory_writer : memory_writers_) {
+  for (const MinidumpMemoryWriter* memory_writer : all_memory_writers_) {
     iov.iov_base = memory_writer->MinidumpMemoryDescriptor();
     iov.iov_len = sizeof(MINIDUMP_MEMORY_DESCRIPTOR);
     iovecs.push_back(iov);

@@ -39,6 +39,8 @@ class TestMinidumpMemoryWriter final : public MinidumpMemoryWriter {
   TestMinidumpMemoryWriter(uint64_t base_address, size_t size, uint8_t value);
   ~TestMinidumpMemoryWriter();
 
+  const MemorySnapshot* GetUnderlyingMemorySnapshot() const override;
+
  protected:
   // MinidumpMemoryWriter:
   uint64_t MemoryRangeBaseAddress() const override;

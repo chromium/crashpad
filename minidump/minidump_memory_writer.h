@@ -27,7 +27,6 @@
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
 #include "util/file/file_io.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -75,6 +74,9 @@ class MinidumpMemoryWriter : public internal::MinidumpWritable {
   //!
   //! \note Valid in #kStateFrozen or any preceding state.
   void RegisterMemoryDescriptor(MINIDUMP_MEMORY_DESCRIPTOR* memory_descriptor);
+
+  //! \brief XXX
+  virtual const MemorySnapshot* GetUnderlyingMemorySnapshot() const = 0;
 
  protected:
   MinidumpMemoryWriter();
@@ -168,7 +170,13 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   //! MinidumpMemoryWriter for thread stack memory, is an example.
   //!
   //! \note Valid in #kStateMutable.
-  void AddExtraMemory(MinidumpMemoryWriter* memory_writer);
+  void AddNonOwnedMemory(MinidumpMemoryWriter* memory_writer);
+
+  //! \brief XXX
+  size_t GetNonOwnedMemoryCount();
+
+  //! \brief XXX
+  void CoalesceOwnedMemory();
 
  protected:
   // MinidumpWritable:
@@ -181,8 +189,9 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  std::vector<MinidumpMemoryWriter*> memory_writers_;  // weak
-  PointerVector<MinidumpMemoryWriter> children_;
+  std::vector<MinidumpMemoryWriter*> all_memory_writers_;  // weak
+  std::vector<MinidumpMemoryWriter*> non_owned_memory_writers_;  // weak
+  std::vector<MinidumpMemoryWriter*> children_;
   MINIDUMP_MEMORY_LIST memory_list_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpMemoryListWriter);

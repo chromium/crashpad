@@ -31,7 +31,6 @@ namespace crashpad {
 class MemoryMapRegionSnapshot;
 class MinidumpContextWriter;
 class MinidumpMemoryListWriter;
-class MinidumpMemoryWriter;
 
 //! \brief The writer for a MINIDUMP_MEMORY_INFO_LIST stream in a minidump file,
 //!     containing a list of MINIDUMP_MEMORY_INFO objects.

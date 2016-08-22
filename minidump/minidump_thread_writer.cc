@@ -174,7 +174,7 @@ void MinidumpThreadListWriter::AddThread(
   if (memory_list_writer_) {
     MinidumpMemoryWriter* stack = thread->Stack();
     if (stack) {
-      memory_list_writer_->AddExtraMemory(stack);
+      memory_list_writer_->AddNonOwnedMemory(stack);
     }
   }
 

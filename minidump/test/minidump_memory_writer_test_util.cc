@@ -32,13 +32,16 @@ TestMinidumpMemoryWriter::TestMinidumpMemoryWriter(uint64_t base_address,
 TestMinidumpMemoryWriter::~TestMinidumpMemoryWriter() {
 }
 
+const MemorySnapshot* TestMinidumpMemoryWriter::GetUnderlyingMemorySnapshot()
+    const {
+  return nullptr;
+}
+
 uint64_t TestMinidumpMemoryWriter::MemoryRangeBaseAddress() const {
-  EXPECT_EQ(state(), kStateFrozen);
   return base_address_;
 }
 
 size_t TestMinidumpMemoryWriter::MemoryRangeSize() const {
-  EXPECT_GE(state(), kStateFrozen);
   return size_;
 }
 

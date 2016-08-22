@@ -88,6 +88,8 @@ void MinidumpFileWriter::InitializeFromSnapshot(
                                       &thread_id_map);
   AddStream(std::move(thread_list));
 
+  size_t num_non_owned_memory = memory_list->GetNonOwnedMemoryCount();
+
   const ExceptionSnapshot* exception_snapshot = process_snapshot->Exception();
   if (exception_snapshot) {
     auto exception = base::WrapUnique(new MinidumpExceptionWriter());
@@ -143,6 +145,12 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   memory_list->AddFromSnapshot(process_snapshot->ExtraMemory());
   if (exception_snapshot)
     memory_list->AddFromSnapshot(exception_snapshot->ExtraMemory());
+
+  // We rely on all non-owned memory being added before we add "extra" memory,
+  // so that the extra memory can be de-duplicated with the memory that we don't
+  // want to change.
+  DCHECK_EQ(num_non_owned_memory, memory_list->GetNonOwnedMemoryCount());
+  memory_list->CoalesceOwnedMemory();
 
   AddStream(std::move(memory_list));
 }
