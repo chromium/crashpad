@@ -245,7 +245,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
       base::WrapUnique(new TestMemoryStream(kBaseAddress0, kSize0, kValue0));
 
   auto memory_list_writer = base::WrapUnique(new MinidumpMemoryListWriter());
-  memory_list_writer->AddExtraMemory(test_memory_stream->memory());
+  memory_list_writer->AddNonOwnedMemory(test_memory_stream->memory());
 
   minidump_file_writer.AddStream(std::move(test_memory_stream));
 
@@ -345,6 +345,74 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
       GetMemoryListStream(string_file.string(), &memory_list, 1));
 
   ASSERT_EQ(3u, memory_list->NumberOfMemoryRanges);
+
+  for (size_t index = 0; index < memory_list->NumberOfMemoryRanges; ++index) {
+    SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
+    ExpectMinidumpMemoryDescriptorAndContents(
+        &expect_memory_descriptors[index],
+        &memory_list->MemoryRanges[index],
+        string_file.string(),
+        values[index],
+        index == memory_list->NumberOfMemoryRanges - 1);
+  }
+}
+
+TEST(MinidumpMemoryWriter, Coalesce) {
+  MINIDUMP_MEMORY_DESCRIPTOR expect_memory_descriptors[2] = {};
+  uint8_t values[arraysize(expect_memory_descriptors)] = {};
+
+  expect_memory_descriptors[0].StartOfMemoryRange = 0;
+  expect_memory_descriptors[0].Memory.DataSize = 1000;
+  values[0] = 0x01;
+
+  expect_memory_descriptors[1].StartOfMemoryRange = 10000;
+  expect_memory_descriptors[1].Memory.DataSize = 2000;
+  values[1] = 0xf4;
+
+  struct {
+    uint64_t base;
+    size_t size;
+    uint8_t value;
+  } snapshots_to_add[] = {
+    // Various overlapping.
+    { 0, 500, 0x01 },
+    { 0, 500, 0x01 },
+    { 250, 500, 0x01 },
+    { 600, 400, 0x01 },
+
+    // Abutting.
+    { 10000, 500, 0xf4 },
+    { 10500, 500, 0xf4 },
+    { 11000, 1000, 0xf4 },
+  };
+
+  PointerVector<TestMemorySnapshot> memory_snapshots_owner;
+  std::vector<const MemorySnapshot*> memory_snapshots;
+  for (const auto& to_add : snapshots_to_add) {
+    TestMemorySnapshot* memory_snapshot = new TestMemorySnapshot();
+    memory_snapshots_owner.push_back(memory_snapshot);
+    memory_snapshot->SetAddress(to_add.base);
+    memory_snapshot->SetSize(to_add.size);
+    memory_snapshot->SetValue(to_add.value);
+    memory_snapshots.push_back(memory_snapshot);
+  }
+
+  auto memory_list_writer = base::WrapUnique(new MinidumpMemoryListWriter());
+  memory_list_writer->AddFromSnapshot(memory_snapshots);
+
+  memory_list_writer->CoalesceOwnedMemory();
+
+  MinidumpFileWriter minidump_file_writer;
+  minidump_file_writer.AddStream(std::move(memory_list_writer));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+
+  const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
+  ASSERT_NO_FATAL_FAILURE(
+      GetMemoryListStream(string_file.string(), &memory_list, 1));
+
+  ASSERT_EQ(2u, memory_list->NumberOfMemoryRanges);
 
   for (size_t index = 0; index < memory_list->NumberOfMemoryRanges; ++index) {
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
