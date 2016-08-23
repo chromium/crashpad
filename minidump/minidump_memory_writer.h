@@ -28,7 +28,6 @@
 #include "minidump/minidump_writable.h"
 #include "snapshot/memory_snapshot.h"
 #include "util/file/file_io.h"
-#include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
@@ -63,7 +62,11 @@ class SnapshotMinidumpMemoryWriter : public internal::MinidumpWritable,
 
   //! \brief Gets the underlying memory snapshot that the memory writer will
   //!     write to the minidump.
-  const MemorySnapshot& UnderlyingSnapshot() const { return *memory_snapshot_; }
+  const MemorySnapshot* UnderlyingSnapshot() const { return memory_snapshot_; }
+
+  void SetSnapshot(const MemorySnapshot* memory_snapshot) {
+    memory_snapshot_ = memory_snapshot;
+  }
 
  private:
   // MemorySnapshot::Delegate:
@@ -148,7 +151,10 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   //! a SnapshotMinidumpMemoryWriter for thread stack memory, is an example.
   //!
   //! \note Valid in #kStateMutable.
-  void AddExtraMemory(SnapshotMinidumpMemoryWriter* memory_writer);
+  void AddNonOwnedMemory(SnapshotMinidumpMemoryWriter* memory_writer);
+
+  //! \brief XXX
+  void CoalesceOwnedMemory();
 
  protected:
   // MinidumpWritable:
@@ -161,8 +167,11 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  std::vector<SnapshotMinidumpMemoryWriter*> memory_writers_;  // weak
-  PointerVector<SnapshotMinidumpMemoryWriter> children_;
+  std::vector<SnapshotMinidumpMemoryWriter*> non_owned_memory_writers_;  // weak
+  std::vector<std::unique_ptr<SnapshotMinidumpMemoryWriter>> children_;
+  std::vector<std::unique_ptr<const MemorySnapshot>>
+      snapshots_created_during_merge_;
+  std::vector<SnapshotMinidumpMemoryWriter*> all_memory_writers_;  // weak
   MINIDUMP_MEMORY_LIST memory_list_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpMemoryListWriter);

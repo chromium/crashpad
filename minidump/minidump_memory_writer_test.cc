@@ -245,7 +245,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
       base::WrapUnique(new TestMemoryStream(kBaseAddress0, kSize0, kValue0));
 
   auto memory_list_writer = base::WrapUnique(new MinidumpMemoryListWriter());
-  memory_list_writer->AddExtraMemory(test_memory_stream->memory());
+  memory_list_writer->AddNonOwnedMemory(test_memory_stream->memory());
 
   minidump_file_writer.AddStream(std::move(test_memory_stream));
 
