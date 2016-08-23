@@ -125,7 +125,7 @@
                 'copy <(PRODUCT_DIR)\crashpad_handler.exe '
                     '<(PRODUCT_DIR)\crashpad_handler.com >nul && '
                 'editbin -nologo -subsystem:console '
-                    '<(PRODUCT_DIR)\crashpad_handler.com',
+                    '<(PRODUCT_DIR)\crashpad_handler.com >nul',
               ],
               'msvs_cygwin_shell': '0',
               'quote_cmd': '0',
