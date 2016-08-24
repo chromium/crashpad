@@ -230,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "28d3af97_67973239",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T21:37:54Z",
+      "side": 1,
+      "message": "Oh, right, it’s a FilePath, not a string.",
+      "parentUuid": "88e1fb42_cba9dd2a",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b7f17e8_dbb013d9",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 11
