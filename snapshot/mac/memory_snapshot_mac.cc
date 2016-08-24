@@ -66,5 +66,22 @@ bool MemorySnapshotMac::Read(Delegate* delegate) const {
   return delegate->MemorySnapshotDelegateRead(buffer.get(), size_);
 }
 
+const MemorySnapshot* MemorySnapshotMac::MergeWithOtherSnapshot(
+    const MemorySnapshot& other) const {
+  const MemorySnapshotMac* other_as_memory_snapshot_mac =
+      reinterpret_cast<const MemorySnapshotMac*>(&other);
+  if (process_reader_ != other_as_memory_snapshot_mac->process_reader_) {
+    LOG(ERROR) << "different process_reader_ for snapshots";
+    return nullptr;
+  }
+  CheckedRange<uint64_t, size_t> merged(0, 0);
+  if (!LoggingDetermineMergedRange(*this, other, &merged))
+    return nullptr;
+
+  std::unique_ptr<MemorySnapshotMac> result(new MemorySnapshotMac());
+  result->Initialize(this->process_reader_, merged.base(), merged.size());
+  return result.release();
+}
+
 }  // namespace internal
 }  // namespace crashpad
