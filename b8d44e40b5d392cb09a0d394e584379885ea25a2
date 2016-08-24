@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8bcffce_a618ab7c",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T18:18:32Z",
+      "side": 1,
+      "message": "by the user",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8bcffce_46099733",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 13
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T18:18:32Z",
+      "side": 1,
+      "message": "Spelling and grammar: “Assumes that the report”",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8bcffce_660e933e",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 13
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T18:18:32Z",
+      "side": 1,
+      "message": "Break things up. Put a blank line before this.",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8bcffce_8613af5f",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T18:18:32Z",
+      "side": 1,
+      "message": "I’d like to be able to make this call only once and have it return the report in whatever state it’s in, but let’s save that for a follow-up.",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8bcffce_e619c37e",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T18:18:32Z",
+      "side": 1,
+      "message": "doesn’t",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8bcffce_a66a6bb8",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T18:18:32Z",
+      "side": 1,
+      "message": "I’m not so sure about this. We might want to circumvent rate-limiting for the first time, but if the first upload attempt after the user requested upload fails, we’d want to go back to normal rate-limiting, I think.\n\nChrome on Windows disables Crashpad rate-limiting altogether, so I don’t think that we need this addition to make things work there.",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8bcffce_e64b835e",
+        "filename": "util/mac/xattr_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T18:18:32Z",
+      "side": 1,
+      "message": "Use \u0026actual again here. \u0026value shouldn’t be tampered with, even by accident, so that we retain the expected value in case the test is extended to do more things. Make it const on line 121 to be sure.",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
