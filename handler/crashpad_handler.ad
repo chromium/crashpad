@@ -60,6 +60,16 @@ well as the client’s process handle for the client to exit cleanly without
 crashing. When a server started via the *--handshake-handle* mechanism loses all
 of its clients, it exits after allowing any upload in progress to complete.
 
+On Windows, this executable is built by default as a Windows GUI app, so no
+console will appear in normal usage. This is the version that will typically be
+used. A second copy is also made with a +.com+ extension, rather than +.exe+. In
+this second copy, the PE header is modified to indicate that it's a console app.
+This is useful because the +.com+ is found in the path before the +.exe+, so
+when run normally from a shell using only the basename (without an explicit
++.com+ or +.exe+ extension), the +.com+ console version will be chosen, and so
+stdio will be hooked up as expected to the parent console so that logging output
+will be visible.
+
 It is not normally appropriate to invoke this program directly. Usually, it will
 be invoked by a Crashpad client using the Crashpad client library, or started by
 another system service. On OS X, arbitrary programs may be run with a Crashpad
