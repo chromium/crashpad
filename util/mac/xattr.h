@@ -92,6 +92,15 @@ bool WriteXattrTimeT(const base::FilePath& file,
                      const base::StringPiece& name,
                      time_t value);
 
+//! \brief Removes an extended attribute from a file.
+//!
+//! \param[in] file The path to the file.
+//! \param[in] name The name of the extended attribute to remove.
+//!
+//! \return XattrStatus
+XattrStatus RemoveXattr(const base::FilePath& file,
+                        const base::StringPiece& name);
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_MAC_XATTR_H_

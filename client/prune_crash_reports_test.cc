@@ -46,6 +46,7 @@ class MockDatabase : public CrashReportDatabase {
                OperationStatus(const Report*, bool, const std::string&));
   MOCK_METHOD1(SkipReportUpload, OperationStatus(const UUID&));
   MOCK_METHOD1(DeleteReport, OperationStatus(const UUID&));
+  MOCK_METHOD1(RequestUpload, OperationStatus(const UUID&));
 };
 
 time_t NDaysAgo(int num_days) {
