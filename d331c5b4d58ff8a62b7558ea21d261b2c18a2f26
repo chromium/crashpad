@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28d3af97_e799626a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T21:41:39Z",
+      "side": 1,
+      "message": "explanation",
+      "revId": "d331c5b4d58ff8a62b7558ea21d261b2c18a2f26",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d3af97_c79ede4f",
+        "filename": "handler/crashpad_handler.ad",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T21:41:39Z",
+      "side": 1,
+      "message": "I think we want +.com+ and +.exe+ for monospaced, for each occurrence of .com and .exe here.",
+      "revId": "d331c5b4d58ff8a62b7558ea21d261b2c18a2f26",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28d3af97_27b41ac9",
+        "filename": "handler/crashpad_handler.ad",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-08-24T21:41:39Z",
+      "side": 1,
+      "message": "to view… → so that logging output will be visible",
+      "revId": "d331c5b4d58ff8a62b7558ea21d261b2c18a2f26",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
