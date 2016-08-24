@@ -144,6 +144,8 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   if (exception_snapshot)
     memory_list->AddFromSnapshot(exception_snapshot->ExtraMemory());
 
+  memory_list->CoalesceOwnedMemory();
+
   AddStream(std::move(memory_list));
 }
 
