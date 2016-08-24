@@ -212,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "88e1fb42_cba9dd2a",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 11
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-24T20:35:28Z",
+      "side": 1,
+      "message": "assign doesn\u0027t work.",
+      "parentUuid": "1b7f17e8_fb94f737",
+      "revId": "7e68a021704865a436f85ffa582a6b7821e6035d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b7f17e8_dbb013d9",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 11
