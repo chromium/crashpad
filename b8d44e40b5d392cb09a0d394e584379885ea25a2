@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "88e1fb42_6889b725",
+        "filename": "client/crash_report_database.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-24T20:35:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8bcffce_a618ab7c",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8bcffce_46099733",
         "filename": "client/crash_report_database_mac.mm",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-24T18:18:32Z",
       "side": 1,
       "message": "Spelling and grammar: “Assumes that the report”",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88e1fb42_8baeb579",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 13
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-24T20:35:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8bcffce_46099733",
       "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "88e1fb42_cbca7d51",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 13
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-24T20:35:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8bcffce_660e933e",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8bcffce_8613af5f",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 13
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-24T18:18:32Z",
       "side": 1,
       "message": "I’d like to be able to make this call only once and have it return the report in whatever state it’s in, but let’s save that for a follow-up.",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88e1fb42_6bc6d146",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-24T20:35:28Z",
+      "side": 1,
+      "message": "Added a TODO",
+      "parentUuid": "a8bcffce_8613af5f",
       "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "88e1fb42_abf6198b",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-24T20:35:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8bcffce_e619c37e",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8bcffce_a66a6bb8",
         "filename": "handler/crash_report_upload_thread.cc",
         "patchSetId": 13
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "88e1fb42_ebf02191",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-24T20:35:28Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "a8bcffce_a66a6bb8",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8bcffce_e64b835e",
         "filename": "util/mac/xattr_test.cc",
         "patchSetId": 13
@@ -115,6 +223,24 @@
       "writtenOn": "2016-08-24T18:18:32Z",
       "side": 1,
       "message": "Use \u0026actual again here. \u0026value shouldn’t be tampered with, even by accident, so that we retain the expected value in case the test is extended to do more things. Make it const on line 121 to be sure.",
+      "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88e1fb42_eb2b01e5",
+        "filename": "util/mac/xattr_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1116265
+      },
+      "writtenOn": "2016-08-24T20:35:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8bcffce_e64b835e",
       "revId": "b8d44e40b5d392cb09a0d394e584379885ea25a2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
