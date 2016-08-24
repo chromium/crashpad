@@ -117,6 +117,20 @@ TEST_F(Xattr, WriteAndReadTimeT) {
   EXPECT_EQ(expected, actual);
 }
 
+TEST_F(Xattr, RemoveAndRead) {
+  const std::string value = "hello world";
+  EXPECT_TRUE(WriteXattr(path(), kKey, value));
+
+  std::string actual;
+  EXPECT_EQ(XattrStatus::kOK, ReadXattr(path(), kKey, &actual));
+  EXPECT_EQ(value, actual);
+
+  EXPECT_EQ(XattrStatus::kOK, RemoveXattr(path(), kKey));
+  EXPECT_EQ(XattrStatus::kNoAttribute, ReadXattr(path(), kKey, &actual));
+
+  EXPECT_EQ(XattrStatus::kNoAttribute, RemoveXattr(path(), kKey));
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
