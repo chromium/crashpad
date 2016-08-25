@@ -22,46 +22,13 @@ namespace test {
 TestMinidumpMemoryWriter::TestMinidumpMemoryWriter(uint64_t base_address,
                                                    size_t size,
                                                    uint8_t value)
-    : MinidumpMemoryWriter(),
-      base_address_(base_address),
-      expected_offset_(-1),
-      size_(size),
-      value_(value) {
+    : SnapshotMinidumpMemoryWriter(&test_snapshot_) {
+  test_snapshot_.SetAddress(base_address);
+  test_snapshot_.SetSize(size);
+  test_snapshot_.SetValue(value);
 }
 
 TestMinidumpMemoryWriter::~TestMinidumpMemoryWriter() {
-}
-
-uint64_t TestMinidumpMemoryWriter::MemoryRangeBaseAddress() const {
-  EXPECT_EQ(state(), kStateFrozen);
-  return base_address_;
-}
-
-size_t TestMinidumpMemoryWriter::MemoryRangeSize() const {
-  EXPECT_GE(state(), kStateFrozen);
-  return size_;
-}
-
-bool TestMinidumpMemoryWriter::WillWriteAtOffsetImpl(FileOffset offset) {
-  EXPECT_EQ(state(), kStateFrozen);
-  expected_offset_ = offset;
-  bool rv = MinidumpMemoryWriter::WillWriteAtOffsetImpl(offset);
-  EXPECT_TRUE(rv);
-  return rv;
-}
-
-bool TestMinidumpMemoryWriter::WriteObject(FileWriterInterface* file_writer) {
-  EXPECT_EQ(state(), kStateWritable);
-  EXPECT_EQ(expected_offset_, file_writer->Seek(0, SEEK_CUR));
-
-  bool rv = true;
-  if (size_ > 0) {
-    std::string data(size_, value_);
-    rv = file_writer->Write(&data[0], size_);
-    EXPECT_TRUE(rv);
-  }
-
-  return rv;
 }
 
 void ExpectMinidumpMemoryDescriptor(

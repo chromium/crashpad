@@ -26,34 +26,19 @@
 #include "base/macros.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
+#include "snapshot/memory_snapshot.h"
 #include "util/file/file_io.h"
 #include "util/stdlib/pointer_container.h"
 
 namespace crashpad {
 
-class MemorySnapshot;
-
 //! \brief The base class for writers of memory ranges pointed to by
 //!     MINIDUMP_MEMORY_DESCRIPTOR objects in a minidump file.
-//!
-//! This is an abstract base class because users are expected to provide their
-//! own implementations that, when possible, obtain the memory contents
-//! on-demand in their WriteObject() methods. Memory ranges may be large, and
-//! the alternative construction would require the contents of multiple ranges
-//! to be held in memory simultaneously while a minidump file is being written.
-class MinidumpMemoryWriter : public internal::MinidumpWritable {
+class SnapshotMinidumpMemoryWriter : public internal::MinidumpWritable,
+                                     public MemorySnapshot::Delegate {
  public:
-  ~MinidumpMemoryWriter() override;
-
-  //! \brief Creates a concrete initialized MinidumpMemoryWriter based on \a
-  //!     memory_snapshot.
-  //!
-  //! \param[in] memory_snapshot The memory snapshot to use as source data.
-  //!
-  //! \return An object of a MinidumpMemoryWriter subclass initialized using the
-  //!     source data in \a memory_snapshot.
-  static std::unique_ptr<MinidumpMemoryWriter> CreateFromSnapshot(
-      const MemorySnapshot* memory_snapshot);
+  explicit SnapshotMinidumpMemoryWriter(const MemorySnapshot* memory_snapshot);
+  ~SnapshotMinidumpMemoryWriter() override;
 
   //! \brief Returns a MINIDUMP_MEMORY_DESCRIPTOR referencing the data that this
   //!     object writes.
@@ -76,24 +61,14 @@ class MinidumpMemoryWriter : public internal::MinidumpWritable {
   //! \note Valid in #kStateFrozen or any preceding state.
   void RegisterMemoryDescriptor(MINIDUMP_MEMORY_DESCRIPTOR* memory_descriptor);
 
- protected:
-  MinidumpMemoryWriter();
-
-  //! \brief Returns the base address of the memory region in the address space
-  //!     of the process that the snapshot describes.
-  //!
-  //! \note This method will only be called in #kStateFrozen.
-  virtual uint64_t MemoryRangeBaseAddress() const = 0;
-
-  //! \brief Returns the size of the memory region in bytes.
-  //!
-  //! \note This method will only be called in #kStateFrozen or a subsequent
-  //!     state.
-  virtual size_t MemoryRangeSize() const = 0;
+ private:
+  // MemorySnapshot::Delegate:
+  bool MemorySnapshotDelegateRead(void* data, size_t size) override;
 
   // MinidumpWritable:
   bool Freeze() override;
   size_t SizeOfObject() final;
+  bool WriteObject(FileWriterInterface* file_writer) override;
 
   //! \brief Returns the object’s desired byte-boundary alignment.
   //!
@@ -119,13 +94,18 @@ class MinidumpMemoryWriter : public internal::MinidumpWritable {
   //! \note Valid in any state.
   Phase WritePhase() final;
 
- private:
+  //! \brief Gets the underlying memory snapshot that the memory writer will
+  //!     write to the minidump.
+  const MemorySnapshot& UnderlyingSnapshot() const { return *memory_snapshot_; }
+
   MINIDUMP_MEMORY_DESCRIPTOR memory_descriptor_;
 
   // weak
   std::vector<MINIDUMP_MEMORY_DESCRIPTOR*> registered_memory_descriptors_;
+  const MemorySnapshot* memory_snapshot_;
+  FileWriterInterface* file_writer_;
 
-  DISALLOW_COPY_AND_ASSIGN(MinidumpMemoryWriter);
+  DISALLOW_COPY_AND_ASSIGN(SnapshotMinidumpMemoryWriter);
 };
 
 //! \brief The writer for a MINIDUMP_MEMORY_LIST stream in a minidump file,
@@ -135,8 +115,8 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   MinidumpMemoryListWriter();
   ~MinidumpMemoryListWriter() override;
 
-  //! \brief Adds a concrete initialized MinidumpMemoryWriter for each memory
-  //!     snapshot in \a memory_snapshots to the MINIDUMP_MEMORY_LIST.
+  //! \brief Adds a concrete initialized SnapshotMinidumpMemoryWriter for each
+  //!     memory snapshot in \a memory_snapshots to the MINIDUMP_MEMORY_LIST.
   //!
   //! Memory snapshots are added in the fashion of AddMemory().
   //!
@@ -146,15 +126,15 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   void AddFromSnapshot(
       const std::vector<const MemorySnapshot*>& memory_snapshots);
 
-  //! \brief Adds a MinidumpMemoryWriter to the MINIDUMP_MEMORY_LIST.
+  //! \brief Adds a SnapshotMinidumpMemoryWriter to the MINIDUMP_MEMORY_LIST.
   //!
   //! This object takes ownership of \a memory_writer and becomes its parent in
   //! the overall tree of internal::MinidumpWritable objects.
   //!
   //! \note Valid in #kStateMutable.
-  void AddMemory(std::unique_ptr<MinidumpMemoryWriter> memory_writer);
+  void AddMemory(std::unique_ptr<SnapshotMinidumpMemoryWriter> memory_writer);
 
-  //! \brief Adds a MinidumpMemoryWriter that’s a child of another
+  //! \brief Adds a SnapshotMinidumpMemoryWriter that’s a child of another
   //!     internal::MinidumpWritable object to the MINIDUMP_MEMORY_LIST.
   //!
   //! \a memory_writer does not become a child of this object, but the
@@ -163,12 +143,12 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   //! internal::MinidumpWritable tree.
   //!
   //! This method exists to be called by objects that have their own
-  //! MinidumpMemoryWriter children but wish for them to also appear in the
-  //! minidump file’s MINIDUMP_MEMORY_LIST. MinidumpThreadWriter, which has a
-  //! MinidumpMemoryWriter for thread stack memory, is an example.
+  //! SnapshotMinidumpMemoryWriter children but wish for them to also appear in
+  //! the minidump file’s MINIDUMP_MEMORY_LIST. MinidumpThreadWriter, which has
+  //! a SnapshotMinidumpMemoryWriter for thread stack memory, is an example.
   //!
   //! \note Valid in #kStateMutable.
-  void AddExtraMemory(MinidumpMemoryWriter* memory_writer);
+  void AddExtraMemory(SnapshotMinidumpMemoryWriter* memory_writer);
 
  protected:
   // MinidumpWritable:
@@ -181,8 +161,8 @@ class MinidumpMemoryListWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  std::vector<MinidumpMemoryWriter*> memory_writers_;  // weak
-  PointerVector<MinidumpMemoryWriter> children_;
+  std::vector<SnapshotMinidumpMemoryWriter*> memory_writers_;  // weak
+  PointerVector<SnapshotMinidumpMemoryWriter> children_;
   MINIDUMP_MEMORY_LIST memory_list_base_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpMemoryListWriter);
