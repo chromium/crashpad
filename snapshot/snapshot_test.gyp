@@ -52,6 +52,7 @@
       'target_name': 'crashpad_snapshot_test',
       'type': 'executable',
       'dependencies': [
+        'crashpad_snapshot_test_lib',
         'crashpad_snapshot_test_module',
         'snapshot.gyp:crashpad_snapshot',
         'snapshot.gyp:crashpad_snapshot_api',
@@ -68,6 +69,7 @@
       ],
       'sources': [
         'cpu_context_test.cc',
+        'memory_snapshot_test.cc',
         'crashpad_info_client_options_test.cc',
         'api/module_annotations_win_test.cc',
         'mac/cpu_context_mac_test.cc',
