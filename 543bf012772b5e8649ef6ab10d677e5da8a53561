@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8531e618_8b12b55b",
+        "filename": "minidump/minidump_memory_writer.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-08-25T22:02:46Z",
+      "side": 1,
+      "message": "Huh, I didn\u0027t notice that. Weird!",
+      "parentUuid": "056ed60d_96b14cdc",
+      "revId": "543bf012772b5e8649ef6ab10d677e5da8a53561",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "056ed60d_b6b448cc",
         "filename": "minidump/minidump_memory_writer.h",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-25T21:18:02Z",
       "side": 1,
       "message": "I believe that this can be private. It’s really simple, actually, so maybe you can just use memory_snapshot_ in-line at the few points of use.",
+      "revId": "543bf012772b5e8649ef6ab10d677e5da8a53561",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8531e618_cb44bd5b",
+        "filename": "minidump/minidump_memory_writer.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-08-25T22:02:46Z",
+      "side": 1,
+      "message": "It can be here, but the next CL has MinidumpMemoryListWriter using it to sort, merge, etc. I guess it could be friended in that CL as SnapshotMinidumpMemoryWriter is closely related to MinidumpMemoryListWriter.",
+      "parentUuid": "056ed60d_b6b448cc",
       "revId": "543bf012772b5e8649ef6ab10d677e5da8a53561",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
