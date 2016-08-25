@@ -16,7 +16,6 @@
 
 #include "snapshot/win/memory_snapshot_win.h"
 
-
 namespace crashpad {
 namespace internal {
 
@@ -65,6 +64,23 @@ bool MemorySnapshotWin::Read(Delegate* delegate) const {
     return false;
   }
   return delegate->MemorySnapshotDelegateRead(buffer.get(), size_);
+}
+
+const MemorySnapshot* MemorySnapshotWin::MergeWithOtherSnapshot(
+    const MemorySnapshot* other) const {
+  const MemorySnapshotWin* other_as_memory_snapshot_win =
+      reinterpret_cast<const MemorySnapshotWin*>(other);
+  if (process_reader_ != other_as_memory_snapshot_win->process_reader_) {
+    LOG(ERROR) << "different process_reader_ for snapshots";
+    return nullptr;
+  }
+  CheckedRange<uint64_t, size_t> merged(0, 0);
+  if (!LoggingDetermineMergedRange(this, other, &merged))
+    return nullptr;
+
+  std::unique_ptr<MemorySnapshotWin> result(new MemorySnapshotWin());
+  result->Initialize(this->process_reader_, merged.base(), merged.size());
+  return result.release();
 }
 
 }  // namespace internal
