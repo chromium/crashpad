@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d14e450b_bf40f357",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T22:11:17Z",
+      "side": 1,
+      "message": "Add a test for this. The test can be very stupid, I mostly just care that it can return zero and some reasonable nonzero number. (And maybe one, too. One isn’t what I had in mind for “reasonable,” but it’s good to check.) You can even do this all on the same FileHandle without closing it.",
+      "revId": "e5a0f4c30b1335c1ece079e662b3b1aa47fb93c7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
