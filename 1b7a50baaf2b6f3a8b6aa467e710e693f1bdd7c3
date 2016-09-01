@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d14e450b_1fa24749",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 7
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T21:52:50Z",
+      "side": 1,
+      "message": "Should we host the xml that says what Crashpad histograms are all about in Crashpad itself? Seems like a good idea, but I don’t know whether the infrastructure on the Chrome side can include someone else’s XML. Best to ask Alexei or someone from that side.",
+      "range": {
+        "startLine": 362,
+        "startChar": 27,
+        "endLine": 362,
+        "endChar": 62
+      },
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d14e450b_3f8863cb",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 7
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T21:52:50Z",
+      "side": 1,
+      "message": "Should the histogram name say anything about size?",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d14e450b_bfb2339c",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T21:52:50Z",
+      "side": 1,
+      "message": "It’s too bad that every database implementation would need to implement this event. Is there a better common place to put it?",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d14e450b_7f7eebb9",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T21:52:50Z",
+      "side": 1,
+      "message": "“File does not exist” is interesting to call out for a FileHandle-taking function. I’d just go with the generic “if an error occurs”.",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d14e450b_1f8b27cb",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T21:52:50Z",
+      "side": 1,
+      "message": "On that note, we are going to get confused between this and a hypothetical path-taking variant. Would we sin and have a const FilePath\u0026 overload for that? Or should we rename this? LoggingFileHandleSize() doesn’t sound great because it’s not the size of the handle, and LoggingFileSizeForFileHandle() is too wordy.",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d14e450b_9f9657f5",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T21:52:50Z",
+      "side": 1,
+      "message": "!\u003d 0",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
