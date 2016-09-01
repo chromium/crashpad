@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "914bed45_d21c04d9",
+        "filename": "util/file/file_io_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T23:44:04Z",
+      "side": 1,
+      "message": "ASSERT_NE(kInvalidFileHandle, file_handle);",
+      "revId": "e37c2a1be86a1c87e2db35dcc265faa2baef1def",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "914bed45_b21780b2",
+        "filename": "util/file/file_io_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T23:44:04Z",
+      "side": 1,
+      "message": "I can be const.",
+      "range": {
+        "startLine": 320,
+        "startChar": 7,
+        "endLine": 320,
+        "endChar": 11
+      },
+      "revId": "e37c2a1be86a1c87e2db35dcc265faa2baef1def",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "914bed45_f2210810",
+        "filename": "util/file/file_io_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T23:44:04Z",
+      "side": 1,
+      "message": "Write a few more bytes so that you’re testing more than just 0 and 1 (this is what I said before, but it was probably not totally clear).",
+      "revId": "e37c2a1be86a1c87e2db35dcc265faa2baef1def",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
