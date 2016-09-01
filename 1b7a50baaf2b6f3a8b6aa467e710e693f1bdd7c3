@@ -42,6 +42,42 @@
     },
     {
       "key": {
+        "uuid": "71dd999f_6c31d35d",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 7
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-01T22:06:08Z",
+      "side": 1,
+      "message": "Probably! And I got it wrong (off by a factor of 1024) so I\u0027ll call it something more sensible.",
+      "parentUuid": "d14e450b_3f8863cb",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71dd999f_2ce07bb9",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 7
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-01T22:06:08Z",
+      "side": 1,
+      "message": "It looks like they just have to manually be kept in sync: https://bugs.chromium.org/p/crashpad/issues/detail?id\u003d100#c17.",
+      "parentUuid": "d14e450b_1fa24749",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d14e450b_bfb2339c",
         "filename": "client/crash_report_database_win.cc",
         "patchSetId": 7
@@ -53,6 +89,24 @@
       "writtenOn": "2016-09-01T21:52:50Z",
       "side": 1,
       "message": "It’s too bad that every database implementation would need to implement this event. Is there a better common place to put it?",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71dd999f_ace58b9f",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-01T22:06:08Z",
+      "side": 1,
+      "message": "I wondered about that too. The exception handlers that call this also aren\u0027t shared code, and there\u0027s other callers (crashpad_database_util). It could call out to a helper, but that doesn\u0027t seem much better, since then all implementations still have to call that.",
+      "parentUuid": "d14e450b_bfb2339c",
       "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -76,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "71dd999f_ccb27f9d",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-01T22:06:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d14e450b_7f7eebb9",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d14e450b_1f8b27cb",
         "filename": "util/file/file_io.h",
         "patchSetId": 7
@@ -93,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "71dd999f_ac5aab53",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-01T22:06:08Z",
+      "side": 1,
+      "message": "LoggingFileSizeByHandle()?",
+      "parentUuid": "d14e450b_1f8b27cb",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d14e450b_9f9657f5",
         "filename": "util/file/file_io_posix.cc",
         "patchSetId": 7
@@ -104,6 +194,24 @@
       "writtenOn": "2016-09-01T21:52:50Z",
       "side": 1,
       "message": "!\u003d 0",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71dd999f_2cfa3b3e",
+        "filename": "util/file/file_io_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-01T22:06:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d14e450b_9f9657f5",
       "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
