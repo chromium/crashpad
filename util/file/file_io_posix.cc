@@ -187,4 +187,13 @@ bool LoggingCloseFile(FileHandle file) {
   return rv == 0;
 }
 
+FileOffset LoggingFileSize(FileHandle file) {
+  struct stat st;
+  if (fstat(file, &st)) {
+    PLOG(ERROR) << "fstat";
+    return -1;
+  }
+  return st.st_size;
+}
+
 }  // namespace crashpad
