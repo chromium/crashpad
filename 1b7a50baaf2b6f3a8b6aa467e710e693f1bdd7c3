@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "914bed45_12276c23",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T23:44:04Z",
+      "side": 1,
+      "message": "\u003e Maybe as we add more of them we\u0027ll see a better way to share more. Perhaps calling out is\n\u003e actually better to at least centralize the strings.\n\nYour call. I’m OK with this as-is now for reasons of simplicity, but I’d be OK with that too for reasons of sharing the string and the /1024.",
+      "parentUuid": "71dd999f_4c068fc0",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d14e450b_7f7eebb9",
         "filename": "util/file/file_io.h",
         "patchSetId": 7
