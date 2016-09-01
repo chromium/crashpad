@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "71dd999f_4c068fc0",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-01T22:20:01Z",
+      "side": 1,
+      "message": "Maybe as we add more of them we\u0027ll see a better way to share more. Perhaps calling out is actually better to at least centralize the strings.",
+      "parentUuid": "d14e450b_ff467b74",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d14e450b_7f7eebb9",
         "filename": "util/file/file_io.h",
         "patchSetId": 7
