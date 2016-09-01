@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "d14e450b_ff467b74",
+        "filename": "client/crash_report_database_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-01T22:11:17Z",
+      "side": 1,
+      "message": "\u003e I wondered about that too. The exception handlers that call this also aren\u0027t shared code,\n\u003e and there\u0027s other callers (crashpad_database_util). It could call out to a helper, but that\n\u003e doesn\u0027t seem much better, since then all implementations still have to call that.\n\nThat’s too bad. :(",
+      "parentUuid": "71dd999f_ace58b9f",
+      "revId": "1b7a50baaf2b6f3a8b6aa467e710e693f1bdd7c3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d14e450b_7f7eebb9",
         "filename": "util/file/file_io.h",
         "patchSetId": 7
