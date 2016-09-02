@@ -24,6 +24,7 @@
 #include <utility>
 
 #include "base/logging.h"
+#include "base/metrics/histogram_macros.h"
 #include "base/numerics/safe_math.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
@@ -677,6 +678,10 @@ OperationStatus CrashReportDatabaseWin::FinishedWritingCrashReport(
                                     time(nullptr),
                                     ReportState::kPending));
   *uuid = scoped_report->uuid;
+
+  UMA_HISTOGRAM_MEMORY_KB("Crashpad.CrashReportSizeKB",
+                          LoggingFileSizeByHandle(handle.get()) / 1024);
+
   return kNoError;
 }
 

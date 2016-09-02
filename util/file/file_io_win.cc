@@ -236,4 +236,13 @@ bool LoggingCloseFile(FileHandle file) {
   return !!rv;
 }
 
+FileOffset LoggingFileSizeByHandle(FileHandle file) {
+  LARGE_INTEGER file_size;
+  if (!GetFileSizeEx(file, &file_size)) {
+    PLOG(ERROR) << "GetFileSizeEx";
+    return -1;
+  }
+  return file_size.QuadPart;
+}
+
 }  // namespace crashpad

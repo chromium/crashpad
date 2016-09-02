@@ -26,6 +26,7 @@
 
 #include "base/logging.h"
 #include "base/mac/scoped_nsautorelease_pool.h"
+#include "base/metrics/histogram_macros.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/scoped_generic.h"
 #include "base/strings/string_piece.h"
@@ -357,6 +358,9 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
                 << new_path.value();
     return kFileSystemError;
   }
+
+  UMA_HISTOGRAM_MEMORY_KB("Crashpad.CrashReportSizeKB",
+                          LoggingFileSizeByHandle(handle.get()) / 1024);
 
   return kNoError;
 }
