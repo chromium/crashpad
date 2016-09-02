@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "914bed45_92435cf6",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-02T18:29:20Z",
+      "side": 1,
+      "message": "OK. I’d have gone for power-of-2 sizes. And I’m worried that ~3MB might be a little short.",
+      "parentUuid": "71dd999f_a859ee31",
+      "revId": "696d8dc57cbaa1b60786f454f25c948e4d15e2f7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "914bed45_921c3c2a",
         "filename": "util/misc/metrics.h",
         "patchSetId": 2
