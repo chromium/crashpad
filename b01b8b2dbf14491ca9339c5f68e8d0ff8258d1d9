@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "914bed45_7206f8c0",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-02T19:11:31Z",
+      "side": 1,
+      "message": "The buckets are each worth 102kB this way, that seems a little large. Should we have more buckets? 320 16kB ones or 256 20kB ones or something more along those lines?",
+      "revId": "b01b8b2dbf14491ca9339c5f68e8d0ff8258d1d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
