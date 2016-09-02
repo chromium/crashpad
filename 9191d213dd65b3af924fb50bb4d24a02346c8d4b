@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71dd999f_b54cabc6",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-02T16:44:16Z",
+      "side": 1,
+      "message": "Also changed this from _MEMORY_KB to _CUSTOM_COUNTS, as MEMORY_KB is in the range 1000..500000 (KB, so too big for us).",
+      "revId": "9191d213dd65b3af924fb50bb4d24a02346c8d4b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
