@@ -92,6 +92,8 @@
         'misc/initialization_state.h',
         'misc/initialization_state_dcheck.cc',
         'misc/initialization_state_dcheck.h',
+        'misc/metrics.cc',
+        'misc/metrics.h',
         'misc/pdb_structures.cc',
         'misc/pdb_structures.h',
         'misc/random_string.cc',
