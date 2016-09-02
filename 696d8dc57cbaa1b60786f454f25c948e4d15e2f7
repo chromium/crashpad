@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "914bed45_b2214063",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-02T18:07:19Z",
+      "side": 1,
+      "message": "This is different than the MEMORY_KB that you were using before. Why?",
+      "revId": "696d8dc57cbaa1b60786f454f25c948e4d15e2f7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "914bed45_921c3c2a",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-02T18:07:19Z",
+      "side": 1,
+      "message": "\\brief me and CrashReportSize()",
+      "revId": "696d8dc57cbaa1b60786f454f25c948e4d15e2f7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "914bed45_7281982e",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-02T18:07:19Z",
+      "side": 1,
+      "message": "private: DISALLOW_IMPLICIT_CONSTRUCTORS",
+      "revId": "696d8dc57cbaa1b60786f454f25c948e4d15e2f7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
