@@ -24,13 +24,13 @@
 #include <utility>
 
 #include "base/logging.h"
-#include "base/metrics/histogram_macros.h"
 #include "base/numerics/safe_math.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "client/settings.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/misc/metrics.h"
 
 namespace crashpad {
 
@@ -679,8 +679,7 @@ OperationStatus CrashReportDatabaseWin::FinishedWritingCrashReport(
                                     ReportState::kPending));
   *uuid = scoped_report->uuid;
 
-  UMA_HISTOGRAM_MEMORY_KB("Crashpad.CrashReportSizeKB",
-                          LoggingFileSizeByHandle(handle.get()) / 1024);
+  Metrics::CrashReportSize(handle.get());
 
   return kNoError;
 }

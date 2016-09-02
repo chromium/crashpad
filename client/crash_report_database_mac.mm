@@ -26,7 +26,6 @@
 
 #include "base/logging.h"
 #include "base/mac/scoped_nsautorelease_pool.h"
-#include "base/metrics/histogram_macros.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/scoped_generic.h"
 #include "base/strings/string_piece.h"
@@ -36,6 +35,7 @@
 #include "util/file/file_io.h"
 #include "util/mac/xattr.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/misc/metrics.h"
 
 namespace crashpad {
 
@@ -359,8 +359,7 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
     return kFileSystemError;
   }
 
-  UMA_HISTOGRAM_MEMORY_KB("Crashpad.CrashReportSizeKB",
-                          LoggingFileSizeByHandle(handle.get()) / 1024);
+  Metrics::CrashReportSize(report->handle);
 
   return kNoError;
 }
