@@ -16,6 +16,7 @@
 
 #include <fcntl.h>
 #include <sys/file.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 #include "base/files/file_path.h"
@@ -185,6 +186,15 @@ bool LoggingCloseFile(FileHandle file) {
   int rv = IGNORE_EINTR(close(file));
   PLOG_IF(ERROR, rv != 0) << "close";
   return rv == 0;
+}
+
+FileOffset LoggingFileSizeByHandle(FileHandle file) {
+  struct stat st;
+  if (fstat(file, &st) != 0) {
+    PLOG(ERROR) << "fstat";
+    return -1;
+  }
+  return st.st_size;
 }
 
 }  // namespace crashpad

@@ -306,6 +306,24 @@ TEST(FileIO, SharedVsExclusives) {
   LockingTest(FileLocking::kShared, FileLocking::kExclusive);
 }
 
+TEST(FileIO, FileSizeByHandle) {
+  EXPECT_EQ(-1, LoggingFileSizeByHandle(kInvalidFileHandle));
+
+  ScopedTempDir temp_dir;
+  base::FilePath file_path =
+      temp_dir.path().Append(FILE_PATH_LITERAL("file_size"));
+
+  ScopedFileHandle file_handle(LoggingOpenFileForWrite(
+      file_path, FileWriteMode::kCreateOrFail, FilePermissions::kOwnerOnly));
+  ASSERT_NE(kInvalidFileHandle, file_handle.get());
+  EXPECT_EQ(0, LoggingFileSizeByHandle(file_handle.get()));
+
+  const char data[] = "zippyzap";
+  ASSERT_TRUE(LoggingWriteFile(file_handle.get(), &data, sizeof(data)));
+
+  EXPECT_EQ(9, LoggingFileSizeByHandle(file_handle.get()));
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
