@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "71dd999f_4bb78c44",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-02T19:07:26Z",
+      "side": 1,
+      "message": "How about 5*1024*1024? The last bucket is \u003e\u003d max so if it\u0027s overfull, we\u0027ll see that and can adjust.",
+      "parentUuid": "914bed45_92435cf6",
+      "revId": "696d8dc57cbaa1b60786f454f25c948e4d15e2f7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "914bed45_921c3c2a",
         "filename": "util/misc/metrics.h",
         "patchSetId": 2
