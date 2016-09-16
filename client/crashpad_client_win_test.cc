@@ -31,6 +31,7 @@ void StartAndUseHandler() {
   CrashpadClient client;
   ASSERT_TRUE(client.StartHandler(handler_path,
                                   temp_dir.path(),
+                                  base::FilePath(),
                                   "",
                                   std::map<std::string, std::string>(),
                                   std::vector<std::string>(),

@@ -178,6 +178,7 @@ int CrashyMain(int argc, wchar_t* argv[]) {
   } else if (argc == 3) {
     if (!client.StartHandler(base::FilePath(argv[1]),
                              base::FilePath(argv[2]),
+                             base::FilePath(),
                              std::string(),
                              std::map<std::string, std::string>(),
                              std::vector<std::string>(),

@@ -200,6 +200,7 @@ CrashpadClient::~CrashpadClient() {
 bool CrashpadClient::StartHandler(
     const base::FilePath& handler,
     const base::FilePath& database,
+    const base::FilePath& metrics_dir,
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
@@ -231,6 +232,11 @@ bool CrashpadClient::StartHandler(
     AppendCommandLineArgument(FormatArgumentString("database",
                                                    database.value()),
                               &command_line);
+  }
+  if (!metrics_dir.value().empty()) {
+    AppendCommandLineArgument(
+        FormatArgumentString("metrics-dir", metrics_dir.value()),
+        &command_line);
   }
   if (!url.empty()) {
     AppendCommandLineArgument(FormatArgumentString("url",

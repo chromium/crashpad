@@ -55,6 +55,9 @@ class CrashpadClient {
   //! \param[in] handler The path to a Crashpad handler executable.
   //! \param[in] database The path to a Crashpad database. The handler will be
   //!     started with this path as its `--database` argument.
+  //! \param[in] metrics_dir The path to an already existing directory where
+  //!     metrics files can be stored. The handler will be started with this
+  //!     path as its `--metrics-dir` argument.
   //! \param[in] url The URL of an upload server. The handler will be started
   //!     with this URL as its `--url` argument.
   //! \param[in] annotations Process annotations to set in each crash report.
@@ -72,6 +75,7 @@ class CrashpadClient {
   //! \return `true` on success, `false` on failure with a message logged.
   bool StartHandler(const base::FilePath& handler,
                     const base::FilePath& database,
+                    const base::FilePath& metrics_dir,
                     const std::string& url,
                     const std::map<std::string, std::string>& annotations,
                     const std::vector<std::string>& arguments,

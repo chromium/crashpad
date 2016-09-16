@@ -27,6 +27,7 @@
 #include "base/files/file_path.h"
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
+#include "base/metrics/persistent_histogram_allocator.h"
 #include "base/scoped_generic.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -78,6 +79,7 @@ void Usage(const base::FilePath& me) {
 "      --handshake-handle=HANDLE\n"
 "                              create a new pipe and send its name via HANDLE\n"
 #endif  // OS_MACOSX
+"      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"
 "      --no-rate-limit         don't rate limit crash uploads\n"
 #if defined(OS_MACOSX)
 "      --reset-own-crash-exception-port-to-system-default\n"
@@ -136,6 +138,7 @@ int HandlerMain(int argc, char* argv[]) {
 #elif defined(OS_WIN)
     kOptionHandshakeHandle,
 #endif  // OS_MACOSX
+    kOptionMetrics,
     kOptionNoRateLimit,
 #if defined(OS_MACOSX)
     kOptionResetOwnCrashExceptionPortToSystemDefault,
@@ -153,6 +156,7 @@ int HandlerMain(int argc, char* argv[]) {
     std::map<std::string, std::string> annotations;
     std::string url;
     const char* database;
+    const char* metrics;
 #if defined(OS_MACOSX)
     int handshake_fd;
     std::string mach_service;
@@ -179,6 +183,7 @@ int HandlerMain(int argc, char* argv[]) {
 #elif defined(OS_WIN)
       {"handshake-handle", required_argument, nullptr, kOptionHandshakeHandle},
 #endif  // OS_MACOSX
+      {"metrics-dir", required_argument, nullptr, kOptionMetrics},
       {"no-rate-limit", no_argument, nullptr, kOptionNoRateLimit},
 #if defined(OS_MACOSX)
       {"reset-own-crash-exception-port-to-system-default",
@@ -243,6 +248,10 @@ int HandlerMain(int argc, char* argv[]) {
         break;
       }
 #endif  // OS_MACOSX
+      case kOptionMetrics: {
+        options.metrics = optarg;
+        break;
+      }
       case kOptionNoRateLimit: {
         options.rate_limit = false;
         break;
@@ -386,6 +395,19 @@ int HandlerMain(int argc, char* argv[]) {
   }
 #endif  // OS_MACOSX
 
+  base::GlobalHistogramAllocator* histogram_allocator = nullptr;
+  if (options.metrics) {
+    const base::FilePath metrics_dir(
+        ToolSupport::CommandLineArgumentToFilePathStringType(options.metrics));
+    static const char kMetricsName[] = "CrashpadMetrics";
+    const size_t kMetricsFileSize = 1 << 20;
+    if (base::GlobalHistogramAllocator::CreateWithActiveFileInDir(
+            metrics_dir, kMetricsFileSize, 0, kMetricsName)) {
+      histogram_allocator = base::GlobalHistogramAllocator::Get();
+      histogram_allocator->CreateTrackingHistograms(kMetricsName);
+    }
+  }
+
   std::unique_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(
       base::FilePath(ToolSupport::CommandLineArgumentToFilePathStringType(
           options.database))));
@@ -411,6 +433,9 @@ int HandlerMain(int argc, char* argv[]) {
 
   upload_thread.Stop();
   prune_thread.Stop();
+
+  if (histogram_allocator)
+    histogram_allocator->DeletePersistentLocation();
 
   return EXIT_SUCCESS;
 }
