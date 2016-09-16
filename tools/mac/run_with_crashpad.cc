@@ -164,6 +164,7 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
   CrashpadClient crashpad_client;
   if (!crashpad_client.StartHandler(base::FilePath(options.handler),
                                     base::FilePath(options.database),
+                                    base::FilePath(),
                                     options.url,
                                     options.annotations,
                                     options.arguments,
