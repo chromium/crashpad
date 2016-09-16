@@ -121,6 +121,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
   static base::mac::ScopedMachSendRight InitialStart(
       const base::FilePath& handler,
       const base::FilePath& database,
+      const base::FilePath& metrics_dir,
       const std::string& url,
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
@@ -159,6 +160,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
 
     if (!CommonStart(handler,
                      database,
+                     metrics_dir,
                      url,
                      annotations,
                      arguments,
@@ -170,7 +172,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
 
     if (handler_restarter &&
         handler_restarter->StartRestartThread(
-            handler, database, url, annotations, arguments)) {
+            handler, database, metrics_dir, url, annotations, arguments)) {
       // The thread owns the object now.
       ignore_result(handler_restarter.release());
     }
@@ -201,6 +203,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
     // be called again for another try.
     CommonStart(handler_,
                 database_,
+                metrics_dir_,
                 url_,
                 annotations_,
                 arguments_,
@@ -216,6 +219,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
       : NotifyServer::DefaultInterface(),
         handler_(),
         database_(),
+        metrics_dir_(),
         url_(),
         annotations_(),
         arguments_(),
@@ -244,6 +248,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
   //!     rendezvous with it via ChildPortHandshake.
   static bool CommonStart(const base::FilePath& handler,
                           const base::FilePath& database,
+                          const base::FilePath& metrics_dir,
                           const std::string& url,
                           const std::map<std::string, std::string>& annotations,
                           const std::vector<std::string>& arguments,
@@ -319,6 +324,9 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
     }
     if (!database.value().empty()) {
       argv.push_back(FormatArgumentString("database", database.value()));
+    }
+    if (!metrics_dir.value().empty()) {
+      argv.push_back(FormatArgumentString("metrics-dir", metrics_dir.value()));
     }
     if (!url.empty()) {
       argv.push_back(FormatArgumentString("url", url));
@@ -445,11 +453,13 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
 
   bool StartRestartThread(const base::FilePath& handler,
                           const base::FilePath& database,
+                          const base::FilePath& metrics_dir,
                           const std::string& url,
                           const std::map<std::string, std::string>& annotations,
                           const std::vector<std::string>& arguments) {
     handler_ = handler;
     database_ = database;
+    metrics_dir_ = metrics_dir;
     url_ = url;
     annotations_ = annotations;
     arguments_ = arguments;
@@ -501,6 +511,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
 
   base::FilePath handler_;
   base::FilePath database_;
+  base::FilePath metrics_dir_;
   std::string url_;
   std::map<std::string, std::string> annotations_;
   std::vector<std::string> arguments_;
@@ -522,6 +533,7 @@ CrashpadClient::~CrashpadClient() {
 bool CrashpadClient::StartHandler(
     const base::FilePath& handler,
     const base::FilePath& database,
+    const base::FilePath& metrics_dir,
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
@@ -534,6 +546,7 @@ bool CrashpadClient::StartHandler(
   base::mac::ScopedMachSendRight exception_port(
       HandlerStarter::InitialStart(handler,
                                    database,
+                                   metrics_dir,
                                    url,
                                    annotations,
                                    arguments,
