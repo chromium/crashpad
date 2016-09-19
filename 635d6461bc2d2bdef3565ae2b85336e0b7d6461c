@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ab415e2d_bf61e837",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T18:42:37Z",
+      "side": 1,
+      "message": "I think the idea was that we can then assign an OS-specific enum type to OS-specific histograms similar to e.g. https://cs.chromium.org/chromium/src/tools/metrics/histograms/histograms.xml?q\u003dcrashexitcodes+file:histograms.xml\u0026sq\u003dpackage:chromium\u0026l\u003d74485\u0026dr\u003dC so that on the histogram dashboard, we\u0027ll be able to see \"nice\" names for the exceptions rather than just the numeric value.",
+      "parentUuid": "30695fe5_1dcbb36f",
+      "revId": "635d6461bc2d2bdef3565ae2b85336e0b7d6461c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30695fe5_5dd12b1d",
         "filename": "util/misc/metrics.h",
         "patchSetId": 2
