@@ -32,6 +32,7 @@
 #include "util/mach/mach_message.h"
 #include "util/mach/scoped_task_suspend.h"
 #include "util/mach/symbolic_constants_mach.h"
+#include "util/misc/metrics.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 
@@ -64,6 +65,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     mach_msg_type_number_t* new_state_count,
     const mach_msg_trailer_t* trailer,
     bool* destroy_complex_request) {
+  Metrics::ExceptionEncountered();
+  Metrics::ExceptionCode(exception);
   *destroy_complex_request = true;
 
   // The expected behavior is EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
@@ -74,6 +77,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
         "unexpected exception behavior %s, rejecting",
         ExceptionBehaviorToString(
             behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str());
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kUnexpectedExceptionBehavior);
     return KERN_FAILURE;
   } else if (behavior != (EXCEPTION_STATE_IDENTITY | kMachExceptionCodes)) {
     LOG(WARNING) << base::StringPrintf(
@@ -84,6 +89,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
 
   if (task == mach_task_self()) {
     LOG(ERROR) << "cannot suspend myself";
+    Metrics::ExceptionCaptureResult(
+        Metrics::CaptureResult::kFailedDueToSuspendSelf);
     return KERN_FAILURE;
   }
 
@@ -91,6 +98,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
 
   ProcessSnapshotMac process_snapshot;
   if (!process_snapshot.Initialize(task)) {
+    Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
     return KERN_FAILURE;
   }
 
@@ -126,6 +134,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
                                               *flavor,
                                               old_state,
                                               old_state_count)) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kExceptionInitializationFailed);
       return KERN_FAILURE;
     }
 
@@ -145,6 +155,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     CrashReportDatabase::OperationStatus database_status =
         database_->PrepareNewCrashReport(&new_report);
     if (database_status != CrashReportDatabase::kNoError) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kPrepareNewCrashReportFailed);
       return KERN_FAILURE;
     }
 
@@ -158,6 +170,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     MinidumpFileWriter minidump;
     minidump.InitializeFromSnapshot(&process_snapshot);
     if (!minidump.WriteEverything(&file_writer)) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kMinidumpWriteFailed);
       return KERN_FAILURE;
     }
 
@@ -166,6 +180,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     UUID uuid;
     database_status = database_->FinishedWritingCrashReport(new_report, &uuid);
     if (database_status != CrashReportDatabase::kNoError) {
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
       return KERN_FAILURE;
     }
 
@@ -223,6 +239,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   ExcServerCopyState(
       behavior, old_state, old_state_count, new_state, new_state_count);
 
+  Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
   return ExcServerSuccessfulReturnValue(exception, behavior, false);
 }
 

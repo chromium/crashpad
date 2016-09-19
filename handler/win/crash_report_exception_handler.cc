@@ -20,6 +20,7 @@
 #include "minidump/minidump_file_writer.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
+#include "util/misc/metrics.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_process_suspend.h"
 
@@ -46,6 +47,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     WinVMAddress debug_critical_section_address) {
   const unsigned int kFailedTerminationCode = 0xffff7002;
 
+  Metrics::ExceptionEncountered();
+
   ScopedProcessSuspend suspend(process);
 
   ProcessSnapshotWin process_snapshot;
@@ -54,6 +57,7 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
                                    exception_information_address,
                                    debug_critical_section_address)) {
     LOG(WARNING) << "ProcessSnapshotWin::Initialize failed";
+    Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
     return kFailedTerminationCode;
   }
 
@@ -61,6 +65,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
   // can terminate the process with the correct exit code.
   const unsigned int termination_code =
       process_snapshot.Exception()->Exception();
+
+  Metrics::ExceptionCode(termination_code);
 
   CrashpadInfoClientOptions client_options;
   process_snapshot.GetCrashpadOptions(&client_options);
@@ -82,6 +88,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
         database_->PrepareNewCrashReport(&new_report);
     if (database_status != CrashReportDatabase::kNoError) {
       LOG(ERROR) << "PrepareNewCrashReport failed";
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kPrepareNewCrashReportFailed);
       return termination_code;
     }
 
@@ -96,6 +104,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     minidump.InitializeFromSnapshot(&process_snapshot);
     if (!minidump.WriteEverything(&file_writer)) {
       LOG(ERROR) << "WriteEverything failed";
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kMinidumpWriteFailed);
       return termination_code;
     }
 
@@ -105,12 +115,15 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     database_status = database_->FinishedWritingCrashReport(new_report, &uuid);
     if (database_status != CrashReportDatabase::kNoError) {
       LOG(ERROR) << "FinishedWritingCrashReport failed";
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
       return termination_code;
     }
 
     upload_thread_->ReportPending();
   }
 
+  Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
   return termination_code;
 }
 
