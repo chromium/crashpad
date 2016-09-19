@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ab415e2d_69b51282",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T17:25:32Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "30695fe5_3d74775f",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30695fe5_dd88db59",
         "filename": "util/misc/metrics.h",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-19T17:13:06Z",
       "side": 1,
       "message": "Say (doesn’t have to be in the \\brief) that this is Mac-specific.",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab415e2d_6968b2ee",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T17:25:32Z",
+      "side": 1,
+      "message": "Done. (I guess we should change all our \"Mac OS X\"s to \"macOS\"s too, but I stuck with what all the other docstrings are for now.)",
+      "parentUuid": "30695fe5_dd88db59",
       "revId": "07da507b2466afb52a00804d196f57eba59bf126",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ab415e2d_09400e5b",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T17:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30695fe5_fd859f40",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30695fe5_9d826336",
         "filename": "util/misc/metrics.h",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-19T17:13:06Z",
       "side": 1,
       "message": "Here too.",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab415e2d_2945ca6a",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T17:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30695fe5_9d826336",
       "revId": "07da507b2466afb52a00804d196f57eba59bf126",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ab415e2d_8954fe1a",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T17:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30695fe5_bd7f2737",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30695fe5_5d1e0b20",
         "filename": "util/misc/metrics.h",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2016-09-19T17:13:06Z",
       "side": 1,
       "message": "Can metrics values be uint32_t, which is what we use for minidump exception codes?\n\nIf metrics only provides for unsigned int, then it’s right to stick with that.",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab415e2d_a951ba2a",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T17:25:32Z",
+      "side": 1,
+      "message": "Hmm, just checked at https://cs.chromium.org/chromium/src/base/metrics/histogram_base.h?sq\u003dpackage:chromium\u0026dr\u003dCSs\u0026rcl\u003d1474269533\u0026l\u003d88 it\u0027s actually int32_t. Do you know what the right thing to do for \u003e 0x7fffffff is Will?",
+      "parentUuid": "30695fe5_5d1e0b20",
       "revId": "07da507b2466afb52a00804d196f57eba59bf126",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
