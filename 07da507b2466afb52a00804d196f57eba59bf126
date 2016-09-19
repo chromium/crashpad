@@ -37,6 +37,29 @@
     },
     {
       "key": {
+        "uuid": "ab415e2d_5cd652ec",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1160859
+      },
+      "writtenOn": "2016-09-19T17:46:54Z",
+      "side": 1,
+      "message": "these need to be added to histograms.xml",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 38
+      },
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30695fe5_dd88db59",
         "filename": "util/misc/metrics.h",
         "patchSetId": 4
