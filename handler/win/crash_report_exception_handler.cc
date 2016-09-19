@@ -14,6 +14,8 @@
 
 #include "handler/win/crash_report_exception_handler.h"
 
+#include <type_traits>
+
 #include "client/crash_report_database.h"
 #include "client/settings.h"
 #include "handler/crash_report_upload_thread.h"
@@ -65,6 +67,10 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
   // can terminate the process with the correct exit code.
   const unsigned int termination_code =
       process_snapshot.Exception()->Exception();
+  static_assert(
+      std::is_same<std::remove_const<decltype(termination_code)>::type,
+                   decltype(process_snapshot.Exception()->Exception())>::value,
+      "expected ExceptionCode() and process termination code to match");
 
   Metrics::ExceptionCode(termination_code);
 
