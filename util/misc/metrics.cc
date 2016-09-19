@@ -15,13 +15,32 @@
 #include "util/misc/metrics.h"
 
 #include "base/metrics/histogram_macros.h"
+#include "base/metrics/sparse_histogram.h"
 
 namespace crashpad {
 
+// static
 void Metrics::CrashReportSize(FileHandle file) {
   const FileOffset size = LoggingFileSizeByHandle(file);
   UMA_HISTOGRAM_CUSTOM_COUNTS(
       "Crashpad.CrashReportSize", size, 0, 5 * 1024 * 1024, 50);
+}
+
+// static
+void Metrics::ExceptionCaptureResult(CaptureResult result) {
+  UMA_HISTOGRAM_ENUMERATION(
+      "Crashpad.ExceptionCaptureResult", result, CaptureResult::kMaxValue);
+}
+
+// static
+void Metrics::ExceptionCode(uint32_t code) {
+  UMA_HISTOGRAM_SPARSE_SLOWLY("Crashpad.ExceptionCode",
+                              static_cast<int32_t>(code));
+}
+
+// static
+void Metrics::ExceptionEncountered() {
+  UMA_HISTOGRAM_COUNTS("Crashpad.ExceptionEncountered", 1);
 }
 
 }  // namespace crashpad
