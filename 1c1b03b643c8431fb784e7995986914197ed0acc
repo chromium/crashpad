@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ab415e2d_f0c63f3f",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T21:57:16Z",
+      "side": 1,
+      "message": "That one\u0027s in media/ so it won\u0027t affect us, but I wasn\u0027t sure if it was a more general requirement where something else might break if it wasn\u0027t a constant. The main HistogramBase class seems to be OK with StringPiece in general as far as I can tell, but I\u0027ll point it out to a tools/metrics/OWNERS when I roll and update histograms.xml in Chromium.",
+      "parentUuid": "30695fe5_80675c50",
+      "revId": "1c1b03b643c8431fb784e7995986914197ed0acc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30695fe5_a006207a",
         "filename": "util/misc/metrics.cc",
         "patchSetId": 7
