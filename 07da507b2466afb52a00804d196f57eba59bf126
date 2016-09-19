@@ -245,6 +245,24 @@
       "revId": "07da507b2466afb52a00804d196f57eba59bf126",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab415e2d_a9b29a4f",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1160859
+      },
+      "writtenOn": "2016-09-19T17:33:48Z",
+      "side": 1,
+      "message": "exception_code is DWORD, I think? I would leave that as a DWORD right up until you log the histogram, then do a cast to int32_t to actually log it.\n\nThe histograms.xml file already takes this into account and has a load of negative values in the enum for the high error codes. It\u0027s a bit hacky but that\u0027s what is done everywhere else.",
+      "parentUuid": "ab415e2d_a951ba2a",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
