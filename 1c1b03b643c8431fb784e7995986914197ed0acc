@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "30695fe5_80675c50",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-19T21:48:10Z",
+      "side": 1,
+      "message": "That’s only matching UMA_HISTOGRAM_ENUMERATION, but I bet it should match others like our use of UMA_HISTOGRAM_SPARSE_SLOWLY here too. Just pointing it out to avoid a false-positive in your test. (And to fix the presubmit if appropriate, of course!)",
+      "parentUuid": "ab415e2d_1579fd59",
+      "revId": "1c1b03b643c8431fb784e7995986914197ed0acc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30695fe5_a006207a",
         "filename": "util/misc/metrics.cc",
         "patchSetId": 7
