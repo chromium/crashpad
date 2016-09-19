@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "ab415e2d_fc3ffee4",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T18:06:29Z",
+      "side": 1,
+      "message": "Thanks. I\u0027m going to land this as-is then, try my luck on rolling into Chrome, and will add histograms.xml entries as part of the roll.",
+      "parentUuid": "ab415e2d_5cd652ec",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30695fe5_dd88db59",
         "filename": "util/misc/metrics.h",
         "patchSetId": 4
