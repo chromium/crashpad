@@ -322,6 +322,24 @@
       "revId": "07da507b2466afb52a00804d196f57eba59bf126",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab415e2d_7c406e38",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1160859
+      },
+      "writtenOn": "2016-09-19T18:14:22Z",
+      "side": 1,
+      "message": "Sorry I did not realize this was used for both mac and win? If these codes are completely different meanings for each platform then the histogram should probably be different, since ideally the histograms.xml should point to an enum of the correct codes for that platform.\n\nI suggest having a Crashpad.ExceptionCode.Win or something like that, and another one for Mac - then when you add them to histograms you can point them at the right enum...?",
+      "parentUuid": "ab415e2d_1ca12a9b",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
