@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ab415e2d_1579fd59",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T21:45:42Z",
+      "side": 1,
+      "message": "It looks like some tooling expects a literal there https://cs.chromium.org/chromium/src/media/PRESUBMIT.py?rcl\u003d0\u0026l\u003d100 but maybe that\u0027s OK. I\u0027ll give it a try so we know for next time at least.",
+      "parentUuid": "30695fe5_000a6c7f",
+      "revId": "1c1b03b643c8431fb784e7995986914197ed0acc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30695fe5_a006207a",
         "filename": "util/misc/metrics.cc",
         "patchSetId": 7
