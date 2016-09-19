@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30695fe5_1dcbb36f",
+        "filename": "util/misc/metrics.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-19T18:28:59Z",
+      "side": 1,
+      "message": "This is the “other stuff” I was talking about. But I don’t know if it’s necessary because UMA can slice between OSes. What do you and Will think?",
+      "revId": "635d6461bc2d2bdef3565ae2b85336e0b7d6461c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30695fe5_5dd12b1d",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-19T18:28:59Z",
+      "side": 1,
+      "message": "I don’t think that this is strictly necessary, unless you really want to do the other stuff. We stuff exception_type_t into uint32_t for loading ’em into minidumps.",
+      "revId": "635d6461bc2d2bdef3565ae2b85336e0b7d6461c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
