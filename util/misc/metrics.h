@@ -20,6 +20,10 @@
 #include "base/macros.h"
 #include "util/file/file_io.h"
 
+#if defined(OS_MACOSX)
+#include <mach/mach.h>
+#endif  // OS_MACOSX
+
 namespace crashpad {
 
 //! \brief Container class to hold shared UMA metrics integration points.
@@ -78,7 +82,11 @@ class Metrics {
   //!
   //! These values are OS-specific, and correspond to
   //! MINIDUMP_EXCEPTION::ExceptionCode.
+#if defined(OS_WIN)
   static void ExceptionCode(uint32_t exception_code);
+#elif defined(OS_MACOSX)
+  static void ExceptionCode(exception_type_t exception_code);
+#endif
 
   //! \brief The exception handler server started capturing an exception.
   static void ExceptionEncountered();
