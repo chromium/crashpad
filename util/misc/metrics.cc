@@ -32,11 +32,19 @@ void Metrics::ExceptionCaptureResult(CaptureResult result) {
       "Crashpad.ExceptionCaptureResult", result, CaptureResult::kMaxValue);
 }
 
+#if defined(OS_WIN)
 // static
-void Metrics::ExceptionCode(uint32_t code) {
-  UMA_HISTOGRAM_SPARSE_SLOWLY("Crashpad.ExceptionCode",
-                              static_cast<int32_t>(code));
+void Metrics::ExceptionCode(uint32_t exception_code) {
+  UMA_HISTOGRAM_SPARSE_SLOWLY("Crashpad.ExceptionCode.Win",
+                              static_cast<int32_t>(exception_code));
 }
+#elif defined(OS_MACOSX)
+// static
+void Metrics::ExceptionCode(exception_type_t exception_code) {
+  UMA_HISTOGRAM_SPARSE_SLOWLY("Crashpad.ExceptionCode.Mac",
+                              static_cast<int32_t>(exception_code));
+}
+#endif
 
 // static
 void Metrics::ExceptionEncountered() {
