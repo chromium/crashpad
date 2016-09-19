@@ -340,6 +340,24 @@
       "revId": "07da507b2466afb52a00804d196f57eba59bf126",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab415e2d_9ccb5a9c",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T18:24:12Z",
+      "side": 1,
+      "message": "Oops, OK, good point. Followup here: https://chromium-review.googlesource.com/386989.",
+      "parentUuid": "ab415e2d_7c406e38",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
