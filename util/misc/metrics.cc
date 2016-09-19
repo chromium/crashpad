@@ -16,6 +16,7 @@
 
 #include "base/metrics/histogram_macros.h"
 #include "base/metrics/sparse_histogram.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
@@ -33,9 +34,14 @@ void Metrics::ExceptionCaptureResult(CaptureResult result) {
 }
 
 // static
-void Metrics::ExceptionCode(uint32_t code) {
-  UMA_HISTOGRAM_SPARSE_SLOWLY("Crashpad.ExceptionCode",
-                              static_cast<int32_t>(code));
+void Metrics::ExceptionCode(uint32_t exception_code) {
+#if defined(OS_WIN)
+  const char kExceptionCodeString[] = "Crashpad.ExceptionCode.Win";
+#elif defined(OS_MACOSX)
+  const char kExceptionCodeString[] = "Crashpad.ExceptionCode.Mac";
+#endif
+  UMA_HISTOGRAM_SPARSE_SLOWLY(kExceptionCodeString,
+                              static_cast<int32_t>(exception_code));
 }
 
 // static
