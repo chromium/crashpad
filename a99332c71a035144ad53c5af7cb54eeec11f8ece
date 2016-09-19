@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab415e2d_5fcac463",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1160859
+      },
+      "writtenOn": "2016-09-19T19:39:21Z",
+      "side": 1,
+      "message": "if you\u0027re using a mac specific code below it makes sense to use DWORD here since that\u0027s what defined in Windows. or just make exception_type_t be DWORD on Windows elsewhere?",
+      "revId": "a99332c71a035144ad53c5af7cb54eeec11f8ece",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
