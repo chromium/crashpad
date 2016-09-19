@@ -29,8 +29,9 @@ void Metrics::CrashReportSize(FileHandle file) {
 
 // static
 void Metrics::ExceptionCaptureResult(CaptureResult result) {
-  UMA_HISTOGRAM_ENUMERATION(
-      "Crashpad.ExceptionCaptureResult", result, CaptureResult::kMaxValue);
+  UMA_HISTOGRAM_ENUMERATION("Crashpad.ExceptionCaptureResult",
+                            static_cast<int32_t>(result),
+                            static_cast<int32_t>(CaptureResult::kMaxValue));
 }
 
 // static

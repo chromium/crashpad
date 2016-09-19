@@ -36,7 +36,7 @@ class Metrics {
 
   //! \brief The result of capturing an exception. These are used as metrics
   //!     enumeration values so new values should always be added at the end.
-  enum class CaptureResult : int {
+  enum class CaptureResult : int32_t {
     //! \brief The exception capture succeeded normally.
     kSuccess = 0,
 
