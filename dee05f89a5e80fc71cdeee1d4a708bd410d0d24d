@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab415e2d_da032268",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T19:54:46Z",
+      "side": 1,
+      "message": "I guess maybe I did that because this TerminateProcess() call is expecting UINT.\n\nI dunno. Maybe it\u0027s not worth worrying about much as I\u0027m sure the whole world would break if any of uint32_t \u003d\u003d\u003d unsigned int \u003d\u003d\u003d unsigned long \u003d\u003d\u003d DWORD \u003d\u003d\u003d UINT ever changed on Windows.",
+      "revId": "dee05f89a5e80fc71cdeee1d4a708bd410d0d24d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
