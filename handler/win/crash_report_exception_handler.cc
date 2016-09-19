@@ -41,11 +41,11 @@ CrashReportExceptionHandler::~CrashReportExceptionHandler() {
 void CrashReportExceptionHandler::ExceptionHandlerServerStarted() {
 }
 
-unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
+uint32_t CrashReportExceptionHandler::ExceptionHandlerServerException(
     HANDLE process,
     WinVMAddress exception_information_address,
     WinVMAddress debug_critical_section_address) {
-  const unsigned int kFailedTerminationCode = 0xffff7002;
+  const uint32_t kFailedTerminationCode = 0xffff7002;
 
   Metrics::ExceptionEncountered();
 
@@ -63,8 +63,7 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
 
   // Now that we have the exception information, even if something else fails we
   // can terminate the process with the correct exit code.
-  const unsigned int termination_code =
-      process_snapshot.Exception()->Exception();
+  const uint32_t termination_code = process_snapshot.Exception()->Exception();
 
   Metrics::ExceptionCode(termination_code);
 
@@ -115,8 +114,6 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     database_status = database_->FinishedWritingCrashReport(new_report, &uuid);
     if (database_status != CrashReportDatabase::kNoError) {
       LOG(ERROR) << "FinishedWritingCrashReport failed";
-      Metrics::ExceptionCaptureResult(
-          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
       return termination_code;
     }
 

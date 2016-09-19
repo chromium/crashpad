@@ -15,6 +15,8 @@
 #ifndef CRASHPAD_UTIL_WIN_EXCEPTION_HANDLER_SERVER_H_
 #define CRASHPAD_UTIL_WIN_EXCEPTION_HANDLER_SERVER_H_
 
+#include <inttypes.h>
+
 #include <set>
 #include <string>
 
@@ -55,7 +57,7 @@ class ExceptionHandlerServer {
     //!     `.DebugInfo` field, or `0` if unavailable.
     //! \return The exit code that should be used when terminating the client
     //!     process.
-    virtual unsigned int ExceptionHandlerServerException(
+    virtual uint32_t ExceptionHandlerServerException(
         HANDLE process,
         WinVMAddress exception_information_address,
         WinVMAddress debug_critical_section_address) = 0;

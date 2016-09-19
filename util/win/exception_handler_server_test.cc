@@ -61,7 +61,7 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
   void ExceptionHandlerServerStarted() override {
     SetEvent(server_ready_);
   }
-  unsigned int ExceptionHandlerServerException(
+  uint32_t ExceptionHandlerServerException(
       HANDLE process,
       WinVMAddress exception_information_address,
       WinVMAddress debug_critical_section_address) override {

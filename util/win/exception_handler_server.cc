@@ -568,7 +568,7 @@ void __stdcall ExceptionHandlerServer::OnCrashDumpEvent(void* ctx, BOOLEAN) {
   base::AutoLock lock(*client->lock());
 
   // Capture the exception.
-  unsigned int exit_code = client->delegate()->ExceptionHandlerServerException(
+  uint32_t exit_code = client->delegate()->ExceptionHandlerServerException(
       client->process(),
       client->crash_exception_information_address(),
       client->debug_critical_section_address());

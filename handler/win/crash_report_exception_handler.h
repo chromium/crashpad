@@ -59,7 +59,7 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   //! \brief Processes an exception message by writing a crash report to this
   //!     object's CrashReportDatabase.
   void ExceptionHandlerServerStarted() override;
-  unsigned int ExceptionHandlerServerException(
+  uint32_t ExceptionHandlerServerException(
       HANDLE process,
       WinVMAddress exception_information_address,
       WinVMAddress debug_critical_section_address) override;
