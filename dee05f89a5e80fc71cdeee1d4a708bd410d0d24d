@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ab415e2d_ba90164d",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T20:50:50Z",
+      "side": 1,
+      "message": "It\u0027s probably overkill, but added a static_assert() more as documentation of this discussion than anything.",
+      "parentUuid": "30695fe5_00e02cba",
+      "revId": "dee05f89a5e80fc71cdeee1d4a708bd410d0d24d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab415e2d_da032268",
         "filename": "util/win/exception_handler_server.cc",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "https://crashpad.chromium.org/doxygen/classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html#aa882e662bcede440ba8078edf4cbd14f:\n\nReturns\nThe exit code that should be used when terminating the client process.\n\nI think that’s the chief thing that controls here, and that’s a UINT so in Crashpad we’d use unsigned int. I agree, that’s probably why you did this.",
       "parentUuid": "ab415e2d_da032268",
+      "revId": "dee05f89a5e80fc71cdeee1d4a708bd410d0d24d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab415e2d_9a5efae0",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T20:50:50Z",
+      "side": 1,
+      "message": "Yes, I think you\u0027re right. OK, I\u0027m going to just put it back and leave things alone.",
+      "parentUuid": "30695fe5_40ee24b3",
       "revId": "dee05f89a5e80fc71cdeee1d4a708bd410d0d24d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false

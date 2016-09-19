@@ -16,6 +16,24 @@
       "revId": "b48e9bfbabf35d97487daf659c8c5ee10be14653",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab415e2d_1a520ada",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T20:50:50Z",
+      "side": 0,
+      "message": "Whoa, not sure how that happened.",
+      "parentUuid": "30695fe5_80f43c83",
+      "revId": "b48e9bfbabf35d97487daf659c8c5ee10be14653",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
