@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "30695fe5_00e02cba",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-19T20:40:40Z",
+      "side": 1,
+      "message": "Seems like there’s going to be a transition somewhere. As you point out, it’s hard to imagine the Windows API changing in such a way that uint32_t, DWORD, and UINT aren’t all really unsigned int. At least I don’t see that happening without invalidating just about everything that we or anyone else has ever written.\n\nIf you want to be extra-paranoid, you could static_assert for type equivalence at the point of “conversion,” but that’s quite likely overkill.\n\nI personally thought that the status quo made more sense given your subsequent findings and my next comment. But I’m OK with either.\n\n(P.S. Do you ever envision when you write something like “that’d be overkill” that a future version of yourself will some day find himself working on a really hard bug that would have been caught by the thing you’re arguing against today?)",
+      "revId": "dee05f89a5e80fc71cdeee1d4a708bd410d0d24d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab415e2d_da032268",
         "filename": "util/win/exception_handler_server.cc",
         "patchSetId": 4
@@ -13,6 +30,24 @@
       "writtenOn": "2016-09-19T19:54:46Z",
       "side": 1,
       "message": "I guess maybe I did that because this TerminateProcess() call is expecting UINT.\n\nI dunno. Maybe it\u0027s not worth worrying about much as I\u0027m sure the whole world would break if any of uint32_t \u003d\u003d\u003d unsigned int \u003d\u003d\u003d unsigned long \u003d\u003d\u003d DWORD \u003d\u003d\u003d UINT ever changed on Windows.",
+      "revId": "dee05f89a5e80fc71cdeee1d4a708bd410d0d24d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30695fe5_40ee24b3",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-19T20:40:40Z",
+      "side": 1,
+      "message": "https://crashpad.chromium.org/doxygen/classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html#aa882e662bcede440ba8078edf4cbd14f:\n\nReturns\nThe exit code that should be used when terminating the client process.\n\nI think that’s the chief thing that controls here, and that’s a UINT so in Crashpad we’d use unsigned int. I agree, that’s probably why you did this.",
+      "parentUuid": "ab415e2d_da032268",
       "revId": "dee05f89a5e80fc71cdeee1d4a708bd410d0d24d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false

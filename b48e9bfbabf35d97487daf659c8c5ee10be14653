@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30695fe5_80f43c83",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-19T20:40:40Z",
+      "side": 0,
+      "message": "Are you losing this intentionally?",
+      "revId": "b48e9bfbabf35d97487daf659c8c5ee10be14653",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
