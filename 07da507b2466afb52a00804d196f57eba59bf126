@@ -263,6 +263,24 @@
       "revId": "07da507b2466afb52a00804d196f57eba59bf126",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab415e2d_1ca12a9b",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T17:44:57Z",
+      "side": 1,
+      "message": "OK, it looks like it\u0027s int on Mac https://developer.apple.com/reference/kernel/exception_type_t?language\u003dobjc.\n\nUm... I guess I\u0027ll do uint32_t in the helper method and then cast on calling UMA_*.",
+      "parentUuid": "ab415e2d_a9b29a4f",
+      "revId": "07da507b2466afb52a00804d196f57eba59bf126",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
