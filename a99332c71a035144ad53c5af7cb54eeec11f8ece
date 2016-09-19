@@ -16,6 +16,24 @@
       "revId": "a99332c71a035144ad53c5af7cb54eeec11f8ece",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab415e2d_9adfdaf5",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-19T19:51:31Z",
+      "side": 1,
+      "message": "It\u0027s a little confused. On Mac, the handler receives the exception code from the OS, and the handler function is passed an exception_type_t (which is a Mach type), so that seemed to make sense there.\n\nOn Windows, it is indeed a DWORD as you point out. But the Windows exception handler reads the exception code by using the ExceptionSnapshot interface (which is cross-platform) https://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/snapshot/exception_snapshot.h?q\u003dexceptionsnapshot+exception%5C(%5C)\u0026sq\u003dpackage:chromium\u0026l\u003d61\u0026dr\u003dC and so is a uint32_t rather than a DWORD.\n\nBut now that I look into that, it stores that return into an unsigned int, which seems wrong. So I changed all the return values from ExceptionHandlerServerException() to uint32_t.",
+      "parentUuid": "ab415e2d_5fcac463",
+      "revId": "a99332c71a035144ad53c5af7cb54eeec11f8ece",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
