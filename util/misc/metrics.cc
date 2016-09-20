@@ -37,9 +37,9 @@ void Metrics::ExceptionCaptureResult(CaptureResult result) {
 // static
 void Metrics::ExceptionCode(uint32_t exception_code) {
 #if defined(OS_WIN)
-  const char kExceptionCodeString[] = "Crashpad.ExceptionCode.Win";
+  static const char kExceptionCodeString[] = "Crashpad.ExceptionCode.Win";
 #elif defined(OS_MACOSX)
-  const char kExceptionCodeString[] = "Crashpad.ExceptionCode.Mac";
+  static const char kExceptionCodeString[] = "Crashpad.ExceptionCode.Mac";
 #endif
   UMA_HISTOGRAM_SPARSE_SLOWLY(kExceptionCodeString,
                               static_cast<int32_t>(exception_code));
