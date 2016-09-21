@@ -20,15 +20,36 @@
 
 namespace crashpad {
 
+namespace {
+
+//! \brief Metrics values used to track the start and completion of a crash
+//!     handling. These are used as metrics values directly, so
+//!     enumeration values so new values should always be added at the end.
+enum class ExceptionProcessingState {
+  //! \brief Logged when exception processing is started.
+  kStarted = 0,
+
+  //! \brief Logged when exception processing completes.
+  kFinished = 1,
+};
+
+void ExceptionProcessing(ExceptionProcessingState state) {
+  UMA_HISTOGRAM_COUNTS("Crashpad.ExceptionEncountered",
+                       static_cast<int>(state));
+}
+
+}  // namespace
+
 // static
 void Metrics::CrashReportSize(FileHandle file) {
   const FileOffset size = LoggingFileSizeByHandle(file);
   UMA_HISTOGRAM_CUSTOM_COUNTS(
-      "Crashpad.CrashReportSize", size, 0, 5 * 1024 * 1024, 50);
+      "Crashpad.CrashReportSize", size, 0, 20 * 1024 * 1024, 50);
 }
 
 // static
 void Metrics::ExceptionCaptureResult(CaptureResult result) {
+  ExceptionProcessing(ExceptionProcessingState::kFinished);
   UMA_HISTOGRAM_ENUMERATION("Crashpad.ExceptionCaptureResult",
                             static_cast<int32_t>(result),
                             static_cast<int32_t>(CaptureResult::kMaxValue));
@@ -47,7 +68,7 @@ void Metrics::ExceptionCode(uint32_t exception_code) {
 
 // static
 void Metrics::ExceptionEncountered() {
-  UMA_HISTOGRAM_COUNTS("Crashpad.ExceptionEncountered", 1);
+  ExceptionProcessing(ExceptionProcessingState::kStarted);
 }
 
 }  // namespace crashpad
