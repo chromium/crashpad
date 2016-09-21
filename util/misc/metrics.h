@@ -71,7 +71,7 @@ class Metrics {
   };
 
   //! \brief Reports on the outcome of capturing a report in the exception
-  //!     handler.
+  //!     handler. Should be called on all capture completion paths.
   static void ExceptionCaptureResult(CaptureResult result);
 
   //! \brief The exception code for an exception was retrieved.
