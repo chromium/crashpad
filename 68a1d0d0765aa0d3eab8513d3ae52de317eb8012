@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d01d634e_47da10de",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-23T20:38:19Z",
+      "side": 1,
+      "message": "“remained pending” instead of reset? The state that we expose to the outside and document doesn’t have any intermediate stages, it’s just in pending while it’s uploading.\n\nDo we actually need a metric for that state, actually? I’m concerned in this specific case that you hit it on Windows but not Mac. Conceptually, the two platforms shouldn’t behave any differently with respect to metrics for this stuff. That kind of comes back to a more general thing that we talked about before: is doing this in the distinct _mac and _win (and future _android) files still the best approach now that we’re adding more metrics?",
+      "revId": "68a1d0d0765aa0d3eab8513d3ae52de317eb8012",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
