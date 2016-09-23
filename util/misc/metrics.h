@@ -34,8 +34,39 @@ class Metrics {
   //!     when a new report is written to disk.
   static void CrashReportSize(FileHandle file);
 
+  //! \brief Reports on a crash upload attempt, and if it succeeded.
+  static void CrashUploadAttempted(bool successful);
+
+  //! \brief Values for CrashUploadSkipped(). These are used as metrics
+  //!     enumeration values, so new values should always be added at the end.
+  enum class CrashSkippedReason : int32_t {
+    //! \brief Crash uploading is disabled by policy.
+    kUploadsDisabled,
+
+    //! \brief There was another upload too recently, so this one was throttled.
+    kUploadThrottled,
+
+    //! \brief The report had unexpected timestamp.
+    kUnexpectedTime,
+
+    //! \brief The database reported an error, likely due to a file system
+    //!     problem.
+    kDatabaseError,
+
+    //! \brief The upload of the crash failed during communication with the
+    //!     server.
+    kUploadFailed,
+
+    //! \brief The number of values in this enumeration; not a valid value.
+    kMaxValue
+  };
+
+  //! \brief Reports when a report is moved to the completed state in the
+  //!     database, without the report being uploadad.
+  static void CrashUploadSkipped(CrashSkippedReason reason);
+
   //! \brief The result of capturing an exception. These are used as metrics
-  //!     enumeration values so new values should always be added at the end.
+  //!     enumeration values, so new values should always be added at the end.
   enum class CaptureResult : int32_t {
     //! \brief The exception capture succeeded normally.
     kSuccess = 0,

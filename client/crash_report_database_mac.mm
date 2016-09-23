@@ -140,7 +140,8 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   OperationStatus RecordUploadAttempt(const Report* report,
                                       bool successful,
                                       const std::string& id) override;
-  OperationStatus SkipReportUpload(const UUID& uuid) override;
+  OperationStatus SkipReportUpload(const UUID& uuid,
+                                   Metrics::CrashSkippedReason reason) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
   OperationStatus RequestUpload(const UUID& uuid) override;
 
@@ -451,6 +452,8 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
                                             const std::string& id) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+  Metrics::CrashUploadAttempted(successful);
+
   DCHECK(report);
   DCHECK(successful || id.empty());
 
@@ -502,8 +505,11 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
 }
 
 CrashReportDatabase::OperationStatus CrashReportDatabaseMac::SkipReportUpload(
-    const UUID& uuid) {
+    const UUID& uuid,
+    Metrics::CrashSkippedReason reason) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  Metrics::CrashUploadSkipped(reason);
 
   base::FilePath report_path = LocateCrashReport(uuid);
   if (report_path.empty())

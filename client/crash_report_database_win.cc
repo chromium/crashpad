@@ -589,7 +589,8 @@ class CrashReportDatabaseWin : public CrashReportDatabase {
   OperationStatus RecordUploadAttempt(const Report* report,
                                       bool successful,
                                       const std::string& id) override;
-  OperationStatus SkipReportUpload(const UUID& uuid) override;
+  OperationStatus SkipReportUpload(const UUID& uuid,
+                                   Metrics::CrashSkippedReason reason) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
   OperationStatus RequestUpload(const UUID& uuid) override;
 
@@ -774,6 +775,8 @@ OperationStatus CrashReportDatabaseWin::RecordUploadAttempt(
     const std::string& id) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+  Metrics::CrashUploadAttempted(successful);
+
   // Take ownership, allocated in GetReportForUploading.
   std::unique_ptr<const Report> upload_report(report);
   std::unique_ptr<Metadata> metadata(AcquireMetadata());
@@ -826,8 +829,12 @@ OperationStatus CrashReportDatabaseWin::DeleteReport(const UUID& uuid) {
   return kNoError;
 }
 
-OperationStatus CrashReportDatabaseWin::SkipReportUpload(const UUID& uuid) {
+OperationStatus CrashReportDatabaseWin::SkipReportUpload(
+    const UUID& uuid,
+    Metrics::CrashSkippedReason reason) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  Metrics::CrashUploadSkipped(reason);
 
   std::unique_ptr<Metadata> metadata(AcquireMetadata());
   if (!metadata)
