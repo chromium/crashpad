@@ -16,6 +16,24 @@
       "revId": "68a1d0d0765aa0d3eab8513d3ae52de317eb8012",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f076e782_e361303e",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-23T22:54:36Z",
+      "side": 1,
+      "message": "I did read over the Mac code when I added it, but as far as I could tell, we don\u0027t reset it back to a pending state on Mac (as in, it\u0027s a slight difference in behaviour, not a difference in metrics collection). But per previous comments, it\u0027s pointless in the Windows case too as we immediately set it to skipped right after setting it to pending in this case.\n\nSo, yeah, I removed the enum value as it\u0027s not really useful.\n\nI can\u0027t think of a much better solution than duplication. I feel like something like adding a cross-platform wrapper of CrashReportDatabase used only for injecting metrics calls that then calls the platform-specific versions is going to be more cumbersome than useful. Maybe it\u0027ll feel better once we have more _platform as you say.",
+      "parentUuid": "d01d634e_47da10de",
+      "revId": "68a1d0d0765aa0d3eab8513d3ae52de317eb8012",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
