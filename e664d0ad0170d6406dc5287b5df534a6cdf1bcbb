@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "f076e782_373b6b88",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-23T19:33:39Z",
+      "side": 1,
+      "message": "I guess they could be on if we built them in Chromium and ran them there (we don\u0027t do either at the moment of course). I guess none of the test binaries would be set up to report metrics though, otherwise this would affect all UMA?",
+      "parentUuid": "d01d634e_c796003d",
+      "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d01d634e_44b84ee0",
         "filename": "util/misc/metrics.h",
         "patchSetId": 1
