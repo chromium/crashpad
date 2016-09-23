@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d01d634e_24ab5291",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-23T19:01:09Z",
+      "side": 1,
+      "message": "Interesting. The fact that nobody ever initializes metrics is all that keeps us from logging metrics in tests?",
+      "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d01d634e_44b84ee0",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-23T19:01:09Z",
+      "side": 1,
+      "message": "“by policy” is confusing because someone’s going to think it means “enterprise policy” or something more specific than we really intend.",
+      "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d01d634e_87732843",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-23T19:01:09Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 49,
+        "startChar": 29,
+        "endLine": 49,
+        "endChar": 30
+      },
+      "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d01d634e_c77d200d",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-23T19:01:09Z",
+      "side": 1,
+      "message": "␡",
+      "range": {
+        "startLine": 52,
+        "startChar": 67,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d01d634e_e7821c02",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-23T19:01:09Z",
+      "side": 1,
+      "message": "We should maybe also have a metric for uploads brought back into pending manually, so that more numbers can add up sensibly.",
+      "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
