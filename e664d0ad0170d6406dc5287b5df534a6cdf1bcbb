@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d01d634e_c796003d",
+        "filename": "client/crash_report_database_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-23T19:19:22Z",
+      "side": 1,
+      "message": "I meant if you ran the tests from a Chromium checkout.\n\nI don’t think you need to change the labels, I just wanted to make sure that metrics are really off in tests in that build configuration, and that there isn’t something else we need to do.",
+      "parentUuid": "f076e782_d7a1579d",
+      "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d01d634e_44b84ee0",
         "filename": "util/misc/metrics.h",
         "patchSetId": 1
@@ -107,6 +125,24 @@
       "side": 1,
       "message": "Ooh, neat intra-line selection comments. Done.",
       "parentUuid": "d01d634e_87732843",
+      "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d01d634e_e79bfc61",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-23T19:19:22Z",
+      "side": 1,
+      "message": "\u003e Ooh, neat intra-line selection comments. Done.\n\nIt worked!",
+      "parentUuid": "f076e782_77ab2377",
       "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
