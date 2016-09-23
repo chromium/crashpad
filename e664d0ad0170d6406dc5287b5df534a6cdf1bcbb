@@ -186,6 +186,24 @@
       "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f076e782_57cd4725",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-23T19:19:00Z",
+      "side": 1,
+      "message": "Ah, no, we don\u0027t. CallRecordUploadAttempt::Fire() makes this set it to kPending, but then immediately after we call SkipReportUpload(). That\u0027s a bit confusing, but I don\u0027t think there\u0027s unexpected retries. Well, UMA can confirm that for us anyway.",
+      "parentUuid": "f076e782_17f82f62",
+      "revId": "e664d0ad0170d6406dc5287b5df534a6cdf1bcbb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
