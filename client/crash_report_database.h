@@ -24,6 +24,7 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "util/file/file_io.h"
+#include "util/misc/metrics.h"
 #include "util/misc/uuid.h"
 
 namespace crashpad {
@@ -326,9 +327,13 @@ class CrashReportDatabase {
   //! crash generation is still enabled in the product.
   //!
   //! \param[in] uuid The unique identifier for the crash report record.
+  //! \param[in] reason The reason the report upload is being skipped for
+  //!     metrics tracking purposes.
   //!
   //! \return The operation status code.
-  virtual OperationStatus SkipReportUpload(const UUID& uuid) = 0;
+  virtual OperationStatus SkipReportUpload(
+      const UUID& uuid,
+      Metrics::CrashSkippedReason reason) = 0;
 
   //! \brief Deletes a crash report file and its associated metadata.
   //!

@@ -30,12 +30,59 @@ namespace crashpad {
 //! Chromium's base, they allow integration with its metrics system.
 class Metrics {
  public:
+  //! \brief Values for CrashReportPending(). These are used as metrics
+  //!     enumeration values, so new values should always be added at the end.
+  enum class PendingReportReason : int32_t {
+    //! \brief A report was newly created and is ready for upload.
+    kNewlyCreated = 0,
+
+    //! \brief The user manually requested the report be uploaded.
+    kUserInitiated = 1,
+
+    //! \brief The number of values in this enumeration; not a valid value.
+    kMaxValue
+  };
+
+  //! \brief Reports when a crash upload has entered the pending state.
+  static void CrashReportPending(PendingReportReason reason);
+
   //! \brief Reports the size of a crash report file in bytes. Should be called
   //!     when a new report is written to disk.
   static void CrashReportSize(FileHandle file);
 
+  //! \brief Reports on a crash upload attempt, and if it succeeded.
+  static void CrashUploadAttempted(bool successful);
+
+  //! \brief Values for CrashUploadSkipped(). These are used as metrics
+  //!     enumeration values, so new values should always be added at the end.
+  enum class CrashSkippedReason : int32_t {
+    //! \brief Crash uploading is disabled.
+    kUploadsDisabled = 0,
+
+    //! \brief There was another upload too recently, so this one was throttled.
+    kUploadThrottled = 1,
+
+    //! \brief The report had an unexpected timestamp.
+    kUnexpectedTime = 2,
+
+    //! \brief The database reported an error, likely due to a filesystem
+    //!     problem.
+    kDatabaseError = 3,
+
+    //! \brief The upload of the crash failed during communication with the
+    //!     server.
+    kUploadFailed = 4,
+
+    //! \brief The number of values in this enumeration; not a valid value.
+    kMaxValue
+  };
+
+  //! \brief Reports when a report is moved to the completed state in the
+  //!     database, without the report being uploadad.
+  static void CrashUploadSkipped(CrashSkippedReason reason);
+
   //! \brief The result of capturing an exception. These are used as metrics
-  //!     enumeration values so new values should always be added at the end.
+  //!     enumeration values, so new values should always be added at the end.
   enum class CaptureResult : int32_t {
     //! \brief The exception capture succeeded normally.
     kSuccess = 0,
