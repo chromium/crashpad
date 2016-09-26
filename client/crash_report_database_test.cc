@@ -433,7 +433,8 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
 
   // Skip upload for one report.
   EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->SkipReportUpload(report_3_uuid));
+            db()->SkipReportUpload(
+                report_3_uuid, Metrics::CrashSkippedReason::kUploadsDisabled));
 
   pending.clear();
   EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
@@ -608,7 +609,8 @@ TEST_F(CrashReportDatabaseTest, RequestUpload) {
 
   // Skipped report gets back to pending state after RequestUpload is called.
   EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->SkipReportUpload(report_1_uuid));
+            db()->SkipReportUpload(
+                report_1_uuid, Metrics::CrashSkippedReason::kUploadsDisabled));
 
   std::vector<CrashReportDatabase::Report> pending_reports;
   CrashReportDatabase::OperationStatus os =
@@ -643,7 +645,8 @@ TEST_F(CrashReportDatabaseTest, RequestUpload) {
   // Explicitly requested reports will not have upload_explicitly_requested bit
   // after getting skipped.
   EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->SkipReportUpload(report_1_uuid));
+            db()->SkipReportUpload(
+                report_1_uuid, Metrics::CrashSkippedReason::kUploadsDisabled));
   CrashReportDatabase::Report report;
   EXPECT_EQ(CrashReportDatabase::kNoError,
             db()->LookUpCrashReport(report_1_uuid, &report));

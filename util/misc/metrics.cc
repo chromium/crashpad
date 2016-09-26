@@ -35,16 +35,38 @@ enum class ExceptionProcessingState {
 
 void ExceptionProcessing(ExceptionProcessingState state) {
   UMA_HISTOGRAM_COUNTS("Crashpad.ExceptionEncountered",
-                       static_cast<int>(state));
+                       static_cast<int32_t>(state));
 }
 
 }  // namespace
+
+// static
+void Metrics::CrashReportPending(PendingReportReason reason) {
+  UMA_HISTOGRAM_ENUMERATION(
+      "Crashpad.CrashReportPending",
+      static_cast<int32_t>(reason),
+      static_cast<int32_t>(PendingReportReason::kMaxValue));
+}
 
 // static
 void Metrics::CrashReportSize(FileHandle file) {
   const FileOffset size = LoggingFileSizeByHandle(file);
   UMA_HISTOGRAM_CUSTOM_COUNTS(
       "Crashpad.CrashReportSize", size, 0, 20 * 1024 * 1024, 50);
+}
+
+// static
+void Metrics::CrashUploadAttempted(bool successful) {
+  UMA_HISTOGRAM_COUNTS("Crashpad.CrashUpload.AttemptSuccessful",
+                       static_cast<int32_t>(successful));
+}
+
+// static
+void Metrics::CrashUploadSkipped(CrashSkippedReason reason) {
+  UMA_HISTOGRAM_ENUMERATION(
+      "Crashpad.CrashUpload.Skipped",
+      static_cast<int32_t>(reason),
+      static_cast<int32_t>(CrashSkippedReason::kMaxValue));
 }
 
 // static
