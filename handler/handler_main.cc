@@ -120,9 +120,20 @@ void HandleSIGTERM(int sig, siginfo_t* siginfo, void* context) {
 
 #endif  // OS_MACOSX
 
+#if defined(OS_WIN)
+LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
+  Metrics::HandlerCrashed(exception_pointers->ExceptionRecord->ExceptionCode);
+  return EXCEPTION_CONTINUE_SEARCH;
+}
+#endif
+
 }  // namespace
 
 int HandlerMain(int argc, char* argv[]) {
+#if defined(OS_WIN)
+  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+#endif
+
   const base::FilePath argv0(
       ToolSupport::CommandLineArgumentToFilePathStringType(argv[0]));
   const base::FilePath me(argv0.BaseName());

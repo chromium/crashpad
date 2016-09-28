@@ -130,6 +130,11 @@ class Metrics {
   //! \brief The exception handler server started capturing an exception.
   static void ExceptionEncountered();
 
+  //! \brief The handler process crashed with the given exception code.
+  //!
+  //! This is currently only reported on Windows.
+  static void HandlerCrashed(uint32_t exception_code);
+
  private:
   DISALLOW_IMPLICIT_CONSTRUCTORS(Metrics);
 };

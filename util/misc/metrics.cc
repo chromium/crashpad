@@ -93,4 +93,16 @@ void Metrics::ExceptionEncountered() {
   ExceptionProcessing(ExceptionProcessingState::kStarted);
 }
 
+void Metrics::HandlerCrashed(uint32_t exception_code) {
+#if defined(OS_WIN)
+  static const char kExceptionCodeString[] =
+      "Crashpad.HandlerCrash.ExceptionCode.Win";
+#elif defined(OS_MACOSX)
+  static const char kExceptionCodeString[] =
+      "Crashpad.HandlerCrash.ExceptionCode.Mac";
+#endif
+  UMA_HISTOGRAM_SPARSE_SLOWLY(kExceptionCodeString,
+                              static_cast<int32_t>(exception_code));
+}
+
 }  // namespace crashpad
