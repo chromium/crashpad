@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c5a5a31c_a0e1f6e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-29T00:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5a5a31c_4093f20a",
+      "revId": "63ab1835a4b83c07a4f5d170fff529c207cb6eec",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5a5a31c_80f67a52",
         "filename": "util/win/termination_codes.h",
         "patchSetId": 2
@@ -36,6 +54,24 @@
         "endLine": 25,
         "endChar": 34
       },
+      "revId": "63ab1835a4b83c07a4f5d170fff529c207cb6eec",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5a5a31c_40c7725c",
+        "filename": "util/win/termination_codes.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-09-29T00:52:22Z",
+      "side": 1,
+      "message": "Yeah... OK, made this unsigned int, but left the ones that call TerminateProcess() directly as UINT, but the one that returns via an unsigned int as that. Kinda-sorta-right.",
+      "parentUuid": "c5a5a31c_80f67a52",
       "revId": "63ab1835a4b83c07a4f5d170fff529c207cb6eec",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
