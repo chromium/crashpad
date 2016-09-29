@@ -25,6 +25,7 @@
 #include "util/misc/metrics.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_process_suspend.h"
+#include "util/win/termination_codes.h"
 
 namespace crashpad {
 
@@ -47,8 +48,6 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     HANDLE process,
     WinVMAddress exception_information_address,
     WinVMAddress debug_critical_section_address) {
-  const unsigned int kFailedTerminationCode = 0xffff7002;
-
   Metrics::ExceptionEncountered();
 
   ScopedProcessSuspend suspend(process);
@@ -60,7 +59,7 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
                                    debug_critical_section_address)) {
     LOG(WARNING) << "ProcessSnapshotWin::Initialize failed";
     Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
-    return kFailedTerminationCode;
+    return kTerminationCodeSnapshotFailed;
   }
 
   // Now that we have the exception information, even if something else fails we
