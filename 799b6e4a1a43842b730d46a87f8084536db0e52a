@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5a5a31c_c3a88c77",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-29T01:00:17Z",
+      "side": 1,
+      "message": "Definitely don’t need the static_cast\u003c\u003e() here.",
+      "revId": "799b6e4a1a43842b730d46a87f8084536db0e52a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
