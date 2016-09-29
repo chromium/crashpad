@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5a5a31c_4093f20a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-29T00:17:53Z",
+      "side": 1,
+      "message": "chromium:",
+      "revId": "63ab1835a4b83c07a4f5d170fff529c207cb6eec",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5a5a31c_80f67a52",
+        "filename": "util/win/termination_codes.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-09-29T00:17:53Z",
+      "side": 1,
+      "message": "Gotta #include something, then. But in Crashpad, we would normally write “unsigned int” where the SDK uses UINT, right? And in that case, obviously, no need to #include anything.",
+      "range": {
+        "startLine": 25,
+        "startChar": 30,
+        "endLine": 25,
+        "endChar": 34
+      },
+      "revId": "63ab1835a4b83c07a4f5d170fff529c207cb6eec",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
