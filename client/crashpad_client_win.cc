@@ -39,6 +39,7 @@
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_handle.h"
 #include "util/win/scoped_process_suspend.h"
+#include "util/win/termination_codes.h"
 
 namespace {
 
@@ -109,8 +110,8 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
 
   LOG(ERROR) << "crash server did not respond, self-terminating";
 
-  const UINT kCrashExitCodeNoDump = 0xffff7001;
-  TerminateProcess(GetCurrentProcess(), kCrashExitCodeNoDump);
+  TerminateProcess(GetCurrentProcess(),
+                   static_cast<UINT>(crashpad::TerminationCodes::kCrashNoDump));
 
   return EXCEPTION_CONTINUE_SEARCH;
 }
@@ -487,7 +488,9 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
 // static
 void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   if (g_signal_exception == INVALID_HANDLE_VALUE) {
-    LOG(ERROR) << "haven't called UseHandler()";
+    LOG(ERROR) << "haven't called UseHandler(), no dump captured";
+    TerminateProcess(GetCurrentProcess(),
+                     static_cast<UINT>(TerminationCodes::kUseHandlerNotCalled));
     return;
   }
 
