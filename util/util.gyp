@@ -189,6 +189,7 @@
         'win/scoped_local_alloc.h',
         'win/scoped_process_suspend.cc',
         'win/scoped_process_suspend.h',
+        'win/termination_codes.h',
         'win/time.cc',
         'win/time.h',
         'win/xp_compat.h',
