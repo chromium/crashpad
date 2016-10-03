@@ -34,6 +34,8 @@
         '..',
       ],
       'sources': [
+        'annotations_second_test.cc',
+        'annotations_test.cc',
         'capture_context_mac_test.cc',
         'crash_report_database_test.cc',
         'crashpad_client_win_test.cc',
