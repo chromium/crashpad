@@ -20,6 +20,7 @@
 #include <sys/types.h>
 
 #include <string>
+#include <vector>
 
 #include "base/macros.h"
 #include "snapshot/win/process_subrange_reader.h"
@@ -48,6 +49,13 @@ struct CrashpadInfo {
   typename Traits::Pointer extra_address_ranges;
   typename Traits::Pointer simple_annotations;
   typename Traits::Pointer user_data_minidump_stream_head;
+};
+
+template <class Traits>
+struct RawAnnotation {
+  typename Traits::Pointer key_name;
+  typename Traits::Pointer data;
+  typename uint32_t type;
 };
 
 }  // namespace process_types
@@ -101,6 +109,10 @@ class PEImageReader {
   template <class Traits>
   bool GetCrashpadInfo(
       process_types::CrashpadInfo<Traits>* crashpad_info) const;
+
+  template <class Traits>
+  bool GetCrashpadRawAnnotations(
+      std::vector<process_types::RawAnnotation<Traits>>* annotations) const;
 
   //! \brief Obtains information from the module's debug directory, if any.
   //!

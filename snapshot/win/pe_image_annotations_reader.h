@@ -60,6 +60,9 @@ class PEImageAnnotationsReader {
   void ReadCrashpadSimpleAnnotations(
       std::map<std::string, std::string>* simple_map_annotations) const;
 
+  template <class Traits>
+  void ReadRawAnnotationsIntoMap(std::map<std::string, std::string>* map) const;
+
   std::wstring name_;
   ProcessReaderWin* process_reader_;  // weak
   const PEImageReader* pe_image_reader_;  // weak
