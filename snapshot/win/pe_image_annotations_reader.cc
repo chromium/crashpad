@@ -18,12 +18,35 @@
 #include <sys/types.h>
 
 #include "base/strings/utf_string_conversions.h"
+#include "client/annotations.h"
 #include "client/simple_string_dictionary.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
+#include "util/stdlib/map_insert.h"
 #include "util/win/process_structs.h"
 
 namespace crashpad {
+
+namespace {
+
+std::string ReadNulTerminatedString(ProcessReaderWin* process_reader,
+                                    WinVMAddress start_at) {
+  std::string into;
+  into.resize(8192);
+  // TODO(scottmg): Not sure how much we should read or search here. It seems
+  // like this is probably more than necessary, and we probably don't want to
+  // search forever to try to find a NUL anyway. On the other hand, it could be
+  // annoying to lose the end of a value if this is too small.
+  WinVMSize bytes_read = process_reader->ReadAvailableMemory(
+      start_at, into.size() * sizeof(into[0]), &into[0]);
+  into.resize(static_cast<unsigned int>(bytes_read / sizeof(into[0])));
+  size_t at = into.find('\0');
+  if (at != std::string::npos)
+    into.resize(at);
+  return into;
+}
+
+}  // namespace
 
 PEImageAnnotationsReader::PEImageAnnotationsReader(
     ProcessReaderWin* process_reader,
@@ -35,15 +58,23 @@ PEImageAnnotationsReader::PEImageAnnotationsReader(
 }
 
 std::map<std::string, std::string> PEImageAnnotationsReader::SimpleMap() const {
-  std::map<std::string, std::string> simple_map_annotations;
+  std::map<std::string, std::string> annotations;
   if (process_reader_->Is64Bit()) {
     ReadCrashpadSimpleAnnotations<process_types::internal::Traits64>(
-        &simple_map_annotations);
+        &annotations);
   } else {
     ReadCrashpadSimpleAnnotations<process_types::internal::Traits32>(
-        &simple_map_annotations);
+        &annotations);
   }
-  return simple_map_annotations;
+
+  // Read the other style of annotations too (CRASHPAD_DEFINE_ANNOTATION_*).
+  if (process_reader_->Is64Bit()) {
+    ReadRawAnnotationsIntoMap<process_types::internal::Traits64>(&annotations);
+  } else {
+    ReadRawAnnotationsIntoMap<process_types::internal::Traits32>(&annotations);
+  }
+
+  return annotations;
 }
 
 template <class Traits>
@@ -77,6 +108,35 @@ void PEImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
                   << base::UTF16ToUTF8(name_);
       }
     }
+  }
+}
+
+template <class Traits>
+void PEImageAnnotationsReader::ReadRawAnnotationsIntoMap(
+    std::map<std::string, std::string>* map) const {
+  std::vector<process_types::RawAnnotation<Traits>> annotations;
+  if (!pe_image_reader_->GetCrashpadRawAnnotations<Traits>(&annotations)) {
+    return;
+  }
+
+  for (const auto& annotation : annotations) {
+    std::string key =
+        ReadNulTerminatedString(process_reader_, annotation.key_name);
+
+    if (annotation.type !=
+            static_cast<uint32_t>(
+                crashpad::internal::RawAnnotation::Type::kString) &&
+        annotation.type !=
+            static_cast<uint32_t>(
+                crashpad::internal::RawAnnotation::Type::kStringOwned)) {
+      LOG(ERROR) << "unexpected annotation type " << annotation.type;
+      continue;
+    }
+
+    std::string value =
+        ReadNulTerminatedString(process_reader_, annotation.data);
+
+    MapInsertOrReplace(map, key, value, nullptr);
   }
 }
 
