@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 import re
 import subprocess
 import sys
@@ -106,8 +107,13 @@ extern "C" {
   file.close()
 
 def main(args):
-  assert len(args) == 5
-  (defs_file, user_c, server_c, user_h, server_h) = args
+  if len(args) == 5:
+    (defs_file, user_c, server_c, user_h, server_h) = args
+  elif len(args) == 6:
+    (defs_file, user_c, server_c, user_h, server_h, dev_dir) = args
+    os.environ['DEVELOPER_DIR'] = dev_dir
+  else:
+    assert False, "Wrong number of arguments"
   subprocess.check_call(['mig',
                          '-user', user_c,
                          '-server', server_c,
