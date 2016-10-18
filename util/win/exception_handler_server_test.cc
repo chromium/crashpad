@@ -81,7 +81,7 @@ class ExceptionHandlerServerTest : public testing::Test {
  public:
   ExceptionHandlerServerTest()
       : server_(true),
-        pipe_name_(server_.CreatePipe()),
+        pipe_name_(),  // TODO(scottmg): server_.CreatePipe()),
         server_ready_(CreateEvent(nullptr, false, false, nullptr)),
         delegate_(server_ready_.get()),
         server_thread_(&server_, &delegate_) {}

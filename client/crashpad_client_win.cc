@@ -28,6 +28,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock.h"
 #include "util/file/file_io.h"
+#include "util/misc/random_string.h"
 #include "util/win/address_types.h"
 #include "util/win/command_line.h"
 #include "util/win/critical_section_with_debug_info.h"
@@ -37,7 +38,6 @@
 #include "util/win/ntstatus_logging.h"
 #include "util/win/process_info.h"
 #include "util/win/registration_protocol_win.h"
-#include "util/win/scoped_handle.h"
 #include "util/win/scoped_process_suspend.h"
 #include "util/win/termination_codes.h"
 
@@ -186,74 +186,107 @@ void AddUint64(std::vector<unsigned char>* data_vector, uint64_t data) {
             static_cast<uint32_t>((data & 0xffffffff00000000ULL) >> 32));
 }
 
-}  // namespace
+//! \brief Creates a randomized pipe name to listen for client registrations
+//!     on and returns its name.
+//!
+//! \param[out] pipe_name The pipe name that will be listened on.
+//! \param[out] pipe_handle The first pipe instance corresponding for the pipe.
+void CreatePipe(std::wstring* pipe_name,
+                crashpad::ScopedFileHandle* pipe_instance) {
+  int tries = 5;
+  std::string pipe_name_base =
+      base::StringPrintf("\\\\.\\pipe\\crashpad_%d_", GetCurrentProcessId());
+  do {
+    *pipe_name = base::UTF8ToUTF16(pipe_name_base + crashpad::RandomString());
 
-namespace crashpad {
+    pipe_instance->reset(crashpad::CreateNamedPipeInstance(*pipe_name, true));
 
-CrashpadClient::CrashpadClient()
-    : ipc_pipe_() {
+    // CreateNamedPipe() is documented as setting the error to
+    // ERROR_ACCESS_DENIED if FILE_FLAG_FIRST_PIPE_INSTANCE is specified and the
+    // pipe name is already in use. However it may set the error to other codes
+    // such as ERROR_PIPE_BUSY (if the pipe already exists and has reached its
+    // maximum instance count) or ERROR_INVALID_PARAMETER (if the pipe already
+    // exists and its attributes differ from those specified to
+    // CreateNamedPipe()). Some of these errors may be ambiguous: for example,
+    // ERROR_INVALID_PARAMETER may also occur if CreateNamedPipe() is called
+    // incorrectly even in the absence of an existing pipe by the same name.
+    //
+    // Rather than chasing down all of the possible errors that might indicate
+    // that a pipe name is already in use, retry up to a few times on any error.
+  } while (!pipe_instance->is_valid() && --tries);
+
+  PCHECK(pipe_instance->is_valid()) << "CreateNamedPipe";
 }
 
-CrashpadClient::~CrashpadClient() {
-}
+struct BackgroundHandlerStartThreadData {
+  BackgroundHandlerStartThreadData(
+      const base::FilePath& handler,
+      const base::FilePath& database,
+      const base::FilePath& metrics_dir,
+      const std::string& url,
+      const std::map<std::string, std::string>& annotations,
+      const std::vector<std::string>& arguments,
+      HANDLE ipc_pipe_handle)
+      : handler(handler),
+        database(database),
+        metrics_dir(metrics_dir),
+        url(url),
+        annotations(annotations),
+        arguments(arguments),
+        ipc_pipe_handle(ipc_pipe_handle) {}
 
-bool CrashpadClient::StartHandler(
-    const base::FilePath& handler,
-    const base::FilePath& database,
-    const base::FilePath& metrics_dir,
-    const std::string& url,
-    const std::map<std::string, std::string>& annotations,
-    const std::vector<std::string>& arguments,
-    bool restartable) {
-  DCHECK(ipc_pipe_.empty());
+  base::FilePath handler;
+  base::FilePath database;
+  base::FilePath metrics_dir;
+  std::string url;
+  std::map<std::string, std::string> annotations;
+  std::vector<std::string> arguments;
+  HANDLE ipc_pipe_handle;
+};
 
-  HANDLE pipe_read;
-  HANDLE pipe_write;
-  SECURITY_ATTRIBUTES security_attributes = {};
-  security_attributes.nLength = sizeof(security_attributes);
-  security_attributes.bInheritHandle = TRUE;
-  if (!CreatePipe(&pipe_read, &pipe_write, &security_attributes, 0)) {
-    PLOG(ERROR) << "CreatePipe";
-    return false;
-  }
-  ScopedFileHandle pipe_read_owner(pipe_read);
-  ScopedFileHandle pipe_write_owner(pipe_write);
-
-  // The new process only needs the write side of the pipe.
-  BOOL rv = SetHandleInformation(pipe_read, HANDLE_FLAG_INHERIT, 0);
-  PLOG_IF(WARNING, !rv) << "SetHandleInformation";
+DWORD WINAPI BackgroundHandlerStartThreadProc(void* data) {
+  const BackgroundHandlerStartThreadData* thread_data =
+      reinterpret_cast<BackgroundHandlerStartThreadData*>(data);
 
   std::wstring command_line;
-  AppendCommandLineArgument(handler.value(), &command_line);
-  for (const std::string& argument : arguments) {
-    AppendCommandLineArgument(base::UTF8ToUTF16(argument), &command_line);
+  crashpad::AppendCommandLineArgument(thread_data->handler.value(),
+                                      &command_line);
+  for (const std::string& argument : thread_data->arguments) {
+    crashpad::AppendCommandLineArgument(base::UTF8ToUTF16(argument),
+                                        &command_line);
   }
-  if (!database.value().empty()) {
-    AppendCommandLineArgument(FormatArgumentString("database",
-                                                   database.value()),
-                              &command_line);
-  }
-  if (!metrics_dir.value().empty()) {
-    AppendCommandLineArgument(
-        FormatArgumentString("metrics-dir", metrics_dir.value()),
+  if (!thread_data->database.value().empty()) {
+    crashpad::AppendCommandLineArgument(
+        FormatArgumentString("database", thread_data->database.value()),
         &command_line);
   }
-  if (!url.empty()) {
-    AppendCommandLineArgument(FormatArgumentString("url",
-                                                   base::UTF8ToUTF16(url)),
-                              &command_line);
+  if (!thread_data->metrics_dir.value().empty()) {
+    crashpad::AppendCommandLineArgument(
+        FormatArgumentString("metrics-dir", thread_data->metrics_dir.value()),
+        &command_line);
   }
-  for (const auto& kv : annotations) {
-    AppendCommandLineArgument(
+  if (!thread_data->url.empty()) {
+    crashpad::AppendCommandLineArgument(
+        FormatArgumentString("url", base::UTF8ToUTF16(thread_data->url)),
+        &command_line);
+  }
+  for (const auto& kv : thread_data->annotations) {
+    crashpad::AppendCommandLineArgument(
         FormatArgumentString("annotation",
                              base::UTF8ToUTF16(kv.first + '=' + kv.second)),
         &command_line);
   }
-  AppendCommandLineArgument(
+
+  // TODO(scottmg): Append all registration data here as --initial-client-data=.
+  CHECK(false);
+#if 0
+  crashpad::AppendCommandLineArgument(
       base::UTF8ToUTF16(base::StringPrintf("--handshake-handle=0x%x",
                                            HandleToInt(pipe_write))),
       &command_line);
+#endif
 
+  BOOL rv;
   DWORD creation_flags;
   STARTUPINFOEX startup_info = {};
   startup_info.StartupInfo.dwFlags = STARTF_USESTDHANDLES;
@@ -286,10 +319,10 @@ bool CrashpadClient::StartHandler(
     if (rv) {
       LOG(ERROR) << "InitializeProcThreadAttributeList (size) succeeded, "
                     "expected failure";
-      return false;
+      return 1;
     } else if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
       PLOG(ERROR) << "InitializeProcThreadAttributeList (size)";
-      return false;
+      return 1;
     }
 
     proc_thread_attribute_list_storage.reset(new uint8_t[size]);
@@ -300,12 +333,12 @@ bool CrashpadClient::StartHandler(
         startup_info.lpAttributeList, 1, 0, &size);
     if (!rv) {
       PLOG(ERROR) << "InitializeProcThreadAttributeList";
-      return false;
+      return 1;
     }
     proc_thread_attribute_list_owner.reset(startup_info.lpAttributeList);
 
     handle_list.reserve(4);
-    handle_list.push_back(pipe_write);
+    handle_list.push_back(thread_data->ipc_pipe_handle);
     AddHandleToListIfValidAndInheritable(&handle_list,
                                          startup_info.StartupInfo.hStdInput);
     AddHandleToListIfValidAndInheritable(&handle_list,
@@ -322,12 +355,12 @@ bool CrashpadClient::StartHandler(
         nullptr);
     if (!rv) {
       PLOG(ERROR) << "UpdateProcThreadAttribute";
-      return false;
+      return 1;
     }
   }
 
   PROCESS_INFORMATION process_info;
-  rv = CreateProcess(handler.value().c_str(),
+  rv = CreateProcess(thread_data->handler.value().c_str(),
                      &command_line[0],
                      nullptr,
                      nullptr,
@@ -339,7 +372,7 @@ bool CrashpadClient::StartHandler(
                      &process_info);
   if (!rv) {
     PLOG(ERROR) << "CreateProcess";
-    return false;
+    return 1;
   }
 
   rv = CloseHandle(process_info.hThread);
@@ -348,17 +381,53 @@ bool CrashpadClient::StartHandler(
   rv = CloseHandle(process_info.hProcess);
   PLOG_IF(WARNING, !rv) << "CloseHandle process";
 
-  pipe_write_owner.reset();
+  return 0;
+}
 
-  uint32_t ipc_pipe_length;
-  if (!LoggingReadFile(pipe_read, &ipc_pipe_length, sizeof(ipc_pipe_length))) {
-    return false;
-  }
+}  // namespace
 
-  ipc_pipe_.resize(ipc_pipe_length);
-  if (ipc_pipe_length &&
-      !LoggingReadFile(
-          pipe_read, &ipc_pipe_[0], ipc_pipe_length * sizeof(ipc_pipe_[0]))) {
+namespace crashpad {
+
+CrashpadClient::CrashpadClient()
+    : ipc_pipe_(), ipc_pipe_handle_() {
+}
+
+CrashpadClient::~CrashpadClient() {
+}
+
+bool CrashpadClient::StartHandler(
+    const base::FilePath& handler,
+    const base::FilePath& database,
+    const base::FilePath& metrics_dir,
+    const std::string& url,
+    const std::map<std::string, std::string>& annotations,
+    const std::vector<std::string>& arguments,
+    bool restartable) {
+  DCHECK(ipc_pipe_.empty());
+
+  CreatePipe(&ipc_pipe_, &ipc_pipe_handle_);
+
+  auto data = new BackgroundHandlerStartThreadData(handler,
+                                                   database,
+                                                   metrics_dir,
+                                                   url,
+                                                   annotations,
+                                                   arguments,
+                                                   ipc_pipe_handle_.get());
+
+  // It is important that we not synchronize with this thread. StartHandler()
+  // needs to be callable inside a DllMain(). In that case, the background
+  // thread will not start until the current DllMain() is complete, so we would
+  // deadlock here if we waited for it.
+  ScopedFileHandle background_thread(
+      CreateThread(nullptr,
+                   0,
+                   &BackgroundHandlerStartThreadProc,
+                   reinterpret_cast<void*>(data),
+                   0,
+                   nullptr));
+  if (!background_thread.is_valid()) {
+    PLOG(ERROR) << "CreateThread";
     return false;
   }
 
