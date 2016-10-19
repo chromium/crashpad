@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "dc790340_cb2975bc",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:22:45Z",
+      "side": 1,
+      "message": "I retract all that. I shouldn\u0027t have been calling GetFileType() on a non-file-type HANDLE as I discovered after I checked the GetLastError() value. In this case, we created all the handles, so we don\u0027t need to check that they\u0027re ValidAndInheritable here, we already know they are.",
+      "parentUuid": "9c04eb4e_f27fcb1a",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_0a2fdbbf",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 10
