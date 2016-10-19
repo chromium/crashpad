@@ -126,7 +126,8 @@ void TestCrashingChild(const base::string16& directory_modification) {
   CrashingDelegate delegate(server_ready.get(), completed.get());
 
   ExceptionHandlerServer exception_handler_server(true);
-  std::wstring pipe_name = exception_handler_server.CreatePipe();
+  std::wstring pipe_name(L"\\\\.\\pipe\\test_name");
+  exception_handler_server.SetPipeName(pipe_name);
   RunServerThread server_thread(&exception_handler_server, &delegate);
   server_thread.Start();
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
@@ -227,7 +228,8 @@ void TestDumpWithoutCrashingChild(
   SimulateDelegate delegate(server_ready.get(), completed.get());
 
   ExceptionHandlerServer exception_handler_server(true);
-  std::wstring pipe_name = exception_handler_server.CreatePipe();
+  std::wstring pipe_name(L"\\\\.\\pipe\\test_name");
+  exception_handler_server.SetPipeName(pipe_name);
   RunServerThread server_thread(&exception_handler_server, &delegate);
   server_thread.Start();
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(

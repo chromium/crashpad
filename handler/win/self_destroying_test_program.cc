@@ -75,10 +75,6 @@ int SelfDestroyingMain(int argc, wchar_t* argv[]) {
     LOG(ERROR) << "SetHandler";
     return EXIT_FAILURE;
   }
-  if (!client.UseHandler()) {
-    LOG(ERROR) << "UseHandler";
-    return EXIT_FAILURE;
-  }
 
   if (!FreeOwnStackAndBreak())
     return EXIT_FAILURE;
