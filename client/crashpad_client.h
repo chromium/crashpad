@@ -29,6 +29,7 @@
 #include "base/mac/scoped_mach_port.h"
 #elif defined(OS_WIN)
 #include <windows.h>
+#include "util/win/scoped_handle.h"
 #endif
 
 namespace crashpad {
@@ -43,14 +44,31 @@ class CrashpadClient {
   //! \brief Starts a Crashpad handler process, performing any necessary
   //!     handshake to configure it.
   //!
-  //! This method does not actually direct any crashes to the Crashpad handler,
-  //! because there are alternative ways to use an existing Crashpad handler. To
-  //! begin directing crashes to the handler started by this method, call
-  //! UseHandler() after this method returns successfully.
+  //! This method directs crashes to the Crashpad handler. On Mac OS X, this
+  //! applies for this process and all child processes. On Windows, child
+  //! processes must also register by using SetHandlerIPCPipe().
   //!
-  //! On Mac OS X, this method starts a Crashpad handler and obtains a Mach
-  //! send right corresponding to a receive right held by the handler process.
-  //! The handler process runs an exception server on this port.
+  //! On Mac OS X, this method starts a Crashpad handler and obtains a Mach send
+  //! right corresponding to a receive right held by the handler process. The
+  //! handler process runs an exception server on this port. This method sets
+  //! the task’s exception port for `EXC_CRASH`, `EXC_RESOURCE`, and `EXC_GUARD`
+  //! exceptions to the Mach send right obtained. The handler will be installed
+  //! with behavior `EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES` and thread
+  //! state flavor `MACHINE_THREAD_STATE`. Exception ports are inherited, so a
+  //! Crashpad handler started here will remain the handler for any child
+  //! processes created after UseHandler() is called. Child processes do not
+  //! need to call StartHandler() or be aware of Crashpad in any way. The
+  //! Crashpad handler will receive crashes from child processes that have
+  //! inherited it as their exception handler even after the process that called
+  //! StartHandler() exits.
+  //!
+  //! On Windows, if \a asynchronous_start_thread is non-null, this function
+  //! will not directly call `CreateProcess()`, making it suitable for use in a
+  //! `DllMain()`. In that case, the handler is started from a background
+  //! thread, deferring the handler's startup. Nevertheless, regardless of the
+  //! value of \a asynchronous_start_thread, after calling this method, the
+  //! global unhandled exception filter is set up, and all crashes will be
+  //! handled by Crashpad.
   //!
   //! \param[in] handler The path to a Crashpad handler executable.
   //! \param[in] database The path to a Crashpad database. The handler will be
@@ -71,6 +89,13 @@ class CrashpadClient {
   //!     dies, if this behavior is supported. This option is not available on
   //!     all platforms, and does not function on all OS versions. If it is
   //!     not supported, it will be ignored.
+  //! \param[out] asynchronous_start_thread If non-null, the handler will be
+  //!     started from a background thread, and the thread handle will be
+  //!     returned. This can optionally be used with `WaitForSingleObject()` and
+  //!     `GetExitCodeThread()` to synchronize with the handler startup and
+  //!     confirm that it was successful. On failure, the thread exit code will
+  //!     be `0` and an message will have been logged. This option is only used
+  //!     on Windows.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
   bool StartHandler(const base::FilePath& handler,
@@ -79,47 +104,27 @@ class CrashpadClient {
                     const std::string& url,
                     const std::map<std::string, std::string>& annotations,
                     const std::vector<std::string>& arguments,
-                    bool restartable);
-
-#if defined(OS_MACOSX) || DOXYGEN
-  //! \brief Sets the process’ crash handler to a Mach service registered with
-  //!     the bootstrap server.
-  //!
-  //! This method does not actually direct any crashes to the Crashpad handler,
-  //! because there are alternative ways to start or use an existing Crashpad
-  //! handler. To begin directing crashes to the handler set by this method,
-  //! call UseHandler() after this method returns successfully.
-  //!
-  //! This method is only defined on OS X.
-  //!
-  //! \param[in] service_name The service name of a Crashpad exception handler
-  //!     service previously registered with the bootstrap server.
-  //!
-  //! \return `true` on success, `false` on failure with a message logged.
-  bool SetHandlerMachService(const std::string& service_name);
-
-  //! \brief Sets the process’ crash handler to a Mach port.
-  //!
-  //! This method does not actually direct any crashes to the Crashpad handler,
-  //! because there are alternative ways to start or use an existing Crashpad
-  //! handler. To begin directing crashes to the handler set by this method,
-  //! call UseHandler() after this method.
-  //!
-  //! This method is only defined on OS X.
-  //!
-  //! \param[in] exception_port An `exception_port_t` corresponding to a
-  //!     Crashpad exception handler service.
-  void SetHandlerMachPort(base::mac::ScopedMachSendRight exception_port);
+#if defined(OS_MACOSX)
+                    bool restartable
+#elif defined(OS_WIN)
+                    crashpad::ScopedKernelHANDLE* asynchronous_start_thread
+#elif DOXYGEN
+                    bool restartable,
+                    crashpad::ScopedKernelHANDLE* asynchronous_start_thread
 #endif
+                    );
 
 #if defined(OS_WIN) || DOXYGEN
   //! \brief Sets the IPC pipe of a presumably-running Crashpad handler process
   //!     which was started with StartHandler() or by other compatible means
   //!     and does an IPC message exchange to register this process with the
-  //!     handler. However, just like StartHandler(), crashes are not serviced
-  //!     until UseHandler() is called.
+  //!     handler. Crashes will be serviced once this method returns.
   //!
   //! This method is only defined on Windows.
+  //!
+  //! This method sets the unhandled exception handler to a local
+  //! function that when reached will "signal and wait" for the crash handler
+  //! process to create the dump.
   //!
   //! \param[in] ipc_pipe The full name of the crash handler IPC pipe. This is
   //!     a string of the form `&quot;\\.\pipe\NAME&quot;`.
@@ -195,31 +200,6 @@ class CrashpadClient {
   };
 #endif
 
-  //! \brief Configures the process to direct its crashes to a Crashpad handler.
-  //!
-  //! The Crashpad handler must previously have been started by StartHandler()
-  //! or configured by SetHandlerMachService(), SetHandlerMachPort(), or
-  //! SetHandlerIPCPipe().
-  //!
-  //! On Mac OS X, this method sets the task’s exception port for `EXC_CRASH`,
-  //! `EXC_RESOURCE`, and `EXC_GUARD` exceptions to the Mach send right obtained
-  //! by StartHandler(). The handler will be installed with behavior
-  //! `EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES` and thread state flavor
-  //! `MACHINE_THREAD_STATE`. Exception ports are inherited, so a Crashpad
-  //! handler chosen by UseHandler() will remain the handler for any child
-  //! processes created after UseHandler() is called. Child processes do not
-  //! need to call StartHandler() or UseHandler() or be aware of Crashpad in any
-  //! way. The Crashpad handler will receive crashes from child processes that
-  //! have inherited it as their exception handler even after the process that
-  //! called StartHandler() exits.
-  //!
-  //! On Windows, this method sets the unhandled exception handler to a local
-  //! function that when reached will "signal and wait" for the crash handler
-  //! process to create the dump.
-  //!
-  //! \return `true` on success, `false` on failure with a message logged.
-  bool UseHandler();
-
 #if defined(OS_MACOSX) || DOXYGEN
   //! \brief Configures the process to direct its crashes to the default handler
   //!     for the operating system.
@@ -242,10 +222,43 @@ class CrashpadClient {
 #endif
 
  private:
+#if defined(OS_MACOSX) || DOXYGEN
+  //! \brief Sets the process’ crash handler to a Mach service registered with
+  //!     the bootstrap server.
+  //!
+  //! This method does not actually direct any crashes to the Crashpad handler,
+  //! because there are alternative ways to start or use an existing Crashpad
+  //! handler. To begin directing crashes to the handler set by this method,
+  //! call UseHandler() after this method returns successfully.
+  //!
+  //! This method is only defined on OS X.
+  //!
+  //! \param[in] service_name The service name of a Crashpad exception handler
+  //!     service previously registered with the bootstrap server.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool SetHandlerMachService(const std::string& service_name);
+
+  //! \brief Sets the process’ crash handler to a Mach port.
+  //!
+  //! This method does not actually direct any crashes to the Crashpad handler,
+  //! because there are alternative ways to start or use an existing Crashpad
+  //! handler. To begin directing crashes to the handler set by this method,
+  //! call UseHandler() after this method.
+  //!
+  //! This method is only defined on OS X.
+  //!
+  //! \param[in] exception_port An `exception_port_t` corresponding to a
+  //!     Crashpad exception handler service.
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool SetHandlerMachPort(base::mac::ScopedMachSendRight exception_port);
+#endif
+
 #if defined(OS_MACOSX)
   base::mac::ScopedMachSendRight exception_port_;
 #elif defined(OS_WIN)
   std::wstring ipc_pipe_;
+  ScopedFileHANDLE ipc_pipe_handle_;
 #endif
 
   DISALLOW_COPY_AND_ASSIGN(CrashpadClient);
