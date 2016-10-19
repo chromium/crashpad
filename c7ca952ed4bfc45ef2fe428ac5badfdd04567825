@@ -1,0 +1,306 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c2353ec_ea724701",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "Noting this (but I know you’re not done).",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 8
+      },
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_6a9657d8",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "Be a little bit more affirmative about what it will do. You’re doing CreateProcess() on a different thread, so what’s guaranteed for the process and on this (calling) thread when this method returns?",
+      "range": {
+        "startLine": 53,
+        "startChar": 32,
+        "endLine": 53,
+        "endChar": 72
+      },
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_0aa19b30",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "I think that we should leave this as StartHandler(), the implied “use” is just part of what it does. Like how we’ll continue to have SetHandlerMachPort(), SetHandlerIPCPipe(), and others that don’t need to say “use.”",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_0a487ba0",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "Are we more certain about there not being other un-inheritable handle types now than we were last year?",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_0a2fdbbf",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "Looks like you leak this, but you intended for this thread to take ownership. unique_ptr?",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_aa568f42",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "Don’t break the line between the % and the rest of its stuff, it makes it harder to grep for format strings. I wouldn’t separate it from its 0x either.",
+      "range": {
+        "startLine": 290,
+        "startChar": 76,
+        "endLine": 290,
+        "endChar": 77
+      },
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_4a29d3b6",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "Check the return value.",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_2a2a9faf",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "Tab",
+      "range": {
+        "startLine": 462,
+        "startChar": 0,
+        "endLine": 462,
+        "endChar": 1
+      },
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_6a2497e0",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "Reword to avoid “we” for clarity",
+      "range": {
+        "startLine": 474,
+        "startChar": 26,
+        "endLine": 474,
+        "endChar": 28
+      },
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_6a1bf797",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "CreateThread() returns kernel handles (nullptr on failure), so this should be a ScopedKernelHandle.",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_0a16bb6f",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "So there’s no way to know if stuff didn’t get set up fully? That seems kind of not great. It’s pretty easy to goof and have an executable that doesn’t launch, and now we have no way to know about that.\n\n1. Let’s make the asynchronous start optional (parameterized) so that when you’re not starting Crashpad from loader-locked contexts like DllMain(), you can let it return false if things went sour.\n\n2. To be able to call this early but still allow for error reporting, provide a method that will synchronize with the thread and report the “rest of” the success/failure value that we would have seen here in synchronous mode.",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_8a010b23",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "It’d be a little better for documentary purposes if you named the handles and addresses (even abbreviated since there are so many).",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_ea0ec750",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "I don’t know what ICD is.\n\nOh (after looking up a bit again), it’s “initial client data.” That’s totally not obvious. :(",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_2af8df0f",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "I think that these are all “kernel” handles (nullptr is the more native “invalid” value), right? Process handles, CreateEvent() handles, and CreatePipe() handles all seem to be.",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_2a1f3f77",
+        "filename": "util/win/exception_handler_server.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "Just noting.",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c2353ec_0a24fbc7",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-19T19:14:52Z",
+      "side": 1,
+      "message": "Two blank //! in a row, were you going to say something else? I don’t think you need to.",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
