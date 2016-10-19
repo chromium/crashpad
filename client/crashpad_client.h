@@ -29,6 +29,7 @@
 #include "base/mac/scoped_mach_port.h"
 #elif defined(OS_WIN)
 #include <windows.h>
+#include "util/win/scoped_handle.h"
 #endif
 
 namespace crashpad {
@@ -51,6 +52,9 @@ class CrashpadClient {
   //! On Mac OS X, this method starts a Crashpad handler and obtains a Mach
   //! send right corresponding to a receive right held by the handler process.
   //! The handler process runs an exception server on this port.
+  //!
+  //! On Windows, this function will not directly call `CreateProcess()`,
+  //! making it suitable for use in a `DllMain()`.
   //!
   //! \param[in] handler The path to a Crashpad handler executable.
   //! \param[in] database The path to a Crashpad database. The handler will be
@@ -246,6 +250,7 @@ class CrashpadClient {
   base::mac::ScopedMachSendRight exception_port_;
 #elif defined(OS_WIN)
   std::wstring ipc_pipe_;
+  ScopedFileHANDLE ipc_pipe_handle_;
 #endif
 
   DISALLOW_COPY_AND_ASSIGN(CrashpadClient);
