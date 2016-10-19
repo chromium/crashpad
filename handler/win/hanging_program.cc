@@ -56,11 +56,6 @@ int wmain(int argc, wchar_t* argv[]) {
     return EXIT_FAILURE;
   }
 
-  if (!client.UseHandler()) {
-    LOG(ERROR) << "UseHandler";
-    return EXIT_FAILURE;
-  }
-
   // Make sure this module has a CrashpadInfo structure.
   crashpad::CrashpadInfo* crashpad_info =
       crashpad::CrashpadInfo::GetCrashpadInfo();

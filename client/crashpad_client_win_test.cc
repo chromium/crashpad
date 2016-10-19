@@ -29,14 +29,13 @@ void StartAndUseHandler() {
   base::FilePath handler_path = Paths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_handler.com"));
   CrashpadClient client;
-  ASSERT_TRUE(client.StartHandler(handler_path,
-                                  temp_dir.path(),
-                                  base::FilePath(),
-                                  "",
-                                  std::map<std::string, std::string>(),
-                                  std::vector<std::string>(),
-                                  false));
-  EXPECT_TRUE(client.UseHandler());
+  ASSERT_TRUE(client.StartAndUseHandler(handler_path,
+                                        temp_dir.path(),
+                                        base::FilePath(),
+                                        "",
+                                        std::map<std::string, std::string>(),
+                                        std::vector<std::string>(),
+                                        false));
 }
 
 class StartWithInvalidHandles final : public WinMultiprocess {
