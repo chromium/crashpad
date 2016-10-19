@@ -81,11 +81,6 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
     return EXIT_FAILURE;
   }
 
-  if (!client.UseHandler()) {
-    LOG(ERROR) << "UseHandler";
-    return EXIT_FAILURE;
-  }
-
   // Launch another process that hangs.
   base::FilePath test_executable = Paths::Executable();
   std::wstring child_test_executable =
