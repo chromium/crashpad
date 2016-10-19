@@ -29,6 +29,7 @@
 #include "base/mac/scoped_mach_port.h"
 #elif defined(OS_WIN)
 #include <windows.h>
+#include "util/win/scoped_handle.h"
 #endif
 
 namespace crashpad {
@@ -52,6 +53,9 @@ class CrashpadClient {
   //! send right corresponding to a receive right held by the handler process.
   //! The handler process runs an exception server on this port.
   //!
+  //! On Windows, this function will not directly call `CreateProcess()`,
+  //! making it suitable for use in a `DllMain()`.
+  //!
   //! \param[in] handler The path to a Crashpad handler executable.
   //! \param[in] database The path to a Crashpad database. The handler will be
   //!     started with this path as its `--database` argument.
@@ -73,13 +77,13 @@ class CrashpadClient {
   //!     not supported, it will be ignored.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  bool StartHandler(const base::FilePath& handler,
-                    const base::FilePath& database,
-                    const base::FilePath& metrics_dir,
-                    const std::string& url,
-                    const std::map<std::string, std::string>& annotations,
-                    const std::vector<std::string>& arguments,
-                    bool restartable);
+  bool StartAndUseHandler(const base::FilePath& handler,
+                          const base::FilePath& database,
+                          const base::FilePath& metrics_dir,
+                          const std::string& url,
+                          const std::map<std::string, std::string>& annotations,
+                          const std::vector<std::string>& arguments,
+                          bool restartable);
 
 #if defined(OS_MACOSX) || DOXYGEN
   //! \brief Sets the process’ crash handler to a Mach service registered with
@@ -195,6 +199,28 @@ class CrashpadClient {
   };
 #endif
 
+#if defined(OS_MACOSX) || DOXYGEN
+  //! \brief Configures the process to direct its crashes to the default handler
+  //!     for the operating system.
+  //!
+  //! On OS X, this sets the task’s exception port as in UseHandler(), but the
+  //! exception handler used is obtained from SystemCrashReporterHandler(). If
+  //! the system’s crash reporter handler cannot be determined or set, the
+  //! task’s exception ports for crash-type exceptions are cleared.
+  //!
+  //! Use of this function is strongly discouraged.
+  //!
+  //! \warning After a call to this function, Crashpad will no longer monitor
+  //!     the process for crashes until a subsequent call to UseHandler().
+  //!
+  //! \note This is provided as a static function to allow it to be used in
+  //!     situations where a CrashpadClient object is not otherwise available.
+  //!     This may be useful when a child process inherits its parent’s Crashpad
+  //!     handler, but wants to sever this tie.
+  static void UseSystemDefaultHandler();
+#endif
+
+ private:
   //! \brief Configures the process to direct its crashes to a Crashpad handler.
   //!
   //! The Crashpad handler must previously have been started by StartHandler()
@@ -218,34 +244,13 @@ class CrashpadClient {
   //! process to create the dump.
   //!
   //! \return `true` on success, `false` on failure with a message logged.
-  bool UseHandler();
+  //bool UseHandler() {}
 
-#if defined(OS_MACOSX) || DOXYGEN
-  //! \brief Configures the process to direct its crashes to the default handler
-  //!     for the operating system.
-  //!
-  //! On OS X, this sets the task’s exception port as in UseHandler(), but the
-  //! exception handler used is obtained from SystemCrashReporterHandler(). If
-  //! the system’s crash reporter handler cannot be determined or set, the
-  //! task’s exception ports for crash-type exceptions are cleared.
-  //!
-  //! Use of this function is strongly discouraged.
-  //!
-  //! \warning After a call to this function, Crashpad will no longer monitor
-  //!     the process for crashes until a subsequent call to UseHandler().
-  //!
-  //! \note This is provided as a static function to allow it to be used in
-  //!     situations where a CrashpadClient object is not otherwise available.
-  //!     This may be useful when a child process inherits its parent’s Crashpad
-  //!     handler, but wants to sever this tie.
-  static void UseSystemDefaultHandler();
-#endif
-
- private:
 #if defined(OS_MACOSX)
   base::mac::ScopedMachSendRight exception_port_;
 #elif defined(OS_WIN)
   std::wstring ipc_pipe_;
+  ScopedFileHANDLE ipc_pipe_handle_;
 #endif
 
   DISALLOW_COPY_AND_ASSIGN(CrashpadClient);
