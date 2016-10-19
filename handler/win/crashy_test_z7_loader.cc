@@ -39,10 +39,6 @@ int CrashyLoadZ7Main(int argc, wchar_t* argv[]) {
     LOG(ERROR) << "SetHandler";
     return EXIT_FAILURE;
   }
-  if (!client.UseHandler()) {
-    LOG(ERROR) << "UseHandler";
-    return EXIT_FAILURE;
-  }
 
   // The DLL has /Z7 symbols embedded in the binary (rather than in a .pdb).
   // There's only an x86 version of this dll as newer x64 toolchains can't

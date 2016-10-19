@@ -72,21 +72,59 @@ class ExceptionHandlerServer {
 
   //! \brief Sets the pipe name to listen for client registrations on.
   //!
-  //! Either this method or CreatePipe(), but not both, must be called before
-  //! Run().
+  //! This method, or InitializeWithInheritedDataForInitialClient(), must be
+  //! called before Run().
   //!
   //! \param[in] pipe_name The name of the pipe to listen on. Must be of the
   //!     form "\\.\pipe\<some_name>".
   void SetPipeName(const std::wstring& pipe_name);
 
-  //! \brief Creates a randomized pipe name to listen for client registrations
-  //!     on and returns its name.
+  //! \brief Sets the pipe to listen for client registrations on, providing
+  //!     the first precreated instance.
   //!
-  //! Either this method or CreatePipe(), but not both, must be called before
-  //! Run().
+  //! This method, or SetPipeName(), must be called before Run(). All of these
+  //! parameters are generally created in a parent process that launches the
+  //! handler. For more details see the Windows implementation of
+  //! CrashpadClient.
   //!
-  //! \return The pipe name that will be listened on.
-  std::wstring CreatePipe();
+  //! \sa CrashpadClient
+  //! \sa RegistrationRequest
+  //!
+  //! \param[in] request_crash_dump An event signalled from the client on crash.
+  //!     Ownership is taken.
+  //! \param[in] request_non_crash_dump An event signalled from the client when
+  //!     it would like a dump to be taken, but allowed to continue afterwards.
+  //!     Ownership is taken.
+  //! \param[in] non_crash_dump_completed An event signalled from the handler to
+  //!     tell the client that the non-crash dump has completed, and it can
+  //!     continue execution. Ownership is taken.
+  //! \param[in] first_pipe_instance The server end and first instance of a pipe
+  //!     that will be used for communication with all other clients after this
+  //!     initial one. Ownership is taken.
+  //! \param[in] client_process A process handle for the client being
+  //!     registered. Ownership is taken.
+  //! \param[in] crash_exception_information The address, in the client's
+  //!     address space, of an ExceptionInformation structure, used when
+  //!     handling a crash dump request.
+  //! \param[in] non_crash_exception_information The address, in the client's
+  //!     address space, of an ExceptionInformation structure, used when
+  //!     handling a non-crashing dump request.
+  //! \param[in] debug_critical_section_address The address, in the client
+  //!     process's address space, of a `CRITICAL_SECTION` allocated with a
+  //!     valid .DebugInfo field. This can be accomplished by using
+  //!     InitializeCriticalSectionWithDebugInfoIfPossible() or equivalent. This
+  //!     value can be `0`, however then limited lock data will be available in
+  //!     minidumps.
+  void InitializeWithInheritedDataForInitialClient(
+      HANDLE request_crash_dump,
+      HANDLE request_non_crash_dump,
+      HANDLE non_crash_dump_completed,
+      HANDLE first_pipe_instance,
+      HANDLE client_process,
+      WinVMAddress crash_exception_information,
+      WinVMAddress non_crash_exception_information,
+      WinVMAddress debug_critical_section_address,
+      Delegate* delegate);
 
   //! \brief Runs the exception-handling server.
   //!
