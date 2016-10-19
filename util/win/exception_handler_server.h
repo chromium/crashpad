@@ -72,21 +72,31 @@ class ExceptionHandlerServer {
 
   //! \brief Sets the pipe name to listen for client registrations on.
   //!
-  //! Either this method or CreatePipe(), but not both, must be called before
-  //! Run().
+  //! This method, or InitializeWithInheritedDataForInitialClient(), must be
+  //! called before Run().
   //!
   //! \param[in] pipe_name The name of the pipe to listen on. Must be of the
   //!     form "\\.\pipe\<some_name>".
   void SetPipeName(const std::wstring& pipe_name);
 
-  //! \brief Creates a randomized pipe name to listen for client registrations
-  //!     on and returns its name.
+  //! \brief Sets the pipe to listen for client registrations on, providing
+  //!     the first precreated instance.
   //!
-  //! Either this method or CreatePipe(), but not both, must be called before
-  //! Run().
+  //! This method, or SetPipeName(), must be called before Run().
   //!
-  //! \return The pipe name that will be listened on.
-  std::wstring CreatePipe();
+  //! XXX TODO(scottmg) \param docs
+  //! \param[in] first_pipe_instance The server-side handle to the first
+  //!     instance of the pipe. Ownership is taken.
+  void InitializeWithInheritedDataForInitialClient(
+      HANDLE request_crash_dump,
+      HANDLE request_non_crash_dump,
+      HANDLE non_crash_dump_completed,
+      HANDLE first_pipe_instance,
+      HANDLE client_process,
+      WinVMAddress crash_exception_information,
+      WinVMAddress non_crash_exception_information,
+      WinVMAddress debug_critical_section_address,
+      Delegate* delegate);
 
   //! \brief Runs the exception-handling server.
   //!
