@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "fc6de743_582fcd55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2353ec_ea724701",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_6a9657d8",
         "filename": "client/crashpad_client.h",
         "patchSetId": 10
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "9c04eb4e_179081d6",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2353ec_6a9657d8",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_0aa19b30",
         "filename": "client/crashpad_client.h",
         "patchSetId": 10
@@ -59,6 +95,24 @@
       "writtenOn": "2016-10-19T19:14:52Z",
       "side": 1,
       "message": "I think that we should leave this as StartHandler(), the implied “use” is just part of what it does. Like how we’ll continue to have SetHandlerMachPort(), SetHandlerIPCPipe(), and others that don’t need to say “use.”",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c04eb4e_975751e4",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2353ec_0aa19b30",
       "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -82,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "9c04eb4e_f27fcb1a",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "The 5 documented return types are _CHAR, _DISK, _PIPE, _REMOTE, _UNKNOWN.\n\n_CHAR definitely causes failures. The events are _UNKNOWN (0), but seems to work. We previously allowed _DISK and _PIPE, and _REMOTE is documented as \"Unused.\"... but in the interests of completeness, I\u0027ll add and disallow _REMOTE.",
+      "parentUuid": "5c2353ec_0a487ba0",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_0a2fdbbf",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 10
@@ -93,6 +165,24 @@
       "writtenOn": "2016-10-19T19:14:52Z",
       "side": 1,
       "message": "Looks like you leak this, but you intended for this thread to take ownership. unique_ptr?",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c04eb4e_178361eb",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2353ec_0a2fdbbf",
       "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "9c04eb4e_1c9c2654",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Oops, can\u0027t quite entrust all formatting decisions clang-format. I guess it\u0027s hard to do much better on string data.",
+      "parentUuid": "5c2353ec_aa568f42",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_4a29d3b6",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 10
@@ -133,6 +241,24 @@
       "writtenOn": "2016-10-19T19:14:52Z",
       "side": 1,
       "message": "Check the return value.",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c04eb4e_3c0e4ae1",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "This is the helper above, not Win32. It PCHECKs on failure.",
+      "parentUuid": "5c2353ec_4a29d3b6",
       "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -162,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "9c04eb4e_7cf8d2a7",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Damnable Visual Studio on a new machine! Done.",
+      "parentUuid": "5c2353ec_2a2a9faf",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_6a2497e0",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 10
@@ -185,6 +329,24 @@
     },
     {
       "key": {
+        "uuid": "fc6de743_b8ea81c0",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2353ec_6a2497e0",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_6a1bf797",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 10
@@ -196,6 +358,24 @@
       "writtenOn": "2016-10-19T19:14:52Z",
       "side": 1,
       "message": "CreateThread() returns kernel handles (nullptr on failure), so this should be a ScopedKernelHandle.",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c04eb4e_378ae5fc",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2353ec_6a1bf797",
       "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -219,6 +399,24 @@
     },
     {
       "key": {
+        "uuid": "9c04eb4e_d2c8c70a",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2353ec_0a16bb6f",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_8a010b23",
         "filename": "handler/handler_main.cc",
         "patchSetId": 10
@@ -230,6 +428,24 @@
       "writtenOn": "2016-10-19T19:14:52Z",
       "side": 1,
       "message": "It’d be a little better for documentary purposes if you named the handles and addresses (even abbreviated since there are so many).",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c04eb4e_77ad8d85",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Done, and updated .ad file too.",
+      "parentUuid": "5c2353ec_8a010b23",
       "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -253,6 +469,24 @@
     },
     {
       "key": {
+        "uuid": "9c04eb4e_97f3d1cb",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Sorry, done. I was trying to cram things in at the callsite, but it actually makes it more regular if they have understandable names.",
+      "parentUuid": "5c2353ec_ea0ec750",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_2af8df0f",
         "filename": "handler/handler_main.cc",
         "patchSetId": 10
@@ -264,6 +498,24 @@
       "writtenOn": "2016-10-19T19:14:52Z",
       "side": 1,
       "message": "I think that these are all “kernel” handles (nullptr is the more native “invalid” value), right? Process handles, CreateEvent() handles, and CreatePipe() handles all seem to be.",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c04eb4e_57116900",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Oops, good catch, yes. Events and processes should be null, pipes are files, so INVALID_HANDLE_VALUE.",
+      "parentUuid": "5c2353ec_2af8df0f",
       "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -287,6 +539,24 @@
     },
     {
       "key": {
+        "uuid": "9c04eb4e_52385702",
+        "filename": "util/win/exception_handler_server.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2353ec_2a1f3f77",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_0a24fbc7",
         "filename": "util/win/registration_protocol_win.h",
         "patchSetId": 10
@@ -298,6 +568,24 @@
       "writtenOn": "2016-10-19T19:14:52Z",
       "side": 1,
       "message": "Two blank //! in a row, were you going to say something else? I don’t think you need to.",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c04eb4e_b7a7f5a2",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-19T23:09:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2353ec_0a24fbc7",
       "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
