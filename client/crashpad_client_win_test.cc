@@ -29,14 +29,19 @@ void StartAndUseHandler() {
   base::FilePath handler_path = Paths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_handler.com"));
   CrashpadClient client;
+  ScopedKernelHANDLE start_thread;
   ASSERT_TRUE(client.StartHandler(handler_path,
                                   temp_dir.path(),
                                   base::FilePath(),
                                   "",
                                   std::map<std::string, std::string>(),
                                   std::vector<std::string>(),
-                                  false));
-  EXPECT_TRUE(client.UseHandler());
+                                  &start_thread));
+  ASSERT_EQ(WAIT_OBJECT_0, WaitForSingleObject(start_thread.get(), INFINITE));
+  DWORD exit_code;
+  ASSERT_TRUE(GetExitCodeThread(start_thread.get(), &exit_code));
+  ASSERT_NE(STILL_ACTIVE, exit_code);
+  ASSERT_TRUE(exit_code);
 }
 
 class StartWithInvalidHandles final : public WinMultiprocess {
