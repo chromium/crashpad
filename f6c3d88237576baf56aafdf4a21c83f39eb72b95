@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc790340_342971fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ca0fb08_10ae6a66",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ca0fb08_50b8f2a9",
         "filename": "client/crashpad_client.h",
         "patchSetId": 17
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-20T18:40:51Z",
       "side": 1,
       "message": "I think this would be easier to use if we just had it be a bool and then provided a different method to do the waiting.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc24a349_932e5c58",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ca0fb08_50b8f2a9",
       "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dc24a349_b33358c1",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Yeah, good point. Not sure how I got so off in the weeds to avoid an unused bool per platform.",
+      "parentUuid": "fc13270f_5493ac41",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_9773865b",
         "filename": "client/crashpad_client.h",
         "patchSetId": 17
@@ -64,6 +118,24 @@
       "writtenOn": "2016-10-20T18:40:51Z",
       "side": 1,
       "message": "Nit: blank //! between \\params and \\return.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc24a349_5319a43b",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_9773865b",
       "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "dc790340_94306504",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_778d0a14",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_d794de1e",
         "filename": "client/crashpad_client.h",
         "patchSetId": 17
@@ -98,6 +188,24 @@
       "writtenOn": "2016-10-20T18:40:51Z",
       "side": 1,
       "message": "I don’t see why this needs to be a member variable either. We shouldn’t need to keep this reference alive for longer than it takes to get things moving. The starter thread can be responsible for disposing of the handle. The scoped_handle.h #include can move back to the .cc.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc24a349_7316200d",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Removed this, but I need to keep the #include to keep the handle around for the new wait method.",
+      "parentUuid": "fc13270f_d794de1e",
       "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "dc790340_343df1da",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_97c1c61f",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_57fd6e48",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 17
@@ -132,6 +258,24 @@
       "writtenOn": "2016-10-20T18:40:51Z",
       "side": 1,
       "message": "All of the crashpad:: in here is kind of distracting. What project are we in, again?\n\nThis may work:\n\nnamespace crashpad {\nnamespace {\nDWORD WINAPI BackgroundHandlerStartThreadProc(void* data);\n}  // namespace\n}  // namespace crashpad\n\nIf not, see my later suggestion about breaking this into a bare thread entry point and a meatier and more at-home-in-Crashpad heavy lifter.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc790340_543afde3",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Moved everything inside namespace crashpad {}. Hopefully the patchset diff isn\u0027t too much of a mess.",
+      "parentUuid": "fc13270f_57fd6e48",
       "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "dc790340_d77caf63",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Argument passing now 78% less amusing.",
+      "parentUuid": "fc13270f_37b1d2c8",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_d7e21ebb",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 17
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "dc790340_f4452962",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_d7e21ebb",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_37d8b208",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 17
@@ -183,6 +363,24 @@
       "writtenOn": "2016-10-20T18:40:51Z",
       "side": 1,
       "message": "Since this isn’t actually always on a background thread anymore (it’s not in this call), let’s rename it to be more about what it does and less about where it does it. StartHandlerProcess()?\n\nOr leave BackgroundHandlerStartThreadProc() if you like to see thread entry points like that, but transfer all of the guts to a new function, to get rid of the WINAPI and int-instead-of-bool thing where it’s not required by the OS’ interface. And then we can go back to making the WINAPI version do the thing that’s more natural for it, where success would be 0.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc790340_94cce5c2",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_37d8b208",
       "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -223,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "dc790340_340731f6",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "3 made it even \"better\"! https://www.python.org/dev/peps/pep-3104/",
+      "parentUuid": "fc13270f_d7197eef",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_171c96da",
         "filename": "util/win/registration_protocol_win.h",
         "patchSetId": 17
@@ -234,6 +450,24 @@
       "writtenOn": "2016-10-20T18:40:51Z",
       "side": 1,
       "message": "If you need to keep this out here in the .h (looks like it’s here so that ExceptionHandlerServer can still see it), give it a more descriptive name. Otherwise, it’s just crashpad::kPipeInstances, which doesn’t tell you much.\n\nYou could move it to be an in-class static member of ExceptionHandlerServer, which would resolve that problem. crashpad::ExceptionHandlerServer::kPipeInstances is descriptive enough.\n\nBut since Doxygen will track it down either way, you should //! \\brief it.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc790340_d4658dcb",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-20T22:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_171c96da",
       "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
