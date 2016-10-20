@@ -283,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "fc13270f_57a1ee79",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "\u003e This is the helper above, not Win32. It PCHECKs on failure.\n\nOh, right!",
+      "parentUuid": "9c04eb4e_3c0e4ae1",
+      "revId": "c7ca952ed4bfc45ef2fe428ac5badfdd04567825",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2353ec_2a2a9faf",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 10
