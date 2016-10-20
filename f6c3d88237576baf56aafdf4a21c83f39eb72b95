@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ca0fb08_10ae6a66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "“Mac too” or “all platforms” or something, because the leading “win:” on the message might make it seem to other users that this aspect was only intended for that platform, when in fact we want to get rid of it everywhere.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ca0fb08_50b8f2a9",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "I think this would be easier to use if we just had it be a bool and then provided a different method to do the waiting.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_5493ac41",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "Having such a critical call that every Crashpad user will need to make require developers to #ifdef things by OS doesn’t leave a good taste. So that’s another argument in favor of providing a distinct method to do the waiting.\n\nConcerned about argument bloat? Notice that restartable only makes sense on Mac and asynchronous-start only makes sense on Windows? We could combine them into a bit field instead of having two bools. I don’t really know if that’s better, but it’s an option.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_9773865b",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "Nit: blank //! between \\params and \\return.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_778d0a14",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "This is no longer necessary. Everything can funnel its Mach right through to SetHandlerMachPort() which can operate on it without needing to maintain any state.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_d794de1e",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "I don’t see why this needs to be a member variable either. We shouldn’t need to keep this reference alive for longer than it takes to get things moving. The starter thread can be responsible for disposing of the handle. The scoped_handle.h #include can move back to the .cc.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_97c1c61f",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "Don’t need the `backticks`.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_57fd6e48",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "All of the crashpad:: in here is kind of distracting. What project are we in, again?\n\nThis may work:\n\nnamespace crashpad {\nnamespace {\nDWORD WINAPI BackgroundHandlerStartThreadProc(void* data);\n}  // namespace\n}  // namespace crashpad\n\nIf not, see my later suggestion about breaking this into a bare thread entry point and a meatier and more at-home-in-Crashpad heavy lifter.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_37b1d2c8",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "It may be worth pulling a class or struct with all of these fields out.\n\n  class InitialClientData {\n    // or whatever you’re calling it now, I haven’t looked ahead yet\n   public:\n    InitialClientData(HANDLE, HANDLE, HANDLE, HANDLE, HANDLE, WinVMAddress, WinVMAddress, WinVMAddress);\n    explicit InitialClientData(const std::string\u0026);  // or maybe a non-constructor method to be able to report errors\n    std::string StringRepresentation();\n  };\n\nUse it here and in the handler, keeping all of the marshaling and unmarshaling goop isolated. Bring it into ExceptionHandlerServer too, so that passively carrying eight values from the handler through to the server object isn’t such a comical endeavor.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_d7e21ebb",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "This is what I was talking about before. I think we care about ipc_pipe_ being valid after return, but ownership of ipc_pipe_handle_ can transfer to the background starter thread.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_37d8b208",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "Since this isn’t actually always on a background thread anymore (it’s not in this call), let’s rename it to be more about what it does and less about where it does it. StartHandlerProcess()?\n\nOr leave BackgroundHandlerStartThreadProc() if you like to see thread entry points like that, but transfer all of the guts to a new function, to get rid of the WINAPI and int-instead-of-bool thing where it’s not required by the OS’ interface. And then we can go back to making the WINAPI version do the thing that’s more natural for it, where success would be 0.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_57cf2e3c",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "Nice and hygienic. :)",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_d7197eef",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "Python scoping is weird.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_171c96da",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-20T18:40:51Z",
+      "side": 1,
+      "message": "If you need to keep this out here in the .h (looks like it’s here so that ExceptionHandlerServer can still see it), give it a more descriptive name. Otherwise, it’s just crashpad::kPipeInstances, which doesn’t tell you much.\n\nYou could move it to be an in-class static member of ExceptionHandlerServer, which would resolve that problem. crashpad::ExceptionHandlerServer::kPipeInstances is descriptive enough.\n\nBut since Doxygen will track it down either way, you should //! \\brief it.",
+      "revId": "f6c3d88237576baf56aafdf4a21c83f39eb72b95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
