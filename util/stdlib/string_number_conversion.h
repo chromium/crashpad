@@ -56,6 +56,7 @@ namespace crashpad {
 //!     where such prefix recognition is desirable.
 bool StringToNumber(const base::StringPiece& string, int* number);
 bool StringToNumber(const base::StringPiece& string, unsigned int* number);
+bool StringToNumber(const base::StringPiece& string, uint64_t* number);
 //! \}
 
 }  // namespace crashpad
