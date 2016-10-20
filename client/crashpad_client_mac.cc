@@ -569,15 +569,10 @@ bool CrashpadClient::SetHandlerMachService(const std::string& service_name) {
   return true;
 }
 
-void CrashpadClient::SetHandlerMachPort(
+bool CrashpadClient::SetHandlerMachPort(
     base::mac::ScopedMachSendRight exception_port) {
   DCHECK(exception_port.is_valid());
   exception_port_ = std::move(exception_port);
-}
-
-bool CrashpadClient::UseHandler() {
-  DCHECK(exception_port_.is_valid());
-
   return SetCrashExceptionPorts(exception_port_.get());
 }
 
