@@ -16,6 +16,24 @@
       "revId": "1d0a637940c286d405531aacfe5c464bf35e2114",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1e9f18_5f68e7cf",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T21:33:25Z",
+      "side": 1,
+      "message": "It\u0027s pretty wacky. For example, `global` looks like a statement, but it\u0027s not really.\n\ng \u003d 1\n\ndef F():\n  print g\n  g \u003d 2\n  print g\n  global g\n\nwill happily print 1 and then 2 (though it might warn on recent-er interpreters). That\u0027s a side effect of the fact that it\u0027s really a matter of how the name is used through the *entirety* of the function. For example:\n\ndef F():\n  print x\n  x \u003d 2\n  print x\n\nwill be an Exception on the first `print x` because there *is* an assignment to `x` in the body, which implicitly makes `x` a local for the entire function (and there\u0027s no global declaration), and on the first print, it\u0027s not yet bound.\n\nConversely:\n\ndef F():\n  print x\n  Y(x)\n  # any other junk that doesn\u0027t assign to `x`...\n  print x\n\nis fine, and will refer to the module scope `x` (which is the case in the code we\u0027re talking about here).\n\nNow nest a few closures into the body of F() that refer to `x` and explicit variable declaration starts to sound like maybe not the worst idea ever.\n\nSo... it\u0027s sort of because it\u0027s only reads vs. being written to that global isn\u0027t required here.",
+      "parentUuid": "fc13270f_dd17df27",
+      "revId": "1d0a637940c286d405531aacfe5c464bf35e2114",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
