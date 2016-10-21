@@ -16,6 +16,7 @@
 
 #include <ctype.h>
 #include <errno.h>
+#include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -108,6 +109,16 @@ struct StringToUnsignedIntTraits
   }
 };
 
+struct StringToUnsignedInt64Traits
+    : public StringToUnsignedIntegerTraits<uint64_t, uint64_t> {
+  static LongType Convert(const char* str, char** end, int base) {
+    if (str[0] == '-') {
+      return 0;
+    }
+    return strtoull(str, end, base);
+  }
+};
+
 template <typename Traits>
 bool StringToIntegerInternal(const base::StringPiece& string,
                              typename Traits::IntType* number) {
@@ -151,6 +162,10 @@ bool StringToNumber(const base::StringPiece& string, int* number) {
 
 bool StringToNumber(const base::StringPiece& string, unsigned int* number) {
   return StringToIntegerInternal<StringToUnsignedIntTraits>(string, number);
+}
+
+bool StringToNumber(const base::StringPiece& string, uint64_t* number) {
+  return StringToIntegerInternal<StringToUnsignedInt64Traits>(string, number);
 }
 
 }  // namespace crashpad

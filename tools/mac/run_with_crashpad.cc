@@ -115,7 +115,7 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
       case kOptionAnnotation: {
         std::string key;
         std::string value;
-        if (!SplitString(optarg, '=', &key, &value)) {
+        if (!SplitStringFirst(optarg, '=', &key, &value)) {
           ToolSupport::UsageHint(me, "--annotation requires KEY=VALUE");
           return EXIT_FAILURE;
         }
@@ -168,11 +168,8 @@ int RunWithCrashpadMain(int argc, char* argv[]) {
                                     options.url,
                                     options.annotations,
                                     options.arguments,
+                                    false,
                                     false)) {
-    return kExitFailure;
-  }
-
-  if (!crashpad_client.UseHandler()) {
     return kExitFailure;
   }
 

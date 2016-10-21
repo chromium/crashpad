@@ -15,9 +15,12 @@
 #include "util/win/registration_protocol_win.h"
 
 #include <windows.h>
+#include <sddl.h>
 
 #include "base/logging.h"
+#include "util/win/exception_handler_server.h"
 #include "util/win/scoped_handle.h"
+#include "util/win/scoped_local_alloc.h"
 
 namespace crashpad {
 
@@ -89,6 +92,49 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
     }
     return true;
   }
+}
+
+HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
+                               bool first_instance) {
+  SECURITY_ATTRIBUTES security_attributes;
+  SECURITY_ATTRIBUTES* security_attributes_pointer = nullptr;
+  ScopedLocalAlloc scoped_sec_desc;
+
+  if (first_instance) {
+    // Pre-Vista does not have integrity levels.
+    const DWORD version = GetVersion();
+    const DWORD major_version = LOBYTE(LOWORD(version));
+    const bool is_vista_or_later = major_version >= 6;
+    if (is_vista_or_later) {
+      // Mandatory Label, no ACE flags, no ObjectType, integrity level
+      // untrusted.
+      const wchar_t kSddl[] = L"S:(ML;;;;;S-1-16-0)";
+
+      PSECURITY_DESCRIPTOR sec_desc;
+      PCHECK(ConvertStringSecurityDescriptorToSecurityDescriptor(
+          kSddl, SDDL_REVISION_1, &sec_desc, nullptr))
+          << "ConvertStringSecurityDescriptorToSecurityDescriptor";
+
+      // Take ownership of the allocated SECURITY_DESCRIPTOR.
+      scoped_sec_desc.reset(sec_desc);
+
+      memset(&security_attributes, 0, sizeof(security_attributes));
+      security_attributes.nLength = sizeof(SECURITY_ATTRIBUTES);
+      security_attributes.lpSecurityDescriptor = sec_desc;
+      security_attributes.bInheritHandle = TRUE;
+      security_attributes_pointer = &security_attributes;
+    }
+  }
+
+  return CreateNamedPipe(
+      pipe_name.c_str(),
+      PIPE_ACCESS_DUPLEX | (first_instance ? FILE_FLAG_FIRST_PIPE_INSTANCE : 0),
+      PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
+      ExceptionHandlerServer::kPipeInstances,
+      512,
+      512,
+      0,
+      security_attributes_pointer);
 }
 
 }  // namespace crashpad

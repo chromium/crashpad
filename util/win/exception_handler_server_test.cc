@@ -81,10 +81,12 @@ class ExceptionHandlerServerTest : public testing::Test {
  public:
   ExceptionHandlerServerTest()
       : server_(true),
-        pipe_name_(server_.CreatePipe()),
+        pipe_name_(L"\\\\.\\pipe\\test_name"),
         server_ready_(CreateEvent(nullptr, false, false, nullptr)),
         delegate_(server_ready_.get()),
-        server_thread_(&server_, &delegate_) {}
+        server_thread_(&server_, &delegate_) {
+    server_.SetPipeName(pipe_name_);
+  }
 
   TestDelegate& delegate() { return delegate_; }
   ExceptionHandlerServer& server() { return server_; }
@@ -168,10 +170,6 @@ class TestClient final : public WinChildProcess {
     std::wstring pipe_name = ReadWString(ReadPipeHandle());
     CrashpadClient client;
     if (!client.SetHandlerIPCPipe(pipe_name)) {
-      ADD_FAILURE();
-      return EXIT_FAILURE;
-    }
-    if (!client.UseHandler()) {
       ADD_FAILURE();
       return EXIT_FAILURE;
     }

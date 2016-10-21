@@ -33,7 +33,6 @@ int wmain(int argc, wchar_t* argv[]) {
 
   crashpad::CrashpadClient client;
   CHECK(client.SetHandlerIPCPipe(argv[1]));
-  CHECK(client.UseHandler());
 
   HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
   PCHECK(out != INVALID_HANDLE_VALUE) << "GetStdHandle";

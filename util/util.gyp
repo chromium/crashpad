@@ -172,6 +172,8 @@
         'win/get_module_information.h',
         'win/handle.cc',
         'win/handle.h',
+        'win/initial_client_data.cc',
+        'win/initial_client_data.h',
         'win/module_version.cc',
         'win/module_version.h',
         'win/nt_internals.cc',

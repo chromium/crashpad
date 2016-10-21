@@ -25,6 +25,7 @@ import time
 
 
 g_temp_dirs = []
+g_had_failures = False
 
 
 def MakeTempDir():
@@ -181,7 +182,8 @@ class CdbRun(object):
       print >>sys.stderr, 'remaining output was:\n  %s' % self.out
       print >>sys.stderr, '-' * 80
       sys.stderr.flush()
-      sys.exit(1)
+      global g_had_failures
+      g_had_failures = True
 
 
 def RunTests(cdb_path,
@@ -397,7 +399,7 @@ def main(args):
              other_program_no_exception_path,
              pipe_name)
 
-    return 0
+    return 1 if g_had_failures else 0
   finally:
     CleanUpTempDirs()
 
