@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc13270f_dd17df27",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T20:47:16Z",
+      "side": 1,
+      "message": "No “global” is necessary here in this scope, then? It’s only for the assignment?\n\nSorry for the questions, I know I’ve seen this wart before in Python, but I’ve forgotten the specifics.",
+      "revId": "1d0a637940c286d405531aacfe5c464bf35e2114",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
