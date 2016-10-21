@@ -22,6 +22,7 @@
 #include "base/synchronization/lock.h"
 #include "util/file/file_io.h"
 #include "util/win/address_types.h"
+#include "util/win/initial_client_data.h"
 #include "util/win/scoped_handle.h"
 
 namespace crashpad {
@@ -72,21 +73,32 @@ class ExceptionHandlerServer {
 
   //! \brief Sets the pipe name to listen for client registrations on.
   //!
-  //! Either this method or CreatePipe(), but not both, must be called before
-  //! Run().
+  //! This method, or InitializeWithInheritedDataForInitialClient(), must be
+  //! called before Run().
   //!
   //! \param[in] pipe_name The name of the pipe to listen on. Must be of the
   //!     form "\\.\pipe\<some_name>".
   void SetPipeName(const std::wstring& pipe_name);
 
-  //! \brief Creates a randomized pipe name to listen for client registrations
-  //!     on and returns its name.
+  //! \brief Sets the pipe to listen for client registrations on, providing
+  //!     the first precreated instance.
   //!
-  //! Either this method or CreatePipe(), but not both, must be called before
-  //! Run().
+  //! This method, or SetPipeName(), must be called before Run(). All of these
+  //! parameters are generally created in a parent process that launches the
+  //! handler. For more details see the Windows implementation of
+  //! CrashpadClient.
   //!
-  //! \return The pipe name that will be listened on.
-  std::wstring CreatePipe();
+  //! \sa CrashpadClient
+  //! \sa RegistrationRequest
+  //!
+  //! \param[in] initial_client_data The handles and addresses of data inherited
+  //!     from a parent process needed to initialize and register the first
+  //!     client. Ownership of these handles is taken.
+  //! \param[in] delegate The interface to which the exceptions are delegated
+  //!     when they are caught in Run(). Ownership is not transferred.
+  void InitializeWithInheritedDataForInitialClient(
+      const InitialClientData& initial_client_data,
+      Delegate* delegate);
 
   //! \brief Runs the exception-handling server.
   //!
@@ -97,6 +109,10 @@ class ExceptionHandlerServer {
   //! \brief Stops the exception-handling server. Returns immediately. The
   //!     object must not be destroyed until Run() returns.
   void Stop();
+
+  //! \brief The number of server-side pipe instances that the exception handler
+  //!     server creates to listen for connections from clients.
+  static const size_t kPipeInstances = 2;
 
  private:
   static bool ServiceClientConnection(
