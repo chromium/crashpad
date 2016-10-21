@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc13270f_5d0c6f57",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "is applicable to",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_9dfc4705",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "Recommend to users (but don’t require) that they call WaitForHandlerStart() at a suitable time when using this.",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_fdf1fb2a",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "ScopedKernelHANDLE",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_1de9573e",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "Let’s leave |restartable| at false as it was before.",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_7de68b6d",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "Double-checking: you’re intentionally using |asynchronous| without calling WaitForHandlerStart() because you want to tease out possible race conditions?",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_fd28db9e",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "Can you declare it global where you initialize it to False the first time, or is that another sick Python problem?",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_dd2d1fad",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "The string you’re streaming to this isn’t right. And PCHECK(ERROR) isn’t a thing. PLOG(ERROR) or PCHECK(condition) (if condition should always be false, then just PLOG(FATAL)).",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_7d3debd9",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "It’s a bummer that we need to work out a pipe name, not enough to just use the handle.",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_bd6ca3eb",
+        "filename": "util/win/initial_client_data.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "Lose the blank line.",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_5d3aafe3",
+        "filename": "util/win/initial_client_data.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "`--initial-client-data`",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_bd45c363",
+        "filename": "util/win/initial_client_data.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "You just told me in the \\brief that ownership of the HANDLEs isn’t taken, and now for each \\param you tell me that ownership is taken. Which is it?\n\nI can see that you’re not actually taking ownership. That’s fine. I’d also be fine with an interface that dealt more in scoped handles, which could be easily std::move()d in and out.",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_dd44ff64",
+        "filename": "util/win/initial_client_data.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "Hello, C++11!",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_9d71e7c5",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T19:31:27Z",
+      "side": 1,
+      "message": "Backticks on `FILE_FLAG…`",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
