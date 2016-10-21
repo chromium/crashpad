@@ -14,7 +14,6 @@
 
 #include "util/win/exception_handler_server.h"
 
-#include <sddl.h>
 #include <stdint.h>
 #include <string.h>
 #include <sys/types.h>
@@ -30,72 +29,16 @@
 #include "snapshot/crashpad_info_client_options.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
-#include "util/misc/random_string.h"
 #include "util/misc/tri_state.h"
 #include "util/misc/uuid.h"
 #include "util/win/get_function.h"
 #include "util/win/handle.h"
 #include "util/win/registration_protocol_win.h"
-#include "util/win/scoped_local_alloc.h"
 #include "util/win/xp_compat.h"
 
 namespace crashpad {
 
 namespace {
-
-// We create two pipe instances, so that there's one listening while the
-// PipeServiceProc is processing a registration.
-const size_t kPipeInstances = 2;
-
-// Wraps CreateNamedPipe() to create a single named pipe instance.
-//
-// If first_instance is true, the named pipe instance will be created with
-// FILE_FLAG_FIRST_PIPE_INSTANCE. This ensures that the the pipe name is not
-// already in use when created. The first instance will be created with an
-// untrusted integrity SACL so instances of this pipe can be connected to by
-// processes of any integrity level.
-HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
-                               bool first_instance) {
-  SECURITY_ATTRIBUTES security_attributes;
-  SECURITY_ATTRIBUTES* security_attributes_pointer = nullptr;
-  ScopedLocalAlloc scoped_sec_desc;
-
-  if (first_instance) {
-    // Pre-Vista does not have integrity levels.
-    const DWORD version = GetVersion();
-    const DWORD major_version = LOBYTE(LOWORD(version));
-    const bool is_vista_or_later = major_version >= 6;
-    if (is_vista_or_later) {
-      // Mandatory Label, no ACE flags, no ObjectType, integrity level
-      // untrusted.
-      const wchar_t kSddl[] = L"S:(ML;;;;;S-1-16-0)";
-
-      PSECURITY_DESCRIPTOR sec_desc;
-      PCHECK(ConvertStringSecurityDescriptorToSecurityDescriptor(
-          kSddl, SDDL_REVISION_1, &sec_desc, nullptr))
-          << "ConvertStringSecurityDescriptorToSecurityDescriptor";
-
-      // Take ownership of the allocated SECURITY_DESCRIPTOR.
-      scoped_sec_desc.reset(sec_desc);
-
-      memset(&security_attributes, 0, sizeof(security_attributes));
-      security_attributes.nLength = sizeof(SECURITY_ATTRIBUTES);
-      security_attributes.lpSecurityDescriptor = sec_desc;
-      security_attributes.bInheritHandle = FALSE;
-      security_attributes_pointer = &security_attributes;
-    }
-  }
-
-  return CreateNamedPipe(
-      pipe_name.c_str(),
-      PIPE_ACCESS_DUPLEX | (first_instance ? FILE_FLAG_FIRST_PIPE_INSTANCE : 0),
-      PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
-      kPipeInstances,
-      512,
-      512,
-      0,
-      security_attributes_pointer);
-}
 
 decltype(GetNamedPipeClientProcessId)* GetNamedPipeClientProcessIdFunction() {
   static const auto get_named_pipe_client_process_id =
@@ -165,6 +108,9 @@ class ClientData {
   ClientData(HANDLE port,
              ExceptionHandlerServer::Delegate* delegate,
              ScopedKernelHANDLE process,
+             ScopedKernelHANDLE crash_dump_requested_event,
+             ScopedKernelHANDLE non_crash_dump_requested_event,
+             ScopedKernelHANDLE non_crash_dump_completed_event,
              WinVMAddress crash_exception_information_address,
              WinVMAddress non_crash_exception_information_address,
              WinVMAddress debug_critical_section_address,
@@ -177,12 +123,11 @@ class ClientData {
         lock_(),
         port_(port),
         delegate_(delegate),
-        crash_dump_requested_event_(
-            CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
+        crash_dump_requested_event_(std::move(crash_dump_requested_event)),
         non_crash_dump_requested_event_(
-            CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
+            std::move(non_crash_dump_requested_event)),
         non_crash_dump_completed_event_(
-            CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
+            std::move(non_crash_dump_completed_event)),
         process_(std::move(process)),
         crash_exception_information_address_(
             crash_exception_information_address),
@@ -315,36 +260,45 @@ void ExceptionHandlerServer::SetPipeName(const std::wstring& pipe_name) {
   pipe_name_ = pipe_name;
 }
 
-std::wstring ExceptionHandlerServer::CreatePipe() {
+void ExceptionHandlerServer::InitializeWithInheritedDataForInitialClient(
+    const InitialClientData& initial_client_data,
+    Delegate* delegate) {
+  DCHECK(pipe_name_.empty());
   DCHECK(!first_pipe_instance_.is_valid());
 
-  int tries = 5;
-  std::string pipe_name_base =
-      base::StringPrintf("\\\\.\\pipe\\crashpad_%d_", GetCurrentProcessId());
-  std::wstring pipe_name;
-  do {
-    pipe_name = base::UTF8ToUTF16(pipe_name_base + RandomString());
+  first_pipe_instance_.reset(initial_client_data.first_pipe_instance());
 
-    first_pipe_instance_.reset(CreateNamedPipeInstance(pipe_name, true));
+  // TODO(scottmg): Vista+. Might need to pass through or possibly find an Nt*.
+  size_t bytes = sizeof(wchar_t) * _MAX_PATH + sizeof(FILE_NAME_INFO);
+  std::unique_ptr<uint8_t[]> data(new uint8_t[bytes]);
+  if (!GetFileInformationByHandleEx(
+          first_pipe_instance_.get(), FileNameInfo, data.get(), bytes)) {
+    PLOG(FATAL) << "GetFileInformationByHandleEx";
+  }
+  FILE_NAME_INFO* file_name_info =
+      reinterpret_cast<FILE_NAME_INFO*>(data.get());
+  pipe_name_ =
+      L"\\\\.\\pipe" + std::wstring(file_name_info->FileName,
+                                    file_name_info->FileNameLength /
+                                        sizeof(file_name_info->FileName[0]));
 
-    // CreateNamedPipe() is documented as setting the error to
-    // ERROR_ACCESS_DENIED if FILE_FLAG_FIRST_PIPE_INSTANCE is specified and the
-    // pipe name is already in use. However it may set the error to other codes
-    // such as ERROR_PIPE_BUSY (if the pipe already exists and has reached its
-    // maximum instance count) or ERROR_INVALID_PARAMETER (if the pipe already
-    // exists and its attributes differ from those specified to
-    // CreateNamedPipe()). Some of these errors may be ambiguous: for example,
-    // ERROR_INVALID_PARAMETER may also occur if CreateNamedPipe() is called
-    // incorrectly even in the absence of an existing pipe by the same name.
-    //
-    // Rather than chasing down all of the possible errors that might indicate
-    // that a pipe name is already in use, retry up to a few times on any error.
-  } while (!first_pipe_instance_.is_valid() && --tries);
-
-  PCHECK(first_pipe_instance_.is_valid()) << "CreateNamedPipe";
-
-  SetPipeName(pipe_name);
-  return pipe_name;
+  {
+    base::AutoLock lock(clients_lock_);
+    internal::ClientData* client = new internal::ClientData(
+        port_.get(),
+        delegate,
+        ScopedKernelHANDLE(initial_client_data.client_process()),
+        ScopedKernelHANDLE(initial_client_data.request_crash_dump()),
+        ScopedKernelHANDLE(initial_client_data.request_non_crash_dump()),
+        ScopedKernelHANDLE(initial_client_data.non_crash_dump_completed()),
+        initial_client_data.crash_exception_information(),
+        initial_client_data.non_crash_exception_information(),
+        initial_client_data.debug_critical_section_address(),
+        &OnCrashDumpEvent,
+        &OnNonCrashDumpEvent,
+        &OnProcessEnd);
+    clients_.insert(client);
+  }
 }
 
 void ExceptionHandlerServer::Run(Delegate* delegate) {
@@ -513,6 +467,12 @@ bool ExceptionHandlerServer::ServiceClientConnection(
         service_context.port(),
         service_context.delegate(),
         ScopedKernelHANDLE(client_process),
+        ScopedKernelHANDLE(
+            CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
+        ScopedKernelHANDLE(
+            CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
+        ScopedKernelHANDLE(
+            CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
         message.registration.crash_exception_information,
         message.registration.non_crash_exception_information,
         message.registration.critical_section_address,

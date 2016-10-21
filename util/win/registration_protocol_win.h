@@ -128,6 +128,17 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
                               const ClientToServerMessage& message,
                               ServerToClientMessage* response);
 
+//! \brief Wraps CreateNamedPipe() to create a single named pipe instance.
+//!
+//! \param[in] pipe_name The name to use for the pipe.
+//! \param[in] first_instance If `true`, the named pipe instance will be
+//!     created with `FILE_FLAG_FIRST_PIPE_INSTANCE`. This ensures that the the
+//!     pipe name is not already in use when created. The first instance will be
+//!     created with an untrusted integrity SACL so instances of this pipe can
+//!     be connected to by processes of any integrity level.
+HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
+                               bool first_instance);
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_WIN_REGISTRATION_PROTOCOL_WIN_H_

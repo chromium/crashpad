@@ -523,8 +523,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
 
 }  // namespace
 
-CrashpadClient::CrashpadClient()
-    : exception_port_() {
+CrashpadClient::CrashpadClient() {
 }
 
 CrashpadClient::~CrashpadClient() {
@@ -537,9 +536,8 @@ bool CrashpadClient::StartHandler(
     const std::string& url,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
-    bool restartable) {
-  DCHECK(!exception_port_.is_valid());
-
+    bool restartable,
+    bool asynchronous_start) {
   // The “restartable” behavior can only be selected on OS X 10.10 and later. In
   // previous OS versions, if the initial client were to crash while attempting
   // to restart the handler, it would become an unkillable process.
@@ -569,16 +567,10 @@ bool CrashpadClient::SetHandlerMachService(const std::string& service_name) {
   return true;
 }
 
-void CrashpadClient::SetHandlerMachPort(
+bool CrashpadClient::SetHandlerMachPort(
     base::mac::ScopedMachSendRight exception_port) {
   DCHECK(exception_port.is_valid());
-  exception_port_ = std::move(exception_port);
-}
-
-bool CrashpadClient::UseHandler() {
-  DCHECK(exception_port_.is_valid());
-
-  return SetCrashExceptionPorts(exception_port_.get());
+  return SetCrashExceptionPorts(exception_port.get());
 }
 
 // static

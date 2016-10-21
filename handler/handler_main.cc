@@ -59,6 +59,7 @@
 #include "handler/win/crash_report_exception_handler.h"
 #include "util/win/exception_handler_server.h"
 #include "util/win/handle.h"
+#include "util/win/initial_client_data.h"
 #endif  // OS_MACOSX
 
 namespace crashpad {
@@ -76,8 +77,15 @@ void Usage(const base::FilePath& me) {
 "      --handshake-fd=FD       establish communication with the client over FD\n"
 "      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
 #elif defined(OS_WIN)
-"      --handshake-handle=HANDLE\n"
-"                              create a new pipe and send its name via HANDLE\n"
+"      --initial-client-data=HANDLE_request_crash_dump,\n"
+"                            HANDLE_request_non_crash_dump,\n"
+"                            HANDLE_non_crash_dump_completed,\n"
+"                            HANDLE_pipe,\n"
+"                            HANDLE_client_process,\n"
+"                            Address_crash_exception_information,\n"
+"                            Address_non_crash_exception_information,\n"
+"                            Address_debug_critical_section\n"
+"                              use precreated data to register initial client\n"
 #endif  // OS_MACOSX
 "      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"
 "      --no-rate-limit         don't rate limit crash uploads\n"
@@ -125,7 +133,7 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   Metrics::HandlerCrashed(exception_pointers->ExceptionRecord->ExceptionCode);
   return EXCEPTION_CONTINUE_SEARCH;
 }
-#endif
+#endif  // OS_WIN
 
 }  // namespace
 
@@ -145,9 +153,12 @@ int HandlerMain(int argc, char* argv[]) {
     kOptionDatabase,
 #if defined(OS_MACOSX)
     kOptionHandshakeFD,
+#endif  // OS_MACOSX
+#if defined(OS_WIN)
+    kOptionInitialClientData,
+#endif  // OS_WIN
+#if defined(OS_MACOSX)
     kOptionMachService,
-#elif defined(OS_WIN)
-    kOptionHandshakeHandle,
 #endif  // OS_MACOSX
     kOptionMetrics,
     kOptionNoRateLimit,
@@ -173,41 +184,45 @@ int HandlerMain(int argc, char* argv[]) {
     std::string mach_service;
     bool reset_own_crash_exception_port_to_system_default;
 #elif defined(OS_WIN)
-    HANDLE handshake_handle;
     std::string pipe_name;
+    InitialClientData initial_client_data;
 #endif  // OS_MACOSX
     bool rate_limit;
   } options = {};
 #if defined(OS_MACOSX)
   options.handshake_fd = -1;
-#elif defined(OS_WIN)
-  options.handshake_handle = INVALID_HANDLE_VALUE;
 #endif
   options.rate_limit = true;
 
   const option long_options[] = {
-      {"annotation", required_argument, nullptr, kOptionAnnotation},
-      {"database", required_argument, nullptr, kOptionDatabase},
+    {"annotation", required_argument, nullptr, kOptionAnnotation},
+    {"database", required_argument, nullptr, kOptionDatabase},
 #if defined(OS_MACOSX)
-      {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
-      {"mach-service", required_argument, nullptr, kOptionMachService},
-#elif defined(OS_WIN)
-      {"handshake-handle", required_argument, nullptr, kOptionHandshakeHandle},
+    {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
 #endif  // OS_MACOSX
-      {"metrics-dir", required_argument, nullptr, kOptionMetrics},
-      {"no-rate-limit", no_argument, nullptr, kOptionNoRateLimit},
+#if defined(OS_WIN)
+    {"initial-client-data",
+     required_argument,
+     nullptr,
+     kOptionInitialClientData},
+#endif  // OS_MACOSX
 #if defined(OS_MACOSX)
-      {"reset-own-crash-exception-port-to-system-default",
-       no_argument,
-       nullptr,
-       kOptionResetOwnCrashExceptionPortToSystemDefault},
-#elif defined(OS_WIN)
-      {"pipe-name", required_argument, nullptr, kOptionPipeName},
+    {"mach-service", required_argument, nullptr, kOptionMachService},
 #endif  // OS_MACOSX
-      {"url", required_argument, nullptr, kOptionURL},
-      {"help", no_argument, nullptr, kOptionHelp},
-      {"version", no_argument, nullptr, kOptionVersion},
-      {nullptr, 0, nullptr, 0},
+    {"metrics-dir", required_argument, nullptr, kOptionMetrics},
+    {"no-rate-limit", no_argument, nullptr, kOptionNoRateLimit},
+#if defined(OS_MACOSX)
+    {"reset-own-crash-exception-port-to-system-default",
+     no_argument,
+     nullptr,
+     kOptionResetOwnCrashExceptionPortToSystemDefault},
+#elif defined(OS_WIN)
+    {"pipe-name", required_argument, nullptr, kOptionPipeName},
+#endif  // OS_MACOSX
+    {"url", required_argument, nullptr, kOptionURL},
+    {"help", no_argument, nullptr, kOptionHelp},
+    {"version", no_argument, nullptr, kOptionVersion},
+    {nullptr, 0, nullptr, 0},
   };
 
   int opt;
@@ -216,7 +231,7 @@ int HandlerMain(int argc, char* argv[]) {
       case kOptionAnnotation: {
         std::string key;
         std::string value;
-        if (!SplitString(optarg, '=', &key, &value)) {
+        if (!SplitStringFirst(optarg, '=', &key, &value)) {
           ToolSupport::UsageHint(me, "--annotation requires KEY=VALUE");
           return EXIT_FAILURE;
         }
@@ -246,17 +261,12 @@ int HandlerMain(int argc, char* argv[]) {
         break;
       }
 #elif defined(OS_WIN)
-      case kOptionHandshakeHandle: {
-        // Use unsigned int, because the handle was presented by the client in
-        // 0x%x format.
-        unsigned int handle_uint;
-        if (!StringToNumber(optarg, &handle_uint) ||
-            (options.handshake_handle = IntToHandle(handle_uint)) ==
-                INVALID_HANDLE_VALUE) {
-          ToolSupport::UsageHint(me, "--handshake-handle requires a HANDLE");
+      case kOptionInitialClientData: {
+        if (!options.initial_client_data.InitializeFromString(optarg)) {
+          ToolSupport::UsageHint(
+              me, "failed to parse --initial-client-data");
           return EXIT_FAILURE;
         }
-        break;
       }
 #endif  // OS_MACOSX
       case kOptionMetrics: {
@@ -310,15 +320,14 @@ int HandlerMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 #elif defined(OS_WIN)
-  if (options.handshake_handle == INVALID_HANDLE_VALUE &&
-      options.pipe_name.empty()) {
-    ToolSupport::UsageHint(me, "--handshake-handle or --pipe-name is required");
+  if (!options.initial_client_data.IsValid() && options.pipe_name.empty()) {
+    ToolSupport::UsageHint(me,
+                           "--initial-client-data or --pipe-name is required");
     return EXIT_FAILURE;
   }
-  if (options.handshake_handle != INVALID_HANDLE_VALUE &&
-      !options.pipe_name.empty()) {
+  if (options.initial_client_data.IsValid() && !options.pipe_name.empty()) {
     ToolSupport::UsageHint(
-        me, "--handshake-handle and --pipe-name are incompatible");
+        me, "--initial-client-data and --pipe-name are incompatible");
     return EXIT_FAILURE;
   }
 #endif  // OS_MACOSX
@@ -389,20 +398,6 @@ int HandlerMain(int argc, char* argv[]) {
 
   if (!options.pipe_name.empty()) {
     exception_handler_server.SetPipeName(base::UTF8ToUTF16(options.pipe_name));
-  } else if (options.handshake_handle != INVALID_HANDLE_VALUE) {
-    std::wstring pipe_name = exception_handler_server.CreatePipe();
-
-    uint32_t pipe_name_length = static_cast<uint32_t>(pipe_name.size());
-    if (!LoggingWriteFile(options.handshake_handle,
-                          &pipe_name_length,
-                          sizeof(pipe_name_length))) {
-      return EXIT_FAILURE;
-    }
-    if (!LoggingWriteFile(options.handshake_handle,
-                          pipe_name.c_str(),
-                          pipe_name.size() * sizeof(pipe_name[0]))) {
-      return EXIT_FAILURE;
-    }
   }
 #endif  // OS_MACOSX
 
@@ -439,6 +434,13 @@ int HandlerMain(int argc, char* argv[]) {
 
   CrashReportExceptionHandler exception_handler(
       database.get(), &upload_thread, &options.annotations);
+
+#if defined(OS_WIN)
+  if (options.initial_client_data.IsValid()) {
+    exception_handler_server.InitializeWithInheritedDataForInitialClient(
+        options.initial_client_data, &exception_handler);
+  }
+#endif  // OS_WIN
 
   exception_handler_server.Run(&exception_handler);
 
