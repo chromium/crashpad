@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "fc13270f_9d0d671c",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T20:47:16Z",
+      "side": 1,
+      "message": "\u003e Yeah, and just generally to get some test coverage since that\u0027s the path Chrome will be using.\n\nWell, I’d still like for Chrome to use the new synchronization function at some point during non-early startup, and to CHECK on the result, feed it to UMA as a Crashpad registration failure, or whatever else is appropriate. But yeah, we’ll definitely want to be able to collect crashes before any synchronization is possible, so we do need to anticipate that crashes may occur before the new method is called.",
+      "parentUuid": "9c822b81_6ab34638",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_fd28db9e",
         "filename": "snapshot/win/end_to_end_test.py",
         "patchSetId": 22
@@ -276,6 +294,24 @@
       "side": 1,
       "message": "Yeah, I was wondering if we could avoid that somehow. Something similar to what we\u0027re doing here, like having the browser do the connection up-front before launching the renderer and then inheriting it into the renderer (not sure of the exact details). But that\u0027s not as simple an interface, and gets into requiring modifications of how child processes are created, rather than simply having to share the name between them, so maybe a bit too intrusive as far as client requirements.",
       "parentUuid": "fc13270f_7d3debd9",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_1dfaf7cc",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T20:47:16Z",
+      "side": 1,
+      "message": "\u003e Yeah, I was wondering if we could avoid that somehow. Something similar to\n\u003e what we\u0027re doing here, like having the browser do the connection up-front\n\u003e before launching the renderer and then inheriting it into the renderer (not\n\u003e sure of the exact details). But that\u0027s not as simple an interface, and gets\n\u003e into requiring modifications of how child processes are created, rather than\n\u003e simply having to share the name between them, so maybe a bit too intrusive as\n\u003e far as client requirements.\n\nWe could also have the initial client create all of the pipe instances and feed them to the handler as part of InitialClientData. We’d need to devise a different mechanism for worker pool shutdown, but that’s the only other thing in here that requires us to know the pipe name in the handler.\n\nSeems kind of weird in its own way, but it’s another option, at least.",
+      "parentUuid": "9c822b81_6ae18614",
       "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
