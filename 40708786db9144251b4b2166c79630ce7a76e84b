@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c822b81_2aca1ea9",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_5d0c6f57",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_9dfc4705",
         "filename": "client/crashpad_client.h",
         "patchSetId": 22
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-21T19:31:27Z",
       "side": 1,
       "message": "Recommend to users (but don’t require) that they call WaitForHandlerStart() at a suitable time when using this.",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c822b81_6acc26c2",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_9dfc4705",
       "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9c822b81_aad62e4f",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_fdf1fb2a",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_1de9573e",
         "filename": "handler/win/crashy_test_program.cc",
         "patchSetId": 22
@@ -64,6 +118,24 @@
       "writtenOn": "2016-10-21T19:31:27Z",
       "side": 1,
       "message": "Let’s leave |restartable| at false as it was before.",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c822b81_eaa676f8",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_1de9573e",
       "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9c822b81_6ab34638",
+        "filename": "handler/win/crashy_test_program.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Yeah, and just generally to get some test coverage since that\u0027s the path Chrome will be using.",
+      "parentUuid": "fc13270f_7de68b6d",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_fd28db9e",
         "filename": "snapshot/win/end_to_end_test.py",
         "patchSetId": 22
@@ -98,6 +188,24 @@
       "writtenOn": "2016-10-21T19:31:27Z",
       "side": 1,
       "message": "Can you declare it global where you initialize it to False the first time, or is that another sick Python problem?",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c822b81_ea0d961a",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "No, the global declaration here is telling this function that you want the name \"g_had_failures\" to look in the global scope on assignment, rather than having assignment creating a local of that name. Because there\u0027s otherwise no variable declaration, it can\u0027t distinguish.",
+      "parentUuid": "fc13270f_fd28db9e",
       "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "9c822b81_6afa66ce",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Well that was a mess. Done.",
+      "parentUuid": "fc13270f_dd2d1fad",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_7d3debd9",
         "filename": "util/win/exception_handler_server.cc",
         "patchSetId": 22
@@ -132,6 +258,24 @@
       "writtenOn": "2016-10-21T19:31:27Z",
       "side": 1,
       "message": "It’s a bummer that we need to work out a pipe name, not enough to just use the handle.",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c822b81_6ae18614",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Yeah, I was wondering if we could avoid that somehow. Something similar to what we\u0027re doing here, like having the browser do the connection up-front before launching the renderer and then inheriting it into the renderer (not sure of the exact details). But that\u0027s not as simple an interface, and gets into requiring modifications of how child processes are created, rather than simply having to share the name between them, so maybe a bit too intrusive as far as client requirements.",
+      "parentUuid": "fc13270f_7d3debd9",
       "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "9c822b81_4a4042fe",
+        "filename": "util/win/initial_client_data.cc",
+        "patchSetId": 22
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_bd6ca3eb",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_5d3aafe3",
         "filename": "util/win/initial_client_data.h",
         "patchSetId": 22
@@ -166,6 +328,24 @@
       "writtenOn": "2016-10-21T19:31:27Z",
       "side": 1,
       "message": "`--initial-client-data`",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c822b81_ca5612e8",
+        "filename": "util/win/initial_client_data.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_5d3aafe3",
       "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "9c822b81_4a920272",
+        "filename": "util/win/initial_client_data.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Oops, copy and paste error moving this from ExceptionHandlerServer (which does take ownership).\n\nI think I\u0027ll stick with non-owning as it\u0027s more of a marshalling class for someone else that owns the handles, rather than a container of these objects.",
+      "parentUuid": "fc13270f_bd45c363",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_dd44ff64",
         "filename": "util/win/initial_client_data.h",
         "patchSetId": 22
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "9c822b81_8a8c0a52",
+        "filename": "util/win/initial_client_data.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Oops, I was going to be all shiny and new, but then I realized I wanted the is_valid_ field, which is differently initialized for the no-argument vs. the filled-out version. So then I went back to plain ol\u0027 member initialization lists, but forgot to remove them here. Done.",
+      "parentUuid": "fc13270f_dd44ff64",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_9d71e7c5",
         "filename": "util/win/registration_protocol_win.h",
         "patchSetId": 22
@@ -217,6 +433,24 @@
       "writtenOn": "2016-10-21T19:31:27Z",
       "side": 1,
       "message": "Backticks on `FILE_FLAG…`",
+      "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c822b81_aa370ea0",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 22
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T20:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_9d71e7c5",
       "revId": "40708786db9144251b4b2166c79630ce7a76e84b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
