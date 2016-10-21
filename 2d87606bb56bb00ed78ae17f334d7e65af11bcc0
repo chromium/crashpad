@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fc13270f_281cd3da",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T21:33:25Z",
+      "side": 1,
+      "message": "Hmm, I hadn\u0027t thought about the failing-to-start handler case too much. I was intending to burn everything down if crash handling fails to start, but maybe we can\u0027t/shouldn\u0027t do that.\n\nThere doesn\u0027t seem to be a huge benefit to avoiding the SetEvent() or Sleep() if the handler failed to start though? All we\u0027re bailing to is termination (just slightly sooner) since we\u0027ve already circumvented the possibility of any one else getting ahold of the process by this point.",
+      "parentUuid": "fc13270f_5d046fee",
+      "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_9d5ba710",
         "filename": "util/win/exception_handler_server.cc",
         "patchSetId": 24
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-21T21:01:47Z",
       "side": 1,
       "message": "It’s important that the handler reach this point, or actually, probably even…",
+      "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1e9f18_1f682fa1",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-21T21:33:25Z",
+      "side": 1,
+      "message": "Oh, right. We did talk about that in the bug before, I think. That\u0027s part of why the pipe creation happens on the main thread rather than the background thread, so that SendToCrashHandlerServer() won\u0027t fail out immediately with a FILE_NOT_FOUND.\n\nHow about this theory: I\u0027m leaning towards WaitNamedPipe(..., NMPWAIT_WAIT_FOREVER) during connection. The browser creates the handle, inherits it to the handler, and then closes its copy. That means the only system-wide handle remaining is in the handler. So if the handler has failed to start, then there will be nothing for the child to connect to, and it\u0027ll fail out immediately, but without requiring extra data for explicit synchronization.",
+      "parentUuid": "fc13270f_9d5ba710",
       "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
