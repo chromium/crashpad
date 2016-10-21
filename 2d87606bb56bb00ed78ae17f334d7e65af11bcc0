@@ -16,6 +16,40 @@
       "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_9d5ba710",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T21:01:47Z",
+      "side": 1,
+      "message": "It’s important that the handler reach this point, or actually, probably even…",
+      "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_1d6837a1",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T21:01:47Z",
+      "side": 1,
+      "message": "…this point\n\nbefore anyone else tries to register.\n\nThis makes the synchronization more important in Chrome. We need to make sure that the handler process has started before starting any other child processes that will try to register with Crashpad. Even better, we’d want to know that the handler has reached this point, not just that its process is alive.\n\nWe left ourselves a nice meaty comment in SendToCrashHandlerServer() (util/win/registration_protocol_win.cc) explaining what’s up. We also left it in a 5-try loop, which affords us some mitigation against child processes being left unregistered with Crashpad, but I’m concerned that if we see lots of child processes trying to spin up at the same time, there’d be a big enough backlog by the time a slow crashpad_handler started dealing with them that we’d lose some.",
+      "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
