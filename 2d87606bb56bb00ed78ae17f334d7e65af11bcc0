@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc13270f_5d046fee",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-21T20:47:16Z",
+      "side": 1,
+      "message": "It is now possible to reach UnhandledExceptionHandler() with StartHandlerProcess() having failed, or with StartHandlerProcess() running or to-be-run but with the possibility that it will fail.\n\nWhat happens? It looks like we wind up hitting the minute-long sleep. Not too great.\n\nIt looks like we need a way to synchronize this with the completion of StartHandlerProcess() (if it was called), successful or not, and bail out without the SetEvent() or Sleep() if it was unsuccessful.",
+      "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
