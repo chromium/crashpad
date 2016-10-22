@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "fc13270f_ae0f4ba1",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-22T00:18:47Z",
+      "side": 1,
+      "message": "\u003e Hmm, I hadn\u0027t thought about the failing-to-start handler case too much. I\n\u003e was intending to burn everything down if crash handling fails to start, but\n\u003e maybe we can\u0027t/shouldn\u0027t do that.\n\nHow much gasoline were you going to use?\n\nIf the whole process dies, then OK. But is Crashpad doing that, or is the client? Is the death going to be routed through the unhandled exception filter?\n\nI do think that it’s worthwhile to avoid falling into the Sleep(), because during that minute-long Sleep(), the client (chrome.exe or whatever) may be holding on to some lock or resource or something else that prevents the user from being able to successfully try launching it again. They’d basically be stuck, hung, wedged, for that whole minute, with no way out.",
+      "parentUuid": "fc13270f_281cd3da",
+      "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_9d5ba710",
         "filename": "util/win/exception_handler_server.cc",
         "patchSetId": 24
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Oh, right. We did talk about that in the bug before, I think. That\u0027s part of why the pipe creation happens on the main thread rather than the background thread, so that SendToCrashHandlerServer() won\u0027t fail out immediately with a FILE_NOT_FOUND.\n\nHow about this theory: I\u0027m leaning towards WaitNamedPipe(..., NMPWAIT_WAIT_FOREVER) during connection. The browser creates the handle, inherits it to the handler, and then closes its copy. That means the only system-wide handle remaining is in the handler. So if the handler has failed to start, then there will be nothing for the child to connect to, and it\u0027ll fail out immediately, but without requiring extra data for explicit synchronization.",
       "parentUuid": "fc13270f_9d5ba710",
+      "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_aef62b71",
+        "filename": "util/win/exception_handler_server.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-22T00:18:47Z",
+      "side": 1,
+      "message": "\u003e How about this theory: I\u0027m leaning towards WaitNamedPipe(...,\n\u003e NMPWAIT_WAIT_FOREVER) during connection.\n\nSounds like it’ll work. You mean to do that in the non-async StartHandler() or in WaitForHandlerStart() for the async version?\n\nChrome-side, we’d just need to pick a good place to WaitForHandlerStart() that’s not too early but also not so late that it might happen after a child’s been started.",
+      "parentUuid": "3c1e9f18_1f682fa1",
       "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
