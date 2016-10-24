@@ -67,6 +67,19 @@ base::Lock* g_non_crash_dump_lock;
 // dump.
 ExceptionInformation g_non_crash_exception_information;
 
+enum class StartupState : int {
+  kNotReady = 0,   // This must be value 0 because it is the initial value of a
+                   // global AtomicWord.
+  kSucceeded = 1,  // The CreateProcess() for the handler succeeded.
+  kFailed = 2,     // The handler failed to start.
+};
+
+// This is a tri-state of type StartupState. It starts at 0 == kNotReady, and
+// when the handler is known to have started successfully, or failed to start
+// the value will be updated. The unhandled exception filter will not proceed
+// until one of those two cases happens.
+base::subtle::AtomicWord g_handler_startup_state;
+
 // A CRITICAL_SECTION initialized with
 // RTL_CRITICAL_SECTION_FLAG_FORCE_DEBUG_INFO to force it to be allocated with a
 // valid .DebugInfo field. The address of this critical section is given to the
@@ -74,7 +87,32 @@ ExceptionInformation g_non_crash_exception_information;
 // list, so this allows the handler to capture all of them.
 CRITICAL_SECTION g_critical_section_with_debug_info;
 
+void SetHandlerStartupState(StartupState state) {
+  DCHECK(state == StartupState::kSucceeded ||
+         state == StartupState::kFailed);
+  base::subtle::Acquire_Store(&g_handler_startup_state,
+                              static_cast<base::subtle::AtomicWord>(state));
+}
+
 LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
+  // Wait until we know the handler has either succeeded or failed to start.
+  base::subtle::AtomicWord startup_state;
+  while (
+      (startup_state = base::subtle::Release_Load(&g_handler_startup_state)) ==
+      static_cast<int>(StartupState::kNotReady)) {
+    Sleep(1);
+  }
+
+  if (startup_state == static_cast<int>(StartupState::kFailed)) {
+    // If we know for certain that the handler has failed to start, then abort
+    // here, rather than trying to signal to a handler that will never arrive,
+    // and then sleeping unnecessarily.
+    LOG(ERROR) << "crash server failed to launch, self-terminating";
+    TerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
+    return EXCEPTION_CONTINUE_SEARCH;
+  }
+  // Otherwise, we know the handler startup has succeeded, and we can continue.
+
   // Tracks whether a thread has already entered UnhandledExceptionHandler.
   static base::subtle::AtomicWord have_crashed;
 
@@ -277,6 +315,7 @@ bool StartHandlerProcess(
       OpenProcess(kXPProcessAllAccess, true, GetCurrentProcessId()));
   if (!this_process.is_valid()) {
     PLOG(ERROR) << "OpenProcess";
+    SetHandlerStartupState(StartupState::kFailed);
     return false;
   }
 
@@ -327,9 +366,11 @@ bool StartHandlerProcess(
     if (rv) {
       LOG(ERROR) << "InitializeProcThreadAttributeList (size) succeeded, "
                     "expected failure";
+      SetHandlerStartupState(StartupState::kFailed);
       return false;
     } else if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
       PLOG(ERROR) << "InitializeProcThreadAttributeList (size)";
+      SetHandlerStartupState(StartupState::kFailed);
       return false;
     }
 
@@ -341,6 +382,7 @@ bool StartHandlerProcess(
         startup_info.lpAttributeList, 1, 0, &size);
     if (!rv) {
       PLOG(ERROR) << "InitializeProcThreadAttributeList";
+      SetHandlerStartupState(StartupState::kFailed);
       return false;
     }
     proc_thread_attribute_list_owner.reset(startup_info.lpAttributeList);
@@ -367,6 +409,7 @@ bool StartHandlerProcess(
         nullptr);
     if (!rv) {
       PLOG(ERROR) << "UpdateProcThreadAttribute";
+      SetHandlerStartupState(StartupState::kFailed);
       return false;
     }
   }
@@ -384,6 +427,7 @@ bool StartHandlerProcess(
                      &process_info);
   if (!rv) {
     PLOG(ERROR) << "CreateProcess";
+    SetHandlerStartupState(StartupState::kFailed);
     return false;
   }
 
@@ -393,6 +437,7 @@ bool StartHandlerProcess(
   rv = CloseHandle(process_info.hProcess);
   PLOG_IF(WARNING, !rv) << "CloseHandle process";
 
+  SetHandlerStartupState(StartupState::kSucceeded);
   return true;
 }
 
@@ -414,10 +459,6 @@ void CommonInProcessInitialization() {
       &g_critical_section_with_debug_info);
 
   g_non_crash_dump_lock = new base::Lock();
-
-  // In theory we could store the previous handler but it is not clear what
-  // use we have for it.
-  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
 }
 
 }  // namespace
@@ -456,6 +497,8 @@ bool CrashpadClient::StartHandler(
 
   CommonInProcessInitialization();
 
+  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+
   auto data = new BackgroundHandlerStartThreadData(handler,
                                                    database,
                                                    metrics_dir,
@@ -478,6 +521,7 @@ bool CrashpadClient::StartHandler(
                                              nullptr));
     if (!handler_start_thread_.is_valid()) {
       PLOG(ERROR) << "CreateThread";
+      SetHandlerStartupState(StartupState::kFailed);
       return false;
     }
 
@@ -523,6 +567,9 @@ bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
   if (!SendToCrashHandlerServer(ipc_pipe_, message, &response)) {
     return false;
   }
+
+  SetHandlerStartupState(StartupState::kSucceeded);
+  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
 
   // The server returns these already duplicated to be valid in this process.
   g_signal_exception =
