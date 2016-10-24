@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6142304e_32124e3c",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-24T21:56:47Z",
+      "side": 1,
+      "message": "Shouldn’t this come after the bail-out?",
+      "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6142304e_f2fba6ce",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-24T21:56:47Z",
+      "side": 1,
+      "message": "…to avoid the second unhandle-able crash from getting wedged in here, but also because this comment only makes sense when it follows the SleepEx().",
+      "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_6fd88a09",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-24T21:56:47Z",
+      "side": 1,
+      "message": "It’s still not that great that something can crash, enter this function before anyone’s had a chance to call SetHandlerFailedToStart(), and then get stuck in this Sleep() while something else does call SetHandlerFailedToStart().\n\nWhen that does happen, we’ll hit the self-termination below. But if we hit the bail-out above, it’s just EXCEPTION_CONTINUE_SEARCH. Should those behaviors be more uniform?",
+      "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_0fcc7652",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-24T21:56:47Z",
+      "side": 1,
+      "message": "If we’re moving to “forever,” we shouldn’t restrict to 5 tries anymore. We may awaken from the wait only to have the pipe go busy again before we can transact with it.",
+      "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc13270f_6fb1aac7",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-24T21:56:47Z",
+      "side": 1,
+      "message": "Can ERROR_SEM_TIMEOUT happen now that there’s no timeout?",
+      "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
