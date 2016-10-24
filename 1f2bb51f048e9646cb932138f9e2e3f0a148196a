@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "41828cce_7c73d15c",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-24T22:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6142304e_32124e3c",
+      "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6142304e_f2fba6ce",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-24T21:56:47Z",
       "side": 1,
       "message": "…to avoid the second unhandle-able crash from getting wedged in here, but also because this comment only makes sense when it follows the SleepEx().",
+      "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41828cce_1c789d34",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-24T22:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6142304e_f2fba6ce",
       "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "41828cce_3c7d5925",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-24T22:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_6fd88a09",
+      "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_0fcc7652",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "41828cce_f9993363",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-24T22:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc13270f_0fcc7652",
+      "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_6fb1aac7",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2016-10-24T21:56:47Z",
       "side": 1,
       "message": "Can ERROR_SEM_TIMEOUT happen now that there’s no timeout?",
+      "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41828cce_5c6e1574",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-24T22:34:02Z",
+      "side": 1,
+      "message": "Doesn\u0027t look like it. Done.",
+      "parentUuid": "fc13270f_6fb1aac7",
       "revId": "1f2bb51f048e9646cb932138f9e2e3f0a148196a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
