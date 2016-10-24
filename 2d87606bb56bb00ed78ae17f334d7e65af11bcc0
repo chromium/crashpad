@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "dc24a349_39516721",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-24T20:55:20Z",
+      "side": 1,
+      "message": "I wrote a novella about a plan for this in a followup CL here: https://chromium-review.googlesource.com/c/400985/",
+      "parentUuid": "fc13270f_ae0f4ba1",
+      "revId": "2d87606bb56bb00ed78ae17f334d7e65af11bcc0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc13270f_9d5ba710",
         "filename": "util/win/exception_handler_server.cc",
         "patchSetId": 24
