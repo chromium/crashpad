@@ -271,8 +271,10 @@ void ExceptionHandlerServer::InitializeWithInheritedDataForInitialClient(
   // TODO(scottmg): Vista+. Might need to pass through or possibly find an Nt*.
   size_t bytes = sizeof(wchar_t) * _MAX_PATH + sizeof(FILE_NAME_INFO);
   std::unique_ptr<uint8_t[]> data(new uint8_t[bytes]);
-  if (!GetFileInformationByHandleEx(
-          first_pipe_instance_.get(), FileNameInfo, data.get(), bytes)) {
+  if (!GetFileInformationByHandleEx(first_pipe_instance_.get(),
+                                    FileNameInfo,
+                                    data.get(),
+                                    static_cast<DWORD>(bytes))) {
     PLOG(FATAL) << "GetFileInformationByHandleEx";
   }
   FILE_NAME_INFO* file_name_info =

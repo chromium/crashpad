@@ -57,7 +57,7 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
         return false;
       }
 
-      if (!WaitNamedPipe(pipe_name.c_str(), 1000) &&
+      if (!WaitNamedPipe(pipe_name.c_str(), NMPWAIT_WAIT_FOREVER) &&
           GetLastError() != ERROR_SEM_TIMEOUT) {
         PLOG(ERROR) << "WaitNamedPipe";
         return false;
