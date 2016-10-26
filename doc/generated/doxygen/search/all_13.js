@@ -7,6 +7,7 @@ var searchData=
   ['taskmemory',['TaskMemory',['../classcrashpad_1_1TaskMemory.html#aa285dd7fa791444753783c5ec03696a1',1,'crashpad::TaskMemory']]],
   ['teb',['TEB',['../structcrashpad_1_1process__types_1_1TEB.html',1,'crashpad::process_types']]],
   ['teb',['Teb',['../structMINIDUMP__THREAD.html#a78e39b500ecbe680092406abd6aee3f3',1,'MINIDUMP_THREAD']]],
+  ['terminationcodes',['TerminationCodes',['../namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f',1,'crashpad']]],
   ['terminationreason',['TerminationReason',['../classcrashpad_1_1test_1_1Multiprocess.html#adedaaa5fbbb57de1ae5af8ef7c84b4bf',1,'crashpad::test::Multiprocess']]],
   ['testdataroot',['TestDataRoot',['../classcrashpad_1_1test_1_1Paths.html#aca1faeb29312c45e3bb702a737ca3138',1,'crashpad::test::Paths']]],
   ['testexceptionsnapshot',['TestExceptionSnapshot',['../classcrashpad_1_1test_1_1TestExceptionSnapshot.html',1,'crashpad::test']]],

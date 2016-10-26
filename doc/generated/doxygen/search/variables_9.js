@@ -11,6 +11,7 @@ var searchData=
   ['kmachexceptionsimulated',['kMachExceptionSimulated',['../namespacecrashpad.html#ad22bbde846a82173474ba002116c325c',1,'crashpad']]],
   ['kmachmessagereceiveaudittrailer',['kMachMessageReceiveAuditTrailer',['../namespacecrashpad.html#a2673983f0177685e048be73ee578eddb',1,'crashpad']]],
   ['kmachportnull',['kMachPortNull',['../namespacecrashpad.html#a7c7b6c8b4f44c95c7f0fb70a56342277',1,'crashpad']]],
+  ['kpipeinstances',['kPipeInstances',['../classcrashpad_1_1ExceptionHandlerServer.html#aa0182e8bb9a9931d96acf84f93eb81cd',1,'crashpad::ExceptionHandlerServer']]],
   ['ksignature',['kSignature',['../structcrashpad_1_1CodeViewRecordPDB20.html#a44ae151e658264089c48724635cbc789',1,'crashpad::CodeViewRecordPDB20::kSignature()'],['../structcrashpad_1_1CodeViewRecordPDB70.html#a0a52adc79bf1bc9ba3eb444848d89dda',1,'crashpad::CodeViewRecordPDB70::kSignature()']]],
   ['kversion',['kVersion',['../structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a18fb60c0add35baf294f4faadc697963',1,'crashpad::MinidumpModuleCrashpadInfo::kVersion()'],['../structcrashpad_1_1MinidumpCrashpadInfo.html#a69d7f1d4aaa3626731c87dbb93502c79',1,'crashpad::MinidumpCrashpadInfo::kVersion()']]]
 ];

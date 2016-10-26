@@ -39,6 +39,7 @@ var searchData=
   ['location',['Location',['../structMINIDUMP__DIRECTORY.html#a7e0e309a9e7c63c1205843a34fa0006a',1,'MINIDUMP_DIRECTORY::Location()'],['../structcrashpad_1_1MinidumpModuleCrashpadInfoLink.html#ad788b55dbeadc796d40b907de7fa9f9e',1,'crashpad::MinidumpModuleCrashpadInfoLink::location()']]],
   ['log_5fmessages',['log_messages',['../classcrashpad_1_1ThreadLogMessages.html#a7ef2ff4f941c8683019214347e521717',1,'crashpad::ThreadLogMessages']]],
   ['loggingclosefile',['LoggingCloseFile',['../namespacecrashpad.html#ab9db00544fd57cfde0bb03d32b989221',1,'crashpad']]],
+  ['loggingfilesizebyhandle',['LoggingFileSizeByHandle',['../namespacecrashpad.html#a0224d5a689cdb8c2315c255fd6ea6b5c',1,'crashpad']]],
   ['logginglockfile',['LoggingLockFile',['../namespacecrashpad.html#acd02263566d8c43fc7886f88a13b364f',1,'crashpad']]],
   ['loggingopenfileforread',['LoggingOpenFileForRead',['../namespacecrashpad.html#ab3712d59104f641109b170c78a912b4d',1,'crashpad']]],
   ['loggingopenfileforreadandwrite',['LoggingOpenFileForReadAndWrite',['../namespacecrashpad.html#aab3e964bdba04aaf74e7a27a36efe108',1,'crashpad']]],

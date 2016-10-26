@@ -99,34 +99,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ad263a8139b92b7ba45b4bb4b5091c342"><td class="memItemLeft" ><a class="anchor" id="ad263a8139b92b7ba45b4bb4b5091c342"></a>
+<tr class="memitem:a02f0cde49df244117e00bdd90525c6c2"><td class="memItemLeft" ><a class="anchor" id="a02f0cde49df244117e00bdd90525c6c2"></a>
 struct {</td></tr>
-<tr class="memitem:aecc10c8dcedc7b6150139d95c5eaa41f"><td class="memItemLeft" >&#160;&#160;&#160;uint32_t&#160;&#160;&#160;<a class="el" href="unionCPU__INFORMATION.html#af239b99d9ef6b86fb04ffeabd85831c6">VendorId</a> [3]</td></tr>
-<tr class="memdesc:aecc10c8dcedc7b6150139d95c5eaa41f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPU’s vendor identification string as encoded in <code>cpuid 0</code> <code>ebx</code>, <code>edx</code>, and <code>ecx</code>, represented as it appears in these registers.  <a href="#aecc10c8dcedc7b6150139d95c5eaa41f">More...</a><br /></td></tr>
-<tr class="separator:aecc10c8dcedc7b6150139d95c5eaa41f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36d909c058749a73847d2058e21b3c72"><td class="memItemLeft" >
+<tr class="memitem:a1c616447230b040c41cae1fac1c7ec5a"><td class="memItemLeft" >&#160;&#160;&#160;uint32_t&#160;&#160;&#160;<a class="el" href="unionCPU__INFORMATION.html#af239b99d9ef6b86fb04ffeabd85831c6">VendorId</a> [3]</td></tr>
+<tr class="memdesc:a1c616447230b040c41cae1fac1c7ec5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPU’s vendor identification string as encoded in <code>cpuid 0</code> <code>ebx</code>, <code>edx</code>, and <code>ecx</code>, represented as it appears in these registers.  <a href="#a1c616447230b040c41cae1fac1c7ec5a">More...</a><br /></td></tr>
+<tr class="separator:a1c616447230b040c41cae1fac1c7ec5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a354bb3c5b2c335237a3ccd6be5eb7bbc"><td class="memItemLeft" >
 &#160;&#160;&#160;uint32_t&#160;&#160;&#160;<a class="el" href="unionCPU__INFORMATION.html#a6b072a6cae2e065111ef20acf21e355a">VersionInformation</a></td></tr>
-<tr class="memdesc:a36d909c058749a73847d2058e21b3c72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Family, model, and stepping ID values as encoded in <code>cpuid 1</code> <code>eax</code>. <br /></td></tr>
-<tr class="separator:a36d909c058749a73847d2058e21b3c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79166b3a33d764b81b6ed1846dc1a5a7"><td class="memItemLeft" >
+<tr class="memdesc:a354bb3c5b2c335237a3ccd6be5eb7bbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Family, model, and stepping ID values as encoded in <code>cpuid 1</code> <code>eax</code>. <br /></td></tr>
+<tr class="separator:a354bb3c5b2c335237a3ccd6be5eb7bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8c074d77fad27b834b002b60b8a25d5"><td class="memItemLeft" >
 &#160;&#160;&#160;uint32_t&#160;&#160;&#160;<a class="el" href="unionCPU__INFORMATION.html#a044a13c077ea0b3834dd33e4a48027cc">FeatureInformation</a></td></tr>
-<tr class="memdesc:a79166b3a33d764b81b6ed1846dc1a5a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bitfield containing supported CPU capabilities as encoded in <code>cpuid 1</code> <code>edx</code>. <br /></td></tr>
-<tr class="separator:a79166b3a33d764b81b6ed1846dc1a5a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e6a8ab537a1bf1db4b5ca228235d773"><td class="memItemLeft" >&#160;&#160;&#160;uint32_t&#160;&#160;&#160;<a class="el" href="unionCPU__INFORMATION.html#a7e6d74246b12843a3c7ca78e5dc67a3a">AMDExtendedCpuFeatures</a></td></tr>
-<tr class="memdesc:a6e6a8ab537a1bf1db4b5ca228235d773"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bitfield containing supported CPU capabalities as encoded in <code>cpuid 0x80000001</code> <code>edx</code>.  <a href="#a6e6a8ab537a1bf1db4b5ca228235d773">More...</a><br /></td></tr>
-<tr class="separator:a6e6a8ab537a1bf1db4b5ca228235d773"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad263a8139b92b7ba45b4bb4b5091c342"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unionCPU__INFORMATION.html#ad263a8139b92b7ba45b4bb4b5091c342">X86CpuInfo</a></td></tr>
-<tr class="memdesc:ad263a8139b92b7ba45b4bb4b5091c342"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about 32-bit x86 CPUs, or x86_64 CPUs when running 32-bit x86 processes. <br /></td></tr>
-<tr class="separator:ad263a8139b92b7ba45b4bb4b5091c342"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ff269a4cef9d7ab169f2b121009a44c"><td class="memItemLeft" ><a class="anchor" id="a9ff269a4cef9d7ab169f2b121009a44c"></a>
+<tr class="memdesc:ae8c074d77fad27b834b002b60b8a25d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bitfield containing supported CPU capabilities as encoded in <code>cpuid 1</code> <code>edx</code>. <br /></td></tr>
+<tr class="separator:ae8c074d77fad27b834b002b60b8a25d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dcf6a29bf4f1774023906815ef9a061"><td class="memItemLeft" >&#160;&#160;&#160;uint32_t&#160;&#160;&#160;<a class="el" href="unionCPU__INFORMATION.html#a7e6d74246b12843a3c7ca78e5dc67a3a">AMDExtendedCpuFeatures</a></td></tr>
+<tr class="memdesc:a5dcf6a29bf4f1774023906815ef9a061"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bitfield containing supported CPU capabalities as encoded in <code>cpuid 0x80000001</code> <code>edx</code>.  <a href="#a5dcf6a29bf4f1774023906815ef9a061">More...</a><br /></td></tr>
+<tr class="separator:a5dcf6a29bf4f1774023906815ef9a061"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02f0cde49df244117e00bdd90525c6c2"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unionCPU__INFORMATION.html#a02f0cde49df244117e00bdd90525c6c2">X86CpuInfo</a></td></tr>
+<tr class="memdesc:a02f0cde49df244117e00bdd90525c6c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about 32-bit x86 CPUs, or x86_64 CPUs when running 32-bit x86 processes. <br /></td></tr>
+<tr class="separator:a02f0cde49df244117e00bdd90525c6c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2216105c6654a1cc8b4e7b6930da6df"><td class="memItemLeft" ><a class="anchor" id="ab2216105c6654a1cc8b4e7b6930da6df"></a>
 struct {</td></tr>
-<tr class="memitem:a8aa0d15370b11c0e0fe2c4e923e4a3b6"><td class="memItemLeft" >
+<tr class="memitem:a09936da73e2e78211f0c97543f6b9ea2"><td class="memItemLeft" >
 &#160;&#160;&#160;uint64_t&#160;&#160;&#160;<a class="el" href="unionCPU__INFORMATION.html#a05b7ec99316251c79f305c44134e30dd">ProcessorFeatures</a> [2]</td></tr>
-<tr class="memdesc:a8aa0d15370b11c0e0fe2c4e923e4a3b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitfields containing supported CPU capabilities as identified by bits corresponding to <a class="el" href="win_2winnt_8h.html#PF_x">PF_*</a> values passed to <code>IsProcessorFeaturePresent()</code>. <br /></td></tr>
-<tr class="separator:a8aa0d15370b11c0e0fe2c4e923e4a3b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ff269a4cef9d7ab169f2b121009a44c"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unionCPU__INFORMATION.html#a9ff269a4cef9d7ab169f2b121009a44c">OtherCpuInfo</a></td></tr>
-<tr class="memdesc:a9ff269a4cef9d7ab169f2b121009a44c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about non-x86 CPUs, and x86_64 CPUs when not running 32-bit x86 processes. <br /></td></tr>
-<tr class="separator:a9ff269a4cef9d7ab169f2b121009a44c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a09936da73e2e78211f0c97543f6b9ea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitfields containing supported CPU capabilities as identified by bits corresponding to <a class="el" href="win_2winnt_8h.html#PF_x">PF_*</a> values passed to <code>IsProcessorFeaturePresent()</code>. <br /></td></tr>
+<tr class="separator:a09936da73e2e78211f0c97543f6b9ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2216105c6654a1cc8b4e7b6930da6df"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unionCPU__INFORMATION.html#ab2216105c6654a1cc8b4e7b6930da6df">OtherCpuInfo</a></td></tr>
+<tr class="memdesc:ab2216105c6654a1cc8b4e7b6930da6df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Information about non-x86 CPUs, and x86_64 CPUs when not running 32-bit x86 processes. <br /></td></tr>
+<tr class="separator:ab2216105c6654a1cc8b4e7b6930da6df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Information about the CPU (or CPUs) that ran the process that the minidump file contains a snapshot of. </p>

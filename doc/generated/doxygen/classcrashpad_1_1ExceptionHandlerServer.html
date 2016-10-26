@@ -91,6 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classcrashpad_1_1ExceptionHandlerServer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">crashpad::ExceptionHandlerServer Class Reference</div>  </div>
@@ -124,9 +125,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7a18e94b43bbe192e37a28638e25a51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#ab7a18e94b43bbe192e37a28638e25a51">SetPipeName</a> (const std::wstring &amp;pipe_name)</td></tr>
 <tr class="memdesc:ab7a18e94b43bbe192e37a28638e25a51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the pipe name to listen for client registrations on.  <a href="#ab7a18e94b43bbe192e37a28638e25a51">More...</a><br /></td></tr>
 <tr class="separator:ab7a18e94b43bbe192e37a28638e25a51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47c23e9cf28b76e7d941a6767b019fb4"><td class="memItemLeft" align="right" valign="top">std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a47c23e9cf28b76e7d941a6767b019fb4">CreatePipe</a> ()</td></tr>
-<tr class="memdesc:a47c23e9cf28b76e7d941a6767b019fb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a randomized pipe name to listen for client registrations on and returns its name.  <a href="#a47c23e9cf28b76e7d941a6767b019fb4">More...</a><br /></td></tr>
-<tr class="separator:a47c23e9cf28b76e7d941a6767b019fb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3093cf1cbe8a36428c6333841c0c7e86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a3093cf1cbe8a36428c6333841c0c7e86">InitializeWithInheritedDataForInitialClient</a> (const <a class="el" href="classcrashpad_1_1InitialClientData.html">InitialClientData</a> &amp;initial_client_data, <a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html">Delegate</a> *delegate)</td></tr>
+<tr class="memdesc:a3093cf1cbe8a36428c6333841c0c7e86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the pipe to listen for client registrations on, providing the first precreated instance.  <a href="#a3093cf1cbe8a36428c6333841c0c7e86">More...</a><br /></td></tr>
+<tr class="separator:a3093cf1cbe8a36428c6333841c0c7e86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ddcf9cff0364e46378ef575ded9a773"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a8ddcf9cff0364e46378ef575ded9a773">Run</a> (<a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html">Delegate</a> *delegate)</td></tr>
 <tr class="memdesc:a8ddcf9cff0364e46378ef575ded9a773"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the exception-handling server.  <a href="#a8ddcf9cff0364e46378ef575ded9a773">More...</a><br /></td></tr>
 <tr class="separator:a8ddcf9cff0364e46378ef575ded9a773"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,6 +135,13 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a75dd814798b8f8224f53d84cea8368be">Stop</a> ()</td></tr>
 <tr class="memdesc:a75dd814798b8f8224f53d84cea8368be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the exception-handling server. Returns immediately. The object must not be destroyed until <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a> returns. <br /></td></tr>
 <tr class="separator:a75dd814798b8f8224f53d84cea8368be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:aa0182e8bb9a9931d96acf84f93eb81cd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0182e8bb9a9931d96acf84f93eb81cd"></a>
+static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#aa0182e8bb9a9931d96acf84f93eb81cd">kPipeInstances</a> = 2</td></tr>
+<tr class="memdesc:aa0182e8bb9a9931d96acf84f93eb81cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of server-side pipe instances that the exception handler server creates to listen for connections from clients. <br /></td></tr>
+<tr class="separator:aa0182e8bb9a9931d96acf84f93eb81cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Runs the main exception-handling server in Crashpad’s handler process. </p>
@@ -207,22 +215,42 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a47c23e9cf28b76e7d941a6767b019fb4"></a>
+<a class="anchor" id="a3093cf1cbe8a36428c6333841c0c7e86"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::wstring crashpad::ExceptionHandlerServer::CreatePipe </td>
+          <td class="memname">void crashpad::ExceptionHandlerServer::InitializeWithInheritedDataForInitialClient </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classcrashpad_1_1InitialClientData.html">InitialClientData</a> &amp;&#160;</td>
+          <td class="paramname"><em>initial_client_data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html">Delegate</a> *&#160;</td>
+          <td class="paramname"><em>delegate</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Creates a randomized pipe name to listen for client registrations on and returns its name. </p>
-<p>Either this method or <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a47c23e9cf28b76e7d941a6767b019fb4" title="Creates a randomized pipe name to listen for client registrations on and returns its name...">CreatePipe()</a>, but not both, must be called before <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a>.</p>
-<dl class="section return"><dt>Returns</dt><dd>The pipe name that will be listened on. </dd></dl>
+<p>Sets the pipe to listen for client registrations on, providing the first precreated instance. </p>
+<p>This method, or <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#ab7a18e94b43bbe192e37a28638e25a51" title="Sets the pipe name to listen for client registrations on. ">SetPipeName()</a>, must be called before <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a>. All of these parameters are generally created in a parent process that launches the handler. For more details see the Windows implementation of <a class="el" href="classcrashpad_1_1CrashpadClient.html" title="The primary interface for an application to have Crashpad monitor it for crashes. ...">CrashpadClient</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1CrashpadClient.html" title="The primary interface for an application to have Crashpad monitor it for crashes. ...">CrashpadClient</a> </dd>
+<dd>
+<a class="el" href="structcrashpad_1_1RegistrationRequest.html" title="A client registration request. ">RegistrationRequest</a></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">initial_client_data</td><td>The handles and addresses of data inherited from a parent process needed to initialize and register the first client. Ownership of these handles is taken. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">delegate</td><td>The interface to which the exceptions are delegated when they are caught in <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a>. Ownership is not transferred. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -293,7 +321,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><div class="memdoc">
 
 <p>Sets the pipe name to listen for client registrations on. </p>
-<p>Either this method or <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a47c23e9cf28b76e7d941a6767b019fb4" title="Creates a randomized pipe name to listen for client registrations on and returns its name...">CreatePipe()</a>, but not both, must be called before <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a>.</p>
+<p>This method, or <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a3093cf1cbe8a36428c6333841c0c7e86" title="Sets the pipe to listen for client registrations on, providing the first precreated instance...">InitializeWithInheritedDataForInitialClient()</a>, must be called before <a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html#a348789edd93bcd388ddd38c77230583d" title="Runs the exception-handling server. ">Run()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">pipe_name</td><td>The name of the pipe to listen on. Must be of the form "\\.\pipe\&lt;some_name&gt;". </td></tr>

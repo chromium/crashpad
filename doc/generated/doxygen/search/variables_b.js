@@ -9,5 +9,5 @@ var searchData=
   ['miscrecord',['MiscRecord',['../structMINIDUMP__MODULE.html#a749bc0bb7492a1b9463631eec006b4d1',1,'MINIDUMP_MODULE']]],
   ['module_5flist',['module_list',['../structcrashpad_1_1MinidumpCrashpadInfo.html#a343f824f5f16c241eb8ff11b71cf39ec',1,'crashpad::MinidumpCrashpadInfo']]],
   ['modulenamerva',['ModuleNameRva',['../structMINIDUMP__MODULE.html#a8aa1ae48a9a32640573747cba5a00274',1,'MINIDUMP_MODULE::ModuleNameRva()'],['../structMINIDUMP__UNLOADED__MODULE.html#af053b8df443ed30eb5b2e72747ed41e8',1,'MINIDUMP_UNLOADED_MODULE::ModuleNameRva()']]],
-  ['modules',['Modules',['../structMINIDUMP__MODULE__LIST.html#aff6c222b00169e3135815e7c11e876c2',1,'MINIDUMP_MODULE_LIST::Modules()'],['../structcrashpad_1_1MinidumpModuleCrashpadInfoList.html#ab9bb5d82505839440903e0fe9253ea7b',1,'crashpad::MinidumpModuleCrashpadInfoList::modules()']]]
+  ['modules',['modules',['../structcrashpad_1_1MinidumpModuleCrashpadInfoList.html#ab9bb5d82505839440903e0fe9253ea7b',1,'crashpad::MinidumpModuleCrashpadInfoList::modules()'],['../structMINIDUMP__MODULE__LIST.html#aff6c222b00169e3135815e7c11e876c2',1,'MINIDUMP_MODULE_LIST::Modules()']]]
 ];

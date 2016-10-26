@@ -90,14 +90,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classcrashpad_1_1test_1_1TestMinidumpMemoryWriter-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">crashpad::test::TestMinidumpMemoryWriter Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>A <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">MinidumpMemoryWriter</a> implementation used for testing.  
+<p>A <a class="el" href="classcrashpad_1_1SnapshotMinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">SnapshotMinidumpMemoryWriter</a> implementation used for testing.  
  <a href="classcrashpad_1_1test_1_1TestMinidumpMemoryWriter.html#details">More...</a></p>
 
 <p><code>#include &quot;minidump/test/minidump_memory_writer_test_util.h&quot;</code></p>
@@ -107,8 +106,9 @@ Inheritance diagram for crashpad::test::TestMinidumpMemoryWriter:</div>
  <div class="center">
   <img src="classcrashpad_1_1test_1_1TestMinidumpMemoryWriter.png" usemap="#crashpad::test::TestMinidumpMemoryWriter_map" alt=""/>
   <map id="crashpad::test::TestMinidumpMemoryWriter_map" name="crashpad::test::TestMinidumpMemoryWriter_map">
-<area href="classcrashpad_1_1MinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min..." alt="crashpad::MinidumpMemoryWriter" shape="rect" coords="0,56,253,80"/>
-<area href="classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file. " alt="crashpad::internal::MinidumpWritable" shape="rect" coords="0,0,253,24"/>
+<area href="classcrashpad_1_1SnapshotMinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min..." alt="crashpad::SnapshotMinidumpMemoryWriter" shape="rect" coords="133,56,390,80"/>
+<area href="classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file. " alt="crashpad::internal::MinidumpWritable" shape="rect" coords="0,0,257,24"/>
+<area href="classcrashpad_1_1MemorySnapshot_1_1Delegate.html" title="An interface that MemorySnapshot clients must implement in order to receive memory snapshot data..." alt="crashpad::MemorySnapshot::Delegate" shape="rect" coords="267,0,524,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -117,13 +117,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9c8cfd9025a74d1059687da9d8817d7e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c8cfd9025a74d1059687da9d8817d7e"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>TestMinidumpMemoryWriter</b> (uint64_t base_address, size_t size, uint8_t value)</td></tr>
 <tr class="separator:a9c8cfd9025a74d1059687da9d8817d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classcrashpad_1_1MinidumpMemoryWriter"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcrashpad_1_1MinidumpMemoryWriter')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">crashpad::MinidumpMemoryWriter</a></td></tr>
-<tr class="memitem:aed2c11b4e81395533d93eb85a4563e18 inherit pub_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structMINIDUMP__MEMORY__DESCRIPTOR.html">MINIDUMP_MEMORY_DESCRIPTOR</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html#aed2c11b4e81395533d93eb85a4563e18">MinidumpMemoryDescriptor</a> () const </td></tr>
-<tr class="memdesc:aed2c11b4e81395533d93eb85a4563e18 inherit pub_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="structMINIDUMP__MEMORY__DESCRIPTOR.html" title="A pointer to a snapshot of a region of memory contained within a minidump file. ">MINIDUMP_MEMORY_DESCRIPTOR</a> referencing the data that this object writes.  <a href="#aed2c11b4e81395533d93eb85a4563e18">More...</a><br /></td></tr>
-<tr class="separator:aed2c11b4e81395533d93eb85a4563e18 inherit pub_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa770340c418ab7835a5c4a5a38f52e84 inherit pub_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html#aa770340c418ab7835a5c4a5a38f52e84">RegisterMemoryDescriptor</a> (<a class="el" href="structMINIDUMP__MEMORY__DESCRIPTOR.html">MINIDUMP_MEMORY_DESCRIPTOR</a> *memory_descriptor)</td></tr>
-<tr class="memdesc:aa770340c418ab7835a5c4a5a38f52e84 inherit pub_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a memory descriptor as one that should point to the object on which this method is called.  <a href="#aa770340c418ab7835a5c4a5a38f52e84">More...</a><br /></td></tr>
-<tr class="separator:aa770340c418ab7835a5c4a5a38f52e84 inherit pub_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classcrashpad_1_1SnapshotMinidumpMemoryWriter"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcrashpad_1_1SnapshotMinidumpMemoryWriter')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1SnapshotMinidumpMemoryWriter.html">crashpad::SnapshotMinidumpMemoryWriter</a></td></tr>
+<tr class="memitem:ae2fcbf64280dce9d4e9aaee0999c4125 inherit pub_methods_classcrashpad_1_1SnapshotMinidumpMemoryWriter"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2fcbf64280dce9d4e9aaee0999c4125"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SnapshotMinidumpMemoryWriter</b> (const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *memory_snapshot)</td></tr>
+<tr class="separator:ae2fcbf64280dce9d4e9aaee0999c4125 inherit pub_methods_classcrashpad_1_1SnapshotMinidumpMemoryWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a649369a31ccfdd0e9c7d161b4129a62b inherit pub_methods_classcrashpad_1_1SnapshotMinidumpMemoryWriter"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structMINIDUMP__MEMORY__DESCRIPTOR.html">MINIDUMP_MEMORY_DESCRIPTOR</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1SnapshotMinidumpMemoryWriter.html#a649369a31ccfdd0e9c7d161b4129a62b">MinidumpMemoryDescriptor</a> () const </td></tr>
+<tr class="memdesc:a649369a31ccfdd0e9c7d161b4129a62b inherit pub_methods_classcrashpad_1_1SnapshotMinidumpMemoryWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="structMINIDUMP__MEMORY__DESCRIPTOR.html" title="A pointer to a snapshot of a region of memory contained within a minidump file. ">MINIDUMP_MEMORY_DESCRIPTOR</a> referencing the data that this object writes.  <a href="#a649369a31ccfdd0e9c7d161b4129a62b">More...</a><br /></td></tr>
+<tr class="separator:a649369a31ccfdd0e9c7d161b4129a62b inherit pub_methods_classcrashpad_1_1SnapshotMinidumpMemoryWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbbc12dac40c04a9860fbaae023db408 inherit pub_methods_classcrashpad_1_1SnapshotMinidumpMemoryWriter"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1SnapshotMinidumpMemoryWriter.html#acbbc12dac40c04a9860fbaae023db408">RegisterMemoryDescriptor</a> (<a class="el" href="structMINIDUMP__MEMORY__DESCRIPTOR.html">MINIDUMP_MEMORY_DESCRIPTOR</a> *memory_descriptor)</td></tr>
+<tr class="memdesc:acbbc12dac40c04a9860fbaae023db408 inherit pub_methods_classcrashpad_1_1SnapshotMinidumpMemoryWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a memory descriptor as one that should point to the object on which this method is called.  <a href="#acbbc12dac40c04a9860fbaae023db408">More...</a><br /></td></tr>
+<tr class="separator:acbbc12dac40c04a9860fbaae023db408 inherit pub_methods_classcrashpad_1_1SnapshotMinidumpMemoryWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">crashpad::internal::MinidumpWritable</a></td></tr>
 <tr class="memitem:a24507e918299cb566c7f15207de83a7f inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a24507e918299cb566c7f15207de83a7f">WriteEverything</a> (<a class="el" href="classcrashpad_1_1FileWriterInterface.html">FileWriterInterface</a> *file_writer)</td></tr>
 <tr class="memdesc:a24507e918299cb566c7f15207de83a7f inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes an object and all of its children to a minidump file.  <a href="#a24507e918299cb566c7f15207de83a7f">More...</a><br /></td></tr>
@@ -135,33 +138,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aed263c64ecb0597696d080e395af6400 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a location descriptor as one that should point to the object on which this method is called.  <a href="#aed263c64ecb0597696d080e395af6400">More...</a><br /></td></tr>
 <tr class="separator:aed263c64ecb0597696d080e395af6400 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a923e5f3c8c1a2959b00a11a4c61f05cb"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestMinidumpMemoryWriter.html#a923e5f3c8c1a2959b00a11a4c61f05cb">MemoryRangeBaseAddress</a> () const  override</td></tr>
-<tr class="memdesc:a923e5f3c8c1a2959b00a11a4c61f05cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the base address of the memory region in the address space of the process that the snapshot describes.  <a href="#a923e5f3c8c1a2959b00a11a4c61f05cb">More...</a><br /></td></tr>
-<tr class="separator:a923e5f3c8c1a2959b00a11a4c61f05cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5423e8b580e90dcd837c80ca6d6779af"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestMinidumpMemoryWriter.html#a5423e8b580e90dcd837c80ca6d6779af">MemoryRangeSize</a> () const  override</td></tr>
-<tr class="memdesc:a5423e8b580e90dcd837c80ca6d6779af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the memory region in bytes.  <a href="#a5423e8b580e90dcd837c80ca6d6779af">More...</a><br /></td></tr>
-<tr class="separator:a5423e8b580e90dcd837c80ca6d6779af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3764ed18a98d9ea979a7f0494eb19bbf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestMinidumpMemoryWriter.html#a3764ed18a98d9ea979a7f0494eb19bbf">WillWriteAtOffsetImpl</a> (<a class="el" href="namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2">FileOffset</a> offset) override</td></tr>
-<tr class="memdesc:a3764ed18a98d9ea979a7f0494eb19bbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once an object’s writable file offset is determined, as it transitions into <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a87483823ca30a8257b2a5fbd21805bcd" title="The object is writable. ">kStateWritable</a>.  <a href="#a3764ed18a98d9ea979a7f0494eb19bbf">More...</a><br /></td></tr>
-<tr class="separator:a3764ed18a98d9ea979a7f0494eb19bbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad43c37e90e653697452c24170dc9f360"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1TestMinidumpMemoryWriter.html#ad43c37e90e653697452c24170dc9f360">WriteObject</a> (<a class="el" href="classcrashpad_1_1FileWriterInterface.html">FileWriterInterface</a> *file_writer) override</td></tr>
-<tr class="memdesc:ad43c37e90e653697452c24170dc9f360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the object’s content.  <a href="#ad43c37e90e653697452c24170dc9f360">More...</a><br /></td></tr>
-<tr class="separator:ad43c37e90e653697452c24170dc9f360"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classcrashpad_1_1MinidumpMemoryWriter')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">crashpad::MinidumpMemoryWriter</a></td></tr>
-<tr class="memitem:a8997151abbd2f6c1b44b819fb00d0002 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html#a8997151abbd2f6c1b44b819fb00d0002">Freeze</a> () override</td></tr>
-<tr class="memdesc:a8997151abbd2f6c1b44b819fb00d0002 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transitions the object from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a18337604dcbdbdb23ed51810f0587665" title="The object’s properties can be modified. ">kStateMutable</a> to <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7af98547144e0e8d4f878f725ef5c0d611" title="The object is “frozen”. ">kStateFrozen</a>.  <a href="#a8997151abbd2f6c1b44b819fb00d0002">More...</a><br /></td></tr>
-<tr class="separator:a8997151abbd2f6c1b44b819fb00d0002 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a546a1702c89f5ad8ae62f42f33764f78 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html#a546a1702c89f5ad8ae62f42f33764f78">SizeOfObject</a> () final</td></tr>
-<tr class="memdesc:a546a1702c89f5ad8ae62f42f33764f78 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the amount of space that this object will consume when written to a minidump file, in bytes, not including any leading or trailing padding necessary to maintain proper alignment.  <a href="#a546a1702c89f5ad8ae62f42f33764f78">More...</a><br /></td></tr>
-<tr class="separator:a546a1702c89f5ad8ae62f42f33764f78 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab77268e3451a9927716f42541e53c4d1 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html#ab77268e3451a9927716f42541e53c4d1">Alignment</a> () override</td></tr>
-<tr class="memdesc:ab77268e3451a9927716f42541e53c4d1 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the object’s desired byte-boundary alignment.  <a href="#ab77268e3451a9927716f42541e53c4d1">More...</a><br /></td></tr>
-<tr class="separator:ab77268e3451a9927716f42541e53c4d1 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accab8e2d858dc5337c37acc2b13faf38 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9">Phase</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html#accab8e2d858dc5337c37acc2b13faf38">WritePhase</a> () final</td></tr>
-<tr class="memdesc:accab8e2d858dc5337c37acc2b13faf38 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the object’s desired write phase.  <a href="#accab8e2d858dc5337c37acc2b13faf38">More...</a><br /></td></tr>
-<tr class="separator:accab8e2d858dc5337c37acc2b13faf38 inherit pro_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_types_classcrashpad_1_1internal_1_1MinidumpWritable"><td colspan="2" onclick="javascript:toggleInherit('pro_types_classcrashpad_1_1internal_1_1MinidumpWritable')"><img src="closed.png" alt="-"/>&#160;Protected Types inherited from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">crashpad::internal::MinidumpWritable</a></td></tr>
+<tr class="memitem:ac14e05f291f5fa713b5ec82a208fa7c7 inherit pro_types_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7">State</a> <tr class="memdesc:ac14e05f291f5fa713b5ec82a208fa7c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifies the state of an object.  <a href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7">More...</a><br /></td></tr>
+<tr class="separator:ac14e05f291f5fa713b5ec82a208fa7c7 inherit pro_types_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+<tr class="memitem:a009f007265d64a5fb416848480a00ae9 inherit pro_types_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9">Phase</a> <tr class="memdesc:a009f007265d64a5fb416848480a00ae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifies the phase during which an object will be written to a minidump file.  <a href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9">More...</a><br /></td></tr>
+<tr class="separator:a009f007265d64a5fb416848480a00ae9 inherit pro_types_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
 <tr class="inherit_header pro_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classcrashpad_1_1internal_1_1MinidumpWritable')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">crashpad::internal::MinidumpWritable</a></td></tr>
 <tr class="memitem:a665d2de47970d796e904f0dfce406814 inherit pro_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a665d2de47970d796e904f0dfce406814"></a>
 <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a665d2de47970d796e904f0dfce406814">state</a> () const </td></tr>
@@ -176,159 +161,15 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab82b1e92ae0eced8b8e2efe957411773 inherit pro_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ab82b1e92ae0eced8b8e2efe957411773">WritePaddingAndObject</a> (<a class="el" href="classcrashpad_1_1FileWriterInterface.html">FileWriterInterface</a> *file_writer)</td></tr>
 <tr class="memdesc:ab82b1e92ae0eced8b8e2efe957411773 inherit pro_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the object, transitioning it from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a87483823ca30a8257b2a5fbd21805bcd" title="The object is writable. ">kStateWritable</a> to <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7af0d794ed29c320fcf35c71f40cc6a510" title="The object has been written to a minidump file. ">kStateWritten</a>.  <a href="#ab82b1e92ae0eced8b8e2efe957411773">More...</a><br /></td></tr>
 <tr class="separator:ab82b1e92ae0eced8b8e2efe957411773 inherit pro_methods_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_static_methods_classcrashpad_1_1MinidumpMemoryWriter"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classcrashpad_1_1MinidumpMemoryWriter')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">crashpad::MinidumpMemoryWriter</a></td></tr>
-<tr class="memitem:a5c6ed0bc46553e278646def60e5896e7 inherit pub_static_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html">MinidumpMemoryWriter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html#a5c6ed0bc46553e278646def60e5896e7">CreateFromSnapshot</a> (const <a class="el" href="classcrashpad_1_1MemorySnapshot.html">MemorySnapshot</a> *memory_snapshot)</td></tr>
-<tr class="memdesc:a5c6ed0bc46553e278646def60e5896e7 inherit pub_static_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a concrete initialized <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">MinidumpMemoryWriter</a> based on <em>memory_snapshot</em>.  <a href="#a5c6ed0bc46553e278646def60e5896e7">More...</a><br /></td></tr>
-<tr class="separator:a5c6ed0bc46553e278646def60e5896e7 inherit pub_static_methods_classcrashpad_1_1MinidumpMemoryWriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_types_classcrashpad_1_1internal_1_1MinidumpWritable"><td colspan="2" onclick="javascript:toggleInherit('pro_types_classcrashpad_1_1internal_1_1MinidumpWritable')"><img src="closed.png" alt="-"/>&#160;Protected Types inherited from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">crashpad::internal::MinidumpWritable</a></td></tr>
-<tr class="memitem:ac14e05f291f5fa713b5ec82a208fa7c7 inherit pro_types_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7">State</a> <tr class="memdesc:ac14e05f291f5fa713b5ec82a208fa7c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifies the state of an object.  <a href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7">More...</a><br /></td></tr>
-<tr class="separator:ac14e05f291f5fa713b5ec82a208fa7c7 inherit pro_types_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</td></tr>
-<tr class="memitem:a009f007265d64a5fb416848480a00ae9 inherit pro_types_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9">Phase</a> <tr class="memdesc:a009f007265d64a5fb416848480a00ae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifies the phase during which an object will be written to a minidump file.  <a href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9">More...</a><br /></td></tr>
-<tr class="separator:a009f007265d64a5fb416848480a00ae9 inherit pro_types_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</td></tr>
 <tr class="inherit_header pro_static_attribs_classcrashpad_1_1internal_1_1MinidumpWritable"><td colspan="2" onclick="javascript:toggleInherit('pro_static_attribs_classcrashpad_1_1internal_1_1MinidumpWritable')"><img src="closed.png" alt="-"/>&#160;Static Protected Attributes inherited from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html">crashpad::internal::MinidumpWritable</a></td></tr>
 <tr class="memitem:ae7c01f317a519213ac16bfeca94125d1 inherit pro_static_attribs_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ae7c01f317a519213ac16bfeca94125d1">kInvalidSize</a></td></tr>
 <tr class="memdesc:ae7c01f317a519213ac16bfeca94125d1 inherit pro_static_attribs_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="mdescLeft">&#160;</td><td class="mdescRight">A size value used to signal failure by methods that return <code>size_t</code>.  <a href="#ae7c01f317a519213ac16bfeca94125d1">More...</a><br /></td></tr>
 <tr class="separator:ae7c01f317a519213ac16bfeca94125d1 inherit pro_static_attribs_classcrashpad_1_1internal_1_1MinidumpWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">MinidumpMemoryWriter</a> implementation used for testing. </p>
-<p><a class="el" href="classcrashpad_1_1test_1_1TestMinidumpMemoryWriter.html" title="A MinidumpMemoryWriter implementation used for testing. ">TestMinidumpMemoryWriter</a> objects are created with a fixed base address and size, and will write the same byte (<em>value</em>) repeatedly, <em>size</em> times. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a923e5f3c8c1a2959b00a11a4c61f05cb"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint64_t crashpad::test::TestMinidumpMemoryWriter::MemoryRangeBaseAddress </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the base address of the memory region in the address space of the process that the snapshot describes. </p>
-<dl class="section note"><dt>Note</dt><dd>This method will only be called in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7af98547144e0e8d4f878f725ef5c0d611" title="The object is “frozen”. ">kStateFrozen</a>. </dd></dl>
-
-<p>Implements <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html#a4a0886af108f11efe6b554446e866093">crashpad::MinidumpMemoryWriter</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5423e8b580e90dcd837c80ca6d6779af"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t crashpad::test::TestMinidumpMemoryWriter::MemoryRangeSize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the size of the memory region in bytes. </p>
-<dl class="section note"><dt>Note</dt><dd>This method will only be called in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7af98547144e0e8d4f878f725ef5c0d611" title="The object is “frozen”. ">kStateFrozen</a> or a subsequent state. </dd></dl>
-
-<p>Implements <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html#aa3c35de1a102f6cab285ba03087e7cb3">crashpad::MinidumpMemoryWriter</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3764ed18a98d9ea979a7f0494eb19bbf"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool crashpad::test::TestMinidumpMemoryWriter::WillWriteAtOffsetImpl </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2">FileOffset</a>&#160;</td>
-          <td class="paramname"><em>offset</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Called once an object’s writable file offset is determined, as it transitions into <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a87483823ca30a8257b2a5fbd21805bcd" title="The object is writable. ">kStateWritable</a>. </p>
-<p>Subclasses can override this method if they need to provide additional processing once their writable file offset is known. Typically, this will be done by subclasses that handle certain RVAs themselves instead of using the <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a686683d78f099a07e2a1df8e6b567d37" title="Registers a file offset pointer as one that should point to the object on which this method is called...">RegisterRVA()</a> interface.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>The file offset at which the object will be written. The value passed to this method will already have been adjusted to meet alignment requirements.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on error, indicating that the minidump file should not be written.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Valid in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7af98547144e0e8d4f878f725ef5c0d611" title="The object is “frozen”. ">kStateFrozen</a>. The object will transition to <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a87483823ca30a8257b2a5fbd21805bcd" title="The object is writable. ">kStateWritable</a> after this method returns. </dd></dl>
-
-<p>Reimplemented from <a class="el" href="classcrashpad_1_1MinidumpMemoryWriter.html#adec74e1cb2d532422d8c1384049f7217">crashpad::MinidumpMemoryWriter</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad43c37e90e653697452c24170dc9f360"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool crashpad::test::TestMinidumpMemoryWriter::WriteObject </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classcrashpad_1_1FileWriterInterface.html">FileWriterInterface</a> *&#160;</td>
-          <td class="paramname"><em>file_writer</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Writes the object’s content. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">file_writer</td><td>The file writer to receive the object’s content.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on error, indicating that the content could not be written to the minidump file.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Valid in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a87483823ca30a8257b2a5fbd21805bcd" title="The object is writable. ">kStateWritable</a>. The object will transition to <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7af0d794ed29c320fcf35c71f40cc6a510" title="The object has been written to a minidump file. ">kStateWritten</a> after this method returns. </dd></dl>
-
-<p>Implements <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a2d3472b11ec3c12184f5d8f946fbb4a1">crashpad::internal::MinidumpWritable</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p>A <a class="el" href="classcrashpad_1_1SnapshotMinidumpMemoryWriter.html" title="The base class for writers of memory ranges pointed to by MINIDUMP_MEMORY_DESCRIPTOR objects in a min...">SnapshotMinidumpMemoryWriter</a> implementation used for testing. </p>
+<p><a class="el" href="classcrashpad_1_1test_1_1TestMinidumpMemoryWriter.html" title="A SnapshotMinidumpMemoryWriter implementation used for testing. ">TestMinidumpMemoryWriter</a> objects are created with a fixed base address and size, and will write the same byte (<em>value</em>) repeatedly, <em>size</em> times. </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>minidump/test/minidump_memory_writer_test_util.h</li>
 <li>minidump/test/minidump_memory_writer_test_util.cc</li>
 </ul>

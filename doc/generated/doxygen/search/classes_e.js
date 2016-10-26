@@ -11,6 +11,7 @@ var searchData=
   ['servertoclientmessage',['ServerToClientMessage',['../unioncrashpad_1_1ServerToClientMessage.html',1,'crashpad']]],
   ['settings',['Settings',['../classcrashpad_1_1Settings.html',1,'crashpad']]],
   ['shutdownrequest',['ShutdownRequest',['../structcrashpad_1_1ShutdownRequest.html',1,'crashpad']]],
+  ['snapshotminidumpmemorywriter',['SnapshotMinidumpMemoryWriter',['../classcrashpad_1_1SnapshotMinidumpMemoryWriter.html',1,'crashpad']]],
   ['string',['STRING',['../structcrashpad_1_1process__types_1_1STRING.html',1,'crashpad::process_types']]],
   ['stringfile',['StringFile',['../classcrashpad_1_1StringFile.html',1,'crashpad']]],
   ['stringhttpbodystream',['StringHTTPBodyStream',['../classcrashpad_1_1StringHTTPBodyStream.html',1,'crashpad']]],
