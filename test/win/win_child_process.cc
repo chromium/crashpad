@@ -142,7 +142,7 @@ WinChildProcess::WinChildProcess() {
   // the parent and so are open and have the same value as in the parent. The
   // values are passed to the child on the command line.
   std::string left, right;
-  CHECK(SplitString(switch_value, '|', &left, &right));
+  CHECK(SplitStringFirst(switch_value, '|', &left, &right));
 
   // left and right were formatted as 0x%x, so they need to be converted as
   // unsigned ints.

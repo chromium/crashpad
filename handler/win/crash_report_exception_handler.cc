@@ -14,14 +14,18 @@
 
 #include "handler/win/crash_report_exception_handler.h"
 
+#include <type_traits>
+
 #include "client/crash_report_database.h"
 #include "client/settings.h"
 #include "handler/crash_report_upload_thread.h"
 #include "minidump/minidump_file_writer.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
+#include "util/misc/metrics.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/scoped_process_suspend.h"
+#include "util/win/termination_codes.h"
 
 namespace crashpad {
 
@@ -44,7 +48,7 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     HANDLE process,
     WinVMAddress exception_information_address,
     WinVMAddress debug_critical_section_address) {
-  const unsigned int kFailedTerminationCode = 0xffff7002;
+  Metrics::ExceptionEncountered();
 
   ScopedProcessSuspend suspend(process);
 
@@ -54,13 +58,20 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
                                    exception_information_address,
                                    debug_critical_section_address)) {
     LOG(WARNING) << "ProcessSnapshotWin::Initialize failed";
-    return kFailedTerminationCode;
+    Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
+    return kTerminationCodeSnapshotFailed;
   }
 
   // Now that we have the exception information, even if something else fails we
   // can terminate the process with the correct exit code.
   const unsigned int termination_code =
       process_snapshot.Exception()->Exception();
+  static_assert(
+      std::is_same<std::remove_const<decltype(termination_code)>::type,
+                   decltype(process_snapshot.Exception()->Exception())>::value,
+      "expected ExceptionCode() and process termination code to match");
+
+  Metrics::ExceptionCode(termination_code);
 
   CrashpadInfoClientOptions client_options;
   process_snapshot.GetCrashpadOptions(&client_options);
@@ -82,6 +93,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
         database_->PrepareNewCrashReport(&new_report);
     if (database_status != CrashReportDatabase::kNoError) {
       LOG(ERROR) << "PrepareNewCrashReport failed";
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kPrepareNewCrashReportFailed);
       return termination_code;
     }
 
@@ -96,6 +109,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     minidump.InitializeFromSnapshot(&process_snapshot);
     if (!minidump.WriteEverything(&file_writer)) {
       LOG(ERROR) << "WriteEverything failed";
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kMinidumpWriteFailed);
       return termination_code;
     }
 
@@ -105,12 +120,15 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     database_status = database_->FinishedWritingCrashReport(new_report, &uuid);
     if (database_status != CrashReportDatabase::kNoError) {
       LOG(ERROR) << "FinishedWritingCrashReport failed";
+      Metrics::ExceptionCaptureResult(
+          Metrics::CaptureResult::kFinishedWritingCrashReportFailed);
       return termination_code;
     }
 
     upload_thread_->ReportPending();
   }
 
+  Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
   return termination_code;
 }
 

@@ -94,12 +94,23 @@ class CrashReportDatabaseTest : public testing::Test {
     EXPECT_FALSE(report.uploaded);
     EXPECT_EQ(0, report.last_upload_attempt_time);
     EXPECT_EQ(0, report.upload_attempts);
+    EXPECT_FALSE(report.upload_explicitly_requested);
   }
 
   void RelocateDatabase() {
     ResetDatabase();
     temp_dir_.Rename();
     SetUp();
+  }
+
+  CrashReportDatabase::OperationStatus RequestUpload(const UUID& uuid) {
+    CrashReportDatabase::OperationStatus os = db()->RequestUpload(uuid);
+
+    CrashReportDatabase::Report report;
+    EXPECT_EQ(CrashReportDatabase::kNoError,
+              db_->LookUpCrashReport(uuid, &report));
+
+    return os;
   }
 
  private:
@@ -220,6 +231,7 @@ TEST_F(CrashReportDatabaseTest, LookUpCrashReport) {
     EXPECT_FALSE(report.uploaded);
     EXPECT_EQ(0, report.last_upload_attempt_time);
     EXPECT_EQ(0, report.upload_attempts);
+    EXPECT_FALSE(report.upload_explicitly_requested);
   }
 
   UploadReport(uuid, true, "test");
@@ -234,6 +246,7 @@ TEST_F(CrashReportDatabaseTest, LookUpCrashReport) {
     EXPECT_TRUE(report.uploaded);
     EXPECT_NE(0, report.last_upload_attempt_time);
     EXPECT_EQ(1, report.upload_attempts);
+    EXPECT_FALSE(report.upload_explicitly_requested);
   }
 }
 
@@ -420,7 +433,8 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
 
   // Skip upload for one report.
   EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->SkipReportUpload(report_3_uuid));
+            db()->SkipReportUpload(
+                report_3_uuid, Metrics::CrashSkippedReason::kUploadsDisabled));
 
   pending.clear();
   EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
@@ -583,6 +597,74 @@ TEST_F(CrashReportDatabaseTest, ReadEmptyDatabase) {
 
   CrashReportDatabase::Report report2;
   CreateCrashReport(&report2);
+}
+
+TEST_F(CrashReportDatabaseTest, RequestUpload) {
+  std::vector<CrashReportDatabase::Report> reports(2);
+  CreateCrashReport(&reports[0]);
+  CreateCrashReport(&reports[1]);
+
+  const UUID& report_0_uuid = reports[0].uuid;
+  const UUID& report_1_uuid = reports[1].uuid;
+
+  // Skipped report gets back to pending state after RequestUpload is called.
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->SkipReportUpload(
+                report_1_uuid, Metrics::CrashSkippedReason::kUploadsDisabled));
+
+  std::vector<CrashReportDatabase::Report> pending_reports;
+  CrashReportDatabase::OperationStatus os =
+      db()->GetPendingReports(&pending_reports);
+  EXPECT_EQ(CrashReportDatabase::kNoError, os);
+  ASSERT_EQ(1u, pending_reports.size());
+  EXPECT_EQ(pending_reports[0].uuid, report_0_uuid);
+
+  pending_reports.clear();
+  EXPECT_EQ(CrashReportDatabase::kNoError, RequestUpload(report_1_uuid));
+  os = db()->GetPendingReports(&pending_reports);
+  EXPECT_EQ(CrashReportDatabase::kNoError, os);
+  ASSERT_EQ(2u, pending_reports.size());
+
+  // Check individual reports.
+  const CrashReportDatabase::Report* expicitly_requested_report;
+  const CrashReportDatabase::Report* pending_report;
+  if (pending_reports[0].uuid == report_0_uuid) {
+    pending_report = &pending_reports[0];
+    expicitly_requested_report = &pending_reports[1];
+  } else {
+    pending_report = &pending_reports[1];
+    expicitly_requested_report = &pending_reports[0];
+  }
+
+  EXPECT_EQ(report_0_uuid, pending_report->uuid);
+  EXPECT_FALSE(pending_report->upload_explicitly_requested);
+
+  EXPECT_EQ(report_1_uuid, expicitly_requested_report->uuid);
+  EXPECT_TRUE(expicitly_requested_report->upload_explicitly_requested);
+
+  // Explicitly requested reports will not have upload_explicitly_requested bit
+  // after getting skipped.
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->SkipReportUpload(
+                report_1_uuid, Metrics::CrashSkippedReason::kUploadsDisabled));
+  CrashReportDatabase::Report report;
+  EXPECT_EQ(CrashReportDatabase::kNoError,
+            db()->LookUpCrashReport(report_1_uuid, &report));
+  EXPECT_FALSE(report.upload_explicitly_requested);
+
+  // Pending report gets correctly affected after RequestUpload is called.
+  pending_reports.clear();
+  EXPECT_EQ(CrashReportDatabase::kNoError, RequestUpload(report_0_uuid));
+  os = db()->GetPendingReports(&pending_reports);
+  EXPECT_EQ(CrashReportDatabase::kNoError, os);
+  EXPECT_EQ(1u, pending_reports.size());
+  EXPECT_EQ(pending_reports[0].uuid, report_0_uuid);
+  EXPECT_TRUE(pending_reports[0].upload_explicitly_requested);
+
+  // Already uploaded report cannot be requested for the new upload.
+  UploadReport(report_0_uuid, true, "1");
+  EXPECT_EQ(CrashReportDatabase::kCannotRequestUpload,
+            RequestUpload(report_0_uuid));
 }
 
 }  // namespace

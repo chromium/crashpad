@@ -178,21 +178,18 @@ int CrashyMain(int argc, wchar_t* argv[]) {
   } else if (argc == 3) {
     if (!client.StartHandler(base::FilePath(argv[1]),
                              base::FilePath(argv[2]),
+                             base::FilePath(),
                              std::string(),
                              std::map<std::string, std::string>(),
                              std::vector<std::string>(),
-                             false)) {
+                             false,
+                             true)) {
       LOG(ERROR) << "StartHandler";
       return EXIT_FAILURE;
     }
   } else {
     fprintf(stderr, "Usage: %ls <server_pipe_name>\n", argv[0]);
     fprintf(stderr, "       %ls <handler_path> <database_path>\n", argv[0]);
-    return EXIT_FAILURE;
-  }
-
-  if (!client.UseHandler()) {
-    LOG(ERROR) << "UseHandler";
     return EXIT_FAILURE;
   }
 

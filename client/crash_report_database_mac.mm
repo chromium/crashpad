@@ -35,6 +35,7 @@
 #include "util/file/file_io.h"
 #include "util/mac/xattr.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/misc/metrics.h"
 
 namespace crashpad {
 
@@ -47,9 +48,9 @@ const char kCompletedDirectory[] = "completed";
 const char kSettings[] = "settings.dat";
 
 const char* const kReportDirectories[] = {
-  kWriteDirectory,
-  kUploadPendingDirectory,
-  kCompletedDirectory,
+    kWriteDirectory,
+    kUploadPendingDirectory,
+    kCompletedDirectory,
 };
 
 const char kCrashReportFileExtension[] = "dmp";
@@ -60,6 +61,7 @@ const char kXattrCreationTime[] = "creation_time";
 const char kXattrIsUploaded[] = "uploaded";
 const char kXattrLastUploadTime[] = "last_upload_time";
 const char kXattrUploadAttemptCount[] = "upload_count";
+const char kXattrIsUploadExplicitlyRequested[] = "upload_explicitly_requested";
 
 const char kXattrDatabaseInitialized[] = "initialized";
 
@@ -138,8 +140,10 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   OperationStatus RecordUploadAttempt(const Report* report,
                                       bool successful,
                                       const std::string& id) override;
-  OperationStatus SkipReportUpload(const UUID& uuid) override;
+  OperationStatus SkipReportUpload(const UUID& uuid,
+                                   Metrics::CrashSkippedReason reason) override;
   OperationStatus DeleteReport(const UUID& uuid) override;
+  OperationStatus RequestUpload(const UUID& uuid) override;
 
  private:
   //! \brief A private extension of the Report class that maintains bookkeeping
@@ -200,6 +204,18 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   //!
   //! \return The long name of the extended attribute.
   std::string XattrName(const base::StringPiece& name);
+
+  //! \brief Marks a report with a given path as completed.
+  //!
+  //! Assumes that the report is locked.
+  //!
+  //! \param[in] report_path The path of the file to mark completed.
+  //! \param[out] out_path The path of the new file. This parameter is optional.
+  //!
+  //! \return The operation status code.
+  CrashReportDatabase::OperationStatus MarkReportCompletedLocked(
+      const base::FilePath& report_path,
+      base::FilePath* out_path);
 
   base::FilePath base_dir_;
   Settings settings_;
@@ -344,6 +360,9 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
     return kFileSystemError;
   }
 
+  Metrics::CrashReportPending(Metrics::PendingReportReason::kNewlyCreated);
+  Metrics::CrashReportSize(report->handle);
+
   return kNoError;
 }
 
@@ -434,6 +453,8 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
                                             const std::string& id) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
+  Metrics::CrashUploadAttempted(successful);
+
   DCHECK(report);
   DCHECK(successful || id.empty());
 
@@ -449,14 +470,10 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
     return kBusyError;
 
   if (successful) {
-    base::FilePath new_path =
-        base_dir_.Append(kCompletedDirectory).Append(report_path.BaseName());
-    if (rename(report_path.value().c_str(), new_path.value().c_str()) != 0) {
-      PLOG(ERROR) << "rename " << report_path.value() << " to "
-                  << new_path.value();
-      return kFileSystemError;
-    }
-    report_path = new_path;
+    CrashReportDatabase::OperationStatus os =
+        MarkReportCompletedLocked(report_path, &report_path);
+    if (os != kNoError)
+      return os;
   }
 
   if (!WriteXattrBool(report_path, XattrName(kXattrIsUploaded), successful)) {
@@ -489,8 +506,11 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
 }
 
 CrashReportDatabase::OperationStatus CrashReportDatabaseMac::SkipReportUpload(
-    const UUID& uuid) {
+    const UUID& uuid,
+    Metrics::CrashSkippedReason reason) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  Metrics::CrashUploadSkipped(reason);
 
   base::FilePath report_path = LocateCrashReport(uuid);
   if (report_path.empty())
@@ -500,15 +520,7 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::SkipReportUpload(
   if (!lock.is_valid())
     return kBusyError;
 
-  base::FilePath new_path =
-      base_dir_.Append(kCompletedDirectory).Append(report_path.BaseName());
-  if (rename(report_path.value().c_str(), new_path.value().c_str()) != 0) {
-    PLOG(ERROR) << "rename " << report_path.value() << " to "
-                << new_path.value();
-    return kFileSystemError;
-  }
-
-  return kNoError;
+  return MarkReportCompletedLocked(report_path, nullptr);
 }
 
 CrashReportDatabase::OperationStatus CrashReportDatabaseMac::DeleteReport(
@@ -554,6 +566,47 @@ base::FilePath CrashReportDatabaseMac::LocateCrashReport(const UUID& uuid) {
   }
 
   return base::FilePath();
+}
+
+CrashReportDatabase::OperationStatus CrashReportDatabaseMac::RequestUpload(
+    const UUID& uuid) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  base::FilePath report_path = LocateCrashReport(uuid);
+  if (report_path.empty())
+    return kReportNotFound;
+
+  base::ScopedFD lock(ObtainReportLock(report_path));
+  if (!lock.is_valid())
+    return kBusyError;
+
+  // If the crash report has already been uploaded, don't request new upload.
+  bool uploaded = false;
+  XattrStatus status =
+      ReadXattrBool(report_path, XattrName(kXattrIsUploaded), &uploaded);
+  if (status == XattrStatus::kOtherError)
+    return kDatabaseError;
+  if (uploaded)
+    return kCannotRequestUpload;
+
+  // Mark the crash report as having upload explicitly requested by the user,
+  // and move it to the pending state.
+  if (!WriteXattrBool(
+          report_path, XattrName(kXattrIsUploadExplicitlyRequested), true)) {
+    return kDatabaseError;
+  }
+
+  base::FilePath new_path =
+      base_dir_.Append(kUploadPendingDirectory).Append(report_path.BaseName());
+  if (rename(report_path.value().c_str(), new_path.value().c_str()) != 0) {
+    PLOG(ERROR) << "rename " << report_path.value() << " to "
+                << new_path.value();
+    return kFileSystemError;
+  }
+
+  Metrics::CrashReportPending(Metrics::PendingReportReason::kUserInitiated);
+
+  return kNoError;
 }
 
 // static
@@ -604,6 +657,14 @@ bool CrashReportDatabaseMac::ReadReportMetadataLocked(
     return false;
   }
 
+  report->upload_explicitly_requested = false;
+  if (ReadXattrBool(path,
+                    XattrName(kXattrIsUploadExplicitlyRequested),
+                    &report->upload_explicitly_requested) ==
+      XattrStatus::kOtherError) {
+    return false;
+  }
+
   return true;
 }
 
@@ -645,6 +706,28 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::ReportsInDirectory(
 
 std::string CrashReportDatabaseMac::XattrName(const base::StringPiece& name) {
   return XattrNameInternal(name, xattr_new_names_);
+}
+
+CrashReportDatabase::OperationStatus
+CrashReportDatabaseMac::MarkReportCompletedLocked(
+    const base::FilePath& report_path,
+    base::FilePath* out_path) {
+  if (RemoveXattr(report_path, XattrName(kXattrIsUploadExplicitlyRequested)) ==
+      XattrStatus::kOtherError) {
+    return kDatabaseError;
+  }
+
+  base::FilePath new_path =
+      base_dir_.Append(kCompletedDirectory).Append(report_path.BaseName());
+  if (rename(report_path.value().c_str(), new_path.value().c_str()) != 0) {
+    PLOG(ERROR) << "rename " << report_path.value() << " to "
+                << new_path.value();
+    return kFileSystemError;
+  }
+
+  if (out_path)
+    *out_path = new_path;
+  return kNoError;
 }
 
 std::unique_ptr<CrashReportDatabase> InitializeInternal(

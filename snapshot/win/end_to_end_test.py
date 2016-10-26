@@ -25,6 +25,7 @@ import time
 
 
 g_temp_dirs = []
+g_had_failures = False
 
 
 def MakeTempDir():
@@ -99,7 +100,7 @@ def GetDumpFromProgram(out_dir, pipe_name, executable_name, *args):
 
     if pipe_name is not None:
       handler = subprocess.Popen([
-          os.path.join(out_dir, 'crashpad_handler.exe'),
+          os.path.join(out_dir, 'crashpad_handler.com'),
           '--pipe-name=' + pipe_name,
           '--database=' + test_database
       ])
@@ -116,7 +117,7 @@ def GetDumpFromProgram(out_dir, pipe_name, executable_name, *args):
                       list(args))
     else:
       subprocess.call([os.path.join(out_dir, executable_name),
-                       os.path.join(out_dir, 'crashpad_handler.exe'),
+                       os.path.join(out_dir, 'crashpad_handler.com'),
                        test_database] + list(args))
 
     out = subprocess.check_output([
@@ -181,7 +182,8 @@ class CdbRun(object):
       print >>sys.stderr, 'remaining output was:\n  %s' % self.out
       print >>sys.stderr, '-' * 80
       sys.stderr.flush()
-      sys.exit(1)
+      global g_had_failures
+      g_had_failures = True
 
 
 def RunTests(cdb_path,
@@ -397,7 +399,7 @@ def main(args):
              other_program_no_exception_path,
              pipe_name)
 
-    return 0
+    return 1 if g_had_failures else 0
   finally:
     CleanUpTempDirs()
 

@@ -23,8 +23,8 @@ CrashReportDatabase::Report::Report()
       creation_time(0),
       uploaded(false),
       last_upload_attempt_time(0),
-      upload_attempts(0) {
-}
+      upload_attempts(0),
+      upload_explicitly_requested(false) {}
 
 CrashReportDatabase::CallErrorWritingCrashReport::CallErrorWritingCrashReport(
     CrashReportDatabase* database,

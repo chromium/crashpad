@@ -89,12 +89,49 @@
             }],
           ],
         }],
+        ['OS=="win"',  {
+          'msvs_settings': {
+            'VCLinkerTool': {
+              'SubSystem': '2',  # /SUBSYSTEM:WINDOWS
+            },
+          },
+        }],
       ],
     },
   ],
   'conditions': [
     ['OS=="win"', {
       'targets': [
+        {
+          # Duplicates crashpad_handler.exe to crashpad_handler.com and makes it
+          # a console app.
+          'target_name': 'crashpad_handler_console',
+          'type': 'none',
+          'dependencies': [
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../tools/tools.gyp:crashpad_tool_support',
+            'crashpad_handler',
+          ],
+          'actions': [
+            {
+              'action_name': 'copy handler exe to com',
+              'inputs': [
+                '<(PRODUCT_DIR)/crashpad_handler.exe',
+              ],
+              'outputs': [
+                '<(PRODUCT_DIR)/crashpad_handler.com',
+              ],
+              'action': [
+                'copy <(PRODUCT_DIR)\crashpad_handler.exe '
+                    '<(PRODUCT_DIR)\crashpad_handler.com >nul && '
+                'editbin -nologo -subsystem:console '
+                    '<(PRODUCT_DIR)\crashpad_handler.com >nul',
+              ],
+              'msvs_cygwin_shell': '0',
+              'quote_cmd': '0',
+            },
+          ],
+        },
         {
           'target_name': 'crashy_program',
           'type': 'executable',

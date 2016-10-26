@@ -24,6 +24,7 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "util/file/file_io.h"
+#include "util/misc/metrics.h"
 #include "util/misc/uuid.h"
 
 namespace crashpad {
@@ -43,7 +44,8 @@ class Settings;
 //!      the client then writes the report, and then calls
 //!      FinishedWritingCrashReport() to make the report Pending.
 //!   2. Pending: The report has been written but has not been locally
-//!      processed.
+//!      processed, or it was has been brought back from 'Completed' state by
+//!      user request.
 //!   3. Completed: The report has been locally processed, either by uploading
 //!      it to a collection server and calling RecordUploadAttempt(), or by
 //!      calling SkipReportUpload().
@@ -88,6 +90,10 @@ class CrashReportDatabase {
     //! #last_upload_attempt_time will be set to the timestamp of the most
     //! recent attempt.
     int upload_attempts;
+
+    //! Whether this crash report was explicitly requested by user to be
+    //! uploaded. This can be true only if report is in the 'pending' state.
+    bool upload_explicitly_requested;
   };
 
   //! \brief A crash report that is in the process of being written.
@@ -161,6 +167,10 @@ class CrashReportDatabase {
     //! \brief The operation could not be completed because a concurrent
     //!     operation affecting the report is occurring.
     kBusyError,
+
+    //! \brief The report cannot be uploaded by user request as it has already
+    //!     been uploaded.
+    kCannotRequestUpload,
   };
 
   virtual ~CrashReportDatabase() {}
@@ -317,9 +327,13 @@ class CrashReportDatabase {
   //! crash generation is still enabled in the product.
   //!
   //! \param[in] uuid The unique identifier for the crash report record.
+  //! \param[in] reason The reason the report upload is being skipped for
+  //!     metrics tracking purposes.
   //!
   //! \return The operation status code.
-  virtual OperationStatus SkipReportUpload(const UUID& uuid) = 0;
+  virtual OperationStatus SkipReportUpload(
+      const UUID& uuid,
+      Metrics::CrashSkippedReason reason) = 0;
 
   //! \brief Deletes a crash report file and its associated metadata.
   //!
@@ -327,6 +341,14 @@ class CrashReportDatabase {
   //!
   //! \return The operation status code.
   virtual OperationStatus DeleteReport(const UUID& uuid) = 0;
+
+  //! \brief Marks a crash report as explicitly requested to be uploaded by the
+  //!     user and moves it to 'pending' state.
+  //!
+  //! \param[in] uuid The unique identifier for the crash report record.
+  //!
+  //! \return The operation status code.
+  virtual OperationStatus RequestUpload(const UUID& uuid) = 0;
 
  protected:
   CrashReportDatabase() {}

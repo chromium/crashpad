@@ -28,6 +28,7 @@
 #include "snapshot/minidump/process_snapshot_minidump.h"
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_reader.h"
+#include "util/misc/metrics.h"
 #include "util/misc/uuid.h"
 #include "util/net/http_body.h"
 #include "util/net/http_multipart_builder.h"
@@ -190,12 +191,14 @@ void CrashReportUploadThread::ProcessPendingReport(
   Settings* const settings = database_->GetSettings();
 
   bool uploads_enabled;
-  if (!settings->GetUploadsEnabled(&uploads_enabled) ||
-      !uploads_enabled ||
-      url_.empty()) {
-    // If the upload-enabled state can’t be determined, uploads are disabled, or
-    // there’s no URL to upload to, don’t attempt to upload the new report.
-    database_->SkipReportUpload(report.uuid);
+  if (url_.empty() ||
+      (!report.upload_explicitly_requested &&
+       (!settings->GetUploadsEnabled(&uploads_enabled) || !uploads_enabled))) {
+    // Don’t attempt an upload if there’s no URL to upload to. Allow upload if
+    // it has been explicitly requested by the user, otherwise, respect the
+    // upload-enabled state stored in the database’s settings.
+    database_->SkipReportUpload(report.uuid,
+                                Metrics::CrashSkippedReason::kUploadsDisabled);
     return;
   }
 
@@ -216,7 +219,8 @@ void CrashReportUploadThread::ProcessPendingReport(
         // attempt to upload the report.
         const int kUploadAttemptIntervalSeconds = 60 * 60;  // 1 hour
         if (now - last_upload_attempt_time < kUploadAttemptIntervalSeconds) {
-          database_->SkipReportUpload(report.uuid);
+          database_->SkipReportUpload(
+              report.uuid, Metrics::CrashSkippedReason::kUploadThrottled);
           return;
         }
       } else {
@@ -227,7 +231,8 @@ void CrashReportUploadThread::ProcessPendingReport(
         // accept it and don’t attempt to upload the report.
         const int kBackwardsClockTolerance = 60 * 60 * 24;  // 1 day
         if (last_upload_attempt_time - now < kBackwardsClockTolerance) {
-          database_->SkipReportUpload(report.uuid);
+          database_->SkipReportUpload(
+              report.uuid, Metrics::CrashSkippedReason::kUnexpectedTime);
           return;
         }
       }
@@ -249,7 +254,12 @@ void CrashReportUploadThread::ProcessPendingReport(
     case CrashReportDatabase::kDatabaseError:
       // In these cases, SkipReportUpload() might not work either, but it’s best
       // to at least try to get the report out of the way.
-      database_->SkipReportUpload(report.uuid);
+      database_->SkipReportUpload(report.uuid,
+                                  Metrics::CrashSkippedReason::kDatabaseError);
+      return;
+
+    case CrashReportDatabase::kCannotRequestUpload:
+      NOTREACHED();
       return;
   }
 
@@ -269,7 +279,8 @@ void CrashReportUploadThread::ProcessPendingReport(
       // TODO(mark): Deal with retries properly: don’t call SkipReportUplaod()
       // if the result was kRetry and the report hasn’t already been retried
       // too many times.
-      database_->SkipReportUpload(report.uuid);
+      database_->SkipReportUpload(report.uuid,
+                                  Metrics::CrashSkippedReason::kUploadFailed);
       break;
   }
 }

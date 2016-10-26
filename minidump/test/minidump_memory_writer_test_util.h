@@ -25,34 +25,23 @@
 #include <string>
 
 #include "base/macros.h"
+#include "snapshot/test/test_memory_snapshot.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {
 namespace test {
 
-//! \brief A MinidumpMemoryWriter implementation used for testing.
+//! \brief A SnapshotMinidumpMemoryWriter implementation used for testing.
 //!
 //! TestMinidumpMemoryWriter objects are created with a fixed base address and
 //! size, and will write the same byte (\a value) repeatedly, \a size times.
-class TestMinidumpMemoryWriter final : public MinidumpMemoryWriter {
+class TestMinidumpMemoryWriter final : public SnapshotMinidumpMemoryWriter {
  public:
   TestMinidumpMemoryWriter(uint64_t base_address, size_t size, uint8_t value);
   ~TestMinidumpMemoryWriter();
 
- protected:
-  // MinidumpMemoryWriter:
-  uint64_t MemoryRangeBaseAddress() const override;
-  size_t MemoryRangeSize() const override;
-
-  // MinidumpWritable:
-  bool WillWriteAtOffsetImpl(FileOffset offset) override;
-  bool WriteObject(FileWriterInterface* file_writer) override;
-
  private:
-  uint64_t base_address_;
-  FileOffset expected_offset_;
-  size_t size_;
-  uint8_t value_;
+  TestMemorySnapshot test_snapshot_;
 
   DISALLOW_COPY_AND_ASSIGN(TestMinidumpMemoryWriter);
 };

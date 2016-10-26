@@ -342,6 +342,15 @@ bool LoggingCloseFile(FileHandle file);
 //! terminate without returning.
 void CheckedCloseFile(FileHandle file);
 
+//! \brief Determines the size of a file.
+//!
+//! \param[in] file The handle to the file for which the size should be
+//!     retrived.
+//!
+//! \return The size of the file. If an error occurs when attempting to
+//!     determine its size, returns `-1` with an error logged.
+FileOffset LoggingFileSizeByHandle(FileHandle file);
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_FILE_FILE_IO_H_
