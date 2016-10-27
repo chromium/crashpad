@@ -18,6 +18,16 @@
 #include "base/metrics/sparse_histogram.h"
 #include "build/build_config.h"
 
+#if defined(OS_MACOSX)
+#define METRICS_OS_NAME "Mac"
+#elif defined(OS_WIN)
+#define METRICS_OS_NAME "Win"
+#elif defined(OS_ANDROID)
+#define METRICS_OS_NAME "Android"
+#elif defined(OS_LINUX)
+#define METRICS_OS_NAME "Linux"
+#endif
+
 namespace crashpad {
 
 namespace {
@@ -79,12 +89,7 @@ void Metrics::ExceptionCaptureResult(CaptureResult result) {
 
 // static
 void Metrics::ExceptionCode(uint32_t exception_code) {
-#if defined(OS_WIN)
-  static const char kExceptionCodeString[] = "Crashpad.ExceptionCode.Win";
-#elif defined(OS_MACOSX)
-  static const char kExceptionCodeString[] = "Crashpad.ExceptionCode.Mac";
-#endif
-  UMA_HISTOGRAM_SPARSE_SLOWLY(kExceptionCodeString,
+  UMA_HISTOGRAM_SPARSE_SLOWLY("Crashpad.ExceptionCode." METRICS_OS_NAME,
                               static_cast<int32_t>(exception_code));
 }
 
@@ -94,15 +99,9 @@ void Metrics::ExceptionEncountered() {
 }
 
 void Metrics::HandlerCrashed(uint32_t exception_code) {
-#if defined(OS_WIN)
-  static const char kExceptionCodeString[] =
-      "Crashpad.HandlerCrash.ExceptionCode.Win";
-#elif defined(OS_MACOSX)
-  static const char kExceptionCodeString[] =
-      "Crashpad.HandlerCrash.ExceptionCode.Mac";
-#endif
-  UMA_HISTOGRAM_SPARSE_SLOWLY(kExceptionCodeString,
-                              static_cast<int32_t>(exception_code));
+  UMA_HISTOGRAM_SPARSE_SLOWLY(
+      "Crashpad.HandlerCrash.ExceptionCode." METRICS_OS_NAME,
+      static_cast<int32_t>(exception_code));
 }
 
 }  // namespace crashpad
