@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86057a4c_d0861c31",
+        "filename": "test/paths_linux.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-10-31T18:27:43Z",
+      "side": 1,
+      "message": "This be sysconf(_SC_PAGESIZE) instead. (http://man7.org/linux/man-pages/man2/getpagesize.2.html)",
+      "range": {
+        "startLine": 47,
+        "startChar": 54,
+        "endLine": 47,
+        "endChar": 63
+      },
+      "revId": "0bf1e96e0771027d7e13c114b864b2720d1d8368",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86057a4c_3027a882",
+        "filename": "test/paths_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-10-31T18:27:43Z",
+      "side": 1,
+      "message": "The API calls this DWORD, should it be here?",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "0bf1e96e0771027d7e13c114b864b2720d1d8368",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
