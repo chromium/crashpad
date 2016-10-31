@@ -14,9 +14,9 @@
 
 #include "util/posix/symbolic_constants_posix.h"
 
+#include <signal.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/signal.h>
 
 #include "base/macros.h"
 #include "base/strings/stringprintf.h"
@@ -64,7 +64,7 @@ const char* kSignalNames[] = {
     "INFO",
     "USR1",
     "USR2",
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
     // sed -Ene 's/^#define[[:space:]]SIG([[:alnum:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
     //     /usr/include/asm-generic/signal.h
     // and fix up by removing SIGIOT, SIGLOST, SIGUNUSED, and SIGRTMIN.
@@ -101,7 +101,7 @@ const char* kSignalNames[] = {
     "SYS",
 #endif
 };
-#if defined(OS_LINUX)
+#if defined(OS_LINUX) || defined(OS_ANDROID)
 // NSIG is 64 to account for real-time signals.
 static_assert(arraysize(kSignalNames) == 32, "kSignalNames length");
 #else
