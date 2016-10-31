@@ -207,9 +207,12 @@ void CrashReportUploadThread::ProcessPendingReport(
   // hour, and retire reports that would exceed this limit or for which the
   // upload fails on the first attempt.
   //
+  // If upload was requested explicitly (i.e. by user action), we do not
+  // throttle the upload.
+  //
   // TODO(mark): Provide a proper rate-limiting strategy and allow for failed
   // upload attempts to be retried.
-  if (rate_limit_) {
+  if (!report.upload_explicitly_requested && rate_limit_) {
     time_t last_upload_attempt_time;
     if (settings->GetLastUploadAttemptTime(&last_upload_attempt_time)) {
       time_t now = time(nullptr);
