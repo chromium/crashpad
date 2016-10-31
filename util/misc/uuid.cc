@@ -111,7 +111,7 @@ bool UUID::InitializeWithNew() {
   }
   InitializeFromSystemUUID(&system_uuid);
   return true;
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
   // Linux does not provide a UUID generator in a widely-available system
   // library. uuid_generate() from libuuid is not available everywhere.
   base::RandBytes(this, sizeof(*this));
