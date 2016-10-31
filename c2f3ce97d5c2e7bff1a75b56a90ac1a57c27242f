@@ -16,6 +16,24 @@
       "revId": "c2f3ce97d5c2e7bff1a75b56a90ac1a57c27242f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e647168e_64283bb9",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-10-31T21:16:28Z",
+      "side": 1,
+      "message": "Sure, that \"sounds\" a bit nicer, done.",
+      "parentUuid": "e66ab62c_a01a434e",
+      "revId": "c2f3ce97d5c2e7bff1a75b56a90ac1a57c27242f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
