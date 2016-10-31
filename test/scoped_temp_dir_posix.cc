@@ -15,10 +15,12 @@
 #include "test/scoped_temp_dir.h"
 
 #include <dirent.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 #include "base/logging.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 
@@ -33,9 +35,25 @@ void ScopedTempDir::Rename() {
 
 // static
 base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
-  char dir_template[] = "/tmp/org.chromium.crashpad.test.XXXXXX";
-  PCHECK(mkdtemp(dir_template)) << "mkdtemp " << dir_template;
-  return base::FilePath(dir_template);
+  char* tmpdir = getenv("TMPDIR");
+  std::string dir;
+  if (tmpdir && tmpdir[0] != '\0') {
+    dir.assign(tmpdir);
+  } else {
+#if defined(OS_ANDROID)
+    dir.assign("/data/local/tmp");
+#else
+    dir.assign("/tmp");
+#endif
+  }
+
+  if (dir[dir.size() - 1] != '/') {
+    dir.append(1, '/');
+  }
+  dir.append("org.chromium.crashpad.test.XXXXXX");
+
+  PCHECK(mkdtemp(&dir[0])) << "mkdtemp " << dir;
+  return base::FilePath(dir);
 }
 
 // static

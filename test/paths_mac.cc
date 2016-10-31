@@ -26,10 +26,11 @@ namespace test {
 base::FilePath Paths::Executable() {
   uint32_t executable_length = 0;
   _NSGetExecutablePath(nullptr, &executable_length);
-  DCHECK_GT(executable_length, 1u);
+  CHECK_GT(executable_length, 1u);
+
   std::string executable_path(executable_length - 1, std::string::value_type());
   int rv = _NSGetExecutablePath(&executable_path[0], &executable_length);
-  DCHECK_EQ(rv, 0);
+  CHECK_EQ(rv, 0);
 
   return base::FilePath(executable_path);
 }
