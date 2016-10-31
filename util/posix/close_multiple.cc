@@ -88,7 +88,7 @@ using ScopedDIR = std::unique_ptr<DIR, ScopedDIRCloser>;
 bool CloseMultipleNowOrOnExecUsingFDDir(int fd, int preserve_fd) {
 #if defined(OS_MACOSX)
   const char kFDDir[] = "/dev/fd";
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
   const char kFDDir[] = "/proc/self/fd";
 #endif
 
@@ -167,9 +167,17 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   // Libc-1082.50.1/gen/FreeBSD/sysconf.c sysconf() and 10.11.6
   // xnu-3248.60.10/bsd/kern/kern_descrip.c getdtablesize(). For Linux glibc,
   // see glibc-2.24/sysdeps/posix/sysconf.c __sysconf() and
-  // glibc-2.24/sysdeps/posix/getdtsz.c __getdtablesize().
+  // glibc-2.24/sysdeps/posix/getdtsz.c __getdtablesize(). For Android, see
+  // 7.0.0 bionic/libc/bionic/sysconf.cpp sysconf() and
+  // bionic/libc/bionic/ndk_cruft.cpp getdtablesize().
   int max_fd = implicit_cast<int>(sysconf(_SC_OPEN_MAX));
+
+#if !defined(OS_ANDROID)
+  // getdtablesize() was removed effective Android 5.0.0 (API 21). Since it
+  // returns the same thing as the sysconf() above, just skip it. See
+  // https://android.googlesource.com/platform/bionic/+/462abab12b074c62c0999859e65d5a32ebb41951.
   max_fd = std::max(max_fd, getdtablesize());
+#endif
 
 #if !defined(OS_LINUX) || defined(OPEN_MAX)
   // Linux does not provide OPEN_MAX. See
@@ -198,7 +206,7 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   } else {
     PLOG(WARNING) << "sysctl";
   }
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
   // See linux-4.4.27/fs/file.c sysctl_nr_open, referenced by kernel/sys.c
   // do_prlimit() and kernel/sysctl.c fs_table. Inability to open this file is
   // not considered an error, because /proc may not be available or usable.
