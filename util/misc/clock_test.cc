@@ -14,11 +14,11 @@
 
 #include "util/misc/clock.h"
 
-#include <stdint.h>
 #include <sys/types.h>
 
 #include <algorithm>
 
+#include "base/format_macros.h"
 #include "base/logging.h"
 #include "base/macros.h"
 #include "base/strings/stringprintf.h"
@@ -85,8 +85,8 @@ TEST(Clock, SleepNanoseconds) {
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
     const uint64_t nanoseconds = kTestData[index];
-    SCOPED_TRACE(
-        base::StringPrintf("index %zu, nanoseconds %llu", index, nanoseconds));
+    SCOPED_TRACE(base::StringPrintf(
+        "index %zu, nanoseconds %" PRIu64, index, nanoseconds));
 
     TestSleepNanoseconds(nanoseconds);
   }
