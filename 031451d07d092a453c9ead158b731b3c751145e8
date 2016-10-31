@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "e66ab62c_a3e25a19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-31T15:12:15Z",
+      "side": 1,
+      "message": "\u003e Is this the NDK that Chrome uses to build as well?\n\nChrome uses API 16 for 32-bit and API 21 for 64-bit. Tested and revised.",
+      "parentUuid": "e66ab62c_e369b2d6",
+      "revId": "031451d07d092a453c9ead158b731b3c751145e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e66ab62c_6395c286",
         "filename": "util/posix/drop_privileges.cc",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 75,
         "endChar": 18
       },
+      "revId": "031451d07d092a453c9ead158b731b3c751145e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e66ab62c_e30532ee",
+        "filename": "util/posix/drop_privileges.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-31T15:12:15Z",
+      "side": 1,
+      "message": "\u003e This probably won\u0027t work at all on Android unless rooted, but it\u0027s fine to port.\n\nIt’s only here for when the generate_dump tool is setuid, which would totally be a development-only thing anyway. Nothing else should hit this code.",
+      "parentUuid": "e66ab62c_6395c286",
       "revId": "031451d07d092a453c9ead158b731b3c751145e8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
