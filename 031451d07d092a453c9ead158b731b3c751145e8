@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e66ab62c_e369b2d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-10-31T14:20:03Z",
+      "side": 1,
+      "message": "Is this the NDK that Chrome uses to build as well?",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "031451d07d092a453c9ead158b731b3c751145e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e66ab62c_6395c286",
+        "filename": "util/posix/drop_privileges.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-10-31T14:20:03Z",
+      "side": 1,
+      "message": "This probably won\u0027t work at all on Android unless rooted, but it\u0027s fine to port.",
+      "range": {
+        "startLine": 75,
+        "startChar": 9,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "031451d07d092a453c9ead158b731b3c751145e8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
