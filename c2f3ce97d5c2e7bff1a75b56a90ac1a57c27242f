@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e66ab62c_a01a434e",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-10-31T21:15:10Z",
+      "side": 1,
+      "message": "I think I’d reverse the order of these two, because in my mind “if upload wasn’t explicitly requested and rate-limiting is on” makes more sense. But if your mind works differently, it’s OK to leave it.",
+      "revId": "c2f3ce97d5c2e7bff1a75b56a90ac1a57c27242f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
