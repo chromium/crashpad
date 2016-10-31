@@ -25,6 +25,10 @@
 #include "util/misc/scoped_forbid_return.h"
 #include "util/posix/close_multiple.h"
 
+#if defined(OS_LINUX)
+#include <stdio_ext.h>
+#endif
+
 namespace crashpad {
 namespace test {
 
@@ -78,8 +82,14 @@ void MultiprocessExec::MultiprocessChild() {
   ASSERT_NE(read_handle, STDOUT_FILENO);
   ASSERT_EQ(STDIN_FILENO, fileno(stdin));
 
-  int rv = fpurge(stdin);
+  int rv;
+
+#if defined(OS_LINUX)
+  __fpurge(stdin);
+#else
+  rv = fpurge(stdin);
   ASSERT_EQ(0, rv) << ErrnoMessage("fpurge");
+#endif
 
   rv = HANDLE_EINTR(dup2(read_handle, STDIN_FILENO));
   ASSERT_EQ(STDIN_FILENO, rv) << ErrnoMessage("dup2");
