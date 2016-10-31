@@ -81,6 +81,24 @@
       "revId": "0bf1e96e0771027d7e13c114b864b2720d1d8368",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e66ab62c_ac86c761",
+        "filename": "test/paths_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-10-31T18:59:57Z",
+      "side": 1,
+      "message": "\u003e \u003e The API calls this DWORD, should it be here?\n \u003e \n \u003e We don’t use those gross Windows types in Crashpad where they always just mean a fundamental underlying type.\n\nOK. I wasn\u0027t paying attention too much to Windows stuff in Crashpad.",
+      "parentUuid": "86057a4c_90177405",
+      "revId": "0bf1e96e0771027d7e13c114b864b2720d1d8368",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
