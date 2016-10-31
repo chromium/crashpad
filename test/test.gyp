@@ -47,6 +47,7 @@
         'multiprocess_posix.cc',
         'paths.cc',
         'paths.h',
+        'paths_linux.cc',
         'paths_mac.cc',
         'paths_win.cc',
         'scoped_temp_dir.cc',
@@ -74,6 +75,13 @@
               '-lshell32.lib',
             ],
           },
+        }],
+      ],
+      'target_conditions': [
+        ['OS=="android"', {
+          'sources/': [
+            ['include', '^paths_linux\\.cc$'],
+          ],
         }],
       ],
     },
