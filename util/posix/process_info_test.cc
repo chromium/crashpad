@@ -15,12 +15,14 @@
 #include "util/posix/process_info.h"
 
 #include <time.h>
+#include <stdio.h>
 #include <unistd.h>
 
 #include <set>
 #include <string>
 #include <vector>
 
+#include "base/files/scoped_file.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
@@ -98,6 +100,34 @@ void TestSelfProcess(const ProcessInfo& process_info) {
 #if defined(OS_MACOSX)
   int expect_argc = *_NSGetArgc();
   char** expect_argv = *_NSGetArgv();
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+  std::vector<std::string> arg_vector;
+  {
+    base::ScopedFILE cmdline(fopen("/proc/self/cmdline", "r"));
+    ASSERT_NE(nullptr, cmdline.get()) << ErrnoMessage("fopen");
+
+    int arg_char;
+    std::string arg_string;
+    while ((arg_char = fgetc(cmdline.get())) != EOF) {
+      if (arg_char != '\0') {
+        arg_string.append(1, arg_char);
+      } else {
+        arg_vector.push_back(arg_string);
+        arg_string.clear();
+      }
+    }
+    ASSERT_EQ(0, ferror(cmdline.get())) << ErrnoMessage("fgetc");
+    ASSERT_TRUE(arg_string.empty());
+  }
+
+  std::vector<const char*> argv_storage;
+  for (const std::string& arg_string : arg_vector) {
+    argv_storage.push_back(arg_string.c_str());
+  }
+
+  int expect_argc = argv_storage.size();
+  const char* const* expect_argv =
+      !argv_storage.empty() ? &argv_storage[0] : nullptr;
 #else
 #error Obtain expect_argc and expect_argv correctly on your system.
 #endif

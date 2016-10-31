@@ -122,7 +122,7 @@ TEST(CheckedAddressRange, IsValid) {
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
     const TestData& testcase = kTestData[index];
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS
-                                    ", base 0x%llx, size 0x%llx",
+                                    ", base 0x%" PRIx64 ", size 0x%" PRIx64,
                                     index,
                                     testcase.base,
                                     testcase.size));
@@ -173,7 +173,7 @@ TEST(CheckedAddressRange, ContainsValue) {
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
     const TestData& testcase = kTestData[index];
     SCOPED_TRACE(base::StringPrintf(
-        "index %" PRIuS ", value 0x%llx", index, testcase.value));
+        "index %" PRIuS ", value 0x%" PRIx64, index, testcase.value));
 
     EXPECT_EQ(testcase.expectation,
               parent_range_32.ContainsValue(testcase.value));
@@ -230,7 +230,7 @@ TEST(CheckedAddressRange, ContainsRange) {
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
     const TestData& testcase = kTestData[index];
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS
-                                    ", base 0x%llx, size 0x%llx",
+                                    ", base 0x%" PRIx64 ", size 0x%" PRIx64,
                                     index,
                                     testcase.base,
                                     testcase.size));
