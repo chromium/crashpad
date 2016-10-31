@@ -71,7 +71,7 @@ void DropPrivileges() {
       CHECK_EQ(setegid(egid), -1);
     }
   }
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
   PCHECK(setresgid(gid, gid, gid) == 0) << "setresgid";
   PCHECK(setresuid(uid, uid, uid) == 0) << "setresuid";
 
