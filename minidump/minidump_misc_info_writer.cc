@@ -99,6 +99,8 @@ std::string MinidumpMiscInfoDebugBuildString() {
   // they will be truncated and a message will be logged.
 #if defined(OS_MACOSX)
   const char kOS[] = "mac";
+#elif defined(OS_ANDROID)
+  const char kOS[] = "android";
 #elif defined(OS_LINUX)
   const char kOS[] = "linux";
 #elif defined(OS_WIN)
@@ -111,6 +113,10 @@ std::string MinidumpMiscInfoDebugBuildString() {
   const char kCPU[] = "i386";
 #elif defined(ARCH_CPU_X86_64)
   const char kCPU[] = "amd64";
+#elif defined(ARCH_CPU_ARM)
+  const char kCPU[] = "arm";
+#elif defined(ARCH_CPU_ARM64)
+  const char kCPU[] = "arm64";
 #else
 #error define kCPU for this CPU
 #endif
