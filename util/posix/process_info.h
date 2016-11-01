@@ -15,7 +15,6 @@
 #ifndef CRASHPAD_UTIL_POSIX_PROCESS_INFO_H_
 #define CRASHPAD_UTIL_POSIX_PROCESS_INFO_H_
 
-#include <sys/sysctl.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -30,6 +29,7 @@
 
 #if defined(OS_MACOSX)
 #include <mach/mach.h>
+#include <sys/sysctl.h>
 #endif
 
 namespace crashpad {

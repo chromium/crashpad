@@ -14,8 +14,8 @@
 
 #include "test/multiprocess.h"
 
+#include <signal.h>
 #include <stdlib.h>
-#include <sys/signal.h>
 #include <unistd.h>
 
 #include "base/macros.h"

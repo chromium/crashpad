@@ -16,13 +16,17 @@
 
 #include <windows.h>
 
+#include "base/logging.h"
+
 namespace crashpad {
 namespace test {
 
 // static
 base::FilePath Paths::Executable() {
   wchar_t executable_path[_MAX_PATH];
-  GetModuleFileName(nullptr, executable_path, sizeof(executable_path));
+  unsigned int len =
+      GetModuleFileName(nullptr, executable_path, arraysize(executable_path));
+  PCHECK(len != 0 && len < arraysize(executable_path)) << "GetModuleFileName";
   return base::FilePath(executable_path);
 }
 

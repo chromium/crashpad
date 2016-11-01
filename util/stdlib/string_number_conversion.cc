@@ -103,6 +103,7 @@ struct StringToUnsignedIntTraits
     : public StringToUnsignedIntegerTraits<unsigned int, unsigned long> {
   static LongType Convert(const char* str, char** end, int base) {
     if (str[0] == '-') {
+      *end = const_cast<char*>(str);
       return 0;
     }
     return strtoul(str, end, base);
@@ -113,6 +114,7 @@ struct StringToUnsignedInt64Traits
     : public StringToUnsignedIntegerTraits<uint64_t, uint64_t> {
   static LongType Convert(const char* str, char** end, int base) {
     if (str[0] == '-') {
+      *end = const_cast<char*>(str);
       return 0;
     }
     return strtoull(str, end, base);

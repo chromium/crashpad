@@ -46,14 +46,14 @@ class ThreadLogMessagesMaster {
   }
 
   ~ThreadLogMessagesMaster() {
-    DCHECK_EQ(logging::GetLogMessageHandler(), LogMessageHandler);
+    DCHECK_EQ(logging::GetLogMessageHandler(), &LogMessageHandler);
     logging::SetLogMessageHandler(nullptr);
 
     tls_.Free();
   }
 
   void SetThreadMessageList(std::vector<std::string>* message_list) {
-    DCHECK_EQ(logging::GetLogMessageHandler(), LogMessageHandler);
+    DCHECK_EQ(logging::GetLogMessageHandler(), &LogMessageHandler);
     DCHECK_NE(tls_.Get() != nullptr, message_list != nullptr);
     tls_.Set(message_list);
   }

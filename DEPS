@@ -25,7 +25,7 @@ deps = {
       '93cc6e2c23e4d5ebd179f388e67aa907d0dfd43d',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '88e0a3e1a965c698d7ead8bcfc0cfb6aacdc3524',
+      '8e8d3cc9a245f1bf63296e97fb6ac1c90f6d86f5',
   'buildtools':
       Var('chromium_git') + '/chromium/buildtools.git@' +
       'f8fc76ea5ce4a60cda2fa5d7df3d4a62935b3113',

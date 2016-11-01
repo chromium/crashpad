@@ -23,6 +23,7 @@
 #include <string.h>
 
 #include "base/logging.h"
+#include "base/rand_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/sys_byteorder.h"
@@ -109,6 +110,16 @@ bool UUID::InitializeWithNew() {
     return false;
   }
   InitializeFromSystemUUID(&system_uuid);
+  return true;
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+  // Linux does not provide a UUID generator in a widely-available system
+  // library. uuid_generate() from libuuid is not available everywhere.
+  base::RandBytes(this, sizeof(*this));
+
+  // Set six bits per RFC 4122 §4.4 to identify this as a pseudo-random UUID.
+  data_3 = (4 << 12) | (data_3 & 0x0fff);  // §4.1.3
+  data_4[0] = 0x80 | (data_4[0] & 0x3f);  // §4.1.1
+
   return true;
 #else
 #error Port.

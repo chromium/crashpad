@@ -14,7 +14,7 @@
 
 #include "util/posix/symbolic_constants_posix.h"
 
-#include <sys/signal.h>
+#include <signal.h>
 #include <sys/types.h>
 
 #include "base/macros.h"
@@ -65,7 +65,7 @@ const struct {
 #if defined(OS_MACOSX)
     {SIGEMT, "SIGEMT", "EMT"},
     {SIGINFO, "SIGINFO", "INFO"},
-#elif defined(OS_LINUX)
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
     {SIGPWR, "SIGPWR", "PWR"},
     {SIGSTKFLT, "SIGSTKFLT", "STKFLT"},
 #endif
@@ -120,7 +120,7 @@ TEST(SymbolicConstantsPOSIX, SignalToString) {
                        kSignalTestData[index].short_name);
   }
 
-#if defined(OS_LINUX)
+#if defined(OS_LINUX) || defined(OS_ANDROID)
   // NSIG is 64 to account for real-time signals.
   const int kSignalCount = 32;
 #else

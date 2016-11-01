@@ -31,7 +31,7 @@ https://chromium.googlesource.com/chromium/src/\+/cfa5b01bb1d06bf96967bd37e21a44
 
 Initial work on a Crashpad client for
 https://crashpad.chromium.org/bug/30[Android] has begun. This is currently in
-the design phase.
+the early implementation phase.
 
 == Future
 

@@ -27,6 +27,7 @@
 #endif
 
 #if defined(OS_POSIX)
+#include <sys/resource.h>
 #include <unistd.h>
 #elif defined(OS_WIN)
 #include <windows.h>
@@ -37,9 +38,13 @@ int main(int argc, char* argv[]) {
   // Make sure that there’s nothing open at any FD higher than 3. All FDs other
   // than stdin, stdout, and stderr should have been closed prior to or at
   // exec().
-  int max_fd = std::max(static_cast<int>(sysconf(_SC_OPEN_MAX)), OPEN_MAX);
-  max_fd = std::max(max_fd, getdtablesize());
-  for (int fd = STDERR_FILENO + 1; fd < max_fd; ++fd) {
+  rlimit rlimit_nofile;
+  if (getrlimit(RLIMIT_NOFILE, &rlimit_nofile) != 0) {
+    abort();
+  }
+  for (int fd = STDERR_FILENO + 1;
+       fd < static_cast<int>(rlimit_nofile.rlim_cur);
+       ++fd) {
     if (close(fd) == 0 || errno != EBADF) {
       abort();
     }
