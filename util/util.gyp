@@ -284,6 +284,10 @@
               },
             }],
           ],
+        }, {  # else: OS!="win"
+          'sources!': [
+            'win/capture_context.asm',
+          ],
         }],
       ],
     },
