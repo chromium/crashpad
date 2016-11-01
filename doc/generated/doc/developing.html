@@ -788,7 +788,7 @@ Chromium’s
 </li>
 <li>
 <p>
-<a href="http://git-scm.com/">Git</a>. This is provided by Xcode on Mac OS X and by
+<a href="https://git-scm.com/">Git</a>. This is provided by Xcode on Mac OS X and by
    depot_tools on Windows.
 </p>
 </li>
@@ -829,8 +829,8 @@ need to install them separately.</p></div>
 $ <strong>cd ~/crashpad</strong>
 $ <strong>fetch crashpad</strong></pre>
 </div></div>
-<div class="paragraph"><p><span class="monospaced">fetch crashpad</span> performs the initial <span class="monospaced">gclient sync</span>, establishing a
-fully-functional local checkout.</p></div>
+<div class="paragraph"><p><span class="monospaced">fetch crashpad</span> performs the initial <span class="monospaced">git clone</span> and <span class="monospaced">gclient sync</span>,
+establishing a fully-functional local checkout.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_subsequent_checkouts">Subsequent Checkouts</h3>
@@ -847,10 +847,10 @@ $ <strong>gclient sync</strong></pre>
 <h2 id="_building">Building</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Crashpad uses <a href="https://gyp.gsrc.io/">GYP</a> to generate
-<a href="https://martine.github.io/ninja/">Ninja</a> build files. The build is described by
-<span class="monospaced">.gyp</span> files throughout the Crashpad source code tree. The
-<span class="monospaced">build/gyp_crashpad.py</span> script runs GYP properly for Crashpad, and is also
-called when you run <span class="monospaced">fetch crashpad</span>, <span class="monospaced">gclient sync</span>, or <span class="monospaced">gclient runhooks</span>.</p></div>
+<a href="https://ninja-build.org/">Ninja</a> build files. The build is described by <span class="monospaced">.gyp</span>
+files throughout the Crashpad source code tree. The <span class="monospaced">build/gyp_crashpad.py</span>
+script runs GYP properly for Crashpad, and is also called when you run <span class="monospaced">fetch
+crashpad</span>, <span class="monospaced">gclient sync</span>, or <span class="monospaced">gclient runhooks</span>.</p></div>
 <div class="paragraph"><p>The Ninja build files and build output are in the <span class="monospaced">out</span> directory. Both debug-
 and release-mode configurations are available. The examples below show the debug
 configuration. To build and test the release configuration, substitute <span class="monospaced">Release</span>
@@ -863,6 +863,88 @@ $ <strong>ninja -C out/Debug</strong></pre>
 <div class="paragraph"><p>Ninja is part of the
 <a href="https://dev.chromium.org/developers/how-tos/depottools">depot_tools</a>. There’s no
 need to install it separately.</p></div>
+<div class="sect2">
+<h3 id="_android">Android</h3>
+<div class="paragraph"><p>Crashpad’s Android port is in its early stages. This build relies on
+cross-compilation. It’s possible to develop Crashpad for Android on any platform
+that the <a href="https://developer.android.com/ndk/">Android NDK (Native Development
+Kit)</a> runs on.</p></div>
+<div class="paragraph"><p>If it’s not already present on your system,
+<a href="https://developer.android.com/ndk/downloads/">download the NDK package for your
+system</a> and expand it to a suitable location. These instructions assume that
+it’s been expanded to <span class="monospaced">~/android-ndk-r13</span>.</p></div>
+<div class="paragraph"><p>To build Crashpad, portions of the NDK must be reassembled into a
+<a href="https://developer.android.com/ndk/guides/standalone_toolchain.html">standalone
+toolchain</a>. This is a repackaged subset of the NDK suitable for cross-compiling
+for a single Android architecture (such as <span class="monospaced">arm</span>, <span class="monospaced">arm64</span>, <span class="monospaced">x86</span>, and <span class="monospaced">x86_64</span>)
+targeting a specific
+<a href="https://source.android.com/source/build-numbers.html">Android API level</a>. The
+standalone toolchain only needs to be built from the NDK one time for each set
+of options desired. To build a standalone toolchain targeting 64-bit ARM and API
+level 21 (Android 5.0 “Lollipop”), run:</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>$ <strong>cd ~</strong>
+$ <strong>python android-ndk-r13/build/tools/make_standalone_toolchain.py \
+      --arch=arm64 --api=21 --install-dir=android-ndk-r13_arm64_api21</strong></pre>
+</div></div>
+<div class="paragraph"><p>Note that Chrome uses Android API level 21 for 64-bit platforms and 16 for
+32-bit platforms. See Chrome’s
+<a href="https://chromium.googlesource.com/chromium/src/+/master/build/config/android/config.gni"><span class="monospaced">build/config/android/config.gni</span></a>
+which sets <span class="monospaced">_android_api_level</span> and <span class="monospaced">_android64_api_level</span>.</p></div>
+<div class="paragraph"><p>To configure a Crashpad build for Android using this standalone toolchain,
+set several environment variables directing the build to the standalone
+toolchain, along with GYP options to identify an Android build. This must be
+done after any <span class="monospaced">gclient sync</span>, or instead of any <span class="monospaced">gclient runhooks</span> operation.
+The environment variables only need to be set for this <span class="monospaced">gyp_crashpad.py</span>
+invocation, and need not be permanent.</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>$ <strong>cd ~/crashpad/crashpad</strong>
+$ <strong>CC_target=~/android-ndk-r13_arm64_api21/bin/clang \
+  CXX_target=~/android-ndk-r13_arm64_api21/bin/clang++ \
+  AR_target=~/android-ndk-r13_arm64_api21/bin/aarch64-linux-android-ar \
+  NM_target=~/android-ndk-r13_arm64_api21/bin/aarch64-linux-android-nm \
+  READELF_target=~/android-ndk-r13_arm64_api21/bin/aarch64-linux-android-readelf \
+  python build/gyp_crashpad.py \
+      -DOS=android -Dtarget_arch=arm64 -Dclang=1 \
+      --generator-output=out_android_arm64_api21 -f ninja-android</strong></pre>
+</div></div>
+<div class="paragraph"><p>Target “triplets” to use for <span class="monospaced">ar</span>, <span class="monospaced">nm</span>, and <span class="monospaced">readelf</span> are:</p></div>
+<table class="tableblock frame-topbot grid-all"
+style="
+width:40%;
+">
+<col style="width:25%;">
+<col style="width:75%;">
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><span class="monospaced">arm</span></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><span class="monospaced">arm-linux-androideabi</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><span class="monospaced">arm64</span></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><span class="monospaced">aarch64-linux-android</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><span class="monospaced">x86</span></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><span class="monospaced">i686-linux-android</span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><span class="monospaced">x86_64</span></p></td>
+<td class="tableblock halign-left valign-top" ><p class="tableblock"><span class="monospaced">x86_64-linux-android</span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph"><p>The port is incomplete, but targets known to be working include <span class="monospaced">crashpad_util</span>,
+<span class="monospaced">crashpad_test</span>, and <span class="monospaced">crashpad_test_test</span>. This list will grow over time. To
+build, direct <span class="monospaced">ninja</span> to the specific <span class="monospaced">out</span> directory chosen by
+<span class="monospaced">--generator-output</span> above.</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>$ <strong>ninja -C out_android_arm64_api21/out/Debug crashpad_test_test</strong></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -888,6 +970,37 @@ argument that tells it which configuration to test.</p></div>
 <pre>$ <strong>cd ~/crashpad/crashpad</strong>
 $ <strong>python build/run_tests.py Debug</strong></pre>
 </div></div>
+<div class="sect2">
+<h3 id="_android_2">Android</h3>
+<div class="paragraph"><p>To test on Android, use
+<a href="https://developer.android.com/studio/command-line/adb.html">ADB (Android Debug
+Bridge)</a> to <span class="monospaced">adb push</span> test executables and test data to a device or emulator,
+then use <span class="monospaced">adb shell</span> to get a shell to run the test executables from. ADB is
+part of the <a href="https://developer.android.com/sdk/">Android SDK</a>. Note that it is
+sufficient to install just the command-line tools. The entire Android Studio IDE
+is not necessary to obtain ADB.</p></div>
+<div class="paragraph"><p>This example runs <span class="monospaced">crashpad_test_test</span> on a device. This test executable has a
+run-time dependency on a second executable and a test data file, which are also
+transferred to the device prior to running the test.</p></div>
+<div class="listingblock">
+<div class="content monospaced">
+<pre>$ <strong>cd ~/crashpad/crashpad</strong>
+$ <strong>adb push out_android_arm64_api21/out/Debug/crashpad_test_test /data/local/tmp/</strong>
+[100%] /data/local/tmp/crashpad_test_test
+$ <strong>adb push \
+      out_android_arm64_api21/out/Debug/crashpad_test_test_multiprocess_exec_test_child \
+      /data/local/tmp/</strong>
+[100%] /data/local/tmp/crashpad_test_test_multiprocess_exec_test_child
+$ <strong>adb shell mkdir -p /data/local/tmp/crashpad_test_data_root/test</strong>
+$ <strong>adb push test/paths_test_data_root.txt \
+      /data/local/tmp/crashpad_test_data_root/test/</strong>
+[100%] /data/local/tmp/crashpad_test_data_root/test/paths_test_data_root.txt
+$ <strong>adb shell</strong>
+device:/ $ <strong>cd /data/local/tmp</strong>
+device:/data/local/tmp $ <strong>CRASHPAD_TEST_DATA_ROOT=crashpad_test_data_root \
+                         ./crashpad_test_test</strong></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -899,9 +1012,9 @@ process</a>.</p></div>
 <div class="sect2">
 <h3 id="_code_review">Code Review</h3>
 <div class="paragraph"><p>A code review must be conducted for every change to Crashpad’s source code. Code
-review is conducted on <a href="https://codereview.chromium.org/">Chromium’s Rietveld</a>
-system, and all code reviews must be sent to an appropriate reviewer, with a Cc
-sent to
+review is conducted on <a href="https://chromium-review.googlesource.com/">Chromium’s
+Gerrit</a> system, and all code reviews must be sent to an appropriate reviewer,
+with a Cc sent to
 <a href="https://groups.google.com/a/chromium.org/group/crashpad-dev">crashpad-dev</a>. The
 <span class="monospaced">codereview.settings</span> file specifies this environment to <span class="monospaced">git-cl</span>.</p></div>
 <div class="paragraph"><p><span class="monospaced">git-cl</span> is part of the
@@ -916,13 +1029,16 @@ $ <strong>git add …</strong>
 $ <strong>git commit</strong>
 $ <strong>git cl upload</strong></pre>
 </div></div>
-<div class="paragraph"><p>Uploading a patch to Rietveld does not automatically request a review. You must
-select a reviewer and mail your request to them (with a Cc to crashpad-dev) from
-the Rietveld issue page after running <span class="monospaced">git cl upload</span>. If you have lost track of
-the issue page, <span class="monospaced">git cl issue</span> will remind you of its URL. Alternatively, you
-can request review when uploading to Rietveld by using <span class="monospaced">git cl upload
---send-mail</span></p></div>
-<div class="paragraph"><p>Git branches maintain their association with Rietveld issues, so if you need to
+<div class="paragraph"><p>The <a href="https://polygerrit.appspot.com/">PolyGerrit interface</a> to Gerrit, undergoing
+active development, is recommended. To switch from the classic GWT-based Gerrit
+UI to PolyGerrit, click the PolyGerrit link in a Gerrit review page’s footer.</p></div>
+<div class="paragraph"><p>Uploading a patch to Gerrit does not automatically request a review. You must
+select a reviewer on the Gerrit review page after running <span class="monospaced">git cl upload</span>. This
+action notifies your reviewer of the code review request. If you have lost track
+of the review page, <span class="monospaced">git cl issue</span> will remind you of its URL. Alternatively,
+you can request review when uploading to Gerrit by using <span class="monospaced">git cl upload
+--send-mail</span>.</p></div>
+<div class="paragraph"><p>Git branches maintain their association with Gerrit reviews, so if you need to
 make changes based on review feedback, you can do so on the correct Git branch,
 committing your changes locally with <span class="monospaced">git commit</span>. You can then upload a new
 patch set with <span class="monospaced">git cl upload</span> and let your reviewer know you’ve addressed the
@@ -930,26 +1046,21 @@ feedback.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_landing_changes">Landing Changes</h3>
-<div class="paragraph"><p>After code review is complete and “LGTM” (“looks good to me”) has been received
-from all reviewers, project members can commit the patch themselves:</p></div>
+<div class="paragraph"><p>After code review is complete and “Code-Review: +1”) has been received from all
+reviewers, project members can commit the patch themselves:</p></div>
 <div class="listingblock">
 <div class="content monospaced">
 <pre>$ <strong>cd ~/crashpad/crashpad</strong>
 $ <strong>git checkout work_branch</strong>
 $ <strong>git cl land</strong></pre>
 </div></div>
+<div class="paragraph"><p>Alternatively, patches can be committed by clicking the “Submit” button in the
+Gerrit UI.</p></div>
 <div class="paragraph"><p>Crashpad does not currently have a
 <a href="https://dev.chromium.org/developers/testing/commit-queue">commit queue</a>, so
-contributors that are not project members will have to ask a project member to
+contributors who are not project members will have to ask a project member to
 commit the patch for them. Project members can commit changes on behalf of
-external contributors by patching the change into a local branch and landing it:</p></div>
-<div class="listingblock">
-<div class="content monospaced">
-<pre>$ <strong>cd ~/crashpad/crashpad</strong>
-$ <strong>git checkout -b for_external_contributor origin/master</strong>
-$ <strong>git cl patch 12345678</strong>  <em># 12345678 is the Rietveld issue number</em>
-$ <strong>git cl land -c 'External Contributor &lt;external@contributor.org&gt;'</strong></pre>
-</div></div>
+external contributors by clicking the “Submit” button in the Gerrit UI.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_external_contributions">External Contributions</h3>
@@ -976,7 +1087,7 @@ the Buildbot to ensure that “the tree is green.”</p></div>
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated October 29, 2015
+Last updated November 1, 2016
 </div>
 </div>
 </body>
