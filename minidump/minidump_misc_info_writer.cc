@@ -115,7 +115,7 @@ std::string MinidumpMiscInfoDebugBuildString() {
   const char kCPU[] = "i386";
 #elif defined(ARCH_CPU_X86_64)
   const char kCPU[] = "amd64";
-#elif defined(ARCH_CPU_ARM)
+#elif defined(ARCH_CPU_ARMEL)
   const char kCPU[] = "arm";
 #elif defined(ARCH_CPU_ARM64)
   const char kCPU[] = "arm64";
