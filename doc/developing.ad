@@ -38,7 +38,7 @@ present in the `$PATH` environment variable:
 
  * Chromium’s
    https://dev.chromium.org/developers/how-tos/depottools[depot_tools].
- * http://git-scm.com/[Git]. This is provided by Xcode on Mac OS X and by
+ * https://git-scm.com/[Git]. This is provided by Xcode on Mac OS X and by
    depot_tools on Windows.
  * https://www.python.org/[Python]. This is provided by the operating system on
    Mac OS X, and by depot_tools on Windows.
@@ -69,8 +69,8 @@ $ *cd ~/crashpad*
 $ *fetch crashpad*
 ----
 
-`fetch crashpad` performs the initial `gclient sync`, establishing a
-fully-functional local checkout.
+`fetch crashpad` performs the initial `git clone` and `gclient sync`,
+establishing a fully-functional local checkout.
 
 === Subsequent Checkouts
 
@@ -84,10 +84,10 @@ $ *gclient sync*
 == Building
 
 Crashpad uses https://gyp.gsrc.io/[GYP] to generate
-https://martine.github.io/ninja/[Ninja] build files. The build is described by
-`.gyp` files throughout the Crashpad source code tree. The
-`build/gyp_crashpad.py` script runs GYP properly for Crashpad, and is also
-called when you run `fetch crashpad`, `gclient sync`, or `gclient runhooks`.
+https://ninja-build.org/[Ninja] build files. The build is described by `.gyp`
+files throughout the Crashpad source code tree. The `build/gyp_crashpad.py`
+script runs GYP properly for Crashpad, and is also called when you run `fetch
+crashpad`, `gclient sync`, or `gclient runhooks`.
 
 The Ninja build files and build output are in the `out` directory. Both debug-
 and release-mode configurations are available. The examples below show the debug
@@ -246,9 +246,9 @@ process].
 === Code Review
 
 A code review must be conducted for every change to Crashpad’s source code. Code
-review is conducted on https://codereview.chromium.org/[Chromium’s Rietveld]
-system, and all code reviews must be sent to an appropriate reviewer, with a Cc
-sent to
+review is conducted on https://chromium-review.googlesource.com/[Chromium’s
+Gerrit] system, and all code reviews must be sent to an appropriate reviewer,
+with a Cc sent to
 https://groups.google.com/a/chromium.org/group/crashpad-dev[crashpad-dev]. The
 `codereview.settings` file specifies this environment to `git-cl`.
 
@@ -266,14 +266,18 @@ $ *git commit*
 $ *git cl upload*
 ----
 
-Uploading a patch to Rietveld does not automatically request a review. You must
-select a reviewer and mail your request to them (with a Cc to crashpad-dev) from
-the Rietveld issue page after running `git cl upload`. If you have lost track of
-the issue page, `git cl issue` will remind you of its URL. Alternatively, you
-can request review when uploading to Rietveld by using `git cl upload
---send-mail`
+The https://polygerrit.appspot.com/[PolyGerrit interface] to Gerrit, undergoing
+active development, is recommended. To switch from the classic GWT-based Gerrit
+UI to PolyGerrit, click the PolyGerrit link in a Gerrit review page’s footer.
 
-Git branches maintain their association with Rietveld issues, so if you need to
+Uploading a patch to Gerrit does not automatically request a review. You must
+select a reviewer on the Gerrit review page after running `git cl upload`. This
+action notifies your reviewer of the code review request. If you have lost track
+of the review page, `git cl issue` will remind you of its URL. Alternatively,
+you can request review when uploading to Gerrit by using `git cl upload
+--send-mail`.
+
+Git branches maintain their association with Gerrit reviews, so if you need to
 make changes based on review feedback, you can do so on the correct Git branch,
 committing your changes locally with `git commit`. You can then upload a new
 patch set with `git cl upload` and let your reviewer know you’ve addressed the
@@ -281,8 +285,8 @@ feedback.
 
 === Landing Changes
 
-After code review is complete and “LGTM” (“looks good to me”) has been received
-from all reviewers, project members can commit the patch themselves:
+After code review is complete and “Code-Review: +1”) has been received from all
+reviewers, project members can commit the patch themselves:
 
 [subs="verbatim,quotes"]
 ----
@@ -291,19 +295,14 @@ $ *git checkout work_branch*
 $ *git cl land*
 ----
 
+Alternatively, patches can be committed by clicking the “Submit” button in the
+Gerrit UI.
+
 Crashpad does not currently have a
 https://dev.chromium.org/developers/testing/commit-queue[commit queue], so
-contributors that are not project members will have to ask a project member to
+contributors who are not project members will have to ask a project member to
 commit the patch for them. Project members can commit changes on behalf of
-external contributors by patching the change into a local branch and landing it:
-
-[subs="verbatim,quotes"]
-----
-$ *cd ~/crashpad/crashpad*
-$ *git checkout -b for_external_contributor origin/master*
-$ *git cl patch 12345678*  _# 12345678 is the Rietveld issue number_
-$ *git cl land -c \'External Contributor <external@contributor.org>'*
-----
+external contributors by clicking the “Submit” button in the Gerrit UI.
 
 === External Contributions
 
