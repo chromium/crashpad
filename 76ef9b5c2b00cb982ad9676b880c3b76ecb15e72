@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4bfd4b26_e401ae6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-02T23:23:07Z",
+      "side": 1,
+      "message": "I think it needs to be done before we return from StartHandler() because otherwise the client doesn\u0027t know at what point crashes are actually going to get handled.",
+      "parentUuid": "0697cac5_d0732cc8",
+      "revId": "76ef9b5c2b00cb982ad9676b880c3b76ecb15e72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0697cac5_107e7490",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-02T23:11:49Z",
       "side": 1,
       "message": "And shouldn’t we avoid getting this far if we haven’t set up?",
+      "revId": "76ef9b5c2b00cb982ad9676b880c3b76ecb15e72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bfd4b26_a4228618",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-02T23:23:07Z",
+      "side": 1,
+      "message": "Ah crud, I didn\u0027t really look at the non-crash case. Yeah, especially since this is an INFINITE wait. :(",
+      "parentUuid": "0697cac5_107e7490",
       "revId": "76ef9b5c2b00cb982ad9676b880c3b76ecb15e72",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
