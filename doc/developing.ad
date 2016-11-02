@@ -250,7 +250,8 @@ review is conducted on https://chromium-review.googlesource.com/[Chromium’s
 Gerrit] system, and all code reviews must be sent to an appropriate reviewer,
 with a Cc sent to
 https://groups.google.com/a/chromium.org/group/crashpad-dev[crashpad-dev]. The
-`codereview.settings` file specifies this environment to `git-cl`.
+https://chromium.googlesource.com/crashpad/crashpad/+/master/codereview.settings[`codereview.settings`]
+file specifies this environment to `git-cl`.
 
 `git-cl` is part of the
 https://dev.chromium.org/developers/how-tos/depottools[depot_tools]. There’s no
@@ -285,7 +286,7 @@ feedback.
 
 === Landing Changes
 
-After code review is complete and “Code-Review: +1”) has been received from all
+After code review is complete and “Code-Review: +1” has been received from all
 reviewers, project members can commit the patch themselves:
 
 [subs="verbatim,quotes"]
