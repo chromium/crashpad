@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0697cac5_8595e824",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-11-02T21:25:24Z",
+      "side": 1,
+      "message": "Given this nested #ifs, it would be helpful to have EOL comments noting what condition is being closed. Same on line 94.",
+      "revId": "6decb0cbeec313f6e54475d4d420fa638cd47c2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0697cac5_f0766847",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-11-02T21:25:24Z",
+      "side": 1,
+      "message": "Also maybe put \\n around the various attributes.",
+      "revId": "6decb0cbeec313f6e54475d4d420fa638cd47c2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
