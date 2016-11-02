@@ -267,6 +267,7 @@ int HandlerMain(int argc, char* argv[]) {
               me, "failed to parse --initial-client-data");
           return EXIT_FAILURE;
         }
+        break;
       }
 #endif  // OS_MACOSX
       case kOptionMetrics: {
