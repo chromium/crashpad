@@ -59,33 +59,47 @@ union Compile_Assert {
 // This may result in a static module initializer in debug-mode builds, but
 // because it’s POD, no code should need to run to initialize this under
 // release-mode optimization.
-#if defined(OS_MACOSX)
+#if defined(OS_POSIX)
+__attribute__((
 
-// Put the structure in __DATA,__crashpad_info where it can be easily found
-// without having to consult the symbol table. The “used” attribute prevents it
-// from being dead-stripped.
-__attribute__((section(SEG_DATA ",__crashpad_info"),
-               used,
-               visibility("hidden")
+    // Put the structure in a well-known section name where it can be easily
+    // found without having to consult the symbol table.
+#if defined(OS_MACOSX)
+    section(SEG_DATA ",crashpad_info"),
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+    section("crashpad_info"),
+#else  // !defined(OS_MACOSX) && !defined(OS_LINUX) && !defined(OS_ANDROID)
+#error Port
+#endif  // !defined(OS_MACOSX) && !defined(OS_LINUX) && !defined(OS_ANDROID)
+
 #if __has_feature(address_sanitizer)
-// AddressSanitizer would add a trailing red zone of at least 32 bytes, which
-// would be reflected in the size of the custom section. This confuses
-// MachOImageReader::GetCrashpadInfo(), which finds that the section’s size
-// disagrees with the structure’s size_ field. By specifying an alignment
-// greater than the red zone size, the red zone will be suppressed.
-               ,
-               aligned(64)
-#endif
-             )) CrashpadInfo g_crashpad_info;
+    // AddressSanitizer would add a trailing red zone of at least 32 bytes,
+    // which would be reflected in the size of the custom section. This confuses
+    // MachOImageReader::GetCrashpadInfo(), which finds that the section’s size
+    // disagrees with the structure’s size_ field. By specifying an alignment
+    // greater than the red zone size, the red zone will be suppressed.
+    aligned(64),
+#endif  // __has_feature(address_sanitizer)
+
+    // The “used” attribute prevents the structure from being dead-stripped.
+    used,
+
+    // There’s no need to expose this as a public symbol from the symbol table.
+    // All accesses from the outside can locate the well-known section name.
+    visibility("hidden")))
 
 #elif defined(OS_WIN)
 
 // Put the struct in a section name CPADinfo where it can be found without the
 // symbol table.
 #pragma section("CPADinfo", read, write)
-__declspec(allocate("CPADinfo")) CrashpadInfo g_crashpad_info;
+__declspec(allocate("CPADinfo"))
 
-#endif
+#else  // !defined(OS_POSIX) && !defined(OS_WIN)
+#error Port
+#endif  // !defined(OS_POSIX) && !defined(OS_WIN)
+
+CrashpadInfo g_crashpad_info;
 
 // static
 CrashpadInfo* CrashpadInfo::GetCrashpadInfo() {
