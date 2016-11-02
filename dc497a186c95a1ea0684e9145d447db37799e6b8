@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0697cac5_25ec14e0",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-02T21:10:50Z",
+      "side": 1,
+      "message": "The only thing I have to suggest (but not insist on) is to have a scoper responsible for calling SetHandlerStartupState() so that we’re certain that it’ll happen at every “return”. Then, the only extra “work” to do would be to tell the scoper to set “succeeded” in the last case. Or to just disarm the scoper and set “succeeded” manually.",
+      "revId": "dc497a186c95a1ea0684e9145d447db37799e6b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0697cac5_45e920cf",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-02T21:10:50Z",
+      "side": 1,
+      "message": "\u003d {}\n\nmostly because that’s how you initialized |response| below, and why be different?",
+      "revId": "dc497a186c95a1ea0684e9145d447db37799e6b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
