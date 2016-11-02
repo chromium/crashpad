@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4bfd4b26_7efbf10a",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-02T21:26:13Z",
+      "side": 1,
+      "message": "Yeah, good idea. Done.",
+      "parentUuid": "0697cac5_25ec14e0",
+      "revId": "dc497a186c95a1ea0684e9145d447db37799e6b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0697cac5_45e920cf",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-02T21:10:50Z",
       "side": 1,
       "message": "\u003d {}\n\nmostly because that’s how you initialized |response| below, and why be different?",
+      "revId": "dc497a186c95a1ea0684e9145d447db37799e6b8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bfd4b26_5e00351b",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-02T21:26:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0697cac5_45e920cf",
       "revId": "dc497a186c95a1ea0684e9145d447db37799e6b8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
