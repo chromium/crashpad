@@ -270,8 +270,9 @@ class MachOImageReader {
   //! \brief Obtains the module’s CrashpadInfo structure.
   //!
   //! \return `true` on success, `false` on failure. If the module does not have
-  //!     a `__crashpad_info` section, this will return `false` without logging
-  //!     any messages. Other failures will result in messages being logged.
+  //!     a `__DATA,crashpad_info` section, this will return `false` without
+  //!     logging any messages. Other failures will result in messages being
+  //!     logged.
   bool GetCrashpadInfo(process_types::CrashpadInfo* crashpad_info) const;
 
  private:
