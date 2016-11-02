@@ -31,6 +31,8 @@
 
 #if defined(OS_MACOSX)
 #include <AvailabilityMacros.h>
+#elif defined(OS_ANDROID)
+#include <android/api-level.h>
 #endif
 
 namespace crashpad {
@@ -99,6 +101,8 @@ std::string MinidumpMiscInfoDebugBuildString() {
   // they will be truncated and a message will be logged.
 #if defined(OS_MACOSX)
   const char kOS[] = "mac";
+#elif defined(OS_ANDROID)
+  const char kOS[] = "android";
 #elif defined(OS_LINUX)
   const char kOS[] = "linux";
 #elif defined(OS_WIN)
@@ -111,6 +115,10 @@ std::string MinidumpMiscInfoDebugBuildString() {
   const char kCPU[] = "i386";
 #elif defined(ARCH_CPU_X86_64)
   const char kCPU[] = "amd64";
+#elif defined(ARCH_CPU_ARMEL)
+  const char kCPU[] = "arm";
+#elif defined(ARCH_CPU_ARM64)
+  const char kCPU[] = "arm64";
 #else
 #error define kCPU for this CPU
 #endif
@@ -126,6 +134,8 @@ std::string MinidumpMiscInfoDebugBuildString() {
       ",%d,%d",
       AvailabilityVersionToMacOSXMinorVersion(MAC_OS_X_VERSION_MIN_REQUIRED),
       AvailabilityVersionToMacOSXMinorVersion(MAC_OS_X_VERSION_MAX_ALLOWED));
+#elif defined(OS_ANDROID)
+  debug_build_string += base::StringPrintf(",%d", __ANDROID_API__);
 #endif
 
   return debug_build_string;
