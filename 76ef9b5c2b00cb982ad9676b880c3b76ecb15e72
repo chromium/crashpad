@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0697cac5_50b1dc2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-02T23:25:07Z",
+      "side": 1,
+      "message": "\u003e I think it needs to be done before we return from StartHandler() because\n\u003e otherwise the client doesn\u0027t know at what point crashes are actually going to\n\u003e get handled.\n\nRight, right. Good, that justifies this all.",
+      "parentUuid": "4bfd4b26_e401ae6c",
+      "revId": "76ef9b5c2b00cb982ad9676b880c3b76ecb15e72",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0697cac5_107e7490",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 6
