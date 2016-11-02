@@ -82,8 +82,14 @@ struct ClientToServerMessage {
   enum Type : uint32_t {
     //! \brief For RegistrationRequest.
     kRegister,
+
     //! \brief For ShutdownRequest.
     kShutdown,
+
+    //! \brief An empty message sent by the initial client in asynchronous mode.
+    //!     No data is required, this just confirms that the server is ready to
+    //!     accept client registrations.
+    kPing,
   } type;
 
   union {
