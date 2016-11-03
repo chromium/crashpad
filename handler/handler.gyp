@@ -161,6 +161,13 @@
           ],
         },
         {
+          'target_name': 'fake_handler_that_crashes_at_startup',
+          'type': 'executable',
+          'sources': [
+            'win/fake_handler_that_crashes_at_startup.cc',
+          ],
+        },
+        {
           'target_name': 'hanging_program',
           'type': 'executable',
           'dependencies': [

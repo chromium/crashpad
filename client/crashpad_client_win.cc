@@ -95,7 +95,7 @@ void SetHandlerStartupState(StartupState state) {
                               static_cast<base::subtle::AtomicWord>(state));
 }
 
-LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
+StartupState BlockUntilHandlerStartedOrFailed() {
   // Wait until we know the handler has either succeeded or failed to start.
   base::subtle::AtomicWord startup_state;
   while (
@@ -104,7 +104,11 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
     Sleep(1);
   }
 
-  if (startup_state == static_cast<int>(StartupState::kFailed)) {
+  return static_cast<StartupState>(startup_state);
+}
+
+LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
+  if (BlockUntilHandlerStartedOrFailed() == StartupState::kFailed) {
     // If we know for certain that the handler has failed to start, then abort
     // here, rather than trying to signal to a handler that will never arrive,
     // and then sleeping unnecessarily.
@@ -112,6 +116,7 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
     TerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
     return EXCEPTION_CONTINUE_SEARCH;
   }
+
   // Otherwise, we know the handler startup has succeeded, and we can continue.
 
   // Tracks whether a thread has already entered UnhandledExceptionHandler.
@@ -644,7 +649,15 @@ bool CrashpadClient::WaitForHandlerStart() {
 void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   if (g_signal_non_crash_dump == INVALID_HANDLE_VALUE ||
       g_non_crash_dump_done == INVALID_HANDLE_VALUE) {
-    LOG(ERROR) << "haven't called UseHandler()";
+    LOG(ERROR) << "not connected";
+    return;
+  }
+
+  if (BlockUntilHandlerStartedOrFailed() == StartupState::kFailed) {
+    // If we know for certain that the handler has failed to start, then abort
+    // here, as we would otherwise wait indefinitely for the
+    // g_non_crash_dump_done event that would never be signalled.
+    LOG(ERROR) << "crash server failed to launch, no dump captured";
     return;
   }
 
@@ -695,10 +708,14 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
 // static
 void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   if (g_signal_exception == INVALID_HANDLE_VALUE) {
-    LOG(ERROR) << "haven't called UseHandler(), no dump captured";
-    TerminateProcess(GetCurrentProcess(), kTerminationCodeUseHandlerNotCalled);
+    LOG(ERROR) << "not connected";
+    TerminateProcess(GetCurrentProcess(),
+                     kTerminationCodeNotConnectedToHandler);
     return;
   }
+
+  // We don't need to check for handler startup here, as
+  // UnhandledExceptionHandler() necessarily does that.
 
   UnhandledExceptionHandler(exception_pointers);
 }

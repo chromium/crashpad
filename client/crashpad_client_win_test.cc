@@ -15,10 +15,12 @@
 #include "client/crashpad_client.h"
 
 #include "base/files/file_path.h"
+#include "base/macros.h"
 #include "gtest/gtest.h"
 #include "test/paths.h"
 #include "test/scoped_temp_dir.h"
 #include "test/win/win_multiprocess.h"
+#include "util/win/termination_codes.h"
 
 namespace crashpad {
 namespace test {
@@ -86,6 +88,92 @@ class StartWithSameStdoutStderr final : public WinMultiprocess {
 
 TEST(CrashpadClient, StartWithSameStdoutStderr) {
   WinMultiprocess::Run<StartWithSameStdoutStderr>();
+}
+
+void StartAndUseBrokenHandler(CrashpadClient* client) {
+  ScopedTempDir temp_dir;
+  base::FilePath handler_path = Paths::Executable().DirName().Append(
+      FILE_PATH_LITERAL("fake_handler_that_crashes_at_startup.exe"));
+  ASSERT_TRUE(client->StartHandler(handler_path,
+                                  temp_dir.path(),
+                                  base::FilePath(),
+                                  "",
+                                  std::map<std::string, std::string>(),
+                                  std::vector<std::string>(),
+                                  false,
+                                  true));
+}
+
+class HandlerLaunchFailureCrash : public WinMultiprocess {
+ public:
+  HandlerLaunchFailureCrash() : WinMultiprocess() {}
+
+ private:
+  void WinMultiprocessParent() override {
+    SetExpectedChildExitCode(crashpad::kTerminationCodeCrashNoDump);
+  }
+
+  void WinMultiprocessChild() override {
+    CrashpadClient client;
+    StartAndUseBrokenHandler(&client);
+    __debugbreak();
+    exit(0);
+  }
+};
+
+TEST(CrashpadClient, HandlerLaunchFailureCrash) {
+  WinMultiprocess::Run<HandlerLaunchFailureCrash>();
+}
+
+class HandlerLaunchFailureDumpAndCrash : public WinMultiprocess {
+ public:
+  HandlerLaunchFailureDumpAndCrash() : WinMultiprocess() {}
+
+ private:
+  void WinMultiprocessParent() override {
+    SetExpectedChildExitCode(crashpad::kTerminationCodeCrashNoDump);
+  }
+
+  void WinMultiprocessChild() override {
+    CrashpadClient client;
+    StartAndUseBrokenHandler(&client);
+    // We don't need to fill this out as we're only checking that we're
+    // terminated with the correct failure code.
+    EXCEPTION_POINTERS info = {};
+    client.DumpAndCrash(&info);
+    exit(0);
+  }
+};
+
+TEST(CrashpadClient, HandlerLaunchFailureDumpAndCrash) {
+  WinMultiprocess::Run<HandlerLaunchFailureDumpAndCrash>();
+}
+
+class HandlerLaunchFailureDumpWithoutCrash : public WinMultiprocess {
+ public:
+  HandlerLaunchFailureDumpWithoutCrash() : WinMultiprocess() {}
+
+ private:
+  void WinMultiprocessParent() override {
+    // DumpWithoutCrash() normally blocks indefinitely. There's no return value,
+    // but confirm that it exits cleanly because it'll return right away if the
+    // handler didn't start.
+    SetExpectedChildExitCode(0);
+  }
+
+  void WinMultiprocessChild() override {
+    CrashpadClient client;
+    StartAndUseBrokenHandler(&client);
+    // We don't need to fill this out as we're only checking that we're
+    // terminated with the correct failure code.
+    CONTEXT context = {};
+    client.DumpWithoutCrash(context);
+    exit(0);
+  }
+};
+
+TEST(CrashpadClient, HandlerLaunchFailureDumpWithoutCrash) {
+  WinMultiprocess::Run<HandlerLaunchFailureDumpWithoutCrash>();
 }
 
 }  // namespace
