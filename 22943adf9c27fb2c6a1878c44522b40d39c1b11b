@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06142af7_94c70453",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-03T01:11:29Z",
+      "side": 1,
+      "message": "Since we’ve got tests for this now, you can add TEST\u003d.",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06142af7_74e6a8ff",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-03T01:11:29Z",
+      "side": 1,
+      "message": "SetHandlerIPCPipe() would be fine too. But instead of listing all of the possibilities in a log message, maybe just say something like “no handler”.",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06142af7_540c4ce9",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-03T01:11:29Z",
+      "side": 1,
+      "message": "It’s not so much a sleep in this function as it is a wait for an event that will never be signaled.",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06142af7_b4d7a009",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-03T01:11:29Z",
+      "side": 1,
+      "message": "Don’t [need] to?",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06142af7_f4d11815",
+        "filename": "handler/win/fake_handler_that_crashes_at_startup.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-03T01:11:29Z",
+      "side": 1,
+      "message": "Unused.",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06142af7_b4c20043",
+        "filename": "util/win/termination_codes.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-03T01:11:29Z",
+      "side": 1,
+      "message": "As with the log message text, the “StartHandler” bit isn’t quite right.",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
