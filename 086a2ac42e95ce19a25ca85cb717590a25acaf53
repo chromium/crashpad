@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0697cac5_56d714d5",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-03T16:36:51Z",
+      "side": 1,
+      "message": "Just “not connected”, here and on line 711, easier.",
+      "revId": "086a2ac42e95ce19a25ca85cb717590a25acaf53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
