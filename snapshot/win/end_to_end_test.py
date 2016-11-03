@@ -185,6 +185,14 @@ class CdbRun(object):
       global g_had_failures
       g_had_failures = True
 
+  def Find(self, pattern, re_flags=0):
+    match_obj = re.search(pattern, self.out, re_flags)
+    if match_obj:
+      # Matched. Consume up to end of match.
+      self.out = self.out[match_obj.end(0):]
+      return match_obj
+    return None
+
 
 def RunTests(cdb_path,
              dump_path,
@@ -267,9 +275,15 @@ def RunTests(cdb_path,
                 r'FreeOwnStackAndBreak.*\nquit:',
             'at correct location, no additional stack entries')
 
-  # Switch to the other thread after jumping to the exception, and examine
-  # memory.
-  out = CdbRun(cdb_path, dump_path, '.ecxr; ~1s; db /c14 edi')
+  # Dump memory pointed to be EDI on the background suspended thread. We don't
+  # know the index of the thread because the system may have started other
+  # threads, so first do a run to extract the thread index that's suspended, and
+  # then another run to dump the data pointed to by EDI for that thread.
+  out = CdbRun(cdb_path, dump_path, '.ecxr;~')
+  match_obj = out.Find(r'(\d+)\s+Id: [0-9a-f.]+ Suspend: 1 Teb:')
+  if match_obj:
+    thread = match_obj.group(1)
+    out = CdbRun(cdb_path, dump_path, '.ecxr;~' + thread + 's;db /c14 edi')
   out.Check(r'63 62 61 60 5f 5e 5d 5c-5b 5a 59 58 57 56 55 54 53 52 51 50',
             'data pointed to by registers captured')
 
@@ -330,10 +344,17 @@ def RunTests(cdb_path,
             'other program dump exception code')
   out.Check('!Sleep', 'other program reasonable location')
   out.Check('hanging_program!Thread1', 'other program dump right thread')
-  out.Check('\.  1  Id.*Suspend: 0 ',
-            'other program exception on correct thread and correct suspend')
-  out.Check('   4  Id.*Suspend: 0 ',
-            'other program injection thread correct suspend')
+  count = 0
+  while True:
+    match_obj = out.Find(r'Id.*Suspend: (\d+) ')
+    if match_obj:
+      if match_obj.group(1) != '0':
+        out.Check(r'FAILED', 'all suspend counts should be 0')
+      else:
+        count += 1
+    else:
+      break
+  assert count > 2
 
   out = CdbRun(cdb_path, other_program_no_exception_path, '.ecxr;k')
   out.Check('Unknown exception - code 0cca11ed',
