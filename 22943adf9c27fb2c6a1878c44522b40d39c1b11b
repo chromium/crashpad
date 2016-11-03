@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "4bfd4b26_7217a06b",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-03T16:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06142af7_74e6a8ff",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06142af7_540c4ce9",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2016-11-03T01:11:29Z",
       "side": 1,
       "message": "It’s not so much a sleep in this function as it is a wait for an event that will never be signaled.",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bfd4b26_521ca48b",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-03T16:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06142af7_540c4ce9",
       "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "4bfd4b26_322118ca",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-03T16:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06142af7_b4d7a009",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06142af7_f4d11815",
         "filename": "handler/win/fake_handler_that_crashes_at_startup.cc",
         "patchSetId": 1
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "4bfd4b26_12061c3e",
+        "filename": "handler/win/fake_handler_that_crashes_at_startup.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-03T16:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06142af7_f4d11815",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06142af7_b4c20043",
         "filename": "util/win/termination_codes.h",
         "patchSetId": 1
@@ -98,6 +170,24 @@
       "writtenOn": "2016-11-03T01:11:29Z",
       "side": 1,
       "message": "As with the log message text, the “StartHandler” bit isn’t quite right.",
+      "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bfd4b26_f2029027",
+        "filename": "util/win/termination_codes.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-03T16:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06142af7_b4c20043",
       "revId": "22943adf9c27fb2c6a1878c44522b40d39c1b11b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
