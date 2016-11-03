@@ -29,7 +29,7 @@ enum TerminationCodes : unsigned int {
 
   //! \brief A dump was requested for a client that was never registered with
   //!     the crash handler.
-  kTerminationCodeUseHandlerNotCalled = 0xffff7003,
+  kTerminationCodeNotConnectedToHandler = 0xffff7003,
 };
 
 }  // namespace crashpad
