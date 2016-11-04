@@ -112,7 +112,7 @@ catch_exception_tool: behavior EXCEPTION_DEFAULT|MACH_EXCEPTION_CODES, pid 2468,
 ## See Also
 
 [exception_port_tool(1)](exception_port_tool.md),
-[exception_port_tool(1)](on_demand_service_tool.md)
+[on_demand_service_tool(1)](on_demand_service_tool.md)
 
 ## Resources
 
