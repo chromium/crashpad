@@ -28,7 +28,7 @@ other projects, Crashpad uses
 [mini_chromium](https://chromium.googlesource.com/chromium/mini_chromium/), a
 small, self-contained library that provides many of Chromium’s useful low-level
 base routines. [mini_chromium’s
-README](https://chromium.googlesource.com/chromium/mini_chromium/+/master/README)
+README](https://chromium.googlesource.com/chromium/mini_chromium/+/master/README.md)
 provides more detail.
 
 ## Prerequisites
