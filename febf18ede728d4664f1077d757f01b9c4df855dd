@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b05834c_d60c545b",
+        "filename": "doc/appengine/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-04T19:47:46Z",
+      "side": 1,
+      "message": "Did you mean to move this filter after the redirects?",
+      "revId": "febf18ede728d4664f1077d757f01b9c4df855dd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b05834c_96ebec36",
+        "filename": "navbar.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-04T19:47:46Z",
+      "side": 1,
+      "message": "Does this have to be in the root, rather than in doc/ somewhere? (I couldn\u0027t tell where it\u0027s used.)",
+      "revId": "febf18ede728d4664f1077d757f01b9c4df855dd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
