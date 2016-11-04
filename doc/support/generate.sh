@@ -29,31 +29,44 @@ cd "$(dirname "${0}")/../.."
 source doc/support/compat.sh
 
 doc/support/generate_doxygen.sh
-doc/support/generate_asciidoc.sh
 
 output_dir=doc/generated
 maybe_mkdir "${output_dir}"
 
-for subdir in doc doxygen man ; do
-  output_subdir="${output_dir}/${subdir}"
-  maybe_mkdir "${output_subdir}"
-  rsync -Ilr --delete --exclude .git "out/doc/${subdir}/html/" \
-      "${output_subdir}/"
-done
+maybe_mkdir "${output_dir}/doxygen"
+rsync -Ilr --delete --exclude .git "out/doc/doxygen/html/" \
+    "${output_dir}/doxygen"
 
-# Move doc/index.html to index.html, adjusting relative paths to other files in
-# doc.
-base_url=https://crashpad.chromium.org/
-${sed_ext} -e 's%<a href="([^/]+)\.html">%<a href="doc/\1.html">%g' \
-    -e 's%<a href="'"${base_url}"'">%<a href="index.html">%g' \
-    -e 's%<a href="'"${base_url}"'%<a href="%g' \
-    < "${output_dir}/doc/index.html" > "${output_dir}/index.html"
-rm "${output_dir}/doc/index.html"
+# Remove old things that used to be present
+rm -rf "${output_dir}/doc"
+rm -rf "${output_dir}/man"
+rm -f "${output_dir}/index.html"
 
 # Ensure a favicon exists at the root since the browser will always request it.
 cp doc/favicon.ico "${output_dir}/"
 
-# Create man/index.html
+# Create man/index.html. Do this in two steps so that the built-up list of man
+# pages can be sorted according to the basename, not the entire path.
+list_file=$(mktemp)
+for man_path in $(find . -name '*.md' |
+                  ${sed_ext} -e 's%^\./%%' |
+                  grep -Ev '^(README.md$|(third_party|doc)/)'); do
+  # These should show up in all man pages, but probably not all together in any
+  # other Markdown documents.
+  if ! (grep -q '^## Name$' "${man_path}" &&
+        grep -q '^## Synopsis$' "${man_path}" &&
+        grep -q '^## Description$' "${man_path}"); then
+    continue
+  fi
+
+  man_basename=$(${sed_ext} -e 's/\.md$//' <<< $(basename "${man_path}"))
+  cat >> "${list_file}" << __EOF__
+<!-- ${man_basename} --><a href="https://chromium.googlesource.com/crashpad/crashpad/+/master/${man_path}">${man_basename}</a>
+__EOF__
+done
+
+maybe_mkdir "${output_dir}/man"
+
 cd "${output_dir}/man"
 cat > index.html << __EOF__
 <!DOCTYPE html>
@@ -62,17 +75,16 @@ cat > index.html << __EOF__
 <ul>
 __EOF__
 
-for html_file in *.html; do
-  if [[ "${html_file}" = "index.html" ]]; then
-    continue
-  fi
-  basename=$(${sed_ext} -e 's/\.html$//' <<< "${html_file}")
+sort "${list_file}" | while read line; do
+  line=$(${sed_ext} -e 's/^<!-- .* -->//' <<< "${line}")
   cat >> index.html << __EOF__
   <li>
-    <a href="${html_file}">${basename}</a>
+${line}
   </li>
 __EOF__
 done
+
+rm -f "${list_file}"
 
 cat >> index.html << __EOF__
 </ul>

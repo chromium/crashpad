@@ -1,7 +1,7 @@
 This is the App Engine app that serves https://crashpad.chromium.org/.
 
 To work on this app, obtain the App Engine SDK for Go from
-https://cloud.google.com/appengine/downloads. Unpacking it produces a
+https://cloud.google.com/appengine/docs/go/download. Unpacking it produces a
 go_appengine directory. This may be added to your $PATH for convenience,
 although it is not necessary.
 
@@ -19,7 +19,7 @@ $ GOROOT=…/go_appengine/goroot GOPATH=…/go_appengine/gopath go get -d
 
 To test locally:
 
-$ goapp serve
+$ …/go_appengine/goapp serve
 
 Look for the “Starting module "default" running at: http://localhost:8080” line,
 which tells you the URL of the local running instance of the app.
