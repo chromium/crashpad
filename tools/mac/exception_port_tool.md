@@ -206,7 +206,7 @@ task exception port 1, mask 0x1c00 (CRASH|RESOURCE|GUARD), port 0x1403, behavior
 ## See Also
 
 [catch_exception_tool(1)](catch_exception_tool.md),
-[on_demand_service_tool(1)](on_demand_service_tool.md),
+[on_demand_service_tool(1)](on_demand_service_tool.md)
 
 ## Resources
 
