@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6b3ccff2_3ff1277b",
+        "filename": "doc/appengine/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-04T20:21:34Z",
+      "side": 1,
+      "message": "\u003e Did you mean to move this filter after the redirects?\n\nYeah, I thought I should let the redirects do their job and only protect the raw repository against dot file accesses.",
+      "parentUuid": "8b05834c_d60c545b",
+      "revId": "febf18ede728d4664f1077d757f01b9c4df855dd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b05834c_96ebec36",
         "filename": "navbar.md",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-04T19:47:46Z",
       "side": 1,
       "message": "Does this have to be in the root, rather than in doc/ somewhere? (I couldn\u0027t tell where it\u0027s used.)",
+      "revId": "febf18ede728d4664f1077d757f01b9c4df855dd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b3ccff2_ff25ff23",
+        "filename": "navbar.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1143760
+      },
+      "writtenOn": "2016-11-04T20:21:34Z",
+      "side": 1,
+      "message": "\u003e Does this have to be in the root, rather than in doc/ somewhere?\n\nUnfortunately it does.\n\n\u003e (I couldn\u0027t tell where it\u0027s used.)\n\nGitiles uses it automatically.\n\nThis will answer both halves of your question: https://gerrit.googlesource.com/gitiles/+/master/Documentation/markdown.md#Navigation-bar",
+      "parentUuid": "8b05834c_96ebec36",
       "revId": "febf18ede728d4664f1077d757f01b9c4df855dd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
