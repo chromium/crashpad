@@ -37,12 +37,41 @@ func init() {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	const (
-		baseURL    = "https://chromium.googlesource.com/crashpad/crashpad/+/doc/doc/generated/?format=TEXT"
-		bugBaseURL = "https://bugs.chromium.org/p/crashpad/"
+		baseURL             = "https://chromium.googlesource.com/crashpad/crashpad/+/"
+		masterBaseURL       = baseURL + "master/"
+		generatedDocBaseURL = baseURL + "doc/doc/generated/?format=TEXT"
+		bugBaseURL          = "https://bugs.chromium.org/p/crashpad/"
 	)
+
+	redirectMap := map[string]string{
+		"/":                                masterBaseURL + "README.md",
+		"/bug":                             bugBaseURL,
+		"/bug/":                            bugBaseURL,
+		"/bug/new":                         bugBaseURL + "issues/entry",
+		"/doc/developing.html":             masterBaseURL + "/doc/developing.md",
+		"/doc/status.html":                 masterBaseURL + "/doc/status.md",
+		"/man/catch_exception_tool.html":   masterBaseURL + "tools/mac/catch_exception_tool.md",
+		"/man/crashpad_database_util.html": masterBaseURL + "tools/crashpad_database_util.md",
+		"/man/crashpad_handler.html":       masterBaseURL + "handler/crashpad_handler.md",
+		"/man/exception_port_tool.html":    masterBaseURL + "tools/mac/exception_port_tool.md",
+		"/man/generate_dump.html":          masterBaseURL + "tools/generate_dump.md",
+		"/man/on_demand_service_tool.html": masterBaseURL + "tools/mac/on_demand_service_tool.md",
+		"/man/run_with_crashpad.html":      masterBaseURL + "tools/mac/run_with_crashpad.md",
+	}
 
 	ctx := appengine.NewContext(r)
 	client := urlfetch.Client(ctx)
+
+	destinationURL, exists := redirectMap[r.URL.Path]
+	if exists {
+		http.Redirect(w, r, destinationURL, http.StatusFound)
+		return
+	}
+
+	if strings.HasPrefix(r.URL.Path, "/bug/") {
+		http.Redirect(w, r, bugBaseURL+"issues/detail?id="+r.URL.Path[5:], http.StatusFound)
+		return
+	}
 
 	// Don’t show dotfiles.
 	if strings.HasPrefix(path.Base(r.URL.Path), ".") {
@@ -50,18 +79,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.URL.Path == "/bug" || r.URL.Path == "/bug/" {
-		http.Redirect(w, r, bugBaseURL, http.StatusFound)
-		return
-	} else if r.URL.Path == "/bug/new" {
-		http.Redirect(w, r, bugBaseURL+"issues/entry", http.StatusFound)
-		return
-	} else if strings.HasPrefix(r.URL.Path, "/bug/") {
-		http.Redirect(w, r, bugBaseURL+"issues/detail?id="+r.URL.Path[5:], http.StatusFound)
-		return
-	}
-
-	u, err := url.Parse(baseURL)
+	u, err := url.Parse(generatedDocBaseURL)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
