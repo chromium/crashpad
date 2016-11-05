@@ -477,7 +477,7 @@ bool MachOImageReader::GetCrashpadInfo(
 
   mach_vm_address_t crashpad_info_address;
   const process_types::section* crashpad_info_section =
-      GetSectionByName(SEG_DATA, "__crashpad_info", &crashpad_info_address);
+      GetSectionByName(SEG_DATA, "crashpad_info", &crashpad_info_address);
   if (!crashpad_info_section) {
     return false;
   }

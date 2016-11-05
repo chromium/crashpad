@@ -25,8 +25,8 @@
 namespace crashpad {
 
 bool SendToCrashHandlerServer(const base::string16& pipe_name,
-                              const crashpad::ClientToServerMessage& message,
-                              crashpad::ServerToClientMessage* response) {
+                              const ClientToServerMessage& message,
+                              ServerToClientMessage* response) {
   // Retry CreateFile() in a loop. If the handler isn’t actively waiting in
   // ConnectNamedPipe() on a pipe instance because it’s busy doing something
   // else, CreateFile() will fail with ERROR_PIPE_BUSY. WaitNamedPipe() waits
@@ -42,7 +42,7 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
   // around the same time as its client, something external to this code must be
   // done to guarantee correct ordering. When the client starts the handler
   // itself, CrashpadClient::StartHandler() provides this synchronization.
-  for (int tries = 0;;) {
+  for (;;) {
     ScopedFileHANDLE pipe(
         CreateFile(pipe_name.c_str(),
                    GENERIC_READ | GENERIC_WRITE,
@@ -52,13 +52,12 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
                    SECURITY_SQOS_PRESENT | SECURITY_IDENTIFICATION,
                    nullptr));
     if (!pipe.is_valid()) {
-      if (++tries == 5 || GetLastError() != ERROR_PIPE_BUSY) {
+      if (GetLastError() != ERROR_PIPE_BUSY) {
         PLOG(ERROR) << "CreateFile";
         return false;
       }
 
-      if (!WaitNamedPipe(pipe_name.c_str(), 1000) &&
-          GetLastError() != ERROR_SEM_TIMEOUT) {
+      if (!WaitNamedPipe(pipe_name.c_str(), NMPWAIT_WAIT_FOREVER)) {
         PLOG(ERROR) << "WaitNamedPipe";
         return false;
       }
@@ -75,7 +74,7 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
     BOOL result = TransactNamedPipe(
         pipe.get(),
         // This is [in], but is incorrectly declared non-const.
-        const_cast<crashpad::ClientToServerMessage*>(&message),
+        const_cast<ClientToServerMessage*>(&message),
         sizeof(message),
         response,
         sizeof(*response),

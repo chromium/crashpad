@@ -22,6 +22,9 @@
 #include "client/crashpad_info.h"
 
 DWORD WINAPI Thread1(LPVOID dummy) {
+  // We set the thread priority up by one as a hacky way to signal to the other
+  // test program that this is the thread we want to dump.
+  SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_ABOVE_NORMAL);
   Sleep(INFINITE);
   return 0;
 }

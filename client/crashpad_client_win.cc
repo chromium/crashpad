@@ -22,6 +22,7 @@
 
 #include "base/atomicops.h"
 #include "base/logging.h"
+#include "base/macros.h"
 #include "base/scoped_generic.h"
 #include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
@@ -67,6 +68,19 @@ base::Lock* g_non_crash_dump_lock;
 // dump.
 ExceptionInformation g_non_crash_exception_information;
 
+enum class StartupState : int {
+  kNotReady = 0,   // This must be value 0 because it is the initial value of a
+                   // global AtomicWord.
+  kSucceeded = 1,  // The CreateProcess() for the handler succeeded.
+  kFailed = 2,     // The handler failed to start.
+};
+
+// This is a tri-state of type StartupState. It starts at 0 == kNotReady, and
+// when the handler is known to have started successfully, or failed to start
+// the value will be updated. The unhandled exception filter will not proceed
+// until one of those two cases happens.
+base::subtle::AtomicWord g_handler_startup_state;
+
 // A CRITICAL_SECTION initialized with
 // RTL_CRITICAL_SECTION_FLAG_FORCE_DEBUG_INFO to force it to be allocated with a
 // valid .DebugInfo field. The address of this critical section is given to the
@@ -74,7 +88,37 @@ ExceptionInformation g_non_crash_exception_information;
 // list, so this allows the handler to capture all of them.
 CRITICAL_SECTION g_critical_section_with_debug_info;
 
+void SetHandlerStartupState(StartupState state) {
+  DCHECK(state == StartupState::kSucceeded ||
+         state == StartupState::kFailed);
+  base::subtle::Acquire_Store(&g_handler_startup_state,
+                              static_cast<base::subtle::AtomicWord>(state));
+}
+
+StartupState BlockUntilHandlerStartedOrFailed() {
+  // Wait until we know the handler has either succeeded or failed to start.
+  base::subtle::AtomicWord startup_state;
+  while (
+      (startup_state = base::subtle::Release_Load(&g_handler_startup_state)) ==
+      static_cast<int>(StartupState::kNotReady)) {
+    Sleep(1);
+  }
+
+  return static_cast<StartupState>(startup_state);
+}
+
 LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
+  if (BlockUntilHandlerStartedOrFailed() == StartupState::kFailed) {
+    // If we know for certain that the handler has failed to start, then abort
+    // here, rather than trying to signal to a handler that will never arrive,
+    // and then sleeping unnecessarily.
+    LOG(ERROR) << "crash server failed to launch, self-terminating";
+    TerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
+    return EXCEPTION_CONTINUE_SEARCH;
+  }
+
+  // Otherwise, we know the handler startup has succeeded, and we can continue.
+
   // Tracks whether a thread has already entered UnhandledExceptionHandler.
   static base::subtle::AtomicWord have_crashed;
 
@@ -226,6 +270,7 @@ struct BackgroundHandlerStartThreadData {
       const std::string& url,
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
+      const std::wstring& ipc_pipe,
       ScopedFileHANDLE ipc_pipe_handle)
       : handler(handler),
         database(database),
@@ -233,6 +278,7 @@ struct BackgroundHandlerStartThreadData {
         url(url),
         annotations(annotations),
         arguments(arguments),
+        ipc_pipe(ipc_pipe),
         ipc_pipe_handle(std::move(ipc_pipe_handle)) {}
 
   base::FilePath handler;
@@ -241,11 +287,33 @@ struct BackgroundHandlerStartThreadData {
   std::string url;
   std::map<std::string, std::string> annotations;
   std::vector<std::string> arguments;
+  std::wstring ipc_pipe;
   ScopedFileHANDLE ipc_pipe_handle;
+};
+
+// Ensures that SetHandlerStartupState() is called on scope exit. Assumes
+// failure, and on success, SetSuccessful() should be called.
+class ScopedCallSetHandlerStartupState {
+ public:
+  ScopedCallSetHandlerStartupState() : successful_(false) {}
+
+  ~ScopedCallSetHandlerStartupState() {
+    SetHandlerStartupState(successful_ ? StartupState::kSucceeded
+                                       : StartupState::kFailed);
+  }
+
+  void SetSuccessful() { successful_ = true; }
+
+ private:
+  bool successful_;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedCallSetHandlerStartupState);
 };
 
 bool StartHandlerProcess(
     std::unique_ptr<BackgroundHandlerStartThreadData> data) {
+  ScopedCallSetHandlerStartupState scoped_startup_state_caller;
+
   std::wstring command_line;
   AppendCommandLineArgument(data->handler.value(), &command_line);
   for (const std::string& argument : data->arguments) {
@@ -393,6 +461,22 @@ bool StartHandlerProcess(
   rv = CloseHandle(process_info.hProcess);
   PLOG_IF(WARNING, !rv) << "CloseHandle process";
 
+  // It is important to close our side of the pipe here before confirming that
+  // we can communicate with the server. By doing so, the only remaining copy of
+  // the server side of the pipe belongs to the exception handler process we
+  // just spawned. Otherwise, the pipe will continue to exist indefinitely, so
+  // the connection loop will not detect that it will never be serviced.
+  data->ipc_pipe_handle.reset();
+
+  // Confirm that the server is waiting for connections before continuing.
+  ClientToServerMessage message = {};
+  message.type = ClientToServerMessage::kPing;
+  ServerToClientMessage response = {};
+  if (!SendToCrashHandlerServer(data->ipc_pipe, message, &response)) {
+    return false;
+  }
+
+  scoped_startup_state_caller.SetSuccessful();
   return true;
 }
 
@@ -414,10 +498,6 @@ void CommonInProcessInitialization() {
       &g_critical_section_with_debug_info);
 
   g_non_crash_dump_lock = new base::Lock();
-
-  // In theory we could store the previous handler but it is not clear what
-  // use we have for it.
-  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
 }
 
 }  // namespace
@@ -456,12 +536,15 @@ bool CrashpadClient::StartHandler(
 
   CommonInProcessInitialization();
 
+  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+
   auto data = new BackgroundHandlerStartThreadData(handler,
                                                    database,
                                                    metrics_dir,
                                                    url,
                                                    annotations,
                                                    arguments,
+                                                   ipc_pipe_,
                                                    std::move(ipc_pipe_handle));
 
   if (asynchronous_start) {
@@ -478,6 +561,7 @@ bool CrashpadClient::StartHandler(
                                              nullptr));
     if (!handler_start_thread_.is_valid()) {
       PLOG(ERROR) << "CreateThread";
+      SetHandlerStartupState(StartupState::kFailed);
       return false;
     }
 
@@ -524,6 +608,9 @@ bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
     return false;
   }
 
+  SetHandlerStartupState(StartupState::kSucceeded);
+  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+
   // The server returns these already duplicated to be valid in this process.
   g_signal_exception =
       IntToHandle(response.registration.request_crash_dump_event);
@@ -562,7 +649,15 @@ bool CrashpadClient::WaitForHandlerStart() {
 void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   if (g_signal_non_crash_dump == INVALID_HANDLE_VALUE ||
       g_non_crash_dump_done == INVALID_HANDLE_VALUE) {
-    LOG(ERROR) << "haven't called UseHandler()";
+    LOG(ERROR) << "not connected";
+    return;
+  }
+
+  if (BlockUntilHandlerStartedOrFailed() == StartupState::kFailed) {
+    // If we know for certain that the handler has failed to start, then abort
+    // here, as we would otherwise wait indefinitely for the
+    // g_non_crash_dump_done event that would never be signalled.
+    LOG(ERROR) << "crash server failed to launch, no dump captured";
     return;
   }
 
@@ -613,10 +708,14 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
 // static
 void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   if (g_signal_exception == INVALID_HANDLE_VALUE) {
-    LOG(ERROR) << "haven't called UseHandler(), no dump captured";
-    TerminateProcess(GetCurrentProcess(), kTerminationCodeUseHandlerNotCalled);
+    LOG(ERROR) << "not connected";
+    TerminateProcess(GetCurrentProcess(),
+                     kTerminationCodeNotConnectedToHandler);
     return;
   }
+
+  // We don't need to check for handler startup here, as
+  // UnhandledExceptionHandler() necessarily does that.
 
   UnhandledExceptionHandler(exception_pointers);
 }

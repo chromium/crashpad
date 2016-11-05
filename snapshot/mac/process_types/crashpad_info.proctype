@@ -21,7 +21,7 @@
 // snapshot/mac/process_types.cc to produce process type struct definitions and
 // accessors.
 
-// Client Mach-O images will contain a __DATA,__crashpad_info section formatted
+// Client Mach-O images will contain a __DATA,crashpad_info section formatted
 // according to this structure.
 PROCESS_TYPE_STRUCT_BEGIN(CrashpadInfo)
   PROCESS_TYPE_STRUCT_MEMBER(uint32_t, signature)
