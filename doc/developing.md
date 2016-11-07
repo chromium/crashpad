@@ -33,18 +33,18 @@ provides more detail.
 
 ## Prerequisites
 
-To develop Crashpad, the following tools are necessary, and must be
-present in the `$PATH` environment variable:
+To develop Crashpad, the following tools are necessary, and must be present in
+the `$PATH` environment variable:
 
+ * Appropriate development tools. For macOS, this is
+   [Xcode](https://developer.apple.com/xcode/) and for Windows, it’s [Visual
+   Studio](https://www.visualstudio.com/).
  * Chromium’s
    [depot_tools](https://dev.chromium.org/developers/how-tos/depottools).
  * [Git](https://git-scm.com/). This is provided by Xcode on macOS and by
    depot_tools on Windows.
  * [Python](https://www.python.org/). This is provided by the operating system
    on macOS, and by depot_tools on Windows.
- * Appropriate development tools. For macOS, this is
-   [Xcode](https://developer.apple.com/xcode/) and for Windows, it’s [Visual
-   Studio](https://www.visualstudio.com/).
 
 ## Getting the Source Code
 
@@ -300,7 +300,10 @@ Agreement](https://developers.google.com/open-source/cla/individual) or
 [Corporate Contributor License
 Agreement](https://developers.google.com/open-source/cla/corporate) as
 appropriate before any submission can be accepted, and must be listed in the
-`AUTHORS` file. Contributors may be listed in the `CONTRIBUTORS` file.
+[`AUTHORS`](https://chromium.googlesource.com/crashpad/crashpad/+/master/AUTHORS)
+file. Contributors may be listed in the
+[`CONTRIBUTORS`](https://chromium.googlesource.com/crashpad/crashpad/+/master/CONTRIBUTORS)
+file.
 
 ## Buildbot
 
