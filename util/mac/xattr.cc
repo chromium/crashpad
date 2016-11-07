@@ -117,8 +117,8 @@ bool WriteXattrInt(const base::FilePath& file,
 XattrStatus ReadXattrTimeT(const base::FilePath& file,
                            const base::StringPiece& name,
                            time_t* value) {
-  // time_t on OS X is defined as a long, but it will be read into an
-  // int64_t here, since there is no string conversion method for long.
+  // time_t on macOS is defined as a long, but it will be read into an int64_t
+  // here, since there is no string conversion method for long.
   std::string tmp;
   XattrStatus status;
   if ((status = ReadXattr(file, name, &tmp)) != XattrStatus::kOK)

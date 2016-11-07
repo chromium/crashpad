@@ -34,7 +34,7 @@ class ProcessReader;
 namespace internal {
 
 //! \brief An ExceptionSnapshot of an exception sustained by a running (or
-//!     crashed) process on a Mac OS X system.
+//!     crashed) process on a macOS system.
 class ExceptionSnapshotMac final : public ExceptionSnapshot {
  public:
   ExceptionSnapshotMac();

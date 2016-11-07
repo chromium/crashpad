@@ -147,7 +147,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
 
   // mach_msg_server() and mach_msg_server_once() would consider whether
   // |options| contains MACH_SEND_TRAILER and include MAX_TRAILER_SIZE in this
-  // computation if it does, but that option is ineffective on OS X.
+  // computation if it does, but that option is ineffective on macOS.
   const mach_msg_size_t reply_size = interface->MachMessageServerReplySize();
   DCHECK_GE(reply_size, sizeof(mach_msg_empty_send_t));
   const mach_msg_size_t reply_alloc = round_page(reply_size);

@@ -27,7 +27,7 @@ namespace crashpad {
 namespace internal {
 
 //! \brief A MemorySnapshot of a memory region in a process on the running
-//!     system, when the system runs Mac OS X.
+//!     system, when the system runs macOS.
 class MemorySnapshotMac final : public MemorySnapshot {
  public:
   MemorySnapshotMac();

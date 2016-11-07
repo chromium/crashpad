@@ -27,9 +27,9 @@ namespace crashpad {
 //! \{
 //! \brief Wraps the `<launch.h>` function of the same name.
 //!
-//! The Mac OS X 10.10 SDK deprecates `<launch.h>`, although the functionality
-//! it provides is still useful. These wrappers allow the deprecated functions
-//! to be called without triggering deprecated-declaration warnings.
+//! The OS X 10.10 SDK deprecates `<launch.h>`, although the functionality it
+//! provides is still useful. These wrappers allow the deprecated functions to
+//! be called without triggering deprecated-declaration warnings.
 
 inline launch_data_t LaunchDataAlloc(launch_data_type_t type) {
   return launch_data_alloc(type);

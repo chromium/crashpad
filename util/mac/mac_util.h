@@ -21,8 +21,8 @@ namespace crashpad {
 
 //! \brief Returns the version of the running operating system.
 //!
-//! \return The minor version of the operating system, such as `9` for Mac OS X
-//!     10.9.2.
+//! \return The minor version of the operating system, such as `12` for macOS
+//!     10.12.1.
 //!
 //! \note This is similar to the base::mac::IsOS*() family of functions, but
 //!     is provided for situations where the caller needs to obtain version
@@ -35,17 +35,17 @@ int MacOSXMinorVersion();
 //! All parameters are required. No parameter may be `nullptr`.
 //!
 //! \param[out] major The major version of the operating system, such as `10`
-//!     for Mac OS X 10.9.2.
-//! \param[out] minor The major version of the operating system, such as `9` for
-//!     Mac OS X 10.9.2.
-//! \param[out] bugfix The bugfix version of the operating system, such as `2`
-//!     for Mac OS X 10.9.2.
-//! \param[out] build The operating system’s build string, such as "13C64" for
-//!     Mac OS X 10.9.2.
-//! \param[out] server `true` for a Mac OS X Server installation, `false`
-//!     otherwise (for a desktop/laptop, client, or workstation system).
+//!     for macOS 10.12.1.
+//! \param[out] minor The major version of the operating system, such as `12`
+//!     for macOS 10.12.1.
+//! \param[out] bugfix The bugfix version of the operating system, such as `1`
+//!     for macOS 10.12.1.
+//! \param[out] build The operating system’s build string, such as `"16B2657"`
+//!     for macOS 10.12.1.
+//! \param[out] server `true` for a macOS Server installation, `false` otherwise
+//!     (for a desktop/laptop, client, or workstation system).
 //! \param[out] version_string A string representing the full operating system
-//!     version, such as `"Mac OS X 10.9.2 (13C64)"`.
+//!     version, such as `"macOS 10.12.1 (16B2657)"`.
 //!
 //! \return `true` on success, `false` on failure, with an error message logged.
 //!     A failure is considered to have occurred if any element could not be

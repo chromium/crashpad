@@ -209,7 +209,7 @@ enum MinidumpOS : uint32_t {
 
   kMinidumpOSUnix = 0x8000,
 
-  //! \brief Mac OS X, Darwin for traditional systems.
+  //! \brief macOS, Darwin for traditional systems.
   kMinidumpOSMacOSX = 0x8101,
 
   //! \brief iOS, Darwin for mobile devices.

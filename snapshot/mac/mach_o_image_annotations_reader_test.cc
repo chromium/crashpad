@@ -199,8 +199,8 @@ class TestMachOImageAnnotationsReader final
         for (const std::string& annotation : all_annotations_vector) {
           // Look for the expectation as a leading susbtring, because the actual
           // string that dyld uses will have the contents of the
-          // DYLD_INSERT_LIBRARIES environment variable appended to it on Mac
-          // OS X 10.10.
+          // DYLD_INSERT_LIBRARIES environment variable appended to it on OS X
+          // 10.10.
           if (annotation.substr(0, expected_annotation.length()) ==
                   expected_annotation) {
             found = true;
@@ -217,8 +217,8 @@ class TestMachOImageAnnotationsReader final
         bool found = false;
         for (const std::string& annotation : all_annotations_vector) {
           // Look for the expectation as a leading substring, because the actual
-          // string will contain the library’s pathname and, on Mac OS X 10.9
-          // and later, a reason.
+          // string will contain the library’s pathname and, on OS X 10.9 and
+          // later, a reason.
           if (annotation.substr(0, expected_annotation_length) ==
                   kExpectedAnnotation) {
             found = true;
