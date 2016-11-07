@@ -32,21 +32,22 @@ bool SplitStringFirst(const std::string& string,
   return true;
 }
 
-std::vector<std::string> SplitString(const std::string& str, char delimiter) {
+std::vector<std::string> SplitString(const std::string& string,
+                                     char delimiter) {
   std::vector<std::string> result;
-  if (str.empty())
+  if (string.empty())
     return result;
 
   size_t start = 0;
   while (start != std::string::npos) {
-    size_t end = str.find_first_of(delimiter, start);
+    size_t end = string.find_first_of(delimiter, start);
 
     std::string part;
     if (end == std::string::npos) {
-      part = str.substr(start);
+      part = string.substr(start);
       start = std::string::npos;
     } else {
-      part = str.substr(start, end - start);
+      part = string.substr(start, end - start);
       start = end + 1;
     }
 

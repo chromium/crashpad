@@ -35,9 +35,9 @@ namespace crashpad {
 //! Initialize() methods. The chief advantage of InitializationStateDcheck over
 //! having a member variable to track state is that when the only use of the
 //! variable is to DCHECK, it wastes space (in memory and executable code) in
-//! non-DCHECK builds unless the code is also peppered with ugly #ifdefs.
+//! non-DCHECK builds unless the code is also peppered with ugly `#%ifdef`s.
 //!
-//! This implementation concentrates the ugly #ifdefs in one location.
+//! This implementation concentrates the ugly `#%ifdef`s in one location.
 //!
 //! Usage:
 //!

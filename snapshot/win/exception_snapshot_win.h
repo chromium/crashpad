@@ -53,9 +53,9 @@ class ExceptionSnapshotWin final : public ExceptionSnapshot {
   //! \param[in] process_reader A ProcessReader for the process that sustained
   //!     the exception.
   //! \param[in] thread_id The thread ID in which the exception occurred.
-  //! \param[in] exception_pointers_address The address of an
-  //!     `EXCEPTION_POINTERS` record in the target process, passed through from
-  //!     the exception handler.
+  //! \param[in] exception_pointers The address of an `EXCEPTION_POINTERS`
+  //!     record in the target process, passed through from the exception
+  //!     handler.
   //!
   //! \note If the exception was triggered by
   //!     CrashpadClient::DumpAndCrashTargetProcess(), this has the side-effect
