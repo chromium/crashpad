@@ -104,7 +104,7 @@ class SystemSnapshot {
   virtual std::string CPUVendor() const = 0;
 
   //! \brief Returns frequency information about the snapshot system’s CPUs in
-  //!     \current_hz and \a max_hz.
+  //!     \a current_hz and \a max_hz.
   //!
   //! \param[out] current_hz The snapshot system’s CPU clock frequency in Hz at
   //!     the time of the snapshot.
@@ -247,8 +247,9 @@ class SystemSnapshot {
   //! \brief Returns time zone information from the snapshot system, based on
   //!     its locale configuration and real-time clock.
   //!
-  //! \param[out] dst_status Whether the location observes daylight saving time,
-  //!     and if so, whether it or standard time is currently being observed.
+  //! \param[out] observes_daylight Whether the location observes daylight
+  //!     saving time, and if so, whether it or standard time is currently being
+  //!     observed.
   //! \param[out] standard_offset_seconds The number of seconds that the
   //!     location’s time zone is east (ahead) of UTC during standard time.
   //! \param[out] daylight_offset_seconds The number of seconds that the

@@ -125,11 +125,12 @@ class MinidumpModuleCrashpadInfoListWriter final
   //! \brief Adds a MinidumpModuleCrashpadInfo to the
   //!     MinidumpModuleCrashpadInfoList.
   //!
-  //! \param[in] module Extended Crashpad-specific information about the module.
-  //!     This object takes ownership of \a module and becomes its parent in the
-  //!     overall tree of internal::MinidumpWritable objects.
-  //! \param[in] module_list_index The index of the MINIDUMP_MODULE in the
-  //!     minidump file’s MINIDUMP_MODULE_LIST stream that corresponds to \a
+  //! \param[in] module_crashpad_info Extended Crashpad-specific information
+  //!     about the module. This object takes ownership of \a
+  //!     module_crashpad_info and becomes its parent in the overall tree of
+  //!     internal::MinidumpWritable objects.
+  //! \param[in] minidump_module_list_index The index of the MINIDUMP_MODULE in
+  //!     the minidump file’s MINIDUMP_MODULE_LIST stream that corresponds to \a
   //!     module_crashpad_info.
   //!
   //! \note Valid in #kStateMutable.

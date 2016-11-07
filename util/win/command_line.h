@@ -29,7 +29,7 @@ namespace crashpad {
 //! non-empty, a space will precede \a argument.
 //!
 //! \param[in] argument The argument to append to \a command_line.
-//! \param[inout] command_line The command line being constructed.
+//! \param[in,out] command_line The command line being constructed.
 void AppendCommandLineArgument(const std::wstring& argument,
                                std::wstring* command_line);
 
