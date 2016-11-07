@@ -24,7 +24,7 @@ limitations under the License.
  * [Developing Crashpad](doc/developing.md): instructions for getting the source
    code, building, testing, and contributing to the project.
  * [Crashpad interface documentation](https://crashpad.chromium.org/doxygen/)
- * [Crashpad tool man pages](https://crashpad.chromium.org/man/)
+ * [Crashpad tool man pages](doc/man.md)
 
 ## Source Code
 
