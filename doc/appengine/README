@@ -28,7 +28,7 @@ To deploy:
 
 $ version=$(git rev-parse --short=12 HEAD)
 $ [[ -n "$(git status --porcelain)" ]] && version+=-dirty
-$ goapp deploy -version "${version}"
+$ …/go_appengine/goapp deploy -version "${version}"
 
 Note that app.yaml does not name a “version” to encourage you to use a git hash
 as the version, as above.

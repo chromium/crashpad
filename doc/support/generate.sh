@@ -37,10 +37,5 @@ maybe_mkdir "${output_dir}/doxygen"
 rsync -Ilr --delete --exclude .git "out/doc/doxygen/html/" \
     "${output_dir}/doxygen"
 
-# Remove old things that used to be present
-rm -rf "${output_dir}/doc"
-rm -rf "${output_dir}/man"
-rm -f "${output_dir}/index.html"
-
 # Ensure a favicon exists at the root since the browser will always request it.
 cp doc/favicon.ico "${output_dir}/"

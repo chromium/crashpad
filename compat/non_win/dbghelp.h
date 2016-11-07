@@ -423,8 +423,8 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //! the original exception code will appear instead. The exception type as it
   //! was received will appear at index 0 of #ExceptionInformation.
   //!
-  //! For Windows minidumps, this will be an \ref EXCEPTION_x "EXCEPTION_*"
-  //! exception type, such as `EXCEPTION_ACCESS_VIOLATION`.
+  //! For Windows minidumps, this will be an `EXCEPTION_*` exception type, such
+  //! as `EXCEPTION_ACCESS_VIOLATION`.
   //!
   //! \note This field is named ExceptionCode, but what is known as the
   //!     “exception code” on Mac OS X/Mach is actually stored in the

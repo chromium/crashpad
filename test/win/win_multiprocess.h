@@ -71,7 +71,7 @@ class WinMultiprocess {
   //!
   //! The default expected termination code is `EXIT_SUCCESS` (`0`).
   //!
-  //! \param[in] code The expected exit status of the child.
+  //! \param[in] exit_code The expected exit status of the child.
   void SetExpectedChildExitCode(unsigned int exit_code);
 
   //! \brief Returns the read pipe's file handle.

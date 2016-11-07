@@ -111,7 +111,7 @@ class DatabaseSizePruneCondition final : public PruneCondition {
   DISALLOW_COPY_AND_ASSIGN(DatabaseSizePruneCondition);
 };
 
-//! \breif A PruneCondition that conjoins two other PruneConditions.
+//! \brief A PruneCondition that conjoins two other PruneConditions.
 class BinaryPruneCondition final : public PruneCondition {
  public:
   enum Operator {

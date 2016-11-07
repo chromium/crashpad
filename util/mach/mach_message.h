@@ -53,7 +53,8 @@ enum : mach_msg_timeout_t {
 //! ClockMonotonicNanoseconds(), although this is an implementation detail.
 using MachMessageDeadline = uint64_t;
 
-//! \brief Special constants used as \ref MachMessageDeadline values.
+//! \brief Special constants used as \ref crashpad::MachMessageDeadline
+//!     "MachMessageDeadline" values.
 enum : MachMessageDeadline {
   //! \brief MachMessageWithDeadline() should not block at all in its operation.
   kMachMessageDeadlineNonblocking = 0,
@@ -98,15 +99,22 @@ MachMessageDeadline MachMessageDeadlineFromTimeout(
 //! Except as noted, the parameters and return value are identical to those of
 //! `mach_msg()`.
 //!
+//! \param[in,out] message
+//! \param[in] options
+//! \param[in] receive_size
+//! \param[in] receive_port
 //! \param[in] deadline The time by which this call should complete. If the
 //!     deadline is exceeded, this call will return `MACH_SEND_TIMED_OUT` or
 //!     `MACH_RCV_TIMED_OUT`.
+//! \param[in] notify_port
 //! \param[in] run_even_if_expired If `true`, a deadline that is expired when
 //!     this function is called will be treated as though a deadline of
 //!     #kMachMessageDeadlineNonblocking had been specified. When `false`, an
 //!     expired deadline will result in a `MACH_SEND_TIMED_OUT` or
 //!     `MACH_RCV_TIMED_OUT` return value, even if the deadline is already
 //!     expired when the function is called.
+//!
+//! \return The return value of `mach_msg()`
 mach_msg_return_t MachMessageWithDeadline(mach_msg_header_t* message,
                                           mach_msg_option_t options,
                                           mach_msg_size_t receive_size,
@@ -134,9 +142,9 @@ void PrepareMIGReplyFromRequest(const mach_msg_header_t* in_header,
 
 //! \brief Sets the error code in a reply message for a MIG server routine.
 //!
-//! \param[inout] out_header The reply message to operate on. \a out_header will
-//!     be treated as a `mig_reply_error_t*` and its `RetCode` field will be
-//!     set. This argument is accepted as a `mach_msg_header_t*` instead of a
+//! \param[in,out] out_header The reply message to operate on. \a out_header
+//!     will be treated as a `mig_reply_error_t*` and its `RetCode` field will
+//!     be set. This argument is accepted as a `mach_msg_header_t*` instead of a
 //!     `mig_reply_error_t*` because that is the type that callers are expected
 //!     to possess in the C API.
 //! \param[in] error The error code to store in \a out_header.

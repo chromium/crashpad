@@ -32,7 +32,8 @@ bool SplitStringFirst(const std::string& string,
   return true;
 }
 
-std::vector<std::string> SplitString(const std::string& str, char delimiter) {
+std::vector<std::string> SplitString(const std::string& string,
+                                     char delimiter) {
   std::vector<std::string> result;
   if (str.empty())
     return result;
