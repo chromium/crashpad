@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['base',['base',['../structcrashpad_1_1TSimpleAddressRangeBag_1_1Entry.html#a9517f0a7dce7c266a6fc34a22a389b72',1,'crashpad::TSimpleAddressRangeBag::Entry::base()'],['../classcrashpad_1_1CheckedRange.html#a7a1eed88055c8780fce3acaf9699bb76',1,'crashpad::CheckedRange::base()'],['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a47a03bcf47a6ea7cd81a07ddf814c25c',1,'crashpad::internal::CheckedAddressRangeGeneric::Base()']]],
+  ['base',['base',['../structcrashpad_1_1TSimpleAddressRangeBag_1_1Entry.html#a9517f0a7dce7c266a6fc34a22a389b72',1,'crashpad::TSimpleAddressRangeBag::Entry::base()'],['../classcrashpad_1_1CheckedRange.html#a341469d31eeb59dcefd60c10ee3a57fe',1,'crashpad::CheckedRange::base()'],['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a4ee265f81eab405b7c7d47a819f19065',1,'crashpad::internal::CheckedAddressRangeGeneric::Base()']]],
   ['base_5faddress',['base_address',['../structcrashpad_1_1internal_1_1UserDataMinidumpStreamListEntry.html#adff7d5348d3834baecaeb8954204959d',1,'crashpad::internal::UserDataMinidumpStreamListEntry']]],
   ['baseaddress',['BaseAddress',['../structMINIDUMP__MEMORY__INFO.html#aec6438bf8c20fe45e8b31c679b6e06a6',1,'MINIDUMP_MEMORY_INFO']]],
   ['baseofimage',['BaseOfImage',['../structMINIDUMP__MODULE.html#af4b4a246ebfa54e57e4c953fb0c3dd31',1,'MINIDUMP_MODULE::BaseOfImage()'],['../structMINIDUMP__UNLOADED__MODULE.html#a57d74355789f2f6e363aafb60c53c6f4',1,'MINIDUMP_UNLOADED_MODULE::BaseOfImage()']]],

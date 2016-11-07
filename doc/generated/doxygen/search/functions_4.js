@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['data',['data',['../classcrashpad_1_1TaskMemory_1_1MappedMemory.html#a4e4c7ac1a6bd920951ef1b28b0bbe104',1,'crashpad::TaskMemory::MappedMemory']]],
+  ['data',['data',['../classcrashpad_1_1TaskMemory_1_1MappedMemory.html#a9de3d6dc298219b98770a2e0f40955a6',1,'crashpad::TaskMemory::MappedMemory']]],
   ['databasesizeprunecondition',['DatabaseSizePruneCondition',['../classcrashpad_1_1DatabaseSizePruneCondition.html#aafe25019360a9622e1c60baf8a79de25',1,'crashpad::DatabaseSizePruneCondition']]],
-  ['debugdirectoryinformation',['DebugDirectoryInformation',['../classcrashpad_1_1PEImageReader.html#a9fec9c135dfe4bf5eb89275c4bd1b121',1,'crashpad::PEImageReader']]],
-  ['debugfilename',['DebugFileName',['../classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a4150391b860ca4876627eb9843c49ee3',1,'crashpad::internal::ModuleSnapshotMac::DebugFileName()'],['../classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a4d12e0ee8bbbbd754d85f9b92b1ef189',1,'crashpad::internal::ModuleSnapshotMinidump::DebugFileName()'],['../classcrashpad_1_1ModuleSnapshot.html#a738f07c71fee2f721cae9984d15d0773',1,'crashpad::ModuleSnapshot::DebugFileName()'],['../classcrashpad_1_1test_1_1TestModuleSnapshot.html#a3435231fb34668948e23c509d022411e',1,'crashpad::test::TestModuleSnapshot::DebugFileName()'],['../classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a96e58d8ff5c8d4561350ada9dbb9f926',1,'crashpad::internal::ModuleSnapshotWin::DebugFileName()']]],
+  ['debugdirectoryinformation',['DebugDirectoryInformation',['../classcrashpad_1_1PEImageReader.html#a9c82a9323b9484d7f68343fb1ba55e87',1,'crashpad::PEImageReader']]],
+  ['debugfilename',['DebugFileName',['../classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a62bb8650ee3d30f289e70b9bd6c0bde3',1,'crashpad::internal::ModuleSnapshotMac::DebugFileName()'],['../classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#ab5640b14a706cc30ade77dd4dba6e1c7',1,'crashpad::internal::ModuleSnapshotMinidump::DebugFileName()'],['../classcrashpad_1_1ModuleSnapshot.html#aa08595e35c34bb13e456cddb4f40f698',1,'crashpad::ModuleSnapshot::DebugFileName()'],['../classcrashpad_1_1test_1_1TestModuleSnapshot.html#a718634cb14e12d27fd1e531dd292a3be',1,'crashpad::test::TestModuleSnapshot::DebugFileName()'],['../classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#ae819d7011878cb9aed89cd1b693cc721',1,'crashpad::internal::ModuleSnapshotWin::DebugFileName()']]],
   ['decrementthreadsuspendcounts',['DecrementThreadSuspendCounts',['../classcrashpad_1_1ProcessReaderWin.html#a7e381af0ba9565d55d2bc6b58d0c55bc',1,'crashpad::ProcessReaderWin']]],
   ['deletereport',['DeleteReport',['../classcrashpad_1_1CrashReportDatabase.html#aa8aff03198b18b5dc479c189115500c4',1,'crashpad::CrashReportDatabase']]],
-  ['didchangeprivileges',['DidChangePrivileges',['../classcrashpad_1_1ProcessInfo.html#ab7f50561d59d937a83baa6459b8217c5',1,'crashpad::ProcessInfo']]],
-  ['directorylistentry',['DirectoryListEntry',['../classcrashpad_1_1internal_1_1MinidumpStreamWriter.html#a2c36492670110f546faaddd9e49d4344',1,'crashpad::internal::MinidumpStreamWriter']]],
+  ['didchangeprivileges',['DidChangePrivileges',['../classcrashpad_1_1ProcessInfo.html#a38a40f720591eb2117a260b5faad78c9',1,'crashpad::ProcessInfo']]],
+  ['directorylistentry',['DirectoryListEntry',['../classcrashpad_1_1internal_1_1MinidumpStreamWriter.html#a3d2658a99963fa9083c07dc2ddc72845',1,'crashpad::internal::MinidumpStreamWriter']]],
   ['disarm',['Disarm',['../classcrashpad_1_1CrashReportDatabase_1_1CallErrorWritingCrashReport.html#a9d3302ce22e025f2d2ecde208ce924bb',1,'crashpad::CrashReportDatabase::CallErrorWritingCrashReport::Disarm()'],['../classcrashpad_1_1ScopedForbidReturn.html#a5b5c04a646632f369c40d3e8f6d14ddd',1,'crashpad::ScopedForbidReturn::Disarm()']]],
   ['domachnotifydeadname',['DoMachNotifyDeadName',['../classcrashpad_1_1NotifyServer_1_1Interface.html#a14dd1d58279338be03f2d8bcb4cec552',1,'crashpad::NotifyServer::Interface::DoMachNotifyDeadName()'],['../classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a0373d989a72ee8c37ab4977f8ffb836a',1,'crashpad::NotifyServer::DefaultInterface::DoMachNotifyDeadName()']]],
   ['domachnotifynosenders',['DoMachNotifyNoSenders',['../classcrashpad_1_1NotifyServer_1_1Interface.html#a9818bb1f746ab470b06daffa53f4a3f6',1,'crashpad::NotifyServer::Interface::DoMachNotifyNoSenders()'],['../classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#aed9cb9e85f275edd5ee72eca34888188',1,'crashpad::NotifyServer::DefaultInterface::DoMachNotifyNoSenders()']]],
@@ -18,8 +18,8 @@ var searchData=
   ['doworknow',['DoWorkNow',['../classcrashpad_1_1WorkerThread.html#af30d5046ff7606f8d6b3fc5bf61143e0',1,'crashpad::WorkerThread']]],
   ['dropprivileges',['DropPrivileges',['../namespacecrashpad.html#a5e5ee7c62768446ceb8fa8a76db99952',1,'crashpad']]],
   ['dumpandcrash',['DumpAndCrash',['../classcrashpad_1_1CrashpadClient.html#a87d1fa142b0bf7094fc66fef3135a64a',1,'crashpad::CrashpadClient']]],
-  ['dumpandcrashtargetprocess',['DumpAndCrashTargetProcess',['../classcrashpad_1_1CrashpadClient.html#a00540d42464336ee01307a5bdbf1826f',1,'crashpad::CrashpadClient']]],
+  ['dumpandcrashtargetprocess',['DumpAndCrashTargetProcess',['../classcrashpad_1_1CrashpadClient.html#a0b795ac1d4e01ba03e4085954249edfc',1,'crashpad::CrashpadClient']]],
   ['dumpwithoutcrash',['DumpWithoutCrash',['../classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb',1,'crashpad::CrashpadClient']]],
-  ['dylibversion',['DylibVersion',['../classcrashpad_1_1MachOImageReader.html#a63e893474b7811ff91a6c840fd31fb0c',1,'crashpad::MachOImageReader']]],
-  ['dylinkername',['DylinkerName',['../classcrashpad_1_1MachOImageReader.html#a0396c2f879aede3fd1cfdc919c366b8f',1,'crashpad::MachOImageReader']]]
+  ['dylibversion',['DylibVersion',['../classcrashpad_1_1MachOImageReader.html#a42cdb8f4d8dc4ab9b768b1219133ab2c',1,'crashpad::MachOImageReader']]],
+  ['dylinkername',['DylinkerName',['../classcrashpad_1_1MachOImageReader.html#a0d74f905f989440e4602371c3b1f148d',1,'crashpad::MachOImageReader']]]
 ];
