@@ -45,7 +45,7 @@ run with a Crashpad exception handler.
 
  * **-h**, **--handler**=_HANDLER_
 
-   Invoke 'HANDLER' as the Crashpad handler program instead of the default,
+   Invoke _HANDLER_ as the Crashpad handler program instead of the default,
    **crashpad_handler**.
 
  * **--annotation**=_KEY=VALUE_
@@ -110,11 +110,11 @@ task exception port 0, mask 0x1c00 (CRASH|RESOURCE|GUARD), port 0x30b, behavior 
 
  * **126**
 
-   The program specified by 'COMMAND' was found, but could not be invoked.
+   The program specified by _COMMAND_ was found, but could not be invoked.
 
  * **127**
 
-   The program specified by 'COMMAND' could not be found.
+   The program specified by _COMMAND_ could not be found.
 
 ## See Also
 

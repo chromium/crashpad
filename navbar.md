@@ -14,8 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-* [Home](/README.md)
-* [Developing](/doc/developing.md)
-* [Doxygen](https://crashpad.chromium.org/doxygen/)
-* [Man Pages](https://crashpad.chromium.org/man/)
-* [Source Code](https://chromium.googlesource.com/crashpad/crashpad/)
+# Crashpad
+
+ * [Home][home]
+ * [Developing](/doc/developing.md)
+ * [Interface Docs](https://crashpad.chromium.org/doxygen/)
+ * [Man Pages](https://crashpad.chromium.org/man/)
+ * [Source Code](https://chromium.googlesource.com/crashpad/crashpad/)
+
+[home]: /README.md

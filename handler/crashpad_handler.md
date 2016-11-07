@@ -66,7 +66,7 @@ allowing any upload in progress to complete.
 On Windows, this executable is built by default as a Windows GUI app, so no
 console will appear in normal usage. This is the version that will typically be
 used. A second copy is also made with a `.com` extension, rather than `.exe`. In
-this second copy, the PE header is modified to indicate that it's a console app.
+this second copy, the PE header is modified to indicate that it’s a console app.
 This is useful because the `.com` is found in the path before the `.exe`, so
 when run normally from a shell using only the basename (without an explicit
 `.com` or `.exe` extension), the `.com` console version will be chosen, and so
@@ -114,11 +114,10 @@ establish the Crashpad client environment before running a program.
    Either this option or **--mach-service**, but not both, is required. This
    option is only valid on macOS.
 
- * **--initial-client-data**=*HANDLE_request_crash_dump*,
-*HANDLE_request_non_crash_dump_*,*HANDLE_non_crash_dump_completed*,*HANDLE_first_pipe_instance*,*HANDLE_client_process*,*Address_crash_exception_information*,*Address_non_crash_exception_information*,*Address_debug_critical_section*
+ * **--initial-client-data**=*HANDLE_request_crash_dump*,*HANDLE_request_non_crash_dump*,*HANDLE_non_crash_dump_completed*,*HANDLE_first_pipe_instance*,*HANDLE_client_process*,*Address_crash_exception_information*,*Address_non_crash_exception_information*,*Address_debug_critical_section*
 
    Register the initial client using the inherited handles and data provided.
-   For more information on the arguments, see the implementations of
+   For more information on the argument’s format, see the implementations of
    `CrashpadClient` and `ExceptionHandlerServer`. Either this option or
    **--pipe-name**, but not both, is required. This option is only valid on
    Windows.
