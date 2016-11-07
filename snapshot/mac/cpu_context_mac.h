@@ -27,7 +27,7 @@ namespace internal {
 #if defined(ARCH_CPU_X86_FAMILY) || DOXYGEN
 
 //! \brief Initializes a CPUContextX86 structure from native context structures
-//!     on Mac OS X.
+//!     on macOS.
 //!
 //! \a flavor, \a state, and \a state_count may be supplied by exception
 //! handlers in order for the \a context parameter to be initialized by the
@@ -68,7 +68,7 @@ void InitializeCPUContextX86(CPUContextX86* context,
                              const x86_debug_state32_t* x86_debug_state32);
 
 //! \brief Initializes a CPUContextX86_64 structure from native context
-//!     structures on Mac OS X.
+//!     structures on macOS.
 //!
 //! \a flavor, \a state, and \a state_count may be supplied by exception
 //! handlers in order for the \a context parameter to be initialized by the

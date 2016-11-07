@@ -83,8 +83,8 @@ TEST(ProcessTypes, DyldImagesSelf) {
             dyld_info.all_image_info_addr);
   EXPECT_GT(dyld_info.all_image_info_size, 1u);
 
-  // This field is only present in the Mac OS X 10.7 SDK (at build time) and
-  // kernel (at run time).
+  // This field is only present in the OS X 10.7 SDK (at build time) and kernel
+  // (at run time).
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
   if (MacOSXMinorVersion() >= 7) {
 #if !defined(ARCH_CPU_64_BITS)

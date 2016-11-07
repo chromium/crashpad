@@ -228,7 +228,7 @@ uint32_t SystemSnapshotMac::CPUX86Leaf7Features() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
 #if defined(ARCH_CPU_X86_FAMILY)
-  // The machdep.cpu.leaf7_feature_bits sysctl isn’t supported prior to Mac OS X
+  // The machdep.cpu.leaf7_feature_bits sysctl isn’t supported prior to OS X
   // 10.7, so read this by calling cpuid directly.
   //
   // machdep.cpu.max_basic could be used to check whether to read the leaf, but

@@ -321,9 +321,9 @@ class TestMachMessageServer : public MachMessageServer::Interface,
 
     kern_return_t kr;
     if (options_.child_send_all_requests_before_receiving_any_replies) {
-      // On Mac OS X 10.10, the queue limit of a new Mach port seems to be 2
-      // by default, which is below the value of MACH_PORT_QLIMIT_DEFAULT. Set
-      // the port’s queue limit explicitly here.
+      // On OS X 10.10, the queue limit of a new Mach port seems to be 2 by
+      // default, which is below the value of MACH_PORT_QLIMIT_DEFAULT. Set the
+      // port’s queue limit explicitly here.
       mach_port_limits limits = {};
       limits.mpl_qlimit = MACH_PORT_QLIMIT_DEFAULT;
       kr = mach_port_set_attributes(mach_task_self(),

@@ -43,7 +43,7 @@ PROCESS_TYPE_STRUCT_BEGIN(crashreporter_annotations_t)
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, version)  // unsigned long
   PROCESS_TYPE_STRUCT_VERSIONED(crashreporter_annotations_t, version)
 
-  // Version 4 (Mac OS X 10.7)
+  // Version 4 (OS X 10.7)
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, message)  // char*
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, signature_string)  // char*
   PROCESS_TYPE_STRUCT_MEMBER(uint64_t, backtrace)  // char*

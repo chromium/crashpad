@@ -89,12 +89,12 @@ class Metrics {
 
     //! \brief Unexpected exception behavior.
     //!
-    //! This value is only used on Mac OS X.
+    //! This value is only used on macOS.
     kUnexpectedExceptionBehavior = 1,
 
     //! \brief Failed due to attempt to suspend self.
     //!
-    //! This value is only used on Mac OS X.
+    //! This value is only used on macOS.
     kFailedDueToSuspendSelf = 2,
 
     //! \brief The process snapshot could not be captured.
