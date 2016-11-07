@@ -68,8 +68,8 @@ std::string BuildString(const SystemSnapshot* system_snapshot) {
 #if defined(OS_MACOSX)
 // Converts the value of the MAC_OS_VERSION_MIN_REQUIRED or
 // MAC_OS_X_VERSION_MAX_ALLOWED macro from <AvailabilityMacros.h> to a number
-// identifying the minor Mac OS X version that it represents. For example, with
-// an argument of MAC_OS_X_VERSION_10_6, this function will return 6.
+// identifying the minor macOS version that it represents. For example, with an
+// argument of MAC_OS_X_VERSION_10_6, this function will return 6.
 int AvailabilityVersionToMacOSXMinorVersion(int availability) {
   // Through MAC_OS_X_VERSION_10_9, the minor version is the tens digit.
   if (availability >= 1000 && availability <= 1099) {

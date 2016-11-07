@@ -28,8 +28,8 @@ namespace crashpad {
 //!
 //! Unlike the BSD function, this function may not close file descriptors
 //! immediately, but may instead mark them as close-on-exec. The actual behavior
-//! chosen is specific to the operating system. On Mac OS X, file descriptors
-//! are marked close-on-exec instead of being closed outright in order to avoid
+//! chosen is specific to the operating system. On macOS, file descriptors are
+//! marked close-on-exec instead of being closed outright in order to avoid
 //! raising `EXC_GUARD` exceptions for guarded file descriptors that are
 //! protected against `close()`.
 //!

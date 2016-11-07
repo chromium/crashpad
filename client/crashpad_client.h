@@ -44,11 +44,11 @@ class CrashpadClient {
   //! \brief Starts a Crashpad handler process, performing any necessary
   //!     handshake to configure it.
   //!
-  //! This method directs crashes to the Crashpad handler. On Mac OS X, this
-  //! is applicable to this process and all child processes. On Windows, child
-  //! processes must also register by using SetHandlerIPCPipe().
+  //! This method directs crashes to the Crashpad handler. On macOS, this is
+  //! applicable to this process and all subsequent child processes. On Windows,
+  //! child processes must also register by using SetHandlerIPCPipe().
   //!
-  //! On Mac OS X, this method starts a Crashpad handler and obtains a Mach send
+  //! On macOS, this method starts a Crashpad handler and obtains a Mach send
   //! right corresponding to a receive right held by the handler process. The
   //! handler process runs an exception server on this port. This method sets
   //! the task’s exception port for `EXC_CRASH`, `EXC_RESOURCE`, and `EXC_GUARD`
@@ -56,8 +56,8 @@ class CrashpadClient {
   //! with behavior `EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES` and thread
   //! state flavor `MACHINE_THREAD_STATE`. Exception ports are inherited, so a
   //! Crashpad handler started here will remain the handler for any child
-  //! processes created after StartHandler() is called. Child processes do not
-  //! need to call StartHandler() or be aware of Crashpad in any way. The
+  //! processes created after StartHandler() is called. These child processes do
+  //! not need to call StartHandler() or be aware of Crashpad in any way. The
   //! Crashpad handler will receive crashes from child processes that have
   //! inherited it as their exception handler even after the process that called
   //! StartHandler() exits.
@@ -109,7 +109,7 @@ class CrashpadClient {
   //! \brief Sets the process’ crash handler to a Mach service registered with
   //!     the bootstrap server.
   //!
-  //! This method is only defined on OS X.
+  //! This method is only defined on macOS.
   //!
   //! See StartHandler() for more detail on how the port and handler are
   //! configured.
@@ -122,7 +122,7 @@ class CrashpadClient {
 
   //! \brief Sets the process’ crash handler to a Mach port.
   //!
-  //! This method is only defined on OS X.
+  //! This method is only defined on macOS.
   //!
   //! See StartHandler() for more detail on how the port and handler are
   //! configured.
@@ -234,7 +234,7 @@ class CrashpadClient {
   //! \brief Configures the process to direct its crashes to the default handler
   //!     for the operating system.
   //!
-  //! On OS X, this sets the task’s exception port as in SetHandlerMachPort(),
+  //! On macOS, this sets the task’s exception port as in SetHandlerMachPort(),
   //! but the exception handler used is obtained from
   //! SystemCrashReporterHandler(). If the system’s crash reporter handler
   //! cannot be determined or set, the task’s exception ports for crash-type

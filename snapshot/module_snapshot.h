@@ -82,8 +82,8 @@ class ModuleSnapshot {
     //! \brief The module is a dynamic loader.
     //!
     //! This is the module responsible for loading other modules. This is
-    //! normally `dyld` for Mac OS X and `ld.so` for Linux and other systems
-    //! using ELF.
+    //! normally `dyld` for macOS and `ld.so` for Linux and other systems using
+    //! ELF.
     kModuleTypeDynamicLoader,
   };
 
@@ -97,7 +97,7 @@ class ModuleSnapshot {
   //! \brief Returns the size that the module occupies in the snapshot process’
   //!     address space, starting at its base address.
   //!
-  //! For Mac OS X snapshots, this method only reports the size of the `__TEXT`
+  //! For macOS snapshots, this method only reports the size of the `__TEXT`
   //! segment, because segments may not be loaded contiguously.
   virtual uint64_t Size() const = 0;
 
@@ -113,7 +113,7 @@ class ModuleSnapshot {
   //! If no file version can be determined, the \a version_* parameters are set
   //! to `0`.
   //!
-  //! For Mac OS X snapshots, this is taken from the module’s `LC_ID_DYLIB` load
+  //! For macOS snapshots, this is taken from the module’s `LC_ID_DYLIB` load
   //! command for shared libraries, and is `0` for other module types.
   virtual void FileVersion(uint16_t* version_0,
                            uint16_t* version_1,
@@ -125,8 +125,8 @@ class ModuleSnapshot {
   //! If no source version can be determined, the \a version_* parameters are
   //! set to `0`.
   //!
-  //! For Mac OS X snapshots, this is taken from the module’s
-  //! `LC_SOURCE_VERSION` load command.
+  //! For macOS snapshots, this is taken from the module’s `LC_SOURCE_VERSION`
+  //! load command.
   virtual void SourceVersion(uint16_t* version_0,
                              uint16_t* version_1,
                              uint16_t* version_2,
@@ -164,7 +164,7 @@ class ModuleSnapshot {
   //! are intended for diagnostic use, including crash analysis. A module may
   //! contain multiple annotations, so they are returned in a vector.
   //!
-  //! For Mac OS X snapshots, these annotations are found by interpreting the
+  //! For macOS snapshots, these annotations are found by interpreting the
   //! module’s `__DATA,__crash_info` section as `crashreporter_annotations_t`.
   //! System libraries using the crash reporter client interface may reference
   //! annotations in this structure. Additional annotations messages may be
@@ -183,7 +183,7 @@ class ModuleSnapshot {
   //! keys and values are strings. These are referred to in Chrome as “crash
   //! keys.”
   //!
-  //! For Mac OS X snapshots, these annotations are found by interpreting the
+  //! For macOS snapshots, these annotations are found by interpreting the
   //! `__DATA,crashpad_info` section as `CrashpadInfo`. Clients can use the
   //! Crashpad client interface to store annotations in this structure. Most
   //! annotations under the client’s direct control will be retrievable by this

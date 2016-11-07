@@ -46,8 +46,8 @@
 
 namespace crashpad {
 
-//! \brief A ProcessSnapshot of a running (or crashed) process running on a Mac
-//!     OS X system.
+//! \brief A ProcessSnapshot of a running (or crashed) process running on a
+//!     macOS system.
 class ProcessSnapshotMac final : public ProcessSnapshot {
  public:
   ProcessSnapshotMac();
@@ -83,21 +83,21 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
 
   //! \brief Sets the value to be returned by ReportID().
   //!
-  //! On Mac OS X, the crash report ID is under the control of the snapshot
+  //! On macOS, the crash report ID is under the control of the snapshot
   //! producer, which may call this method to set the report ID. If this is not
   //! done, ReportID() will return an identifier consisting entirely of zeroes.
   void SetReportID(const UUID& report_id) { report_id_ = report_id; }
 
   //! \brief Sets the value to be returned by ClientID().
   //!
-  //! On Mac OS X, the client ID is under the control of the snapshot producer,
+  //! On macOS, the client ID is under the control of the snapshot producer,
   //! which may call this method to set the client ID. If this is not done,
   //! ClientID() will return an identifier consisting entirely of zeroes.
   void SetClientID(const UUID& client_id) { client_id_ = client_id; }
 
   //! \brief Sets the value to be returned by AnnotationsSimpleMap().
   //!
-  //! On Mac OS X, all process annotations are under the control of the snapshot
+  //! On macOS, all process annotations are under the control of the snapshot
   //! producer, which may call this method to establish these annotations.
   //! Contrast this with module annotations, which are under the control of the
   //! process being snapshotted.

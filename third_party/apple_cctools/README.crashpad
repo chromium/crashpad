@@ -13,11 +13,11 @@ like ar, as, nm, strings, and strip, and platform-specific tools like lipo and
 otool. It also contains support libraries such as libmacho, which contains
 interfaces for dealing with Mach-O images.
 
-libmacho is available on Mac OS X as a runtime library that is part of
-libSystem, but versions of libmacho included in operating system versions prior
-to Mac OS X 10.7 did not include the getsectiondata() and getsegmentdata()
-functions. This library is present here to provide implementations of these
-functions for systems that do not have them.
+libmacho is available on macOS as a runtime library that is part of libSystem,
+but versions of libmacho included in operating system versions prior to Mac OS X
+10.7 did not include the getsectiondata() and getsegmentdata() functions. This
+library is present here to provide implementations of these functions for
+systems that do not have them.
 
 Crashpad code is not expected to use this library directly. It should use the
 getsectiondata() and getsegmentdata() wrappers in compat, which will use

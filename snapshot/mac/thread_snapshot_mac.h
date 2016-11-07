@@ -33,7 +33,7 @@ class ProcessReader;
 namespace internal {
 
 //! \brief A ThreadSnapshot of a thread in a running (or crashed) process on a
-//!     Mac OS X system.
+//!     macOS system.
 class ThreadSnapshotMac final : public ThreadSnapshot {
  public:
   ThreadSnapshotMac();

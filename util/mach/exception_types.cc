@@ -29,9 +29,9 @@
 
 extern "C" {
 
-// proc_get_wakemon_params() is present in the Mac OS X 10.9 SDK, but no
-// declaration is provided. This provides a declaration and marks it for weak
-// import if the deployment target is below 10.9.
+// proc_get_wakemon_params() is present in the OS X 10.9 SDK, but no declaration
+// is provided. This provides a declaration and marks it for weak import if the
+// deployment target is below 10.9.
 int proc_get_wakemon_params(pid_t pid, int* rate_hz, int* flags)
     __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0);
 
@@ -76,8 +76,8 @@ ProcGetWakemonParamsType GetProcGetWakemonParams() {
 namespace {
 
 // Wraps proc_get_wakemon_params(), calling it if the system provides it. It’s
-// present on Mac OS X 10.9 and later. If it’s not available, sets errno to
-// ENOSYS and returns -1.
+// present on OS X 10.9 and later. If it’s not available, sets errno to ENOSYS
+// and returns -1.
 int ProcGetWakemonParams(pid_t pid, int* rate_hz, int* flags) {
 #if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_9
   // proc_get_wakemon_params() isn’t in the SDK. Look it up dynamically.
@@ -146,17 +146,17 @@ bool IsExceptionNonfatalResource(exception_type_t exception,
     // RLIMIT_CPU_USAGE_MONITOR as the second argument and CPUMON_MAKE_FATAL set
     // in the flags.
     if (MacOSXMinorVersion() >= 10) {
-      // In Mac OS X 10.10, the exception code indicates whether the exception
-      // is fatal. See 10.10 xnu-2782.1.97/osfmk/kern/thread.c
+      // In OS X 10.10, the exception code indicates whether the exception is
+      // fatal. See 10.10 xnu-2782.1.97/osfmk/kern/thread.c
       // THIS_THREAD_IS_CONSUMING_TOO_MUCH_CPU__SENDING_EXC_RESOURCE().
       return resource_flavor == FLAVOR_CPU_MONITOR;
     }
 
-    // In Mac OS X 10.9, there’s no way to determine whether the exception is
-    // fatal. Unlike RESOURCE_TYPE_WAKEUPS below, there’s no way to determine
-    // this outside the kernel. proc_rlimit_control()’s RLIMIT_CPU_USAGE_MONITOR
-    // is the only interface to modify CPUMON_MAKE_FATAL, but it’s only able to
-    // set this bit, not obtain its current value.
+    // In OS X 10.9, there’s no way to determine whether the exception is fatal.
+    // Unlike RESOURCE_TYPE_WAKEUPS below, there’s no way to determine this
+    // outside the kernel. proc_rlimit_control()’s RLIMIT_CPU_USAGE_MONITOR is
+    // the only interface to modify CPUMON_MAKE_FATAL, but it’s only able to set
+    // this bit, not obtain its current value.
     //
     // Default to assuming that these exceptions are nonfatal. They are nonfatal
     // by default and no users of proc_rlimit_control() were found on 10.9.5

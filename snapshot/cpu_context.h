@@ -133,7 +133,7 @@ struct CPUContextX86_64 {
     uint16_t fop;  // FPU opcode
     union {
       // The expression of these union members is determined by the use of
-      // fxsave/fxrstor or fxsave64/fxrstor64 (fxsaveq/fxrstorq). Mac OS X and
+      // fxsave/fxrstor or fxsave64/fxrstor64 (fxsaveq/fxrstorq). macOS and
       // Windows systems use the traditional fxsave/fxrstor structure.
       struct {
         // fxsave/fxrstor
