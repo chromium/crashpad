@@ -279,21 +279,21 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_SYSTEM_INFO {
   //!     component.
   //!
   //!  - For Windows 7 (NT 6.1) SP1, version 6.1.7601, this would be `6`.
-  //!  - For Mac OS X 10.9.2, this would be `10`.
+  //!  - For macOS 10.12.1, this would be `10`.
   uint32_t MajorVersion;
 
   //! \brief The system’s operating system version number’s second (minor)
   //!     component.
   //!
   //!  - For Windows 7 (NT 6.1) SP1, version 6.1.7601, this would be `1`.
-  //!  - For Mac OS X 10.9.2, this would be `9`.
+  //!  - For macOS 10.12.1, this would be `12`.
   uint32_t MinorVersion;
 
   //! \brief The system’s operating system version number’s third (build or
   //!     patch) component.
   //!
   //!  - For Windows 7 (NT 6.1) SP1, version 6.1.7601, this would be `7601`.
-  //!  - For Mac OS X 10.9.2, this would be `2`.
+  //!  - For macOS 10.12.1, this would be `1`.
   uint32_t BuildNumber;
 
   //! \brief The system’s operating system family. This may be a \ref
@@ -311,9 +311,9 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_SYSTEM_INFO {
   //!  - On Windows, this is the name of the installed operating system service
   //!    pack, such as “Service Pack 1”. If no service pack is installed, this
   //!    field references an empty string.
-  //!  - On Mac OS X, this is the operating system build number from `sw_vers
-  //!    -buildVersion`. For Mac OS X 10.9.2 on most hardware types, this would
-  //!    be `13C64`.
+  //!  - On macOS, this is the operating system build number from `sw_vers
+  //!    -buildVersion`. For macOS 10.12.1 on most hardware types, this would
+  //!    be `16B2657`.
   //!  - On Linux and other Unix-like systems, this is the kernel version from
   //!    `uname -srvm`, possibly with additional information appended. On
   //!    Android, the `ro.build.fingerprint` system property is appended.
@@ -417,17 +417,17 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //! \brief The top-level exception code identifying the exception, in
   //!     operating system-specific values.
   //!
-  //! For Mac OS X minidumps, this will be an \ref EXC_x "EXC_*" exception type,
+  //! For macOS minidumps, this will be an \ref EXC_x "EXC_*" exception type,
   //! such as `EXC_BAD_ACCESS`. `EXC_CRASH` will not appear here for exceptions
   //! processed as `EXC_CRASH` when generated from another preceding exception:
   //! the original exception code will appear instead. The exception type as it
   //! was received will appear at index 0 of #ExceptionInformation.
   //!
-  //! For Windows minidumps, this will be an \ref EXCEPTION_x "EXCEPTION_*"
-  //! exception type, such as `EXCEPTION_ACCESS_VIOLATION`.
+  //! For Windows minidumps, this will be an `EXCEPTION_*` exception type, such
+  //! as `EXCEPTION_ACCESS_VIOLATION`.
   //!
   //! \note This field is named ExceptionCode, but what is known as the
-  //!     “exception code” on Mac OS X/Mach is actually stored in the
+  //!     “exception code” on macOS/Mach is actually stored in the
   //!     #ExceptionFlags field of a minidump file.
   //!
   //! \todo Document the possible values by OS. There may be OS-specific enums
@@ -437,16 +437,16 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //! \brief Additional exception flags that further identify the exception, in
   //!     operating system-specific values.
   //!
-  //! For Mac OS X minidumps, this will be the value of the exception code at
-  //! index 0 as received by a Mach exception handler, except:
+  //! For macOS minidumps, this will be the value of the exception code at index
+  //! 0 as received by a Mach exception handler, except:
   //!  * For exception type `EXC_CRASH` generated from another preceding
   //!    exception, the original exception code will appear here, not the code
   //!    as received by the Mach exception handler.
   //!  * For exception types `EXC_RESOURCE` and `EXC_GUARD`, the high 32 bits of
   //!    the code received by the Mach exception handler will appear here.
   //!
-  //! In all cases for Mac OS X minidumps, the code as it was received by the
-  //! Mach exception handler will appear at index 1 of #ExceptionInformation.
+  //! In all cases for macOS minidumps, the code as it was received by the Mach
+  //! exception handler will appear at index 1 of #ExceptionInformation.
   //!
   //! For Windows minidumps, this will either be `0` if the exception is
   //! continuable, or `EXCEPTION_NONCONTINUABLE` to indicate a noncontinuable
@@ -475,12 +475,12 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //! \brief Additional information about the exception, specific to the
   //!     operating system and possibly the #ExceptionCode.
   //!
-  //! For Mac OS X minidumps, this will contain the exception type as received
-  //! by a Mach exception handler and the values of the `codes[0]` and
-  //! `codes[1]` (exception code and subcode) parameters supplied to the Mach
-  //! exception handler. Unlike #ExceptionCode and #ExceptionFlags, the values
-  //! received by a Mach exception handler are used directly here even for the
-  //! `EXC_CRASH`, `EXC_RESOURCE`, and `EXC_GUARD` exception types.
+  //! For macOS minidumps, this will contain the exception type as received by a
+  //! Mach exception handler and the values of the `codes[0]` and `codes[1]`
+  //! (exception code and subcode) parameters supplied to the Mach exception
+  //! handler. Unlike #ExceptionCode and #ExceptionFlags, the values received by
+  //! a Mach exception handler are used directly here even for the `EXC_CRASH`,
+  //! `EXC_RESOURCE`, and `EXC_GUARD` exception types.
 
   //! For Windows, these are additional arguments (if any) as provided to
   //! `RaiseException()`.
@@ -982,8 +982,9 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO {
 
   //! \brief The memory protection when the region was initially allocated. This
   //!     member can be one of the memory protection options (such as
-  //!     \ref PAGE_x PAGE_EXECUTE, \ref PAGE_x PAGE_NOACCESS, etc.), along with
-  //!     \ref PAGE_x PAGE_GUARD or \ref PAGE_x PAGE_NOCACHE, as needed.
+  //!     \ref PAGE_x "PAGE_EXECUTE", \ref PAGE_x "PAGE_NOACCESS", etc.), along
+  //!     with \ref PAGE_x "PAGE_GUARD" or \ref PAGE_x "PAGE_NOCACHE", as
+  //!     needed.
   uint32_t AllocationProtect;
 
   uint32_t __alignment1;
@@ -993,7 +994,8 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO {
   uint64_t RegionSize;
 
   //! \brief The state of the pages in the region. This can be one of
-  //!     \ref MEM_x MEM_COMMIT, \ref MEM_x MEM_FREE, or \ref MEM_x MEM_RESERVE.
+  //!     \ref MEM_x "MEM_COMMIT", \ref MEM_x "MEM_FREE", or \ref MEM_x
+  //!     "MEM_RESERVE".
   uint32_t State;
 
   //! \brief The access protection of the pages in the region. This member is
@@ -1001,7 +1003,7 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO {
   uint32_t Protect;
 
   //! \brief The type of pages in the region. This can be one of \ref MEM_x
-  //!     MEM_IMAGE, \ref MEM_x MEM_MAPPED, or \ref MEM_x MEM_PRIVATE.
+  //!     "MEM_IMAGE", \ref MEM_x "MEM_MAPPED", or \ref MEM_x "MEM_PRIVATE".
   uint32_t Type;
 
   uint32_t __alignment2;

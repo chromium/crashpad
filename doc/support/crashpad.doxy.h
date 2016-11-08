@@ -22,3 +22,13 @@
 
 //! \namespace crashpad::test
 //! \brief The testing namespace, for use in test code only.
+
+//! \mainpage Crashpad Interface Documentation
+//!
+//! Most generated interface documentation is reachable through <a
+//! href="namespaces.html">Namespaces</a>, <a href="annotated.html">Classes</a>
+//! (includes `struct`s, `union`s, and interfaces), or <a
+//! href="files.html">Files</a> (includes macros).
+//!
+//! Additional documentation is available at the <a
+//! href="https://crashpad.chromium.org/">Crashpad home page</a>.

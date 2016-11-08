@@ -21,12 +21,12 @@
 namespace crashpad {
 
 //! \brief Inserts a mapping from \a key to \a value into \a map, or replaces
-//!     an existing mapping so that \a key maps to \value.
+//!     an existing mapping so that \a key maps to \a value.
 //!
-//! This behaves similarly to `std::map<>::insert_or_assign()` proposed for
+//! This behaves similarly to `std::map<>::%insert_or_assign()` proposed for
 //! C++17, except that the \a old_value parameter is added.
 //!
-//! \param[inout] map The map to operate on.
+//! \param[in,out] map The map to operate on.
 //! \param[in] key The key that should be mapped to \a value.
 //! \param[in] value The value that \a key should map to.
 //! \param[out] old_value If \a key was previously present in \a map, this will

@@ -218,6 +218,9 @@ class ChildPortHandshake {
   //!  - Regardless of return value, destroys the server’s receive right and
   //!    closes the pipe.
   //!
+  //! \param[in] server_write_fd The write side of the pipe shared with the
+  //!     client process. This function takes ownership of this file descriptor,
+  //!     and will close it prior to returning.
   //! \param[in] port_right_type The port right type expected to be received
   //!     from the client. If the port right received from the client does not
   //!     match the expected type, the received port right will be destroyed,
@@ -253,9 +256,9 @@ class ChildPortHandshake {
   //! `simpleroutine`, and the server does not send a reply. This allows
   //! check-in to occur without blocking to wait for a reply.
   //!
-  //! \param[in] pipe_read The “read” side of the pipe shared with the server
-  //!     process. This function takes ownership of this file descriptor, and
-  //!     will close it prior to returning.
+  //! \param[in] client_read_fd The “read” side of the pipe shared with the
+  //!     server process. This function takes ownership of this file descriptor,
+  //!     and will close it prior to returning.
   //! \param[in] port The port right that will be passed to the server by
   //!     `child_port_check_in()`.
   //! \param[in] right_type The right type to furnish the server with. If \a

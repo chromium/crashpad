@@ -71,8 +71,8 @@ class CaptureMemory {
   //! unsigned) so that there's a reasonable chance that the value is a pointer.
   //!
   //! \param[in] context The context to inspect.
-  //! \param[in] process_reader A MemoryCaptureProcessReader to read from the
-  //!     target process, and that handles adding new ranges.
+  //! \param[in] delegate A Delegate that handles reading from the target
+  //!     process and adding new ranges.
   static void PointedToByContext(const CPUContext& context, Delegate* delegate);
 
   //! \brief For all pointer-like values in a memory range of the target
@@ -83,8 +83,8 @@ class CaptureMemory {
   //!     base address and size must be pointer-aligned and an integral number
   //!     of
   //!     pointers long.
-  //! \param[in] process_reader A MemoryCaptureProcessReader to read from the
-  //!     target process, and that handles adding new ranges.
+  //! \param[in] delegate A Delegate that handles reading from the target
+  //!     process and adding new ranges.
   static void PointedToByMemoryRange(const MemorySnapshot& memory,
                                      Delegate* delegate);
 

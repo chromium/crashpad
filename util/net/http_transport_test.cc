@@ -279,7 +279,7 @@ TEST(HTTPTransport, UnchunkedPlainText) {
 }
 
 void RunUpload33k(bool has_content_length) {
-  // On OS X, NSMutableURLRequest winds up calling into a CFReadStream’s Read()
+  // On macOS, NSMutableURLRequest winds up calling into a CFReadStream’s Read()
   // callback with a 32kB buffer. Make sure that it’s able to get everything
   // when enough is available to fill this buffer, requiring more than one
   // Read().

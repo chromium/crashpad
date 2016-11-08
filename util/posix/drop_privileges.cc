@@ -31,10 +31,10 @@ void DropPrivileges() {
   // is set not equal to the real ID. This code never specifies -1, so the
   // setreuid() and setregid() alone should work according to the standard.
   //
-  // In practice, on Mac OS X, setuid() and setgid() (or seteuid() and
-  // setegid()) must be called first. Otherwise, setreuid() and setregid() do
-  // not alter the saved IDs, leaving open the possibility for future privilege
-  // escalation.
+  // In practice, on older versions of macOS, setuid() and setgid() (or
+  // seteuid() and setegid()) must be called first. Otherwise, setreuid() and
+  // setregid() do not alter the saved IDs, leaving open the possibility for
+  // future privilege escalation.
   //
   // The problem exists in 10.9.5 xnu-2422.115.4/bsd/kern/kern_prot.c
   // setreuid(). Based on its comments, it purports to set the svuid to the new
@@ -45,8 +45,8 @@ void DropPrivileges() {
   // is different from the desired euid. The workaround of calling setuid() or
   // seteuid() before setreuid() works because it sets the euid so that by the
   // time setreuid() runs, the old euid is actually the value that ought to be
-  // set as the svuid. setregid() is similar. This bug is filed as radar
-  // 18987552.
+  // set as the svuid. setregid() is similar. This bug was reported as radar
+  // 18987552, fixed in 10.10.3 and security updates to 10.9.5 and 10.8.5.
   //
   // setuid() and setgid() alone will only set the saved IDs when running as
   // root. When running a setuid non-root or setgid program, they do not alter

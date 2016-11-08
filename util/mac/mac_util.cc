@@ -181,9 +181,8 @@ std::string IORegistryEntryDataPropertyAsString(io_registry_entry_t entry,
 namespace crashpad {
 
 int MacOSXMinorVersion() {
-  // The Darwin major version is always 4 greater than the Mac OS X minor
-  // version for Darwin versions beginning with 6, corresponding to Mac OS X
-  // 10.2.
+  // The Darwin major version is always 4 greater than the macOS minor version
+  // for Darwin versions beginning with 6, corresponding to Mac OS X 10.2.
   static int mac_os_x_minor_version = DarwinMajorVersion() - 4;
   DCHECK(mac_os_x_minor_version >= 2);
   return mac_os_x_minor_version;

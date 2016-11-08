@@ -41,8 +41,8 @@ class PEImageAnnotationsReader {
   //! \brief Constructs the object.
   //!
   //! \param[in] process_reader The reader for the remote process.
-  //! \param[in] image_reader The PEImageReader for the PE image file contained
-  //!     within the remote process.
+  //! \param[in] pe_image_reader The PEImageReader for the PE image file
+  //!     contained within the remote process.
   //! \param[in] name The module's name, a string to be used in logged messages.
   //!     This string is for diagnostic purposes only, and may be empty.
   PEImageAnnotationsReader(ProcessReaderWin* process_reader,

@@ -19,7 +19,6 @@ limitations under the License.
  * [Home][home]
  * [Developing](/doc/developing.md)
  * [Interface Docs](https://crashpad.chromium.org/doxygen/)
- * [Man Pages](https://crashpad.chromium.org/man/)
  * [Man Pages](/doc/man.md)
  * [Source Code](https://chromium.googlesource.com/crashpad/crashpad/)
 

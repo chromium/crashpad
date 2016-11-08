@@ -36,7 +36,7 @@ class SystemSnapshot {
     //! \brief The snapshot system’s operating system is unknown.
     kOperatingSystemUnknown = 0,
 
-    //! \brief Mac OS X.
+    //! \brief macOS.
     kOperatingSystemMacOSX,
 
     //! \brief Windows.
@@ -104,7 +104,7 @@ class SystemSnapshot {
   virtual std::string CPUVendor() const = 0;
 
   //! \brief Returns frequency information about the snapshot system’s CPUs in
-  //!     \current_hz and \a max_hz.
+  //!     \a current_hz and \a max_hz.
   //!
   //! \param[out] current_hz The snapshot system’s CPU clock frequency in Hz at
   //!     the time of the snapshot.
@@ -198,21 +198,21 @@ class SystemSnapshot {
   //!     in \a major, \a minor, \a bugfix, and \a build.
   //!
   //! \param[out] major The snapshot system’s operating system’s first (major)
-  //!     version number component. This would be `10` for Mac OS X 10.9.5, and
+  //!     version number component. This would be `10` for macOS 10.12.1, and
   //!     `6` for Windows 7 (NT 6.1) SP1 version 6.1.7601.
   //! \param[out] minor The snapshot system’s operating system’s second (minor)
-  //!     version number component. This would be `9` for Mac OS X 10.9.5, and
+  //!     version number component. This would be `12` for macOS 10.12.1, and
   //!     `1` for Windows 7 (NT 6.1) SP1 version 6.1.7601.
   //! \param[out] bugfix The snapshot system’s operating system’s third (bugfix)
-  //!     version number component. This would be `5` for Mac OS X 10.9.5, and
+  //!     version number component. This would be `1` for macOS 10.12.1, and
   //!     `7601` for Windows 7 (NT 6.1) SP1 version 6.1.7601.
   //! \param[out] build A string further identifying an operating system
-  //!     version. For Mac OS X 10.9.5, this would be `"13F34"`. For Windows,
+  //!     version. For macOS 10.12.1, this would be `"16B2657"`. For Windows,
   //!     this would be `"Service Pack 1"` if that service pack was installed.
-  //!     For Linux and other Unix-like systems, this would be the kernel
-  //!     version from `uname -srvm`, possibly with additional information
-  //!     appended. On Android, the `ro.build.fingerprint` system property would
-  //!     be appended.
+  //!     On Android, the `ro.build.fingerprint` system property would be
+  //!     appended. For Linux and other Unix-like systems, this would be the
+  //!     kernel version from `uname -srvm`, possibly with additional
+  //!     information appended.
   virtual void OSVersion(int* major,
                          int* minor,
                          int* bugfix,
@@ -221,17 +221,17 @@ class SystemSnapshot {
   //! \brief Returns the snapshot system’s full operating system version
   //!     information in string format.
   //!
-  //! For Mac OS X, the string contains values from the operating system and
-  //! kernel. A Mac OS X 10.9.5 snapshot system would be identified as `"Mac OS
-  //! X 10.9.5 (13F34); Darwin 13.4.0 Darwin Kernel Version 13.4.0: Sun Aug 17
-  //! 19:50:11 PDT 2014; root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64"`.
+  //! For macOS, the string contains values from the operating system and
+  //! kernel. A macOS 10.12.1 system snapshot would be identified as `"Mac OS
+  //! X 10.12.1 (16B2657); Darwin 16.1.0 Darwin Kernel Version 16.1.0: Wed Oct
+  //! 19 20:31:56 PDT 2016; root:xnu-3789.21.4~4/RELEASE_X86_64 x86_64"`.
   virtual std::string OSVersionFull() const = 0;
 
   //! \brief Returns a description of the snapshot system’s hardware in string
   //!     format.
   //!
-  //! For Mac OS X, the string contains the Mac model and board ID. A mid-2014
-  //! 15" MacBook Pro would be identified as `"MacBookPro11,3
+  //! For macOS, the string contains the Mac model and board ID. A mid-2014 15"
+  //! MacBook Pro would be identified as `"MacBookPro11,3
   //! (Mac-2BD1B31983FE1663)"`.
   virtual std::string MachineDescription() const = 0;
 
@@ -258,7 +258,7 @@ class SystemSnapshot {
   //!     being observed.
   //! \param[out] daylight_name The name of the time zone while daylight saving
   //!     time is being observed.
-  virtual void TimeZone(DaylightSavingTimeStatus* observes_daylight,
+  virtual void TimeZone(DaylightSavingTimeStatus* dst_status,
                         int* standard_offset_seconds,
                         int* daylight_offset_seconds,
                         std::string* standard_name,

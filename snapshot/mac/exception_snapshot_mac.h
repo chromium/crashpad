@@ -34,7 +34,7 @@ class ProcessReader;
 namespace internal {
 
 //! \brief An ExceptionSnapshot of an exception sustained by a running (or
-//!     crashed) process on a Mac OS X system.
+//!     crashed) process on a macOS system.
 class ExceptionSnapshotMac final : public ExceptionSnapshot {
  public:
   ExceptionSnapshotMac();
@@ -47,6 +47,14 @@ class ExceptionSnapshotMac final : public ExceptionSnapshot {
   //!
   //! \param[in] process_reader A ProcessReader for the task that sustained the
   //!     exception.
+  //! \param[in] behavior
+  //! \param[in] exception_thread
+  //! \param[in] exception
+  //! \param[in] code
+  //! \param[in] code_count
+  //! \param[in,out] flavor
+  //! \param[in] state
+  //! \param[in] state_count
   //!
   //! \return `true` if the snapshot could be created, `false` otherwise with
   //!     an appropriate message logged.

@@ -56,15 +56,25 @@ namespace crashpad {
 //! and may be set to `0` (\a old_state_count) or `nullptr` (the remaining
 //! parameters).
 //!
+//! Except as noted, the parameters and return value are equivalent to those of
+//! the `*exception_raise*()` family of functions.
+//!
 //! \param[in] behavior The exception behavior, which dictates which function
 //!     will be called. It is an error to call this function with an invalid
 //!     value for \a behavior.
-//! \param[in] code If \behavior indicates a behavior without
+//! \param[in] exception_port
+//! \param[in] thread
+//! \param[in] task
+//! \param[in] exception
+//! \param[in] code If \a behavior indicates a behavior without
 //!     `MACH_EXCEPTION_CODES`, the elements of \a code will be truncated in
 //!     order to be passed to the appropriate exception handler.
-//!
-//! All other parameters are treated equivalently to their treatment by the
-//! `*exception_raise*()` family of functions.
+//! \param[in] code_count
+//! \param[in,out] flavor
+//! \param[in] old_state
+//! \param[in] old_state_count
+//! \param[out] new_state
+//! \param[out] new_state_count
 //!
 //! \return The return value of the function called.
 kern_return_t UniversalExceptionRaise(exception_behavior_t behavior,

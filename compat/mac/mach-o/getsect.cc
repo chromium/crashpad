@@ -72,11 +72,11 @@ using GetSegmentDataType =
 
 extern "C" {
 
-// These implementations look up their functions in libmacho at run time. If
-// the system libmacho provides these functions as it normally does on Mac OS X
-// 10.7 and later, the system’s versions are used directly. Otherwise, the
-// versions in third_party/apple_cctools are used, which are actually just
-// copies of the system’s functions.
+// These implementations look up their functions in libmacho at run time. If the
+// system libmacho provides these functions as it normally does on OS X 10.7 and
+// later, the system’s versions are used directly. Otherwise, the versions in
+// third_party/apple_cctools are used, which are actually just copies of the
+// system’s functions.
 
 uint8_t* getsectiondata(const MachHeader* mhp,
                         const char* segname,

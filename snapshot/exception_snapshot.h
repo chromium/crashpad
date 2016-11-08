@@ -50,21 +50,21 @@ class ExceptionSnapshot {
   //!
   //! This is an operating system-specific value.
   //!
-  //! For Mac OS X, this will be an \ref EXC_x "EXC_*" exception type, such as
+  //! For macOS, this will be an \ref EXC_x "EXC_*" exception type, such as
   //! `EXC_BAD_ACCESS`. `EXC_CRASH` will not appear here for exceptions
   //! processed as `EXC_CRASH` when generated from another preceding exception:
   //! the original exception code will appear instead. The exception type as it
   //! was received will appear at index 0 of Codes().
   //!
-  //! For Windows, this will be an \ref EXCEPTION_x "EXCEPTION_*" exception type
-  //! such as `EXCEPTION_ACCESS_VIOLATION`.
+  //! For Windows, this will be an `EXCEPTION_*` exception type, such as
+  //! `EXCEPTION_ACCESS_VIOLATION`.
   virtual uint32_t Exception() const = 0;
 
   //! \brief Returns the second-level exception code identifying the exception.
   //!
   //! This is an operating system-specific value.
   //!
-  //! For Mac OS X, this will be the value of the exception code at index 0 as
+  //! For macOS, this will be the value of the exception code at index 0 as
   //! received by a Mach exception handler, except:
   //!  * For `EXC_CRASH` exceptions generated from another preceding exception,
   //!    the original exception code will appear here, not the code as received
@@ -72,7 +72,7 @@ class ExceptionSnapshot {
   //!  * For `EXC_RESOURCE` and `EXC_GUARD` exceptions, the high 32 bits of the
   //!    exception code at index 0 will appear here.
   //!
-  //! In all cases on Mac OS X, the full exception code at index 0 as it was
+  //! In all cases on macOS, the full exception code at index 0 as it was
   //! received will appear at index 1 of Codes().
   //!
   //! On Windows, this will either be `0` if the exception is continuable, or
@@ -85,7 +85,7 @@ class ExceptionSnapshot {
   //! the instruction pointer that contained an offending instruction. For
   //! exceptions where this value cannot be determined, it will be `0`.
   //!
-  //! For Mac OS X, this will be the value of the exception code at index 1 as
+  //! For macOS, this will be the value of the exception code at index 1 as
   //! received by a Mach exception handler.
   virtual uint64_t ExceptionAddress() const = 0;
 
@@ -97,7 +97,7 @@ class ExceptionSnapshot {
   //! they may not be present at all. In this case, an empty vector will be
   //! returned.
   //!
-  //! For Mac OS X, this will be a vector containing the original exception type
+  //! For macOS, this will be a vector containing the original exception type
   //! and the values of `code[0]` and `code[1]` as received by a Mach exception
   //! handler.
   //!
