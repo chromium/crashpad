@@ -21,6 +21,8 @@
 #include "snapshot/mac/process_types/internal.h"
 #include "util/mach/task_memory.h"
 
+#if !DOXYGEN
+
 namespace crashpad {
 namespace process_types {
 namespace internal {
@@ -157,3 +159,5 @@ bool crashreporter_annotations_t<Traits>::ReadInto(
 }  // namespace internal
 }  // namespace process_types
 }  // namespace crashpad
+
+#endif  // !DOXYGEN
