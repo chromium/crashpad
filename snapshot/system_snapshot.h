@@ -104,7 +104,7 @@ class SystemSnapshot {
   virtual std::string CPUVendor() const = 0;
 
   //! \brief Returns frequency information about the snapshot system’s CPUs in
-  //!     \current_hz and \a max_hz.
+  //!     \a current_hz and \a max_hz.
   //!
   //! \param[out] current_hz The snapshot system’s CPU clock frequency in Hz at
   //!     the time of the snapshot.
@@ -258,7 +258,7 @@ class SystemSnapshot {
   //!     being observed.
   //! \param[out] daylight_name The name of the time zone while daylight saving
   //!     time is being observed.
-  virtual void TimeZone(DaylightSavingTimeStatus* observes_daylight,
+  virtual void TimeZone(DaylightSavingTimeStatus* dst_status,
                         int* standard_offset_seconds,
                         int* daylight_offset_seconds,
                         std::string* standard_name,

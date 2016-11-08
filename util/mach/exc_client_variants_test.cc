@@ -115,7 +115,7 @@ class TestExcClientVariants : public MachMultiprocess,
       }
 
       // Use a flavor known to be different from the incoming flavor, for a test
-      // of the “out” side of the inout flavor parameter.
+      // of the “out” side of the in-out flavor parameter.
       *flavor = exception_ + 20;
       *new_state_count = MACHINE_THREAD_STATE_COUNT;
 
