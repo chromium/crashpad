@@ -276,7 +276,7 @@ struct ALIGNAS(4) PACKED MinidumpSimpleStringDictionary {
 //! #version, so that newer parsers will be able to determine whether the added
 //! fields are valid or not.
 //!
-//! \sa #MinidumpModuleCrashpadInfoList
+//! \sa MinidumpModuleCrashpadInfoList
 struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfo {
   //! \brief The structure’s currently-defined version number.
   //!
@@ -423,7 +423,7 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR simple_annotations;
 
-  //! \brief A pointer to a #MinidumpModuleCrashpadInfoList structure.
+  //! \brief A pointer to a MinidumpModuleCrashpadInfoList structure.
   //!
   //! This field is present when #version is at least `1`.
   MINIDUMP_LOCATION_DESCRIPTOR module_list;

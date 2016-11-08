@@ -164,9 +164,9 @@ struct CrashpadInfo {
   //! \brief Adds a custom stream to the minidump.
   //!
   //! The memory block referenced by \a data and \a size will added to the
-  //! minidump as separate stream with type \stream_type. The memory referred to
-  //! by \a data and \a size is owned by the caller and must remain valid while
-  //! it is in effect for the CrashpadInfo object.
+  //! minidump as separate stream with type \a stream_type. The memory referred
+  //! to by \a data and \a size is owned by the caller and must remain valid
+  //! while it is in effect for the CrashpadInfo object.
   //!
   //! Note that streams will appear in the minidump in the reverse order to
   //! which they are added.

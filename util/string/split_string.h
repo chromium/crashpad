@@ -30,7 +30,7 @@ namespace crashpad {
 //!     character.
 //!
 //! \return `true` if \a string was split successfully. `false` if \a string
-//!     did not contain a \delimiter character or began with a \delimiter
+//!     did not contain a \a delimiter character or began with a \a delimiter
 //!     character.
 bool SplitStringFirst(const std::string& string,
                       char delimiter,
@@ -41,8 +41,9 @@ bool SplitStringFirst(const std::string& string,
 //!
 //! \param[in] string The string to split.
 //! \param[in] delimiter The delimiter to split at.
+//!
 //! \return The individual parts of the string.
-std::vector<std::string> SplitString(const std::string& str, char delimiter);
+std::vector<std::string> SplitString(const std::string& string, char delimiter);
 
 }  // namespace crashpad
 

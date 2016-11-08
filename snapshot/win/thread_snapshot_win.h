@@ -48,7 +48,7 @@ class ThreadSnapshotWin final : public ThreadSnapshot {
   //!     the thread.
   //! \param[in] process_reader_thread The thread within the ProcessReaderWin
   //!     for which the snapshot should be created.
-  //! \param[in] gather_indirectly_referenced_memory_bytes_remaining. If
+  //! \param[in,out] gather_indirectly_referenced_memory_bytes_remaining If
   //!     non-null, add extra memory regions to the snapshot pointed to by the
   //!     thread's stack. The size of the regions added is subtracted from the
   //!     count, and when it's `0`, no more regions will be added.

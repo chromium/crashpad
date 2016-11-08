@@ -64,17 +64,32 @@ class UniversalMachExcServer final : public MachMessageServer::Interface {
     //! This behaves equivalently to a `catch_exception_raise_state_identity()`
     //! function used with `exc_server()`, or a
     //! `catch_mach_exception_raise_state_identity()` function used with
-    //! `mach_exc_server()`. The meanings of most parameters are identical to
-    //! their meanings to these functions.
+    //! `mach_exc_server()`. Except as noted, the parameters and return value
+    //! are equivalent to those of these other functions.
     //!
     //! \param[in] behavior `EXCEPTION_DEFAULT`, `EXCEPTION_STATE`,
     //!     or `EXCEPTION_STATE_IDENTITY`, possibly with `MACH_EXCEPTION_CODES`
     //!     ORed in. This identifies which exception request message was
     //!     processed and thus which other parameters are valid.
+    //! \param[in] exception_port
+    //! \param[in] thread
+    //! \param[in] task
+    //! \param[in] exception
+    //! \param[in] code
+    //! \param[in] code_count
+    //! \param[in,out] flavor
+    //! \param[in] old_state
+    //! \param[in] old_state_count
+    //! \param[out] new_state
+    //! \param[out] new_state_count
     //! \param[in] trailer The trailer received with the request message.
-    //! \param[out] destroy_request `true` if the request message is to be
-    //!     destroyed even when this method returns success. See
+    //! \param[out] destroy_complex_request `true` if the request message is to
+    //!     be destroyed even when this method returns success. See
     //!     MachMessageServer::Interface.
+    //!
+    //! \return A code indicating whether the exception was handled. See
+    //!     ExcServerSuccessfulReturnValue() for success codes. On failure,
+    //!     a code such as `KERN_FAILURE`.
     virtual kern_return_t CatchMachException(
         exception_behavior_t behavior,
         exception_handler_t exception_port,
@@ -201,7 +216,7 @@ kern_return_t ExcServerSuccessfulReturnValue(exception_type_t exception,
 //!     from the \a new_state parameter of
 //!     internal::SimplifiedExcServer::Interface::CatchException(), for example.
 //!     This parameter is untouched if \a behavior is not state-carrying.
-//! \param[inout] new_state_count On entry, the number of `natural_t` words
+//! \param[in,out] new_state_count On entry, the number of `natural_t` words
 //!     available to be written to in \a new_state. On return, the number of
 //!     significant `natural_t` words in \a new_state. This may be taken
 //!     directly from the \a new_state_count parameter of

@@ -423,8 +423,8 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_EXCEPTION {
   //! the original exception code will appear instead. The exception type as it
   //! was received will appear at index 0 of #ExceptionInformation.
   //!
-  //! For Windows minidumps, this will be an \ref EXCEPTION_x "EXCEPTION_*"
-  //! exception type, such as `EXCEPTION_ACCESS_VIOLATION`.
+  //! For Windows minidumps, this will be an `EXCEPTION_*` exception type, such
+  //! as `EXCEPTION_ACCESS_VIOLATION`.
   //!
   //! \note This field is named ExceptionCode, but what is known as the
   //!     “exception code” on macOS/Mach is actually stored in the
@@ -982,8 +982,9 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO {
 
   //! \brief The memory protection when the region was initially allocated. This
   //!     member can be one of the memory protection options (such as
-  //!     \ref PAGE_x PAGE_EXECUTE, \ref PAGE_x PAGE_NOACCESS, etc.), along with
-  //!     \ref PAGE_x PAGE_GUARD or \ref PAGE_x PAGE_NOCACHE, as needed.
+  //!     \ref PAGE_x "PAGE_EXECUTE", \ref PAGE_x "PAGE_NOACCESS", etc.), along
+  //!     with \ref PAGE_x "PAGE_GUARD" or \ref PAGE_x "PAGE_NOCACHE", as
+  //!     needed.
   uint32_t AllocationProtect;
 
   uint32_t __alignment1;
@@ -993,7 +994,8 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO {
   uint64_t RegionSize;
 
   //! \brief The state of the pages in the region. This can be one of
-  //!     \ref MEM_x MEM_COMMIT, \ref MEM_x MEM_FREE, or \ref MEM_x MEM_RESERVE.
+  //!     \ref MEM_x "MEM_COMMIT", \ref MEM_x "MEM_FREE", or \ref MEM_x
+  //!     "MEM_RESERVE".
   uint32_t State;
 
   //! \brief The access protection of the pages in the region. This member is
@@ -1001,7 +1003,7 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MEMORY_INFO {
   uint32_t Protect;
 
   //! \brief The type of pages in the region. This can be one of \ref MEM_x
-  //!     MEM_IMAGE, \ref MEM_x MEM_MAPPED, or \ref MEM_x MEM_PRIVATE.
+  //!     "MEM_IMAGE", \ref MEM_x "MEM_MAPPED", or \ref MEM_x "MEM_PRIVATE".
   uint32_t Type;
 
   uint32_t __alignment2;

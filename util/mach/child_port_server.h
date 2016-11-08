@@ -37,6 +37,10 @@ class ChildPortServer : public MachMessageServer::Interface {
     //! This behaves equivalently to a `handle_child_port_check_in()` function
     //! used with `child_port_server()`.
     //!
+    //! \param[in] server
+    //! \param[in] token
+    //! \param[in] port
+    //! \param[in] right_type
     //! \param[in] trailer The trailer received with the request message.
     //! \param[out] destroy_request `true` if the request message is to be
     //!     destroyed even when this method returns success. See
