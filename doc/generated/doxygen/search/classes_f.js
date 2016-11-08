@@ -20,7 +20,6 @@ var searchData=
   ['threadsnapshotmac',['ThreadSnapshotMac',['../classcrashpad_1_1internal_1_1ThreadSnapshotMac.html',1,'crashpad::internal']]],
   ['threadsnapshotwin',['ThreadSnapshotWin',['../classcrashpad_1_1internal_1_1ThreadSnapshotWin.html',1,'crashpad::internal']]],
   ['time_5fzone_5finformation',['TIME_ZONE_INFORMATION',['../structTIME__ZONE__INFORMATION.html',1,'']]],
-  ['timeval',['timeval',['../structtimeval.html',1,'']]],
   ['toolsupport',['ToolSupport',['../classcrashpad_1_1ToolSupport.html',1,'crashpad']]],
   ['traits32',['Traits32',['../structcrashpad_1_1process__types_1_1internal_1_1Traits32.html',1,'crashpad::process_types::internal']]],
   ['traits64',['Traits64',['../structcrashpad_1_1process__types_1_1internal_1_1Traits64.html',1,'crashpad::process_types::internal']]],

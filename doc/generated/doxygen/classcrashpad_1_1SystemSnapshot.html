@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -112,7 +113,7 @@ virtual uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el"
 <tr class="memdesc:a335fced130bd7371b97f69c7176e44f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the vendor of the snapshot system’s CPUs.  <a href="#a335fced130bd7371b97f69c7176e44f2">More...</a><br /></td></tr>
 <tr class="separator:a335fced130bd7371b97f69c7176e44f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a271ee9d35dc0e5bb043c8c869fea35b0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a271ee9d35dc0e5bb043c8c869fea35b0">CPUFrequency</a> (uint64_t *current_hz, uint64_t *max_hz) const =0</td></tr>
-<tr class="memdesc:a271ee9d35dc0e5bb043c8c869fea35b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns frequency information about the snapshot system’s CPUs in  and <em>max_hz</em>.  <a href="#a271ee9d35dc0e5bb043c8c869fea35b0">More...</a><br /></td></tr>
+<tr class="memdesc:a271ee9d35dc0e5bb043c8c869fea35b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns frequency information about the snapshot system’s CPUs in <em>current_hz</em> and <em>max_hz</em>.  <a href="#a271ee9d35dc0e5bb043c8c869fea35b0">More...</a><br /></td></tr>
 <tr class="separator:a271ee9d35dc0e5bb043c8c869fea35b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3370fa9291053c60e9dc9beddb6123ac"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a3370fa9291053c60e9dc9beddb6123ac">CPUX86Signature</a> () const =0</td></tr>
 <tr class="memdesc:a3370fa9291053c60e9dc9beddb6123ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an x86-family snapshot system’s CPU signature.  <a href="#a3370fa9291053c60e9dc9beddb6123ac">More...</a><br /></td></tr>
@@ -149,9 +150,9 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:ab347e8cf3f9cd790d94966a794c88e0c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#ab347e8cf3f9cd790d94966a794c88e0c">NXEnabled</a> () const =0</td></tr>
 <tr class="memdesc:ab347e8cf3f9cd790d94966a794c88e0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the status of the NX (no-execute, or XD, execute-disable) feature on the snapshot system.  <a href="#ab347e8cf3f9cd790d94966a794c88e0c">More...</a><br /></td></tr>
 <tr class="separator:ab347e8cf3f9cd790d94966a794c88e0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3af063628dcf35890ca77c19bb71ccf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#ab3af063628dcf35890ca77c19bb71ccf">TimeZone</a> (<a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472">DaylightSavingTimeStatus</a> *observes_daylight, int *standard_offset_seconds, int *daylight_offset_seconds, std::string *standard_name, std::string *daylight_name) const =0</td></tr>
-<tr class="memdesc:ab3af063628dcf35890ca77c19bb71ccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns time zone information from the snapshot system, based on its locale configuration and real-time clock.  <a href="#ab3af063628dcf35890ca77c19bb71ccf">More...</a><br /></td></tr>
-<tr class="separator:ab3af063628dcf35890ca77c19bb71ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf0934ce747f00ebc27bfd517400872d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#aaf0934ce747f00ebc27bfd517400872d">TimeZone</a> (<a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472">DaylightSavingTimeStatus</a> *dst_status, int *standard_offset_seconds, int *daylight_offset_seconds, std::string *standard_name, std::string *daylight_name) const =0</td></tr>
+<tr class="memdesc:aaf0934ce747f00ebc27bfd517400872d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns time zone information from the snapshot system, based on its locale configuration and real-time clock.  <a href="#aaf0934ce747f00ebc27bfd517400872d">More...</a><br /></td></tr>
+<tr class="separator:aaf0934ce747f00ebc27bfd517400872d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An abstract interface to a snapshot representing the state of a system, comprising an operating system, CPU architecture, and various other characteristics. </p>
@@ -197,7 +198,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa8ef4c8866899122bd8da279b3b2ab37a433de68d427f8723255eba765f2adb71"></a>kOperatingSystemUnknown&#160;</td><td class="fielddoc"><p>The snapshot system’s operating system is unknown. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aa8ef4c8866899122bd8da279b3b2ab37aa04c1f5e9b28c9dd33a4a4a65f632ee6"></a>kOperatingSystemMacOSX&#160;</td><td class="fielddoc"><p>Mac OS X. </p>
+<tr><td class="fieldname"><a id="aa8ef4c8866899122bd8da279b3b2ab37aa04c1f5e9b28c9dd33a4a4a65f632ee6"></a>kOperatingSystemMacOSX&#160;</td><td class="fielddoc"><p>macOS. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aa8ef4c8866899122bd8da279b3b2ab37a4bbe782ab0bdab4ac1bfd47c9e84f4a8"></a>kOperatingSystemWindows&#160;</td><td class="fielddoc"><p>Windows. </p>
 </td></tr>
@@ -240,7 +241,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </table>
 </div><div class="memdoc">
 
-<p>Returns frequency information about the snapshot system’s CPUs in  and <em>max_hz</em>. </p>
+<p>Returns frequency information about the snapshot system’s CPUs in <em>current_hz</em> and <em>max_hz</em>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">current_hz</td><td>The snapshot system’s CPU clock frequency in Hz at the time of the snapshot. </td></tr>
@@ -538,7 +539,8 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </div><div class="memdoc">
 
 <p>Returns a description of the snapshot system’s hardware in string format. </p>
-<p>For Mac OS X, the string contains the Mac model and board ID. A mid-2014 15" MacBook Pro would be identified as `"MacBookPro11,3 (Mac-2BD1B31983FE1663)"`. </p>
+<p>For macOS, the string contains the Mac model and board ID. A mid-2014 15"
+MacBook Pro would be identified as `"MacBookPro11,3 (Mac-2BD1B31983FE1663)"`. </p>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestSystemSnapshot.html#a88597dace697f941d8d2d33754f04b58">crashpad::test::TestSystemSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotMac.html#a437c61c4e98c72121eed75a32d578766">crashpad::internal::SystemSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotWin.html#aef61327d1bb88cbcef507fb2c80f27b5">crashpad::internal::SystemSnapshotWin</a>.</p>
 
@@ -624,10 +626,10 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p>Returns the snapshot system’s operating system version information in <em>major</em>, <em>minor</em>, <em>bugfix</em>, and <em>build</em>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">major</td><td>The snapshot system’s operating system’s first (major) version number component. This would be <code>10</code> for Mac OS X 10.9.5, and <code>6</code> for Windows 7 (NT 6.1) SP1 version 6.1.7601. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">minor</td><td>The snapshot system’s operating system’s second (minor) version number component. This would be <code>9</code> for Mac OS X 10.9.5, and <code>1</code> for Windows 7 (NT 6.1) SP1 version 6.1.7601. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">bugfix</td><td>The snapshot system’s operating system’s third (bugfix) version number component. This would be <code>5</code> for Mac OS X 10.9.5, and <code>7601</code> for Windows 7 (NT 6.1) SP1 version 6.1.7601. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">build</td><td>A string further identifying an operating system version. For Mac OS X 10.9.5, this would be <code>"13F34"</code>. For Windows, this would be <code>"Service Pack 1"</code> if that service pack was installed. For Linux and other Unix-like systems, this would be the kernel version from <code>uname -srvm</code>, possibly with additional information appended. On Android, the <code>ro.build.fingerprint</code> system property would be appended. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">major</td><td>The snapshot system’s operating system’s first (major) version number component. This would be <code>10</code> for macOS 10.12.1, and <code>6</code> for Windows 7 (NT 6.1) SP1 version 6.1.7601. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">minor</td><td>The snapshot system’s operating system’s second (minor) version number component. This would be <code>12</code> for macOS 10.12.1, and <code>1</code> for Windows 7 (NT 6.1) SP1 version 6.1.7601. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bugfix</td><td>The snapshot system’s operating system’s third (bugfix) version number component. This would be <code>1</code> for macOS 10.12.1, and <code>7601</code> for Windows 7 (NT 6.1) SP1 version 6.1.7601. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">build</td><td>A string further identifying an operating system version. For macOS 10.12.1, this would be <code>"16B2657"</code>. For Windows, this would be <code>"Service Pack 1"</code> if that service pack was installed. On Android, the <code>ro.build.fingerprint</code> system property would be appended. For Linux and other Unix-like systems, this would be the kernel version from <code>uname -srvm</code>, possibly with additional information appended. </td></tr>
   </table>
   </dd>
 </dl>
@@ -660,14 +662,14 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </div><div class="memdoc">
 
 <p>Returns the snapshot system’s full operating system version information in string format. </p>
-<p>For Mac OS X, the string contains values from the operating system and kernel. A Mac OS X 10.9.5 snapshot system would be identified as `"Mac OS X 10.9.5 (13F34); Darwin 13.4.0 Darwin Kernel Version 13.4.0: Sun Aug 17 19:50:11 PDT 2014; root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64"`. </p>
+<p>For macOS, the string contains values from the operating system and kernel. A macOS 10.12.1 system snapshot would be identified as `"Mac OS X 10.12.1 (16B2657); Darwin 16.1.0 Darwin Kernel Version 16.1.0: Wed Oct 19 20:31:56 PDT 2016; root:xnu-3789.21.4~4/RELEASE_X86_64 x86_64"`. </p>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestSystemSnapshot.html#a865421171daa5c5c4348116e8689acb7">crashpad::test::TestSystemSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotMac.html#aea3068f020e3d83e316e875762dff5a1">crashpad::internal::SystemSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1SystemSnapshotWin.html#afe5d5ef193d03d93ee9fd10dc88a642a">crashpad::internal::SystemSnapshotWin</a>.</p>
 
 </div>
 </div>
-<a id="ab3af063628dcf35890ca77c19bb71ccf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3af063628dcf35890ca77c19bb71ccf">&sect;&nbsp;</a></span>TimeZone()</h2>
+<a id="aaf0934ce747f00ebc27bfd517400872d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf0934ce747f00ebc27bfd517400872d">&sect;&nbsp;</a></span>TimeZone()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -679,7 +681,7 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
           <td class="memname">virtual void crashpad::SystemSnapshot::TimeZone </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classcrashpad_1_1SystemSnapshot.html#a28be27b27e7257818a9b13f121f0f472">DaylightSavingTimeStatus</a> *&#160;</td>
-          <td class="paramname"><em>observes_daylight</em>, </td>
+          <td class="paramname"><em>dst_status</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -201,15 +202,27 @@ Public Member Functions</h2></td></tr>
 
 <p>Handles exceptions raised by <code>exception_raise()</code>, <code>exception_raise_state()</code>, <code>exception_raise_state_identity()</code>, <code>mach_exception_raise()</code>, <code>mach_exception_raise_state()</code>, and <code>mach_exception_raise_state_identity()</code>. </p>
 <p>For convenience in implementation, these different “behaviors” of exception messages are all mapped to a single interface method. The exception’s original “behavior” is specified in the <em>behavior</em> parameter. Only parameters that were supplied in the request message are populated, other parameters are set to reasonable default values.</p>
-<p>This behaves equivalently to a <code>catch_exception_raise_state_identity()</code> function used with <code>exc_server()</code>, or a <code>catch_mach_exception_raise_state_identity()</code> function used with <code>mach_exc_server()</code>. The meanings of most parameters are identical to their meanings to these functions.</p>
+<p>This behaves equivalently to a <code>catch_exception_raise_state_identity()</code> function used with <code>exc_server()</code>, or a <code>catch_mach_exception_raise_state_identity()</code> function used with <code>mach_exc_server()</code>. Except as noted, the parameters and return value are equivalent to those of these other functions.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">behavior</td><td><code>EXCEPTION_DEFAULT</code>, <code>EXCEPTION_STATE</code>, or <code>EXCEPTION_STATE_IDENTITY</code>, possibly with <code>MACH_EXCEPTION_CODES</code> ORed in. This identifies which exception request message was processed and thus which other parameters are valid. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">exception_port</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">thread</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">task</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">exception</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">code</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">code_count</td><td></td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">flavor</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">old_state</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">old_state_count</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">new_state</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">new_state_count</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">trailer</td><td>The trailer received with the request message. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">destroy_request</td><td><code>true</code> if the request message is to be destroyed even when this method returns success. See <a class="el" href="classcrashpad_1_1MachMessageServer_1_1Interface.html" title="A Mach RPC callback interface, called by Run(). ">MachMessageServer::Interface</a>. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">destroy_complex_request</td><td><code>true</code> if the request message is to be destroyed even when this method returns success. See <a class="el" href="classcrashpad_1_1MachMessageServer_1_1Interface.html" title="A Mach RPC callback interface, called by Run(). ">MachMessageServer::Interface</a>.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>A code indicating whether the exception was handled. See <a class="el" href="namespacecrashpad.html#a2112e7fcb6a2fc7f9b6b0ff8856e8466" title="Computes an approriate successful return value for an exception handler function. ...">ExcServerSuccessfulReturnValue()</a> for success codes. On failure, a code such as <code>KERN_FAILURE</code>. </dd></dl>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1CrashReportExceptionHandler.html#a98ecf7abdf0a99fe30b6fa7116649bee">crashpad::CrashReportExceptionHandler</a>.</p>
 

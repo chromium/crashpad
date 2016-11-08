@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -126,7 +127,7 @@ Static Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">context</td><td>The context to inspect. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">process_reader</td><td>A MemoryCaptureProcessReader to read from the target process, and that handles adding new ranges. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">delegate</td><td>A <a class="el" href="classcrashpad_1_1internal_1_1CaptureMemory_1_1Delegate.html" title="An interface to a platform-specific process reader. ">Delegate</a> that handles reading from the target process and adding new ranges. </td></tr>
   </table>
   </dd>
 </dl>
@@ -171,7 +172,7 @@ Static Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">memory</td><td>An existing <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> of the range to search. The base address and size must be pointer-aligned and an integral number of pointers long. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">process_reader</td><td>A MemoryCaptureProcessReader to read from the target process, and that handles adding new ranges. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">delegate</td><td>A <a class="el" href="classcrashpad_1_1internal_1_1CaptureMemory_1_1Delegate.html" title="An interface to a platform-specific process reader. ">Delegate</a> that handles reading from the target process and adding new ranges. </td></tr>
   </table>
   </dd>
 </dl>

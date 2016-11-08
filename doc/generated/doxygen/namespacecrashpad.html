@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -360,7 +361,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstract interface to a snapshot representing the state of a process.  <a href="classcrashpad_1_1ProcessSnapshot.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html">ProcessSnapshotMac</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process. ">ProcessSnapshot</a> of a running (or crashed) process running on a Mac OS X system.  <a href="classcrashpad_1_1ProcessSnapshotMac.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process. ">ProcessSnapshot</a> of a running (or crashed) process running on a macOS system.  <a href="classcrashpad_1_1ProcessSnapshotMac.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html">ProcessSnapshotMinidump</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process. ">ProcessSnapshot</a> based on a minidump file.  <a href="classcrashpad_1_1ProcessSnapshotMinidump.html#details">More...</a><br /></td></tr>
@@ -597,7 +598,7 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a9c82d3742b041daf266c44df253ef02d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: mach_msg_timeout_t <tr class="memdesc:a9c82d3742b041daf266c44df253ef02d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <code>mach_msg_timeout_t</code> values.  <a href="namespacecrashpad.html#a9c82d3742b041daf266c44df253ef02d">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a9c82d3742b041daf266c44df253ef02d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a163a3ceac0adcb2419bb8d97e1425b94"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: MachMessageDeadline <tr class="memdesc:a163a3ceac0adcb2419bb8d97e1425b94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as MachMessageDeadline values.  <a href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94">More...</a><br /></td></tr>
+<tr class="memitem:a163a3ceac0adcb2419bb8d97e1425b94"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: MachMessageDeadline <tr class="memdesc:a163a3ceac0adcb2419bb8d97e1425b94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> values.  <a href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a163a3ceac0adcb2419bb8d97e1425b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7856b82b71167792ea6103debb5105ed"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed">SymbolicConstantToStringOptionBits</a> <tr class="memdesc:a7856b82b71167792ea6103debb5105ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for various <code>*ToString</code> functions in <code>symbolic_constants_*</code> files.  <a href="namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed">More...</a><br /></td></tr>
@@ -912,7 +913,7 @@ template&lt;class T1 , class T2 , size_t Alignment&gt; </td></tr>
 <tr class="separator:a9f9985c36e027f96f920b48d3c89aec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0486df983d8e9cecbe1e46e0059806df"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a0486df983d8e9cecbe1e46e0059806df"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a0486df983d8e9cecbe1e46e0059806df">MapInsertOrReplace</a> (T *map, const typename T::key_type &amp;key, const typename T::mapped_type &amp;value, typename T::mapped_type *old_value)</td></tr>
-<tr class="memdesc:a0486df983d8e9cecbe1e46e0059806df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a mapping from <em>key</em> to <em>value</em> into <em>map</em>, or replaces an existing mapping so that <em>key</em> maps to .  <a href="#a0486df983d8e9cecbe1e46e0059806df">More...</a><br /></td></tr>
+<tr class="memdesc:a0486df983d8e9cecbe1e46e0059806df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a mapping from <em>key</em> to <em>value</em> into <em>map</em>, or replaces an existing mapping so that <em>key</em> maps to <em>value</em>.  <a href="#a0486df983d8e9cecbe1e46e0059806df">More...</a><br /></td></tr>
 <tr class="separator:a0486df983d8e9cecbe1e46e0059806df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab42fe62040bb628fb134573bb2131955"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ab42fe62040bb628fb134573bb2131955">c16lcpy</a> (base::char16 *destination, const base::char16 *source, size_t length)</td></tr>
 <tr class="memdesc:ab42fe62040bb628fb134573bb2131955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy a <code>NUL</code>-terminated char16-based string to a fixed-size buffer.  <a href="#ab42fe62040bb628fb134573bb2131955">More...</a><br /></td></tr>
@@ -923,9 +924,9 @@ template&lt;class T1 , class T2 , size_t Alignment&gt; </td></tr>
 <tr class="memitem:a1b3aaf00fdc6fef366afb2a00062c97f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a1b3aaf00fdc6fef366afb2a00062c97f">SplitStringFirst</a> (const std::string &amp;string, char delimiter, std::string *left, std::string *right)</td></tr>
 <tr class="memdesc:a1b3aaf00fdc6fef366afb2a00062c97f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a string into two parts at the first delimiter found.  <a href="#a1b3aaf00fdc6fef366afb2a00062c97f">More...</a><br /></td></tr>
 <tr class="separator:a1b3aaf00fdc6fef366afb2a00062c97f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fbe485caf948acd9f055755b001e87a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a0fbe485caf948acd9f055755b001e87a">SplitString</a> (const std::string &amp;str, char delimiter)</td></tr>
-<tr class="memdesc:a0fbe485caf948acd9f055755b001e87a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a string into multiple parts on the given delimiter.  <a href="#a0fbe485caf948acd9f055755b001e87a">More...</a><br /></td></tr>
-<tr class="separator:a0fbe485caf948acd9f055755b001e87a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb5d05de37d3f1a92ce36c3ce37842b7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#abb5d05de37d3f1a92ce36c3ce37842b7">SplitString</a> (const std::string &amp;string, char delimiter)</td></tr>
+<tr class="memdesc:abb5d05de37d3f1a92ce36c3ce37842b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a string into multiple parts on the given delimiter.  <a href="#abb5d05de37d3f1a92ce36c3ce37842b7">More...</a><br /></td></tr>
+<tr class="separator:abb5d05de37d3f1a92ce36c3ce37842b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbc9204d047dd250fe5f6b4ce0dd27ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#adbc9204d047dd250fe5f6b4ce0dd27ae">CaptureContext</a> (CONTEXT *context)</td></tr>
 <tr class="memdesc:adbc9204d047dd250fe5f6b4ce0dd27ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves the CPU context.  <a href="#adbc9204d047dd250fe5f6b4ce0dd27ae">More...</a><br /></td></tr>
 <tr class="separator:adbc9204d047dd250fe5f6b4ce0dd27ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1010,15 +1011,15 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 <tr class="memdesc:a1bb7596acd0c7d75d0608ffafc6028e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps CreateNamedPipe() to create a single named pipe instance.  <a href="#a1bb7596acd0c7d75d0608ffafc6028e8">More...</a><br /></td></tr>
 <tr class="separator:a1bb7596acd0c7d75d0608ffafc6028e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12442a42a099c4b68211fd230e94f42c"><td class="memItemLeft" align="right" valign="top"><a id="a12442a42a099c4b68211fd230e94f42c"></a>
-<a class="el" href="structtimeval.html">timeval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a12442a42a099c4b68211fd230e94f42c">FiletimeToTimevalEpoch</a> (const FILETIME &amp;filetime)</td></tr>
+timeval&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a12442a42a099c4b68211fd230e94f42c">FiletimeToTimevalEpoch</a> (const FILETIME &amp;filetime)</td></tr>
 <tr class="memdesc:a12442a42a099c4b68211fd230e94f42c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert Windows <code>FILETIME</code> to <code>timeval</code>, converting from Windows epoch to POSIX epoch. <br /></td></tr>
 <tr class="separator:a12442a42a099c4b68211fd230e94f42c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2597c6565e3733dceb0f933cea2146a1"><td class="memItemLeft" align="right" valign="top"><a id="a2597c6565e3733dceb0f933cea2146a1"></a>
-<a class="el" href="structtimeval.html">timeval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a2597c6565e3733dceb0f933cea2146a1">FiletimeToTimevalInterval</a> (const FILETIME &amp;filetime)</td></tr>
+timeval&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a2597c6565e3733dceb0f933cea2146a1">FiletimeToTimevalInterval</a> (const FILETIME &amp;filetime)</td></tr>
 <tr class="memdesc:a2597c6565e3733dceb0f933cea2146a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert Windows <code>FILETIME</code> to <code>timeval</code>, treating the values as an interval of elapsed time. <br /></td></tr>
 <tr class="separator:a2597c6565e3733dceb0f933cea2146a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad150794de658f3bec7f37aa33ac521c4"><td class="memItemLeft" align="right" valign="top"><a id="ad150794de658f3bec7f37aa33ac521c4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ad150794de658f3bec7f37aa33ac521c4">GetTimeOfDay</a> (<a class="el" href="structtimeval.html">timeval</a> *tv)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ad150794de658f3bec7f37aa33ac521c4">GetTimeOfDay</a> (timeval *tv)</td></tr>
 <tr class="memdesc:ad150794de658f3bec7f37aa33ac521c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to POSIX gettimeofday(), gets the current system time in UTC. <br /></td></tr>
 <tr class="separator:ad150794de658f3bec7f37aa33ac521c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
@@ -1603,7 +1604,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>CPU type values for <a class="el" href="structMINIDUMP__SYSTEM__INFO.html#adc85b29d7df8943baf1a96af23051ca8" title="The system’s CPU architecture. This may be a PROCESSOR_ARCHITECTURE_* value, or a member of crashpad...">MINIDUMP_SYSTEM_INFO::ProcessorArchitecture</a>. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="win_2winnt_8h.html#PROCESSOR_ARCHITECTURE_x">PROCESSOR_ARCHITECTURE_*</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="winnt_8h.html#PROCESSOR_ARCHITECTURE_x">PROCESSOR_ARCHITECTURE_*</a> </dd></dl>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a98e532bb06fc5ffdd93e0ceb6d789eb1a667f84537acd054ce17f527bcd41c885"></a>kMinidumpCPUArchitectureX86&#160;</td><td class="fielddoc"><p>32-bit x86. </p>
 <p>These systems identify their CPUs generically as “x86” or “ia32”, or with more specific names such as “i386”, “i486”, “i586”, and “i686”. </p>
@@ -1645,7 +1646,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Operating system family values for <a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a214e7bd61a89343a80a3c9a265fbbe96" title="The system’s operating system family. This may be a VER_PLATFORM_* value, or a member of crashpad::M...">MINIDUMP_SYSTEM_INFO::PlatformId</a>. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="win_2winnt_8h.html#VER_PLATFORM_x">VER_PLATFORM_*</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="winnt_8h.html#VER_PLATFORM_x">VER_PLATFORM_*</a> </dd></dl>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9be77c6f7868f00c2f279006a1abe26aaca1cab5b93dabab4c83400fd74dc61f9"></a>kMinidumpOSWin32s&#160;</td><td class="fielddoc"><p>Windows 3.1. </p>
 </td></tr>
@@ -1653,7 +1654,7 @@ template&lt;typename T &gt; </div>
 </td></tr>
 <tr><td class="fieldname"><a id="a9be77c6f7868f00c2f279006a1abe26aa00fdfb21197a2b114e5ffeb51f53e3df"></a>kMinidumpOSWin32NT&#160;</td><td class="fielddoc"><p>Windows NT, Windows 2000, and later. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9be77c6f7868f00c2f279006a1abe26aa03b20aa69a12cad7a9c08b3335b309d3"></a>kMinidumpOSMacOSX&#160;</td><td class="fielddoc"><p>Mac OS X, Darwin for traditional systems. </p>
+<tr><td class="fieldname"><a id="a9be77c6f7868f00c2f279006a1abe26aa03b20aa69a12cad7a9c08b3335b309d3"></a>kMinidumpOSMacOSX&#160;</td><td class="fielddoc"><p>macOS, Darwin for traditional systems. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a9be77c6f7868f00c2f279006a1abe26aa093968e4c9c7704732760e9ce2916115"></a>kMinidumpOSiOS&#160;</td><td class="fielddoc"><p>iOS, Darwin for mobile devices. </p>
 </td></tr>
@@ -1682,7 +1683,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Operating system type values for <a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a9aac8ed4707ea43563fed1776454bad5" title="The system’s operating system type, which distinguishes between “desktop” or “workstation” syste...">MINIDUMP_SYSTEM_INFO::ProductType</a>. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="win_2winnt_8h.html#VER_NT_x">VER_NT_*</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="winnt_8h.html#VER_NT_x">VER_NT_*</a> </dd></dl>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3bf5a6562c9ccee9b4ef3ae4d9ac0be7a622c5cb563f37f8861f7c58e3ec64a05"></a>kMinidumpOSTypeWorkstation&#160;</td><td class="fielddoc"><p>A “desktop” or “workstation” system. </p>
 </td></tr>
@@ -2438,7 +2439,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 <p>Close multiple file descriptors or mark them close-on-exec. </p>
 <p>This is similar to the BSD/Solaris-style <code>closefrom()</code> routine, which closes all open file descriptors equal to or higher than its <em>fd</em> argument. This function must not be called while other threads are active. It is intended to be used in a child process created by <code>fork()</code>, prior to calling an <code>exec()</code>-family function. This guarantees that a (possibly untrustworthy) child process does not inherit file descriptors that it has no need for.</p>
-<p>Unlike the BSD function, this function may not close file descriptors immediately, but may instead mark them as close-on-exec. The actual behavior chosen is specific to the operating system. On Mac OS X, file descriptors are marked close-on-exec instead of being closed outright in order to avoid raising <code>EXC_GUARD</code> exceptions for guarded file descriptors that are protected against <code>close()</code>.</p>
+<p>Unlike the BSD function, this function may not close file descriptors immediately, but may instead mark them as close-on-exec. The actual behavior chosen is specific to the operating system. On macOS, file descriptors are marked close-on-exec instead of being closed outright in order to avoid raising <code>EXC_GUARD</code> exceptions for guarded file descriptors that are protected against <code>close()</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fd</td><td>The lowest file descriptor to close or set as close-on-exec. </td></tr>
@@ -3248,7 +3249,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3277,7 +3278,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3316,7 +3317,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3361,7 +3362,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3390,7 +3391,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3435,7 +3436,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3474,7 +3475,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3503,7 +3504,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3532,7 +3533,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3561,7 +3562,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3590,7 +3591,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3619,7 +3620,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3648,7 +3649,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3677,7 +3678,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3706,7 +3707,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3735,7 +3736,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3764,7 +3765,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3793,7 +3794,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3832,7 +3833,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3861,7 +3862,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3890,7 +3891,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -3919,7 +3920,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Wraps the <code>&lt;launch.h&gt;</code> function of the same name. </p>
-<p>The Mac OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
+<p>The OS X 10.10 SDK deprecates <code>&lt;launch.h&gt;</code>, although the functionality it provides is still useful. These wrappers allow the deprecated functions to be called without triggering deprecated-declaration warnings. </p>
 
 </div>
 </div>
@@ -4450,11 +4451,17 @@ template&lt;typename Destination , typename Source &gt; </div>
 <p>Except as noted, the parameters and return value are identical to those of <code>mach_msg()</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">message</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">receive_size</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">receive_port</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">deadline</td><td>The time by which this call should complete. If the deadline is exceeded, this call will return <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">run_even_if_expired</td><td>If <code>true</code>, a deadline that is expired when this function is called will be treated as though a deadline of <a class="el" href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> had been specified. When <code>false</code>, an expired deadline will result in a <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code> return value, even if the deadline is already expired when the function is called. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">notify_port</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">run_even_if_expired</td><td>If <code>true</code>, a deadline that is expired when this function is called will be treated as though a deadline of <a class="el" href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> had been specified. When <code>false</code>, an expired deadline will result in a <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code> return value, even if the deadline is already expired when the function is called.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>The return value of <code>mach_msg()</code> </dd></dl>
 
 </div>
 </div>
@@ -4534,7 +4541,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the version of the running operating system. </p>
-<dl class="section return"><dt>Returns</dt><dd>The minor version of the operating system, such as <code>9</code> for Mac OS X 10.9.2.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The minor version of the operating system, such as <code>12</code> for macOS 10.12.1.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This is similar to the base::mac::IsOS*() family of functions, but is provided for situations where the caller needs to obtain version information beyond what is provided by Chromium’s base, or for when the caller needs the actual minor version value. </dd></dl>
 
 </div>
@@ -4593,12 +4600,12 @@ template&lt;typename Destination , typename Source &gt; </div>
 <p>All parameters are required. No parameter may be <code>nullptr</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">major</td><td>The major version of the operating system, such as <code>10</code> for Mac OS X 10.9.2. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">minor</td><td>The major version of the operating system, such as <code>9</code> for Mac OS X 10.9.2. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">bugfix</td><td>The bugfix version of the operating system, such as <code>2</code> for Mac OS X 10.9.2. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">build</td><td>The operating system’s build string, such as "13C64" for Mac OS X 10.9.2. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">server</td><td><code>true</code> for a Mac OS X Server installation, <code>false</code> otherwise (for a desktop/laptop, client, or workstation system). </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">version_string</td><td>A string representing the full operating system version, such as <code>"Mac OS X 10.9.2 (13C64)"</code>.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">major</td><td>The major version of the operating system, such as <code>10</code> for macOS 10.12.1. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">minor</td><td>The major version of the operating system, such as <code>12</code> for macOS 10.12.1. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bugfix</td><td>The bugfix version of the operating system, such as <code>1</code> for macOS 10.12.1. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">build</td><td>The operating system’s build string, such as <code>"16B2657"</code> for macOS 10.12.1. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">server</td><td><code>true</code> for a macOS Server installation, <code>false</code> otherwise (for a desktop/laptop, client, or workstation system). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">version_string</td><td>A string representing the full operating system version, such as <code>"macOS 10.12.1 (16B2657)"</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -4646,7 +4653,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Inserts a mapping from <em>key</em> to <em>value</em> into <em>map</em>, or replaces an existing mapping so that <em>key</em> maps to . </p>
+<p>Inserts a mapping from <em>key</em> to <em>value</em> into <em>map</em>, or replaces an existing mapping so that <em>key</em> maps to <em>value</em>. </p>
 <p>This behaves similarly to <code>std::map&lt;&gt;::insert_or_assign()</code> proposed for C++17, except that the <em>old_value</em> parameter is added.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -5276,7 +5283,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the job is loaded, otherwise <code>false</code>.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>A loaded job is not necessarily presently running, nor has it necessarily ever run in the past. </dd>
 <dd>
-This function is provided because <code>SMJobCopyDictionary()</code> is deprecated in Mac OS X 10.10. It may or may not be implemented using <code>SMJobCopyDictionary()</code> from <code>ServiceManagement.framework</code>. </dd></dl>
+This function is provided because <code>SMJobCopyDictionary()</code> is deprecated in OS X 10.10. It may or may not be implemented using <code>SMJobCopyDictionary()</code> from <code>ServiceManagement.framework</code>. </dd></dl>
 
 </div>
 </div>
@@ -5304,7 +5311,7 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The job’s process ID if running, otherwise <code>0</code>.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is provided because <code>SMJobCopyDictionary()</code> is deprecated in Mac OS X 10.10. It may or may not be implemented using <code>SMJobCopyDictionary()</code> from <code>ServiceManagement.framework</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is provided because <code>SMJobCopyDictionary()</code> is deprecated in OS X 10.10. It may or may not be implemented using <code>SMJobCopyDictionary()</code> from <code>ServiceManagement.framework</code>. </dd></dl>
 
 </div>
 </div>
@@ -5343,7 +5350,7 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the job was removed successfully or if an asynchronous attempt to remove the job was started successfully, otherwise <code>false</code>.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is provided because <code>SMJobRemove()</code> is deprecated in Mac OS X 10.10. On Mac OS X 10.10, observed in DP8 14A361c, it also blocks for far too long (<code>_block_until_job_exits()</code> contains a one-second <code>sleep()</code>, filed as radar 18398683) and does not signal failure via its return value when asked to remove a nonexistent job (filed as radar 18268941). </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is provided because <code>SMJobRemove()</code> is deprecated in OS X 10.10. On OS X 10.10, observed in DP8 14A361c, it also blocks for far too long (<code>_block_until_job_exits()</code> contains a one-second <code>sleep()</code>, filed as radar 18398683) and does not signal failure via its return value when asked to remove a nonexistent job (filed as radar 18268941). </dd></dl>
 
 </div>
 </div>
@@ -5371,7 +5378,7 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the job was submitted successfully, otherwise <code>false</code>.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function is provided because <code>SMJobSubmit()</code> is deprecated in Mac OS X 10.10. It may or may not be implemented using <code>SMJobSubmit()</code> from <code>ServiceManagement.framework</code>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is provided because <code>SMJobSubmit()</code> is deprecated in OS X 10.10. It may or may not be implemented using <code>SMJobSubmit()</code> from <code>ServiceManagement.framework</code>. </dd></dl>
 
 </div>
 </div>
@@ -5507,8 +5514,8 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 
 </div>
 </div>
-<a id="a0fbe485caf948acd9f055755b001e87a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0fbe485caf948acd9f055755b001e87a">&sect;&nbsp;</a></span>SplitString()</h2>
+<a id="abb5d05de37d3f1a92ce36c3ce37842b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb5d05de37d3f1a92ce36c3ce37842b7">&sect;&nbsp;</a></span>SplitString()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5517,7 +5524,7 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
           <td class="memname">std::vector&lt; std::string &gt; crashpad::SplitString </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>str</em>, </td>
+          <td class="paramname"><em>string</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -5537,7 +5544,7 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">string</td><td>The string to split. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">delimiter</td><td>The delimiter to split at. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">delimiter</td><td>The delimiter to split at.</td></tr>
   </table>
   </dd>
 </dl>
@@ -5593,7 +5600,7 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <em>string</em> was split successfully. <code>false</code> if <em>string</em> did not contain a  character or began with a  character. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if <em>string</em> was split successfully. <code>false</code> if <em>string</em> did not contain a <em>delimiter</em> character or began with a <em>delimiter</em> character. </dd></dl>
 
 </div>
 </div>
@@ -6170,14 +6177,24 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 <p>This function does not fetch the existing thread state for <em>behavior</em> values that require a thread state. The caller must provide the existing thread state in the <em>flavor</em>, <em>old_state</em>, and <em>old_state_count</em> parameters for <em>behavior</em> values that require a thread state. <a class="el" href="classcrashpad_1_1Thread.html" title="Basic thread abstraction. Users should derive from this class and implement ThreadMain(). ">Thread</a> states may be obtained by calling <code>thread_get_state()</code> if needed. Similarly, this function does not do anything with the new thread state returned for these <em>behavior</em> values. Callers that wish to make use of the new thread state may do so by using the returned <em>flavor</em>, <em>new_state</em>, and <em>new_state_count</em> values. <a class="el" href="classcrashpad_1_1Thread.html" title="Basic thread abstraction. Users should derive from this class and implement ThreadMain(). ">Thread</a> states may be set by calling <code>thread_set_state()</code> if needed.</p>
 <p><em>thread</em> and <em>task</em> are only used when <em>behavior</em> indicates that the exception message will carry identity information, when it has the value value <code>EXCEPTION_DEFAULT</code> or <code>EXCEPTION_STATE_IDENTITY</code>, possibly with <code>MACH_EXCEPTION_CODES</code> also set. In other cases, these parameters are unused and may be set to <code>THREAD_NULL</code> and <code>TASK_NULL</code>, respectively.</p>
 <p><em>flavor</em>, <em>old_state</em>, <em>old_state_count</em>, <em>new_state</em>, and <em>new_state_count</em> are only used when <em>behavior</em> indicates that the exception message will carry thread state information, when it has the value <code>EXCEPTION_STATE</code> or <code>EXCEPTION_STATE_IDENTITY</code>, possibly with <code>MACH_EXCEPTION_CODES</code> also set. In other cases, these parameters are unused and may be set to <code>0</code> (<em>old_state_count</em>) or <code>nullptr</code> (the remaining parameters).</p>
+<p>Except as noted, the parameters and return value are equivalent to those of the <code>*exception_raise*()</code> family of functions.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">behavior</td><td>The exception behavior, which dictates which function will be called. It is an error to call this function with an invalid value for <em>behavior</em>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">code</td><td>If  indicates a behavior without <code>MACH_EXCEPTION_CODES</code>, the elements of <em>code</em> will be truncated in order to be passed to the appropriate exception handler.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">exception_port</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">thread</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">task</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">exception</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">code</td><td>If <em>behavior</em> indicates a behavior without <code>MACH_EXCEPTION_CODES</code>, the elements of <em>code</em> will be truncated in order to be passed to the appropriate exception handler. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">code_count</td><td></td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">flavor</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">old_state</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">old_state_count</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">new_state</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">new_state_count</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<p>All other parameters are treated equivalently to their treatment by the <code>*exception_raise*()</code> family of functions.</p>
 <dl class="section return"><dt>Returns</dt><dd>The return value of the function called. </dd></dl>
 
 </div>

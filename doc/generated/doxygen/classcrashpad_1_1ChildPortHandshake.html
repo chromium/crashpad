@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -258,7 +259,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>test::ChildPortHands
 <p>There is no return value because <code>child_port_check_in()</code> is a MIG <code>simpleroutine</code>, and the server does not send a reply. This allows check-in to occur without blocking to wait for a reply.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">pipe_read</td><td>The “read” side of the pipe shared with the server process. This function takes ownership of this file descriptor, and will close it prior to returning. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">client_read_fd</td><td>The “read” side of the pipe shared with the server process. This function takes ownership of this file descriptor, and will close it prior to returning. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">port</td><td>The port right that will be passed to the server by <code>child_port_check_in()</code>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">right_type</td><td>The right type to furnish the server with. If <em>port</em> is a send right, this can be <code>MACH_MSG_TYPE_COPY_SEND</code> or <code>MACH_MSG_TYPE_MOVE_SEND</code>. If <em>port</em> is a send-once right, this can be <code>MACH_MSG_TYPE_MOVE_SEND_ONCE</code>. If <em>port</em> is a receive right, this can be <code>MACH_MSG_TYPE_MAKE_SEND</code>, <code>MACH_MSG_TYPE_MAKE_SEND_ONCE</code>, or <code>MACH_MSG_TYPE_MOVE_RECEIVE</code>.</td></tr>
   </table>
@@ -335,6 +336,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>test::ChildPortHands
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">server_write_fd</td><td>The write side of the pipe shared with the client process. This function takes ownership of this file descriptor, and will close it prior to returning. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">port_right_type</td><td>The port right type expected to be received from the client. If the port right received from the client does not match the expected type, the received port right will be destroyed, and <code>MACH_PORT_NULL</code> will be returned.</td></tr>
   </table>
   </dd>

@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -325,7 +326,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the process’ crash handler to a Mach port. </p>
-<p>This method is only defined on OS X.</p>
+<p>This method is only defined on macOS.</p>
 <p>See <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> for more detail on how the port and handler are configured.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -354,7 +355,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the process’ crash handler to a Mach service registered with the bootstrap server. </p>
-<p>This method is only defined on OS X.</p>
+<p>This method is only defined on macOS.</p>
 <p>See <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> for more detail on how the port and handler are configured.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -429,8 +430,8 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Starts a Crashpad handler process, performing any necessary handshake to configure it. </p>
-<p>This method directs crashes to the Crashpad handler. On Mac OS X, this is applicable to this process and all child processes. On Windows, child processes must also register by using <a class="el" href="classcrashpad_1_1CrashpadClient.html#a9f1d5d38e9b4f5781e3821551dcc39d5" title="Sets the IPC pipe of a presumably-running Crashpad handler process which was started with StartHandle...">SetHandlerIPCPipe()</a>.</p>
-<p>On Mac OS X, this method starts a Crashpad handler and obtains a Mach send right corresponding to a receive right held by the handler process. The handler process runs an exception server on this port. This method sets the task’s exception port for <code>EXC_CRASH</code>, <code>EXC_RESOURCE</code>, and <code>EXC_GUARD</code> exceptions to the Mach send right obtained. The handler will be installed with behavior <code>EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES</code> and thread state flavor <code>MACHINE_THREAD_STATE</code>. Exception ports are inherited, so a Crashpad handler started here will remain the handler for any child processes created after <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> is called. Child processes do not need to call <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or be aware of Crashpad in any way. The Crashpad handler will receive crashes from child processes that have inherited it as their exception handler even after the process that called <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> exits.</p>
+<p>This method directs crashes to the Crashpad handler. On macOS, this is applicable to this process and all subsequent child processes. On Windows, child processes must also register by using <a class="el" href="classcrashpad_1_1CrashpadClient.html#a9f1d5d38e9b4f5781e3821551dcc39d5" title="Sets the IPC pipe of a presumably-running Crashpad handler process which was started with StartHandle...">SetHandlerIPCPipe()</a>.</p>
+<p>On macOS, this method starts a Crashpad handler and obtains a Mach send right corresponding to a receive right held by the handler process. The handler process runs an exception server on this port. This method sets the task’s exception port for <code>EXC_CRASH</code>, <code>EXC_RESOURCE</code>, and <code>EXC_GUARD</code> exceptions to the Mach send right obtained. The handler will be installed with behavior <code>EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES</code> and thread state flavor <code>MACHINE_THREAD_STATE</code>. Exception ports are inherited, so a Crashpad handler started here will remain the handler for any child processes created after <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> is called. These child processes do not need to call <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or be aware of Crashpad in any way. The Crashpad handler will receive crashes from child processes that have inherited it as their exception handler even after the process that called <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> exits.</p>
 <p>On Windows, if <em>asynchronous_start</em> is <code>true</code>, this function will not directly call <code>CreateProcess()</code>, making it suitable for use in a <code>DllMain()</code>. In that case, the handler is started from a background thread, deferring the handler's startup. Nevertheless, regardless of the value of <em>asynchronous_start</em>, after calling this method, the global unhandled exception filter is set up, and all crashes will be handled by Crashpad. Optionally, use <a class="el" href="classcrashpad_1_1CrashpadClient.html#ac555c59b7ca8a619360175991a897394" title="When asynchronous_start is used with StartHandler(), this method can be used to block until the handl...">WaitForHandlerStart()</a> to join with the background thread and retrieve the status of handler startup.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -473,7 +474,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Configures the process to direct its crashes to the default handler for the operating system. </p>
-<p>On OS X, this sets the task’s exception port as in <a class="el" href="classcrashpad_1_1CrashpadClient.html#a35e9ce1b1771a597aa3276ec28de28a7" title="Sets the process’ crash handler to a Mach port. ">SetHandlerMachPort()</a>, but the exception handler used is obtained from <a class="el" href="namespacecrashpad.html#a47204f3a62646651e8f393cac2a6316b" title="Obtains the system’s default Mach exception handler for crash-type exceptions. ">SystemCrashReporterHandler()</a>. If the system’s crash reporter handler cannot be determined or set, the task’s exception ports for crash-type exceptions are cleared.</p>
+<p>On macOS, this sets the task’s exception port as in <a class="el" href="classcrashpad_1_1CrashpadClient.html#a35e9ce1b1771a597aa3276ec28de28a7" title="Sets the process’ crash handler to a Mach port. ">SetHandlerMachPort()</a>, but the exception handler used is obtained from <a class="el" href="namespacecrashpad.html#a47204f3a62646651e8f393cac2a6316b" title="Obtains the system’s default Mach exception handler for crash-type exceptions. ">SystemCrashReporterHandler()</a>. If the system’s crash reporter handler cannot be determined or set, the task’s exception ports for crash-type exceptions are cleared.</p>
 <p>Use of this function is strongly discouraged.</p>
 <dl class="section warning"><dt>Warning</dt><dd>After a call to this function, Crashpad will no longer monitor the process for crashes until a subsequent call to <a class="el" href="classcrashpad_1_1CrashpadClient.html#a35e9ce1b1771a597aa3276ec28de28a7" title="Sets the process’ crash handler to a Mach port. ">SetHandlerMachPort()</a>.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This is provided as a static function to allow it to be used in situations where a <a class="el" href="classcrashpad_1_1CrashpadClient.html" title="The primary interface for an application to have Crashpad monitor it for crashes. ...">CrashpadClient</a> object is not otherwise available. This may be useful when a child process inherits its parent’s Crashpad handler, but wants to sever this tie. </dd></dl>

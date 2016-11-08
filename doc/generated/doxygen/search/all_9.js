@@ -2,6 +2,7 @@ var searchData=
 [
   ['id',['id',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html#a55a46d92912b0f2087ece80e47a8d282',1,'crashpad::CrashReportDatabase::Report']]],
   ['image_5fdebug_5fmisc',['IMAGE_DEBUG_MISC',['../structIMAGE__DEBUG__MISC.html',1,'']]],
+  ['image_5fdebug_5fmisc_5fexename',['IMAGE_DEBUG_MISC_EXENAME',['../winnt_8h.html#aa9cc7d5b9cc8e88e3cde8e595c7b3a2f',1,'winnt.h']]],
   ['indirectly_5freferenced_5fmemory_5fcap',['indirectly_referenced_memory_cap',['../structcrashpad_1_1CrashpadInfoClientOptions.html#aa9aba9adef6705671e909733b29775b5',1,'crashpad::CrashpadInfoClientOptions']]],
   ['initialclientdata',['InitialClientData',['../classcrashpad_1_1InitialClientData.html',1,'crashpad']]],
   ['initialclientdata',['InitialClientData',['../classcrashpad_1_1InitialClientData.html#a80131e5552fc537b18fe019d47e32fb6',1,'crashpad::InitialClientData::InitialClientData()'],['../classcrashpad_1_1InitialClientData.html#ade29b844a82ae4f712a4ba89099f9b6d',1,'crashpad::InitialClientData::InitialClientData(HANDLE request_crash_dump, HANDLE request_non_crash_dump, HANDLE non_crash_dump_completed, HANDLE first_pipe_instance, HANDLE client_process, WinVMAddress crash_exception_information, WinVMAddress non_crash_exception_information, WinVMAddress debug_critical_section_address)']]],

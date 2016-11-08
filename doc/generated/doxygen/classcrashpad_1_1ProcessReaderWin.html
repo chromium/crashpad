@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -95,10 +96,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9a57de463ff788497e10d04bc20c5b3d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReaderWin.html#a9a57de463ff788497e10d04bc20c5b3d">ReadAvailableMemory</a> (<a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> at, <a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a> num_bytes, void *into) const</td></tr>
 <tr class="memdesc:a9a57de463ff788497e10d04bc20c5b3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to read <em>num_bytes</em> bytes from the target process starting at address <em>at</em> into <em>into</em>. If some of the specified range is not accessible, reads up to the first inaccessible byte.  <a href="#a9a57de463ff788497e10d04bc20c5b3d">More...</a><br /></td></tr>
 <tr class="separator:a9a57de463ff788497e10d04bc20c5b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac195b620d6522e48683eaaa203537f6f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReaderWin.html#ac195b620d6522e48683eaaa203537f6f">StartTime</a> (<a class="el" href="structtimeval.html">timeval</a> *start_time) const</td></tr>
+<tr class="memitem:ac195b620d6522e48683eaaa203537f6f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReaderWin.html#ac195b620d6522e48683eaaa203537f6f">StartTime</a> (timeval *start_time) const</td></tr>
 <tr class="memdesc:ac195b620d6522e48683eaaa203537f6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the target process' start time.  <a href="#ac195b620d6522e48683eaaa203537f6f">More...</a><br /></td></tr>
 <tr class="separator:ac195b620d6522e48683eaaa203537f6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a808d9b56c3306802a15b41d82daa0fa5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReaderWin.html#a808d9b56c3306802a15b41d82daa0fa5">CPUTimes</a> (<a class="el" href="structtimeval.html">timeval</a> *user_time, <a class="el" href="structtimeval.html">timeval</a> *system_time) const</td></tr>
+<tr class="memitem:a808d9b56c3306802a15b41d82daa0fa5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReaderWin.html#a808d9b56c3306802a15b41d82daa0fa5">CPUTimes</a> (timeval *user_time, timeval *system_time) const</td></tr>
 <tr class="memdesc:a808d9b56c3306802a15b41d82daa0fa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the target process' execution time.  <a href="#a808d9b56c3306802a15b41d82daa0fa5">More...</a><br /></td></tr>
 <tr class="separator:a808d9b56c3306802a15b41d82daa0fa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e8c6dbc415404658201bd4a7e3536d7"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="structcrashpad_1_1ProcessReaderWin_1_1Thread.html">Thread</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReaderWin.html#a4e8c6dbc415404658201bd4a7e3536d7">Threads</a> ()</td></tr>
@@ -123,13 +124,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool crashpad::ProcessReaderWin::CPUTimes </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>user_time</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>system_time</em>&#160;</td>
         </tr>
         <tr>
@@ -359,7 +360,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool crashpad::ProcessReaderWin::StartTime </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>start_time</em></td><td>)</td>
           <td> const</td>
         </tr>

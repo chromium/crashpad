@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -74,7 +75,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:adc85b29d7df8943baf1a96af23051ca8"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__SYSTEM__INFO.html#adc85b29d7df8943baf1a96af23051ca8">ProcessorArchitecture</a></td></tr>
-<tr class="memdesc:adc85b29d7df8943baf1a96af23051ca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The system’s CPU architecture. This may be a <a class="el" href="win_2winnt_8h.html#PROCESSOR_ARCHITECTURE_x">PROCESSOR_ARCHITECTURE_*</a> value, or a member of <a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1" title="CPU type values for MINIDUMP_SYSTEM_INFO::ProcessorArchitecture. ">crashpad::MinidumpCPUArchitecture</a>.  <a href="#adc85b29d7df8943baf1a96af23051ca8">More...</a><br /></td></tr>
+<tr class="memdesc:adc85b29d7df8943baf1a96af23051ca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The system’s CPU architecture. This may be a <a class="el" href="winnt_8h.html#PROCESSOR_ARCHITECTURE_x">PROCESSOR_ARCHITECTURE_*</a> value, or a member of <a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1" title="CPU type values for MINIDUMP_SYSTEM_INFO::ProcessorArchitecture. ">crashpad::MinidumpCPUArchitecture</a>.  <a href="#adc85b29d7df8943baf1a96af23051ca8">More...</a><br /></td></tr>
 <tr class="separator:adc85b29d7df8943baf1a96af23051ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3abc0dbe8cba11aa22a43ac93c5abd2b"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a3abc0dbe8cba11aa22a43ac93c5abd2b">ProcessorLevel</a></td></tr>
 <tr class="memdesc:a3abc0dbe8cba11aa22a43ac93c5abd2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">General CPU version information.  <a href="#a3abc0dbe8cba11aa22a43ac93c5abd2b">More...</a><br /></td></tr>
@@ -88,7 +89,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <tr class="separator:ac340b7a265a50ac7744b6aba6d9d87a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9aac8ed4707ea43563fed1776454bad5"><td class="memItemLeft" align="right" valign="top"><a id="a9aac8ed4707ea43563fed1776454bad5"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a9aac8ed4707ea43563fed1776454bad5">ProductType</a></td></tr>
-<tr class="memdesc:a9aac8ed4707ea43563fed1776454bad5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The system’s operating system type, which distinguishes between “desktop” or “workstation” systems and “server” systems. This may be a <a class="el" href="win_2winnt_8h.html#VER_NT_x">VER_NT_*</a> value, or a member of <a class="el" href="namespacecrashpad.html#a3bf5a6562c9ccee9b4ef3ae4d9ac0be7" title="Operating system type values for MINIDUMP_SYSTEM_INFO::ProductType. ">crashpad::MinidumpOSType</a>. <br /></td></tr>
+<tr class="memdesc:a9aac8ed4707ea43563fed1776454bad5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The system’s operating system type, which distinguishes between “desktop” or “workstation” systems and “server” systems. This may be a <a class="el" href="winnt_8h.html#VER_NT_x">VER_NT_*</a> value, or a member of <a class="el" href="namespacecrashpad.html#a3bf5a6562c9ccee9b4ef3ae4d9ac0be7" title="Operating system type values for MINIDUMP_SYSTEM_INFO::ProductType. ">crashpad::MinidumpOSType</a>. <br /></td></tr>
 <tr class="separator:a9aac8ed4707ea43563fed1776454bad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af657b2ed0798f5962ae59e459133d735"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__SYSTEM__INFO.html#af657b2ed0798f5962ae59e459133d735">MajorVersion</a></td></tr>
 <tr class="memdesc:af657b2ed0798f5962ae59e459133d735"><td class="mdescLeft">&#160;</td><td class="mdescRight">The system’s operating system version number’s first (major) component.  <a href="#af657b2ed0798f5962ae59e459133d735">More...</a><br /></td></tr>
@@ -101,13 +102,13 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="s
 <tr class="separator:a2d417f17d4a3c2d5616268288bf47521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a214e7bd61a89343a80a3c9a265fbbe96"><td class="memItemLeft" align="right" valign="top"><a id="a214e7bd61a89343a80a3c9a265fbbe96"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a214e7bd61a89343a80a3c9a265fbbe96">PlatformId</a></td></tr>
-<tr class="memdesc:a214e7bd61a89343a80a3c9a265fbbe96"><td class="mdescLeft">&#160;</td><td class="mdescRight">The system’s operating system family. This may be a <a class="el" href="win_2winnt_8h.html#VER_PLATFORM_x">VER_PLATFORM_*</a> value, or a member of <a class="el" href="namespacecrashpad.html#a9be77c6f7868f00c2f279006a1abe26a" title="Operating system family values for MINIDUMP_SYSTEM_INFO::PlatformId. ">crashpad::MinidumpOS</a>. <br /></td></tr>
+<tr class="memdesc:a214e7bd61a89343a80a3c9a265fbbe96"><td class="mdescLeft">&#160;</td><td class="mdescRight">The system’s operating system family. This may be a <a class="el" href="winnt_8h.html#VER_PLATFORM_x">VER_PLATFORM_*</a> value, or a member of <a class="el" href="namespacecrashpad.html#a9be77c6f7868f00c2f279006a1abe26a" title="Operating system family values for MINIDUMP_SYSTEM_INFO::PlatformId. ">crashpad::MinidumpOS</a>. <br /></td></tr>
 <tr class="separator:a214e7bd61a89343a80a3c9a265fbbe96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36f5669d9d4f8dc7d5d3ab0132d60943"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dbghelp_8h.html#acf465a1a77ecf067a9d946583bc6a3f8">RVA</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a36f5669d9d4f8dc7d5d3ab0132d60943">CSDVersionRva</a></td></tr>
 <tr class="memdesc:a36f5669d9d4f8dc7d5d3ab0132d60943"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="dbghelp_8h.html#acf465a1a77ecf067a9d946583bc6a3f8" title="An offset within a minidump file, relative to the start of its MINIDUMP_HEADER. ">RVA</a> of a <a class="el" href="structMINIDUMP__STRING.html" title="A variable-length UTF-16-encoded string carried within a minidump file. ">MINIDUMP_STRING</a> containing operating system-specific version information.  <a href="#a36f5669d9d4f8dc7d5d3ab0132d60943">More...</a><br /></td></tr>
 <tr class="separator:a36f5669d9d4f8dc7d5d3ab0132d60943"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b9c73ce707c57a0280a395051f67945"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a8b9c73ce707c57a0280a395051f67945">SuiteMask</a></td></tr>
-<tr class="memdesc:a8b9c73ce707c57a0280a395051f67945"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bitfield identifying products installed on the system. This is composed of <a class="el" href="win_2winnt_8h.html#VER_SUITE_x">VER_SUITE_*</a> values.  <a href="#a8b9c73ce707c57a0280a395051f67945">More...</a><br /></td></tr>
+<tr class="memdesc:a8b9c73ce707c57a0280a395051f67945"><td class="mdescLeft">&#160;</td><td class="mdescRight">A bitfield identifying products installed on the system. This is composed of <a class="el" href="winnt_8h.html#VER_SUITE_x">VER_SUITE_*</a> values.  <a href="#a8b9c73ce707c57a0280a395051f67945">More...</a><br /></td></tr>
 <tr class="separator:a8b9c73ce707c57a0280a395051f67945"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9fd6a6e5dd3b08877e9b2acf9bf1096"><td class="memItemLeft" align="right" valign="top"><a id="ac9fd6a6e5dd3b08877e9b2acf9bf1096"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>Reserved2</b></td></tr>
@@ -134,7 +135,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>Reserved2</b></td
 <p>The system’s operating system version number’s third (build or patch) component. </p>
 <ul>
 <li>For Windows 7 (NT 6.1) SP1, version 6.1.7601, this would be <code>7601</code>.</li>
-<li>For Mac OS X 10.9.2, this would be <code>2</code>. </li>
+<li>For macOS 10.12.1, this would be <code>1</code>. </li>
 </ul>
 
 </div>
@@ -173,7 +174,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>Reserved2</b></td
 <p>This field further identifies an operating system version beyond its version number fields. Historically, “CSD” stands for “corrective service diskette.”</p>
 <ul>
 <li>On Windows, this is the name of the installed operating system service pack, such as “Service Pack 1”. If no service pack is installed, this field references an empty string.</li>
-<li>On Mac OS X, this is the operating system build number from <code>sw_vers -buildVersion</code>. For Mac OS X 10.9.2 on most hardware types, this would be <code>13C64</code>.</li>
+<li>On macOS, this is the operating system build number from <code>sw_vers -buildVersion</code>. For macOS 10.12.1 on most hardware types, this would be <code>16B2657</code>.</li>
 <li>On Linux and other Unix-like systems, this is the kernel version from <code>uname -srvm</code>, possibly with additional information appended. On Android, the <code>ro.build.fingerprint</code> system property is appended. </li>
 </ul>
 
@@ -194,7 +195,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>Reserved2</b></td
 <p>The system’s operating system version number’s first (major) component. </p>
 <ul>
 <li>For Windows 7 (NT 6.1) SP1, version 6.1.7601, this would be <code>6</code>.</li>
-<li>For Mac OS X 10.9.2, this would be <code>10</code>. </li>
+<li>For macOS 10.12.1, this would be <code>10</code>. </li>
 </ul>
 
 </div>
@@ -214,7 +215,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>Reserved2</b></td
 <p>The system’s operating system version number’s second (minor) component. </p>
 <ul>
 <li>For Windows 7 (NT 6.1) SP1, version 6.1.7601, this would be <code>1</code>.</li>
-<li>For Mac OS X 10.9.2, this would be <code>9</code>. </li>
+<li>For macOS 10.12.1, this would be <code>12</code>. </li>
 </ul>
 
 </div>
@@ -231,7 +232,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>Reserved2</b></td
       </table>
 </div><div class="memdoc">
 
-<p>The system’s CPU architecture. This may be a <a class="el" href="win_2winnt_8h.html#PROCESSOR_ARCHITECTURE_x">PROCESSOR_ARCHITECTURE_*</a> value, or a member of <a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1" title="CPU type values for MINIDUMP_SYSTEM_INFO::ProcessorArchitecture. ">crashpad::MinidumpCPUArchitecture</a>. </p>
+<p>The system’s CPU architecture. This may be a <a class="el" href="winnt_8h.html#PROCESSOR_ARCHITECTURE_x">PROCESSOR_ARCHITECTURE_*</a> value, or a member of <a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1" title="CPU type values for MINIDUMP_SYSTEM_INFO::ProcessorArchitecture. ">crashpad::MinidumpCPUArchitecture</a>. </p>
 <p>In some cases, a system may be able to run processes of multiple specific architecture types. For example, systems based on 64-bit architectures such as x86_64 are often able to run 32-bit code of another architecture in the same family, such as 32-bit x86. On these systems, this field will identify the architecture of the process that the minidump file contains a snapshot of. </p>
 
 </div>
@@ -282,7 +283,7 @@ uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>Reserved2</b></td
       </table>
 </div><div class="memdoc">
 
-<p>A bitfield identifying products installed on the system. This is composed of <a class="el" href="win_2winnt_8h.html#VER_SUITE_x">VER_SUITE_*</a> values. </p>
+<p>A bitfield identifying products installed on the system. This is composed of <a class="el" href="winnt_8h.html#VER_SUITE_x">VER_SUITE_*</a> values. </p>
 <p>This field is Windows-specific, and has no meaning on other operating systems. </p>
 
 </div>

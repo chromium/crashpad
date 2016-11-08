@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -70,7 +71,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A <a class="el" href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process. ">ProcessSnapshot</a> of a running (or crashed) process running on a Mac OS X system.  
+<p>A <a class="el" href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process. ">ProcessSnapshot</a> of a running (or crashed) process running on a macOS system.  
  <a href="classcrashpad_1_1ProcessSnapshotMac.html#details">More...</a></p>
 
 <p><code>#include &quot;snapshot/mac/process_snapshot_mac.h&quot;</code></p>
@@ -112,13 +113,13 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a9902e6bb3f87c4e514885cafec8d54da">ParentProcessID</a> () const override</td></tr>
 <tr class="memdesc:a9902e6bb3f87c4e514885cafec8d54da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the snapshot process’ parent process’ process ID. <br /></td></tr>
 <tr class="separator:a9902e6bb3f87c4e514885cafec8d54da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f1dae20abda51a69fa9fb0b2704f638"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a8f1dae20abda51a69fa9fb0b2704f638">SnapshotTime</a> (<a class="el" href="structtimeval.html">timeval</a> *snapshot_time) const override</td></tr>
+<tr class="memitem:a8f1dae20abda51a69fa9fb0b2704f638"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a8f1dae20abda51a69fa9fb0b2704f638">SnapshotTime</a> (timeval *snapshot_time) const override</td></tr>
 <tr class="memdesc:a8f1dae20abda51a69fa9fb0b2704f638"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time that the snapshot was taken in <em>snapshot_time</em>.  <a href="#a8f1dae20abda51a69fa9fb0b2704f638">More...</a><br /></td></tr>
 <tr class="separator:a8f1dae20abda51a69fa9fb0b2704f638"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac319ebbd8ec9b81c3861c70afe9403d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#ac319ebbd8ec9b81c3861c70afe9403d1">ProcessStartTime</a> (<a class="el" href="structtimeval.html">timeval</a> *start_time) const override</td></tr>
+<tr class="memitem:ac319ebbd8ec9b81c3861c70afe9403d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#ac319ebbd8ec9b81c3861c70afe9403d1">ProcessStartTime</a> (timeval *start_time) const override</td></tr>
 <tr class="memdesc:ac319ebbd8ec9b81c3861c70afe9403d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time that the snapshot process was started in <em>start_time</em>.  <a href="#ac319ebbd8ec9b81c3861c70afe9403d1">More...</a><br /></td></tr>
 <tr class="separator:ac319ebbd8ec9b81c3861c70afe9403d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa692352db6f4dec570dd9294e5204e78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#aa692352db6f4dec570dd9294e5204e78">ProcessCPUTimes</a> (<a class="el" href="structtimeval.html">timeval</a> *user_time, <a class="el" href="structtimeval.html">timeval</a> *system_time) const override</td></tr>
+<tr class="memitem:aa692352db6f4dec570dd9294e5204e78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#aa692352db6f4dec570dd9294e5204e78">ProcessCPUTimes</a> (timeval *user_time, timeval *system_time) const override</td></tr>
 <tr class="memdesc:aa692352db6f4dec570dd9294e5204e78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the snapshot process’ CPU usage times in <em>user_time</em> and <em>system_time</em>.  <a href="#aa692352db6f4dec570dd9294e5204e78">More...</a><br /></td></tr>
 <tr class="separator:aa692352db6f4dec570dd9294e5204e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fd584f7a00e5f027bfba24cf5cc9d3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a0fd584f7a00e5f027bfba24cf5cc9d3b">ReportID</a> (<a class="el" href="structcrashpad_1_1UUID.html">UUID</a> *report_id) const override</td></tr>
@@ -156,7 +157,7 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr class="separator:a9efeb7691b5e87da2e05f8338b3001b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A <a class="el" href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process. ">ProcessSnapshot</a> of a running (or crashed) process running on a Mac OS X system. </p>
+<div class="textblock"><p>A <a class="el" href="classcrashpad_1_1ProcessSnapshot.html" title="An abstract interface to a snapshot representing the state of a process. ">ProcessSnapshot</a> of a running (or crashed) process running on a macOS system. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="af72102fe9d035c165a971f76ed9967dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af72102fe9d035c165a971f76ed9967dd">&sect;&nbsp;</a></span>AnnotationsSimpleMap()</h2>
@@ -430,7 +431,7 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <p>Initializes the object’s exception. </p>
 <p>This populates the data to be returned by <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a6a889e857ccd0e06ae1279c9ca708c50" title="Returns an ExceptionSnapshot reflecting the exception that the snapshot process sustained to trigger ...">Exception()</a>. The parameters may be passed directly through from a Mach exception handler.</p>
 <p>This method must not be called until after a successful call to <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a993ea0334f71e9307a90ad0c8f039562" title="Initializes the object. ">Initialize()</a>.</p>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the exception information could be initialized, <code>false</code> otherwise with an appropriate message logged. When this method returns <code>false</code>, the <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html" title="A ProcessSnapshot of a running (or crashed) process running on a Mac OS X system. ...">ProcessSnapshotMac</a> object’s validity remains unchanged. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the exception information could be initialized, <code>false</code> otherwise with an appropriate message logged. When this method returns <code>false</code>, the <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html" title="A ProcessSnapshot of a running (or crashed) process running on a macOS system. ">ProcessSnapshotMac</a> object’s validity remains unchanged. </dd></dl>
 
 </div>
 </div>
@@ -506,13 +507,13 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
         <tr>
           <td class="memname">void crashpad::ProcessSnapshotMac::ProcessCPUTimes </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>user_time</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>system_time</em>&#160;</td>
         </tr>
         <tr>
@@ -553,7 +554,7 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
         <tr>
           <td class="memname">void crashpad::ProcessSnapshotMac::ProcessStartTime </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>start_time</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -635,7 +636,7 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </div><div class="memdoc">
 
 <p>Sets the value to be returned by <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#af72102fe9d035c165a971f76ed9967dd" title="Returns key-value string annotations recorded for the process, system, or snapshot producer...">AnnotationsSimpleMap()</a>. </p>
-<p>On Mac OS X, all process annotations are under the control of the snapshot producer, which may call this method to establish these annotations. Contrast this with module annotations, which are under the control of the process being snapshotted. </p>
+<p>On macOS, all process annotations are under the control of the snapshot producer, which may call this method to establish these annotations. Contrast this with module annotations, which are under the control of the process being snapshotted. </p>
 
 </div>
 </div>
@@ -664,7 +665,7 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </div><div class="memdoc">
 
 <p>Sets the value to be returned by <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a4b42dff07349188a382157c8d0c9ce88" title="Returns a UUID identifying the client that the snapshot represents. ">ClientID()</a>. </p>
-<p>On Mac OS X, the client ID is under the control of the snapshot producer, which may call this method to set the client ID. If this is not done, <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a4b42dff07349188a382157c8d0c9ce88" title="Returns a UUID identifying the client that the snapshot represents. ">ClientID()</a> will return an identifier consisting entirely of zeroes. </p>
+<p>On macOS, the client ID is under the control of the snapshot producer, which may call this method to set the client ID. If this is not done, <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a4b42dff07349188a382157c8d0c9ce88" title="Returns a UUID identifying the client that the snapshot represents. ">ClientID()</a> will return an identifier consisting entirely of zeroes. </p>
 
 </div>
 </div>
@@ -693,7 +694,7 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </div><div class="memdoc">
 
 <p>Sets the value to be returned by <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a0fd584f7a00e5f027bfba24cf5cc9d3b" title="Returns a UUID identifying the event that the snapshot describes. ">ReportID()</a>. </p>
-<p>On Mac OS X, the crash report ID is under the control of the snapshot producer, which may call this method to set the report ID. If this is not done, <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a0fd584f7a00e5f027bfba24cf5cc9d3b" title="Returns a UUID identifying the event that the snapshot describes. ">ReportID()</a> will return an identifier consisting entirely of zeroes. </p>
+<p>On macOS, the crash report ID is under the control of the snapshot producer, which may call this method to set the report ID. If this is not done, <a class="el" href="classcrashpad_1_1ProcessSnapshotMac.html#a0fd584f7a00e5f027bfba24cf5cc9d3b" title="Returns a UUID identifying the event that the snapshot describes. ">ReportID()</a> will return an identifier consisting entirely of zeroes. </p>
 
 </div>
 </div>
@@ -709,7 +710,7 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
         <tr>
           <td class="memname">void crashpad::ProcessSnapshotMac::SnapshotTime </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>snapshot_time</em></td><td>)</td>
           <td> const</td>
         </tr>

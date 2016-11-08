@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -146,6 +147,10 @@ Public Member Functions</h2></td></tr>
 <p>This behaves equivalently to a <code>handle_child_port_check_in()</code> function used with <code>child_port_server()</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">server</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">token</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">port</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">right_type</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">trailer</td><td>The trailer received with the request message. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">destroy_request</td><td><code>true</code> if the request message is to be destroyed even when this method returns success. See <a class="el" href="classcrashpad_1_1MachMessageServer_1_1Interface.html" title="A Mach RPC callback interface, called by Run(). ">MachMessageServer::Interface</a>. </td></tr>
   </table>

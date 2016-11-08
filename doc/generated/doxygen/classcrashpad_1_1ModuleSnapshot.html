@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -172,7 +173,7 @@ virtual std::set&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">Che
 <p>On some platforms, loadable modules are distinguished from shared libraries. On these platforms, a shared library is a module that another module links against directly, and a loadable module is not. Loadable modules tend to be binary plug-ins. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a7fd77f711ef04d87ece6e04d48d219f7afcee6c62064ab77825b89e4b444e3f81"></a>kModuleTypeDynamicLoader&#160;</td><td class="fielddoc"><p>The module is a dynamic loader. </p>
-<p>This is the module responsible for loading other modules. This is normally <code>dyld</code> for Mac OS X and <code>ld.so</code> for Linux and other systems using ELF. </p>
+<p>This is the module responsible for loading other modules. This is normally <code>dyld</code> for macOS and <code>ld.so</code> for Linux and other systems using ELF. </p>
 </td></tr>
 </table>
 
@@ -204,7 +205,7 @@ virtual std::set&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">Che
 
 <p>Returns key-value string annotations recorded in the module. </p>
 <p>This method retrieves annotations recorded in a module. These annotations are intended for diagnostic use, including crash analysis. “Simple annotations” are structured as a sequence of key-value pairs, where all keys and values are strings. These are referred to in Chrome as “crash keys.”</p>
-<p>For Mac OS X snapshots, these annotations are found by interpreting the <code>__DATA,crashpad_info</code> section as <code><a class="el" href="structcrashpad_1_1CrashpadInfo.html" title="A structure that can be used by a Crashpad-enabled program to provide information to the Crashpad cra...">CrashpadInfo</a></code>. Clients can use the Crashpad client interface to store annotations in this structure. Most annotations under the client’s direct control will be retrievable by this method. For clients such as Chrome, this includes the process type.</p>
+<p>For macOS snapshots, these annotations are found by interpreting the <code>__DATA,crashpad_info</code> section as <code><a class="el" href="structcrashpad_1_1CrashpadInfo.html" title="A structure that can be used by a Crashpad-enabled program to provide information to the Crashpad cra...">CrashpadInfo</a></code>. Clients can use the Crashpad client interface to store annotations in this structure. Most annotations under the client’s direct control will be retrievable by this method. For clients such as Chrome, this includes the process type.</p>
 <p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a11075b25729fda7cf96ed8c8b25061a2" title="Returns string annotations recorded in the module. ">AnnotationsVector()</a>. Additional annotations related to the process, system, or snapshot producer may be obtained by calling <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a7f39b29ec055fb4235e5156d55e066cb" title="Returns key-value string annotations recorded for the process, system, or snapshot producer...">ProcessSnapshot::AnnotationsSimpleMap()</a>. </p>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#a2cab3a5791597068c5585aaebf9faa4e">crashpad::test::TestModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a4122d0649c3513608f070f234a6013b9">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a54d28a9f4cd06f2446e6fcaa288360f7">crashpad::internal::ModuleSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a5650eaea4d201ffa29b0dda5bcce1cf1">crashpad::internal::ModuleSnapshotMinidump</a>.</p>
@@ -236,7 +237,7 @@ virtual std::set&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">Che
 
 <p>Returns string annotations recorded in the module. </p>
 <p>This method retrieves annotations recorded in a module. These annotations are intended for diagnostic use, including crash analysis. A module may contain multiple annotations, so they are returned in a vector.</p>
-<p>For Mac OS X snapshots, these annotations are found by interpreting the module’s <code>__DATA,__crash_info</code> section as <code>crashreporter_annotations_t</code>. System libraries using the crash reporter client interface may reference annotations in this structure. Additional annotations messages may be found in other locations, which may be module-specific. The dynamic linker (<code>dyld</code>) can provide an annotation at its <code>_error_string</code> symbol.</p>
+<p>For macOS snapshots, these annotations are found by interpreting the module’s <code>__DATA,__crash_info</code> section as <code>crashreporter_annotations_t</code>. System libraries using the crash reporter client interface may reference annotations in this structure. Additional annotations messages may be found in other locations, which may be module-specific. The dynamic linker (<code>dyld</code>) can provide an annotation at its <code>_error_string</code> symbol.</p>
 <p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a4d1328fda3e91a4c25369b5fcc4cf2f6" title="Returns key-value string annotations recorded in the module. ">AnnotationsSimpleMap()</a>. </p>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#a97cdfcc95cf23d6be000e59baa7b457b">crashpad::test::TestModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a6fdf9a63074896bf2c12e6df89689411">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a8c043511c3c3c543993da252948dfea9">crashpad::internal::ModuleSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a19863780827939572c3ea36ef0077dbe">crashpad::internal::ModuleSnapshotMinidump</a>.</p>
@@ -352,7 +353,7 @@ virtual std::set&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">Che
 
 <p>Returns the module’s file version in the <em>version_*</em> parameters. </p>
 <p>If no file version can be determined, the <em>version_*</em> parameters are set to <code>0</code>.</p>
-<p>For Mac OS X snapshots, this is taken from the module’s <code>LC_ID_DYLIB</code> load command for shared libraries, and is <code>0</code> for other module types. </p>
+<p>For macOS snapshots, this is taken from the module’s <code>LC_ID_DYLIB</code> load command for shared libraries, and is <code>0</code> for other module types. </p>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#ae82618e4945d0fa2f5e735578be3aa55">crashpad::test::TestModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a360ff8c4593575bec6cf5ad9d095fa3c">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#ab124235bd262034c5ec432f663ee7967">crashpad::internal::ModuleSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a68b5f5bf99675f59afaad3bdf785bad6">crashpad::internal::ModuleSnapshotMinidump</a>.</p>
 
@@ -382,7 +383,7 @@ virtual std::set&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">Che
 </div><div class="memdoc">
 
 <p>Returns the size that the module occupies in the snapshot process’ address space, starting at its base address. </p>
-<p>For Mac OS X snapshots, this method only reports the size of the <code>__TEXT</code> segment, because segments may not be loaded contiguously. </p>
+<p>For macOS snapshots, this method only reports the size of the <code>__TEXT</code> segment, because segments may not be loaded contiguously. </p>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#ac0d8018d626a6d53f6a9bd674e0a9623">crashpad::test::TestModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#af3935e2bc946adce23c3fb95cc8456d9">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a084373912d84b791e4c13a2229976e06">crashpad::internal::ModuleSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a8b7ca559f3006665795118852f2bab89">crashpad::internal::ModuleSnapshotMinidump</a>.</p>
 
@@ -436,7 +437,7 @@ virtual std::set&lt; <a class="el" href="classcrashpad_1_1CheckedRange.html">Che
 
 <p>Returns the module’s source version in the <em>version_*</em> parameters. </p>
 <p>If no source version can be determined, the <em>version_*</em> parameters are set to <code>0</code>.</p>
-<p>For Mac OS X snapshots, this is taken from the module’s <code>LC_SOURCE_VERSION</code> load command. </p>
+<p>For macOS snapshots, this is taken from the module’s <code>LC_SOURCE_VERSION</code> load command. </p>
 
 <p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#ad276752e9ca47b67d5e36991f0816009">crashpad::test::TestModuleSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#a51fff655bd3faecb23127fd2f39777fc">crashpad::internal::ModuleSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a457e1c01f5506646c24b721fa89eec99">crashpad::internal::ModuleSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#a8184f644b6d4eace129f9918673789de">crashpad::internal::ModuleSnapshotMinidump</a>.</p>
 

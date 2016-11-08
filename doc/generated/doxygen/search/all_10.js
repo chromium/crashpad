@@ -69,7 +69,6 @@ var searchData=
   ['processinfo',['ProcessInfo',['../classcrashpad_1_1ProcessInfo.html',1,'crashpad']]],
   ['processintegritylevel',['ProcessIntegrityLevel',['../structMINIDUMP__MISC__INFO__3.html#a89afc34c4cddef0b2805cade8ddfec8a',1,'MINIDUMP_MISC_INFO_3']]],
   ['processkerneltime',['ProcessKernelTime',['../structMINIDUMP__MISC__INFO.html#a1a1a98c7fde6ef85db1c1462047b59d0',1,'MINIDUMP_MISC_INFO']]],
-  ['processor_5fpower_5finformation',['PROCESSOR_POWER_INFORMATION',['../structPROCESSOR__POWER__INFORMATION.html',1,'']]],
   ['processorarchitecture',['ProcessorArchitecture',['../structMINIDUMP__SYSTEM__INFO.html#adc85b29d7df8943baf1a96af23051ca8',1,'MINIDUMP_SYSTEM_INFO']]],
   ['processorcurrentidlestate',['ProcessorCurrentIdleState',['../structMINIDUMP__MISC__INFO__2.html#a0761af6e927eed895b7a75613fb6c6ee',1,'MINIDUMP_MISC_INFO_2']]],
   ['processorcurrentmhz',['ProcessorCurrentMhz',['../structMINIDUMP__MISC__INFO__2.html#ac089cb96ec41ddaae77f695e778ccd4e',1,'MINIDUMP_MISC_INFO_2']]],

@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -213,7 +214,7 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">process_reader</td><td>A <a class="el" href="classcrashpad_1_1ProcessReaderWin.html" title="Accesses information about another process, identified by a HANDLE. ">ProcessReaderWin</a> for the process containing the thread. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">process_reader_thread</td><td>The thread within the <a class="el" href="classcrashpad_1_1ProcessReaderWin.html" title="Accesses information about another process, identified by a HANDLE. ">ProcessReaderWin</a> for which the snapshot should be created. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">gather_indirectly_referenced_memory_bytes_remaining.</td><td>If non-null, add extra memory regions to the snapshot pointed to by the thread's stack. The size of the regions added is subtracted from the count, and when it's <code>0</code>, no more regions will be added.</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">gather_indirectly_referenced_memory_bytes_remaining</td><td>If non-null, add extra memory regions to the snapshot pointed to by the thread's stack. The size of the regions added is subtracted from the count, and when it's <code>0</code>, no more regions will be added.</td></tr>
   </table>
   </dd>
 </dl>

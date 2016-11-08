@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -83,7 +84,7 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="separator:a4b126ff573ae5fcb0dce239a16e8d4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab46c5090432b64eec002cf28f987fcc4"><td class="memItemLeft" align="right" valign="top"><a id="ab46c5090432b64eec002cf28f987fcc4"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MEMORY__INFO.html#ab46c5090432b64eec002cf28f987fcc4">AllocationProtect</a></td></tr>
-<tr class="memdesc:ab46c5090432b64eec002cf28f987fcc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The memory protection when the region was initially allocated. This member can be one of the memory protection options (such as <a class="el" href="win_2winnt_8h.html#PAGE_x">PAGE_x</a> PAGE_EXECUTE, <a class="el" href="win_2winnt_8h.html#PAGE_x">PAGE_x</a> PAGE_NOACCESS, etc.), along with <a class="el" href="win_2winnt_8h.html#PAGE_x">PAGE_x</a> PAGE_GUARD or <a class="el" href="win_2winnt_8h.html#PAGE_x">PAGE_x</a> PAGE_NOCACHE, as needed. <br /></td></tr>
+<tr class="memdesc:ab46c5090432b64eec002cf28f987fcc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The memory protection when the region was initially allocated. This member can be one of the memory protection options (such as <a class="el" href="winnt_8h.html#PAGE_x">PAGE_EXECUTE</a>, <a class="el" href="winnt_8h.html#PAGE_x">PAGE_NOACCESS</a>, etc.), along with <a class="el" href="winnt_8h.html#PAGE_x">PAGE_GUARD</a> or <a class="el" href="winnt_8h.html#PAGE_x">PAGE_NOCACHE</a>, as needed. <br /></td></tr>
 <tr class="separator:ab46c5090432b64eec002cf28f987fcc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57e89d674334bb48d8fe79d380aec05f"><td class="memItemLeft" align="right" valign="top"><a id="a57e89d674334bb48d8fe79d380aec05f"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>__alignment1</b></td></tr>
@@ -94,7 +95,7 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="separator:af1b29639a9edec37d2b8f431134e3181"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27341e73a6433d98e4742e71788f7cc4"><td class="memItemLeft" align="right" valign="top"><a id="a27341e73a6433d98e4742e71788f7cc4"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MEMORY__INFO.html#a27341e73a6433d98e4742e71788f7cc4">State</a></td></tr>
-<tr class="memdesc:a27341e73a6433d98e4742e71788f7cc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The state of the pages in the region. This can be one of <a class="el" href="win_2winnt_8h.html#MEM_x">MEM_x</a> MEM_COMMIT, <a class="el" href="win_2winnt_8h.html#MEM_x">MEM_x</a> MEM_FREE, or <a class="el" href="win_2winnt_8h.html#MEM_x">MEM_x</a> MEM_RESERVE. <br /></td></tr>
+<tr class="memdesc:a27341e73a6433d98e4742e71788f7cc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The state of the pages in the region. This can be one of <a class="el" href="winnt_8h.html#MEM_x">MEM_COMMIT</a>, <a class="el" href="winnt_8h.html#MEM_x">MEM_FREE</a>, or <a class="el" href="winnt_8h.html#MEM_x">MEM_RESERVE</a>. <br /></td></tr>
 <tr class="separator:a27341e73a6433d98e4742e71788f7cc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a472f6a5e8897c33aed20dea3db7807f2"><td class="memItemLeft" align="right" valign="top"><a id="a472f6a5e8897c33aed20dea3db7807f2"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MEMORY__INFO.html#a472f6a5e8897c33aed20dea3db7807f2">Protect</a></td></tr>
@@ -102,7 +103,7 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="separator:a472f6a5e8897c33aed20dea3db7807f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac23730215942661e57117b1bb2e5782b"><td class="memItemLeft" align="right" valign="top"><a id="ac23730215942661e57117b1bb2e5782b"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MEMORY__INFO.html#ac23730215942661e57117b1bb2e5782b">Type</a></td></tr>
-<tr class="memdesc:ac23730215942661e57117b1bb2e5782b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of pages in the region. This can be one of <a class="el" href="win_2winnt_8h.html#MEM_x">MEM_x</a> MEM_IMAGE, <a class="el" href="win_2winnt_8h.html#MEM_x">MEM_x</a> MEM_MAPPED, or <a class="el" href="win_2winnt_8h.html#MEM_x">MEM_x</a> MEM_PRIVATE. <br /></td></tr>
+<tr class="memdesc:ac23730215942661e57117b1bb2e5782b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of pages in the region. This can be one of <a class="el" href="winnt_8h.html#MEM_x">MEM_IMAGE</a>, <a class="el" href="winnt_8h.html#MEM_x">MEM_MAPPED</a>, or <a class="el" href="winnt_8h.html#MEM_x">MEM_PRIVATE</a>. <br /></td></tr>
 <tr class="separator:ac23730215942661e57117b1bb2e5782b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6ef9626237f8d275f4b5cfa20930118"><td class="memItemLeft" align="right" valign="top"><a id="ac6ef9626237f8d275f4b5cfa20930118"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>__alignment2</b></td></tr>

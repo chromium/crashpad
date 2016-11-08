@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['mach_2eh',['mach.h',['../non__mac_2mach_2mach_8h.html',1,'']]],
+  ['mach_2eh',['mach.h',['../mach_8h.html',1,'']]],
   ['macherrormessage',['MachErrorMessage',['../namespacecrashpad_1_1test.html#a49a7a2461cf4e1f674eac147c19d9483',1,'crashpad::test']]],
   ['machinedescription',['MachineDescription',['../classcrashpad_1_1internal_1_1SystemSnapshotMac.html#a437c61c4e98c72121eed75a32d578766',1,'crashpad::internal::SystemSnapshotMac::MachineDescription()'],['../classcrashpad_1_1SystemSnapshot.html#a77c75d316dd728d541d51b6ff29265eb',1,'crashpad::SystemSnapshot::MachineDescription()'],['../classcrashpad_1_1test_1_1TestSystemSnapshot.html#a88597dace697f941d8d2d33754f04b58',1,'crashpad::test::TestSystemSnapshot::MachineDescription()'],['../classcrashpad_1_1internal_1_1SystemSnapshotWin.html#aef61327d1bb88cbcef507fb2c80f27b5',1,'crashpad::internal::SystemSnapshotWin::MachineDescription()']]],
   ['machmessagedeadline',['MachMessageDeadline',['../namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c',1,'crashpad']]],
@@ -158,8 +158,8 @@ var searchData=
   ['minorversion',['MinorVersion',['../structMINIDUMP__SYSTEM__INFO.html#af83527912e589bbc4d9937f94fb6496c',1,'MINIDUMP_SYSTEM_INFO']]],
   ['miscinfostream',['MiscInfoStream',['../dbghelp_8h.html#a64711234318a4a002f399dffb474ca08a02e9fb2f037d09f1cdb4eb0c9f115b33',1,'dbghelp.h']]],
   ['miscrecord',['MiscRecord',['../structMINIDUMP__MODULE.html#a749bc0bb7492a1b9463631eec006b4d1',1,'MINIDUMP_MODULE']]],
-  ['module',['Module',['../structcrashpad_1_1ProcessReader_1_1Module.html',1,'crashpad::ProcessReader']]],
   ['module',['Module',['../structcrashpad_1_1ProcessInfo_1_1Module.html',1,'crashpad::ProcessInfo']]],
+  ['module',['Module',['../structcrashpad_1_1ProcessReader_1_1Module.html',1,'crashpad::ProcessReader']]],
   ['module_5flist',['module_list',['../structcrashpad_1_1MinidumpCrashpadInfo.html#a343f824f5f16c241eb8ff11b71cf39ec',1,'crashpad::MinidumpCrashpadInfo']]],
   ['moduleliststream',['ModuleListStream',['../dbghelp_8h.html#a64711234318a4a002f399dffb474ca08ad404c18554f01aa57ac0af1a7674060b',1,'dbghelp.h']]],
   ['modulenamerva',['ModuleNameRva',['../structMINIDUMP__MODULE.html#a8aa1ae48a9a32640573747cba5a00274',1,'MINIDUMP_MODULE::ModuleNameRva()'],['../structMINIDUMP__UNLOADED__MODULE.html#af053b8df443ed30eb5b2e72747ed41e8',1,'MINIDUMP_UNLOADED_MODULE::ModuleNameRva()']]],

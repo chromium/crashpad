@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -172,7 +173,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Returns key-value string annotations recorded in the module. </p>
 <p>This method retrieves annotations recorded in a module. These annotations are intended for diagnostic use, including crash analysis. “Simple annotations” are structured as a sequence of key-value pairs, where all keys and values are strings. These are referred to in Chrome as “crash keys.”</p>
-<p>For Mac OS X snapshots, these annotations are found by interpreting the <code>__DATA,crashpad_info</code> section as <code><a class="el" href="structcrashpad_1_1CrashpadInfo.html" title="A structure that can be used by a Crashpad-enabled program to provide information to the Crashpad cra...">CrashpadInfo</a></code>. Clients can use the Crashpad client interface to store annotations in this structure. Most annotations under the client’s direct control will be retrievable by this method. For clients such as Chrome, this includes the process type.</p>
+<p>For macOS snapshots, these annotations are found by interpreting the <code>__DATA,crashpad_info</code> section as <code><a class="el" href="structcrashpad_1_1CrashpadInfo.html" title="A structure that can be used by a Crashpad-enabled program to provide information to the Crashpad cra...">CrashpadInfo</a></code>. Clients can use the Crashpad client interface to store annotations in this structure. Most annotations under the client’s direct control will be retrievable by this method. For clients such as Chrome, this includes the process type.</p>
 <p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a8c043511c3c3c543993da252948dfea9" title="Returns string annotations recorded in the module. ">AnnotationsVector()</a>. Additional annotations related to the process, system, or snapshot producer may be obtained by calling <a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a7f39b29ec055fb4235e5156d55e066cb" title="Returns key-value string annotations recorded for the process, system, or snapshot producer...">ProcessSnapshot::AnnotationsSimpleMap()</a>. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a4d1328fda3e91a4c25369b5fcc4cf2f6">crashpad::ModuleSnapshot</a>.</p>
@@ -204,7 +205,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Returns string annotations recorded in the module. </p>
 <p>This method retrieves annotations recorded in a module. These annotations are intended for diagnostic use, including crash analysis. A module may contain multiple annotations, so they are returned in a vector.</p>
-<p>For Mac OS X snapshots, these annotations are found by interpreting the module’s <code>__DATA,__crash_info</code> section as <code>crashreporter_annotations_t</code>. System libraries using the crash reporter client interface may reference annotations in this structure. Additional annotations messages may be found in other locations, which may be module-specific. The dynamic linker (<code>dyld</code>) can provide an annotation at its <code>_error_string</code> symbol.</p>
+<p>For macOS snapshots, these annotations are found by interpreting the module’s <code>__DATA,__crash_info</code> section as <code>crashreporter_annotations_t</code>. System libraries using the crash reporter client interface may reference annotations in this structure. Additional annotations messages may be found in other locations, which may be module-specific. The dynamic linker (<code>dyld</code>) can provide an annotation at its <code>_error_string</code> symbol.</p>
 <p>The annotations returned by this method do not duplicate those returned by <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a54d28a9f4cd06f2446e6fcaa288360f7" title="Returns key-value string annotations recorded in the module. ">AnnotationsSimpleMap()</a>. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a11075b25729fda7cf96ed8c8b25061a2">crashpad::ModuleSnapshot</a>.</p>
@@ -320,7 +321,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Returns the module’s file version in the <em>version_*</em> parameters. </p>
 <p>If no file version can be determined, the <em>version_*</em> parameters are set to <code>0</code>.</p>
-<p>For Mac OS X snapshots, this is taken from the module’s <code>LC_ID_DYLIB</code> load command for shared libraries, and is <code>0</code> for other module types. </p>
+<p>For macOS snapshots, this is taken from the module’s <code>LC_ID_DYLIB</code> load command for shared libraries, and is <code>0</code> for other module types. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a6b3f4831720290e2ab5460ef21ff7443">crashpad::ModuleSnapshot</a>.</p>
 
@@ -414,7 +415,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the size that the module occupies in the snapshot process’ address space, starting at its base address. </p>
-<p>For Mac OS X snapshots, this method only reports the size of the <code>__TEXT</code> segment, because segments may not be loaded contiguously. </p>
+<p>For macOS snapshots, this method only reports the size of the <code>__TEXT</code> segment, because segments may not be loaded contiguously. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#ac412fbdc86c4b0862f74f7b06170469a">crashpad::ModuleSnapshot</a>.</p>
 
@@ -468,7 +469,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Returns the module’s source version in the <em>version_*</em> parameters. </p>
 <p>If no source version can be determined, the <em>version_*</em> parameters are set to <code>0</code>.</p>
-<p>For Mac OS X snapshots, this is taken from the module’s <code>LC_SOURCE_VERSION</code> load command. </p>
+<p>For macOS snapshots, this is taken from the module’s <code>LC_SOURCE_VERSION</code> load command. </p>
 
 <p>Implements <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#a5ec8c62e1ff32421b01bf2677ad66761">crashpad::ModuleSnapshot</a>.</p>
 

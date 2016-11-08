@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -147,7 +148,7 @@ static <a class="el" href="structcrashpad_1_1CrashpadInfo.html">CrashpadInfo</a>
 </div><div class="memdoc">
 
 <p>Adds a custom stream to the minidump. </p>
-<p>The memory block referenced by <em>data</em> and <em>size</em> will added to the minidump as separate stream with type . The memory referred to by <em>data</em> and <em>size</em> is owned by the caller and must remain valid while it is in effect for the <a class="el" href="structcrashpad_1_1CrashpadInfo.html" title="A structure that can be used by a Crashpad-enabled program to provide information to the Crashpad cra...">CrashpadInfo</a> object.</p>
+<p>The memory block referenced by <em>data</em> and <em>size</em> will added to the minidump as separate stream with type <em>stream_type</em>. The memory referred to by <em>data</em> and <em>size</em> is owned by the caller and must remain valid while it is in effect for the <a class="el" href="structcrashpad_1_1CrashpadInfo.html" title="A structure that can be used by a Crashpad-enabled program to provide information to the Crashpad cra...">CrashpadInfo</a> object.</p>
 <p>Note that streams will appear in the minidump in the reverse order to which they are added.</p>
 <p>TODO(scottmg) This is currently only supported on Windows.</p>
 <dl class="params"><dt>Parameters</dt><dd>

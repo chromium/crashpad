@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -109,13 +110,13 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#ab4429b60381c404e534bd052f08d2ad6">ParentProcessID</a> () const override</td></tr>
 <tr class="memdesc:ab4429b60381c404e534bd052f08d2ad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the snapshot process’ parent process’ process ID. <br /></td></tr>
 <tr class="separator:ab4429b60381c404e534bd052f08d2ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14e97f3c145df6a06132fe5c1d2d0338"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a14e97f3c145df6a06132fe5c1d2d0338">SnapshotTime</a> (<a class="el" href="structtimeval.html">timeval</a> *snapshot_time) const override</td></tr>
+<tr class="memitem:a14e97f3c145df6a06132fe5c1d2d0338"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a14e97f3c145df6a06132fe5c1d2d0338">SnapshotTime</a> (timeval *snapshot_time) const override</td></tr>
 <tr class="memdesc:a14e97f3c145df6a06132fe5c1d2d0338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time that the snapshot was taken in <em>snapshot_time</em>.  <a href="#a14e97f3c145df6a06132fe5c1d2d0338">More...</a><br /></td></tr>
 <tr class="separator:a14e97f3c145df6a06132fe5c1d2d0338"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c158a725b0719cfdb7023cac0135fa3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a5c158a725b0719cfdb7023cac0135fa3">ProcessStartTime</a> (<a class="el" href="structtimeval.html">timeval</a> *start_time) const override</td></tr>
+<tr class="memitem:a5c158a725b0719cfdb7023cac0135fa3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a5c158a725b0719cfdb7023cac0135fa3">ProcessStartTime</a> (timeval *start_time) const override</td></tr>
 <tr class="memdesc:a5c158a725b0719cfdb7023cac0135fa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time that the snapshot process was started in <em>start_time</em>.  <a href="#a5c158a725b0719cfdb7023cac0135fa3">More...</a><br /></td></tr>
 <tr class="separator:a5c158a725b0719cfdb7023cac0135fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a079b5adc8d511a87b7e7aa5101c77f79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a079b5adc8d511a87b7e7aa5101c77f79">ProcessCPUTimes</a> (<a class="el" href="structtimeval.html">timeval</a> *user_time, <a class="el" href="structtimeval.html">timeval</a> *system_time) const override</td></tr>
+<tr class="memitem:a079b5adc8d511a87b7e7aa5101c77f79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a079b5adc8d511a87b7e7aa5101c77f79">ProcessCPUTimes</a> (timeval *user_time, timeval *system_time) const override</td></tr>
 <tr class="memdesc:a079b5adc8d511a87b7e7aa5101c77f79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the snapshot process’ CPU usage times in <em>user_time</em> and <em>system_time</em>.  <a href="#a079b5adc8d511a87b7e7aa5101c77f79">More...</a><br /></td></tr>
 <tr class="separator:a079b5adc8d511a87b7e7aa5101c77f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a182403646db8783fb9d2b8c091576ec1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a182403646db8783fb9d2b8c091576ec1">ReportID</a> (<a class="el" href="structcrashpad_1_1UUID.html">UUID</a> *report_id) const override</td></tr>
@@ -460,13 +461,13 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
         <tr>
           <td class="memname">void crashpad::ProcessSnapshotWin::ProcessCPUTimes </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>user_time</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>system_time</em>&#160;</td>
         </tr>
         <tr>
@@ -507,7 +508,7 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
         <tr>
           <td class="memname">void crashpad::ProcessSnapshotWin::ProcessStartTime </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>start_time</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -663,7 +664,7 @@ pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
         <tr>
           <td class="memname">void crashpad::ProcessSnapshotWin::SnapshotTime </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>snapshot_time</em></td><td>)</td>
           <td> const</td>
         </tr>

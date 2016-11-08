@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -80,7 +81,7 @@ Inheritance diagram for crashpad::ProcessSnapshot:</div>
  <div class="center">
   <img src="classcrashpad_1_1ProcessSnapshot.png" usemap="#crashpad::ProcessSnapshot_map" alt=""/>
   <map id="crashpad::ProcessSnapshot_map" name="crashpad::ProcessSnapshot_map">
-<area href="classcrashpad_1_1ProcessSnapshotMac.html" title="A ProcessSnapshot of a running (or crashed) process running on a Mac OS X system. ..." alt="crashpad::ProcessSnapshotMac" shape="rect" coords="0,56,223,80"/>
+<area href="classcrashpad_1_1ProcessSnapshotMac.html" title="A ProcessSnapshot of a running (or crashed) process running on a macOS system. " alt="crashpad::ProcessSnapshotMac" shape="rect" coords="0,56,223,80"/>
 <area href="classcrashpad_1_1ProcessSnapshotMinidump.html" title="A ProcessSnapshot based on a minidump file. " alt="crashpad::ProcessSnapshotMinidump" shape="rect" coords="233,56,456,80"/>
 <area href="classcrashpad_1_1ProcessSnapshotWin.html" title="A ProcessSnapshot of a running (or crashed) process running on a Windows system. " alt="crashpad::ProcessSnapshotWin" shape="rect" coords="466,56,689,80"/>
 <area href="classcrashpad_1_1test_1_1TestProcessSnapshot.html" title="A test ProcessSnapshot that can carry arbitrary data for testing purposes. " alt="crashpad::test::TestProcessSnapshot" shape="rect" coords="699,56,922,80"/>
@@ -97,13 +98,13 @@ virtual pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 virtual pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a7c0d70193463888d58e6e3902b17aa5e">ParentProcessID</a> () const =0</td></tr>
 <tr class="memdesc:a7c0d70193463888d58e6e3902b17aa5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the snapshot process’ parent process’ process ID. <br /></td></tr>
 <tr class="separator:a7c0d70193463888d58e6e3902b17aa5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a755c58effbbfb33b4d5be963bd81079f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a755c58effbbfb33b4d5be963bd81079f">SnapshotTime</a> (<a class="el" href="structtimeval.html">timeval</a> *snapshot_time) const =0</td></tr>
+<tr class="memitem:a755c58effbbfb33b4d5be963bd81079f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a755c58effbbfb33b4d5be963bd81079f">SnapshotTime</a> (timeval *snapshot_time) const =0</td></tr>
 <tr class="memdesc:a755c58effbbfb33b4d5be963bd81079f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time that the snapshot was taken in <em>snapshot_time</em>.  <a href="#a755c58effbbfb33b4d5be963bd81079f">More...</a><br /></td></tr>
 <tr class="separator:a755c58effbbfb33b4d5be963bd81079f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13e296954660e175812f99a21e1e2671"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a13e296954660e175812f99a21e1e2671">ProcessStartTime</a> (<a class="el" href="structtimeval.html">timeval</a> *start_time) const =0</td></tr>
+<tr class="memitem:a13e296954660e175812f99a21e1e2671"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a13e296954660e175812f99a21e1e2671">ProcessStartTime</a> (timeval *start_time) const =0</td></tr>
 <tr class="memdesc:a13e296954660e175812f99a21e1e2671"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the time that the snapshot process was started in <em>start_time</em>.  <a href="#a13e296954660e175812f99a21e1e2671">More...</a><br /></td></tr>
 <tr class="separator:a13e296954660e175812f99a21e1e2671"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a2b61c60114c5ed6cac278496979575"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a9a2b61c60114c5ed6cac278496979575">ProcessCPUTimes</a> (<a class="el" href="structtimeval.html">timeval</a> *user_time, <a class="el" href="structtimeval.html">timeval</a> *system_time) const =0</td></tr>
+<tr class="memitem:a9a2b61c60114c5ed6cac278496979575"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#a9a2b61c60114c5ed6cac278496979575">ProcessCPUTimes</a> (timeval *user_time, timeval *system_time) const =0</td></tr>
 <tr class="memdesc:a9a2b61c60114c5ed6cac278496979575"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the snapshot process’ CPU usage times in <em>user_time</em> and <em>system_time</em>.  <a href="#a9a2b61c60114c5ed6cac278496979575">More...</a><br /></td></tr>
 <tr class="separator:a9a2b61c60114c5ed6cac278496979575"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0e40c11c938d180ffe13d7e407a5fbb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSnapshot.html#ae0e40c11c938d180ffe13d7e407a5fbb">ReportID</a> (<a class="el" href="structcrashpad_1_1UUID.html">UUID</a> *client_id) const =0</td></tr>
@@ -370,13 +371,13 @@ virtual pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
         <tr>
           <td class="memname">virtual void crashpad::ProcessSnapshot::ProcessCPUTimes </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>user_time</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>system_time</em>&#160;</td>
         </tr>
         <tr>
@@ -417,7 +418,7 @@ virtual pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
         <tr>
           <td class="memname">virtual void crashpad::ProcessSnapshot::ProcessStartTime </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>start_time</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -486,7 +487,7 @@ virtual pid_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
         <tr>
           <td class="memname">virtual void crashpad::ProcessSnapshot::SnapshotTime </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimeval.html">timeval</a> *&#160;</td>
+          <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>snapshot_time</em></td><td>)</td>
           <td> const</td>
         </tr>

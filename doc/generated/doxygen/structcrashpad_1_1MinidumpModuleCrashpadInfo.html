@@ -13,6 +13,7 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="crashpad_doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -98,7 +99,7 @@ Static Public Attributes</h2></td></tr>
 <div class="textblock"><p>Additional Crashpad-specific information about a module carried within a minidump file. </p>
 <p>This structure augments the information provided by <a class="el" href="structMINIDUMP__MODULE.html" title="Information about a specific module loaded within the process at the time the snapshot was taken...">MINIDUMP_MODULE</a>. The minidump file must contain a module list stream (<a class="el" href="namespacecrashpad.html#a88363a45a4af1a16f542a8c1ff522ab9a226cb7d075ec01c79f233d098e9a9e3f" title="The stream type for MINIDUMP_MODULE_LIST. ">kMinidumpStreamTypeModuleList</a>) in order for this structure to appear.</p>
 <p>This structure is versioned. When changing this structure, leave the existing structure intact so that earlier parsers will be able to understand the fields they are aware of, and make additions at the end of the structure. Revise <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a18fb60c0add35baf294f4faadc697963" title="The structure’s currently-defined version number. ">kVersion</a> and document each field’s validity based on <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#ace07d8872cdaa53ca20a04513deb56c3" title="The structure’s version number. ">version</a>, so that newer parsers will be able to determine whether the added fields are valid or not.</p>
-<dl class="section see"><dt>See also</dt><dd>#MinidumpModuleCrashpadInfoList </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfoList.html" title="Additional Crashpad-specific information about modules carried within a minidump file. ">MinidumpModuleCrashpadInfoList</a> </dd></dl>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a18fb60c0add35baf294f4faadc697963"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a18fb60c0add35baf294f4faadc697963">&sect;&nbsp;</a></span>kVersion</h2>

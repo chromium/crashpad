@@ -33,7 +33,6 @@ var searchData=
   ['pointercontainer_3c_20internal_3a_3athreadsnapshotwin_20_3e',['PointerContainer&lt; internal::ThreadSnapshotWin &gt;',['../classcrashpad_1_1PointerContainer.html',1,'crashpad']]],
   ['process_5fbasic_5finformation',['PROCESS_BASIC_INFORMATION',['../structcrashpad_1_1process__types_1_1PROCESS__BASIC__INFORMATION.html',1,'crashpad::process_types']]],
   ['processinfo',['ProcessInfo',['../classcrashpad_1_1ProcessInfo.html',1,'crashpad']]],
-  ['processor_5fpower_5finformation',['PROCESSOR_POWER_INFORMATION',['../structPROCESSOR__POWER__INFORMATION.html',1,'']]],
   ['processreader',['ProcessReader',['../classcrashpad_1_1ProcessReader.html',1,'crashpad']]],
   ['processreaderwin',['ProcessReaderWin',['../classcrashpad_1_1ProcessReaderWin.html',1,'crashpad']]],
   ['processsnapshot',['ProcessSnapshot',['../classcrashpad_1_1ProcessSnapshot.html',1,'crashpad']]],
