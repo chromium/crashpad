@@ -405,7 +405,8 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
       (1 << PF_COMPARE_EXCHANGE128) |
       (1 << PF_XSAVE_ENABLED) |
       (1 << PF_RDWRFSGSBASE_AVAILABLE) |
-      (1 << PF_RDRAND_INSTRUCTION_AVAILABLE);
+      (1 << PF_RDRAND_INSTRUCTION_AVAILABLE) |
+      (UINT64_C(1) << PF_RDTSCP_INSTRUCTION_AVAILABLE);
   expect_system_info.Cpu.OtherCpuInfo.ProcessorFeatures[1] = 0;
   const char kOSVersionBuild[] = "13F34";
 
