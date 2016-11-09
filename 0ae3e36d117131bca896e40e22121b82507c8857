@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b749742_53fe9cbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-11-09T21:59:23Z",
+      "side": 1,
+      "message": "that\n\n(I love this feature of Gerrit)",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "0ae3e36d117131bca896e40e22121b82507c8857",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
