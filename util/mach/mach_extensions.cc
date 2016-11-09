@@ -157,7 +157,26 @@ base::mac::ScopedMachReceiveRight BootstrapCheckIn(
 
 base::mac::ScopedMachSendRight BootstrapLookUp(
     const std::string& service_name) {
-  return BootstrapCheckInOrLookUp<BootstrapLookUpTraits>(service_name);
+  base::mac::ScopedMachSendRight send(
+      BootstrapCheckInOrLookUp<BootstrapLookUpTraits>(service_name));
+
+  // It’s possible to race the bootstrap server when the receive right
+  // corresponding to the looked-up send right is destroyed immediately before
+  // the bootstrap_look_up() call. If the bootstrap server believes that
+  // |service_name| is still registered before processing the port-destroyed
+  // notification sent to it by the kernel, it will respond to a
+  // bootstrap_look_up() request with a send right that has become a dead name,
+  // which will be returned to the bootstrap_look_up() caller, translated into
+  // the caller’s IPC port name space, as the special MACH_PORT_DEAD port name.
+  // Check for that and return MACH_PORT_NULL in its place, as though the
+  // bootstrap server had fully processed the port-destroyed notification before
+  // responding to bootstrap_look_up().
+  if (send.get() == MACH_PORT_DEAD) {
+    LOG(ERROR) << "bootstrap_look_up " << service_name << ": service is dead";
+    send.reset();
+  }
+
+  return send;
 }
 
 base::mac::ScopedMachSendRight SystemCrashReporterHandler() {
