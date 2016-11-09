@@ -64,10 +64,12 @@ uint64_t AMD64FeaturesFromSystemSnapshot(
   MAP_FEATURE(cpuid_features, F_RDRAND, PF_RDRAND_INSTRUCTION_AVAILABLE);
 
 #define FX_XD 20
+#define FX_RDTSCP 27
 #define FX_3DNOW 31
 
   uint64_t extended_features = system_snapshot->CPUX86ExtendedFeatures();
 
+  MAP_FEATURE(extended_features, FX_RDTSCP, PF_RDTSCP_INSTRUCTION_AVAILABLE);
   MAP_FEATURE(extended_features, FX_3DNOW, PF_3DNOW_INSTRUCTIONS_AVAILABLE);
 
 #define F7_FSGSBASE 0
@@ -76,8 +78,8 @@ uint64_t AMD64FeaturesFromSystemSnapshot(
 
   MAP_FEATURE(leaf7_features, F7_FSGSBASE, PF_RDWRFSGSBASE_AVAILABLE);
 
-  // This feature bit should be set if NX (XD, DEP) is enabled, not just if
-  // it’s available on the CPU as indicated by the XF_XD bit.
+  // This feature bit should be set if NX (XD, DEP) is enabled, not just if it’s
+  // available on the CPU as indicated by the FX_XD bit.
   if (system_snapshot->NXEnabled()) {
     minidump_features |= ADD_FEATURE(PF_NX_ENABLED);
   }
@@ -86,10 +88,10 @@ uint64_t AMD64FeaturesFromSystemSnapshot(
     minidump_features |= ADD_FEATURE(PF_SSE_DAZ_MODE_AVAILABLE);
   }
 
-  // PF_SECOND_LEVEL_ADDRESS_TRANSLATION can’t be determined without
-  // consulting model-specific registers, a privileged operation. The exact
-  // use of PF_VIRT_FIRMWARE_ENABLED is unknown. PF_FASTFAIL_AVAILABLE is
-  // irrelevant outside of Windows.
+  // PF_SECOND_LEVEL_ADDRESS_TRANSLATION can’t be determined without consulting
+  // model-specific registers, a privileged operation. The exact use of
+  // PF_VIRT_FIRMWARE_ENABLED is unknown. PF_FASTFAIL_AVAILABLE is irrelevant
+  // outside of Windows.
 
 #undef MAP_FEATURE
 #undef ADD_FEATURE
