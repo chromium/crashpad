@@ -51,10 +51,10 @@ std::string MinidumpMiscInfoDebugBuildString();
 //!     minidump file.
 //!
 //! The actual stream written will be a MINIDUMP_MISC_INFO,
-//! MINIDUMP_MISC_INFO_2, MINIDUMP_MISC_INFO_3, or MINIDUMP_MISC_INFO_4 stream.
-//! Later versions of MINIDUMP_MISC_INFO are supersets of earlier versions. The
-//! earliest version that supports all of the information that an object of this
-//! class contains will be used.
+//! MINIDUMP_MISC_INFO_2, MINIDUMP_MISC_INFO_3, MINIDUMP_MISC_INFO_4, or
+//! MINIDUMP_MISC_INFO_5 stream. Later versions of MINIDUMP_MISC_INFO are
+//! supersets of earlier versions. The earliest version that supports all of the
+//! information that an object of this class contains will be used.
 class MinidumpMiscInfoWriter final : public internal::MinidumpStreamWriter {
  public:
   MinidumpMiscInfoWriter();
@@ -107,6 +107,15 @@ class MinidumpMiscInfoWriter final : public internal::MinidumpStreamWriter {
   void SetBuildString(const std::string& build_string,
                       const std::string& debug_build_string);
 
+  // TODO(mark): Provide a better interface than this. Don’t force callers to
+  // build their own XSTATE_CONFIG_FEATURE_MSC_INFO structure.
+  //
+  //! \brief Sets MINIDUMP_MISC_INFO_5::XStateData.
+  void SetXStateData(const XSTATE_CONFIG_FEATURE_MSC_INFO& xstate_data);
+
+  //! \brief Sets the field referenced by #MINIDUMP_MISC5_PROCESS_COOKIE.
+  void SetProcessCookie(uint32_t process_cookie);
+
  protected:
   // MinidumpWritable:
   bool Freeze() override;
@@ -123,6 +132,7 @@ class MinidumpMiscInfoWriter final : public internal::MinidumpStreamWriter {
   size_t CalculateSizeOfObjectFromFlags() const;
 
   MINIDUMP_MISC_INFO_N misc_info_;
+  bool has_xstate_data_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpMiscInfoWriter);
 };
