@@ -15,6 +15,9 @@
 #ifndef CRASHPAD_COMPAT_WIN_WINNT_H_
 #define CRASHPAD_COMPAT_WIN_WINNT_H_
 
+// include_next <winnt.h>
+#include <../um/winnt.h>
+
 // https://msdn.microsoft.com/en-us/library/windows/desktop/aa373184.aspx:
 // "Note that this structure definition was accidentally omitted from WinNT.h."
 struct PROCESSOR_POWER_INFORMATION {
@@ -26,7 +29,10 @@ struct PROCESSOR_POWER_INFORMATION {
   ULONG CurrentIdleState;
 };
 
-// include_next <winnt.h>
-#include <../um/winnt.h>
+// 10.0.14393.0 SDK
+
+#ifndef PROCESSOR_ARCHITECTURE_ARM32_ON_WIN64
+#define PROCESSOR_ARCHITECTURE_ARM32_ON_WIN64 13
+#endif
 
 #endif  // CRASHPAD_COMPAT_WIN_WINNT_H_
