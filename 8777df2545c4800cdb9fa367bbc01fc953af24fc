@@ -16,6 +16,24 @@
       "revId": "8777df2545c4800cdb9fa367bbc01fc953af24fc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbc21b71_23fcb849",
+        "filename": "compat/win/winnt.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-09T16:27:35Z",
+      "side": 1,
+      "message": "\u003e Are the changes to this file really necessary? I\u0027d rather just require the most recent SDK, if we require the most recent SDK.\n\nDoes Chrome, though? I thought it was still on 10586 (but I didn’t actually check).",
+      "parentUuid": "8bb823f7_9ed07d09",
+      "revId": "8777df2545c4800cdb9fa367bbc01fc953af24fc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
