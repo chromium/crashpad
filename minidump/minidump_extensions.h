@@ -162,6 +162,16 @@ enum MinidumpCPUArchitecture : uint16_t {
   kMinidumpCPUArchitectureX86Win64 = PROCESSOR_ARCHITECTURE_IA32_ON_WIN64,
 
   kMinidumpCPUArchitectureNeutral = PROCESSOR_ARCHITECTURE_NEUTRAL,
+
+  //! \brief 64-bit ARM.
+  //!
+  //! These systems identify their CPUs generically as “arm64” or “aarch64”, or
+  //! with more specific names such as “armv8”.
+  //!
+  //! \sa #kMinidumpCPUArchitectureARM64Breakpad
+  kMinidumpCPUArchitectureARM64 = PROCESSOR_ARCHITECTURE_ARM64,
+
+  kMinidumpCPUArchitectureARM32Win64 = PROCESSOR_ARCHITECTURE_ARM32_ON_WIN64,
   kMinidumpCPUArchitectureSPARC = 0x8001,
 
   //! \brief 64-bit PowerPC.
@@ -170,11 +180,10 @@ enum MinidumpCPUArchitecture : uint16_t {
   //! specific names such as “ppc970”.
   kMinidumpCPUArchitecturePPC64 = 0x8002,
 
-  //! \brief 64-bit ARM.
+  //! \brief Used by Breakpad for 64-bit ARM.
   //!
-  //! These systems identify their CPUs generically as “arm64” or “aarch64”, or
-  //! with more specific names such as “armv8”.
-  kMinidumpCPUArchitectureARM64 = 0x8003,
+  //! \deprecated Use #kMinidumpCPUArchitectureARM64 instead.
+  kMinidumpCPUArchitectureARM64Breakpad = 0x8003,
 
   //! \brief Unknown CPU architecture.
   kMinidumpCPUArchitectureUnknown = PROCESSOR_ARCHITECTURE_UNKNOWN,
