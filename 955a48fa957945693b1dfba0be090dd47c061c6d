@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2b749742_100ecae2",
+        "filename": "compat/non_win/dbghelp.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-09T20:44:43Z",
+      "side": 1,
+      "message": "\u003e Nope, don\u0027t know, sorry. I\u0027d guess something more global than stack? But I\n\u003e don\u0027t know what that would be.\n\nLet me know when the bots are ready and I’ll check this in to kick ’em.\n\nMeanwhile, I’ll poke around a little and see if I can figure it out, and try to validate some of the XSAVE assumptions too.",
+      "parentUuid": "2b749742_50377243",
+      "revId": "955a48fa957945693b1dfba0be090dd47c061c6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b749742_908e3a0d",
         "filename": "compat/non_win/winnt.h",
         "patchSetId": 2
