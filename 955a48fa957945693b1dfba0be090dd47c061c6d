@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b749742_f099be55",
+        "filename": "compat/non_win/dbghelp.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-09T19:45:46Z",
+      "side": 1,
+      "message": "If you know what this is, let me know how to document it and use it! My guess: stack canary value?",
+      "revId": "955a48fa957945693b1dfba0be090dd47c061c6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b749742_908e3a0d",
+        "filename": "compat/non_win/winnt.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-09T19:45:46Z",
+      "side": 1,
+      "message": "I moved PAGE_* and MEM_* to match the order in \u003cwinnt.h\u003e from the Windows 10 SDK.",
+      "revId": "955a48fa957945693b1dfba0be090dd47c061c6d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
