@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bb823f7_9ed07d09",
+        "filename": "compat/win/winnt.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-09T16:14:15Z",
+      "side": 1,
+      "message": "Are the changes to this file really necessary? I\u0027d rather just require the most recent SDK, if we require the most recent SDK.",
+      "revId": "8777df2545c4800cdb9fa367bbc01fc953af24fc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
