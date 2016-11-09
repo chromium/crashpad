@@ -112,6 +112,66 @@
 #define PF_RDTSCP_INSTRUCTION_AVAILABLE 32
 //! \}
 
+//! \anchor PAGE_x
+//! \name PAGE_*
+//!
+//! \brief Memory protection constants for MINIDUMP_MEMORY_INFO::Protect and
+//!     MINIDUMP_MEMORY_INFO::AllocationProtect.
+//! \{
+#define PAGE_NOACCESS 0x1
+#define PAGE_READONLY 0x2
+#define PAGE_READWRITE 0x4
+#define PAGE_WRITECOPY 0x8
+#define PAGE_EXECUTE 0x10
+#define PAGE_EXECUTE_READ 0x20
+#define PAGE_EXECUTE_READWRITE 0x40
+#define PAGE_EXECUTE_WRITECOPY 0x80
+#define PAGE_GUARD 0x100
+#define PAGE_NOCACHE 0x200
+#define PAGE_WRITECOMBINE 0x400
+//! \}
+
+//! \anchor MEM_x
+//! \name MEM_*
+//!
+//! \brief Memory state and type constants for MINIDUMP_MEMORY_INFO::State and
+//!     MINIDUMP_MEMORY_INFO::Type.
+//! \{
+#define MEM_COMMIT 0x1000
+#define MEM_RESERVE 0x2000
+#define MEM_DECOMMIT 0x4000
+#define MEM_RELEASE 0x8000
+#define MEM_FREE 0x10000
+#define MEM_PRIVATE 0x20000
+#define MEM_MAPPED 0x40000
+#define MEM_RESET 0x80000
+//! \}
+
+//! \brief The maximum number of distinct identifiable features that could
+//!     possibly be carried in an XSAVE area.
+//!
+//! This corresponds to the number of bits in the XSAVE state-component bitmap,
+//! XSAVE_BV. See Intel Software Developer’s Manual, Volume 1: Basic
+//! Architecture (253665-060), 13.4.2 “XSAVE Header”.
+#define MAXIMUM_XSTATE_FEATURES (64)
+
+//! \brief The location of a single state component within an XSAVE area.
+struct XSTATE_FEATURE {
+  //! \brief The location of a state component within a CPU-specific context
+  //!     structure.
+  //!
+  //! This is equivalent to the difference (`ptrdiff_t`) between the return
+  //! value of `LocateXStateFeature()` and its \a Context argument.
+  uint32_t Offset;
+
+  //! \brief The size of a state component with a CPU-specific context
+  //!     structure.
+  //!
+  //! This is equivalent to the size returned by `LocateXStateFeature()` in \a
+  //!     Length.
+  uint32_t Size;
+};
+
 //! \anchor IMAGE_DEBUG_MISC_x
 //! \name IMAGE_DEBUG_MISC_*
 //!
@@ -185,41 +245,6 @@ struct IMAGE_DEBUG_MISC {
 #define VER_PLATFORM_WIN32s 0
 #define VER_PLATFORM_WIN32_WINDOWS 1
 #define VER_PLATFORM_WIN32_NT 2
-//! \}
-
-//! \anchor PAGE_x
-//! \name PAGE_*
-//!
-//! \brief Memory protection constants for MINIDUMP_MEMORY_INFO::Protect and
-//!     MINIDUMP_MEMORY_INFO::AllocationProtect.
-//! \{
-#define PAGE_NOACCESS 0x1
-#define PAGE_READONLY 0x2
-#define PAGE_READWRITE 0x4
-#define PAGE_WRITECOPY 0x8
-#define PAGE_EXECUTE 0x10
-#define PAGE_EXECUTE_READ 0x20
-#define PAGE_EXECUTE_READWRITE 0x40
-#define PAGE_EXECUTE_WRITECOPY 0x80
-#define PAGE_GUARD 0x100
-#define PAGE_NOCACHE 0x200
-#define PAGE_WRITECOMBINE 0x400
-//! \}
-
-//! \anchor MEM_x
-//! \name MEM_*
-//!
-//! \brief Memory state and type constants for MINIDUMP_MEMORY_INFO::State and
-//!     MINIDUMP_MEMORY_INFO::Type.
-//! \{
-#define MEM_COMMIT 0x1000
-#define MEM_RESERVE 0x2000
-#define MEM_DECOMMIT 0x4000
-#define MEM_RELEASE 0x8000
-#define MEM_FREE 0x10000
-#define MEM_PRIVATE 0x20000
-#define MEM_MAPPED 0x40000
-#define MEM_RESET 0x80000
 //! \}
 
 #endif  // CRASHPAD_COMPAT_NON_WIN_WINNT_H_
