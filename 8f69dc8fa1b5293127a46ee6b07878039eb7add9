@@ -34,6 +34,24 @@
       "revId": "8f69dc8fa1b5293127a46ee6b07878039eb7add9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab6b279a_598ae3ff",
+        "filename": "minidump/minidump_system_info_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-10T19:47:09Z",
+      "side": 1,
+      "message": "How is that not constant! [I remember being stuck on gcc 2.9x for way too long, oh the bad old days.]",
+      "parentUuid": "0b97d3c5_1cb85579",
+      "revId": "8f69dc8fa1b5293127a46ee6b07878039eb7add9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
