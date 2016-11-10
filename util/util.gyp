@@ -84,6 +84,7 @@
         'mach/task_for_pid.h',
         'mach/task_memory.cc',
         'mach/task_memory.h',
+        'misc/arraysize_unsafe.h',
         'misc/clock.h',
         'misc/clock_mac.cc',
         'misc/clock_posix.cc',

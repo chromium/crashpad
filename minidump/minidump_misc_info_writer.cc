@@ -26,6 +26,7 @@
 #include "snapshot/process_snapshot.h"
 #include "snapshot/system_snapshot.h"
 #include "util/file/file_writer.h"
+#include "util/misc/arraysize_unsafe.h"
 #include "util/numeric/in_range_cast.h"
 #include "util/numeric/safe_assignment.h"
 
@@ -295,7 +296,7 @@ void MinidumpMiscInfoWriter::SetTimeZone(uint32_t time_zone_id,
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
       misc_info_.TimeZone.StandardName,
-      arraysize(misc_info_.TimeZone.StandardName),
+      ARRAYSIZE_UNSAFE(misc_info_.TimeZone.StandardName),
       standard_name);
 
   misc_info_.TimeZone.StandardDate = standard_date;
@@ -303,7 +304,7 @@ void MinidumpMiscInfoWriter::SetTimeZone(uint32_t time_zone_id,
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
       misc_info_.TimeZone.DaylightName,
-      arraysize(misc_info_.TimeZone.DaylightName),
+      ARRAYSIZE_UNSAFE(misc_info_.TimeZone.DaylightName),
       daylight_name);
 
   misc_info_.TimeZone.DaylightDate = daylight_date;
@@ -320,10 +321,12 @@ void MinidumpMiscInfoWriter::SetBuildString(
   misc_info_.Flags1 |= MINIDUMP_MISC4_BUILDSTRING;
 
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
-      misc_info_.BuildString, arraysize(misc_info_.BuildString), build_string);
+      misc_info_.BuildString,
+      ARRAYSIZE_UNSAFE(misc_info_.BuildString),
+      build_string);
   internal::MinidumpWriterUtil::AssignUTF8ToUTF16(
       misc_info_.DbgBldStr,
-      arraysize(misc_info_.DbgBldStr),
+      ARRAYSIZE_UNSAFE(misc_info_.DbgBldStr),
       debug_build_string);
 }
 
