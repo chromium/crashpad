@@ -16,6 +16,24 @@
       "revId": "8f69dc8fa1b5293127a46ee6b07878039eb7add9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b97d3c5_1cb85579",
+        "filename": "minidump/minidump_system_info_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-10T19:11:04Z",
+      "side": 1,
+      "message": "\u003e Stupid thing. Could you possibly do the equivalent of\n\u003e arraysize((MinidumpSystemInfoWriter*)42)-\u003esystem_info_...) instead?\n\nGood idea! But no.\n\n../../minidump/minidump_system_info_writer.cc:199:17: error: static_assert expression is not an integral constant expression\n  static_assert(arraysize(reinterpret_cast\u003cMinidumpSystemInfoWriter*\u003e(42)-\u003esystem_info_.Cpu.X86CpuInfo.VendorId) \u003d\u003d 3,\n                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n../../minidump/minidump_system_info_writer.cc:199:27: note: reinterpret_cast is not allowed in a constant expression\n  static_assert(arraysize(reinterpret_cast\u003cMinidumpSystemInfoWriter*\u003e(42)-\u003esystem_info_.Cpu.X86CpuInfo.VendorId) \u003d\u003d 3,\n                          ^",
+      "parentUuid": "2b749742_f9ef62de",
+      "revId": "8f69dc8fa1b5293127a46ee6b07878039eb7add9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
