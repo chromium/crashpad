@@ -31,6 +31,7 @@ namespace {
 
 TEST(UUID, UUID) {
   UUID uuid_zero;
+  uuid_zero.InitializeToZero();
   EXPECT_EQ(0u, uuid_zero.data_1);
   EXPECT_EQ(0u, uuid_zero.data_2);
   EXPECT_EQ(0u, uuid_zero.data_3);
@@ -60,7 +61,8 @@ TEST(UUID, UUID) {
                               0x0d,
                               0x0e,
                               0x0f};
-  UUID uuid(kBytes);
+  UUID uuid;
+  uuid.InitializeFromBytes(kBytes);
   EXPECT_EQ(0x00010203u, uuid.data_1);
   EXPECT_EQ(0x0405u, uuid.data_2);
   EXPECT_EQ(0x0607u, uuid.data_3);
@@ -78,7 +80,8 @@ TEST(UUID, UUID) {
   EXPECT_FALSE(uuid == uuid_zero);
   EXPECT_NE(uuid, uuid_zero);
 
-  UUID uuid_2(kBytes);
+  UUID uuid_2;
+  uuid_2.InitializeFromBytes(kBytes);
   EXPECT_EQ(uuid, uuid_2);
   EXPECT_FALSE(uuid != uuid_2);
 
@@ -155,7 +158,8 @@ TEST(UUID, UUID) {
   EXPECT_EQ(0x45u, uuid.data_5[5]);
   EXPECT_EQ("45454545-4545-4545-4545-454545454545", uuid.ToString());
 
-  UUID initialized_generated(UUID::InitializeWithNewTag{});
+  UUID initialized_generated;
+  initialized_generated.InitializeWithNew();
   EXPECT_NE(initialized_generated, uuid_zero);
 }
 
@@ -182,7 +186,9 @@ TEST(UUID, FromString) {
     {"6d247a34-53d5-40ec-a90d-d8dea9e94cc01", false}
   };
 
-  const std::string empty_uuid = UUID().ToString();
+  UUID uuid_zero;
+  uuid_zero.InitializeToZero();
+  const std::string empty_uuid = uuid_zero.ToString();
 
   for (size_t index = 0; index < arraysize(kCases); ++index) {
     const TestCase& test_case = kCases[index];
@@ -190,6 +196,7 @@ TEST(UUID, FromString) {
         "index %" PRIuS ": %s", index, test_case.uuid_string));
 
     UUID uuid;
+    uuid.InitializeToZero();
     EXPECT_EQ(test_case.success,
               uuid.InitializeFromString(test_case.uuid_string));
     if (test_case.success) {

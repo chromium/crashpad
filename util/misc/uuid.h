@@ -36,26 +36,13 @@ namespace crashpad {
 //!
 //! A %UUID is a unique 128-bit number specified by RFC 4122.
 //!
-//! This is a standard-layout structure.
+//! This is a POD structure.
 struct UUID {
-  //! \brief Initializes the %UUID to zero.
-  UUID();
-
-  //! \brief Tag to pass to constructor to indicate it should initialize with
-  //!     generated data.
-  struct InitializeWithNewTag {};
-
-  //! \brief Initializes the %UUID using a standard system facility to generate
-  //!     the value.
-  //!
-  //! CHECKs on failure with a message logged.
-  explicit UUID(InitializeWithNewTag);
-
-  //! \copydoc InitializeFromBytes()
-  explicit UUID(const uint8_t* bytes);
-
   bool operator==(const UUID& that) const;
   bool operator!=(const UUID& that) const { return !operator==(that); }
+
+  //! \brief Initializes the %UUID to zero.
+  void InitializeToZero();
 
   //! \brief Initializes the %UUID from a sequence of bytes.
   //!
