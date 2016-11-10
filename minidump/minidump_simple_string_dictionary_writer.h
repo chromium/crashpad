@@ -52,7 +52,7 @@ class MinidumpSimpleStringDictionaryEntryWriter final
   //!
   //! \note Valid in #kStateWritable.
   const MinidumpSimpleStringDictionaryEntry*
-      MinidumpSimpleStringDictionaryEntry() const;
+  GetMinidumpSimpleStringDictionaryEntry() const;
 
   //! \brief Sets the strings to be written as the entry object’s key and value.
   //!
