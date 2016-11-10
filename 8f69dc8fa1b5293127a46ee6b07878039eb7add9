@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b749742_f9ef62de",
+        "filename": "minidump/minidump_system_info_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-10T18:49:28Z",
+      "side": 1,
+      "message": "Stupid thing. Could you possibly do the equivalent of arraysize((MinidumpSystemInfoWriter*)42)-\u003esystem_info_...) instead?",
+      "revId": "8f69dc8fa1b5293127a46ee6b07878039eb7add9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
