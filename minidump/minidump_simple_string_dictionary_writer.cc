@@ -34,8 +34,8 @@ MinidumpSimpleStringDictionaryEntryWriter::
 }
 
 const MinidumpSimpleStringDictionaryEntry*
-MinidumpSimpleStringDictionaryEntryWriter::MinidumpSimpleStringDictionaryEntry()
-    const {
+MinidumpSimpleStringDictionaryEntryWriter::
+    GetMinidumpSimpleStringDictionaryEntry() const {
   DCHECK_EQ(state(), kStateWritable);
 
   return &entry_;
@@ -179,7 +179,7 @@ bool MinidumpSimpleStringDictionaryWriter::WriteObject(
   std::vector<WritableIoVec> iovecs(1, iov);
 
   for (const auto& key_entry : entries_) {
-    iov.iov_base = key_entry.second->MinidumpSimpleStringDictionaryEntry();
+    iov.iov_base = key_entry.second->GetMinidumpSimpleStringDictionaryEntry();
     iov.iov_len = sizeof(MinidumpSimpleStringDictionaryEntry);
     iovecs.push_back(iov);
   }
