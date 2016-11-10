@@ -52,6 +52,24 @@
       "revId": "8f69dc8fa1b5293127a46ee6b07878039eb7add9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab6b279a_3c035d2e",
+        "filename": "minidump/minidump_system_info_writer.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-10T19:52:03Z",
+      "side": 1,
+      "message": "\u003e How is that not constant! [I remember being stuck on gcc 2.9x for way too\n\u003e long, oh the bad old days.]\n\nIt is! But the rules are the rules. Clang and GCC both agree. :(",
+      "parentUuid": "ab6b279a_598ae3ff",
+      "revId": "8f69dc8fa1b5293127a46ee6b07878039eb7add9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
