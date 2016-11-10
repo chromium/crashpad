@@ -55,6 +55,7 @@
         'mach/scoped_task_suspend_test.cc',
         'mach/symbolic_constants_mach_test.cc',
         'mach/task_memory_test.cc',
+        'misc/arraysize_unsafe_test.cc',
         'misc/clock_test.cc',
         'misc/initialization_state_dcheck_test.cc',
         'misc/initialization_state_test.cc',
