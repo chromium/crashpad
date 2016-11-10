@@ -20,6 +20,7 @@
 #include "minidump/minidump_string_writer.h"
 #include "snapshot/system_snapshot.h"
 #include "util/file/file_writer.h"
+#include "util/misc/arraysize_unsafe.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -196,7 +197,7 @@ void MinidumpSystemInfoWriter::SetCPUX86Vendor(uint32_t ebx,
          system_info_.ProcessorArchitecture ==
              kMinidumpCPUArchitectureX86Win64);
 
-  static_assert(arraysize(system_info_.Cpu.X86CpuInfo.VendorId) == 3,
+  static_assert(ARRAYSIZE_UNSAFE(system_info_.Cpu.X86CpuInfo.VendorId) == 3,
                 "VendorId must have 3 elements");
 
   system_info_.Cpu.X86CpuInfo.VendorId[0] = ebx;
@@ -254,8 +255,9 @@ void MinidumpSystemInfoWriter::SetCPUOtherFeatures(uint64_t features_0,
          system_info_.ProcessorArchitecture !=
              kMinidumpCPUArchitectureX86Win64);
 
-  static_assert(arraysize(system_info_.Cpu.OtherCpuInfo.ProcessorFeatures) == 2,
-                "ProcessorFeatures must have 2 elements");
+  static_assert(
+      ARRAYSIZE_UNSAFE(system_info_.Cpu.OtherCpuInfo.ProcessorFeatures) == 2,
+      "ProcessorFeatures must have 2 elements");
 
   system_info_.Cpu.OtherCpuInfo.ProcessorFeatures[0] = features_0;
   system_info_.Cpu.OtherCpuInfo.ProcessorFeatures[1] = features_1;
