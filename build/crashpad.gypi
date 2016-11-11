@@ -25,5 +25,16 @@
       4201,  # nonstandard extension used : nameless struct/union.
       4324,  # structure was padded due to __declspec(align()).
     ],
+    'conditions': [
+      ['OS=="linux" or OS=="android"', {
+        'conditions': [
+          ['clang==0', {
+            'cflags': [
+              '-Wno-multichar',
+            ],
+          }],
+        ],
+      }],
+    ],
   },
 }
