@@ -18,6 +18,7 @@ var searchData=
   ['initializeminidumpcontextamd64',['InitializeMinidumpContextAMD64',['../namespacecrashpad_1_1test.html#afa1dd7166c73ca082608b1ab21b5a395',1,'crashpad::test']]],
   ['initializeminidumpcontextx86',['InitializeMinidumpContextX86',['../namespacecrashpad_1_1test.html#afefac1494b6a67c50a254c75a8caccf1',1,'crashpad::test']]],
   ['initializesubrange',['InitializeSubrange',['../classcrashpad_1_1ProcessSubrangeReader.html#a9973cac80710c00a9ef625e5b151e75f',1,'crashpad::ProcessSubrangeReader']]],
+  ['initializetozero',['InitializeToZero',['../structcrashpad_1_1UUID.html#ab0e2b1779dff0f51bacb90a12a5cabce',1,'crashpad::UUID']]],
   ['initializewithinheriteddataforinitialclient',['InitializeWithInheritedDataForInitialClient',['../classcrashpad_1_1ExceptionHandlerServer.html#a3093cf1cbe8a36428c6333841c0c7e86',1,'crashpad::ExceptionHandlerServer']]],
   ['initializewithnew',['InitializeWithNew',['../structcrashpad_1_1UUID.html#abb93de9035e993726b07e3654640b860',1,'crashpad::UUID']]],
   ['initializewithoutcreating',['InitializeWithoutCreating',['../classcrashpad_1_1CrashReportDatabase.html#abc49f639a5880f51c7d69b955a3deae7',1,'crashpad::CrashReportDatabase']]],

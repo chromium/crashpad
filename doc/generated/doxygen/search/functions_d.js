@@ -26,7 +26,6 @@ var searchData=
   ['minidumpmiscinfodebugbuildstring',['MinidumpMiscInfoDebugBuildString',['../namespacecrashpad_1_1internal.html#a55cbb2f61a8a593e5861e0634eb7a4ee',1,'crashpad::internal']]],
   ['minidumpmodule',['MinidumpModule',['../classcrashpad_1_1MinidumpModuleWriter.html#aa7743a674a116be2ef127f2e7eb1df1b',1,'crashpad::MinidumpModuleWriter']]],
   ['minidumprvalistatstart',['MinidumpRVAListAtStart',['../namespacecrashpad_1_1test.html#a1a3936c22f43c2defcaa16e7c09ce544',1,'crashpad::test']]],
-  ['minidumpsimplestringdictionaryentry',['MinidumpSimpleStringDictionaryEntry',['../classcrashpad_1_1MinidumpSimpleStringDictionaryEntryWriter.html#a04f4c69c2dfdbbd0822d7f32caa28d2a',1,'crashpad::MinidumpSimpleStringDictionaryEntryWriter']]],
   ['minidumpstringatrva',['MinidumpStringAtRVA',['../namespacecrashpad_1_1test.html#a527731a826e40dd36ac112e7cd3dfcd2',1,'crashpad::test']]],
   ['minidumpstringatrvaasstring',['MinidumpStringAtRVAAsString',['../namespacecrashpad_1_1test.html#a2276ff84807d40b2fc4f7fd2ccc8b743',1,'crashpad::test']]],
   ['minidumpthread',['MinidumpThread',['../classcrashpad_1_1MinidumpThreadWriter.html#a4926653de3c9e169541a61508b4e36f6',1,'crashpad::MinidumpThreadWriter']]],

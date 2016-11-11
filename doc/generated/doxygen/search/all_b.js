@@ -61,6 +61,7 @@ var searchData=
   ['kminidumpcpuarchitectureamd64',['kMinidumpCPUArchitectureAMD64',['../namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1a74c0fcddcbf1502d7dedc7cd965550df',1,'crashpad']]],
   ['kminidumpcpuarchitecturearm',['kMinidumpCPUArchitectureARM',['../namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1a8ab29cb3332c3c583c4d60b2c308361c',1,'crashpad']]],
   ['kminidumpcpuarchitecturearm64',['kMinidumpCPUArchitectureARM64',['../namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1aa58a9c127a74412bdcbce29f0ac6d9f5',1,'crashpad']]],
+  ['kminidumpcpuarchitecturearm64breakpad',['kMinidumpCPUArchitectureARM64Breakpad',['../namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1af06c5024168bed0a96de94e665ba2e70',1,'crashpad']]],
   ['kminidumpcpuarchitectureppc',['kMinidumpCPUArchitecturePPC',['../namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1a37feeb34e5df713f24a65f8687d23def',1,'crashpad']]],
   ['kminidumpcpuarchitectureppc64',['kMinidumpCPUArchitecturePPC64',['../namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1a96f1b70341467cfcaabaac225345716b',1,'crashpad']]],
   ['kminidumpcpuarchitectureunknown',['kMinidumpCPUArchitectureUnknown',['../namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1a1d0ecd96474945b642af3568bc43ab92',1,'crashpad']]],

@@ -1621,11 +1621,15 @@ template&lt;typename T &gt; </div>
 <tr><td class="fieldname"><a id="a98e532bb06fc5ffdd93e0ceb6d789eb1a492f53b6303f91d08192bbfb9341e3cb"></a>kMinidumpCPUArchitectureX86Win64&#160;</td><td class="fielddoc"><p>A 32-bit x86 process running on IA-64 (Itanium). </p>
 <dl class="section note"><dt>Note</dt><dd>This value is not used in minidump files for 32-bit x86 processes running on a 64-bit-capable x86 CPU and operating system. In that configuration, <a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1a667f84537acd054ce17f527bcd41c885" title="32-bit x86. ">kMinidumpCPUArchitectureX86</a> is used instead. </dd></dl>
 </td></tr>
+<tr><td class="fieldname"><a id="a98e532bb06fc5ffdd93e0ceb6d789eb1aa58a9c127a74412bdcbce29f0ac6d9f5"></a>kMinidumpCPUArchitectureARM64&#160;</td><td class="fielddoc"><p>64-bit ARM. </p>
+<p>These systems identify their CPUs generically as “arm64” or “aarch64”, or with more specific names such as “armv8”.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1af06c5024168bed0a96de94e665ba2e70" title="Used by Breakpad for 64-bit ARM. ">kMinidumpCPUArchitectureARM64Breakpad</a> </dd></dl>
+</td></tr>
 <tr><td class="fieldname"><a id="a98e532bb06fc5ffdd93e0ceb6d789eb1a96f1b70341467cfcaabaac225345716b"></a>kMinidumpCPUArchitecturePPC64&#160;</td><td class="fielddoc"><p>64-bit PowerPC. </p>
 <p>These systems identify their CPUs generically as “ppc64”, or with more specific names such as “ppc970”. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a98e532bb06fc5ffdd93e0ceb6d789eb1aa58a9c127a74412bdcbce29f0ac6d9f5"></a>kMinidumpCPUArchitectureARM64&#160;</td><td class="fielddoc"><p>64-bit ARM. </p>
-<p>These systems identify their CPUs generically as “arm64” or “aarch64”, or with more specific names such as “armv8”. </p>
+<tr><td class="fieldname"><a id="a98e532bb06fc5ffdd93e0ceb6d789eb1af06c5024168bed0a96de94e665ba2e70"></a>kMinidumpCPUArchitectureARM64Breakpad&#160;</td><td class="fielddoc"><p>Used by Breakpad for 64-bit ARM. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Use <a class="el" href="namespacecrashpad.html#a98e532bb06fc5ffdd93e0ceb6d789eb1aa58a9c127a74412bdcbce29f0ac6d9f5" title="64-bit ARM. ">kMinidumpCPUArchitectureARM64</a> instead. </dd></dl>
 </td></tr>
 <tr><td class="fieldname"><a id="a98e532bb06fc5ffdd93e0ceb6d789eb1a1d0ecd96474945b642af3568bc43ab92"></a>kMinidumpCPUArchitectureUnknown&#160;</td><td class="fielddoc"><p>Unknown CPU architecture. </p>
 </td></tr>

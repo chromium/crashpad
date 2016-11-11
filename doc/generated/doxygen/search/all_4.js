@@ -22,6 +22,7 @@ var searchData=
   ['delegate',['Delegate',['../classcrashpad_1_1WorkerThread_1_1Delegate.html',1,'crashpad::WorkerThread']]],
   ['delegate',['Delegate',['../classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html',1,'crashpad::ExceptionHandlerServer']]],
   ['deletereport',['DeleteReport',['../classcrashpad_1_1CrashReportDatabase.html#aa8aff03198b18b5dc479c189115500c4',1,'crashpad::CrashReportDatabase']]],
+  ['deprecated_20list',['Deprecated List',['../deprecated.html',1,'']]],
   ['didchangeprivileges',['DidChangePrivileges',['../classcrashpad_1_1ProcessInfo.html#a38a40f720591eb2117a260b5faad78c9',1,'crashpad::ProcessInfo']]],
   ['directorylistentry',['DirectoryListEntry',['../classcrashpad_1_1internal_1_1MinidumpStreamWriter.html#a3d2658a99963fa9083c07dc2ddc72845',1,'crashpad::internal::MinidumpStreamWriter']]],
   ['disarm',['Disarm',['../classcrashpad_1_1CrashReportDatabase_1_1CallErrorWritingCrashReport.html#a9d3302ce22e025f2d2ecde208ce924bb',1,'crashpad::CrashReportDatabase::CallErrorWritingCrashReport::Disarm()'],['../classcrashpad_1_1ScopedForbidReturn.html#a5b5c04a646632f369c40d3e8f6d14ddd',1,'crashpad::ScopedForbidReturn::Disarm()']]],
