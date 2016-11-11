@@ -21,9 +21,6 @@ namespace test {
 namespace {
 
 TEST(ArraySizeUnsafe, ArraySizeUnsafe) {
-  char c0[0];
-  static_assert(ARRAYSIZE_UNSAFE(c0) == 0, "c0");
-
   char c1[1];
   static_assert(ARRAYSIZE_UNSAFE(c1) == 1, "c1");
 
@@ -32,9 +29,6 @@ TEST(ArraySizeUnsafe, ArraySizeUnsafe) {
 
   char c4[4];
   static_assert(ARRAYSIZE_UNSAFE(c4) == 4, "c4");
-
-  int i0[0];
-  static_assert(ARRAYSIZE_UNSAFE(i0) == 0, "i0");
 
   int i1[1];
   static_assert(ARRAYSIZE_UNSAFE(i1) == 1, "i1");
@@ -57,9 +51,6 @@ TEST(ArraySizeUnsafe, ArraySizeUnsafe) {
     long l;
     bool b;
   };
-
-  S s0[0];
-  static_assert(ARRAYSIZE_UNSAFE(s0) == 0, "s0");
 
   S s1[1];
   static_assert(ARRAYSIZE_UNSAFE(s1) == 1, "s1");
