@@ -31,7 +31,8 @@ namespace test {
 namespace {
 
 void TestImageReaderChild(const base::string16& directory_modification) {
-  UUID done_uuid(UUID::InitializeWithNewTag{});
+  UUID done_uuid;
+  done_uuid.InitializeWithNew();
   ScopedKernelHANDLE done(
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
   ASSERT_TRUE(done.get());

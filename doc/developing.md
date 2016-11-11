@@ -154,7 +154,12 @@ $ CC_target=~/android-ndk-r13_arm64_api21/bin/clang \
       --generator-output=out_android_arm64_api21 -f ninja-android
 ```
 
-Target “triplets” to use for `ar`, `nm`, and `readelf` are:
+It is also possible to use GCC instead of Clang by making the appropriate
+substitutions: `aarch64-linux-android-gcc` for `CC_target`;
+`aarch64-linux-android-g++` for `CXX_target`; and `-Dclang=0` as an argument to
+`gyp_crashpad.py`.
+
+Target “triplets” to use for `ar`, `nm`, `readelf`, `gcc`, and `g++` are:
 
 | Architecture | Target “triplet”        |
 |:-------------|:------------------------|
