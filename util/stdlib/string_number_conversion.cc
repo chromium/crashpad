@@ -110,6 +110,13 @@ struct StringToUnsignedIntTraits
   }
 };
 
+struct StringToInt64Traits
+    : public StringToSignedIntegerTraits<int64_t, int64_t> {
+  static LongType Convert(const char* str, char** end, int base) {
+    return strtoll(str, end, base);
+  }
+};
+
 struct StringToUnsignedInt64Traits
     : public StringToUnsignedIntegerTraits<uint64_t, uint64_t> {
   static LongType Convert(const char* str, char** end, int base) {
@@ -164,6 +171,10 @@ bool StringToNumber(const base::StringPiece& string, int* number) {
 
 bool StringToNumber(const base::StringPiece& string, unsigned int* number) {
   return StringToIntegerInternal<StringToUnsignedIntTraits>(string, number);
+}
+
+bool StringToNumber(const base::StringPiece& string, int64_t* number) {
+  return StringToIntegerInternal<StringToInt64Traits>(string, number);
 }
 
 bool StringToNumber(const base::StringPiece& string, uint64_t* number) {
