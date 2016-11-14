@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9036940e_a4888cb2",
+        "filename": "tools/crashpad_database_util.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-11-14T21:46:28Z",
+      "side": 1,
+      "message": "I\u0027m not sure this name is the best. I keep reading it as a type name. Maybe the_time or out_time instead?",
+      "range": {
+        "startLine": 141,
+        "startChar": 46,
+        "endLine": 141,
+        "endChar": 53
+      },
+      "revId": "fd470c2e7bea172805287879e4b5b02a3f8b895e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9036940e_e482948e",
+        "filename": "tools/crashpad_database_util.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2016-11-14T21:46:28Z",
+      "side": 1,
+      "message": "Deliberately not doing error handling here?",
+      "revId": "fd470c2e7bea172805287879e4b5b02a3f8b895e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
