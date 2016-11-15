@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <errno.h>
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
-#include <sys/time.h>
 #include <sys/types.h>
 #include <time.h>
 
@@ -146,9 +146,8 @@ bool StringToTime(const char* string, time_t* out_time, bool utc) {
   }
 
   if (strcasecmp(string, "now") == 0) {
-    timeval tv;
-    PCHECK(gettimeofday(&tv, nullptr) == 0);
-    *out_time = tv.tv_sec;
+    errno = 0;
+    PCHECK(time(out_time) != -1 || errno == 0);
     return true;
   }
 
