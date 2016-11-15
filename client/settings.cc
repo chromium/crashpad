@@ -55,7 +55,7 @@ struct Settings::Data {
   uint32_t version;
   uint32_t options;
   uint32_t padding_0;
-  uint64_t last_upload_attempt_time;  // time_t
+  int64_t last_upload_attempt_time;  // time_t
   UUID client_id;
 };
 
@@ -136,7 +136,7 @@ bool Settings::SetLastUploadAttemptTime(time_t time) {
   if (!handle.is_valid())
     return false;
 
-  settings.last_upload_attempt_time = InRangeCast<uint64_t>(time, 0);
+  settings.last_upload_attempt_time = InRangeCast<int64_t>(time, 0);
 
   return WriteSettings(handle.get(), settings);
 }
