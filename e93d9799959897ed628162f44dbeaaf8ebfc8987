@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "90a054a7_9a55b116",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T20:36:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a054a7_776ca844",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a054a7_945aea6b",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 2
@@ -88,6 +106,60 @@
     },
     {
       "key": {
+        "uuid": "90a054a7_1a69c1d6",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T20:36:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a054a7_948d8a55",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_da4f3980",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T20:36:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a054a7_945aea6b",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_ba527529",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T20:36:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a054a7_94410a78",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a054a7_f4617617",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 2
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "90a054a7_3a6e85df",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T20:36:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a054a7_f4617617",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a054a7_54cfa26d",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 2
@@ -116,6 +206,24 @@
       "writtenOn": "2016-11-17T19:29:29Z",
       "side": 1,
       "message": "Your last sentence here basically sums up what I’m saying: if we can receive something as an exception instead of a signal, we should do that. If someone steals away our ability to receive those exceptions because they’ve installed a signal handler, then sure, that’s too bad, but they could steal it away from us regardless of whether we’re trying to catch it as an exception or a signal.\n\nI see the utility here for ABRT. But presumably you did it for FPE for a reason too, and I don’t see it yet.",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_5a7349c6",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T20:36:41Z",
+      "side": 1,
+      "message": "Agreed, removed FPE.",
+      "parentUuid": "90a054a7_54cfa26d",
       "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -190,6 +298,24 @@
     },
     {
       "key": {
+        "uuid": "90a054a7_fab31dc7",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T20:36:41Z",
+      "side": 1,
+      "message": "Probably not the right call. The particular value for SIGABRT probably isn\u0027t that useful either. Now that it\u0027s only for SIGABRT, the best existing status code I can see is STATUS_FATAL_APP_EXIT, so I\u0027ll use that.",
+      "parentUuid": "90a054a7_14699ad6",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a054a7_b4528e29",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 2
@@ -201,6 +327,24 @@
       "writtenOn": "2016-11-17T19:29:29Z",
       "side": 1,
       "message": "This pointer goes bad as soon as we fall out of scope. Move record out of this scope too.",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_57516450",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T20:36:41Z",
+      "side": 1,
+      "message": "Oof! Done.",
+      "parentUuid": "90a054a7_b4528e29",
       "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -224,6 +368,24 @@
     },
     {
       "key": {
+        "uuid": "90a054a7_77fbc806",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T20:36:41Z",
+      "side": 1,
+      "message": "Hmm, yeah. :( That would be a horrible mess to set up API-wise.\n\nI tried signalling from a background thread and it does seem to work, though I\u0027m not sure why given what you found.\n\n...\n\nOh, right. If there\u0027s a signal handler then that\u0027s run, but if there\u0027s not, then it does end up in the unhandled exception filter. (It looked like it worked locally because the signal handler just called the UEF).\n\nI agree that I probably shouldn\u0027t have added the FPE handler then, so I\u0027m going to simplify all this and only add SIGABRT in this CL.",
+      "parentUuid": "90a054a7_d79f143a",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a054a7_77df48f7",
         "filename": "handler/win/crashy_signal.cc",
         "patchSetId": 2
@@ -235,6 +397,24 @@
       "writtenOn": "2016-11-17T19:29:29Z",
       "side": 1,
       "message": "It’s still not a bad idea to have a test for floating-point exceptions, since they’re a little weird in that they require unmasking and people might not otherwise notice quickly if we lost coverage for them. But it shouldn’t have to be a signal-based test here.",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_b76370c0",
+        "filename": "handler/win/crashy_signal.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T20:36:41Z",
+      "side": 1,
+      "message": "Right. I\u0027ll do this elsewhere in a followup.",
+      "parentUuid": "90a054a7_77df48f7",
       "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
