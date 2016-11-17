@@ -15,6 +15,7 @@
 #include "client/crashpad_client.h"
 
 #include <windows.h>
+#include <signal.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -31,6 +32,7 @@
 #include "util/file/file_io.h"
 #include "util/misc/random_string.h"
 #include "util/win/address_types.h"
+#include "util/win/capture_context.h"
 #include "util/win/command_line.h"
 #include "util/win/critical_section_with_debug_info.h"
 #include "util/win/get_function.h"
@@ -161,6 +163,45 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   TerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
 
   return EXCEPTION_CONTINUE_SEARCH;
+}
+
+// VS's signal.h lists:
+// - SIGINT
+// - SIGILL
+// - SIGFPE
+// - SIGSEGV
+// - SIGTERM
+// - SIGBREAK
+// - SIGABRT
+// SIGILL and SIGTERM are documented as not being generated. SIGBREAK is
+// undocumented. SIGINT is documented as not supported. So, we register for
+// SIGFPE and SIGABRT, and use _pxcptinfoptrs from signal.h to send the
+// exception onwards to our standard UnhandledExceptionHandler(). This is useful
+// primarily for SIGABRT which in non-Debug builds without a SIGABRT handler
+// goes straight to __fastfail(), which doesn't go through the unhandled
+// exception filter.
+void HandleSIG(int signum) {
+  PEXCEPTION_POINTERS exception_pointers_pointer =
+      reinterpret_cast<EXCEPTION_POINTERS*>(_pxcptinfoptrs);
+  EXCEPTION_POINTERS exception_pointers;
+  CONTEXT context;
+
+  if (!exception_pointers_pointer) {
+    // If the CRT didn't provide us with an exception (it doesn't for SIGABRT,
+    // only for exception-like signals), fabricate one here.
+    CaptureContext(&context);
+    exception_pointers.ContextRecord = &context;
+    EXCEPTION_RECORD record = {};
+    record.ExceptionCode = signum;
+#if defined(ARCH_CPU_64_BITS)
+    record.ExceptionAddress = reinterpret_cast<void*>(context.Rip);
+#else
+    record.ExceptionAddress = reinterpret_cast<void*>(context.Eip);
+#endif  // ARCH_CPU_64_BITS
+    exception_pointers.ExceptionRecord = &record;
+    exception_pointers_pointer = &exception_pointers;
+  }
+  UnhandledExceptionHandler(exception_pointers_pointer);
 }
 
 std::wstring FormatArgumentString(const std::string& name,
@@ -500,6 +541,12 @@ void CommonInProcessInitialization() {
   g_non_crash_dump_lock = new base::Lock();
 }
 
+void RegisterHandlers() {
+  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+  signal(SIGFPE, HandleSIG);
+  signal(SIGABRT, HandleSIG);
+}
+
 }  // namespace
 
 CrashpadClient::CrashpadClient() : ipc_pipe_(), handler_start_thread_() {}
@@ -536,7 +583,7 @@ bool CrashpadClient::StartHandler(
 
   CommonInProcessInitialization();
 
-  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+  RegisterHandlers();
 
   auto data = new BackgroundHandlerStartThreadData(handler,
                                                    database,
@@ -609,7 +656,8 @@ bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
   }
 
   SetHandlerStartupState(StartupState::kSucceeded);
-  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+
+  RegisterHandlers();
 
   // The server returns these already duplicated to be valid in this process.
   g_signal_exception =
