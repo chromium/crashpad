@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90a054a7_205d7499",
+        "filename": "handler/win/crashy_signal.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T22:07:14Z",
+      "side": 1,
+      "message": "Doesn’t really matter now, but we usually use fprintf(stderr, …) directly for usage messages, since the extra “log” goop isn’t really useful for them.",
+      "revId": "8b3eec83e982af4138b038f077ddc62e8a061f20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
