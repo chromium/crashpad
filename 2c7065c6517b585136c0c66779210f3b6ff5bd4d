@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90a054a7_ba57d542",
+        "filename": "build/BUILDCONFIG.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T20:38:48Z",
+      "side": 1,
+      "message": "Will need to figure out how this works for the non-“standalone” build types, but we can cross that bridge when we need to. At least it’s parameterized like this now.",
+      "revId": "2c7065c6517b585136c0c66779210f3b6ff5bd4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_fa0f9d4e",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T20:38:48Z",
+      "side": 1,
+      "message": "Do we need an output_name?",
+      "revId": "2c7065c6517b585136c0c66779210f3b6ff5bd4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_9aef713f",
+        "filename": "test/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T20:38:48Z",
+      "side": 1,
+      "message": "Is this also the right place to specify run-time test data files?",
+      "revId": "2c7065c6517b585136c0c66779210f3b6ff5bd4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_3a47656f",
+        "filename": "third_party/apple_cctools/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T20:38:48Z",
+      "side": 1,
+      "message": "I don’t know why I made this expose ../.. to dependents. I don’t think it’s necessary. We can take that out of the GYP build too.",
+      "revId": "2c7065c6517b585136c0c66779210f3b6ff5bd4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_9a5cd13a",
+        "filename": "third_party/gtest/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T20:38:48Z",
+      "side": 1,
+      "message": "Is there a non-80 canonical wrap guideline in .gn files, or did you just copy this from the .gyp, unindent, and not rewrap?",
+      "revId": "2c7065c6517b585136c0c66779210f3b6ff5bd4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_fa631ded",
+        "filename": "util/BUILD.gn",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T20:38:48Z",
+      "side": 1,
+      "message": "Ditto on output_name.",
+      "revId": "2c7065c6517b585136c0c66779210f3b6ff5bd4d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
