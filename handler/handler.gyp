@@ -148,6 +148,20 @@
           ],
         },
         {
+          'target_name': 'crashy_signal',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'win/crashy_signal.cc',
+          ],
+        },
+        {
           'target_name': 'crash_other_program',
           'type': 'executable',
           'dependencies': [

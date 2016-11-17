@@ -143,6 +143,10 @@ def GetDumpFromOtherProgram(out_dir, pipe_name, *args):
                             *args)
 
 
+def GetDumpFromSignal(out_dir, pipe_name, *args):
+  return GetDumpFromProgram(out_dir, pipe_name, 'crashy_signal.exe', *args)
+
+
 def GetDumpFromSelfDestroyingProgram(out_dir, pipe_name):
   return GetDumpFromProgram(out_dir, pipe_name, 'self_destroying_program.exe')
 
@@ -201,6 +205,8 @@ def RunTests(cdb_path,
              z7_dump_path,
              other_program_path,
              other_program_no_exception_path,
+             sigabrt_main_path,
+             sigabrt_background_path,
              pipe_name):
   """Runs various tests in sequence. Runs a new cdb instance on the dump for
   each block of tests to reduce the chances that output from one command is
@@ -361,6 +367,13 @@ def RunTests(cdb_path,
             'other program with no exception given')
   out.Check('!RaiseException', 'other program in RaiseException()')
 
+  out = CdbRun(cdb_path, sigabrt_main_path, '.ecxr')
+  out.Check('code 40000015', 'got sigabrt signal')
+  out.Check('::HandleAbortSignal', '  stack in expected location')
+
+  out = CdbRun(cdb_path, sigabrt_background_path, '.ecxr')
+  out.Check('code 40000015', 'got sigabrt signal from background thread')
+
 
 def main(args):
   try:
@@ -411,6 +424,15 @@ def main(args):
     if not other_program_no_exception_path:
       return 1
 
+    sigabrt_main_path = GetDumpFromSignal(args[0], pipe_name, 'main')
+    if not sigabrt_main_path:
+      return 1
+
+    sigabrt_background_path = GetDumpFromSignal(
+        args[0], pipe_name, 'background')
+    if not sigabrt_background_path:
+      return 1
+
     RunTests(cdb_path,
              crashy_dump_path,
              start_handler_dump_path,
@@ -418,6 +440,8 @@ def main(args):
              z7_dump_path,
              other_program_path,
              other_program_no_exception_path,
+             sigabrt_main_path,
+             sigabrt_background_path,
              pipe_name)
 
     return 1 if g_had_failures else 0
