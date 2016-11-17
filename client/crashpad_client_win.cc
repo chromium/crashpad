@@ -546,7 +546,7 @@ void RegisterHandlers() {
   // expect it to cause a crash dump. This will only work when the abort()
   // that's called in client code is the same (or has the same behavior) as the
   // one in use here.
-  _crt_signal_t rv = signal(SIGABRT, HandleAbortSignal);
+  void (*rv)(int) = signal(SIGABRT, HandleAbortSignal);
   DCHECK_NE(rv, SIG_ERR);
 }
 

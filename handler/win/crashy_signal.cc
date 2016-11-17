@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
 
 #include "base/logging.h"
-#include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_client.h"
 
 namespace crashpad {
@@ -52,8 +52,7 @@ int CrashySignalMain(int argc, wchar_t* argv[]) {
       return EXIT_FAILURE;
     }
   } else {
-    LOG(ERROR) << "Usage: " << base::UTF16ToUTF8(argv[0])
-               << " <server_pipe_name> main|background";
+    fprintf(stderr, "Usage: %ls <server_pipe_name> main|background\n", argv[0]);
     return EXIT_FAILURE;
   }
 
