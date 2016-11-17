@@ -34,6 +34,24 @@
       "revId": "8b3eec83e982af4138b038f077ddc62e8a061f20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_2071f4ff",
+        "filename": "handler/win/crashy_signal.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T22:16:38Z",
+      "side": 1,
+      "message": "\u003e Will do. Apparently I broke VS2013 again, so I\u0027ll get this in the followup.\n\nEvery Windows change needs a follow-up these days! Mine sure have.\n\nI was (happily!) surprised that they even provided a typedef for signal handlers, because POSIX certainly doesn’t specify a standard one. Oh well.",
+      "parentUuid": "90a054a7_00beb062",
+      "revId": "8b3eec83e982af4138b038f077ddc62e8a061f20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
