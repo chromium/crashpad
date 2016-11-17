@@ -1,0 +1,260 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90a054a7_776ca844",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "The CRT’s, since it’s basically unbundled from VS now.",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_945aea6b",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "No “we,” “our” (a couple of lines down).",
+      "range": {
+        "startLine": 177,
+        "startChar": 60,
+        "endLine": 177,
+        "endChar": 62
+      },
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_94410a78",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "The comment about registering belongs in the function that does the registering, which is way later in the file.",
+      "range": {
+        "startLine": 177,
+        "startChar": 63,
+        "endLine": 177,
+        "endChar": 75
+      },
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_948d8a55",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "But we can see what’s going on with BREAK in the CRT source. It’s dealt with the same as INT. Good to capture that information, at least.",
+      "range": {
+        "startLine": 176,
+        "startChar": 61,
+        "endLine": 177,
+        "endChar": 15
+      },
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_f4617617",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "TERM and INT wouldn’t be dump-worthy signals in any event. BREAK is non-standard but I wouldn’t expect it to be either. But you never mentioned SEGV. If that can show up here, it ought to be dump-worthy. Problem is, things that would show up as SEGV would normally arrive as exceptions. We wouldn’t want to take them as signals. It ought to be the same situation for FPE. So my question is: why do you want to take FPE through the signal interface instead of catching the underlying exception?",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_54cfa26d",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "Your last sentence here basically sums up what I’m saying: if we can receive something as an exception instead of a signal, we should do that. If someone steals away our ability to receive those exceptions because they’ve installed a signal handler, then sure, that’s too bad, but they could steal it away from us regardless of whether we’re trying to catch it as an exception or a signal.\n\nI see the utility here for ABRT. But presumably you did it for FPE for a reason too, and I don’t see it yet.",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_f43896ff",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "HandleSignal",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_742ae691",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "EXCEPTION_POINTERS* (like you said on the next line)",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_b42b6e91",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "(it doesn’t for SIGABRT because that never originates as an exception)",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_14699ad6",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "Sticking a non-exception into a hole that everyone expects will hold exceptions. Is that the right call?\n\nIs there a more appropriate single exception that we can use to say “this was a signal”, and then stick the signal number in ExceptionInformation?",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_b4528e29",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "This pointer goes bad as soon as we fall out of scope. Move record out of this scope too.",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_d79f143a",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "ucrt source tells me that signal() is effective per-thread for FPE, not per-process. That…stinks. But like I was saying above, I can’t see why we’d want FPE as a signal anyway, so it might not matter.",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_77df48f7",
+        "filename": "handler/win/crashy_signal.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "It’s still not a bad idea to have a test for floating-point exceptions, since they’re a little weird in that they require unmasking and people might not otherwise notice quickly if we lost coverage for them. But it shouldn’t have to be a signal-based test here.",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_b7d0d0e3",
+        "filename": "handler/win/crashy_signal.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T19:29:29Z",
+      "side": 1,
+      "message": "Makes this program much more straightforward, though.",
+      "revId": "e93d9799959897ed628162f44dbeaaf8ebfc8987",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
