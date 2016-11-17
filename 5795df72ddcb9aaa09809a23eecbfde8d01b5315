@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "90a054a7_057b2293",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T21:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a054a7_da1499f8",
+      "revId": "5795df72ddcb9aaa09809a23eecbfde8d01b5315",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a054a7_fa323dac",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-17T21:24:11Z",
       "side": 1,
       "message": "Put EXCEPTION_NONCONTINUABLE in ExceptionFlags. That’s what abort() would give to ReportFault() if it decided to call it.",
+      "revId": "5795df72ddcb9aaa09809a23eecbfde8d01b5315",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_65c94eb8",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T21:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a054a7_fa323dac",
       "revId": "5795df72ddcb9aaa09809a23eecbfde8d01b5315",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "90a054a7_c5e4ba23",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T21:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a054a7_65178e2f",
+      "revId": "5795df72ddcb9aaa09809a23eecbfde8d01b5315",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a054a7_dac2d93f",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2016-11-17T21:24:11Z",
       "side": 1,
       "message": "Save off the return value and DCHECK_NE(rv, SIG_ERR).",
+      "revId": "5795df72ddcb9aaa09809a23eecbfde8d01b5315",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_a5b97616",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T21:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a054a7_dac2d93f",
       "revId": "5795df72ddcb9aaa09809a23eecbfde8d01b5315",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "90a054a7_25f4a6d7",
+        "filename": "handler/handler.gyp",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T21:33:37Z",
+      "side": 1,
+      "message": "Hmm. I think crashpad_client needs a xyz_dependent, as crashpad_client.h includes files from base. I\u0027ll tidy that up separately.",
+      "parentUuid": "90a054a7_8578f2a2",
+      "revId": "5795df72ddcb9aaa09809a23eecbfde8d01b5315",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a054a7_65730ec7",
         "filename": "handler/handler.gyp",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2016-11-17T21:24:11Z",
       "side": 1,
       "message": "Neither is this one.",
+      "revId": "5795df72ddcb9aaa09809a23eecbfde8d01b5315",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90a054a7_851c7253",
+        "filename": "handler/handler.gyp",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-11-17T21:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90a054a7_65730ec7",
       "revId": "5795df72ddcb9aaa09809a23eecbfde8d01b5315",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
