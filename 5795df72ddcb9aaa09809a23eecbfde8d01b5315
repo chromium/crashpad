@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "90a054a7_65178e2f",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-11-17T21:30:28Z",
+      "side": 1,
+      "message": "Maybe add something here saying that this will only catch abort()s called in the same CRT that’s in use here.",
+      "revId": "5795df72ddcb9aaa09809a23eecbfde8d01b5315",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90a054a7_dac2d93f",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 5
