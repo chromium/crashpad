@@ -21,6 +21,7 @@
 
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "util/misc/address_sanitizer.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -103,13 +104,14 @@ void TestCaptureContext() {
   // captured program counter should be slightly greater than or equal to the
   // reference program counter.
   uintptr_t pc = ProgramCounterFromContext(context_1);
-#if !__has_feature(address_sanitizer)
+
+#if !defined(ADDRESS_SANITIZER)
   // AddressSanitizer can cause enough code bloat that the “nearby” check would
   // likely fail.
   const uintptr_t kReferencePC =
       reinterpret_cast<uintptr_t>(TestCaptureContext);
   EXPECT_LT(pc - kReferencePC, 64u);
-#endif
+#endif  // !defined(ADDRESS_SANITIZER)
 
   // Declare sp and context_2 here because all local variables need to be
   // declared before computing the stack pointer reference value, so that the
