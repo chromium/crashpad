@@ -19,6 +19,7 @@
 
 #include <algorithm>
 
+#include "base/compiler_specific.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/misc/implicit_cast.h"
@@ -103,13 +104,13 @@ void TestCaptureContext() {
   // captured program counter should be slightly greater than or equal to the
   // reference program counter.
   uintptr_t pc = ProgramCounterFromContext(context_1);
-#if !__has_feature(address_sanitizer)
+#if !HAS_FEATURE(address_sanitizer)
   // AddressSanitizer can cause enough code bloat that the “nearby” check would
   // likely fail.
   const uintptr_t kReferencePC =
       reinterpret_cast<uintptr_t>(TestCaptureContext);
   EXPECT_LT(pc - kReferencePC, 64u);
-#endif
+#endif  // !HAS_FEATURE(address_sanitizer)
 
   // Declare sp and context_2 here because all local variables need to be
   // declared before computing the stack pointer reference value, so that the
