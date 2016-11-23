@@ -18,6 +18,7 @@
 #include <signal.h>
 #include <stdint.h>
 #include <string.h>
+#include <werapi.h>
 
 #include <memory>
 
@@ -525,7 +526,30 @@ void CommonInProcessInitialization() {
 }
 
 void RegisterHandlers() {
-  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+  // This DLL must be registered ahead of time in:
+  //   HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\RuntimeExceptionHelperModules
+  // for x86-on-x86 OS and x64-on-x64 OS, and in:
+  //   HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\Windows Error Reporting\RuntimeExceptionHelperModules
+  // for x86-on-x64 OS. It is assumed this will be done by an installer or
+  // similar, because requesting elevation to attempt to do so here is
+  // undesirable. Despite documentation that somewhat implies otherwise, storing
+  // this value in HKCU will not result in the DLL being loaded. Unfortunately,
+  // even if the key is not correctly registered, the HRESULT is still S_OK, so
+  // we cannot report to the caller.
+  //
+  // We have no appropriate place to WerUnregisterRuntimeExceptionModule(), as
+  // we want to capture all late shutdown crashes.
+  //
+  HRESULT result = WerRegisterRuntimeExceptionModule(
+      L"d:\\src\\crashpad\\crashpad\\out\\debug\\wer_helper.dll", nullptr);
+  LOG_IF(ERROR, result != S_OK) << "WerRegisterRuntimeExceptionModule";
+  //RaiseFailFastException(NULL, NULL, FAIL_FAST_GENERATE_EXCEPTION_ADDRESS);
+  __fastfail(FAIL_FAST_GENERATE_EXCEPTION_ADDRESS);
+
+  // We also register in-process handlers in the that the out-of-process
+  // registration fails.
+
+  //SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
 
   // The Windows CRT's signal.h lists:
   // - SIGINT
@@ -546,8 +570,8 @@ void RegisterHandlers() {
   // expect it to cause a crash dump. This will only work when the abort()
   // that's called in client code is the same (or has the same behavior) as the
   // one in use here.
-  void (*rv)(int) = signal(SIGABRT, HandleAbortSignal);
-  DCHECK_NE(rv, SIG_ERR);
+  //void (*rv)(int) = signal(SIGABRT, HandleAbortSignal);
+  //DCHECK_NE(rv, SIG_ERR);
 }
 
 }  // namespace

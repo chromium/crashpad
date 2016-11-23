@@ -219,6 +219,17 @@
             'win/self_destroying_test_program.cc',
           ],
         },
+        {
+          'target_name': 'wer_helper',
+          'type': 'loadable_module',
+          'dependencies': [
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'sources': [
+            'win/wer_helper.cc',
+            'win/wer_helper.def',
+          ],
+        },
       ],
       'conditions': [
         # Cannot create an x64 DLL with embedded debug info.
