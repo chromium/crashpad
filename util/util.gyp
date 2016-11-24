@@ -39,6 +39,8 @@
         'file/file_seeker.h',
         'file/file_writer.cc',
         'file/file_writer.h',
+        'file/read_entire_file.cc',
+        'file/read_entire_file.h',
         'file/string_file.cc',
         'file/string_file.h',
         'mac/checked_mach_address_range.h',

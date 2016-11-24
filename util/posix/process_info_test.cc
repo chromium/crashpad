@@ -15,18 +15,19 @@
 #include "util/posix/process_info.h"
 
 #include <time.h>
-#include <stdio.h>
 #include <unistd.h>
 
 #include <set>
 #include <string>
 #include <vector>
 
-#include "base/files/scoped_file.h"
+#include "base/files/file_path.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
+#include "util/file/read_entire_file.h"
 #include "util/misc/implicit_cast.h"
+#include "util/string/split_string.h"
 
 #if defined(OS_MACOSX)
 #include <crt_externs.h>
@@ -101,24 +102,11 @@ void TestSelfProcess(const ProcessInfo& process_info) {
   int expect_argc = *_NSGetArgc();
   char** expect_argv = *_NSGetArgv();
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
-  std::vector<std::string> expect_arg_vector;
-  {
-    base::ScopedFILE cmdline(fopen("/proc/self/cmdline", "r"));
-    ASSERT_NE(nullptr, cmdline.get()) << ErrnoMessage("fopen");
+  std::string cmdline;
+  ASSERT_EQ(ReadFileResult::kSuccess,
+            ReadEntireFile(base::FilePath("/proc/self/cmdline"), &cmdline));
 
-    int expect_arg_char;
-    std::string expect_arg_string;
-    while ((expect_arg_char = fgetc(cmdline.get())) != EOF) {
-      if (expect_arg_char != '\0') {
-        expect_arg_string.append(1, expect_arg_char);
-      } else {
-        expect_arg_vector.push_back(expect_arg_string);
-        expect_arg_string.clear();
-      }
-    }
-    ASSERT_EQ(0, ferror(cmdline.get())) << ErrnoMessage("fgetc");
-    ASSERT_TRUE(expect_arg_string.empty());
-  }
+  std::vector<std::string> expect_arg_vector = SplitString(cmdline, '\0');
 
   std::vector<const char*> expect_argv_storage;
   for (const std::string& expect_arg_string : expect_arg_vector) {

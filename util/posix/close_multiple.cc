@@ -18,7 +18,6 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -26,10 +25,11 @@
 #include <algorithm>
 #include <memory>
 
-#include "base/files/scoped_file.h"
+#include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "build/build_config.h"
+#include "util/file/read_entire_file.h"
 #include "util/misc/implicit_cast.h"
 #include "util/numeric/safe_assignment.h"
 
@@ -210,17 +210,10 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   // See linux-4.4.27/fs/file.c sysctl_nr_open, referenced by kernel/sys.c
   // do_prlimit() and kernel/sysctl.c fs_table. Inability to open this file is
   // not considered an error, because /proc may not be available or usable.
-  {
-    base::ScopedFILE nr_open_file(fopen("/proc/sys/fs/nr_open", "r"));
-    if (nr_open_file.get() != nullptr) {
-      int nr_open;
-      if (fscanf(nr_open_file.get(), "%d\n", &nr_open) == 1 &&
-          feof(nr_open_file.get())) {
-        max_fd = std::max(max_fd, nr_open);
-      } else {
-        LOG(WARNING) << "/proc/sys/fs/nr_open format error";
-      }
-    }
+  int nr_open;
+  if (ReadOneLineFile(base::FilePath("/proc/sys/fs/nr_open"), &nr_open) ==
+      ReadFileResult::kSuccess) {
+    max_fd = std::max(max_fd, nr_open);
   }
 #endif
 
