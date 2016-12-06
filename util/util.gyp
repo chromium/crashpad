@@ -263,8 +263,6 @@
         ['OS=="win"', {
           'link_settings': {
             'libraries': [
-              '-ladvapi32.lib',
-              '-lrpcrt4.lib',
               '-lwinhttp.lib',
             ],
           },

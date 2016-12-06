@@ -91,6 +91,7 @@
         'win/handle_test.cc',
         'win/initial_client_data_test.cc',
         'win/process_info_test.cc',
+        'win/registration_protocol_win_test.cc',
         'win/scoped_process_suspend_test.cc',
         'win/time_test.cc',
       ],
