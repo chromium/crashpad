@@ -97,7 +97,18 @@ HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
                                bool first_instance) {
   SECURITY_ATTRIBUTES security_attributes;
   SECURITY_ATTRIBUTES* security_attributes_pointer = nullptr;
-  ScopedLocalAlloc scoped_sec_desc;
+
+  // Mandatory Label, no ACE flags, no ObjectType, integrity level untrusted
+  // is "S:(ML;;;;;S-1-16-0)". This blob is the output of
+  // ConvertStringSecurityDescriptorToSecurityDescriptor(), which we can't use
+  // because this function is called from chrome_elf.dll and that function
+  // is in advapi32.dll.
+  static unsigned char kSecDescBlob[] = {
+      0x01, 0x00, 0x10, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x1c, 0x00,
+      0x01, 0x00, 0x00, 0x00, 0x11, 0x00, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00,
+  };
 
   if (first_instance) {
     // Pre-Vista does not have integrity levels.
@@ -105,21 +116,9 @@ HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
     const DWORD major_version = LOBYTE(LOWORD(version));
     const bool is_vista_or_later = major_version >= 6;
     if (is_vista_or_later) {
-      // Mandatory Label, no ACE flags, no ObjectType, integrity level
-      // untrusted.
-      const wchar_t kSddl[] = L"S:(ML;;;;;S-1-16-0)";
-
-      PSECURITY_DESCRIPTOR sec_desc;
-      PCHECK(ConvertStringSecurityDescriptorToSecurityDescriptor(
-          kSddl, SDDL_REVISION_1, &sec_desc, nullptr))
-          << "ConvertStringSecurityDescriptorToSecurityDescriptor";
-
-      // Take ownership of the allocated SECURITY_DESCRIPTOR.
-      scoped_sec_desc.reset(sec_desc);
-
       memset(&security_attributes, 0, sizeof(security_attributes));
       security_attributes.nLength = sizeof(SECURITY_ATTRIBUTES);
-      security_attributes.lpSecurityDescriptor = sec_desc;
+      security_attributes.lpSecurityDescriptor = kSecDescBlob;
       security_attributes.bInheritHandle = TRUE;
       security_attributes_pointer = &security_attributes;
     }
