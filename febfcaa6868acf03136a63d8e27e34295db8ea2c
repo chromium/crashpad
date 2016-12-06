@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_4c6d7fa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-06T23:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_4c5cbf37",
+      "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_6c573b45",
         "filename": "util/misc/uuid.cc",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2016-12-06T21:58:29Z",
       "side": 1,
       "message": "Eschew “we”.",
+      "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_ac745b77",
+        "filename": "util/misc/uuid.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-06T23:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_6c573b45",
       "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_cc798f6e",
+        "filename": "util/misc/uuid.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-06T23:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_0c647727",
+      "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_0c66b701",
         "filename": "util/util.gyp",
         "patchSetId": 1
@@ -70,6 +124,24 @@
       "writtenOn": "2016-12-06T21:58:29Z",
       "side": 1,
       "message": "Is linking against this and then dragging the crashpad_util library into chrome_elf going to be a problem? Or are libraries loaded lazily?",
+      "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_8cf077b1",
+        "filename": "util/util.gyp",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-06T23:51:19Z",
+      "side": 1,
+      "message": "The chrome_elf dll build marks the important ones (advapi32 in particular) as delayload, so for this one we should be OK as long as we don\u0027t run any winhttp code there.",
+      "parentUuid": "ed7c572f_0c66b701",
       "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -93,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_ecc3334a",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-06T23:51:19Z",
+      "side": 1,
+      "message": "\"We\" will learn eventually.",
+      "parentUuid": "ed7c572f_2c613318",
+      "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_cc2e6fbe",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 1
@@ -104,6 +194,24 @@
       "writtenOn": "2016-12-06T21:58:29Z",
       "side": 1,
       "message": "Needs a bit more explanation—it’s because it’s being run from chrome_elf.dll’s DllMain(), so the loader lock is held?",
+      "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_87a4d08a",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-06T23:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_cc2e6fbe",
       "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -127,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_a7c1d422",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-06T23:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_ec332b27",
+      "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_4c2effa3",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 1
@@ -138,6 +264,24 @@
       "writtenOn": "2016-12-06T21:58:29Z",
       "side": 1,
       "message": "I mostly validated this against https://msdn.microsoft.com/en-us/library/cc230366.aspx with a little help from https://msdn.microsoft.com/en-us/library/bb625963.aspx.\n\nThen I looked at \u003cwinnt.h\u003e and learned that the SDK actually provides all of the structures necessary to write one of these with semantic meaning instead of a binary blob. It looks like\n\nstruct {\n  SECURITY_DESCRIPTOR_RELATIVE …;\n  struct {\n    ACL …;\n    struct {\n      // This would be SYSTEM_MANDATORY_LABEL_ACE, but the DWORD SidStart field\n      // is not present. Instead, the SID is inline.\n      ACE_HEADER …;\n      ACCESS_MASK …;\n      SID …;\n    } ace[1];\n  } sacl;\n};\n\nYou’ll find the constants in \u003cwinnt.h\u003e too, and most of the rest can be populated with sizeof and offsetof.",
+      "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_87a9305b",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-06T23:51:19Z",
+      "side": 1,
+      "message": "You did better at me than hunting that down, thanks!\n\nUpdated to return a built-up one rather than a magic blob.\n\n... Though looking at it now, it\u0027s not exactly what one might describe as non-magic either. :) But at least by using winnt.h it points at some documentation.",
+      "parentUuid": "ed7c572f_4c2effa3",
       "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
