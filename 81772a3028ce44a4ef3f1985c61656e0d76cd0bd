@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed7c572f_ef7f9d51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T21:06:28Z",
+      "side": 1,
+      "message": "OK to give just the hash, even truncated a bit. OK to leave the URL too if you prefer.",
+      "revId": "81772a3028ce44a4ef3f1985c61656e0d76cd0bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_2f6da5aa",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T21:06:28Z",
+      "side": 1,
+      "message": "Can it handle it if you split the struct declaration out into its own expression or pull it out of the function? Older (pre-C++11) GCC used to need workarounds like that.",
+      "revId": "81772a3028ce44a4ef3f1985c61656e0d76cd0bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_6f63adc3",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T21:06:28Z",
+      "side": 1,
+      "message": "I\u0027d write them in decimal, I tend to think of small sizes like these that way.",
+      "range": {
+        "startLine": 178,
+        "startChar": 70,
+        "endLine": 178,
+        "endChar": 74
+      },
+      "revId": "81772a3028ce44a4ef3f1985c61656e0d76cd0bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
