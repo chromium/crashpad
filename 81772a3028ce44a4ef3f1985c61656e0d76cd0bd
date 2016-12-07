@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_cab5e5d0",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T21:25:29Z",
+      "side": 1,
+      "message": "Ah, the problem seems to be sizeof() on a non-instance. i.e.\n\nstruct X {\n  int a[1];\n};\n\nint main() {\n  sizeof(X);  // OK\n  sizeof(X::a);  //  error C2070: \u0027unknown\u0027: illegal sizeof operand\n  X x;\n  sizeof(x.a);  // OK\n}\n\nSo I guess using `kSecDescBlob.` instead of `SecurityDescriptorBlob::` is tidier.",
+      "parentUuid": "ed7c572f_2f6da5aa",
+      "revId": "81772a3028ce44a4ef3f1985c61656e0d76cd0bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_6f63adc3",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 1
@@ -71,6 +89,42 @@
         "endLine": 178,
         "endChar": 74
       },
+      "revId": "81772a3028ce44a4ef3f1985c61656e0d76cd0bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_6ac29943",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T21:25:29Z",
+      "side": 1,
+      "message": "OK. Obsoleted.",
+      "parentUuid": "ed7c572f_6f63adc3",
+      "revId": "81772a3028ce44a4ef3f1985c61656e0d76cd0bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_0aa67df4",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T21:25:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_6f63adc3",
       "revId": "81772a3028ce44a4ef3f1985c61656e0d76cd0bd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
