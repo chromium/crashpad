@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_a90762c9",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T19:35:18Z",
+      "side": 1,
+      "message": "Oh, alright. :)\n\nI then switched back to const void* because const PSECURITY_DESCRIPTOR is `void* const`, not `const void*`. Bah, C.",
+      "parentUuid": "ed7c572f_4f5cb137",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_0f66a901",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-07T18:47:18Z",
       "side": 1,
       "message": "OK to be anonymously typed (struct {) unless the compiler insisted for some reason (offsetof?)",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_29fb52a1",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T19:35:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_0f66a901",
       "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_491486f6",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T19:35:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_cf90a1a3",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_ef955d90",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-12-07T18:47:18Z",
       "side": 1,
       "message": "This can be an arraysize too: SecurityDescriptorBlob::sacl.ace[0].sid.SubAuthority.",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_a47b072b",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T19:35:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_ef955d90",
       "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_c48cfb19",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T19:35:18Z",
+      "side": 1,
+      "message": "Yeah, I was just happy it didn\u0027t collapse everything like it normally does for array initialization. But I\u0027m not sure why it wants 4 here.",
+      "parentUuid": "ed7c572f_2f6365f2",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_ef6c7de6",
         "filename": "util/win/registration_protocol_win.h",
         "patchSetId": 3
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_e9f31aed",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T19:35:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_ef6c7de6",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_2f4e0584",
         "filename": "util/win/registration_protocol_win.h",
         "patchSetId": 3
@@ -115,6 +223,24 @@
       "writtenOn": "2016-12-07T18:47:18Z",
       "side": 1,
       "message": "`SECURITY_DESCRIPTOR`",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_89e93efc",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T19:35:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_2f4e0584",
       "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
