@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed7c572f_6ff08db0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T22:53:02Z",
+      "side": 1,
+      "message": "Can you --reverse this? That’s what we normally do.",
+      "revId": "20403f1547f3b7a7f58e742cc7d795c1f1313c90",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
