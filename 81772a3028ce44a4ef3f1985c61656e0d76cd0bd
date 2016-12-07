@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ed7c572f_af79956e",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T21:07:32Z",
+      "side": 1,
+      "message": "\u003e Can it handle it if you split the struct declaration out into its own expression or pull it out of the function? Older (pre-C++11) GCC used to need workarounds like that.\n\nLeaving the variable in the function, in case it wasn\u0027t clear.",
+      "parentUuid": "ed7c572f_2f6da5aa",
+      "revId": "81772a3028ce44a4ef3f1985c61656e0d76cd0bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_6f63adc3",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 1
