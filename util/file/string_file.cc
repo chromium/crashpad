@@ -157,17 +157,16 @@ FileOffset StringFile::Seek(FileOffset offset, int whence) {
     LOG(ERROR) << "Seek(): new_offset invalid";
     return -1;
   }
-  FileOffset new_offset_fileoffset = new_offset.ValueOrDie();
   size_t new_offset_sizet;
-  if (!AssignIfInRange(&new_offset_sizet, new_offset_fileoffset)) {
-    LOG(ERROR) << "Seek(): new_offset " << new_offset_fileoffset
+  if (!new_offset.AssignIfValid(&new_offset_sizet)) {
+    LOG(ERROR) << "Seek(): new_offset " << new_offset.ValueOrDie()
                << " invalid for size_t";
     return -1;
   }
 
   offset_ = new_offset_sizet;
 
-  return offset_.ValueOrDie();
+  return base::ValueOrDieForType<FileOffset>(offset_);
 }
 
 }  // namespace crashpad
