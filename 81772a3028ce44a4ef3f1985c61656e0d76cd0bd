@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_ada76b8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T21:28:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_ef7f9d51",
+      "revId": "81772a3028ce44a4ef3f1985c61656e0d76cd0bd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_2f6da5aa",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 1
