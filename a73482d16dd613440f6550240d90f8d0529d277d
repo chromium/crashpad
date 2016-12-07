@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed7c572f_4f5cb137",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T18:47:18Z",
+      "side": 1,
+      "message": "I still think that this should be const. Even if the SECURITY_ATTRIBUTES structure needs non-const data, since this function doles out the same block of memory every time, I want some guard against accidental modifications. Making it const here, even if we just const_cast it away later, lets it live in a read-only section so we do have that protection.\n\nThe const_cast can go where you stick it into the SECURITY_ATTRIBUTES, since that’s the structure with the problem.\n\nOr have I misunderstood? Does CreateNamedPipe() actually have a need to write to this memory?",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_0f66a901",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T18:47:18Z",
+      "side": 1,
+      "message": "OK to be anonymously typed (struct {) unless the compiler insisted for some reason (offsetof?)",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_cf90a1a3",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T18:47:18Z",
+      "side": 1,
+      "message": "#include \"base/macros.h\" (surprise!)",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_ef955d90",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T18:47:18Z",
+      "side": 1,
+      "message": "This can be an arraysize too: SecurityDescriptorBlob::sacl.ace[0].sid.SubAuthority.",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_2f6365f2",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T18:47:18Z",
+      "side": 1,
+      "message": "80. I would have gone with a 2-space indent, but I guess clang-format… :(",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_ef6c7de6",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T18:47:18Z",
+      "side": 1,
+      "message": "`nullptr`",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_2f4e0584",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T18:47:18Z",
+      "side": 1,
+      "message": "`SECURITY_DESCRIPTOR`",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
