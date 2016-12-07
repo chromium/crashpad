@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ed7c572f_af1af553",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T20:00:36Z",
+      "side": 1,
+      "message": "\u003e Bah, C.\n\nI know, right?!",
+      "parentUuid": "6d14e7d4_a90762c9",
+      "revId": "a73482d16dd613440f6550240d90f8d0529d277d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_0f66a901",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 3
