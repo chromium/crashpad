@@ -109,7 +109,18 @@ StartupState BlockUntilHandlerStartedOrFailed() {
   return static_cast<StartupState>(startup_state);
 }
 
+#if defined(ADDRESS_SANITIZER)
+extern "C" LONG __asan_unhandled_exception_filter(EXCEPTION_POINTERS* info);
+#endif
+
 LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
+#if defined(ADDRESS_SANITIZER)
+  // In ASan builds, delegate to the ASan exception filter.
+  LONG status = __asan_unhandled_exception_filter(exception_pointers);
+  if (status != EXCEPTION_CONTINUE_SEARCH)
+    return status;
+#endif
+
   if (BlockUntilHandlerStartedOrFailed() == StartupState::kFailed) {
     // If we know for certain that the handler has failed to start, then abort
     // here, rather than trying to signal to a handler that will never arrive,
