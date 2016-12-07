@@ -1,0 +1,458 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed7c572f_ef60fd4b",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "Don’t we need -ladvapi32.lib in this target now?",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_cf4421bd",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "This is now unused (I think).",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_2f57e573",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "This is now unused (I’m more sure).",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_4fd591d3",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "It looked like the struct was carefully designed to pack properly without this #pragma, Sbz* fields and all, but I guess it’s OK to be double-sure.",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_4f0b518f",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "const",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_ef49ddd1",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "Can you leave https://msdn.microsoft.com/en-us/library/cc230366.aspx behind as a breadcrumb here? I only ask because the documentation for SECURITY_DESCRIPTOR_RELATIVE is nonexistent, and the documentation for SECURITY_DESCRIPTOR in the usual places is less than illuminating, and the doc that does explain the structure is filed in an unusual place under SECURITY_DESCRIPTOR without the _RELATIVE.\n\nIn other words, it wasn’t easy to find the first time around, let’s make it easier for the future.",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_6fd2cdee",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "I kinda liked having these three fields being a struct{…} ace[1] and using arraysize to populate ACL::AceCount.",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_cff66171",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "SECURITY_DESCRIPTOR_REVISION or SECURITY_DESCRIPTOR_REVISION1",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_af6af525",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "The nittiest of nits, consistency in the comment: parenthesize the abbreviations or the descriptions the same way on each side of the comma. But the comment may become unnecessary if you’re using the macro constants.",
+      "range": {
+        "startLine": 154,
+        "startChar": 31,
+        "endLine": 154,
+        "endChar": 68
+      },
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_effb1d56",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "SE_SELF_RELATIVE | SE_SACL_PRESENT",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_af1c35e1",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "offsetof(SecurityDescriptorBlob, sacl)",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_ef123dd0",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "sizeof(…::sacl)",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_8ff05974",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "sizeof(…::ace[0])",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_aff51563",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "SID_REVISION",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_8f65b95a",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "arraysize",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_6f088d91",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "SECURITY_MANDATORY_UNTRUSTED_RID",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_0f054978",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "Why a trailing comma here but not above?",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d0067b3_981295cf",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "Once this is returned, we don’t really have any further reason to access the bytes on our own, so const void* is actually quite appealing. uint8_t* was convenient when we were stuffing it with our own bytes, but that shouldn’t be necessary now. BUT see the related comment near the end of the test.",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_8fda9905",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "Why not const then?",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_afdf55f4",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "\\return",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_efe55dc2",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "You defined this with uint8_t* instead of unsigned char*.",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_2f028571",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "Wouldn’t we normally write less-Hungarian SECURITY_DESCRIPTOR* in here?",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_4f50317d",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "\u003c\u003c ErrorMessage(\"ConvertStringSecurityDescriptorToSecurityDescriptor\");",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_6f4deddf",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "You need a ScopedLocalAlloc to own sec_desc, the same way that we had in registration_protocol_win.cc when it called this function.",
+      "range": {
+        "startLine": 38,
+        "startChar": 30,
+        "endLine": 38,
+        "endChar": 39
+      },
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_cf5bc1a3",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "A memcmp() would suffice unless you really want the test to dump which bytes didn’t match.\n\nWhen I made the suggestion to use const void*, I was assuming that the test would use memcmp(), but if you have a preference for this, that would be a good enough reason to leave it at const void*.",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_0f5a299b",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "Blank line at EOF.",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
