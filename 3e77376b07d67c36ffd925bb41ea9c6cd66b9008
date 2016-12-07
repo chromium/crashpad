@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed7c572f_cff501ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T22:01:35Z",
+      "side": 1,
+      "message": "“Upstream:” won’t really be helpful in Crashpad’s “git log” history.",
+      "revId": "3e77376b07d67c36ffd925bb41ea9c6cd66b9008",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
