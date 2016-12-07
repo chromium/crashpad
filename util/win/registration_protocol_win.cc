@@ -15,12 +15,11 @@
 #include "util/win/registration_protocol_win.h"
 
 #include <windows.h>
-#include <sddl.h>
 
 #include "base/logging.h"
+#include "base/macros.h"
 #include "util/win/exception_handler_server.h"
 #include "util/win/scoped_handle.h"
-#include "util/win/scoped_local_alloc.h"
 
 namespace crashpad {
 
@@ -97,7 +96,6 @@ HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
                                bool first_instance) {
   SECURITY_ATTRIBUTES security_attributes;
   SECURITY_ATTRIBUTES* security_attributes_pointer = nullptr;
-  ScopedLocalAlloc scoped_sec_desc;
 
   if (first_instance) {
     // Pre-Vista does not have integrity levels.
@@ -105,21 +103,10 @@ HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
     const DWORD major_version = LOBYTE(LOWORD(version));
     const bool is_vista_or_later = major_version >= 6;
     if (is_vista_or_later) {
-      // Mandatory Label, no ACE flags, no ObjectType, integrity level
-      // untrusted.
-      const wchar_t kSddl[] = L"S:(ML;;;;;S-1-16-0)";
-
-      PSECURITY_DESCRIPTOR sec_desc;
-      PCHECK(ConvertStringSecurityDescriptorToSecurityDescriptor(
-          kSddl, SDDL_REVISION_1, &sec_desc, nullptr))
-          << "ConvertStringSecurityDescriptorToSecurityDescriptor";
-
-      // Take ownership of the allocated SECURITY_DESCRIPTOR.
-      scoped_sec_desc.reset(sec_desc);
-
       memset(&security_attributes, 0, sizeof(security_attributes));
       security_attributes.nLength = sizeof(SECURITY_ATTRIBUTES);
-      security_attributes.lpSecurityDescriptor = sec_desc;
+      security_attributes.lpSecurityDescriptor =
+          const_cast<void*>(GetSecurityDescriptorForNamedPipeInstance(nullptr));
       security_attributes.bInheritHandle = TRUE;
       security_attributes_pointer = &security_attributes;
     }
@@ -134,6 +121,88 @@ HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
       512,
       0,
       security_attributes_pointer);
+}
+
+const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
+  // Mandatory Label, no ACE flags, no ObjectType, integrity level untrusted is
+  // "S:(ML;;;;;S-1-16-0)". Typically
+  // ConvertStringSecurityDescriptorToSecurityDescriptor() would be used to
+  // convert from a string representation. However, that function cannot be used
+  // because it is in advapi32.dll and CreateNamedPipeInstance() is called from
+  // within DllMain() where the loader lock is held. advapi32.dll is delay
+  // loaded in chrome_elf.dll because it must avoid loading user32.dll. If an
+  // advapi32.dll function were used, it would cause a load of the DLL, which
+  // would in turn cause deadlock.
+
+#pragma pack(push, 1)
+  static const struct SecurityDescriptorBlob {
+    // See https://msdn.microsoft.com/en-us/library/cc230366.aspx.
+    SECURITY_DESCRIPTOR_RELATIVE sd_rel;
+    struct {
+      ACL acl;
+      struct {
+        // This is equivalent to SYSTEM_MANDATORY_LABEL_ACE, but there's no
+        // DWORD offset to the SID, instead it's inline.
+        ACE_HEADER header;
+        ACCESS_MASK mask;
+        SID sid;
+      } ace[1];
+    } sacl;
+  } kSecDescBlob = {
+      // sd_rel.
+      {
+          SECURITY_DESCRIPTOR_REVISION1,  // Revision.
+          0x00,  // Sbz1.
+          SE_SELF_RELATIVE | SE_SACL_PRESENT,  // Control.
+          0,  // OffsetOwner.
+          0,  // OffsetGroup.
+          offsetof(SecurityDescriptorBlob, sacl),  // OffsetSacl.
+          0,  // OffsetDacl.
+      },
+
+      // sacl.
+      {
+          // acl.
+          {
+              ACL_REVISION,  // AclRevision.
+              0,  // Sbz1.
+              sizeof(SecurityDescriptorBlob::sacl),  // AclSize.
+              arraysize(SecurityDescriptorBlob::sacl.ace),  // AceCount.
+              0,  // Sbz2.
+          },
+
+          // ace[0].
+          {
+              {
+                  // header.
+                  {
+                      SYSTEM_MANDATORY_LABEL_ACE_TYPE,  // AceType.
+                      0,  // AceFlags.
+                      sizeof(SecurityDescriptorBlob::sacl.ace[0]),  // AceSize.
+                  },
+
+                  // mask.
+                  0,
+
+                  // sid.
+                  {
+                      SID_REVISION,  // Revision.
+                      // SubAuthorityCount.
+                      arraysize(
+                          SecurityDescriptorBlob::sacl.ace[0].sid.SubAuthority),
+                      // IdentifierAuthority.
+                      SECURITY_MANDATORY_LABEL_AUTHORITY,
+                      {SECURITY_MANDATORY_UNTRUSTED_RID},  // SubAuthority.
+                  },
+              },
+          },
+      },
+  };
+#pragma pack(pop)
+
+  if (size)
+    *size = sizeof(kSecDescBlob);
+  return reinterpret_cast<const void*>(&kSecDescBlob);
 }
 
 }  // namespace crashpad
