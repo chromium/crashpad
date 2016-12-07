@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_933deb81",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "It\u0027s linked by mini_chromium base so it\u0027s pretty much everywhere, but yes.",
+      "parentUuid": "ed7c572f_ef60fd4b",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_cf4421bd",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-07T05:02:59Z",
       "side": 1,
       "message": "This is now unused (I think).",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_d3d84340",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_cf4421bd",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_f3dd472d",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_2f57e573",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_4fd591d3",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-12-07T05:02:59Z",
       "side": 1,
       "message": "It looked like the struct was carefully designed to pack properly without this #pragma, Sbz* fields and all, but I guess it’s OK to be double-sure.",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_73ea97bd",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "When I had a bug in building it up, I thought maybe that was the problem... but it wasn\u0027t. But then it seemed reasonable to keep to be explicit. But I can remove it if you think it\u0027s cluttery.",
+      "parentUuid": "ed7c572f_4fd591d3",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_d3cda374",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "I\u0027m going to not do this one because it\u0027s just going to get casted away at the end of the function.",
+      "parentUuid": "ed7c572f_4f0b518f",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_ef49ddd1",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2016-12-07T05:02:59Z",
       "side": 1,
       "message": "Can you leave https://msdn.microsoft.com/en-us/library/cc230366.aspx behind as a breadcrumb here? I only ask because the documentation for SECURITY_DESCRIPTOR_RELATIVE is nonexistent, and the documentation for SECURITY_DESCRIPTOR in the usual places is less than illuminating, and the doc that does explain the structure is filed in an unusual place under SECURITY_DESCRIPTOR without the _RELATIVE.\n\nIn other words, it wasn’t easy to find the first time around, let’s make it easier for the future.",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_f3d22716",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_ef49ddd1",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_93b88bc9",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "I missed some of the subtlety of your suggestion. :) Done.",
+      "parentUuid": "ed7c572f_6fd2cdee",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_cff66171",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2016-12-07T05:02:59Z",
       "side": 1,
       "message": "SECURITY_DESCRIPTOR_REVISION or SECURITY_DESCRIPTOR_REVISION1",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_53c2f342",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_cff66171",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -178,6 +322,42 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_73bff7ad",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Oops, yeah, removed anyway after switching to defines.",
+      "parentUuid": "ed7c572f_af6af525",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_13ad5b81",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_effb1d56",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_af1c35e1",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 2
@@ -189,6 +369,24 @@
       "writtenOn": "2016-12-07T05:02:59Z",
       "side": 1,
       "message": "offsetof(SecurityDescriptorBlob, sacl)",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_d3a603a5",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_af1c35e1",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -212,6 +410,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_0ee1b4b6",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_ef123dd0",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_8ff05974",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 2
@@ -229,6 +445,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_6eb390cb",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_8ff05974",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_aff51563",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 2
@@ -240,6 +474,24 @@
       "writtenOn": "2016-12-07T05:02:59Z",
       "side": 1,
       "message": "SID_REVISION",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_33c97f69",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_aff51563",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -280,6 +532,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_539bd35e",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_6f088d91",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_0f054978",
         "filename": "util/win/registration_protocol_win.cc",
         "patchSetId": 2
@@ -291,6 +561,24 @@
       "writtenOn": "2016-12-07T05:02:59Z",
       "side": 1,
       "message": "Why a trailing comma here but not above?",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_ce8c1c1a",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done (the trailing commas help clang-format, otherwise it collapses everything).",
+      "parentUuid": "ed7c572f_0f054978",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -314,6 +602,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_ee91e032",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "void* (ish) now.",
+      "parentUuid": "6d0067b3_981295cf",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_8fda9905",
         "filename": "util/win/registration_protocol_win.h",
         "patchSetId": 2
@@ -325,6 +631,24 @@
       "writtenOn": "2016-12-07T05:02:59Z",
       "side": 1,
       "message": "Why not const then?",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_b33a6f86",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "SECURITY_ATTRIBUTES.lpSecurityDescriptor is LPVOID so I kind of waffled back and forth since there\u0027s only the one callsite. I\u0027ll guess make it PSECURITY_DESCRIPTOR (which is void*) for consistency per other comments.",
+      "parentUuid": "ed7c572f_8fda9905",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -348,6 +672,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_5337539f",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_afdf55f4",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_efe55dc2",
         "filename": "util/win/registration_protocol_win.h",
         "patchSetId": 2
@@ -365,6 +707,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_7334d799",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_efe55dc2",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_2f028571",
         "filename": "util/win/registration_protocol_win_test.cc",
         "patchSetId": 2
@@ -376,6 +736,24 @@
       "writtenOn": "2016-12-07T05:02:59Z",
       "side": 1,
       "message": "Wouldn’t we normally write less-Hungarian SECURITY_DESCRIPTOR* in here?",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_8ea7048f",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "In a weak attempt to make SECURITY_DESCRIPTOR opaque (or maybe to ease interop with SECURITY_ATTRIBUTES?) PSECURITY_DESCRIPTOR isn\u0027t SECURITY_DESCRIPTOR*, but rather just void*.",
+      "parentUuid": "ed7c572f_2f028571",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
@@ -422,6 +800,42 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_aea4488a",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_4f50317d",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_0eb8d4aa",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_6f4deddf",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_cf5bc1a3",
         "filename": "util/win/registration_protocol_win_test.cc",
         "patchSetId": 2
@@ -439,6 +853,24 @@
     },
     {
       "key": {
+        "uuid": "6d14e7d4_cec17c22",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done. I mostly needed the loop when I was debugging what byte was off, but memcmp is fine for verification.",
+      "parentUuid": "ed7c572f_cf5bc1a3",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_0f5a299b",
         "filename": "util/win/registration_protocol_win_test.cc",
         "patchSetId": 2
@@ -450,6 +882,24 @@
       "writtenOn": "2016-12-07T05:02:59Z",
       "side": 1,
       "message": "Blank line at EOF.",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d14e7d4_4eb6ccbc",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-07T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7c572f_0f5a299b",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
