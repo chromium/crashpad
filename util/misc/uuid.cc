@@ -95,17 +95,11 @@ bool UUID::InitializeWithNew() {
   uuid_generate(uuid);
   InitializeFromBytes(uuid);
   return true;
-#elif defined(OS_WIN)
-  ::UUID system_uuid;
-  if (UuidCreate(&system_uuid) != RPC_S_OK) {
-    LOG(ERROR) << "UuidCreate";
-    return false;
-  }
-  InitializeFromSystemUUID(&system_uuid);
-  return true;
-#elif defined(OS_LINUX) || defined(OS_ANDROID)
+#elif defined(OS_WIN) || defined(OS_LINUX) || defined(OS_ANDROID)
   // Linux does not provide a UUID generator in a widely-available system
   // library. uuid_generate() from libuuid is not available everywhere.
+  // On Windows, do not use UuidCreate() to avoid a dependency on rpcrt4, so
+  // that this function is usable early in DllMain().
   base::RandBytes(this, sizeof(*this));
 
   // Set six bits per RFC 4122 §4.4 to identify this as a pseudo-random UUID.
