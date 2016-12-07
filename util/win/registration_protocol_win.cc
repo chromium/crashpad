@@ -166,8 +166,8 @@ const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
           {
               ACL_REVISION,  // AclRevision.
               0,  // Sbz1.
-              sizeof(SecurityDescriptorBlob::sacl),  // AclSize.
-              arraysize(SecurityDescriptorBlob::sacl.ace),  // AceCount.
+              sizeof(kSecDescBlob.sacl),  // AclSize.
+              arraysize(kSecDescBlob.sacl.ace),  // AceCount.
               0,  // Sbz2.
           },
 
@@ -178,7 +178,7 @@ const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
                   {
                       SYSTEM_MANDATORY_LABEL_ACE_TYPE,  // AceType.
                       0,  // AceFlags.
-                      sizeof(SecurityDescriptorBlob::sacl.ace[0]),  // AceSize.
+                      sizeof(kSecDescBlob.sacl.ace[0]),  // AceSize.
                   },
 
                   // mask.
@@ -188,8 +188,7 @@ const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
                   {
                       SID_REVISION,  // Revision.
                       // SubAuthorityCount.
-                      arraysize(
-                          SecurityDescriptorBlob::sacl.ace[0].sid.SubAuthority),
+                      arraysize(kSecDescBlob.sacl.ace[0].sid.SubAuthority),
                       // IdentifierAuthority.
                       SECURITY_MANDATORY_LABEL_AUTHORITY,
                       {SECURITY_MANDATORY_UNTRUSTED_RID},  // SubAuthority.
