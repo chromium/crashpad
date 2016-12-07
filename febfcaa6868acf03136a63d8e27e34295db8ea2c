@@ -303,6 +303,24 @@
       "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_8f3e191d",
+        "filename": "util/win/registration_protocol_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T05:02:59Z",
+      "side": 1,
+      "message": "\u003e You did better at me than hunting that down, thanks!\n\u003e \n\u003e Updated to return a built-up one rather than a magic blob.\n\u003e \n\u003e ... Though looking at it now, it\u0027s not exactly what one might describe as non-magic either. :) But at least by using winnt.h it points at some documentation.\n\nIt’s a minor mess but it’s at least easily verified. And if we ever need to maintain it or use it as a template for a slightly different security descriptor, it’ll be much easier in this form than a bunch of bytes.",
+      "parentUuid": "6d14e7d4_87a9305b",
+      "revId": "febfcaa6868acf03136a63d8e27e34295db8ea2c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
