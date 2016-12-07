@@ -655,6 +655,24 @@
     },
     {
       "key": {
+        "uuid": "ed7c572f_8f8a996b",
+        "filename": "util/win/registration_protocol_win.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T18:47:18Z",
+      "side": 1,
+      "message": "\u003e SECURITY_ATTRIBUTES.lpSecurityDescriptor is LPVOID so I kind of waffled back and forth since there\u0027s only the one callsite.\n\nThe test is a second one. :)",
+      "parentUuid": "6d14e7d4_b33a6f86",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7c572f_afdf55f4",
         "filename": "util/win/registration_protocol_win.h",
         "patchSetId": 2
@@ -754,6 +772,24 @@
       "side": 1,
       "message": "In a weak attempt to make SECURITY_DESCRIPTOR opaque (or maybe to ease interop with SECURITY_ATTRIBUTES?) PSECURITY_DESCRIPTOR isn\u0027t SECURITY_DESCRIPTOR*, but rather just void*.",
       "parentUuid": "ed7c572f_2f028571",
+      "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed7c572f_af8f557a",
+        "filename": "util/win/registration_protocol_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-07T18:47:18Z",
+      "side": 1,
+      "message": "\u003e In a weak attempt to make SECURITY_DESCRIPTOR opaque (or maybe to ease interop with SECURITY_ATTRIBUTES?) PSECURITY_DESCRIPTOR isn\u0027t SECURITY_DESCRIPTOR*, but rather just void*.\n\nOK. And déjà vu: https://codereview.chromium.org/1405093013/diff/40001/util/win/exception_handler_server.cc#newcode87",
+      "parentUuid": "6d14e7d4_8ea7048f",
       "revId": "db9861ec24e37faf58bfc7d469e56c347e3655e5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
