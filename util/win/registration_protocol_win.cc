@@ -190,7 +190,7 @@ const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
                       // SubAuthorityCount.
                       arraysize(kSecDescBlob.sacl.ace[0].sid.SubAuthority),
                       // IdentifierAuthority.
-                      SECURITY_MANDATORY_LABEL_AUTHORITY,
+                      {SECURITY_MANDATORY_LABEL_AUTHORITY},
                       {SECURITY_MANDATORY_UNTRUSTED_RID},  // SubAuthority.
                   },
               },
