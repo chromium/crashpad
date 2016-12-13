@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d2f2371_2d8a59aa",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-13T04:35:25Z",
+      "side": 1,
+      "message": "The style guide likes it when we name variables for the units that they measure: timeout_ms. (Don’t forget to update the \\param too.)",
+      "revId": "5c2654122a803d25b96d2cb0e13ec15f39ea17ee",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d2f2371_4d878da1",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-13T04:35:25Z",
+      "side": 1,
+      "message": "If WaitForSingleObject() returns WAIT_TIMEOUT, is GetLastError() set? The documentation only says that GetLastError() is valid for WAIT_FAILED.",
+      "revId": "5c2654122a803d25b96d2cb0e13ec15f39ea17ee",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
