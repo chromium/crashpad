@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a3cf3c1_216f83a9",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-13T04:58:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d2f2371_2d8a59aa",
+      "revId": "5c2654122a803d25b96d2cb0e13ec15f39ea17ee",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d2f2371_4d878da1",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-13T04:35:25Z",
       "side": 1,
       "message": "If WaitForSingleObject() returns WAIT_TIMEOUT, is GetLastError() set? The documentation only says that GetLastError() is valid for WAIT_FAILED.",
+      "revId": "5c2654122a803d25b96d2cb0e13ec15f39ea17ee",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3cf3c1_016c7fb0",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2016-12-13T04:58:37Z",
+      "side": 1,
+      "message": "Good catch, done.",
+      "parentUuid": "4d2f2371_4d878da1",
       "revId": "5c2654122a803d25b96d2cb0e13ec15f39ea17ee",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
