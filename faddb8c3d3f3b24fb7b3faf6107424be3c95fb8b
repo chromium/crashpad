@@ -40,6 +40,24 @@
       "revId": "faddb8c3d3f3b24fb7b3faf6107424be3c95fb8b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3cf3c1_972671e5",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1116013
+      },
+      "writtenOn": "2016-12-13T16:35:39Z",
+      "side": 1,
+      "message": "Ok cool, wasn\u0027t sure if the intent here was to be Windows-y or not :-)",
+      "parentUuid": "9a3cf3c1_97c2f1ec",
+      "revId": "faddb8c3d3f3b24fb7b3faf6107424be3c95fb8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
