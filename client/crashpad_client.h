@@ -173,9 +173,12 @@ class CrashpadClient {
   //!
   //! This method should not be used unless `asynchronous_start` was `true`.
   //!
+  //! \param[in] timeout_ms The number of milliseconds to wait for a result from
+  //!     the background launch, or `0xffffffff` to block indefinitely.
+  //!
   //! \return `true` if the hander startup succeeded, `false` otherwise, and an
   //!     error message will have been logged.
-  bool WaitForHandlerStart();
+  bool WaitForHandlerStart(unsigned int timeout_ms);
 
   //! \brief Requests that the handler capture a dump even though there hasn't
   //!     been a crash.

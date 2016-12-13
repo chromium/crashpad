@@ -39,7 +39,7 @@ void StartAndUseHandler() {
                                   std::vector<std::string>(),
                                   true,
                                   true));
-  ASSERT_TRUE(client.WaitForHandlerStart());
+  ASSERT_TRUE(client.WaitForHandlerStart(INFINITE));
 }
 
 class StartWithInvalidHandles final : public WinMultiprocess {
