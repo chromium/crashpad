@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d2f2371_cd28ddb2",
+        "filename": "client/crashpad_client.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1116013
+      },
+      "writtenOn": "2016-12-13T05:59:22Z",
+      "side": 1,
+      "message": "The code around here looks like it uses Windows types, any objection to making timeout_ms a DWORD and having the comment suggest passing INFINITE to block indefinitely?",
+      "range": {
+        "startLine": 177,
+        "startChar": 70,
+        "endLine": 177,
+        "endChar": 71
+      },
+      "revId": "faddb8c3d3f3b24fb7b3faf6107424be3c95fb8b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
