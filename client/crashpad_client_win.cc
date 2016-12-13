@@ -689,10 +689,16 @@ std::wstring CrashpadClient::GetHandlerIPCPipe() const {
   return ipc_pipe_;
 }
 
-bool CrashpadClient::WaitForHandlerStart() {
+bool CrashpadClient::WaitForHandlerStart(unsigned int timeout_ms) {
   DCHECK(handler_start_thread_.is_valid());
-  if (WaitForSingleObject(handler_start_thread_.get(), INFINITE) !=
-      WAIT_OBJECT_0) {
+  DWORD result = WaitForSingleObject(handler_start_thread_.get(), timeout_ms);
+  if (result == WAIT_TIMEOUT) {
+    LOG(ERROR) << "WaitForSingleObject timed out";
+    return false;
+  } else if (result == WAIT_ABANDONED) {
+    LOG(ERROR) << "WaitForSingleObject abandoned";
+    return false;
+  } else if (result != WAIT_OBJECT_0) {
     PLOG(ERROR) << "WaitForSingleObject";
     return false;
   }
