@@ -250,7 +250,7 @@ bool ReadProcessData(HANDLE process,
 
   process_types::LDR_DATA_TABLE_ENTRY<Traits> ldr_data_table_entry;
 
-  // Include the first module in the memory order list to get our the main
+  // Include the first module in the memory order list to get the main
   // executable's name, as it's not included in initialization order below.
   if (!ReadStruct(process,
                   static_cast<WinVMAddress>(
