@@ -129,9 +129,15 @@ void HandleSIGTERM(int sig, siginfo_t* siginfo, void* context) {
 #endif  // OS_MACOSX
 
 #if defined(OS_WIN)
+LONG(WINAPI* g_original_exception_filter)(EXCEPTION_POINTERS*) = nullptr;
+
 LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   Metrics::HandlerCrashed(exception_pointers->ExceptionRecord->ExceptionCode);
-  return EXCEPTION_CONTINUE_SEARCH;
+
+  if (g_original_exception_filter)
+    return g_original_exception_filter(exception_pointers);
+  else
+    return EXCEPTION_CONTINUE_SEARCH;
 }
 #endif  // OS_WIN
 
@@ -139,7 +145,8 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
 
 int HandlerMain(int argc, char* argv[]) {
 #if defined(OS_WIN)
-  SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+  g_original_exception_filter =
+      SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
 #endif
 
   const base::FilePath argv0(
