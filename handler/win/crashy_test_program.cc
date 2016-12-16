@@ -201,8 +201,8 @@ int CrashyMain(int argc, wchar_t* argv[]) {
   AllocateExtraUnsavedMemory(extra_ranges);
 
   // Load and unload some uncommonly used modules so we can see them in the list
-  // reported by `lm`. At least two so that we confirm we got the size of
-  // RTL_UNLOAD_EVENT_TRACE right.
+  // reported by `lm`. At least two so that we confirm we got the element size
+  // advancement of RTL_UNLOAD_EVENT_TRACE correct.
   CHECK(GetModuleHandle(L"lz32.dll") == nullptr);
   CHECK(GetModuleHandle(L"wmerror.dll") == nullptr);
   HMODULE lz32 = LoadLibrary(L"lz32.dll");

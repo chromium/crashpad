@@ -75,10 +75,7 @@ NTSTATUS NtSuspendProcess(HANDLE handle);
 
 NTSTATUS NtResumeProcess(HANDLE handle);
 
-// From https://msdn.microsoft.com/en-us/library/bb432428(VS.85).aspx and
-// http://processhacker.sourceforge.net/doc/struct___r_t_l___u_n_l_o_a_d___e_v_e_n_t___t_r_a_c_e.html
-#define RTL_UNLOAD_EVENT_TRACE_NUMBER 64
-
+// From https://msdn.microsoft.com/en-us/library/cc678403(v=vs.85).aspx.
 template <class Traits>
 struct RTL_UNLOAD_EVENT_TRACE {
   typename Traits::Pointer BaseAddress;
@@ -87,14 +84,10 @@ struct RTL_UNLOAD_EVENT_TRACE {
   ULONG TimeDateStamp;
   ULONG CheckSum;
   WCHAR ImageName[32];
-  ULONG Version0;
-  union {
-    ULONG Version1;
-    typename Traits::Pad alignment_for_x64;
-  };
 };
 
-template <class Traits>
-RTL_UNLOAD_EVENT_TRACE<Traits>* RtlGetUnloadEventTrace();
+void RtlGetUnloadEventTraceEx(ULONG** element_size,
+                              ULONG** element_count,
+                              void** event_trace);
 
 }  // namespace crashpad
