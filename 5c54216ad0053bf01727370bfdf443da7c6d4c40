@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da410b2d_2e1ec7d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-16T20:14:58Z",
+      "side": 1,
+      "message": "What exactly were we seeing in crash dumps? Just a quick summary of the linked BUG\u003d.",
+      "revId": "5c54216ad0053bf01727370bfdf443da7c6d4c40",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da410b2d_ce1623c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-16T20:14:58Z",
+      "side": 1,
+      "message": "finesse",
+      "revId": "5c54216ad0053bf01727370bfdf443da7c6d4c40",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da410b2d_aef8f75a",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-16T20:14:58Z",
+      "side": 1,
+      "message": "unsigned long** parameters when only one * would do. Oddball API design. OK, moving along…",
+      "revId": "5c54216ad0053bf01727370bfdf443da7c6d4c40",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da410b2d_ceed439c",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2016-12-16T20:14:58Z",
+      "side": 1,
+      "message": "OK, but our struct is larger than the one that shows up at https://msdn.microsoft.com/en-us/library/cc678403.aspx, so just make sure that this works on the oldest OS that supports it (Vista, I guess).",
+      "revId": "5c54216ad0053bf01727370bfdf443da7c6d4c40",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
