@@ -281,21 +281,43 @@ void ProcessSnapshotWin::InitializeUnloadedModules() {
 #error port
 #endif
 
-  RTL_UNLOAD_EVENT_TRACE<Traits>* unload_event_trace_address =
-      RtlGetUnloadEventTrace<Traits>();
-  WinVMAddress address_in_target_process =
-      reinterpret_cast<WinVMAddress>(unload_event_trace_address);
+  ULONG* element_size;
+  ULONG* element_count;
+  void* event_trace_address;
+  RtlGetUnloadEventTraceEx(&element_size, &element_count, &event_trace_address);
 
-  std::vector<RTL_UNLOAD_EVENT_TRACE<Traits>> events(
-      RTL_UNLOAD_EVENT_TRACE_NUMBER);
-  if (!process_reader_.ReadMemory(address_in_target_process,
-                                  events.size() * sizeof(events[0]),
-                                  &events[0])) {
+  if (*element_size < sizeof(RTL_UNLOAD_EVENT_TRACE<Traits>)) {
+    LOG(ERROR) << "unexpected unloaded module list element size";
     return;
   }
 
-  for (const RTL_UNLOAD_EVENT_TRACE<Traits>& uet : events) {
-    if (uet.ImageName[0]) {
+  const WinVMAddress address_in_target_process =
+      reinterpret_cast<WinVMAddress>(event_trace_address);
+
+  Traits::Pointer pointer_to_array;
+  if (!process_reader_.ReadMemory(address_in_target_process,
+                                  sizeof(pointer_to_array),
+                                  &pointer_to_array)) {
+    LOG(ERROR) << "failed to read target address";
+    return;
+  }
+
+  // No unloaded modules.
+  if (pointer_to_array == 0)
+    return;
+
+  const size_t data_size = *element_size * *element_count;
+  std::vector<uint8_t> data(data_size);
+  if (!process_reader_.ReadMemory(pointer_to_array, data_size, &data[0])) {
+    LOG(ERROR) << "failed to read unloaded module data";
+    return;
+  }
+
+  for (ULONG i = 0; i < *element_count; ++i) {
+    const uint8_t* base_address = &data[i * *element_size];
+    const auto& uet =
+        *reinterpret_cast<const RTL_UNLOAD_EVENT_TRACE<Traits>*>(base_address);
+    if (uet.ImageName[0] != 0) {
       unloaded_modules_.push_back(UnloadedModuleSnapshot(
           uet.BaseAddress,
           uet.SizeOfImage,
