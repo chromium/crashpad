@@ -42,7 +42,9 @@ NTSTATUS NTAPI NtSuspendProcess(HANDLE);
 
 NTSTATUS NTAPI NtResumeProcess(HANDLE);
 
-void* NTAPI RtlGetUnloadEventTrace();
+VOID NTAPI RtlGetUnloadEventTraceEx(PULONG* ElementSize,
+                                    PULONG* ElementCount,
+                                    PVOID* EventTrace);
 
 namespace crashpad {
 
@@ -145,12 +147,12 @@ NTSTATUS NtResumeProcess(HANDLE handle) {
   return nt_resume_process(handle);
 }
 
-template <class Traits>
-RTL_UNLOAD_EVENT_TRACE<Traits>* RtlGetUnloadEventTrace() {
-  static const auto rtl_get_unload_event_trace =
-      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::RtlGetUnloadEventTrace);
-  return reinterpret_cast<RTL_UNLOAD_EVENT_TRACE<Traits>*>(
-      rtl_get_unload_event_trace());
+void RtlGetUnloadEventTraceEx(ULONG** element_size,
+                              ULONG** element_count,
+                              void** event_trace) {
+  static const auto rtl_get_unload_event_trace_ex =
+      GET_FUNCTION_REQUIRED(L"ntdll.dll", ::RtlGetUnloadEventTraceEx);
+  rtl_get_unload_event_trace_ex(element_size, element_count, event_trace);
 }
 
 // Explicit instantiations with the only 2 valid template arguments to avoid
@@ -168,11 +170,5 @@ template NTSTATUS NtOpenThread<process_types::internal::Traits64>(
     POBJECT_ATTRIBUTES object_attributes,
     const process_types::CLIENT_ID<process_types::internal::Traits64>*
         client_id);
-
-template RTL_UNLOAD_EVENT_TRACE<process_types::internal::Traits32>*
-RtlGetUnloadEventTrace<process_types::internal::Traits32>();
-
-template RTL_UNLOAD_EVENT_TRACE<process_types::internal::Traits64>*
-RtlGetUnloadEventTrace<process_types::internal::Traits64>();
 
 }  // namespace crashpad
