@@ -23,6 +23,14 @@ deps = {
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
       '93cc6e2c23e4d5ebd179f388e67aa907d0dfd43d',
+  # TODO(scottmg): Consider pinning these. For now, we don't have any particular
+  #                reason to do so.
+  'crashpad/third_party/llvm':
+      Var('chromium_git') + '/external/llvm.org/llvm.git@HEAD',
+  'crashpad/third_party/llvm/tools/clang':
+      Var('chromium_git') + '/external/llvm.org/clang.git@HEAD',
+  'crashpad/third_party/llvm/tools/lldb':
+      Var('chromium_git') + '/external/llvm.org/lldb.git@HEAD',
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
       'de1afb04f4afc074ec6d23bd9ee7b1e6b365427f',
