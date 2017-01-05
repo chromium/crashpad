@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7634a25_1be55c1f",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-01-05T01:53:03Z",
+      "side": 1,
+      "message": "Hanging indent is uncommon for TODO comments.",
+      "revId": "53c8014b65cc9062b53d55d27c5e7b7a7993c6cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7634a25_bbe70828",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-01-05T01:53:03Z",
+      "side": 1,
+      "message": "You should put a blank line here to make clear which entries you want to pin. Also, put a blank line before the TODO line so that the whole block stands out as its own group.",
+      "revId": "53c8014b65cc9062b53d55d27c5e7b7a7993c6cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
