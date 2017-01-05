@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7634a25_bb126818",
+        "filename": "DEPS",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-01-05T02:53:32Z",
+      "side": 1,
+      "message": "Still needs a blank line before this, ’cuz mini_chromium’s already pinned and doesn’t belong to the llvm group.",
+      "revId": "02dcb4361f6ce2a6bd37db048fcdb856b28923fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
