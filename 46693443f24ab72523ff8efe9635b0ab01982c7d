@@ -69,6 +69,24 @@
       "revId": "46693443f24ab72523ff8efe9635b0ab01982c7d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97a04ea7_14126409",
+        "filename": "DEPS",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-01-05T21:45:31Z",
+      "side": 1,
+      "message": "Hmm, with that in mind, maybe I\u0027ll switch them to --directory buildtools/mac (/win) instead.",
+      "parentUuid": "97a04ea7_1439848f",
+      "revId": "46693443f24ab72523ff8efe9635b0ab01982c7d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
