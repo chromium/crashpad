@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97a04ea7_c48e73c0",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-01-05T02:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7634a25_1be55c1f",
+      "revId": "53c8014b65cc9062b53d55d27c5e7b7a7993c6cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7634a25_bbe70828",
         "filename": "DEPS",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-01-05T01:53:03Z",
       "side": 1,
       "message": "You should put a blank line here to make clear which entries you want to pin. Also, put a blank line before the TODO line so that the whole block stands out as its own group.",
+      "revId": "53c8014b65cc9062b53d55d27c5e7b7a7993c6cf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97a04ea7_a4532f57",
+        "filename": "DEPS",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-01-05T02:42:41Z",
+      "side": 1,
+      "message": "Done, also moved buildtools to the top since it seemed out of place and was unsorted anyway.",
+      "parentUuid": "f7634a25_bbe70828",
       "revId": "53c8014b65cc9062b53d55d27c5e7b7a7993c6cf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
