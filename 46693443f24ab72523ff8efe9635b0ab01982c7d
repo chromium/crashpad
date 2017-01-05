@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97a04ea7_94457419",
+        "filename": "DEPS",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-01-05T21:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7634a25_3ea0062b",
+      "revId": "46693443f24ab72523ff8efe9635b0ab01982c7d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7634a25_9e95dacf",
         "filename": "DEPS",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2017-01-05T21:37:38Z",
       "side": 1,
       "message": "And the long form --sha1_file\u003d… for consistency with all of the other options? And use the one-argument \u003d form on the clang-format downloaders above?",
+      "revId": "46693443f24ab72523ff8efe9635b0ab01982c7d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97a04ea7_1439848f",
+        "filename": "DEPS",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-01-05T21:44:54Z",
+      "side": 1,
+      "message": "Sneakily enough --sha1_file is an option (the opposite of --directory) that takes no arguments, and there\u0027s one positional argument which is the name of the thing (in this case the sha1 file).",
+      "parentUuid": "f7634a25_9e95dacf",
       "revId": "46693443f24ab72523ff8efe9635b0ab01982c7d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
