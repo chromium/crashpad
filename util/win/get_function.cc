@@ -40,5 +40,20 @@ FARPROC GetFunctionInternal(
   return proc;
 }
 
+FunctionPointerStorage GetAndCacheFunctionInternal(
+    const wchar_t* library,
+    const char* function,
+    FunctionPointerStorage* storage,
+    bool required) {
+  FunctionPointerStorage proc = base::subtle::NoBarrier_Load(storage);
+  if (!proc) {
+    proc = reinterpret_cast<FunctionPointerStorage>(
+        GetFunctionInternal(library, function, required));
+    base::subtle::Release_Store(storage, proc);
+  }
+
+  return proc;
+}
+
 }  // namespace internal
 }  // namespace crashpad

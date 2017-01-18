@@ -49,8 +49,15 @@ VOID NTAPI RtlGetUnloadEventTraceEx(PULONG* ElementSize,
 namespace crashpad {
 
 NTSTATUS NtClose(HANDLE handle) {
-  static const auto nt_close = GET_FUNCTION_REQUIRED(L"ntdll.dll", ::NtClose);
+  static crashpad::internal::FunctionPointerStorage nt_close_cache;
+  const auto nt_close =
+      GET_AND_CACHE_FUNCTION_REQUIRED(L"ntdll.dll", ::NtClose, nt_close_cache);
+
   return nt_close(handle);
+
+  // Alternatively:
+  // GET_AND_CACHE_FUNCTION_REQUIRED(L"ntdll.dll", ::NtClose,
+  // nt_close_cache)(handle);
 }
 
 NTSTATUS

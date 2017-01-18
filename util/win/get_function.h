@@ -17,6 +17,8 @@
 
 #include <windows.h>
 
+#include "base/atomicops.h"
+
 //! \file
 
 namespace crashpad {
@@ -48,6 +50,30 @@ FunctionType* GetFunction(
     const wchar_t* library, const char* function, bool required) {
   return reinterpret_cast<FunctionType*>(
       internal::GetFunctionInternal(library, function, required));
+}
+
+// TODO(siggi): docs - DO NOT SUBMIT
+#if defined(ARCH_CPU_64_BITS)
+typedef base::subtle::Atomic64 FunctionPointerStorage;
+#else
+typedef base::subtle::Atomic32 FunctionPointerStorage;
+#endif
+
+// TODO(siggi): docs - DO NOT SUBMIT
+FunctionPointerStorage GetAndCacheFunctionInternal(
+    const wchar_t* library,
+    const char* function,
+    FunctionPointerStorage* storage,
+    bool required);
+
+//! \copydoc GetAndCacheFunctionInternal
+template <typename FunctionType>
+FunctionType* GetAndCacheFunction(const wchar_t* library,
+                                  const char* function,
+                                  FunctionPointerStorage* storage,
+                                  bool required) {
+  return reinterpret_cast<FunctionType*>(internal::GetAndCacheFunctionInternal(
+      library, function, storage, required));
 }
 
 }  // namespace internal
@@ -117,5 +143,12 @@ FunctionType* GetFunction(
 #define GET_FUNCTION_REQUIRED(library, function)         \
     crashpad::internal::GetFunction<decltype(function)>( \
         library, #function, true)
+
+// TODO(siggi): docs - DO NOT SUBMIT
+// Maybe just CACHED_FUNCTION_REQUIRED, or even GET_FUNCTION_REQUIRED, evicting
+// the implementation above?
+#define GET_AND_CACHE_FUNCTION_REQUIRED(library, function, storage) \
+  crashpad::internal::GetAndCacheFunction<decltype(function)>(      \
+      library, #function, &storage, true)
 
 #endif  // CRASHPAD_UTIL_WIN_GET_FUNCTION_H_
