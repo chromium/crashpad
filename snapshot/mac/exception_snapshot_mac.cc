@@ -66,20 +66,7 @@ bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
     exception_ = ExcCrashRecoverOriginalException(
         exception_code_0, &exception_code_0, nullptr);
 
-    if (exception_ == EXC_CRASH ||
-        exception_ == EXC_RESOURCE ||
-        exception_ == EXC_GUARD) {
-      // EXC_CRASH should never be wrapped in another EXC_CRASH.
-      //
-      // EXC_RESOURCE and EXC_GUARD are software exceptions that are never
-      // wrapped in EXC_CRASH. The only time EXC_CRASH is generated is for
-      // processes exiting due to an unhandled core-generating signal or being
-      // killed by SIGKILL for code-signing reasons. Neither of these applies to
-      // EXC_RESOURCE or EXC_GUARD. See 10.10 xnu-2782.1.97/bsd/kern/kern_exit.c
-      // proc_prepareexit(). Receiving these exception types wrapped in
-      // EXC_CRASH would lose information because their code[0] uses all 64 bits
-      // (see below) and the code[0] recovered from EXC_CRASH only contains 20
-      // significant bits.
+    if (!ExcCrashCouldContainException(exception_)) {
       LOG(WARNING) << base::StringPrintf(
           "exception %s invalid in EXC_CRASH",
           ExceptionToString(exception_, kUseFullName | kUnknownIsNumeric)
