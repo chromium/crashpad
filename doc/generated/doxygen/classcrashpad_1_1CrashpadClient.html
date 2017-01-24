@@ -100,9 +100,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2fc86d3d5bc6dcc9c9456e487f516c4d"><td class="memItemLeft" align="right" valign="top">std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a2fc86d3d5bc6dcc9c9456e487f516c4d">GetHandlerIPCPipe</a> () const</td></tr>
 <tr class="memdesc:a2fc86d3d5bc6dcc9c9456e487f516c4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the IPC pipe name used to register with the Crashpad handler.  <a href="#a2fc86d3d5bc6dcc9c9456e487f516c4d">More...</a><br /></td></tr>
 <tr class="separator:a2fc86d3d5bc6dcc9c9456e487f516c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac555c59b7ca8a619360175991a897394"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#ac555c59b7ca8a619360175991a897394">WaitForHandlerStart</a> ()</td></tr>
-<tr class="memdesc:ac555c59b7ca8a619360175991a897394"><td class="mdescLeft">&#160;</td><td class="mdescRight">When <code>asynchronous_start</code> is used with <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a>, this method can be used to block until the handler launch has been completed to retrieve status information.  <a href="#ac555c59b7ca8a619360175991a897394">More...</a><br /></td></tr>
-<tr class="separator:ac555c59b7ca8a619360175991a897394"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0377d4e93ac77453f57f3c1fcae09e14"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a0377d4e93ac77453f57f3c1fcae09e14">WaitForHandlerStart</a> (unsigned int timeout_ms)</td></tr>
+<tr class="memdesc:a0377d4e93ac77453f57f3c1fcae09e14"><td class="mdescLeft">&#160;</td><td class="mdescRight">When <code>asynchronous_start</code> is used with <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a>, this method can be used to block until the handler launch has been completed to retrieve status information.  <a href="#a0377d4e93ac77453f57f3c1fcae09e14">More...</a><br /></td></tr>
+<tr class="separator:a0377d4e93ac77453f57f3c1fcae09e14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b795ac1d4e01ba03e4085954249edfc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashpadClient.html#a0b795ac1d4e01ba03e4085954249edfc">DumpAndCrashTargetProcess</a> (HANDLE process, HANDLE blame_thread, DWORD exception_code) const</td></tr>
 <tr class="memdesc:a0b795ac1d4e01ba03e4085954249edfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests that the handler capture a dump of a different process.  <a href="#a0b795ac1d4e01ba03e4085954249edfc">More...</a><br /></td></tr>
 <tr class="separator:a0b795ac1d4e01ba03e4085954249edfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -432,7 +432,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Starts a Crashpad handler process, performing any necessary handshake to configure it. </p>
 <p>This method directs crashes to the Crashpad handler. On macOS, this is applicable to this process and all subsequent child processes. On Windows, child processes must also register by using <a class="el" href="classcrashpad_1_1CrashpadClient.html#a9f1d5d38e9b4f5781e3821551dcc39d5" title="Sets the IPC pipe of a presumably-running Crashpad handler process which was started with StartHandle...">SetHandlerIPCPipe()</a>.</p>
 <p>On macOS, this method starts a Crashpad handler and obtains a Mach send right corresponding to a receive right held by the handler process. The handler process runs an exception server on this port. This method sets the task’s exception port for <code>EXC_CRASH</code>, <code>EXC_RESOURCE</code>, and <code>EXC_GUARD</code> exceptions to the Mach send right obtained. The handler will be installed with behavior <code>EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES</code> and thread state flavor <code>MACHINE_THREAD_STATE</code>. Exception ports are inherited, so a Crashpad handler started here will remain the handler for any child processes created after <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> is called. These child processes do not need to call <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> or be aware of Crashpad in any way. The Crashpad handler will receive crashes from child processes that have inherited it as their exception handler even after the process that called <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a> exits.</p>
-<p>On Windows, if <em>asynchronous_start</em> is <code>true</code>, this function will not directly call <code>CreateProcess()</code>, making it suitable for use in a <code>DllMain()</code>. In that case, the handler is started from a background thread, deferring the handler's startup. Nevertheless, regardless of the value of <em>asynchronous_start</em>, after calling this method, the global unhandled exception filter is set up, and all crashes will be handled by Crashpad. Optionally, use <a class="el" href="classcrashpad_1_1CrashpadClient.html#ac555c59b7ca8a619360175991a897394" title="When asynchronous_start is used with StartHandler(), this method can be used to block until the handl...">WaitForHandlerStart()</a> to join with the background thread and retrieve the status of handler startup.</p>
+<p>On Windows, if <em>asynchronous_start</em> is <code>true</code>, this function will not directly call <code>CreateProcess()</code>, making it suitable for use in a <code>DllMain()</code>. In that case, the handler is started from a background thread, deferring the handler's startup. Nevertheless, regardless of the value of <em>asynchronous_start</em>, after calling this method, the global unhandled exception filter is set up, and all crashes will be handled by Crashpad. Optionally, use <a class="el" href="classcrashpad_1_1CrashpadClient.html#a0377d4e93ac77453f57f3c1fcae09e14" title="When asynchronous_start is used with StartHandler(), this method can be used to block until the handl...">WaitForHandlerStart()</a> to join with the background thread and retrieve the status of handler startup.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">handler</td><td>The path to a Crashpad handler executable. </td></tr>
@@ -442,7 +442,7 @@ Static Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">annotations</td><td>Process annotations to set in each crash report. The handler will be started with an <code>--annotation</code> argument for each element in this map. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">arguments</td><td>Additional arguments to pass to the Crashpad handler. Arguments passed in other parameters and arguments required to perform the handshake are the responsibility of this method, and must not be specified in this parameter. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">restartable</td><td>If <code>true</code>, the handler will be restarted if it dies, if this behavior is supported. This option is not available on all platforms, and does not function on all OS versions. If it is not supported, it will be ignored. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">asynchronous_start</td><td>If <code>true</code>, the handler will be started from a background thread. Optionally, <a class="el" href="classcrashpad_1_1CrashpadClient.html#ac555c59b7ca8a619360175991a897394" title="When asynchronous_start is used with StartHandler(), this method can be used to block until the handl...">WaitForHandlerStart()</a> can be used at a suitable time to retreive the result of background startup. This option is only used on Windows.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">asynchronous_start</td><td>If <code>true</code>, the handler will be started from a background thread. Optionally, <a class="el" href="classcrashpad_1_1CrashpadClient.html#a0377d4e93ac77453f57f3c1fcae09e14" title="When asynchronous_start is used with StartHandler(), this method can be used to block until the handl...">WaitForHandlerStart()</a> can be used at a suitable time to retreive the result of background startup. This option is only used on Windows.</td></tr>
   </table>
   </dd>
 </dl>
@@ -481,8 +481,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac555c59b7ca8a619360175991a897394"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac555c59b7ca8a619360175991a897394">&sect;&nbsp;</a></span>WaitForHandlerStart()</h2>
+<a id="a0377d4e93ac77453f57f3c1fcae09e14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0377d4e93ac77453f57f3c1fcae09e14">&sect;&nbsp;</a></span>WaitForHandlerStart()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -490,7 +490,8 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">bool crashpad::CrashpadClient::WaitForHandlerStart </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>timeout_ms</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -498,6 +499,12 @@ Static Public Member Functions</h2></td></tr>
 
 <p>When <code>asynchronous_start</code> is used with <a class="el" href="classcrashpad_1_1CrashpadClient.html#a810ad9941bedba543bf60507c31c55da" title="Starts a Crashpad handler process, performing any necessary handshake to configure it...">StartHandler()</a>, this method can be used to block until the handler launch has been completed to retrieve status information. </p>
 <p>This method should not be used unless <code>asynchronous_start</code> was <code>true</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeout_ms</td><td>The number of milliseconds to wait for a result from the background launch, or <code>0xffffffff</code> to block indefinitely.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the hander startup succeeded, <code>false</code> otherwise, and an error message will have been logged. </dd></dl>
 
 </div>

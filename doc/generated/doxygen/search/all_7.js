@@ -33,6 +33,7 @@ var searchData=
   ['getreportforuploading',['GetReportForUploading',['../classcrashpad_1_1CrashReportDatabase.html#ab87ae2586364bc46def5335c07c8eb04',1,'crashpad::CrashReportDatabase']]],
   ['getsectionatindex',['GetSectionAtIndex',['../classcrashpad_1_1MachOImageReader.html#ac9a2388f42c8d4c5c01ca007e93079fc',1,'crashpad::MachOImageReader::GetSectionAtIndex()'],['../classcrashpad_1_1MachOImageSegmentReader.html#a370e8711294ba506de99e093ac879357',1,'crashpad::MachOImageSegmentReader::GetSectionAtIndex()']]],
   ['getsectionbyname',['GetSectionByName',['../classcrashpad_1_1MachOImageReader.html#a1917ca481052f1d2de7163cb6f8701cc',1,'crashpad::MachOImageReader::GetSectionByName()'],['../classcrashpad_1_1MachOImageSegmentReader.html#a2f2f06905518f693178e52ee14c57e9e',1,'crashpad::MachOImageSegmentReader::GetSectionByName()']]],
+  ['getsecuritydescriptorfornamedpipeinstance',['GetSecurityDescriptorForNamedPipeInstance',['../namespacecrashpad.html#af22242667ee950fe12a99b298dda5e08',1,'crashpad']]],
   ['getsegmentbyname',['GetSegmentByName',['../classcrashpad_1_1MachOImageReader.html#a687d6ad610407967e283d8ba8b6e2db4',1,'crashpad::MachOImageReader']]],
   ['getsettings',['GetSettings',['../classcrashpad_1_1CrashReportDatabase.html#a705a5c510ba8eeda15bf4fe9af6e37b1',1,'crashpad::CrashReportDatabase']]],
   ['gettimeofday',['GetTimeOfDay',['../namespacecrashpad.html#ad150794de658f3bec7f37aa33ac521c4',1,'crashpad']]],

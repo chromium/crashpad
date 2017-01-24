@@ -617,8 +617,8 @@ Enumerations</h2></td></tr>
 <tr class="memitem:acf909fcc58999f95ab1a2d485a3b884f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">TerminationCodes</a> : unsigned int <tr class="memdesc:acf909fcc58999f95ab1a2d485a3b884f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crashpad-specific codes that are used as arguments to <code>TerminateProcess()</code> in unusual circumstances.  <a href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:acf909fcc58999f95ab1a2d485a3b884f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29691961b22233f7519b41a78fd99449"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a29691961b22233f7519b41a78fd99449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedb97baa1482a3cfe007a39deb7a6be2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:aedb97baa1482a3cfe007a39deb7a6be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -795,6 +795,12 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 <tr class="memitem:a830c754edaa401f7d866e69369f76ae1"><td class="memItemLeft" align="right" valign="top">exception_type_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a830c754edaa401f7d866e69369f76ae1">ExcCrashRecoverOriginalException</a> (mach_exception_code_t code_0, mach_exception_code_t *original_code_0, int *signal)</td></tr>
 <tr class="memdesc:a830c754edaa401f7d866e69369f76ae1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recovers the original exception, first exception code, and signal from the encoded form of the first exception code delivered with <code>EXC_CRASH</code> exceptions.  <a href="#a830c754edaa401f7d866e69369f76ae1">More...</a><br /></td></tr>
 <tr class="separator:a830c754edaa401f7d866e69369f76ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83c8325c451170f4d3fb883014656af3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a83c8325c451170f4d3fb883014656af3">ExcCrashCouldContainException</a> (exception_type_t exception)</td></tr>
+<tr class="memdesc:a83c8325c451170f4d3fb883014656af3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether a given exception type could plausibly be carried within an <code>EXC_CRASH</code> exception.  <a href="#a83c8325c451170f4d3fb883014656af3">More...</a><br /></td></tr>
+<tr class="separator:a83c8325c451170f4d3fb883014656af3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac448d0b014125dc8edd9c617836eb44c"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac448d0b014125dc8edd9c617836eb44c">ExceptionCodeForMetrics</a> (exception_type_t exception, mach_exception_code_t code_0)</td></tr>
+<tr class="memdesc:ac448d0b014125dc8edd9c617836eb44c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the exception code to report via a configured metrics system.  <a href="#ac448d0b014125dc8edd9c617836eb44c">More...</a><br /></td></tr>
+<tr class="separator:ac448d0b014125dc8edd9c617836eb44c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2ac0b9fe2a066fecac5e8d9b977e892"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ad2ac0b9fe2a066fecac5e8d9b977e892">IsExceptionNonfatalResource</a> (exception_type_t exception, mach_exception_code_t code_0, pid_t pid)</td></tr>
 <tr class="memdesc:ad2ac0b9fe2a066fecac5e8d9b977e892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether an exception is a non-fatal <code>EXC_RESOURCE</code>.  <a href="#ad2ac0b9fe2a066fecac5e8d9b977e892">More...</a><br /></td></tr>
 <tr class="separator:ad2ac0b9fe2a066fecac5e8d9b977e892"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -974,22 +980,15 @@ NTSTATUS&#160;</td><td class="memItemRight" valign="bottom"><b>NtSuspendProcess<
 <tr class="memitem:a4b4c03e99b85dc3f8bc3c9a0d13cea67"><td class="memItemLeft" align="right" valign="top"><a id="a4b4c03e99b85dc3f8bc3c9a0d13cea67"></a>
 NTSTATUS&#160;</td><td class="memItemRight" valign="bottom"><b>NtResumeProcess</b> (HANDLE handle)</td></tr>
 <tr class="separator:a4b4c03e99b85dc3f8bc3c9a0d13cea67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a330814d77bd394c6955fdde0bc098508"><td class="memTemplParams" colspan="2"><a id="a330814d77bd394c6955fdde0bc098508"></a>
-template&lt;class Traits &gt; </td></tr>
-<tr class="memitem:a330814d77bd394c6955fdde0bc098508"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structcrashpad_1_1RTL__UNLOAD__EVENT__TRACE.html">RTL_UNLOAD_EVENT_TRACE</a>&lt; Traits &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>RtlGetUnloadEventTrace</b> ()</td></tr>
-<tr class="separator:a330814d77bd394c6955fdde0bc098508"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc9a999e6e353ff4fc56466621a8ff0e"><td class="memItemLeft" align="right" valign="top"><a id="adc9a999e6e353ff4fc56466621a8ff0e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>RtlGetUnloadEventTraceEx</b> (ULONG **element_size, ULONG **element_count, void **event_trace)</td></tr>
+<tr class="separator:adc9a999e6e353ff4fc56466621a8ff0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcbe51e96d3012cb4751d48d0c920d6c"><td class="memItemLeft" align="right" valign="top"><a id="abcbe51e96d3012cb4751d48d0c920d6c"></a>
 template NTSTATUS&#160;</td><td class="memItemRight" valign="bottom"><b>NtOpenThread&lt; process_types::internal::Traits32 &gt;</b> (PHANDLE thread_handle, ACCESS_MASK desired_access, POBJECT_ATTRIBUTES object_attributes, const <a class="el" href="structcrashpad_1_1process__types_1_1CLIENT__ID.html">process_types::CLIENT_ID</a>&lt; <a class="el" href="structcrashpad_1_1process__types_1_1internal_1_1Traits32.html">process_types::internal::Traits32</a> &gt; *client_id)</td></tr>
 <tr class="separator:abcbe51e96d3012cb4751d48d0c920d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac78cb91133d0fd98a7895856e36eaf74"><td class="memItemLeft" align="right" valign="top"><a id="ac78cb91133d0fd98a7895856e36eaf74"></a>
 template NTSTATUS&#160;</td><td class="memItemRight" valign="bottom"><b>NtOpenThread&lt; process_types::internal::Traits64 &gt;</b> (PHANDLE thread_handle, ACCESS_MASK desired_access, POBJECT_ATTRIBUTES object_attributes, const <a class="el" href="structcrashpad_1_1process__types_1_1CLIENT__ID.html">process_types::CLIENT_ID</a>&lt; <a class="el" href="structcrashpad_1_1process__types_1_1internal_1_1Traits64.html">process_types::internal::Traits64</a> &gt; *client_id)</td></tr>
 <tr class="separator:ac78cb91133d0fd98a7895856e36eaf74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad889f0a78c58d9d87a4353ef43aecfb8"><td class="memItemLeft" align="right" valign="top"><a id="ad889f0a78c58d9d87a4353ef43aecfb8"></a>
-template <a class="el" href="structcrashpad_1_1RTL__UNLOAD__EVENT__TRACE.html">RTL_UNLOAD_EVENT_TRACE</a>&lt; <a class="el" href="structcrashpad_1_1process__types_1_1internal_1_1Traits32.html">process_types::internal::Traits32</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>RtlGetUnloadEventTrace&lt; process_types::internal::Traits32 &gt;</b> ()</td></tr>
-<tr class="separator:ad889f0a78c58d9d87a4353ef43aecfb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a33b1185bc218a2c671db2589b26aba"><td class="memItemLeft" align="right" valign="top"><a id="a1a33b1185bc218a2c671db2589b26aba"></a>
-template <a class="el" href="structcrashpad_1_1RTL__UNLOAD__EVENT__TRACE.html">RTL_UNLOAD_EVENT_TRACE</a>&lt; <a class="el" href="structcrashpad_1_1process__types_1_1internal_1_1Traits64.html">process_types::internal::Traits64</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>RtlGetUnloadEventTrace&lt; process_types::internal::Traits64 &gt;</b> ()</td></tr>
-<tr class="separator:a1a33b1185bc218a2c671db2589b26aba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04af5fe26b32e7a7bdd363017251fe00"><td class="memTemplParams" colspan="2"><a id="a04af5fe26b32e7a7bdd363017251fe00"></a>
 template&lt;class Traits &gt; </td></tr>
 <tr class="memitem:a04af5fe26b32e7a7bdd363017251fe00"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>GetProcessBasicInformation</b> (HANDLE process, bool is_wow64, <a class="el" href="classcrashpad_1_1ProcessInfo.html">ProcessInfo</a> *process_info, <a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> *peb_address, <a class="el" href="namespacecrashpad.html#a1bac9f2a189b24737e743d6690362239">WinVMSize</a> *peb_size)</td></tr>
@@ -1010,6 +1009,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 <tr class="memitem:a1bb7596acd0c7d75d0608ffafc6028e8"><td class="memItemLeft" align="right" valign="top">HANDLE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a1bb7596acd0c7d75d0608ffafc6028e8">CreateNamedPipeInstance</a> (const std::wstring &amp;pipe_name, bool first_instance)</td></tr>
 <tr class="memdesc:a1bb7596acd0c7d75d0608ffafc6028e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps CreateNamedPipe() to create a single named pipe instance.  <a href="#a1bb7596acd0c7d75d0608ffafc6028e8">More...</a><br /></td></tr>
 <tr class="separator:a1bb7596acd0c7d75d0608ffafc6028e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af22242667ee950fe12a99b298dda5e08"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af22242667ee950fe12a99b298dda5e08">GetSecurityDescriptorForNamedPipeInstance</a> (size_t *size)</td></tr>
+<tr class="memdesc:af22242667ee950fe12a99b298dda5e08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the SECURITY_DESCRIPTOR blob that will be used for creating the connection pipe in <a class="el" href="namespacecrashpad.html#a1bb7596acd0c7d75d0608ffafc6028e8" title="Wraps CreateNamedPipe() to create a single named pipe instance. ">CreateNamedPipeInstance()</a>.  <a href="#af22242667ee950fe12a99b298dda5e08">More...</a><br /></td></tr>
+<tr class="separator:af22242667ee950fe12a99b298dda5e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12442a42a099c4b68211fd230e94f42c"><td class="memItemLeft" align="right" valign="top"><a id="a12442a42a099c4b68211fd230e94f42c"></a>
 timeval&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a12442a42a099c4b68211fd230e94f42c">FiletimeToTimevalEpoch</a> (const FILETIME &amp;filetime)</td></tr>
 <tr class="memdesc:a12442a42a099c4b68211fd230e94f42c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert Windows <code>FILETIME</code> to <code>timeval</code>, converting from Windows epoch to POSIX epoch. <br /></td></tr>
@@ -1096,6 +1098,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="name
 <tr class="memitem:ac76c5a4040c1f8e2878412dd368a4ea2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac76c5a4040c1f8e2878412dd368a4ea2">StringToNumber</a> (const base::StringPiece &amp;string, unsigned int *number)</td></tr>
 <tr class="memdesc:ac76c5a4040c1f8e2878412dd368a4ea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a string to a number.  <a href="#ac76c5a4040c1f8e2878412dd368a4ea2">More...</a><br /></td></tr>
 <tr class="separator:ac76c5a4040c1f8e2878412dd368a4ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38697c7bab6ab9c9abeea86b421252cf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a38697c7bab6ab9c9abeea86b421252cf">StringToNumber</a> (const base::StringPiece &amp;string, int64_t *number)</td></tr>
+<tr class="memdesc:a38697c7bab6ab9c9abeea86b421252cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a string to a number.  <a href="#a38697c7bab6ab9c9abeea86b421252cf">More...</a><br /></td></tr>
+<tr class="separator:a38697c7bab6ab9c9abeea86b421252cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d7e404d4414f4a6dd7c00f3ac2920e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a0d7e404d4414f4a6dd7c00f3ac2920e9">StringToNumber</a> (const base::StringPiece &amp;string, uint64_t *number)</td></tr>
 <tr class="memdesc:a0d7e404d4414f4a6dd7c00f3ac2920e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a string to a number.  <a href="#a0d7e404d4414f4a6dd7c00f3ac2920e9">More...</a><br /></td></tr>
 <tr class="separator:a0d7e404d4414f4a6dd7c00f3ac2920e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1289,8 +1294,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a29691961b22233f7519b41a78fd99449"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29691961b22233f7519b41a78fd99449">&sect;&nbsp;</a></span>anonymous enum</h2>
+<a id="aedb97baa1482a3cfe007a39deb7a6be2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedb97baa1482a3cfe007a39deb7a6be2">&sect;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1301,10 +1306,10 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a29691961b22233f7519b41a78fd99449ae4f1a3b637ac392d76826131e72ac832"></a>kXPProcessAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>PROCESS_ALL_ACCESS</code>. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aedb97baa1482a3cfe007a39deb7a6be2ae4f1a3b637ac392d76826131e72ac832"></a>kXPProcessAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>PROCESS_ALL_ACCESS</code>. </p>
 <p>Requesting <code>PROCESS_ALL_ACCESS</code> with the value defined when building against a Vista+ SDK results in <code>ERROR_ACCESS_DENIED</code> when running on XP. See <a href="https://msdn.microsoft.com/en-ca/library/windows/desktop/ms684880.aspx">https://msdn.microsoft.com/en-ca/library/windows/desktop/ms684880.aspx</a> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a29691961b22233f7519b41a78fd99449af4736ae0e9abf32de684ad33895eec0e"></a>kXPThreadAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>THREAD_ALL_ACCESS</code>. </p>
+<tr><td class="fieldname"><a id="aedb97baa1482a3cfe007a39deb7a6be2af4736ae0e9abf32de684ad33895eec0e"></a>kXPThreadAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>THREAD_ALL_ACCESS</code>. </p>
 <p>Requesting <code>THREAD_ALL_ACCESS</code> with the value defined when building against a Vista+ SDK results in <code>ERROR_ACCESS_DENIED</code> when running on XP. See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769.aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769.aspx</a> </p>
 </td></tr>
 </table>
@@ -2536,6 +2541,34 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 </div>
 </div>
+<a id="a83c8325c451170f4d3fb883014656af3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83c8325c451170f4d3fb883014656af3">&sect;&nbsp;</a></span>ExcCrashCouldContainException()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::ExcCrashCouldContainException </td>
+          <td>(</td>
+          <td class="paramtype">exception_type_t&#160;</td>
+          <td class="paramname"><em>exception</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines whether a given exception type could plausibly be carried within an <code>EXC_CRASH</code> exception. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">exception</td><td>The exception type to test.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if an <code>EXC_CRASH</code> exception could plausibly carry <em>exception</em>.</dd></dl>
+<p>An <code>EXC_CRASH</code> exception can wrap exceptions that originate as hardware faults, as well as exceptions that originate from certain software sources such as POSIX signals. It cannot wrap another <code>EXC_CRASH</code> exception, nor can it wrap <code>EXC_RESOURCE</code>, <code>EXC_GUARD</code>, or <code>EXC_CORPSE_NOTIFY</code> exceptions. It also cannot wrap Crashpad-specific <a class="el" href="namespacecrashpad.html#ad22bbde846a82173474ba002116c325c" title="An exception type to use for simulated exceptions. ">kMachExceptionSimulated</a> exceptions. </p>
+
+</div>
+</div>
 <a id="a830c754edaa401f7d866e69369f76ae1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a830c754edaa401f7d866e69369f76ae1">&sect;&nbsp;</a></span>ExcCrashRecoverOriginalException()</h2>
 
@@ -2731,6 +2764,50 @@ template&lt;typename Destination , typename Source &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The converted string. </dd></dl>
+
+</div>
+</div>
+<a id="ac448d0b014125dc8edd9c617836eb44c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac448d0b014125dc8edd9c617836eb44c">&sect;&nbsp;</a></span>ExceptionCodeForMetrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t crashpad::ExceptionCodeForMetrics </td>
+          <td>(</td>
+          <td class="paramtype">exception_type_t&#160;</td>
+          <td class="paramname"><em>exception</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mach_exception_code_t&#160;</td>
+          <td class="paramname"><em>code_0</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the exception code to report via a configured metrics system. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">exception</td><td>The exception type as received by a Mach exception handler. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">code_0</td><td>The first exception code (<code>code[0]</code>) as received by a Mach exception handler.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An exception code that maps useful information from <em>exception</em> and <em>code_0</em> to the more limited data type available for metrics reporting.</dd></dl>
+<p>For classic Mach exceptions (including hardware faults reported as Mach exceptions), the mapping is <code>(exception &lt;&lt; 16) | code_0</code>.</p>
+<p>For <code>EXC_CRASH</code> exceptions that originate as Mach exceptions described above, the mapping above is used, with the original exception’s values. For <code>EXC_CRASH</code> exceptions that originate as POSIX signals without an underlying Mach exception, the mapping is <code>(EXC_CRASH &lt;&lt; 16) | code_0</code>.</p>
+<p><code>EXC_RESOURCE</code> and <code>EXC_GUARD</code> exceptions both contain exception-specific “type” values and type-specific “flavor” values. In these cases, the mapping is <code>(exception &lt;&lt; 16) | (type &lt;&lt; 8) | flavor</code>. For <code>EXC_GUARD</code>, the “flavor” value is rewritten to be more space-efficient by replacing the kernel-supplied bitmask having exactly one bit set with the index of the set bit.</p>
+<p><code>EXC_CORPSE_NOTIFY</code> exceptions are reported as classic Mach exceptions with the <em>code_0</em> field set to <code>0</code>.</p>
+<p>If <em>exception</em> is <a class="el" href="namespacecrashpad.html#ad22bbde846a82173474ba002116c325c" title="An exception type to use for simulated exceptions. ">kMachExceptionSimulated</a>, that value is returned as-is.</p>
+<p>Overflow conditions in any field are handled via saturation. </p>
 
 </div>
 </div>
@@ -3028,6 +3105,34 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 <p>Given a memory map of a process, and a range to be read from the target process, returns a vector of ranges, representing the readable portions of the original range. </p>
 <p>This is a free function for testing, but prefer <a class="el" href="classcrashpad_1_1ProcessInfo.html#a96ddc54651cdea815f8f88a5ae00f0ab" title="Given a range to be read from the target process, returns a vector of ranges, representing the readab...">ProcessInfo::GetReadableRanges()</a>. </p>
+
+</div>
+</div>
+<a id="af22242667ee950fe12a99b298dda5e08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af22242667ee950fe12a99b298dda5e08">&sect;&nbsp;</a></span>GetSecurityDescriptorForNamedPipeInstance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const void * crashpad::GetSecurityDescriptorForNamedPipeInstance </td>
+          <td>(</td>
+          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramname"><em>size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the SECURITY_DESCRIPTOR blob that will be used for creating the connection pipe in <a class="el" href="namespacecrashpad.html#a1bb7596acd0c7d75d0608ffafc6028e8" title="Wraps CreateNamedPipe() to create a single named pipe instance. ">CreateNamedPipeInstance()</a>. </p>
+<p>This function is exposed for only for testing.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">size</td><td>The size of the returned blob. May be <code>nullptr</code> if not required.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to a self-relative <code>SECURITY_DESCRIPTOR</code>. Ownership is not transferred to the caller. </dd></dl>
 
 </div>
 </div>
@@ -5744,7 +5849,7 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 </div>
 </div>
 <a id="ab269ab8edf326666ef7056a18f4a67c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab269ab8edf326666ef7056a18f4a67c4">&sect;&nbsp;</a></span>StringToNumber() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab269ab8edf326666ef7056a18f4a67c4">&sect;&nbsp;</a></span>StringToNumber() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5784,7 +5889,7 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 </div>
 </div>
 <a id="ac76c5a4040c1f8e2878412dd368a4ea2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac76c5a4040c1f8e2878412dd368a4ea2">&sect;&nbsp;</a></span>StringToNumber() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac76c5a4040c1f8e2878412dd368a4ea2">&sect;&nbsp;</a></span>StringToNumber() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5823,8 +5928,48 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 
 </div>
 </div>
+<a id="a38697c7bab6ab9c9abeea86b421252cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38697c7bab6ab9c9abeea86b421252cf">&sect;&nbsp;</a></span>StringToNumber() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::StringToNumber </td>
+          <td>(</td>
+          <td class="paramtype">const base::StringPiece &amp;&#160;</td>
+          <td class="paramname"><em>string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int64_t *&#160;</td>
+          <td class="paramname"><em>number</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a string to a number. </p>
+<p>A conversion will only be performed if it can be done perfectly: if <em>string</em> contains no leading or trailing characters (including whitespace) other than the number to convert, and does not overflow the targeted data type.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">string</td><td>The string to convert to a number. As in <code>strtol()</code> with a <code>base</code> parameter of <code>0</code>, the string is treated as decimal unless it begins with a <code>"0x"</code> or <code>"0X"</code> prefix, in which case it is treated as hexadecimal, or a <code>"0"</code> prefix, in which case it is treated as octal. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">number</td><td>The converted number. This will only be set if a perfect conversion can be performed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if a perfect conversion could be performed, with <em>number</em> set appropriately. <code>false</code> if a perfect conversion was not possible.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The interface in <code>base/strings/string_number_conversions.h</code> doesn’t allow arbitrary bases based on whether the string begins with a prefix indicating its base. The functions here are provided for situations where such prefix recognition is desirable. </dd></dl>
+
+</div>
+</div>
 <a id="a0d7e404d4414f4a6dd7c00f3ac2920e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d7e404d4414f4a6dd7c00f3ac2920e9">&sect;&nbsp;</a></span>StringToNumber() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d7e404d4414f4a6dd7c00f3ac2920e9">&sect;&nbsp;</a></span>StringToNumber() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
