@@ -16,6 +16,23 @@
       "revId": "4dd23741198447066fd088820b64c4cb1278016b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba0efd6a_6bd73b3b",
+        "filename": "util/mach/exception_types.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-01-24T19:04:57Z",
+      "side": 1,
+      "message": "\u003e That is a pretty poor \"Huffman-encoding\" for such an infrequently used function! (I was going to suggest n\u0026(n-1)\u003d\u003d0 for the check in the previous CL, but it seemed a bit cute.)\n\nI know, right? Also, which end does it work from? And how ’bout all those variants, like flsll()?\n\nBut it’s just four instructions on x86, which is pretty cool.",
+      "revId": "4dd23741198447066fd088820b64c4cb1278016b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
