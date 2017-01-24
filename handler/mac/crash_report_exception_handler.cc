@@ -66,7 +66,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     const mach_msg_trailer_t* trailer,
     bool* destroy_complex_request) {
   Metrics::ExceptionEncountered();
-  Metrics::ExceptionCode(exception);
+  Metrics::ExceptionCode(ExceptionCodeForMetrics(exception, code[0]));
   *destroy_complex_request = true;
 
   // The expected behavior is EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
