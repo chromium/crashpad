@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_UTIL_MACH_EXCEPTION_TYPES_H_
 #define CRASHPAD_UTIL_MACH_EXCEPTION_TYPES_H_
 
+#include <inttypes.h>
 #include <mach/mach.h>
 #include <sys/types.h>
 
@@ -53,6 +54,55 @@ exception_type_t ExcCrashRecoverOriginalException(
     mach_exception_code_t code_0,
     mach_exception_code_t* original_code_0,
     int* signal);
+
+//! \brief Determines whether a given exception type could plausibly be carried
+//!     within an `EXC_CRASH` exception.
+//!
+//! \param[in] exception The exception type to test.
+//!
+//! \return `true` if an `EXC_CRASH` exception could plausibly carry \a
+//!     exception.
+//!
+//! An `EXC_CRASH` exception can wrap exceptions that originate as hardware
+//! faults, as well as exceptions that originate from certain software sources
+//! such as POSIX signals. It cannot wrap another `EXC_CRASH` exception, nor can
+//! it wrap `EXC_RESOURCE`, `EXC_GUARD`, or `EXC_CORPSE_NOTIFY` exceptions. It
+//! also cannot wrap Crashpad-specific #kMachExceptionSimulated exceptions.
+bool ExcCrashCouldContainException(exception_type_t exception);
+
+//! \brief Returns the exception code to report via a configured metrics system.
+//!
+//! \param[in] exception The exception type as received by a Mach exception
+//!     handler.
+//! \param[in] code_0 The first exception code (`code[0]`) as received by a
+//!     Mach exception handler.
+//!
+//! \return An exception code that maps useful information from \a exception and
+//!     \a code_0 to the more limited data type available for metrics reporting.
+//!
+//! For classic Mach exceptions (including hardware faults reported as Mach
+//! exceptions), the mapping is `(exception << 16) | code_0`.
+//!
+//! For `EXC_CRASH` exceptions that originate as Mach exceptions described
+//! above, the mapping above is used, with the original exception’s values. For
+//! `EXC_CRASH` exceptions that originate as POSIX signals without an underlying
+//! Mach exception, the mapping is `(EXC_CRASH << 16) | code_0`.
+//!
+//! `EXC_RESOURCE` and `EXC_GUARD` exceptions both contain exception-specific
+//! “type” values and type-specific “flavor” values. In these cases, the mapping
+//! is `(exception << 16) | (type << 8) | flavor`. For `EXC_GUARD`, the “flavor”
+//! value is rewritten to be more space-efficient by replacing the
+//! kernel-supplied bitmask having exactly one bit set with the index of the set
+//! bit.
+//!
+//! `EXC_CORPSE_NOTIFY` exceptions are reported as classic Mach exceptions with
+//! the \a code_0 field set to `0`.
+//!
+//! If \a exception is #kMachExceptionSimulated, that value is returned as-is.
+//!
+//! Overflow conditions in any field are handled via saturation.
+int32_t ExceptionCodeForMetrics(exception_type_t exception,
+                                mach_exception_code_t code_0);
 
 //! \brief Determines whether an exception is a non-fatal `EXC_RESOURCE`.
 //!
