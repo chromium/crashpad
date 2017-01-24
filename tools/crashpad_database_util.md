@@ -118,7 +118,8 @@ database.
 
    Set the last-upload-attempt time in the database’s settings. _TIME_ is a
    string representation of a time, which may be in _yyyy-mm-dd hh:mm:ss_
-   format, a numeric `time_t` value, or the special string `"never"`.
+   format, a numeric `time_t` value, or the special strings `"never"` or
+   `"now"`.
 
    See also **--show-last-upload-attempt-time**.
 

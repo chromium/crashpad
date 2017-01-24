@@ -17,18 +17,28 @@ vars = {
 }
 
 deps = {
+  'buildtools':
+      Var('chromium_git') + '/chromium/buildtools.git@' +
+      'f8fc76ea5ce4a60cda2fa5d7df3d4a62935b3113',
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
       'ec44c6c1675c25b9827aacd08c02433cccde7780',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
       '93cc6e2c23e4d5ebd179f388e67aa907d0dfd43d',
+
+  # TODO(scottmg): Consider pinning these. For now, we don't have any particular
+  # reason to do so.
+  'crashpad/third_party/llvm':
+      Var('chromium_git') + '/external/llvm.org/llvm.git@HEAD',
+  'crashpad/third_party/llvm/tools/clang':
+      Var('chromium_git') + '/external/llvm.org/clang.git@HEAD',
+  'crashpad/third_party/llvm/tools/lldb':
+      Var('chromium_git') + '/external/llvm.org/lldb.git@HEAD',
+
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '414d59602ac38e24f1e93929fda3d79d72cea139',
-  'buildtools':
-      Var('chromium_git') + '/chromium/buildtools.git@' +
-      'f8fc76ea5ce4a60cda2fa5d7df3d4a62935b3113',
+      'de1afb04f4afc074ec6d23bd9ee7b1e6b365427f',
 }
 
 hooks = [
@@ -41,7 +51,6 @@ hooks = [
       '--no_resume',
       '--no_auth',
       '--bucket=chromium-clang-format',
-      '--output=buildtools/mac/clang-format',
       '--sha1_file',
       'buildtools/mac/clang-format.sha1',
     ],
@@ -55,9 +64,34 @@ hooks = [
       '--no_resume',
       '--no_auth',
       '--bucket=chromium-clang-format',
-      '--output=buildtools/win/clang-format.exe',
       '--sha1_file',
       'buildtools/win/clang-format.exe.sha1',
+    ],
+  },
+  {
+    'name': 'gn_mac',
+    'pattern': '.',
+    'action': [
+      'download_from_google_storage',
+      '--platform=^darwin$',
+      '--no_resume',
+      '--no_auth',
+      '--bucket=chromium-gn',
+      '--sha1_file',
+      'buildtools/mac/gn.sha1',
+    ],
+  },
+  {
+    'name': 'gn_win',
+    'pattern': '.',
+    'action': [
+      'download_from_google_storage',
+      '--platform=^win32$',
+      '--no_resume',
+      '--no_auth',
+      '--bucket=chromium-gn',
+      '--sha1_file',
+      'buildtools/win/gn.exe.sha1',
     ],
   },
   {

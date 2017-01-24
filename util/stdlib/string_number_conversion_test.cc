@@ -221,6 +221,105 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
   EXPECT_EQ(6u, output);
 }
 
+TEST(StringNumberConversion, StringToInt64) {
+  const struct {
+    const char* string;
+    bool valid;
+    int64_t value;
+  } kTestData[] = {
+      {"", false, 0},
+      {"0", true, 0},
+      {"1", true, 1},
+      {"2147483647", true, 2147483647},
+      {"2147483648", true, 2147483648},
+      {"4294967295", true, 4294967295},
+      {"4294967296", true, 4294967296},
+      {"9223372036854775807", true, std::numeric_limits<int64_t>::max()},
+      {"9223372036854775808", false, 0},
+      {"18446744073709551615", false, 0},
+      {"18446744073709551616", false, 0},
+      {"-1", true, -1},
+      {"-2147483648", true, INT64_C(-2147483648)},
+      {"-2147483649", true, INT64_C(-2147483649)},
+      {"-9223372036854775808", true, std::numeric_limits<int64_t>::min()},
+      {"-9223372036854775809", false, 0},
+      {"0x7fffffffffffffff", true, std::numeric_limits<int64_t>::max()},
+      {"0x8000000000000000", false, 0},
+      {"0xffffffffffffffff", false, 0},
+      {"0x10000000000000000", false, 0},
+      {"-0x7fffffffffffffff", true, -9223372036854775807},
+      {"-0x8000000000000000", true, std::numeric_limits<int64_t>::min()},
+      {"-0x8000000000000001", false, 0},
+      {"0x7Fffffffffffffff", true, std::numeric_limits<int64_t>::max()},
+  };
+
+  for (size_t index = 0; index < arraysize(kTestData); ++index) {
+    int64_t value;
+    bool valid = StringToNumber(kTestData[index].string, &value);
+    if (kTestData[index].valid) {
+      EXPECT_TRUE(valid) << "index " << index << ", string "
+                         << kTestData[index].string;
+      if (valid) {
+        EXPECT_EQ(kTestData[index].value, value)
+            << "index " << index << ", string " << kTestData[index].string;
+      }
+    } else {
+      EXPECT_FALSE(valid) << "index " << index << ", string "
+                          << kTestData[index].string << ", value " << value;
+    }
+  }
+}
+
+TEST(StringNumberConversion, StringToUnsignedInt64) {
+  const struct {
+    const char* string;
+    bool valid;
+    uint64_t value;
+  } kTestData[] = {
+      {"", false, 0},
+      {"0", true, 0},
+      {"1", true, 1},
+      {"2147483647", true, 2147483647},
+      {"2147483648", true, 2147483648},
+      {"4294967295", true, 4294967295},
+      {"4294967296", true, 4294967296},
+      {"9223372036854775807", true, 9223372036854775807},
+      {"9223372036854775808", true, 9223372036854775808u},
+      {"18446744073709551615", true, std::numeric_limits<uint64_t>::max()},
+      {"18446744073709551616", false, 0},
+      {"-1", false, 0},
+      {"-2147483648", false, 0},
+      {"-2147483649", false, 0},
+      {"-2147483648", false, 0},
+      {"-9223372036854775808", false, 0},
+      {"-9223372036854775809", false, 0},
+      {"0x7fffffffffffffff", true, 9223372036854775807},
+      {"0x8000000000000000", true, 9223372036854775808u},
+      {"0xffffffffffffffff", true, std::numeric_limits<uint64_t>::max()},
+      {"0x10000000000000000", false, 0},
+      {"-0x7fffffffffffffff", false, 0},
+      {"-0x8000000000000000", false, 0},
+      {"-0x8000000000000001", false, 0},
+      {"0xFfffffffffffffff", true, std::numeric_limits<uint64_t>::max()},
+  };
+
+  for (size_t index = 0; index < arraysize(kTestData); ++index) {
+    uint64_t value;
+    bool valid = StringToNumber(kTestData[index].string, &value);
+    if (kTestData[index].valid) {
+      EXPECT_TRUE(valid) << "index " << index << ", string "
+                         << kTestData[index].string;
+      if (valid) {
+        EXPECT_EQ(kTestData[index].value, value)
+            << "index " << index << ", string " << kTestData[index].string;
+      }
+    } else {
+      EXPECT_FALSE(valid) << "index " << index << ", string "
+                          << kTestData[index].string << ", value " << value;
+    }
+  }
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad

@@ -14,6 +14,7 @@
 
 #include "client/crashpad_info.h"
 
+#include "util/misc/address_sanitizer.h"
 #include "util/stdlib/cxx.h"
 
 #if defined(OS_MACOSX)
@@ -72,14 +73,14 @@ __attribute__((
 #error Port
 #endif  // !defined(OS_MACOSX) && !defined(OS_LINUX) && !defined(OS_ANDROID)
 
-#if __has_feature(address_sanitizer)
+#if defined(ADDRESS_SANITIZER)
     // AddressSanitizer would add a trailing red zone of at least 32 bytes,
     // which would be reflected in the size of the custom section. This confuses
     // MachOImageReader::GetCrashpadInfo(), which finds that the section’s size
     // disagrees with the structure’s size_ field. By specifying an alignment
     // greater than the red zone size, the red zone will be suppressed.
     aligned(64),
-#endif  // __has_feature(address_sanitizer)
+#endif  // defined(ADDRESS_SANITIZER)
 
     // The “used” attribute prevents the structure from being dead-stripped.
     used,

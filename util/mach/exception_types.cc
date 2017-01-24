@@ -24,6 +24,8 @@
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "util/mac/mac_util.h"
+#include "util/mach/mach_extensions.h"
+#include "util/numeric/in_range_cast.h"
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_9
 
@@ -126,6 +128,114 @@ exception_type_t ExcCrashRecoverOriginalException(
   }
 
   return (code_0 >> 20) & 0xf;
+}
+
+bool ExcCrashCouldContainException(exception_type_t exception) {
+  // EXC_CRASH should never be wrapped in another EXC_CRASH.
+  //
+  // EXC_RESOURCE and EXC_GUARD are software exceptions that are never wrapped
+  // in EXC_CRASH. The only time EXC_CRASH is generated is for processes exiting
+  // due to an unhandled core-generating signal or being killed by SIGKILL for
+  // code-signing reasons. Neither of these apply to EXC_RESOURCE or EXC_GUARD.
+  // See 10.10 xnu-2782.1.97/bsd/kern/kern_exit.c proc_prepareexit(). Receiving
+  // these exception types wrapped in EXC_CRASH would lose information because
+  // their code[0] uses all 64 bits (see ExceptionSnapshotMac::Initialize()) and
+  // the code[0] recovered from EXC_CRASH only contains 20 significant bits.
+  //
+  // EXC_CORPSE_NOTIFY may be generated from EXC_CRASH, but the opposite should
+  // never occur.
+  //
+  // kMachExceptionSimulated is a non-fatal Crashpad-specific pseudo-exception
+  // that never exists as an exception within the kernel and should thus never
+  // be wrapped in EXC_CRASH.
+  return exception != EXC_CRASH &&
+         exception != EXC_RESOURCE &&
+         exception != EXC_GUARD &&
+         exception != EXC_CORPSE_NOTIFY &&
+         exception != kMachExceptionSimulated;
+}
+
+int32_t ExceptionCodeForMetrics(exception_type_t exception,
+                                mach_exception_code_t code_0) {
+  if (exception == kMachExceptionSimulated) {
+    return exception;
+  }
+
+  int signal = 0;
+  if (exception == EXC_CRASH) {
+    const exception_type_t original_exception =
+        ExcCrashRecoverOriginalException(code_0, &code_0, &signal);
+    if (!ExcCrashCouldContainException(original_exception)) {
+      LOG(WARNING) << "EXC_CRASH should not contain exception "
+                   << original_exception;
+      return InRangeCast<uint16_t>(original_exception, 0xffff) << 16;
+    }
+    exception = original_exception;
+  }
+
+  uint16_t metrics_exception = InRangeCast<uint16_t>(exception, 0xffff);
+
+  uint16_t metrics_code_0;
+  switch (exception) {
+    case EXC_RESOURCE:
+      metrics_code_0 = (EXC_RESOURCE_DECODE_RESOURCE_TYPE(code_0) << 8) |
+                       EXC_RESOURCE_DECODE_FLAVOR(code_0);
+      break;
+
+    case EXC_GUARD: {
+      // This will be GUARD_TYPE_MACH_PORT (1) from <mach/port.h> or
+      // GUARD_TYPE_FD (2) from 10.12.2 xnu-3789.31.2/bsd/sys/guarded.h
+      const uint8_t guard_type = (code_0) >> 61;
+
+      // These exceptions come through 10.12.2
+      // xnu-3789.31.2/osfmk/ipc/mach_port.c mach_port_guard_exception() or
+      // xnu-3789.31.2/bsd/kern/kern_guarded.c fp_guard_exception(). In each
+      // case, bits 32-60 of code_0 encode the guard type-specific “flavor”. For
+      // Mach port guards, these flavor codes come from the
+      // mach_port_guard_exception_codes enum in <mach/port.h>. For file
+      // descriptor guards, they come from the guard_exception_codes enum in
+      // xnu-3789.31.2/bsd/sys/guarded.h. Both of these enums define shifted-bit
+      // values (1 << 0, 1 << 1, 1 << 2, etc.) In actual usage as determined by
+      // callers to these functions, these “flavor” codes are never ORed with
+      // one another. For the purposes of encoding these codes for metrics,
+      // convert the flavor codes to their corresponding bit shift values.
+      const uint32_t guard_flavor = (code_0 >> 32) & 0x1fffffff;
+      uint8_t metrics_guard_flavor = 0xff;
+      for (int bit = 0; bit < 29; ++bit) {
+        const uint32_t test_mask = 1 << bit;
+        if (guard_flavor & test_mask) {
+          // Make sure that no other bits are set.
+          DCHECK_EQ(guard_flavor, test_mask);
+
+          metrics_guard_flavor = bit;
+          break;
+        }
+      }
+
+      metrics_code_0 = (guard_type << 8) | metrics_guard_flavor;
+      break;
+    }
+
+    case EXC_CORPSE_NOTIFY:
+      // code_0 may be a pointer. See 10.12.2 xnu-3789.31.2/osfmk/kern/task.c
+      // task_deliver_crash_notification(). Just encode 0 for metrics purposes.
+      metrics_code_0 = 0;
+      break;
+
+    default:
+      metrics_code_0 = InRangeCast<uint16_t>(code_0, 0xffff);
+      if (exception == 0 && metrics_code_0 == 0 && signal != 0) {
+        // This exception came from a signal that did not originate as another
+        // Mach exception. Encode the signal number, using EXC_CRASH as the
+        // top-level exception type. This is safe because EXC_CRASH will not
+        // otherwise appear as metrics_exception.
+        metrics_exception = EXC_CRASH;
+        metrics_code_0 = signal;
+      }
+      break;
+  }
+
+  return (metrics_exception << 16) | metrics_code_0;
 }
 
 bool IsExceptionNonfatalResource(exception_type_t exception,

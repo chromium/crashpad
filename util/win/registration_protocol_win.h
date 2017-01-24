@@ -145,6 +145,18 @@ bool SendToCrashHandlerServer(const base::string16& pipe_name,
 HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
                                bool first_instance);
 
+//! \brief Returns the SECURITY_DESCRIPTOR blob that will be used for creating
+//!     the connection pipe in CreateNamedPipeInstance().
+//!
+//! This function is exposed for only for testing.
+//!
+//! \param[out] size The size of the returned blob. May be `nullptr` if not
+//!     required.
+//!
+//! \return A pointer to a self-relative `SECURITY_DESCRIPTOR`. Ownership is not
+//!     transferred to the caller.
+const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size);
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_WIN_REGISTRATION_PROTOCOL_WIN_H_
