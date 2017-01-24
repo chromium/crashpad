@@ -20,6 +20,7 @@
 #include <errno.h>
 #include <libproc.h>
 #include <kern/exc_resource.h>
+#include <strings.h>
 
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
@@ -200,16 +201,19 @@ int32_t ExceptionCodeForMetrics(exception_type_t exception,
       // one another. For the purposes of encoding these codes for metrics,
       // convert the flavor codes to their corresponding bit shift values.
       const uint32_t guard_flavor = (code_0 >> 32) & 0x1fffffff;
-      uint8_t metrics_guard_flavor = 0xff;
-      for (int bit = 0; bit < 29; ++bit) {
-        const uint32_t test_mask = 1 << bit;
-        if (guard_flavor & test_mask) {
-          // Make sure that no other bits are set.
-          DCHECK_EQ(guard_flavor, test_mask);
+      const int first_bit = ffs(guard_flavor);
+      uint8_t metrics_guard_flavor;
+      if (first_bit) {
+        metrics_guard_flavor = first_bit - 1;
 
-          metrics_guard_flavor = bit;
-          break;
+        const uint32_t test_guard_flavor = 1 << metrics_guard_flavor;
+        if (guard_flavor != test_guard_flavor) {
+          // Another bit is set.
+          DCHECK_EQ(guard_flavor, test_guard_flavor);
+          metrics_guard_flavor = 0xff;
         }
+      } else {
+        metrics_guard_flavor = 0xff;
       }
 
       metrics_code_0 = (guard_type << 8) | metrics_guard_flavor;
