@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "880aee5b_63732ac3",
+        "filename": "util/mach/exception_types.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-01-24T04:09:33Z",
+      "side": 1,
+      "message": "If there\u0027s a chance this could change, DCHECK that only a single bit is set, since the derivation of metrics_guard_flavor depends on that.",
+      "revId": "a216e81f0c7bf30192e36be0f78cb3700e0f4553",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "880aee5b_4316e66a",
+        "filename": "util/mach/exception_types.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-01-24T04:09:33Z",
+      "side": 1,
+      "message": "+4",
+      "revId": "a216e81f0c7bf30192e36be0f78cb3700e0f4553",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
