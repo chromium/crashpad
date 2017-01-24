@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04360bff_db5db9e1",
+        "filename": "util/mach/exception_types.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-01-24T18:41:43Z",
+      "side": 1,
+      "message": "That is a pretty poor \"Huffman-encoding\" for such an infrequently used function! (I was going to suggest n\u0026(n-1)\u003d\u003d0 for the check in the previous CL, but it seemed a bit cute.)",
+      "revId": "4dd23741198447066fd088820b64c4cb1278016b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
