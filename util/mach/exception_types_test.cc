@@ -57,7 +57,13 @@ TEST(ExceptionTypes, ExcCrashRecoverOriginalException) {
       {0x0700080, EXC_SYSCALL, 128, 0},
       {0x0706000, EXC_SYSCALL, 0x6000, 0},
       {0x3000000, 0, 0, SIGQUIT},
+      {0x4000000, 0, 0, SIGILL},
+      {0x5000000, 0, 0, SIGTRAP},
       {0x6000000, 0, 0, SIGABRT},
+      {0x7000000, 0, 0, SIGEMT},
+      {0x8000000, 0, 0, SIGFPE},
+      {0xa000000, 0, 0, SIGBUS},
+      {0xb000000, 0, 0, SIGSEGV},
       {0xc000000, 0, 0, SIGSYS},
       {0, 0, 0, 0},
   };
@@ -181,7 +187,13 @@ TEST(ExceptionTypes, ExceptionCodeForMetrics) {
 #define ENCODE_EXC_CRASH_SIGNAL(signal) \
   { EXC_CRASH, (((signal) & 0xff) << 24), (EXC_CRASH << 16) | (signal) }
       ENCODE_EXC_CRASH_SIGNAL(SIGQUIT),
+      ENCODE_EXC_CRASH_SIGNAL(SIGILL),
+      ENCODE_EXC_CRASH_SIGNAL(SIGTRAP),
       ENCODE_EXC_CRASH_SIGNAL(SIGABRT),
+      ENCODE_EXC_CRASH_SIGNAL(SIGEMT),
+      ENCODE_EXC_CRASH_SIGNAL(SIGFPE),
+      ENCODE_EXC_CRASH_SIGNAL(SIGBUS),
+      ENCODE_EXC_CRASH_SIGNAL(SIGSEGV),
       ENCODE_EXC_CRASH_SIGNAL(SIGSYS),
 #undef ENCODE_EXC_CRASH_SIGNAL
 
