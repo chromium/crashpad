@@ -193,6 +193,29 @@
           ],
         },
         {
+          'target_name': 'multiple_crashes_test',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../test/test.gyp:crashpad_test',
+          ],
+          'sources': [
+            'win/multiple_crashes_test.cc',
+          ],
+        },
+        {
+          'target_name': 'multiple_crashes_test_child',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'sources': [
+            'win/multiple_crashes_test_child.cc',
+          ],
+        },
+        {
           'target_name': 'loader_lock_dll',
           'type': 'loadable_module',
           'sources': [

@@ -124,11 +124,18 @@ def GetDumpFromProgram(out_dir, pipe_name, executable_name, *args):
         os.path.join(out_dir, 'crashpad_database_util.exe'),
         '--database=' + test_database,
         '--show-completed-reports',
+        '--show-pending-reports',
         '--show-all-report-info',
     ])
+    all_dumps = []
     for line in out.splitlines():
       if line.strip().startswith('Path:'):
-        return line.partition(':')[2].strip()
+        all_dumps.append(line.partition(':')[2].strip())
+    if len(all_dumps) == 1:
+      return all_dumps[0]
+    import pprint
+    print pprint.pprint(all_dumps)
+    return all_dumps
   finally:
     if handler:
       handler.kill()
@@ -137,6 +144,10 @@ def GetDumpFromProgram(out_dir, pipe_name, executable_name, *args):
 def GetDumpFromCrashyProgram(out_dir, pipe_name):
   return GetDumpFromProgram(out_dir, pipe_name, 'crashy_program.exe')
 
+
+def GetDumpFromMultiple(out_dir, pipe_name, *args):
+  return GetDumpFromProgram(out_dir, pipe_name, 'multiple_crashes_test.exe',
+                            *args)
 
 def GetDumpFromOtherProgram(out_dir, pipe_name, *args):
   return GetDumpFromProgram(out_dir, pipe_name, 'crash_other_program.exe',
@@ -207,6 +218,7 @@ def RunTests(cdb_path,
              other_program_no_exception_path,
              sigabrt_main_path,
              sigabrt_background_path,
+             multiple_crashes_dump_path,
              pipe_name):
   """Runs various tests in sequence. Runs a new cdb instance on the dump for
   each block of tests to reduce the chances that output from one command is
@@ -374,6 +386,10 @@ def RunTests(cdb_path,
   out = CdbRun(cdb_path, sigabrt_background_path, '.ecxr')
   out.Check('code 40000015', 'got sigabrt signal from background thread')
 
+  out = CdbRun(cdb_path, multiple_crashes_dump_path, '.ecxr')
+  out.Check('multiple_crashes_test_child!crashpad::MultipleCrashesMain',
+            'correct location for multiple children')
+
 
 def main(args):
   try:
@@ -433,6 +449,14 @@ def main(args):
     if not sigabrt_background_path:
       return 1
 
+    multiple_crashes_dump_paths = GetDumpFromMultiple(args[0], pipe_name)
+    num_crashes_expected = 500
+    if len(multiple_crashes_dump_paths) != num_crashes_expected:
+      print 'expected %d dumps from multiple simultaneous crasher, got %d' % (
+            num_crashes_expected, len(multiple_crashes_dump_paths))
+      print multiple_crashes_dump_paths[0]
+      return 1
+
     RunTests(cdb_path,
              crashy_dump_path,
              start_handler_dump_path,
@@ -442,11 +466,13 @@ def main(args):
              other_program_no_exception_path,
              sigabrt_main_path,
              sigabrt_background_path,
+             multiple_crashes_dump_paths[0],
              pipe_name)
 
     return 1 if g_had_failures else 0
   finally:
-    CleanUpTempDirs()
+    #CleanUpTempDirs()
+    pass
 
 
 if __name__ == '__main__':

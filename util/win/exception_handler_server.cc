@@ -539,6 +539,8 @@ void __stdcall ExceptionHandlerServer::OnCrashDumpEvent(void* ctx, BOOLEAN) {
   internal::ClientData* client = reinterpret_cast<internal::ClientData*>(ctx);
   base::AutoLock lock(*client->lock());
 
+  fprintf(stderr, "got a crash!\n");
+
   // Capture the exception.
   unsigned int exit_code = client->delegate()->ExceptionHandlerServerException(
       client->process(),
