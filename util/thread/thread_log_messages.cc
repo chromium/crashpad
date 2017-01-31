@@ -16,7 +16,6 @@
 
 #include <sys/types.h>
 
-#include "base/lazy_instance.h"
 #include "base/logging.h"
 #include "base/threading/thread_local_storage.h"
 
@@ -28,14 +27,24 @@ namespace {
 // handler. A thread may register its thread-specific log message list to
 // receive messages produced just on that thread.
 //
-// Only one object of this class may exist in the program at a time. There must
-// not be any log message handler in effect when it is created, and nothing else
-// can be set as a log message handler while an object of this class exists.
-//
-// Practically, the only object of this class that might exist is managed by the
-// g_master lazy instance, which will create it upon first use.
+// Only one object of this class may exist in the program at a time as created
+// by GetInstance(). There must not be any log message handler in effect when it
+// is created, and nothing else can be set as a log message handler while an
+// object of this class exists.
 class ThreadLogMessagesMaster {
  public:
+  void SetThreadMessageList(std::vector<std::string>* message_list) {
+    DCHECK_EQ(logging::GetLogMessageHandler(), &LogMessageHandler);
+    DCHECK_NE(tls_.Get() != nullptr, message_list != nullptr);
+    tls_.Set(message_list);
+  }
+
+  static ThreadLogMessagesMaster* GetInstance() {
+    static auto master = new ThreadLogMessagesMaster();
+    return master;
+  }
+
+ private:
   ThreadLogMessagesMaster() {
     DCHECK(!tls_.initialized());
     tls_.Initialize(nullptr);
@@ -45,20 +54,8 @@ class ThreadLogMessagesMaster {
     logging::SetLogMessageHandler(LogMessageHandler);
   }
 
-  ~ThreadLogMessagesMaster() {
-    DCHECK_EQ(logging::GetLogMessageHandler(), &LogMessageHandler);
-    logging::SetLogMessageHandler(nullptr);
+  ~ThreadLogMessagesMaster() = delete;
 
-    tls_.Free();
-  }
-
-  void SetThreadMessageList(std::vector<std::string>* message_list) {
-    DCHECK_EQ(logging::GetLogMessageHandler(), &LogMessageHandler);
-    DCHECK_NE(tls_.Get() != nullptr, message_list != nullptr);
-    tls_.Set(message_list);
-  }
-
- private:
   static bool LogMessageHandler(logging::LogSeverity severity,
                                 const char* file_path,
                                 int line,
@@ -84,18 +81,14 @@ class ThreadLogMessagesMaster {
 base::ThreadLocalStorage::StaticSlot ThreadLogMessagesMaster::tls_
     = TLS_INITIALIZER;
 
-base::LazyInstance<ThreadLogMessagesMaster>::Leaky g_master =
-    LAZY_INSTANCE_INITIALIZER;
-
 }  // namespace
 
-ThreadLogMessages::ThreadLogMessages()
-    : log_messages_() {
-  g_master.Get().SetThreadMessageList(&log_messages_);
+ThreadLogMessages::ThreadLogMessages() : log_messages_() {
+  ThreadLogMessagesMaster::GetInstance()->SetThreadMessageList(&log_messages_);
 }
 
 ThreadLogMessages::~ThreadLogMessages() {
-  g_master.Get().SetThreadMessageList(nullptr);
+  ThreadLogMessagesMaster::GetInstance()->SetThreadMessageList(nullptr);
 }
 
 }  // namespace crashpad
