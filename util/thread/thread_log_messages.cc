@@ -16,7 +16,6 @@
 
 #include <sys/types.h>
 
-#include "base/lazy_instance.h"
 #include "base/logging.h"
 #include "base/threading/thread_local_storage.h"
 
@@ -33,7 +32,7 @@ namespace {
 // can be set as a log message handler while an object of this class exists.
 //
 // Practically, the only object of this class that might exist is managed by the
-// g_master lazy instance, which will create it upon first use.
+// GetMaster() lazy instance, which will create it upon first use.
 class ThreadLogMessagesMaster {
  public:
   ThreadLogMessagesMaster() {
@@ -84,18 +83,20 @@ class ThreadLogMessagesMaster {
 base::ThreadLocalStorage::StaticSlot ThreadLogMessagesMaster::tls_
     = TLS_INITIALIZER;
 
-base::LazyInstance<ThreadLogMessagesMaster>::Leaky g_master =
-    LAZY_INSTANCE_INITIALIZER;
+ThreadLogMessagesMaster* GetMaster() {
+  static auto master = new ThreadLogMessagesMaster();
+  return master;
+}
 
 }  // namespace
 
 ThreadLogMessages::ThreadLogMessages()
     : log_messages_() {
-  g_master.Get().SetThreadMessageList(&log_messages_);
+  GetMaster()->SetThreadMessageList(&log_messages_);
 }
 
 ThreadLogMessages::~ThreadLogMessages() {
-  g_master.Get().SetThreadMessageList(nullptr);
+  GetMaster()->SetThreadMessageList(nullptr);
 }
 
 }  // namespace crashpad
