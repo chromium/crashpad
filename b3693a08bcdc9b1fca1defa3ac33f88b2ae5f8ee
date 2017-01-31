@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "987f2997_d8d8be80",
+        "filename": "util/thread/thread_log_messages.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-01-31T22:07:08Z",
+      "side": 1,
+      "message": "We can do a better job of guaranteeing this: let’s promote GetMaster() into a public static ThreadLogMessagesMaster::GetInstance(), make the ThreadLogMessagesMaster constructor private, and \u003ddelete the ~destructor.",
+      "revId": "b3693a08bcdc9b1fca1defa3ac33f88b2ae5f8ee",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
