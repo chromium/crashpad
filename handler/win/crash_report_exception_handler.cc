@@ -128,6 +128,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     upload_thread_->ReportPending();
   }
 
+  fprintf(stderr,  " done a crash\n");
+
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
   return termination_code;
 }
