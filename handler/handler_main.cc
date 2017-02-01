@@ -14,6 +14,7 @@
 
 #include "handler/handler_main.h"
 
+#include <errno.h>
 #include <getopt.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -38,6 +39,7 @@
 #include "handler/prune_crash_reports_thread.h"
 #include "tools/tool_support.h"
 #include "util/file/file_io.h"
+#include "util/misc/metrics.h"
 #include "util/stdlib/map_insert.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
@@ -105,6 +107,122 @@ void Usage(const base::FilePath& me) {
 
 #if defined(OS_MACOSX)
 
+struct sigaction g_original_crash_sigaction[NSIG];
+
+void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
+  // Is siginfo->si_code useful? The only interesting values on macOS are 0 (not
+  // useful, signals generated asynchronously such as by kill() or raise()) and
+  // small positive numbers (useful, signal generated via a hardware trap). The
+  // standard specifies these other constants, and while xnu never uses them,
+  // they are intended to denote signals generated asynchronously and are
+  // included here. Additionally, existing practice on other systems
+  // (acknowledged by the standard) is for negative numbers to indicate that a
+  // signal was generated asynchronously. Although xnu does not do this, allow
+  // for the possibility for completeness.
+  bool si_code_valid = !(siginfo->si_code <= 0 ||
+                         siginfo->si_code == SI_USER ||
+                         siginfo->si_code == SI_QUEUE ||
+                         siginfo->si_code == SI_TIMER ||
+                         siginfo->si_code == SI_ASYNCIO ||
+                         siginfo->si_code == SI_MESGQ);
+
+  // 0x5343 = 'SC', meaning “signal and code”, to disambiguate from the schema
+  // used by ExceptionCodeForMetrics(). That system primarily uses Mach
+  // exception types and codes, which are not available to a POSIX signal
+  // handler. It does provide a way to encode only signal numbers, but does so
+  // with the understanding that certain “raw” signals would not be encountered
+  // without a Mach exception. Furthermore, it does not allow siginfo->si_code
+  // to be encoded, because that’s not available to Mach exception handlers. It
+  // would be a shame to lose that information available to a POSIX signal
+  // handler.
+  int metrics_code = 0x53670000 | ((sig & 0xff) << 8);
+  if (si_code_valid) {
+    metrics_code |= siginfo->si_code & 0xff;
+  }
+  Metrics::HandlerCrashed(metrics_code);
+
+  // Restore the previous signal handler.
+  DCHECK_GT(sig, 0);
+  DCHECK_LT(static_cast<size_t>(sig), arraysize(g_original_crash_sigaction));
+  struct sigaction* osa = &g_original_crash_sigaction[sig];
+  int rv = sigaction(sig, osa, nullptr);
+  DPCHECK(rv == 0) << "sigaction " << sig;
+
+  // If the signal was received synchronously resulting from a hardware trap
+  // (other than SIGTRAP), returning from the signal handler will cause the
+  // kernel to re-raise it, because this handler hasn’t done anything to
+  // alleviate the condition that caused the signal to be raised in the first
+  // place. With the old signal handler in place (expected to be SIG_DFL), it
+  // will cause the same behavior to be taken as though this signal handler had
+  // never been installed at all (expected to be a crash). This is ideal,
+  // because the signal is re-raised from the proper context that initially
+  // triggered it, providing the best debugging experience.
+
+  if ((sig != SIGILL && sig != SIGFPE && sig != SIGBUS && sig != SIGSEGV) ||
+      !si_code_valid) {
+    // Signals received other than via hardware traps, such as those raised
+    // asynchronously via kill() and raise(), and those arising via hardware
+    // traps such as int3 (resulting in SIGTRAP but advancing the instruction
+    // pointer), will not reoccur when returning from the signal handler.
+    // Re-raise them or call to the previous signal handler as appropriate.
+    //
+    // Unfortunately, when SIGBUS is received asynchronously via kill(),
+    // siginfo->si_code makes it appear as though it was actually received
+    // synchronously. See 10.12.3 xnu-3789.41.3/bsd/dev/i386/unix_signal.c
+    // sendsig(). An asynchronous SIGBUS will thus cause the handler-crashed
+    // metric to be logged but will not cause the process to terminate. This
+    // isn’t ideal, but asynchronous SIGBUS is an unexpected condition. The
+    // alternative, to re-raise here on any SIGBUS, is a bad idea because it
+    // would lose the original signal context which is very valuable for
+    // debugging when SIGBUS is received synchronously, as it normally is.
+    if (osa->sa_handler == SIG_DFL) {
+      sigset_t mask;
+      sigemptyset(&mask);
+      sigaddset(&mask, sig);
+      errno = pthread_sigmask(SIG_UNBLOCK, &mask, nullptr);
+      DPCHECK(errno == 0) << "pthread_sigmask";
+
+      rv = raise(sig);
+      DPCHECK(rv == 0) << "raise";
+
+      NOTREACHED();
+    } else if (osa->sa_handler != SIG_IGN) {
+      if (osa->sa_flags & SA_SIGINFO) {
+        osa->sa_sigaction(sig, siginfo, context);
+      } else {
+        osa->sa_handler(sig);
+      }
+    }
+  }
+}
+
+void InstallCrashSignalHandler() {
+  struct sigaction sa = {};
+  sigemptyset(&sa.sa_mask);
+  sa.sa_flags = SA_SIGINFO;
+  sa.sa_sigaction = HandleCrashSignal;
+
+  // These are the core-generating signals from 10.12.3
+  // xnu-3789.41.3/bsd/sys/signalvar.h sigprop: entries with SA_CORE are in the
+  // set.
+  const int kSignals[] = {SIGQUIT,
+                          SIGILL,
+                          SIGTRAP,
+                          SIGABRT,
+                          SIGEMT,
+                          SIGFPE,
+                          SIGBUS,
+                          SIGSEGV,
+                          SIGSYS};
+
+  for (int sig : kSignals) {
+    DCHECK_GT(sig, 0);
+    DCHECK_LT(static_cast<size_t>(sig), arraysize(g_original_crash_sigaction));
+    int rv = sigaction(sig, &sa, &g_original_crash_sigaction[sig]);
+    DPCHECK(rv == 0) << "sigaction " << sig;
+  }
+}
+
 struct ResetSIGTERMTraits {
   static struct sigaction* InvalidValue() {
     return nullptr;
@@ -144,7 +262,9 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
 }  // namespace
 
 int HandlerMain(int argc, char* argv[]) {
-#if defined(OS_WIN)
+#if defined(OS_MACOSX)
+  InstallCrashSignalHandler();
+#elif defined(OS_WIN)
   g_original_exception_filter =
       SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
 #endif
