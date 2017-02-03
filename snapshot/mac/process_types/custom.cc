@@ -63,7 +63,7 @@ template <typename Traits>
 size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
     decltype(dyld_all_image_infos<Traits>::version) version) {
   if (version >= 14) {
-    return sizeof(dyld_all_image_infos<Traits>);
+    return offsetof(dyld_all_image_infos<Traits>, end);
   }
   if (version >= 13) {
     return offsetof(dyld_all_image_infos<Traits>, infoArrayChangeTimestamp);
