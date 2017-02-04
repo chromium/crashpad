@@ -17,6 +17,8 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include <type_traits>
+
 #include "base/logging.h"
 #include "snapshot/mac/process_types/internal.h"
 #include "util/mach/task_memory.h"
@@ -62,46 +64,31 @@ bool ReadIntoVersioned(ProcessReader* process_reader,
 template <typename Traits>
 size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
     decltype(dyld_all_image_infos<Traits>::version) version) {
-  if (version >= 14) {
-    return sizeof(dyld_all_image_infos<Traits>);
+  const size_t kSizeForVersion[] = {
+      offsetof(dyld_all_image_infos<Traits>, infoArrayCount),  // 0
+      offsetof(dyld_all_image_infos<Traits>, libSystemInitialized),  // 1
+      offsetof(dyld_all_image_infos<Traits>, jitInfo),  // 2
+      offsetof(dyld_all_image_infos<Traits>, dyldVersion),  // 3
+      offsetof(dyld_all_image_infos<Traits>, dyldVersion),  // 4
+      offsetof(dyld_all_image_infos<Traits>, coreSymbolicationShmPage),  // 5
+      offsetof(dyld_all_image_infos<Traits>, systemOrderFlag),  // 6
+      offsetof(dyld_all_image_infos<Traits>, uuidArrayCount),  // 7
+      offsetof(dyld_all_image_infos<Traits>, dyldAllImageInfosAddress),  // 8
+      offsetof(dyld_all_image_infos<Traits>, initialImageCount),  // 9
+      offsetof(dyld_all_image_infos<Traits>, errorKind),  // 10
+      offsetof(dyld_all_image_infos<Traits>, sharedCacheSlide),  // 11
+      offsetof(dyld_all_image_infos<Traits>, sharedCacheUUID),  // 12
+      offsetof(dyld_all_image_infos<Traits>, infoArrayChangeTimestamp),  // 13
+      offsetof(dyld_all_image_infos<Traits>, end),  // 14
+  };
+
+  if (version >= arraysize(kSizeForVersion)) {
+    return kSizeForVersion[arraysize(kSizeForVersion) - 1];
   }
-  if (version >= 13) {
-    return offsetof(dyld_all_image_infos<Traits>, infoArrayChangeTimestamp);
-  }
-  if (version >= 12) {
-    return offsetof(dyld_all_image_infos<Traits>, sharedCacheUUID);
-  }
-  if (version >= 11) {
-    return offsetof(dyld_all_image_infos<Traits>, sharedCacheSlide);
-  }
-  if (version >= 10) {
-    return offsetof(dyld_all_image_infos<Traits>, errorKind);
-  }
-  if (version >= 9) {
-    return offsetof(dyld_all_image_infos<Traits>, initialImageCount);
-  }
-  if (version >= 8) {
-    return offsetof(dyld_all_image_infos<Traits>, dyldAllImageInfosAddress);
-  }
-  if (version >= 7) {
-    return offsetof(dyld_all_image_infos<Traits>, uuidArrayCount);
-  }
-  if (version >= 6) {
-    return offsetof(dyld_all_image_infos<Traits>, systemOrderFlag);
-  }
-  if (version >= 5) {
-    return offsetof(dyld_all_image_infos<Traits>, coreSymbolicationShmPage);
-  }
-  if (version >= 3) {
-    return offsetof(dyld_all_image_infos<Traits>, dyldVersion);
-  }
-  if (version >= 2) {
-    return offsetof(dyld_all_image_infos<Traits>, jitInfo);
-  }
-  if (version >= 1) {
-    return offsetof(dyld_all_image_infos<Traits>, libSystemInitialized);
-  }
-  return offsetof(dyld_all_image_infos<Traits>, infoArrayCount);
+
+  static_assert(std::is_unsigned<decltype(version)>::value,
+                "version must be unsigned");
+  return kSizeForVersion[version];
 }
 
 // static
