@@ -19,6 +19,8 @@
 #include <sys/utsname.h>
 #include <time.h>
 
+#include <algorithm>
+
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
@@ -349,34 +351,44 @@ void SystemSnapshotMac::TimeZone(DaylightSavingTimeStatus* dst_status,
   PCHECK(localtime_r(&snapshot_time_->tv_sec, &local)) << "localtime_r";
 
   *standard_name = tzname[0];
+
+  bool found_transition = false;
+  long probe_gmtoff = local.tm_gmtoff;
   if (daylight) {
     // Scan forward and backward, one month at a time, looking for an instance
     // when the observance of daylight saving time is different than it is in
-    // |local|.
-    long probe_gmtoff = local.tm_gmtoff;
-
+    // |local|. It’s possible that no such instance will be found even with
+    // |daylight| set. This can happen in locations where daylight saving time
+    // was once observed or is expected to be observed in the future, but where
+    // no transitions to or from daylight saving time occurred or will occur
+    // within a year of the current date. Arizona, which last observed daylight
+    // saving time in 1967, is an example.
     const int kMonthDeltas[] =
         { 0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6,
           7, -7, 8, -8, 9, -9, 10, -10, 11, -11, 12, -12 };
-    for (size_t index = 0; index < arraysize(kMonthDeltas); ++index) {
-      // Look at the 15th day of each month at local noon. Set tm_isdst to -1 to
-      // avoid giving mktime() any hints about whether to consider daylight
-      // saving time in effect. mktime() accepts values of tm_mon that are
-      // outside of its normal range and behaves as expected: if tm_mon is -1,
-      // it references December of the preceding year, and if it is 12, it
+    for (size_t index = 0;
+         index < arraysize(kMonthDeltas) && !found_transition;
+         ++index) {
+      // Look at a day of each month at local noon. Set tm_isdst to -1 to avoid
+      // giving mktime() any hints about whether to consider daylight saving
+      // time in effect. mktime() accepts values of tm_mon that are outside of
+      // its normal range and behaves as expected: if tm_mon is -1, it
+      // references December of the preceding year, and if it is 12, it
       // references January of the following year.
       tm probe_tm = {};
       probe_tm.tm_hour = 12;
-      probe_tm.tm_mday = 15;
+      probe_tm.tm_mday = std::min(local.tm_mday, 28);
       probe_tm.tm_mon = local.tm_mon + kMonthDeltas[index];
       probe_tm.tm_year = local.tm_year;
       probe_tm.tm_isdst = -1;
       if (mktime(&probe_tm) != -1 && probe_tm.tm_isdst != local.tm_isdst) {
+        found_transition = true;
         probe_gmtoff = probe_tm.tm_gmtoff;
-        break;
       }
     }
+  }
 
+  if (found_transition) {
     *daylight_name = tzname[1];
     if (!local.tm_isdst) {
       *dst_status = kObservingStandardTime;
