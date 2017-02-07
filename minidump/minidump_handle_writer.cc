@@ -17,7 +17,6 @@
 #include <string>
 
 #include "base/logging.h"
-#include "base/stl_util.h"
 #include "minidump/minidump_extensions.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
@@ -29,7 +28,8 @@ MinidumpHandleDataWriter::MinidumpHandleDataWriter()
 }
 
 MinidumpHandleDataWriter::~MinidumpHandleDataWriter() {
-  base::STLDeleteContainerPairSecondPointers(strings_.begin(), strings_.end());
+  for (auto& item : strings_)
+    delete item.second;
 }
 
 void MinidumpHandleDataWriter::InitializeFromSnapshot(
