@@ -20,7 +20,6 @@
 #include <limits>
 
 #include "base/logging.h"
-#include "base/stl_util.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -89,7 +88,8 @@ CompositeHTTPBodyStream::CompositeHTTPBodyStream(
 }
 
 CompositeHTTPBodyStream::~CompositeHTTPBodyStream() {
-  base::STLDeleteContainerPointers(parts_.begin(), parts_.end());
+  for (auto& item : parts_)
+    delete item;
 }
 
 FileOperationResult CompositeHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
