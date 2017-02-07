@@ -34,6 +34,8 @@ class HTTPMultipartBuilder {
   HTTPMultipartBuilder();
   ~HTTPMultipartBuilder();
 
+  void SetGzip(bool enabled);
+
   //! \brief Sets a `Content-Disposition: form-data` key-value pair.
   //!
   //! \param[in] key The key of the form data, specified as the `name` in the
@@ -64,8 +66,7 @@ class HTTPMultipartBuilder {
   //! \return A caller-owned HTTPBodyStream object.
   std::unique_ptr<HTTPBodyStream> GetBodyStream();
 
-  //! \brief Gets the header pair for `"Content-Type"`.
-  HTTPHeaders::value_type GetContentType() const;
+  void PopulateContentHeaders(HTTPHeaders* http_headers) const;
 
  private:
   struct FileAttachment {
@@ -81,6 +82,7 @@ class HTTPMultipartBuilder {
   std::string boundary_;
   std::map<std::string, std::string> form_data_;
   std::map<std::string, FileAttachment> file_attachments_;
+  bool gzip_;
 
   DISALLOW_COPY_AND_ASSIGN(HTTPMultipartBuilder);
 };
