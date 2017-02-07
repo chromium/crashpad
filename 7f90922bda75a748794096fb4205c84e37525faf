@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "7e79c656_94151528",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-07T21:30:38Z",
+      "side": 1,
+      "message": "\u003e These are malloc-semantic allocations, not Heap*-semantic allocations.  The difference is that in supporting builds, they return nullptr instead of terminating the process.\n\nWell, in some builds the allocation will be routed one way, and in others, it’ll be routed a different way? All the more reason to match UncheckedMalloc() with a newly provided UncheckedMallocFree() that always picks the “right” way to free an allocation depending on how UncheckedMalloc() is configured.",
+      "parentUuid": "dd245d00_ddfc96ef",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34e5d795_ca1741cf",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
@@ -154,6 +172,24 @@
       "side": 1,
       "message": "I envision we\u0027ll want to use this for other troublesome allocation spots, in which case you\u0027ll have to duplicate the reset()-before-alloc pattern everywhere. Your call, but the interface factors this out , as-is.",
       "parentUuid": "34e5d795_ca1741cf",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae0eb620_a76a6118",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-07T21:30:38Z",
+      "side": 1,
+      "message": "\u003e I envision we\u0027ll want to use this for other troublesome allocation spots, in which case you\u0027ll have to duplicate the reset()-before-alloc pattern everywhere. Your call, but the interface factors this out , as-is.\n\nI just think that people are accustomed to calling malloc-style allocators as a(size), and this stashes away some extra magic. I’ll acquiesce if you really like it. Scott can cast the tie-breaking vote.",
+      "parentUuid": "f480c316_839e04f6",
       "revId": "7f90922bda75a748794096fb4205c84e37525faf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
