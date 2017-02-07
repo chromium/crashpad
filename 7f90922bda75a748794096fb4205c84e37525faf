@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cff64a8_a8589f94",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-07T19:23:41Z",
+      "side": 1,
+      "message": "Format, should be spaces around \u0027\u003d\u0027.",
+      "range": {
+        "startLine": 41,
+        "startChar": 22,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7342e682_109052dc",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-07T19:23:41Z",
+      "side": 1,
+      "message": "Can we make the type match, wrt to uint8_t* vs. uint8_t[]?",
+      "range": {
+        "startLine": 50,
+        "startChar": 35,
+        "endLine": 50,
+        "endChar": 42
+      },
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
