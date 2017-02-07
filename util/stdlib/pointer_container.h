@@ -18,29 +18,8 @@
 #include <vector>
 
 #include "base/macros.h"
-#include "base/stl_util.h"
 
 namespace crashpad {
-
-//! \brief Allows a standard container to “own” pointer elements stored in it.
-//!
-//! When the container is destroyed, `delete` will be called on its pointer
-//! elements.
-//!
-//! \note No attempt is made to `delete` elements that are removed from the
-//!     container by other means, such as replacement or `clear()`.
-template <typename ContainerType>
-class PointerContainer : public ContainerType {
- public:
-  PointerContainer() : ContainerType(), pointer_deleter_(this) {}
-
-  ~PointerContainer() {}
-
- private:
-  base::STLElementDeleter<ContainerType> pointer_deleter_;
-
-  DISALLOW_COPY_AND_ASSIGN(PointerContainer);
-};
 
 //! \brief Allows a `std::vector` to “own” pointer elements stored in it.
 //!
@@ -50,7 +29,18 @@ class PointerContainer : public ContainerType {
 //! \note No attempt is made to `delete` elements that are removed from the
 //!     vector by other means, such as replacement or `clear()`.
 template <typename T>
-using PointerVector = PointerContainer<std::vector<T*>>;
+class PointerVector : public std::vector<T*> {
+ public:
+  PointerVector() : std::vector<T*>() {}
+
+  ~PointerVector() {
+    for (T* item : *this)
+      delete item;
+  }
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(PointerVector);
+};
 
 }  // namespace crashpad
 
