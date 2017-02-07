@@ -196,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "44fb17fb_2b704fe7",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-07T21:42:51Z",
+      "side": 1,
+      "message": "I don\u0027t feel too strongly. I think having an explicit free-then-alloc at the callsite is probably clearer that we want to be explicit that it\u0027s necessary to do it that way.",
+      "parentUuid": "ae0eb620_a76a6118",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7342e682_109052dc",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
@@ -231,6 +249,24 @@
       "side": 1,
       "message": "Apparently neither static, nor reinterpret_cast will do it.\nc:\\src\\crashpad\\crashpad\\util\\win\\process_info.cc(50): error C2440: \u0027reinterpret_cast\u0027: cannot convert from \u0027void *\u0027 to \u0027uint8_t []\u0027\n\nPlacement new works for a cast here, if that\u0027s a thing you do?",
       "parentUuid": "7342e682_109052dc",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d481220a_698cd38f",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-07T21:42:51Z",
+      "side": 1,
+      "message": "Shows what I know about C++.",
+      "parentUuid": "9e64effb_996dca3c",
       "revId": "7f90922bda75a748794096fb4205c84e37525faf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
