@@ -27,13 +27,21 @@ namespace crashpad {
 namespace process_types {
 namespace internal {
 
+// Some structure definitions have tail padding when built in a 64-bit
+// environment, but will have less (or no) tail padding in a 32-bit environment.
+// These structure’s apparent sizes will differ between these two environments,
+// which is incorrect. Use this “Nothing” type to place an “end” marker after
+// all of the real members of such structures, and use offsetof(type, end) to
+// compute their actual sizes.
+using Nothing = char[0];
+
 // Some structure definitions differ in 32-bit and 64-bit environments by having
 // additional “reserved” padding fields present only in the 64-bit environment.
 // These Reserved*_64Only* types allow the process_types system to replicate
 // these structures more precisely.
-using Reserved32_64Only32 = char[0];
+using Reserved32_64Only32 = Nothing;
 using Reserved32_64Only64 = uint32_t;
-using Reserved64_64Only32 = char[0];
+using Reserved64_64Only32 = Nothing;
 using Reserved64_64Only64 = uint64_t;
 
 }  // namespace internal
@@ -65,6 +73,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     using UIntPtr = internal::TraitsGeneric::UIntPtr;                          \
     using Reserved32_64Only = internal::TraitsGeneric::Reserved32_64Only;      \
     using Reserved64_64Only = internal::TraitsGeneric::Reserved64_64Only;      \
+    using Nothing = internal::TraitsGeneric::Nothing;                          \
                                                                                \
     /* Initializes an object with data read from |process_reader| at           \
      * |address|, properly genericized. */                                     \
@@ -88,7 +97,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     /* Similar to Size(), but computes the expected size of a structure based  \
      * on the process’ bitness. This can be used prior to reading any data     \
      * from a process. */                                                      \
-    static size_t ExpectedSize(ProcessReader* process_reader);                 \
+    static size_t ExpectedSize(ProcessReader* process_reader);
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)              \
     member_type member_name __VA_ARGS__;
@@ -155,6 +164,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     using UIntPtr = typename Traits::UIntPtr;                                  \
     using Reserved32_64Only = typename Traits::Reserved32_64Only;              \
     using Reserved64_64Only = typename Traits::Reserved64_64Only;              \
+    using Nothing = typename Traits::Nothing;                                  \
                                                                                \
     /* Read(), ReadArrayInto(), and Size() are as in the generic user-visible  \
      * struct above. */                                                        \

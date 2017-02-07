@@ -22,7 +22,8 @@
 // DECLARE_PROCESS_TYPE_TRAITS_CLASS before #including this file again and after
 // the last #include of this file.
 //
-// |Reserved*| are used for padding fields that may be zero-length, and thus
+// |Reserved*| is used for padding fields that may be zero-length, and |Nothing|
+// is always zero-length and is used solely as an anchor to compute offsets.
 // __VA_ARGS__, which is intended to set the alignment of the 64-bit types, is
 // not used for those type aliases.
 #define DECLARE_PROCESS_TYPE_TRAITS_CLASS(traits_name, lp_bits, ...) \
@@ -37,6 +38,7 @@
     using UIntPtr = uint##lp_bits##_t __VA_ARGS__;                   \
     using Reserved32_64Only = Reserved32_64Only##lp_bits;            \
     using Reserved64_64Only = Reserved64_64Only##lp_bits;            \
+    using Nothing = Nothing;                                         \
   };                                                                 \
   }                                                                  \
   }                                                                  \

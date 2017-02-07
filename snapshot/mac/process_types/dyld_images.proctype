@@ -123,6 +123,13 @@ PROCESS_TYPE_STRUCT_BEGIN(dyld_all_image_infos)
   PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_6)
   PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_7)
   PROCESS_TYPE_STRUCT_MEMBER(Reserved64_64Only, reserved_8)
+
+  // The 32-bit version of the structure will have four extra bytes of tail
+  // padding when built for 64-bit systems than it does natively and when built
+  // for 32-bit systems. Instead of using sizeof(dyld_all_image_infos), use
+  // offsetof(dyld_all_image_infos, end) to avoid taking this tail padding into
+  // account.
+  PROCESS_TYPE_STRUCT_MEMBER(Nothing, end)
 PROCESS_TYPE_STRUCT_END(dyld_all_image_infos)
 
 #endif  // ! PROCESS_TYPE_STRUCT_IMPLEMENT_INTERNAL_READ_INTO &&
