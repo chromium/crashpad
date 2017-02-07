@@ -170,6 +170,7 @@ class ProcessInfo {
                              bool is_64_bit,
                              ProcessInfo* process_info);
 
+  // This function is best-effort under low memory conditions.
   std::vector<Handle> BuildHandleVector(HANDLE process) const;
 
   pid_t process_id_;
