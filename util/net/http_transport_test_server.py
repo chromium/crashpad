@@ -33,6 +33,7 @@ This could easily have been written in C++ instead.
 import BaseHTTPServer
 import struct
 import sys
+import zlib
 
 class BufferedReadFile(object):
   """A File-like object that stores all read contents into a buffer."""
@@ -80,11 +81,14 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     RequestHandler.raw_request = self.rfile.buffer
     self.rfile.buffer = ''
 
-    if self.headers.get('Transfer-Encoding', '') == 'Chunked':
+    if self.headers.get('Transfer-Encoding', '').lower() == 'chunked':
       body = self.handle_chunked_encoding()
     else:
       length = int(self.headers.get('Content-Length', -1))
       body = self.rfile.read(length)
+
+    if self.headers.get('Content-Encoding', '').lower() == 'gzip':
+      body = zlib.decompress(body, 16 + 15)
 
     RequestHandler.raw_request += body
 

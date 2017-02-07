@@ -17,7 +17,7 @@
 namespace crashpad {
 
 const char kContentType[] = "Content-Type";
-
 const char kContentLength[] = "Content-Length";
+const char kContentEncoding[] = "Content-Encoding";
 
 }  // namespace crashpad
