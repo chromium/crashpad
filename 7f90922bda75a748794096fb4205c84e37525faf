@@ -25,6 +25,69 @@
     },
     {
       "key": {
+        "uuid": "51558568_62cc6dee",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-07T19:31:08Z",
+      "side": 1,
+      "message": "Spaces around the \u003d.",
+      "range": {
+        "startLine": 41,
+        "startChar": 21,
+        "endLine": 41,
+        "endChar": 22
+      },
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "832266d6_cbcfe77b",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-07T19:31:08Z",
+      "side": 1,
+      "message": "I would prefer that allocators are paired with their proper free-ers, so an allocation by HeapAlloc() would be freed by HeapFree(). That may actually be an argument for a base::UncheckedMallocFree().",
+      "range": {
+        "startLine": 41,
+        "startChar": 55,
+        "endLine": 41,
+        "endChar": 66
+      },
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34e5d795_ca1741cf",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-07T19:31:08Z",
+      "side": 1,
+      "message": "Why doesn’t this return a UniqueMallocPtr instead? I think that’d be a more natural interface.",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7342e682_109052dc",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
@@ -42,6 +105,23 @@
         "endLine": 50,
         "endChar": 42
       },
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "618fc571_ad7bb952",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-07T19:31:08Z",
+      "side": 1,
+      "message": "LOG(ERROR) \u003c\u003c \"UncheckedAllocate\"",
       "revId": "7f90922bda75a748794096fb4205c84e37525faf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
