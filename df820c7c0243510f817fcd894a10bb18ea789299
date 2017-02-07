@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8d2d5fd_e61eaa12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-07T21:30:38Z",
+      "side": 1,
+      "message": "Stop repeating yourself. Stop repeating yourself.",
+      "revId": "df820c7c0243510f817fcd894a10bb18ea789299",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a78ace96_82973c61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-07T21:30:38Z",
+      "side": 1,
+      "message": "crashpad:158",
+      "revId": "df820c7c0243510f817fcd894a10bb18ea789299",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8db6d118_ef8c8c2f",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-07T21:30:38Z",
+      "side": 1,
+      "message": "You can include a mini_chromium DEPS roll in Crashpad to pick this up.",
+      "revId": "df820c7c0243510f817fcd894a10bb18ea789299",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9577bc06_b90bffc7",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-07T21:30:38Z",
+      "side": 1,
+      "message": "Minor nit: Crashpad style is uniformly UniqueMallocPtr* allocated_ptr.",
+      "revId": "df820c7c0243510f817fcd894a10bb18ea789299",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
