@@ -71,6 +71,60 @@
     },
     {
       "key": {
+        "uuid": "82cc9fd0_c06f0bae",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-07T20:55:23Z",
+      "side": 1,
+      "message": "These are malloc-semantic allocations, not Heap*-semantic allocations.  The difference is that in supporting builds, they return nullptr instead of terminating the process.",
+      "parentUuid": "832266d6_cbcfe77b",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afd7357d_021df30a",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-07T20:55:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82cc9fd0_c06f0bae",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd245d00_ddfc96ef",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-07T20:55:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afd7357d_021df30a",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34e5d795_ca1741cf",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
@@ -82,6 +136,24 @@
       "writtenOn": "2017-02-07T19:31:08Z",
       "side": 1,
       "message": "Why doesn’t this return a UniqueMallocPtr instead? I think that’d be a more natural interface.",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f480c316_839e04f6",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-07T20:55:23Z",
+      "side": 1,
+      "message": "I envision we\u0027ll want to use this for other troublesome allocation spots, in which case you\u0027ll have to duplicate the reset()-before-alloc pattern everywhere. Your call, but the interface factors this out , as-is.",
+      "parentUuid": "34e5d795_ca1741cf",
       "revId": "7f90922bda75a748794096fb4205c84e37525faf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "9e64effb_996dca3c",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-07T20:55:23Z",
+      "side": 1,
+      "message": "Apparently neither static, nor reinterpret_cast will do it.\nc:\\src\\crashpad\\crashpad\\util\\win\\process_info.cc(50): error C2440: \u0027reinterpret_cast\u0027: cannot convert from \u0027void *\u0027 to \u0027uint8_t []\u0027\n\nPlacement new works for a cast here, if that\u0027s a thing you do?",
+      "parentUuid": "7342e682_109052dc",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "618fc571_ad7bb952",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
@@ -125,6 +215,24 @@
       "revId": "7f90922bda75a748794096fb4205c84e37525faf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2128f1b8_9ebc238d",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-07T20:55:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "618fc571_ad7bb952",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

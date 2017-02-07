@@ -16,6 +16,24 @@
       "revId": "7050c55fca1b4327e447b83b7657f6fa5e89697a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ba3e19d_96996ac1",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-07T20:55:23Z",
+      "side": 0,
+      "message": "This happens inside the allocation function with its current interface.",
+      "parentUuid": "9e4de04a_2dc92bbb",
+      "revId": "7050c55fca1b4327e447b83b7657f6fa5e89697a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
