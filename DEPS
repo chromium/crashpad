@@ -19,13 +19,13 @@ vars = {
 deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/buildtools.git@' +
-      'f8fc76ea5ce4a60cda2fa5d7df3d4a62935b3113',
+      'a7cc7a3e21a061975b33dcdcd81a9716ba614c3c',
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
-      'ec44c6c1675c25b9827aacd08c02433cccde7780',
+      'd62d6c6556d96dda924382547c54a4b3afedb22c',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
-      '93cc6e2c23e4d5ebd179f388e67aa907d0dfd43d',
+      'a7055b3989c1074adca03b4b4829e7f0e57f6efd',
 
   # TODO(scottmg): Consider pinning these. For now, we don't have any particular
   # reason to do so.
@@ -38,7 +38,7 @@ deps = {
 
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      'de1afb04f4afc074ec6d23bd9ee7b1e6b365427f',
+      'e504d59673e56887a4e837cbeb44b32ec21974f9',
 }
 
 hooks = [
@@ -99,4 +99,8 @@ hooks = [
     'pattern': '\.gypi?$',
     'action': ['python', 'crashpad/build/gyp_crashpad.py'],
   },
+]
+
+recursedeps = [
+  'buildtools',
 ]
