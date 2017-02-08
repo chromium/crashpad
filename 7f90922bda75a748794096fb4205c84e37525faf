@@ -215,6 +215,24 @@
     },
     {
       "key": {
+        "uuid": "7c5ad4ef_47aa1dd7",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-08T18:58:29Z",
+      "side": 1,
+      "message": "Ah, gotcha! My misunderstanding was what UncheckedMallocFree() would actually do, because I had trouble processing the name as the \"Free for Malloc\", rather than something that was somehow bundling the two.\n\nSo that seems like a good idea to me too, but I don\u0027t like calling it UncheckedMallocFree(), unless the other one is ... uh, UncheckedMallocAlloc() or UncheckedMallocMalloc(). Hmm...\n\nI guess I\u0027d vote for UncheckedFree() as the pair to UncheckedMalloc(), given that they\u0027re together in  base:: and in the semi-namespace of \"Unchecked\" as well.",
+      "parentUuid": "a0188583_cc3aca56",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34e5d795_ca1741cf",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
