@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "dd457729_1e480893",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-08T20:01:11Z",
+      "side": 1,
+      "message": "\u003e It\u0027s a bit pedantic, but how about a static_assert here on the total size of buf to make sure there\u0027s no padding, since you\u0027re relying on, e.g. .data[32*1024] \u003d\u003d .crlf1[0].\n\nI did this, but had hoped I could come up with a more concise way to express it. I couldn’t, at least not in expressions that are compatible with static_assert.",
+      "parentUuid": "08743b64_8fdad661",
+      "revId": "6cec803bc451a7bec1925ed9a3e382e8e04e7942",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a75e4e3_e7eec3a5",
         "filename": "util/net/http_transport_win.cc",
         "patchSetId": 2
@@ -64,6 +82,24 @@
       "writtenOn": "2017-02-08T19:40:02Z",
       "side": 1,
       "message": "Clever setup!",
+      "revId": "6cec803bc451a7bec1925ed9a3e382e8e04e7942",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fc38f75_459c965c",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-08T20:01:11Z",
+      "side": 1,
+      "message": "\u003e Clever setup!\n\nThanks!",
+      "parentUuid": "505463d2_bf83640c",
       "revId": "6cec803bc451a7bec1925ed9a3e382e8e04e7942",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
