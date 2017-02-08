@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe16121b_70a67bf5",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-08T19:40:02Z",
+      "side": 1,
+      "message": "Sort",
+      "revId": "6cec803bc451a7bec1925ed9a3e382e8e04e7942",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08743b64_8fdad661",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-08T19:40:02Z",
+      "side": 1,
+      "message": "It\u0027s a bit pedantic, but how about a static_assert here on the total size of buf to make sure there\u0027s no padding, since you\u0027re relying on, e.g. .data[32*1024] \u003d\u003d .crlf1[0].",
+      "revId": "6cec803bc451a7bec1925ed9a3e382e8e04e7942",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a75e4e3_e7eec3a5",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-08T19:40:02Z",
+      "side": 1,
+      "message": "Pretty subtle, maybe check the return value \u003d\u003d 8 or sizeof(buf.size) here.",
+      "revId": "6cec803bc451a7bec1925ed9a3e382e8e04e7942",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "505463d2_bf83640c",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-08T19:40:02Z",
+      "side": 1,
+      "message": "Clever setup!",
+      "revId": "6cec803bc451a7bec1925ed9a3e382e8e04e7942",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a96fb75e_027cef08",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-08T19:40:02Z",
+      "side": 1,
+      "message": "Sorry, how does this part happen?",
+      "range": {
+        "startLine": 272,
+        "startChar": 50,
+        "endLine": 273,
+        "endChar": 11
+      },
+      "revId": "6cec803bc451a7bec1925ed9a3e382e8e04e7942",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
