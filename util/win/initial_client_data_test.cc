@@ -24,28 +24,26 @@ TEST(InitialClientData, Validity) {
   InitialClientData icd1;
   EXPECT_FALSE(icd1.IsValid());
 
-  InitialClientData icd2(
-      reinterpret_cast<HANDLE>(0x123),
-      reinterpret_cast<HANDLE>(0x456),
-      reinterpret_cast<HANDLE>(0x789),
-      reinterpret_cast<HANDLE>(0xabc),
-      reinterpret_cast<HANDLE>(0xdef),
-      0x7fff000012345678ull,
-      0x100000ull,
-      0xccccddddeeeeffffull);
+  InitialClientData icd2(reinterpret_cast<HANDLE>(0x123),
+                         reinterpret_cast<HANDLE>(0x456),
+                         reinterpret_cast<HANDLE>(0x789),
+                         reinterpret_cast<HANDLE>(0xabc),
+                         reinterpret_cast<HANDLE>(0xdef),
+                         0x7fff000012345678ull,
+                         0x100000ull,
+                         0xccccddddeeeeffffull);
   EXPECT_TRUE(icd2.IsValid());
 }
 
 TEST(InitialClientData, RoundTrip) {
-  InitialClientData first(
-      reinterpret_cast<HANDLE>(0x123),
-      reinterpret_cast<HANDLE>(0x456),
-      reinterpret_cast<HANDLE>(0x789),
-      reinterpret_cast<HANDLE>(0xabc),
-      reinterpret_cast<HANDLE>(0xdef),
-      0x7fff000012345678ull,
-      0x100000ull,
-      0xccccddddeeeeffffull);
+  InitialClientData first(reinterpret_cast<HANDLE>(0x123),
+                          reinterpret_cast<HANDLE>(0x456),
+                          reinterpret_cast<HANDLE>(0x789),
+                          reinterpret_cast<HANDLE>(0xabc),
+                          reinterpret_cast<HANDLE>(0xdef),
+                          0x7fff000012345678ull,
+                          0x100000ull,
+                          0xccccddddeeeeffffull);
 
   std::string as_string = first.StringRepresentation();
   EXPECT_EQ(

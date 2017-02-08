@@ -26,11 +26,9 @@
 namespace crashpad {
 
 MinidumpExceptionWriter::MinidumpExceptionWriter()
-    : MinidumpStreamWriter(), exception_(), context_(nullptr) {
-}
+    : MinidumpStreamWriter(), exception_(), context_(nullptr) {}
 
-MinidumpExceptionWriter::~MinidumpExceptionWriter() {
-}
+MinidumpExceptionWriter::~MinidumpExceptionWriter() {}
 
 void MinidumpExceptionWriter::InitializeFromSnapshot(
     const ExceptionSnapshot* exception_snapshot,

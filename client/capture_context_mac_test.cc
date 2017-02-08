@@ -43,19 +43,19 @@ void SanityCheckContext(const NativeCPUContext& context) {
 #endif
 
 #if defined(ARCH_CPU_X86_FAMILY)
-  // The segment registers are only capable of storing 16-bit quantities, but
-  // the context structure provides native integer-width fields for them. Ensure
-  // that the high bits are all clear.
-  //
-  // Many bit positions in the flags register are reserved and will always read
-  // a known value. Most reserved bits are always 0, but bit 1 is always 1.
-  // Check that the reserved bits are all set to their expected values. Note
-  // that the set of reserved bits may be relaxed over time with newer CPUs, and
-  // that this test may need to be changed to reflect these developments. The
-  // current set of reserved bits are 1, 3, 5, 15, and 22 and higher. See Intel
-  // Software Developer’s Manual, Volume 1: Basic Architecture (253665-051),
-  // 3.4.3 “EFLAGS Register”, and AMD Architecture Programmer’s Manual, Volume
-  // 2: System Programming (24593-3.24), 3.1.6 “RFLAGS Register”.
+// The segment registers are only capable of storing 16-bit quantities, but
+// the context structure provides native integer-width fields for them. Ensure
+// that the high bits are all clear.
+//
+// Many bit positions in the flags register are reserved and will always read
+// a known value. Most reserved bits are always 0, but bit 1 is always 1.
+// Check that the reserved bits are all set to their expected values. Note
+// that the set of reserved bits may be relaxed over time with newer CPUs, and
+// that this test may need to be changed to reflect these developments. The
+// current set of reserved bits are 1, 3, 5, 15, and 22 and higher. See Intel
+// Software Developer’s Manual, Volume 1: Basic Architecture (253665-051),
+// 3.4.3 “EFLAGS Register”, and AMD Architecture Programmer’s Manual, Volume
+// 2: System Programming (24593-3.24), 3.1.6 “RFLAGS Register”.
 #if defined(ARCH_CPU_X86)
   EXPECT_EQ(0u, context.uts.ts32.__cs & ~0xffff);
   EXPECT_EQ(0u, context.uts.ts32.__ds & ~0xffff);

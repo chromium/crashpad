@@ -26,10 +26,10 @@ namespace crashpad {
 class UnloadedModuleSnapshot {
  public:
   UnloadedModuleSnapshot(uint64_t address,
-                  uint64_t size,
-                  uint32_t checksum,
-                  uint32_t timestamp,
-                  const std::string& name);
+                         uint64_t size,
+                         uint32_t checksum,
+                         uint32_t timestamp,
+                         const std::string& name);
   ~UnloadedModuleSnapshot();
 
   //! \brief The base address of the module in the target processes' address

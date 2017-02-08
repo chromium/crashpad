@@ -199,14 +199,10 @@ class TestMemoryStream final : public internal::MinidumpStreamWriter {
 
   ~TestMemoryStream() override {}
 
-  TestMinidumpMemoryWriter* memory() {
-    return &memory_;
-  }
+  TestMinidumpMemoryWriter* memory() { return &memory_; }
 
   // MinidumpStreamWriter:
-  MinidumpStreamType StreamType() const override {
-    return kBogusStreamType;
-  }
+  MinidumpStreamType StreamType() const override { return kBogusStreamType; }
 
  protected:
   // MinidumpWritable:
@@ -319,8 +315,7 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
 
   PointerVector<TestMemorySnapshot> memory_snapshots_owner;
   std::vector<const MemorySnapshot*> memory_snapshots;
-  for (size_t index = 0;
-       index < arraysize(expect_memory_descriptors);
+  for (size_t index = 0; index < arraysize(expect_memory_descriptors);
        ++index) {
     TestMemorySnapshot* memory_snapshot = new TestMemorySnapshot();
     memory_snapshots_owner.push_back(memory_snapshot);

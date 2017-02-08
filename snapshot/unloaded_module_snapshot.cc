@@ -27,7 +27,6 @@ UnloadedModuleSnapshot::UnloadedModuleSnapshot(uint64_t address,
       checksum_(checksum),
       timestamp_(timestamp) {}
 
-UnloadedModuleSnapshot::~UnloadedModuleSnapshot() {
-}
+UnloadedModuleSnapshot::~UnloadedModuleSnapshot() {}
 
 }  // namespace crashpad

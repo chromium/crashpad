@@ -48,8 +48,7 @@ TEST(strlcpy, c16lcpy) {
     SCOPED_TRACE(base::StringPrintf(
         "character index %" PRIuS ", character 0x%x", index, test_character));
     for (size_t length = 0; length < 256; ++length) {
-      SCOPED_TRACE(
-          base::StringPrintf("index %" PRIuS, length));
+      SCOPED_TRACE(base::StringPrintf("index %" PRIuS, length));
       base::string16 test_string(length, test_character);
 
       TestBuffer destination;

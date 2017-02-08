@@ -36,8 +36,7 @@ MachOImageAnnotationsReader::MachOImageAnnotationsReader(
     const std::string& name)
     : name_(name),
       process_reader_(process_reader),
-      image_reader_(image_reader) {
-}
+      image_reader_(image_reader) {}
 
 std::vector<std::string> MachOImageAnnotationsReader::Vector() const {
   std::vector<std::string> vector_annotations;
@@ -151,8 +150,8 @@ void MachOImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
     return;
   }
 
-  std::vector<SimpleStringDictionary::Entry>
-      simple_annotations(SimpleStringDictionary::num_entries);
+  std::vector<SimpleStringDictionary::Entry> simple_annotations(
+      SimpleStringDictionary::num_entries);
   if (!process_reader_->Memory()->Read(
           crashpad_info.simple_annotations,
           simple_annotations.size() * sizeof(simple_annotations[0]),

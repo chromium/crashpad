@@ -35,11 +35,9 @@ ExceptionSnapshotMac::ExceptionSnapshotMac()
       exception_address_(0),
       exception_(0),
       exception_code_0_(0),
-      initialized_() {
-}
+      initialized_() {}
 
-ExceptionSnapshotMac::~ExceptionSnapshotMac() {
-}
+ExceptionSnapshotMac::~ExceptionSnapshotMac() {}
 
 bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
                                       exception_behavior_t behavior,
@@ -53,8 +51,7 @@ bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   codes_.push_back(exception);
-  for (mach_msg_type_number_t code_index = 0;
-       code_index < code_count;
+  for (mach_msg_type_number_t code_index = 0; code_index < code_count;
        ++code_index) {
     codes_.push_back(code[code_index]);
   }
@@ -106,8 +103,9 @@ bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
     if (!ExceptionBehaviorHasMachExceptionCodes(behavior)) {
       LOG(WARNING) << base::StringPrintf(
           "behavior %s invalid for exception %s",
-          ExceptionBehaviorToString(
-              behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str(),
+          ExceptionBehaviorToString(behavior,
+                                    kUseFullName | kUnknownIsNumeric | kUseOr)
+              .c_str(),
           ExceptionToString(exception_, kUseFullName | kUnknownIsNumeric)
               .c_str());
     }
@@ -191,8 +189,9 @@ bool ExceptionSnapshotMac::Initialize(ProcessReader* process_reader,
       // truncated.
       LOG(WARNING) << base::StringPrintf(
           "behavior %s invalid for exception %s code %d in 64-bit process",
-          ExceptionBehaviorToString(
-              behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str(),
+          ExceptionBehaviorToString(behavior,
+                                    kUseFullName | kUnknownIsNumeric | kUseOr)
+              .c_str(),
           ExceptionToString(exception_, kUseFullName | kUnknownIsNumeric)
               .c_str(),
           exception_code_0_);

@@ -81,8 +81,9 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
     fprintf(options_.file,
             "%s: behavior %s",
             me_.c_str(),
-            ExceptionBehaviorToString(
-                behavior, kUseFullName | kUnknownIsNumeric | kUseOr).c_str());
+            ExceptionBehaviorToString(behavior,
+                                      kUseFullName | kUnknownIsNumeric | kUseOr)
+                .c_str());
 
     kern_return_t kr;
     if (ExceptionBehaviorHasIdentity(behavior)) {
@@ -130,10 +131,7 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
         code_count);
 
     for (size_t index = 0; index < code_count; ++index) {
-      fprintf(options_.file,
-              "%s %#llx",
-              index != 0 ? "," : "",
-              code[index]);
+      fprintf(options_.file, "%s %#llx", index != 0 ? "," : "", code[index]);
     }
 
     if (exception == EXC_CRASH) {
@@ -144,7 +142,8 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
       fprintf(options_.file,
               ", original exception %s, original code[0] %lld, signal %s",
               ExceptionToString(original_exception,
-                                kUseFullName | kUnknownIsNumeric).c_str(),
+                                kUseFullName | kUnknownIsNumeric)
+                  .c_str(),
               original_code_0,
               SignalToString(signal, kUseFullName | kUnknownIsNumeric).c_str());
     }
@@ -180,15 +179,18 @@ class ExceptionServer : public UniversalMachExcServer::Interface {
 
 void Usage(const std::string& me) {
   fprintf(stderr,
-"Usage: %s -m SERVICE [OPTION]...\n"
-"Catch Mach exceptions and display information about them.\n"
-"\n"
-"  -f, --file=FILE             append information to FILE instead of stdout\n"
-"  -m, --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
-"  -p, --persistent            continue processing exceptions after the first\n"
-"  -t, --timeout=TIMEOUT       run for a maximum of TIMEOUT seconds\n"
-"      --help                  display this help and exit\n"
-"      --version               output version information and exit\n",
+          "Usage: %s -m SERVICE [OPTION]...\n"
+          "Catch Mach exceptions and display information about them.\n"
+          "\n"
+          "  -f, --file=FILE             append information to FILE instead of "
+          "stdout\n"
+          "  -m, --mach-service=SERVICE  register SERVICE with the bootstrap "
+          "server\n"
+          "  -p, --persistent            continue processing exceptions after "
+          "the first\n"
+          "  -t, --timeout=TIMEOUT       run for a maximum of TIMEOUT seconds\n"
+          "      --help                  display this help and exit\n"
+          "      --version               output version information and exit\n",
           me.c_str());
   ToolSupport::UsageTail(me);
 }
@@ -263,8 +265,8 @@ int CatchExceptionToolMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  base::mac::ScopedMachReceiveRight
-      service_port(BootstrapCheckIn(options.mach_service));
+  base::mac::ScopedMachReceiveRight service_port(
+      BootstrapCheckIn(options.mach_service));
   if (service_port == kMachPortNull) {
     return EXIT_FAILURE;
   }

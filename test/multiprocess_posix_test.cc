@@ -85,8 +85,7 @@ class TestMultiprocessUnclean final : public Multiprocess {
   };
 
   explicit TestMultiprocessUnclean(TerminationType type)
-      : Multiprocess(),
-        type_(type) {
+      : Multiprocess(), type_(type) {
     if (type_ == kAbort) {
       SetExpectedChildTermination(kTerminationSignal, SIGABRT);
     } else {
@@ -97,14 +96,11 @@ class TestMultiprocessUnclean final : public Multiprocess {
   ~TestMultiprocessUnclean() {}
 
  private:
-  int ExitCode() const {
-    return type_;
-  }
+  int ExitCode() const { return type_; }
 
   // Multiprocess:
 
-  void MultiprocessParent() override {
-  }
+  void MultiprocessParent() override {}
 
   void MultiprocessChild() override {
     if (type_ == kAbort) {
@@ -152,10 +148,7 @@ class TestMultiprocessClosePipe final : public Multiprocess {
   };
 
   TestMultiprocessClosePipe(WhoCloses who_closes, WhatCloses what_closes)
-      : Multiprocess(),
-        who_closes_(who_closes),
-        what_closes_(what_closes) {
-  }
+      : Multiprocess(), who_closes_(who_closes), what_closes_(what_closes) {}
 
   ~TestMultiprocessClosePipe() {}
 

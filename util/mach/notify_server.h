@@ -187,11 +187,10 @@ class NotifyServer : public MachMessageServer::Interface {
         mach_port_name_t name,
         const mach_msg_trailer_t* trailer) override;
 
-    kern_return_t DoMachNotifyPortDestroyed(
-        notify_port_t notify,
-        mach_port_t rights,
-        const mach_msg_trailer_t* trailer,
-        bool* destroy_request) override;
+    kern_return_t DoMachNotifyPortDestroyed(notify_port_t notify,
+                                            mach_port_t rights,
+                                            const mach_msg_trailer_t* trailer,
+                                            bool* destroy_request) override;
 
     kern_return_t DoMachNotifyNoSenders(
         notify_port_t notify,

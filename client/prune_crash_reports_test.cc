@@ -90,8 +90,8 @@ TEST(PruneCrashReports, SizeCondition) {
       string.push_back(static_cast<char>(i));
 
     for (size_t i = 0; i < 1024; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_1k.get(),
-                                   string.c_str(), string.length()));
+      ASSERT_TRUE(LoggingWriteFile(
+          scoped_file_1k.get(), string.c_str(), string.length()));
     }
 
     ScopedFileHandle scoped_file_3k(
@@ -101,8 +101,8 @@ TEST(PruneCrashReports, SizeCondition) {
     ASSERT_TRUE(scoped_file_3k.is_valid());
 
     for (size_t i = 0; i < 3072; i += string.size()) {
-      ASSERT_TRUE(LoggingWriteFile(scoped_file_3k.get(),
-                                   string.c_str(), string.length()));
+      ASSERT_TRUE(LoggingWriteFile(
+          scoped_file_3k.get(), string.c_str(), string.length()));
     }
   }
 
@@ -154,30 +154,50 @@ TEST(PruneCrashReports, BinaryCondition) {
     bool lhs_executed;
     bool rhs_executed;
   } kTests[] = {
-    {"false && false",
-     BinaryPruneCondition::AND, false, false,
-     false, true, false},
-    {"false && true",
-     BinaryPruneCondition::AND, false, true,
-     false, true, false},
-    {"true && false",
-     BinaryPruneCondition::AND, true, false,
-     false, true, true},
-    {"true && true",
-     BinaryPruneCondition::AND, true, true,
-     true, true, true},
-    {"false || false",
-     BinaryPruneCondition::OR, false, false,
-     false, true, true},
-    {"false || true",
-     BinaryPruneCondition::OR, false, true,
-     true, true, true},
-    {"true || false",
-     BinaryPruneCondition::OR, true, false,
-     true, true, false},
-    {"true || true",
-     BinaryPruneCondition::OR, true, true,
-     true, true, false},
+      {"false && false",
+       BinaryPruneCondition::AND,
+       false,
+       false,
+       false,
+       true,
+       false},
+      {"false && true",
+       BinaryPruneCondition::AND,
+       false,
+       true,
+       false,
+       true,
+       false},
+      {"true && false",
+       BinaryPruneCondition::AND,
+       true,
+       false,
+       false,
+       true,
+       true},
+      {"true && true", BinaryPruneCondition::AND, true, true, true, true, true},
+      {"false || false",
+       BinaryPruneCondition::OR,
+       false,
+       false,
+       false,
+       true,
+       true},
+      {"false || true",
+       BinaryPruneCondition::OR,
+       false,
+       true,
+       true,
+       true,
+       true},
+      {"true || false",
+       BinaryPruneCondition::OR,
+       true,
+       false,
+       true,
+       true,
+       false},
+      {"true || true", BinaryPruneCondition::OR, true, true, true, true, false},
   };
   for (const auto& test : kTests) {
     SCOPED_TRACE(test.name);
@@ -213,18 +233,18 @@ TEST(PruneCrashReports, PruneOrder) {
     return base::RandInt(0, rand_max - 1);
   };
   std::random_shuffle(reports.begin(), reports.end(), random_generator);
-  std::vector<CrashReportDatabase::Report> pending_reports(
-      reports.begin(), reports.begin() + 5);
+  std::vector<CrashReportDatabase::Report> pending_reports(reports.begin(),
+                                                           reports.begin() + 5);
   std::vector<CrashReportDatabase::Report> completed_reports(
       reports.begin() + 5, reports.end());
 
   MockDatabase db;
-  EXPECT_CALL(db, GetPendingReports(_)).WillOnce(DoAll(
-      SetArgPointee<0>(pending_reports),
-      Return(CrashReportDatabase::kNoError)));
-  EXPECT_CALL(db, GetCompletedReports(_)).WillOnce(DoAll(
-      SetArgPointee<0>(completed_reports),
-      Return(CrashReportDatabase::kNoError)));
+  EXPECT_CALL(db, GetPendingReports(_))
+      .WillOnce(DoAll(SetArgPointee<0>(pending_reports),
+                      Return(CrashReportDatabase::kNoError)));
+  EXPECT_CALL(db, GetCompletedReports(_))
+      .WillOnce(DoAll(SetArgPointee<0>(completed_reports),
+                      Return(CrashReportDatabase::kNoError)));
   for (size_t i = 0; i < reports.size(); ++i) {
     EXPECT_CALL(db, DeleteReport(TestUUID(i)))
         .WillOnce(Return(CrashReportDatabase::kNoError));

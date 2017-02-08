@@ -82,7 +82,8 @@ class MachOImageSymbolTableReaderInitializer {
                             "dysymtab extdefsym %u + %u > symtab nsyms %u",
                             dysymtab_command->iextdefsym,
                             dysymtab_command->nextdefsym,
-                            symtab_command->nsyms) << module_info_;
+                            symtab_command->nsyms)
+                     << module_info_;
         return false;
       }
 
@@ -123,13 +124,14 @@ class MachOImageSymbolTableReaderInitializer {
             LOG(WARNING) << base::StringPrintf(
                                 "string at 0x%x out of bounds (0x%llx)",
                                 symbol.n_strx,
-                                strtab_size) << symbol_info;
+                                strtab_size)
+                         << symbol_info;
             return false;
           }
 
           if (!string_table) {
-            string_table = process_reader_->Memory()->ReadMapped(
-                strtab_address, strtab_size);
+            string_table = process_reader_->Memory()->ReadMapped(strtab_address,
+                                                                 strtab_size);
             if (!string_table) {
               LOG(WARNING) << "could not read string table" << module_info_;
               return false;
@@ -145,22 +147,25 @@ class MachOImageSymbolTableReaderInitializer {
           if (symbol_type == N_ABS && symbol.n_sect != NO_SECT) {
             LOG(WARNING) << base::StringPrintf("N_ABS symbol %s in section %u",
                                                name.c_str(),
-                                               symbol.n_sect) << symbol_info;
+                                               symbol.n_sect)
+                         << symbol_info;
             return false;
           }
 
           if (symbol_type == N_SECT && symbol.n_sect == NO_SECT) {
             LOG(WARNING) << base::StringPrintf(
                                 "N_SECT symbol %s in section NO_SECT",
-                                name.c_str()) << symbol_info;
+                                name.c_str())
+                         << symbol_info;
             return false;
           }
 
           MachOImageSymbolTableReader::SymbolInformation this_symbol_info;
           this_symbol_info.value = symbol.n_value;
           this_symbol_info.section = symbol.n_sect;
-          if (!external_defined_symbols->insert(
-                  std::make_pair(name, this_symbol_info)).second) {
+          if (!external_defined_symbols
+                   ->insert(std::make_pair(name, this_symbol_info))
+                   .second) {
             LOG(WARNING) << "duplicate symbol " << name << symbol_info;
             return false;
           }
@@ -222,7 +227,8 @@ class MachOImageSymbolTableReaderInitializer {
       LOG(WARNING) << base::StringPrintf("invalid %s range (0x%llx + 0x%llx)",
                                          tag,
                                          address,
-                                         size) << module_info_;
+                                         size)
+                   << module_info_;
       return false;
     }
 
@@ -234,7 +240,8 @@ class MachOImageSymbolTableReaderInitializer {
                           address,
                           size,
                           linkedit_range_.Base(),
-                          linkedit_range_.Size()) << module_info_;
+                          linkedit_range_.Size())
+                   << module_info_;
       return false;
     }
 
@@ -252,11 +259,9 @@ class MachOImageSymbolTableReaderInitializer {
 }  // namespace internal
 
 MachOImageSymbolTableReader::MachOImageSymbolTableReader()
-    : external_defined_symbols_(), initialized_() {
-}
+    : external_defined_symbols_(), initialized_() {}
 
-MachOImageSymbolTableReader::~MachOImageSymbolTableReader() {
-}
+MachOImageSymbolTableReader::~MachOImageSymbolTableReader() {}
 
 bool MachOImageSymbolTableReader::Initialize(
     ProcessReader* process_reader,
@@ -266,9 +271,8 @@ bool MachOImageSymbolTableReader::Initialize(
     const std::string& module_info) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  internal::MachOImageSymbolTableReaderInitializer initializer(process_reader,
-                                                               linkedit_segment,
-                                                               module_info);
+  internal::MachOImageSymbolTableReaderInitializer initializer(
+      process_reader, linkedit_segment, module_info);
   if (!initializer.Initialize(
           symtab_command, dysymtab_command, &external_defined_symbols_)) {
     return false;

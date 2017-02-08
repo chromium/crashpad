@@ -122,9 +122,7 @@ class TestProcessSnapshot final : public ProcessSnapshot {
   //! \brief Adds a handle snapshot to be returned by Handles().
   //!
   //! \param[in] handle The handle snapshot that will be included in Handles().
-  void AddHandle(const HandleSnapshot& handle) {
-    handles_.push_back(handle);
-  }
+  void AddHandle(const HandleSnapshot& handle) { handles_.push_back(handle); }
 
   //! \brief Add a memory snapshot to be returned by ExtraMemory().
   //!

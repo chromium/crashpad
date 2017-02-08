@@ -38,10 +38,7 @@ struct MultiprocessInfo {
 }  // namespace internal
 
 Multiprocess::Multiprocess()
-    : info_(nullptr),
-      code_(EXIT_SUCCESS),
-      reason_(kTerminationNormal) {
-}
+    : info_(nullptr), code_(EXIT_SUCCESS), reason_(kTerminationNormal) {}
 
 void Multiprocess::Run() {
   // Set up and spawn the child process.
@@ -98,8 +95,7 @@ void Multiprocess::RunChild() {
 }
 
 MultiprocessExec::MultiprocessExec()
-    : Multiprocess(), command_(), arguments_(), command_line_() {
-}
+    : Multiprocess(), command_(), arguments_(), command_line_() {}
 
 void MultiprocessExec::SetChildCommand(
     const std::string& command,
@@ -112,8 +108,7 @@ void MultiprocessExec::SetChildCommand(
   }
 }
 
-MultiprocessExec::~MultiprocessExec() {
-}
+MultiprocessExec::~MultiprocessExec() {}
 
 void MultiprocessExec::PreFork() {
   ASSERT_FALSE(command_.empty());

@@ -34,10 +34,7 @@ void AddLanguageAndNeutralSublanguage(std::vector<uint16_t>* languages,
 namespace crashpad {
 
 PEImageResourceReader::PEImageResourceReader()
-    : resources_subrange_reader_(),
-      module_base_(0),
-      initialized_() {
-}
+    : resources_subrange_reader_(), module_base_(0), initialized_() {}
 
 PEImageResourceReader::~PEImageResourceReader() {}
 

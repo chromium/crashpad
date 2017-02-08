@@ -28,8 +28,7 @@ TestThreadSnapshot::TestThreadSnapshot()
   context_.x86 = &context_union_.x86;
 }
 
-TestThreadSnapshot::~TestThreadSnapshot() {
-}
+TestThreadSnapshot::~TestThreadSnapshot() {}
 
 const CPUContext* TestThreadSnapshot::Context() const {
   return &context_;

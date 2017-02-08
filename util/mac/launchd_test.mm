@@ -153,8 +153,8 @@ TEST(Launchd, CFPropertyToLaunchData_Data) {
   @autoreleasepool {
     base::mac::ScopedLaunchData launch_data;
 
-    const uint8_t data_c[] = {
-        1, 2, 3, 4, 5, 6, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 9, 8, 7, 6, 5, 4, 3, 2};
+    const uint8_t data_c[] = {1, 2, 3, 4, 5, 6, 7, 8, 0, 0, 0, 0,
+                              0, 0, 0, 0, 9, 8, 7, 6, 5, 4, 3, 2};
     NSData* data_ns = [NSData dataWithBytes:data_c length:sizeof(data_c)];
     launch_data.reset(CFPropertyToLaunchData(data_ns));
     ASSERT_TRUE(launch_data.get());
@@ -191,7 +191,10 @@ TEST(Launchd, CFPropertyToLaunchData_Array) {
   @autoreleasepool {
     base::mac::ScopedLaunchData launch_data;
 
-    NSArray* array_ns = @[ @"element_1", @"element_2", ];
+    NSArray* array_ns = @[
+      @"element_1",
+      @"element_2",
+    ];
 
     launch_data.reset(CFPropertyToLaunchData(array_ns));
     ASSERT_TRUE(launch_data.get());
@@ -229,7 +232,11 @@ TEST(Launchd, CFPropertyToLaunchData_NSDate) {
     launch_data.reset(CFPropertyToLaunchData(date_dictionary));
     EXPECT_FALSE(launch_data.get());
 
-    NSArray* date_array = @[ @"string_1", date, @"string_2", ];
+    NSArray* date_array = @[
+      @"string_1",
+      date,
+      @"string_2",
+    ];
     launch_data.reset(CFPropertyToLaunchData(date_array));
     EXPECT_FALSE(launch_data.get());
   }
@@ -242,8 +249,11 @@ TEST(Launchd, CFPropertyToLaunchData_RealWorldJobDictionary) {
     NSDictionary* job_dictionary = @{
       @LAUNCH_JOBKEY_LABEL : @"com.example.job.rebooter",
       @LAUNCH_JOBKEY_ONDEMAND : @YES,
-      @LAUNCH_JOBKEY_PROGRAMARGUMENTS :
-          @[ @"/bin/bash", @"-c", @"/sbin/reboot", ],
+      @LAUNCH_JOBKEY_PROGRAMARGUMENTS : @[
+        @"/bin/bash",
+        @"-c",
+        @"/sbin/reboot",
+      ],
       @LAUNCH_JOBKEY_MACHSERVICES : @{
         @"com.example.service.rebooter" : @YES,
       },

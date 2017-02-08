@@ -250,7 +250,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     parent.AddChild(&child_1);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
     EXPECT_EQ(23u, string_file.string().size());
-    EXPECT_EQ(std::string("parent\0\0child_0\0child_1", 23), string_file.string());
+    EXPECT_EQ(std::string("parent\0\0child_0\0child_1", 23),
+              string_file.string());
     parent.Verify();
   }
 

@@ -27,8 +27,7 @@ namespace crashpad {
 MinidumpUnloadedModuleWriter::MinidumpUnloadedModuleWriter()
     : MinidumpWritable(), unloaded_module_(), name_() {}
 
-MinidumpUnloadedModuleWriter::~MinidumpUnloadedModuleWriter() {
-}
+MinidumpUnloadedModuleWriter::~MinidumpUnloadedModuleWriter() {}
 
 void MinidumpUnloadedModuleWriter::InitializeFromSnapshot(
     const UnloadedModuleSnapshot& unloaded_module_snapshot) {
@@ -115,8 +114,7 @@ MinidumpUnloadedModuleListWriter::MinidumpUnloadedModuleListWriter()
       unloaded_modules_(),
       unloaded_module_list_base_() {}
 
-MinidumpUnloadedModuleListWriter::~MinidumpUnloadedModuleListWriter() {
-}
+MinidumpUnloadedModuleListWriter::~MinidumpUnloadedModuleListWriter() {}
 
 void MinidumpUnloadedModuleListWriter::InitializeFromSnapshot(
     const std::vector<UnloadedModuleSnapshot>& unloaded_module_snapshots) {

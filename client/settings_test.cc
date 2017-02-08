@@ -48,9 +48,7 @@ class SettingsTest : public testing::Test {
 
  protected:
   // testing::Test:
-  void SetUp() override {
-    ASSERT_TRUE(settings()->Initialize());
-  }
+  void SetUp() override { ASSERT_TRUE(settings()->Initialize()); }
 
  private:
   ScopedTempDir temp_dir_;

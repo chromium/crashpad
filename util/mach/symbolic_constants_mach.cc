@@ -29,7 +29,9 @@ namespace {
 const char* kExceptionNames[] = {
     nullptr,
 
-    // sed -Ene 's/^#define[[:space:]]EXC_([[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
+    // sed -Ene
+    // 's/^#define[[:space:]]EXC_([[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/
+    // "\1",/p'
     //     /usr/include/mach/exception_types.h
     "BAD_ACCESS",
     "BAD_INSTRUCTION",
@@ -54,7 +56,9 @@ const char kExcMaskPrefix[] = "EXC_MASK_";
 const char* kBehaviorNames[] = {
     nullptr,
 
-    // sed -Ene 's/^# define[[:space:]]EXCEPTION_([[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
+    // sed -Ene 's/^#
+    // define[[:space:]]EXCEPTION_([[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/
+    // "\1",/p'
     //     /usr/include/mach/exception_types.h
     "DEFAULT",
     "STATE",
@@ -69,7 +73,8 @@ const char* kFlavorNames[] = {
     "THREAD_STATE_FLAVOR_LIST",
 
 #if defined(__i386__) || defined(__x86_64__)
-    // sed -Ene 's/^#define ((x86|THREAD)_[[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}.*$/    "\1",/p'
+    // sed -Ene 's/^#define
+    // ((x86|THREAD)_[[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}.*$/    "\1",/p'
     //     /usr/include/mach/i386/thread_status.h
     // and then fix up by adding x86_SAVED_STATE32 and x86_SAVED_STATE64.
     "x86_THREAD_STATE32",
@@ -91,7 +96,8 @@ const char* kFlavorNames[] = {
     "x86_AVX_STATE64",
     "x86_AVX_STATE",
 #elif defined(__ppc__) || defined(__ppc64__)
-    // sed -Ene 's/^#define ((PPC|THREAD)_[[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}.*$/    "\1",/p'
+    // sed -Ene 's/^#define
+    // ((PPC|THREAD)_[[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}.*$/    "\1",/p'
     //     usr/include/mach/ppc/thread_status.h
     // (Mac OS X 10.6 SDK)
     "PPC_THREAD_STATE",
@@ -102,7 +108,8 @@ const char* kFlavorNames[] = {
     "PPC_EXCEPTION_STATE64",
     "THREAD_STATE_NONE",
 #elif defined(__arm__) || defined(__arm64__)
-    // sed -Ene 's/^#define ((ARM|THREAD)_[[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}.*$/    "\1",/p'
+    // sed -Ene 's/^#define
+    // ((ARM|THREAD)_[[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}.*$/    "\1",/p'
     //     usr/include/mach/arm/thread_status.h
     // (iOS 7 SDK)
     // and then fix up by making the list sparse as appropriate.
@@ -148,7 +155,7 @@ std::string ThreadStateFlavorFullToShort(const base::StringPiece& flavor) {
     return std::string(flavor_data + prefix_len, flavor_len - prefix_len);
   }
 
-  // For architecture-specific flavors.
+// For architecture-specific flavors.
 #if defined(__i386__) || defined(__x86_64__)
   const char kArchPrefix[] = "x86_";
 #elif defined(__ppc__) || defined(__ppc64__)
@@ -166,12 +173,9 @@ std::string ThreadStateFlavorFullToShort(const base::StringPiece& flavor) {
       const char* orig;
       const char* repl;
     } kStateSuffixes[] = {
-        {"_STATE", ""},
-        {"_STATE32", "32"},
-        {"_STATE64", "64"},
+        {"_STATE", ""}, {"_STATE32", "32"}, {"_STATE64", "64"},
     };
-    for (size_t suffix_index = 0;
-         suffix_index < arraysize(kStateSuffixes);
+    for (size_t suffix_index = 0; suffix_index < arraysize(kStateSuffixes);
          ++suffix_index) {
       const char* suffix = kStateSuffixes[suffix_index].orig;
       size_t suffix_len = strlen(suffix);
@@ -250,8 +254,7 @@ std::string ExceptionMaskToString(exception_mask_t exception_mask,
   exception_mask_t local_exception_mask = exception_mask;
   std::string mask_string;
   bool has_forbidden_or = false;
-  for (size_t exception = 0;
-       exception < arraysize(kExceptionNames);
+  for (size_t exception = 0; exception < arraysize(kExceptionNames);
        ++exception) {
     const char* exception_name = kExceptionNames[exception];
     exception_mask_t exception_mask_value = 1 << exception;
@@ -378,8 +381,8 @@ std::string ExceptionBehaviorToString(exception_behavior_t behavior,
   if (options & kUseShortName) {
     behavior_string.assign(behavior_name);
   } else {
-    behavior_string.assign(base::StringPrintf(
-        "%s%s", kBehaviorPrefix, behavior_name));
+    behavior_string.assign(
+        base::StringPrintf("%s%s", kBehaviorPrefix, behavior_name));
   }
 
   if (ExceptionBehaviorHasMachExceptionCodes(behavior)) {

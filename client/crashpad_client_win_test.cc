@@ -95,13 +95,13 @@ void StartAndUseBrokenHandler(CrashpadClient* client) {
   base::FilePath handler_path = Paths::Executable().DirName().Append(
       FILE_PATH_LITERAL("fake_handler_that_crashes_at_startup.exe"));
   ASSERT_TRUE(client->StartHandler(handler_path,
-                                  temp_dir.path(),
-                                  base::FilePath(),
-                                  "",
-                                  std::map<std::string, std::string>(),
-                                  std::vector<std::string>(),
-                                  false,
-                                  true));
+                                   temp_dir.path(),
+                                   base::FilePath(),
+                                   "",
+                                   std::map<std::string, std::string>(),
+                                   std::vector<std::string>(),
+                                   false,
+                                   true));
 }
 
 class HandlerLaunchFailureCrash : public WinMultiprocess {

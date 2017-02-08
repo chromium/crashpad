@@ -59,8 +59,7 @@ struct MachMultiprocessInfo {
       : service_name(),
         local_port(MACH_PORT_NULL),
         remote_port(MACH_PORT_NULL),
-        child_task(TASK_NULL) {
-  }
+        child_task(TASK_NULL) {}
 
   std::string service_name;
   base::mac::ScopedMachReceiveRight local_port;
@@ -70,8 +69,7 @@ struct MachMultiprocessInfo {
 
 }  // namespace internal
 
-MachMultiprocess::MachMultiprocess() : Multiprocess(), info_(nullptr) {
-}
+MachMultiprocess::MachMultiprocess() : Multiprocess(), info_(nullptr) {}
 
 void MachMultiprocess::Run() {
   ASSERT_EQ(nullptr, info_);
@@ -83,8 +81,7 @@ void MachMultiprocess::Run() {
   return Multiprocess::Run();
 }
 
-MachMultiprocess::~MachMultiprocess() {
-}
+MachMultiprocess::~MachMultiprocess() {}
 
 void MachMultiprocess::PreFork() {
   ASSERT_NO_FATAL_FAILURE(Multiprocess::PreFork());
@@ -144,11 +141,11 @@ void MachMultiprocess::MultiprocessParent() {
             message.audit_trailer.msgh_trailer_size);
   EXPECT_EQ(0u, message.audit_trailer.msgh_seqno);
 
-  // Check the audit trailer’s values for sanity. This is a little bit of
-  // overkill, but because the service was registered with the bootstrap server
-  // and other processes will be able to look it up and send messages to it,
-  // these checks disambiguate genuine failures later on in the test from those
-  // that would occur if an errant process sends a message to this service.
+// Check the audit trailer’s values for sanity. This is a little bit of
+// overkill, but because the service was registered with the bootstrap server
+// and other processes will be able to look it up and send messages to it,
+// these checks disambiguate genuine failures later on in the test from those
+// that would occur if an errant process sends a message to this service.
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
   uid_t audit_auid;
   uid_t audit_euid;

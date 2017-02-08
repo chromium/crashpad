@@ -57,11 +57,9 @@ MachOImageReader::MachOImageReader()
       process_reader_(nullptr),
       file_type_(0),
       initialized_(),
-      symbol_table_initialized_() {
-}
+      symbol_table_initialized_() {}
 
-MachOImageReader::~MachOImageReader() {
-}
+MachOImageReader::~MachOImageReader() {}
 
 bool MachOImageReader::Initialize(ProcessReader* process_reader,
                                   mach_vm_address_t address,
@@ -85,7 +83,8 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
   const uint32_t kExpectedMagic = is_64_bit ? MH_MAGIC_64 : MH_MAGIC;
   if (mach_header.magic != kExpectedMagic) {
     LOG(WARNING) << base::StringPrintf("unexpected mach_header::magic 0x%08x",
-                                       mach_header.magic) << module_info_;
+                                       mach_header.magic)
+                 << module_info_;
     return false;
   }
 
@@ -99,7 +98,8 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
     default:
       LOG(WARNING) << base::StringPrintf(
                           "unexpected mach_header::filetype 0x%08x",
-                          mach_header.filetype) << module_info_;
+                          mach_header.filetype)
+                   << module_info_;
       return false;
   }
 
@@ -121,63 +121,63 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
     // True if the load command must not appear more than one time.
     bool singleton;
   } kLoadCommandReaders[] = {
-    {
-      &MachOImageReader::ReadSegmentCommand,
-      process_types::segment_command::ExpectedSize(process_reader),
-      kExpectedSegmentCommand,
-      false,
-    },
-    {
-      &MachOImageReader::ReadSymTabCommand,
-      process_types::symtab_command::ExpectedSize(process_reader),
-      LC_SYMTAB,
-      true,
-    },
-    {
-      &MachOImageReader::ReadDySymTabCommand,
-      process_types::symtab_command::ExpectedSize(process_reader),
-      LC_DYSYMTAB,
-      true,
-    },
-    {
-      &MachOImageReader::ReadIdDylibCommand,
-      process_types::dylib_command::ExpectedSize(process_reader),
-      LC_ID_DYLIB,
-      true,
-    },
-    {
-      &MachOImageReader::ReadDylinkerCommand,
-      process_types::dylinker_command::ExpectedSize(process_reader),
-      LC_LOAD_DYLINKER,
-      true,
-    },
-    {
-      &MachOImageReader::ReadDylinkerCommand,
-      process_types::dylinker_command::ExpectedSize(process_reader),
-      LC_ID_DYLINKER,
-      true,
-    },
-    {
-      &MachOImageReader::ReadUUIDCommand,
-      process_types::uuid_command::ExpectedSize(process_reader),
-      LC_UUID,
-      true,
-    },
-    {
-      &MachOImageReader::ReadSourceVersionCommand,
-      process_types::source_version_command::ExpectedSize(process_reader),
-      LC_SOURCE_VERSION,
-      true,
-    },
+      {
+          &MachOImageReader::ReadSegmentCommand,
+          process_types::segment_command::ExpectedSize(process_reader),
+          kExpectedSegmentCommand,
+          false,
+      },
+      {
+          &MachOImageReader::ReadSymTabCommand,
+          process_types::symtab_command::ExpectedSize(process_reader),
+          LC_SYMTAB,
+          true,
+      },
+      {
+          &MachOImageReader::ReadDySymTabCommand,
+          process_types::symtab_command::ExpectedSize(process_reader),
+          LC_DYSYMTAB,
+          true,
+      },
+      {
+          &MachOImageReader::ReadIdDylibCommand,
+          process_types::dylib_command::ExpectedSize(process_reader),
+          LC_ID_DYLIB,
+          true,
+      },
+      {
+          &MachOImageReader::ReadDylinkerCommand,
+          process_types::dylinker_command::ExpectedSize(process_reader),
+          LC_LOAD_DYLINKER,
+          true,
+      },
+      {
+          &MachOImageReader::ReadDylinkerCommand,
+          process_types::dylinker_command::ExpectedSize(process_reader),
+          LC_ID_DYLINKER,
+          true,
+      },
+      {
+          &MachOImageReader::ReadUUIDCommand,
+          process_types::uuid_command::ExpectedSize(process_reader),
+          LC_UUID,
+          true,
+      },
+      {
+          &MachOImageReader::ReadSourceVersionCommand,
+          process_types::source_version_command::ExpectedSize(process_reader),
+          LC_SOURCE_VERSION,
+          true,
+      },
 
-    // When reading a 64-bit process, no 32-bit segment commands should be
-    // present, and vice-versa.
-    {
-      &MachOImageReader::ReadUnexpectedCommand,
-      process_types::load_command::ExpectedSize(process_reader),
-      kUnexpectedSegmentCommand,
-      false,
-    },
+      // When reading a 64-bit process, no 32-bit segment commands should be
+      // present, and vice-versa.
+      {
+          &MachOImageReader::ReadUnexpectedCommand,
+          process_types::load_command::ExpectedSize(process_reader),
+          kUnexpectedSegmentCommand,
+          false,
+      },
   };
 
   // This vector is parallel to the kLoadCommandReaders array, and tracks
@@ -190,8 +190,7 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
   const mach_vm_address_t kLoadCommandAddressLimit =
       address + offset + mach_header.sizeofcmds;
 
-  for (uint32_t load_command_index = 0;
-       load_command_index < mach_header.ncmds;
+  for (uint32_t load_command_index = 0; load_command_index < mach_header.ncmds;
        ++load_command_index) {
     mach_vm_address_t load_command_address = address + offset;
     std::string load_command_info = base::StringPrintf(", load command %u/%u%s",
@@ -204,11 +203,12 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
     // Make sure that the basic load command structure doesn’t overflow the
     // space allotted for load commands.
     if (load_command_address + load_command.ExpectedSize(process_reader) >
-            kLoadCommandAddressLimit) {
+        kLoadCommandAddressLimit) {
       LOG(WARNING) << base::StringPrintf(
                           "load_command at 0x%llx exceeds sizeofcmds 0x%x",
                           load_command_address,
-                          mach_header.sizeofcmds) << load_command_info;
+                          mach_header.sizeofcmds)
+                   << load_command_info;
       return false;
     }
 
@@ -226,18 +226,18 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
     // Now that the load command’s stated size is known, make sure that it
     // doesn’t overflow the space allotted for load commands.
     if (load_command_address + load_command.cmdsize >
-            kLoadCommandAddressLimit) {
+        kLoadCommandAddressLimit) {
       LOG(WARNING)
           << base::StringPrintf(
                  "load_command at 0x%llx cmdsize 0x%x exceeds sizeofcmds 0x%x",
                  load_command_address,
                  load_command.cmdsize,
-                 mach_header.sizeofcmds) << load_command_info;
+                 mach_header.sizeofcmds)
+          << load_command_info;
       return false;
     }
 
-    for (size_t reader_index = 0;
-         reader_index < arraysize(kLoadCommandReaders);
+    for (size_t reader_index = 0; reader_index < arraysize(kLoadCommandReaders);
          ++reader_index) {
       if (load_command.cmd != kLoadCommandReaders[reader_index].command) {
         continue;
@@ -290,7 +290,8 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
                           "invalid slid segment range 0x%llx + 0x%llx, "
                           "segment ",
                           slid_segment_address,
-                          slid_segment_size) << segment->Name() << module_info_;
+                          slid_segment_size)
+                   << segment->Name() << module_info_;
       return false;
     }
   }
@@ -446,7 +447,8 @@ bool MachOImageReader::LookUpExternalDefinedSymbol(
                         slid_value,
                         section_name_full.c_str(),
                         section_address,
-                        section->size) << module_info_;
+                        section->size)
+                 << module_info_;
     return false;
   }
 
@@ -551,7 +553,8 @@ bool MachOImageReader::ReadSegmentCommand(
     LOG(WARNING) << base::StringPrintf("duplicate %s segment at %zu and %zu",
                                        segment_name.c_str(),
                                        insert_result.first->second,
-                                       segment_index) << load_command_info;
+                                       segment_index)
+                 << load_command_info;
     return false;
   }
 
@@ -567,7 +570,8 @@ bool MachOImageReader::ReadSegmentCommand(
     if (fileoff != 0) {
       LOG(WARNING) << base::StringPrintf(
                           SEG_TEXT " segment has unexpected fileoff 0x%llx",
-                          fileoff) << load_command_info;
+                          fileoff)
+                   << load_command_info;
       return false;
     }
 
@@ -608,7 +612,8 @@ bool MachOImageReader::ReadIdDylibCommand(
   if (file_type_ != MH_DYLIB) {
     LOG(WARNING) << base::StringPrintf(
                         "LC_ID_DYLIB inappropriate in non-dylib file type 0x%x",
-                        file_type_) << load_command_info;
+                        file_type_)
+                 << load_command_info;
     return false;
   }
 
@@ -627,7 +632,8 @@ bool MachOImageReader::ReadDylinkerCommand(
     LOG(WARNING) << base::StringPrintf(
                         "LC_LOAD_DYLINKER/LC_ID_DYLINKER inappropriate in file "
                         "type 0x%x",
-                        file_type_) << load_command_info;
+                        file_type_)
+                 << load_command_info;
     return false;
   }
 

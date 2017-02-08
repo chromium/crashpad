@@ -32,11 +32,9 @@ ThreadSnapshotWin::ThreadSnapshotWin()
       stack_(),
       teb_(),
       thread_(),
-      initialized_() {
-}
+      initialized_() {}
 
-ThreadSnapshotWin::~ThreadSnapshotWin() {
-}
+ThreadSnapshotWin::~ThreadSnapshotWin() {}
 
 bool ThreadSnapshotWin::Initialize(
     ProcessReaderWin* process_reader,

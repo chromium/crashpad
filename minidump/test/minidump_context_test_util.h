@@ -63,10 +63,12 @@ void InitializeMinidumpContextAMD64(MinidumpContextAMD64* context,
 //!     out when creating a minidump context structure from a CPUContext
 //!     structure.
 //! \{
-void ExpectMinidumpContextX86(
-    uint32_t expect_seed, const MinidumpContextX86* observed, bool snapshot);
-void ExpectMinidumpContextAMD64(
-    uint32_t expect_seed, const MinidumpContextAMD64* observed, bool snapshot);
+void ExpectMinidumpContextX86(uint32_t expect_seed,
+                              const MinidumpContextX86* observed,
+                              bool snapshot);
+void ExpectMinidumpContextAMD64(uint32_t expect_seed,
+                                const MinidumpContextAMD64* observed,
+                                bool snapshot);
 //! \}
 
 }  // namespace test

@@ -108,13 +108,9 @@ class CallRecordUploadAttempt {
  public:
   CallRecordUploadAttempt(CrashReportDatabase* database,
                           const CrashReportDatabase::Report* report)
-      : database_(database),
-        report_(report) {
-  }
+      : database_(database), report_(report) {}
 
-  ~CallRecordUploadAttempt() {
-    Fire();
-  }
+  ~CallRecordUploadAttempt() { Fire(); }
 
   void Fire() {
     if (report_) {
@@ -124,9 +120,7 @@ class CallRecordUploadAttempt {
     Disarm();
   }
 
-  void Disarm() {
-    report_ = nullptr;
-  }
+  void Disarm() { report_ = nullptr; }
 
  private:
   CrashReportDatabase* database_;  // weak
@@ -147,11 +141,9 @@ CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
       // processes to be recognized.
       thread_(15 * 60, this),
       database_(database),
-      rate_limit_(rate_limit) {
-}
+      rate_limit_(rate_limit) {}
 
-CrashReportUploadThread::~CrashReportUploadThread() {
-}
+CrashReportUploadThread::~CrashReportUploadThread() {}
 
 void CrashReportUploadThread::Start() {
   thread_.Start(0);

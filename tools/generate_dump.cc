@@ -55,15 +55,19 @@ struct Options {
 };
 
 void Usage(const base::FilePath& me) {
-  fprintf(stderr,
-"Usage: %" PRFilePath " [OPTION]... PID\n"
-"Generate a minidump file containing a snapshot of a running process.\n"
-"\n"
-"  -r, --no-suspend   don't suspend the target process during dump generation\n"
-"  -o, --output=FILE  write the minidump to FILE instead of minidump.PID\n"
-"      --help         display this help and exit\n"
-"      --version      output version information and exit\n",
-          me.value().c_str());
+  fprintf(
+      stderr,
+      "Usage: %" PRFilePath
+      " [OPTION]... PID\n"
+      "Generate a minidump file containing a snapshot of a running process.\n"
+      "\n"
+      "  -r, --no-suspend   don't suspend the target process during dump "
+      "generation\n"
+      "  -o, --output=FILE  write the minidump to FILE instead of "
+      "minidump.PID\n"
+      "      --help         display this help and exit\n"
+      "      --version      output version information and exit\n",
+      me.value().c_str());
   ToolSupport::UsageTail(me);
 }
 

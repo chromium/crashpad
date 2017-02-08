@@ -31,8 +31,7 @@ PEImageAnnotationsReader::PEImageAnnotationsReader(
     const std::wstring& name)
     : name_(name),
       process_reader_(process_reader),
-      pe_image_reader_(pe_image_reader) {
-}
+      pe_image_reader_(pe_image_reader) {}
 
 std::map<std::string, std::string> PEImageAnnotationsReader::SimpleMap() const {
   std::map<std::string, std::string> simple_map_annotations;
@@ -56,8 +55,8 @@ void PEImageAnnotationsReader::ReadCrashpadSimpleAnnotations(
   if (!crashpad_info.simple_annotations)
     return;
 
-  std::vector<SimpleStringDictionary::Entry>
-      simple_annotations(SimpleStringDictionary::num_entries);
+  std::vector<SimpleStringDictionary::Entry> simple_annotations(
+      SimpleStringDictionary::num_entries);
   if (!process_reader_->ReadMemory(
           crashpad_info.simple_annotations,
           simple_annotations.size() * sizeof(simple_annotations[0]),

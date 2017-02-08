@@ -46,12 +46,13 @@ void InitializeCPUContextX86Thread(
 }
 
 void InitializeCPUContextX86Float(
-    CPUContextX86* context, const x86_float_state32_t* x86_float_state32) {
+    CPUContextX86* context,
+    const x86_float_state32_t* x86_float_state32) {
   // This relies on both x86_float_state32_t and context->fxsave having
   // identical (fxsave) layout.
   static_assert(offsetof(x86_float_state32_t, __fpu_reserved1) -
-                         offsetof(x86_float_state32_t, __fpu_fcw) ==
-                     sizeof(context->fxsave),
+                        offsetof(x86_float_state32_t, __fpu_fcw) ==
+                    sizeof(context->fxsave),
                 "types must be equivalent");
 
   memcpy(
@@ -59,7 +60,8 @@ void InitializeCPUContextX86Float(
 }
 
 void InitializeCPUContextX86Debug(
-    CPUContextX86* context, const x86_debug_state32_t* x86_debug_state32) {
+    CPUContextX86* context,
+    const x86_debug_state32_t* x86_debug_state32) {
   context->dr0 = x86_debug_state32->__dr0;
   context->dr1 = x86_debug_state32->__dr1;
   context->dr2 = x86_debug_state32->__dr2;
@@ -201,7 +203,8 @@ thread_state_flavor_t InitializeCPUContextX86Flavor(
 }
 
 void InitializeCPUContextX86_64Thread(
-    CPUContextX86_64* context, const x86_thread_state64_t* x86_thread_state64) {
+    CPUContextX86_64* context,
+    const x86_thread_state64_t* x86_thread_state64) {
   context->rax = x86_thread_state64->__rax;
   context->rbx = x86_thread_state64->__rbx;
   context->rcx = x86_thread_state64->__rcx;
@@ -226,21 +229,22 @@ void InitializeCPUContextX86_64Thread(
 }
 
 void InitializeCPUContextX86_64Float(
-    CPUContextX86_64* context, const x86_float_state64_t* x86_float_state64) {
+    CPUContextX86_64* context,
+    const x86_float_state64_t* x86_float_state64) {
   // This relies on both x86_float_state64_t and context->fxsave having
   // identical (fxsave) layout.
   static_assert(offsetof(x86_float_state64_t, __fpu_reserved1) -
-                         offsetof(x86_float_state64_t, __fpu_fcw) ==
-                     sizeof(context->fxsave),
+                        offsetof(x86_float_state64_t, __fpu_fcw) ==
+                    sizeof(context->fxsave),
                 "types must be equivalent");
 
-  memcpy(&context->fxsave,
-         &x86_float_state64->__fpu_fcw,
-         sizeof(context->fxsave));
+  memcpy(
+      &context->fxsave, &x86_float_state64->__fpu_fcw, sizeof(context->fxsave));
 }
 
 void InitializeCPUContextX86_64Debug(
-    CPUContextX86_64* context, const x86_debug_state64_t* x86_debug_state64) {
+    CPUContextX86_64* context,
+    const x86_debug_state64_t* x86_debug_state64) {
   context->dr0 = x86_debug_state64->__dr0;
   context->dr1 = x86_debug_state64->__dr1;
   context->dr2 = x86_debug_state64->__dr2;

@@ -47,8 +47,8 @@ namespace {
 CRITICAL_SECTION g_test_critical_section;
 
 unsigned char g_test_memory[] = {
-  99, 98, 97, 96, 95, 94, 93, 92, 91, 90,
-  89, 88, 87, 86, 85, 84, 83, 82, 81, 80,
+    99, 98, 97, 96, 95, 94, 93, 92, 91, 90,
+    89, 88, 87, 86, 85, 84, 83, 82, 81, 80,
 };
 
 ULONG RtlNtStatusToDosError(NTSTATUS status) {
@@ -64,19 +64,19 @@ void AllocateMemoryOfVariousProtections() {
   const size_t kPageSize = system_info.dwPageSize;
 
   const uint32_t kPageTypes[] = {
-    PAGE_NOACCESS,
-    PAGE_READONLY,
-    PAGE_READWRITE,
-    PAGE_EXECUTE,
-    PAGE_EXECUTE_READ,
-    PAGE_EXECUTE_READWRITE,
+      PAGE_NOACCESS,
+      PAGE_READONLY,
+      PAGE_READWRITE,
+      PAGE_EXECUTE,
+      PAGE_EXECUTE_READ,
+      PAGE_EXECUTE_READWRITE,
 
-    // PAGE_NOACCESS is invalid with PAGE_GUARD.
-    PAGE_READONLY | PAGE_GUARD,
-    PAGE_READWRITE | PAGE_GUARD,
-    PAGE_EXECUTE | PAGE_GUARD,
-    PAGE_EXECUTE_READ | PAGE_GUARD,
-    PAGE_EXECUTE_READWRITE | PAGE_GUARD,
+      // PAGE_NOACCESS is invalid with PAGE_GUARD.
+      PAGE_READONLY | PAGE_GUARD,
+      PAGE_READWRITE | PAGE_GUARD,
+      PAGE_EXECUTE | PAGE_GUARD,
+      PAGE_EXECUTE_READ | PAGE_GUARD,
+      PAGE_EXECUTE_READWRITE | PAGE_GUARD,
   };
 
   // All of these allocations are leaked, we want to view them in windbg via

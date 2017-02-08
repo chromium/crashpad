@@ -21,15 +21,9 @@
 namespace crashpad {
 
 HTTPTransport::HTTPTransport()
-    : url_(),
-      method_("POST"),
-      headers_(),
-      body_stream_(),
-      timeout_(15.0) {
-}
+    : url_(), method_("POST"), headers_(), body_stream_(), timeout_(15.0) {}
 
-HTTPTransport::~HTTPTransport() {
-}
+HTTPTransport::~HTTPTransport() {}
 
 void HTTPTransport::SetURL(const std::string& url) {
   url_ = url;

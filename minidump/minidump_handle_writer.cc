@@ -24,8 +24,7 @@
 namespace crashpad {
 
 MinidumpHandleDataWriter::MinidumpHandleDataWriter()
-    : handle_data_stream_base_(), handle_descriptors_(), strings_() {
-}
+    : handle_data_stream_base_(), handle_descriptors_(), strings_() {}
 
 MinidumpHandleDataWriter::~MinidumpHandleDataWriter() {
   for (auto& item : strings_)

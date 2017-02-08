@@ -77,8 +77,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
           client_reply_port_type(kReplyPortNormal),
           client_expect_reply(true),
           child_send_all_requests_before_receiving_any_replies(false),
-          child_wait_for_parent_pipe_late(false) {
-    }
+          child_wait_for_parent_pipe_late(false) {}
 
     // true if MachMessageServerFunction() is expected to be called.
     bool expect_server_interface_method_called;
@@ -177,8 +176,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
         MachMultiprocess(),
         options_(options),
         child_complex_message_port_(),
-        parent_complex_message_port_(MACH_PORT_NULL) {
-  }
+        parent_complex_message_port_(MACH_PORT_NULL) {}
 
   // Runs the test.
   void Test() {
@@ -401,8 +399,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       EXPECT_EQ('\0', c);
     }
 
-    for (size_t index = 0;
-         index < options_.client_send_request_count;
+    for (size_t index = 0; index < options_.client_send_request_count;
          ++index) {
       if (options_.child_send_all_requests_before_receiving_any_replies) {
         // For this test, all of the messages need to go into the queue before
@@ -422,8 +419,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       // it’s safe to begin processing them, and then wait for the replies.
       ASSERT_NO_FATAL_FAILURE(ChildNotifyParentViaPipe());
 
-      for (size_t index = 0;
-           index < options_.client_send_request_count;
+      for (size_t index = 0; index < options_.client_send_request_count;
            ++index) {
         ASSERT_NO_FATAL_FAILURE(ChildWaitForReply());
       }
@@ -452,8 +448,9 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     request.header.msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND) |
         (options_.client_send_complex ? MACH_MSGH_BITS_COMPLEX : 0);
-    request.header.msgh_size = options_.client_send_large ?
-        sizeof(LargeRequestMessage) : sizeof(RequestMessage);
+    request.header.msgh_size = options_.client_send_large
+                                   ? sizeof(LargeRequestMessage)
+                                   : sizeof(RequestMessage);
     request.header.msgh_remote_port = RemotePort();
     kern_return_t kr;
     switch (options_.client_reply_port_type) {
@@ -532,7 +529,8 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     ASSERT_EQ(MACH_MSG_SUCCESS, kr) << MachErrorMessage(kr, "mach_msg");
 
     ASSERT_EQ(implicit_cast<mach_msg_bits_t>(
-        MACH_MSGH_BITS(0, MACH_MSG_TYPE_MOVE_SEND)), reply.Head.msgh_bits);
+                  MACH_MSGH_BITS(0, MACH_MSG_TYPE_MOVE_SEND)),
+              reply.Head.msgh_bits);
     ASSERT_EQ(sizeof(ReplyMessage), reply.Head.msgh_size);
     ASSERT_EQ(kMachPortNull, reply.Head.msgh_remote_port);
     ASSERT_EQ(LocalPort(), reply.Head.msgh_local_port);

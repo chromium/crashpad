@@ -127,15 +127,15 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
     *specific_size = Size();
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...) \
-    Assign(&generic->member_name, member_name);
+  Assign(&generic->member_name, member_name);
 
 #define PROCESS_TYPE_STRUCT_VERSIONED(struct_name, version_field)
 
 #define PROCESS_TYPE_STRUCT_END(struct_name) \
   }                                          \
-  }  /* namespace internal */                \
-  }  /* namespace process_types */           \
-  }  /* namespace crashpad */
+  } /* namespace internal */                 \
+  } /* namespace process_types */            \
+  } /* namespace crashpad */
 
 #include "snapshot/mac/process_types/all.proctype"
 
@@ -166,9 +166,9 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
     return process_reader->Memory()->Read(                            \
         address, sizeof(*specific), specific);                        \
   }                                                                   \
-  }  /* namespace internal */                                         \
-  }  /* namespace process_types */                                    \
-  }  /* namespace crashpad */
+  } /* namespace internal */                                          \
+  } /* namespace process_types */                                     \
+  } /* namespace crashpad */
 
 #define PROCESS_TYPE_STRUCT_MEMBER(member_type, member_name, ...)
 
@@ -287,8 +287,8 @@ inline void Assign<UInt64Array4, UInt32Array4>(UInt64Array4* destination,
     }                                                             \
   }                                                               \
                                                                   \
-  }  /* namespace process_types */                                \
-  }  /* namespace crashpad */
+  } /* namespace process_types */                                 \
+  } /* namespace crashpad */
 
 #define PROCESS_TYPE_STRUCT_END(struct_name)
 

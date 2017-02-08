@@ -22,10 +22,8 @@ HandleSnapshot::HandleSnapshot()
       attributes(0),
       granted_access(0),
       pointer_count(0),
-      handle_count(0) {
-}
+      handle_count(0) {}
 
-HandleSnapshot::~HandleSnapshot() {
-}
+HandleSnapshot::~HandleSnapshot() {}
 
 }  // namespace crashpad

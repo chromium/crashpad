@@ -20,13 +20,9 @@
 namespace crashpad {
 
 ProcessSubrangeReader::ProcessSubrangeReader()
-    : name_(),
-      range_(),
-      process_reader_(nullptr) {
-}
+    : name_(), range_(), process_reader_(nullptr) {}
 
-ProcessSubrangeReader::~ProcessSubrangeReader() {
-}
+ProcessSubrangeReader::~ProcessSubrangeReader() {}
 
 bool ProcessSubrangeReader::Initialize(ProcessReaderWin* process_reader,
                                        WinVMAddress base,

@@ -29,8 +29,7 @@ MemoryMapRegionSnapshotWin::MemoryMapRegionSnapshotWin(
   memory_info_.Type = mbi.Type;
 }
 
-MemoryMapRegionSnapshotWin::~MemoryMapRegionSnapshotWin() {
-}
+MemoryMapRegionSnapshotWin::~MemoryMapRegionSnapshotWin() {}
 
 const MINIDUMP_MEMORY_INFO& MemoryMapRegionSnapshotWin::AsMinidumpMemoryInfo()
     const {

@@ -40,7 +40,7 @@ namespace crashpad {
 
 namespace {
 
-decltype(GetNamedPipeClientProcessId)* GetNamedPipeClientProcessIdFunction() {
+decltype(GetNamedPipeClientProcessId) * GetNamedPipeClientProcessIdFunction() {
   static const auto get_named_pipe_client_process_id =
       GET_FUNCTION(L"kernel32.dll", ::GetNamedPipeClientProcessId);
   return get_named_pipe_client_process_id;
@@ -238,8 +238,7 @@ class ClientData {
 
 }  // namespace internal
 
-ExceptionHandlerServer::Delegate::~Delegate() {
-}
+ExceptionHandlerServer::Delegate::~Delegate() {}
 
 ExceptionHandlerServer::ExceptionHandlerServer(bool persistent)
     : pipe_name_(),
@@ -247,11 +246,9 @@ ExceptionHandlerServer::ExceptionHandlerServer(bool persistent)
       first_pipe_instance_(),
       clients_lock_(),
       clients_(),
-      persistent_(persistent) {
-}
+      persistent_(persistent) {}
 
-ExceptionHandlerServer::~ExceptionHandlerServer() {
-}
+ExceptionHandlerServer::~ExceptionHandlerServer() {}
 
 void ExceptionHandlerServer::SetPipeName(const std::wstring& pipe_name) {
   DCHECK(pipe_name_.empty());
@@ -318,13 +315,8 @@ void ExceptionHandlerServer::Run(Delegate* delegate) {
     // Ownership of this object (and the pipe instance) is given to the new
     // thread. We close the thread handles at the end of the scope. They clean
     // up the context object and the pipe instance on termination.
-    internal::PipeServiceContext* context =
-        new internal::PipeServiceContext(port_.get(),
-                                         pipe,
-                                         delegate,
-                                         &clients_lock_,
-                                         &clients_,
-                                         shutdown_token);
+    internal::PipeServiceContext* context = new internal::PipeServiceContext(
+        port_.get(), pipe, delegate, &clients_lock_, &clients_, shutdown_token);
     thread_handles[i].reset(
         CreateThread(nullptr, 0, &PipeServiceProc, context, 0, nullptr));
     PCHECK(thread_handles[i].is_valid()) << "CreateThread";
@@ -496,15 +488,14 @@ bool ExceptionHandlerServer::ServiceClientConnection(
 
   // Duplicate the events back to the client so they can request a dump.
   ServerToClientMessage response;
-  response.registration.request_crash_dump_event =
-      HandleToInt(DuplicateEvent(
-          client->process(), client->crash_dump_requested_event()));
+  response.registration.request_crash_dump_event = HandleToInt(
+      DuplicateEvent(client->process(), client->crash_dump_requested_event()));
   response.registration.request_non_crash_dump_event =
-      HandleToInt(DuplicateEvent(
-          client->process(), client->non_crash_dump_requested_event()));
+      HandleToInt(DuplicateEvent(client->process(),
+                                 client->non_crash_dump_requested_event()));
   response.registration.non_crash_dump_completed_event =
-      HandleToInt(DuplicateEvent(
-          client->process(), client->non_crash_dump_completed_event()));
+      HandleToInt(DuplicateEvent(client->process(),
+                                 client->non_crash_dump_completed_event()));
 
   if (!LoggingWriteFile(service_context.pipe(), &response, sizeof(response)))
     return false;

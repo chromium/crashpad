@@ -18,9 +18,7 @@ namespace {
 
 class CrashyClass {
  public:
-  CrashyClass() {
-    __builtin_trap();
-  }
+  CrashyClass() { __builtin_trap(); }
 };
 
 // __attribute__((used)) keeps the dead code stripper away.

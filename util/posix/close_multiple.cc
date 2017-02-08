@@ -185,10 +185,10 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   max_fd = std::max(max_fd, OPEN_MAX);
 #endif
 
-  // Consult a sysctl to determine the system-wide limit on the maximum number
-  // of open files per process. Note that it is possible to change this limit
-  // while the system is running, but it’s still a better upper bound than the
-  // current RLIMIT_NOFILE value.
+// Consult a sysctl to determine the system-wide limit on the maximum number
+// of open files per process. Note that it is possible to change this limit
+// while the system is running, but it’s still a better upper bound than the
+// current RLIMIT_NOFILE value.
 
 #if defined(OS_MACOSX)
   // See 10.11.6 xnu-3248.60.10/bsd/kern/kern_resource.c maxfilesperproc,

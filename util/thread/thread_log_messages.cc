@@ -78,8 +78,8 @@ class ThreadLogMessagesMaster {
 };
 
 // static
-base::ThreadLocalStorage::StaticSlot ThreadLogMessagesMaster::tls_
-    = TLS_INITIALIZER;
+base::ThreadLocalStorage::StaticSlot ThreadLogMessagesMaster::tls_ =
+    TLS_INITIALIZER;
 
 }  // namespace
 

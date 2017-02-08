@@ -118,8 +118,11 @@ TEST(ServiceManagement, SubmitRemoveJob) {
     NSDictionary* job_dictionary_ns = @{
       @LAUNCH_JOBKEY_LABEL : @"org.chromium.crashpad.test.service_management",
       @LAUNCH_JOBKEY_RUNATLOAD : @YES,
-      @LAUNCH_JOBKEY_PROGRAMARGUMENTS :
-          @[ @"/bin/sh", @"-c", shell_script_ns, ],
+      @LAUNCH_JOBKEY_PROGRAMARGUMENTS : @[
+        @"/bin/sh",
+        @"-c",
+        shell_script_ns,
+      ],
     };
     CFDictionaryRef job_dictionary_cf =
         base::mac::NSToCFCast(job_dictionary_ns);

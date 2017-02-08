@@ -243,10 +243,8 @@ TEST(MinidumpExceptionWriter, InitializeFromSnapshot) {
   ASSERT_NO_FATAL_FAILURE(GetExceptionStream(string_file.string(), &exception));
 
   const MinidumpContextX86* observed_context = nullptr;
-  ASSERT_NO_FATAL_FAILURE(ExpectExceptionStream(&expect_exception,
-                                                exception,
-                                                string_file.string(),
-                                                &observed_context));
+  ASSERT_NO_FATAL_FAILURE(ExpectExceptionStream(
+      &expect_exception, exception, string_file.string(), &observed_context));
 
   ASSERT_NO_FATAL_FAILURE(
       ExpectMinidumpContextX86(kSeed, observed_context, true));

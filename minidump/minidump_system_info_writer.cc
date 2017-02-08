@@ -89,10 +89,10 @@ uint64_t AMD64FeaturesFromSystemSnapshot(
     minidump_features |= ADD_FEATURE(PF_SSE_DAZ_MODE_AVAILABLE);
   }
 
-  // PF_SECOND_LEVEL_ADDRESS_TRANSLATION can’t be determined without consulting
-  // model-specific registers, a privileged operation. The exact use of
-  // PF_VIRT_FIRMWARE_ENABLED is unknown. PF_FASTFAIL_AVAILABLE is irrelevant
-  // outside of Windows.
+// PF_SECOND_LEVEL_ADDRESS_TRANSLATION can’t be determined without consulting
+// model-specific registers, a privileged operation. The exact use of
+// PF_VIRT_FIRMWARE_ENABLED is unknown. PF_FASTFAIL_AVAILABLE is irrelevant
+// outside of Windows.
 
 #undef MAP_FEATURE
 #undef ADD_FEATURE
@@ -107,8 +107,7 @@ MinidumpSystemInfoWriter::MinidumpSystemInfoWriter()
   system_info_.ProcessorArchitecture = kMinidumpCPUArchitectureUnknown;
 }
 
-MinidumpSystemInfoWriter::~MinidumpSystemInfoWriter() {
-}
+MinidumpSystemInfoWriter::~MinidumpSystemInfoWriter() {}
 
 void MinidumpSystemInfoWriter::InitializeFromSnapshot(
     const SystemSnapshot* system_snapshot) {
@@ -145,8 +144,8 @@ void MinidumpSystemInfoWriter::InitializeFromSnapshot(
                                 system_snapshot->CPUX86Features() & 0xffffffff);
 
     if (cpu_vendor == "AuthenticAMD") {
-      SetCPUX86AMDExtendedFeatures(
-          system_snapshot->CPUX86ExtendedFeatures() & 0xffffffff);
+      SetCPUX86AMDExtendedFeatures(system_snapshot->CPUX86ExtendedFeatures() &
+                                   0xffffffff);
     }
   } else if (cpu_architecture == kMinidumpCPUArchitectureAMD64) {
     SetCPUOtherFeatures(AMD64FeaturesFromSystemSnapshot(system_snapshot), 0);

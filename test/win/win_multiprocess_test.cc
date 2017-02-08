@@ -30,9 +30,7 @@ class TestWinMultiprocess final : public WinMultiprocess {
   // WinMultiprocess will have already exercised the pipes.
   void WinMultiprocessParent() override { SetExpectedChildExitCode(ExitCode); }
 
-  void WinMultiprocessChild() override {
-    exit(ExitCode);
-  }
+  void WinMultiprocessChild() override { exit(ExitCode); }
 
   DISALLOW_COPY_AND_ASSIGN(TestWinMultiprocess);
 };
@@ -43,9 +41,7 @@ class TestWinMultiprocessChildAsserts final : public WinMultiprocess {
 
  private:
   void WinMultiprocessParent() override { SetExpectedChildExitCode(255); }
-  void WinMultiprocessChild() override {
-    ASSERT_FALSE(true);
-  }
+  void WinMultiprocessChild() override { ASSERT_FALSE(true); }
 
   DISALLOW_COPY_AND_ASSIGN(TestWinMultiprocessChildAsserts);
 };
@@ -56,9 +52,7 @@ class TestWinMultiprocessChildExpects final : public WinMultiprocess {
 
  private:
   void WinMultiprocessParent() override { SetExpectedChildExitCode(255); }
-  void WinMultiprocessChild() override {
-    EXPECT_FALSE(true);
-  }
+  void WinMultiprocessChild() override { EXPECT_FALSE(true); }
 
   DISALLOW_COPY_AND_ASSIGN(TestWinMultiprocessChildExpects);
 };

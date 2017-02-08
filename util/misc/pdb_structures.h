@@ -91,12 +91,7 @@ struct CodeViewRecordPDB70 {
   // UUID has a constructor, which makes it non-POD, which makes this structure
   // non-POD. In order for the default constructor to zero-initialize other
   // members, an explicit constructor must be provided.
-  CodeViewRecordPDB70()
-      : signature(),
-        uuid(),
-        age(),
-        pdb_name() {
-  }
+  CodeViewRecordPDB70() : signature(), uuid(), age(), pdb_name() {}
 
   //! \brief The magic number identifying this structure version, stored in
   //!     #signature.

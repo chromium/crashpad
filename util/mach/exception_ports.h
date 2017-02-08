@@ -184,19 +184,19 @@ class ExceptionPorts {
   const char* TargetTypeName() const;
 
  private:
-  using GetExceptionPortsType = kern_return_t(*)(mach_port_t,
-                                                 exception_mask_t,
-                                                 exception_mask_array_t,
-                                                 mach_msg_type_number_t*,
-                                                 exception_handler_array_t,
-                                                 exception_behavior_array_t,
-                                                 exception_flavor_array_t);
+  using GetExceptionPortsType = kern_return_t (*)(mach_port_t,
+                                                  exception_mask_t,
+                                                  exception_mask_array_t,
+                                                  mach_msg_type_number_t*,
+                                                  exception_handler_array_t,
+                                                  exception_behavior_array_t,
+                                                  exception_flavor_array_t);
 
-  using SetExceptionPortsType = kern_return_t(*)(mach_port_t,
-                                                 exception_mask_t,
-                                                 exception_handler_t,
-                                                 exception_behavior_t,
-                                                 thread_state_flavor_t);
+  using SetExceptionPortsType = kern_return_t (*)(mach_port_t,
+                                                  exception_mask_t,
+                                                  exception_handler_t,
+                                                  exception_behavior_t,
+                                                  thread_state_flavor_t);
 
   GetExceptionPortsType get_exception_ports_;
   SetExceptionPortsType set_exception_ports_;

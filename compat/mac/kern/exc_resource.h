@@ -15,7 +15,7 @@
 #ifndef CRASHPAD_COMPAT_MAC_KERN_EXC_RESOURCE_H_
 #define CRASHPAD_COMPAT_MAC_KERN_EXC_RESOURCE_H_
 
-#if __has_include_next(<kern/exc_resource.h>)
+#if __has_include_next(<kern / exc_resource.h>)
 #include_next <kern/exc_resource.h>
 #endif
 

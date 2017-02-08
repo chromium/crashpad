@@ -97,9 +97,9 @@ namespace internal {
 // format, and add the OS that wrote the minidump along with any relevant
 // platform-specific data describing the compilation environment.
 std::string MinidumpMiscInfoDebugBuildString() {
-  // Caution: the minidump file format only has room for 39 UTF-16 code units
-  // plus a UTF-16 NUL terminator. Don’t let strings get longer than this, or
-  // they will be truncated and a message will be logged.
+// Caution: the minidump file format only has room for 39 UTF-16 code units
+// plus a UTF-16 NUL terminator. Don’t let strings get longer than this, or
+// they will be truncated and a message will be logged.
 #if defined(OS_MACOSX)
   const char kOS[] = "mac";
 #elif defined(OS_ANDROID)
@@ -124,11 +124,8 @@ std::string MinidumpMiscInfoDebugBuildString() {
 #error define kCPU for this CPU
 #endif
 
-  std::string debug_build_string = base::StringPrintf("%s.%s,%s,%s",
-                                                      PACKAGE_TARNAME,
-                                                      kCPU,
-                                                      PACKAGE_VERSION,
-                                                      kOS);
+  std::string debug_build_string = base::StringPrintf(
+      "%s.%s,%s,%s", PACKAGE_TARNAME, kCPU, PACKAGE_VERSION, kOS);
 
 #if defined(OS_MACOSX)
   debug_build_string += base::StringPrintf(
@@ -145,11 +142,9 @@ std::string MinidumpMiscInfoDebugBuildString() {
 }  // namespace internal
 
 MinidumpMiscInfoWriter::MinidumpMiscInfoWriter()
-    : MinidumpStreamWriter(), misc_info_() {
-}
+    : MinidumpStreamWriter(), misc_info_() {}
 
-MinidumpMiscInfoWriter::~MinidumpMiscInfoWriter() {
-}
+MinidumpMiscInfoWriter::~MinidumpMiscInfoWriter() {}
 
 void MinidumpMiscInfoWriter::InitializeFromSnapshot(
     const ProcessSnapshot* process_snapshot) {

@@ -34,11 +34,9 @@ ModuleSnapshotMac::ModuleSnapshotMac()
       timestamp_(0),
       mach_o_image_reader_(nullptr),
       process_reader_(nullptr),
-      initialized_() {
-}
+      initialized_() {}
 
-ModuleSnapshotMac::~ModuleSnapshotMac() {
-}
+ModuleSnapshotMac::~ModuleSnapshotMac() {}
 
 bool ModuleSnapshotMac::Initialize(
     ProcessReader* process_reader,

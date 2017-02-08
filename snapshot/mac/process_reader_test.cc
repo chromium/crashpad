@@ -168,8 +168,7 @@ class TestThreadPool {
     int suspend_count;
   };
 
-  TestThreadPool() : thread_infos_() {
-  }
+  TestThreadPool() : thread_infos_() {}
 
   // Resumes suspended threads, signals each thread’s exit semaphore asking it
   // to exit, and joins each thread, blocking until they have all exited.
@@ -203,10 +202,8 @@ class TestThreadPool {
       ThreadInfo* thread_info = new ThreadInfo();
       thread_infos_.push_back(thread_info);
 
-      int rv = pthread_create(&thread_info->pthread,
-                              nullptr,
-                              ThreadMain,
-                              thread_info);
+      int rv = pthread_create(
+          &thread_info->pthread, nullptr, ThreadMain, thread_info);
       ASSERT_EQ(0, rv);
     }
 
@@ -221,8 +218,7 @@ class TestThreadPool {
          ++thread_index) {
       thread_t thread_port =
           pthread_mach_thread_np(thread_infos_[thread_index]->pthread);
-      for (size_t suspend_count = 0;
-           suspend_count < thread_index;
+      for (size_t suspend_count = 0; suspend_count < thread_index;
            ++suspend_count) {
         kern_return_t kr = thread_suspend(thread_port);
         EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "thread_suspend");
@@ -233,8 +229,7 @@ class TestThreadPool {
     }
   }
 
-  uint64_t GetThreadInfo(size_t thread_index,
-                         ThreadExpectation* expectation) {
+  uint64_t GetThreadInfo(size_t thread_index, ThreadExpectation* expectation) {
     CHECK_LT(thread_index, thread_infos_.size());
 
     const ThreadInfo* thread_info = thread_infos_[thread_index];
@@ -251,8 +246,7 @@ class TestThreadPool {
           stack_address(0),
           ready_semaphore(0),
           exit_semaphore(0),
-          suspend_count(0) {
-    }
+          suspend_count(0) {}
 
     ~ThreadInfo() {}
 
@@ -347,8 +341,7 @@ void ExpectSeveralThreads(ThreadMap* thread_map,
     // with any other thread’s. Each thread should have a unique value for its
     // ID and port, and each should have its own stack that doesn’t touch any
     // other thread’s stack.
-    for (size_t other_thread_index = 0;
-         other_thread_index < threads.size();
+    for (size_t other_thread_index = 0; other_thread_index < threads.size();
          ++other_thread_index) {
       if (thread_index == other_thread_index) {
         continue;
@@ -361,12 +354,12 @@ void ExpectSeveralThreads(ThreadMap* thread_map,
 
       mach_vm_address_t other_thread_stack_region_end =
           other_thread.stack_region_address + other_thread.stack_region_size;
-      EXPECT_FALSE(
-          thread.stack_region_address >= other_thread.stack_region_address &&
-          thread.stack_region_address < other_thread_stack_region_end);
-      EXPECT_FALSE(
-          thread_stack_region_end > other_thread.stack_region_address &&
-          thread_stack_region_end <= other_thread_stack_region_end);
+      EXPECT_FALSE(thread.stack_region_address >=
+                       other_thread.stack_region_address &&
+                   thread.stack_region_address < other_thread_stack_region_end);
+      EXPECT_FALSE(thread_stack_region_end >
+                       other_thread.stack_region_address &&
+                   thread_stack_region_end <= other_thread_stack_region_end);
     }
   }
 
@@ -427,9 +420,7 @@ TEST(ProcessReader, SelfSeveralThreads) {
 class ProcessReaderThreadedChild final : public MachMultiprocess {
  public:
   explicit ProcessReaderThreadedChild(size_t thread_count)
-      : MachMultiprocess(),
-        thread_count_(thread_count) {
-  }
+      : MachMultiprocess(), thread_count_(thread_count) {}
 
   ~ProcessReaderThreadedChild() {}
 
@@ -444,8 +435,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
     // addresses that should lie somewhere within each thread’s stack as values.
     // These IDs and addresses all come from the child process via the pipe.
     ThreadMap thread_map;
-    for (size_t thread_index = 0;
-         thread_index < thread_count_ + 1;
+    for (size_t thread_index = 0; thread_index < thread_count_ + 1;
          ++thread_index) {
       uint64_t thread_id;
       CheckedReadFile(read_handle, &thread_id, sizeof(thread_id));
@@ -464,7 +454,8 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
       thread_map[thread_id] = expectation;
     }
 
-    const std::vector<ProcessReader::Thread>& threads = process_reader.Threads();
+    const std::vector<ProcessReader::Thread>& threads =
+        process_reader.Threads();
 
     // The child shouldn’t have any threads other than its main thread and the
     // ones it created in its pool, so pass false for |tolerate_extra_threads|.
@@ -495,8 +486,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
                      sizeof(expectation.suspend_count));
 
     // Write an entry for everything in the thread pool.
-    for (size_t thread_index = 0;
-         thread_index < thread_count_;
+    for (size_t thread_index = 0; thread_index < thread_count_;
          ++thread_index) {
       uint64_t thread_id =
           thread_pool.GetThreadInfo(thread_index, &expectation);
@@ -548,10 +538,7 @@ TEST(ProcessReader, ChildSeveralThreads) {
 class ScopedOpenCLNoOpKernel {
  public:
   ScopedOpenCLNoOpKernel()
-      : context_(nullptr),
-        program_(nullptr),
-        kernel_(nullptr) {
-  }
+      : context_(nullptr), program_(nullptr), kernel_(nullptr) {}
 
   ~ScopedOpenCLNoOpKernel() {
     if (kernel_) {
@@ -702,10 +689,9 @@ TEST(ProcessReader, SelfModules) {
       _dyld_get_all_image_infos();
   if (dyld_image_infos->version >= 2) {
     ASSERT_TRUE(modules[index].reader);
-    EXPECT_EQ(
-        reinterpret_cast<mach_vm_address_t>(
-            dyld_image_infos->dyldImageLoadAddress),
-        modules[index].reader->Address());
+    EXPECT_EQ(reinterpret_cast<mach_vm_address_t>(
+                  dyld_image_infos->dyldImageLoadAddress),
+              modules[index].reader->Address());
   }
 }
 

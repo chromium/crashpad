@@ -35,32 +35,29 @@ namespace {
 class HTTPBodyStreamCFReadStream {
  public:
   explicit HTTPBodyStreamCFReadStream(HTTPBodyStream* body_stream)
-      : body_stream_(body_stream) {
-  }
+      : body_stream_(body_stream) {}
 
   // Creates a new NSInputStream, which the caller owns.
   NSInputStream* CreateInputStream() {
-    CFStreamClientContext context = {
-      .version = 0,
-      .info = this,
-      .retain = nullptr,
-      .release = nullptr,
-      .copyDescription = nullptr
-    };
-    const CFReadStreamCallBacksV0 callbacks = {
-      .version = 0,
-      .open = &Open,
-      .openCompleted = &OpenCompleted,
-      .read = &Read,
-      .getBuffer = &GetBuffer,
-      .canRead = &CanRead,
-      .close = &Close,
-      .copyProperty = &CopyProperty,
-      .schedule = &Schedule,
-      .unschedule = &Unschedule
-    };
-    CFReadStreamRef read_stream = CFReadStreamCreate(nullptr,
-        reinterpret_cast<const CFReadStreamCallBacks*>(&callbacks), &context);
+    CFStreamClientContext context = {.version = 0,
+                                     .info = this,
+                                     .retain = nullptr,
+                                     .release = nullptr,
+                                     .copyDescription = nullptr};
+    const CFReadStreamCallBacksV0 callbacks = {.version = 0,
+                                               .open = &Open,
+                                               .openCompleted = &OpenCompleted,
+                                               .read = &Read,
+                                               .getBuffer = &GetBuffer,
+                                               .canRead = &CanRead,
+                                               .close = &Close,
+                                               .copyProperty = &CopyProperty,
+                                               .schedule = &Schedule,
+                                               .unschedule = &Unschedule};
+    CFReadStreamRef read_stream = CFReadStreamCreate(
+        nullptr,
+        reinterpret_cast<const CFReadStreamCallBacks*>(&callbacks),
+        &context);
     return base::mac::CFToNSCast(read_stream);
   }
 
@@ -115,9 +112,7 @@ class HTTPBodyStreamCFReadStream {
     return nullptr;
   }
 
-  static Boolean CanRead(CFReadStreamRef stream, void* info) {
-    return TRUE;
-  }
+  static Boolean CanRead(CFReadStreamRef stream, void* info) { return TRUE; }
 
   static void Close(CFReadStreamRef stream, void* info) {}
 
@@ -153,11 +148,9 @@ class HTTPTransportMac final : public HTTPTransport {
   DISALLOW_COPY_AND_ASSIGN(HTTPTransportMac);
 };
 
-HTTPTransportMac::HTTPTransportMac() : HTTPTransport() {
-}
+HTTPTransportMac::HTTPTransportMac() : HTTPTransport() {}
 
-HTTPTransportMac::~HTTPTransportMac() {
-}
+HTTPTransportMac::~HTTPTransportMac() {}
 
 bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
   DCHECK(body_stream());

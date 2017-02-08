@@ -32,17 +32,16 @@ void MaybeCaptureMemoryAround(CaptureMemory::Delegate* delegate,
   if (address < non_address_offset)
     return;
 
-  const uint64_t max_address = delegate->Is64Bit() ?
-      std::numeric_limits<uint64_t>::max() :
-      std::numeric_limits<uint32_t>::max();
+  const uint64_t max_address = delegate->Is64Bit()
+                                   ? std::numeric_limits<uint64_t>::max()
+                                   : std::numeric_limits<uint32_t>::max();
   if (address > max_address - non_address_offset)
     return;
 
   const uint64_t kRegisterByteOffset = 128;
   const uint64_t target = address - kRegisterByteOffset;
   const uint64_t size = 512;
-  static_assert(kRegisterByteOffset <= size / 2,
-                "negative offset too large");
+  static_assert(kRegisterByteOffset <= size / 2, "negative offset too large");
   auto ranges =
       delegate->GetReadableRanges(CheckedRange<uint64_t>(target, size));
   for (const auto& range : ranges) {

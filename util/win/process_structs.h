@@ -396,7 +396,8 @@ struct VM_COUNTERS<internal::Traits64> {
   SIZE_T PrivateUsage;
 };
 
-// See http://undocumented.ntinternals.net/source/usermode/undocumented%20functions/system%20information/structures/system_process_information.html
+// See
+// http://undocumented.ntinternals.net/source/usermode/undocumented%20functions/system%20information/structures/system_process_information.html
 template <class Traits>
 struct SYSTEM_PROCESS_INFORMATION {
   ULONG NextEntryOffset;

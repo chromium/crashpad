@@ -61,9 +61,8 @@ typename Traits::Type BootstrapCheckInOrLookUp(
   }
 
   mach_port_t service_port;
-  kern_return_t kr = Traits::Call(bootstrap_port,
-                                  service_name.c_str(),
-                                  &service_port);
+  kern_return_t kr =
+      Traits::Call(bootstrap_port, service_name.c_str(), &service_port);
   if (kr != BOOTSTRAP_SUCCESS) {
     BOOTSTRAP_LOG(ERROR, kr) << Traits::kName << " " << service_name;
     service_port = MACH_PORT_NULL;
@@ -90,12 +89,12 @@ mach_port_t NewMachPort(mach_port_right_t right) {
 }
 
 exception_mask_t ExcMaskAll() {
-  // This is necessary because of the way that the kernel validates
-  // exception_mask_t arguments to
-  // {host,task,thread}_{get,set,swap}_exception_ports(). It is strict,
-  // rejecting attempts to operate on any bits that it does not recognize. See
-  // 10.9.4 xnu-2422.110.17/osfmk/mach/ipc_host.c and
-  // xnu-2422.110.17/osfmk/mach/ipc_tt.c.
+// This is necessary because of the way that the kernel validates
+// exception_mask_t arguments to
+// {host,task,thread}_{get,set,swap}_exception_ports(). It is strict,
+// rejecting attempts to operate on any bits that it does not recognize. See
+// 10.9.4 xnu-2422.110.17/osfmk/mach/ipc_host.c and
+// xnu-2422.110.17/osfmk/mach/ipc_tt.c.
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9
   const int mac_os_x_minor_version = MacOSXMinorVersion();
@@ -104,15 +103,9 @@ exception_mask_t ExcMaskAll() {
   // See 10.6.8 xnu-1504.15.3/osfmk/mach/exception_types.h. 10.7 uses the same
   // definition as 10.6. See 10.7.5 xnu-1699.32.7/osfmk/mach/exception_types.h
   const exception_mask_t kExcMaskAll_10_6 =
-      EXC_MASK_BAD_ACCESS |
-      EXC_MASK_BAD_INSTRUCTION |
-      EXC_MASK_ARITHMETIC |
-      EXC_MASK_EMULATION |
-      EXC_MASK_SOFTWARE |
-      EXC_MASK_BREAKPOINT |
-      EXC_MASK_SYSCALL |
-      EXC_MASK_MACH_SYSCALL |
-      EXC_MASK_RPC_ALERT |
+      EXC_MASK_BAD_ACCESS | EXC_MASK_BAD_INSTRUCTION | EXC_MASK_ARITHMETIC |
+      EXC_MASK_EMULATION | EXC_MASK_SOFTWARE | EXC_MASK_BREAKPOINT |
+      EXC_MASK_SYSCALL | EXC_MASK_MACH_SYSCALL | EXC_MASK_RPC_ALERT |
       EXC_MASK_MACHINE;
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
   if (mac_os_x_minor_version < 8) {

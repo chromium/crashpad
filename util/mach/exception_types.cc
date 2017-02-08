@@ -149,10 +149,8 @@ bool ExcCrashCouldContainException(exception_type_t exception) {
   // kMachExceptionSimulated is a non-fatal Crashpad-specific pseudo-exception
   // that never exists as an exception within the kernel and should thus never
   // be wrapped in EXC_CRASH.
-  return exception != EXC_CRASH &&
-         exception != EXC_RESOURCE &&
-         exception != EXC_GUARD &&
-         exception != EXC_CORPSE_NOTIFY &&
+  return exception != EXC_CRASH && exception != EXC_RESOURCE &&
+         exception != EXC_GUARD && exception != EXC_CORPSE_NOTIFY &&
          exception != kMachExceptionSimulated;
 }
 

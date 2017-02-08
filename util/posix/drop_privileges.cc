@@ -75,14 +75,14 @@ void DropPrivileges() {
   PCHECK(setresgid(gid, gid, gid) == 0) << "setresgid";
   PCHECK(setresuid(uid, uid, uid) == 0) << "setresuid";
 
-  // Don’t check to see if privileges can be regained on Linux, because on
-  // Linux, it’s not as simple as ensuring that this can’t be done if non-root.
-  // Instead, the ability to change user and group IDs are controlled by the
-  // CAP_SETUID and CAP_SETGID capabilities, which may be granted to non-root
-  // processes. Since the setresXid() interface is well-defined, it shouldn’t be
-  // necessary to perform any additional checking anyway.
-  //
-  // TODO(mark): Drop CAP_SETUID and CAP_SETGID if present and non-root?
+// Don’t check to see if privileges can be regained on Linux, because on
+// Linux, it’s not as simple as ensuring that this can’t be done if non-root.
+// Instead, the ability to change user and group IDs are controlled by the
+// CAP_SETUID and CAP_SETGID capabilities, which may be granted to non-root
+// processes. Since the setresXid() interface is well-defined, it shouldn’t be
+// necessary to perform any additional checking anyway.
+//
+// TODO(mark): Drop CAP_SETUID and CAP_SETGID if present and non-root?
 #else
 #error Port this function to your system.
 #endif

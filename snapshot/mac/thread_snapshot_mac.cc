@@ -31,11 +31,9 @@ ThreadSnapshotMac::ThreadSnapshotMac()
       thread_(MACH_PORT_NULL),
       suspend_count_(0),
       priority_(0),
-      initialized_() {
-}
+      initialized_() {}
 
-ThreadSnapshotMac::~ThreadSnapshotMac() {
-}
+ThreadSnapshotMac::~ThreadSnapshotMac() {}
 
 bool ThreadSnapshotMac::Initialize(
     ProcessReader* process_reader,

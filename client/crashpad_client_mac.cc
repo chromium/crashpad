@@ -92,8 +92,7 @@ bool SetCrashExceptionPorts(exception_handler_t exception_handler) {
 class ScopedPthreadAttrDestroy {
  public:
   explicit ScopedPthreadAttrDestroy(pthread_attr_t* pthread_attr)
-      : pthread_attr_(pthread_attr) {
-  }
+      : pthread_attr_(pthread_attr) {}
 
   ~ScopedPthreadAttrDestroy() {
     errno = pthread_attr_destroy(pthread_attr_);
@@ -224,8 +223,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
         annotations_(),
         arguments_(),
         notify_port_(NewMachPort(MACH_PORT_RIGHT_RECEIVE)),
-        last_start_time_(0) {
-  }
+        last_start_time_(0) {}
 
   //! \brief Starts a Crashpad handler.
   //!
@@ -523,11 +521,9 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
 
 }  // namespace
 
-CrashpadClient::CrashpadClient() {
-}
+CrashpadClient::CrashpadClient() {}
 
-CrashpadClient::~CrashpadClient() {
-}
+CrashpadClient::~CrashpadClient() {}
 
 bool CrashpadClient::StartHandler(
     const base::FilePath& handler,
@@ -575,8 +571,8 @@ bool CrashpadClient::SetHandlerMachPort(
 
 // static
 void CrashpadClient::UseSystemDefaultHandler() {
-  base::mac::ScopedMachSendRight
-      system_crash_reporter_handler(SystemCrashReporterHandler());
+  base::mac::ScopedMachSendRight system_crash_reporter_handler(
+      SystemCrashReporterHandler());
 
   // Proceed even if SystemCrashReporterHandler() failed, setting MACH_PORT_NULL
   // to clear the current exception ports.

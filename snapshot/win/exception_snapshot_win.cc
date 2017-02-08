@@ -63,16 +63,13 @@ ExceptionSnapshotWin::ExceptionSnapshotWin()
       exception_address_(0),
       exception_flags_(0),
       exception_code_(0),
-      initialized_() {
-}
+      initialized_() {}
 
-ExceptionSnapshotWin::~ExceptionSnapshotWin() {
-}
+ExceptionSnapshotWin::~ExceptionSnapshotWin() {}
 
-bool ExceptionSnapshotWin::Initialize(
-    ProcessReaderWin* process_reader,
-    DWORD thread_id,
-    WinVMAddress exception_pointers_address) {
+bool ExceptionSnapshotWin::Initialize(ProcessReaderWin* process_reader,
+                                      DWORD thread_id,
+                                      WinVMAddress exception_pointers_address) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   const ProcessReaderWin::Thread* thread = nullptr;

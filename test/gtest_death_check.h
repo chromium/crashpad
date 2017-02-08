@@ -20,9 +20,8 @@
 
 //! \file
 
-#if !(!defined(MINI_CHROMIUM_BASE_LOGGING_H_) && \
-      defined(OFFICIAL_BUILD) &&                 \
-      defined(NDEBUG)) ||                        \
+#if !(!defined(MINI_CHROMIUM_BASE_LOGGING_H_) && defined(OFFICIAL_BUILD) && \
+      defined(NDEBUG)) ||                                                   \
     DOXYGEN
 
 //! \brief Wraps the gtest `ASSERT_DEATH()` macro to make assertions about death

@@ -158,8 +158,7 @@ class InitializationStateDcheck : public InitializationState {
 
 #if defined(COMPILER_MSVC)
 // bool[0] (below) is not accepted by MSVC.
-struct InitializationStateDcheck {
-};
+struct InitializationStateDcheck {};
 #else
 // Since this is to be used as a DCHECK (for debugging), it should be
 // non-intrusive in non-DCHECK (non-debug, release) builds. An empty struct

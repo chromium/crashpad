@@ -69,8 +69,7 @@ class ScopedTaskSuspendTest final : public MachMultiprocess {
     EXPECT_EQ(0, SuspendCount(child_task));
   }
 
-  void MachMultiprocessChild() override {
-  }
+  void MachMultiprocessChild() override {}
 
   DISALLOW_COPY_AND_ASSIGN(ScopedTaskSuspendTest);
 };

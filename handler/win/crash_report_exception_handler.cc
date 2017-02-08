@@ -35,14 +35,11 @@ CrashReportExceptionHandler::CrashReportExceptionHandler(
     const std::map<std::string, std::string>* process_annotations)
     : database_(database),
       upload_thread_(upload_thread),
-      process_annotations_(process_annotations) {
-}
+      process_annotations_(process_annotations) {}
 
-CrashReportExceptionHandler::~CrashReportExceptionHandler() {
-}
+CrashReportExceptionHandler::~CrashReportExceptionHandler() {}
 
-void CrashReportExceptionHandler::ExceptionHandlerServerStarted() {
-}
+void CrashReportExceptionHandler::ExceptionHandlerServerStarted() {}
 
 unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     HANDLE process,

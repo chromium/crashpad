@@ -123,11 +123,9 @@ void InitializeCPUContextFxsave(FxsaveType* fxsave, uint32_t* seed) {
   fxsave->reserved_3 = static_cast<uint16_t>(value++);
   fxsave->mxcsr = value++;
   fxsave->mxcsr_mask = value++;
-  for (size_t st_mm_index = 0;
-       st_mm_index < arraysize(fxsave->st_mm);
+  for (size_t st_mm_index = 0; st_mm_index < arraysize(fxsave->st_mm);
        ++st_mm_index) {
-    for (size_t byte = 0;
-         byte < arraysize(fxsave->st_mm[st_mm_index].st);
+    for (size_t byte = 0; byte < arraysize(fxsave->st_mm[st_mm_index].st);
          ++byte) {
       fxsave->st_mm[st_mm_index].st[byte] = static_cast<uint8_t>(value++);
     }

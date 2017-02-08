@@ -318,8 +318,8 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
 
   TestSystemSnapshot system_snapshot;
   system_snapshot.SetCPUArchitecture(kCPUArchitectureX86);
-  system_snapshot.SetCPURevision(
-      (kCPUFamily << 16) | (kCPUModel << 8) | kCPUStepping);
+  system_snapshot.SetCPURevision((kCPUFamily << 16) | (kCPUModel << 8) |
+                                 kCPUStepping);
   system_snapshot.SetCPUCount(expect_system_info.NumberOfProcessors);
   system_snapshot.SetCPUVendor(kCPUVendor);
   system_snapshot.SetCPUX86Signature(kCPUSignature);
@@ -393,18 +393,13 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
   expect_system_info.PlatformId = kMinidumpOSMacOSX;
   expect_system_info.SuiteMask = 0;
   expect_system_info.Cpu.OtherCpuInfo.ProcessorFeatures[0] =
-      (1 << PF_COMPARE_EXCHANGE_DOUBLE) |
-      (1 << PF_MMX_INSTRUCTIONS_AVAILABLE) |
+      (1 << PF_COMPARE_EXCHANGE_DOUBLE) | (1 << PF_MMX_INSTRUCTIONS_AVAILABLE) |
       (1 << PF_XMMI_INSTRUCTIONS_AVAILABLE) |
-      (1 << PF_RDTSC_INSTRUCTION_AVAILABLE) |
-      (1 << PF_PAE_ENABLED) |
+      (1 << PF_RDTSC_INSTRUCTION_AVAILABLE) | (1 << PF_PAE_ENABLED) |
       (1 << PF_XMMI64_INSTRUCTIONS_AVAILABLE) |
-      (1 << PF_SSE_DAZ_MODE_AVAILABLE) |
-      (1 << PF_NX_ENABLED) |
-      (1 << PF_SSE3_INSTRUCTIONS_AVAILABLE) |
-      (1 << PF_COMPARE_EXCHANGE128) |
-      (1 << PF_XSAVE_ENABLED) |
-      (1 << PF_RDWRFSGSBASE_AVAILABLE) |
+      (1 << PF_SSE_DAZ_MODE_AVAILABLE) | (1 << PF_NX_ENABLED) |
+      (1 << PF_SSE3_INSTRUCTIONS_AVAILABLE) | (1 << PF_COMPARE_EXCHANGE128) |
+      (1 << PF_XSAVE_ENABLED) | (1 << PF_RDWRFSGSBASE_AVAILABLE) |
       (1 << PF_RDRAND_INSTRUCTION_AVAILABLE) |
       (UINT64_C(1) << PF_RDTSCP_INSTRUCTION_AVAILABLE);
   expect_system_info.Cpu.OtherCpuInfo.ProcessorFeatures[1] = 0;
@@ -412,8 +407,8 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
 
   TestSystemSnapshot system_snapshot;
   system_snapshot.SetCPUArchitecture(kCPUArchitectureX86_64);
-  system_snapshot.SetCPURevision(
-      (kCPUFamily << 16) | (kCPUModel << 8) | kCPUStepping);
+  system_snapshot.SetCPURevision((kCPUFamily << 16) | (kCPUModel << 8) |
+                                 kCPUStepping);
   system_snapshot.SetCPUCount(expect_system_info.NumberOfProcessors);
   system_snapshot.SetCPUX86Features(0x7ffafbffbfebfbff);
   system_snapshot.SetCPUX86ExtendedFeatures(0x000000212c100900);

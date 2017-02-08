@@ -497,7 +497,11 @@ TEST(TaskMemory, MappedMemoryReadCString) {
   TaskMemory memory(mach_task_self());
   std::unique_ptr<TaskMemory::MappedMemory> mapped;
 
-  static const char kTestBuffer[] = "0\0" "2\0" "45\0" "789";
+  static const char kTestBuffer[] =
+      "0\0"
+      "2\0"
+      "45\0"
+      "789";
   const mach_vm_address_t kTestAddress =
       reinterpret_cast<mach_vm_address_t>(&kTestBuffer);
   ASSERT_TRUE((mapped = memory.ReadMapped(kTestAddress, 10)));

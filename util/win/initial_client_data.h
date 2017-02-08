@@ -109,9 +109,9 @@ class InitialClientData {
   bool is_valid_;
 
 #if _MSC_VER < 1900
-  // The default copy and assignment constructors are fine, as we don't take
-  // ownership of the handles. They also shouldn't be required for how we use
-  // this class, however, VS2013 seems to think they are.
+// The default copy and assignment constructors are fine, as we don't take
+// ownership of the handles. They also shouldn't be required for how we use
+// this class, however, VS2013 seems to think they are.
 #else
   DISALLOW_COPY_AND_ASSIGN(InitialClientData);
 #endif  // _MSC_VER < 1900

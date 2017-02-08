@@ -42,11 +42,9 @@ TestSystemSnapshot::TestSystemSnapshot()
       time_zone_standard_offset_seconds_(0),
       time_zone_daylight_offset_seconds_(0),
       time_zone_standard_name_(),
-      time_zone_daylight_name_() {
-}
+      time_zone_daylight_name_() {}
 
-TestSystemSnapshot::~TestSystemSnapshot() {
-}
+TestSystemSnapshot::~TestSystemSnapshot() {}
 
 CPUArchitecture TestSystemSnapshot::GetCPUArchitecture() const {
   return cpu_architecture_;
@@ -98,8 +96,10 @@ bool TestSystemSnapshot::OSServer() const {
   return os_server_;
 }
 
-void TestSystemSnapshot::OSVersion(
-    int* major, int* minor, int* bugfix, std::string* build) const {
+void TestSystemSnapshot::OSVersion(int* major,
+                                   int* minor,
+                                   int* bugfix,
+                                   std::string* build) const {
   *major = os_version_major_;
   *minor = os_version_minor_;
   *bugfix = os_version_bugfix_;

@@ -33,11 +33,9 @@ ProcessSnapshotMinidump::ProcessSnapshotMinidump()
       crashpad_info_(),
       annotations_simple_map_(),
       file_reader_(nullptr),
-      initialized_() {
-}
+      initialized_() {}
 
-ProcessSnapshotMinidump::~ProcessSnapshotMinidump() {
-}
+ProcessSnapshotMinidump::~ProcessSnapshotMinidump() {}
 
 bool ProcessSnapshotMinidump::Initialize(FileReaderInterface* file_reader) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
@@ -262,7 +260,7 @@ bool ProcessSnapshotMinidump::InitializeModules() {
   }
 
   if (sizeof(MINIDUMP_MODULE_LIST) + module_count * sizeof(MINIDUMP_MODULE) !=
-          stream_it->second->DataSize) {
+      stream_it->second->DataSize) {
     LOG(ERROR) << "module_list size mismatch";
     return false;
   }
@@ -304,7 +302,7 @@ bool ProcessSnapshotMinidump::InitializeModulesCrashpadInfo(
   }
 
   if (crashpad_info_.module_list.DataSize <
-          sizeof(MinidumpModuleCrashpadInfoList)) {
+      sizeof(MinidumpModuleCrashpadInfoList)) {
     LOG(ERROR) << "module_crashpad_info_list size mismatch";
     return false;
   }
@@ -320,8 +318,8 @@ bool ProcessSnapshotMinidump::InitializeModulesCrashpadInfo(
   }
 
   if (crashpad_info_.module_list.DataSize !=
-          sizeof(MinidumpModuleCrashpadInfoList) +
-              crashpad_module_count * sizeof(MinidumpModuleCrashpadInfoLink)) {
+      sizeof(MinidumpModuleCrashpadInfoList) +
+          crashpad_module_count * sizeof(MinidumpModuleCrashpadInfoLink)) {
     LOG(ERROR) << "module_crashpad_info_list size mismatch";
     return false;
   }
@@ -341,7 +339,8 @@ bool ProcessSnapshotMinidump::InitializeModulesCrashpadInfo(
         minidump_links[crashpad_module_index];
     if (!module_crashpad_info_links
              ->insert(std::make_pair(minidump_link.minidump_module_list_index,
-                                     minidump_link.location)).second) {
+                                     minidump_link.location))
+             .second) {
       LOG(WARNING)
           << "duplicate module_crashpad_info_list minidump_module_list_index "
           << minidump_link.minidump_module_list_index;

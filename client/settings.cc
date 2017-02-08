@@ -44,12 +44,13 @@ struct Settings::Data {
     kUploadsEnabled = 1 << 0,
   };
 
-  Data() : magic(kSettingsMagic),
-           version(kSettingsVersion),
-           options(0),
-           padding_0(0),
-           last_upload_attempt_time(0),
-           client_id() {}
+  Data()
+      : magic(kSettingsMagic),
+        version(kSettingsVersion),
+        options(0),
+        padding_0(0),
+        last_upload_attempt_time(0),
+        client_id() {}
 
   uint32_t magic;
   uint32_t version;
@@ -60,12 +61,9 @@ struct Settings::Data {
 };
 
 Settings::Settings(const base::FilePath& file_path)
-    : file_path_(file_path),
-      initialized_() {
-}
+    : file_path_(file_path), initialized_() {}
 
-Settings::~Settings() {
-}
+Settings::~Settings() {}
 
 bool Settings::Initialize() {
   initialized_.set_invalid();
@@ -159,7 +157,8 @@ Settings::ScopedLockedFileHandle Settings::OpenForReading() {
 }
 
 Settings::ScopedLockedFileHandle Settings::OpenForReadingAndWriting(
-    FileWriteMode mode, bool log_open_error) {
+    FileWriteMode mode,
+    bool log_open_error) {
   DCHECK(mode != FileWriteMode::kTruncateOrCreate);
 
   FileHandle handle;

@@ -28,8 +28,7 @@ TestMinidumpMemoryWriter::TestMinidumpMemoryWriter(uint64_t base_address,
   test_snapshot_.SetValue(value);
 }
 
-TestMinidumpMemoryWriter::~TestMinidumpMemoryWriter() {
-}
+TestMinidumpMemoryWriter::~TestMinidumpMemoryWriter() {}
 
 void ExpectMinidumpMemoryDescriptor(
     const MINIDUMP_MEMORY_DESCRIPTOR* expected,

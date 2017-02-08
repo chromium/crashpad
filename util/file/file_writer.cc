@@ -42,11 +42,9 @@ static_assert(offsetof(WritableIoVec, iov_len) == offsetof(iovec, iov_len),
 #endif  // OS_POSIX
 
 WeakFileHandleFileWriter::WeakFileHandleFileWriter(FileHandle file_handle)
-    : file_handle_(file_handle) {
-}
+    : file_handle_(file_handle) {}
 
-WeakFileHandleFileWriter::~WeakFileHandleFileWriter() {
-}
+WeakFileHandleFileWriter::~WeakFileHandleFileWriter() {}
 
 bool WeakFileHandleFileWriter::Write(const void* data, size_t size) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
@@ -145,12 +143,9 @@ FileOffset WeakFileHandleFileWriter::Seek(FileOffset offset, int whence) {
 }
 
 FileWriter::FileWriter()
-    : file_(),
-      weak_file_handle_file_writer_(kInvalidFileHandle) {
-}
+    : file_(), weak_file_handle_file_writer_(kInvalidFileHandle) {}
 
-FileWriter::~FileWriter() {
-}
+FileWriter::~FileWriter() {}
 
 bool FileWriter::Open(const base::FilePath& path,
                       FileWriteMode write_mode,

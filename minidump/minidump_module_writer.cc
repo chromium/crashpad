@@ -30,8 +30,7 @@
 
 namespace crashpad {
 
-MinidumpModuleCodeViewRecordWriter::~MinidumpModuleCodeViewRecordWriter() {
-}
+MinidumpModuleCodeViewRecordWriter::~MinidumpModuleCodeViewRecordWriter() {}
 
 namespace internal {
 
@@ -44,8 +43,7 @@ MinidumpModuleCodeViewRecordPDBLinkWriter<
 
 template <typename CodeViewRecordType>
 MinidumpModuleCodeViewRecordPDBLinkWriter<
-    CodeViewRecordType>::~MinidumpModuleCodeViewRecordPDBLinkWriter() {
-}
+    CodeViewRecordType>::~MinidumpModuleCodeViewRecordPDBLinkWriter() {}
 
 template <typename CodeViewRecordType>
 size_t
@@ -81,8 +79,7 @@ template class internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
     CodeViewRecordPDB20>;
 
 MinidumpModuleCodeViewRecordPDB20Writer::
-    ~MinidumpModuleCodeViewRecordPDB20Writer() {
-}
+    ~MinidumpModuleCodeViewRecordPDB20Writer() {}
 
 void MinidumpModuleCodeViewRecordPDB20Writer::SetTimestampAndAge(
     time_t timestamp,
@@ -99,8 +96,7 @@ template class internal::MinidumpModuleCodeViewRecordPDBLinkWriter<
     CodeViewRecordPDB70>;
 
 MinidumpModuleCodeViewRecordPDB70Writer::
-    ~MinidumpModuleCodeViewRecordPDB70Writer() {
-}
+    ~MinidumpModuleCodeViewRecordPDB70Writer() {}
 
 void MinidumpModuleCodeViewRecordPDB70Writer::InitializeFromSnapshot(
     const ModuleSnapshot* module_snapshot) {
@@ -118,11 +114,9 @@ MinidumpModuleMiscDebugRecordWriter::MinidumpModuleMiscDebugRecordWriter()
     : internal::MinidumpWritable(),
       image_debug_misc_(),
       data_(),
-      data_utf16_() {
-}
+      data_utf16_() {}
 
-MinidumpModuleMiscDebugRecordWriter::~MinidumpModuleMiscDebugRecordWriter() {
-}
+MinidumpModuleMiscDebugRecordWriter::~MinidumpModuleMiscDebugRecordWriter() {}
 
 void MinidumpModuleMiscDebugRecordWriter::SetData(const std::string& data,
                                                   bool utf16) {
@@ -202,8 +196,7 @@ MinidumpModuleWriter::MinidumpModuleWriter()
   module_.VersionInfo.dwStrucVersion = VS_FFI_STRUCVERSION;
 }
 
-MinidumpModuleWriter::~MinidumpModuleWriter() {
-}
+MinidumpModuleWriter::~MinidumpModuleWriter() {}
 
 void MinidumpModuleWriter::InitializeFromSnapshot(
     const ModuleSnapshot* module_snapshot) {
@@ -371,11 +364,9 @@ bool MinidumpModuleWriter::WriteObject(FileWriterInterface* file_writer) {
 }
 
 MinidumpModuleListWriter::MinidumpModuleListWriter()
-    : MinidumpStreamWriter(), modules_(), module_list_base_() {
-}
+    : MinidumpStreamWriter(), modules_(), module_list_base_() {}
 
-MinidumpModuleListWriter::~MinidumpModuleListWriter() {
-}
+MinidumpModuleListWriter::~MinidumpModuleListWriter() {}
 
 void MinidumpModuleListWriter::InitializeFromSnapshot(
     const std::vector<const ModuleSnapshot*>& module_snapshots) {

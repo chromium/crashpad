@@ -35,8 +35,7 @@ bool GetModuleVersionAndType(const base::FilePath& path,
 
   std::unique_ptr<uint8_t[]> data(new uint8_t[size]);
   if (!GetFileVersionInfo(path.value().c_str(), 0, size, data.get())) {
-    PLOG(WARNING) << "GetFileVersionInfo: "
-                  << base::UTF16ToUTF8(path.value());
+    PLOG(WARNING) << "GetFileVersionInfo: " << base::UTF16ToUTF8(path.value());
     return false;
   }
 

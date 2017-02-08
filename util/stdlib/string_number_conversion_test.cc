@@ -113,7 +113,9 @@ TEST(StringNumberConversion, StringToInt) {
   // Ensure that embedded NUL characters are treated as bad input. The string
   // is split to avoid MSVC warning:
   //   "decimal digit terminates octal escape sequence".
-  const char input[] = "6\000" "6";
+  const char input[] =
+      "6\000"
+      "6";
   base::StringPiece input_string(input, arraysize(input) - 1);
   int output;
   EXPECT_FALSE(StringToNumber(input_string, &output));
@@ -211,7 +213,9 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
   // Ensure that embedded NUL characters are treated as bad input. The string
   // is split to avoid MSVC warning:
   //   "decimal digit terminates octal escape sequence".
-  const char input[] = "6\000" "6";
+  const char input[] =
+      "6\000"
+      "6";
   base::StringPiece input_string(input, arraysize(input) - 1);
   unsigned int output;
   EXPECT_FALSE(StringToNumber(input_string, &output));

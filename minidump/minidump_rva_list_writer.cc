@@ -25,11 +25,9 @@ MinidumpRVAListWriter::MinidumpRVAListWriter()
     : MinidumpWritable(),
       rva_list_base_(new MinidumpRVAList()),
       children_(),
-      child_rvas_() {
-}
+      child_rvas_() {}
 
-MinidumpRVAListWriter::~MinidumpRVAListWriter() {
-}
+MinidumpRVAListWriter::~MinidumpRVAListWriter() {}
 
 void MinidumpRVAListWriter::AddChild(std::unique_ptr<MinidumpWritable> child) {
   DCHECK_EQ(state(), kStateMutable);

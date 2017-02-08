@@ -70,8 +70,8 @@ int main(int argc, char* argv[]) {
   char c;
   DWORD bytes_read;
   HANDLE stdin_handle = GetStdHandle(STD_INPUT_HANDLE);
-  if (!ReadFile(stdin_handle, &c, 1, &bytes_read, nullptr) ||
-      bytes_read != 1 || c != 'z') {
+  if (!ReadFile(stdin_handle, &c, 1, &bytes_read, nullptr) || bytes_read != 1 ||
+      c != 'z') {
     abort();
   }
 

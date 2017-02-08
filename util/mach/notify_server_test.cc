@@ -265,9 +265,7 @@ class NotifyServerTestBase : public testing::Test,
   }
 
   // testing::Test:
-  void TearDown() override {
-    server_port_.reset();
-  }
+  void TearDown() override { server_port_.reset(); }
 
  private:
   base::mac::ScopedMachReceiveRight server_port_;
@@ -516,7 +514,7 @@ TEST_F(NotifyServerTest, MachNotifyDeadName) {
                                          ResultOf(DeadNameRightRefCount, 2)),
                                    ResultOf(AuditPIDFromMachMessageTrailer, 0)))
       .WillOnce(
-           DoAll(WithArg<1>(Invoke(MachPortDeallocate)), Return(MIG_NO_REPLY)))
+          DoAll(WithArg<1>(Invoke(MachPortDeallocate)), Return(MIG_NO_REPLY)))
       .RetiresOnSaturation();
 
   receive_right.reset();

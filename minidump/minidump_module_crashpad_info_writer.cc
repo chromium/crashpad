@@ -33,8 +33,7 @@ MinidumpModuleCrashpadInfoWriter::MinidumpModuleCrashpadInfoWriter()
   module_.version = MinidumpModuleCrashpadInfo::kVersion;
 }
 
-MinidumpModuleCrashpadInfoWriter::~MinidumpModuleCrashpadInfoWriter() {
-}
+MinidumpModuleCrashpadInfoWriter::~MinidumpModuleCrashpadInfoWriter() {}
 
 void MinidumpModuleCrashpadInfoWriter::InitializeFromSnapshot(
     const ModuleSnapshot* module_snapshot) {
@@ -126,11 +125,9 @@ MinidumpModuleCrashpadInfoListWriter::MinidumpModuleCrashpadInfoListWriter()
     : MinidumpWritable(),
       module_crashpad_infos_(),
       module_crashpad_info_links_(),
-      module_crashpad_info_list_base_() {
-}
+      module_crashpad_info_list_base_() {}
 
-MinidumpModuleCrashpadInfoListWriter::~MinidumpModuleCrashpadInfoListWriter() {
-}
+MinidumpModuleCrashpadInfoListWriter::~MinidumpModuleCrashpadInfoListWriter() {}
 
 void MinidumpModuleCrashpadInfoListWriter::InitializeFromSnapshot(
     const std::vector<const ModuleSnapshot*>& module_snapshots) {

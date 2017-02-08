@@ -127,9 +127,10 @@ bool FillThreadContextAndSuspendCount(HANDLE thread_handle,
                                       bool is_64_reading_32) {
   // Don't suspend the thread if it's this thread. This is really only for test
   // binaries, as we won't be walking ourselves, in general.
-  bool is_current_thread = thread->id ==
-                           reinterpret_cast<process_types::TEB<Traits>*>(
-                               NtCurrentTeb())->ClientId.UniqueThread;
+  bool is_current_thread =
+      thread->id ==
+      reinterpret_cast<process_types::TEB<Traits>*>(NtCurrentTeb())
+          ->ClientId.UniqueThread;
 
   if (is_current_thread) {
     DCHECK(suspension_state == ProcessSuspensionState::kRunning);
@@ -189,8 +190,7 @@ ProcessReaderWin::Thread::Thread()
       stack_region_size(0),
       suspend_count(0),
       priority_class(0),
-      priority(0) {
-}
+      priority(0) {}
 
 ProcessReaderWin::ProcessReaderWin()
     : process_(INVALID_HANDLE_VALUE),
@@ -199,11 +199,9 @@ ProcessReaderWin::ProcessReaderWin()
       modules_(),
       suspension_state_(),
       initialized_threads_(false),
-      initialized_() {
-}
+      initialized_() {}
 
-ProcessReaderWin::~ProcessReaderWin() {
-}
+ProcessReaderWin::~ProcessReaderWin() {}
 
 bool ProcessReaderWin::Initialize(HANDLE process,
                                   ProcessSuspensionState suspension_state) {

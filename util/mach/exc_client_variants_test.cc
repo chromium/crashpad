@@ -155,10 +155,8 @@ class TestExcClientVariants : public MachMultiprocess,
 
   void MachMultiprocessChild() override {
     const exception_type_t exception = exception_;
-    const mach_exception_data_type_t code[] = {
-        exception_code_,
-        exception_subcode_
-    };
+    const mach_exception_data_type_t code[] = {exception_code_,
+                                               exception_subcode_};
 
     thread_t thread = THREAD_NULL;
     task_t task = TASK_NULL;
@@ -196,18 +194,19 @@ class TestExcClientVariants : public MachMultiprocess,
       new_state_count_p = &new_state_count;
     }
 
-    EXPECT_EQ(KERN_SUCCESS, UniversalExceptionRaise(behavior_,
-                                                    RemotePort(),
-                                                    thread,
-                                                    task,
-                                                    exception,
-                                                    code,
-                                                    arraysize(code),
-                                                    flavor_p,
-                                                    old_state_p,
-                                                    old_state_count,
-                                                    new_state_p,
-                                                    new_state_count_p));
+    EXPECT_EQ(KERN_SUCCESS,
+              UniversalExceptionRaise(behavior_,
+                                      RemotePort(),
+                                      thread,
+                                      task,
+                                      exception,
+                                      code,
+                                      arraysize(code),
+                                      flavor_p,
+                                      old_state_p,
+                                      old_state_count,
+                                      new_state_p,
+                                      new_state_count_p));
 
     if (HasState()) {
       // Verify the out parameters.
@@ -221,13 +220,9 @@ class TestExcClientVariants : public MachMultiprocess,
     }
   }
 
-  bool HasIdentity() const {
-    return ExceptionBehaviorHasIdentity(behavior_);
-  }
+  bool HasIdentity() const { return ExceptionBehaviorHasIdentity(behavior_); }
 
-  bool HasState() const {
-    return ExceptionBehaviorHasState(behavior_);
-  }
+  bool HasState() const { return ExceptionBehaviorHasState(behavior_); }
 
   // The behavior to test.
   exception_behavior_t behavior_;
@@ -260,7 +255,7 @@ exception_type_t TestExcClientVariants::exception_ = 0;
 // are tested, the code and subcode fields can be checked for proper truncation.
 mach_exception_code_t TestExcClientVariants::exception_code_ = 0x100000000;
 mach_exception_subcode_t TestExcClientVariants::exception_subcode_ =
-        0xffffffff00000000;
+    0xffffffff00000000;
 
 TEST(ExcClientVariants, UniversalExceptionRaise) {
   const exception_behavior_t kBehaviors[] = {

@@ -30,11 +30,9 @@ TestModuleSnapshot::TestModuleSnapshot()
       debug_file_name_(),
       annotations_vector_(),
       annotations_simple_map_(),
-      extra_memory_ranges_() {
-}
+      extra_memory_ranges_() {}
 
-TestModuleSnapshot::~TestModuleSnapshot() {
-}
+TestModuleSnapshot::~TestModuleSnapshot() {}
 
 std::string TestModuleSnapshot::Name() const {
   return name_;

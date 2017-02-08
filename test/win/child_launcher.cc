@@ -27,8 +27,7 @@ ChildLauncher::ChildLauncher(const std::wstring& executable,
       process_handle_(),
       main_thread_handle_(),
       stdout_read_handle_(),
-      stdin_write_handle_() {
-}
+      stdin_write_handle_() {}
 
 ChildLauncher::~ChildLauncher() {
   if (process_handle_.is_valid())

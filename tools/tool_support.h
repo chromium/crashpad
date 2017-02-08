@@ -61,7 +61,7 @@ class ToolSupport {
   //!     UTF-8 entry point.
   //!
   //! \return The return value of \a entry.
-  static int Wmain(int argc, wchar_t* argv[], int (*entry)(int, char*[]));
+  static int Wmain(int argc, wchar_t* argv[], int (*entry)(int, char* []));
 #endif  // OS_WIN
 
   //! \brief Converts a command line argument to the string type suitable for

@@ -55,7 +55,7 @@ int CrashyLoadZ7Main(int argc, wchar_t* argv[]) {
     PLOG(ERROR) << "GetProcAddress";
     return EXIT_FAILURE;
   }
-  reinterpret_cast<void(*)()>(crash_me)();
+  reinterpret_cast<void (*)()>(crash_me)();
 
   return EXIT_SUCCESS;
 }

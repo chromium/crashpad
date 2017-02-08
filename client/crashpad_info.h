@@ -187,10 +187,10 @@ struct CrashpadInfo {
   };
 
  private:
-  // The compiler won’t necessarily see anyone using these fields, but it
-  // shouldn’t warn about that. These fields aren’t intended for use by the
-  // process they’re found in, they’re supposed to be read by the crash
-  // reporting process.
+// The compiler won’t necessarily see anyone using these fields, but it
+// shouldn’t warn about that. These fields aren’t intended for use by the
+// process they’re found in, they’re supposed to be read by the crash
+// reporting process.
 #if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-private-field"

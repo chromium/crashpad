@@ -158,29 +158,14 @@ TEST(CheckedRange, ContainsValue) {
     uint32_t value;
     bool contains;
   } kTestData[] = {
-      {0, false},
-      {1, false},
-      {0x1fff, false},
-      {0x2000, true},
-      {0x2001, true},
-      {0x2ffe, true},
-      {0x2fff, true},
-      {0x3000, false},
-      {0x3001, false},
-      {0x7fffffff, false},
-      {0x80000000, false},
-      {0x80000001, false},
-      {0x80001fff, false},
-      {0x80002000, false},
-      {0x80002001, false},
-      {0x80002ffe, false},
-      {0x80002fff, false},
-      {0x80003000, false},
-      {0x80003001, false},
-      {0xffffcfff, false},
-      {0xffffdfff, false},
-      {0xffffefff, false},
-      {0xffffffff, false},
+      {0, false},          {1, false},          {0x1fff, false},
+      {0x2000, true},      {0x2001, true},      {0x2ffe, true},
+      {0x2fff, true},      {0x3000, false},     {0x3001, false},
+      {0x7fffffff, false}, {0x80000000, false}, {0x80000001, false},
+      {0x80001fff, false}, {0x80002000, false}, {0x80002001, false},
+      {0x80002ffe, false}, {0x80002fff, false}, {0x80003000, false},
+      {0x80003001, false}, {0xffffcfff, false}, {0xffffdfff, false},
+      {0xffffefff, false}, {0xffffffff, false},
   };
 
   CheckedRange<uint32_t> parent_range(0x2000, 0x1000);

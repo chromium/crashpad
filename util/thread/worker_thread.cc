@@ -25,9 +25,7 @@ namespace internal {
 class WorkerThreadImpl final : public Thread {
  public:
   WorkerThreadImpl(WorkerThread* self, double initial_work_delay)
-      : semaphore_(0),
-        initial_work_delay_(initial_work_delay),
-        self_(self) {}
+      : semaphore_(0), initial_work_delay_(initial_work_delay), self_(self) {}
   ~WorkerThreadImpl() {}
 
   void ThreadMain() override {
@@ -40,9 +38,7 @@ class WorkerThreadImpl final : public Thread {
     }
   }
 
-  void SignalSemaphore() {
-    semaphore_.Signal();
-  }
+  void SignalSemaphore() { semaphore_.Signal(); }
 
  private:
   // TODO(mark): Use a condition variable instead?

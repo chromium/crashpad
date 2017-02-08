@@ -76,8 +76,7 @@ class TestSimulateCrashMac final : public MachMultiprocess,
         target_(target),
         behavior_(behavior),
         flavor_(flavor),
-        succeed_(true) {
-  }
+        succeed_(true) {}
 
   ~TestSimulateCrashMac() {}
 
@@ -325,32 +324,30 @@ TEST(SimulateCrash, SimulateCrash) {
 
   const thread_state_flavor_t kFlavors[] = {
 #if defined(ARCH_CPU_X86_FAMILY)
-      x86_THREAD_STATE,
-      x86_FLOAT_STATE,
-      x86_DEBUG_STATE,
+    x86_THREAD_STATE,
+    x86_FLOAT_STATE,
+    x86_DEBUG_STATE,
 #if defined(ARCH_CPU_X86)
-      x86_THREAD_STATE32,
-      x86_FLOAT_STATE32,
-      x86_DEBUG_STATE32,
+    x86_THREAD_STATE32,
+    x86_FLOAT_STATE32,
+    x86_DEBUG_STATE32,
 #elif defined(ARCH_CPU_X86_64)
-      x86_THREAD_STATE64,
-      x86_FLOAT_STATE64,
-      x86_DEBUG_STATE64,
+    x86_THREAD_STATE64,
+    x86_FLOAT_STATE64,
+    x86_DEBUG_STATE64,
 #endif
 #else
 #error Port to your CPU architecture
 #endif
   };
 
-  for (size_t target_index = 0;
-       target_index < arraysize(kTargets);
+  for (size_t target_index = 0; target_index < arraysize(kTargets);
        ++target_index) {
     TestSimulateCrashMac::ExceptionPortsTarget target = kTargets[target_index];
     SCOPED_TRACE(base::StringPrintf(
         "target_index %zu, target %d", target_index, target));
 
-    for (size_t behavior_index = 0;
-         behavior_index < arraysize(kBehaviors);
+    for (size_t behavior_index = 0; behavior_index < arraysize(kBehaviors);
          ++behavior_index) {
       exception_behavior_t behavior = kBehaviors[behavior_index];
       SCOPED_TRACE(base::StringPrintf(
@@ -364,15 +361,15 @@ TEST(SimulateCrash, SimulateCrash) {
             target, behavior, THREAD_STATE_NONE);
         test_simulate_crash_mac.Run();
       } else {
-        for (size_t flavor_index = 0;
-             flavor_index < arraysize(kFlavors);
+        for (size_t flavor_index = 0; flavor_index < arraysize(kFlavors);
              ++flavor_index) {
           thread_state_flavor_t flavor = kFlavors[flavor_index];
-          SCOPED_TRACE(base::StringPrintf(
-              "flavor_index %zu, flavor %s",
-              flavor_index,
-              ThreadStateFlavorToString(
-                  flavor, kUseFullName | kUnknownIsNumeric).c_str()));
+          SCOPED_TRACE(
+              base::StringPrintf("flavor_index %zu, flavor %s",
+                                 flavor_index,
+                                 ThreadStateFlavorToString(
+                                     flavor, kUseFullName | kUnknownIsNumeric)
+                                     .c_str()));
 
           TestSimulateCrashMac test_simulate_crash_mac(
               target, behavior, flavor);

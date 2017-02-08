@@ -35,16 +35,20 @@ namespace {
 
 void Usage(const std::string& me) {
   fprintf(stderr,
-"Usage: %s [OPTION]... COMMAND [ARG]...\n"
-"Start a Crashpad handler and have it handle crashes from COMMAND.\n"
-"\n"
-"  -h, --handler=HANDLER       invoke HANDLER instead of crashpad_handler\n"
-"      --annotation=KEY=VALUE  passed to the handler as an --annotation argument\n"
-"      --database=PATH         passed to the handler as its --database argument\n"
-"      --url=URL               passed to the handler as its --url argument\n"
-"  -a, --argument=ARGUMENT     invoke the handler with ARGUMENT\n"
-"      --help                  display this help and exit\n"
-"      --version               output version information and exit\n",
+          "Usage: %s [OPTION]... COMMAND [ARG]...\n"
+          "Start a Crashpad handler and have it handle crashes from COMMAND.\n"
+          "\n"
+          "  -h, --handler=HANDLER       invoke HANDLER instead of "
+          "crashpad_handler\n"
+          "      --annotation=KEY=VALUE  passed to the handler as an "
+          "--annotation argument\n"
+          "      --database=PATH         passed to the handler as its "
+          "--database argument\n"
+          "      --url=URL               passed to the handler as its --url "
+          "argument\n"
+          "  -a, --argument=ARGUMENT     invoke the handler with ARGUMENT\n"
+          "      --help                  display this help and exit\n"
+          "      --version               output version information and exit\n",
           me.c_str());
   ToolSupport::UsageTail(me);
 }

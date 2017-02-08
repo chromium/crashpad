@@ -34,7 +34,7 @@
 
 #if !defined(_LIBCPP_VERSION)
 #if defined(__has_include)
-#if __has_include(<bits/c++config.h>)
+#if __has_include(<bits / c++ config.h>)
 #include <bits/c++config.h>
 #endif
 #else
@@ -51,12 +51,11 @@
 //
 // libc++, identified by _LIBCPP_VERSION, always supports C++11.
 #if __cplusplus >= 201103l &&                                                 \
-    ((defined(__GLIBCXX__) &&                                                 \
-      __GLIBCXX__ >= 20110325ul &&  /* GCC >= 4.6.0 */                        \
-      __GLIBCXX__ != 20110416ul &&  /* GCC 4.4.6 */                           \
-      __GLIBCXX__ != 20120313ul &&  /* GCC 4.4.7 */                           \
-      __GLIBCXX__ != 20110428ul &&  /* GCC 4.5.3 */                           \
-      __GLIBCXX__ != 20120702ul) ||  /* GCC 4.5.4 */                          \
+    ((defined(__GLIBCXX__) && __GLIBCXX__ >= 20110325ul && /* GCC >= 4.6.0 */ \
+      __GLIBCXX__ != 20110416ul && /* GCC 4.4.6 */                            \
+      __GLIBCXX__ != 20120313ul && /* GCC 4.4.7 */                            \
+      __GLIBCXX__ != 20110428ul && /* GCC 4.5.3 */                            \
+      __GLIBCXX__ != 20120702ul) || /* GCC 4.5.4 */                           \
      (defined(_LIBCPP_VERSION)))
 #define CXX_LIBRARY_VERSION 2011
 #define CXX_LIBRARY_HAS_CONSTEXPR 1

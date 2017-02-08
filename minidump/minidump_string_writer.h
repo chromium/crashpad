@@ -174,10 +174,10 @@ class MinidumpStringListWriter final : public MinidumpRVAListWriter {
 
 }  // namespace internal
 
-using MinidumpUTF16StringListWriter = internal::MinidumpStringListWriter<
-    internal::MinidumpUTF16StringWriter>;
-using MinidumpUTF8StringListWriter = internal::MinidumpStringListWriter<
-    internal::MinidumpUTF8StringWriter>;
+using MinidumpUTF16StringListWriter =
+    internal::MinidumpStringListWriter<internal::MinidumpUTF16StringWriter>;
+using MinidumpUTF8StringListWriter =
+    internal::MinidumpStringListWriter<internal::MinidumpUTF8StringWriter>;
 
 }  // namespace crashpad
 

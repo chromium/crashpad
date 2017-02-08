@@ -55,10 +55,10 @@ void InitializeCPUContextX86_64(CPUContext* context, uint32_t seed);
 //!     structure containing \a fxsave.
 //!
 //! \{
-void InitializeCPUContextX86Fxsave(
-    CPUContextX86::Fxsave* fxsave, uint32_t* seed);
-void InitializeCPUContextX86_64Fxsave(
-    CPUContextX86_64::Fxsave* fxsave, uint32_t* seed);
+void InitializeCPUContextX86Fxsave(CPUContextX86::Fxsave* fxsave,
+                                   uint32_t* seed);
+void InitializeCPUContextX86_64Fxsave(CPUContextX86_64::Fxsave* fxsave,
+                                      uint32_t* seed);
 //! \}
 
 }  // namespace test

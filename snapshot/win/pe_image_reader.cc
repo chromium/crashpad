@@ -44,13 +44,9 @@ struct NtHeadersForTraits<process_types::internal::Traits64> {
 
 }  // namespace
 
-PEImageReader::PEImageReader()
-    : module_subrange_reader_(),
-      initialized_() {
-}
+PEImageReader::PEImageReader() : module_subrange_reader_(), initialized_() {}
 
-PEImageReader::~PEImageReader() {
-}
+PEImageReader::~PEImageReader() {}
 
 bool PEImageReader::Initialize(ProcessReaderWin* process_reader,
                                WinVMAddress address,

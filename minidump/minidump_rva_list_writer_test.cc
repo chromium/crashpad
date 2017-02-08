@@ -67,8 +67,8 @@ TEST(MinidumpRVAListWriter, OneChild) {
   const MinidumpRVAList* list = MinidumpRVAListAtStart(string_file.string(), 1);
   ASSERT_TRUE(list);
 
-  const uint32_t* child = MinidumpWritableAtRVA<uint32_t>(
-      string_file.string(), list->children[0]);
+  const uint32_t* child =
+      MinidumpWritableAtRVA<uint32_t>(string_file.string(), list->children[0]);
   ASSERT_TRUE(child);
   EXPECT_EQ(kValue, *child);
 }
@@ -76,7 +76,7 @@ TEST(MinidumpRVAListWriter, OneChild) {
 TEST(MinidumpRVAListWriter, ThreeChildren) {
   TestMinidumpRVAListWriter list_writer;
 
-  const uint32_t kValues[] = { 0x80000000, 0x55555555, 0x66006600 };
+  const uint32_t kValues[] = {0x80000000, 0x55555555, 0x66006600};
 
   list_writer.AddChild(kValues[0]);
   list_writer.AddChild(kValues[1]);

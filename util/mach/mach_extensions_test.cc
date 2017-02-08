@@ -63,15 +63,9 @@ TEST(MachExtensions, NewMachPort_DeadName) {
 }
 
 const exception_mask_t kExcMaskBasic =
-    EXC_MASK_BAD_ACCESS |
-    EXC_MASK_BAD_INSTRUCTION |
-    EXC_MASK_ARITHMETIC |
-    EXC_MASK_EMULATION |
-    EXC_MASK_SOFTWARE |
-    EXC_MASK_BREAKPOINT |
-    EXC_MASK_SYSCALL |
-    EXC_MASK_MACH_SYSCALL |
-    EXC_MASK_RPC_ALERT;
+    EXC_MASK_BAD_ACCESS | EXC_MASK_BAD_INSTRUCTION | EXC_MASK_ARITHMETIC |
+    EXC_MASK_EMULATION | EXC_MASK_SOFTWARE | EXC_MASK_BREAKPOINT |
+    EXC_MASK_SYSCALL | EXC_MASK_MACH_SYSCALL | EXC_MASK_RPC_ALERT;
 
 TEST(MachExtensions, ExcMaskAll) {
   const exception_mask_t exc_mask_all = ExcMaskAll();
@@ -134,8 +128,8 @@ TEST(MachExtensions, ExcMaskValid) {
 
 TEST(MachExtensions, BootstrapCheckInAndLookUp) {
   // This should always exist.
-  base::mac::ScopedMachSendRight
-      report_crash(BootstrapLookUp("com.apple.ReportCrash"));
+  base::mac::ScopedMachSendRight report_crash(
+      BootstrapLookUp("com.apple.ReportCrash"));
   EXPECT_NE(report_crash, kMachPortNull);
 
   std::string service_name = "org.chromium.crashpad.test.bootstrap_check_in.";
@@ -169,8 +163,8 @@ TEST(MachExtensions, BootstrapCheckInAndLookUp) {
 }
 
 TEST(MachExtensions, SystemCrashReporterHandler) {
-  base::mac::ScopedMachSendRight
-      system_crash_reporter_handler(SystemCrashReporterHandler());
+  base::mac::ScopedMachSendRight system_crash_reporter_handler(
+      SystemCrashReporterHandler());
   EXPECT_TRUE(system_crash_reporter_handler.is_valid());
 }
 

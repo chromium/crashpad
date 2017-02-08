@@ -35,11 +35,9 @@ bool FileReaderInterface::ReadExactly(void* data, size_t size) {
 }
 
 WeakFileHandleFileReader::WeakFileHandleFileReader(FileHandle file_handle)
-    : file_handle_(file_handle) {
-}
+    : file_handle_(file_handle) {}
 
-WeakFileHandleFileReader::~WeakFileHandleFileReader() {
-}
+WeakFileHandleFileReader::~WeakFileHandleFileReader() {}
 
 FileOperationResult WeakFileHandleFileReader::Read(void* data, size_t size) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
@@ -63,12 +61,9 @@ FileOffset WeakFileHandleFileReader::Seek(FileOffset offset, int whence) {
 }
 
 FileReader::FileReader()
-    : file_(),
-      weak_file_handle_file_reader_(kInvalidFileHandle) {
-}
+    : file_(), weak_file_handle_file_reader_(kInvalidFileHandle) {}
 
-FileReader::~FileReader() {
-}
+FileReader::~FileReader() {}
 
 bool FileReader::Open(const base::FilePath& path) {
   CHECK(!file_.is_valid());
@@ -98,12 +93,9 @@ FileOffset FileReader::Seek(FileOffset offset, int whence) {
   return weak_file_handle_file_reader_.Seek(offset, whence);
 }
 
-WeakStdioFileReader::WeakStdioFileReader(FILE* file)
-    : file_(file) {
-}
+WeakStdioFileReader::WeakStdioFileReader(FILE* file) : file_(file) {}
 
-WeakStdioFileReader::~WeakStdioFileReader() {
-}
+WeakStdioFileReader::~WeakStdioFileReader() {}
 
 FileOperationResult WeakStdioFileReader::Read(void* data, size_t size) {
   DCHECK(file_);

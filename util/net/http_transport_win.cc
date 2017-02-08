@@ -61,9 +61,7 @@ std::string WinHttpMessage(const char* extra) {
 }
 
 struct ScopedHINTERNETTraits {
-  static HINTERNET InvalidValue() {
-    return nullptr;
-  }
+  static HINTERNET InvalidValue() { return nullptr; }
   static void Free(HINTERNET handle) {
     if (handle) {
       if (!WinHttpCloseHandle(handle)) {
@@ -86,11 +84,9 @@ class HTTPTransportWin final : public HTTPTransport {
   DISALLOW_COPY_AND_ASSIGN(HTTPTransportWin);
 };
 
-HTTPTransportWin::HTTPTransportWin() : HTTPTransport() {
-}
+HTTPTransportWin::HTTPTransportWin() : HTTPTransport() {}
 
-HTTPTransportWin::~HTTPTransportWin() {
-}
+HTTPTransportWin::~HTTPTransportWin() {}
 
 bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   ScopedHINTERNET session(
@@ -122,8 +118,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   std::wstring url_wide(base::UTF8ToUTF16(url()));
   // dwFlags = ICU_REJECT_USERPWD fails on XP. See "Community Additions" at:
   // https://msdn.microsoft.com/en-us/library/aa384092.aspx
-  if (!WinHttpCrackUrl(
-          url_wide.c_str(), 0, 0, &url_components)) {
+  if (!WinHttpCrackUrl(url_wide.c_str(), 0, 0, &url_components)) {
     LOG(ERROR) << WinHttpMessage("WinHttpCrackUrl");
     return false;
   }
@@ -224,10 +219,9 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
       uint8_t data[32 * 1024];
       char crlf1[2];
     } buf;
-    static_assert(sizeof(buf) == sizeof(buf.size) +
-                                 sizeof(buf.crlf0) +
-                                 sizeof(buf.data) +
-                                 sizeof(buf.crlf1),
+    static_assert(sizeof(buf) ==
+                      sizeof(buf.size) + sizeof(buf.crlf0) + sizeof(buf.data) +
+                          sizeof(buf.crlf1),
                   "buf should not have padding");
 
     // Read a block of data.

@@ -25,7 +25,8 @@
 #include "util/mach/mach_extensions.h"
 #include "util/misc/implicit_cast.h"
 
-#define NUL_TEST_DATA(string) { string, arraysize(string) - 1 }
+#define NUL_TEST_DATA(string) \
+  { string, arraysize(string) - 1 }
 
 namespace crashpad {
 namespace test {
@@ -166,8 +167,7 @@ TEST(SymbolicConstantsMach, ExceptionToString) {
                           kExceptionTestData[index].short_name);
   }
 
-  for (exception_type_t exception = 0;
-       exception < EXC_TYPES_COUNT + 8;
+  for (exception_type_t exception = 0; exception < EXC_TYPES_COUNT + 8;
        ++exception) {
     SCOPED_TRACE(base::StringPrintf("exception %d", exception));
     if (exception > 0 && exception < EXC_TYPES_COUNT) {
@@ -187,8 +187,7 @@ void TestStringToException(const base::StringPiece& string,
 }
 
 TEST(SymbolicConstantsMach, StringToException) {
-  for (size_t option_index = 0;
-       option_index < arraysize(kNormalOptions);
+  for (size_t option_index = 0; option_index < arraysize(kNormalOptions);
        ++option_index) {
     SCOPED_TRACE(base::StringPrintf("option_index %zu", option_index));
     StringToSymbolicConstantOptions options = kNormalOptions[option_index];
@@ -342,10 +341,12 @@ TEST(SymbolicConstantsMach, ExceptionMaskToString) {
   }
 
   // Test kUseOr handling.
-  EXPECT_TRUE(ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
-                                    kUseFullName).empty());
-  EXPECT_TRUE(ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
-                                    kUseShortName).empty());
+  EXPECT_TRUE(
+      ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD, kUseFullName)
+          .empty());
+  EXPECT_TRUE(
+      ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD, kUseShortName)
+          .empty());
   EXPECT_EQ("0x1400",
             ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
                                   kUseFullName | kUnknownIsNumeric));
@@ -389,8 +390,7 @@ TEST(SymbolicConstantsMach, StringToExceptionMask) {
       kAllowFullName | kAllowShortName | kAllowNumber | kAllowOr,
   };
 
-  for (size_t option_index = 0;
-       option_index < arraysize(kOptions);
+  for (size_t option_index = 0; option_index < arraysize(kOptions);
        ++option_index) {
     SCOPED_TRACE(base::StringPrintf("option_index %zu", option_index));
     StringToSymbolicConstantOptions options = kOptions[option_index];
@@ -489,9 +489,7 @@ TEST(SymbolicConstantsMach, StringToExceptionMask) {
       {"EXC_MASK_ALL|EXC_MASK_CRASH",
        kAllowFullName | kAllowOr,
        ExcMaskAll() | EXC_MASK_CRASH},
-      {"ALL|CRASH",
-       kAllowShortName | kAllowOr,
-       ExcMaskAll() | EXC_MASK_CRASH},
+      {"ALL|CRASH", kAllowShortName | kAllowOr, ExcMaskAll() | EXC_MASK_CRASH},
       {"EXC_MASK_BAD_INSTRUCTION|EXC_MASK_BAD_ACCESS",
        kAllowFullName | kAllowOr,
        EXC_MASK_BAD_ACCESS | EXC_MASK_BAD_INSTRUCTION},
@@ -504,7 +502,7 @@ TEST(SymbolicConstantsMach, StringToExceptionMask) {
       {"SYSCALL|0x100",
        kAllowShortName | kAllowNumber | kAllowOr,
        EXC_MASK_SYSCALL | 0x100},
-    };
+  };
 
   for (size_t index = 0; index < arraysize(kNonCanonicalTestData); ++index) {
     SCOPED_TRACE(base::StringPrintf("index %zu", index));
@@ -577,8 +575,7 @@ void TestExceptionBehaviorToString(exception_behavior_t value,
 }
 
 TEST(SymbolicConstantsMach, ExceptionBehaviorToString) {
-  for (size_t index = 0;
-       index < arraysize(kExceptionBehaviorTestData);
+  for (size_t index = 0; index < arraysize(kExceptionBehaviorTestData);
        ++index) {
     SCOPED_TRACE(base::StringPrintf("index %zu", index));
     TestExceptionBehaviorToString(kExceptionBehaviorTestData[index].behavior,
@@ -608,13 +605,11 @@ void TestStringToExceptionBehavior(const base::StringPiece& string,
 }
 
 TEST(SymbolicConstantsMach, StringToExceptionBehavior) {
-  for (size_t option_index = 0;
-       option_index < arraysize(kNormalOptions);
+  for (size_t option_index = 0; option_index < arraysize(kNormalOptions);
        ++option_index) {
     SCOPED_TRACE(base::StringPrintf("option_index %zu", option_index));
     StringToSymbolicConstantOptions options = kNormalOptions[option_index];
-    for (size_t index = 0;
-         index < arraysize(kExceptionBehaviorTestData);
+    for (size_t index = 0; index < arraysize(kExceptionBehaviorTestData);
          ++index) {
       SCOPED_TRACE(base::StringPrintf("index %zu", index));
       exception_behavior_t behavior =
@@ -840,8 +835,7 @@ void TestThreadStateFlavorToString(exception_type_t value,
 }
 
 TEST(SymbolicConstantsMach, ThreadStateFlavorToString) {
-  for (size_t index = 0;
-       index < arraysize(kThreadStateFlavorTestData);
+  for (size_t index = 0; index < arraysize(kThreadStateFlavorTestData);
        ++index) {
     SCOPED_TRACE(base::StringPrintf("index %zu", index));
     TestThreadStateFlavorToString(kThreadStateFlavorTestData[index].flavor,
@@ -883,13 +877,11 @@ void TestStringToThreadStateFlavor(const base::StringPiece& string,
 }
 
 TEST(SymbolicConstantsMach, StringToThreadStateFlavor) {
-  for (size_t option_index = 0;
-       option_index < arraysize(kNormalOptions);
+  for (size_t option_index = 0; option_index < arraysize(kNormalOptions);
        ++option_index) {
     SCOPED_TRACE(base::StringPrintf("option_index %zu", option_index));
     StringToSymbolicConstantOptions options = kNormalOptions[option_index];
-    for (size_t index = 0;
-         index < arraysize(kThreadStateFlavorTestData);
+    for (size_t index = 0; index < arraysize(kThreadStateFlavorTestData);
          ++index) {
       SCOPED_TRACE(base::StringPrintf("index %zu", index));
       thread_state_flavor_t flavor = kThreadStateFlavorTestData[index].flavor;
@@ -969,59 +961,59 @@ TEST(SymbolicConstantsMach, StringToThreadStateFlavor) {
       const char* string;
       size_t length;
     } kNULTestData[] = {
-        NUL_TEST_DATA("\0THREAD_STATE_NONE"),
-        NUL_TEST_DATA("THREAD_\0STATE_NONE"),
-        NUL_TEST_DATA("THREAD_STATE_\0NONE"),
-        NUL_TEST_DATA("THREAD_STATE_NO\0NE"),
-        NUL_TEST_DATA("THREAD_STATE_NONE\0"),
-        NUL_TEST_DATA("\0NONE"),
-        NUL_TEST_DATA("NO\0NE"),
-        NUL_TEST_DATA("NONE\0"),
-        NUL_TEST_DATA("\0THREAD_STATE_FLAVOR_LIST_NEW"),
-        NUL_TEST_DATA("THREAD_STATE_\0FLAVOR_LIST_NEW"),
-        NUL_TEST_DATA("THREAD_STATE_FLAVOR_LIST\0_NEW"),
-        NUL_TEST_DATA("THREAD_STATE_FLAVOR_LIST_NEW\0"),
-        NUL_TEST_DATA("\0FLAVOR_LIST_NEW"),
-        NUL_TEST_DATA("FLAVOR_LIST\0_NEW"),
-        NUL_TEST_DATA("FLAVOR_LIST_NEW\0"),
-        NUL_TEST_DATA("\0THREAD"),
-        NUL_TEST_DATA("THR\0EAD"),
-        NUL_TEST_DATA("THREAD\0"),
-        NUL_TEST_DATA("\0THREAD64"),
-        NUL_TEST_DATA("THR\0EAD64"),
-        NUL_TEST_DATA("THREAD\064"),
-        NUL_TEST_DATA("THREAD64\0"),
-        NUL_TEST_DATA("\0002"),
-        NUL_TEST_DATA("2\0"),
-        NUL_TEST_DATA("1\0002"),
+      NUL_TEST_DATA("\0THREAD_STATE_NONE"),
+      NUL_TEST_DATA("THREAD_\0STATE_NONE"),
+      NUL_TEST_DATA("THREAD_STATE_\0NONE"),
+      NUL_TEST_DATA("THREAD_STATE_NO\0NE"),
+      NUL_TEST_DATA("THREAD_STATE_NONE\0"),
+      NUL_TEST_DATA("\0NONE"),
+      NUL_TEST_DATA("NO\0NE"),
+      NUL_TEST_DATA("NONE\0"),
+      NUL_TEST_DATA("\0THREAD_STATE_FLAVOR_LIST_NEW"),
+      NUL_TEST_DATA("THREAD_STATE_\0FLAVOR_LIST_NEW"),
+      NUL_TEST_DATA("THREAD_STATE_FLAVOR_LIST\0_NEW"),
+      NUL_TEST_DATA("THREAD_STATE_FLAVOR_LIST_NEW\0"),
+      NUL_TEST_DATA("\0FLAVOR_LIST_NEW"),
+      NUL_TEST_DATA("FLAVOR_LIST\0_NEW"),
+      NUL_TEST_DATA("FLAVOR_LIST_NEW\0"),
+      NUL_TEST_DATA("\0THREAD"),
+      NUL_TEST_DATA("THR\0EAD"),
+      NUL_TEST_DATA("THREAD\0"),
+      NUL_TEST_DATA("\0THREAD64"),
+      NUL_TEST_DATA("THR\0EAD64"),
+      NUL_TEST_DATA("THREAD\064"),
+      NUL_TEST_DATA("THREAD64\0"),
+      NUL_TEST_DATA("\0002"),
+      NUL_TEST_DATA("2\0"),
+      NUL_TEST_DATA("1\0002"),
 #if defined(__i386__) || defined(__x86_64__)
-        NUL_TEST_DATA("\0x86_THREAD_STATE64"),
-        NUL_TEST_DATA("x86\0_THREAD_STATE64"),
-        NUL_TEST_DATA("x86_\0THREAD_STATE64"),
-        NUL_TEST_DATA("x86_THR\0EAD_STATE64"),
-        NUL_TEST_DATA("x86_THREAD\0_STATE64"),
-        NUL_TEST_DATA("x86_THREAD_\0STATE64"),
-        NUL_TEST_DATA("x86_THREAD_STA\0TE64"),
-        NUL_TEST_DATA("x86_THREAD_STATE\00064"),
-        NUL_TEST_DATA("x86_THREAD_STATE64\0"),
+      NUL_TEST_DATA("\0x86_THREAD_STATE64"),
+      NUL_TEST_DATA("x86\0_THREAD_STATE64"),
+      NUL_TEST_DATA("x86_\0THREAD_STATE64"),
+      NUL_TEST_DATA("x86_THR\0EAD_STATE64"),
+      NUL_TEST_DATA("x86_THREAD\0_STATE64"),
+      NUL_TEST_DATA("x86_THREAD_\0STATE64"),
+      NUL_TEST_DATA("x86_THREAD_STA\0TE64"),
+      NUL_TEST_DATA("x86_THREAD_STATE\00064"),
+      NUL_TEST_DATA("x86_THREAD_STATE64\0"),
 #elif defined(__ppc__) || defined(__ppc64__)
-        NUL_TEST_DATA("\0PPC_THREAD_STATE64"),
-        NUL_TEST_DATA("PPC\0_THREAD_STATE64"),
-        NUL_TEST_DATA("PPC_\0THREAD_STATE64"),
-        NUL_TEST_DATA("PPC_THR\0EAD_STATE64"),
-        NUL_TEST_DATA("PPC_THREAD\0_STATE64"),
-        NUL_TEST_DATA("PPC_THREAD_\0STATE64"),
-        NUL_TEST_DATA("PPC_THREAD_STA\0TE64"),
-        NUL_TEST_DATA("PPC_THREAD_STATE\00064"),
+      NUL_TEST_DATA("\0PPC_THREAD_STATE64"),
+      NUL_TEST_DATA("PPC\0_THREAD_STATE64"),
+      NUL_TEST_DATA("PPC_\0THREAD_STATE64"),
+      NUL_TEST_DATA("PPC_THR\0EAD_STATE64"),
+      NUL_TEST_DATA("PPC_THREAD\0_STATE64"),
+      NUL_TEST_DATA("PPC_THREAD_\0STATE64"),
+      NUL_TEST_DATA("PPC_THREAD_STA\0TE64"),
+      NUL_TEST_DATA("PPC_THREAD_STATE\00064"),
 #elif defined(__arm__) || defined(__arm64__)
-        NUL_TEST_DATA("\0ARM_THREAD_STATE64"),
-        NUL_TEST_DATA("ARM\0_THREAD_STATE64"),
-        NUL_TEST_DATA("ARM_\0THREAD_STATE64"),
-        NUL_TEST_DATA("ARM_THR\0EAD_STATE64"),
-        NUL_TEST_DATA("ARM_THREAD\0_STATE64"),
-        NUL_TEST_DATA("ARM_THREAD_\0STATE64"),
-        NUL_TEST_DATA("ARM_THREAD_STA\0TE64"),
-        NUL_TEST_DATA("ARM_THREAD_STATE\00064"),
+      NUL_TEST_DATA("\0ARM_THREAD_STATE64"),
+      NUL_TEST_DATA("ARM\0_THREAD_STATE64"),
+      NUL_TEST_DATA("ARM_\0THREAD_STATE64"),
+      NUL_TEST_DATA("ARM_THR\0EAD_STATE64"),
+      NUL_TEST_DATA("ARM_THREAD\0_STATE64"),
+      NUL_TEST_DATA("ARM_THREAD_\0STATE64"),
+      NUL_TEST_DATA("ARM_THREAD_STA\0TE64"),
+      NUL_TEST_DATA("ARM_THREAD_STATE\00064"),
 #endif
     };
 

@@ -326,9 +326,22 @@ TEST(MinidumpModuleWriter, OneModule) {
   const uint32_t kFileType = VFT_DRV;
   const uint32_t kFileSubtype = VFT2_DRV_KEYBOARD;
   const char kPDBName[] = "statical.pdb";
-  const uint8_t kPDBUUIDBytes[16] =
-      {0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10,
-       0x08, 0x19, 0x2a, 0x3b, 0x4c, 0x5d, 0x6e, 0x7f};
+  const uint8_t kPDBUUIDBytes[16] = {0xfe,
+                                     0xdc,
+                                     0xba,
+                                     0x98,
+                                     0x76,
+                                     0x54,
+                                     0x32,
+                                     0x10,
+                                     0x08,
+                                     0x19,
+                                     0x2a,
+                                     0x3b,
+                                     0x4c,
+                                     0x5d,
+                                     0x6e,
+                                     0x7f};
   UUID pdb_uuid;
   pdb_uuid.InitializeFromBytes(kPDBUUIDBytes);
   const uint32_t kPDBAge = 1;
@@ -483,9 +496,22 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   const uint64_t kModuleBase0 = 0x100101000;
   const uint32_t kModuleSize0 = 0xf000;
   const char kPDBName0[] = "main";
-  const uint8_t kPDBUUIDBytes0[16] =
-      {0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff, 0x00, 0x11,
-       0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99};
+  const uint8_t kPDBUUIDBytes0[16] = {0xaa,
+                                      0xbb,
+                                      0xcc,
+                                      0xdd,
+                                      0xee,
+                                      0xff,
+                                      0x00,
+                                      0x11,
+                                      0x22,
+                                      0x33,
+                                      0x44,
+                                      0x55,
+                                      0x66,
+                                      0x77,
+                                      0x88,
+                                      0x99};
   UUID pdb_uuid_0;
   pdb_uuid_0.InitializeFromBytes(kPDBUUIDBytes0);
   const uint32_t kPDBAge0 = 0;
@@ -669,9 +695,22 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   module_paths[0] = "/usr/bin/true";
   module_names[0] = "true";
   module_pdbs[0] = "true";
-  const uint8_t kUUIDBytes0[16] =
-      {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
-       0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
+  const uint8_t kUUIDBytes0[16] = {0x00,
+                                   0x11,
+                                   0x22,
+                                   0x33,
+                                   0x44,
+                                   0x55,
+                                   0x66,
+                                   0x77,
+                                   0x88,
+                                   0x99,
+                                   0xaa,
+                                   0xbb,
+                                   0xcc,
+                                   0xdd,
+                                   0xee,
+                                   0xff};
   uuids[0].InitializeFromBytes(kUUIDBytes0);
   ages[0] = 10;
 
@@ -686,9 +725,22 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   module_paths[1] = "/usr/lib/libSystem.B.dylib";
   module_names[1] = "libSystem.B.dylib";
   module_pdbs[1] = "libSystem.B.dylib.pdb";
-  const uint8_t kUUIDBytes1[16] =
-      {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-       0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
+  const uint8_t kUUIDBytes1[16] = {0x00,
+                                   0x01,
+                                   0x02,
+                                   0x03,
+                                   0x04,
+                                   0x05,
+                                   0x06,
+                                   0x07,
+                                   0x08,
+                                   0x09,
+                                   0x0a,
+                                   0x0b,
+                                   0x0c,
+                                   0x0d,
+                                   0x0e,
+                                   0x0f};
   uuids[1].InitializeFromBytes(kUUIDBytes1);
   ages[1] = 20;
 
@@ -703,9 +755,22 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   module_paths[2] = "/usr/lib/dyld";
   module_names[2] = "dyld";
   module_pdbs[2] = "/usr/lib/dyld.pdb";
-  const uint8_t kUUIDBytes2[16] =
-      {0xff, 0xfe, 0xfd, 0xfc, 0xfb, 0xfa, 0xf9, 0xf8,
-       0xf7, 0xf6, 0xf5, 0xf4, 0xf3, 0xf2, 0xf1, 0xf0};
+  const uint8_t kUUIDBytes2[16] = {0xff,
+                                   0xfe,
+                                   0xfd,
+                                   0xfc,
+                                   0xfb,
+                                   0xfa,
+                                   0xf9,
+                                   0xf8,
+                                   0xf7,
+                                   0xf6,
+                                   0xf5,
+                                   0xf4,
+                                   0xf3,
+                                   0xf2,
+                                   0xf1,
+                                   0xf0};
   uuids[2].InitializeFromBytes(kUUIDBytes2);
   ages[2] = 30;
 

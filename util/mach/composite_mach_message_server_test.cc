@@ -51,11 +51,9 @@ class TestMachMessageHandler : public MachMessageServer::Interface {
         reply_size_(0),
         return_code_(KERN_FAILURE),
         return_value_(false),
-        destroy_complex_request_(false) {
-  }
+        destroy_complex_request_(false) {}
 
-  ~TestMachMessageHandler() {
-  }
+  ~TestMachMessageHandler() {}
 
   void SetReturnCodes(bool return_value,
                       kern_return_t return_code,
@@ -73,9 +71,7 @@ class TestMachMessageHandler : public MachMessageServer::Interface {
     request_size_ = request_size;
   }
 
-  void SetReplySize(mach_msg_size_t reply_size) {
-    reply_size_ = reply_size;
-  }
+  void SetReplySize(mach_msg_size_t reply_size) { reply_size_ = reply_size; }
 
   // MachMessageServer::Interface:
 
@@ -98,9 +94,7 @@ class TestMachMessageHandler : public MachMessageServer::Interface {
     return request_size_;
   }
 
-  mach_msg_size_t MachMessageServerReplySize() override {
-    return reply_size_;
-  }
+  mach_msg_size_t MachMessageServerReplySize() override { return reply_size_; }
 
  private:
   std::set<mach_msg_id_t> request_ids_;

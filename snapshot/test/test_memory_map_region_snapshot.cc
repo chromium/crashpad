@@ -17,11 +17,9 @@
 namespace crashpad {
 namespace test {
 
-TestMemoryMapRegionSnapshot::TestMemoryMapRegionSnapshot() : memory_info_() {
-}
+TestMemoryMapRegionSnapshot::TestMemoryMapRegionSnapshot() : memory_info_() {}
 
-TestMemoryMapRegionSnapshot::~TestMemoryMapRegionSnapshot() {
-}
+TestMemoryMapRegionSnapshot::~TestMemoryMapRegionSnapshot() {}
 
 void TestMemoryMapRegionSnapshot::SetMindumpMemoryInfo(
     const MINIDUMP_MEMORY_INFO& mmi) {

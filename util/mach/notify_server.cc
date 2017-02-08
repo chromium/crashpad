@@ -142,14 +142,11 @@ kern_return_t NotifyServer::DefaultInterface::DoMachNotifyDeadName(
 }
 
 NotifyServer::NotifyServer(NotifyServer::Interface* interface)
-    : MachMessageServer::Interface(),
-      interface_(interface) {
-}
+    : MachMessageServer::Interface(), interface_(interface) {}
 
-bool NotifyServer::MachMessageServerFunction(
-    const mach_msg_header_t* in_header,
-    mach_msg_header_t* out_header,
-    bool* destroy_complex_request) {
+bool NotifyServer::MachMessageServerFunction(const mach_msg_header_t* in_header,
+                                             mach_msg_header_t* out_header,
+                                             bool* destroy_complex_request) {
   PrepareMIGReplyFromRequest(in_header, out_header);
 
   const mach_msg_trailer_t* in_trailer =
@@ -168,10 +165,8 @@ bool NotifyServer::MachMessageServerFunction(
 
       using Reply = __Reply__mach_notify_port_deleted_t;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->DoMachNotifyPortDeleted(in_header->msgh_local_port,
-                                              in_request->name,
-                                              in_trailer);
+      out_reply->RetCode = interface_->DoMachNotifyPortDeleted(
+          in_header->msgh_local_port, in_request->name, in_trailer);
       return true;
     }
 
@@ -207,10 +202,8 @@ bool NotifyServer::MachMessageServerFunction(
 
       using Reply = __Reply__mach_notify_no_senders_t;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->DoMachNotifyNoSenders(in_header->msgh_local_port,
-                                            in_request->mscount,
-                                            in_trailer);
+      out_reply->RetCode = interface_->DoMachNotifyNoSenders(
+          in_header->msgh_local_port, in_request->mscount, in_trailer);
       return true;
     }
 
@@ -226,9 +219,8 @@ bool NotifyServer::MachMessageServerFunction(
 
       using Reply = __Reply__mach_notify_send_once_t;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->DoMachNotifySendOnce(in_header->msgh_local_port,
-                                           in_trailer);
+      out_reply->RetCode = interface_->DoMachNotifySendOnce(
+          in_header->msgh_local_port, in_trailer);
       return true;
     }
 
@@ -244,10 +236,8 @@ bool NotifyServer::MachMessageServerFunction(
 
       using Reply = __Reply__mach_notify_dead_name_t;
       Reply* out_reply = reinterpret_cast<Reply*>(out_header);
-      out_reply->RetCode =
-          interface_->DoMachNotifyDeadName(in_header->msgh_local_port,
-                                           in_request->name,
-                                           in_trailer);
+      out_reply->RetCode = interface_->DoMachNotifyDeadName(
+          in_header->msgh_local_port, in_request->name, in_trailer);
       return true;
     }
 

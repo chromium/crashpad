@@ -58,9 +58,7 @@ class TestDelegate : public ExceptionHandlerServer::Delegate {
   explicit TestDelegate(HANDLE server_ready) : server_ready_(server_ready) {}
   ~TestDelegate() override {}
 
-  void ExceptionHandlerServerStarted() override {
-    SetEvent(server_ready_);
-  }
+  void ExceptionHandlerServerStarted() override { SetEvent(server_ready_); }
   unsigned int ExceptionHandlerServerException(
       HANDLE process,
       WinVMAddress exception_information_address,
@@ -120,8 +118,7 @@ class ScopedStopServerAndJoinThread {
   DISALLOW_COPY_AND_ASSIGN(ScopedStopServerAndJoinThread);
 };
 
-TEST_F(ExceptionHandlerServerTest, Instantiate) {
-}
+TEST_F(ExceptionHandlerServerTest, Instantiate) {}
 
 TEST_F(ExceptionHandlerServerTest, StartAndStop) {
   server_thread().Start();

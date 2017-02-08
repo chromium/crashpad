@@ -44,28 +44,35 @@ namespace crashpad {
 namespace {
 
 void Usage(const base::FilePath& me) {
-  fprintf(stderr,
-"Usage: %" PRFilePath " [OPTION]... PID\n"
-"Operate on Crashpad crash report databases.\n"
-"\n"
-"      --create                    allow database at PATH to be created\n"
-"  -d, --database=PATH             operate on the crash report database at PATH\n"
-"      --show-client-id            show the client ID\n"
-"      --show-uploads-enabled      show whether uploads are enabled\n"
-"      --show-last-upload-attempt-time\n"
-"                                  show the last-upload-attempt time\n"
-"      --show-pending-reports      show reports eligible for upload\n"
-"      --show-completed-reports    show reports not eligible for upload\n"
-"      --show-all-report-info      with --show-*-reports, show more information\n"
-"      --show-report=UUID          show report stored under UUID\n"
-"      --set-uploads-enabled=BOOL  enable or disable uploads\n"
-"      --set-last-upload-attempt-time=TIME\n"
-"                                  set the last-upload-attempt time to TIME\n"
-"      --new-report=PATH           submit a new report at PATH, or - for stdin\n"
-"      --utc                       show and set UTC times instead of local\n"
-"      --help                      display this help and exit\n"
-"      --version                   output version information and exit\n",
-          me.value().c_str());
+  fprintf(
+      stderr,
+      "Usage: %" PRFilePath
+      " [OPTION]... PID\n"
+      "Operate on Crashpad crash report databases.\n"
+      "\n"
+      "      --create                    allow database at PATH to be created\n"
+      "  -d, --database=PATH             operate on the crash report database "
+      "at PATH\n"
+      "      --show-client-id            show the client ID\n"
+      "      --show-uploads-enabled      show whether uploads are enabled\n"
+      "      --show-last-upload-attempt-time\n"
+      "                                  show the last-upload-attempt time\n"
+      "      --show-pending-reports      show reports eligible for upload\n"
+      "      --show-completed-reports    show reports not eligible for upload\n"
+      "      --show-all-report-info      with --show-*-reports, show more "
+      "information\n"
+      "      --show-report=UUID          show report stored under UUID\n"
+      "      --set-uploads-enabled=BOOL  enable or disable uploads\n"
+      "      --set-last-upload-attempt-time=TIME\n"
+      "                                  set the last-upload-attempt time to "
+      "TIME\n"
+      "      --new-report=PATH           submit a new report at PATH, or - for "
+      "stdin\n"
+      "      --utc                       show and set UTC times instead of "
+      "local\n"
+      "      --help                      display this help and exit\n"
+      "      --version                   output version information and exit\n",
+      me.value().c_str());
   ToolSupport::UsageTail(me);
 }
 
@@ -93,20 +100,10 @@ struct Options {
 // case-insensitively.
 bool StringToBool(const char* string, bool* boolean) {
   const char* const kFalseWords[] = {
-      "0",
-      "false",
-      "no",
-      "off",
-      "disabled",
-      "clear",
+      "0", "false", "no", "off", "disabled", "clear",
   };
   const char* const kTrueWords[] = {
-      "1",
-      "true",
-      "yes",
-      "on",
-      "enabled",
-      "set",
+      "1", "true", "yes", "on", "enabled", "set",
   };
 
   for (size_t index = 0; index < arraysize(kFalseWords); ++index) {
@@ -154,9 +151,7 @@ bool StringToTime(const char* string, time_t* out_time, bool utc) {
   const char* end = string + strlen(string);
 
   const char* const kFormats[] = {
-      "%Y-%m-%d %H:%M:%S %Z",
-      "%Y-%m-%d %H:%M:%S",
-      "%+",
+      "%Y-%m-%d %H:%M:%S %Z", "%Y-%m-%d %H:%M:%S", "%+",
   };
 
   for (size_t index = 0; index < arraysize(kFormats); ++index) {
@@ -428,13 +423,11 @@ int DatabaseUtilMain(int argc, char* argv[]) {
   }
 
   // --new-report is treated as a show operation because it produces output.
-  const size_t show_operations = options.show_client_id +
-                                 options.show_uploads_enabled +
-                                 options.show_last_upload_attempt_time +
-                                 options.show_pending_reports +
-                                 options.show_completed_reports +
-                                 options.show_reports.size() +
-                                 options.new_report_paths.size();
+  const size_t show_operations =
+      options.show_client_id + options.show_uploads_enabled +
+      options.show_last_upload_attempt_time + options.show_pending_reports +
+      options.show_completed_reports + options.show_reports.size() +
+      options.new_report_paths.size();
   const size_t set_operations =
       options.has_set_uploads_enabled +
       (options.set_last_upload_attempt_time_string != nullptr);

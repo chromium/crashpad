@@ -169,8 +169,7 @@ TEST(CompositeHTTPBodyStream, TwoEmptyStrings) {
 }
 
 class CompositeHTTPBodyStreamBufferSize
-    : public testing::TestWithParam<size_t> {
-};
+    : public testing::TestWithParam<size_t> {};
 
 TEST_P(CompositeHTTPBodyStreamBufferSize, ThreeStringParts) {
   std::string string1("crashpad");

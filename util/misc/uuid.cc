@@ -66,8 +66,7 @@ bool UUID::InitializeFromString(const base::StringPiece& string) {
 
   UUID temp;
   const char kScanFormat[] =
-      "%08" SCNx32 "-%04" SCNx16 "-%04" SCNx16
-      "-%02" SCNx8 "%02" SCNx8
+      "%08" SCNx32 "-%04" SCNx16 "-%04" SCNx16 "-%02" SCNx8 "%02" SCNx8
       "-%02" SCNx8 "%02" SCNx8 "%02" SCNx8 "%02" SCNx8 "%02" SCNx8 "%02" SCNx8;
   int rv = sscanf(string.data(),
                   kScanFormat,
@@ -114,8 +113,7 @@ bool UUID::InitializeWithNew() {
 
 #if defined(OS_WIN)
 void UUID::InitializeFromSystemUUID(const ::UUID* system_uuid) {
-  static_assert(sizeof(::UUID) == sizeof(UUID),
-                "unexpected system uuid size");
+  static_assert(sizeof(::UUID) == sizeof(UUID), "unexpected system uuid size");
   static_assert(offsetof(::UUID, Data1) == offsetof(UUID, data_1),
                 "unexpected system uuid layout");
   memcpy(this, system_uuid, sizeof(*this));

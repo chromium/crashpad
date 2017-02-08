@@ -26,11 +26,9 @@ CompositeMachMessageServer::CompositeMachMessageServer()
     : MachMessageServer::Interface(),
       handler_map_(),
       request_size_(sizeof(mach_msg_header_t)),
-      reply_size_(sizeof(mig_reply_error_t)) {
-}
+      reply_size_(sizeof(mig_reply_error_t)) {}
 
-CompositeMachMessageServer::~CompositeMachMessageServer() {
-}
+CompositeMachMessageServer::~CompositeMachMessageServer() {}
 
 void CompositeMachMessageServer::AddHandler(
     MachMessageServer::Interface* handler) {

@@ -18,7 +18,6 @@
 #include "client/crashpad_info.h"
 #include "util/file/file_io.h"
 
-
 int wmain(int argc, wchar_t* argv[]) {
   using namespace crashpad;
 

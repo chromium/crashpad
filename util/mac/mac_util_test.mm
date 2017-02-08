@@ -52,8 +52,7 @@ void SwVers(NSString* argument, std::string* output) {
 
     @try {
       [task launch];
-    }
-    @catch (NSException* exception) {
+    } @catch (NSException* exception) {
       FAIL() << [[exception name] UTF8String] << ": "
              << [[exception reason] UTF8String];
     }

@@ -92,35 +92,27 @@ std::string EncodeMIMEField(const std::string& name) {
 // after which the contents of the part at |name| can be appended.
 std::string GetFormDataBoundary(const std::string& boundary,
                                 const std::string& name) {
-  return base::StringPrintf(
-      "--%s%sContent-Disposition: form-data; name=\"%s\"",
-      boundary.c_str(),
-      kCRLF,
-      EncodeMIMEField(name).c_str());
+  return base::StringPrintf("--%s%sContent-Disposition: form-data; name=\"%s\"",
+                            boundary.c_str(),
+                            kCRLF,
+                            EncodeMIMEField(name).c_str());
 }
 
 void AssertSafeMIMEType(const std::string& string) {
   for (size_t i = 0; i < string.length(); ++i) {
     char c = string[i];
-    CHECK((c >= 'a' && c <= 'z') ||
-          (c >= 'A' && c <= 'Z') ||
-          (c >= '0' && c <= '9') ||
-          c == '/' ||
-          c == '.' ||
-          c == '_' ||
-          c == '+' ||
-          c == '-');
+    CHECK((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
+          (c >= '0' && c <= '9') || c == '/' || c == '.' || c == '_' ||
+          c == '+' || c == '-');
   }
 }
 
 }  // namespace
 
 HTTPMultipartBuilder::HTTPMultipartBuilder()
-    : boundary_(GenerateBoundaryString()), form_data_(), file_attachments_() {
-}
+    : boundary_(GenerateBoundaryString()), form_data_(), file_attachments_() {}
 
-HTTPMultipartBuilder::~HTTPMultipartBuilder() {
-}
+HTTPMultipartBuilder::~HTTPMultipartBuilder() {}
 
 void HTTPMultipartBuilder::SetFormData(const std::string& key,
                                        const std::string& value) {
@@ -166,18 +158,17 @@ std::unique_ptr<HTTPBodyStream> HTTPMultipartBuilder::GetBodyStream() {
   for (const auto& pair : file_attachments_) {
     const FileAttachment& attachment = pair.second;
     std::string header = GetFormDataBoundary(boundary_, pair.first);
-    header += base::StringPrintf("; filename=\"%s\"%s",
-        attachment.filename.c_str(), kCRLF);
-    header += base::StringPrintf("Content-Type: %s%s",
-        attachment.content_type.c_str(), kBoundaryCRLF);
+    header += base::StringPrintf(
+        "; filename=\"%s\"%s", attachment.filename.c_str(), kCRLF);
+    header += base::StringPrintf(
+        "Content-Type: %s%s", attachment.content_type.c_str(), kBoundaryCRLF);
 
     streams.push_back(new StringHTTPBodyStream(header));
     streams.push_back(new FileHTTPBodyStream(attachment.path));
     streams.push_back(new StringHTTPBodyStream(kCRLF));
   }
 
-  streams.push_back(
-      new StringHTTPBodyStream("--"  + boundary_ + "--" + kCRLF));
+  streams.push_back(new StringHTTPBodyStream("--" + boundary_ + "--" + kCRLF));
 
   return std::unique_ptr<HTTPBodyStream>(new CompositeHTTPBodyStream(streams));
 }

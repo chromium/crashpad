@@ -94,8 +94,8 @@ void TestSelfProcess(const ProcessInfo& process_info) {
   std::vector<std::string> argv;
   ASSERT_TRUE(process_info.Arguments(&argv));
 
-  // gtest argv processing scrambles argv, but it leaves argc and argv[0]
-  // intact, so test those.
+// gtest argv processing scrambles argv, but it leaves argc and argv[0]
+// intact, so test those.
 
 #if defined(OS_MACOSX)
   int expect_argc = *_NSGetArgc();
@@ -140,7 +140,6 @@ void TestSelfProcess(const ProcessInfo& process_info) {
 
   EXPECT_EQ(std::string(expect_argv[0]), argv[0]);
 }
-
 
 TEST(ProcessInfo, Self) {
   ProcessInfo process_info;

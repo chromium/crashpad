@@ -24,8 +24,7 @@
 
 namespace crashpad {
 
-MinidumpContextWriter::~MinidumpContextWriter() {
-}
+MinidumpContextWriter::~MinidumpContextWriter() {}
 
 // static
 std::unique_ptr<MinidumpContextWriter>
@@ -71,9 +70,7 @@ MinidumpContextX86Writer::MinidumpContextX86Writer()
   context_.context_flags = kMinidumpContextX86;
 }
 
-MinidumpContextX86Writer::~MinidumpContextX86Writer() {
-}
-
+MinidumpContextX86Writer::~MinidumpContextX86Writer() {}
 
 void MinidumpContextX86Writer::InitializeFromSnapshot(
     const CPUContextX86* context_snapshot) {
@@ -150,8 +147,7 @@ MinidumpContextAMD64Writer::MinidumpContextAMD64Writer()
   context_.context_flags = kMinidumpContextAMD64;
 }
 
-MinidumpContextAMD64Writer::~MinidumpContextAMD64Writer() {
-}
+MinidumpContextAMD64Writer::~MinidumpContextAMD64Writer() {}
 
 void MinidumpContextAMD64Writer::InitializeFromSnapshot(
     const CPUContextX86_64* context_snapshot) {

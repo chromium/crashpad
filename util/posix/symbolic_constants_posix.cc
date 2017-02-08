@@ -30,7 +30,9 @@ const char* kSignalNames[] = {
     nullptr,
 
 #if defined(OS_MACOSX)
-    // sed -Ene 's/^#define[[:space:]]SIG([[:alnum:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
+    // sed -Ene
+    // 's/^#define[[:space:]]SIG([[:alnum:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/
+    // "\1",/p'
     //     /usr/include/sys/signal.h
     // and fix up by removing the entry for SIGPOLL.
     "HUP",
@@ -65,7 +67,9 @@ const char* kSignalNames[] = {
     "USR1",
     "USR2",
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
-    // sed -Ene 's/^#define[[:space:]]SIG([[:alnum:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
+    // sed -Ene
+    // 's/^#define[[:space:]]SIG([[:alnum:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/
+    // "\1",/p'
     //     /usr/include/asm-generic/signal.h
     // and fix up by removing SIGIOT, SIGLOST, SIGUNUSED, and SIGRTMIN.
     "HUP",
@@ -142,8 +146,7 @@ bool StringToSignal(const base::StringPiece& string,
         string.substr(0, strlen(kSigPrefix)).compare(kSigPrefix) == 0;
     base::StringPiece short_string =
         can_match_full ? string.substr(strlen(kSigPrefix)) : string;
-    for (int index = 0;
-         index < implicit_cast<int>(arraysize(kSignalNames));
+    for (int index = 0; index < implicit_cast<int>(arraysize(kSignalNames));
          ++index) {
       const char* signal_name = kSignalNames[index];
       if (!signal_name) {

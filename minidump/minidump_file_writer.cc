@@ -51,8 +51,7 @@ MinidumpFileWriter::MinidumpFileWriter()
   header_.Flags = MiniDumpNormal;
 }
 
-MinidumpFileWriter::~MinidumpFileWriter() {
-}
+MinidumpFileWriter::~MinidumpFileWriter() {}
 
 void MinidumpFileWriter::InitializeFromSnapshot(
     const ProcessSnapshot* process_snapshot) {

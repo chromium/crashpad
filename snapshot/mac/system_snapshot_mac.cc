@@ -97,11 +97,9 @@ SystemSnapshotMac::SystemSnapshotMac()
       os_version_minor_(0),
       os_version_bugfix_(0),
       os_server_(false),
-      initialized_() {
-}
+      initialized_() {}
 
-SystemSnapshotMac::~SystemSnapshotMac() {
-}
+SystemSnapshotMac::~SystemSnapshotMac() {}
 
 void SystemSnapshotMac::Initialize(ProcessReader* process_reader,
                                    const timeval* snapshot_time) {
@@ -186,8 +184,8 @@ std::string SystemSnapshotMac::CPUVendor() const {
 #endif
 }
 
-void SystemSnapshotMac::CPUFrequency(
-    uint64_t* current_hz, uint64_t* max_hz) const {
+void SystemSnapshotMac::CPUFrequency(uint64_t* current_hz,
+                                     uint64_t* max_hz) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *current_hz = ReadIntSysctlByName<uint64_t>("hw.cpufrequency", 0);
   *max_hz = ReadIntSysctlByName<uint64_t>("hw.cpufrequency_max", 0);
@@ -271,7 +269,7 @@ bool SystemSnapshotMac::CPUX86SupportsDAZ() const {
     return false;
   }
 
-  // Call fxsave.
+// Call fxsave.
 #if defined(ARCH_CPU_X86)
   CPUContextX86::Fxsave fxsave __attribute__((aligned(16))) = {};
 #elif defined(ARCH_CPU_X86_64)
@@ -363,11 +361,10 @@ void SystemSnapshotMac::TimeZone(DaylightSavingTimeStatus* dst_status,
     // no transitions to or from daylight saving time occurred or will occur
     // within a year of the current date. Arizona, which last observed daylight
     // saving time in 1967, is an example.
-    const int kMonthDeltas[] =
-        { 0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6,
-          7, -7, 8, -8, 9, -9, 10, -10, 11, -11, 12, -12 };
-    for (size_t index = 0;
-         index < arraysize(kMonthDeltas) && !found_transition;
+    const int kMonthDeltas[] = {0,  1,  -1,  2,  -2,  3,  -3, 4,  -4,
+                                5,  -5, 6,   -6, 7,   -7, 8,  -8, 9,
+                                -9, 10, -10, 11, -11, 12, -12};
+    for (size_t index = 0; index < arraysize(kMonthDeltas) && !found_transition;
          ++index) {
       // Look at a day of each month at local noon. Set tm_isdst to -1 to avoid
       // giving mktime() any hints about whether to consider daylight saving

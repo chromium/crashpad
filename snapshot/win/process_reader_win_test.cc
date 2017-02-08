@@ -42,10 +42,8 @@ TEST(ProcessReaderWin, SelfBasic) {
 
   const char kTestMemory[] = "Some test memory";
   char buffer[arraysize(kTestMemory)];
-  ASSERT_TRUE(
-      process_reader.ReadMemory(reinterpret_cast<uintptr_t>(kTestMemory),
-                                sizeof(kTestMemory),
-                                &buffer));
+  ASSERT_TRUE(process_reader.ReadMemory(
+      reinterpret_cast<uintptr_t>(kTestMemory), sizeof(kTestMemory), &buffer));
   EXPECT_STREQ(kTestMemory, buffer);
 }
 
@@ -128,13 +126,9 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
    public:
     SleepingThread() : done_(nullptr) {}
 
-    void SetHandle(Semaphore* done) {
-      done_= done;
-    }
+    void SetHandle(Semaphore* done) { done_ = done; }
 
-    void ThreadMain() override {
-      done_->Wait();
-    };
+    void ThreadMain() override { done_->Wait(); };
 
    private:
     Semaphore* done_;

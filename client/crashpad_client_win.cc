@@ -71,10 +71,10 @@ base::Lock* g_non_crash_dump_lock;
 ExceptionInformation g_non_crash_exception_information;
 
 enum class StartupState : int {
-  kNotReady = 0,   // This must be value 0 because it is the initial value of a
-                   // global AtomicWord.
+  kNotReady = 0,  // This must be value 0 because it is the initial value of a
+  // global AtomicWord.
   kSucceeded = 1,  // The CreateProcess() for the handler succeeded.
-  kFailed = 2,     // The handler failed to start.
+  kFailed = 2,  // The handler failed to start.
 };
 
 // This is a tri-state of type StartupState. It starts at 0 == kNotReady, and
@@ -91,8 +91,7 @@ base::subtle::AtomicWord g_handler_startup_state;
 CRITICAL_SECTION g_critical_section_with_debug_info;
 
 void SetHandlerStartupState(StartupState state) {
-  DCHECK(state == StartupState::kSucceeded ||
-         state == StartupState::kFailed);
+  DCHECK(state == StartupState::kSucceeded || state == StartupState::kFailed);
   base::subtle::Acquire_Store(&g_handler_startup_state,
                               static_cast<base::subtle::AtomicWord>(state));
 }

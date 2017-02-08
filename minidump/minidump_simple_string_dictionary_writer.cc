@@ -25,12 +25,10 @@ namespace crashpad {
 
 MinidumpSimpleStringDictionaryEntryWriter::
     MinidumpSimpleStringDictionaryEntryWriter()
-    : MinidumpWritable(), entry_(), key_(), value_() {
-}
+    : MinidumpWritable(), entry_(), key_(), value_() {}
 
 MinidumpSimpleStringDictionaryEntryWriter::
-    ~MinidumpSimpleStringDictionaryEntryWriter() {
-}
+    ~MinidumpSimpleStringDictionaryEntryWriter() {}
 
 const MinidumpSimpleStringDictionaryEntry*
 MinidumpSimpleStringDictionaryEntryWriter::
@@ -95,8 +93,7 @@ bool MinidumpSimpleStringDictionaryEntryWriter::WriteObject(
 MinidumpSimpleStringDictionaryWriter::MinidumpSimpleStringDictionaryWriter()
     : MinidumpWritable(),
       entries_(),
-      simple_string_dictionary_base_(new MinidumpSimpleStringDictionary()) {
-}
+      simple_string_dictionary_base_(new MinidumpSimpleStringDictionary()) {}
 
 MinidumpSimpleStringDictionaryWriter::~MinidumpSimpleStringDictionaryWriter() {
   for (auto& item : entries_)

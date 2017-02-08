@@ -29,10 +29,7 @@ namespace {
 class MinidumpThreadIDMapTest : public testing::Test {
  public:
   MinidumpThreadIDMapTest()
-      : Test(),
-        thread_snapshots_(),
-        test_thread_snapshots_() {
-  }
+      : Test(), thread_snapshots_(), test_thread_snapshots_() {}
 
   ~MinidumpThreadIDMapTest() override {}
 
@@ -44,8 +41,9 @@ class MinidumpThreadIDMapTest : public testing::Test {
   }
 
  protected:
-  static bool MapHasKeyValue(
-      const MinidumpThreadIDMap* map, uint64_t key, uint32_t expected_value) {
+  static bool MapHasKeyValue(const MinidumpThreadIDMap* map,
+                             uint64_t key,
+                             uint32_t expected_value) {
     auto iterator = map->find(key);
     if (iterator == map->end()) {
       EXPECT_NE(map->end(), iterator);

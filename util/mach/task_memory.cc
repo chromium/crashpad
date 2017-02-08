@@ -26,11 +26,10 @@
 
 namespace crashpad {
 
-TaskMemory::MappedMemory::~MappedMemory() {
-}
+TaskMemory::MappedMemory::~MappedMemory() {}
 
-bool TaskMemory::MappedMemory::ReadCString(
-    size_t offset, std::string* string) const {
+bool TaskMemory::MappedMemory::ReadCString(size_t offset,
+                                           std::string* string) const {
   if (offset >= user_size_) {
     LOG(WARNING) << "offset out of range";
     return false;
@@ -64,8 +63,7 @@ TaskMemory::MappedMemory::MappedMemory(vm_address_t vm_address,
   DCHECK_LE(user_end, vm_end);
 }
 
-TaskMemory::TaskMemory(task_t task) : task_(task) {
-}
+TaskMemory::TaskMemory(task_t task) : task_(task) {}
 
 bool TaskMemory::Read(mach_vm_address_t address, size_t size, void* buffer) {
   std::unique_ptr<MappedMemory> memory = ReadMapped(address, size);
@@ -118,7 +116,7 @@ bool TaskMemory::ReadCStringInternal(mach_vm_address_t address,
                                      mach_vm_size_t size,
                                      std::string* string) {
   if (has_size) {
-    if (size == 0)  {
+    if (size == 0) {
       string->clear();
       return true;
     }

@@ -42,11 +42,9 @@ ProcessSnapshotWin::ProcessSnapshotWin()
       annotations_simple_map_(),
       snapshot_time_(),
       options_(),
-      initialized_() {
-}
+      initialized_() {}
 
-ProcessSnapshotWin::~ProcessSnapshotWin() {
-}
+ProcessSnapshotWin::~ProcessSnapshotWin() {}
 
 bool ProcessSnapshotWin::Initialize(
     HANDLE process,
@@ -77,7 +75,6 @@ bool ProcessSnapshotWin::Initialize(
       return false;
     }
   }
-
 
   system_.Initialize(&process_reader_);
 
@@ -261,12 +258,12 @@ void ProcessSnapshotWin::InitializeModules() {
 }
 
 void ProcessSnapshotWin::InitializeUnloadedModules() {
-  // As documented by https://msdn.microsoft.com/en-us/library/cc678403.aspx
-  // we can retrieve the location for our unload events, and use that address in
-  // the target process. Unfortunately, this of course only works for
-  // 64-reading-64 and 32-reading-32, so at the moment, we simply do not
-  // retrieve unloaded modules for 64-reading-32. See
-  // https://crashpad.chromium.org/bug/89.
+// As documented by https://msdn.microsoft.com/en-us/library/cc678403.aspx
+// we can retrieve the location for our unload events, and use that address in
+// the target process. Unfortunately, this of course only works for
+// 64-reading-64 and 32-reading-32, so at the moment, we simply do not
+// retrieve unloaded modules for 64-reading-32. See
+// https://crashpad.chromium.org/bug/89.
 
 #if defined(ARCH_CPU_X86_64)
   if (!process_reader_.Is64Bit()) {
@@ -483,8 +480,9 @@ void ProcessSnapshotWin::AddMemorySnapshotForUNICODE_STRING(
 
 template <class Traits>
 void ProcessSnapshotWin::AddMemorySnapshotForLdrLIST_ENTRY(
-      const process_types::LIST_ENTRY<Traits>& le, size_t offset_of_member,
-      PointerVector<internal::MemorySnapshotWin>* into) {
+    const process_types::LIST_ENTRY<Traits>& le,
+    size_t offset_of_member,
+    PointerVector<internal::MemorySnapshotWin>* into) {
   // Walk the doubly-linked list of entries, adding the list memory itself, as
   // well as pointed-to strings.
   typename Traits::Pointer last = le.Blink;
@@ -523,7 +521,7 @@ WinVMSize ProcessSnapshotWin::DetermineSizeOfEnvironmentBlock(
       &env_block[0]);
   env_block.resize(
       static_cast<unsigned int>(bytes_read / sizeof(env_block[0])));
-  const wchar_t terminator[] = { 0, 0 };
+  const wchar_t terminator[] = {0, 0};
   size_t at = env_block.find(std::wstring(terminator, arraysize(terminator)));
   if (at != std::wstring::npos)
     env_block.resize(at + arraysize(terminator));

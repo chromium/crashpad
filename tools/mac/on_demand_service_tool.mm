@@ -34,20 +34,24 @@ namespace crashpad {
 namespace {
 
 void Usage(const std::string& me) {
-  fprintf(stderr,
-"Usage: %s -L -l LABEL [OPTION]... COMMAND [ARG]...\n"
-"       %s -U -l LABEL\n"
-"Load and unload on-demand Mach services from launchd.\n"
-"\n"
-"  -L, --load                  load (submit) the job identified by --label;\n"
-"                              COMMAND must be specified\n"
-"  -U, --unload                unload (remove) the job identified by --label\n"
-"  -l, --label=LABEL           identify the job to launchd with LABEL\n"
-"  -m, --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
-"      --help                  display this help and exit\n"
-"      --version               output version information and exit\n",
-          me.c_str(),
-          me.c_str());
+  fprintf(
+      stderr,
+      "Usage: %s -L -l LABEL [OPTION]... COMMAND [ARG]...\n"
+      "       %s -U -l LABEL\n"
+      "Load and unload on-demand Mach services from launchd.\n"
+      "\n"
+      "  -L, --load                  load (submit) the job identified by "
+      "--label;\n"
+      "                              COMMAND must be specified\n"
+      "  -U, --unload                unload (remove) the job identified by "
+      "--label\n"
+      "  -l, --label=LABEL           identify the job to launchd with LABEL\n"
+      "  -m, --mach-service=SERVICE  register SERVICE with the bootstrap "
+      "server\n"
+      "      --help                  display this help and exit\n"
+      "      --version               output version information and exit\n",
+      me.c_str(),
+      me.c_str());
   ToolSupport::UsageTail(me);
 }
 
@@ -93,7 +97,7 @@ int OnDemandServiceToolMain(int argc, char* argv[]) {
 
   int opt;
   while ((opt = getopt_long(argc, argv, "+LUl:m:", long_options, nullptr)) !=
-          -1) {
+         -1) {
     switch (opt) {
       case kOptionLoadJob:
         options.operation = kOperationLoadJob;

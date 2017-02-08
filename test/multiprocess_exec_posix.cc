@@ -33,14 +33,11 @@ namespace crashpad {
 namespace test {
 
 MultiprocessExec::MultiprocessExec()
-    : Multiprocess(),
-      command_(),
-      arguments_(),
-      argv_() {
-}
+    : Multiprocess(), command_(), arguments_(), argv_() {}
 
 void MultiprocessExec::SetChildCommand(
-    const std::string& command, const std::vector<std::string>* arguments) {
+    const std::string& command,
+    const std::vector<std::string>* arguments) {
   command_ = command;
   if (arguments) {
     arguments_ = *arguments;
@@ -49,8 +46,7 @@ void MultiprocessExec::SetChildCommand(
   }
 }
 
-MultiprocessExec::~MultiprocessExec() {
-}
+MultiprocessExec::~MultiprocessExec() {}
 
 void MultiprocessExec::PreFork() {
   ASSERT_NO_FATAL_FAILURE(Multiprocess::PreFork());

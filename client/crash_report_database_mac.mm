@@ -230,8 +230,7 @@ CrashReportDatabaseMac::CrashReportDatabaseMac(const base::FilePath& path)
       base_dir_(path),
       settings_(base_dir_.Append(kSettings)),
       xattr_new_names_(false),
-      initialized_() {
-}
+      initialized_() {}
 
 CrashReportDatabaseMac::~CrashReportDatabaseMac() {}
 
@@ -332,8 +331,8 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
 
   // Get the report's UUID to return.
   std::string uuid_string;
-  if (ReadXattr(report->path, XattrName(kXattrUUID),
-                &uuid_string) != XattrStatus::kOK ||
+  if (ReadXattr(report->path, XattrName(kXattrUUID), &uuid_string) !=
+          XattrStatus::kOK ||
       !uuid->InitializeFromString(uuid_string)) {
     LOG(ERROR) << "Failed to read UUID for crash report "
                << report->path.value();
@@ -346,8 +345,8 @@ CrashReportDatabaseMac::FinishedWritingCrashReport(NewReport* report,
   }
 
   // Record the creation time of this report.
-  if (!WriteXattrTimeT(report->path, XattrName(kXattrCreationTime),
-                       time(nullptr))) {
+  if (!WriteXattrTimeT(
+          report->path, XattrName(kXattrCreationTime), time(nullptr))) {
     return kDatabaseError;
   }
 
@@ -386,9 +385,9 @@ CrashReportDatabaseMac::ErrorWritingCrashReport(NewReport* report) {
   return kNoError;
 }
 
-CrashReportDatabase::OperationStatus
-CrashReportDatabaseMac::LookUpCrashReport(const UUID& uuid,
-                                          CrashReportDatabase::Report* report) {
+CrashReportDatabase::OperationStatus CrashReportDatabaseMac::LookUpCrashReport(
+    const UUID& uuid,
+    CrashReportDatabase::Report* report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   base::FilePath path = LocateCrashReport(uuid);
@@ -407,8 +406,7 @@ CrashReportDatabaseMac::LookUpCrashReport(const UUID& uuid,
   return kNoError;
 }
 
-CrashReportDatabase::OperationStatus
-CrashReportDatabaseMac::GetPendingReports(
+CrashReportDatabase::OperationStatus CrashReportDatabaseMac::GetPendingReports(
     std::vector<CrashReportDatabase::Report>* reports) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
@@ -491,7 +489,7 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
   int upload_attempts = 0;
   std::string name = XattrName(kXattrUploadAttemptCount);
   if (ReadXattrInt(report_path, name, &upload_attempts) ==
-          XattrStatus::kOtherError) {
+      XattrStatus::kOtherError) {
     return kDatabaseError;
   }
   if (!WriteXattrInt(report_path, name, ++upload_attempts)) {
@@ -548,7 +546,7 @@ base::FilePath CrashReportDatabaseMac::LocateCrashReport(const UUID& uuid) {
   for (size_t i = 0; i < arraysize(kReportDirectories); ++i) {
     base::FilePath path =
         base_dir_.Append(kReportDirectories[i])
-                 .Append(target_uuid + "." + kCrashReportFileExtension);
+            .Append(target_uuid + "." + kCrashReportFileExtension);
 
     // Test if the path exists.
     struct stat st;
@@ -558,8 +556,8 @@ base::FilePath CrashReportDatabaseMac::LocateCrashReport(const UUID& uuid) {
 
     // Check that the UUID of the report matches.
     std::string uuid_string;
-    if (ReadXattr(path, XattrName(kXattrUUID),
-                  &uuid_string) == XattrStatus::kOK &&
+    if (ReadXattr(path, XattrName(kXattrUUID), &uuid_string) ==
+            XattrStatus::kOK &&
         uuid_string == target_uuid) {
       return path;
     }
@@ -612,47 +610,51 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::RequestUpload(
 // static
 base::ScopedFD CrashReportDatabaseMac::ObtainReportLock(
     const base::FilePath& path) {
-  int fd = HANDLE_EINTR(open(path.value().c_str(),
-                             O_RDONLY | O_EXLOCK | O_NONBLOCK));
+  int fd = HANDLE_EINTR(
+      open(path.value().c_str(), O_RDONLY | O_EXLOCK | O_NONBLOCK));
   PLOG_IF(ERROR, fd < 0) << "open lock " << path.value();
   return base::ScopedFD(fd);
 }
 
 bool CrashReportDatabaseMac::ReadReportMetadataLocked(
-    const base::FilePath& path, Report* report) {
+    const base::FilePath& path,
+    Report* report) {
   std::string uuid_string;
-  if (ReadXattr(path, XattrName(kXattrUUID),
-                &uuid_string) != XattrStatus::kOK ||
+  if (ReadXattr(path, XattrName(kXattrUUID), &uuid_string) !=
+          XattrStatus::kOK ||
       !report->uuid.InitializeFromString(uuid_string)) {
     return false;
   }
 
-  if (ReadXattrTimeT(path, XattrName(kXattrCreationTime),
+  if (ReadXattrTimeT(path,
+                     XattrName(kXattrCreationTime),
                      &report->creation_time) != XattrStatus::kOK) {
     return false;
   }
 
   report->id = std::string();
-  if (ReadXattr(path, XattrName(kXattrCollectorID),
-                &report->id) == XattrStatus::kOtherError) {
+  if (ReadXattr(path, XattrName(kXattrCollectorID), &report->id) ==
+      XattrStatus::kOtherError) {
     return false;
   }
 
   report->uploaded = false;
-  if (ReadXattrBool(path, XattrName(kXattrIsUploaded),
-                    &report->uploaded) == XattrStatus::kOtherError) {
+  if (ReadXattrBool(path, XattrName(kXattrIsUploaded), &report->uploaded) ==
+      XattrStatus::kOtherError) {
     return false;
   }
 
   report->last_upload_attempt_time = 0;
-  if (ReadXattrTimeT(path, XattrName(kXattrLastUploadTime),
+  if (ReadXattrTimeT(path,
+                     XattrName(kXattrLastUploadTime),
                      &report->last_upload_attempt_time) ==
-          XattrStatus::kOtherError) {
+      XattrStatus::kOtherError) {
     return false;
   }
 
   report->upload_attempts = 0;
-  if (ReadXattrInt(path, XattrName(kXattrUploadAttemptCount),
+  if (ReadXattrInt(path,
+                   XattrName(kXattrUploadAttemptCount),
                    &report->upload_attempts) == XattrStatus::kOtherError) {
     return false;
   }

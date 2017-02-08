@@ -39,11 +39,7 @@ namespace {
 class SystemSnapshotMacTest : public testing::Test {
  public:
   SystemSnapshotMacTest()
-      : Test(),
-        process_reader_(),
-        snapshot_time_(),
-        system_snapshot_() {
-  }
+      : Test(), process_reader_(), snapshot_time_(), system_snapshot_() {}
 
   const internal::SystemSnapshotMac& system_snapshot() const {
     return system_snapshot_;

@@ -18,8 +18,7 @@
 
 namespace crashpad {
 
-Semaphore::Semaphore(int value)
-    : semaphore_(dispatch_semaphore_create(value)) {
+Semaphore::Semaphore(int value) : semaphore_(dispatch_semaphore_create(value)) {
   CHECK(semaphore_) << "dispatch_semaphore_create";
 }
 

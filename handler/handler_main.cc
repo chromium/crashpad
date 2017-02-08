@@ -71,39 +71,49 @@ namespace crashpad {
 namespace {
 
 void Usage(const base::FilePath& me) {
-  fprintf(stderr,
-"Usage: %" PRFilePath " [OPTION]...\n"
-"Crashpad's exception handler server.\n"
-"\n"
-"      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
-"      --database=PATH         store the crash report database at PATH\n"
+  fprintf(
+      stderr,
+      "Usage: %" PRFilePath
+      " [OPTION]...\n"
+      "Crashpad's exception handler server.\n"
+      "\n"
+      "      --annotation=KEY=VALUE  set a process annotation in each crash "
+      "report\n"
+      "      --database=PATH         store the crash report database at PATH\n"
 #if defined(OS_MACOSX)
-"      --handshake-fd=FD       establish communication with the client over FD\n"
-"      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
+      "      --handshake-fd=FD       establish communication with the client "
+      "over FD\n"
+      "      --mach-service=SERVICE  register SERVICE with the bootstrap "
+      "server\n"
 #elif defined(OS_WIN)
-"      --initial-client-data=HANDLE_request_crash_dump,\n"
-"                            HANDLE_request_non_crash_dump,\n"
-"                            HANDLE_non_crash_dump_completed,\n"
-"                            HANDLE_pipe,\n"
-"                            HANDLE_client_process,\n"
-"                            Address_crash_exception_information,\n"
-"                            Address_non_crash_exception_information,\n"
-"                            Address_debug_critical_section\n"
-"                              use precreated data to register initial client\n"
+      "      --initial-client-data=HANDLE_request_crash_dump,\n"
+      "                            HANDLE_request_non_crash_dump,\n"
+      "                            HANDLE_non_crash_dump_completed,\n"
+      "                            HANDLE_pipe,\n"
+      "                            HANDLE_client_process,\n"
+      "                            Address_crash_exception_information,\n"
+      "                            Address_non_crash_exception_information,\n"
+      "                            Address_debug_critical_section\n"
+      "                              use precreated data to register initial "
+      "client\n"
 #endif  // OS_MACOSX
-"      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"
-"      --no-rate-limit         don't rate limit crash uploads\n"
+      "      --metrics-dir=DIR       store metrics files in DIR (only in "
+      "Chromium)\n"
+      "      --no-rate-limit         don't rate limit crash uploads\n"
 #if defined(OS_MACOSX)
-"      --reset-own-crash-exception-port-to-system-default\n"
-"                              reset the server's exception handler to default\n"
+      "      --reset-own-crash-exception-port-to-system-default\n"
+      "                              reset the server's exception handler to "
+      "default\n"
 #elif defined(OS_WIN)
-"      --pipe-name=PIPE        communicate with the client over PIPE\n"
+      "      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_MACOSX
-"      --url=URL               send crash reports to this Breakpad server URL,\n"
-"                              only if uploads are enabled for the database\n"
-"      --help                  display this help and exit\n"
-"      --version               output version information and exit\n",
-          me.value().c_str());
+      "      --url=URL               send crash reports to this Breakpad "
+      "server URL,\n"
+      "                              only if uploads are enabled for the "
+      "database\n"
+      "      --help                  display this help and exit\n"
+      "      --version               output version information and exit\n",
+      me.value().c_str());
   ToolSupport::UsageTail(me);
 }
 
@@ -121,12 +131,10 @@ void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
   // (acknowledged by the standard) is for negative numbers to indicate that a
   // signal was generated asynchronously. Although xnu does not do this, allow
   // for the possibility for completeness.
-  bool si_code_valid = !(siginfo->si_code <= 0 ||
-                         siginfo->si_code == SI_USER ||
-                         siginfo->si_code == SI_QUEUE ||
-                         siginfo->si_code == SI_TIMER ||
-                         siginfo->si_code == SI_ASYNCIO ||
-                         siginfo->si_code == SI_MESGQ);
+  bool si_code_valid =
+      !(siginfo->si_code <= 0 || siginfo->si_code == SI_USER ||
+        siginfo->si_code == SI_QUEUE || siginfo->si_code == SI_TIMER ||
+        siginfo->si_code == SI_ASYNCIO || siginfo->si_code == SI_MESGQ);
 
   // 0x5343 = 'SC', signifying “signal and code”, disambiguates from the schema
   // used by ExceptionCodeForMetrics(). That system primarily uses Mach
@@ -226,9 +234,7 @@ void InstallCrashHandler() {
 }
 
 struct ResetSIGTERMTraits {
-  static struct sigaction* InvalidValue() {
-    return nullptr;
-  }
+  static struct sigaction* InvalidValue() { return nullptr; }
 
   static void Free(struct sigaction* sa) {
     int rv = sigaction(SIGTERM, sa, nullptr);
@@ -392,8 +398,7 @@ int HandlerMain(int argc, char* argv[]) {
 #elif defined(OS_WIN)
       case kOptionInitialClientData: {
         if (!options.initial_client_data.InitializeFromString(optarg)) {
-          ToolSupport::UsageHint(
-              me, "failed to parse --initial-client-data");
+          ToolSupport::UsageHint(me, "failed to parse --initial-client-data");
           return EXIT_FAILURE;
         }
         break;
@@ -485,10 +490,9 @@ int HandlerMain(int argc, char* argv[]) {
   base::mac::ScopedMachReceiveRight receive_right;
 
   if (options.handshake_fd >= 0) {
-    receive_right.reset(
-        ChildPortHandshake::RunServerForFD(
-            base::ScopedFD(options.handshake_fd),
-            ChildPortHandshake::PortRightType::kReceiveRight));
+    receive_right.reset(ChildPortHandshake::RunServerForFD(
+        base::ScopedFD(options.handshake_fd),
+        ChildPortHandshake::PortRightType::kReceiveRight));
   } else if (!options.mach_service.empty()) {
     receive_right = BootstrapCheckIn(options.mach_service);
   }

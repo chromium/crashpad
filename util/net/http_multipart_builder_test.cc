@@ -32,7 +32,7 @@ std::vector<std::string> SplitCRLF(const std::string& string) {
   std::vector<std::string> lines;
   size_t last_line = 0;
   for (size_t i = 0; i < string.length(); ++i) {
-    if (string[i] == '\r' && i+1 < string.length() && string[i+1] == '\n') {
+    if (string[i] == '\r' && i + 1 < string.length() && string[i + 1] == '\n') {
       lines.push_back(string.substr(last_line, i - last_line));
       last_line = i + 2;
       ++i;
@@ -101,14 +101,9 @@ TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
   HTTPMultipartBuilder builder;
   base::FilePath ascii_http_body_path = Paths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
-  builder.SetFileAttachment("first",
-                            "minidump.dmp",
-                            ascii_http_body_path,
-                            "");
-  builder.SetFileAttachment("second",
-                            "minidump.dmp",
-                            ascii_http_body_path,
-                            "text/plain");
+  builder.SetFileAttachment("first", "minidump.dmp", ascii_http_body_path, "");
+  builder.SetFileAttachment(
+      "second", "minidump.dmp", ascii_http_body_path, "text/plain");
   builder.SetFileAttachment("\"third 50% silly\"",
                             "test%foo.txt",
                             ascii_http_body_path,
@@ -127,25 +122,28 @@ TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
   EXPECT_GE(boundary.length(), 1u);
   EXPECT_LE(boundary.length(), 70u);
 
-  EXPECT_EQ("Content-Disposition: form-data; "
-                "name=\"%22third 50%25 silly%22\"; filename=\"test%25foo.txt\"",
-            *lines_it++);
+  EXPECT_EQ(
+      "Content-Disposition: form-data; "
+      "name=\"%22third 50%25 silly%22\"; filename=\"test%25foo.txt\"",
+      *lines_it++);
   EXPECT_EQ("Content-Type: text/plain", *lines_it++);
   EXPECT_EQ("", *lines_it++);
   EXPECT_EQ(kFileContents, *lines_it++);
 
   EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; "
-                "name=\"first\"; filename=\"minidump.dmp\"",
-            *lines_it++);
+  EXPECT_EQ(
+      "Content-Disposition: form-data; "
+      "name=\"first\"; filename=\"minidump.dmp\"",
+      *lines_it++);
   EXPECT_EQ("Content-Type: application/octet-stream", *lines_it++);
   EXPECT_EQ("", *lines_it++);
   EXPECT_EQ(kFileContents, *lines_it++);
 
   EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; "
-                "name=\"second\"; filename=\"minidump.dmp\"",
-            *lines_it++);
+  EXPECT_EQ(
+      "Content-Disposition: form-data; "
+      "name=\"second\"; filename=\"minidump.dmp\"",
+      *lines_it++);
   EXPECT_EQ("Content-Type: text/plain", *lines_it++);
   EXPECT_EQ("", *lines_it++);
   EXPECT_EQ(kFileContents, *lines_it++);
@@ -185,21 +183,21 @@ TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
   builder.SetFormData("a key", kValue);
   base::FilePath testdata_path =
       Paths::TestDataRoot().Append(FILE_PATH_LITERAL("util/net/testdata"));
-  builder.SetFileAttachment("minidump",
-                            "minidump.dmp",
-                            testdata_path.Append(FILE_PATH_LITERAL(
-                                "binary_http_body.dat")),
-                            "");
-  builder.SetFileAttachment("minidump2",
-                            "minidump.dmp",
-                            testdata_path.Append(FILE_PATH_LITERAL(
-                                "binary_http_body.dat")),
-                            "");
-  builder.SetFileAttachment("minidump",
-                            "minidump.dmp",
-                            testdata_path.Append(FILE_PATH_LITERAL(
-                                "ascii_http_body.txt")),
-                            "text/plain");
+  builder.SetFileAttachment(
+      "minidump",
+      "minidump.dmp",
+      testdata_path.Append(FILE_PATH_LITERAL("binary_http_body.dat")),
+      "");
+  builder.SetFileAttachment(
+      "minidump2",
+      "minidump.dmp",
+      testdata_path.Append(FILE_PATH_LITERAL("binary_http_body.dat")),
+      "");
+  builder.SetFileAttachment(
+      "minidump",
+      "minidump.dmp",
+      testdata_path.Append(FILE_PATH_LITERAL("ascii_http_body.txt")),
+      "text/plain");
   std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
@@ -216,17 +214,19 @@ TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
   EXPECT_EQ(kValue, *lines_it++);
 
   EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; "
-                "name=\"minidump\"; filename=\"minidump.dmp\"",
-            *lines_it++);
+  EXPECT_EQ(
+      "Content-Disposition: form-data; "
+      "name=\"minidump\"; filename=\"minidump.dmp\"",
+      *lines_it++);
   EXPECT_EQ("Content-Type: text/plain", *lines_it++);
   EXPECT_EQ("", *lines_it++);
   EXPECT_EQ("This is a test.\n", *lines_it++);
 
   EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; "
-                "name=\"minidump2\"; filename=\"minidump.dmp\"",
-            *lines_it++);
+  EXPECT_EQ(
+      "Content-Disposition: form-data; "
+      "name=\"minidump2\"; filename=\"minidump.dmp\"",
+      *lines_it++);
   EXPECT_EQ("Content-Type: application/octet-stream", *lines_it++);
   EXPECT_EQ("", *lines_it++);
   EXPECT_EQ("\xFE\xED\xFA\xCE\xA1\x1A\x15", *lines_it++);
@@ -242,10 +242,8 @@ TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
   builder.SetFormData("one", kValue1);
   base::FilePath ascii_http_body_path = Paths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
-  builder.SetFileAttachment("minidump",
-                            "minidump.dmp",
-                            ascii_http_body_path,
-                            "");
+  builder.SetFileAttachment(
+      "minidump", "minidump.dmp", ascii_http_body_path, "");
   const char kValue2[] = "this is not a file";
   builder.SetFormData("minidump", kValue2);
 
@@ -278,12 +276,12 @@ TEST(HTTPMultipartBuilderDeathTest, AssertUnsafeMIMEType) {
   // Invalid and potentially dangerous:
   ASSERT_DEATH_CHECK(
       builder.SetFileAttachment("", "", base::FilePath(), "\r\n"), "");
-  ASSERT_DEATH_CHECK(
-      builder.SetFileAttachment("", "", base::FilePath(), "\""), "");
+  ASSERT_DEATH_CHECK(builder.SetFileAttachment("", "", base::FilePath(), "\""),
+                     "");
   ASSERT_DEATH_CHECK(
       builder.SetFileAttachment("", "", base::FilePath(), "\x12"), "");
-  ASSERT_DEATH_CHECK(
-      builder.SetFileAttachment("", "", base::FilePath(), "<>"), "");
+  ASSERT_DEATH_CHECK(builder.SetFileAttachment("", "", base::FilePath(), "<>"),
+                     "");
   // Invalid but safe:
   builder.SetFileAttachment("", "", base::FilePath(), "0/totally/-invalid.pdf");
   // Valid and safe:

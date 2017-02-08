@@ -84,11 +84,9 @@ class ChildPortHandshakeTest : public Multiprocess {
       : Multiprocess(),
         child_port_handshake_(),
         client_process_(client_process),
-        test_type_(test_type) {
-  }
+        test_type_(test_type) {}
 
-  ~ChildPortHandshakeTest() {
-  }
+  ~ChildPortHandshakeTest() {}
 
  private:
   void RunServer() {
@@ -145,7 +143,7 @@ class ChildPortHandshakeTest : public Multiprocess {
       case TestType::kClientChecksIn_ReceiveRight: {
         mach_port_t receive_right = NewMachPort(MACH_PORT_RIGHT_RECEIVE);
         ASSERT_TRUE(child_port_handshake_.RunClient(
-              receive_right, MACH_MSG_TYPE_MOVE_RECEIVE));
+            receive_right, MACH_MSG_TYPE_MOVE_RECEIVE));
         break;
       }
 

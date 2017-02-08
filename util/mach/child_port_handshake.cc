@@ -73,11 +73,9 @@ ChildPortHandshakeServer::ChildPortHandshakeServer()
     : token_(0),
       port_(MACH_PORT_NULL),
       right_type_(MACH_MSG_TYPE_PORT_NONE),
-      checked_in_(false) {
-}
+      checked_in_(false) {}
 
-ChildPortHandshakeServer::~ChildPortHandshakeServer() {
-}
+ChildPortHandshakeServer::~ChildPortHandshakeServer() {}
 
 mach_port_t ChildPortHandshakeServer::RunServer(
     base::ScopedFD server_write_fd,
@@ -323,8 +321,7 @@ kern_return_t ChildPortHandshakeServer::HandleChildPortCheckIn(
 }  // namespace
 
 ChildPortHandshake::ChildPortHandshake()
-    : client_read_fd_(),
-      server_write_fd_() {
+    : client_read_fd_(), server_write_fd_() {
   // Use socketpair() instead of pipe(). There is no way to suppress SIGPIPE on
   // pipes in Mac OS X 10.6, because the F_SETNOSIGPIPE fcntl() command was not
   // introduced until 10.7.
@@ -346,11 +343,11 @@ ChildPortHandshake::ChildPortHandshake()
                     SOL_SOCKET,
                     SO_NOSIGPIPE,
                     &value,
-                    sizeof(value)) == 0) << "setsockopt";
+                    sizeof(value)) == 0)
+      << "setsockopt";
 }
 
-ChildPortHandshake::~ChildPortHandshake() {
-}
+ChildPortHandshake::~ChildPortHandshake() {}
 
 base::ScopedFD ChildPortHandshake::ClientReadFD() {
   DCHECK(client_read_fd_.is_valid());
@@ -410,7 +407,7 @@ bool ChildPortHandshake::RunClientInternal_ReadPipe(int client_read_fd,
   // Read the service name from the pipe.
   uint32_t service_name_length;
   if (!LoggingReadFile(
-      client_read_fd, &service_name_length, sizeof(service_name_length))) {
+          client_read_fd, &service_name_length, sizeof(service_name_length))) {
     return false;
   }
 
@@ -438,8 +435,8 @@ bool ChildPortHandshake::RunClientInternal_SendCheckIn(
   }
 
   // Check in with the server.
-  kern_return_t kr = child_port_check_in(
-      server_port.get(), token, port, right_type);
+  kern_return_t kr =
+      child_port_check_in(server_port.get(), token, port, right_type);
   if (kr != KERN_SUCCESS) {
     MACH_LOG(ERROR, kr) << "child_port_check_in";
     return false;

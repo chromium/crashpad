@@ -124,7 +124,7 @@ struct MetadataFileReportRecord {
 
   UUID uuid;  // UUID is a 16 byte, standard layout structure.
   uint32_t file_path_index;  // Index into string table. File name is relative
-                             // to the reports directory when on disk.
+  // to the reports directory when on disk.
   uint32_t id_index;  // Index into string table.
   int64_t creation_time;  // Holds a time_t.
   int64_t last_upload_attempt_time;  // Holds a time_t.
@@ -258,8 +258,7 @@ class Metadata {
   //! \param[in] uuid The report identifier to remove.
   //! \param[out] report_path The found report's file_path, valid only if
   //!     CrashReportDatabase::kNoError is returned.
-  OperationStatus DeleteReport(const UUID& uuid,
-                               base::FilePath* report_path);
+  OperationStatus DeleteReport(const UUID& uuid, base::FilePath* report_path);
 
  private:
   Metadata(FileHandle handle, const base::FilePath& report_dir);
@@ -398,8 +397,7 @@ OperationStatus Metadata::DeleteReport(const UUID& uuid,
 }
 
 Metadata::Metadata(FileHandle handle, const base::FilePath& report_dir)
-    : handle_(handle), report_dir_(report_dir), dirty_(false), reports_() {
-}
+    : handle_(handle), report_dir_(report_dir), dirty_(false), reports_() {}
 
 bool Metadata::Rewind() {
   FileOffset result = LoggingSeekFile(handle_.get(), 0, SEEK_SET);
@@ -542,8 +540,7 @@ bool EnsureDirectory(const base::FilePath& path) {
     return false;
   }
   if ((fileattr & FILE_ATTRIBUTE_DIRECTORY) == 0) {
-    LOG(ERROR) << "GetFileAttributes "
-               << base::UTF16ToUTF8(path.value())
+    LOG(ERROR) << "GetFileAttributes " << base::UTF16ToUTF8(path.value())
                << ": not a directory";
     return false;
   }
@@ -608,11 +605,9 @@ CrashReportDatabaseWin::CrashReportDatabaseWin(const base::FilePath& path)
     : CrashReportDatabase(),
       base_dir_(path),
       settings_(base_dir_.Append(kSettings)),
-      initialized_() {
-}
+      initialized_() {}
 
-CrashReportDatabaseWin::~CrashReportDatabaseWin() {
-}
+CrashReportDatabaseWin::~CrashReportDatabaseWin() {}
 
 bool CrashReportDatabaseWin::Initialize(bool may_create) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
@@ -823,8 +818,7 @@ OperationStatus CrashReportDatabaseWin::DeleteReport(const UUID& uuid) {
     return os;
 
   if (!DeleteFile(report_path.value().c_str())) {
-    PLOG(ERROR) << "DeleteFile "
-                << base::UTF16ToUTF8(report_path.value());
+    PLOG(ERROR) << "DeleteFile " << base::UTF16ToUTF8(report_path.value());
     return kFileSystemError;
   }
   return kNoError;

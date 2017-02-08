@@ -75,11 +75,9 @@ SystemSnapshotWin::SystemSnapshotWin()
       os_version_minor_(0),
       os_version_bugfix_(0),
       os_server_(false),
-      initialized_() {
-}
+      initialized_() {}
 
-SystemSnapshotWin::~SystemSnapshotWin() {
-}
+SystemSnapshotWin::~SystemSnapshotWin() {}
 
 void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
@@ -106,8 +104,7 @@ void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
     os_version_major_ = ffi.dwFileVersionMS >> 16;
     os_version_minor_ = ffi.dwFileVersionMS & 0xffff;
     os_version_bugfix_ = ffi.dwFileVersionLS >> 16;
-    os_version_build_ =
-        base::StringPrintf("%d", ffi.dwFileVersionLS & 0xffff);
+    os_version_build_ = base::StringPrintf("%d", ffi.dwFileVersionLS & 0xffff);
     os_version_full_ = base::StringPrintf(
         "%s %d.%d.%d.%s%s",
         os_name.c_str(),
@@ -115,8 +112,9 @@ void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
         os_version_minor_,
         os_version_bugfix_,
         os_version_build_.c_str(),
-        flags_string.empty() ? "" : (std::string(" (") + flags_string + ")")
-                                        .c_str());
+        flags_string.empty()
+            ? ""
+            : (std::string(" (") + flags_string + ")").c_str());
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
@@ -198,14 +196,16 @@ void SystemSnapshotWin::CPUFrequency(uint64_t* current_hz,
                                  [](const PROCESSOR_POWER_INFORMATION& a,
                                     const PROCESSOR_POWER_INFORMATION& b) {
                                    return a.CurrentMhz < b.CurrentMhz;
-                                 })->CurrentMhz *
+                                 })
+                    ->CurrentMhz *
                 kMhzToHz;
   *max_hz = std::max_element(info.begin(),
                              info.end(),
                              [](const PROCESSOR_POWER_INFORMATION& a,
                                 const PROCESSOR_POWER_INFORMATION& b) {
                                return a.MaxMhz < b.MaxMhz;
-                             })->MaxMhz *
+                             })
+                ->MaxMhz *
             kMhzToHz;
 }
 

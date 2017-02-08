@@ -54,10 +54,7 @@ struct MultiprocessInfo {
 }  // namespace internal
 
 Multiprocess::Multiprocess()
-    : info_(nullptr),
-      code_(EXIT_SUCCESS),
-      reason_(kTerminationNormal) {
-}
+    : info_(nullptr), code_(EXIT_SUCCESS), reason_(kTerminationNormal) {}
 
 void Multiprocess::Run() {
   ASSERT_EQ(nullptr, info_);
@@ -102,11 +99,10 @@ void Multiprocess::Run() {
     } else if (WIFSIGNALED(status)) {
       reason = kTerminationSignal;
       code = WTERMSIG(status);
-      message =
-          base::StringPrintf("Child terminated by signal %d (%s)%s",
-                             code,
-                             strsignal(code),
-                             WCOREDUMP(status) ? " (core dumped)" : "");
+      message = base::StringPrintf("Child terminated by signal %d (%s)%s",
+                                   code,
+                                   strsignal(code),
+                                   WCOREDUMP(status) ? " (core dumped)" : "");
     } else {
       FAIL() << "Unknown termination reason";
     }
@@ -114,9 +110,8 @@ void Multiprocess::Run() {
     if (reason_ == kTerminationNormal) {
       message += base::StringPrintf(", expected exit with code %d", code_);
     } else if (reason_ == kTerminationSignal) {
-      message += base::StringPrintf(", expected termination by signal %d (%s)",
-                                    code_,
-                                    strsignal(code_));
+      message += base::StringPrintf(
+          ", expected termination by signal %d (%s)", code_, strsignal(code_));
     }
 
     if (reason != reason_ || code != code_) {
@@ -133,8 +128,7 @@ void Multiprocess::SetExpectedChildTermination(TerminationReason reason,
   code_ = code;
 }
 
-Multiprocess::~Multiprocess() {
-}
+Multiprocess::~Multiprocess() {}
 
 void Multiprocess::PreFork() {
   int pipe_fds_c2p[2];

@@ -18,8 +18,7 @@
 
 namespace crashpad {
 
-Thread::Thread() : platform_thread_(0) {
-}
+Thread::Thread() : platform_thread_(0) {}
 
 Thread::~Thread() {
   DCHECK(!platform_thread_);

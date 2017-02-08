@@ -79,9 +79,7 @@ TEST(ThreadLogMessages, Basic) {
 
   {
     const char* const kMessages[] = {
-      "An info message",
-      "A warning message",
-      "An error message",
+        "An info message", "A warning message", "An error message",
     };
 
     ThreadLogMessages thread_log_messages;
@@ -117,7 +115,9 @@ TEST(ThreadLogMessages, Basic) {
   {
     ThreadLogMessages thread_log_messages;
 
-    LOG(INFO) << "I can't believe I " << "streamed" << " the whole thing.";
+    LOG(INFO) << "I can't believe I "
+              << "streamed"
+              << " the whole thing.";
 
     const std::vector<std::string>& log_messages =
         thread_log_messages.log_messages();

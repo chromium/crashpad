@@ -152,8 +152,7 @@ bool StringToIntegerInternal(const base::StringPiece& string,
   char* end;
   LongType result = Traits::Convert(string.data(), &end, 0);
   if (Traits::IsNegativeOverflow(result) ||
-      result > std::numeric_limits<IntType>::max() ||
-      errno == ERANGE ||
+      result > std::numeric_limits<IntType>::max() || errno == ERANGE ||
       end != string.data() + string.length()) {
     return false;
   }

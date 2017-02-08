@@ -46,9 +46,7 @@ class TSimpleAddressRangeBag {
     //!
     //! If #base and #size are both zero, the entry is considered inactive, and
     //! this method returns `false`. Otherwise, returns `true`.
-    bool is_active() const {
-      return base != 0 || size != 0;
-    }
+    bool is_active() const { return base != 0 || size != 0; }
   };
 
   //! \brief An iterator to traverse all of the active entries in a
@@ -56,9 +54,7 @@ class TSimpleAddressRangeBag {
   class Iterator {
    public:
     explicit Iterator(const TSimpleAddressRangeBag& bag)
-        : bag_(bag),
-          current_(0) {
-    }
+        : bag_(bag), current_(0) {}
 
     //! \brief Returns the next entry in the bag, or `nullptr` if at the end of
     //!     the collection.
@@ -79,13 +75,9 @@ class TSimpleAddressRangeBag {
     DISALLOW_COPY_AND_ASSIGN(Iterator);
   };
 
-  TSimpleAddressRangeBag()
-      : entries_() {
-  }
+  TSimpleAddressRangeBag() : entries_() {}
 
-  TSimpleAddressRangeBag(const TSimpleAddressRangeBag& other) {
-    *this = other;
-  }
+  TSimpleAddressRangeBag(const TSimpleAddressRangeBag& other) { *this = other; }
 
   TSimpleAddressRangeBag& operator=(const TSimpleAddressRangeBag& other) {
     memcpy(entries_, other.entries_, sizeof(entries_));
@@ -179,7 +171,6 @@ class TSimpleAddressRangeBag {
         base::checked_cast<uint64_t>(reinterpret_cast<uintptr_t>(base)),
         base::checked_cast<uint64_t>(size)));
   }
-
 
  private:
   Entry entries_[NumEntries];

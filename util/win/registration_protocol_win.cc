@@ -124,15 +124,15 @@ HANDLE CreateNamedPipeInstance(const std::wstring& pipe_name,
 }
 
 const void* GetSecurityDescriptorForNamedPipeInstance(size_t* size) {
-  // Mandatory Label, no ACE flags, no ObjectType, integrity level untrusted is
-  // "S:(ML;;;;;S-1-16-0)". Typically
-  // ConvertStringSecurityDescriptorToSecurityDescriptor() would be used to
-  // convert from a string representation. However, that function cannot be used
-  // because it is in advapi32.dll and CreateNamedPipeInstance() is called from
-  // within DllMain() where the loader lock is held. advapi32.dll is delay
-  // loaded in chrome_elf.dll because it must avoid loading user32.dll. If an
-  // advapi32.dll function were used, it would cause a load of the DLL, which
-  // would in turn cause deadlock.
+// Mandatory Label, no ACE flags, no ObjectType, integrity level untrusted is
+// "S:(ML;;;;;S-1-16-0)". Typically
+// ConvertStringSecurityDescriptorToSecurityDescriptor() would be used to
+// convert from a string representation. However, that function cannot be used
+// because it is in advapi32.dll and CreateNamedPipeInstance() is called from
+// within DllMain() where the loader lock is held. advapi32.dll is delay
+// loaded in chrome_elf.dll because it must avoid loading user32.dll. If an
+// advapi32.dll function were used, it would cause a load of the DLL, which
+// would in turn cause deadlock.
 
 #pragma pack(push, 1)
   static const struct SecurityDescriptorBlob {

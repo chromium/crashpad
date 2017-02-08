@@ -55,8 +55,7 @@ TEST(CrashpadInfoClientOptions, TriStateFromCrashpadInfo) {
 class ScopedUnsetCrashpadInfoOptions {
  public:
   explicit ScopedUnsetCrashpadInfoOptions(CrashpadInfo* crashpad_info)
-      : crashpad_info_(crashpad_info) {
-  }
+      : crashpad_info_(crashpad_info) {}
 
   ~ScopedUnsetCrashpadInfoOptions() {
     crashpad_info_->set_crashpad_handler_behavior(TriState::kUnset);
@@ -146,9 +145,7 @@ using DlHandle = HMODULE;
 
 class ScopedDlHandle {
  public:
-  explicit ScopedDlHandle(DlHandle dl_handle)
-      : dl_handle_(dl_handle) {
-  }
+  explicit ScopedDlHandle(DlHandle dl_handle) : dl_handle_(dl_handle) {}
 
   ~ScopedDlHandle() {
     if (dl_handle_) {
@@ -181,7 +178,7 @@ class ScopedDlHandle {
 };
 
 TEST(CrashpadInfoClientOptions, TwoModules) {
-  // Open the module, which has its own CrashpadInfo structure.
+// Open the module, which has its own CrashpadInfo structure.
 #if defined(OS_MACOSX)
   const base::FilePath::StringType kDlExtension = FILE_PATH_LITERAL(".so");
 #elif defined(OS_WIN)

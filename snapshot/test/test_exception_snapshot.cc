@@ -28,8 +28,7 @@ TestExceptionSnapshot::TestExceptionSnapshot()
   context_.x86 = &context_union_.x86;
 }
 
-TestExceptionSnapshot::~TestExceptionSnapshot() {
-}
+TestExceptionSnapshot::~TestExceptionSnapshot() {}
 
 const CPUContext* TestExceptionSnapshot::Context() const {
   return &context_;

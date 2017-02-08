@@ -21,11 +21,9 @@
 
 namespace crashpad {
 
-ProcessInfo::ProcessInfo() : kern_proc_info_(), initialized_() {
-}
+ProcessInfo::ProcessInfo() : kern_proc_info_(), initialized_() {}
 
-ProcessInfo::~ProcessInfo() {
-}
+ProcessInfo::~ProcessInfo() {}
 
 bool ProcessInfo::Initialize(pid_t pid) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);

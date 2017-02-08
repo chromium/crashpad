@@ -21,11 +21,9 @@
 namespace crashpad {
 
 MinidumpMemoryInfoListWriter::MinidumpMemoryInfoListWriter()
-    : memory_info_list_base_(), items_() {
-}
+    : memory_info_list_base_(), items_() {}
 
-MinidumpMemoryInfoListWriter::~MinidumpMemoryInfoListWriter() {
-}
+MinidumpMemoryInfoListWriter::~MinidumpMemoryInfoListWriter() {}
 
 void MinidumpMemoryInfoListWriter::InitializeFromSnapshot(
     const std::vector<const MemoryMapRegionSnapshot*>& memory_map) {

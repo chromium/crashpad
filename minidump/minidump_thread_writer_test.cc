@@ -493,8 +493,9 @@ struct InitializeFromSnapshotX86Traits {
   static void InitializeCPUContext(CPUContext* context, uint32_t seed) {
     return InitializeCPUContextX86(context, seed);
   }
-  static void ExpectMinidumpContext(
-      uint32_t expect_seed, const MinidumpContextX86* observed, bool snapshot) {
+  static void ExpectMinidumpContext(uint32_t expect_seed,
+                                    const MinidumpContextX86* observed,
+                                    bool snapshot) {
     return ExpectMinidumpContextX86(expect_seed, observed, snapshot);
   }
 };
@@ -712,7 +713,8 @@ TEST(MinidumpThreadWriterDeathTest, NoContext) {
 TEST(MinidumpThreadWriterDeathTest, InitializeFromSnapshot_NoContext) {
   ASSERT_DEATH_CHECK(
       RunInitializeFromSnapshotTest<InitializeFromSnapshotNoContextTraits>(
-          false), "context_");
+          false),
+      "context_");
 }
 
 }  // namespace

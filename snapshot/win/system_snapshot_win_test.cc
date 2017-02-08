@@ -29,11 +29,7 @@ namespace {
 
 class SystemSnapshotWinTest : public testing::Test {
  public:
-  SystemSnapshotWinTest()
-      : Test(),
-        process_reader_(),
-        system_snapshot_() {
-  }
+  SystemSnapshotWinTest() : Test(), process_reader_(), system_snapshot_() {}
 
   const internal::SystemSnapshotWin& system_snapshot() const {
     return system_snapshot_;
@@ -121,8 +117,8 @@ TEST_F(SystemSnapshotWinTest, TimeZone) {
                              &standard_name,
                              &daylight_name);
 
-  // |standard_offset_seconds| gives seconds east of UTC, and |timezone| gives
-  // seconds west of UTC.
+// |standard_offset_seconds| gives seconds east of UTC, and |timezone| gives
+// seconds west of UTC.
 #if _MSC_VER >= 1900
   long timezone = 0;
   _get_timezone(&timezone);

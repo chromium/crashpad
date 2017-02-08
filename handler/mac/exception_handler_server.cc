@@ -50,8 +50,7 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
     composite_mach_message_server_.AddHandler(&notify_server_);
   }
 
-  ~ExceptionHandlerServerRun() {
-  }
+  ~ExceptionHandlerServerRun() {}
 
   void Run() {
     DCHECK(running_);
@@ -192,8 +191,7 @@ ExceptionHandlerServer::ExceptionHandlerServer(
   CHECK(notify_port_.is_valid());
 }
 
-ExceptionHandlerServer::~ExceptionHandlerServer() {
-}
+ExceptionHandlerServer::~ExceptionHandlerServer() {}
 
 void ExceptionHandlerServer::Run(
     UniversalMachExcServer::Interface* exception_interface) {

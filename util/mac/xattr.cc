@@ -31,8 +31,8 @@ XattrStatus ReadXattr(const base::FilePath& file,
                       const base::StringPiece& name,
                       std::string* value) {
   // First get the size of the attribute value.
-  ssize_t buffer_size = getxattr(file.value().c_str(), name.data(), nullptr,
-                                 0, 0, 0);
+  ssize_t buffer_size =
+      getxattr(file.value().c_str(), name.data(), nullptr, 0, 0, 0);
   if (buffer_size < 0) {
     if (errno == ENOATTR)
       return XattrStatus::kNoAttribute;
@@ -43,9 +43,8 @@ XattrStatus ReadXattr(const base::FilePath& file,
   // Resize the buffer and read into it.
   value->resize(buffer_size);
   if (!value->empty()) {
-    ssize_t bytes_read = getxattr(file.value().c_str(), name.data(),
-                                  &(*value)[0], value->size(),
-                                  0, 0);
+    ssize_t bytes_read = getxattr(
+        file.value().c_str(), name.data(), &(*value)[0], value->size(), 0, 0);
     if (bytes_read < 0) {
       PLOG(ERROR) << "getxattr " << name << " on file " << file.value();
       return XattrStatus::kOtherError;
@@ -59,10 +58,9 @@ XattrStatus ReadXattr(const base::FilePath& file,
 bool WriteXattr(const base::FilePath& file,
                 const base::StringPiece& name,
                 const std::string& value) {
-  int rv = setxattr(file.value().c_str(), name.data(), value.c_str(),
-      value.length(), 0, 0);
-  PLOG_IF(ERROR, rv != 0) << "setxattr " << name << " on file "
-                          << file.value();
+  int rv = setxattr(
+      file.value().c_str(), name.data(), value.c_str(), value.length(), 0, 0);
+  PLOG_IF(ERROR, rv != 0) << "setxattr " << name << " on file " << file.value();
   return rv == 0;
 }
 

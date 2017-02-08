@@ -45,8 +45,9 @@ uint8_t* getsectiondata(const struct mach_header* mhp,
                         const char* sectname,
                         unsigned long* size);
 
-uint8_t* getsegmentdata(
-    const struct mach_header* mhp, const char* segname, unsigned long* size);
+uint8_t* getsegmentdata(const struct mach_header* mhp,
+                        const char* segname,
+                        unsigned long* size);
 
 #else
 
@@ -55,8 +56,9 @@ uint8_t* getsectiondata(const struct mach_header_64* mhp,
                         const char* sectname,
                         unsigned long* size);
 
-uint8_t* getsegmentdata(
-    const struct mach_header_64* mhp, const char* segname, unsigned long* size);
+uint8_t* getsegmentdata(const struct mach_header_64* mhp,
+                        const char* segname,
+                        unsigned long* size);
 
 #endif
 

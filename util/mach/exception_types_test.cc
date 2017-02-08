@@ -160,10 +160,10 @@ TEST(ExceptionTypes, ExceptionCodeForMetrics) {
       ENCODE_EXC(EXC_SYSCALL, 0x6000),
 #undef ENCODE_EXC
 
-#define ENCODE_EXC_CRASH(type, code_0)                        \
-  {                                                           \
-    EXC_CRASH, (((type) & 0xf) << 20) | ((code_0) & 0xfffff), \
-        ((type) << 16) | (code_0)                             \
+#define ENCODE_EXC_CRASH(type, code_0)                    \
+  {                                                       \
+    EXC_CRASH, (((type)&0xf) << 20) | ((code_0)&0xfffff), \
+        ((type) << 16) | (code_0)                         \
   }
       ENCODE_EXC_CRASH(EXC_BAD_ACCESS, KERN_INVALID_ADDRESS),
       ENCODE_EXC_CRASH(EXC_BAD_ACCESS, KERN_PROTECTION_FAILURE),
@@ -185,7 +185,7 @@ TEST(ExceptionTypes, ExceptionCodeForMetrics) {
 #undef ENCODE_EXC_CRASH
 
 #define ENCODE_EXC_CRASH_SIGNAL(signal) \
-  { EXC_CRASH, (((signal) & 0xff) << 24), (EXC_CRASH << 16) | (signal) }
+  { EXC_CRASH, (((signal)&0xff) << 24), (EXC_CRASH << 16) | (signal) }
       ENCODE_EXC_CRASH_SIGNAL(SIGQUIT),
       ENCODE_EXC_CRASH_SIGNAL(SIGILL),
       ENCODE_EXC_CRASH_SIGNAL(SIGTRAP),
@@ -210,13 +210,13 @@ TEST(ExceptionTypes, ExceptionCodeForMetrics) {
       ENCODE_EXC_RESOURCE(RESOURCE_TYPE_IO, FLAVOR_IO_LOGICAL_WRITES),
 #undef ENCODE_EXC_RESOURCE
 
-#define ENCODE_EXC_GUARD(type, flavor)                                         \
-  {                                                                            \
-    EXC_GUARD,                                                                 \
-        static_cast<mach_exception_code_t>(static_cast<uint64_t>((type) & 0x7) \
-                                           << 61) |                            \
-            (static_cast<uint64_t>((1 << (flavor)) & 0x1ffffffff) << 32),      \
-        (EXC_GUARD << 16) | ((type) << 8) | (flavor)                           \
+#define ENCODE_EXC_GUARD(type, flavor)                                       \
+  {                                                                          \
+    EXC_GUARD,                                                               \
+        static_cast<mach_exception_code_t>(static_cast<uint64_t>((type)&0x7) \
+                                           << 61) |                          \
+            (static_cast<uint64_t>((1 << (flavor)) & 0x1ffffffff) << 32),    \
+        (EXC_GUARD << 16) | ((type) << 8) | (flavor)                         \
   }
       ENCODE_EXC_GUARD(GUARD_TYPE_MACH_PORT, 0),  // kGUARD_EXC_DESTROY
       ENCODE_EXC_GUARD(GUARD_TYPE_MACH_PORT, 1),  // kGUARD_EXC_MOD_REFS

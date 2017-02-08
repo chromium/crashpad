@@ -26,11 +26,9 @@
 
 namespace crashpad {
 
-StringFile::StringFile() : string_(), offset_(0) {
-}
+StringFile::StringFile() : string_(), offset_(0) {}
 
-StringFile::~StringFile() {
-}
+StringFile::~StringFile() {}
 
 void StringFile::SetString(const std::string& string) {
   CHECK_LE(

@@ -61,12 +61,8 @@ int CrashySignalMain(int argc, wchar_t* argv[]) {
   _set_abort_behavior(0, _WRITE_ABORT_MSG);
 
   if (from == kBackground) {
-    HANDLE thread = CreateThread(nullptr,
-                                 0,
-                                 &BackgroundThread,
-                                 nullptr,
-                                 0,
-                                 nullptr);
+    HANDLE thread =
+        CreateThread(nullptr, 0, &BackgroundThread, nullptr, 0, nullptr);
     if (!thread) {
       PLOG(ERROR) << "CreateThread";
       return EXIT_FAILURE;

@@ -25,11 +25,9 @@
 namespace crashpad {
 
 StringHTTPBodyStream::StringHTTPBodyStream(const std::string& string)
-    : HTTPBodyStream(), string_(string), bytes_read_() {
-}
+    : HTTPBodyStream(), string_(string), bytes_read_() {}
 
-StringHTTPBodyStream::~StringHTTPBodyStream() {
-}
+StringHTTPBodyStream::~StringHTTPBodyStream() {}
 
 FileOperationResult StringHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
                                                          size_t max_len) {
@@ -47,11 +45,9 @@ FileOperationResult StringHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
 }
 
 FileHTTPBodyStream::FileHTTPBodyStream(const base::FilePath& path)
-    : HTTPBodyStream(), path_(path), file_(), file_state_(kUnopenedFile) {
-}
+    : HTTPBodyStream(), path_(path), file_(), file_state_(kUnopenedFile) {}
 
-FileHTTPBodyStream::~FileHTTPBodyStream() {
-}
+FileHTTPBodyStream::~FileHTTPBodyStream() {}
 
 FileOperationResult FileHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
                                                        size_t max_len) {
@@ -84,8 +80,7 @@ FileOperationResult FileHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
 
 CompositeHTTPBodyStream::CompositeHTTPBodyStream(
     const CompositeHTTPBodyStream::PartsList& parts)
-    : HTTPBodyStream(), parts_(parts), current_part_(parts_.begin()) {
-}
+    : HTTPBodyStream(), parts_(parts), current_part_(parts_.begin()) {}
 
 CompositeHTTPBodyStream::~CompositeHTTPBodyStream() {
   for (auto& item : parts_)

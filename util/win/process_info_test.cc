@@ -520,12 +520,8 @@ TEST(ProcessInfo, ReadableRanges) {
 }
 
 struct ScopedRegistryKeyCloseTraits {
-  static HKEY InvalidValue() {
-    return nullptr;
-  }
-  static void Free(HKEY key) {
-    RegCloseKey(key);
-  }
+  static HKEY InvalidValue() { return nullptr; }
+  static void Free(HKEY key) { RegCloseKey(key); }
 };
 
 using ScopedRegistryKey =

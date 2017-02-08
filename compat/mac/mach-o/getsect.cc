@@ -63,10 +63,13 @@ using MachHeader = mach_header;
 using MachHeader = mach_header_64;
 #endif
 
-using GetSectionDataType =
-    uint8_t*(*)(const MachHeader*, const char*, const char*, unsigned long*);
-using GetSegmentDataType =
-    uint8_t*(*)(const MachHeader*, const char*, unsigned long*);
+using GetSectionDataType = uint8_t* (*)(const MachHeader*,
+                                        const char*,
+                                        const char*,
+                                        unsigned long*);
+using GetSegmentDataType = uint8_t* (*)(const MachHeader*,
+                                        const char*,
+                                        unsigned long*);
 
 }  // namespace
 
@@ -91,8 +94,9 @@ uint8_t* getsectiondata(const MachHeader* mhp,
   return crashpad_getsectiondata(mhp, segname, sectname, size);
 }
 
-uint8_t* getsegmentdata(
-    const MachHeader* mhp, const char* segname, unsigned long* size) {
+uint8_t* getsegmentdata(const MachHeader* mhp,
+                        const char* segname,
+                        unsigned long* size) {
   static GetSegmentDataType system_getsegmentdata =
       reinterpret_cast<GetSegmentDataType>(
           LookUpSystemLibMachOSymbol("getsegmentdata"));

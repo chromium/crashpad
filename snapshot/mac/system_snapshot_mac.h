@@ -70,8 +70,10 @@ class SystemSnapshotMac final : public SystemSnapshot {
   bool CPUX86SupportsDAZ() const override;
   OperatingSystem GetOperatingSystem() const override;
   bool OSServer() const override;
-  void OSVersion(
-      int* major, int* minor, int* bugfix, std::string* build) const override;
+  void OSVersion(int* major,
+                 int* minor,
+                 int* bugfix,
+                 std::string* build) const override;
   std::string OSVersionFull() const override;
   bool NXEnabled() const override;
   std::string MachineDescription() const override;

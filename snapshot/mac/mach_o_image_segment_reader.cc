@@ -41,11 +41,9 @@ MachOImageSegmentReader::MachOImageSegmentReader()
       section_map_(),
       slide_(0),
       initialized_(),
-      initialized_slide_() {
-}
+      initialized_slide_() {}
 
-MachOImageSegmentReader::~MachOImageSegmentReader() {
-}
+MachOImageSegmentReader::~MachOImageSegmentReader() {}
 
 bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
                                          mach_vm_address_t load_command_address,
@@ -74,7 +72,8 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
                         segment_command_.cmdsize,
                         segment_command_.nsects,
                         segment_command_.nsects == 1 ? "" : "s",
-                        kRequiredSize) << load_command_info;
+                        kRequiredSize)
+                 << load_command_info;
     return false;
   }
 
@@ -90,7 +89,8 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
   if (!segment_range.IsValid()) {
     LOG(WARNING) << base::StringPrintf("invalid segment range 0x%llx + 0x%llx",
                                        segment_command_.vmaddr,
-                                       segment_command_.vmsize) << segment_info;
+                                       segment_command_.vmsize)
+                 << segment_info;
     return false;
   }
 
@@ -105,8 +105,7 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
     return false;
   }
 
-  for (size_t section_index = 0;
-       section_index < sections_.size();
+  for (size_t section_index = 0; section_index < sections_.size();
        ++section_index) {
     const process_types::section& section = sections_[section_index];
     std::string section_segment_name = SegmentNameString(section.segname);
@@ -137,8 +136,7 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
       if (file_type == MH_BUNDLE && module_name == "cl_kernels") {
         int mac_os_x_minor_version = MacOSXMinorVersion();
         if ((mac_os_x_minor_version >= 10 && mac_os_x_minor_version <= 12) &&
-            segment_name == SEG_TEXT &&
-            section_segment_name == "__LD" &&
+            segment_name == SEG_TEXT && section_segment_name == "__LD" &&
             section_name == "__compact_unwind" &&
             (section.flags & S_ATTR_DEBUG)) {
           ok = true;
@@ -158,7 +156,8 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
       LOG(WARNING) << base::StringPrintf(
                           "invalid section range 0x%llx + 0x%llx",
                           section.addr,
-                          section.size) << section_info;
+                          section.size)
+                   << section_info;
       return false;
     }
 
@@ -169,7 +168,8 @@ bool MachOImageSegmentReader::Initialize(ProcessReader* process_reader,
                           section.addr,
                           section.size,
                           segment_command_.vmaddr,
-                          segment_command_.vmsize) << section_info;
+                          segment_command_.vmsize)
+                   << section_info;
       return false;
     }
 

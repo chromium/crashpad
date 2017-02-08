@@ -76,8 +76,7 @@ void InitializeMinidumpContextX86(MinidumpContextX86* context, uint32_t seed) {
   context->float_save.error_selector = context->fxsave.fpu_cs;
   context->float_save.data_offset = context->fxsave.fpu_dp;
   context->float_save.data_selector = context->fxsave.fpu_ds;
-  for (size_t st_mm_index = 0;
-       st_mm_index < arraysize(context->fxsave.st_mm);
+  for (size_t st_mm_index = 0; st_mm_index < arraysize(context->fxsave.st_mm);
        ++st_mm_index) {
     for (size_t byte = 0;
          byte < arraysize(context->fxsave.st_mm[st_mm_index].st);
@@ -184,15 +183,14 @@ void ExpectMinidumpContextFxsave(const FxsaveType* expected,
   EXPECT_EQ(expected->reserved_3, observed->reserved_3);
   EXPECT_EQ(expected->mxcsr, observed->mxcsr);
   EXPECT_EQ(expected->mxcsr_mask, observed->mxcsr_mask);
-  for (size_t st_mm_index = 0;
-       st_mm_index < arraysize(expected->st_mm);
+  for (size_t st_mm_index = 0; st_mm_index < arraysize(expected->st_mm);
        ++st_mm_index) {
     SCOPED_TRACE(base::StringPrintf("st_mm_index %" PRIuS, st_mm_index));
-    for (size_t byte = 0;
-         byte < arraysize(expected->st_mm[st_mm_index].st);
+    for (size_t byte = 0; byte < arraysize(expected->st_mm[st_mm_index].st);
          ++byte) {
       EXPECT_EQ(expected->st_mm[st_mm_index].st[byte],
-                observed->st_mm[st_mm_index].st[byte]) << "byte " << byte;
+                observed->st_mm[st_mm_index].st[byte])
+          << "byte " << byte;
     }
     for (size_t byte = 0;
          byte < arraysize(expected->st_mm[st_mm_index].st_reserved);
@@ -202,8 +200,7 @@ void ExpectMinidumpContextFxsave(const FxsaveType* expected,
           << "byte " << byte;
     }
   }
-  for (size_t xmm_index = 0;
-       xmm_index < arraysize(expected->xmm);
+  for (size_t xmm_index = 0; xmm_index < arraysize(expected->xmm);
        ++xmm_index) {
     SCOPED_TRACE(base::StringPrintf("xmm_index %" PRIuS, xmm_index));
     for (size_t byte = 0; byte < arraysize(expected->xmm[xmm_index]); ++byte) {
@@ -212,19 +209,20 @@ void ExpectMinidumpContextFxsave(const FxsaveType* expected,
     }
   }
   for (size_t byte = 0; byte < arraysize(expected->reserved_4); ++byte) {
-    EXPECT_EQ(expected->reserved_4[byte], observed->reserved_4[byte])
-        << "byte " << byte;
+    EXPECT_EQ(expected->reserved_4[byte], observed->reserved_4[byte]) << "byte "
+                                                                      << byte;
   }
   for (size_t byte = 0; byte < arraysize(expected->available); ++byte) {
-    EXPECT_EQ(expected->available[byte], observed->available[byte])
-        << "byte " << byte;
+    EXPECT_EQ(expected->available[byte], observed->available[byte]) << "byte "
+                                                                    << byte;
   }
 }
 
 }  // namespace
 
-void ExpectMinidumpContextX86(
-    uint32_t expect_seed, const MinidumpContextX86* observed, bool snapshot) {
+void ExpectMinidumpContextX86(uint32_t expect_seed,
+                              const MinidumpContextX86* observed,
+                              bool snapshot) {
   MinidumpContextX86 expected;
   InitializeMinidumpContextX86(&expected, expect_seed);
 
@@ -247,11 +245,11 @@ void ExpectMinidumpContextX86(
   EXPECT_EQ(expected.float_save.data_offset, observed->float_save.data_offset);
   EXPECT_EQ(expected.float_save.data_selector,
             observed->float_save.data_selector);
-  for (size_t index = 0;
-       index < arraysize(expected.float_save.register_area);
+  for (size_t index = 0; index < arraysize(expected.float_save.register_area);
        ++index) {
     EXPECT_EQ(expected.float_save.register_area[index],
-              observed->float_save.register_area[index]) << "index " << index;
+              observed->float_save.register_area[index])
+        << "index " << index;
   }
   if (snapshot) {
     EXPECT_EQ(0u, observed->float_save.spare_0);
@@ -279,8 +277,9 @@ void ExpectMinidumpContextX86(
   ExpectMinidumpContextFxsave(&expected.fxsave, &observed->fxsave);
 }
 
-void ExpectMinidumpContextAMD64(
-    uint32_t expect_seed, const MinidumpContextAMD64* observed, bool snapshot) {
+void ExpectMinidumpContextAMD64(uint32_t expect_seed,
+                                const MinidumpContextAMD64* observed,
+                                bool snapshot) {
   MinidumpContextAMD64 expected;
   InitializeMinidumpContextAMD64(&expected, expect_seed);
 
@@ -355,9 +354,11 @@ void ExpectMinidumpContextAMD64(
       EXPECT_EQ(0u, observed->vector_register[index].hi) << "index " << index;
     } else {
       EXPECT_EQ(expected.vector_register[index].lo,
-                observed->vector_register[index].lo) << "index " << index;
+                observed->vector_register[index].lo)
+          << "index " << index;
       EXPECT_EQ(expected.vector_register[index].hi,
-                observed->vector_register[index].hi) << "index " << index;
+                observed->vector_register[index].hi)
+          << "index " << index;
     }
   }
 

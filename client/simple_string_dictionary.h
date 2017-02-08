@@ -61,9 +61,7 @@ class TSimpleStringDictionary {
     //!
     //! If #key is an empty string, the entry is considered inactive, and this
     //! method returns `false`. Otherwise, returns `true`.
-    bool is_active() const {
-      return key[0] != '\0';
-    }
+    bool is_active() const { return key[0] != '\0'; }
   };
 
   //! \brief An iterator to traverse all of the active entries in a
@@ -71,9 +69,7 @@ class TSimpleStringDictionary {
   class Iterator {
    public:
     explicit Iterator(const TSimpleStringDictionary& map)
-        : map_(map),
-          current_(0) {
-    }
+        : map_(map), current_(0) {}
 
     //! \brief Returns the next entry in the map, or `nullptr` if at the end of
     //!     the collection.
@@ -94,9 +90,7 @@ class TSimpleStringDictionary {
     DISALLOW_COPY_AND_ASSIGN(Iterator);
   };
 
-  TSimpleStringDictionary()
-      : entries_() {
-  }
+  TSimpleStringDictionary() : entries_() {}
 
   TSimpleStringDictionary(const TSimpleStringDictionary& other) {
     *this = other;

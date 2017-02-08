@@ -31,11 +31,9 @@ ProcessSnapshotMac::ProcessSnapshotMac()
       client_id_(),
       annotations_simple_map_(),
       snapshot_time_(),
-      initialized_() {
-}
+      initialized_() {}
 
-ProcessSnapshotMac::~ProcessSnapshotMac() {
-}
+ProcessSnapshotMac::~ProcessSnapshotMac() {}
 
 bool ProcessSnapshotMac::Initialize(task_t task) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);

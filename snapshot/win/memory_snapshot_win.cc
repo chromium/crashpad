@@ -16,7 +16,6 @@
 
 #include "snapshot/win/memory_snapshot_win.h"
 
-
 namespace crashpad {
 namespace internal {
 
@@ -25,11 +24,9 @@ MemorySnapshotWin::MemorySnapshotWin()
       process_reader_(nullptr),
       address_(0),
       size_(0),
-      initialized_() {
-}
+      initialized_() {}
 
-MemorySnapshotWin::~MemorySnapshotWin() {
-}
+MemorySnapshotWin::~MemorySnapshotWin() {}
 
 void MemorySnapshotWin::Initialize(ProcessReaderWin* process_reader,
                                    uint64_t address,

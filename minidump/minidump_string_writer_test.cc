@@ -245,9 +245,9 @@ void MinidumpStringListTest() {
   ASSERT_TRUE(list);
 
   for (size_t index = 0; index < strings.size(); ++index) {
-    EXPECT_EQ(Traits::ExpectationForUTF8(strings[index]),
-              Traits::ObservationAtRVA(string_file.string(),
-                                       list->children[index]));
+    EXPECT_EQ(
+        Traits::ExpectationForUTF8(strings[index]),
+        Traits::ObservationAtRVA(string_file.string(), list->children[index]));
   }
 }
 

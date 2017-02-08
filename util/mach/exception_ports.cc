@@ -19,9 +19,7 @@
 
 namespace crashpad {
 
-ExceptionPorts::ExceptionHandlerVector::ExceptionHandlerVector()
-    : vector_() {
-}
+ExceptionPorts::ExceptionHandlerVector::ExceptionHandlerVector() : vector_() {}
 
 ExceptionPorts::ExceptionHandlerVector::~ExceptionHandlerVector() {
   Deallocate();

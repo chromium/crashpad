@@ -109,7 +109,7 @@ bool SnapshotMinidumpMemoryWriter::WillWriteAtOffsetImpl(FileOffset offset) {
   }
 
   for (MINIDUMP_MEMORY_DESCRIPTOR* memory_descriptor :
-           registered_memory_descriptors_) {
+       registered_memory_descriptors_) {
     memory_descriptor->StartOfMemoryRange = local_address;
   }
 
@@ -129,11 +129,9 @@ MinidumpMemoryListWriter::MinidumpMemoryListWriter()
     : MinidumpStreamWriter(),
       memory_writers_(),
       children_(),
-      memory_list_base_() {
-}
+      memory_list_base_() {}
 
-MinidumpMemoryListWriter::~MinidumpMemoryListWriter() {
-}
+MinidumpMemoryListWriter::~MinidumpMemoryListWriter() {}
 
 void MinidumpMemoryListWriter::AddFromSnapshot(
     const std::vector<const MemorySnapshot*>& memory_snapshots) {

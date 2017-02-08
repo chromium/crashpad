@@ -19,11 +19,9 @@
 namespace crashpad {
 
 MinidumpUserStreamWriter::MinidumpUserStreamWriter()
-    : stream_type_(0), reader_() {
-}
+    : stream_type_(0), reader_() {}
 
-MinidumpUserStreamWriter::~MinidumpUserStreamWriter() {
-}
+MinidumpUserStreamWriter::~MinidumpUserStreamWriter() {}
 
 void MinidumpUserStreamWriter::InitializeFromSnapshot(
     const UserMinidumpStream* stream) {
@@ -45,8 +43,7 @@ size_t MinidumpUserStreamWriter::SizeOfObject() {
   return reader_.size();
 }
 
-std::vector<internal::MinidumpWritable*>
-MinidumpUserStreamWriter::Children() {
+std::vector<internal::MinidumpWritable*> MinidumpUserStreamWriter::Children() {
   DCHECK_GE(state(), kStateFrozen);
   return std::vector<internal::MinidumpWritable*>();
 }

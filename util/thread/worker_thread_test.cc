@@ -34,15 +34,11 @@ class WorkDelegate : public WorkerThread::Delegate {
       semaphore_.Signal();
   }
 
-  void SetDesiredWorkCount(int times) {
-    waiting_for_count_ = times;
-  }
+  void SetDesiredWorkCount(int times) { waiting_for_count_ = times; }
 
   //! \brief Suspends the calling thread until the DoWork() has been called
   //!     the number of times specified by SetDesiredWorkCount().
-  void WaitForWorkCount() {
-    semaphore_.Wait();
-  }
+  void WaitForWorkCount() { semaphore_.Wait(); }
 
   int work_count() const { return work_count_; }
 

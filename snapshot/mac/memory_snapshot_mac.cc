@@ -26,11 +26,9 @@ MemorySnapshotMac::MemorySnapshotMac()
       process_reader_(nullptr),
       address_(0),
       size_(0),
-      initialized_() {
-}
+      initialized_() {}
 
-MemorySnapshotMac::~MemorySnapshotMac() {
-}
+MemorySnapshotMac::~MemorySnapshotMac() {}
 
 void MemorySnapshotMac::Initialize(ProcessReader* process_reader,
                                    uint64_t address,

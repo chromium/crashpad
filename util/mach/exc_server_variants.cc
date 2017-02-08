@@ -743,11 +743,9 @@ class UniversalMachExcServerImpl final
 UniversalMachExcServer::UniversalMachExcServer(
     UniversalMachExcServer::Interface* interface)
     : MachMessageServer::Interface(),
-      impl_(new internal::UniversalMachExcServerImpl(interface)) {
-}
+      impl_(new internal::UniversalMachExcServerImpl(interface)) {}
 
-UniversalMachExcServer::~UniversalMachExcServer() {
-}
+UniversalMachExcServer::~UniversalMachExcServer() {}
 
 bool UniversalMachExcServer::MachMessageServerFunction(
     const mach_msg_header_t* in_header,
@@ -774,9 +772,10 @@ kern_return_t ExcServerSuccessfulReturnValue(exception_type_t exception,
                                              bool set_thread_state) {
   if (exception == EXC_CRASH
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_11
-      && MacOSXMinorVersion() >= 11
+      &&
+      MacOSXMinorVersion() >= 11
 #endif
-     ) {
+      ) {
     return KERN_SUCCESS;
   }
 

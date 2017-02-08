@@ -44,8 +44,8 @@ namespace {
 
 class HTTPTransportTestFixture : public MultiprocessExec {
  public:
-  using RequestValidator =
-      void(*)(HTTPTransportTestFixture*, const std::string&);
+  using RequestValidator = void (*)(HTTPTransportTestFixture*,
+                                    const std::string&);
 
   HTTPTransportTestFixture(const HTTPHeaders& headers,
                            std::unique_ptr<HTTPBodyStream> body_stream,
@@ -93,9 +93,8 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     // 200.
     const std::string random_string = RandomString();
 
-    ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(),
-                                 random_string.c_str(),
-                                 random_string.size()));
+    ASSERT_TRUE(LoggingWriteFile(
+        WritePipeHandle(), random_string.c_str(), random_string.size()));
 
     // Now execute the HTTP request.
     std::unique_ptr<HTTPTransport> transport(HTTPTransport::Create());
@@ -223,8 +222,8 @@ TEST(HTTPTransport, ValidFormData) {
   HTTPHeaders headers;
   EXPECT_TRUE(headers.insert(builder.GetContentType()).second);
 
-  HTTPTransportTestFixture test(headers, builder.GetBodyStream(), 200,
-      &ValidFormData);
+  HTTPTransportTestFixture test(
+      headers, builder.GetBodyStream(), 200, &ValidFormData);
   test.Run();
 }
 
@@ -241,8 +240,8 @@ TEST(HTTPTransport, ErrorResponse) {
   HTTPMultipartBuilder builder;
   HTTPHeaders headers;
   headers[kContentType] = kTextPlain;
-  HTTPTransportTestFixture test(headers, builder.GetBodyStream(),
-      404, &ErrorResponse);
+  HTTPTransportTestFixture test(
+      headers, builder.GetBodyStream(), 404, &ErrorResponse);
   test.Run();
 }
 

@@ -325,9 +325,7 @@ class TestExceptionPorts : public MachMultiprocess,
       return nullptr;
     }
 
-    static void Crash() {
-      __builtin_trap();
-    }
+    static void Crash() { __builtin_trap(); }
 
     // The parent object.
     TestExceptionPorts* test_exception_ports_;  // weak
@@ -476,10 +474,9 @@ class TestExceptionPorts : public MachMultiprocess,
 };
 
 TEST(ExceptionPorts, TaskExceptionPorts_SetInProcess_NoCrash) {
-  TestExceptionPorts test_exception_ports(
-      TestExceptionPorts::kSetOnTaskOnly,
-      TestExceptionPorts::kSetInProcess,
-      TestExceptionPorts::kNobodyCrashes);
+  TestExceptionPorts test_exception_ports(TestExceptionPorts::kSetOnTaskOnly,
+                                          TestExceptionPorts::kSetInProcess,
+                                          TestExceptionPorts::kNobodyCrashes);
   test_exception_ports.Run();
 }
 
@@ -525,10 +522,9 @@ TEST(ExceptionPorts,
 }
 
 TEST(ExceptionPorts, TaskExceptionPorts_SetOutOfProcess_NoCrash) {
-  TestExceptionPorts test_exception_ports(
-      TestExceptionPorts::kSetOnTaskOnly,
-      TestExceptionPorts::kSetOutOfProcess,
-      TestExceptionPorts::kNobodyCrashes);
+  TestExceptionPorts test_exception_ports(TestExceptionPorts::kSetOnTaskOnly,
+                                          TestExceptionPorts::kSetOutOfProcess,
+                                          TestExceptionPorts::kNobodyCrashes);
   test_exception_ports.Run();
 }
 

@@ -29,9 +29,7 @@ CrashReportDatabase::Report::Report()
 CrashReportDatabase::CallErrorWritingCrashReport::CallErrorWritingCrashReport(
     CrashReportDatabase* database,
     NewReport* new_report)
-    : database_(database),
-      new_report_(new_report) {
-}
+    : database_(database), new_report_(new_report) {}
 
 CrashReportDatabase::CallErrorWritingCrashReport::
     ~CallErrorWritingCrashReport() {

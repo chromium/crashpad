@@ -476,11 +476,9 @@ std::vector<ProcessInfo::Handle> ProcessInfo::BuildHandleVector(
   return handles;
 }
 
-ProcessInfo::Module::Module() : name(), dll_base(0), size(0), timestamp() {
-}
+ProcessInfo::Module::Module() : name(), dll_base(0), size(0), timestamp() {}
 
-ProcessInfo::Module::~Module() {
-}
+ProcessInfo::Module::~Module() {}
 
 ProcessInfo::Handle::Handle()
     : type_name(),
@@ -488,11 +486,9 @@ ProcessInfo::Handle::Handle()
       attributes(0),
       granted_access(0),
       pointer_count(0),
-      handle_count(0) {
-}
+      handle_count(0) {}
 
-ProcessInfo::Handle::~Handle() {
-}
+ProcessInfo::Handle::~Handle() {}
 
 ProcessInfo::ProcessInfo()
     : process_id_(),
@@ -506,11 +502,9 @@ ProcessInfo::ProcessInfo()
       handles_(),
       is_64_bit_(false),
       is_wow64_(false),
-      initialized_() {
-}
+      initialized_() {}
 
-ProcessInfo::~ProcessInfo() {
-}
+ProcessInfo::~ProcessInfo() {}
 
 bool ProcessInfo::Initialize(HANDLE process) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);

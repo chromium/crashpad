@@ -77,10 +77,10 @@ void ScopedTempDir::RecursivelyDeleteTemporaryDirectory(
     }
   }
 
-  EXPECT_EQ(0, closedir(dir))
-      << ErrnoMessage("closedir") << " " << path.value();
-  EXPECT_EQ(0, rmdir(path.value().c_str()))
-      << ErrnoMessage("rmdir") << " " << path.value();
+  EXPECT_EQ(0, closedir(dir)) << ErrnoMessage("closedir") << " "
+                              << path.value();
+  EXPECT_EQ(0, rmdir(path.value().c_str())) << ErrnoMessage("rmdir") << " "
+                                            << path.value();
 }
 
 }  // namespace test

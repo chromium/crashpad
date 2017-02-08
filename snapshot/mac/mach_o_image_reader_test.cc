@@ -297,7 +297,7 @@ void ExpectSegmentCommands(const MachHeader* expect_image,
     // wouldn’t be expected in the __DATA segment. But if the first section is
     // in any other segment, then it wouldn’t be expected in the __TEXT segment.
     if (MachOImageSegmentReader::SegmentNameString(section->segname) ==
-            SEG_TEXT) {
+        SEG_TEXT) {
       test_segment = SEG_DATA;
     } else {
       test_segment = SEG_TEXT;
@@ -608,8 +608,7 @@ TEST(MachOImageReader, Self_DyldImages) {
   // loaded out of the shared cache, but it should at least have a UUID for the
   // main executable if it has one.
   if (dyld_image_infos->version >= 8 && dyld_image_infos->uuidArray) {
-    for (uint32_t index = 0;
-         index < dyld_image_infos->uuidArrayCount;
+    for (uint32_t index = 0; index < dyld_image_infos->uuidArrayCount;
          ++index) {
       const dyld_uuid_info* dyld_image = &dyld_image_infos->uuidArray[index];
       SCOPED_TRACE(base::StringPrintf("uuid index %u", index));

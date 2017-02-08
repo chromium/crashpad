@@ -33,8 +33,7 @@ MinidumpCrashpadInfoWriter::MinidumpCrashpadInfoWriter()
   crashpad_info_.version = MinidumpCrashpadInfo::kVersion;
 }
 
-MinidumpCrashpadInfoWriter::~MinidumpCrashpadInfoWriter() {
-}
+MinidumpCrashpadInfoWriter::~MinidumpCrashpadInfoWriter() {}
 
 void MinidumpCrashpadInfoWriter::InitializeFromSnapshot(
     const ProcessSnapshot* process_snapshot) {
@@ -142,8 +141,7 @@ MinidumpStreamType MinidumpCrashpadInfoWriter::StreamType() const {
 
 bool MinidumpCrashpadInfoWriter::IsUseful() const {
   return crashpad_info_.report_id != UUID() ||
-         crashpad_info_.client_id != UUID() ||
-         simple_annotations_ ||
+         crashpad_info_.client_id != UUID() || simple_annotations_ ||
          module_list_;
 }
 

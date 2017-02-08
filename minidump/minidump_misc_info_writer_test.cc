@@ -647,11 +647,10 @@ TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
       base::UTF8ToUTF16(debug_build_string);
 
   expect_misc_info.SizeOfInfo = sizeof(expect_misc_info);
-  expect_misc_info.Flags1 = MINIDUMP_MISC1_PROCESS_ID |
-                            MINIDUMP_MISC1_PROCESS_TIMES |
-                            MINIDUMP_MISC1_PROCESSOR_POWER_INFO |
-                            MINIDUMP_MISC3_TIMEZONE |
-                            MINIDUMP_MISC4_BUILDSTRING;
+  expect_misc_info.Flags1 =
+      MINIDUMP_MISC1_PROCESS_ID | MINIDUMP_MISC1_PROCESS_TIMES |
+      MINIDUMP_MISC1_PROCESSOR_POWER_INFO | MINIDUMP_MISC3_TIMEZONE |
+      MINIDUMP_MISC4_BUILDSTRING;
   expect_misc_info.ProcessId = 12345;
   expect_misc_info.ProcessCreateTime = 0x555c7740;
   expect_misc_info.ProcessUserTime = 60;
@@ -675,12 +674,12 @@ TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
           debug_build_string_utf16.c_str(),
           arraysize(expect_misc_info.DbgBldStr));
 
-  const timeval kStartTime =
-      { static_cast<time_t>(expect_misc_info.ProcessCreateTime), 0 };
-  const timeval kUserCPUTime =
-      { static_cast<time_t>(expect_misc_info.ProcessUserTime), 0 };
-  const timeval kSystemCPUTime =
-      { static_cast<time_t>(expect_misc_info.ProcessKernelTime), 0 };
+  const timeval kStartTime = {
+      static_cast<time_t>(expect_misc_info.ProcessCreateTime), 0};
+  const timeval kUserCPUTime = {
+      static_cast<time_t>(expect_misc_info.ProcessUserTime), 0};
+  const timeval kSystemCPUTime = {
+      static_cast<time_t>(expect_misc_info.ProcessKernelTime), 0};
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetProcessID(expect_misc_info.ProcessId);
@@ -695,7 +694,8 @@ TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
   system_snapshot->SetTimeZone(SystemSnapshot::kObservingStandardTime,
                                expect_misc_info.TimeZone.Bias * -60,
                                (expect_misc_info.TimeZone.Bias +
-                                expect_misc_info.TimeZone.DaylightBias) * -60,
+                                expect_misc_info.TimeZone.DaylightBias) *
+                                   -60,
                                kStandardTimeName,
                                kDaylightTimeName);
   system_snapshot->SetOSVersionFull(kOSVersionFull);

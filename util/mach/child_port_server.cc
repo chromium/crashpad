@@ -62,9 +62,7 @@ kern_return_t MIGCheckRequestChildPortCheckIn(
 namespace crashpad {
 
 ChildPortServer::ChildPortServer(ChildPortServer::Interface* interface)
-    : MachMessageServer::Interface(),
-      interface_(interface) {
-}
+    : MachMessageServer::Interface(), interface_(interface) {}
 
 bool ChildPortServer::MachMessageServerFunction(
     const mach_msg_header_t* in_header,

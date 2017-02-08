@@ -32,8 +32,7 @@ WinMultiprocess::WinMultiprocess()
       child_handles_(nullptr),
       child_process_helper_(nullptr) {}
 
-WinMultiprocess::~WinMultiprocess() {
-}
+WinMultiprocess::~WinMultiprocess() {}
 
 void WinMultiprocess::SetExpectedChildExitCode(unsigned int exit_code) {
   exit_code_ = exit_code;

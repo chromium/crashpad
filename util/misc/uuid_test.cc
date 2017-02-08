@@ -167,24 +167,22 @@ TEST(UUID, FromString) {
   const struct TestCase {
     const char* uuid_string;
     bool success;
-  } kCases[] = {
-    // Valid:
-    {"c6849cb5-fe14-4a79-8978-9ae6034c521d", true},
-    {"00000000-0000-0000-0000-000000000000", true},
-    {"ffffffff-ffff-ffff-ffff-ffffffffffff", true},
-    // Outside HEX range:
-    {"7318z10b-c453-4cef-9dc8-015655cb4bbc", false},
-    {"7318a10b-c453-4cef-9dz8-015655cb4bbc", false},
-    // Incomplete:
-    {"15655cb4-", false},
-    {"7318f10b-c453-4cef-9dc8-015655cb4bb", false},
-    {"318f10b-c453-4cef-9dc8-015655cb4bb2", false},
-    {"7318f10b-c453-4ef-9dc8-015655cb4bb2", false},
-    {"", false},
-    {"abcd", false},
-    // Trailing data:
-    {"6d247a34-53d5-40ec-a90d-d8dea9e94cc01", false}
-  };
+  } kCases[] = {// Valid:
+                {"c6849cb5-fe14-4a79-8978-9ae6034c521d", true},
+                {"00000000-0000-0000-0000-000000000000", true},
+                {"ffffffff-ffff-ffff-ffff-ffffffffffff", true},
+                // Outside HEX range:
+                {"7318z10b-c453-4cef-9dc8-015655cb4bbc", false},
+                {"7318a10b-c453-4cef-9dz8-015655cb4bbc", false},
+                // Incomplete:
+                {"15655cb4-", false},
+                {"7318f10b-c453-4cef-9dc8-015655cb4bb", false},
+                {"318f10b-c453-4cef-9dc8-015655cb4bb2", false},
+                {"7318f10b-c453-4ef-9dc8-015655cb4bb2", false},
+                {"", false},
+                {"abcd", false},
+                // Trailing data:
+                {"6d247a34-53d5-40ec-a90d-d8dea9e94cc01", false}};
 
   UUID uuid_zero;
   uuid_zero.InitializeToZero();

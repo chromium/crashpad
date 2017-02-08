@@ -27,12 +27,10 @@ namespace internal {
 
 template <typename Traits>
 MinidumpStringWriter<Traits>::MinidumpStringWriter()
-    : MinidumpWritable(), string_base_(new MinidumpStringType()), string_() {
-}
+    : MinidumpWritable(), string_base_(new MinidumpStringType()), string_() {}
 
 template <typename Traits>
-MinidumpStringWriter<Traits>::~MinidumpStringWriter() {
-}
+MinidumpStringWriter<Traits>::~MinidumpStringWriter() {}
 
 template <typename Traits>
 bool MinidumpStringWriter<Traits>::Freeze() {
@@ -84,8 +82,7 @@ bool MinidumpStringWriter<Traits>::WriteObject(
 template class MinidumpStringWriter<MinidumpStringWriterUTF16Traits>;
 template class MinidumpStringWriter<MinidumpStringWriterUTF8Traits>;
 
-MinidumpUTF16StringWriter::~MinidumpUTF16StringWriter() {
-}
+MinidumpUTF16StringWriter::~MinidumpUTF16StringWriter() {}
 
 void MinidumpUTF16StringWriter::SetUTF8(const std::string& string_utf8) {
   DCHECK_EQ(state(), kStateMutable);
@@ -93,18 +90,15 @@ void MinidumpUTF16StringWriter::SetUTF8(const std::string& string_utf8) {
   set_string(MinidumpWriterUtil::ConvertUTF8ToUTF16(string_utf8));
 }
 
-MinidumpUTF8StringWriter::~MinidumpUTF8StringWriter() {
-}
+MinidumpUTF8StringWriter::~MinidumpUTF8StringWriter() {}
 
 template <typename MinidumpStringWriterType>
 MinidumpStringListWriter<MinidumpStringWriterType>::MinidumpStringListWriter()
-    : MinidumpRVAListWriter() {
-}
+    : MinidumpRVAListWriter() {}
 
 template <typename MinidumpStringWriterType>
 MinidumpStringListWriter<
-    MinidumpStringWriterType>::~MinidumpStringListWriter() {
-}
+    MinidumpStringWriterType>::~MinidumpStringListWriter() {}
 
 template <typename MinidumpStringWriterType>
 void MinidumpStringListWriter<MinidumpStringWriterType>::InitializeFromVector(

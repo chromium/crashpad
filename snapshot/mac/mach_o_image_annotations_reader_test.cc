@@ -95,8 +95,7 @@ class TestMachOImageAnnotationsReader final
   explicit TestMachOImageAnnotationsReader(TestType test_type)
       : MachMultiprocess(),
         UniversalMachExcServer::Interface(),
-        test_type_(test_type) {
-  }
+        test_type_(test_type) {}
 
   ~TestMachOImageAnnotationsReader() {}
 
@@ -202,7 +201,7 @@ class TestMachOImageAnnotationsReader final
           // DYLD_INSERT_LIBRARIES environment variable appended to it on OS X
           // 10.10.
           if (annotation.substr(0, expected_annotation.length()) ==
-                  expected_annotation) {
+              expected_annotation) {
             found = true;
             break;
           }
@@ -220,7 +219,7 @@ class TestMachOImageAnnotationsReader final
           // string will contain the library’s pathname and, on OS X 10.9 and
           // later, a reason.
           if (annotation.substr(0, expected_annotation_length) ==
-                  kExpectedAnnotation) {
+              kExpectedAnnotation) {
             found = true;
             break;
           }
@@ -381,9 +380,10 @@ class TestMachOImageAnnotationsReader final
         // with system executables on OS X 10.11 due to System Integrity
         // Protection.
         base::FilePath no_op_executable = NoOpExecutable();
-        ASSERT_EQ(0, execl(no_op_executable.value().c_str(),
-                           no_op_executable.BaseName().value().c_str(),
-                           nullptr))
+        ASSERT_EQ(0,
+                  execl(no_op_executable.value().c_str(),
+                        no_op_executable.BaseName().value().c_str(),
+                        nullptr))
             << ErrnoMessage("execl");
         break;
       }

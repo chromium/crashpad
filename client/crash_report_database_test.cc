@@ -28,8 +28,7 @@ namespace {
 
 class CrashReportDatabaseTest : public testing::Test {
  public:
-  CrashReportDatabaseTest() {
-  }
+  CrashReportDatabaseTest() {}
 
  protected:
   // testing::Test:
@@ -38,9 +37,7 @@ class CrashReportDatabaseTest : public testing::Test {
     ASSERT_TRUE(db_);
   }
 
-  void ResetDatabase() {
-    db_.reset();
-  }
+  void ResetDatabase() { db_.reset(); }
 
   CrashReportDatabase* db() { return db_.get(); }
   base::FilePath path() const {

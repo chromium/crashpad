@@ -264,8 +264,7 @@ mach_msg_return_t MachMessageServer::Run(Interface* interface,
                                    true);
 
       if (kr != MACH_MSG_SUCCESS) {
-        if (kr == MACH_SEND_INVALID_DEST ||
-            kr == MACH_SEND_TIMED_OUT ||
+        if (kr == MACH_SEND_INVALID_DEST || kr == MACH_SEND_TIMED_OUT ||
             kr == MACH_SEND_INTERRUPTED) {
           mach_msg_destroy(reply_header);
         }

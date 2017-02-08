@@ -38,11 +38,8 @@ std::string ErrnoMessage(int err, const std::string& base) {
   char err_string[256];
   strerror_s(err_string, errno);
 #endif
-  return base::StringPrintf("%s%s%s (%d)",
-                            base.c_str(),
-                            base.empty() ? "" : ": ",
-                            err_string,
-                            err);
+  return base::StringPrintf(
+      "%s%s%s (%d)", base.c_str(), base.empty() ? "" : ": ", err_string, err);
 }
 
 std::string ErrnoMessage(const std::string& base) {

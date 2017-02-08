@@ -20,8 +20,9 @@
 namespace crashpad {
 namespace internal {
 
-FARPROC GetFunctionInternal(
-    const wchar_t* library, const char* function, bool required) {
+FARPROC GetFunctionInternal(const wchar_t* library,
+                            const char* function,
+                            bool required) {
   HMODULE module = LoadLibrary(library);
   DPCHECK(!required || module) << "LoadLibrary " << base::UTF16ToUTF8(library);
   if (!module) {
@@ -30,8 +31,8 @@ FARPROC GetFunctionInternal(
 
   // Strip off any leading :: that may have come from stringifying the
   // function’s name.
-  if (function[0] == ':' && function[1] == ':' &&
-      function[2] && function[2] != ':') {
+  if (function[0] == ':' && function[1] == ':' && function[2] &&
+      function[2] != ':') {
     function += 2;
   }
 

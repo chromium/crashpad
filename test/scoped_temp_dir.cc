@@ -17,8 +17,7 @@
 namespace crashpad {
 namespace test {
 
-ScopedTempDir::ScopedTempDir() : path_(CreateTemporaryDirectory()) {
-}
+ScopedTempDir::ScopedTempDir() : path_(CreateTemporaryDirectory()) {}
 
 ScopedTempDir::~ScopedTempDir() {
   RecursivelyDeleteTemporaryDirectory(path());

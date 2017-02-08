@@ -61,9 +61,7 @@ namespace {
 //! deallocated upon destruction.
 class MachSendRightPool {
  public:
-  MachSendRightPool()
-      : send_rights_() {
-  }
+  MachSendRightPool() : send_rights_() {}
 
   ~MachSendRightPool() {
     for (mach_port_t send_right : send_rights_) {
@@ -83,10 +81,8 @@ class MachSendRightPool {
   //! same send right multiple times. This is acceptable, because send rights
   //! are reference-counted.
   void AddSendRight(mach_port_t send_right) {
-    kern_return_t kr = mach_port_mod_refs(mach_task_self(),
-                                          send_right,
-                                          MACH_PORT_RIGHT_SEND,
-                                          1);
+    kern_return_t kr = mach_port_mod_refs(
+        mach_task_self(), send_right, MACH_PORT_RIGHT_SEND, 1);
     MACH_CHECK(kr == KERN_SUCCESS, kr) << "mach_port_mod_refs";
 
     send_rights_.push_back(send_right);
@@ -311,38 +307,53 @@ bool SetExceptionPort(const ExceptionHandlerDescription* description,
 }
 
 void Usage(const std::string& me) {
-  fprintf(stderr,
-"Usage: %s [OPTION]... [COMMAND [ARG]...]\n"
-"View and change Mach exception ports, and run COMMAND if supplied.\n"
-"\n"
-"  -s, --set-handler=DESCRIPTION  set an exception port to DESCRIPTION, see below\n"
-"      --show-bootstrap=SERVICE   look up and display a service registered with\n"
-"                                 the bootstrap server\n"
-"  -p, --pid=PID                  operate on PID instead of the current task\n"
-"  -h, --show-host                display original host exception ports\n"
-"  -t, --show-task                display original task exception ports\n"
-"      --show-thread              display original thread exception ports\n"
-"  -H, --show-new-host            display modified host exception ports\n"
-"  -T, --show-new-task            display modified task exception ports\n"
-"      --show-new-thread          display modified thread exception ports\n"
-"  -n, --numeric                  display values numerically, not symbolically\n"
-"      --help                     display this help and exit\n"
-"      --version                  output version information and exit\n"
-"\n"
-"Any operations on host exception ports require superuser permissions.\n"
-"\n"
-"DESCRIPTION is formatted as a comma-separated sequence of tokens, where each\n"
-"token consists of a key and value separated by an equals sign. Available keys:\n"
-"  target    which target's exception ports to set: host, task, or thread\n"
-"  mask      the mask of exception types to handle: CRASH, ALL, or others\n"
-"  behavior  the specific exception handler routine to call: DEFAULT, STATE,\n"
-"            or STATE_IDENTITY, possibly with MACH_EXCEPTION_CODES.\n"
-"  flavor    the thread state flavor passed to the handler: architecture-specific\n"
-"  handler   the exception handler: NULL or bootstrap:SERVICE, indicating that\n"
-"            the handler should be looked up with the bootstrap server\n"
-"The default DESCRIPTION is\n"
-"  target=task,mask=CRASH,behavior=DEFAULT|MACH,flavor=NONE,handler=NULL\n",
-          me.c_str());
+  fprintf(
+      stderr,
+      "Usage: %s [OPTION]... [COMMAND [ARG]...]\n"
+      "View and change Mach exception ports, and run COMMAND if supplied.\n"
+      "\n"
+      "  -s, --set-handler=DESCRIPTION  set an exception port to DESCRIPTION, "
+      "see below\n"
+      "      --show-bootstrap=SERVICE   look up and display a service "
+      "registered with\n"
+      "                                 the bootstrap server\n"
+      "  -p, --pid=PID                  operate on PID instead of the current "
+      "task\n"
+      "  -h, --show-host                display original host exception ports\n"
+      "  -t, --show-task                display original task exception ports\n"
+      "      --show-thread              display original thread exception "
+      "ports\n"
+      "  -H, --show-new-host            display modified host exception ports\n"
+      "  -T, --show-new-task            display modified task exception ports\n"
+      "      --show-new-thread          display modified thread exception "
+      "ports\n"
+      "  -n, --numeric                  display values numerically, not "
+      "symbolically\n"
+      "      --help                     display this help and exit\n"
+      "      --version                  output version information and exit\n"
+      "\n"
+      "Any operations on host exception ports require superuser permissions.\n"
+      "\n"
+      "DESCRIPTION is formatted as a comma-separated sequence of tokens, where "
+      "each\n"
+      "token consists of a key and value separated by an equals sign. "
+      "Available keys:\n"
+      "  target    which target's exception ports to set: host, task, or "
+      "thread\n"
+      "  mask      the mask of exception types to handle: CRASH, ALL, or "
+      "others\n"
+      "  behavior  the specific exception handler routine to call: DEFAULT, "
+      "STATE,\n"
+      "            or STATE_IDENTITY, possibly with MACH_EXCEPTION_CODES.\n"
+      "  flavor    the thread state flavor passed to the handler: "
+      "architecture-specific\n"
+      "  handler   the exception handler: NULL or bootstrap:SERVICE, "
+      "indicating that\n"
+      "            the handler should be looked up with the bootstrap server\n"
+      "The default DESCRIPTION is\n"
+      "  "
+      "target=task,mask=CRASH,behavior=DEFAULT|MACH,flavor=NONE,handler=NULL\n",
+      me.c_str());
   ToolSupport::UsageTail(me);
 }
 
@@ -557,12 +568,11 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
           &mach_send_right_pool);
     }
     if (options.show_new_task) {
-      ShowExceptionPorts(
-          ExceptionPorts(ExceptionPorts::kTargetTypeTask,
-                         options.alternate_task),
-          options.numeric,
-          true,
-          &mach_send_right_pool);
+      ShowExceptionPorts(ExceptionPorts(ExceptionPorts::kTargetTypeTask,
+                                        options.alternate_task),
+                         options.numeric,
+                         true,
+                         &mach_send_right_pool);
     }
     if (options.show_new_thread) {
       ShowExceptionPorts(

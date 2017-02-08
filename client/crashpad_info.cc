@@ -63,8 +63,8 @@ union Compile_Assert {
 #if defined(OS_POSIX)
 __attribute__((
 
-    // Put the structure in a well-known section name where it can be easily
-    // found without having to consult the symbol table.
+// Put the structure in a well-known section name where it can be easily
+// found without having to consult the symbol table.
 #if defined(OS_MACOSX)
     section(SEG_DATA ",crashpad_info"),
 #elif defined(OS_LINUX) || defined(OS_ANDROID)

@@ -20,11 +20,9 @@ namespace crashpad {
 namespace test {
 
 TestMemorySnapshot::TestMemorySnapshot()
-    : address_(0), size_(0), value_('\0') {
-}
+    : address_(0), size_(0), value_('\0') {}
 
-TestMemorySnapshot::~TestMemorySnapshot() {
-}
+TestMemorySnapshot::~TestMemorySnapshot() {}
 
 uint64_t TestMemorySnapshot::Address() const {
   return address_;

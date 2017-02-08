@@ -35,11 +35,9 @@ TestProcessSnapshot::TestProcessSnapshot()
       exception_(),
       memory_map_(),
       handles_(),
-      extra_memory_() {
-}
+      extra_memory_() {}
 
-TestProcessSnapshot::~TestProcessSnapshot() {
-}
+TestProcessSnapshot::~TestProcessSnapshot() {}
 
 pid_t TestProcessSnapshot::ProcessID() const {
   return process_id_;

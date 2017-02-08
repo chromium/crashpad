@@ -23,7 +23,8 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 
-#define NUL_TEST_DATA(string) { string, arraysize(string) - 1 }
+#define NUL_TEST_DATA(string) \
+  { string, arraysize(string) - 1 }
 
 namespace crashpad {
 namespace test {
@@ -34,40 +35,24 @@ const struct {
   const char* full_name;
   const char* short_name;
 } kSignalTestData[] = {
-    {SIGABRT, "SIGABRT", "ABRT"},
-    {SIGALRM, "SIGALRM", "ALRM"},
-    {SIGBUS, "SIGBUS", "BUS"},
-    {SIGCHLD, "SIGCHLD", "CHLD"},
-    {SIGCONT, "SIGCONT", "CONT"},
-    {SIGFPE, "SIGFPE", "FPE"},
-    {SIGHUP, "SIGHUP", "HUP"},
-    {SIGILL, "SIGILL", "ILL"},
-    {SIGINT, "SIGINT", "INT"},
-    {SIGIO, "SIGIO", "IO"},
-    {SIGKILL, "SIGKILL", "KILL"},
-    {SIGPIPE, "SIGPIPE", "PIPE"},
-    {SIGPROF, "SIGPROF", "PROF"},
-    {SIGQUIT, "SIGQUIT", "QUIT"},
-    {SIGSEGV, "SIGSEGV", "SEGV"},
-    {SIGSTOP, "SIGSTOP", "STOP"},
-    {SIGSYS, "SIGSYS", "SYS"},
-    {SIGTERM, "SIGTERM", "TERM"},
-    {SIGTRAP, "SIGTRAP", "TRAP"},
-    {SIGTSTP, "SIGTSTP", "TSTP"},
-    {SIGTTIN, "SIGTTIN", "TTIN"},
-    {SIGTTOU, "SIGTTOU", "TTOU"},
-    {SIGURG, "SIGURG", "URG"},
-    {SIGUSR1, "SIGUSR1", "USR1"},
-    {SIGUSR2, "SIGUSR2", "USR2"},
-    {SIGVTALRM, "SIGVTALRM", "VTALRM"},
-    {SIGWINCH, "SIGWINCH", "WINCH"},
-    {SIGXCPU, "SIGXCPU", "XCPU"},
+    {SIGABRT, "SIGABRT", "ABRT"},    {SIGALRM, "SIGALRM", "ALRM"},
+    {SIGBUS, "SIGBUS", "BUS"},       {SIGCHLD, "SIGCHLD", "CHLD"},
+    {SIGCONT, "SIGCONT", "CONT"},    {SIGFPE, "SIGFPE", "FPE"},
+    {SIGHUP, "SIGHUP", "HUP"},       {SIGILL, "SIGILL", "ILL"},
+    {SIGINT, "SIGINT", "INT"},       {SIGIO, "SIGIO", "IO"},
+    {SIGKILL, "SIGKILL", "KILL"},    {SIGPIPE, "SIGPIPE", "PIPE"},
+    {SIGPROF, "SIGPROF", "PROF"},    {SIGQUIT, "SIGQUIT", "QUIT"},
+    {SIGSEGV, "SIGSEGV", "SEGV"},    {SIGSTOP, "SIGSTOP", "STOP"},
+    {SIGSYS, "SIGSYS", "SYS"},       {SIGTERM, "SIGTERM", "TERM"},
+    {SIGTRAP, "SIGTRAP", "TRAP"},    {SIGTSTP, "SIGTSTP", "TSTP"},
+    {SIGTTIN, "SIGTTIN", "TTIN"},    {SIGTTOU, "SIGTTOU", "TTOU"},
+    {SIGURG, "SIGURG", "URG"},       {SIGUSR1, "SIGUSR1", "USR1"},
+    {SIGUSR2, "SIGUSR2", "USR2"},    {SIGVTALRM, "SIGVTALRM", "VTALRM"},
+    {SIGWINCH, "SIGWINCH", "WINCH"}, {SIGXCPU, "SIGXCPU", "XCPU"},
 #if defined(OS_MACOSX)
-    {SIGEMT, "SIGEMT", "EMT"},
-    {SIGINFO, "SIGINFO", "INFO"},
+    {SIGEMT, "SIGEMT", "EMT"},       {SIGINFO, "SIGINFO", "INFO"},
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
-    {SIGPWR, "SIGPWR", "PWR"},
-    {SIGSTKFLT, "SIGSTKFLT", "STKFLT"},
+    {SIGPWR, "SIGPWR", "PWR"},       {SIGSTKFLT, "SIGSTKFLT", "STKFLT"},
 #endif
 };
 
@@ -168,8 +153,7 @@ TEST(SymbolicConstantsPOSIX, StringToSignal) {
       kAllowFullName | kAllowShortName | kAllowNumber,
   };
 
-  for (size_t option_index = 0;
-       option_index < arraysize(kOptions);
+  for (size_t option_index = 0; option_index < arraysize(kOptions);
        ++option_index) {
     SCOPED_TRACE(base::StringPrintf("option_index %zu", option_index));
     StringToSymbolicConstantOptions options = kOptions[option_index];

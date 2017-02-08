@@ -37,11 +37,9 @@ ModuleSnapshotWin::ModuleSnapshotWin()
       age_(0),
       initialized_(),
       vs_fixed_file_info_(),
-      initialized_vs_fixed_file_info_() {
-}
+      initialized_vs_fixed_file_info_() {}
 
-ModuleSnapshotWin::~ModuleSnapshotWin() {
-}
+ModuleSnapshotWin::~ModuleSnapshotWin() {}
 
 bool ModuleSnapshotWin::Initialize(
     ProcessReaderWin* process_reader,
@@ -296,8 +294,7 @@ void ModuleSnapshotWin::GetCrashpadUserMinidumpStreams(
 
   for (uint64_t cur = crashpad_info.user_data_minidump_stream_head; cur;) {
     internal::UserDataMinidumpStreamListEntry list_entry;
-    if (!process_reader_->ReadMemory(
-          cur, sizeof(list_entry), &list_entry)) {
+    if (!process_reader_->ReadMemory(cur, sizeof(list_entry), &list_entry)) {
       LOG(WARNING) << "could not read user data stream entry from "
                    << base::UTF16ToUTF8(name_);
       return;

@@ -142,14 +142,13 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
   EXPECT_TRUE(module_list_writer->WriteEverything(&string_file));
   ASSERT_EQ(sizeof(MinidumpModuleCrashpadInfoList) +
                 sizeof(MinidumpModuleCrashpadInfoLink) +
-                sizeof(MinidumpModuleCrashpadInfo) +
-                sizeof(MinidumpRVAList) +
-                sizeof(RVA) +
-                sizeof(MinidumpSimpleStringDictionary) +
+                sizeof(MinidumpModuleCrashpadInfo) + sizeof(MinidumpRVAList) +
+                sizeof(RVA) + sizeof(MinidumpSimpleStringDictionary) +
                 sizeof(MinidumpSimpleStringDictionaryEntry) +
                 sizeof(MinidumpUTF8String) + arraysize(kEntry) + 2 +  // padding
-                sizeof(MinidumpUTF8String) + arraysize(kKey) +
-                sizeof(MinidumpUTF8String) + arraysize(kValue),
+                sizeof(MinidumpUTF8String) +
+                arraysize(kKey) + sizeof(MinidumpUTF8String) +
+                arraysize(kValue),
             string_file.string().size());
 
   const MinidumpModuleCrashpadInfoList* module_list =

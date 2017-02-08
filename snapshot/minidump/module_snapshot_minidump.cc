@@ -26,11 +26,9 @@ ModuleSnapshotMinidump::ModuleSnapshotMinidump()
       minidump_module_(),
       annotations_vector_(),
       annotations_simple_map_(),
-      initialized_() {
-}
+      initialized_() {}
 
-ModuleSnapshotMinidump::~ModuleSnapshotMinidump() {
-}
+ModuleSnapshotMinidump::~ModuleSnapshotMinidump() {}
 
 bool ModuleSnapshotMinidump::Initialize(
     FileReaderInterface* file_reader,
@@ -160,7 +158,7 @@ bool ModuleSnapshotMinidump::InitializeModuleCrashpadInfo(
 
   MinidumpModuleCrashpadInfo minidump_module_crashpad_info;
   if (minidump_module_crashpad_info_location->DataSize <
-          sizeof(minidump_module_crashpad_info)) {
+      sizeof(minidump_module_crashpad_info)) {
     LOG(ERROR) << "minidump_module_crashpad_info size mismatch";
     return false;
   }
@@ -175,7 +173,7 @@ bool ModuleSnapshotMinidump::InitializeModuleCrashpadInfo(
   }
 
   if (minidump_module_crashpad_info.version !=
-          MinidumpModuleCrashpadInfo::kVersion) {
+      MinidumpModuleCrashpadInfo::kVersion) {
     LOG(ERROR) << "minidump_module_crashpad_info version mismatch";
     return false;
   }

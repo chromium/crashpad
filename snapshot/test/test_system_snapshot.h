@@ -61,8 +61,10 @@ class TestSystemSnapshot final : public SystemSnapshot {
     operating_system_ = operating_system;
   }
   void SetOSServer(bool os_server) { os_server_ = os_server; }
-  void SetOSVersion(
-      int major, int minor, int bugfix, const std::string& build) {
+  void SetOSVersion(int major,
+                    int minor,
+                    int bugfix,
+                    const std::string& build) {
     os_version_major_ = major;
     os_version_minor_ = minor;
     os_version_bugfix_ = bugfix;
@@ -101,8 +103,10 @@ class TestSystemSnapshot final : public SystemSnapshot {
   bool CPUX86SupportsDAZ() const override;
   OperatingSystem GetOperatingSystem() const override;
   bool OSServer() const override;
-  void OSVersion(
-      int* major, int* minor, int* bugfix, std::string* build) const override;
+  void OSVersion(int* major,
+                 int* minor,
+                 int* bugfix,
+                 std::string* build) const override;
   std::string OSVersionFull() const override;
   bool NXEnabled() const override;
   std::string MachineDescription() const override;

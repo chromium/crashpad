@@ -84,8 +84,9 @@ struct CPUContextX86 {
   //!     be taken from CPUContextX86::Fxsave::st_mm.
   //!
   //! \return The full FPU tag word.
-  static uint16_t FxsaveToFsaveTagWord(
-      uint16_t fsw, uint8_t fxsave_tag, const X87OrMMXRegister st_mm[8]);
+  static uint16_t FxsaveToFsaveTagWord(uint16_t fsw,
+                                       uint8_t fxsave_tag,
+                                       const X87OrMMXRegister st_mm[8]);
 
   // Integer registers.
   uint32_t eax;

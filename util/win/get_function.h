@@ -39,13 +39,15 @@ namespace internal {
 //! \return A pointer to the requested function on success. If \a required is
 //!     `true`, triggers a `DCHECK` assertion on failure, otherwise, `nullptr`
 //!     on failure.
-FARPROC GetFunctionInternal(
-    const wchar_t* library, const char* function, bool required);
+FARPROC GetFunctionInternal(const wchar_t* library,
+                            const char* function,
+                            bool required);
 
 //! \copydoc GetFunctionInternal
 template <typename FunctionType>
-FunctionType* GetFunction(
-    const wchar_t* library, const char* function, bool required) {
+FunctionType* GetFunction(const wchar_t* library,
+                          const char* function,
+                          bool required) {
   return reinterpret_cast<FunctionType*>(
       internal::GetFunctionInternal(library, function, required));
 }
@@ -82,9 +84,8 @@ FunctionType* GetFunction(
 //!     failure.
 //!
 //! \sa GET_FUNCTION_REQUIRED
-#define GET_FUNCTION(library, function)                  \
-    crashpad::internal::GetFunction<decltype(function)>( \
-        library, #function, false)
+#define GET_FUNCTION(library, function) \
+  crashpad::internal::GetFunction<decltype(function)>(library, #function, false)
 
 //! \brief Returns a function pointer to a named function in a library,
 //!     requiring that it be found.
@@ -114,8 +115,7 @@ FunctionType* GetFunction(
 //! \return A pointer to the requested function.
 //!
 //! \sa GET_FUNCTION
-#define GET_FUNCTION_REQUIRED(library, function)         \
-    crashpad::internal::GetFunction<decltype(function)>( \
-        library, #function, true)
+#define GET_FUNCTION_REQUIRED(library, function) \
+  crashpad::internal::GetFunction<decltype(function)>(library, #function, true)
 
 #endif  // CRASHPAD_UTIL_WIN_GET_FUNCTION_H_

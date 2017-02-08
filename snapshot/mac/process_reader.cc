@@ -80,14 +80,11 @@ ProcessReader::Thread::Thread()
       thread_specific_data_address(0),
       port(THREAD_NULL),
       suspend_count(0),
-      priority(0) {
-}
+      priority(0) {}
 
-ProcessReader::Module::Module() : name(), reader(nullptr), timestamp(0) {
-}
+ProcessReader::Module::Module() : name(), reader(nullptr), timestamp(0) {}
 
-ProcessReader::Module::~Module() {
-}
+ProcessReader::Module::~Module() {}
 
 ProcessReader::ProcessReader()
     : process_info_(),
@@ -99,8 +96,7 @@ ProcessReader::ProcessReader()
       initialized_(),
       is_64_bit_(false),
       initialized_threads_(false),
-      initialized_modules_(false) {
-}
+      initialized_modules_(false) {}
 
 ProcessReader::~ProcessReader() {
   for (const Thread& thread : threads_) {
@@ -347,9 +343,9 @@ void ProcessReader::InitializeModules() {
     return;
   }
 
-  // TODO(mark): Deal with statically linked executables which don’t use dyld.
-  // This may look for the module that matches the executable path in the same
-  // data set that vmmap uses.
+// TODO(mark): Deal with statically linked executables which don’t use dyld.
+// This may look for the module that matches the executable path in the same
+// data set that vmmap uses.
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
   // The task_dyld_info_data_t struct grew in 10.7, adding the format field.
@@ -445,8 +441,8 @@ void ProcessReader::InitializeModules() {
         image_info.imageLoadAddress == all_image_infos.dyldImageLoadAddress) {
       found_dyld = true;
       LOG(WARNING) << base::StringPrintf(
-            "found dylinker (%s) in dyld_all_image_infos::infoArray",
-            module.name.c_str());
+          "found dylinker (%s) in dyld_all_image_infos::infoArray",
+          module.name.c_str());
 
       LOG_IF(WARNING, file_type != MH_DYLINKER)
           << base::StringPrintf("dylinker (%s) has unexpected Mach-O type %d",
