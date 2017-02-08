@@ -233,6 +233,24 @@
     },
     {
       "key": {
+        "uuid": "ee93b538_f2f5adfb",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-08T19:54:32Z",
+      "side": 1,
+      "message": "Hey guys, this ship has long left, and the allocs from UncheckedMalloc are firmly in the malloc  allocation domain. This is tested https://cs.chromium.org/chromium/src/base/process/memory_unittest.cc?q\u003dUncheckedMalloc\u0026l\u003d448 in the base unittests, and is firmly part of the contract.\nThis is also squarely to support the original malloc() allocation semantics, with respect of not scuttling the process on OOM, but rather returning nullptr.\nSkia, as a case in point, looks to freely intermingle malloc/UncheckedMalloc allocations, and my bet is that it\u0027d be hard and ultimately a waste of time to tease that apart.\n\nThis isn\u0027t an allocation domain, was never intended to be a new allocation domain, of which Chrome already has too many. Adding an alias to free() for these allocs is IMHO just going to add further confusion.\n\nIMHO this CL is also not the appropriate venue to debate long-decided semantics of Chrome base.\n\nI can update the docs in process/memory.h to make sure there\u0027s no question as to the intent that the memory should be free()\u0027d, but at this point I\u0027d really like to see whether this general approach is viable to quench the OOM problems in Chrome\u0027s crash handler.",
+      "parentUuid": "7c5ad4ef_47aa1dd7",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34e5d795_ca1741cf",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
