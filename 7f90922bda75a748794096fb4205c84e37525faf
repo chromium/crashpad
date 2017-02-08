@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "0eec2d98_52cd3e44",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-08T15:39:39Z",
+      "side": 1,
+      "message": "No, the allocation will always be supplied by the malloc heap, and should always be freed with free. The base interface has no special way to free these, and it would be a very weird deviation from the base interface to do differently here.\nThe only difference between this function and malloc, is that in some builds (like Chrome), the standard malloc is diverted in and implemented in such a way that it will never return nullptr, but will instead terminate the program.\nIn such builds, this function will still return \"malloc\"-ed memory, but will return nullptr if the heap or the system are fresh out of bytes.\n\nI\u0027ve added a comment to the new base file to make this clear.",
+      "parentUuid": "7e79c656_94151528",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34e5d795_ca1741cf",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
@@ -214,6 +232,42 @@
     },
     {
       "key": {
+        "uuid": "3c88a66f_9edffcc7",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-08T15:39:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44fb17fb_2b704fe7",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fd0689e_1747eae5",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-08T15:39:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c88a66f_9edffcc7",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7342e682_109052dc",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
@@ -267,6 +321,24 @@
       "side": 1,
       "message": "Shows what I know about C++.",
       "parentUuid": "9e64effb_996dca3c",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "753eeb2e_a08b4f15",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-08T15:39:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d481220a_698cd38f",
       "revId": "7f90922bda75a748794096fb4205c84e37525faf",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
