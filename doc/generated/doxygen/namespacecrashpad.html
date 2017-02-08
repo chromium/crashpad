@@ -345,8 +345,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PEImageResourceReader.html">PEImageResourceReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reader for resources stored in PE images mapped into another process.  <a href="classcrashpad_1_1PEImageResourceReader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PointerContainer.html">PointerContainer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows a standard container to “own” pointer elements stored in it.  <a href="classcrashpad_1_1PointerContainer.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PointerVector.html">PointerVector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows a <code>std::vector</code> to “own” pointer elements stored in it.  <a href="classcrashpad_1_1PointerVector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html">ProcessInfo</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gathers information about a process given its <code>HANDLE</code>. This consists primarily of information stored in the Process Environment Block.  <a href="classcrashpad_1_1ProcessInfo.html#details">More...</a><br /></td></tr>
@@ -529,10 +529,6 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nam
 <tr class="memitem:a86fa676850a73fb41a996c8fe256c175"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a86fa676850a73fb41a996c8fe256c175">AlignedVector</a> = std::vector&lt; T, <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T, Alignment &gt;&gt;</td></tr>
 <tr class="memdesc:a86fa676850a73fb41a996c8fe256c175"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <code>std::vector</code> using <a class="el" href="structcrashpad_1_1AlignedAllocator.html" title="A standard allocator that aligns its allocations as requested, suitable for use as an allocator in st...">AlignedAllocator</a>.  <a href="#a86fa676850a73fb41a996c8fe256c175">More...</a><br /></td></tr>
 <tr class="separator:a86fa676850a73fb41a996c8fe256c175"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cae195b61eb9fe7cd4ae9a66e13f00f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a9cae195b61eb9fe7cd4ae9a66e13f00f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a9cae195b61eb9fe7cd4ae9a66e13f00f">PointerVector</a> = <a class="el" href="classcrashpad_1_1PointerContainer.html">PointerContainer</a>&lt; std::vector&lt; T * &gt;&gt;</td></tr>
-<tr class="memdesc:a9cae195b61eb9fe7cd4ae9a66e13f00f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows a <code>std::vector</code> to “own” pointer elements stored in it.  <a href="#a9cae195b61eb9fe7cd4ae9a66e13f00f">More...</a><br /></td></tr>
-<tr class="separator:a9cae195b61eb9fe7cd4ae9a66e13f00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a368af6d88f68998b5c5eb80b8f6ebb76"><td class="memItemLeft" align="right" valign="top"><a id="a368af6d88f68998b5c5eb80b8f6ebb76"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a368af6d88f68998b5c5eb80b8f6ebb76">WinVMAddress</a> = uint64_t</td></tr>
 <tr class="memdesc:a368af6d88f68998b5c5eb80b8f6ebb76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to represent an address in a process, potentially across bitness. <br /></td></tr>
@@ -1253,26 +1249,6 @@ template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
 <p>A map that connects 64-bit snapshot thread IDs to 32-bit minidump thread IDs. </p>
 <p>64-bit snapshot thread IDs are obtained from <a class="el" href="classcrashpad_1_1ThreadSnapshot.html#a3c953575fadb934cd5f163560df149da" title="Returns the thread’s identifier. ">ThreadSnapshot::ThreadID()</a>. 32-bit minidump thread IDs are stored in <a class="el" href="structMINIDUMP__THREAD.html#a1d2508187af6c3ec09e5836badb56fd2" title="The thread’s ID. This may be referenced by MINIDUMP_EXCEPTION_STREAM::ThreadId. ">MINIDUMP_THREAD::ThreadId</a>.</p>
 <p>A ThreadIDMap ensures that there are no collisions among the set of 32-bit minidump thread IDs. </p>
-
-</div>
-</div>
-<a id="a9cae195b61eb9fe7cd4ae9a66e13f00f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9cae195b61eb9fe7cd4ae9a66e13f00f">&sect;&nbsp;</a></span>PointerVector</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="namespacecrashpad.html#a9cae195b61eb9fe7cd4ae9a66e13f00f">crashpad::PointerVector</a> = typedef <a class="el" href="classcrashpad_1_1PointerContainer.html">PointerContainer</a>&lt;std::vector&lt;T*&gt;&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Allows a <code>std::vector</code> to “own” pointer elements stored in it. </p>
-<p>When the vector is destroyed, <code>delete</code> will be called on its pointer elements.</p>
-<dl class="section note"><dt>Note</dt><dd>No attempt is made to <code>delete</code> elements that are removed from the vector by other means, such as replacement or <code>clear()</code>. </dd></dl>
 
 </div>
 </div>

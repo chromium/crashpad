@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.12"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Crashpad: crashpad::PointerContainer&lt; ContainerType &gt; Class Template Reference</title>
+<title>Crashpad: crashpad::PointerVector&lt; T &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,36 +59,36 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1PointerContainer.html">PointerContainer</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1PointerVector.html">PointerVector</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="classcrashpad_1_1PointerContainer-members.html">List of all members</a>  </div>
+<a href="classcrashpad_1_1PointerVector-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">crashpad::PointerContainer&lt; ContainerType &gt; Class Template Reference</div>  </div>
+<div class="title">crashpad::PointerVector&lt; T &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Allows a standard container to “own” pointer elements stored in it.  
- <a href="classcrashpad_1_1PointerContainer.html#details">More...</a></p>
+<p>Allows a <code>std::vector</code> to “own” pointer elements stored in it.  
+ <a href="classcrashpad_1_1PointerVector.html#details">More...</a></p>
 
 <p><code>#include &quot;util/stdlib/pointer_container.h&quot;</code></p>
 <div class="dynheader">
-Inheritance diagram for crashpad::PointerContainer&lt; ContainerType &gt;:</div>
+Inheritance diagram for crashpad::PointerVector&lt; T &gt;:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="classcrashpad_1_1PointerContainer.png" usemap="#crashpad::PointerContainer_3C_20ContainerType_20_3E_map" alt=""/>
-  <map id="crashpad::PointerContainer_3C_20ContainerType_20_3E_map" name="crashpad::PointerContainer&lt; ContainerType &gt;_map">
+  <img src="classcrashpad_1_1PointerVector.png" usemap="#crashpad::PointerVector_3C_20T_20_3E_map" alt=""/>
+  <map id="crashpad::PointerVector_3C_20T_20_3E_map" name="crashpad::PointerVector&lt; T &gt;_map">
 </map>
  </div></div>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename ContainerType&gt;<br />
-class crashpad::PointerContainer&lt; ContainerType &gt;</h3>
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+class crashpad::PointerVector&lt; T &gt;</h3>
 
-<p>Allows a standard container to “own” pointer elements stored in it. </p>
-<p>When the container is destroyed, <code>delete</code> will be called on its pointer elements.</p>
-<dl class="section note"><dt>Note</dt><dd>No attempt is made to <code>delete</code> elements that are removed from the container by other means, such as replacement or <code>clear()</code>. </dd></dl>
+<p>Allows a <code>std::vector</code> to “own” pointer elements stored in it. </p>
+<p>When the vector is destroyed, <code>delete</code> will be called on its pointer elements.</p>
+<dl class="section note"><dt>Note</dt><dd>No attempt is made to <code>delete</code> elements that are removed from the vector by other means, such as replacement or <code>clear()</code>. </dd></dl>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>util/stdlib/pointer_container.h</li>
 </ul>
