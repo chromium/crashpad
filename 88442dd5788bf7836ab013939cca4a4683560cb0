@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ce79c0c_5d847d50",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-08T19:13:45Z",
+      "side": 0,
+      "message": "Debugging was a little rough because all of the line numbers pointed right here.",
+      "revId": "88442dd5788bf7836ab013939cca4a4683560cb0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
