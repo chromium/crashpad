@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c559813_6d5e65c4",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-08T20:39:37Z",
+      "side": 1,
+      "message": "I was thinking just static_assert(sizeof(HTTPRequestBodyBuffer) \u003d\u003d 8 + 2 + 32*1024 + 2), but this lgtm too.",
+      "revId": "dd9d216a2064ab9abc1ac8d5267ac0de4243d4de",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
