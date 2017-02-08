@@ -20,6 +20,7 @@
 #include <errno.h>
 #include <libproc.h>
 #include <kern/exc_resource.h>
+#include <strings.h>
 
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
@@ -200,16 +201,19 @@ int32_t ExceptionCodeForMetrics(exception_type_t exception,
       // one another. For the purposes of encoding these codes for metrics,
       // convert the flavor codes to their corresponding bit shift values.
       const uint32_t guard_flavor = (code_0 >> 32) & 0x1fffffff;
-      uint8_t metrics_guard_flavor = 0xff;
-      for (int bit = 0; bit < 29; ++bit) {
-        const uint32_t test_mask = 1 << bit;
-        if (guard_flavor & test_mask) {
-          // Make sure that no other bits are set.
-          DCHECK_EQ(guard_flavor, test_mask);
+      const int first_bit = ffs(guard_flavor);
+      uint8_t metrics_guard_flavor;
+      if (first_bit) {
+        metrics_guard_flavor = first_bit - 1;
 
-          metrics_guard_flavor = bit;
-          break;
+        const uint32_t test_guard_flavor = 1 << metrics_guard_flavor;
+        if (guard_flavor != test_guard_flavor) {
+          // Another bit is set.
+          DCHECK_EQ(guard_flavor, test_guard_flavor);
+          metrics_guard_flavor = 0xff;
         }
+      } else {
+        metrics_guard_flavor = 0xff;
       }
 
       metrics_code_0 = (guard_type << 8) | metrics_guard_flavor;
@@ -305,15 +309,32 @@ bool IsExceptionNonfatalResource(exception_type_t exception,
 
   if (resource_type == RESOURCE_TYPE_MEMORY &&
       resource_flavor == FLAVOR_HIGH_WATERMARK) {
-    // These exceptions are never fatal. See 10.10
+    // These exceptions were never fatal prior to 10.12. See 10.10
     // xnu-2782.1.97/osfmk/kern/task.c
     // THIS_PROCESS_CROSSED_HIGH_WATERMARK__SENDING_EXC_RESOURCE().
+    //
+    // A superficial examination of 10.12 shows that these exceptions may be
+    // fatal, as determined by the P_MEMSTAT_FATAL_MEMLIMIT bit of the
+    // kernel-internal struct proc::p_memstat_state. See 10.12.3
+    // xnu-3789.41.3/osfmk/kern/task.c task_footprint_exceeded(). This bit is
+    // not exposed to user space, which makes it difficult to determine whether
+    // the kernel considers a given instance of this exception fatal. However, a
+    // close read reveals that it is only possible for this bit to become set
+    // when xnu-3789.41.3/bsd/kern/kern_memorystatus.c
+    // memorystatus_cmd_set_memlimit_properties() is called, which is only
+    // possible when the kernel is built with CONFIG_JETSAM set, or if the
+    // kern.memorystatus_highwater_enabled sysctl is used, which is only
+    // possible when the kernel is built with DEVELOPMENT or DEBUG set. Although
+    // CONFIG_JETSAM is used on iOS, it is not used on macOS. DEVELOPMENT and
+    // DEBUG are also not set for production kernels. It therefore remains
+    // impossible for these exceptions to be fatal, even on 10.12.
     return true;
   }
 
   if (resource_type == RESOURCE_TYPE_IO) {
-    // These exceptions don’t ever appear to be fatal. See
-    // https://crashpad.chromium.org/bug/124.
+    // These exceptions are never fatal. See 10.12.3
+    // xnu-3789.41.3/osfmk/kern/task.c
+    // SENDING_NOTIFICATION__THIS_PROCESS_IS_CAUSING_TOO_MUCH_IO().
     return true;
   }
 

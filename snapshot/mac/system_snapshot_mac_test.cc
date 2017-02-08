@@ -14,11 +14,13 @@
 
 #include "snapshot/mac/system_snapshot_mac.h"
 
+#include <stdlib.h>
 #include <sys/time.h>
 #include <time.h>
 
 #include <string>
 
+#include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "snapshot/mac/process_reader.h"
@@ -127,6 +129,39 @@ TEST_F(SystemSnapshotMacTest, MachineDescription) {
   EXPECT_FALSE(system_snapshot().MachineDescription().empty());
 }
 
+class ScopedSetTZ {
+ public:
+  ScopedSetTZ(const std::string& tz) {
+    const char* old_tz = getenv(kTZ);
+    old_tz_set_ = old_tz;
+    if (old_tz_set_) {
+      old_tz_.assign(old_tz);
+    }
+
+    EXPECT_EQ(0, setenv(kTZ, tz.c_str(), 1)) << ErrnoMessage("setenv");
+    tzset();
+  }
+
+  ~ScopedSetTZ() {
+    if (old_tz_set_) {
+      EXPECT_EQ(0, setenv(kTZ, old_tz_.c_str(), 1)) << ErrnoMessage("setenv");
+    } else {
+      EXPECT_EQ(0, unsetenv(kTZ)) << ErrnoMessage("unsetenv");
+    }
+    tzset();
+  }
+
+ private:
+  std::string old_tz_;
+  bool old_tz_set_;
+
+  static constexpr char kTZ[] = "TZ";
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedSetTZ);
+};
+
+constexpr char ScopedSetTZ::kTZ[];
+
 TEST_F(SystemSnapshotMacTest, TimeZone) {
   SystemSnapshot::DaylightSavingTimeStatus dst_status;
   int standard_offset_seconds;
@@ -168,6 +203,68 @@ TEST_F(SystemSnapshotMacTest, TimeZone) {
     }
 
     EXPECT_NE(standard_name, daylight_name);
+  }
+
+  // Test a variety of time zones. Some of these observe daylight saving time,
+  // some don’t. Some used to but no longer do. Some have uncommon UTC offsets.
+  const struct {
+    const char* tz;
+    bool observes_dst;
+    float standard_offset_hours;
+    float daylight_offset_hours;
+    const char* standard_name;
+    const char* daylight_name;
+  } kTestTimeZones[] = {
+      {"America/Anchorage", true, -9, -8, "AKST", "AKDT"},
+      {"America/Chicago", true, -6, -5, "CST", "CDT"},
+      {"America/Denver", true, -7, -6, "MST", "MDT"},
+      {"America/Halifax", true, -4, -3, "AST", "ADT"},
+      {"America/Los_Angeles", true, -8, -7, "PST", "PDT"},
+      {"America/New_York", true, -5, -4, "EST", "EDT"},
+      {"America/Phoenix", false, -7, -7, "MST", "MST"},
+      {"Asia/Karachi", false, 5, 5, "PKT", "PKT"},
+      {"Asia/Kolkata", false, 5.5, 5.5, "IST", "IST"},
+      {"Asia/Shanghai", false, 8, 8, "CST", "CST"},
+      {"Asia/Tokyo", false, 9, 9, "JST", "JST"},
+      {"Australia/Adelaide", true, 9.5, 10.5, "ACST", "ACDT"},
+      {"Australia/Brisbane", false, 10, 10, "AEST", "AEST"},
+      {"Australia/Darwin", false, 9.5, 9.5, "ACST", "ACST"},
+      {"Australia/Eucla", false, 8.75, 8.75, "ACWST", "ACWST"},
+      {"Australia/Lord_Howe", true, 10.5, 11, "LHST", "LHDT"},
+      {"Australia/Perth", false, 8, 8, "AWST", "AWST"},
+      {"Australia/Sydney", true, 10, 11, "AEST", "AEDT"},
+      {"Europe/Bucharest", true, 2, 3, "EET", "EEST"},
+      {"Europe/London", true, 0, 1, "GMT", "BST"},
+      {"Europe/Moscow", false, 3, 3, "MSK", "MSK"},
+      {"Europe/Paris", true, 1, 2, "CET", "CEST"},
+      {"Europe/Reykjavik", false, 0, 0, "UTC", "UTC"},
+      {"Pacific/Auckland", true, 12, 13, "NZST", "NZDT"},
+      {"Pacific/Honolulu", false, -10, -10, "HST", "HST"},
+      {"UTC", false, 0, 0, "UTC", "UTC"},
+  };
+
+  for (size_t index = 0; index < arraysize(kTestTimeZones); ++index) {
+    const auto& test_time_zone = kTestTimeZones[index];
+    const char* tz = test_time_zone.tz;
+    SCOPED_TRACE(base::StringPrintf("index %zu, tz %s", index, tz));
+
+    {
+      ScopedSetTZ set_tz(tz);
+      system_snapshot().TimeZone(&dst_status,
+                                 &standard_offset_seconds,
+                                 &daylight_offset_seconds,
+                                 &standard_name,
+                                 &daylight_name);
+    }
+
+    EXPECT_EQ(test_time_zone.observes_dst,
+              dst_status != SystemSnapshot::kDoesNotObserveDaylightSavingTime);
+    EXPECT_EQ(test_time_zone.standard_offset_hours * 60 * 60,
+              standard_offset_seconds);
+    EXPECT_EQ(test_time_zone.daylight_offset_hours * 60 * 60,
+              daylight_offset_seconds);
+    EXPECT_EQ(test_time_zone.standard_name, standard_name);
+    EXPECT_EQ(test_time_zone.daylight_name, daylight_name);
   }
 }
 

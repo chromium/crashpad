@@ -14,6 +14,7 @@
 
 #include "snapshot/win/thread_snapshot_win.h"
 
+#include <iterator>
 #include <vector>
 
 #include "base/logging.h"

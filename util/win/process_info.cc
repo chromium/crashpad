@@ -19,9 +19,12 @@
 #include <algorithm>
 #include <limits>
 #include <memory>
+#include <new>
 #include <type_traits>
 
 #include "base/logging.h"
+#include "base/memory/free_deleter.h"
+#include "base/process/memory.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "util/numeric/safe_assignment.h"
@@ -35,6 +38,16 @@
 namespace crashpad {
 
 namespace {
+
+using UniqueMallocPtr = std::unique_ptr<uint8_t[], base::FreeDeleter>;
+
+UniqueMallocPtr UncheckedAllocate(size_t size) {
+  void* raw_ptr = nullptr;
+  if (!base::UncheckedMalloc(size, &raw_ptr))
+    return UniqueMallocPtr();
+
+  return UniqueMallocPtr(new (raw_ptr) uint8_t[size]);
+}
 
 NTSTATUS NtQueryInformationProcess(HANDLE process_handle,
                                    PROCESSINFOCLASS process_information_class,
@@ -347,14 +360,20 @@ bool ReadMemoryInfo(HANDLE process, bool is_64_bit, ProcessInfo* process_info) {
 std::vector<ProcessInfo::Handle> ProcessInfo::BuildHandleVector(
     HANDLE process) const {
   ULONG buffer_size = 2 * 1024 * 1024;
-  std::unique_ptr<uint8_t[]> buffer(new uint8_t[buffer_size]);
-
   // Typically if the buffer were too small, STATUS_INFO_LENGTH_MISMATCH would
   // return the correct size in the final argument, but it does not for
   // SystemExtendedHandleInformation, so we loop and attempt larger sizes.
   NTSTATUS status;
   ULONG returned_length;
+  UniqueMallocPtr buffer;
   for (int tries = 0; tries < 5; ++tries) {
+    buffer.reset();
+    buffer = UncheckedAllocate(buffer_size);
+    if (!buffer) {
+      LOG(ERROR) << "UncheckedAllocate";
+      return std::vector<Handle>();
+    }
+
     status = crashpad::NtQuerySystemInformation(
         static_cast<SYSTEM_INFORMATION_CLASS>(SystemExtendedHandleInformation),
         buffer.get(),
@@ -364,8 +383,6 @@ std::vector<ProcessInfo::Handle> ProcessInfo::BuildHandleVector(
       break;
 
     buffer_size *= 2;
-    buffer.reset();
-    buffer.reset(new uint8_t[buffer_size]);
   }
 
   if (!NT_SUCCESS(status)) {

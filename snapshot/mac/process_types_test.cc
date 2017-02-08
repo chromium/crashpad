@@ -24,6 +24,7 @@
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "snapshot/mac/process_types/internal.h"
 #include "test/mac/dyld.h"
 #include "util/mac/mac_util.h"
 #include "util/misc/implicit_cast.h"
@@ -115,6 +116,42 @@ TEST(ProcessTypes, DyldImagesSelf) {
   EXPECT_EQ(sizeof(dyld_all_image_infos),
             process_types::dyld_all_image_infos::ExpectedSizeForVersion(
                 &process_reader, kDyldAllImageInfosVersionInSDK));
+
+  // Make sure that the computed sizes of various versions of this structure are
+  // correct at different bitnessses.
+  const struct {
+    uint32_t version;
+    size_t size_32;
+    size_t size_64;
+  } kVersionsAndSizes[] = {
+      {1, 17, 25},
+      {2, 24, 40},
+      {3, 28, 48},
+      {5, 40, 72},
+      {6, 44, 80},
+      {7, 48, 88},
+      {8, 56, 104},
+      {9, 60, 112},
+      {10, 64, 120},
+      {11, 80, 152},
+      {12, 84, 160},
+      {13, 104, 184},
+      {14, 164, 304},
+      {15, 164, 304},
+  };
+  for (size_t index = 0; index < arraysize(kVersionsAndSizes); ++index) {
+    uint32_t version = kVersionsAndSizes[index].version;
+    SCOPED_TRACE(base::StringPrintf("index %zu, version %u", index, version));
+
+    EXPECT_EQ(kVersionsAndSizes[index].size_32,
+              process_types::internal::dyld_all_image_infos<
+                  process_types::internal::Traits32>::
+                  ExpectedSizeForVersion(version));
+    EXPECT_EQ(kVersionsAndSizes[index].size_64,
+              process_types::internal::dyld_all_image_infos<
+                  process_types::internal::Traits64>::
+                  ExpectedSizeForVersion(version));
+  }
 
   process_types::dyld_all_image_infos proctype_image_infos;
   ASSERT_TRUE(proctype_image_infos.Read(&process_reader,

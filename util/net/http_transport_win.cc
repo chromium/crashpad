@@ -15,17 +15,22 @@
 #include "util/net/http_transport.h"
 
 #include <windows.h>
+#include <stddef.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <sys/types.h>
+#include <wchar.h>
 #include <winhttp.h>
 
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/scoped_generic.h"
+#include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "package.h"
 #include "util/file/file_io.h"
+#include "util/numeric/safe_assignment.h"
 #include "util/net/http_body.h"
 
 namespace crashpad {
@@ -34,7 +39,7 @@ namespace {
 
 // PLOG doesn't work for messages from WinHTTP, so we need to use
 // FORMAT_MESSAGE_FROM_HMODULE + the dll name manually here.
-void LogErrorWinHttpMessage(const char* extra) {
+std::string WinHttpMessage(const char* extra) {
   DWORD error_code = GetLastError();
   char msgbuf[256];
   DWORD flags = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS |
@@ -46,15 +51,13 @@ void LogErrorWinHttpMessage(const char* extra) {
                              msgbuf,
                              arraysize(msgbuf),
                              NULL);
-  if (len) {
-    LOG(ERROR) << extra << ": " << msgbuf
-               << base::StringPrintf(" (0x%X)", error_code);
-  } else {
-    LOG(ERROR) << base::StringPrintf(
-        "Error (0x%X) while retrieving error. (0x%X)",
-        GetLastError(),
-        error_code);
+  if (!len) {
+    return base::StringPrintf("%s: error 0x%x while retrieving error 0x%x",
+                              extra,
+                              GetLastError(),
+                              error_code);
   }
+  return base::StringPrintf("%s: %s (0x%x)", extra, msgbuf, error_code);
 }
 
 struct ScopedHINTERNETTraits {
@@ -64,7 +67,7 @@ struct ScopedHINTERNETTraits {
   static void Free(HINTERNET handle) {
     if (handle) {
       if (!WinHttpCloseHandle(handle)) {
-        LogErrorWinHttpMessage("WinHttpCloseHandle");
+        LOG(ERROR) << WinHttpMessage("WinHttpCloseHandle");
       }
     }
   }
@@ -97,7 +100,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
                   WINHTTP_NO_PROXY_BYPASS,
                   0));
   if (!session.get()) {
-    LogErrorWinHttpMessage("WinHttpOpen");
+    LOG(ERROR) << WinHttpMessage("WinHttpOpen");
     return false;
   }
 
@@ -107,7 +110,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
                           timeout_in_ms,
                           timeout_in_ms,
                           timeout_in_ms)) {
-    LogErrorWinHttpMessage("WinHttpSetTimeouts");
+    LOG(ERROR) << WinHttpMessage("WinHttpSetTimeouts");
     return false;
   }
 
@@ -121,7 +124,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   // https://msdn.microsoft.com/en-us/library/aa384092.aspx
   if (!WinHttpCrackUrl(
           url_wide.c_str(), 0, 0, &url_components)) {
-    LogErrorWinHttpMessage("WinHttpCrackUrl");
+    LOG(ERROR) << WinHttpMessage("WinHttpCrackUrl");
     return false;
   }
   DCHECK(url_components.nScheme == INTERNET_SCHEME_HTTP ||
@@ -136,7 +139,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   ScopedHINTERNET connect(WinHttpConnect(
       session.get(), host_name.c_str(), url_components.nPort, 0));
   if (!connect.get()) {
-    LogErrorWinHttpMessage("WinHttpConnect");
+    LOG(ERROR) << WinHttpMessage("WinHttpConnect");
     return false;
   }
 
@@ -150,57 +153,152 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
       url_components.nScheme == INTERNET_SCHEME_HTTPS ? WINHTTP_FLAG_SECURE
                                                       : 0));
   if (!request.get()) {
-    LogErrorWinHttpMessage("WinHttpOpenRequest");
+    LOG(ERROR) << WinHttpMessage("WinHttpOpenRequest");
     return false;
   }
 
   // Add headers to the request.
+  //
+  // If Content-Length is not provided, implement chunked mode per RFC 7230
+  // §4.1.
+  //
+  // Note that chunked mode can only be used on Vista and later. Otherwise,
+  // WinHttpSendRequest() requires a real value for dwTotalLength, used for the
+  // Content-Length header. Determining that in the absence of a provided
+  // Content-Length would require reading the entire request body before calling
+  // WinHttpSendRequest().
+  bool chunked = true;
+  size_t content_length = 0;
   for (const auto& pair : headers()) {
-    std::wstring header_string =
-        base::UTF8ToUTF16(pair.first) + L": " + base::UTF8ToUTF16(pair.second);
-    if (!WinHttpAddRequestHeaders(
-            request.get(),
-            header_string.c_str(),
-            base::checked_cast<DWORD>(header_string.size()),
-            WINHTTP_ADDREQ_FLAG_ADD)) {
-      LogErrorWinHttpMessage("WinHttpAddRequestHeaders");
-      return false;
+    if (pair.first == kContentLength) {
+      chunked = !base::StringToSizeT(pair.second, &content_length);
+      DCHECK(!chunked);
+    } else {
+      std::wstring header_string = base::UTF8ToUTF16(pair.first) + L": " +
+                                   base::UTF8ToUTF16(pair.second) + L"\r\n";
+      if (!WinHttpAddRequestHeaders(
+              request.get(),
+              header_string.c_str(),
+              base::checked_cast<DWORD>(header_string.size()),
+              WINHTTP_ADDREQ_FLAG_ADD)) {
+        LOG(ERROR) << WinHttpMessage("WinHttpAddRequestHeaders");
+        return false;
+      }
     }
   }
 
-  // We need the Content-Length up front, so buffer in memory. We should modify
-  // the interface to not require this, and then use WinHttpWriteData after
-  // WinHttpSendRequest.
-  std::vector<uint8_t> post_data;
-
-  // Write the body of a POST if any.
-  const size_t kBufferSize = 4096;
-  for (;;) {
-    uint8_t buffer[kBufferSize];
-    FileOperationResult bytes_to_write =
-        body_stream()->GetBytesBuffer(buffer, sizeof(buffer));
-    if (bytes_to_write == 0) {
-      break;
-    } else if (bytes_to_write < 0) {
-      LOG(ERROR) << "GetBytesBuffer failed";
+  DWORD content_length_dword;
+  if (chunked) {
+    const wchar_t kTransferEncodingHeader[] = L"Transfer-Encoding: chunked\r\n";
+    if (!WinHttpAddRequestHeaders(
+            request.get(),
+            kTransferEncodingHeader,
+            base::checked_cast<DWORD>(wcslen(kTransferEncodingHeader)),
+            WINHTTP_ADDREQ_FLAG_ADD)) {
+      LOG(ERROR) << WinHttpMessage("WinHttpAddRequestHeaders");
       return false;
     }
-    post_data.insert(post_data.end(), buffer, buffer + bytes_to_write);
+
+    content_length_dword = WINHTTP_IGNORE_REQUEST_TOTAL_LENGTH;
+  } else if (!AssignIfInRange(&content_length_dword, content_length)) {
+    content_length_dword = WINHTTP_IGNORE_REQUEST_TOTAL_LENGTH;
   }
 
   if (!WinHttpSendRequest(request.get(),
                           WINHTTP_NO_ADDITIONAL_HEADERS,
                           0,
-                          &post_data[0],
-                          base::checked_cast<DWORD>(post_data.size()),
-                          base::checked_cast<DWORD>(post_data.size()),
+                          WINHTTP_NO_REQUEST_DATA,
+                          0,
+                          content_length_dword,
                           0)) {
-    LogErrorWinHttpMessage("WinHttpSendRequest");
+    LOG(ERROR) << WinHttpMessage("WinHttpSendRequest");
     return false;
   }
 
+  size_t total_written = 0;
+  FileOperationResult data_bytes;
+  do {
+    struct {
+      char size[8];
+      char crlf0[2];
+      uint8_t data[32 * 1024];
+      char crlf1[2];
+    } buf;
+    static_assert(sizeof(buf) == sizeof(buf.size) +
+                                 sizeof(buf.crlf0) +
+                                 sizeof(buf.data) +
+                                 sizeof(buf.crlf1),
+                  "buf should not have padding");
+
+    // Read a block of data.
+    data_bytes = body_stream()->GetBytesBuffer(buf.data, sizeof(buf.data));
+    if (data_bytes == -1) {
+      return false;
+    }
+    DCHECK_GE(data_bytes, 0);
+    DCHECK_LE(static_cast<size_t>(data_bytes), sizeof(buf.data));
+
+    void* write_start;
+    DWORD write_size;
+
+    if (chunked) {
+      // Chunked encoding uses the entirety of buf. buf.size is presented in
+      // hexadecimal without any leading "0x". The terminating CR and LF will be
+      // placed immediately following the used portion of buf.data, even if
+      // buf.data is not full, and not necessarily in buf.crlf1.
+
+      unsigned int data_bytes_ui = base::checked_cast<unsigned int>(data_bytes);
+
+      // snprintf() would NUL-terminate, but _snprintf() won’t.
+      int rv = _snprintf(buf.size, sizeof(buf.size), "%08x", data_bytes_ui);
+      DCHECK_GE(rv, 0);
+      DCHECK_EQ(static_cast<size_t>(rv), sizeof(buf.size));
+      DCHECK_NE(buf.size[sizeof(buf.size) - 1], '\0');
+
+      buf.crlf0[0] = '\r';
+      buf.crlf0[1] = '\n';
+      buf.data[data_bytes] = '\r';
+      buf.data[data_bytes + 1] = '\n';
+
+      // Skip leading zeroes in the chunk size.
+      unsigned int size_len;
+      for (size_len = sizeof(buf.size); size_len > 1; --size_len) {
+        if (buf.size[sizeof(buf.size) - size_len] != '0') {
+          break;
+        }
+      }
+
+      write_start = buf.crlf0 - size_len;
+      write_size = base::checked_cast<DWORD>(size_len + sizeof(buf.crlf0) +
+                                             data_bytes + sizeof(buf.crlf1));
+    } else {
+      // When not using chunked encoding, only use buf.data.
+      write_start = buf.data;
+      write_size = base::checked_cast<DWORD>(data_bytes);
+    }
+
+    // write_size will be 0 at EOF in non-chunked mode. Skip the write in that
+    // case. In contrast, at EOF in chunked mode, a zero-length chunk must be
+    // sent to signal EOF. This will happen when processing the EOF indicated by
+    // a 0 return from body_stream()->GetBytesBuffer() above.
+    if (write_size != 0) {
+      DWORD written;
+      if (!WinHttpWriteData(request.get(), write_start, write_size, &written)) {
+        LOG(ERROR) << WinHttpMessage("WinHttpWriteData");
+        return false;
+      }
+
+      DCHECK_EQ(written, write_size);
+      total_written += written;
+    }
+  } while (data_bytes > 0);
+
+  if (!chunked) {
+    DCHECK_EQ(total_written, content_length);
+  }
+
   if (!WinHttpReceiveResponse(request.get(), nullptr)) {
-    LogErrorWinHttpMessage("WinHttpReceiveResponse");
+    LOG(ERROR) << WinHttpMessage("WinHttpReceiveResponse");
     return false;
   }
 
@@ -214,7 +312,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
           &status_code,
           &sizeof_status_code,
           WINHTTP_NO_HEADER_INDEX)) {
-    LogErrorWinHttpMessage("WinHttpQueryHeaders");
+    LOG(ERROR) << WinHttpMessage("WinHttpQueryHeaders");
     return false;
   }
 
@@ -232,10 +330,10 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
     // which executes synchronously, is only concerned with reading until EOF.
     DWORD bytes_read = 0;
     do {
-      char read_buffer[kBufferSize];
+      char read_buffer[4096];
       if (!WinHttpReadData(
               request.get(), read_buffer, sizeof(read_buffer), &bytes_read)) {
-        LogErrorWinHttpMessage("WinHttpReadData");
+        LOG(ERROR) << WinHttpMessage("WinHttpReadData");
         return false;
       }
 
