@@ -179,6 +179,24 @@
     },
     {
       "key": {
+        "uuid": "a0188583_cc3aca56",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-08T18:46:36Z",
+      "side": 1,
+      "message": "\u003e I\u0027m lost.\n\u003e \n\u003e What would UncheckedMallocFree() do differently than base::UncheckedMalloc() does now? To me, the fact that it\u0027s called \"M\"alloc makes it clear that it needs to be free()d.\n\u003e \n\u003e Mark, are you saying you would like a base function that returns a templated object that has the deallocation function pre-attached?\n\nAll I’m saying is that if you allocate via UncheckedMalloc(), it’d be nice for that to be mated with UncheckedMallocFree(). Maybe blocks that you get from UncheckedMalloc() can be released with free(), and maybe that’s easy to guarantee on Windows. But in general, I think that any allocation interface should have its own matching releasing interface.",
+      "parentUuid": "509fb6ae_69b9bb36",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34e5d795_ca1741cf",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
