@@ -197,6 +197,24 @@
     },
     {
       "key": {
+        "uuid": "0312e79e_dd597abb",
+        "filename": "util/win/process_info.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-02-08T18:57:32Z",
+      "side": 1,
+      "message": "As we discussed offline, these allocs should be deallocated with free(). This is by contract, and is tested in base unittests.\nI can add documentation to the header in Chromium, to make this unambiguous.",
+      "parentUuid": "a0188583_cc3aca56",
+      "revId": "7f90922bda75a748794096fb4205c84e37525faf",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34e5d795_ca1741cf",
         "filename": "util/win/process_info.cc",
         "patchSetId": 1
