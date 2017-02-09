@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6d4cf40_c190124b",
+        "filename": "util/net/http_transport_test_server.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-02-09T17:19:15Z",
+      "side": 1,
+      "message": "`assert not in` instead?",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 8
+      },
+      "revId": "9410ce5570aa9aba408cfd6452f1ac4c52522ce1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
