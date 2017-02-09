@@ -40,6 +40,24 @@
       "revId": "9410ce5570aa9aba408cfd6452f1ac4c52522ce1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a32c897_abbec344",
+        "filename": "util/net/http_transport_test_server.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-02-09T17:42:19Z",
+      "side": 1,
+      "message": "\u003e \u003e `assert not in` instead?\n\u003e \n\u003e I wish. Python’s assert is meaningless if PYTHONOPTIMIZE is set. :(\n\nOf course it does 🙄",
+      "parentUuid": "57af64d7_a7daed6c",
+      "revId": "9410ce5570aa9aba408cfd6452f1ac4c52522ce1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
