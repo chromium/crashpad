@@ -81,6 +81,8 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     self.rfile.buffer = ''
 
     if self.headers.get('Transfer-Encoding', '').lower() == 'chunked':
+      if 'Content-Length' in self.headers:
+        raise AssertionError
       body = self.handle_chunked_encoding()
     else:
       length = int(self.headers.get('Content-Length', -1))
