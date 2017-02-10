@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import os
 import re
 import subprocess
@@ -107,19 +108,27 @@ extern "C" {
   file.close()
 
 def main(args):
-  if len(args) == 5:
-    (defs_file, user_c, server_c, user_h, server_h) = args
-  elif len(args) == 6:
-    (defs_file, user_c, server_c, user_h, server_h, dev_dir) = args
-    os.environ['DEVELOPER_DIR'] = dev_dir
-  else:
-    assert False, "Wrong number of arguments"
-  subprocess.check_call(['mig',
-                         '-user', user_c,
-                         '-server', server_c,
-                         '-header', user_h,
-                         '-sheader', server_h,
-                         defs_file])
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--developer_dir', required=False,
+                      help='Path to Xcode.')
+  parser.add_argument('--sdk', required=False,
+                      help='Path to SDK.')
+  args, unknown_args = parser.parse_known_args()
+  assert len(unknown_args) == 5, "Wrong number of arguments"
+  (defs_file, user_c, server_c, user_h, server_h) = unknown_args
+
+  command = ['mig',
+             '-user', user_c,
+             '-server', server_c,
+             '-header', user_h,
+             '-sheader', server_h,
+            ]
+  if args.sdk:
+    command.extend(['-isysroot', args.sdk])
+  if args.developer_dir:
+    os.environ['DEVELOPER_DIR'] = args.developer_dir
+  command.append(defs_file)
+  subprocess.check_call(command)
   FixUserImplementation(user_c)
   server_declarations = FixServerImplementation(server_c)
   FixHeader(user_h)
