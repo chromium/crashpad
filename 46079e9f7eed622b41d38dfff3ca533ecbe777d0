@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99e21e23_d5fbb23e",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-10T01:26:54Z",
+      "side": 1,
+      "message": "required\u003dFalse is the default, you don’t need to say it. Same on line 114.",
+      "range": {
+        "startLine": 112,
+        "startChar": 41,
+        "endLine": 112,
+        "endChar": 55
+      },
+      "revId": "46079e9f7eed622b41d38dfff3ca533ecbe777d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f2af066_e271ec3e",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-10T01:26:54Z",
+      "side": 1,
+      "message": "--developer-dir, please. Dashes are easier to type than underscores in command-line arguments that begin with dashes. It’ll still show up as parsed.developer_dir.",
+      "range": {
+        "startLine": 112,
+        "startChar": 23,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "46079e9f7eed622b41d38dfff3ca533ecbe777d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87703042_395044f8",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-10T01:26:54Z",
+      "side": 1,
+      "message": "And you don’t need a period at the end of this or the thing on line 115, because they’re just fragments.",
+      "range": {
+        "startLine": 113,
+        "startChar": 41,
+        "endLine": 113,
+        "endChar": 42
+      },
+      "revId": "46079e9f7eed622b41d38dfff3ca533ecbe777d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7bf33ba_1d988fda",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-10T01:26:54Z",
+      "side": 1,
+      "message": "Since main accepts args as a parameter, give it to parse_known_args() as a parameter. And then on the other side, don’t reuse the name args, call it something else (I usually use “parsed”).",
+      "revId": "46079e9f7eed622b41d38dfff3ca533ecbe777d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34cd6043_cf982e76",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-10T01:26:54Z",
+      "side": 1,
+      "message": "Here’s a thing that you can do with argparse that lets it do this stuff for you:\n\nparser.add_argument(\u0027defs\u0027)  # you can also provide help\u003d or anything else you like\nparser.add_argument(\u0027user_c\u0027)\nparser.add_argument(\u0027server_c\u0027)\nparser.add_argument(\u0027user_h\u0027)\nparser.add_argument(\u0027server_h\u0027)\n\nIt calls these “positional” arguments and demands that they show up in the argument list. That lets you do parsed \u003d parser.parse_args() (instead of parse_known_args()), and it gets rid of the assert len(unknown_args) \u003d\u003d 5 and this line, and lets you address the positional arguments as parsed.defs, parsed.user_c, etc.",
+      "revId": "46079e9f7eed622b41d38dfff3ca533ecbe777d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f55eeb0_baf6781a",
+        "filename": "util/mach/mig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-10T01:26:54Z",
+      "side": 1,
+      "message": "I’d say “is not None” here and on line 128.",
+      "revId": "46079e9f7eed622b41d38dfff3ca533ecbe777d0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
