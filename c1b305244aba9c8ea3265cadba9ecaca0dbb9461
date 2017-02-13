@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf716ea0_7af59dd3",
+        "filename": "snapshot/win/cpu_context_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-13T22:13:21Z",
+      "side": 0,
+      "message": "WOW64_CONTEXT_EXTENDED_REGISTERS has multiple bits set:\n\n#define WOW64_CONTEXT_EXTENDED_REGISTERS (WOW64_CONTEXT_i386 | 0x00000020L)\n\nand I can’t imagine a case where WOW64_CONTEXT_i386 would NOT be set, so we should have always fallen into the fxsave case even when fxsave context was not available. This was a bug (and it’s why I introduced HasContextPart()), but in light of it, I can see even less how we’d have been hitting the CHECK in the fnsave case.",
+      "revId": "c1b305244aba9c8ea3265cadba9ecaca0dbb9461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
