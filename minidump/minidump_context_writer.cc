@@ -100,14 +100,18 @@ void MinidumpContextX86Writer::InitializeFromSnapshot(
                                           context_snapshot->fxsave.ftw,
                                           context_snapshot->fxsave.st_mm);
   context_.float_save.error_offset = context_snapshot->fxsave.fpu_ip;
-  context_.float_save.error_selector = context_snapshot->fxsave.fpu_cs;
+  context_.float_save.error_selector =
+      (context_snapshot->fxsave.fop << 16) | context_snapshot->fxsave.fpu_cs;
   context_.float_save.data_offset = context_snapshot->fxsave.fpu_dp;
   context_.float_save.data_selector = context_snapshot->fxsave.fpu_ds;
 
-  for (size_t index = 0, offset = 0;
+  CPUContextX86::X87Register* context_float_save_st =
+      reinterpret_cast<CPUContextX86::X87Register*>(
+          context_.float_save.register_area);
+  for (size_t index = 0;
        index < arraysize(context_snapshot->fxsave.st_mm);
-       offset += sizeof(context_snapshot->fxsave.st_mm[index].st), ++index) {
-    memcpy(&context_.float_save.register_area[offset],
+       ++index) {
+    memcpy(&context_float_save_st[index],
            &context_snapshot->fxsave.st_mm[index].st,
            sizeof(context_snapshot->fxsave.st_mm[index].st));
   }
