@@ -16,6 +16,24 @@
       "revId": "c1b305244aba9c8ea3265cadba9ecaca0dbb9461",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebe383d9_8511b82e",
+        "filename": "snapshot/win/cpu_context_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-14T19:21:52Z",
+      "side": 0,
+      "message": "That is strange.\n\nIt does come from the target of course, so I guess sometimes it\u0027s just garbage for whatever reason. In retrospect CHECK()ing was pretty dumb on my part, as it gives a borked renderer a straightforward path to crashing the handler.",
+      "parentUuid": "bf716ea0_7af59dd3",
+      "revId": "c1b305244aba9c8ea3265cadba9ecaca0dbb9461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
