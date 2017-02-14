@@ -34,6 +34,24 @@
       "revId": "c1b305244aba9c8ea3265cadba9ecaca0dbb9461",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62daa3b1_fff40529",
+        "filename": "snapshot/win/cpu_context_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-14T21:28:29Z",
+      "side": 0,
+      "message": "\u003e That is strange.\n\u003e \n\u003e It does come from the target of course, so I guess sometimes it\u0027s just garbage for whatever reason. In retrospect CHECK()ing was pretty dumb on my part, as it gives a borked renderer a straightforward path to crashing the handler.\n\nWe may not have been thinking about context structures coming from the client (as in DumpWithoutCrashing()), and thinking we’d only see context structures from the kernel, where the SSE requirement should have made this a fair assumption.\n\nBut who knows? It looks like whatever we were CHECK()ing on before will now safely exit this function without using either fxsave or fsave state. I still don’t know if this new fsave block will ever actually be entered.",
+      "parentUuid": "ebe383d9_8511b82e",
+      "revId": "c1b305244aba9c8ea3265cadba9ecaca0dbb9461",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
