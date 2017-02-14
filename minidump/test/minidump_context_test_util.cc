@@ -73,7 +73,8 @@ void InitializeMinidumpContextX86(MinidumpContextX86* context, uint32_t seed) {
   context->float_save.tag_word = CPUContextX86::FxsaveToFsaveTagWord(
       context->fxsave.fsw, context->fxsave.ftw, context->fxsave.st_mm);
   context->float_save.error_offset = context->fxsave.fpu_ip;
-  context->float_save.error_selector = context->fxsave.fpu_cs;
+  context->float_save.error_selector =
+      (context->fxsave.fop << 16) | context->fxsave.fpu_cs;
   context->float_save.data_offset = context->fxsave.fpu_dp;
   context->float_save.data_selector = context->fxsave.fpu_ds;
   for (size_t st_mm_index = 0;

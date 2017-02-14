@@ -19,18 +19,22 @@
 
 namespace crashpad {
 
+namespace {
+
+enum {
+  kX87TagValid = 0,
+  kX87TagZero,
+  kX87TagSpecial,
+  kX87TagEmpty,
+};
+
+}  // namespace
+
 // static
 uint16_t CPUContextX86::FxsaveToFsaveTagWord(
     uint16_t fsw,
     uint8_t fxsave_tag,
     const CPUContextX86::X87OrMMXRegister st_mm[8]) {
-  enum {
-    kX87TagValid = 0,
-    kX87TagZero,
-    kX87TagSpecial,
-    kX87TagEmpty,
-  };
-
   // The x87 tag word (in both abridged and full form) identifies physical
   // registers, but |st_mm| is arranged in logical stack order. In order to map
   // physical tag word bits to the logical stack registers they correspond to,
@@ -83,6 +87,17 @@ uint16_t CPUContextX86::FxsaveToFsaveTagWord(
   }
 
   return fsave_tag;
+}
+
+// static
+uint8_t CPUContextX86::FsaveToFxsaveTagWord(uint16_t fsave_tag) {
+  uint8_t fxsave_tag = 0;
+  for (int physical_index = 0; physical_index < 8; ++physical_index) {
+    const uint8_t fsave_bits = (fsave_tag >> (physical_index * 2)) & 0x3;
+    const bool fxsave_bit = fsave_bits != kX87TagEmpty;
+    fxsave_tag |= fxsave_bit << physical_index;
+  }
+  return fxsave_tag;
 }
 
 uint64_t CPUContext::InstructionPointer() const {

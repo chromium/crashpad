@@ -75,6 +75,8 @@ struct CPUContextX86 {
   //! Manual, Volume 2: System Programming (24593-3.24), “FXSAVE Format for x87
   //! Tag Word”.
   //!
+  //! \sa FsaveToFxsaveTagWord()
+  //!
   //! \param[in] fsw The FPU status word, used to map logical \a st_mm registers
   //!     to their physical counterparts. This can be taken from
   //!     CPUContextX86::Fxsave::fsw.
@@ -86,6 +88,16 @@ struct CPUContextX86 {
   //! \return The full FPU tag word.
   static uint16_t FxsaveToFsaveTagWord(
       uint16_t fsw, uint8_t fxsave_tag, const X87OrMMXRegister st_mm[8]);
+
+  //! \breif Converts x87 floating-point tag words from `fsave` (full, 16-bit)
+  //!     to `fxsave` (abridged, 8-bit) form.
+  //!
+  //! This function performs the inverse operation of FxsaveToFsaveTagWord().
+  //!
+  //! \param[in] fsave_tag The full FPU tag word.
+  //!
+  //! \return The abridged FPU tag word.
+  static uint8_t FsaveToFxsaveTagWord(uint16_t fsave_tag);
 
   // Integer registers.
   uint32_t eax;
