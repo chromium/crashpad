@@ -161,6 +161,16 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
             CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
 }
 
+TEST(CPUContextX86, FsaveToFxsaveTagWord) {
+  // The register sets that these x87 tag words might apply to are given in the
+  // FxsaveToFsaveTagWord test above.
+  EXPECT_EQ(0x0f, CPUContextX86::FsaveToFxsaveTagWord(0xff22));
+  EXPECT_EQ(0xf0, CPUContextX86::FsaveToFxsaveTagWord(0xa9ff));
+  EXPECT_EQ(0x5a, CPUContextX86::FsaveToFxsaveTagWord(0xeebb));
+  EXPECT_EQ(0x1f, CPUContextX86::FsaveToFxsaveTagWord(0xfe90));
+  EXPECT_EQ(0x00, CPUContextX86::FsaveToFxsaveTagWord(0xffff));
+}
+
 }  // namespace
 }  // namespace test
 }  // namespace crashpad
