@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8aa1e7e_79659857",
+        "filename": "util/net/http_multipart_builder.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-02-15T21:37:00Z",
+      "side": 1,
+      "message": "Note that this may overwrite?",
+      "range": {
+        "startLine": 76,
+        "startChar": 68,
+        "endLine": 76,
+        "endChar": 69
+      },
+      "revId": "fed685ec0a873b15abbf4446fba23147023e8bd7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f7573cc_13a4f2fe",
+        "filename": "util/net/http_transport_test_server.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-02-15T21:37:00Z",
+      "side": 1,
+      "message": "Leave a note about your magic numbers?",
+      "range": {
+        "startLine": 93,
+        "startChar": 35,
+        "endLine": 93,
+        "endChar": 43
+      },
+      "revId": "fed685ec0a873b15abbf4446fba23147023e8bd7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
