@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/net/http_headers.h"
+#ifndef CRASHPAD_THIRD_PARTY_ZLIB_ZLIB_H_
+#define CRASHPAD_THIRD_PARTY_ZLIB_ZLIB_H_
 
-namespace crashpad {
+#if defined(CRASHPAD_ZLIB_SOURCE_SYSTEM)
+#include <zlib.h>
+#elif defined(CRASHPAD_ZLIB_SOURCE_EMBEDDED)
+#include "third_party/zlib/zlib/zlib.h"
+#else
+#error Unknown zlib source
+#endif
 
-const char kContentType[] = "Content-Type";
-const char kContentLength[] = "Content-Length";
-const char kContentEncoding[] = "Content-Encoding";
-
-}  // namespace crashpad
+#endif  // CRASHPAD_THIRD_PARTY_ZLIB_ZLIB_H_

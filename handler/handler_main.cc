@@ -93,6 +93,7 @@ void Usage(const base::FilePath& me) {
 #endif  // OS_MACOSX
 "      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"
 "      --no-rate-limit         don't rate limit crash uploads\n"
+"      --no-upload-gzip        don't use gzip compression when uploading\n"
 #if defined(OS_MACOSX)
 "      --reset-own-crash-exception-port-to-system-default\n"
 "                              reset the server's exception handler to default\n"
@@ -291,6 +292,7 @@ int HandlerMain(int argc, char* argv[]) {
 #endif  // OS_MACOSX
     kOptionMetrics,
     kOptionNoRateLimit,
+    kOptionNoUploadGzip,
 #if defined(OS_MACOSX)
     kOptionResetOwnCrashExceptionPortToSystemDefault,
 #elif defined(OS_WIN)
@@ -317,11 +319,13 @@ int HandlerMain(int argc, char* argv[]) {
     InitialClientData initial_client_data;
 #endif  // OS_MACOSX
     bool rate_limit;
+    bool upload_gzip;
   } options = {};
 #if defined(OS_MACOSX)
   options.handshake_fd = -1;
 #endif
   options.rate_limit = true;
+  options.upload_gzip = true;
 
   const option long_options[] = {
     {"annotation", required_argument, nullptr, kOptionAnnotation},
@@ -340,6 +344,7 @@ int HandlerMain(int argc, char* argv[]) {
 #endif  // OS_MACOSX
     {"metrics-dir", required_argument, nullptr, kOptionMetrics},
     {"no-rate-limit", no_argument, nullptr, kOptionNoRateLimit},
+    {"no-upload-gzip", no_argument, nullptr, kOptionNoUploadGzip},
 #if defined(OS_MACOSX)
     {"reset-own-crash-exception-port-to-system-default",
      no_argument,
@@ -405,6 +410,10 @@ int HandlerMain(int argc, char* argv[]) {
       }
       case kOptionNoRateLimit: {
         options.rate_limit = false;
+        break;
+      }
+      case kOptionNoUploadGzip: {
+        options.upload_gzip = false;
         break;
       }
 #if defined(OS_MACOSX)
@@ -555,7 +564,7 @@ int HandlerMain(int argc, char* argv[]) {
   // configurable database setting to control upload limiting.
   // See https://crashpad.chromium.org/bug/23.
   CrashReportUploadThread upload_thread(
-      database.get(), options.url, options.rate_limit);
+      database.get(), options.url, options.rate_limit, options.upload_gzip);
   upload_thread.Start();
 
   PruneCrashReportThread prune_thread(database.get(),
