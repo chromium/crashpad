@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "401588be_c3f8f66d",
+        "filename": "third_party/zlib/zlib.gyp",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-15T20:14:40Z",
+      "side": 1,
+      "message": "\u003e Is it possible/worthwhile to split this into a compress-only portion, since we only need the inflate for test purposes? I guess the confusion vs. Chrome\u0027s build might not be worthwhile.\n\nIt’s possible, but it would be a weird difference not only from Chrome’s build but also from the zlib_source\u003dsystem build. I don’t think there’s enough benefit unless we carry that change all the way to Chrome too. In practice, the linker won’t even look at the inflate stuff for crashpad_handler.",
+      "parentUuid": "f3d0daf7_4af9c4db",
+      "revId": "847df32cda6c4682f25230dd4a7a257fdd02fb27",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "51fad790_9700a107",
         "filename": "util/misc/zlib.h",
         "patchSetId": 7
