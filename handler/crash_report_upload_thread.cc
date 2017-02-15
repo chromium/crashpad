@@ -139,7 +139,8 @@ class CallRecordUploadAttempt {
 
 CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
                                                  const std::string& url,
-                                                 bool rate_limit)
+                                                 bool rate_limit,
+                                                 bool upload_gzip)
     : url_(url),
       // Check for pending reports every 15 minutes, even in the absence of a
       // signal from the handler thread. This allows for failed uploads to be
@@ -147,7 +148,8 @@ CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
       // processes to be recognized.
       thread_(15 * 60, this),
       database_(database),
-      rate_limit_(rate_limit) {
+      rate_limit_(rate_limit),
+      upload_gzip_(upload_gzip) {
 }
 
 CrashReportUploadThread::~CrashReportUploadThread() {
@@ -308,6 +310,7 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
   }
 
   HTTPMultipartBuilder http_multipart_builder;
+  http_multipart_builder.SetGzipEnabled(upload_gzip_);
 
   const char kMinidumpKey[] = "upload_file_minidump";
 
@@ -332,9 +335,11 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
 
   std::unique_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
   http_transport->SetURL(url_);
-  HTTPHeaders::value_type content_type =
-      http_multipart_builder.GetContentType();
-  http_transport->SetHeader(content_type.first, content_type.second);
+  HTTPHeaders content_headers;
+  http_multipart_builder.PopulateContentHeaders(&content_headers);
+  for (const auto& content_header : content_headers) {
+    http_transport->SetHeader(content_header.first, content_header.second);
+  }
   http_transport->SetBodyStream(http_multipart_builder.GetBodyStream());
   // TODO(mark): The timeout should be configurable by the client.
   http_transport->SetTimeout(60.0);  // 1 minute.

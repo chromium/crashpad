@@ -221,7 +221,21 @@ TEST(HTTPTransport, ValidFormData) {
   builder.SetFormData("key2", "--abcdefg123");
 
   HTTPHeaders headers;
-  EXPECT_TRUE(headers.insert(builder.GetContentType()).second);
+  builder.PopulateContentHeaders(&headers);
+
+  HTTPTransportTestFixture test(
+      headers, builder.GetBodyStream(), 200, &ValidFormData);
+  test.Run();
+}
+
+TEST(HTTPTransport, ValidFormData_Gzip) {
+  HTTPMultipartBuilder builder;
+  builder.SetGzipEnabled(true);
+  builder.SetFormData("key1", "test");
+  builder.SetFormData("key2", "--abcdefg123");
+
+  HTTPHeaders headers;
+  builder.PopulateContentHeaders(&headers);
 
   HTTPTransportTestFixture test(headers, builder.GetBodyStream(), 200,
       &ValidFormData);
