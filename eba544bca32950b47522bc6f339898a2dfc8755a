@@ -134,6 +134,24 @@
       "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c98d1bec_7ccc7590",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-16T19:49:16Z",
+      "side": 1,
+      "message": "Good question ...\n\nBut it looks like we already have a dependency on advapi32.dll for ImpersonateNamedPipeClient() and RevertToSelf(), and advapi32 in turn has a user32 dependency. I\u0027m not sure if it tries to delayload that or not, but in practice when I look at chrome --type\u003dcrashpad-handler it has user32 loaded. So I don\u0027t think this would be regressing anything.",
+      "parentUuid": "76c0efaa_721469b0",
+      "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
