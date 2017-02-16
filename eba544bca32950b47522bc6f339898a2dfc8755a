@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "623c7b58_442e85a3",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-16T18:40:14Z",
+      "side": 1,
+      "message": "Maybe just pass milestone instead of capturing it? Shrug, I guess there\u0027s less stuttering of type names this way.",
+      "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b824d8cd_12306ce2",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-16T18:40:14Z",
+      "side": 1,
+      "message": "convenience",
+      "range": {
+        "startLine": 127,
+        "startChar": 7,
+        "endLine": 127,
+        "endChar": 19
+      },
+      "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bccf9d14_b9580637",
         "filename": "util/misc/metrics.h",
         "patchSetId": 2
@@ -13,6 +53,24 @@
       "writtenOn": "2017-02-16T18:21:48Z",
       "side": 1,
       "message": "I don’t think that there’s any way to know this (like a task manager kill) in-process on Windows.\n\nIt’s kind of the same on POSIX, you’re killed without prejudice if someone sends you a SIGKILL, but we can catch the signals that might be tried before SIGKILL.",
+      "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50d81603_e3711594",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-16T18:40:14Z",
+      "side": 1,
+      "message": "Yes, TerminateProcess() is undetectable afaik, without adding a debugger wrapper or something.\n\nWe\u0027d get these as a console app/tests... https://msdn.microsoft.com/en-us/library/windows/desktop/ms683242(v\u003dvs.85).aspx but I don\u0027t think in the field embedded in Chrome.\n\nEmbedded in Chrome we could get WM_CLOSE  https://msdn.microsoft.com/en-us/library/windows/desktop/ms632617(v\u003dvs.85).aspx or WM_QUERYENDSESSION. I\u0027m not sure if it\u0027s worth making a message HWND for this purpose though. (base/win/message_window.h for reference if you feel it\u0027s useful.)",
+      "parentUuid": "bccf9d14_b9580637",
       "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
