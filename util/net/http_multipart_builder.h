@@ -34,6 +34,15 @@ class HTTPMultipartBuilder {
   HTTPMultipartBuilder();
   ~HTTPMultipartBuilder();
 
+  //! \brief Enables or disables `gzip` compression.
+  //!
+  //! \param[in] gzip_enabled Whether to enable or disable `gzip` compression.
+  //!
+  //! When `gzip` compression is enabled, the body stream returned by
+  //! GetBodyStream() will be `gzip`-compressed, and the content headers set by
+  //! PopulateContentHeaders() will contain `Content-Encoding: gzip`.
+  void SetGzipEnabled(bool gzip_enabled);
+
   //! \brief Sets a `Content-Disposition: form-data` key-value pair.
   //!
   //! \param[in] key The key of the form data, specified as the `name` in the
@@ -64,8 +73,11 @@ class HTTPMultipartBuilder {
   //! \return A caller-owned HTTPBodyStream object.
   std::unique_ptr<HTTPBodyStream> GetBodyStream();
 
-  //! \brief Gets the header pair for `"Content-Type"`.
-  HTTPHeaders::value_type GetContentType() const;
+  //! \brief Adds the appropriate content headers to \a http_headers.
+  //!
+  //! Any headers that this method adds will replace existing headers by the
+  //! same name in \a http_headers.
+  void PopulateContentHeaders(HTTPHeaders* http_headers) const;
 
  private:
   struct FileAttachment {
@@ -81,6 +93,7 @@ class HTTPMultipartBuilder {
   std::string boundary_;
   std::map<std::string, std::string> form_data_;
   std::map<std::string, FileAttachment> file_attachments_;
+  bool gzip_enabled_;
 
   DISALLOW_COPY_AND_ASSIGN(HTTPMultipartBuilder);
 };

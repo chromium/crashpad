@@ -71,6 +71,7 @@ TEST(HTTPMultipartBuilder, ThreeStringFields) {
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
+  ASSERT_EQ(13u, lines.size());
   auto lines_it = lines.begin();
 
   // The first line is the boundary. All subsequent boundaries must match this.
@@ -164,6 +165,7 @@ TEST(HTTPMultipartBuilder, OverwriteFormDataWithEscapedKey) {
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
+  ASSERT_EQ(5u, lines.size());
   auto lines_it = lines.begin();
 
   const std::string& boundary = *lines_it++;
@@ -253,6 +255,7 @@ TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
+  ASSERT_EQ(9u, lines.size());
   auto lines_it = lines.begin();
 
   const std::string& boundary = *lines_it++;

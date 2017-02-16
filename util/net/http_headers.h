@@ -29,6 +29,9 @@ extern const char kContentType[];
 //! \brief The header name `"Content-Length"`.
 extern const char kContentLength[];
 
+//! \brief The header name `"Content-Encoding"`.
+extern const char kContentEncoding[];
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_NET_HTTP_HEADERS_H_

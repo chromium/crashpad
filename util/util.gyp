@@ -23,6 +23,7 @@
       'dependencies': [
         '../compat/compat.gyp:crashpad_compat',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
+        '../third_party/zlib/zlib.gyp:zlib',
       ],
       'include_dirs': [
         '..',
@@ -106,8 +107,12 @@
         'misc/tri_state.h',
         'misc/uuid.cc',
         'misc/uuid.h',
+        'misc/zlib.cc',
+        'misc/zlib.h',
         'net/http_body.cc',
         'net/http_body.h',
+        'net/http_body_gzip.cc',
+        'net/http_body_gzip.h',
         'net/http_headers.cc',
         'net/http_headers.h',
         'net/http_multipart_builder.cc',
