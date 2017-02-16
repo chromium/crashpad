@@ -33,6 +33,7 @@ This could easily have been written in C++ instead.
 import BaseHTTPServer
 import struct
 import sys
+import zlib
 
 class BufferedReadFile(object):
   """A File-like object that stores all read contents into a buffer."""
@@ -87,6 +88,13 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     else:
       length = int(self.headers.get('Content-Length', -1))
       body = self.rfile.read(length)
+
+    if self.headers.get('Content-Encoding', '').lower() == 'gzip':
+      # 15 is the value of |wbits|, which should be at the maximum possible
+      # value to ensure that any gzip stream can be decoded. The offset of 16
+      # specifies that the stream to decompress will be formatted with a gzip
+      # wrapper.
+      body = zlib.decompress(body, 16 + 15)
 
     RequestHandler.raw_request += body
 

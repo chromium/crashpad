@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/net/http_headers.h"
+#include "util/misc/zlib.h"
+
+#include "base/logging.h"
+#include "base/strings/stringprintf.h"
+#include "third_party/zlib/zlib_crashpad.h"
 
 namespace crashpad {
 
-const char kContentType[] = "Content-Type";
-const char kContentLength[] = "Content-Length";
-const char kContentEncoding[] = "Content-Encoding";
+int ZlibWindowBitsWithGzipWrapper(int window_bits) {
+  // See the documentation for deflateInit2() and inflateInit2() in <zlib.h>. 0
+  // is only valid during decompression.
+
+  DCHECK(window_bits == 0 || (window_bits >= 8 && window_bits <= 15))
+      << window_bits;
+
+  return 16 + window_bits;
+}
+
+std::string ZlibErrorString(int zr) {
+  return base::StringPrintf("%s (%d)", zError(zr), zr);
+}
 
 }  // namespace crashpad
