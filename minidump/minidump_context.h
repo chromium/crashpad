@@ -130,8 +130,9 @@ enum MinidumpContextX86Flags : uint32_t {
 //! \brief A 32-bit x86 CPU context (register state) carried in a minidump file.
 //!
 //! This is analogous to the `CONTEXT` structure on Windows when targeting
-//! 32-bit x86. This structure is used instead of `CONTEXT` to make it available
-//! when targeting other architectures.
+//! 32-bit x86, and the `WOW64_CONTEXT` structure when targeting an x86-family
+//! CPU, either 32- or 64-bit. This structure is used instead of `CONTEXT` or
+//! `WOW64_CONTEXT` to make it available when targeting other architectures.
 //!
 //! \note This structure doesn’t carry `dr4` or `dr5`, which are obsolete and
 //!     normally alias `dr6` and `dr7`, respectively. See Intel Software
@@ -152,16 +153,12 @@ struct MinidumpContextX86 {
   uint32_t dr6;
   uint32_t dr7;
 
-  struct {
-    uint32_t control_word;
-    uint32_t status_word;
-    uint32_t tag_word;
-    uint32_t error_offset;
-    uint32_t error_selector;
-    uint32_t data_offset;
-    uint32_t data_selector;
-    uint8_t register_area[80];
-    uint32_t spare_0;
+  // CPUContextX86::Fsave has identical layout to what the x86 CONTEXT
+  // structure places here.
+  CPUContextX86::Fsave fsave;
+  union {
+    uint32_t spare_0;  // As in the native x86 CONTEXT structure since Windows 8
+    uint32_t cr0_npx_state;  // As in WOW64_CONTEXT and older SDKs’ x86 CONTEXT
   } float_save;
 
   uint32_t gs;
