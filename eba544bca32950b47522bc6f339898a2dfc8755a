@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bccf9d14_b9580637",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-16T18:21:48Z",
+      "side": 1,
+      "message": "I don’t think that there’s any way to know this (like a task manager kill) in-process on Windows.\n\nIt’s kind of the same on POSIX, you’re killed without prejudice if someone sends you a SIGKILL, but we can catch the signals that might be tried before SIGKILL.",
+      "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
