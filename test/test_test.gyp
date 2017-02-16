@@ -34,6 +34,7 @@
         '..',
       ],
       'sources': [
+        'hex_string_test.cc',
         'mac/mach_multiprocess_test.cc',
         'multiprocess_exec_test.cc',
         'multiprocess_posix_test.cc',
