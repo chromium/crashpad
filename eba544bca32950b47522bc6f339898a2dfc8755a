@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d5080904_62416164",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-16T19:40:04Z",
+      "side": 1,
+      "message": "\u003e Maybe just pass milestone instead of capturing it? Shrug, I guess there\u0027s less stuttering of type names this way.\n\nI do prefer passing, but that’s exactly why I captured instead. I changed it back.",
+      "parentUuid": "623c7b58_442e85a3",
+      "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b824d8cd_12306ce2",
         "filename": "handler/handler_main.cc",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44c17cd1_7ff42393",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-16T19:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b824d8cd_12306ce2",
+      "range": {
+        "startLine": 127,
+        "startChar": 7,
+        "endLine": 127,
+        "endChar": 19
+      },
+      "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +113,24 @@
       "side": 1,
       "message": "Yes, TerminateProcess() is undetectable afaik, without adding a debugger wrapper or something.\n\nWe\u0027d get these as a console app/tests... https://msdn.microsoft.com/en-us/library/windows/desktop/ms683242(v\u003dvs.85).aspx but I don\u0027t think in the field embedded in Chrome.\n\nEmbedded in Chrome we could get WM_CLOSE  https://msdn.microsoft.com/en-us/library/windows/desktop/ms632617(v\u003dvs.85).aspx or WM_QUERYENDSESSION. I\u0027m not sure if it\u0027s worth making a message HWND for this purpose though. (base/win/message_window.h for reference if you feel it\u0027s useful.)",
       "parentUuid": "bccf9d14_b9580637",
+      "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76c0efaa_721469b0",
+        "filename": "util/misc/metrics.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-16T19:40:04Z",
+      "side": 1,
+      "message": "\u003e Yes, TerminateProcess() is undetectable afaik, without adding a debugger wrapper or something.\n\u003e \n\u003e We\u0027d get these as a console app/tests... https://msdn.microsoft.com/en-us/library/windows/desktop/ms683242(v\u003dvs.85).aspx but I don\u0027t think in the field embedded in Chrome.\n\u003e \n\u003e Embedded in Chrome we could get WM_CLOSE  https://msdn.microsoft.com/en-us/library/windows/desktop/ms632617(v\u003dvs.85).aspx or WM_QUERYENDSESSION. I\u0027m not sure if it\u0027s worth making a message HWND for this purpose though. (base/win/message_window.h for reference if you feel it\u0027s useful.)\n\nThanks for the pointers.\n\nI started heading down the WM_CLOSE road and then realized that it’d probably mean taking on a dependency on user32. I know that we don’t want that in the client. Is it OK in the handler?",
+      "parentUuid": "50d81603_e3711594",
       "revId": "eba544bca32950b47522bc6f339898a2dfc8755a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
