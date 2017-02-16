@@ -24,6 +24,16 @@ namespace crashpad {
 
 namespace {
 
+// Validation for casts used with CPUContextX86::FsaveToFxsave().
+static_assert(sizeof(CPUContextX86::Fsave) ==
+                  offsetof(WOW64_FLOATING_SAVE_AREA, Cr0NpxState),
+              "WoW64 fsave types must be equivalent");
+#if defined(ARCH_CPU_X86)
+static_assert(sizeof(CPUContextX86::Fsave) ==
+                  offsetof(FLOATING_SAVE_AREA, Spare0),
+              "fsave types must be equivalent");
+#endif  // ARCH_CPU_X86
+
 template <typename T>
 bool HasContextPart(const T& context, uint32_t bits) {
   return (context.ContextFlags & bits) == bits;
@@ -90,36 +100,26 @@ void CommonInitializeX86Context(const T& context, CPUContextX86* out) {
     out->dr1 = context.Dr1;
     out->dr2 = context.Dr2;
     out->dr3 = context.Dr3;
+
     // DR4 and DR5 are obsolete synonyms for DR6 and DR7, see
     // https://en.wikipedia.org/wiki/X86_debug_register.
     out->dr4 = context.Dr6;
     out->dr5 = context.Dr7;
+
     out->dr6 = context.Dr6;
     out->dr7 = context.Dr7;
   }
 
   if (HasContextPart(context, WOW64_CONTEXT_EXTENDED_REGISTERS)) {
     static_assert(sizeof(out->fxsave) == sizeof(context.ExtendedRegisters),
-                  "types must be equivalent");
+                  "fxsave types must be equivalent");
     memcpy(&out->fxsave, &context.ExtendedRegisters, sizeof(out->fxsave));
   } else if (HasContextPart(context, WOW64_CONTEXT_FLOATING_POINT)) {
-    out->fxsave.fcw = static_cast<uint16_t>(context.FloatSave.ControlWord);
-    out->fxsave.fsw = static_cast<uint16_t>(context.FloatSave.StatusWord);
-    out->fxsave.ftw = CPUContextX86::FsaveToFxsaveTagWord(
-        static_cast<uint16_t>(context.FloatSave.TagWord));
-    out->fxsave.fop = context.FloatSave.ErrorSelector >> 16;
-    out->fxsave.fpu_ip = context.FloatSave.ErrorOffset;
-    out->fxsave.fpu_cs = static_cast<uint16_t>(context.FloatSave.ErrorSelector);
-    out->fxsave.fpu_dp = context.FloatSave.DataOffset;
-    out->fxsave.fpu_ds = static_cast<uint16_t>(context.FloatSave.DataSelector);
-    const CPUContextX86::X87Register* context_floatsave_st =
-        reinterpret_cast<const CPUContextX86::X87Register*>(
-            context.FloatSave.RegisterArea);
-    for (size_t index = 0; index < arraysize(out->fxsave.st_mm); ++index) {
-      memcpy(out->fxsave.st_mm[index].st,
-             context_floatsave_st[index],
-             sizeof(out->fxsave.st_mm[index].st));
-    }
+    // The static_assert that validates this cast can’t be here because it
+    // relies on field names that vary based on the template parameter.
+    CPUContextX86::FsaveToFxsave(
+        *reinterpret_cast<const CPUContextX86::Fsave*>(&context.FloatSave),
+        &out->fxsave);
   }
 }
 
@@ -174,10 +174,12 @@ void InitializeX64Context(const CONTEXT& context, CPUContextX86_64* out) {
     out->dr1 = context.Dr1;
     out->dr2 = context.Dr2;
     out->dr3 = context.Dr3;
+
     // DR4 and DR5 are obsolete synonyms for DR6 and DR7, see
     // https://en.wikipedia.org/wiki/X86_debug_register.
     out->dr4 = context.Dr6;
     out->dr5 = context.Dr7;
+
     out->dr6 = context.Dr6;
     out->dr7 = context.Dr7;
   }
@@ -185,7 +187,7 @@ void InitializeX64Context(const CONTEXT& context, CPUContextX86_64* out) {
   if (HasContextPart(context, CONTEXT_FLOATING_POINT)) {
     static_assert(sizeof(out->fxsave) == sizeof(context.FltSave),
                   "types must be equivalent");
-    memcpy(&out->fxsave, &context.FltSave.ControlWord, sizeof(out->fxsave));
+    memcpy(&out->fxsave, &context.FltSave, sizeof(out->fxsave));
   }
 }
 
