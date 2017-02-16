@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ddb33cc_1aaed89d",
+        "filename": "snapshot/cpu_context.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-16T18:10:29Z",
+      "side": 1,
+      "message": "+f",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 9
+      },
+      "revId": "cfc562a2191f6b8c357b76b06128bf5ee91ae5d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bb15db1_fbf9d870",
+        "filename": "snapshot/cpu_context_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-16T18:10:29Z",
+      "side": 1,
+      "message": "Check .fop here too.",
+      "revId": "cfc562a2191f6b8c357b76b06128bf5ee91ae5d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbc28dd0_939ee956",
+        "filename": "test/hex_string.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-16T18:10:29Z",
+      "side": 1,
+      "message": "Might as well .reserve(length*2) here.",
+      "revId": "cfc562a2191f6b8c357b76b06128bf5ee91ae5d7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
