@@ -181,6 +181,8 @@
         'win/handle.h',
         'win/initial_client_data.cc',
         'win/initial_client_data.h',
+        'win/message_window_close_watcher.cc',
+        'win/message_window_close_watcher.h',
         'win/module_version.cc',
         'win/module_version.h',
         'win/nt_internals.cc',
@@ -268,6 +270,7 @@
         ['OS=="win"', {
           'link_settings': {
             'libraries': [
+              '-luser32.lib',
               '-lwinhttp.lib',
             ],
           },
