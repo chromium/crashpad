@@ -34,6 +34,24 @@
       "revId": "49b4daae680de48973f0ebf8251ea3a3b89d2b23",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "467be74f_3d4f1e6c",
+        "filename": "util/win/message_window_close_watcher.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-17T20:29:12Z",
+      "side": 1,
+      "message": "\u003e I think I led you astray, sorry. https://msdn.microsoft.com/en-us/library/windows/desktop/ms632599(v\u003dvs.85).aspx#message_only \"... does not receive broadcast messages\", so likely not QUERYENDSESSION. nullptr instead of HWND_MESSAGE should probably be fine.\n\nI should have just gone to get coffee and waited for you to respond!\n\nThanks, it seems that we came to the same conclusion.",
+      "parentUuid": "c9f52b64_9f99ee42",
+      "revId": "49b4daae680de48973f0ebf8251ea3a3b89d2b23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
