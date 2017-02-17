@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0946f7ca_3df69786",
+        "filename": "util/win/message_window_close_watcher.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-17T19:39:26Z",
+      "side": 1,
+      "message": "I see this called four times: WM_GETMINMAXINFO, WM_NCCREATE, WM_NCCALCSIZE, and WM_CREATE. That’s it. I never get another message. I can log out, restart, etc., and I never see WM_CLOSE, WM_QUERYENDSESSION, WM_ENDSESSION, etc.",
+      "revId": "49b4daae680de48973f0ebf8251ea3a3b89d2b23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
