@@ -16,6 +16,24 @@
       "revId": "49b4daae680de48973f0ebf8251ea3a3b89d2b23",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9f52b64_9f99ee42",
+        "filename": "util/win/message_window_close_watcher.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-17T20:26:26Z",
+      "side": 1,
+      "message": "I think I led you astray, sorry. https://msdn.microsoft.com/en-us/library/windows/desktop/ms632599(v\u003dvs.85).aspx#message_only \"... does not receive broadcast messages\", so likely not QUERYENDSESSION. nullptr instead of HWND_MESSAGE should probably be fine.\n\nPerhaps try passing the same instance you passed to RegisterClass() to CreateWindow() too.\n\nOther than that, not too much off the top of my head. I can try debugging if neither of those help at all.",
+      "parentUuid": "0946f7ca_3df69786",
+      "revId": "49b4daae680de48973f0ebf8251ea3a3b89d2b23",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
