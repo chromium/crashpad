@@ -22,13 +22,13 @@ void Thread::Start() {
   DCHECK(!platform_thread_);
   platform_thread_ =
       CreateThread(nullptr, 0, ThreadEntryThunk, this, 0, nullptr);
-  PCHECK(platform_thread_);
+  PCHECK(platform_thread_) << "CreateThread";
 }
 
 void Thread::Join() {
   DCHECK(platform_thread_);
   DWORD result = WaitForSingleObject(platform_thread_, INFINITE);
-  PCHECK(WAIT_OBJECT_0 == result);
+  PCHECK(result == WAIT_OBJECT_0) << "WaitForSingleObject";
   platform_thread_ = 0;
 }
 
