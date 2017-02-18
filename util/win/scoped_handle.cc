@@ -25,7 +25,7 @@ void ScopedFileHANDLECloseTraits::Free(HANDLE handle) {
 }
 
 void ScopedKernelHANDLECloseTraits::Free(HANDLE handle) {
-  PCHECK(CloseHandle(handle));
+  PCHECK(CloseHandle(handle)) << "CloseHandle";
 }
 
 }  // namespace internal

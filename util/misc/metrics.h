@@ -130,6 +130,34 @@ class Metrics {
   //! \brief The exception handler server started capturing an exception.
   static void ExceptionEncountered();
 
+  //! \brief An important event in a handler process’ lifetime.
+  enum class LifetimeMilestone : int32_t {
+    //! \brief The handler process started.
+    kStarted = 0,
+
+    //! \brief The handler process exited normally and cleanly.
+    kExitedNormally,
+
+    //! \brief The handler process exited early, but was successful in
+    //!     performing some non-default action on user request.
+    kExitedEarly,
+
+    //! \brief The handler process exited with a failure code.
+    kFailed,
+
+    //! \brief The handler process was forcibly terminated.
+    kTerminated,
+
+    //! \brief The handler process crashed.
+    kCrashed,
+
+    //! \brief The number of values in this enumeration; not a valid value.
+    kMaxValue
+  };
+
+  //! \brief Records a handler start/exit/crash event.
+  static void HandlerLifetimeMilestone(LifetimeMilestone milestone);
+
   //! \brief The handler process crashed with the given exception code.
   //!
   //! This is currently only reported on Windows.
