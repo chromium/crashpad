@@ -98,6 +98,14 @@ void Metrics::ExceptionEncountered() {
   ExceptionProcessing(ExceptionProcessingState::kStarted);
 }
 
+// static
+void Metrics::HandlerLifetimeMilestone(LifetimeMilestone milestone) {
+  UMA_HISTOGRAM_ENUMERATION("Crashpad.HandlerLifetimeMilestone",
+                            static_cast<int32_t>(milestone),
+                            static_cast<int32_t>(LifetimeMilestone::kMaxValue));
+}
+
+// static
 void Metrics::HandlerCrashed(uint32_t exception_code) {
   UMA_HISTOGRAM_SPARSE_SLOWLY(
       "Crashpad.HandlerCrash.ExceptionCode." METRICS_OS_NAME,

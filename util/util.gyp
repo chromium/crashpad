@@ -198,6 +198,8 @@
         'win/scoped_local_alloc.h',
         'win/scoped_process_suspend.cc',
         'win/scoped_process_suspend.h',
+        'win/session_end_watcher.cc',
+        'win/session_end_watcher.h',
         'win/termination_codes.h',
         'win/time.cc',
         'win/time.h',
@@ -268,6 +270,7 @@
         ['OS=="win"', {
           'link_settings': {
             'libraries': [
+              '-luser32.lib',
               '-lwinhttp.lib',
             ],
           },
