@@ -30,8 +30,10 @@ namespace crashpad {
 //! Chromium's base, they allow integration with its metrics system.
 class Metrics {
  public:
-  //! \brief Values for CrashReportPending(). These are used as metrics
-  //!     enumeration values, so new values should always be added at the end.
+  //! \brief Values for CrashReportPending().
+  //!
+  //! \note These are used as metrics enumeration values, so new values should
+  //!     always be added at the end, before PendingReportReason::kMaxValue.
   enum class PendingReportReason : int32_t {
     //! \brief A report was newly created and is ready for upload.
     kNewlyCreated = 0,
@@ -53,8 +55,10 @@ class Metrics {
   //! \brief Reports on a crash upload attempt, and if it succeeded.
   static void CrashUploadAttempted(bool successful);
 
-  //! \brief Values for CrashUploadSkipped(). These are used as metrics
-  //!     enumeration values, so new values should always be added at the end.
+  //! \brief Values for CrashUploadSkipped().
+  //!
+  //! \note These are used as metrics enumeration values, so new values should
+  //!     always be added at the end, before CrashSkippedReason::kMaxValue.
   enum class CrashSkippedReason : int32_t {
     //! \brief Crash uploading is disabled.
     kUploadsDisabled = 0,
@@ -81,8 +85,10 @@ class Metrics {
   //!     database, without the report being uploadad.
   static void CrashUploadSkipped(CrashSkippedReason reason);
 
-  //! \brief The result of capturing an exception. These are used as metrics
-  //!     enumeration values, so new values should always be added at the end.
+  //! \brief The result of capturing an exception.
+  //!
+  //! \note These are used as metrics enumeration values, so new values should
+  //!     always be added at the end, before CaptureResult::kMaxValue.
   enum class CaptureResult : int32_t {
     //! \brief The exception capture succeeded normally.
     kSuccess = 0,
@@ -131,6 +137,9 @@ class Metrics {
   static void ExceptionEncountered();
 
   //! \brief An important event in a handler process’ lifetime.
+  //!
+  //! \note These are used as metrics enumeration values, so new values should
+  //!     always be added at the end, before LifetimeMilestone::kMaxValue.
   enum class LifetimeMilestone : int32_t {
     //! \brief The handler process started.
     kStarted = 0,
