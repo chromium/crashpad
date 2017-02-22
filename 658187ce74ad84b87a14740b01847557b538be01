@@ -16,6 +16,24 @@
       "revId": "658187ce74ad84b87a14740b01847557b538be01",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e1979fe_f7d54ea0",
+        "filename": "util/win/session_end_watcher.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-22T18:45:59Z",
+      "side": 1,
+      "message": "\u003e PLOG isn\u0027t quite right here as GLE could have been overwritten.\n\nDOH!",
+      "parentUuid": "851cdefa_96f0e663",
+      "revId": "658187ce74ad84b87a14740b01847557b538be01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
