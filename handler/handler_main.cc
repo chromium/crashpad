@@ -165,6 +165,7 @@ void RestoreDefaultSignalHandler(int sig) {
   sa.sa_handler = SIG_DFL;
   int rv = sigaction(sig, &sa, nullptr);
   DPLOG_IF(ERROR, rv != 0) << "sigaction " << sig;
+  ALLOW_UNUSED_LOCAL(rv);
 }
 
 void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
@@ -240,6 +241,7 @@ void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
     // initially triggered.
     int rv = raise(sig);
     DPLOG_IF(ERROR, rv != 0) << "raise";
+    ALLOW_UNUSED_LOCAL(rv);
   }
 }
 
@@ -253,6 +255,7 @@ void HandleTerminateSignal(int sig, siginfo_t* siginfo, void* context) {
   // because termination signals never originate in that way.
   int rv = raise(sig);
   DPLOG_IF(ERROR, rv != 0) << "raise";
+  ALLOW_UNUSED_LOCAL(rv);
 }
 
 void InstallCrashHandler() {
