@@ -5,8 +5,7 @@ var searchData=
   ['file_5fpath',['file_path',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html#a42cfce2b75dfee931b8d82968592d8a7',1,'crashpad::CrashReportDatabase::Report']]],
   ['fileexists',['FileExists',['../namespacecrashpad_1_1test.html#a8cad311e386c21af1ca653f2aca2695b',1,'crashpad::test']]],
   ['filehandle',['FileHandle',['../namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a',1,'crashpad']]],
-  ['filehttpbodystream',['FileHTTPBodyStream',['../classcrashpad_1_1FileHTTPBodyStream.html',1,'crashpad']]],
-  ['filehttpbodystream',['FileHTTPBodyStream',['../classcrashpad_1_1FileHTTPBodyStream.html#acd103e1d8dd909c4487f55ddc41297f1',1,'crashpad::FileHTTPBodyStream']]],
+  ['filehttpbodystream',['FileHTTPBodyStream',['../classcrashpad_1_1FileHTTPBodyStream.html',1,'crashpad::FileHTTPBodyStream'],['../classcrashpad_1_1FileHTTPBodyStream.html#acd103e1d8dd909c4487f55ddc41297f1',1,'crashpad::FileHTTPBodyStream::FileHTTPBodyStream()']]],
   ['filelocking',['FileLocking',['../namespacecrashpad.html#a3753a95b02e5c96c6e20017e467cef07',1,'crashpad']]],
   ['fileoff',['fileoff',['../classcrashpad_1_1MachOImageSegmentReader.html#ab3b139fd095a7187294f05d0780af81c',1,'crashpad::MachOImageSegmentReader']]],
   ['fileoffset',['FileOffset',['../namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2',1,'crashpad']]],
@@ -31,8 +30,7 @@ var searchData=
   ['fsave',['Fsave',['../structcrashpad_1_1CPUContextX86_1_1Fsave.html',1,'crashpad::CPUContextX86']]],
   ['fsavetofxsave',['FsaveToFxsave',['../structcrashpad_1_1CPUContextX86.html#a8b6ecedc4f28b2e6b1564dc57489a8d9',1,'crashpad::CPUContextX86']]],
   ['fsavetofxsavetagword',['FsaveToFxsaveTagWord',['../structcrashpad_1_1CPUContextX86.html#a30c413e9272b7f2167c305a486e88dc0',1,'crashpad::CPUContextX86']]],
-  ['fxsave',['Fxsave',['../structcrashpad_1_1CPUContextX86_1_1Fxsave.html',1,'crashpad::CPUContextX86']]],
-  ['fxsave',['Fxsave',['../structcrashpad_1_1CPUContextX86__64_1_1Fxsave.html',1,'crashpad::CPUContextX86_64']]],
+  ['fxsave',['Fxsave',['../structcrashpad_1_1CPUContextX86_1_1Fxsave.html',1,'crashpad::CPUContextX86::Fxsave'],['../structcrashpad_1_1CPUContextX86__64_1_1Fxsave.html',1,'crashpad::CPUContextX86_64::Fxsave']]],
   ['fxsavetofsave',['FxsaveToFsave',['../structcrashpad_1_1CPUContextX86.html#ab90efe3c4cf0e10d820a12d7227383c0',1,'crashpad::CPUContextX86']]],
   ['fxsavetofsavetagword',['FxsaveToFsaveTagWord',['../structcrashpad_1_1CPUContextX86.html#aaa6da129178e00395358c4f288d5dc06',1,'crashpad::CPUContextX86']]]
 ];

@@ -10,6 +10,7 @@ var searchData=
   ['versioninfo',['VersionInfo',['../structMINIDUMP__MODULE.html#ac2babe58e6418124599ea2821f30bb84',1,'MINIDUMP_MODULE']]],
   ['versioninformation',['VersionInformation',['../unionCPU__INFORMATION.html#a6b072a6cae2e065111ef20acf21e355a',1,'CPU_INFORMATION']]],
   ['vm_5fcounters',['VM_COUNTERS',['../structcrashpad_1_1process__types_1_1VM__COUNTERS.html',1,'crashpad::process_types']]],
+  ['vm_5fcounters_3c_20crashpad_3a_3aprocess_5ftypes_3a_3ainternal_3a_3atraits64_20_3e',['VM_COUNTERS&lt; crashpad::process_types::internal::Traits64 &gt;',['../structcrashpad_1_1process__types_1_1VM__COUNTERS.html',1,'crashpad::process_types']]],
   ['vm_5fcounters_3c_20internal_3a_3atraits32_20_3e',['VM_COUNTERS&lt; internal::Traits32 &gt;',['../structcrashpad_1_1process__types_1_1VM__COUNTERS_3_01internal_1_1Traits32_01_4.html',1,'crashpad::process_types']]],
   ['vm_5fcounters_3c_20internal_3a_3atraits64_20_3e',['VM_COUNTERS&lt; internal::Traits64 &gt;',['../structcrashpad_1_1process__types_1_1VM__COUNTERS_3_01internal_1_1Traits64_01_4.html',1,'crashpad::process_types']]],
   ['vmaddr',['vmaddr',['../classcrashpad_1_1MachOImageSegmentReader.html#a6cbf169de4e86aed8fc7d3f00ddcf302',1,'crashpad::MachOImageSegmentReader']]],

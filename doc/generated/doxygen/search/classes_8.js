@@ -4,10 +4,6 @@ var searchData=
   ['initialclientdata',['InitialClientData',['../classcrashpad_1_1InitialClientData.html',1,'crashpad']]],
   ['initializationstate',['InitializationState',['../classcrashpad_1_1InitializationState.html',1,'crashpad']]],
   ['initializationstatedcheck',['InitializationStateDcheck',['../classcrashpad_1_1InitializationStateDcheck.html',1,'crashpad']]],
-  ['interface',['Interface',['../classcrashpad_1_1MachMessageServer_1_1Interface.html',1,'crashpad::MachMessageServer']]],
-  ['interface',['Interface',['../classcrashpad_1_1NotifyServer_1_1Interface.html',1,'crashpad::NotifyServer']]],
-  ['interface',['Interface',['../classcrashpad_1_1ChildPortServer_1_1Interface.html',1,'crashpad::ChildPortServer']]],
-  ['interface',['Interface',['../classcrashpad_1_1UniversalMachExcServer_1_1Interface.html',1,'crashpad::UniversalMachExcServer']]],
-  ['iterator',['Iterator',['../classcrashpad_1_1TSimpleStringDictionary_1_1Iterator.html',1,'crashpad::TSimpleStringDictionary']]],
-  ['iterator',['Iterator',['../classcrashpad_1_1TSimpleAddressRangeBag_1_1Iterator.html',1,'crashpad::TSimpleAddressRangeBag']]]
+  ['interface',['Interface',['../classcrashpad_1_1ChildPortServer_1_1Interface.html',1,'crashpad::ChildPortServer::Interface'],['../classcrashpad_1_1UniversalMachExcServer_1_1Interface.html',1,'crashpad::UniversalMachExcServer::Interface'],['../classcrashpad_1_1MachMessageServer_1_1Interface.html',1,'crashpad::MachMessageServer::Interface'],['../classcrashpad_1_1NotifyServer_1_1Interface.html',1,'crashpad::NotifyServer::Interface']]],
+  ['iterator',['Iterator',['../classcrashpad_1_1TSimpleAddressRangeBag_1_1Iterator.html',1,'crashpad::TSimpleAddressRangeBag&lt; NumEntries &gt;::Iterator'],['../classcrashpad_1_1TSimpleStringDictionary_1_1Iterator.html',1,'crashpad::TSimpleStringDictionary&lt; KeySize, ValueSize, NumEntries &gt;::Iterator']]]
 ];

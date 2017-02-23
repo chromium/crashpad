@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['data',['Data',['../structcrashpad_1_1Settings_1_1Data.html',1,'crashpad::Settings']]],
-  ['data',['Data',['../structIMAGE__DEBUG__MISC.html#a7ea2a7b3d6dc6e329c901fe324e5ae05',1,'IMAGE_DEBUG_MISC::Data()'],['../classcrashpad_1_1TaskMemory_1_1MappedMemory.html#a9de3d6dc298219b98770a2e0f40955a6',1,'crashpad::TaskMemory::MappedMemory::data()']]],
-  ['databasesizeprunecondition',['DatabaseSizePruneCondition',['../classcrashpad_1_1DatabaseSizePruneCondition.html',1,'crashpad']]],
-  ['databasesizeprunecondition',['DatabaseSizePruneCondition',['../classcrashpad_1_1DatabaseSizePruneCondition.html#aafe25019360a9622e1c60baf8a79de25',1,'crashpad::DatabaseSizePruneCondition']]],
+  ['data',['Data',['../structcrashpad_1_1Settings_1_1Data.html',1,'crashpad::Settings::Data'],['../structIMAGE__DEBUG__MISC.html#a7ea2a7b3d6dc6e329c901fe324e5ae05',1,'IMAGE_DEBUG_MISC::Data()'],['../classcrashpad_1_1TaskMemory_1_1MappedMemory.html#a9de3d6dc298219b98770a2e0f40955a6',1,'crashpad::TaskMemory::MappedMemory::data()']]],
+  ['databasesizeprunecondition',['DatabaseSizePruneCondition',['../classcrashpad_1_1DatabaseSizePruneCondition.html',1,'crashpad::DatabaseSizePruneCondition'],['../classcrashpad_1_1DatabaseSizePruneCondition.html#aafe25019360a9622e1c60baf8a79de25',1,'crashpad::DatabaseSizePruneCondition::DatabaseSizePruneCondition()']]],
   ['datasize',['DataSize',['../structMINIDUMP__LOCATION__DESCRIPTOR.html#ad83430521d4a8991d85e06be61525a92',1,'MINIDUMP_LOCATION_DESCRIPTOR']]],
   ['datatype',['DataType',['../structIMAGE__DEBUG__MISC.html#a34353f624ec48a7aff62190abbe0ba38',1,'IMAGE_DEBUG_MISC']]],
   ['daylightbias',['DaylightBias',['../structTIME__ZONE__INFORMATION.html#ac42af349e90f75b4517a3049e66f703b',1,'TIME_ZONE_INFORMATION']]],
@@ -17,10 +15,7 @@ var searchData=
   ['debugfilename',['DebugFileName',['../classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a62bb8650ee3d30f289e70b9bd6c0bde3',1,'crashpad::internal::ModuleSnapshotMac::DebugFileName()'],['../classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#ab5640b14a706cc30ade77dd4dba6e1c7',1,'crashpad::internal::ModuleSnapshotMinidump::DebugFileName()'],['../classcrashpad_1_1ModuleSnapshot.html#aa08595e35c34bb13e456cddb4f40f698',1,'crashpad::ModuleSnapshot::DebugFileName()'],['../classcrashpad_1_1test_1_1TestModuleSnapshot.html#a718634cb14e12d27fd1e531dd292a3be',1,'crashpad::test::TestModuleSnapshot::DebugFileName()'],['../classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#ae819d7011878cb9aed89cd1b693cc721',1,'crashpad::internal::ModuleSnapshotWin::DebugFileName()']]],
   ['decrementthreadsuspendcounts',['DecrementThreadSuspendCounts',['../classcrashpad_1_1ProcessReaderWin.html#a7e381af0ba9565d55d2bc6b58d0c55bc',1,'crashpad::ProcessReaderWin']]],
   ['defaultinterface',['DefaultInterface',['../classcrashpad_1_1NotifyServer_1_1DefaultInterface.html',1,'crashpad::NotifyServer']]],
-  ['delegate',['Delegate',['../classcrashpad_1_1internal_1_1CaptureMemory_1_1Delegate.html',1,'crashpad::internal::CaptureMemory']]],
-  ['delegate',['Delegate',['../classcrashpad_1_1MemorySnapshot_1_1Delegate.html',1,'crashpad::MemorySnapshot']]],
-  ['delegate',['Delegate',['../classcrashpad_1_1WorkerThread_1_1Delegate.html',1,'crashpad::WorkerThread']]],
-  ['delegate',['Delegate',['../classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html',1,'crashpad::ExceptionHandlerServer']]],
+  ['delegate',['Delegate',['../classcrashpad_1_1internal_1_1CaptureMemory_1_1Delegate.html',1,'crashpad::internal::CaptureMemory::Delegate'],['../classcrashpad_1_1MemorySnapshot_1_1Delegate.html',1,'crashpad::MemorySnapshot::Delegate'],['../classcrashpad_1_1WorkerThread_1_1Delegate.html',1,'crashpad::WorkerThread::Delegate'],['../classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html',1,'crashpad::ExceptionHandlerServer::Delegate']]],
   ['deletereport',['DeleteReport',['../classcrashpad_1_1CrashReportDatabase.html#aa8aff03198b18b5dc479c189115500c4',1,'crashpad::CrashReportDatabase']]],
   ['deprecated_20list',['Deprecated List',['../deprecated.html',1,'']]],
   ['didchangeprivileges',['DidChangePrivileges',['../classcrashpad_1_1ProcessInfo.html#a38a40f720591eb2117a260b5faad78c9',1,'crashpad::ProcessInfo']]],
