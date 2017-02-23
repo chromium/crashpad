@@ -362,6 +362,7 @@ void InstallCrashHandler() {
   // to exit, which isn’t necessary or desirable.
   SetConsoleCtrlHandler(ConsoleHandler, true);
   static TerminateHandler* terminate_handler = new TerminateHandler();
+  ALLOW_UNUSED_LOCAL(terminate_handler);
 }
 
 #endif  // OS_MACOSX
