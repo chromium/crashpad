@@ -16,13 +16,91 @@
 
 #include <windows.h>
 
+#include "base/macros.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/hex_string.h"
 #include "snapshot/cpu_context.h"
 
 namespace crashpad {
 namespace test {
 namespace {
+
+template <typename T>
+void TestInitializeX86Context() {
+  T context = {0};
+  context.ContextFlags = WOW64_CONTEXT_INTEGER |
+                         WOW64_CONTEXT_DEBUG_REGISTERS |
+                         WOW64_CONTEXT_EXTENDED_REGISTERS;
+  context.Eax = 1;
+  context.Dr0 = 3;
+  context.ExtendedRegisters[4] = 2;  // FTW
+
+  // Test the simple case, where everything in the CPUContextX86 argument is set
+  // directly from the supplied thread, float, and debug state parameters.
+  {
+    CPUContextX86 cpu_context_x86 = {};
+    InitializeX86Context(context, &cpu_context_x86);
+    EXPECT_EQ(1u, cpu_context_x86.eax);
+    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
+    EXPECT_EQ(3u, cpu_context_x86.dr0);
+  }
+}
+
+template <typename T>
+void TestInitializeX86Context_FsaveWithoutFxsave() {
+  T context = {0};
+  context.ContextFlags = WOW64_CONTEXT_INTEGER |
+                         WOW64_CONTEXT_FLOATING_POINT |
+                         WOW64_CONTEXT_DEBUG_REGISTERS;
+  context.Eax = 1;
+
+  // In fields that are wider than they need to be, set the high bits to ensure
+  // that they’re masked off appropriately in the output.
+  context.FloatSave.ControlWord = 0xffff027f;
+  context.FloatSave.StatusWord = 0xffff0004;
+  context.FloatSave.TagWord = 0xffffa9ff;
+  context.FloatSave.ErrorOffset = 0x01234567;
+  context.FloatSave.ErrorSelector = 0x0bad0003;
+  context.FloatSave.DataOffset = 0x89abcdef;
+  context.FloatSave.DataSelector = 0xffff0007;
+  context.FloatSave.RegisterArea[77] = 0x80;
+  context.FloatSave.RegisterArea[78] = 0xff;
+  context.FloatSave.RegisterArea[79] = 0x7f;
+
+  context.Dr0 = 3;
+
+  {
+    CPUContextX86 cpu_context_x86 = {};
+    InitializeX86Context(context, &cpu_context_x86);
+
+    EXPECT_EQ(1u, cpu_context_x86.eax);
+
+    EXPECT_EQ(0x027f, cpu_context_x86.fxsave.fcw);
+    EXPECT_EQ(0x0004, cpu_context_x86.fxsave.fsw);
+    EXPECT_EQ(0x00f0, cpu_context_x86.fxsave.ftw);
+    EXPECT_EQ(0x0bad, cpu_context_x86.fxsave.fop);
+    EXPECT_EQ(0x01234567, cpu_context_x86.fxsave.fpu_ip);
+    EXPECT_EQ(0x0003, cpu_context_x86.fxsave.fpu_cs);
+    EXPECT_EQ(0x89abcdef, cpu_context_x86.fxsave.fpu_dp);
+    EXPECT_EQ(0x0007, cpu_context_x86.fxsave.fpu_ds);
+    for (size_t st_mm = 0; st_mm < 7; ++st_mm) {
+      EXPECT_EQ(
+          std::string(arraysize(cpu_context_x86.fxsave.st_mm[st_mm].st) * 2,
+                      '0'),
+          BytesToHexString(cpu_context_x86.fxsave.st_mm[st_mm].st,
+                           arraysize(cpu_context_x86.fxsave.st_mm[st_mm].st)))
+          << "st_mm " << st_mm;
+    }
+    EXPECT_EQ("0000000000000080ff7f",
+              BytesToHexString(cpu_context_x86.fxsave.st_mm[7].st,
+                               arraysize(cpu_context_x86.fxsave.st_mm[7].st)));
+
+    EXPECT_EQ(3u, cpu_context_x86.dr0);
+  }
+}
+
+#if defined(ARCH_CPU_X86_FAMILY)
 
 #if defined(ARCH_CPU_X86_64)
 
@@ -45,28 +123,25 @@ TEST(CPUContextWin, InitializeX64Context) {
   }
 }
 
-#else
+#endif  // ARCH_CPU_X86_64
 
 TEST(CPUContextWin, InitializeX86Context) {
-  CONTEXT context = {0};
-  context.ContextFlags =
-      CONTEXT_INTEGER | CONTEXT_EXTENDED_REGISTERS | CONTEXT_DEBUG_REGISTERS;
-  context.Eax = 1;
-  context.ExtendedRegisters[4] = 2;  // FTW.
-  context.Dr0 = 3;
-
-  // Test the simple case, where everything in the CPUContextX86 argument is
-  // set directly from the supplied thread, float, and debug state parameters.
-  {
-    CPUContextX86 cpu_context_x86 = {};
-    InitializeX86Context(context, &cpu_context_x86);
-    EXPECT_EQ(1u, cpu_context_x86.eax);
-    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(3u, cpu_context_x86.dr0);
-  }
+#if defined(ARCH_CPU_X86)
+  TestInitializeX86Context<CONTEXT>();
+#else  // ARCH_CPU_X86
+  TestInitializeX86Context<WOW64_CONTEXT>();
+#endif  // ARCH_CPU_X86
 }
 
-#endif  // ARCH_CPU_X86_64
+TEST(CPUContextWin, InitializeX86Context_FsaveWithoutFxsave) {
+#if defined(ARCH_CPU_X86)
+  TestInitializeX86Context_FsaveWithoutFxsave<CONTEXT>();
+#else  // ARCH_CPU_X86
+  TestInitializeX86Context_FsaveWithoutFxsave<WOW64_CONTEXT>();
+#endif  // ARCH_CPU_X86
+}
+
+#endif  // ARCH_CPU_X86_FAMILY
 
 }  // namespace
 }  // namespace test

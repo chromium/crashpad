@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/net/http_headers.h"
+#include "test/hex_string.h"
+
+#include "base/macros.h"
+#include "gtest/gtest.h"
 
 namespace crashpad {
+namespace test {
+namespace {
 
-const char kContentType[] = "Content-Type";
-const char kContentLength[] = "Content-Length";
-const char kContentEncoding[] = "Content-Encoding";
+TEST(HexString, HexString) {
+  EXPECT_EQ("", BytesToHexString(nullptr, 0));
 
+  const char kBytes[] = "Abc123xyz \x0a\x7f\xf0\x9f\x92\xa9_";
+  EXPECT_EQ("41626331323378797a200a7ff09f92a95f00",
+            BytesToHexString(kBytes, arraysize(kBytes)));
+}
+
+}  // namespace
+}  // namespace test
 }  // namespace crashpad

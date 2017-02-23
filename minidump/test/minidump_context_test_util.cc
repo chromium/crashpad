@@ -23,6 +23,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/test/test_cpu_context.h"
+#include "test/hex_string.h"
 
 namespace crashpad {
 namespace test {
@@ -56,6 +57,7 @@ void InitializeMinidumpContextX86(MinidumpContextX86* context, uint32_t seed) {
   context->ss = value++ & 0xffff;
 
   InitializeCPUContextX86Fxsave(&context->fxsave, &value);
+  CPUContextX86::FxsaveToFsave(context->fxsave, &context->fsave);
 
   context->dr0 = value++;
   context->dr1 = value++;
@@ -64,30 +66,6 @@ void InitializeMinidumpContextX86(MinidumpContextX86* context, uint32_t seed) {
   value += 2;  // Minidumps don’t carry dr4 or dr5.
   context->dr6 = value++;
   context->dr7 = value++;
-
-  // Copy the values that are aliased between the fxsave area
-  // (context->extended_registers) and the floating-point save area
-  // (context->float_save).
-  context->float_save.control_word = context->fxsave.fcw;
-  context->float_save.status_word = context->fxsave.fsw;
-  context->float_save.tag_word = CPUContextX86::FxsaveToFsaveTagWord(
-      context->fxsave.fsw, context->fxsave.ftw, context->fxsave.st_mm);
-  context->float_save.error_offset = context->fxsave.fpu_ip;
-  context->float_save.error_selector = context->fxsave.fpu_cs;
-  context->float_save.data_offset = context->fxsave.fpu_dp;
-  context->float_save.data_selector = context->fxsave.fpu_ds;
-  for (size_t st_mm_index = 0;
-       st_mm_index < arraysize(context->fxsave.st_mm);
-       ++st_mm_index) {
-    for (size_t byte = 0;
-         byte < arraysize(context->fxsave.st_mm[st_mm_index].st);
-         ++byte) {
-      size_t st_index =
-          st_mm_index * arraysize(context->fxsave.st_mm[st_mm_index].st) + byte;
-      context->float_save.register_area[st_index] =
-          context->fxsave.st_mm[st_mm_index].st[byte];
-    }
-  }
 
   // Set this field last, because it has no analogue in CPUContextX86.
   context->float_save.spare_0 = value++;
@@ -188,37 +166,31 @@ void ExpectMinidumpContextFxsave(const FxsaveType* expected,
        st_mm_index < arraysize(expected->st_mm);
        ++st_mm_index) {
     SCOPED_TRACE(base::StringPrintf("st_mm_index %" PRIuS, st_mm_index));
-    for (size_t byte = 0;
-         byte < arraysize(expected->st_mm[st_mm_index].st);
-         ++byte) {
-      EXPECT_EQ(expected->st_mm[st_mm_index].st[byte],
-                observed->st_mm[st_mm_index].st[byte]) << "byte " << byte;
-    }
-    for (size_t byte = 0;
-         byte < arraysize(expected->st_mm[st_mm_index].st_reserved);
-         ++byte) {
-      EXPECT_EQ(expected->st_mm[st_mm_index].st_reserved[byte],
-                observed->st_mm[st_mm_index].st_reserved[byte])
-          << "byte " << byte;
-    }
+    EXPECT_EQ(BytesToHexString(expected->st_mm[st_mm_index].st,
+                               arraysize(expected->st_mm[st_mm_index].st)),
+              BytesToHexString(observed->st_mm[st_mm_index].st,
+                               arraysize(observed->st_mm[st_mm_index].st)));
+    EXPECT_EQ(
+        BytesToHexString(expected->st_mm[st_mm_index].st_reserved,
+                         arraysize(expected->st_mm[st_mm_index].st_reserved)),
+        BytesToHexString(observed->st_mm[st_mm_index].st_reserved,
+                         arraysize(observed->st_mm[st_mm_index].st_reserved)));
   }
   for (size_t xmm_index = 0;
        xmm_index < arraysize(expected->xmm);
        ++xmm_index) {
-    SCOPED_TRACE(base::StringPrintf("xmm_index %" PRIuS, xmm_index));
-    for (size_t byte = 0; byte < arraysize(expected->xmm[xmm_index]); ++byte) {
-      EXPECT_EQ(expected->xmm[xmm_index][byte], observed->xmm[xmm_index][byte])
-          << "byte " << byte;
-    }
+    EXPECT_EQ(BytesToHexString(expected->xmm[xmm_index],
+                               arraysize(expected->xmm[xmm_index])),
+              BytesToHexString(observed->xmm[xmm_index],
+                               arraysize(observed->xmm[xmm_index])))
+        << "xmm_index " << xmm_index;
   }
-  for (size_t byte = 0; byte < arraysize(expected->reserved_4); ++byte) {
-    EXPECT_EQ(expected->reserved_4[byte], observed->reserved_4[byte])
-        << "byte " << byte;
-  }
-  for (size_t byte = 0; byte < arraysize(expected->available); ++byte) {
-    EXPECT_EQ(expected->available[byte], observed->available[byte])
-        << "byte " << byte;
-  }
+  EXPECT_EQ(
+      BytesToHexString(expected->reserved_4, arraysize(expected->reserved_4)),
+      BytesToHexString(observed->reserved_4, arraysize(observed->reserved_4)));
+  EXPECT_EQ(
+      BytesToHexString(expected->available, arraysize(expected->available)),
+      BytesToHexString(observed->available, arraysize(observed->available)));
 }
 
 }  // namespace
@@ -236,22 +208,19 @@ void ExpectMinidumpContextX86(
   EXPECT_EQ(expected.dr6, observed->dr6);
   EXPECT_EQ(expected.dr7, observed->dr7);
 
-  EXPECT_EQ(expected.float_save.control_word,
-            observed->float_save.control_word);
-  EXPECT_EQ(expected.float_save.status_word, observed->float_save.status_word);
-  EXPECT_EQ(expected.float_save.tag_word, observed->float_save.tag_word);
-  EXPECT_EQ(expected.float_save.error_offset,
-            observed->float_save.error_offset);
-  EXPECT_EQ(expected.float_save.error_selector,
-            observed->float_save.error_selector);
-  EXPECT_EQ(expected.float_save.data_offset, observed->float_save.data_offset);
-  EXPECT_EQ(expected.float_save.data_selector,
-            observed->float_save.data_selector);
-  for (size_t index = 0;
-       index < arraysize(expected.float_save.register_area);
-       ++index) {
-    EXPECT_EQ(expected.float_save.register_area[index],
-              observed->float_save.register_area[index]) << "index " << index;
+  EXPECT_EQ(expected.fsave.fcw, observed->fsave.fcw);
+  EXPECT_EQ(expected.fsave.fsw, observed->fsave.fsw);
+  EXPECT_EQ(expected.fsave.ftw, observed->fsave.ftw);
+  EXPECT_EQ(expected.fsave.fpu_ip, observed->fsave.fpu_ip);
+  EXPECT_EQ(expected.fsave.fpu_cs, observed->fsave.fpu_cs);
+  EXPECT_EQ(expected.fsave.fpu_dp, observed->fsave.fpu_dp);
+  EXPECT_EQ(expected.fsave.fpu_ds, observed->fsave.fpu_ds);
+  for (size_t index = 0; index < arraysize(expected.fsave.st); ++index) {
+    EXPECT_EQ(BytesToHexString(expected.fsave.st[index],
+                               arraysize(expected.fsave.st[index])),
+              BytesToHexString(observed->fsave.st[index],
+                               arraysize(observed->fsave.st[index])))
+        << "index " << index;
   }
   if (snapshot) {
     EXPECT_EQ(0u, observed->float_save.spare_0);

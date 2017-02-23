@@ -25,6 +25,22 @@ namespace crashpad {
 struct CPUContextX86 {
   using X87Register = uint8_t[10];
 
+  struct Fsave {
+    uint16_t fcw;  // FPU control word
+    uint16_t reserved_1;
+    uint16_t fsw;  // FPU status word
+    uint16_t reserved_2;
+    uint16_t ftw;  // full FPU tag word
+    uint16_t reserved_3;
+    uint32_t fpu_ip;  // FPU instruction pointer offset
+    uint16_t fpu_cs;  // FPU instruction pointer segment selector
+    uint16_t fop;  // FPU opcode
+    uint32_t fpu_dp;  // FPU data pointer offset
+    uint16_t fpu_ds;  // FPU data pointer segment selector
+    uint16_t reserved_4;
+    X87Register st[8];
+  };
+
   union X87OrMMXRegister {
     struct {
       X87Register st;
@@ -58,14 +74,49 @@ struct CPUContextX86 {
     uint8_t available[48];
   };
 
+  //! \brief Converts an `fxsave` area to an `fsave` area.
+  //!
+  //! `fsave` state is restricted to the x87 FPU, while `fxsave` state includes
+  //! state related to the x87 FPU as well as state specific to SSE.
+  //!
+  //! As the `fxsave` format is a superset of the `fsave` format, this operation
+  //! fully populates the `fsave` area. `fsave` uses the full 16-bit form for
+  //! the x87 floating-point tag word, so FxsaveToFsaveTagWord() is used to
+  //! derive Fsave::ftw from the abridged 8-bit form used by `fxsave`. Reserved
+  //! fields in \a fsave are set to `0`.
+  //!
+  //! \param[in] fxsave The `fxsave` area to convert.
+  //! \param[out] fsave The `fsave` area to populate.
+  //!
+  //! \sa FsaveToFxsave()
+  static void FxsaveToFsave(const Fxsave& fxsave, Fsave* fsave);
+
+  //! \brief Converts an `fsave` area to an `fxsave` area.
+  //!
+  //! `fsave` state is restricted to the x87 FPU, while `fxsave` state includes
+  //! state related to the x87 FPU as well as state specific to SSE.
+  //!
+  //! As the `fsave` format is a subset of the `fxsave` format, this operation
+  //! cannot fully populate the `fxsave` area. Fields in \a fxsave that have no
+  //! equivalent in \a fsave are set to `0`, including Fxsave::mxcsr,
+  //! Fxsave::mxcsr_mask, Fxsave::xmm, and Fxsave::available.
+  //! FsaveToFxsaveTagWord() is used to derive Fxsave::ftw from the full 16-bit
+  //! form used by `fsave`. Reserved fields in \a fxsave are set to `0`.
+  //!
+  //! \param[in] fsave The `fsave` area to convert.
+  //! \param[out] fxsave The `fxsave` area to populate.
+  //!
+  //! \sa FxsaveToFsave()
+  static void FsaveToFxsave(const Fsave& fsave, Fxsave* fxsave);
+
   //! \brief Converts x87 floating-point tag words from `fxsave` (abridged,
   //!     8-bit) to `fsave` (full, 16-bit) form.
   //!
   //! `fxsave` stores the x87 floating-point tag word in abridged 8-bit form,
   //! and `fsave` stores it in full 16-bit form. Some users, notably
-  //! MinidumpContextX86::float_save::tag_word, require the full 16-bit form,
-  //! where most other contemporary code uses `fxsave` and thus the abridged
-  //! 8-bit form found in CPUContextX86::Fxsave::ftw.
+  //! CPUContextX86::Fsave::ftw, require the full 16-bit form, where most other
+  //! contemporary code uses `fxsave` and thus the abridged 8-bit form found in
+  //! CPUContextX86::Fxsave::ftw.
   //!
   //! This function converts an abridged tag word to the full version by using
   //! the abridged tag word and the contents of the registers it describes. See
@@ -74,6 +125,8 @@ struct CPUContextX86 {
   //! FTW and recreating the FSAVE format, and AMD Architecture Programmer’s
   //! Manual, Volume 2: System Programming (24593-3.24), “FXSAVE Format for x87
   //! Tag Word”.
+  //!
+  //! \sa FsaveToFxsaveTagWord()
   //!
   //! \param[in] fsw The FPU status word, used to map logical \a st_mm registers
   //!     to their physical counterparts. This can be taken from
@@ -86,6 +139,16 @@ struct CPUContextX86 {
   //! \return The full FPU tag word.
   static uint16_t FxsaveToFsaveTagWord(
       uint16_t fsw, uint8_t fxsave_tag, const X87OrMMXRegister st_mm[8]);
+
+  //! \brief Converts x87 floating-point tag words from `fsave` (full, 16-bit)
+  //!     to `fxsave` (abridged, 8-bit) form.
+  //!
+  //! This function performs the inverse operation of FxsaveToFsaveTagWord().
+  //!
+  //! \param[in] fsave_tag The full FPU tag word.
+  //!
+  //! \return The abridged FPU tag word.
+  static uint8_t FsaveToFxsaveTagWord(uint16_t fsave_tag);
 
   // Integer registers.
   uint32_t eax;

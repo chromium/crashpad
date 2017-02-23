@@ -19,6 +19,7 @@
 
 #include "base/macros.h"
 #include "gtest/gtest.h"
+#include "test/hex_string.h"
 
 namespace crashpad {
 namespace test {
@@ -48,35 +49,186 @@ enum FractionValue {
 //! \param[in] j_bit The value to use for the “J bit” (“integer bit”).
 //! \param[in] fraction_value If kFractionAllZero, the fraction will be zeroed
 //!     out. If kFractionNormal, the fraction will not be all zeroes.
-void SetX87Register(CPUContextX86::X87OrMMXRegister* st_mm,
+void SetX87Register(CPUContextX86::X87Register* st,
                     ExponentValue exponent_value,
                     bool j_bit,
                     FractionValue fraction_value) {
   switch (exponent_value) {
     case kExponentAllZero:
-      st_mm->st[9] = 0x80;
-      st_mm->st[8] = 0;
+      (*st)[9] = 0x80;
+      (*st)[8] = 0;
       break;
     case kExponentAllOne:
-      st_mm->st[9] = 0x7f;
-      st_mm->st[8] = 0xff;
+      (*st)[9] = 0x7f;
+      (*st)[8] = 0xff;
       break;
     case kExponentNormal:
-      st_mm->st[9] = 0x55;
-      st_mm->st[8] = 0x55;
+      (*st)[9] = 0x55;
+      (*st)[8] = 0x55;
       break;
   }
 
   uint8_t fraction_pattern = fraction_value == kFractionAllZero ? 0 : 0x55;
-  memset(&st_mm->st[0], fraction_pattern, 8);
+  memset(st, fraction_pattern, 8);
 
   if (j_bit) {
-    st_mm->st[7] |= 0x80;
+    (*st)[7] |= 0x80;
   } else {
-    st_mm->st[7] &= ~0x80;
+    (*st)[7] &= ~0x80;
   }
+}
 
+//! \brief Initializes an x87 register to a known bit pattern.
+//!
+//! This behaves as SetX87Register() but also clears the reserved portion of the
+//! field as used in the `fxsave` format.
+void SetX87OrMMXRegister(CPUContextX86::X87OrMMXRegister* st_mm,
+                         ExponentValue exponent_value,
+                         bool j_bit,
+                         FractionValue fraction_value) {
+  SetX87Register(&st_mm->st, exponent_value, j_bit, fraction_value);
   memset(st_mm->st_reserved, 0, sizeof(st_mm->st_reserved));
+}
+
+TEST(CPUContextX86, FxsaveToFsave) {
+  // Establish a somewhat plausible fxsave state. Use nonzero values for
+  // reserved fields and things that aren’t present in fsave.
+  CPUContextX86::Fxsave fxsave;
+  fxsave.fcw = 0x027f;  // mask exceptions, 53-bit precision, round to nearest
+  fxsave.fsw = 1 << 11;  // top = 1: logical 0-7 maps to physical 1-7, 0
+  fxsave.ftw = 0x1f;  // physical 5-7 (logical 4-6) empty
+  fxsave.reserved_1 = 0x5a;
+  fxsave.fop = 0x1fe;  // fsin
+  fxsave.fpu_ip = 0x76543210;
+  fxsave.fpu_cs = 0x0007;
+  fxsave.reserved_2 = 0x5a5a;
+  fxsave.fpu_dp = 0xfedcba98;
+  fxsave.fpu_ds = 0x000f;
+  fxsave.reserved_3 = 0x5a5a;
+  fxsave.mxcsr = 0x1f80;
+  fxsave.mxcsr_mask = 0xffff;
+  SetX87Register(
+      &fxsave.st_mm[0].st, kExponentNormal, true, kFractionAllZero);  // valid
+  SetX87Register(
+      &fxsave.st_mm[1].st, kExponentAllZero, false, kFractionAllZero);  // zero
+  SetX87Register(
+      &fxsave.st_mm[2].st, kExponentAllOne, true, kFractionAllZero);  // spec.
+  SetX87Register(
+      &fxsave.st_mm[3].st, kExponentAllOne, true, kFractionNormal);  // spec.
+  SetX87Register(
+      &fxsave.st_mm[4].st, kExponentAllZero, false, kFractionAllZero);
+  SetX87Register(
+      &fxsave.st_mm[5].st, kExponentAllZero, false, kFractionAllZero);
+  SetX87Register(
+      &fxsave.st_mm[6].st, kExponentAllZero, false, kFractionAllZero);
+  SetX87Register(
+      &fxsave.st_mm[7].st, kExponentNormal, true, kFractionNormal);  // valid
+  for (size_t index = 0; index < arraysize(fxsave.st_mm); ++index) {
+    memset(&fxsave.st_mm[index].st_reserved,
+           0x5a,
+           sizeof(fxsave.st_mm[index].st_reserved));
+  }
+  memset(&fxsave.xmm, 0x5a, sizeof(fxsave) - offsetof(decltype(fxsave), xmm));
+
+  CPUContextX86::Fsave fsave;
+  CPUContextX86::FxsaveToFsave(fxsave, &fsave);
+
+  // Everything should have come over from fxsave. Reserved fields should be
+  // zero.
+  EXPECT_EQ(fxsave.fcw, fsave.fcw);
+  EXPECT_EQ(0, fsave.reserved_1);
+  EXPECT_EQ(fxsave.fsw, fsave.fsw);
+  EXPECT_EQ(0, fsave.reserved_2);
+  EXPECT_EQ(0xfe90, fsave.ftw);  // FxsaveToFsaveTagWord
+  EXPECT_EQ(0, fsave.reserved_3);
+  EXPECT_EQ(fxsave.fpu_ip, fsave.fpu_ip);
+  EXPECT_EQ(fxsave.fpu_cs, fsave.fpu_cs);
+  EXPECT_EQ(fxsave.fop, fsave.fop);
+  EXPECT_EQ(fxsave.fpu_dp, fsave.fpu_dp);
+  EXPECT_EQ(fxsave.fpu_ds, fsave.fpu_ds);
+  EXPECT_EQ(0, fsave.reserved_4);
+  for (size_t index = 0; index < arraysize(fsave.st); ++index) {
+    EXPECT_EQ(BytesToHexString(fxsave.st_mm[index].st,
+                               arraysize(fxsave.st_mm[index].st)),
+              BytesToHexString(fsave.st[index], arraysize(fsave.st[index])))
+        << "index " << index;
+  }
+}
+
+TEST(CPUContextX86, FsaveToFxsave) {
+  // Establish a somewhat plausible fsave state. Use nonzero values for
+  // reserved fields.
+  CPUContextX86::Fsave fsave;
+  fsave.fcw = 0x0300;  // unmask exceptions, 64-bit precision, round to nearest
+  fsave.reserved_1 = 0xa5a5;
+  fsave.fsw = 2 << 11;  // top = 2: logical 0-7 maps to physical 2-7, 0-1
+  fsave.reserved_2 = 0xa5a5;
+  fsave.ftw = 0xa9ff;  // physical 0-3 (logical 6-7, 0-1) empty; physical 4
+                       // (logical 2) zero; physical 5-7 (logical 3-5) special
+  fsave.reserved_3 = 0xa5a5;
+  fsave.fpu_ip = 0x456789ab;
+  fsave.fpu_cs = 0x1013;
+  fsave.fop = 0x01ee;  // fldz
+  fsave.fpu_dp = 0x0123cdef;
+  fsave.fpu_ds = 0x2017;
+  fsave.reserved_4 = 0xa5a5;
+  SetX87Register(&fsave.st[0], kExponentAllZero, false, kFractionNormal);
+  SetX87Register(&fsave.st[1], kExponentAllZero, true, kFractionNormal);
+  SetX87Register(
+      &fsave.st[2], kExponentAllZero, false, kFractionAllZero);  // zero
+  SetX87Register(
+      &fsave.st[3], kExponentAllZero, true, kFractionAllZero);  // spec.
+  SetX87Register(
+      &fsave.st[4], kExponentAllZero, false, kFractionNormal);  // spec.
+  SetX87Register(
+      &fsave.st[5], kExponentAllZero, true, kFractionNormal);  // spec.
+  SetX87Register(&fsave.st[6], kExponentAllZero, false, kFractionAllZero);
+  SetX87Register(&fsave.st[7], kExponentAllZero, true, kFractionAllZero);
+
+  CPUContextX86::Fxsave fxsave;
+  CPUContextX86::FsaveToFxsave(fsave, &fxsave);
+
+  // Everything in fsave should have come over from there. Fields not present in
+  // fsave and reserved fields should be zero.
+  EXPECT_EQ(fsave.fcw, fxsave.fcw);
+  EXPECT_EQ(fsave.fsw, fxsave.fsw);
+  EXPECT_EQ(0xf0, fxsave.ftw);  // FsaveToFxsaveTagWord
+  EXPECT_EQ(0, fxsave.reserved_1);
+  EXPECT_EQ(fsave.fop, fxsave.fop);
+  EXPECT_EQ(fsave.fpu_ip, fxsave.fpu_ip);
+  EXPECT_EQ(fsave.fpu_cs, fxsave.fpu_cs);
+  EXPECT_EQ(0, fxsave.reserved_2);
+  EXPECT_EQ(fsave.fpu_dp, fxsave.fpu_dp);
+  EXPECT_EQ(fsave.fpu_ds, fxsave.fpu_ds);
+  EXPECT_EQ(0, fxsave.reserved_3);
+  EXPECT_EQ(0u, fxsave.mxcsr);
+  EXPECT_EQ(0u, fxsave.mxcsr_mask);
+  for (size_t index = 0; index < arraysize(fxsave.st_mm); ++index) {
+    EXPECT_EQ(BytesToHexString(fsave.st[index], arraysize(fsave.st[index])),
+              BytesToHexString(fxsave.st_mm[index].st,
+                               arraysize(fxsave.st_mm[index].st)))
+        << "index " << index;
+    EXPECT_EQ(std::string(arraysize(fxsave.st_mm[index].st_reserved) * 2, '0'),
+              BytesToHexString(fxsave.st_mm[index].st_reserved,
+                               arraysize(fxsave.st_mm[index].st_reserved)))
+        << "index " << index;
+  }
+  size_t unused_len = sizeof(fxsave) - offsetof(decltype(fxsave), xmm);
+  EXPECT_EQ(std::string(unused_len * 2, '0'),
+            BytesToHexString(fxsave.xmm, unused_len));
+
+  // Since the fsave format is a subset of the fxsave format, fsave-fxsave-fsave
+  // should round-trip cleanly.
+  CPUContextX86::Fsave fsave_2;
+  CPUContextX86::FxsaveToFsave(fxsave, &fsave_2);
+
+  // Clear the reserved fields in the original fsave structure, since they’re
+  // expected to be clear in the copy.
+  fsave.reserved_1 = 0;
+  fsave.reserved_2 = 0;
+  fsave.reserved_3 = 0;
+  fsave.reserved_4 = 0;
+  EXPECT_EQ(0, memcmp(&fsave, &fsave_2, sizeof(fsave)));
 }
 
 TEST(CPUContextX86, FxsaveToFsaveTagWord) {
@@ -93,40 +245,52 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
   uint16_t fsw = 0 << 11;  // top = 0: logical 0-7 maps to physical 0-7
   uint8_t fxsave_tag = 0x0f;  // physical 4-7 (logical 4-7) empty
   CPUContextX86::X87OrMMXRegister st_mm[8];
-  SetX87Register(&st_mm[0], kExponentNormal, false, kFractionNormal);  // spec.
-  SetX87Register(&st_mm[1], kExponentNormal, true, kFractionNormal);  // valid
-  SetX87Register(&st_mm[2], kExponentNormal, false, kFractionAllZero);  // spec.
-  SetX87Register(&st_mm[3], kExponentNormal, true, kFractionAllZero);  // valid
-  SetX87Register(&st_mm[4], kExponentNormal, false, kFractionNormal);
-  SetX87Register(&st_mm[5], kExponentNormal, true, kFractionNormal);
-  SetX87Register(&st_mm[6], kExponentNormal, false, kFractionAllZero);
-  SetX87Register(&st_mm[7], kExponentNormal, true, kFractionAllZero);
+  SetX87OrMMXRegister(
+      &st_mm[0], kExponentNormal, false, kFractionNormal);  // spec.
+  SetX87OrMMXRegister(
+      &st_mm[1], kExponentNormal, true, kFractionNormal);  // valid
+  SetX87OrMMXRegister(
+      &st_mm[2], kExponentNormal, false, kFractionAllZero);  // spec.
+  SetX87OrMMXRegister(
+      &st_mm[3], kExponentNormal, true, kFractionAllZero);  // valid
+  SetX87OrMMXRegister(&st_mm[4], kExponentNormal, false, kFractionNormal);
+  SetX87OrMMXRegister(&st_mm[5], kExponentNormal, true, kFractionNormal);
+  SetX87OrMMXRegister(&st_mm[6], kExponentNormal, false, kFractionAllZero);
+  SetX87OrMMXRegister(&st_mm[7], kExponentNormal, true, kFractionAllZero);
   EXPECT_EQ(0xff22,
             CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
 
   fsw = 2 << 11;  // top = 2: logical 0-7 maps to physical 2-7, 0-1
   fxsave_tag = 0xf0;  // physical 0-3 (logical 6-7, 0-1) empty
-  SetX87Register(&st_mm[0], kExponentAllZero, false, kFractionNormal);
-  SetX87Register(&st_mm[1], kExponentAllZero, true, kFractionNormal);
-  SetX87Register(&st_mm[2], kExponentAllZero, false, kFractionAllZero);  // zero
-  SetX87Register(&st_mm[3], kExponentAllZero, true, kFractionAllZero);  // spec.
-  SetX87Register(&st_mm[4], kExponentAllZero, false, kFractionNormal);  // spec.
-  SetX87Register(&st_mm[5], kExponentAllZero, true, kFractionNormal);  // spec.
-  SetX87Register(&st_mm[6], kExponentAllZero, false, kFractionAllZero);
-  SetX87Register(&st_mm[7], kExponentAllZero, true, kFractionAllZero);
+  SetX87OrMMXRegister(&st_mm[0], kExponentAllZero, false, kFractionNormal);
+  SetX87OrMMXRegister(&st_mm[1], kExponentAllZero, true, kFractionNormal);
+  SetX87OrMMXRegister(
+      &st_mm[2], kExponentAllZero, false, kFractionAllZero);  // zero
+  SetX87OrMMXRegister(
+      &st_mm[3], kExponentAllZero, true, kFractionAllZero);  // spec.
+  SetX87OrMMXRegister(
+      &st_mm[4], kExponentAllZero, false, kFractionNormal);  // spec.
+  SetX87OrMMXRegister(
+      &st_mm[5], kExponentAllZero, true, kFractionNormal);  // spec.
+  SetX87OrMMXRegister(&st_mm[6], kExponentAllZero, false, kFractionAllZero);
+  SetX87OrMMXRegister(&st_mm[7], kExponentAllZero, true, kFractionAllZero);
   EXPECT_EQ(0xa9ff,
             CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
 
   fsw = 5 << 11;  // top = 5: logical 0-7 maps to physical 5-7, 0-4
   fxsave_tag = 0x5a;  // physical 0, 2, 5, and 7 (logical 5, 0, 2, and 3) empty
-  SetX87Register(&st_mm[0], kExponentAllOne, false, kFractionNormal);
-  SetX87Register(&st_mm[1], kExponentAllOne, true, kFractionNormal);  // spec.
-  SetX87Register(&st_mm[2], kExponentAllOne, false, kFractionAllZero);
-  SetX87Register(&st_mm[3], kExponentAllOne, true, kFractionAllZero);
-  SetX87Register(&st_mm[4], kExponentAllOne, false, kFractionNormal);  // spec.
-  SetX87Register(&st_mm[5], kExponentAllOne, true, kFractionNormal);
-  SetX87Register(&st_mm[6], kExponentAllOne, false, kFractionAllZero);  // spec.
-  SetX87Register(&st_mm[7], kExponentAllOne, true, kFractionAllZero);  // spec.
+  SetX87OrMMXRegister(&st_mm[0], kExponentAllOne, false, kFractionNormal);
+  SetX87OrMMXRegister(
+      &st_mm[1], kExponentAllOne, true, kFractionNormal);  // spec.
+  SetX87OrMMXRegister(&st_mm[2], kExponentAllOne, false, kFractionAllZero);
+  SetX87OrMMXRegister(&st_mm[3], kExponentAllOne, true, kFractionAllZero);
+  SetX87OrMMXRegister(
+      &st_mm[4], kExponentAllOne, false, kFractionNormal);  // spec.
+  SetX87OrMMXRegister(&st_mm[5], kExponentAllOne, true, kFractionNormal);
+  SetX87OrMMXRegister(
+      &st_mm[6], kExponentAllOne, false, kFractionAllZero);  // spec.
+  SetX87OrMMXRegister(
+      &st_mm[7], kExponentAllOne, true, kFractionAllZero);  // spec.
   EXPECT_EQ(0xeebb,
             CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
 
@@ -134,14 +298,19 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
   // register file.
   fsw = 1 << 11;  // top = 1: logical 0-7 maps to physical 1-7, 0
   fxsave_tag = 0x1f;  // physical 5-7 (logical 4-6) empty
-  SetX87Register(&st_mm[0], kExponentNormal, true, kFractionAllZero);  // valid
-  SetX87Register(&st_mm[1], kExponentAllZero, false, kFractionAllZero);  // zero
-  SetX87Register(&st_mm[2], kExponentAllOne, true, kFractionAllZero);  // spec.
-  SetX87Register(&st_mm[3], kExponentAllOne, true, kFractionNormal);  // spec.
-  SetX87Register(&st_mm[4], kExponentAllZero, false, kFractionAllZero);
-  SetX87Register(&st_mm[5], kExponentAllZero, false, kFractionAllZero);
-  SetX87Register(&st_mm[6], kExponentAllZero, false, kFractionAllZero);
-  SetX87Register(&st_mm[7], kExponentNormal, true, kFractionNormal);  // valid
+  SetX87OrMMXRegister(
+      &st_mm[0], kExponentNormal, true, kFractionAllZero);  // valid
+  SetX87OrMMXRegister(
+      &st_mm[1], kExponentAllZero, false, kFractionAllZero);  // zero
+  SetX87OrMMXRegister(
+      &st_mm[2], kExponentAllOne, true, kFractionAllZero);  // spec.
+  SetX87OrMMXRegister(
+      &st_mm[3], kExponentAllOne, true, kFractionNormal);  // spec.
+  SetX87OrMMXRegister(&st_mm[4], kExponentAllZero, false, kFractionAllZero);
+  SetX87OrMMXRegister(&st_mm[5], kExponentAllZero, false, kFractionAllZero);
+  SetX87OrMMXRegister(&st_mm[6], kExponentAllZero, false, kFractionAllZero);
+  SetX87OrMMXRegister(
+      &st_mm[7], kExponentNormal, true, kFractionNormal);  // valid
   EXPECT_EQ(0xfe90,
             CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
 
@@ -149,7 +318,7 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
   fsw = 0 << 11;  // top = 0: logical 0-7 maps to physical 0-7
   fxsave_tag = 0xff;  // nothing empty
   for (size_t index = 0; index < arraysize(st_mm); ++index) {
-    SetX87Register(&st_mm[index], kExponentNormal, true, kFractionAllZero);
+    SetX87OrMMXRegister(&st_mm[index], kExponentNormal, true, kFractionAllZero);
   }
   EXPECT_EQ(0, CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
 
@@ -159,6 +328,17 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
   fxsave_tag = 0;  // everything empty
   EXPECT_EQ(0xffff,
             CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
+}
+
+TEST(CPUContextX86, FsaveToFxsaveTagWord) {
+  // The register sets that these x87 tag words might apply to are given in the
+  // FxsaveToFsaveTagWord test above.
+  EXPECT_EQ(0x0f, CPUContextX86::FsaveToFxsaveTagWord(0xff22));
+  EXPECT_EQ(0xf0, CPUContextX86::FsaveToFxsaveTagWord(0xa9ff));
+  EXPECT_EQ(0x5a, CPUContextX86::FsaveToFxsaveTagWord(0xeebb));
+  EXPECT_EQ(0x1f, CPUContextX86::FsaveToFxsaveTagWord(0xfe90));
+  EXPECT_EQ(0xff, CPUContextX86::FsaveToFxsaveTagWord(0x0000));
+  EXPECT_EQ(0x00, CPUContextX86::FsaveToFxsaveTagWord(0xffff));
 }
 
 }  // namespace

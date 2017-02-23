@@ -13,16 +13,12 @@
 # limitations under the License.
 
 {
-  # Crashpad can obtain dependencies in three different ways, directed by the
-  # crashpad_standalone GYP variable. It may have these values:
+  # Crashpad’s GYP build can obtain dependencies in two different ways, directed
+  # by the crashpad_standalone GYP variable. It may have these values:
   #   standalone
   #     A “standalone” Crashpad build, where the dependencies are in the
   #     Crashpad tree. third_party/mini_chromium and third_party/gtest provide
   #     the base and gtest libraries.
-  #   chromium
-  #     An in-Chromium build, where Crashpad is within the Chromium tree.
-  #     Chromium provides its own base library and its copy of the gtest
-  #     library.
   #   external
   #     A build with external dependencies. mini_chromium provides the base
   #     library, but it’s located outside of the Crashpad tree, as is gtest.
@@ -30,13 +26,15 @@
   # In order for Crashpad’s .gyp files to reference the correct versions
   # depending on how dependencies are being provided, include this .gypi file
   # and reference the crashpad_dependencies variable.
+  #
+  # Note that Crashpad’s in-Chromium build uses GN instead of GYP, and
+  # Chromium’s GN build configures Crashpad to use Chromium’s own base library
+  # and its copy of the gtest library.
 
   'variables': {
-    # When building as a standalone project or with external dependencies,
-    # build/gyp_crashpad.py sets crashpad_dependencies to "standalone" or
-    # "external", and this % assignment will not override it. The variable will
-    # not be set by anything else when building as part of Chromium, so in that
-    # case, this will define it with value "chromium".
-    'crashpad_dependencies%': 'chromium',
+    # When with external dependencies, build/gyp_crashpad.py sets
+    # crashpad_dependencies to "external", and this % assignment will not
+    # override it.
+    'crashpad_dependencies%': 'standalone',
   },
 }

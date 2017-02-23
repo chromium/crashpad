@@ -14,20 +14,22 @@
 
 #include "util/thread/thread.h"
 
+#include <errno.h>
+
 #include "base/logging.h"
 
 namespace crashpad {
 
 void Thread::Start() {
   DCHECK(!platform_thread_);
-  int rv = pthread_create(&platform_thread_, nullptr, ThreadEntryThunk, this);
-  PCHECK(0 == rv);
+  errno = pthread_create(&platform_thread_, nullptr, ThreadEntryThunk, this);
+  PCHECK(errno == 0) << "pthread_create";
 }
 
 void Thread::Join() {
   DCHECK(platform_thread_);
-  int rv = pthread_join(platform_thread_, nullptr);
-  PCHECK(0 == rv);
+  errno = pthread_join(platform_thread_, nullptr);
+  PCHECK(errno == 0) << "pthread_join";
   platform_thread_ = 0;
 }
 

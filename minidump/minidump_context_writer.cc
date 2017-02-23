@@ -14,6 +14,8 @@
 
 #include "minidump/minidump_context_writer.h"
 
+#include <windows.h>
+#include <dbghelp.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -23,6 +25,28 @@
 #include "util/file/file_writer.h"
 
 namespace crashpad {
+
+namespace {
+
+// Sanity-check complex structures to ensure interoperability.
+static_assert(sizeof(MinidumpContextX86) == 716, "MinidumpContextX86 size");
+static_assert(sizeof(MinidumpContextAMD64) == 1232,
+              "MinidumpContextAMD64 size");
+
+// These structures can also be checked against definitions in the Windows SDK.
+#if defined(OS_WIN)
+#if defined(ARCH_CPU_X86_FAMILY)
+static_assert(sizeof(MinidumpContextX86) == sizeof(WOW64_CONTEXT),
+              "WOW64_CONTEXT size");
+#if defined(ARCH_CPU_X86)
+static_assert(sizeof(MinidumpContextX86) == sizeof(CONTEXT), "CONTEXT size");
+#elif defined(ARCH_CPU_X86_64)
+static_assert(sizeof(MinidumpContextAMD64) == sizeof(CONTEXT), "CONTEXT size");
+#endif
+#endif  // ARCH_CPU_X86_FAMILY
+#endif  // OS_WIN
+
+}  // namespace
 
 MinidumpContextWriter::~MinidumpContextWriter() {
 }
@@ -89,28 +113,11 @@ void MinidumpContextX86Writer::InitializeFromSnapshot(
   context_.dr6 = context_snapshot->dr6;
   context_.dr7 = context_snapshot->dr7;
 
-  // The contents of context_.float_save effectively alias everything in
-  // context_.fxsave that’s related to x87 FPU state. context_.float_save
-  // doesn’t carry state specific to SSE (or later), such as mxcsr and the xmm
+  // The contents of context_.fsave effectively alias everything in
+  // context_.fxsave that’s related to x87 FPU state. context_.fsave doesn’t
+  // carry state specific to SSE (or later), such as mxcsr and the xmm
   // registers.
-  context_.float_save.control_word = context_snapshot->fxsave.fcw;
-  context_.float_save.status_word = context_snapshot->fxsave.fsw;
-  context_.float_save.tag_word =
-      CPUContextX86::FxsaveToFsaveTagWord(context_snapshot->fxsave.fsw,
-                                          context_snapshot->fxsave.ftw,
-                                          context_snapshot->fxsave.st_mm);
-  context_.float_save.error_offset = context_snapshot->fxsave.fpu_ip;
-  context_.float_save.error_selector = context_snapshot->fxsave.fpu_cs;
-  context_.float_save.data_offset = context_snapshot->fxsave.fpu_dp;
-  context_.float_save.data_selector = context_snapshot->fxsave.fpu_ds;
-
-  for (size_t index = 0, offset = 0;
-       index < arraysize(context_snapshot->fxsave.st_mm);
-       offset += sizeof(context_snapshot->fxsave.st_mm[index].st), ++index) {
-    memcpy(&context_.float_save.register_area[offset],
-           &context_snapshot->fxsave.st_mm[index].st,
-           sizeof(context_snapshot->fxsave.st_mm[index].st));
-  }
+  CPUContextX86::FxsaveToFsave(context_snapshot->fxsave, &context_.fsave);
 
   context_.gs = context_snapshot->gs;
   context_.fs = context_snapshot->fs;

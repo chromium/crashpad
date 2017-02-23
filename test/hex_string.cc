@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/net/http_headers.h"
+#include "test/hex_string.h"
+
+#include "base/strings/stringprintf.h"
 
 namespace crashpad {
+namespace test {
 
-const char kContentType[] = "Content-Type";
-const char kContentLength[] = "Content-Length";
-const char kContentEncoding[] = "Content-Encoding";
+std::string BytesToHexString(const void* bytes, size_t length) {
+  const unsigned char* bytes_c = reinterpret_cast<const unsigned char*>(bytes);
 
+  std::string hex_string;
+  hex_string.reserve(length * 2);
+  for (size_t index = 0; index < length; ++index) {
+    hex_string.append(base::StringPrintf("%02x", bytes_c[index]));
+  }
+
+  return hex_string;
+}
+
+}  // namespace test
 }  // namespace crashpad

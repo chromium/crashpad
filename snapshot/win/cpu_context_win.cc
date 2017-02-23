@@ -24,16 +24,53 @@ namespace crashpad {
 
 namespace {
 
+// Validation for casts used with CPUContextX86::FsaveToFxsave().
+static_assert(sizeof(CPUContextX86::Fsave) ==
+                  offsetof(WOW64_FLOATING_SAVE_AREA, Cr0NpxState),
+              "WoW64 fsave types must be equivalent");
+#if defined(ARCH_CPU_X86)
+static_assert(sizeof(CPUContextX86::Fsave) ==
+                  offsetof(FLOATING_SAVE_AREA, Spare0),
+              "fsave types must be equivalent");
+#endif  // ARCH_CPU_X86
+
+template <typename T>
+bool HasContextPart(const T& context, uint32_t bits) {
+  return (context.ContextFlags & bits) == bits;
+}
+
 template <class T>
 void CommonInitializeX86Context(const T& context, CPUContextX86* out) {
-  LOG_IF(ERROR, !(context.ContextFlags & WOW64_CONTEXT_i386))
-      << "non-x86 context";
+  // This function assumes that the WOW64_CONTEXT_* and x86 CONTEXT_* values
+  // for ContextFlags are identical. This can be tested when targeting 32-bit
+  // x86.
+#if defined(ARCH_CPU_X86)
+  static_assert(sizeof(CONTEXT) == sizeof(WOW64_CONTEXT),
+                "type mismatch: CONTEXT");
+#define ASSERT_WOW64_EQUIVALENT(x)                        \
+  do {                                                    \
+    static_assert(x == WOW64_##x, "value mismatch: " #x); \
+  } while (false)
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_i386);
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_i486);
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_CONTROL);
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_INTEGER);
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_SEGMENTS);
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_FLOATING_POINT);
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_DEBUG_REGISTERS);
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_EXTENDED_REGISTERS);
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_FULL);
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_ALL);
+  ASSERT_WOW64_EQUIVALENT(CONTEXT_XSTATE);
+#undef ASSERT_WOW64_EQUIVALENT
+#endif  // ARCH_CPU_X86
+
   memset(out, 0, sizeof(*out));
 
-  // We assume in this function that the WOW64_CONTEXT_* and x86 CONTEXT_*
-  // values for ContextFlags are identical.
+  LOG_IF(ERROR, !HasContextPart(context, WOW64_CONTEXT_i386))
+      << "non-x86 context";
 
-  if (context.ContextFlags & WOW64_CONTEXT_CONTROL) {
+  if (HasContextPart(context, WOW64_CONTEXT_CONTROL)) {
     out->ebp = context.Ebp;
     out->eip = context.Eip;
     out->cs = static_cast<uint16_t>(context.SegCs);
@@ -42,7 +79,7 @@ void CommonInitializeX86Context(const T& context, CPUContextX86* out) {
     out->ss = static_cast<uint16_t>(context.SegSs);
   }
 
-  if (context.ContextFlags & WOW64_CONTEXT_INTEGER) {
+  if (HasContextPart(context, WOW64_CONTEXT_INTEGER)) {
     out->eax = context.Eax;
     out->ebx = context.Ebx;
     out->ecx = context.Ecx;
@@ -51,32 +88,38 @@ void CommonInitializeX86Context(const T& context, CPUContextX86* out) {
     out->esi = context.Esi;
   }
 
-  if (context.ContextFlags & WOW64_CONTEXT_SEGMENTS) {
+  if (HasContextPart(context, WOW64_CONTEXT_SEGMENTS)) {
     out->ds = static_cast<uint16_t>(context.SegDs);
     out->es = static_cast<uint16_t>(context.SegEs);
     out->fs = static_cast<uint16_t>(context.SegFs);
     out->gs = static_cast<uint16_t>(context.SegGs);
   }
 
-  if (context.ContextFlags & WOW64_CONTEXT_DEBUG_REGISTERS) {
+  if (HasContextPart(context, WOW64_CONTEXT_DEBUG_REGISTERS)) {
     out->dr0 = context.Dr0;
     out->dr1 = context.Dr1;
     out->dr2 = context.Dr2;
     out->dr3 = context.Dr3;
+
     // DR4 and DR5 are obsolete synonyms for DR6 and DR7, see
     // https://en.wikipedia.org/wiki/X86_debug_register.
     out->dr4 = context.Dr6;
     out->dr5 = context.Dr7;
+
     out->dr6 = context.Dr6;
     out->dr7 = context.Dr7;
   }
 
-  if (context.ContextFlags & WOW64_CONTEXT_EXTENDED_REGISTERS) {
+  if (HasContextPart(context, WOW64_CONTEXT_EXTENDED_REGISTERS)) {
     static_assert(sizeof(out->fxsave) == sizeof(context.ExtendedRegisters),
-                  "types must be equivalent");
+                  "fxsave types must be equivalent");
     memcpy(&out->fxsave, &context.ExtendedRegisters, sizeof(out->fxsave));
-  } else if (context.ContextFlags & WOW64_CONTEXT_FLOATING_POINT) {
-    CHECK(false) << "TODO(scottmg): extract x87 data";
+  } else if (HasContextPart(context, WOW64_CONTEXT_FLOATING_POINT)) {
+    // The static_assert that validates this cast can’t be here because it
+    // relies on field names that vary based on the template parameter.
+    CPUContextX86::FsaveToFxsave(
+        *reinterpret_cast<const CPUContextX86::Fsave*>(&context.FloatSave),
+        &out->fxsave);
   }
 }
 
@@ -91,9 +134,9 @@ void InitializeX86Context(const WOW64_CONTEXT& context, CPUContextX86* out) {
 void InitializeX64Context(const CONTEXT& context, CPUContextX86_64* out) {
   memset(out, 0, sizeof(*out));
 
-  LOG_IF(ERROR, !(context.ContextFlags & CONTEXT_AMD64)) << "non-x64 context";
+  LOG_IF(ERROR, !HasContextPart(context, CONTEXT_AMD64)) << "non-x64 context";
 
-  if (context.ContextFlags & CONTEXT_CONTROL) {
+  if (HasContextPart(context, CONTEXT_CONTROL)) {
     out->cs = context.SegCs;
     out->rflags = context.EFlags;
     out->rip = context.Rip;
@@ -101,7 +144,7 @@ void InitializeX64Context(const CONTEXT& context, CPUContextX86_64* out) {
     // SegSs ignored.
   }
 
-  if (context.ContextFlags & CONTEXT_INTEGER) {
+  if (HasContextPart(context, CONTEXT_INTEGER)) {
     out->rax = context.Rax;
     out->rbx = context.Rbx;
     out->rcx = context.Rcx;
@@ -119,30 +162,32 @@ void InitializeX64Context(const CONTEXT& context, CPUContextX86_64* out) {
     out->r15 = context.R15;
   }
 
-  if (context.ContextFlags & CONTEXT_SEGMENTS) {
+  if (HasContextPart(context, CONTEXT_SEGMENTS)) {
     out->fs = context.SegFs;
     out->gs = context.SegGs;
     // SegDs ignored.
     // SegEs ignored.
   }
 
-  if (context.ContextFlags & CONTEXT_DEBUG_REGISTERS) {
+  if (HasContextPart(context, CONTEXT_DEBUG_REGISTERS)) {
     out->dr0 = context.Dr0;
     out->dr1 = context.Dr1;
     out->dr2 = context.Dr2;
     out->dr3 = context.Dr3;
+
     // DR4 and DR5 are obsolete synonyms for DR6 and DR7, see
     // https://en.wikipedia.org/wiki/X86_debug_register.
     out->dr4 = context.Dr6;
     out->dr5 = context.Dr7;
+
     out->dr6 = context.Dr6;
     out->dr7 = context.Dr7;
   }
 
-  if (context.ContextFlags & CONTEXT_FLOATING_POINT) {
+  if (HasContextPart(context, CONTEXT_FLOATING_POINT)) {
     static_assert(sizeof(out->fxsave) == sizeof(context.FltSave),
                   "types must be equivalent");
-    memcpy(&out->fxsave, &context.FltSave.ControlWord, sizeof(out->fxsave));
+    memcpy(&out->fxsave, &context.FltSave, sizeof(out->fxsave));
   }
 }
 

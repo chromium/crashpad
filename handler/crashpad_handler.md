@@ -144,6 +144,14 @@ establish the Crashpad client environment before running a program.
    throttled to one per hour. Using this option disables that behavior, and
    Crashpad will attempt to upload all captured reports.
 
+ * **--no-upload-gzip**
+
+   Do not use `gzip` compression for uploaded crash reports. Normally, the
+   entire request body is compressed into a `gzip` stream and transmitted with
+   `Content-Encoding: gzip`. This option disables compression, and is intended
+   for use with collection servers that don’t accept uploads compressed in this
+   way.
+
  * **--pipe-name**=_PIPE_
 
    Listen on the given pipe name for connections from clients. _PIPE_ must be of
