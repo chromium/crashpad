@@ -87,9 +87,9 @@ Inheritance diagram for crashpad::CrashReportUploadThread:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af19f2a8b4a64741b37c6aeeb319a7a6c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportUploadThread.html#af19f2a8b4a64741b37c6aeeb319a7a6c">CrashReportUploadThread</a> (<a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> *database, const std::string &amp;url, bool rate_limit)</td></tr>
-<tr class="memdesc:af19f2a8b4a64741b37c6aeeb319a7a6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new object.  <a href="#af19f2a8b4a64741b37c6aeeb319a7a6c">More...</a><br /></td></tr>
-<tr class="separator:af19f2a8b4a64741b37c6aeeb319a7a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acab00e743e74ee5403a86cf3f3280591"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportUploadThread.html#acab00e743e74ee5403a86cf3f3280591">CrashReportUploadThread</a> (<a class="el" href="classcrashpad_1_1CrashReportDatabase.html">CrashReportDatabase</a> *database, const std::string &amp;url, bool rate_limit, bool upload_gzip)</td></tr>
+<tr class="memdesc:acab00e743e74ee5403a86cf3f3280591"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new object.  <a href="#acab00e743e74ee5403a86cf3f3280591">More...</a><br /></td></tr>
+<tr class="separator:acab00e743e74ee5403a86cf3f3280591"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad59667e3d1c518734c9cbb1741a19c0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1CrashReportUploadThread.html#ad59667e3d1c518734c9cbb1741a19c0e">Start</a> ()</td></tr>
 <tr class="memdesc:ad59667e3d1c518734c9cbb1741a19c0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a dedicated upload thread, which executes ThreadMain().  <a href="#ad59667e3d1c518734c9cbb1741a19c0e">More...</a><br /></td></tr>
 <tr class="separator:ad59667e3d1c518734c9cbb1741a19c0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -105,8 +105,8 @@ Public Member Functions</h2></td></tr>
 <p>A producer of crash reports should notify an object of this class that a new report has been added to the database by calling <a class="el" href="classcrashpad_1_1CrashReportUploadThread.html#affea498106bb97435e17d109dfdbfded" title="Informs the upload thread that a new pending report has been added to the database. ">ReportPending()</a>.</p>
 <p>Independently of being triggered by <a class="el" href="classcrashpad_1_1CrashReportUploadThread.html#affea498106bb97435e17d109dfdbfded" title="Informs the upload thread that a new pending report has been added to the database. ">ReportPending()</a>, objects of this class periodically examine the database for pending reports. This allows failed upload attempts for reports left in the pending state to be retried. It also catches reports that are added without a <a class="el" href="classcrashpad_1_1CrashReportUploadThread.html#affea498106bb97435e17d109dfdbfded" title="Informs the upload thread that a new pending report has been added to the database. ">ReportPending()</a> signal being caught. This may happen if crash reports are added to the database by other processes. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af19f2a8b4a64741b37c6aeeb319a7a6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af19f2a8b4a64741b37c6aeeb319a7a6c">&sect;&nbsp;</a></span>CrashReportUploadThread()</h2>
+<a id="acab00e743e74ee5403a86cf3f3280591"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acab00e743e74ee5403a86cf3f3280591">&sect;&nbsp;</a></span>CrashReportUploadThread()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -127,7 +127,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>rate_limit</em>&#160;</td>
+          <td class="paramname"><em>rate_limit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>upload_gzip</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -143,6 +149,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">database</td><td>The database to upload crash reports from. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">url</td><td>The URL of the server to upload crash reports to. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">rate_limit</td><td>Whether uploads should be throttled to a (currently hardcoded) rate. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">upload_gzip</td><td>Whether uploads should use <code>gzip</code> compression. </td></tr>
   </table>
   </dd>
 </dl>

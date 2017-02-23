@@ -178,6 +178,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileWriterInterface.html">FileWriterInterface</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An interface to write to files and other file-like objects with semantics matching the underlying platform (POSIX or Windows).  <a href="classcrashpad_1_1FileWriterInterface.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1GzipHTTPBodyStream.html">GzipHTTPBodyStream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An implementation of <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> that <code>gzip</code>-compresses another <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a>.  <a href="classcrashpad_1_1GzipHTTPBodyStream.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1HandleSnapshot.html">HandleSnapshot</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPBodyStream.html">HTTPBodyStream</a></td></tr>
@@ -401,6 +404,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unioncrashpad_1_1ServerToClientMessage.html">ServerToClientMessage</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The response sent back to the client via <a class="el" href="namespacecrashpad.html#a638d7916642f81df8063d300f08ff2ca" title="Connect over the given pipe_name, passing message to the server, storing the server&#39;s reply into resp...">SendToCrashHandlerServer()</a>.  <a href="unioncrashpad_1_1ServerToClientMessage.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1SessionEndWatcher.html">SessionEndWatcher</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a hidden window and waits for a <code>WM_ENDSESSION</code> message, indicating that the session is ending and the application should terminate.  <a href="classcrashpad_1_1SessionEndWatcher.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Settings.html">Settings</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An interface for accessing and modifying the settings of a <a class="el" href="classcrashpad_1_1CrashReportDatabase.html" title="An interface for managing a collection of crash report files and metadata associated with the crash r...">CrashReportDatabase</a>.  <a href="classcrashpad_1_1Settings.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -591,12 +597,12 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a589b4d9bd6f2233b67148ab6793c3c13"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a589b4d9bd6f2233b67148ab6793c3c13">XattrStatus</a> <tr class="memdesc:a589b4d9bd6f2233b67148ab6793c3c13"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result code for a ReadXattr operation.  <a href="namespacecrashpad.html#a589b4d9bd6f2233b67148ab6793c3c13">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a589b4d9bd6f2233b67148ab6793c3c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c82d3742b041daf266c44df253ef02d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: mach_msg_timeout_t <tr class="memdesc:a9c82d3742b041daf266c44df253ef02d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <code>mach_msg_timeout_t</code> values.  <a href="namespacecrashpad.html#a9c82d3742b041daf266c44df253ef02d">More...</a><br /></td></tr>
+<tr class="memitem:a0720c6dd92c22f4946aeeb17d638f5ab"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: mach_msg_timeout_t <tr class="memdesc:a0720c6dd92c22f4946aeeb17d638f5ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <code>mach_msg_timeout_t</code> values.  <a href="namespacecrashpad.html#a0720c6dd92c22f4946aeeb17d638f5ab">More...</a><br /></td></tr>
 </td></tr>
-<tr class="separator:a9c82d3742b041daf266c44df253ef02d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a163a3ceac0adcb2419bb8d97e1425b94"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: MachMessageDeadline <tr class="memdesc:a163a3ceac0adcb2419bb8d97e1425b94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> values.  <a href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94">More...</a><br /></td></tr>
+<tr class="separator:a0720c6dd92c22f4946aeeb17d638f5ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a124c0056f68c3859092b317f486fae9c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: MachMessageDeadline <tr class="memdesc:a124c0056f68c3859092b317f486fae9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> values.  <a href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9c">More...</a><br /></td></tr>
 </td></tr>
-<tr class="separator:a163a3ceac0adcb2419bb8d97e1425b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a124c0056f68c3859092b317f486fae9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7856b82b71167792ea6103debb5105ed"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed">SymbolicConstantToStringOptionBits</a> <tr class="memdesc:a7856b82b71167792ea6103debb5105ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for various <code>*ToString</code> functions in <code>symbolic_constants_*</code> files.  <a href="namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a7856b82b71167792ea6103debb5105ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -606,15 +612,15 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a3b405c19a5787fabcfba96001d49f292"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">TriState</a> : uint8_t <tr class="memdesc:a3b405c19a5787fabcfba96001d49f292"><td class="mdescLeft">&#160;</td><td class="mdescRight">A tri-state value that can be unset, on, or off.  <a href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a3b405c19a5787fabcfba96001d49f292"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad189907e982265e173839f234d7a095b"><td class="memItemLeft" align="right" valign="top"><a id="ad189907e982265e173839f234d7a095b"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:ad189907e982265e173839f234d7a095b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9db1ed26b36a3dd229fb4e8411340eee"><td class="memItemLeft" align="right" valign="top"><a id="a9db1ed26b36a3dd229fb4e8411340eee"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
 <tr class="separator:a9db1ed26b36a3dd229fb4e8411340eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1f536a40ddc32523fde6ec2b242f569"><td class="memItemLeft" align="right" valign="top"><a id="ae1f536a40ddc32523fde6ec2b242f569"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:ae1f536a40ddc32523fde6ec2b242f569"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf909fcc58999f95ab1a2d485a3b884f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">TerminationCodes</a> : unsigned int <tr class="memdesc:acf909fcc58999f95ab1a2d485a3b884f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crashpad-specific codes that are used as arguments to <code>TerminateProcess()</code> in unusual circumstances.  <a href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:acf909fcc58999f95ab1a2d485a3b884f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedb97baa1482a3cfe007a39deb7a6be2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:aedb97baa1482a3cfe007a39deb7a6be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24b09ceb3508dd862a91ce02f0583ae8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a24b09ceb3508dd862a91ce02f0583ae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -882,6 +888,12 @@ template&lt;typename To , typename From &gt; </td></tr>
 <tr class="memitem:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ab15d0aff86a0aafe6f33cbd8913441c7">RandomString</a> ()</td></tr>
 <tr class="memdesc:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a random string.  <a href="#ab15d0aff86a0aafe6f33cbd8913441c7">More...</a><br /></td></tr>
 <tr class="separator:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9a547efca1b5ea53e95a3a12047c38a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af9a547efca1b5ea53e95a3a12047c38a">ZlibWindowBitsWithGzipWrapper</a> (int window_bits)</td></tr>
+<tr class="memdesc:af9a547efca1b5ea53e95a3a12047c38a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain a <em>window_bits</em> parameter to pass to <code>deflateInit2()</code> or <code>inflateInit2()</code> that specifies a <code>gzip</code> wrapper instead of the default zlib wrapper.  <a href="#af9a547efca1b5ea53e95a3a12047c38a">More...</a><br /></td></tr>
+<tr class="separator:af9a547efca1b5ea53e95a3a12047c38a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0634eb0299cf5b28f7a373454d97c51"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ae0634eb0299cf5b28f7a373454d97c51">ZlibErrorString</a> (int zr)</td></tr>
+<tr class="memdesc:ae0634eb0299cf5b28f7a373454d97c51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a string for an error received from the zlib library.  <a href="#ae0634eb0299cf5b28f7a373454d97c51">More...</a><br /></td></tr>
+<tr class="separator:ae0634eb0299cf5b28f7a373454d97c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e1b1c536af301cd418dad62348b1d29"><td class="memTemplParams" colspan="2">template&lt;typename Destination , typename Source &gt; </td></tr>
 <tr class="memitem:a6e1b1c536af301cd418dad62348b1d29"><td class="memTemplItemLeft" align="right" valign="top">Destination&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a6e1b1c536af301cd418dad62348b1d29">InRangeCast</a> (Source source, Destination default_value)</td></tr>
 <tr class="memdesc:a6e1b1c536af301cd418dad62348b1d29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts to a different type if it can be done without data loss, logging a warning message and returing a default value otherwise.  <a href="#a6e1b1c536af301cd418dad62348b1d29">More...</a><br /></td></tr>
@@ -1140,6 +1152,10 @@ const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a281b3c75cd8b0ae8ba3c9658a60bf2b3">kContentLength</a> [] = &quot;Content-Length&quot;</td></tr>
 <tr class="memdesc:a281b3c75cd8b0ae8ba3c9658a60bf2b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The header name <code>"Content-Length"</code>. <br /></td></tr>
 <tr class="separator:a281b3c75cd8b0ae8ba3c9658a60bf2b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eb387ab361a9f81c766833c066d4e8f"><td class="memItemLeft" align="right" valign="top"><a id="a9eb387ab361a9f81c766833c066d4e8f"></a>
+const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a9eb387ab361a9f81c766833c066d4e8f">kContentEncoding</a> [] = &quot;Content-Encoding&quot;</td></tr>
+<tr class="memdesc:a9eb387ab361a9f81c766833c066d4e8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The header name <code>"Content-Encoding"</code>. <br /></td></tr>
+<tr class="separator:a9eb387ab361a9f81c766833c066d4e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main namespace. </p>
@@ -1229,7 +1245,7 @@ template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
 </div><div class="memdoc">
 
 <p>The time before which a <a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> call should complete. </p>
-<p>A value of this type may be one of the special constants <a class="el" href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> or <a class="el" href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. Any other values should be produced by calling <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>.</p>
+<p>A value of this type may be one of the special constants <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> or <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. Any other values should be produced by calling <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>.</p>
 <p>Internally, these are currently specified on the same time base as <a class="el" href="namespacecrashpad.html#aa93af751a4a09c316fb3de1a90e03fe8" title="Returns the value of the system’s monotonic clock. ">ClockMonotonicNanoseconds()</a>, although this is an implementation detail. </p>
 
 </div>
@@ -1270,8 +1286,8 @@ template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="aedb97baa1482a3cfe007a39deb7a6be2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedb97baa1482a3cfe007a39deb7a6be2">&sect;&nbsp;</a></span>anonymous enum</h2>
+<a id="a24b09ceb3508dd862a91ce02f0583ae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24b09ceb3508dd862a91ce02f0583ae8">&sect;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1282,18 +1298,18 @@ template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aedb97baa1482a3cfe007a39deb7a6be2ae4f1a3b637ac392d76826131e72ac832"></a>kXPProcessAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>PROCESS_ALL_ACCESS</code>. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a24b09ceb3508dd862a91ce02f0583ae8ae4f1a3b637ac392d76826131e72ac832"></a>kXPProcessAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>PROCESS_ALL_ACCESS</code>. </p>
 <p>Requesting <code>PROCESS_ALL_ACCESS</code> with the value defined when building against a Vista+ SDK results in <code>ERROR_ACCESS_DENIED</code> when running on XP. See <a href="https://msdn.microsoft.com/en-ca/library/windows/desktop/ms684880.aspx">https://msdn.microsoft.com/en-ca/library/windows/desktop/ms684880.aspx</a> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aedb97baa1482a3cfe007a39deb7a6be2af4736ae0e9abf32de684ad33895eec0e"></a>kXPThreadAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>THREAD_ALL_ACCESS</code>. </p>
+<tr><td class="fieldname"><a id="a24b09ceb3508dd862a91ce02f0583ae8af4736ae0e9abf32de684ad33895eec0e"></a>kXPThreadAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>THREAD_ALL_ACCESS</code>. </p>
 <p>Requesting <code>THREAD_ALL_ACCESS</code> with the value defined when building against a Vista+ SDK results in <code>ERROR_ACCESS_DENIED</code> when running on XP. See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769.aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769.aspx</a> </p>
 </td></tr>
 </table>
 
 </div>
 </div>
-<a id="a9c82d3742b041daf266c44df253ef02d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c82d3742b041daf266c44df253ef02d">&sect;&nbsp;</a></span>anonymous enum</h2>
+<a id="a0720c6dd92c22f4946aeeb17d638f5ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0720c6dd92c22f4946aeeb17d638f5ab">&sect;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1306,16 +1322,16 @@ template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
 
 <p>Special constants used as <code>mach_msg_timeout_t</code> values. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a9c82d3742b041daf266c44df253ef02da15aaf8991271871ab08493449c00a048"></a>kMachMessageTimeoutNonblocking&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0720c6dd92c22f4946aeeb17d638f5aba15aaf8991271871ab08493449c00a048"></a>kMachMessageTimeoutNonblocking&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a9c82d3742b041daf266c44df253ef02daaf4f2c8a649ea6bcfe896e77c312315f"></a>kMachMessageTimeoutWaitIndefinitely&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
+<tr><td class="fieldname"><a id="a0720c6dd92c22f4946aeeb17d638f5abaaf4f2c8a649ea6bcfe896e77c312315f"></a>kMachMessageTimeoutWaitIndefinitely&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
 </td></tr>
 </table>
 
 </div>
 </div>
-<a id="a163a3ceac0adcb2419bb8d97e1425b94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a163a3ceac0adcb2419bb8d97e1425b94">&sect;&nbsp;</a></span>anonymous enum</h2>
+<a id="a124c0056f68c3859092b317f486fae9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a124c0056f68c3859092b317f486fae9c">&sect;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1328,9 +1344,9 @@ template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
 
 <p>Special constants used as <a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> values. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a163a3ceac0adcb2419bb8d97e1425b94a6461bf9de012b5f2305fb3da6d0f82d5"></a>kMachMessageDeadlineNonblocking&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should not block at all in its operation. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5"></a>kMachMessageDeadlineNonblocking&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should not block at all in its operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a163a3ceac0adcb2419bb8d97e1425b94a848a739b3c252f4565161a6bd3f070d6"></a>kMachMessageDeadlineWaitIndefinitely&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should wait indefinitely for the requested operation to complete. </p>
+<tr><td class="fieldname"><a id="a124c0056f68c3859092b317f486fae9ca848a739b3c252f4565161a6bd3f070d6"></a>kMachMessageDeadlineWaitIndefinitely&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should wait indefinitely for the requested operation to complete. </p>
 </td></tr>
 </table>
 
@@ -1553,7 +1569,7 @@ template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
 <p>The <code>gs</code>, <code>fs</code>, <code>es</code>, and <code>ds</code> fields are valid. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a2a503f0a39ec98188b60178edbc1fc55aab6d4add027b8667770e914b21e22471"></a>kMinidumpContextX86FloatingPoint&#160;</td><td class="fielddoc"><p>Indicates the validity of floating-point state (<code>CONTEXT_FLOATING_POINT</code>). </p>
-<p>The <code>float_save</code> field is valid. </p>
+<p>The <code>fsave</code> field is valid. The <code>float_save</code> field is included in this definition, but its members have no practical use asdie from <code>fsave</code>. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a2a503f0a39ec98188b60178edbc1fc55a9cab86cf2d37ab8bc0f6ec0fa9a1442e"></a>kMinidumpContextX86Debug&#160;</td><td class="fielddoc"><p>Indicates the validity of debug registers (<code>CONTEXT_DEBUG_REGISTERS</code>). </p>
 <p>The <code>dr0</code> through <code>dr3</code>, <code>dr6</code>, and <code>dr7</code> fields are valid. </p>
@@ -4398,7 +4414,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 <p>Computes the deadline for a specified timeout value. </p>
 <p>While deadlines exist on an absolute time scale, timeouts are relative. This function calculates the deadline as <em>timeout_ms</em> milliseconds after it executes.</p>
-<p>If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>, this function will return <a class="el" href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a9c82d3742b041daf266c44df253ef02daaf4f2c8a649ea6bcfe896e77c312315f" title="When passed to MachMessageDeadlineFromTimeout(), that function will return kMachMessageDeadlineWaitIn...">kMachMessageTimeoutWaitIndefinitely</a>, this function will return <a class="el" href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
+<p>If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>, this function will return <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a0720c6dd92c22f4946aeeb17d638f5abaaf4f2c8a649ea6bcfe896e77c312315f" title="When passed to MachMessageDeadlineFromTimeout(), that function will return kMachMessageDeadlineWaitIn...">kMachMessageTimeoutWaitIndefinitely</a>, this function will return <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
 
 </div>
 </div>
@@ -4542,7 +4558,7 @@ template&lt;typename Destination , typename Source &gt; </div>
     <tr><td class="paramdir">[in]</td><td class="paramname">receive_port</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">deadline</td><td>The time by which this call should complete. If the deadline is exceeded, this call will return <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">notify_port</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">run_even_if_expired</td><td>If <code>true</code>, a deadline that is expired when this function is called will be treated as though a deadline of <a class="el" href="namespacecrashpad.html#a163a3ceac0adcb2419bb8d97e1425b94a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> had been specified. When <code>false</code>, an expired deadline will result in a <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code> return value, even if the deadline is already expired when the function is called.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">run_even_if_expired</td><td>If <code>true</code>, a deadline that is expired when this function is called will be treated as though a deadline of <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> had been specified. When <code>false</code>, an expired deadline will result in a <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code> return value, even if the deadline is already expired when the function is called.</td></tr>
   </table>
   </dd>
 </dl>
@@ -6544,6 +6560,60 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the write was successful. <code>false</code> on error, with a message logged. </dd></dl>
+
+</div>
+</div>
+<a id="ae0634eb0299cf5b28f7a373454d97c51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0634eb0299cf5b28f7a373454d97c51">&sect;&nbsp;</a></span>ZlibErrorString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string crashpad::ZlibErrorString </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>zr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Formats a string for an error received from the zlib library. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">zr</td><td>A zlib result code, such as <code>Z_STREAM_ERROR</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A formatted string. </dd></dl>
+
+</div>
+</div>
+<a id="af9a547efca1b5ea53e95a3a12047c38a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9a547efca1b5ea53e95a3a12047c38a">&sect;&nbsp;</a></span>ZlibWindowBitsWithGzipWrapper()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int crashpad::ZlibWindowBitsWithGzipWrapper </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>window_bits</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Obtain a <em>window_bits</em> parameter to pass to <code>deflateInit2()</code> or <code>inflateInit2()</code> that specifies a <code>gzip</code> wrapper instead of the default zlib wrapper. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">window_bits</td><td>A <em>window_bits</em> value that only specifies the base-2 logarithm of the deflate sliding window size.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><em>window_bits</em> adjusted to specify a <code>gzip</code> wrapper, to be passed to <code>deflateInit2()</code> or <code>inflateInit2()</code>. </dd></dl>
 
 </div>
 </div>

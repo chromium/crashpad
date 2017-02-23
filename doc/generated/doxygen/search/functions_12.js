@@ -60,6 +60,7 @@ var searchData=
   ['setfiletypeandsubtype',['SetFileTypeAndSubtype',['../classcrashpad_1_1MinidumpModuleWriter.html#af15c9e2a1ca9f08067c3d4291c8621a3',1,'crashpad::MinidumpModuleWriter']]],
   ['setfileversion',['SetFileVersion',['../classcrashpad_1_1MinidumpModuleWriter.html#a6975049919b825e6e3e36e5b3988f587',1,'crashpad::MinidumpModuleWriter']]],
   ['setformdata',['SetFormData',['../classcrashpad_1_1HTTPMultipartBuilder.html#a3c51d6649d19f1e5d39b787f18dc2d06',1,'crashpad::HTTPMultipartBuilder']]],
+  ['setgzipenabled',['SetGzipEnabled',['../classcrashpad_1_1HTTPMultipartBuilder.html#a773ca9efe15389e2036e01de59d431e3',1,'crashpad::HTTPMultipartBuilder']]],
   ['sethandleripcpipe',['SetHandlerIPCPipe',['../classcrashpad_1_1CrashpadClient.html#a9f1d5d38e9b4f5781e3821551dcc39d5',1,'crashpad::CrashpadClient']]],
   ['sethandlermachport',['SetHandlerMachPort',['../classcrashpad_1_1CrashpadClient.html#a35e9ce1b1771a597aa3276ec28de28a7',1,'crashpad::CrashpadClient']]],
   ['sethandlermachservice',['SetHandlerMachService',['../classcrashpad_1_1CrashpadClient.html#a89f34445eca859e6c0d1876e8e171c25',1,'crashpad::CrashpadClient']]],

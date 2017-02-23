@@ -81,6 +81,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CPUContextX86_1_1Fsave.html">Fsave</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CPUContextX86_1_1Fxsave.html">Fxsave</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unioncrashpad_1_1CPUContextX86_1_1X87OrMMXRegister.html">X87OrMMXRegister</a></td></tr>
@@ -97,9 +99,18 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>XMMRegister</b> = ui
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ab90efe3c4cf0e10d820a12d7227383c0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CPUContextX86.html#ab90efe3c4cf0e10d820a12d7227383c0">FxsaveToFsave</a> (const <a class="el" href="structcrashpad_1_1CPUContextX86_1_1Fxsave.html">Fxsave</a> &amp;fxsave, <a class="el" href="structcrashpad_1_1CPUContextX86_1_1Fsave.html">Fsave</a> *fsave)</td></tr>
+<tr class="memdesc:ab90efe3c4cf0e10d820a12d7227383c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an <code>fxsave</code> area to an <code>fsave</code> area.  <a href="#ab90efe3c4cf0e10d820a12d7227383c0">More...</a><br /></td></tr>
+<tr class="separator:ab90efe3c4cf0e10d820a12d7227383c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b6ecedc4f28b2e6b1564dc57489a8d9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CPUContextX86.html#a8b6ecedc4f28b2e6b1564dc57489a8d9">FsaveToFxsave</a> (const <a class="el" href="structcrashpad_1_1CPUContextX86_1_1Fsave.html">Fsave</a> &amp;fsave, <a class="el" href="structcrashpad_1_1CPUContextX86_1_1Fxsave.html">Fxsave</a> *fxsave)</td></tr>
+<tr class="memdesc:a8b6ecedc4f28b2e6b1564dc57489a8d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an <code>fsave</code> area to an <code>fxsave</code> area.  <a href="#a8b6ecedc4f28b2e6b1564dc57489a8d9">More...</a><br /></td></tr>
+<tr class="separator:a8b6ecedc4f28b2e6b1564dc57489a8d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa6da129178e00395358c4f288d5dc06"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CPUContextX86.html#aaa6da129178e00395358c4f288d5dc06">FxsaveToFsaveTagWord</a> (uint16_t fsw, uint8_t fxsave_tag, const <a class="el" href="unioncrashpad_1_1CPUContextX86_1_1X87OrMMXRegister.html">X87OrMMXRegister</a> st_mm[8])</td></tr>
 <tr class="memdesc:aaa6da129178e00395358c4f288d5dc06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts x87 floating-point tag words from <code>fxsave</code> (abridged, 8-bit) to <code>fsave</code> (full, 16-bit) form.  <a href="#aaa6da129178e00395358c4f288d5dc06">More...</a><br /></td></tr>
 <tr class="separator:aaa6da129178e00395358c4f288d5dc06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30c413e9272b7f2167c305a486e88dc0"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1CPUContextX86.html#a30c413e9272b7f2167c305a486e88dc0">FsaveToFxsaveTagWord</a> (uint16_t fsave_tag)</td></tr>
+<tr class="memdesc:a30c413e9272b7f2167c305a486e88dc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts x87 floating-point tag words from <code>fsave</code> (full, 16-bit) to <code>fxsave</code> (abridged, 8-bit) form.  <a href="#a30c413e9272b7f2167c305a486e88dc0">More...</a><br /></td></tr>
+<tr class="separator:a30c413e9272b7f2167c305a486e88dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -182,6 +193,138 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>dr7</b></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A context structure carrying 32-bit x86 CPU state. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8b6ecedc4f28b2e6b1564dc57489a8d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b6ecedc4f28b2e6b1564dc57489a8d9">&sect;&nbsp;</a></span>FsaveToFxsave()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::CPUContextX86::FsaveToFxsave </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcrashpad_1_1CPUContextX86_1_1Fsave.html">Fsave</a> &amp;&#160;</td>
+          <td class="paramname"><em>fsave</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcrashpad_1_1CPUContextX86_1_1Fxsave.html">Fxsave</a> *&#160;</td>
+          <td class="paramname"><em>fxsave</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts an <code>fsave</code> area to an <code>fxsave</code> area. </p>
+<p><code>fsave</code> state is restricted to the x87 FPU, while <code>fxsave</code> state includes state related to the x87 FPU as well as state specific to SSE.</p>
+<p>As the <code>fsave</code> format is a subset of the <code>fxsave</code> format, this operation cannot fully populate the <code>fxsave</code> area. Fields in <em>fxsave</em> that have no equivalent in <em>fsave</em> are set to <code>0</code>, including Fxsave::mxcsr, Fxsave::mxcsr_mask, Fxsave::xmm, and Fxsave::available. <a class="el" href="structcrashpad_1_1CPUContextX86.html#a30c413e9272b7f2167c305a486e88dc0" title="Converts x87 floating-point tag words from fsave (full, 16-bit) to fxsave (abridged, 8-bit) form. ">FsaveToFxsaveTagWord()</a> is used to derive Fxsave::ftw from the full 16-bit form used by <code>fsave</code>. Reserved fields in <em>fxsave</em> are set to <code>0</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">fsave</td><td>The <code>fsave</code> area to convert. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">fxsave</td><td>The <code>fxsave</code> area to populate.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structcrashpad_1_1CPUContextX86.html#ab90efe3c4cf0e10d820a12d7227383c0" title="Converts an fxsave area to an fsave area. ">FxsaveToFsave()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a30c413e9272b7f2167c305a486e88dc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30c413e9272b7f2167c305a486e88dc0">&sect;&nbsp;</a></span>FsaveToFxsaveTagWord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t crashpad::CPUContextX86::FsaveToFxsaveTagWord </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>fsave_tag</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts x87 floating-point tag words from <code>fsave</code> (full, 16-bit) to <code>fxsave</code> (abridged, 8-bit) form. </p>
+<p>This function performs the inverse operation of <a class="el" href="structcrashpad_1_1CPUContextX86.html#aaa6da129178e00395358c4f288d5dc06" title="Converts x87 floating-point tag words from fxsave (abridged, 8-bit) to fsave (full, 16-bit) form. ">FxsaveToFsaveTagWord()</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">fsave_tag</td><td>The full FPU tag word.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The abridged FPU tag word. </dd></dl>
+
+</div>
+</div>
+<a id="ab90efe3c4cf0e10d820a12d7227383c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab90efe3c4cf0e10d820a12d7227383c0">&sect;&nbsp;</a></span>FxsaveToFsave()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::CPUContextX86::FxsaveToFsave </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcrashpad_1_1CPUContextX86_1_1Fxsave.html">Fxsave</a> &amp;&#160;</td>
+          <td class="paramname"><em>fxsave</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcrashpad_1_1CPUContextX86_1_1Fsave.html">Fsave</a> *&#160;</td>
+          <td class="paramname"><em>fsave</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts an <code>fxsave</code> area to an <code>fsave</code> area. </p>
+<p><code>fsave</code> state is restricted to the x87 FPU, while <code>fxsave</code> state includes state related to the x87 FPU as well as state specific to SSE.</p>
+<p>As the <code>fxsave</code> format is a superset of the <code>fsave</code> format, this operation fully populates the <code>fsave</code> area. <code>fsave</code> uses the full 16-bit form for the x87 floating-point tag word, so <a class="el" href="structcrashpad_1_1CPUContextX86.html#aaa6da129178e00395358c4f288d5dc06" title="Converts x87 floating-point tag words from fxsave (abridged, 8-bit) to fsave (full, 16-bit) form. ">FxsaveToFsaveTagWord()</a> is used to derive Fsave::ftw from the abridged 8-bit form used by <code>fxsave</code>. Reserved fields in <em>fsave</em> are set to <code>0</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">fxsave</td><td>The <code>fxsave</code> area to convert. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">fsave</td><td>The <code>fsave</code> area to populate.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structcrashpad_1_1CPUContextX86.html#a8b6ecedc4f28b2e6b1564dc57489a8d9" title="Converts an fsave area to an fxsave area. ">FsaveToFxsave()</a> </dd></dl>
+
+</div>
+</div>
 <a id="aaa6da129178e00395358c4f288d5dc06"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaa6da129178e00395358c4f288d5dc06">&sect;&nbsp;</a></span>FxsaveToFsaveTagWord()</h2>
 
@@ -223,8 +366,9 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>dr7</b></td></tr>
 </div><div class="memdoc">
 
 <p>Converts x87 floating-point tag words from <code>fxsave</code> (abridged, 8-bit) to <code>fsave</code> (full, 16-bit) form. </p>
-<p><code>fxsave</code> stores the x87 floating-point tag word in abridged 8-bit form, and <code>fsave</code> stores it in full 16-bit form. Some users, notably MinidumpContextX86::float_save::tag_word, require the full 16-bit form, where most other contemporary code uses <code>fxsave</code> and thus the abridged 8-bit form found in CPUContextX86::Fxsave::ftw.</p>
+<p><code>fxsave</code> stores the x87 floating-point tag word in abridged 8-bit form, and <code>fsave</code> stores it in full 16-bit form. Some users, notably CPUContextX86::Fsave::ftw, require the full 16-bit form, where most other contemporary code uses <code>fxsave</code> and thus the abridged 8-bit form found in CPUContextX86::Fxsave::ftw.</p>
 <p>This function converts an abridged tag word to the full version by using the abridged tag word and the contents of the registers it describes. See Intel Software Developer’s Manual, Volume 2A: Instruction Set Reference A-M (253666-052), 3.2 “FXSAVE”, specifically, the notes on the abridged FTW and recreating the FSAVE format, and AMD Architecture Programmer’s Manual, Volume 2: System Programming (24593-3.24), “FXSAVE Format for x87 Tag Word”.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structcrashpad_1_1CPUContextX86.html#a30c413e9272b7f2167c305a486e88dc0" title="Converts x87 floating-point tag words from fsave (full, 16-bit) to fxsave (abridged, 8-bit) form. ">FsaveToFxsaveTagWord()</a></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fsw</td><td>The FPU status word, used to map logical <em>st_mm</em> registers to their physical counterparts. This can be taken from CPUContextX86::Fxsave::fsw. </td></tr>

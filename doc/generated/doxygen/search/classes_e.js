@@ -9,6 +9,7 @@ var searchData=
   ['scopedtempdir',['ScopedTempDir',['../classcrashpad_1_1test_1_1ScopedTempDir.html',1,'crashpad::test']]],
   ['semaphore',['Semaphore',['../classcrashpad_1_1Semaphore.html',1,'crashpad']]],
   ['servertoclientmessage',['ServerToClientMessage',['../unioncrashpad_1_1ServerToClientMessage.html',1,'crashpad']]],
+  ['sessionendwatcher',['SessionEndWatcher',['../classcrashpad_1_1SessionEndWatcher.html',1,'crashpad']]],
   ['settings',['Settings',['../classcrashpad_1_1Settings.html',1,'crashpad']]],
   ['shutdownrequest',['ShutdownRequest',['../structcrashpad_1_1ShutdownRequest.html',1,'crashpad']]],
   ['snapshotminidumpmemorywriter',['SnapshotMinidumpMemoryWriter',['../classcrashpad_1_1SnapshotMinidumpMemoryWriter.html',1,'crashpad']]],

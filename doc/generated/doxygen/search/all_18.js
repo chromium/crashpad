@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_7ecallerrorwritingcrashreport',['~CallErrorWritingCrashReport',['../classcrashpad_1_1CrashReportDatabase_1_1CallErrorWritingCrashReport.html#afc1c431e37bcf4928c610e14f63d2960',1,'crashpad::CrashReportDatabase::CallErrorWritingCrashReport']]]
+  ['zliberrorstring',['ZlibErrorString',['../namespacecrashpad.html#ae0634eb0299cf5b28f7a373454d97c51',1,'crashpad']]],
+  ['zlibwindowbitswithgzipwrapper',['ZlibWindowBitsWithGzipWrapper',['../namespacecrashpad.html#af9a547efca1b5ea53e95a3a12047c38a',1,'crashpad']]]
 ];

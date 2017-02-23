@@ -31,6 +31,7 @@ var searchData=
   ['launchmsg',['LaunchMsg',['../namespacecrashpad.html#ae541f07925a67de751502b903af919b4',1,'crashpad']]],
   ['ldr_5fdata_5ftable_5fentry',['LDR_DATA_TABLE_ENTRY',['../structcrashpad_1_1process__types_1_1LDR__DATA__TABLE__ENTRY.html',1,'crashpad::process_types']]],
   ['length',['Length',['../structMINIDUMP__STRING.html#a1dbda2f62d1b74e2a13fdbae7a13252d',1,'MINIDUMP_STRING::Length()'],['../structIMAGE__DEBUG__MISC.html#a4b887ef30968ade59175e44d4c1b3be7',1,'IMAGE_DEBUG_MISC::Length()'],['../structcrashpad_1_1MinidumpUTF8String.html#a5c2b5d489a10e6a896cd53b903589e43',1,'crashpad::MinidumpUTF8String::Length()']]],
+  ['lifetimemilestone',['LifetimeMilestone',['../classcrashpad_1_1Metrics.html#a14f5476a370951cfeaa514c3eea6226d',1,'crashpad::Metrics']]],
   ['list_5fannotations',['list_annotations',['../structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a2ff38a7202adb5f8d3b8a3ede61ca4ec',1,'crashpad::MinidumpModuleCrashpadInfo']]],
   ['list_5fentry',['LIST_ENTRY',['../structcrashpad_1_1process__types_1_1LIST__ENTRY.html',1,'crashpad::process_types']]],
   ['lo',['lo',['../structcrashpad_1_1uint128__struct.html#aa96483c6fb42bba3fb6e35165a089ff0',1,'crashpad::uint128_struct']]],

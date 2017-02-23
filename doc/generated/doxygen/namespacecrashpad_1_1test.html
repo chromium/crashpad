@@ -286,6 +286,9 @@ template&lt;&gt; </td></tr>
 <tr class="memitem:a897d99ec1dd2c343d29a3d14e3560732"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2">FileOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#a897d99ec1dd2c343d29a3d14e3560732">FileSize</a> (const base::FilePath &amp;path)</td></tr>
 <tr class="memdesc:a897d99ec1dd2c343d29a3d14e3560732"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the size of a file.  <a href="#a897d99ec1dd2c343d29a3d14e3560732">More...</a><br /></td></tr>
 <tr class="separator:a897d99ec1dd2c343d29a3d14e3560732"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa4835fcb6a4a897b0841b8575789b77"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#aaa4835fcb6a4a897b0841b8575789b77">BytesToHexString</a> (const void *bytes, size_t length)</td></tr>
+<tr class="memdesc:aaa4835fcb6a4a897b0841b8575789b77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a hexadecimal string corresponding to <em>bytes</em> and <em>length</em>.  <a href="#aaa4835fcb6a4a897b0841b8575789b77">More...</a><br /></td></tr>
+<tr class="separator:aaa4835fcb6a4a897b0841b8575789b77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49a7a2461cf4e1f674eac147c19d9483"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#a49a7a2461cf4e1f674eac147c19d9483">MachErrorMessage</a> (mach_error_t mach_err, const std::string &amp;base=std::string())</td></tr>
 <tr class="memdesc:a49a7a2461cf4e1f674eac147c19d9483"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a Mach error message.  <a href="#a49a7a2461cf4e1f674eac147c19d9483">More...</a><br /></td></tr>
 <tr class="separator:a49a7a2461cf4e1f674eac147c19d9483"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -367,6 +370,36 @@ template&lt;&gt; </td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string of the format <code>"Permission denied (1100)"</code> if <em>bootstrap_err</em> has the value <code>BOOTSTRAP_NOT_PRIVILEGED</code> on a system where this is defined to be 1100. If <em>base</em> is not empty, it will be prepended to this string, separated by a colon. If <em>bootstrap_err</em> is not a valid bootstrap error code, it will be interpreted as a Mach error code in the manner of <a class="el" href="namespacecrashpad_1_1test.html#a49a7a2461cf4e1f674eac147c19d9483" title="Formats a Mach error message. ">MachErrorMessage()</a>. </dd></dl>
 
+</div>
+</div>
+<a id="aaa4835fcb6a4a897b0841b8575789b77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa4835fcb6a4a897b0841b8575789b77">&sect;&nbsp;</a></span>BytesToHexString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string crashpad::test::BytesToHexString </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>bytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a hexadecimal string corresponding to <em>bytes</em> and <em>length</em>. </p>
+<p>Example usage: </p><div class="fragment"><div class="line">uint8_t expected[10];</div><div class="line">uint8_t observed[10];</div><div class="line"><span class="comment">// …</span></div><div class="line">EXPECT_EQ(<a class="code" href="namespacecrashpad_1_1test.html#aaa4835fcb6a4a897b0841b8575789b77">BytesToHexString</a>(expected, arraysize(expected)),</div><div class="line">          <a class="code" href="namespacecrashpad_1_1test.html#aaa4835fcb6a4a897b0841b8575789b77">BytesToHexString</a>(observed, arraysize(observed)));</div></div><!-- fragment --> 
 </div>
 </div>
 <a id="ad9504862c089964763d7d362572c2ac6"></a>

@@ -83,7 +83,8 @@ Inheritance diagram for crashpad::HTTPBodyStream:</div>
   <map id="crashpad::HTTPBodyStream_map" name="crashpad::HTTPBodyStream_map">
 <area href="classcrashpad_1_1CompositeHTTPBodyStream.html" title="An implementation of HTTPBodyStream that combines an array of several other HTTPBodyStream objects in..." alt="crashpad::CompositeHTTPBodyStream" shape="rect" coords="0,56,228,80"/>
 <area href="classcrashpad_1_1FileHTTPBodyStream.html" title="An implementation of HTTPBodyStream that reads from the specified file and provides its contents for ..." alt="crashpad::FileHTTPBodyStream" shape="rect" coords="238,56,466,80"/>
-<area href="classcrashpad_1_1StringHTTPBodyStream.html" title="An implementation of HTTPBodyStream that turns a fixed string into a stream. " alt="crashpad::StringHTTPBodyStream" shape="rect" coords="476,56,704,80"/>
+<area href="classcrashpad_1_1GzipHTTPBodyStream.html" title="An implementation of HTTPBodyStream that gzip-compresses another HTTPBodyStream. " alt="crashpad::GzipHTTPBodyStream" shape="rect" coords="476,56,704,80"/>
+<area href="classcrashpad_1_1StringHTTPBodyStream.html" title="An implementation of HTTPBodyStream that turns a fixed string into a stream. " alt="crashpad::StringHTTPBodyStream" shape="rect" coords="714,56,942,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -140,7 +141,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>On success, a positive number indicating the number of bytes actually copied to <em>buffer</em>. On failure, a negative number. When the stream has no more data, returns <code>0</code>. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1CompositeHTTPBodyStream.html#a66355480dd05beba77261f0a512d3e70">crashpad::CompositeHTTPBodyStream</a>, <a class="el" href="classcrashpad_1_1FileHTTPBodyStream.html#a0495ba46a1dcdaedaf525d340972d771">crashpad::FileHTTPBodyStream</a>, and <a class="el" href="classcrashpad_1_1StringHTTPBodyStream.html#afa56035c89a4cfcc0e028c8c1838a56d">crashpad::StringHTTPBodyStream</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1CompositeHTTPBodyStream.html#a66355480dd05beba77261f0a512d3e70">crashpad::CompositeHTTPBodyStream</a>, <a class="el" href="classcrashpad_1_1FileHTTPBodyStream.html#a0495ba46a1dcdaedaf525d340972d771">crashpad::FileHTTPBodyStream</a>, <a class="el" href="classcrashpad_1_1StringHTTPBodyStream.html#afa56035c89a4cfcc0e028c8c1838a56d">crashpad::StringHTTPBodyStream</a>, and <a class="el" href="classcrashpad_1_1GzipHTTPBodyStream.html#a470d17ec47dde6bae9bc11c60d291b55">crashpad::GzipHTTPBodyStream</a>.</p>
 
 </div>
 </div>

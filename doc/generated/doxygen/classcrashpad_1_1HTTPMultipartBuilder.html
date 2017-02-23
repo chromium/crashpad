@@ -79,6 +79,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a773ca9efe15389e2036e01de59d431e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a773ca9efe15389e2036e01de59d431e3">SetGzipEnabled</a> (bool gzip_enabled)</td></tr>
+<tr class="memdesc:a773ca9efe15389e2036e01de59d431e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables <code>gzip</code> compression.  <a href="#a773ca9efe15389e2036e01de59d431e3">More...</a><br /></td></tr>
+<tr class="separator:a773ca9efe15389e2036e01de59d431e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c51d6649d19f1e5d39b787f18dc2d06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a3c51d6649d19f1e5d39b787f18dc2d06">SetFormData</a> (const std::string &amp;key, const std::string &amp;value)</td></tr>
 <tr class="memdesc:a3c51d6649d19f1e5d39b787f18dc2d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a <code>Content-Disposition: form-data</code> key-value pair.  <a href="#a3c51d6649d19f1e5d39b787f18dc2d06">More...</a><br /></td></tr>
 <tr class="separator:a3c51d6649d19f1e5d39b787f18dc2d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -88,10 +91,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a071e0642997cb00acdc966371c2d1100"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1HTTPBodyStream.html">HTTPBodyStream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a071e0642997cb00acdc966371c2d1100">GetBodyStream</a> ()</td></tr>
 <tr class="memdesc:a071e0642997cb00acdc966371c2d1100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates the <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> for the data currently supplied to the builder.  <a href="#a071e0642997cb00acdc966371c2d1100">More...</a><br /></td></tr>
 <tr class="separator:a071e0642997cb00acdc966371c2d1100"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a0e52dbb229875260451cb61f5d5d8d"><td class="memItemLeft" align="right" valign="top"><a id="a0a0e52dbb229875260451cb61f5d5d8d"></a>
-HTTPHeaders::value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a0a0e52dbb229875260451cb61f5d5d8d">GetContentType</a> () const</td></tr>
-<tr class="memdesc:a0a0e52dbb229875260451cb61f5d5d8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the header pair for <code>"Content-Type"</code>. <br /></td></tr>
-<tr class="separator:a0a0e52dbb229875260451cb61f5d5d8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39fb264aa71cb52ecb3cc22f9b000106"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a39fb264aa71cb52ecb3cc22f9b000106">PopulateContentHeaders</a> (<a class="el" href="namespacecrashpad.html#af6ffe10a8131fab8d1f8de60d9a812f9">HTTPHeaders</a> *http_headers) const</td></tr>
+<tr class="memdesc:a39fb264aa71cb52ecb3cc22f9b000106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds the appropriate content headers to <em>http_headers</em>.  <a href="#a39fb264aa71cb52ecb3cc22f9b000106">More...</a><br /></td></tr>
+<tr class="separator:a39fb264aa71cb52ecb3cc22f9b000106"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class is used to build a MIME multipart message, conforming to RFC 2046, for use as a HTTP request body. </p>
@@ -113,6 +115,27 @@ HTTPHeaders::value_type&#160;</td><td class="memItemRight" valign="bottom"><a cl
 
 <p>Generates the <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> for the data currently supplied to the builder. </p>
 <dl class="section return"><dt>Returns</dt><dd>A caller-owned <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> object. </dd></dl>
+
+</div>
+</div>
+<a id="a39fb264aa71cb52ecb3cc22f9b000106"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39fb264aa71cb52ecb3cc22f9b000106">&sect;&nbsp;</a></span>PopulateContentHeaders()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::HTTPMultipartBuilder::PopulateContentHeaders </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#af6ffe10a8131fab8d1f8de60d9a812f9">HTTPHeaders</a> *&#160;</td>
+          <td class="paramname"><em>http_headers</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adds the appropriate content headers to <em>http_headers</em>. </p>
+<p>Any headers that this method adds will replace existing headers by the same name in <em>http_headers</em>. </p>
 
 </div>
 </div>
@@ -201,6 +224,33 @@ HTTPHeaders::value_type&#160;</td><td class="memItemRight" valign="bottom"><a cl
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a773ca9efe15389e2036e01de59d431e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a773ca9efe15389e2036e01de59d431e3">&sect;&nbsp;</a></span>SetGzipEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::HTTPMultipartBuilder::SetGzipEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>gzip_enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables or disables <code>gzip</code> compression. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">gzip_enabled</td><td>Whether to enable or disable <code>gzip</code> compression.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>When <code>gzip</code> compression is enabled, the body stream returned by <a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a071e0642997cb00acdc966371c2d1100" title="Generates the HTTPBodyStream for the data currently supplied to the builder. ">GetBodyStream()</a> will be <code>gzip</code>-compressed, and the content headers set by <a class="el" href="classcrashpad_1_1HTTPMultipartBuilder.html#a39fb264aa71cb52ecb3cc22f9b000106" title="Adds the appropriate content headers to http_headers. ">PopulateContentHeaders()</a> will contain <code>Content-Encoding: gzip</code>. </p>
 
 </div>
 </div>
