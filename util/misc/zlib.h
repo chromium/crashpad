@@ -23,8 +23,8 @@ namespace crashpad {
 //!     `inflateInit2()` that specifies a `gzip` wrapper instead of the default
 //!     zlib wrapper.
 //!
-//! \param[in] A \a window_bits value that only specifies the base-2 logarithm
-//!     of the deflate sliding window size.
+//! \param[in] window_bits A \a window_bits value that only specifies the base-2
+//!     logarithm of the deflate sliding window size.
 //!
 //! \return \a window_bits adjusted to specify a `gzip` wrapper, to be passed to
 //!     `deflateInit2()` or `inflateInit2()`.
