@@ -140,7 +140,7 @@ struct CPUContextX86 {
   static uint16_t FxsaveToFsaveTagWord(
       uint16_t fsw, uint8_t fxsave_tag, const X87OrMMXRegister st_mm[8]);
 
-  //! \breif Converts x87 floating-point tag words from `fsave` (full, 16-bit)
+  //! \brief Converts x87 floating-point tag words from `fsave` (full, 16-bit)
   //!     to `fxsave` (abridged, 8-bit) form.
   //!
   //! This function performs the inverse operation of FxsaveToFsaveTagWord().
