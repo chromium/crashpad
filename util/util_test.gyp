@@ -119,6 +119,13 @@
             ],
           },
         }],
+	# Things not yet ported to android
+	['OS=="android"', {
+          'sources/' : [
+	    ['exclude', '(^|/)net/'],
+	    ['exclude', '(^|/)numeric/'],
+	  ]
+	}],
       ],
     },
   ],

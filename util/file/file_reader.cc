@@ -133,4 +133,20 @@ FileOffset WeakStdioFileReader::Seek(FileOffset offset, int whence) {
   return new_offset;
 }
 
+WeakStdioFileLineReader::WeakStdioFileLineReader(FILE* file)
+    : file_(file) {
+}
+
+WeakStdioFileLineReader::~WeakStdioFileLineReader() {
+  free(line_);
+}
+
+FileOperationResult WeakStdioFileLineReader::GetLine(char** line) {
+  DCHECK(file_);
+  DCHECK(line);
+  ssize_t chars_read = getline(&line_, &buffer_size_, file_);
+  *line = line_;
+  return chars_read;
+}
+
 }  // namespace crashpad
