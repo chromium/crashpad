@@ -176,6 +176,34 @@ class WeakStdioFileReader : public FileReaderInterface {
   DISALLOW_COPY_AND_ASSIGN(WeakStdioFileReader);
 };
 
+//! \brief A file line reader backed by a standard input/output `FILE*`.
+//!
+//! This class accepts an already-open `FILE*`. It is not responsible for
+//! opening or closing this `FILE*`. Users of this class must ensure that the
+//! `FILE*` is closed appropriately elsewhere. Objects of this class may be used
+//! to read from `FILE*` objects not associated with filesystem-based files.
+//!
+//! This class is expected to be used when other code is responsible for
+//! opening `FILE*` objects and already provides `FILE*` objects. A good use
+//! would be a WeakStdioFileReader for `stdin`.
+class WeakStdioFileLineReader {
+  public:
+   explicit WeakStdioFileLineReader(FILE* file);
+   ~WeakStdioFileLineReader();
+
+  //! \brief Reads a line from the file and returns a pointer to it in \a line.
+  //!
+  //! \return The number of bytes actually read if the operation succeeded,
+  //!     which may be `0` or any positive value.
+  //!     `-1` if the operation failed, including reaching end-of-file.
+  FileOperationResult GetLine(char** line);
+
+  private:
+   FILE* file_;  // weak
+   char* line_ = NULL;
+   size_t buffer_size_ = 0;
+};
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_FILE_FILE_READER_H_

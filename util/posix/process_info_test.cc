@@ -156,6 +156,9 @@ TEST(ProcessInfo, SelfTask) {
 }
 #endif
 
+// A process must have ptrace capability on the target process in order to
+// initialize some of this info.
+#if !defined(OS_ANDROID)
 TEST(ProcessInfo, Pid1) {
   // PID 1 is expected to be init or the system’s equivalent. This tests reading
   // information about another process.
@@ -172,6 +175,7 @@ TEST(ProcessInfo, Pid1) {
   EXPECT_EQ(implicit_cast<gid_t>(0), process_info.SavedGroupID());
   EXPECT_FALSE(process_info.AllGroups().empty());
 }
+#endif
 
 }  // namespace
 }  // namespace test
