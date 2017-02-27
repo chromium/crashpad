@@ -365,6 +365,24 @@
     },
     {
       "key": {
+        "uuid": "969e67a5_e06a3455",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-02-27T17:28:07Z",
+      "side": 1,
+      "message": "The only file I ran into this problem with was /proc/1/exe. (Some others are protected as well, but I don\u0027t need them yet.) This was just to figure out whether the process was 64-bit.",
+      "parentUuid": "ad43f9b9_c4e8d8e4",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "246195ad_cdf7f249",
         "filename": "util/util.gyp",
         "patchSetId": 2
