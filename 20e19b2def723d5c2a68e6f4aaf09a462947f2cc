@@ -1,0 +1,435 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1b1f394_48c7a7f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "1. Spelling: Implemented.\n\n2. Commit messages should be written in the present tense (“Implement,” not “Implemented.”)\n\n3. nit: so that “git shortlog” works well, it’s a git best practice for the first line of a commit message to be a short summary, no longer than 72 characters, and to not end it with a period.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7846681d_fea0dd29",
+        "filename": "util/file/file_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "That would be an acceptable use for this, but that’s not how you’re using it.\n\nWeakStdioFileReader is a quirk that exists for really only one reason: to read input from stdin. It uses the FILE*-based stdio fread() library routine instead of the file descriptor-based raw read() system call because that’s normal for stdin. The “weak” nature of it is just because it’s pretty hazardous to outright close stdin, stdout, and stderr, at least without duping /dev/null over them.\n\nIn Crashpad, we generally limit stdio to just those three streams, and use the raw system call interface elsewhere. This becomes more important in code that may run in signal handler context, because stdio has internal locks and is not generally signal-safe. It’s not clear that this code will run in that context yet, but reducing the dangerous library surface area will help ensure that, especially where there’s a viable alternative available with no down-side.\n\nI don’t think that we should double down on WeakStdio by using it outside of the limited scopes where we basically need to.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "248af013_b293d404",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "Not so hot on mixing the initialization style. macOS initializes its member in the constructor, but you’ve got a mix of in-class and in-constructor initialization. At least within a single class, we should be consistent.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1d85460_c6d1d2fe",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "For best packing, start with the std::set, then the timeval, then the pid/uid/gids (which are all int), and finally the bool.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a7f3d85_69a9a6ac",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "In new files, always use the current year.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b8df1f_49076d4d",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "C system headers come first, followed by a blank line, followed by C++ system headers. But you don’t actually need to #include \u003cstring\u003e because the matching header already #included it.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66dde67e_5c27e417",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "Same for \u003cunistd.h\u003e.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4687c318_afc65863",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "This is named like it’s going to CHECK(), but it doesn’t.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cd76970_376b0ea4",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "Never call sprintf(), always use snprintf(). The buffer length is important, even if you don’t think that the buffer can overflow.\n\nsnprintf(path, sizeof(path), \"/proc/%d/status\", pid);\n\nAnd then it’s acceptable (optional, but at least safe) to size path[] to be exactly long as the longest string you’d see given the data types involved, plus room for the NUL terminator: char path[25].",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47fdaa21_25fdbe97",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "Don’t hard-code lengths. You have the \"Ppid:\" string, so use strlen.\n\nYou’re also looking explicitly for a tab following it on the next line. This should match.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69b86e95_a2482961",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "sscanf() returns a result code that you should use. That’s a much better check thean the 0-checks below on line 79.\n\nTechnically you can even do all of this with the sscanf() calls without even calling strncmp().",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bf78dfa_8c8f6595",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "But I’m not convinced that you should stick with the stdio-family sscanf() for reasons already discussed. On top of that, it doesn’t give a good signal of overflow detection.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a95a0662_27c96be0",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "Any of these three fields can legally be 0.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8802e909_1775536f",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "This is unsigned according to the kernel and to your declaration above. Use %u instead of %d.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23919146_3db70f6d",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "System without a functioning real-time clock keeping time while the power is off? I think that this can validly be 0 too. The real error condition would be if you didn’t find a btime at all.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7872f46_3030cd72",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "This is a good informative comment, but I don’t think that it should be a TODO. I don’t think we’ll ever care to support pre-2.6 kernels.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a2f8637_171da2b7",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "Also %llu according to both the line above and the kernel.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e64daa9c_3b97923b",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "This is going to be messed up if the clock is reset anytime after boot, because it’s based on the btime field from /proc/stat, which is probably the least reliable indication of time that we have anywhere. I don’t think we should trust btime for any purpose.\n\nWe should take the current value of CLOCK_BOOTTIME and subtract ticks_after_boot to tell us how many ticks ago the process started. Then we can convert that to a wall clock time by subtracting it from the current value of CLOCK_REALTIME.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "519c870b_57108dfa",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "Definitely don’t open up the executable in this process. For one thing, it may have changed on disk. Crashpad handlers should never open up things that are mapped into a victim process’ address space. They should be able to access everything that they need by reading the victim’s state and accessing its memory.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9110ee6_a3fb4b8b",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "Don’t use “static” in this way in Crashpad, use an unnamed namespace at the top of the file.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad43f9b9_c4e8d8e4",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "Is this true, or is there a restriction that’s actually harsher than this? Robert would know.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "246195ad_cdf7f249",
+        "filename": "util/util.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "Spaces only. No tabs.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "655204b0_849c7b70",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "No tabs here, too. Also, capitalize proper names: Android. But see below.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1751ffef_1b9ff494",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "This should actually be OS\u003d\u003d\"android\" or OS\u003d\u003d\"linux\", same deal on each.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "303c2933_483047ee",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-27T16:37:05Z",
+      "side": 1,
+      "message": "This is not true. I think that only checked_address_range_test won’t run on Linux or Android.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
