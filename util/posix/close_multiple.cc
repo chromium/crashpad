@@ -211,7 +211,7 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   // do_prlimit() and kernel/sysctl.c fs_table. Inability to open this file is
   // not considered an error, because /proc may not be available or usable.
   {
-    base::ScopedFILE nr_open_file(fopen("/proc/sys/fs/nr_open", "r"));
+    base::ScopedFILE nr_open_file(fopen("/proc/sys/fs/nr_open", "re"));
     if (nr_open_file.get() != nullptr) {
       int nr_open;
       if (fscanf(nr_open_file.get(), "%d\n", &nr_open) == 1 &&

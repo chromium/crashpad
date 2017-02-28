@@ -80,10 +80,11 @@ FileHandle OpenFileForOutput(int rdwr_or_wronly,
                              const base::FilePath& path,
                              FileWriteMode mode,
                              FilePermissions permissions) {
+  int flags = O_NOCTTY | O_CLOEXEC;
+
   DCHECK(rdwr_or_wronly & (O_RDWR | O_WRONLY));
   DCHECK_EQ(rdwr_or_wronly & ~(O_RDWR | O_WRONLY), 0);
-
-  int flags = rdwr_or_wronly;
+  flags |= rdwr_or_wronly;
 
   switch (mode) {
     case FileWriteMode::kReuseOrFail:
@@ -118,7 +119,8 @@ FileOperationResult WriteFile(FileHandle file,
 }
 
 FileHandle OpenFileForRead(const base::FilePath& path) {
-  return HANDLE_EINTR(open(path.value().c_str(), O_RDONLY));
+  return HANDLE_EINTR(
+      open(path.value().c_str(), O_RDONLY | O_NOCTTY | O_CLOEXEC));
 }
 
 FileHandle OpenFileForWrite(const base::FilePath& path,
