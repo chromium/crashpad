@@ -16,6 +16,24 @@
       "revId": "5c385892fd7f22f451f930db9d6d0334a339e399",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95192cc8_de839122",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-28T18:51:29Z",
+      "side": 1,
+      "message": "Strange, I guess because it has a constructor so it\u0027s doing \"something\"?",
+      "parentUuid": "150d4f7a_c0819bfd",
+      "revId": "5c385892fd7f22f451f930db9d6d0334a339e399",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
