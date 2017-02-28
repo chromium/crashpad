@@ -72,6 +72,19 @@ hooks = [
     ],
   },
   {
+    'name': 'clang_format_linux',
+    'pattern': '.',
+    'action': [
+      'download_from_google_storage',
+      '--platform=^linux2?$',
+      '--no_resume',
+      '--no_auth',
+      '--bucket=chromium-clang-format',
+      '--sha1_file',
+      'buildtools/linux64/clang-format.sha1',
+    ],
+  },
+  {
     'name': 'gn_mac',
     'pattern': '.',
     'action': [
@@ -95,6 +108,19 @@ hooks = [
       '--bucket=chromium-gn',
       '--sha1_file',
       'buildtools/win/gn.exe.sha1',
+    ],
+  },
+  {
+    'name': 'gn_linux',
+    'pattern': '.',
+    'action': [
+      'download_from_google_storage',
+      '--platform=^linux2?$',
+      '--no_resume',
+      '--no_auth',
+      '--bucket=chromium-gn',
+      '--sha1_file',
+      'buildtools/linux64/gn.sha1',
     ],
   },
   {
