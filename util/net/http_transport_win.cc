@@ -136,6 +136,16 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   std::wstring extra_info(url_components.lpszExtraInfo,
                           url_components.dwExtraInfoLength);
 
+  // Use url_path, and get the query parameter from extra_info, up to the first
+  // #, if any. See RFC 7230 §5.3.1 and RFC 3986 §3.4. Beware that when this is
+  // used to POST data, the query parameters generally belong in the request
+  // body and not in the URL request target. It’s legal for them to be in both
+  // places, but the interpretation is subject to whatever the client and server
+  // agree on. This honors whatever was passed in, matching other platforms, but
+  // you’ve been warned!
+  std::wstring request_target(
+      url_path.append(extra_info.substr(0, extra_info.find(L'#'))));
+
   ScopedHINTERNET connect(WinHttpConnect(
       session.get(), host_name.c_str(), url_components.nPort, 0));
   if (!connect.get()) {
@@ -146,7 +156,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   ScopedHINTERNET request(WinHttpOpenRequest(
       connect.get(),
       base::UTF8ToUTF16(method()).c_str(),
-      url_path.c_str(),
+      request_target.c_str(),
       nullptr,
       WINHTTP_NO_REFERER,
       WINHTTP_DEFAULT_ACCEPT_TYPES,
