@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73144938_a182eaa5",
+        "filename": "util/mac/xattr_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-02-28T20:42:40Z",
+      "side": 1,
+      "message": "You meant to also add WRONLY here?",
+      "revId": "20400a35eddfa64ba650ca318a033181868ee0bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
