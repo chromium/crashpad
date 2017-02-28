@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e5705612_662c4959",
+        "filename": "util/posix/signals.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-28T05:34:05Z",
+      "side": 1,
+      "message": "\u003e Since you\u0027re not breaking after failure, could un-nest and just do success \u0026\u003d\n\nI had that before and thought that it might have been too aggressive because it’s only valid when the thing on the right side of the \u0026\u003d is (or is casted to) bool. But I’ll put it back, it’s safe because it’s a bool here.",
+      "parentUuid": "c6a48da5_db3ccd6d",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 8
+      },
+      "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca2a5567_e708cd48",
         "filename": "util/posix/signals.cc",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dad4727_a7c26b82",
+        "filename": "util/posix/signals.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-28T05:34:05Z",
+      "side": 1,
+      "message": "\u003e Is this really safe in a signal handler (no allocation)?\n\nGood catch. No, it wasn’t. I forgot to fix that.",
+      "parentUuid": "ca2a5567_e708cd48",
+      "range": {
+        "startLine": 273,
+        "startChar": 6,
+        "endLine": 273,
+        "endChar": 14
+      },
+      "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "308f54b0_0b6fe944",
+        "filename": "util/posix/signals.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-28T05:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a5156ad_f666e0bc",
+      "range": {
+        "startLine": 80,
+        "startChar": 29,
+        "endLine": 80,
+        "endChar": 36
+      },
+      "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a191806_f5531d61",
         "filename": "util/posix/signals.h",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa01b8f0_e524397e",
+        "filename": "util/posix/signals.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-28T05:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a191806_f5531d61",
+      "range": {
+        "startLine": 108,
+        "startChar": 35,
+        "endLine": 108,
+        "endChar": 36
+      },
+      "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "faf999dc_29f6409c",
+        "filename": "util/posix/signals.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-28T05:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bb1b4ed_880e4c91",
+      "range": {
+        "startLine": 135,
+        "startChar": 35,
+        "endLine": 135,
+        "endChar": 36
+      },
+      "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39cee750_9225e83f",
         "filename": "util/posix/signals_test.cc",
         "patchSetId": 1
@@ -128,6 +248,41 @@
       "writtenOn": "2017-02-27T23:44:15Z",
       "side": 1,
       "message": "Hm, don\u0027t know if this will work on Android...",
+      "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "515b5d32_4d4fb440",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-28T05:34:05Z",
+      "side": 1,
+      "message": "\u003e Hm, don\u0027t know if this will work on Android...\n\nIt may not worked in a sandboxed app, but it works in crashpad_util_test. But I changed it to \"/\" which is (slightly) more likely to work.",
+      "parentUuid": "39cee750_9225e83f",
+      "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6905b22_9c3d1a3f",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-28T05:34:05Z",
+      "side": 1,
+      "message": "But I guess I had only tested this on 32-bit arm, because arm64 doesn’t actually have a trap for hardware integer division by zero.",
       "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -148,6 +303,24 @@
       "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6283064f_679e0b7c",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-28T05:34:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af1924a8_92c8d14a",
+      "revId": "929308e455b8e6824fcdcccddf27c9d62dc464b3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
