@@ -103,7 +103,7 @@ void TestSelfProcess(const ProcessInfo& process_info) {
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   std::vector<std::string> expect_arg_vector;
   {
-    base::ScopedFILE cmdline(fopen("/proc/self/cmdline", "r"));
+    base::ScopedFILE cmdline(fopen("/proc/self/cmdline", "re"));
     ASSERT_NE(nullptr, cmdline.get()) << ErrnoMessage("fopen");
 
     int expect_arg_char;

@@ -299,9 +299,10 @@ CrashReportDatabaseMac::PrepareNewCrashReport(NewReport** out_report) {
       base_dir_.Append(kWriteDirectory)
           .Append(report->uuid.ToString() + "." + kCrashReportFileExtension);
 
-  report->handle = HANDLE_EINTR(open(report->path.value().c_str(),
-                                     O_CREAT | O_WRONLY | O_EXCL | O_EXLOCK,
-                                     0600));
+  report->handle = HANDLE_EINTR(
+      open(report->path.value().c_str(),
+           O_WRONLY | O_EXLOCK | O_CREAT | O_EXCL | O_NOCTTY | O_CLOEXEC,
+           0600));
   if (report->handle < 0) {
     PLOG(ERROR) << "open " << report->path.value();
     return kFileSystemError;
@@ -612,8 +613,9 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::RequestUpload(
 // static
 base::ScopedFD CrashReportDatabaseMac::ObtainReportLock(
     const base::FilePath& path) {
-  int fd = HANDLE_EINTR(open(path.value().c_str(),
-                             O_RDONLY | O_EXLOCK | O_NONBLOCK));
+  int fd = HANDLE_EINTR(
+      open(path.value().c_str(),
+           O_RDONLY | O_NONBLOCK | O_EXLOCK | O_NOCTTY | O_CLOEXEC));
   PLOG_IF(ERROR, fd < 0) << "open lock " << path.value();
   return base::ScopedFD(fd);
 }
