@@ -16,6 +16,24 @@
       "revId": "20400a35eddfa64ba650ca318a033181868ee0bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec555d92_19992b9f",
+        "filename": "util/mac/xattr_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-02-28T21:04:14Z",
+      "side": 1,
+      "message": "\u003e You meant to also add WRONLY here?\n\nYes. It’s not really valid to tell open() to do something without telling it whether you want the file to be readable, writeable, or both.",
+      "parentUuid": "73144938_a182eaa5",
+      "revId": "20400a35eddfa64ba650ca318a033181868ee0bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
