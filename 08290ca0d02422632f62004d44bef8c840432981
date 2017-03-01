@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ab2ff79_2e3d1c68",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-01T19:37:13Z",
+      "side": 1,
+      "message": "Remove the # and use a blank line so that it’s clear that the license has ended. Otherwise, the chances of anyone reading the next couple of comments is nearly zero, which is too bad because they’re actually important and useful.",
+      "revId": "08290ca0d02422632f62004d44bef8c840432981",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f123e30_ddc35bfd",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-01T19:37:13Z",
+      "side": 1,
+      "message": "https",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 10
+      },
+      "revId": "08290ca0d02422632f62004d44bef8c840432981",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33db16c5_26f52ead",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-01T19:37:13Z",
+      "side": 1,
+      "message": "Scott and I are in this group, that should mean that our entries can be removed below?",
+      "revId": "08290ca0d02422632f62004d44bef8c840432981",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b576602a_a081d488",
+        "filename": "project.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-01T19:37:13Z",
+      "side": 1,
+      "message": "This one should be a blank line too.",
+      "revId": "08290ca0d02422632f62004d44bef8c840432981",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36eb6e34_8cf96d61",
+        "filename": "project.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-01T19:37:13Z",
+      "side": 1,
+      "message": "nit: two spaces before the # for in-line comments, like we do in C++.",
+      "revId": "08290ca0d02422632f62004d44bef8c840432981",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
