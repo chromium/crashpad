@@ -28,14 +28,58 @@
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
+#include "build/build_config.h"
 #include "package.h"
 #include "util/file/file_io.h"
 #include "util/numeric/safe_assignment.h"
 #include "util/net/http_body.h"
+#include "util/win/module_version.h"
 
 namespace crashpad {
 
 namespace {
+
+const wchar_t kWinHttpDll[] = L"winhttp.dll";
+
+std::string UserAgent() {
+  std::string user_agent =
+      base::StringPrintf("%s/%s WinHTTP", PACKAGE_NAME, PACKAGE_VERSION);
+
+  VS_FIXEDFILEINFO version;
+  if (GetModuleVersionAndType(base::FilePath(kWinHttpDll), &version)) {
+    user_agent.append(base::StringPrintf("/%u.%u.%u.%u",
+                                         version.dwFileVersionMS >> 16,
+                                         version.dwFileVersionMS & 0xffff,
+                                         version.dwFileVersionLS >> 16,
+                                         version.dwFileVersionLS & 0xffff));
+  }
+
+  if (GetModuleVersionAndType(base::FilePath(L"kernel32.dll"), &version) &&
+      (version.dwFileOS & VOS_NT_WINDOWS32) == VOS_NT_WINDOWS32) {
+    user_agent.append(base::StringPrintf(" Windows_NT/%u.%u.%u.%u (",
+                                         version.dwFileVersionMS >> 16,
+                                         version.dwFileVersionMS & 0xffff,
+                                         version.dwFileVersionLS >> 16,
+                                         version.dwFileVersionLS & 0xffff));
+#if defined(ARCH_CPU_X86)
+    user_agent.append("x86");
+#elif defined(ARCH_CPU_X86_64)
+    user_agent.append("x64");
+#else
+#error Port
+#endif
+
+    BOOL is_wow64;
+    if (!IsWow64Process(GetCurrentProcess(), &is_wow64)) {
+      PLOG(WARNING) << "IsWow64Process";
+    } else if (is_wow64) {
+      user_agent.append("; WoW64");
+    }
+    user_agent.append(1, ')');
+  }
+
+  return user_agent;
+}
 
 // PLOG doesn't work for messages from WinHTTP, so we need to use
 // FORMAT_MESSAGE_FROM_HMODULE + the dll name manually here.
@@ -45,7 +89,7 @@ std::string WinHttpMessage(const char* extra) {
   DWORD flags = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS |
                 FORMAT_MESSAGE_MAX_WIDTH_MASK | FORMAT_MESSAGE_FROM_HMODULE;
   DWORD len = FormatMessageA(flags,
-                             GetModuleHandle(L"winhttp.dll"),
+                             GetModuleHandle(kWinHttpDll),
                              error_code,
                              0,
                              msgbuf,
@@ -93,12 +137,11 @@ HTTPTransportWin::~HTTPTransportWin() {
 }
 
 bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
-  ScopedHINTERNET session(
-      WinHttpOpen(base::UTF8ToUTF16(PACKAGE_NAME "/" PACKAGE_VERSION).c_str(),
-                  WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
-                  WINHTTP_NO_PROXY_NAME,
-                  WINHTTP_NO_PROXY_BYPASS,
-                  0));
+  ScopedHINTERNET session(WinHttpOpen(base::UTF8ToUTF16(UserAgent()).c_str(),
+                                      WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
+                                      WINHTTP_NO_PROXY_NAME,
+                                      WINHTTP_NO_PROXY_BYPASS,
+                                      0));
   if (!session.get()) {
     LOG(ERROR) << WinHttpMessage("WinHttpOpen");
     return false;
