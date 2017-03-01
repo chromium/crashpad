@@ -22,6 +22,30 @@
       "revId": "8c18a01ca74243490029cda1663889e878bc6ab8",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3f97db4_e8193f9d",
+        "filename": "util/net/http_transport_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-01T16:48:41Z",
+      "side": 1,
+      "message": "\u003e Not using sys_string_conversions.h?\n\nIt doesn’t really help here. We know we have a NUL-terminated C string, why construct a std::string too when what we really want is an NSString*?",
+      "parentUuid": "2888dac9_0a99fddb",
+      "range": {
+        "startLine": 82,
+        "startChar": 28,
+        "endLine": 82,
+        "endChar": 58
+      },
+      "revId": "8c18a01ca74243490029cda1663889e878bc6ab8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
