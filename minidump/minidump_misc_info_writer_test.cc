@@ -21,9 +21,11 @@
 #include <utility>
 
 #include "base/compiler_specific.h"
+#include "base/format_macros.h"
 #include "base/macros.h"
 #include "base/memory/ptr_util.h"
 #include "base/strings/string16.h"
+#include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
@@ -162,6 +164,29 @@ void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_4>(
                                  observed->DbgBldStr,
                                  arraysize(expected->DbgBldStr));
   }
+}
+
+template <>
+void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_5>(
+    const MINIDUMP_MISC_INFO_5* expected,
+    const MINIDUMP_MISC_INFO_5* observed) {
+  ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_4>(
+      reinterpret_cast<const MINIDUMP_MISC_INFO_4*>(expected),
+      reinterpret_cast<const MINIDUMP_MISC_INFO_4*>(observed));
+  EXPECT_EQ(expected->XStateData.SizeOfInfo, observed->XStateData.SizeOfInfo);
+  EXPECT_EQ(expected->XStateData.ContextSize, observed->XStateData.ContextSize);
+  EXPECT_EQ(expected->XStateData.EnabledFeatures,
+            observed->XStateData.EnabledFeatures);
+  for (size_t feature_index = 0;
+       feature_index < arraysize(observed->XStateData.Features);
+       ++feature_index) {
+    SCOPED_TRACE(base::StringPrintf("feature_index %" PRIuS, feature_index));
+    EXPECT_EQ(expected->XStateData.Features[feature_index].Offset,
+              observed->XStateData.Features[feature_index].Offset);
+    EXPECT_EQ(expected->XStateData.Features[feature_index].Size,
+              observed->XStateData.Features[feature_index].Size);
+  }
+  EXPECT_EQ(expected->ProcessCookie, observed->ProcessCookie);
 }
 
 TEST(MinidumpMiscInfoWriter, Empty) {
@@ -490,7 +515,7 @@ TEST(MinidumpMiscInfoWriter, BuildStringsOverflow) {
   MinidumpFileWriter minidump_file_writer;
   auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
 
-  MINIDUMP_MISC_INFO_4 tmp;
+  MINIDUMP_MISC_INFO_N tmp;
   ALLOW_UNUSED_LOCAL(tmp);
   std::string build_string(arraysize(tmp.BuildString) + 1, 'B');
   std::string debug_build_string(arraysize(tmp.DbgBldStr), 'D');
@@ -516,6 +541,63 @@ TEST(MinidumpMiscInfoWriter, BuildStringsOverflow) {
   c16lcpy(expected.DbgBldStr,
           debug_build_string_utf16.c_str(),
           arraysize(expected.DbgBldStr));
+
+  ExpectMiscInfoEqual(&expected, observed);
+}
+
+TEST(MinidumpMiscInfoWriter, XStateData) {
+  MinidumpFileWriter minidump_file_writer;
+  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+
+  const XSTATE_CONFIG_FEATURE_MSC_INFO kXStateData = {
+      sizeof(XSTATE_CONFIG_FEATURE_MSC_INFO),
+      1024,
+      0x000000000000005f,
+      {
+          {0, 512},
+          {512, 256},
+          {768, 128},
+          {896, 64},
+          {960, 32},
+          {0, 0},
+          {992, 32},
+      }};
+
+  misc_info_writer->SetXStateData(kXStateData);
+
+  minidump_file_writer.AddStream(std::move(misc_info_writer));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+
+  const MINIDUMP_MISC_INFO_5* observed = nullptr;
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(string_file.string(), &observed));
+
+  MINIDUMP_MISC_INFO_5 expected = {};
+  expected.XStateData = kXStateData;
+
+  ExpectMiscInfoEqual(&expected, observed);
+}
+
+TEST(MinidumpMiscInfoWriter, ProcessCookie) {
+  MinidumpFileWriter minidump_file_writer;
+  auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
+
+  const uint32_t kProcessCookie = 0x12345678;
+
+  misc_info_writer->SetProcessCookie(kProcessCookie);
+
+  minidump_file_writer.AddStream(std::move(misc_info_writer));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+
+  const MINIDUMP_MISC_INFO_5* observed = nullptr;
+  ASSERT_NO_FATAL_FAILURE(GetMiscInfoStream(string_file.string(), &observed));
+
+  MINIDUMP_MISC_INFO_5 expected = {};
+  expected.Flags1 = MINIDUMP_MISC5_PROCESS_COOKIE;
+  expected.ProcessCookie = kProcessCookie;
 
   ExpectMiscInfoEqual(&expected, observed);
 }
