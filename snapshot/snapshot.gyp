@@ -127,7 +127,6 @@
           'link_settings': {
             'libraries': [
               '-lpowrprof.lib',
-              '-lversion.lib',
             ],
           },
         }],
