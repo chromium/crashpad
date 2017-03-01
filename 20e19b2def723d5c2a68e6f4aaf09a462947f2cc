@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "87718f03_93769549",
+        "filename": "util/file/file_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-01T17:39:21Z",
+      "side": 1,
+      "message": "There is a LineReader implementation in breakpad that reads lines into a fixed-size buffer, which I was planning on pulling in. Would you prefer that approach to using getline?",
+      "parentUuid": "9dca7983_8c3e2b2a",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39f5c10c_e129aae1",
         "filename": "util/file/file_reader.h",
         "patchSetId": 2
