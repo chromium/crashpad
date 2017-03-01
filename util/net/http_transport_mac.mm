@@ -16,11 +16,14 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
+#include <sys/utsname.h>
 
 #include "base/mac/foundation_util.h"
 #import "base/mac/scoped_nsobject.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
+#include "build/build_config.h"
+#include "package.h"
 #include "third_party/apple_cf/CFStreamAbstract.h"
 #include "util/file/file_io.h"
 #include "util/misc/implicit_cast.h"
@@ -29,6 +32,80 @@
 namespace crashpad {
 
 namespace {
+
+NSString* AppendEscapedFormat(NSString* base,
+                              NSString* format,
+                              NSString* data) {
+  return [base stringByAppendingFormat:
+                   format,
+                   [data stringByAddingPercentEncodingWithAllowedCharacters:
+                             [[NSCharacterSet
+                                 characterSetWithCharactersInString:
+                                     @"()<>@,;:\\\"/[]?={} \t"] invertedSet]]];
+}
+
+// This builds the same User-Agent string that CFNetwork would build internally,
+// but it uses PACKAGE_NAME and PACKAGE_VERSION in place of values obtained from
+// the main bundle’s Info.plist.
+NSString* UserAgentString() {
+  NSString* user_agent = [NSString string];
+
+  // CFNetwork would use the main bundle’s CFBundleName, or the main
+  // executable’s filename if none.
+  user_agent = AppendEscapedFormat(
+      user_agent, @"%@", [NSString stringWithUTF8String:PACKAGE_NAME]);
+
+  // CFNetwork would use the main bundle’s CFBundleVersion, or the string
+  // “(unknown version)” if none.
+  user_agent = AppendEscapedFormat(
+      user_agent, @"/%@", [NSString stringWithUTF8String:PACKAGE_VERSION]);
+
+  // Expected to be CFNetwork.
+  NSBundle* nsurl_bundle = [NSBundle bundleForClass:[NSURLRequest class]];
+  NSString* bundle_name = base::mac::ObjCCast<NSString>([nsurl_bundle
+      objectForInfoDictionaryKey:base::mac::CFToNSCast(kCFBundleNameKey)]);
+  if (bundle_name) {
+    user_agent = AppendEscapedFormat(user_agent, @" %@", bundle_name);
+
+    NSString* bundle_version = base::mac::ObjCCast<NSString>([nsurl_bundle
+        objectForInfoDictionaryKey:base::mac::CFToNSCast(kCFBundleVersionKey)]);
+    if (bundle_version) {
+      user_agent = AppendEscapedFormat(user_agent, @"/%@", bundle_version);
+    }
+  }
+
+  utsname os;
+  if (uname(&os) != 0) {
+    PLOG(WARNING) << "uname";
+  } else {
+    user_agent = AppendEscapedFormat(
+        user_agent, @" %@", [NSString stringWithUTF8String:os.sysname]);
+    user_agent = AppendEscapedFormat(
+        user_agent, @"/%@", [NSString stringWithUTF8String:os.release]);
+
+    // CFNetwork just uses the equivalent of os.machine to obtain the native
+    // (kernel) architecture. Here, give the process’ architecture as well as
+    // the native architecture. Use the same strings that the kernel would, so
+    // that they can be de-duplicated.
+#if defined(ARCH_CPU_X86)
+    NSString* arch = @"i386";
+#elif defined(ARCH_CPU_X86_64)
+    NSString* arch = @"x86_64";
+#else
+#error Port
+#endif
+    user_agent = AppendEscapedFormat(user_agent, @" (%@", arch);
+
+    NSString* machine = [NSString stringWithUTF8String:os.machine];
+    if (![machine isEqualToString:arch]) {
+      user_agent = AppendEscapedFormat(user_agent, @"; %@", machine);
+    }
+
+    user_agent = [user_agent stringByAppendingString:@")"];
+  }
+
+  return user_agent;
+}
 
 // An implementation of CFReadStream. This implements the V0 callback
 // scheme.
@@ -170,6 +247,13 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
                                 cachePolicy:NSURLRequestUseProtocolCachePolicy
                             timeoutInterval:timeout()];
     [request setHTTPMethod:base::SysUTF8ToNSString(method())];
+
+    // If left to its own devices, CFNetwork would build a user-agent string
+    // based on keys in the main bundle’s Info.plist, giving ugly results if
+    // there is no Info.plist. Provide a User-Agent string similar to the one
+    // that CFNetwork would use, but with appropriate values in place of the
+    // Info.plist-derived strings.
+    [request setValue:UserAgentString() forHTTPHeaderField:@"User-Agent"];
 
     for (const auto& pair : headers()) {
       [request setValue:base::SysUTF8ToNSString(pair.second)
