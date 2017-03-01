@@ -54,6 +54,29 @@
     },
     {
       "key": {
+        "uuid": "39f5c10c_e129aae1",
+        "filename": "util/file/file_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-03-01T16:28:16Z",
+      "side": 1,
+      "message": "Prefer nullptr.",
+      "range": {
+        "startLine": 203,
+        "startChar": 17,
+        "endLine": 203,
+        "endChar": 21
+      },
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "248af013_b293d404",
         "filename": "util/posix/process_info.h",
         "patchSetId": 2
@@ -145,6 +168,29 @@
     },
     {
       "key": {
+        "uuid": "dd8dc61b_6cd845a6",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-03-01T16:28:16Z",
+      "side": 1,
+      "message": "naming: AdvanceToWhitespace",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 33
+      },
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4687c318_afc65863",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 2
@@ -173,6 +219,24 @@
       "writtenOn": "2017-02-27T16:37:05Z",
       "side": 1,
       "message": "Never call sprintf(), always use snprintf(). The buffer length is important, even if you don’t think that the buffer can overflow.\n\nsnprintf(path, sizeof(path), \"/proc/%d/status\", pid);\n\nAnd then it’s acceptable (optional, but at least safe) to size path[] to be exactly long as the longest string you’d see given the data types involved, plus room for the NUL terminator: char path[25].",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dd94bf0_ab379be3",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-03-01T16:28:16Z",
+      "side": 1,
+      "message": "Alternatively, this could just use StringPrintf.",
+      "parentUuid": "1cd76970_376b0ea4",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -366,6 +430,29 @@
     },
     {
       "key": {
+        "uuid": "9654f902_9051d94b",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-03-01T16:28:16Z",
+      "side": 1,
+      "message": "naming: AdvancePastNull",
+      "range": {
+        "startLine": 241,
+        "startChar": 12,
+        "endLine": 241,
+        "endChar": 29
+      },
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad43f9b9_c4e8d8e4",
         "filename": "util/posix/process_info_test.cc",
         "patchSetId": 2
@@ -395,6 +482,24 @@
       "side": 1,
       "message": "The only file I ran into this problem with was /proc/1/exe. (Some others are protected as well, but I don\u0027t need them yet.) This was just to figure out whether the process was 64-bit.",
       "parentUuid": "ad43f9b9_c4e8d8e4",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "101e16c7_c5a05506",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-03-01T16:28:16Z",
+      "side": 1,
+      "message": "The restrictions will also be SELinux-based. The \"shell\" domain is part of the \"app\" domain, which can ptrace other things in the app domain, but not things outside of it. Init (pid 1) is in the \"init\" domain, so that\u0027s why this won\u0027t work. But most other reliable system services will be in a different domain, too.",
+      "parentUuid": "969e67a5_e06a3455",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
