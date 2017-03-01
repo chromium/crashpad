@@ -16,6 +16,8 @@
 
 #include <winternl.h>
 
+#error Killme now!
+
 #include <algorithm>
 #include <limits>
 #include <memory>
