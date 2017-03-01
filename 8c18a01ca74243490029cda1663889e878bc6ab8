@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2888dac9_0a99fddb",
+        "filename": "util/net/http_transport_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-03-01T16:40:00Z",
+      "side": 1,
+      "message": "Not using sys_string_conversions.h?",
+      "range": {
+        "startLine": 82,
+        "startChar": 28,
+        "endLine": 82,
+        "endChar": 58
+      },
+      "revId": "8c18a01ca74243490029cda1663889e878bc6ab8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
