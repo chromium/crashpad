@@ -273,6 +273,7 @@
           'link_settings': {
             'libraries': [
               '-luser32.lib',
+              '-lversion.lib',
               '-lwinhttp.lib',
             ],
           },
