@@ -59,6 +59,7 @@
 #include "util/mach/child_port_handshake.h"
 #include "util/mach/mach_extensions.h"
 #include "util/posix/close_stdio.h"
+#include "util/posix/signals.h"
 #elif defined(OS_WIN)
 #include <windows.h>
 
@@ -145,29 +146,6 @@ class CallMetricsRecordNormalExit {
 
 #if defined(OS_MACOSX)
 
-void InstallSignalHandler(const std::vector<int>& signals,
-                          void (*handler)(int, siginfo_t*, void*)) {
-  struct sigaction sa = {};
-  sigemptyset(&sa.sa_mask);
-  sa.sa_flags = SA_SIGINFO;
-  sa.sa_sigaction = handler;
-
-  for (int sig : signals) {
-    int rv = sigaction(sig, &sa, nullptr);
-    PCHECK(rv == 0) << "sigaction " << sig;
-  }
-}
-
-void RestoreDefaultSignalHandler(int sig) {
-  struct sigaction sa = {};
-  sigemptyset(&sa.sa_mask);
-  sa.sa_flags = 0;
-  sa.sa_handler = SIG_DFL;
-  int rv = sigaction(sig, &sa, nullptr);
-  DPLOG_IF(ERROR, rv != 0) << "sigaction " << sig;
-  ALLOW_UNUSED_LOCAL(rv);
-}
-
 void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
   MetricsRecordExit(Metrics::LifetimeMilestone::kCrashed);
 
@@ -202,99 +180,19 @@ void HandleCrashSignal(int sig, siginfo_t* siginfo, void* context) {
   }
   Metrics::HandlerCrashed(metrics_code);
 
-  RestoreDefaultSignalHandler(sig);
-
-  // If the signal was received synchronously resulting from a hardware fault,
-  // returning from the signal handler will cause the kernel to re-raise it,
-  // because this handler hasn’t done anything to alleviate the condition that
-  // caused the signal to be raised in the first place. With the default signal
-  // handler in place, it will cause the same behavior to be taken as though
-  // this signal handler had never been installed at all (expected to be a
-  // crash). This is ideal, because the signal is re-raised with the same
-  // properties and from the same context that initially triggered it, providing
-  // the best debugging experience.
-
-  if ((sig != SIGILL && sig != SIGFPE && sig != SIGBUS && sig != SIGSEGV) ||
-      !si_code_valid) {
-    // Signals received other than via hardware faults, such as those raised
-    // asynchronously via kill() and raise(), and those arising via hardware
-    // traps such as int3 (resulting in SIGTRAP but advancing the instruction
-    // pointer), will not reoccur on their own when returning from the signal
-    // handler. Re-raise them.
-    //
-    // Unfortunately, when SIGBUS is received asynchronously via kill(),
-    // siginfo->si_code makes it appear as though it was actually received via a
-    // hardware fault. See 10.12.3 xnu-3789.41.3/bsd/dev/i386/unix_signal.c
-    // sendsig(). An asynchronous SIGBUS will thus cause the handler-crashed
-    // metric to be logged but will not cause the process to terminate. This
-    // isn’t ideal, but asynchronous SIGBUS is an unexpected condition. The
-    // alternative, to re-raise here on any SIGBUS, is a bad idea because it
-    // would lose properties associated with the the original signal, which are
-    // very valuable for debugging and are visible to a Mach exception handler.
-    // Since SIGBUS is normally received synchronously in response to a hardware
-    // fault, don’t sweat the unexpected asynchronous case.
-    //
-    // Because this signal handler executes with the signal blocked, this
-    // raise() cannot immediately deliver the signal. Delivery is deferred until
-    // this signal handler returns and the signal becomes unblocked. The
-    // re-raised signal will appear with the same context as where it was
-    // initially triggered.
-    int rv = raise(sig);
-    DPLOG_IF(ERROR, rv != 0) << "raise";
-    ALLOW_UNUSED_LOCAL(rv);
-  }
+  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
 }
 
 void HandleTerminateSignal(int sig, siginfo_t* siginfo, void* context) {
   MetricsRecordExit(Metrics::LifetimeMilestone::kTerminated);
-
-  RestoreDefaultSignalHandler(sig);
-
-  // Re-raise the signal. See the explanation in HandleCrashSignal(). Note that
-  // no checks for signals arising from synchronous hardware faults are made
-  // because termination signals never originate in that way.
-  int rv = raise(sig);
-  DPLOG_IF(ERROR, rv != 0) << "raise";
-  ALLOW_UNUSED_LOCAL(rv);
+  Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
 }
 
 void InstallCrashHandler() {
-  // These are the core-generating signals from 10.12.3
-  // xnu-3789.41.3/bsd/sys/signalvar.h sigprop: entries with SA_CORE are in the
-  // set.
-  const int kCrashSignals[] = {SIGQUIT,
-                               SIGILL,
-                               SIGTRAP,
-                               SIGABRT,
-                               SIGEMT,
-                               SIGFPE,
-                               SIGBUS,
-                               SIGSEGV,
-                               SIGSYS};
-  InstallSignalHandler(
-      std::vector<int>(&kCrashSignals[0],
-                       &kCrashSignals[arraysize(kCrashSignals)]),
-      HandleCrashSignal);
+  Signals::InstallCrashHandlers(HandleCrashSignal, 0, nullptr);
 
-  // Not a crash handler, but close enough. These are non-core-generating but
-  // terminating signals from 10.12.3 xnu-3789.41.3/bsd/sys/signalvar.h sigprop:
-  // entries with SA_KILL but not SA_CORE are in the set. SIGKILL is excluded
-  // because it is uncatchable.
-  const int kTerminateSignals[] = {SIGHUP,
-                                   SIGINT,
-                                   SIGPIPE,
-                                   SIGALRM,
-                                   SIGTERM,
-                                   SIGXCPU,
-                                   SIGXFSZ,
-                                   SIGVTALRM,
-                                   SIGPROF,
-                                   SIGUSR1,
-                                   SIGUSR2};
-  InstallSignalHandler(
-      std::vector<int>(&kTerminateSignals[0],
-                       &kTerminateSignals[arraysize(kTerminateSignals)]),
-      HandleTerminateSignal);
+  // Not a crash handler, but close enough.
+  Signals::InstallTerminateHandlers(HandleTerminateSignal, 0, nullptr);
 }
 
 struct ResetSIGTERMTraits {
@@ -617,7 +515,7 @@ int HandlerMain(int argc, char* argv[]) {
   base::AutoReset<ExceptionHandlerServer*> reset_g_exception_handler_server(
       &g_exception_handler_server, &exception_handler_server);
 
-  struct sigaction old_sa;
+  struct sigaction old_sigterm_action;
   ScopedResetSIGTERM reset_sigterm;
   if (!options.mach_service.empty()) {
     // When running from launchd, no no-senders notification could ever be
@@ -627,13 +525,10 @@ int HandlerMain(int argc, char* argv[]) {
     //
     // Set up a SIGTERM handler that will call exception_handler_server.Stop().
     // This replaces the HandleTerminateSignal handler for SIGTERM.
-    struct sigaction sa = {};
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_SIGINFO;
-    sa.sa_sigaction = HandleSIGTERM;
-    int rv = sigaction(SIGTERM, &sa, &old_sa);
-    PCHECK(rv == 0) << "sigaction";
-    reset_sigterm.reset(&old_sa);
+    if (Signals::InstallHandler(
+            SIGTERM, HandleSIGTERM, 0, &old_sigterm_action)) {
+      reset_sigterm.reset(&old_sigterm_action);
+    }
   }
 #elif defined(OS_WIN)
   // Shut down as late as possible relative to programs we're watching.

@@ -74,6 +74,7 @@
         'numeric/in_range_cast_test.cc',
         'numeric/int128_test.cc',
         'posix/process_info_test.cc',
+        'posix/signals_test.cc',
         'posix/symbolic_constants_posix_test.cc',
         'stdlib/aligned_allocator_test.cc',
         'stdlib/map_insert_test.cc',
