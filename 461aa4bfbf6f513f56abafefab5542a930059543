@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ce8e844_207ea65d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-02T15:10:23Z",
+      "side": 1,
+      "message": "P.S. These need to be written as BUG\u003dcrashpad:162. Otherwise, Gerrit and other tools turn them into links to Chromium bugs.",
+      "revId": "461aa4bfbf6f513f56abafefab5542a930059543",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
