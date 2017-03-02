@@ -16,6 +16,24 @@
       "revId": "7b5f12b368bc7409f72e9f26553bd270afc48238",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "928b7ff9_004fe619",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003232
+      },
+      "writtenOn": "2017-03-02T00:15:39Z",
+      "side": 1,
+      "message": "Yes, there are tryservers on this master. Apparently this is confusing everyone else in infra, so I may have given out bad advice here ...",
+      "parentUuid": "f9f563ec_11b3ac5c",
+      "revId": "7b5f12b368bc7409f72e9f26553bd270afc48238",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
