@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0bd0268b_214405c4",
+        "filename": "infra/config/cq.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-02T15:04:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec3dec8_b7ba9108",
+      "revId": "1bd5d90852fbc086665ace5d681d76bdec71a5ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "defc1018_1207d28c",
         "filename": "infra/config/cq.cfg",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-02T14:46:16Z",
       "side": 1,
       "message": "What does this do? Is it Chromium-specific or is it OK to use here?",
+      "revId": "1bd5d90852fbc086665ace5d681d76bdec71a5ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d394d3ec_5d11799b",
+        "filename": "infra/config/cq.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-02T15:04:36Z",
+      "side": 1,
+      "message": "This is snarfed from the Syzygy configuration, to my understanding this is where the CQ pushes progress and results.",
+      "parentUuid": "defc1018_1207d28c",
       "revId": "1bd5d90852fbc086665ace5d681d76bdec71a5ff",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
