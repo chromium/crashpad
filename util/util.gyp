@@ -134,6 +134,7 @@
         'posix/drop_privileges.cc',
         'posix/drop_privileges.h',
         'posix/process_info.h',
+        'posix/process_info_linux.cc',
         'posix/process_info_mac.cc',
         'posix/signals.cc',
         'posix/signals.h',
@@ -298,6 +299,13 @@
         }, {  # else: OS!="win"
           'sources!': [
             'win/capture_context.asm',
+          ],
+        }],
+      ],
+      'target_conditions': [
+        ['OS=="android"', {
+          'sources/': [
+            ['include', '^posix/process_info_linux\\.cc$'],
           ],
         }],
       ],
