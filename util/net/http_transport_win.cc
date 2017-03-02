@@ -20,8 +20,10 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <wchar.h>
+#include <wincrypt.h>
 #include <winhttp.h>
 
+#include "base/auto_reset.h"
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/scoped_generic.h"
@@ -127,10 +129,18 @@ class HTTPTransportWin final : public HTTPTransport {
   bool ExecuteSynchronously(std::string* response_body) override;
 
  private:
+  static void CALLBACK WinHttpStatusCallback(HINTERNET session,
+                                             DWORD_PTR context,
+                                             DWORD status,
+                                             LPVOID status_information,
+                                             DWORD status_information_length);
+
+  ScopedHINTERNET* request_;  // weak
+
   DISALLOW_COPY_AND_ASSIGN(HTTPTransportWin);
 };
 
-HTTPTransportWin::HTTPTransportWin() : HTTPTransport() {
+HTTPTransportWin::HTTPTransportWin() : HTTPTransport(), request_(nullptr) {
 }
 
 HTTPTransportWin::~HTTPTransportWin() {
@@ -144,6 +154,23 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
                                       0));
   if (!session.get()) {
     LOG(ERROR) << WinHttpMessage("WinHttpOpen");
+    return false;
+  }
+
+  void* context = this;
+  if (!WinHttpSetOption(session.get(),
+                        WINHTTP_OPTION_CONTEXT_VALUE,
+                        &context,
+                        sizeof(context))) {
+    LOG(ERROR) << WinHttpMessage("WinHttpSetOption");
+    return false;
+  }
+
+  if (WinHttpSetStatusCallback(session.get(),
+                               WinHttpStatusCallback,
+                               WINHTTP_CALLBACK_FLAG_SEND_REQUEST,
+                               0) == WINHTTP_INVALID_STATUS_CALLBACK) {
+    LOG(ERROR) << WinHttpMessage("WinHttpSetStatusCallback");
     return false;
   }
 
@@ -209,6 +236,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
     LOG(ERROR) << WinHttpMessage("WinHttpOpenRequest");
     return false;
   }
+  base::AutoReset<ScopedHINTERNET*> reset_request(&request_, &request);
 
   // Add headers to the request.
   //
@@ -395,6 +423,91 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   }
 
   return true;
+}
+
+// static
+void CALLBACK
+HTTPTransportWin::WinHttpStatusCallback(HINTERNET session,
+                                        DWORD_PTR context,
+                                        DWORD status,
+                                        LPVOID status_information,
+                                        DWORD status_information_length) {
+  HTTPTransportWin* self = reinterpret_cast<HTTPTransportWin*>(context);
+
+  if (status != WINHTTP_CALLBACK_STATUS_SENDING_REQUEST) {
+    return;
+  }
+
+  // This point is reached three times with identical parameters for a single
+  // request. I don’t know why.
+
+  const CERT_CONTEXT* cert_context;
+  DWORD cert_context_size = sizeof(cert_context);
+  if (!WinHttpQueryOption(session,
+                          WINHTTP_OPTION_SERVER_CERT_CONTEXT,
+                          &cert_context,
+                          &cert_context_size)) {
+    LOG(INFO) << WinHttpMessage("WinHttpQueryOption");
+    return;
+  }
+  while (cert_context) {
+    HCRYPTPROV crypt_provider;
+    if (!CryptAcquireContext(&crypt_provider,
+                             nullptr,
+                             nullptr,
+                             PROV_RSA_AES,
+                             CRYPT_VERIFYCONTEXT)) {
+      PLOG(ERROR) << "CryptAcquireContext";
+    } else {
+      HCRYPTHASH crypt_hash;
+      if (!CryptCreateHash(crypt_provider, CALG_SHA_256, 0, 0, &crypt_hash)) {
+        PLOG(ERROR) << "CryptCreateHash";
+      } else {
+        // cert_context->pCertInfo->SubjectPublicKeyInfo.Algorithm needs to be
+        // added to the hash before …PublicKey, but …Algorithm isn’t in the
+        // right format. The OID at ….Algorithm.pszObjId is provided as a text
+        // string, but what goes into the hash needs to be DER-encoded ASN.1.
+        // See RFC 7469 §2.4.
+        if (!CryptHashData(
+                crypt_hash,
+                cert_context->pCertInfo->SubjectPublicKeyInfo.PublicKey.pbData,
+                cert_context->pCertInfo->SubjectPublicKeyInfo.PublicKey.cbData,
+                0)) {
+          PLOG(ERROR) << "CryptHashData";
+        } else {
+          uint8_t hash_val[32];
+          DWORD hash_len = sizeof(hash_val);
+          if (!CryptGetHashParam(
+                  crypt_hash, HP_HASHVAL, hash_val, &hash_len, 0)) {
+            PLOG(ERROR) << "CryptGetHashParam";
+          } else {
+            // Do something with hash_val.
+          }
+        }
+        CryptDestroyHash(crypt_hash);
+      }
+      CryptReleaseContext(crypt_provider, 0);
+    }
+
+    DWORD flags = 0;
+    const CERT_CONTEXT* issuer = CertGetIssuerCertificateFromStore(
+        cert_context->hCertStore, cert_context, nullptr, &flags);
+    if (!issuer) {
+      if (GetLastError() != CRYPT_E_NOT_FOUND) {
+        PLOG(ERROR) << "CertGetIssuerCertificateFromStore";
+      }
+      break;
+    }
+
+    CertFreeCertificateContext(cert_context);
+    cert_context = issuer;
+  }
+  CertFreeCertificateContext(cert_context);
+
+  if (false) {
+    // This seems to work to cancel the request if anything appears unseemly.
+    self->request_->reset();
+  }
 }
 
 }  // namespace
