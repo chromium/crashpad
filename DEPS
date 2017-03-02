@@ -42,6 +42,9 @@ deps = {
   'crashpad/third_party/zlib/zlib':
       Var('chromium_git') + '/chromium/src/third_party/zlib@' +
       '13dc246a58e4b72104d35f9b1809af95221ebda7',
+  'crashpad/third_party/lss':
+      Var('chromium_git') + '/linux-syscall-support@' +
+      'c555f533313986d29c827eb59c7bd99fd37b3ec4',
 }
 
 hooks = [
