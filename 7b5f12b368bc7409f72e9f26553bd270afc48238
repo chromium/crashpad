@@ -34,6 +34,24 @@
       "revId": "7b5f12b368bc7409f72e9f26553bd270afc48238",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14388132_ba90f930",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-02T01:27:06Z",
+      "side": 1,
+      "message": "\u003e Yes, there are tryservers on this master. Apparently this is confusing everyone else in infra, so I may have given out bad advice here ...\n\nIt sounds like this is related to the confusion on https://crbug.com/697636 too. Perhaps we’d be better off doing what dnj suggested in comment 5 there, if that’s more what the infra team expects. Is it?",
+      "parentUuid": "928b7ff9_004fe619",
+      "revId": "7b5f12b368bc7409f72e9f26553bd270afc48238",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
