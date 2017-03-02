@@ -52,6 +52,24 @@
       "revId": "7b5f12b368bc7409f72e9f26553bd270afc48238",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9a7db89_aae53702",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1185014
+      },
+      "writtenOn": "2017-03-02T03:22:23Z",
+      "side": 1,
+      "message": "yes, the general pattern is that tryservers have \"master.tryserver.\" prefix",
+      "parentUuid": "14388132_ba90f930",
+      "revId": "7b5f12b368bc7409f72e9f26553bd270afc48238",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
