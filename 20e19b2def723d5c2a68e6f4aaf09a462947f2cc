@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f51c110e_c136e2f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1b1f394_48c7a7f1",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7846681d_fea0dd29",
         "filename": "util/file/file_reader.h",
         "patchSetId": 2
@@ -90,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "d3fc2830_de7d7dc6",
+        "filename": "util/file/file_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc80ae6d_28ed702d",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39f5c10c_e129aae1",
         "filename": "util/file/file_reader.h",
         "patchSetId": 2
@@ -130,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "04bb80b1_d8c5e965",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "248af013_b293d404",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e1d85460_c6d1d2fe",
         "filename": "util/posix/process_info.h",
         "patchSetId": 2
@@ -141,6 +195,24 @@
       "writtenOn": "2017-02-27T16:37:05Z",
       "side": 1,
       "message": "For best packing, start with the std::set, then the timeval, then the pid/uid/gids (which are all int), and finally the bool.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93dbd560_3ea7b6b6",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1d85460_c6d1d2fe",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -170,6 +242,30 @@
     },
     {
       "key": {
+        "uuid": "530ec5ed_97e244db",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7f3d85_69a9a6ac",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72b8df1f_49076d4d",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 2
@@ -187,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "a183cb97_8d4d5904",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72b8df1f_49076d4d",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "66dde67e_5c27e417",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 2
@@ -198,6 +312,24 @@
       "writtenOn": "2017-02-27T16:37:05Z",
       "side": 1,
       "message": "Same for \u003cunistd.h\u003e.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "febbcd38_241787dd",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66dde67e_5c27e417",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -227,6 +359,30 @@
     },
     {
       "key": {
+        "uuid": "36582a06_e27a8863",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd8dc61b_6cd845a6",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 33
+      },
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4687c318_afc65863",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 2
@@ -238,6 +394,24 @@
       "writtenOn": "2017-02-27T16:37:05Z",
       "side": 1,
       "message": "This is named like it’s going to CHECK(), but it doesn’t.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00b99010_4a5ddba6",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "4687c318_afc65863",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -279,6 +453,24 @@
     },
     {
       "key": {
+        "uuid": "e81f84fa_1ff8a229",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cd76970_376b0ea4",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47fdaa21_25fdbe97",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 2
@@ -290,6 +482,24 @@
       "writtenOn": "2017-02-27T16:37:05Z",
       "side": 1,
       "message": "Don’t hard-code lengths. You have the \"Ppid:\" string, so use strlen.\n\nYou’re also looking explicitly for a tab following it on the next line. This should match.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83fa2cf0_9590162a",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47fdaa21_25fdbe97",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -330,6 +540,24 @@
     },
     {
       "key": {
+        "uuid": "0e152c69_bef5c65b",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "sscanf replaced with Chomp/StringToNumber helpers.",
+      "parentUuid": "6bf78dfa_8c8f6595",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a95a0662_27c96be0",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 2
@@ -341,6 +569,24 @@
       "writtenOn": "2017-02-27T16:37:05Z",
       "side": 1,
       "message": "Any of these three fields can legally be 0.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f44b05d9_9f4ef570",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Changed success condition to checking that values were successfully read.",
+      "parentUuid": "a95a0662_27c96be0",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -364,6 +610,24 @@
     },
     {
       "key": {
+        "uuid": "f7a8afde_00c43691",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "8802e909_1775536f",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23919146_3db70f6d",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 2
@@ -375,6 +639,24 @@
       "writtenOn": "2017-02-27T16:37:05Z",
       "side": 1,
       "message": "System without a functioning real-time clock keeping time while the power is off? I think that this can validly be 0 too. The real error condition would be if you didn’t find a btime at all.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e2a1e64_e756f9c4",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "23919146_3db70f6d",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -398,6 +680,24 @@
     },
     {
       "key": {
+        "uuid": "16d8e6d4_81580290",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7872f46_3030cd72",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a2f8637_171da2b7",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 2
@@ -409,6 +709,24 @@
       "writtenOn": "2017-02-27T16:37:05Z",
       "side": 1,
       "message": "Also %llu according to both the line above and the kernel.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4efc32e1_f37cb802",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "I changed this to uint64_t because StringToNumber couldn\u0027t convert unsigned long long to uint64_t.",
+      "parentUuid": "9a2f8637_171da2b7",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -432,6 +750,24 @@
     },
     {
       "key": {
+        "uuid": "c2ef732e_f0605f3d",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e64daa9c_3b97923b",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "519c870b_57108dfa",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 2
@@ -443,6 +779,24 @@
       "writtenOn": "2017-02-27T16:37:05Z",
       "side": 1,
       "message": "Definitely don’t open up the executable in this process. For one thing, it may have changed on disk. Crashpad handlers should never open up things that are mapped into a victim process’ address space. They should be able to access everything that they need by reading the victim’s state and accessing its memory.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "260a3f2d_120f4c6d",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "I changed my strategy to using ptrace to collect GPRs and comparing the size of the returned data to what we expect for the bit-ness of Crashpad\u0027s process.",
+      "parentUuid": "519c870b_57108dfa",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -483,6 +837,48 @@
         "endLine": 241,
         "endChar": 29
       },
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d965b292_580c2c2f",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9654f902_9051d94b",
+      "range": {
+        "startLine": 241,
+        "startChar": 12,
+        "endLine": 241,
+        "endChar": 29
+      },
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abc7fbed_ae209108",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-02T22:53:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9110ee6_a3fb4b8b",
       "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
