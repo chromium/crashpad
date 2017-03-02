@@ -19,6 +19,8 @@
 
 #include <vector>
 
+#error Killme Quick!
+
 #include "snapshot/cpu_context.h"
 #include "util/numeric/checked_range.h"
 
