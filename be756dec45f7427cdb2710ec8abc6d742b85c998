@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78e8b3f2_4f393323",
+        "filename": "tools/crashpad_http_upload.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-03-03T18:21:33Z",
+      "side": 1,
+      "message": "util/string/split_string.h has this as SplitStringFirst().",
+      "revId": "be756dec45f7427cdb2710ec8abc6d742b85c998",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
