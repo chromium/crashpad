@@ -119,6 +119,7 @@
         'net/http_multipart_builder.h',
         'net/http_transport.cc',
         'net/http_transport.h',
+        'net/http_transport_libcurl.cc',
         'net/http_transport_mac.mm',
         'net/http_transport_win.cc',
         'numeric/checked_address_range.cc',
@@ -298,6 +299,17 @@
         }, {  # else: OS!="win"
           'sources!': [
             'win/capture_context.asm',
+          ],
+        }],
+        ['OS=="linux"', {
+          'link_settings': {
+            'libraries': [
+              '-lcurl',
+            ],
+          },
+        }, {  # else: OS!="linux"
+          'sources!': [
+            'net/http_transport_libcurl.cc',
           ],
         }],
       ],
