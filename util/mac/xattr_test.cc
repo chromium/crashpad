@@ -37,8 +37,10 @@ class Xattr : public testing::Test {
 
   void SetUp() override {
     path_ = temp_dir_.path().Append("xattr_file");
-    base::ScopedFD tmp(HANDLE_EINTR(
-          open(path_.value().c_str(), O_CREAT | O_TRUNC, 0644)));
+    base::ScopedFD tmp(
+        HANDLE_EINTR(open(path_.value().c_str(),
+                          O_WRONLY | O_CREAT | O_TRUNC | O_NOCTTY | O_CLOEXEC,
+                          0644)));
     EXPECT_GE(tmp.get(), 0) << ErrnoMessage("open");
   }
 

@@ -135,6 +135,8 @@
         'posix/drop_privileges.h',
         'posix/process_info.h',
         'posix/process_info_mac.cc',
+        'posix/signals.cc',
+        'posix/signals.h',
         'posix/symbolic_constants_posix.cc',
         'posix/symbolic_constants_posix.h',
         'stdlib/aligned_allocator.cc',
@@ -271,6 +273,7 @@
           'link_settings': {
             'libraries': [
               '-luser32.lib',
+              '-lversion.lib',
               '-lwinhttp.lib',
             ],
           },

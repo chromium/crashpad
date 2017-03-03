@@ -38,7 +38,7 @@ deps = {
 
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      'f65519e442d23498937251e680a3b113927613b0',
+      '3a2d52d74c9af5277bf6456cc00ae728f89c4898',
   'crashpad/third_party/zlib/zlib':
       Var('chromium_git') + '/chromium/src/third_party/zlib@' +
       '13dc246a58e4b72104d35f9b1809af95221ebda7',
@@ -72,6 +72,19 @@ hooks = [
     ],
   },
   {
+    'name': 'clang_format_linux',
+    'pattern': '.',
+    'action': [
+      'download_from_google_storage',
+      '--platform=^linux2?$',
+      '--no_resume',
+      '--no_auth',
+      '--bucket=chromium-clang-format',
+      '--sha1_file',
+      'buildtools/linux64/clang-format.sha1',
+    ],
+  },
+  {
     'name': 'gn_mac',
     'pattern': '.',
     'action': [
@@ -95,6 +108,19 @@ hooks = [
       '--bucket=chromium-gn',
       '--sha1_file',
       'buildtools/win/gn.exe.sha1',
+    ],
+  },
+  {
+    'name': 'gn_linux',
+    'pattern': '.',
+    'action': [
+      'download_from_google_storage',
+      '--platform=^linux2?$',
+      '--no_resume',
+      '--no_auth',
+      '--bucket=chromium-gn',
+      '--sha1_file',
+      'buildtools/linux64/gn.sha1',
     ],
   },
   {

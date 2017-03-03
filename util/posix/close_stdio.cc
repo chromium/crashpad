@@ -27,7 +27,8 @@ namespace crashpad {
 namespace {
 
 void CloseStdioStream(int desired_fd, int oflag) {
-  base::ScopedFD fd(HANDLE_EINTR(open(_PATH_DEVNULL, oflag)));
+  base::ScopedFD fd(
+      HANDLE_EINTR(open(_PATH_DEVNULL, oflag | O_NOCTTY | O_CLOEXEC)));
   if (fd == desired_fd) {
     // Weird, but play along.
     ignore_result(fd.release());

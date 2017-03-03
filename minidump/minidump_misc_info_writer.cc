@@ -145,7 +145,7 @@ std::string MinidumpMiscInfoDebugBuildString() {
 }  // namespace internal
 
 MinidumpMiscInfoWriter::MinidumpMiscInfoWriter()
-    : MinidumpStreamWriter(), misc_info_() {
+    : MinidumpStreamWriter(), misc_info_(), has_xstate_data_(false) {
 }
 
 MinidumpMiscInfoWriter::~MinidumpMiscInfoWriter() {
@@ -330,6 +330,21 @@ void MinidumpMiscInfoWriter::SetBuildString(
       debug_build_string);
 }
 
+void MinidumpMiscInfoWriter::SetXStateData(
+    const XSTATE_CONFIG_FEATURE_MSC_INFO& xstate_data) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  misc_info_.XStateData = xstate_data;
+  has_xstate_data_ = true;
+}
+
+void MinidumpMiscInfoWriter::SetProcessCookie(uint32_t process_cookie) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  misc_info_.ProcessCookie = process_cookie;
+  misc_info_.Flags1 |= MINIDUMP_MISC5_PROCESS_COOKIE;
+}
+
 bool MinidumpMiscInfoWriter::Freeze() {
   DCHECK_EQ(state(), kStateMutable);
 
@@ -365,6 +380,9 @@ MinidumpStreamType MinidumpMiscInfoWriter::StreamType() const {
 size_t MinidumpMiscInfoWriter::CalculateSizeOfObjectFromFlags() const {
   DCHECK_GE(state(), kStateFrozen);
 
+  if (has_xstate_data_ || (misc_info_.Flags1 & MINIDUMP_MISC5_PROCESS_COOKIE)) {
+    return sizeof(MINIDUMP_MISC_INFO_5);
+  }
   if (misc_info_.Flags1 & MINIDUMP_MISC4_BUILDSTRING) {
     return sizeof(MINIDUMP_MISC_INFO_4);
   }

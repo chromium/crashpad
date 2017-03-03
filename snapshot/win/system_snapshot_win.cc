@@ -106,17 +106,17 @@ void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
     os_version_major_ = ffi.dwFileVersionMS >> 16;
     os_version_minor_ = ffi.dwFileVersionMS & 0xffff;
     os_version_bugfix_ = ffi.dwFileVersionLS >> 16;
-    os_version_build_ =
-        base::StringPrintf("%d", ffi.dwFileVersionLS & 0xffff);
+    os_version_build_ = base::StringPrintf("%u", ffi.dwFileVersionLS & 0xffff);
     os_version_full_ = base::StringPrintf(
-        "%s %d.%d.%d.%s%s",
+        "%s %u.%u.%u.%s%s",
         os_name.c_str(),
         os_version_major_,
         os_version_minor_,
         os_version_bugfix_,
         os_version_build_.c_str(),
-        flags_string.empty() ? "" : (std::string(" (") + flags_string + ")")
-                                        .c_str());
+        flags_string.empty()
+            ? ""
+            : (std::string(" (") + flags_string + ")").c_str());
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
