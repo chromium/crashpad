@@ -56,6 +56,11 @@ bool WeakFileHandleFileWriter::Write(const void* data, size_t size) {
 bool WeakFileHandleFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
 
+  if (iovecs->empty()) {
+    LOG(ERROR) << "WriteIoVec(): no iovecs";
+    return false;
+  }
+
 #if defined(OS_POSIX)
 
   ssize_t size = 0;
@@ -185,6 +190,68 @@ bool FileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
 FileOffset FileWriter::Seek(FileOffset offset, int whence) {
   DCHECK(file_.is_valid());
   return weak_file_handle_file_writer_.Seek(offset, whence);
+}
+
+WeakStdioFileWriter::WeakStdioFileWriter(FILE* file)
+    : file_(file) {
+}
+
+WeakStdioFileWriter::~WeakStdioFileWriter() {
+}
+
+bool WeakStdioFileWriter::Write(const void* data, size_t size) {
+  DCHECK(file_);
+
+  size_t rv = fwrite(data, 1, size, file_);
+  if (rv != size) {
+    if (ferror(file_)) {
+      STDIO_PLOG(ERROR) << "fwrite";
+    } else {
+      LOG(ERROR) << "fwrite: expected " << size << ", observed " << rv;
+    }
+    return false;
+  }
+
+  return true;
+}
+
+bool WeakStdioFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
+  DCHECK(file_);
+
+  if (iovecs->empty()) {
+    LOG(ERROR) << "WriteIoVec(): no iovecs";
+    return false;
+  }
+
+  for (const WritableIoVec& iov : *iovecs) {
+    if (!Write(iov.iov_base, iov.iov_len)) {
+      return false;
+    }
+  }
+
+#ifndef NDEBUG
+  // The interface says that |iovecs| is not sacred, so scramble it to make sure
+  // that nobody depends on it.
+  memset(&(*iovecs)[0], 0xa5, sizeof((*iovecs)[0]) * iovecs->size());
+#endif
+
+  return true;
+}
+
+FileOffset WeakStdioFileWriter::Seek(FileOffset offset, int whence) {
+  DCHECK(file_);
+  if (fseeko(file_, offset, whence) == -1) {
+    STDIO_PLOG(ERROR) << "fseeko";
+    return -1;
+  }
+
+  FileOffset new_offset = ftello(file_);
+  if (new_offset == -1) {
+    STDIO_PLOG(ERROR) << "ftello";
+    return -1;
+  }
+
+  return new_offset;
 }
 
 }  // namespace crashpad

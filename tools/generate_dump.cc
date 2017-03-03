@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <fcntl.h>
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,12 +47,6 @@
 namespace crashpad {
 namespace {
 
-struct Options {
-  std::string dump_path;
-  pid_t pid;
-  bool suspend;
-};
-
 void Usage(const base::FilePath& me) {
   fprintf(stderr,
 "Usage: %" PRFilePath " [OPTION]... PID\n"
@@ -85,7 +78,11 @@ int GenerateDumpMain(int argc, char* argv[]) {
     kOptionVersion = -3,
   };
 
-  Options options = {};
+  struct {
+    std::string dump_path;
+    pid_t pid;
+    bool suspend;
+  } options = {};
   options.suspend = true;
 
   const option long_options[] = {

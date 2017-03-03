@@ -72,8 +72,17 @@ class ToolSupport {
   //! `char*`. This undoes that transformation.
   //!
   //! \sa Wmain()
+  //! \sa FilePathToCommandLineArgument()
   static base::FilePath::StringType CommandLineArgumentToFilePathStringType(
       const base::StringPiece& arg);
+
+  //! \brief Converts a base::FilePath to a command line argument.
+  //!
+  //! On POSIX, this is a no-op. On Windows, this undoes the transformation done
+  //! by CommandLineArgumentToFilePathStringType() in the same manner as
+  //! Wmain().
+  static std::string FilePathToCommandLineArgument(
+      const base::FilePath& file_path);
 
  private:
   DISALLOW_IMPLICIT_CONSTRUCTORS(ToolSupport);

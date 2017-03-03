@@ -109,8 +109,12 @@ FileOperationResult WeakStdioFileReader::Read(void* data, size_t size) {
   DCHECK(file_);
 
   size_t rv = fread(data, 1, size, file_);
-  if (rv < size && ferror(file_)) {
+  if (rv != size && ferror(file_)) {
     STDIO_PLOG(ERROR) << "fread";
+    return -1;
+  }
+  if (rv > size) {
+    LOG(ERROR) << "fread: expected " << size << ", observed " << rv;
     return -1;
   }
 
