@@ -16,6 +16,24 @@
       "revId": "be756dec45f7427cdb2710ec8abc6d742b85c998",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efe31bd3_9f92b4e2",
+        "filename": "tools/crashpad_http_upload.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-03T20:11:41Z",
+      "side": 1,
+      "message": "\u003e util/string/split_string.h has this as SplitStringFirst().\n\nThat didn’t exist when I initially wrote this, but yeah…same exact function (just with a parameterized delimiter). Thanks.",
+      "parentUuid": "78e8b3f2_4f393323",
+      "revId": "be756dec45f7427cdb2710ec8abc6d742b85c998",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
