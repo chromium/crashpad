@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d69f92f1_0100ddc2",
+        "filename": "util/net/http_transport_libcurl.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-03-03T18:13:38Z",
+      "side": 1,
+      "message": "Just FYI we\u0027ll need MIPS here too. *groan*",
+      "revId": "f3c1ebdf7205d6ac3b894ff06ec20cdc7d9d174c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
