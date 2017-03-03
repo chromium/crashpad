@@ -98,4 +98,14 @@ base::FilePath::StringType ToolSupport::CommandLineArgumentToFilePathStringType(
 #endif  // OS_POSIX
 }
 
+// static
+std::string ToolSupport::FilePathToCommandLineArgument(
+    const base::FilePath& file_path) {
+#if defined(OS_POSIX)
+  return file_path.value();
+#elif defined(OS_WIN)
+  return base::UTF16ToUTF8(file_path.value());
+#endif  // OS_POSIX
+}
+
 }  // namespace crashpad

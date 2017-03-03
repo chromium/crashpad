@@ -49,6 +49,22 @@
       ],
     },
     {
+      'target_name': 'crashpad_http_upload',
+      'type': 'executable',
+      'dependencies': [
+        'crashpad_tool_support',
+        '../compat/compat.gyp:crashpad_compat',
+        '../third_party/mini_chromium/mini_chromium.gyp:base',
+        '../util/util.gyp:crashpad_util',
+      ],
+      'include_dirs': [
+        '..',
+      ],
+      'sources': [
+        'crashpad_http_upload.cc',
+      ],
+    },
+    {
       'target_name': 'generate_dump',
       'type': 'executable',
       'dependencies': [
@@ -77,7 +93,7 @@
           },
         }],
       ],
-    }
+    },
   ],
   'conditions': [
     ['OS=="mac"', {
