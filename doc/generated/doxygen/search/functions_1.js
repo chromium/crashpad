@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['actionforsignal',['ActionForSignal',['../classcrashpad_1_1Signals_1_1OldActions.html#a5afdbf5011a88a645526aabbb2f41da2',1,'crashpad::Signals::OldActions']]],
   ['addchild',['AddChild',['../classcrashpad_1_1internal_1_1MinidumpRVAListWriter.html#a650aa2beb2d0912ad0b5f1540656ea91',1,'crashpad::internal::MinidumpRVAListWriter']]],
   ['addentry',['AddEntry',['../classcrashpad_1_1MinidumpSimpleStringDictionaryWriter.html#a1e2946de77a7c5b6f852e3fdc0c50521',1,'crashpad::MinidumpSimpleStringDictionaryWriter']]],
   ['addextramemory',['AddExtraMemory',['../classcrashpad_1_1MinidumpMemoryListWriter.html#ab5ea390ff195401d99da51291ba1d595',1,'crashpad::MinidumpMemoryListWriter::AddExtraMemory()'],['../classcrashpad_1_1test_1_1TestProcessSnapshot.html#ad8660f79a14f789431c344d3842f0827',1,'crashpad::test::TestProcessSnapshot::AddExtraMemory()'],['../classcrashpad_1_1test_1_1TestThreadSnapshot.html#a645715913a5fe095cba580836647ff0a',1,'crashpad::test::TestThreadSnapshot::AddExtraMemory()']]],

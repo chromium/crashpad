@@ -3,6 +3,7 @@ var searchData=
   ['wait',['Wait',['../classcrashpad_1_1Semaphore.html#ade6db63246c9d6f3a36f3631b04c2bfd',1,'crashpad::Semaphore']]],
   ['waitforexit',['WaitForExit',['../classcrashpad_1_1test_1_1ChildLauncher.html#a9377824f2dcd5a9acc456c0d8b402a8b',1,'crashpad::test::ChildLauncher']]],
   ['waitforhandlerstart',['WaitForHandlerStart',['../classcrashpad_1_1CrashpadClient.html#a0377d4e93ac77453f57f3c1fcae09e14',1,'crashpad::CrashpadClient']]],
+  ['willsignalreraiseautonomously',['WillSignalReraiseAutonomously',['../classcrashpad_1_1Signals.html#a8b8de5e2464d8b4cbd9edc3729fe5aae',1,'crashpad::Signals']]],
   ['willwriteatoffset',['WillWriteAtOffset',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#a8439e05e21ccb78a4d61cd6e817d3bf5',1,'crashpad::internal::MinidumpWritable']]],
   ['willwriteatoffsetimpl',['WillWriteAtOffsetImpl',['../classcrashpad_1_1MinidumpFileWriter.html#ae9b7cef2c519dfdd5a7a06ecdd9766cc',1,'crashpad::MinidumpFileWriter::WillWriteAtOffsetImpl()'],['../classcrashpad_1_1internal_1_1MinidumpWritable.html#a2416cb821816b769d95b92e486713ebf',1,'crashpad::internal::MinidumpWritable::WillWriteAtOffsetImpl()']]],
   ['wmain',['Wmain',['../classcrashpad_1_1ToolSupport.html#aaad18d0b502511e21f6c3ed5da86ccf4',1,'crashpad::ToolSupport']]],

@@ -30,6 +30,7 @@ var searchData=
   ['minidump_5fmisc_5finfo_5f2',['MINIDUMP_MISC_INFO_2',['../structMINIDUMP__MISC__INFO__2.html',1,'']]],
   ['minidump_5fmisc_5finfo_5f3',['MINIDUMP_MISC_INFO_3',['../structMINIDUMP__MISC__INFO__3.html',1,'']]],
   ['minidump_5fmisc_5finfo_5f4',['MINIDUMP_MISC_INFO_4',['../structMINIDUMP__MISC__INFO__4.html',1,'']]],
+  ['minidump_5fmisc_5finfo_5f5',['MINIDUMP_MISC_INFO_5',['../structMINIDUMP__MISC__INFO__5.html',1,'']]],
   ['minidump_5fmodule',['MINIDUMP_MODULE',['../structMINIDUMP__MODULE.html',1,'']]],
   ['minidump_5fmodule_5flist',['MINIDUMP_MODULE_LIST',['../structMINIDUMP__MODULE__LIST.html',1,'']]],
   ['minidump_5fstring',['MINIDUMP_STRING',['../structMINIDUMP__STRING.html',1,'']]],

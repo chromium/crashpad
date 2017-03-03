@@ -74,6 +74,9 @@ $(function() {
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXSTATE__FEATURE.html">XSTATE_FEATURE</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The location of a single state component within an XSAVE area.  <a href="structXSTATE__FEATURE.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structIMAGE__DEBUG__MISC.html">IMAGE_DEBUG_MISC</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Miscellaneous debugging record.  <a href="structIMAGE__DEBUG__MISC.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -84,6 +87,9 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="winnt_8h.html#a3cd1c98b6babaa34a71c020782244ae2">EXCEPTION_MAXIMUM_PARAMETERS</a>&#160;&#160;&#160;15</td></tr>
 <tr class="memdesc:a3cd1c98b6babaa34a71c020782244ae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of exception parameters present in the <a class="el" href="structMINIDUMP__EXCEPTION.html#a5a8ba606d8065108a3053c7bb339822a" title="Additional information about the exception, specific to the operating system and possibly the Excepti...">MINIDUMP_EXCEPTION::ExceptionInformation</a> array. <br /></td></tr>
 <tr class="separator:a3cd1c98b6babaa34a71c020782244ae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d37582f61e222ca22b168d5b685f7a6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="winnt_8h.html#a6d37582f61e222ca22b168d5b685f7a6">MAXIMUM_XSTATE_FEATURES</a>&#160;&#160;&#160;(64)</td></tr>
+<tr class="memdesc:a6d37582f61e222ca22b168d5b685f7a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of distinct identifiable features that could possibly be carried in an XSAVE area.  <a href="#a6d37582f61e222ca22b168d5b685f7a6">More...</a><br /></td></tr>
+<tr class="separator:a6d37582f61e222ca22b168d5b685f7a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">VER_SUITE_*</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p>Installable product values for <a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a8b9c73ce707c57a0280a395051f67945" title="A bitfield identifying products installed on the system. This is composed of VER_SUITE_* values...">MINIDUMP_SYSTEM_INFO::SuiteMask</a>.</p>
 <p><a class="anchor" id="VER_SUITE_x"></a></p>
@@ -289,41 +295,6 @@ Macros</h2></td></tr>
 <tr class="memitem:afb99e4f3713c603704c5fba934bbdba8"><td class="memItemLeft" align="right" valign="top"><a id="afb99e4f3713c603704c5fba934bbdba8"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PF_RDTSCP_INSTRUCTION_AVAILABLE</b>&#160;&#160;&#160;32</td></tr>
 <tr class="separator:afb99e4f3713c603704c5fba934bbdba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">IMAGE_DEBUG_MISC_*</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="IMAGE_DEBUG_MISC_x"></a></p>
-<p>Data type values for <a class="el" href="structIMAGE__DEBUG__MISC.html#a34353f624ec48a7aff62190abbe0ba38" title="The type of data carried in the Data field. ">IMAGE_DEBUG_MISC::DataType</a>. </p>
-</div></td></tr>
-<tr class="memitem:aa9cc7d5b9cc8e88e3cde8e595c7b3a2f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="winnt_8h.html#aa9cc7d5b9cc8e88e3cde8e595c7b3a2f">IMAGE_DEBUG_MISC_EXENAME</a>&#160;&#160;&#160;1</td></tr>
-<tr class="memdesc:aa9cc7d5b9cc8e88e3cde8e595c7b3a2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to a <code>.dbg</code> file.  <a href="#aa9cc7d5b9cc8e88e3cde8e595c7b3a2f">More...</a><br /></td></tr>
-<tr class="separator:aa9cc7d5b9cc8e88e3cde8e595c7b3a2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">VER_NT_*</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p>Operating system type values for <a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a9aac8ed4707ea43563fed1776454bad5" title="The system’s operating system type, which distinguishes between “desktop” or “workstation” syste...">MINIDUMP_SYSTEM_INFO::ProductType</a>.</p>
-<p><a class="anchor" id="VER_NT_x"></a></p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a3bf5a6562c9ccee9b4ef3ae4d9ac0be7" title="Operating system type values for MINIDUMP_SYSTEM_INFO::ProductType. ">crashpad::MinidumpOSType</a> </dd></dl>
-</div></td></tr>
-<tr class="memitem:a0c58335760bbb127d418a8edbbadec7d"><td class="memItemLeft" align="right" valign="top"><a id="a0c58335760bbb127d418a8edbbadec7d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_NT_WORKSTATION</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a0c58335760bbb127d418a8edbbadec7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fbfbad78c1638ff8ce0430b02c7496b"><td class="memItemLeft" align="right" valign="top"><a id="a6fbfbad78c1638ff8ce0430b02c7496b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_NT_DOMAIN_CONTROLLER</b>&#160;&#160;&#160;2</td></tr>
-<tr class="separator:a6fbfbad78c1638ff8ce0430b02c7496b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cb7a7c06fb69c87d777749014eb1f46"><td class="memItemLeft" align="right" valign="top"><a id="a5cb7a7c06fb69c87d777749014eb1f46"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_NT_SERVER</b>&#160;&#160;&#160;3</td></tr>
-<tr class="separator:a5cb7a7c06fb69c87d777749014eb1f46"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr><td colspan="2"><div class="groupHeader">VER_PLATFORM_*</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p>Operating system family values for <a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a214e7bd61a89343a80a3c9a265fbbe96" title="The system’s operating system family. This may be a VER_PLATFORM_* value, or a member of crashpad::M...">MINIDUMP_SYSTEM_INFO::PlatformId</a>.</p>
-<p><a class="anchor" id="VER_PLATFORM_x"></a></p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a9be77c6f7868f00c2f279006a1abe26a" title="Operating system family values for MINIDUMP_SYSTEM_INFO::PlatformId. ">crashpad::MinidumpOS</a> </dd></dl>
-</div></td></tr>
-<tr class="memitem:a6727c429646ef4291df010a4260975e9"><td class="memItemLeft" align="right" valign="top"><a id="a6727c429646ef4291df010a4260975e9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_PLATFORM_WIN32s</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a6727c429646ef4291df010a4260975e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a220dba51895822cd45f042312747bf"><td class="memItemLeft" align="right" valign="top"><a id="a5a220dba51895822cd45f042312747bf"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_PLATFORM_WIN32_WINDOWS</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a5a220dba51895822cd45f042312747bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bbc6ba94ccdcd034e76b9216482b74b"><td class="memItemLeft" align="right" valign="top"><a id="a3bbc6ba94ccdcd034e76b9216482b74b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_PLATFORM_WIN32_NT</b>&#160;&#160;&#160;2</td></tr>
-<tr class="separator:a3bbc6ba94ccdcd034e76b9216482b74b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">PAGE_*</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p>Memory protection constants for <a class="el" href="structMINIDUMP__MEMORY__INFO.html#a472f6a5e8897c33aed20dea3db7807f2" title="The access protection of the pages in the region. This member is one of the values listed for the All...">MINIDUMP_MEMORY_INFO::Protect</a> and <a class="el" href="structMINIDUMP__MEMORY__INFO.html#ab46c5090432b64eec002cf28f987fcc4" title="The memory protection when the region was initially allocated. This member can be one of the memory p...">MINIDUMP_MEMORY_INFO::AllocationProtect</a>.</p>
 <p><a class="anchor" id="PAGE_x"></a></p>
@@ -389,6 +360,41 @@ Macros</h2></td></tr>
 <tr class="memitem:a447e0d197fa9e0e053c374bd1280c1ad"><td class="memItemLeft" align="right" valign="top"><a id="a447e0d197fa9e0e053c374bd1280c1ad"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>MEM_RESET</b>&#160;&#160;&#160;0x80000</td></tr>
 <tr class="separator:a447e0d197fa9e0e053c374bd1280c1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">IMAGE_DEBUG_MISC_*</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="IMAGE_DEBUG_MISC_x"></a></p>
+<p>Data type values for <a class="el" href="structIMAGE__DEBUG__MISC.html#a34353f624ec48a7aff62190abbe0ba38" title="The type of data carried in the Data field. ">IMAGE_DEBUG_MISC::DataType</a>. </p>
+</div></td></tr>
+<tr class="memitem:aa9cc7d5b9cc8e88e3cde8e595c7b3a2f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="winnt_8h.html#aa9cc7d5b9cc8e88e3cde8e595c7b3a2f">IMAGE_DEBUG_MISC_EXENAME</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:aa9cc7d5b9cc8e88e3cde8e595c7b3a2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to a <code>.dbg</code> file.  <a href="#aa9cc7d5b9cc8e88e3cde8e595c7b3a2f">More...</a><br /></td></tr>
+<tr class="separator:aa9cc7d5b9cc8e88e3cde8e595c7b3a2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">VER_NT_*</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>Operating system type values for <a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a9aac8ed4707ea43563fed1776454bad5" title="The system’s operating system type, which distinguishes between “desktop” or “workstation” syste...">MINIDUMP_SYSTEM_INFO::ProductType</a>.</p>
+<p><a class="anchor" id="VER_NT_x"></a></p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a3bf5a6562c9ccee9b4ef3ae4d9ac0be7" title="Operating system type values for MINIDUMP_SYSTEM_INFO::ProductType. ">crashpad::MinidumpOSType</a> </dd></dl>
+</div></td></tr>
+<tr class="memitem:a0c58335760bbb127d418a8edbbadec7d"><td class="memItemLeft" align="right" valign="top"><a id="a0c58335760bbb127d418a8edbbadec7d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_NT_WORKSTATION</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a0c58335760bbb127d418a8edbbadec7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fbfbad78c1638ff8ce0430b02c7496b"><td class="memItemLeft" align="right" valign="top"><a id="a6fbfbad78c1638ff8ce0430b02c7496b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_NT_DOMAIN_CONTROLLER</b>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:a6fbfbad78c1638ff8ce0430b02c7496b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cb7a7c06fb69c87d777749014eb1f46"><td class="memItemLeft" align="right" valign="top"><a id="a5cb7a7c06fb69c87d777749014eb1f46"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_NT_SERVER</b>&#160;&#160;&#160;3</td></tr>
+<tr class="separator:a5cb7a7c06fb69c87d777749014eb1f46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">VER_PLATFORM_*</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p>Operating system family values for <a class="el" href="structMINIDUMP__SYSTEM__INFO.html#a214e7bd61a89343a80a3c9a265fbbe96" title="The system’s operating system family. This may be a VER_PLATFORM_* value, or a member of crashpad::M...">MINIDUMP_SYSTEM_INFO::PlatformId</a>.</p>
+<p><a class="anchor" id="VER_PLATFORM_x"></a></p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a9be77c6f7868f00c2f279006a1abe26a" title="Operating system family values for MINIDUMP_SYSTEM_INFO::PlatformId. ">crashpad::MinidumpOS</a> </dd></dl>
+</div></td></tr>
+<tr class="memitem:a6727c429646ef4291df010a4260975e9"><td class="memItemLeft" align="right" valign="top"><a id="a6727c429646ef4291df010a4260975e9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_PLATFORM_WIN32s</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a6727c429646ef4291df010a4260975e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a220dba51895822cd45f042312747bf"><td class="memItemLeft" align="right" valign="top"><a id="a5a220dba51895822cd45f042312747bf"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_PLATFORM_WIN32_WINDOWS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a5a220dba51895822cd45f042312747bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bbc6ba94ccdcd034e76b9216482b74b"><td class="memItemLeft" align="right" valign="top"><a id="a3bbc6ba94ccdcd034e76b9216482b74b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>VER_PLATFORM_WIN32_NT</b>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:a3bbc6ba94ccdcd034e76b9216482b74b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="aa9cc7d5b9cc8e88e3cde8e595c7b3a2f"></a>
@@ -405,6 +411,23 @@ Macros</h2></td></tr>
 
 <p>A pointer to a <code>.dbg</code> file. </p>
 <p><a class="el" href="structIMAGE__DEBUG__MISC.html#a7ea2a7b3d6dc6e329c901fe324e5ae05" title="The data carried within this structure. ">IMAGE_DEBUG_MISC::Data</a> will contain the path or file name of the <code>.dbg</code> file associated with the module. </p>
+
+</div>
+</div>
+<a id="a6d37582f61e222ca22b168d5b685f7a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d37582f61e222ca22b168d5b685f7a6">&#9670;&nbsp;</a></span>MAXIMUM_XSTATE_FEATURES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAXIMUM_XSTATE_FEATURES&#160;&#160;&#160;(64)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The maximum number of distinct identifiable features that could possibly be carried in an XSAVE area. </p>
+<p>This corresponds to the number of bits in the XSAVE state-component bitmap, XSAVE_BV. See Intel Software Developer’s Manual, Volume 1: Basic Architecture (253665-060), 13.4.2 “XSAVE Header”. </p>
 
 </div>
 </div>

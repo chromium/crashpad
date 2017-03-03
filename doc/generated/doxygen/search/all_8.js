@@ -5,6 +5,7 @@ var searchData=
   ['handlechildportcheckin',['HandleChildPortCheckIn',['../classcrashpad_1_1ChildPortServer_1_1Interface.html#a5ecd466de45fe69854d37980b7373369',1,'crashpad::ChildPortServer::Interface']]],
   ['handlecount',['HandleCount',['../structMINIDUMP__HANDLE__DESCRIPTOR.html#ae15118f7ade5d20bf013e1e266448dc0',1,'MINIDUMP_HANDLE_DESCRIPTOR']]],
   ['handledatastream',['HandleDataStream',['../dbghelp_8h.html#a64711234318a4a002f399dffb474ca08ad7775c9c100abafc1b864499acf84757',1,'dbghelp.h']]],
+  ['handler',['Handler',['../classcrashpad_1_1Signals.html#a0e1accccdf6e8c68f746b8a56b52785b',1,'crashpad::Signals']]],
   ['handlercrashed',['HandlerCrashed',['../classcrashpad_1_1Metrics.html#a414d83c6d5eeb481ae1c6d9c01692565',1,'crashpad::Metrics']]],
   ['handlerlifetimemilestone',['HandlerLifetimeMilestone',['../classcrashpad_1_1Metrics.html#a6e30c5852e7c97ef98443b6bae22b37f',1,'crashpad::Metrics']]],
   ['handlermain',['HandlerMain',['../namespacecrashpad.html#aaad18d253c543d4f003b5803fd295f91',1,'crashpad']]],

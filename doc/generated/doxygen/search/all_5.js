@@ -2,6 +2,7 @@ var searchData=
 [
   ['effectivegroupid',['EffectiveGroupID',['../classcrashpad_1_1ProcessInfo.html#a84d62c34a205792ec1892e109d2503a5',1,'crashpad::ProcessInfo']]],
   ['effectiveuserid',['EffectiveUserID',['../classcrashpad_1_1ProcessInfo.html#a6976ee393a311a2f1d0039ab9245e8fa',1,'crashpad::ProcessInfo']]],
+  ['enabledfeatures',['EnabledFeatures',['../structXSTATE__CONFIG__FEATURE__MSC__INFO.html#aa459021075327a4f5178c478bde26382',1,'XSTATE_CONFIG_FEATURE_MSC_INFO']]],
   ['end',['end',['../classcrashpad_1_1CheckedRange.html#aa83d5d906d8fec629f6f36b26aa70d50',1,'crashpad::CheckedRange::end()'],['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a2c980aecd7633d3aa8f425ae45132e63',1,'crashpad::internal::CheckedAddressRangeGeneric::End()']]],
   ['entries',['entries',['../structcrashpad_1_1MinidumpSimpleStringDictionary.html#a09a4e7a0fb45b0b74cf0aacfb6445ba9',1,'crashpad::MinidumpSimpleStringDictionary']]],
   ['entry',['Entry',['../structcrashpad_1_1TSimpleAddressRangeBag_1_1Entry.html',1,'crashpad::TSimpleAddressRangeBag&lt; NumEntries &gt;::Entry'],['../structcrashpad_1_1TSimpleStringDictionary_1_1Entry.html',1,'crashpad::TSimpleStringDictionary&lt; KeySize, ValueSize, NumEntries &gt;::Entry']]],

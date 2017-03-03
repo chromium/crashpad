@@ -1,6 +1,7 @@
 var searchData=
 [
   ['featureinformation',['FeatureInformation',['../unionCPU__INFORMATION.html#a044a13c077ea0b3834dd33e4a48027cc',1,'CPU_INFORMATION']]],
+  ['features',['Features',['../structXSTATE__CONFIG__FEATURE__MSC__INFO.html#affeeac564e3a87bf1533c165dc976e02',1,'XSTATE_CONFIG_FEATURE_MSC_INFO']]],
   ['file_5fio_2eh',['file_io.h',['../file__io_8h.html',1,'']]],
   ['file_5fpath',['file_path',['../structcrashpad_1_1CrashReportDatabase_1_1Report.html#a42cfce2b75dfee931b8d82968592d8a7',1,'crashpad::CrashReportDatabase::Report']]],
   ['fileexists',['FileExists',['../namespacecrashpad_1_1test.html#a8cad311e386c21af1ca653f2aca2695b',1,'crashpad::test']]],

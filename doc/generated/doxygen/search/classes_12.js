@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['weakfilehandlefilereader',['WeakFileHandleFileReader',['../classcrashpad_1_1WeakFileHandleFileReader.html',1,'crashpad']]],
-  ['weakfilehandlefilewriter',['WeakFileHandleFileWriter',['../classcrashpad_1_1WeakFileHandleFileWriter.html',1,'crashpad']]],
-  ['weakstdiofilereader',['WeakStdioFileReader',['../classcrashpad_1_1WeakStdioFileReader.html',1,'crashpad']]],
-  ['winchildprocess',['WinChildProcess',['../classcrashpad_1_1test_1_1WinChildProcess.html',1,'crashpad::test']]],
-  ['winmultiprocess',['WinMultiprocess',['../classcrashpad_1_1test_1_1WinMultiprocess.html',1,'crashpad::test']]],
-  ['workerthread',['WorkerThread',['../classcrashpad_1_1WorkerThread.html',1,'crashpad']]],
-  ['workerthreadimpl',['WorkerThreadImpl',['../classcrashpad_1_1internal_1_1WorkerThreadImpl.html',1,'crashpad::internal']]],
-  ['writableiovec',['WritableIoVec',['../structcrashpad_1_1WritableIoVec.html',1,'crashpad']]]
+  ['vm_5fcounters',['VM_COUNTERS',['../structcrashpad_1_1process__types_1_1VM__COUNTERS.html',1,'crashpad::process_types']]],
+  ['vm_5fcounters_3c_20crashpad_3a_3aprocess_5ftypes_3a_3ainternal_3a_3atraits64_20_3e',['VM_COUNTERS&lt; crashpad::process_types::internal::Traits64 &gt;',['../structcrashpad_1_1process__types_1_1VM__COUNTERS.html',1,'crashpad::process_types']]],
+  ['vm_5fcounters_3c_20internal_3a_3atraits32_20_3e',['VM_COUNTERS&lt; internal::Traits32 &gt;',['../structcrashpad_1_1process__types_1_1VM__COUNTERS_3_01internal_1_1Traits32_01_4.html',1,'crashpad::process_types']]],
+  ['vm_5fcounters_3c_20internal_3a_3atraits64_20_3e',['VM_COUNTERS&lt; internal::Traits64 &gt;',['../structcrashpad_1_1process__types_1_1VM__COUNTERS_3_01internal_1_1Traits64_01_4.html',1,'crashpad::process_types']]],
+  ['vs_5ffixedfileinfo',['VS_FIXEDFILEINFO',['../structVS__FIXEDFILEINFO.html',1,'']]]
 ];

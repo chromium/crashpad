@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['enabledfeatures',['EnabledFeatures',['../structXSTATE__CONFIG__FEATURE__MSC__INFO.html#aa459021075327a4f5178c478bde26382',1,'XSTATE_CONFIG_FEATURE_MSC_INFO']]],
   ['entries',['entries',['../structcrashpad_1_1MinidumpSimpleStringDictionary.html#a09a4e7a0fb45b0b74cf0aacfb6445ba9',1,'crashpad::MinidumpSimpleStringDictionary']]],
   ['exception_5fpointers',['exception_pointers',['../structcrashpad_1_1ExceptionInformation.html#aa416aefb61ce2d78707f683c4b2c2b66',1,'crashpad::ExceptionInformation']]],
   ['exceptionaddress',['ExceptionAddress',['../structMINIDUMP__EXCEPTION.html#a90415942a28bed1cf46a96866713423a',1,'MINIDUMP_EXCEPTION']]],
