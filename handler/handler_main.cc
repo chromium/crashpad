@@ -590,9 +590,6 @@ int HandlerMain(int argc, char* argv[]) {
   upload_thread.Stop();
   prune_thread.Stop();
 
-  if (histogram_allocator)
-    histogram_allocator->DeletePersistentLocation();
-
   return EXIT_SUCCESS;
 }
 
