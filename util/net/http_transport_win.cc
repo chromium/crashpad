@@ -20,8 +20,10 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <wchar.h>
+#include <wincrypt.h>
 #include <winhttp.h>
 
+#include "base/auto_reset.h"
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/scoped_generic.h"
@@ -34,6 +36,7 @@
 #include "util/numeric/safe_assignment.h"
 #include "util/net/http_body.h"
 #include "util/win/module_version.h"
+#include "util/win/scoped_local_alloc.h"
 
 namespace crashpad {
 
@@ -109,15 +112,57 @@ struct ScopedHINTERNETTraits {
     return nullptr;
   }
   static void Free(HINTERNET handle) {
-    if (handle) {
-      if (!WinHttpCloseHandle(handle)) {
-        LOG(ERROR) << WinHttpMessage("WinHttpCloseHandle");
-      }
+    if (handle && !WinHttpCloseHandle(handle)) {
+      LOG(ERROR) << WinHttpMessage("WinHttpCloseHandle");
     }
   }
 };
-
 using ScopedHINTERNET = base::ScopedGeneric<HINTERNET, ScopedHINTERNETTraits>;
+
+struct ScopedCERT_CONTEXTTraits {
+  static const CERT_CONTEXT* InvalidValue() { return nullptr; }
+  static void Free(const CERT_CONTEXT* cert_context) {
+    if (cert_context && !CertFreeCertificateContext(cert_context)) {
+      PLOG(ERROR) << "CertFreeCertificateContext";
+    }
+  }
+};
+using ScopedCERT_CONTEXT =
+    base::ScopedGeneric<const CERT_CONTEXT*, ScopedCERT_CONTEXTTraits>;
+
+struct ScopedCERT_CHAIN_CONTEXTTraits {
+  static const CERT_CHAIN_CONTEXT* InvalidValue() { return nullptr; }
+  static void Free(const CERT_CHAIN_CONTEXT* cert_chain_context) {
+    if (cert_chain_context) {
+      CertFreeCertificateChain(cert_chain_context);
+    }
+  }
+};
+using ScopedCERT_CHAIN_CONTEXT =
+    base::ScopedGeneric<const CERT_CHAIN_CONTEXT*,
+                        ScopedCERT_CHAIN_CONTEXTTraits>;
+
+struct ScopedHCRYPTPROVTraits {
+  static const HCRYPTPROV InvalidValue() { return 0; }
+  static void Free(HCRYPTPROV crypto_provider) {
+    if (crypto_provider && !CryptReleaseContext(crypto_provider, 0)) {
+      PLOG(ERROR) << "CryptReleaseContext";
+    }
+  }
+};
+using ScopedHCRYPTPROV =
+    base::ScopedGeneric<HCRYPTPROV, ScopedHCRYPTPROVTraits>;
+
+struct ScopedHCRYPTHASHTraits {
+  static const HCRYPTHASH InvalidValue() { return 0; }
+  static void Free(HCRYPTHASH crypto_hash) {
+    if (crypto_hash && !CryptDestroyHash(crypto_hash)) {
+      PLOG(ERROR) << "CryptDestroyHash";
+    }
+  }
+};
+using ScopedHCRYPTHASH =
+    base::ScopedGeneric<HCRYPTHASH, ScopedHCRYPTHASHTraits>;
 
 class HTTPTransportWin final : public HTTPTransport {
  public:
@@ -127,16 +172,31 @@ class HTTPTransportWin final : public HTTPTransport {
   bool ExecuteSynchronously(std::string* response_body) override;
 
  private:
+  static void CALLBACK WinHttpStatusCallback(HINTERNET session,
+                                             DWORD_PTR context,
+                                             DWORD status,
+                                             LPVOID status_information,
+                                             DWORD status_information_length);
+
+  ScopedHINTERNET* request_;  // weak
+  bool https_public_key_pinning_result_;
+
   DISALLOW_COPY_AND_ASSIGN(HTTPTransportWin);
 };
 
-HTTPTransportWin::HTTPTransportWin() : HTTPTransport() {
+HTTPTransportWin::HTTPTransportWin()
+    : HTTPTransport(),
+      request_(nullptr),
+      https_public_key_pinning_result_(false) {
 }
 
 HTTPTransportWin::~HTTPTransportWin() {
 }
 
 bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
+  base::AutoReset<bool> reset_https_public_key_pinning_result(
+      &https_public_key_pinning_result_, false);
+
   ScopedHINTERNET session(WinHttpOpen(base::UTF8ToUTF16(UserAgent()).c_str(),
                                       WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
                                       WINHTTP_NO_PROXY_NAME,
@@ -163,13 +223,14 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   url_components.dwUrlPathLength = 1;
   url_components.dwExtraInfoLength = 1;
   std::wstring url_wide(base::UTF8ToUTF16(url()));
+
   // dwFlags = ICU_REJECT_USERPWD fails on XP. See "Community Additions" at:
   // https://msdn.microsoft.com/en-us/library/aa384092.aspx
-  if (!WinHttpCrackUrl(
-          url_wide.c_str(), 0, 0, &url_components)) {
+  if (!WinHttpCrackUrl(url_wide.c_str(), 0, 0, &url_components)) {
     LOG(ERROR) << WinHttpMessage("WinHttpCrackUrl");
     return false;
   }
+
   DCHECK(url_components.nScheme == INTERNET_SCHEME_HTTP ||
          url_components.nScheme == INTERNET_SCHEME_HTTPS);
   std::wstring host_name(url_components.lpszHostName,
@@ -209,6 +270,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
     LOG(ERROR) << WinHttpMessage("WinHttpOpenRequest");
     return false;
   }
+  base::AutoReset<ScopedHINTERNET*> reset_request(&request_, &request);
 
   // Add headers to the request.
   //
@@ -257,6 +319,26 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
     content_length_dword = WINHTTP_IGNORE_REQUEST_TOTAL_LENGTH;
   }
 
+  // HTTPS public key pinning (HPKP) validation is performed within the status
+  // callback after TLS negotiation but before the HTTP request is sent. The
+  // callback will be called from within WinHttpSendRequest().
+  if (WinHttpSetStatusCallback(request.get(),
+                               WinHttpStatusCallback,
+                               WINHTTP_CALLBACK_FLAG_SEND_REQUEST,
+                               0) == WINHTTP_INVALID_STATUS_CALLBACK) {
+    LOG(ERROR) << WinHttpMessage("WinHttpSetStatusCallback");
+    return false;
+  }
+
+  void* context = this;
+  if (!WinHttpSetOption(request.get(),
+                        WINHTTP_OPTION_CONTEXT_VALUE,
+                        &context,
+                        sizeof(context))) {
+    LOG(ERROR) << WinHttpMessage("WinHttpSetOption");
+    return false;
+  }
+
   if (!WinHttpSendRequest(request.get(),
                           WINHTTP_NO_ADDITIONAL_HEADERS,
                           0,
@@ -264,7 +346,19 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
                           0,
                           content_length_dword,
                           0)) {
-    LOG(ERROR) << WinHttpMessage("WinHttpSendRequest");
+    if (https_public_key_pinning_result_ ||
+        HRESULT_FROM_WIN32(GetLastError()) != WININET_E_OPERATION_CANCELLED) {
+      LOG(ERROR) << WinHttpMessage("WinHttpSendRequest");
+    }
+    return false;
+  }
+
+  // If left enabled, the callback would also be called from within
+  // WinHttpWriteData() below. Since that’s not necessary, clear it.
+  if (WinHttpSetStatusCallback(
+          request.get(), nullptr, WINHTTP_CALLBACK_FLAG_SEND_REQUEST, 0) ==
+      WINHTTP_INVALID_STATUS_CALLBACK) {
+    LOG(ERROR) << WinHttpMessage("WinHttpSetStatusCallback");
     return false;
   }
 
@@ -395,6 +489,138 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   }
 
   return true;
+}
+
+// static
+void CALLBACK
+HTTPTransportWin::WinHttpStatusCallback(HINTERNET session,
+                                        DWORD_PTR context,
+                                        DWORD status,
+                                        LPVOID status_information,
+                                        DWORD status_information_length) {
+  HTTPTransportWin* self = reinterpret_cast<HTTPTransportWin*>(context);
+
+  if (status != WINHTTP_CALLBACK_STATUS_SENDING_REQUEST) {
+    // WINHTTP_CALLBACK_FLAG_SEND_REQUEST also includes
+    // WINHTTP_CALLBACK_STATUS_REQUEST_SENT, but that notification isn’t
+    // as interesting as it arrives after the HTTP transaction has started and
+    // some data has been transferred.
+    return;
+  }
+
+  const CERT_CONTEXT* leaf_cert_context_temp;
+  DWORD leaf_cert_context_size = sizeof(leaf_cert_context_temp);
+  if (!WinHttpQueryOption(session,
+                          WINHTTP_OPTION_SERVER_CERT_CONTEXT,
+                          &leaf_cert_context_temp,
+                          &leaf_cert_context_size)) {
+    LOG(ERROR) << WinHttpMessage("WinHttpQueryOption");
+
+    // Pinning was requested, so this is a failure.
+    self->request_->reset();
+
+    return;
+  }
+  ScopedCERT_CONTEXT leaf_cert_context(leaf_cert_context_temp);
+  leaf_cert_context_temp = nullptr;
+
+  CERT_CHAIN_PARA cert_chain_parameters = {};
+  cert_chain_parameters.cbSize = sizeof(cert_chain_parameters);
+  const CERT_CHAIN_CONTEXT* cert_chain_context_temp;
+  if (!CertGetCertificateChain(nullptr,
+                               leaf_cert_context.get(),
+                               nullptr,
+                               nullptr,
+                               &cert_chain_parameters,
+                               0,
+                               nullptr,
+                               &cert_chain_context_temp)) {
+    PLOG(ERROR) << "CertGetCertificateChain";
+
+    // Pinning was requested, so this is a failure.
+    self->request_->reset();
+
+    return;
+  }
+  ScopedCERT_CHAIN_CONTEXT cert_chain_context(cert_chain_context_temp);
+  cert_chain_context_temp = nullptr;
+
+  ScopedHCRYPTPROV crypto_provider;
+  for (size_t chain_index = 0; chain_index < cert_chain_context.get()->cChain;
+       ++chain_index) {
+    const CERT_SIMPLE_CHAIN* chain =
+        cert_chain_context.get()->rgpChain[chain_index];
+    for (size_t element_index = 0; element_index < chain->cElement;
+         ++element_index) {
+      const CERT_CHAIN_ELEMENT* element = chain->rgpElement[element_index];
+      const CERT_CONTEXT* cert_context = element->pCertContext;
+
+      BYTE* spki_der;
+      DWORD spki_der_size;
+      if (!CryptEncodeObjectEx(X509_ASN_ENCODING,
+                               reinterpret_cast<const char*>(
+                                   CERT_INFO_SUBJECT_PUBLIC_KEY_INFO_FLAG),
+                               &cert_context->pCertInfo->SubjectPublicKeyInfo,
+                               CRYPT_ENCODE_ALLOC_FLAG,
+                               nullptr,
+                               &spki_der,
+                               &spki_der_size)) {
+        PLOG(ERROR) << "CryptEncodeObject";
+        continue;
+      }
+      ScopedLocalAlloc spki_der_owner(spki_der);
+
+      if (!crypto_provider.get()) {
+        HCRYPTPROV crypto_provider_temp;
+        if (!CryptAcquireContext(&crypto_provider_temp,
+                                 nullptr,
+                                 nullptr,
+                                 PROV_RSA_AES,
+                                 CRYPT_VERIFYCONTEXT)) {
+          PLOG(ERROR) << "CryptAcquireContext";
+
+          // If CryptAcquireContext() didn’t work once, it’s not going to work
+          // again, so stop processing certificates. There’s no way to break out
+          // of the outer loop without “goto” or polluting it with a sentinel.
+          // Surprisingly, prefer “goto.”
+          goto break2;
+        }
+        crypto_provider.reset(crypto_provider_temp);
+      }
+
+      HCRYPTHASH crypto_hash;
+      if (!CryptCreateHash(
+              crypto_provider.get(), CALG_SHA_256, 0, 0, &crypto_hash)) {
+        PLOG(ERROR) << "CryptCreateHash";
+        continue;
+      }
+      ScopedHCRYPTHASH crypto_hash_owner(crypto_hash);
+
+      if (!CryptHashData(crypto_hash, spki_der, spki_der_size, 0)) {
+        PLOG(ERROR) << "CryptHashData";
+        continue;
+      }
+
+      uint8_t hash_val[32];
+      DWORD hash_len = sizeof(hash_val);
+      if (!CryptGetHashParam(crypto_hash, HP_HASHVAL, hash_val, &hash_len, 0)) {
+        PLOG(ERROR) << "CryptGetHashParam";
+        continue;
+      }
+      DCHECK_EQ(hash_len, sizeof(hash_val));
+
+      // Do something with hash_val.
+    }
+  }
+
+break2:
+  if (false) {
+    // This seems to work to cancel the request if anything appears unseemly.
+    // WinHttpSendRequest() will fail with WININET_E_OPERATION_CANCELLED.
+    self->request_->reset();
+  }
+
+  self->https_public_key_pinning_result_ = true;
 }
 
 }  // namespace
