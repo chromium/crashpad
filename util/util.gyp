@@ -273,6 +273,7 @@
         ['OS=="win"', {
           'link_settings': {
             'libraries': [
+              '-lcrypt32.lib',
               '-luser32.lib',
               '-lversion.lib',
               '-lwinhttp.lib',

@@ -16,9 +16,13 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
+#include <Security/Security.h>
 #include <sys/utsname.h>
 
+#include "base/auto_reset.h"
 #include "base/mac/foundation_util.h"
+#include "base/mac/mac_logging.h"
+#include "base/mac/scoped_cftyperef.h"
 #import "base/mac/scoped_nsobject.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/sys_string_conversions.h"
@@ -28,6 +32,11 @@
 #include "util/file/file_io.h"
 #include "util/misc/implicit_cast.h"
 #include "util/net/http_body.h"
+
+extern "C" {
+CFDataRef SecCertificateCopySubjectPublicKeyInfoSHA256Digest(
+    SecCertificateRef certificate);
+}  // extern "C"
 
 namespace crashpad {
 
@@ -230,6 +239,181 @@ class HTTPTransportMac final : public HTTPTransport {
   DISALLOW_COPY_AND_ASSIGN(HTTPTransportMac);
 };
 
+}  // namespace
+}  // namespace crashpad
+
+@interface CrashpadSynchronousURLConnection
+    : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate> {
+ @private
+  NSURLResponse** response_;
+  NSError** error_;
+  NSMutableData* responseBody_;
+  BOOL running_;
+  BOOL httpsPublicKeyPinningResult_;
+}
+
+- (NSData*)sendRequest:(NSURLRequest*)request
+     returningResponse:(NSURLResponse**)response
+                 error:(NSError**)error
+                 owner:(crashpad::HTTPTransportMac*)owner;
+
+// This is in NSURLConnectionDelegate, but re-declare it to avoid deprecation
+// warnings when it’s called by this code.
+- (BOOL)connection:(NSURLConnection*)connection
+    canAuthenticateAgainstProtectionSpace:
+        (NSURLProtectionSpace*)protectionSpace;
+
+@end
+
+@implementation CrashpadSynchronousURLConnection
+
+- (NSData*)sendRequest:(NSURLRequest*)request
+     returningResponse:(NSURLResponse**)response
+                 error:(NSError**)error
+                 owner:(crashpad::HTTPTransportMac*)owner {
+  DCHECK(!response_);
+  DCHECK(!error_);
+  DCHECK(!responseBody_);
+  DCHECK(!running_);
+  DCHECK(!httpsPublicKeyPinningResult_);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  // Deprecated in OS X 10.11. The suggested replacement, NSURLSession, is only
+  // available on 10.9 and later, and this needs to run on earlier releases.
+  [NSURLConnection connectionWithRequest:request delegate:self];
+#pragma clang diagnostic pop
+
+  base::AutoReset<NSURLResponse**> resetResponse(&response_, response);
+  base::AutoReset<NSError**> resetError(&error_, error);
+  base::AutoReset<NSMutableData*> resetResponseBody(&responseBody_, nil);
+  base::AutoReset<BOOL> reset_running(&running_, TRUE);
+  base::AutoReset<BOOL> resetHttpsPublicKeyPinningResult(
+      &httpsPublicKeyPinningResult_, FALSE);
+
+  do {
+    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                             beforeDate:[NSDate distantFuture]];
+  } while (running_);
+
+  [*response autorelease];
+  [*error autorelease];
+  [responseBody_ autorelease];
+
+  if (!httpsPublicKeyPinningResult_ &&
+      [[*error domain] isEqualToString:NSURLErrorDomain] &&
+      [*error code] == kCFURLErrorUserCancelledAuthentication) {
+    NSMutableDictionary* userInfo =
+        [NSMutableDictionary dictionaryWithDictionary:[*error userInfo]];
+    [userInfo setObject:@"HTTPS public key pinning failure"
+                 forKey:NSLocalizedDescriptionKey];
+    *error = [NSError errorWithDomain:NSURLErrorDomain
+                                 code:kCFURLErrorServerCertificateUntrusted
+                             userInfo:userInfo];
+  }
+
+  return *error ? nil : responseBody_;
+}
+
+// NSURLConnectionDelegate:
+
+- (BOOL)connection:(NSURLConnection*)connection
+    canAuthenticateAgainstProtectionSpace:
+        (NSURLProtectionSpace*)protectionSpace {
+  return [[protectionSpace authenticationMethod]
+      isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+
+- (void)connection:(NSURLConnection*)connection
+    didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge*)challenge {
+  NSURLProtectionSpace* protectionSpace = [challenge protectionSpace];
+  DCHECK([self connection:connection
+      canAuthenticateAgainstProtectionSpace:protectionSpace]);
+
+  SecTrustRef serverTrust = [protectionSpace serverTrust];
+
+  // This doesn’t obtain or consider the SecTrustResultType that
+  // SecTrustEvaluate() could set, which looks dangerous. But this
+  // SecTrustEvaluate() call isn’t actually used to perform the customary checks
+  // such as whether the leaf certificate’s common name or subject alternate
+  // name matches the hostname. It’s only called as a precondition to calling
+  // SecTrustGetCertificateAtIndex() to look for pinned keys. The customary
+  // checks will be triggered if the pinning checks are satisfied when
+  // -[id<NSURLAuthenticationChallengeSender>
+  // performDefaultHandlingForAuthenticationChallenge:] is called.
+  OSStatus status = SecTrustEvaluate(serverTrust, nullptr);
+  if (status != errSecSuccess) {
+    OSSTATUS_LOG(ERROR, status) << "SecTrustEvaluate";
+    [[challenge sender] cancelAuthenticationChallenge:challenge];
+    return;
+  }
+
+  CFIndex certificateCount = SecTrustGetCertificateCount(serverTrust);
+  for (CFIndex certificateIndex = 0;
+       certificateIndex < certificateCount;
+       ++certificateIndex) {
+    SecCertificateRef certificate =
+        SecTrustGetCertificateAtIndex(serverTrust, certificateIndex);
+    if (!certificate) {
+      LOG(ERROR) << "SecTrustGetCertificateAtIndex";
+      continue;
+    }
+
+    base::ScopedCFTypeRef<CFDataRef> hash_data(
+        SecCertificateCopySubjectPublicKeyInfoSHA256Digest(certificate));
+    if (!hash_data.get()) {
+      LOG(ERROR) << "SecCertificateCopySubjectPublicKeyInfoSHA256Digest";
+      continue;
+    }
+
+    DCHECK_EQ(CFDataGetLength(hash_data.get()), 32);
+
+    // Do something with hash_data.
+  }
+
+  // If not satisfied…
+  if (false) {
+    [[challenge sender] cancelAuthenticationChallenge:challenge];
+    return;
+  }
+
+  // If satisfied…
+  [[challenge sender]
+      performDefaultHandlingForAuthenticationChallenge:challenge];
+  httpsPublicKeyPinningResult_ = TRUE;
+}
+
+- (void)connection:(NSURLConnection*)connection
+    didFailWithError:(NSError*)error {
+  [*error_ autorelease];
+  *error_ = [error retain];
+  running_ = false;
+}
+
+// NSURLConnectionDataDelegate:
+
+- (void)connection:(NSURLConnection*)connection
+    didReceiveResponse:(NSURLResponse*)response {
+  *response_ = [response retain];
+}
+
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
+  if (!responseBody_) {
+    responseBody_ = [[NSMutableData alloc] initWithData:data];
+  } else {
+    [responseBody_ appendData:data];
+  }
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection {
+  running_ = false;
+}
+
+@end
+
+namespace crashpad {
+namespace {
+
 HTTPTransportMac::HTTPTransportMac() : HTTPTransport() {
 }
 
@@ -267,15 +451,12 @@ bool HTTPTransportMac::ExecuteSynchronously(std::string* response_body) {
 
     NSURLResponse* response = nil;
     NSError* error = nil;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    // Deprecated in OS X 10.11. The suggested replacement, NSURLSession, is
-    // only available on 10.9 and later, and this needs to run on earlier
-    // releases.
-    NSData* body = [NSURLConnection sendSynchronousRequest:request
-                                         returningResponse:&response
-                                                     error:&error];
-#pragma clang diagnostic pop
+    NSData* body =
+        [[[[CrashpadSynchronousURLConnection alloc] init] autorelease]
+                  sendRequest:request
+            returningResponse:&response
+                        error:&error
+                        owner:this];
 
     if (error) {
       LOG(ERROR) << [[error localizedDescription] UTF8String] << " ("
