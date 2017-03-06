@@ -1,0 +1,49 @@
+// Copyright 2017 The Crashpad Authors. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include "client/annotations.h"
+
+#include "base/logging.h"
+#include "gtest/gtest.h"
+#include "snapshot/annotations_test_helper.h"
+
+CRASHPAD_DEFINE_ANNOTATION_STRING_CONSTANT(test_annotation_0);
+CRASHPAD_DEFINE_ANNOTATION_STRING_CONSTANT(test_annotation_1);
+
+namespace crashpad {
+namespace test {
+namespace {
+
+TEST(Annotations, BasicSelf) {
+  CRASHPAD_SET_ANNOTATION_STRING_CONSTANT(test_annotation_0, "things!");
+  CRASHPAD_SET_ANNOTATION_STRING_CONSTANT(test_annotation_1, "stuff");
+
+  std::map<std::string, std::string> initial = GetAllAnnotations();
+  ASSERT_FALSE(HasFailure());
+
+  EXPECT_GE(initial.size(), 2u);
+  EXPECT_EQ("things!", initial["test_annotation_0"]);
+  EXPECT_EQ("stuff", initial["test_annotation_1"]);
+
+  CRASHPAD_SET_ANNOTATION_STRING_CONSTANT(test_annotation_0, "different");
+
+  std::map<std::string, std::string> after_set = GetAllAnnotations();
+  ASSERT_FALSE(HasFailure());
+  EXPECT_EQ("different", after_set["test_annotation_0"]);
+  EXPECT_EQ("stuff", after_set["test_annotation_1"]);
+}
+
+}  // namespace
+}  // namespace test
+}  // namespace crashpad
