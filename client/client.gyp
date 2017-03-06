@@ -29,6 +29,8 @@
         '..',
       ],
       'sources': [
+        'annotations.cc',
+        'annotations.h',
         'capture_context_mac.S',
         'capture_context_mac.h',
         'crash_report_database.cc',

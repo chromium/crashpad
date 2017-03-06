@@ -114,6 +114,44 @@ bool PEImageReader::GetCrashpadInfo(
   return true;
 }
 
+template <class Traits>
+bool PEImageReader::GetCrashpadRawAnnotations(
+    std::vector<process_types::RawAnnotation<Traits>>* annotations) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  IMAGE_SECTION_HEADER section;
+  if (!GetSectionByName<typename NtHeadersForTraits<Traits>::type>("CPADanot",
+                                                                   &section)) {
+    return false;
+  }
+
+  size_t num_annotations =
+      section.Misc.VirtualSize / sizeof(process_types::RawAnnotation<Traits>);
+
+  ProcessSubrangeReader crashpad_info_subrange_reader;
+  const WinVMAddress crashpad_annotations_address =
+      Address() + section.VirtualAddress;
+  if (!crashpad_info_subrange_reader.InitializeSubrange(
+          module_subrange_reader_,
+          crashpad_annotations_address,
+          num_annotations * sizeof(process_types::RawAnnotation<Traits>),
+          "crashpad_annotations")) {
+    return false;
+  }
+
+  annotations->resize(num_annotations);
+  if (!crashpad_info_subrange_reader.ReadMemory(
+          crashpad_annotations_address,
+          num_annotations * sizeof(process_types::RawAnnotation<Traits>),
+          &annotations->at(0))) {
+    LOG(WARNING) << "could not read crashpad raw annotations from "
+                 << module_subrange_reader_.name();
+    return false;
+  }
+
+  return true;
+}
+
 bool PEImageReader::DebugDirectoryInformation(UUID* uuid,
                                               DWORD* age,
                                               std::string* pdbname) const {
@@ -384,5 +422,16 @@ template bool PEImageReader::GetCrashpadInfo<process_types::internal::Traits32>(
 template bool PEImageReader::GetCrashpadInfo<process_types::internal::Traits64>(
     process_types::CrashpadInfo<process_types::internal::Traits64>*
         crashpad_info) const;
+
+template bool
+PEImageReader::GetCrashpadRawAnnotations<process_types::internal::Traits32>(
+    std::vector<
+        process_types::RawAnnotation<process_types::internal::Traits32>>*
+        annotations) const;
+template bool
+PEImageReader::GetCrashpadRawAnnotations<process_types::internal::Traits64>(
+    std::vector<
+        process_types::RawAnnotation<process_types::internal::Traits64>>*
+        annotations) const;
 
 }  // namespace crashpad
