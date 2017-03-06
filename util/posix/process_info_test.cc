@@ -28,6 +28,10 @@
 #include "test/errors.h"
 #include "util/misc/implicit_cast.h"
 
+#if defined(OS_ANDROID) || defined(OS_LINUX)
+#include <sys/prctl.h>
+#endif
+
 #if defined(OS_MACOSX)
 #include <crt_externs.h>
 #endif
@@ -36,10 +40,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-void TestSelfProcess(const ProcessInfo& process_info) {
-  EXPECT_EQ(getpid(), process_info.ProcessID());
-  EXPECT_EQ(getppid(), process_info.ParentProcessID());
-
+void TestProcessClone(const ProcessInfo& process_info) {
   // There’s no system call to obtain the saved set-user ID or saved set-group
   // ID in an easy way. Normally, they are the same as the effective user ID and
   // effective group ID, so just check against those.
@@ -47,6 +48,7 @@ void TestSelfProcess(const ProcessInfo& process_info) {
   const uid_t euid = geteuid();
   EXPECT_EQ(euid, process_info.EffectiveUserID());
   EXPECT_EQ(euid, process_info.SavedUserID());
+
   const gid_t gid = getgid();
   EXPECT_EQ(gid, process_info.RealGroupID());
   const gid_t egid = getegid();
@@ -141,6 +143,12 @@ void TestSelfProcess(const ProcessInfo& process_info) {
   EXPECT_EQ(std::string(expect_argv[0]), argv[0]);
 }
 
+void TestSelfProcess(const ProcessInfo& process_info) {
+  EXPECT_EQ(getpid(), process_info.ProcessID());
+  EXPECT_EQ(getppid(), process_info.ParentProcessID());
+
+  TestProcessClone(process_info);
+}
 
 TEST(ProcessInfo, Self) {
   ProcessInfo process_info;
@@ -156,6 +164,9 @@ TEST(ProcessInfo, SelfTask) {
 }
 #endif
 
+// Applications cannot ptrace Init on Android, which is required for Initialize
+// to succeed.
+#if !defined(OS_ANDROID)
 TEST(ProcessInfo, Pid1) {
   // PID 1 is expected to be init or the system’s equivalent. This tests reading
   // information about another process.
@@ -172,6 +183,28 @@ TEST(ProcessInfo, Pid1) {
   EXPECT_EQ(implicit_cast<gid_t>(0), process_info.SavedGroupID());
   EXPECT_FALSE(process_info.AllGroups().empty());
 }
+#endif
+
+#if defined(OS_ANDROID) || defined(OS_LINUX)
+TEST(ProcessInfo, ForkedSelf) {
+  prctl(PR_SET_DUMPABLE, 1, 0, 0, 0);
+
+  pid_t child = fork();
+  if (child == 0) {
+    kill(getpid(), SIGSTOP);
+    exit(0);
+  } else {
+    ProcessInfo process_info;
+    ASSERT_TRUE(process_info.Initialize(child));
+
+    EXPECT_EQ(child, process_info.ProcessID());
+    EXPECT_EQ(getpid(), process_info.ParentProcessID());
+
+    TestProcessClone(process_info);
+    kill(child, SIGKILL);
+  }
+}
+#endif
 
 }  // namespace
 }  // namespace test
