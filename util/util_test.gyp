@@ -120,6 +120,13 @@
             ],
           },
         }],
+        # Things not yet ported to Android and Linux
+        ['OS=="android" or OS=="linux"' , {
+          'sources/' : [
+            ['exclude', '(^|/)net/'],
+            ['exclude', '(^|/)numeric/checked_address_range_test.cc'],
+          ]
+        }],
       ],
     },
   ],
