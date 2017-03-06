@@ -67,6 +67,12 @@
         '..',
       ],
       'sources': [
+        'annotations_file_1_test.cc',
+        'annotations_file_2_test.cc',
+        'annotations_shared_header_test.h',
+        'annotations_test.cc',
+        'annotations_test_helper.cc',
+        'annotations_test_helper.h',
         'cpu_context_test.cc',
         'crashpad_info_client_options_test.cc',
         'api/module_annotations_win_test.cc',
