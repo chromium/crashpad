@@ -117,14 +117,14 @@ class TestMachOImageAnnotationsReader final
                                    bool* destroy_complex_request) override {
     *destroy_complex_request = true;
 
-    // In 10.12, dyld fatal errors as tested by test_type_ = kCrashDyld are via
-    // abort_with_payload(). In 10.12.1, the task port delivered in an exception
-    // message for this termination type is a corpse, even when the exception is
-    // EXC_CRASH and not EXC_CORPSE_NOTIFY. The corpse task port (here, |task|)
-    // is distinct from the process’ original task port (ChildTask()). This is
-    // filed as https://openradar.appspot.com/29079442.
-    //
-    // Instead of comparing task ports, compare PIDs.
+    if (test_type_ != kCrashDyld) {
+      // In 10.12.1 and later, the task port will not match ChildTask() in the
+      // kCrashDyld case, because kCrashDyld uses execl(), which results in a
+      // new task port being assigned.
+      EXPECT_EQ(ChildTask(), task);
+    }
+
+    // The process ID should always compare favorably.
     pid_t task_pid;
     kern_return_t kr = pid_for_task(task, &task_pid);
     EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "pid_for_task");
