@@ -132,6 +132,27 @@ class CrashpadClient {
   //!
   //! \return `true` on success, `false` on failure with a message logged.
   bool SetHandlerMachPort(base::mac::ScopedMachSendRight exception_port);
+
+  //! \brief Retrieves a send right to the process’ crash handler Mach port.
+  //!
+  //! This method is only defined on macOS.
+  //!
+  //! This method can be used to obtain the crash handler Mach port when a
+  //! Crashpad client process wishes to provide a send right to this port to
+  //! another process. The IPC mechanism used to convey the right is under the
+  //! application’s control. If the other process wishes to become a client of
+  //! the same crash handler, it can provide the transferred right to
+  //! SetHandlerMachPort().
+  //!
+  //! See StartHandler() for more detail on how the port and handler are
+  //! configured.
+  //!
+  //! \return The Mach port set by SetHandlerMachPort(), possibly indirectly by
+  //!     a call to another method such as StartHandler() or
+  //!     SetHandlerMachService(). This method must only be called after a
+  //!     successful call to one of those methods. `MACH_PORT_NULL` on failure
+  //!     with a message logged.
+  base::mac::ScopedMachSendRight GetHandlerMachPort() const;
 #endif
 
 #if defined(OS_WIN) || DOXYGEN
@@ -155,13 +176,14 @@ class CrashpadClient {
   //! \brief Retrieves the IPC pipe name used to register with the Crashpad
   //!     handler.
   //!
+  //! This method is only defined on Windows.
+  //!
   //! This method retrieves the IPC pipe name set by SetHandlerIPCPipe(), or a
-  //! suitable IPC pipe name chosen by StartHandler(). It is intended to be used
+  //! suitable IPC pipe name chosen by StartHandler(). It must only be called
+  //! after a successful call to one of those methods. It is intended to be used
   //! to obtain the IPC pipe name so that it may be passed to other processes,
   //! so that they may register with an existing Crashpad handler by calling
   //! SetHandlerIPCPipe().
-  //!
-  //! This method is only defined on Windows.
   //!
   //! \return The full name of the crash handler IPC pipe, a string of the form
   //!     `&quot;\\.\pipe\NAME&quot;`.
@@ -257,10 +279,12 @@ class CrashpadClient {
 #endif
 
  private:
-#if defined(OS_WIN)
+#if defined(OS_MACOSX)
+  base::mac::ScopedMachSendRight exception_port_;
+#elif defined(OS_WIN)
   std::wstring ipc_pipe_;
   ScopedKernelHANDLE handler_start_thread_;
-#endif
+#endif  // OS_MACOSX
 
   DISALLOW_COPY_AND_ASSIGN(CrashpadClient);
 };
