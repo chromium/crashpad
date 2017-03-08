@@ -1,0 +1,820 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1c640a7_559c6677",
+        "filename": "DEPS",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Follow the structure of the projects around you: check out into crashpad/third_party/lss/lss. In third_party/lss, provide a README.crashpad file. You can follow the example of zlib, gtest, and mini_chromium.\n\nThe “outer” LSS directory is the place to receive the LSS checkout in DEPS, and also a place to put Crashpad-specific files like README.crashpad and any local .gyp files, forwarding headers, etc.\n\nYou will also note that this entire section is sorted, so don’t put LSS at the end, put it before mini_chromium.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe5d1273_516db415",
+        "filename": "third_party/lss/codereview.settings",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Because we’re doing a DEPS-based checkout of LSS (which is the correct thing to do), we shouldn’t see a copy of any of these LSS files here at all. What we should see is an entry in .gitignore for third_party/lss/lss, so that the gclient-managed lss clone isn’t visible as part of the git tree in the outer project.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23af6ae3_c8cfa065",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "What’s the need to go through LSS in this code as it stands right now?",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d78739f4_be8b1979",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Blank line after opening your namespace.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8a49540_825fc2bf",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Chomp() doesn’t tell me much about what this actually does, and the comment doesn’t really help illuminate what sorts of “patterns” this operates on. “AdvancePastPrefix()”?",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5904c5f4_b05ce370",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "When it’s unclear that a variable name is being used as a variable name or as prose, stick it in |pipes|:\n\n// If |pattern| is matched at the start of |input|,\n\nThis only applies to non-Doxygen comments. If this were a Doxygen comment (and it shouldn’t be, because we don’t use that for internal functions in unnamed namespaces), you’d use \\a pattern instead.\n\nThis comment applies to ChompNumber() too.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "479e0533_4a551a38",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Seems like input is const char**. No need to pretend we’re going to modify the char data.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7959549_8b2b9e10",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "#include \u003cstring.h\u003e for this.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6852f808_88b0da96",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Again, I’m not so hot on the naming here, because “chomp” could mean lots of things.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9401463a_8a49fbf8",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "This is quirky, it does a pass to interpret the number, and then calls StringToNumber() which does…another pass to interpret the number.\n\n(Maybe this was better with stdio operations?)",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882884b5_5ac65557",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Somewhat confusingly, we’ve got a couple of different ways to convert strings to numbers. There’s crashpad::StringToNumber\u003c\u003e(), which you’ve used here, which accepts arbitrary bases. And there’s base::StringTo*(), from base/strings/string_number_conversions.h, which accepts only decimal. The interfaces are similar.\n\nHere, since I think you’re only really concerned with decimal input, the base functions would be preferred. Except those come with the quirk that they’re not templatized, so you’d need to provide a small templatized adapter.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfebb831_54440f8e",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "At first, I was going to suggest using base::FreeDeleter in base/memory/free_deleter.h instead of having a local addition, but I see that you’re concerned with a char** here, not a char*. OK, got it.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41ee1c37_3348b34b",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Because this works on a pointer-to-a-pointer, we’ll always have a valid pointer at the outer level, and this will never be nullptr. So you can get rid of this check.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fe9831f_19ca77c0",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "If we want to name something about its scopey nature, we’d always write ScopedX instead of XScoper.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d74b3050_d81ffc1b",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Blank line before closing your namespace. Also, don’t leave extraneous semicolons hanging around. This one isn’t necessary.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ce1120d_30e4fa41",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "You got rid of the in-class initializers in the header file, but didn’t add any initializers here.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd992491_26f15047",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "#include \u003cstdio.h\u003e for snprintf(), fopen(), getline(), etc.\n\nI’d move this snprintf() into the {scope} that follows. so that it’s closer to the fopen() that uses it. In fact, I’d even move the declaration of path[] into the scope. I know that means that you’ll duplicate it a couple of times, but it’s conceptually neater to not have path[] outlive the scope that’s associated with its FILE*.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2d69658_f3db8b03",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "(!status_file.get()) is fine. Appears a few other times in this file too.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "062c2c2c_d4905f1c",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "We use PLOG() after things that fail and set errno, to provide a nicely-formatted error message.\n\nThe typical Crashpad style here would be\n\nPLOG(ERROR) \u003c\u003c \"fopen\";\n\nWhere “path” is obvious (it will be here based on the file and line number), we’d leave it out. Otherwise, it’d just be\n\nPLOG(ERROR) \u003c\u003c \"fopen \" \u003c\u003c path;",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b5b0e98_4c387b76",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "We’re going to want to slurp up the entire file anyhow (see the next few comments about being strict), so let’s do\n\n  ssize_t len;\n  while ((len \u003d getline(\u0026buffer, \u0026buffer_size, status_file.get())) \u003e 0) {\n    const char* line \u003d buffer;\n  }\n  if (!feof(status_file.get()) {\n    PLOG(ERROR) \u003c\u003c \"getline\";\n    return false;\n  }\n\n(see below for why I’ve saved “len”)",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1c9966b_67114fa4",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "No reason this can’t be const char*.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f6202f_f91ee48f",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Let’s get a little stricter with the file format, and structure it like this:\n\nif (Chomp(\u0026line, \"PPid:\\t\")) {\n  if (have_ppid) {\n    LOG(ERROR) \u003c\u003c \"format error: multiple PPid fields\";\n    return false;\n  }\n  if (!ChompNumber(\u0026line, \u0026ppid_)) {\n    LOG(ERROR) \u003c\u003c \"format error: unrecognized PPid format\";\n    return false;\n  }\n  have_ppid \u003d true;\n}\n\nIf there’s some reason that we can’t understand the format of the file, it can be serious, and we’d generally prefer to fail so that we can find out about the problem sooner rather than press on with questionable data.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bba76e3_49974d6d",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Don’t explicitly write the template parameter when it can be inferred from the type of \u0026ppid_.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f4b0df3_34315b86",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "This is quite dangerous: throughout all of this, you’re operating on “line” without regard for the line length (which I suggested you could have saved in “len” above) or even buffer_size.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11135e87_6101ee2f",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Move the chomp from the previous line here to the while () condition. Turn the break above into a  log-and-return.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6191544f_9f02bd00",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Comments from the read of the previous file apply to the other files that you read in this function too.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32435ddd_fbaa8769",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "If getline() failed for some sort of I/O error, it’d be nice to say so. So you’d do\n\nif (length \u003c 0)\n  if (!feof(stat_file.get()) {\n    PLOG(ERROR) \u003c\u003c \"getline\";\n  } else {\n    LOG(ERROR) \u003c\u003c \"format error: premature EOF\";\n  }\n  return false;\n}\n\nIf you hit an early EOF,",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b92a2d1b_751a9853",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "There’s a lot of - and + and redoing the same operation repeatedly in here. You can simplify:\n\n  while (--line_ptr \u003e\u003d buffer \u0026\u0026 *line_ptr !\u003d \u0027)\u0027) {}",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea617184_ade5ee89",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "But you’ll still need to deal with the fact that the file might not have had any parentheses at all. You wouldn’t want to keep going in that case.\n\n  if (*line_ptr !\u003d \u0027)\u0027) {\n    LOG(ERROR) \u003c\u003c \"format error\";\n    return false;\n  }",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65623b50_152ec764",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "We don’t need all of this verbosity, and we certainly don’t need to dump the remainder of the line. Just a simple \"format error\" will suffice.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "101a7f4d_51bc0c09",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Note: no need to say “struct” in C++ unless necessary to avoid an ambiguity with a function of the same name. That’s not the case here. Same on line 190.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6987dd80_3d507b67",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "#include \u003ctime.h\u003e",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6c3cb90_fc6a84ac",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "PLOG(ERROR) \u003c\u003c \"clock_gettime\";\n\nalso on line 192.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "511bde5e_1d1bfac6",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Make use of the nanoseconds as much as possible.\n\ntimespec boot_time;\nSubtractTimespec(\u0026current_time, \u0026uptime, \u0026boot_time);\nstart_time_.tv_sec \u003d boot_time + seconds_after_boot;\nstart_time_.tv_usec \u003d 0;\n\nUnfortunately, there’s no such thing as SubtractTimespec(), but you can provide one fairly easily. It’d be similar to timersub() from \u003csys/time.h\u003e, but operating on timespecs instead of timevals. (Some systems have timespecsub(), but not here.)",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9713187b_fc1e73c0",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "const bool, here and on line 204",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8654bba_ff0d0d16",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "The correct way to write this is to\n\n#include \"base/posix/eintr_wrapper.h\"\n\nif (HANDLE_EINTR(sys_waitpid(pid_, nullptr, __WALL)) \u003c 0) {\n  PLOG(ERROR) \u003c\u003c \"waitpid\";\n  return false;\n}\n\nHANDLE_EINTR() takes care of the EINTR retry loop for you. You should use it any time you’re working with a system call or primitive standard library function that might return EINTR and doesn’t need careful supervision to be restarted.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61f60714_43c5f6ff",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "I think that this approach will work if you’re a 64-bit process trying to read a 32-bit one, but if you’re going in the other direction, sizeof(regbuf) will be smaller than the full amount that the kernel could to return, and it’ll just fill up to that point and stop.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3a514ed_61e114e5",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "This can be simplified to\n\n  is_64_bit_ \u003d iovec.iov_len \u003d\u003d sizeof(regbuf.regs);",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb4adecd_c08ab61e",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Similar comments apply to this function too.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9542bf3c_c7b3c49b",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "For consistency’s sake, elsewhere, we’ve been structuring #ifdef chains in the same order. Move this below the Mac block.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c34feb1_2a03781d",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "ptrace Init? That gave me pause for a few moments. It seemed like an oddly-written function name.\n\nSay “cannot ptrace /init” (path makes it clear what init you’re talking about) or “ptrace pid 1” (pid makes it clear too, especially in light of the comment that follows).",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d964fb2_e8a7ad97",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Make sure that this worked:\n  ASSERT_EQ(0, prctl(PR_SET_DUMPABLE, 1, 0, 0, 0)) \u003c\u003c ErrnoMessage(\"prctl\");",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7ee63e6_5a00e535",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "“pid,” not “child,” because it’s not always the child pid.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8bd5e4f_a02b7517",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Before doing this, make sure that fork() worked.\n\nASSERT_GE(child, 0) \u003c\u003c ErrnoMessage(\"fork\");",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9338cd5_7103859b",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "raise(SIGSTOP) is more succinct.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf8e5a90_7ed54958",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "_exit() is better than exit() in forked context.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cf20872_d956c817",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "1. You don’t need to exclude all of net, only http_transport_test.cc. All of the rest of the net tests pass on Android and other Linuxes.\n2. You only need to exclude http_transport_test.cc on Android, not on other Linuxes, since https://chromium.googlesource.com/crashpad/crashpad/+/777e36014f766f245f9ea3f37b6d02e4054588ef.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfb2e469_24e55790",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Be precise with regular expressions. Don’t begin with (^|/) because we know exactly what this path is going to look like: it starts with “numeric” (as written in sources above), so just go with ^. Backslash-escape the dot and anchor the end with a $. These comments apply to the Android-only exclude of http_transport_test.cc as well.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

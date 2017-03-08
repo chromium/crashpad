@@ -37,6 +37,41 @@
     },
     {
       "key": {
+        "uuid": "4918c596_4ac3d644",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "\u003e Done\n\nLooks like this is still a problem. Maybe you edited a local commit message, but that doesn’t make it to the server after the initial upload.\n\nTwo options to fix it: from the command line, run “git cl description” locally, which will pop open an editor and let you revise the commit message that the server sees. Or, on the Gerrit review site, click “Edit” where you see the commit message at the top of a review page, and edit it right there.",
+      "parentUuid": "f51c110e_c136e2f7",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8ddc135_9da60868",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T16:47:07Z",
+      "side": 1,
+      "message": "Also, we’re going to be switching to this format:\n\nBug: crashpad:30\n\nbecause this looks like proper metadata to Gerrit, and allows it to be part of the commit message footer. You can get rid of the blank line between Bug: and Change-Id:.",
+      "revId": "20e19b2def723d5c2a68e6f4aaf09a462947f2cc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7846681d_fea0dd29",
         "filename": "util/file/file_reader.h",
         "patchSetId": 2
