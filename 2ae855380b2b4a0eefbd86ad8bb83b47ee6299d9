@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "4706ffd4_b04840db",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T19:57:07Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think there is one currently.\n\u003e You mentioned reducing dangerous library surface area in a previous comment, so I was aiming to do that. Is there a reason to prefer using the standard library for system calls when possible? Should I not worry about that for this file since we\u0027re already using stdio?\n\nYes, since we’re already using stdio, I don’t think it makes sense to go to any lengths to avoid syscall wrappers. We can avoid the LSS stuff altogether in this change.",
+      "parentUuid": "18d3ac57_0d0eb9dd",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d78739f4_be8b1979",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -208,6 +226,24 @@
     },
     {
       "key": {
+        "uuid": "e8de7724_788810a3",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T19:57:07Z",
+      "side": 1,
+      "message": "\u003e I do a pass here because StringToNumber requires a perfect input, without non-matching trailing characters, and I also need the length of the number in order to advance the input past it.\n\u003e \n\u003e We didn\u0027t want to use sscanf because of a lack of overflow detection.\n\u003e \n\u003e It looks like strtol/strtoul provides string length and overflow detection for longs, but not ints. Do you think leveraging these and adding overflow checks for ints is a better way to go?\n\nI suppose we can live with this quirk. If the pattern comes up elsewhere (and it may in other /proc files), we can revisit and factor out something common that does precisely what we need.",
+      "parentUuid": "70e46f90_f615e062",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "882884b5_5ac65557",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -322,6 +358,24 @@
       "side": 1,
       "message": "I had the initializers before as a check to see if they had been set properly, but you pointed that 0 is a valid pid and I no longer use default values to check whether they have been set. Do you think it\u0027s a good idea to set default values anyways in the event Initialize fails?",
       "parentUuid": "5ce1120d_30e4fa41",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3615b60_07c98a9e",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T19:57:07Z",
+      "side": 1,
+      "message": "\u003e I had the initializers before as a check to see if they had been set properly, but you pointed that 0 is a valid pid and I no longer use default values to check whether they have been set. Do you think it\u0027s a good idea to set default values anyways in the event Initialize fails?\n\nWe normally do initialize all member variables of classes in Crashpad. I can see that it’s not strictly required here, but it’s good practice to help spot bugs.\n\nWhere 0 is a valid value but -1 isn’t, and that’ll be most or all cases, go with -1.",
+      "parentUuid": "6b6625b1_0242da8e",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -476,6 +530,24 @@
       "side": 1,
       "message": "Oops, I had meant to have all the checks for null-terminators in the helper functions but looks like I didn\u0027t do that. getline promises to null-terminate its buffers. Do you think it\u0027s okay to rely on checks for nulls or check line lengths as well?",
       "parentUuid": "5f4b0df3_34315b86",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bec2fe46_551bd187",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T19:57:07Z",
+      "side": 1,
+      "message": "\u003e Oops, I had meant to have all the checks for null-terminators in the helper functions but looks like I didn\u0027t do that. getline promises to null-terminate its buffers. Do you think it\u0027s okay to rely on checks for nulls or check line lengths as well?\n\nIf you’re just relying on NUL-termination, you’re blind to embedded NULs. If we’re being strict with formats, we want to see those (and fail due to a format error if that’s appropriate).",
+      "parentUuid": "975b844c_0f4a3d2c",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -715,6 +787,24 @@
       "side": 1,
       "message": "That\u0027s why I added the \"extra\" char in the buffer. The check compares the returned data against the size of regs, rather than the whole regbuf. Do you think this deserves a comment to clarify that?",
       "parentUuid": "61f60714_43c5f6ff",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1e8b174_36907877",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-08T19:57:07Z",
+      "side": 1,
+      "message": "\u003e That\u0027s why I added the \"extra\" char in the buffer. The check compares the returned data against the size of regs, rather than the whole regbuf. Do you think this deserves a comment to clarify that?\n\nAh, yes, that’s subtle. Please add a comment.",
+      "parentUuid": "cc8083dd_dc372dd6",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
