@@ -16,6 +16,7 @@
 
 #include <vector>
 
+#include "base/strings/string_number_conversions.h"
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
@@ -38,13 +39,18 @@
 
 namespace crashpad {
 
+namespace {
+  const char kProcessUptimeCrashKey[] = "ptime";
+}
+
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
-    const std::map<std::string, std::string>* process_annotations)
+    std::map<std::string, std::string>* process_annotations)
     : database_(database),
       upload_thread_(upload_thread),
       process_annotations_(process_annotations) {
+  gettimeofday(&start_time_, NULL);
 }
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {
@@ -68,6 +74,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
   Metrics::ExceptionEncountered();
   Metrics::ExceptionCode(ExceptionCodeForMetrics(exception, code[0]));
   *destroy_complex_request = true;
+
+  SetProcessUptime();
 
   // The expected behavior is EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES,
   // but it’s possible to deal with any exception behavior as long as it
@@ -241,6 +249,17 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
 
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
   return ExcServerSuccessfulReturnValue(exception, behavior, false);
+}
+
+void CrashReportExceptionHandler::SetProcessUptime() {
+  // Set process uptime parameter
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+
+  int64_t delay = tv.tv_sec * 1000 + tv.tv_usec / 1000 -
+                  start_time_.tv_sec * 1000 - start_time_.tv_usec / 1000;
+
+  (*process_annotations_)[kProcessUptimeCrashKey] = base::Int64ToString(delay);
 }
 
 }  // namespace crashpad

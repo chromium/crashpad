@@ -49,7 +49,7 @@ class CrashReportExceptionHandler : public UniversalMachExcServer::Interface {
   CrashReportExceptionHandler(
       CrashReportDatabase* database,
       CrashReportUploadThread* upload_thread,
-      const std::map<std::string, std::string>* process_annotations);
+      std::map<std::string, std::string>* process_annotations);
 
   ~CrashReportExceptionHandler();
 
@@ -74,9 +74,15 @@ class CrashReportExceptionHandler : public UniversalMachExcServer::Interface {
       bool* destroy_complex_request) override;
 
  private:
+  void SetProcessUptime();
+
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
-  const std::map<std::string, std::string>* process_annotations_;  // weak
+  std::map<std::string, std::string>* process_annotations_;  // weak
+
+  // Time when the client process started. It is used to determine the uptime
+  // for the client process when it signals a crash.
+  timeval start_time_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };

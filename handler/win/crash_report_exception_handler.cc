@@ -16,6 +16,7 @@
 
 #include <type_traits>
 
+#include "base/strings/string_number_conversions.h"
 #include "client/crash_report_database.h"
 #include "client/settings.h"
 #include "handler/crash_report_upload_thread.h"
@@ -29,13 +30,18 @@
 
 namespace crashpad {
 
+namespace {
+  const char kProcessUptimeCrashKey[] = "ptime";
+}
+
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
-    const std::map<std::string, std::string>* process_annotations)
+    std::map<std::string, std::string>* process_annotations)
     : database_(database),
       upload_thread_(upload_thread),
       process_annotations_(process_annotations) {
+  GetSystemTimeAsFileTime(&start_time_);
 }
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {
@@ -51,6 +57,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
   Metrics::ExceptionEncountered();
 
   ScopedProcessSuspend suspend(process);
+
+  SetProcessUptime();
 
   ProcessSnapshotWin process_snapshot;
   if (!process_snapshot.Initialize(process,
@@ -130,6 +138,25 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
 
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
   return termination_code;
+}
+
+void CrashReportExceptionHandler::SetProcessUptime() {
+  FILETIME now = {0};
+  GetSystemTimeAsFileTime(&now);
+
+  ULARGE_INTEGER time_start;
+  time_start.HighPart = start_time_.dwHighDateTime;
+  time_start.LowPart = start_time_.dwLowDateTime;
+
+  ULARGE_INTEGER time_now;
+  time_now.HighPart = now.dwHighDateTime;
+  time_now.LowPart = now.dwLowDateTime;
+
+  // Calculate the delay and convert it from 100-nanoseconds to milliseconds.
+  int64_t delay = (time_now.QuadPart - time_start.QuadPart) / 10 / 1000;
+
+  (*process_annotations_)[kProcessUptimeCrashKey] =
+      base::Int64ToString(delay);
 }
 
 }  // namespace crashpad
