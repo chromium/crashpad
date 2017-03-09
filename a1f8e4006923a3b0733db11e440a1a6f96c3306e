@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2203151c_22f7a432",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "I don’t think that this is used anymore.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86882a83_0d2ff312",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "Did you do this for the iovec type? Use \u003csys/uio.h\u003e instead. Always prefer a standard header to an OS-specific one.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b9119ba_415af4db",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "When macros are necessary, name them in uppercase: MAKE_ADAPTER.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd967612_7307fb20",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "This name will be confusing given that we have the similar crashpad::StringToNumber\u003c\u003e(). Pick a different name for local use. ConvertStringToNumber()?",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6713338_78e2beef",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "#include \u003cctype.h\u003e",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2235dd3e_7b6492c6",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "In Crashpad, we use the ASCII name for \u0027\\0\u0027, NUL, pretty consistently. (git grep for \"NUL-terminate\", for example.) So call this one AdvancePastNUL().",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c35938fb_dce378ba",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "t1 and t2 are OK, but rename t3 to “result” or “difference” so that it’s clearer.\n\n(If you want to get cute, “minuend,” “subtrahend,” and “difference.”)",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b30df5f_1c696543",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "That’s a lot of zeroes to eyeball. Just write 1E9.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4841e0cf_ab6032af",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "Follow the same order you used above, I think that it’s more logical to put seconds before nanoseconds.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9325d304_b213b933",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "There may potentially be more “scopers” in here. For example, the ScopedFILEs are also “scopers.” Call this one buffer_owner. Line 428 too.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bb49e0e_72bf5e1c",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "If you’re going to include the path, you need to put a space after fopen, otherwise this will log as “fopen/proc/12345/status”. Lines 229 and 436 also.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7729982e_4344d352",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "So as to not imply precision in start_time_ that’s not there, let’s just set tv_usec to 0.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fa1eb46_a48c9cfc",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "Similar to line 106, I think that it makes more sense to put the seconds first.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22eb967a_53d74a0b",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "If we’re calling the type name iovec and not struct iovec, then it’s a clash to name the variable iovec. I usually call it “iov” to disambiguate.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a5c9927_65a4a5f3",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "This is not friendly with command lines that have newlines embedded in them. You’ll want to read the entire file, not use getline().\n\nOn that note, your /proc/pid/stat reader might need a little help if it encounters an executable name with an embedded newline.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ca927a8_bf03bab0",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "git cl format can’t be taught this yet, but all of us here like to put each side of a three-sided for loop on its own line when you have to break the loop control up onto more than one line.\n\n  for (const char* line_ptr \u003d buffer;\n       line_ptr \u003c buffer + length;\n       AdvancePastNUL(\u0026line_ptr)) {\n  }",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7900da0e_fead0d5d",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "Confirm that we made it to the end of the buffer on a NUL, that there’s no unconsumed input from cmdline.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f00a787f_81f177e7",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:14:09Z",
+      "side": 1,
+      "message": "Perhaps you should just use SplitString() from util/string/split_string.h to split on \u0027\\0\u0027 (after verifying that there’s a terminating \u0027\\0\u0027).",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
