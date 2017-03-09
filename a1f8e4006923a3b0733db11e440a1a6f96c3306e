@@ -323,6 +323,23 @@
       "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f31fe502_8aad99b3",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 12
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-09T22:28:09Z",
+      "side": 1,
+      "message": "Nit: move these comments inside the conditions that they apply to.\n\nRationale: it doesn\u0027t seem to matter now, but if an \"else\" clause came along, this comment shouldn\u0027t apply to it, so it belongs inside the condition.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
