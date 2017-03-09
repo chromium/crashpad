@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ae790353_82d9087e",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4706ffd4_b04840db",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d78739f4_be8b1979",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -100,6 +118,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "Blank line after opening your namespace.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2e91ff9_0427b4e6",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d78739f4_be8b1979",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -123,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "d6f05c7a_b385180e",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8a49540_825fc2bf",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5904c5f4_b05ce370",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -134,6 +188,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "When it’s unclear that a variable name is being used as a variable name or as prose, stick it in |pipes|:\n\n// If |pattern| is matched at the start of |input|,\n\nThis only applies to non-Doxygen comments. If this were a Doxygen comment (and it shouldn’t be, because we don’t use that for internal functions in unnamed namespaces), you’d use \\a pattern instead.\n\nThis comment applies to ChompNumber() too.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1b17dff_4598128c",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5904c5f4_b05ce370",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -157,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "677bea6e_cd0c3e6f",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "479e0533_4a551a38",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7959549_8b2b9e10",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -174,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "f4f542ba_df3190b4",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7959549_8b2b9e10",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6852f808_88b0da96",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -185,6 +293,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "Again, I’m not so hot on the naming here, because “chomp” could mean lots of things.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4893bdc_eb18c38a",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6852f808_88b0da96",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -261,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "34aa00ba_58c3a54f",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "882884b5_5ac65557",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfebb831_54440f8e",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -295,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "740f9e13_8f62664f",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41ee1c37_3348b34b",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4fe9831f_19ca77c0",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -312,6 +474,24 @@
     },
     {
       "key": {
+        "uuid": "3d69fb3d_c11a3408",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fe9831f_19ca77c0",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74b3050_d81ffc1b",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -323,6 +503,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "Blank line before closing your namespace. Also, don’t leave extraneous semicolons hanging around. This one isn’t necessary.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f21db7df_9b1804c4",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d74b3050_d81ffc1b",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -382,6 +580,24 @@
     },
     {
       "key": {
+        "uuid": "65c6b5de_7338eeb0",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3615b60_07c98a9e",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd992491_26f15047",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -393,6 +609,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "#include \u003cstdio.h\u003e for snprintf(), fopen(), getline(), etc.\n\nI’d move this snprintf() into the {scope} that follows. so that it’s closer to the fopen() that uses it. In fact, I’d even move the declaration of path[] into the scope. I know that means that you’ll duplicate it a couple of times, but it’s conceptually neater to not have path[] outlive the scope that’s associated with its FILE*.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15e5eff9_6b0f156f",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd992491_26f15047",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -416,6 +650,24 @@
     },
     {
       "key": {
+        "uuid": "12bfd04a_ebbac3fe",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2d69658_f3db8b03",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "062c2c2c_d4905f1c",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -427,6 +679,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "We use PLOG() after things that fail and set errno, to provide a nicely-formatted error message.\n\nThe typical Crashpad style here would be\n\nPLOG(ERROR) \u003c\u003c \"fopen\";\n\nWhere “path” is obvious (it will be here based on the file and line number), we’d leave it out. Otherwise, it’d just be\n\nPLOG(ERROR) \u003c\u003c \"fopen \" \u003c\u003c path;",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9218427_5bf921da",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "062c2c2c_d4905f1c",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -450,6 +720,24 @@
     },
     {
       "key": {
+        "uuid": "a9b0a632_3bbddffc",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b5b0e98_4c387b76",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c1c9966b_67114fa4",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -461,6 +749,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "No reason this can’t be const char*.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5681ad67_66ade04a",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1c9966b_67114fa4",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -484,6 +790,24 @@
     },
     {
       "key": {
+        "uuid": "9ae8585d_1880d4cf",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2f6202f_f91ee48f",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bba76e3_49974d6d",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -495,6 +819,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "Don’t explicitly write the template parameter when it can be inferred from the type of \u0026ppid_.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9e60e0b_7244c0ec",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bba76e3_49974d6d",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -554,6 +896,24 @@
     },
     {
       "key": {
+        "uuid": "46c71a1c_59360583",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "The Advance* functions should all return false if they encounter an embedded NUL. This will give a format error if this happens for PPid, Uids, or Gids. I added a check against line length for Groups to ensure the entire line is consumed.",
+      "parentUuid": "bec2fe46_551bd187",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "11135e87_6101ee2f",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -565,6 +925,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "Move the chomp from the previous line here to the while () condition. Turn the break above into a  log-and-return.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0be2e0e9_b30cd786",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "There is a trailing whitespace after the last group and I think having zero supplementary groups is valid, right? I put the AdvancePastNumber in the while condition instead.",
+      "parentUuid": "11135e87_6101ee2f",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -588,6 +966,24 @@
     },
     {
       "key": {
+        "uuid": "54b86624_8ca36564",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6191544f_9f02bd00",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32435ddd_fbaa8769",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -599,6 +995,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "If getline() failed for some sort of I/O error, it’d be nice to say so. So you’d do\n\nif (length \u003c 0)\n  if (!feof(stat_file.get()) {\n    PLOG(ERROR) \u003c\u003c \"getline\";\n  } else {\n    LOG(ERROR) \u003c\u003c \"format error: premature EOF\";\n  }\n  return false;\n}\n\nIf you hit an early EOF,",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00cd7dc5_411fbc04",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32435ddd_fbaa8769",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -622,6 +1036,24 @@
     },
     {
       "key": {
+        "uuid": "65379d7f_80621b39",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b92a2d1b_751a9853",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea617184_ade5ee89",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -633,6 +1065,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "But you’ll still need to deal with the fact that the file might not have had any parentheses at all. You wouldn’t want to keep going in that case.\n\n  if (*line_ptr !\u003d \u0027)\u0027) {\n    LOG(ERROR) \u003c\u003c \"format error\";\n    return false;\n  }",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02ed9327_2be8d47e",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea617184_ade5ee89",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -656,6 +1106,24 @@
     },
     {
       "key": {
+        "uuid": "1df2b01b_bd4772ff",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65623b50_152ec764",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "101a7f4d_51bc0c09",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -667,6 +1135,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "Note: no need to say “struct” in C++ unless necessary to avoid an ambiguity with a function of the same name. That’s not the case here. Same on line 190.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02c97ad9_f6bf4615",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "101a7f4d_51bc0c09",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -690,6 +1176,24 @@
     },
     {
       "key": {
+        "uuid": "073a31b8_31fe2f93",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6987dd80_3d507b67",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6c3cb90_fc6a84ac",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -701,6 +1205,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "PLOG(ERROR) \u003c\u003c \"clock_gettime\";\n\nalso on line 192.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f225536d_fe9e1705",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6c3cb90_fc6a84ac",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -724,6 +1246,24 @@
     },
     {
       "key": {
+        "uuid": "9c1923e2_cc93492d",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "511bde5e_1d1bfac6",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9713187b_fc1e73c0",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -741,6 +1281,24 @@
     },
     {
       "key": {
+        "uuid": "1a93343a_f2784558",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9713187b_fc1e73c0",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8654bba_ff0d0d16",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -752,6 +1310,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "The correct way to write this is to\n\n#include \"base/posix/eintr_wrapper.h\"\n\nif (HANDLE_EINTR(sys_waitpid(pid_, nullptr, __WALL)) \u003c 0) {\n  PLOG(ERROR) \u003c\u003c \"waitpid\";\n  return false;\n}\n\nHANDLE_EINTR() takes care of the EINTR retry loop for you. You should use it any time you’re working with a system call or primitive standard library function that might return EINTR and doesn’t need careful supervision to be restarted.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7fd60e6_22f1cb4d",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8654bba_ff0d0d16",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -811,6 +1387,24 @@
     },
     {
       "key": {
+        "uuid": "dc9daaec_2e3bef42",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1e8b174_36907877",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e3a514ed_61e114e5",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 9
@@ -845,6 +1439,24 @@
     },
     {
       "key": {
+        "uuid": "27d46c45_df5aaf4e",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb4adecd_c08ab61e",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9542bf3c_c7b3c49b",
         "filename": "util/posix/process_info_test.cc",
         "patchSetId": 9
@@ -856,6 +1468,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "For consistency’s sake, elsewhere, we’ve been structuring #ifdef chains in the same order. Move this below the Mac block.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5862e2f_60bc9c5b",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9542bf3c_c7b3c49b",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -879,6 +1509,24 @@
     },
     {
       "key": {
+        "uuid": "5eee7eb9_17cb1a72",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c34feb1_2a03781d",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d964fb2_e8a7ad97",
         "filename": "util/posix/process_info_test.cc",
         "patchSetId": 9
@@ -890,6 +1538,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "Make sure that this worked:\n  ASSERT_EQ(0, prctl(PR_SET_DUMPABLE, 1, 0, 0, 0)) \u003c\u003c ErrnoMessage(\"prctl\");",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79453ed8_05534241",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d964fb2_e8a7ad97",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -913,6 +1579,24 @@
     },
     {
       "key": {
+        "uuid": "d9a13e56_e8365296",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7ee63e6_5a00e535",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8bd5e4f_a02b7517",
         "filename": "util/posix/process_info_test.cc",
         "patchSetId": 9
@@ -924,6 +1608,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "Before doing this, make sure that fork() worked.\n\nASSERT_GE(child, 0) \u003c\u003c ErrnoMessage(\"fork\");",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0079ba47_25bea6d7",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8bd5e4f_a02b7517",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -947,6 +1649,24 @@
     },
     {
       "key": {
+        "uuid": "87394498_69c9078f",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9338cd5_7103859b",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf8e5a90_7ed54958",
         "filename": "util/posix/process_info_test.cc",
         "patchSetId": 9
@@ -958,6 +1678,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "_exit() is better than exit() in forked context.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99a05faf_f377d4bd",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8e5a90_7ed54958",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -981,6 +1719,24 @@
     },
     {
       "key": {
+        "uuid": "82f63631_cf4ddafa",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cf20872_d956c817",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bfb2e469_24e55790",
         "filename": "util/util_test.gyp",
         "patchSetId": 9
@@ -992,6 +1748,24 @@
       "writtenOn": "2017-03-08T16:47:07Z",
       "side": 1,
       "message": "Be precise with regular expressions. Don’t begin with (^|/) because we know exactly what this path is going to look like: it starts with “numeric” (as written in sources above), so just go with ^. Backslash-escape the dot and anchor the end with a $. These comments apply to the Android-only exclude of http_transport_test.cc as well.",
+      "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af0264ee_f8ef45d2",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-09T19:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfb2e469_24e55790",
       "revId": "2ae855380b2b4a0eefbd86ad8bb83b47ee6299d9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
