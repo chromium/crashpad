@@ -278,25 +278,31 @@ committing your changes locally with `git commit`. You can then upload a new
 patch set with `git cl upload` and let your reviewer know you’ve addressed the
 feedback.
 
+The most recently uploaded patch set on a review may be tested on a [try
+server](https://dev.chromium.org/developers/testing/try-server-usage) by running
+`git cl try` or by clicking the “CQ Dry Run” button in Gerrit. These set the
+“Commit-Queue: +1” label. This does not mean that the patch will be committed,
+but the try server and commit queue share infrastructure and a Gerrit label. The
+patch will be tested on try bots in a variety of configurations. Status
+information will be available on Gerrit.
+
 ### Landing Changes
 
 After code review is complete and “Code-Review: +1” has been received from all
-reviewers, project members can commit the patch themselves:
+reviewers, the patch can be submitted to Crashpad’s [commit
+queue](https://dev.chromium.org/developers/testing/commit-queue) by clicking the
+“Submit to CQ” button in Gerrit. This sets the “Commit-Queue: +2” label, which
+tests the patch on the try server before landing it.
+
+Although the commit queue is recommended, if needed, project members can bypass
+the commit queue and land patches without testing by using the “Submit” button
+in Gerrit or by committing via `git cl land`:
 
 ```
 $ cd ~/crashpad/crashpad
 $ git checkout work_branch
 $ git cl land
 ```
-
-Alternatively, patches can be committed by clicking the “Submit” button in the
-Gerrit UI.
-
-Crashpad does not currently have a [commit
-queue](https://dev.chromium.org/developers/testing/commit-queue), so
-contributors who are not project members will have to ask a project member to
-commit the patch for them. Project members can commit changes on behalf of
-external contributors by clicking the “Submit” button in the Gerrit UI.
 
 ### External Contributions
 
