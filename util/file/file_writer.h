@@ -167,6 +167,41 @@ class FileWriter : public FileWriterInterface {
   DISALLOW_COPY_AND_ASSIGN(FileWriter);
 };
 
+//! \brief A file writer backed by a standard input/output `FILE*`.
+//!
+//! This class accepts an already-open `FILE*`. It is not responsible for
+//! opening or closing this `FILE*`. Users of this class must ensure that the
+//! `FILE*` is closed appropriately elsewhere. Objects of this class may be used
+//! to write to `FILE*` objects not associated with filesystem-based files,
+//! although special attention should be paid to the Seek() method, which may
+//! not function on `FILE*` objects that do not refer to disk-based files.
+//!
+//! This class is expected to be used when other code is responsible for
+//! opening `FILE*` objects and already provides `FILE*` objects. A good use
+//! would be a WeakStdioFileWriter for `stdout`.
+class WeakStdioFileWriter : public FileWriterInterface {
+ public:
+  explicit WeakStdioFileWriter(FILE* file);
+  ~WeakStdioFileWriter() override;
+
+  // FileWriterInterface:
+  bool Write(const void* data, size_t size) override;
+  bool WriteIoVec(std::vector<WritableIoVec>* iovecs) override;
+
+  // FileSeekerInterface:
+
+  //! \copydoc FileWriterInterface::Seek()
+  //!
+  //! \note This method is only guaranteed to function on `FILE*` objects
+  //!     referring to disk-based files.
+  FileOffset Seek(FileOffset offset, int whence) override;
+
+ private:
+  FILE* file_;  // weak
+
+  DISALLOW_COPY_AND_ASSIGN(WeakStdioFileWriter);
+};
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_FILE_FILE_WRITER_H_

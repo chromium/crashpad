@@ -523,7 +523,7 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
 
 }  // namespace
 
-CrashpadClient::CrashpadClient() {
+CrashpadClient::CrashpadClient() : exception_port_(MACH_PORT_NULL) {
 }
 
 CrashpadClient::~CrashpadClient() {
@@ -569,8 +569,42 @@ bool CrashpadClient::SetHandlerMachService(const std::string& service_name) {
 
 bool CrashpadClient::SetHandlerMachPort(
     base::mac::ScopedMachSendRight exception_port) {
+  DCHECK(!exception_port_.is_valid());
   DCHECK(exception_port.is_valid());
-  return SetCrashExceptionPorts(exception_port.get());
+
+  if (!SetCrashExceptionPorts(exception_port.get())) {
+    return false;
+  }
+
+  exception_port_.swap(exception_port);
+  return true;
+}
+
+base::mac::ScopedMachSendRight CrashpadClient::GetHandlerMachPort() const {
+  DCHECK(exception_port_.is_valid());
+
+  // For the purposes of this method, only return a port set by
+  // SetHandlerMachPort().
+  //
+  // It would be possible to use task_get_exception_ports() to look up the
+  // EXC_CRASH task exception port, but that’s probably not what users of this
+  // interface really want. If CrashpadClient is asked for the handler Mach
+  // port, it should only return a port that it knows about by virtue of having
+  // set it. It shouldn’t return any EXC_CRASH task exception port in effect if
+  // SetHandlerMachPort() was never called, and it shouldn’t return any
+  // EXC_CRASH task exception port that might be set by other code after
+  // SetHandlerMachPort() is called.
+  //
+  // The caller is accepting its own new ScopedMachSendRight, so increment the
+  // reference count of the underlying right.
+  kern_return_t kr = mach_port_mod_refs(
+      mach_task_self(), exception_port_.get(), MACH_PORT_RIGHT_SEND, 1);
+  if (kr != KERN_SUCCESS) {
+    MACH_LOG(ERROR, kr) << "mach_port_mod_refs";
+    return base::mac::ScopedMachSendRight(MACH_PORT_NULL);
+  }
+
+  return base::mac::ScopedMachSendRight(exception_port_.get());
 }
 
 // static
