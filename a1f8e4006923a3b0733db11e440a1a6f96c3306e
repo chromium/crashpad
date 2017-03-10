@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df5d9058_389ee0b1",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "It\u0027s only used for NT_PRSTATUS.",
+      "parentUuid": "2203151c_22f7a432",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86882a83_0d2ff312",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-09T22:14:09Z",
       "side": 1,
       "message": "Did you do this for the iovec type? Use \u003csys/uio.h\u003e instead. Always prefer a standard header to an OS-specific one.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f27d959_a7131e7e",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86882a83_0d2ff312",
       "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "45672f1e_ed1f4d13",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b9119ba_415af4db",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fd967612_7307fb20",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 12
@@ -64,6 +118,24 @@
       "writtenOn": "2017-03-09T22:14:09Z",
       "side": 1,
       "message": "This name will be confusing given that we have the similar crashpad::StringToNumber\u003c\u003e(). Pick a different name for local use. ConvertStringToNumber()?",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76f4426b_53bea762",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd967612_7307fb20",
       "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0e894f60_5bdddcf5",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6713338_78e2beef",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2235dd3e_7b6492c6",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 12
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "5b7eec47_c2417ae4",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2235dd3e_7b6492c6",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c35938fb_dce378ba",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 12
@@ -115,6 +223,24 @@
       "writtenOn": "2017-03-09T22:14:09Z",
       "side": 1,
       "message": "t1 and t2 are OK, but rename t3 to “result” or “difference” so that it’s clearer.\n\n(If you want to get cute, “minuend,” “subtrahend,” and “difference.”)",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d0152ab_acc7ef86",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c35938fb_dce378ba",
       "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -156,6 +282,42 @@
     },
     {
       "key": {
+        "uuid": "cbe4f544_9c46dcba",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d5c2b80_f34f48f8",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f65ce29_e3cc92fd",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b30df5f_1c696543",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4841e0cf_ab6032af",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 12
@@ -167,6 +329,24 @@
       "writtenOn": "2017-03-09T22:14:09Z",
       "side": 1,
       "message": "Follow the same order you used above, I think that it’s more logical to put seconds before nanoseconds.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2212052e_e219eb16",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4841e0cf_ab6032af",
       "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -190,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "41b63418_d6bd8972",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9325d304_b213b933",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8bb49e0e_72bf5e1c",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 12
@@ -201,6 +399,24 @@
       "writtenOn": "2017-03-09T22:14:09Z",
       "side": 1,
       "message": "If you’re going to include the path, you need to put a space after fopen, otherwise this will log as “fopen/proc/12345/status”. Lines 229 and 436 also.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d69747eb_28d7cd59",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bb49e0e_72bf5e1c",
       "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -224,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "da12120d_578a35e7",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7729982e_4344d352",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6fa1eb46_a48c9cfc",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 12
@@ -235,6 +469,24 @@
       "writtenOn": "2017-03-09T22:14:09Z",
       "side": 1,
       "message": "Similar to line 106, I think that it makes more sense to put the seconds first.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05dfc703_b302853c",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fa1eb46_a48c9cfc",
       "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -258,6 +510,24 @@
     },
     {
       "key": {
+        "uuid": "c855a34e_6fce23bd",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22eb967a_53d74a0b",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a5c9927_65a4a5f3",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 12
@@ -269,6 +539,24 @@
       "writtenOn": "2017-03-09T22:14:09Z",
       "side": 1,
       "message": "This is not friendly with command lines that have newlines embedded in them. You’ll want to read the entire file, not use getline().\n\nOn that note, your /proc/pid/stat reader might need a little help if it encounters an executable name with an embedded newline.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "658b55e5_13357377",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a5c9927_65a4a5f3",
       "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -292,6 +580,24 @@
     },
     {
       "key": {
+        "uuid": "bc366e2a_39adbe1c",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca927a8_bf03bab0",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7900da0e_fead0d5d",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 12
@@ -303,6 +609,24 @@
       "writtenOn": "2017-03-09T22:14:09Z",
       "side": 1,
       "message": "Confirm that we made it to the end of the buffer on a NUL, that there’s no unconsumed input from cmdline.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72788b18_f8003895",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7900da0e_fead0d5d",
       "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -326,6 +650,24 @@
     },
     {
       "key": {
+        "uuid": "d6d2367f_81503283",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f00a787f_81f177e7",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f31fe502_8aad99b3",
         "filename": "util/util_test.gyp",
         "patchSetId": 12
@@ -337,6 +679,24 @@
       "writtenOn": "2017-03-09T22:28:09Z",
       "side": 1,
       "message": "Nit: move these comments inside the conditions that they apply to.\n\nRationale: it doesn\u0027t seem to matter now, but if an \"else\" clause came along, this comment shouldn\u0027t apply to it, so it belongs inside the condition.",
+      "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24791242_f4a438af",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 12
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-10T23:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f31fe502_8aad99b3",
       "revId": "a1f8e4006923a3b0733db11e440a1a6f96c3306e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
