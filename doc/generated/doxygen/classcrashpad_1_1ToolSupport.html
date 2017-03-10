@@ -102,6 +102,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a42a5b8864ff6302d3e00c2f4bedf1da0"><td class="memItemLeft" align="right" valign="top">static base::FilePath::StringType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ToolSupport.html#a42a5b8864ff6302d3e00c2f4bedf1da0">CommandLineArgumentToFilePathStringType</a> (const base::StringPiece &amp;arg)</td></tr>
 <tr class="memdesc:a42a5b8864ff6302d3e00c2f4bedf1da0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a command line argument to the string type suitable for base::FilePath.  <a href="#a42a5b8864ff6302d3e00c2f4bedf1da0">More...</a><br /></td></tr>
 <tr class="separator:a42a5b8864ff6302d3e00c2f4bedf1da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7fe01187c086fb6422d42e61485c855"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ToolSupport.html#aa7fe01187c086fb6422d42e61485c855">FilePathToCommandLineArgument</a> (const base::FilePath &amp;file_path)</td></tr>
+<tr class="memdesc:aa7fe01187c086fb6422d42e61485c855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a base::FilePath to a command line argument.  <a href="#aa7fe01187c086fb6422d42e61485c855">More...</a><br /></td></tr>
+<tr class="separator:aa7fe01187c086fb6422d42e61485c855"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Common functions used by command line tools. </p>
@@ -132,7 +135,38 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Converts a command line argument to the string type suitable for base::FilePath. </p>
 <p>On POSIX, this is a no-op. On Windows, assumes that <a class="el" href="classcrashpad_1_1ToolSupport.html#aaad18d0b502511e21f6c3ed5da86ccf4" title="Converts argv wchar_t UTF-16 to UTF-8, and passes onwards to a UTF-8 entry point. ...">Wmain()</a> was used, and the input argument was converted from UTF-16 in a <code>wchar_t*</code> to UTF-8 in a <code>char*</code>. This undoes that transformation.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1ToolSupport.html#aaad18d0b502511e21f6c3ed5da86ccf4" title="Converts argv wchar_t UTF-16 to UTF-8, and passes onwards to a UTF-8 entry point. ...">Wmain()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1ToolSupport.html#aaad18d0b502511e21f6c3ed5da86ccf4" title="Converts argv wchar_t UTF-16 to UTF-8, and passes onwards to a UTF-8 entry point. ...">Wmain()</a> </dd>
+<dd>
+<a class="el" href="classcrashpad_1_1ToolSupport.html#aa7fe01187c086fb6422d42e61485c855" title="Converts a base::FilePath to a command line argument. ">FilePathToCommandLineArgument()</a> </dd></dl>
+
+</div>
+</div>
+<a id="aa7fe01187c086fb6422d42e61485c855"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7fe01187c086fb6422d42e61485c855">&#9670;&nbsp;</a></span>FilePathToCommandLineArgument()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string crashpad::ToolSupport::FilePathToCommandLineArgument </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>file_path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Converts a base::FilePath to a command line argument. </p>
+<p>On POSIX, this is a no-op. On Windows, this undoes the transformation done by <a class="el" href="classcrashpad_1_1ToolSupport.html#a42a5b8864ff6302d3e00c2f4bedf1da0" title="Converts a command line argument to the string type suitable for base::FilePath. ">CommandLineArgumentToFilePathStringType()</a> in the same manner as <a class="el" href="classcrashpad_1_1ToolSupport.html#aaad18d0b502511e21f6c3ed5da86ccf4" title="Converts argv wchar_t UTF-16 to UTF-8, and passes onwards to a UTF-8 entry point. ...">Wmain()</a>. </p>
 
 </div>
 </div>

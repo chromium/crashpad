@@ -81,10 +81,11 @@ Inheritance diagram for crashpad::FileWriterInterface:</div>
  <div class="center">
   <img src="classcrashpad_1_1FileWriterInterface.png" usemap="#crashpad::FileWriterInterface_map" alt=""/>
   <map id="crashpad::FileWriterInterface_map" name="crashpad::FileWriterInterface_map">
-<area href="classcrashpad_1_1FileSeekerInterface.html" title="An interface to seek in files and other file-like objects with semantics matching the underlying plat..." alt="crashpad::FileSeekerInterface" shape="rect" coords="228,0,446,24"/>
+<area href="classcrashpad_1_1FileSeekerInterface.html" title="An interface to seek in files and other file-like objects with semantics matching the underlying plat..." alt="crashpad::FileSeekerInterface" shape="rect" coords="342,0,560,24"/>
 <area href="classcrashpad_1_1FileWriter.html" title="A file writer implementation that wraps traditional system file operations on files accessed through ..." alt="crashpad::FileWriter" shape="rect" coords="0,112,218,136"/>
 <area href="classcrashpad_1_1StringFile.html" title="A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating sy..." alt="crashpad::StringFile" shape="rect" coords="228,112,446,136"/>
 <area href="classcrashpad_1_1WeakFileHandleFileWriter.html" title="A file writer backed by a FileHandle. " alt="crashpad::WeakFileHandleFileWriter" shape="rect" coords="456,112,674,136"/>
+<area href="classcrashpad_1_1WeakStdioFileWriter.html" title="A file writer backed by a standard input/output FILE*. " alt="crashpad::WeakStdioFileWriter" shape="rect" coords="684,112,902,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -147,7 +148,7 @@ Public Member Functions</h2></td></tr>
 <p>Wraps <a class="el" href="namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b" title="Wraps WriteFile(), ensuring that exactly size bytes are written. ">LoggingWriteFile()</a>, or provides an implementation with identical semantics. </p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the operation succeeded, <code>false</code> if it failed, with an error message logged. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1FileWriter.html#a88df535e600f9c9b57a44130de1d0eb0">crashpad::FileWriter</a>, <a class="el" href="classcrashpad_1_1WeakFileHandleFileWriter.html#a8caefa3cd0fbd84fa79695cbe3e13d94">crashpad::WeakFileHandleFileWriter</a>, and <a class="el" href="classcrashpad_1_1StringFile.html#aa7e22ad48bbedf3e1e6a257cfba0c137">crashpad::StringFile</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1WeakStdioFileWriter.html#a9147a282302c1c3c043ada2c85fa8e77">crashpad::WeakStdioFileWriter</a>, <a class="el" href="classcrashpad_1_1FileWriter.html#a88df535e600f9c9b57a44130de1d0eb0">crashpad::FileWriter</a>, <a class="el" href="classcrashpad_1_1WeakFileHandleFileWriter.html#a8caefa3cd0fbd84fa79695cbe3e13d94">crashpad::WeakFileHandleFileWriter</a>, and <a class="el" href="classcrashpad_1_1StringFile.html#aa7e22ad48bbedf3e1e6a257cfba0c137">crashpad::StringFile</a>.</p>
 
 </div>
 </div>
@@ -179,7 +180,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the operation succeeded, <code>false</code> if it failed, with an error message logged.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The contents of <em>iovecs</em> are undefined when this method returns. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1FileWriter.html#a841442d50f6edaacdfeafe859c42a876">crashpad::FileWriter</a>, <a class="el" href="classcrashpad_1_1WeakFileHandleFileWriter.html#aa8aa7c9034126003912e7349a1e3adc3">crashpad::WeakFileHandleFileWriter</a>, and <a class="el" href="classcrashpad_1_1StringFile.html#aa5b57a3a13ee4f973dc7984fbc6e3237">crashpad::StringFile</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1WeakStdioFileWriter.html#aa032081323879c8a82d9101a1125ae56">crashpad::WeakStdioFileWriter</a>, <a class="el" href="classcrashpad_1_1FileWriter.html#a841442d50f6edaacdfeafe859c42a876">crashpad::FileWriter</a>, <a class="el" href="classcrashpad_1_1WeakFileHandleFileWriter.html#aa8aa7c9034126003912e7349a1e3adc3">crashpad::WeakFileHandleFileWriter</a>, and <a class="el" href="classcrashpad_1_1StringFile.html#aa5b57a3a13ee4f973dc7984fbc6e3237">crashpad::StringFile</a>.</p>
 
 </div>
 </div>
