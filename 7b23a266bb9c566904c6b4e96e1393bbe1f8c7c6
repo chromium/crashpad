@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "12351c81_d00d7b63",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-13T21:04:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea4dd8dc_64fba183",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d097bb5c_705666d1",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 15
@@ -66,6 +84,24 @@
       "writtenOn": "2017-03-13T17:51:42Z",
       "side": 1,
       "message": "I don’t know why line 263 checks \u003c0 and this checks \u003d\u003d -1, but you should choose one and be consistent. !\u003d 0 is another option, probably my favorite.",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28a543b1_cc0fc3b7",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-13T21:04:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d097bb5c_705666d1",
       "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "1c2ba1d8_7cc8bdca",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-13T21:04:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d2cb9ce_81a7b319",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d9708082_ec341b03",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 15
@@ -100,6 +154,30 @@
       "writtenOn": "2017-03-13T18:36:13Z",
       "side": 1,
       "message": "The code switches to using pid_ here instead of the local pid being used above.",
+      "range": {
+        "startLine": 291,
+        "startChar": 30,
+        "endLine": 291,
+        "endChar": 34
+      },
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a04b717_9bc64a11",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-13T21:04:42Z",
+      "side": 1,
+      "message": "I changed all uses to pid_.",
+      "parentUuid": "d9708082_ec341b03",
       "range": {
         "startLine": 291,
         "startChar": 30,
@@ -152,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "ab978010_f729911d",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-13T21:04:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68c2a4ac_e15b7ec3",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9e811eba_6d2a3e2b",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 15
@@ -169,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "9c281b1c_0020d3d1",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-13T21:04:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e811eba_6d2a3e2b",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "330557b7_8dda718d",
         "filename": "util/posix/process_info_test.cc",
         "patchSetId": 15
@@ -180,6 +294,24 @@
       "writtenOn": "2017-03-13T17:51:42Z",
       "side": 1,
       "message": "No |else| needed after something noreturn like _exit().",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c41112de_7a9f4355",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-13T21:04:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "330557b7_8dda718d",
       "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
