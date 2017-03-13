@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e08af004_11e9a9ba",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-03-13T18:36:13Z",
+      "side": 1,
+      "message": "If you really want page-size buffers, we should use getpagesize().",
+      "parentUuid": "6a6e4eef_c1ccdbc5",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d097bb5c_705666d1",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 15
@@ -53,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "d9708082_ec341b03",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-03-13T18:36:13Z",
+      "side": 1,
+      "message": "The code switches to using pid_ here instead of the local pid being used above.",
+      "range": {
+        "startLine": 291,
+        "startChar": 30,
+        "endLine": 291,
+        "endChar": 34
+      },
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "68c2a4ac_e15b7ec3",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 15
@@ -67,6 +108,29 @@
       "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbae4ed6_ebe99096",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-03-13T18:36:13Z",
+      "side": 1,
+      "message": "On Android, it\u0027s not clear what the result of this would be, since an app\u0027s process doesn\u0027t change privileges -- those are determined by the system.",
+      "range": {
+        "startLine": 390,
+        "startChar": 19,
+        "endLine": 390,
+        "endChar": 49
+      },
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
