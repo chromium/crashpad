@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a6e4eef_c1ccdbc5",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-13T17:51:42Z",
+      "side": 1,
+      "message": "Where the kernel does internal buffering on its side of a proc read, I think that the buffer is normally a page, so I like to use buffer[4096] for these.",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d097bb5c_705666d1",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-13T17:51:42Z",
+      "side": 1,
+      "message": "I don’t know why line 263 checks \u003c0 and this checks \u003d\u003d -1, but you should choose one and be consistent. !\u003d 0 is another option, probably my favorite.",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d2cb9ce_81a7b319",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-13T17:51:42Z",
+      "side": 1,
+      "message": "This is so closely related to the thing that came before it that I’d get rid of the blank line between.",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c2a4ac_e15b7ec3",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-13T17:51:42Z",
+      "side": 1,
+      "message": "Nit: the TODO format uses a colon, like\n  // TODO(jperaza): Is this possible to determine?",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e811eba_6d2a3e2b",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-13T17:51:42Z",
+      "side": 1,
+      "message": "Here through line 422 is the same as lines 214 through 227. Factor it out to a common helper function.\n\nI actually have a local thing to provide a ReadEntireFile() function, but I’m going to hold it up until yours lands, because there might be conflicts and I don’t want to jam you up by making you deal with them. But look for that review after this lands!",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "330557b7_8dda718d",
+        "filename": "util/posix/process_info_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-13T17:51:42Z",
+      "side": 1,
+      "message": "No |else| needed after something noreturn like _exit().",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
