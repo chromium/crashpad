@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ea4dd8dc_64fba183",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-13T18:37:35Z",
+      "side": 1,
+      "message": "\u003e If you really want page-size buffers, we should use getpagesize().\n\nThen we’ve got to malloc() it. buffer[4096] gives us “probably page-sized, but definitely on the stack.”",
+      "parentUuid": "e08af004_11e9a9ba",
+      "revId": "7b23a266bb9c566904c6b4e96e1393bbe1f8c7c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d097bb5c_705666d1",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 15
