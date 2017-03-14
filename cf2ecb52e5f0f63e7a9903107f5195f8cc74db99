@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "75df6454_72d5d3e5",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T03:25:13Z",
+      "side": 1,
+      "message": "Looks like \u003cstdio.h\u003e only provides getline() since API 21. With Android API 16:\n\n../../../../util/posix/process_info_linux.cc:152:19: error: use of undeclared identifier \u0027getline\u0027; did you mean \u0027std::getline\u0027?\n    while ((len \u003d getline(\u0026buffer, \u0026buffer_size, status_file.get())) \u003e 0) {\n                  ^~~~~~~\n                  std::getline\n/Users/mark/android-ndk-r14_arm_api16/bin/../lib/gcc/arm-linux-androideabi/4.9.x/../../../../include/c++/4.9.x/streambuf:173:9: note: \u0027std::getline\u0027 declared here\n        getline(basic_istream\u003c_CharT2, _Traits2\u003e\u0026,\n        ^\n../../../../util/posix/process_info_linux.cc:152:19: error: no matching function for call to \u0027getline\u0027\n    while ((len \u003d getline(\u0026buffer, \u0026buffer_size, status_file.get())) \u003e 0) {\n                  ^~~~~~~\n/Users/mark/android-ndk-r14_arm_api16/bin/../lib/gcc/arm-linux-androideabi/4.9.x/../../../../include/c++/4.9.x/streambuf:173:9: note: candidate template ignored: could not match \u0027basic_istream\u003ctype-parameter-0-0, type-parameter-0-1\u003e\u0027 against \u0027char **\u0027\n        getline(basic_istream\u003c_CharT2, _Traits2\u003e\u0026,\n        ^",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39bbdc94_fe27e889",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 17
@@ -81,6 +98,57 @@
       "writtenOn": "2017-03-14T00:48:39Z",
       "side": 1,
       "message": "We can just put getpid() inline here now, no need for a variable anymore.",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "017f89d2_a2a654d9",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T03:25:13Z",
+      "side": 1,
+      "message": "It seems that this is only valid when building for arm64. On 32-bit ARM (and also Ubuntu 16.10, x86 and x86_64):\n\n../../util/posix/process_info_linux.cc:309:7: error: unknown type name \u0027user_pt_regs\u0027\n      user_pt_regs regs;\n      ^\n1 error generated.",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36da2a45_c81c280c",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T03:25:13Z",
+      "side": 1,
+      "message": "PTRACE_GETREGSET showed up in Android API 21. With Android API 16:\n\n../../../../util/posix/process_info_linux.cc:316:16: error: use of undeclared identifier \u0027PTRACE_GETREGSET\u0027\n    if (ptrace(PTRACE_GETREGSET,\n               ^",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6a8d8cf_6700d375",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T03:25:13Z",
+      "side": 1,
+      "message": "Looks like NT_PRSTATUS comes from \u003clinux/elf.h\u003e, and \u003celf.h\u003e doesn’t #include \u003clinux/elf.h\u003e until Android API 21. With Android API 16:\n\n../../../../util/posix/process_info_linux.cc:318:40: error: use of undeclared identifier \u0027NT_PRSTATUS\u0027\n               reinterpret_cast\u003cvoid*\u003e(NT_PRSTATUS),\n                                       ^",
       "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
