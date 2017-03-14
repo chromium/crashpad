@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0424a235_f429c5a2",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T19:06:14Z",
+      "side": 1,
+      "message": "I assume that you didn’t use the standard TIMESPEC_TO_TIMEVAL() because it’s not in the NDK? If so, we may want a follow-up to put that macro into compat, because it’s nice to be able to write standard code.\n\nFor now, since this function is closely related to SubtractTimespec, move it to be next to SubtractTimespec. Accept the ts argument as a const\u0026. If the timespec is called ts, call the timeval tv.",
+      "revId": "e17852877a417a9774bbcf986c5b8601bf4e103a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ea12f96_f87a36be",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T19:06:14Z",
+      "side": 1,
+      "message": "These types should be inline in the function where they’re used. No need to have them out here.",
+      "revId": "e17852877a417a9774bbcf986c5b8601bf4e103a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c23bc133_d418651c",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T19:06:14Z",
+      "side": 1,
+      "message": "static_cast\u003clong\u003e(1E6) to keep things integral, no need to bring the FPU into it.\n\nSlightly more readable factored out to:\n\n  (ticks_after_boot % clock_ticks_per_s) * (static_cast\u003clong\u003e(1E6) / clock_ticks_per_s)",
+      "revId": "e17852877a417a9774bbcf986c5b8601bf4e103a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e40f644_10ecab6d",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T19:06:14Z",
+      "side": 1,
+      "message": "(PrStatusType can go here.)",
+      "revId": "e17852877a417a9774bbcf986c5b8601bf4e103a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
