@@ -112,7 +112,7 @@ Kit)](https://developer.android.com/ndk/) runs on.
 If it’s not already present on your system, [download the NDK package for your
 system](https://developer.android.com/ndk/downloads/) and expand it to a
 suitable location. These instructions assume that it’s been expanded to
-`~/android-ndk-r13`.
+`~/android-ndk-r14`.
 
 To build Crashpad, portions of the NDK must be reassembled into a [standalone
 toolchain](https://developer.android.com/ndk/guides/standalone_toolchain.html).
@@ -126,8 +126,8 @@ desired. To build a standalone toolchain targeting 64-bit ARM and API level 21
 
 ```
 $ cd ~
-$ python android-ndk-r13/build/tools/make_standalone_toolchain.py \
-      --arch=arm64 --api=21 --install-dir=android-ndk-r13_arm64_api21
+$ python android-ndk-r14/build/tools/make_standalone_toolchain.py \
+      --arch=arm64 --api=21 --install-dir=android-ndk-r14_arm64_api21
 ```
 
 Note that Chrome uses Android API level 21 for 64-bit platforms and 16 for
@@ -144,14 +144,14 @@ not be permanent.
 
 ```
 $ cd ~/crashpad/crashpad
-$ CC_target=~/android-ndk-r13_arm64_api21/bin/clang \
-  CXX_target=~/android-ndk-r13_arm64_api21/bin/clang++ \
-  AR_target=~/android-ndk-r13_arm64_api21/bin/aarch64-linux-android-ar \
-  NM_target=~/android-ndk-r13_arm64_api21/bin/aarch64-linux-android-nm \
-  READELF_target=~/android-ndk-r13_arm64_api21/bin/aarch64-linux-android-readelf \
+$ CC_target=~/android-ndk-r14_arm64_api21/bin/clang \
+  CXX_target=~/android-ndk-r14_arm64_api21/bin/clang++ \
+  AR_target=~/android-ndk-r14_arm64_api21/bin/aarch64-linux-android-ar \
+  NM_target=~/android-ndk-r14_arm64_api21/bin/aarch64-linux-android-nm \
+  READELF_target=~/android-ndk-r14_arm64_api21/bin/aarch64-linux-android-readelf \
   python build/gyp_crashpad.py \
       -DOS=android -Dtarget_arch=arm64 -Dclang=1 \
-      --generator-output=out_android_arm64_api21 -f ninja-android
+      --generator-output=out/android_arm64_api21 -f ninja-android
 ```
 
 It is also possible to use GCC instead of Clang by making the appropriate
@@ -174,7 +174,7 @@ build, direct `ninja` to the specific `out` directory chosen by
 `--generator-output` above.
 
 ```
-$ ninja -C out_android_arm64_api21/out/Debug crashpad_test_test
+$ ninja -C out/android_arm64_api21/out/Debug crashpad_test_test
 ```
 
 ## Testing
@@ -216,10 +216,10 @@ transferred to the device prior to running the test.
 
 ```
 $ cd ~/crashpad/crashpad
-$ adb push out_android_arm64_api21/out/Debug/crashpad_test_test /data/local/tmp/
+$ adb push out/android_arm64_api21/out/Debug/crashpad_test_test /data/local/tmp/
 [100%] /data/local/tmp/crashpad_test_test
 $ adb push \
-      out_android_arm64_api21/out/Debug/crashpad_test_test_multiprocess_exec_test_child \
+      out/android_arm64_api21/out/Debug/crashpad_test_test_multiprocess_exec_test_child \
       /data/local/tmp/
 [100%] /data/local/tmp/crashpad_test_test_multiprocess_exec_test_child
 $ adb shell mkdir -p /data/local/tmp/crashpad_test_data_root/test
