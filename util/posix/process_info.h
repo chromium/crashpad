@@ -141,6 +141,18 @@ class ProcessInfo {
  private:
 #if defined(OS_MACOSX)
   kinfo_proc kern_proc_info_;
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+  std::set<gid_t> supplementary_groups_;
+  timeval start_time_;
+  pid_t pid_;
+  pid_t ppid_;
+  uid_t uid_;
+  uid_t euid_;
+  uid_t suid_;
+  gid_t gid_;
+  gid_t egid_;
+  gid_t sgid_;
+  bool is_64_bit_;
 #endif
   InitializationStateDcheck initialized_;
 
