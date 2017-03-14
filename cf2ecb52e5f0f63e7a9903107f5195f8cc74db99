@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "50d85c17_3fb82bdf",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-14T18:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f113b264_56abe802",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9906cec1_0e82e7a1",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 17
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-14T00:48:39Z",
       "side": 1,
       "message": "We’ve purged Crashpad of old-style typedefs. Now we use new-style using:\n\nusing ScopedBufferPtr \u003d std::unique_ptr\u003cchar*, BufferFreer\u003e;\n\nSome people find the new style more readable, because the \u003d helps the reader know which side is the new type and which is the existing type.",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23f5beca_824d18c4",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-14T18:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9906cec1_0e82e7a1",
       "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "71d5a447_87a7e737",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-14T18:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39bbdc94_fe27e889",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b51f41c7_f544c0c4",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 17
@@ -84,6 +138,24 @@
       "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be2a0373_b5f78984",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-14T18:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b51f41c7_f544c0c4",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "aa1d645e_decb2cf0",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-14T18:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4ce0bbb_ff0ead14",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "017f89d2_a2a654d9",
         "filename": "util/posix/process_info_linux.cc",
         "patchSetId": 17
@@ -118,6 +208,24 @@
       "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5603dd7_a0288511",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-14T18:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "017f89d2_a2a654d9",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -187,6 +295,24 @@
       "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cc4b11f_afcd8197",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-14T18:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4772ee9_bfd40e79",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
