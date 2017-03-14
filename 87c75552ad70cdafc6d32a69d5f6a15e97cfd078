@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd9ff3a2_6760ed63",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T22:03:31Z",
+      "side": 0,
+      "message": "../../util/posix/process_info_linux.cc:319:28: error: unknown type name \u0027user_regs_struct\u0027\n      using PrStatusType \u003d user_regs_struct;\n                           ^",
+      "revId": "87c75552ad70cdafc6d32a69d5f6a15e97cfd078",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f7ec2f7_11c212fe",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T22:03:31Z",
+      "side": 0,
+      "message": "../../util/posix/process_info_linux.cc:325:7: error: unknown type name \u0027PrStatusType\u0027\n      PrStatusType regs;\n      ^",
+      "revId": "87c75552ad70cdafc6d32a69d5f6a15e97cfd078",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
