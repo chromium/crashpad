@@ -169,6 +169,24 @@
       "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4772ee9_bfd40e79",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T14:23:17Z",
+      "side": 1,
+      "message": "\u003e Cute, but optional because maybe it’s too cute: this expression is really just\n\u003e \n\u003e   is_64_bit_ \u003d am_64_bit ^ (iov.iov_len !\u003d sizeof(regbuf.regs));\n\nThis would be just as succinct but even more readable:\n\n  is_64_bit_ \u003d am_64_bit \u003d\u003d (iov.iov_len \u003d\u003d sizeof(regbuf.regs));",
+      "parentUuid": "0a3a17c3_4a658bc7",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
