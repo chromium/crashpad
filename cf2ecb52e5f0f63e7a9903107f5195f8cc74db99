@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f113b264_56abe802",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T00:48:39Z",
+      "side": 1,
+      "message": "Sort: string_piece \u003e string_number_conversions",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9906cec1_0e82e7a1",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T00:48:39Z",
+      "side": 1,
+      "message": "We’ve purged Crashpad of old-style typedefs. Now we use new-style using:\n\nusing ScopedBufferPtr \u003d std::unique_ptr\u003cchar*, BufferFreer\u003e;\n\nSome people find the new style more readable, because the \u003d helps the reader know which side is the new type and which is the existing type.",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39bbdc94_fe27e889",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T00:48:39Z",
+      "side": 1,
+      "message": "Oh, wait wait wait, wait a sec (or…wait a tick!)\n\nWe’re starting with ticks_after_boot, which is a kernel USER_HZ clock_t, ticks. That’s better resolution than 1-second time_t, typically 100/second. Yet we’re throwing away the extra resolution and forcing everything to show up with a 1-second-truncated start time. We can do better! Let’s convert ticks_after_boot to a timeval instead of a time_t, and then add that to our computed boot_time.",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b51f41c7_f544c0c4",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T00:48:39Z",
+      "side": 1,
+      "message": "…\n\n  TIMESPEC_TO_TIMEVAL(\u0026boot_time_timespec, \u0026boot_time_timeval);\n  timeradd(\u0026boot_time_timeval, \u0026time_after_boot, \u0026start_time_);",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4ce0bbb_ff0ead14",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T00:48:39Z",
+      "side": 1,
+      "message": "We can just put getpid() inline here now, no need for a variable anymore.",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a3a17c3_4a658bc7",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-14T00:48:39Z",
+      "side": 1,
+      "message": "Cute, but optional because maybe it’s too cute: this expression is really just\n\n  is_64_bit_ \u003d am_64_bit ^ (iov.iov_len !\u003d sizeof(regbuf.regs));",
+      "revId": "cf2ecb52e5f0f63e7a9903107f5195f8cc74db99",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
