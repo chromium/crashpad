@@ -102,7 +102,7 @@ TEST(MinidumpExceptionWriter, Minimal) {
   InitializeMinidumpContextX86(context_x86_writer->context(), kSeed);
   exception_writer->SetContext(std::move(context_x86_writer));
 
-  minidump_file_writer.AddStream(std::move(exception_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(exception_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -161,7 +161,7 @@ TEST(MinidumpExceptionWriter, Standard) {
   exception_information.push_back(kExceptionInformation2);
   exception_writer->SetExceptionInformation(exception_information);
 
-  minidump_file_writer.AddStream(std::move(exception_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(exception_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -234,7 +234,7 @@ TEST(MinidumpExceptionWriter, InitializeFromSnapshot) {
   exception_writer->InitializeFromSnapshot(&exception_snapshot, thread_id_map);
 
   MinidumpFileWriter minidump_file_writer;
-  minidump_file_writer.AddStream(std::move(exception_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(exception_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -256,7 +256,7 @@ TEST(MinidumpExceptionWriterDeathTest, NoContext) {
   MinidumpFileWriter minidump_file_writer;
   auto exception_writer = base::WrapUnique(new MinidumpExceptionWriter());
 
-  minidump_file_writer.AddStream(std::move(exception_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(exception_writer)));
 
   StringFile string_file;
   ASSERT_DEATH_CHECK(minidump_file_writer.WriteEverything(&string_file),
