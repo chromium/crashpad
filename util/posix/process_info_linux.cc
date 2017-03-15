@@ -324,9 +324,9 @@ bool ProcessInfo::Initialize(pid_t pid) {
 #if defined(ARCH_CPU_X86_FAMILY)
       using PrStatusType = user_regs_struct;
 #elif defined(ARCH_CPU_ARMEL)
-      using PrStatusType = pt_regs;
+      using PrStatusType = user_regs;
 #elif defined(ARCH_CPU_ARM64)
-      using PrStatusType = user_pt_regs;
+      using PrStatusType = user_regs_struct;
 #endif
       PrStatusType regs;
       char extra;
