@@ -83,6 +83,16 @@
             ],
           },
         }],
+        ['OS=="android"', {
+          'include_dirs': [
+            'android',
+          ],
+          'direct_dependent_settings': {
+            'include_dirs': [
+              'android',
+            ],
+          },
+        }],
       ],
     },
   ],
