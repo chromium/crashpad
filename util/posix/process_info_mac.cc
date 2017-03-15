@@ -132,14 +132,16 @@ bool ProcessInfo::DidChangePrivileges() const {
   return kern_proc_info_.kp_proc.p_flag & P_SUGID;
 }
 
-bool ProcessInfo::Is64Bit() const {
+bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return kern_proc_info_.kp_proc.p_flag & P_LP64;
+  *is_64_bit = kern_proc_info_.kp_proc.p_flag & P_LP64;
+  return true;
 }
 
-void ProcessInfo::StartTime(timeval* start_time) const {
+bool ProcessInfo::StartTime(timeval* start_time) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *start_time = kern_proc_info_.kp_proc.p_starttime;
+  return true;
 }
 
 bool ProcessInfo::Arguments(std::vector<std::string>* argv) const {

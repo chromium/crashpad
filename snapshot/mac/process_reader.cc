@@ -116,13 +116,20 @@ bool ProcessReader::Initialize(task_t task) {
     return false;
   }
 
-  is_64_bit_ = process_info_.Is64Bit();
+  if (!process_info_.Is64Bit(&is_64_bit_)) {
+    return false;
+  }
 
   task_memory_.reset(new TaskMemory(task));
   task_ = task;
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
+}
+
+void ProcessReader::StartTime(timeval* start_time) const {
+  bool rv = process_info_.StartTime(start_time);
+  DCHECK(rv);
 }
 
 bool ProcessReader::CPUTimes(timeval* user_time, timeval* system_time) const {
