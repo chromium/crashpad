@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72de0779_f97f0902",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-15T01:13:43Z",
+      "side": 1,
+      "message": "No reason to make a copy, either. Just index into stat_contents’ char buffer.",
+      "range": {
+        "startLine": 257,
+        "startChar": 28,
+        "endLine": 257,
+        "endChar": 52
+      },
+      "revId": "428aa9754b5f22155729480f39c2530036225ade",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
