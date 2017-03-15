@@ -74,11 +74,11 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   const SystemSnapshot* system_snapshot = process_snapshot->System();
   auto system_info = base::WrapUnique(new MinidumpSystemInfoWriter());
   system_info->InitializeFromSnapshot(system_snapshot);
-  AddStream(std::move(system_info));
+  CHECK(AddStream(std::move(system_info)));
 
   auto misc_info = base::WrapUnique(new MinidumpMiscInfoWriter());
   misc_info->InitializeFromSnapshot(process_snapshot);
-  AddStream(std::move(misc_info));
+  CHECK(AddStream(std::move(misc_info)));
 
   auto memory_list = base::WrapUnique(new MinidumpMemoryListWriter());
   auto thread_list = base::WrapUnique(new MinidumpThreadListWriter());
@@ -86,33 +86,25 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   MinidumpThreadIDMap thread_id_map;
   thread_list->InitializeFromSnapshot(process_snapshot->Threads(),
                                       &thread_id_map);
-  AddStream(std::move(thread_list));
+  CHECK(AddStream(std::move(thread_list)));
 
   const ExceptionSnapshot* exception_snapshot = process_snapshot->Exception();
   if (exception_snapshot) {
     auto exception = base::WrapUnique(new MinidumpExceptionWriter());
     exception->InitializeFromSnapshot(exception_snapshot, thread_id_map);
-    AddStream(std::move(exception));
+    CHECK(AddStream(std::move(exception)));
   }
 
   auto module_list = base::WrapUnique(new MinidumpModuleListWriter());
   module_list->InitializeFromSnapshot(process_snapshot->Modules());
-  AddStream(std::move(module_list));
-
-  for (const auto& module : process_snapshot->Modules()) {
-    for (const UserMinidumpStream* stream : module->CustomMinidumpStreams()) {
-      auto user_stream = base::WrapUnique(new MinidumpUserStreamWriter());
-      user_stream->InitializeFromSnapshot(stream);
-      AddStream(std::move(user_stream));
-    }
-  }
+  CHECK(AddStream(std::move(module_list)));
 
   auto unloaded_modules = process_snapshot->UnloadedModules();
   if (!unloaded_modules.empty()) {
     auto unloaded_module_list =
         base::WrapUnique(new MinidumpUnloadedModuleListWriter());
     unloaded_module_list->InitializeFromSnapshot(unloaded_modules);
-    AddStream(std::move(unloaded_module_list));
+    CHECK(AddStream(std::move(unloaded_module_list)));
   }
 
   auto crashpad_info = base::WrapUnique(new MinidumpCrashpadInfoWriter());
@@ -121,7 +113,7 @@ void MinidumpFileWriter::InitializeFromSnapshot(
   // Since the MinidumpCrashpadInfo stream is an extension, it’s safe to not add
   // it to the minidump file if it wouldn’t carry any useful information.
   if (crashpad_info->IsUseful()) {
-    AddStream(std::move(crashpad_info));
+    CHECK(AddStream(std::move(crashpad_info)));
   }
 
   std::vector<const MemoryMapRegionSnapshot*> memory_map_snapshot =
@@ -130,21 +122,43 @@ void MinidumpFileWriter::InitializeFromSnapshot(
     auto memory_info_list =
         base::WrapUnique(new MinidumpMemoryInfoListWriter());
     memory_info_list->InitializeFromSnapshot(memory_map_snapshot);
-    AddStream(std::move(memory_info_list));
+    CHECK(AddStream(std::move(memory_info_list)));
   }
 
   std::vector<HandleSnapshot> handles_snapshot = process_snapshot->Handles();
   if (!handles_snapshot.empty()) {
     auto handle_data_writer = base::WrapUnique(new MinidumpHandleDataWriter());
     handle_data_writer->InitializeFromSnapshot(handles_snapshot);
-    AddStream(std::move(handle_data_writer));
+    CHECK(AddStream(std::move(handle_data_writer)));
   }
 
   memory_list->AddFromSnapshot(process_snapshot->ExtraMemory());
-  if (exception_snapshot)
+  if (exception_snapshot) {
     memory_list->AddFromSnapshot(exception_snapshot->ExtraMemory());
+  }
 
-  AddStream(std::move(memory_list));
+  // The memory list stream should be added last. This keeps the “extra memory”
+  // at the end so that if the minidump file is truncated, other, more critical
+  // data is more likely to be preserved. Note that non-“extra” memory regions
+  // will not have to ride at the end of the file. Thread stack memory, for
+  // example, exists as a children of threads, and appears alongside them in the
+  // file.
+  //
+  // It would be nice if this followed the user streams, but that would be
+  // hazardous. See below.
+  CHECK(AddStream(std::move(memory_list)));
+
+  // These user streams must be added last. Otherwise, a user stream with the
+  // same type as a well-known stream could preempt the well-known stream. As it
+  // stands now, earlier-discovered user streams can still preempt
+  // later-discovered ones.
+  for (const auto& module : process_snapshot->Modules()) {
+    for (const UserMinidumpStream* stream : module->CustomMinidumpStreams()) {
+      auto user_stream = base::WrapUnique(new MinidumpUserStreamWriter());
+      user_stream->InitializeFromSnapshot(stream);
+      AddStream(std::move(user_stream));
+    }
+  }
 }
 
 void MinidumpFileWriter::SetTimestamp(time_t timestamp) {
@@ -153,18 +167,22 @@ void MinidumpFileWriter::SetTimestamp(time_t timestamp) {
   internal::MinidumpWriterUtil::AssignTimeT(&header_.TimeDateStamp, timestamp);
 }
 
-void MinidumpFileWriter::AddStream(
+bool MinidumpFileWriter::AddStream(
     std::unique_ptr<internal::MinidumpStreamWriter> stream) {
   DCHECK_EQ(state(), kStateMutable);
 
   MinidumpStreamType stream_type = stream->StreamType();
 
   auto rv = stream_types_.insert(stream_type);
-  CHECK(rv.second) << "stream_type " << stream_type << " already present";
+  if (!rv.second) {
+    LOG(WARNING) << "discarding duplicate stream of type " << stream_type;
+    return false;
+  }
 
   streams_.push_back(stream.release());
 
   DCHECK_EQ(streams_.size(), stream_types_.size());
+  return true;
 }
 
 bool MinidumpFileWriter::WriteEverything(FileWriterInterface* file_writer) {
