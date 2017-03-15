@@ -342,12 +342,10 @@ bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
       // more/larger registers than this process. If the kernel fills less space
       // than sizeof(regs) then the target process uses smaller/fewer registers.
       struct {
-#if defined(ARCH_CPU_X86_FAMILY)
+#if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM64)
         using PrStatusType = user_regs_struct;
 #elif defined(ARCH_CPU_ARMEL)
-        using PrStatusType = pt_regs;
-#elif defined(ARCH_CPU_ARM64)
-        using PrStatusType = user_pt_regs;
+        using PrStatusType = user_regs;
 #endif
         PrStatusType regs;
         char extra;
