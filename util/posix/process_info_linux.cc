@@ -16,6 +16,7 @@
 
 #include <ctype.h>
 #include <elf.h>
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/ptrace.h>
@@ -358,11 +359,31 @@ bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
                  pid_,
                  reinterpret_cast<void*>(NT_PRSTATUS),
                  &iov) != 0) {
-        PLOG(ERROR) << "ptrace";
-        return false;
+        switch (errno) {
+#if defined(ARCH_CPU_ARMEL)
+          case EIO:
+            // PTRACE_GETREGSET, introduced in Linux 2.6.34 (2225a122ae26),
+            // requires kernel support enabled by HAVE_ARCH_TRACEHOOK. This has
+            // been set for x86 (including x86_64) since Linux 2.6.28
+            // (99bbc4b1e677a), but for ARM only since Linux 3.5.0
+            // (0693bf68148c4). Fortunately, 64-bit ARM support only appeared in
+            // Linux 3.7.0, so if PTRACE_GETREGSET fails on ARM with EIO,
+            // indicating that the request is not supported, the kernel must be
+            // old enough that 64-bit ARM isn’t supported either.
+            //
+            // TODO(mark): Once helpers to interpret the kernel version are
+            // available, add a DCHECK to ensure that the kernel is older than
+            // 3.5.
+            is_64_bit_ = false;
+            break;
+#endif
+          default:
+            PLOG(ERROR) << "ptrace";
+            return false;
+        }
+      } else {
+        is_64_bit_ = am_64_bit == (iov.iov_len == sizeof(regbuf.regs));
       }
-
-      is_64_bit_ = am_64_bit == (iov.iov_len == sizeof(regbuf.regs));
     }
 
     is_64_bit_initialized_.set_valid();
