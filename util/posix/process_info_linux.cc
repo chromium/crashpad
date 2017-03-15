@@ -247,14 +247,19 @@ bool ProcessInfo::Initialize(pid_t pid) {
       return false;
     }
 
-    for (int index = 1;
-         index < 21 && stat_pos < stat_contents.size();
-         ++index) {
-      stat_pos = stat_contents.find(" ", stat_pos);
+    for (int index = 1; index < 21; ++index) {
+      stat_pos = stat_contents.find(' ', stat_pos);
+      if (stat_pos == std::string::npos) {
+        break;
+      }
       ++stat_pos;
     }
+    if (stat_pos >= stat_contents.size()) {
+      LOG(ERROR) << "format error";
+      return false;
+    }
 
-    const char* ticks_ptr = stat_contents.substr(stat_pos).c_str();
+    const char* ticks_ptr = &stat_contents[stat_pos];
 
     // start time is in jiffies instead of clock ticks pre 2.6.
     uint64_t ticks_after_boot;
