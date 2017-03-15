@@ -82,7 +82,8 @@ TEST(MinidumpUnloadedModuleWriter, EmptyModule) {
 
   unloaded_module_list_writer->AddUnloadedModule(
       std::move(unloaded_module_writer));
-  minidump_file_writer.AddStream(std::move(unloaded_module_list_writer));
+  ASSERT_TRUE(
+      minidump_file_writer.AddStream(std::move(unloaded_module_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -128,7 +129,8 @@ TEST(MinidumpUnloadedModuleWriter, OneModule) {
 
   unloaded_module_list_writer->AddUnloadedModule(
       std::move(unloaded_module_writer));
-  minidump_file_writer.AddStream(std::move(unloaded_module_list_writer));
+  ASSERT_TRUE(
+      minidump_file_writer.AddStream(std::move(unloaded_module_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));

@@ -59,7 +59,7 @@ void GetHandleDataStream(
 TEST(MinidumpHandleDataWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
   auto handle_data_writer = base::WrapUnique(new MinidumpHandleDataWriter());
-  minidump_file_writer.AddStream(std::move(handle_data_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(handle_data_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -92,7 +92,7 @@ TEST(MinidumpHandleDataWriter, OneHandle) {
 
   handle_data_writer->InitializeFromSnapshot(snapshot);
 
-  minidump_file_writer.AddStream(std::move(handle_data_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(handle_data_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -150,7 +150,7 @@ TEST(MinidumpHandleDataWriter, RepeatedTypeName) {
 
   handle_data_writer->InitializeFromSnapshot(snapshot);
 
-  minidump_file_writer.AddStream(std::move(handle_data_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(handle_data_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));

@@ -81,7 +81,7 @@ TEST(MinidumpThreadWriter, EmptyThreadList) {
   MinidumpFileWriter minidump_file_writer;
   auto thread_list_writer = base::WrapUnique(new MinidumpThreadListWriter());
 
-  minidump_file_writer.AddStream(std::move(thread_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -161,7 +161,7 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
   thread_writer->SetContext(std::move(context_x86_writer));
 
   thread_list_writer->AddThread(std::move(thread_writer));
-  minidump_file_writer.AddStream(std::move(thread_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -231,7 +231,7 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
   thread_writer->SetContext(std::move(context_amd64_writer));
 
   thread_list_writer->AddThread(std::move(thread_writer));
-  minidump_file_writer.AddStream(std::move(thread_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -363,8 +363,8 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
 
   thread_list_writer->AddThread(std::move(thread_writer_2));
 
-  minidump_file_writer.AddStream(std::move(thread_list_writer));
-  minidump_file_writer.AddStream(std::move(memory_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -623,8 +623,8 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
   thread_list_writer->InitializeFromSnapshot(thread_snapshots, &thread_id_map);
 
   MinidumpFileWriter minidump_file_writer;
-  minidump_file_writer.AddStream(std::move(thread_list_writer));
-  minidump_file_writer.AddStream(std::move(memory_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -702,7 +702,7 @@ TEST(MinidumpThreadWriterDeathTest, NoContext) {
   auto thread_writer = base::WrapUnique(new MinidumpThreadWriter());
 
   thread_list_writer->AddThread(std::move(thread_writer));
-  minidump_file_writer.AddStream(std::move(thread_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(thread_list_writer)));
 
   StringFile string_file;
   ASSERT_DEATH_CHECK(minidump_file_writer.WriteEverything(&string_file),

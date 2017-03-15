@@ -67,7 +67,7 @@ TEST(MinidumpModuleWriter, EmptyModuleList) {
   MinidumpFileWriter minidump_file_writer;
   auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
 
-  minidump_file_writer.AddStream(std::move(module_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(module_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -276,7 +276,7 @@ TEST(MinidumpModuleWriter, EmptyModule) {
   module_writer->SetName(kModuleName);
 
   module_list_writer->AddModule(std::move(module_writer));
-  minidump_file_writer.AddStream(std::move(module_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(module_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -367,7 +367,7 @@ TEST(MinidumpModuleWriter, OneModule) {
   module_writer->SetMiscDebugRecord(std::move(misc_debug_writer));
 
   module_list_writer->AddModule(std::move(module_writer));
-  minidump_file_writer.AddStream(std::move(module_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(module_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -442,7 +442,7 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
   module_writer->SetMiscDebugRecord(std::move(misc_debug_writer));
 
   module_list_writer->AddModule(std::move(module_writer));
-  minidump_file_writer.AddStream(std::move(module_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(module_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -534,7 +534,7 @@ TEST(MinidumpModuleWriter, ThreeModules) {
 
   module_list_writer->AddModule(std::move(module_writer_2));
 
-  minidump_file_writer.AddStream(std::move(module_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(module_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -727,7 +727,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   module_list_writer->InitializeFromSnapshot(module_snapshots);
 
   MinidumpFileWriter minidump_file_writer;
-  minidump_file_writer.AddStream(std::move(module_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(module_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -759,7 +759,7 @@ TEST(MinidumpModuleWriterDeathTest, NoModuleName) {
   auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
   auto module_writer = base::WrapUnique(new MinidumpModuleWriter());
   module_list_writer->AddModule(std::move(module_writer));
-  minidump_file_writer.AddStream(std::move(module_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(module_list_writer)));
 
   StringFile string_file;
   ASSERT_DEATH_CHECK(minidump_file_writer.WriteEverything(&string_file),
