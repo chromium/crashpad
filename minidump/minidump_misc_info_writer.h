@@ -67,7 +67,7 @@ class MinidumpMiscInfoWriter final : public internal::MinidumpStreamWriter {
   //! \note Valid in #kStateMutable. No mutator methods may be called before
   //!     this method, and it is not normally necessary to call any mutator
   //!     methods after this method.
-  void InitializeFromSnapshot(const ProcessSnapshot* process_snapshot);
+  void InitializeFromSnapshot(ProcessSnapshot* process_snapshot);
 
   //! \brief Sets the field referenced by #MINIDUMP_MISC1_PROCESS_ID.
   void SetProcessID(uint32_t process_id);

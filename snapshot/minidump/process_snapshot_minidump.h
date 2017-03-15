@@ -61,7 +61,7 @@ class ProcessSnapshotMinidump final : public ProcessSnapshot {
   pid_t ProcessID() const override;
   pid_t ParentProcessID() const override;
   void SnapshotTime(timeval* snapshot_time) const override;
-  void ProcessStartTime(timeval* start_time) const override;
+  void ProcessStartTime(timeval* start_time) override;
   void ProcessCPUTimes(timeval* user_time, timeval* system_time) const override;
   void ReportID(UUID* report_id) const override;
   void ClientID(UUID* client_id) const override;

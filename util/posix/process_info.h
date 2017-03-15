@@ -25,6 +25,7 @@
 
 #include "base/macros.h"
 #include "build/build_config.h"
+#include "util/misc/initialization_state.h"
 #include "util/misc/initialization_state_dcheck.h"
 
 #if defined(OS_MACOSX)
@@ -114,12 +115,15 @@ class ProcessInfo {
   bool DidChangePrivileges() const;
 
   //! \return `true` if the target task is a 64-bit process.
-  bool Is64Bit() const;
+  bool Is64Bit(bool* is_64_bit);
 
   //! \brief Determines the target process’ start time.
   //!
   //! \param[out] start_time The time that the process started.
-  void StartTime(timeval* start_time) const;
+  //!
+  //! \return `true` on success, with \a start_time set. Otherwise, `false` with
+  //!     a message logged.
+  bool StartTime(timeval* start_time);
 
   //! \brief Obtains the arguments used to launch a process.
   //!
@@ -143,6 +147,7 @@ class ProcessInfo {
   kinfo_proc kern_proc_info_;
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   std::set<gid_t> supplementary_groups_;
+  InitializationState start_time_initialized_;
   timeval start_time_;
   pid_t pid_;
   pid_t ppid_;
@@ -152,6 +157,7 @@ class ProcessInfo {
   gid_t gid_;
   gid_t egid_;
   gid_t sgid_;
+  InitializationState is_64_bit_initialized_;
   bool is_64_bit_;
 #endif
   InitializationStateDcheck initialized_;

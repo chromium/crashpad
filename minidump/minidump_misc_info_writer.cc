@@ -152,7 +152,7 @@ MinidumpMiscInfoWriter::~MinidumpMiscInfoWriter() {
 }
 
 void MinidumpMiscInfoWriter::InitializeFromSnapshot(
-    const ProcessSnapshot* process_snapshot) {
+    ProcessSnapshot* process_snapshot) {
   DCHECK_EQ(state(), kStateMutable);
   DCHECK_EQ(misc_info_.Flags1, 0u);
 

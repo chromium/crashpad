@@ -53,7 +53,7 @@ void TestProcessSnapshot::SnapshotTime(timeval* snapshot_time) const {
   *snapshot_time = snapshot_time_;
 }
 
-void TestProcessSnapshot::ProcessStartTime(timeval* start_time) const {
+void TestProcessSnapshot::ProcessStartTime(timeval* start_time) {
   *start_time = process_start_time_;
 }
 

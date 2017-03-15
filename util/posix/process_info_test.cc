@@ -14,8 +14,9 @@
 
 #include "util/posix/process_info.h"
 
-#include <time.h>
+#include <signal.h>
 #include <stdio.h>
+#include <time.h>
 #include <unistd.h>
 
 #include <set>
@@ -40,20 +41,20 @@ namespace crashpad {
 namespace test {
 namespace {
 
-void TestProcessClone(const ProcessInfo& process_info) {
+void TestProcessSelfOrClone(ProcessInfo* process_info) {
   // There’s no system call to obtain the saved set-user ID or saved set-group
   // ID in an easy way. Normally, they are the same as the effective user ID and
   // effective group ID, so just check against those.
-  EXPECT_EQ(getuid(), process_info.RealUserID());
+  EXPECT_EQ(getuid(), process_info->RealUserID());
   const uid_t euid = geteuid();
-  EXPECT_EQ(euid, process_info.EffectiveUserID());
-  EXPECT_EQ(euid, process_info.SavedUserID());
+  EXPECT_EQ(euid, process_info->EffectiveUserID());
+  EXPECT_EQ(euid, process_info->SavedUserID());
 
   const gid_t gid = getgid();
-  EXPECT_EQ(gid, process_info.RealGroupID());
+  EXPECT_EQ(gid, process_info->RealGroupID());
   const gid_t egid = getegid();
-  EXPECT_EQ(egid, process_info.EffectiveGroupID());
-  EXPECT_EQ(egid, process_info.SavedGroupID());
+  EXPECT_EQ(egid, process_info->EffectiveGroupID());
+  EXPECT_EQ(egid, process_info->SavedGroupID());
 
   // Test SupplementaryGroups().
   int group_count = getgroups(0, nullptr);
@@ -67,7 +68,7 @@ void TestProcessClone(const ProcessInfo& process_info) {
   }
 
   std::set<gid_t> group_set(group_vector.begin(), group_vector.end());
-  EXPECT_EQ(group_set, process_info.SupplementaryGroups());
+  EXPECT_EQ(group_set, process_info->SupplementaryGroups());
 
   // Test AllGroups(), which is SupplementaryGroups() plus the real, effective,
   // and saved set-group IDs. The effective and saved set-group IDs are expected
@@ -75,26 +76,29 @@ void TestProcessClone(const ProcessInfo& process_info) {
   group_set.insert(gid);
   group_set.insert(egid);
 
-  EXPECT_EQ(group_set, process_info.AllGroups());
+  EXPECT_EQ(group_set, process_info->AllGroups());
 
   // The test executable isn’t expected to change privileges.
-  EXPECT_FALSE(process_info.DidChangePrivileges());
+  EXPECT_FALSE(process_info->DidChangePrivileges());
 
+  bool is_64_bit;
+  ASSERT_TRUE(process_info->Is64Bit(&is_64_bit));
 #if defined(ARCH_CPU_64_BITS)
-  EXPECT_TRUE(process_info.Is64Bit());
+  EXPECT_TRUE(is_64_bit);
 #else
-  EXPECT_FALSE(process_info.Is64Bit());
+  EXPECT_FALSE(is_64_bit);
 #endif
 
   // Test StartTime(). This program must have started at some time in the past.
   timeval start_time;
-  process_info.StartTime(&start_time);
+  ASSERT_TRUE(process_info->StartTime(&start_time));
   time_t now;
   time(&now);
+  EXPECT_FALSE(start_time.tv_sec == 0 && start_time.tv_usec == 0);
   EXPECT_LE(start_time.tv_sec, now);
 
   std::vector<std::string> argv;
-  ASSERT_TRUE(process_info.Arguments(&argv));
+  ASSERT_TRUE(process_info->Arguments(&argv));
 
   // gtest argv processing scrambles argv, but it leaves argc and argv[0]
   // intact, so test those.
@@ -143,30 +147,27 @@ void TestProcessClone(const ProcessInfo& process_info) {
   EXPECT_EQ(std::string(expect_argv[0]), argv[0]);
 }
 
-void TestSelfProcess(const ProcessInfo& process_info) {
-  EXPECT_EQ(getpid(), process_info.ProcessID());
-  EXPECT_EQ(getppid(), process_info.ParentProcessID());
+void TestSelfProcess(ProcessInfo* process_info) {
+  EXPECT_EQ(getpid(), process_info->ProcessID());
+  EXPECT_EQ(getppid(), process_info->ParentProcessID());
 
-  TestProcessClone(process_info);
+  TestProcessSelfOrClone(process_info);
 }
 
 TEST(ProcessInfo, Self) {
   ProcessInfo process_info;
   ASSERT_TRUE(process_info.Initialize(getpid()));
-  TestSelfProcess(process_info);
+  TestSelfProcess(&process_info);
 }
 
 #if defined(OS_MACOSX)
 TEST(ProcessInfo, SelfTask) {
   ProcessInfo process_info;
   ASSERT_TRUE(process_info.InitializeFromTask(mach_task_self()));
-  TestSelfProcess(process_info);
+  TestSelfProcess(&process_info);
 }
 #endif
 
-// Applications cannot ptrace PID 1 on Android, which is required for Initialize
-// to succeed.
-#if !defined(OS_ANDROID)
 TEST(ProcessInfo, Pid1) {
   // PID 1 is expected to be init or the system’s equivalent. This tests reading
   // information about another process.
@@ -183,12 +184,8 @@ TEST(ProcessInfo, Pid1) {
   EXPECT_EQ(implicit_cast<gid_t>(0), process_info.SavedGroupID());
   EXPECT_FALSE(process_info.AllGroups().empty());
 }
-#endif
 
-#if defined(OS_LINUX) || defined(OS_ANDROID)
-TEST(ProcessInfo, ForkedSelf) {
-  ASSERT_EQ(0, prctl(PR_SET_DUMPABLE, 1, 0, 0, 0)) << ErrnoMessage("prctl");
-
+TEST(ProcessInfo, Forked) {
   pid_t pid = fork();
   if (pid == 0) {
     raise(SIGSTOP);
@@ -202,10 +199,9 @@ TEST(ProcessInfo, ForkedSelf) {
   EXPECT_EQ(pid, process_info.ProcessID());
   EXPECT_EQ(getpid(), process_info.ParentProcessID());
 
-  TestProcessClone(process_info);
+  TestProcessSelfOrClone(&process_info);
   kill(pid, SIGKILL);
 }
-#endif
 
 }  // namespace
 }  // namespace test

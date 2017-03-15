@@ -139,7 +139,7 @@ void ProcessSnapshotMac::SnapshotTime(timeval* snapshot_time) const {
   *snapshot_time = snapshot_time_;
 }
 
-void ProcessSnapshotMac::ProcessStartTime(timeval* start_time) const {
+void ProcessSnapshotMac::ProcessStartTime(timeval* start_time) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   process_reader_.StartTime(start_time);
 }

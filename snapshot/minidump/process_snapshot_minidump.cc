@@ -113,7 +113,7 @@ void ProcessSnapshotMinidump::SnapshotTime(timeval* snapshot_time) const {
   snapshot_time->tv_usec = 0;
 }
 
-void ProcessSnapshotMinidump::ProcessStartTime(timeval* start_time) const {
+void ProcessSnapshotMinidump::ProcessStartTime(timeval* start_time) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   NOTREACHED();  // https://crashpad.chromium.org/bug/10
   start_time->tv_sec = 0;

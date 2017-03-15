@@ -71,7 +71,7 @@ class ProcessSnapshot {
   //! lifetime.
   //!
   //! \param[out] start_time The time that the process was started.
-  virtual void ProcessStartTime(timeval* start_time) const = 0;
+  virtual void ProcessStartTime(timeval* start_time) = 0;
 
   //! \brief Returns the snapshot process’ CPU usage times in \a user_time and
   //!     \a system_time.

@@ -69,7 +69,7 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   //! \note Valid in #kStateMutable. No mutator methods may be called before
   //!     this method, and it is not normally necessary to call any mutator
   //!     methods after this method.
-  void InitializeFromSnapshot(const ProcessSnapshot* process_snapshot);
+  void InitializeFromSnapshot(ProcessSnapshot* process_snapshot);
 
   //! \brief Sets MINIDUMP_HEADER::Timestamp.
   //!

@@ -55,7 +55,7 @@ MinidumpFileWriter::~MinidumpFileWriter() {
 }
 
 void MinidumpFileWriter::InitializeFromSnapshot(
-    const ProcessSnapshot* process_snapshot) {
+    ProcessSnapshot* process_snapshot) {
   DCHECK_EQ(state(), kStateMutable);
   DCHECK_EQ(header_.Signature, 0u);
   DCHECK_EQ(header_.TimeDateStamp, 0u);
