@@ -254,7 +254,7 @@ bool ProcessInfo::Initialize(pid_t pid) {
       ++stat_pos;
     }
 
-    const char* ticks_ptr = stat_contents.substr(stat_pos).c_str();
+    const char* ticks_ptr = &stat_contents[stat_pos];
 
     // start time is in jiffies instead of clock ticks pre 2.6.
     uint64_t ticks_after_boot;
