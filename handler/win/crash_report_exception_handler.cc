@@ -98,6 +98,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
       return termination_code;
     }
 
+    // TODO(siggi): Call out to user extensions here to collect
+    //     UserExtensionStreams. DO NOT SUBMIT!
     process_snapshot.SetReportID(new_report->uuid);
 
     CrashReportDatabase::CallErrorWritingCrashReport

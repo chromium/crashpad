@@ -153,6 +153,9 @@ void MinidumpFileWriter::SetTimestamp(time_t timestamp) {
   internal::MinidumpWriterUtil::AssignTimeT(&header_.TimeDateStamp, timestamp);
 }
 
+void MinidumpFileWriter::AddUserExtensionStream(
+    UserExtensionStream* user_extension_stream) {}
+
 void MinidumpFileWriter::AddStream(
     std::unique_ptr<internal::MinidumpStreamWriter> stream) {
   DCHECK_EQ(state(), kStateMutable);

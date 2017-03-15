@@ -33,6 +33,7 @@
 namespace crashpad {
 
 class ProcessSnapshot;
+class UserExtensionStream;
 
 //! \brief The root-level object in a minidump file.
 //!
@@ -70,6 +71,10 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   //!     this method, and it is not normally necessary to call any mutator
   //!     methods after this method.
   void InitializeFromSnapshot(const ProcessSnapshot* process_snapshot);
+
+  //! TODO(siggi): Document me. DO NOT SUBMIT.
+  //! TODO(siggi): what's the ownership model?
+  void AddUserExtensionStream(UserExtensionStream* user_extension_stream);
 
   //! \brief Sets MINIDUMP_HEADER::Timestamp.
   //!
