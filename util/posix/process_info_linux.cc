@@ -114,6 +114,21 @@ void TimespecToTimeval(const timespec& ts, timeval* tv) {
   tv->tv_usec = ts.tv_nsec / 1000;
 }
 
+class ScopedPtraceDetach {
+ public:
+  explicit ScopedPtraceDetach(pid_t pid) : pid_(pid) {}
+  ~ScopedPtraceDetach() {
+    if (ptrace(PTRACE_DETACH, pid_, nullptr, nullptr) != 0) {
+      PLOG(ERROR) << "ptrace";
+    }
+  }
+
+ private:
+  pid_t pid_;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedPtraceDetach);
+};
+
 }  // namespace
 
 ProcessInfo::ProcessInfo()
@@ -127,6 +142,8 @@ ProcessInfo::ProcessInfo()
       gid_(-1),
       egid_(-1),
       sgid_(-1),
+      start_time_initialized_(),
+      is_64_bit_initialized_(),
       is_64_bit_(false),
       initialized_() {}
 
@@ -228,7 +245,145 @@ bool ProcessInfo::Initialize(pid_t pid) {
     }
   }
 
-  {
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+pid_t ProcessInfo::ProcessID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return pid_;
+}
+
+pid_t ProcessInfo::ParentProcessID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return ppid_;
+}
+
+uid_t ProcessInfo::RealUserID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return uid_;
+}
+
+uid_t ProcessInfo::EffectiveUserID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return euid_;
+}
+
+uid_t ProcessInfo::SavedUserID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return suid_;
+}
+
+gid_t ProcessInfo::RealGroupID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return gid_;
+}
+
+gid_t ProcessInfo::EffectiveGroupID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return egid_;
+}
+
+gid_t ProcessInfo::SavedGroupID() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return sgid_;
+}
+
+std::set<gid_t> ProcessInfo::SupplementaryGroups() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return supplementary_groups_;
+}
+
+std::set<gid_t> ProcessInfo::AllGroups() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  std::set<gid_t> all_groups = SupplementaryGroups();
+  all_groups.insert(RealGroupID());
+  all_groups.insert(EffectiveGroupID());
+  all_groups.insert(SavedGroupID());
+  return all_groups;
+}
+
+bool ProcessInfo::DidChangePrivileges() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  // TODO(jperaza): Is this possible to determine?
+  return false;
+}
+
+bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  if (is_64_bit_initialized_.is_uninitialized()) {
+    is_64_bit_initialized_.set_invalid();
+
+#if defined(ARCH_CPU_64_BITS)
+    const bool am_64_bit = true;
+#else
+    const bool am_64_bit = false;
+#endif
+
+    if (pid_ == getpid()) {
+      is_64_bit_ = am_64_bit;
+    } else {
+      if (ptrace(PTRACE_ATTACH, pid_, nullptr, nullptr) != 0) {
+        PLOG(ERROR) << "ptrace";
+        return false;
+      }
+
+      ScopedPtraceDetach ptrace_detach(pid_);
+
+      if (HANDLE_EINTR(waitpid(pid_, nullptr, __WALL)) < 0) {
+        PLOG(ERROR) << "waitpid";
+        return false;
+      }
+
+      // Allocate more buffer space than is required to hold registers for this
+      // process. If the kernel fills the extra space, the target process uses
+      // more/larger registers than this process. If the kernel fills less space
+      // than sizeof(regs) then the target process uses smaller/fewer registers.
+      struct {
+#if defined(ARCH_CPU_X86_FAMILY)
+        using PrStatusType = user_regs_struct;
+#elif defined(ARCH_CPU_ARMEL)
+        using PrStatusType = pt_regs;
+#elif defined(ARCH_CPU_ARM64)
+        using PrStatusType = user_pt_regs;
+#endif
+        PrStatusType regs;
+        char extra;
+      } regbuf;
+
+      iovec iov;
+      iov.iov_base = &regbuf;
+      iov.iov_len = sizeof(regbuf);
+      if (ptrace(PTRACE_GETREGSET,
+                 pid_,
+                 reinterpret_cast<void*>(NT_PRSTATUS),
+                 &iov) != 0) {
+        PLOG(ERROR) << "ptrace";
+        return false;
+      }
+
+      is_64_bit_ = am_64_bit == (iov.iov_len == sizeof(regbuf.regs));
+    }
+
+    is_64_bit_initialized_.set_valid();
+  }
+
+  if (!is_64_bit_initialized_.is_valid()) {
+    return false;
+  }
+
+  *is_64_bit = is_64_bit_;
+  return true;
+}
+
+bool ProcessInfo::StartTime(timeval* start_time) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  if (start_time_initialized_.is_uninitialized()) {
+    start_time_initialized_.set_invalid();
+
     char path[32];
     snprintf(path, sizeof(path), "/proc/%d/stat", pid_);
     std::string stat_contents;
@@ -295,134 +450,16 @@ bool ProcessInfo::Initialize(pid_t pid) {
     timeval boot_time_tv;
     TimespecToTimeval(boot_time_ts, &boot_time_tv);
     timeradd(&boot_time_tv, &time_after_boot, &start_time_);
+
+    start_time_initialized_.set_valid();
   }
 
-#if defined(ARCH_CPU_64_BITS)
-  const bool am_64_bit = true;
-#else
-  const bool am_64_bit = false;
-#endif
-
-  if (pid_ == getpid()) {
-    is_64_bit_ = am_64_bit;
-  } else {
-    if (ptrace(PTRACE_ATTACH, pid_, nullptr, nullptr) != 0) {
-      PLOG(ERROR) << "ptrace";
-      return false;
-    }
-
-    if (HANDLE_EINTR(waitpid(pid_, nullptr, __WALL)) < 0) {
-      PLOG(ERROR) << "waitpid";
-      return false;
-    }
-
-    // Allocate more buffer space than is required to hold registers for this
-    // process. If the kernel fills the extra space, the target process uses
-    // more/larger registers than this process. If the kernel fills less space
-    // than sizeof(regs) then the target process uses smaller/fewer registers.
-    struct {
-#if defined(ARCH_CPU_X86_FAMILY)
-      using PrStatusType = user_regs_struct;
-#elif defined(ARCH_CPU_ARMEL)
-      using PrStatusType = pt_regs;
-#elif defined(ARCH_CPU_ARM64)
-      using PrStatusType = user_pt_regs;
-#endif
-      PrStatusType regs;
-      char extra;
-    } regbuf;
-
-    iovec iov;
-    iov.iov_base = &regbuf;
-    iov.iov_len = sizeof(regbuf);
-    if (ptrace(PTRACE_GETREGSET,
-               pid_,
-               reinterpret_cast<void*>(NT_PRSTATUS),
-               &iov) != 0) {
-      PLOG(ERROR) << "ptrace";
-      return false;
-    }
-
-    is_64_bit_ = am_64_bit == (iov.iov_len == sizeof(regbuf.regs));
-
-    if (ptrace(PTRACE_DETACH, pid_, nullptr, nullptr) != 0) {
-      PLOG(ERROR) << "ptrace";
-    }
+  if (!start_time_initialized_.is_valid()) {
+    return false;
   }
 
-  INITIALIZATION_STATE_SET_VALID(initialized_);
-  return true;
-}
-
-pid_t ProcessInfo::ProcessID() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return pid_;
-}
-
-pid_t ProcessInfo::ParentProcessID() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return ppid_;
-}
-
-uid_t ProcessInfo::RealUserID() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return uid_;
-}
-
-uid_t ProcessInfo::EffectiveUserID() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return euid_;
-}
-
-uid_t ProcessInfo::SavedUserID() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return suid_;
-}
-
-gid_t ProcessInfo::RealGroupID() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return gid_;
-}
-
-gid_t ProcessInfo::EffectiveGroupID() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return egid_;
-}
-
-gid_t ProcessInfo::SavedGroupID() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return sgid_;
-}
-
-std::set<gid_t> ProcessInfo::SupplementaryGroups() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return supplementary_groups_;
-}
-
-std::set<gid_t> ProcessInfo::AllGroups() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  std::set<gid_t> all_groups = SupplementaryGroups();
-  all_groups.insert(RealGroupID());
-  all_groups.insert(EffectiveGroupID());
-  all_groups.insert(SavedGroupID());
-  return all_groups;
-}
-
-bool ProcessInfo::DidChangePrivileges() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  // TODO(jperaza): Is this possible to determine?
-  return false;
-}
-
-bool ProcessInfo::Is64Bit() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return is_64_bit_;
-}
-
-void ProcessInfo::StartTime(timeval* start_time) const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   *start_time = start_time_;
+  return true;
 }
 
 bool ProcessInfo::Arguments(std::vector<std::string>* argv) const {

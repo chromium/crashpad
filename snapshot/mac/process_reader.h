@@ -124,9 +124,7 @@ class ProcessReader {
   //! \brief Determines the target process’ start time.
   //!
   //! \param[out] start_time The time that the process started.
-  void StartTime(timeval* start_time) const {
-    process_info_.StartTime(start_time);
-  }
+  void StartTime(timeval* start_time) const;
 
   //! \brief Determines the target process’ execution time.
   //!
