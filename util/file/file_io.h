@@ -26,27 +26,6 @@
 #include "util/win/scoped_handle.h"
 #endif
 
-//! \file
-
-#if defined(OS_POSIX) || DOXYGEN
-
-//! \brief A `PLOG()` macro usable for standard input/output error conditions.
-//!
-//! The `PLOG()` macro uses `errno` on POSIX and is appropriate to report
-//! errors from standard input/output functions. On Windows, `PLOG()` uses
-//! `GetLastError()`, and cannot be used to report errors from standard
-//! input/output functions. This macro uses `PLOG()` when appropriate for
-//! standard I/O functions, and `LOG()` otherwise.
-#define STDIO_PLOG(x) PLOG(x)
-
-#else
-
-#define STDIO_PLOG(x) LOG(x)
-#define fseeko(file, offset, whence) _fseeki64(file, offset, whence)
-#define ftello(file) _ftelli64(file)
-
-#endif
-
 namespace base {
 class FilePath;
 }  // namespace base
@@ -112,6 +91,18 @@ enum class FileLocking : bool {
 
   //! \brief Equivalent to `flock()` with `LOCK_EX`.
   kExclusive,
+};
+
+//! \brief Determines the FileHandle that StdioFileHandle() returns.
+enum class StdioStream {
+  //! \brief Standard input, or `stdin`.
+  kStandardInput,
+
+  //! \brief Standard output, or `stdout`.
+  kStandardOutput,
+
+  //! \brief Standard error, or `stderr`.
+  kStandardError,
 };
 
 //! \brief Reads from a file, retrying when interrupted on POSIX or following a
@@ -350,6 +341,9 @@ void CheckedCloseFile(FileHandle file);
 //! \return The size of the file. If an error occurs when attempting to
 //!     determine its size, returns `-1` with an error logged.
 FileOffset LoggingFileSizeByHandle(FileHandle file);
+
+//! \return A FileHandle corresponding to the requested standard I/O stream.
+FileHandle StdioFileHandle(StdioStream stdio_stream);
 
 }  // namespace crashpad
 
