@@ -35,6 +35,7 @@
         '..',
       ],
       'sources': [
+        'file/delimited_file_reader_test.cc',
         'file/file_io_test.cc',
         'file/string_file_test.cc',
         'mac/launchd_test.mm',
