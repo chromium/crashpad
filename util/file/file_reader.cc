@@ -113,43 +113,4 @@ FileOffset FileReader::Seek(FileOffset offset, int whence) {
   return weak_file_handle_file_reader_.Seek(offset, whence);
 }
 
-WeakStdioFileReader::WeakStdioFileReader(FILE* file)
-    : file_(file) {
-}
-
-WeakStdioFileReader::~WeakStdioFileReader() {
-}
-
-FileOperationResult WeakStdioFileReader::Read(void* data, size_t size) {
-  DCHECK(file_);
-
-  size_t rv = fread(data, 1, size, file_);
-  if (rv != size && ferror(file_)) {
-    STDIO_PLOG(ERROR) << "fread";
-    return -1;
-  }
-  if (rv > size) {
-    LOG(ERROR) << "fread: expected " << size << ", observed " << rv;
-    return -1;
-  }
-
-  return rv;
-}
-
-FileOffset WeakStdioFileReader::Seek(FileOffset offset, int whence) {
-  DCHECK(file_);
-  if (fseeko(file_, offset, whence) == -1) {
-    STDIO_PLOG(ERROR) << "fseeko";
-    return -1;
-  }
-
-  FileOffset new_offset = ftello(file_);
-  if (new_offset == -1) {
-    STDIO_PLOG(ERROR) << "ftello";
-    return -1;
-  }
-
-  return new_offset;
-}
-
 }  // namespace crashpad

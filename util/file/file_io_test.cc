@@ -14,6 +14,8 @@
 
 #include "util/file/file_io.h"
 
+#include <stdio.h>
+
 #include "base/atomicops.h"
 #include "base/files/file_path.h"
 #include "base/macros.h"
@@ -322,6 +324,26 @@ TEST(FileIO, FileSizeByHandle) {
   ASSERT_TRUE(LoggingWriteFile(file_handle.get(), &data, sizeof(data)));
 
   EXPECT_EQ(9, LoggingFileSizeByHandle(file_handle.get()));
+}
+
+FileHandle FileHandleForFILE(FILE* file) {
+  int fd = fileno(file);
+#if defined(OS_POSIX)
+  return fd;
+#elif defined(OS_WIN)
+  return reinterpret_cast<HANDLE>(_get_osfhandle(fd));
+#else
+#error Port
+#endif
+}
+
+TEST(FileIO, StdioFileHandle) {
+  EXPECT_EQ(FileHandleForFILE(stdin),
+            StdioFileHandle(StdioStream::kStandardInput));
+  EXPECT_EQ(FileHandleForFILE(stdout),
+            StdioFileHandle(StdioStream::kStandardOutput));
+  EXPECT_EQ(FileHandleForFILE(stderr),
+            StdioFileHandle(StdioStream::kStandardError));
 }
 
 }  // namespace
