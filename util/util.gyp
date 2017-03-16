@@ -34,6 +34,8 @@
         'file/file_io.h',
         'file/file_io_posix.cc',
         'file/file_io_win.cc',
+        'file/file_line_reader.cc',
+        'file/file_line_reader.h',
         'file/file_reader.cc',
         'file/file_reader.h',
         'file/file_seeker.cc',
