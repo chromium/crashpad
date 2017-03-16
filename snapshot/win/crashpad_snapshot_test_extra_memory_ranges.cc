@@ -43,7 +43,7 @@ int wmain(int argc, wchar_t* argv[]) {
 
   HANDLE in = GetStdHandle(STD_INPUT_HANDLE);
   PCHECK(in != INVALID_HANDLE_VALUE) << "GetStdHandle";
-  CheckedReadFile(in, &c, sizeof(c));
+  CheckedReadFileExactly(in, &c, sizeof(c));
   CHECK(c == 'd' || c == ' ');
 
   // If 'd' we crash with a debug break, otherwise exit normally.

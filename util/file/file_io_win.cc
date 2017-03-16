@@ -70,37 +70,37 @@ FileHandle OpenFileForOutput(DWORD access,
 
 }  // namespace
 
-// TODO(scottmg): Handle > DWORD sized writes if necessary.
+const char kNativeReadFunctionName[] = "ReadFile";
+const char kNativeWriteFunctionName[] = "WriteFile";
+
+// TODO(scottmg): Handle > DWORD-sized reads and writes if necessary.
 
 FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
   DCHECK(!IsSocketHandle(file));
-  DWORD size_dword = base::checked_cast<DWORD>(size);
-  DWORD total_read = 0;
-  char* buffer_c = reinterpret_cast<char*>(buffer);
-  while (size_dword > 0) {
+
+  while (true) {
+    DWORD size_dword = base::checked_cast<DWORD>(size);
     DWORD bytes_read;
-    BOOL success = ::ReadFile(file, buffer_c, size_dword, &bytes_read, nullptr);
+    BOOL success = ::ReadFile(file, buffer, size_dword, &bytes_read, nullptr);
     if (!success) {
       if (GetLastError() == ERROR_BROKEN_PIPE) {
         // When reading a pipe and the write handle has been closed, ReadFile
         // fails with ERROR_BROKEN_PIPE, but only once all pending data has been
-        // read.
-        break;
-      } else if (GetLastError() != ERROR_MORE_DATA) {
-        return -1;
+        // read. Treat this as EOF.
+        return 0;
       }
-    } else if (bytes_read == 0 && GetFileType(file) != FILE_TYPE_PIPE) {
+      return -1;
+    }
+
+    CHECK_NE(bytes_read, static_cast<DWORD>(-1));
+    DCHECK_LE(bytes_read, size_dword);
+    if (bytes_read != 0 || GetFileType(file) != FILE_TYPE_PIPE) {
       // Zero bytes read for a file indicates reaching EOF. Zero bytes read from
       // a pipe indicates only that there was a zero byte WriteFile issued on
       // the other end, so continue reading.
-      break;
+      return bytes_read;
     }
-
-    buffer_c += bytes_read;
-    size_dword -= bytes_read;
-    total_read += bytes_read;
   }
-  return total_read;
 }
 
 FileOperationResult WriteFile(FileHandle file,
@@ -113,6 +113,7 @@ FileOperationResult WriteFile(FileHandle file,
   BOOL rv = ::WriteFile(file, buffer, size_dword, &bytes_written, nullptr);
   if (!rv)
     return -1;
+  CHECK_NE(bytes_written, static_cast<DWORD>(-1));
   CHECK_EQ(bytes_written, size_dword);
   return bytes_written;
 }

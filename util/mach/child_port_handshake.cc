@@ -403,20 +403,20 @@ bool ChildPortHandshake::RunClientInternal_ReadPipe(int client_read_fd,
                                                     child_port_token_t* token,
                                                     std::string* service_name) {
   // Read the token from the pipe.
-  if (!LoggingReadFile(client_read_fd, token, sizeof(*token))) {
+  if (!LoggingReadFileExactly(client_read_fd, token, sizeof(*token))) {
     return false;
   }
 
   // Read the service name from the pipe.
   uint32_t service_name_length;
-  if (!LoggingReadFile(
-      client_read_fd, &service_name_length, sizeof(service_name_length))) {
+  if (!LoggingReadFileExactly(
+          client_read_fd, &service_name_length, sizeof(service_name_length))) {
     return false;
   }
 
   service_name->resize(service_name_length);
   if (!service_name->empty() &&
-      !LoggingReadFile(
+      !LoggingReadFileExactly(
           client_read_fd, &(*service_name)[0], service_name_length)) {
     return false;
   }

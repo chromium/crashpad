@@ -28,7 +28,7 @@ class ModuleAnnotationsMultiprocessTest final : public WinMultiprocess {
   void WinMultiprocessParent() override {
     // Read the child executable module.
     HMODULE module = nullptr;
-    CheckedReadFile(ReadPipeHandle(), &module, sizeof(module));
+    CheckedReadFileExactly(ReadPipeHandle(), &module, sizeof(module));
 
     // Reopen the child process with necessary access.
     HANDLE process_handle =
@@ -70,7 +70,7 @@ class ModuleAnnotationsMultiprocessTest final : public WinMultiprocess {
 
     // Wait until a signal from the parent process to terminate.
     char c;
-    CheckedReadFile(ReadPipeHandle(), &c, sizeof(c));
+    CheckedReadFileExactly(ReadPipeHandle(), &c, sizeof(c));
   }
 };
 

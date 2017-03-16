@@ -156,7 +156,7 @@ void TestOtherProcess(const base::string16& directory_modification) {
 
   // The child sends us a code address we can look up in the memory map.
   WinVMAddress code_address;
-  CheckedReadFile(
+  CheckedReadFileExactly(
       child.stdout_read_handle(), &code_address, sizeof(code_address));
 
   ASSERT_TRUE(process_info.Initialize(child.process_handle()));

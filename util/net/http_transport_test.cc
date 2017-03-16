@@ -81,7 +81,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     // The child will write the HTTP server port number as a packed unsigned
     // short to stdout.
     uint16_t port;
-    ASSERT_TRUE(LoggingReadFile(ReadPipeHandle(), &port, sizeof(port)));
+    ASSERT_TRUE(LoggingReadFileExactly(ReadPipeHandle(), &port, sizeof(port)));
 
     // Then the parent will tell the web server what response code to send
     // for the HTTP request.
