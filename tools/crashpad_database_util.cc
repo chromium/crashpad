@@ -560,13 +560,21 @@ int DatabaseUtilMain(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
+  bool used_stdin = false;
   for (const base::FilePath new_report_path : options.new_report_paths) {
     std::unique_ptr<FileReaderInterface> file_reader;
 
-    bool is_stdin = false;
     if (new_report_path.value() == FILE_PATH_LITERAL("-")) {
-      is_stdin = true;
-      file_reader.reset(new WeakStdioFileReader(stdin));
+      if (used_stdin) {
+        fprintf(stderr,
+                "%" PRFilePath
+                ": Only one --new-report may be read from standard input\n",
+                me.value().c_str());
+        return EXIT_FAILURE;
+      }
+      used_stdin = true;
+      file_reader.reset(new WeakFileHandleFileReader(
+          StdioFileHandle(StdioStream::kStandardInput)));
     } else {
       std::unique_ptr<FileReader> file_path_reader(new FileReader());
       if (!file_path_reader->Open(new_report_path)) {
@@ -605,13 +613,6 @@ int DatabaseUtilMain(int argc, char* argv[]) {
     status = database->FinishedWritingCrashReport(new_report, &uuid);
     if (status != CrashReportDatabase::kNoError) {
       return EXIT_FAILURE;
-    }
-
-    file_reader.reset();
-    if (is_stdin) {
-      if (fclose(stdin) == EOF) {
-        STDIO_PLOG(ERROR) << "fclose";
-      }
     }
 
     const char* prefix = (show_operations > 1) ? "New report ID: " : "";

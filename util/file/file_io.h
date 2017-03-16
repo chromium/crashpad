@@ -26,27 +26,6 @@
 #include "util/win/scoped_handle.h"
 #endif
 
-//! \file
-
-#if defined(OS_POSIX) || DOXYGEN
-
-//! \brief A `PLOG()` macro usable for standard input/output error conditions.
-//!
-//! The `PLOG()` macro uses `errno` on POSIX and is appropriate to report
-//! errors from standard input/output functions. On Windows, `PLOG()` uses
-//! `GetLastError()`, and cannot be used to report errors from standard
-//! input/output functions. This macro uses `PLOG()` when appropriate for
-//! standard I/O functions, and `LOG()` otherwise.
-#define STDIO_PLOG(x) PLOG(x)
-
-#else
-
-#define STDIO_PLOG(x) LOG(x)
-#define fseeko(file, offset, whence) _fseeki64(file, offset, whence)
-#define ftello(file) _ftelli64(file)
-
-#endif
-
 namespace base {
 class FilePath;
 }  // namespace base
@@ -112,6 +91,18 @@ enum class FileLocking : bool {
 
   //! \brief Equivalent to `flock()` with `LOCK_EX`.
   kExclusive,
+};
+
+//! \brief Determines the FileHandle that StdioFileHandle() returns.
+enum class StdioStream {
+  //! \brief Standard input, or `stdin`.
+  kStandardInput,
+
+  //! \brief Standard output, or `stdout`.
+  kStandardOutput,
+
+  //! \brief Standard error, or `stderr`.
+  kStandardError,
 };
 
 //! \brief The name of the native read function used by ReadFile().
@@ -381,11 +372,26 @@ void CheckedCloseFile(FileHandle file);
 //! \brief Determines the size of a file.
 //!
 //! \param[in] file The handle to the file for which the size should be
-//!     retrived.
+//!     retrieved.
 //!
 //! \return The size of the file. If an error occurs when attempting to
 //!     determine its size, returns `-1` with an error logged.
 FileOffset LoggingFileSizeByHandle(FileHandle file);
+
+//! \brief Returns a FileHandle corresponding to the requested standard I/O
+//!     stream.
+//!
+//! The returned FileHandle should not be closed on POSIX, where it is
+//! important to maintain valid file descriptors occupying the slots reserved
+//! for these streams. If a need to close such a stream arises on POSIX,
+//! `dup2()` should instead be used to replace the existing file descriptor with
+//! one opened to `/dev/null`. See CloseStdinAndStdout().
+//!
+//! \param[in] stdio_stream The requested standard I/O stream.
+//!
+//! \return A corresponding FileHandle on success. kInvalidFileHandle on error,
+//!     with a message logged.
+FileHandle StdioFileHandle(StdioStream stdio_stream);
 
 }  // namespace crashpad
 

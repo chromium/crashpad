@@ -246,4 +246,26 @@ FileOffset LoggingFileSizeByHandle(FileHandle file) {
   return file_size.QuadPart;
 }
 
+FileHandle StdioFileHandle(StdioStream stdio_stream) {
+  DWORD standard_handle;
+  switch (stdio_stream) {
+    case StdioStream::kStandardInput:
+      standard_handle = STD_INPUT_HANDLE;
+      break;
+    case StdioStream::kStandardOutput:
+      standard_handle = STD_OUTPUT_HANDLE;
+      break;
+    case StdioStream::kStandardError:
+      standard_handle = STD_ERROR_HANDLE;
+      break;
+    default:
+      NOTREACHED();
+      return INVALID_HANDLE_VALUE;
+  }
+
+  HANDLE handle = GetStdHandle(standard_handle);
+  PLOG_IF(ERROR, handle == INVALID_HANDLE_VALUE) << "GetStdHandle";
+  return handle;
+}
+
 }  // namespace crashpad

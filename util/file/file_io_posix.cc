@@ -181,4 +181,15 @@ FileOffset LoggingFileSizeByHandle(FileHandle file) {
   return st.st_size;
 }
 
+FileHandle StdioFileHandle(StdioStream stdio_stream) {
+  switch (stdio_stream) {
+    case StdioStream::kStandardInput:
+      return STDIN_FILENO;
+    case StdioStream::kStandardOutput:
+      return STDOUT_FILENO;
+    case StdioStream::kStandardError:
+      return STDERR_FILENO;
+  }
+}
+
 }  // namespace crashpad
