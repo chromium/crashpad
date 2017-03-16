@@ -58,7 +58,7 @@ void TestExtraMemoryRanges(TestType type,
   // Wait for the child process to indicate that it's done setting up its
   // annotations via the CrashpadInfo interface.
   char c;
-  CheckedReadFile(child.stdout_read_handle(), &c, sizeof(c));
+  CheckedReadFileExactly(child.stdout_read_handle(), &c, sizeof(c));
 
   ProcessSnapshotWin snapshot;
   ASSERT_TRUE(snapshot.Initialize(
