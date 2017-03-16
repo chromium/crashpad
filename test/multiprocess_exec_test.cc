@@ -39,7 +39,7 @@ class TestMultiprocessExec final : public MultiprocessExec {
     char c = 'z';
     ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &c, 1));
 
-    ASSERT_TRUE(LoggingReadFile(ReadPipeHandle(), &c, 1));
+    ASSERT_TRUE(LoggingReadFileExactly(ReadPipeHandle(), &c, 1));
     EXPECT_EQ('Z', c);
   }
 
