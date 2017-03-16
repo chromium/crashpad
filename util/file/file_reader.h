@@ -62,10 +62,10 @@ class FileReaderInterface : public virtual FileSeekerInterface {
 //!
 //! This class is expected to be used when other code is responsible for
 //! opening files and already provides file handles.
-class WeakFileHandleFileReader : public FileReaderInterface {
+class WeakFileReader : public FileReaderInterface {
  public:
-  explicit WeakFileHandleFileReader(FileHandle file_handle);
-  ~WeakFileHandleFileReader() override;
+  explicit WeakFileReader(FileHandle file_handle);
+  ~WeakFileReader() override;
 
   // FileReaderInterface:
   FileOperationResult Read(void* data, size_t size) override;
@@ -85,12 +85,12 @@ class WeakFileHandleFileReader : public FileReaderInterface {
 
   // FileReader uses this class as its internal implementation, and it needs to
   // be able to call set_file_handle(). FileReader cannot initialize a
-  // WeakFileHandleFileReader with a correct file descriptor at the time of
+  // WeakFileReader with a correct file descriptor at the time of
   // construction because no file descriptor will be available until
   // FileReader::Open() is called.
   friend class FileReader;
 
-  DISALLOW_COPY_AND_ASSIGN(WeakFileHandleFileReader);
+  DISALLOW_COPY_AND_ASSIGN(WeakFileReader);
 };
 
 //! \brief A file reader implementation that wraps traditional system file
@@ -136,7 +136,7 @@ class FileReader : public FileReaderInterface {
 
  private:
   ScopedFileHandle file_;
-  WeakFileHandleFileReader weak_file_handle_file_reader_;
+  WeakFileReader weak_file_handle_file_reader_;
 
   DISALLOW_COPY_AND_ASSIGN(FileReader);
 };

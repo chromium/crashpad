@@ -573,8 +573,8 @@ int DatabaseUtilMain(int argc, char* argv[]) {
         return EXIT_FAILURE;
       }
       used_stdin = true;
-      file_reader.reset(new WeakFileHandleFileReader(
-          StdioFileHandle(StdioStream::kStandardInput)));
+      file_reader.reset(
+          new WeakFileReader(StdioFileHandle(StdioStream::kStandardInput)));
     } else {
       std::unique_ptr<FileReader> file_path_reader(new FileReader());
       if (!file_path_reader->Open(new_report_path)) {

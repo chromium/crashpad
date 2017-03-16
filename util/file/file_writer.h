@@ -79,10 +79,10 @@ class FileWriterInterface : public virtual FileSeekerInterface {
 //!
 //! This class is expected to be used when other code is responsible for
 //! creating files and already provides file handles.
-class WeakFileHandleFileWriter : public FileWriterInterface {
+class WeakFileWriter : public FileWriterInterface {
  public:
-  explicit WeakFileHandleFileWriter(FileHandle file_handle);
-  ~WeakFileHandleFileWriter() override;
+  explicit WeakFileWriter(FileHandle file_handle);
+  ~WeakFileWriter() override;
 
   // FileWriterInterface:
   bool Write(const void* data, size_t size) override;
@@ -103,12 +103,12 @@ class WeakFileHandleFileWriter : public FileWriterInterface {
 
   // FileWriter uses this class as its internal implementation, and it needs to
   // be able to call set_file_handle(). FileWriter cannot initialize a
-  // WeakFileHandleFileWriter with a correct file descriptor at the time of
+  // WeakFileWriter with a correct file descriptor at the time of
   // construction because no file descriptor will be available until
   // FileWriter::Open() is called.
   friend class FileWriter;
 
-  DISALLOW_COPY_AND_ASSIGN(WeakFileHandleFileWriter);
+  DISALLOW_COPY_AND_ASSIGN(WeakFileWriter);
 };
 
 //! \brief A file writer implementation that wraps traditional system file
@@ -162,7 +162,7 @@ class FileWriter : public FileWriterInterface {
 
  private:
   ScopedFileHandle file_;
-  WeakFileHandleFileWriter weak_file_handle_file_writer_;
+  WeakFileWriter weak_file_handle_file_writer_;
 
   DISALLOW_COPY_AND_ASSIGN(FileWriter);
 };

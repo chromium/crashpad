@@ -165,7 +165,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     CrashReportDatabase::CallErrorWritingCrashReport
         call_error_writing_crash_report(database_, new_report);
 
-    WeakFileHandleFileWriter file_writer(new_report->handle);
+    WeakFileWriter file_writer(new_report->handle);
 
     MinidumpFileWriter minidump;
     minidump.InitializeFromSnapshot(&process_snapshot);

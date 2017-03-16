@@ -52,14 +52,14 @@ bool FileReaderInterface::ReadExactly(void* data, size_t size) {
   return true;
 }
 
-WeakFileHandleFileReader::WeakFileHandleFileReader(FileHandle file_handle)
+WeakFileReader::WeakFileReader(FileHandle file_handle)
     : file_handle_(file_handle) {
 }
 
-WeakFileHandleFileReader::~WeakFileHandleFileReader() {
+WeakFileReader::~WeakFileReader() {
 }
 
-FileOperationResult WeakFileHandleFileReader::Read(void* data, size_t size) {
+FileOperationResult WeakFileReader::Read(void* data, size_t size) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
 
   base::checked_cast<FileOperationResult>(size);
@@ -72,7 +72,7 @@ FileOperationResult WeakFileHandleFileReader::Read(void* data, size_t size) {
   return rv;
 }
 
-FileOffset WeakFileHandleFileReader::Seek(FileOffset offset, int whence) {
+FileOffset WeakFileReader::Seek(FileOffset offset, int whence) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
   return LoggingSeekFile(file_handle_, offset, whence);
 }

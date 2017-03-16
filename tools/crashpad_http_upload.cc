@@ -163,8 +163,8 @@ int HTTPUploadMain(int argc, char* argv[]) {
       return EXIT_FAILURE;
     }
   } else {
-    file_writer.reset(new WeakFileHandleFileWriter(
-        StdioFileHandle(StdioStream::kStandardOutput)));
+    file_writer.reset(
+        new WeakFileWriter(StdioFileHandle(StdioStream::kStandardOutput)));
   }
 
   http_multipart_builder.SetGzipEnabled(options.upload_gzip);

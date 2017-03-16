@@ -41,19 +41,19 @@ static_assert(offsetof(WritableIoVec, iov_len) == offsetof(iovec, iov_len),
               "WritableIoVec len offset");
 #endif  // OS_POSIX
 
-WeakFileHandleFileWriter::WeakFileHandleFileWriter(FileHandle file_handle)
+WeakFileWriter::WeakFileWriter(FileHandle file_handle)
     : file_handle_(file_handle) {
 }
 
-WeakFileHandleFileWriter::~WeakFileHandleFileWriter() {
+WeakFileWriter::~WeakFileWriter() {
 }
 
-bool WeakFileHandleFileWriter::Write(const void* data, size_t size) {
+bool WeakFileWriter::Write(const void* data, size_t size) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
   return LoggingWriteFile(file_handle_, data, size);
 }
 
-bool WeakFileHandleFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
+bool WeakFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
 
   if (iovecs->empty()) {
@@ -144,7 +144,7 @@ bool WeakFileHandleFileWriter::WriteIoVec(std::vector<WritableIoVec>* iovecs) {
   return true;
 }
 
-FileOffset WeakFileHandleFileWriter::Seek(FileOffset offset, int whence) {
+FileOffset WeakFileWriter::Seek(FileOffset offset, int whence) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
   return LoggingSeekFile(file_handle_, offset, whence);
 }
