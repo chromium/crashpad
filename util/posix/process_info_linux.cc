@@ -17,7 +17,6 @@
 #include <ctype.h>
 #include <elf.h>
 #include <errno.h>
-#include <stdio.h>
 #include <string.h>
 #include <sys/ptrace.h>
 #include <sys/uio.h>
@@ -26,13 +25,14 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "base/files/file_path.h"
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/string_piece.h"
+#include "util/file/delimited_file_reader.h"
 #include "util/file/file_reader.h"
-#include "util/string/split_string.h"
 
 namespace crashpad {
 
@@ -77,14 +77,6 @@ bool AdvancePastNumber(const char** input, T* value) {
   }
   return false;
 }
-
-struct BufferFreer {
-  void operator()(char** buffer_ptr) const {
-    free(*buffer_ptr);
-    *buffer_ptr = nullptr;
-  }
-};
-using ScopedBufferPtr = std::unique_ptr<char*, BufferFreer>;
 
 bool ReadEntireFile(const char* path, std::string* contents) {
   FileReader file;
@@ -158,86 +150,98 @@ bool ProcessInfo::Initialize(pid_t pid) {
   {
     char path[32];
     snprintf(path, sizeof(path), "/proc/%d/status", pid_);
-    base::ScopedFILE status_file(fopen(path, "re"));
-    if (!status_file.get()) {
-      PLOG(ERROR) << "fopen " << path;
+    FileReader status_file;
+    if (!status_file.Open(base::FilePath(path))) {
       return false;
     }
 
-    size_t buffer_size = 0;
-    char* buffer = nullptr;
-    ScopedBufferPtr buffer_owner(&buffer);
+    DelimitedFileReader status_file_line_reader(&status_file);
 
     bool have_ppid = false;
     bool have_uids = false;
     bool have_gids = false;
     bool have_groups = false;
-    ssize_t len;
-    while ((len = getline(&buffer, &buffer_size, status_file.get())) > 0) {
-      const char* line = buffer;
+    std::string line;
+    DelimitedFileReader::Result result;
+    while ((result = status_file_line_reader.GetLine(&line)) ==
+           DelimitedFileReader::Result::kSuccess) {
+      if (line.back() != '\n') {
+        LOG(ERROR) << "format error: unterminated line at EOF";
+        return false;
+      }
 
-      if (AdvancePastPrefix(&line, "PPid:\t")) {
+      bool understood_line = false;
+      const char* line_c = line.c_str();
+      if (AdvancePastPrefix(&line_c, "PPid:\t")) {
         if (have_ppid) {
           LOG(ERROR) << "format error: multiple PPid lines";
           return false;
         }
-        have_ppid = AdvancePastNumber(&line, &ppid_);
+        have_ppid = AdvancePastNumber(&line_c, &ppid_);
         if (!have_ppid) {
           LOG(ERROR) << "format error: unrecognized PPid format";
           return false;
         }
-      } else if (AdvancePastPrefix(&line, "Uid:\t")) {
+        understood_line = true;
+      } else if (AdvancePastPrefix(&line_c, "Uid:\t")) {
         if (have_uids) {
           LOG(ERROR) << "format error: multiple Uid lines";
           return false;
         }
-        have_uids =
-            AdvancePastNumber(&line, &uid_) &&
-            AdvancePastPrefix(&line, "\t") &&
-            AdvancePastNumber(&line, &euid_) &&
-            AdvancePastPrefix(&line, "\t") &&
-            AdvancePastNumber(&line, &suid_);
+        uid_t fsuid;
+        have_uids = AdvancePastNumber(&line_c, &uid_) &&
+                    AdvancePastPrefix(&line_c, "\t") &&
+                    AdvancePastNumber(&line_c, &euid_) &&
+                    AdvancePastPrefix(&line_c, "\t") &&
+                    AdvancePastNumber(&line_c, &suid_) &&
+                    AdvancePastPrefix(&line_c, "\t") &&
+                    AdvancePastNumber(&line_c, &fsuid);
         if (!have_uids) {
           LOG(ERROR) << "format error: unrecognized Uid format";
           return false;
         }
-      } else if (AdvancePastPrefix(&line, "Gid:\t")) {
+        understood_line = true;
+      } else if (AdvancePastPrefix(&line_c, "Gid:\t")) {
         if (have_gids) {
           LOG(ERROR) << "format error: multiple Gid lines";
           return false;
         }
-        have_gids =
-            AdvancePastNumber(&line, &gid_) &&
-            AdvancePastPrefix(&line, "\t") &&
-            AdvancePastNumber(&line, &egid_) &&
-            AdvancePastPrefix(&line, "\t") &&
-            AdvancePastNumber(&line, &sgid_);
+        gid_t fsgid;
+        have_gids = AdvancePastNumber(&line_c, &gid_) &&
+                    AdvancePastPrefix(&line_c, "\t") &&
+                    AdvancePastNumber(&line_c, &egid_) &&
+                    AdvancePastPrefix(&line_c, "\t") &&
+                    AdvancePastNumber(&line_c, &sgid_) &&
+                    AdvancePastPrefix(&line_c, "\t") &&
+                    AdvancePastNumber(&line_c, &fsgid);
         if (!have_gids) {
           LOG(ERROR) << "format error: unrecognized Gid format";
           return false;
         }
-      } else if (AdvancePastPrefix(&line, "Groups:\t")) {
+        understood_line = true;
+      } else if (AdvancePastPrefix(&line_c, "Groups:\t")) {
         if (have_groups) {
           LOG(ERROR) << "format error: multiple Groups lines";
           return false;
         }
         gid_t group;
-        while (AdvancePastNumber(&line, &group)) {
+        while (AdvancePastNumber(&line_c, &group)) {
           supplementary_groups_.insert(group);
-          if (!AdvancePastPrefix(&line, " ")) {
-            LOG(ERROR) << "format error";
+          if (!AdvancePastPrefix(&line_c, " ")) {
+            LOG(ERROR) << "format error: unrecognized Groups format";
             return false;
           }
         }
-        if (!AdvancePastPrefix(&line, "\n") || line != buffer + len) {
-          LOG(ERROR) << "format error: unrecognized Groups format";
-          return false;
-        }
         have_groups = true;
+        understood_line = true;
+      }
+
+      if (understood_line && line_c != &line.back()) {
+        LOG(ERROR) << "format error: unconsumed trailing data";
+        return false;
       }
     }
-    if (!feof(status_file.get())) {
-      PLOG(ERROR) << "getline";
+    if (result != DelimitedFileReader::Result::kEndOfFile) {
       return false;
     }
     if (!have_ppid || !have_uids || !have_gids || !have_groups) {
@@ -486,18 +490,29 @@ bool ProcessInfo::Arguments(std::vector<std::string>* argv) const {
 
   char path[32];
   snprintf(path, sizeof(path), "/proc/%d/cmdline", pid_);
-  std::string command;
-  if (!ReadEntireFile(path, &command)) {
+  FileReader cmdline_file;
+  if (!cmdline_file.Open(base::FilePath(path))) {
     return false;
   }
 
-  if (command.size() == 0 || command.back() != '\0') {
-    LOG(ERROR) << "format error";
+  DelimitedFileReader cmdline_file_field_reader(&cmdline_file);
+
+  std::vector<std::string> local_argv;
+  std::string argument;
+  DelimitedFileReader::Result result;
+  while ((result = cmdline_file_field_reader.GetDelim('\0', &argument)) ==
+         DelimitedFileReader::Result::kSuccess) {
+    if (argument.back() != '\0') {
+      LOG(ERROR) << "format error";
+      return false;
+    }
+    argument.pop_back();
+    local_argv.push_back(argument);
+  }
+  if (result != DelimitedFileReader::Result::kEndOfFile) {
     return false;
   }
 
-  command.pop_back();
-  std::vector<std::string> local_argv = SplitString(command, '\0');
   argv->swap(local_argv);
   return true;
 }

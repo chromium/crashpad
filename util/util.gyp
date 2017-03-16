@@ -30,6 +30,8 @@
         '<(INTERMEDIATE_DIR)',
       ],
       'sources': [
+        'file/delimited_file_reader.cc',
+        'file/delimited_file_reader.h',
         'file/file_io.cc',
         'file/file_io.h',
         'file/file_io_posix.cc',
