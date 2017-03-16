@@ -148,9 +148,9 @@ void TestCrashingChild(const base::string16& directory_modification) {
 
   // The child tells us (approximately) where it will crash.
   WinVMAddress break_near_address;
-  LoggingReadFile(child.stdout_read_handle(),
-                  &break_near_address,
-                  sizeof(break_near_address));
+  LoggingReadFileExactly(child.stdout_read_handle(),
+                         &break_near_address,
+                         sizeof(break_near_address));
   delegate.set_break_near(break_near_address);
 
   // Wait for the child to crash and the exception information to be validated.
@@ -250,9 +250,9 @@ void TestDumpWithoutCrashingChild(
 
   // The child tells us (approximately) where it will capture a dump.
   WinVMAddress dump_near_address;
-  LoggingReadFile(child.stdout_read_handle(),
-                  &dump_near_address,
-                  sizeof(dump_near_address));
+  LoggingReadFileExactly(child.stdout_read_handle(),
+                         &dump_near_address,
+                         sizeof(dump_near_address));
   delegate.set_dump_near(dump_near_address);
 
   // Wait for the child to crash and the exception information to be validated.

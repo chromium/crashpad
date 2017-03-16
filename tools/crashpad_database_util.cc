@@ -597,7 +597,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
           !LoggingWriteFile(new_report->handle, buf, read_result)) {
         return EXIT_FAILURE;
       }
-    } while (read_result == sizeof(buf));
+    } while (read_result > 0);
 
     call_error_writing_crash_report.Disarm();
 

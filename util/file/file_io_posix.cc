@@ -24,54 +24,6 @@
 #include "base/numerics/safe_conversions.h"
 #include "base/posix/eintr_wrapper.h"
 
-namespace {
-
-struct ReadTraits {
-  using VoidBufferType = void*;
-  using CharBufferType = char*;
-  static crashpad::FileOperationResult Operate(int fd,
-                                               CharBufferType buffer,
-                                               size_t size) {
-    return read(fd, buffer, size);
-  }
-};
-
-struct WriteTraits {
-  using VoidBufferType = const void*;
-  using CharBufferType = const char*;
-  static crashpad::FileOperationResult Operate(int fd,
-                                               CharBufferType buffer,
-                                               size_t size) {
-    return write(fd, buffer, size);
-  }
-};
-
-template <typename Traits>
-crashpad::FileOperationResult
-ReadOrWrite(int fd, typename Traits::VoidBufferType buffer, size_t size) {
-  typename Traits::CharBufferType buffer_c =
-      reinterpret_cast<typename Traits::CharBufferType>(buffer);
-
-  crashpad::FileOperationResult total_bytes = 0;
-  while (size > 0) {
-    crashpad::FileOperationResult bytes =
-        HANDLE_EINTR(Traits::Operate(fd, buffer_c, size));
-    if (bytes < 0) {
-      return bytes;
-    } else if (bytes == 0) {
-      break;
-    }
-
-    buffer_c += bytes;
-    size -= bytes;
-    total_bytes += bytes;
-  }
-
-  return total_bytes;
-}
-
-}  // namespace
-
 namespace crashpad {
 
 namespace {
@@ -108,14 +60,44 @@ FileHandle OpenFileForOutput(int rdwr_or_wronly,
 
 }  // namespace
 
+const char kNativeReadFunctionName[] = "read";
+const char kNativeWriteFunctionName[] = "write";
+
+// TODO(mark): Handle > ssize_t-sized reads and writes if necessary. The
+// standard leaves this implementation-defined. Some systems return EINVAL in
+// this case. ReadFile() and WriteFile() could enforce this behavior.
+
 FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
-  return ReadOrWrite<ReadTraits>(file, buffer, size);
+  FileOperationResult bytes = HANDLE_EINTR(read(file, buffer, size));
+  if (bytes < 0) {
+    return -1;
+  }
+
+  DCHECK_LE(static_cast<size_t>(bytes), size);
+  return bytes;
 }
 
 FileOperationResult WriteFile(FileHandle file,
                               const void* buffer,
                               size_t size) {
-  return ReadOrWrite<WriteTraits>(file, buffer, size);
+  const char* buffer_c = static_cast<const char*>(buffer);
+
+  FileOperationResult total_bytes = 0;
+  while (size > 0) {
+    FileOperationResult bytes = HANDLE_EINTR(write(file, buffer_c, size));
+    if (bytes < 0) {
+      return -1;
+    }
+
+    DCHECK_NE(bytes, 0);
+    DCHECK_LE(static_cast<size_t>(bytes), size);
+
+    buffer_c += bytes;
+    size -= bytes;
+    total_bytes += bytes;
+  }
+
+  return total_bytes;
 }
 
 FileHandle OpenFileForRead(const base::FilePath& path) {

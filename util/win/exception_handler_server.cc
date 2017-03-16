@@ -396,7 +396,8 @@ bool ExceptionHandlerServer::ServiceClientConnection(
     const internal::PipeServiceContext& service_context) {
   ClientToServerMessage message;
 
-  if (!LoggingReadFile(service_context.pipe(), &message, sizeof(message)))
+  if (!LoggingReadFileExactly(
+          service_context.pipe(), &message, sizeof(message)))
     return false;
 
   switch (message.type) {

@@ -344,7 +344,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     if (options_.parent_wait_for_child_pipe) {
       // Wait until the child is done sending what it’s going to send.
       char c;
-      CheckedReadFile(ReadPipeHandle(), &c, 1);
+      CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
       EXPECT_EQ('\0', c);
     }
 
@@ -397,7 +397,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     if (options_.child_wait_for_parent_pipe_early) {
       // Wait until the parent is done setting things up on its end.
       char c;
-      CheckedReadFile(ReadPipeHandle(), &c, 1);
+      CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
       EXPECT_EQ('\0', c);
     }
 
@@ -431,7 +431,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
 
     if (options_.child_wait_for_parent_pipe_late) {
       char c;
-      CheckedReadFile(ReadPipeHandle(), &c, 1);
+      CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
       ASSERT_EQ('\0', c);
     }
   }

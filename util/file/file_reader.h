@@ -42,7 +42,7 @@ class FileReaderInterface : public virtual FileSeekerInterface {
   //! \brief Wraps Read(), ensuring that the read succeeded and exactly \a size
   //!     bytes were read.
   //!
-  //! Semantically, this behaves as LoggingReadFile().
+  //! Semantically, this behaves as LoggingReadFileExactly().
   //!
   //! \return `true` if the operation succeeded, `false` if it failed, with an
   //!     error message logged. Short reads are treated as failures.

@@ -22,12 +22,30 @@ namespace crashpad {
 
 bool FileReaderInterface::ReadExactly(void* data, size_t size) {
   FileOperationResult expect = base::checked_cast<FileOperationResult>(size);
-  FileOperationResult rv = Read(data, size);
-  if (rv < 0) {
-    // Read() will have logged its own error.
-    return false;
-  } else if (rv != expect) {
-    LOG(ERROR) << "ReadExactly(): expected " << expect << ", observed " << rv;
+  char* data_c = static_cast<char*>(data);
+
+  FileOperationResult total_bytes = 0;
+  while (size > 0) {
+    FileOperationResult bytes = Read(data, size);
+    if (bytes < 0) {
+      // Read() will have logged its own error.
+      return false;
+    }
+
+    DCHECK_LE(static_cast<size_t>(bytes), size);
+
+    if (bytes == 0) {
+      break;
+    }
+
+    data_c += bytes;
+    size -= bytes;
+    total_bytes += bytes;
+  }
+
+  if (total_bytes != expect) {
+    LOG(ERROR) << "ReadExactly(): expected " << expect << ", observed "
+               << total_bytes;
     return false;
   }
 
@@ -44,13 +62,10 @@ WeakFileHandleFileReader::~WeakFileHandleFileReader() {
 FileOperationResult WeakFileHandleFileReader::Read(void* data, size_t size) {
   DCHECK_NE(file_handle_, kInvalidFileHandle);
 
-  // Don’t use LoggingReadFile(), which insists on a full read and only returns
-  // a bool. This method permits short reads and returns the number of bytes
-  // read.
   base::checked_cast<FileOperationResult>(size);
   FileOperationResult rv = ReadFile(file_handle_, data, size);
   if (rv < 0) {
-    PLOG(ERROR) << "read";
+    PLOG(ERROR) << kNativeReadFunctionName;
     return -1;
   }
 

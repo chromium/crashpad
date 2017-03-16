@@ -39,11 +39,11 @@ class TestMultiprocess final : public Multiprocess {
   void MultiprocessParent() override {
     FileHandle read_handle = ReadPipeHandle();
     char c;
-    CheckedReadFile(read_handle, &c, 1);
+    CheckedReadFileExactly(read_handle, &c, 1);
     EXPECT_EQ('M', c);
 
     pid_t pid;
-    CheckedReadFile(read_handle, &pid, sizeof(pid));
+    CheckedReadFileExactly(read_handle, &pid, sizeof(pid));
     EXPECT_EQ(pid, ChildPID());
 
     c = 'm';
@@ -63,7 +63,7 @@ class TestMultiprocess final : public Multiprocess {
     pid_t pid = getpid();
     CheckedWriteFile(write_handle, &pid, sizeof(pid));
 
-    CheckedReadFile(ReadPipeHandle(), &c, 1);
+    CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
     EXPECT_EQ('m', c);
   }
 

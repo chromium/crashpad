@@ -245,7 +245,7 @@ class TestMachOImageAnnotationsReader final
     // Wait for the child process to indicate that it’s done setting up its
     // annotations via the CrashpadInfo interface.
     char c;
-    CheckedReadFile(ReadPipeHandle(), &c, sizeof(c));
+    CheckedReadFileExactly(ReadPipeHandle(), &c, sizeof(c));
 
     // Verify the “simple map” annotations set via the CrashpadInfo interface.
     const std::vector<ProcessReader::Module>& modules =
@@ -333,7 +333,7 @@ class TestMachOImageAnnotationsReader final
     CheckedWriteFile(WritePipeHandle(), &c, sizeof(c));
 
     // Wait for the parent to indicate that it’s safe to crash.
-    CheckedReadFile(ReadPipeHandle(), &c, sizeof(c));
+    CheckedReadFileExactly(ReadPipeHandle(), &c, sizeof(c));
 
     // Direct an exception message to the exception server running in the
     // parent.

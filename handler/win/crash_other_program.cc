@@ -90,7 +90,8 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
 
   // Wait until it's ready.
   char c;
-  if (!LoggingReadFile(child.stdout_read_handle(), &c, sizeof(c)) || c != ' ') {
+  if (!LoggingReadFileExactly(child.stdout_read_handle(), &c, sizeof(c)) ||
+      c != ' ') {
     LOG(ERROR) << "failed child communication";
     return EXIT_FAILURE;
   }

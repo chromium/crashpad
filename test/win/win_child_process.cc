@@ -203,7 +203,7 @@ std::unique_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
   // immediately, and test code expects process initialization to have
   // completed so it can, for example, read the process memory.
   char c;
-  if (!LoggingReadFile(handles_for_parent->read.get(), &c, sizeof(c))) {
+  if (!LoggingReadFileExactly(handles_for_parent->read.get(), &c, sizeof(c))) {
     ADD_FAILURE() << "LoggedReadFile";
     return std::unique_ptr<Handles>();
   }

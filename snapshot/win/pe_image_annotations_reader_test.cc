@@ -62,7 +62,7 @@ void TestAnnotationsOnCrash(TestType type,
   // Wait for the child process to indicate that it's done setting up its
   // annotations via the CrashpadInfo interface.
   char c;
-  CheckedReadFile(child.stdout_read_handle(), &c, sizeof(c));
+  CheckedReadFileExactly(child.stdout_read_handle(), &c, sizeof(c));
 
   ProcessReaderWin process_reader;
   ASSERT_TRUE(process_reader.Initialize(child.process_handle(),

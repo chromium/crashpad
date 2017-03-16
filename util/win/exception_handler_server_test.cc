@@ -143,10 +143,11 @@ TEST_F(ExceptionHandlerServerTest, StopWhileConnected) {
 
 std::wstring ReadWString(FileHandle handle) {
   size_t length = 0;
-  EXPECT_TRUE(LoggingReadFile(handle, &length, sizeof(length)));
+  EXPECT_TRUE(LoggingReadFileExactly(handle, &length, sizeof(length)));
   std::wstring str(length, L'\0');
   if (length > 0) {
-    EXPECT_TRUE(LoggingReadFile(handle, &str[0], length * sizeof(str[0])));
+    EXPECT_TRUE(
+        LoggingReadFileExactly(handle, &str[0], length * sizeof(str[0])));
   }
   return str;
 }
