@@ -42,6 +42,8 @@
         'mac/mach_errors.h',
         'mac/mach_multiprocess.cc',
         'mac/mach_multiprocess.h',
+        'main_arguments.cc',
+        'main_arguments.h',
         'multiprocess.h',
         'multiprocess_exec.h',
         'multiprocess_exec_posix.cc',
@@ -63,6 +65,11 @@
         'win/win_multiprocess.cc',
         'win/win_multiprocess.h',
       ],
+      'direct_dependent_settings': {
+        'include_dirs': [
+          '..',
+        ],
+      },
       'conditions': [
         ['OS=="mac"', {
           'link_settings': {
@@ -85,6 +92,29 @@
             ['include', '^paths_linux\\.cc$'],
           ],
         }],
+      ],
+    },
+    {
+      'target_name': 'crashpad_gtest_main',
+      'type': 'static_library',
+      'dependencies': [
+        'crashpad_test',
+        '../third_party/gtest/gtest.gyp:gtest',
+      ],
+      'sources': [
+        'gtest_main.cc',
+      ],
+    },
+    {
+      'target_name': 'crashpad_gmock_main',
+      'type': 'static_library',
+      'dependencies': [
+        'crashpad_test',
+        '../third_party/gtest/gmock.gyp:gmock',
+        '../third_party/gtest/gtest.gyp:gtest',
+      ],
+      'sources': [
+        'gmock_main.cc',
       ],
     },
   ],
