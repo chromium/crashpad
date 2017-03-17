@@ -39,6 +39,30 @@
       "revId": "96b5a4ac8edf6ce217d6851bfab9cc2ab6c3cc7f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "049c92ed_baa0d17e",
+        "filename": "test/main_arguments.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-17T20:00:02Z",
+      "side": 1,
+      "message": "\u003e Why save pointers to the arguments rather than copies of the originals?\n\nI started with this because not doing the copies saved some memory. But I guess that’s not so important here in test code.\n\nI kind of liked having this match main()’s true view of argc and argv, which will have changed by the time anyone calls GetMainArguments() due to gtest argument processing. But sure, I could just make copies of their initial values. Might even be cleaner that way, especially because it would eliminate a couple of layers of pointers.\n\nProcessInfo::Arguments() doesn’t nail down whether the view of arguments it returns is initial or modified/current, so we could go either way. I’d just need to flip the part of the test that checks for a subset to treat the ProcessInfo view as a subset of GetMainArguments(), as opposed to the other way around.\n\nAll things considered, I guess the copies might be nicer. I can adjust.",
+      "parentUuid": "e160b263_323bf0ea",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "96b5a4ac8edf6ce217d6851bfab9cc2ab6c3cc7f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
