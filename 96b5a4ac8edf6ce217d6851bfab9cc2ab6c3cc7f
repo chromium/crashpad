@@ -16,6 +16,29 @@
       "revId": "96b5a4ac8edf6ce217d6851bfab9cc2ab6c3cc7f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e160b263_323bf0ea",
+        "filename": "test/main_arguments.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1187200
+      },
+      "writtenOn": "2017-03-17T19:53:34Z",
+      "side": 1,
+      "message": "Why save pointers to the arguments rather than copies of the originals?",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 0
+      },
+      "revId": "96b5a4ac8edf6ce217d6851bfab9cc2ab6c3cc7f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
