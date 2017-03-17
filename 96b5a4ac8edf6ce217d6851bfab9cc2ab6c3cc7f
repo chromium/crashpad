@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91bf2e20_e0155331",
+        "filename": "test/main_arguments.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-17T16:33:44Z",
+      "side": 1,
+      "message": "I really don’t like this style of having the asterisks all over the place, but since the pointers are so deep here, I thought that it was important to accurately convey what’s const and what’s not.",
+      "revId": "96b5a4ac8edf6ce217d6851bfab9cc2ab6c3cc7f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
