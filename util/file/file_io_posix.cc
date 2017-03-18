@@ -190,6 +190,9 @@ FileHandle StdioFileHandle(StdioStream stdio_stream) {
     case StdioStream::kStandardError:
       return STDERR_FILENO;
   }
+
+  NOTREACHED();
+  return kInvalidFileHandle;
 }
 
 }  // namespace crashpad
