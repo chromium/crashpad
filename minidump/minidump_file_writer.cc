@@ -146,29 +146,33 @@ void MinidumpFileWriter::InitializeFromSnapshot(
     memory_list->AddFromSnapshot(exception_snapshot->ExtraMemory());
   }
 
-  // The memory list stream should be added last. This keeps the “extra memory”
-  // at the end so that if the minidump file is truncated, other, more critical
-  // data is more likely to be preserved. Note that non-“extra” memory regions
-  // will not have to ride at the end of the file. Thread stack memory, for
-  // example, exists as a children of threads, and appears alongside them in the
-  // file.
-  //
-  // It would be nice if this followed the user streams, but that would be
-  // hazardous. See below.
-  add_stream_result = AddStream(std::move(memory_list));
-  DCHECK(add_stream_result);
-
   // These user streams must be added last. Otherwise, a user stream with the
   // same type as a well-known stream could preempt the well-known stream. As it
   // stands now, earlier-discovered user streams can still preempt
-  // later-discovered ones.
+  // later-discovered ones. The well-known memory list stream is added after
+  // these user streams, but only with a check here to avoid adding a user
+  // stream that would preempt the memory list stream.
   for (const auto& module : process_snapshot->Modules()) {
     for (const UserMinidumpStream* stream : module->CustomMinidumpStreams()) {
+      if (stream->stream_type() == kMinidumpStreamTypeMemoryList) {
+        LOG(WARNING) << "discarding duplicate stream of type "
+                     << stream->stream_type();
+        continue;
+      }
       auto user_stream = base::WrapUnique(new MinidumpUserStreamWriter());
       user_stream->InitializeFromSnapshot(stream);
       AddStream(std::move(user_stream));
     }
   }
+
+  // The memory list stream should be added last. This keeps the “extra memory”
+  // at the end so that if the minidump file is truncated, other, more critical
+  // data is more likely to be preserved. Note that non-“extra” memory regions
+  // will not have to ride at the end of the file. Thread stack memory, for
+  // example, exists as a children of threads, and appears alongside them in the
+  // file, despite also being mentioned by the memory list stream.
+  add_stream_result = AddStream(std::move(memory_list));
+  DCHECK(add_stream_result);
 }
 
 void MinidumpFileWriter::SetTimestamp(time_t timestamp) {
