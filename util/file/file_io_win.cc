@@ -14,6 +14,9 @@
 
 #include "util/file/file_io.h"
 
+#include <algorithm>
+#include <limits>
+
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"
@@ -70,18 +73,51 @@ FileHandle OpenFileForOutput(DWORD access,
 
 }  // namespace
 
+namespace internal {
+
 const char kNativeReadFunctionName[] = "ReadFile";
 const char kNativeWriteFunctionName[] = "WriteFile";
 
-// TODO(scottmg): Handle > DWORD-sized reads and writes if necessary.
+bool WriteFileInternal(FileHandle file,
+                       const void* buffer,
+                       size_t size,
+                       size_t* bytes_written) {
+  // TODO(scottmg): This might need to handle the limit for pipes across a
+  // network in the future.
+
+  constexpr size_t kMaxSize =
+      static_cast<size_t>(std::numeric_limits<DWORD>::max());
+  const DWORD write_size = static_cast<DWORD>(std::min(size, kMaxSize));
+
+  DWORD bytes_written_dword;
+  if (!::WriteFile(file, buffer, write_size, &bytes_written_dword, nullptr))
+    return false;
+
+  DCHECK_LE(static_cast<size_t>(bytes_written_dword), write_size);
+  *bytes_written = bytes_written_dword;
+  return true;
+}
+
+}  // namespace internal
 
 FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
   DCHECK(!IsSocketHandle(file));
 
+  // kMaxSize needs to be limited to the range of DWORD for the call to
+  // ::ReadFile(), and also limited to the range of FileOperationResult to be
+  // able to adequately express the number of bytes read in this function’s
+  // return value. In a 64-bit build, the former will control, and the limit
+  // will be (2^32)-1. In a 32-bit build, the latter will control, and the limit
+  // will be (2^31)-1.
+  constexpr size_t kMaxSize = std::min(
+      static_cast<size_t>(std::numeric_limits<DWORD>::max()),
+      static_cast<size_t>(std::numeric_limits<FileOperationResult>::max()));
+
+  const DWORD read_size = static_cast<DWORD>(std::min(size, kMaxSize));
+
   while (true) {
-    DWORD size_dword = base::checked_cast<DWORD>(size);
     DWORD bytes_read;
-    BOOL success = ::ReadFile(file, buffer, size_dword, &bytes_read, nullptr);
+    BOOL success = ::ReadFile(file, buffer, read_size, &bytes_read, nullptr);
     if (!success) {
       if (GetLastError() == ERROR_BROKEN_PIPE) {
         // When reading a pipe and the write handle has been closed, ReadFile
@@ -93,7 +129,7 @@ FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
     }
 
     CHECK_NE(bytes_read, static_cast<DWORD>(-1));
-    DCHECK_LE(bytes_read, size_dword);
+    DCHECK_LE(bytes_read, read_size);
     if (bytes_read != 0 || GetFileType(file) != FILE_TYPE_PIPE) {
       // Zero bytes read for a file indicates reaching EOF. Zero bytes read from
       // a pipe indicates only that there was a zero byte WriteFile issued on
@@ -101,21 +137,6 @@ FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
       return bytes_read;
     }
   }
-}
-
-FileOperationResult WriteFile(FileHandle file,
-                              const void* buffer,
-                              size_t size) {
-  // TODO(scottmg): This might need to handle the limit for pipes across a
-  // network in the future.
-  DWORD size_dword = base::checked_cast<DWORD>(size);
-  DWORD bytes_written;
-  BOOL rv = ::WriteFile(file, buffer, size_dword, &bytes_written, nullptr);
-  if (!rv)
-    return -1;
-  CHECK_NE(bytes_written, static_cast<DWORD>(-1));
-  CHECK_EQ(bytes_written, size_dword);
-  return bytes_written;
 }
 
 FileHandle OpenFileForRead(const base::FilePath& path) {
