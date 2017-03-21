@@ -29,6 +29,7 @@
 #include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_thread_writer.h"
 #include "minidump/minidump_unloaded_module_writer.h"
+#include "minidump/minidump_user_extension_stream.h"
 #include "minidump/minidump_user_stream_writer.h"
 #include "minidump/minidump_writer_util.h"
 #include "snapshot/exception_snapshot.h"
@@ -179,6 +180,16 @@ void MinidumpFileWriter::SetTimestamp(time_t timestamp) {
   DCHECK_EQ(state(), kStateMutable);
 
   internal::MinidumpWriterUtil::AssignTimeT(&header_.TimeDateStamp, timestamp);
+}
+
+bool MinidumpFileWriter::AddUserExtensionStream(
+    std::unique_ptr<MinidumpUserExtensionStream> user_extension_stream) {
+  auto user_stream = base::WrapUnique(new MinidumpUserStreamWriter());
+  user_stream->InitializeFromBuffer(user_extension_stream->stream_type(),
+                                    user_extension_stream->buffer(),
+                                    user_extension_stream->buffer_size());
+
+  return AddStream(std::move(user_stream));
 }
 
 bool MinidumpFileWriter::AddStream(

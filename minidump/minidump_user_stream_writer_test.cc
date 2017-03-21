@@ -50,10 +50,11 @@ void GetUserStream(const std::string& file_contents,
   *user_stream_location = directory[kDirectoryIndex].Location;
 }
 
-TEST(MinidumpUserStreamWriter, NoData) {
+const uint32_t kTestStreamId = 0x123456;
+
+TEST(MinidumpUserStreamWriter, InitializeFromSnapshotNoData) {
   MinidumpFileWriter minidump_file_writer;
   auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
-  const uint32_t kTestStreamId = 0x123456;
   auto stream =
       base::WrapUnique(new UserMinidumpStream(kTestStreamId, nullptr));
   user_stream_writer->InitializeFromSnapshot(stream.get());
@@ -71,10 +72,27 @@ TEST(MinidumpUserStreamWriter, NoData) {
   EXPECT_EQ(0u, user_stream_location.DataSize);
 }
 
-TEST(MinidumpUserStreamWriter, OneStream) {
+TEST(MinidumpUserStreamWriter, InitializeFromBufferNoData) {
   MinidumpFileWriter minidump_file_writer;
   auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
-  const uint32_t kTestStreamId = 0x123456;
+  user_stream_writer->InitializeFromBuffer(kTestStreamId, nullptr, 0);
+  minidump_file_writer.AddStream(std::move(user_stream_writer));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+
+  ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY),
+            string_file.string().size());
+
+  MINIDUMP_LOCATION_DESCRIPTOR user_stream_location;
+  ASSERT_NO_FATAL_FAILURE(GetUserStream(
+      string_file.string(), &user_stream_location, kTestStreamId));
+  EXPECT_EQ(0u, user_stream_location.DataSize);
+}
+
+TEST(MinidumpUserStreamWriter, InitializeFromSnapshotOneStream) {
+  MinidumpFileWriter minidump_file_writer;
+  auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
 
   TestMemorySnapshot* test_data = new TestMemorySnapshot();
   test_data->SetAddress(97865);
@@ -85,6 +103,31 @@ TEST(MinidumpUserStreamWriter, OneStream) {
       base::WrapUnique(new UserMinidumpStream(kTestStreamId, test_data));
   user_stream_writer->InitializeFromSnapshot(stream.get());
   ASSERT_TRUE(minidump_file_writer.AddStream(std::move(user_stream_writer)));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
+
+  ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) + kStreamSize,
+            string_file.string().size());
+
+  MINIDUMP_LOCATION_DESCRIPTOR user_stream_location;
+  ASSERT_NO_FATAL_FAILURE(GetUserStream(
+      string_file.string(), &user_stream_location, kTestStreamId));
+  EXPECT_EQ(kStreamSize, user_stream_location.DataSize);
+  const std::string stream_data = string_file.string().substr(
+      user_stream_location.Rva, user_stream_location.DataSize);
+  EXPECT_EQ(std::string(kStreamSize, 'c'), stream_data);
+}
+
+TEST(MinidumpUserStreamWriter, InitializeFromBufferOneStream) {
+  MinidumpFileWriter minidump_file_writer;
+  auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
+
+  const size_t kStreamSize = 128;
+  std::vector<uint8_t> data(kStreamSize, 'c');
+  user_stream_writer->InitializeFromBuffer(
+      kTestStreamId, &data[0], data.size());
+  minidump_file_writer.AddStream(std::move(user_stream_writer));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));

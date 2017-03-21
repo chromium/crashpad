@@ -18,9 +18,18 @@
 
 namespace crashpad {
 
-MinidumpUserStreamWriter::MinidumpUserStreamWriter()
-    : stream_type_(0), reader_() {
-}
+class MinidumpUserStreamWriter::MemoryReader : public MemorySnapshot::Delegate {
+ public:
+  MemoryReader(MinidumpUserStreamWriter* writer) : writer_(writer) {}
+  ~MemoryReader() override;
+
+  bool MemorySnapshotDelegateRead(void* data, size_t size) override;
+
+ private:
+  MinidumpUserStreamWriter* writer_;
+};
+
+MinidumpUserStreamWriter::MinidumpUserStreamWriter() : stream_type_(0) {}
 
 MinidumpUserStreamWriter::~MinidumpUserStreamWriter() {
 }
@@ -30,8 +39,17 @@ void MinidumpUserStreamWriter::InitializeFromSnapshot(
   DCHECK_EQ(state(), kStateMutable);
 
   stream_type_ = stream->stream_type();
-  if (stream->memory())
-    stream->memory()->Read(&reader_);
+  if (stream->memory()) {
+    MemoryReader reader(this);
+    stream->memory()->Read(&reader);
+  }
+}
+
+void MinidumpUserStreamWriter::InitializeFromBuffer(uint32_t stream_type,
+                                                    const void* buffer,
+                                                    size_t buffer_size) {
+  stream_type_ = stream_type;
+  SetData(buffer, buffer_size);
 }
 
 bool MinidumpUserStreamWriter::Freeze() {
@@ -42,7 +60,7 @@ bool MinidumpUserStreamWriter::Freeze() {
 
 size_t MinidumpUserStreamWriter::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
-  return reader_.size();
+  return data_.size();
 }
 
 std::vector<internal::MinidumpWritable*>
@@ -53,11 +71,17 @@ MinidumpUserStreamWriter::Children() {
 
 bool MinidumpUserStreamWriter::WriteObject(FileWriterInterface* file_writer) {
   DCHECK_EQ(state(), kStateWritable);
-  return file_writer->Write(reader_.data(), reader_.size());
+  return file_writer->Write(data_.data(), data_.size());
 }
 
 MinidumpStreamType MinidumpUserStreamWriter::StreamType() const {
   return static_cast<MinidumpStreamType>(stream_type_);
+}
+
+void MinidumpUserStreamWriter::SetData(const void* data, size_t size) {
+  data_.resize(size);
+  if (size)
+    memcpy(&data_[0], data, size);
 }
 
 MinidumpUserStreamWriter::MemoryReader::~MemoryReader() {}
@@ -65,8 +89,7 @@ MinidumpUserStreamWriter::MemoryReader::~MemoryReader() {}
 bool MinidumpUserStreamWriter::MemoryReader::MemorySnapshotDelegateRead(
     void* data,
     size_t size) {
-  data_.resize(size);
-  memcpy(&data_[0], data, size);
+  writer_->SetData(data, size);
   return true;
 }
 
