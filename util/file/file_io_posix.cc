@@ -19,10 +19,19 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include <algorithm>
+#include <limits>
+
 #include "base/files/file_path.h"
 #include "base/logging.h"
-#include "base/numerics/safe_conversions.h"
 #include "base/posix/eintr_wrapper.h"
+
+namespace {
+
+constexpr size_t kMaxReadWriteSize =
+    static_cast<size_t>(std::numeric_limits<ssize_t>::max());
+
+}  // namespace
 
 namespace crashpad {
 
@@ -60,44 +69,38 @@ FileHandle OpenFileForOutput(int rdwr_or_wronly,
 
 }  // namespace
 
+namespace internal {
+
 const char kNativeReadFunctionName[] = "read";
 const char kNativeWriteFunctionName[] = "write";
 
-// TODO(mark): Handle > ssize_t-sized reads and writes if necessary. The
-// standard leaves this implementation-defined. Some systems return EINVAL in
-// this case. ReadFile() and WriteFile() could enforce this behavior.
+FileOperationResult NativeWriteFile(FileHandle file,
+                                    const void* buffer,
+                                    size_t size) {
+  const size_t write_size = std::min(size, kMaxReadWriteSize);
 
-FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
-  FileOperationResult bytes = HANDLE_EINTR(read(file, buffer, size));
-  if (bytes < 0) {
+  FileOperationResult bytes_written =
+      HANDLE_EINTR(write(file, buffer, write_size));
+  if (bytes_written < 0) {
     return -1;
   }
 
-  DCHECK_LE(static_cast<size_t>(bytes), size);
-  return bytes;
+  DCHECK_LE(static_cast<size_t>(bytes_written), write_size);
+  return bytes_written;
 }
 
-FileOperationResult WriteFile(FileHandle file,
-                              const void* buffer,
-                              size_t size) {
-  const char* buffer_c = static_cast<const char*>(buffer);
+}  // namespace internal
 
-  FileOperationResult total_bytes = 0;
-  while (size > 0) {
-    FileOperationResult bytes = HANDLE_EINTR(write(file, buffer_c, size));
-    if (bytes < 0) {
-      return -1;
-    }
+FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
+  const size_t read_size = std::min(size, kMaxReadWriteSize);
 
-    DCHECK_NE(bytes, 0);
-    DCHECK_LE(static_cast<size_t>(bytes), size);
-
-    buffer_c += bytes;
-    size -= bytes;
-    total_bytes += bytes;
+  FileOperationResult bytes_read = HANDLE_EINTR(read(file, buffer, read_size));
+  if (bytes_read < 0) {
+    return -1;
   }
 
-  return total_bytes;
+  DCHECK_LE(static_cast<size_t>(bytes_read), read_size);
+  return bytes_read;
 }
 
 FileHandle OpenFileForRead(const base::FilePath& path) {

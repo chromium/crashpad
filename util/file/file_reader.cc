@@ -20,36 +20,31 @@
 
 namespace crashpad {
 
+namespace {
+
+class FileReaderReadExactly final : public internal::ReadExactlyInternal {
+ public:
+  explicit FileReaderReadExactly(FileReaderInterface* file_reader)
+      : ReadExactlyInternal(), file_reader_(file_reader) {}
+  ~FileReaderReadExactly() {}
+
+ private:
+  // ReadExactlyInternal:
+  FileOperationResult Read(void* buffer, size_t size, bool can_log) override {
+    DCHECK(can_log);
+    return file_reader_->Read(buffer, size);
+  }
+
+  FileReaderInterface* file_reader_;  // weak
+
+  DISALLOW_COPY_AND_ASSIGN(FileReaderReadExactly);
+};
+
+}  // namespace
+
 bool FileReaderInterface::ReadExactly(void* data, size_t size) {
-  FileOperationResult expect = base::checked_cast<FileOperationResult>(size);
-  char* data_c = static_cast<char*>(data);
-
-  FileOperationResult total_bytes = 0;
-  while (size > 0) {
-    FileOperationResult bytes = Read(data, size);
-    if (bytes < 0) {
-      // Read() will have logged its own error.
-      return false;
-    }
-
-    DCHECK_LE(static_cast<size_t>(bytes), size);
-
-    if (bytes == 0) {
-      break;
-    }
-
-    data_c += bytes;
-    size -= bytes;
-    total_bytes += bytes;
-  }
-
-  if (total_bytes != expect) {
-    LOG(ERROR) << "ReadExactly(): expected " << expect << ", observed "
-               << total_bytes;
-    return false;
-  }
-
-  return true;
+  FileReaderReadExactly read_exactly(this);
+  return read_exactly.ReadExactly(data, size, true);
 }
 
 WeakFileHandleFileReader::WeakFileHandleFileReader(FileHandle file_handle)
@@ -65,7 +60,7 @@ FileOperationResult WeakFileHandleFileReader::Read(void* data, size_t size) {
   base::checked_cast<FileOperationResult>(size);
   FileOperationResult rv = ReadFile(file_handle_, data, size);
   if (rv < 0) {
-    PLOG(ERROR) << kNativeReadFunctionName;
+    PLOG(ERROR) << internal::kNativeReadFunctionName;
     return -1;
   }
 
