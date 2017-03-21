@@ -41,6 +41,18 @@ class MinidumpUserStreamWriter final : public internal::MinidumpStreamWriter {
   //! \note Valid in #kStateMutable.
   void InitializeFromSnapshot(const UserMinidumpStream* stream);
 
+  //! \brief Initializes a MINIDUMP_USER_STREAM based on \a stream_type,
+  //!     \a buffer and \a buffer_size.
+  //!
+  //! \param[in] stream_type The type of the stream.
+  //! \param[in] buffer The data for the stream.
+  //! \param[in] buffer_size The length of \a buffer, and the resulting stream.
+  //!
+  //! \note Valid in #kStateMutable.
+  void InitializeFromBuffer(uint32_t stream_type,
+                            const void* buffer,
+                            size_t buffer_size);
+
  protected:
   // MinidumpWritable:
   bool Freeze() override;
@@ -52,22 +64,13 @@ class MinidumpUserStreamWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  class MemoryReader : public MemorySnapshot::Delegate {
-   public:
-    ~MemoryReader() override;
-    bool MemorySnapshotDelegateRead(void* data, size_t size) override;
+  class MemoryReader;
+  friend class MemoryReader;
 
-    const void* data() const {
-      return reinterpret_cast<const void*>(data_.data());
-    }
-    size_t size() const { return data_.size(); }
-
-   private:
-    std::vector<uint8_t> data_;
-  };
+  void SetData(const void* data, size_t data_size);
 
   uint32_t stream_type_;
-  MemoryReader reader_;
+  std::vector<uint8_t> data_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpUserStreamWriter);
 };
