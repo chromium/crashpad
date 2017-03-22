@@ -87,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "ff46ba7d_e4f3f863",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T23:24:04Z",
+      "side": 1,
+      "message": "And a blank line before me, for consistency with InitializeFromBuffer().",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d798836_e2e22eba",
         "filename": "minidump/minidump_user_stream_writer.h",
         "patchSetId": 10
