@@ -189,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "fc2a7453_f673daa0",
+        "filename": "minidump/minidump_user_extension_stream_data_source.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T19:01:30Z",
+      "side": 1,
+      "message": "\u003e this will either require the stream_type in the constructor to be of the same type, or a cast. I\u0027m not sure which is preferred, ease and clarity of usage would have an open type here, rather than requiring the extending user to cast their fabricated ID?\n\nWell, since it’s not an enum class, I didn’t think anyone would ever need casts at all. But MSVC++ can be a little inflexible about these things, so maybe they would. In that case, leaving the non-enum type as the constructor argument is OK, like you’ve done.",
+      "parentUuid": "b76db393_861084e1",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5dff4b58_71eda209",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 6
@@ -440,6 +458,24 @@
       "side": 1,
       "message": "This also calls for an extra allocation and moar indirection - good enough as-is?",
       "parentUuid": "ef1684cd_2b781307",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c85f12c5_de9069f5",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T19:01:30Z",
+      "side": 1,
+      "message": "\u003e This also calls for an extra allocation and moar indirection - good enough as-is?\n\nThe conceptual indirection is already here with all of this custom switchery. I do think it’ll be better if we let the language work for us.",
+      "parentUuid": "c49f76e4_b1624124",
       "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true

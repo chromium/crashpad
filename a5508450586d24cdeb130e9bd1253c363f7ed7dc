@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc21d96d_9ab39287",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T19:01:30Z",
+      "side": 1,
+      "message": "DCHECK_NE, actually",
+      "revId": "a5508450586d24cdeb130e9bd1253c363f7ed7dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
