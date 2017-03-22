@@ -16,6 +16,24 @@
       "revId": "50440b24181ad74f7d401d66dfb89b581a16104d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37dced81_43dcb57d",
+        "filename": "build/run_tests.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T00:17:42Z",
+      "side": 1,
+      "message": "\u003e Did you have something else to add here?\n\nmark@mela zsh% python\nPython 2.7.10 (default, Jul 30 2016, 19:40:32) \n[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.34)] on darwin\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n\u003e\u003e\u003e (\u0027snapshot/win/end_to_end_test.py\u0027)\n\u0027snapshot/win/end_to_end_test.py\u0027\n\u003e\u003e\u003e (\u0027snapshot/win/end_to_end_test.py\u0027,)\n(\u0027snapshot/win/end_to_end_test.py\u0027,)\n\nwhich means this really terrible thing happens\n\n\u003e\u003e\u003e for c in (\u0027snapshot/win/end_to_end_test.py\u0027):\n...   print c\n... \ns\nn\na\np\n[…and so on…]",
+      "parentUuid": "8dfa0fb6_1bddb4eb",
+      "revId": "50440b24181ad74f7d401d66dfb89b581a16104d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
