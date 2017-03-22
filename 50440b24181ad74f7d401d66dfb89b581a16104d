@@ -52,6 +52,24 @@
       "revId": "50440b24181ad74f7d401d66dfb89b581a16104d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54e9306c_9859b4f3",
+        "filename": "build/run_tests.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T00:52:59Z",
+      "side": 1,
+      "message": "\u003e Sure, of course. I just meant why did you change it from a variable to a for loop in that case.\n\nOh! I was just trying to make it match the loop above. I put it back to how it was before.",
+      "parentUuid": "06940b34_a8d9b83f",
+      "revId": "50440b24181ad74f7d401d66dfb89b581a16104d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
