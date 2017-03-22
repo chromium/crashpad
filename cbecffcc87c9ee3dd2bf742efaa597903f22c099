@@ -33,6 +33,24 @@
       "revId": "cbecffcc87c9ee3dd2bf742efaa597903f22c099",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0d104a0_5be90aba",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:46:09Z",
+      "side": 1,
+      "message": "Done - I removed the Status line as well, as this should always be a draft :).",
+      "parentUuid": "4f56092b_c59d897c",
+      "revId": "cbecffcc87c9ee3dd2bf742efaa597903f22c099",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
