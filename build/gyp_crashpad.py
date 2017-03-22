@@ -75,11 +75,24 @@ def main(args):
     return result
 
   if sys.platform == 'win32':
-    # Also generate the x86 build.
-    result = gyp.main(args + ['-D', 'target_arch=ia32', '-G', 'config=Debug'])
-    if result != 0:
-      return result
-    result = gyp.main(args + ['-D', 'target_arch=ia32', '-G', 'config=Release'])
+    # Check to make sure that no target_arch was specified. target_arch may be
+    # set during a cross build, such as a cross build for Android.
+    has_target_arch = False
+    for arg_index in xrange(0, len(args)):
+      arg = args[arg_index]
+      if (arg.startswith('-Dtarget_arch=') or
+          (arg == '-D' and arg_index + 1 < len(args) and
+           args[arg_index + 1].startswith('target_arch='))):
+        has_target_arch = True
+        break
+
+    if not has_target_arch:
+      # Also generate the x86 build.
+      result = gyp.main(args + ['-D', 'target_arch=ia32', '-G', 'config=Debug'])
+      if result != 0:
+        return result
+      result = gyp.main(
+          args + ['-D', 'target_arch=ia32', '-G', 'config=Release'])
 
   return result
 
