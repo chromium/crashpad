@@ -1,0 +1,84 @@
+digraph G {  
+  # Rank towards the top.
+  rankdir=BT;
+  size="8, 12"
+
+  fontname="Arial";
+  fontsize=12;
+
+  node [
+    shape=box;
+    style=filled;
+    fontname="Arial";
+    fontsize=12;
+  ]
+
+  upstream_server [label="Upstream Server"; fillcolor=gray]
+
+  subgraph cluster_sys {
+    label="Client Computer.";
+
+    subgraph cluster_cl1 {
+      label = "Client Process #1";
+      shape=box;
+      style=filled;
+      fillcolor=lightblue;
+
+      subgraph cluster_11 {
+        label = "Client Module #1";
+        fillcolor=cyan;
+
+        cl1_1 [label="Crashpad Client"; fillcolor=green]
+        ci1_1 [label="CrashpadInfo"; fillcolor=green]
+      }
+
+      subgraph cluster_12 {
+        label = "Client Module #2";
+        fillcolor=cyan;
+
+        ci1_2 [label="CrashpadInfo"; fillcolor=green]
+      }
+      subgraph cluster_13 {
+        label = "Client Module #2";
+        fillcolor=cyan;
+        ci1_3 [label="CrashpadInfo"; fillcolor=green]
+      }
+    }
+    
+    subgraph cluster_cl2 {
+      label = "Client Process #2";
+      shape=box;
+      style=filled;
+      fillcolor=lightblue;
+
+      subgraph cluster_11 {
+        label = "Client Module #1";
+        fillcolor=cyan;
+
+        cl2_1 [label="Crashpad Client"; fillcolor=green]
+        ci2_1 [label="CrashpadInfo"; fillcolor=green]
+      }
+    }
+    
+    db [
+      label = "Crashpad Database";
+      fillcolor=green;
+    ]
+
+    subgraph cluster_ch {
+      label = "Handler Process";
+      shape=box;
+      style=filled;
+      fillcolor=lightblue;
+
+      node [fillcolor=green]
+      ch [label="Crashpad Handler"]
+    }
+  }
+
+  cl1_1 -> db [label="Enumeration\nSettings Updates"; ]
+  ch -> db [label="Write.\nEnumerate\nRead for upload.";]
+  cl1_1 -> ch [label="Registration."]
+  cl2_1 -> ch [label="Registration."]
+  ch -> upstream_server [label="HTTP(S) Upload."]
+}
