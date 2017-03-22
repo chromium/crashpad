@@ -91,7 +91,9 @@ crashpad`, `gclient sync`, or `gclient runhooks`.
 The Ninja build files and build output are in the `out` directory. Both debug-
 and release-mode configurations are available. The examples below show the debug
 configuration. To build and test the release configuration, substitute `Release`
-for `Debug`.
+for `Debug`. On Windows, four configurations are available: `Debug` and
+`Release` produce 32-bit x86 executables, and `Debug_x64` and `Release_x64`
+produce x86_64 executables.
 
 ```
 $ cd ~/crashpad/crashpad
@@ -193,11 +195,11 @@ $ out/Debug/crashpad_util_test
 ```
 
 A script is provided to run all of Crashpad’s tests. It accepts a single
-argument that tells it which configuration to test.
+argument, a path to the directory containing the test executables.
 
 ```
 $ cd ~/crashpad/crashpad
-$ python build/run_tests.py Debug
+$ python build/run_tests.py out/Debug
 ```
 
 ### Android
