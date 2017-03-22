@@ -105,6 +105,52 @@
     },
     {
       "key": {
+        "uuid": "6c2d6656_72b6b275",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "extra space?",
+      "range": {
+        "startLine": 13,
+        "startChar": 67,
+        "endLine": 13,
+        "endChar": 68
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b0d87cc_c0685094",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Can also capture live crash reports...",
+      "range": {
+        "startLine": 13,
+        "startChar": 62,
+        "endLine": 13,
+        "endChar": 74
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf1136b1_906dac42",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -145,6 +191,144 @@
     },
     {
       "key": {
+        "uuid": "4ad4b25c_b6d43862",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Another link for this?",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 53
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "529c22cc_27b5ce07",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Not only pending upload.",
+      "range": {
+        "startLine": 187,
+        "startChar": 10,
+        "endLine": 187,
+        "endChar": 24
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b43f8c5e_648ae653",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Must the client and handler be of the same version or is there some compatibility (forward / backward)?",
+      "range": {
+        "startLine": 206,
+        "startChar": 18,
+        "endLine": 206,
+        "endChar": 0
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7876a550_9b736b5e",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "\"without the handler being notified\"? (which is even stronger)",
+      "range": {
+        "startLine": 276,
+        "startChar": 37,
+        "endLine": 276,
+        "endChar": 58
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b96d5a88_6c6299a7",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Worth mentioning vectored exception handling?",
+      "range": {
+        "startLine": 288,
+        "startChar": 40,
+        "endLine": 288,
+        "endChar": 0
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35e6fffd_78e96d45",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "sidenote: it\u0027s hard to distinguish visually the formatted h5 from h4. Not sure we can do anything about it.",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 288,
+        "endChar": 6
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b6adbce_94063dea",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -161,6 +345,75 @@
         "startChar": 47,
         "endLine": 293,
         "endChar": 77
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5364ae56_49228496",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Different link for this?",
+      "range": {
+        "startLine": 298,
+        "startChar": 6,
+        "endLine": 298,
+        "endChar": 49
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38d02ebb_169f70b6",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Should the intent be to limit the info that the client holds in process? \n\nWhy is it the client that provides memory guidance?",
+      "range": {
+        "startLine": 315,
+        "startChar": 27,
+        "endLine": 316,
+        "endChar": 35
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b3a590d_25b219d6",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "I know that for a minidump file to be successfully registered (or uploaded?) with CP it needs to have a minimal set of keys (e.g. product name). Worth mentioning somewhere?\n\nAh ok, this is mentioned in wire format section.",
+      "range": {
+        "startLine": 317,
+        "startChar": 22,
+        "endLine": 317,
+        "endChar": 57
       },
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
@@ -185,6 +438,29 @@
     },
     {
       "key": {
+        "uuid": "eac77b64_44e7361c",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Re:  https://chromium-review.googlesource.com/455976 \n\nMention the intent of limiting max memory? Or maybe in the requirements above?",
+      "range": {
+        "startLine": 327,
+        "startChar": 33,
+        "endLine": 327,
+        "endChar": 69
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9557c0f4_0514e2ef",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -196,6 +472,98 @@
       "writtenOn": "2017-03-22T15:48:14Z",
       "side": 1,
       "message": "Be consistent about how you format lists in the source (hanging indent, spaces after the *, etc.) Compare to lines 145 and 274.\n\nPer the examples in developing.md, I like the style that uses a leading space and has a hanging indent, like\n\n * Appropriate development tools. For macOS, this is\n   [Xcode](https://developer.apple.com/xcode/) and for Windows, it’s [Visual\n   Studio](https://www.visualstudio.com/).\n\nbecause it looks most like how it will be rendered. Same applies to numbered lists.",
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5dc44ee_cfd932b1",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "missing space",
+      "range": {
+        "startLine": 340,
+        "startChar": 10,
+        "endLine": 340,
+        "endChar": 15
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3135989_f4bd9e2b",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Worth mentioning what happens if there is no handler or it\u0027s bogged down?",
+      "range": {
+        "startLine": 351,
+        "startChar": 31,
+        "endLine": 351,
+        "endChar": 0
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1321b8e_620afd99",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "link for this?",
+      "range": {
+        "startLine": 409,
+        "startChar": 38,
+        "endLine": 409,
+        "endChar": 46
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5c83277_d0d63466",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "It\u0027s actually \"configurable, with an optional quota per sliding time window\"?",
+      "range": {
+        "startLine": 441,
+        "startChar": 61,
+        "endLine": 442,
+        "endChar": 47
+      },
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -219,6 +587,92 @@
         "endLine": 450,
         "endChar": 76
       },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "249048ee_5c6c21c5",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Sidenote: Right now, chrome://crashes has a \"send now\" functionality, but it\u0027s affected by throttling. Should we have a bug to have a non-throttled api?",
+      "range": {
+        "startLine": 450,
+        "startChar": 47,
+        "endLine": 450,
+        "endChar": 76
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c3f790d_c586e102",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Are these subject to memory quotas?",
+      "range": {
+        "startLine": 456,
+        "startChar": 0,
+        "endLine": 456,
+        "endChar": 66
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9357cb6d_28f3bcfc",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "For my benefit:\n- the negative impact is on binary size? \n- could we have introduced a separate build target in base that\u0027s just a subset?",
+      "range": {
+        "startLine": 469,
+        "startChar": 55,
+        "endLine": 470,
+        "endChar": 32
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08058e5e_c83520d6",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T16:39:54Z",
+      "side": 1,
+      "message": "Wdyt of having another section on Fidelity and coverage? Knowing that crashes are captured and handled is an important part of this. CP has some metrics macros and the handler sometimes sets up its own handler.",
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
