@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "1c72eac3_df7d0316",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc378f67_49bade0b",
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe96ab34_0f2a4cc7",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -79,6 +97,30 @@
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6421ee4f_96889122",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe96ab34_0f2a4cc7",
+      "range": {
+        "startLine": 5,
+        "startChar": 29,
+        "endLine": 5,
+        "endChar": 51
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +193,54 @@
     },
     {
       "key": {
+        "uuid": "b6023c81_8385e5d0",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c2d6656_72b6b275",
+      "range": {
+        "startLine": 13,
+        "startChar": 67,
+        "endLine": 13,
+        "endChar": 68
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49a26847_c0416a7e",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Let\u0027s address content changes in a separate CL.",
+      "parentUuid": "9b0d87cc_c0685094",
+      "range": {
+        "startLine": 13,
+        "startChar": 62,
+        "endLine": 13,
+        "endChar": 74
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf1136b1_906dac42",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -174,6 +264,30 @@
     },
     {
       "key": {
+        "uuid": "5927eb7c_e8cf20f5",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf1136b1_906dac42",
+      "range": {
+        "startLine": 67,
+        "startChar": 74,
+        "endLine": 67,
+        "endChar": 79
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c12a71f8_81ae1519",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -188,6 +302,24 @@
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82caa7d2_53989694",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c12a71f8_81ae1519",
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -238,6 +370,30 @@
     },
     {
       "key": {
+        "uuid": "b8b23844_41fc107b",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9dea4fcc_daf78da1",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 53
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "529c22cc_27b5ce07",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -249,6 +405,30 @@
       "writtenOn": "2017-03-22T16:39:54Z",
       "side": 1,
       "message": "Not only pending upload.",
+      "range": {
+        "startLine": 187,
+        "startChar": 10,
+        "endLine": 187,
+        "endChar": 24
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ee73aa9_117ca600",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Non-format comments are welcome as a followup CL.",
+      "parentUuid": "529c22cc_27b5ce07",
       "range": {
         "startLine": 187,
         "startChar": 10,
@@ -284,6 +464,30 @@
     },
     {
       "key": {
+        "uuid": "8bc8b697_d8a193e4",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b43f8c5e_648ae653",
+      "range": {
+        "startLine": 206,
+        "startChar": 18,
+        "endLine": 206,
+        "endChar": 0
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7876a550_9b736b5e",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -304,6 +508,30 @@
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d35b89e7_aea34bba",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7876a550_9b736b5e",
+      "range": {
+        "startLine": 276,
+        "startChar": 37,
+        "endLine": 276,
+        "endChar": 58
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -353,6 +581,54 @@
     },
     {
       "key": {
+        "uuid": "52dcb991_79a02852",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b96d5a88_6c6299a7",
+      "range": {
+        "startLine": 288,
+        "startChar": 40,
+        "endLine": 288,
+        "endChar": 0
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dfdb4ad_adcc0b1b",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "35e6fffd_78e96d45",
+      "range": {
+        "startLine": 288,
+        "startChar": 0,
+        "endLine": 288,
+        "endChar": 6
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b6adbce_94063dea",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -373,6 +649,30 @@
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a0a5258_06fdfdbd",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b6adbce_94063dea",
+      "range": {
+        "startLine": 293,
+        "startChar": 47,
+        "endLine": 293,
+        "endChar": 77
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -399,6 +699,30 @@
     },
     {
       "key": {
+        "uuid": "aed3f0a9_2fd6ec9d",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5364ae56_49228496",
+      "range": {
+        "startLine": 298,
+        "startChar": 6,
+        "endLine": 298,
+        "endChar": 49
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38d02ebb_169f70b6",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -419,6 +743,30 @@
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e547c5bd_df890b91",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "38d02ebb_169f70b6",
+      "range": {
+        "startLine": 315,
+        "startChar": 27,
+        "endLine": 316,
+        "endChar": 35
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -469,6 +817,30 @@
     },
     {
       "key": {
+        "uuid": "b8d303a7_6e17698f",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ff20c8c_44495da5",
+      "range": {
+        "startLine": 317,
+        "startChar": 22,
+        "endLine": 317,
+        "endChar": 57
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5eed4b6_5f05dd24",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -509,6 +881,30 @@
     },
     {
       "key": {
+        "uuid": "18bbfae4_cfa5eabb",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "eac77b64_44e7361c",
+      "range": {
+        "startLine": 327,
+        "startChar": 33,
+        "endLine": 327,
+        "endChar": 69
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9557c0f4_0514e2ef",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -523,6 +919,24 @@
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "144c8ad0_b1b3f5ee",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9557c0f4_0514e2ef",
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -549,6 +963,30 @@
     },
     {
       "key": {
+        "uuid": "29c03450_32e58c0f",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5dc44ee_cfd932b1",
+      "range": {
+        "startLine": 340,
+        "startChar": 10,
+        "endLine": 340,
+        "endChar": 15
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3135989_f4bd9e2b",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -572,6 +1010,30 @@
     },
     {
       "key": {
+        "uuid": "ac7db611_7d58ffed",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f3135989_f4bd9e2b",
+      "range": {
+        "startLine": 351,
+        "startChar": 31,
+        "endLine": 351,
+        "endChar": 0
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1321b8e_620afd99",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -592,6 +1054,30 @@
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11e6c716_2c883c3d",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f1321b8e_620afd99",
+      "range": {
+        "startLine": 409,
+        "startChar": 38,
+        "endLine": 409,
+        "endChar": 46
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -639,6 +1125,30 @@
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95c308fb_83c44438",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "07786d40_7016a98d",
+      "range": {
+        "startLine": 441,
+        "startChar": 61,
+        "endLine": 442,
+        "endChar": 47
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -712,6 +1222,30 @@
     },
     {
       "key": {
+        "uuid": "f7738950_17fe3a12",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e2fc2ccd_25e8cdd2",
+      "range": {
+        "startLine": 450,
+        "startChar": 47,
+        "endLine": 450,
+        "endChar": 76
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c3f790d_c586e102",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -732,6 +1266,30 @@
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7efcc98_70d48f8e",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5c3f790d_c586e102",
+      "range": {
+        "startLine": 456,
+        "startChar": 0,
+        "endLine": 456,
+        "endChar": 66
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -758,6 +1316,30 @@
     },
     {
       "key": {
+        "uuid": "e9fc9ff0_1ea2a43a",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9357cb6d_28f3bcfc",
+      "range": {
+        "startLine": 469,
+        "startChar": 55,
+        "endLine": 470,
+        "endChar": 32
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08058e5e_c83520d6",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -772,6 +1354,24 @@
       "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83d5de68_4c54932c",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:59:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "08058e5e_c83520d6",
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
