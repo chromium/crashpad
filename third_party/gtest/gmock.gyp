@@ -104,7 +104,7 @@
                   ],
                 },
               }],
-              ['OS=="linux"', {
+              ['OS=="linux" or OS=="android"', {
                 'cflags': [
                   '-Wno-inconsistent-missing-override',
                   '-Wno-unknown-warning-option',
