@@ -37,7 +37,7 @@ struct UUID;
 namespace internal {
 
 //! \brief A ModuleSnapshot of a code module (binary image) loaded into a
-//!     running (or crashed) process on a Mac OS X system.
+//!     running (or crashed) process on a macOS system.
 class ModuleSnapshotMac final : public ModuleSnapshot {
  public:
   ModuleSnapshotMac();

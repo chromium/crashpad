@@ -29,8 +29,7 @@ class ProcessReader;
 
 namespace internal {
 
-//! \brief A SystemSnapshot of the running system, when the system runs Mac OS
-//!     X.
+//! \brief A SystemSnapshot of the running system, when the system runs macOS.
 class SystemSnapshotMac final : public SystemSnapshot {
  public:
   SystemSnapshotMac();
