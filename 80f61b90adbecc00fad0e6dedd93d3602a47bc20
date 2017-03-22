@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "9dea4fcc_daf78da1",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T16:49:52Z",
+      "side": 1,
+      "message": "\u003e Another link for this?\n\nThe link is OK, but the doc that underlies it probably isn’t publicly accessible. :( Line 298 too.",
+      "parentUuid": "4ad4b25c_b6d43862",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 53
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "529c22cc_27b5ce07",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -421,6 +445,30 @@
     },
     {
       "key": {
+        "uuid": "2ff20c8c_44495da5",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T16:49:52Z",
+      "side": 1,
+      "message": "\u003e I know that for a minidump file to be successfully registered (or uploaded?) with CP it needs to have a minimal set of keys (e.g. product name). Worth mentioning somewhere?\n\nCrashpad itself doesn’t have any requirement like that. Google’s collection server does.",
+      "parentUuid": "5b3a590d_25b219d6",
+      "range": {
+        "startLine": 317,
+        "startChar": 22,
+        "endLine": 317,
+        "endChar": 57
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5eed4b6_5f05dd24",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -570,6 +618,30 @@
     },
     {
       "key": {
+        "uuid": "07786d40_7016a98d",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T16:49:52Z",
+      "side": 1,
+      "message": "\u003e It\u0027s actually \"configurable, with an optional quota per sliding time window\"?\n\nThe only configuration we currently allow is to allow the one-hour window to be turned off.",
+      "parentUuid": "a5c83277_d0d63466",
+      "range": {
+        "startLine": 441,
+        "startChar": 61,
+        "endLine": 442,
+        "endChar": 47
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "33dcb283_6232252d",
         "filename": "doc/overview-design.md",
         "patchSetId": 5
@@ -604,6 +676,30 @@
       "writtenOn": "2017-03-22T16:39:54Z",
       "side": 1,
       "message": "Sidenote: Right now, chrome://crashes has a \"send now\" functionality, but it\u0027s affected by throttling. Should we have a bug to have a non-throttled api?",
+      "range": {
+        "startLine": 450,
+        "startChar": 47,
+        "endLine": 450,
+        "endChar": 76
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2fc2ccd_25e8cdd2",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T16:49:52Z",
+      "side": 1,
+      "message": "\u003e Sidenote: Right now, chrome://crashes has a \"send now\" functionality, but it\u0027s affected by throttling. Should we have a bug to have a non-throttled api?\n\nGood news! Explicit upload requests are not subject to throttling. https://chromium.googlesource.com/crashpad/crashpad/+/0c322ecc3f711c34fbf85b2cbe69f38b8dbccf05/handler/crash_report_upload_thread.cc#207",
+      "parentUuid": "249048ee_5c6c21c5",
       "range": {
         "startLine": 450,
         "startChar": 47,
