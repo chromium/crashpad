@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f56092b_c59d897c",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:08:43Z",
+      "side": 1,
+      "message": "If you want to trash this now that the doc is here, LGTM. Ditto for Last Updated. Both of those can come out of git history very easily and much more accurately.",
+      "revId": "cbecffcc87c9ee3dd2bf742efaa597903f22c099",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
