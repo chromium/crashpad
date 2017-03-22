@@ -92,22 +92,18 @@
             # triggers this warning in users: “error: 'Method' overrides a
             # member function but is not marked 'override'
             # [-Werror,-Winconsistent-missing-override]”. Suppress these
-            # warnings, and add -Wno-unknown-warning-option because only
-            # recent versions of clang (trunk r220703 and later, version
-            # 3.6 and later) recognize it.
+            # warnings.
             'conditions': [
               ['OS=="mac"', {
                 'xcode_settings': {
                   'WARNING_CFLAGS': [
                     '-Wno-inconsistent-missing-override',
-                    '-Wno-unknown-warning-option',
                   ],
                 },
               }],
               ['OS=="linux"', {
                 'cflags': [
                   '-Wno-inconsistent-missing-override',
-                  '-Wno-unknown-warning-option',
                 ],
               }],
             ],
