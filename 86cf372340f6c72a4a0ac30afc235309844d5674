@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c9ffda3_4e9d6f7d",
+        "filename": "build/gyp_crashpad.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T21:35:53Z",
+      "side": 1,
+      "message": "This provision shouldn’t imply that I’ve actually tested cross builds for Android on Windows at all.",
+      "revId": "86cf372340f6c72a4a0ac30afc235309844d5674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90af3f2e_e02ad32f",
+        "filename": "build/gyp_crashpad_android.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T21:35:53Z",
+      "side": 1,
+      "message": "This doesn’t actually work in NDK r14 for 32-bit MIPS with clang. Every compiler invocation spews this:\n\nclang38++: error: argument unused during compilation: \u0027-L/Users/mark/android-ndk-r14_mips_api16/bin/../lib/gcc/mips64el-linux-android/4.9.x/32/mips-r1/\u0027\n\nIt’s a warning which, due to our use of -Werror, becomes an error.\n\nThat’s coming from https://android.googlesource.com/platform/ndk/+/ndk-r14/build/tools/make_standalone_toolchain.py#234.\n\nThe problem has been fixed in the NDK master (https://android.googlesource.com/platform/ndk/+/40d8abbf40e0556ccfa5598ff8c4ac8c1e141934) and we don’t currently support MIPS anyway, so I’m just going to leave this as-is, quietly undocumented, and hope that it starts working when there’s a new NDK release.",
+      "revId": "86cf372340f6c72a4a0ac30afc235309844d5674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
