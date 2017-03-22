@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d55d9e1_e2283d3f",
+        "filename": "minidump/minidump_file_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b6d77a6_005ed29e",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e84552d3_4f6b531a",
         "filename": "minidump/minidump_file_writer.h",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b1d53bbf_1285d362",
+        "filename": "minidump/minidump_file_writer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e84552d3_4f6b531a",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a89cfd34_a67f46ca",
         "filename": "minidump/minidump_file_writer.h",
         "patchSetId": 6
@@ -50,6 +86,24 @@
       "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51979883_2f0f2c85",
+        "filename": "minidump/minidump_file_writer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a89cfd34_a67f46ca",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "81fe8434_6ec2ea28",
+        "filename": "minidump/minidump_user_extension_stream_data_source.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bed12c54_315307cd",
+      "range": {
+        "startLine": 31,
+        "startChar": 58,
+        "endLine": 31,
+        "endChar": 59
+      },
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "998341da_3f0b69fe",
         "filename": "minidump/minidump_user_extension_stream_data_source.h",
         "patchSetId": 6
@@ -87,6 +165,24 @@
       "writtenOn": "2017-03-22T18:02:51Z",
       "side": 1,
       "message": "We have our own type for this. #include \"minidump/minidump_extensions.h\" and use MinidumpStreamType. That’ll bubble out to a few other spots.\n\nMinidumpStreamType is an enum, but since it’s (intentionally) not an enum class, it ought to be OK to use it in this way. It’s typed as uint32_t, so it should be equivalent to what you wrote but be better for documentary purposes.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b76db393_861084e1",
+        "filename": "minidump/minidump_user_extension_stream_data_source.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "this will either require the stream_type in the constructor to be of the same type, or a cast. I\u0027m not sure which is preferred, ease and clarity of usage would have an open type here, rather than requiring the extending user to cast their fabricated ID?",
+      "parentUuid": "998341da_3f0b69fe",
       "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "193b361f_00b73929",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dff4b58_71eda209",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e5a9467_99285ec6",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 6
@@ -124,6 +238,24 @@
       "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f0d6c5a_b1d8c8ee",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e5a9467_99285ec6",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "672d0b48_1e5ae152",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c02e866_1524cb8a",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f92003cc_09f1d842",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 6
@@ -158,6 +308,24 @@
       "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01d84cad_d2549082",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f92003cc_09f1d842",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -184,6 +352,30 @@
     },
     {
       "key": {
+        "uuid": "1db08e51_a91f8a72",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "154f9f4e_daafcfab",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 89,
+        "endChar": 30
+      },
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2df158c2_d5aa67c9",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 6
@@ -201,6 +393,24 @@
     },
     {
       "key": {
+        "uuid": "7491d516_6bac54e8",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "I prefer this for readability, but, hey, whatever cooks your noodle :).",
+      "parentUuid": "2df158c2_d5aa67c9",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef1684cd_2b781307",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 6
@@ -212,6 +422,24 @@
       "writtenOn": "2017-03-22T18:02:51Z",
       "side": 1,
       "message": "The one thing we could do to class this up a bit more than having this be, as you said, effectively a tagged union would be to make things just a teensy bit more abstract in this class.\n\nWe could have an interface that our MemoryReader here implements, and save a pointer to that interface as a member variable up in InitializeFromSnapshot(). And we could have a BufferWriter also implement that same interface, and we’d set up the BufferWriter up in InitializeFromBuffer(). Then when we reach this point, we don’t need to worry about the difference between buffer_ and snapshot_, we can just call our ObtainAndWrite() (or whatever we call it) method on the interface pointer.\n\nThis also eliminates the need to track stream_size_ as such. Just make that an interface method.\n\nThis way probably works out to a delta of no more than 10 lines than what you’ve already written, but it’ll let you remove some of this custom switchery and I think that the result will be a bit cleaner.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c49f76e4_b1624124",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "This also calls for an extra allocation and moar indirection - good enough as-is?",
+      "parentUuid": "ef1684cd_2b781307",
       "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -235,6 +463,24 @@
     },
     {
       "key": {
+        "uuid": "31e68f31_10f30c18",
+        "filename": "minidump/minidump_user_stream_writer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27877b44_3f311821",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d9d2cf0_335c9251",
         "filename": "minidump/minidump_user_stream_writer.h",
         "patchSetId": 6
@@ -252,6 +498,24 @@
     },
     {
       "key": {
+        "uuid": "89e8df67_8d340018",
+        "filename": "minidump/minidump_user_stream_writer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d9d2cf0_335c9251",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9914377_e806b3ed",
         "filename": "minidump/minidump_user_stream_writer_test.cc",
         "patchSetId": 6
@@ -266,6 +530,24 @@
       "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c69a8bd5_0c1fd4ca",
+        "filename": "minidump/minidump_user_stream_writer_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T18:51:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9914377_e806b3ed",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
