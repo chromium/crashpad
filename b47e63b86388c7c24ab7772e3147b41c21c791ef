@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "af8b87dc_c266286f",
+        "filename": "minidump/minidump_file_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "485a5dea_fdbbe0f5",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb24e066_5369f760",
         "filename": "minidump/minidump_file_writer.cc",
         "patchSetId": 4
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "838d7baf_915782ea",
+        "filename": "minidump/minidump_file_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb24e066_5369f760",
+      "range": {
+        "startLine": 186,
+        "startChar": 73,
+        "endLine": 186,
+        "endChar": 0
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "770248c1_04e77944",
         "filename": "minidump/minidump_file_writer.h",
         "patchSetId": 4
@@ -70,6 +112,24 @@
       "writtenOn": "2017-03-22T14:19:18Z",
       "side": 1,
       "message": "It turns out that Scott added a few more stream types but never updated this list. If you want to fix this list to match the implementation, that’d be helpful. Otherwise, no big deal.",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10b81380_2e6e1671",
+        "filename": "minidump/minidump_file_writer.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "I think this is up to date now.",
+      "parentUuid": "770248c1_04e77944",
       "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -93,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "b89d093b_ce9ee046",
+        "filename": "minidump/minidump_file_writer.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f070ddb0_53d7e659",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f751ef0e_88287be7",
         "filename": "minidump/minidump_user_extension_stream.h",
         "patchSetId": 4
@@ -107,6 +185,24 @@
       "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fae2d19_8b49319b",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f751ef0e_88287be7",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +229,30 @@
     },
     {
       "key": {
+        "uuid": "1908a2a4_39ca1116",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ee3024b_fcf58411",
+      "range": {
+        "startLine": 27,
+        "startChar": 55,
+        "endLine": 28,
+        "endChar": 50
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5941806f_79b39e3b",
         "filename": "minidump/minidump_user_extension_stream.h",
         "patchSetId": 4
@@ -147,6 +267,24 @@
       "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f6d494e_eedf6f33",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5941806f_79b39e3b",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -167,6 +305,24 @@
     },
     {
       "key": {
+        "uuid": "10ecb4c8_f376f802",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ccd0c7c_ac9370fe",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b173a39_8e0ed77c",
         "filename": "minidump/minidump_user_extension_stream.h",
         "patchSetId": 4
@@ -181,6 +337,24 @@
       "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c217ff2_659ee016",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b173a39_8e0ed77c",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -207,6 +381,30 @@
     },
     {
       "key": {
+        "uuid": "29b6488c_287ff691",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13447cad_a050819b",
+      "range": {
+        "startLine": 47,
+        "startChar": 24,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07c1a107_e16230ec",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 4
@@ -230,6 +428,30 @@
     },
     {
       "key": {
+        "uuid": "b5e703c7_b28a4fb2",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07c1a107_e16230ec",
+      "range": {
+        "startLine": 50,
+        "startChar": 73,
+        "endLine": 50,
+        "endChar": 0
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11e97d87_59f21cc5",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 4
@@ -241,6 +463,30 @@
       "writtenOn": "2017-03-22T15:00:12Z",
       "side": 1,
       "message": "Only if buffer isn\u0027t null, to mirror InitializeFromSnapshot?",
+      "range": {
+        "startLine": 52,
+        "startChar": 31,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cb30d26_4ad36bcf",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "naw, a null buffer should only be used with a zero length. Otherwise we prefer to crash, methinks.",
+      "parentUuid": "11e97d87_59f21cc5",
       "range": {
         "startLine": 52,
         "startChar": 31,
@@ -270,6 +516,24 @@
     },
     {
       "key": {
+        "uuid": "6e9d5267_e699c019",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Yeah, I wondered about that - rejigged to get rid of the copy, though this turns the MinidumpUserStreamWriter effectively into a tagged union.",
+      "parentUuid": "a39248c1_8a94f075",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26e02120_cf595813",
         "filename": "minidump/minidump_user_stream_writer_test.cc",
         "patchSetId": 4
@@ -281,6 +545,30 @@
       "writtenOn": "2017-03-22T15:00:12Z",
       "side": 1,
       "message": "This appears a few times, sometimes with contents checking. Worth having a ValidateUserStream helper?",
+      "range": {
+        "startLine": 90,
+        "startChar": 47,
+        "endLine": 90,
+        "endChar": 0
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d414bed_fdfa893b",
+        "filename": "minidump/minidump_user_stream_writer_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T17:33:45Z",
+      "side": 1,
+      "message": "Added a stream_size arg to GetUserStream to allow validating the required stream size inline.",
+      "parentUuid": "26e02120_cf595813",
       "range": {
         "startLine": 90,
         "startChar": 47,
