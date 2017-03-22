@@ -25,6 +25,7 @@
 #include "base/memory/ptr_util.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_stream_writer.h"
+#include "minidump/minidump_user_extension_stream_data_source.h"
 #include "minidump/minidump_writable.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
@@ -125,6 +126,50 @@ TEST(MinidumpFileWriter, OneStream) {
 
   std::string expected_stream(kStreamSize, kStreamValue);
   EXPECT_EQ(0, memcmp(stream_data, expected_stream.c_str(), kStreamSize));
+}
+
+TEST(MinidumpFileWriter, AddUserExtensionStream) {
+  MinidumpFileWriter minidump_file;
+  const time_t kTimestamp = 0x155d2fb8;
+  minidump_file.SetTimestamp(kTimestamp);
+
+  static const uint8_t kStreamData[] = "Hello World!";
+  const size_t kStreamSize = arraysize(kStreamData);
+  const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
+
+  auto stream = base::WrapUnique(new MinidumpUserExtensionStreamDataSource(
+      kStreamType, kStreamData, kStreamSize));
+  ASSERT_TRUE(minidump_file.AddUserExtensionStream(std::move(stream)));
+
+  // Adding the same stream type a second time should fail.
+  stream = base::WrapUnique(new MinidumpUserExtensionStreamDataSource(
+      kStreamType, kStreamData, kStreamSize));
+  ASSERT_FALSE(minidump_file.AddUserExtensionStream(std::move(stream)));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
+
+  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  const size_t kStreamOffset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
+  const size_t kFileSize = kStreamOffset + kStreamSize;
+
+  ASSERT_EQ(kFileSize, string_file.string().size());
+
+  const MINIDUMP_DIRECTORY* directory;
+  const MINIDUMP_HEADER* header =
+      MinidumpHeaderAtStart(string_file.string(), &directory);
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, kTimestamp));
+  ASSERT_TRUE(directory);
+
+  EXPECT_EQ(kStreamType, directory[0].StreamType);
+  EXPECT_EQ(kStreamSize, directory[0].Location.DataSize);
+  EXPECT_EQ(kStreamOffset, directory[0].Location.Rva);
+
+  const uint8_t* stream_data = MinidumpWritableAtLocationDescriptor<uint8_t>(
+      string_file.string(), directory[0].Location);
+  ASSERT_TRUE(stream_data);
+
+  EXPECT_EQ(0, memcmp(stream_data, kStreamData, kStreamSize));
 }
 
 TEST(MinidumpFileWriter, ThreeStreams) {
