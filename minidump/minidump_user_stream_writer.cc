@@ -17,10 +17,27 @@
 #include "util/file/file_writer.h"
 
 namespace crashpad {
+namespace {
+
+class MemoryReader final : public MemorySnapshot::Delegate {
+ public:
+  explicit MemoryReader(FileWriterInterface* writer) : writer_(writer) {}
+  ~MemoryReader() override {}
+
+  bool MemorySnapshotDelegateRead(void* data, size_t size) override {
+    return writer_->Write(data, size);
+  }
+
+ private:
+  FileWriterInterface* writer_;
+
+  DISALLOW_COPY_AND_ASSIGN(MemoryReader);
+};
+
+}  // namespace
 
 MinidumpUserStreamWriter::MinidumpUserStreamWriter()
-    : stream_type_(0), reader_() {
-}
+    : stream_type_(), stream_size_(0), snapshot_(nullptr), buffer_(nullptr) {}
 
 MinidumpUserStreamWriter::~MinidumpUserStreamWriter() {
 }
@@ -28,10 +45,27 @@ MinidumpUserStreamWriter::~MinidumpUserStreamWriter() {
 void MinidumpUserStreamWriter::InitializeFromSnapshot(
     const UserMinidumpStream* stream) {
   DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!snapshot_);
+  DCHECK(!buffer_);
 
-  stream_type_ = stream->stream_type();
-  if (stream->memory())
-    stream->memory()->Read(&reader_);
+  stream_type_ = static_cast<MinidumpStreamType>(stream->stream_type());
+  snapshot_ = stream->memory();
+  if (snapshot_)
+    stream_size_ = snapshot_->Size();
+}
+
+void MinidumpUserStreamWriter::InitializeFromBuffer(
+    MinidumpStreamType stream_type,
+    const void* buffer,
+    size_t buffer_size) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!snapshot_);
+  DCHECK(!buffer_);
+  DCHECK(buffer_size == 0 || buffer);
+
+  stream_type_ = stream_type;
+  stream_size_ = buffer_size;
+  buffer_ = buffer;
 }
 
 bool MinidumpUserStreamWriter::Freeze() {
@@ -42,7 +76,8 @@ bool MinidumpUserStreamWriter::Freeze() {
 
 size_t MinidumpUserStreamWriter::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
-  return reader_.size();
+
+  return stream_size_;
 }
 
 std::vector<internal::MinidumpWritable*>
@@ -53,21 +88,23 @@ MinidumpUserStreamWriter::Children() {
 
 bool MinidumpUserStreamWriter::WriteObject(FileWriterInterface* file_writer) {
   DCHECK_EQ(state(), kStateWritable);
-  return file_writer->Write(reader_.data(), reader_.size());
+
+  // The empty stream is trivial.
+  if (!stream_size_)
+    return true;
+
+  // A non-empty stream needs exactly one of the two sources.
+  DCHECK(!!buffer_ != !!snapshot_);
+
+  if (buffer_)
+    return file_writer->Write(buffer_, stream_size_);
+
+  MemoryReader reader(file_writer);
+  return snapshot_->Read(&reader);
 }
 
 MinidumpStreamType MinidumpUserStreamWriter::StreamType() const {
   return static_cast<MinidumpStreamType>(stream_type_);
-}
-
-MinidumpUserStreamWriter::MemoryReader::~MemoryReader() {}
-
-bool MinidumpUserStreamWriter::MemoryReader::MemorySnapshotDelegateRead(
-    void* data,
-    size_t size) {
-  data_.resize(size);
-  memcpy(&data_[0], data, size);
-  return true;
 }
 
 }  // namespace crashpad

@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "base/macros.h"
+#include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
 #include "snapshot/module_snapshot.h"
@@ -41,6 +42,18 @@ class MinidumpUserStreamWriter final : public internal::MinidumpStreamWriter {
   //! \note Valid in #kStateMutable.
   void InitializeFromSnapshot(const UserMinidumpStream* stream);
 
+  //! \brief Initializes a MINIDUMP_USER_STREAM based on \a stream_type,
+  //!     \a buffer and \a buffer_size.
+  //!
+  //! \param[in] stream_type The type of the stream.
+  //! \param[in] buffer The data for the stream.
+  //! \param[in] buffer_size The length of \a buffer, and the resulting stream.
+  //!
+  //! \note Valid in #kStateMutable.
+  void InitializeFromBuffer(MinidumpStreamType stream_type,
+                            const void* buffer,
+                            size_t buffer_size);
+
  protected:
   // MinidumpWritable:
   bool Freeze() override;
@@ -52,22 +65,14 @@ class MinidumpUserStreamWriter final : public internal::MinidumpStreamWriter {
   MinidumpStreamType StreamType() const override;
 
  private:
-  class MemoryReader : public MemorySnapshot::Delegate {
-   public:
-    ~MemoryReader() override;
-    bool MemorySnapshotDelegateRead(void* data, size_t size) override;
+  MinidumpStreamType stream_type_;
 
-    const void* data() const {
-      return reinterpret_cast<const void*>(data_.data());
-    }
-    size_t size() const { return data_.size(); }
+  // This object either refers to a snapshot, or else to a buffer.
+  // In either case, stream_size_ is the size of the stream or buffer.
+  size_t stream_size_;
+  const MemorySnapshot* snapshot_;  // weak
 
-   private:
-    std::vector<uint8_t> data_;
-  };
-
-  uint32_t stream_type_;
-  MemoryReader reader_;
+  const void* buffer_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpUserStreamWriter);
 };
