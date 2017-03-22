@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "fb24e066_5369f760",
+        "filename": "minidump/minidump_file_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T15:00:12Z",
+      "side": 1,
+      "message": "DCHECK_EQ(state(), kStateMutable); and maybe also user_extension_stream?",
+      "range": {
+        "startLine": 186,
+        "startChar": 73,
+        "endLine": 186,
+        "endChar": 0
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "770248c1_04e77944",
         "filename": "minidump/minidump_file_writer.h",
         "patchSetId": 4
@@ -184,6 +207,52 @@
     },
     {
       "key": {
+        "uuid": "07c1a107_e16230ec",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T15:00:12Z",
+      "side": 1,
+      "message": "DCHECK state?",
+      "range": {
+        "startLine": 50,
+        "startChar": 73,
+        "endLine": 50,
+        "endChar": 0
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11e97d87_59f21cc5",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T15:00:12Z",
+      "side": 1,
+      "message": "Only if buffer isn\u0027t null, to mirror InitializeFromSnapshot?",
+      "range": {
+        "startLine": 52,
+        "startChar": 31,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a39248c1_8a94f075",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 4
@@ -195,6 +264,29 @@
       "writtenOn": "2017-03-22T14:19:18Z",
       "side": 1,
       "message": "I’m not loving the copy here. Or the copy that was here before, for that matter. Wonder why I didn’t say something about it when it landed.\n\nIn Crashpad, I’ve tried pretty hard to adhere to a philosophy of not copying or mapping large blocks of memory from the crashy process. They can get pretty large, and the sizes and quantities are somewhat in the crashy process’ control, and having to copy or map all of them into the minidump object hierarchy so that they’re simultaneously resident is just bloat.\n\nIt’s better to leave the data where it lives in the crashy process, and then only copy or map a block into the handler process when it needs to be accessed to get itself written to the minidump. After that, it’s done, and it can be discarded. No multiple simultaneous big blocks. This is how we deal with memory regions. See SnapshotMinidumpMemoryWriter::WriteObject() (minidump_memory_writer.cc), which invokes the memory read on MemorySnapshot::Read() with a delegate callback to its MemorySnapshotDelegateRead() performing the FileWriterInterface::Write(). SnapshotMinidumpMemoryWriter doesn’t have any big-buffer member variable, and in the handler process, the data doesn’t outlive the period during which that one particular object is being written.\n\nI know that you’re not adding anything new to read the data from the crashy process, that it already did the copy in that case and you’re just adding a new in-process data source. But it still seems to me that things are a bit inverted here. The out-of-process case could easily drop the long-lived-member-buffer approach in favor of a dynamic short-lived-during-write-only approach, which would only improve it, and I think it’d work just as well for your new in-process data source too.",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26e02120_cf595813",
+        "filename": "minidump/minidump_user_stream_writer_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1174230
+      },
+      "writtenOn": "2017-03-22T15:00:12Z",
+      "side": 1,
+      "message": "This appears a few times, sometimes with contents checking. Worth having a ValidateUserStream helper?",
+      "range": {
+        "startLine": 90,
+        "startChar": 47,
+        "endLine": 90,
+        "endChar": 0
+      },
       "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
