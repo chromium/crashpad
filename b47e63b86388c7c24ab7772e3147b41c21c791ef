@@ -1,0 +1,203 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "037c7af7_390d1072",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "For git commit messages, try to keep the first line self-contained and within 72 characters.\n\nLots of things will show just the first line, so it’s useful to have it be a brief summary.\n\n(Some sadistic jerks try to impose an even tighter limit like 65 characters, but I think that’s ludicrous.)\n\nA message like this would do:\n\nminidump: Allow for user extension streams computed at crash time\n\n(hey, 65 exactly!)",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "485a5dea_fdbbe0f5",
+        "filename": "minidump/minidump_file_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "The definition order should match the header’s declaration order, whatever that winds up being.",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "770248c1_04e77944",
+        "filename": "minidump/minidump_file_writer.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "It turns out that Scott added a few more stream types but never updated this list. If you want to fix this list to match the implementation, that’d be helpful. Otherwise, no big deal.",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f070ddb0_53d7e659",
+        "filename": "minidump/minidump_file_writer.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "I think that it makes the most sense for this to follow AddStream().",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f751ef0e_88287be7",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "There’s no compelling reason to be “final” if you don’t have a vtable. I like “final” for the compiler optimizations that it enables in that case. Otherwise, it’s just noise.",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ee3024b_fcf58411",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "This shouldn’t be part of the \\brief. Put it in the \\param for buffer.",
+      "range": {
+        "startLine": 27,
+        "startChar": 55,
+        "endLine": 28,
+        "endChar": 50
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5941806f_79b39e3b",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "I think that UserExtensionStreamDataSource or the maybe-too-wordy MinidumpUserExtensionStreamDataSource would be more helpful as a descriptive name.",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ccd0c7c_ac9370fe",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "\u003csys/types.h\u003e for size_t. \u003cstdint.h\u003e doesn’t guarantee to provide it.",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b173a39_8e0ed77c",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "Doxygen won’t poke around in your private: section, so you can just write // comments or leave the comments out entirely if you think they’re obvious. (They probably are obvious given the comments in the constructor.)",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13447cad_a050819b",
+        "filename": "minidump/minidump_user_extension_stream.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "nit: in a rare exception to “speak English in full sentences,” we universally just say “// weak” for these.",
+      "range": {
+        "startLine": 47,
+        "startChar": 24,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a39248c1_8a94f075",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T14:19:18Z",
+      "side": 1,
+      "message": "I’m not loving the copy here. Or the copy that was here before, for that matter. Wonder why I didn’t say something about it when it landed.\n\nIn Crashpad, I’ve tried pretty hard to adhere to a philosophy of not copying or mapping large blocks of memory from the crashy process. They can get pretty large, and the sizes and quantities are somewhat in the crashy process’ control, and having to copy or map all of them into the minidump object hierarchy so that they’re simultaneously resident is just bloat.\n\nIt’s better to leave the data where it lives in the crashy process, and then only copy or map a block into the handler process when it needs to be accessed to get itself written to the minidump. After that, it’s done, and it can be discarded. No multiple simultaneous big blocks. This is how we deal with memory regions. See SnapshotMinidumpMemoryWriter::WriteObject() (minidump_memory_writer.cc), which invokes the memory read on MemorySnapshot::Read() with a delegate callback to its MemorySnapshotDelegateRead() performing the FileWriterInterface::Write(). SnapshotMinidumpMemoryWriter doesn’t have any big-buffer member variable, and in the handler process, the data doesn’t outlive the period during which that one particular object is being written.\n\nI know that you’re not adding anything new to read the data from the crashy process, that it already did the copy in that case and you’re just adding a new in-process data source. But it still seems to me that things are a bit inverted here. The out-of-process case could easily drop the long-lived-member-buffer approach in favor of a dynamic short-lived-during-write-only approach, which would only improve it, and I think it’d work just as well for your new in-process data source too.",
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
