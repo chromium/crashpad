@@ -98,7 +98,7 @@ TEST(MinidumpFileWriter, OneStream) {
   const uint8_t kStreamValue = 0x5a;
   auto stream =
       base::WrapUnique(new TestStream(kStreamType, kStreamSize, kStreamValue));
-  minidump_file.AddStream(std::move(stream));
+  ASSERT_TRUE(minidump_file.AddStream(std::move(stream)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
@@ -137,7 +137,7 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   const uint8_t kStream0Value = 0x5a;
   auto stream0 = base::WrapUnique(
       new TestStream(kStream0Type, kStream0Size, kStream0Value));
-  minidump_file.AddStream(std::move(stream0));
+  ASSERT_TRUE(minidump_file.AddStream(std::move(stream0)));
 
   // Make the second stream’s type be a smaller quantity than the first stream’s
   // to test that the streams show up in the order that they were added, not in
@@ -147,14 +147,14 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   const uint8_t kStream1Value = 0xa5;
   auto stream1 = base::WrapUnique(
       new TestStream(kStream1Type, kStream1Size, kStream1Value));
-  minidump_file.AddStream(std::move(stream1));
+  ASSERT_TRUE(minidump_file.AddStream(std::move(stream1)));
 
   const size_t kStream2Size = 1;
   const MinidumpStreamType kStream2Type = static_cast<MinidumpStreamType>(0x7e);
   const uint8_t kStream2Value = 0x36;
   auto stream2 = base::WrapUnique(
       new TestStream(kStream2Type, kStream2Size, kStream2Value));
-  minidump_file.AddStream(std::move(stream2));
+  ASSERT_TRUE(minidump_file.AddStream(std::move(stream2)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
@@ -221,7 +221,7 @@ TEST(MinidumpFileWriter, ZeroLengthStream) {
   const size_t kStreamSize = 0;
   const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
   auto stream = base::WrapUnique(new TestStream(kStreamType, kStreamSize, 0));
-  minidump_file.AddStream(std::move(stream));
+  ASSERT_TRUE(minidump_file.AddStream(std::move(stream)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
@@ -439,24 +439,48 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_CrashpadInfo) {
                   string_file.string(), directory[6].Location));
 }
 
-TEST(MinidumpFileWriterDeathTest, SameStreamType) {
+TEST(MinidumpFileWriter, SameStreamType) {
   MinidumpFileWriter minidump_file;
 
-  const size_t kStream0Size = 5;
-  const MinidumpStreamType kStream0Type = static_cast<MinidumpStreamType>(0x4d);
+  const size_t kStream0Size = 3;
+  const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
   const uint8_t kStream0Value = 0x5a;
   auto stream0 = base::WrapUnique(
-      new TestStream(kStream0Type, kStream0Size, kStream0Value));
-  minidump_file.AddStream(std::move(stream0));
+      new TestStream(kStreamType, kStream0Size, kStream0Value));
+  ASSERT_TRUE(minidump_file.AddStream(std::move(stream0)));
 
-  // It is an error to add a second stream of the same type.
-  const size_t kStream1Size = 3;
-  const MinidumpStreamType kStream1Type = static_cast<MinidumpStreamType>(0x4d);
+  // An attempt to add a second stream of the same type should fail.
+  const size_t kStream1Size = 5;
   const uint8_t kStream1Value = 0xa5;
   auto stream1 = base::WrapUnique(
-      new TestStream(kStream1Type, kStream1Size, kStream1Value));
-  ASSERT_DEATH_CHECK(minidump_file.AddStream(std::move(stream1)),
-                     "already present");
+      new TestStream(kStreamType, kStream1Size, kStream1Value));
+  ASSERT_FALSE(minidump_file.AddStream(std::move(stream1)));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
+
+  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  const size_t kStream0Offset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
+  const size_t kFileSize = kStream0Offset + kStream0Size;
+
+  ASSERT_EQ(kFileSize, string_file.string().size());
+
+  const MINIDUMP_DIRECTORY* directory;
+  const MINIDUMP_HEADER* header =
+      MinidumpHeaderAtStart(string_file.string(), &directory);
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
+  ASSERT_TRUE(directory);
+
+  EXPECT_EQ(kStreamType, directory[0].StreamType);
+  EXPECT_EQ(kStream0Size, directory[0].Location.DataSize);
+  EXPECT_EQ(kStream0Offset, directory[0].Location.Rva);
+
+  const uint8_t* stream_data = MinidumpWritableAtLocationDescriptor<uint8_t>(
+      string_file.string(), directory[0].Location);
+  ASSERT_TRUE(stream_data);
+
+  std::string expected_stream(kStream0Size, kStream0Value);
+  EXPECT_EQ(0, memcmp(stream_data, expected_stream.c_str(), kStream0Size));
 }
 
 }  // namespace

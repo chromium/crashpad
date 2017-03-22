@@ -15,7 +15,6 @@
 # limitations under the License.
 
 import os
-import platform
 import subprocess
 import sys
 
@@ -25,25 +24,12 @@ import sys
 # location in the recipe.
 def main(args):
   if len(args) != 1:
-    print >> sys.stderr, \
-        'usage: run_tests.py {Debug|Release|Debug_x64|Release_x64}'
+    print >> sys.stderr, 'usage: run_tests.py <binary_dir>'
     return 1
 
   crashpad_dir = \
       os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
-
-  # In a standalone Crashpad build, the out directory is in the Crashpad root.
-  out_dir = os.path.join(crashpad_dir, 'out')
-  if not os.path.exists(out_dir):
-    # In an in-Chromium build, the out directory is in the Chromium root, and
-    # the Crashpad root is in third_party/crashpad/crashpad relative to the
-    # Chromium root.
-    chromium_dir = os.path.join(crashpad_dir, os.pardir, os.pardir, os.pardir)
-    out_dir = os.path.join(chromium_dir, 'out')
-  if not os.path.exists(out_dir):
-    raise Exception('could not determine out_dir', crashpad_dir)
-
-  binary_dir = os.path.join(out_dir, args[0])
+  binary_dir = args[0]
 
   tests = [
       'crashpad_client_test',
@@ -59,12 +45,12 @@ def main(args):
     subprocess.check_call(os.path.join(binary_dir, test))
 
   if sys.platform == 'win32':
-    name = 'snapshot/win/end_to_end_test.py'
+    script = 'snapshot/win/end_to_end_test.py'
     print '-' * 80
-    print name
+    print script
     print '-' * 80
     subprocess.check_call(
-        [sys.executable, os.path.join(crashpad_dir, name), binary_dir])
+        [sys.executable, os.path.join(crashpad_dir, script), binary_dir])
 
   return 0
 

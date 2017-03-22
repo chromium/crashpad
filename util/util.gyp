@@ -30,6 +30,8 @@
         '<(INTERMEDIATE_DIR)',
       ],
       'sources': [
+        'file/delimited_file_reader.cc',
+        'file/delimited_file_reader.h',
         'file/file_io.cc',
         'file/file_io.h',
         'file/file_io_posix.cc',
@@ -135,6 +137,7 @@
         'posix/drop_privileges.cc',
         'posix/drop_privileges.h',
         'posix/process_info.h',
+        'posix/process_info_linux.cc',
         'posix/process_info_mac.cc',
         'posix/signals.cc',
         'posix/signals.h',
@@ -310,6 +313,13 @@
         }, {  # else: OS!="linux"
           'sources!': [
             'net/http_transport_libcurl.cc',
+          ],
+        }],
+      ],
+      'target_conditions': [
+        ['OS=="android"', {
+          'sources/': [
+            ['include', '^posix/process_info_linux\\.cc$'],
           ],
         }],
       ],

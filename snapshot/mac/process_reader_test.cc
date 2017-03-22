@@ -105,7 +105,7 @@ class ProcessReaderChild final : public MachMultiprocess {
     FileHandle read_handle = ReadPipeHandle();
 
     mach_vm_address_t address;
-    CheckedReadFile(read_handle, &address, sizeof(address));
+    CheckedReadFileExactly(read_handle, &address, sizeof(address));
 
     std::string read_string;
     ASSERT_TRUE(process_reader.Memory()->ReadCString(address, &read_string));
@@ -448,15 +448,15 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
          thread_index < thread_count_ + 1;
          ++thread_index) {
       uint64_t thread_id;
-      CheckedReadFile(read_handle, &thread_id, sizeof(thread_id));
+      CheckedReadFileExactly(read_handle, &thread_id, sizeof(thread_id));
 
       TestThreadPool::ThreadExpectation expectation;
-      CheckedReadFile(read_handle,
-                      &expectation.stack_address,
-                      sizeof(expectation.stack_address));
-      CheckedReadFile(read_handle,
-                      &expectation.suspend_count,
-                      sizeof(expectation.suspend_count));
+      CheckedReadFileExactly(read_handle,
+                             &expectation.stack_address,
+                             sizeof(expectation.stack_address));
+      CheckedReadFileExactly(read_handle,
+                             &expectation.suspend_count,
+                             sizeof(expectation.suspend_count));
 
       // There can’t be any duplicate thread IDs.
       EXPECT_EQ(0u, thread_map.count(thread_id));
@@ -730,7 +730,8 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
     FileHandle read_handle = ReadPipeHandle();
 
     uint32_t expect_modules;
-    CheckedReadFile(read_handle, &expect_modules, sizeof(expect_modules));
+    CheckedReadFileExactly(
+        read_handle, &expect_modules, sizeof(expect_modules));
 
     ASSERT_EQ(expect_modules, modules.size());
 
@@ -740,16 +741,17 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
           "index %zu, name %s", index, modules[index].name.c_str()));
 
       uint32_t expect_name_length;
-      CheckedReadFile(
+      CheckedReadFileExactly(
           read_handle, &expect_name_length, sizeof(expect_name_length));
 
       // The NUL terminator is not read.
       std::string expect_name(expect_name_length, '\0');
-      CheckedReadFile(read_handle, &expect_name[0], expect_name_length);
+      CheckedReadFileExactly(read_handle, &expect_name[0], expect_name_length);
       EXPECT_EQ(expect_name, modules[index].name);
 
       mach_vm_address_t expect_address;
-      CheckedReadFile(read_handle, &expect_address, sizeof(expect_address));
+      CheckedReadFileExactly(
+          read_handle, &expect_address, sizeof(expect_address));
       ASSERT_TRUE(modules[index].reader);
       EXPECT_EQ(expect_address, modules[index].reader->Address());
 

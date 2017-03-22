@@ -57,7 +57,7 @@ TEST(MinidumpUserStreamWriter, NoData) {
   auto stream =
       base::WrapUnique(new UserMinidumpStream(kTestStreamId, nullptr));
   user_stream_writer->InitializeFromSnapshot(stream.get());
-  minidump_file_writer.AddStream(std::move(user_stream_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(user_stream_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -84,7 +84,7 @@ TEST(MinidumpUserStreamWriter, OneStream) {
   auto stream =
       base::WrapUnique(new UserMinidumpStream(kTestStreamId, test_data));
   user_stream_writer->InitializeFromSnapshot(stream.get());
-  minidump_file_writer.AddStream(std::move(user_stream_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(user_stream_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));

@@ -246,13 +246,10 @@ bool Settings::ReadSettings(FileHandle handle,
   if (LoggingSeekFile(handle, 0, SEEK_SET) != 0)
     return false;
 
-  bool read_result;
-  if (log_read_error) {
-    read_result = LoggingReadFile(handle, out_data, sizeof(*out_data));
-  } else {
-    read_result =
-        ReadFile(handle, out_data, sizeof(*out_data)) == sizeof(*out_data);
-  }
+  bool read_result =
+      log_read_error
+          ? LoggingReadFileExactly(handle, out_data, sizeof(*out_data))
+          : ReadFileExactly(handle, out_data, sizeof(*out_data));
 
   if (!read_result)
     return false;

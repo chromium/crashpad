@@ -84,11 +84,16 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   //!
   //! At most one object of each stream type (as obtained from
   //! internal::MinidumpStreamWriter::StreamType()) may be added to a
-  //! MinidumpFileWriter object. It is an error to attempt to add multiple
-  //! streams with the same stream type.
+  //! MinidumpFileWriter object. If an attempt is made to add a stream whose
+  //! type matches an existing stream’s type, this method discards the new
+  //! stream.
   //!
   //! \note Valid in #kStateMutable.
-  void AddStream(std::unique_ptr<internal::MinidumpStreamWriter> stream);
+  //!
+  //! \return `true` on success. `false` on failure, as occurs when an attempt
+  //!     is made to add a stream whose type matches an existing stream’s type,
+  //!     with a message logged.
+  bool AddStream(std::unique_ptr<internal::MinidumpStreamWriter> stream);
 
   // MinidumpWritable:
 

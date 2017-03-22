@@ -14,9 +14,11 @@
 
 #include "util/file/file_io.h"
 
+#include <algorithm>
+#include <limits>
+
 #include "base/files/file_path.h"
 #include "base/logging.h"
-#include "base/numerics/safe_conversions.h"
 #include "base/strings/utf_string_conversions.h"
 
 namespace {
@@ -36,6 +38,16 @@ bool IsSocketHandle(HANDLE file) {
 namespace crashpad {
 
 namespace {
+
+// kMaxReadWriteSize needs to be limited to the range of DWORD for the calls to
+// ::ReadFile() and ::WriteFile(), and also limited to the range of
+// FileOperationResult to be able to adequately express the number of bytes read
+// and written in the return values from ReadFile() and NativeWriteFile(). In a
+// 64-bit build, the former will control, and the limit will be (2^32)-1. In a
+// 32-bit build, the latter will control, and the limit will be (2^31)-1.
+constexpr size_t kMaxReadWriteSize = std::min(
+    static_cast<size_t>(std::numeric_limits<DWORD>::max()),
+    static_cast<size_t>(std::numeric_limits<FileOperationResult>::max()));
 
 FileHandle OpenFileForOutput(DWORD access,
                              const base::FilePath& path,
@@ -70,51 +82,58 @@ FileHandle OpenFileForOutput(DWORD access,
 
 }  // namespace
 
-// TODO(scottmg): Handle > DWORD sized writes if necessary.
+namespace internal {
+
+const char kNativeReadFunctionName[] = "ReadFile";
+const char kNativeWriteFunctionName[] = "WriteFile";
+
+FileOperationResult NativeWriteFile(FileHandle file,
+                                    const void* buffer,
+                                    size_t size) {
+  // TODO(scottmg): This might need to handle the limit for pipes across a
+  // network in the future.
+
+  const DWORD write_size =
+      static_cast<DWORD>(std::min(size, kMaxReadWriteSize));
+
+  DWORD bytes_written;
+  if (!::WriteFile(file, buffer, write_size, &bytes_written, nullptr))
+    return -1;
+
+  CHECK_NE(bytes_written, static_cast<DWORD>(-1));
+  DCHECK_LE(static_cast<size_t>(bytes_written), write_size);
+  return bytes_written;
+}
+
+}  // namespace internal
 
 FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size) {
   DCHECK(!IsSocketHandle(file));
-  DWORD size_dword = base::checked_cast<DWORD>(size);
-  DWORD total_read = 0;
-  char* buffer_c = reinterpret_cast<char*>(buffer);
-  while (size_dword > 0) {
+
+  const DWORD read_size = static_cast<DWORD>(std::min(size, kMaxReadWriteSize));
+
+  while (true) {
     DWORD bytes_read;
-    BOOL success = ::ReadFile(file, buffer_c, size_dword, &bytes_read, nullptr);
+    BOOL success = ::ReadFile(file, buffer, read_size, &bytes_read, nullptr);
     if (!success) {
       if (GetLastError() == ERROR_BROKEN_PIPE) {
         // When reading a pipe and the write handle has been closed, ReadFile
         // fails with ERROR_BROKEN_PIPE, but only once all pending data has been
-        // read.
-        break;
-      } else if (GetLastError() != ERROR_MORE_DATA) {
-        return -1;
+        // read. Treat this as EOF.
+        return 0;
       }
-    } else if (bytes_read == 0 && GetFileType(file) != FILE_TYPE_PIPE) {
+      return -1;
+    }
+
+    CHECK_NE(bytes_read, static_cast<DWORD>(-1));
+    DCHECK_LE(bytes_read, read_size);
+    if (bytes_read != 0 || GetFileType(file) != FILE_TYPE_PIPE) {
       // Zero bytes read for a file indicates reaching EOF. Zero bytes read from
       // a pipe indicates only that there was a zero byte WriteFile issued on
       // the other end, so continue reading.
-      break;
+      return bytes_read;
     }
-
-    buffer_c += bytes_read;
-    size_dword -= bytes_read;
-    total_read += bytes_read;
   }
-  return total_read;
-}
-
-FileOperationResult WriteFile(FileHandle file,
-                              const void* buffer,
-                              size_t size) {
-  // TODO(scottmg): This might need to handle the limit for pipes across a
-  // network in the future.
-  DWORD size_dword = base::checked_cast<DWORD>(size);
-  DWORD bytes_written;
-  BOOL rv = ::WriteFile(file, buffer, size_dword, &bytes_written, nullptr);
-  if (!rv)
-    return -1;
-  CHECK_EQ(bytes_written, size_dword);
-  return bytes_written;
 }
 
 FileHandle OpenFileForRead(const base::FilePath& path) {
@@ -243,6 +262,28 @@ FileOffset LoggingFileSizeByHandle(FileHandle file) {
     return -1;
   }
   return file_size.QuadPart;
+}
+
+FileHandle StdioFileHandle(StdioStream stdio_stream) {
+  DWORD standard_handle;
+  switch (stdio_stream) {
+    case StdioStream::kStandardInput:
+      standard_handle = STD_INPUT_HANDLE;
+      break;
+    case StdioStream::kStandardOutput:
+      standard_handle = STD_OUTPUT_HANDLE;
+      break;
+    case StdioStream::kStandardError:
+      standard_handle = STD_ERROR_HANDLE;
+      break;
+    default:
+      NOTREACHED();
+      return INVALID_HANDLE_VALUE;
+  }
+
+  HANDLE handle = GetStdHandle(standard_handle);
+  PLOG_IF(ERROR, handle == INVALID_HANDLE_VALUE) << "GetStdHandle";
+  return handle;
 }
 
 }  // namespace crashpad

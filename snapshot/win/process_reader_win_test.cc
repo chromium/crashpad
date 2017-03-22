@@ -69,7 +69,7 @@ class ProcessReaderChild final : public WinMultiprocess {
 #endif
 
     WinVMAddress address;
-    CheckedReadFile(ReadPipeHandle(), &address, sizeof(address));
+    CheckedReadFileExactly(ReadPipeHandle(), &address, sizeof(address));
 
     char buffer[sizeof(kTestMemory)];
     ASSERT_TRUE(
@@ -142,7 +142,7 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
 
   void WinMultiprocessParent() override {
     char c;
-    CheckedReadFile(ReadPipeHandle(), &c, sizeof(c));
+    CheckedReadFileExactly(ReadPipeHandle(), &c, sizeof(c));
     ASSERT_EQ(' ', c);
 
     {

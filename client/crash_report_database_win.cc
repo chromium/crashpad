@@ -77,8 +77,8 @@ std::string ReadRestOfFileAsString(FileHandle file) {
   DCHECK_GT(end, read_from);
   size_t data_length = static_cast<size_t>(end - read_from);
   std::string buffer(data_length, '\0');
-  return LoggingReadFile(file, &buffer[0], data_length) ? buffer
-                                                        : std::string();
+  return LoggingReadFileExactly(file, &buffer[0], data_length) ? buffer
+                                                               : std::string();
 }
 
 // Helper structures, and conversions ------------------------------------------
@@ -417,7 +417,7 @@ void Metadata::Read() {
   }
 
   MetadataFileHeader header;
-  if (!LoggingReadFile(handle_.get(), &header, sizeof(header))) {
+  if (!LoggingReadFileExactly(handle_.get(), &header, sizeof(header))) {
     LOG(ERROR) << "failed to read header";
     return;
   }
@@ -438,7 +438,7 @@ void Metadata::Read() {
   std::vector<ReportDisk> reports;
   if (header.num_records > 0) {
     std::vector<MetadataFileReportRecord> records(header.num_records);
-    if (!LoggingReadFile(
+    if (!LoggingReadFileExactly(
             handle_.get(), &records[0], records_size.ValueOrDie())) {
       LOG(ERROR) << "failed to read records";
       return;

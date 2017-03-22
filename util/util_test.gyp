@@ -24,9 +24,9 @@
         'util.gyp:crashpad_util',
         '../client/client.gyp:crashpad_client',
         '../compat/compat.gyp:crashpad_compat',
+        '../test/test.gyp:crashpad_gmock_main',
         '../test/test.gyp:crashpad_test',
         '../third_party/gtest/gmock.gyp:gmock',
-        '../third_party/gtest/gmock.gyp:gmock_main',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../third_party/zlib/zlib.gyp:zlib',
@@ -35,7 +35,9 @@
         '..',
       ],
       'sources': [
+        'file/delimited_file_reader_test.cc',
         'file/file_io_test.cc',
+        'file/file_reader_test.cc',
         'file/string_file_test.cc',
         'mac/launchd_test.mm',
         'mac/mac_util_test.mm',
@@ -119,6 +121,18 @@
               '-luser32.lib',
             ],
           },
+        }],
+        ['OS=="android"', {
+          # Things not yet ported to Android
+          'sources/' : [
+            ['exclude', '^net/http_transport_test\\.cc$'],
+          ]
+        }],
+        ['OS=="android" or OS=="linux"' , {
+          # Things not yet ported to Android or Linux
+          'sources/' : [
+            ['exclude', '^numeric/checked_address_range_test\\.cc$'],
+          ]
         }],
       ],
     },

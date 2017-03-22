@@ -15,42 +15,131 @@
 #include "util/file/file_io.h"
 
 #include "base/logging.h"
+#include "base/macros.h"
 #include "base/numerics/safe_conversions.h"
 
 namespace crashpad {
 
-bool LoggingReadFile(FileHandle file, void* buffer, size_t size) {
-  FileOperationResult expect = base::checked_cast<FileOperationResult>(size);
-  FileOperationResult rv = ReadFile(file, buffer, size);
-  if (rv < 0) {
-    PLOG(ERROR) << "read";
-    return false;
+namespace {
+
+class FileIOReadExactly final : public internal::ReadExactlyInternal {
+ public:
+  explicit FileIOReadExactly(FileHandle file)
+      : ReadExactlyInternal(), file_(file) {}
+  ~FileIOReadExactly() {}
+
+ private:
+  // ReadExactlyInternal:
+  FileOperationResult Read(void* buffer, size_t size, bool can_log) override {
+    FileOperationResult rv = ReadFile(file_, buffer, size);
+    if (rv < 0) {
+      PLOG_IF(ERROR, can_log) << internal::kNativeReadFunctionName;
+      return -1;
+    }
+    return rv;
   }
-  if (rv != expect) {
-    LOG(ERROR) << "read: expected " << expect << ", observed " << rv;
+
+  FileHandle file_;
+
+  DISALLOW_COPY_AND_ASSIGN(FileIOReadExactly);
+};
+
+class FileIOWriteAll final : public internal::WriteAllInternal {
+ public:
+  explicit FileIOWriteAll(FileHandle file) : WriteAllInternal(), file_(file) {}
+  ~FileIOWriteAll() {}
+
+ private:
+  // WriteAllInternal:
+  FileOperationResult Write(const void* buffer, size_t size) override {
+    return internal::NativeWriteFile(file_, buffer, size);
+  }
+
+  FileHandle file_;
+
+  DISALLOW_COPY_AND_ASSIGN(FileIOWriteAll);
+};
+
+}  // namespace
+
+namespace internal {
+
+bool ReadExactlyInternal::ReadExactly(void* buffer, size_t size, bool can_log) {
+  char* buffer_c = static_cast<char*>(buffer);
+  size_t total_bytes = 0;
+  size_t remaining = size;
+  while (remaining > 0) {
+    FileOperationResult bytes_read = Read(buffer_c, remaining, can_log);
+    if (bytes_read < 0) {
+      return false;
+    }
+
+    DCHECK_LE(static_cast<size_t>(bytes_read), remaining);
+
+    if (bytes_read == 0) {
+      break;
+    }
+
+    buffer_c += bytes_read;
+    remaining -= bytes_read;
+    total_bytes += bytes_read;
+  }
+
+  if (total_bytes != size) {
+    LOG_IF(ERROR, can_log) << "ReadExactly: expected " << size << ", observed "
+                           << total_bytes;
     return false;
   }
 
   return true;
+}
+
+bool WriteAllInternal::WriteAll(const void* buffer, size_t size) {
+  const char* buffer_c = static_cast<const char*>(buffer);
+
+  while (size > 0) {
+    FileOperationResult bytes_written = Write(buffer_c, size);
+    if (bytes_written < 0) {
+      return false;
+    }
+
+    DCHECK_NE(bytes_written, 0);
+
+    buffer_c += bytes_written;
+    size -= bytes_written;
+  }
+
+  return true;
+}
+
+}  // namespace internal
+
+bool ReadFileExactly(FileHandle file, void* buffer, size_t size) {
+  FileIOReadExactly read_exactly(file);
+  return read_exactly.ReadExactly(buffer, size, false);
+}
+
+bool LoggingReadFileExactly(FileHandle file, void* buffer, size_t size) {
+  FileIOReadExactly read_exactly(file);
+  return read_exactly.ReadExactly(buffer, size, true);
+}
+
+bool WriteFile(FileHandle file, const void* buffer, size_t size) {
+  FileIOWriteAll write_all(file);
+  return write_all.WriteAll(buffer, size);
 }
 
 bool LoggingWriteFile(FileHandle file, const void* buffer, size_t size) {
-  FileOperationResult expect = base::checked_cast<FileOperationResult>(size);
-  FileOperationResult rv = WriteFile(file, buffer, size);
-  if (rv < 0) {
-    PLOG(ERROR) << "write";
-    return false;
-  }
-  if (rv != expect) {
-    LOG(ERROR) << "write: expected " << expect << ", observed " << rv;
+  if (!WriteFile(file, buffer, size)) {
+    PLOG(ERROR) << internal::kNativeWriteFunctionName;
     return false;
   }
 
   return true;
 }
 
-void CheckedReadFile(FileHandle file, void* buffer, size_t size) {
-  CHECK(LoggingReadFile(file, buffer, size));
+void CheckedReadFileExactly(FileHandle file, void* buffer, size_t size) {
+  CHECK(LoggingReadFileExactly(file, buffer, size));
 }
 
 void CheckedWriteFile(FileHandle file, const void* buffer, size_t size) {
@@ -61,9 +150,9 @@ void CheckedReadFileAtEOF(FileHandle file) {
   char c;
   FileOperationResult rv = ReadFile(file, &c, 1);
   if (rv < 0) {
-    PCHECK(rv == 0) << "read";
+    PCHECK(rv == 0) << internal::kNativeReadFunctionName;
   } else {
-    CHECK_EQ(rv, 0) << "read";
+    CHECK_EQ(rv, 0) << internal::kNativeReadFunctionName;
   }
 }
 

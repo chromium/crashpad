@@ -48,7 +48,8 @@ void TestImageReaderChild(const base::string16& directory_modification) {
   child.Start();
 
   char c;
-  ASSERT_TRUE(LoggingReadFile(child.stdout_read_handle(), &c, sizeof(c)));
+  ASSERT_TRUE(
+      LoggingReadFileExactly(child.stdout_read_handle(), &c, sizeof(c)));
   ASSERT_EQ(' ', c);
 
   ScopedProcessSuspend suspend(child.process_handle());

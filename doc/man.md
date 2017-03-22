@@ -19,6 +19,7 @@ limitations under the License.
 ## Section 1: User Commands
 
  * [crashpad_database_util](../tools/crashpad_database_util.md)
+ * [crashpad_http_upload](../tools/crashpad_http_upload.md)
  * [generate_dump](../tools/generate_dump.md)
 
 ### macOS-Specific

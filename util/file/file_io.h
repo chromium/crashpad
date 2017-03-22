@@ -26,27 +26,6 @@
 #include "util/win/scoped_handle.h"
 #endif
 
-//! \file
-
-#if defined(OS_POSIX) || DOXYGEN
-
-//! \brief A `PLOG()` macro usable for standard input/output error conditions.
-//!
-//! The `PLOG()` macro uses `errno` on POSIX and is appropriate to report
-//! errors from standard input/output functions. On Windows, `PLOG()` uses
-//! `GetLastError()`, and cannot be used to report errors from standard
-//! input/output functions. This macro uses `PLOG()` when appropriate for
-//! standard I/O functions, and `LOG()` otherwise.
-#define STDIO_PLOG(x) PLOG(x)
-
-#else
-
-#define STDIO_PLOG(x) LOG(x)
-#define fseeko(file, offset, whence) _fseeki64(file, offset, whence)
-#define ftello(file) _ftelli64(file)
-
-#endif
-
 namespace base {
 class FilePath;
 }  // namespace base
@@ -114,82 +93,205 @@ enum class FileLocking : bool {
   kExclusive,
 };
 
-//! \brief Reads from a file, retrying when interrupted on POSIX or following a
-//!     short read.
+//! \brief Determines the FileHandle that StdioFileHandle() returns.
+enum class StdioStream {
+  //! \brief Standard input, or `stdin`.
+  kStandardInput,
+
+  //! \brief Standard output, or `stdout`.
+  kStandardOutput,
+
+  //! \brief Standard error, or `stderr`.
+  kStandardError,
+};
+
+namespace internal {
+
+//! \brief The name of the native read function used by ReadFile().
 //!
-//! This function reads into \a buffer, stopping only when \a size bytes have
-//! been read or when end-of-file has been reached. On Windows, reading from
-//! sockets is not currently supported.
+//! This value may be useful for logging.
+//!
+//! \sa kNativeWriteFunctionName
+extern const char kNativeReadFunctionName[];
+
+//! \brief The name of the native write function used by WriteFile().
+//!
+//! This value may be useful for logging.
+//!
+//! \sa kNativeReadFunctionName
+extern const char kNativeWriteFunctionName[];
+
+//! \brief The internal implementation of ReadFileExactly() and its wrappers.
+//!
+//! The logic is exposed so that it may be reused by FileReaderInterface, and
+//! so that it may be tested without requiring large files to be read. It is not
+//! intended to be used more generally. Use ReadFileExactly(),
+//! LoggingReadFileExactly(), CheckedReadFileExactly(), or
+//! FileReaderInterface::ReadExactly() instead.
+class ReadExactlyInternal {
+ public:
+  //! \brief Calls Read(), retrying following a short read, ensuring that
+  //!     exactly \a size bytes are read.
+  //!
+  //! \return `true` on success. `false` if the underlying Read() fails or if
+  //!     fewer than \a size bytes were read. When returning `false`, if \a
+  //!     can_log is `true`, logs a message.
+  bool ReadExactly(void* buffer, size_t size, bool can_log);
+
+ protected:
+  ReadExactlyInternal() {}
+  ~ReadExactlyInternal() {}
+
+ private:
+  //! \brief Wraps a read operation, such as ReadFile().
+  //!
+  //! \return The number of bytes read and placed into \a buffer, or `-1` on
+  //!     error. When returning `-1`, if \a can_log is `true`, logs a message.
+  virtual FileOperationResult Read(void* buffer, size_t size, bool can_log) = 0;
+
+  DISALLOW_COPY_AND_ASSIGN(ReadExactlyInternal);
+};
+
+//! \brief The internal implementation of WriteFile() and its wrappers.
+//!
+//! The logic is exposed so that it may be tested without requiring large files
+//! to be written. It is not intended to be used more generally. Use
+//! WriteFile(), LoggingWriteFile(), CheckedWriteFile(), or
+//! FileWriterInterface::Write() instead.
+class WriteAllInternal {
+ public:
+  //! \brief Calls Write(), retrying following a short write, ensuring that
+  //!     exactly \a size bytes are written.
+  //!
+  //! \return `true` on success. `false` if the underlying Write() fails or if
+  //!     fewer than \a size bytes were written.
+  bool WriteAll(const void* buffer, size_t size);
+
+ protected:
+  WriteAllInternal() {}
+  ~WriteAllInternal() {}
+
+ private:
+  //! \brief Wraps a write operation, such as NativeWriteFile().
+  //!
+  //! \return The number of bytes written from \a buffer, or `-1` on error.
+  virtual FileOperationResult Write(const void* buffer, size_t size) = 0;
+
+  DISALLOW_COPY_AND_ASSIGN(WriteAllInternal);
+};
+
+//! \brief Writes to a file, retrying when interrupted on POSIX.
+//!
+//! Fewer than \a size bytes may be written to \a file. This can happen if the
+//! underlying write operation returns before writing the entire buffer, or if
+//! the buffer is too large to write in a single operation, possibly due to a
+//! limitation of a data type used to express the number of bytes written.
+//!
+//! This function adapts native write operations for uniform use by WriteFile().
+//! This function should only be called by WriteFile(). Other code should call
+//! WriteFile() or another function that wraps WriteFile().
+//!
+//! \param[in] file The file to write to.
+//! \param[in] buffer A buffer containing data to be written.
+//! \param[in] size The number of bytes from \a buffer to write.
+//!
+//! \return The number of bytes actually written from \a buffer to \a file on
+//!     success. `-1` on error, with `errno` or `GetLastError()` set
+//!     appropriately.
+FileOperationResult NativeWriteFile(FileHandle file,
+                                    const void* buffer,
+                                    size_t size);
+
+}  // namespace internal
+
+//! \brief Reads from a file, retrying when interrupted before reading any data
+//!     on POSIX.
+//!
+//! This function reads into \a buffer. Fewer than \a size bytes may be read.
+//! On Windows, reading from sockets is not currently supported.
 //!
 //! \return The number of bytes read and placed into \a buffer, or `-1` on
 //!     error, with `errno` or `GetLastError()` set appropriately. On error, a
 //!     portion of \a file may have been read into \a buffer.
 //!
 //! \sa WriteFile
-//! \sa LoggingReadFile
-//! \sa CheckedReadFile
+//! \sa ReadFileExactly
+//! \sa LoggingReadFileExactly
+//! \sa CheckedReadFileExactly
 //! \sa CheckedReadFileAtEOF
 FileOperationResult ReadFile(FileHandle file, void* buffer, size_t size);
 
-//! \brief Writes to a file, retrying when interrupted or following a short
-//!     write on POSIX.
+//! \brief Writes to a file, retrying when interrupted on POSIX or following a
+//!     short write.
 //!
 //! This function writes to \a file, stopping only when \a size bytes have been
 //! written.
 //!
-//! \return The number of bytes written from \a buffer, or `-1` on error, with
-//!     `errno` or `GetLastError()` set appropriately. On error, a portion of
-//!     \a buffer may have been written to \a file.
+//! \return `true` on success. `false` on error, with `errno` or
+//!     `GetLastError()` set appropriately. On error, a portion of \a buffer may
+//!     have been written to \a file.
 //!
 //! \sa ReadFile
 //! \sa LoggingWriteFile
 //! \sa CheckedWriteFile
-FileOperationResult WriteFile(FileHandle file, const void* buffer, size_t size);
+bool WriteFile(FileHandle file, const void* buffer, size_t size);
 
-//! \brief Wraps ReadFile(), ensuring that exactly \a size bytes are read.
+//! \brief Wraps ReadFile(), retrying following a short read, ensuring that
+//!     exactly \a size bytes are read.
 //!
-//! \return `true` on success. If \a size is out of the range of possible
-//!     ReadFile() return values, if the underlying ReadFile() fails, or if
-//!     other than \a size bytes were read, this function logs a message and
+//! \return `true` on success. If the underlying ReadFile() fails, or if fewer
+//!     than \a size bytes were read, this function logs a message and
 //!     returns `false`.
 //!
 //! \sa LoggingWriteFile
 //! \sa ReadFile
-//! \sa CheckedReadFile
+//! \sa LoggingReadFileExactly
+//! \sa CheckedReadFileExactly
 //! \sa CheckedReadFileAtEOF
-bool LoggingReadFile(FileHandle file, void* buffer, size_t size);
+bool ReadFileExactly(FileHandle file, void* buffer, size_t size);
+
+//! \brief Wraps ReadFile(), retrying following a short read, ensuring that
+//!     exactly \a size bytes are read.
+//!
+//! \return `true` on success. If the underlying ReadFile() fails, or if fewer
+//!     than \a size bytes were read, this function logs a message and
+//!     returns `false`.
+//!
+//! \sa LoggingWriteFile
+//! \sa ReadFile
+//! \sa ReadFileExactly
+//! \sa CheckedReadFileExactly
+//! \sa CheckedReadFileAtEOF
+bool LoggingReadFileExactly(FileHandle file, void* buffer, size_t size);
 
 //! \brief Wraps WriteFile(), ensuring that exactly \a size bytes are written.
 //!
-//! \return `true` on success. If \a size is out of the range of possible
-//!     WriteFile() return values, if the underlying WriteFile() fails, or if
-//!     other than \a size bytes were written, this function logs a message and
+//! \return `true` on success. If the underlying WriteFile() fails, or if fewer
+//!     than \a size bytes were written, this function logs a message and
 //!     returns `false`.
 //!
-//! \sa LoggingReadFile
+//! \sa LoggingReadFileExactly
 //! \sa WriteFile
 //! \sa CheckedWriteFile
 bool LoggingWriteFile(FileHandle file, const void* buffer, size_t size);
 
 //! \brief Wraps ReadFile(), ensuring that exactly \a size bytes are read.
 //!
-//! If \a size is out of the range of possible ReadFile() return values, if the
-//! underlying ReadFile() fails, or if other than \a size bytes were read, this
-//! function causes execution to terminate without returning.
+//! If the underlying ReadFile() fails, or if fewer than \a size bytes were
+//! read, this function causes execution to terminate without returning.
 //!
 //! \sa CheckedWriteFile
 //! \sa ReadFile
-//! \sa LoggingReadFile
+//! \sa LoggingReadFileExactly
 //! \sa CheckedReadFileAtEOF
-void CheckedReadFile(FileHandle file, void* buffer, size_t size);
+void CheckedReadFileExactly(FileHandle file, void* buffer, size_t size);
 
 //! \brief Wraps WriteFile(), ensuring that exactly \a size bytes are written.
 //!
-//! If \a size is out of the range of possible WriteFile() return values, if the
-//! underlying WriteFile() fails, or if other than \a size bytes were written,
-//! this function causes execution to terminate without returning.
+//! if the underlying WriteFile() fails, or if fewer than \a size bytes were
+//! written, this function causes execution to terminate without returning.
 //!
-//! \sa CheckedReadFile
+//! \sa CheckedReadFileExactly
 //! \sa WriteFile
 //! \sa LoggingWriteFile
 void CheckedWriteFile(FileHandle file, const void* buffer, size_t size);
@@ -200,7 +302,7 @@ void CheckedWriteFile(FileHandle file, const void* buffer, size_t size);
 //! If the underlying ReadFile() fails, or if a byte actually is read, this
 //! function causes execution to terminate without returning.
 //!
-//! \sa CheckedReadFile
+//! \sa CheckedReadFileExactly
 //! \sa ReadFile
 void CheckedReadFileAtEOF(FileHandle file);
 
@@ -345,11 +447,26 @@ void CheckedCloseFile(FileHandle file);
 //! \brief Determines the size of a file.
 //!
 //! \param[in] file The handle to the file for which the size should be
-//!     retrived.
+//!     retrieved.
 //!
 //! \return The size of the file. If an error occurs when attempting to
 //!     determine its size, returns `-1` with an error logged.
 FileOffset LoggingFileSizeByHandle(FileHandle file);
+
+//! \brief Returns a FileHandle corresponding to the requested standard I/O
+//!     stream.
+//!
+//! The returned FileHandle should not be closed on POSIX, where it is
+//! important to maintain valid file descriptors occupying the slots reserved
+//! for these streams. If a need to close such a stream arises on POSIX,
+//! `dup2()` should instead be used to replace the existing file descriptor with
+//! one opened to `/dev/null`. See CloseStdinAndStdout().
+//!
+//! \param[in] stdio_stream The requested standard I/O stream.
+//!
+//! \return A corresponding FileHandle on success. kInvalidFileHandle on error,
+//!     with a message logged.
+FileHandle StdioFileHandle(StdioStream stdio_stream);
 
 }  // namespace crashpad
 

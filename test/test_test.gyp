@@ -22,10 +22,10 @@
       'type': 'executable',
       'dependencies': [
         'crashpad_test_test_multiprocess_exec_test_child',
+        'test.gyp:crashpad_gmock_main',
         'test.gyp:crashpad_test',
         '../compat/compat.gyp:crashpad_compat',
         '../third_party/gtest/gmock.gyp:gmock',
-        '../third_party/gtest/gmock.gyp:gmock_main',
         '../third_party/gtest/gtest.gyp:gtest',
         '../third_party/mini_chromium/mini_chromium.gyp:base',
         '../util/util.gyp:crashpad_util',
@@ -36,6 +36,7 @@
       'sources': [
         'hex_string_test.cc',
         'mac/mach_multiprocess_test.cc',
+        'main_arguments_test.cc',
         'multiprocess_exec_test.cc',
         'multiprocess_posix_test.cc',
         'paths_test.cc',

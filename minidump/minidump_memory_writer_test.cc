@@ -79,7 +79,7 @@ TEST(MinidumpMemoryWriter, EmptyMemoryList) {
   MinidumpFileWriter minidump_file_writer;
   auto memory_list_writer = base::WrapUnique(new MinidumpMemoryListWriter());
 
-  minidump_file_writer.AddStream(std::move(memory_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -107,7 +107,7 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
       new TestMinidumpMemoryWriter(kBaseAddress, kSize, kValue));
   memory_list_writer->AddMemory(std::move(memory_writer));
 
-  minidump_file_writer.AddStream(std::move(memory_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -148,7 +148,7 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
       new TestMinidumpMemoryWriter(kBaseAddress1, kSize1, kValue1));
   memory_list_writer->AddMemory(std::move(memory_writer_1));
 
-  minidump_file_writer.AddStream(std::move(memory_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -247,7 +247,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   auto memory_list_writer = base::WrapUnique(new MinidumpMemoryListWriter());
   memory_list_writer->AddExtraMemory(test_memory_stream->memory());
 
-  minidump_file_writer.AddStream(std::move(test_memory_stream));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(test_memory_stream)));
 
   const uint64_t kBaseAddress1 = 0x2000;
   const size_t kSize1 = 0x0400;
@@ -257,7 +257,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
       new TestMinidumpMemoryWriter(kBaseAddress1, kSize1, kValue1));
   memory_list_writer->AddMemory(std::move(memory_writer));
 
-  minidump_file_writer.AddStream(std::move(memory_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -335,7 +335,7 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
   memory_list_writer->AddFromSnapshot(memory_snapshots);
 
   MinidumpFileWriter minidump_file_writer;
-  minidump_file_writer.AddStream(std::move(memory_list_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(memory_list_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));

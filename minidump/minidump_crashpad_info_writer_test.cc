@@ -70,7 +70,7 @@ TEST(MinidumpCrashpadInfoWriter, Empty) {
       base::WrapUnique(new MinidumpCrashpadInfoWriter());
   EXPECT_FALSE(crashpad_info_writer->IsUseful());
 
-  minidump_file_writer.AddStream(std::move(crashpad_info_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(crashpad_info_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -106,7 +106,7 @@ TEST(MinidumpCrashpadInfoWriter, ReportAndClientID) {
 
   EXPECT_TRUE(crashpad_info_writer->IsUseful());
 
-  minidump_file_writer.AddStream(std::move(crashpad_info_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(crashpad_info_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -148,7 +148,7 @@ TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
 
   EXPECT_TRUE(crashpad_info_writer->IsUseful());
 
-  minidump_file_writer.AddStream(std::move(crashpad_info_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(crashpad_info_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -189,7 +189,7 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
 
   EXPECT_TRUE(crashpad_info_writer->IsUseful());
 
-  minidump_file_writer.AddStream(std::move(crashpad_info_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(crashpad_info_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
@@ -265,7 +265,7 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
   EXPECT_TRUE(info_writer->IsUseful());
 
   MinidumpFileWriter minidump_file_writer;
-  minidump_file_writer.AddStream(std::move(info_writer));
+  ASSERT_TRUE(minidump_file_writer.AddStream(std::move(info_writer)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
