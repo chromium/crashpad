@@ -81,18 +81,17 @@ Inheritance diagram for crashpad::FileReaderInterface:</div>
  <div class="center">
   <img src="classcrashpad_1_1FileReaderInterface.png" usemap="#crashpad::FileReaderInterface_map" alt=""/>
   <map id="crashpad::FileReaderInterface_map" name="crashpad::FileReaderInterface_map">
-<area href="classcrashpad_1_1FileSeekerInterface.html" title="An interface to seek in files and other file-like objects with semantics matching the underlying plat..." alt="crashpad::FileSeekerInterface" shape="rect" coords="352,0,577,24"/>
+<area href="classcrashpad_1_1FileSeekerInterface.html" title="An interface to seek in files and other file-like objects with semantics matching the underlying plat..." alt="crashpad::FileSeekerInterface" shape="rect" coords="235,0,460,24"/>
 <area href="classcrashpad_1_1FileReader.html" title="A file reader implementation that wraps traditional system file operations on files accessed through ..." alt="crashpad::FileReader" shape="rect" coords="0,112,225,136"/>
 <area href="classcrashpad_1_1StringFile.html" title="A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating sy..." alt="crashpad::StringFile" shape="rect" coords="235,112,460,136"/>
 <area href="classcrashpad_1_1WeakFileHandleFileReader.html" title="A file reader backed by a FileHandle. " alt="crashpad::WeakFileHandleFileReader" shape="rect" coords="470,112,695,136"/>
-<area href="classcrashpad_1_1WeakStdioFileReader.html" title="A file reader backed by a standard input/output FILE*. " alt="crashpad::WeakStdioFileReader" shape="rect" coords="705,112,930,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad9035ff345274f33cef248712d53d9e1"><td class="memItemLeft" align="right" valign="top">virtual FileOperationResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad9035ff345274f33cef248712d53d9e1">Read</a> (void *data, size_t size)=0</td></tr>
-<tr class="memdesc:ad9035ff345274f33cef248712d53d9e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics.  <a href="#ad9035ff345274f33cef248712d53d9e1">More...</a><br /></td></tr>
+<tr class="memdesc:ad9035ff345274f33cef248712d53d9e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, or provides an implementation with identical semantics.  <a href="#ad9035ff345274f33cef248712d53d9e1">More...</a><br /></td></tr>
 <tr class="separator:ad9035ff345274f33cef248712d53d9e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad046f1ebf1071eb6b92a2a8d06c14a56"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad046f1ebf1071eb6b92a2a8d06c14a56">ReadExactly</a> (void *data, size_t size)</td></tr>
 <tr class="memdesc:ad046f1ebf1071eb6b92a2a8d06c14a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad9035ff345274f33cef248712d53d9e1" title="Wraps ReadFile(), or provides an implementation with identical semantics. ">Read()</a>, ensuring that the read succeeded and exactly <em>size</em> bytes were read.  <a href="#ad046f1ebf1071eb6b92a2a8d06c14a56">More...</a><br /></td></tr>
@@ -145,10 +144,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics. </p>
+<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, or provides an implementation with identical semantics. </p>
 <dl class="section return"><dt>Returns</dt><dd>The number of bytes actually read if the operation succeeded, which may be <code>0</code> or any positive value less than or equal to <em>size</em>. <code>-1</code> if the operation failed, with an error message logged. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1WeakStdioFileReader.html#adcedaed4a1465abddb7ac3c1f3643ff8">crashpad::WeakStdioFileReader</a>, <a class="el" href="classcrashpad_1_1FileReader.html#a71bb3e12f135a0e84b1385ab89e46611">crashpad::FileReader</a>, <a class="el" href="classcrashpad_1_1WeakFileHandleFileReader.html#adabfaf3549ac5a3269475a567645e095">crashpad::WeakFileHandleFileReader</a>, and <a class="el" href="classcrashpad_1_1StringFile.html#a05de4b2d8ef91a974181d7340c61b346">crashpad::StringFile</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1FileReader.html#a71bb3e12f135a0e84b1385ab89e46611">crashpad::FileReader</a>, <a class="el" href="classcrashpad_1_1WeakFileHandleFileReader.html#adabfaf3549ac5a3269475a567645e095">crashpad::WeakFileHandleFileReader</a>, and <a class="el" href="classcrashpad_1_1StringFile.html#a05de4b2d8ef91a974181d7340c61b346">crashpad::StringFile</a>.</p>
 
 </div>
 </div>
@@ -179,7 +178,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Wraps <a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad9035ff345274f33cef248712d53d9e1" title="Wraps ReadFile(), or provides an implementation with identical semantics. ">Read()</a>, ensuring that the read succeeded and exactly <em>size</em> bytes were read. </p>
-<p>Semantically, this behaves as <a class="el" href="namespacecrashpad.html#abd2a51526c1f15e3f21a962457cbc53a" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">LoggingReadFile()</a>.</p>
+<p>Semantically, this behaves as <a class="el" href="namespacecrashpad.html#ac3fb8955565f605e08c1e30562fbdb7a" title="Wraps ReadFile(), retrying following a short read, ensuring that exactly size bytes are read...">LoggingReadFileExactly()</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the operation succeeded, <code>false</code> if it failed, with an error message logged. Short reads are treated as failures. </dd></dl>
 
 </div>

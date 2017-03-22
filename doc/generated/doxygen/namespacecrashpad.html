@@ -148,6 +148,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1DatabaseSizePruneCondition.html">DatabaseSizePruneCondition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1PruneCondition.html" title="An abstract base class for evaluating crash reports for deletion. ">PruneCondition</a> that deletes older reports to keep the total Crashpad database size under the specified limit.  <a href="classcrashpad_1_1DatabaseSizePruneCondition.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1DelimitedFileReader.html">DelimitedFileReader</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a file one field or line at a time.  <a href="classcrashpad_1_1DelimitedFileReader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the main exception-handling server in Crashpad’s handler process.  <a href="classcrashpad_1_1ExceptionHandlerServer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -470,12 +473,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1WeakFileHandleFileWriter.html">WeakFileHandleFileWriter</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A file writer backed by a FileHandle.  <a href="classcrashpad_1_1WeakFileHandleFileWriter.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1WeakStdioFileReader.html">WeakStdioFileReader</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A file reader backed by a standard input/output <code>FILE*</code>.  <a href="classcrashpad_1_1WeakStdioFileReader.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1WeakStdioFileWriter.html">WeakStdioFileWriter</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A file writer backed by a standard input/output <code>FILE*</code>.  <a href="classcrashpad_1_1WeakStdioFileWriter.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1WorkerThread.html">WorkerThread</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1WorkerThread.html" title="A WorkerThread executes its Delegate&#39;s DoWork method repeatedly on a dedicated thread at a set time i...">WorkerThread</a> executes its <a class="el" href="classcrashpad_1_1WorkerThread_1_1Delegate.html" title="An interface for doing work on a WorkerThread. ">Delegate</a>'s DoWork method repeatedly on a dedicated thread at a set time interval.  <a href="classcrashpad_1_1WorkerThread.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -591,15 +588,18 @@ Enumerations</h2></td></tr>
 <tr class="memitem:ab96bb7edb42a2e1ce28eda205a18a17a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ab96bb7edb42a2e1ce28eda205a18a17a">ProcessSuspensionState</a> : bool <tr class="memdesc:ab96bb7edb42a2e1ce28eda205a18a17a"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of process being read by ProcessReaderWin.  <a href="namespacecrashpad.html#ab96bb7edb42a2e1ce28eda205a18a17a">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:ab96bb7edb42a2e1ce28eda205a18a17a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa69b0967d9a6df659ff5d2a02ff3e51"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#afa69b0967d9a6df659ff5d2a02ff3e51">FileWriteMode</a> <tr class="memdesc:afa69b0967d9a6df659ff5d2a02ff3e51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the mode that <a class="el" href="namespacecrashpad.html#a62fc6876cc0c660f0ea8bd1dd0a07e82" title="Wraps OpenFileForWrite(), logging an error if the operation fails. ">LoggingOpenFileForWrite()</a> uses.  <a href="namespacecrashpad.html#afa69b0967d9a6df659ff5d2a02ff3e51">More...</a><br /></td></tr>
+<tr class="memitem:afa69b0967d9a6df659ff5d2a02ff3e51"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#afa69b0967d9a6df659ff5d2a02ff3e51">FileWriteMode</a> <tr class="memdesc:afa69b0967d9a6df659ff5d2a02ff3e51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the mode that LoggingOpenFileForWrite() uses.  <a href="namespacecrashpad.html#afa69b0967d9a6df659ff5d2a02ff3e51">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:afa69b0967d9a6df659ff5d2a02ff3e51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a034ccc90eb0d1f587ee89275d822175d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a034ccc90eb0d1f587ee89275d822175d">FilePermissions</a> : bool <tr class="memdesc:a034ccc90eb0d1f587ee89275d822175d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the permissions bits for files created on POSIX systems.  <a href="namespacecrashpad.html#a034ccc90eb0d1f587ee89275d822175d">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a034ccc90eb0d1f587ee89275d822175d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3753a95b02e5c96c6e20017e467cef07"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a3753a95b02e5c96c6e20017e467cef07">FileLocking</a> : bool <tr class="memdesc:a3753a95b02e5c96c6e20017e467cef07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the locking mode that <a class="el" href="namespacecrashpad.html#acd02263566d8c43fc7886f88a13b364f" title="Locks the given file using flock() on POSIX or LockFileEx() on Windows. ">LoggingLockFile()</a> uses.  <a href="namespacecrashpad.html#a3753a95b02e5c96c6e20017e467cef07">More...</a><br /></td></tr>
+<tr class="memitem:a3753a95b02e5c96c6e20017e467cef07"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a3753a95b02e5c96c6e20017e467cef07">FileLocking</a> : bool <tr class="memdesc:a3753a95b02e5c96c6e20017e467cef07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the locking mode that LoggingLockFile() uses.  <a href="namespacecrashpad.html#a3753a95b02e5c96c6e20017e467cef07">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a3753a95b02e5c96c6e20017e467cef07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8402ddae562db04a8daf6bffecaded5b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a8402ddae562db04a8daf6bffecaded5b">StdioStream</a> <tr class="memdesc:a8402ddae562db04a8daf6bffecaded5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the FileHandle that StdioFileHandle() returns.  <a href="namespacecrashpad.html#a8402ddae562db04a8daf6bffecaded5b">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a8402ddae562db04a8daf6bffecaded5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a589b4d9bd6f2233b67148ab6793c3c13"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a589b4d9bd6f2233b67148ab6793c3c13">XattrStatus</a> <tr class="memdesc:a589b4d9bd6f2233b67148ab6793c3c13"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result code for a ReadXattr operation.  <a href="namespacecrashpad.html#a589b4d9bd6f2233b67148ab6793c3c13">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a589b4d9bd6f2233b67148ab6793c3c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -668,30 +668,33 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 <tr class="memitem:a0a621015141b7331ca152909781cc29a"><td class="memItemLeft" align="right" valign="top"><a id="a0a621015141b7331ca152909781cc29a"></a>
 template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReader::GetCrashpadInfo&lt; process_types::internal::Traits64 &gt;</b> (<a class="el" href="structcrashpad_1_1process__types_1_1CrashpadInfo.html">process_types::CrashpadInfo</a>&lt; <a class="el" href="structcrashpad_1_1process__types_1_1internal_1_1Traits64.html">process_types::internal::Traits64</a> &gt; *crashpad_info) const</td></tr>
 <tr class="separator:a0a621015141b7331ca152909781cc29a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd2a51526c1f15e3f21a962457cbc53a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#abd2a51526c1f15e3f21a962457cbc53a">LoggingReadFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, void *buffer, size_t size)</td></tr>
-<tr class="memdesc:abd2a51526c1f15e3f21a962457cbc53a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, ensuring that exactly <em>size</em> bytes are read.  <a href="#abd2a51526c1f15e3f21a962457cbc53a">More...</a><br /></td></tr>
-<tr class="separator:abd2a51526c1f15e3f21a962457cbc53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e685af255d9b71fb46ed2679329dd7c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a6e685af255d9b71fb46ed2679329dd7c">ReadFileExactly</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, void *buffer, size_t size)</td></tr>
+<tr class="memdesc:a6e685af255d9b71fb46ed2679329dd7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, retrying following a short read, ensuring that exactly <em>size</em> bytes are read.  <a href="#a6e685af255d9b71fb46ed2679329dd7c">More...</a><br /></td></tr>
+<tr class="separator:a6e685af255d9b71fb46ed2679329dd7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3fb8955565f605e08c1e30562fbdb7a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac3fb8955565f605e08c1e30562fbdb7a">LoggingReadFileExactly</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, void *buffer, size_t size)</td></tr>
+<tr class="memdesc:ac3fb8955565f605e08c1e30562fbdb7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, retrying following a short read, ensuring that exactly <em>size</em> bytes are read.  <a href="#ac3fb8955565f605e08c1e30562fbdb7a">More...</a><br /></td></tr>
+<tr class="separator:ac3fb8955565f605e08c1e30562fbdb7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada530c306bf30e9ed9274c20d05c0db4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4">WriteFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, const void *buffer, size_t size)</td></tr>
+<tr class="memdesc:ada530c306bf30e9ed9274c20d05c0db4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a file, retrying when interrupted on POSIX or following a short write.  <a href="#ada530c306bf30e9ed9274c20d05c0db4">More...</a><br /></td></tr>
+<tr class="separator:ada530c306bf30e9ed9274c20d05c0db4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a91af9c690d2a280c463596bf82070b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b">LoggingWriteFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, const void *buffer, size_t size)</td></tr>
-<tr class="memdesc:a8a91af9c690d2a280c463596bf82070b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile()</a>, ensuring that exactly <em>size</em> bytes are written.  <a href="#a8a91af9c690d2a280c463596bf82070b">More...</a><br /></td></tr>
+<tr class="memdesc:a8a91af9c690d2a280c463596bf82070b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4" title="Writes to a file, retrying when interrupted on POSIX or following a short write. ">WriteFile()</a>, ensuring that exactly <em>size</em> bytes are written.  <a href="#a8a91af9c690d2a280c463596bf82070b">More...</a><br /></td></tr>
 <tr class="separator:a8a91af9c690d2a280c463596bf82070b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee611c7116746b846a3cf79e65619f4d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#aee611c7116746b846a3cf79e65619f4d">CheckedReadFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, void *buffer, size_t size)</td></tr>
-<tr class="memdesc:aee611c7116746b846a3cf79e65619f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, ensuring that exactly <em>size</em> bytes are read.  <a href="#aee611c7116746b846a3cf79e65619f4d">More...</a><br /></td></tr>
-<tr class="separator:aee611c7116746b846a3cf79e65619f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00e03e19185b0fde6301be6b113628cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a00e03e19185b0fde6301be6b113628cb">CheckedReadFileExactly</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, void *buffer, size_t size)</td></tr>
+<tr class="memdesc:a00e03e19185b0fde6301be6b113628cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, ensuring that exactly <em>size</em> bytes are read.  <a href="#a00e03e19185b0fde6301be6b113628cb">More...</a><br /></td></tr>
+<tr class="separator:a00e03e19185b0fde6301be6b113628cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74c74fefa3b1f5e0c1b885755c9f9cf6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a74c74fefa3b1f5e0c1b885755c9f9cf6">CheckedWriteFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, const void *buffer, size_t size)</td></tr>
-<tr class="memdesc:a74c74fefa3b1f5e0c1b885755c9f9cf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile()</a>, ensuring that exactly <em>size</em> bytes are written.  <a href="#a74c74fefa3b1f5e0c1b885755c9f9cf6">More...</a><br /></td></tr>
+<tr class="memdesc:a74c74fefa3b1f5e0c1b885755c9f9cf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4" title="Writes to a file, retrying when interrupted on POSIX or following a short write. ">WriteFile()</a>, ensuring that exactly <em>size</em> bytes are written.  <a href="#a74c74fefa3b1f5e0c1b885755c9f9cf6">More...</a><br /></td></tr>
 <tr class="separator:a74c74fefa3b1f5e0c1b885755c9f9cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8e7e1b1a4b89b489964ffee54d0d9df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac8e7e1b1a4b89b489964ffee54d0d9df">CheckedReadFileAtEOF</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file)</td></tr>
-<tr class="memdesc:ac8e7e1b1a4b89b489964ffee54d0d9df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, ensuring that it indicates end-of-file.  <a href="#ac8e7e1b1a4b89b489964ffee54d0d9df">More...</a><br /></td></tr>
+<tr class="memdesc:ac8e7e1b1a4b89b489964ffee54d0d9df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, ensuring that it indicates end-of-file.  <a href="#ac8e7e1b1a4b89b489964ffee54d0d9df">More...</a><br /></td></tr>
 <tr class="separator:ac8e7e1b1a4b89b489964ffee54d0d9df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7cb2e4837a6fda169cbe92d1603460f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac7cb2e4837a6fda169cbe92d1603460f">CheckedCloseFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file)</td></tr>
 <tr class="memdesc:ac7cb2e4837a6fda169cbe92d1603460f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <code>close()</code> or <code>CloseHandle()</code>, ensuring that it succeeds.  <a href="#ac7cb2e4837a6fda169cbe92d1603460f">More...</a><br /></td></tr>
 <tr class="separator:ac7cb2e4837a6fda169cbe92d1603460f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8599600814a17d622766decd5f122a96"><td class="memItemLeft" align="right" valign="top">FileOperationResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96">ReadFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, void *buffer, size_t size)</td></tr>
-<tr class="memdesc:a8599600814a17d622766decd5f122a96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads from a file, retrying when interrupted on POSIX or following a short read.  <a href="#a8599600814a17d622766decd5f122a96">More...</a><br /></td></tr>
+<tr class="memdesc:a8599600814a17d622766decd5f122a96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads from a file, retrying when interrupted before reading any data on POSIX.  <a href="#a8599600814a17d622766decd5f122a96">More...</a><br /></td></tr>
 <tr class="separator:a8599600814a17d622766decd5f122a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9dded3137add283f6cf32facb86641a"><td class="memItemLeft" align="right" valign="top">FileOperationResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a">WriteFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, const void *buffer, size_t size)</td></tr>
-<tr class="memdesc:ab9dded3137add283f6cf32facb86641a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes to a file, retrying when interrupted or following a short write on POSIX.  <a href="#ab9dded3137add283f6cf32facb86641a">More...</a><br /></td></tr>
-<tr class="separator:ab9dded3137add283f6cf32facb86641a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7987df05e1260e6d8d93ee3a21e9b0eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7987df05e1260e6d8d93ee3a21e9b0eb">OpenFileForRead</a> (const base::FilePath &amp;path)</td></tr>
 <tr class="memdesc:a7987df05e1260e6d8d93ee3a21e9b0eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <code>open()</code> or <code>CreateFile()</code>, opening an existing file for reading.  <a href="#a7987df05e1260e6d8d93ee3a21e9b0eb">More...</a><br /></td></tr>
 <tr class="separator:a7987df05e1260e6d8d93ee3a21e9b0eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -728,6 +731,9 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 <tr class="memitem:a0224d5a689cdb8c2315c255fd6ea6b5c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a1e53a1957d9edcba8b406ea632b6daf2">FileOffset</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a0224d5a689cdb8c2315c255fd6ea6b5c">LoggingFileSizeByHandle</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file)</td></tr>
 <tr class="memdesc:a0224d5a689cdb8c2315c255fd6ea6b5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the size of a file.  <a href="#a0224d5a689cdb8c2315c255fd6ea6b5c">More...</a><br /></td></tr>
 <tr class="separator:a0224d5a689cdb8c2315c255fd6ea6b5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6eccc3b9b90d2dd74048a43c9002e88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac6eccc3b9b90d2dd74048a43c9002e88">StdioFileHandle</a> (<a class="el" href="namespacecrashpad.html#a8402ddae562db04a8daf6bffecaded5b">StdioStream</a> stdio_stream)</td></tr>
+<tr class="memdesc:ac6eccc3b9b90d2dd74048a43c9002e88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a FileHandle corresponding to the requested standard I/O stream.  <a href="#ac6eccc3b9b90d2dd74048a43c9002e88">More...</a><br /></td></tr>
+<tr class="separator:ac6eccc3b9b90d2dd74048a43c9002e88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a616ed0784021ecbd2f0f14b7e75c068c"><td class="memItemLeft" align="right" valign="top">launch_data_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a616ed0784021ecbd2f0f14b7e75c068c">CFPropertyToLaunchData</a> (CFPropertyListRef property_cf)</td></tr>
 <tr class="memdesc:a616ed0784021ecbd2f0f14b7e75c068c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a Core Foundation-type property list to a launchd-type <code>launch_data_t</code>.  <a href="#a616ed0784021ecbd2f0f14b7e75c068c">More...</a><br /></td></tr>
 <tr class="separator:a616ed0784021ecbd2f0f14b7e75c068c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1780,6 +1786,38 @@ template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
 
 </div>
 </div>
+<a id="a8402ddae562db04a8daf6bffecaded5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8402ddae562db04a8daf6bffecaded5b">&#9670;&nbsp;</a></span>StdioStream</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespacecrashpad.html#a8402ddae562db04a8daf6bffecaded5b">crashpad::StdioStream</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determines the FileHandle that <a class="el" href="namespacecrashpad.html#ac6eccc3b9b90d2dd74048a43c9002e88" title="Returns a FileHandle corresponding to the requested standard I/O stream. ">StdioFileHandle()</a> returns. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8402ddae562db04a8daf6bffecaded5ba9ce2feb67c200b9dec30fdec04ef32e2"></a>kStandardInput&#160;</td><td class="fielddoc"><p>Standard input, or <code>stdin</code>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8402ddae562db04a8daf6bffecaded5ba59d7b68e88996f02ef0d89547ae4d127"></a>kStandardOutput&#160;</td><td class="fielddoc"><p>Standard output, or <code>stdout</code>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8402ddae562db04a8daf6bffecaded5ba6012275f61c3c1fff0012cf9c9e646b0"></a>kStandardError&#160;</td><td class="fielddoc"><p>Standard error, or <code>stderr</code>. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="a8387ad067a7e6a1735ab97a1af450d2b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8387ad067a7e6a1735ab97a1af450d2b">&#9670;&nbsp;</a></span>StringToSymbolicConstantOptionBits</h2>
 
@@ -2287,14 +2325,38 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 </div>
 </div>
-<a id="aee611c7116746b846a3cf79e65619f4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee611c7116746b846a3cf79e65619f4d">&#9670;&nbsp;</a></span>CheckedReadFile()</h2>
+<a id="ac8e7e1b1a4b89b489964ffee54d0d9df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8e7e1b1a4b89b489964ffee54d0d9df">&#9670;&nbsp;</a></span>CheckedReadFileAtEOF()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void crashpad::CheckedReadFile </td>
+          <td class="memname">void crashpad::CheckedReadFileAtEOF </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td>
+          <td class="paramname"><em>file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, ensuring that it indicates end-of-file. </p>
+<p>Attempts to read a single byte from <em>file</em>, expecting no data to be read. If the underlying <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a> fails, or if a byte actually is read, this function causes execution to terminate without returning.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a00e03e19185b0fde6301be6b113628cb" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">CheckedReadFileExactly</a> </dd>
+<dd>
+<a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile</a> </dd></dl>
+
+</div>
+</div>
+<a id="a00e03e19185b0fde6301be6b113628cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00e03e19185b0fde6301be6b113628cb">&#9670;&nbsp;</a></span>CheckedReadFileExactly()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::CheckedReadFileExactly </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td>
           <td class="paramname"><em>file</em>, </td>
@@ -2319,39 +2381,15 @@ template&lt;typename Destination , typename Source &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, ensuring that exactly <em>size</em> bytes are read. </p>
-<p>If <em>size</em> is out of the range of possible <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a> return values, if the underlying <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a> fails, or if other than <em>size</em> bytes were read, this function causes execution to terminate without returning.</p>
+<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, ensuring that exactly <em>size</em> bytes are read. </p>
+<p>If the underlying <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a> fails, or if fewer than <em>size</em> bytes were read, this function causes execution to terminate without returning.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a74c74fefa3b1f5e0c1b885755c9f9cf6" title="Wraps WriteFile(), ensuring that exactly size bytes are written. ">CheckedWriteFile</a> </dd>
 <dd>
-<a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile</a> </dd>
+<a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile</a> </dd>
 <dd>
-<a class="el" href="namespacecrashpad.html#abd2a51526c1f15e3f21a962457cbc53a" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">LoggingReadFile</a> </dd>
+<a class="el" href="namespacecrashpad.html#ac3fb8955565f605e08c1e30562fbdb7a" title="Wraps ReadFile(), retrying following a short read, ensuring that exactly size bytes are read...">LoggingReadFileExactly</a> </dd>
 <dd>
 <a class="el" href="namespacecrashpad.html#ac8e7e1b1a4b89b489964ffee54d0d9df" title="Wraps ReadFile(), ensuring that it indicates end-of-file. ">CheckedReadFileAtEOF</a> </dd></dl>
-
-</div>
-</div>
-<a id="ac8e7e1b1a4b89b489964ffee54d0d9df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8e7e1b1a4b89b489964ffee54d0d9df">&#9670;&nbsp;</a></span>CheckedReadFileAtEOF()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void crashpad::CheckedReadFileAtEOF </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td>
-          <td class="paramname"><em>file</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, ensuring that it indicates end-of-file. </p>
-<p>Attempts to read a single byte from <em>file</em>, expecting no data to be read. If the underlying <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a> fails, or if a byte actually is read, this function causes execution to terminate without returning.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#aee611c7116746b846a3cf79e65619f4d" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">CheckedReadFile</a> </dd>
-<dd>
-<a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile</a> </dd></dl>
 
 </div>
 </div>
@@ -2387,11 +2425,11 @@ template&lt;typename Destination , typename Source &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Wraps <a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile()</a>, ensuring that exactly <em>size</em> bytes are written. </p>
-<p>If <em>size</em> is out of the range of possible <a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile()</a> return values, if the underlying <a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile()</a> fails, or if other than <em>size</em> bytes were written, this function causes execution to terminate without returning.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#aee611c7116746b846a3cf79e65619f4d" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">CheckedReadFile</a> </dd>
+<p>Wraps <a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4" title="Writes to a file, retrying when interrupted on POSIX or following a short write. ">WriteFile()</a>, ensuring that exactly <em>size</em> bytes are written. </p>
+<p>if the underlying <a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4" title="Writes to a file, retrying when interrupted on POSIX or following a short write. ">WriteFile()</a> fails, or if fewer than <em>size</em> bytes were written, this function causes execution to terminate without returning.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a00e03e19185b0fde6301be6b113628cb" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">CheckedReadFileExactly</a> </dd>
 <dd>
-<a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile</a> </dd>
+<a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4" title="Writes to a file, retrying when interrupted on POSIX or following a short write. ">WriteFile</a> </dd>
 <dd>
 <a class="el" href="namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b" title="Wraps WriteFile(), ensuring that exactly size bytes are written. ">LoggingWriteFile</a> </dd></dl>
 
@@ -4071,7 +4109,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 <p>Determines the size of a file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>The handle to the file for which the size should be retrived.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>The handle to the file for which the size should be retrieved.</td></tr>
   </table>
   </dd>
 </dl>
@@ -4229,14 +4267,14 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 </div>
 </div>
-<a id="abd2a51526c1f15e3f21a962457cbc53a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd2a51526c1f15e3f21a962457cbc53a">&#9670;&nbsp;</a></span>LoggingReadFile()</h2>
+<a id="ac3fb8955565f605e08c1e30562fbdb7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3fb8955565f605e08c1e30562fbdb7a">&#9670;&nbsp;</a></span>LoggingReadFileExactly()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool crashpad::LoggingReadFile </td>
+          <td class="memname">bool crashpad::LoggingReadFileExactly </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td>
           <td class="paramname"><em>file</em>, </td>
@@ -4261,13 +4299,15 @@ template&lt;typename Destination , typename Source &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, ensuring that exactly <em>size</em> bytes are read. </p>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. If <em>size</em> is out of the range of possible <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a> return values, if the underlying <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a> fails, or if other than <em>size</em> bytes were read, this function logs a message and returns <code>false</code>.</dd></dl>
+<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, retrying following a short read, ensuring that exactly <em>size</em> bytes are read. </p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. If the underlying <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a> fails, or if fewer than <em>size</em> bytes were read, this function logs a message and returns <code>false</code>.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b" title="Wraps WriteFile(), ensuring that exactly size bytes are written. ">LoggingWriteFile</a> </dd>
 <dd>
-<a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile</a> </dd>
+<a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile</a> </dd>
 <dd>
-<a class="el" href="namespacecrashpad.html#aee611c7116746b846a3cf79e65619f4d" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">CheckedReadFile</a> </dd>
+<a class="el" href="namespacecrashpad.html#a6e685af255d9b71fb46ed2679329dd7c" title="Wraps ReadFile(), retrying following a short read, ensuring that exactly size bytes are read...">ReadFileExactly</a> </dd>
+<dd>
+<a class="el" href="namespacecrashpad.html#a00e03e19185b0fde6301be6b113628cb" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">CheckedReadFileExactly</a> </dd>
 <dd>
 <a class="el" href="namespacecrashpad.html#ac8e7e1b1a4b89b489964ffee54d0d9df" title="Wraps ReadFile(), ensuring that it indicates end-of-file. ">CheckedReadFileAtEOF</a> </dd></dl>
 
@@ -4392,11 +4432,11 @@ template&lt;typename Destination , typename Source &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Wraps <a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile()</a>, ensuring that exactly <em>size</em> bytes are written. </p>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. If <em>size</em> is out of the range of possible <a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile()</a> return values, if the underlying <a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile()</a> fails, or if other than <em>size</em> bytes were written, this function logs a message and returns <code>false</code>.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#abd2a51526c1f15e3f21a962457cbc53a" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">LoggingReadFile</a> </dd>
+<p>Wraps <a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4" title="Writes to a file, retrying when interrupted on POSIX or following a short write. ">WriteFile()</a>, ensuring that exactly <em>size</em> bytes are written. </p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. If the underlying <a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4" title="Writes to a file, retrying when interrupted on POSIX or following a short write. ">WriteFile()</a> fails, or if fewer than <em>size</em> bytes were written, this function logs a message and returns <code>false</code>.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#ac3fb8955565f605e08c1e30562fbdb7a" title="Wraps ReadFile(), retrying following a short read, ensuring that exactly size bytes are read...">LoggingReadFileExactly</a> </dd>
 <dd>
-<a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile</a> </dd>
+<a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4" title="Writes to a file, retrying when interrupted on POSIX or following a short write. ">WriteFile</a> </dd>
 <dd>
 <a class="el" href="namespacecrashpad.html#a74c74fefa3b1f5e0c1b885755c9f9cf6" title="Wraps WriteFile(), ensuring that exactly size bytes are written. ">CheckedWriteFile</a> </dd></dl>
 
@@ -5049,14 +5089,62 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Reads from a file, retrying when interrupted on POSIX or following a short read. </p>
-<p>This function reads into <em>buffer</em>, stopping only when <em>size</em> bytes have been read or when end-of-file has been reached. On Windows, reading from sockets is not currently supported.</p>
+<p>Reads from a file, retrying when interrupted before reading any data on POSIX. </p>
+<p>This function reads into <em>buffer</em>. Fewer than <em>size</em> bytes may be read. On Windows, reading from sockets is not currently supported.</p>
 <dl class="section return"><dt>Returns</dt><dd>The number of bytes read and placed into <em>buffer</em>, or <code>-1</code> on error, with <code>errno</code> or <code>GetLastError()</code> set appropriately. On error, a portion of <em>file</em> may have been read into <em>buffer</em>.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a" title="Writes to a file, retrying when interrupted or following a short write on POSIX. ">WriteFile</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4" title="Writes to a file, retrying when interrupted on POSIX or following a short write. ">WriteFile</a> </dd>
 <dd>
-<a class="el" href="namespacecrashpad.html#abd2a51526c1f15e3f21a962457cbc53a" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">LoggingReadFile</a> </dd>
+<a class="el" href="namespacecrashpad.html#a6e685af255d9b71fb46ed2679329dd7c" title="Wraps ReadFile(), retrying following a short read, ensuring that exactly size bytes are read...">ReadFileExactly</a> </dd>
 <dd>
-<a class="el" href="namespacecrashpad.html#aee611c7116746b846a3cf79e65619f4d" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">CheckedReadFile</a> </dd>
+<a class="el" href="namespacecrashpad.html#ac3fb8955565f605e08c1e30562fbdb7a" title="Wraps ReadFile(), retrying following a short read, ensuring that exactly size bytes are read...">LoggingReadFileExactly</a> </dd>
+<dd>
+<a class="el" href="namespacecrashpad.html#a00e03e19185b0fde6301be6b113628cb" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">CheckedReadFileExactly</a> </dd>
+<dd>
+<a class="el" href="namespacecrashpad.html#ac8e7e1b1a4b89b489964ffee54d0d9df" title="Wraps ReadFile(), ensuring that it indicates end-of-file. ">CheckedReadFileAtEOF</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6e685af255d9b71fb46ed2679329dd7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e685af255d9b71fb46ed2679329dd7c">&#9670;&nbsp;</a></span>ReadFileExactly()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::ReadFileExactly </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, retrying following a short read, ensuring that exactly <em>size</em> bytes are read. </p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. If the underlying <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a> fails, or if fewer than <em>size</em> bytes were read, this function logs a message and returns <code>false</code>.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b" title="Wraps WriteFile(), ensuring that exactly size bytes are written. ">LoggingWriteFile</a> </dd>
+<dd>
+<a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile</a> </dd>
+<dd>
+<a class="el" href="namespacecrashpad.html#ac3fb8955565f605e08c1e30562fbdb7a" title="Wraps ReadFile(), retrying following a short read, ensuring that exactly size bytes are read...">LoggingReadFileExactly</a> </dd>
+<dd>
+<a class="el" href="namespacecrashpad.html#a00e03e19185b0fde6301be6b113628cb" title="Wraps ReadFile(), ensuring that exactly size bytes are read. ">CheckedReadFileExactly</a> </dd>
 <dd>
 <a class="el" href="namespacecrashpad.html#ac8e7e1b1a4b89b489964ffee54d0d9df" title="Wraps ReadFile(), ensuring that it indicates end-of-file. ">CheckedReadFileAtEOF</a> </dd></dl>
 
@@ -5711,6 +5799,34 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 
 </div>
 </div>
+<a id="ac6eccc3b9b90d2dd74048a43c9002e88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6eccc3b9b90d2dd74048a43c9002e88">&#9670;&nbsp;</a></span>StdioFileHandle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> crashpad::StdioFileHandle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a8402ddae562db04a8daf6bffecaded5b">StdioStream</a>&#160;</td>
+          <td class="paramname"><em>stdio_stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a FileHandle corresponding to the requested standard I/O stream. </p>
+<p>The returned FileHandle should not be closed on POSIX, where it is important to maintain valid file descriptors occupying the slots reserved for these streams. If a need to close such a stream arises on POSIX, <code>dup2()</code> should instead be used to replace the existing file descriptor with one opened to <code>/dev/null</code>. See <a class="el" href="namespacecrashpad.html#aa8a3145ce95463d1638428b2547cde4d" title="Closes stdin and stdout by opening /dev/null over them. ">CloseStdinAndStdout()</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">stdio_stream</td><td>The requested standard I/O stream.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A corresponding FileHandle on success. kInvalidFileHandle on error, with a message logged. </dd></dl>
+
+</div>
+</div>
 <a id="a229a9b5ddd24c6722e413e6132d0acf0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a229a9b5ddd24c6722e413e6132d0acf0">&#9670;&nbsp;</a></span>StringToException()</h2>
 
@@ -6346,14 +6462,14 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 
 </div>
 </div>
-<a id="ab9dded3137add283f6cf32facb86641a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9dded3137add283f6cf32facb86641a">&#9670;&nbsp;</a></span>WriteFile()</h2>
+<a id="ada530c306bf30e9ed9274c20d05c0db4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada530c306bf30e9ed9274c20d05c0db4">&#9670;&nbsp;</a></span>WriteFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">FileOperationResult crashpad::WriteFile </td>
+          <td class="memname">bool crashpad::WriteFile </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td>
           <td class="paramname"><em>file</em>, </td>
@@ -6378,10 +6494,10 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
       </table>
 </div><div class="memdoc">
 
-<p>Writes to a file, retrying when interrupted or following a short write on POSIX. </p>
+<p>Writes to a file, retrying when interrupted on POSIX or following a short write. </p>
 <p>This function writes to <em>file</em>, stopping only when <em>size</em> bytes have been written.</p>
-<dl class="section return"><dt>Returns</dt><dd>The number of bytes written from <em>buffer</em>, or <code>-1</code> on error, with <code>errno</code> or <code>GetLastError()</code> set appropriately. On error, a portion of <em>buffer</em> may have been written to <em>file</em>.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile</a> </dd>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on error, with <code>errno</code> or <code>GetLastError()</code> set appropriately. On error, a portion of <em>buffer</em> may have been written to <em>file</em>.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile</a> </dd>
 <dd>
 <a class="el" href="namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b" title="Wraps WriteFile(), ensuring that exactly size bytes are written. ">LoggingWriteFile</a> </dd>
 <dd>

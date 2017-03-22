@@ -125,11 +125,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a38a40f720591eb2117a260b5faad78c9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a38a40f720591eb2117a260b5faad78c9">DidChangePrivileges</a> () const</td></tr>
 <tr class="memdesc:a38a40f720591eb2117a260b5faad78c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether the target process has changed privileges.  <a href="#a38a40f720591eb2117a260b5faad78c9">More...</a><br /></td></tr>
 <tr class="separator:a38a40f720591eb2117a260b5faad78c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aded0c4c25b2bed09a9f4c4a605eb3f8d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#aded0c4c25b2bed09a9f4c4a605eb3f8d">Is64Bit</a> () const</td></tr>
-<tr class="separator:aded0c4c25b2bed09a9f4c4a605eb3f8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadb935e296ca5d21969d20f60a87ffc1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#aadb935e296ca5d21969d20f60a87ffc1">StartTime</a> (timeval *start_time) const</td></tr>
-<tr class="memdesc:aadb935e296ca5d21969d20f60a87ffc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the target process’ start time.  <a href="#aadb935e296ca5d21969d20f60a87ffc1">More...</a><br /></td></tr>
-<tr class="separator:aadb935e296ca5d21969d20f60a87ffc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada5cdc0aa94f8f7ead254f5e175e15b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#ada5cdc0aa94f8f7ead254f5e175e15b9">Is64Bit</a> (bool *is_64_bit) const</td></tr>
+<tr class="memdesc:ada5cdc0aa94f8f7ead254f5e175e15b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the target process’ bitness.  <a href="#ada5cdc0aa94f8f7ead254f5e175e15b9">More...</a><br /></td></tr>
+<tr class="separator:ada5cdc0aa94f8f7ead254f5e175e15b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2022cf75ceb87ed7b1f9b8c5cf6ff951"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a2022cf75ceb87ed7b1f9b8c5cf6ff951">StartTime</a> (timeval *start_time) const</td></tr>
+<tr class="memdesc:a2022cf75ceb87ed7b1f9b8c5cf6ff951"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the target process’ start time.  <a href="#a2022cf75ceb87ed7b1f9b8c5cf6ff951">More...</a><br /></td></tr>
+<tr class="separator:a2022cf75ceb87ed7b1f9b8c5cf6ff951"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a572fd9290bf46c4ba287df5278c2a61a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessInfo.html#a572fd9290bf46c4ba287df5278c2a61a">Arguments</a> (std::vector&lt; std::string &gt; *argv) const</td></tr>
 <tr class="memdesc:a572fd9290bf46c4ba287df5278c2a61a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains the arguments used to launch a process.  <a href="#a572fd9290bf46c4ba287df5278c2a61a">More...</a><br /></td></tr>
 <tr class="separator:a572fd9290bf46c4ba287df5278c2a61a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -430,8 +431,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 
 </div>
 </div>
-<a id="aded0c4c25b2bed09a9f4c4a605eb3f8d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aded0c4c25b2bed09a9f4c4a605eb3f8d">&#9670;&nbsp;</a></span>Is64Bit() <span class="overload">[2/2]</span></h2>
+<a id="ada5cdc0aa94f8f7ead254f5e175e15b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada5cdc0aa94f8f7ead254f5e175e15b9">&#9670;&nbsp;</a></span>Is64Bit() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -439,12 +440,21 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
         <tr>
           <td class="memname">bool crashpad::ProcessInfo::Is64Bit </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">bool *&#160;</td>
+          <td class="paramname"><em>is_64_bit</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the target task is a 64-bit process. </dd></dl>
+
+<p>Determines the target process’ bitness. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">is_64_bit</td><td><code>true</code> if the target task is a 64-bit process.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, with <em>is_64_bit</em> set. Otherwise, <code>false</code> with a message logged. </dd></dl>
 
 </div>
 </div>
@@ -695,14 +705,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 
 </div>
 </div>
-<a id="aadb935e296ca5d21969d20f60a87ffc1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadb935e296ca5d21969d20f60a87ffc1">&#9670;&nbsp;</a></span>StartTime()</h2>
+<a id="a2022cf75ceb87ed7b1f9b8c5cf6ff951"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2022cf75ceb87ed7b1f9b8c5cf6ff951">&#9670;&nbsp;</a></span>StartTime()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void crashpad::ProcessInfo::StartTime </td>
+          <td class="memname">bool crashpad::ProcessInfo::StartTime </td>
           <td>(</td>
           <td class="paramtype">timeval *&#160;</td>
           <td class="paramname"><em>start_time</em></td><td>)</td>
@@ -714,10 +724,11 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 <p>Determines the target process’ start time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">start_time</td><td>The time that the process started. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">start_time</td><td>The time that the process started.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, with <em>start_time</em> set. Otherwise, <code>false</code> with a message logged. </dd></dl>
 
 </div>
 </div>
@@ -741,6 +752,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>util/posix/process_info.h</li>
+<li>util/posix/process_info_linux.cc</li>
 <li>util/posix/process_info_mac.cc</li>
 <li>util/win/process_info.cc</li>
 </ul>

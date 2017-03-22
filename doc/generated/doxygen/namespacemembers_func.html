@@ -112,11 +112,11 @@ $(function() {
 <li>CheckedCloseFile()
 : <a class="el" href="namespacecrashpad.html#ac7cb2e4837a6fda169cbe92d1603460f">crashpad</a>
 </li>
-<li>CheckedReadFile()
-: <a class="el" href="namespacecrashpad.html#aee611c7116746b846a3cf79e65619f4d">crashpad</a>
-</li>
 <li>CheckedReadFileAtEOF()
 : <a class="el" href="namespacecrashpad.html#ac8e7e1b1a4b89b489964ffee54d0d9df">crashpad</a>
+</li>
+<li>CheckedReadFileExactly()
+: <a class="el" href="namespacecrashpad.html#a00e03e19185b0fde6301be6b113628cb">crashpad</a>
 </li>
 <li>CheckedWriteFile()
 : <a class="el" href="namespacecrashpad.html#a74c74fefa3b1f5e0c1b885755c9f9cf6">crashpad</a>
@@ -233,6 +233,9 @@ $(function() {
 <li>GetFunctionInternal()
 : <a class="el" href="namespacecrashpad_1_1internal.html#aa982a8cad0e72cddf1989d135db3c338">crashpad::internal</a>
 </li>
+<li>GetMainArguments()
+: <a class="el" href="namespacecrashpad_1_1test.html#a04f9df0a866217f549d350e196488558">crashpad::test</a>
+</li>
 <li>GetModuleVersionAndType()
 : <a class="el" href="namespacecrashpad.html#af5f4414be804bdcd71f57053d7147eff">crashpad</a>
 </li>
@@ -275,6 +278,9 @@ $(function() {
 </li>
 <li>InitializeCriticalSectionWithDebugInfoIfPossible()
 : <a class="el" href="namespacecrashpad.html#af8340c24a2983e788d2a3ba90d1d4846">crashpad</a>
+</li>
+<li>InitializeMainArguments()
+: <a class="el" href="namespacecrashpad_1_1test.html#a39568e00a9e49cda7938f6154b1264cf">crashpad::test</a>
 </li>
 <li>InitializeMinidumpContextAMD64()
 : <a class="el" href="namespacecrashpad_1_1test.html#afa1dd7166c73ca082608b1ab21b5a395">crashpad::test</a>
@@ -385,8 +391,8 @@ $(function() {
 <li>LoggingOpenFileForWrite()
 : <a class="el" href="namespacecrashpad.html#a62fc6876cc0c660f0ea8bd1dd0a07e82">crashpad</a>
 </li>
-<li>LoggingReadFile()
-: <a class="el" href="namespacecrashpad.html#abd2a51526c1f15e3f21a962457cbc53a">crashpad</a>
+<li>LoggingReadFileExactly()
+: <a class="el" href="namespacecrashpad.html#ac3fb8955565f605e08c1e30562fbdb7a">crashpad</a>
 </li>
 <li>LoggingSeekFile()
 : <a class="el" href="namespacecrashpad.html#a3d6cedc10e24145d4a0c1000c33f8a10">crashpad</a>
@@ -468,6 +474,9 @@ $(function() {
 
 
 <h3><a id="index_n"></a>- n -</h3><ul>
+<li>NativeWriteFile()
+: <a class="el" href="namespacecrashpad_1_1internal.html#a7292eaf3187362eada8aafa56951aacd">crashpad::internal</a>
+</li>
 <li>NewMachPort()
 : <a class="el" href="namespacecrashpad.html#a9c9bc6ad9973f794c425707617b63278">crashpad</a>
 </li>
@@ -504,6 +513,9 @@ $(function() {
 <li>ReadFile()
 : <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96">crashpad</a>
 </li>
+<li>ReadFileExactly()
+: <a class="el" href="namespacecrashpad.html#a6e685af255d9b71fb46ed2679329dd7c">crashpad</a>
+</li>
 <li>ReadMinidumpSimpleStringDictionary()
 : <a class="el" href="namespacecrashpad_1_1internal.html#aa9b358d36faf271ec17d7e9a829610a9">crashpad::internal</a>
 </li>
@@ -517,7 +529,7 @@ $(function() {
 : <a class="el" href="namespacecrashpad.html#aaccce94b8a0b7b0ada3391216706e599">crashpad</a>
 </li>
 <li>ReadStreamToString()
-: <a class="el" href="namespacecrashpad_1_1test.html#a861ba97c72a60c7e1802c39395d1d1fe">crashpad::test</a>
+: <a class="el" href="namespacecrashpad_1_1test.html#a35412b33d0a275fa43e8633296059534">crashpad::test</a>
 </li>
 <li>ReadXattr()
 : <a class="el" href="namespacecrashpad.html#ac86f028e5f175cccfcab418346d7bcfe">crashpad</a>
@@ -571,6 +583,9 @@ $(function() {
 <li>SplitStringFirst()
 : <a class="el" href="namespacecrashpad.html#a1b3aaf00fdc6fef366afb2a00062c97f">crashpad</a>
 </li>
+<li>StdioFileHandle()
+: <a class="el" href="namespacecrashpad.html#ac6eccc3b9b90d2dd74048a43c9002e88">crashpad</a>
+</li>
 <li>StringToException()
 : <a class="el" href="namespacecrashpad.html#a229a9b5ddd24c6722e413e6132d0acf0">crashpad</a>
 </li>
@@ -581,7 +596,7 @@ $(function() {
 : <a class="el" href="namespacecrashpad.html#a7ab63868a738f3bfd4d2449e60607dec">crashpad</a>
 </li>
 <li>StringToNumber()
-: <a class="el" href="namespacecrashpad.html#a0d7e404d4414f4a6dd7c00f3ac2920e9">crashpad</a>
+: <a class="el" href="namespacecrashpad.html#a38697c7bab6ab9c9abeea86b421252cf">crashpad</a>
 </li>
 <li>StringToSignal()
 : <a class="el" href="namespacecrashpad.html#a6249dd58c6a81b300d64b25a943fa25c">crashpad</a>
@@ -627,7 +642,7 @@ $(function() {
 
 <h3><a id="index_w"></a>- w -</h3><ul>
 <li>WriteFile()
-: <a class="el" href="namespacecrashpad.html#ab9dded3137add283f6cf32facb86641a">crashpad</a>
+: <a class="el" href="namespacecrashpad.html#ada530c306bf30e9ed9274c20d05c0db4">crashpad</a>
 </li>
 <li>WriteXattr()
 : <a class="el" href="namespacecrashpad.html#a6842e0ae3110f04477765c771c04dc60">crashpad</a>

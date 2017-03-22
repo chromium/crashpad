@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['readexactlyinternal',['ReadExactlyInternal',['../classcrashpad_1_1internal_1_1ReadExactlyInternal.html',1,'crashpad::internal']]],
   ['rebind',['rebind',['../structcrashpad_1_1AlignedAllocator_1_1rebind.html',1,'crashpad::AlignedAllocator']]],
   ['registrationrequest',['RegistrationRequest',['../structcrashpad_1_1RegistrationRequest.html',1,'crashpad']]],
   ['registrationresponse',['RegistrationResponse',['../structcrashpad_1_1RegistrationResponse.html',1,'crashpad']]],

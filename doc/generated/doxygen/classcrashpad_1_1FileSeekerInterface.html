@@ -81,16 +81,14 @@ Inheritance diagram for crashpad::FileSeekerInterface:</div>
  <div class="center">
   <img src="classcrashpad_1_1FileSeekerInterface.png" usemap="#crashpad::FileSeekerInterface_map" alt=""/>
   <map id="crashpad::FileSeekerInterface_map" name="crashpad::FileSeekerInterface_map">
-<area href="classcrashpad_1_1FileReaderInterface.html" title="An interface to read to files and other file-like objects with semantics matching the underlying plat..." alt="crashpad::FileReaderInterface" shape="rect" coords="0,56,225,80"/>
-<area href="classcrashpad_1_1FileWriterInterface.html" title="An interface to write to files and other file-like objects with semantics matching the underlying pla..." alt="crashpad::FileWriterInterface" shape="rect" coords="470,56,695,80"/>
-<area href="classcrashpad_1_1FileReader.html" title="A file reader implementation that wraps traditional system file operations on files accessed through ..." alt="crashpad::FileReader" shape="rect" coords="235,112,460,136"/>
-<area href="classcrashpad_1_1StringFile.html" title="A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating sy..." alt="crashpad::StringFile" shape="rect" coords="235,168,460,192"/>
-<area href="classcrashpad_1_1WeakFileHandleFileReader.html" title="A file reader backed by a FileHandle. " alt="crashpad::WeakFileHandleFileReader" shape="rect" coords="235,224,460,248"/>
-<area href="classcrashpad_1_1WeakStdioFileReader.html" title="A file reader backed by a standard input/output FILE*. " alt="crashpad::WeakStdioFileReader" shape="rect" coords="235,280,460,304"/>
+<area href="classcrashpad_1_1FileReaderInterface.html" title="An interface to read to files and other file-like objects with semantics matching the underlying plat..." alt="crashpad::FileReaderInterface" shape="rect" coords="235,56,460,80"/>
+<area href="classcrashpad_1_1FileWriterInterface.html" title="An interface to write to files and other file-like objects with semantics matching the underlying pla..." alt="crashpad::FileWriterInterface" shape="rect" coords="940,56,1165,80"/>
+<area href="classcrashpad_1_1FileReader.html" title="A file reader implementation that wraps traditional system file operations on files accessed through ..." alt="crashpad::FileReader" shape="rect" coords="0,112,225,136"/>
+<area href="classcrashpad_1_1StringFile.html" title="A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating sy..." alt="crashpad::StringFile" shape="rect" coords="235,112,460,136"/>
+<area href="classcrashpad_1_1WeakFileHandleFileReader.html" title="A file reader backed by a FileHandle. " alt="crashpad::WeakFileHandleFileReader" shape="rect" coords="470,112,695,136"/>
 <area href="classcrashpad_1_1FileWriter.html" title="A file writer implementation that wraps traditional system file operations on files accessed through ..." alt="crashpad::FileWriter" shape="rect" coords="705,112,930,136"/>
-<area href="classcrashpad_1_1StringFile.html" title="A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating sy..." alt="crashpad::StringFile" shape="rect" coords="705,168,930,192"/>
-<area href="classcrashpad_1_1WeakFileHandleFileWriter.html" title="A file writer backed by a FileHandle. " alt="crashpad::WeakFileHandleFileWriter" shape="rect" coords="705,224,930,248"/>
-<area href="classcrashpad_1_1WeakStdioFileWriter.html" title="A file writer backed by a standard input/output FILE*. " alt="crashpad::WeakStdioFileWriter" shape="rect" coords="705,280,930,304"/>
+<area href="classcrashpad_1_1StringFile.html" title="A file reader and writer backed by a virtual file, as opposed to a file on disk or other operating sy..." alt="crashpad::StringFile" shape="rect" coords="940,112,1165,136"/>
+<area href="classcrashpad_1_1WeakFileHandleFileWriter.html" title="A file writer backed by a FileHandle. " alt="crashpad::WeakFileHandleFileWriter" shape="rect" coords="1175,112,1400,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -146,7 +144,7 @@ Public Member Functions</h2></td></tr>
 <p>Wraps <a class="el" href="namespacecrashpad.html#a3d6cedc10e24145d4a0c1000c33f8a10" title="Wraps lseek() or SetFilePointerEx(). Logs an error if the operation fails. ">LoggingSeekFile()</a> or provides an alternate implementation with identical semantics. </p>
 <dl class="section return"><dt>Returns</dt><dd>The return value of <a class="el" href="namespacecrashpad.html#a3d6cedc10e24145d4a0c1000c33f8a10" title="Wraps lseek() or SetFilePointerEx(). Logs an error if the operation fails. ">LoggingSeekFile()</a>. <code>-1</code> on failure, with an error message logged. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1WeakStdioFileWriter.html#ac2c9453d5939a0f9d7dbcf1f04c76d84">crashpad::WeakStdioFileWriter</a>, <a class="el" href="classcrashpad_1_1WeakStdioFileReader.html#aadfb883a076615e7f6c2b4e4f29ce3a5">crashpad::WeakStdioFileReader</a>, <a class="el" href="classcrashpad_1_1FileWriter.html#a2dbaf9ac2c3f1802fea09843127d24e2">crashpad::FileWriter</a>, <a class="el" href="classcrashpad_1_1FileReader.html#aa468e6ee52895d46173aed720230f4b8">crashpad::FileReader</a>, <a class="el" href="classcrashpad_1_1WeakFileHandleFileWriter.html#a98976c8eab56aa6d1e0bfe3e01a87b08">crashpad::WeakFileHandleFileWriter</a>, <a class="el" href="classcrashpad_1_1WeakFileHandleFileReader.html#a8374ad1eb0a03bfb5f36d6a5e8959f98">crashpad::WeakFileHandleFileReader</a>, and <a class="el" href="classcrashpad_1_1StringFile.html#acabb59b99e86bea5949f7a9a47c6dbcc">crashpad::StringFile</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1FileWriter.html#a2dbaf9ac2c3f1802fea09843127d24e2">crashpad::FileWriter</a>, <a class="el" href="classcrashpad_1_1FileReader.html#aa468e6ee52895d46173aed720230f4b8">crashpad::FileReader</a>, <a class="el" href="classcrashpad_1_1WeakFileHandleFileWriter.html#a98976c8eab56aa6d1e0bfe3e01a87b08">crashpad::WeakFileHandleFileWriter</a>, <a class="el" href="classcrashpad_1_1WeakFileHandleFileReader.html#a8374ad1eb0a03bfb5f36d6a5e8959f98">crashpad::WeakFileHandleFileReader</a>, and <a class="el" href="classcrashpad_1_1StringFile.html#acabb59b99e86bea5949f7a9a47c6dbcc">crashpad::StringFile</a>.</p>
 
 </div>
 </div>

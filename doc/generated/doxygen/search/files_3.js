@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['get_5ffunction_2eh',['get_function.h',['../get__function_8h.html',1,'']]],
-  ['gtest_5fdeath_5fcheck_2eh',['gtest_death_check.h',['../gtest__death__check_8h.html',1,'']]]
+  ['initialization_5fstate_5fdcheck_2eh',['initialization_state_dcheck.h',['../initialization__state__dcheck_8h.html',1,'']]]
 ];

@@ -2,7 +2,7 @@ var searchData=
 [
   ['objectinforva',['ObjectInfoRva',['../structMINIDUMP__HANDLE__DESCRIPTOR__2.html#aa0b812ef76a6216770acb71573cf30e0',1,'MINIDUMP_HANDLE_DESCRIPTOR_2']]],
   ['objectnamerva',['ObjectNameRva',['../structMINIDUMP__HANDLE__DESCRIPTOR.html#ab731c6e300d8e5c4fd649f9c7a67736b',1,'MINIDUMP_HANDLE_DESCRIPTOR']]],
-  ['offset',['offset',['../structcrashpad_1_1CodeViewRecordPDB20.html#ae1187d7d3e7a25e3053efbb73e1a4f77',1,'crashpad::CodeViewRecordPDB20::offset()'],['../structXSTATE__FEATURE.html#a74bc70735d0bf42c17e188c2fd9b5084',1,'XSTATE_FEATURE::Offset()']]],
+  ['offset',['Offset',['../structXSTATE__FEATURE.html#a74bc70735d0bf42c17e188c2fd9b5084',1,'XSTATE_FEATURE::Offset()'],['../structcrashpad_1_1CodeViewRecordPDB20.html#ae1187d7d3e7a25e3053efbb73e1a4f77',1,'crashpad::CodeViewRecordPDB20::offset()']]],
   ['oldactions',['OldActions',['../classcrashpad_1_1Signals_1_1OldActions.html',1,'crashpad::Signals']]],
   ['open',['Open',['../classcrashpad_1_1FileReader.html#a7b1d936d3040a4ba89fca13fc6566ddd',1,'crashpad::FileReader::Open()'],['../classcrashpad_1_1FileWriter.html#a6339ccd8d717911090ae0981bbbe2823',1,'crashpad::FileWriter::Open()']]],
   ['openfileforread',['OpenFileForRead',['../namespacecrashpad.html#a7987df05e1260e6d8d93ee3a21e9b0eb',1,'crashpad']]],

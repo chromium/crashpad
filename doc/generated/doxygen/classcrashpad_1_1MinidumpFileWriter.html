@@ -94,9 +94,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adceffe1f226fce650a0cbdf1a61a29e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpFileWriter.html#adceffe1f226fce650a0cbdf1a61a29e6">SetTimestamp</a> (time_t timestamp)</td></tr>
 <tr class="memdesc:adceffe1f226fce650a0cbdf1a61a29e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets MINIDUMP_HEADER::Timestamp.  <a href="#adceffe1f226fce650a0cbdf1a61a29e6">More...</a><br /></td></tr>
 <tr class="separator:adceffe1f226fce650a0cbdf1a61a29e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92e504c6eea14a7b66c4a776bb7bebe7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpFileWriter.html#a92e504c6eea14a7b66c4a776bb7bebe7">AddStream</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html">internal::MinidumpStreamWriter</a> &gt; stream)</td></tr>
-<tr class="memdesc:a92e504c6eea14a7b66c4a776bb7bebe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a stream to the minidump file and arranges for a <a class="el" href="structMINIDUMP__DIRECTORY.html" title="A pointer to a stream within a minidump file. ">MINIDUMP_DIRECTORY</a> entry to point to it.  <a href="#a92e504c6eea14a7b66c4a776bb7bebe7">More...</a><br /></td></tr>
-<tr class="separator:a92e504c6eea14a7b66c4a776bb7bebe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5901df68cecde91b8c5c4c3b7cad5a50"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpFileWriter.html#a5901df68cecde91b8c5c4c3b7cad5a50">AddStream</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html">internal::MinidumpStreamWriter</a> &gt; stream)</td></tr>
+<tr class="memdesc:a5901df68cecde91b8c5c4c3b7cad5a50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a stream to the minidump file and arranges for a <a class="el" href="structMINIDUMP__DIRECTORY.html" title="A pointer to a stream within a minidump file. ">MINIDUMP_DIRECTORY</a> entry to point to it.  <a href="#a5901df68cecde91b8c5c4c3b7cad5a50">More...</a><br /></td></tr>
+<tr class="separator:a5901df68cecde91b8c5c4c3b7cad5a50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8eeea6397f565a17455c091b0a3f6a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpFileWriter.html#ad8eeea6397f565a17455c091b0a3f6a6">WriteEverything</a> (<a class="el" href="classcrashpad_1_1FileWriterInterface.html">FileWriterInterface</a> *file_writer) override</td></tr>
 <tr class="memdesc:ad8eeea6397f565a17455c091b0a3f6a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes an object and all of its children to a minidump file.  <a href="#ad8eeea6397f565a17455c091b0a3f6a6">More...</a><br /></td></tr>
 <tr class="separator:ad8eeea6397f565a17455c091b0a3f6a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,14 +161,14 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>The root-level object in a minidump file. </p>
 <p>This object writes a <a class="el" href="structMINIDUMP__HEADER.html" title="The top-level structure identifying a minidump file. ">MINIDUMP_HEADER</a> and list of <a class="el" href="structMINIDUMP__DIRECTORY.html" title="A pointer to a stream within a minidump file. ">MINIDUMP_DIRECTORY</a> entries to a minidump file. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a92e504c6eea14a7b66c4a776bb7bebe7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92e504c6eea14a7b66c4a776bb7bebe7">&#9670;&nbsp;</a></span>AddStream()</h2>
+<a id="a5901df68cecde91b8c5c4c3b7cad5a50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5901df68cecde91b8c5c4c3b7cad5a50">&#9670;&nbsp;</a></span>AddStream()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void crashpad::MinidumpFileWriter::AddStream </td>
+          <td class="memname">bool crashpad::MinidumpFileWriter::AddStream </td>
           <td>(</td>
           <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html">internal::MinidumpStreamWriter</a> &gt;&#160;</td>
           <td class="paramname"><em>stream</em></td><td>)</td>
@@ -179,8 +179,9 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Adds a stream to the minidump file and arranges for a <a class="el" href="structMINIDUMP__DIRECTORY.html" title="A pointer to a stream within a minidump file. ">MINIDUMP_DIRECTORY</a> entry to point to it. </p>
 <p>This object takes ownership of <em>stream</em> and becomes its parent in the overall tree of <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html" title="The base class for all content that might be written to a minidump file. ">internal::MinidumpWritable</a> objects.</p>
-<p>At most one object of each stream type (as obtained from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html#aa995c5f93ecfdeb13dbfc4b7fb107632" title="Returns an object’s stream type. ">internal::MinidumpStreamWriter::StreamType()</a>) may be added to a <a class="el" href="classcrashpad_1_1MinidumpFileWriter.html" title="The root-level object in a minidump file. ">MinidumpFileWriter</a> object. It is an error to attempt to add multiple streams with the same stream type.</p>
-<dl class="section note"><dt>Note</dt><dd>Valid in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a18337604dcbdbdb23ed51810f0587665" title="The object’s properties can be modified. ">kStateMutable</a>. </dd></dl>
+<p>At most one object of each stream type (as obtained from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html#aa995c5f93ecfdeb13dbfc4b7fb107632" title="Returns an object’s stream type. ">internal::MinidumpStreamWriter::StreamType()</a>) may be added to a <a class="el" href="classcrashpad_1_1MinidumpFileWriter.html" title="The root-level object in a minidump file. ">MinidumpFileWriter</a> object. If an attempt is made to add a stream whose type matches an existing stream’s type, this method discards the new stream.</p>
+<dl class="section note"><dt>Note</dt><dd>Valid in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a18337604dcbdbdb23ed51810f0587665" title="The object’s properties can be modified. ">kStateMutable</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure, as occurs when an attempt is made to add a stream whose type matches an existing stream’s type, with a message logged. </dd></dl>
 
 </div>
 </div>

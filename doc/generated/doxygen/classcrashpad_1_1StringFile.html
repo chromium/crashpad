@@ -103,7 +103,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:acc9180465c3147b38c6d6aa4049f8958"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the virtual file’s contents to be empty, and resets its file position to <code>0</code>. <br /></td></tr>
 <tr class="separator:acc9180465c3147b38c6d6aa4049f8958"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05de4b2d8ef91a974181d7340c61b346"><td class="memItemLeft" align="right" valign="top">FileOperationResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringFile.html#a05de4b2d8ef91a974181d7340c61b346">Read</a> (void *data, size_t size) override</td></tr>
-<tr class="memdesc:a05de4b2d8ef91a974181d7340c61b346"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics.  <a href="#a05de4b2d8ef91a974181d7340c61b346">More...</a><br /></td></tr>
+<tr class="memdesc:a05de4b2d8ef91a974181d7340c61b346"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, or provides an implementation with identical semantics.  <a href="#a05de4b2d8ef91a974181d7340c61b346">More...</a><br /></td></tr>
 <tr class="separator:a05de4b2d8ef91a974181d7340c61b346"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7e22ad48bbedf3e1e6a257cfba0c137"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1StringFile.html#aa7e22ad48bbedf3e1e6a257cfba0c137">Write</a> (const void *data, size_t size) override</td></tr>
 <tr class="memdesc:aa7e22ad48bbedf3e1e6a257cfba0c137"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b" title="Wraps WriteFile(), ensuring that exactly size bytes are written. ">LoggingWriteFile()</a>, or provides an implementation with identical semantics.  <a href="#aa7e22ad48bbedf3e1e6a257cfba0c137">More...</a><br /></td></tr>
@@ -164,7 +164,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table>
 </div><div class="memdoc">
 
-<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted on POSIX or following a short read. ">ReadFile()</a>, or provides an implementation with identical semantics. </p>
+<p>Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, or provides an implementation with identical semantics. </p>
 <dl class="section return"><dt>Returns</dt><dd>The number of bytes actually read if the operation succeeded, which may be <code>0</code> or any positive value less than or equal to <em>size</em>. <code>-1</code> if the operation failed, with an error message logged. </dd></dl>
 
 <p>Implements <a class="el" href="classcrashpad_1_1FileReaderInterface.html#ad9035ff345274f33cef248712d53d9e1">crashpad::FileReaderInterface</a>.</p>
