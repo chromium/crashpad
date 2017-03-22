@@ -14,13 +14,77 @@
 
 #include "minidump/minidump_user_stream_writer.h"
 
+#include "base/memory/ptr_util.h"
 #include "util/file/file_writer.h"
 
 namespace crashpad {
 
-MinidumpUserStreamWriter::MinidumpUserStreamWriter()
-    : stream_type_(0), reader_() {
-}
+class MinidumpUserStreamWriter::ContentsWriter {
+ public:
+  virtual ~ContentsWriter() {}
+  virtual bool WriteContents(FileWriterInterface* writer) = 0;
+  virtual size_t GetSize() const = 0;
+};
+
+class MinidumpUserStreamWriter::SnapshotContentsWriter
+    : public MinidumpUserStreamWriter::ContentsWriter,
+      public MemorySnapshot::Delegate {
+ public:
+  SnapshotContentsWriter(const MemorySnapshot* snapshot)
+      : snapshot_(snapshot), writer_(nullptr) {}
+  bool WriteContents(FileWriterInterface* writer) {
+    DCHECK(!writer_);
+    if (!snapshot_)
+      return true;
+
+    writer_ = writer;
+    return snapshot_->Read(this);
+  };
+
+  size_t GetSize() const override { return snapshot_ ? snapshot_->Size() : 0; };
+
+  bool MemorySnapshotDelegateRead(void* data, size_t size) override {
+    return writer_->Write(data, size);
+  }
+
+ private:
+  const MemorySnapshot* snapshot_;
+  FileWriterInterface* writer_;
+
+  DISALLOW_COPY_AND_ASSIGN(SnapshotContentsWriter);
+};
+
+class MinidumpUserStreamWriter::BufferContentsWriter
+    : public MinidumpUserStreamWriter::ContentsWriter {
+ public:
+  BufferContentsWriter(const void* buffer, size_t buffer_size)
+      : buffer_(buffer), buffer_size_(buffer_size) {}
+  bool WriteContents(FileWriterInterface* writer) override {
+    return writer->Write(buffer_, buffer_size_);
+  }
+  size_t GetSize() const override { return buffer_size_; }
+
+ private:
+  const void* buffer_;
+  size_t buffer_size_;
+};
+
+namespace {
+
+class MemoryReader final : public MemorySnapshot::Delegate {
+ public:
+  explicit MemoryReader(FileWriterInterface* writer) : writer_(writer) {}
+  ~MemoryReader() override {}
+
+ private:
+  FileWriterInterface* writer_;
+
+  DISALLOW_COPY_AND_ASSIGN(MemoryReader);
+};
+
+}  // namespace
+
+MinidumpUserStreamWriter::MinidumpUserStreamWriter() : stream_type_() {}
 
 MinidumpUserStreamWriter::~MinidumpUserStreamWriter() {
 }
@@ -28,10 +92,22 @@ MinidumpUserStreamWriter::~MinidumpUserStreamWriter() {
 void MinidumpUserStreamWriter::InitializeFromSnapshot(
     const UserMinidumpStream* stream) {
   DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!contents_writer_.get());
+  stream_type_ = static_cast<MinidumpStreamType>(stream->stream_type());
+  contents_writer_ =
+      base::WrapUnique(new SnapshotContentsWriter(stream->memory()));
+}
 
-  stream_type_ = stream->stream_type();
-  if (stream->memory())
-    stream->memory()->Read(&reader_);
+void MinidumpUserStreamWriter::InitializeFromBuffer(
+    MinidumpStreamType stream_type,
+    const void* buffer,
+    size_t buffer_size) {
+  DCHECK_EQ(state(), kStateMutable);
+  DCHECK(!contents_writer_.get());
+
+  stream_type_ = stream_type;
+  contents_writer_ =
+      base::WrapUnique(new BufferContentsWriter(buffer, buffer_size));
 }
 
 bool MinidumpUserStreamWriter::Freeze() {
@@ -42,7 +118,8 @@ bool MinidumpUserStreamWriter::Freeze() {
 
 size_t MinidumpUserStreamWriter::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
-  return reader_.size();
+
+  return contents_writer_->GetSize();
 }
 
 std::vector<internal::MinidumpWritable*>
@@ -53,21 +130,12 @@ MinidumpUserStreamWriter::Children() {
 
 bool MinidumpUserStreamWriter::WriteObject(FileWriterInterface* file_writer) {
   DCHECK_EQ(state(), kStateWritable);
-  return file_writer->Write(reader_.data(), reader_.size());
+
+  return contents_writer_->WriteContents(file_writer);
 }
 
 MinidumpStreamType MinidumpUserStreamWriter::StreamType() const {
   return static_cast<MinidumpStreamType>(stream_type_);
-}
-
-MinidumpUserStreamWriter::MemoryReader::~MemoryReader() {}
-
-bool MinidumpUserStreamWriter::MemoryReader::MemorySnapshotDelegateRead(
-    void* data,
-    size_t size) {
-  data_.resize(size);
-  memcpy(&data_[0], data, size);
-  return true;
 }
 
 }  // namespace crashpad
