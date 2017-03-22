@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78ec715d_072d069f",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T21:45:49Z",
+      "side": 1,
+      "message": "explicit",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebe3355d_a6f8ac45",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T21:45:49Z",
+      "side": 1,
+      "message": "Put a blank line after this so that it doesn’t look like the next method is all tied up with the constructor, whose initialization list gives it weird indentation. Same on line 61.",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10b667b1_c6eb06e1",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T21:45:49Z",
+      "side": 1,
+      "message": "Say “override” here or you’ll break the clang build.",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61ff1545_f83f283c",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T21:45:49Z",
+      "side": 1,
+      "message": "Put this early return after setting writer_, so that if someone actually does use this thing with a null writer_, a second accidental call to WriteContents() will behave the same as it would with a non-null writer_ and trip the DCHECK() on the line above.",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98dfe7c6_171d99ac",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T21:45:49Z",
+      "side": 1,
+      "message": "No ;",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d798836_e2e22eba",
+        "filename": "minidump/minidump_user_stream_writer.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T21:45:49Z",
+      "side": 1,
+      "message": "For optimal packing, put the pointer first.",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
