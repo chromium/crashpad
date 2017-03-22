@@ -1,0 +1,227 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6295e1e_57f948e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "(no dot at the end of the first line of a git summary)",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caf5db7c_2eda414a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "No BUG, lose the BUG\u003d line",
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc378f67_49bade0b",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "Grab the \u003c!-- copyright --\u003e boilerplate from developing.md and change the year to 2017.",
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe96ab34_0f2a4cc7",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "Who is this guy? I’m mark@chromium.org.",
+      "range": {
+        "startLine": 5,
+        "startChar": 29,
+        "endLine": 5,
+        "endChar": 51
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bf17bfa_247cac6e",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "No space in postmortem. No hyphen, either. This doc uses the term several times.",
+      "range": {
+        "startLine": 13,
+        "startChar": 62,
+        "endLine": 13,
+        "endChar": 74
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf1136b1_906dac42",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "Wrapping at a hyphen’s not a good idea in markdown source. The newline will turn into a space.",
+      "range": {
+        "startLine": 67,
+        "startChar": 74,
+        "endLine": 67,
+        "endChar": 79
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c12a71f8_81ae1519",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "Let’s use Markdown formatting to our advantage. How about a little boldness, like\n\n * **Client ID**. A UUID tied to a single instance of a Crashpad database. When\n   creating a crash report, the Crashpad handler includes the client ID stored\n[…]",
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b6adbce_94063dea",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "Bad link. Use https://crashpad.chromium.org/bug/133.",
+      "range": {
+        "startLine": 293,
+        "startChar": 47,
+        "endLine": 293,
+        "endChar": 77
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5eed4b6_5f05dd24",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "Be consistent about whether or not there’s a blank line after a heading like this (usually you have one). Line 325 too.",
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9557c0f4_0514e2ef",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "Be consistent about how you format lists in the source (hanging indent, spaces after the *, etc.) Compare to lines 145 and 274.\n\nPer the examples in developing.md, I like the style that uses a leading space and has a hanging indent, like\n\n * Appropriate development tools. For macOS, this is\n   [Xcode](https://developer.apple.com/xcode/) and for Windows, it’s [Visual\n   Studio](https://www.visualstudio.com/).\n\nbecause it looks most like how it will be rendered. Same applies to numbered lists.",
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33dcb283_6232252d",
+        "filename": "doc/overview-design.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T15:48:14Z",
+      "side": 1,
+      "message": "Canonical for Crashpad: https://crashpad.chromium.org/bug/23",
+      "range": {
+        "startLine": 450,
+        "startChar": 47,
+        "endLine": 450,
+        "endChar": 76
+      },
+      "revId": "80f61b90adbecc00fad0e6dedd93d3602a47bc20",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
