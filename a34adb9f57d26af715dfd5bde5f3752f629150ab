@@ -1,0 +1,271 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b6d77a6_005ed29e",
+        "filename": "minidump/minidump_file_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "Odd to DCHECK this, prefer just crashing on line 210.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e84552d3_4f6b531a",
+        "filename": "minidump/minidump_file_writer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "All of the new ones should be “(if present)”",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a89cfd34_a67f46ca",
+        "filename": "minidump/minidump_file_writer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "It doesn’t have to go past WriteEverything(), it just needs to be valid through WriteEverything(). And put those parens on there so that Doxygen knows to link it.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bed12c54_315307cd",
+        "filename": "minidump/minidump_user_extension_stream_data_source.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "Period instead of comma.",
+      "range": {
+        "startLine": 31,
+        "startChar": 58,
+        "endLine": 31,
+        "endChar": 59
+      },
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "998341da_3f0b69fe",
+        "filename": "minidump/minidump_user_extension_stream_data_source.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "We have our own type for this. #include \"minidump/minidump_extensions.h\" and use MinidumpStreamType. That’ll bubble out to a few other spots.\n\nMinidumpStreamType is an enum, but since it’s (intentionally) not an enum class, it ought to be OK to use it in this way. It’s typed as uint32_t, so it should be equivalent to what you wrote but be better for documentary purposes.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dff4b58_71eda209",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "This one would be a good place to use final.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e5a9467_99285ec6",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "explicit",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c02e866_1524cb8a",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f92003cc_09f1d842",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "DCHECK(stream) isn’t worth it, this is going to crash if !stream anyway.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "154f9f4e_daafcfab",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "exactly",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 89,
+        "endChar": 30
+      },
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2df158c2_d5aa67c9",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "You can simplify these two lines to\n\n  DCHECK(!!buffer_ ^ !!snapshot_);\n\nbut even a weirdo like me recognizes that people probably aren’t accustomed to xor in a non-bitwise context, so I’ll also offer\n\n  DCHECK(!!buffer_ !\u003d !!snapshot_);",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef1684cd_2b781307",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "The one thing we could do to class this up a bit more than having this be, as you said, effectively a tagged union would be to make things just a teensy bit more abstract in this class.\n\nWe could have an interface that our MemoryReader here implements, and save a pointer to that interface as a member variable up in InitializeFromSnapshot(). And we could have a BufferWriter also implement that same interface, and we’d set up the BufferWriter up in InitializeFromBuffer(). Then when we reach this point, we don’t need to worry about the difference between buffer_ and snapshot_, we can just call our ObtainAndWrite() (or whatever we call it) method on the interface pointer.\n\nThis also eliminates the need to track stream_size_ as such. Just make that an interface method.\n\nThis way probably works out to a delta of no more than 10 lines than what you’ve already written, but it’ll let you remove some of this custom switchery and I think that the result will be a bit cleaner.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27877b44_3f311821",
+        "filename": "minidump/minidump_user_stream_writer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "Here too, for example.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d9d2cf0_335c9251",
+        "filename": "minidump/minidump_user_stream_writer.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "Friendship is no longer necessary, which means that you can take the nested class out of here too and just use an anonymous-namespaced class in the implementation file.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9914377_e806b3ed",
+        "filename": "minidump/minidump_user_stream_writer_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "Use constexpr now when we can get away with it.",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

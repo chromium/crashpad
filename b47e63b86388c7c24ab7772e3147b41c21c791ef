@@ -499,6 +499,30 @@
     },
     {
       "key": {
+        "uuid": "6d7b11c6_925bc83e",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:02:51Z",
+      "side": 1,
+      "message": "\u003e naw, a null buffer should only be used with a zero length. Otherwise we prefer to crash, methinks.\n\nCorrect, we don’t need to check the buffer’s nullness.",
+      "parentUuid": "7cb30d26_4ad36bcf",
+      "range": {
+        "startLine": 52,
+        "startChar": 31,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "b47e63b86388c7c24ab7772e3147b41c21c791ef",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a39248c1_8a94f075",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 4
