@@ -207,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "4e41b7ac_67b836bd",
+        "filename": "minidump/minidump_user_extension_stream_data_source.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T21:10:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fc2a7453_f673daa0",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dff4b58_71eda209",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 6
@@ -479,6 +497,24 @@
       "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2330fbe7_8aa76632",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-22T21:10:39Z",
+      "side": 1,
+      "message": "K then, how\u0027s this?",
+      "parentUuid": "c85f12c5_de9069f5",
+      "revId": "a34adb9f57d26af715dfd5bde5f3752f629150ab",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
