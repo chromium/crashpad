@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "157061ca_4cfba54d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-22T18:09:15Z",
+      "side": 1,
+      "message": "Run “git cl description” or click “Edit” in the Gerrit UI to address the two comments I left about the commit message.",
+      "revId": "cbecffcc87c9ee3dd2bf742efaa597903f22c099",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f56092b_c59d897c",
         "filename": "doc/overview-design.md",
         "patchSetId": 6
