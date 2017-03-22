@@ -21,6 +21,7 @@ limitations under the License.
 ## Documentation
 
  * [Project status](doc/status.md)
+ * [Overview design doc](doc/overview-design.md)
  * [Developing Crashpad](doc/developing.md): instructions for getting the source
    code, building, testing, and contributing to the project.
  * [Crashpad interface documentation](https://crashpad.chromium.org/doxygen/)
