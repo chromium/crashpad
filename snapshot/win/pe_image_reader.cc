@@ -14,6 +14,7 @@
 
 #include "snapshot/win/pe_image_reader.h"
 
+#include <stddef.h>
 #include <string.h>
 
 #include <memory>

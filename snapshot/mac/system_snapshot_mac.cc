@@ -14,6 +14,7 @@
 
 #include "snapshot/mac/system_snapshot_mac.h"
 
+#include <stddef.h>
 #include <sys/sysctl.h>
 #include <sys/types.h>
 #include <sys/utsname.h>
