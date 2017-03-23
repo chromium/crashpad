@@ -20,6 +20,7 @@ var searchData=
   ['codeviewrecordpdb70',['CodeViewRecordPDB70',['../structcrashpad_1_1CodeViewRecordPDB70.html',1,'crashpad']]],
   ['compositehttpbodystream',['CompositeHTTPBodyStream',['../classcrashpad_1_1CompositeHTTPBodyStream.html',1,'crashpad']]],
   ['compositemachmessageserver',['CompositeMachMessageServer',['../classcrashpad_1_1CompositeMachMessageServer.html',1,'crashpad']]],
+  ['contentswriter',['ContentsWriter',['../classcrashpad_1_1MinidumpUserStreamWriter_1_1ContentsWriter.html',1,'crashpad::MinidumpUserStreamWriter']]],
   ['cpu_5finformation',['CPU_INFORMATION',['../unionCPU__INFORMATION.html',1,'']]],
   ['cpucontext',['CPUContext',['../structcrashpad_1_1CPUContext.html',1,'crashpad']]],
   ['cpucontextx86',['CPUContextX86',['../structcrashpad_1_1CPUContextX86.html',1,'crashpad']]],

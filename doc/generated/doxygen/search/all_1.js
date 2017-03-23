@@ -17,6 +17,7 @@ var searchData=
   ['addthread',['AddThread',['../classcrashpad_1_1MinidumpThreadListWriter.html#acddbc7b516a85499172b32ff91aefb10',1,'crashpad::MinidumpThreadListWriter::AddThread()'],['../classcrashpad_1_1test_1_1TestProcessSnapshot.html#aa272a06010291a8d645ef55054c62eb8',1,'crashpad::test::TestProcessSnapshot::AddThread()']]],
   ['addunloadedmodule',['AddUnloadedModule',['../classcrashpad_1_1MinidumpUnloadedModuleListWriter.html#ac8ed33d9484eb711d719b969ab6fab47',1,'crashpad::MinidumpUnloadedModuleListWriter']]],
   ['adduserdataminidumpstream',['AddUserDataMinidumpStream',['../structcrashpad_1_1CrashpadInfo.html#a5f6213582b3b4cc22ca46f058343db8e',1,'crashpad::CrashpadInfo']]],
+  ['adduserextensionstream',['AddUserExtensionStream',['../classcrashpad_1_1MinidumpFileWriter.html#adced3695b26f78e901270b89582a224a',1,'crashpad::MinidumpFileWriter']]],
   ['age',['age',['../structcrashpad_1_1CodeViewRecordPDB20.html#a63b66c170fd97509ad079ff39d75a71f',1,'crashpad::CodeViewRecordPDB20::age()'],['../structcrashpad_1_1CodeViewRecordPDB70.html#a6ad58edc89d36bf7a9b7599ace6d96b2',1,'crashpad::CodeViewRecordPDB70::age()']]],
   ['ageprunecondition',['AgePruneCondition',['../classcrashpad_1_1AgePruneCondition.html',1,'crashpad::AgePruneCondition'],['../classcrashpad_1_1AgePruneCondition.html#aad0e93370f6de214bd95c9c773350353',1,'crashpad::AgePruneCondition::AgePruneCondition()']]],
   ['alignedallocate',['AlignedAllocate',['../namespacecrashpad_1_1internal.html#a009fda01516a2f6e3bec94db18c60a27',1,'crashpad::internal']]],
