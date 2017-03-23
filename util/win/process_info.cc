@@ -171,6 +171,12 @@ std::unique_ptr<uint8_t[]> QueryObject(
   return buffer;
 }
 
+bool MemoryBasicInformation64CmpBaseAddress(
+    const MEMORY_BASIC_INFORMATION64& a,
+    const MEMORY_BASIC_INFORMATION64& b) {
+  return a.BaseAddress < b.BaseAddress;
+}
+
 }  // namespace
 
 template <class Traits>
@@ -355,6 +361,9 @@ bool ReadMemoryInfo(HANDLE process, bool is_64_bit, ProcessInfo* process_info) {
     }
   }
 
+  DCHECK(std::is_sorted(process_info->memory_info_.begin(),
+                        process_info->memory_info_.end(),
+                        MemoryBasicInformation64CmpBaseAddress));
   return true;
 }
 
@@ -657,15 +666,31 @@ std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
   WinVMAddress range_base = range.base();
   WinVMAddress range_end = range.end();
 
+  auto lower_it = std::lower_bound(memory_info.begin(),
+                                   memory_info.end(),
+                                   MEMORY_BASIC_INFORMATION64{range_base},
+                                   MemoryBasicInformation64CmpBaseAddress);
+  // lower_bound results in the element with the first base address that's
+  // greater than or equal to the base being considered. But if range_base is in
+  // the middle of a block, we also want to consider that one, so decrement one
+  // earlier.
+  if (lower_it != memory_info.begin()) {
+    --lower_it;
+  }
+
+  // upper_it does not need to be modified, as it returns an element with a base
+  // address greater than the end of the range being considered.
+  auto upper_it =
+      std::upper_bound(memory_info.begin(),
+                       memory_info.end(),
+                       MEMORY_BASIC_INFORMATION64{range_base + range_end},
+                       MemoryBasicInformation64CmpBaseAddress);
+
   // Find all the ranges that overlap the target range, maintaining their order.
   ProcessInfo::MemoryBasicInformation64Vector overlapping;
-  const size_t size = memory_info.size();
 
-  // This loop is written in an ugly fashion to make Debug performance
-  // reasonable.
-  const MEMORY_BASIC_INFORMATION64* begin = &memory_info[0];
-  for (size_t i = 0; i < size; ++i) {
-    const MEMORY_BASIC_INFORMATION64& mi = *(begin + i);
+  for (auto it = lower_it; it != upper_it; ++it) {
+    const MEMORY_BASIC_INFORMATION64& mi = *it;
     static_assert(std::is_same<decltype(mi.BaseAddress), WinVMAddress>::value,
                   "expected range address to be WinVMAddress");
     static_assert(std::is_same<decltype(mi.RegionSize), WinVMSize>::value,

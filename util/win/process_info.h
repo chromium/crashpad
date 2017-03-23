@@ -192,6 +192,8 @@ class ProcessInfo {
   //
   // TODO(mark): Remove this workaround when http://llvm.org/PR25779 is fixed
   // and the fix is present in the clang-cl that compiles this code.
+  //
+  // Note that this vector is maintained in sorted order by BaseAddress.
   MemoryBasicInformation64Vector memory_info_;
 
   // Handles() is logically const, but updates this member on first retrieval.
