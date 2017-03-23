@@ -43,10 +43,13 @@ class WinMultiprocess {
     ASSERT_NO_FATAL_FAILURE(
         WinChildProcess::EntryPoint<ChildProcessHelper<T>>());
     // If WinChildProcess::EntryPoint returns, we are in the parent process.
+    T parent_process;
+    static_cast<WinMultiprocess*>(&parent_process)
+        ->WinMultiprocessParentBeforeChild();
+
     std::unique_ptr<WinChildProcess::Handles> child_handles =
         WinChildProcess::Launch();
     ASSERT_TRUE(child_handles.get());
-    T parent_process;
     parent_process.child_handles_ = child_handles.get();
     static_cast<WinMultiprocess*>(&parent_process)->WinMultiprocessParent();
 
@@ -62,6 +65,9 @@ class WinMultiprocess {
     DWORD exit_code;
     ASSERT_TRUE(GetExitCodeProcess(child_handles->process.get(), &exit_code));
     ASSERT_EQ(parent_process.exit_code_, exit_code);
+
+    static_cast<WinMultiprocess*>(&parent_process)
+        ->WinMultiprocessParentAfterChild(child_handles->process.get());
   }
 
  protected:
@@ -161,6 +167,20 @@ class WinMultiprocess {
   //!
   //! Subclasses must implement this method to define how the parent operates.
   virtual void WinMultiprocessParent() = 0;
+
+  //! \brief The optional routine run in parent before child is spawned.
+  //!
+  //! Subclasses may implement this method to prepare the environment for
+  //! the child process.
+  virtual void WinMultiprocessParentBeforeChild(){};
+
+  //! \brief The optional routine run in parent before child is spawned.
+  //!
+  //! Subclasses may implement this method to clean up the environment after
+  //! the child process has exited.
+  //!
+  //! \param[in] child A handle to the exited child process.
+  virtual void WinMultiprocessParentAfterChild(HANDLE child){};
 
   //! \brief The subclass-provided child routine.
   //!
