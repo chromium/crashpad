@@ -22,6 +22,30 @@
       "revId": "d144660985e839e050d42325320d18dd7025947e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3985b7c3_394778a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T16:04:25Z",
+      "side": 1,
+      "message": "\u003e It\u0027s OK that we might use this bogus definition?\n\nYeah, we want the highest thing we can get our hands on, so we just feed it as another bit of data to a pipeline of a few different std::max()es. The bogus ones are never higher than the real value, and even if they were too high, it wouldn’t matter.",
+      "parentUuid": "d3592f0c_a4f1cf2e",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "d144660985e839e050d42325320d18dd7025947e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
