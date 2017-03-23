@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding: utf-8
 
 # Copyright 2017 The Crashpad Authors. All rights reserved.
 #
@@ -18,6 +19,7 @@ import argparse
 import glob
 import gyp_crashpad
 import os
+import re
 import subprocess
 import sys
 
@@ -31,7 +33,7 @@ def main(args):
                       default='clang',
                       choices=('clang', 'gcc'),
                       help='The compiler to use, clang by default')
-  (parsed, extra_args) = parser.parse_known_args(args)
+  (parsed, extra_command_line_args) = parser.parse_known_args(args)
 
   NDK_ERROR=(
       'NDK must be a valid standalone NDK toolchain.\n' +
@@ -55,14 +57,38 @@ def main(args):
 
   ndk_bin_dir = os.path.join(parsed.ndk, 'bin')
 
+  clang_path = os.path.join(ndk_bin_dir, 'clang')
+  extra_args = []
+
   if parsed.compiler == 'clang':
-    os.environ['CC_target'] = os.path.join(ndk_bin_dir, 'clang')
+    os.environ['CC_target'] = clang_path
     os.environ['CXX_target'] = os.path.join(ndk_bin_dir, 'clang++')
   elif parsed.compiler == 'gcc':
     os.environ['CC_target'] = os.path.join(ndk_bin_dir,
                                            '%s-gcc' % arch_triplet)
     os.environ['CXX_target'] = os.path.join(ndk_bin_dir,
                                             '%s-g++' % arch_triplet)
+
+    # Unlike the Clang build, when using GCC with “unified headers,”
+    # __ANDROID_API__ isn’t set automatically and must be pushed in to the
+    # build. Fish the correct value out of the Clang wrapper script. If unified
+    # headers are not being used, the Clang wrapper won’t mention
+    # __ANDROID_API__, but the standalone toolchain’s <android/api-level.h> will
+    # #define it for both Clang and GCC.
+    #
+    # Unified headers are the way of the future, according to
+    # https://android.googlesource.com/platform/ndk/+/ndk-r14/CHANGELOG.md and
+    # https://android.googlesource.com/platform/ndk/+/master/docs/UnifiedHeaders.md.
+    with open(clang_path, 'r') as file:
+      clang_script_contents = file.read()
+    matches = re.finditer(r'\s-D__ANDROID_API__=([\d]+)\s',
+                          clang_script_contents)
+    match = next(matches, None)
+    if match:
+      android_api = int(match.group(1))
+      extra_args.extend(['-D', 'android_api_level=%d' % android_api])
+      if next(matches, None):
+        raise AssertionError('__ANDROID_API__ defined too many times')
 
   for tool in ('ar', 'nm', 'readelf'):
     os.environ['%s_target' % tool.upper()] = (
@@ -72,7 +98,9 @@ def main(args):
       ['-D', 'OS=android',
        '-D', 'target_arch=%s' % arch,
        '-D', 'clang=%d' % (1 if parsed.compiler == 'clang' else 0),
-       '-f', 'ninja-android'] + extra_args)
+       '-f', 'ninja-android'] +
+      extra_args +
+      extra_command_line_args)
 
 
 if __name__ == '__main__':
