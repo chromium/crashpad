@@ -654,7 +654,6 @@ void InitializeTestModuleSnapshotFromMinidumpModule(
 TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   MINIDUMP_MODULE expect_modules[3] = {};
   const char* module_paths[arraysize(expect_modules)] = {};
-  const char* module_names[arraysize(expect_modules)] = {};
   const char* module_pdbs[arraysize(expect_modules)] = {};
   UUID uuids[arraysize(expect_modules)] = {};
   uint32_t ages[arraysize(expect_modules)] = {};
@@ -668,7 +667,6 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   expect_modules[0].VersionInfo.dwProductVersionLS = 0x00070008;
   expect_modules[0].VersionInfo.dwFileType = VFT_APP;
   module_paths[0] = "/usr/bin/true";
-  module_names[0] = "true";
   module_pdbs[0] = "true";
   const uint8_t kUUIDBytes0[16] =
       {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
@@ -685,7 +683,6 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   expect_modules[1].VersionInfo.dwProductVersionLS = 0x000f0000;
   expect_modules[1].VersionInfo.dwFileType = VFT_DLL;
   module_paths[1] = "/usr/lib/libSystem.B.dylib";
-  module_names[1] = "libSystem.B.dylib";
   module_pdbs[1] = "libSystem.B.dylib.pdb";
   const uint8_t kUUIDBytes1[16] =
       {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -702,7 +699,6 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   expect_modules[2].VersionInfo.dwProductVersionLS = 0xbbbbcccc;
   expect_modules[2].VersionInfo.dwFileType = VFT_UNKNOWN;
   module_paths[2] = "/usr/lib/dyld";
-  module_names[2] = "dyld";
   module_pdbs[2] = "/usr/lib/dyld.pdb";
   const uint8_t kUUIDBytes2[16] =
       {0xff, 0xfe, 0xfd, 0xfc, 0xfb, 0xfa, 0xf9, 0xf8,
