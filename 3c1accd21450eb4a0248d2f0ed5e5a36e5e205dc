@@ -1,0 +1,300 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35f80412_c8597056",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "|parent| for legibility (otherwise, I parse this all as English written by someone unacquainted with “the.”)",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f635286b_f921e5ae",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "Since the return value isn’t very significant to the caller, it’d be easier to return the vector.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47aaacc8_003f50b9",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "The docs say that this returns INVALID_HANDLE_VALUE on failure, which would make it a ScopedFileHANDLE instead of a ScopedKernelHANDLE.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b1715f7_6a697010",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "If you’re not expecting CreateToolhelp32Snapshot to fail, PLOG(ERROR) \u003c\u003c \"CreateToolhelp32Snapshot\"; here to leave a debugging tidbit behind. That’ll help the next guy when this test gets flaky again in the future.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72fc9e5e_d3366ecb",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "else PLOG?",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab9a05dc_4428c929",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "Since the return value isn’t significant to the caller at all, just be void.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c815bcf_002e50b0",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "Playing it fast and loose with the terms “our pid” and “our own process.” Here, you mean |parent|. But to read this comment, it sounds more like you’re talking about this process, the test process that’s running this code right now.\n\nThis is one reason I like to avoid first-person plural in comments.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b5ee2ff_598de694",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "Since we have a process handle by this point, a more direct way to answer this would be to make a ProcessInfo from it and check that its ParentProcessID() matches GetProcessId(parent). We’ve already got the code we need to do that, just #include \"util/win/process_info.h\".\n\nThat would mean putting GetProcessId(parent) here, so you’d want to change GetPotentialChildProcessesOf() to accept that instead of the handle that it takes now.\n\nAlternatively, you can take the “potential” out of the inner function, have it evaluate ProcessInfo::ParentProcessID(), and make it return a std::vector\u003cHANDLE\u003e instead of a std::vector\u003cDWORD\u003e. But then freeing all of the handles becomes a hassle, and I don’t know if std::vector\u003cScopedKernelHANDLE\u003e works.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83c9596b_bcb62ff4",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "continue, don’t return. There may be other children, and you do want to wait on all of them that you are able to. But you may want to PLOG(ERROR) something first.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd55669f_d9b12e93",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "Lose the :: in Crashpad code unless it’s needed to disambiguate from something in our namespace. Same on line 146.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78949c9b_e6881575",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "Blank lines between methods, so they stand out as first-class.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70370f6a_f7bf2cbb",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "You should set the environment variable to its previous value when you’re done with it. At the very least, you should clear it.\n\nWinMultiprocessParentAfterChild() seems like a good place to do that at first, but I’m not so sure: it might not get run at all! (For example, an ASSERT in this method’s caller might trip before this method is called.) So you can do it from here in addition if you’d like, but you should definitely do it from the destructor.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8a863d0_f692a2ac",
+        "filename": "test/win/win_multiprocess.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "Since we have this cast three times now, we should save it in a local variable and reuse it.",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 50
+      },
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80299b3a_4365a014",
+        "filename": "test/win/win_multiprocess.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "the child",
+      "range": {
+        "startLine": 171,
+        "startChar": 55,
+        "endLine": 171,
+        "endChar": 60
+      },
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ac87c1e_54643446",
+        "filename": "test/win/win_multiprocess.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "Space before the {}, line 183 too.",
+      "range": {
+        "startLine": 175,
+        "startChar": 49,
+        "endLine": 175,
+        "endChar": 51
+      },
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1199c441_72fc193b",
+        "filename": "test/win/win_multiprocess.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T20:24:16Z",
+      "side": 1,
+      "message": "after \\a child has exited",
+      "range": {
+        "startLine": 177,
+        "startChar": 48,
+        "endLine": 177,
+        "endChar": 71
+      },
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
