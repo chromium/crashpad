@@ -48,28 +48,64 @@ std::string UserAgent() {
     // as the user process’ architecture. On Linux, these names are normally
     // defined in each architecture’s Makefile as UTS_MACHINE, but can be
     // overridden in architecture-specific configuration as COMPAT_UTS_MACHINE.
-    // See linux-4.4.52/arch/*/Makefile and
-    // linux-4.4.52/arch/*/include/asm/compat.h. In turn, on some systems, these
+    // See linux-4.9.17/arch/*/Makefile and
+    // linux-4.9.17/arch/*/include/asm/compat.h. In turn, on some systems, these
     // names are further overridden or refined in early kernel startup code by
-    // modifying the string returned by linux-4.4.52/include/linux/utsname.h
+    // modifying the string returned by linux-4.9.17/include/linux/utsname.h
     // init_utsname() as noted.
 #if defined(ARCH_CPU_X86)
-    // linux-4.4.52/arch/x86/kernel/cpu/bugs.c check_bugs() sets the first digit
-    // to 4, 5, or 6, but no higher. Assume 6.
+    // linux-4.9.17/arch/x86/kernel/cpu/bugs.c check_bugs() sets the first digit
+    // to 4, 5, or 6, but no higher.
+#if defined(__i686__)
     const char arch[] = "i686";
+#elif defined(__i586__)
+    const char arch[] = "i586";
+#elif defined(__i486__)
+    const char arch[] = "i486";
+#else
+    const char arch[] = "i386";
+#endif
 #elif defined(ARCH_CPU_X86_64)
     const char arch[] = "x86_64";
 #elif defined(ARCH_CPU_ARMEL)
-    // linux-4.4.52/arch/arm/kernel/setup.c setup_processor() bases the string
+    // linux-4.9.17/arch/arm/kernel/setup.c setup_processor() bases the string
     // on the ARM processor name and a character identifying little- or
     // big-endian. The processor name comes from a definition in
-    // arch/arm/mm/proc-*.S. Assume armv7, little-endian.
-    const char arch[] = "armv7l";
+    // arch/arm/mm/proc-*.S.
+#if defined(__ARM_ARCH_4T__)
+    const char arch[] = "armv4t"
+#elif defined(__ARM_ARCH_5TEJ__)
+    const char arch[] = "armv5tej"
+#elif defined(__ARM_ARCH_5TE__)
+    const char arch[] = "armv5te"
+#elif defined(__ARM_ARCH_5T__)
+    const char arch[] = "armv5t"
+#elif defined(__ARM_ARCH_7M__)
+    const char arch[] = "armv7m"
+#else
+    // Most ARM architectures fall into here, including all profile variants of
+    // armv6, armv7, armv8, with one exception, armv7m, handled above.
+    // xstr(__ARM_ARCH) will be the architecture revision number, such as 6, 7,
+    // or 8.
+#define xstr(s) str(s)
+#define str(s) #s
+    const char arch[] = "armv" xstr(__ARM_ARCH)
+#undef str
+#undef xstr
+#endif
+#if defined(ARCH_CPU_LITTLE_ENDIAN)
+        "l";
+#elif defined(ARCH_CPU_BIG_ENDIAN)
+        "b";
+#endif
 #elif defined(ARCH_CPU_ARM64)
     // ARM64 uses aarch64 or aarch64_be as directed by ELF_PLATFORM. See
-    // linux-4.4.52/arch/arm64/kernel/setup.c setup_arch(). Assume
-    // little-endian.
+    // linux-4.9.17/arch/arm64/kernel/setup.c setup_arch().
+#if defined(ARCH_CPU_LITTLE_ENDIAN)
     const char arch[] = "aarch64";
+#elif defined(ARCH_CPU_BIG_ENDIAN)
+    const char arch[] = "aarch64_be";
+#endif
 #elif defined(ARCH_CPU_MIPSEL)
     const char arch[] = "mips";
 #elif defined(ARCH_CPU_MIPS64EL)
