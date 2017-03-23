@@ -14,6 +14,7 @@
 
 #include "snapshot/mac/cpu_context_mac.h"
 
+#include <stddef.h>
 #include <string.h>
 
 #include "base/logging.h"

@@ -14,6 +14,7 @@
 
 #include "snapshot/win/cpu_context_win.h"
 
+#include <stddef.h>
 #include <stdint.h>
 #include <string.h>
 
