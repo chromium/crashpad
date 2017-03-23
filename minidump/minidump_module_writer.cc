@@ -14,6 +14,8 @@
 
 #include "minidump/minidump_module_writer.h"
 
+#include <stddef.h>
+
 #include <limits>
 #include <utility>
 

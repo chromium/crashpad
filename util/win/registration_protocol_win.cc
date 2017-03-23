@@ -14,6 +14,7 @@
 
 #include "util/win/registration_protocol_win.h"
 
+#include <stddef.h>
 #include <windows.h>
 
 #include "base/logging.h"
