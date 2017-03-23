@@ -14,6 +14,8 @@
 
 #include "minidump/test/minidump_writable_test_util.h"
 
+#include <stddef.h>
+
 #include <string>
 
 #include "base/strings/string16.h"

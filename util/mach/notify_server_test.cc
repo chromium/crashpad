@@ -14,6 +14,8 @@
 
 #include "util/mach/notify_server.h"
 
+#include <stddef.h>
+
 #include "base/compiler_specific.h"
 #include "base/mac/scoped_mach_port.h"
 #include "gmock/gmock.h"

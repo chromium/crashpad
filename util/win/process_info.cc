@@ -14,6 +14,7 @@
 
 #include "util/win/process_info.h"
 
+#include <stddef.h>
 #include <winternl.h>
 
 #include <algorithm>

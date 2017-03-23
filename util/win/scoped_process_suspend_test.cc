@@ -14,6 +14,7 @@
 
 #include "util/win/scoped_process_suspend.h"
 
+#include <stddef.h>
 #include <tlhelp32.h>
 
 #include <algorithm>

@@ -137,46 +137,35 @@ Note that Chrome uses Android API level 21 for 64-bit platforms and 16 for
 [`build/config/android/config.gni`](https://chromium.googlesource.com/chromium/src/+/master/build/config/android/config.gni)
 which sets `_android_api_level` and `_android64_api_level`.
 
-To configure a Crashpad build for Android using this standalone toolchain, set
-several environment variables directing the build to the standalone toolchain,
-along with GYP options to identify an Android build. This must be done after any
-`gclient sync`, or instead of any `gclient runhooks` operation. The environment
-variables only need to be set for this `gyp_crashpad.py` invocation, and need
-not be permanent.
+To configure a Crashpad build for Android using the standalone toolchain
+assembled above, use `gyp_crashpad_android.py`. This script is a wrapper for
+`gyp_crashpad.py` that sets several environment variables directing the build to
+the standalone toolchain, and several GYP options to identify an Android build.
+This must be done after any `gclient sync`, or instead of any `gclient runhooks`
+operation.
 
 ```
 $ cd ~/crashpad/crashpad
-$ CC_target=~/android-ndk-r14_arm64_api21/bin/clang \
-  CXX_target=~/android-ndk-r14_arm64_api21/bin/clang++ \
-  AR_target=~/android-ndk-r14_arm64_api21/bin/aarch64-linux-android-ar \
-  NM_target=~/android-ndk-r14_arm64_api21/bin/aarch64-linux-android-nm \
-  READELF_target=~/android-ndk-r14_arm64_api21/bin/aarch64-linux-android-readelf \
-  python build/gyp_crashpad.py \
-      -DOS=android -Dtarget_arch=arm64 -Dclang=1 \
-      --generator-output=out/android_arm64_api21 -f ninja-android
+$ python build/gyp_crashpad_android.py \
+      --ndk ~/android-ndk-r14_arm64_api21 \
+      --generator-output out/android_arm64_api21
 ```
 
-It is also possible to use GCC instead of Clang by making the appropriate
-substitutions: `aarch64-linux-android-gcc` for `CC_target`;
-`aarch64-linux-android-g++` for `CXX_target`; and `-Dclang=0` as an argument to
-`gyp_crashpad.py`.
+`gyp_crashpad_android.py` detects the build type based on the characteristics of
+the standalone toolchain given in its `--ndk` argument.
 
-Target “triplets” to use for `ar`, `nm`, `readelf`, `gcc`, and `g++` are:
+`gyp_crashpad_android.py` sets the build up to use Clang by default. It’s also
+possible to use GCC by providing the `--compiler=gcc` argument to
+`gyp_crashpad_android.py`.
 
-| Architecture | Target “triplet”        |
-|:-------------|:------------------------|
-| `arm`        | `arm-linux-androideabi` |
-| `arm64`      | `aarch64-linux-android` |
-| `x86`        | `i686-linux-android`    |
-| `x86_64`     | `x86_64-linux-android`  |
-
-The port is incomplete, but targets known to be working include `crashpad_util`,
-`crashpad_test`, and `crashpad_test_test`. This list will grow over time. To
-build, direct `ninja` to the specific `out` directory chosen by
-`--generator-output` above.
+The Android port is incomplete, but targets known to be working include
+`crashpad_test`, `crashpad_util`, and their tests. This list will grow over
+time. To build, direct `ninja` to the specific `out` directory chosen by the
+`--generator-output` argument to `gyp_crashpad_android.py`.
 
 ```
-$ ninja -C out/android_arm64_api21/out/Debug crashpad_test_test
+$ ninja -C out/android_arm64_api21/out/Debug \
+      crashpad_test_test crashpad_util_test
 ```
 
 ## Testing

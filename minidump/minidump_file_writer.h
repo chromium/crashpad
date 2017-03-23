@@ -33,6 +33,7 @@
 namespace crashpad {
 
 class ProcessSnapshot;
+class MinidumpUserExtensionStreamDataSource;
 
 //! \brief The root-level object in a minidump file.
 //!
@@ -61,7 +62,11 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   //!  - kMinidumpStreamTypeThreadList
   //!  - kMinidumpStreamTypeException (if present)
   //!  - kMinidumpStreamTypeModuleList
+  //!  - kMinidumpStreamTypeUnloadedModuleList (if present)
   //!  - kMinidumpStreamTypeCrashpadInfo (if present)
+  //!  - kMinidumpStreamTypeMemoryInfoList (if present)
+  //!  - kMinidumpStreamTypeHandleData (if present)
+  //!  - User streams (if present)
   //!  - kMinidumpStreamTypeMemoryList
   //!
   //! \param[in] process_snapshot The process snapshot to use as source data.
@@ -94,6 +99,30 @@ class MinidumpFileWriter final : public internal::MinidumpWritable {
   //!     is made to add a stream whose type matches an existing stream’s type,
   //!     with a message logged.
   bool AddStream(std::unique_ptr<internal::MinidumpStreamWriter> stream);
+
+  //! \brief Adds a user extension stream to the minidump file and arranges for
+  //!     a MINIDUMP_DIRECTORY entry to point to it.
+  //!
+  //! This object takes ownership of \a user_extension_stream_data.
+  //!
+  //! At most one object of each stream type (as obtained from
+  //! internal::MinidumpStreamWriter::StreamType()) may be added to a
+  //! MinidumpFileWriter object. If an attempt is made to add a stream whose
+  //! type matches an existing stream’s type, this method discards the new
+  //! stream.
+  //!
+  //! \param[in] user_extension_stream_data The stream data to add to the
+  //!    minidump file. Note that the buffer this object points to must be valid
+  //!    through WriteEverything().
+  //!
+  //! \note Valid in #kStateMutable.
+  //!
+  //! \return `true` on success. `false` on failure, as occurs when an attempt
+  //!     is made to add a stream whose type matches an existing stream’s type,
+  //!     with a message logged.
+  bool AddUserExtensionStream(
+      std::unique_ptr<MinidumpUserExtensionStreamDataSource>
+          user_extension_stream_data);
 
   // MinidumpWritable:
 

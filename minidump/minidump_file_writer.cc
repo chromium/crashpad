@@ -29,6 +29,7 @@
 #include "minidump/minidump_thread_id_map.h"
 #include "minidump/minidump_thread_writer.h"
 #include "minidump/minidump_unloaded_module_writer.h"
+#include "minidump/minidump_user_extension_stream_data_source.h"
 #include "minidump/minidump_user_stream_writer.h"
 #include "minidump/minidump_writer_util.h"
 #include "snapshot/exception_snapshot.h"
@@ -197,6 +198,19 @@ bool MinidumpFileWriter::AddStream(
 
   DCHECK_EQ(streams_.size(), stream_types_.size());
   return true;
+}
+
+bool MinidumpFileWriter::AddUserExtensionStream(
+    std::unique_ptr<MinidumpUserExtensionStreamDataSource>
+        user_extension_stream_data) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  auto user_stream = base::WrapUnique(new MinidumpUserStreamWriter());
+  user_stream->InitializeFromBuffer(user_extension_stream_data->stream_type(),
+                                    user_extension_stream_data->buffer(),
+                                    user_extension_stream_data->buffer_size());
+
+  return AddStream(std::move(user_stream));
 }
 
 bool MinidumpFileWriter::WriteEverything(FileWriterInterface* file_writer) {
