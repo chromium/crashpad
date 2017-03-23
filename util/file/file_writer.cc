@@ -15,6 +15,7 @@
 #include "util/file/file_writer.h"
 
 #include <limits.h>
+#include <stddef.h>
 #include <string.h>
 
 #include <algorithm>

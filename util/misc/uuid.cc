@@ -19,6 +19,7 @@
 #include "util/misc/uuid.h"
 
 #include <inttypes.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 

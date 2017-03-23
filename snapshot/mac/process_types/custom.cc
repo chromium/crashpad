@@ -14,6 +14,7 @@
 
 #include "snapshot/mac/process_types.h"
 
+#include <stddef.h>
 #include <string.h>
 #include <sys/types.h>
 

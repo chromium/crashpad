@@ -14,6 +14,8 @@
 
 #include "snapshot/win/process_snapshot_win.h"
 
+#include <stddef.h>
+
 #include <algorithm>
 
 #include "base/logging.h"
