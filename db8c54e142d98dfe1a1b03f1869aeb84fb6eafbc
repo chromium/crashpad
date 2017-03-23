@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "151b3175_9f8ceb4b",
+        "filename": "snapshot/cpu_context.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T01:47:10Z",
+      "side": 0,
+      "message": "snapshot/cpu_context.cc:87:53: error: \u0027Fxsave\u0027 does not refer to a value\n  memset(fxsave-\u003exmm, 0, sizeof(*fxsave) - offsetof(Fxsave, xmm));\n                                                    ^\nsnapshot/cpu_context.h:57:10: note: declared here\n  struct Fxsave {\n         ^\nsnapshot/cpu_context.cc:87:61: error: use of undeclared identifier \u0027xmm\u0027\n  memset(fxsave-\u003exmm, 0, sizeof(*fxsave) - offsetof(Fxsave, xmm));\n                                                            ^",
+      "revId": "db8c54e142d98dfe1a1b03f1869aeb84fb6eafbc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
