@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0b4ecacb_ffa1a8f5",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-23T12:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78ec715d_072d069f",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebe3355d_a6f8ac45",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 10
@@ -33,6 +51,24 @@
       "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18e206aa_24772752",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-23T12:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebe3355d_a6f8ac45",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "157b79de_ae7a455f",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-23T12:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10b667b1_c6eb06e1",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61ff1545_f83f283c",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 10
@@ -67,6 +121,24 @@
       "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be5fbfa5_ce1357b1",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-23T12:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61ff1545_f83f283c",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "b1f5c59a_a9739447",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-23T12:55:08Z",
+      "side": 1,
+      "message": "Sweet, copy-paste FTW.",
+      "parentUuid": "98dfe7c6_171d99ac",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff46ba7d_e4f3f863",
         "filename": "minidump/minidump_user_stream_writer.cc",
         "patchSetId": 10
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "1437dcb9_ea2d9842",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-23T12:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff46ba7d_e4f3f863",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d798836_e2e22eba",
         "filename": "minidump/minidump_user_stream_writer.h",
         "patchSetId": 10
@@ -118,6 +226,24 @@
       "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "577ca628_44c97763",
+        "filename": "minidump/minidump_user_stream_writer.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-23T12:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d798836_e2e22eba",
+      "revId": "959ccfdf14d8f7ec335a155937896aa20e878a08",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
