@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84c15ab8_61c4ce99",
+        "filename": "build/gyp_crashpad_android.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-03-23T17:59:06Z",
+      "side": 1,
+      "message": "Yuck.",
+      "range": {
+        "startLine": 73,
+        "startChar": 13,
+        "endLine": 73,
+        "endChar": 52
+      },
+      "revId": "c4251341529a7cfc3cf58149f6776906cb0133ec",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8168423_27211030",
+        "filename": "build/gyp_crashpad_android.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-03-23T17:59:06Z",
+      "side": 1,
+      "message": "\\s+ instead of space at beginning and end to handle possible EOL?",
+      "range": {
+        "startLine": 83,
+        "startChar": 28,
+        "endLine": 83,
+        "endChar": 55
+      },
+      "revId": "c4251341529a7cfc3cf58149f6776906cb0133ec",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
