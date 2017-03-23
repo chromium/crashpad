@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26a5fc5f_99983a3b",
+        "filename": "build/gyp_crashpad_android.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T18:19:23Z",
+      "side": 1,
+      "message": "\u003e Yuck.\n\nI know! But this is literally the only place to get it. :(\n\nLook for “api” in https://android.googlesource.com/platform/ndk/+/d90623ecacf9a576ec06b34564e9cbf53df74abf/build/tools/make_standalone_toolchain.py",
+      "parentUuid": "84c15ab8_61c4ce99",
+      "range": {
+        "startLine": 73,
+        "startChar": 13,
+        "endLine": 73,
+        "endChar": 52
+      },
+      "revId": "c4251341529a7cfc3cf58149f6776906cb0133ec",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8168423_27211030",
         "filename": "build/gyp_crashpad_android.py",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "c4251341529a7cfc3cf58149f6776906cb0133ec",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5feefd6_96f1f264",
+        "filename": "build/gyp_crashpad_android.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-23T18:19:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8168423_27211030",
+      "range": {
+        "startLine": 83,
+        "startChar": 28,
+        "endLine": 83,
+        "endChar": 55
+      },
+      "revId": "c4251341529a7cfc3cf58149f6776906cb0133ec",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
