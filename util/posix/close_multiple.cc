@@ -179,7 +179,7 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   max_fd = std::max(max_fd, getdtablesize());
 #endif
 
-#if !defined(OS_LINUX) || defined(OPEN_MAX)
+#if !(defined(OS_LINUX) || defined(OS_ANDROID)) || defined(OPEN_MAX)
   // Linux does not provide OPEN_MAX. See
   // https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/commit/include/linux/limits.h?id=77293034696e3e0b6c8b8fc1f96be091104b3d2b.
   max_fd = std::max(max_fd, OPEN_MAX);
