@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87eb66a2_10a32030",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T19:10:20Z",
+      "side": 1,
+      "message": "We have something better for this. You can #include \"test/errors.h\" and do ADD_FAILURE() \u003c\u003c ErrorMessage(\"CreateToolhelp32Snapshot\");. Same everywhere else…",
+      "revId": "4d6503f3a851f38008b5cd14a7307080db82f43f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67819629_fd43e2fb",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T19:10:20Z",
+      "side": 1,
+      "message": "…except for this one, which you can leave alone.",
+      "revId": "4d6503f3a851f38008b5cd14a7307080db82f43f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
