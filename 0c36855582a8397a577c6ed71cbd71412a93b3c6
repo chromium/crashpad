@@ -33,6 +33,40 @@
       "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7591afd1_fb439c01",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-03-24T18:08:27Z",
+      "side": 1,
+      "message": "I think these should cause a test failure, no?",
+      "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d5f1cd1_81bb8823",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-03-24T18:08:27Z",
+      "side": 1,
+      "message": "What\u0027s this scope for?",
+      "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
