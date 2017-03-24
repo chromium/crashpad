@@ -1,0 +1,243 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "006620ba_b18aa3bb",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "Since you’re always going to want to set the value if you’re using this class, why not provide just a 2-argument constructor? Then the WinMultiprocessWithTempDir can do all of its work in the initializer list.",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7def35b8_81a98548",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cef1e92_7a2fda93",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "Optional, but for short helper classes like this, you can often make them even shorter just by writing the method definitions in-line in the class.",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40232964_18a043a3",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "This doesn’t distinguish between originally-unset and originally-empty.\n\nThis’ll probably need another member variable, or to use std::unique_ptr\u003cstd::wstring\u003e original_value_.",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b90e5ce_1b8a3c22",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "of the",
+      "range": {
+        "startLine": 60,
+        "startChar": 38,
+        "endLine": 60,
+        "endChar": 41
+      },
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77df3b39_8c476c41",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "exist",
+      "range": {
+        "startLine": 61,
+        "startChar": 29,
+        "endLine": 61,
+        "endChar": 35
+      },
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbc7416f_bec27844",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "of the",
+      "range": {
+        "startLine": 68,
+        "startChar": 49,
+        "endLine": 68,
+        "endChar": 52
+      },
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb7697f4_a733ce98",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "If |parent| exits, can its process ID be reused while people (like us) hold outstanding process handles to it? I hope not.",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ded95a42_85b9fae3",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "Probably we shouldn’t log in this case, to avoid making it look like things are going bad when (1) or (2) above is really happening.",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9008902_7e738675",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "Better context: \"ProcessInfo::Initialize(), pid: \"",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6871e12f_4b91ea3a",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "This should probably be \u003c instead of \u003c\u003d to cope with fast systems and slow-ticking clocks.",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e902ead3_3cb090d5",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "Did you LOG instead of PLOG to catch the other non-GetLastError()-setting things that WaitForSingleObject() might return? I think we can assume that if it’s not WAIT_OBJECT_0, it was WAIT_FAILED, and just PLOG(ERROR) \u003c\u003c \"WaitForSingleObject\" here.",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3602f23a_d886606f",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN here too.",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

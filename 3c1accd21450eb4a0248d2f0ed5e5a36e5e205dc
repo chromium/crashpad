@@ -282,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "cb86bf6e_ff073be7",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:54:25Z",
+      "side": 1,
+      "message": "\u003e No, all the processes here have |parent|\u0027s PID as parent PID.  The problem is that a PIDs are aggressively reused on Windows. You can therefore have a process that has a parent PID that belonged to a now-exited process, where that PID was reassigned to |parent|.\n\nMy thinking was tainted by POSIX semantics, where when a process’ parent dies, its parent process ID becomes 1.",
+      "parentUuid": "13c1069e_a8585db5",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83c9596b_bcb62ff4",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 1
