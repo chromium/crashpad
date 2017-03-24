@@ -17,12 +17,14 @@
 #include "base/logging.h"
 #include "client/crashpad_info.h"
 #include "util/file/file_io.h"
+#include "util/synchronization/semaphore.h"
 #include "util/win/scoped_handle.h"
 
 namespace {
 
 DWORD WINAPI LotsOfReferencesThreadProc(void* param) {
-  LONG* count = reinterpret_cast<LONG*>(param);
+  crashpad::Semaphore* semaphore =
+      reinterpret_cast<crashpad::Semaphore*>(param);
 
   // Allocate a bunch of pointers to things on the stack.
   int* pointers[1000];
@@ -30,7 +32,7 @@ DWORD WINAPI LotsOfReferencesThreadProc(void* param) {
     pointers[i] = new int[2048];
   }
 
-  InterlockedIncrement(count);
+  semaphore->Signal();
   Sleep(INFINITE);
   return 0;
 }
@@ -48,13 +50,13 @@ int wmain(int argc, wchar_t* argv[]) {
 
   // Create threads with lots of stack pointers to memory. This is used to
   // verify the cap on pointed-to memory.
-  LONG thread_ready_count = 0;
+  crashpad::Semaphore semaphore(0);
   crashpad::ScopedKernelHANDLE threads[100];
   for (int i = 0; i < arraysize(threads); ++i) {
     threads[i].reset(CreateThread(nullptr,
                                   0,
                                   &LotsOfReferencesThreadProc,
-                                  reinterpret_cast<void*>(&thread_ready_count),
+                                  reinterpret_cast<void*>(&semaphore),
                                   0,
                                   nullptr));
     if (!threads[i].is_valid()) {
@@ -63,14 +65,8 @@ int wmain(int argc, wchar_t* argv[]) {
     }
   }
 
-  for (;;) {
-    if (InterlockedCompareExchange(&thread_ready_count,
-                                   thread_ready_count,
-                                   arraysize(threads)) == arraysize(threads)) {
-      // All threads have allocated their references.
-      break;
-    }
-    Sleep(10);
+  for (int i = 0; i < arraysize(threads); ++i) {
+    semaphore.Wait();
   }
 
   crashpad::CrashpadInfo* crashpad_info =
