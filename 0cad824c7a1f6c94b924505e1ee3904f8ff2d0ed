@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d14537c6_9c24efdf",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T22:06:35Z",
+      "side": 1,
+      "message": "\u003e I\u0027d go with raise subprocess.CalledProcessError() instead of AssertionError(), which is what subprocess.check_call() raises.\n\nIts constructor isn’t documented, I was afraid of it breaking. There also isn’t a ready-made slot to stick expect_exit_code. But OK, we can do this.",
+      "parentUuid": "69e7c663_8cfada49",
+      "revId": "0cad824c7a1f6c94b924505e1ee3904f8ff2d0ed",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5c7b4f0_8a1d822b",
         "filename": "snapshot/win/end_to_end_test.py",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "0cad824c7a1f6c94b924505e1ee3904f8ff2d0ed",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b8d2975_696f970a",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T22:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5c7b4f0_8a1d822b",
+      "revId": "0cad824c7a1f6c94b924505e1ee3904f8ff2d0ed",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
