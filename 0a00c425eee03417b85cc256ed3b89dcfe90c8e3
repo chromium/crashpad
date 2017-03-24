@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9722b66b_2f60348e",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "It\u0027s only set in the parent process, in the child it picks up value from the parent environment and uses that.",
+      "parentUuid": "006620ba_b18aa3bb",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7def35b8_81a98548",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c6159fa_5e7cf12c",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7def35b8_81a98548",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "226e22e5_0f9e4e64",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4cef1e92_7a2fda93",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40232964_18a043a3",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 7
@@ -67,6 +121,24 @@
       "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "826ae5b6_c4896480",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40232964_18a043a3",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "4b3da089_acfc9937",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b90e5ce_1b8a3c22",
+      "range": {
+        "startLine": 60,
+        "startChar": 38,
+        "endLine": 60,
+        "endChar": 41
+      },
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77df3b39_8c476c41",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 7
@@ -113,6 +209,30 @@
       "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84b7cc84_638c4c87",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77df3b39_8c476c41",
+      "range": {
+        "startLine": 61,
+        "startChar": 29,
+        "endLine": 61,
+        "endChar": 35
+      },
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "e1e210d8_97770215",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbc7416f_bec27844",
+      "range": {
+        "startLine": 68,
+        "startChar": 49,
+        "endLine": 68,
+        "endChar": 52
+      },
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb7697f4_a733ce98",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 7
@@ -153,6 +297,24 @@
       "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1496083_a46e6359",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "No, while there\u0027s a handle to it, the process object stays around and occupies the slot in the process table.",
+      "parentUuid": "fb7697f4_a733ce98",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -173,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "9cc85007_b4b96d96",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "I dunno, this should be exceedingly rare...",
+      "parentUuid": "ded95a42_85b9fae3",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9008902_7e738675",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 7
@@ -187,6 +367,24 @@
       "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ec92c08_29b69c94",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9008902_7e738675",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -207,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "fcd90321_a285d701",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6871e12f_4b91ea3a",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e902ead3_3cb090d5",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 7
@@ -224,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "4e186a92_a992bf81",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "Logging both for belt-and-suspenders. err might be significant if ever it\u0027s not WAIT_FAILED.",
+      "parentUuid": "e902ead3_3cb090d5",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3602f23a_d886606f",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 7
@@ -238,6 +472,24 @@
       "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10aa23d1_f51219e7",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T17:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3602f23a_d886606f",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
