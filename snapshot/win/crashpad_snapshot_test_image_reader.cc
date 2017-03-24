@@ -19,8 +19,15 @@
 #include "util/file/file_io.h"
 #include "util/win/scoped_handle.h"
 
+namespace {
+
+struct ThreadData {
+  HANDLE threads_done;
+  LONG* thread_ready_count;
+};
+
 DWORD WINAPI LotsOfReferencesThreadProc(void* param) {
-  LONG* count = reinterpret_cast<LONG*>(param);
+  ThreadData* thread_data = reinterpret_cast<ThreadData*>(param);
 
   // Allocate a bunch of pointers to things on the stack.
   int* pointers[1000];
@@ -28,28 +35,45 @@ DWORD WINAPI LotsOfReferencesThreadProc(void* param) {
     pointers[i] = new int[2048];
   }
 
-  InterlockedIncrement(count);
-  Sleep(INFINITE);
+  InterlockedIncrement(thread_data->thread_ready_count);
+
+  PCHECK(WaitForSingleObject(thread_data->threads_done, INFINITE) ==
+         WAIT_OBJECT_0)
+      << "WaitForSingleObject";
+
   return 0;
 }
+
+}  // namespace
 
 int wmain(int argc, wchar_t* argv[]) {
   CHECK_EQ(argc, 2);
 
-  crashpad::ScopedKernelHANDLE done(CreateEvent(nullptr, true, false, argv[1]));
+  crashpad::ScopedKernelHANDLE parent_done(
+      CreateEvent(nullptr, true, false, argv[1]));
+  PCHECK(parent_done.is_valid()) << "CreateEvent";
 
   PCHECK(LoadLibrary(L"crashpad_snapshot_test_image_reader_module.dll"))
       << "LoadLibrary";
 
+  crashpad::ScopedKernelHANDLE threads_done(
+      CreateEvent(nullptr, true, false, argv[1]));
+  PCHECK(threads_done.is_valid()) << "CreateEvent";
+
+  LONG thread_ready_count = 0;
+
+  ThreadData thread_data;
+  thread_data.threads_done = threads_done.get();
+  thread_data.thread_ready_count = &thread_ready_count;
+
   // Create threads with lots of stack pointers to memory. This is used to
   // verify the cap on pointed-to memory.
-  LONG thread_ready_count = 0;
   crashpad::ScopedKernelHANDLE threads[100];
   for (int i = 0; i < arraysize(threads); ++i) {
     threads[i].reset(CreateThread(nullptr,
                                   0,
                                   &LotsOfReferencesThreadProc,
-                                  reinterpret_cast<void*>(&thread_ready_count),
+                                  reinterpret_cast<void*>(&thread_data),
                                   0,
                                   nullptr));
     if (!threads[i].is_valid()) {
@@ -80,8 +104,20 @@ int wmain(int argc, wchar_t* argv[]) {
   crashpad::CheckedWriteFile(out, &c, sizeof(c));
 
   // Parent process says we can exit.
-  CHECK_EQ(WAIT_OBJECT_0, WaitForSingleObject(done.get(), INFINITE));
+  PCHECK(WaitForSingleObject(parent_done.get(), INFINITE) == WAIT_OBJECT_0)
+      << "WaitForSingleObject";
+
+  PCHECK(SetEvent(threads_done.get())) << "SetEvent";
+
+  for (crashpad::ScopedKernelHANDLE& thread : threads) {
+    PCHECK(WaitForSingleObject(thread.get(), INFINITE) == WAIT_OBJECT_0)
+        << "WaitForSingleObject";
+
+    DWORD exit_code;
+    PCHECK(GetExitCodeThread(thread.get(), &exit_code)) << "GetExitCodeThread";
+
+    CHECK_EQ(exit_code, 0u);
+  }
 
   return 0;
 }
-
