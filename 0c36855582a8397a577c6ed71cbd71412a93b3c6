@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ff65fc8_7bcfb499",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T19:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "549d762b_08322b76",
+      "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2719aa3c_fab59fda",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3bc3e5a_510a5803",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T19:02:59Z",
+      "side": 1,
+      "message": "I find the readability of an explicit if worth the extra typing.",
+      "parentUuid": "2719aa3c_fab59fda",
+      "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "823774f3_4228ef6c",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T19:02:59Z",
+      "side": 1,
+      "message": "Makes sense to me, now that you mention it.",
+      "parentUuid": "7591afd1_fb439c01",
+      "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d5f1cd1_81bb8823",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 8
@@ -67,6 +121,24 @@
       "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00af3e51_687ed2b4",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T19:02:59Z",
+      "side": 1,
+      "message": "My bad - leftovers from trying to block after client destruction. Thanks.",
+      "parentUuid": "5d5f1cd1_81bb8823",
+      "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7beaf4df_76ee6420",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T19:02:59Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand - this is constructed in both processes with the same name. The parent sets it, and the child reads it - once each. Basically, besides restoring the creation value of an environment variable, this class doubles as an accessor to a named env variable - is that what irks you?",
+      "parentUuid": "e7793a3d_ea01bb5d",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7def35b8_81a98548",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 7
