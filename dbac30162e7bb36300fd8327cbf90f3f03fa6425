@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51d05ae0_05c38bef",
+        "filename": "cr-buildbucket.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T15:21:33Z",
+      "side": 0,
+      "message": "These aren’t needed because we’re already project-crashpad-admins, right?",
+      "revId": "dbac30162e7bb36300fd8327cbf90f3f03fa6425",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
