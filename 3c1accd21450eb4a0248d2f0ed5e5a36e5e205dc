@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a5f8e09d_83b3ed35",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35f80412_c8597056",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f635286b_f921e5ae",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e68933d_4058d8a1",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f635286b_f921e5ae",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "95d7e10f_c3feaf10",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47aaacc8_003f50b9",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1715f7_6a697010",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06980f13_1babb6d7",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b1715f7_6a697010",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "91e6c1db_d80b29ac",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72fc9e5e_d3366ecb",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab9a05dc_4428c929",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 1
@@ -101,6 +191,24 @@
       "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99caee4e_ef9c87c6",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab9a05dc_4428c929",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "289fda6b_93197827",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Sorry, I rewrote this code several times - initially I thought this code could run in the child process, rejigging...",
+      "parentUuid": "3c815bcf_002e50b0",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b5ee2ff_598de694",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 1
@@ -135,6 +261,24 @@
       "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13c1069e_a8585db5",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "No, all the processes here have |parent|\u0027s PID as parent PID.  The problem is that a PIDs are aggressively reused on Windows. You can therefore have a process that has a parent PID that belonged to a now-exited process, where that PID was reassigned to |parent|.\nTo resolve the ambiguity, you have to look at creation times, so a process that was created before |parent| was, can\u0027t be a child process of |parent|, even if its parent PID points to it.\nWhile there\u0027s at least one handle open to |parent|, the ambiguity doesn\u0027t go in the other direction as |parent| is in the process table and safely occupies the PID. As soon as the last handle to |parent| closes, it\u0027s reaped from the process table, you get that too...\n\nActually, you\u0027re right, the PPID has to be checked too, as the child process\u0027 PID may have been reused *sigh*.",
+      "parentUuid": "4b5ee2ff_598de694",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "336398a2_23720a30",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83c9596b_bcb62ff4",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd55669f_d9b12e93",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 1
@@ -169,6 +331,24 @@
       "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10027cd9_25b0620b",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd55669f_d9b12e93",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "94b28c0d_4e384afb",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78949c9b_e6881575",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70370f6a_f7bf2cbb",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 1
@@ -200,6 +398,24 @@
       "writtenOn": "2017-03-23T20:24:16Z",
       "side": 1,
       "message": "You should set the environment variable to its previous value when you’re done with it. At the very least, you should clear it.\n\nWinMultiprocessParentAfterChild() seems like a good place to do that at first, but I’m not so sure: it might not get run at all! (For example, an ASSERT in this method’s caller might trip before this method is called.) So you can do it from here in addition if you’d like, but you should definitely do it from the destructor.",
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03d17f20_cd3aee53",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Moved the env crap to a Scoped* class to for slightly less eye bleed.",
+      "parentUuid": "70370f6a_f7bf2cbb",
       "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -229,6 +445,30 @@
     },
     {
       "key": {
+        "uuid": "4d14548f_dceee44c",
+        "filename": "test/win/win_multiprocess.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8a863d0_f692a2ac",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 50
+      },
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80299b3a_4365a014",
         "filename": "test/win/win_multiprocess.h",
         "patchSetId": 1
@@ -249,6 +489,30 @@
       "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9bfa767_66664374",
+        "filename": "test/win/win_multiprocess.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80299b3a_4365a014",
+      "range": {
+        "startLine": 171,
+        "startChar": 55,
+        "endLine": 171,
+        "endChar": 60
+      },
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -275,6 +539,30 @@
     },
     {
       "key": {
+        "uuid": "f9eb1e21_9bac9955",
+        "filename": "test/win/win_multiprocess.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac87c1e_54643446",
+      "range": {
+        "startLine": 175,
+        "startChar": 49,
+        "endLine": 175,
+        "endChar": 51
+      },
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1199c441_72fc193b",
         "filename": "test/win/win_multiprocess.h",
         "patchSetId": 1
@@ -295,6 +583,30 @@
       "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90a8010d_811035cb",
+        "filename": "test/win/win_multiprocess.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-03-24T15:25:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1199c441_72fc193b",
+      "range": {
+        "startLine": 177,
+        "startChar": 48,
+        "endLine": 177,
+        "endChar": 71
+      },
+      "revId": "3c1accd21450eb4a0248d2f0ed5e5a36e5e205dc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
