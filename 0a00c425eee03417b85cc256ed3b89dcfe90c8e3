@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e7793a3d_ea01bb5d",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T17:59:46Z",
+      "side": 1,
+      "message": "\u003e It\u0027s only set in the parent process, in the child it picks up value from the parent environment and uses that.\n\nRIght. I mean that if this were\n\n  ScopedEnvironmentVariable(const wchar_t* name, const wchar_t* new_value)\n\nit’d be easier to use, since the only time you ever construct one of these, you immediately set a new value.",
+      "parentUuid": "9722b66b_2f60348e",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7def35b8_81a98548",
         "filename": "client/crashpad_client_win_test.cc",
         "patchSetId": 7
@@ -452,6 +470,24 @@
       "side": 1,
       "message": "Logging both for belt-and-suspenders. err might be significant if ever it\u0027s not WAIT_FAILED.",
       "parentUuid": "e902ead3_3cb090d5",
+      "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "984c157b_a8418fd3",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T17:59:46Z",
+      "side": 1,
+      "message": "\u003e Logging both for belt-and-suspenders. err might be significant if ever it\u0027s not WAIT_FAILED.\n\nOK, I like your style! And it’s good to share the extra bits that we get from GetLastError() via PLOG(). But err isn’t WAIT_FAILED, then GetLastError() is irrelevant and confusing, so I think:\n\n  if (err \u003d\u003d WAIT_FAILED) {\n    PLOG(ERROR) \u003c\u003c \"WaitForSingleObject\";\n  } else if (err !\u003d WAIT_OBJECT_0) {\n    LOG(ERROR) \u003c\u003c \"WaitForSingleObject returned \" \u003c\u003c err;\n  }",
+      "parentUuid": "4e186a92_a992bf81",
       "revId": "0a00c425eee03417b85cc256ed3b89dcfe90c8e3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false

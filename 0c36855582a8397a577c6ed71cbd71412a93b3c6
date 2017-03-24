@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "549d762b_08322b76",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T17:59:46Z",
+      "side": 1,
+      "message": "For best packing, order the members from biggest to smallest.",
+      "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2719aa3c_fab59fda",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-24T17:59:46Z",
+      "side": 1,
+      "message": "Optional, but ?: ternary OK on small things like this.",
+      "revId": "0c36855582a8397a577c6ed71cbd71412a93b3c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
