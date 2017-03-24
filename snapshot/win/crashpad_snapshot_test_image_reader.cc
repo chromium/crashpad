@@ -19,6 +19,8 @@
 #include "util/file/file_io.h"
 #include "util/win/scoped_handle.h"
 
+namespace {
+
 DWORD WINAPI LotsOfReferencesThreadProc(void* param) {
   LONG* count = reinterpret_cast<LONG*>(param);
 
@@ -33,10 +35,13 @@ DWORD WINAPI LotsOfReferencesThreadProc(void* param) {
   return 0;
 }
 
+}  // namespace
+
 int wmain(int argc, wchar_t* argv[]) {
   CHECK_EQ(argc, 2);
 
   crashpad::ScopedKernelHANDLE done(CreateEvent(nullptr, true, false, argv[1]));
+  PCHECK(done.is_valid()) << "CreateEvent";
 
   PCHECK(LoadLibrary(L"crashpad_snapshot_test_image_reader_module.dll"))
       << "LoadLibrary";
@@ -80,8 +85,8 @@ int wmain(int argc, wchar_t* argv[]) {
   crashpad::CheckedWriteFile(out, &c, sizeof(c));
 
   // Parent process says we can exit.
-  CHECK_EQ(WAIT_OBJECT_0, WaitForSingleObject(done.get(), INFINITE));
+  PCHECK(WaitForSingleObject(done.get(), INFINITE) == WAIT_OBJECT_0)
+      << "WaitForSingleObject";
 
   return 0;
 }
-

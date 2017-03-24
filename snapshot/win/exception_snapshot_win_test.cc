@@ -22,6 +22,7 @@
 #include "client/crashpad_client.h"
 #include "gtest/gtest.h"
 #include "snapshot/win/process_snapshot_win.h"
+#include "test/errors.h"
 #include "test/paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
@@ -122,7 +123,9 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
 void TestCrashingChild(const base::string16& directory_modification) {
   // Set up the registration server on a background thread.
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
+  ASSERT_TRUE(server_ready.is_valid()) << ErrorMessage("CreateEvent");
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
+  ASSERT_TRUE(completed.is_valid()) << ErrorMessage("CreateEvent");
   CrashingDelegate delegate(server_ready.get(), completed.get());
 
   ExceptionHandlerServer exception_handler_server(true);
@@ -133,7 +136,8 @@ void TestCrashingChild(const base::string16& directory_modification) {
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
       &exception_handler_server, &server_thread);
 
-  WaitForSingleObject(server_ready.get(), INFINITE);
+  EXPECT_EQ(WAIT_OBJECT_0, WaitForSingleObject(server_ready.get(), INFINITE))
+      << ErrorMessage("WaitForSingleObject");
 
   // Spawn a child process, passing it the pipe name to connect to.
   base::FilePath test_executable = Paths::Executable();
@@ -154,7 +158,10 @@ void TestCrashingChild(const base::string16& directory_modification) {
   delegate.set_break_near(break_near_address);
 
   // Wait for the child to crash and the exception information to be validated.
-  WaitForSingleObject(completed.get(), INFINITE);
+  EXPECT_EQ(WAIT_OBJECT_0, WaitForSingleObject(completed.get(), INFINITE))
+      << ErrorMessage("WaitForSingleObject");
+
+  EXPECT_EQ(EXCEPTION_BREAKPOINT, child.WaitForExit());
 }
 
 TEST(ExceptionSnapshotWinTest, ChildCrash) {
@@ -224,7 +231,9 @@ void TestDumpWithoutCrashingChild(
     const base::string16& directory_modification) {
   // Set up the registration server on a background thread.
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
+  ASSERT_TRUE(server_ready.is_valid()) << ErrorMessage("CreateEvent");
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
+  ASSERT_TRUE(completed.is_valid()) << ErrorMessage("CreateEvent");
   SimulateDelegate delegate(server_ready.get(), completed.get());
 
   ExceptionHandlerServer exception_handler_server(true);
@@ -235,7 +244,8 @@ void TestDumpWithoutCrashingChild(
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
       &exception_handler_server, &server_thread);
 
-  WaitForSingleObject(server_ready.get(), INFINITE);
+  EXPECT_EQ(WAIT_OBJECT_0, WaitForSingleObject(server_ready.get(), INFINITE))
+      << ErrorMessage("WaitForSingleObject");
 
   // Spawn a child process, passing it the pipe name to connect to.
   base::FilePath test_executable = Paths::Executable();
@@ -256,7 +266,10 @@ void TestDumpWithoutCrashingChild(
   delegate.set_dump_near(dump_near_address);
 
   // Wait for the child to crash and the exception information to be validated.
-  WaitForSingleObject(completed.get(), INFINITE);
+  EXPECT_EQ(WAIT_OBJECT_0, WaitForSingleObject(completed.get(), INFINITE))
+      << ErrorMessage("WaitForSingleObject");
+
+  EXPECT_EQ(0, child.WaitForExit());
 }
 
 TEST(SimulateCrash, ChildDumpWithoutCrashing) {

@@ -137,7 +137,7 @@ void TestOtherProcess(const base::string16& directory_modification) {
 
   ScopedKernelHANDLE done(
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
-  ASSERT_TRUE(done.get());
+  ASSERT_TRUE(done.get()) << ErrorMessage("CreateEvent");
 
   base::FilePath test_executable = Paths::Executable();
 
@@ -162,7 +162,9 @@ void TestOtherProcess(const base::string16& directory_modification) {
   ASSERT_TRUE(process_info.Initialize(child.process_handle()));
 
   // Tell the test it's OK to shut down now that we've read our data.
-  EXPECT_TRUE(SetEvent(done.get()));
+  EXPECT_TRUE(SetEvent(done.get())) << ErrorMessage("SetEvent");
+
+  EXPECT_EQ(0, child.WaitForExit());
 
   std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
