@@ -60,8 +60,8 @@ int wmain(int argc, wchar_t* argv[]) {
 
   for (;;) {
     if (InterlockedCompareExchange(&thread_ready_count,
-                                   arraysize(threads),
-                                   arraysize(threads) == arraysize(threads))) {
+                                   thread_ready_count,
+                                   arraysize(threads)) == arraysize(threads)) {
       // All threads have allocated their references.
       break;
     }

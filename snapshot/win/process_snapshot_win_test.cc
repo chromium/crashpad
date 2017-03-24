@@ -52,59 +52,63 @@ void TestImageReaderChild(const base::string16& directory_modification) {
       LoggingReadFileExactly(child.stdout_read_handle(), &c, sizeof(c)));
   ASSERT_EQ(' ', c);
 
-  ScopedProcessSuspend suspend(child.process_handle());
+  {
+    ScopedProcessSuspend suspend(child.process_handle());
 
-  ProcessSnapshotWin process_snapshot;
-  ASSERT_TRUE(process_snapshot.Initialize(
-      child.process_handle(), ProcessSuspensionState::kSuspended, 0, 0));
+    ProcessSnapshotWin process_snapshot;
+    ASSERT_TRUE(process_snapshot.Initialize(
+        child.process_handle(), ProcessSuspensionState::kSuspended, 0, 0));
 
-  ASSERT_GE(process_snapshot.Modules().size(), 2u);
+    ASSERT_GE(process_snapshot.Modules().size(), 2u);
 
-  UUID uuid;
-  DWORD age;
-  std::string pdbname;
-  const std::string suffix(".pdb");
+    UUID uuid;
+    DWORD age;
+    std::string pdbname;
+    const std::string suffix(".pdb");
 
-  // Check the main .exe to see that we can retrieve its sections.
-  auto module = reinterpret_cast<const internal::ModuleSnapshotWin*>(
-      process_snapshot.Modules()[0]);
-  ASSERT_TRUE(module->pe_image_reader().DebugDirectoryInformation(
-      &uuid, &age, &pdbname));
-  EXPECT_NE(std::string::npos,
-            pdbname.find("crashpad_snapshot_test_image_reader"));
-  EXPECT_EQ(
-      0,
-      pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix));
+    // Check the main .exe to see that we can retrieve its sections.
+    auto module = reinterpret_cast<const internal::ModuleSnapshotWin*>(
+        process_snapshot.Modules()[0]);
+    ASSERT_TRUE(module->pe_image_reader().DebugDirectoryInformation(
+        &uuid, &age, &pdbname));
+    EXPECT_NE(std::string::npos,
+              pdbname.find("crashpad_snapshot_test_image_reader"));
+    EXPECT_EQ(
+        0,
+        pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix));
 
-  // Check the dll it loads too.
-  module = reinterpret_cast<const internal::ModuleSnapshotWin*>(
-      process_snapshot.Modules().back());
-  ASSERT_TRUE(module->pe_image_reader().DebugDirectoryInformation(
-      &uuid, &age, &pdbname));
-  EXPECT_NE(std::string::npos,
-            pdbname.find("crashpad_snapshot_test_image_reader_module"));
-  EXPECT_EQ(
-      0,
-      pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix));
+    // Check the dll it loads too.
+    module = reinterpret_cast<const internal::ModuleSnapshotWin*>(
+        process_snapshot.Modules().back());
+    ASSERT_TRUE(module->pe_image_reader().DebugDirectoryInformation(
+        &uuid, &age, &pdbname));
+    EXPECT_NE(std::string::npos,
+              pdbname.find("crashpad_snapshot_test_image_reader_module"));
+    EXPECT_EQ(
+        0,
+        pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix));
 
-  // Sum the size of the extra memory in all the threads and confirm it's near
-  // the limit that the child process set in its CrashpadInfo.
-  EXPECT_GE(process_snapshot.Threads().size(), 100u);
+    // Sum the size of the extra memory in all the threads and confirm it's
+    // near the limit that the child process set in its CrashpadInfo.
+    EXPECT_GE(process_snapshot.Threads().size(), 100u);
 
-  size_t extra_memory_total = 0;
-  for (const auto* thread : process_snapshot.Threads()) {
-    for (const auto* extra_memory : thread->ExtraMemory()) {
-      extra_memory_total += extra_memory->Size();
+    size_t extra_memory_total = 0;
+    for (const auto* thread : process_snapshot.Threads()) {
+      for (const auto* extra_memory : thread->ExtraMemory()) {
+        extra_memory_total += extra_memory->Size();
+      }
     }
+
+    // We confirm we gathered less than 1M of extra data. The cap is set to
+    // only 100K, but there are other "extra memory" regions that aren't
+    // included in the cap. (Completely uncapped it would be > 10M.)
+    EXPECT_LT(extra_memory_total, 1000000u);
+
+    // Tell the child it can terminate.
+    SetEvent(done.get());
   }
 
-  // We confirm we gathered less than 1M of extra data. The cap is set to only
-  // 100K, but there are other "extra memory" regions that aren't included in
-  // the cap. (Completely uncapped it would be > 10M.)
-  EXPECT_LT(extra_memory_total, 1000000u);
-
-  // Tell the child it can terminate.
-  SetEvent(done.get());
+  EXPECT_EQ(0, child.WaitForExit());
 }
 
 TEST(ProcessSnapshotTest, CrashpadInfoChild) {
