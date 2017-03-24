@@ -41,8 +41,15 @@ bool CaptureMemoryDelegateWin::ReadMemory(uint64_t at,
 }
 
 std::vector<CheckedRange<uint64_t>> CaptureMemoryDelegateWin::GetReadableRanges(
-    const CheckedRange<uint64_t, uint64_t>& range) const {
+    const CheckedRange<uint64_t>& range) const {
   return process_reader_->GetProcessInfo().GetReadableRanges(range);
+}
+
+std::vector<std::vector<CheckedRange<uint64_t>>>
+CaptureMemoryDelegateWin::GetReadableRangesForListOfRanges(
+    const std::vector<CheckedRange<uint64_t>>& ranges) const {
+  return process_reader_->GetProcessInfo().GetReadableRangesForListOfRanges(
+      ranges);
 }
 
 void CaptureMemoryDelegateWin::AddNewMemorySnapshot(

@@ -16,6 +16,7 @@
 
 #include <stdint.h>
 
+#include <algorithm>
 #include <limits>
 #include <memory>
 
@@ -24,27 +25,47 @@
 namespace crashpad {
 namespace internal {
 
+std::vector<std::vector<CheckedRange<uint64_t>>>
+CaptureMemory::Delegate::GetReadableRangesForListOfRanges(
+    const std::vector<CheckedRange<uint64_t>>& ranges) const {
+  std::vector<std::vector<CheckedRange<uint64_t>>> result(ranges.size());
+  std::transform(
+      ranges.begin(),
+      ranges.end(),
+      result.begin(),
+      [this](const CheckedRange<uint64_t>& r) { return GetReadableRanges(r); });
+  return result;
+}
+
 namespace {
 
-void MaybeCaptureMemoryAround(CaptureMemory::Delegate* delegate,
-                              uint64_t address) {
+CheckedRange<uint64_t> RangeAroundAddress(CaptureMemory::Delegate* delegate,
+                                          uint64_t address) {
   const uint64_t non_address_offset = 0x10000;
   if (address < non_address_offset)
-    return;
+    return CheckedRange<uint64_t>(0, 0);
 
   const uint64_t max_address = delegate->Is64Bit() ?
       std::numeric_limits<uint64_t>::max() :
       std::numeric_limits<uint32_t>::max();
   if (address > max_address - non_address_offset)
-    return;
+    return CheckedRange<uint64_t>(0, 0);
 
   const uint64_t kRegisterByteOffset = 128;
   const uint64_t target = address - kRegisterByteOffset;
   const uint64_t size = 512;
   static_assert(kRegisterByteOffset <= size / 2,
                 "negative offset too large");
-  auto ranges =
-      delegate->GetReadableRanges(CheckedRange<uint64_t>(target, size));
+  return CheckedRange<uint64_t>(target, size);
+}
+
+void MaybeCaptureMemoryAround(CaptureMemory::Delegate* delegate,
+                              uint64_t address) {
+
+  auto target_range = RangeAroundAddress(delegate, address);
+  if (target_range.size() == 0)
+    return;
+  auto ranges = delegate->GetReadableRanges(target_range);
   for (const auto& range : ranges) {
     delegate->AddNewMemorySnapshot(range);
   }
@@ -54,10 +75,22 @@ template <class T>
 void CaptureAtPointersInRange(uint8_t* buffer,
                               uint64_t buffer_size,
                               CaptureMemory::Delegate* delegate) {
+  std::vector<CheckedRange<uint64_t>> source_ranges;
+  source_ranges.reserve(static_cast<size_t>(buffer_size / sizeof(T)));
   for (uint64_t address_offset = 0; address_offset < buffer_size;
        address_offset += sizeof(T)) {
     uint64_t target_address = *reinterpret_cast<T*>(&buffer[address_offset]);
-    MaybeCaptureMemoryAround(delegate, target_address);
+    auto range = RangeAroundAddress(delegate, target_address);
+    if (range.size() == 0)
+      continue;
+    source_ranges.push_back(range);
+  }
+  auto list_of_ranges =
+      delegate->GetReadableRangesForListOfRanges(source_ranges);
+  for (const auto& ranges : list_of_ranges) {
+    for (const auto& range : ranges) {
+      delegate->AddNewMemorySnapshot(range);
+    }
   }
 }
 

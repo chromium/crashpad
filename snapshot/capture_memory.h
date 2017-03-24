@@ -48,15 +48,30 @@ class CaptureMemory {
                             void* into) const = 0;
 
     //! \brief Given a range to be read from the target process, returns a
-    //! vector
-    //!     of ranges, representing the readable portions of the original range.
+    //!     vector of ranges, representing the readable portions of the original
+    //!     range.
     //!
     //! \param[in] range The range being identified.
     //!
     //! \return A vector of ranges corresponding to the portion of \a range that
     //!     is readable.
     virtual std::vector<CheckedRange<uint64_t>> GetReadableRanges(
-        const CheckedRange<uint64_t, uint64_t>& range) const = 0;
+        const CheckedRange<uint64_t>& range) const = 0;
+
+    //! \brief Batch version of GetReadableRanges().
+    //!
+    //! The default implementation of this function is equivalent to mapping
+    //! GetReadableRanges() across \a ranges, however, it can be implemented
+    //! more efficiently when overridden.
+    //!
+    //! \param[in] ranges The list of ranges to be categorized. This list must
+    //!     be sorted by the range's base address.
+    //!
+    //! \return A vector of vector of ranges, where each subvector corresponds
+    //!     to the portions of the input range that is readable.
+    virtual std::vector<std::vector<CheckedRange<uint64_t>>>
+    GetReadableRangesForListOfRanges(
+        const std::vector<CheckedRange<uint64_t>>& ranges) const;
 
     //! \brief Adds the given range representing a memory snapshot in the target
     //!     process to the result.

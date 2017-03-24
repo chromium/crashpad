@@ -628,6 +628,12 @@ ProcessInfo::GetReadableRanges(
   return GetReadableRangesOfMemoryMap(range, MemoryInfo());
 }
 
+std::vector<std::vector<CheckedRange<WinVMAddress, WinVMSize>>>
+ProcessInfo::GetReadableRangesForListOfRanges(
+    const std::vector<CheckedRange<WinVMAddress, WinVMSize>>& ranges) const {
+  return GetReadableRangesOfMemoryMapForListOfRanges(ranges, MemoryInfo());
+}
+
 bool ProcessInfo::LoggingRangeIsFullyReadable(
     const CheckedRange<WinVMAddress, WinVMSize>& range) const {
   const auto ranges = GetReadableRanges(range);
@@ -743,6 +749,14 @@ std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
     DCHECK(result.back().IsValid());
   }
 
+  return result;
+}
+
+std::vector<std::vector<CheckedRange<WinVMAddress, WinVMSize>>>
+GetReadableRangesOfMemoryMapForListOfRanges(
+    const std::vector<CheckedRange<WinVMAddress, WinVMSize>>& range,
+    const ProcessInfo::MemoryBasicInformation64Vector& memory_info) {
+  std::vector<std::vector<CheckedRange<WinVMAddress, WinVMSize>>> result;
   return result;
 }
 

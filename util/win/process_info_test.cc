@@ -519,6 +519,59 @@ TEST(ProcessInfo, ReadableRanges) {
                                  &bytes_read));
 }
 
+TEST(ProcessInfo, Batch) {
+  ProcessInfo::MemoryBasicInformation64Vector memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
+
+  mbi.BaseAddress = 10;
+  mbi.RegionSize = 10;
+  mbi.State = MEM_COMMIT;
+  memory_info.push_back(mbi);
+
+  std::vector<CheckedRange<WinVMAddress, WinVMSize>> input;
+  input.push_back(CheckedRange<WinVMAddress, WinVMSize>(5, 7));
+  input.push_back(CheckedRange<WinVMAddress, WinVMSize>(15, 100));
+  auto result = GetReadableRangesOfMemoryMapForListOfRanges(input, memory_info);
+
+  ASSERT_EQ(2u, result.size());
+  ASSERT_EQ(1u, result[0].size());
+  EXPECT_EQ(10, result[0][0].base());
+  EXPECT_EQ(2, result[0][0].size());
+
+  ASSERT_EQ(1u, result[1].size());
+  EXPECT_EQ(15, result[1][0].base());
+  EXPECT_EQ(5, result[1][0].size());
+}
+
+TEST(ProcessInfo, BatchMany) {
+  ProcessInfo::MemoryBasicInformation64Vector memory_info;
+  MEMORY_BASIC_INFORMATION64 mbi = {0};
+
+  mbi.BaseAddress = 10;
+  mbi.RegionSize = 10;
+  mbi.State = MEM_COMMIT;
+  memory_info.push_back(mbi);
+
+  mbi.BaseAddress = 30;
+  mbi.RegionSize = 5;
+  mbi.State = MEM_COMMIT;
+  memory_info.push_back(mbi);
+
+  mbi.BaseAddress = 40;
+  mbi.RegionSize = 5;
+  mbi.State = MEM_COMMIT;
+  memory_info.push_back(mbi);
+
+  std::vector<CheckedRange<WinVMAddress, WinVMSize>> input;
+  for (WinVMAddress address = 0; address < 100; address += 4) {
+    input.push_back(CheckedRange<WinVMAddress, WinVMSize>(address, 4));
+  }
+  auto result = GetReadableRangesOfMemoryMapForListOfRanges(input, memory_info);
+
+  ASSERT_EQ(7u, result.size());
+  // TODO
+}
+
 struct ScopedRegistryKeyCloseTraits {
   static HKEY InvalidValue() {
     return nullptr;

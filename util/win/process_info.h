@@ -141,6 +141,22 @@ class ProcessInfo {
   std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRanges(
       const CheckedRange<WinVMAddress, WinVMSize>& range) const;
 
+  //! \brief Given a list of ranges to be read from the target process, returns
+  //!     vector of vector of ranges, representing the readable portions of each
+  //!     range in the original vector.
+  //!
+  //! This function is equivalent to a batch application of GetReadableRanges()
+  //! on each element of \a ranges, but is more efficient.
+  //!
+  //! \param[in] ranges The ranges being identified. Must be sorted by range
+  //!     base address.
+  //!
+  //! \return A vector of vector of ranges, each corresponding to the portion of
+  //!     each element of \a ranges that is readable based on the memory map.
+  std::vector<std::vector<CheckedRange<WinVMAddress, WinVMSize>>>
+  GetReadableRangesForListOfRanges(
+      const std::vector<CheckedRange<WinVMAddress, WinVMSize>>& ranges) const;
+
   //! \brief Given a range in the target process, determines if the entire range
   //!     is readable.
   //!
@@ -215,6 +231,12 @@ class ProcessInfo {
 //! ProcessInfo::GetReadableRanges().
 std::vector<CheckedRange<WinVMAddress, WinVMSize>> GetReadableRangesOfMemoryMap(
     const CheckedRange<WinVMAddress, WinVMSize>& range,
+    const ProcessInfo::MemoryBasicInformation64Vector& memory_info);
+
+//! TODO
+std::vector<std::vector<CheckedRange<WinVMAddress, WinVMSize>>>
+GetReadableRangesOfMemoryMapForListOfRanges(
+    const std::vector<CheckedRange<WinVMAddress, WinVMSize>>& range,
     const ProcessInfo::MemoryBasicInformation64Vector& memory_info);
 
 }  // namespace crashpad
