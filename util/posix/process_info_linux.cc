@@ -108,18 +108,18 @@ void TimespecToTimeval(const timespec& ts, timeval* tv) {
 }
 
 class ScopedPtraceDetach {
- public:
-  explicit ScopedPtraceDetach(pid_t pid) : pid_(pid) {}
-  ~ScopedPtraceDetach() {
-    if (ptrace(PTRACE_DETACH, pid_, nullptr, nullptr) != 0) {
-      PLOG(ERROR) << "ptrace";
-    }
-  }
+  public:
+   explicit ScopedPtraceDetach(pid_t pid) : pid_(pid) {}
+   ~ScopedPtraceDetach() {
+     if (ptrace(PTRACE_DETACH, pid_, nullptr, nullptr) != 0) {
+       PLOG(ERROR) << "ptrace";
+     }
+   }
 
- private:
-  pid_t pid_;
+  private:
+   pid_t pid_;
 
-  DISALLOW_COPY_AND_ASSIGN(ScopedPtraceDetach);
+   DISALLOW_COPY_AND_ASSIGN(ScopedPtraceDetach);
 };
 
 }  // namespace
@@ -330,7 +330,7 @@ bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
     if (pid_ == getpid()) {
       is_64_bit_ = am_64_bit;
     } else {
-      if (ptrace(PTRACE_ATTACH, pid_, nullptr, nullptr) != 0) {
+      if (ptrace(PTRACE_ATTACH, pid_, nullptr, nullptr, nullptr) != 0) {
         PLOG(ERROR) << "ptrace";
         return false;
       }
