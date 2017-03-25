@@ -330,7 +330,7 @@ bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
     if (pid_ == getpid()) {
       is_64_bit_ = am_64_bit;
     } else {
-      if (ptrace(PTRACE_ATTACH, pid_, nullptr, nullptr) != 0) {
+      if (ptrace(PTRACE_ATTACH, pid_, nullptr, nullptr, nullptr) != 0) {
         PLOG(ERROR) << "ptrace";
         return false;
       }
