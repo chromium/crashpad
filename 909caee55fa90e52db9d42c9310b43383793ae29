@@ -1,0 +1,363 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48749aa1_eac60cf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "Here and in process_memory.h: just process\u0027 (no extra s)",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69e52b41_6c8e2070",
+        "filename": "util/linux/process_memory.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "We would normally delegate work that might fail to an Initialize() method so that it can signal failure via a bool return code. That’d prevent a caller from wasting time making a bunch of Read() calls destined to fail, and it’s also good for testability.",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43b08381_66f2a554",
+        "filename": "util/linux/process_memory.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "And, just for sanity:\n\n  DCHECK_LE(static_cast\u003csize_t\u003e(bytes_read), size);\n\nSimilar on line 106.",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "511e2f2f_4b9463db",
+        "filename": "util/linux/process_memory.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "process ID",
+      "range": {
+        "startLine": 31,
+        "startChar": 25,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f3a331a_fa9d7ea7",
+        "filename": "util/linux/process_memory.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "Fix the format of these two lines.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 37
+      },
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bc1a04a_0a7f53ef",
+        "filename": "util/linux/process_memory.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "The documentation says “warning logged” but the implementation uses LOG(ERROR). The Mach version uses LOG(WARNING). When we don’t want the documentation to have to specify the log level, we just say “message logged”. Lines 61 and 75 too.",
+      "range": {
+        "startLine": 47,
+        "startChar": 26,
+        "endLine": 47,
+        "endChar": 40
+      },
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dd78db1_c4b8a890",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "No need to be explicit for a no-argument constructor.",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e1cc9bb_91f51913",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "I see that you’ve done error checking of pid_ elsewhere, but it should really all be consolidated here, at the call that might fail. You don’t want someone to come along and add something else to the constructor and then wind up with undetected ambiguous failure modes.\n\nIf pid_ \u003c 0, stop and fail the test right here.\n\nIn test code, it’d be acceptable to leave the failure-prone work in a constructor and register the failure via an EXPECT_*() or ADD_FAILURE(). For example, this should work\n\n  pid_ \u003d fork();\n  if (pid_ \u003c 0) {\n    ADD_FAILURE() \u003c\u003c ErrorMessage(\"fork\");\n    return;\n  }\n  if (pid_ \u003d\u003d 0) {\n    // …\n\nbut you’ll want to call testing::Test::HasFailure() back where the class is used to abort the test early in case the constructor failed:\n\n  ScopedChildProcess child;\n  ASSERT_FALSE(testing::Test::HasFailure());\n\nThis is a little quirky, partially because you can’t ASSERT_*() your way out of a constructor. Given all of this, you may find it clearer to just use an Initialize(), even though handling failures in this way in a constructor is OK.",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddc59e96_4ff79d7b",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "“const” is a good habit to be in for our codebase and Chrome in general. And this should be named for the underlying variable, and not for getpid() which can easily be confused with the system call of the same name. So:\n\n  pid_t pid() const { return pid_; }",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04c9a2e8_1fd9e7b2",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "Before you get to this, the first test should be a non-fork()-based read-my-own-mem. It can be small and straightforward. Same for the ReadCString tests.",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f47fc0f0_5e6abb93",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "If PAGE_SIZE works, why didn’t you use it instead of 4096 in the .cc fie?",
+      "range": {
+        "startLine": 53,
+        "startChar": 27,
+        "endLine": 53,
+        "endChar": 36
+      },
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeacab5e_8d61ed56",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "Just\n\n  ASSERT_TRUE(region.get());\n\nAlso on line 69.",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c35ea45_576b7bd6",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "As above, more of the error handling should be dealt with where it arises.",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c09edd42_2a738594",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "This is one spot I’m talking about: it’d be nice to just ASSERT_TRUE(memory.Initialize(pid)).",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa4be545_3e5dbca0",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": ":) I see what you did here!",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9af80174_624859f2",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "PAGE_SIZE like above? Line 161 too.",
+      "range": {
+        "startLine": 117,
+        "startChar": 37,
+        "endLine": 117,
+        "endChar": 41
+      },
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38f1fb27_31098214",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "The ReadCString() calls here should be ASSERT_TRUE, because it’s invalid to EXPECT_EQ on them unless they succeed.\n\nSame with the ReadCStringSizeLimited() calls in the next test.",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "578d619b_f97853a9",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "You used a Forked suffix for the other two fork-based tests. This should have one too.",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15068a41_11aa8782",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-27T18:06:41Z",
+      "side": 1,
+      "message": "You should also add “unmapped” variants that ensure that you can issue a request to read unmapped memory and have it fail by returning false as opposed to, say, crashing. We will, from time to time, try to read memory that looks like it should be there but isn’t, and we don’t want that to take the handler down.\n\nThis may be easier to have an in-process-only test for. The Mach equivalent has TaskMemory.ReadSelfUnmapped and TaskMemory.ReadCStringSelfUnmapped.",
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
