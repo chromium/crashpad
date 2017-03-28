@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "542afcf6_9818d2be",
+        "filename": "snapshot/mac/system_snapshot_mac_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-03-28T17:13:33Z",
+      "side": 1,
+      "message": "¾ offset and a made up name, what the heck Eucla!",
+      "revId": "37ff54b26347f132e8a3c162d9aa053ed8476737",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
