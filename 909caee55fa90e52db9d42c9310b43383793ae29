@@ -447,6 +447,30 @@
     },
     {
       "key": {
+        "uuid": "dcb71fe7_542dd535",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-28T14:43:36Z",
+      "side": 1,
+      "message": "\u003e I had intended not to use it since PAGE_SIZE isn\u0027t guaranteed to be defined, though apparently it is for the arm/arm64/x86/x86_64 NDKs.\n\u003e Do you think it\u0027d be fine to use PAGE_SIZE and just put it in compat if necessary?\n\nI had intended not to use it either because I didn’t think that it was correct on Linux, but when I saw you using it, I thought that maybe it worked and you had found something I didn’t. So I did a little research.\n\nShort story: PAGE_SIZE in user space is not to be trusted. Our instincts were correct.\n\nAlthough PAGE_SIZE is always constexpr in the kernel, its value isn’t fixed. arch/arm64/include/asm/page.h uses (1 \u003c\u003c CONFIG_ARM64_PAGE_SHIFT), where arch/arm64/Kconfig provides for ARM64_PAGE_SHIFT \u003d 12, 14, or 16 based on the settings of ARM64_16K_PAGES and ARM64_64K_PAGES. arch/mips is similar.\n\nBionic always provides a definition of PAGE_SIZE \u003d 4096 in \u003csys/user.h\u003e. https://android.googlesource.com/platform/bionic/+/03f22465ae3106517c5852f1904f44eb937ccbbf/libc/include/sys/user.h#37. When the definition was in \u003climits.h\u003e, it was accompanied by a warning not to use it. https://android.googlesource.com/platform/bionic/+/36443fd542a96d2ed71fc294f70fed08c115af55%5E%21/#F1\n\nThe Bionic developers know that their PAGE_SIZE definition is bad, but they don’t want to drop it altogether because they’d lose source compatibility with lots of software that uses it.\n\nSo…\n\nWhere we really need the size of a page, we should use getpagesize() and dynamically allocate the buffer. Where we want “probably the size of a page” but don’t have to sweat infrequently being wrong, we should just write “4096”. Let’s go with that here for now, like we did in ProcessInfoLinux. We can come back later with a PageBuffer class to wrap up the getpagesize() and allocation if we find we need or want it.",
+      "parentUuid": "dbc2f091_348e0264",
+      "range": {
+        "startLine": 53,
+        "startChar": 27,
+        "endLine": 53,
+        "endChar": 36
+      },
+      "revId": "909caee55fa90e52db9d42c9310b43383793ae29",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aeacab5e_8d61ed56",
         "filename": "util/linux/process_memory_test.cc",
         "patchSetId": 12

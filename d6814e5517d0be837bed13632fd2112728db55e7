@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f0ddf6d_b2b8451d",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-28T14:43:36Z",
+      "side": 1,
+      "message": "Should still check this:\n\n  EXPECT_EQ(0, kill(pid_, SIGKILL)) \u003c\u003c ErrorMessage(\"kill\");\n\nHere’s an example of a gross bug that we finally nailed last week that would have been much easier to catch if we had been doing proper checking everywhere: https://crashpad.chromium.org/bug/160.\n\nWe also need to waitpid() for it or we’ll accumulate zombie children:\n\n  int exit_status \u003d 0;\n  EXPECT_EQ(pid_, waitpid(pid_, \u0026exit_status, 0)) \u003c\u003c ErrorMessage(\"waitpid\");\n  EXPECT_TRUE(WIFSIGNALED(exit_status));\n  EXPECT_EQ(SIGKILL, WTERMSIG(exit_status));\n\nHowever it may make more sense to just use the Multiprocess test class that we already have. See test/multiprocess.h. Then all of this bookkeeping is taken care of for you: it’ll wait for the child, you can tell it SetExpectedChildTermination(TerminationReason::kTerminationSignal, SIGKILL), implement the parent/child bits in MultiprocessParent()/MultiprocessChild(), etc.",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ded5c28d_ab2ac564",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-28T14:43:36Z",
+      "side": 1,
+      "message": "Blank line before this, and one before line 53 too, to help this method stand out on its own.",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4f8f9db_51c61b64",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-28T14:43:36Z",
+      "side": 1,
+      "message": "Let’s test the error case first to deal with it and get it out of the way.",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54e424ae_7986e5ce",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-28T14:43:36Z",
+      "side": 1,
+      "message": "Just getpagesize(). Line 311 also.",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dbfb3ef_0f7f13d4",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-28T14:43:36Z",
+      "side": 1,
+      "message": "This mapping will leak if any of the ASSERTs get hit before you munmap() it. We should put these through a ScopedMmap. Same in the next function.",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fb4386f_b4a310d4",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-28T14:43:36Z",
+      "side": 1,
+      "message": "This should have \u003c\u003c ErrorMessage(). Lines 299 and 376 too. But the scoper will change that anyway.",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a690d273_8a6b9005",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-28T14:43:36Z",
+      "side": 1,
+      "message": "pid, not getpid(). Line 358 too.",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
