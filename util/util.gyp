@@ -139,6 +139,8 @@
         'posix/process_info.h',
         'posix/process_info_linux.cc',
         'posix/process_info_mac.cc',
+        'posix/scoped_mmap.cc',
+        'posix/scoped_mmap.h',
         'posix/signals.cc',
         'posix/signals.h',
         'posix/symbolic_constants_posix.cc',
