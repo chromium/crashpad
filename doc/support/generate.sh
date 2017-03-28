@@ -28,7 +28,7 @@ cd "$(dirname "${0}")/../.."
 
 source doc/support/compat.sh
 
-doc/support/generate_doxygen.sh
+python doc/support/generate_doxygen.py
 
 output_dir=doc/generated
 maybe_mkdir "${output_dir}"
