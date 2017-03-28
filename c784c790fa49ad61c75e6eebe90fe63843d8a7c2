@@ -22,6 +22,30 @@
       "revId": "c784c790fa49ad61c75e6eebe90fe63843d8a7c2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "744e5a6e_779991f8",
+        "filename": "util/posix/scoped_mmap_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-28T17:53:01Z",
+      "side": 1,
+      "message": "\u003e The man page says MAP_ANON is deprecated in favor of MAP_ANONYMOUS.\n\nI had MAP_ANONYMOUS originally but the Mac trybot doesn’t like it. Turns out that MAP_ANONYMOUS didn’t show up in the macOS SDK until recently (10.11).\n\nRelying on the fact that MAP_ANON is defined everywhere, glibc, Bionic/NDK, and all sorts of Macs, I went with MAP_ANON.\n\nI think the doc you’re referring to is a glibc man page. Neither MAP_ANON nor MAP_ANONYMOUS is standard, so there isn’t really any authority on the matter, but I don’t see this going away.\n\nThe alternative is to stick MAP_ANONYMOUS into compat for Mac.\n\nWhat do you prefer?",
+      "parentUuid": "ada512df_8be8ac0a",
+      "range": {
+        "startLine": 31,
+        "startChar": 58,
+        "endLine": 31,
+        "endChar": 66
+      },
+      "revId": "c784c790fa49ad61c75e6eebe90fe63843d8a7c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
