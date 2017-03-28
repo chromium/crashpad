@@ -70,6 +70,30 @@
       "revId": "c784c790fa49ad61c75e6eebe90fe63843d8a7c2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bfc2486_6eb9c971",
+        "filename": "util/posix/scoped_mmap_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-28T18:28:05Z",
+      "side": 1,
+      "message": "I guess MAP_ANON does make more sense then, since it already works everywhere we need it and will eventually be POSIX standard.",
+      "parentUuid": "cc5acabc_5543b750",
+      "range": {
+        "startLine": 31,
+        "startChar": 58,
+        "endLine": 31,
+        "endChar": 66
+      },
+      "revId": "c784c790fa49ad61c75e6eebe90fe63843d8a7c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
