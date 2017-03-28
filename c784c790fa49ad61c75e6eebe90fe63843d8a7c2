@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ada512df_8be8ac0a",
+        "filename": "util/posix/scoped_mmap_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-28T17:40:23Z",
+      "side": 1,
+      "message": "The man page says MAP_ANON is deprecated in favor of MAP_ANONYMOUS.",
+      "range": {
+        "startLine": 31,
+        "startChar": 58,
+        "endLine": 31,
+        "endChar": 66
+      },
+      "revId": "c784c790fa49ad61c75e6eebe90fe63843d8a7c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
