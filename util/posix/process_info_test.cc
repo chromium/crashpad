@@ -14,9 +14,7 @@
 
 #include "util/posix/process_info.h"
 
-#include <signal.h>
 #include <time.h>
-#include <unistd.h>
 
 #include <algorithm>
 #include <set>
@@ -28,6 +26,8 @@
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/main_arguments.h"
+#include "test/multiprocess.h"
+#include "util/file/file_io.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -156,22 +156,36 @@ TEST(ProcessInfo, Pid1) {
   EXPECT_FALSE(process_info.AllGroups().empty());
 }
 
-TEST(ProcessInfo, Forked) {
-  pid_t pid = fork();
-  if (pid == 0) {
-    raise(SIGSTOP);
-    _exit(0);
+class ProcessInfoForkedTest : public Multiprocess {
+ public:
+  ProcessInfoForkedTest() : Multiprocess() {}
+  ~ProcessInfoForkedTest() {}
+
+  // Multiprocess:
+  void MultiprocessParent() override {
+    const pid_t pid = ChildPID();
+
+    ProcessInfo process_info;
+    ASSERT_TRUE(process_info.Initialize(pid));
+
+    EXPECT_EQ(pid, process_info.ProcessID());
+    EXPECT_EQ(getpid(), process_info.ParentProcessID());
+
+    TestProcessSelfOrClone(process_info);
   }
-  ASSERT_GE(pid, 0) << ErrnoMessage("fork");
 
-  ProcessInfo process_info;
-  ASSERT_TRUE(process_info.Initialize(pid));
+  void MultiprocessChild() override {
+    // Hang around until the parent is done.
+    CheckedReadFileAtEOF(ReadPipeHandle());
+  }
 
-  EXPECT_EQ(pid, process_info.ProcessID());
-  EXPECT_EQ(getpid(), process_info.ParentProcessID());
+ private:
+  DISALLOW_COPY_AND_ASSIGN(ProcessInfoForkedTest);
+};
 
-  TestProcessSelfOrClone(process_info);
-  kill(pid, SIGKILL);
+TEST(ProcessInfo, Forked) {
+  ProcessInfoForkedTest test;
+  test.Run();
 }
 
 }  // namespace
