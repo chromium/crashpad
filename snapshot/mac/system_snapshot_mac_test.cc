@@ -207,6 +207,9 @@ TEST_F(SystemSnapshotMacTest, TimeZone) {
 
   // Test a variety of time zones. Some of these observe daylight saving time,
   // some don’t. Some used to but no longer do. Some have uncommon UTC offsets.
+  // standard_name and daylight_name can be nullptr where no name exists to
+  // verify, as may happen when some versions of the timezone database carry
+  // invented names and others do not.
   const struct {
     const char* tz;
     bool observes_dst;
@@ -229,8 +232,8 @@ TEST_F(SystemSnapshotMacTest, TimeZone) {
       {"Australia/Adelaide", true, 9.5, 10.5, "ACST", "ACDT"},
       {"Australia/Brisbane", false, 10, 10, "AEST", "AEST"},
       {"Australia/Darwin", false, 9.5, 9.5, "ACST", "ACST"},
-      {"Australia/Eucla", false, 8.75, 8.75, "ACWST", "ACWST"},
-      {"Australia/Lord_Howe", true, 10.5, 11, "LHST", "LHDT"},
+      {"Australia/Eucla", false, 8.75, 8.75, nullptr, nullptr},
+      {"Australia/Lord_Howe", true, 10.5, 11, nullptr, nullptr},
       {"Australia/Perth", false, 8, 8, "AWST", "AWST"},
       {"Australia/Sydney", true, 10, 11, "AEST", "AEDT"},
       {"Europe/Bucharest", true, 2, 3, "EET", "EEST"},
@@ -263,8 +266,12 @@ TEST_F(SystemSnapshotMacTest, TimeZone) {
               standard_offset_seconds);
     EXPECT_EQ(test_time_zone.daylight_offset_hours * 60 * 60,
               daylight_offset_seconds);
-    EXPECT_EQ(test_time_zone.standard_name, standard_name);
-    EXPECT_EQ(test_time_zone.daylight_name, daylight_name);
+    if (test_time_zone.standard_name) {
+      EXPECT_EQ(test_time_zone.standard_name, standard_name);
+    }
+    if (test_time_zone.daylight_name) {
+      EXPECT_EQ(test_time_zone.daylight_name, daylight_name);
+    }
   }
 }
 
