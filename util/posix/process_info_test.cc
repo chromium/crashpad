@@ -15,6 +15,7 @@
 #include "util/posix/process_info.h"
 
 #include <signal.h>
+#include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -156,13 +157,42 @@ TEST(ProcessInfo, Pid1) {
   EXPECT_FALSE(process_info.AllGroups().empty());
 }
 
+struct ScopedSendSIGKILLToChild {
+ public:
+  explicit ScopedSendSIGKILLToChild(pid_t pid) : pid_(pid) {}
+  ~ScopedSendSIGKILLToChild() {
+    int kill_rv = kill(pid_, SIGKILL);
+    if (kill_rv != 0) {
+      EXPECT_EQ(0, kill_rv) << ErrnoMessage("kill");
+      return;
+    }
+
+    int exit_status;
+    pid_t waitpid_rv = waitpid(pid_, &exit_status, 0);
+    if (waitpid_rv < 0) {
+      EXPECT_EQ(pid_, waitpid_rv) << ErrnoMessage("waitpid");
+      return;
+    }
+    EXPECT_EQ(pid_, waitpid_rv);
+    EXPECT_TRUE(WIFSIGNALED(exit_status));
+    EXPECT_EQ(SIGKILL, WTERMSIG(exit_status));
+  }
+
+ private:
+  pid_t pid_;
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedSendSIGKILLToChild);
+};
+
 TEST(ProcessInfo, Forked) {
   pid_t pid = fork();
   if (pid == 0) {
-    raise(SIGSTOP);
+    EXPECT_EQ(0, raise(SIGSTOP)) << ErrnoMessage("raise");
     _exit(0);
   }
   ASSERT_GE(pid, 0) << ErrnoMessage("fork");
+
+  ScopedSendSIGKILLToChild kill_child(pid);
 
   ProcessInfo process_info;
   ASSERT_TRUE(process_info.Initialize(pid));
@@ -171,7 +201,6 @@ TEST(ProcessInfo, Forked) {
   EXPECT_EQ(getpid(), process_info.ParentProcessID());
 
   TestProcessSelfOrClone(process_info);
-  kill(pid, SIGKILL);
 }
 
 }  // namespace
