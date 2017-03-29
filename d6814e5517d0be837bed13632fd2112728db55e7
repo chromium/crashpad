@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "752daf30_083a207a",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-29T22:13:18Z",
+      "side": 1,
+      "message": "I made the updates to ScopedChildProcess.\n\nI also wrote TargetProcessTest/ReadTest using Multiprocess to see how the tests would look. What do you think?",
+      "parentUuid": "0f0ddf6d_b2b8451d",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ded5c28d_ab2ac564",
         "filename": "util/linux/process_memory_test.cc",
         "patchSetId": 14
@@ -33,6 +51,24 @@
       "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d21db366_89175928",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-29T22:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ded5c28d_ab2ac564",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5f7ca3df_64856fcb",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-29T22:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f8f9db_51c61b64",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54e424ae_7986e5ce",
         "filename": "util/linux/process_memory_test.cc",
         "patchSetId": 14
@@ -67,6 +121,24 @@
       "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a0711bd_07773b42",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-29T22:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54e424ae_7986e5ce",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "b8d199e8_c78952d1",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-29T22:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12a6865f_94f7f77c",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fb4386f_b4a310d4",
         "filename": "util/linux/process_memory_test.cc",
         "patchSetId": 14
@@ -116,6 +206,24 @@
       "writtenOn": "2017-03-28T14:43:36Z",
       "side": 1,
       "message": "This should have \u003c\u003c ErrorMessage(). Lines 299 and 376 too. But the scoper will change that anyway.",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55e699c1_f8b908b2",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-29T22:13:18Z",
+      "side": 1,
+      "message": "I kept the direct call to munmap, rather than releasing via the scoper so I can check that it succeeded. The scoper should be fine with this since it\u0027s not an error to munmap unmapped memory.",
+      "parentUuid": "5fb4386f_b4a310d4",
       "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -136,6 +244,24 @@
       "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6428d61b_79a15efd",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-03-29T22:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a690d273_8a6b9005",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
