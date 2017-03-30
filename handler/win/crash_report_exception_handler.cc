@@ -16,10 +16,12 @@
 
 #include <type_traits>
 
+#include "base/memory/ptr_util.h"
 #include "client/crash_report_database.h"
 #include "client/settings.h"
 #include "handler/crash_report_upload_thread.h"
 #include "minidump/minidump_file_writer.h"
+#include "minidump/minidump_user_extension_stream_data_source.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
 #include "util/misc/metrics.h"
@@ -32,11 +34,12 @@ namespace crashpad {
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
-    const std::map<std::string, std::string>* process_annotations)
+    const std::map<std::string, std::string>* process_annotations,
+    const UserStreamSources* user_stream_sources)
     : database_(database),
       upload_thread_(upload_thread),
-      process_annotations_(process_annotations) {
-}
+      process_annotations_(process_annotations),
+      user_stream_sources_(user_stream_sources) {}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {
 }
@@ -106,6 +109,26 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     WeakFileHandleFileWriter file_writer(new_report->handle);
 
     MinidumpFileWriter minidump;
+
+    std::map<uint32_t, std::vector<uint8_t>> user_stream_data;
+    if (user_stream_sources_) {
+      for (const auto& source : *user_stream_sources_) {
+        std::vector<uint8_t> stream_data;
+        if (source.second->ProduceStreamData(process, &stream_data))
+          user_stream_data[source.first] = stream_data;
+      }
+
+      for (const auto& data : user_stream_data) {
+        auto data_source =
+            base::WrapUnique(new MinidumpUserExtensionStreamDataSource(
+                data.first, data.second.data(), data.second.size()));
+        if (!minidump.AddUserExtensionStream(std::move(data_source))) {
+          // This should never happen, but it's a non-fatal event.
+          LOG(ERROR) << "AddUserExtensionStream failed";
+        }
+      }
+    }
+
     minidump.InitializeFromSnapshot(&process_snapshot);
     if (!minidump.WriteEverything(&file_writer)) {
       LOG(ERROR) << "WriteEverything failed";

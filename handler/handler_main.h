@@ -15,13 +15,53 @@
 #ifndef CRASHPAD_HANDLER_HANDLER_MAIN_H_
 #define CRASHPAD_HANDLER_HANDLER_MAIN_H_
 
+#include <stdint.h>
+#include <sys/types.h>
+
+#include <map>
+#include <memory>
+#include <vector>
+
+#include "build\build_config.h"
+
+#if defined(OS_WIN)
+#include <windows.h>
+#endif
+
 namespace crashpad {
+
+class UserStreamDataSource {
+ public:
+  virtual ~UserStreamDataSource() {}
+
+#if defined(OS_WIN)
+  virtual bool ProduceStreamData(HANDLE process,
+                                 std::vector<uint8_t>* data) = 0;
+#else
+  virtual bool ProduceStreamData(pid_t process, std::vector<uint8_t>* data) = 0;
+#endif
+};
+
+using UserStreamSources =
+    std::map<uint32_t, std::unique_ptr<UserStreamDataSource>>;
 
 //! \brief The `main()` of the `crashpad_handler` binary.
 //!
 //! This is exposed so that `crashpad_handler` can be embedded into another
 //! binary, but called and used as if it were a standalone executable.
 int HandlerMain(int argc, char* argv[]);
+
+//! \brief The `main()` of the `crashpad_handler` binary with extensibility.
+//!
+//! This is allows running the Crashpad handler embedded into another binary,
+//! with user extensibility stream sources.
+//!
+//! \param[in] user_stream_sources A map containing the extensibility data
+//!     sources to call on crash. The resulting data streams will be added to
+//!     the captured minidump.
+int HandlerMainWithExtensibility(int argc,
+                                 char* argv[],
+                                 const UserStreamSources* user_stream_sources);
 
 }  // namespace crashpad
 
