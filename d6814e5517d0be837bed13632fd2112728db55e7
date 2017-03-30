@@ -230,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "384d2fe8_b45c2441",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "\u003e I kept the direct call to munmap, rather than releasing via the scoper so I can check that it succeeded. The scoper should be fine with this since it\u0027s not an error to munmap unmapped memory.\n\nI don’t agree at all. It’s a gross violation to munmap() someone else’s mapping, and once you’ve relinquished your mapping, that address space becomes eligible for assignment to someone else. You can’t guarantee that it won’t be reused, especially in the presence of other threads. Specifically on Android, I think we’re pretty likely to see reuse.\n\nThat’s what https://chromium.googlesource.com/crashpad/crashpad/+/96dc950eaf2699d77a21bb9211ebf235b913b343/util/posix/scoped_mmap_test.cc#34 was about. Initially, I wrote those tests as simple “EXPECT_DEATH(*mapping.addr_as\u003cchar*\u003e() \u003d 0, …)”. That worked well enough on Mac and non-Android Linux. Then I took it over to Linux and found that most of the time, after I called munmap(), something else would wind up mapped in that spot. So I switched it to a cookie read, which would either crash on unmapped memory or find mapped memory and with very high probability fail the cookie comparison and crash via __builtin_trap().",
+      "parentUuid": "55e699c1_f8b908b2",
+      "revId": "d6814e5517d0be837bed13632fd2112728db55e7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a690d273_8a6b9005",
         "filename": "util/linux/process_memory_test.cc",
         "patchSetId": 14

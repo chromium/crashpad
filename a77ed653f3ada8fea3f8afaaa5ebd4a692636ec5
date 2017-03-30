@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aca2ff20_61a1ca3a",
+        "filename": "util/linux/process_memory.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "Since the class and its documentation now requires a successful Initialize(), it’s overkill to specifically test for this and be nice about it with “return false”. We should still check it, but it should be a DCHECK, so that it’s debug-only. Crashing is OK. No message is needed.\n\nSame on line 88.",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5838488e_91fdfaee",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "I like this one better.",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84b95d69_bd475e74",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "If the size argument is constexpr (and it can be as you’ve written it), I don’t see a reason for this to be held in a unique_ptr. We can just have char region_[16 * 1024] as a member. Then you wouldn’t need kSize anywhere either, since you could just refer to it as arraysize(region_).\n\nIf the size argument isn’t constexpr (as it wouldn’t be if you switch to getpagesize(), see below), then just initialize it in the initializer list:\n\n  ReadTest()\n      : TargetProcessTest(),\n        page_size_(4 * getpagesize()),\n        region_(new char[page_size_]) {",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38adede2_216ab914",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "We don’t need to check for allocator failures, it’s OK to instead just let things crash.",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f8303c0_1ab97dfb",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "Same here, no need to test for allocator failures, just let ’em crash. This is typical in Chrome code. I see the same pattern repeated throughout the file, just search for “new ”.",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3562fd8_3e6a65f8",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "This should either call getpagesize() or not be called page_size.",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d76c8d4_88f03103",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "Go with these and drop the “Test” suffixes from their names.",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63dcff92_dcfcb735",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "Same here: either this is some size that’s not necessarily page_size (and then it can be constexpr), or it’s page size and it uses getpagesize(). Although I think we can go with the Multiprocess-based test instead.",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2686d9d3_48df944a",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "Why did you do this instead of ASSERT_TRUE(pages.ResetMmap(nullptr, …)) ?",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "923132f8_23b19183",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T17:28:52Z",
+      "side": 1,
+      "message": "Yeah, this isn’t gonna fly. Now when the ScopedMmap destructor runs, it’ll call the same munmap(), and who knows what it’ll do?\n\nIf you want to bring munmap()’s success/failure into the test, let’s revise ScopedMmap::Reset() to return a bool, and ASSERT_TRUE() on its return value here.\n\nThat’s a little tricky because it means that the return values from the different Reset*() methods don’t really mean the same thing. Notably, the mmap()-calling ResetMmap() doesn’t care about the munmap() result. And I can’t in really say that ResetAddrLen() ought to return a bool that reflects the munmap(), I think that only the bare Reset() should. So that basically puts us into having an internal\n\n  namespace {\n  bool ResetAddrLenInternal(void** addr, size_t* len, void* new_addr, size_t new_len);\n  }  // namespace\n\nBut now I’m realizing that the same “some other mapping is going to wind up here” is going to make this test flaky, at least on Android, anyway. So now I’m thinking that maybe we can’t really test it easily? If instead of unmapping it, we mprotect it to be unreadable, will ProcessMemory return an error? We could use that (via ScopedMmap::Mprotect()) instead of munmap() if it works.",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
