@@ -169,6 +169,23 @@
       "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0960ce4a_41d382c5",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 16
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-03-30T22:02:34Z",
+      "side": 1,
+      "message": "I looked at this a bit more this afternoon, and I see more of what you’re doing: you’re not unmapping the whole of |pages|, you just want to unmap a single page from the larger region. Hmm.\n\nI also found that the mprotect() thing isn’t going to fly: you can (at least sometimes?) read memory through /proc/pid/mem that’s been marked as natively unreadable to the process itself by mprotect(…, …, PROT_NONE).\n\nSo now I’m wondering if there even is a good way to write this test. It does seem that, at least in the small number of times I’ve tried, nothing else gets mapped over this “hole” after it’s unmapped. It sort of feels like proceeding down this path will be a recipe for a flaky test, though.\n\nMaybe we could crib the some of the thinking that we used in process_info_test.cc, and say “let’s unmap this thing and then try to read it. Maybe it stayed unmapped and the read will fail. Maybe it’s been remapped and the read will succeed. We don’t know which will happen, but at least we want to try it and at least verify that it doesn’t crash.” This is obviously weaker than testing that reading an unmapped address definitely returns false. We’re also kind of hoping that at least some of the time, the address actually stays unmapped, but we don’t really have any way to check that.\n\nDo you have any other ideas? Am I missing something subtle?",
+      "revId": "a77ed653f3ada8fea3f8afaaa5ebd4a692636ec5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
