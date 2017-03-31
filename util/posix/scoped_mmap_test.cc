@@ -302,11 +302,15 @@ TEST(ScopedMmapDeathTest, Mprotect) {
   EXPECT_EQ(kPageSize, mapping.len());
 
   char* addr = mapping.addr_as<char*>();
-  *addr = 0;
+  *addr = 1;
 
   ASSERT_TRUE(mapping.Mprotect(PROT_READ));
 
   EXPECT_DEATH(*addr = 0, "");
+
+  ASSERT_TRUE(mapping.Mprotect(PROT_READ | PROT_WRITE));
+  EXPECT_EQ(1, *addr);
+  *addr = 2;
 }
 
 }  // namespace
