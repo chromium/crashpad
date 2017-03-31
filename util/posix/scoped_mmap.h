@@ -33,19 +33,22 @@ class ScopedMmap {
 
   //! \brief Releases the memory-mapped region by calling `munmap()`.
   //!
-  //! A message will be logged on failure.
-  void Reset();
+  //! \return `true` on success. `false` on failure, with a message logged.
+  bool Reset();
 
   //! \brief Releases any existing memory-mapped region and sets the object to
   //!     maintain an already-established mapping.
+  //!
+  //! If \a addr and \a len indicate a region that overlaps with the existing
+  //! memory-mapped region, only the portion of the existing memory-mapped
+  //! region that does not overlap the new region, if any, will be released.
   //!
   //! \param[in] addr The base address of the existing memory-mapped region to
   //!     maintain.
   //! \param[in] len The size of the existing memory-mapped region to maintain.
   //!
-  //! A message will be logged on failure to release any existing memory-mapped
-  //! region, but the new mapping will be set regardless.
-  void ResetAddrLen(void* addr, size_t len);
+  //! \return `true` on success. `false` on failure, with a message logged.
+  bool ResetAddrLen(void* addr, size_t len);
 
   //! \brief Releases any existing memory-mapped region and establishes a new
   //!     one by calling `mmap()`.
