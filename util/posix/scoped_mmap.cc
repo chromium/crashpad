@@ -14,7 +14,24 @@
 
 #include "util/posix/scoped_mmap.h"
 
+#include <unistd.h>
+
+#include <algorithm>
+
 #include "base/logging.h"
+
+namespace {
+
+bool Munmap(uintptr_t addr, size_t len) {
+  if (munmap(reinterpret_cast<void*>(addr), len) != 0) {
+    PLOG(ERROR) << "munmap";
+    return false;
+  }
+
+  return true;
+}
+
+}  // namespace
 
 namespace crashpad {
 
@@ -24,17 +41,33 @@ ScopedMmap::~ScopedMmap() {
   Reset();
 }
 
-void ScopedMmap::Reset() {
-  ResetAddrLen(MAP_FAILED, 0);
+bool ScopedMmap::Reset() {
+  return ResetAddrLen(MAP_FAILED, 0);
 }
 
-void ScopedMmap::ResetAddrLen(void* addr, size_t len) {
-  if (is_valid() && munmap(addr_, len_) != 0) {
-    LOG(ERROR) << "munmap";
+bool ScopedMmap::ResetAddrLen(void* addr, size_t len) {
+  const uintptr_t new_addr = reinterpret_cast<uintptr_t>(addr);
+
+  DCHECK(addr == MAP_FAILED || new_addr % getpagesize() == 0);
+  DCHECK_EQ(len % getpagesize(), 0u);
+
+  bool rv = true;
+
+  if (addr_ != MAP_FAILED) {
+    const uintptr_t old_addr = reinterpret_cast<uintptr_t>(addr_);
+    if (old_addr < new_addr) {
+      rv &= Munmap(old_addr, std::min(len_, new_addr - old_addr));
+    }
+    if (old_addr + len_ > new_addr + len) {
+      uintptr_t unmap_start = std::max(old_addr, new_addr + len);
+      rv &= Munmap(unmap_start, old_addr + len_ - unmap_start);
+    }
   }
 
   addr_ = addr;
   len_ = len;
+
+  return rv;
 }
 
 bool ScopedMmap::ResetMmap(void* addr,
@@ -43,21 +76,27 @@ bool ScopedMmap::ResetMmap(void* addr,
                            int flags,
                            int fd,
                            off_t offset) {
+  // Reset() first, so that a new anonymous mapping can use the address space
+  // occupied by the old mapping if appropriate. The new mapping will be
+  // attempted even if there was something wrong with the old mapping, so don’t
+  // consider the return value from Reset().
   Reset();
 
   void* new_addr = mmap(addr, len, prot, flags, fd, offset);
   if (new_addr == MAP_FAILED) {
-    LOG(ERROR) << "mmap";
+    PLOG(ERROR) << "mmap";
     return false;
   }
 
+  // The new mapping is effective even if there was something wrong with the old
+  // mapping, so don’t consider the return value from ResetAddrLen().
   ResetAddrLen(new_addr, len);
   return true;
 }
 
 bool ScopedMmap::Mprotect(int prot) {
   if (mprotect(addr_, len_, prot) < 0) {
-    LOG(ERROR) << "mprotect";
+    PLOG(ERROR) << "mprotect";
     return false;
   }
 
