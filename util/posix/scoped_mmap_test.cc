@@ -20,6 +20,7 @@
 
 #include "base/numerics/safe_conversions.h"
 #include "base/rand_util.h"
+#include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 
 namespace crashpad {
@@ -28,6 +29,11 @@ namespace {
 
 bool ScopedMmapResetMmap(ScopedMmap* mapping, size_t len) {
   return mapping->ResetMmap(
+      nullptr, len, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
+}
+
+void* BareMmap(size_t len) {
+  return mmap(
       nullptr, len, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
 }
 
@@ -77,7 +83,7 @@ TEST(ScopedMmap, Mmap) {
   EXPECT_EQ(MAP_FAILED, mapping.addr());
   EXPECT_EQ(0u, mapping.len());
 
-  mapping.Reset();
+  ASSERT_TRUE(mapping.Reset());
   EXPECT_FALSE(mapping.is_valid());
 
   const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
@@ -89,7 +95,7 @@ TEST(ScopedMmap, Mmap) {
   cookie.SetUp(mapping.addr_as<uint64_t*>());
   cookie.Check();
 
-  mapping.Reset();
+  ASSERT_TRUE(mapping.Reset());
   EXPECT_FALSE(mapping.is_valid());
 }
 
@@ -122,9 +128,137 @@ TEST(ScopedMmapDeathTest, Reset) {
   TestCookie cookie;
   cookie.SetUp(mapping.addr_as<uint64_t*>());
 
-  mapping.Reset();
+  ASSERT_TRUE(mapping.Reset());
 
   EXPECT_DEATH(cookie.Check(), "");
+}
+
+TEST(ScopedMmapDeathTest, ResetAddrLen_Shrink) {
+  ScopedMmap mapping;
+
+  // Start with three pages mapped.
+  const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
+  ASSERT_TRUE(ScopedMmapResetMmap(&mapping, 3 * kPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_NE(MAP_FAILED, mapping.addr());
+  EXPECT_EQ(3 * kPageSize, mapping.len());
+
+  TestCookie cookies[3];
+  for (size_t index = 0; index < arraysize(cookies); ++index) {
+    cookies[index].SetUp(reinterpret_cast<uint64_t*>(
+        mapping.addr_as<uintptr_t>() + index * kPageSize));
+  }
+
+  // Reset to the second page. The first and third pages should be unmapped.
+  void* const new_addr =
+      reinterpret_cast<void*>(mapping.addr_as<uintptr_t>() + kPageSize);
+  ASSERT_TRUE(mapping.ResetAddrLen(new_addr, kPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(new_addr, mapping.addr());
+  EXPECT_EQ(kPageSize, mapping.len());
+
+  cookies[1].Check();
+
+  EXPECT_DEATH(cookies[0].Check(), "");
+  EXPECT_DEATH(cookies[2].Check(), "");
+}
+
+TEST(ScopedMmap, ResetAddrLen_Grow) {
+  // Start with three pages mapped, but ScopedMmap only aware of the the second
+  // page.
+  const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
+  void* pages = BareMmap(3 * kPageSize);
+  ASSERT_NE(MAP_FAILED, pages);
+
+  ScopedMmap mapping;
+  void* const old_addr =
+      reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pages) + kPageSize);
+  ASSERT_TRUE(mapping.ResetAddrLen(old_addr, kPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(old_addr, mapping.addr());
+  EXPECT_EQ(kPageSize, mapping.len());
+
+  TestCookie cookies[3];
+  for (size_t index = 0; index < arraysize(cookies); ++index) {
+    cookies[index].SetUp(reinterpret_cast<uint64_t*>(
+        reinterpret_cast<uintptr_t>(pages) + index * kPageSize));
+  }
+
+  // Reset to all three pages. Nothing should be unmapped until destruction.
+  ASSERT_TRUE(mapping.ResetAddrLen(pages, 3 * kPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(pages, mapping.addr());
+  EXPECT_EQ(3 * kPageSize, mapping.len());
+
+  for (size_t index = 0; index < arraysize(cookies); ++index) {
+    SCOPED_TRACE(base::StringPrintf("index %zu", index));
+    cookies[index].Check();
+  }
+}
+
+TEST(ScopedMmapDeathTest, ResetAddrLen_MoveDownAndGrow) {
+  // Start with three pages mapped, but ScopedMmap only aware of the third page.
+  const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
+  void* pages = BareMmap(3 * kPageSize);
+  ASSERT_NE(MAP_FAILED, pages);
+
+  ScopedMmap mapping;
+  void* const old_addr = reinterpret_cast<void*>(
+      reinterpret_cast<uintptr_t>(pages) + 2 * kPageSize);
+  ASSERT_TRUE(mapping.ResetAddrLen(old_addr, kPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(old_addr, mapping.addr());
+  EXPECT_EQ(kPageSize, mapping.len());
+
+  TestCookie cookies[3];
+  for (size_t index = 0; index < arraysize(cookies); ++index) {
+    cookies[index].SetUp(reinterpret_cast<uint64_t*>(
+        reinterpret_cast<uintptr_t>(pages) + index * kPageSize));
+  }
+
+  // Reset to the first two pages. The third page should be unmapped.
+  ASSERT_TRUE(mapping.ResetAddrLen(pages, 2 * kPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(pages, mapping.addr());
+  EXPECT_EQ(2 * kPageSize, mapping.len());
+
+  cookies[0].Check();
+  cookies[1].Check();
+
+  EXPECT_DEATH(cookies[2].Check(), "");
+}
+
+TEST(ScopedMmapDeathTest, ResetAddrLen_MoveUpAndShrink) {
+  // Start with three pages mapped, but ScopedMmap only aware of the first two
+  // pages.
+  const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
+  void* pages = BareMmap(3 * kPageSize);
+  ASSERT_NE(MAP_FAILED, pages);
+
+  ScopedMmap mapping;
+  ASSERT_TRUE(mapping.ResetAddrLen(pages, 2 * kPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(pages, mapping.addr());
+  EXPECT_EQ(2 * kPageSize, mapping.len());
+
+  TestCookie cookies[3];
+  for (size_t index = 0; index < arraysize(cookies); ++index) {
+    cookies[index].SetUp(reinterpret_cast<uint64_t*>(
+        reinterpret_cast<uintptr_t>(pages) + index * kPageSize));
+  }
+
+  // Reset to the third page. The first two pages should be unmapped.
+  void* const new_addr =
+      reinterpret_cast<void*>(mapping.addr_as<uintptr_t>() + 2 * kPageSize);
+  ASSERT_TRUE(mapping.ResetAddrLen(new_addr, kPageSize));
+  EXPECT_TRUE(mapping.is_valid());
+  EXPECT_EQ(new_addr, mapping.addr());
+  EXPECT_EQ(kPageSize, mapping.len());
+
+  cookies[2].Check();
+
+  EXPECT_DEATH(cookies[0].Check(), "");
+  EXPECT_DEATH(cookies[1].Check(), "");
 }
 
 TEST(ScopedMmapDeathTest, ResetMmap) {
