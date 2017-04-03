@@ -12,23 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/paths.h"
+#include "util/misc/paths.h"
 
 #include <windows.h>
 
 #include "base/logging.h"
 
 namespace crashpad {
-namespace test {
 
 // static
-base::FilePath Paths::Executable() {
+bool Paths::Executable(base::FilePath* path) {
   wchar_t executable_path[_MAX_PATH];
   unsigned int len =
       GetModuleFileName(nullptr, executable_path, arraysize(executable_path));
-  PCHECK(len != 0 && len < arraysize(executable_path)) << "GetModuleFileName";
-  return base::FilePath(executable_path);
+  if (len == 0) {
+    PLOG(ERROR) << "GetModuleFileName";
+    return false;
+  } else if (len >= arraysize(executable_path)) {
+    LOG(ERROR) << "GetModuleFileName";
+    return false;
+  }
+
+  *path = base::FilePath(executable_path);
+  return true;
 }
 
-}  // namespace test
 }  // namespace crashpad

@@ -18,7 +18,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 #include "util/file/file_io.h"
 
 namespace crashpad {
@@ -48,7 +48,7 @@ class TestMultiprocessExec final : public MultiprocessExec {
 
 TEST(MultiprocessExec, MultiprocessExec) {
   TestMultiprocessExec multiprocess_exec;
-  base::FilePath test_executable = Paths::Executable();
+  base::FilePath test_executable = TestPaths::Executable();
 #if defined(OS_POSIX)
   std::string child_test_executable = test_executable.value();
 #elif defined(OS_WIN)

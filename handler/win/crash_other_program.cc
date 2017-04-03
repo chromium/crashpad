@@ -20,7 +20,7 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/crashpad_client.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
 #include "util/win/scoped_handle.h"
@@ -88,7 +88,7 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
   }
 
   // Launch another process that hangs.
-  base::FilePath test_executable = Paths::Executable();
+  base::FilePath test_executable = TestPaths::Executable();
   std::wstring child_test_executable =
       test_executable.DirName().Append(L"hanging_program.exe").value();
   ChildLauncher child(child_test_executable, argv[1]);
