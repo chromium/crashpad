@@ -35,7 +35,7 @@
 #include "test/errors.h"
 #include "test/mac/mach_errors.h"
 #include "test/mac/mach_multiprocess.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 #include "util/file/file_io.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/exc_server_variants.h"
@@ -50,12 +50,12 @@ namespace {
 
 // \return The path to crashpad_snapshot_test_module_crashy_initializer.so
 std::string ModuleWithCrashyInitializer() {
-  return Paths::Executable().value() + "_module_crashy_initializer.so";
+  return TestPaths::Executable().value() + "_module_crashy_initializer.so";
 }
 
 //! \return The path to the crashpad_snapshot_test_no_op executable.
 base::FilePath NoOpExecutable() {
-  return base::FilePath(Paths::Executable().value() + "_no_op");
+  return base::FilePath(TestPaths::Executable().value() + "_no_op");
 }
 
 class TestMachOImageAnnotationsReader final

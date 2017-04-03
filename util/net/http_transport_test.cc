@@ -31,7 +31,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess_exec.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 #include "util/file/file_io.h"
 #include "util/misc/random_string.h"
 #include "util/net/http_body.h"
@@ -56,7 +56,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
         body_stream_(std::move(body_stream)),
         response_code_(http_response_code),
         request_validator_(request_validator) {
-    base::FilePath server_path = Paths::TestDataRoot().Append(
+    base::FilePath server_path = TestPaths::TestDataRoot().Append(
         FILE_PATH_LITERAL("util/net/http_transport_test_server.py"));
 #if defined(OS_POSIX)
     SetChildCommand(server_path.value(), nullptr);

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/paths.h"
+#include "util/misc/paths.h"
 
 #include <mach-o/dyld.h>
 #include <stdint.h>
@@ -20,20 +20,25 @@
 #include "base/logging.h"
 
 namespace crashpad {
-namespace test {
 
 // static
-base::FilePath Paths::Executable() {
+bool Paths::Executable(base::FilePath* path) {
   uint32_t executable_length = 0;
   _NSGetExecutablePath(nullptr, &executable_length);
-  CHECK_GT(executable_length, 1u);
+  if (executable_length <= 1) {
+    LOG(ERROR) << "_NSGetExecutablePath";
+    return false;
+  }
 
   std::string executable_path(executable_length - 1, std::string::value_type());
   int rv = _NSGetExecutablePath(&executable_path[0], &executable_length);
-  CHECK_EQ(rv, 0);
+  if (rv != 0) {
+    LOG(ERROR) << "_NSGetExecutablePath";
+    return false;
+  }
 
-  return base::FilePath(executable_path);
+  *path = base::FilePath(executable_path);
+  return true;
 }
 
-}  // namespace test
 }  // namespace crashpad
