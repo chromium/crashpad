@@ -50,9 +50,14 @@ namespace crashpad {
 
 namespace {
 
-// This handle is never closed. This is used to signal to the server that a dump
-// should be taken in the event of a crash.
+// These handles are never closed. g_signal_exception is used to signal to the
+// server that a dump should be taken in the event of a crash, and the server
+// will signal g_crash_dump_done when the dump is completed.
 HANDLE g_signal_exception = INVALID_HANDLE_VALUE;
+HANDLE g_crash_dump_done = INVALID_HANDLE_VALUE;
+
+// This callback will be called after g_crash_dump_done will signal.
+crashpad::DumpDoneCallback g_crash_dump_done_callback = nullptr;
 
 // Where we store the exception information that the crash handler reads.
 ExceptionInformation g_crash_exception_information;
@@ -164,14 +169,26 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   // Time to wait for the handler to create a dump.
   const DWORD kMillisecondsUntilTerminate = 60 * 1000;
 
-  // Sleep for a while to allow it to process us. Eventually, we terminate
-  // ourselves in case the crash server is gone, so that we don't leave zombies
-  // around. This would ideally never happen.
-  Sleep(kMillisecondsUntilTerminate);
+  if (g_crash_dump_done == INVALID_HANDLE_VALUE) {
+    // Sleep for a while to allow it to process us. Eventually, we terminate
+    // ourselves in case the crash server is gone, so that we don't leave
+    // zombies around. This would ideally never happen.
+    Sleep(kMillisecondsUntilTerminate);
 
-  LOG(ERROR) << "crash server did not respond, self-terminating";
+    LOG(ERROR) << "crash server did not respond, self-terminating";
 
-  TerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
+    TerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
+  } else {
+    DWORD wfso_result =
+        WaitForSingleObject(g_crash_dump_done, kMillisecondsUntilTerminate);
+    PLOG_IF(ERROR, wfso_result != WAIT_OBJECT_0) << "WaitForSingleObject";
+
+    if (g_crash_dump_done_callback)
+      g_crash_dump_done_callback();
+
+    TerminateProcess(GetCurrentProcess(),
+                     exception_pointers->ExceptionRecord->ExceptionCode);
+  }
 
   return EXCEPTION_CONTINUE_SEARCH;
 }
@@ -385,6 +402,7 @@ bool StartHandlerProcess(
 
   InitialClientData initial_client_data(
       g_signal_exception,
+      g_crash_dump_done,
       g_signal_non_crash_dump,
       g_non_crash_dump_done,
       data->ipc_pipe_handle.get(),
@@ -448,8 +466,10 @@ bool StartHandlerProcess(
     }
     proc_thread_attribute_list_owner.reset(startup_info.lpAttributeList);
 
-    handle_list.reserve(8);
+    handle_list.reserve(9);
     handle_list.push_back(g_signal_exception);
+    if (g_crash_dump_done_callback)
+      handle_list.push_back(g_crash_dump_done);
     handle_list.push_back(g_signal_non_crash_dump);
     handle_list.push_back(g_non_crash_dump_done);
     handle_list.push_back(data->ipc_pipe_handle.get());
@@ -590,6 +610,10 @@ bool CrashpadClient::StartHandler(
 
   g_signal_exception =
       CreateEvent(&security_attributes, false /* auto reset */, false, nullptr);
+  if (g_crash_dump_done_callback) {
+    g_crash_dump_done = CreateEvent(
+        &security_attributes, false /* auto reset */, false, nullptr);
+  }
   g_signal_non_crash_dump =
       CreateEvent(&security_attributes, false /* auto reset */, false, nullptr);
   g_non_crash_dump_done =
@@ -635,6 +659,11 @@ bool CrashpadClient::StartHandler(
   }
 }
 
+void CrashpadClient::SetDumpDoneCallback(DumpDoneCallback callback) {
+  DCHECK(!g_crash_dump_done_callback);
+  g_crash_dump_done_callback = callback;
+}
+
 bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
   DCHECK(ipc_pipe_.empty());
   DCHECK(!ipc_pipe.empty());
@@ -643,6 +672,7 @@ bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
 
   DCHECK(!ipc_pipe_.empty());
   DCHECK_EQ(g_signal_exception, INVALID_HANDLE_VALUE);
+  DCHECK_EQ(g_crash_dump_done, INVALID_HANDLE_VALUE);
   DCHECK_EQ(g_signal_non_crash_dump, INVALID_HANDLE_VALUE);
   DCHECK_EQ(g_non_crash_dump_done, INVALID_HANDLE_VALUE);
   DCHECK(!g_critical_section_with_debug_info.DebugInfo);
@@ -657,6 +687,8 @@ bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
       reinterpret_cast<WinVMAddress>(&g_crash_exception_information);
   message.registration.non_crash_exception_information =
       reinterpret_cast<WinVMAddress>(&g_non_crash_exception_information);
+  message.registration.ask_for_crash_done_event =
+      g_crash_dump_done_callback ? 1 : 0;
 
   CommonInProcessInitialization();
 
@@ -680,6 +712,10 @@ bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
       IntToHandle(response.registration.request_non_crash_dump_event);
   g_non_crash_dump_done =
       IntToHandle(response.registration.non_crash_dump_completed_event);
+
+  if (g_crash_dump_done_callback)
+    g_crash_dump_done =
+        IntToHandle(response.registration.crash_dump_completed_event);
 
   return true;
 }

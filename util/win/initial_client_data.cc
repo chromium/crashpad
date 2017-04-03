@@ -51,6 +51,7 @@ InitialClientData::InitialClientData()
       non_crash_exception_information_(0),
       debug_critical_section_address_(0),
       request_crash_dump_(nullptr),
+      crash_dump_completed_(nullptr),
       request_non_crash_dump_(nullptr),
       non_crash_dump_completed_(nullptr),
       first_pipe_instance_(INVALID_HANDLE_VALUE),
@@ -59,6 +60,7 @@ InitialClientData::InitialClientData()
 
 InitialClientData::InitialClientData(
     HANDLE request_crash_dump,
+    HANDLE crash_dump_completed,
     HANDLE request_non_crash_dump,
     HANDLE non_crash_dump_completed,
     HANDLE first_pipe_instance,
@@ -70,6 +72,7 @@ InitialClientData::InitialClientData(
       non_crash_exception_information_(non_crash_exception_information),
       debug_critical_section_address_(debug_critical_section_address),
       request_crash_dump_(request_crash_dump),
+      crash_dump_completed_(crash_dump_completed),
       request_non_crash_dump_(request_non_crash_dump),
       non_crash_dump_completed_(non_crash_dump_completed),
       first_pipe_instance_(first_pipe_instance),
@@ -78,19 +81,20 @@ InitialClientData::InitialClientData(
 
 bool InitialClientData::InitializeFromString(const std::string& str) {
   std::vector<std::string> parts(SplitString(str, ','));
-  if (parts.size() != 8) {
-    LOG(ERROR) << "expected 8 comma separated arguments";
+  if (parts.size() != 9) {
+    LOG(ERROR) << "expected 9 comma separated arguments";
     return false;
   }
 
   if (!HandleFromString(parts[0], &request_crash_dump_) ||
-      !HandleFromString(parts[1], &request_non_crash_dump_) ||
-      !HandleFromString(parts[2], &non_crash_dump_completed_) ||
-      !HandleFromString(parts[3], &first_pipe_instance_) ||
-      !HandleFromString(parts[4], &client_process_) ||
-      !AddressFromString(parts[5], &crash_exception_information_) ||
-      !AddressFromString(parts[6], &non_crash_exception_information_) ||
-      !AddressFromString(parts[7], &debug_critical_section_address_)) {
+      !HandleFromString(parts[1], &crash_dump_completed_) ||
+      !HandleFromString(parts[2], &request_non_crash_dump_) ||
+      !HandleFromString(parts[3], &non_crash_dump_completed_) ||
+      !HandleFromString(parts[4], &first_pipe_instance_) ||
+      !HandleFromString(parts[5], &client_process_) ||
+      !AddressFromString(parts[6], &crash_exception_information_) ||
+      !AddressFromString(parts[7], &non_crash_exception_information_) ||
+      !AddressFromString(parts[8], &debug_critical_section_address_)) {
     return false;
   }
 
@@ -99,15 +103,17 @@ bool InitialClientData::InitializeFromString(const std::string& str) {
 }
 
 std::string InitialClientData::StringRepresentation() const {
-  return base::StringPrintf("0x%x,0x%x,0x%x,0x%x,0x%x,0x%I64x,0x%I64x,0x%I64x",
-                            HandleToInt(request_crash_dump_),
-                            HandleToInt(request_non_crash_dump_),
-                            HandleToInt(non_crash_dump_completed_),
-                            HandleToInt(first_pipe_instance_),
-                            HandleToInt(client_process_),
-                            crash_exception_information_,
-                            non_crash_exception_information_,
-                            debug_critical_section_address_);
+  return base::StringPrintf(
+      "0x%x,0x%x,0x%x,0x%x,0x%x,0x%x,0x%I64x,0x%I64x,0x%I64x",
+      HandleToInt(request_crash_dump_),
+      HandleToInt(crash_dump_completed_),
+      HandleToInt(request_non_crash_dump_),
+      HandleToInt(non_crash_dump_completed_),
+      HandleToInt(first_pipe_instance_),
+      HandleToInt(client_process_),
+      crash_exception_information_,
+      non_crash_exception_information_,
+      debug_critical_section_address_);
 }
 
 }  // namespace crashpad

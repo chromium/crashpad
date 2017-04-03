@@ -86,6 +86,7 @@ void Usage(const base::FilePath& me) {
 "      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
 #elif defined(OS_WIN)
 "      --initial-client-data=HANDLE_request_crash_dump,\n"
+"                            HANDLE_crash_dump_completed,\n"
 "                            HANDLE_request_non_crash_dump,\n"
 "                            HANDLE_non_crash_dump_completed,\n"
 "                            HANDLE_pipe,\n"
