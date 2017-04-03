@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e31d9a72_d07958fa",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T15:34:51Z",
+      "side": 1,
+      "message": "Optionally move these down to be with ReadCStringTest.",
+      "revId": "ef616631e2fe372c01189759c5541719bd738b7c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71509270_d84a8c67",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T15:34:51Z",
+      "side": 1,
+      "message": "This is only ever called as RunAgainstTarget(getpid()), so let’s rename it to reflect its use and consolidate the getpid() call:\n\n  void RunAgainstSelf() { DoTest(getpid()); }",
+      "revId": "ef616631e2fe372c01189759c5541719bd738b7c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cbd6c23_71092f44",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T15:34:51Z",
+      "side": 1,
+      "message": "Don’t do this. Instead, just wrap the ResetMmap() in an if(), and put ADD_FAILURE() and the early return in there. Same on line 302/309.",
+      "revId": "ef616631e2fe372c01189759c5541719bd738b7c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "748d5525_d1f3df12",
+        "filename": "util/linux/process_memory_test.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T15:34:51Z",
+      "side": 1,
+      "message": "Break this up by putting blank lines before the // comment lines, so that the comments are more visible to the reader.",
+      "revId": "ef616631e2fe372c01189759c5541719bd738b7c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
