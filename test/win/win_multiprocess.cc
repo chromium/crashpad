@@ -22,7 +22,6 @@
 #include "base/strings/utf_string_conversions.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
-#include "test/paths.h"
 
 namespace crashpad {
 namespace test {
