@@ -156,6 +156,30 @@
     },
     {
       "key": {
+        "uuid": "93abb654_f0dc47f1",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T20:58:43Z",
+      "side": 1,
+      "message": "\u003e Ah, I was thinking we had the opposite here too so we could decode first, but I guess that was in Chrome. Or somewhere else.\n\nWe’re in control of all of the code, so I guess we could modify Chrome to look for crashpad-handler as a prefix of --type instead of an exact match. But since we’re in control of all of the code, I think it’d be cleaner to do --monitor-self-argument\u003d/prefetch:7 if it’s necessary.",
+      "parentUuid": "f204d1b5_fcffe20c",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 47
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87ad138a_a15ee63c",
         "filename": "handler/handler_main.cc",
         "patchSetId": 1
