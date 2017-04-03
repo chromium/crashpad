@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f7b0e9ca_4c401d82",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T20:23:58Z",
+      "side": 1,
+      "message": "\u003e This wouldn\u0027t work for Chrome on Windows, as it needs a --type\u003dcrashpad-handler argument to dispatch towards Crashpad.\n\nThat’s what the optional argument to --monitor-self is for. The idea was to have Chrome start the handler with --monitor-self\u003d--type\u003dcrashpad-handler.\n\n\u003e It also needs a /prefetch: argument to get through the eye of the needle to even get there.\n\nI forgot about /prefetch:, but I thought that it was optional?\n\nIf it’s not…\n\nI could make monitor_self_arg a std::vector\u003cstd::string\u003e and accumulate arguments into it. But having multiple --monitor-self arguments starts to get weird enough that it’s probably worth splitting the big --monitor-self switch up and dedicating --monitor-self-argument to accumulate arguments.\n\nThen we could do --monitor-self --monitor-self-argument\u003d--type\u003dcrashpad_handler --monitor-self-argument\u003d/prefetch:7",
+      "parentUuid": "3d844a72_54121494",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 47
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87ad138a_a15ee63c",
         "filename": "handler/handler_main.cc",
         "patchSetId": 1
@@ -71,6 +95,30 @@
       "writtenOn": "2017-04-03T20:14:35Z",
       "side": 1,
       "message": "I don\u0027t think a second instance of the handler can successfully write to the metrics directory, and it might mess up the metrics in there for the existing handler.\nThis does beg the question what happens for secondary browser instances that end up rendezvousing with a running instance.",
+      "range": {
+        "startLine": 321,
+        "startChar": 31,
+        "endLine": 321,
+        "endChar": 38
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f0be21f_d234ed73",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T20:23:58Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think a second instance of the handler can successfully write to the metrics directory, and it might mess up the metrics in there for the existing handler.\n\u003e This does beg the question what happens for secondary browser instances that end up rendezvousing with a running instance.\n\nThat’s a problem, because we have instances today where two handlers might run out of a single metrics directory. This change will make it much more common, though.\n\nWhen I first wrote this, I always gave an empty FilePath() right here. I can go back to that, but it seems like the second instance is almost identical to the first instance in nearly every way that there isn’t a good reason NOT to collect metrics from it. (Unless it doesn’t work.)",
+      "parentUuid": "87ad138a_a15ee63c",
       "range": {
         "startLine": 321,
         "startChar": 31,
