@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6187ebb_c0a887cf",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T15:55:11Z",
+      "side": 1,
+      "message": "/ instead of \\",
+      "range": {
+        "startLine": 25,
+        "startChar": 15,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d55d5a3b_3ca90732",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T15:55:11Z",
+      "side": 1,
+      "message": "It’d be better if instead of having to allocate and accumulate all of these buffers up front, we had a model where UserStreamDataSources could produce their data on demand when we’re writing it into the minidump. If the examples you have have in mind right now want to produce their data up front right now, that’s fine, they can store it in their own buffers. But we should also allow for more dynamic computation, which we’ve allowed for in how user streams are written.",
+      "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bdc56ad_603e1512",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T15:55:11Z",
+      "side": 1,
+      "message": "pid_t isn’t generically correct here, and won’t really work at all for macOS.\n\nWould a ProcessSnapshot be enough? That’d be a nice generic interface, and I think would at least force downstream code into the right mindset to evolve this further. If it’s not enough, then I’d like to at least provide it in addition to the HANDLE, and perhaps just “hide” the HANDLE in ProcessSnapshotWin by exposing a GetProcessHandle() getter over there so that you can reinterpret_cast the ProcessSnapshot* you get to ProcessSnapshotWin*.",
+      "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3af8568_1ece1e27",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T15:55:11Z",
+      "side": 1,
+      "message": "Not loving the name, I think we can do better. But it seems like we can just change HandlerMain() to accept the new parameter and have callers give nullptr if they don’t want this feature, so we may be able to skirt naming it altogether.",
+      "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2333d698_f94201ee",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T15:55:11Z",
+      "side": 1,
+      "message": "I think I’d wait to add the extension stuff until after this block, to give us a chance to do our own thing first.",
+      "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
