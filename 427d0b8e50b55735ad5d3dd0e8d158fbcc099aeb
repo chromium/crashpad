@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "031038bf_d2d82837",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-03T19:31:58Z",
+      "side": 1,
+      "message": "I don\u0027t fully know how reset_own_crash_exception_port_to_system_default is used, but just confirming that it\u0027s OK not to pass it through here?",
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
