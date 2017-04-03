@@ -23,7 +23,7 @@
 #include "gtest/gtest.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "test/errors.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
 #include "util/thread/thread.h"
@@ -140,7 +140,7 @@ void TestCrashingChild(const base::string16& directory_modification) {
       << ErrorMessage("WaitForSingleObject");
 
   // Spawn a child process, passing it the pipe name to connect to.
-  base::FilePath test_executable = Paths::Executable();
+  base::FilePath test_executable = TestPaths::Executable();
   std::wstring child_test_executable =
       test_executable.DirName()
           .Append(directory_modification)
@@ -248,7 +248,7 @@ void TestDumpWithoutCrashingChild(
       << ErrorMessage("WaitForSingleObject");
 
   // Spawn a child process, passing it the pipe name to connect to.
-  base::FilePath test_executable = Paths::Executable();
+  base::FilePath test_executable = TestPaths::Executable();
   std::wstring child_test_executable =
       test_executable.DirName()
           .Append(directory_modification)

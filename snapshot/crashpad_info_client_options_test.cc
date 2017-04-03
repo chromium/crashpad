@@ -21,7 +21,7 @@
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 
 #if defined(OS_MACOSX)
 #include <dlfcn.h>
@@ -187,7 +187,7 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
 #elif defined(OS_WIN)
   const base::FilePath::StringType kDlExtension = FILE_PATH_LITERAL(".dll");
 #endif
-  base::FilePath module_path = Paths::Executable().DirName().Append(
+  base::FilePath module_path = TestPaths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_snapshot_test_module") + kDlExtension);
 #if defined(OS_MACOSX)
   ScopedDlHandle dl_handle(

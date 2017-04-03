@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_TEST_PATHS_H_
-#define CRASHPAD_TEST_PATHS_H_
+#ifndef CRASHPAD_TEST_TEST_PATHS_H_
+#define CRASHPAD_TEST_TEST_PATHS_H_
 
 #include "base/files/file_path.h"
 #include "base/macros.h"
@@ -22,9 +22,11 @@ namespace crashpad {
 namespace test {
 
 //! \brief Functions to obtain paths from within tests.
-class Paths {
+class TestPaths {
  public:
   //! \brief Returns the pathname of the currently-running test executable.
+  //!
+  //! On failure, aborts execution.
   static base::FilePath Executable();
 
   //! \brief Returns the pathname of the test data root.
@@ -40,10 +42,10 @@ class Paths {
   //! files.
   static base::FilePath TestDataRoot();
 
-  DISALLOW_IMPLICIT_CONSTRUCTORS(Paths);
+  DISALLOW_IMPLICIT_CONSTRUCTORS(TestPaths);
 };
 
 }  // namespace test
 }  // namespace crashpad
 
-#endif  // CRASHPAD_TEST_PATHS_H_
+#endif  // CRASHPAD_TEST_TEST_PATHS_H_

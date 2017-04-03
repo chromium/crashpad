@@ -24,10 +24,10 @@
 #include "base/logging.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/paths.h"
 #include "test/scoped_temp_dir.h"
-#include "util/win/process_info.h"
+#include "test/test_paths.h"
 #include "test/win/win_multiprocess.h"
+#include "util/win/process_info.h"
 #include "util/win/scoped_handle.h"
 #include "util/win/termination_codes.h"
 
@@ -189,7 +189,7 @@ void WaitForAllChildProcessesOf(HANDLE parent) {
 }
 
 void StartAndUseHandler(const base::FilePath& temp_dir) {
-  base::FilePath handler_path = Paths::Executable().DirName().Append(
+  base::FilePath handler_path = TestPaths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_handler.com"));
 
   CrashpadClient client;
@@ -280,7 +280,7 @@ TEST(CrashpadClient, StartWithSameStdoutStderr) {
 
 void StartAndUseBrokenHandler(CrashpadClient* client) {
   ScopedTempDir temp_dir;
-  base::FilePath handler_path = Paths::Executable().DirName().Append(
+  base::FilePath handler_path = TestPaths::Executable().DirName().Append(
       FILE_PATH_LITERAL("fake_handler_that_crashes_at_startup.exe"));
   ASSERT_TRUE(client->StartHandler(handler_path,
                                   temp_dir.path(),

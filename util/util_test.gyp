@@ -62,6 +62,7 @@
         'misc/clock_test.cc',
         'misc/initialization_state_dcheck_test.cc',
         'misc/initialization_state_test.cc',
+        'misc/paths_test.cc',
         'misc/scoped_forbid_return_test.cc',
         'misc/random_string_test.cc',
         'misc/uuid_test.cc',

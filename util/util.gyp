@@ -99,6 +99,10 @@
         'misc/initialization_state_dcheck.h',
         'misc/metrics.cc',
         'misc/metrics.h',
+        'misc/paths.h',
+        'misc/paths_mac.cc',
+        'misc/paths_linux.cc',
+        'misc/paths_win.cc',
         'misc/pdb_structures.cc',
         'misc/pdb_structures.h',
         'misc/random_string.cc',
@@ -321,6 +325,7 @@
       'target_conditions': [
         ['OS=="android"', {
           'sources/': [
+            ['include', '^misc/paths_linux\\.cc$'],
             ['include', '^posix/process_info_linux\\.cc$'],
           ],
         }],

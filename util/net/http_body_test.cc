@@ -17,7 +17,7 @@
 #include <string.h>
 
 #include "gtest/gtest.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 #include "util/misc/implicit_cast.h"
 #include "util/net/http_body_test_util.h"
 
@@ -97,7 +97,7 @@ TEST(StringHTTPBodyStream, MultipleReads) {
 }
 
 TEST(FileHTTPBodyStream, ReadASCIIFile) {
-  base::FilePath path = Paths::TestDataRoot().Append(
+  base::FilePath path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
   FileHTTPBodyStream stream(path);
   std::string contents = ReadStreamToString(&stream, 32);
@@ -115,7 +115,7 @@ TEST(FileHTTPBodyStream, ReadASCIIFile) {
 
 TEST(FileHTTPBodyStream, ReadBinaryFile) {
   // HEX contents of file: |FEEDFACE A11A15|.
-  base::FilePath path = Paths::TestDataRoot().Append(
+  base::FilePath path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/binary_http_body.dat"));
   // This buffer size was chosen so that reading the file takes multiple reads.
   uint8_t buf[4];
@@ -199,7 +199,7 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, StringsAndFile) {
 
   std::vector<HTTPBodyStream*> parts;
   parts.push_back(new StringHTTPBodyStream(string1));
-  base::FilePath path = Paths::TestDataRoot().Append(
+  base::FilePath path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
   parts.push_back(new FileHTTPBodyStream(path));
   parts.push_back(new StringHTTPBodyStream(string2));
