@@ -16,6 +16,24 @@
       "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef488ed7_86be7c26",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T20:10:03Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t fully know how reset_own_crash_exception_port_to_system_default is used, but just confirming that it\u0027s OK not to pass it through here?\n\nYeah, intentional. Since exception ports are inherited, if the first instance reset its exception ports to the system default, that’ll remain in effect for the second instance. I could add a comment if you think it’d be useful.\n\nBackground: --reset-own-crash-exception-port-to-system-default is useful in certain cases where Chrome restarts itself. The new Chrome winds up a child process of the original Chrome, and inherits the original Chrome’s exception ports. That means that the new Chrome’s crashpad_handler will also, in turn, be hooked up to the original Chrome’s crashpad_handler, which prevents the original Chrome’s crashpad_handler from ever exiting. In real life, the proces model is slightly more complex than that because we can’t have two Chromes running simultaneously, but that’s the gist of it. This option breaks a link in that chain.",
+      "parentUuid": "031038bf_d2d82837",
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
