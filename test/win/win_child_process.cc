@@ -24,11 +24,11 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
+#include "util/misc/paths.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
 #include "util/win/handle.h"
 #include "util/win/scoped_local_alloc.h"
-#include "test/paths.h"
 
 namespace crashpad {
 namespace test {

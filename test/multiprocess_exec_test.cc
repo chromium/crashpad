@@ -18,8 +18,8 @@
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "test/paths.h"
 #include "util/file/file_io.h"
+#include "util/misc/paths.h"
 
 namespace crashpad {
 namespace test {

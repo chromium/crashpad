@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/paths.h"
+#include "util/misc/paths.h"
 
 #include <mach-o/dyld.h>
 #include <stdint.h>
@@ -20,7 +20,6 @@
 #include "base/logging.h"
 
 namespace crashpad {
-namespace test {
 
 // static
 base::FilePath Paths::Executable() {
@@ -35,5 +34,4 @@ base::FilePath Paths::Executable() {
   return base::FilePath(executable_path);
 }
 
-}  // namespace test
 }  // namespace crashpad
