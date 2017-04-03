@@ -34,6 +34,8 @@
 
 namespace crashpad {
 
+typedef void (*DumpDoneCallback)();
+
 //! \brief The primary interface for an application to have Crashpad monitor
 //!     it for crashes.
 class CrashpadClient {
@@ -253,6 +255,8 @@ class CrashpadClient {
     //!     set.
     kTriggeredExceptionCode = 0xcca11ed,
   };
+
+  void SetDumpDoneCallback(DumpDoneCallback callback);
 #endif
 
 #if defined(OS_MACOSX) || DOXYGEN

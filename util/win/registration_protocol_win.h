@@ -40,7 +40,7 @@ struct ExceptionInformation {
 struct RegistrationRequest {
   //! \brief The expected value of `version`. This should be changed whenever
   //!     the messages or ExceptionInformation are modified incompatibly.
-  enum { kMessageVersion = 1 };
+  enum { kMessageVersion = 2 };
 
   //! \brief Version field to detect skew between client and server. Should be
   //!     set to kMessageVersion.
@@ -66,6 +66,12 @@ struct RegistrationRequest {
   //!     value can be `0`, however then limited lock data will be available in
   //!     minidumps.
   WinVMAddress critical_section_address;
+
+  //! \brief If set to 1 then crashpad handler should return valid event handle
+  //!     that will be signaled by the server when the crash dump is complete.
+  //!     Also it will delay client process termination by 10 seconds to allow
+  //!     client process to perform some manipulations.
+  int ask_for_crash_done_event;
 };
 
 //! \brief A message only sent to the server by itself to trigger shutdown.
@@ -104,6 +110,11 @@ struct RegistrationResponse {
   //!     signaled to request a crash report. Clients should convert the value
   //!     to a `HANDLE` by calling IntToHandle().
   int request_crash_dump_event;
+
+  //! \brief An event `HANDLE`, valid in the client process, that will be
+  //!     signaled by the server when the crashing dump is complete. Clients
+  //!     should convert the value to a `HANDLE` by calling IntToHandle().
+  int crash_dump_completed_event;
 
   //! \brief An event `HANDLE`, valid in the client process, that should be
   //!     signaled to request a non-crashing dump be taken. Clients should

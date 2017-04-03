@@ -36,6 +36,8 @@ class InitialClientData {
   //!     take ownership of any of the referenced HANDLEs.
   //!
   //! \param[in] request_crash_dump An event signalled from the client on crash.
+  //! \param[in] crash_dump_completed An event signaled by the server when the
+  //!     crashing dump is completed.
   //! \param[in] request_non_crash_dump An event signalled from the client when
   //!     it would like a dump to be taken, but allowed to continue afterwards.
   //! \param[in] non_crash_dump_completed An event signalled from the handler to
@@ -59,6 +61,7 @@ class InitialClientData {
   //!     value can be `0`, however then limited lock data will be available in
   //!     minidumps.
   InitialClientData(HANDLE request_crash_dump,
+                    HANDLE crash_dump_completed,
                     HANDLE request_non_crash_dump,
                     HANDLE non_crash_dump_completed,
                     HANDLE first_pipe_instance,
@@ -83,6 +86,7 @@ class InitialClientData {
   std::string StringRepresentation() const;
 
   HANDLE request_crash_dump() const { return request_crash_dump_; }
+  HANDLE crash_dump_completed() const { return crash_dump_completed_; }
   HANDLE request_non_crash_dump() const { return request_non_crash_dump_; }
   HANDLE non_crash_dump_completed() const { return non_crash_dump_completed_; }
   HANDLE first_pipe_instance() const { return first_pipe_instance_; }
@@ -102,6 +106,7 @@ class InitialClientData {
   WinVMAddress non_crash_exception_information_;
   WinVMAddress debug_critical_section_address_;
   HANDLE request_crash_dump_;
+  HANDLE crash_dump_completed_;
   HANDLE request_non_crash_dump_;
   HANDLE non_crash_dump_completed_;
   HANDLE first_pipe_instance_;

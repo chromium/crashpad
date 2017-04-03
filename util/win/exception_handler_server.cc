@@ -109,6 +109,7 @@ class ClientData {
              ExceptionHandlerServer::Delegate* delegate,
              ScopedKernelHANDLE process,
              ScopedKernelHANDLE crash_dump_requested_event,
+             ScopedKernelHANDLE crash_dump_completed_event,
              ScopedKernelHANDLE non_crash_dump_requested_event,
              ScopedKernelHANDLE non_crash_dump_completed_event,
              WinVMAddress crash_exception_information_address,
@@ -124,6 +125,7 @@ class ClientData {
         port_(port),
         delegate_(delegate),
         crash_dump_requested_event_(std::move(crash_dump_requested_event)),
+        crash_dump_completed_event_(std::move(crash_dump_completed_event)),
         non_crash_dump_requested_event_(
             std::move(non_crash_dump_requested_event)),
         non_crash_dump_completed_event_(
@@ -151,6 +153,9 @@ class ClientData {
   ExceptionHandlerServer::Delegate* delegate() const { return delegate_; }
   HANDLE crash_dump_requested_event() const {
     return crash_dump_requested_event_.get();
+  }
+  HANDLE crash_dump_completed_event() const {
+    return crash_dump_completed_event_.get();
   }
   HANDLE non_crash_dump_requested_event() const {
     return non_crash_dump_requested_event_.get();
@@ -226,6 +231,7 @@ class ClientData {
   HANDLE port_;  // weak
   ExceptionHandlerServer::Delegate* delegate_;  // weak
   ScopedKernelHANDLE crash_dump_requested_event_;
+  ScopedKernelHANDLE crash_dump_completed_event_;
   ScopedKernelHANDLE non_crash_dump_requested_event_;
   ScopedKernelHANDLE non_crash_dump_completed_event_;
   ScopedKernelHANDLE process_;
@@ -291,6 +297,7 @@ void ExceptionHandlerServer::InitializeWithInheritedDataForInitialClient(
         delegate,
         ScopedKernelHANDLE(initial_client_data.client_process()),
         ScopedKernelHANDLE(initial_client_data.request_crash_dump()),
+        ScopedKernelHANDLE(initial_client_data.crash_dump_completed()),
         ScopedKernelHANDLE(initial_client_data.request_non_crash_dump()),
         ScopedKernelHANDLE(initial_client_data.non_crash_dump_completed()),
         initial_client_data.crash_exception_information(),
@@ -483,6 +490,10 @@ bool ExceptionHandlerServer::ServiceClientConnection(
         ScopedKernelHANDLE(
             CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
         ScopedKernelHANDLE(
+            message.registration.ask_for_crash_done_event == 1
+                ? CreateEvent(nullptr, false /* auto reset */, false, nullptr)
+                : internal::ScopedKernelHANDLECloseTraits::InvalidValue()),
+        ScopedKernelHANDLE(
             CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
         ScopedKernelHANDLE(
             CreateEvent(nullptr, false /* auto reset */, false, nullptr)),
@@ -500,6 +511,11 @@ bool ExceptionHandlerServer::ServiceClientConnection(
   response.registration.request_crash_dump_event =
       HandleToInt(DuplicateEvent(
           client->process(), client->crash_dump_requested_event()));
+  if (message.registration.ask_for_crash_done_event == 1) {
+    response.registration.crash_dump_completed_event =
+        HandleToInt(DuplicateEvent(client->process(),
+                                   client->crash_dump_completed_event()));
+  }
   response.registration.request_non_crash_dump_event =
       HandleToInt(DuplicateEvent(
           client->process(), client->non_crash_dump_requested_event()));
@@ -545,6 +561,24 @@ void __stdcall ExceptionHandlerServer::OnCrashDumpEvent(void* ctx, BOOLEAN) {
       client->process(),
       client->crash_exception_information_address(),
       client->debug_critical_section_address());
+
+  if (client->crash_dump_completed_event() !=
+      internal::ScopedKernelHANDLECloseTraits::InvalidValue()) {
+    bool result = !!SetEvent(client->crash_dump_completed_event());
+    PLOG_IF(ERROR, !result) << "SetEvent";
+
+    // Sleep for a while to allow process to terminate itself. Eventually, we
+    // terminate it in case if for some reason process will fail during self
+    // termination, so that we don't leave zombies
+    // around. This would ideally never happen.
+    const DWORD kMillisecondsUntilTerminate = 10 * 1000;
+    if (result)
+      Sleep(kMillisecondsUntilTerminate);
+    DWORD process_exit_code = 0;
+    result = !!GetExitCodeProcess(client->process(), &process_exit_code);
+    if (result)
+      return;
+  }
 
   TerminateProcess(client->process(), exit_code);
 }
