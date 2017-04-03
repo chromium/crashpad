@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ba6b669b_c284a06e",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-03T18:20:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6187ebb_c0a887cf",
+      "range": {
+        "startLine": 25,
+        "startChar": 15,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d55d5a3b_3ca90732",
         "filename": "handler/handler_main.h",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-04-03T15:55:11Z",
       "side": 1,
       "message": "It’d be better if instead of having to allocate and accumulate all of these buffers up front, we had a model where UserStreamDataSources could produce their data on demand when we’re writing it into the minidump. If the examples you have have in mind right now want to produce their data up front right now, that’s fine, they can store it in their own buffers. But we should also allow for more dynamic computation, which we’ve allowed for in how user streams are written.",
+      "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40e3694b_eb65e79d",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-03T18:20:01Z",
+      "side": 1,
+      "message": "How\u0027s this?",
+      "parentUuid": "d55d5a3b_3ca90732",
       "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -56,6 +98,24 @@
       "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ec17ab5_77fd4495",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-03T18:20:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9bdc56ad_603e1512",
+      "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
