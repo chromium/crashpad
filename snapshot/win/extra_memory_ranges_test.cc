@@ -25,9 +25,9 @@
 #include "client/simple_address_range_bag.h"
 #include "gtest/gtest.h"
 #include "snapshot/win/process_snapshot_win.h"
-#include "test/paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
+#include "util/misc/paths.h"
 #include "util/win/process_info.h"
 
 namespace crashpad {

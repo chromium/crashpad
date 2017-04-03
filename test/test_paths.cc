@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/paths.h"
+#include "test/test_paths.h"
 
 #include <stdlib.h>
 #include <sys/stat.h>
 
 #include "base/logging.h"
 #include "build/build_config.h"
+#include "util/misc/paths.h"
 
 namespace crashpad {
 namespace test {
@@ -90,7 +91,7 @@ base::FilePath TestDataRootInternal() {
 }  // namespace
 
 // static
-base::FilePath Paths::TestDataRoot() {
+base::FilePath TestPaths::TestDataRoot() {
   static base::FilePath* test_data_root =
       new base::FilePath(TestDataRootInternal());
   return *test_data_root;

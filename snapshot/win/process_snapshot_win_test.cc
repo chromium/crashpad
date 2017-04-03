@@ -21,9 +21,9 @@
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"
-#include "test/paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
+#include "util/misc/paths.h"
 #include "util/win/scoped_handle.h"
 #include "util/win/scoped_process_suspend.h"
 

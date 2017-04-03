@@ -24,10 +24,10 @@
 #include "base/logging.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/paths.h"
 #include "test/scoped_temp_dir.h"
-#include "util/win/process_info.h"
 #include "test/win/win_multiprocess.h"
+#include "util/misc/paths.h"
+#include "util/win/process_info.h"
 #include "util/win/scoped_handle.h"
 #include "util/win/termination_codes.h"
 

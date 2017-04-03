@@ -21,7 +21,7 @@
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/paths.h"
+#include "util/misc/paths.h"
 
 #if defined(OS_MACOSX)
 #include <dlfcn.h>
