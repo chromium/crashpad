@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "f204d1b5_fcffe20c",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-03T20:52:58Z",
+      "side": 1,
+      "message": "Ah, I was thinking we had the opposite here too so we could decode first, but I guess that was in Chrome. Or somewhere else.",
+      "parentUuid": "86de2204_ec4671a9",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 47
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87ad138a_a15ee63c",
         "filename": "handler/handler_main.cc",
         "patchSetId": 1
