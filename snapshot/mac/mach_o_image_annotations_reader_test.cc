@@ -35,7 +35,6 @@
 #include "test/errors.h"
 #include "test/mac/mach_errors.h"
 #include "test/mac/mach_multiprocess.h"
-#include "test/paths.h"
 #include "util/file/file_io.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/exc_server_variants.h"
@@ -43,6 +42,7 @@
 #include "util/mach/mach_extensions.h"
 #include "util/mach/mach_message.h"
 #include "util/mach/mach_message_server.h"
+#include "util/misc/paths.h"
 
 namespace crashpad {
 namespace test {

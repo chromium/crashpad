@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/paths.h"
+#ifndef CRASHPAD_UTIL_PATHS_H_
+#define CRASHPAD_UTIL_PATHS_H_
 
-#include <windows.h>
-
-#include "base/logging.h"
+#include "base/files/file_path.h"
+#include "base/macros.h"
 
 namespace crashpad {
-namespace test {
 
-// static
-base::FilePath Paths::Executable() {
-  wchar_t executable_path[_MAX_PATH];
-  unsigned int len =
-      GetModuleFileName(nullptr, executable_path, arraysize(executable_path));
-  PCHECK(len != 0 && len < arraysize(executable_path)) << "GetModuleFileName";
-  return base::FilePath(executable_path);
-}
+//! \brief Functions to obtain paths.
+class Paths {
+ public:
+  //! \brief Returns the pathname of the currently-running executable.
+  static base::FilePath Executable();
 
-}  // namespace test
+  DISALLOW_IMPLICIT_CONSTRUCTORS(Paths);
+};
+
 }  // namespace crashpad
+
+#endif  // CRASHPAD_UTIL_TEST_PATHS_H_

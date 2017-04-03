@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/paths.h"
+#include "test/test_paths.h"
 
 #include <stdlib.h>
 #include <sys/stat.h>
 
 #include "base/logging.h"
 #include "build/build_config.h"
+#include "util/misc/paths.h"
 
 namespace crashpad {
 namespace test {
@@ -28,7 +29,7 @@ namespace {
 bool IsTestDataRoot(const base::FilePath& candidate) {
   const base::FilePath marker_path =
       candidate.Append(FILE_PATH_LITERAL("test"))
-          .Append(FILE_PATH_LITERAL("paths_test_data_root.txt"));
+          .Append(FILE_PATH_LITERAL("test_paths_test_data_root.txt"));
 
 #if !defined(OS_WIN)
   struct stat stat_buf;
@@ -90,7 +91,7 @@ base::FilePath TestDataRootInternal() {
 }  // namespace
 
 // static
-base::FilePath Paths::TestDataRoot() {
+base::FilePath TestPaths::TestDataRoot() {
   static base::FilePath* test_data_root =
       new base::FilePath(TestDataRootInternal());
   return *test_data_root;

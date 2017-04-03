@@ -20,9 +20,9 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/crashpad_client.h"
-#include "test/paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
+#include "util/misc/paths.h"
 #include "util/win/scoped_handle.h"
 #include "util/win/xp_compat.h"
 
