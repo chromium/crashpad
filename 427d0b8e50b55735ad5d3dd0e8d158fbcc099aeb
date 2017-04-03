@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "1c1f0137_f4ac1cb8",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-03T20:28:48Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to worry about /prefetch for this use. We could also maybe sneak it in with --monitor-self\u003d\"--type\u003dcrashpad-handler /prefetch:7\"?",
+      "parentUuid": "f7b0e9ca_4c401d82",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 47
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87ad138a_a15ee63c",
         "filename": "handler/handler_main.cc",
         "patchSetId": 1
