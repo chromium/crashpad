@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "86de2204_ec4671a9",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-03T20:46:13Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think we need to worry about /prefetch for this use. We could also maybe sneak it in with --monitor-self\u003d\"--type\u003dcrashpad-handler /prefetch:7\"?\n\nThe command line is built by a series of calls to https://crashpad.chromium.org/doxygen/namespacecrashpad.html#a52a7dee343e392e5bf1794e8136df7f9, so that’d just wind up as a single argument on the other side, and Chrome wouldn’t recognize process type “crashpad-handler /prefetch:7”.",
+      "parentUuid": "1c1f0137_f4ac1cb8",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 47
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87ad138a_a15ee63c",
         "filename": "handler/handler_main.cc",
         "patchSetId": 1
