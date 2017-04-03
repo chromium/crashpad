@@ -34,6 +34,52 @@
       "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d844a72_54121494",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-03T20:14:35Z",
+      "side": 1,
+      "message": "This wouldn\u0027t work for Chrome on Windows, as it needs a --type\u003dcrashpad-handler argument to dispatch towards Crashpad. It also needs a /prefetch: argument to get through the eye of the needle to even get there.\nI think the same would be true for e.g. setup.exe and other Windows users of Crashpad.\nI had started on a CL \u003chttps://chromium-review.googlesource.com/c/450985/\u003e to crack the main function into a class, which would make a reasonable hookup point for Crashpad embedders to add \"adornments\" for call-outs and for e.g. command line generation/extension.",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 47
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87ad138a_a15ee63c",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-03T20:14:35Z",
+      "side": 1,
+      "message": "I don\u0027t think a second instance of the handler can successfully write to the metrics directory, and it might mess up the metrics in there for the existing handler.\nThis does beg the question what happens for secondary browser instances that end up rendezvousing with a running instance.",
+      "range": {
+        "startLine": 321,
+        "startChar": 31,
+        "endLine": 321,
+        "endChar": 38
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
