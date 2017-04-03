@@ -214,9 +214,9 @@ $ adb push \
       /data/local/tmp/
 [100%] /data/local/tmp/crashpad_test_test_multiprocess_exec_test_child
 $ adb shell mkdir -p /data/local/tmp/crashpad_test_data_root/test
-$ adb push test/paths_test_data_root.txt \
+$ adb push test/test_paths_test_data_root.txt \
       /data/local/tmp/crashpad_test_data_root/test/
-[100%] /data/local/tmp/crashpad_test_data_root/test/paths_test_data_root.txt
+[100%] /data/local/tmp/crashpad_test_data_root/test/test_paths_test_data_root.txt
 $ adb shell
 device:/ $ cd /data/local/tmp
 device:/data/local/tmp $ CRASHPAD_TEST_DATA_ROOT=crashpad_test_data_root \

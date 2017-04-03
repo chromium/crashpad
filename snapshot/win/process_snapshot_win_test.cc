@@ -21,7 +21,7 @@
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
 #include "test/errors.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
 #include "util/win/scoped_handle.h"
@@ -38,7 +38,7 @@ void TestImageReaderChild(const base::string16& directory_modification) {
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
   ASSERT_TRUE(done.is_valid()) << ErrorMessage("CreateEvent");
 
-  base::FilePath test_executable = Paths::Executable();
+  base::FilePath test_executable = TestPaths::Executable();
   std::wstring child_test_executable =
       test_executable.DirName()
           .Append(directory_modification)
