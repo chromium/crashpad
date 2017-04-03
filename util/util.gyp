@@ -44,6 +44,9 @@
         'file/file_writer.h',
         'file/string_file.cc',
         'file/string_file.h',
+        'linux/address_types.h',
+        'linux/process_memory.cc',
+        'linux/process_memory.h',
         'mac/checked_mach_address_range.h',
         'mac/launchd.h',
         'mac/launchd.mm',
@@ -325,6 +328,7 @@
       'target_conditions': [
         ['OS=="android"', {
           'sources/': [
+            ['include', '^linux/'],
             ['include', '^misc/paths_linux\\.cc$'],
             ['include', '^posix/process_info_linux\\.cc$'],
           ],
