@@ -204,6 +204,30 @@
     },
     {
       "key": {
+        "uuid": "2f0fb124_f5b4ef63",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T14:11:00Z",
+      "side": 1,
+      "message": "Went with --monitor-self-argument, which is allowed in multiple. When setting up for --monitor-self, the plan is for Chrome to start the initial Crashpad handler on Windows as\n\n  chrome.exe /prefetch:7 --type\u003dcrashpad-handler --monitor-self --monitor-self-argument\u003d/prefetch:7 --monitor-self-argument\u003d--type\u003dcrashpad-handler --database\u003d… --url\u003d… …",
+      "parentUuid": "10f6705c_966dc4c5",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 47
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87ad138a_a15ee63c",
         "filename": "handler/handler_main.cc",
         "patchSetId": 1
@@ -263,6 +287,30 @@
       "side": 1,
       "message": "Yeah, this is already a problem, as when you launch a second instance of the browser (by clicking on the shortcut, double-clicking a link, etc.) we\u0027ll spin a handler for the temporary browser instance, methinks.",
       "parentUuid": "1f0be21f_d234ed73",
+      "range": {
+        "startLine": 321,
+        "startChar": 31,
+        "endLine": 321,
+        "endChar": 38
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99c1b2bc_dbe77992",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T14:11:00Z",
+      "side": 1,
+      "message": "Removed --metrics-dir from the second instance.",
+      "parentUuid": "94b9b1c2_1113eede",
       "range": {
         "startLine": 321,
         "startChar": 31,

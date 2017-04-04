@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de692ff4_7fc6e2cb",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T14:11:00Z",
+      "side": 1,
+      "message": "I also added this because I realized that crashpad_client.StartHandler() would obliterate the metrics-recording UnhandledExceptionHandler().",
+      "revId": "ff3b9d4b82648ae44bc32a57e185bed088385dc4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
