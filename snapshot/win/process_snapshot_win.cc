@@ -20,6 +20,7 @@
 
 #include "base/logging.h"
 #include "base/memory/ptr_util.h"
+#include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "snapshot/win/exception_snapshot_win.h"
@@ -320,13 +321,17 @@ void ProcessSnapshotWin::InitializeUnloadedModules() {
     const auto& uet =
         *reinterpret_cast<const RTL_UNLOAD_EVENT_TRACE<Traits>*>(base_address);
     if (uet.ImageName[0] != 0) {
+      const base::char16* nul =
+          base::c16memchr(uet.ImageName, 0, arraysize(uet.ImageName));
       unloaded_modules_.push_back(UnloadedModuleSnapshot(
           uet.BaseAddress,
           uet.SizeOfImage,
           uet.CheckSum,
           uet.TimeDateStamp,
-          base::UTF16ToUTF8(
-              base::StringPiece16(uet.ImageName, arraysize(uet.ImageName)))));
+          base::UTF16ToUTF8(base::StringPiece16(uet.ImageName,
+                                                nul == nullptr
+                                                    ? arraysize(uet.ImageName)
+                                                    : nul - uet.ImageName))));
     }
   }
 }
