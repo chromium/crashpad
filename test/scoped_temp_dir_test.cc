@@ -38,12 +38,12 @@ void CreateFile(const base::FilePath& path) {
 #if defined(OS_POSIX)
   int fd = HANDLE_EINTR(creat(path.value().c_str(), 0644));
   ASSERT_GE(fd, 0) << ErrnoMessage("creat") << " " << path.value();
-  ASSERT_EQ(0, IGNORE_EINTR(close(fd)))
-      << ErrnoMessage("close") << " " << path.value();
+  ASSERT_EQ(IGNORE_EINTR(close(fd)), 0) << ErrnoMessage("close") << " "
+                                        << path.value();
 #elif defined(OS_WIN)
   int fd = _wcreat(path.value().c_str(), _S_IREAD | _S_IWRITE);
   ASSERT_GE(fd, 0) << ErrnoMessage("_wcreat") << " " << path.value();
-  ASSERT_EQ(0, _close(fd)) << ErrnoMessage("_close") << " " << path.value();
+  ASSERT_EQ(_close(fd), 0) << ErrnoMessage("_close") << " " << path.value();
 #else
 #error "Not implemented"
 #endif
@@ -52,11 +52,11 @@ void CreateFile(const base::FilePath& path) {
 
 void CreateDirectory(const base::FilePath& path) {
 #if defined(OS_POSIX)
-  ASSERT_EQ(0, mkdir(path.value().c_str(), 0755))
-      << ErrnoMessage("mkdir") << " " << path.value();
+  ASSERT_EQ(mkdir(path.value().c_str(), 0755), 0) << ErrnoMessage("mkdir")
+                                                  << " " << path.value();
 #elif defined(OS_WIN)
-  ASSERT_EQ(0, _wmkdir(path.value().c_str()))
-      << ErrnoMessage("_wmkdir") << " " << path.value();
+  ASSERT_EQ(_wmkdir(path.value().c_str()), 0) << ErrnoMessage("_wmkdir") << " "
+                                              << path.value();
 #else
 #error "Not implemented"
 #endif

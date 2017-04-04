@@ -136,22 +136,22 @@ TEST(CPUContextX86, FxsaveToFsave) {
 
   // Everything should have come over from fxsave. Reserved fields should be
   // zero.
-  EXPECT_EQ(fxsave.fcw, fsave.fcw);
-  EXPECT_EQ(0, fsave.reserved_1);
-  EXPECT_EQ(fxsave.fsw, fsave.fsw);
-  EXPECT_EQ(0, fsave.reserved_2);
-  EXPECT_EQ(0xfe90, fsave.ftw);  // FxsaveToFsaveTagWord
-  EXPECT_EQ(0, fsave.reserved_3);
-  EXPECT_EQ(fxsave.fpu_ip, fsave.fpu_ip);
-  EXPECT_EQ(fxsave.fpu_cs, fsave.fpu_cs);
-  EXPECT_EQ(fxsave.fop, fsave.fop);
-  EXPECT_EQ(fxsave.fpu_dp, fsave.fpu_dp);
-  EXPECT_EQ(fxsave.fpu_ds, fsave.fpu_ds);
-  EXPECT_EQ(0, fsave.reserved_4);
+  EXPECT_EQ(fsave.fcw, fxsave.fcw);
+  EXPECT_EQ(fsave.reserved_1, 0);
+  EXPECT_EQ(fsave.fsw, fxsave.fsw);
+  EXPECT_EQ(fsave.reserved_2, 0);
+  EXPECT_EQ(fsave.ftw, 0xfe90);  // FxsaveToFsaveTagWord
+  EXPECT_EQ(fsave.reserved_3, 0);
+  EXPECT_EQ(fsave.fpu_ip, fxsave.fpu_ip);
+  EXPECT_EQ(fsave.fpu_cs, fxsave.fpu_cs);
+  EXPECT_EQ(fsave.fop, fxsave.fop);
+  EXPECT_EQ(fsave.fpu_dp, fxsave.fpu_dp);
+  EXPECT_EQ(fsave.fpu_ds, fxsave.fpu_ds);
+  EXPECT_EQ(fsave.reserved_4, 0);
   for (size_t index = 0; index < arraysize(fsave.st); ++index) {
-    EXPECT_EQ(BytesToHexString(fxsave.st_mm[index].st,
-                               arraysize(fxsave.st_mm[index].st)),
-              BytesToHexString(fsave.st[index], arraysize(fsave.st[index])))
+    EXPECT_EQ(BytesToHexString(fsave.st[index], arraysize(fsave.st[index])),
+              BytesToHexString(fxsave.st_mm[index].st,
+                               arraysize(fxsave.st_mm[index].st)))
         << "index " << index;
   }
 }
@@ -191,32 +191,32 @@ TEST(CPUContextX86, FsaveToFxsave) {
 
   // Everything in fsave should have come over from there. Fields not present in
   // fsave and reserved fields should be zero.
-  EXPECT_EQ(fsave.fcw, fxsave.fcw);
-  EXPECT_EQ(fsave.fsw, fxsave.fsw);
-  EXPECT_EQ(0xf0, fxsave.ftw);  // FsaveToFxsaveTagWord
-  EXPECT_EQ(0, fxsave.reserved_1);
-  EXPECT_EQ(fsave.fop, fxsave.fop);
-  EXPECT_EQ(fsave.fpu_ip, fxsave.fpu_ip);
-  EXPECT_EQ(fsave.fpu_cs, fxsave.fpu_cs);
-  EXPECT_EQ(0, fxsave.reserved_2);
-  EXPECT_EQ(fsave.fpu_dp, fxsave.fpu_dp);
-  EXPECT_EQ(fsave.fpu_ds, fxsave.fpu_ds);
-  EXPECT_EQ(0, fxsave.reserved_3);
-  EXPECT_EQ(0u, fxsave.mxcsr);
-  EXPECT_EQ(0u, fxsave.mxcsr_mask);
+  EXPECT_EQ(fxsave.fcw, fsave.fcw);
+  EXPECT_EQ(fxsave.fsw, fsave.fsw);
+  EXPECT_EQ(fxsave.ftw, 0xf0);  // FsaveToFxsaveTagWord
+  EXPECT_EQ(fxsave.reserved_1, 0);
+  EXPECT_EQ(fxsave.fop, fsave.fop);
+  EXPECT_EQ(fxsave.fpu_ip, fsave.fpu_ip);
+  EXPECT_EQ(fxsave.fpu_cs, fsave.fpu_cs);
+  EXPECT_EQ(fxsave.reserved_2, 0);
+  EXPECT_EQ(fxsave.fpu_dp, fsave.fpu_dp);
+  EXPECT_EQ(fxsave.fpu_ds, fsave.fpu_ds);
+  EXPECT_EQ(fxsave.reserved_3, 0);
+  EXPECT_EQ(fxsave.mxcsr, 0u);
+  EXPECT_EQ(fxsave.mxcsr_mask, 0u);
   for (size_t index = 0; index < arraysize(fxsave.st_mm); ++index) {
-    EXPECT_EQ(BytesToHexString(fsave.st[index], arraysize(fsave.st[index])),
-              BytesToHexString(fxsave.st_mm[index].st,
-                               arraysize(fxsave.st_mm[index].st)))
+    EXPECT_EQ(BytesToHexString(fxsave.st_mm[index].st,
+                               arraysize(fxsave.st_mm[index].st)),
+              BytesToHexString(fsave.st[index], arraysize(fsave.st[index])))
         << "index " << index;
-    EXPECT_EQ(std::string(arraysize(fxsave.st_mm[index].st_reserved) * 2, '0'),
-              BytesToHexString(fxsave.st_mm[index].st_reserved,
-                               arraysize(fxsave.st_mm[index].st_reserved)))
+    EXPECT_EQ(BytesToHexString(fxsave.st_mm[index].st_reserved,
+                               arraysize(fxsave.st_mm[index].st_reserved)),
+              std::string(arraysize(fxsave.st_mm[index].st_reserved) * 2, '0'))
         << "index " << index;
   }
   size_t unused_len = sizeof(fxsave) - offsetof(decltype(fxsave), xmm);
-  EXPECT_EQ(std::string(unused_len * 2, '0'),
-            BytesToHexString(fxsave.xmm, unused_len));
+  EXPECT_EQ(BytesToHexString(fxsave.xmm, unused_len),
+            std::string(unused_len * 2, '0'));
 
   // Since the fsave format is a subset of the fxsave format, fsave-fxsave-fsave
   // should round-trip cleanly.
@@ -229,7 +229,7 @@ TEST(CPUContextX86, FsaveToFxsave) {
   fsave.reserved_2 = 0;
   fsave.reserved_3 = 0;
   fsave.reserved_4 = 0;
-  EXPECT_EQ(0, memcmp(&fsave, &fsave_2, sizeof(fsave)));
+  EXPECT_EQ(memcmp(&fsave, &fsave_2, sizeof(fsave)), 0);
 }
 
 TEST(CPUContextX86, FxsaveToFsaveTagWord) {
@@ -258,8 +258,8 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
   SetX87OrMMXRegister(&st_mm[5], kExponentNormal, true, kFractionNormal);
   SetX87OrMMXRegister(&st_mm[6], kExponentNormal, false, kFractionAllZero);
   SetX87OrMMXRegister(&st_mm[7], kExponentNormal, true, kFractionAllZero);
-  EXPECT_EQ(0xff22,
-            CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
+  EXPECT_EQ(CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm),
+            0xff22);
 
   fsw = 2 << 11;  // top = 2: logical 0-7 maps to physical 2-7, 0-1
   fxsave_tag = 0xf0;  // physical 0-3 (logical 6-7, 0-1) empty
@@ -275,8 +275,8 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
       &st_mm[5], kExponentAllZero, true, kFractionNormal);  // spec.
   SetX87OrMMXRegister(&st_mm[6], kExponentAllZero, false, kFractionAllZero);
   SetX87OrMMXRegister(&st_mm[7], kExponentAllZero, true, kFractionAllZero);
-  EXPECT_EQ(0xa9ff,
-            CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
+  EXPECT_EQ(CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm),
+            0xa9ff);
 
   fsw = 5 << 11;  // top = 5: logical 0-7 maps to physical 5-7, 0-4
   fxsave_tag = 0x5a;  // physical 0, 2, 5, and 7 (logical 5, 0, 2, and 3) empty
@@ -292,8 +292,8 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
       &st_mm[6], kExponentAllOne, false, kFractionAllZero);  // spec.
   SetX87OrMMXRegister(
       &st_mm[7], kExponentAllOne, true, kFractionAllZero);  // spec.
-  EXPECT_EQ(0xeebb,
-            CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
+  EXPECT_EQ(CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm),
+            0xeebb);
 
   // This set set is just a mix of all of the possible tag types in a single
   // register file.
@@ -312,8 +312,8 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
   SetX87OrMMXRegister(&st_mm[6], kExponentAllZero, false, kFractionAllZero);
   SetX87OrMMXRegister(
       &st_mm[7], kExponentNormal, true, kFractionNormal);  // valid
-  EXPECT_EQ(0xfe90,
-            CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
+  EXPECT_EQ(CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm),
+            0xfe90);
 
   // In this set, everything is valid.
   fsw = 0 << 11;  // top = 0: logical 0-7 maps to physical 0-7
@@ -321,25 +321,25 @@ TEST(CPUContextX86, FxsaveToFsaveTagWord) {
   for (size_t index = 0; index < arraysize(st_mm); ++index) {
     SetX87OrMMXRegister(&st_mm[index], kExponentNormal, true, kFractionAllZero);
   }
-  EXPECT_EQ(0, CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
+  EXPECT_EQ(CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm), 0);
 
   // In this set, everything is empty. The registers shouldn’t be consulted at
   // all, so they’re left alone from the previous set.
   fsw = 0 << 11;  // top = 0: logical 0-7 maps to physical 0-7
   fxsave_tag = 0;  // everything empty
-  EXPECT_EQ(0xffff,
-            CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm));
+  EXPECT_EQ(CPUContextX86::FxsaveToFsaveTagWord(fsw, fxsave_tag, st_mm),
+            0xffff);
 }
 
 TEST(CPUContextX86, FsaveToFxsaveTagWord) {
   // The register sets that these x87 tag words might apply to are given in the
   // FxsaveToFsaveTagWord test above.
-  EXPECT_EQ(0x0f, CPUContextX86::FsaveToFxsaveTagWord(0xff22));
-  EXPECT_EQ(0xf0, CPUContextX86::FsaveToFxsaveTagWord(0xa9ff));
-  EXPECT_EQ(0x5a, CPUContextX86::FsaveToFxsaveTagWord(0xeebb));
-  EXPECT_EQ(0x1f, CPUContextX86::FsaveToFxsaveTagWord(0xfe90));
-  EXPECT_EQ(0xff, CPUContextX86::FsaveToFxsaveTagWord(0x0000));
-  EXPECT_EQ(0x00, CPUContextX86::FsaveToFxsaveTagWord(0xffff));
+  EXPECT_EQ(CPUContextX86::FsaveToFxsaveTagWord(0xff22), 0x0f);
+  EXPECT_EQ(CPUContextX86::FsaveToFxsaveTagWord(0xa9ff), 0xf0);
+  EXPECT_EQ(CPUContextX86::FsaveToFxsaveTagWord(0xeebb), 0x5a);
+  EXPECT_EQ(CPUContextX86::FsaveToFxsaveTagWord(0xfe90), 0x1f);
+  EXPECT_EQ(CPUContextX86::FsaveToFxsaveTagWord(0x0000), 0xff);
+  EXPECT_EQ(CPUContextX86::FsaveToFxsaveTagWord(0xffff), 0x00);
 }
 
 }  // namespace

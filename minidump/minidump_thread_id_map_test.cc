@@ -48,11 +48,11 @@ class MinidumpThreadIDMapTest : public testing::Test {
       const MinidumpThreadIDMap* map, uint64_t key, uint32_t expected_value) {
     auto iterator = map->find(key);
     if (iterator == map->end()) {
-      EXPECT_NE(map->end(), iterator);
+      EXPECT_NE(iterator, map->end());
       return false;
     }
     if (iterator->second != expected_value) {
-      EXPECT_EQ(expected_value, iterator->second);
+      EXPECT_EQ(iterator->second, expected_value);
       return false;
     }
     return true;
@@ -95,7 +95,7 @@ TEST_F(MinidumpThreadIDMapTest, SimpleMapping) {
   MinidumpThreadIDMap thread_id_map;
   BuildMinidumpThreadIDMap(thread_snapshots(), &thread_id_map);
 
-  EXPECT_EQ(5u, thread_id_map.size());
+  EXPECT_EQ(thread_id_map.size(), 5u);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 1, 1);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 3, 3);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 5, 5);
@@ -113,7 +113,7 @@ TEST_F(MinidumpThreadIDMapTest, Truncation) {
   MinidumpThreadIDMap thread_id_map;
   BuildMinidumpThreadIDMap(thread_snapshots(), &thread_id_map);
 
-  EXPECT_EQ(5u, thread_id_map.size());
+  EXPECT_EQ(thread_id_map.size(), 5u);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 0x0000000000000000, 0x00000000);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 0x9999999900000001, 0x00000001);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 0x9999999980000001, 0x80000001);
@@ -131,7 +131,7 @@ TEST_F(MinidumpThreadIDMapTest, DuplicateThreadID) {
   MinidumpThreadIDMap thread_id_map;
   BuildMinidumpThreadIDMap(thread_snapshots(), &thread_id_map);
 
-  EXPECT_EQ(4u, thread_id_map.size());
+  EXPECT_EQ(thread_id_map.size(), 4u);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 2, 2);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 4, 4);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 6, 6);
@@ -148,7 +148,7 @@ TEST_F(MinidumpThreadIDMapTest, Collision) {
   MinidumpThreadIDMap thread_id_map;
   BuildMinidumpThreadIDMap(thread_snapshots(), &thread_id_map);
 
-  EXPECT_EQ(5u, thread_id_map.size());
+  EXPECT_EQ(thread_id_map.size(), 5u);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 0x0000000000000010, 0);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 0x0000000000000020, 1);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 0x0000000000000030, 2);
@@ -166,7 +166,7 @@ TEST_F(MinidumpThreadIDMapTest, DuplicateAndCollision) {
   MinidumpThreadIDMap thread_id_map;
   BuildMinidumpThreadIDMap(thread_snapshots(), &thread_id_map);
 
-  EXPECT_EQ(4u, thread_id_map.size());
+  EXPECT_EQ(thread_id_map.size(), 4u);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 0x0000000100000010, 0);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 0x0000000000000010, 1);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 0x0000000000000020, 2);
@@ -183,7 +183,7 @@ TEST_F(MinidumpThreadIDMapTest, AllDuplicates) {
   MinidumpThreadIDMap thread_id_map;
   BuildMinidumpThreadIDMap(thread_snapshots(), &thread_id_map);
 
-  EXPECT_EQ(1u, thread_id_map.size());
+  EXPECT_EQ(thread_id_map.size(), 1u);
   EXPECT_PRED3(MapHasKeyValue, &thread_id_map, 6, 6);
 }
 

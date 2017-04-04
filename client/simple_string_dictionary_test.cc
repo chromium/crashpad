@@ -46,8 +46,8 @@ TEST(SimpleStringDictionary, Entry) {
   // Clear the entry and verify the key and value are empty strings.
   map.RemoveKey("key1");
   EXPECT_FALSE(entry->is_active());
-  EXPECT_EQ(strlen(entry->key), 0u);
-  EXPECT_EQ(strlen(entry->value), 0u);
+  EXPECT_EQ(0u, strlen(entry->key));
+  EXPECT_EQ(0u, strlen(entry->value));
 }
 
 TEST(SimpleStringDictionary, SimpleStringDictionary) {
@@ -62,7 +62,7 @@ TEST(SimpleStringDictionary, SimpleStringDictionary) {
   EXPECT_NE(dict.GetValueForKey("key1"), "value1");
   EXPECT_NE(dict.GetValueForKey("key2"), "value2");
   EXPECT_NE(dict.GetValueForKey("key3"), "value3");
-  EXPECT_EQ(dict.GetCount(), 3u);
+  EXPECT_EQ(3u, dict.GetCount());
   // try an unknown key
   EXPECT_FALSE(dict.GetValueForKey("key4"));
 
@@ -85,11 +85,11 @@ TEST(SimpleStringDictionary, CopyAndAssign) {
   map.SetKeyValue("two", "b");
   map.SetKeyValue("three", "c");
   map.RemoveKey("two");
-  EXPECT_EQ(2u, map.GetCount());
+  EXPECT_EQ(map.GetCount(), 2u);
 
   // Test copy.
   TSimpleStringDictionary<10, 10, 10> map_copy(map);
-  EXPECT_EQ(2u, map_copy.GetCount());
+  EXPECT_EQ(map_copy.GetCount(), 2u);
   EXPECT_STREQ("a", map_copy.GetValueForKey("one"));
   EXPECT_STREQ("c", map_copy.GetValueForKey("three"));
   map_copy.SetKeyValue("four", "d");
@@ -99,7 +99,7 @@ TEST(SimpleStringDictionary, CopyAndAssign) {
   // Test assign.
   TSimpleStringDictionary<10, 10, 10> map_assign;
   map_assign = map;
-  EXPECT_EQ(2u, map_assign.GetCount());
+  EXPECT_EQ(map_assign.GetCount(), 2u);
   EXPECT_STREQ("a", map_assign.GetValueForKey("one"));
   EXPECT_STREQ("c", map_assign.GetValueForKey("three"));
   map_assign.SetKeyValue("four", "d");
@@ -129,7 +129,7 @@ TEST(SimpleStringDictionary, Iterator) {
 
   // We'll keep track of the number of key/value pairs we think should be in the
   // dictionary
-  int expectedDictionarySize = 0;
+  int expected_dictionary_size = 0;
 
   // Set a bunch of key/value pairs like key0/value0, key1/value1, ...
   for (int i = 0; i < kPartitionIndex; ++i) {
@@ -137,7 +137,7 @@ TEST(SimpleStringDictionary, Iterator) {
     sprintf(value, "value%d", i);
     dict->SetKeyValue(key, value);
   }
-  expectedDictionarySize = kPartitionIndex;
+  expected_dictionary_size = kPartitionIndex;
 
   // set a couple of the keys twice (with the same value) - should be nop
   dict->SetKeyValue("key2", "value2");
@@ -149,7 +149,7 @@ TEST(SimpleStringDictionary, Iterator) {
   dict->RemoveKey("key18");
   dict->RemoveKey("key23");
   dict->RemoveKey("key31");
-  expectedDictionarySize -= 4;  // we just removed four key/value pairs
+  expected_dictionary_size -= 4;  // we just removed four key/value pairs
 
   // Set some more key/value pairs like key59/value59, key60/value60, ...
   for (int i = kPartitionIndex; i < kDictionaryCapacity; ++i) {
@@ -157,7 +157,7 @@ TEST(SimpleStringDictionary, Iterator) {
     sprintf(value, "value%d", i);
     dict->SetKeyValue(key, value);
   }
-  expectedDictionarySize += kDictionaryCapacity - kPartitionIndex;
+  expected_dictionary_size += kDictionaryCapacity - kPartitionIndex;
 
   // Now create an iterator on the dictionary
   SimpleStringDictionary::Iterator iter(*dict);
@@ -170,35 +170,36 @@ TEST(SimpleStringDictionary, Iterator) {
   int count[kDictionaryCapacity];
   memset(count, 0, sizeof(count));
 
-  int totalCount = 0;
+  int total_count = 0;
 
   for (;;) {
     const SimpleStringDictionary::Entry* entry = iter.Next();
     if (!entry)
       break;
-    totalCount++;
+    total_count++;
 
-    // Extract keyNumber from a string of the form key<keyNumber>
-    int keyNumber;
-    sscanf(entry->key, "key%d", &keyNumber);
+    // Extract key_number from a string of the form key<key_number>
+    int key_number;
+    sscanf(entry->key, "key%d", &key_number);
 
-    // Extract valueNumber from a string of the form value<valueNumber>
-    int valueNumber;
-    sscanf(entry->value, "value%d", &valueNumber);
+    // Extract value_number from a string of the form value<value_number>
+    int value_number;
+    sscanf(entry->value, "value%d", &value_number);
 
     // The value number should equal the key number since that's how we set them
-    EXPECT_EQ(keyNumber, valueNumber);
+    EXPECT_EQ(value_number, key_number);
 
-    // Key and value numbers should be in proper range: 0 <= keyNumber <
+    // Key and value numbers should be in proper range: 0 <= key_number <
     // kDictionaryCapacity
-    bool isKeyInGoodRange = (keyNumber >= 0 && keyNumber < kDictionaryCapacity);
-    bool isValueInGoodRange =
-        (valueNumber >= 0 && valueNumber < kDictionaryCapacity);
-    EXPECT_TRUE(isKeyInGoodRange);
-    EXPECT_TRUE(isValueInGoodRange);
+    bool key_in_good_range =
+        key_number >= 0 && key_number < kDictionaryCapacity;
+    bool value_in_good_range =
+        value_number >= 0 && value_number < kDictionaryCapacity;
+    EXPECT_TRUE(key_in_good_range);
+    EXPECT_TRUE(value_in_good_range);
 
-    if (isKeyInGoodRange && isValueInGoodRange) {
-      ++count[keyNumber];
+    if (key_in_good_range && value_in_good_range) {
+      ++count[key_number];
     }
   }
 
@@ -207,12 +208,12 @@ TEST(SimpleStringDictionary, Iterator) {
   for (size_t i = 0; i < kDictionaryCapacity; ++i) {
     // Skip over key7, key18, key23, and key31, since we removed them
     if (!(i == 7 || i == 18 || i == 23 || i == 31)) {
-      EXPECT_EQ(count[i], 1);
+      EXPECT_EQ(1, count[i]);
     }
   }
 
   // Make sure the number of iterations matches the expected dictionary size.
-  EXPECT_EQ(totalCount, expectedDictionarySize);
+  EXPECT_EQ(total_count, expected_dictionary_size);
 }
 
 TEST(SimpleStringDictionary, AddRemove) {
@@ -221,22 +222,22 @@ TEST(SimpleStringDictionary, AddRemove) {
   map.SetKeyValue("mike", "pink");
   map.SetKeyValue("mark", "allays");
 
-  EXPECT_EQ(3u, map.GetCount());
+  EXPECT_EQ(map.GetCount(), 3u);
   EXPECT_STREQ("ert", map.GetValueForKey("rob"));
   EXPECT_STREQ("pink", map.GetValueForKey("mike"));
   EXPECT_STREQ("allays", map.GetValueForKey("mark"));
 
   map.RemoveKey("mike");
 
-  EXPECT_EQ(2u, map.GetCount());
+  EXPECT_EQ(map.GetCount(), 2u);
   EXPECT_FALSE(map.GetValueForKey("mike"));
 
   map.SetKeyValue("mark", "mal");
-  EXPECT_EQ(2u, map.GetCount());
+  EXPECT_EQ(map.GetCount(), 2u);
   EXPECT_STREQ("mal", map.GetValueForKey("mark"));
 
   map.RemoveKey("mark");
-  EXPECT_EQ(1u, map.GetCount());
+  EXPECT_EQ(map.GetCount(), 1u);
   EXPECT_FALSE(map.GetValueForKey("mark"));
 }
 
@@ -246,7 +247,7 @@ TEST(SimpleStringDictionary, OutOfSpace) {
   map.SetKeyValue("a", "1");
   map.SetKeyValue("b", "2");
   map.SetKeyValue("c", "3");
-  EXPECT_EQ(2u, map.GetCount());
+  EXPECT_EQ(map.GetCount(), 2u);
   EXPECT_FALSE(map.GetValueForKey("c"));
 }
 
@@ -262,7 +263,7 @@ TEST(SimpleStringDictionaryDeathTest, NullKey) {
 
   ASSERT_DEATH_CHECK(map.GetValueForKey(nullptr), "key");
   map.RemoveKey("hi");
-  EXPECT_EQ(0u, map.GetCount());
+  EXPECT_EQ(map.GetCount(), 0u);
 }
 
 #endif

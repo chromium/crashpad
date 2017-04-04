@@ -43,9 +43,9 @@ TEST(CPUContextMac, InitializeContextX86) {
                                       &x86_thread_state32,
                                       &x86_float_state32,
                                       &x86_debug_state32);
-    EXPECT_EQ(1u, cpu_context_x86.eax);
-    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(3u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.eax, 1u);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 2u);
+    EXPECT_EQ(cpu_context_x86.dr0, 3u);
   }
 
   // Supply context in a CPU-specific “flavor” parameter expected to be used
@@ -69,9 +69,9 @@ TEST(CPUContextMac, InitializeContextX86) {
         &x86_thread_state32,
         &x86_float_state32,
         &x86_debug_state32);
-    EXPECT_EQ(4u, cpu_context_x86.eax);
-    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(3u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.eax, 4u);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 2u);
+    EXPECT_EQ(cpu_context_x86.dr0, 3u);
   }
 
   {
@@ -87,9 +87,9 @@ TEST(CPUContextMac, InitializeContextX86) {
         &x86_thread_state32,
         &x86_float_state32,
         &x86_debug_state32);
-    EXPECT_EQ(1u, cpu_context_x86.eax);
-    EXPECT_EQ(5u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(3u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.eax, 1u);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 5u);
+    EXPECT_EQ(cpu_context_x86.dr0, 3u);
   }
 
   {
@@ -105,9 +105,9 @@ TEST(CPUContextMac, InitializeContextX86) {
         &x86_thread_state32,
         &x86_float_state32,
         &x86_debug_state32);
-    EXPECT_EQ(1u, cpu_context_x86.eax);
-    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(6u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.eax, 1u);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 2u);
+    EXPECT_EQ(cpu_context_x86.dr0, 6u);
   }
 
   // Supply context in a universal “flavor” parameter expected to be used
@@ -132,9 +132,9 @@ TEST(CPUContextMac, InitializeContextX86) {
         &x86_thread_state32,
         &x86_float_state32,
         &x86_debug_state32);
-    EXPECT_EQ(7u, cpu_context_x86.eax);
-    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(3u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.eax, 7u);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 2u);
+    EXPECT_EQ(cpu_context_x86.dr0, 3u);
   }
 
   {
@@ -152,9 +152,9 @@ TEST(CPUContextMac, InitializeContextX86) {
         &x86_thread_state32,
         &x86_float_state32,
         &x86_debug_state32);
-    EXPECT_EQ(1u, cpu_context_x86.eax);
-    EXPECT_EQ(8u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(3u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.eax, 1u);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 8u);
+    EXPECT_EQ(cpu_context_x86.dr0, 3u);
   }
 
   {
@@ -172,9 +172,9 @@ TEST(CPUContextMac, InitializeContextX86) {
         &x86_thread_state32,
         &x86_float_state32,
         &x86_debug_state32);
-    EXPECT_EQ(1u, cpu_context_x86.eax);
-    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(9u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.eax, 1u);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 2u);
+    EXPECT_EQ(cpu_context_x86.dr0, 9u);
   }
 
   // Supply inappropriate “flavor” contexts to test that
@@ -194,9 +194,9 @@ TEST(CPUContextMac, InitializeContextX86) {
         &x86_thread_state32,
         &x86_float_state32,
         &x86_debug_state32);
-    EXPECT_EQ(1u, cpu_context_x86.eax);
-    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(3u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.eax, 1u);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 2u);
+    EXPECT_EQ(cpu_context_x86.dr0, 3u);
   }
 
   {
@@ -213,9 +213,9 @@ TEST(CPUContextMac, InitializeContextX86) {
         &x86_thread_state32,
         &x86_float_state32,
         &x86_debug_state32);
-    EXPECT_EQ(1u, cpu_context_x86.eax);
-    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(3u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.eax, 1u);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 2u);
+    EXPECT_EQ(cpu_context_x86.dr0, 3u);
   }
 }
 
@@ -238,9 +238,9 @@ TEST(CPUContextMac, InitializeContextX86_64) {
                                          &x86_thread_state64,
                                          &x86_float_state64,
                                          &x86_debug_state64);
-    EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
-    EXPECT_EQ(12u, cpu_context_x86_64.dr0);
+    EXPECT_EQ(cpu_context_x86_64.rax, 10u);
+    EXPECT_EQ(cpu_context_x86_64.fxsave.ftw, 11u);
+    EXPECT_EQ(cpu_context_x86_64.dr0, 12u);
   }
 
   // Supply context in a CPU-specific “flavor” parameter expected to be used
@@ -264,9 +264,9 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_thread_state64,
         &x86_float_state64,
         &x86_debug_state64);
-    EXPECT_EQ(13u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
-    EXPECT_EQ(12u, cpu_context_x86_64.dr0);
+    EXPECT_EQ(cpu_context_x86_64.rax, 13u);
+    EXPECT_EQ(cpu_context_x86_64.fxsave.ftw, 11u);
+    EXPECT_EQ(cpu_context_x86_64.dr0, 12u);
   }
 
   {
@@ -282,9 +282,9 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_thread_state64,
         &x86_float_state64,
         &x86_debug_state64);
-    EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(14u, cpu_context_x86_64.fxsave.ftw);
-    EXPECT_EQ(12u, cpu_context_x86_64.dr0);
+    EXPECT_EQ(cpu_context_x86_64.rax, 10u);
+    EXPECT_EQ(cpu_context_x86_64.fxsave.ftw, 14u);
+    EXPECT_EQ(cpu_context_x86_64.dr0, 12u);
   }
 
   {
@@ -300,9 +300,9 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_thread_state64,
         &x86_float_state64,
         &x86_debug_state64);
-    EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
-    EXPECT_EQ(15u, cpu_context_x86_64.dr0);
+    EXPECT_EQ(cpu_context_x86_64.rax, 10u);
+    EXPECT_EQ(cpu_context_x86_64.fxsave.ftw, 11u);
+    EXPECT_EQ(cpu_context_x86_64.dr0, 15u);
   }
 
   // Supply context in a universal “flavor” parameter expected to be used
@@ -327,9 +327,9 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_thread_state64,
         &x86_float_state64,
         &x86_debug_state64);
-    EXPECT_EQ(16u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
-    EXPECT_EQ(12u, cpu_context_x86_64.dr0);
+    EXPECT_EQ(cpu_context_x86_64.rax, 16u);
+    EXPECT_EQ(cpu_context_x86_64.fxsave.ftw, 11u);
+    EXPECT_EQ(cpu_context_x86_64.dr0, 12u);
   }
 
   {
@@ -347,9 +347,9 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_thread_state64,
         &x86_float_state64,
         &x86_debug_state64);
-    EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(17u, cpu_context_x86_64.fxsave.ftw);
-    EXPECT_EQ(12u, cpu_context_x86_64.dr0);
+    EXPECT_EQ(cpu_context_x86_64.rax, 10u);
+    EXPECT_EQ(cpu_context_x86_64.fxsave.ftw, 17u);
+    EXPECT_EQ(cpu_context_x86_64.dr0, 12u);
   }
 
   {
@@ -367,9 +367,9 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_thread_state64,
         &x86_float_state64,
         &x86_debug_state64);
-    EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
-    EXPECT_EQ(18u, cpu_context_x86_64.dr0);
+    EXPECT_EQ(cpu_context_x86_64.rax, 10u);
+    EXPECT_EQ(cpu_context_x86_64.fxsave.ftw, 11u);
+    EXPECT_EQ(cpu_context_x86_64.dr0, 18u);
   }
 
   // Supply inappropriate “flavor” contexts to test that
@@ -389,9 +389,9 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_thread_state64,
         &x86_float_state64,
         &x86_debug_state64);
-    EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
-    EXPECT_EQ(12u, cpu_context_x86_64.dr0);
+    EXPECT_EQ(cpu_context_x86_64.rax, 10u);
+    EXPECT_EQ(cpu_context_x86_64.fxsave.ftw, 11u);
+    EXPECT_EQ(cpu_context_x86_64.dr0, 12u);
   }
 
   {
@@ -408,9 +408,9 @@ TEST(CPUContextMac, InitializeContextX86_64) {
         &x86_thread_state64,
         &x86_float_state64,
         &x86_debug_state64);
-    EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
-    EXPECT_EQ(12u, cpu_context_x86_64.dr0);
+    EXPECT_EQ(cpu_context_x86_64.rax, 10u);
+    EXPECT_EQ(cpu_context_x86_64.fxsave.ftw, 11u);
+    EXPECT_EQ(cpu_context_x86_64.dr0, 12u);
   }
 }
 

@@ -28,25 +28,25 @@ TEST(MapInsert, MapInsertOrReplace) {
   EXPECT_TRUE(MapInsertOrReplace(&map, "key", 1, &old_value));
   std::map<std::string, int> expect_map;
   expect_map["key"] = 1;
-  EXPECT_EQ(expect_map, map);
+  EXPECT_EQ(map, expect_map);
 
   EXPECT_FALSE(MapInsertOrReplace(&map, "key", 2, &old_value));
-  EXPECT_EQ(1, old_value);
+  EXPECT_EQ(old_value, 1);
   expect_map["key"] = 2;
-  EXPECT_EQ(expect_map, map);
+  EXPECT_EQ(map, expect_map);
 
   EXPECT_TRUE(MapInsertOrReplace(&map, "another", 3, &old_value));
   expect_map["another"] = 3;
-  EXPECT_EQ(expect_map, map);
+  EXPECT_EQ(map, expect_map);
 
   // Make sure nullptr is accepted as old_value.
   EXPECT_TRUE(MapInsertOrReplace(&map, "yet another", 5, nullptr));
   expect_map["yet another"] = 5;
-  EXPECT_EQ(expect_map, map);
+  EXPECT_EQ(map, expect_map);
 
   EXPECT_FALSE(MapInsertOrReplace(&map, "yet another", 6, nullptr));
   expect_map["yet another"] = 6;
-  EXPECT_EQ(expect_map, map);
+  EXPECT_EQ(map, expect_map);
 }
 
 }  // namespace

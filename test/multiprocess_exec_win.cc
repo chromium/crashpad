@@ -127,7 +127,7 @@ void MultiprocessExec::PreFork() {
   // Make pipes for child-to-parent and parent-to-child communication. Mark them
   // as inheritable via the SECURITY_ATTRIBUTES, but use SetHandleInformation to
   // ensure that the parent sides are not inherited.
-  ASSERT_EQ(nullptr, info());
+  ASSERT_EQ(info(), nullptr);
   set_info(new internal::MultiprocessInfo());
 
   SECURITY_ATTRIBUTES security_attributes = {0};

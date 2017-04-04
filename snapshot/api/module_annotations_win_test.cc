@@ -42,9 +42,9 @@ class ModuleAnnotationsMultiprocessTest final : public WinMultiprocess {
     ASSERT_TRUE(ReadModuleAnnotations(process_handle, module, &annotations));
 
     EXPECT_GE(annotations.size(), 3u);
-    EXPECT_EQ("value", annotations["#APITEST# key"]);
-    EXPECT_EQ("y", annotations["#APITEST# x"]);
-    EXPECT_EQ("", annotations["#APITEST# empty_value"]);
+    EXPECT_EQ(annotations["#APITEST# key"], "value");
+    EXPECT_EQ(annotations["#APITEST# x"], "y");
+    EXPECT_EQ(annotations["#APITEST# empty_value"], "");
 
     // Signal the child process to terminate.
     char c = ' ';

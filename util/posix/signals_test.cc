@@ -272,7 +272,7 @@ class SignalsTest : public Multiprocess {
         sigemptyset(&action.sa_mask);
         action.sa_flags = 0;
         action.sa_handler = SIG_DFL;
-        ASSERT_EQ(0, sigaction(sig_, &action, nullptr))
+        ASSERT_EQ(sigaction(sig_, &action, nullptr), 0)
             << ErrnoMessage("sigaction");
         break;
       }
@@ -347,8 +347,8 @@ TEST(Signals, WillSignalReraiseAutonomously) {
     siginfo_t siginfo = {};
     siginfo.si_signo = test_data.sig;
     siginfo.si_code = test_data.code;
-    EXPECT_EQ(test_data.result,
-              Signals::WillSignalReraiseAutonomously(&siginfo));
+    EXPECT_EQ(Signals::WillSignalReraiseAutonomously(&siginfo),
+              test_data.result);
   }
 }
 

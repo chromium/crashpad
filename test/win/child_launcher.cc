@@ -89,8 +89,8 @@ void ChildLauncher::Start() {
 
 DWORD ChildLauncher::WaitForExit() {
   EXPECT_TRUE(process_handle_.is_valid());
-  EXPECT_EQ(WAIT_OBJECT_0,
-            WaitForSingleObject(process_handle_.get(), INFINITE));
+  EXPECT_EQ(WaitForSingleObject(process_handle_.get(), INFINITE),
+            WAIT_OBJECT_0);
   DWORD exit_code = 0;
   EXPECT_TRUE(GetExitCodeProcess(process_handle_.get(), &exit_code));
   process_handle_.reset();

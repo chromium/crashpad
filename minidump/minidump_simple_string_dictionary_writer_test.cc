@@ -51,13 +51,13 @@ TEST(MinidumpSimpleStringDictionaryWriter, EmptySimpleStringDictionary) {
   EXPECT_FALSE(dictionary_writer.IsUseful());
 
   EXPECT_TRUE(dictionary_writer.WriteEverything(&string_file));
-  ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary),
-            string_file.string().size());
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MinidumpSimpleStringDictionary));
 
   const MinidumpSimpleStringDictionary* dictionary =
       MinidumpSimpleStringDictionaryAtStart(string_file.string(), 0);
   ASSERT_TRUE(dictionary);
-  EXPECT_EQ(0u, dictionary->count);
+  EXPECT_EQ(dictionary->count, 0u);
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, EmptyKeyValue) {
@@ -71,23 +71,23 @@ TEST(MinidumpSimpleStringDictionaryWriter, EmptyKeyValue) {
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
   EXPECT_TRUE(dictionary_writer.WriteEverything(&string_file));
-  ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MinidumpSimpleStringDictionary) +
                 sizeof(MinidumpSimpleStringDictionaryEntry) +
-                2 * sizeof(MinidumpUTF8String) + 1 + 3 + 1,  // 3 for padding
-            string_file.string().size());
+                2 * sizeof(MinidumpUTF8String) + 1 + 3 + 1);  // 3 for padding
 
   const MinidumpSimpleStringDictionary* dictionary =
       MinidumpSimpleStringDictionaryAtStart(string_file.string(), 1);
   ASSERT_TRUE(dictionary);
-  EXPECT_EQ(1u, dictionary->count);
-  EXPECT_EQ(12u, dictionary->entries[0].key);
-  EXPECT_EQ(20u, dictionary->entries[0].value);
-  EXPECT_EQ("",
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[0].key));
-  EXPECT_EQ("",
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[0].value));
+  EXPECT_EQ(dictionary->count, 1u);
+  EXPECT_EQ(dictionary->entries[0].key, 12u);
+  EXPECT_EQ(dictionary->entries[0].value, 20u);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[0].key),
+            "");
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[0].value),
+            "");
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, OneKeyValue) {
@@ -105,23 +105,23 @@ TEST(MinidumpSimpleStringDictionaryWriter, OneKeyValue) {
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
   EXPECT_TRUE(dictionary_writer.WriteEverything(&string_file));
-  ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MinidumpSimpleStringDictionary) +
                 sizeof(MinidumpSimpleStringDictionaryEntry) +
-                2 * sizeof(MinidumpUTF8String) + sizeof(kKey) + sizeof(kValue),
-            string_file.string().size());
+                2 * sizeof(MinidumpUTF8String) + sizeof(kKey) + sizeof(kValue));
 
   const MinidumpSimpleStringDictionary* dictionary =
       MinidumpSimpleStringDictionaryAtStart(string_file.string(), 1);
   ASSERT_TRUE(dictionary);
-  EXPECT_EQ(1u, dictionary->count);
-  EXPECT_EQ(12u, dictionary->entries[0].key);
-  EXPECT_EQ(20u, dictionary->entries[0].value);
-  EXPECT_EQ(kKey,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[0].key));
-  EXPECT_EQ(kValue,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[0].value));
+  EXPECT_EQ(dictionary->count, 1u);
+  EXPECT_EQ(dictionary->entries[0].key, 12u);
+  EXPECT_EQ(dictionary->entries[0].value, 20u);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[0].key),
+            kKey);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[0].value),
+            kValue);
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
@@ -151,23 +151,23 @@ TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
   EXPECT_TRUE(dictionary_writer.WriteEverything(&string_file));
-  ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MinidumpSimpleStringDictionary) +
                 3 * sizeof(MinidumpSimpleStringDictionaryEntry) +
                 6 * sizeof(MinidumpUTF8String) + sizeof(kKey2) +
                 sizeof(kValue2) + 3 + sizeof(kKey0) + 1 + sizeof(kValue0) + 1 +
-                sizeof(kKey1) + 3 + sizeof(kValue1),
-            string_file.string().size());
+                sizeof(kKey1) + 3 + sizeof(kValue1));
 
   const MinidumpSimpleStringDictionary* dictionary =
       MinidumpSimpleStringDictionaryAtStart(string_file.string(), 3);
   ASSERT_TRUE(dictionary);
-  EXPECT_EQ(3u, dictionary->count);
-  EXPECT_EQ(28u, dictionary->entries[0].key);
-  EXPECT_EQ(36u, dictionary->entries[0].value);
-  EXPECT_EQ(48u, dictionary->entries[1].key);
-  EXPECT_EQ(56u, dictionary->entries[1].value);
-  EXPECT_EQ(68u, dictionary->entries[2].key);
-  EXPECT_EQ(80u, dictionary->entries[2].value);
+  EXPECT_EQ(dictionary->count, 3u);
+  EXPECT_EQ(dictionary->entries[0].key, 28u);
+  EXPECT_EQ(dictionary->entries[0].value, 36u);
+  EXPECT_EQ(dictionary->entries[1].key, 48u);
+  EXPECT_EQ(dictionary->entries[1].value, 56u);
+  EXPECT_EQ(dictionary->entries[2].key, 68u);
+  EXPECT_EQ(dictionary->entries[2].value, 80u);
 
   // The entries don’t appear in the order they were added. The current
   // implementation uses a std::map and sorts keys, so the entires appear in
@@ -175,24 +175,24 @@ TEST(MinidumpSimpleStringDictionaryWriter, ThreeKeysValues) {
   // if the writer stops sorting in this order. Testing for a specific order is
   // just the easiest way to write this test while the writer will output things
   // in a known order.
-  EXPECT_EQ(kKey2,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[0].key));
-  EXPECT_EQ(kValue2,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[0].value));
-  EXPECT_EQ(kKey0,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[1].key));
-  EXPECT_EQ(kValue0,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[1].value));
-  EXPECT_EQ(kKey1,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[2].key));
-  EXPECT_EQ(kValue1,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[2].value));
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[0].key),
+            kKey2);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[0].value),
+            kValue2);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[1].key),
+            kKey0);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[1].value),
+            kValue0);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[2].key),
+            kKey1);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[2].value),
+            kValue1);
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, DuplicateKeyValue) {
@@ -215,23 +215,24 @@ TEST(MinidumpSimpleStringDictionaryWriter, DuplicateKeyValue) {
   EXPECT_TRUE(dictionary_writer.IsUseful());
 
   EXPECT_TRUE(dictionary_writer.WriteEverything(&string_file));
-  ASSERT_EQ(sizeof(MinidumpSimpleStringDictionary) +
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MinidumpSimpleStringDictionary) +
                 sizeof(MinidumpSimpleStringDictionaryEntry) +
-                2 * sizeof(MinidumpUTF8String) + sizeof(kKey) + sizeof(kValue1),
-            string_file.string().size());
+                2 * sizeof(MinidumpUTF8String) + sizeof(kKey) +
+                sizeof(kValue1));
 
   const MinidumpSimpleStringDictionary* dictionary =
       MinidumpSimpleStringDictionaryAtStart(string_file.string(), 1);
   ASSERT_TRUE(dictionary);
-  EXPECT_EQ(1u, dictionary->count);
-  EXPECT_EQ(12u, dictionary->entries[0].key);
-  EXPECT_EQ(20u, dictionary->entries[0].value);
-  EXPECT_EQ(kKey,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[0].key));
-  EXPECT_EQ(kValue1,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[0].value));
+  EXPECT_EQ(dictionary->count, 1u);
+  EXPECT_EQ(dictionary->entries[0].key, 12u);
+  EXPECT_EQ(dictionary->entries[0].value, 20u);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[0].key),
+            kKey);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[0].value),
+            kValue1);
 }
 
 TEST(MinidumpSimpleStringDictionaryWriter, InitializeFromMap) {
@@ -258,7 +259,7 @@ TEST(MinidumpSimpleStringDictionaryWriter, InitializeFromMap) {
   const MinidumpSimpleStringDictionary* dictionary =
       MinidumpSimpleStringDictionaryAtStart(string_file.string(), map.size());
   ASSERT_TRUE(dictionary);
-  ASSERT_EQ(3u, dictionary->count);
+  ASSERT_EQ(dictionary->count, 3u);
 
   // The entries don’t appear in the order they were added. The current
   // implementation uses a std::map and sorts keys, so the entires appear in
@@ -266,24 +267,24 @@ TEST(MinidumpSimpleStringDictionaryWriter, InitializeFromMap) {
   // if the writer stops sorting in this order. Testing for a specific order is
   // just the easiest way to write this test while the writer will output things
   // in a known order.
-  EXPECT_EQ(kKey1,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[0].key));
-  EXPECT_EQ(kValue1,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[0].value));
-  EXPECT_EQ(kKey0,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[1].key));
-  EXPECT_EQ(kValue0,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[1].value));
-  EXPECT_EQ(kKey2,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[2].key));
-  EXPECT_EQ(kValue2,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            dictionary->entries[2].value));
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[0].key),
+            kKey1);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[0].value),
+            kValue1);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[1].key),
+            kKey0);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[1].value),
+            kValue0);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[2].key),
+            kKey2);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            dictionary->entries[2].value),
+            kValue2);
 }
 
 }  // namespace

@@ -38,7 +38,7 @@ TEST(ProcessReaderWin, SelfBasic) {
   EXPECT_TRUE(process_reader.Is64Bit());
 #endif
 
-  EXPECT_EQ(GetCurrentProcessId(), process_reader.GetProcessInfo().ProcessID());
+  EXPECT_EQ(process_reader.GetProcessInfo().ProcessID(), GetCurrentProcessId());
 
   const char kTestMemory[] = "Some test memory";
   char buffer[arraysize(kTestMemory)];
@@ -74,7 +74,7 @@ class ProcessReaderChild final : public WinMultiprocess {
     char buffer[sizeof(kTestMemory)];
     ASSERT_TRUE(
         process_reader.ReadMemory(address, sizeof(kTestMemory), &buffer));
-    EXPECT_EQ(0, strcmp(kTestMemory, buffer));
+    EXPECT_EQ(strcmp(kTestMemory, buffer), 0);
   }
 
   void WinMultiprocessChild() override {
@@ -106,14 +106,14 @@ TEST(ProcessReaderWin, SelfOneThread) {
   // thread, not exactly one thread.
   ASSERT_GE(threads.size(), 1u);
 
-  EXPECT_EQ(GetCurrentThreadId(), threads[0].id);
+  EXPECT_EQ(threads[0].id, GetCurrentThreadId());
 #if defined(ARCH_CPU_64_BITS)
-  EXPECT_NE(0, threads[0].context.native.Rip);
+  EXPECT_NE(threads[0].context.native.Rip, 0);
 #else
-  EXPECT_NE(0u, threads[0].context.native.Eip);
+  EXPECT_NE(threads[0].context.native.Eip, 0u);
 #endif
 
-  EXPECT_EQ(0, threads[0].suspend_count);
+  EXPECT_EQ(threads[0].suspend_count, 0);
 }
 
 class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
@@ -143,7 +143,7 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
   void WinMultiprocessParent() override {
     char c;
     CheckedReadFileExactly(ReadPipeHandle(), &c, sizeof(c));
-    ASSERT_EQ(' ', c);
+    ASSERT_EQ(c, ' ');
 
     {
       ProcessReaderWin process_reader;
@@ -153,7 +153,7 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
       const auto& threads = process_reader.Threads();
       ASSERT_GE(threads.size(), kCreatedThreads + 1);
       for (const auto& thread : threads)
-        EXPECT_EQ(0u, thread.suspend_count);
+        EXPECT_EQ(thread.suspend_count, 0u);
     }
 
     {
@@ -168,7 +168,7 @@ class ProcessReaderChildThreadSuspendCount final : public WinMultiprocess {
       const auto& threads = process_reader.Threads();
       ASSERT_GE(threads.size(), kCreatedThreads + 1);
       for (const auto& thread : threads)
-        EXPECT_EQ(0u, thread.suspend_count);
+        EXPECT_EQ(thread.suspend_count, 0u);
     }
   }
 

@@ -71,15 +71,15 @@ class TestExcClientVariants : public MachMultiprocess,
     EXPECT_FALSE(handled_);
     handled_ = true;
 
-    EXPECT_EQ(behavior_, behavior);
-    EXPECT_EQ(LocalPort(), exception_port);
+    EXPECT_EQ(behavior, behavior_);
+    EXPECT_EQ(exception_port, LocalPort());
 
     if (HasIdentity()) {
-      EXPECT_NE(THREAD_NULL, thread);
-      EXPECT_EQ(ChildTask(), task);
+      EXPECT_NE(thread, THREAD_NULL);
+      EXPECT_EQ(task, ChildTask());
     } else {
-      EXPECT_EQ(THREAD_NULL, thread);
-      EXPECT_EQ(TASK_NULL, task);
+      EXPECT_EQ(thread, THREAD_NULL);
+      EXPECT_EQ(task, TASK_NULL);
     }
 
     mach_exception_code_t expect_code = exception_code_;
@@ -89,29 +89,29 @@ class TestExcClientVariants : public MachMultiprocess,
       expect_subcode = implicit_cast<exception_data_type_t>(expect_subcode);
     }
 
-    EXPECT_EQ(exception_, exception);
-    EXPECT_EQ(2u, code_count);
+    EXPECT_EQ(exception, exception_);
+    EXPECT_EQ(code_count, 2u);
 
     // The code_count check above would ideally use ASSERT_EQ so that the next
     // conditionals would not be necessary, but ASSERT_* requires a function
     // returning type void, and the interface dictates otherwise here.
     if (code_count >= 1) {
-      EXPECT_EQ(expect_code, code[0]);
+      EXPECT_EQ(code[0], expect_code);
     }
     if (code_count >= 2) {
-      EXPECT_EQ(expect_subcode, code[1]);
+      EXPECT_EQ(code[1], expect_subcode);
     }
 
     if (HasState()) {
-      EXPECT_EQ(exception_ + 10, *flavor);
-      EXPECT_EQ(MACHINE_THREAD_STATE_COUNT, old_state_count);
-      EXPECT_NE(nullptr, old_state);
-      EXPECT_EQ(implicit_cast<mach_msg_type_number_t>(THREAD_STATE_MAX),
-                *new_state_count);
-      EXPECT_NE(nullptr, new_state);
+      EXPECT_EQ(*flavor, exception_ + 10);
+      EXPECT_EQ(old_state_count, MACHINE_THREAD_STATE_COUNT);
+      EXPECT_NE(old_state, nullptr);
+      EXPECT_EQ(*new_state_count,
+                implicit_cast<mach_msg_type_number_t>(THREAD_STATE_MAX));
+      EXPECT_NE(new_state, nullptr);
 
       for (size_t index = 0; index < old_state_count; ++index) {
-        EXPECT_EQ(index, old_state[index]);
+        EXPECT_EQ(old_state[index], index);
       }
 
       // Use a flavor known to be different from the incoming flavor, for a test
@@ -124,11 +124,11 @@ class TestExcClientVariants : public MachMultiprocess,
         new_state[index] = MACHINE_THREAD_STATE_COUNT - index;
       }
     } else {
-      EXPECT_EQ(THREAD_STATE_NONE, *flavor);
-      EXPECT_EQ(0u, old_state_count);
-      EXPECT_EQ(nullptr, old_state);
-      EXPECT_EQ(0u, *new_state_count);
-      EXPECT_EQ(nullptr, new_state);
+      EXPECT_EQ(*flavor, THREAD_STATE_NONE);
+      EXPECT_EQ(old_state_count, 0u);
+      EXPECT_EQ(old_state, nullptr);
+      EXPECT_EQ(*new_state_count, 0u);
+      EXPECT_EQ(new_state, nullptr);
     }
 
     return KERN_SUCCESS;
@@ -147,7 +147,7 @@ class TestExcClientVariants : public MachMultiprocess,
                                MachMessageServer::kOneShot,
                                MachMessageServer::kReceiveLargeError,
                                kMachMessageTimeoutWaitIndefinitely);
-    EXPECT_EQ(KERN_SUCCESS, kr)
+    EXPECT_EQ(kr, KERN_SUCCESS)
         << MachErrorMessage(kr, "MachMessageServer::Run");
 
     EXPECT_TRUE(handled_);
@@ -196,27 +196,28 @@ class TestExcClientVariants : public MachMultiprocess,
       new_state_count_p = &new_state_count;
     }
 
-    EXPECT_EQ(KERN_SUCCESS, UniversalExceptionRaise(behavior_,
-                                                    RemotePort(),
-                                                    thread,
-                                                    task,
-                                                    exception,
-                                                    code,
-                                                    arraysize(code),
-                                                    flavor_p,
-                                                    old_state_p,
-                                                    old_state_count,
-                                                    new_state_p,
-                                                    new_state_count_p));
+    EXPECT_EQ(UniversalExceptionRaise(behavior_,
+                                      RemotePort(),
+                                      thread,
+                                      task,
+                                      exception,
+                                      code,
+                                      arraysize(code),
+                                      flavor_p,
+                                      old_state_p,
+                                      old_state_count,
+                                      new_state_p,
+                                      new_state_count_p),
+              KERN_SUCCESS);
 
     if (HasState()) {
       // Verify the out parameters.
 
-      EXPECT_EQ(exception_ + 20, flavor);
-      EXPECT_EQ(MACHINE_THREAD_STATE_COUNT, new_state_count);
+      EXPECT_EQ(flavor, exception_ + 20);
+      EXPECT_EQ(new_state_count, MACHINE_THREAD_STATE_COUNT);
 
       for (size_t index = 0; index < new_state_count; ++index) {
-        EXPECT_EQ(MACHINE_THREAD_STATE_COUNT - index, new_state[index]);
+        EXPECT_EQ(new_state[index], MACHINE_THREAD_STATE_COUNT - index);
       }
     }
   }

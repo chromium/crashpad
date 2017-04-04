@@ -49,17 +49,17 @@ class CrashReportDatabaseTest : public testing::Test {
 
   void CreateCrashReport(CrashReportDatabase::Report* report) {
     CrashReportDatabase::NewReport* new_report = nullptr;
-    ASSERT_EQ(CrashReportDatabase::kNoError,
-              db_->PrepareNewCrashReport(&new_report));
+    ASSERT_EQ(db_->PrepareNewCrashReport(&new_report),
+              CrashReportDatabase::kNoError);
     const char kTest[] = "test";
     ASSERT_TRUE(LoggingWriteFile(new_report->handle, kTest, sizeof(kTest)));
 
     UUID uuid;
-    EXPECT_EQ(CrashReportDatabase::kNoError,
-              db_->FinishedWritingCrashReport(new_report, &uuid));
+    EXPECT_EQ(db_->FinishedWritingCrashReport(new_report, &uuid),
+              CrashReportDatabase::kNoError);
 
-    EXPECT_EQ(CrashReportDatabase::kNoError,
-              db_->LookUpCrashReport(uuid, report));
+    EXPECT_EQ(db_->LookUpCrashReport(uuid, report),
+              CrashReportDatabase::kNoError);
     ExpectPreparedCrashReport(*report);
     ASSERT_TRUE(FileExists(report->file_path));
   }
@@ -71,14 +71,14 @@ class CrashReportDatabaseTest : public testing::Test {
     ASSERT_TRUE(settings->GetLastUploadAttemptTime(&times[0]));
 
     const CrashReportDatabase::Report* report = nullptr;
-    ASSERT_EQ(CrashReportDatabase::kNoError,
-              db_->GetReportForUploading(uuid, &report));
-    EXPECT_NE(UUID(), report->uuid);
+    ASSERT_EQ(db_->GetReportForUploading(uuid, &report),
+              CrashReportDatabase::kNoError);
+    EXPECT_NE(report->uuid, UUID());
     EXPECT_FALSE(report->file_path.empty());
     EXPECT_TRUE(FileExists(report->file_path)) << report->file_path.value();
     EXPECT_GT(report->creation_time, 0);
-    EXPECT_EQ(CrashReportDatabase::kNoError,
-              db_->RecordUploadAttempt(report, successful, id));
+    EXPECT_EQ(db_->RecordUploadAttempt(report, successful, id),
+              CrashReportDatabase::kNoError);
 
     ASSERT_TRUE(settings->GetLastUploadAttemptTime(&times[1]));
     EXPECT_NE(times[1], 0);
@@ -86,14 +86,14 @@ class CrashReportDatabaseTest : public testing::Test {
   }
 
   void ExpectPreparedCrashReport(const CrashReportDatabase::Report& report) {
-    EXPECT_NE(UUID(), report.uuid);
+    EXPECT_NE(report.uuid, UUID());
     EXPECT_FALSE(report.file_path.empty());
     EXPECT_TRUE(FileExists(report.file_path)) << report.file_path.value();
     EXPECT_TRUE(report.id.empty());
     EXPECT_GT(report.creation_time, 0);
     EXPECT_FALSE(report.uploaded);
-    EXPECT_EQ(0, report.last_upload_attempt_time);
-    EXPECT_EQ(0, report.upload_attempts);
+    EXPECT_EQ(report.last_upload_attempt_time, 0);
+    EXPECT_EQ(report.upload_attempts, 0);
     EXPECT_FALSE(report.upload_explicitly_requested);
   }
 
@@ -107,8 +107,8 @@ class CrashReportDatabaseTest : public testing::Test {
     CrashReportDatabase::OperationStatus os = db()->RequestUpload(uuid);
 
     CrashReportDatabase::Report report;
-    EXPECT_EQ(CrashReportDatabase::kNoError,
-              db_->LookUpCrashReport(uuid, &report));
+    EXPECT_EQ(db_->LookUpCrashReport(uuid, &report),
+              CrashReportDatabase::kNoError);
 
     return os;
   }
@@ -132,7 +132,7 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
 
   time_t last_upload_attempt_time;
   ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
-  EXPECT_EQ(0, last_upload_attempt_time);
+  EXPECT_EQ(last_upload_attempt_time, 0);
 
   // Close and reopen the database at the same path.
   ResetDatabase();
@@ -143,10 +143,10 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
   settings = db->GetSettings();
 
   ASSERT_TRUE(settings->GetClientID(&client_ids[1]));
-  EXPECT_EQ(client_ids[0], client_ids[1]);
+  EXPECT_EQ(client_ids[1], client_ids[0]);
 
   ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
-  EXPECT_EQ(0, last_upload_attempt_time);
+  EXPECT_EQ(last_upload_attempt_time, 0);
 
   // Check that the database can also be opened by the method that is permitted
   // to create it.
@@ -156,16 +156,16 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
   settings = db->GetSettings();
 
   ASSERT_TRUE(settings->GetClientID(&client_ids[2]));
-  EXPECT_EQ(client_ids[0], client_ids[2]);
+  EXPECT_EQ(client_ids[2], client_ids[0]);
 
   ASSERT_TRUE(settings->GetLastUploadAttemptTime(&last_upload_attempt_time));
-  EXPECT_EQ(0, last_upload_attempt_time);
+  EXPECT_EQ(last_upload_attempt_time, 0);
 
   std::vector<CrashReportDatabase::Report> reports;
-  EXPECT_EQ(CrashReportDatabase::kNoError, db->GetPendingReports(&reports));
+  EXPECT_EQ(db->GetPendingReports(&reports), CrashReportDatabase::kNoError);
   EXPECT_TRUE(reports.empty());
   reports.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError, db->GetCompletedReports(&reports));
+  EXPECT_EQ(db->GetCompletedReports(&reports), CrashReportDatabase::kNoError);
   EXPECT_TRUE(reports.empty());
 
   // InitializeWithoutCreating() shouldn’t create a nonexistent database.
@@ -177,38 +177,38 @@ TEST_F(CrashReportDatabaseTest, Initialize) {
 
 TEST_F(CrashReportDatabaseTest, NewCrashReport) {
   CrashReportDatabase::NewReport* new_report;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->PrepareNewCrashReport(&new_report));
+  EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
   UUID expect_uuid = new_report->uuid;
   EXPECT_TRUE(FileExists(new_report->path)) << new_report->path.value();
   UUID uuid;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->FinishedWritingCrashReport(new_report, &uuid));
-  EXPECT_EQ(expect_uuid, uuid);
+  EXPECT_EQ(db()->FinishedWritingCrashReport(new_report, &uuid),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(uuid, expect_uuid);
 
   CrashReportDatabase::Report report;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(uuid, &report));
+  EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
+            CrashReportDatabase::kNoError);
   ExpectPreparedCrashReport(report);
 
   std::vector<CrashReportDatabase::Report> reports;
-  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&reports));
-  ASSERT_EQ(1u, reports.size());
-  EXPECT_EQ(report.uuid, reports[0].uuid);
+  EXPECT_EQ(db()->GetPendingReports(&reports), CrashReportDatabase::kNoError);
+  ASSERT_EQ(reports.size(), 1u);
+  EXPECT_EQ(reports[0].uuid, report.uuid);
 
   reports.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetCompletedReports(&reports));
+  EXPECT_EQ(db()->GetCompletedReports(&reports), CrashReportDatabase::kNoError);
   EXPECT_TRUE(reports.empty());
 }
 
 TEST_F(CrashReportDatabaseTest, ErrorWritingCrashReport) {
   CrashReportDatabase::NewReport* new_report = nullptr;
-  ASSERT_EQ(CrashReportDatabase::kNoError,
-            db()->PrepareNewCrashReport(&new_report));
+  ASSERT_EQ(db()->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
   base::FilePath new_report_path = new_report->path;
   EXPECT_TRUE(FileExists(new_report_path)) << new_report_path.value();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->ErrorWritingCrashReport(new_report));
+  EXPECT_EQ(db()->ErrorWritingCrashReport(new_report),
+            CrashReportDatabase::kNoError);
   EXPECT_FALSE(FileExists(new_report_path)) << new_report_path.value();
 }
 
@@ -223,14 +223,14 @@ TEST_F(CrashReportDatabaseTest, LookUpCrashReport) {
 
   {
     CrashReportDatabase::Report report;
-    EXPECT_EQ(CrashReportDatabase::kNoError,
-              db()->LookUpCrashReport(uuid, &report));
-    EXPECT_EQ(uuid, report.uuid);
-    EXPECT_NE(std::string::npos, report.file_path.value().find(path().value()));
-    EXPECT_EQ(std::string(), report.id);
+    EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
+              CrashReportDatabase::kNoError);
+    EXPECT_EQ(report.uuid, uuid);
+    EXPECT_NE(report.file_path.value().find(path().value()), std::string::npos);
+    EXPECT_EQ(report.id, std::string());
     EXPECT_FALSE(report.uploaded);
-    EXPECT_EQ(0, report.last_upload_attempt_time);
-    EXPECT_EQ(0, report.upload_attempts);
+    EXPECT_EQ(report.last_upload_attempt_time, 0);
+    EXPECT_EQ(report.upload_attempts, 0);
     EXPECT_FALSE(report.upload_explicitly_requested);
   }
 
@@ -238,14 +238,14 @@ TEST_F(CrashReportDatabaseTest, LookUpCrashReport) {
 
   {
     CrashReportDatabase::Report report;
-    EXPECT_EQ(CrashReportDatabase::kNoError,
-              db()->LookUpCrashReport(uuid, &report));
-    EXPECT_EQ(uuid, report.uuid);
-    EXPECT_NE(std::string::npos, report.file_path.value().find(path().value()));
-    EXPECT_EQ("test", report.id);
+    EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
+              CrashReportDatabase::kNoError);
+    EXPECT_EQ(report.uuid, uuid);
+    EXPECT_NE(report.file_path.value().find(path().value()), std::string::npos);
+    EXPECT_EQ(report.id, "test");
     EXPECT_TRUE(report.uploaded);
-    EXPECT_NE(0, report.last_upload_attempt_time);
-    EXPECT_EQ(1, report.upload_attempts);
+    EXPECT_NE(report.last_upload_attempt_time, 0);
+    EXPECT_EQ(report.upload_attempts, 1);
     EXPECT_FALSE(report.upload_explicitly_requested);
   }
 }
@@ -261,76 +261,76 @@ TEST_F(CrashReportDatabaseTest, RecordUploadAttempt) {
   UploadReport(reports[2].uuid, true, "abc123");
 
   std::vector<CrashReportDatabase::Report> query(3);
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(reports[0].uuid, &query[0]));
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(reports[1].uuid, &query[1]));
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(reports[2].uuid, &query[2]));
+  EXPECT_EQ(db()->LookUpCrashReport(reports[0].uuid, &query[0]),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(db()->LookUpCrashReport(reports[1].uuid, &query[1]),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(db()->LookUpCrashReport(reports[2].uuid, &query[2]),
+            CrashReportDatabase::kNoError);
 
-  EXPECT_EQ(std::string(), query[0].id);
-  EXPECT_EQ(std::string(), query[1].id);
-  EXPECT_EQ("abc123", query[2].id);
+  EXPECT_EQ(query[0].id, std::string());
+  EXPECT_EQ(query[1].id, std::string());
+  EXPECT_EQ(query[2].id, "abc123");
 
   EXPECT_FALSE(query[0].uploaded);
   EXPECT_FALSE(query[1].uploaded);
   EXPECT_TRUE(query[2].uploaded);
 
-  EXPECT_EQ(0, query[0].last_upload_attempt_time);
-  EXPECT_NE(0, query[1].last_upload_attempt_time);
-  EXPECT_NE(0, query[2].last_upload_attempt_time);
+  EXPECT_EQ(query[0].last_upload_attempt_time, 0);
+  EXPECT_NE(query[1].last_upload_attempt_time, 0);
+  EXPECT_NE(query[2].last_upload_attempt_time, 0);
 
-  EXPECT_EQ(0, query[0].upload_attempts);
-  EXPECT_EQ(1, query[1].upload_attempts);
-  EXPECT_EQ(1, query[2].upload_attempts);
+  EXPECT_EQ(query[0].upload_attempts, 0);
+  EXPECT_EQ(query[1].upload_attempts, 1);
+  EXPECT_EQ(query[2].upload_attempts, 1);
 
   // Attempt to upload and fail again.
   UploadReport(reports[1].uuid, false, std::string());
 
   time_t report_2_upload_time = query[2].last_upload_attempt_time;
 
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(reports[0].uuid, &query[0]));
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(reports[1].uuid, &query[1]));
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(reports[2].uuid, &query[2]));
+  EXPECT_EQ(db()->LookUpCrashReport(reports[0].uuid, &query[0]),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(db()->LookUpCrashReport(reports[1].uuid, &query[1]),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(db()->LookUpCrashReport(reports[2].uuid, &query[2]),
+            CrashReportDatabase::kNoError);
 
   EXPECT_FALSE(query[0].uploaded);
   EXPECT_FALSE(query[1].uploaded);
   EXPECT_TRUE(query[2].uploaded);
 
-  EXPECT_EQ(0, query[0].last_upload_attempt_time);
+  EXPECT_EQ(query[0].last_upload_attempt_time, 0);
   EXPECT_GE(query[1].last_upload_attempt_time, report_2_upload_time);
-  EXPECT_EQ(report_2_upload_time, query[2].last_upload_attempt_time);
+  EXPECT_EQ(query[2].last_upload_attempt_time, report_2_upload_time);
 
-  EXPECT_EQ(0, query[0].upload_attempts);
-  EXPECT_EQ(2, query[1].upload_attempts);
-  EXPECT_EQ(1, query[2].upload_attempts);
+  EXPECT_EQ(query[0].upload_attempts, 0);
+  EXPECT_EQ(query[1].upload_attempts, 2);
+  EXPECT_EQ(query[2].upload_attempts, 1);
 
   // Third time's the charm: upload and succeed.
   UploadReport(reports[1].uuid, true, "666hahaha");
 
   time_t report_1_upload_time = query[1].last_upload_attempt_time;
 
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(reports[0].uuid, &query[0]));
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(reports[1].uuid, &query[1]));
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(reports[2].uuid, &query[2]));
+  EXPECT_EQ(db()->LookUpCrashReport(reports[0].uuid, &query[0]),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(db()->LookUpCrashReport(reports[1].uuid, &query[1]),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(db()->LookUpCrashReport(reports[2].uuid, &query[2]),
+            CrashReportDatabase::kNoError);
 
   EXPECT_FALSE(query[0].uploaded);
   EXPECT_TRUE(query[1].uploaded);
   EXPECT_TRUE(query[2].uploaded);
 
-  EXPECT_EQ(0, query[0].last_upload_attempt_time);
+  EXPECT_EQ(query[0].last_upload_attempt_time, 0);
   EXPECT_GE(query[1].last_upload_attempt_time, report_1_upload_time);
-  EXPECT_EQ(report_2_upload_time, query[2].last_upload_attempt_time);
+  EXPECT_EQ(query[2].last_upload_attempt_time, report_2_upload_time);
 
-  EXPECT_EQ(0, query[0].upload_attempts);
-  EXPECT_EQ(3, query[1].upload_attempts);
-  EXPECT_EQ(1, query[2].upload_attempts);
+  EXPECT_EQ(query[0].upload_attempts, 0);
+  EXPECT_EQ(query[1].upload_attempts, 3);
+  EXPECT_EQ(query[2].upload_attempts, 1);
 }
 
 // This test covers both query functions since they are related.
@@ -349,52 +349,52 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   const UUID& report_4_uuid = reports[4].uuid;
 
   std::vector<CrashReportDatabase::Report> pending;
-  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
+  EXPECT_EQ(db()->GetPendingReports(&pending), CrashReportDatabase::kNoError);
 
   std::vector<CrashReportDatabase::Report> completed;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetCompletedReports(&completed));
+  EXPECT_EQ(db()->GetCompletedReports(&completed),
+            CrashReportDatabase::kNoError);
 
-  EXPECT_EQ(reports.size(), pending.size());
-  EXPECT_EQ(0u, completed.size());
+  EXPECT_EQ(pending.size(), reports.size());
+  EXPECT_EQ(completed.size(), 0u);
 
   // Upload one report successfully.
   UploadReport(report_1_uuid, true, "report1");
 
   pending.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
+  EXPECT_EQ(db()->GetPendingReports(&pending), CrashReportDatabase::kNoError);
   completed.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetCompletedReports(&completed));
+  EXPECT_EQ(db()->GetCompletedReports(&completed),
+            CrashReportDatabase::kNoError);
 
-  EXPECT_EQ(4u, pending.size());
-  ASSERT_EQ(1u, completed.size());
+  EXPECT_EQ(pending.size(), 4u);
+  ASSERT_EQ(completed.size(), 1u);
 
   for (const auto& report : pending) {
-    EXPECT_NE(report_1_uuid, report.uuid);
+    EXPECT_NE(report.uuid, report_1_uuid);
     EXPECT_FALSE(report.file_path.empty());
   }
-  EXPECT_EQ(report_1_uuid, completed[0].uuid);
-  EXPECT_EQ("report1", completed[0].id);
-  EXPECT_EQ(true, completed[0].uploaded);
+  EXPECT_EQ(completed[0].uuid, report_1_uuid);
+  EXPECT_EQ(completed[0].id, "report1");
+  EXPECT_EQ(completed[0].uploaded, true);
   EXPECT_GT(completed[0].last_upload_attempt_time, 0);
-  EXPECT_EQ(1, completed[0].upload_attempts);
+  EXPECT_EQ(completed[0].upload_attempts, 1);
 
   // Fail to upload one report.
   UploadReport(report_2_uuid, false, std::string());
 
   pending.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
+  EXPECT_EQ(db()->GetPendingReports(&pending), CrashReportDatabase::kNoError);
   completed.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetCompletedReports(&completed));
+  EXPECT_EQ(db()->GetCompletedReports(&completed),
+            CrashReportDatabase::kNoError);
 
-  EXPECT_EQ(4u, pending.size());
-  ASSERT_EQ(1u, completed.size());
+  EXPECT_EQ(pending.size(), 4u);
+  ASSERT_EQ(completed.size(), 1u);
 
   for (const auto& report : pending) {
     if (report.upload_attempts != 0) {
-      EXPECT_EQ(report_2_uuid, report.uuid);
+      EXPECT_EQ(report.uuid, report_2_uuid);
       EXPECT_GT(report.last_upload_attempt_time, 0);
       EXPECT_FALSE(report.uploaded);
       EXPECT_TRUE(report.id.empty());
@@ -406,25 +406,25 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   UploadReport(report_4_uuid, true, "report_4");
 
   pending.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
+  EXPECT_EQ(db()->GetPendingReports(&pending), CrashReportDatabase::kNoError);
   completed.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetCompletedReports(&completed));
+  EXPECT_EQ(db()->GetCompletedReports(&completed),
+            CrashReportDatabase::kNoError);
 
-  EXPECT_EQ(3u, pending.size());
-  ASSERT_EQ(2u, completed.size());
+  EXPECT_EQ(pending.size(), 3u);
+  ASSERT_EQ(completed.size(), 2u);
 
   // Succeed the failed report.
   UploadReport(report_2_uuid, true, "report 2");
 
   pending.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
+  EXPECT_EQ(db()->GetPendingReports(&pending), CrashReportDatabase::kNoError);
   completed.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetCompletedReports(&completed));
+  EXPECT_EQ(db()->GetCompletedReports(&completed),
+            CrashReportDatabase::kNoError);
 
-  EXPECT_EQ(2u, pending.size());
-  ASSERT_EQ(3u, completed.size());
+  EXPECT_EQ(pending.size(), 2u);
+  ASSERT_EQ(completed.size(), 3u);
 
   for (const auto& report : pending) {
     EXPECT_TRUE(report.uuid == report_0_uuid || report.uuid == report_3_uuid);
@@ -432,26 +432,26 @@ TEST_F(CrashReportDatabaseTest, GetCompletedAndNotUploadedReports) {
   }
 
   // Skip upload for one report.
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->SkipReportUpload(
-                report_3_uuid, Metrics::CrashSkippedReason::kUploadsDisabled));
+  EXPECT_EQ(db()->SkipReportUpload(
+                report_3_uuid, Metrics::CrashSkippedReason::kUploadsDisabled),
+            CrashReportDatabase::kNoError);
 
   pending.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError, db()->GetPendingReports(&pending));
+  EXPECT_EQ(db()->GetPendingReports(&pending), CrashReportDatabase::kNoError);
   completed.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetCompletedReports(&completed));
+  EXPECT_EQ(db()->GetCompletedReports(&completed),
+            CrashReportDatabase::kNoError);
 
-  ASSERT_EQ(1u, pending.size());
-  ASSERT_EQ(4u, completed.size());
+  ASSERT_EQ(pending.size(), 1u);
+  ASSERT_EQ(completed.size(), 4u);
 
-  EXPECT_EQ(report_0_uuid, pending[0].uuid);
+  EXPECT_EQ(pending[0].uuid, report_0_uuid);
 
   for (const auto& report : completed) {
     if (report.uuid == report_3_uuid) {
       EXPECT_FALSE(report.uploaded);
-      EXPECT_EQ(0, report.upload_attempts);
-      EXPECT_EQ(0, report.last_upload_attempt_time);
+      EXPECT_EQ(report.upload_attempts, 0);
+      EXPECT_EQ(report.last_upload_attempt_time, 0);
     } else {
       EXPECT_TRUE(report.uploaded);
       EXPECT_GT(report.upload_attempts, 0);
@@ -466,58 +466,58 @@ TEST_F(CrashReportDatabaseTest, DuelingUploads) {
   CreateCrashReport(&report);
 
   const CrashReportDatabase::Report* upload_report;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->GetReportForUploading(report.uuid, &upload_report));
+  EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report),
+            CrashReportDatabase::kNoError);
 
   const CrashReportDatabase::Report* upload_report_2 = nullptr;
-  EXPECT_EQ(CrashReportDatabase::kBusyError,
-            db()->GetReportForUploading(report.uuid, &upload_report_2));
+  EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report_2),
+            CrashReportDatabase::kBusyError);
   EXPECT_FALSE(upload_report_2);
 
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->RecordUploadAttempt(upload_report, true, std::string()));
+  EXPECT_EQ(db()->RecordUploadAttempt(upload_report, true, std::string()),
+            CrashReportDatabase::kNoError);
 }
 
 TEST_F(CrashReportDatabaseTest, MoveDatabase) {
   CrashReportDatabase::NewReport* new_report;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->PrepareNewCrashReport(&new_report));
+  EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
   EXPECT_TRUE(FileExists(new_report->path)) << new_report->path.value();
   UUID uuid;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->FinishedWritingCrashReport(new_report, &uuid));
+  EXPECT_EQ(db()->FinishedWritingCrashReport(new_report, &uuid),
+            CrashReportDatabase::kNoError);
 
   RelocateDatabase();
 
   CrashReportDatabase::Report report;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(uuid, &report));
+  EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
+            CrashReportDatabase::kNoError);
   ExpectPreparedCrashReport(report);
   EXPECT_TRUE(FileExists(report.file_path)) << report.file_path.value();
 }
 
 TEST_F(CrashReportDatabaseTest, ReportRemoved) {
   CrashReportDatabase::NewReport* new_report;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->PrepareNewCrashReport(&new_report));
+  EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
+            CrashReportDatabase::kNoError);
   EXPECT_TRUE(FileExists(new_report->path)) << new_report->path.value();
   UUID uuid;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->FinishedWritingCrashReport(new_report, &uuid));
+  EXPECT_EQ(db()->FinishedWritingCrashReport(new_report, &uuid),
+            CrashReportDatabase::kNoError);
 
   CrashReportDatabase::Report report;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(uuid, &report));
+  EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
+            CrashReportDatabase::kNoError);
 
 #if defined(OS_WIN)
-  EXPECT_EQ(0, _wunlink(report.file_path.value().c_str()));
+  EXPECT_EQ(_wunlink(report.file_path.value().c_str()), 0);
 #else
-  EXPECT_EQ(0, unlink(report.file_path.value().c_str()))
+  EXPECT_EQ(unlink(report.file_path.value().c_str()), 0)
       << ErrnoMessage("unlink");
 #endif
 
-  EXPECT_EQ(CrashReportDatabase::kReportNotFound,
-            db()->LookUpCrashReport(uuid, &report));
+  EXPECT_EQ(db()->LookUpCrashReport(uuid, &report),
+            CrashReportDatabase::kReportNotFound);
 }
 
 TEST_F(CrashReportDatabaseTest, DeleteReport) {
@@ -539,34 +539,34 @@ TEST_F(CrashReportDatabaseTest, DeleteReport) {
   UploadReport(keep_completed.uuid, true, "1");
   UploadReport(delete_completed.uuid, true, "2");
 
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(keep_completed.uuid, &keep_completed));
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(delete_completed.uuid, &delete_completed));
+  EXPECT_EQ(db()->LookUpCrashReport(keep_completed.uuid, &keep_completed),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(db()->LookUpCrashReport(delete_completed.uuid, &delete_completed),
+            CrashReportDatabase::kNoError);
 
   EXPECT_TRUE(FileExists(keep_completed.file_path));
   EXPECT_TRUE(FileExists(delete_completed.file_path));
 
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->DeleteReport(delete_pending.uuid));
+  EXPECT_EQ(db()->DeleteReport(delete_pending.uuid),
+            CrashReportDatabase::kNoError);
   EXPECT_FALSE(FileExists(delete_pending.file_path));
-  EXPECT_EQ(CrashReportDatabase::kReportNotFound,
-            db()->LookUpCrashReport(delete_pending.uuid, &delete_pending));
-  EXPECT_EQ(CrashReportDatabase::kReportNotFound,
-            db()->DeleteReport(delete_pending.uuid));
+  EXPECT_EQ(db()->LookUpCrashReport(delete_pending.uuid, &delete_pending),
+            CrashReportDatabase::kReportNotFound);
+  EXPECT_EQ(db()->DeleteReport(delete_pending.uuid),
+            CrashReportDatabase::kReportNotFound);
 
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->DeleteReport(delete_completed.uuid));
+  EXPECT_EQ(db()->DeleteReport(delete_completed.uuid),
+            CrashReportDatabase::kNoError);
   EXPECT_FALSE(FileExists(delete_completed.file_path));
-  EXPECT_EQ(CrashReportDatabase::kReportNotFound,
-            db()->LookUpCrashReport(delete_completed.uuid, &delete_completed));
-  EXPECT_EQ(CrashReportDatabase::kReportNotFound,
-            db()->DeleteReport(delete_completed.uuid));
+  EXPECT_EQ(db()->LookUpCrashReport(delete_completed.uuid, &delete_completed),
+            CrashReportDatabase::kReportNotFound);
+  EXPECT_EQ(db()->DeleteReport(delete_completed.uuid),
+            CrashReportDatabase::kReportNotFound);
 
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(keep_pending.uuid, &keep_pending));
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(keep_completed.uuid, &keep_completed));
+  EXPECT_EQ(db()->LookUpCrashReport(keep_pending.uuid, &keep_pending),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(db()->LookUpCrashReport(keep_completed.uuid, &keep_completed),
+            CrashReportDatabase::kNoError);
 }
 
 TEST_F(CrashReportDatabaseTest, DeleteReportEmptyingDatabase) {
@@ -577,20 +577,20 @@ TEST_F(CrashReportDatabaseTest, DeleteReportEmptyingDatabase) {
 
   UploadReport(report.uuid, true, "1");
 
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(report.uuid, &report));
+  EXPECT_EQ(db()->LookUpCrashReport(report.uuid, &report),
+            CrashReportDatabase::kNoError);
 
   EXPECT_TRUE(FileExists(report.file_path));
 
   // This causes an empty database to be written, make sure this is handled.
-  EXPECT_EQ(CrashReportDatabase::kNoError, db()->DeleteReport(report.uuid));
+  EXPECT_EQ(db()->DeleteReport(report.uuid), CrashReportDatabase::kNoError);
   EXPECT_FALSE(FileExists(report.file_path));
 }
 
 TEST_F(CrashReportDatabaseTest, ReadEmptyDatabase) {
   CrashReportDatabase::Report report;
   CreateCrashReport(&report);
-  EXPECT_EQ(CrashReportDatabase::kNoError, db()->DeleteReport(report.uuid));
+  EXPECT_EQ(db()->DeleteReport(report.uuid), CrashReportDatabase::kNoError);
 
   // Deleting and the creating another report causes an empty database to be
   // loaded. Make sure this is handled.
@@ -608,22 +608,22 @@ TEST_F(CrashReportDatabaseTest, RequestUpload) {
   const UUID& report_1_uuid = reports[1].uuid;
 
   // Skipped report gets back to pending state after RequestUpload is called.
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->SkipReportUpload(
-                report_1_uuid, Metrics::CrashSkippedReason::kUploadsDisabled));
+  EXPECT_EQ(db()->SkipReportUpload(
+                report_1_uuid, Metrics::CrashSkippedReason::kUploadsDisabled),
+            CrashReportDatabase::kNoError);
 
   std::vector<CrashReportDatabase::Report> pending_reports;
   CrashReportDatabase::OperationStatus os =
       db()->GetPendingReports(&pending_reports);
-  EXPECT_EQ(CrashReportDatabase::kNoError, os);
-  ASSERT_EQ(1u, pending_reports.size());
-  EXPECT_EQ(pending_reports[0].uuid, report_0_uuid);
+  EXPECT_EQ(os, CrashReportDatabase::kNoError);
+  ASSERT_EQ(pending_reports.size(), 1u);
+  EXPECT_EQ(report_0_uuid, pending_reports[0].uuid);
 
   pending_reports.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError, RequestUpload(report_1_uuid));
+  EXPECT_EQ(RequestUpload(report_1_uuid), CrashReportDatabase::kNoError);
   os = db()->GetPendingReports(&pending_reports);
-  EXPECT_EQ(CrashReportDatabase::kNoError, os);
-  ASSERT_EQ(2u, pending_reports.size());
+  EXPECT_EQ(os, CrashReportDatabase::kNoError);
+  ASSERT_EQ(pending_reports.size(), 2u);
 
   // Check individual reports.
   const CrashReportDatabase::Report* expicitly_requested_report;
@@ -636,35 +636,35 @@ TEST_F(CrashReportDatabaseTest, RequestUpload) {
     expicitly_requested_report = &pending_reports[0];
   }
 
-  EXPECT_EQ(report_0_uuid, pending_report->uuid);
+  EXPECT_EQ(pending_report->uuid, report_0_uuid);
   EXPECT_FALSE(pending_report->upload_explicitly_requested);
 
-  EXPECT_EQ(report_1_uuid, expicitly_requested_report->uuid);
+  EXPECT_EQ(expicitly_requested_report->uuid, report_1_uuid);
   EXPECT_TRUE(expicitly_requested_report->upload_explicitly_requested);
 
   // Explicitly requested reports will not have upload_explicitly_requested bit
   // after getting skipped.
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->SkipReportUpload(
-                report_1_uuid, Metrics::CrashSkippedReason::kUploadsDisabled));
+  EXPECT_EQ(db()->SkipReportUpload(
+                report_1_uuid, Metrics::CrashSkippedReason::kUploadsDisabled),
+            CrashReportDatabase::kNoError);
   CrashReportDatabase::Report report;
-  EXPECT_EQ(CrashReportDatabase::kNoError,
-            db()->LookUpCrashReport(report_1_uuid, &report));
+  EXPECT_EQ(db()->LookUpCrashReport(report_1_uuid, &report),
+            CrashReportDatabase::kNoError);
   EXPECT_FALSE(report.upload_explicitly_requested);
 
   // Pending report gets correctly affected after RequestUpload is called.
   pending_reports.clear();
-  EXPECT_EQ(CrashReportDatabase::kNoError, RequestUpload(report_0_uuid));
+  EXPECT_EQ(RequestUpload(report_0_uuid), CrashReportDatabase::kNoError);
   os = db()->GetPendingReports(&pending_reports);
-  EXPECT_EQ(CrashReportDatabase::kNoError, os);
-  EXPECT_EQ(1u, pending_reports.size());
-  EXPECT_EQ(pending_reports[0].uuid, report_0_uuid);
+  EXPECT_EQ(os, CrashReportDatabase::kNoError);
+  EXPECT_EQ(pending_reports.size(), 1u);
+  EXPECT_EQ(report_0_uuid, pending_reports[0].uuid);
   EXPECT_TRUE(pending_reports[0].upload_explicitly_requested);
 
   // Already uploaded report cannot be requested for the new upload.
   UploadReport(report_0_uuid, true, "1");
-  EXPECT_EQ(CrashReportDatabase::kCannotRequestUpload,
-            RequestUpload(report_0_uuid));
+  EXPECT_EQ(RequestUpload(report_0_uuid),
+            CrashReportDatabase::kCannotRequestUpload);
 }
 
 }  // namespace

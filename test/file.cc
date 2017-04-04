@@ -37,7 +37,7 @@ bool FileExists(const base::FilePath& path) {
 #error "Not implemented"
 #endif
   if (rv < 0) {
-    EXPECT_EQ(ENOENT, errno) << ErrnoMessage(stat_function) << " "
+    EXPECT_EQ(errno, ENOENT) << ErrnoMessage(stat_function) << " "
                              << path.value();
     return false;
   }

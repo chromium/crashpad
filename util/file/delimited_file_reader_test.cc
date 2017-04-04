@@ -30,12 +30,12 @@ TEST(DelimitedFileReader, EmptyFile) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string line;
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, EmptyOneLineFile) {
@@ -44,15 +44,15 @@ TEST(DelimitedFileReader, EmptyOneLineFile) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string line;
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ(string_file.string(), line);
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, string_file.string());
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, SmallOneLineFile) {
@@ -61,15 +61,15 @@ TEST(DelimitedFileReader, SmallOneLineFile) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string line;
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ(string_file.string(), line);
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, string_file.string());
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, SmallOneLineFileWithoutNewline) {
@@ -78,15 +78,15 @@ TEST(DelimitedFileReader, SmallOneLineFileWithoutNewline) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string line;
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ(string_file.string(), line);
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, string_file.string());
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, SmallMultiLineFile) {
@@ -95,21 +95,21 @@ TEST(DelimitedFileReader, SmallMultiLineFile) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string line;
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ("first\n", line);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ("second line\n", line);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ("3rd\n", line);
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, "first\n");
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, "second line\n");
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, "3rd\n");
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, SmallMultiFieldFile) {
@@ -118,21 +118,21 @@ TEST(DelimitedFileReader, SmallMultiFieldFile) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string field;
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetDelim(',', &field));
-  EXPECT_EQ("first,", field);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetDelim(',', &field));
-  EXPECT_EQ("second field\ntwo lines,", field);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetDelim(',', &field));
-  EXPECT_EQ("3rd,", field);
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetDelim(',', &field));
+  ASSERT_EQ(delimited_file_reader.GetDelim(',', &field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, "first,");
+  ASSERT_EQ(delimited_file_reader.GetDelim(',', &field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, "second field\ntwo lines,");
+  ASSERT_EQ(delimited_file_reader.GetDelim(',', &field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, "3rd,");
+  EXPECT_EQ(delimited_file_reader.GetDelim(',', &field),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetDelim(',', &field));
+  EXPECT_EQ(delimited_file_reader.GetDelim(',', &field),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, SmallMultiFieldFile_MixedDelimiters) {
@@ -141,27 +141,27 @@ TEST(DelimitedFileReader, SmallMultiFieldFile_MixedDelimiters) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string field;
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetDelim(',', &field));
-  EXPECT_EQ("first,", field);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetDelim('\t', &field));
-  EXPECT_EQ("second, still 2nd\t", field);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&field));
-  EXPECT_EQ("3rd\n", field);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetDelim('\n', &field));
-  EXPECT_EQ("also\tnewline\n", field);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetDelim('$', &field));
-  EXPECT_EQ("55555$", field);
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetDelim('?', &field));
+  ASSERT_EQ(delimited_file_reader.GetDelim(',', &field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, "first,");
+  ASSERT_EQ(delimited_file_reader.GetDelim('\t', &field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, "second, still 2nd\t");
+  ASSERT_EQ(delimited_file_reader.GetLine(&field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, "3rd\n");
+  ASSERT_EQ(delimited_file_reader.GetDelim('\n', &field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, "also\tnewline\n");
+  ASSERT_EQ(delimited_file_reader.GetDelim('$', &field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, "55555$");
+  EXPECT_EQ(delimited_file_reader.GetDelim('?', &field),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&field));
+  EXPECT_EQ(delimited_file_reader.GetLine(&field),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, EmptyLineMultiLineFile) {
@@ -170,24 +170,24 @@ TEST(DelimitedFileReader, EmptyLineMultiLineFile) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string line;
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ("first\n", line);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ("\n", line);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ("\n", line);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ("4444\n", line);
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, "first\n");
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, "\n");
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, "\n");
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, "4444\n");
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, LongOneLineFile) {
@@ -200,15 +200,15 @@ TEST(DelimitedFileReader, LongOneLineFile) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string line;
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ(contents, line);
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, contents);
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 void TestLongMultiLineFile(int base_length) {
@@ -236,16 +236,16 @@ void TestLongMultiLineFile(int base_length) {
   std::string line;
   for (size_t line_index = 0; line_index < lines.size(); ++line_index) {
     SCOPED_TRACE(base::StringPrintf("line_index %" PRIuS, line_index));
-    ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-              delimited_file_reader.GetLine(&line));
-    EXPECT_EQ(lines[line_index], line);
+    ASSERT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kSuccess);
+    EXPECT_EQ(line, lines[line_index]);
   }
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, LongMultiLineFile) {
@@ -263,15 +263,15 @@ TEST(DelimitedFileReader, EmbeddedNUL) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string line;
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetLine(&line));
-  EXPECT_EQ(string_file.string(), line);
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  ASSERT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(line, string_file.string());
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetLine(&line));
+  EXPECT_EQ(delimited_file_reader.GetLine(&line),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, NULDelimiter) {
@@ -281,21 +281,21 @@ TEST(DelimitedFileReader, NULDelimiter) {
   DelimitedFileReader delimited_file_reader(&string_file);
 
   std::string field;
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetDelim('\0', &field));
-  EXPECT_EQ(std::string("aa\0", 3), field);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetDelim('\0', &field));
-  EXPECT_EQ(std::string("b\0", 2), field);
-  ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-            delimited_file_reader.GetDelim('\0', &field));
-  EXPECT_EQ(std::string("ccc\0", 4), field);
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetDelim('\0', &field));
+  ASSERT_EQ(delimited_file_reader.GetDelim('\0', &field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, std::string("aa\0", 3));
+  ASSERT_EQ(delimited_file_reader.GetDelim('\0', &field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, std::string("b\0", 2));
+  ASSERT_EQ(delimited_file_reader.GetDelim('\0', &field),
+            DelimitedFileReader::Result::kSuccess);
+  EXPECT_EQ(field, std::string("ccc\0", 4));
+  EXPECT_EQ(delimited_file_reader.GetDelim('\0', &field),
+            DelimitedFileReader::Result::kEndOfFile);
 
   // The file is still at EOF.
-  EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-            delimited_file_reader.GetDelim('\0', &field));
+  EXPECT_EQ(delimited_file_reader.GetDelim('\0', &field),
+            DelimitedFileReader::Result::kEndOfFile);
 }
 
 TEST(DelimitedFileReader, EdgeCases) {
@@ -313,48 +313,48 @@ TEST(DelimitedFileReader, EdgeCases) {
     DelimitedFileReader delimited_file_reader(&string_file);
 
     std::string line;
-    ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-              delimited_file_reader.GetLine(&line));
-    EXPECT_EQ(line_0, line);
-    EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-              delimited_file_reader.GetLine(&line));
+    ASSERT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kSuccess);
+    EXPECT_EQ(line, line_0);
+    EXPECT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kEndOfFile);
 
     // The file is still at EOF.
-    EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-              delimited_file_reader.GetLine(&line));
+    EXPECT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kEndOfFile);
 
     std::string line_1(size, '@');
     line_1.push_back('\n');
 
     string_file.SetString(line_0 + line_1);
-    ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-              delimited_file_reader.GetLine(&line));
-    EXPECT_EQ(line_0, line);
-    ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-              delimited_file_reader.GetLine(&line));
-    EXPECT_EQ(line_1, line);
-    EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-              delimited_file_reader.GetLine(&line));
+    ASSERT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kSuccess);
+    EXPECT_EQ(line, line_0);
+    ASSERT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kSuccess);
+    EXPECT_EQ(line, line_1);
+    EXPECT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kEndOfFile);
 
     // The file is still at EOF.
-    EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-              delimited_file_reader.GetLine(&line));
+    EXPECT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kEndOfFile);
 
     line_1[size] = '?';
 
     string_file.SetString(line_0 + line_1);
-    ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-              delimited_file_reader.GetLine(&line));
-    EXPECT_EQ(line_0, line);
-    ASSERT_EQ(DelimitedFileReader::Result::kSuccess,
-              delimited_file_reader.GetLine(&line));
-    EXPECT_EQ(line_1, line);
-    EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-              delimited_file_reader.GetLine(&line));
+    ASSERT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kSuccess);
+    EXPECT_EQ(line, line_0);
+    ASSERT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kSuccess);
+    EXPECT_EQ(line, line_1);
+    EXPECT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kEndOfFile);
 
     // The file is still at EOF.
-    EXPECT_EQ(DelimitedFileReader::Result::kEndOfFile,
-              delimited_file_reader.GetLine(&line));
+    EXPECT_EQ(delimited_file_reader.GetLine(&line),
+              DelimitedFileReader::Result::kEndOfFile);
   }
 }
 

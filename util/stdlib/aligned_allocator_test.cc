@@ -54,7 +54,7 @@ TEST(AlignedAllocator, AlignedVector) {
   struct ALIGNAS(32) AlignedStruct {
     int i;
   };
-  ASSERT_EQ(32u, ALIGNOF(AlignedStruct));
+  ASSERT_EQ(ALIGNOF(AlignedStruct), 32u);
 
   AlignedVector<AlignedStruct> aligned_vector;
   aligned_vector.push_back(AlignedStruct());
@@ -76,7 +76,7 @@ TEST(AlignedAllocator, AlignedVector) {
   struct ALIGNAS(1024) BigAlignedStruct {
     int i;
   };
-  ASSERT_EQ(1024u, ALIGNOF(BigAlignedStruct));
+  ASSERT_EQ(ALIGNOF(BigAlignedStruct), 1024u);
 
   AlignedVector<BigAlignedStruct> big_aligned_vector;
   big_aligned_vector.push_back(BigAlignedStruct());

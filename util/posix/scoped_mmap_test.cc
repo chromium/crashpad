@@ -85,8 +85,8 @@ TEST(ScopedMmap, Mmap) {
 
   ScopedMmap mapping;
   EXPECT_FALSE(mapping.is_valid());
-  EXPECT_EQ(MAP_FAILED, mapping.addr());
-  EXPECT_EQ(0u, mapping.len());
+  EXPECT_EQ(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), 0u);
 
   ASSERT_TRUE(mapping.Reset());
   EXPECT_FALSE(mapping.is_valid());
@@ -94,11 +94,11 @@ TEST(ScopedMmap, Mmap) {
   const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
   ASSERT_TRUE(ScopedMmapResetMmap(&mapping, kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_NE(MAP_FAILED, mapping.addr());
-  EXPECT_EQ(kPageSize, mapping.len());
+  EXPECT_NE(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), kPageSize);
 
   cookie.SetUp(mapping.addr_as<uint64_t*>());
-  EXPECT_EQ(cookie.Expected(), cookie.Observed());
+  EXPECT_EQ(cookie.Observed(), cookie.Expected());
 
   ASSERT_TRUE(mapping.Reset());
   EXPECT_FALSE(mapping.is_valid());
@@ -112,8 +112,8 @@ TEST(ScopedMmapDeathTest, Destructor) {
     const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
     ASSERT_TRUE(ScopedMmapResetMmap(&mapping, kPageSize));
     EXPECT_TRUE(mapping.is_valid());
-    EXPECT_NE(MAP_FAILED, mapping.addr());
-    EXPECT_EQ(kPageSize, mapping.len());
+    EXPECT_NE(mapping.addr(), MAP_FAILED);
+    EXPECT_EQ(mapping.len(), kPageSize);
 
     cookie.SetUp(mapping.addr_as<uint64_t*>());
   }
@@ -127,8 +127,8 @@ TEST(ScopedMmapDeathTest, Reset) {
   const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
   ASSERT_TRUE(ScopedMmapResetMmap(&mapping, kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_NE(MAP_FAILED, mapping.addr());
-  EXPECT_EQ(kPageSize, mapping.len());
+  EXPECT_NE(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), kPageSize);
 
   TestCookie cookie;
   cookie.SetUp(mapping.addr_as<uint64_t*>());
@@ -145,8 +145,8 @@ TEST(ScopedMmapDeathTest, ResetAddrLen_Shrink) {
   const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
   ASSERT_TRUE(ScopedMmapResetMmap(&mapping, 3 * kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_NE(MAP_FAILED, mapping.addr());
-  EXPECT_EQ(3 * kPageSize, mapping.len());
+  EXPECT_NE(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), 3 * kPageSize);
 
   TestCookie cookies[3];
   for (size_t index = 0; index < arraysize(cookies); ++index) {
@@ -159,10 +159,10 @@ TEST(ScopedMmapDeathTest, ResetAddrLen_Shrink) {
       reinterpret_cast<void*>(mapping.addr_as<uintptr_t>() + kPageSize);
   ASSERT_TRUE(mapping.ResetAddrLen(new_addr, kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_EQ(new_addr, mapping.addr());
-  EXPECT_EQ(kPageSize, mapping.len());
+  EXPECT_EQ(mapping.addr(), new_addr);
+  EXPECT_EQ(mapping.len(), kPageSize);
 
-  EXPECT_EQ(cookies[1].Expected(), cookies[1].Observed());
+  EXPECT_EQ(cookies[1].Observed(), cookies[1].Expected());
 
   EXPECT_DEATH(cookies[0].Check(), "");
   EXPECT_DEATH(cookies[2].Check(), "");
@@ -173,15 +173,15 @@ TEST(ScopedMmap, ResetAddrLen_Grow) {
   // page.
   const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
   void* pages = BareMmap(3 * kPageSize);
-  ASSERT_NE(MAP_FAILED, pages);
+  ASSERT_NE(pages, MAP_FAILED);
 
   ScopedMmap mapping;
   void* const old_addr =
       reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(pages) + kPageSize);
   ASSERT_TRUE(mapping.ResetAddrLen(old_addr, kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_EQ(old_addr, mapping.addr());
-  EXPECT_EQ(kPageSize, mapping.len());
+  EXPECT_EQ(mapping.addr(), old_addr);
+  EXPECT_EQ(mapping.len(), kPageSize);
 
   TestCookie cookies[3];
   for (size_t index = 0; index < arraysize(cookies); ++index) {
@@ -192,12 +192,12 @@ TEST(ScopedMmap, ResetAddrLen_Grow) {
   // Reset to all three pages. Nothing should be unmapped until destruction.
   ASSERT_TRUE(mapping.ResetAddrLen(pages, 3 * kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_EQ(pages, mapping.addr());
-  EXPECT_EQ(3 * kPageSize, mapping.len());
+  EXPECT_EQ(mapping.addr(), pages);
+  EXPECT_EQ(mapping.len(), 3 * kPageSize);
 
   for (size_t index = 0; index < arraysize(cookies); ++index) {
     SCOPED_TRACE(base::StringPrintf("index %zu", index));
-    EXPECT_EQ(cookies[index].Expected(), cookies[index].Observed());
+    EXPECT_EQ(cookies[index].Observed(), cookies[index].Expected());
   }
 }
 
@@ -205,15 +205,15 @@ TEST(ScopedMmapDeathTest, ResetAddrLen_MoveDownAndGrow) {
   // Start with three pages mapped, but ScopedMmap only aware of the third page.
   const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
   void* pages = BareMmap(3 * kPageSize);
-  ASSERT_NE(MAP_FAILED, pages);
+  ASSERT_NE(pages, MAP_FAILED);
 
   ScopedMmap mapping;
   void* const old_addr = reinterpret_cast<void*>(
       reinterpret_cast<uintptr_t>(pages) + 2 * kPageSize);
   ASSERT_TRUE(mapping.ResetAddrLen(old_addr, kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_EQ(old_addr, mapping.addr());
-  EXPECT_EQ(kPageSize, mapping.len());
+  EXPECT_EQ(mapping.addr(), old_addr);
+  EXPECT_EQ(mapping.len(), kPageSize);
 
   TestCookie cookies[3];
   for (size_t index = 0; index < arraysize(cookies); ++index) {
@@ -224,11 +224,11 @@ TEST(ScopedMmapDeathTest, ResetAddrLen_MoveDownAndGrow) {
   // Reset to the first two pages. The third page should be unmapped.
   ASSERT_TRUE(mapping.ResetAddrLen(pages, 2 * kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_EQ(pages, mapping.addr());
-  EXPECT_EQ(2 * kPageSize, mapping.len());
+  EXPECT_EQ(mapping.addr(), pages);
+  EXPECT_EQ(mapping.len(), 2 * kPageSize);
 
-  EXPECT_EQ(cookies[0].Expected(), cookies[0].Observed());
-  EXPECT_EQ(cookies[1].Expected(), cookies[1].Observed());
+  EXPECT_EQ(cookies[0].Observed(), cookies[0].Expected());
+  EXPECT_EQ(cookies[1].Observed(), cookies[1].Expected());
 
   EXPECT_DEATH(cookies[2].Check(), "");
 }
@@ -238,13 +238,13 @@ TEST(ScopedMmapDeathTest, ResetAddrLen_MoveUpAndShrink) {
   // pages.
   const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
   void* pages = BareMmap(3 * kPageSize);
-  ASSERT_NE(MAP_FAILED, pages);
+  ASSERT_NE(pages, MAP_FAILED);
 
   ScopedMmap mapping;
   ASSERT_TRUE(mapping.ResetAddrLen(pages, 2 * kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_EQ(pages, mapping.addr());
-  EXPECT_EQ(2 * kPageSize, mapping.len());
+  EXPECT_EQ(mapping.addr(), pages);
+  EXPECT_EQ(mapping.len(), 2 * kPageSize);
 
   TestCookie cookies[3];
   for (size_t index = 0; index < arraysize(cookies); ++index) {
@@ -257,10 +257,10 @@ TEST(ScopedMmapDeathTest, ResetAddrLen_MoveUpAndShrink) {
       reinterpret_cast<void*>(mapping.addr_as<uintptr_t>() + 2 * kPageSize);
   ASSERT_TRUE(mapping.ResetAddrLen(new_addr, kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_EQ(new_addr, mapping.addr());
-  EXPECT_EQ(kPageSize, mapping.len());
+  EXPECT_EQ(mapping.addr(), new_addr);
+  EXPECT_EQ(mapping.len(), kPageSize);
 
-  EXPECT_EQ(cookies[2].Expected(), cookies[2].Observed());
+  EXPECT_EQ(cookies[2].Observed(), cookies[2].Expected());
 
   EXPECT_DEATH(cookies[0].Check(), "");
   EXPECT_DEATH(cookies[1].Check(), "");
@@ -277,8 +277,8 @@ TEST(ScopedMmapDeathTest, ResetMmap) {
   const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
   ASSERT_TRUE(ScopedMmapResetMmap(&mapping, 2 * kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_NE(MAP_FAILED, mapping.addr());
-  EXPECT_EQ(2 * kPageSize, mapping.len());
+  EXPECT_NE(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), 2 * kPageSize);
 
   TestCookie cookie;
   cookie.SetUp(
@@ -286,8 +286,8 @@ TEST(ScopedMmapDeathTest, ResetMmap) {
 
   ASSERT_TRUE(ScopedMmapResetMmap(&mapping, kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_NE(MAP_FAILED, mapping.addr());
-  EXPECT_EQ(kPageSize, mapping.len());
+  EXPECT_NE(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), kPageSize);
 
   EXPECT_DEATH(cookie.Check(), "");
 }
@@ -298,8 +298,8 @@ TEST(ScopedMmapDeathTest, Mprotect) {
   const size_t kPageSize = base::checked_cast<size_t>(getpagesize());
   ASSERT_TRUE(ScopedMmapResetMmap(&mapping, kPageSize));
   EXPECT_TRUE(mapping.is_valid());
-  EXPECT_NE(MAP_FAILED, mapping.addr());
-  EXPECT_EQ(kPageSize, mapping.len());
+  EXPECT_NE(mapping.addr(), MAP_FAILED);
+  EXPECT_EQ(mapping.len(), kPageSize);
 
   char* addr = mapping.addr_as<char*>();
   *addr = 1;
@@ -309,7 +309,7 @@ TEST(ScopedMmapDeathTest, Mprotect) {
   EXPECT_DEATH(*addr = 0, "");
 
   ASSERT_TRUE(mapping.Mprotect(PROT_READ | PROT_WRITE));
-  EXPECT_EQ(1, *addr);
+  EXPECT_EQ(*addr, 1);
   *addr = 2;
 }
 

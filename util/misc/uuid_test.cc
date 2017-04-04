@@ -32,18 +32,18 @@ namespace {
 TEST(UUID, UUID) {
   UUID uuid_zero;
   uuid_zero.InitializeToZero();
-  EXPECT_EQ(0u, uuid_zero.data_1);
-  EXPECT_EQ(0u, uuid_zero.data_2);
-  EXPECT_EQ(0u, uuid_zero.data_3);
-  EXPECT_EQ(0u, uuid_zero.data_4[0]);
-  EXPECT_EQ(0u, uuid_zero.data_4[1]);
-  EXPECT_EQ(0u, uuid_zero.data_5[0]);
-  EXPECT_EQ(0u, uuid_zero.data_5[1]);
-  EXPECT_EQ(0u, uuid_zero.data_5[2]);
-  EXPECT_EQ(0u, uuid_zero.data_5[3]);
-  EXPECT_EQ(0u, uuid_zero.data_5[4]);
-  EXPECT_EQ(0u, uuid_zero.data_5[5]);
-  EXPECT_EQ("00000000-0000-0000-0000-000000000000", uuid_zero.ToString());
+  EXPECT_EQ(uuid_zero.data_1, 0u);
+  EXPECT_EQ(uuid_zero.data_2, 0u);
+  EXPECT_EQ(uuid_zero.data_3, 0u);
+  EXPECT_EQ(uuid_zero.data_4[0], 0u);
+  EXPECT_EQ(uuid_zero.data_4[1], 0u);
+  EXPECT_EQ(uuid_zero.data_5[0], 0u);
+  EXPECT_EQ(uuid_zero.data_5[1], 0u);
+  EXPECT_EQ(uuid_zero.data_5[2], 0u);
+  EXPECT_EQ(uuid_zero.data_5[3], 0u);
+  EXPECT_EQ(uuid_zero.data_5[4], 0u);
+  EXPECT_EQ(uuid_zero.data_5[5], 0u);
+  EXPECT_EQ(uuid_zero.ToString(), "00000000-0000-0000-0000-000000000000");
 
   const uint8_t kBytes[16] = {0x00,
                               0x01,
@@ -63,18 +63,18 @@ TEST(UUID, UUID) {
                               0x0f};
   UUID uuid;
   uuid.InitializeFromBytes(kBytes);
-  EXPECT_EQ(0x00010203u, uuid.data_1);
-  EXPECT_EQ(0x0405u, uuid.data_2);
-  EXPECT_EQ(0x0607u, uuid.data_3);
-  EXPECT_EQ(0x08u, uuid.data_4[0]);
-  EXPECT_EQ(0x09u, uuid.data_4[1]);
-  EXPECT_EQ(0x0au, uuid.data_5[0]);
-  EXPECT_EQ(0x0bu, uuid.data_5[1]);
-  EXPECT_EQ(0x0cu, uuid.data_5[2]);
-  EXPECT_EQ(0x0du, uuid.data_5[3]);
-  EXPECT_EQ(0x0eu, uuid.data_5[4]);
-  EXPECT_EQ(0x0fu, uuid.data_5[5]);
-  EXPECT_EQ("00010203-0405-0607-0809-0a0b0c0d0e0f", uuid.ToString());
+  EXPECT_EQ(uuid.data_1, 0x00010203u);
+  EXPECT_EQ(uuid.data_2, 0x0405u);
+  EXPECT_EQ(uuid.data_3, 0x0607u);
+  EXPECT_EQ(uuid.data_4[0], 0x08u);
+  EXPECT_EQ(uuid.data_4[1], 0x09u);
+  EXPECT_EQ(uuid.data_5[0], 0x0au);
+  EXPECT_EQ(uuid.data_5[1], 0x0bu);
+  EXPECT_EQ(uuid.data_5[2], 0x0cu);
+  EXPECT_EQ(uuid.data_5[3], 0x0du);
+  EXPECT_EQ(uuid.data_5[4], 0x0eu);
+  EXPECT_EQ(uuid.data_5[5], 0x0fu);
+  EXPECT_EQ(uuid.ToString(), "00010203-0405-0607-0809-0a0b0c0d0e0f");
 
   // Test both operator== and operator!=.
   EXPECT_FALSE(uuid == uuid_zero);
@@ -82,7 +82,7 @@ TEST(UUID, UUID) {
 
   UUID uuid_2;
   uuid_2.InitializeFromBytes(kBytes);
-  EXPECT_EQ(uuid, uuid_2);
+  EXPECT_EQ(uuid_2, uuid);
   EXPECT_FALSE(uuid != uuid_2);
 
   // Make sure that operator== and operator!= check the entire UUID.
@@ -108,7 +108,7 @@ TEST(UUID, UUID) {
 
   // Make sure that the UUIDs are equal again, otherwise the test above may not
   // have been valid.
-  EXPECT_EQ(uuid, uuid_2);
+  EXPECT_EQ(uuid_2, uuid);
 
   const uint8_t kMoreBytes[16] = {0xff,
                                   0xee,
@@ -127,36 +127,36 @@ TEST(UUID, UUID) {
                                   0x11,
                                   0x00};
   uuid.InitializeFromBytes(kMoreBytes);
-  EXPECT_EQ(0xffeeddccu, uuid.data_1);
-  EXPECT_EQ(0xbbaau, uuid.data_2);
-  EXPECT_EQ(0x9988u, uuid.data_3);
-  EXPECT_EQ(0x77u, uuid.data_4[0]);
-  EXPECT_EQ(0x66u, uuid.data_4[1]);
-  EXPECT_EQ(0x55u, uuid.data_5[0]);
-  EXPECT_EQ(0x44u, uuid.data_5[1]);
-  EXPECT_EQ(0x33u, uuid.data_5[2]);
-  EXPECT_EQ(0x22u, uuid.data_5[3]);
-  EXPECT_EQ(0x11u, uuid.data_5[4]);
-  EXPECT_EQ(0x00u, uuid.data_5[5]);
-  EXPECT_EQ("ffeeddcc-bbaa-9988-7766-554433221100", uuid.ToString());
+  EXPECT_EQ(uuid.data_1, 0xffeeddccu);
+  EXPECT_EQ(uuid.data_2, 0xbbaau);
+  EXPECT_EQ(uuid.data_3, 0x9988u);
+  EXPECT_EQ(uuid.data_4[0], 0x77u);
+  EXPECT_EQ(uuid.data_4[1], 0x66u);
+  EXPECT_EQ(uuid.data_5[0], 0x55u);
+  EXPECT_EQ(uuid.data_5[1], 0x44u);
+  EXPECT_EQ(uuid.data_5[2], 0x33u);
+  EXPECT_EQ(uuid.data_5[3], 0x22u);
+  EXPECT_EQ(uuid.data_5[4], 0x11u);
+  EXPECT_EQ(uuid.data_5[5], 0x00u);
+  EXPECT_EQ(uuid.ToString(), "ffeeddcc-bbaa-9988-7766-554433221100");
 
   EXPECT_NE(uuid, uuid_2);
   EXPECT_NE(uuid, uuid_zero);
 
   // Test that UUID is standard layout.
   memset(&uuid, 0x45, 16);
-  EXPECT_EQ(0x45454545u, uuid.data_1);
-  EXPECT_EQ(0x4545u, uuid.data_2);
-  EXPECT_EQ(0x4545u, uuid.data_3);
-  EXPECT_EQ(0x45u, uuid.data_4[0]);
-  EXPECT_EQ(0x45u, uuid.data_4[1]);
-  EXPECT_EQ(0x45u, uuid.data_5[0]);
-  EXPECT_EQ(0x45u, uuid.data_5[1]);
-  EXPECT_EQ(0x45u, uuid.data_5[2]);
-  EXPECT_EQ(0x45u, uuid.data_5[3]);
-  EXPECT_EQ(0x45u, uuid.data_5[4]);
-  EXPECT_EQ(0x45u, uuid.data_5[5]);
-  EXPECT_EQ("45454545-4545-4545-4545-454545454545", uuid.ToString());
+  EXPECT_EQ(uuid.data_1, 0x45454545u);
+  EXPECT_EQ(uuid.data_2, 0x4545u);
+  EXPECT_EQ(uuid.data_3, 0x4545u);
+  EXPECT_EQ(uuid.data_4[0], 0x45u);
+  EXPECT_EQ(uuid.data_4[1], 0x45u);
+  EXPECT_EQ(uuid.data_5[0], 0x45u);
+  EXPECT_EQ(uuid.data_5[1], 0x45u);
+  EXPECT_EQ(uuid.data_5[2], 0x45u);
+  EXPECT_EQ(uuid.data_5[3], 0x45u);
+  EXPECT_EQ(uuid.data_5[4], 0x45u);
+  EXPECT_EQ(uuid.data_5[5], 0x45u);
+  EXPECT_EQ(uuid.ToString(), "45454545-4545-4545-4545-454545454545");
 
   UUID initialized_generated;
   initialized_generated.InitializeWithNew();
@@ -197,48 +197,48 @@ TEST(UUID, FromString) {
 
     UUID uuid;
     uuid.InitializeToZero();
-    EXPECT_EQ(test_case.success,
-              uuid.InitializeFromString(test_case.uuid_string));
+    EXPECT_EQ(uuid.InitializeFromString(test_case.uuid_string),
+              test_case.success);
     if (test_case.success) {
-      EXPECT_EQ(test_case.uuid_string, uuid.ToString());
+      EXPECT_EQ(uuid.ToString(), test_case.uuid_string);
     } else {
-      EXPECT_EQ(empty_uuid, uuid.ToString());
+      EXPECT_EQ(uuid.ToString(), empty_uuid);
     }
   }
 
   // Test for case insensitivty.
   UUID uuid;
   uuid.InitializeFromString("F32E5BDC-2681-4C73-A4E6-911FFD89B846");
-  EXPECT_EQ("f32e5bdc-2681-4c73-a4e6-911ffd89b846", uuid.ToString());
+  EXPECT_EQ(uuid.ToString(), "f32e5bdc-2681-4c73-a4e6-911ffd89b846");
 
   // Mixed case.
   uuid.InitializeFromString("5762C15D-50b5-4171-a2e9-7429C9EC6CAB");
-  EXPECT_EQ("5762c15d-50b5-4171-a2e9-7429c9ec6cab", uuid.ToString());
+  EXPECT_EQ(uuid.ToString(), "5762c15d-50b5-4171-a2e9-7429c9ec6cab");
 }
 
 #if defined(OS_WIN)
 
 TEST(UUID, FromSystem) {
   ::GUID system_uuid;
-  ASSERT_EQ(RPC_S_OK, UuidCreate(&system_uuid));
+  ASSERT_EQ(UuidCreate(&system_uuid), RPC_S_OK);
 
   UUID uuid;
   uuid.InitializeFromSystemUUID(&system_uuid);
 
   RPC_WSTR system_string;
-  ASSERT_EQ(RPC_S_OK, UuidToString(&system_uuid, &system_string));
+  ASSERT_EQ(UuidToString(&system_uuid, &system_string), RPC_S_OK);
 
   struct ScopedRpcStringFreeTraits {
     static RPC_WSTR* InvalidValue() { return nullptr; }
     static void Free(RPC_WSTR* rpc_string) {
-      EXPECT_EQ(RPC_S_OK, RpcStringFree(rpc_string));
+      EXPECT_EQ(RpcStringFree(rpc_string), RPC_S_OK);
     }
   };
   using ScopedRpcString =
       base::ScopedGeneric<RPC_WSTR*, ScopedRpcStringFreeTraits>;
   ScopedRpcString scoped_system_string(&system_string);
 
-  EXPECT_EQ(reinterpret_cast<wchar_t*>(system_string), uuid.ToString16());
+  EXPECT_EQ(uuid.ToString16(), reinterpret_cast<wchar_t*>(system_string));
 }
 
 #endif  // OS_WIN

@@ -58,7 +58,7 @@ const void* MinidumpWritableAtLocationDescriptorInternal(
     size_t expected_size,
     bool allow_oversized_data) {
   if (location.DataSize == 0) {
-    EXPECT_EQ(0u, location.Rva);
+    EXPECT_EQ(location.Rva, 0u);
     return nullptr;
   }
 
@@ -68,7 +68,7 @@ const void* MinidumpWritableAtLocationDescriptorInternal(
       return nullptr;
     }
   } else if (location.DataSize != expected_size) {
-    EXPECT_EQ(expected_size, location.DataSize);
+    EXPECT_EQ(location.DataSize, expected_size);
     return nullptr;
   }
 
@@ -95,25 +95,25 @@ const IMAGE_DEBUG_MISC* MinidumpWritableAtLocationDescriptor<IMAGE_DEBUG_MISC>(
   }
 
   if (misc->DataType != IMAGE_DEBUG_MISC_EXENAME) {
-    EXPECT_EQ(implicit_cast<uint32_t>(IMAGE_DEBUG_MISC_EXENAME),
-              misc->DataType);
+    EXPECT_EQ(misc->DataType,
+              implicit_cast<uint32_t>(IMAGE_DEBUG_MISC_EXENAME));
     return nullptr;
   }
 
   if (misc->Length != location.DataSize) {
-    EXPECT_EQ(location.DataSize, misc->Length);
+    EXPECT_EQ(misc->Length, location.DataSize);
     return nullptr;
   }
 
   if (misc->Unicode == 0) {
     size_t string_length = misc->Length - offsetof(IMAGE_DEBUG_MISC, Data) - 1;
     if (misc->Data[string_length] != '\0') {
-      EXPECT_EQ('\0', misc->Data[string_length]);
+      EXPECT_EQ(misc->Data[string_length], '\0');
       return nullptr;
     }
   } else if (misc->Unicode == 1) {
     if (misc->Length % sizeof(base::char16) != 0) {
-      EXPECT_EQ(0u, misc->Length % sizeof(base::char16));
+      EXPECT_EQ(misc->Length % sizeof(base::char16), 0u);
       return nullptr;
     }
 
@@ -123,7 +123,7 @@ const IMAGE_DEBUG_MISC* MinidumpWritableAtLocationDescriptor<IMAGE_DEBUG_MISC>(
     const base::char16* data16 =
         reinterpret_cast<const base::char16*>(misc->Data);
     if (data16[string_length] != '\0') {
-      EXPECT_EQ('\0', data16[string_length]);
+      EXPECT_EQ(data16[string_length], '\0');
       return nullptr;
     }
   } else {
@@ -146,11 +146,11 @@ const MINIDUMP_HEADER* MinidumpWritableAtLocationDescriptor<MINIDUMP_HEADER>(
   }
 
   if (header->Signature != MINIDUMP_SIGNATURE) {
-    EXPECT_EQ(implicit_cast<uint32_t>(MINIDUMP_SIGNATURE), header->Signature);
+    EXPECT_EQ(header->Signature, implicit_cast<uint32_t>(MINIDUMP_SIGNATURE));
     return nullptr;
   }
   if (header->Version != MINIDUMP_VERSION) {
-    EXPECT_EQ(implicit_cast<uint32_t>(MINIDUMP_VERSION), header->Version);
+    EXPECT_EQ(header->Version, implicit_cast<uint32_t>(MINIDUMP_VERSION));
     return nullptr;
   }
 
@@ -237,7 +237,7 @@ const typename T::ListType* MinidumpListAtLocationDescriptor(
   size_t expected_size =
       sizeof(typename T::ListType) + T::ElementCount(list) * T::kElementSize;
   if (location.DataSize != expected_size) {
-    EXPECT_EQ(expected_size, location.DataSize);
+    EXPECT_EQ(location.DataSize, expected_size);
     return nullptr;
   }
 
@@ -326,13 +326,13 @@ const T* MinidumpCVPDBAtLocationDescriptor(
   }
 
   if (cv_pdb->signature != T::kSignature) {
-    EXPECT_EQ(T::kSignature, cv_pdb->signature);
+    EXPECT_EQ(cv_pdb->signature, T::kSignature);
     return nullptr;
   }
 
   size_t string_length = location.DataSize - offsetof(T, pdb_name) - 1;
   if (cv_pdb->pdb_name[string_length] != '\0') {
-    EXPECT_EQ('\0', cv_pdb->pdb_name[string_length]);
+    EXPECT_EQ(cv_pdb->pdb_name[string_length], '\0');
     return nullptr;
   }
 
