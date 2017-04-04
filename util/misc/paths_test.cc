@@ -27,10 +27,10 @@ TEST(Paths, Executable) {
   ASSERT_TRUE(Paths::Executable(&executable_path));
   const base::FilePath executable_name(executable_path.BaseName());
 #if defined(OS_WIN)
-  EXPECT_EQ(FILE_PATH_LITERAL("crashpad_util_test.exe"),
-            executable_name.value());
+  EXPECT_EQ(executable_name.value(),
+            FILE_PATH_LITERAL("crashpad_util_test.exe"));
 #else
-  EXPECT_EQ("crashpad_util_test", executable_name.value());
+  EXPECT_EQ(executable_name.value(), "crashpad_util_test");
 #endif  // OS_WIN
 }
 

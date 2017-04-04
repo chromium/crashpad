@@ -72,7 +72,7 @@ void ExpectProcessIsRunning(pid_t pid, std::string& last_arg) {
   }
 
   ASSERT_FALSE(job_argv.empty());
-  EXPECT_EQ(last_arg, job_argv.back());
+  EXPECT_EQ(job_argv.back(), last_arg);
 }
 
 // Ensures that the process with the specified PID is not running. Because the
@@ -103,7 +103,7 @@ void ExpectProcessIsNotRunning(pid_t pid, std::string& last_arg) {
   }
 
   ASSERT_FALSE(job_argv.empty());
-  EXPECT_NE(last_arg, job_argv.back());
+  EXPECT_NE(job_argv.back(), last_arg);
 }
 
 TEST(ServiceManagement, SubmitRemoveJob) {
@@ -145,7 +145,7 @@ TEST(ServiceManagement, SubmitRemoveJob) {
     // Remove the job.
     ASSERT_TRUE(ServiceManagementRemoveJob(kJobLabel, true));
     EXPECT_FALSE(ServiceManagementIsJobLoaded(kJobLabel));
-    EXPECT_EQ(0, ServiceManagementIsJobRunning(kJobLabel));
+    EXPECT_EQ(ServiceManagementIsJobRunning(kJobLabel), 0);
 
     // Now that the job is unloaded, a subsequent attempt to unload it should be
     // an error.

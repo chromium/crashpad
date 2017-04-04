@@ -29,94 +29,94 @@ const int32_t kInt32Min = std::numeric_limits<int32_t>::min();
 const int64_t kInt64Min = std::numeric_limits<int64_t>::min();
 
 TEST(InRangeCast, Uint32) {
-  EXPECT_EQ(0u, InRangeCast<uint32_t>(0, 1));
-  EXPECT_EQ(1u, InRangeCast<uint32_t>(1, 1));
-  EXPECT_EQ(2u, InRangeCast<uint32_t>(2, 1));
-  EXPECT_EQ(0u, InRangeCast<uint32_t>(-1, 0));
-  EXPECT_EQ(1u, InRangeCast<uint32_t>(-1, 1));
-  EXPECT_EQ(2u, InRangeCast<uint32_t>(-1, 2));
-  EXPECT_EQ(0xffffffffu, InRangeCast<uint32_t>(0xffffffffu, 1));
-  EXPECT_EQ(0xffffffffu, InRangeCast<uint32_t>(UINT64_C(0xffffffff), 1));
-  EXPECT_EQ(1u, InRangeCast<uint32_t>(UINT64_C(0x100000000), 1));
-  EXPECT_EQ(1u, InRangeCast<uint32_t>(UINT64_C(0x100000001), 1));
-  EXPECT_EQ(1u, InRangeCast<uint32_t>(kInt32Min, 1));
-  EXPECT_EQ(1u, InRangeCast<uint32_t>(kInt64Min, 1));
-  EXPECT_EQ(0xffffffffu, InRangeCast<uint32_t>(-1, 0xffffffffu));
+  EXPECT_EQ(InRangeCast<uint32_t>(0, 1), 0u);
+  EXPECT_EQ(InRangeCast<uint32_t>(1, 1), 1u);
+  EXPECT_EQ(InRangeCast<uint32_t>(2, 1), 2u);
+  EXPECT_EQ(InRangeCast<uint32_t>(-1, 0), 0u);
+  EXPECT_EQ(InRangeCast<uint32_t>(-1, 1), 1u);
+  EXPECT_EQ(InRangeCast<uint32_t>(-1, 2), 2u);
+  EXPECT_EQ(InRangeCast<uint32_t>(0xffffffffu, 1), 0xffffffffu);
+  EXPECT_EQ(InRangeCast<uint32_t>(UINT64_C(0xffffffff), 1), 0xffffffffu);
+  EXPECT_EQ(InRangeCast<uint32_t>(UINT64_C(0x100000000), 1), 1u);
+  EXPECT_EQ(InRangeCast<uint32_t>(UINT64_C(0x100000001), 1), 1u);
+  EXPECT_EQ(InRangeCast<uint32_t>(kInt32Min, 1), 1u);
+  EXPECT_EQ(InRangeCast<uint32_t>(kInt64Min, 1), 1u);
+  EXPECT_EQ(InRangeCast<uint32_t>(-1, 0xffffffffu), 0xffffffffu);
 }
 
 TEST(InRangeCast, Int32) {
-  EXPECT_EQ(0, InRangeCast<int32_t>(0, 1));
-  EXPECT_EQ(1, InRangeCast<int32_t>(1, 1));
-  EXPECT_EQ(2, InRangeCast<int32_t>(2, 1));
-  EXPECT_EQ(-1, InRangeCast<int32_t>(-1, 1));
-  EXPECT_EQ(0x7fffffff, InRangeCast<int32_t>(0x7fffffff, 1));
-  EXPECT_EQ(0x7fffffff, InRangeCast<int32_t>(0x7fffffffu, 1));
-  EXPECT_EQ(1, InRangeCast<int32_t>(0x80000000u, 1));
-  EXPECT_EQ(1, InRangeCast<int32_t>(0xffffffffu, 1));
-  EXPECT_EQ(1, InRangeCast<int32_t>(INT64_C(0x80000000), 1));
-  EXPECT_EQ(1, InRangeCast<int32_t>(INT64_C(0xffffffff), 1));
-  EXPECT_EQ(1, InRangeCast<int32_t>(INT64_C(0x100000000), 1));
-  EXPECT_EQ(kInt32Min, InRangeCast<int32_t>(kInt32Min, 1));
-  EXPECT_EQ(kInt32Min,
-            InRangeCast<int32_t>(implicit_cast<int64_t>(kInt32Min), 1));
-  EXPECT_EQ(1, InRangeCast<int32_t>(implicit_cast<int64_t>(kInt32Min) - 1, 1));
-  EXPECT_EQ(1, InRangeCast<int32_t>(kInt64Min, 1));
-  EXPECT_EQ(0, InRangeCast<int32_t>(0xffffffffu, 0));
-  EXPECT_EQ(-1, InRangeCast<int32_t>(0xffffffffu, -1));
-  EXPECT_EQ(kInt32Min, InRangeCast<int32_t>(0xffffffffu, kInt32Min));
-  EXPECT_EQ(0x7fffffff, InRangeCast<int32_t>(0xffffffffu, 0x7fffffff));
+  EXPECT_EQ(InRangeCast<int32_t>(0, 1), 0);
+  EXPECT_EQ(InRangeCast<int32_t>(1, 1), 1);
+  EXPECT_EQ(InRangeCast<int32_t>(2, 1), 2);
+  EXPECT_EQ(InRangeCast<int32_t>(-1, 1), -1);
+  EXPECT_EQ(InRangeCast<int32_t>(0x7fffffff, 1), 0x7fffffff);
+  EXPECT_EQ(InRangeCast<int32_t>(0x7fffffffu, 1), 0x7fffffff);
+  EXPECT_EQ(InRangeCast<int32_t>(0x80000000u, 1), 1);
+  EXPECT_EQ(InRangeCast<int32_t>(0xffffffffu, 1), 1);
+  EXPECT_EQ(InRangeCast<int32_t>(INT64_C(0x80000000), 1), 1);
+  EXPECT_EQ(InRangeCast<int32_t>(INT64_C(0xffffffff), 1), 1);
+  EXPECT_EQ(InRangeCast<int32_t>(INT64_C(0x100000000), 1), 1);
+  EXPECT_EQ(InRangeCast<int32_t>(kInt32Min, 1), kInt32Min);
+  EXPECT_EQ(InRangeCast<int32_t>(implicit_cast<int64_t>(kInt32Min), 1),
+            kInt32Min);
+  EXPECT_EQ(InRangeCast<int32_t>(implicit_cast<int64_t>(kInt32Min) - 1, 1), 1);
+  EXPECT_EQ(InRangeCast<int32_t>(kInt64Min, 1), 1);
+  EXPECT_EQ(InRangeCast<int32_t>(0xffffffffu, 0), 0);
+  EXPECT_EQ(InRangeCast<int32_t>(0xffffffffu, -1), -1);
+  EXPECT_EQ(InRangeCast<int32_t>(0xffffffffu, kInt32Min), kInt32Min);
+  EXPECT_EQ(InRangeCast<int32_t>(0xffffffffu, 0x7fffffff), 0x7fffffff);
 }
 
 TEST(InRangeCast, Uint64) {
-  EXPECT_EQ(0u, InRangeCast<uint64_t>(0, 1));
-  EXPECT_EQ(1u, InRangeCast<uint64_t>(1, 1));
-  EXPECT_EQ(2u, InRangeCast<uint64_t>(2, 1));
-  EXPECT_EQ(0u, InRangeCast<uint64_t>(-1, 0));
-  EXPECT_EQ(1u, InRangeCast<uint64_t>(-1, 1));
-  EXPECT_EQ(2u, InRangeCast<uint64_t>(-1, 2));
-  EXPECT_EQ(0xffffffffu, InRangeCast<uint64_t>(0xffffffffu, 1));
-  EXPECT_EQ(0xffffffffu, InRangeCast<uint64_t>(UINT64_C(0xffffffff), 1));
-  EXPECT_EQ(UINT64_C(0x100000000),
-            InRangeCast<uint64_t>(UINT64_C(0x100000000), 1));
-  EXPECT_EQ(UINT64_C(0x100000001),
-            InRangeCast<uint64_t>(UINT64_C(0x100000001), 1));
-  EXPECT_EQ(1u, InRangeCast<uint64_t>(kInt32Min, 1));
-  EXPECT_EQ(1u, InRangeCast<uint64_t>(INT64_C(-1), 1));
-  EXPECT_EQ(1u, InRangeCast<uint64_t>(kInt64Min, 1));
-  EXPECT_EQ(UINT64_C(0xffffffffffffffff),
-            InRangeCast<uint64_t>(-1, UINT64_C(0xffffffffffffffff)));
+  EXPECT_EQ(InRangeCast<uint64_t>(0, 1), 0u);
+  EXPECT_EQ(InRangeCast<uint64_t>(1, 1), 1u);
+  EXPECT_EQ(InRangeCast<uint64_t>(2, 1), 2u);
+  EXPECT_EQ(InRangeCast<uint64_t>(-1, 0), 0u);
+  EXPECT_EQ(InRangeCast<uint64_t>(-1, 1), 1u);
+  EXPECT_EQ(InRangeCast<uint64_t>(-1, 2), 2u);
+  EXPECT_EQ(InRangeCast<uint64_t>(0xffffffffu, 1), 0xffffffffu);
+  EXPECT_EQ(InRangeCast<uint64_t>(UINT64_C(0xffffffff), 1), 0xffffffffu);
+  EXPECT_EQ(InRangeCast<uint64_t>(UINT64_C(0x100000000), 1),
+            UINT64_C(0x100000000));
+  EXPECT_EQ(InRangeCast<uint64_t>(UINT64_C(0x100000001), 1),
+            UINT64_C(0x100000001));
+  EXPECT_EQ(InRangeCast<uint64_t>(kInt32Min, 1), 1u);
+  EXPECT_EQ(InRangeCast<uint64_t>(INT64_C(-1), 1), 1u);
+  EXPECT_EQ(InRangeCast<uint64_t>(kInt64Min, 1), 1u);
+  EXPECT_EQ(InRangeCast<uint64_t>(-1, UINT64_C(0xffffffffffffffff)),
+            UINT64_C(0xffffffffffffffff));
 }
 
 TEST(InRangeCast, Int64) {
-  EXPECT_EQ(0, InRangeCast<int64_t>(0, 1));
-  EXPECT_EQ(1, InRangeCast<int64_t>(1, 1));
-  EXPECT_EQ(2, InRangeCast<int64_t>(2, 1));
-  EXPECT_EQ(-1, InRangeCast<int64_t>(-1, 1));
-  EXPECT_EQ(0x7fffffff, InRangeCast<int64_t>(0x7fffffff, 1));
-  EXPECT_EQ(0x7fffffff, InRangeCast<int64_t>(0x7fffffffu, 1));
-  EXPECT_EQ(INT64_C(0x80000000), InRangeCast<int64_t>(0x80000000u, 1));
-  EXPECT_EQ(INT64_C(0xffffffff), InRangeCast<int64_t>(0xffffffffu, 1));
-  EXPECT_EQ(INT64_C(0x80000000), InRangeCast<int64_t>(INT64_C(0x80000000), 1));
-  EXPECT_EQ(INT64_C(0xffffffff), InRangeCast<int64_t>(INT64_C(0xffffffff), 1));
-  EXPECT_EQ(INT64_C(0x100000000),
-            InRangeCast<int64_t>(INT64_C(0x100000000), 1));
-  EXPECT_EQ(INT64_C(0x7fffffffffffffff),
-            InRangeCast<int64_t>(INT64_C(0x7fffffffffffffff), 1));
-  EXPECT_EQ(INT64_C(0x7fffffffffffffff),
-            InRangeCast<int64_t>(UINT64_C(0x7fffffffffffffff), 1));
-  EXPECT_EQ(1, InRangeCast<int64_t>(UINT64_C(0x8000000000000000), 1));
-  EXPECT_EQ(1, InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), 1));
-  EXPECT_EQ(kInt32Min, InRangeCast<int64_t>(kInt32Min, 1));
-  EXPECT_EQ(kInt32Min,
-            InRangeCast<int64_t>(implicit_cast<int64_t>(kInt32Min), 1));
-  EXPECT_EQ(kInt64Min, InRangeCast<int64_t>(kInt64Min, 1));
-  EXPECT_EQ(0, InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), 0));
-  EXPECT_EQ(-1, InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), -1));
-  EXPECT_EQ(kInt64Min,
-            InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), kInt64Min));
-  EXPECT_EQ(INT64_C(0x7fffffffffffffff),
-            InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff),
-                                 INT64_C(0x7fffffffffffffff)));
+  EXPECT_EQ(InRangeCast<int64_t>(0, 1), 0);
+  EXPECT_EQ(InRangeCast<int64_t>(1, 1), 1);
+  EXPECT_EQ(InRangeCast<int64_t>(2, 1), 2);
+  EXPECT_EQ(InRangeCast<int64_t>(-1, 1), -1);
+  EXPECT_EQ(InRangeCast<int64_t>(0x7fffffff, 1), 0x7fffffff);
+  EXPECT_EQ(InRangeCast<int64_t>(0x7fffffffu, 1), 0x7fffffff);
+  EXPECT_EQ(InRangeCast<int64_t>(0x80000000u, 1), INT64_C(0x80000000));
+  EXPECT_EQ(InRangeCast<int64_t>(0xffffffffu, 1), INT64_C(0xffffffff));
+  EXPECT_EQ(InRangeCast<int64_t>(INT64_C(0x80000000), 1), INT64_C(0x80000000));
+  EXPECT_EQ(InRangeCast<int64_t>(INT64_C(0xffffffff), 1), INT64_C(0xffffffff));
+  EXPECT_EQ(InRangeCast<int64_t>(INT64_C(0x100000000), 1),
+            INT64_C(0x100000000));
+  EXPECT_EQ(InRangeCast<int64_t>(INT64_C(0x7fffffffffffffff), 1),
+            INT64_C(0x7fffffffffffffff));
+  EXPECT_EQ(InRangeCast<int64_t>(UINT64_C(0x7fffffffffffffff), 1),
+            INT64_C(0x7fffffffffffffff));
+  EXPECT_EQ(InRangeCast<int64_t>(UINT64_C(0x8000000000000000), 1), 1);
+  EXPECT_EQ(InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), 1), 1);
+  EXPECT_EQ(InRangeCast<int64_t>(kInt32Min, 1), kInt32Min);
+  EXPECT_EQ(InRangeCast<int64_t>(implicit_cast<int64_t>(kInt32Min), 1),
+            kInt32Min);
+  EXPECT_EQ(InRangeCast<int64_t>(kInt64Min, 1), kInt64Min);
+  EXPECT_EQ(InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), 0), 0);
+  EXPECT_EQ(InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), -1), -1);
+  EXPECT_EQ(InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff), kInt64Min),
+            kInt64Min);
+  EXPECT_EQ(InRangeCast<int64_t>(UINT64_C(0xffffffffffffffff),
+                                 INT64_C(0x7fffffffffffffff)),
+            INT64_C(0x7fffffffffffffff));
 }
 
 }  // namespace

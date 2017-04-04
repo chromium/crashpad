@@ -31,16 +31,16 @@ void ExpectUnloadedModule(const MINIDUMP_UNLOADED_MODULE* expected,
                           const MINIDUMP_UNLOADED_MODULE* observed,
                           const std::string& file_contents,
                           const std::string& expected_module_name) {
-  EXPECT_EQ(expected->BaseOfImage, observed->BaseOfImage);
-  EXPECT_EQ(expected->SizeOfImage, observed->SizeOfImage);
-  EXPECT_EQ(expected->CheckSum, observed->CheckSum);
-  EXPECT_EQ(expected->TimeDateStamp, observed->TimeDateStamp);
-  EXPECT_NE(0u, observed->ModuleNameRva);
+  EXPECT_EQ(observed->BaseOfImage, expected->BaseOfImage);
+  EXPECT_EQ(observed->SizeOfImage, expected->SizeOfImage);
+  EXPECT_EQ(observed->CheckSum, expected->CheckSum);
+  EXPECT_EQ(observed->TimeDateStamp, expected->TimeDateStamp);
+  EXPECT_NE(observed->ModuleNameRva, 0u);
   base::string16 observed_module_name_utf16 =
       MinidumpStringAtRVAAsString(file_contents, observed->ModuleNameRva);
   base::string16 expected_module_name_utf16 =
       base::UTF8ToUTF16(expected_module_name);
-  EXPECT_EQ(expected_module_name_utf16, observed_module_name_utf16);
+  EXPECT_EQ(observed_module_name_utf16, expected_module_name_utf16);
 }
 
 void GetUnloadedModuleListStream(
@@ -60,8 +60,8 @@ void GetUnloadedModuleListStream(
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
   ASSERT_TRUE(directory);
 
-  ASSERT_EQ(kMinidumpStreamTypeUnloadedModuleList, directory[0].StreamType);
-  EXPECT_EQ(kUnloadedModuleListStreamOffset, directory[0].Location.Rva);
+  ASSERT_EQ(directory[0].StreamType, kMinidumpStreamTypeUnloadedModuleList);
+  EXPECT_EQ(directory[0].Location.Rva, kUnloadedModuleListStreamOffset);
 
   *unloaded_module_list =
       MinidumpWritableAtLocationDescriptor<MINIDUMP_UNLOADED_MODULE_LIST>(
@@ -97,7 +97,7 @@ TEST(MinidumpUnloadedModuleWriter, EmptyModule) {
   ASSERT_NO_FATAL_FAILURE(
       GetUnloadedModuleListStream(string_file.string(), &unloaded_module_list));
 
-  EXPECT_EQ(1u, unloaded_module_list->NumberOfEntries);
+  EXPECT_EQ(unloaded_module_list->NumberOfEntries, 1u);
 
   MINIDUMP_UNLOADED_MODULE expected = {};
   ASSERT_NO_FATAL_FAILURE(
@@ -144,7 +144,7 @@ TEST(MinidumpUnloadedModuleWriter, OneModule) {
   ASSERT_NO_FATAL_FAILURE(
       GetUnloadedModuleListStream(string_file.string(), &unloaded_module_list));
 
-  EXPECT_EQ(1u, unloaded_module_list->NumberOfEntries);
+  EXPECT_EQ(unloaded_module_list->NumberOfEntries, 1u);
 
   MINIDUMP_UNLOADED_MODULE expected = {};
   expected.BaseOfImage = kModuleBase;

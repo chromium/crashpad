@@ -76,14 +76,14 @@ struct MIGReply : public mig_reply_error_t {
   }
 
   void Verify() {
-    EXPECT_EQ(implicit_cast<mach_msg_bits_t>(MACH_MSGH_BITS(0, 0)),
-              Head.msgh_bits);
-    EXPECT_EQ(sizeof(*this), Head.msgh_size);
-    EXPECT_EQ(kMachPortNull, Head.msgh_remote_port);
-    EXPECT_EQ(kMachPortNull, Head.msgh_local_port);
-    EXPECT_EQ(10111, Head.msgh_id);
-    EXPECT_EQ(0, memcmp(&NDR, &NDR_record, sizeof(NDR)));
-    EXPECT_EQ(MIG_NO_REPLY, RetCode);
+    EXPECT_EQ(Head.msgh_bits,
+              implicit_cast<mach_msg_bits_t>(MACH_MSGH_BITS(0, 0)));
+    EXPECT_EQ(Head.msgh_size, sizeof(*this));
+    EXPECT_EQ(Head.msgh_remote_port, kMachPortNull);
+    EXPECT_EQ(Head.msgh_local_port, kMachPortNull);
+    EXPECT_EQ(Head.msgh_id, 10111);
+    EXPECT_EQ(memcmp(&NDR, &NDR_record, sizeof(NDR)), 0);
+    EXPECT_EQ(RetCode, MIG_NO_REPLY);
   }
 };
 
@@ -104,13 +104,13 @@ TEST(ChildPortServer, MockChildPortCheckIn) {
 
   std::set<mach_msg_id_t> expect_request_ids;
   expect_request_ids.insert(10011);  // There is no constant for this.
-  EXPECT_EQ(expect_request_ids, server.MachMessageServerRequestIDs());
+  EXPECT_EQ(server.MachMessageServerRequestIDs(), expect_request_ids);
 
   ChildPortCheckInRequest request;
-  EXPECT_EQ(request.Head.msgh_size, server.MachMessageServerRequestSize());
+  EXPECT_EQ(server.MachMessageServerRequestSize(), request.Head.msgh_size);
 
   MIGReply reply;
-  EXPECT_EQ(sizeof(reply), server.MachMessageServerReplySize());
+  EXPECT_EQ(server.MachMessageServerReplySize(), sizeof(reply));
 
   EXPECT_CALL(server_interface,
               HandleChildPortCheckIn(kServerLocalPort,

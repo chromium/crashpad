@@ -81,7 +81,7 @@ void ScopedTempDir::RecursivelyDeleteTemporaryDirectory(
   WIN32_FIND_DATA find_data;
   HANDLE search_handle = FindFirstFile(search_mask.c_str(), &find_data);
   if (search_handle == INVALID_HANDLE_VALUE)
-    ASSERT_EQ(ERROR_FILE_NOT_FOUND, GetLastError());
+    ASSERT_EQ(GetLastError(), ERROR_FILE_NOT_FOUND);
   do {
     if (wcscmp(find_data.cFileName, L".") == 0 ||
         wcscmp(find_data.cFileName, L"..") == 0) {
@@ -94,7 +94,7 @@ void ScopedTempDir::RecursivelyDeleteTemporaryDirectory(
     else
       EXPECT_TRUE(DeleteFile(entry_path.value().c_str()));
   } while (FindNextFile(search_handle, &find_data));
-  EXPECT_EQ(ERROR_NO_MORE_FILES, GetLastError());
+  EXPECT_EQ(GetLastError(), ERROR_NO_MORE_FILES);
 
   EXPECT_TRUE(FindClose(search_handle));
   EXPECT_TRUE(RemoveDirectory(path.value().c_str()));

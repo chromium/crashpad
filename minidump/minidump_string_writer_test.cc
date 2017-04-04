@@ -40,13 +40,13 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
     string_file.Reset();
     crashpad::internal::MinidumpUTF16StringWriter string_writer;
     EXPECT_TRUE(string_writer.WriteEverything(&string_file));
-    ASSERT_EQ(6u, string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), 6u);
 
     const MINIDUMP_STRING* minidump_string =
         MinidumpStringAtRVA(string_file.string(), 0);
     EXPECT_TRUE(minidump_string);
-    EXPECT_EQ(base::string16(),
-              MinidumpStringAtRVAAsString(string_file.string(), 0));
+    EXPECT_EQ(MinidumpStringAtRVAAsString(string_file.string(), 0),
+              base::string16());
   }
 
   const struct {
@@ -74,10 +74,9 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
 
     // Make sure that the expected output string with its NUL terminator fits in
     // the space provided.
-    ASSERT_EQ(
-        0,
-        kTestData[index]
-            .output_string[arraysize(kTestData[index].output_string) - 1]);
+    ASSERT_EQ(kTestData[index]
+                  .output_string[arraysize(kTestData[index].output_string) - 1],
+              0);
 
     string_file.Reset();
     crashpad::internal::MinidumpUTF16StringWriter string_writer;
@@ -91,16 +90,16 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
     ALLOW_UNUSED_LOCAL(tmp);
     const size_t expected_utf16_bytes =
         expected_utf16_units_with_nul * sizeof(tmp.Buffer[0]);
-    ASSERT_EQ(sizeof(MINIDUMP_STRING) + expected_utf16_bytes,
-              string_file.string().size());
+    ASSERT_EQ(string_file.string().size(),
+              sizeof(MINIDUMP_STRING) + expected_utf16_bytes);
 
     const MINIDUMP_STRING* minidump_string =
         MinidumpStringAtRVA(string_file.string(), 0);
     EXPECT_TRUE(minidump_string);
     base::string16 expect_string = base::string16(
         kTestData[index].output_string, kTestData[index].output_length);
-    EXPECT_EQ(expect_string,
-              MinidumpStringAtRVAAsString(string_file.string(), 0));
+    EXPECT_EQ(MinidumpStringAtRVAAsString(string_file.string(), 0),
+              expect_string);
   }
 }
 
@@ -134,13 +133,13 @@ TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
     EXPECT_TRUE(minidump_string);
     MINIDUMP_STRING tmp = {0};
     ALLOW_UNUSED_LOCAL(tmp);
-    EXPECT_EQ(string_file.string().size() - sizeof(MINIDUMP_STRING) -
-                  sizeof(tmp.Buffer[0]),
-              minidump_string->Length);
+    EXPECT_EQ(minidump_string->Length,
+              string_file.string().size() - sizeof(MINIDUMP_STRING) -
+                  sizeof(tmp.Buffer[0]));
     base::string16 output_string =
         MinidumpStringAtRVAAsString(string_file.string(), 0);
     EXPECT_FALSE(output_string.empty());
-    EXPECT_NE(base::string16::npos, output_string.find(0xfffd));
+    EXPECT_NE(output_string.find(0xfffd), base::string16::npos);
   }
 }
 
@@ -152,13 +151,13 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
     string_file.Reset();
     crashpad::internal::MinidumpUTF8StringWriter string_writer;
     EXPECT_TRUE(string_writer.WriteEverything(&string_file));
-    ASSERT_EQ(5u, string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), 5u);
 
     const MinidumpUTF8String* minidump_string =
         MinidumpUTF8StringAtRVA(string_file.string(), 0);
     EXPECT_TRUE(minidump_string);
-    EXPECT_EQ(std::string(),
-              MinidumpUTF8StringAtRVAAsString(string_file.string(), 0));
+    EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(), 0),
+              std::string());
   }
 
   const struct {
@@ -186,18 +185,18 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
     crashpad::internal::MinidumpUTF8StringWriter string_writer;
     std::string test_string(kTestData[index].string, kTestData[index].length);
     string_writer.SetUTF8(test_string);
-    EXPECT_EQ(test_string, string_writer.UTF8());
+    EXPECT_EQ(string_writer.UTF8(), test_string);
     EXPECT_TRUE(string_writer.WriteEverything(&string_file));
 
     const size_t expected_utf8_bytes_with_nul = kTestData[index].length + 1;
-    ASSERT_EQ(sizeof(MinidumpUTF8String) + expected_utf8_bytes_with_nul,
-              string_file.string().size());
+    ASSERT_EQ(string_file.string().size(),
+              sizeof(MinidumpUTF8String) + expected_utf8_bytes_with_nul);
 
     const MinidumpUTF8String* minidump_string =
         MinidumpUTF8StringAtRVA(string_file.string(), 0);
     EXPECT_TRUE(minidump_string);
-    EXPECT_EQ(test_string,
-              MinidumpUTF8StringAtRVAAsString(string_file.string(), 0));
+    EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(), 0),
+              test_string);
   }
 }
 
@@ -245,9 +244,9 @@ void MinidumpStringListTest() {
   ASSERT_TRUE(list);
 
   for (size_t index = 0; index < strings.size(); ++index) {
-    EXPECT_EQ(Traits::ExpectationForUTF8(strings[index]),
-              Traits::ObservationAtRVA(string_file.string(),
-                                       list->children[index]));
+    EXPECT_EQ(
+        Traits::ObservationAtRVA(string_file.string(), list->children[index]),
+        Traits::ExpectationForUTF8(strings[index]));
   }
 }
 
