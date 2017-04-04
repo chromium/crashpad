@@ -68,8 +68,8 @@ TEST(ProcessReader, SelfBasic) {
   EXPECT_TRUE(process_reader.Is64Bit());
 #endif
 
-  EXPECT_EQ(getpid(), process_reader.ProcessID());
-  EXPECT_EQ(getppid(), process_reader.ParentProcessID());
+  EXPECT_EQ(process_reader.ProcessID(), getpid());
+  EXPECT_EQ(process_reader.ParentProcessID(), getppid());
 
   const char kTestMemory[] = "Some test memory";
   char buffer[arraysize(kTestMemory)];
@@ -99,8 +99,8 @@ class ProcessReaderChild final : public MachMultiprocess {
     EXPECT_TRUE(process_reader.Is64Bit());
 #endif
 
-    EXPECT_EQ(getpid(), process_reader.ParentProcessID());
-    EXPECT_EQ(ChildPID(), process_reader.ProcessID());
+    EXPECT_EQ(process_reader.ParentProcessID(), getpid());
+    EXPECT_EQ(process_reader.ProcessID(), ChildPID());
 
     FileHandle read_handle = ReadPipeHandle();
 
@@ -109,7 +109,7 @@ class ProcessReaderChild final : public MachMultiprocess {
 
     std::string read_string;
     ASSERT_TRUE(process_reader.Memory()->ReadCString(address, &read_string));
-    EXPECT_EQ(kTestMemory, read_string);
+    EXPECT_EQ(read_string, kTestMemory);
   }
 
   void MachMultiprocessChild() override {
@@ -153,12 +153,12 @@ TEST(ProcessReader, SelfOneThread) {
   // thread, not exactly one thread.
   ASSERT_GE(threads.size(), 1u);
 
-  EXPECT_EQ(PthreadToThreadID(pthread_self()), threads[0].id);
+  EXPECT_EQ(threads[0].id, PthreadToThreadID(pthread_self()));
 
   thread_t thread_self = MachThreadSelf();
-  EXPECT_EQ(thread_self, threads[0].port);
+  EXPECT_EQ(threads[0].port, thread_self);
 
-  EXPECT_EQ(0, threads[0].suspend_count);
+  EXPECT_EQ(threads[0].suspend_count, 0);
 }
 
 class TestThreadPool {
@@ -178,7 +178,7 @@ class TestThreadPool {
       thread_t thread_port = pthread_mach_thread_np(thread_info->pthread);
       while (thread_info->suspend_count > 0) {
         kern_return_t kr = thread_resume(thread_port);
-        EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "thread_resume");
+        EXPECT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "thread_resume");
         --thread_info->suspend_count;
       }
     }
@@ -207,7 +207,7 @@ class TestThreadPool {
                               nullptr,
                               ThreadMain,
                               thread_info);
-      ASSERT_EQ(0, rv);
+      ASSERT_EQ(rv, 0);
     }
 
     for (ThreadInfo* thread_info : thread_infos_) {
@@ -225,7 +225,7 @@ class TestThreadPool {
            suspend_count < thread_index;
            ++suspend_count) {
         kern_return_t kr = thread_suspend(thread_port);
-        EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "thread_suspend");
+        EXPECT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "thread_suspend");
         if (kr == KERN_SUCCESS) {
           ++thread_infos_[thread_index]->suspend_count;
         }
@@ -317,7 +317,7 @@ void ExpectSeveralThreads(ThreadMap* thread_map,
   if (tolerate_extra_threads) {
     ASSERT_GE(threads.size(), thread_map->size());
   } else {
-    ASSERT_EQ(thread_map->size(), threads.size());
+    ASSERT_EQ(threads.size(), thread_map->size());
   }
 
   for (size_t thread_index = 0; thread_index < threads.size(); ++thread_index) {
@@ -328,14 +328,14 @@ void ExpectSeveralThreads(ThreadMap* thread_map,
     const auto& iterator = thread_map->find(thread.id);
     if (!tolerate_extra_threads) {
       // Make sure that the thread is in the expectation map.
-      ASSERT_NE(thread_map->end(), iterator);
+      ASSERT_NE(iterator, thread_map->end());
     }
 
     if (iterator != thread_map->end()) {
       EXPECT_GE(iterator->second.stack_address, thread.stack_region_address);
       EXPECT_LT(iterator->second.stack_address, thread_stack_region_end);
 
-      EXPECT_EQ(iterator->second.suspend_count, thread.suspend_count);
+      EXPECT_EQ(thread.suspend_count, iterator->second.suspend_count);
 
       // Remove the thread from the expectation map since it’s already been
       // found. This makes it easy to check for duplicate thread IDs, and makes
@@ -350,14 +350,14 @@ void ExpectSeveralThreads(ThreadMap* thread_map,
     for (size_t other_thread_index = 0;
          other_thread_index < threads.size();
          ++other_thread_index) {
-      if (thread_index == other_thread_index) {
+      if (other_thread_index == thread_index) {
         continue;
       }
 
       const ProcessReader::Thread& other_thread = threads[other_thread_index];
 
-      EXPECT_NE(thread.id, other_thread.id);
-      EXPECT_NE(thread.port, other_thread.port);
+      EXPECT_NE(other_thread.id, thread.id);
+      EXPECT_NE(other_thread.port, thread.port);
 
       mach_vm_address_t other_thread_stack_region_end =
           other_thread.stack_region_address + other_thread.stack_region_size;
@@ -398,7 +398,7 @@ TEST(ProcessReader, SelfSeveralThreads) {
     uint64_t thread_id = thread_pool.GetThreadInfo(thread_index, &expectation);
 
     // There can’t be any duplicate thread IDs.
-    EXPECT_EQ(0u, thread_map.count(thread_id));
+    EXPECT_EQ(thread_map.count(thread_id), 0u);
 
     thread_map[thread_id] = expectation;
   }
@@ -418,7 +418,7 @@ TEST(ProcessReader, SelfSeveralThreads) {
     if (thread.port == thread_self) {
       EXPECT_FALSE(found_thread_self);
       found_thread_self = true;
-      EXPECT_EQ(self_thread_id, thread.id);
+      EXPECT_EQ(thread.id, self_thread_id);
     }
   }
   EXPECT_TRUE(found_thread_self);
@@ -459,7 +459,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
                              sizeof(expectation.suspend_count));
 
       // There can’t be any duplicate thread IDs.
-      EXPECT_EQ(0u, thread_map.count(thread_id));
+      EXPECT_EQ(thread_map.count(thread_id), 0u);
 
       thread_map[thread_id] = expectation;
     }
@@ -556,24 +556,24 @@ class ScopedOpenCLNoOpKernel {
   ~ScopedOpenCLNoOpKernel() {
     if (kernel_) {
       cl_int rv = clReleaseKernel(kernel_);
-      EXPECT_EQ(CL_SUCCESS, rv) << "clReleaseKernel";
+      EXPECT_EQ(rv, CL_SUCCESS) << "clReleaseKernel";
     }
 
     if (program_) {
       cl_int rv = clReleaseProgram(program_);
-      EXPECT_EQ(CL_SUCCESS, rv) << "clReleaseProgram";
+      EXPECT_EQ(rv, CL_SUCCESS) << "clReleaseProgram";
     }
 
     if (context_) {
       cl_int rv = clReleaseContext(context_);
-      EXPECT_EQ(CL_SUCCESS, rv) << "clReleaseContext";
+      EXPECT_EQ(rv, CL_SUCCESS) << "clReleaseContext";
     }
   }
 
   void SetUp() {
     cl_platform_id platform_id;
     cl_int rv = clGetPlatformIDs(1, &platform_id, nullptr);
-    ASSERT_EQ(CL_SUCCESS, rv) << "clGetPlatformIDs";
+    ASSERT_EQ(rv, CL_SUCCESS) << "clGetPlatformIDs";
 
     // Use CL_DEVICE_TYPE_CPU to ensure that the kernel would execute on the
     // CPU. This is the only device type that a cl_kernels image will be created
@@ -581,10 +581,10 @@ class ScopedOpenCLNoOpKernel {
     cl_device_id device_id;
     rv =
         clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_CPU, 1, &device_id, nullptr);
-    ASSERT_EQ(CL_SUCCESS, rv) << "clGetDeviceIDs";
+    ASSERT_EQ(rv, CL_SUCCESS) << "clGetDeviceIDs";
 
     context_ = clCreateContext(nullptr, 1, &device_id, nullptr, nullptr, &rv);
-    ASSERT_EQ(CL_SUCCESS, rv) << "clCreateContext";
+    ASSERT_EQ(rv, CL_SUCCESS) << "clCreateContext";
 
     // The goal of the program in |sources| is to produce a cl_kernels image
     // that doesn’t strictly conform to Mach-O expectations. On OS X 10.10,
@@ -610,14 +610,14 @@ class ScopedOpenCLNoOpKernel {
 
     program_ = clCreateProgramWithSource(
         context_, arraysize(sources), sources, source_lengths, &rv);
-    ASSERT_EQ(CL_SUCCESS, rv) << "clCreateProgramWithSource";
+    ASSERT_EQ(rv, CL_SUCCESS) << "clCreateProgramWithSource";
 
     rv = clBuildProgram(
         program_, 1, &device_id, "-cl-opt-disable", nullptr, nullptr);
-    ASSERT_EQ(CL_SUCCESS, rv) << "clBuildProgram";
+    ASSERT_EQ(rv, CL_SUCCESS) << "clBuildProgram";
 
     kernel_ = clCreateKernel(program_, "NoOp", &rv);
-    ASSERT_EQ(CL_SUCCESS, rv) << "clCreateKernel";
+    ASSERT_EQ(rv, CL_SUCCESS) << "clCreateKernel";
   }
 
  private:
@@ -655,7 +655,7 @@ TEST(ProcessReader, SelfModules) {
 
   // dyld_image_count doesn’t include an entry for dyld itself, but |modules|
   // does.
-  ASSERT_EQ(dyld_image_count + 1, modules.size());
+  ASSERT_EQ(modules.size(), dyld_image_count + 1);
 
   bool found_cl_kernels = false;
   for (uint32_t index = 0; index < dyld_image_count; ++index) {
@@ -663,49 +663,48 @@ TEST(ProcessReader, SelfModules) {
         "index %u, name %s", index, modules[index].name.c_str()));
 
     const char* dyld_image_name = _dyld_get_image_name(index);
-    EXPECT_EQ(dyld_image_name, modules[index].name);
+    EXPECT_EQ(modules[index].name, dyld_image_name);
     ASSERT_TRUE(modules[index].reader);
     EXPECT_EQ(
-        reinterpret_cast<mach_vm_address_t>(_dyld_get_image_header(index)),
-        modules[index].reader->Address());
+        modules[index].reader->Address(),
+        reinterpret_cast<mach_vm_address_t>(_dyld_get_image_header(index)));
 
     if (index == 0) {
       // dyld didn’t load the main executable, so it couldn’t record its
       // timestamp, and it is reported as 0.
-      EXPECT_EQ(0, modules[index].timestamp);
+      EXPECT_EQ(modules[index].timestamp, 0);
     } else if (modules[index].reader->FileType() == MH_BUNDLE &&
                modules[index].name == "cl_kernels") {
       // cl_kernels doesn’t exist as a file.
-      EXPECT_EQ(0, modules[index].timestamp);
+      EXPECT_EQ(modules[index].timestamp, 0);
       found_cl_kernels = true;
     } else {
       // Hope that the module didn’t change on disk.
       struct stat stat_buf;
       int rv = stat(dyld_image_name, &stat_buf);
-      EXPECT_EQ(0, rv) << ErrnoMessage("stat");
+      EXPECT_EQ(rv, 0) << ErrnoMessage("stat");
       if (rv == 0) {
-        EXPECT_EQ(stat_buf.st_mtime, modules[index].timestamp);
+        EXPECT_EQ(modules[index].timestamp, stat_buf.st_mtime);
       }
     }
   }
 
-  EXPECT_EQ(ExpectCLKernels(), found_cl_kernels);
+  EXPECT_EQ(found_cl_kernels, ExpectCLKernels());
 
   size_t index = modules.size() - 1;
-  EXPECT_EQ(kDyldPath, modules[index].name);
+  EXPECT_EQ(modules[index].name, kDyldPath);
 
   // dyld didn’t load itself either, so it couldn’t record its timestamp, and it
   // is also reported as 0.
-  EXPECT_EQ(0, modules[index].timestamp);
+  EXPECT_EQ(modules[index].timestamp, 0);
 
   const struct dyld_all_image_infos* dyld_image_infos =
       _dyld_get_all_image_infos();
   if (dyld_image_infos->version >= 2) {
     ASSERT_TRUE(modules[index].reader);
-    EXPECT_EQ(
-        reinterpret_cast<mach_vm_address_t>(
-            dyld_image_infos->dyldImageLoadAddress),
-        modules[index].reader->Address());
+    EXPECT_EQ(modules[index].reader->Address(),
+              reinterpret_cast<mach_vm_address_t>(
+                  dyld_image_infos->dyldImageLoadAddress));
   }
 }
 
@@ -733,7 +732,7 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
     CheckedReadFileExactly(
         read_handle, &expect_modules, sizeof(expect_modules));
 
-    ASSERT_EQ(expect_modules, modules.size());
+    ASSERT_EQ(modules.size(), expect_modules);
 
     bool found_cl_kernels = false;
     for (size_t index = 0; index < modules.size(); ++index) {
@@ -747,35 +746,35 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       // The NUL terminator is not read.
       std::string expect_name(expect_name_length, '\0');
       CheckedReadFileExactly(read_handle, &expect_name[0], expect_name_length);
-      EXPECT_EQ(expect_name, modules[index].name);
+      EXPECT_EQ(modules[index].name, expect_name);
 
       mach_vm_address_t expect_address;
       CheckedReadFileExactly(
           read_handle, &expect_address, sizeof(expect_address));
       ASSERT_TRUE(modules[index].reader);
-      EXPECT_EQ(expect_address, modules[index].reader->Address());
+      EXPECT_EQ(modules[index].reader->Address(), expect_address);
 
       if (index == 0 || index == modules.size() - 1) {
         // dyld didn’t load the main executable or itself, so it couldn’t record
         // these timestamps, and they are reported as 0.
-        EXPECT_EQ(0, modules[index].timestamp);
+        EXPECT_EQ(modules[index].timestamp, 0);
       } else if (modules[index].reader->FileType() == MH_BUNDLE &&
                  modules[index].name == "cl_kernels") {
         // cl_kernels doesn’t exist as a file.
-        EXPECT_EQ(0, modules[index].timestamp);
+        EXPECT_EQ(modules[index].timestamp, 0);
         found_cl_kernels = true;
       } else {
         // Hope that the module didn’t change on disk.
         struct stat stat_buf;
         int rv = stat(expect_name.c_str(), &stat_buf);
-        EXPECT_EQ(0, rv) << ErrnoMessage("stat");
+        EXPECT_EQ(rv, 0) << ErrnoMessage("stat");
         if (rv == 0) {
-          EXPECT_EQ(stat_buf.st_mtime, modules[index].timestamp);
+          EXPECT_EQ(modules[index].timestamp, stat_buf.st_mtime);
         }
       }
     }
 
-    EXPECT_EQ(ExpectCLKernels(), found_cl_kernels);
+    EXPECT_EQ(found_cl_kernels, ExpectCLKernels());
   }
 
   void MachMultiprocessChild() override {

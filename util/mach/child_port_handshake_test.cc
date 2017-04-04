@@ -113,12 +113,12 @@ class ChildPortHandshakeTest : public Multiprocess {
 
       case TestType::kClientChecksIn_SendRight:
       case TestType::kTokenIncorrectThenCorrect:
-        EXPECT_EQ(bootstrap_port, send_right);
+        EXPECT_EQ(send_right, bootstrap_port);
         break;
 
       case TestType::kClientChecksIn_SendOnceRight:
         EXPECT_TRUE(send_right.is_valid());
-        EXPECT_NE(bootstrap_port, send_right);
+        EXPECT_NE(send_right, bootstrap_port);
         break;
 
       case TestType::kClientDoesNotCheckIn:
@@ -219,7 +219,7 @@ class ChildPortHandshakeTest : public Multiprocess {
       }
 
       case TestType::kServerDies: {
-        ASSERT_EQ(ClientProcess::kParentClient, client_process_);
+        ASSERT_EQ(client_process_, ClientProcess::kParentClient);
         ASSERT_FALSE(child_port_handshake_.RunClient(bootstrap_port,
                                                      MACH_MSG_TYPE_COPY_SEND));
         break;

@@ -82,7 +82,7 @@ class ScopedProcessSuspendTest final : public WinChildProcess {
     char c;
     // Wait for notification from parent.
     EXPECT_TRUE(LoggingReadFileExactly(ReadPipeHandle(), &c, sizeof(c)));
-    EXPECT_EQ(' ', c);
+    EXPECT_EQ(c, ' ');
     return EXIT_SUCCESS;
   }
 
