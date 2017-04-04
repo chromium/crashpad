@@ -34,11 +34,14 @@
 #include "base/logging.h"
 #include "base/metrics/persistent_histogram_allocator.h"
 #include "base/scoped_generic.h"
+#include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/crash_report_database.h"
 #include "client/crashpad_client.h"
+#include "client/crashpad_info.h"
 #include "client/prune_crash_reports.h"
+#include "client/simple_string_dictionary.h"
 #include "handler/crash_report_upload_thread.h"
 #include "handler/prune_crash_reports_thread.h"
 #include "tools/tool_support.h"
@@ -102,6 +105,8 @@ void Usage(const base::FilePath& me) {
 #endif  // OS_MACOSX
 "      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"
 "      --monitor-self          run a second handler to catch crashes in the first\n"
+"      --monitor-self-annotation=KEY=VALUE\n"
+"                              set a module annotation in the handler\n"
 "      --monitor-self-argument=ARGUMENT\n"
 "                              provide additional arguments to the second handler\n"
 "      --no-rate-limit         don't rate limit crash uploads\n"
@@ -123,6 +128,7 @@ void Usage(const base::FilePath& me) {
 
 struct Options {
   std::map<std::string, std::string> annotations;
+  std::map<std::string, std::string> monitor_self_annotations;
   std::string url;
   base::FilePath database;
   base::FilePath metrics_dir;
@@ -139,6 +145,29 @@ struct Options {
   bool rate_limit;
   bool upload_gzip;
 };
+
+// Splits |key_value| on '=' and inserts the resulting key and value into |map|.
+// If |key_value| has the wrong format, logs an error and returns false. If the
+// key is already in the map, logs a warning, replaces the existing value, and
+// returns true. If the key and value were inserted into the map, returns true.
+// |argument| is used to give context to logged messages.
+bool AddKeyValueToMap(std::map<std::string, std::string>* map,
+                      const std::string& key_value,
+                      const char* argument) {
+  std::string key;
+  std::string value;
+  if (!SplitStringFirst(key_value, '=', &key, &value)) {
+    LOG(ERROR) << argument << " requires KEY=VALUE";
+    return false;
+  }
+
+  std::string old_value;
+  if (!MapInsertOrReplace(map, key, value, &old_value)) {
+    LOG(WARNING) << argument << " has duplicate key " << key
+                 << ", discarding value " << old_value;
+  }
+  return true;
+}
 
 // Calls Metrics::HandlerLifetimeMilestone, but only on the first call. This is
 // to prevent multiple exit events from inadvertently being recorded, which
@@ -292,7 +321,7 @@ class TerminateHandler final : public SessionEndWatcher {
 void ReinstallCrashHandler() {
   // This is used to re-enable the metrics-recording crash handler after
   // MonitorSelf() sets up a Crashpad exception handler. The Crashpad handler
-  // takes over the UnhandledExceptionFilter, so reintsall the metrics-recording
+  // takes over the UnhandledExceptionFilter, so reinstall the metrics-recording
   // one.
   g_original_exception_filter =
       SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
@@ -329,6 +358,12 @@ void MonitorSelf(const Options& options) {
   }
   if (!options.upload_gzip) {
     extra_arguments.push_back("--no-upload-gzip");
+  }
+  for (const auto& iterator : options.monitor_self_annotations) {
+    extra_arguments.push_back(
+        base::StringPrintf("--monitor-self-annotation=%s=%s",
+                           iterator.first.c_str(),
+                           iterator.second.c_str()));
   }
 
   // Don’t use options.metrics_dir. The current implementation only allows one
@@ -377,6 +412,7 @@ int HandlerMain(int argc, char* argv[]) {
 #endif  // OS_MACOSX
     kOptionMetrics,
     kOptionMonitorSelf,
+    kOptionMonitorSelfAnnotation,
     kOptionMonitorSelfArgument,
     kOptionNoRateLimit,
     kOptionNoUploadGzip,
@@ -410,6 +446,10 @@ int HandlerMain(int argc, char* argv[]) {
 #endif  // OS_MACOSX
     {"metrics-dir", required_argument, nullptr, kOptionMetrics},
     {"monitor-self", no_argument, nullptr, kOptionMonitorSelf},
+    {"monitor-self-annotation",
+     required_argument,
+     nullptr,
+     kOptionMonitorSelfAnnotation},
     {"monitor-self-argument",
      required_argument,
      nullptr,
@@ -442,16 +482,8 @@ int HandlerMain(int argc, char* argv[]) {
   while ((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1) {
     switch (opt) {
       case kOptionAnnotation: {
-        std::string key;
-        std::string value;
-        if (!SplitStringFirst(optarg, '=', &key, &value)) {
-          ToolSupport::UsageHint(me, "--annotation requires KEY=VALUE");
+        if (!AddKeyValueToMap(&options.annotations, optarg, "--annotation")) {
           return ExitFailure();
-        }
-        std::string old_value;
-        if (!MapInsertOrReplace(&options.annotations, key, value, &old_value)) {
-          LOG(WARNING) << "duplicate key " << key << ", discarding value "
-                       << old_value;
         }
         break;
       }
@@ -492,6 +524,14 @@ int HandlerMain(int argc, char* argv[]) {
       }
       case kOptionMonitorSelf: {
         options.monitor_self = true;
+        break;
+      }
+      case kOptionMonitorSelfAnnotation: {
+        if (!AddKeyValueToMap(&options.monitor_self_annotations,
+                              optarg,
+                              "--monitor-self-annotation")) {
+          return ExitFailure();
+        }
         break;
       }
       case kOptionMonitorSelfArgument: {
@@ -582,6 +622,17 @@ int HandlerMain(int argc, char* argv[]) {
 
   if (options.monitor_self) {
     MonitorSelf(options);
+  }
+
+  if (!options.monitor_self_annotations.empty()) {
+    // Establish these annotations even if --monitor-self is not present, in
+    // case something such as generate_dump wants to try to access them later.
+    SimpleStringDictionary* module_annotations = new SimpleStringDictionary();
+    for (const auto& iterator : options.monitor_self_annotations) {
+      module_annotations->SetKeyValue(iterator.first.c_str(),
+                                      iterator.second.c_str());
+    }
+    CrashpadInfo::GetCrashpadInfo()->set_simple_annotations(module_annotations);
   }
 
 #if defined(OS_MACOSX)
