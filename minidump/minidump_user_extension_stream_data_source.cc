@@ -17,12 +17,8 @@
 namespace crashpad {
 
 MinidumpUserExtensionStreamDataSource::MinidumpUserExtensionStreamDataSource(
-    uint32_t stream_type,
-    const void* buffer,
-    size_t buffer_size)
-    : stream_type_(static_cast<MinidumpStreamType>(stream_type)),
-      buffer_(buffer),
-      buffer_size_(buffer_size) {}
+    uint32_t stream_type)
+    : stream_type_(static_cast<MinidumpStreamType>(stream_type)) {}
 
 MinidumpUserExtensionStreamDataSource::
     ~MinidumpUserExtensionStreamDataSource() {}

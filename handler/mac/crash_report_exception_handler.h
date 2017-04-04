@@ -23,6 +23,7 @@
 #include "base/macros.h"
 #include "client/crash_report_database.h"
 #include "handler/crash_report_upload_thread.h"
+#include "handler/handler_main.h"
 #include "util/mach/exc_server_variants.h"
 
 namespace crashpad {
@@ -49,7 +50,8 @@ class CrashReportExceptionHandler : public UniversalMachExcServer::Interface {
   CrashReportExceptionHandler(
       CrashReportDatabase* database,
       CrashReportUploadThread* upload_thread,
-      const std::map<std::string, std::string>* process_annotations);
+      const std::map<std::string, std::string>* process_annotations,
+      const UserStreamSources* user_stream_sources);
 
   ~CrashReportExceptionHandler();
 
@@ -77,6 +79,7 @@ class CrashReportExceptionHandler : public UniversalMachExcServer::Interface {
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
+  const UserStreamSources* user_stream_sources_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };

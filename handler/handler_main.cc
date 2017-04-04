@@ -270,7 +270,9 @@ void InstallCrashHandler() {
 
 }  // namespace
 
-int HandlerMain(int argc, char* argv[]) {
+int HandlerMain(int argc,
+                char* argv[],
+                const UserStreamSources* user_stream_sources) {
   InstallCrashHandler();
   CallMetricsRecordNormalExit metrics_record_normal_exit;
 
@@ -575,8 +577,10 @@ int HandlerMain(int argc, char* argv[]) {
                                       PruneCondition::GetDefault());
   prune_thread.Start();
 
-  CrashReportExceptionHandler exception_handler(
-      database.get(), &upload_thread, &options.annotations);
+  CrashReportExceptionHandler exception_handler(database.get(),
+                                                &upload_thread,
+                                                &options.annotations,
+                                                user_stream_sources);
 
 #if defined(OS_WIN)
   if (options.initial_client_data.IsValid()) {
