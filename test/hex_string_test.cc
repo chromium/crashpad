@@ -22,11 +22,11 @@ namespace test {
 namespace {
 
 TEST(HexString, HexString) {
-  EXPECT_EQ("", BytesToHexString(nullptr, 0));
+  EXPECT_EQ(BytesToHexString(nullptr, 0), "");
 
   const char kBytes[] = "Abc123xyz \x0a\x7f\xf0\x9f\x92\xa9_";
-  EXPECT_EQ("41626331323378797a200a7ff09f92a95f00",
-            BytesToHexString(kBytes, arraysize(kBytes)));
+  EXPECT_EQ(BytesToHexString(kBytes, arraysize(kBytes)),
+            "41626331323378797a200a7ff09f92a95f00");
 }
 
 }  // namespace

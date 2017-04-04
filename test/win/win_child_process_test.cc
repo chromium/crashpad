@@ -28,7 +28,7 @@ int ReadInt(HANDLE handle) {
   int value = 0;
   DWORD bytes_read = 0;
   EXPECT_TRUE(::ReadFile(handle, &value, sizeof(value), &bytes_read, nullptr));
-  EXPECT_EQ(sizeof(value), bytes_read);
+  EXPECT_EQ(bytes_read, sizeof(value));
   return value;
 }
 
@@ -36,7 +36,7 @@ void WriteInt(HANDLE handle, int value) {
   DWORD bytes_written = 0;
   EXPECT_TRUE(
       ::WriteFile(handle, &value, sizeof(value), &bytes_written, nullptr));
-  EXPECT_EQ(sizeof(value), bytes_written);
+  EXPECT_EQ(bytes_written, sizeof(value));
 }
 
 class TestWinChildProcess final : public WinChildProcess {
@@ -61,7 +61,7 @@ TEST(WinChildProcessTest, WinChildProcess) {
 
   std::unique_ptr<WinChildProcess::Handles> handles = WinChildProcess::Launch();
   WriteInt(handles->write.get(), 1);
-  ASSERT_EQ(1, ReadInt(handles->read.get()));
+  ASSERT_EQ(ReadInt(handles->read.get()), 1);
 }
 
 TEST(WinChildProcessTest, MultipleChildren) {
@@ -77,9 +77,9 @@ TEST(WinChildProcessTest, MultipleChildren) {
   WriteInt(handles_1->write.get(), 1);
   WriteInt(handles_2->write.get(), 2);
   WriteInt(handles_3->write.get(), 3);
-  ASSERT_EQ(3, ReadInt(handles_3->read.get()));
-  ASSERT_EQ(2, ReadInt(handles_2->read.get()));
-  ASSERT_EQ(1, ReadInt(handles_1->read.get()));
+  ASSERT_EQ(ReadInt(handles_3->read.get()), 3);
+  ASSERT_EQ(ReadInt(handles_2->read.get()), 2);
+  ASSERT_EQ(ReadInt(handles_1->read.get()), 1);
 }
 
 }  // namespace

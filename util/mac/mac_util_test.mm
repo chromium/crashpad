@@ -61,12 +61,12 @@ void SwVers(NSString* argument, std::string* output) {
     NSData* data = [[pipe fileHandleForReading] readDataToEndOfFile];
     [task waitUntilExit];
 
-    ASSERT_EQ(NSTaskTerminationReasonExit, [task terminationReason]);
-    ASSERT_EQ(EXIT_SUCCESS, [task terminationStatus]);
+    ASSERT_EQ([task terminationReason], NSTaskTerminationReasonExit);
+    ASSERT_EQ([task terminationStatus], EXIT_SUCCESS);
 
     output->assign(reinterpret_cast<const char*>([data bytes]), [data length]);
 
-    EXPECT_EQ('\n', output->at(output->size() - 1));
+    EXPECT_EQ(output->at(output->size() - 1), '\n');
     output->resize(output->size() - 1);
   }
 }
@@ -93,19 +93,19 @@ TEST(MacUtil, MacOSXVersion) {
   ASSERT_NO_FATAL_FAILURE(
       SwVers(@"-productVersion", &expected_product_version));
 
-  EXPECT_EQ(expected_product_version, version);
+  EXPECT_EQ(version, expected_product_version);
 
   std::string expected_build_version;
   ASSERT_NO_FATAL_FAILURE(SwVers(@"-buildVersion", &expected_build_version));
 
-  EXPECT_EQ(expected_build_version, build);
+  EXPECT_EQ(build, expected_build_version);
 
   std::string expected_product_name;
   ASSERT_NO_FATAL_FAILURE(SwVers(@"-productName", &expected_product_name));
 
   // Look for a space after the product name in the complete version string.
   expected_product_name += ' ';
-  EXPECT_EQ(0u, version_string.find(expected_product_name));
+  EXPECT_EQ(version_string.find(expected_product_name), 0u);
 }
 
 TEST(MacUtil, MacOSXMinorVersion) {
@@ -121,7 +121,7 @@ TEST(MacUtil, MacOSXMinorVersion) {
   ASSERT_TRUE(
       MacOSXVersion(&major, &minor, &bugfix, &build, &server, &version_string));
 
-  EXPECT_EQ(minor, MacOSXMinorVersion());
+  EXPECT_EQ(MacOSXMinorVersion(), minor);
 }
 
 TEST(MacUtil, MacModelAndBoard) {

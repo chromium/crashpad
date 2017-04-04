@@ -74,7 +74,7 @@ MachMultiprocess::MachMultiprocess() : Multiprocess(), info_(nullptr) {
 }
 
 void MachMultiprocess::Run() {
-  ASSERT_EQ(nullptr, info_);
+  ASSERT_EQ(info_, nullptr);
   std::unique_ptr<internal::MachMultiprocessInfo> info(
       new internal::MachMultiprocessInfo);
   base::AutoReset<internal::MachMultiprocessInfo*> reset_info(&info_,
@@ -124,25 +124,26 @@ void MachMultiprocess::MultiprocessParent() {
                               info_->local_port.get(),
                               MACH_MSG_TIMEOUT_NONE,
                               MACH_PORT_NULL);
-  ASSERT_EQ(MACH_MSG_SUCCESS, kr) << MachErrorMessage(kr, "mach_msg");
+  ASSERT_EQ(kr, MACH_MSG_SUCCESS) << MachErrorMessage(kr, "mach_msg");
 
   // Comb through the entire message, checking every field against its expected
   // value.
-  EXPECT_EQ(MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND, MACH_MSG_TYPE_MOVE_SEND) |
-                MACH_MSGH_BITS_COMPLEX,
-            message.header.msgh_bits);
-  ASSERT_EQ(sizeof(SendHelloMessage), message.header.msgh_size);
-  EXPECT_EQ(info_->local_port, message.header.msgh_local_port);
-  ASSERT_EQ(1u, message.body.msgh_descriptor_count);
-  EXPECT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_MOVE_SEND),
-            message.port_descriptor.disposition);
-  ASSERT_EQ(implicit_cast<mach_msg_descriptor_type_t>(MACH_MSG_PORT_DESCRIPTOR),
-            message.port_descriptor.type);
-  ASSERT_EQ(implicit_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0),
-            message.audit_trailer.msgh_trailer_type);
-  ASSERT_EQ(sizeof(message.audit_trailer),
-            message.audit_trailer.msgh_trailer_size);
-  EXPECT_EQ(0u, message.audit_trailer.msgh_seqno);
+  EXPECT_EQ(message.header.msgh_bits,
+            MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND, MACH_MSG_TYPE_MOVE_SEND) |
+                MACH_MSGH_BITS_COMPLEX);
+  ASSERT_EQ(message.header.msgh_size, sizeof(SendHelloMessage));
+  EXPECT_EQ(message.header.msgh_local_port, info_->local_port);
+  ASSERT_EQ(message.body.msgh_descriptor_count, 1u);
+  EXPECT_EQ(message.port_descriptor.disposition,
+            implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_MOVE_SEND));
+  ASSERT_EQ(
+      message.port_descriptor.type,
+      implicit_cast<mach_msg_descriptor_type_t>(MACH_MSG_PORT_DESCRIPTOR));
+  ASSERT_EQ(message.audit_trailer.msgh_trailer_type,
+            implicit_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0));
+  ASSERT_EQ(message.audit_trailer.msgh_trailer_size,
+            sizeof(message.audit_trailer));
+  EXPECT_EQ(message.audit_trailer.msgh_seqno, 0u);
 
   // Check the audit trailer’s values for sanity. This is a little bit of
   // overkill, but because the service was registered with the bootstrap server
@@ -175,19 +176,19 @@ void MachMultiprocess::MultiprocessParent() {
   pid_t audit_pid = audit_token_to_pid(message.audit_trailer.msgh_audit);
   au_asid_t audit_asid = audit_token_to_asid(message.audit_trailer.msgh_audit);
 #endif
-  EXPECT_EQ(geteuid(), audit_euid);
-  EXPECT_EQ(getegid(), audit_egid);
-  EXPECT_EQ(getuid(), audit_ruid);
-  EXPECT_EQ(getgid(), audit_rgid);
-  ASSERT_EQ(ChildPID(), audit_pid);
+  EXPECT_EQ(audit_euid, geteuid());
+  EXPECT_EQ(audit_egid, getegid());
+  EXPECT_EQ(audit_ruid, getuid());
+  EXPECT_EQ(audit_rgid, getgid());
+  ASSERT_EQ(audit_pid, ChildPID());
 
-  ASSERT_EQ(ChildPID(), AuditPIDFromMachMessageTrailer(&message.trailer));
+  ASSERT_EQ(AuditPIDFromMachMessageTrailer(&message.trailer), ChildPID());
 
   auditinfo_addr_t audit_info;
   int rv = getaudit_addr(&audit_info, sizeof(audit_info));
-  ASSERT_EQ(0, rv) << ErrnoMessage("getaudit_addr");
-  EXPECT_EQ(audit_info.ai_auid, audit_auid);
-  EXPECT_EQ(audit_info.ai_asid, audit_asid);
+  ASSERT_EQ(rv, 0) << ErrnoMessage("getaudit_addr");
+  EXPECT_EQ(audit_auid, audit_info.ai_auid);
+  EXPECT_EQ(audit_asid, audit_info.ai_asid);
 
   // Retrieve the remote port from the message header, and the child’s task port
   // from the message body.
@@ -197,8 +198,8 @@ void MachMultiprocess::MultiprocessParent() {
   // Verify that the child’s task port is what it purports to be.
   int mach_pid;
   kr = pid_for_task(info_->child_task.get(), &mach_pid);
-  ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "pid_for_task");
-  ASSERT_EQ(ChildPID(), mach_pid);
+  ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "pid_for_task");
+  ASSERT_EQ(mach_pid, ChildPID());
 
   MachMultiprocessParent();
 
@@ -213,11 +214,11 @@ void MachMultiprocess::MultiprocessChild() {
   ignore_result(info_->local_port.release());
 
   info_->local_port.reset(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, info_->local_port);
+  ASSERT_NE(info_->local_port, kMachPortNull);
 
   // The remote port can be obtained from the bootstrap server.
   info_->remote_port = BootstrapLookUp(info_->service_name);
-  ASSERT_NE(kMachPortNull, info_->remote_port);
+  ASSERT_NE(info_->remote_port, kMachPortNull);
 
   // The “hello” message will provide the parent with its remote port, a send
   // right to the child task’s local port receive right. It will also carry a
@@ -241,7 +242,7 @@ void MachMultiprocess::MultiprocessChild() {
                               MACH_PORT_NULL,
                               MACH_MSG_TIMEOUT_NONE,
                               MACH_PORT_NULL);
-  ASSERT_EQ(MACH_MSG_SUCCESS, kr) << MachErrorMessage(kr, "mach_msg");
+  ASSERT_EQ(kr, MACH_MSG_SUCCESS) << MachErrorMessage(kr, "mach_msg");
 
   MachMultiprocessChild();
 

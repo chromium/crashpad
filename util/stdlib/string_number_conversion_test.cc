@@ -101,7 +101,7 @@ TEST(StringNumberConversion, StringToInt) {
       EXPECT_TRUE(valid) << "index " << index << ", string "
                          << kTestData[index].string;
       if (valid) {
-        EXPECT_EQ(kTestData[index].value, value)
+        EXPECT_EQ(value, kTestData[index].value)
             << "index " << index << ", string " << kTestData[index].string;
       }
     } else {
@@ -120,7 +120,7 @@ TEST(StringNumberConversion, StringToInt) {
 
   // Ensure that a NUL is not required at the end of the string.
   EXPECT_TRUE(StringToNumber(base::StringPiece("66", 1), &output));
-  EXPECT_EQ(6, output);
+  EXPECT_EQ(output, 6);
 }
 
 TEST(StringNumberConversion, StringToUnsignedInt) {
@@ -199,7 +199,7 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
       EXPECT_TRUE(valid) << "index " << index << ", string "
                          << kTestData[index].string;
       if (valid) {
-        EXPECT_EQ(kTestData[index].value, value)
+        EXPECT_EQ(value, kTestData[index].value)
             << "index " << index << ", string " << kTestData[index].string;
       }
     } else {
@@ -218,7 +218,7 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
 
   // Ensure that a NUL is not required at the end of the string.
   EXPECT_TRUE(StringToNumber(base::StringPiece("66", 1), &output));
-  EXPECT_EQ(6u, output);
+  EXPECT_EQ(output, 6u);
 }
 
 TEST(StringNumberConversion, StringToInt64) {
@@ -260,7 +260,7 @@ TEST(StringNumberConversion, StringToInt64) {
       EXPECT_TRUE(valid) << "index " << index << ", string "
                          << kTestData[index].string;
       if (valid) {
-        EXPECT_EQ(kTestData[index].value, value)
+        EXPECT_EQ(value, kTestData[index].value)
             << "index " << index << ", string " << kTestData[index].string;
       }
     } else {
@@ -310,7 +310,7 @@ TEST(StringNumberConversion, StringToUnsignedInt64) {
       EXPECT_TRUE(valid) << "index " << index << ", string "
                          << kTestData[index].string;
       if (valid) {
-        EXPECT_EQ(kTestData[index].value, value)
+        EXPECT_EQ(value, kTestData[index].value)
             << "index " << index << ", string " << kTestData[index].string;
       }
     } else {
