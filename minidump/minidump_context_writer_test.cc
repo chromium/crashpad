@@ -39,7 +39,7 @@ TEST(MinidumpContextWriter, MinidumpContextX86Writer) {
     MinidumpContextX86Writer context_writer;
 
     EXPECT_TRUE(context_writer.WriteEverything(&string_file));
-    ASSERT_EQ(sizeof(MinidumpContextX86), string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), sizeof(MinidumpContextX86));
 
     const MinidumpContextX86* observed =
         MinidumpWritableAtRVA<MinidumpContextX86>(string_file.string(), 0);
@@ -58,7 +58,7 @@ TEST(MinidumpContextWriter, MinidumpContextX86Writer) {
     InitializeMinidumpContextX86(context_writer.context(), kSeed);
 
     EXPECT_TRUE(context_writer.WriteEverything(&string_file));
-    ASSERT_EQ(sizeof(MinidumpContextX86), string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), sizeof(MinidumpContextX86));
 
     const MinidumpContextX86* observed =
         MinidumpWritableAtRVA<MinidumpContextX86>(string_file.string(), 0);
@@ -79,7 +79,7 @@ TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
     MinidumpContextAMD64Writer context_writer;
 
     EXPECT_TRUE(context_writer.WriteEverything(&string_file));
-    ASSERT_EQ(sizeof(MinidumpContextAMD64), string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), sizeof(MinidumpContextAMD64));
 
     const MinidumpContextAMD64* observed =
         MinidumpWritableAtRVA<MinidumpContextAMD64>(string_file.string(), 0);
@@ -98,7 +98,7 @@ TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
     InitializeMinidumpContextAMD64(context_writer.context(), kSeed);
 
     EXPECT_TRUE(context_writer.WriteEverything(&string_file));
-    ASSERT_EQ(sizeof(MinidumpContextAMD64), string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), sizeof(MinidumpContextAMD64));
 
     const MinidumpContextAMD64* observed =
         MinidumpWritableAtRVA<MinidumpContextAMD64>(string_file.string(), 0);

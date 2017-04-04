@@ -45,10 +45,10 @@ void GetMemoryInfoListStream(
 
   const size_t kDirectoryIndex = 0;
 
-  ASSERT_EQ(kMinidumpStreamTypeMemoryInfoList,
-            directory[kDirectoryIndex].StreamType);
-  EXPECT_EQ(kMemoryInfoListStreamOffset,
-            directory[kDirectoryIndex].Location.Rva);
+  ASSERT_EQ(directory[kDirectoryIndex].StreamType,
+            kMinidumpStreamTypeMemoryInfoList);
+  EXPECT_EQ(directory[kDirectoryIndex].Location.Rva,
+            kMemoryInfoListStreamOffset);
 
   *memory_info_list =
       MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_INFO_LIST>(
@@ -66,15 +66,15 @@ TEST(MinidumpMemoryInfoWriter, Empty) {
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
-  ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
-                sizeof(MINIDUMP_MEMORY_INFO_LIST),
-            string_file.string().size());
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
+                sizeof(MINIDUMP_MEMORY_INFO_LIST));
 
   const MINIDUMP_MEMORY_INFO_LIST* memory_info_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryInfoListStream(string_file.string(), &memory_info_list));
 
-  EXPECT_EQ(0u, memory_info_list->NumberOfEntries);
+  EXPECT_EQ(memory_info_list->NumberOfEntries, 0u);
 }
 
 TEST(MinidumpMemoryInfoWriter, OneRegion) {
@@ -104,25 +104,25 @@ TEST(MinidumpMemoryInfoWriter, OneRegion) {
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
-  ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_MEMORY_INFO_LIST) +
-                sizeof(MINIDUMP_MEMORY_INFO),
-            string_file.string().size());
+                sizeof(MINIDUMP_MEMORY_INFO));
 
   const MINIDUMP_MEMORY_INFO_LIST* memory_info_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryInfoListStream(string_file.string(), &memory_info_list));
 
-  EXPECT_EQ(1u, memory_info_list->NumberOfEntries);
+  EXPECT_EQ(memory_info_list->NumberOfEntries, 1u);
   const MINIDUMP_MEMORY_INFO* memory_info =
       reinterpret_cast<const MINIDUMP_MEMORY_INFO*>(&memory_info_list[1]);
-  EXPECT_EQ(mmi.BaseAddress, memory_info->BaseAddress);
-  EXPECT_EQ(mmi.AllocationBase, memory_info->AllocationBase);
-  EXPECT_EQ(mmi.AllocationProtect, memory_info->AllocationProtect);
-  EXPECT_EQ(mmi.RegionSize, memory_info->RegionSize);
-  EXPECT_EQ(mmi.State, memory_info->State);
-  EXPECT_EQ(mmi.Protect, memory_info->Protect);
-  EXPECT_EQ(mmi.Type, memory_info->Type);
+  EXPECT_EQ(memory_info->BaseAddress, mmi.BaseAddress);
+  EXPECT_EQ(memory_info->AllocationBase, mmi.AllocationBase);
+  EXPECT_EQ(memory_info->AllocationProtect, mmi.AllocationProtect);
+  EXPECT_EQ(memory_info->RegionSize, mmi.RegionSize);
+  EXPECT_EQ(memory_info->State, mmi.State);
+  EXPECT_EQ(memory_info->Protect, mmi.Protect);
+  EXPECT_EQ(memory_info->Type, mmi.Type);
 }
 
 }  // namespace

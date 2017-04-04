@@ -72,15 +72,15 @@ void ScopedTempDir::RecursivelyDeleteTemporaryDirectory(
     if (entry->d_type == DT_DIR) {
       RecursivelyDeleteTemporaryDirectory(entry_path);
     } else {
-      EXPECT_EQ(0, unlink(entry_path.value().c_str()))
+      EXPECT_EQ(unlink(entry_path.value().c_str()), 0)
           << ErrnoMessage("unlink") << " " << entry_path.value();
     }
   }
 
-  EXPECT_EQ(0, closedir(dir))
-      << ErrnoMessage("closedir") << " " << path.value();
-  EXPECT_EQ(0, rmdir(path.value().c_str()))
-      << ErrnoMessage("rmdir") << " " << path.value();
+  EXPECT_EQ(closedir(dir), 0) << ErrnoMessage("closedir") << " "
+                              << path.value();
+  EXPECT_EQ(rmdir(path.value().c_str()), 0) << ErrnoMessage("rmdir") << " "
+                                            << path.value();
 }
 
 }  // namespace test

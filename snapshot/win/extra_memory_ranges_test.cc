@@ -71,7 +71,7 @@ void TestExtraMemoryRanges(TestType type,
       all_ranges.insert(range);
   }
 
-  EXPECT_EQ(5u, all_ranges.size());
+  EXPECT_EQ(all_ranges.size(), 5u);
   EXPECT_NE(all_ranges.end(), all_ranges.find(CheckedRange<uint64_t>(0, 1)));
   EXPECT_NE(all_ranges.end(), all_ranges.find(CheckedRange<uint64_t>(1, 0)));
   EXPECT_NE(all_ranges.end(),
@@ -97,7 +97,7 @@ void TestExtraMemoryRanges(TestType type,
   }
   CheckedWriteFile(child.stdin_write_handle(), &c, sizeof(c));
 
-  EXPECT_EQ(expected_exit_code, child.WaitForExit());
+  EXPECT_EQ(child.WaitForExit(), expected_exit_code);
 }
 
 TEST(ExtraMemoryRanges, DontCrash) {

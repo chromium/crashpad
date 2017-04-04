@@ -29,7 +29,7 @@ void ExpectBufferSet(const uint8_t* actual,
                      uint8_t expected_byte,
                      size_t num_expected_bytes) {
   for (size_t i = 0; i < num_expected_bytes; ++i) {
-    EXPECT_EQ(expected_byte, actual[i]) << i;
+    EXPECT_EQ(actual[i], expected_byte) << i;
   }
 }
 
@@ -39,7 +39,7 @@ TEST(StringHTTPBodyStream, EmptyString) {
 
   std::string empty_string;
   StringHTTPBodyStream stream(empty_string);
-  EXPECT_EQ(0, stream.GetBytesBuffer(buf, sizeof(buf)));
+  EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
   ExpectBufferSet(buf, '!', sizeof(buf));
 }
 
@@ -49,14 +49,14 @@ TEST(StringHTTPBodyStream, SmallString) {
 
   std::string string("Hello, world");
   StringHTTPBodyStream stream(string);
-  EXPECT_EQ(implicit_cast<FileOperationResult>(string.length()),
-            stream.GetBytesBuffer(buf, sizeof(buf)));
+  EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)),
+            implicit_cast<FileOperationResult>(string.length()));
 
   std::string actual(reinterpret_cast<const char*>(buf), string.length());
-  EXPECT_EQ(string, actual);
+  EXPECT_EQ(actual, string);
   ExpectBufferSet(buf + string.length(), '!', sizeof(buf) - string.length());
 
-  EXPECT_EQ(0, stream.GetBytesBuffer(buf, sizeof(buf)));
+  EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
 }
 
 TEST(StringHTTPBodyStream, MultipleReads) {
@@ -68,15 +68,15 @@ TEST(StringHTTPBodyStream, MultipleReads) {
     SCOPED_TRACE("aligned buffer boundary");
 
     StringHTTPBodyStream stream(string);
-    EXPECT_EQ(2, stream.GetBytesBuffer(buf, sizeof(buf)));
-    EXPECT_EQ('t', buf[0]);
-    EXPECT_EQ('e', buf[1]);
-    EXPECT_EQ(2, stream.GetBytesBuffer(buf, sizeof(buf)));
-    EXPECT_EQ('s', buf[0]);
-    EXPECT_EQ('t', buf[1]);
-    EXPECT_EQ(0, stream.GetBytesBuffer(buf, sizeof(buf)));
-    EXPECT_EQ('s', buf[0]);
-    EXPECT_EQ('t', buf[1]);
+    EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 2);
+    EXPECT_EQ(buf[0], 't');
+    EXPECT_EQ(buf[1], 'e');
+    EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 2);
+    EXPECT_EQ(buf[0], 's');
+    EXPECT_EQ(buf[1], 't');
+    EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
+    EXPECT_EQ(buf[0], 's');
+    EXPECT_EQ(buf[1], 't');
   }
 
   {
@@ -84,15 +84,15 @@ TEST(StringHTTPBodyStream, MultipleReads) {
     SCOPED_TRACE("unaligned buffer boundary");
 
     StringHTTPBodyStream stream(string);
-    EXPECT_EQ(2, stream.GetBytesBuffer(buf, sizeof(buf)));
-    EXPECT_EQ('a', buf[0]);
-    EXPECT_EQ('b', buf[1]);
-    EXPECT_EQ(1, stream.GetBytesBuffer(buf, sizeof(buf)));
-    EXPECT_EQ('c', buf[0]);
-    EXPECT_EQ('b', buf[1]);  // Unmodified from last read.
-    EXPECT_EQ(0, stream.GetBytesBuffer(buf, sizeof(buf)));
-    EXPECT_EQ('c', buf[0]);
-    EXPECT_EQ('b', buf[1]);
+    EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 2);
+    EXPECT_EQ(buf[0], 'a');
+    EXPECT_EQ(buf[1], 'b');
+    EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 1);
+    EXPECT_EQ(buf[0], 'c');
+    EXPECT_EQ(buf[1], 'b');  // Unmodified from last read.
+    EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
+    EXPECT_EQ(buf[0], 'c');
+    EXPECT_EQ(buf[1], 'b');
   }
 }
 
@@ -101,15 +101,15 @@ TEST(FileHTTPBodyStream, ReadASCIIFile) {
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
   FileHTTPBodyStream stream(path);
   std::string contents = ReadStreamToString(&stream, 32);
-  EXPECT_EQ("This is a test.\n", contents);
+  EXPECT_EQ(contents, "This is a test.\n");
 
   // Make sure that the file is not read again after it has been read to
   // completion.
   uint8_t buf[8];
   memset(buf, '!', sizeof(buf));
-  EXPECT_EQ(0, stream.GetBytesBuffer(buf, sizeof(buf)));
+  EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
   ExpectBufferSet(buf, '!', sizeof(buf));
-  EXPECT_EQ(0, stream.GetBytesBuffer(buf, sizeof(buf)));
+  EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
   ExpectBufferSet(buf, '!', sizeof(buf));
 }
 
@@ -123,23 +123,23 @@ TEST(FileHTTPBodyStream, ReadBinaryFile) {
   FileHTTPBodyStream stream(path);
 
   memset(buf, '!', sizeof(buf));
-  EXPECT_EQ(4, stream.GetBytesBuffer(buf, sizeof(buf)));
-  EXPECT_EQ(0xfe, buf[0]);
-  EXPECT_EQ(0xed, buf[1]);
-  EXPECT_EQ(0xfa, buf[2]);
-  EXPECT_EQ(0xce, buf[3]);
+  EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 4);
+  EXPECT_EQ(buf[0], 0xfe);
+  EXPECT_EQ(buf[1], 0xed);
+  EXPECT_EQ(buf[2], 0xfa);
+  EXPECT_EQ(buf[3], 0xce);
 
   memset(buf, '!', sizeof(buf));
-  EXPECT_EQ(3, stream.GetBytesBuffer(buf, sizeof(buf)));
-  EXPECT_EQ(0xa1, buf[0]);
-  EXPECT_EQ(0x1a, buf[1]);
-  EXPECT_EQ(0x15, buf[2]);
-  EXPECT_EQ('!', buf[3]);
+  EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 3);
+  EXPECT_EQ(buf[0], 0xa1);
+  EXPECT_EQ(buf[1], 0x1a);
+  EXPECT_EQ(buf[2], 0x15);
+  EXPECT_EQ(buf[3], '!');
 
   memset(buf, '!', sizeof(buf));
-  EXPECT_EQ(0, stream.GetBytesBuffer(buf, sizeof(buf)));
+  EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
   ExpectBufferSet(buf, '!', sizeof(buf));
-  EXPECT_EQ(0, stream.GetBytesBuffer(buf, sizeof(buf)));
+  EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
   ExpectBufferSet(buf, '!', sizeof(buf));
 }
 
@@ -150,9 +150,9 @@ TEST(FileHTTPBodyStream, NonExistentFile) {
 
   uint8_t buf = 0xff;
   EXPECT_LT(stream.GetBytesBuffer(&buf, 1), 0);
-  EXPECT_EQ(0xff, buf);
+  EXPECT_EQ(buf, 0xff);
   EXPECT_LT(stream.GetBytesBuffer(&buf, 1), 0);
-  EXPECT_EQ(0xff, buf);
+  EXPECT_EQ(buf, 0xff);
 }
 
 TEST(CompositeHTTPBodyStream, TwoEmptyStrings) {
@@ -164,7 +164,7 @@ TEST(CompositeHTTPBodyStream, TwoEmptyStrings) {
 
   uint8_t buf[5];
   memset(buf, '!', sizeof(buf));
-  EXPECT_EQ(0, stream.GetBytesBuffer(buf, sizeof(buf)));
+  EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
   ExpectBufferSet(buf, '!', sizeof(buf));
 }
 
@@ -188,7 +188,7 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, ThreeStringParts) {
   CompositeHTTPBodyStream stream(parts);
 
   std::string actual_string = ReadStreamToString(&stream, GetParam());
-  EXPECT_EQ(string1 + string2 + string3, actual_string);
+  EXPECT_EQ(actual_string, string1 + string2 + string3);
 
   ExpectBufferSet(reinterpret_cast<uint8_t*>(&buf[all_strings_length]), '!', 3);
 }
@@ -208,7 +208,7 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, StringsAndFile) {
 
   std::string expected_string = string1 + "This is a test.\n" + string2;
   std::string actual_string = ReadStreamToString(&stream, GetParam());
-  EXPECT_EQ(expected_string, actual_string);
+  EXPECT_EQ(actual_string, expected_string);
 }
 
 INSTANTIATE_TEST_CASE_P(VariableBufferSize,

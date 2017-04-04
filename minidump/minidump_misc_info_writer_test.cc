@@ -49,7 +49,7 @@ void GetMiscInfoStream(const std::string& file_contents, const T** misc_info) {
   const size_t kMiscInfoStreamSize = sizeof(T);
   const size_t kFileSize = kMiscInfoStreamOffset + kMiscInfoStreamSize;
 
-  ASSERT_EQ(kFileSize, file_contents.size());
+  ASSERT_EQ(file_contents.size(), kFileSize);
 
   const MINIDUMP_DIRECTORY* directory;
   const MINIDUMP_HEADER* header =
@@ -57,8 +57,8 @@ void GetMiscInfoStream(const std::string& file_contents, const T** misc_info) {
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
   ASSERT_TRUE(directory);
 
-  ASSERT_EQ(kMinidumpStreamTypeMiscInfo, directory[0].StreamType);
-  EXPECT_EQ(kMiscInfoStreamOffset, directory[0].Location.Rva);
+  ASSERT_EQ(directory[0].StreamType, kMinidumpStreamTypeMiscInfo);
+  EXPECT_EQ(directory[0].Location.Rva, kMiscInfoStreamOffset);
 
   *misc_info = MinidumpWritableAtLocationDescriptor<T>(file_contents,
                                                        directory[0].Location);
@@ -70,19 +70,19 @@ void ExpectNULPaddedString16Equal(const base::char16* expected,
                                   size_t size) {
   base::string16 expected_string(expected, size);
   base::string16 observed_string(observed, size);
-  EXPECT_EQ(expected_string, observed_string);
+  EXPECT_EQ(observed_string, expected_string);
 }
 
 void ExpectSystemTimeEqual(const SYSTEMTIME* expected,
                            const SYSTEMTIME* observed) {
-  EXPECT_EQ(expected->wYear, observed->wYear);
-  EXPECT_EQ(expected->wMonth, observed->wMonth);
-  EXPECT_EQ(expected->wDayOfWeek, observed->wDayOfWeek);
-  EXPECT_EQ(expected->wDay, observed->wDay);
-  EXPECT_EQ(expected->wHour, observed->wHour);
-  EXPECT_EQ(expected->wMinute, observed->wMinute);
-  EXPECT_EQ(expected->wSecond, observed->wSecond);
-  EXPECT_EQ(expected->wMilliseconds, observed->wMilliseconds);
+  EXPECT_EQ(observed->wYear, expected->wYear);
+  EXPECT_EQ(observed->wMonth, expected->wMonth);
+  EXPECT_EQ(observed->wDayOfWeek, expected->wDayOfWeek);
+  EXPECT_EQ(observed->wDay, expected->wDay);
+  EXPECT_EQ(observed->wHour, expected->wHour);
+  EXPECT_EQ(observed->wMinute, expected->wMinute);
+  EXPECT_EQ(observed->wSecond, expected->wSecond);
+  EXPECT_EQ(observed->wMilliseconds, expected->wMilliseconds);
 }
 
 template <typename T>
@@ -92,11 +92,11 @@ template <>
 void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO>(
     const MINIDUMP_MISC_INFO* expected,
     const MINIDUMP_MISC_INFO* observed) {
-  EXPECT_EQ(expected->Flags1, observed->Flags1);
-  EXPECT_EQ(expected->ProcessId, observed->ProcessId);
-  EXPECT_EQ(expected->ProcessCreateTime, observed->ProcessCreateTime);
-  EXPECT_EQ(expected->ProcessUserTime, observed->ProcessUserTime);
-  EXPECT_EQ(expected->ProcessKernelTime, observed->ProcessKernelTime);
+  EXPECT_EQ(observed->Flags1, expected->Flags1);
+  EXPECT_EQ(observed->ProcessId, expected->ProcessId);
+  EXPECT_EQ(observed->ProcessCreateTime, expected->ProcessCreateTime);
+  EXPECT_EQ(observed->ProcessUserTime, expected->ProcessUserTime);
+  EXPECT_EQ(observed->ProcessKernelTime, expected->ProcessKernelTime);
 }
 
 template <>
@@ -106,12 +106,12 @@ void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_2>(
   ExpectMiscInfoEqual<MINIDUMP_MISC_INFO>(
       reinterpret_cast<const MINIDUMP_MISC_INFO*>(expected),
       reinterpret_cast<const MINIDUMP_MISC_INFO*>(observed));
-  EXPECT_EQ(expected->ProcessorMaxMhz, observed->ProcessorMaxMhz);
-  EXPECT_EQ(expected->ProcessorCurrentMhz, observed->ProcessorCurrentMhz);
-  EXPECT_EQ(expected->ProcessorMhzLimit, observed->ProcessorMhzLimit);
-  EXPECT_EQ(expected->ProcessorMaxIdleState, observed->ProcessorMaxIdleState);
-  EXPECT_EQ(expected->ProcessorCurrentIdleState,
-            observed->ProcessorCurrentIdleState);
+  EXPECT_EQ(observed->ProcessorMaxMhz, expected->ProcessorMaxMhz);
+  EXPECT_EQ(observed->ProcessorCurrentMhz, expected->ProcessorCurrentMhz);
+  EXPECT_EQ(observed->ProcessorMhzLimit, expected->ProcessorMhzLimit);
+  EXPECT_EQ(observed->ProcessorMaxIdleState, expected->ProcessorMaxIdleState);
+  EXPECT_EQ(observed->ProcessorCurrentIdleState,
+            expected->ProcessorCurrentIdleState);
 }
 
 template <>
@@ -121,11 +121,11 @@ void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_3>(
   ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_2>(
       reinterpret_cast<const MINIDUMP_MISC_INFO_2*>(expected),
       reinterpret_cast<const MINIDUMP_MISC_INFO_2*>(observed));
-  EXPECT_EQ(expected->ProcessIntegrityLevel, observed->ProcessIntegrityLevel);
-  EXPECT_EQ(expected->ProcessExecuteFlags, observed->ProcessExecuteFlags);
-  EXPECT_EQ(expected->ProtectedProcess, observed->ProtectedProcess);
-  EXPECT_EQ(expected->TimeZoneId, observed->TimeZoneId);
-  EXPECT_EQ(expected->TimeZone.Bias, observed->TimeZone.Bias);
+  EXPECT_EQ(observed->ProcessIntegrityLevel, expected->ProcessIntegrityLevel);
+  EXPECT_EQ(observed->ProcessExecuteFlags, expected->ProcessExecuteFlags);
+  EXPECT_EQ(observed->ProtectedProcess, expected->ProtectedProcess);
+  EXPECT_EQ(observed->TimeZoneId, expected->TimeZoneId);
+  EXPECT_EQ(observed->TimeZone.Bias, expected->TimeZone.Bias);
   {
     SCOPED_TRACE("Standard");
     ExpectNULPaddedString16Equal(expected->TimeZone.StandardName,
@@ -133,7 +133,7 @@ void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_3>(
                                  arraysize(expected->TimeZone.StandardName));
     ExpectSystemTimeEqual(&expected->TimeZone.StandardDate,
                           &observed->TimeZone.StandardDate);
-    EXPECT_EQ(expected->TimeZone.StandardBias, observed->TimeZone.StandardBias);
+    EXPECT_EQ(observed->TimeZone.StandardBias, expected->TimeZone.StandardBias);
   }
   {
     SCOPED_TRACE("Daylight");
@@ -142,7 +142,7 @@ void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_3>(
                                  arraysize(expected->TimeZone.DaylightName));
     ExpectSystemTimeEqual(&expected->TimeZone.DaylightDate,
                           &observed->TimeZone.DaylightDate);
-    EXPECT_EQ(expected->TimeZone.DaylightBias, observed->TimeZone.DaylightBias);
+    EXPECT_EQ(observed->TimeZone.DaylightBias, expected->TimeZone.DaylightBias);
   }
 }
 
@@ -174,20 +174,20 @@ void ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_5>(
   ExpectMiscInfoEqual<MINIDUMP_MISC_INFO_4>(
       reinterpret_cast<const MINIDUMP_MISC_INFO_4*>(expected),
       reinterpret_cast<const MINIDUMP_MISC_INFO_4*>(observed));
-  EXPECT_EQ(expected->XStateData.SizeOfInfo, observed->XStateData.SizeOfInfo);
-  EXPECT_EQ(expected->XStateData.ContextSize, observed->XStateData.ContextSize);
-  EXPECT_EQ(expected->XStateData.EnabledFeatures,
-            observed->XStateData.EnabledFeatures);
+  EXPECT_EQ(observed->XStateData.SizeOfInfo, expected->XStateData.SizeOfInfo);
+  EXPECT_EQ(observed->XStateData.ContextSize, expected->XStateData.ContextSize);
+  EXPECT_EQ(observed->XStateData.EnabledFeatures,
+            expected->XStateData.EnabledFeatures);
   for (size_t feature_index = 0;
        feature_index < arraysize(observed->XStateData.Features);
        ++feature_index) {
     SCOPED_TRACE(base::StringPrintf("feature_index %" PRIuS, feature_index));
-    EXPECT_EQ(expected->XStateData.Features[feature_index].Offset,
-              observed->XStateData.Features[feature_index].Offset);
-    EXPECT_EQ(expected->XStateData.Features[feature_index].Size,
-              observed->XStateData.Features[feature_index].Size);
+    EXPECT_EQ(observed->XStateData.Features[feature_index].Offset,
+              expected->XStateData.Features[feature_index].Offset);
+    EXPECT_EQ(observed->XStateData.Features[feature_index].Size,
+              expected->XStateData.Features[feature_index].Size);
   }
-  EXPECT_EQ(expected->ProcessCookie, observed->ProcessCookie);
+  EXPECT_EQ(observed->ProcessCookie, expected->ProcessCookie);
 }
 
 TEST(MinidumpMiscInfoWriter, Empty) {

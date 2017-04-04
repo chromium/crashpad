@@ -60,15 +60,15 @@ void GetMemoryListStream(const std::string& file_contents,
 
   size_t directory_index = 0;
   if (expected_streams > 1) {
-    ASSERT_EQ(kBogusStreamType, directory[directory_index].StreamType);
-    ASSERT_EQ(0u, directory[directory_index].Location.DataSize);
-    ASSERT_EQ(kMemoryListStreamOffset, directory[directory_index].Location.Rva);
+    ASSERT_EQ(directory[directory_index].StreamType, kBogusStreamType);
+    ASSERT_EQ(directory[directory_index].Location.DataSize, 0u);
+    ASSERT_EQ(directory[directory_index].Location.Rva, kMemoryListStreamOffset);
     ++directory_index;
   }
 
-  ASSERT_EQ(kMinidumpStreamTypeMemoryList,
-            directory[directory_index].StreamType);
-  EXPECT_EQ(kMemoryListStreamOffset, directory[directory_index].Location.Rva);
+  ASSERT_EQ(directory[directory_index].StreamType,
+            kMinidumpStreamTypeMemoryList);
+  EXPECT_EQ(directory[directory_index].Location.Rva, kMemoryListStreamOffset);
 
   *memory_list = MinidumpWritableAtLocationDescriptor<MINIDUMP_MEMORY_LIST>(
       file_contents, directory[directory_index].Location);
@@ -84,15 +84,15 @@ TEST(MinidumpMemoryWriter, EmptyMemoryList) {
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
-  ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
-                sizeof(MINIDUMP_MEMORY_LIST),
-            string_file.string().size());
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
+                sizeof(MINIDUMP_MEMORY_LIST));
 
   const MINIDUMP_MEMORY_LIST* memory_list = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryListStream(string_file.string(), &memory_list, 1));
 
-  EXPECT_EQ(0u, memory_list->NumberOfMemoryRanges);
+  EXPECT_EQ(memory_list->NumberOfMemoryRanges, 0u);
 }
 
 TEST(MinidumpMemoryWriter, OneMemoryRegion) {
@@ -157,7 +157,7 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryListStream(string_file.string(), &memory_list, 1));
 
-  EXPECT_EQ(2u, memory_list->NumberOfMemoryRanges);
+  EXPECT_EQ(memory_list->NumberOfMemoryRanges, 2u);
 
   MINIDUMP_MEMORY_DESCRIPTOR expected;
 
@@ -222,7 +222,7 @@ class TestMemoryStream final : public internal::MinidumpStreamWriter {
   }
 
   bool WriteObject(FileWriterInterface* file_writer) override {
-    EXPECT_EQ(kStateWritable, state());
+    EXPECT_EQ(state(), kStateWritable);
     return true;
   }
 
@@ -266,7 +266,7 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryListStream(string_file.string(), &memory_list, 2));
 
-  EXPECT_EQ(2u, memory_list->NumberOfMemoryRanges);
+  EXPECT_EQ(memory_list->NumberOfMemoryRanges, 2u);
 
   MINIDUMP_MEMORY_DESCRIPTOR expected;
 
@@ -344,7 +344,7 @@ TEST(MinidumpMemoryWriter, AddFromSnapshot) {
   ASSERT_NO_FATAL_FAILURE(
       GetMemoryListStream(string_file.string(), &memory_list, 1));
 
-  ASSERT_EQ(3u, memory_list->NumberOfMemoryRanges);
+  ASSERT_EQ(memory_list->NumberOfMemoryRanges, 3u);
 
   for (size_t index = 0; index < memory_list->NumberOfMemoryRanges; ++index) {
     SCOPED_TRACE(base::StringPrintf("index %" PRIuS, index));
