@@ -136,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "9f811b2b_6cccf4af",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-04T18:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3af8568_1ece1e27",
+      "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2333d698_f94201ee",
         "filename": "handler/win/crash_report_exception_handler.cc",
         "patchSetId": 1
@@ -150,6 +168,24 @@
       "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d1a846e_7966f5ec",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-04T18:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2333d698_f94201ee",
+      "revId": "1b1168a03c72546d77c37b28a5e28d002047eda1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
