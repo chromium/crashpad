@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
+#include <algorithm>
 #include <map>
 #include <memory>
 #include <string>
@@ -43,6 +44,7 @@
 #include "tools/tool_support.h"
 #include "util/file/file_io.h"
 #include "util/misc/metrics.h"
+#include "util/misc/paths.h"
 #include "util/numeric/in_range_cast.h"
 #include "util/stdlib/map_insert.h"
 #include "util/stdlib/string_number_conversion.h"
@@ -83,8 +85,8 @@ void Usage(const base::FilePath& me) {
 "      --database=PATH         store the crash report database at PATH\n"
 #if defined(OS_MACOSX)
 "      --handshake-fd=FD       establish communication with the client over FD\n"
-"      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
-#elif defined(OS_WIN)
+#endif  // OS_MACOSX
+#if defined(OS_WIN)
 "      --initial-client-data=HANDLE_request_crash_dump,\n"
 "                            HANDLE_request_non_crash_dump,\n"
 "                            HANDLE_non_crash_dump_completed,\n"
@@ -94,15 +96,22 @@ void Usage(const base::FilePath& me) {
 "                            Address_non_crash_exception_information,\n"
 "                            Address_debug_critical_section\n"
 "                              use precreated data to register initial client\n"
+#endif  // OS_WIN
+#if defined(OS_MACOSX)
+"      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
 #endif  // OS_MACOSX
 "      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"
+"      --monitor-self          run a second handler to catch crashes in the first\n"
+"      --monitor-self-argument=ARGUMENT\n"
+"                              provide additional arguments to the second handler\n"
 "      --no-rate-limit         don't rate limit crash uploads\n"
 "      --no-upload-gzip        don't use gzip compression when uploading\n"
+#if defined(OS_WIN)
+"      --pipe-name=PIPE        communicate with the client over PIPE\n"
+#endif  // OS_WIN
 #if defined(OS_MACOSX)
 "      --reset-own-crash-exception-port-to-system-default\n"
 "                              reset the server's exception handler to default\n"
-#elif defined(OS_WIN)
-"      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_MACOSX
 "      --url=URL               send crash reports to this Breakpad server URL,\n"
 "                              only if uploads are enabled for the database\n"
@@ -111,6 +120,25 @@ void Usage(const base::FilePath& me) {
           me.value().c_str());
   ToolSupport::UsageTail(me);
 }
+
+struct Options {
+  std::map<std::string, std::string> annotations;
+  std::string url;
+  base::FilePath database;
+  base::FilePath metrics_dir;
+  std::vector<std::string> monitor_self_arguments;
+#if defined(OS_MACOSX)
+  std::string mach_service;
+  int handshake_fd;
+  bool reset_own_crash_exception_port_to_system_default;
+#elif defined(OS_WIN)
+  std::string pipe_name;
+  InitialClientData initial_client_data;
+#endif  // OS_MACOSX
+  bool monitor_self;
+  bool rate_limit;
+  bool upload_gzip;
+};
 
 // Calls Metrics::HandlerLifetimeMilestone, but only on the first call. This is
 // to prevent multiple exit events from inadvertently being recorded, which
@@ -188,6 +216,13 @@ void HandleTerminateSignal(int sig, siginfo_t* siginfo, void* context) {
   Signals::RestoreHandlerAndReraiseSignalOnReturn(siginfo, nullptr);
 }
 
+void ReinstallCrashHandler() {
+  // This is used to re-enable the metrics-recording crash handler after
+  // MonitorSelf() sets up a Crashpad exception handler. On macOS, the
+  // metrics-recording handler uses signals and the Crashpad handler uses Mach
+  // exceptions, so there’s nothing to re-enable.
+}
+
 void InstallCrashHandler() {
   Signals::InstallCrashHandlers(HandleCrashSignal, 0, nullptr);
 
@@ -254,9 +289,17 @@ class TerminateHandler final : public SessionEndWatcher {
   DISALLOW_COPY_AND_ASSIGN(TerminateHandler);
 };
 
-void InstallCrashHandler() {
+void ReinstallCrashHandler() {
+  // This is used to re-enable the metrics-recording crash handler after
+  // MonitorSelf() sets up a Crashpad exception handler. The Crashpad handler
+  // takes over the UnhandledExceptionFilter, so reintsall the metrics-recording
+  // one.
   g_original_exception_filter =
       SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+}
+
+void InstallCrashHandler() {
+  ReinstallCrashHandler();
 
   // These are termination handlers, not crash handlers, but that’s close
   // enough. Note that destroying the TerminateHandler would wait for its thread
@@ -267,6 +310,46 @@ void InstallCrashHandler() {
 }
 
 #endif  // OS_MACOSX
+
+void MonitorSelf(const Options& options) {
+  base::FilePath executable_path;
+  if (!Paths::Executable(&executable_path)) {
+    return;
+  }
+
+  if (std::find(options.monitor_self_arguments.begin(),
+                options.monitor_self_arguments.end(),
+                "--monitor-self") != options.monitor_self_arguments.end()) {
+    LOG(WARNING) << "--monitor-self-argument=--monitor-self is not supported";
+    return;
+  }
+  std::vector<std::string> extra_arguments(options.monitor_self_arguments);
+  if (!options.rate_limit) {
+    extra_arguments.push_back("--no-rate-limit");
+  }
+  if (!options.upload_gzip) {
+    extra_arguments.push_back("--no-upload-gzip");
+  }
+
+  // Don’t use options.metrics_dir. The current implementation only allows one
+  // instance of crashpad_handler to be writing metrics at a time, and it should
+  // be the primary instance.
+  CrashpadClient crashpad_client;
+  if (!crashpad_client.StartHandler(executable_path,
+                                    options.database,
+                                    base::FilePath(),
+                                    options.url,
+                                    options.annotations,
+                                    extra_arguments,
+                                    true,
+                                    false)) {
+    return;
+  }
+
+  // Make sure that appropriate metrics will be recorded on crash before this
+  // process is terminated.
+  ReinstallCrashHandler();
+}
 
 }  // namespace
 
@@ -293,12 +376,15 @@ int HandlerMain(int argc, char* argv[]) {
     kOptionMachService,
 #endif  // OS_MACOSX
     kOptionMetrics,
+    kOptionMonitorSelf,
+    kOptionMonitorSelfArgument,
     kOptionNoRateLimit,
     kOptionNoUploadGzip,
+#if defined(OS_WIN)
+    kOptionPipeName,
+#endif  // OS_WIN
 #if defined(OS_MACOSX)
     kOptionResetOwnCrashExceptionPortToSystemDefault,
-#elif defined(OS_WIN)
-    kOptionPipeName,
 #endif  // OS_MACOSX
     kOptionURL,
 
@@ -306,28 +392,6 @@ int HandlerMain(int argc, char* argv[]) {
     kOptionHelp = -2,
     kOptionVersion = -3,
   };
-
-  struct {
-    std::map<std::string, std::string> annotations;
-    std::string url;
-    const char* database;
-    const char* metrics;
-#if defined(OS_MACOSX)
-    int handshake_fd;
-    std::string mach_service;
-    bool reset_own_crash_exception_port_to_system_default;
-#elif defined(OS_WIN)
-    std::string pipe_name;
-    InitialClientData initial_client_data;
-#endif  // OS_MACOSX
-    bool rate_limit;
-    bool upload_gzip;
-  } options = {};
-#if defined(OS_MACOSX)
-  options.handshake_fd = -1;
-#endif
-  options.rate_limit = true;
-  options.upload_gzip = true;
 
   const option long_options[] = {
     {"annotation", required_argument, nullptr, kOptionAnnotation},
@@ -345,21 +409,34 @@ int HandlerMain(int argc, char* argv[]) {
     {"mach-service", required_argument, nullptr, kOptionMachService},
 #endif  // OS_MACOSX
     {"metrics-dir", required_argument, nullptr, kOptionMetrics},
+    {"monitor-self", no_argument, nullptr, kOptionMonitorSelf},
+    {"monitor-self-argument",
+     required_argument,
+     nullptr,
+     kOptionMonitorSelfArgument},
     {"no-rate-limit", no_argument, nullptr, kOptionNoRateLimit},
     {"no-upload-gzip", no_argument, nullptr, kOptionNoUploadGzip},
+#if defined(OS_WIN)
+    {"pipe-name", required_argument, nullptr, kOptionPipeName},
+#endif  // OS_WIN
 #if defined(OS_MACOSX)
     {"reset-own-crash-exception-port-to-system-default",
      no_argument,
      nullptr,
      kOptionResetOwnCrashExceptionPortToSystemDefault},
-#elif defined(OS_WIN)
-    {"pipe-name", required_argument, nullptr, kOptionPipeName},
 #endif  // OS_MACOSX
     {"url", required_argument, nullptr, kOptionURL},
     {"help", no_argument, nullptr, kOptionHelp},
     {"version", no_argument, nullptr, kOptionVersion},
     {nullptr, 0, nullptr, 0},
   };
+
+  Options options = {};
+#if defined(OS_MACOSX)
+  options.handshake_fd = -1;
+#endif
+  options.rate_limit = true;
+  options.upload_gzip = true;
 
   int opt;
   while ((opt = getopt_long(argc, argv, "", long_options, nullptr)) != -1) {
@@ -379,7 +456,8 @@ int HandlerMain(int argc, char* argv[]) {
         break;
       }
       case kOptionDatabase: {
-        options.database = optarg;
+        options.database = base::FilePath(
+            ToolSupport::CommandLineArgumentToFilePathStringType(optarg));
         break;
       }
 #if defined(OS_MACOSX)
@@ -396,7 +474,8 @@ int HandlerMain(int argc, char* argv[]) {
         options.mach_service = optarg;
         break;
       }
-#elif defined(OS_WIN)
+#endif  // OS_MACOSX
+#if defined(OS_WIN)
       case kOptionInitialClientData: {
         if (!options.initial_client_data.InitializeFromString(optarg)) {
           ToolSupport::UsageHint(
@@ -405,9 +484,18 @@ int HandlerMain(int argc, char* argv[]) {
         }
         break;
       }
-#endif  // OS_MACOSX
+#endif  // OS_WIN
       case kOptionMetrics: {
-        options.metrics = optarg;
+        options.metrics_dir = base::FilePath(
+            ToolSupport::CommandLineArgumentToFilePathStringType(optarg));
+        break;
+      }
+      case kOptionMonitorSelf: {
+        options.monitor_self = true;
+        break;
+      }
+      case kOptionMonitorSelfArgument: {
+        options.monitor_self_arguments.push_back(optarg);
         break;
       }
       case kOptionNoRateLimit: {
@@ -418,14 +506,15 @@ int HandlerMain(int argc, char* argv[]) {
         options.upload_gzip = false;
         break;
       }
+#if defined(OS_WIN)
+      case kOptionPipeName: {
+        options.pipe_name = optarg;
+        break;
+      }
+#endif  // OS_WIN
 #if defined(OS_MACOSX)
       case kOptionResetOwnCrashExceptionPortToSystemDefault: {
         options.reset_own_crash_exception_port_to_system_default = true;
-        break;
-      }
-#elif defined(OS_WIN)
-      case kOptionPipeName: {
-        options.pipe_name = optarg;
         break;
       }
 #endif  // OS_MACOSX
@@ -475,7 +564,7 @@ int HandlerMain(int argc, char* argv[]) {
   }
 #endif  // OS_MACOSX
 
-  if (!options.database) {
+  if (options.database.empty()) {
     ToolSupport::UsageHint(me, "--database is required");
     return ExitFailure();
   }
@@ -486,13 +575,19 @@ int HandlerMain(int argc, char* argv[]) {
   }
 
 #if defined(OS_MACOSX)
+  if (options.reset_own_crash_exception_port_to_system_default) {
+    CrashpadClient::UseSystemDefaultHandler();
+  }
+#endif  // OS_MACOSX
+
+  if (options.monitor_self) {
+    MonitorSelf(options);
+  }
+
+#if defined(OS_MACOSX)
   if (options.mach_service.empty()) {
     // Don’t do this when being run by launchd. See launchd.plist(5).
     CloseStdinAndStdout();
-  }
-
-  if (options.reset_own_crash_exception_port_to_system_default) {
-    CrashpadClient::UseSystemDefaultHandler();
   }
 
   base::mac::ScopedMachReceiveRight receive_right;
@@ -543,13 +638,11 @@ int HandlerMain(int argc, char* argv[]) {
 #endif  // OS_MACOSX
 
   base::GlobalHistogramAllocator* histogram_allocator = nullptr;
-  if (options.metrics) {
-    const base::FilePath metrics_dir(
-        ToolSupport::CommandLineArgumentToFilePathStringType(options.metrics));
+  if (!options.metrics_dir.empty()) {
     static const char kMetricsName[] = "CrashpadMetrics";
     const size_t kMetricsFileSize = 1 << 20;
     if (base::GlobalHistogramAllocator::CreateWithActiveFileInDir(
-            metrics_dir, kMetricsFileSize, 0, kMetricsName)) {
+            options.metrics_dir, kMetricsFileSize, 0, kMetricsName)) {
       histogram_allocator = base::GlobalHistogramAllocator::Get();
       histogram_allocator->CreateTrackingHistograms(kMetricsName);
     }
@@ -557,9 +650,8 @@ int HandlerMain(int argc, char* argv[]) {
 
   Metrics::HandlerLifetimeMilestone(Metrics::LifetimeMilestone::kStarted);
 
-  std::unique_ptr<CrashReportDatabase> database(CrashReportDatabase::Initialize(
-      base::FilePath(ToolSupport::CommandLineArgumentToFilePathStringType(
-          options.database))));
+  std::unique_ptr<CrashReportDatabase> database(
+      CrashReportDatabase::Initialize(options.database));
   if (!database) {
     return ExitFailure();
   }

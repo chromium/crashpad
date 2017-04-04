@@ -310,16 +310,17 @@ getopt_internal (int argc, char **argv, char *shortopts,
             }
           return (optopt = '?');
         }
-      has_arg = ((cp[1] == ':')
-                 ? ((cp[2] == ':') ? OPTIONAL_ARG : required_argument) : no_argument);
-      possible_arg = argv[optind] + optwhere + 1;
-      optopt = *cp;
+        has_arg = ((cp[1] == ':') ? ((cp[2] == ':') ? optional_argument
+                                                    : required_argument)
+                                  : no_argument);
+        possible_arg = argv[optind] + optwhere + 1;
+        optopt = *cp;
     }
   /* get argument and reset optwhere */
   arg_next = 0;
   switch (has_arg)
     {
-    case OPTIONAL_ARG:
+    case optional_argument:
       if (*possible_arg == '=')
         possible_arg++;
       if (*possible_arg != '\0')
