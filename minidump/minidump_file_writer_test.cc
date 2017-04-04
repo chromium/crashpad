@@ -128,6 +128,23 @@ TEST(MinidumpFileWriter, OneStream) {
   EXPECT_EQ(0, memcmp(stream_data, expected_stream.c_str(), kStreamSize));
 }
 
+class BufferDataSource : public MinidumpUserExtensionStreamDataSource {
+ public:
+  BufferDataSource(uint32_t stream_type, const void* data, size_t data_size)
+      : MinidumpUserExtensionStreamDataSource(stream_type),
+        data_(data),
+        data_size_(data_size) {}
+
+  size_t StreamDataSize() override { return data_size_; };
+  bool ReadStreamData(Delegate* delegate) {
+    return delegate->ExtensionStreamDataSourceRead(data_, data_size_);
+  }
+
+ private:
+  const void* data_;
+  size_t data_size_;
+};
+
 TEST(MinidumpFileWriter, AddUserExtensionStream) {
   MinidumpFileWriter minidump_file;
   const time_t kTimestamp = 0x155d2fb8;
@@ -137,13 +154,13 @@ TEST(MinidumpFileWriter, AddUserExtensionStream) {
   const size_t kStreamSize = arraysize(kStreamData);
   const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
 
-  auto stream = base::WrapUnique(new MinidumpUserExtensionStreamDataSource(
-      kStreamType, kStreamData, kStreamSize));
+  auto stream = base::WrapUnique(
+      new BufferDataSource(kStreamType, kStreamData, kStreamSize));
   ASSERT_TRUE(minidump_file.AddUserExtensionStream(std::move(stream)));
 
   // Adding the same stream type a second time should fail.
-  stream = base::WrapUnique(new MinidumpUserExtensionStreamDataSource(
-      kStreamType, kStreamData, kStreamSize));
+  stream = base::WrapUnique(
+      new BufferDataSource(kStreamType, kStreamData, kStreamSize));
   ASSERT_FALSE(minidump_file.AddUserExtensionStream(std::move(stream)));
 
   StringFile string_file;

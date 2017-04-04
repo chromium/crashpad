@@ -41,11 +41,12 @@ namespace crashpad {
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
-    const std::map<std::string, std::string>* process_annotations)
+    const std::map<std::string, std::string>* process_annotations,
+    const UserStreamSources* user_stream_sources)
     : database_(database),
       upload_thread_(upload_thread),
-      process_annotations_(process_annotations) {
-}
+      process_annotations_(process_annotations),
+      user_stream_sources_(user_stream_sources) {}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {
 }
@@ -166,6 +167,8 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
         call_error_writing_crash_report(database_, new_report);
 
     WeakFileHandleFileWriter file_writer(new_report->handle);
+
+    // TODO(siggi): Call out to user sources here. DO NOT SUBMIT
 
     MinidumpFileWriter minidump;
     minidump.InitializeFromSnapshot(&process_snapshot);

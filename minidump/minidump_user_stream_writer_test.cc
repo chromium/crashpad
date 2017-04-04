@@ -74,10 +74,29 @@ TEST(MinidumpUserStreamWriter, InitializeFromSnapshotNoData) {
       string_file.string(), &user_stream_location, kTestStreamId, 0u));
 }
 
-TEST(MinidumpUserStreamWriter, InitializeFromBufferNoData) {
+class BufferDataSource : public MinidumpUserExtensionStreamDataSource {
+ public:
+  BufferDataSource(uint32_t stream_type, const void* data, size_t data_size)
+      : MinidumpUserExtensionStreamDataSource(stream_type),
+        data_(data),
+        data_size_(data_size) {}
+
+  size_t StreamDataSize() override { return data_size_; };
+  bool ReadStreamData(Delegate* delegate) {
+    return delegate->ExtensionStreamDataSourceRead(data_, data_size_);
+  }
+
+ private:
+  const void* data_;
+  size_t data_size_;
+};
+
+TEST(MinidumpUserStreamWriter, InitializeFromUserExtensionStreamNoData) {
   MinidumpFileWriter minidump_file_writer;
+  auto data_source =
+      base::WrapUnique(new BufferDataSource(kTestStreamId, nullptr, 0));
   auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
-  user_stream_writer->InitializeFromBuffer(kTestStreamId, nullptr, 0);
+  user_stream_writer->InitializeFromUserExtensionStream(std::move(data_source));
   minidump_file_writer.AddStream(std::move(user_stream_writer));
 
   StringFile string_file;
@@ -121,12 +140,13 @@ TEST(MinidumpUserStreamWriter, InitializeFromSnapshotOneStream) {
 
 TEST(MinidumpUserStreamWriter, InitializeFromBufferOneStream) {
   MinidumpFileWriter minidump_file_writer;
-  auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
 
   const size_t kStreamSize = 128;
   std::vector<uint8_t> data(kStreamSize, 'c');
-  user_stream_writer->InitializeFromBuffer(
-      kTestStreamId, &data[0], data.size());
+  auto data_source = base::WrapUnique(
+      new BufferDataSource(kTestStreamId, &data[0], data.size()));
+  auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
+  user_stream_writer->InitializeFromUserExtensionStream(std::move(data_source));
   minidump_file_writer.AddStream(std::move(user_stream_writer));
 
   StringFile string_file;

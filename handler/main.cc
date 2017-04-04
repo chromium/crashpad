@@ -23,7 +23,7 @@
 
 #if defined(OS_MACOSX)
 int main(int argc, char* argv[]) {
-  return crashpad::HandlerMain(argc, argv);
+  return crashpad::HandlerMain(argc, argv, nullptr);
 }
 #elif defined(OS_WIN)
 int APIENTRY wWinMain(HINSTANCE, HINSTANCE, wchar_t*, int) {
