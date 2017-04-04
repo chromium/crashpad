@@ -180,6 +180,30 @@
     },
     {
       "key": {
+        "uuid": "10f6705c_966dc4c5",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-04T12:49:14Z",
+      "side": 1,
+      "message": "The debug build asserts somewhere in chrome.exe for sure if there\u0027s a --type and no /prefetch. You could change that in Chrome also, though there\u0027s a great argument to be made that the crash handler shouldn\u0027t interfere with the browser\u0027s prefetch cache. Speed is after all one of the three \"S\"es.",
+      "parentUuid": "93abb654_f0dc47f1",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 47
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87ad138a_a15ee63c",
         "filename": "handler/handler_main.cc",
         "patchSetId": 1
@@ -215,6 +239,30 @@
       "side": 1,
       "message": "\u003e I don\u0027t think a second instance of the handler can successfully write to the metrics directory, and it might mess up the metrics in there for the existing handler.\n\u003e This does beg the question what happens for secondary browser instances that end up rendezvousing with a running instance.\n\nThat’s a problem, because we have instances today where two handlers might run out of a single metrics directory. This change will make it much more common, though.\n\nWhen I first wrote this, I always gave an empty FilePath() right here. I can go back to that, but it seems like the second instance is almost identical to the first instance in nearly every way that there isn’t a good reason NOT to collect metrics from it. (Unless it doesn’t work.)",
       "parentUuid": "87ad138a_a15ee63c",
+      "range": {
+        "startLine": 321,
+        "startChar": 31,
+        "endLine": 321,
+        "endChar": 38
+      },
+      "revId": "427d0b8e50b55735ad5d3dd0e8d158fbcc099aeb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94b9b1c2_1113eede",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-04T12:49:14Z",
+      "side": 1,
+      "message": "Yeah, this is already a problem, as when you launch a second instance of the browser (by clicking on the shortcut, double-clicking a link, etc.) we\u0027ll spin a handler for the temporary browser instance, methinks.",
+      "parentUuid": "1f0be21f_d234ed73",
       "range": {
         "startLine": 321,
         "startChar": 31,
