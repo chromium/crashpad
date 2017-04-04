@@ -79,6 +79,23 @@
       "revId": "3a5a18ea28300935bcedef1d92351ae0a93fbde2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fd222a2_d04d70fa",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T11:16:47Z",
+      "side": 1,
+      "message": "Actually, wcsnlen() (also \u003cwchar.h\u003e) is a more direct way to get the length you want.",
+      "revId": "3a5a18ea28300935bcedef1d92351ae0a93fbde2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
