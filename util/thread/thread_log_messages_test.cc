@@ -46,14 +46,14 @@ std::string MessageString(const std::string& log_message) {
 
   const char kStartChar = '[';
   if (log_message[0] != kStartChar) {
-    EXPECT_EQ(kStartChar, log_message[0]);
+    EXPECT_EQ(log_message[0], kStartChar);
     return std::string();
   }
 
   const char kFindString[] = "] ";
   size_t pos = log_message.find(kFindString);
   if (pos == std::string::npos) {
-    EXPECT_NE(std::string::npos, pos);
+    EXPECT_NE(pos, std::string::npos);
     return std::string();
   }
 
@@ -93,9 +93,9 @@ TEST(ThreadLogMessages, Basic) {
     const std::vector<std::string>& log_messages =
         thread_log_messages.log_messages();
 
-    EXPECT_EQ(arraysize(kMessages), log_messages.size());
+    EXPECT_EQ(log_messages.size(), arraysize(kMessages));
     for (size_t index = 0; index < arraysize(kMessages); ++index) {
-      EXPECT_EQ(kMessages[index], MessageString(log_messages[index]))
+      EXPECT_EQ(MessageString(log_messages[index]), kMessages[index])
           << "index " << index;
     }
   }
@@ -110,8 +110,8 @@ TEST(ThreadLogMessages, Basic) {
     const std::vector<std::string>& log_messages =
         thread_log_messages.log_messages();
 
-    EXPECT_EQ(1u, log_messages.size());
-    EXPECT_EQ(kMessage, MessageString(log_messages[0]));
+    EXPECT_EQ(log_messages.size(), 1u);
+    EXPECT_EQ(MessageString(log_messages[0]), kMessage);
   }
 
   {
@@ -122,9 +122,9 @@ TEST(ThreadLogMessages, Basic) {
     const std::vector<std::string>& log_messages =
         thread_log_messages.log_messages();
 
-    EXPECT_EQ(1u, log_messages.size());
-    EXPECT_EQ("I can't believe I streamed the whole thing.",
-              MessageString(log_messages[0]));
+    EXPECT_EQ(log_messages.size(), 1u);
+    EXPECT_EQ(MessageString(log_messages[0]),
+              "I can't believe I streamed the whole thing.");
   }
 }
 
@@ -153,9 +153,9 @@ class LoggingTestThread : public Thread {
     const std::vector<std::string>& log_messages =
         thread_log_messages.log_messages();
 
-    ASSERT_EQ(static_cast<size_t>(count_), log_messages.size());
+    ASSERT_EQ(log_messages.size(), static_cast<size_t>(count_));
     for (size_t index = 0; index < log_messages.size(); ++index) {
-      EXPECT_EQ(expected_messages[index], MessageString(log_messages[index]))
+      EXPECT_EQ(MessageString(log_messages[index]), expected_messages[index])
           << "thread_number_ " << thread_number_ << ", index " << index;
     }
   }

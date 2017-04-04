@@ -46,9 +46,9 @@ void GetHandleDataStream(
 
   const size_t kDirectoryIndex = 0;
 
-  ASSERT_EQ(kMinidumpStreamTypeHandleData,
-            directory[kDirectoryIndex].StreamType);
-  EXPECT_EQ(kHandleDataStreamOffset, directory[kDirectoryIndex].Location.Rva);
+  ASSERT_EQ(directory[kDirectoryIndex].StreamType,
+            kMinidumpStreamTypeHandleData);
+  EXPECT_EQ(directory[kDirectoryIndex].Location.Rva, kHandleDataStreamOffset);
 
   *handle_data_stream =
       MinidumpWritableAtLocationDescriptor<MINIDUMP_HANDLE_DATA_STREAM>(
@@ -64,15 +64,15 @@ TEST(MinidumpHandleDataWriter, Empty) {
   StringFile string_file;
   ASSERT_TRUE(minidump_file_writer.WriteEverything(&string_file));
 
-  ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
-                sizeof(MINIDUMP_HANDLE_DATA_STREAM),
-            string_file.string().size());
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
+                sizeof(MINIDUMP_HANDLE_DATA_STREAM));
 
   const MINIDUMP_HANDLE_DATA_STREAM* handle_data_stream = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetHandleDataStream(string_file.string(), &handle_data_stream));
 
-  EXPECT_EQ(0u, handle_data_stream->NumberOfDescriptors);
+  EXPECT_EQ(handle_data_stream->NumberOfDescriptors, 0u);
 }
 
 TEST(MinidumpHandleDataWriter, OneHandle) {
@@ -99,29 +99,29 @@ TEST(MinidumpHandleDataWriter, OneHandle) {
 
   const size_t kTypeNameStringDataLength =
       (handle_snapshot.type_name.size() + 1) * sizeof(base::char16);
-  ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_HANDLE_DATA_STREAM) +
                 sizeof(MINIDUMP_HANDLE_DESCRIPTOR) + sizeof(MINIDUMP_STRING) +
-                kTypeNameStringDataLength,
-            string_file.string().size());
+                kTypeNameStringDataLength);
 
   const MINIDUMP_HANDLE_DATA_STREAM* handle_data_stream = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetHandleDataStream(string_file.string(), &handle_data_stream));
 
-  EXPECT_EQ(1u, handle_data_stream->NumberOfDescriptors);
+  EXPECT_EQ(handle_data_stream->NumberOfDescriptors, 1u);
   const MINIDUMP_HANDLE_DESCRIPTOR* handle_descriptor =
       reinterpret_cast<const MINIDUMP_HANDLE_DESCRIPTOR*>(
           &handle_data_stream[1]);
-  EXPECT_EQ(handle_snapshot.handle, handle_descriptor->Handle);
-  EXPECT_EQ(handle_snapshot.type_name,
-            base::UTF16ToUTF8(MinidumpStringAtRVAAsString(
-                string_file.string(), handle_descriptor->TypeNameRva)));
-  EXPECT_EQ(0u, handle_descriptor->ObjectNameRva);
-  EXPECT_EQ(handle_snapshot.attributes, handle_descriptor->Attributes);
-  EXPECT_EQ(handle_snapshot.granted_access, handle_descriptor->GrantedAccess);
-  EXPECT_EQ(handle_snapshot.handle_count, handle_descriptor->HandleCount);
-  EXPECT_EQ(handle_snapshot.pointer_count, handle_descriptor->PointerCount);
+  EXPECT_EQ(handle_descriptor->Handle, handle_snapshot.handle);
+  EXPECT_EQ(base::UTF16ToUTF8(MinidumpStringAtRVAAsString(
+                string_file.string(), handle_descriptor->TypeNameRva)),
+            handle_snapshot.type_name);
+  EXPECT_EQ(handle_descriptor->ObjectNameRva, 0u);
+  EXPECT_EQ(handle_descriptor->Attributes, handle_snapshot.attributes);
+  EXPECT_EQ(handle_descriptor->GrantedAccess, handle_snapshot.granted_access);
+  EXPECT_EQ(handle_descriptor->HandleCount, handle_snapshot.handle_count);
+  EXPECT_EQ(handle_descriptor->PointerCount, handle_snapshot.pointer_count);
 }
 
 TEST(MinidumpHandleDataWriter, RepeatedTypeName) {
@@ -157,45 +157,45 @@ TEST(MinidumpHandleDataWriter, RepeatedTypeName) {
 
   const size_t kTypeNameStringDataLength =
       (handle_snapshot.type_name.size() + 1) * sizeof(base::char16);
-  ASSERT_EQ(sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
+  ASSERT_EQ(string_file.string().size(),
+            sizeof(MINIDUMP_HEADER) + sizeof(MINIDUMP_DIRECTORY) +
                 sizeof(MINIDUMP_HANDLE_DATA_STREAM) +
                 (sizeof(MINIDUMP_HANDLE_DESCRIPTOR) * 2) +
-                sizeof(MINIDUMP_STRING) + kTypeNameStringDataLength,
-            string_file.string().size());
+                sizeof(MINIDUMP_STRING) + kTypeNameStringDataLength);
 
   const MINIDUMP_HANDLE_DATA_STREAM* handle_data_stream = nullptr;
   ASSERT_NO_FATAL_FAILURE(
       GetHandleDataStream(string_file.string(), &handle_data_stream));
 
-  EXPECT_EQ(2u, handle_data_stream->NumberOfDescriptors);
+  EXPECT_EQ(handle_data_stream->NumberOfDescriptors, 2u);
   const MINIDUMP_HANDLE_DESCRIPTOR* handle_descriptor =
       reinterpret_cast<const MINIDUMP_HANDLE_DESCRIPTOR*>(
           &handle_data_stream[1]);
-  EXPECT_EQ(handle_snapshot.handle, handle_descriptor->Handle);
-  EXPECT_EQ(handle_snapshot.type_name,
-            base::UTF16ToUTF8(MinidumpStringAtRVAAsString(
-                string_file.string(), handle_descriptor->TypeNameRva)));
-  EXPECT_EQ(0u, handle_descriptor->ObjectNameRva);
-  EXPECT_EQ(handle_snapshot.attributes, handle_descriptor->Attributes);
-  EXPECT_EQ(handle_snapshot.granted_access, handle_descriptor->GrantedAccess);
-  EXPECT_EQ(handle_snapshot.handle_count, handle_descriptor->HandleCount);
-  EXPECT_EQ(handle_snapshot.pointer_count, handle_descriptor->PointerCount);
+  EXPECT_EQ(handle_descriptor->Handle, handle_snapshot.handle);
+  EXPECT_EQ(base::UTF16ToUTF8(MinidumpStringAtRVAAsString(
+                string_file.string(), handle_descriptor->TypeNameRva)),
+            handle_snapshot.type_name);
+  EXPECT_EQ(handle_descriptor->ObjectNameRva, 0u);
+  EXPECT_EQ(handle_descriptor->Attributes, handle_snapshot.attributes);
+  EXPECT_EQ(handle_descriptor->GrantedAccess, handle_snapshot.granted_access);
+  EXPECT_EQ(handle_descriptor->HandleCount, handle_snapshot.handle_count);
+  EXPECT_EQ(handle_descriptor->PointerCount, handle_snapshot.pointer_count);
 
   const MINIDUMP_HANDLE_DESCRIPTOR* handle_descriptor2 =
       reinterpret_cast<const MINIDUMP_HANDLE_DESCRIPTOR*>(
           reinterpret_cast<const unsigned char*>(&handle_data_stream[1]) +
           sizeof(MINIDUMP_HANDLE_DESCRIPTOR));
-  EXPECT_EQ(handle_snapshot2.handle, handle_descriptor2->Handle);
-  EXPECT_EQ(handle_snapshot2.type_name,
-            base::UTF16ToUTF8(MinidumpStringAtRVAAsString(
-                string_file.string(), handle_descriptor2->TypeNameRva)));
-  EXPECT_EQ(0u, handle_descriptor2->ObjectNameRva);
-  EXPECT_EQ(handle_snapshot2.attributes, handle_descriptor2->Attributes);
-  EXPECT_EQ(handle_snapshot2.granted_access, handle_descriptor2->GrantedAccess);
-  EXPECT_EQ(handle_snapshot2.handle_count, handle_descriptor2->HandleCount);
-  EXPECT_EQ(handle_snapshot2.pointer_count, handle_descriptor2->PointerCount);
+  EXPECT_EQ(handle_descriptor2->Handle, handle_snapshot2.handle);
+  EXPECT_EQ(base::UTF16ToUTF8(MinidumpStringAtRVAAsString(
+                string_file.string(), handle_descriptor2->TypeNameRva)),
+            handle_snapshot2.type_name);
+  EXPECT_EQ(handle_descriptor2->ObjectNameRva, 0u);
+  EXPECT_EQ(handle_descriptor2->Attributes, handle_snapshot2.attributes);
+  EXPECT_EQ(handle_descriptor2->GrantedAccess, handle_snapshot2.granted_access);
+  EXPECT_EQ(handle_descriptor2->HandleCount, handle_snapshot2.handle_count);
+  EXPECT_EQ(handle_descriptor2->PointerCount, handle_snapshot2.pointer_count);
 
-  EXPECT_EQ(handle_descriptor->TypeNameRva, handle_descriptor2->TypeNameRva);
+  EXPECT_EQ(handle_descriptor2->TypeNameRva, handle_descriptor->TypeNameRva);
 }
 
 }  // namespace

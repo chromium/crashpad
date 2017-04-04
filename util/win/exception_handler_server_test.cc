@@ -203,9 +203,9 @@ TEST_F(ExceptionHandlerServerTest, MultipleConnections) {
     WriteWString(handles_2->write.get(), pipe_name());
     WriteWString(handles_3->write.get(), pipe_name());
 
-    ASSERT_EQ(L"OK", ReadWString(handles_3->read.get()));
-    ASSERT_EQ(L"OK", ReadWString(handles_2->read.get()));
-    ASSERT_EQ(L"OK", ReadWString(handles_1->read.get()));
+    ASSERT_EQ(ReadWString(handles_3->read.get()), L"OK");
+    ASSERT_EQ(ReadWString(handles_2->read.get()), L"OK");
+    ASSERT_EQ(ReadWString(handles_1->read.get()), L"OK");
   }
 }
 

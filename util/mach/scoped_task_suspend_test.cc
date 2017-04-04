@@ -52,21 +52,21 @@ class ScopedTaskSuspendTest final : public MachMultiprocess {
   void MachMultiprocessParent() override {
     task_t child_task = ChildTask();
 
-    EXPECT_EQ(0, SuspendCount(child_task));
+    EXPECT_EQ(SuspendCount(child_task), 0);
 
     {
       ScopedTaskSuspend suspend(child_task);
-      EXPECT_EQ(1, SuspendCount(child_task));
+      EXPECT_EQ(SuspendCount(child_task), 1);
 
       {
         ScopedTaskSuspend suspend_again(child_task);
-        EXPECT_EQ(2, SuspendCount(child_task));
+        EXPECT_EQ(SuspendCount(child_task), 2);
       }
 
-      EXPECT_EQ(1, SuspendCount(child_task));
+      EXPECT_EQ(SuspendCount(child_task), 1);
     }
 
-    EXPECT_EQ(0, SuspendCount(child_task));
+    EXPECT_EQ(SuspendCount(child_task), 0);
   }
 
   void MachMultiprocessChild() override {

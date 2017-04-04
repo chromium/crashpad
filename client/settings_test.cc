@@ -62,13 +62,13 @@ class SettingsTest : public testing::Test {
 TEST_F(SettingsTest, ClientID) {
   UUID client_id;
   EXPECT_TRUE(settings()->GetClientID(&client_id));
-  EXPECT_NE(UUID(), client_id);
+  EXPECT_NE(client_id, UUID());
 
   Settings local_settings(settings_path());
   EXPECT_TRUE(local_settings.Initialize());
   UUID actual;
   EXPECT_TRUE(local_settings.GetClientID(&actual));
-  EXPECT_EQ(client_id, actual);
+  EXPECT_EQ(actual, client_id);
 }
 
 TEST_F(SettingsTest, UploadsEnabled) {
@@ -100,18 +100,18 @@ TEST_F(SettingsTest, LastUploadAttemptTime) {
   time_t actual = -1;
   EXPECT_TRUE(settings()->GetLastUploadAttemptTime(&actual));
   // Default value is 0.
-  EXPECT_EQ(0, actual);
+  EXPECT_EQ(actual, 0);
 
   const time_t expected = time(nullptr);
   EXPECT_TRUE(settings()->SetLastUploadAttemptTime(expected));
   EXPECT_TRUE(settings()->GetLastUploadAttemptTime(&actual));
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(actual, expected);
 
   Settings local_settings(settings_path());
   EXPECT_TRUE(local_settings.Initialize());
   actual = -1;
   EXPECT_TRUE(local_settings.GetLastUploadAttemptTime(&actual));
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(actual, expected);
 }
 
 // The following tests write a corrupt settings file and test the recovery
@@ -129,13 +129,13 @@ TEST_F(SettingsTest, BadFileOnGet) {
 
   UUID client_id;
   EXPECT_TRUE(settings()->GetClientID(&client_id));
-  EXPECT_NE(UUID(), client_id);
+  EXPECT_NE(client_id, UUID());
 
   Settings local_settings(settings_path());
   EXPECT_TRUE(local_settings.Initialize());
   UUID actual;
   EXPECT_TRUE(local_settings.GetClientID(&actual));
-  EXPECT_EQ(client_id, actual);
+  EXPECT_EQ(actual, client_id);
 }
 
 TEST_F(SettingsTest, BadFileOnSet) {
@@ -154,10 +154,10 @@ TEST_F(SettingsTest, UnlinkFile) {
   EXPECT_TRUE(settings()->SetLastUploadAttemptTime(time(nullptr)));
 
 #if defined(OS_WIN)
-  EXPECT_EQ(0, _wunlink(settings_path().value().c_str()))
+  EXPECT_EQ(_wunlink(settings_path().value().c_str()), 0)
       << ErrnoMessage("_wunlink");
 #else
-  EXPECT_EQ(0, unlink(settings_path().value().c_str()))
+  EXPECT_EQ(unlink(settings_path().value().c_str()), 0)
       << ErrnoMessage("unlink");
 #endif
 
@@ -165,7 +165,7 @@ TEST_F(SettingsTest, UnlinkFile) {
   EXPECT_TRUE(local_settings.Initialize());
   UUID new_client_id;
   EXPECT_TRUE(local_settings.GetClientID(&new_client_id));
-  EXPECT_NE(client_id, new_client_id);
+  EXPECT_NE(new_client_id, client_id);
 
   // Check that all values are reset.
   bool enabled = true;
@@ -174,7 +174,7 @@ TEST_F(SettingsTest, UnlinkFile) {
 
   time_t time = -1;
   EXPECT_TRUE(local_settings.GetLastUploadAttemptTime(&time));
-  EXPECT_EQ(0, time);
+  EXPECT_EQ(time, 0);
 }
 
 }  // namespace

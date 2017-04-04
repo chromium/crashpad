@@ -80,7 +80,7 @@ void MultiprocessExec::MultiprocessChild() {
   FileHandle read_handle = ReadPipeHandle();
   ASSERT_NE(read_handle, STDIN_FILENO);
   ASSERT_NE(read_handle, STDOUT_FILENO);
-  ASSERT_EQ(STDIN_FILENO, fileno(stdin));
+  ASSERT_EQ(fileno(stdin), STDIN_FILENO);
 
   int rv;
 
@@ -88,17 +88,17 @@ void MultiprocessExec::MultiprocessChild() {
   __fpurge(stdin);
 #else
   rv = fpurge(stdin);
-  ASSERT_EQ(0, rv) << ErrnoMessage("fpurge");
+  ASSERT_EQ(rv, 0) << ErrnoMessage("fpurge");
 #endif
 
   rv = HANDLE_EINTR(dup2(read_handle, STDIN_FILENO));
-  ASSERT_EQ(STDIN_FILENO, rv) << ErrnoMessage("dup2");
+  ASSERT_EQ(rv, STDIN_FILENO) << ErrnoMessage("dup2");
 
   // Move the write pipe to stdout.
   FileHandle write_handle = WritePipeHandle();
   ASSERT_NE(write_handle, STDIN_FILENO);
   ASSERT_NE(write_handle, STDOUT_FILENO);
-  ASSERT_EQ(STDOUT_FILENO, fileno(stdout));
+  ASSERT_EQ(fileno(stdout), STDOUT_FILENO);
 
   // Make a copy of the original stdout file descriptor so that in case there’s
   // an execv() failure, the original stdout can be restored so that gtest
@@ -113,10 +113,10 @@ void MultiprocessExec::MultiprocessChild() {
   ASSERT_NE(rv, -1) << ErrnoMessage("fcntl");
 
   rv = HANDLE_EINTR(fflush(stdout));
-  ASSERT_EQ(0, rv) << ErrnoMessage("fflush");
+  ASSERT_EQ(rv, 0) << ErrnoMessage("fflush");
 
   rv = HANDLE_EINTR(dup2(write_handle, STDOUT_FILENO));
-  ASSERT_EQ(STDOUT_FILENO, rv) << ErrnoMessage("dup2");
+  ASSERT_EQ(rv, STDOUT_FILENO) << ErrnoMessage("dup2");
 
   CloseMultipleNowOrOnExec(STDERR_FILENO + 1, dup_orig_stdout_fd);
 
