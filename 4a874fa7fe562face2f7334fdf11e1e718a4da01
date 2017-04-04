@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b813d747_a760aa7c",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-04T18:06:12Z",
+      "side": 1,
+      "message": "Move this above the MonitorSelf() call, otherwise there\u0027s an unnecessary gap when these annotations aren\u0027t set while the self-handler is enabled.",
+      "revId": "4a874fa7fe562face2f7334fdf11e1e718a4da01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
