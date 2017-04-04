@@ -30,7 +30,7 @@ namespace test {
 // Where non-test code could do:
 //   PCHECK(rv == 0) << "close";
 // gtest-based test code can do:
-//   EXPECT_EQ(0, rv) << ErrnoMessage("close");
+//   EXPECT_EQ(rv, 0) << ErrnoMessage("close");
 
 //! \brief Formats an error message using an `errno` value.
 //!

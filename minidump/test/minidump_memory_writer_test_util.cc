@@ -34,13 +34,13 @@ TestMinidumpMemoryWriter::~TestMinidumpMemoryWriter() {
 void ExpectMinidumpMemoryDescriptor(
     const MINIDUMP_MEMORY_DESCRIPTOR* expected,
     const MINIDUMP_MEMORY_DESCRIPTOR* observed) {
-  EXPECT_EQ(expected->StartOfMemoryRange, observed->StartOfMemoryRange);
-  EXPECT_EQ(expected->Memory.DataSize, observed->Memory.DataSize);
+  EXPECT_EQ(observed->StartOfMemoryRange, expected->StartOfMemoryRange);
+  EXPECT_EQ(observed->Memory.DataSize, expected->Memory.DataSize);
   if (expected->Memory.Rva != 0) {
     const uint32_t kMemoryAlignment = 16;
-    EXPECT_EQ(
-        (expected->Memory.Rva + kMemoryAlignment - 1) & ~(kMemoryAlignment - 1),
-        observed->Memory.Rva);
+    EXPECT_EQ(observed->Memory.Rva,
+              (expected->Memory.Rva + kMemoryAlignment - 1) &
+                  ~(kMemoryAlignment - 1));
   }
 }
 
@@ -53,8 +53,8 @@ void ExpectMinidumpMemoryDescriptorAndContents(
   ExpectMinidumpMemoryDescriptor(expected, observed);
 
   if (at_eof) {
-    EXPECT_EQ(file_contents.size(),
-              observed->Memory.Rva + observed->Memory.DataSize);
+    EXPECT_EQ(observed->Memory.Rva + observed->Memory.DataSize,
+              file_contents.size());
   } else {
     EXPECT_GE(file_contents.size(),
               observed->Memory.Rva + observed->Memory.DataSize);
@@ -63,7 +63,7 @@ void ExpectMinidumpMemoryDescriptorAndContents(
   std::string expected_data(expected->Memory.DataSize, value);
   std::string observed_data(&file_contents[observed->Memory.Rva],
                             observed->Memory.DataSize);
-  EXPECT_EQ(expected_data, observed_data);
+  EXPECT_EQ(observed_data, expected_data);
 }
 
 }  // namespace test

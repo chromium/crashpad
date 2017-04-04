@@ -48,25 +48,24 @@ TEST(InitialClientData, RoundTrip) {
       0xccccddddeeeeffffull);
 
   std::string as_string = first.StringRepresentation();
-  EXPECT_EQ(
-      "0x123,0x456,0x789,0xabc,0xdef,"
-      "0x7fff000012345678,0x100000,0xccccddddeeeeffff",
-      as_string);
+  EXPECT_EQ(as_string,
+            "0x123,0x456,0x789,0xabc,0xdef,"
+            "0x7fff000012345678,0x100000,0xccccddddeeeeffff");
 
   InitialClientData second;
   ASSERT_TRUE(second.InitializeFromString(as_string));
-  EXPECT_EQ(first.request_crash_dump(), second.request_crash_dump());
-  EXPECT_EQ(first.request_non_crash_dump(), second.request_non_crash_dump());
-  EXPECT_EQ(first.non_crash_dump_completed(),
-            second.non_crash_dump_completed());
-  EXPECT_EQ(first.first_pipe_instance(), second.first_pipe_instance());
-  EXPECT_EQ(first.client_process(), second.client_process());
-  EXPECT_EQ(first.crash_exception_information(),
-            second.crash_exception_information());
-  EXPECT_EQ(first.non_crash_exception_information(),
-            second.non_crash_exception_information());
-  EXPECT_EQ(first.debug_critical_section_address(),
-            second.debug_critical_section_address());
+  EXPECT_EQ(second.request_crash_dump(), first.request_crash_dump());
+  EXPECT_EQ(second.request_non_crash_dump(), first.request_non_crash_dump());
+  EXPECT_EQ(second.non_crash_dump_completed(),
+            first.non_crash_dump_completed());
+  EXPECT_EQ(second.first_pipe_instance(), first.first_pipe_instance());
+  EXPECT_EQ(second.client_process(), first.client_process());
+  EXPECT_EQ(second.crash_exception_information(),
+            first.crash_exception_information());
+  EXPECT_EQ(second.non_crash_exception_information(),
+            first.non_crash_exception_information());
+  EXPECT_EQ(second.debug_critical_section_address(),
+            first.debug_critical_section_address());
 }
 
 }  // namespace

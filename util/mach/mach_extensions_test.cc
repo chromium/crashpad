@@ -26,40 +26,40 @@ namespace {
 
 TEST(MachExtensions, MachThreadSelf) {
   base::mac::ScopedMachSendRight thread_self(mach_thread_self());
-  EXPECT_EQ(thread_self, MachThreadSelf());
+  EXPECT_EQ(MachThreadSelf(), thread_self);
 }
 
 TEST(MachExtensions, NewMachPort_Receive) {
   base::mac::ScopedMachReceiveRight port(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, port);
+  ASSERT_NE(port, kMachPortNull);
 
   mach_port_type_t type;
   kern_return_t kr = mach_port_type(mach_task_self(), port.get(), &type);
-  ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_get_type");
+  ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "mach_port_get_type");
 
-  EXPECT_EQ(MACH_PORT_TYPE_RECEIVE, type);
+  EXPECT_EQ(type, MACH_PORT_TYPE_RECEIVE);
 }
 
 TEST(MachExtensions, NewMachPort_PortSet) {
   base::mac::ScopedMachPortSet port(NewMachPort(MACH_PORT_RIGHT_PORT_SET));
-  ASSERT_NE(kMachPortNull, port);
+  ASSERT_NE(port, kMachPortNull);
 
   mach_port_type_t type;
   kern_return_t kr = mach_port_type(mach_task_self(), port.get(), &type);
-  ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_get_type");
+  ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "mach_port_get_type");
 
-  EXPECT_EQ(MACH_PORT_TYPE_PORT_SET, type);
+  EXPECT_EQ(type, MACH_PORT_TYPE_PORT_SET);
 }
 
 TEST(MachExtensions, NewMachPort_DeadName) {
   base::mac::ScopedMachSendRight port(NewMachPort(MACH_PORT_RIGHT_DEAD_NAME));
-  ASSERT_NE(kMachPortNull, port);
+  ASSERT_NE(port, kMachPortNull);
 
   mach_port_type_t type;
   kern_return_t kr = mach_port_type(mach_task_self(), port.get(), &type);
-  ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_get_type");
+  ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "mach_port_get_type");
 
-  EXPECT_EQ(MACH_PORT_TYPE_DEAD_NAME, type);
+  EXPECT_EQ(type, MACH_PORT_TYPE_DEAD_NAME);
 }
 
 const exception_mask_t kExcMaskBasic =
@@ -75,7 +75,7 @@ const exception_mask_t kExcMaskBasic =
 
 TEST(MachExtensions, ExcMaskAll) {
   const exception_mask_t exc_mask_all = ExcMaskAll();
-  EXPECT_EQ(kExcMaskBasic, exc_mask_all & kExcMaskBasic);
+  EXPECT_EQ(exc_mask_all & kExcMaskBasic, kExcMaskBasic);
 
   EXPECT_FALSE(exc_mask_all & EXC_MASK_CRASH);
   EXPECT_FALSE(exc_mask_all & EXC_MASK_CORPSE_NOTIFY);
@@ -97,12 +97,12 @@ TEST(MachExtensions, ExcMaskAll) {
   EXPECT_FALSE(ExcMaskAll() & 1);
 
   // Every bit set in ExcMaskAll() must also be set in ExcMaskValid().
-  EXPECT_EQ(ExcMaskAll(), ExcMaskAll() & ExcMaskValid());
+  EXPECT_EQ(ExcMaskAll() & ExcMaskValid(), ExcMaskAll());
 }
 
 TEST(MachExtensions, ExcMaskValid) {
   const exception_mask_t exc_mask_valid = ExcMaskValid();
-  EXPECT_EQ(kExcMaskBasic, exc_mask_valid & kExcMaskBasic);
+  EXPECT_EQ(exc_mask_valid & kExcMaskBasic, kExcMaskBasic);
 
   EXPECT_TRUE(exc_mask_valid & EXC_MASK_CRASH);
 
@@ -144,7 +144,7 @@ TEST(MachExtensions, BootstrapCheckInAndLookUp) {
   {
     // The new service hasn’t checked in yet, so this should fail.
     base::mac::ScopedMachSendRight send(BootstrapLookUp(service_name));
-    EXPECT_EQ(kMachPortNull, send);
+    EXPECT_EQ(send, kMachPortNull);
 
     // Check it in.
     base::mac::ScopedMachReceiveRight receive(BootstrapCheckIn(service_name));
@@ -156,12 +156,12 @@ TEST(MachExtensions, BootstrapCheckInAndLookUp) {
 
     // It shouldn’t be possible to check the service in while it’s active.
     base::mac::ScopedMachReceiveRight receive_2(BootstrapCheckIn(service_name));
-    EXPECT_EQ(kMachPortNull, receive_2);
+    EXPECT_EQ(receive_2, kMachPortNull);
   }
 
   // The new service should be gone now.
   base::mac::ScopedMachSendRight send(BootstrapLookUp(service_name));
-  EXPECT_EQ(kMachPortNull, send);
+  EXPECT_EQ(send, kMachPortNull);
 
   // It should be possible to check it in again.
   base::mac::ScopedMachReceiveRight receive(BootstrapCheckIn(service_name));

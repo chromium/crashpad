@@ -29,7 +29,7 @@ namespace test {
 // Where non-test code could do:
 //   MACH_CHECK(kr == KERN_SUCCESS, kr) << "vm_deallocate";
 // gtest-based test code can do:
-//   EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "vm_deallocate");
+//   EXPECT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "vm_deallocate");
 
 //! \brief Formats a Mach error message.
 //!

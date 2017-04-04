@@ -60,12 +60,12 @@ class WinMultiprocess {
     child_handles->write.reset();
 
     // Wait for the child to complete.
-    ASSERT_EQ(WAIT_OBJECT_0,
-              WaitForSingleObject(child_handles->process.get(), INFINITE));
+    ASSERT_EQ(WaitForSingleObject(child_handles->process.get(), INFINITE),
+              WAIT_OBJECT_0);
 
     DWORD exit_code;
     ASSERT_TRUE(GetExitCodeProcess(child_handles->process.get(), &exit_code));
-    ASSERT_EQ(parent_process.exit_code_, exit_code);
+    ASSERT_EQ(exit_code, parent_process.exit_code_);
 
     parent_multiprocess->WinMultiprocessParentAfterChild(
         child_handles->process.get());
