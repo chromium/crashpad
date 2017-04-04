@@ -40,11 +40,11 @@ class TestMultiprocess final : public Multiprocess {
     FileHandle read_handle = ReadPipeHandle();
     char c;
     CheckedReadFileExactly(read_handle, &c, 1);
-    EXPECT_EQ('M', c);
+    EXPECT_EQ( c,'M');
 
     pid_t pid;
     CheckedReadFileExactly(read_handle, &pid, sizeof(pid));
-    EXPECT_EQ(pid, ChildPID());
+    EXPECT_EQ( ChildPID(),pid);
 
     c = 'm';
     CheckedWriteFile(WritePipeHandle(), &c, 1);
@@ -64,7 +64,7 @@ class TestMultiprocess final : public Multiprocess {
     CheckedWriteFile(write_handle, &pid, sizeof(pid));
 
     CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
-    EXPECT_EQ('m', c);
+    EXPECT_EQ( c,'m');
   }
 
   DISALLOW_COPY_AND_ASSIGN(TestMultiprocess);
