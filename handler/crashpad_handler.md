@@ -149,14 +149,27 @@ establish the Crashpad client environment before running a program.
    Causes a second instance of the Crashpad handler program to be started,
    monitoring the original instance for exceptions. The original instance will
    become a client of the second one. The second instance will be started with
-   the same **--annotation**, **--database**, **--no-rate-limit**,
-   **--no-upload-gzip**, and **--url** arguments as the original one. The second
-   instance will not be started with a **--metrics-dir** argument even if the
-   original instance was.
+   the same **--annotation**, **--database**, **--monitor-self-annotation**,
+   **--no-rate-limit**, **--no-upload-gzip**, and **--url** arguments as the
+   original one. The second instance will not be started with a
+   **--metrics-dir** argument even if the original instance was.
 
    Where supported by the underlying operating system, the second instance will
    be restarted should it exit before the first instance. The second instance
    will not be eligible to be started asynchronously.
+
+ * **--monitor-self-annotation**=_KEY_=_VALUE_
+
+   Sets a module-level annotation mapping _KEY_ to _VALUE_ in the Crashpad
+   handler. This option may appear zero, one, or more times.
+
+   If **--monitor-self** is in use, the second instance of the Crashpad handler
+   program will find these annotations stored in the original instance and will
+   include them in any crash reports written for the original instance.
+
+   These annotations will only appear in crash reports written for the Crashpad
+   handler itself. To apply a process-level annotation to all crash reports
+   written by an instance of the Crashpad handler, use **--annotation** instead.
 
  * **--monitor-self-argument**=_ARGUMENT_
 
