@@ -52,6 +52,24 @@
       "revId": "4a874fa7fe562face2f7334fdf11e1e718a4da01",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9707700c_c34c629b",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T18:27:03Z",
+      "side": 1,
+      "message": "\u003e Ah, fair enough. Whichever you prefer then.\n\nHow’s this, if we really want it: we can set \"ptype\" from RunAsCrashpadHandler(), and it’ll be replaced here. I’ll move set_simple_annotations() to after the SimpleStringDictionary is set up so there won’t be any gap in coverage.",
+      "parentUuid": "0669f663_5292ac41",
+      "revId": "4a874fa7fe562face2f7334fdf11e1e718a4da01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
