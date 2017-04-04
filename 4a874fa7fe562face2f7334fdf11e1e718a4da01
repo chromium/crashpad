@@ -34,6 +34,24 @@
       "revId": "4a874fa7fe562face2f7334fdf11e1e718a4da01",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0669f663_5292ac41",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-04T18:16:13Z",
+      "side": 1,
+      "message": "Ah, fair enough. Whichever you prefer then.",
+      "parentUuid": "9aa9342f_4cf13990",
+      "revId": "4a874fa7fe562face2f7334fdf11e1e718a4da01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
