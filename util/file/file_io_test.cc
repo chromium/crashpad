@@ -381,57 +381,57 @@ void TestOpenFileForWrite(FileHandle (*opener)(const base::FilePath&,
   ScopedFileHandle file_handle(opener(file_path_1,
                                       FileWriteMode::kReuseOrFail,
                                       FilePermissions::kWorldReadable));
-  EXPECT_EQ(kInvalidFileHandle, file_handle);
+  EXPECT_EQ(file_handle, kInvalidFileHandle);
   EXPECT_FALSE(FileExists(file_path_1));
 
   file_handle.reset(opener(file_path_1,
                            FileWriteMode::kCreateOrFail,
                            FilePermissions::kWorldReadable));
-  EXPECT_NE(kInvalidFileHandle, file_handle);
+  EXPECT_NE(file_handle, kInvalidFileHandle);
   EXPECT_TRUE(FileExists(file_path_1));
-  EXPECT_EQ(0, FileSize(file_path_1));
+  EXPECT_EQ(FileSize(file_path_1), 0);
 
   file_handle.reset(opener(file_path_1,
                            FileWriteMode::kReuseOrCreate,
                            FilePermissions::kWorldReadable));
-  EXPECT_NE(kInvalidFileHandle, file_handle);
+  EXPECT_NE(file_handle, kInvalidFileHandle);
   EXPECT_TRUE(FileExists(file_path_1));
-  EXPECT_EQ(0, FileSize(file_path_1));
+  EXPECT_EQ(FileSize(file_path_1), 0);
 
   const char data = '%';
   EXPECT_TRUE(LoggingWriteFile(file_handle.get(), &data, sizeof(data)));
 
   // Close file_handle to ensure that the write is flushed to disk.
   file_handle.reset();
-  EXPECT_EQ(implicit_cast<FileOffset>(sizeof(data)), FileSize(file_path_1));
+  EXPECT_EQ(FileSize(file_path_1), implicit_cast<FileOffset>(sizeof(data)));
 
   file_handle.reset(opener(file_path_1,
                            FileWriteMode::kReuseOrCreate,
                            FilePermissions::kWorldReadable));
-  EXPECT_NE(kInvalidFileHandle, file_handle);
+  EXPECT_NE(file_handle, kInvalidFileHandle);
   EXPECT_TRUE(FileExists(file_path_1));
-  EXPECT_EQ(implicit_cast<FileOffset>(sizeof(data)), FileSize(file_path_1));
+  EXPECT_EQ(FileSize(file_path_1), implicit_cast<FileOffset>(sizeof(data)));
 
   file_handle.reset(opener(file_path_1,
                            FileWriteMode::kCreateOrFail,
                            FilePermissions::kWorldReadable));
-  EXPECT_EQ(kInvalidFileHandle, file_handle);
+  EXPECT_EQ(file_handle, kInvalidFileHandle);
   EXPECT_TRUE(FileExists(file_path_1));
-  EXPECT_EQ(implicit_cast<FileOffset>(sizeof(data)), FileSize(file_path_1));
+  EXPECT_EQ(FileSize(file_path_1), implicit_cast<FileOffset>(sizeof(data)));
 
   file_handle.reset(opener(file_path_1,
                            FileWriteMode::kReuseOrFail,
                            FilePermissions::kWorldReadable));
-  EXPECT_NE(kInvalidFileHandle, file_handle);
+  EXPECT_NE(file_handle, kInvalidFileHandle);
   EXPECT_TRUE(FileExists(file_path_1));
-  EXPECT_EQ(implicit_cast<FileOffset>(sizeof(data)), FileSize(file_path_1));
+  EXPECT_EQ(FileSize(file_path_1), implicit_cast<FileOffset>(sizeof(data)));
 
   file_handle.reset(opener(file_path_1,
                            FileWriteMode::kTruncateOrCreate,
                            FilePermissions::kWorldReadable));
-  EXPECT_NE(kInvalidFileHandle, file_handle);
+  EXPECT_NE(file_handle, kInvalidFileHandle);
   EXPECT_TRUE(FileExists(file_path_1));
-  EXPECT_EQ(0, FileSize(file_path_1));
+  EXPECT_EQ(FileSize(file_path_1), 0);
 
   base::FilePath file_path_2 =
       temp_dir.path().Append(FILE_PATH_LITERAL("file_2"));
@@ -440,9 +440,9 @@ void TestOpenFileForWrite(FileHandle (*opener)(const base::FilePath&,
   file_handle.reset(opener(file_path_2,
                            FileWriteMode::kTruncateOrCreate,
                            FilePermissions::kWorldReadable));
-  EXPECT_NE(kInvalidFileHandle, file_handle);
+  EXPECT_NE(file_handle, kInvalidFileHandle);
   EXPECT_TRUE(FileExists(file_path_2));
-  EXPECT_EQ(0, FileSize(file_path_2));
+  EXPECT_EQ(FileSize(file_path_2), 0);
 
   base::FilePath file_path_3 =
       temp_dir.path().Append(FILE_PATH_LITERAL("file_3"));
@@ -451,9 +451,9 @@ void TestOpenFileForWrite(FileHandle (*opener)(const base::FilePath&,
   file_handle.reset(opener(file_path_3,
                            FileWriteMode::kReuseOrCreate,
                            FilePermissions::kWorldReadable));
-  EXPECT_NE(kInvalidFileHandle, file_handle);
+  EXPECT_NE(file_handle, kInvalidFileHandle);
   EXPECT_TRUE(FileExists(file_path_3));
-  EXPECT_EQ(0, FileSize(file_path_3));
+  EXPECT_EQ(FileSize(file_path_3), 0);
 }
 
 TEST(FileIO, OpenFileForWrite) {
@@ -625,7 +625,7 @@ void LockingTest(FileLocking main_lock, FileLocking other_locks) {
 
   base::subtle::Atomic32 result =
       base::subtle::NoBarrier_Load(&actual_iterations);
-  EXPECT_EQ(0, result);
+  EXPECT_EQ(result, 0);
 
   ASSERT_TRUE(LoggingUnlockFile(initial.get()));
 
@@ -633,7 +633,7 @@ void LockingTest(FileLocking main_lock, FileLocking other_locks) {
     t.Join();
 
   result = base::subtle::NoBarrier_Load(&actual_iterations);
-  EXPECT_EQ(expected_iterations, result);
+  EXPECT_EQ(result, expected_iterations);
 }
 
 TEST(FileIO, ExclusiveVsExclusives) {
@@ -649,7 +649,7 @@ TEST(FileIO, SharedVsExclusives) {
 }
 
 TEST(FileIO, FileSizeByHandle) {
-  EXPECT_EQ(-1, LoggingFileSizeByHandle(kInvalidFileHandle));
+  EXPECT_EQ(LoggingFileSizeByHandle(kInvalidFileHandle), -1);
 
   ScopedTempDir temp_dir;
   base::FilePath file_path =
@@ -657,13 +657,13 @@ TEST(FileIO, FileSizeByHandle) {
 
   ScopedFileHandle file_handle(LoggingOpenFileForWrite(
       file_path, FileWriteMode::kCreateOrFail, FilePermissions::kOwnerOnly));
-  ASSERT_NE(kInvalidFileHandle, file_handle.get());
-  EXPECT_EQ(0, LoggingFileSizeByHandle(file_handle.get()));
+  ASSERT_NE(file_handle.get(), kInvalidFileHandle);
+  EXPECT_EQ(LoggingFileSizeByHandle(file_handle.get()), 0);
 
   const char data[] = "zippyzap";
   ASSERT_TRUE(LoggingWriteFile(file_handle.get(), &data, sizeof(data)));
 
-  EXPECT_EQ(9, LoggingFileSizeByHandle(file_handle.get()));
+  EXPECT_EQ(LoggingFileSizeByHandle(file_handle.get()), 9);
 }
 
 FileHandle FileHandleForFILE(FILE* file) {
@@ -678,12 +678,12 @@ FileHandle FileHandleForFILE(FILE* file) {
 }
 
 TEST(FileIO, StdioFileHandle) {
-  EXPECT_EQ(FileHandleForFILE(stdin),
-            StdioFileHandle(StdioStream::kStandardInput));
-  EXPECT_EQ(FileHandleForFILE(stdout),
-            StdioFileHandle(StdioStream::kStandardOutput));
-  EXPECT_EQ(FileHandleForFILE(stderr),
-            StdioFileHandle(StdioStream::kStandardError));
+  EXPECT_EQ(StdioFileHandle(StdioStream::kStandardInput),
+            FileHandleForFILE(stdin));
+  EXPECT_EQ(StdioFileHandle(StdioStream::kStandardOutput),
+            FileHandleForFILE(stdout));
+  EXPECT_EQ(StdioFileHandle(StdioStream::kStandardError),
+            FileHandleForFILE(stderr));
 }
 
 }  // namespace

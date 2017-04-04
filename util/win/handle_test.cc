@@ -25,27 +25,27 @@ namespace test {
 namespace {
 
 TEST(Handle, HandleToInt) {
-  EXPECT_EQ(0, HandleToInt(nullptr));
-  EXPECT_EQ(-1, HandleToInt(INVALID_HANDLE_VALUE));
-  EXPECT_EQ(1, HandleToInt(reinterpret_cast<HANDLE>(1)));
-  EXPECT_EQ(std::numeric_limits<int>::max(),
-            HandleToInt(reinterpret_cast<HANDLE>(
-                static_cast<intptr_t>(std::numeric_limits<int>::max()))));
-  EXPECT_EQ(std::numeric_limits<int>::min(),
-            HandleToInt(reinterpret_cast<HANDLE>(
-                static_cast<intptr_t>(std::numeric_limits<int>::min()))));
+  EXPECT_EQ(HandleToInt(nullptr), 0);
+  EXPECT_EQ(HandleToInt(INVALID_HANDLE_VALUE), -1);
+  EXPECT_EQ(HandleToInt(reinterpret_cast<HANDLE>(1)), 1);
+  EXPECT_EQ(HandleToInt(reinterpret_cast<HANDLE>(
+                static_cast<intptr_t>(std::numeric_limits<int>::max()))),
+            std::numeric_limits<int>::max());
+  EXPECT_EQ(HandleToInt(reinterpret_cast<HANDLE>(
+                static_cast<intptr_t>(std::numeric_limits<int>::min()))),
+            std::numeric_limits<int>::min());
 }
 
 TEST(Handle, IntToHandle) {
-  EXPECT_EQ(nullptr, IntToHandle(0));
-  EXPECT_EQ(INVALID_HANDLE_VALUE, IntToHandle(-1));
-  EXPECT_EQ(reinterpret_cast<HANDLE>(1), IntToHandle(1));
-  EXPECT_EQ(reinterpret_cast<HANDLE>(
-                static_cast<intptr_t>(std::numeric_limits<int>::max())),
-            IntToHandle(std::numeric_limits<int>::max()));
-  EXPECT_EQ(reinterpret_cast<HANDLE>(
-                static_cast<intptr_t>(std::numeric_limits<int>::min())),
-            IntToHandle(std::numeric_limits<int>::min()));
+  EXPECT_EQ(IntToHandle(0), nullptr);
+  EXPECT_EQ(IntToHandle(-1), INVALID_HANDLE_VALUE);
+  EXPECT_EQ(IntToHandle(1), reinterpret_cast<HANDLE>(1));
+  EXPECT_EQ(IntToHandle(std::numeric_limits<int>::max()),
+            reinterpret_cast<HANDLE>(
+                static_cast<intptr_t>(std::numeric_limits<int>::max())));
+  EXPECT_EQ(IntToHandle(std::numeric_limits<int>::min()),
+            reinterpret_cast<HANDLE>(
+                static_cast<intptr_t>(std::numeric_limits<int>::min())));
 }
 
 }  // namespace
