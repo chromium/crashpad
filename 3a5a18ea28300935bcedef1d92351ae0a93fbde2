@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dbc8835_d043449f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T03:15:42Z",
+      "side": 1,
+      "message": "Good find! But this isn’t “attempting” anything, it’s actually doing it.",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "3a5a18ea28300935bcedef1d92351ae0a93fbde2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dacc2cef_9e08d860",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T03:15:42Z",
+      "side": 1,
+      "message": "There’s one space too many in here.",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "3a5a18ea28300935bcedef1d92351ae0a93fbde2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e319ecde_3f89202f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T03:15:42Z",
+      "side": 1,
+      "message": "Remove this line if it’s not contributing anything useful.",
+      "revId": "3a5a18ea28300935bcedef1d92351ae0a93fbde2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa9564b_0d3b16f3",
+        "filename": "snapshot/win/process_snapshot_win.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T03:15:42Z",
+      "side": 1,
+      "message": "Since this is Windows-only code that’s operating on a wchar_t*, you can just use wmemchr() (#include \u003cwchar.h\u003e) and const wchar_t* directly. Also, for a wchar_t literal, use L\u0027\\0\u0027 instead of 0.",
+      "revId": "3a5a18ea28300935bcedef1d92351ae0a93fbde2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
