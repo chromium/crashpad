@@ -96,8 +96,17 @@ struct CrashpadInfo {
   //!     SimpleStringDictionary object. It is the caller’s responsibility to
   //!     ensure that this pointer remains valid while it is in effect for a
   //!     CrashpadInfo object.
+  //!
+  //! \sa simple_annotations()
   void set_simple_annotations(SimpleStringDictionary* simple_annotations) {
     simple_annotations_ = simple_annotations;
+  }
+
+  //! \return The simple annotations dictionary.
+  //!
+  //! \sa set_simple_annotations()
+  SimpleStringDictionary* simple_annotations() const {
+    return simple_annotations_;
   }
 
   //! \brief Enables or disables Crashpad handler processing.

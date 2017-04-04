@@ -627,12 +627,21 @@ int HandlerMain(int argc, char* argv[]) {
   if (!options.monitor_self_annotations.empty()) {
     // Establish these annotations even if --monitor-self is not present, in
     // case something such as generate_dump wants to try to access them later.
-    SimpleStringDictionary* module_annotations = new SimpleStringDictionary();
+    //
+    // If the handler is part of a multi-purpose executable, simple annotations
+    // may already be present for this module. If they are, use them.
+    CrashpadInfo* crashpad_info = CrashpadInfo::GetCrashpadInfo();
+    SimpleStringDictionary* module_annotations =
+        crashpad_info->simple_annotations();
+    if (!module_annotations) {
+      module_annotations = new SimpleStringDictionary();
+      crashpad_info->set_simple_annotations(module_annotations);
+    }
+
     for (const auto& iterator : options.monitor_self_annotations) {
       module_annotations->SetKeyValue(iterator.first.c_str(),
                                       iterator.second.c_str());
     }
-    CrashpadInfo::GetCrashpadInfo()->set_simple_annotations(module_annotations);
   }
 
 #if defined(OS_MACOSX)
