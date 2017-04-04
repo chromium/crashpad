@@ -53,7 +53,7 @@ class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
 
   void Verify() {
     verified_ = true;
-    EXPECT_EQ(kStateWritten, state());
+    EXPECT_EQ(state(), kStateWritten);
     for (BaseTestMinidumpWritable* child : children_) {
       child->Verify();
     }
@@ -61,10 +61,10 @@ class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
 
  protected:
   bool Freeze() override {
-    EXPECT_EQ(kStateMutable, state());
+    EXPECT_EQ(state(), kStateMutable);
     bool rv = MinidumpWritable::Freeze();
     EXPECT_TRUE(rv);
-    EXPECT_EQ(kStateFrozen, state());
+    EXPECT_EQ(state(), kStateFrozen);
     return rv;
   }
 
@@ -90,7 +90,7 @@ class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
   }
 
   bool WillWriteAtOffsetImpl(FileOffset offset) override {
-    EXPECT_EQ(state(), kStateFrozen);
+    EXPECT_EQ(kStateFrozen, state());
     expected_offset_ = offset;
     bool rv = MinidumpWritable::WillWriteAtOffsetImpl(offset);
     EXPECT_TRUE(rv);
@@ -98,8 +98,8 @@ class BaseTestMinidumpWritable : public crashpad::internal::MinidumpWritable {
   }
 
   bool WriteObject(FileWriterInterface* file_writer) override {
-    EXPECT_EQ(state(), kStateWritable);
-    EXPECT_EQ(expected_offset_, file_writer->Seek(0, SEEK_CUR));
+    EXPECT_EQ(kStateWritable, state());
+    EXPECT_EQ(file_writer->Seek(0, SEEK_CUR), expected_offset_);
 
     // Subclasses must override this.
     return false;
@@ -162,8 +162,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     TestStringMinidumpWritable string_writable;
     string_writable.SetData("a");
     EXPECT_TRUE(string_writable.WriteEverything(&string_file));
-    EXPECT_EQ(1u, string_file.string().size());
-    EXPECT_EQ("a", string_file.string());
+    EXPECT_EQ(string_file.string().size(), 1u);
+    EXPECT_EQ(string_file.string(), "a");
     string_writable.Verify();
   }
 
@@ -176,8 +176,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     child.SetData("c");
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(5u, string_file.string().size());
-    EXPECT_EQ(std::string("b\0\0\0c", 5), string_file.string());
+    EXPECT_EQ(string_file.string().size(), 5u);
+    EXPECT_EQ(string_file.string(), std::string("b\0\0\0c", 5));
     parent.Verify();
   }
 
@@ -190,8 +190,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     child.SetData("f");
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(5u, string_file.string().size());
-    EXPECT_EQ(std::string("de\0\0f", 5), string_file.string());
+    EXPECT_EQ(string_file.string().size(), 5u);
+    EXPECT_EQ(string_file.string(), std::string("de\0\0f", 5));
     parent.Verify();
   }
 
@@ -204,8 +204,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     child.SetData("j");
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(5u, string_file.string().size());
-    EXPECT_EQ(std::string("ghi\0j", 5), string_file.string());
+    EXPECT_EQ(string_file.string().size(), 5u);
+    EXPECT_EQ(string_file.string(), std::string("ghi\0j", 5));
     parent.Verify();
   }
 
@@ -218,8 +218,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     child.SetData("o");
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(5u, string_file.string().size());
-    EXPECT_EQ("klmno", string_file.string());
+    EXPECT_EQ(string_file.string().size(), 5u);
+    EXPECT_EQ(string_file.string(), "klmno");
     parent.Verify();
   }
 
@@ -232,8 +232,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     child.SetData("u");
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(9u, string_file.string().size());
-    EXPECT_EQ(std::string("pqrst\0\0\0u", 9), string_file.string());
+    EXPECT_EQ(string_file.string().size(), 9u);
+    EXPECT_EQ(string_file.string(), std::string("pqrst\0\0\0u", 9));
     parent.Verify();
   }
 
@@ -249,8 +249,9 @@ TEST(MinidumpWritable, MinidumpWritable) {
     child_1.SetData("child_1");
     parent.AddChild(&child_1);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(23u, string_file.string().size());
-    EXPECT_EQ(std::string("parent\0\0child_0\0child_1", 23), string_file.string());
+    EXPECT_EQ(string_file.string().size(), 23u);
+    EXPECT_EQ(string_file.string(),
+              std::string("parent\0\0child_0\0child_1", 23));
     parent.Verify();
   }
 
@@ -266,9 +267,9 @@ TEST(MinidumpWritable, MinidumpWritable) {
     grandchild.SetData("grandchild");
     child.AddChild(&grandchild);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(26u, string_file.string().size());
-    EXPECT_EQ(std::string("parent\0\0child\0\0\0grandchild", 26),
-              string_file.string());
+    EXPECT_EQ(string_file.string().size(), 26u);
+    EXPECT_EQ(string_file.string(),
+              std::string("parent\0\0child\0\0\0grandchild", 26));
     parent.Verify();
   }
 
@@ -283,8 +284,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     grandchild.SetData("grandchild");
     child.AddChild(&grandchild);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(18u, string_file.string().size());
-    EXPECT_EQ(std::string("child\0\0\0grandchild", 18), string_file.string());
+    EXPECT_EQ(string_file.string().size(), 18u);
+    EXPECT_EQ(string_file.string(), std::string("child\0\0\0grandchild", 18));
     parent.Verify();
   }
 
@@ -299,8 +300,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     grandchild.SetData("grandchild");
     child.AddChild(&grandchild);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(18u, string_file.string().size());
-    EXPECT_EQ(std::string("parent\0\0grandchild", 18), string_file.string());
+    EXPECT_EQ(string_file.string().size(), 18u);
+    EXPECT_EQ(string_file.string(), std::string("parent\0\0grandchild", 18));
     parent.Verify();
   }
 
@@ -315,8 +316,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     TestStringMinidumpWritable grandchild;
     child.AddChild(&grandchild);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(13u, string_file.string().size());
-    EXPECT_EQ(std::string("parent\0\0child", 13), string_file.string());
+    EXPECT_EQ(string_file.string().size(), 13u);
+    EXPECT_EQ(string_file.string(), std::string("parent\0\0child", 13));
     parent.Verify();
   }
 
@@ -333,9 +334,9 @@ TEST(MinidumpWritable, MinidumpWritable) {
     grandchild.SetPhaseLate();
     child.AddChild(&grandchild);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(26u, string_file.string().size());
-    EXPECT_EQ(std::string("parent\0\0child\0\0\0grandchild", 26),
-              string_file.string());
+    EXPECT_EQ(string_file.string().size(), 26u);
+    EXPECT_EQ(string_file.string(),
+              std::string("parent\0\0child\0\0\0grandchild", 26));
     parent.Verify();
   }
 
@@ -352,9 +353,9 @@ TEST(MinidumpWritable, MinidumpWritable) {
     grandchild.SetData("grandchild");
     child.AddChild(&grandchild);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(25u, string_file.string().size());
-    EXPECT_EQ(std::string("parent\0\0grandchild\0\0child", 25),
-              string_file.string());
+    EXPECT_EQ(string_file.string().size(), 25u);
+    EXPECT_EQ(string_file.string(),
+              std::string("parent\0\0grandchild\0\0child", 25));
     parent.Verify();
   }
 
@@ -382,9 +383,9 @@ TEST(MinidumpWritable, MinidumpWritable) {
     grandchild_11.SetData("G11");
     child_1.AddChild(&grandchild_11);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(27u, string_file.string().size());
-    EXPECT_EQ(std::string("P..\0C0.\0G00\0G01\0C1.\0G10\0G11", 27),
-              string_file.string());
+    EXPECT_EQ(string_file.string().size(), 27u);
+    EXPECT_EQ(string_file.string(),
+              std::string("P..\0C0.\0G00\0G01\0C1.\0G10\0G11", 27));
     parent.Verify();
   }
 
@@ -413,9 +414,9 @@ TEST(MinidumpWritable, MinidumpWritable) {
     grandchild_11.SetData("G11");
     child_1.AddChild(&grandchild_11);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(27u, string_file.string().size());
-    EXPECT_EQ(std::string("P..\0G00\0G01\0C1.\0G10\0G11\0C0.", 27),
-              string_file.string());
+    EXPECT_EQ(string_file.string().size(), 27u);
+    EXPECT_EQ(string_file.string(),
+              std::string("P..\0G00\0G01\0C1.\0G10\0G11\0C0.", 27));
     parent.Verify();
   }
 
@@ -445,9 +446,9 @@ TEST(MinidumpWritable, MinidumpWritable) {
     grandchild_11.SetData("G11");
     child_1.AddChild(&grandchild_11);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(27u, string_file.string().size());
-    EXPECT_EQ(std::string("P..\0C0.\0C1.\0G10\0G11\0G00\0G01", 27),
-              string_file.string());
+    EXPECT_EQ(string_file.string().size(), 27u);
+    EXPECT_EQ(string_file.string(),
+              std::string("P..\0C0.\0C1.\0G10\0G11\0G00\0G01", 27));
     parent.Verify();
   }
 
@@ -461,8 +462,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     child.SetAlignment(1);
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(2u, string_file.string().size());
-    EXPECT_EQ("pc", string_file.string());
+    EXPECT_EQ(string_file.string().size(), 2u);
+    EXPECT_EQ(string_file.string(), "pc");
     parent.Verify();
   }
 
@@ -476,8 +477,8 @@ TEST(MinidumpWritable, MinidumpWritable) {
     child.SetAlignment(2);
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
-    EXPECT_EQ(3u, string_file.string().size());
-    EXPECT_EQ(std::string("p\0c", 3), string_file.string());
+    EXPECT_EQ(string_file.string().size(), 3u);
+    EXPECT_EQ(string_file.string(), std::string("p\0c", 3));
     parent.Verify();
   }
 }
@@ -521,8 +522,8 @@ TEST(MinidumpWritable, RVA) {
     TestRVAMinidumpWritable rva_writable;
     EXPECT_TRUE(rva_writable.WriteEverything(&string_file));
 
-    ASSERT_EQ(sizeof(RVA), string_file.string().size());
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
+    ASSERT_EQ(string_file.string().size(), sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 0), 0 * sizeof(RVA));
     rva_writable.Verify();
   }
 
@@ -533,8 +534,8 @@ TEST(MinidumpWritable, RVA) {
     rva_writable.SetRVA(&rva_writable);
     EXPECT_TRUE(rva_writable.WriteEverything(&string_file));
 
-    ASSERT_EQ(sizeof(RVA), string_file.string().size());
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
+    ASSERT_EQ(string_file.string().size(), sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 0), 0 * sizeof(RVA));
     rva_writable.Verify();
   }
 
@@ -548,9 +549,9 @@ TEST(MinidumpWritable, RVA) {
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(2 * sizeof(RVA), string_file.string().size());
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 1));
+    ASSERT_EQ(string_file.string().size(), 2 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 0), 0 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 1), 1 * sizeof(RVA));
     parent.Verify();
   }
 
@@ -563,9 +564,9 @@ TEST(MinidumpWritable, RVA) {
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(2 * sizeof(RVA), string_file.string().size());
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 1));
+    ASSERT_EQ(string_file.string().size(), 2 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 0), 1 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 1), 0 * sizeof(RVA));
     parent.Verify();
   }
 
@@ -579,9 +580,9 @@ TEST(MinidumpWritable, RVA) {
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(2 * sizeof(RVA), string_file.string().size());
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 1));
+    ASSERT_EQ(string_file.string().size(), 2 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 0), 1 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 1), 0 * sizeof(RVA));
     parent.Verify();
   }
 
@@ -603,12 +604,12 @@ TEST(MinidumpWritable, RVA) {
     child.AddChild(&grandchild_2);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(5 * sizeof(RVA), string_file.string().size());
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 0));
-    EXPECT_EQ(0 * sizeof(RVA), RVAAtIndex(string_file.string(), 1));
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 2));
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 3));
-    EXPECT_EQ(1 * sizeof(RVA), RVAAtIndex(string_file.string(), 4));
+    ASSERT_EQ(string_file.string().size(), 5 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 0), 1 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 1), 0 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 2), 1 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 3), 1 * sizeof(RVA));
+    EXPECT_EQ(RVAAtIndex(string_file.string(), 4), 1 * sizeof(RVA));
     parent.Verify();
   }
 }
@@ -674,10 +675,10 @@ TEST(MinidumpWritable, LocationDescriptor) {
     TestLocationDescriptorMinidumpWritable location_descriptor_writable;
     EXPECT_TRUE(location_descriptor_writable.WriteEverything(&string_file));
 
-    ASSERT_EQ(9u, string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), 9u);
     const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
-    EXPECT_EQ(0u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(0u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 0u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 0u);
     location_descriptor_writable.Verify();
   }
 
@@ -689,10 +690,10 @@ TEST(MinidumpWritable, LocationDescriptor) {
         &location_descriptor_writable);
     EXPECT_TRUE(location_descriptor_writable.WriteEverything(&string_file));
 
-    ASSERT_EQ(9u, string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), 9u);
     const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
-    EXPECT_EQ(9u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(0u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 9u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 0u);
     location_descriptor_writable.Verify();
   }
 
@@ -705,10 +706,10 @@ TEST(MinidumpWritable, LocationDescriptor) {
     location_descriptor_writable.SetString("zz");
     EXPECT_TRUE(location_descriptor_writable.WriteEverything(&string_file));
 
-    ASSERT_EQ(11u, string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), 11u);
     const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
-    EXPECT_EQ(11u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(0u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 11u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 0u);
     EXPECT_STREQ("zz", ldd->string);
     location_descriptor_writable.Verify();
   }
@@ -725,14 +726,14 @@ TEST(MinidumpWritable, LocationDescriptor) {
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(22u, string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), 22u);
     const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
-    EXPECT_EQ(11u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(0u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 11u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 0u);
     EXPECT_STREQ("yy", ldd->string);
     ldd = LDDAtIndex(string_file.string(), 12);
-    EXPECT_EQ(10u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(12u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 10u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 12u);
     EXPECT_STREQ("x", ldd->string);
     parent.Verify();
   }
@@ -748,14 +749,14 @@ TEST(MinidumpWritable, LocationDescriptor) {
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(23u, string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), 23u);
     const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
-    EXPECT_EQ(11u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(12u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 11u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 12u);
     EXPECT_STREQ("www", ldd->string);
     ldd = LDDAtIndex(string_file.string(), 12);
-    EXPECT_EQ(0u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(0u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 0u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 0u);
     EXPECT_STREQ("vv", ldd->string);
     parent.Verify();
   }
@@ -772,14 +773,14 @@ TEST(MinidumpWritable, LocationDescriptor) {
     parent.AddChild(&child);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(29u, string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), 29u);
     const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
-    EXPECT_EQ(13u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(16u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 13u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 16u);
     EXPECT_STREQ("uuuu", ldd->string);
     ldd = LDDAtIndex(string_file.string(), 16);
-    EXPECT_EQ(13u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(0u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 13u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 0u);
     EXPECT_STREQ("tttt", ldd->string);
     parent.Verify();
   }
@@ -807,26 +808,26 @@ TEST(MinidumpWritable, LocationDescriptor) {
     child.AddChild(&grandchild_2);
     EXPECT_TRUE(parent.WriteEverything(&string_file));
 
-    ASSERT_EQ(58u, string_file.string().size());
+    ASSERT_EQ(string_file.string().size(), 58u);
     const LocationDescriptorAndData* ldd = LDDAtIndex(string_file.string(), 0);
-    EXPECT_EQ(10u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(12u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 10u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 12u);
     EXPECT_STREQ("s", ldd->string);
     ldd = LDDAtIndex(string_file.string(), 12);
-    EXPECT_EQ(0u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(0u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 0u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 0u);
     EXPECT_STREQ("r", ldd->string);
     ldd = LDDAtIndex(string_file.string(), 24);
-    EXPECT_EQ(10u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(12u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 10u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 12u);
     EXPECT_STREQ("q", ldd->string);
     ldd = LDDAtIndex(string_file.string(), 36);
-    EXPECT_EQ(10u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(12u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 10u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 12u);
     EXPECT_STREQ("p", ldd->string);
     ldd = LDDAtIndex(string_file.string(), 48);
-    EXPECT_EQ(10u, ldd->location_descriptor.DataSize);
-    EXPECT_EQ(12u, ldd->location_descriptor.Rva);
+    EXPECT_EQ(ldd->location_descriptor.DataSize, 10u);
+    EXPECT_EQ(ldd->location_descriptor.Rva, 12u);
     EXPECT_STREQ("o", ldd->string);
     parent.Verify();
   }

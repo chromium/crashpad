@@ -39,7 +39,7 @@ const MinidumpRVAList* MinidumpRVAListAtStart(const std::string& file_contents,
   }
 
   if (list->count != count) {
-    EXPECT_EQ(count, list->count);
+    EXPECT_EQ(list->count, count);
     return nullptr;
   }
 

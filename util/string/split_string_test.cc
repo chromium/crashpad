@@ -30,30 +30,30 @@ TEST(SplitString, SplitStringFirst) {
   EXPECT_FALSE(SplitStringFirst("=beginequals", '=', &left, &right));
 
   ASSERT_TRUE(SplitStringFirst("a=b", '=', &left, &right));
-  EXPECT_EQ("a", left);
-  EXPECT_EQ("b", right);
+  EXPECT_EQ(left, "a");
+  EXPECT_EQ(right, "b");
 
   ASSERT_TRUE(SplitStringFirst("EndsEquals=", '=', &left, &right));
-  EXPECT_EQ("EndsEquals", left);
+  EXPECT_EQ(left, "EndsEquals");
   EXPECT_TRUE(right.empty());
 
   ASSERT_TRUE(SplitStringFirst("key=VALUE", '=', &left, &right));
-  EXPECT_EQ("key", left);
-  EXPECT_EQ("VALUE", right);
+  EXPECT_EQ(left, "key");
+  EXPECT_EQ(right, "VALUE");
 
   EXPECT_FALSE(SplitStringFirst("a=b", '|', &left, &right));
 
   ASSERT_TRUE(SplitStringFirst("ls | less", '|', &left, &right));
-  EXPECT_EQ("ls ", left);
-  EXPECT_EQ(" less", right);
+  EXPECT_EQ(left, "ls ");
+  EXPECT_EQ(right, " less");
 
   ASSERT_TRUE(SplitStringFirst("when in", ' ', &left, &right));
-  EXPECT_EQ("when", left);
-  EXPECT_EQ("in", right);
+  EXPECT_EQ(left, "when");
+  EXPECT_EQ(right, "in");
 
   ASSERT_TRUE(SplitStringFirst("zoo", 'o', &left, &right));
-  EXPECT_EQ("z", left);
-  EXPECT_EQ("o", right);
+  EXPECT_EQ(left, "z");
+  EXPECT_EQ(right, "o");
 
   ASSERT_FALSE(SplitStringFirst("ooze", 'o', &left, &right));
 }
@@ -62,32 +62,32 @@ TEST(SplitString, SplitString) {
   std::vector<std::string> parts;
 
   parts = SplitString("", '.');
-  EXPECT_EQ(0u, parts.size());
+  EXPECT_EQ(parts.size(), 0u);
 
   parts = SplitString(".", '.');
-  ASSERT_EQ(2u, parts.size());
-  EXPECT_EQ("", parts[0]);
-  EXPECT_EQ("", parts[1]);
+  ASSERT_EQ(parts.size(), 2u);
+  EXPECT_EQ(parts[0], "");
+  EXPECT_EQ(parts[1], "");
 
   parts = SplitString("a,b", ',');
-  ASSERT_EQ(2u, parts.size());
-  EXPECT_EQ("a", parts[0]);
-  EXPECT_EQ("b", parts[1]);
+  ASSERT_EQ(parts.size(), 2u);
+  EXPECT_EQ(parts[0], "a");
+  EXPECT_EQ(parts[1], "b");
 
   parts = SplitString("zoo", 'o');
-  ASSERT_EQ(3u, parts.size());
-  EXPECT_EQ("z", parts[0]);
-  EXPECT_EQ("", parts[1]);
-  EXPECT_EQ("", parts[2]);
+  ASSERT_EQ(parts.size(), 3u);
+  EXPECT_EQ(parts[0], "z");
+  EXPECT_EQ(parts[1], "");
+  EXPECT_EQ(parts[2], "");
 
   parts = SplitString("0x100,0x200,0x300,0x400,0x500,0x600", ',');
-  ASSERT_EQ(6u, parts.size());
-  EXPECT_EQ("0x100", parts[0]);
-  EXPECT_EQ("0x200", parts[1]);
-  EXPECT_EQ("0x300", parts[2]);
-  EXPECT_EQ("0x400", parts[3]);
-  EXPECT_EQ("0x500", parts[4]);
-  EXPECT_EQ("0x600", parts[5]);
+  ASSERT_EQ(parts.size(), 6u);
+  EXPECT_EQ(parts[0], "0x100");
+  EXPECT_EQ(parts[1], "0x200");
+  EXPECT_EQ(parts[2], "0x300");
+  EXPECT_EQ(parts[3], "0x400");
+  EXPECT_EQ(parts[4], "0x500");
+  EXPECT_EQ(parts[5], "0x600");
 }
 
 }  // namespace

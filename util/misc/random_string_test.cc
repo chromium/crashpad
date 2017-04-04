@@ -33,13 +33,13 @@ TEST(RandomString, RandomString) {
   const std::string allowed_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
   size_t character_counts[26] = {};
-  ASSERT_EQ(arraysize(character_counts), allowed_characters.size());
+  ASSERT_EQ(allowed_characters.size(), arraysize(character_counts));
 
   std::set<std::string> strings;
 
   for (size_t i = 0; i < 256; ++i) {
     const std::string random_string = RandomString();
-    EXPECT_EQ(16u, random_string.size());
+    EXPECT_EQ(random_string.size(), 16u);
 
     // Make sure that the string is unique. It is possible, but extremely
     // unlikely, for there to be collisions.

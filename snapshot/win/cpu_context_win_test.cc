@@ -41,9 +41,9 @@ void TestInitializeX86Context() {
   {
     CPUContextX86 cpu_context_x86 = {};
     InitializeX86Context(context, &cpu_context_x86);
-    EXPECT_EQ(1u, cpu_context_x86.eax);
-    EXPECT_EQ(2u, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(3u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.eax, 1u);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 2u);
+    EXPECT_EQ(cpu_context_x86.dr0, 3u);
   }
 }
 
@@ -74,29 +74,29 @@ void TestInitializeX86Context_FsaveWithoutFxsave() {
     CPUContextX86 cpu_context_x86 = {};
     InitializeX86Context(context, &cpu_context_x86);
 
-    EXPECT_EQ(1u, cpu_context_x86.eax);
+    EXPECT_EQ(cpu_context_x86.eax, 1u);
 
-    EXPECT_EQ(0x027f, cpu_context_x86.fxsave.fcw);
-    EXPECT_EQ(0x0004, cpu_context_x86.fxsave.fsw);
-    EXPECT_EQ(0x00f0, cpu_context_x86.fxsave.ftw);
-    EXPECT_EQ(0x0bad, cpu_context_x86.fxsave.fop);
-    EXPECT_EQ(0x01234567, cpu_context_x86.fxsave.fpu_ip);
-    EXPECT_EQ(0x0003, cpu_context_x86.fxsave.fpu_cs);
-    EXPECT_EQ(0x89abcdef, cpu_context_x86.fxsave.fpu_dp);
-    EXPECT_EQ(0x0007, cpu_context_x86.fxsave.fpu_ds);
+    EXPECT_EQ(cpu_context_x86.fxsave.fcw, 0x027f);
+    EXPECT_EQ(cpu_context_x86.fxsave.fsw, 0x0004);
+    EXPECT_EQ(cpu_context_x86.fxsave.ftw, 0x00f0);
+    EXPECT_EQ(cpu_context_x86.fxsave.fop, 0x0bad);
+    EXPECT_EQ(cpu_context_x86.fxsave.fpu_ip, 0x01234567);
+    EXPECT_EQ(cpu_context_x86.fxsave.fpu_cs, 0x0003);
+    EXPECT_EQ(cpu_context_x86.fxsave.fpu_dp, 0x89abcdef);
+    EXPECT_EQ(cpu_context_x86.fxsave.fpu_ds, 0x0007);
     for (size_t st_mm = 0; st_mm < 7; ++st_mm) {
       EXPECT_EQ(
-          std::string(arraysize(cpu_context_x86.fxsave.st_mm[st_mm].st) * 2,
-                      '0'),
           BytesToHexString(cpu_context_x86.fxsave.st_mm[st_mm].st,
-                           arraysize(cpu_context_x86.fxsave.st_mm[st_mm].st)))
+                           arraysize(cpu_context_x86.fxsave.st_mm[st_mm].st)),
+          std::string(arraysize(cpu_context_x86.fxsave.st_mm[st_mm].st) * 2,
+                      '0'))
           << "st_mm " << st_mm;
     }
-    EXPECT_EQ("0000000000000080ff7f",
-              BytesToHexString(cpu_context_x86.fxsave.st_mm[7].st,
-                               arraysize(cpu_context_x86.fxsave.st_mm[7].st)));
+    EXPECT_EQ(BytesToHexString(cpu_context_x86.fxsave.st_mm[7].st,
+                               arraysize(cpu_context_x86.fxsave.st_mm[7].st)),
+              "0000000000000080ff7f");
 
-    EXPECT_EQ(3u, cpu_context_x86.dr0);
+    EXPECT_EQ(cpu_context_x86.dr0, 3u);
   }
 }
 
@@ -117,9 +117,9 @@ TEST(CPUContextWin, InitializeX64Context) {
   {
     CPUContextX86_64 cpu_context_x86_64 = {};
     InitializeX64Context(context, &cpu_context_x86_64);
-    EXPECT_EQ(10u, cpu_context_x86_64.rax);
-    EXPECT_EQ(11u, cpu_context_x86_64.fxsave.ftw);
-    EXPECT_EQ(12u, cpu_context_x86_64.dr0);
+    EXPECT_EQ(cpu_context_x86_64.rax, 10u);
+    EXPECT_EQ(cpu_context_x86_64.fxsave.ftw, 11u);
+    EXPECT_EQ(cpu_context_x86_64.dr0, 12u);
   }
 }
 

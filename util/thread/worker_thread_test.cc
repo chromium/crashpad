@@ -81,7 +81,7 @@ TEST(WorkerThread, StopBeforeDoWork) {
   thread.Start(15);
   thread.Stop();
 
-  EXPECT_EQ(0, delegate.work_count());
+  EXPECT_EQ(delegate.work_count(), 0);
 }
 
 TEST(WorkerThread, Restart) {
@@ -114,13 +114,13 @@ TEST(WorkerThread, DoWorkNow) {
   EXPECT_TRUE(thread.is_running());
 
   delegate.WaitForWorkCount();
-  EXPECT_EQ(1, delegate.work_count());
+  EXPECT_EQ(delegate.work_count(), 1);
 
   delegate.SetDesiredWorkCount(2);
   thread.DoWorkNow();
   delegate.WaitForWorkCount();
   thread.Stop();
-  EXPECT_EQ(2, delegate.work_count());
+  EXPECT_EQ(delegate.work_count(), 2);
 
   EXPECT_GE(100 * kNanosecondsPerSecond, ClockMonotonicNanoseconds() - start);
 }
@@ -137,7 +137,7 @@ TEST(WorkerThread, DoWorkNowAtStart) {
 
   thread.DoWorkNow();
   delegate.WaitForWorkCount();
-  EXPECT_EQ(1, delegate.work_count());
+  EXPECT_EQ(delegate.work_count(), 1);
 
   EXPECT_GE(100 * kNanosecondsPerSecond, ClockMonotonicNanoseconds() - start);
 
