@@ -138,6 +138,38 @@ establish the Crashpad client environment before running a program.
    service declared in a job’s `MachServices` dictionary (see launchd.plist(5)).
    The service name may also be completely unknown to the system.
 
+ * **--metrics-dir**=_DIR_
+
+   Metrics information will be written to _DIR_. This option only has an effect
+   when built as part of Chromium. In non-Chromium builds, and in the absence of
+   this option, metrics information will not be written.
+
+ * **--monitor-self**
+
+   Causes a second instance of the Crashpad handler program to be started,
+   monitoring the original instance for exceptions. The original instance will
+   become a client of the second one. The second instance will be started with
+   the same **--annotation**, **--database**, **--no-rate-limit**,
+   **--no-upload-gzip**, and **--url** arguments as the original one. The second
+   instance will not be started with a **--metrics-dir** argument even if the
+   original instance was.
+
+   Where supported by the underlying operating system, the second instance will
+   be restarted should it exit before the first instance. The second instance
+   will not be eligible to be started asynchronously.
+
+ * **--monitor-self-argument**=_ARGUMENT_
+
+   When directed by **--monitor-self** to start a second instance of the
+   Crashpad handler program, the second instance will be started with _ARGUMENT_
+   as one of its arguments. This option may appear zero, one, or more times.
+   This option has no effect in the absence of **--monitor-self**.
+
+   This supports embedding the Crashpad handler into a multi-purpose executable
+   that dispatches to the desired entry point based on a command-line argument.
+   To prevent excessive accumulation of handler processes, _ARGUMENT_ must not
+   be `--monitor-self`.
+
  * **--no-rate-limit**
 
    Do not rate limit the upload of crash reports. By default uploads are

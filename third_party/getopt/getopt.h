@@ -14,7 +14,7 @@ using it.
 /* macros defined by this include file */
 #define no_argument       0
 #define required_argument 1
-#define OPTIONAL_ARG      2
+#define optional_argument 2
 
 /* types defined by this include file */
 
