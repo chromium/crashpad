@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f0c2a93b_c33c6dd9",
+        "filename": "client/simple_string_dictionary_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T04:37:11Z",
+      "side": 1,
+      "message": "Done. Too important to put off.",
+      "parentUuid": "02f8fff4_728788c6",
+      "revId": "fd39a15950cf6c14216cb0ab82a225da102e3d95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66688955_ad0f2274",
         "filename": "minidump/minidump_simple_string_dictionary_writer_test.cc",
         "patchSetId": 7
@@ -39,6 +57,30 @@
       "revId": "fd39a15950cf6c14216cb0ab82a225da102e3d95",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42b5ccbd_416f8583",
+        "filename": "minidump/minidump_simple_string_dictionary_writer_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T04:37:11Z",
+      "side": 1,
+      "message": "Done, and found a third one that matches this pattern.",
+      "parentUuid": "66688955_ad0f2274",
+      "range": {
+        "startLine": 74,
+        "startChar": 14,
+        "endLine": 74,
+        "endChar": 30
+      },
+      "revId": "fd39a15950cf6c14216cb0ab82a225da102e3d95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
