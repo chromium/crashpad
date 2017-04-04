@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e5c52d4_67d4fe40",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-04T17:31:51Z",
+      "side": 1,
+      "message": "\"reinstall\"",
+      "range": {
+        "startLine": 295,
+        "startChar": 49,
+        "endLine": 295,
+        "endChar": 58
+      },
+      "revId": "76a67a37b1d01128ff21b900f49912753dc49d1e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
