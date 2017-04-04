@@ -38,7 +38,7 @@ class ScopedZlibInflateStream {
   explicit ScopedZlibInflateStream(z_stream* zlib) : zlib_(zlib) {}
   ~ScopedZlibInflateStream() {
     int zr = inflateEnd(zlib_);
-    EXPECT_EQ(Z_OK, zr) << "inflateEnd: " << ZlibErrorString(zr);
+    EXPECT_EQ(zr, Z_OK) << "inflateEnd: " << ZlibErrorString(zr);
   }
 
  private:
@@ -65,11 +65,11 @@ void GzipInflate(const std::string& compressed,
   zlib.avail_out = base::checked_cast<uInt>(buf_size);
 
   int zr = inflateInit2(&zlib, ZlibWindowBitsWithGzipWrapper(0));
-  ASSERT_EQ(Z_OK, zr) << "inflateInit2: " << ZlibErrorString(zr);
+  ASSERT_EQ(zr, Z_OK) << "inflateInit2: " << ZlibErrorString(zr);
   ScopedZlibInflateStream zlib_inflate(&zlib);
 
   zr = inflate(&zlib, Z_FINISH);
-  ASSERT_EQ(Z_STREAM_END, zr) << "inflate: " << ZlibErrorString(zr);
+  ASSERT_EQ(zr, Z_STREAM_END) << "inflate: " << ZlibErrorString(zr);
 
   ASSERT_LE(zlib.avail_out, buf_size);
   decompressed->assign(reinterpret_cast<char*>(buf.get()),
@@ -100,20 +100,20 @@ void TestGzipDeflateInflate(const std::string& string) {
 
   // Make sure that the stream is really at EOF.
   uint8_t eof_buf[16];
-  ASSERT_EQ(0, gzip_stream.GetBytesBuffer(eof_buf, sizeof(eof_buf)));
+  ASSERT_EQ(gzip_stream.GetBytesBuffer(eof_buf, sizeof(eof_buf)), 0);
 
   std::string compressed(reinterpret_cast<char*>(buf.get()), compressed_bytes);
 
   ASSERT_GE(compressed.size(), kGzipHeaderSize);
-  EXPECT_EQ('\37', compressed[0]);
-  EXPECT_EQ('\213', compressed[1]);
-  EXPECT_EQ(Z_DEFLATED, compressed[2]);
+  EXPECT_EQ(compressed[0], '\37');
+  EXPECT_EQ(compressed[1], '\213');
+  EXPECT_EQ(compressed[2], Z_DEFLATED);
 
   std::string decompressed;
   ASSERT_NO_FATAL_FAILURE(
       GzipInflate(compressed, &decompressed, string.size()));
 
-  EXPECT_EQ(string, decompressed);
+  EXPECT_EQ(decompressed, string);
 
   // In block mode, compression should be identical.
   string_stream.reset(new StringHTTPBodyStream(string));
@@ -126,8 +126,8 @@ void TestGzipDeflateInflate(const std::string& string) {
     block_compressed.append(reinterpret_cast<char*>(block_buf),
                             block_compressed_bytes);
   }
-  ASSERT_EQ(0, block_compressed_bytes);
-  EXPECT_EQ(compressed, block_compressed);
+  ASSERT_EQ(block_compressed_bytes, 0);
+  EXPECT_EQ(block_compressed, compressed);
 }
 
 std::string MakeString(size_t size) {

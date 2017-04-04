@@ -69,12 +69,12 @@ void TestGetExceptionPorts(const ExceptionPorts& exception_ports,
       exception_ports.GetExceptionPorts(kExceptionMask, &crash_handler));
 
   if (expect_port != MACH_PORT_NULL) {
-    ASSERT_EQ(1u, crash_handler.size());
+    ASSERT_EQ(crash_handler.size(), 1u);
 
-    EXPECT_EQ(kExceptionMask, crash_handler[0].mask);
-    EXPECT_EQ(expect_port, crash_handler[0].port);
-    EXPECT_EQ(expect_behavior, crash_handler[0].behavior);
-    EXPECT_EQ(expect_flavor, crash_handler[0].flavor);
+    EXPECT_EQ(crash_handler[0].mask, kExceptionMask);
+    EXPECT_EQ(crash_handler[0].port, expect_port);
+    EXPECT_EQ(crash_handler[0].behavior, expect_behavior);
+    EXPECT_EQ(crash_handler[0].flavor, expect_flavor);
   } else {
     EXPECT_TRUE(crash_handler.empty());
   }
@@ -88,9 +88,9 @@ void TestGetExceptionPorts(const ExceptionPorts& exception_ports,
     if ((handler.mask & kExceptionMask) != 0) {
       EXPECT_FALSE(found);
       found = true;
-      EXPECT_EQ(expect_port, handler.port);
-      EXPECT_EQ(expect_behavior, handler.behavior);
-      EXPECT_EQ(expect_flavor, handler.flavor);
+      EXPECT_EQ(handler.port, expect_port);
+      EXPECT_EQ(handler.behavior, expect_behavior);
+      EXPECT_EQ(handler.flavor, expect_flavor);
     }
   }
 
@@ -174,12 +174,12 @@ class TestExceptionPorts : public MachMultiprocess,
       expect_behavior = 0;
     }
 
-    EXPECT_EQ(expect_behavior, behavior);
+    EXPECT_EQ(behavior, expect_behavior);
 
-    EXPECT_EQ(LocalPort(), exception_port);
+    EXPECT_EQ(exception_port, LocalPort());
 
-    EXPECT_EQ(EXC_CRASH, exception);
-    EXPECT_EQ(2u, code_count);
+    EXPECT_EQ(exception, EXC_CRASH);
+    EXPECT_EQ(code_count, 2u);
 
     // The exception and code_count checks above would ideally use ASSERT_EQ so
     // that the next conditional would not be necessary, but ASSERT_* requires a
@@ -189,12 +189,12 @@ class TestExceptionPorts : public MachMultiprocess,
       ExcCrashRecoverOriginalException(code[0], nullptr, &signal);
 
       // The child crashed with __builtin_trap(), which shows up as SIGILL.
-      EXPECT_EQ(SIGILL, signal);
+      EXPECT_EQ(signal, SIGILL);
 
       SetExpectedChildTermination(kTerminationSignal, signal);
     }
 
-    EXPECT_EQ(0, AuditPIDFromMachMessageTrailer(trailer));
+    EXPECT_EQ(AuditPIDFromMachMessageTrailer(trailer), 0);
 
     ExcServerCopyState(
         behavior, old_state, old_state_count, new_state, new_state_count);
@@ -234,7 +234,7 @@ class TestExceptionPorts : public MachMultiprocess,
       }
 
       int rv_int = pthread_create(&thread_, nullptr, ThreadMainThunk, this);
-      ASSERT_EQ(0, rv_int);
+      ASSERT_EQ(rv_int, 0);
 
       // Wait for the new thread to be ready.
       init_semaphore_.Wait();
@@ -245,7 +245,7 @@ class TestExceptionPorts : public MachMultiprocess,
 
       // Wait for the parent process to say that its end is set up.
       CheckedReadFileExactly(test_exception_ports_->ReadPipeHandle(), &c, 1);
-      EXPECT_EQ('\0', c);
+      EXPECT_EQ(c, '\0');
 
       // Regardless of where ExceptionPorts::SetExceptionPort() ran,
       // ExceptionPorts::GetExceptionPorts() can always be tested in-process.
@@ -274,7 +274,7 @@ class TestExceptionPorts : public MachMultiprocess,
 
       // Reap the other thread.
       rv_int = pthread_join(thread_, nullptr);
-      ASSERT_EQ(0, rv_int);
+      ASSERT_EQ(rv_int, 0);
     }
 
    private:
@@ -353,7 +353,7 @@ class TestExceptionPorts : public MachMultiprocess,
     // threads set up before proceeding if in kSetOutOfProcess mode.
     char c;
     CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
-    EXPECT_EQ('\0', c);
+    EXPECT_EQ(c, '\0');
 
     mach_port_t local_port = LocalPort();
 
@@ -367,10 +367,10 @@ class TestExceptionPorts : public MachMultiprocess,
     thread_act_array_t threads;
     mach_msg_type_number_t thread_count = 0;
     kern_return_t kr = task_threads(ChildTask(), &threads, &thread_count);
-    ASSERT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "task_threads");
+    ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "task_threads");
 
     ScopedForbidReturn threads_need_owners;
-    ASSERT_EQ(2u, thread_count);
+    ASSERT_EQ(thread_count, 2u);
     base::mac::ScopedMachSendRight main_thread(threads[0]);
     base::mac::ScopedMachSendRight other_thread(threads[1]);
     threads_need_owners.Disarm();
@@ -392,7 +392,7 @@ class TestExceptionPorts : public MachMultiprocess,
       // done.
       kr = mach_port_insert_right(
           mach_task_self(), local_port, local_port, MACH_MSG_TYPE_MAKE_SEND);
-      ASSERT_EQ(KERN_SUCCESS, kr)
+      ASSERT_EQ(kr, KERN_SUCCESS)
           << MachErrorMessage(kr, "mach_port_insert_right");
       base::mac::ScopedMachSendRight send_owner(local_port);
 
@@ -448,7 +448,7 @@ class TestExceptionPorts : public MachMultiprocess,
                                  MachMessageServer::kOneShot,
                                  MachMessageServer::kReceiveLargeError,
                                  kTimeoutMs);
-      EXPECT_EQ(KERN_SUCCESS, kr)
+      EXPECT_EQ(kr, KERN_SUCCESS)
           << MachErrorMessage(kr, "MachMessageServer::Run");
 
       EXPECT_TRUE(handled_);
@@ -593,7 +593,7 @@ TEST(ExceptionPorts, HostExceptionPorts) {
   ExceptionPorts::ExceptionHandlerVector explicit_handlers;
   bool rv =
       explicit_host_ports.GetExceptionPorts(ExcMaskValid(), &explicit_handlers);
-  EXPECT_EQ(expect_success, rv);
+  EXPECT_EQ(rv, expect_success);
 
   ExceptionPorts implicit_host_ports(ExceptionPorts::kTargetTypeHost,
                                      HOST_NULL);
@@ -602,9 +602,9 @@ TEST(ExceptionPorts, HostExceptionPorts) {
   ExceptionPorts::ExceptionHandlerVector implicit_handlers;
   rv =
       implicit_host_ports.GetExceptionPorts(ExcMaskValid(), &implicit_handlers);
-  EXPECT_EQ(expect_success, rv);
+  EXPECT_EQ(rv, expect_success);
 
-  EXPECT_EQ(explicit_handlers.size(), implicit_handlers.size());
+  EXPECT_EQ(implicit_handlers.size(), explicit_handlers.size());
 }
 
 }  // namespace

@@ -45,7 +45,7 @@ class Xattr : public testing::Test {
   }
 
   void TearDown() override {
-    EXPECT_EQ(0, unlink(path_.value().c_str())) << ErrnoMessage("unlink");
+    EXPECT_EQ(unlink(path_.value().c_str()), 0) << ErrnoMessage("unlink");
   }
 
   const base::FilePath& path() const { return path_; }
@@ -59,7 +59,7 @@ const char kKey[] = "com.google.crashpad.test";
 
 TEST_F(Xattr, ReadNonExistentXattr) {
   std::string value;
-  EXPECT_EQ(XattrStatus::kNoAttribute, ReadXattr(path(), kKey, &value));
+  EXPECT_EQ(ReadXattr(path(), kKey, &value), XattrStatus::kNoAttribute);
 }
 
 TEST_F(Xattr, WriteAndReadString) {
@@ -67,8 +67,8 @@ TEST_F(Xattr, WriteAndReadString) {
   EXPECT_TRUE(WriteXattr(path(), kKey, value));
 
   std::string actual;
-  EXPECT_EQ(XattrStatus::kOK, ReadXattr(path(), kKey, &actual));
-  EXPECT_EQ(value, actual);
+  EXPECT_EQ(ReadXattr(path(), kKey, &actual), XattrStatus::kOK);
+  EXPECT_EQ(actual, value);
 }
 
 TEST_F(Xattr, WriteAndReadVeryLongString) {
@@ -76,18 +76,18 @@ TEST_F(Xattr, WriteAndReadVeryLongString) {
   EXPECT_TRUE(WriteXattr(path(), kKey, value));
 
   std::string actual;
-  EXPECT_EQ(XattrStatus::kOK, ReadXattr(path(), kKey, &actual));
-  EXPECT_EQ(value, actual);
+  EXPECT_EQ(ReadXattr(path(), kKey, &actual), XattrStatus::kOK);
+  EXPECT_EQ(actual, value);
 }
 
 TEST_F(Xattr, WriteAndReadBool) {
   EXPECT_TRUE(WriteXattrBool(path(), kKey, true));
   bool actual = false;
-  EXPECT_EQ(XattrStatus::kOK, ReadXattrBool(path(), kKey, &actual));
+  EXPECT_EQ(ReadXattrBool(path(), kKey, &actual), XattrStatus::kOK);
   EXPECT_TRUE(actual);
 
   EXPECT_TRUE(WriteXattrBool(path(), kKey, false));
-  EXPECT_EQ(XattrStatus::kOK, ReadXattrBool(path(), kKey, &actual));
+  EXPECT_EQ(ReadXattrBool(path(), kKey, &actual), XattrStatus::kOK);
   EXPECT_FALSE(actual);
 }
 
@@ -96,13 +96,13 @@ TEST_F(Xattr, WriteAndReadInt) {
   int actual;
 
   EXPECT_TRUE(WriteXattrInt(path(), kKey, expected));
-  EXPECT_EQ(XattrStatus::kOK, ReadXattrInt(path(), kKey, &actual));
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(ReadXattrInt(path(), kKey, &actual), XattrStatus::kOK);
+  EXPECT_EQ(actual, expected);
 
   expected = std::numeric_limits<int>::max();
   EXPECT_TRUE(WriteXattrInt(path(), kKey, expected));
-  EXPECT_EQ(XattrStatus::kOK, ReadXattrInt(path(), kKey, &actual));
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(ReadXattrInt(path(), kKey, &actual), XattrStatus::kOK);
+  EXPECT_EQ(actual, expected);
 }
 
 TEST_F(Xattr, WriteAndReadTimeT) {
@@ -110,13 +110,13 @@ TEST_F(Xattr, WriteAndReadTimeT) {
   time_t actual;
 
   EXPECT_TRUE(WriteXattrTimeT(path(), kKey, expected));
-  EXPECT_EQ(XattrStatus::kOK, ReadXattrTimeT(path(), kKey, &actual));
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(ReadXattrTimeT(path(), kKey, &actual), XattrStatus::kOK);
+  EXPECT_EQ(actual, expected);
 
   expected = std::numeric_limits<time_t>::max();
   EXPECT_TRUE(WriteXattrTimeT(path(), kKey, expected));
-  EXPECT_EQ(XattrStatus::kOK, ReadXattrTimeT(path(), kKey, &actual));
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(ReadXattrTimeT(path(), kKey, &actual), XattrStatus::kOK);
+  EXPECT_EQ(actual, expected);
 }
 
 TEST_F(Xattr, RemoveAndRead) {
@@ -124,13 +124,13 @@ TEST_F(Xattr, RemoveAndRead) {
   EXPECT_TRUE(WriteXattr(path(), kKey, value));
 
   std::string actual;
-  EXPECT_EQ(XattrStatus::kOK, ReadXattr(path(), kKey, &actual));
-  EXPECT_EQ(value, actual);
+  EXPECT_EQ(ReadXattr(path(), kKey, &actual), XattrStatus::kOK);
+  EXPECT_EQ(actual, value);
 
-  EXPECT_EQ(XattrStatus::kOK, RemoveXattr(path(), kKey));
-  EXPECT_EQ(XattrStatus::kNoAttribute, ReadXattr(path(), kKey, &actual));
+  EXPECT_EQ(RemoveXattr(path(), kKey), XattrStatus::kOK);
+  EXPECT_EQ(ReadXattr(path(), kKey, &actual), XattrStatus::kNoAttribute);
 
-  EXPECT_EQ(XattrStatus::kNoAttribute, RemoveXattr(path(), kKey));
+  EXPECT_EQ(RemoveXattr(path(), kKey), XattrStatus::kNoAttribute);
 }
 
 }  // namespace

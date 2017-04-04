@@ -36,20 +36,20 @@ namespace {
 TEST(MachOImageSegmentReader, SegmentNameString) {
   // The output value should be a string of up to 16 characters, even if the
   // input value is not NUL-terminated within 16 characters.
-  EXPECT_EQ("__TEXT", MachOImageSegmentReader::SegmentNameString("__TEXT"));
-  EXPECT_EQ("__OVER", MachOImageSegmentReader::SegmentNameString("__OVER"));
-  EXPECT_EQ("", MachOImageSegmentReader::SegmentNameString(""));
-  EXPECT_EQ("p", MachOImageSegmentReader::SegmentNameString("p"));
-  EXPECT_EQ("NoUnderChar",
-            MachOImageSegmentReader::SegmentNameString("NoUnderChar"));
-  EXPECT_EQ("0123456789abcde",
-            MachOImageSegmentReader::SegmentNameString("0123456789abcde"));
-  EXPECT_EQ("0123456789abcdef",
-            MachOImageSegmentReader::SegmentNameString("0123456789abcdef"));
-  EXPECT_EQ("gfedcba987654321",
-            MachOImageSegmentReader::SegmentNameString("gfedcba9876543210"));
-  EXPECT_EQ("hgfedcba98765432",
-            MachOImageSegmentReader::SegmentNameString("hgfedcba9876543210"));
+  EXPECT_EQ(MachOImageSegmentReader::SegmentNameString("__TEXT"), "__TEXT");
+  EXPECT_EQ(MachOImageSegmentReader::SegmentNameString("__OVER"), "__OVER");
+  EXPECT_EQ(MachOImageSegmentReader::SegmentNameString(""), "");
+  EXPECT_EQ(MachOImageSegmentReader::SegmentNameString("p"), "p");
+  EXPECT_EQ(MachOImageSegmentReader::SegmentNameString("NoUnderChar"),
+            "NoUnderChar");
+  EXPECT_EQ(MachOImageSegmentReader::SegmentNameString("0123456789abcde"),
+            "0123456789abcde");
+  EXPECT_EQ(MachOImageSegmentReader::SegmentNameString("0123456789abcdef"),
+            "0123456789abcdef");
+  EXPECT_EQ(MachOImageSegmentReader::SegmentNameString("gfedcba9876543210"),
+            "gfedcba987654321");
+  EXPECT_EQ(MachOImageSegmentReader::SegmentNameString("hgfedcba9876543210"),
+            "hgfedcba98765432");
 
   // Segment names defined in <mach-o/loader.h>. All of these should come
   // through SegmentNameString() cleanly and without truncation.
@@ -65,8 +65,8 @@ TEST(MachOImageSegmentReader, SegmentNameString) {
 
   for (size_t index = 0; index < arraysize(kSegmentTestData); ++index) {
     EXPECT_EQ(
-        kSegmentTestData[index],
-        MachOImageSegmentReader::SegmentNameString(kSegmentTestData[index]))
+        MachOImageSegmentReader::SegmentNameString(kSegmentTestData[index]),
+        kSegmentTestData[index])
         << base::StringPrintf("index %zu", index);
   }
 }
@@ -74,20 +74,20 @@ TEST(MachOImageSegmentReader, SegmentNameString) {
 TEST(MachOImageSegmentReader, SectionNameString) {
   // The output value should be a string of up to 16 characters, even if the
   // input value is not NUL-terminated within 16 characters.
-  EXPECT_EQ("__text", MachOImageSegmentReader::SectionNameString("__text"));
-  EXPECT_EQ("__over", MachOImageSegmentReader::SectionNameString("__over"));
-  EXPECT_EQ("", MachOImageSegmentReader::SectionNameString(""));
-  EXPECT_EQ("p", MachOImageSegmentReader::SectionNameString("p"));
-  EXPECT_EQ("NoUnderChar",
-            MachOImageSegmentReader::SectionNameString("NoUnderChar"));
-  EXPECT_EQ("0123456789abcde",
-            MachOImageSegmentReader::SectionNameString("0123456789abcde"));
-  EXPECT_EQ("0123456789abcdef",
-            MachOImageSegmentReader::SectionNameString("0123456789abcdef"));
-  EXPECT_EQ("gfedcba987654321",
-            MachOImageSegmentReader::SectionNameString("gfedcba9876543210"));
-  EXPECT_EQ("hgfedcba98765432",
-            MachOImageSegmentReader::SectionNameString("hgfedcba9876543210"));
+  EXPECT_EQ(MachOImageSegmentReader::SectionNameString("__text"), "__text");
+  EXPECT_EQ(MachOImageSegmentReader::SectionNameString("__over"), "__over");
+  EXPECT_EQ(MachOImageSegmentReader::SectionNameString(""), "");
+  EXPECT_EQ(MachOImageSegmentReader::SectionNameString("p"), "p");
+  EXPECT_EQ(MachOImageSegmentReader::SectionNameString("NoUnderChar"),
+            "NoUnderChar");
+  EXPECT_EQ(MachOImageSegmentReader::SectionNameString("0123456789abcde"),
+            "0123456789abcde");
+  EXPECT_EQ(MachOImageSegmentReader::SectionNameString("0123456789abcdef"),
+            "0123456789abcdef");
+  EXPECT_EQ(MachOImageSegmentReader::SectionNameString("gfedcba9876543210"),
+            "gfedcba987654321");
+  EXPECT_EQ(MachOImageSegmentReader::SectionNameString("hgfedcba9876543210"),
+            "hgfedcba98765432");
 
   // Section names defined in <mach-o/loader.h>. All of these should come
   // through SectionNameString() cleanly and without truncation.
@@ -108,8 +108,8 @@ TEST(MachOImageSegmentReader, SectionNameString) {
 
   for (size_t index = 0; index < arraysize(kSectionTestData); ++index) {
     EXPECT_EQ(
-        kSectionTestData[index],
-        MachOImageSegmentReader::SectionNameString(kSectionTestData[index]))
+        MachOImageSegmentReader::SectionNameString(kSectionTestData[index]),
+        kSectionTestData[index])
         << base::StringPrintf("index %zu", index);
   }
 }
@@ -173,9 +173,9 @@ TEST(MachOImageSegmentReader, SegmentAndSectionNameString) {
   for (size_t index = 0; index < arraysize(kSegmentAndSectionTestData);
        ++index) {
     const SegmentAndSectionTestData& test = kSegmentAndSectionTestData[index];
-    EXPECT_EQ(test.output,
-              MachOImageSegmentReader::SegmentAndSectionNameString(
-                  test.segment, test.section))
+    EXPECT_EQ(MachOImageSegmentReader::SegmentAndSectionNameString(
+                  test.segment, test.section),
+              test.output)
         << base::StringPrintf("index %zu, segment %s, section %s",
                               index,
                               test.segment,

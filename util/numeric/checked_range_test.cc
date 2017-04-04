@@ -87,7 +87,7 @@ TEST(CheckedRange, IsValid) {
                                     testcase.size));
 
     CheckedRange<uint32_t> range(testcase.base, testcase.size);
-    EXPECT_EQ(testcase.valid, range.IsValid());
+    EXPECT_EQ(range.IsValid(), testcase.valid);
   }
 
   const int32_t kMinInt32 = std::numeric_limits<int32_t>::min();
@@ -149,7 +149,7 @@ TEST(CheckedRange, IsValid) {
                                     testcase.size));
 
     CheckedRange<int32_t, uint32_t> range(testcase.base, testcase.size);
-    EXPECT_EQ(testcase.valid, range.IsValid());
+    EXPECT_EQ(range.IsValid(), testcase.valid);
   }
 }
 
@@ -191,7 +191,7 @@ TEST(CheckedRange, ContainsValue) {
     SCOPED_TRACE(base::StringPrintf(
         "index %" PRIuS ", value 0x%x", index, testcase.value));
 
-    EXPECT_EQ(testcase.contains, parent_range.ContainsValue(testcase.value));
+    EXPECT_EQ(parent_range.ContainsValue(testcase.value), testcase.contains);
   }
 }
 
@@ -243,7 +243,7 @@ TEST(CheckedRange, ContainsRange) {
 
     CheckedRange<uint32_t> child_range(testcase.base, testcase.size);
     ASSERT_TRUE(child_range.IsValid());
-    EXPECT_EQ(testcase.contains, parent_range.ContainsRange(child_range));
+    EXPECT_EQ(parent_range.ContainsRange(child_range), testcase.contains);
   }
 }
 
@@ -296,7 +296,7 @@ TEST(CheckedRange, OverlapsRange) {
 
     CheckedRange<uint32_t> second_range(testcase.base, testcase.size);
     ASSERT_TRUE(second_range.IsValid());
-    EXPECT_EQ(testcase.overlaps, first_range.OverlapsRange(second_range));
+    EXPECT_EQ(first_range.OverlapsRange(second_range), testcase.overlaps);
   }
 }
 

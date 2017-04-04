@@ -40,7 +40,7 @@ class TestMultiprocessExec final : public MultiprocessExec {
     ASSERT_TRUE(LoggingWriteFile(WritePipeHandle(), &c, 1));
 
     ASSERT_TRUE(LoggingReadFileExactly(ReadPipeHandle(), &c, 1));
-    EXPECT_EQ('Z', c);
+    EXPECT_EQ(c, 'Z');
   }
 
   DISALLOW_COPY_AND_ASSIGN(TestMultiprocessExec);

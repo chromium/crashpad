@@ -48,11 +48,11 @@ void VerifyMinidumpHeader(const MINIDUMP_HEADER* header,
                           uint32_t streams,
                           uint32_t timestamp) {
   ASSERT_TRUE(header);
-  ASSERT_EQ(streams, header->NumberOfStreams);
-  ASSERT_EQ(streams ? sizeof(MINIDUMP_HEADER) : 0u, header->StreamDirectoryRva);
-  EXPECT_EQ(0u, header->CheckSum);
-  EXPECT_EQ(timestamp, header->TimeDateStamp);
-  EXPECT_EQ(MiniDumpNormal, header->Flags);
+  ASSERT_EQ(header->NumberOfStreams, streams);
+  ASSERT_EQ(header->StreamDirectoryRva, streams ? sizeof(MINIDUMP_HEADER) : 0u);
+  EXPECT_EQ(header->CheckSum, 0u);
+  EXPECT_EQ(header->TimeDateStamp, timestamp);
+  EXPECT_EQ(header->Flags, MiniDumpNormal);
 }
 
 }  // namespace test
