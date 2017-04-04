@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02f8fff4_728788c6",
+        "filename": "client/simple_string_dictionary_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-04T04:18:48Z",
+      "side": 1,
+      "message": "If you feel like it (in a separate CL), maybe fixing this test to be value_number instead of valueNumber, while we\u0027re doing with this sort of Very Important Business.",
+      "revId": "fd39a15950cf6c14216cb0ab82a225da102e3d95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66688955_ad0f2274",
+        "filename": "minidump/minidump_simple_string_dictionary_writer_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-04T04:18:48Z",
+      "side": 1,
+      "message": "This comment shouldn\u0027t have moved here.",
+      "range": {
+        "startLine": 74,
+        "startChar": 14,
+        "endLine": 74,
+        "endChar": 30
+      },
+      "revId": "fd39a15950cf6c14216cb0ab82a225da102e3d95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbce9784_dcaba597",
+        "filename": "minidump/minidump_thread_writer_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-04T04:18:48Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 372,
+        "startChar": 14,
+        "endLine": 372,
+        "endChar": 33
+      },
+      "revId": "fd39a15950cf6c14216cb0ab82a225da102e3d95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dbc36a3_cc88042d",
+        "filename": "test/errors.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-04T04:18:48Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 33,
+        "startChar": 15,
+        "endLine": 33,
+        "endChar": 18
+      },
+      "revId": "fd39a15950cf6c14216cb0ab82a225da102e3d95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "766e21fb_688945b0",
+        "filename": "test/hex_string.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-04T04:18:48Z",
+      "side": 1,
+      "message": "Newlines are wonky in this statement.",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 0
+      },
+      "revId": "fd39a15950cf6c14216cb0ab82a225da102e3d95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abc332ec_2725cf11",
+        "filename": "test/mac/mach_errors.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-04T04:18:48Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 32,
+        "startChar": 15,
+        "endLine": 32,
+        "endChar": 18
+      },
+      "revId": "fd39a15950cf6c14216cb0ab82a225da102e3d95",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
