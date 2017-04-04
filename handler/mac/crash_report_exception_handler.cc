@@ -41,11 +41,12 @@ namespace crashpad {
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
-    const std::map<std::string, std::string>* process_annotations)
+    const std::map<std::string, std::string>* process_annotations,
+    const UserStreamSources* user_stream_sources)
     : database_(database),
       upload_thread_(upload_thread),
-      process_annotations_(process_annotations) {
-}
+      process_annotations_(process_annotations),
+      user_stream_sources_(user_stream_sources) {}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {
 }
@@ -169,6 +170,21 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
 
     MinidumpFileWriter minidump;
     minidump.InitializeFromSnapshot(&process_snapshot);
+
+    if (user_stream_sources_) {
+      for (const auto& source : *user_stream_sources_) {
+        std::unique_ptr<MinidumpUserExtensionStreamDataSource> data_source(
+            source->ProduceStreamData(&process_snapshot));
+        if (data_source &&
+            !minidump.AddUserExtensionStream(std::move(data_source))) {
+          // This should only happen if multiple user stream sources yield the
+          // same stream type. It's the users responsibility to make sure
+          // sources don't collide on the same stream type.
+          LOG(ERROR) << "AddUserExtensionStream failed";
+        }
+      }
+    }
+
     if (!minidump.WriteEverything(&file_writer)) {
       Metrics::ExceptionCaptureResult(
           Metrics::CaptureResult::kMinidumpWriteFailed);
