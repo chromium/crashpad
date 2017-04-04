@@ -42,7 +42,7 @@ TEST(PEImageReader, DebugDirectory) {
   ASSERT_TRUE(CrashpadGetModuleInformation(
       GetCurrentProcess(), self, &module_info, sizeof(module_info)))
       << ErrorMessage("GetModuleInformation");
-  EXPECT_EQ(self, module_info.lpBaseOfDll);
+  EXPECT_EQ(module_info.lpBaseOfDll, self);
   ASSERT_TRUE(pe_image_reader.Initialize(&process_reader,
                                          reinterpret_cast<WinVMAddress>(self),
                                          module_info.SizeOfImage,
@@ -51,11 +51,11 @@ TEST(PEImageReader, DebugDirectory) {
   DWORD age;
   std::string pdbname;
   EXPECT_TRUE(pe_image_reader.DebugDirectoryInformation(&uuid, &age, &pdbname));
-  EXPECT_NE(std::string::npos, pdbname.find("crashpad_snapshot_test"));
+  EXPECT_NE(pdbname.find("crashpad_snapshot_test"), std::string::npos);
   const std::string suffix(".pdb");
   EXPECT_EQ(
-      0,
-      pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix));
+      pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix),
+      0);
 }
 
 void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
@@ -72,12 +72,12 @@ void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
   ASSERT_TRUE(observed_rv || !known_dll);
 
   if (observed_rv) {
-    EXPECT_EQ(VS_FFI_SIGNATURE, observed.dwSignature);
-    EXPECT_EQ(VS_FFI_STRUCVERSION, observed.dwStrucVersion);
-    EXPECT_EQ(0, observed.dwFileFlags & ~observed.dwFileFlagsMask);
-    EXPECT_EQ(VOS_NT_WINDOWS32, observed.dwFileOS);
+    EXPECT_EQ(observed.dwSignature, VS_FFI_SIGNATURE);
+    EXPECT_EQ(observed.dwStrucVersion, VS_FFI_STRUCVERSION);
+    EXPECT_EQ(observed.dwFileFlags & ~observed.dwFileFlagsMask, 0);
+    EXPECT_EQ(observed.dwFileOS, VOS_NT_WINDOWS32);
     if (known_dll) {
-      EXPECT_EQ(VFT_DLL, observed.dwFileType);
+      EXPECT_EQ(observed.dwFileType, VFT_DLL);
     } else {
       EXPECT_TRUE(observed.dwFileType == VFT_APP ||
                   observed.dwFileType == VFT_DLL);
@@ -103,22 +103,22 @@ void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
   const bool expected_rv = GetModuleVersionAndType(module_path, &expected);
   ASSERT_TRUE(expected_rv || !known_dll);
 
-  EXPECT_EQ(expected_rv, observed_rv);
+  EXPECT_EQ(observed_rv, expected_rv);
 
   if (observed_rv && expected_rv) {
-    EXPECT_EQ(expected.dwSignature, observed.dwSignature);
-    EXPECT_EQ(expected.dwStrucVersion, observed.dwStrucVersion);
-    EXPECT_EQ(expected.dwFileVersionMS, observed.dwFileVersionMS);
-    EXPECT_EQ(expected.dwFileVersionLS, observed.dwFileVersionLS);
-    EXPECT_EQ(expected.dwProductVersionMS, observed.dwProductVersionMS);
-    EXPECT_EQ(expected.dwProductVersionLS, observed.dwProductVersionLS);
-    EXPECT_EQ(expected.dwFileFlagsMask, observed.dwFileFlagsMask);
-    EXPECT_EQ(expected.dwFileFlags, observed.dwFileFlags);
-    EXPECT_EQ(expected.dwFileOS, observed.dwFileOS);
-    EXPECT_EQ(expected.dwFileType, observed.dwFileType);
-    EXPECT_EQ(expected.dwFileSubtype, observed.dwFileSubtype);
-    EXPECT_EQ(expected.dwFileDateMS, observed.dwFileDateMS);
-    EXPECT_EQ(expected.dwFileDateLS, observed.dwFileDateLS);
+    EXPECT_EQ(observed.dwSignature, expected.dwSignature);
+    EXPECT_EQ(observed.dwStrucVersion, expected.dwStrucVersion);
+    EXPECT_EQ(observed.dwFileVersionMS, expected.dwFileVersionMS);
+    EXPECT_EQ(observed.dwFileVersionLS, expected.dwFileVersionLS);
+    EXPECT_EQ(observed.dwProductVersionMS, expected.dwProductVersionMS);
+    EXPECT_EQ(observed.dwProductVersionLS, expected.dwProductVersionLS);
+    EXPECT_EQ(observed.dwFileFlagsMask, expected.dwFileFlagsMask);
+    EXPECT_EQ(observed.dwFileFlags, expected.dwFileFlags);
+    EXPECT_EQ(observed.dwFileOS, expected.dwFileOS);
+    EXPECT_EQ(observed.dwFileType, expected.dwFileType);
+    EXPECT_EQ(observed.dwFileSubtype, expected.dwFileSubtype);
+    EXPECT_EQ(observed.dwFileDateMS, expected.dwFileDateMS);
+    EXPECT_EQ(observed.dwFileDateLS, expected.dwFileDateLS);
   }
 }
 
@@ -135,7 +135,7 @@ TEST(PEImageReader, VSFixedFileInfo_OneModule) {
   ASSERT_TRUE(CrashpadGetModuleInformation(
       GetCurrentProcess(), module_handle, &module_info, sizeof(module_info)))
       << ErrorMessage("GetModuleInformation");
-  EXPECT_EQ(module_handle, module_info.lpBaseOfDll);
+  EXPECT_EQ(module_info.lpBaseOfDll, module_handle);
 
   ProcessInfo::Module module;
   module.name = kModuleName;

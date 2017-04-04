@@ -59,13 +59,13 @@ TEST(ExceptionBehaviors, ExceptionBehaviors) {
     SCOPED_TRACE(base::StringPrintf(
         "index %zu, behavior %d", index, test_data.behavior));
 
-    EXPECT_EQ(test_data.state, ExceptionBehaviorHasState(test_data.behavior));
-    EXPECT_EQ(test_data.identity,
-              ExceptionBehaviorHasIdentity(test_data.behavior));
-    EXPECT_EQ(test_data.mach_exception_codes,
-              ExceptionBehaviorHasMachExceptionCodes(test_data.behavior));
-    EXPECT_EQ(test_data.basic_behavior,
-              ExceptionBehaviorBasic(test_data.behavior));
+    EXPECT_EQ(ExceptionBehaviorHasState(test_data.behavior), test_data.state);
+    EXPECT_EQ(ExceptionBehaviorHasIdentity(test_data.behavior),
+              test_data.identity);
+    EXPECT_EQ(ExceptionBehaviorHasMachExceptionCodes(test_data.behavior),
+              test_data.mach_exception_codes);
+    EXPECT_EQ(ExceptionBehaviorBasic(test_data.behavior),
+              test_data.basic_behavior);
   }
 }
 

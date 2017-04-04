@@ -49,7 +49,7 @@ void GetCrashpadInfoStream(
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
   ASSERT_TRUE(directory);
 
-  ASSERT_EQ(kMinidumpStreamTypeCrashpadInfo, directory[0].StreamType);
+  ASSERT_EQ(directory[0].StreamType, kMinidumpStreamTypeCrashpadInfo);
 
   *crashpad_info = MinidumpWritableAtLocationDescriptor<MinidumpCrashpadInfo>(
       file_contents, directory[0].Location);
@@ -82,9 +82,9 @@ TEST(MinidumpCrashpadInfoWriter, Empty) {
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
       string_file.string(), &crashpad_info, &simple_annotations, &module_list));
 
-  EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
-  EXPECT_EQ(UUID(), crashpad_info->report_id);
-  EXPECT_EQ(UUID(), crashpad_info->client_id);
+  EXPECT_EQ(crashpad_info->version, MinidumpCrashpadInfo::kVersion);
+  EXPECT_EQ(crashpad_info->report_id, UUID());
+  EXPECT_EQ(crashpad_info->client_id, UUID());
   EXPECT_FALSE(simple_annotations);
   EXPECT_FALSE(module_list);
 }
@@ -118,9 +118,9 @@ TEST(MinidumpCrashpadInfoWriter, ReportAndClientID) {
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
       string_file.string(), &crashpad_info, &simple_annotations, &module_list));
 
-  EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
-  EXPECT_EQ(report_id, crashpad_info->report_id);
-  EXPECT_EQ(client_id, crashpad_info->client_id);
+  EXPECT_EQ(crashpad_info->version, MinidumpCrashpadInfo::kVersion);
+  EXPECT_EQ(crashpad_info->report_id, report_id);
+  EXPECT_EQ(crashpad_info->client_id, client_id);
   EXPECT_FALSE(simple_annotations);
   EXPECT_FALSE(module_list);
 }
@@ -160,17 +160,17 @@ TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
       string_file.string(), &crashpad_info, &simple_annotations, &module_list));
 
-  EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
+  EXPECT_EQ(crashpad_info->version, MinidumpCrashpadInfo::kVersion);
   EXPECT_FALSE(module_list);
 
   ASSERT_TRUE(simple_annotations);
-  ASSERT_EQ(1u, simple_annotations->count);
-  EXPECT_EQ(kKey,
-            MinidumpUTF8StringAtRVAAsString(
-                string_file.string(), simple_annotations->entries[0].key));
-  EXPECT_EQ(kValue,
-            MinidumpUTF8StringAtRVAAsString(
-                string_file.string(), simple_annotations->entries[0].value));
+  ASSERT_EQ(simple_annotations->count, 1u);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            simple_annotations->entries[0].key),
+            kKey);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(
+                string_file.string(), simple_annotations->entries[0].value),
+            kValue);
 }
 
 TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
@@ -201,24 +201,24 @@ TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
       string_file.string(), &crashpad_info, &simple_annotations, &module_list));
 
-  EXPECT_EQ(MinidumpCrashpadInfo::kVersion, crashpad_info->version);
+  EXPECT_EQ(crashpad_info->version, MinidumpCrashpadInfo::kVersion);
   EXPECT_FALSE(simple_annotations);
 
   ASSERT_TRUE(module_list);
-  ASSERT_EQ(1u, module_list->count);
+  ASSERT_EQ(module_list->count, 1u);
 
-  EXPECT_EQ(kMinidumpModuleListIndex,
-            module_list->modules[0].minidump_module_list_index);
+  EXPECT_EQ(module_list->modules[0].minidump_module_list_index,
+            kMinidumpModuleListIndex);
   const MinidumpModuleCrashpadInfo* module =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
           string_file.string(), module_list->modules[0].location);
   ASSERT_TRUE(module);
 
-  EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module->version);
-  EXPECT_EQ(0u, module->list_annotations.DataSize);
-  EXPECT_EQ(0u, module->list_annotations.Rva);
-  EXPECT_EQ(0u, module->simple_annotations.DataSize);
-  EXPECT_EQ(0u, module->simple_annotations.Rva);
+  EXPECT_EQ(module->version, MinidumpModuleCrashpadInfo::kVersion);
+  EXPECT_EQ(module->list_annotations.DataSize, 0u);
+  EXPECT_EQ(module->list_annotations.Rva, 0u);
+  EXPECT_EQ(module->simple_annotations.DataSize, 0u);
+  EXPECT_EQ(module->simple_annotations.Rva, 0u);
 }
 
 TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
@@ -276,40 +276,40 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
   ASSERT_NO_FATAL_FAILURE(GetCrashpadInfoStream(
       string_file.string(), &info, &simple_annotations, &module_list));
 
-  EXPECT_EQ(MinidumpCrashpadInfo::kVersion, info->version);
+  EXPECT_EQ(info->version, MinidumpCrashpadInfo::kVersion);
 
-  EXPECT_EQ(report_id, info->report_id);
-  EXPECT_EQ(client_id, info->client_id);
+  EXPECT_EQ(info->report_id, report_id);
+  EXPECT_EQ(info->client_id, client_id);
 
   ASSERT_TRUE(simple_annotations);
-  ASSERT_EQ(1u, simple_annotations->count);
-  EXPECT_EQ(kKey,
-            MinidumpUTF8StringAtRVAAsString(
-                string_file.string(), simple_annotations->entries[0].key));
-  EXPECT_EQ(kValue,
-            MinidumpUTF8StringAtRVAAsString(
-                string_file.string(), simple_annotations->entries[0].value));
+  ASSERT_EQ(simple_annotations->count, 1u);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            simple_annotations->entries[0].key),
+            kKey);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(
+                string_file.string(), simple_annotations->entries[0].value),
+            kValue);
 
   ASSERT_TRUE(module_list);
-  ASSERT_EQ(1u, module_list->count);
+  ASSERT_EQ(module_list->count, 1u);
 
-  EXPECT_EQ(0u, module_list->modules[0].minidump_module_list_index);
+  EXPECT_EQ(module_list->modules[0].minidump_module_list_index, 0u);
   const MinidumpModuleCrashpadInfo* module =
       MinidumpWritableAtLocationDescriptor<MinidumpModuleCrashpadInfo>(
           string_file.string(), module_list->modules[0].location);
   ASSERT_TRUE(module);
 
-  EXPECT_EQ(MinidumpModuleCrashpadInfo::kVersion, module->version);
+  EXPECT_EQ(module->version, MinidumpModuleCrashpadInfo::kVersion);
 
   const MinidumpRVAList* list_annotations =
       MinidumpWritableAtLocationDescriptor<MinidumpRVAList>(
           string_file.string(), module->list_annotations);
   ASSERT_TRUE(list_annotations);
 
-  ASSERT_EQ(1u, list_annotations->count);
-  EXPECT_EQ(kEntry,
-            MinidumpUTF8StringAtRVAAsString(string_file.string(),
-                                            list_annotations->children[0]));
+  ASSERT_EQ(list_annotations->count, 1u);
+  EXPECT_EQ(MinidumpUTF8StringAtRVAAsString(string_file.string(),
+                                            list_annotations->children[0]),
+            kEntry);
 
   const MinidumpSimpleStringDictionary* module_simple_annotations =
       MinidumpWritableAtLocationDescriptor<MinidumpSimpleStringDictionary>(

@@ -51,7 +51,7 @@ void TestImageReaderChild(const base::string16& directory_modification) {
   char c;
   ASSERT_TRUE(
       LoggingReadFileExactly(child.stdout_read_handle(), &c, sizeof(c)));
-  ASSERT_EQ(' ', c);
+  ASSERT_EQ(c, ' ');
 
   {
     ScopedProcessSuspend suspend(child.process_handle());
@@ -72,22 +72,22 @@ void TestImageReaderChild(const base::string16& directory_modification) {
         process_snapshot.Modules()[0]);
     ASSERT_TRUE(module->pe_image_reader().DebugDirectoryInformation(
         &uuid, &age, &pdbname));
-    EXPECT_NE(std::string::npos,
-              pdbname.find("crashpad_snapshot_test_image_reader"));
+    EXPECT_NE(pdbname.find("crashpad_snapshot_test_image_reader"),
+              std::string::npos);
     EXPECT_EQ(
-        0,
-        pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix));
+        pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix),
+        0);
 
     // Check the dll it loads too.
     module = reinterpret_cast<const internal::ModuleSnapshotWin*>(
         process_snapshot.Modules().back());
     ASSERT_TRUE(module->pe_image_reader().DebugDirectoryInformation(
         &uuid, &age, &pdbname));
-    EXPECT_NE(std::string::npos,
-              pdbname.find("crashpad_snapshot_test_image_reader_module"));
+    EXPECT_NE(pdbname.find("crashpad_snapshot_test_image_reader_module"),
+              std::string::npos);
     EXPECT_EQ(
-        0,
-        pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix));
+        pdbname.compare(pdbname.size() - suffix.size(), suffix.size(), suffix),
+        0);
 
     // Sum the size of the extra memory in all the threads and confirm it's near
     // the limit that the child process set in its CrashpadInfo.
@@ -109,7 +109,7 @@ void TestImageReaderChild(const base::string16& directory_modification) {
   // Tell the child it can terminate.
   EXPECT_TRUE(SetEvent(done.get())) << ErrorMessage("SetEvent");
 
-  EXPECT_EQ(0, child.WaitForExit());
+  EXPECT_EQ(child.WaitForExit(), 0);
 }
 
 TEST(ProcessSnapshotTest, CrashpadInfoChild) {

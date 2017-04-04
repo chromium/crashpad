@@ -86,11 +86,11 @@ void TestAnnotationsOnCrash(TestType type,
   }
 
   EXPECT_GE(all_annotations_simple_map.size(), 5u);
-  EXPECT_EQ("crash", all_annotations_simple_map["#TEST# pad"]);
-  EXPECT_EQ("value", all_annotations_simple_map["#TEST# key"]);
-  EXPECT_EQ("y", all_annotations_simple_map["#TEST# x"]);
-  EXPECT_EQ("shorter", all_annotations_simple_map["#TEST# longer"]);
-  EXPECT_EQ("", all_annotations_simple_map["#TEST# empty_value"]);
+  EXPECT_EQ(all_annotations_simple_map["#TEST# pad"], "crash");
+  EXPECT_EQ(all_annotations_simple_map["#TEST# key"], "value");
+  EXPECT_EQ(all_annotations_simple_map["#TEST# x"], "y");
+  EXPECT_EQ(all_annotations_simple_map["#TEST# longer"], "shorter");
+  EXPECT_EQ(all_annotations_simple_map["#TEST# empty_value"], "");
 
   // Tell the child process to continue.
   DWORD expected_exit_code;
@@ -108,7 +108,7 @@ void TestAnnotationsOnCrash(TestType type,
   }
   CheckedWriteFile(child.stdin_write_handle(), &c, sizeof(c));
 
-  EXPECT_EQ(expected_exit_code, child.WaitForExit());
+  EXPECT_EQ(child.WaitForExit(), expected_exit_code);
 }
 
 TEST(PEImageAnnotationsReader, DontCrash) {

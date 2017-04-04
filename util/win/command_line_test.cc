@@ -43,7 +43,7 @@ void AppendCommandLineArgumentTest(size_t argc, const wchar_t* const argv[]) {
 
   ASSERT_TRUE(test_argv) << ErrorMessage("CommandLineToArgvW");
   ScopedLocalAlloc test_argv_owner(test_argv);
-  ASSERT_EQ(argc, test_argc);
+  ASSERT_EQ(test_argc, argc);
 
   for (size_t index = 0; index < argc; ++index) {
     EXPECT_STREQ(argv[index], test_argv[index]) << "index " << index;
