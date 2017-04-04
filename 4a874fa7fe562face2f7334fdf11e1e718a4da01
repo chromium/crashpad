@@ -16,6 +16,24 @@
       "revId": "4a874fa7fe562face2f7334fdf11e1e718a4da01",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aa9342f_4cf13990",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-04T18:12:50Z",
+      "side": 1,
+      "message": "\u003e Move this above the MonitorSelf() call, otherwise there\u0027s an unnecessary gap when these annotations aren\u0027t set while the self-handler is enabled.\n\nThat works better when there’s a fallback handler that can catch us, and worse when there’s no fallback handler and we’d want to guard against crashes in this loop.\n\nHopefully the loop isn’t crash-prone. I moved it above.",
+      "parentUuid": "b813d747_a760aa7c",
+      "revId": "4a874fa7fe562face2f7334fdf11e1e718a4da01",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
