@@ -16,6 +16,24 @@
       "revId": "ae5274565aa3c431fed3b58e94f0d9caa98ae7eb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caf71425_c06b2ded",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T14:09:05Z",
+      "side": 1,
+      "message": "\u003e We probably should have made CrashpadInfo own this originally. :(\n\nAbsolutely, but we wanted to keep it POD. Maybe we needed InitializeCrashpadInfo() but we’d have needed to protect against multiple initialization. It’s all harder to use. POD’s like the dark days of pure C.",
+      "parentUuid": "6c80c04a_fa90bc51",
+      "revId": "ae5274565aa3c431fed3b58e94f0d9caa98ae7eb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
