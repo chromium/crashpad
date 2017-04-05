@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cab6dd5_8ced789c",
+        "filename": "util/posix/scoped_dir.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T16:34:26Z",
+      "side": 1,
+      "message": "Optional: you can merge these two lines if you want: (dir \u0026\u0026 IGNORE_EINTR(…))",
+      "revId": "a032f3bfe1b94ee25faf6e193b9e228f09778a2a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
