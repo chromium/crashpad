@@ -24,7 +24,6 @@
 #include <unistd.h>
 
 #include <algorithm>
-#include <memory>
 
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
@@ -32,6 +31,7 @@
 #include "build/build_config.h"
 #include "util/misc/implicit_cast.h"
 #include "util/numeric/safe_assignment.h"
+#include "util/posix/scoped_dir.h"
 
 #if defined(OS_MACOSX)
 #include <sys/sysctl.h>
@@ -68,18 +68,6 @@ void CloseNowOrOnExec(int fd, bool ebadf_ok) {
     PLOG(WARNING) << "close";
   }
 }
-
-struct ScopedDIRCloser {
-  void operator()(DIR* dir) const {
-    if (dir) {
-      if (closedir(dir) < 0) {
-        PLOG(ERROR) << "closedir";
-      }
-    }
-  }
-};
-
-using ScopedDIR = std::unique_ptr<DIR, ScopedDIRCloser>;
 
 // This function implements CloseMultipleNowOrOnExec() using an operating
 // system-specific FD directory to determine which file descriptors are open.
