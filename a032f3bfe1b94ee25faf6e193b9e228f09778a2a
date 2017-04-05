@@ -16,6 +16,24 @@
       "revId": "a032f3bfe1b94ee25faf6e193b9e228f09778a2a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a675a093_2d12303f",
+        "filename": "util/posix/scoped_dir.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-05T16:45:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cab6dd5_8ced789c",
+      "revId": "a032f3bfe1b94ee25faf6e193b9e228f09778a2a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
