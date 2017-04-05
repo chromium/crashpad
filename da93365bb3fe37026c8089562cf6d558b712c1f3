@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ac5f682_1446eef1",
+        "filename": "util/posix/scoped_dir.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T02:22:16Z",
+      "side": 1,
+      "message": "This shouldn’t be inlined. Make a scoped_dir.cc and put the implementation there.",
+      "revId": "da93365bb3fe37026c8089562cf6d558b712c1f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1927b14d_a86e4c96",
+        "filename": "util/posix/scoped_dir.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T02:22:16Z",
+      "side": 1,
+      "message": "Deal with EINTR here. Since closedir() normally wraps close(), it’s not safe to retry a close() if it fails, so the error should be swallowed. #include \"base/posix/eintr_wrapper.h\" and use IGNORE_EINTR().",
+      "revId": "da93365bb3fe37026c8089562cf6d558b712c1f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
