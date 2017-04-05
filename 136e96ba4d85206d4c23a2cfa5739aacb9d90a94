@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2c16c9_033c0603",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T13:37:08Z",
+      "side": 1,
+      "message": "UserStreamDataSources, so some poor sap doesn’t go grepping around for UserStreamSource as the singular and coming up empty.",
+      "revId": "136e96ba4d85206d4c23a2cfa5739aacb9d90a94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9046e9d5_1bc6d834",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T13:37:08Z",
+      "side": 1,
+      "message": "We are vectorious over instability.",
+      "range": {
+        "startLine": 54,
+        "startChar": 37,
+        "endLine": 54,
+        "endChar": 44
+      },
+      "revId": "136e96ba4d85206d4c23a2cfa5739aacb9d90a94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c36cec9_f3468976",
+        "filename": "handler/mac/crash_report_exception_handler.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T13:37:08Z",
+      "side": 1,
+      "message": "user’s",
+      "range": {
+        "startLine": 182,
+        "startChar": 40,
+        "endLine": 182,
+        "endChar": 45
+      },
+      "revId": "136e96ba4d85206d4c23a2cfa5739aacb9d90a94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45dfb500_2a1a87ed",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T13:37:08Z",
+      "side": 1,
+      "message": "It’s a pity that there isn’t more sharing between the basically identical bits that the Mac and Windows versions of this file do.\n\nNo need to dig into that here because there’s already a bunch of duplication, but I filed https://crashpad.chromium.org/bug/176 to clean this up later.",
+      "revId": "136e96ba4d85206d4c23a2cfa5739aacb9d90a94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58555014_9fbb6362",
+        "filename": "handler/win/crash_report_exception_handler.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T13:37:08Z",
+      "side": 1,
+      "message": "Same.",
+      "range": {
+        "startLine": 120,
+        "startChar": 40,
+        "endLine": 120,
+        "endChar": 45
+      },
+      "revId": "136e96ba4d85206d4c23a2cfa5739aacb9d90a94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01810303_eb511347",
+        "filename": "minidump/minidump_user_extension_stream_data_source.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T13:37:08Z",
+      "side": 1,
+      "message": "Since delegates aren’t normally owned by a pointer of the delegate type, I usually like to not impose virtualness on their descendants. Instead, I’d do an empty non-virtual protected destructor, which prohibits deletion via a delegate pointer.",
+      "revId": "136e96ba4d85206d4c23a2cfa5739aacb9d90a94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bd717a1_90a72ccc",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T13:37:08Z",
+      "side": 1,
+      "message": "explicit",
+      "revId": "136e96ba4d85206d4c23a2cfa5739aacb9d90a94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e3b7350_52981fac",
+        "filename": "minidump/minidump_user_stream_writer.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T13:37:08Z",
+      "side": 1,
+      "message": "nit: blank line before this",
+      "revId": "136e96ba4d85206d4c23a2cfa5739aacb9d90a94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32fc6ace_c2792021",
+        "filename": "minidump/minidump_user_stream_writer_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-05T13:37:08Z",
+      "side": 1,
+      "message": "Hmm, I’ve seen you before…\n\nThis should probably go into a test_util file in minidump/test to cut down on duplication.",
+      "revId": "136e96ba4d85206d4c23a2cfa5739aacb9d90a94",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
