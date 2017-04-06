@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f96f71e0_7bea7e8b",
+        "filename": "util/linux/scoped_ptrace_attach.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:47:21Z",
+      "side": 1,
+      "message": "Yeah, if you move\n\n  pid_ \u003d pid;\n\nto this line and use pid instead of pid_ in your ptrace() call above, you can get rid of attached_ entirely.",
+      "revId": "516b327fb7873cbff697ed7a47cd91caefdabcd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "725c48f4_fde2938c",
+        "filename": "util/linux/scoped_ptrace_attach.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:47:21Z",
+      "side": 1,
+      "message": "Define things in the same order that you used in the header file. Reset() preceded ResetAttach().",
+      "revId": "516b327fb7873cbff697ed7a47cd91caefdabcd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e0815a0_7d7ae08d",
+        "filename": "util/linux/scoped_ptrace_attach.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:47:21Z",
+      "side": 1,
+      "message": "I assume that you want this just for pid_t, in which case I\u0027d go with \u003csys/types.h\u003e. It\u0027s less pollution and it better reflects the reasoning behind including a header.",
+      "revId": "516b327fb7873cbff697ed7a47cd91caefdabcd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a034e564_732651d8",
+        "filename": "util/linux/scoped_ptrace_attach.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:47:21Z",
+      "side": 1,
+      "message": "`ptrace()`",
+      "revId": "516b327fb7873cbff697ed7a47cd91caefdabcd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af84bf9d_2a66f39a",
+        "filename": "util/linux/scoped_ptrace_attach.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:47:21Z",
+      "side": 1,
+      "message": "No need to be explicit when there aren\u0027t any arguments. There\u0027s no way this could be mistakenly used for an implicit conversion.",
+      "revId": "516b327fb7873cbff697ed7a47cd91caefdabcd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bc301a2_3343b457",
+        "filename": "util/linux/scoped_ptrace_attach.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:47:21Z",
+      "side": 1,
+      "message": "Having not looked at the .cc yet, I\u0027d imagine that this variable is extraneous, and we can use pid_ -1 to mean detached.",
+      "revId": "516b327fb7873cbff697ed7a47cd91caefdabcd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e42eac99_85722554",
+        "filename": "util/linux/scoped_ptrace_attach_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:47:21Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to waste space in the (ro) data section for this. Make it a member variable. You can provide a common base class for the classes here too provide that.",
+      "revId": "516b327fb7873cbff697ed7a47cd91caefdabcd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "868adfda_7ebfd4e0",
+        "filename": "util/linux/scoped_ptrace_attach_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:47:21Z",
+      "side": 1,
+      "message": "Make sure it failed for the right reason: check that errno is ESRCH. Make this line an ASSERT_EQ because the errno comparison that will follow depends on getting the correct return value here. Same in the destructor test.",
+      "revId": "516b327fb7873cbff697ed7a47cd91caefdabcd2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
