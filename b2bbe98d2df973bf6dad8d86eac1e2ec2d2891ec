@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c4a012d_901a84c1",
+        "filename": "test/win/win_multiprocess_with_tempdir.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-06T20:18:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure whether this should be here, in which case this probably shouldn\u0027t be a public API. WDYT?",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 28
+      },
+      "revId": "b2bbe98d2df973bf6dad8d86eac1e2ec2d2891ec",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
