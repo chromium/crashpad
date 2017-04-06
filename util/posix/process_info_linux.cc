@@ -21,7 +21,6 @@
 #include <sys/ptrace.h>
 #include <sys/uio.h>
 #include <sys/user.h>
-#include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -33,6 +32,7 @@
 #include "base/strings/string_piece.h"
 #include "util/file/delimited_file_reader.h"
 #include "util/file/file_reader.h"
+#include "util/linux/scoped_ptrace_attach.h"
 
 namespace crashpad {
 
@@ -106,21 +106,6 @@ void TimespecToTimeval(const timespec& ts, timeval* tv) {
   tv->tv_sec = ts.tv_sec;
   tv->tv_usec = ts.tv_nsec / 1000;
 }
-
-class ScopedPtraceDetach {
- public:
-  explicit ScopedPtraceDetach(pid_t pid) : pid_(pid) {}
-  ~ScopedPtraceDetach() {
-    if (ptrace(PTRACE_DETACH, pid_, nullptr, nullptr) != 0) {
-      PLOG(ERROR) << "ptrace";
-    }
-  }
-
- private:
-  pid_t pid_;
-
-  DISALLOW_COPY_AND_ASSIGN(ScopedPtraceDetach);
-};
 
 }  // namespace
 
@@ -330,15 +315,8 @@ bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
     if (pid_ == getpid()) {
       is_64_bit_ = am_64_bit;
     } else {
-      if (ptrace(PTRACE_ATTACH, pid_, nullptr, nullptr) != 0) {
-        PLOG(ERROR) << "ptrace";
-        return false;
-      }
-
-      ScopedPtraceDetach ptrace_detach(pid_);
-
-      if (HANDLE_EINTR(waitpid(pid_, nullptr, __WALL)) < 0) {
-        PLOG(ERROR) << "waitpid";
+      ScopedPtraceAttach ptrace_attach;
+      if (!ptrace_attach.ResetAttach(pid_)) {
         return false;
       }
 
