@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a770fb9_06c76b61",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "This and line 96 should probably now be talking to the direct superclass, WinMultiprocessWithTempDir.",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12d3376b_8d06253a",
+        "filename": "test/win/win_multiprocess_with_tempdir.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "2017",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6878cb01_f96cb350",
+        "filename": "test/win/win_multiprocess_with_tempdir.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "So that’s the big question. If this call isn’t here, then there isn’t much of a reason for WinMultiprocessWithTempDir to exist as it does here at all. I don’t see a very strong case for having a class that just adds a ScopedTempDir on top of WinMultiprocess. So if we didn’t have this call here, we could get away with exposing just ScopedTempDir and just WaitForAllChildProcessesOf(), and it’d be on each test to figure out what it needs to do. It’s a little harder on the test writer because they don’t get ScopedTempDir or temp dir environment variable passing or WaitForAllChildProcessesOf() waiting on the right process handle together automatically and for free.\n\nTo split things out, we’d want test writers to have their own ScopedTempDir, ScopedEnvironmentVariable, and WaitForAllChildProcessesOf() call. Too much work?\n\nThe alternative is to go with what you’ve gotten here, which leaves us with this loose WaitForAllChildProcessesOf() that’s really just an implementation detail of WinMultiprocessWithTempDir, which argues for “private.” Then, go with the “private + static member \u003d good candidate to move it into an unnamed namespace” guideline and keep it out of sight, confine it to just the .cc, and stick it up with its buddy functions above.\n\nI’m not going to express a strong preference between the two options. I think that keeping WinMultiprocessWithTempDir as it is here is easier for the tests you’re writing today, but maybe limiting for tests that we’d want to write in the future. But we don’t have those tests yet and I’m not envisioning anything concrete, so I’m not going to try to paint us into one corner or another.",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d02f0e6c_e7840d7d",
+        "filename": "test/win/win_multiprocess_with_tempdir.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "To expand a bit on the hypothetical tests that might want to be multiprocess and with-temp-dir but that this call might be unsuitable for: (1) a test that needs to wait on the child process’ entire descendant tree instead of just its immediate children; (2) a test that wants a temp dir but only for the child process’ use, where the child spawns grandchildren that outlive it but don’t care about the temp dir.\n\n(1) sure could be a real thing. I don’t know how likely (2) is because the grandchildren would be leaks and we’d like to avoid those. The fact that you wrote WaitForAllChildProcessesOf() to consider only direct children and not all descendants tells me that there may be something to this, though. (This whole thing is a hypothesis anyway, so another shot in the dark: maybe the OS starts long-lived children on your behalf?)",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf003b4d_94e7ef28",
+        "filename": "test/win/win_multiprocess_with_tempdir.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "We usually do a // static comment to let people know what’s up for these:\n\n  // static\n  void WinMultiprocessWithTempDir::WaitForAllChildProcessesOf(HANDLE parent) {",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33a7d611_7e410131",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "Rename to win_multiprocess_with_temp_dir.h. That matches how you named the class too.",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8464d837_0e2ac5e6",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "temporary",
+      "range": {
+        "startLine": 25,
+        "startChar": 72,
+        "endLine": 25,
+        "endChar": 76
+      },
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46c85cee_6583daec",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "The important thing about this class (as written) is that the temporary directory is guaranteed to out-exist a child process’ children. The documentation comment should say so.",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65f5f253_7fac9459",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "In general, I don’t want to wind up at the point where each tweak on what we might need in a test requires the developer to choose the right multiprocess test subclass. But I can see that it’d be very useful to expose this functionality in this way, because it waits on the child automatically without having to give the child handle to anything else. We’ll talk more about this when I get to your question in the next file.\n\nBottom line: I think that this is “OK” but that there’s another way that would also be “OK.”",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "142ec800_58fa2e94",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "\\a",
+      "range": {
+        "startLine": 38,
+        "startChar": 46,
+        "endLine": 38,
+        "endChar": 48
+      },
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "742d6eba_7e8d6874",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-06T21:04:46Z",
+      "side": 1,
+      "message": "This documentation should nail down whether the function waits for the parent process too. It doesn’t, but that might not be totally obvious.",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
