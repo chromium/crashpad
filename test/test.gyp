@@ -64,6 +64,8 @@
         'win/win_child_process.h',
         'win/win_multiprocess.cc',
         'win/win_multiprocess.h',
+        'win/win_multiprocess_with_tempdir.cc',
+        'win/win_multiprocess_with_tempdir.h',
       ],
       'direct_dependent_settings': {
         'include_dirs': [

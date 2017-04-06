@@ -43,6 +43,7 @@
         'scoped_temp_dir_test.cc',
         'win/win_child_process_test.cc',
         'win/win_multiprocess_test.cc',
+        'win/win_multiprocess_with_tempdir.cc',
       ],
     },
     {
