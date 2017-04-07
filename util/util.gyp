@@ -47,8 +47,6 @@
         'linux/address_types.h',
         'linux/process_memory.cc',
         'linux/process_memory.h',
-        'linux/scoped_ptrace_attach.cc',
-        'linux/scoped_ptrace_attach.h',
         'mac/checked_mach_address_range.h',
         'mac/launchd.h',
         'mac/launchd.mm',

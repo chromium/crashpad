@@ -40,7 +40,6 @@
         'file/file_reader_test.cc',
         'file/string_file_test.cc',
         'linux/process_memory_test.cc',
-        'linux/scoped_ptrace_attach_test.cc',
         'mac/launchd_test.mm',
         'mac/mac_util_test.mm',
         'mac/service_management_test.mm',
