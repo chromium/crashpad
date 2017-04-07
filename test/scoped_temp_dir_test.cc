@@ -38,8 +38,10 @@ void CreateFile(const base::FilePath& path) {
 #if defined(OS_POSIX)
   int fd = HANDLE_EINTR(creat(path.value().c_str(), 0644));
   ASSERT_GE(fd, 0) << ErrnoMessage("creat") << " " << path.value();
-  ASSERT_EQ(IGNORE_EINTR(close(fd)), 0) << ErrnoMessage("close") << " "
-                                        << path.value();
+
+  // gcc refuses to compile ASSERT_EQ(IGNORE_EINTR(close(fd)), 0).
+  int close_rv = IGNORE_EINTR(close(fd));
+  ASSERT_EQ(close_rv, 0) << ErrnoMessage("close") << " " << path.value();
 #elif defined(OS_WIN)
   int fd = _wcreat(path.value().c_str(), _S_IREAD | _S_IWRITE);
   ASSERT_GE(fd, 0) << ErrnoMessage("_wcreat") << " " << path.value();
