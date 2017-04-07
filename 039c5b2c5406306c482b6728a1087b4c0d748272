@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "f1ec3268_d7e9568b",
+        "filename": "util/linux/scoped_ptrace_attach.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-07T01:40:38Z",
+      "side": 1,
+      "message": "\u003e If any of these three happen, should we Reset()? (I assume that we’d still want to detach or try to detach in these cases, but again, a look at the kernel source would be helpful.)\n\u003e \n\u003e If we do want to Reset(), we should merge things a bit to share code in the status-checkers, since the LOG is the only thing that’d differ:\n\u003e \n\u003e   if (!stopped) {\n\u003e     if (exited || signaled) {\n\u003e       LOG(ERROR) \u003c\u003c \"process exited\";\n\u003e     } else {\n\u003e       LOG(ERROR) \u003c\u003c \"process not stopped\";\n\u003e     }\n\u003e     Reset();\n\u003e     return false;\n\u003e   }\n\n(Might be enough to just check !WIFSTOPPED, though, and not break it out further. Should be unlikely, right? Your call.)",
+      "parentUuid": "71e7f1be_107e93b8",
+      "revId": "039c5b2c5406306c482b6728a1087b4c0d748272",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e01bd958_b3330e0a",
         "filename": "util/linux/scoped_ptrace_attach_test.cc",
         "patchSetId": 3
