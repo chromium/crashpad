@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed4e132e_834346a0",
+        "filename": "util/linux/scoped_ptrace_attach_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-07T21:11:45Z",
+      "side": 1,
+      "message": "Before ptrace",
+      "range": {
+        "startLine": 19,
+        "startChar": 14,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "ef8fde4bc3fb43885dc6f25bf4a5f2d081f3b565",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
