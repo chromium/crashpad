@@ -50,9 +50,9 @@ bool ProcessMemory::Read(LinuxVMAddress address,
   char* buffer_c = static_cast<char*>(buffer);
   while (size > 0) {
     ssize_t bytes_read =
-        HANDLE_EINTR(pread(mem_fd_.get(), buffer_c, size, address));
+        HANDLE_EINTR(pread64(mem_fd_.get(), buffer_c, size, address));
     if (bytes_read < 0) {
-      PLOG(ERROR) << "pread";
+      PLOG(ERROR) << "pread64";
       return false;
     }
     if (bytes_read == 0) {
@@ -95,9 +95,10 @@ bool ProcessMemory::ReadCStringInternal(LinuxVMAddress address,
       read_size = sizeof(buffer);
     }
     ssize_t bytes_read;
-    bytes_read = HANDLE_EINTR(pread(mem_fd_.get(), buffer, read_size, address));
+    bytes_read =
+        HANDLE_EINTR(pread64(mem_fd_.get(), buffer, read_size, address));
     if (bytes_read < 0) {
-      PLOG(ERROR) << "pread";
+      PLOG(ERROR) << "pread64";
       return false;
     }
     if (bytes_read == 0) {
