@@ -33,6 +33,7 @@ def main(args):
 
   tests = [
       'crashpad_client_test',
+      'crashpad_handler_test',
       'crashpad_minidump_test',
       'crashpad_snapshot_test',
       'crashpad_test_test',
