@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "51c54daf_a0717c71",
+        "filename": "client/crashpad_client_win_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a770fb9_06c76b61",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12d3376b_8d06253a",
         "filename": "test/win/win_multiprocess_with_tempdir.cc",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "8cedea10186ac999991887766515b615281d7a21",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a5291b5_ce0f736a",
+        "filename": "test/win/win_multiprocess_with_tempdir.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12d3376b_8d06253a",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,42 @@
     },
     {
       "key": {
+        "uuid": "e1aaba89_7c0eae4f",
+        "filename": "test/win/win_multiprocess_with_tempdir.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m going with what\u0027s convenient right now, but let\u0027s refactor this out for bitwise reuse at need?",
+      "parentUuid": "6878cb01_f96cb350",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a472bddd_e25da6d3",
+        "filename": "test/win/win_multiprocess_with_tempdir.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m going with what\u0027s convenient right now, but let\u0027s refactor this out for piece wise reuse at need?",
+      "parentUuid": "6878cb01_f96cb350",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d02f0e6c_e7840d7d",
         "filename": "test/win/win_multiprocess_with_tempdir.cc",
         "patchSetId": 2
@@ -67,6 +139,24 @@
       "revId": "8cedea10186ac999991887766515b615281d7a21",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49171ecc_fda1ae43",
+        "filename": "test/win/win_multiprocess_with_tempdir.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "On (1) there really isn\u0027t any way to do that without race on Windows, unless the tree you want to wait on is known to have well-defined lifetime behavior such that all parents outlive children.\nI don\u0027t think we need to worry about Windows spawning crap on our behalf on test bots, but in general that\u0027s a real worry, between \"security\" products, corpware and 3rd party, it\u0027s pretty wild out there.",
+      "parentUuid": "d02f0e6c_e7840d7d",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "c2aee524_11da5aed",
+        "filename": "test/win/win_multiprocess_with_tempdir.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cf003b4d_94e7ef28",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33a7d611_7e410131",
         "filename": "test/win/win_multiprocess_with_tempdir.h",
         "patchSetId": 2
@@ -101,6 +209,24 @@
       "revId": "8cedea10186ac999991887766515b615281d7a21",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "737e385f_a7879aa5",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33a7d611_7e410131",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +253,30 @@
     },
     {
       "key": {
+        "uuid": "4c6e4ab9_b31a1c69",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8464d837_0e2ac5e6",
+      "range": {
+        "startLine": 25,
+        "startChar": 72,
+        "endLine": 25,
+        "endChar": 76
+      },
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46c85cee_6583daec",
         "filename": "test/win/win_multiprocess_with_tempdir.h",
         "patchSetId": 2
@@ -144,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "5c8e8b59_95ca830f",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46c85cee_6583daec",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65f5f253_7fac9459",
         "filename": "test/win/win_multiprocess_with_tempdir.h",
         "patchSetId": 2
@@ -158,6 +326,24 @@
       "revId": "8cedea10186ac999991887766515b615281d7a21",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71a4a996_b58c492c",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Yeah, this is pretty specific  and as-is pretty non-reusable. I suggest we refactor and reuse at need, as YAGNI?",
+      "parentUuid": "65f5f253_7fac9459",
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -184,6 +370,30 @@
     },
     {
       "key": {
+        "uuid": "02330a33_73e16cbb",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "142ec800_58fa2e94",
+      "range": {
+        "startLine": 38,
+        "startChar": 46,
+        "endLine": 38,
+        "endChar": 48
+      },
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "742d6eba_7e8d6874",
         "filename": "test/win/win_multiprocess_with_tempdir.h",
         "patchSetId": 2
@@ -204,6 +414,30 @@
       "revId": "8cedea10186ac999991887766515b615281d7a21",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "333ac174_1b941ab6",
+        "filename": "test/win/win_multiprocess_with_tempdir.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:07:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "742d6eba_7e8d6874",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "8cedea10186ac999991887766515b615281d7a21",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
