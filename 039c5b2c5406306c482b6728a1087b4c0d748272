@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9295d053_757897a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-07T01:28:58Z",
+      "side": 1,
+      "message": "Say “linux:” or otherwise identify this as a Linux change so that it’s clear from “git shortlog” and “git log --pretty\u003doneline”.",
+      "revId": "039c5b2c5406306c482b6728a1087b4c0d748272",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71e7f1be_107e93b8",
+        "filename": "util/linux/scoped_ptrace_attach.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-07T01:28:58Z",
+      "side": 1,
+      "message": "If any of these three happen, should we Reset()? (I assume that we’d still want to detach or try to detach in these cases, but again, a look at the kernel source would be helpful.)\n\nIf we do want to Reset(), we should merge things a bit to share code in the status-checkers, since the LOG is the only thing that’d differ:\n\n  if (!stopped) {\n    if (exited || signaled) {\n      LOG(ERROR) \u003c\u003c \"process exited\";\n    } else {\n      LOG(ERROR) \u003c\u003c \"process not stopped\";\n    }\n    Reset();\n    return false;\n  }",
+      "revId": "039c5b2c5406306c482b6728a1087b4c0d748272",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e01bd958_b3330e0a",
+        "filename": "util/linux/scoped_ptrace_attach_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-07T01:28:58Z",
+      "side": 1,
+      "message": "One (or all) of these tests should make sure that the PTRACE_PEEKDATA returns -1 and sets ESRCH before attaching.",
+      "revId": "039c5b2c5406306c482b6728a1087b4c0d748272",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
