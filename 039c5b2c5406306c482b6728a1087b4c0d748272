@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ef616ecb_cbfb6a6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-07T18:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9295d053_757897a6",
+      "revId": "039c5b2c5406306c482b6728a1087b4c0d748272",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71e7f1be_107e93b8",
         "filename": "util/linux/scoped_ptrace_attach.cc",
         "patchSetId": 3
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "2f926dbf_c1fb7b2b",
+        "filename": "util/linux/scoped_ptrace_attach.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-07T18:48:27Z",
+      "side": 1,
+      "message": "Yeah, it looks like WIFEXITED, WIFSTOPPED, and WIFSIGNALED are mutually exclusive.\nI just check for stopped now.\n\nIf the tracee has exited or been killed, then PTRACE_DETACH should fail with ESRCH.\nA Reset/Detach shouldn\u0027t be necessary, but should also be safe to try.\nIt will currently be attempted on destruction since pid_ has already been set.",
+      "parentUuid": "f1ec3268_d7e9568b",
+      "revId": "039c5b2c5406306c482b6728a1087b4c0d748272",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e01bd958_b3330e0a",
         "filename": "util/linux/scoped_ptrace_attach_test.cc",
         "patchSetId": 3
@@ -68,6 +104,24 @@
       "revId": "039c5b2c5406306c482b6728a1087b4c0d748272",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bad962e5_96bbb0ff",
+        "filename": "util/linux/scoped_ptrace_attach_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-07T18:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e01bd958_b3330e0a",
+      "revId": "039c5b2c5406306c482b6728a1087b4c0d748272",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
