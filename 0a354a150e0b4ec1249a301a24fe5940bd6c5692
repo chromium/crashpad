@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fd3566a_73afe54d",
+        "filename": "test/win/win_multiprocess_with_temp_dir.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-07T14:39:04Z",
+      "side": 1,
+      "message": "#include \u003cwindows.h\u003e in the header, not in the .cc, for HANDLE.",
+      "revId": "0a354a150e0b4ec1249a301a24fe5940bd6c5692",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d2f737f_3a9aac21",
+        "filename": "test/win/win_multiprocess_with_temp_dir.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-07T14:39:04Z",
+      "side": 1,
+      "message": "and \u003cwchar.h\u003e for this.",
+      "revId": "0a354a150e0b4ec1249a301a24fe5940bd6c5692",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "051b7fe0_caba2644",
+        "filename": "test/win/win_multiprocess_with_temp_dir.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-07T14:39:04Z",
+      "side": 1,
+      "message": "and \u003cstring\u003e for this.",
+      "revId": "0a354a150e0b4ec1249a301a24fe5940bd6c5692",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ad4a9e6_a9cdc285",
+        "filename": "test/win/win_multiprocess_with_temp_dir.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-07T14:39:04Z",
+      "side": 1,
+      "message": "and \"base/macros.h\" for this.",
+      "revId": "0a354a150e0b4ec1249a301a24fe5940bd6c5692",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
