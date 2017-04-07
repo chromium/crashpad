@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f362101_dd0bb190",
+        "filename": "test/scoped_temp_dir_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-07T19:49:17Z",
+      "side": 0,
+      "message": "In file included from third_party/gtest/gtest/googletest/include/gtest/gtest.h:1874:0,\n                 from test/scoped_temp_dir_test.cc:22:\ntest/scoped_temp_dir_test.cc: In function ‘void crashpad::test::{anonymous}::CreateFile(const base::FilePath\u0026)’:\nthird_party/mini_chromium/mini_chromium/base/posix/eintr_wrapper.h:27:25: error: statement-expressions are not allowed outside functions nor in template-argument lists\n #define IGNORE_EINTR(x) ({ \\\n                         ^\nthird_party/gtest/gtest/googletest/include/gtest/gtest_pred_impl.h:77:52: note: in definition of macro ‘GTEST_ASSERT_’\n   if (const ::testing::AssertionResult gtest_ar \u003d (expression)) \\\n                                                    ^~~~~~~~~~\nthird_party/gtest/gtest/googletest/include/gtest/gtest_pred_impl.h:166:3: note: in expansion of macro ‘GTEST_PRED_FORMAT2_’\n   GTEST_PRED_FORMAT2_(pred_format, v1, v2, GTEST_FATAL_FAILURE_)\n   ^~~~~~~~~~~~~~~~~~~\nthird_party/gtest/gtest/googletest/include/gtest/gtest.h:1938:3: note: in expansion of macro ‘ASSERT_PRED_FORMAT2’\n   ASSERT_PRED_FORMAT2(::testing::internal:: \\\n   ^~~~~~~~~~~~~~~~~~~\nthird_party/gtest/gtest/googletest/include/gtest/gtest.h:1939:32: note: in expansion of macro ‘GTEST_IS_NULL_LITERAL_’\n                       EqHelper\u003cGTEST_IS_NULL_LITERAL_(val1)\u003e::Compare, \\\n                                ^~~~~~~~~~~~~~~~~~~~~~\nthird_party/gtest/gtest/googletest/include/gtest/gtest.h:1956:32: note: in expansion of macro ‘GTEST_ASSERT_EQ’\n # define ASSERT_EQ(val1, val2) GTEST_ASSERT_EQ(val1, val2)\n                                ^~~~~~~~~~~~~~~\ntest/scoped_temp_dir_test.cc:41:3: note: in expansion of macro ‘ASSERT_EQ’\n   ASSERT_EQ(IGNORE_EINTR(close(fd)), 0) \u003c\u003c ErrnoMessage(\"close\") \u003c\u003c \" \"\n   ^~~~~~~~~\ntest/scoped_temp_dir_test.cc:41:13: note: in expansion of macro ‘IGNORE_EINTR’\n   ASSERT_EQ(IGNORE_EINTR(close(fd)), 0) \u003c\u003c ErrnoMessage(\"close\") \u003c\u003c \" \"\n             ^~~~~~~~~~~~\nthird_party/gtest/gtest/googletest/include/gtest/gtest.h:1939:60: error: template argument 1 is invalid\n                       EqHelper\u003cGTEST_IS_NULL_LITERAL_(val1)\u003e::Compare, \\\n                                                            ^\nthird_party/gtest/gtest/googletest/include/gtest/gtest_pred_impl.h:77:52: note: in definition of macro ‘GTEST_ASSERT_’\n   if (const ::testing::AssertionResult gtest_ar \u003d (expression)) \\\n                                                    ^~~~~~~~~~\nthird_party/gtest/gtest/googletest/include/gtest/gtest_pred_impl.h:166:3: note: in expansion of macro ‘GTEST_PRED_FORMAT2_’\n   GTEST_PRED_FORMAT2_(pred_format, v1, v2, GTEST_FATAL_FAILURE_)\n   ^~~~~~~~~~~~~~~~~~~\nthird_party/gtest/gtest/googletest/include/gtest/gtest.h:1938:3: note: in expansion of macro ‘ASSERT_PRED_FORMAT2’\n   ASSERT_PRED_FORMAT2(::testing::internal:: \\\n   ^~~~~~~~~~~~~~~~~~~\nthird_party/gtest/gtest/googletest/include/gtest/gtest.h:1956:32: note: in expansion of macro ‘GTEST_ASSERT_EQ’\n # define ASSERT_EQ(val1, val2) GTEST_ASSERT_EQ(val1, val2)\n                                ^~~~~~~~~~~~~~~\ntest/scoped_temp_dir_test.cc:41:3: note: in expansion of macro ‘ASSERT_EQ’\n   ASSERT_EQ(IGNORE_EINTR(close(fd)), 0) \u003c\u003c ErrnoMessage(\"close\") \u003c\u003c \" \"\n   ^~~~~~~~~",
+      "revId": "9c6d190b9570aa464677e1a6aac2d9f95f9f4be2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
