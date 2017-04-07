@@ -16,6 +16,24 @@
       "revId": "84686e5d5f5ee77817d2476b5560259185014e7d",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e8a275f_b8ba5a3f",
+        "filename": "test/win/win_multiprocess_with_temp_dir.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-07T14:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfbe91fc_327a96d2",
+      "revId": "84686e5d5f5ee77817d2476b5560259185014e7d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
