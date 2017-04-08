@@ -23,6 +23,7 @@ namespace crashpad {
 HTTPTransport::HTTPTransport()
     : url_(),
       method_("POST"),
+      https_pins_(),
       headers_(),
       body_stream_(),
       timeout_(15.0) {
@@ -33,6 +34,10 @@ HTTPTransport::~HTTPTransport() {
 
 void HTTPTransport::SetURL(const std::string& url) {
   url_ = url;
+}
+
+void HTTPTransport::SetHTTPSPins(const std::vector<std::array<uint8_t, 32>>& pins) {
+  https_pins_ = pins;
 }
 
 void HTTPTransport::SetMethod(const std::string& method) {

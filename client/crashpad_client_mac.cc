@@ -534,10 +534,16 @@ bool CrashpadClient::StartHandler(
     const base::FilePath& database,
     const base::FilePath& metrics_dir,
     const std::string& url,
+    const std::vector<std::array<uint8_t, 32>> https_pins,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     bool restartable,
     bool asynchronous_start) {
+  if (https_pins.size()) {
+    // Certificate pinning not yet supported on macOS.
+    return false;
+  }
+
   // The “restartable” behavior can only be selected on OS X 10.10 and later. In
   // previous OS versions, if the initial client were to crash while attempting
   // to restart the handler, it would become an unkillable process.

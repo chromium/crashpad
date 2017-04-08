@@ -15,6 +15,7 @@
 #include "client/crashpad_client.h"
 
 #include <vector>
+#include <array>
 
 #include "base/files/file_path.h"
 #include "base/macros.h"
@@ -41,6 +42,7 @@ void StartAndUseHandler(const base::FilePath& temp_dir) {
                                   temp_dir,
                                   base::FilePath(),
                                   "",
+                                  std::vector<std::array<uint8_t, 32>>(),
                                   std::map<std::string, std::string>(),
                                   std::vector<std::string>(),
                                   true,
@@ -104,6 +106,7 @@ void StartAndUseBrokenHandler(CrashpadClient* client) {
                                   temp_dir.path(),
                                   base::FilePath(),
                                   "",
+                                  std::vector<std::array<uint8_t, 32>>(),
                                   std::map<std::string, std::string>(),
                                   std::vector<std::string>(),
                                   false,

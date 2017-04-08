@@ -22,6 +22,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <array>
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
@@ -180,6 +181,7 @@ int CrashyMain(int argc, wchar_t* argv[]) {
                              base::FilePath(argv[2]),
                              base::FilePath(),
                              std::string(),
+                             std::vector<std::array<uint8_t, 32>>(),
                              std::map<std::string, std::string>(),
                              std::vector<std::string>(),
                              false,

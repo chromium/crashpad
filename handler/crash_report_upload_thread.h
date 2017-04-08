@@ -49,7 +49,8 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   CrashReportUploadThread(CrashReportDatabase* database,
                           const std::string& url,
                           bool rate_limit,
-                          bool upload_gzip);
+                          bool upload_gzip,
+                          const std::vector<std::array<uint8_t, 32>>& https_pins);
   ~CrashReportUploadThread();
 
   //! \brief Starts a dedicated upload thread, which executes ThreadMain().
@@ -142,6 +143,7 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   CrashReportDatabase* database_;  // weak
   bool rate_limit_;
   bool upload_gzip_;
+  std::vector<std::array<uint8_t, 32>> https_pins_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportUploadThread);
 };

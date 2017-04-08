@@ -79,6 +79,9 @@ class CrashpadClient {
   //!     path as its `--metrics-dir` argument.
   //! \param[in] url The URL of an upload server. The handler will be started
   //!     with this URL as its `--url` argument.
+  //! \param[in] https_pins List of hashed SPKI information of certificates
+  //!     which can serve as a trusted anchor for chain of trust lookups. If
+  //!     no pins are provided, certificate pinning is not performed.
   //! \param[in] annotations Process annotations to set in each crash report.
   //!     The handler will be started with an `--annotation` argument for each
   //!     element in this map.
@@ -100,6 +103,7 @@ class CrashpadClient {
                     const base::FilePath& database,
                     const base::FilePath& metrics_dir,
                     const std::string& url,
+                    const std::vector<std::array<uint8_t, 32>> https_pins,
                     const std::map<std::string, std::string>& annotations,
                     const std::vector<std::string>& arguments,
                     bool restartable,
