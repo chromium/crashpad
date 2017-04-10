@@ -20,6 +20,8 @@
 
 #include "base/macros.h"
 #include "client/crash_report_database.h"
+#include "util/misc/uuid.h"
+#include "util/stdlib/thread_safe_vector.h"
 #include "util/thread/worker_thread.h"
 
 namespace crashpad {
@@ -32,22 +34,25 @@ namespace crashpad {
 //! report has been added to the database by calling ReportPending().
 //!
 //! Independently of being triggered by ReportPending(), objects of this class
-//! periodically examine the database for pending reports. This allows failed
-//! upload attempts for reports left in the pending state to be retried. It also
-//! catches reports that are added without a ReportPending() signal being
-//! caught. This may happen if crash reports are added to the database by other
-//! processes.
+//! can periodically examine the database for pending reports. This allows
+//! failed upload attempts for reports left in the pending state to be retried.
+//! It also catches reports that are added without a ReportPending() signal
+//! being caught. This may happen if crash reports are added to the database by
+//! other processes.
 class CrashReportUploadThread : public WorkerThread::Delegate {
  public:
   //! \brief Constructs a new object.
   //!
   //! \param[in] database The database to upload crash reports from.
   //! \param[in] url The URL of the server to upload crash reports to.
+  //! \param[in] periodic_tasks Whether to periodically check for new pending
+  //!     reports not already known to exist.
   //! \param[in] rate_limit Whether uploads should be throttled to a (currently
   //!     hardcoded) rate.
   //! \param[in] upload_gzip Whether uploads should use `gzip` compression.
   CrashReportUploadThread(CrashReportDatabase* database,
                           const std::string& url,
+                          bool periodic_tasks,
                           bool rate_limit,
                           bool upload_gzip);
   ~CrashReportUploadThread();
@@ -75,8 +80,11 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   //! \brief Informs the upload thread that a new pending report has been added
   //!     to the database.
   //!
+  //! \param[in] report_uuid The unique identifier of the newly added pending
+  //!     report.
+  //!
   //! This method may be called from any thread.
-  void ReportPending();
+  void ReportPending(const UUID& report_uuid);
 
  private:
   //! \brief The result code from UploadReport().
@@ -139,7 +147,9 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
 
   std::string url_;
   WorkerThread thread_;
+  ThreadSafeVector<UUID> known_pending_report_uuids_;
   CrashReportDatabase* database_;  // weak
+  bool periodic_tasks_;
   bool rate_limit_;
   bool upload_gzip_;
 

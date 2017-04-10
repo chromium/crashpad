@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <time.h>
 
+#include <limits>
 #include <map>
 #include <memory>
 #include <vector>
@@ -29,7 +30,6 @@
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_reader.h"
 #include "util/misc/metrics.h"
-#include "util/misc/uuid.h"
 #include "util/net/http_body.h"
 #include "util/net/http_multipart_builder.h"
 #include "util/net/http_transport.h"
@@ -139,15 +139,20 @@ class CallRecordUploadAttempt {
 
 CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
                                                  const std::string& url,
+                                                 bool periodic_tasks,
                                                  bool rate_limit,
                                                  bool upload_gzip)
     : url_(url),
-      // Check for pending reports every 15 minutes, even in the absence of a
-      // signal from the handler thread. This allows for failed uploads to be
-      // retried periodically, and for pending reports written by other
-      // processes to be recognized.
-      thread_(15 * 60, this),
+      // When periodic tasks are enabled, check for pending reports every 15
+      // minutes, even in the absence of a signal from the handler thread. This
+      // allows for failed uploads to be retried periodically, and for pending
+      // reports written by other processes to be recognized.
+      thread_(
+          periodic_tasks ? 15 * 60 : std::numeric_limits<double>::infinity(),
+          this),
+      known_pending_report_uuids_(),
       database_(database),
+      periodic_tasks_(periodic_tasks),
       rate_limit_(rate_limit),
       upload_gzip_(upload_gzip) {
 }
@@ -163,11 +168,33 @@ void CrashReportUploadThread::Stop() {
   thread_.Stop();
 }
 
-void CrashReportUploadThread::ReportPending() {
+void CrashReportUploadThread::ReportPending(const UUID& report_uuid) {
+  known_pending_report_uuids_.PushBack(report_uuid);
   thread_.DoWorkNow();
 }
 
 void CrashReportUploadThread::ProcessPendingReports() {
+  std::vector<UUID> report_uuids = known_pending_report_uuids_.Drain();
+  for (const UUID& report_uuid : report_uuids) {
+    CrashReportDatabase::Report report;
+    if (database_->LookUpCrashReport(report_uuid, &report) !=
+        CrashReportDatabase::kNoError) {
+      continue;
+    }
+
+    ProcessPendingReport(report);
+
+    // Respect Stop() being called after at least one attempt to process a
+    // report.
+    if (!thread_.is_running()) {
+      return;
+    }
+  }
+
+  if (!periodic_tasks_) {
+    return;
+  }
+
   std::vector<CrashReportDatabase::Report> reports;
   if (database_->GetPendingReports(&reports) != CrashReportDatabase::kNoError) {
     // The database is sick. It might be prudent to stop trying to poke it from
@@ -252,9 +279,10 @@ void CrashReportUploadThread::ProcessPendingReport(
       break;
 
     case CrashReportDatabase::kBusyError:
+    case CrashReportDatabase::kReportNotFound:
+      // Someone else may have gotten to it first.
       return;
 
-    case CrashReportDatabase::kReportNotFound:
     case CrashReportDatabase::kFileSystemError:
     case CrashReportDatabase::kDatabaseError:
       // In these cases, SkipReportUpload() might not work either, but it’s best
