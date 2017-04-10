@@ -125,7 +125,7 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
       return termination_code;
     }
 
-    upload_thread_->ReportPending();
+    upload_thread_->ReportPending(uuid);
   }
 
   Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSuccess);
