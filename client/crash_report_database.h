@@ -144,6 +144,11 @@ class CrashReportDatabase {
     kNoError = 0,
 
     //! \brief The report that was requested could not be located.
+    //!
+    //! This may occur when the report is present in the database but not in a
+    //! state appropriate for the requested operation, for example, if
+    //! GetReportForUploading() is called to obtain report that’s already in the
+    //! completed state.
     kReportNotFound,
 
     //! \brief An error occured while performing a file operation on a crash
