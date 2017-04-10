@@ -17,6 +17,8 @@
 
 #include <memory>
 #include <string>
+#include <vector>
+#include <array>
 
 #include "base/macros.h"
 #include "util/net/http_headers.h"
@@ -46,6 +48,11 @@ class HTTPTransport {
   //!
   //! \param[in] url The request URL.
   void SetURL(const std::string& url);
+
+  //! \brief Sets SPKI hashes which HTTPS request will be pinned to.
+  //!
+  //! \param[in] pins The list of hashes.
+  void SetHTTPSPins(const std::vector<std::array<uint8_t, 32>>& pins);
 
   //! \brief Sets the HTTP method to execute. E.g., GET, POST, etc. The default
   //!     method is `"POST"`.
@@ -86,6 +93,9 @@ class HTTPTransport {
   HTTPTransport();
 
   const std::string& url() const { return url_; }
+  const std::vector<std::array<uint8_t, 32>>& https_pins() const {
+    return https_pins_;
+  }
   const std::string& method() const { return method_; }
   const HTTPHeaders& headers() const { return headers_; }
   HTTPBodyStream* body_stream() const { return body_stream_.get(); }
@@ -94,6 +104,7 @@ class HTTPTransport {
  private:
   std::string url_;
   std::string method_;
+  std::vector<std::array<uint8_t, 32>> https_pins_;
   HTTPHeaders headers_;
   std::unique_ptr<HTTPBodyStream> body_stream_;
   double timeout_;

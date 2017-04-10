@@ -19,6 +19,8 @@
 
 #include <memory>
 #include <string>
+#include <array>
+#include <vector>
 
 #include "base/files/file_path.h"
 #include "tools/tool_support.h"
@@ -26,6 +28,7 @@
 #include "util/net/http_body.h"
 #include "util/net/http_multipart_builder.h"
 #include "util/net/http_transport.h"
+#include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
 
 namespace crashpad {
@@ -37,6 +40,7 @@ void Usage(const base::FilePath& me) {
 "Send an HTTP POST request.\n"
 "  -f, --file=KEY=PATH     upload the file at PATH for the HTTP KEY parameter\n"
 "      --no-upload-gzip    don't use gzip compression when uploading\n"
+"  -p  --https-pin=CERT    pin HTTPS endpoint against given certificate\n"
 "  -o, --output=FILE       write the response body to FILE instead of stdout\n"
 "  -s, --string=KEY=VALUE  set the HTTP KEY parameter to VALUE\n"
 "  -u, --url=URL           send the request to URL\n"
@@ -57,6 +61,7 @@ int HTTPUploadMain(int argc, char* argv[]) {
     kOptionOutput = 'o',
     kOptionString = 's',
     kOptionURL = 'u',
+    kOptionCertificatePin = 'p',
 
     // Long options without short equivalents.
     kOptionLastChar = 255,
@@ -77,6 +82,7 @@ int HTTPUploadMain(int argc, char* argv[]) {
   const option long_options[] = {
       {"file", required_argument, nullptr, kOptionFile},
       {"no-upload-gzip", no_argument, nullptr, kOptionNoUploadGzip},
+      {"https-pin", required_argument, nullptr, kOptionCertificatePin},
       {"output", required_argument, nullptr, kOptionOutput},
       {"string", required_argument, nullptr, kOptionString},
       {"url", required_argument, nullptr, kOptionURL},
@@ -86,6 +92,7 @@ int HTTPUploadMain(int argc, char* argv[]) {
   };
 
   HTTPMultipartBuilder http_multipart_builder;
+  std::vector<std::array<uint8_t, 32>> certificate_pins;
 
   int opt;
   while ((opt = getopt_long(argc, argv, "f:o:s:u:", long_options, nullptr)) !=
@@ -127,6 +134,25 @@ int HTTPUploadMain(int argc, char* argv[]) {
       case kOptionURL:
         options.url = optarg;
         break;
+      case kOptionCertificatePin: {
+        std::vector<std::string> parts(SplitString(optarg, ','));
+        if (parts.size() != 32) {
+          ToolSupport::UsageHint(me, "--https-pin must have 32 components.");
+          return EXIT_FAILURE;
+        }
+
+        std::array<uint8_t, 32> pin;
+        for(size_t i = 0; i < 32; i++) {
+          unsigned int number;
+          if (!StringToNumber(parts[i], &number) || number > UINT8_MAX) {
+            ToolSupport::UsageHint(me, "--https-pin components must be uint8_t.");
+            return EXIT_FAILURE;
+          }
+          pin[i] = (uint8_t)number;
+        }
+        certificate_pins.push_back(pin);
+        break;
+      }
       case kOptionHelp:
         Usage(me);
         return EXIT_SUCCESS;
@@ -171,6 +197,7 @@ int HTTPUploadMain(int argc, char* argv[]) {
 
   std::unique_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
   http_transport->SetURL(options.url);
+  http_transport->SetHTTPSPins(certificate_pins);
 
   HTTPHeaders content_headers;
   http_multipart_builder.PopulateContentHeaders(&content_headers);

@@ -26,6 +26,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <array>
 
 #include "base/auto_reset.h"
 #include "base/compiler_specific.h"
@@ -113,6 +114,9 @@ void Usage(const base::FilePath& me) {
 "      --no-upload-gzip        don't use gzip compression when uploading\n"
 #if defined(OS_WIN)
 "      --pipe-name=PIPE        communicate with the client over PIPE\n"
+"      --https-pin=HASH        ensure the server certificate is pinned against\n"
+"                              the given SPKI hash. The argument may appear\n"
+"                              multiple times."
 #endif  // OS_WIN
 #if defined(OS_MACOSX)
 "      --reset-own-crash-exception-port-to-system-default\n"
@@ -133,6 +137,7 @@ struct Options {
   base::FilePath database;
   base::FilePath metrics_dir;
   std::vector<std::string> monitor_self_arguments;
+  std::vector<std::array<uint8_t, 32>> https_pins;
 #if defined(OS_MACOSX)
   std::string mach_service;
   int handshake_fd;
@@ -374,6 +379,7 @@ void MonitorSelf(const Options& options) {
                                     options.database,
                                     base::FilePath(),
                                     options.url,
+                                    options.https_pins,
                                     options.annotations,
                                     extra_arguments,
                                     true,
@@ -423,6 +429,7 @@ int HandlerMain(int argc, char* argv[]) {
     kOptionResetOwnCrashExceptionPortToSystemDefault,
 #endif  // OS_MACOSX
     kOptionURL,
+    kOptionHTTPSPin,
 
     // Standard options.
     kOptionHelp = -2,
@@ -466,6 +473,7 @@ int HandlerMain(int argc, char* argv[]) {
      kOptionResetOwnCrashExceptionPortToSystemDefault},
 #endif  // OS_MACOSX
     {"url", required_argument, nullptr, kOptionURL},
+    {"https-pin", required_argument, nullptr, kOptionHTTPSPin},
     {"help", no_argument, nullptr, kOptionHelp},
     {"version", no_argument, nullptr, kOptionVersion},
     {nullptr, 0, nullptr, 0},
@@ -561,6 +569,28 @@ int HandlerMain(int argc, char* argv[]) {
       case kOptionURL: {
         options.url = optarg;
         break;
+      }
+      case kOptionHTTPSPin: {
+#if defined(OS_WIN)
+        std::vector<std::string> parts(SplitString(optarg, ','));
+        if (parts.size() != 32) {
+          return ExitFailure();
+        }
+
+        std::array<uint8_t, 32> pin;
+        for(size_t i = 0; i < 32; i++) {
+          unsigned int number;
+          if (!StringToNumber(parts[i], &number) || number > UINT8_MAX) {
+            return ExitFailure();
+          }
+          pin[i] = (uint8_t)number;
+        }
+        options.https_pins.push_back(pin);
+        break;
+#else
+        ToolSupport::UsageHint(me, nullptr);
+        return ExitFailure();
+#endif  // OS_WIN
       }
       case kOptionHelp: {
         Usage(me);
@@ -720,7 +750,7 @@ int HandlerMain(int argc, char* argv[]) {
   // configurable database setting to control upload limiting.
   // See https://crashpad.chromium.org/bug/23.
   CrashReportUploadThread upload_thread(
-      database.get(), options.url, options.rate_limit, options.upload_gzip);
+      database.get(), options.url, options.rate_limit, options.upload_gzip, options.https_pins);
   upload_thread.Start();
 
   PruneCrashReportThread prune_thread(database.get(),

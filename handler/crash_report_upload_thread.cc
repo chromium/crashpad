@@ -140,7 +140,8 @@ class CallRecordUploadAttempt {
 CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
                                                  const std::string& url,
                                                  bool rate_limit,
-                                                 bool upload_gzip)
+                                                 bool upload_gzip,
+                                                 const std::vector<std::array<uint8_t, 32>>& https_pins)
     : url_(url),
       // Check for pending reports every 15 minutes, even in the absence of a
       // signal from the handler thread. This allows for failed uploads to be
@@ -149,7 +150,8 @@ CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
       thread_(15 * 60, this),
       database_(database),
       rate_limit_(rate_limit),
-      upload_gzip_(upload_gzip) {
+      upload_gzip_(upload_gzip),
+      https_pins_(https_pins) {
 }
 
 CrashReportUploadThread::~CrashReportUploadThread() {
@@ -335,6 +337,7 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
 
   std::unique_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
   http_transport->SetURL(url_);
+  http_transport->SetHTTPSPins(https_pins_);
   HTTPHeaders content_headers;
   http_multipart_builder.PopulateContentHeaders(&content_headers);
   for (const auto& content_header : content_headers) {

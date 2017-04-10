@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include <memory>
+#include <array>
 
 #include "base/atomicops.h"
 #include "base/logging.h"
@@ -303,6 +304,7 @@ struct BackgroundHandlerStartThreadData {
       const base::FilePath& database,
       const base::FilePath& metrics_dir,
       const std::string& url,
+      const std::vector<std::array<uint8_t, 32>>& https_pins,
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
       const std::wstring& ipc_pipe,
@@ -311,6 +313,7 @@ struct BackgroundHandlerStartThreadData {
         database(database),
         metrics_dir(metrics_dir),
         url(url),
+        https_pins(https_pins),
         annotations(annotations),
         arguments(arguments),
         ipc_pipe(ipc_pipe),
@@ -320,6 +323,7 @@ struct BackgroundHandlerStartThreadData {
   base::FilePath database;
   base::FilePath metrics_dir;
   std::string url;
+  std::vector<std::array<uint8_t, 32>> https_pins;
   std::map<std::string, std::string> annotations;
   std::vector<std::string> arguments;
   std::wstring ipc_pipe;
@@ -367,6 +371,19 @@ bool StartHandlerProcess(
   if (!data->url.empty()) {
     AppendCommandLineArgument(
         FormatArgumentString("url", base::UTF8ToUTF16(data->url)),
+        &command_line);
+  }
+  for (const std::array<uint8_t, 32>& pin : data->https_pins) {
+    std::string pin_string;
+    for (size_t i = 0; i < 32; i++) {
+      if (i != 0) {
+        pin_string += ",";
+      }
+      pin_string += base::StringPrintf("0x%x", pin[i]);
+    }
+
+    AppendCommandLineArgument(
+        FormatArgumentString("https-pin", base::UTF8ToUTF16(pin_string)),
         &command_line);
   }
   for (const auto& kv : data->annotations) {
@@ -572,6 +589,7 @@ bool CrashpadClient::StartHandler(
     const base::FilePath& database,
     const base::FilePath& metrics_dir,
     const std::string& url,
+    const std::vector<std::array<uint8_t, 32>> https_pins,
     const std::map<std::string, std::string>& annotations,
     const std::vector<std::string>& arguments,
     bool restartable,
@@ -603,6 +621,7 @@ bool CrashpadClient::StartHandler(
                                                    database,
                                                    metrics_dir,
                                                    url,
+                                                   https_pins,
                                                    annotations,
                                                    arguments,
                                                    ipc_pipe_,
