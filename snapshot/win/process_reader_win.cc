@@ -73,6 +73,10 @@ process_types::SYSTEM_PROCESS_INFORMATION<Traits>* GetProcessInformation(
       // racing with system-wide process creation between here and the next call
       // to NtQuerySystemInformation().
       buffer_size += 4096;
+
+      // Free the old buffer before attempting to allocate a new one.
+      buffer->reset();
+
       buffer->reset(new uint8_t[buffer_size]);
     } else {
       break;
