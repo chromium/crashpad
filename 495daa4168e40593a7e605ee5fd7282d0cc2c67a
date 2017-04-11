@@ -16,6 +16,24 @@
       "revId": "495daa4168e40593a7e605ee5fd7282d0cc2c67a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c30346de_5162d8af",
+        "filename": "minidump/minidump_test.gyp",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-11T18:49:00Z",
+      "side": 1,
+      "message": "Too right - I\u0027d have sworn I did that. Thanks.",
+      "parentUuid": "12ac27e7_2f37b290",
+      "revId": "495daa4168e40593a7e605ee5fd7282d0cc2c67a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
