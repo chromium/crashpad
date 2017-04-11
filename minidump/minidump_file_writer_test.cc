@@ -28,6 +28,7 @@
 #include "minidump/minidump_user_extension_stream_data_source.h"
 #include "minidump/minidump_writable.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_user_extension_stream_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_cpu_context.h"
 #include "snapshot/test/test_exception_snapshot.h"
@@ -137,14 +138,14 @@ TEST(MinidumpFileWriter, AddUserExtensionStream) {
   const size_t kStreamSize = arraysize(kStreamData);
   const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
 
-  auto stream = base::WrapUnique(new MinidumpUserExtensionStreamDataSource(
+  auto data_source = base::WrapUnique(new test::BufferExtensionStreamDataSource(
       kStreamType, kStreamData, kStreamSize));
-  ASSERT_TRUE(minidump_file.AddUserExtensionStream(std::move(stream)));
+  ASSERT_TRUE(minidump_file.AddUserExtensionStream(std::move(data_source)));
 
   // Adding the same stream type a second time should fail.
-  stream = base::WrapUnique(new MinidumpUserExtensionStreamDataSource(
+  data_source = base::WrapUnique(new test::BufferExtensionStreamDataSource(
       kStreamType, kStreamData, kStreamSize));
-  ASSERT_FALSE(minidump_file.AddUserExtensionStream(std::move(stream)));
+  ASSERT_FALSE(minidump_file.AddUserExtensionStream(std::move(data_source)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));

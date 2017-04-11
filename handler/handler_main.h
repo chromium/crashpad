@@ -15,13 +15,22 @@
 #ifndef CRASHPAD_HANDLER_HANDLER_MAIN_H_
 #define CRASHPAD_HANDLER_HANDLER_MAIN_H_
 
+#include "handler/user_stream_data_source.h"
+
 namespace crashpad {
 
 //! \brief The `main()` of the `crashpad_handler` binary.
 //!
 //! This is exposed so that `crashpad_handler` can be embedded into another
 //! binary, but called and used as if it were a standalone executable.
-int HandlerMain(int argc, char* argv[]);
+//!
+//! \param[in] user_stream_sources An optional vector containing the
+//!     extensibility data sources to call on crash. Each time a minidump is
+//!     created, the sources are called in turn. Any streams returned are added
+//!     to the minidump.
+int HandlerMain(int argc,
+                char* argv[],
+                const UserStreamDataSources* user_stream_sources);
 
 }  // namespace crashpad
 
