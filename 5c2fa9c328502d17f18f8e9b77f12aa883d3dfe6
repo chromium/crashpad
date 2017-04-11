@@ -1,0 +1,401 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11f83b73_46e8ee53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "You can also add a Test: line naming the tests that you’ve added or updated.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6dcbd29_2bf489bd",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Sort.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d67b615a_3b2a61f7",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Forward slashes.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "278bd95b_8aef69a2",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Test helpers should be named after the test that they’re used in, which helps associate them with their purpose when you’re just looking at an “out” directory full of garbage. So this one should be crashpad_handler_test_extended_handler.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "506e328c_4f70b58a",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "“restartable” doesn’t work on Windows and we probably wouldn’t want to mix it into this test anyway, so “false” here.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f61a3c95_b021130f",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Pass “false” here for asynchronous_start and you’ll be able to remove the next line.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59f9da33_45b64a93",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Blank lines between non-single-line methods.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "472fcd4c_7fc857ed",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "No more of this nonsense! We’re now writing EXPECT_EQ/ASSERT_EQ “naturally.” All existing code has already migrated to the new style. Announcement here: https://groups.google.com/a/chromium.org/d/topic/crashpad-dev/9HJ29ZW8hkA/. Please fix up throughout this change.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11ba6d66_2c7e8026",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Surprised that you didn’t need to write “1u” here, but hey, if the compiler liked it, who am I to complain?",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91d5a19c_b1878ed8",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "You can get rid of this line and just write\n\n  std::vector\u003cMINIDUMP_DIRECTORY\u003e directory(header.NumberOfStreams);",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf4a85de_b3f8673c",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "No ::",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "586e00e1_8423e15a",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "EXPECT_EQ",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "640f43d8_397dc9cd",
+        "filename": "handler/extended_handler_main.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Rename this file as I mentioned. We can just use crashpad_handler_test_extended_handler.cc. (The extra _main makes it even wordier and isn’t really necessary for a simple test executable that only has this as it sole “original” file.)",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d0cc406_660d05f8",
+        "filename": "handler/extended_handler_main.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "This blank line is kind of lonely. Consistency: either\n\n  #if MAC\n  // stuff\n  // stuff\n  #elif WIN\n  // stuff\n  // stuff\n  #endif\n\nor\n\n  #if MAC\n\n  // stuff\n  // stuff\n\n  #elif WIN\n\n  // stuff\n  // stuff\n\n  #endif",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a53eeace_c6afa636",
+        "filename": "handler/extended_handler_main.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "This tells me that you’ve used /SUBSYSTEM:WINDOWS (which I’ll verify a few files from now, I guess).\n\nWe should be using /SUBSYSTEM:CONSOLE (and this line should be wmain()), specifically for tests. We want to leave stderr hooked up to the console so that any messages that the handler logs are visible during the test. /SUBSYSTEM:WINDOWS defeats that.\n\nI suspect that you may have been misled by the freaky build that we use for crashpad_handler.exe: we build crashpad_handler.exe (which has both wWinMain() and wmain()) with /SUBSYSTEM:WINDOWS. But then we take that and transform it with editbin to produce crashpad_handler.com, which is /SUBSYSTEM:CONSOLE. Tests wind up using crashpad_handler.com and never crashpad_handler.exe, so they’re using the console version with messages logged to stderr going someplace visible, where we want them.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11513faf_affa1a73",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Say “An optional vector” or revise in your preferred way to indicate that this isn’t required.",
+      "range": {
+        "startLine": 27,
+        "startChar": 35,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e279c83c_38feafbb",
+        "filename": "handler/handler_test.gyp",
+        "patchSetId": 15
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "2017",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9873b0f_e146ad26",
+        "filename": "handler/handler_test.gyp",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Rename here and on line 33.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c81824b_9a17b5a9",
+        "filename": "handler/handler_test.gyp",
+        "patchSetId": 15
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Remove this section as discussed.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c010850e_34dac828",
+        "filename": "handler/handler_test.gyp",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Guess we’ll need something like WinMultiprocessWithTempDir for non-Windows.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "855609a2_ed8441e0",
+        "filename": "handler/handler_test.gyp",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "You haven’t used any of gmock, so make this crashpad_gtest_main, and remove gmock on line 60.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a02d66a_74b029a8",
+        "filename": "handler/user_stream_data_source.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Ah, excellent.",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88647e0e_d68e4728",
+        "filename": "minidump/minidump_user_stream_writer.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T14:39:42Z",
+      "side": 1,
+      "message": "Sort",
+      "revId": "5c2fa9c328502d17f18f8e9b77f12aa883d3dfe6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
