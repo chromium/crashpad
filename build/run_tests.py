@@ -38,6 +38,11 @@ def main(args):
       'crashpad_test_test',
       'crashpad_util_test',
   ]
+
+  if sys.platform == 'win32':
+    tests.append('crashpad_handler_test')
+    tests = sorted(tests)
+
   for test in tests:
     print '-' * 80
     print test
