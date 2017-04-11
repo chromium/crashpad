@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68c8d44f_162244c8",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "Nothing uses this, you can remove it.",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5af9a0b_d47a9304",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "#include \"base/file_path.h\"",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08d9ab9a_346ed325",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "#include \u003cmap\u003e, \u003cstring\u003e",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45d36b0f_e163a4f6",
+        "filename": "handler/crashpad_handler_test.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "#include \u003cstring.h\u003e for memcmp().",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1425e2a_a86a2e45",
+        "filename": "handler/crashpad_handler_test_extended_handler.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "Merge this with the general admission section of headers below it. This file isn’t really implementing or testing handler_main.h in the sense that we’d prioritize the #include.",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe83f1d1_4cb4d28a",
+        "filename": "handler/crashpad_handler_test_extended_handler.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "private: DISALLOW_COPY_AND_ASSIGN too, which will mean that you’ll need to explicitly provide your public () constructor, but that’s also a good idea.",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9f02540_4c996ad0",
+        "filename": "handler/mac/crash_report_exception_handler.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "#include the more specific handler/user_stream_data_source.h instead of this.",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ff0fc5a_13f8463e",
+        "filename": "handler/main.cc",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "Like before, be consistent about whether you’ve got blank lines inside the #if stuff. This one is blank but none of the rest have that.",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e9193c6_820a6dcd",
+        "filename": "handler/win/crash_report_exception_handler.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "Here too: handler/user_stream_data_source.h instead.",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2db98938_12214f29",
+        "filename": "minidump/test/minidump_user_extension_stream_util.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "Not going to insist, but I’d have preferred to see the implementations broken out into a .cc file to cut down on compiled bloat.",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a1c8155_39d68d9e",
+        "filename": "minidump/test/minidump_user_extension_stream_util.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "Since there’s no real reason that data_size should ever be 0, and we’d wind up in undefined behavior territory with this implementation if it ever was 0, #include \"base/logging.h\" DCHECK_NE(data_size, 0u).\n\nAlternatively, tolerate 0 by skipping the memcpy() if that’s what data_size is. Then you’ve also got to change the call to ExtensionStreamDataSourceRead() to give nullptr instead of data_.data() if data_.size() is 0.\n\nIt actually may be worth accepting the 0 and having a test for zero-length extension streams in (perhaps) minidump_file_writer_test.cc, since the MinidumpUserExtensionStreamDataSource says that zero-length streams are OK.",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fc40451_65975c9f",
+        "filename": "minidump/test/minidump_user_extension_stream_util.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "#include \u003cstring.h\u003e",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae54f1bb_c7155089",
+        "filename": "minidump/test/minidump_user_extension_stream_util.h",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T17:43:55Z",
+      "side": 1,
+      "message": "Blank before.",
+      "revId": "64dbce024da61769a7e276a9ebc279b3c1f5251f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
