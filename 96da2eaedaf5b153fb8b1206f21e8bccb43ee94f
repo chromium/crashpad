@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97aeb6dc_2fea8f25",
+        "filename": "minidump/minidump_file_writer_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-11T18:28:25Z",
+      "side": 1,
+      "message": "I found this surprising - somehow I had expected the offset for empty streams to be zero?",
+      "range": {
+        "startLine": 204,
+        "startChar": 12,
+        "endLine": 204,
+        "endChar": 21
+      },
+      "revId": "96da2eaedaf5b153fb8b1206f21e8bccb43ee94f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
