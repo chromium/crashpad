@@ -157,6 +157,10 @@ std::unique_ptr<uint8_t[]> QueryObject(
   if (status == STATUS_INFO_LENGTH_MISMATCH) {
     DCHECK_GT(return_length, size);
     size = return_length;
+
+    // Free the old buffer before attempting to allocate a new one.
+    buffer.reset();
+
     buffer.reset(new uint8_t[size]);
     status = crashpad::NtQueryObject(
         handle, object_information_class, buffer.get(), size, &return_length);
@@ -167,6 +171,7 @@ std::unique_ptr<uint8_t[]> QueryObject(
     return nullptr;
   }
 
+  DCHECK_LE(return_length, size);
   DCHECK_GE(return_length, minimum_size);
   return buffer;
 }
