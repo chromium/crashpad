@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b437e096_fbf2252c",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T20:05:22Z",
+      "side": 1,
+      "message": "A “data source” doesn’t sound like something that you can “invoke.” Perhaps the word “callback” should be integrated somehow.",
+      "range": {
+        "startLine": 469,
+        "startChar": 56,
+        "endLine": 469,
+        "endChar": 63
+      },
+      "revId": "38e0dd6f71d5b2b439613e9ef42f507738d78913",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "484b95ea_8e5ea2fe",
+        "filename": "doc/overview_design.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T20:05:22Z",
+      "side": 1,
+      "message": "They’re also invoked during “simulated” crashes (DumpWithoutCrashing()), so this should be a bit more general. “when crash reports are written” would be most accurate.",
+      "range": {
+        "startLine": 469,
+        "startChar": 64,
+        "endLine": 470,
+        "endChar": 18
+      },
+      "revId": "38e0dd6f71d5b2b439613e9ef42f507738d78913",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
