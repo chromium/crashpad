@@ -51,7 +51,8 @@ class Semaphore {
   //! \brief Performs a timed wait (or “procure”) operation on the semaphore.
   //!
   //! \param[in] seconds The maximum number of seconds to wait for the operation
-  //!     to complete.
+  //!     to complete. If \a seconds is positive infinity, this method behaves
+  //!     as Wait(), and will not time out.
   //!
   //! \return `false` if the wait timed out, `true` otherwise.
   //!
