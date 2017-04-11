@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12ac27e7_2f37b290",
+        "filename": "minidump/minidump_test.gyp",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-11T18:35:59Z",
+      "side": 1,
+      "message": "These files should all come out of this target now.",
+      "revId": "495daa4168e40593a7e605ee5fd7282d0cc2c67a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
