@@ -21,6 +21,7 @@
 #include <string>
 
 #include "base/macros.h"
+#include "handler/user_stream_data_source.h"
 #include "util/win/exception_handler_server.h"
 
 namespace crashpad {
@@ -50,7 +51,8 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   CrashReportExceptionHandler(
       CrashReportDatabase* database,
       CrashReportUploadThread* upload_thread,
-      const std::map<std::string, std::string>* process_annotations);
+      const std::map<std::string, std::string>* process_annotations,
+      const UserStreamDataSources* user_stream_data_sources);
 
   ~CrashReportExceptionHandler() override;
 
@@ -68,6 +70,7 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
+  const UserStreamDataSources* user_stream_data_sources_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };

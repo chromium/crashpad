@@ -45,6 +45,8 @@
         'mac/exception_handler_server.h',
         'prune_crash_reports_thread.cc',
         'prune_crash_reports_thread.h',
+        'user_stream_data_source.cc',
+        'user_stream_data_source.h',
         'win/crash_report_exception_handler.cc',
         'win/crash_report_exception_handler.h',
       ],

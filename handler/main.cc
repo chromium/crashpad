@@ -23,10 +23,18 @@
 
 #if defined(OS_MACOSX)
 int main(int argc, char* argv[]) {
-  return crashpad::HandlerMain(argc, argv);
+  return crashpad::HandlerMain(argc, argv, nullptr);
 }
 #elif defined(OS_WIN)
+namespace {
+
+int HandlerMainAdaptor(int argc, char* argv[]) {
+  return crashpad::HandlerMain(argc, argv, nullptr);
+}
+
+}  // namespace
+
 int APIENTRY wWinMain(HINSTANCE, HINSTANCE, wchar_t*, int) {
-  return crashpad::ToolSupport::Wmain(__argc, __wargv, crashpad::HandlerMain);
+  return crashpad::ToolSupport::Wmain(__argc, __wargv, HandlerMainAdaptor);
 }
 #endif  // OS_MACOSX

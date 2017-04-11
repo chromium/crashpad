@@ -20,6 +20,7 @@
 #include "client/settings.h"
 #include "handler/crash_report_upload_thread.h"
 #include "minidump/minidump_file_writer.h"
+#include "minidump/minidump_user_extension_stream_data_source.h"
 #include "snapshot/win/process_snapshot_win.h"
 #include "util/file/file_writer.h"
 #include "util/misc/metrics.h"
@@ -32,11 +33,12 @@ namespace crashpad {
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
     CrashReportUploadThread* upload_thread,
-    const std::map<std::string, std::string>* process_annotations)
+    const std::map<std::string, std::string>* process_annotations,
+    const UserStreamDataSources* user_stream_data_sources)
     : database_(database),
       upload_thread_(upload_thread),
-      process_annotations_(process_annotations) {
-}
+      process_annotations_(process_annotations),
+      user_stream_data_sources_(user_stream_data_sources) {}
 
 CrashReportExceptionHandler::~CrashReportExceptionHandler() {
 }
@@ -107,6 +109,9 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
 
     MinidumpFileWriter minidump;
     minidump.InitializeFromSnapshot(&process_snapshot);
+    AddUserExtensionStreams(
+        user_stream_data_sources_, &process_snapshot, &minidump);
+
     if (!minidump.WriteEverything(&file_writer)) {
       LOG(ERROR) << "WriteEverything failed";
       Metrics::ExceptionCaptureResult(

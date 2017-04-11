@@ -77,4 +77,4 @@ class WinMultiprocessWithTempDir : public WinMultiprocess {
 }  // namespace test
 }  // namespace crashpad
 
-#endif  // CRASHPAD_TEST_WIN_WIN_MULTIPROCESS_H_
+#endif  // CRASHPAD_TEST_WIN_WIN_MULTIPROCESS_WITH_TEMPDIR_H_

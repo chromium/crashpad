@@ -28,6 +28,7 @@
 #include "minidump/minidump_user_extension_stream_data_source.h"
 #include "minidump/minidump_writable.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_user_extension_stream_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_cpu_context.h"
 #include "snapshot/test/test_exception_snapshot.h"
@@ -137,14 +138,14 @@ TEST(MinidumpFileWriter, AddUserExtensionStream) {
   const size_t kStreamSize = arraysize(kStreamData);
   const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
 
-  auto stream = base::WrapUnique(new MinidumpUserExtensionStreamDataSource(
+  auto data_source = base::WrapUnique(new test::BufferExtensionStreamDataSource(
       kStreamType, kStreamData, kStreamSize));
-  ASSERT_TRUE(minidump_file.AddUserExtensionStream(std::move(stream)));
+  ASSERT_TRUE(minidump_file.AddUserExtensionStream(std::move(data_source)));
 
   // Adding the same stream type a second time should fail.
-  stream = base::WrapUnique(new MinidumpUserExtensionStreamDataSource(
+  data_source = base::WrapUnique(new test::BufferExtensionStreamDataSource(
       kStreamType, kStreamData, kStreamSize));
-  ASSERT_FALSE(minidump_file.AddUserExtensionStream(std::move(stream)));
+  ASSERT_FALSE(minidump_file.AddUserExtensionStream(std::move(data_source)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
@@ -170,6 +171,37 @@ TEST(MinidumpFileWriter, AddUserExtensionStream) {
   ASSERT_TRUE(stream_data);
 
   EXPECT_EQ(memcmp(stream_data, kStreamData, kStreamSize), 0);
+}
+
+TEST(MinidumpFileWriter, AddEmptyUserExtensionStream) {
+  MinidumpFileWriter minidump_file;
+  const time_t kTimestamp = 0x155d2fb8;
+  minidump_file.SetTimestamp(kTimestamp);
+
+  const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
+
+  auto data_source = base::WrapUnique(
+      new test::BufferExtensionStreamDataSource(kStreamType, nullptr, 0));
+  ASSERT_TRUE(minidump_file.AddUserExtensionStream(std::move(data_source)));
+
+  StringFile string_file;
+  ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
+
+  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  const size_t kStreamOffset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
+  const size_t kFileSize = kStreamOffset;
+
+  ASSERT_EQ(string_file.string().size(), kFileSize);
+
+  const MINIDUMP_DIRECTORY* directory;
+  const MINIDUMP_HEADER* header =
+      MinidumpHeaderAtStart(string_file.string(), &directory);
+  ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, kTimestamp));
+  ASSERT_TRUE(directory);
+
+  EXPECT_EQ(directory[0].StreamType, kStreamType);
+  EXPECT_EQ(directory[0].Location.DataSize, 0u);
+  EXPECT_EQ(directory[0].Location.Rva, kStreamOffset);
 }
 
 TEST(MinidumpFileWriter, ThreeStreams) {

@@ -21,6 +21,7 @@
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/test/minidump_file_writer_test_util.h"
+#include "minidump/test/minidump_user_extension_stream_util.h"
 #include "minidump/test/minidump_writable_test_util.h"
 #include "snapshot/test/test_memory_snapshot.h"
 #include "util/file/string_file.h"
@@ -74,10 +75,12 @@ TEST(MinidumpUserStreamWriter, InitializeFromSnapshotNoData) {
       string_file.string(), &user_stream_location, kTestStreamId, 0u));
 }
 
-TEST(MinidumpUserStreamWriter, InitializeFromBufferNoData) {
+TEST(MinidumpUserStreamWriter, InitializeFromUserExtensionStreamNoData) {
   MinidumpFileWriter minidump_file_writer;
+  auto data_source = base::WrapUnique(
+      new test::BufferExtensionStreamDataSource(kTestStreamId, nullptr, 0));
   auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
-  user_stream_writer->InitializeFromBuffer(kTestStreamId, nullptr, 0);
+  user_stream_writer->InitializeFromUserExtensionStream(std::move(data_source));
   minidump_file_writer.AddStream(std::move(user_stream_writer));
 
   StringFile string_file;
@@ -121,12 +124,13 @@ TEST(MinidumpUserStreamWriter, InitializeFromSnapshotOneStream) {
 
 TEST(MinidumpUserStreamWriter, InitializeFromBufferOneStream) {
   MinidumpFileWriter minidump_file_writer;
-  auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
 
   const size_t kStreamSize = 128;
   std::vector<uint8_t> data(kStreamSize, 'c');
-  user_stream_writer->InitializeFromBuffer(
-      kTestStreamId, &data[0], data.size());
+  auto data_source = base::WrapUnique(new test::BufferExtensionStreamDataSource(
+      kTestStreamId, &data[0], data.size()));
+  auto user_stream_writer = base::WrapUnique(new MinidumpUserStreamWriter());
+  user_stream_writer->InitializeFromUserExtensionStream(std::move(data_source));
   minidump_file_writer.AddStream(std::move(user_stream_writer));
 
   StringFile string_file;

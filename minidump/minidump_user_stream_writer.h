@@ -25,6 +25,7 @@
 #include "minidump/minidump_extensions.h"
 #include "minidump/minidump_stream_writer.h"
 #include "minidump/minidump_writable.h"
+#include "minidump/minidump_user_extension_stream_data_source.h"
 #include "snapshot/module_snapshot.h"
 
 namespace crashpad {
@@ -42,17 +43,13 @@ class MinidumpUserStreamWriter final : public internal::MinidumpStreamWriter {
   //! \note Valid in #kStateMutable.
   void InitializeFromSnapshot(const UserMinidumpStream* stream);
 
-  //! \brief Initializes a MINIDUMP_USER_STREAM based on \a stream_type,
-  //!     \a buffer and \a buffer_size.
+  //! \brief Initializes a MINIDUMP_USER_STREAM based on \a data_source.
   //!
-  //! \param[in] stream_type The type of the stream.
-  //! \param[in] buffer The data for the stream.
-  //! \param[in] buffer_size The length of \a buffer, and the resulting stream.
+  //! \param[in] data_source The content and type of the stream.
   //!
   //! \note Valid in #kStateMutable.
-  void InitializeFromBuffer(MinidumpStreamType stream_type,
-                            const void* buffer,
-                            size_t buffer_size);
+  void InitializeFromUserExtensionStream(
+      std::unique_ptr<MinidumpUserExtensionStreamDataSource> data_source);
 
  protected:
   // MinidumpWritable:
@@ -67,7 +64,7 @@ class MinidumpUserStreamWriter final : public internal::MinidumpStreamWriter {
  private:
   class ContentsWriter;
   class SnapshotContentsWriter;
-  class BufferContentsWriter;
+  class ExtensionStreamContentsWriter;
 
   std::unique_ptr<ContentsWriter> contents_writer_;
 
