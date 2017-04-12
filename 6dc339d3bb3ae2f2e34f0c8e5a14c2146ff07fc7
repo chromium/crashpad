@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "964a18c2_27f1117f",
+        "filename": "handler/crash_report_upload_thread.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-04-12T20:23:03Z",
+      "side": 1,
+      "message": "One more parameter and we should probably move to an Options struct...",
+      "revId": "6dc339d3bb3ae2f2e34f0c8e5a14c2146ff07fc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92c8852c_ac8fc749",
+        "filename": "handler/crash_report_upload_thread.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-04-12T20:23:03Z",
+      "side": 1,
+      "message": "Update this comment?",
+      "revId": "6dc339d3bb3ae2f2e34f0c8e5a14c2146ff07fc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7758bffb_7c8c1051",
+        "filename": "handler/crash_report_upload_thread.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-04-12T20:23:03Z",
+      "side": 1,
+      "message": "Can any of these other members be const now that the reader is going to be thinking about the thread safety of this class?",
+      "revId": "6dc339d3bb3ae2f2e34f0c8e5a14c2146ff07fc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f48e51a_c6e2501f",
+        "filename": "util/synchronization/semaphore.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-04-12T20:23:03Z",
+      "side": 1,
+      "message": "Rather than requiring clients of this class to make their own infinity, provide a kInfiniteWait constant?",
+      "revId": "6dc339d3bb3ae2f2e34f0c8e5a14c2146ff07fc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
