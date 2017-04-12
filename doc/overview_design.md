@@ -452,6 +452,8 @@ suspend and resume and such.
 
 ### Extensibility
 
+#### Client Extensibility
+
 Clients are able to extend the generated crash reports in two ways, by
 manipulating their CrashpadInfo structure.
 The two extensibility points are:
@@ -460,6 +462,18 @@ The two extensibility points are:
 
 In both cases the CrashpadInfo structure has to be updated before a crash
 occurs.
+
+##### Embedder Extensibility
+
+Additionally, embedders of the handler can provide "user stream data source"
+instances to the handler's main function. Any time a minidump is written, these
+instances get called.
+
+Each data source may contribute a custom stream to the minidump, which can be
+computed from e.g. system or application state relevant to the crash.
+
+As a case in point, it can be handy to know whether the system was under memory
+or other resource duress at the time of crash.
 
 ### Dependencies
 
