@@ -90,9 +90,9 @@ Inheritance diagram for crashpad::MinidumpUserStreamWriter:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter_1_1BufferContentsWriter.html">BufferContentsWriter</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter_1_1ContentsWriter.html">ContentsWriter</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter_1_1ExtensionStreamContentsWriter.html">ExtensionStreamContentsWriter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter_1_1SnapshotContentsWriter.html">SnapshotContentsWriter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -102,9 +102,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4439a1bacf029c3a5f99cd775fff9191"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter.html#a4439a1bacf029c3a5f99cd775fff9191">InitializeFromSnapshot</a> (const <a class="el" href="classcrashpad_1_1UserMinidumpStream.html">UserMinidumpStream</a> *stream)</td></tr>
 <tr class="memdesc:a4439a1bacf029c3a5f99cd775fff9191"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a MINIDUMP_USER_STREAM based on <em>stream</em>.  <a href="#a4439a1bacf029c3a5f99cd775fff9191">More...</a><br /></td></tr>
 <tr class="separator:a4439a1bacf029c3a5f99cd775fff9191"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86dcf30fdbe584c1eb9c554644c4882d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter.html#a86dcf30fdbe584c1eb9c554644c4882d">InitializeFromBuffer</a> (<a class="el" href="namespacecrashpad.html#a88363a45a4af1a16f542a8c1ff522ab9">MinidumpStreamType</a> stream_type, const void *buffer, size_t buffer_size)</td></tr>
-<tr class="memdesc:a86dcf30fdbe584c1eb9c554644c4882d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a MINIDUMP_USER_STREAM based on <em>stream_type</em>, <em>buffer</em> and <em>buffer_size</em>.  <a href="#a86dcf30fdbe584c1eb9c554644c4882d">More...</a><br /></td></tr>
-<tr class="separator:a86dcf30fdbe584c1eb9c554644c4882d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea3acd50127a962722fb3c1086be940e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter.html#aea3acd50127a962722fb3c1086be940e">InitializeFromUserExtensionStream</a> (std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html">MinidumpUserExtensionStreamDataSource</a> &gt; data_source)</td></tr>
+<tr class="memdesc:aea3acd50127a962722fb3c1086be940e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a MINIDUMP_USER_STREAM based on <em>data_source</em>.  <a href="#aea3acd50127a962722fb3c1086be940e">More...</a><br /></td></tr>
+<tr class="separator:aea3acd50127a962722fb3c1086be940e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcrashpad_1_1internal_1_1MinidumpStreamWriter"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcrashpad_1_1internal_1_1MinidumpStreamWriter')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html">crashpad::internal::MinidumpStreamWriter</a></td></tr>
 <tr class="memitem:a3d2658a99963fa9083c07dc2ddc72845 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpStreamWriter"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structMINIDUMP__DIRECTORY.html">MINIDUMP_DIRECTORY</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html#a3d2658a99963fa9083c07dc2ddc72845">DirectoryListEntry</a> () const</td></tr>
 <tr class="memdesc:a3d2658a99963fa9083c07dc2ddc72845 inherit pub_methods_classcrashpad_1_1internal_1_1MinidumpStreamWriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="structMINIDUMP__DIRECTORY.html" title="A pointer to a stream within a minidump file. ">MINIDUMP_DIRECTORY</a> entry that serves as a pointer to this stream.  <a href="classcrashpad_1_1internal_1_1MinidumpStreamWriter.html#a3d2658a99963fa9083c07dc2ddc72845">More...</a><br /></td></tr>
@@ -236,51 +236,6 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a86dcf30fdbe584c1eb9c554644c4882d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a86dcf30fdbe584c1eb9c554644c4882d">&#9670;&nbsp;</a></span>InitializeFromBuffer()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void crashpad::MinidumpUserStreamWriter::InitializeFromBuffer </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacecrashpad.html#a88363a45a4af1a16f542a8c1ff522ab9">MinidumpStreamType</a>&#160;</td>
-          <td class="paramname"><em>stream_type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>buffer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>buffer_size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initializes a MINIDUMP_USER_STREAM based on <em>stream_type</em>, <em>buffer</em> and <em>buffer_size</em>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stream_type</td><td>The type of the stream. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>The data for the stream. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">buffer_size</td><td>The length of <em>buffer</em>, and the resulting stream.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>Valid in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a18337604dcbdbdb23ed51810f0587665" title="The object’s properties can be modified. ">kStateMutable</a>. </dd></dl>
-
-</div>
-</div>
 <a id="a4439a1bacf029c3a5f99cd775fff9191"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4439a1bacf029c3a5f99cd775fff9191">&#9670;&nbsp;</a></span>InitializeFromSnapshot()</h2>
 
@@ -301,6 +256,33 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">stream</td><td>The memory and stream type to use as source data.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Valid in <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a18337604dcbdbdb23ed51810f0587665" title="The object’s properties can be modified. ">kStateMutable</a>. </dd></dl>
+
+</div>
+</div>
+<a id="aea3acd50127a962722fb3c1086be940e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea3acd50127a962722fb3c1086be940e">&#9670;&nbsp;</a></span>InitializeFromUserExtensionStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::MinidumpUserStreamWriter::InitializeFromUserExtensionStream </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html">MinidumpUserExtensionStreamDataSource</a> &gt;&#160;</td>
+          <td class="paramname"><em>data_source</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes a MINIDUMP_USER_STREAM based on <em>data_source</em>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">data_source</td><td>The content and type of the stream.</td></tr>
   </table>
   </dd>
 </dl>

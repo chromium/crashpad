@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Crashpad: crashpad::MinidumpUserStreamWriter::BufferContentsWriter Class Reference</title>
+<title>Crashpad: crashpad::internal::ScopedDIRCloser Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,41 +59,27 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter.html">MinidumpUserStreamWriter</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1MinidumpUserStreamWriter_1_1BufferContentsWriter.html">BufferContentsWriter</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1internal.html">internal</a></li><li class="navelem"><a class="el" href="structcrashpad_1_1internal_1_1ScopedDIRCloser.html">ScopedDIRCloser</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classcrashpad_1_1MinidumpUserStreamWriter_1_1BufferContentsWriter-members.html">List of all members</a>  </div>
+<a href="structcrashpad_1_1internal_1_1ScopedDIRCloser-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">crashpad::MinidumpUserStreamWriter::BufferContentsWriter Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
+<div class="title">crashpad::internal::ScopedDIRCloser Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
-Inheritance diagram for crashpad::MinidumpUserStreamWriter::BufferContentsWriter:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="classcrashpad_1_1MinidumpUserStreamWriter_1_1BufferContentsWriter.png" usemap="#crashpad::MinidumpUserStreamWriter::BufferContentsWriter_map" alt=""/>
-  <map id="crashpad::MinidumpUserStreamWriter::BufferContentsWriter_map" name="crashpad::MinidumpUserStreamWriter::BufferContentsWriter_map">
-<area href="classcrashpad_1_1MinidumpUserStreamWriter_1_1ContentsWriter.html" alt="crashpad::MinidumpUserStreamWriter::ContentsWriter" shape="rect" coords="0,0,348,24"/>
-</map>
- </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af8c061ab775caa0312d1de19f5fb9337"><td class="memItemLeft" align="right" valign="top"><a id="af8c061ab775caa0312d1de19f5fb9337"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BufferContentsWriter</b> (const void *buffer, size_t buffer_size)</td></tr>
-<tr class="separator:af8c061ab775caa0312d1de19f5fb9337"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7402c22d7a831ef6ca93dd2bc1379a68"><td class="memItemLeft" align="right" valign="top"><a id="a7402c22d7a831ef6ca93dd2bc1379a68"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>WriteContents</b> (<a class="el" href="classcrashpad_1_1FileWriterInterface.html">FileWriterInterface</a> *writer) override</td></tr>
-<tr class="separator:a7402c22d7a831ef6ca93dd2bc1379a68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b2bc40beae050a9fae2a6cba60daecd"><td class="memItemLeft" align="right" valign="top"><a id="a2b2bc40beae050a9fae2a6cba60daecd"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>GetSize</b> () const override</td></tr>
-<tr class="separator:a2b2bc40beae050a9fae2a6cba60daecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8d5deb71c67cfd2e08d44b67c768425"><td class="memItemLeft" align="right" valign="top"><a id="ac8d5deb71c67cfd2e08d44b67c768425"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (DIR *dir) const</td></tr>
+<tr class="separator:ac8d5deb71c67cfd2e08d44b67c768425"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>minidump/minidump_user_stream_writer.cc</li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>util/posix/scoped_dir.h</li>
+<li>util/posix/scoped_dir.cc</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -64,10 +64,11 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">crashpad::MinidumpUserExtensionStreamDataSource Class Reference</div>  </div>
+<div class="title">crashpad::MinidumpUserExtensionStreamDataSource Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -75,66 +76,105 @@ $(function() {
  <a href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html#details">More...</a></p>
 
 <p><code>#include &quot;minidump/minidump_user_extension_stream_data_source.h&quot;</code></p>
+<div class="dynheader">
+Inheritance diagram for crashpad::MinidumpUserExtensionStreamDataSource:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.png" usemap="#crashpad::MinidumpUserExtensionStreamDataSource_map" alt=""/>
+  <map id="crashpad::MinidumpUserExtensionStreamDataSource_map" name="crashpad::MinidumpUserExtensionStreamDataSource_map">
+<area href="classcrashpad_1_1test_1_1BufferExtensionStreamDataSource.html" title="A user extension data source that wraps a buffer. " alt="crashpad::test::BufferExtensionStreamDataSource" shape="rect" coords="0,56,311,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource_1_1Delegate.html">Delegate</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An interface implemented by readers of <a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html" title="Describes a user extension data stream in a minidump. ">MinidumpUserExtensionStreamDataSource</a>.  <a href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource_1_1Delegate.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab6030670eb829d77b5f15386033c7af5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html#ab6030670eb829d77b5f15386033c7af5">MinidumpUserExtensionStreamDataSource</a> (uint32_t stream_type, const void *buffer, size_t buffer_size)</td></tr>
-<tr class="memdesc:ab6030670eb829d77b5f15386033c7af5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html" title="Describes a user extension data stream in a minidump. ">MinidumpUserExtensionStreamDataSource</a>.  <a href="#ab6030670eb829d77b5f15386033c7af5">More...</a><br /></td></tr>
-<tr class="separator:ab6030670eb829d77b5f15386033c7af5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb78007044c41ae9f25c55f180e6c273"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html#aeb78007044c41ae9f25c55f180e6c273">MinidumpUserExtensionStreamDataSource</a> (uint32_t stream_type)</td></tr>
+<tr class="memdesc:aeb78007044c41ae9f25c55f180e6c273"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html" title="Describes a user extension data stream in a minidump. ">MinidumpUserExtensionStreamDataSource</a>.  <a href="#aeb78007044c41ae9f25c55f180e6c273">More...</a><br /></td></tr>
+<tr class="separator:aeb78007044c41ae9f25c55f180e6c273"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3bad626727af40438c0f3adb2e5104f"><td class="memItemLeft" align="right" valign="top"><a id="ab3bad626727af40438c0f3adb2e5104f"></a>
 <a class="el" href="namespacecrashpad.html#a88363a45a4af1a16f542a8c1ff522ab9">MinidumpStreamType</a>&#160;</td><td class="memItemRight" valign="bottom"><b>stream_type</b> () const</td></tr>
 <tr class="separator:ab3bad626727af40438c0f3adb2e5104f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcb08d8e258f9490aff86d8d492bd374"><td class="memItemLeft" align="right" valign="top"><a id="abcb08d8e258f9490aff86d8d492bd374"></a>
-const void *&#160;</td><td class="memItemRight" valign="bottom"><b>buffer</b> () const</td></tr>
-<tr class="separator:abcb08d8e258f9490aff86d8d492bd374"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1801018b4016d731333e8028d54c4f4"><td class="memItemLeft" align="right" valign="top"><a id="af1801018b4016d731333e8028d54c4f4"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b> () const</td></tr>
-<tr class="separator:af1801018b4016d731333e8028d54c4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb1bec6780ab41925f53185cdc5a05e0"><td class="memItemLeft" align="right" valign="top"><a id="aeb1bec6780ab41925f53185cdc5a05e0"></a>
+virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html#aeb1bec6780ab41925f53185cdc5a05e0">StreamDataSize</a> ()=0</td></tr>
+<tr class="memdesc:aeb1bec6780ab41925f53185cdc5a05e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of this data stream. <br /></td></tr>
+<tr class="separator:aeb1bec6780ab41925f53185cdc5a05e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7a07e8cf01ea22439dab82452139e28"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html#af7a07e8cf01ea22439dab82452139e28">ReadStreamData</a> (<a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource_1_1Delegate.html">Delegate</a> *delegate)=0</td></tr>
+<tr class="memdesc:af7a07e8cf01ea22439dab82452139e28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls Delegate::UserStreamDataSourceRead(), providing it with the stream data.  <a href="#af7a07e8cf01ea22439dab82452139e28">More...</a><br /></td></tr>
+<tr class="separator:af7a07e8cf01ea22439dab82452139e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Describes a user extension data stream in a minidump. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab6030670eb829d77b5f15386033c7af5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6030670eb829d77b5f15386033c7af5">&#9670;&nbsp;</a></span>MinidumpUserExtensionStreamDataSource()</h2>
+<a id="aeb78007044c41ae9f25c55f180e6c273"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb78007044c41ae9f25c55f180e6c273">&#9670;&nbsp;</a></span>MinidumpUserExtensionStreamDataSource()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">crashpad::MinidumpUserExtensionStreamDataSource::MinidumpUserExtensionStreamDataSource </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>stream_type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>stream_type</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>buffer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>buffer_size</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Constructs a <a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource.html" title="Describes a user extension data stream in a minidump. ">MinidumpUserExtensionStreamDataSource</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">stream_type</td><td>The type of the user extension stream. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>Points to the data for this stream. <em>buffer</em> is not owned, and must outlive the use of this object. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">buffer_size</td><td>The length of data in <em>buffer</em>. </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="af7a07e8cf01ea22439dab82452139e28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7a07e8cf01ea22439dab82452139e28">&#9670;&nbsp;</a></span>ReadStreamData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool crashpad::MinidumpUserExtensionStreamDataSource::ReadStreamData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource_1_1Delegate.html">Delegate</a> *&#160;</td>
+          <td class="paramname"><em>delegate</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calls Delegate::UserStreamDataSourceRead(), providing it with the stream data. </p>
+<p>Implementations do not necessarily compute the stream data prior to this method being called. The stream data may be computed or loaded lazily and may be discarded after being passed to the delegate.</p>
+<dl class="section return"><dt>Returns</dt><dd><code>false</code> on failure, otherwise, the return value of <a class="el" href="classcrashpad_1_1MinidumpUserExtensionStreamDataSource_1_1Delegate.html#ae2710f88dc56cb07c2edd2a01c1de609" title="Called by MinidumpUserExtensionStreamDataSource::Read() to provide data requested by a call to that m...">Delegate::ExtensionStreamDataSourceRead()</a>, which should be <code>true</code> on success and <code>false</code> on failure. </dd></dl>
+
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1BufferExtensionStreamDataSource.html#a6ee83dd5e7bc50321d8e49cbcb64a38b">crashpad::test::BufferExtensionStreamDataSource</a>.</p>
 
 </div>
 </div>

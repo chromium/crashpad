@@ -39,6 +39,7 @@ var searchData=
   ['getsecuritydescriptorfornamedpipeinstance',['GetSecurityDescriptorForNamedPipeInstance',['../namespacecrashpad.html#af22242667ee950fe12a99b298dda5e08',1,'crashpad']]],
   ['getsegmentbyname',['GetSegmentByName',['../classcrashpad_1_1MachOImageReader.html#a687d6ad610407967e283d8ba8b6e2db4',1,'crashpad::MachOImageReader']]],
   ['getsettings',['GetSettings',['../classcrashpad_1_1CrashReportDatabase.html#a705a5c510ba8eeda15bf4fe9af6e37b1',1,'crashpad::CrashReportDatabase']]],
+  ['gettempdirpath',['GetTempDirPath',['../classcrashpad_1_1test_1_1WinMultiprocessWithTempDir.html#aefc85f2324237a1404d8ee46cc522157',1,'crashpad::test::WinMultiprocessWithTempDir']]],
   ['gettimeofday',['GetTimeOfDay',['../namespacecrashpad.html#ad150794de658f3bec7f37aa33ac521c4',1,'crashpad']]],
   ['getuploadsenabled',['GetUploadsEnabled',['../classcrashpad_1_1Settings.html#a49198982b5d7f82fa3096b34cda70015',1,'crashpad::Settings']]],
   ['getvalueforkey',['GetValueForKey',['../classcrashpad_1_1TSimpleStringDictionary.html#a7d1d60ab45f8c9ec8b996bdd225e6447',1,'crashpad::TSimpleStringDictionary']]],

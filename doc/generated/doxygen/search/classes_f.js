@@ -1,10 +1,13 @@
 var searchData=
 [
+  ['scopeddircloser',['ScopedDIRCloser',['../structcrashpad_1_1internal_1_1ScopedDIRCloser.html',1,'crashpad::internal']]],
   ['scopedfilehandleclosetraits',['ScopedFileHANDLECloseTraits',['../structcrashpad_1_1internal_1_1ScopedFileHANDLECloseTraits.html',1,'crashpad::internal']]],
   ['scopedforbidreturn',['ScopedForbidReturn',['../classcrashpad_1_1ScopedForbidReturn.html',1,'crashpad']]],
   ['scopedkernelhandleclosetraits',['ScopedKernelHANDLECloseTraits',['../structcrashpad_1_1internal_1_1ScopedKernelHANDLECloseTraits.html',1,'crashpad::internal']]],
   ['scopedlockedfilehandletraits',['ScopedLockedFileHandleTraits',['../structcrashpad_1_1internal_1_1ScopedLockedFileHandleTraits.html',1,'crashpad::internal']]],
+  ['scopedmmap',['ScopedMmap',['../classcrashpad_1_1ScopedMmap.html',1,'crashpad']]],
   ['scopedprocesssuspend',['ScopedProcessSuspend',['../classcrashpad_1_1ScopedProcessSuspend.html',1,'crashpad']]],
+  ['scopedptraceattach',['ScopedPtraceAttach',['../classcrashpad_1_1ScopedPtraceAttach.html',1,'crashpad']]],
   ['scopedtasksuspend',['ScopedTaskSuspend',['../classcrashpad_1_1ScopedTaskSuspend.html',1,'crashpad']]],
   ['scopedtempdir',['ScopedTempDir',['../classcrashpad_1_1test_1_1ScopedTempDir.html',1,'crashpad::test']]],
   ['semaphore',['Semaphore',['../classcrashpad_1_1Semaphore.html',1,'crashpad']]],

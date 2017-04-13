@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['paths',['Paths',['../classcrashpad_1_1test_1_1Paths.html',1,'crashpad::test']]],
+  ['paths',['Paths',['../classcrashpad_1_1Paths.html',1,'crashpad']]],
   ['peb',['PEB',['../structcrashpad_1_1process__types_1_1PEB.html',1,'crashpad::process_types']]],
   ['peb_5fldr_5fdata',['PEB_LDR_DATA',['../structcrashpad_1_1process__types_1_1PEB__LDR__DATA.html',1,'crashpad::process_types']]],
   ['peimageannotationsreader',['PEImageAnnotationsReader',['../classcrashpad_1_1PEImageAnnotationsReader.html',1,'crashpad']]],
@@ -31,6 +31,7 @@ var searchData=
   ['pointervector_3c_20crashpad_3a_3athreadsnapshot_20_3e',['PointerVector&lt; crashpad::ThreadSnapshot &gt;',['../classcrashpad_1_1PointerVector.html',1,'crashpad']]],
   ['process_5fbasic_5finformation',['PROCESS_BASIC_INFORMATION',['../structcrashpad_1_1process__types_1_1PROCESS__BASIC__INFORMATION.html',1,'crashpad::process_types']]],
   ['processinfo',['ProcessInfo',['../classcrashpad_1_1ProcessInfo.html',1,'crashpad']]],
+  ['processmemory',['ProcessMemory',['../classcrashpad_1_1ProcessMemory.html',1,'crashpad']]],
   ['processreader',['ProcessReader',['../classcrashpad_1_1ProcessReader.html',1,'crashpad']]],
   ['processreaderwin',['ProcessReaderWin',['../classcrashpad_1_1ProcessReaderWin.html',1,'crashpad']]],
   ['processsnapshot',['ProcessSnapshot',['../classcrashpad_1_1ProcessSnapshot.html',1,'crashpad']]],

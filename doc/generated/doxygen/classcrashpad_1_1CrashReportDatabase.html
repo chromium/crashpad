@@ -172,6 +172,7 @@ Static Public Member Functions</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0bbd146654537fa0cf1b576eb647bb00ad73503b93bff6f4ae156a65fcb5e71f8"></a>kNoError&#160;</td><td class="fielddoc"><p>No error occurred. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a0bbd146654537fa0cf1b576eb647bb00ab005def710dfeef7c3f3fd6c7e615239"></a>kReportNotFound&#160;</td><td class="fielddoc"><p>The report that was requested could not be located. </p>
+<p>This may occur when the report is present in the database but not in a state appropriate for the requested operation, for example, if <a class="el" href="classcrashpad_1_1CrashReportDatabase.html#ab87ae2586364bc46def5335c07c8eb04" title="Obtains a report object for uploading to a collection server. ">GetReportForUploading()</a> is called to obtain report that’s already in the completed state. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a0bbd146654537fa0cf1b576eb647bb00ad40b3e9919ed7de952a4e30d5be5c59b"></a>kFileSystemError&#160;</td><td class="fielddoc"><p>An error occured while performing a file operation on a crash report. </p>
 <p>A database is responsible for managing both the metadata about a report and the actual crash report itself. This error is returned when an error occurred when managing the report file. Additional information will be logged. </p>

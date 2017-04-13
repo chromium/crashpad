@@ -9,5 +9,6 @@ var searchData=
   ['exceptionports',['ExceptionPorts',['../classcrashpad_1_1ExceptionPorts.html',1,'crashpad']]],
   ['exceptionsnapshot',['ExceptionSnapshot',['../classcrashpad_1_1ExceptionSnapshot.html',1,'crashpad']]],
   ['exceptionsnapshotmac',['ExceptionSnapshotMac',['../classcrashpad_1_1internal_1_1ExceptionSnapshotMac.html',1,'crashpad::internal']]],
-  ['exceptionsnapshotwin',['ExceptionSnapshotWin',['../classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html',1,'crashpad::internal']]]
+  ['exceptionsnapshotwin',['ExceptionSnapshotWin',['../classcrashpad_1_1internal_1_1ExceptionSnapshotWin.html',1,'crashpad::internal']]],
+  ['extensionstreamcontentswriter',['ExtensionStreamContentsWriter',['../classcrashpad_1_1MinidumpUserStreamWriter_1_1ExtensionStreamContentsWriter.html',1,'crashpad::MinidumpUserStreamWriter']]]
 ];

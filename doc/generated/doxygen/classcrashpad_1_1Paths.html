@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Crashpad: crashpad::test::Paths Class Reference</title>
+<title>Crashpad: crashpad::Paths Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,45 +59,41 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="namespacecrashpad_1_1test.html">test</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1test_1_1Paths.html">Paths</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacecrashpad.html">crashpad</a></li><li class="navelem"><a class="el" href="classcrashpad_1_1Paths.html">Paths</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="classcrashpad_1_1test_1_1Paths-members.html">List of all members</a>  </div>
+<a href="classcrashpad_1_1Paths-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">crashpad::test::Paths Class Reference</div>  </div>
+<div class="title">crashpad::Paths Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Functions to obtain paths from within tests.  
- <a href="classcrashpad_1_1test_1_1Paths.html#details">More...</a></p>
+<p>Functions to obtain paths.  
+ <a href="classcrashpad_1_1Paths.html#details">More...</a></p>
 
-<p><code>#include &quot;test/paths.h&quot;</code></p>
+<p><code>#include &quot;util/misc/paths.h&quot;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a914f0cb06aafc4fc12450bc0af3c27d1"><td class="memItemLeft" align="right" valign="top"><a id="a914f0cb06aafc4fc12450bc0af3c27d1"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DISALLOW_IMPLICIT_CONSTRUCTORS</b> (<a class="el" href="classcrashpad_1_1test_1_1Paths.html">Paths</a>)</td></tr>
-<tr class="separator:a914f0cb06aafc4fc12450bc0af3c27d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42101068169e299d785c915301ddcb74"><td class="memItemLeft" align="right" valign="top"><a id="a42101068169e299d785c915301ddcb74"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DISALLOW_IMPLICIT_CONSTRUCTORS</b> (<a class="el" href="classcrashpad_1_1Paths.html">Paths</a>)</td></tr>
+<tr class="separator:a42101068169e299d785c915301ddcb74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a2181fa923a180e6db375cc2d03554a9f"><td class="memItemLeft" align="right" valign="top"><a id="a2181fa923a180e6db375cc2d03554a9f"></a>
-static base::FilePath&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1Paths.html#a2181fa923a180e6db375cc2d03554a9f">Executable</a> ()</td></tr>
-<tr class="memdesc:a2181fa923a180e6db375cc2d03554a9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the pathname of the currently-running test executable. <br /></td></tr>
-<tr class="separator:a2181fa923a180e6db375cc2d03554a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca1faeb29312c45e3bb702a737ca3138"><td class="memItemLeft" align="right" valign="top">static base::FilePath&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1Paths.html#aca1faeb29312c45e3bb702a737ca3138">TestDataRoot</a> ()</td></tr>
-<tr class="memdesc:aca1faeb29312c45e3bb702a737ca3138"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the pathname of the test data root.  <a href="#aca1faeb29312c45e3bb702a737ca3138">More...</a><br /></td></tr>
-<tr class="separator:aca1faeb29312c45e3bb702a737ca3138"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b6de2308777d4cde1a2cda77d33d77d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Paths.html#a1b6de2308777d4cde1a2cda77d33d77d">Executable</a> (base::FilePath *path)</td></tr>
+<tr class="memdesc:a1b6de2308777d4cde1a2cda77d33d77d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains the pathname of the currently-running executable.  <a href="#a1b6de2308777d4cde1a2cda77d33d77d">More...</a><br /></td></tr>
+<tr class="separator:a1b6de2308777d4cde1a2cda77d33d77d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Functions to obtain paths from within tests. </p>
+<div class="textblock"><p>Functions to obtain paths. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aca1faeb29312c45e3bb702a737ca3138"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca1faeb29312c45e3bb702a737ca3138">&#9670;&nbsp;</a></span>TestDataRoot()</h2>
+<a id="a1b6de2308777d4cde1a2cda77d33d77d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b6de2308777d4cde1a2cda77d33d77d">&#9670;&nbsp;</a></span>Executable()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -106,9 +102,10 @@ static base::FilePath&#160;</td><td class="memItemRight" valign="bottom"><a clas
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">base::FilePath crashpad::test::Paths::TestDataRoot </td>
+          <td class="memname">bool crashpad::Paths::Executable </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">base::FilePath *&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -119,18 +116,23 @@ static base::FilePath&#160;</td><td class="memItemRight" valign="bottom"><a clas
 </table>
 </div><div class="memdoc">
 
-<p>Returns the pathname of the test data root. </p>
-<p>If the <code>CRASHPAD_TEST_DATA_ROOT</code> environment variable is set, its value will be returned. Otherwise, this function will attempt to locate the test data root relative to the executable path. If this fails, it will fall back to returning the current working directory.</p>
-<p>At present, the test data root is normally the root of the Crashpad source tree, although this may not be the case indefinitely. This function may only be used to locate test data, not for arbitrary access to source files. </p>
+<p>Obtains the pathname of the currently-running executable. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">path</td><td>The pathname of the currently-running executable.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success. <code>false</code> on failure, with a message logged.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In test code, use <a class="el" href="classcrashpad_1_1test_1_1TestPaths.html#ac7351ad5bba670bab617e4981196fb59" title="Returns the pathname of the currently-running test executable. ">test::TestPaths::Executable()</a> instead. </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>test/paths.h</li>
-<li>test/paths.cc</li>
-<li>test/paths_linux.cc</li>
-<li>test/paths_mac.cc</li>
-<li>test/paths_win.cc</li>
+<li>util/misc/paths.h</li>
+<li>util/misc/paths_linux.cc</li>
+<li>util/misc/paths_mac.cc</li>
+<li>util/misc/paths_win.cc</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

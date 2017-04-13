@@ -23,6 +23,7 @@ var searchData=
   ['launchdatanewreal',['LaunchDataNewReal',['../namespacecrashpad.html#aa78698056108819fe4bd268cc55801c3',1,'crashpad']]],
   ['launchdatanewstring',['LaunchDataNewString',['../namespacecrashpad.html#a7ae48002caa906acb164114bc290b048',1,'crashpad']]],
   ['launchmsg',['LaunchMsg',['../namespacecrashpad.html#ae541f07925a67de751502b903af919b4',1,'crashpad']]],
+  ['len',['len',['../classcrashpad_1_1ScopedMmap.html#a430d138d22b27b5553baf7d47b05519d',1,'crashpad::ScopedMmap']]],
   ['localport',['LocalPort',['../classcrashpad_1_1test_1_1MachMultiprocess.html#ad1784dd4a9159cdea51290fbc15db64b',1,'crashpad::test::MachMultiprocess']]],
   ['log_5fmessages',['log_messages',['../classcrashpad_1_1ThreadLogMessages.html#ae06f18bb5d37bdb611f33da478c69e9b',1,'crashpad::ThreadLogMessages']]],
   ['loggingclosefile',['LoggingCloseFile',['../namespacecrashpad.html#ab9db00544fd57cfde0bb03d32b989221',1,'crashpad']]],
