@@ -24,6 +24,8 @@ namespace crashpad {
 //! This is exposed so that `crashpad_handler` can be embedded into another
 //! binary, but called and used as if it were a standalone executable.
 //!
+//! \param[in] argc \a argc as passed to `main()`.
+//! \param[in] argv \a argv as passed to `main()`.
 //! \param[in] user_stream_sources An optional vector containing the
 //!     extensibility data sources to call on crash. Each time a minidump is
 //!     created, the sources are called in turn. Any streams returned are added

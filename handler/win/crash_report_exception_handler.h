@@ -48,6 +48,10 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   //!     To interoperate with Breakpad servers, the recommended practice is to
   //!     specify values for the `"prod"` and `"ver"` keys as process
   //!     annotations.
+  //! \param[in] user_stream_data_sources Data sources to be used to extend
+  //!     crash reports. For each crash report that is written, the data sources
+  //!     are called in turn. These data sources may contribute additional
+  //!     minidump streams. `nullptr` if not required.
   CrashReportExceptionHandler(
       CrashReportDatabase* database,
       CrashReportUploadThread* upload_thread,
