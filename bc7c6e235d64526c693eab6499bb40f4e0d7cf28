@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a9e3118f_e409898b",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-13T17:06:05Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "640da92a_c17fcac1",
+      "revId": "bc7c6e235d64526c693eab6499bb40f4e0d7cf28",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0968e7b7_4749ff5b",
         "filename": "handler/mac/crash_report_exception_handler.h",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d41f97f8_4bb5186c",
+        "filename": "handler/mac/crash_report_exception_handler.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-13T17:06:05Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "0968e7b7_4749ff5b",
+      "revId": "bc7c6e235d64526c693eab6499bb40f4e0d7cf28",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2c52ce3_1f96235e",
         "filename": "handler/win/crash_report_exception_handler.h",
         "patchSetId": 1
@@ -50,6 +86,24 @@
       "revId": "bc7c6e235d64526c693eab6499bb40f4e0d7cf28",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f2f9595_65cf6c42",
+        "filename": "handler/win/crash_report_exception_handler.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-13T17:06:05Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "c2c52ce3_1f96235e",
+      "revId": "bc7c6e235d64526c693eab6499bb40f4e0d7cf28",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
