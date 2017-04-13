@@ -252,9 +252,12 @@ void CrashReportUploadThread::ProcessPendingReport(
       break;
 
     case CrashReportDatabase::kBusyError:
+    case CrashReportDatabase::kReportNotFound:
+      // Someone else may have gotten to it first. If they’re working on it now,
+      // this will be kBusyError. If they’ve already finished with it, it’ll be
+      // kReportNotFound.
       return;
 
-    case CrashReportDatabase::kReportNotFound:
     case CrashReportDatabase::kFileSystemError:
     case CrashReportDatabase::kDatabaseError:
       // In these cases, SkipReportUpload() might not work either, but it’s best

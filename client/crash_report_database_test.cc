@@ -478,6 +478,22 @@ TEST_F(CrashReportDatabaseTest, DuelingUploads) {
             CrashReportDatabase::kNoError);
 }
 
+TEST_F(CrashReportDatabaseTest, UploadAlreadyUploaded) {
+  CrashReportDatabase::Report report;
+  CreateCrashReport(&report);
+
+  const CrashReportDatabase::Report* upload_report;
+  EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report),
+            CrashReportDatabase::kNoError);
+  EXPECT_EQ(db()->RecordUploadAttempt(upload_report, true, std::string()),
+            CrashReportDatabase::kNoError);
+
+  const CrashReportDatabase::Report* upload_report_2 = nullptr;
+  EXPECT_EQ(db()->GetReportForUploading(report.uuid, &upload_report_2),
+            CrashReportDatabase::kReportNotFound);
+  EXPECT_FALSE(upload_report_2);
+}
+
 TEST_F(CrashReportDatabaseTest, MoveDatabase) {
   CrashReportDatabase::NewReport* new_report;
   EXPECT_EQ(db()->PrepareNewCrashReport(&new_report),
