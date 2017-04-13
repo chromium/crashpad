@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0d024c4_017db808",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-13T14:40:04Z",
+      "side": 1,
+      "message": "I also added this.",
+      "revId": "e6440ddaf9d12511d00b29ecfbb95e6fab2eed53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
