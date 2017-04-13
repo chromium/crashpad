@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "640da92a_c17fcac1",
+        "filename": "handler/handler_main.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-13T16:58:22Z",
+      "side": 0,
+      "message": "handler/handler_main.cc:391: warning: The following parameters of crashpad::HandlerMain(int argc, char *argv[], const UserStreamDataSources *user_stream_sources) are not documented:\n  parameter \u0027argc\u0027\n  parameter \u0027argv\u0027",
+      "revId": "bc7c6e235d64526c693eab6499bb40f4e0d7cf28",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0968e7b7_4749ff5b",
+        "filename": "handler/mac/crash_report_exception_handler.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-13T16:58:22Z",
+      "side": 0,
+      "message": "handler/mac/crash_report_exception_handler.h:50: warning: The following parameters of crashpad::CrashReportExceptionHandler::CrashReportExceptionHandler(CrashReportDatabase *database, CrashReportUploadThread *upload_thread, const std::map\u003c std::string, std::string \u003e *process_annotations, const UserStreamDataSources *user_stream_data_sources) are not documented:\n  parameter \u0027user_stream_data_sources\u0027",
+      "revId": "bc7c6e235d64526c693eab6499bb40f4e0d7cf28",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2c52ce3_1f96235e",
+        "filename": "handler/win/crash_report_exception_handler.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-13T16:58:22Z",
+      "side": 0,
+      "message": "handler/win/crash_report_exception_handler.h:51: warning: The following parameters of crashpad::CrashReportExceptionHandler::CrashReportExceptionHandler(CrashReportDatabase *database, CrashReportUploadThread *upload_thread, const std::map\u003c std::string, std::string \u003e *process_annotations, const UserStreamDataSources *user_stream_data_sources) are not documented:\n  parameter \u0027user_stream_data_sources\u0027",
+      "revId": "bc7c6e235d64526c693eab6499bb40f4e0d7cf28",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
