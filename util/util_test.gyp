@@ -87,6 +87,7 @@
         'stdlib/string_number_conversion_test.cc',
         'stdlib/strlcpy_test.cc',
         'stdlib/strnlen_test.cc',
+        'stdlib/thread_safe_vector_test.cc',
         'string/split_string_test.cc',
         'synchronization/semaphore_test.cc',
         'thread/thread_log_messages_test.cc',

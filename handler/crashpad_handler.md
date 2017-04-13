@@ -151,7 +151,8 @@ establish the Crashpad client environment before running a program.
    become a client of the second one. The second instance will be started with
    the same **--annotation**, **--database**, **--monitor-self-annotation**,
    **--no-rate-limit**, **--no-upload-gzip**, and **--url** arguments as the
-   original one. The second instance will not be started with a
+   original one. The second instance will always be started with a
+   **--no-periodic-tasks** argument, and will not be started with a
    **--metrics-dir** argument even if the original instance was.
 
    Where supported by the underlying operating system, the second instance will
@@ -182,6 +183,20 @@ establish the Crashpad client environment before running a program.
    that dispatches to the desired entry point based on a command-line argument.
    To prevent excessive accumulation of handler processes, _ARGUMENT_ must not
    be `--monitor-self`.
+
+ * **--no-periodic-tasks**
+
+   Do not scan for new pending crash reports or prune the crash report database.
+   Only crash reports recorded by this instance of the Crashpad handler will
+   become eligible for upload in this instance, and only a single initial upload
+   attempt will be made.
+
+   This option is not intended for general use. It is provided to prevent
+   multiple instances of the Crashpad handler from duplicating the effort of
+   performing the same periodic tasks. In normal use, the first instance of the
+   Crashpad handler will assume the responsibility for performing these tasks,
+   and will provide this argument to any second instance. See
+   **--monitor-self**.
 
  * **--no-rate-limit**
 
