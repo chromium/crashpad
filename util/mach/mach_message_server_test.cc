@@ -182,13 +182,13 @@ class TestMachMessageServer : public MachMessageServer::Interface,
 
   // Runs the test.
   void Test() {
-    EXPECT_EQ(requests_, replies_);
+    EXPECT_EQ(replies_, requests_);
     uint32_t start = requests_;
 
     Run();
 
-    EXPECT_EQ(requests_, replies_);
-    EXPECT_EQ(options_.expect_server_transaction_count, requests_ - start);
+    EXPECT_EQ(replies_, requests_);
+    EXPECT_EQ(requests_ - start, options_.expect_server_transaction_count);
   }
 
   // MachMessageServerInterface:
@@ -217,32 +217,32 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     const mach_msg_bits_t expect_msgh_bits =
         MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND, MACH_MSG_TYPE_MOVE_SEND) |
         (options_.client_send_complex ? MACH_MSGH_BITS_COMPLEX : 0);
-    EXPECT_EQ(expect_msgh_bits, request->header.msgh_bits);
-    EXPECT_EQ(options_.client_send_large ? sizeof(LargeRequestMessage)
-                                         : sizeof(RequestMessage),
-              request->header.msgh_size);
+    EXPECT_EQ(request->header.msgh_bits, expect_msgh_bits);
+    EXPECT_EQ(request->header.msgh_size,
+              options_.client_send_large ? sizeof(LargeRequestMessage)
+                                         : sizeof(RequestMessage));
     if (options_.client_reply_port_type == Options::kReplyPortNormal) {
-      EXPECT_EQ(RemotePort(), request->header.msgh_remote_port);
+      EXPECT_EQ(request->header.msgh_remote_port, RemotePort());
     }
-    EXPECT_EQ(LocalPort(), request->header.msgh_local_port);
-    EXPECT_EQ(kRequestMessageID, request->header.msgh_id);
+    EXPECT_EQ(request->header.msgh_local_port, LocalPort());
+    EXPECT_EQ(request->header.msgh_id, kRequestMessageID);
     if (options_.client_send_complex) {
-      EXPECT_EQ(1u, request->body.msgh_descriptor_count);
-      EXPECT_NE(kMachPortNull, request->port_descriptor.name);
+      EXPECT_EQ(request->body.msgh_descriptor_count, 1u);
+      EXPECT_NE(request->port_descriptor.name, kMachPortNull);
       parent_complex_message_port_ = request->port_descriptor.name;
-      EXPECT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_MOVE_SEND),
-                request->port_descriptor.disposition);
+      EXPECT_EQ(request->port_descriptor.disposition,
+                implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_MOVE_SEND));
       EXPECT_EQ(
-          implicit_cast<mach_msg_descriptor_type_t>(MACH_MSG_PORT_DESCRIPTOR),
-          request->port_descriptor.type);
+          request->port_descriptor.type,
+          implicit_cast<mach_msg_descriptor_type_t>(MACH_MSG_PORT_DESCRIPTOR));
     } else {
-      EXPECT_EQ(0u, request->body.msgh_descriptor_count);
-      EXPECT_EQ(kMachPortNull, request->port_descriptor.name);
-      EXPECT_EQ(0u, request->port_descriptor.disposition);
-      EXPECT_EQ(0u, request->port_descriptor.type);
+      EXPECT_EQ(request->body.msgh_descriptor_count, 0u);
+      EXPECT_EQ(request->port_descriptor.name, kMachPortNull);
+      EXPECT_EQ(request->port_descriptor.disposition, 0u);
+      EXPECT_EQ(request->port_descriptor.type, 0u);
     }
-    EXPECT_EQ(0, memcmp(&request->ndr, &NDR_record, sizeof(NDR_record)));
-    EXPECT_EQ(requests_, request->number);
+    EXPECT_EQ(memcmp(&request->ndr, &NDR_record, sizeof(NDR_record)), 0);
+    EXPECT_EQ(request->number, requests_);
 
     // Look for the trailer in the right spot, depending on whether the request
     // message was a RequestMessage or a LargeRequestMessage.
@@ -251,16 +251,17 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       const ReceiveLargeRequestMessage* large_request =
           reinterpret_cast<const ReceiveLargeRequestMessage*>(request);
       for (size_t index = 0; index < sizeof(large_request->data); ++index) {
-        EXPECT_EQ('!', large_request->data[index]);
+        EXPECT_EQ(large_request->data[index], '!');
       }
       trailer = &large_request->trailer;
     } else {
       trailer = &request->trailer;
     }
 
-    EXPECT_EQ(implicit_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0),
-              trailer->msgh_trailer_type);
-    EXPECT_EQ(MACH_MSG_TRAILER_MINIMUM_SIZE, trailer->msgh_trailer_size);
+    EXPECT_EQ(
+        trailer->msgh_trailer_type,
+        implicit_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0));
+    EXPECT_EQ(trailer->msgh_trailer_size, MACH_MSG_TRAILER_MINIMUM_SIZE);
 
     ++requests_;
 
@@ -331,7 +332,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
                                     MACH_PORT_LIMITS_INFO,
                                     reinterpret_cast<mach_port_info_t>(&limits),
                                     MACH_PORT_LIMITS_INFO_COUNT);
-      ASSERT_EQ(KERN_SUCCESS, kr)
+      ASSERT_EQ(kr, KERN_SUCCESS)
           << MachErrorMessage(kr, "mach_port_set_attributes");
     }
 
@@ -345,20 +346,20 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       // Wait until the child is done sending what it’s going to send.
       char c;
       CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
-      EXPECT_EQ('\0', c);
+      EXPECT_EQ(c, '\0');
     }
 
-    ASSERT_EQ(options_.expect_server_result,
-              (kr = MachMessageServer::Run(this,
+    ASSERT_EQ((kr = MachMessageServer::Run(this,
                                            local_port,
                                            options_.server_options,
                                            options_.server_persistent,
                                            options_.server_receive_large,
-                                           options_.server_timeout_ms)))
+                                           options_.server_timeout_ms)),
+              options_.expect_server_result)
         << MachErrorMessage(kr, "MachMessageServer");
 
     if (options_.client_send_complex) {
-      EXPECT_NE(kMachPortNull, parent_complex_message_port_);
+      EXPECT_NE(parent_complex_message_port_, kMachPortNull);
       mach_port_type_t type;
 
       if (!options_.expect_server_destroyed_complex) {
@@ -366,13 +367,13 @@ class TestMachMessageServer : public MachMessageServer::Interface,
         // complex request message.
         kr = mach_port_type(
             mach_task_self(), parent_complex_message_port_, &type);
-        EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_type");
-        EXPECT_EQ(MACH_PORT_TYPE_SEND, type);
+        EXPECT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "mach_port_type");
+        EXPECT_EQ(type, MACH_PORT_TYPE_SEND);
 
         // Destroy the resources here.
         kr = mach_port_deallocate(mach_task_self(),
                                   parent_complex_message_port_);
-        EXPECT_EQ(KERN_SUCCESS, kr)
+        EXPECT_EQ(kr, KERN_SUCCESS)
             << MachErrorMessage(kr, "mach_port_deallocate");
       }
 
@@ -382,7 +383,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       // this test environment.
       kr =
           mach_port_type(mach_task_self(), parent_complex_message_port_, &type);
-      EXPECT_EQ(KERN_INVALID_NAME, kr)
+      EXPECT_EQ(kr, KERN_INVALID_NAME)
           << MachErrorMessage(kr, "mach_port_type");
     }
 
@@ -398,7 +399,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
       // Wait until the parent is done setting things up on its end.
       char c;
       CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
-      EXPECT_EQ('\0', c);
+      EXPECT_EQ(c, '\0');
     }
 
     for (size_t index = 0;
@@ -432,7 +433,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
     if (options_.child_wait_for_parent_pipe_late) {
       char c;
       CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
-      ASSERT_EQ('\0', c);
+      ASSERT_EQ(c, '\0');
     }
   }
 
@@ -505,7 +506,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
                   MACH_PORT_NULL,
                   MACH_MSG_TIMEOUT_NONE,
                   MACH_PORT_NULL);
-    ASSERT_EQ(MACH_MSG_SUCCESS, kr) << MachErrorMessage(kr, "mach_msg");
+    ASSERT_EQ(kr, MACH_MSG_SUCCESS) << MachErrorMessage(kr, "mach_msg");
   }
 
   // In the child process, waits for a reply message from the server.
@@ -529,20 +530,22 @@ class TestMachMessageServer : public MachMessageServer::Interface,
                                 LocalPort(),
                                 MACH_MSG_TIMEOUT_NONE,
                                 MACH_PORT_NULL);
-    ASSERT_EQ(MACH_MSG_SUCCESS, kr) << MachErrorMessage(kr, "mach_msg");
+    ASSERT_EQ(kr, MACH_MSG_SUCCESS) << MachErrorMessage(kr, "mach_msg");
 
-    ASSERT_EQ(implicit_cast<mach_msg_bits_t>(
-        MACH_MSGH_BITS(0, MACH_MSG_TYPE_MOVE_SEND)), reply.Head.msgh_bits);
-    ASSERT_EQ(sizeof(ReplyMessage), reply.Head.msgh_size);
-    ASSERT_EQ(kMachPortNull, reply.Head.msgh_remote_port);
-    ASSERT_EQ(LocalPort(), reply.Head.msgh_local_port);
-    ASSERT_EQ(kReplyMessageID, reply.Head.msgh_id);
-    ASSERT_EQ(0, memcmp(&reply.NDR, &NDR_record, sizeof(NDR_record)));
-    ASSERT_EQ(options_.server_mig_retcode, reply.RetCode);
-    ASSERT_EQ(replies_, reply.number);
-    ASSERT_EQ(implicit_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0),
-              reply.trailer.msgh_trailer_type);
-    ASSERT_EQ(MACH_MSG_TRAILER_MINIMUM_SIZE, reply.trailer.msgh_trailer_size);
+    ASSERT_EQ(reply.Head.msgh_bits,
+              implicit_cast<mach_msg_bits_t>(
+                  MACH_MSGH_BITS(0, MACH_MSG_TYPE_MOVE_SEND)));
+    ASSERT_EQ(reply.Head.msgh_size, sizeof(ReplyMessage));
+    ASSERT_EQ(reply.Head.msgh_remote_port, kMachPortNull);
+    ASSERT_EQ(reply.Head.msgh_local_port, LocalPort());
+    ASSERT_EQ(reply.Head.msgh_id, kReplyMessageID);
+    ASSERT_EQ(memcmp(&reply.NDR, &NDR_record, sizeof(NDR_record)), 0);
+    ASSERT_EQ(reply.RetCode, options_.server_mig_retcode);
+    ASSERT_EQ(reply.number, replies_);
+    ASSERT_EQ(
+        reply.trailer.msgh_trailer_type,
+        implicit_cast<mach_msg_trailer_type_t>(MACH_MSG_TRAILER_FORMAT_0));
+    ASSERT_EQ(reply.trailer.msgh_trailer_size, MACH_MSG_TRAILER_MINIMUM_SIZE);
 
     ++replies_;
   }

@@ -22,7 +22,8 @@
 #include "client/crashpad_client.h"
 #include "gtest/gtest.h"
 #include "snapshot/win/process_snapshot_win.h"
-#include "test/paths.h"
+#include "test/errors.h"
+#include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
 #include "util/thread/thread.h"
@@ -96,7 +97,7 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
 
     // Confirm the exception record was read correctly.
     EXPECT_NE(snapshot.Exception()->ThreadID(), 0u);
-    EXPECT_EQ(snapshot.Exception()->Exception(), EXCEPTION_BREAKPOINT);
+    EXPECT_EQ(EXCEPTION_BREAKPOINT, snapshot.Exception()->Exception());
 
     // Verify the exception happened at the expected location with a bit of
     // slop space to allow for reading the current PC before the exception
@@ -122,7 +123,9 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
 void TestCrashingChild(const base::string16& directory_modification) {
   // Set up the registration server on a background thread.
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
+  ASSERT_TRUE(server_ready.is_valid()) << ErrorMessage("CreateEvent");
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
+  ASSERT_TRUE(completed.is_valid()) << ErrorMessage("CreateEvent");
   CrashingDelegate delegate(server_ready.get(), completed.get());
 
   ExceptionHandlerServer exception_handler_server(true);
@@ -133,10 +136,11 @@ void TestCrashingChild(const base::string16& directory_modification) {
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
       &exception_handler_server, &server_thread);
 
-  WaitForSingleObject(server_ready.get(), INFINITE);
+  EXPECT_EQ(WaitForSingleObject(server_ready.get(), INFINITE), WAIT_OBJECT_0)
+      << ErrorMessage("WaitForSingleObject");
 
   // Spawn a child process, passing it the pipe name to connect to.
-  base::FilePath test_executable = Paths::Executable();
+  base::FilePath test_executable = TestPaths::Executable();
   std::wstring child_test_executable =
       test_executable.DirName()
           .Append(directory_modification)
@@ -154,7 +158,10 @@ void TestCrashingChild(const base::string16& directory_modification) {
   delegate.set_break_near(break_near_address);
 
   // Wait for the child to crash and the exception information to be validated.
-  WaitForSingleObject(completed.get(), INFINITE);
+  EXPECT_EQ(WaitForSingleObject(completed.get(), INFINITE), WAIT_OBJECT_0)
+      << ErrorMessage("WaitForSingleObject");
+
+  EXPECT_EQ(child.WaitForExit(), EXCEPTION_BREAKPOINT);
 }
 
 TEST(ExceptionSnapshotWinTest, ChildCrash) {
@@ -194,7 +201,7 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
                         exception_information_address,
                         debug_critical_section_address);
     EXPECT_TRUE(snapshot.Exception());
-    EXPECT_EQ(0x517a7ed, snapshot.Exception()->Exception());
+    EXPECT_EQ(snapshot.Exception()->Exception(), 0x517a7ed);
 
     // Verify the dump was captured at the expected location with some slop
     // space.
@@ -204,8 +211,8 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
     EXPECT_LT(snapshot.Exception()->Context()->InstructionPointer(),
               dump_near_ + kAllowedOffset);
 
-    EXPECT_EQ(snapshot.Exception()->Context()->InstructionPointer(),
-              snapshot.Exception()->ExceptionAddress());
+    EXPECT_EQ(snapshot.Exception()->ExceptionAddress(),
+              snapshot.Exception()->Context()->InstructionPointer());
 
     SetEvent(completed_test_event_);
 
@@ -224,7 +231,9 @@ void TestDumpWithoutCrashingChild(
     const base::string16& directory_modification) {
   // Set up the registration server on a background thread.
   ScopedKernelHANDLE server_ready(CreateEvent(nullptr, false, false, nullptr));
+  ASSERT_TRUE(server_ready.is_valid()) << ErrorMessage("CreateEvent");
   ScopedKernelHANDLE completed(CreateEvent(nullptr, false, false, nullptr));
+  ASSERT_TRUE(completed.is_valid()) << ErrorMessage("CreateEvent");
   SimulateDelegate delegate(server_ready.get(), completed.get());
 
   ExceptionHandlerServer exception_handler_server(true);
@@ -235,10 +244,11 @@ void TestDumpWithoutCrashingChild(
   ScopedStopServerAndJoinThread scoped_stop_server_and_join_thread(
       &exception_handler_server, &server_thread);
 
-  WaitForSingleObject(server_ready.get(), INFINITE);
+  EXPECT_EQ(WaitForSingleObject(server_ready.get(), INFINITE), WAIT_OBJECT_0)
+      << ErrorMessage("WaitForSingleObject");
 
   // Spawn a child process, passing it the pipe name to connect to.
-  base::FilePath test_executable = Paths::Executable();
+  base::FilePath test_executable = TestPaths::Executable();
   std::wstring child_test_executable =
       test_executable.DirName()
           .Append(directory_modification)
@@ -256,7 +266,10 @@ void TestDumpWithoutCrashingChild(
   delegate.set_dump_near(dump_near_address);
 
   // Wait for the child to crash and the exception information to be validated.
-  WaitForSingleObject(completed.get(), INFINITE);
+  EXPECT_EQ(WaitForSingleObject(completed.get(), INFINITE), WAIT_OBJECT_0)
+      << ErrorMessage("WaitForSingleObject");
+
+  EXPECT_EQ(child.WaitForExit(), 0);
 }
 
 TEST(SimulateCrash, ChildDumpWithoutCrashing) {

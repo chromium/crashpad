@@ -35,11 +35,11 @@ namespace {
 // gtest assertions.
 void SanityCheckContext(const NativeCPUContext& context) {
 #if defined(ARCH_CPU_X86)
-  ASSERT_EQ(x86_THREAD_STATE32, context.tsh.flavor);
-  ASSERT_EQ(implicit_cast<int>(x86_THREAD_STATE32_COUNT), context.tsh.count);
+  ASSERT_EQ(context.tsh.flavor, x86_THREAD_STATE32);
+  ASSERT_EQ(context.tsh.count, implicit_cast<int>(x86_THREAD_STATE32_COUNT));
 #elif defined(ARCH_CPU_X86_64)
-  ASSERT_EQ(x86_THREAD_STATE64, context.tsh.flavor);
-  ASSERT_EQ(implicit_cast<int>(x86_THREAD_STATE64_COUNT), context.tsh.count);
+  ASSERT_EQ(context.tsh.flavor, x86_THREAD_STATE64);
+  ASSERT_EQ(context.tsh.count, implicit_cast<int>(x86_THREAD_STATE64_COUNT));
 #endif
 
 #if defined(ARCH_CPU_X86_FAMILY)
@@ -57,18 +57,18 @@ void SanityCheckContext(const NativeCPUContext& context) {
   // 3.4.3 “EFLAGS Register”, and AMD Architecture Programmer’s Manual, Volume
   // 2: System Programming (24593-3.24), 3.1.6 “RFLAGS Register”.
 #if defined(ARCH_CPU_X86)
-  EXPECT_EQ(0u, context.uts.ts32.__cs & ~0xffff);
-  EXPECT_EQ(0u, context.uts.ts32.__ds & ~0xffff);
-  EXPECT_EQ(0u, context.uts.ts32.__es & ~0xffff);
-  EXPECT_EQ(0u, context.uts.ts32.__fs & ~0xffff);
-  EXPECT_EQ(0u, context.uts.ts32.__gs & ~0xffff);
-  EXPECT_EQ(0u, context.uts.ts32.__ss & ~0xffff);
-  EXPECT_EQ(2u, context.uts.ts32.__eflags & 0xffc0802a);
+  EXPECT_EQ(context.uts.ts32.__cs & ~0xffff, 0u);
+  EXPECT_EQ(context.uts.ts32.__ds & ~0xffff, 0u);
+  EXPECT_EQ(context.uts.ts32.__es & ~0xffff, 0u);
+  EXPECT_EQ(context.uts.ts32.__fs & ~0xffff, 0u);
+  EXPECT_EQ(context.uts.ts32.__gs & ~0xffff, 0u);
+  EXPECT_EQ(context.uts.ts32.__ss & ~0xffff, 0u);
+  EXPECT_EQ(context.uts.ts32.__eflags & 0xffc0802a, 2u);
 #elif defined(ARCH_CPU_X86_64)
-  EXPECT_EQ(0u, context.uts.ts64.__cs & ~UINT64_C(0xffff));
-  EXPECT_EQ(0u, context.uts.ts64.__fs & ~UINT64_C(0xffff));
-  EXPECT_EQ(0u, context.uts.ts64.__gs & ~UINT64_C(0xffff));
-  EXPECT_EQ(2u, context.uts.ts64.__rflags & UINT64_C(0xffffffffffc0802a));
+  EXPECT_EQ(context.uts.ts64.__cs & ~UINT64_C(0xffff), 0u);
+  EXPECT_EQ(context.uts.ts64.__fs & ~UINT64_C(0xffff), 0u);
+  EXPECT_EQ(context.uts.ts64.__gs & ~UINT64_C(0xffff), 0u);
+  EXPECT_EQ(context.uts.ts64.__rflags & UINT64_C(0xffffffffffc0802a), 2u);
 #endif
 #endif
 }
@@ -141,7 +141,7 @@ void TestCaptureContext() {
     ASSERT_NO_FATAL_FAILURE(SanityCheckContext(context_2));
   }
 
-  EXPECT_EQ(sp, StackPointerFromContext(context_2));
+  EXPECT_EQ(StackPointerFromContext(context_2), sp);
   EXPECT_GT(ProgramCounterFromContext(context_2), pc);
 }
 

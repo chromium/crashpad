@@ -40,11 +40,11 @@ class TestMultiprocess final : public Multiprocess {
     FileHandle read_handle = ReadPipeHandle();
     char c;
     CheckedReadFileExactly(read_handle, &c, 1);
-    EXPECT_EQ('M', c);
+    EXPECT_EQ(c, 'M');
 
     pid_t pid;
     CheckedReadFileExactly(read_handle, &pid, sizeof(pid));
-    EXPECT_EQ(pid, ChildPID());
+    EXPECT_EQ(ChildPID(), pid);
 
     c = 'm';
     CheckedWriteFile(WritePipeHandle(), &c, 1);
@@ -64,7 +64,7 @@ class TestMultiprocess final : public Multiprocess {
     CheckedWriteFile(write_handle, &pid, sizeof(pid));
 
     CheckedReadFileExactly(ReadPipeHandle(), &c, 1);
-    EXPECT_EQ('m', c);
+    EXPECT_EQ(c, 'm');
   }
 
   DISALLOW_COPY_AND_ASSIGN(TestMultiprocess);
@@ -161,8 +161,8 @@ class TestMultiprocessClosePipe final : public Multiprocess {
 
  private:
   void VerifyInitial() {
-    ASSERT_NE(-1, ReadPipeHandle());
-    ASSERT_NE(-1, WritePipeHandle());
+    ASSERT_NE(ReadPipeHandle(), -1);
+    ASSERT_NE(WritePipeHandle(), -1);
   }
 
   // Verifies that the partner process did what it was supposed to do. This must
@@ -198,12 +198,12 @@ class TestMultiprocessClosePipe final : public Multiprocess {
     switch (what_closes_) {
       case kReadCloses:
         CloseReadPipe();
-        EXPECT_NE(-1, WritePipeHandle());
+        EXPECT_NE(WritePipeHandle(), -1);
         EXPECT_DEATH_CHECK(ReadPipeHandle(), "fd");
         break;
       case kWriteCloses:
         CloseWritePipe();
-        EXPECT_NE(-1, ReadPipeHandle());
+        EXPECT_NE(ReadPipeHandle(), -1);
         EXPECT_DEATH_CHECK(WritePipeHandle(), "fd");
         break;
       case kReadAndWriteClose:

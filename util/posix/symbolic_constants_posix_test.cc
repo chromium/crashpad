@@ -88,9 +88,9 @@ void TestSignalToStringOnce(int value,
     if (expect[0] == '\0') {
       EXPECT_FALSE(actual.empty()) << "signal " << value;
     } else {
-      EXPECT_EQ(expect, actual) << "signal " << value;
+      EXPECT_EQ(actual, expect) << "signal " << value;
     }
-    EXPECT_EQ(actual, actual_numeric) << "signal " << value;
+    EXPECT_EQ(actual_numeric, actual) << "signal " << value;
   } else {
     EXPECT_TRUE(actual.empty()) << "signal " << value << ", actual " << actual;
     EXPECT_FALSE(actual_numeric.empty())
@@ -147,7 +147,7 @@ void TestStringToSignal(const base::StringPiece& string,
     EXPECT_TRUE(actual_result) << "string " << string << ", options " << options
                                << ", signal " << expect_value;
     if (actual_result) {
-      EXPECT_EQ(expect_value, actual_value) << "string " << string
+      EXPECT_EQ(actual_value, expect_value) << "string " << string
                                             << ", options " << options;
     }
   } else {

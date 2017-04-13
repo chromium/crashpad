@@ -12,34 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/paths.h"
+#include "util/misc/paths.h"
 
 #include "base/files/file_path.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "util/file/file_io.h"
 
 namespace crashpad {
 namespace test {
 namespace {
 
 TEST(Paths, Executable) {
-  base::FilePath executable_path = Paths::Executable();
-  base::FilePath executable_name = executable_path.BaseName();
+  base::FilePath executable_path;
+  ASSERT_TRUE(Paths::Executable(&executable_path));
+  const base::FilePath executable_name(executable_path.BaseName());
 #if defined(OS_WIN)
-  EXPECT_EQ(FILE_PATH_LITERAL("crashpad_test_test.exe"),
-            executable_name.value());
+  EXPECT_EQ(executable_name.value(),
+            FILE_PATH_LITERAL("crashpad_util_test.exe"));
 #else
-  EXPECT_EQ("crashpad_test_test", executable_name.value());
+  EXPECT_EQ(executable_name.value(), "crashpad_util_test");
 #endif  // OS_WIN
-}
-
-TEST(Paths, TestDataRoot) {
-  base::FilePath test_data_root = Paths::TestDataRoot();
-  ScopedFileHandle file(LoggingOpenFileForRead(
-      test_data_root.Append(FILE_PATH_LITERAL("test"))
-          .Append(FILE_PATH_LITERAL("paths_test_data_root.txt"))));
-  EXPECT_TRUE(file.is_valid());
 }
 
 }  // namespace

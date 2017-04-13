@@ -56,22 +56,32 @@ class MinidumpUserStreamWriter::SnapshotContentsWriter final
   DISALLOW_COPY_AND_ASSIGN(SnapshotContentsWriter);
 };
 
-class MinidumpUserStreamWriter::BufferContentsWriter final
-    : public MinidumpUserStreamWriter::ContentsWriter {
+class MinidumpUserStreamWriter::ExtensionStreamContentsWriter final
+    : public MinidumpUserStreamWriter::ContentsWriter,
+      public MinidumpUserExtensionStreamDataSource::Delegate {
  public:
-  BufferContentsWriter(const void* buffer, size_t buffer_size)
-      : buffer_(buffer), buffer_size_(buffer_size) {}
+  explicit ExtensionStreamContentsWriter(
+      std::unique_ptr<MinidumpUserExtensionStreamDataSource> data_source)
+      : data_source_(std::move(data_source)), writer_(nullptr) {}
 
   bool WriteContents(FileWriterInterface* writer) override {
-    return writer->Write(buffer_, buffer_size_);
+    DCHECK(!writer_);
+
+    writer_ = writer;
+    return data_source_->ReadStreamData(this);
   }
-  size_t GetSize() const override { return buffer_size_; }
+
+  size_t GetSize() const override { return data_source_->StreamDataSize(); }
+
+  bool ExtensionStreamDataSourceRead(const void* data, size_t size) override {
+    return writer_->Write(data, size);
+  }
 
  private:
-  const void* buffer_;
-  size_t buffer_size_;
+  std::unique_ptr<MinidumpUserExtensionStreamDataSource> data_source_;
+  FileWriterInterface* writer_;
 
-  DISALLOW_COPY_AND_ASSIGN(BufferContentsWriter);
+  DISALLOW_COPY_AND_ASSIGN(ExtensionStreamContentsWriter);
 };
 
 MinidumpUserStreamWriter::MinidumpUserStreamWriter() : stream_type_() {}
@@ -89,16 +99,14 @@ void MinidumpUserStreamWriter::InitializeFromSnapshot(
       base::WrapUnique(new SnapshotContentsWriter(stream->memory()));
 }
 
-void MinidumpUserStreamWriter::InitializeFromBuffer(
-    MinidumpStreamType stream_type,
-    const void* buffer,
-    size_t buffer_size) {
+void MinidumpUserStreamWriter::InitializeFromUserExtensionStream(
+    std::unique_ptr<MinidumpUserExtensionStreamDataSource> data_source) {
   DCHECK_EQ(state(), kStateMutable);
   DCHECK(!contents_writer_.get());
 
-  stream_type_ = stream_type;
-  contents_writer_ =
-      base::WrapUnique(new BufferContentsWriter(buffer, buffer_size));
+  stream_type_ = data_source->stream_type();
+  contents_writer_ = base::WrapUnique(
+      new ExtensionStreamContentsWriter(std::move(data_source)));
 }
 
 bool MinidumpUserStreamWriter::Freeze() {

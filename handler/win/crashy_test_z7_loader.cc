@@ -19,7 +19,7 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "client/crashpad_client.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 
 #if !defined(ARCH_CPU_X86)
 #error This test is only supported on x86.
@@ -43,7 +43,7 @@ int CrashyLoadZ7Main(int argc, wchar_t* argv[]) {
   // The DLL has /Z7 symbols embedded in the binary (rather than in a .pdb).
   // There's only an x86 version of this dll as newer x64 toolchains can't
   // generate this format any more.
-  base::FilePath z7_path = test::Paths::TestDataRoot().Append(
+  base::FilePath z7_path = test::TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("handler/win/z7_test.dll"));
   HMODULE z7_test = LoadLibrary(z7_path.value().c_str());
   if (!z7_test) {

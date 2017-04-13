@@ -31,7 +31,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess_exec.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 #include "util/file/file_io.h"
 #include "util/misc/random_string.h"
 #include "util/net/http_body.h"
@@ -56,7 +56,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
         body_stream_(std::move(body_stream)),
         response_code_(http_response_code),
         request_validator_(request_validator) {
-    base::FilePath server_path = Paths::TestDataRoot().Append(
+    base::FilePath server_path = TestPaths::TestDataRoot().Append(
         FILE_PATH_LITERAL("util/net/http_transport_test_server.py"));
 #if defined(OS_POSIX)
     SetChildCommand(server_path.value(), nullptr);
@@ -111,7 +111,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
     if (response_code_ == 200) {
       EXPECT_TRUE(success);
       std::string expect_response_body = random_string + "\r\n";
-      EXPECT_EQ(expect_response_body, response_body);
+      EXPECT_EQ(response_body, expect_response_body);
     } else {
       EXPECT_FALSE(success);
       EXPECT_TRUE(response_body.empty());
@@ -142,20 +142,20 @@ void GetHeaderField(const std::string& request,
                     const std::string& header,
                     std::string* value) {
   size_t index = request.find(header);
-  ASSERT_NE(std::string::npos, index);
+  ASSERT_NE(index, std::string::npos);
   // Since the header is never the first line of the request, it should always
   // be preceded by a CRLF.
-  EXPECT_EQ('\n', request[index - 1]);
-  EXPECT_EQ('\r', request[index - 2]);
+  EXPECT_EQ(request[index - 1], '\n');
+  EXPECT_EQ(request[index - 2], '\r');
 
   index += header.length();
-  EXPECT_EQ(':', request[index++]);
+  EXPECT_EQ(request[index++], ':');
   // Per RFC 7230 §3.2, there can be one or more spaces or horizontal tabs.
   // For testing purposes, just assume one space.
-  EXPECT_EQ(' ', request[index++]);
+  EXPECT_EQ(request[index++], ' ');
 
   size_t header_end = request.find('\r', index);
-  ASSERT_NE(std::string::npos, header_end);
+  ASSERT_NE(header_end, std::string::npos);
 
   *value = request.substr(index, header_end - index);
 }
@@ -167,13 +167,13 @@ void GetMultipartBoundary(const std::string& request,
 
   ASSERT_GE(content_type.length(), strlen(kMultipartFormData));
   size_t index = strlen(kMultipartFormData);
-  EXPECT_EQ(kMultipartFormData, content_type.substr(0, index));
+  EXPECT_EQ(content_type.substr(0, index), kMultipartFormData);
 
-  EXPECT_EQ(';', content_type[index++]);
+  EXPECT_EQ(content_type[index++], ';');
 
   size_t boundary_begin = content_type.find('=', index);
-  ASSERT_NE(std::string::npos, boundary_begin);
-  EXPECT_EQ('=', content_type[boundary_begin++]);
+  ASSERT_NE(boundary_begin, std::string::npos);
+  EXPECT_EQ(content_type[boundary_begin++], '=');
   if (multipart_boundary) {
     *multipart_boundary = content_type.substr(boundary_begin);
   }
@@ -187,23 +187,23 @@ void ValidFormData(HTTPTransportTestFixture* fixture,
   GetMultipartBoundary(request, &actual_boundary);
 
   const auto& content_type = fixture->headers().find(kContentType);
-  ASSERT_NE(fixture->headers().end(), content_type);
+  ASSERT_NE(content_type, fixture->headers().end());
 
   size_t boundary = content_type->second.find(kBoundaryEq);
-  ASSERT_NE(std::string::npos, boundary);
+  ASSERT_NE(boundary, std::string::npos);
   std::string expected_boundary =
       content_type->second.substr(boundary + strlen(kBoundaryEq));
-  EXPECT_EQ(expected_boundary, actual_boundary);
+  EXPECT_EQ(actual_boundary, expected_boundary);
 
   size_t body_start = request.find("\r\n\r\n");
-  ASSERT_NE(std::string::npos, body_start);
+  ASSERT_NE(body_start, std::string::npos);
   body_start += 4;
 
   std::string expected = "--" + expected_boundary + "\r\n";
   expected += "Content-Disposition: form-data; name=\"key1\"\r\n\r\n";
   expected += "test\r\n";
   ASSERT_LT(body_start + expected.length(), request.length());
-  EXPECT_EQ(expected, request.substr(body_start, expected.length()));
+  EXPECT_EQ(request.substr(body_start, expected.length()), expected);
 
   body_start += expected.length();
 
@@ -211,8 +211,8 @@ void ValidFormData(HTTPTransportTestFixture* fixture,
   expected += "Content-Disposition: form-data; name=\"key2\"\r\n\r\n";
   expected += "--abcdefg123\r\n";
   expected += "--" + expected_boundary + "--\r\n";
-  ASSERT_EQ(body_start + expected.length(), request.length());
-  EXPECT_EQ(expected, request.substr(body_start));
+  ASSERT_EQ(request.length(), body_start + expected.length());
+  EXPECT_EQ(request.substr(body_start), expected);
 }
 
 TEST(HTTPTransport, ValidFormData) {
@@ -248,7 +248,7 @@ void ErrorResponse(HTTPTransportTestFixture* fixture,
                    const std::string& request) {
   std::string content_type;
   GetHeaderField(request, kContentType, &content_type);
-  EXPECT_EQ(kTextPlain, content_type);
+  EXPECT_EQ(content_type, kTextPlain);
 }
 
 TEST(HTTPTransport, ErrorResponse) {
@@ -266,17 +266,17 @@ void UnchunkedPlainText(HTTPTransportTestFixture* fixture,
                         const std::string& request) {
   std::string header_value;
   GetHeaderField(request, kContentType, &header_value);
-  EXPECT_EQ(kTextPlain, header_value);
+  EXPECT_EQ(header_value, kTextPlain);
 
   GetHeaderField(request, kContentLength, &header_value);
   const auto& content_length = fixture->headers().find(kContentLength);
-  ASSERT_NE(fixture->headers().end(), content_length);
-  EXPECT_EQ(content_length->second, header_value);
+  ASSERT_NE(content_length, fixture->headers().end());
+  EXPECT_EQ(header_value, content_length->second);
 
   size_t body_start = request.rfind("\r\n");
-  ASSERT_NE(std::string::npos, body_start);
+  ASSERT_NE(body_start, std::string::npos);
 
-  EXPECT_EQ(kTextBody, request.substr(body_start + 2));
+  EXPECT_EQ(request.substr(body_start + 2), kTextBody);
 }
 
 TEST(HTTPTransport, UnchunkedPlainText) {
@@ -314,7 +314,7 @@ void RunUpload33k(bool has_content_length) {
       200,
       [](HTTPTransportTestFixture* fixture, const std::string& request) {
         size_t body_start = request.rfind("\r\n");
-        EXPECT_EQ(33 * 1024u + 2, request.size() - body_start);
+        EXPECT_EQ(request.size() - body_start, 33 * 1024u + 2);
       });
   test.Run();
 }

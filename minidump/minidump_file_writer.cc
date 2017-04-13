@@ -206,9 +206,8 @@ bool MinidumpFileWriter::AddUserExtensionStream(
   DCHECK_EQ(state(), kStateMutable);
 
   auto user_stream = base::WrapUnique(new MinidumpUserStreamWriter());
-  user_stream->InitializeFromBuffer(user_extension_stream_data->stream_type(),
-                                    user_extension_stream_data->buffer(),
-                                    user_extension_stream_data->buffer_size());
+  user_stream->InitializeFromUserExtensionStream(
+      std::move(user_extension_stream_data));
 
   return AddStream(std::move(user_stream));
 }

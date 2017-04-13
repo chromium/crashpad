@@ -30,15 +30,15 @@ namespace {
 TEST(StringFile, EmptyFile) {
   StringFile string_file;
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
   EXPECT_TRUE(string_file.Write("", 0));
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 
   char c = '6';
-  EXPECT_EQ(0, string_file.Read(&c, 1));
-  EXPECT_EQ('6', c);
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Read(&c, 1), 0);
+  EXPECT_EQ(c, '6');
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 
   EXPECT_TRUE(string_file.string().empty());
 }
@@ -47,76 +47,76 @@ TEST(StringFile, OneByteFile) {
   StringFile string_file;
 
   EXPECT_TRUE(string_file.Write("a", 1));
-  EXPECT_EQ(1u, string_file.string().size());
-  EXPECT_EQ("a", string_file.string());
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
+  EXPECT_EQ(string_file.string().size(), 1u);
+  EXPECT_EQ(string_file.string(), "a");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
   char c = '6';
-  EXPECT_EQ(1, string_file.Read(&c, 1));
-  EXPECT_EQ('a', c);
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(0, string_file.Read(&c, 1));
-  EXPECT_EQ('a', c);
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ("a", string_file.string());
+  EXPECT_EQ(string_file.Read(&c, 1), 1);
+  EXPECT_EQ(c, 'a');
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
+  EXPECT_EQ(string_file.Read(&c, 1), 0);
+  EXPECT_EQ(c, 'a');
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
+  EXPECT_EQ(string_file.string(), "a");
 
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
   EXPECT_TRUE(string_file.Write("b", 1));
-  EXPECT_EQ(1u, string_file.string().size());
-  EXPECT_EQ("b", string_file.string());
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
-  EXPECT_EQ(1, string_file.Read(&c, 1));
-  EXPECT_EQ('b', c);
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(0, string_file.Read(&c, 1));
-  EXPECT_EQ('b', c);
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ("b", string_file.string());
+  EXPECT_EQ(string_file.string().size(), 1u);
+  EXPECT_EQ(string_file.string(), "b");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
+  EXPECT_EQ(string_file.Read(&c, 1), 1);
+  EXPECT_EQ(c, 'b');
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
+  EXPECT_EQ(string_file.Read(&c, 1), 0);
+  EXPECT_EQ(c, 'b');
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
+  EXPECT_EQ(string_file.string(), "b");
 
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
   EXPECT_TRUE(string_file.Write("\0", 1));
-  EXPECT_EQ(1u, string_file.string().size());
-  EXPECT_EQ('\0', string_file.string()[0]);
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(1u, string_file.string().size());
-  EXPECT_EQ('\0', string_file.string()[0]);
+  EXPECT_EQ(string_file.string().size(), 1u);
+  EXPECT_EQ(string_file.string()[0], '\0');
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
+  EXPECT_EQ(string_file.string().size(), 1u);
+  EXPECT_EQ(string_file.string()[0], '\0');
 }
 
 TEST(StringFile, SetString) {
   char kString1[] = "Four score";
   StringFile string_file;
   string_file.SetString(kString1);
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
   char buf[5] = "****";
-  EXPECT_EQ(4, string_file.Read(buf, 4));
+  EXPECT_EQ(string_file.Read(buf, 4), 4);
   EXPECT_STREQ("Four", buf);
-  EXPECT_EQ(4, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(static_cast<FileOffset>(strlen(kString1)),
-            string_file.Seek(0, SEEK_END));
-  EXPECT_EQ(kString1, string_file.string());
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 4);
+  EXPECT_EQ(string_file.Seek(0, SEEK_END),
+            static_cast<FileOffset>(strlen(kString1)));
+  EXPECT_EQ(string_file.string(), kString1);
 
   char kString2[] = "and seven years ago";
-  EXPECT_EQ(4, string_file.Seek(4, SEEK_SET));
-  EXPECT_EQ(4, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(4, SEEK_SET), 4);
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 4);
   string_file.SetString(kString2);
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(4, string_file.Read(buf, 4));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
+  EXPECT_EQ(string_file.Read(buf, 4), 4);
   EXPECT_STREQ("and ", buf);
-  EXPECT_EQ(static_cast<FileOffset>(strlen(kString2)),
-            string_file.Seek(0, SEEK_END));
-  EXPECT_EQ(kString2, string_file.string());
+  EXPECT_EQ(string_file.Seek(0, SEEK_END),
+            static_cast<FileOffset>(strlen(kString2)));
+  EXPECT_EQ(string_file.string(), kString2);
 
   char kString3[] = "our fathers";
-  EXPECT_EQ(4, string_file.Seek(4, SEEK_SET));
-  EXPECT_EQ(4, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(4, SEEK_SET), 4);
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 4);
   string_file.SetString(kString3);
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(4, string_file.Read(buf, 4));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
+  EXPECT_EQ(string_file.Read(buf, 4), 4);
   EXPECT_STREQ("our ", buf);
-  EXPECT_EQ(static_cast<FileOffset>(strlen(kString3)),
-            string_file.Seek(0, SEEK_END));
-  EXPECT_EQ(kString3, string_file.string());
+  EXPECT_EQ(string_file.Seek(0, SEEK_END),
+            static_cast<FileOffset>(strlen(kString3)));
+  EXPECT_EQ(string_file.string(), kString3);
 }
 
 TEST(StringFile, ReadExactly) {
@@ -134,83 +134,83 @@ TEST(StringFile, Reset) {
   StringFile string_file;
 
   EXPECT_TRUE(string_file.Write("abc", 3));
-  EXPECT_EQ(3u, string_file.string().size());
-  EXPECT_EQ("abc", string_file.string());
-  EXPECT_EQ(3, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 3u);
+  EXPECT_EQ(string_file.string(), "abc");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 3);
   char buf[10] = "*********";
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
-  EXPECT_EQ(3, string_file.Read(&buf, 10));
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
+  EXPECT_EQ(string_file.Read(&buf, 10), 3);
   EXPECT_STREQ("abc******", buf);
-  EXPECT_EQ(3, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 3);
   EXPECT_FALSE(string_file.string().empty());
 
   string_file.Reset();
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 
   EXPECT_TRUE(string_file.Write("de", 2));
-  EXPECT_EQ(2u, string_file.string().size());
-  EXPECT_EQ("de", string_file.string());
-  EXPECT_EQ(2, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
-  EXPECT_EQ(2, string_file.Read(&buf, 10));
+  EXPECT_EQ(string_file.string().size(), 2u);
+  EXPECT_EQ(string_file.string(), "de");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 2);
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
+  EXPECT_EQ(string_file.Read(&buf, 10), 2);
   EXPECT_STREQ("dec******", buf);
-  EXPECT_EQ(2, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 2);
   EXPECT_FALSE(string_file.string().empty());
 
   string_file.Reset();
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 
   EXPECT_TRUE(string_file.Write("fghi", 4));
-  EXPECT_EQ(4u, string_file.string().size());
-  EXPECT_EQ("fghi", string_file.string());
-  EXPECT_EQ(4, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
-  EXPECT_EQ(2, string_file.Read(&buf, 2));
+  EXPECT_EQ(string_file.string().size(), 4u);
+  EXPECT_EQ(string_file.string(), "fghi");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 4);
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
+  EXPECT_EQ(string_file.Read(&buf, 2), 2);
   EXPECT_STREQ("fgc******", buf);
-  EXPECT_EQ(2, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(2, string_file.Read(&buf, 2));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 2);
+  EXPECT_EQ(string_file.Read(&buf, 2), 2);
   EXPECT_STREQ("hic******", buf);
-  EXPECT_EQ(4, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 4);
   EXPECT_FALSE(string_file.string().empty());
 
   string_file.Reset();
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 
   // Test resetting after a sparse write.
-  EXPECT_EQ(1, string_file.Seek(1, SEEK_SET));
+  EXPECT_EQ(string_file.Seek(1, SEEK_SET), 1);
   EXPECT_TRUE(string_file.Write("j", 1));
-  EXPECT_EQ(2u, string_file.string().size());
-  EXPECT_EQ(std::string("\0j", 2), string_file.string());
-  EXPECT_EQ(2, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 2u);
+  EXPECT_EQ(string_file.string(), std::string("\0j", 2));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 2);
   EXPECT_FALSE(string_file.string().empty());
 
   string_file.Reset();
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 }
 
 TEST(StringFile, WriteInvalid) {
   StringFile string_file;
 
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 
   EXPECT_FALSE(string_file.Write(
       "",
       implicit_cast<size_t>(std::numeric_limits<FileOperationResult>::max()) +
           1));
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 
   EXPECT_TRUE(string_file.Write("a", 1));
   EXPECT_FALSE(string_file.Write(
       "",
       implicit_cast<size_t>(std::numeric_limits<FileOperationResult>::max())));
-  EXPECT_EQ(1u, string_file.string().size());
-  EXPECT_EQ("a", string_file.string());
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 1u);
+  EXPECT_EQ(string_file.string(), "a");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
 }
 
 TEST(StringFile, WriteIoVec) {
@@ -223,23 +223,23 @@ TEST(StringFile, WriteIoVec) {
   iovecs.push_back(iov);
   EXPECT_TRUE(string_file.WriteIoVec(&iovecs));
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 
   iovecs.clear();
   iov.iov_base = "a";
   iov.iov_len = 1;
   iovecs.push_back(iov);
   EXPECT_TRUE(string_file.WriteIoVec(&iovecs));
-  EXPECT_EQ(1u, string_file.string().size());
-  EXPECT_EQ("a", string_file.string());
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 1u);
+  EXPECT_EQ(string_file.string(), "a");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
 
   iovecs.clear();
   iovecs.push_back(iov);
   EXPECT_TRUE(string_file.WriteIoVec(&iovecs));
-  EXPECT_EQ(2u, string_file.string().size());
-  EXPECT_EQ("aa", string_file.string());
-  EXPECT_EQ(2, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 2u);
+  EXPECT_EQ(string_file.string(), "aa");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 2);
 
   iovecs.clear();
   iovecs.push_back(iov);
@@ -247,14 +247,14 @@ TEST(StringFile, WriteIoVec) {
   iov.iov_len = 2;
   iovecs.push_back(iov);
   EXPECT_TRUE(string_file.WriteIoVec(&iovecs));
-  EXPECT_EQ(5u, string_file.string().size());
-  EXPECT_EQ("aaabc", string_file.string());
-  EXPECT_EQ(5, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 5u);
+  EXPECT_EQ(string_file.string(), "aaabc");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 5);
 
   EXPECT_TRUE(string_file.Write("def", 3));
-  EXPECT_EQ(8u, string_file.string().size());
-  EXPECT_EQ("aaabcdef", string_file.string());
-  EXPECT_EQ(8, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 8u);
+  EXPECT_EQ(string_file.string(), "aaabcdef");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 8);
 
   iovecs.clear();
   iov.iov_base = "ghij";
@@ -264,23 +264,23 @@ TEST(StringFile, WriteIoVec) {
   iov.iov_len = 5;
   iovecs.push_back(iov);
   EXPECT_TRUE(string_file.WriteIoVec(&iovecs));
-  EXPECT_EQ(17u, string_file.string().size());
-  EXPECT_EQ("aaabcdefghijklmno", string_file.string());
-  EXPECT_EQ(17, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 17u);
+  EXPECT_EQ(string_file.string(), "aaabcdefghijklmno");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 17);
 
   string_file.Reset();
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 
   iovecs.clear();
   iov.iov_base = "abcd";
   iov.iov_len = 4;
   iovecs.resize(16, iov);
   EXPECT_TRUE(string_file.WriteIoVec(&iovecs));
-  EXPECT_EQ(64u, string_file.string().size());
-  EXPECT_EQ("abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd",
-            string_file.string());
-  EXPECT_EQ(64, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 64u);
+  EXPECT_EQ(string_file.string(),
+            "abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 64);
 }
 
 TEST(StringFile, WriteIoVecInvalid) {
@@ -289,16 +289,16 @@ TEST(StringFile, WriteIoVecInvalid) {
   std::vector<WritableIoVec> iovecs;
   EXPECT_FALSE(string_file.WriteIoVec(&iovecs));
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
 
   WritableIoVec iov;
-  EXPECT_EQ(1, string_file.Seek(1, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(1, SEEK_CUR), 1);
   iov.iov_base = "a";
   iov.iov_len = std::numeric_limits<FileOperationResult>::max();
   iovecs.push_back(iov);
   EXPECT_FALSE(string_file.WriteIoVec(&iovecs));
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
 
   iovecs.clear();
   iov.iov_base = "a";
@@ -308,158 +308,158 @@ TEST(StringFile, WriteIoVecInvalid) {
   iovecs.push_back(iov);
   EXPECT_FALSE(string_file.WriteIoVec(&iovecs));
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
 }
 
 TEST(StringFile, Seek) {
   StringFile string_file;
 
   EXPECT_TRUE(string_file.Write("abcd", 4));
-  EXPECT_EQ(4u, string_file.string().size());
-  EXPECT_EQ("abcd", string_file.string());
-  EXPECT_EQ(4, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 4u);
+  EXPECT_EQ(string_file.string(), "abcd");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 4);
 
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
   EXPECT_TRUE(string_file.Write("efgh", 4));
-  EXPECT_EQ(4u, string_file.string().size());
-  EXPECT_EQ("efgh", string_file.string());
-  EXPECT_EQ(4, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 4u);
+  EXPECT_EQ(string_file.string(), "efgh");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 4);
 
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
   EXPECT_TRUE(string_file.Write("ijk", 3));
-  EXPECT_EQ(4u, string_file.string().size());
-  EXPECT_EQ("ijkh", string_file.string());
-  EXPECT_EQ(3, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 4u);
+  EXPECT_EQ(string_file.string(), "ijkh");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 3);
 
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_SET));
+  EXPECT_EQ(string_file.Seek(0, SEEK_SET), 0);
   EXPECT_TRUE(string_file.Write("lmnop", 5));
-  EXPECT_EQ(5u, string_file.string().size());
-  EXPECT_EQ("lmnop", string_file.string());
-  EXPECT_EQ(5, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 5u);
+  EXPECT_EQ(string_file.string(), "lmnop");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 5);
 
-  EXPECT_EQ(1, string_file.Seek(1, SEEK_SET));
+  EXPECT_EQ(string_file.Seek(1, SEEK_SET), 1);
   EXPECT_TRUE(string_file.Write("q", 1));
-  EXPECT_EQ(5u, string_file.string().size());
-  EXPECT_EQ("lqnop", string_file.string());
-  EXPECT_EQ(2, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 5u);
+  EXPECT_EQ(string_file.string(), "lqnop");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 2);
 
-  EXPECT_EQ(1, string_file.Seek(-1, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(-1, SEEK_CUR), 1);
   EXPECT_TRUE(string_file.Write("r", 1));
-  EXPECT_EQ(5u, string_file.string().size());
-  EXPECT_EQ("lrnop", string_file.string());
-  EXPECT_EQ(2, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 5u);
+  EXPECT_EQ(string_file.string(), "lrnop");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 2);
 
   EXPECT_TRUE(string_file.Write("s", 1));
-  EXPECT_EQ(5u, string_file.string().size());
-  EXPECT_EQ("lrsop", string_file.string());
-  EXPECT_EQ(3, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 5u);
+  EXPECT_EQ(string_file.string(), "lrsop");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 3);
 
-  EXPECT_EQ(2, string_file.Seek(-1, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(-1, SEEK_CUR), 2);
   EXPECT_TRUE(string_file.Write("t", 1));
-  EXPECT_EQ(5u, string_file.string().size());
-  EXPECT_EQ("lrtop", string_file.string());
-  EXPECT_EQ(3, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 5u);
+  EXPECT_EQ(string_file.string(), "lrtop");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 3);
 
-  EXPECT_EQ(4, string_file.Seek(-1, SEEK_END));
+  EXPECT_EQ(string_file.Seek(-1, SEEK_END), 4);
   EXPECT_TRUE(string_file.Write("u", 1));
-  EXPECT_EQ(5u, string_file.string().size());
-  EXPECT_EQ("lrtou", string_file.string());
-  EXPECT_EQ(5, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 5u);
+  EXPECT_EQ(string_file.string(), "lrtou");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 5);
 
-  EXPECT_EQ(0, string_file.Seek(-5, SEEK_END));
+  EXPECT_EQ(string_file.Seek(-5, SEEK_END), 0);
   EXPECT_TRUE(string_file.Write("v", 1));
-  EXPECT_EQ(5u, string_file.string().size());
-  EXPECT_EQ("vrtou", string_file.string());
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 5u);
+  EXPECT_EQ(string_file.string(), "vrtou");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
 
-  EXPECT_EQ(5, string_file.Seek(0, SEEK_END));
+  EXPECT_EQ(string_file.Seek(0, SEEK_END), 5);
   EXPECT_TRUE(string_file.Write("w", 1));
-  EXPECT_EQ(6u, string_file.string().size());
-  EXPECT_EQ("vrtouw", string_file.string());
-  EXPECT_EQ(6, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 6u);
+  EXPECT_EQ(string_file.string(), "vrtouw");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 6);
 
-  EXPECT_EQ(8, string_file.Seek(2, SEEK_END));
-  EXPECT_EQ(6u, string_file.string().size());
-  EXPECT_EQ("vrtouw", string_file.string());
+  EXPECT_EQ(string_file.Seek(2, SEEK_END), 8);
+  EXPECT_EQ(string_file.string().size(), 6u);
+  EXPECT_EQ(string_file.string(), "vrtouw");
 
-  EXPECT_EQ(6, string_file.Seek(0, SEEK_END));
+  EXPECT_EQ(string_file.Seek(0, SEEK_END), 6);
   EXPECT_TRUE(string_file.Write("x", 1));
-  EXPECT_EQ(7u, string_file.string().size());
-  EXPECT_EQ("vrtouwx", string_file.string());
-  EXPECT_EQ(7, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 7u);
+  EXPECT_EQ(string_file.string(), "vrtouwx");
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 7);
 }
 
 TEST(StringFile, SeekSparse) {
   StringFile string_file;
 
-  EXPECT_EQ(3, string_file.Seek(3, SEEK_SET));
+  EXPECT_EQ(string_file.Seek(3, SEEK_SET), 3);
   EXPECT_TRUE(string_file.string().empty());
-  EXPECT_EQ(3, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 3);
 
   EXPECT_TRUE(string_file.Write("abc", 3));
-  EXPECT_EQ(6u, string_file.string().size());
-  EXPECT_EQ(std::string("\0\0\0abc", 6), string_file.string());
-  EXPECT_EQ(6, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 6u);
+  EXPECT_EQ(string_file.string(), std::string("\0\0\0abc", 6));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 6);
 
-  EXPECT_EQ(9, string_file.Seek(3, SEEK_END));
-  EXPECT_EQ(6u, string_file.string().size());
-  EXPECT_EQ(9, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(3, SEEK_END), 9);
+  EXPECT_EQ(string_file.string().size(), 6u);
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 9);
   char c;
-  EXPECT_EQ(0, string_file.Read(&c, 1));
-  EXPECT_EQ(9, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(6u, string_file.string().size());
+  EXPECT_EQ(string_file.Read(&c, 1), 0);
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 9);
+  EXPECT_EQ(string_file.string().size(), 6u);
   EXPECT_TRUE(string_file.Write("def", 3));
-  EXPECT_EQ(12u, string_file.string().size());
-  EXPECT_EQ(std::string("\0\0\0abc\0\0\0def", 12), string_file.string());
-  EXPECT_EQ(12, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 12u);
+  EXPECT_EQ(string_file.string(), std::string("\0\0\0abc\0\0\0def", 12));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 12);
 
-  EXPECT_EQ(7, string_file.Seek(-5, SEEK_END));
-  EXPECT_EQ(12u, string_file.string().size());
-  EXPECT_EQ(7, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(-5, SEEK_END), 7);
+  EXPECT_EQ(string_file.string().size(), 12u);
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 7);
   EXPECT_TRUE(string_file.Write("g", 1));
-  EXPECT_EQ(12u, string_file.string().size());
-  EXPECT_EQ(std::string("\0\0\0abc\0g\0def", 12), string_file.string());
-  EXPECT_EQ(8, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 12u);
+  EXPECT_EQ(string_file.string(), std::string("\0\0\0abc\0g\0def", 12));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 8);
 
-  EXPECT_EQ(15, string_file.Seek(7, SEEK_CUR));
-  EXPECT_EQ(12u, string_file.string().size());
-  EXPECT_EQ(15, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(7, SEEK_CUR), 15);
+  EXPECT_EQ(string_file.string().size(), 12u);
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 15);
   EXPECT_TRUE(string_file.Write("hij", 3));
-  EXPECT_EQ(18u, string_file.string().size());
-  EXPECT_EQ(std::string("\0\0\0abc\0g\0def\0\0\0hij", 18),
-            string_file.string());
-  EXPECT_EQ(18, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 18u);
+  EXPECT_EQ(string_file.string(),
+            std::string("\0\0\0abc\0g\0def\0\0\0hij", 18));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 18);
 
-  EXPECT_EQ(1, string_file.Seek(-17, SEEK_CUR));
-  EXPECT_EQ(18u, string_file.string().size());
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(-17, SEEK_CUR), 1);
+  EXPECT_EQ(string_file.string().size(), 18u);
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
   EXPECT_TRUE(string_file.Write("k", 1));
-  EXPECT_EQ(18u, string_file.string().size());
-  EXPECT_EQ(std::string("\0k\0abc\0g\0def\0\0\0hij", 18), string_file.string());
-  EXPECT_EQ(2, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 18u);
+  EXPECT_EQ(string_file.string(), std::string("\0k\0abc\0g\0def\0\0\0hij", 18));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 2);
 
   EXPECT_TRUE(string_file.Write("l", 1));
   EXPECT_TRUE(string_file.Write("mnop", 4));
-  EXPECT_EQ(18u, string_file.string().size());
-  EXPECT_EQ(std::string("\0klmnopg\0def\0\0\0hij", 18), string_file.string());
-  EXPECT_EQ(7, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.string().size(), 18u);
+  EXPECT_EQ(string_file.string(), std::string("\0klmnopg\0def\0\0\0hij", 18));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 7);
 }
 
 TEST(StringFile, SeekInvalid) {
   StringFile string_file;
 
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
-  EXPECT_EQ(1, string_file.Seek(1, SEEK_SET));
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
+  EXPECT_EQ(string_file.Seek(1, SEEK_SET), 1);
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
   EXPECT_LT(string_file.Seek(-1, SEEK_SET), 0);
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
   EXPECT_LT(string_file.Seek(std::numeric_limits<FileOperationResult>::min(),
                              SEEK_SET),
             0);
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
   EXPECT_LT(string_file.Seek(std::numeric_limits<FileOffset>::min(), SEEK_SET),
             0);
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
   EXPECT_TRUE(string_file.string().empty());
 
   static_assert(SEEK_SET != 3 && SEEK_CUR != 3 && SEEK_END != 3,
@@ -467,37 +467,37 @@ TEST(StringFile, SeekInvalid) {
   EXPECT_LT(string_file.Seek(0, 3), 0);
 
   string_file.Reset();
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
   EXPECT_TRUE(string_file.string().empty());
 
   const FileOffset kMaxOffset = static_cast<FileOffset>(
       std::min(implicit_cast<uint64_t>(std::numeric_limits<FileOffset>::max()),
                implicit_cast<uint64_t>(std::numeric_limits<size_t>::max())));
 
-  EXPECT_EQ(kMaxOffset, string_file.Seek(kMaxOffset, SEEK_SET));
-  EXPECT_EQ(kMaxOffset, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(kMaxOffset, SEEK_SET), kMaxOffset);
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), kMaxOffset);
   EXPECT_LT(string_file.Seek(1, SEEK_CUR), 0);
 
-  EXPECT_EQ(1, string_file.Seek(1, SEEK_SET));
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(1, SEEK_SET), 1);
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
   EXPECT_LT(string_file.Seek(kMaxOffset, SEEK_CUR), 0);
 }
 
 TEST(StringFile, SeekSet) {
   StringFile string_file;
   EXPECT_TRUE(string_file.SeekSet(1));
-  EXPECT_EQ(1, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 1);
   EXPECT_TRUE(string_file.SeekSet(0));
-  EXPECT_EQ(0, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 0);
   EXPECT_TRUE(string_file.SeekSet(10));
-  EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 10);
   EXPECT_FALSE(string_file.SeekSet(-1));
-  EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 10);
   EXPECT_FALSE(
       string_file.SeekSet(std::numeric_limits<FileOperationResult>::min()));
-  EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 10);
   EXPECT_FALSE(string_file.SeekSet(std::numeric_limits<FileOffset>::min()));
-  EXPECT_EQ(10, string_file.Seek(0, SEEK_CUR));
+  EXPECT_EQ(string_file.Seek(0, SEEK_CUR), 10);
 }
 
 }  // namespace

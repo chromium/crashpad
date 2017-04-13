@@ -14,9 +14,7 @@
 
 #include "util/posix/process_info.h"
 
-#include <signal.h>
 #include <time.h>
-#include <unistd.h>
 
 #include <algorithm>
 #include <set>
@@ -28,6 +26,8 @@
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/main_arguments.h"
+#include "test/multiprocess.h"
+#include "util/file/file_io.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -38,16 +38,16 @@ void TestProcessSelfOrClone(const ProcessInfo& process_info) {
   // There’s no system call to obtain the saved set-user ID or saved set-group
   // ID in an easy way. Normally, they are the same as the effective user ID and
   // effective group ID, so just check against those.
-  EXPECT_EQ(getuid(), process_info.RealUserID());
+  EXPECT_EQ(process_info.RealUserID(), getuid());
   const uid_t euid = geteuid();
-  EXPECT_EQ(euid, process_info.EffectiveUserID());
-  EXPECT_EQ(euid, process_info.SavedUserID());
+  EXPECT_EQ(process_info.EffectiveUserID(), euid);
+  EXPECT_EQ(process_info.SavedUserID(), euid);
 
   const gid_t gid = getgid();
-  EXPECT_EQ(gid, process_info.RealGroupID());
+  EXPECT_EQ(process_info.RealGroupID(), gid);
   const gid_t egid = getegid();
-  EXPECT_EQ(egid, process_info.EffectiveGroupID());
-  EXPECT_EQ(egid, process_info.SavedGroupID());
+  EXPECT_EQ(process_info.EffectiveGroupID(), egid);
+  EXPECT_EQ(process_info.SavedGroupID(), egid);
 
   // Test SupplementaryGroups().
   int group_count = getgroups(0, nullptr);
@@ -57,11 +57,11 @@ void TestProcessSelfOrClone(const ProcessInfo& process_info) {
   if (group_count > 0) {
     group_count = getgroups(group_vector.size(), &group_vector[0]);
     ASSERT_GE(group_count, 0) << ErrnoMessage("getgroups");
-    ASSERT_EQ(group_vector.size(), implicit_cast<size_t>(group_count));
+    ASSERT_EQ(implicit_cast<size_t>(group_count), group_vector.size());
   }
 
   std::set<gid_t> group_set(group_vector.begin(), group_vector.end());
-  EXPECT_EQ(group_set, process_info.SupplementaryGroups());
+  EXPECT_EQ(process_info.SupplementaryGroups(), group_set);
 
   // Test AllGroups(), which is SupplementaryGroups() plus the real, effective,
   // and saved set-group IDs. The effective and saved set-group IDs are expected
@@ -69,7 +69,7 @@ void TestProcessSelfOrClone(const ProcessInfo& process_info) {
   group_set.insert(gid);
   group_set.insert(egid);
 
-  EXPECT_EQ(group_set, process_info.AllGroups());
+  EXPECT_EQ(process_info.AllGroups(), group_set);
 
   // The test executable isn’t expected to change privileges.
   EXPECT_FALSE(process_info.DidChangePrivileges());
@@ -104,7 +104,7 @@ void TestProcessSelfOrClone(const ProcessInfo& process_info) {
   // directly.
   ASSERT_FALSE(expect_argv.empty());
   ASSERT_FALSE(argv.empty());
-  EXPECT_EQ(expect_argv[0], argv[0]);
+  EXPECT_EQ(argv[0], expect_argv[0]);
 
   EXPECT_LE(argv.size(), expect_argv.size());
 
@@ -119,8 +119,8 @@ void TestProcessSelfOrClone(const ProcessInfo& process_info) {
 }
 
 void TestSelfProcess(const ProcessInfo& process_info) {
-  EXPECT_EQ(getpid(), process_info.ProcessID());
-  EXPECT_EQ(getppid(), process_info.ParentProcessID());
+  EXPECT_EQ(process_info.ProcessID(), getpid());
+  EXPECT_EQ(process_info.ParentProcessID(), getppid());
 
   TestProcessSelfOrClone(process_info);
 }
@@ -145,33 +145,47 @@ TEST(ProcessInfo, Pid1) {
   ProcessInfo process_info;
   ASSERT_TRUE(process_info.Initialize(1));
 
-  EXPECT_EQ(implicit_cast<pid_t>(1), process_info.ProcessID());
-  EXPECT_EQ(implicit_cast<pid_t>(0), process_info.ParentProcessID());
-  EXPECT_EQ(implicit_cast<uid_t>(0), process_info.RealUserID());
-  EXPECT_EQ(implicit_cast<uid_t>(0), process_info.EffectiveUserID());
-  EXPECT_EQ(implicit_cast<uid_t>(0), process_info.SavedUserID());
-  EXPECT_EQ(implicit_cast<gid_t>(0), process_info.RealGroupID());
-  EXPECT_EQ(implicit_cast<gid_t>(0), process_info.EffectiveGroupID());
-  EXPECT_EQ(implicit_cast<gid_t>(0), process_info.SavedGroupID());
+  EXPECT_EQ(process_info.ProcessID(), implicit_cast<pid_t>(1));
+  EXPECT_EQ(process_info.ParentProcessID(), implicit_cast<pid_t>(0));
+  EXPECT_EQ(process_info.RealUserID(), implicit_cast<uid_t>(0));
+  EXPECT_EQ(process_info.EffectiveUserID(), implicit_cast<uid_t>(0));
+  EXPECT_EQ(process_info.SavedUserID(), implicit_cast<uid_t>(0));
+  EXPECT_EQ(process_info.RealGroupID(), implicit_cast<gid_t>(0));
+  EXPECT_EQ(process_info.EffectiveGroupID(), implicit_cast<gid_t>(0));
+  EXPECT_EQ(process_info.SavedGroupID(), implicit_cast<gid_t>(0));
   EXPECT_FALSE(process_info.AllGroups().empty());
 }
 
-TEST(ProcessInfo, Forked) {
-  pid_t pid = fork();
-  if (pid == 0) {
-    raise(SIGSTOP);
-    _exit(0);
+class ProcessInfoForkedTest : public Multiprocess {
+ public:
+  ProcessInfoForkedTest() : Multiprocess() {}
+  ~ProcessInfoForkedTest() {}
+
+  // Multiprocess:
+  void MultiprocessParent() override {
+    const pid_t pid = ChildPID();
+
+    ProcessInfo process_info;
+    ASSERT_TRUE(process_info.Initialize(pid));
+
+    EXPECT_EQ(process_info.ProcessID(), pid);
+    EXPECT_EQ(process_info.ParentProcessID(), getpid());
+
+    TestProcessSelfOrClone(process_info);
   }
-  ASSERT_GE(pid, 0) << ErrnoMessage("fork");
 
-  ProcessInfo process_info;
-  ASSERT_TRUE(process_info.Initialize(pid));
+  void MultiprocessChild() override {
+    // Hang around until the parent is done.
+    CheckedReadFileAtEOF(ReadPipeHandle());
+  }
 
-  EXPECT_EQ(pid, process_info.ProcessID());
-  EXPECT_EQ(getpid(), process_info.ParentProcessID());
+ private:
+  DISALLOW_COPY_AND_ASSIGN(ProcessInfoForkedTest);
+};
 
-  TestProcessSelfOrClone(process_info);
-  kill(pid, SIGKILL);
+TEST(ProcessInfo, Forked) {
+  ProcessInfoForkedTest test;
+  test.Run();
 }
 
 }  // namespace

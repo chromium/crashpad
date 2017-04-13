@@ -55,18 +55,18 @@ TEST(strlcpy, c16lcpy) {
       TestBuffer destination;
       memset(&destination, 0xa5, sizeof(destination));
 
-      EXPECT_EQ(length,
-                c16lcpy(destination.data,
+      EXPECT_EQ(c16lcpy(destination.data,
                         test_string.c_str(),
-                        arraysize(destination.data)));
+                        arraysize(destination.data)),
+                length);
 
       // Make sure that the destination buffer is NUL-terminated, and that as
       // much of the test string was copied as could fit.
       size_t expected_destination_length =
           std::min(length, arraysize(destination.data) - 1);
 
-      EXPECT_EQ('\0', destination.data[expected_destination_length]);
-      EXPECT_EQ(expected_destination_length, base::c16len(destination.data));
+      EXPECT_EQ(destination.data[expected_destination_length], '\0');
+      EXPECT_EQ(base::c16len(destination.data), expected_destination_length);
       EXPECT_TRUE(base::c16memcmp(test_string.c_str(),
                                   destination.data,
                                   expected_destination_length) == 0);

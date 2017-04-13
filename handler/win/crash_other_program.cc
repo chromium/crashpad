@@ -18,8 +18,9 @@
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
+#include "base/strings/stringprintf.h"
 #include "client/crashpad_client.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
 #include "util/win/scoped_handle.h"
@@ -29,20 +30,21 @@ namespace crashpad {
 namespace test {
 namespace {
 
+constexpr DWORD kCrashAndDumpTargetExitCode = 0xdeadbea7;
+
 bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
   DWORD target_pid = GetProcessId(process);
 
-  HANDLE thread_snap_raw = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
-  if (thread_snap_raw == INVALID_HANDLE_VALUE) {
-    LOG(ERROR) << "CreateToolhelp32Snapshot";
+  ScopedFileHANDLE thread_snap(CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0));
+  if (!thread_snap.is_valid()) {
+    PLOG(ERROR) << "CreateToolhelp32Snapshot";
     return false;
   }
-  ScopedFileHANDLE thread_snap(thread_snap_raw);
 
   THREADENTRY32 te32;
   te32.dwSize = sizeof(THREADENTRY32);
   if (!Thread32First(thread_snap.get(), &te32)) {
-    LOG(ERROR) << "Thread32First";
+    PLOG(ERROR) << "Thread32First";
     return false;
   }
 
@@ -55,9 +57,12 @@ bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
       if (te32.tpBasePri == 9) {
         ScopedKernelHANDLE thread(
             OpenThread(kXPThreadAllAccess, false, te32.th32ThreadID));
+        if (!thread.is_valid()) {
+          PLOG(ERROR) << "OpenThread";
+          return false;
+        }
         if (!client.DumpAndCrashTargetProcess(
-                process, thread.get(), 0xdeadbea7)) {
-          LOG(ERROR) << "DumpAndCrashTargetProcess failed";
+                process, thread.get(), kCrashAndDumpTargetExitCode)) {
           return false;
         }
         return true;
@@ -65,6 +70,7 @@ bool CrashAndDumpTarget(const CrashpadClient& client, HANDLE process) {
     }
   } while (Thread32Next(thread_snap.get(), &te32));
 
+  LOG(ERROR) << "target not found";
   return false;
 }
 
@@ -73,7 +79,7 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
 
   if (argc == 2 || argc == 3) {
     if (!client.SetHandlerIPCPipe(argv[1])) {
-      LOG(ERROR) << "SetHandler";
+      LOG(ERROR) << "SetHandlerIPCPipe";
       return EXIT_FAILURE;
     }
   } else {
@@ -82,7 +88,7 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
   }
 
   // Launch another process that hangs.
-  base::FilePath test_executable = Paths::Executable();
+  base::FilePath test_executable = TestPaths::Executable();
   std::wstring child_test_executable =
       test_executable.DirName().Append(L"hanging_program.exe").value();
   ChildLauncher child(child_test_executable, argv[1]);
@@ -96,15 +102,28 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
     return EXIT_FAILURE;
   }
 
+  DWORD expect_exit_code;
   if (argc == 3 && wcscmp(argv[2], L"noexception") == 0) {
-    client.DumpAndCrashTargetProcess(child.process_handle(), 0, 0);
-    return EXIT_SUCCESS;
+    expect_exit_code = CrashpadClient::kTriggeredExceptionCode;
+    if (!client.DumpAndCrashTargetProcess(child.process_handle(), 0, 0))
+      return EXIT_FAILURE;
   } else {
-    if (CrashAndDumpTarget(client, child.process_handle()))
-      return EXIT_SUCCESS;
+    expect_exit_code = kCrashAndDumpTargetExitCode;
+    if (!CrashAndDumpTarget(client, child.process_handle())) {
+      return EXIT_FAILURE;
+    }
   }
 
-  return EXIT_FAILURE;
+  DWORD exit_code = child.WaitForExit();
+  if (exit_code != expect_exit_code) {
+    LOG(ERROR) << base::StringPrintf(
+        "incorrect exit code, expected 0x%x, observed 0x%x",
+        expect_exit_code,
+        exit_code);
+    return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
 }
 
 }  // namespace

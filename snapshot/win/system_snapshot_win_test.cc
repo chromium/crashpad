@@ -57,9 +57,9 @@ TEST_F(SystemSnapshotWinTest, GetCPUArchitecture) {
   CPUArchitecture cpu_architecture = system_snapshot().GetCPUArchitecture();
 
 #if defined(ARCH_CPU_X86)
-  EXPECT_EQ(kCPUArchitectureX86, cpu_architecture);
+  EXPECT_EQ(cpu_architecture, kCPUArchitectureX86);
 #elif defined(ARCH_CPU_X86_64)
-  EXPECT_EQ(kCPUArchitectureX86_64, cpu_architecture);
+  EXPECT_EQ(cpu_architecture, kCPUArchitectureX86_64);
 #endif
 }
 
@@ -82,8 +82,8 @@ TEST_F(SystemSnapshotWinTest, CPUX86SupportsDAZ) {
 }
 
 TEST_F(SystemSnapshotWinTest, GetOperatingSystem) {
-  EXPECT_EQ(SystemSnapshot::kOperatingSystemWindows,
-            system_snapshot().GetOperatingSystem());
+  EXPECT_EQ(system_snapshot().GetOperatingSystem(),
+            SystemSnapshot::kOperatingSystemWindows);
 }
 
 TEST_F(SystemSnapshotWinTest, OSVersion) {
@@ -127,20 +127,20 @@ TEST_F(SystemSnapshotWinTest, TimeZone) {
   long timezone = 0;
   _get_timezone(&timezone);
 #endif
-  EXPECT_EQ(-timezone, standard_offset_seconds);
+  EXPECT_EQ(standard_offset_seconds, -timezone);
 
   // In contemporary usage, most time zones have an integer hour offset from
   // UTC, although several are at a half-hour offset, and two are at 15-minute
   // offsets. Throughout history, other variations existed. See
   // http://www.timeanddate.com/time/time-zones-interesting.html.
-  EXPECT_EQ(0, standard_offset_seconds % (15 * 60))
+  EXPECT_EQ(standard_offset_seconds % (15 * 60), 0)
       << "standard_offset_seconds " << standard_offset_seconds;
 
   if (dst_status == SystemSnapshot::kDoesNotObserveDaylightSavingTime) {
-    EXPECT_EQ(standard_offset_seconds, daylight_offset_seconds);
-    EXPECT_EQ(standard_name, daylight_name);
+    EXPECT_EQ(daylight_offset_seconds, standard_offset_seconds);
+    EXPECT_EQ(daylight_name, standard_name);
   } else {
-    EXPECT_EQ(0, daylight_offset_seconds % (15 * 60))
+    EXPECT_EQ(daylight_offset_seconds % (15 * 60), 0)
         << "daylight_offset_seconds " << daylight_offset_seconds;
 
     // In contemporary usage, dst_delta_seconds will almost always be one hour,

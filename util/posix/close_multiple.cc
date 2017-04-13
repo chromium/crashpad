@@ -24,7 +24,6 @@
 #include <unistd.h>
 
 #include <algorithm>
-#include <memory>
 
 #include "base/files/scoped_file.h"
 #include "base/logging.h"
@@ -32,6 +31,7 @@
 #include "build/build_config.h"
 #include "util/misc/implicit_cast.h"
 #include "util/numeric/safe_assignment.h"
+#include "util/posix/scoped_dir.h"
 
 #if defined(OS_MACOSX)
 #include <sys/sysctl.h>
@@ -68,18 +68,6 @@ void CloseNowOrOnExec(int fd, bool ebadf_ok) {
     PLOG(WARNING) << "close";
   }
 }
-
-struct ScopedDIRCloser {
-  void operator()(DIR* dir) const {
-    if (dir) {
-      if (closedir(dir) < 0) {
-        PLOG(ERROR) << "closedir";
-      }
-    }
-  }
-};
-
-using ScopedDIR = std::unique_ptr<DIR, ScopedDIRCloser>;
 
 // This function implements CloseMultipleNowOrOnExec() using an operating
 // system-specific FD directory to determine which file descriptors are open.
@@ -179,7 +167,7 @@ void CloseMultipleNowOrOnExec(int fd, int preserve_fd) {
   max_fd = std::max(max_fd, getdtablesize());
 #endif
 
-#if !defined(OS_LINUX) || defined(OPEN_MAX)
+#if !(defined(OS_LINUX) || defined(OS_ANDROID)) || defined(OPEN_MAX)
   // Linux does not provide OPEN_MAX. See
   // https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/commit/include/linux/limits.h?id=77293034696e3e0b6c8b8fc1f96be091104b3d2b.
   max_fd = std::max(max_fd, OPEN_MAX);

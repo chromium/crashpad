@@ -12,5 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-This file is used by Paths::TestDataRoot() to locate the test data root. It
+This file is used by TestPaths::TestDataRoot() to locate the test data root. It
 is present at a known path from the test data root.

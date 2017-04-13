@@ -57,6 +57,7 @@ process_types::SYSTEM_PROCESS_INFORMATION<Traits>* GetProcessInformation(
     HANDLE process_handle,
     std::unique_ptr<uint8_t[]>* buffer) {
   ULONG buffer_size = 16384;
+  ULONG actual_size;
   buffer->reset(new uint8_t[buffer_size]);
   NTSTATUS status;
   // This must be in retry loop, as we're racing with process creation on the
@@ -66,13 +67,19 @@ process_types::SYSTEM_PROCESS_INFORMATION<Traits>* GetProcessInformation(
         SystemProcessInformation,
         reinterpret_cast<void*>(buffer->get()),
         buffer_size,
-        &buffer_size);
+        &actual_size);
     if (status == STATUS_BUFFER_TOO_SMALL ||
         status == STATUS_INFO_LENGTH_MISMATCH) {
+      DCHECK_GT(actual_size, buffer_size);
+
       // Add a little extra to try to avoid an additional loop iteration. We're
       // racing with system-wide process creation between here and the next call
       // to NtQuerySystemInformation().
-      buffer_size += 4096;
+      buffer_size = actual_size + 4096;
+
+      // Free the old buffer before attempting to allocate a new one.
+      buffer->reset();
+
       buffer->reset(new uint8_t[buffer_size]);
     } else {
       break;
@@ -83,6 +90,8 @@ process_types::SYSTEM_PROCESS_INFORMATION<Traits>* GetProcessInformation(
     NTSTATUS_LOG(ERROR, status) << "NtQuerySystemInformation";
     return nullptr;
   }
+
+  DCHECK_LE(actual_size, buffer_size);
 
   process_types::SYSTEM_PROCESS_INFORMATION<Traits>* process =
       reinterpret_cast<process_types::SYSTEM_PROCESS_INFORMATION<Traits>*>(

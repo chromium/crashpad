@@ -60,7 +60,7 @@ TEST(ProcessSnapshotMinidump, Empty) {
 
   UUID client_id;
   process_snapshot.ClientID(&client_id);
-  EXPECT_EQ(UUID(), client_id);
+  EXPECT_EQ(client_id, UUID());
 
   EXPECT_TRUE(process_snapshot.AnnotationsSimpleMap().empty());
 }
@@ -167,7 +167,7 @@ TEST(ProcessSnapshotMinidump, ClientID) {
 
   UUID actual_client_id;
   process_snapshot.ClientID(&actual_client_id);
-  EXPECT_EQ(client_id, actual_client_id);
+  EXPECT_EQ(actual_client_id, client_id);
 
   EXPECT_TRUE(process_snapshot.AnnotationsSimpleMap().empty());
 }
@@ -209,10 +209,10 @@ TEST(ProcessSnapshotMinidump, AnnotationsSimpleMap) {
 
   UUID client_id;
   process_snapshot.ClientID(&client_id);
-  EXPECT_EQ(UUID(), client_id);
+  EXPECT_EQ(client_id, UUID());
 
   const auto annotations_simple_map = process_snapshot.AnnotationsSimpleMap();
-  EXPECT_EQ(dictionary, annotations_simple_map);
+  EXPECT_EQ(annotations_simple_map, dictionary);
 }
 
 TEST(ProcessSnapshotMinidump, Modules) {
@@ -313,10 +313,10 @@ TEST(ProcessSnapshotMinidump, Modules) {
   EXPECT_TRUE(process_snapshot.Initialize(&string_file));
 
   std::vector<const ModuleSnapshot*> modules = process_snapshot.Modules();
-  ASSERT_EQ(minidump_module_count, modules.size());
+  ASSERT_EQ(modules.size(), minidump_module_count);
 
   auto annotations_simple_map = modules[0]->AnnotationsSimpleMap();
-  EXPECT_EQ(dictionary_0, annotations_simple_map);
+  EXPECT_EQ(annotations_simple_map, dictionary_0);
 
   auto annotations_vector = modules[0]->AnnotationsVector();
   EXPECT_TRUE(annotations_vector.empty());
@@ -328,10 +328,10 @@ TEST(ProcessSnapshotMinidump, Modules) {
   EXPECT_TRUE(annotations_vector.empty());
 
   annotations_simple_map = modules[2]->AnnotationsSimpleMap();
-  EXPECT_EQ(dictionary_2, annotations_simple_map);
+  EXPECT_EQ(annotations_simple_map, dictionary_2);
 
   annotations_vector = modules[2]->AnnotationsVector();
-  EXPECT_EQ(list_annotations_2, annotations_vector);
+  EXPECT_EQ(annotations_vector, list_annotations_2);
 }
 
 }  // namespace

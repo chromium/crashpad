@@ -24,11 +24,11 @@
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
+#include "test/test_paths.h"
 #include "util/stdlib/string_number_conversion.h"
 #include "util/string/split_string.h"
 #include "util/win/handle.h"
 #include "util/win/scoped_local_alloc.h"
-#include "test/paths.h"
 
 namespace crashpad {
 namespace test {
@@ -70,7 +70,7 @@ ScopedKernelHANDLE LaunchCommandLine(wchar_t* command_line) {
   startup_info.hStdError = GetStdHandle(STD_ERROR_HANDLE);
   startup_info.dwFlags = STARTF_USESTDHANDLES;
   PROCESS_INFORMATION process_info;
-  if (!CreateProcess(Paths::Executable().value().c_str(),
+  if (!CreateProcess(TestPaths::Executable().value().c_str(),
                      &command_line[0],  // This cannot be constant, per MSDN.
                      nullptr,
                      nullptr,
@@ -186,7 +186,7 @@ std::unique_ptr<WinChildProcess::Handles> WinChildProcess::Launch() {
   const ::testing::TestInfo* const test_info =
       ::testing::UnitTest::GetInstance()->current_test_info();
   std::wstring command_line =
-      Paths::Executable().value() + L" " +
+      TestPaths::Executable().value() + L" " +
       base::UTF8ToUTF16(base::StringPrintf("--gtest_filter=%s.%s %s=0x%x|0x%x",
                                            test_info->test_case_name(),
                                            test_info->name(),

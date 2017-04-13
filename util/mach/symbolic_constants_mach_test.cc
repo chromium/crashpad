@@ -68,9 +68,9 @@ void TestSomethingToStringOnce(typename Traits::ValueType value,
                                   << ", actual " << actual;
       actual.assign(expect);
     } else {
-      EXPECT_EQ(expect, actual) << Traits::kValueName << " " << value;
+      EXPECT_EQ(actual, expect) << Traits::kValueName << " " << value;
     }
-    EXPECT_EQ(actual, actual_numeric) << Traits::kValueName << " " << value;
+    EXPECT_EQ(actual_numeric, actual) << Traits::kValueName << " " << value;
   } else {
     EXPECT_TRUE(actual.empty()) << Traits::kValueName << " " << value
                                 << ", actual " << actual;
@@ -108,7 +108,7 @@ void TestStringToSomething(const base::StringPiece& string,
                                << ", " << Traits::kValueName << " "
                                << expect_value;
     if (actual_result) {
-      EXPECT_EQ(expect_value, actual_value) << "string " << string
+      EXPECT_EQ(actual_value, expect_value) << "string " << string
                                             << ", options " << options;
     }
   } else {
@@ -346,18 +346,18 @@ TEST(SymbolicConstantsMach, ExceptionMaskToString) {
                                     kUseFullName).empty());
   EXPECT_TRUE(ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
                                     kUseShortName).empty());
-  EXPECT_EQ("0x1400",
-            ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
-                                  kUseFullName | kUnknownIsNumeric));
-  EXPECT_EQ("0x1400",
-            ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
-                                  kUseShortName | kUnknownIsNumeric));
-  EXPECT_EQ("EXC_MASK_CRASH|EXC_MASK_GUARD",
-            ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
-                                  kUseFullName | kUseOr));
-  EXPECT_EQ("CRASH|GUARD",
-            ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
-                                  kUseShortName | kUseOr));
+  EXPECT_EQ(ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
+                                  kUseFullName | kUnknownIsNumeric),
+            "0x1400");
+  EXPECT_EQ(ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
+                                  kUseShortName | kUnknownIsNumeric),
+            "0x1400");
+  EXPECT_EQ(ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
+                                  kUseFullName | kUseOr),
+            "EXC_MASK_CRASH|EXC_MASK_GUARD");
+  EXPECT_EQ(ExceptionMaskToString(EXC_MASK_CRASH | EXC_MASK_GUARD,
+                                  kUseShortName | kUseOr),
+            "CRASH|GUARD");
 }
 
 void TestStringToExceptionMask(const base::StringPiece& string,

@@ -17,7 +17,6 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <unistd.h>
@@ -33,6 +32,7 @@
 #include "test/errors.h"
 #include "test/multiprocess.h"
 #include "test/scoped_temp_dir.h"
+#include "util/posix/scoped_mmap.h"
 
 namespace crashpad {
 namespace test {
@@ -84,7 +84,7 @@ void CauseSignal(int sig) {
     }
 
     case SIGBUS: {
-      char* mapped;
+      ScopedMmap mapped_file;
       {
         base::ScopedFD fd;
         {
@@ -100,21 +100,17 @@ void CauseSignal(int sig) {
           _exit(kUnexpectedExitStatus);
         }
 
-        mapped = reinterpret_cast<char*>(mmap(nullptr,
-                                              getpagesize(),
-                                              PROT_READ | PROT_WRITE,
-                                              MAP_PRIVATE,
-                                              fd.get(),
-                                              0));
-        if (mapped == MAP_FAILED) {
-          PLOG(ERROR) << "mmap";
+        if (!mapped_file.ResetMmap(nullptr,
+                                   getpagesize(),
+                                   PROT_READ | PROT_WRITE,
+                                   MAP_PRIVATE,
+                                   fd.get(),
+                                   0)) {
+          _exit(kUnexpectedExitStatus);
         }
       }
-      if (mapped == MAP_FAILED) {
-        _exit(kUnexpectedExitStatus);
-      }
 
-      *mapped = 0;
+      *mapped_file.addr_as<char*>() = 0;
 
       _exit(kUnexpectedExitStatus);
       break;
@@ -276,7 +272,7 @@ class SignalsTest : public Multiprocess {
         sigemptyset(&action.sa_mask);
         action.sa_flags = 0;
         action.sa_handler = SIG_DFL;
-        ASSERT_EQ(0, sigaction(sig_, &action, nullptr))
+        ASSERT_EQ(sigaction(sig_, &action, nullptr), 0)
             << ErrnoMessage("sigaction");
         break;
       }
@@ -351,8 +347,8 @@ TEST(Signals, WillSignalReraiseAutonomously) {
     siginfo_t siginfo = {};
     siginfo.si_signo = test_data.sig;
     siginfo.si_code = test_data.code;
-    EXPECT_EQ(test_data.result,
-              Signals::WillSignalReraiseAutonomously(&siginfo));
+    EXPECT_EQ(Signals::WillSignalReraiseAutonomously(&siginfo),
+              test_data.result);
   }
 }
 

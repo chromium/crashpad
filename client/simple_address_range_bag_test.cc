@@ -32,13 +32,13 @@ TEST(SimpleAddressRangeBag, Entry) {
   bag.Insert(reinterpret_cast<void*>(0x1000), 200);
   entry = TestBag::Iterator(bag).Next();
   ASSERT_TRUE(entry);
-  EXPECT_EQ(entry->base, 0x1000u);
-  EXPECT_EQ(entry->size, 200u);
+  EXPECT_EQ(0x1000u, entry->base);
+  EXPECT_EQ(200u, entry->size);
 
   bag.Remove(reinterpret_cast<void*>(0x1000), 200);
   EXPECT_FALSE(entry->is_active());
-  EXPECT_EQ(entry->base, 0u);
-  EXPECT_EQ(entry->size, 0u);
+  EXPECT_EQ(0u, entry->base);
+  EXPECT_EQ(0u, entry->size);
 }
 
 TEST(SimpleAddressRangeBag, SimpleAddressRangeBag) {
@@ -48,24 +48,24 @@ TEST(SimpleAddressRangeBag, SimpleAddressRangeBag) {
   EXPECT_TRUE(bag.Insert(reinterpret_cast<void*>(0x2000), 20));
   EXPECT_TRUE(bag.Insert(CheckedRange<uint64_t>(0x3000, 30)));
 
-  EXPECT_EQ(bag.GetCount(), 3u);
+  EXPECT_EQ(3u, bag.GetCount());
 
   // Duplicates added too.
   EXPECT_TRUE(bag.Insert(CheckedRange<uint64_t>(0x3000, 30)));
   EXPECT_TRUE(bag.Insert(CheckedRange<uint64_t>(0x3000, 30)));
-  EXPECT_EQ(bag.GetCount(), 5u);
+  EXPECT_EQ(5u, bag.GetCount());
 
   // Can be removed 3 times, but not the 4th time.
   EXPECT_TRUE(bag.Remove(CheckedRange<uint64_t>(0x3000, 30)));
   EXPECT_TRUE(bag.Remove(CheckedRange<uint64_t>(0x3000, 30)));
   EXPECT_TRUE(bag.Remove(CheckedRange<uint64_t>(0x3000, 30)));
-  EXPECT_EQ(bag.GetCount(), 2u);
+  EXPECT_EQ(2u, bag.GetCount());
   EXPECT_FALSE(bag.Remove(CheckedRange<uint64_t>(0x3000, 30)));
-  EXPECT_EQ(bag.GetCount(), 2u);
+  EXPECT_EQ(2u, bag.GetCount());
 
   EXPECT_TRUE(bag.Remove(reinterpret_cast<void*>(0x1000), 10));
   EXPECT_TRUE(bag.Remove(reinterpret_cast<void*>(0x2000), 20));
-  EXPECT_EQ(bag.GetCount(), 0u);
+  EXPECT_EQ(0u, bag.GetCount());
 }
 
 TEST(SimpleAddressRangeBag, CopyAndAssign) {
@@ -74,24 +74,24 @@ TEST(SimpleAddressRangeBag, CopyAndAssign) {
   EXPECT_TRUE(bag.Insert(CheckedRange<uint64_t>(3, 4)));
   EXPECT_TRUE(bag.Insert(CheckedRange<uint64_t>(5, 6)));
   EXPECT_TRUE(bag.Remove(CheckedRange<uint64_t>(3, 4)));
-  EXPECT_EQ(2u, bag.GetCount());
+  EXPECT_EQ(bag.GetCount(), 2u);
 
   // Test copy.
   TSimpleAddressRangeBag<10> bag_copy(bag);
-  EXPECT_EQ(2u, bag_copy.GetCount());
+  EXPECT_EQ(bag_copy.GetCount(), 2u);
   EXPECT_TRUE(bag_copy.Remove(CheckedRange<uint64_t>(1, 2)));
   EXPECT_TRUE(bag_copy.Remove(CheckedRange<uint64_t>(5, 6)));
-  EXPECT_EQ(0u, bag_copy.GetCount());
-  EXPECT_EQ(2u, bag.GetCount());
+  EXPECT_EQ(bag_copy.GetCount(), 0u);
+  EXPECT_EQ(bag.GetCount(), 2u);
 
   // Test assign.
   TSimpleAddressRangeBag<10> bag_assign;
   bag_assign = bag;
-  EXPECT_EQ(2u, bag_assign.GetCount());
+  EXPECT_EQ(bag_assign.GetCount(), 2u);
   EXPECT_TRUE(bag_assign.Remove(CheckedRange<uint64_t>(1, 2)));
   EXPECT_TRUE(bag_assign.Remove(CheckedRange<uint64_t>(5, 6)));
-  EXPECT_EQ(0u, bag_assign.GetCount());
-  EXPECT_EQ(2u, bag.GetCount());
+  EXPECT_EQ(bag_assign.GetCount(), 0u);
+  EXPECT_EQ(bag.GetCount(), 2u);
 }
 
 // Running out of space shouldn't crash.
@@ -100,7 +100,7 @@ TEST(SimpleAddressRangeBag, OutOfSpace) {
   EXPECT_TRUE(bag.Insert(CheckedRange<uint64_t>(1, 2)));
   EXPECT_TRUE(bag.Insert(CheckedRange<uint64_t>(3, 4)));
   EXPECT_FALSE(bag.Insert(CheckedRange<uint64_t>(5, 6)));
-  EXPECT_EQ(2u, bag.GetCount());
+  EXPECT_EQ(bag.GetCount(), 2u);
   EXPECT_FALSE(bag.Remove(CheckedRange<uint64_t>(5, 6)));
 }
 

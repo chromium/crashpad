@@ -20,7 +20,7 @@
 
 #include "gtest/gtest.h"
 #include "test/gtest_death_check.h"
-#include "test/paths.h"
+#include "test/test_paths.h"
 #include "util/net/http_body.h"
 #include "util/net/http_body_test_util.h"
 
@@ -71,7 +71,7 @@ TEST(HTTPMultipartBuilder, ThreeStringFields) {
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
-  ASSERT_EQ(13u, lines.size());
+  ASSERT_EQ(lines.size(), 13u);
   auto lines_it = lines.begin();
 
   // The first line is the boundary. All subsequent boundaries must match this.
@@ -79,28 +79,28 @@ TEST(HTTPMultipartBuilder, ThreeStringFields) {
   EXPECT_GE(boundary.length(), 1u);
   EXPECT_LE(boundary.length(), 70u);
 
-  EXPECT_EQ("Content-Disposition: form-data; name=\"key-three\"", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ(kValue3, *lines_it++);
+  EXPECT_EQ(*lines_it++, "Content-Disposition: form-data; name=\"key-three\"");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, kValue3);
 
-  EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; name=\"key1\"", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ(kValue1, *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary);
+  EXPECT_EQ(*lines_it++, "Content-Disposition: form-data; name=\"key1\"");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, kValue1);
 
-  EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; name=\"key2\"", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ(kValue2, *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary);
+  EXPECT_EQ(*lines_it++, "Content-Disposition: form-data; name=\"key2\"");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, kValue2);
 
-  EXPECT_EQ(boundary + "--", *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary + "--");
 
-  EXPECT_EQ(lines.end(), lines_it);
+  EXPECT_EQ(lines_it, lines.end());
 }
 
 TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
   HTTPMultipartBuilder builder;
-  base::FilePath ascii_http_body_path = Paths::TestDataRoot().Append(
+  base::FilePath ascii_http_body_path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
   builder.SetFileAttachment("first",
                             "minidump.dmp",
@@ -121,39 +121,39 @@ TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
-  ASSERT_EQ(16u, lines.size());
+  ASSERT_EQ(lines.size(), 16u);
   auto lines_it = lines.begin();
 
   const std::string& boundary = *lines_it++;
   EXPECT_GE(boundary.length(), 1u);
   EXPECT_LE(boundary.length(), 70u);
 
-  EXPECT_EQ("Content-Disposition: form-data; "
-                "name=\"%22third 50%25 silly%22\"; filename=\"test%25foo.txt\"",
-            *lines_it++);
-  EXPECT_EQ("Content-Type: text/plain", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ(kFileContents, *lines_it++);
+  EXPECT_EQ(*lines_it++,
+            "Content-Disposition: form-data; "
+            "name=\"%22third 50%25 silly%22\"; filename=\"test%25foo.txt\"");
+  EXPECT_EQ(*lines_it++, "Content-Type: text/plain");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, kFileContents);
 
-  EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; "
-                "name=\"first\"; filename=\"minidump.dmp\"",
-            *lines_it++);
-  EXPECT_EQ("Content-Type: application/octet-stream", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ(kFileContents, *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary);
+  EXPECT_EQ(*lines_it++,
+            "Content-Disposition: form-data; "
+            "name=\"first\"; filename=\"minidump.dmp\"");
+  EXPECT_EQ(*lines_it++, "Content-Type: application/octet-stream");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, kFileContents);
 
-  EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; "
-                "name=\"second\"; filename=\"minidump.dmp\"",
-            *lines_it++);
-  EXPECT_EQ("Content-Type: text/plain", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ(kFileContents, *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary);
+  EXPECT_EQ(*lines_it++,
+            "Content-Disposition: form-data; "
+            "name=\"second\"; filename=\"minidump.dmp\"");
+  EXPECT_EQ(*lines_it++, "Content-Type: text/plain");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, kFileContents);
 
-  EXPECT_EQ(boundary + "--", *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary + "--");
 
-  EXPECT_EQ(lines.end(), lines_it);
+  EXPECT_EQ(lines_it, lines.end());
 }
 
 TEST(HTTPMultipartBuilder, OverwriteFormDataWithEscapedKey) {
@@ -165,20 +165,20 @@ TEST(HTTPMultipartBuilder, OverwriteFormDataWithEscapedKey) {
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
-  ASSERT_EQ(5u, lines.size());
+  ASSERT_EQ(lines.size(), 5u);
   auto lines_it = lines.begin();
 
   const std::string& boundary = *lines_it++;
   EXPECT_GE(boundary.length(), 1u);
   EXPECT_LE(boundary.length(), 70u);
 
-  EXPECT_EQ(
-      "Content-Disposition: form-data; name=\"a 100%25 %22silly%22%0d%0atest\"",
-      *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ("overwrite", *lines_it++);
-  EXPECT_EQ(boundary + "--", *lines_it++);
-  EXPECT_EQ(lines.end(), lines_it);
+  EXPECT_EQ(*lines_it++,
+            "Content-Disposition: form-data; name=\"a 100%25 "
+            "%22silly%22%0d%0atest\"");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, "overwrite");
+  EXPECT_EQ(*lines_it++, boundary + "--");
+  EXPECT_EQ(lines_it, lines.end());
 }
 
 TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
@@ -186,7 +186,7 @@ TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
   const char kValue[] = "1 2 3 test";
   builder.SetFormData("a key", kValue);
   base::FilePath testdata_path =
-      Paths::TestDataRoot().Append(FILE_PATH_LITERAL("util/net/testdata"));
+      TestPaths::TestDataRoot().Append(FILE_PATH_LITERAL("util/net/testdata"));
   builder.SetFileAttachment("minidump",
                             "minidump.dmp",
                             testdata_path.Append(FILE_PATH_LITERAL(
@@ -206,43 +206,43 @@ TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
-  ASSERT_EQ(15u, lines.size());
+  ASSERT_EQ(lines.size(), 15u);
   auto lines_it = lines.begin();
 
   const std::string& boundary = *lines_it++;
   EXPECT_GE(boundary.length(), 1u);
   EXPECT_LE(boundary.length(), 70u);
 
-  EXPECT_EQ("Content-Disposition: form-data; name=\"a key\"", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ(kValue, *lines_it++);
+  EXPECT_EQ(*lines_it++, "Content-Disposition: form-data; name=\"a key\"");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, kValue);
 
-  EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; "
-                "name=\"minidump\"; filename=\"minidump.dmp\"",
-            *lines_it++);
-  EXPECT_EQ("Content-Type: text/plain", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ("This is a test.\n", *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary);
+  EXPECT_EQ(*lines_it++,
+            "Content-Disposition: form-data; "
+            "name=\"minidump\"; filename=\"minidump.dmp\"");
+  EXPECT_EQ(*lines_it++, "Content-Type: text/plain");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, "This is a test.\n");
 
-  EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; "
-                "name=\"minidump2\"; filename=\"minidump.dmp\"",
-            *lines_it++);
-  EXPECT_EQ("Content-Type: application/octet-stream", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ("\xFE\xED\xFA\xCE\xA1\x1A\x15", *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary);
+  EXPECT_EQ(*lines_it++,
+            "Content-Disposition: form-data; "
+            "name=\"minidump2\"; filename=\"minidump.dmp\"");
+  EXPECT_EQ(*lines_it++, "Content-Type: application/octet-stream");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, "\xFE\xED\xFA\xCE\xA1\x1A\x15");
 
-  EXPECT_EQ(boundary + "--", *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary + "--");
 
-  EXPECT_EQ(lines.end(), lines_it);
+  EXPECT_EQ(lines_it, lines.end());
 }
 
 TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
   HTTPMultipartBuilder builder;
   const char kValue1[] = "11111";
   builder.SetFormData("one", kValue1);
-  base::FilePath ascii_http_body_path = Paths::TestDataRoot().Append(
+  base::FilePath ascii_http_body_path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
   builder.SetFileAttachment("minidump",
                             "minidump.dmp",
@@ -255,25 +255,25 @@ TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
   auto lines = SplitCRLF(contents);
-  ASSERT_EQ(9u, lines.size());
+  ASSERT_EQ(lines.size(), 9u);
   auto lines_it = lines.begin();
 
   const std::string& boundary = *lines_it++;
   EXPECT_GE(boundary.length(), 1u);
   EXPECT_LE(boundary.length(), 70u);
 
-  EXPECT_EQ("Content-Disposition: form-data; name=\"minidump\"", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ(kValue2, *lines_it++);
+  EXPECT_EQ(*lines_it++, "Content-Disposition: form-data; name=\"minidump\"");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, kValue2);
 
-  EXPECT_EQ(boundary, *lines_it++);
-  EXPECT_EQ("Content-Disposition: form-data; name=\"one\"", *lines_it++);
-  EXPECT_EQ("", *lines_it++);
-  EXPECT_EQ(kValue1, *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary);
+  EXPECT_EQ(*lines_it++, "Content-Disposition: form-data; name=\"one\"");
+  EXPECT_EQ(*lines_it++, "");
+  EXPECT_EQ(*lines_it++, kValue1);
 
-  EXPECT_EQ(boundary + "--", *lines_it++);
+  EXPECT_EQ(*lines_it++, boundary + "--");
 
-  EXPECT_EQ(lines.end(), lines_it);
+  EXPECT_EQ(lines_it, lines.end());
 }
 
 TEST(HTTPMultipartBuilderDeathTest, AssertUnsafeMIMEType) {

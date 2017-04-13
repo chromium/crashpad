@@ -26,29 +26,29 @@ namespace {
 TEST(GetFunction, GetFunction) {
   // Check equivalence of GET_FUNCTION_REQUIRED() with functions that are
   // available in the SDK normally.
-  EXPECT_EQ(&GetProcAddress,
-            GET_FUNCTION_REQUIRED(L"kernel32.dll", GetProcAddress));
-  EXPECT_EQ(&LoadLibraryW,
-            GET_FUNCTION_REQUIRED(L"kernel32.dll", LoadLibraryW));
+  EXPECT_EQ(GET_FUNCTION_REQUIRED(L"kernel32.dll", GetProcAddress),
+            &GetProcAddress);
+  EXPECT_EQ(GET_FUNCTION_REQUIRED(L"kernel32.dll", LoadLibraryW),
+            &LoadLibraryW);
 
   // Make sure that a function pointer retrieved by GET_FUNCTION_REQUIRED() can
   // be called and that it works correctly.
   const auto get_current_process_id =
       GET_FUNCTION_REQUIRED(L"kernel32.dll", GetCurrentProcessId);
-  EXPECT_EQ(&GetCurrentProcessId, get_current_process_id);
+  EXPECT_EQ(get_current_process_id, &GetCurrentProcessId);
   ASSERT_TRUE(get_current_process_id);
-  EXPECT_EQ(GetCurrentProcessId(), get_current_process_id());
+  EXPECT_EQ(get_current_process_id(), GetCurrentProcessId());
 
   // GET_FUNCTION_REQUIRED() and GET_FUNCTION() should behave identically when
   // the function is present.
-  EXPECT_EQ(get_current_process_id,
-            GET_FUNCTION(L"kernel32.dll", GetCurrentProcessId));
+  EXPECT_EQ(GET_FUNCTION(L"kernel32.dll", GetCurrentProcessId),
+            get_current_process_id);
 
   // Using a leading :: should also work.
-  EXPECT_EQ(get_current_process_id,
-            GET_FUNCTION(L"kernel32.dll", ::GetCurrentProcessId));
-  EXPECT_EQ(get_current_process_id,
-            GET_FUNCTION_REQUIRED(L"kernel32.dll", ::GetCurrentProcessId));
+  EXPECT_EQ(GET_FUNCTION(L"kernel32.dll", ::GetCurrentProcessId),
+            get_current_process_id);
+  EXPECT_EQ(GET_FUNCTION_REQUIRED(L"kernel32.dll", ::GetCurrentProcessId),
+            get_current_process_id);
 
   // Try a function that’s declared in the SDK’s headers but that has no import
   // library.
@@ -59,7 +59,7 @@ TEST(GetFunction, GetFunction) {
       GET_FUNCTION(L"kernel32.dll", GetNamedPipeClientProcessId);
   const DWORD version = GetVersion();
   const DWORD major_version = LOBYTE(LOWORD(version));
-  EXPECT_EQ(major_version >= 6, get_named_pipe_client_process_id != nullptr);
+  EXPECT_EQ(get_named_pipe_client_process_id != nullptr, major_version >= 6);
 
   // Test that GET_FUNCTION() can fail by trying a nonexistent library and a
   // symbol that doesn’t exist in the specified library.

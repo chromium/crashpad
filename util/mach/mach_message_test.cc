@@ -29,19 +29,19 @@ namespace {
 TEST(MachMessage, MachMessageDeadlineFromTimeout) {
   MachMessageDeadline deadline_0 =
       MachMessageDeadlineFromTimeout(kMachMessageTimeoutNonblocking);
-  EXPECT_EQ(kMachMessageDeadlineNonblocking, deadline_0);
+  EXPECT_EQ(deadline_0, kMachMessageDeadlineNonblocking);
 
   deadline_0 =
       MachMessageDeadlineFromTimeout(kMachMessageTimeoutWaitIndefinitely);
-  EXPECT_EQ(kMachMessageDeadlineWaitIndefinitely, deadline_0);
+  EXPECT_EQ(deadline_0, kMachMessageDeadlineWaitIndefinitely);
 
   deadline_0 = MachMessageDeadlineFromTimeout(1);
   MachMessageDeadline deadline_1 = MachMessageDeadlineFromTimeout(100);
 
-  EXPECT_NE(kMachMessageDeadlineNonblocking, deadline_0);
-  EXPECT_NE(kMachMessageDeadlineWaitIndefinitely, deadline_0);
-  EXPECT_NE(kMachMessageDeadlineNonblocking, deadline_1);
-  EXPECT_NE(kMachMessageDeadlineWaitIndefinitely, deadline_1);
+  EXPECT_NE(deadline_0, kMachMessageDeadlineNonblocking);
+  EXPECT_NE(deadline_0, kMachMessageDeadlineWaitIndefinitely);
+  EXPECT_NE(deadline_1, kMachMessageDeadlineNonblocking);
+  EXPECT_NE(deadline_1, kMachMessageDeadlineWaitIndefinitely);
   EXPECT_GE(deadline_1, deadline_0);
 }
 
@@ -63,34 +63,34 @@ TEST(MachMessage, PrepareMIGReplyFromRequest_SetMIGReplyError) {
 
   PrepareMIGReplyFromRequest(&request, &reply.Head);
 
-  EXPECT_EQ(implicit_cast<mach_msg_bits_t>(
-                MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND_ONCE, 0)),
-            reply.Head.msgh_bits);
-  EXPECT_EQ(sizeof(reply), reply.Head.msgh_size);
-  EXPECT_EQ(request.msgh_remote_port, reply.Head.msgh_remote_port);
-  EXPECT_EQ(kMachPortNull, reply.Head.msgh_local_port);
-  EXPECT_EQ(0u, reply.Head.msgh_reserved);
-  EXPECT_EQ(1111, reply.Head.msgh_id);
-  EXPECT_EQ(NDR_record.mig_vers, reply.NDR.mig_vers);
-  EXPECT_EQ(NDR_record.if_vers, reply.NDR.if_vers);
-  EXPECT_EQ(NDR_record.reserved1, reply.NDR.reserved1);
-  EXPECT_EQ(NDR_record.mig_encoding, reply.NDR.mig_encoding);
-  EXPECT_EQ(NDR_record.int_rep, reply.NDR.int_rep);
-  EXPECT_EQ(NDR_record.char_rep, reply.NDR.char_rep);
-  EXPECT_EQ(NDR_record.float_rep, reply.NDR.float_rep);
-  EXPECT_EQ(NDR_record.reserved2, reply.NDR.reserved2);
-  EXPECT_EQ(MIG_TYPE_ERROR, reply.RetCode);
+  EXPECT_EQ(reply.Head.msgh_bits,
+            implicit_cast<mach_msg_bits_t>(
+                MACH_MSGH_BITS(MACH_MSG_TYPE_MOVE_SEND_ONCE, 0)));
+  EXPECT_EQ(reply.Head.msgh_size, sizeof(reply));
+  EXPECT_EQ(reply.Head.msgh_remote_port, request.msgh_remote_port);
+  EXPECT_EQ(reply.Head.msgh_local_port, kMachPortNull);
+  EXPECT_EQ(reply.Head.msgh_reserved, 0u);
+  EXPECT_EQ(reply.Head.msgh_id, 1111);
+  EXPECT_EQ(reply.NDR.mig_vers, NDR_record.mig_vers);
+  EXPECT_EQ(reply.NDR.if_vers, NDR_record.if_vers);
+  EXPECT_EQ(reply.NDR.reserved1, NDR_record.reserved1);
+  EXPECT_EQ(reply.NDR.mig_encoding, NDR_record.mig_encoding);
+  EXPECT_EQ(reply.NDR.int_rep, NDR_record.int_rep);
+  EXPECT_EQ(reply.NDR.char_rep, NDR_record.char_rep);
+  EXPECT_EQ(reply.NDR.float_rep, NDR_record.float_rep);
+  EXPECT_EQ(reply.NDR.reserved2, NDR_record.reserved2);
+  EXPECT_EQ(reply.RetCode, MIG_TYPE_ERROR);
 
   SetMIGReplyError(&reply.Head, MIG_BAD_ID);
 
-  EXPECT_EQ(MIG_BAD_ID, reply.RetCode);
+  EXPECT_EQ(reply.RetCode, MIG_BAD_ID);
 }
 
 TEST(MachMessage, MachMessageTrailerFromHeader) {
   mach_msg_empty_t empty;
   empty.send.header.msgh_size = sizeof(mach_msg_empty_send_t);
-  EXPECT_EQ(&empty.rcv.trailer,
-            MachMessageTrailerFromHeader(&empty.rcv.header));
+  EXPECT_EQ(MachMessageTrailerFromHeader(&empty.rcv.header),
+            &empty.rcv.trailer);
 
   struct TestSendMessage : public mach_msg_header_t {
     uint8_t data[126];
@@ -105,12 +105,12 @@ TEST(MachMessage, MachMessageTrailerFromHeader) {
 
   TestMessage test;
   test.send.msgh_size = sizeof(TestSendMessage);
-  EXPECT_EQ(&test.receive.trailer, MachMessageTrailerFromHeader(&test.receive));
+  EXPECT_EQ(MachMessageTrailerFromHeader(&test.receive), &test.receive.trailer);
 }
 
 TEST(MachMessage, AuditPIDFromMachMessageTrailer) {
   base::mac::ScopedMachReceiveRight port(NewMachPort(MACH_PORT_RIGHT_RECEIVE));
-  ASSERT_NE(kMachPortNull, port);
+  ASSERT_NE(port, kMachPortNull);
 
   mach_msg_empty_send_t send = {};
   send.header.msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_MAKE_SEND_ONCE, 0);
@@ -124,7 +124,7 @@ TEST(MachMessage, AuditPIDFromMachMessageTrailer) {
                               kMachMessageDeadlineNonblocking,
                               MACH_PORT_NULL,
                               false);
-  ASSERT_EQ(MACH_MSG_SUCCESS, mr)
+  ASSERT_EQ(mr, MACH_MSG_SUCCESS)
       << MachErrorMessage(mr, "MachMessageWithDeadline send");
 
   struct EmptyReceiveMessageWithAuditTrailer : public mach_msg_empty_send_t {
@@ -142,15 +142,15 @@ TEST(MachMessage, AuditPIDFromMachMessageTrailer) {
                                kMachMessageDeadlineNonblocking,
                                MACH_PORT_NULL,
                                false);
-  ASSERT_EQ(MACH_MSG_SUCCESS, mr)
+  ASSERT_EQ(mr, MACH_MSG_SUCCESS)
       << MachErrorMessage(mr, "MachMessageWithDeadline receive");
 
-  EXPECT_EQ(getpid(), AuditPIDFromMachMessageTrailer(&receive.trailer));
+  EXPECT_EQ(AuditPIDFromMachMessageTrailer(&receive.trailer), getpid());
 }
 
 TEST(MachMessage, MachMessageDestroyReceivedPort) {
   mach_port_t port = NewMachPort(MACH_PORT_RIGHT_RECEIVE);
-  ASSERT_NE(kMachPortNull, port);
+  ASSERT_NE(port, kMachPortNull);
   EXPECT_TRUE(MachMessageDestroyReceivedPort(port, MACH_MSG_TYPE_PORT_RECEIVE));
 
   base::mac::ScopedMachReceiveRight receive(
@@ -161,11 +161,11 @@ TEST(MachMessage, MachMessageDestroyReceivedPort) {
                                              MACH_MSG_TYPE_MAKE_SEND,
                                              &port,
                                              &right_type);
-  ASSERT_EQ(KERN_SUCCESS, kr)
+  ASSERT_EQ(kr, KERN_SUCCESS)
       << MachErrorMessage(kr, "mach_port_extract_right");
-  ASSERT_EQ(receive, port);
-  ASSERT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND),
-            right_type);
+  ASSERT_EQ(port, receive);
+  ASSERT_EQ(right_type,
+            implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND));
   EXPECT_TRUE(MachMessageDestroyReceivedPort(port, MACH_MSG_TYPE_PORT_SEND));
 
   kr = mach_port_extract_right(mach_task_self(),
@@ -173,12 +173,12 @@ TEST(MachMessage, MachMessageDestroyReceivedPort) {
                                MACH_MSG_TYPE_MAKE_SEND_ONCE,
                                &port,
                                &right_type);
-  ASSERT_EQ(KERN_SUCCESS, kr)
+  ASSERT_EQ(kr, KERN_SUCCESS)
       << MachErrorMessage(kr, "mach_port_extract_right");
-  ASSERT_NE(kMachPortNull, port);
-  EXPECT_NE(receive, port);
-  ASSERT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND_ONCE),
-            right_type);
+  ASSERT_NE(port, kMachPortNull);
+  EXPECT_NE(port, receive);
+  ASSERT_EQ(right_type,
+            implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND_ONCE));
   EXPECT_TRUE(
       MachMessageDestroyReceivedPort(port, MACH_MSG_TYPE_PORT_SEND_ONCE));
 
@@ -187,11 +187,11 @@ TEST(MachMessage, MachMessageDestroyReceivedPort) {
                                MACH_MSG_TYPE_MAKE_SEND,
                                &port,
                                &right_type);
-  ASSERT_EQ(KERN_SUCCESS, kr)
+  ASSERT_EQ(kr, KERN_SUCCESS)
       << MachErrorMessage(kr, "mach_port_extract_right");
-  ASSERT_EQ(receive, port);
-  ASSERT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND),
-            right_type);
+  ASSERT_EQ(port, receive);
+  ASSERT_EQ(right_type,
+            implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND));
   EXPECT_TRUE(MachMessageDestroyReceivedPort(port, MACH_MSG_TYPE_PORT_RECEIVE));
   ignore_result(receive.release());
   EXPECT_TRUE(MachMessageDestroyReceivedPort(port, MACH_MSG_TYPE_PORT_SEND));

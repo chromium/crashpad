@@ -23,6 +23,7 @@
 #include "base/macros.h"
 #include "client/crash_report_database.h"
 #include "handler/crash_report_upload_thread.h"
+#include "handler/user_stream_data_source.h"
 #include "util/mach/exc_server_variants.h"
 
 namespace crashpad {
@@ -46,10 +47,15 @@ class CrashReportExceptionHandler : public UniversalMachExcServer::Interface {
   //!     To interoperate with Breakpad servers, the recommended practice is to
   //!     specify values for the `"prod"` and `"ver"` keys as process
   //!     annotations.
+  //! \param[in] user_stream_data_sources Data sources to be used to extend
+  //!     crash reports. For each crash report that is written, the data sources
+  //!     are called in turn. These data sources may contribute additional
+  //!     minidump streams. `nullptr` if not required.
   CrashReportExceptionHandler(
       CrashReportDatabase* database,
       CrashReportUploadThread* upload_thread,
-      const std::map<std::string, std::string>* process_annotations);
+      const std::map<std::string, std::string>* process_annotations,
+      const UserStreamDataSources* user_stream_data_sources);
 
   ~CrashReportExceptionHandler();
 
@@ -77,6 +83,7 @@ class CrashReportExceptionHandler : public UniversalMachExcServer::Interface {
   CrashReportDatabase* database_;  // weak
   CrashReportUploadThread* upload_thread_;  // weak
   const std::map<std::string, std::string>* process_annotations_;  // weak
+  const UserStreamDataSources* user_stream_data_sources_;  // weak
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportExceptionHandler);
 };

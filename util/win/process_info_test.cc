@@ -26,8 +26,8 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
-#include "test/paths.h"
 #include "test/scoped_temp_dir.h"
+#include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
 #include "util/misc/random_string.h"
@@ -66,9 +66,9 @@ void VerifyAddressInInCodePage(const ProcessInfo& process_info,
   for (const auto& mi : memory_info) {
     if (mi.BaseAddress <= code_address &&
         mi.BaseAddress + mi.RegionSize > code_address) {
-      EXPECT_EQ(MEM_COMMIT, mi.State);
-      EXPECT_EQ(PAGE_EXECUTE_READ, mi.Protect);
-      EXPECT_EQ(MEM_IMAGE, mi.Type);
+      EXPECT_EQ(mi.State, MEM_COMMIT);
+      EXPECT_EQ(mi.Protect, PAGE_EXECUTE_READ);
+      EXPECT_EQ(mi.Type, MEM_IMAGE);
       EXPECT_FALSE(found_region);
       found_region = true;
     }
@@ -79,7 +79,7 @@ void VerifyAddressInInCodePage(const ProcessInfo& process_info,
 TEST(ProcessInfo, Self) {
   ProcessInfo process_info;
   ASSERT_TRUE(process_info.Initialize(GetCurrentProcess()));
-  EXPECT_EQ(GetCurrentProcessId(), process_info.ProcessID());
+  EXPECT_EQ(process_info.ProcessID(), GetCurrentProcessId());
   EXPECT_GT(process_info.ParentProcessID(), 0u);
 
 #if defined(ARCH_CPU_64_BITS)
@@ -95,30 +95,29 @@ TEST(ProcessInfo, Self) {
 
   std::wstring command_line;
   EXPECT_TRUE(process_info.CommandLine(&command_line));
-  EXPECT_EQ(std::wstring(GetCommandLine()), command_line);
+  EXPECT_EQ(command_line, std::wstring(GetCommandLine()));
 
   std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 2u);
   const wchar_t kSelfName[] = L"\\crashpad_util_test.exe";
   ASSERT_GE(modules[0].name.size(), wcslen(kSelfName));
-  EXPECT_EQ(kSelfName,
-            modules[0].name.substr(modules[0].name.size() - wcslen(kSelfName)));
+  EXPECT_EQ(modules[0].name.substr(modules[0].name.size() - wcslen(kSelfName)),
+            kSelfName);
   ASSERT_GE(modules[1].name.size(), wcslen(kNtdllName));
-  EXPECT_EQ(
-      kNtdllName,
-      modules[1].name.substr(modules[1].name.size() - wcslen(kNtdllName)));
+  EXPECT_EQ(modules[1].name.substr(modules[1].name.size() - wcslen(kNtdllName)),
+            kNtdllName);
 
-  EXPECT_EQ(reinterpret_cast<uintptr_t>(GetModuleHandle(nullptr)),
-            modules[0].dll_base);
-  EXPECT_EQ(reinterpret_cast<uintptr_t>(GetModuleHandle(L"ntdll.dll")),
-            modules[1].dll_base);
+  EXPECT_EQ(modules[0].dll_base,
+            reinterpret_cast<uintptr_t>(GetModuleHandle(nullptr)));
+  EXPECT_EQ(modules[1].dll_base,
+            reinterpret_cast<uintptr_t>(GetModuleHandle(L"ntdll.dll")));
 
   EXPECT_GT(modules[0].size, 0);
   EXPECT_GT(modules[1].size, 0);
 
-  EXPECT_EQ(GetTimestampForLoadedLibrary(GetModuleHandle(nullptr)),
-            modules[0].timestamp);
+  EXPECT_EQ(modules[0].timestamp,
+            GetTimestampForLoadedLibrary(GetModuleHandle(nullptr)));
   // System modules are forced to particular stamps and the file header values
   // don't match the on-disk times. Just make sure we got some data here.
   EXPECT_GT(modules[1].timestamp, 0);
@@ -137,9 +136,9 @@ void TestOtherProcess(const base::string16& directory_modification) {
 
   ScopedKernelHANDLE done(
       CreateEvent(nullptr, true, false, done_uuid.ToString16().c_str()));
-  ASSERT_TRUE(done.get());
+  ASSERT_TRUE(done.get()) << ErrorMessage("CreateEvent");
 
-  base::FilePath test_executable = Paths::Executable();
+  base::FilePath test_executable = TestPaths::Executable();
 
   std::wstring child_test_executable =
       test_executable.DirName()
@@ -162,26 +161,27 @@ void TestOtherProcess(const base::string16& directory_modification) {
   ASSERT_TRUE(process_info.Initialize(child.process_handle()));
 
   // Tell the test it's OK to shut down now that we've read our data.
-  EXPECT_TRUE(SetEvent(done.get()));
+  EXPECT_TRUE(SetEvent(done.get())) << ErrorMessage("SetEvent");
+
+  EXPECT_EQ(child.WaitForExit(), 0);
 
   std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 3u);
   std::wstring child_name = L"\\crashpad_util_test_process_info_test_child.exe";
   ASSERT_GE(modules[0].name.size(), child_name.size());
-  EXPECT_EQ(child_name,
-            modules[0].name.substr(modules[0].name.size() - child_name.size()));
+  EXPECT_EQ(modules[0].name.substr(modules[0].name.size() - child_name.size()),
+            child_name);
   ASSERT_GE(modules[1].name.size(), wcslen(kNtdllName));
-  EXPECT_EQ(
-      kNtdllName,
-      modules[1].name.substr(modules[1].name.size() - wcslen(kNtdllName)));
+  EXPECT_EQ(modules[1].name.substr(modules[1].name.size() - wcslen(kNtdllName)),
+            kNtdllName);
   // lz32.dll is an uncommonly-used-but-always-available module that the test
   // binary manually loads.
   const wchar_t kLz32dllName[] = L"\\lz32.dll";
   ASSERT_GE(modules.back().name.size(), wcslen(kLz32dllName));
-  EXPECT_EQ(kLz32dllName,
-            modules.back().name.substr(modules.back().name.size() -
-                                       wcslen(kLz32dllName)));
+  EXPECT_EQ(modules.back().name.substr(modules.back().name.size() -
+                                       wcslen(kLz32dllName)),
+            kLz32dllName);
 
   VerifyAddressInInCodePage(process_info, code_address);
 }
@@ -229,9 +229,9 @@ TEST(ProcessInfo, AccessibleRangesOneInside) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(2, 4),
                                    memory_info);
 
-  ASSERT_EQ(1u, result.size());
-  EXPECT_EQ(2, result[0].base());
-  EXPECT_EQ(4, result[0].size());
+  ASSERT_EQ(result.size(), 1u);
+  EXPECT_EQ(result[0].base(), 2);
+  EXPECT_EQ(result[0].size(), 4);
 }
 
 TEST(ProcessInfo, AccessibleRangesOneTruncatedSize) {
@@ -252,9 +252,9 @@ TEST(ProcessInfo, AccessibleRangesOneTruncatedSize) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
                                    memory_info);
 
-  ASSERT_EQ(1u, result.size());
-  EXPECT_EQ(5, result[0].base());
-  EXPECT_EQ(5, result[0].size());
+  ASSERT_EQ(result.size(), 1u);
+  EXPECT_EQ(result[0].base(), 5);
+  EXPECT_EQ(result[0].size(), 5);
 }
 
 TEST(ProcessInfo, AccessibleRangesOneMovedStart) {
@@ -275,9 +275,9 @@ TEST(ProcessInfo, AccessibleRangesOneMovedStart) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
                                    memory_info);
 
-  ASSERT_EQ(1u, result.size());
-  EXPECT_EQ(10, result[0].base());
-  EXPECT_EQ(5, result[0].size());
+  ASSERT_EQ(result.size(), 1u);
+  EXPECT_EQ(result[0].base(), 10);
+  EXPECT_EQ(result[0].size(), 5);
 }
 
 TEST(ProcessInfo, ReserveIsInaccessible) {
@@ -298,9 +298,9 @@ TEST(ProcessInfo, ReserveIsInaccessible) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
                                    memory_info);
 
-  ASSERT_EQ(1u, result.size());
-  EXPECT_EQ(10, result[0].base());
-  EXPECT_EQ(5, result[0].size());
+  ASSERT_EQ(result.size(), 1u);
+  EXPECT_EQ(result[0].base(), 10);
+  EXPECT_EQ(result[0].size(), 5);
 }
 
 TEST(ProcessInfo, PageGuardIsInaccessible) {
@@ -323,9 +323,9 @@ TEST(ProcessInfo, PageGuardIsInaccessible) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
                                    memory_info);
 
-  ASSERT_EQ(1u, result.size());
-  EXPECT_EQ(10, result[0].base());
-  EXPECT_EQ(5, result[0].size());
+  ASSERT_EQ(result.size(), 1u);
+  EXPECT_EQ(result[0].base(), 10);
+  EXPECT_EQ(result[0].size(), 5);
 }
 
 TEST(ProcessInfo, PageNoAccessIsInaccessible) {
@@ -348,9 +348,9 @@ TEST(ProcessInfo, PageNoAccessIsInaccessible) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
                                    memory_info);
 
-  ASSERT_EQ(1u, result.size());
-  EXPECT_EQ(10, result[0].base());
-  EXPECT_EQ(5, result[0].size());
+  ASSERT_EQ(result.size(), 1u);
+  EXPECT_EQ(result[0].base(), 10);
+  EXPECT_EQ(result[0].size(), 5);
 }
 
 TEST(ProcessInfo, AccessibleRangesCoalesced) {
@@ -376,9 +376,9 @@ TEST(ProcessInfo, AccessibleRangesCoalesced) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(11, 4),
                                    memory_info);
 
-  ASSERT_EQ(1u, result.size());
-  EXPECT_EQ(11, result[0].base());
-  EXPECT_EQ(4, result[0].size());
+  ASSERT_EQ(result.size(), 1u);
+  EXPECT_EQ(result[0].base(), 11);
+  EXPECT_EQ(result[0].size(), 4);
 }
 
 TEST(ProcessInfo, AccessibleRangesMiddleUnavailable) {
@@ -404,11 +404,11 @@ TEST(ProcessInfo, AccessibleRangesMiddleUnavailable) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 45),
                                    memory_info);
 
-  ASSERT_EQ(2u, result.size());
-  EXPECT_EQ(5, result[0].base());
-  EXPECT_EQ(5, result[0].size());
-  EXPECT_EQ(15, result[1].base());
-  EXPECT_EQ(35, result[1].size());
+  ASSERT_EQ(result.size(), 2u);
+  EXPECT_EQ(result[0].base(), 5);
+  EXPECT_EQ(result[0].size(), 5);
+  EXPECT_EQ(result[1].base(), 15);
+  EXPECT_EQ(result[1].size(), 35);
 }
 
 TEST(ProcessInfo, RequestedBeforeMap) {
@@ -424,9 +424,9 @@ TEST(ProcessInfo, RequestedBeforeMap) {
       GetReadableRangesOfMemoryMap(CheckedRange<WinVMAddress, WinVMSize>(5, 10),
                                    memory_info);
 
-  ASSERT_EQ(1u, result.size());
-  EXPECT_EQ(10, result[0].base());
-  EXPECT_EQ(5, result[0].size());
+  ASSERT_EQ(result.size(), 1u);
+  EXPECT_EQ(result[0].base(), 10);
+  EXPECT_EQ(result[0].size(), 5);
 }
 
 TEST(ProcessInfo, RequestedAfterMap) {
@@ -442,9 +442,9 @@ TEST(ProcessInfo, RequestedAfterMap) {
       GetReadableRangesOfMemoryMap(
           CheckedRange<WinVMAddress, WinVMSize>(15, 100), memory_info);
 
-  ASSERT_EQ(1u, result.size());
-  EXPECT_EQ(15, result[0].base());
-  EXPECT_EQ(5, result[0].size());
+  ASSERT_EQ(result.size(), 1u);
+  EXPECT_EQ(result[0].base(), 15);
+  EXPECT_EQ(result[0].size(), 5);
 }
 
 TEST(ProcessInfo, ReadableRanges) {
@@ -489,11 +489,11 @@ TEST(ProcessInfo, ReadableRanges) {
   auto ranges = info.GetReadableRanges(
       CheckedRange<WinVMAddress, WinVMSize>(reserved_as_int, kBlockSize * 6));
 
-  ASSERT_EQ(2u, ranges.size());
-  EXPECT_EQ(reserved_as_int + kBlockSize, ranges[0].base());
-  EXPECT_EQ(kBlockSize, ranges[0].size());
-  EXPECT_EQ(reserved_as_int + (kBlockSize * 3), ranges[1].base());
-  EXPECT_EQ(kBlockSize * 2, ranges[1].size());
+  ASSERT_EQ(ranges.size(), 2u);
+  EXPECT_EQ(ranges[0].base(), reserved_as_int + kBlockSize);
+  EXPECT_EQ(ranges[0].size(), kBlockSize);
+  EXPECT_EQ(ranges[1].base(), reserved_as_int + (kBlockSize * 3));
+  EXPECT_EQ(ranges[1].size(), kBlockSize * 2);
 
   // Also make sure what we think we can read corresponds with what we can
   // actually read.
@@ -502,11 +502,11 @@ TEST(ProcessInfo, ReadableRanges) {
 
   EXPECT_TRUE(ReadProcessMemory(
       current_process, readable1, into.get(), kBlockSize, &bytes_read));
-  EXPECT_EQ(kBlockSize, bytes_read);
+  EXPECT_EQ(bytes_read, kBlockSize);
 
   EXPECT_TRUE(ReadProcessMemory(
       current_process, readable2, into.get(), kBlockSize * 2, &bytes_read));
-  EXPECT_EQ(kBlockSize * 2, bytes_read);
+  EXPECT_EQ(bytes_read, kBlockSize * 2);
 
   EXPECT_FALSE(ReadProcessMemory(
       current_process, no_access, into.get(), kBlockSize, &bytes_read));
@@ -554,9 +554,9 @@ TEST(ProcessInfo, Handles) {
   ASSERT_TRUE(inherited_file.is_valid());
 
   HKEY key;
-  ASSERT_EQ(ERROR_SUCCESS,
-            RegOpenKeyEx(
-                HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft", 0, KEY_READ, &key));
+  ASSERT_EQ(RegOpenKeyEx(
+                HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft", 0, KEY_READ, &key),
+            ERROR_SUCCESS);
   ScopedRegistryKey scoped_key(key);
   ASSERT_TRUE(scoped_key.is_valid());
 
@@ -582,47 +582,47 @@ TEST(ProcessInfo, Handles) {
     if (handle.handle == HandleToInt(file.get())) {
       EXPECT_FALSE(found_file_handle);
       found_file_handle = true;
-      EXPECT_EQ(L"File", handle.type_name);
-      EXPECT_EQ(1, handle.handle_count);
-      EXPECT_NE(0u, handle.pointer_count);
-      EXPECT_EQ(STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE | SYNCHRONIZE,
-                handle.granted_access & STANDARD_RIGHTS_ALL);
-      EXPECT_EQ(0, handle.attributes);
+      EXPECT_EQ(handle.type_name, L"File");
+      EXPECT_EQ(handle.handle_count, 1);
+      EXPECT_NE(handle.pointer_count, 0u);
+      EXPECT_EQ(handle.granted_access & STANDARD_RIGHTS_ALL,
+                STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE | SYNCHRONIZE);
+      EXPECT_EQ(handle.attributes, 0);
     }
     if (handle.handle == HandleToInt(inherited_file.get())) {
       EXPECT_FALSE(found_inherited_file_handle);
       found_inherited_file_handle = true;
-      EXPECT_EQ(L"File", handle.type_name);
-      EXPECT_EQ(1, handle.handle_count);
-      EXPECT_NE(0u, handle.pointer_count);
-      EXPECT_EQ(STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE | SYNCHRONIZE,
-                handle.granted_access & STANDARD_RIGHTS_ALL);
+      EXPECT_EQ(handle.type_name, L"File");
+      EXPECT_EQ(handle.handle_count, 1);
+      EXPECT_NE(handle.pointer_count, 0u);
+      EXPECT_EQ(handle.granted_access & STANDARD_RIGHTS_ALL,
+                STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE | SYNCHRONIZE);
 
       // OBJ_INHERIT from ntdef.h, but including that conflicts with other
       // headers.
       const int kObjInherit = 0x2;
-      EXPECT_EQ(kObjInherit, handle.attributes);
+      EXPECT_EQ(handle.attributes, kObjInherit);
     }
     if (handle.handle == HandleToInt(scoped_key.get())) {
       EXPECT_FALSE(found_key_handle);
       found_key_handle = true;
-      EXPECT_EQ(L"Key", handle.type_name);
-      EXPECT_EQ(1, handle.handle_count);
-      EXPECT_NE(0u, handle.pointer_count);
-      EXPECT_EQ(STANDARD_RIGHTS_READ,
-                handle.granted_access & STANDARD_RIGHTS_ALL);
-      EXPECT_EQ(0, handle.attributes);
+      EXPECT_EQ(handle.type_name, L"Key");
+      EXPECT_EQ(handle.handle_count, 1);
+      EXPECT_NE(handle.pointer_count, 0u);
+      EXPECT_EQ(handle.granted_access & STANDARD_RIGHTS_ALL,
+                STANDARD_RIGHTS_READ);
+      EXPECT_EQ(handle.attributes, 0);
     }
     if (handle.handle == HandleToInt(mapping.get())) {
       EXPECT_FALSE(found_mapping_handle);
       found_mapping_handle = true;
-      EXPECT_EQ(L"Section", handle.type_name);
-      EXPECT_EQ(1, handle.handle_count);
-      EXPECT_NE(0u, handle.pointer_count);
-      EXPECT_EQ(DELETE | READ_CONTROL | WRITE_DAC | WRITE_OWNER |
-                    STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE,
-                handle.granted_access & STANDARD_RIGHTS_ALL);
-      EXPECT_EQ(0, handle.attributes);
+      EXPECT_EQ(handle.type_name, L"Section");
+      EXPECT_EQ(handle.handle_count, 1);
+      EXPECT_NE(handle.pointer_count, 0u);
+      EXPECT_EQ(handle.granted_access & STANDARD_RIGHTS_ALL,
+                DELETE | READ_CONTROL | WRITE_DAC | WRITE_OWNER |
+                    STANDARD_RIGHTS_READ | STANDARD_RIGHTS_WRITE);
+      EXPECT_EQ(handle.attributes, 0);
     }
   }
   EXPECT_TRUE(found_file_handle);

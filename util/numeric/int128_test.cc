@@ -35,8 +35,8 @@ TEST(Int128, UInt128) {
 
   uint128 = bit_cast<uint128_struct>(kBytes);
 
-  EXPECT_EQ(0x0706050403020100u, uint128.lo);
-  EXPECT_EQ(0x0f0e0d0c0b0a0908u, uint128.hi);
+  EXPECT_EQ(uint128.lo, 0x0706050403020100u);
+  EXPECT_EQ(uint128.hi, 0x0f0e0d0c0b0a0908u);
 }
 
 }  // namespace

@@ -50,7 +50,7 @@ mach_port_t SendRightFromReceiveRight(mach_port_t receive_right) {
   kern_return_t kr = mach_port_insert_right(
       mach_task_self(), receive_right, receive_right, MACH_MSG_TYPE_MAKE_SEND);
   if (kr != KERN_SUCCESS) {
-    EXPECT_EQ(KERN_SUCCESS, kr)
+    EXPECT_EQ(kr, KERN_SUCCESS)
         << MachErrorMessage(kr, "mach_port_insert_right");
     return MACH_PORT_NULL;
   }
@@ -73,13 +73,13 @@ mach_port_t SendOnceRightFromReceiveRight(mach_port_t receive_right) {
                                              &send_once_right,
                                              &acquired_type);
   if (kr != KERN_SUCCESS) {
-    EXPECT_EQ(KERN_SUCCESS, kr)
+    EXPECT_EQ(kr, KERN_SUCCESS)
         << MachErrorMessage(kr, "mach_port_extract_right");
     return MACH_PORT_NULL;
   }
 
-  EXPECT_EQ(implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND_ONCE),
-            acquired_type);
+  EXPECT_EQ(acquired_type,
+            implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND_ONCE));
 
   return send_once_right;
 }
@@ -93,7 +93,7 @@ mach_port_t SendOnceRightFromReceiveRight(mach_port_t receive_right) {
 //! On failure, a gtest failure will be added.
 void MachPortDeallocate(mach_port_t port) {
   kern_return_t kr = mach_port_deallocate(mach_task_self(), port);
-  EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_deallocate");
+  EXPECT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "mach_port_deallocate");
 }
 
 //! \brief Determines whether a specific right is held for a Mach port.
@@ -107,7 +107,7 @@ bool IsRight(mach_port_t port, mach_port_type_t right) {
   mach_port_type_t type;
   kern_return_t kr = mach_port_type(mach_task_self(), port, &type);
   if (kr != KERN_SUCCESS) {
-    EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_type");
+    EXPECT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "mach_port_type");
     return false;
   }
 
@@ -138,7 +138,7 @@ mach_port_urefs_t RightRefCount(mach_port_t port, mach_port_right_t right) {
   mach_port_urefs_t refs;
   kern_return_t kr = mach_port_get_refs(mach_task_self(), port, right, &refs);
   if (kr != KERN_SUCCESS) {
-    EXPECT_EQ(KERN_SUCCESS, kr) << MachErrorMessage(kr, "mach_port_get_refs");
+    EXPECT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "mach_port_get_refs");
     return -1;
   }
 
@@ -215,13 +215,13 @@ class NotifyServerTestBase : public testing::Test,
                                        MACH_MSG_TYPE_MAKE_SEND_ONCE,
                                        &previous);
     if (kr != KERN_SUCCESS) {
-      EXPECT_EQ(KERN_SUCCESS, kr)
+      EXPECT_EQ(kr, KERN_SUCCESS)
           << MachErrorMessage(kr, "mach_port_request_notification");
       return false;
     }
 
     base::mac::ScopedMachSendRight previous_owner(previous);
-    EXPECT_EQ(kMachPortNull, previous);
+    EXPECT_EQ(previous, kMachPortNull);
 
     return true;
   }
@@ -245,7 +245,7 @@ class NotifyServerTestBase : public testing::Test,
                                MachMessageServer::kPersistent,
                                MachMessageServer::kReceiveLargeError,
                                kMachMessageTimeoutNonblocking);
-    ASSERT_EQ(MACH_RCV_TIMED_OUT, mr)
+    ASSERT_EQ(mr, MACH_RCV_TIMED_OUT)
         << MachErrorMessage(mr, "MachMessageServer::Run");
   }
 
@@ -288,17 +288,17 @@ TEST_F(NotifyServerTest, Basic) {
   expect_request_ids.insert(MACH_NOTIFY_NO_SENDERS);
   expect_request_ids.insert(MACH_NOTIFY_SEND_ONCE);
   expect_request_ids.insert(MACH_NOTIFY_DEAD_NAME);
-  EXPECT_EQ(expect_request_ids, server.MachMessageServerRequestIDs());
+  EXPECT_EQ(server.MachMessageServerRequestIDs(), expect_request_ids);
 
   // The port-destroyed notification is the largest request message in the
   // subsystem. <mach/notify.h> defines the same structure, but with a basic
   // trailer, so use offsetof to get the size of the basic structure without any
   // trailer.
-  EXPECT_EQ(offsetof(mach_port_destroyed_notification_t, trailer),
-            server.MachMessageServerRequestSize());
+  EXPECT_EQ(server.MachMessageServerRequestSize(),
+            offsetof(mach_port_destroyed_notification_t, trailer));
 
   mig_reply_error_t reply;
-  EXPECT_EQ(sizeof(reply), server.MachMessageServerReplySize());
+  EXPECT_EQ(server.MachMessageServerReplySize(), sizeof(reply));
 }
 
 // When no notifications are requested, nothing should happen.
@@ -437,8 +437,8 @@ TEST_F(NotifyServerTest, MachNotifyNoSenders_NoNotification) {
 
   RunServer();
 
-  EXPECT_EQ(1u, RightRefCount(receive_right.get(), MACH_PORT_RIGHT_RECEIVE));
-  EXPECT_EQ(1u, RightRefCount(receive_right.get(), MACH_PORT_RIGHT_SEND));
+  EXPECT_EQ(RightRefCount(receive_right.get(), MACH_PORT_RIGHT_RECEIVE), 1u);
+  EXPECT_EQ(RightRefCount(receive_right.get(), MACH_PORT_RIGHT_SEND), 1u);
 }
 
 // When a send-once right is deallocated without being used, a send-once
@@ -480,7 +480,7 @@ TEST_F(NotifyServerTest, MachNotifySendOnce_ImplicitDeallocation) {
                                   MACH_PORT_NULL,
                                   0,
                                   MACH_PORT_NULL);
-  ASSERT_EQ(MACH_MSG_SUCCESS, mr) << MachErrorMessage(mr, "mach_msg");
+  ASSERT_EQ(mr, MACH_MSG_SUCCESS) << MachErrorMessage(mr, "mach_msg");
 
   EXPECT_CALL(*this,
               DoMachNotifySendOnce(ServerPort(),
@@ -527,9 +527,9 @@ TEST_F(NotifyServerTest, MachNotifyDeadName) {
 
   EXPECT_TRUE(IsRight(send_once_right.get(), MACH_PORT_TYPE_DEAD_NAME));
 
-  EXPECT_EQ(0u,
-            RightRefCount(send_once_right.get(), MACH_PORT_RIGHT_SEND_ONCE));
-  EXPECT_EQ(1u, DeadNameRightRefCount(send_once_right.get()));
+  EXPECT_EQ(RightRefCount(send_once_right.get(), MACH_PORT_RIGHT_SEND_ONCE),
+            0u);
+  EXPECT_EQ(DeadNameRightRefCount(send_once_right.get()), 1u);
 }
 
 // When the receive right corresponding to a send-once right with a dead-name
@@ -551,9 +551,9 @@ TEST_F(NotifyServerTest, MachNotifyDeadName_NoNotification) {
 
   EXPECT_FALSE(IsRight(send_once_right.get(), MACH_PORT_TYPE_DEAD_NAME));
 
-  EXPECT_EQ(1u,
-            RightRefCount(send_once_right.get(), MACH_PORT_RIGHT_SEND_ONCE));
-  EXPECT_EQ(0u, DeadNameRightRefCount(send_once_right.get()));
+  EXPECT_EQ(RightRefCount(send_once_right.get(), MACH_PORT_RIGHT_SEND_ONCE),
+            1u);
+  EXPECT_EQ(DeadNameRightRefCount(send_once_right.get()), 0u);
 }
 
 }  // namespace

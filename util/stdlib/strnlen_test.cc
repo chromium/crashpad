@@ -24,20 +24,20 @@ namespace {
 
 TEST(strnlen, strnlen) {
   const char kTestBuffer[] = "abc\0d";
-  ASSERT_EQ(3u, strlen(kTestBuffer));
-  EXPECT_EQ(0u, crashpad::strnlen(kTestBuffer, 0));
-  EXPECT_EQ(1u, crashpad::strnlen(kTestBuffer, 1));
-  EXPECT_EQ(2u, crashpad::strnlen(kTestBuffer, 2));
-  EXPECT_EQ(3u, crashpad::strnlen(kTestBuffer, 3));
-  EXPECT_EQ(3u, crashpad::strnlen(kTestBuffer, 4));
-  EXPECT_EQ(3u, crashpad::strnlen(kTestBuffer, 5));
-  EXPECT_EQ(3u, crashpad::strnlen(kTestBuffer, 6));
+  ASSERT_EQ(strlen(kTestBuffer), 3u);
+  EXPECT_EQ(crashpad::strnlen(kTestBuffer, 0), 0u);
+  EXPECT_EQ(crashpad::strnlen(kTestBuffer, 1), 1u);
+  EXPECT_EQ(crashpad::strnlen(kTestBuffer, 2), 2u);
+  EXPECT_EQ(crashpad::strnlen(kTestBuffer, 3), 3u);
+  EXPECT_EQ(crashpad::strnlen(kTestBuffer, 4), 3u);
+  EXPECT_EQ(crashpad::strnlen(kTestBuffer, 5), 3u);
+  EXPECT_EQ(crashpad::strnlen(kTestBuffer, 6), 3u);
 
   const char kEmptyBuffer[] = "\0";
-  ASSERT_EQ(0u, strlen(kEmptyBuffer));
-  EXPECT_EQ(0u, crashpad::strnlen(kEmptyBuffer, 0));
-  EXPECT_EQ(0u, crashpad::strnlen(kEmptyBuffer, 1));
-  EXPECT_EQ(0u, crashpad::strnlen(kEmptyBuffer, 2));
+  ASSERT_EQ(strlen(kEmptyBuffer), 0u);
+  EXPECT_EQ(crashpad::strnlen(kEmptyBuffer, 0), 0u);
+  EXPECT_EQ(crashpad::strnlen(kEmptyBuffer, 1), 0u);
+  EXPECT_EQ(crashpad::strnlen(kEmptyBuffer, 2), 0u);
 }
 
 }  // namespace

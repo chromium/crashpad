@@ -1,4 +1,4 @@
-// Copyright 2015 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "test/paths.h"
+#ifndef CRASHPAD_COMPAT_ANDROID_LINUX_PRCTL_H_
+#define CRASHPAD_COMPAT_ANDROID_LINUX_PRCTL_H_
 
-#include <windows.h>
+#include_next <linux/prctl.h>
 
-#include "base/logging.h"
+// Android 5.0.0 (API 21) NDK
+#if !defined(PR_SET_PTRACER)
+#define PR_SET_PTRACER 0x59616d61
+#endif
 
-namespace crashpad {
-namespace test {
-
-// static
-base::FilePath Paths::Executable() {
-  wchar_t executable_path[_MAX_PATH];
-  unsigned int len =
-      GetModuleFileName(nullptr, executable_path, arraysize(executable_path));
-  PCHECK(len != 0 && len < arraysize(executable_path)) << "GetModuleFileName";
-  return base::FilePath(executable_path);
-}
-
-}  // namespace test
-}  // namespace crashpad
+#endif  // CRASHPAD_COMPAT_ANDROID_LINUX_PRCTL_H_

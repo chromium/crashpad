@@ -36,7 +36,7 @@ const T* TMinidumpStringAtRVA(const std::string& file_contents, RVA rva) {
   // units.
   const size_t kCodeUnitSize = sizeof(string_base->Buffer[0]);
   if (string_base->Length % kCodeUnitSize != 0) {
-    EXPECT_EQ(0u, string_base->Length % kCodeUnitSize);
+    EXPECT_EQ(string_base->Length % kCodeUnitSize, 0u);
     return nullptr;
   }
 
@@ -51,11 +51,11 @@ const T* TMinidumpStringAtRVA(const std::string& file_contents, RVA rva) {
     return nullptr;
   }
 
-  EXPECT_EQ(string_base, string);
+  EXPECT_EQ(string, string_base);
 
   // Require the NUL terminator to be NUL.
   if (string->Buffer[string->Length / kCodeUnitSize] != '\0') {
-    EXPECT_EQ('\0', string->Buffer[string->Length / kCodeUnitSize]);
+    EXPECT_EQ(string->Buffer[string->Length / kCodeUnitSize], '\0');
     return nullptr;
   }
 

@@ -185,9 +185,9 @@ TEST(PruneCrashReports, BinaryCondition) {
     auto rhs = new StaticCondition(test.rhs_value);
     BinaryPruneCondition condition(test.op, lhs, rhs);
     CrashReportDatabase::Report report;
-    EXPECT_EQ(test.cond_result, condition.ShouldPruneReport(report));
-    EXPECT_EQ(test.lhs_executed, lhs->did_execute());
-    EXPECT_EQ(test.rhs_executed, rhs->did_execute());
+    EXPECT_EQ(condition.ShouldPruneReport(report), test.cond_result);
+    EXPECT_EQ(lhs->did_execute(), test.lhs_executed);
+    EXPECT_EQ(rhs->did_execute(), test.rhs_executed);
   }
 }
 

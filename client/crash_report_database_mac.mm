@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #import <Foundation/Foundation.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -146,6 +147,17 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   OperationStatus RequestUpload(const UUID& uuid) override;
 
  private:
+  //! \brief Report states for use with LocateCrashReport().
+  //!
+  //! ReportState may be considered to be a bitfield.
+  enum ReportState : uint8_t {
+    kReportStateWrite = 1 << 0,  // in kWriteDirectory
+    kReportStatePending = 1 << 1,  // in kUploadPendingDirectory
+    kReportStateCompleted = 1 << 2,  // in kCompletedDirectory
+    kReportStateAny =
+        kReportStateWrite | kReportStatePending | kReportStateCompleted,
+  };
+
   //! \brief A private extension of the Report class that maintains bookkeeping
   //!    information of the database.
   struct UploadReport : public Report {
@@ -157,10 +169,12 @@ class CrashReportDatabaseMac : public CrashReportDatabase {
   //! \brief Locates a crash report in the database by UUID.
   //!
   //! \param[in] uuid The UUID of the crash report to locate.
+  //! \param[in] desired_state The state of the report to locate, composed of
+  //!     ReportState values.
   //!
   //! \return The full path to the report file, or an empty path if it cannot be
   //!     found.
-  base::FilePath LocateCrashReport(const UUID& uuid);
+  base::FilePath LocateCrashReport(const UUID& uuid, uint8_t desired_state);
 
   //! \brief Obtains an exclusive advisory lock on a file.
   //!
@@ -392,7 +406,7 @@ CrashReportDatabaseMac::LookUpCrashReport(const UUID& uuid,
                                           CrashReportDatabase::Report* report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  base::FilePath path = LocateCrashReport(uuid);
+  base::FilePath path = LocateCrashReport(uuid, kReportStateAny);
   if (path.empty())
     return kReportNotFound;
 
@@ -429,7 +443,7 @@ CrashReportDatabaseMac::GetReportForUploading(const UUID& uuid,
                                               const Report** report) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  base::FilePath report_path = LocateCrashReport(uuid);
+  base::FilePath report_path = LocateCrashReport(uuid, kReportStatePending);
   if (report_path.empty())
     return kReportNotFound;
 
@@ -459,7 +473,8 @@ CrashReportDatabaseMac::RecordUploadAttempt(const Report* report,
   DCHECK(report);
   DCHECK(successful || id.empty());
 
-  base::FilePath report_path = LocateCrashReport(report->uuid);
+  base::FilePath report_path =
+      LocateCrashReport(report->uuid, kReportStatePending);
   if (report_path.empty())
     return kReportNotFound;
 
@@ -513,7 +528,7 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::SkipReportUpload(
 
   Metrics::CrashUploadSkipped(reason);
 
-  base::FilePath report_path = LocateCrashReport(uuid);
+  base::FilePath report_path = LocateCrashReport(uuid, kReportStatePending);
   if (report_path.empty())
     return kReportNotFound;
 
@@ -528,7 +543,7 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::DeleteReport(
     const UUID& uuid) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  base::FilePath report_path = LocateCrashReport(uuid);
+  base::FilePath report_path = LocateCrashReport(uuid, kReportStateAny);
   if (report_path.empty())
     return kReportNotFound;
 
@@ -544,11 +559,25 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::DeleteReport(
   return kNoError;
 }
 
-base::FilePath CrashReportDatabaseMac::LocateCrashReport(const UUID& uuid) {
+base::FilePath CrashReportDatabaseMac::LocateCrashReport(
+    const UUID& uuid,
+    uint8_t desired_state) {
   const std::string target_uuid = uuid.ToString();
-  for (size_t i = 0; i < arraysize(kReportDirectories); ++i) {
+
+  std::vector<std::string> report_directories;
+  if (desired_state & kReportStateWrite) {
+    report_directories.push_back(kWriteDirectory);
+  }
+  if (desired_state & kReportStatePending) {
+    report_directories.push_back(kUploadPendingDirectory);
+  }
+  if (desired_state & kReportStateCompleted) {
+    report_directories.push_back(kCompletedDirectory);
+  }
+
+  for (const std::string& report_directory : report_directories) {
     base::FilePath path =
-        base_dir_.Append(kReportDirectories[i])
+        base_dir_.Append(report_directory)
                  .Append(target_uuid + "." + kCrashReportFileExtension);
 
     // Test if the path exists.
@@ -573,7 +602,8 @@ CrashReportDatabase::OperationStatus CrashReportDatabaseMac::RequestUpload(
     const UUID& uuid) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  base::FilePath report_path = LocateCrashReport(uuid);
+  base::FilePath report_path =
+      LocateCrashReport(uuid, kReportStatePending | kReportStateCompleted);
   if (report_path.empty())
     return kReportNotFound;
 

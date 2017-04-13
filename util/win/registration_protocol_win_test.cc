@@ -44,8 +44,8 @@ TEST(SecurityDescriptor, MatchesAdvapi32) {
   size_t created_len;
   const void* const created =
       GetSecurityDescriptorForNamedPipeInstance(&created_len);
-  ASSERT_EQ(sec_desc_len, created_len);
-  EXPECT_EQ(0, memcmp(sec_desc, created, sec_desc_len));
+  ASSERT_EQ(created_len, sec_desc_len);
+  EXPECT_EQ(memcmp(sec_desc, created, sec_desc_len), 0);
 }
 
 }  // namespace
