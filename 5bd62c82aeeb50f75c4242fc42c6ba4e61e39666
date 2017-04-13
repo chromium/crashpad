@@ -22,6 +22,30 @@
       "revId": "5bd62c82aeeb50f75c4242fc42c6ba4e61e39666",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd336fba_834908c0",
+        "filename": "client/crash_report_database_mac.mm",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-13T14:12:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68424d07_5f7fa524",
+      "range": {
+        "startLine": 177,
+        "startChar": 60,
+        "endLine": 177,
+        "endChar": 61
+      },
+      "revId": "5bd62c82aeeb50f75c4242fc42c6ba4e61e39666",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
