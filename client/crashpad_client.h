@@ -189,6 +189,13 @@ class CrashpadClient {
   //!     `&quot;\\.\pipe\NAME&quot;`.
   std::wstring GetHandlerIPCPipe() const;
 
+
+  //! \brief Configures the Crashpad handler to restart the client process when
+  //! it crashes.
+  //!
+  //! This method is only defined on Windows.
+  void RestartOnCrash();
+
   //! \brief When `asynchronous_start` is used with StartHandler(), this method
   //!     can be used to block until the handler launch has been completed to
   //!     retrieve status information.
@@ -283,6 +290,7 @@ class CrashpadClient {
   base::mac::ScopedMachSendRight exception_port_;
 #elif defined(OS_WIN)
   std::wstring ipc_pipe_;
+  bool restart_on_crash_;
   ScopedKernelHANDLE handler_start_thread_;
 #endif  // OS_MACOSX
 

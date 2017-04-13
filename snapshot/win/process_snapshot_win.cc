@@ -157,6 +157,16 @@ void ProcessSnapshotWin::ClientID(UUID* client_id) const {
   *client_id = client_id_;
 }
 
+bool ProcessSnapshotWin::CommandLine(std::wstring* command_line) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return process_reader_.GetProcessInfo().CommandLine(command_line);
+}
+
+bool ProcessSnapshotWin::Environment(std::wstring* environment) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return process_reader_.GetProcessInfo().Environment(environment);
+}
+
 const std::map<std::string, std::string>&
 ProcessSnapshotWin::AnnotationsSimpleMap() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);

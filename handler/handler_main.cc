@@ -93,6 +93,7 @@ void Usage(const base::FilePath& me) {
 "                            Address_crash_exception_information,\n"
 "                            Address_non_crash_exception_information,\n"
 "                            Address_debug_critical_section\n"
+"                            Bool_restart_on_crash\n"
 "                              use precreated data to register initial client\n"
 #endif  // OS_MACOSX
 "      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"

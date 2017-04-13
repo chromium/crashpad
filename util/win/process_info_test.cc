@@ -97,6 +97,17 @@ TEST(ProcessInfo, Self) {
   EXPECT_TRUE(process_info.CommandLine(&command_line));
   EXPECT_EQ(std::wstring(GetCommandLine()), command_line);
 
+  std::wstring environment;
+  EXPECT_TRUE(process_info.Environment(&environment));
+  wchar_t* environment_strings = GetEnvironmentStrings();
+  size_t environment_end = 0;
+  while (environment_strings[environment_end] != L'\0' ||
+         environment_strings[environment_end + 1] != L'\0') {
+    environment_end++;
+  }
+  EXPECT_EQ(std::wstring(environment_strings, environment_end + 2),
+            environment);
+
   std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 2u);

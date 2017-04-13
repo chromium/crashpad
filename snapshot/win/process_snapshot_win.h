@@ -120,6 +120,10 @@ class ProcessSnapshotWin final : public ProcessSnapshot {
   void ProcessCPUTimes(timeval* user_time, timeval* system_time) const override;
   void ReportID(UUID* report_id) const override;
   void ClientID(UUID* client_id) const override;
+
+  bool CommandLine(std::wstring* command_line) const;
+  bool Environment(std::wstring* environment) const;
+
   const std::map<std::string, std::string>& AnnotationsSimpleMap()
       const override;
   const SystemSnapshot* System() const override;

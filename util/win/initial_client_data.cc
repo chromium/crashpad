@@ -44,6 +44,18 @@ bool AddressFromString(const std::string& str, WinVMAddress* address) {
   return true;
 }
 
+bool BoolFromString(const std::string& str, bool* out) {
+  if (str == "0") {
+    *out = false;
+  } else if (str == "1") {
+    *out = true;
+  } else {
+    LOG(ERROR) << "could not convert '" << str << "' to bool";
+    return false;
+  }
+  return true;
+}
+
 }  // namespace
 
 InitialClientData::InitialClientData()
@@ -55,6 +67,7 @@ InitialClientData::InitialClientData()
       non_crash_dump_completed_(nullptr),
       first_pipe_instance_(INVALID_HANDLE_VALUE),
       client_process_(nullptr),
+      restart_on_crash_(false),
       is_valid_(false) {}
 
 InitialClientData::InitialClientData(
@@ -65,7 +78,8 @@ InitialClientData::InitialClientData(
     HANDLE client_process,
     WinVMAddress crash_exception_information,
     WinVMAddress non_crash_exception_information,
-    WinVMAddress debug_critical_section_address)
+    WinVMAddress debug_critical_section_address,
+    bool restart_on_crash)
     : crash_exception_information_(crash_exception_information),
       non_crash_exception_information_(non_crash_exception_information),
       debug_critical_section_address_(debug_critical_section_address),
@@ -74,12 +88,13 @@ InitialClientData::InitialClientData(
       non_crash_dump_completed_(non_crash_dump_completed),
       first_pipe_instance_(first_pipe_instance),
       client_process_(client_process),
+      restart_on_crash_(restart_on_crash),
       is_valid_(true) {}
 
 bool InitialClientData::InitializeFromString(const std::string& str) {
   std::vector<std::string> parts(SplitString(str, ','));
-  if (parts.size() != 8) {
-    LOG(ERROR) << "expected 8 comma separated arguments";
+  if (parts.size() != 9) {
+    LOG(ERROR) << "expected 9 comma separated arguments";
     return false;
   }
 
@@ -90,7 +105,8 @@ bool InitialClientData::InitializeFromString(const std::string& str) {
       !HandleFromString(parts[4], &client_process_) ||
       !AddressFromString(parts[5], &crash_exception_information_) ||
       !AddressFromString(parts[6], &non_crash_exception_information_) ||
-      !AddressFromString(parts[7], &debug_critical_section_address_)) {
+      !AddressFromString(parts[7], &debug_critical_section_address_) ||
+      !BoolFromString(parts[8], &restart_on_crash_)) {
     return false;
   }
 
@@ -99,15 +115,17 @@ bool InitialClientData::InitializeFromString(const std::string& str) {
 }
 
 std::string InitialClientData::StringRepresentation() const {
-  return base::StringPrintf("0x%x,0x%x,0x%x,0x%x,0x%x,0x%I64x,0x%I64x,0x%I64x",
-                            HandleToInt(request_crash_dump_),
-                            HandleToInt(request_non_crash_dump_),
-                            HandleToInt(non_crash_dump_completed_),
-                            HandleToInt(first_pipe_instance_),
-                            HandleToInt(client_process_),
-                            crash_exception_information_,
-                            non_crash_exception_information_,
-                            debug_critical_section_address_);
+  return base::StringPrintf(
+      "0x%x,0x%x,0x%x,0x%x,0x%x,0x%I64x,0x%I64x,0x%I64x,%d",
+      HandleToInt(request_crash_dump_),
+      HandleToInt(request_non_crash_dump_),
+      HandleToInt(non_crash_dump_completed_),
+      HandleToInt(first_pipe_instance_),
+      HandleToInt(client_process_),
+      crash_exception_information_,
+      non_crash_exception_information_,
+      debug_critical_section_address_,
+      static_cast<int>(restart_on_crash_));
 }
 
 }  // namespace crashpad

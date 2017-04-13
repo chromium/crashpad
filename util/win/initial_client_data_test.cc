@@ -32,7 +32,8 @@ TEST(InitialClientData, Validity) {
       reinterpret_cast<HANDLE>(0xdef),
       0x7fff000012345678ull,
       0x100000ull,
-      0xccccddddeeeeffffull);
+      0xccccddddeeeeffffull,
+      false);
   EXPECT_TRUE(icd2.IsValid());
 }
 
@@ -45,12 +46,13 @@ TEST(InitialClientData, RoundTrip) {
       reinterpret_cast<HANDLE>(0xdef),
       0x7fff000012345678ull,
       0x100000ull,
-      0xccccddddeeeeffffull);
+      0xccccddddeeeeffffull,
+      false);
 
   std::string as_string = first.StringRepresentation();
   EXPECT_EQ(
       "0x123,0x456,0x789,0xabc,0xdef,"
-      "0x7fff000012345678,0x100000,0xccccddddeeeeffff",
+      "0x7fff000012345678,0x100000,0xccccddddeeeeffff,0",
       as_string);
 
   InitialClientData second;

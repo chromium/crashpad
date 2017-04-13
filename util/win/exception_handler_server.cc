@@ -114,6 +114,7 @@ class ClientData {
              WinVMAddress crash_exception_information_address,
              WinVMAddress non_crash_exception_information_address,
              WinVMAddress debug_critical_section_address,
+             bool restart_on_crash,
              WAITORTIMERCALLBACK crash_dump_request_callback,
              WAITORTIMERCALLBACK non_crash_dump_request_callback,
              WAITORTIMERCALLBACK process_end_callback)
@@ -129,6 +130,7 @@ class ClientData {
         non_crash_dump_completed_event_(
             std::move(non_crash_dump_completed_event)),
         process_(std::move(process)),
+        restart_on_crash_(restart_on_crash),
         crash_exception_information_address_(
             crash_exception_information_address),
         non_crash_exception_information_address_(
@@ -168,6 +170,7 @@ class ClientData {
     return debug_critical_section_address_;
   }
   HANDLE process() const { return process_.get(); }
+  bool restart_on_crash() const { return restart_on_crash_; };
 
  private:
   void RegisterThreadPoolWaits(
@@ -229,6 +232,7 @@ class ClientData {
   ScopedKernelHANDLE non_crash_dump_requested_event_;
   ScopedKernelHANDLE non_crash_dump_completed_event_;
   ScopedKernelHANDLE process_;
+  bool restart_on_crash_;
   WinVMAddress crash_exception_information_address_;
   WinVMAddress non_crash_exception_information_address_;
   WinVMAddress debug_critical_section_address_;
@@ -296,6 +300,7 @@ void ExceptionHandlerServer::InitializeWithInheritedDataForInitialClient(
         initial_client_data.crash_exception_information(),
         initial_client_data.non_crash_exception_information(),
         initial_client_data.debug_critical_section_address(),
+        initial_client_data.restart_on_crash(),
         &OnCrashDumpEvent,
         &OnNonCrashDumpEvent,
         &OnProcessEnd);
@@ -489,6 +494,7 @@ bool ExceptionHandlerServer::ServiceClientConnection(
         message.registration.crash_exception_information,
         message.registration.non_crash_exception_information,
         message.registration.critical_section_address,
+        false,
         &OnCrashDumpEvent,
         &OnNonCrashDumpEvent,
         &OnProcessEnd);
@@ -544,7 +550,8 @@ void __stdcall ExceptionHandlerServer::OnCrashDumpEvent(void* ctx, BOOLEAN) {
   unsigned int exit_code = client->delegate()->ExceptionHandlerServerException(
       client->process(),
       client->crash_exception_information_address(),
-      client->debug_critical_section_address());
+      client->debug_critical_section_address(),
+      client->restart_on_crash());
 
   TerminateProcess(client->process(), exit_code);
 }
@@ -559,7 +566,8 @@ void __stdcall ExceptionHandlerServer::OnNonCrashDumpEvent(void* ctx, BOOLEAN) {
   client->delegate()->ExceptionHandlerServerException(
       client->process(),
       client->non_crash_exception_information_address(),
-      client->debug_critical_section_address());
+      client->debug_critical_section_address(),
+      false);
 
   bool result = !!SetEvent(client->non_crash_dump_completed_event());
   PLOG_IF(ERROR, !result) << "SetEvent";

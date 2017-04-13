@@ -62,7 +62,8 @@ class CrashReportExceptionHandler : public ExceptionHandlerServer::Delegate {
   unsigned int ExceptionHandlerServerException(
       HANDLE process,
       WinVMAddress exception_information_address,
-      WinVMAddress debug_critical_section_address) override;
+      WinVMAddress debug_critical_section_address,
+      bool restart_process) override;
 
  private:
   CrashReportDatabase* database_;  // weak

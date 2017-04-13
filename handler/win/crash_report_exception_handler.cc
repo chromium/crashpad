@@ -14,6 +14,7 @@
 
 #include "handler/win/crash_report_exception_handler.h"
 
+#include <functional>
 #include <type_traits>
 
 #include "client/crash_report_database.h"
@@ -28,6 +29,22 @@
 #include "util/win/termination_codes.h"
 
 namespace crashpad {
+
+namespace {
+
+class ScopedFunctionRunner {
+ public:
+  void SetFunction(std::function<void()> function) { function_ = function; }
+  ScopedFunctionRunner() = default;
+  ~ScopedFunctionRunner() { function_(); }
+
+ private:
+  std::function<void()> function_ = []() {};
+
+  DISALLOW_COPY_AND_ASSIGN(ScopedFunctionRunner);
+};
+
+}  // namespace
 
 CrashReportExceptionHandler::CrashReportExceptionHandler(
     CrashReportDatabase* database,
@@ -47,7 +64,8 @@ void CrashReportExceptionHandler::ExceptionHandlerServerStarted() {
 unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     HANDLE process,
     WinVMAddress exception_information_address,
-    WinVMAddress debug_critical_section_address) {
+    WinVMAddress debug_critical_section_address,
+    bool restart_process) {
   Metrics::ExceptionEncountered();
 
   ScopedProcessSuspend suspend(process);
@@ -60,6 +78,24 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     LOG(WARNING) << "ProcessSnapshotWin::Initialize failed";
     Metrics::ExceptionCaptureResult(Metrics::CaptureResult::kSnapshotFailed);
     return kTerminationCodeSnapshotFailed;
+  }
+
+  std::wstring command_line, environment;
+  ScopedFunctionRunner process_restart_runner;
+  if (restart_process &&
+      process_snapshot.CommandLine(&command_line) &&
+      process_snapshot.Environment(&environment)) {
+    process_restart_runner.SetFunction([&command_line, &environment]() {
+      STARTUPINFOW si = {sizeof(si)};
+      PROCESS_INFORMATION pi;
+      if (::CreateProcessW(NULL, &command_line[0], NULL, NULL, FALSE,
+                           CREATE_UNICODE_ENVIRONMENT, &environment[0], NULL,
+                           &si, &pi)) {
+        ::AllowSetForegroundWindow(pi.dwProcessId);
+        ::CloseHandle(pi.hProcess);
+        ::CloseHandle(pi.hThread);
+      }
+    });
   }
 
   // Now that we have the exception information, even if something else fails we

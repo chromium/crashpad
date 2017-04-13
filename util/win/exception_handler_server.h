@@ -54,12 +54,15 @@ class ExceptionHandlerServer {
     //! \param[in] debug_critical_section_address The address in the client's
     //!     address space of a `CRITICAL_SECTION` allocated with a valid
     //!     `.DebugInfo` field, or `0` if unavailable.
+    //! \param[in] restart_on_crash Whether to restart the process after crash
+    //!     dump is sent.
     //! \return The exit code that should be used when terminating the client
     //!     process.
     virtual unsigned int ExceptionHandlerServerException(
         HANDLE process,
         WinVMAddress exception_information_address,
-        WinVMAddress debug_critical_section_address) = 0;
+        WinVMAddress debug_critical_section_address,
+        bool restart_process) = 0;
   };
 
   //! \brief Constructs the exception handling server.

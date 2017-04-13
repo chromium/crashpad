@@ -306,7 +306,8 @@ struct BackgroundHandlerStartThreadData {
       const std::map<std::string, std::string>& annotations,
       const std::vector<std::string>& arguments,
       const std::wstring& ipc_pipe,
-      ScopedFileHANDLE ipc_pipe_handle)
+      ScopedFileHANDLE ipc_pipe_handle,
+      bool restart_on_crash)
       : handler(handler),
         database(database),
         metrics_dir(metrics_dir),
@@ -314,7 +315,8 @@ struct BackgroundHandlerStartThreadData {
         annotations(annotations),
         arguments(arguments),
         ipc_pipe(ipc_pipe),
-        ipc_pipe_handle(std::move(ipc_pipe_handle)) {}
+        ipc_pipe_handle(std::move(ipc_pipe_handle)),
+        restart_on_crash(restart_on_crash) {}
 
   base::FilePath handler;
   base::FilePath database;
@@ -324,6 +326,7 @@ struct BackgroundHandlerStartThreadData {
   std::vector<std::string> arguments;
   std::wstring ipc_pipe;
   ScopedFileHANDLE ipc_pipe_handle;
+  bool restart_on_crash;
 };
 
 // Ensures that SetHandlerStartupState() is called on scope exit. Assumes
@@ -391,7 +394,8 @@ bool StartHandlerProcess(
       this_process.get(),
       reinterpret_cast<WinVMAddress>(&g_crash_exception_information),
       reinterpret_cast<WinVMAddress>(&g_non_crash_exception_information),
-      reinterpret_cast<WinVMAddress>(&g_critical_section_with_debug_info));
+      reinterpret_cast<WinVMAddress>(&g_critical_section_with_debug_info),
+      data->restart_on_crash);
   AppendCommandLineArgument(
       base::UTF8ToUTF16(std::string("--initial-client-data=") +
                         initial_client_data.StringRepresentation()),
@@ -563,7 +567,9 @@ void RegisterHandlers() {
 
 }  // namespace
 
-CrashpadClient::CrashpadClient() : ipc_pipe_(), handler_start_thread_() {}
+CrashpadClient::CrashpadClient()
+    : ipc_pipe_(), restart_on_crash_(false), handler_start_thread_() {
+}
 
 CrashpadClient::~CrashpadClient() {}
 
@@ -606,7 +612,8 @@ bool CrashpadClient::StartHandler(
                                                    annotations,
                                                    arguments,
                                                    ipc_pipe_,
-                                                   std::move(ipc_pipe_handle));
+                                                   std::move(ipc_pipe_handle),
+                                                   restart_on_crash_);
 
   if (asynchronous_start) {
     // It is important that the current thread not be synchronized with the
@@ -687,6 +694,10 @@ bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
 std::wstring CrashpadClient::GetHandlerIPCPipe() const {
   DCHECK(!ipc_pipe_.empty());
   return ipc_pipe_;
+}
+
+void CrashpadClient::RestartOnCrash() {
+  restart_on_crash_ = true;
 }
 
 bool CrashpadClient::WaitForHandlerStart(unsigned int timeout_ms) {

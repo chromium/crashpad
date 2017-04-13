@@ -58,6 +58,8 @@ class InitialClientData {
   //!     InitializeCriticalSectionWithDebugInfoIfPossible() or equivalent. This
   //!     value can be `0`, however then limited lock data will be available in
   //!     minidumps.
+  //! \param[in] restart_on_crash Whether the server should restart the initial
+  //!     client process when it crashes.
   InitialClientData(HANDLE request_crash_dump,
                     HANDLE request_non_crash_dump,
                     HANDLE non_crash_dump_completed,
@@ -65,7 +67,8 @@ class InitialClientData {
                     HANDLE client_process,
                     WinVMAddress crash_exception_information,
                     WinVMAddress non_crash_exception_information,
-                    WinVMAddress debug_critical_section_address);
+                    WinVMAddress debug_critical_section_address,
+                    bool restart_on_crash);
 
   //! \brief Returns whether the object has been initialized successfully.
   bool IsValid() const { return is_valid_; }
@@ -96,6 +99,7 @@ class InitialClientData {
   WinVMAddress debug_critical_section_address() const {
     return debug_critical_section_address_;
   }
+  bool restart_on_crash() const { return restart_on_crash_; }
 
  private:
   WinVMAddress crash_exception_information_;
@@ -106,6 +110,7 @@ class InitialClientData {
   HANDLE non_crash_dump_completed_;
   HANDLE first_pipe_instance_;
   HANDLE client_process_;
+  bool restart_on_crash_;
   bool is_valid_;
 
 #if _MSC_VER < 1900
