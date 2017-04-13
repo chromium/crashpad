@@ -209,12 +209,15 @@ bool ProcessInfo::Initialize(pid_t pid) {
           LOG(ERROR) << "format error: multiple Groups lines";
           return false;
         }
-        gid_t group;
-        while (AdvancePastNumber(&line_c, &group)) {
-          supplementary_groups_.insert(group);
-          if (!AdvancePastPrefix(&line_c, " ")) {
-            LOG(ERROR) << "format error: unrecognized Groups format";
-            return false;
+        if (!AdvancePastPrefix(&line_c, " ")) {
+          // In Linux 4.10, even an empty Groups: line has a trailing space.
+          gid_t group;
+          while (AdvancePastNumber(&line_c, &group)) {
+            supplementary_groups_.insert(group);
+            if (!AdvancePastPrefix(&line_c, " ")) {
+              LOG(ERROR) << "format error: unrecognized Groups format";
+              return false;
+            }
           }
         }
         have_groups = true;
