@@ -157,6 +157,24 @@
       "revId": "6dc339d3bb3ae2f2e34f0c8e5a14c2146ff07fc7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06f33d68_3466b427",
+        "filename": "util/synchronization/semaphore.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T18:52:06Z",
+      "side": 1,
+      "message": "\u003e I think it would make the calling code more clear, but consider it optional.\n\nAll right, I defined it on Semaphore and echoed it back out through WorkerThread. Does https://chromium-review.googlesource.com/c/473827/6..8 look good?",
+      "parentUuid": "bc7e85e4_d4013585",
+      "revId": "6dc339d3bb3ae2f2e34f0c8e5a14c2146ff07fc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
