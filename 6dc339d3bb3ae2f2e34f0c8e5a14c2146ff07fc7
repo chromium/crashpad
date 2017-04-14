@@ -139,6 +139,24 @@
       "revId": "6dc339d3bb3ae2f2e34f0c8e5a14c2146ff07fc7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc7e85e4_d4013585",
+        "filename": "util/synchronization/semaphore.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-04-14T18:24:09Z",
+      "side": 1,
+      "message": "I think it would make the calling code more clear, but consider it optional.",
+      "parentUuid": "dfc23848_52ebff96",
+      "revId": "6dc339d3bb3ae2f2e34f0c8e5a14c2146ff07fc7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
