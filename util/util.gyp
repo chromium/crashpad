@@ -45,6 +45,8 @@
         'file/string_file.cc',
         'file/string_file.h',
         'linux/address_types.h',
+        'linux/memory_map.cc',
+        'linux/memory_map.h',
         'linux/process_memory.cc',
         'linux/process_memory.h',
         'linux/scoped_ptrace_attach.cc',
