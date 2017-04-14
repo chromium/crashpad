@@ -1,0 +1,384 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca70b805_93787420",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "I’d put the pop.back() as the first thing inside the while, and wait to declare “mapping” until after that, which puts “mapping” closer to its point of first use.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "655277a5_751b5f26",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "This is fine for now, but I’m making a mental note that we’ll probably want a dedicated hexadecimal converter to cut down on these string ops.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "388978b0_5bd504b2",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "I feel like this field[0]…field[3] thing should be using some sort of parameterized loop, but let’s say that’s optional.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8a32842_0de3d149",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Why don’t we capture these? I’d like to eventually surface them in the minidump.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "382a9473_a56b34f2",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "When would it not be \u0027\\n\u0027? Wouldn’t that be a format error?",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cdd3dd2_2758946e",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Seems like this should wait until after you’re done with mapping.name.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e38016df_ffbb4b7d",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "field.find_first_not_of(\u0027 \u0027)?",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f9df564_6855d24c",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Not sure why you didn’t just put this into the Mapping, but maybe it’s something very clever (and should have a comment)?",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c739170_9b1e76fa",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Since “index” isn’t special here, we can just use the nice, compact\n\n  for (const auto\u0026 mapping : mappings_)\n\nstyle.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cbcd929_a9c00de8",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Reading /proc/pid/maps brings back an unpleasant blast from the past. I’d like you to look through https://codereview.chromium.org/18661009/ to see how tricky this can actually get. We should decide whether those problems are relevant to us here, and whether we need to do anything to mitigate them.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a26801f0_b9e35788",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "We’d normally prefer to store an address and size, or perhaps a CheckedAddressRange (we also have CheckedMachAddressRange/CheckedWinAddressRange).",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e6be1e4_e163180f",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Does this bit mean that something is actually shared, or just that it’s shareable?",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ea142e4_b0aff2a5",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Sounds like this method should be const too.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "758f6bcd_73d1751f",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Guess we don’t have a RangeMap in Crashpad yet. We should get a bug on file about adding one, and we should track the things that we want to migrate to it. This would be one of them.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2eaef7b_93d05de7",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "LT for end_address, because of the way that maps presents end_address as one byte beyond the last address in the region. Same throughout.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d8c16bc_ba6c1709",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Too bad that in 2017 we’re still fearful of executable stacks. :( Did you omit that because stacks were still showing up as executable in tests on some systems?",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca19cfb1_82e0255b",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 51,
+        "startChar": 55,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54075795_b185ad94",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Yeah, if this is true here, then the bit definitely means “shareable” and not “shared,” because we haven’t shared it with anyone yet!",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0555841_a3d6539c",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "You need O_RDWR or something else (open() always needs exactly one of O_RDONLY, O_WRONLY, and O_RDWR). You should also #include \"base/posix/eintr_wrapper.h\" and HANDLE_EINTR(). And ASSERT_TRUE that your handle.is_valid().",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf7b02a6_bffd4f4e",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "I think it makes more sense to reverse the relationship here: the parent should be reading the child, not the other way around.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0608e34c_be23c57a",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "You were cool with saying that code was not writable in the self-test above, no reason this should be different.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36edb1f2_ff6c5869",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-14T17:51:46Z",
+      "side": 1,
+      "message": "Seems like this could be static const char kFileName[], but in reality you only use it in one place so it doesn’t need to be a class-level member, static or not. Just write the string you need in-line at the single point of use.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
