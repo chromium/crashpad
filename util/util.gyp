@@ -168,6 +168,7 @@
         'stdlib/strlcpy.h',
         'stdlib/strnlen.cc',
         'stdlib/strnlen.h',
+        'stdlib/thread_safe_vector.h',
         'string/split_string.cc',
         'string/split_string.h',
         'synchronization/semaphore_mac.cc',

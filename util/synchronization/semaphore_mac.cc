@@ -14,6 +14,8 @@
 
 #include "util/synchronization/semaphore.h"
 
+#include <cmath>
+
 #include "base/logging.h"
 
 namespace crashpad {
@@ -33,6 +35,12 @@ void Semaphore::Wait() {
 
 bool Semaphore::TimedWait(double seconds) {
   DCHECK_GE(seconds, 0.0);
+
+  if (std::isinf(seconds)) {
+    Wait();
+    return true;
+  }
+
   const dispatch_time_t timeout =
       dispatch_time(DISPATCH_TIME_NOW, seconds * NSEC_PER_SEC);
   return dispatch_semaphore_wait(semaphore_, timeout) == 0;

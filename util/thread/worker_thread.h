@@ -18,6 +18,7 @@
 #include <memory>
 
 #include "base/macros.h"
+#include "util/synchronization/semaphore.h"
 
 namespace crashpad {
 
@@ -40,11 +41,16 @@ class WorkerThread {
     virtual ~Delegate() {}
   };
 
+  //! \brief A delay or interval argument that causes an indefinite wait.
+  static constexpr double kIndefiniteWait = Semaphore::kIndefiniteWait;
+
   //! \brief Creates a new WorkerThread that is not yet running.
   //!
   //! \param[in] work_interval The time interval in seconds at which the \a
   //!     delegate runs. The interval counts from the completion of
-  //!     Delegate::DoWork() to the next invocation.
+  //!     Delegate::DoWork() to the next invocation. This can be
+  //!     #kIndefiniteWait if work should only be done when DoWorkNow() is
+  //!     called.
   //! \param[in] delegate The work delegate to invoke every interval.
   WorkerThread(double work_interval, Delegate* delegate);
   ~WorkerThread();
@@ -55,7 +61,8 @@ class WorkerThread {
   //!
   //! \param[in] initial_work_delay The amount of time in seconds to wait
   //!     before invoking the \a delegate for the first time. Pass `0` for
-  //!     no delay.
+  //!     no delay. This can be #kIndefiniteWait if work should not be done
+  //!     until DoWorkNow() is called.
   void Start(double initial_work_delay);
 
   //! \brief Stops the worker thread from running.

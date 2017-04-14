@@ -14,6 +14,7 @@
 
 #include "util/synchronization/semaphore.h"
 
+#include <cmath>
 #include <limits>
 
 #include "base/logging.h"
@@ -38,6 +39,12 @@ void Semaphore::Wait() {
 
 bool Semaphore::TimedWait(double seconds) {
   DCHECK_GE(seconds, 0.0);
+
+  if (std::isinf(seconds)) {
+    Wait();
+    return true;
+  }
+
   DWORD rv = WaitForSingleObject(semaphore_, static_cast<DWORD>(seconds * 1E3));
   PCHECK(rv == WAIT_OBJECT_0 || rv == WAIT_TIMEOUT) << "WaitForSingleObject";
   return rv == WAIT_OBJECT_0;

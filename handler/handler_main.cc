@@ -109,6 +109,7 @@ void Usage(const base::FilePath& me) {
 "                              set a module annotation in the handler\n"
 "      --monitor-self-argument=ARGUMENT\n"
 "                              provide additional arguments to the second handler\n"
+"      --no-periodic-tasks     don't scan for new reports or prune the database\n"
 "      --no-rate-limit         don't rate limit crash uploads\n"
 "      --no-upload-gzip        don't use gzip compression when uploading\n"
 #if defined(OS_WIN)
@@ -142,6 +143,7 @@ struct Options {
   InitialClientData initial_client_data;
 #endif  // OS_MACOSX
   bool monitor_self;
+  bool periodic_tasks;
   bool rate_limit;
   bool upload_gzip;
 };
@@ -353,6 +355,7 @@ void MonitorSelf(const Options& options) {
     return;
   }
   std::vector<std::string> extra_arguments(options.monitor_self_arguments);
+  extra_arguments.push_back("--no-periodic-tasks");
   if (!options.rate_limit) {
     extra_arguments.push_back("--no-rate-limit");
   }
@@ -416,6 +419,7 @@ int HandlerMain(int argc,
     kOptionMonitorSelf,
     kOptionMonitorSelfAnnotation,
     kOptionMonitorSelfArgument,
+    kOptionNoPeriodicTasks,
     kOptionNoRateLimit,
     kOptionNoUploadGzip,
 #if defined(OS_WIN)
@@ -456,6 +460,7 @@ int HandlerMain(int argc,
      required_argument,
      nullptr,
      kOptionMonitorSelfArgument},
+    {"no-periodic-tasks", no_argument, nullptr, kOptionNoPeriodicTasks},
     {"no-rate-limit", no_argument, nullptr, kOptionNoRateLimit},
     {"no-upload-gzip", no_argument, nullptr, kOptionNoUploadGzip},
 #if defined(OS_WIN)
@@ -477,6 +482,7 @@ int HandlerMain(int argc,
 #if defined(OS_MACOSX)
   options.handshake_fd = -1;
 #endif
+  options.periodic_tasks = true;
   options.rate_limit = true;
   options.upload_gzip = true;
 
@@ -538,6 +544,10 @@ int HandlerMain(int argc,
       }
       case kOptionMonitorSelfArgument: {
         options.monitor_self_arguments.push_back(optarg);
+        break;
+      }
+      case kOptionNoPeriodicTasks: {
+        options.periodic_tasks = false;
         break;
       }
       case kOptionNoRateLimit: {
@@ -721,13 +731,19 @@ int HandlerMain(int argc,
   // TODO(scottmg): options.rate_limit should be removed when we have a
   // configurable database setting to control upload limiting.
   // See https://crashpad.chromium.org/bug/23.
-  CrashReportUploadThread upload_thread(
-      database.get(), options.url, options.rate_limit, options.upload_gzip);
+  CrashReportUploadThread upload_thread(database.get(),
+                                        options.url,
+                                        options.periodic_tasks,
+                                        options.rate_limit,
+                                        options.upload_gzip);
   upload_thread.Start();
 
-  PruneCrashReportThread prune_thread(database.get(),
-                                      PruneCondition::GetDefault());
-  prune_thread.Start();
+  std::unique_ptr<PruneCrashReportThread> prune_thread;
+  if (options.periodic_tasks) {
+    prune_thread.reset(new PruneCrashReportThread(
+        database.get(), PruneCondition::GetDefault()));
+    prune_thread->Start();
+  }
 
   CrashReportExceptionHandler exception_handler(database.get(),
                                                 &upload_thread,
@@ -744,7 +760,9 @@ int HandlerMain(int argc,
   exception_handler_server.Run(&exception_handler);
 
   upload_thread.Stop();
-  prune_thread.Stop();
+  if (prune_thread) {
+    prune_thread->Stop();
+  }
 
   return EXIT_SUCCESS;
 }

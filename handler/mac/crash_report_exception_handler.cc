@@ -190,7 +190,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
       return KERN_FAILURE;
     }
 
-    upload_thread_->ReportPending();
+    upload_thread_->ReportPending(uuid);
   }
 
   if (client_options.system_crash_reporter_forwarding != TriState::kDisabled &&
