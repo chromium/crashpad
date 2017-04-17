@@ -162,7 +162,11 @@ class MachMessageServer {
   //!     timeout_ms is not #kMachMessageTimeoutWaitIndefinitely). This function
   //!     has no successful return value when \a persistent is #kPersistent and
   //!     \a timeout_ms is #kMachMessageTimeoutWaitIndefinitely. On failure,
-  //!     returns a value identifying the nature of the error.
+  //!     returns a value identifying the nature of the error. A request
+  //!     received with a reply port that is (or becomes) a dead name before the
+  //!     reply is sent will result in `MACH_SEND_INVALID_DEST` as a return
+  //!     value, which may or may not be considered an error from the caller’s
+  //!     perspective.
   static mach_msg_return_t Run(Interface* interface,
                                mach_port_t receive_port,
                                mach_msg_options_t options,

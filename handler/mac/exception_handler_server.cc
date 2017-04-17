@@ -105,7 +105,14 @@ class ExceptionHandlerServerRun : public UniversalMachExcServer::Interface,
                                  MachMessageServer::kOneShot,
                                  MachMessageServer::kReceiveLargeIgnore,
                                  kMachMessageTimeoutWaitIndefinitely);
-      MACH_CHECK(mr == MACH_MSG_SUCCESS, mr) << "MachMessageServer::Run";
+
+      // MACH_SEND_INVALID_DEST occurs when attempting to reply to a dead name.
+      // This can happen if a mach_exc or exc client disappears before a reply
+      // can be sent to it. That’s unusal for kernel-generated requests, but can
+      // easily happen if a task sends its own exception request (as
+      // SimulateCrash() does) and dies before the reply is sent.
+      MACH_CHECK(mr == MACH_MSG_SUCCESS || mr == MACH_SEND_INVALID_DEST, mr)
+          << "MachMessageServer::Run";
     }
   }
 
