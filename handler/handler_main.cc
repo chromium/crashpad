@@ -61,6 +61,7 @@
 #include "base/mac/scoped_mach_port.h"
 #include "handler/mac/crash_report_exception_handler.h"
 #include "handler/mac/exception_handler_server.h"
+#include "handler/mac/file_limit_annotation.h"
 #include "util/mach/child_port_handshake.h"
 #include "util/mach/mach_extensions.h"
 #include "util/posix/close_stdio.h"
@@ -697,6 +698,8 @@ int HandlerMain(int argc,
       reset_sigterm.reset(&old_sigterm_action);
     }
   }
+
+  RecordFileLimitAnnotation();
 #elif defined(OS_WIN)
   // Shut down as late as possible relative to programs we're watching.
   if (!SetProcessShutdownParameters(0x100, SHUTDOWN_NORETRY))
