@@ -35,6 +35,10 @@
 #include "util/net/http_transport.h"
 #include "util/stdlib/map_insert.h"
 
+#if defined(OS_MACOSX)
+#include "handler/mac/file_limit_annotation.h"
+#endif  // OS_MACOSX
+
 namespace crashpad {
 
 namespace {
@@ -228,6 +232,10 @@ void CrashReportUploadThread::ProcessPendingReports() {
 
 void CrashReportUploadThread::ProcessPendingReport(
     const CrashReportDatabase::Report& report) {
+#if defined(OS_MACOSX)
+  RecordFileLimitAnnotation();
+#endif  // OS_MACOSX
+
   Settings* const settings = database_->GetSettings();
 
   bool uploads_enabled;
