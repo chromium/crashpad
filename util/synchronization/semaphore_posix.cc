@@ -39,6 +39,12 @@ void Semaphore::Wait() {
 
 bool Semaphore::TimedWait(double seconds) {
   DCHECK_GE(seconds, 0.0);
+
+  if (std::isinf(seconds)) {
+    Wait();
+    return true;
+  }
+
   timespec timeout;
   timeout.tv_sec = seconds;
   timeout.tv_nsec = (seconds - trunc(seconds)) * 1E9;

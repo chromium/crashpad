@@ -43,6 +43,18 @@ TEST(Semaphore, TimedWaitTimeout) {
   EXPECT_FALSE(semaphore.TimedWait(0.01));  // 10ms
 }
 
+TEST(Semaphore, TimedWaitInfinite_0) {
+  Semaphore semaphore(0);
+  semaphore.Signal();
+  EXPECT_TRUE(semaphore.TimedWait(std::numeric_limits<double>::infinity()));
+}
+
+TEST(Semaphore, TimedWaitInfinite_1) {
+  Semaphore semaphore(1);
+  EXPECT_TRUE(semaphore.TimedWait(std::numeric_limits<double>::infinity()));
+  semaphore.Signal();
+}
+
 struct ThreadMainInfo {
 #if defined(OS_POSIX)
   pthread_t pthread;

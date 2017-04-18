@@ -15,7 +15,6 @@
 #include "util/thread/worker_thread.h"
 
 #include "base/logging.h"
-#include "util/synchronization/semaphore.h"
 #include "util/thread/thread.h"
 
 namespace crashpad {

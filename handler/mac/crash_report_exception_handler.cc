@@ -21,6 +21,7 @@
 #include "base/mac/scoped_mach_port.h"
 #include "base/strings/stringprintf.h"
 #include "client/settings.h"
+#include "handler/mac/file_limit_annotation.h"
 #include "minidump/minidump_file_writer.h"
 #include "minidump/minidump_user_extension_stream_data_source.h"
 #include "snapshot/crashpad_info_client_options.h"
@@ -67,6 +68,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
     mach_msg_type_number_t* new_state_count,
     const mach_msg_trailer_t* trailer,
     bool* destroy_complex_request) {
+  RecordFileLimitAnnotation();
   Metrics::ExceptionEncountered();
   Metrics::ExceptionCode(ExceptionCodeForMetrics(exception, code[0]));
   *destroy_complex_request = true;
@@ -190,7 +192,7 @@ kern_return_t CrashReportExceptionHandler::CatchMachException(
       return KERN_FAILURE;
     }
 
-    upload_thread_->ReportPending();
+    upload_thread_->ReportPending(uuid);
   }
 
   if (client_options.system_crash_reporter_forwarding != TriState::kDisabled &&
