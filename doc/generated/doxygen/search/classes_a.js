@@ -90,7 +90,7 @@ var searchData=
   ['minidumpwritable',['MinidumpWritable',['../classcrashpad_1_1internal_1_1MinidumpWritable.html',1,'crashpad::internal']]],
   ['minidumpwritabletraits',['MinidumpWritableTraits',['../structcrashpad_1_1test_1_1MinidumpWritableTraits.html',1,'crashpad::test']]],
   ['minidumpwriterutil',['MinidumpWriterUtil',['../classcrashpad_1_1internal_1_1MinidumpWriterUtil.html',1,'crashpad::internal']]],
-  ['module',['Module',['../structcrashpad_1_1ProcessReader_1_1Module.html',1,'crashpad::ProcessReader::Module'],['../structcrashpad_1_1ProcessInfo_1_1Module.html',1,'crashpad::ProcessInfo::Module']]],
+  ['module',['Module',['../structcrashpad_1_1ProcessInfo_1_1Module.html',1,'crashpad::ProcessInfo::Module'],['../structcrashpad_1_1ProcessReader_1_1Module.html',1,'crashpad::ProcessReader::Module']]],
   ['modulesnapshot',['ModuleSnapshot',['../classcrashpad_1_1ModuleSnapshot.html',1,'crashpad']]],
   ['modulesnapshotmac',['ModuleSnapshotMac',['../classcrashpad_1_1internal_1_1ModuleSnapshotMac.html',1,'crashpad::internal']]],
   ['modulesnapshotminidump',['ModuleSnapshotMinidump',['../classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html',1,'crashpad::internal']]],

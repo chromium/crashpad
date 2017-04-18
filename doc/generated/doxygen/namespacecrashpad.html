@@ -455,6 +455,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ThreadLogMessages.html">ThreadLogMessages</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Captures log messages produced on the current thread during an object’s lifetime.  <a href="classcrashpad_1_1ThreadLogMessages.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ThreadSafeVector.html">ThreadSafeVector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A wrapper for a <code>std::vector&lt;&gt;</code> that can be accessed safely from multiple threads.  <a href="classcrashpad_1_1ThreadSafeVector.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ThreadSnapshot.html">ThreadSnapshot</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot process.  <a href="classcrashpad_1_1ThreadSnapshot.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -677,6 +680,9 @@ std::unique_ptr&lt; <a class="el" href="classcrashpad_1_1PruneCondition.html">Pr
 <tr class="memitem:a6925b00a82891a9fd7a77ec6f5259094"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a6925b00a82891a9fd7a77ec6f5259094">HandlerMain</a> (int argc, char *argv[], const UserStreamDataSources *user_stream_sources)</td></tr>
 <tr class="memdesc:a6925b00a82891a9fd7a77ec6f5259094"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>main()</code> of the <code>crashpad_handler</code> binary.  <a href="#a6925b00a82891a9fd7a77ec6f5259094">More...</a><br /></td></tr>
 <tr class="separator:a6925b00a82891a9fd7a77ec6f5259094"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad20301f0c5158576b0893444ff662108"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ad20301f0c5158576b0893444ff662108">RecordFileLimitAnnotation</a> ()</td></tr>
+<tr class="memdesc:ad20301f0c5158576b0893444ff662108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Records a <code>"file-limits"</code> simple annotation for the process.  <a href="#ad20301f0c5158576b0893444ff662108">More...</a><br /></td></tr>
+<tr class="separator:ad20301f0c5158576b0893444ff662108"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0004297cf46f8fd00258e02a4bcf13a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af0004297cf46f8fd00258e02a4bcf13a">AddUserExtensionStreams</a> (const UserStreamDataSources *user_stream_data_sources, <a class="el" href="classcrashpad_1_1ProcessSnapshot.html">ProcessSnapshot</a> *process_snapshot, <a class="el" href="classcrashpad_1_1MinidumpFileWriter.html">MinidumpFileWriter</a> *minidump_file_writer)</td></tr>
 <tr class="memdesc:af0004297cf46f8fd00258e02a4bcf13a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds user extension streams to a minidump.  <a href="#af0004297cf46f8fd00258e02a4bcf13a">More...</a><br /></td></tr>
 <tr class="separator:af0004297cf46f8fd00258e02a4bcf13a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -5484,6 +5490,29 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>XattrStatus </dd></dl>
+
+</div>
+</div>
+<a id="ad20301f0c5158576b0893444ff662108"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad20301f0c5158576b0893444ff662108">&#9670;&nbsp;</a></span>RecordFileLimitAnnotation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::RecordFileLimitAnnotation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Records a <code>"file-limits"</code> simple annotation for the process. </p>
+<p>This annotation will be used to confirm the theory that certain crashes are caused by systems at or near their file descriptor table size limits.</p>
+<p>The format of the annotation is four comma-separated values: the system-wide <code>kern.num_files</code> and <code>kern.maxfiles</code> values from <code>sysctl()</code>, and the process-specific current and maximum file descriptor limits from <code>getrlimit(RLIMIT_NOFILE, …)</code>.</p>
+<p>See <a href="https://crashpad.chromium.org/bug/180">https://crashpad.chromium.org/bug/180</a>.</p>
+<p>TODO(mark): Remove this annotation after sufficient data has been collected for analysis. </p>
 
 </div>
 </div>

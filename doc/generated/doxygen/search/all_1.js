@@ -46,6 +46,6 @@ var searchData=
   ['assigntimet',['AssignTimeT',['../classcrashpad_1_1internal_1_1MinidumpWriterUtil.html#adf79feb4d657af5606d77a040b80c0a3',1,'crashpad::internal::MinidumpWriterUtil']]],
   ['assignutf8toutf16',['AssignUTF8ToUTF16',['../classcrashpad_1_1internal_1_1MinidumpWriterUtil.html#a8050fbfd03eaf9c799001d37f417adec',1,'crashpad::internal::MinidumpWriterUtil']]],
   ['asstring',['AsString',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a112f17bdb6885c0938863d6717f7f5d6',1,'crashpad::internal::CheckedAddressRangeGeneric']]],
-  ['attributes',['attributes',['../structcrashpad_1_1HandleSnapshot.html#a187c40310542f3b6e1a0f0250afb60f6',1,'crashpad::HandleSnapshot::attributes()'],['../structcrashpad_1_1ProcessInfo_1_1Handle.html#a5116d3d54e0509359480643f9fa5abad',1,'crashpad::ProcessInfo::Handle::attributes()'],['../structMINIDUMP__HANDLE__DESCRIPTOR.html#a7ec63771a91775fb8f02a7ef8bedc8ac',1,'MINIDUMP_HANDLE_DESCRIPTOR::Attributes()']]],
+  ['attributes',['Attributes',['../structMINIDUMP__HANDLE__DESCRIPTOR.html#a7ec63771a91775fb8f02a7ef8bedc8ac',1,'MINIDUMP_HANDLE_DESCRIPTOR::Attributes()'],['../structcrashpad_1_1HandleSnapshot.html#a187c40310542f3b6e1a0f0250afb60f6',1,'crashpad::HandleSnapshot::attributes()'],['../structcrashpad_1_1ProcessInfo_1_1Handle.html#a5116d3d54e0509359480643f9fa5abad',1,'crashpad::ProcessInfo::Handle::attributes()']]],
   ['auditpidfrommachmessagetrailer',['AuditPIDFromMachMessageTrailer',['../namespacecrashpad.html#a2c18eae8148ec3304733581a28c2da3b',1,'crashpad']]]
 ];

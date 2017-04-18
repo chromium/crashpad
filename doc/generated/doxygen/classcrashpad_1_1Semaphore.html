@@ -65,6 +65,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classcrashpad_1_1Semaphore-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">crashpad::Semaphore Class Reference</div>  </div>
@@ -90,6 +91,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2ca2f5c53cd11234dc765d2ec95b6c7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Semaphore.html#a2ca2f5c53cd11234dc765d2ec95b6c7a">Signal</a> ()</td></tr>
 <tr class="memdesc:a2ca2f5c53cd11234dc765d2ec95b6c7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the signal (or “post”) operation on the semaphore.  <a href="#a2ca2f5c53cd11234dc765d2ec95b6c7a">More...</a><br /></td></tr>
 <tr class="separator:a2ca2f5c53cd11234dc765d2ec95b6c7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a69bede1d3b6d654a8084fbea0a59a208"><td class="memItemLeft" align="right" valign="top">static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Semaphore.html#a69bede1d3b6d654a8084fbea0a59a208">kIndefiniteWait</a></td></tr>
+<tr class="memdesc:a69bede1d3b6d654a8084fbea0a59a208"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1Semaphore.html#af22faf8672a7d7a6dd96aefc53560712" title="Performs a timed wait (or “procure”) operation on the semaphore. ">TimedWait()</a> argument that causes an indefinite wait.  <a href="#a69bede1d3b6d654a8084fbea0a59a208">More...</a><br /></td></tr>
+<tr class="separator:a69bede1d3b6d654a8084fbea0a59a208"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An anonymous in-process counting sempahore. </p>
@@ -169,7 +176,7 @@ Public Member Functions</h2></td></tr>
 <p>Performs a timed wait (or “procure”) operation on the semaphore. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">seconds</td><td>The maximum number of seconds to wait for the operation to complete.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">seconds</td><td>The maximum number of seconds to wait for the operation to complete. If <em>seconds</em> is <a class="el" href="classcrashpad_1_1Semaphore.html#a69bede1d3b6d654a8084fbea0a59a208" title="A TimedWait() argument that causes an indefinite wait. ">kIndefiniteWait</a>, this method behaves as <a class="el" href="classcrashpad_1_1Semaphore.html#ade6db63246c9d6f3a36f3631b04c2bfd" title="Performs the wait (or “procure”) operation on the semaphore. ">Wait()</a>, and will not time out.</td></tr>
   </table>
   </dd>
 </dl>
@@ -196,6 +203,31 @@ Public Member Functions</h2></td></tr>
 <p>Performs the wait (or “procure”) operation on the semaphore. </p>
 <p>Atomically decrements the value of the semaphore by 1. If the new value is negative, this function blocks and will not return until the semaphore’s value is incremented to 0 by <a class="el" href="classcrashpad_1_1Semaphore.html#a2ca2f5c53cd11234dc765d2ec95b6c7a" title="Performs the signal (or “post”) operation on the semaphore. ">Signal()</a>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classcrashpad_1_1Semaphore.html#af22faf8672a7d7a6dd96aefc53560712" title="Performs a timed wait (or “procure”) operation on the semaphore. ">TimedWait()</a> </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a69bede1d3b6d654a8084fbea0a59a208"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69bede1d3b6d654a8084fbea0a59a208">&#9670;&nbsp;</a></span>kIndefiniteWait</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr double crashpad::Semaphore::kIndefiniteWait</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">      std::numeric_limits&lt;double&gt;::infinity()</div></div><!-- fragment -->
+<p>A <a class="el" href="classcrashpad_1_1Semaphore.html#af22faf8672a7d7a6dd96aefc53560712" title="Performs a timed wait (or “procure”) operation on the semaphore. ">TimedWait()</a> argument that causes an indefinite wait. </p>
 
 </div>
 </div>

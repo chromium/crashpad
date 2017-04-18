@@ -91,5 +91,6 @@ var searchData=
   ['protectedprocess',['ProtectedProcess',['../structMINIDUMP__MISC__INFO__3.html#a180d9ee433f89f02da0436376ec633aa',1,'MINIDUMP_MISC_INFO_3']]],
   ['prunecondition',['PruneCondition',['../classcrashpad_1_1PruneCondition.html',1,'crashpad']]],
   ['prunecrashreportdatabase',['PruneCrashReportDatabase',['../namespacecrashpad.html#a87aa3a36a41939af1166c336db41ec11',1,'crashpad']]],
-  ['prunecrashreportthread',['PruneCrashReportThread',['../classcrashpad_1_1PruneCrashReportThread.html',1,'crashpad::PruneCrashReportThread'],['../classcrashpad_1_1PruneCrashReportThread.html#a611e02d9b7666df11d2484f682b771ea',1,'crashpad::PruneCrashReportThread::PruneCrashReportThread()']]]
+  ['prunecrashreportthread',['PruneCrashReportThread',['../classcrashpad_1_1PruneCrashReportThread.html',1,'crashpad::PruneCrashReportThread'],['../classcrashpad_1_1PruneCrashReportThread.html#a611e02d9b7666df11d2484f682b771ea',1,'crashpad::PruneCrashReportThread::PruneCrashReportThread()']]],
+  ['pushback',['PushBack',['../classcrashpad_1_1ThreadSafeVector.html#a662327583f078bbccc1936842b37c011',1,'crashpad::ThreadSafeVector']]]
 ];

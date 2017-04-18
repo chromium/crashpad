@@ -66,6 +66,7 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classcrashpad_1_1WorkerThread-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -101,6 +102,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:af30d5046ff7606f8d6b3fc5bf61143e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66eb9551438d4f4e034a0f6bcc738f21"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1WorkerThread.html#a66eb9551438d4f4e034a0f6bcc738f21">is_running</a> () const</td></tr>
 <tr class="separator:a66eb9551438d4f4e034a0f6bcc738f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a92b0883b4782570f94ad98c2b66bd2d8"><td class="memItemLeft" align="right" valign="top"><a id="a92b0883b4782570f94ad98c2b66bd2d8"></a>
+static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1WorkerThread.html#a92b0883b4782570f94ad98c2b66bd2d8">kIndefiniteWait</a> = Semaphore::kIndefiniteWait</td></tr>
+<tr class="memdesc:a92b0883b4782570f94ad98c2b66bd2d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">A delay or interval argument that causes an indefinite wait. <br /></td></tr>
+<tr class="separator:a92b0883b4782570f94ad98c2b66bd2d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -140,7 +148,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>internal::WorkerThre
 <p>Creates a new <a class="el" href="classcrashpad_1_1WorkerThread.html" title="A WorkerThread executes its Delegate&#39;s DoWork method repeatedly on a dedicated thread at a set time i...">WorkerThread</a> that is not yet running. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">work_interval</td><td>The time interval in seconds at which the <em>delegate</em> runs. The interval counts from the completion of <a class="el" href="classcrashpad_1_1WorkerThread_1_1Delegate.html#a91492f3dae15910a62d1980f0ec618c3" title="The work function executed by the WorkerThread every work interval. ">Delegate::DoWork()</a> to the next invocation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">work_interval</td><td>The time interval in seconds at which the <em>delegate</em> runs. The interval counts from the completion of <a class="el" href="classcrashpad_1_1WorkerThread_1_1Delegate.html#a91492f3dae15910a62d1980f0ec618c3" title="The work function executed by the WorkerThread every work interval. ">Delegate::DoWork()</a> to the next invocation. This can be <a class="el" href="classcrashpad_1_1WorkerThread.html#a92b0883b4782570f94ad98c2b66bd2d8" title="A delay or interval argument that causes an indefinite wait. ">kIndefiniteWait</a> if work should only be done when <a class="el" href="classcrashpad_1_1WorkerThread.html#af30d5046ff7606f8d6b3fc5bf61143e0" title="Interrupts a work_interval to execute the work function immediately. This invokes Delegate::DoWork() ...">DoWorkNow()</a> is called. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">delegate</td><td>The work delegate to invoke every interval. </td></tr>
   </table>
   </dd>
@@ -195,7 +203,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>internal::WorkerThre
 <p>This may not be called if the thread <a class="el" href="classcrashpad_1_1WorkerThread.html#a66eb9551438d4f4e034a0f6bcc738f21">is_running()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">initial_work_delay</td><td>The amount of time in seconds to wait before invoking the <em>delegate</em> for the first time. Pass <code>0</code> for no delay. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">initial_work_delay</td><td>The amount of time in seconds to wait before invoking the <em>delegate</em> for the first time. Pass <code>0</code> for no delay. This can be <a class="el" href="classcrashpad_1_1WorkerThread.html#a92b0883b4782570f94ad98c2b66bd2d8" title="A delay or interval argument that causes an indefinite wait. ">kIndefiniteWait</a> if work should not be done until <a class="el" href="classcrashpad_1_1WorkerThread.html#af30d5046ff7606f8d6b3fc5bf61143e0" title="Interrupts a work_interval to execute the work function immediately. This invokes Delegate::DoWork() ...">DoWorkNow()</a> is called. </td></tr>
   </table>
   </dd>
 </dl>

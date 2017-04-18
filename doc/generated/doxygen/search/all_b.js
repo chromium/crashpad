@@ -31,6 +31,7 @@ var searchData=
   ['kfailedduetosuspendself',['kFailedDueToSuspendSelf',['../classcrashpad_1_1Metrics.html#a6fced90d0ab7cbd161db410e2609bae0a4d77a5e087a56e21481edfa7069131b2',1,'crashpad::Metrics']]],
   ['kfilesystemerror',['kFileSystemError',['../classcrashpad_1_1CrashReportDatabase.html#a0bbd146654537fa0cf1b576eb647bb00ad40b3e9919ed7de952a4e30d5be5c59b',1,'crashpad::CrashReportDatabase']]],
   ['kfinishedwritingcrashreportfailed',['kFinishedWritingCrashReportFailed',['../classcrashpad_1_1Metrics.html#a6fced90d0ab7cbd161db410e2609bae0aae18728f9fc94a20fda396dc224f5f07',1,'crashpad::Metrics']]],
+  ['kindefinitewait',['kIndefiniteWait',['../classcrashpad_1_1Semaphore.html#a69bede1d3b6d654a8084fbea0a59a208',1,'crashpad::Semaphore::kIndefiniteWait()'],['../classcrashpad_1_1WorkerThread.html#a92b0883b4782570f94ad98c2b66bd2d8',1,'crashpad::WorkerThread::kIndefiniteWait()']]],
   ['kinvalidfilehandle',['kInvalidFileHandle',['../namespacecrashpad.html#add54baa0f53825b93f3aab2fcafce367',1,'crashpad']]],
   ['kinvalidsize',['kInvalidSize',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#ae7c01f317a519213ac16bfeca94125d1',1,'crashpad::internal::MinidumpWritable']]],
   ['kmachexceptioncodes',['kMachExceptionCodes',['../namespacecrashpad.html#a7dbcba9449a5dd47d2911b1f85bc1a58',1,'crashpad']]],

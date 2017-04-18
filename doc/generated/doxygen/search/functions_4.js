@@ -16,6 +16,7 @@ var searchData=
   ['domachnotifysendonce',['DoMachNotifySendOnce',['../classcrashpad_1_1NotifyServer_1_1Interface.html#a39d4166913a905e3354cc2f689869b0e',1,'crashpad::NotifyServer::Interface::DoMachNotifySendOnce()'],['../classcrashpad_1_1NotifyServer_1_1DefaultInterface.html#a3a5e82e6bd51eac1dbff7aac2c7b6bf4',1,'crashpad::NotifyServer::DefaultInterface::DoMachNotifySendOnce()']]],
   ['dowork',['DoWork',['../classcrashpad_1_1WorkerThread_1_1Delegate.html#a91492f3dae15910a62d1980f0ec618c3',1,'crashpad::WorkerThread::Delegate']]],
   ['doworknow',['DoWorkNow',['../classcrashpad_1_1WorkerThread.html#af30d5046ff7606f8d6b3fc5bf61143e0',1,'crashpad::WorkerThread']]],
+  ['drain',['Drain',['../classcrashpad_1_1ThreadSafeVector.html#a16c5bd662bc6a2ba2b9e775cc2cf2119',1,'crashpad::ThreadSafeVector']]],
   ['dropprivileges',['DropPrivileges',['../namespacecrashpad.html#a5e5ee7c62768446ceb8fa8a76db99952',1,'crashpad']]],
   ['dumpandcrash',['DumpAndCrash',['../classcrashpad_1_1CrashpadClient.html#a87d1fa142b0bf7094fc66fef3135a64a',1,'crashpad::CrashpadClient']]],
   ['dumpandcrashtargetprocess',['DumpAndCrashTargetProcess',['../classcrashpad_1_1CrashpadClient.html#a0b795ac1d4e01ba03e4085954249edfc',1,'crashpad::CrashpadClient']]],

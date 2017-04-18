@@ -40,7 +40,7 @@ var searchData=
   ['lo',['lo',['../structcrashpad_1_1uint128__struct.html#aa96483c6fb42bba3fb6e35165a089ff0',1,'crashpad::uint128_struct']]],
   ['localalloctraits',['LocalAllocTraits',['../structcrashpad_1_1internal_1_1LocalAllocTraits.html',1,'crashpad::internal']]],
   ['localport',['LocalPort',['../classcrashpad_1_1test_1_1MachMultiprocess.html#ad1784dd4a9159cdea51290fbc15db64b',1,'crashpad::test::MachMultiprocess']]],
-  ['location',['location',['../structcrashpad_1_1MinidumpModuleCrashpadInfoLink.html#ad788b55dbeadc796d40b907de7fa9f9e',1,'crashpad::MinidumpModuleCrashpadInfoLink::location()'],['../structMINIDUMP__DIRECTORY.html#a7e0e309a9e7c63c1205843a34fa0006a',1,'MINIDUMP_DIRECTORY::Location()']]],
+  ['location',['Location',['../structMINIDUMP__DIRECTORY.html#a7e0e309a9e7c63c1205843a34fa0006a',1,'MINIDUMP_DIRECTORY::Location()'],['../structcrashpad_1_1MinidumpModuleCrashpadInfoLink.html#ad788b55dbeadc796d40b907de7fa9f9e',1,'crashpad::MinidumpModuleCrashpadInfoLink::location()']]],
   ['log_5fmessages',['log_messages',['../classcrashpad_1_1ThreadLogMessages.html#ae06f18bb5d37bdb611f33da478c69e9b',1,'crashpad::ThreadLogMessages']]],
   ['loggingclosefile',['LoggingCloseFile',['../namespacecrashpad.html#ab9db00544fd57cfde0bb03d32b989221',1,'crashpad']]],
   ['loggingfilesizebyhandle',['LoggingFileSizeByHandle',['../namespacecrashpad.html#a0224d5a689cdb8c2315c255fd6ea6b5c',1,'crashpad']]],
