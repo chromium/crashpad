@@ -43,6 +43,8 @@
         'mac/crash_report_exception_handler.h',
         'mac/exception_handler_server.cc',
         'mac/exception_handler_server.h',
+        'mac/file_limit_annotation.cc',
+        'mac/file_limit_annotation.h',
         'prune_crash_reports_thread.cc',
         'prune_crash_reports_thread.h',
         'user_stream_data_source.cc',
