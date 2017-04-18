@@ -61,6 +61,7 @@
 #include "base/mac/scoped_mach_port.h"
 #include "handler/mac/crash_report_exception_handler.h"
 #include "handler/mac/exception_handler_server.h"
+#include "handler/mac/file_limit_annotation.h"
 #include "util/mach/child_port_handshake.h"
 #include "util/mach/mach_extensions.h"
 #include "util/posix/close_stdio.h"
@@ -657,6 +658,8 @@ int HandlerMain(int argc,
   }
 
 #if defined(OS_MACOSX)
+  RecordFileLimitAnnotation();
+
   if (options.mach_service.empty()) {
     // Don’t do this when being run by launchd. See launchd.plist(5).
     CloseStdinAndStdout();
