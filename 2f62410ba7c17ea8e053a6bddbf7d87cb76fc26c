@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f985b7b2_20cd7a28",
+        "filename": "util/linux/checked_linux_address_range.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-19T18:52:25Z",
+      "side": 1,
+      "message": "No `` on our own types, we can just have the docs auto-link it. Types aren’t always auto-linked, but you can write this as #LinuxVMAddress to make sure that it’s linked. Same for `LinuxVMSize` on the next line.\n\nThe `monospaced` thing is good for system types where we don’t have something to link to.",
+      "revId": "2f62410ba7c17ea8e053a6bddbf7d87cb76fc26c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ad9b886_43e30e19",
+        "filename": "util/numeric/checked_address_range.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-19T18:52:25Z",
+      "side": 1,
+      "message": "Don’t use C-style casts, use C++-style casts. static_cast\u003cunsigned long long\u003e(Base()) should be correct here.",
+      "revId": "2f62410ba7c17ea8e053a6bddbf7d87cb76fc26c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

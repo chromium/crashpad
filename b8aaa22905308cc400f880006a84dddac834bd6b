@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e9e4914_1114290a",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-19T18:52:25Z",
+      "side": 0,
+      "message": "Very happy to see the last special case removed from this test!",
+      "revId": "b8aaa22905308cc400f880006a84dddac834bd6b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
