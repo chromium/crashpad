@@ -87,6 +87,24 @@
       "revId": "2f62410ba7c17ea8e053a6bddbf7d87cb76fc26c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5d8b988_ed145ca5",
+        "filename": "util/numeric/checked_address_range.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-19T20:25:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9b97d3e_d81dfe6a",
+      "revId": "2f62410ba7c17ea8e053a6bddbf7d87cb76fc26c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
