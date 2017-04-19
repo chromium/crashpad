@@ -135,12 +135,6 @@
             ['exclude', '^net/http_transport_test\\.cc$'],
           ]
         }],
-        ['OS=="android" or OS=="linux"' , {
-          # Things not yet ported to Android or Linux
-          'sources/' : [
-            ['exclude', '^numeric/checked_address_range_test\\.cc$'],
-          ]
-        }],
       ],
       'target_conditions': [
         ['OS=="android"', {
