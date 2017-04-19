@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['safeterminateprocess',['SafeTerminateProcess',['../namespacecrashpad.html#ad8efd0f50febdf3c8461fb93de8191f7',1,'crashpad']]],
   ['savedgroupid',['SavedGroupID',['../classcrashpad_1_1ProcessInfo.html#aedeee59f072e06decbf89cadea6472cc',1,'crashpad::ProcessInfo']]],
   ['saveduserid',['SavedUserID',['../classcrashpad_1_1ProcessInfo.html#ac9361a705e2596f9e1121953fdeb4149',1,'crashpad::ProcessInfo']]],
   ['scopedprocesssuspend',['ScopedProcessSuspend',['../classcrashpad_1_1ScopedProcessSuspend.html#a210a71fa16ddda935e8f3da72aaf43aa',1,'crashpad::ScopedProcessSuspend']]],

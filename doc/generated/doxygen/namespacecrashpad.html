@@ -657,7 +657,7 @@ Enumerations</h2></td></tr>
 <tr class="separator:a9db1ed26b36a3dd229fb4e8411340eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1f536a40ddc32523fde6ec2b242f569"><td class="memItemLeft" align="right" valign="top"><a id="ae1f536a40ddc32523fde6ec2b242f569"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
 <tr class="separator:ae1f536a40ddc32523fde6ec2b242f569"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf909fcc58999f95ab1a2d485a3b884f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">TerminationCodes</a> : unsigned int <tr class="memdesc:acf909fcc58999f95ab1a2d485a3b884f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crashpad-specific codes that are used as arguments to <code>TerminateProcess()</code> in unusual circumstances.  <a href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">More...</a><br /></td></tr>
+<tr class="memitem:acf909fcc58999f95ab1a2d485a3b884f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">TerminationCodes</a> : unsigned int <tr class="memdesc:acf909fcc58999f95ab1a2d485a3b884f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crashpad-specific codes that are used as arguments to SafeTerminateProcess() or <code>TerminateProcess()</code> in unusual circumstances.  <a href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:acf909fcc58999f95ab1a2d485a3b884f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24b09ceb3508dd862a91ce02f0583ae8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
@@ -1073,6 +1073,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReadMemoryInfo</b> (H
 <tr class="memitem:af22242667ee950fe12a99b298dda5e08"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af22242667ee950fe12a99b298dda5e08">GetSecurityDescriptorForNamedPipeInstance</a> (size_t *size)</td></tr>
 <tr class="memdesc:af22242667ee950fe12a99b298dda5e08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the SECURITY_DESCRIPTOR blob that will be used for creating the connection pipe in <a class="el" href="namespacecrashpad.html#a1bb7596acd0c7d75d0608ffafc6028e8" title="Wraps CreateNamedPipe() to create a single named pipe instance. ">CreateNamedPipeInstance()</a>.  <a href="#af22242667ee950fe12a99b298dda5e08">More...</a><br /></td></tr>
 <tr class="separator:af22242667ee950fe12a99b298dda5e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8efd0f50febdf3c8461fb93de8191f7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ad8efd0f50febdf3c8461fb93de8191f7">SafeTerminateProcess</a> (HANDLE process, UINT exit_code)</td></tr>
+<tr class="memdesc:ad8efd0f50febdf3c8461fb93de8191f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <code>TerminateProcess()</code>.  <a href="#ad8efd0f50febdf3c8461fb93de8191f7">More...</a><br /></td></tr>
+<tr class="separator:ad8efd0f50febdf3c8461fb93de8191f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12442a42a099c4b68211fd230e94f42c"><td class="memItemLeft" align="right" valign="top"><a id="a12442a42a099c4b68211fd230e94f42c"></a>
 timeval&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a12442a42a099c4b68211fd230e94f42c">FiletimeToTimevalEpoch</a> (const FILETIME &amp;filetime)</td></tr>
 <tr class="memdesc:a12442a42a099c4b68211fd230e94f42c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert Windows <code>FILETIME</code> to <code>timeval</code>, converting from Windows epoch to POSIX epoch. <br /></td></tr>
@@ -1950,7 +1953,7 @@ template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Crashpad-specific codes that are used as arguments to <code>TerminateProcess()</code> in unusual circumstances. </p>
+<p>Crashpad-specific codes that are used as arguments to <a class="el" href="namespacecrashpad.html#ad8efd0f50febdf3c8461fb93de8191f7" title="Calls TerminateProcess(). ">SafeTerminateProcess()</a> or <code>TerminateProcess()</code> in unusual circumstances. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acf909fcc58999f95ab1a2d485a3b884fa80056c7b41974ff409381f83677977fb"></a>kTerminationCodeCrashNoDump&#160;</td><td class="fielddoc"><p>The crash handler did not respond, and the client self-terminated. </p>
 </td></tr>
@@ -5551,6 +5554,48 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>XattrStatus </dd></dl>
+
+</div>
+</div>
+<a id="ad8efd0f50febdf3c8461fb93de8191f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8efd0f50febdf3c8461fb93de8191f7">&#9670;&nbsp;</a></span>SafeTerminateProcess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::SafeTerminateProcess </td>
+          <td>(</td>
+          <td class="paramtype">HANDLE&#160;</td>
+          <td class="paramname"><em>process</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">UINT&#160;</td>
+          <td class="paramname"><em>exit_code</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calls <code>TerminateProcess()</code>. </p>
+<p><code>TerminateProcess()</code> has been observed in the wild as being patched badly on 32-bit x86: it’s patched with code adhering to the <code>cdecl</code> (caller clean-up) convention, although it’s supposed to be <code>stdcall</code> (callee clean-up). The mix-up means that neither caller nor callee perform parameter clean-up from the stack, causing the stack pointer to have an unexpected value on return from the patched function. This typically results in a crash shortly thereafter. See <a href="https://crashpad.chromium.org/bug/179">Crashpad bug 179</a>.</p>
+<p>On 32-bit x86, this replacement function calls <code>TerminateProcess()</code> without making any assumptions about the stack pointer on its return. As such, it’s compatible with the badly patched <code>cdecl</code> version as well as the native <code>stdcall</code> version (and other less badly patched versions).</p>
+<p>Elsewhere, this function calls <code>TerminateProcess()</code> directly without any additional fanfare.</p>
+<p>Call this function instead of <code>TerminateProcess()</code> anywhere that <code>TerminateProcess()</code> would normally be called. </p>
 
 </div>
 </div>

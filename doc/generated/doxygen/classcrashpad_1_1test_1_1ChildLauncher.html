@@ -82,9 +82,8 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1ChildLauncher.html#abe0d1a558a968d1442dc8925edcfbb79">ChildLauncher</a> (const std::wstring &amp;executable, const std::wstring &amp;command_line)</td></tr>
 <tr class="memdesc:abe0d1a558a968d1442dc8925edcfbb79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the object. <em>executable</em> will be escaped and prepended to <em>command_line</em> to build the command line of the child. <br /></td></tr>
 <tr class="separator:abe0d1a558a968d1442dc8925edcfbb79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae8c36eccca5b74f1118858f2a8df816"><td class="memItemLeft" align="right" valign="top"><a id="aae8c36eccca5b74f1118858f2a8df816"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1ChildLauncher.html#aae8c36eccca5b74f1118858f2a8df816">Start</a> ()</td></tr>
-<tr class="memdesc:aae8c36eccca5b74f1118858f2a8df816"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the child process, after which the handle functions below will be valid. <br /></td></tr>
+<tr class="memitem:aae8c36eccca5b74f1118858f2a8df816"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1ChildLauncher.html#aae8c36eccca5b74f1118858f2a8df816">Start</a> ()</td></tr>
+<tr class="memdesc:aae8c36eccca5b74f1118858f2a8df816"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the child process, after which the handle functions below will be valid.  <a href="#aae8c36eccca5b74f1118858f2a8df816">More...</a><br /></td></tr>
 <tr class="separator:aae8c36eccca5b74f1118858f2a8df816"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9377824f2dcd5a9acc456c0d8b402a8b"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1ChildLauncher.html#a9377824f2dcd5a9acc456c0d8b402a8b">WaitForExit</a> ()</td></tr>
 <tr class="memdesc:a9377824f2dcd5a9acc456c0d8b402a8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits for the child process to exit.  <a href="#a9377824f2dcd5a9acc456c0d8b402a8b">More...</a><br /></td></tr>
@@ -109,6 +108,26 @@ HANDLE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Creates a child process for testing. Uses gtest <code>ASSERT_*</code> to indicate failure. The child's output is passed through a pipe and is available via <a class="el" href="classcrashpad_1_1test_1_1ChildLauncher.html#a3ed4b8859fa32e8f772e50afc19163ee" title="The read end of a pipe attached to the child&#39;s stdout. ">stdout_read_handle()</a>, and the child's input is attached to a second pipe available via <a class="el" href="classcrashpad_1_1test_1_1ChildLauncher.html#afe9c94037f079ad475e6b0aab992c21f" title="The write end of a pipe attached to the child&#39;s stdin. ">stdin_write_handle()</a>. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aae8c36eccca5b74f1118858f2a8df816"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae8c36eccca5b74f1118858f2a8df816">&#9670;&nbsp;</a></span>Start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void crashpad::test::ChildLauncher::Start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts the child process, after which the handle functions below will be valid. </p>
+<p>Errors are signaled via gtest assertions. This method may be invoked via <code>ASSERT_NO_FATAL_FAILURE()</code> to assert that it succeeds. </p>
+
+</div>
+</div>
 <a id="a9377824f2dcd5a9acc456c0d8b402a8b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9377824f2dcd5a9acc456c0d8b402a8b">&#9670;&nbsp;</a></span>WaitForExit()</h2>
 
