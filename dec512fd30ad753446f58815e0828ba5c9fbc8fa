@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e859aada_0ee5d1bf",
+        "filename": "util/win/safe_terminate_process_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-04-19T03:59:25Z",
+      "side": 1,
+      "message": "This sounds like you mean to create a subprocess for this test. Maybe \"the handle\".",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 26
+      },
+      "revId": "dec512fd30ad753446f58815e0828ba5c9fbc8fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
