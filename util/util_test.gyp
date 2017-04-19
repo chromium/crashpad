@@ -102,6 +102,7 @@
         'win/initial_client_data_test.cc',
         'win/process_info_test.cc',
         'win/registration_protocol_win_test.cc',
+        'win/safe_terminate_process_test.cc',
         'win/scoped_process_suspend_test.cc',
         'win/session_end_watcher_test.cc',
         'win/time_test.cc',
@@ -117,6 +118,7 @@
         ['OS=="win"', {
           'dependencies': [
             'crashpad_util_test_process_info_test_child',
+            'crashpad_util_test_safe_terminate_process_test_child',
           ],
           'link_settings': {
             'libraries': [
@@ -170,6 +172,13 @@
               'FixedBaseAddress': '2',  # /FIXED.
             },
           },
+        },
+        {
+          'target_name': 'crashpad_util_test_safe_terminate_process_test_child',
+          'type': 'executable',
+          'sources': [
+            'win/safe_terminate_process_test_child.cc',
+          ],
         },
       ]
     }],

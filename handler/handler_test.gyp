@@ -37,28 +37,140 @@
   ],
   'conditions': [
     ['OS=="win"', {
-      'targets': [{
-        # The handler is only tested on Windows for now.
-        'target_name': 'crashpad_handler_test',
-        'type': 'executable',
-        'dependencies': [
-          'crashpad_handler_test_extended_handler',
-          'handler.gyp:crashpad_handler_lib',
-          '../client/client.gyp:crashpad_client',
-          '../compat/compat.gyp:crashpad_compat',
-          '../test/test.gyp:crashpad_gtest_main',
-          '../test/test.gyp:crashpad_test',
-          '../third_party/gtest/gtest.gyp:gtest',
-          '../third_party/mini_chromium/mini_chromium.gyp:base',
-          '../util/util.gyp:crashpad_util',
-        ],
-        'include_dirs': [
-          '..',
-        ],
-        'sources': [
-          'crashpad_handler_test.cc',
-        ],
-      }],
+      'targets': [
+        {
+          'target_name': 'crash_other_program',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../test/test.gyp:crashpad_test',
+            '../third_party/gtest/gtest.gyp:gtest',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'sources': [
+            'win/crash_other_program.cc',
+          ],
+        },
+        {
+          # The handler is only tested on Windows for now.
+          'target_name': 'crashpad_handler_test',
+          'type': 'executable',
+          'dependencies': [
+            'crashpad_handler_test_extended_handler',
+            'handler.gyp:crashpad_handler_lib',
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
+            '../test/test.gyp:crashpad_gtest_main',
+            '../test/test.gyp:crashpad_test',
+            '../third_party/gtest/gtest.gyp:gtest',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'crashpad_handler_test.cc',
+          ],
+        },
+        {
+          'target_name': 'crashy_program',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'win/crashy_test_program.cc',
+          ],
+        },
+        {
+          'target_name': 'crashy_signal',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'win/crashy_signal.cc',
+          ],
+        },
+        {
+          'target_name': 'fake_handler_that_crashes_at_startup',
+          'type': 'executable',
+          'sources': [
+            'win/fake_handler_that_crashes_at_startup.cc',
+          ],
+        },
+        {
+          'target_name': 'hanging_program',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+          ],
+          'sources': [
+            'win/hanging_program.cc',
+          ],
+        },
+        {
+          'target_name': 'loader_lock_dll',
+          'type': 'loadable_module',
+          'sources': [
+            'win/loader_lock_dll.cc',
+          ],
+          'msvs_settings': {
+            'NoImportLibrary': 'true',
+          },
+        },
+        {
+          'target_name': 'self_destroying_program',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../compat/compat.gyp:crashpad_compat',
+            '../snapshot/snapshot.gyp:crashpad_snapshot',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'win/self_destroying_test_program.cc',
+          ],
+        },
+      ],
+      'conditions': [
+        # Cannot create an x64 DLL with embedded debug info.
+        ['target_arch=="ia32"', {
+          'targets': [
+            {
+              'target_name': 'crashy_z7_loader',
+              'type': 'executable',
+              'dependencies': [
+                '../client/client.gyp:crashpad_client',
+                '../test/test.gyp:crashpad_test',
+                '../third_party/mini_chromium/mini_chromium.gyp:base',
+              ],
+              'include_dirs': [
+                '..',
+              ],
+              'sources': [
+                'win/crashy_test_z7_loader.cc',
+              ],
+            },
+          ],
+        }],
+      ],
     }],
   ],
 }

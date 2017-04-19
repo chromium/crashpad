@@ -42,6 +42,7 @@
 #include "util/win/ntstatus_logging.h"
 #include "util/win/process_info.h"
 #include "util/win/registration_protocol_win.h"
+#include "util/win/safe_terminate_process.h"
 #include "util/win/scoped_process_suspend.h"
 #include "util/win/termination_codes.h"
 #include "util/win/xp_compat.h"
@@ -126,7 +127,7 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
     // here, rather than trying to signal to a handler that will never arrive,
     // and then sleeping unnecessarily.
     LOG(ERROR) << "crash server failed to launch, self-terminating";
-    TerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
+    SafeTerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
     return EXCEPTION_CONTINUE_SEARCH;
   }
 
@@ -171,7 +172,7 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
 
   LOG(ERROR) << "crash server did not respond, self-terminating";
 
-  TerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
+  SafeTerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
 
   return EXCEPTION_CONTINUE_SEARCH;
 }
@@ -733,8 +734,8 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   // Win32 APIs, so just use regular locking here in case of multiple threads
   // calling this function. If a crash occurs while we're in here, the worst
   // that can happen is that the server captures a partial dump for this path
-  // because on the other thread gathering a crash dump, it TerminateProcess()d,
-  // causing this one to abort.
+  // because another thread’s crash processing finished and the process was
+  // terminated before this thread’s non-crash processing could be completed.
   base::AutoLock lock(*g_non_crash_dump_lock);
 
   // Create a fake EXCEPTION_POINTERS to give the handler something to work
@@ -777,8 +778,8 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
 void CrashpadClient::DumpAndCrash(EXCEPTION_POINTERS* exception_pointers) {
   if (g_signal_exception == INVALID_HANDLE_VALUE) {
     LOG(ERROR) << "not connected";
-    TerminateProcess(GetCurrentProcess(),
-                     kTerminationCodeNotConnectedToHandler);
+    SafeTerminateProcess(GetCurrentProcess(),
+                         kTerminationCodeNotConnectedToHandler);
     return;
   }
 

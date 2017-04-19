@@ -18,7 +18,7 @@
 namespace crashpad {
 
 //! \brief Crashpad-specific codes that are used as arguments to
-//!     `TerminateProcess()` in unusual circumstances.
+//!     SafeTerminateProcess() or `TerminateProcess()` in unusual circumstances.
 enum TerminationCodes : unsigned int {
   //! \brief The crash handler did not respond, and the client self-terminated.
   kTerminationCodeCrashNoDump = 0xffff7001,
