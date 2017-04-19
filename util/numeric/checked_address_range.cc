@@ -20,6 +20,8 @@
 #include <mach/mach.h>
 #elif defined(OS_WIN)
 #include "util/win/address_types.h"
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+#include "util/linux/address_types.h"
 #endif  // OS_MACOSX
 
 namespace crashpad {
@@ -113,8 +115,10 @@ bool CheckedAddressRangeGeneric<ValueType, SizeType>::ContainsRange(
 
 template <class ValueType, class SizeType>
 std::string CheckedAddressRangeGeneric<ValueType, SizeType>::AsString() const {
-  return base::StringPrintf(
-      "0x%llx + 0x%llx (%s)", Base(), Size(), Is64Bit() ? "64" : "32");
+  return base::StringPrintf("0x%llx + 0x%llx (%s)",
+                            (unsigned long long){Base()},
+                            (unsigned long long){Size()},
+                            Is64Bit() ? "64" : "32");
 }
 
 // Explicit instantiations for the cases we use.
@@ -122,6 +126,8 @@ std::string CheckedAddressRangeGeneric<ValueType, SizeType>::AsString() const {
 template class CheckedAddressRangeGeneric<mach_vm_address_t, mach_vm_size_t>;
 #elif defined(OS_WIN)
 template class CheckedAddressRangeGeneric<WinVMAddress, WinVMSize>;
+#elif defined(OS_LINUX) || defined(OS_ANDROID)
+template class CheckedAddressRangeGeneric<LinuxVMAddress, LinuxVMSize>;
 #endif  // OS_MACOSX
 
 }  // namespace internal
