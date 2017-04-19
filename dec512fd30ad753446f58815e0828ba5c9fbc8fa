@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "068c6456_73f905f4",
+        "filename": "util/win/safe_terminate_process_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-19T15:42:28Z",
+      "side": 1,
+      "message": "Well, actually... Maybe not a problem here, but we\u0027ve found sometimes in system DLLs, the IAT is merged into .text. Buggy patchers will then waltz in and turn the IAT into read/copy-on-write, which makes the adjoining code non-executable, and then we end up crashing with an execute access violation.",
+      "range": {
+        "startLine": 54,
+        "startChar": 20,
+        "endLine": 54,
+        "endChar": 28
+      },
+      "revId": "dec512fd30ad753446f58815e0828ba5c9fbc8fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e859aada_0ee5d1bf",
         "filename": "util/win/safe_terminate_process_test.cc",
         "patchSetId": 1
@@ -18,6 +41,29 @@
         "startChar": 20,
         "endLine": 90,
         "endChar": 26
+      },
+      "revId": "dec512fd30ad753446f58815e0828ba5c9fbc8fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e46faada_ee35c514",
+        "filename": "util/win/safe_terminate_process_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-04-19T15:42:28Z",
+      "side": 1,
+      "message": "The most likely mode of patching we\u0027re contending with, IMHO is IAT patching, which is at least localized to affecting only your own EXE as opposed to the entire process :).\nSo long as nothing else runs in the patched process, this is fine, I guess.",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 10
       },
       "revId": "dec512fd30ad753446f58815e0828ba5c9fbc8fa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
