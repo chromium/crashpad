@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a54e0aab_720a638d",
+        "filename": "client/prune_crash_reports_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-19T22:30:37Z",
+      "side": 0,
+      "message": "c:\\program files (x86)\\microsoft visual studio\\2017\\professional\\vc\\tools\\msvc\\14.10.25017\\include\\algorithm(1782): error C2220: warning treated as error - no \u0027object\u0027 file generated\nc:\\program files (x86)\\microsoft visual studio\\2017\\professional\\vc\\tools\\msvc\\14.10.25017\\include\\algorithm(1796): note: see reference to function template instantiation \u0027void std::_Random_shuffle_unchecked\u003ccrashpad::CrashReportDatabase::Report*,_RngFn\u003e(_RanIt,_RanIt,_RngFn \u0026)\u0027 being compiled\n        with\n        [\n            _RngFn\u003dconst crashpad::test::`anonymous-namespace\u0027::PruneCrashReports_PruneOrder_Test::TestBody::\u003clambda_d223c3ce71d0b9d19635b4a7346addfe\u003e,\n            _RanIt\u003dcrashpad::CrashReportDatabase::Report *\n        ]\nc:\\program files (x86)\\microsoft visual studio\\2017\\professional\\vc\\tools\\msvc\\14.10.25017\\include\\algorithm(1815): note: see reference to function template instantiation \u0027void std::_Random_shuffle1\u003c_RanIt,const crashpad::test::`anonymous-namespace\u0027::PruneCrashReports_PruneOrder_Test::TestBody::\u003clambda_d223c3ce71d0b9d19635b4a7346addfe\u003e\u003e(_RanIt,_RanIt,_RngFn \u0026)\u0027 being compiled\n        with\n        [\n            _RanIt\u003dstd::_Vector_iterator\u003cstd::_Vector_val\u003cstd::_Simple_types\u003ccrashpad::CrashReportDatabase::Report\u003e\u003e\u003e,\n            _RngFn\u003dconst crashpad::test::`anonymous-namespace\u0027::PruneCrashReports_PruneOrder_Test::TestBody::\u003clambda_d223c3ce71d0b9d19635b4a7346addfe\u003e\n        ]\nclient\\prune_crash_reports_test.cc(215): note: see reference to function template instantiation \u0027void std::random_shuffle\u003cstd::_Vector_iterator\u003cstd::_Vector_val\u003cstd::_Simple_types\u003ccrashpad::CrashReportDatabase::Report\u003e\u003e\u003e,const crashpad::test::`anonymous-namespace\u0027::PruneCrashReports_PruneOrder_Test::TestBody::\u003clambda_d223c3ce71d0b9d19635b4a7346addfe\u003e\u0026\u003e(_RanIt,_RanIt,_RngFn)\u0027 being compiled\n        with\n        [\n            _RanIt\u003dstd::_Vector_iterator\u003cstd::_Vector_val\u003cstd::_Simple_types\u003ccrashpad::CrashReportDatabase::Report\u003e\u003e\u003e,\n            _RngFn\u003dconst crashpad::test::`anonymous-namespace\u0027::PruneCrashReports_PruneOrder_Test::TestBody::\u003clambda_d223c3ce71d0b9d19635b4a7346addfe\u003e \u0026\n        ]\nc:\\program files (x86)\\microsoft visual studio\\2017\\professional\\vc\\tools\\msvc\\14.10.25017\\include\\algorithm(1782): warning C4244: \u0027argument\u0027: conversion from \u0027_Diff\u0027 to \u0027int\u0027, possible loss of data",
+      "revId": "2815dbdf8e053e90509c17e7dc7f7dd362d7e2be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f133daf_f275f0bd",
+        "filename": "snapshot/win/crashpad_snapshot_test_crashing_child.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-19T22:30:37Z",
+      "side": 0,
+      "message": "snapshot\\win\\crashpad_snapshot_test_crashing_child.cc(26): error C3861: \u0027_ReturnAddress\u0027: identifier not found",
+      "revId": "2815dbdf8e053e90509c17e7dc7f7dd362d7e2be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af4d7e7a_6085ed33",
+        "filename": "snapshot/win/crashpad_snapshot_test_dump_without_crashing.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-19T22:30:37Z",
+      "side": 0,
+      "message": "snapshot\\win\\crashpad_snapshot_test_dump_without_crashing.cc(26): error C3861: \u0027_ReturnAddress\u0027: identifier not found",
+      "revId": "2815dbdf8e053e90509c17e7dc7f7dd362d7e2be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
