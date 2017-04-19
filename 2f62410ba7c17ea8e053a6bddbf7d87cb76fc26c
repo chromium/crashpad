@@ -69,6 +69,24 @@
       "revId": "2f62410ba7c17ea8e053a6bddbf7d87cb76fc26c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9b97d3e_d81dfe6a",
+        "filename": "util/numeric/checked_address_range.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-19T20:14:12Z",
+      "side": 1,
+      "message": "\u003e This is actually using brace-initialization, which is recommended by the style guide for converting arithmetic types because it produces an error if there is the possibility of information loss.\n\nOK, cool!\n\n\u003e The parens are there because the type has multiple tokens which the compiler didn\u0027t like.\n\u003e I wasn\u0027t sure at first whether this would end up treating it like brace initialization or a c-style cast, but I tried it out and this will produce an error if Base() is too large whereas a c-style cast and static_cast won\u0027t.\n\nSince it definitely looks like a C-style cast, we should try to write it in a way that looks better.\n\nHow about this: could you get rid of the parentheses if you used uint64_t instead of unsigned long long? Then we’d use \"0x%\" PRIx64 in the format string, after #including \"base/format_macros.h\". That should be as good as unsigned long long, and if it’s not, the brace initialization syntax will tell us.",
+      "parentUuid": "f9d2e736_8f7c378e",
+      "revId": "2f62410ba7c17ea8e053a6bddbf7d87cb76fc26c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
