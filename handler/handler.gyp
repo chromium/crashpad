@@ -147,6 +147,7 @@
           'dependencies': [
             '../client/client.gyp:crashpad_client',
             '../test/test.gyp:crashpad_test',
+            '../third_party/gtest/gtest.gyp:gtest',
             '../third_party/mini_chromium/mini_chromium.gyp:base',
             '../util/util.gyp:crashpad_util',
           ],

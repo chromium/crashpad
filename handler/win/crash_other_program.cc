@@ -20,6 +20,7 @@
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
 #include "client/crashpad_client.h"
+#include "gtest/gtest.h"
 #include "test/test_paths.h"
 #include "test/win/child_launcher.h"
 #include "util/file/file_io.h"
@@ -93,6 +94,10 @@ int CrashOtherProgram(int argc, wchar_t* argv[]) {
       test_executable.DirName().Append(L"hanging_program.exe").value();
   ChildLauncher child(child_test_executable, argv[1]);
   child.Start();
+  if (testing::Test::HasFatalFailure()) {
+    LOG(ERROR) << "failed to start child";
+    return EXIT_FAILURE;
+  }
 
   // Wait until it's ready.
   char c;

@@ -46,7 +46,7 @@ void TestImageReaderChild(const base::string16& directory_modification) {
                   L"_image_reader.exe")
           .value();
   ChildLauncher child(child_test_executable, done_uuid.ToString16());
-  child.Start();
+  ASSERT_NO_FATAL_FAILURE(child.Start());
 
   char c;
   ASSERT_TRUE(
