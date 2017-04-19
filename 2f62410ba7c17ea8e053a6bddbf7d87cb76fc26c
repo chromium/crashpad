@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "996bd1fb_6c2b2b23",
+        "filename": "util/linux/checked_linux_address_range.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-19T20:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f985b7b2_20cd7a28",
+      "revId": "2f62410ba7c17ea8e053a6bddbf7d87cb76fc26c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad9b886_43e30e19",
         "filename": "util/numeric/checked_address_range.cc",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-19T18:52:25Z",
       "side": 1,
       "message": "Don’t use C-style casts, use C++-style casts. static_cast\u003cunsigned long long\u003e(Base()) should be correct here.",
+      "revId": "2f62410ba7c17ea8e053a6bddbf7d87cb76fc26c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9d2e736_8f7c378e",
+        "filename": "util/numeric/checked_address_range.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-19T20:07:07Z",
+      "side": 1,
+      "message": "This is actually using brace-initialization, which is recommended by the style guide for converting arithmetic types because it produces an error if there is the possibility of information loss.\nThe parens are there because the type has multiple tokens which the compiler didn\u0027t like.\nI wasn\u0027t sure at first whether this would end up treating it like brace initialization or a c-style cast, but I tried it out and this will produce an error if Base() is too large whereas a c-style cast and static_cast won\u0027t.",
+      "parentUuid": "4ad9b886_43e30e19",
       "revId": "2f62410ba7c17ea8e053a6bddbf7d87cb76fc26c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
