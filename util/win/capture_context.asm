@@ -21,7 +21,7 @@ endif
 
 ifdef _M_IX86
 .586
-.XMM
+.xmm
 .model flat
 endif
 
@@ -212,7 +212,7 @@ CONTEXT ends
 endif
 
 ; namespace crashpad {
-; void CaptureContext(CONTEXT* context)
+; void CaptureContext(CONTEXT* context);
 ; }  // namespace crashpad
 ifdef _M_IX86
 CAPTURECONTEXT_SYMBOL equ ?CaptureContext@crashpad@@YAXPAU_CONTEXT@@@Z

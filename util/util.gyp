@@ -212,6 +212,8 @@
         'win/process_structs.h',
         'win/registration_protocol_win.cc',
         'win/registration_protocol_win.h',
+        'win/safe_terminate_process.asm',
+        'win/safe_terminate_process.h',
         'win/scoped_handle.cc',
         'win/scoped_handle.h',
         'win/scoped_local_alloc.cc',
@@ -316,6 +318,7 @@
         }, {  # else: OS!="win"
           'sources!': [
             'win/capture_context.asm',
+            'win/safe_terminate_process.asm',
           ],
         }],
         ['OS=="linux"', {
