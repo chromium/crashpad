@@ -148,7 +148,7 @@ void TestCrashingChild(const base::string16& directory_modification) {
                   L"_crashing_child.exe")
           .value();
   ChildLauncher child(child_test_executable, pipe_name);
-  child.Start();
+  ASSERT_NO_FATAL_FAILURE(child.Start());
 
   // The child tells us (approximately) where it will crash.
   WinVMAddress break_near_address;
@@ -256,7 +256,7 @@ void TestDumpWithoutCrashingChild(
                   L"_dump_without_crashing.exe")
           .value();
   ChildLauncher child(child_test_executable, pipe_name);
-  child.Start();
+  ASSERT_NO_FATAL_FAILURE(child.Start());
 
   // The child tells us (approximately) where it will capture a dump.
   WinVMAddress dump_near_address;

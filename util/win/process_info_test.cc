@@ -151,7 +151,7 @@ void TestOtherProcess(const base::string16& directory_modification) {
   AppendCommandLineArgument(done_uuid.ToString16(), &args);
 
   ChildLauncher child(child_test_executable, args);
-  child.Start();
+  ASSERT_NO_FATAL_FAILURE(child.Start());
 
   // The child sends us a code address we can look up in the memory map.
   WinVMAddress code_address;

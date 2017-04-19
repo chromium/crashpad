@@ -39,6 +39,9 @@ class ChildLauncher {
 
   //! \brief Starts the child process, after which the handle functions below
   //!     will be valid.
+  //!
+  //! Errors are signaled via gtest assertions. This method may be invoked via
+  //! `ASSERT_NO_FATAL_FAILURE()` to assert that it succeeds.
   void Start();
 
   //! \brief Waits for the child process to exit.

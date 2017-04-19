@@ -53,7 +53,7 @@ void TestExtraMemoryRanges(TestType type,
                   L"_extra_memory_ranges.exe")
           .value();
   ChildLauncher child(child_test_executable, L"");
-  child.Start();
+  ASSERT_NO_FATAL_FAILURE(child.Start());
 
   // Wait for the child process to indicate that it's done setting up its
   // annotations via the CrashpadInfo interface.
