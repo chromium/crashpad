@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a877ad00_c02ccf74",
+        "filename": "util/win/safe_terminate_process_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-19T17:25:10Z",
+      "side": 1,
+      "message": "\u003e Well, actually... Maybe not a problem here, but we\u0027ve found sometimes in system DLLs, the IAT is merged into .text. Buggy patchers will then waltz in and turn the IAT into read/copy-on-write, which makes the adjoining code non-executable, and then we end up crashing with an execute access violation.\n\nUpdated the comment to be more precise about this just being for the test’s purposes.",
+      "parentUuid": "068c6456_73f905f4",
+      "range": {
+        "startLine": 54,
+        "startChar": 20,
+        "endLine": 54,
+        "endChar": 28
+      },
+      "revId": "dec512fd30ad753446f58815e0828ba5c9fbc8fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e859aada_0ee5d1bf",
         "filename": "util/win/safe_terminate_process_test.cc",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2016ef31_f8098e76",
+        "filename": "util/win/safe_terminate_process_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-19T17:25:10Z",
+      "side": 1,
+      "message": "Done.\n\nBut you know what? Having a test with a subprocess is a good idea, to get some coverage of the exit code parameter too. I added a simple one.",
+      "parentUuid": "e859aada_0ee5d1bf",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 26
+      },
+      "revId": "dec512fd30ad753446f58815e0828ba5c9fbc8fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e46faada_ee35c514",
         "filename": "util/win/safe_terminate_process_test.cc",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "dec512fd30ad753446f58815e0828ba5c9fbc8fa",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80d16fd6_56bf86f0",
+        "filename": "util/win/safe_terminate_process_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-19T17:25:10Z",
+      "side": 1,
+      "message": "Yeah, this is just a gtest test, we shouldn’t be hosting any other code, and we shouldn’t really be experiencing other (non-idle) threads either. It’s certainly more straightforward to do this than an IAT patch, and for the purposes of getting the calling convention wrong, it should be more than sufficient.",
+      "parentUuid": "e46faada_ee35c514",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 10
+      },
+      "revId": "dec512fd30ad753446f58815e0828ba5c9fbc8fa",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
