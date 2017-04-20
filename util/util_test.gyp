@@ -39,6 +39,7 @@
         'file/file_io_test.cc',
         'file/file_reader_test.cc',
         'file/string_file_test.cc',
+        'linux/memory_map_test.cc',
         'linux/process_memory_test.cc',
         'linux/scoped_ptrace_attach_test.cc',
         'mac/launchd_test.mm',
