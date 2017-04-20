@@ -223,6 +223,24 @@
     },
     {
       "key": {
+        "uuid": "fa7f4502_4449107e",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T15:08:41Z",
+      "side": 1,
+      "message": "\u003e The sad thing\n\nNever mind about that sad thing, I was still looking at task_nommu.c.\n\ntask_mmu.c, which is what we care most about, uses\n\n  seq_file_path(m, file, \"\\n\");\n\nmeaning \"\\n\" will be octal-escaped as \\012.\n\nWe could run this through a decoder for that escape, but stupidly, the encoder doesn‘t escape backslashes, so it’s an ambiguous encoding. So there’s another sad thing that we can’t do anything about, but at least we won’t get trolled.",
+      "parentUuid": "f2421d68_a85c9862",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5007d7d9_e42ea31d",
         "filename": "util/linux/memory_map.h",
         "patchSetId": 6
