@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14387573_2503cf55",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "This is fine for now, but I wanted to improve StringToNumber anyway, and I think that what I was planning will make this easier.\n\nRight now, StringToNumber has overloads for int, unsigned int, int64_t, and uint64_t. My plan was to throw away the latter two and instead define overloads for all fundamental integral types.\n\nI think that’d help you out here based on the description of the problem.",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e07850d8_f0a200d9",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "offset(0), device(0), inode(0),",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "219a7d05_28897247",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": ", initialized_()",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0030013f_652b8f09",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "Now that there are a ton of these, can we funnel all of these calls that prepend \"0x\" into a HexStringToNumber helper?",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "207ad3b6_050adfaa",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "Blank line after this, because you’re about to do something a little different.",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f01ff47_1b9825c4",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "TODO format: TODO(jperaza): set bitness properly\n\nFor now, set the bitness improperly, just by using the current process’ bitness. That’s a reasonable crutch for the time being. If you #include \"build/build_config.h\", you can use\n\n#if defined(ARCH_CPU_64_BITS)\n  const bool is_64_bit \u003d true;\n#else\n  const bool is_64_bit \u003d false;\n#endif",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bef57937_8c53a3f6",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "You need to check that end_address \u003e start_address before doing this. The CheckedAddressRange will take care of other bounds checking from that point, but you’ve just got loose LinuxVMAddresses now and you’re assuming responsibility for doing the check yourself when you subtract them.",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f4a33b4_a6290f3c",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "If the character is false_c, you should explicitly set the field to false instead of relying on the constructor’s initialization.",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6127bddb_f105cc3d",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "Ah, good approximation!\n\nInstead of |index| and |name|, you can pass field[index] and \u0026mapping.name to the macro, and then it looks and behaves more like a function. You don’t actually have to make it a function: you can keep it a macro so that it’s allowed to return from Initialize() without any help. It’s just a little easier to read and think about a macro that behaves more like a function than not.",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "016d37ed_a56042a0",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "If we ever find ourselves dealing with task_nommu.c, apparently \u0027S\u0027 and \u0027s\u0027 need to both be treated as shareable (capital is actually shared).",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cc19cb8_7d03b150",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "When you dealt with the compound field for the rwxs bits, you did a pop_back before checking field.size(), which was nice because you had 4 characters and were expecting field.size() to be 4. Follow that precedent here?\n\n(I had expected that you’d pop_back here, missed that you hadn’t, and wondered for a moment how you were getting 6 out of 5.)",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "249af639_30627ce3",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "Hmm…you weren’t checking for the expected delimiter in any of the pop_back()s above.",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2421d68_a85c9862",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "Uh-oh. If there are \\n characters in the path, we’ll either register a format error on the next line or if someone’s particularly crafty and writes a filename with the express purpose of trolling /proc/pid/maps, we’ll pick it up as a real entry.\n\nThe sad thing is that Linux has the ability to escape special characters like \\n (see linux-4.9.23/fs/seq_file.c mangle_path(), which is actually used by seq_file_path(), the function that’s responsible for putting the path in /proc/pid/maps). The usage for /proc/pid/maps just avoids escaping anything.",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5007d7d9_e42ea31d",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "Blank line before this so that the constructor stands out as something that’s not a member variable.",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

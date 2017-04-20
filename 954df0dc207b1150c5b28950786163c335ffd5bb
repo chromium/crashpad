@@ -212,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "8479d25d_0b6ac456",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "\u003e I put it here because there are no more failure conditions and it avoids an extra string copy.\n\nI suppose what you’ve got now is OK.",
+      "parentUuid": "5c13cd04_2bb0567e",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e38016df_ffbb4b7d",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 3
@@ -708,6 +726,24 @@
       "side": 1,
       "message": "I\u0027ve started writing tests with the child process reading the parent since I think that\u0027s what will need to happen in practice if we fork a handler during a crash. Threads aren\u0027t preserved across a fork so the parent of a fork wouldn\u0027t be able to trace any of the non-forking threads in the child. I did read that a PTRACE_ATTACH makes the attaching process behave effectively as the parent process, but I wasn\u0027t sure how widely that held true and I don\u0027t necessarily know that the handler will be ptrace attached  when this class is used.",
       "parentUuid": "bf7b02a6_bffd4f4e",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94709635_ccd667c6",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-20T14:50:44Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve started writing tests with the child process reading the parent since I think that\u0027s what will need to happen in practice if we fork a handler during a crash.\n\nI think that we should deal with testing child-tracing-parent when we’re a level higher and are working on that actual implementation. When we get to that point, I still don’t think that we should be doing ptrace() on the test process itself, we’ll need to have distinct tracee and tracer processes.\n\n\u003e Threads aren\u0027t preserved across a fork so the parent of a fork wouldn\u0027t be able to trace any of the non-forking threads in the child.\n\nRight, we’d need the child to create its own threads. That mimics what we have to do on other operating systems.\n\nI have several concerns about child-traces-parent where the parent is a test process. Fundamentally, we’re unit testing the reader code. It’s hard to debug a test when that code’s running in a forked short-lived child process. For that matter, having a debugger attached to the test process will probably prevent the child from being able to ptrace() its parent, so this design effectively prevents a debugger from being used on the test process.\n\nThe test process is multi-purpose, and we really want to avoid doing things to it that might compromise future tests. Doing a ptrace() on it should be avoided.",
+      "parentUuid": "89584305_b993cfe9",
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
