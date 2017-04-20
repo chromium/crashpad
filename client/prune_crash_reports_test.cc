@@ -14,12 +14,14 @@
 
 #include "client/prune_crash_reports.h"
 
+#include <stddef.h>
 #include <stdlib.h>
 
 #include <algorithm>
 #include <string>
 #include <vector>
 
+#include "base/numerics/safe_conversions.h"
 #include "base/rand_util.h"
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
@@ -209,8 +211,8 @@ TEST(PruneCrashReports, PruneOrder) {
     reports.push_back(temp);
   }
   // The randomness from std::rand() is not, so use a better rand() instead.
-  const auto random_generator = [](int rand_max) {
-    return base::RandInt(0, rand_max - 1);
+  const auto random_generator = [](ptrdiff_t rand_max) {
+    return base::RandInt(0, base::checked_cast<int>(rand_max) - 1);
   };
   std::random_shuffle(reports.begin(), reports.end(), random_generator);
   std::vector<CrashReportDatabase::Report> pending_reports(
