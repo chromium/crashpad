@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "308797e9_6cd2ca42",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca70b805_93787420",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "655277a5_751b5f26",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "af31701c_fc764aa1",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "655277a5_751b5f26",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "388978b0_5bd504b2",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2017-04-14T17:51:46Z",
       "side": 1,
       "message": "I feel like this field[0]…field[3] thing should be using some sort of parameterized loop, but let’s say that’s optional.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb41d15_c365e614",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Approximated.",
+      "parentUuid": "388978b0_5bd504b2",
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "bd7077ba_b1f912e5",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done\n\nI think what I really wanted was something like reinterpret_cast\u003cTYPE*\u003e(\u0026mapping.offset)\nwhere TYPE is inferred as either int or int64, whichever is the appropriate size, but I couldn\u0027t find a way to do that.",
+      "parentUuid": "b8a32842_0de3d149",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "382a9473_a56b34f2",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 3
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3ea12088_584e980d",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "I was thinking the last line wouldn\u0027t have a newline, but apparently it does.",
+      "parentUuid": "382a9473_a56b34f2",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cdd3dd2_2758946e",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2017-04-14T17:51:46Z",
       "side": 1,
       "message": "Seems like this should wait until after you’re done with mapping.name.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c13cd04_2bb0567e",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "I put it here because there are no more failure conditions and it avoids an extra string copy.\nMaybe I should change it to something like:\nstd::string name;\nif (path_start...) {\n  name \u003d field.substr(path_start)\n}\nmappings.push_back(mapping)\nmappings_.back().name.swap(name)\n\nOr just go ahead and do the string copy?",
+      "parentUuid": "2cdd3dd2_2758946e",
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "7f42048a_6259b37d",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e38016df_ffbb4b7d",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f9df564_6855d24c",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 3
@@ -135,6 +261,24 @@
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aafba657_63d02dd7",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "No cleverness here.",
+      "parentUuid": "6f9df564_6855d24c",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "2fa1f702_f148269e",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c739170_9b1e76fa",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cbcd929_a9c00de8",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 3
@@ -166,6 +328,24 @@
       "writtenOn": "2017-04-14T17:51:46Z",
       "side": 1,
       "message": "Reading /proc/pid/maps brings back an unpleasant blast from the past. I’d like you to look through https://codereview.chromium.org/18661009/ to see how tricky this can actually get. We should decide whether those problems are relevant to us here, and whether we need to do anything to mitigate them.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f5ef2d6_70cb6795",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "So, if a separate process is doing the reading and the target process is stopped, I think none of those problems will be problems. The comment in proc_maps_linux.h mentions there are \"subtle problems\" with fork-suspend-read, but doesn\u0027t say what they were. I\u0027ll keep an eye out.\nOtherwise, if a process is tracing itself or the target process is otherwise not entirely stopped:\n\n1. The possibility of entries being re-read when a read hits a gate VMA and then new entries are mapped.\nAs is, I don\u0027t think this is a problem. FindMapping will return the first one, but either should do, assuming they are the same. MemoryMap does not expose the total number of mappings so having duplicates should be hidden for now. This will be further mediated when we convert to using a RangeMap where we can easily check if the new mapping overlaps with an existing region and whether they are identical so we can act appropriately. (We could also do this now, but seems not super important if we\u0027re going to change to a RangeMap soon anyway.)\n\n2. The comment in proc_maps_linux.h mentions the possibility of skipping entries if the virtual memory table is changed between reads, but I couldn\u0027t find an explanation of why or which entries are skipped. If this refers to any new entries added while reading, that seems like a non-problem. If entries can be added while we are reading the file, they could also be added after reading the file, even if we read it atomically.\n\n3. The possibility of an infinite (until we run out of memory and crash) loop where a new entry is added after reading a gate VMA resulting in re-reading the gate VMA, rather than hitting EOF. This seems exceedingly unlikely short of systematic allocations we while reading the file. I can think about this some more and maybe try to write a test to see if I can induce it or other badness.\n\nI think I\u0027ll start with a test on large maps files.",
+      "parentUuid": "3cbcd929_a9c00de8",
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "45ec0d62_068d37c4",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a26801f0_b9e35788",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e6be1e4_e163180f",
         "filename": "util/linux/memory_map.h",
         "patchSetId": 3
@@ -203,6 +401,24 @@
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "568f2286_47e7b63f",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Changed to shareable.",
+      "parentUuid": "8e6be1e4_e163180f",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "e24b62bc_48aadf0d",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ea142e4_b0aff2a5",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "758f6bcd_73d1751f",
         "filename": "util/linux/memory_map.h",
         "patchSetId": 3
@@ -237,6 +471,24 @@
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78e0a3be_c353c2d0",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "758f6bcd_73d1751f",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "cf6cdbd5_884111a9",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2eaef7b_93d05de7",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d8c16bc_ba6c1709",
         "filename": "util/linux/memory_map_test.cc",
         "patchSetId": 3
@@ -268,6 +538,24 @@
       "writtenOn": "2017-04-14T17:51:46Z",
       "side": 1,
       "message": "Too bad that in 2017 we’re still fearful of executable stacks. :( Did you omit that because stacks were still showing up as executable in tests on some systems?",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "742f0d73_c1d6f36b",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "I didn\u0027t run into any executable stacks, but I removed the check since I wasn\u0027t sure that we wouldn\u0027t and the executable bit gets tested elsewhere.",
+      "parentUuid": "9d8c16bc_ba6c1709",
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -297,6 +585,30 @@
     },
     {
       "key": {
+        "uuid": "03db8dd5_f4be4dfb",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca19cfb1_82e0255b",
+      "range": {
+        "startLine": 51,
+        "startChar": 55,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54075795_b185ad94",
         "filename": "util/linux/memory_map_test.cc",
         "patchSetId": 3
@@ -311,6 +623,24 @@
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8691c8b8_b8d2ce8e",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "54075795_b185ad94",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -331,6 +661,24 @@
     },
     {
       "key": {
+        "uuid": "e94f77c5_50ba8674",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0555841_a3d6539c",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf7b02a6_bffd4f4e",
         "filename": "util/linux/memory_map_test.cc",
         "patchSetId": 3
@@ -342,6 +690,24 @@
       "writtenOn": "2017-04-14T17:51:46Z",
       "side": 1,
       "message": "I think it makes more sense to reverse the relationship here: the parent should be reading the child, not the other way around.",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89584305_b993cfe9",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "I\u0027ve started writing tests with the child process reading the parent since I think that\u0027s what will need to happen in practice if we fork a handler during a crash. Threads aren\u0027t preserved across a fork so the parent of a fork wouldn\u0027t be able to trace any of the non-forking threads in the child. I did read that a PTRACE_ATTACH makes the attaching process behave effectively as the parent process, but I wasn\u0027t sure how widely that held true and I don\u0027t necessarily know that the handler will be ptrace attached  when this class is used.",
+      "parentUuid": "bf7b02a6_bffd4f4e",
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -365,6 +731,24 @@
     },
     {
       "key": {
+        "uuid": "a7453577_ba3ddae2",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0608e34c_be23c57a",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36edb1f2_ff6c5869",
         "filename": "util/linux/memory_map_test.cc",
         "patchSetId": 3
@@ -379,6 +763,24 @@
       "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d30b78_b81efd1b",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-20T00:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36edb1f2_ff6c5869",
+      "revId": "954df0dc207b1150c5b28950786163c335ffd5bb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
