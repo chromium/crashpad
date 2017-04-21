@@ -1,0 +1,319 @@
+// Copyright 2017 The Crashpad Authors. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include "util/linux/memory_map.h"
+
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+#include "base/posix/eintr_wrapper.h"
+#include "gtest/gtest.h"
+#include "test/file.h"
+#include "test/multiprocess.h"
+#include "test/scoped_temp_dir.h"
+#include "util/file/file_io.h"
+#include "util/posix/scoped_mmap.h"
+
+namespace crashpad {
+namespace test {
+namespace {
+
+TEST(MemoryMap, SelfBasic) {
+  ScopedMmap mmapping;
+  ASSERT_TRUE(mmapping.ResetMmap(nullptr,
+                                 getpagesize(),
+                                 PROT_EXEC | PROT_READ,
+                                 MAP_SHARED | MAP_ANON,
+                                 -1,
+                                 0));
+  MemoryMap map;
+  ASSERT_TRUE(map.Initialize(getpid()));
+
+  auto stack_address = reinterpret_cast<LinuxVMAddress>(&map);
+  const MemoryMap::Mapping* mapping = map.FindMapping(stack_address);
+  ASSERT_TRUE(mapping);
+  EXPECT_GE(stack_address, mapping->range.Base());
+  EXPECT_LT(stack_address, mapping->range.End());
+  EXPECT_TRUE(mapping->readable);
+  EXPECT_TRUE(mapping->writable);
+
+  auto code_address = reinterpret_cast<LinuxVMAddress>(getpid);
+  mapping = map.FindMapping(code_address);
+  ASSERT_TRUE(mapping);
+  EXPECT_GE(code_address, mapping->range.Base());
+  EXPECT_LT(code_address, mapping->range.End());
+  EXPECT_TRUE(mapping->readable);
+  EXPECT_FALSE(mapping->writable);
+  EXPECT_TRUE(mapping->executable);
+
+  auto mapping_address = mmapping.addr_as<LinuxVMAddress>();
+  mapping = map.FindMapping(mapping_address);
+  ASSERT_TRUE(mapping);
+  mapping = map.FindMapping(mapping_address + mmapping.len() - 1);
+  ASSERT_TRUE(mapping);
+  EXPECT_EQ(mapping_address, mapping->range.Base());
+  EXPECT_EQ(mapping_address + mmapping.len(), mapping->range.End());
+  EXPECT_TRUE(mapping->readable);
+  EXPECT_FALSE(mapping->writable);
+  EXPECT_TRUE(mapping->executable);
+  EXPECT_TRUE(mapping->shareable);
+}
+
+class MapChildTest : public Multiprocess {
+ public:
+  MapChildTest() : Multiprocess(), page_size(getpagesize()) {}
+  ~MapChildTest() {}
+
+ private:
+  void MultiprocessParent() override {
+    LinuxVMAddress code_address;
+    CheckedReadFileExactly(
+        ReadPipeHandle(), &code_address, sizeof(code_address));
+
+    LinuxVMAddress stack_address;
+    CheckedReadFileExactly(
+        ReadPipeHandle(), &stack_address, sizeof(stack_address));
+
+    LinuxVMAddress mapped_address;
+    CheckedReadFileExactly(
+        ReadPipeHandle(), &mapped_address, sizeof(mapped_address));
+
+    LinuxVMAddress mapped_file_address;
+    CheckedReadFileExactly(
+        ReadPipeHandle(), &mapped_file_address, sizeof(mapped_file_address));
+    LinuxVMSize path_length;
+    CheckedReadFileExactly(ReadPipeHandle(), &path_length, sizeof(path_length));
+    std::unique_ptr<char[]> path_buffer(new char[path_length + 1]);
+    CheckedReadFileExactly(
+        ReadPipeHandle(), path_buffer.get(), path_length + 1);
+    std::string mapped_file_name(path_buffer.get());
+
+    MemoryMap map;
+    ASSERT_TRUE(map.Initialize(ChildPID()));
+
+    const MemoryMap::Mapping* mapping = map.FindMapping(code_address);
+    ASSERT_TRUE(mapping);
+    EXPECT_GE(code_address, mapping->range.Base());
+    EXPECT_LT(code_address, mapping->range.End());
+    EXPECT_TRUE(mapping->readable);
+    EXPECT_TRUE(mapping->executable);
+    EXPECT_FALSE(mapping->writable);
+
+    mapping = map.FindMapping(stack_address);
+    ASSERT_TRUE(mapping);
+    EXPECT_GE(stack_address, mapping->range.Base());
+    EXPECT_LT(stack_address, mapping->range.End());
+    EXPECT_TRUE(mapping->readable);
+    EXPECT_TRUE(mapping->writable);
+
+    mapping = map.FindMapping(mapped_address);
+    ASSERT_TRUE(mapping);
+    EXPECT_EQ(mapped_address, mapping->range.Base());
+    EXPECT_EQ(mapped_address + page_size, mapping->range.End());
+    EXPECT_FALSE(mapping->readable);
+    EXPECT_FALSE(mapping->writable);
+    EXPECT_FALSE(mapping->executable);
+    EXPECT_TRUE(mapping->shareable);
+
+    mapping = map.FindMapping(mapped_file_address);
+    ASSERT_TRUE(mapping);
+    EXPECT_EQ(mapped_file_address, mapping->range.Base());
+    EXPECT_EQ(mapping->offset, static_cast<int64_t>(page_size));
+    EXPECT_TRUE(mapping->readable);
+    EXPECT_TRUE(mapping->writable);
+    EXPECT_FALSE(mapping->executable);
+    EXPECT_FALSE(mapping->shareable);
+    EXPECT_EQ(mapping->name, mapped_file_name);
+    struct stat file_stat;
+    ASSERT_EQ(stat(mapped_file_name.c_str(), &file_stat), 0);
+    EXPECT_EQ(mapping->device, file_stat.st_dev);
+    EXPECT_EQ(mapping->inode, file_stat.st_ino);
+  }
+
+  void MultiprocessChild() override {
+    auto code_address = reinterpret_cast<LinuxVMAddress>(getpid);
+    CheckedWriteFile(WritePipeHandle(), &code_address, sizeof(code_address));
+
+    auto stack_address = reinterpret_cast<LinuxVMAddress>(&code_address);
+    CheckedWriteFile(WritePipeHandle(), &stack_address, sizeof(stack_address));
+
+    ScopedMmap mapping;
+    ASSERT_TRUE(mapping.ResetMmap(
+        nullptr, page_size, PROT_NONE, MAP_SHARED | MAP_ANON, -1, 0));
+    auto mapped_address = mapping.addr_as<LinuxVMAddress>();
+    CheckedWriteFile(
+        WritePipeHandle(), &mapped_address, sizeof(mapped_address));
+
+    ScopedTempDir temp_dir;
+    base::FilePath path =
+        temp_dir.path().Append(FILE_PATH_LITERAL("test_file"));
+    ASSERT_FALSE(FileExists(path));
+    std::string path_string = path.value();
+    ScopedFileHandle handle(HANDLE_EINTR(
+        open(path_string.c_str(), O_CREAT | O_RDWR | O_CLOEXEC | O_NOCTTY)));
+    ASSERT_TRUE(handle.is_valid());
+
+    ScopedMmap file_mapping;
+    ASSERT_TRUE(file_mapping.ResetMmap(nullptr,
+                                       page_size,
+                                       PROT_READ | PROT_WRITE,
+                                       MAP_PRIVATE,
+                                       handle.get(),
+                                       page_size));
+
+    auto mapped_file_address = file_mapping.addr_as<LinuxVMAddress>();
+    CheckedWriteFile(
+        WritePipeHandle(), &mapped_file_address, sizeof(mapped_file_address));
+    LinuxVMSize path_length = path_string.size();
+    CheckedWriteFile(WritePipeHandle(), &path_length, sizeof(path_length));
+    CheckedWriteFile(WritePipeHandle(), path_string.c_str(), path_length + 1);
+
+    CheckedReadFileAtEOF(ReadPipeHandle());
+  }
+
+  const size_t page_size;
+
+  DISALLOW_COPY_AND_ASSIGN(MapChildTest);
+};
+
+TEST(MemoryMap, MapChild) {
+  MapChildTest test;
+  test.Run();
+}
+
+// Some systems optimize mappings by allocating new mappings inside existing
+// mappings with matching permissions. Work around this by allocating one large
+// mapping and then switching up the permissions of individual pages to force
+// populating more entries in the maps file.
+void InitializeMappings(ScopedMmap* mappings,
+                        size_t num_mappings,
+                        size_t mapping_size) {
+  ASSERT_TRUE(mappings->ResetMmap(nullptr,
+                                  mapping_size * num_mappings,
+                                  PROT_READ,
+                                  MAP_PRIVATE | MAP_ANON,
+                                  -1,
+                                  0));
+
+  auto region = mappings->addr_as<LinuxVMAddress>();
+  for (size_t index = 0; index < num_mappings; index += 2) {
+    ASSERT_EQ(mprotect(reinterpret_cast<void*>(region + index * mapping_size),
+                       mapping_size,
+                       PROT_READ | PROT_WRITE),
+              0);
+  }
+}
+
+void ExpectMappings(const MemoryMap& map,
+                    LinuxVMAddress region_addr,
+                    size_t num_mappings,
+                    size_t mapping_size) {
+  for (size_t index = 0; index < num_mappings; ++index) {
+    auto mapping_address = region_addr + index * mapping_size;
+    const MemoryMap::Mapping* mapping = map.FindMapping(mapping_address);
+    ASSERT_TRUE(mapping);
+    EXPECT_EQ(mapping_address, mapping->range.Base());
+    EXPECT_EQ(mapping_address + mapping_size, mapping->range.End());
+    EXPECT_TRUE(mapping->readable);
+    if (index % 2 == 0) {
+      EXPECT_TRUE(mapping->writable);
+      EXPECT_TRUE(mapping->readable);
+      EXPECT_FALSE(mapping->executable);
+    } else {
+      EXPECT_FALSE(mapping->writable);
+      EXPECT_TRUE(mapping->readable);
+      EXPECT_FALSE(mapping->executable);
+    }
+  }
+}
+
+TEST(MemoryMap, SelfLargeMapFile) {
+  const size_t kNumMappings = 4096;
+  const size_t page_size = getpagesize();
+  ScopedMmap mappings;
+
+  ASSERT_NO_FATAL_FAILURE(
+      InitializeMappings(&mappings, kNumMappings, page_size));
+
+  MemoryMap map;
+  ASSERT_TRUE(map.Initialize(getpid()));
+
+  ExpectMappings(
+      map, mappings.addr_as<LinuxVMAddress>(), kNumMappings, page_size);
+}
+
+class MapRunningChildTest : public Multiprocess {
+ public:
+  MapRunningChildTest() : Multiprocess(), page_size(getpagesize()) {}
+  ~MapRunningChildTest() {}
+
+ private:
+  void MultiprocessParent() override {
+    SetExpectedChildTermination(kTerminationSignal, SIGKILL);
+
+    // Let the child get started
+    LinuxVMAddress region_addr;
+    CheckedReadFileExactly(ReadPipeHandle(), &region_addr, sizeof(region_addr));
+
+    // No rush; let the child get back to its work
+    sleep(1);
+
+    MemoryMap map;
+    ASSERT_TRUE(map.Initialize(ChildPID()));
+
+    // We should at least find the original mappings. The extra mappings may or
+    // not be found depending on scheduling.
+    ExpectMappings(map, region_addr, kNumMappings, page_size);
+
+    kill(ChildPID(), SIGKILL);
+  }
+
+  void MultiprocessChild() override {
+    ScopedMmap mappings;
+    ASSERT_NO_FATAL_FAILURE(
+        InitializeMappings(&mappings, kNumMappings, page_size));
+
+    // Let the parent start mapping us
+    auto region_addr = mappings.addr_as<LinuxVMAddress>();
+    CheckedWriteFile(WritePipeHandle(), &region_addr, sizeof(region_addr));
+
+    // But don't stop there!
+    const size_t kNumExtraMappings = 1024;
+    ScopedMmap extra_mappings;
+
+    // If the parent process dies, how can we guarantee this process gets
+    // killed while also ensuring it is still mapping while the parent process
+    // initializes its MemoryMap?
+    while (true) {
+      ASSERT_NO_FATAL_FAILURE(
+          InitializeMappings(&extra_mappings, kNumExtraMappings, page_size));
+    }
+  }
+
+  static const size_t kNumMappings = 4096;
+  const size_t page_size;
+
+  DISALLOW_COPY_AND_ASSIGN(MapRunningChildTest);
+};
+
+TEST(MemoryMap, MapRunningChild) {
+  MapRunningChildTest test;
+  test.Run();
+}
+
+}  // namespace
+}  // namespace test
+}  // namespace crashpad
