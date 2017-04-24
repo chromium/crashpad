@@ -247,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "b01904b7_95d23d16",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "\u003e Yep, this was on my mental todo list because I wanted to mull over what the best response to a bad address range would actually be. It\u0027s probably more likely that something in our parsing went wrong and gave us bad addresses, in which case logging an error and returning false is the way to go. If  this is actually the result of the kernel giving us a bad address range, does that indicate a serious enough corruption that we actually want to give up? Or still keep on collecting information?\n\nIf we can’t make sense of the memory map, then we shouldn’t proceed with it. It doesn’t matter whether it was our fault or the kernel’s (hopefully unlikely). That doesn’t necessarily mean that we need to give up on handling a crash altogether.\n\nhttps://crashpad.chromium.org/bug/26 is about adding log messages produced during dump generation to the minidump itself. If we still produced a minidump, even if those log messages were the only things that we were able to stuff it with, it’d at least inform us that we had a problem and help us figure out what was going on. I did a bunch of the work to implement that but never finished it off by plumbing it all the way through to the minidump.\n\n\u003e In general, do we consider apparent errors from the kernel/OS/anything outside the target process outside the scope of what Crashpad should dissect?\n\nIf the kernel or hardware are sick, our whole world is suspect. We’d just want to fail at what we know doesn’t make sense to us, but not generally allow that to cause us to skip gathering unrelated data.",
+      "parentUuid": "748f6a0a_6dca2342",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f4a33b4_a6290f3c",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 6
@@ -419,6 +437,24 @@
       "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a4cf31c_284fb567",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "\u003e DelimitedFileReader makes the delimiters optional if it hits EOF.\n\u003e If the delimiters are missing from the other calls, we\u0027ll get a format error when we try to read the next field.\n\u003e Since this could be the last character we expect to read from the file, it could be missing and we wouldn\u0027t notice without this check.\n\nTrue, this is OK since the next read will be EOF if the delimiter was missing.",
+      "parentUuid": "bc81ca40_cc5895d0",
+      "revId": "f7ccd101a1c0370793694ee82e9ead05b60f7057",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {

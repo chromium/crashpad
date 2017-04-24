@@ -1,0 +1,300 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "869db5d0_2b199020",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "clang-format messes up the indentation here, can you move this over to +4 spaces?",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1837722_d21b5854",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "The dangling “else” in macros makes these harder to follow and fragile now.\n\nMaybe we should go back to what we had before with just a single macro, but accept strings instead of chars, and use strchr to figure out whether we have a match. Then you could invoke as MACRO(field[3], \u0026mapping.shareable, \"sS\", \"p\");",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b2d1951_ff7f28c8",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "Better yet, just read it right into a std::string:\n\n  std::string mapped_file_name(path_length, std::string::value_type());\n  CheckedReadFileExactly(ReadPipeHandle(), \u0026mapped_file_name[0], path_length);",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d8245a1_d9721850",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "\u003c\u003c ErrnoMessage(\"stat\");",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b1fb8a7_092e3ab6",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "With O_CREAT, open()’s mode parameter is not optional.",
+      "range": {
+        "startLine": 166,
+        "startChar": 34,
+        "endLine": 166,
+        "endChar": 41
+      },
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f22de8bf_6b6de08c",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "\u003c\u003c ErrnoMessage(\"open\");\n\nBut you can ignore this comment and the preceding one if you switch to LoggingOpenFileForReadAndWrite(). kReuseOrCreate maps to the options you’ve chosen.",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "996fa37a_05a21435",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "There’s nothing in the file, so there’s no reason for this to be anything other than 0.",
+      "range": {
+        "startLine": 175,
+        "startChar": 39,
+        "endLine": 175,
+        "endChar": 48
+      },
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26d76850_0275b4d2",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "You already wrote the length, you don’t need to write the NUL byte. Just |path_length|, no +1.",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed4dcb15_e842d788",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "I think that this is fine, I don’t think we need to add anything to ScopedMmap to deal with protection on subranges. The Mprotect() that’s on there now is for convenience when dealing with the entire range. But…",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf795f79_7ab9f83b",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "#include \"test/errors.h\" and \u003c\u003c ErrnoMessage(\"mprotect\") here.",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7291646b_11f9f9fd",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "I disagree. We don’t want gratuitous delays in tests. One second is actually a really long time. It’s pretty bad if every test slept for a second, and this sleep makes it a real pain to run this test in a tight --gtest_repeat loop.\n\nYou can do this with a sleep that’s way, way shorter than a second.",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ee5ce54_4823783e",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "EXPECT_EQ(kill(…), 0) \u003c\u003c ErrnoMessage(\"kill\");\n\nbut I think we’d generally prefer to get rid of this (and line 265) altogether and let the child process die naturally when it recognizes that the parent no longer cares about it. (See below.)",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4c3bce8_4a3cd9eb",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "Is this a question for you or for me? It needs to be addressed.",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6596e67e_6bd0b84f",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "Why don’t you make the ReadPipeHandle() non-blocking in the child, and try to read a byte from it? If you see EAGAIN, the parent’s still alive. If you read 0 (EOF), the parent’s gone, either because it died or because it closed its end of the pipe because it was done with the test. Any other result is unexpected and the child should ASSERT or FAIL out.",
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dabf120f_20e6cddc",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "constexpr",
+      "range": {
+        "startLine": 306,
+        "startChar": 9,
+        "endLine": 306,
+        "endChar": 14
+      },
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3586a6d_94d05239",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-24T14:44:20Z",
+      "side": 1,
+      "message": "page_size_",
+      "range": {
+        "startLine": 307,
+        "startChar": 15,
+        "endLine": 307,
+        "endChar": 24
+      },
+      "revId": "bf45ada33a432caf27bc795e6b55a10ca7cd9b70",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
