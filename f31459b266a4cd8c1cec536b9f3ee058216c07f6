@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4106804e_a9e5ce87",
+        "filename": "util/misc/initialization_state_dcheck_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T17:39:07Z",
+      "side": 0,
+      "message": "On one system with gcc 6.3.0, I started seeing\n\n[ RUN      ] InitializationStateDcheckDeathTest.Destroyed_NotUninitialized\n../../util/misc/initialization_state_dcheck_test.cc:111: Failure\nDeath test: if (1) if (std::string* _result \u003d logging::CheckEQImpl(((*initialization_state_dcheck_pointer).SetInitializing()), ((*initialization_state_dcheck_pointer).kStateUninitialized), \"(*initialization_state_dcheck_pointer).SetInitializing()\" \" \" \"\u003d\u003d\" \" \" \"(*initialization_state_dcheck_pointer).kStateUninitialized\")) logging::LogMessage(__PRETTY_FUNCTION__, \"../../util/misc/initialization_state_dcheck_test.cc\", 111, _result).stream()\n    Result: failed to die.\n Error msg:\n[  DEATH   ] \n[  FAILED  ] InitializationStateDcheckDeathTest.Destroyed_NotUninitialized (1 ms)",
+      "revId": "f31459b266a4cd8c1cec536b9f3ee058216c07f6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
