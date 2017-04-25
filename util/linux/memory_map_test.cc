@@ -167,8 +167,8 @@ class MapChildTest : public Multiprocess {
     ScopedFileHandle handle(LoggingOpenFileForReadAndWrite(
         path, FileWriteMode::kReuseOrCreate, FilePermissions::kOwnerOnly));
     ASSERT_TRUE(handle.is_valid());
-    std::unique_ptr<char[]> file_contents(new char[page_size_ * 2]);
-    CheckedWriteFile(handle.get(), file_contents.get(), page_size_ * 2);
+    std::string file_contents(page_size_ * 2, std::string::value_type());
+    CheckedWriteFile(handle.get(), file_contents.c_str(), file_contents.size());
 
     ScopedMmap file_mapping;
     ASSERT_TRUE(file_mapping.ResetMmap(nullptr,
