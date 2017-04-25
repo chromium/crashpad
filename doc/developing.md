@@ -36,9 +36,14 @@ provides more detail.
 To develop Crashpad, the following tools are necessary, and must be present in
 the `$PATH` environment variable:
 
- * Appropriate development tools. For macOS, this is
-   [Xcode](https://developer.apple.com/xcode/) and for Windows, it’s [Visual
-   Studio](https://www.visualstudio.com/).
+ * Appropriate development tools.
+    * On macOS, install [Xcode](https://developer.apple.com/xcode/). The latest
+      version is generally recommended.
+    * On Windows, install [Visual Studio](https://www.visualstudio.com/) with
+      C++ support and the Windows SDK. MSVS 2015 and MSVS 2017 are both
+      supported. Some tests also require the CDB debugger, installed with
+      [Debugging Tools for
+      Windows](https://msdn.microsoft.com/library/windows/hardware/ff551063.aspx).
  * Chromium’s
    [depot_tools](https://dev.chromium.org/developers/how-tos/depottools).
  * [Git](https://git-scm.com/). This is provided by Xcode on macOS and by
@@ -190,6 +195,18 @@ argument, a path to the directory containing the test executables.
 $ cd ~/crashpad/crashpad
 $ python build/run_tests.py out/Debug
 ```
+
+### Windows
+
+On Windows, `end_to_end_test.py` requires the CDB debugger, installed with
+[Debugging Tools for
+Windows](https://msdn.microsoft.com/library/windows/hardware/ff551063.aspx).
+This can be installed either as part of the [Windows Driver
+Kit](https://go.microsoft.com/fwlink/p?LinkID=239721) or the [Windows
+SDK](https://go.microsoft.com/fwlink/p?LinkID=271979). If the Windows SDK has
+already been installed (possibly with Visual Studio) but Debugging Tools for
+Windows is not present, it can be installed from Add or remove programs→Windows
+Software Development Kit.
 
 ### Android
 
