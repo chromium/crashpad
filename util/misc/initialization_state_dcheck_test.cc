@@ -14,7 +14,12 @@
 
 #include "util/misc/initialization_state_dcheck.h"
 
+#include <stdlib.h>
+
+#include <memory>
+
 #include "base/logging.h"
+#include "base/memory/free_deleter.h"
 #include "gtest/gtest.h"
 #include "test/gtest_death_check.h"
 
@@ -98,33 +103,45 @@ TEST(InitializationStateDcheckDeathTest, Destroyed_NotUninitialized) {
   // This tests that an attempt to reinitialize a destroyed object fails. See
   // the InitializationState.InitializationState test for an explanation of this
   // use-after-free test.
-  InitializationStateDcheck* initialization_state_dcheck_pointer;
-  {
-    InitializationStateDcheck initialization_state_dcheck;
-    initialization_state_dcheck_pointer = &initialization_state_dcheck;
-    INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck);
-    INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck);
-    INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck);
-  }
-  ASSERT_DEATH_CHECK(INITIALIZATION_STATE_SET_INITIALIZING(
-                         *initialization_state_dcheck_pointer),
-                     "kStateUninitialized");
+  std::unique_ptr<InitializationStateDcheck, base::FreeDeleter>
+  initialization_state_dcheck_buffer(static_cast<InitializationStateDcheck*>(
+      malloc(sizeof(InitializationStateDcheck))));
+
+  InitializationStateDcheck* initialization_state_dcheck =
+      new (initialization_state_dcheck_buffer.get())
+          InitializationStateDcheck();
+
+  INITIALIZATION_STATE_SET_INITIALIZING(*initialization_state_dcheck);
+  INITIALIZATION_STATE_SET_VALID(*initialization_state_dcheck);
+  INITIALIZATION_STATE_DCHECK_VALID(*initialization_state_dcheck);
+
+  initialization_state_dcheck->~InitializationStateDcheck();
+
+  ASSERT_DEATH_CHECK(
+      INITIALIZATION_STATE_SET_INITIALIZING(*initialization_state_dcheck),
+      "kStateUninitialized");
 }
 
 TEST(InitializationStateDcheckDeathTest, Destroyed_NotValid) {
   // This tests that an attempt to use a destroyed object fails. See the
   // InitializationState.InitializationState test for an explanation of this
   // use-after-free test.
-  InitializationStateDcheck* initialization_state_dcheck_pointer;
-  {
-    InitializationStateDcheck initialization_state_dcheck;
-    initialization_state_dcheck_pointer = &initialization_state_dcheck;
-    INITIALIZATION_STATE_SET_INITIALIZING(initialization_state_dcheck);
-    INITIALIZATION_STATE_SET_VALID(initialization_state_dcheck);
-    INITIALIZATION_STATE_DCHECK_VALID(initialization_state_dcheck);
-  }
+  std::unique_ptr<InitializationStateDcheck, base::FreeDeleter>
+  initialization_state_dcheck_buffer(static_cast<InitializationStateDcheck*>(
+      malloc(sizeof(InitializationStateDcheck))));
+
+  InitializationStateDcheck* initialization_state_dcheck =
+      new (initialization_state_dcheck_buffer.get())
+          InitializationStateDcheck();
+
+  INITIALIZATION_STATE_SET_INITIALIZING(*initialization_state_dcheck);
+  INITIALIZATION_STATE_SET_VALID(*initialization_state_dcheck);
+  INITIALIZATION_STATE_DCHECK_VALID(*initialization_state_dcheck);
+
+  initialization_state_dcheck->~InitializationStateDcheck();
+
   ASSERT_DEATH_CHECK(
-      INITIALIZATION_STATE_DCHECK_VALID(*initialization_state_dcheck_pointer),
+      INITIALIZATION_STATE_DCHECK_VALID(*initialization_state_dcheck),
       "kStateValid");
 }
 
