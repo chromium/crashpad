@@ -1,0 +1,220 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a35370a_974986a3",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "This is nice and clean now. The only improvement: since this is a multi-statement macro that’s intended to be used like a function, wrap the whole body in a do-while(false), like\n\n#define SET_FIELD(actual_c, outval, true_chars, false_chars) \\\n  do {                                                       \\\n    /* body */                                               \\\n  while (false)\n\nto get the entire macro body to behave as a single statement would in the presence of control flow structures. This is important because it /looks/ like a single statement.\n\nhttps://www.securecoding.cert.org/confluence/display/c/PRE10-C.+Wrap+multistatement+macros+in+a+do-while+loop",
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be38d2c2_2faee52d",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "#include \u003cstring.h\u003e",
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0ed389d_ea9bf2bc",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "Initialize() , and even mappings existing at the time Initialize() was called",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 66
+      },
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2d48fb4_11385d4a",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "This duplicates line 233.",
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66415a2f_ad823122",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "This too.",
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa417001_acb40d28",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "You can combine this with line 238 and move it outside of the (index % 2) check too.",
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e915478_0fcc28bc",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "You can put the rest of this method in a loop that executes a few times (5? 8?) to increase the likelihood of catching the child while it’s got the extra entries in its map some of the time.",
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "336c9f8a_ccb69a09",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "“struct” not necessary in C++. And #include \u003ctime.h\u003e for nanosleep(). But actually, instead…",
+      "range": {
+        "startLine": 275,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 11
+      },
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21f81484_d15f5748",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "#include \"util/misc/clock.h\" and call SleepNanoseconds(1000), which will also deal with EINTR correctly.",
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f110846b_31e69185",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "I like this test, it’s really classy and succinct now.",
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42c1f9f8_2e71d0ca",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "“Exited” can be interpreted to be more specific than you mean, you can just say “is done.”",
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d3cef9_d0428445",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-25T01:40:33Z",
+      "side": 1,
+      "message": "#include \u003cerrno.h\u003e",
+      "revId": "597f617a28305406e87f8c7eefb6b5f9a5f50919",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
