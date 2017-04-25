@@ -25,7 +25,7 @@ deps = {
       'd62d6c6556d96dda924382547c54a4b3afedb22c',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
-      'a7055b3989c1074adca03b4b4829e7f0e57f6efd',
+      '8dc77241251e196ffd512dc323ca5c6500cf8575',
 
   # TODO(scottmg): Consider pinning these. For now, we don't have any particular
   # reason to do so.
