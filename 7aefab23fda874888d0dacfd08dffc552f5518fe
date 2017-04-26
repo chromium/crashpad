@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b1d3f69_bf1ce3aa",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-26T22:36:36Z",
+      "side": 1,
+      "message": "Letting this sleep each time gives the loop more purpose.",
+      "revId": "7aefab23fda874888d0dacfd08dffc552f5518fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
