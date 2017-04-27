@@ -20,6 +20,8 @@
 #include <cstddef>
 #include <type_traits>
 
+#include "base/numerics/safe_conversions.h"
+
 namespace crashpad {
 
 #if DOXYGEN
@@ -36,30 +38,16 @@ FromPointerCast(const From from) {
 
 #else  // DOXYGEN
 
-// Cast std::nullptr_t to any pointer type.
+// Cast std::nullptr_t to any type.
 //
 // In C++14, the nullptr_t check could use std::is_null_pointer<From>::type
 // instead of the is_same<remove_cv<From>::type, nullptr_t>::type construct.
 template <typename To, typename From>
 typename std::enable_if<
-    std::is_same<typename std::remove_cv<From>::type, std::nullptr_t>::value &&
-        std::is_pointer<To>::value,
+    std::is_same<typename std::remove_cv<From>::type, std::nullptr_t>::value,
     To>::type
-FromPointerCast(const From& from) {
-  return static_cast<To>(from);
-}
-
-// Cast std::nullptr_t to any integral type.
-//
-// In C++14, the nullptr_t check could use std::is_null_pointer<From>::type
-// instead of the is_same<remove_cv<From>::type, nullptr_t>::type construct.
-template <typename To, typename From>
-typename std::enable_if<
-    std::is_same<typename std::remove_cv<From>::type, std::nullptr_t>::value &&
-        std::is_integral<To>::value,
-    To>::type
-FromPointerCast(const From& from) {
-  return reinterpret_cast<To>(from);
+FromPointerCast(const From&) {
+  return To();
 }
 
 // Cast a pointer to any other pointer type.
@@ -78,7 +66,18 @@ typename std::enable_if<std::is_pointer<From>::value &&
                             std::is_integral<To>::value,
                         To>::type
 FromPointerCast(const From from) {
-  return static_cast<To>(
+  if (sizeof(To) >= sizeof(From)) {
+    // If the destination integral type is at least as wide as the source
+    // pointer type, use static_cast<>() and just return it.
+    return static_cast<To>(
+        reinterpret_cast<typename std::conditional<std::is_signed<To>::value,
+                                                   intptr_t,
+                                                   uintptr_t>::type>(from));
+  }
+
+  // If the destination integral type is narrower than the source pointer type,
+  // use checked_cast<>().
+  return base::checked_cast<To>(
       reinterpret_cast<typename std::conditional<std::is_signed<To>::value,
                                                  intptr_t,
                                                  uintptr_t>::type>(from));

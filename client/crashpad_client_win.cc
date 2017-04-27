@@ -30,6 +30,7 @@
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock.h"
 #include "util/file/file_io.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/misc/random_string.h"
 #include "util/win/address_types.h"
 #include "util/win/capture_context.h"
@@ -156,7 +157,7 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   // signal the crash handler.
   g_crash_exception_information.thread_id = GetCurrentThreadId();
   g_crash_exception_information.exception_pointers =
-      reinterpret_cast<WinVMAddress>(exception_pointers);
+      FromPointerCast<WinVMAddress>(exception_pointers);
 
   // Now signal the crash server, which will take a dump and then terminate us
   // when it's complete.
@@ -390,9 +391,9 @@ bool StartHandlerProcess(
       g_non_crash_dump_done,
       data->ipc_pipe_handle.get(),
       this_process.get(),
-      reinterpret_cast<WinVMAddress>(&g_crash_exception_information),
-      reinterpret_cast<WinVMAddress>(&g_non_crash_exception_information),
-      reinterpret_cast<WinVMAddress>(&g_critical_section_with_debug_info));
+      FromPointerCast<WinVMAddress>(&g_crash_exception_information),
+      FromPointerCast<WinVMAddress>(&g_non_crash_exception_information),
+      FromPointerCast<WinVMAddress>(&g_critical_section_with_debug_info));
   AppendCommandLineArgument(
       base::UTF8ToUTF16(std::string("--initial-client-data=") +
                         initial_client_data.StringRepresentation()),
@@ -655,14 +656,14 @@ bool CrashpadClient::SetHandlerIPCPipe(const std::wstring& ipc_pipe) {
   message.registration.version = RegistrationRequest::kMessageVersion;
   message.registration.client_process_id = GetCurrentProcessId();
   message.registration.crash_exception_information =
-      reinterpret_cast<WinVMAddress>(&g_crash_exception_information);
+      FromPointerCast<WinVMAddress>(&g_crash_exception_information);
   message.registration.non_crash_exception_information =
-      reinterpret_cast<WinVMAddress>(&g_non_crash_exception_information);
+      FromPointerCast<WinVMAddress>(&g_non_crash_exception_information);
 
   CommonInProcessInitialization();
 
   message.registration.critical_section_address =
-      reinterpret_cast<WinVMAddress>(&g_critical_section_with_debug_info);
+      FromPointerCast<WinVMAddress>(&g_critical_section_with_debug_info);
 
   ServerToClientMessage response = {};
 
@@ -765,7 +766,7 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
 
   g_non_crash_exception_information.thread_id = GetCurrentThreadId();
   g_non_crash_exception_information.exception_pointers =
-      reinterpret_cast<WinVMAddress>(&exception_pointers);
+      FromPointerCast<WinVMAddress>(&exception_pointers);
 
   bool set_event_result = !!SetEvent(g_signal_non_crash_dump);
   PLOG_IF(ERROR, !set_event_result) << "SetEvent";
@@ -830,11 +831,11 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
 
   const size_t kInjectBufferSize = 4 * 1024;
   WinVMAddress inject_memory =
-      reinterpret_cast<WinVMAddress>(VirtualAllocEx(process,
-                                                    nullptr,
-                                                    kInjectBufferSize,
-                                                    MEM_RESERVE | MEM_COMMIT,
-                                                    PAGE_READWRITE));
+      FromPointerCast<WinVMAddress>(VirtualAllocEx(process,
+                                                   nullptr,
+                                                   kInjectBufferSize,
+                                                   MEM_RESERVE | MEM_COMMIT,
+                                                   PAGE_READWRITE));
   if (!inject_memory) {
     PLOG(ERROR) << "VirtualAllocEx";
     return false;
@@ -844,7 +845,7 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
   // loaded at the same address in our process as the target, and just look up
   // its address here.
   WinVMAddress raise_exception_address =
-      reinterpret_cast<WinVMAddress>(&RaiseException);
+      FromPointerCast<WinVMAddress>(&RaiseException);
 
   WinVMAddress code_entry_point = 0;
   std::vector<unsigned char> data_to_write;

@@ -15,6 +15,7 @@
 #include "client/crashpad_info.h"
 
 #include "util/misc/address_sanitizer.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/stdlib/cxx.h"
 
 #if defined(OS_MACOSX)
@@ -131,11 +132,10 @@ void CrashpadInfo::AddUserDataMinidumpStream(uint32_t stream_type,
                                              const void* data,
                                              size_t size) {
   auto to_be_added = new internal::UserDataMinidumpStreamListEntry();
-  to_be_added->next = base::checked_cast<uint64_t>(
-      reinterpret_cast<uintptr_t>(user_data_minidump_stream_head_));
+  to_be_added->next =
+      FromPointerCast<uint64_t>(user_data_minidump_stream_head_);
   to_be_added->stream_type = stream_type;
-  to_be_added->base_address =
-      base::checked_cast<uint64_t>(reinterpret_cast<uintptr_t>(data));
+  to_be_added->base_address = FromPointerCast<uint64_t>(data);
   to_be_added->size = base::checked_cast<uint64_t>(size);
   user_data_minidump_stream_head_ = to_be_added;
 }

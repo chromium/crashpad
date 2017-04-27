@@ -25,6 +25,7 @@
 #include "base/mac/scoped_mach_vm.h"
 #include "gtest/gtest.h"
 #include "test/mac/mach_errors.h"
+#include "util/misc/from_pointer_cast.h"
 
 namespace crashpad {
 namespace test {
@@ -165,7 +166,7 @@ TEST(TaskMemory, ReadSelfUnmapped) {
 bool ReadCStringSelf(TaskMemory* memory,
                      const char* pointer,
                      std::string* result) {
-  return memory->ReadCString(reinterpret_cast<mach_vm_address_t>(pointer),
+  return memory->ReadCString(FromPointerCast<mach_vm_address_t>(pointer),
                              result);
 }
 
@@ -272,7 +273,7 @@ bool ReadCStringSizeLimitedSelf(TaskMemory* memory,
                                 size_t size,
                                 std::string* result) {
   return memory->ReadCStringSizeLimited(
-      reinterpret_cast<mach_vm_address_t>(pointer), size, result);
+      FromPointerCast<mach_vm_address_t>(pointer), size, result);
 }
 
 TEST(TaskMemory, ReadCStringSizeLimited_ConstCharEmpty) {
@@ -462,7 +463,7 @@ TEST(TaskMemory, MappedMemoryDeallocates) {
 
   static const char kTestBuffer[] = "hello!";
   mach_vm_address_t test_address =
-      reinterpret_cast<mach_vm_address_t>(&kTestBuffer);
+      FromPointerCast<mach_vm_address_t>(&kTestBuffer);
   ASSERT_TRUE((mapped = memory.ReadMapped(test_address, sizeof(kTestBuffer))));
   EXPECT_EQ(memcmp(kTestBuffer, mapped->data(), sizeof(kTestBuffer)), 0);
 
@@ -477,7 +478,7 @@ TEST(TaskMemory, MappedMemoryDeallocates) {
   // deallocated.
   const size_t kBigSize = 4 * PAGE_SIZE;
   std::unique_ptr<char[]> big_buffer(new char[kBigSize]);
-  test_address = reinterpret_cast<mach_vm_address_t>(&big_buffer[0]);
+  test_address = FromPointerCast<mach_vm_address_t>(&big_buffer[0]);
   ASSERT_TRUE((mapped = memory.ReadMapped(test_address, kBigSize)));
 
   mapped_address = reinterpret_cast<vm_address_t>(mapped->data());
@@ -499,7 +500,7 @@ TEST(TaskMemory, MappedMemoryReadCString) {
 
   static const char kTestBuffer[] = "0\0" "2\0" "45\0" "789";
   const mach_vm_address_t kTestAddress =
-      reinterpret_cast<mach_vm_address_t>(&kTestBuffer);
+      FromPointerCast<mach_vm_address_t>(&kTestBuffer);
   ASSERT_TRUE((mapped = memory.ReadMapped(kTestAddress, 10)));
 
   std::string string;

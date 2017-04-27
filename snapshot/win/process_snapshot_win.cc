@@ -26,6 +26,7 @@
 #include "snapshot/win/exception_snapshot_win.h"
 #include "snapshot/win/memory_snapshot_win.h"
 #include "snapshot/win/module_snapshot_win.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/win/nt_internals.h"
 #include "util/win/registration_protocol_win.h"
 #include "util/win/time.h"
@@ -295,7 +296,7 @@ void ProcessSnapshotWin::InitializeUnloadedModules() {
   }
 
   const WinVMAddress address_in_target_process =
-      reinterpret_cast<WinVMAddress>(event_trace_address);
+      FromPointerCast<WinVMAddress>(event_trace_address);
 
   Traits::Pointer pointer_to_array;
   if (!process_reader_.ReadMemory(address_in_target_process,
