@@ -20,6 +20,8 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 
+#include "util/misc/from_pointer_cast.h"
+
 namespace crashpad {
 
 //! \brief Maintains a memory-mapped region created by `mmap()`.
@@ -85,7 +87,7 @@ class ScopedMmap {
   //!     a type of the caller’s choosing.
   template <typename T>
   T addr_as() const {
-    return reinterpret_cast<T>(addr_);
+    return FromPointerCast<T>(addr_);
   }
 
   //! \brief Returns the size of the memory-mapped region.
