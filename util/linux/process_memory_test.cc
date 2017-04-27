@@ -24,6 +24,7 @@
 #include "test/errors.h"
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/posix/scoped_mmap.h"
 
 namespace crashpad {
@@ -66,7 +67,7 @@ class ReadTest : public TargetProcessTest {
     ProcessMemory memory;
     ASSERT_TRUE(memory.Initialize(pid));
 
-    LinuxVMAddress address = reinterpret_cast<LinuxVMAddress>(region_.get());
+    LinuxVMAddress address = FromPointerCast<LinuxVMAddress>(region_.get());
     std::unique_ptr<char[]> result(new char[region_size_]);
 
     // Ensure that the entire region can be read.
@@ -123,7 +124,7 @@ TEST(ProcessMemory, ReadForked) {
 bool ReadCString(const ProcessMemory& memory,
                  const char* pointer,
                  std::string* result) {
-  return memory.ReadCString(reinterpret_cast<LinuxVMAddress>(pointer), result);
+  return memory.ReadCString(FromPointerCast<LinuxVMAddress>(pointer), result);
 }
 
 bool ReadCStringSizeLimited(const ProcessMemory& memory,
@@ -131,7 +132,7 @@ bool ReadCStringSizeLimited(const ProcessMemory& memory,
                             size_t size,
                             std::string* result) {
   return memory.ReadCStringSizeLimited(
-      reinterpret_cast<LinuxVMAddress>(pointer), size, result);
+      FromPointerCast<LinuxVMAddress>(pointer), size, result);
 }
 
 const char kConstCharEmpty[] = "";
