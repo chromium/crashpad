@@ -101,6 +101,7 @@
         'misc/clock_mac.cc',
         'misc/clock_posix.cc',
         'misc/clock_win.cc',
+        'misc/from_pointer_cast.h',
         'misc/implicit_cast.h',
         'misc/initialization_state.h',
         'misc/initialization_state_dcheck.cc',
