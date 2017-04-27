@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6f1c8f48_f3b794e4",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-27T00:18:39Z",
+      "side": 1,
+      "message": "after util/misc/clock.h",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 40
+      },
+      "revId": "7aefab23fda874888d0dacfd08dffc552f5518fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5b1d3f69_bf1ce3aa",
         "filename": "util/linux/memory_map_test.cc",
         "patchSetId": 1
@@ -13,6 +36,70 @@
       "writtenOn": "2017-04-26T22:36:36Z",
       "side": 1,
       "message": "Letting this sleep each time gives the loop more purpose.",
+      "revId": "7aefab23fda874888d0dacfd08dffc552f5518fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e67d8888_8306e6f9",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-27T00:18:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5b1d3f69_bf1ce3aa",
+      "revId": "7aefab23fda874888d0dacfd08dffc552f5518fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b4dc026_3ec409e7",
+        "filename": "util/misc/from_pointer_cast.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-27T00:18:39Z",
+      "side": 1,
+      "message": "What are these for?",
+      "range": {
+        "startLine": 43,
+        "startChar": 22,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "7aefab23fda874888d0dacfd08dffc552f5518fe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c35978ec_b6fa9f8a",
+        "filename": "util/util.gyp",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-04-27T00:18:39Z",
+      "side": 1,
+      "message": "from_pointer_cast.h",
+      "range": {
+        "startLine": 116,
+        "startChar": 14,
+        "endLine": 116,
+        "endChar": 29
+      },
       "revId": "7aefab23fda874888d0dacfd08dffc552f5518fe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
