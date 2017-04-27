@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb9aac0a_246a146d",
+        "filename": "util/posix/signals_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-04-27T23:45:17Z",
+      "side": 0,
+      "message": "For example:\n\n[ RUN      ] Signals.Cause_DefaultHandler\n../../../../test/multiprocess_posix.cc:123: Failure\nFailed\nChild exited with code 0, expected termination by signal 12 (Bad system call: 12)\nGoogle Test trace:\n../../../../util/posix/signals_test.cc:357: sig 12 (Bad system call: 12)\n[  FAILED  ] Signals.Cause_DefaultHandler (10 ms)",
+      "revId": "984749479f569e7fb43d44aadc39dcc5d6090be0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
