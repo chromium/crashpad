@@ -113,6 +113,7 @@
         'misc/paths_win.cc',
         'misc/pdb_structures.cc',
         'misc/pdb_structures.h',
+        'misc/pointer_cast.h',
         'misc/random_string.cc',
         'misc/random_string.h',
         'misc/scoped_forbid_return.cc',
