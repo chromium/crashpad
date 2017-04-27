@@ -180,7 +180,7 @@ void CauseSignal(int sig) {
     case SIGSYS: {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-      int rv = syscall(0);
+      int rv = syscall(4095);
 #pragma clang diagnostic pop
       if (rv != 0) {
         PLOG(ERROR) << "syscall";
