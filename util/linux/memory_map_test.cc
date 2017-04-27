@@ -21,6 +21,7 @@
 #include <unistd.h>
 
 #include "base/files/file_path.h"
+#include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "test/errors.h"
 #include "test/file.h"
@@ -28,6 +29,7 @@
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
 #include "util/misc/clock.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/posix/scoped_mmap.h"
 
 namespace crashpad {
@@ -45,7 +47,7 @@ TEST(MemoryMap, SelfBasic) {
   MemoryMap map;
   ASSERT_TRUE(map.Initialize(getpid()));
 
-  auto stack_address = reinterpret_cast<LinuxVMAddress>(&map);
+  auto stack_address = FromPointerCast<LinuxVMAddress>(&map);
   const MemoryMap::Mapping* mapping = map.FindMapping(stack_address);
   ASSERT_TRUE(mapping);
   EXPECT_GE(stack_address, mapping->range.Base());
@@ -53,7 +55,7 @@ TEST(MemoryMap, SelfBasic) {
   EXPECT_TRUE(mapping->readable);
   EXPECT_TRUE(mapping->writable);
 
-  auto code_address = reinterpret_cast<LinuxVMAddress>(getpid);
+  auto code_address = FromPointerCast<LinuxVMAddress>(getpid);
   mapping = map.FindMapping(code_address);
   ASSERT_TRUE(mapping);
   EXPECT_GE(code_address, mapping->range.Base());
@@ -146,10 +148,10 @@ class MapChildTest : public Multiprocess {
   }
 
   void MultiprocessChild() override {
-    auto code_address = reinterpret_cast<LinuxVMAddress>(getpid);
+    auto code_address = FromPointerCast<LinuxVMAddress>(getpid);
     CheckedWriteFile(WritePipeHandle(), &code_address, sizeof(code_address));
 
-    auto stack_address = reinterpret_cast<LinuxVMAddress>(&code_address);
+    auto stack_address = FromPointerCast<LinuxVMAddress>(&code_address);
     CheckedWriteFile(WritePipeHandle(), &stack_address, sizeof(stack_address));
 
     ScopedMmap mapping;
@@ -227,6 +229,8 @@ void ExpectMappings(const MemoryMap& map,
                     size_t num_mappings,
                     size_t mapping_size) {
   for (size_t index = 0; index < num_mappings; ++index) {
+    SCOPED_TRACE(base::StringPrintf("index %zu", index));
+
     auto mapping_address = region_addr + index * mapping_size;
     const MemoryMap::Mapping* mapping = map.FindMapping(mapping_address);
     ASSERT_TRUE(mapping);
@@ -269,10 +273,12 @@ class MapRunningChildTest : public Multiprocess {
     LinuxVMAddress region_addr;
     CheckedReadFileExactly(ReadPipeHandle(), &region_addr, sizeof(region_addr));
 
-    // Let the child get back to its work
-    SleepNanoseconds(1000);
-
     for (int iter = 0; iter < 8; ++iter) {
+      SCOPED_TRACE(base::StringPrintf("iter %d", iter));
+
+      // Let the child get back to its work
+      SleepNanoseconds(1000);
+
       MemoryMap map;
       ASSERT_TRUE(map.Initialize(ChildPID()));
 

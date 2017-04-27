@@ -63,6 +63,7 @@
         'mach/task_memory_test.cc',
         'misc/arraysize_unsafe_test.cc',
         'misc/clock_test.cc',
+        'misc/from_pointer_cast_test.cc',
         'misc/initialization_state_dcheck_test.cc',
         'misc/initialization_state_test.cc',
         'misc/paths_test.cc',
