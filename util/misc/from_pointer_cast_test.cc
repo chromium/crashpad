@@ -21,6 +21,7 @@
 
 #include "build/build_config.h"
 #include "gtest/gtest.h"
+#include "test/gtest_death_check.h"
 
 namespace crashpad {
 namespace test {
@@ -183,6 +184,76 @@ TEST(FromPointerCast, FromFunctionPointer) {
   EXPECT_EQ(
       MaybeRemoveVolatile(FromPointerCast<const volatile SomeType*>(&malloc)),
       MaybeRemoveVolatile(reinterpret_cast<const volatile SomeType*>(malloc)));
+}
+
+TEST(FromPointerCast, ToNarrowInteger) {
+  EXPECT_EQ(FromPointerCast<int>(nullptr), 0);
+  EXPECT_EQ(FromPointerCast<int>(reinterpret_cast<void*>(1)), 1);
+  EXPECT_EQ(FromPointerCast<int>(reinterpret_cast<void*>(-1)), -1);
+  EXPECT_EQ(FromPointerCast<int>(reinterpret_cast<void*>(
+                static_cast<intptr_t>(std::numeric_limits<int>::max()))),
+            std::numeric_limits<int>::max());
+  EXPECT_EQ(FromPointerCast<int>(reinterpret_cast<void*>(
+                static_cast<intptr_t>(std::numeric_limits<int>::min()))),
+            std::numeric_limits<int>::min());
+
+  EXPECT_EQ(FromPointerCast<unsigned int>(nullptr), 0u);
+  EXPECT_EQ(FromPointerCast<unsigned int>(reinterpret_cast<void*>(1)), 1u);
+  EXPECT_EQ(
+      FromPointerCast<unsigned int>(reinterpret_cast<void*>(
+          static_cast<uintptr_t>(std::numeric_limits<unsigned int>::max()))),
+      std::numeric_limits<unsigned int>::max());
+  EXPECT_EQ(FromPointerCast<unsigned int>(reinterpret_cast<void*>(
+                static_cast<uintptr_t>(std::numeric_limits<int>::max()))),
+            static_cast<unsigned int>(std::numeric_limits<int>::max()));
+
+  // int and unsigned int may not be narrower than a pointer, so also test short
+  // and unsigned short.
+
+  EXPECT_EQ(FromPointerCast<short>(nullptr), 0);
+  EXPECT_EQ(FromPointerCast<short>(reinterpret_cast<void*>(1)), 1);
+  EXPECT_EQ(FromPointerCast<short>(reinterpret_cast<void*>(-1)), -1);
+  EXPECT_EQ(FromPointerCast<short>(reinterpret_cast<void*>(
+                static_cast<intptr_t>(std::numeric_limits<short>::max()))),
+            std::numeric_limits<short>::max());
+  EXPECT_EQ(FromPointerCast<short>(reinterpret_cast<void*>(
+                static_cast<intptr_t>(std::numeric_limits<short>::min()))),
+            std::numeric_limits<short>::min());
+
+  EXPECT_EQ(FromPointerCast<unsigned short>(nullptr), 0u);
+  EXPECT_EQ(FromPointerCast<unsigned short>(reinterpret_cast<void*>(1)), 1u);
+  EXPECT_EQ(
+      FromPointerCast<unsigned short>(reinterpret_cast<void*>(
+          static_cast<uintptr_t>(std::numeric_limits<unsigned short>::max()))),
+      std::numeric_limits<unsigned short>::max());
+  EXPECT_EQ(FromPointerCast<unsigned short>(reinterpret_cast<void*>(
+                static_cast<uintptr_t>(std::numeric_limits<short>::max()))),
+            static_cast<unsigned short>(std::numeric_limits<short>::max()));
+}
+
+TEST(FromPointerCastDeathTest, ToNarrowInteger) {
+  if (sizeof(int) < sizeof(void*)) {
+    EXPECT_DEATH(FromPointerCast<int>(
+                     reinterpret_cast<void*>(static_cast<uintptr_t>(
+                         std::numeric_limits<unsigned int>::max() + 1ull))),
+                 "");
+    EXPECT_DEATH(FromPointerCast<unsigned int>(
+                     reinterpret_cast<void*>(static_cast<uintptr_t>(
+                         std::numeric_limits<unsigned int>::max() + 1ull))),
+                 "");
+  }
+
+  // int and unsigned int may not be narrower than a pointer, so also test short
+  // and unsigned short.
+
+  EXPECT_DEATH(FromPointerCast<short>(
+                   reinterpret_cast<void*>(static_cast<uintptr_t>(
+                       std::numeric_limits<unsigned short>::max() + 1u))),
+               "");
+  EXPECT_DEATH(FromPointerCast<unsigned short>(
+                   reinterpret_cast<void*>(static_cast<uintptr_t>(
+                       std::numeric_limits<unsigned short>::max() + 1u))),
+               "");
 }
 
 }  // namespace

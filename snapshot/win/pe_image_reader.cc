@@ -22,6 +22,7 @@
 #include "base/logging.h"
 #include "client/crashpad_info.h"
 #include "snapshot/win/pe_image_resource_reader.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/misc/pdb_structures.h"
 #include "util/win/process_structs.h"
 
@@ -202,10 +203,8 @@ bool PEImageReader::VSFixedFileInfo(
 
   WinVMAddress address;
   WinVMSize size;
-  const uint16_t vs_file_info_type = static_cast<uint16_t>(
-      reinterpret_cast<uintptr_t>(VS_FILE_INFO));  // RT_VERSION
   if (!resource_reader.FindResourceByID(
-          vs_file_info_type,
+          FromPointerCast<uint16_t>(VS_FILE_INFO),  // RT_VERSION
           VS_VERSION_INFO,
           MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
           &address,

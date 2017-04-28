@@ -19,6 +19,8 @@
 
 #include "base/logging.h"
 #include "base/macros.h"
+#include "base/numerics/safe_conversions.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/numeric/checked_range.h"
 
 namespace crashpad {
@@ -138,9 +140,8 @@ class TSimpleAddressRangeBag {
   bool Insert(void* base, size_t size) {
     DCHECK(base != nullptr);
     DCHECK_NE(0u, size);
-    return Insert(CheckedRange<uint64_t>(
-        base::checked_cast<uint64_t>(reinterpret_cast<uintptr_t>(base)),
-        base::checked_cast<uint64_t>(size)));
+    return Insert(CheckedRange<uint64_t>(FromPointerCast<uint64_t>(base),
+                                         base::checked_cast<uint64_t>(size)));
   }
 
   //! \brief Removes the given range from the bag.
@@ -175,9 +176,8 @@ class TSimpleAddressRangeBag {
   bool Remove(void* base, size_t size) {
     DCHECK(base != nullptr);
     DCHECK_NE(0u, size);
-    return Remove(CheckedRange<uint64_t>(
-        base::checked_cast<uint64_t>(reinterpret_cast<uintptr_t>(base)),
-        base::checked_cast<uint64_t>(size)));
+    return Remove(CheckedRange<uint64_t>(FromPointerCast<uint64_t>(base),
+                                         base::checked_cast<uint64_t>(size)));
   }
 
 
