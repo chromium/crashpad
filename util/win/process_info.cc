@@ -28,6 +28,7 @@
 #include "base/process/memory.h"
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/numeric/safe_assignment.h"
 #include "util/win/get_function.h"
 #include "util/win/handle.h"
@@ -133,7 +134,7 @@ bool RegionIsAccessible(const MEMORY_BASIC_INFORMATION64& memory_info) {
 MEMORY_BASIC_INFORMATION64 MemoryBasicInformationToMemoryBasicInformation64(
     const MEMORY_BASIC_INFORMATION& mbi) {
   MEMORY_BASIC_INFORMATION64 mbi64 = {0};
-  mbi64.BaseAddress = reinterpret_cast<ULONGLONG>(mbi.BaseAddress);
+  mbi64.BaseAddress = FromPointerCast<ULONGLONG>(mbi.BaseAddress);
   mbi64.AllocationBase = reinterpret_cast<ULONGLONG>(mbi.AllocationBase);
   mbi64.AllocationProtect = mbi.AllocationProtect;
   mbi64.RegionSize = mbi.RegionSize;

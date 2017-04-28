@@ -17,6 +17,7 @@
 #include "snapshot/win/pe_image_annotations_reader.h"
 #include "snapshot/win/pe_image_reader.h"
 #include "snapshot/win/process_reader_win.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/win/get_module_information.h"
 
 namespace crashpad {
@@ -38,7 +39,7 @@ bool ReadModuleAnnotations(HANDLE process,
   PEImageReader image_reader;
   if (!image_reader.Initialize(
           &process_reader,
-          reinterpret_cast<crashpad::WinVMAddress>(module_info.lpBaseOfDll),
+          FromPointerCast<WinVMAddress>(module_info.lpBaseOfDll),
           module_info.SizeOfImage,
           ""))
     return false;
