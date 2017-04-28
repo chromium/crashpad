@@ -27,6 +27,7 @@
 #include "snapshot/mac/process_types/internal.h"
 #include "test/mac/dyld.h"
 #include "util/mac/mac_util.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -81,7 +82,7 @@ TEST(ProcessTypes, DyldImagesSelf) {
   ASSERT_EQ(kr, KERN_SUCCESS);
 
   EXPECT_EQ(dyld_info.all_image_info_addr,
-            reinterpret_cast<mach_vm_address_t>(self_image_infos));
+            FromPointerCast<mach_vm_address_t>(self_image_infos));
   EXPECT_GT(dyld_info.all_image_info_size, 1u);
 
   // This field is only present in the OS X 10.7 SDK (at build time) and kernel

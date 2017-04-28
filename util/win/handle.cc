@@ -17,6 +17,7 @@
 #include <stdint.h>
 
 #include "base/numerics/safe_conversions.h"
+#include "util/misc/from_pointer_cast.h"
 
 namespace crashpad {
 
@@ -26,7 +27,7 @@ namespace crashpad {
 // back to the same HANDLE value.
 
 int HandleToInt(HANDLE handle) {
-  return base::checked_cast<int>(reinterpret_cast<intptr_t>(handle));
+  return FromPointerCast<int>(handle);
 }
 
 HANDLE IntToHandle(int handle_int) {

@@ -40,6 +40,7 @@
 #include "util/file/file_io.h"
 #include "util/mac/mac_util.h"
 #include "util/mach/mach_extensions.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/stdlib/pointer_container.h"
 #include "util/synchronization/semaphore.h"
 
@@ -74,7 +75,7 @@ TEST(ProcessReader, SelfBasic) {
   const char kTestMemory[] = "Some test memory";
   char buffer[arraysize(kTestMemory)];
   ASSERT_TRUE(process_reader.Memory()->Read(
-      reinterpret_cast<mach_vm_address_t>(kTestMemory),
+      FromPointerCast<mach_vm_address_t>(kTestMemory),
       sizeof(kTestMemory),
       &buffer));
   EXPECT_STREQ(kTestMemory, buffer);
@@ -115,8 +116,7 @@ class ProcessReaderChild final : public MachMultiprocess {
   void MachMultiprocessChild() override {
     FileHandle write_handle = WritePipeHandle();
 
-    mach_vm_address_t address =
-        reinterpret_cast<mach_vm_address_t>(kTestMemory);
+    mach_vm_address_t address = FromPointerCast<mach_vm_address_t>(kTestMemory);
     CheckedWriteFile(write_handle, &address, sizeof(address));
 
     // Wait for the parent to signal that it’s OK to exit by closing its end of
@@ -282,7 +282,7 @@ class TestThreadPool {
     ThreadInfo* thread_info = static_cast<ThreadInfo*>(argument);
 
     thread_info->stack_address =
-        reinterpret_cast<mach_vm_address_t>(&thread_info);
+        FromPointerCast<mach_vm_address_t>(&thread_info);
 
     thread_info->ready_semaphore.Signal();
     thread_info->exit_semaphore.Wait();
@@ -391,7 +391,7 @@ TEST(ProcessReader, SelfSeveralThreads) {
   ThreadMap thread_map;
   const uint64_t self_thread_id = PthreadToThreadID(pthread_self());
   TestThreadPool::ThreadExpectation expectation;
-  expectation.stack_address = reinterpret_cast<mach_vm_address_t>(&thread_map);
+  expectation.stack_address = FromPointerCast<mach_vm_address_t>(&thread_map);
   expectation.suspend_count = 0;
   thread_map[self_thread_id] = expectation;
   for (size_t thread_index = 0; thread_index < kChildThreads; ++thread_index) {
@@ -484,7 +484,7 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
     CheckedWriteFile(write_handle, &thread_id, sizeof(thread_id));
 
     TestThreadPool::ThreadExpectation expectation;
-    expectation.stack_address = reinterpret_cast<mach_vm_address_t>(&thread_id);
+    expectation.stack_address = FromPointerCast<mach_vm_address_t>(&thread_id);
     expectation.suspend_count = 0;
 
     CheckedWriteFile(write_handle,
@@ -667,7 +667,7 @@ TEST(ProcessReader, SelfModules) {
     ASSERT_TRUE(modules[index].reader);
     EXPECT_EQ(
         modules[index].reader->Address(),
-        reinterpret_cast<mach_vm_address_t>(_dyld_get_image_header(index)));
+        FromPointerCast<mach_vm_address_t>(_dyld_get_image_header(index)));
 
     if (index == 0) {
       // dyld didn’t load the main executable, so it couldn’t record its
@@ -703,7 +703,7 @@ TEST(ProcessReader, SelfModules) {
   if (dyld_image_infos->version >= 2) {
     ASSERT_TRUE(modules[index].reader);
     EXPECT_EQ(modules[index].reader->Address(),
-              reinterpret_cast<mach_vm_address_t>(
+              FromPointerCast<mach_vm_address_t>(
                   dyld_image_infos->dyldImageLoadAddress));
   }
 }
@@ -801,10 +801,10 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
       if (index < dyld_image_count) {
         dyld_image_name = _dyld_get_image_name(index);
         dyld_image_address =
-            reinterpret_cast<mach_vm_address_t>(_dyld_get_image_header(index));
+            FromPointerCast<mach_vm_address_t>(_dyld_get_image_header(index));
       } else {
         dyld_image_name = kDyldPath;
-        dyld_image_address = reinterpret_cast<mach_vm_address_t>(
+        dyld_image_address = FromPointerCast<mach_vm_address_t>(
             dyld_image_infos->dyldImageLoadAddress);
       }
 
