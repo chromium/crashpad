@@ -28,6 +28,7 @@
 #include "test/multiprocess.h"
 #include "test/scoped_temp_dir.h"
 #include "util/file/file_io.h"
+#include "util/linux/scoped_ptrace_attach.h"
 #include "util/misc/clock.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/scoped_mmap.h"
@@ -278,6 +279,9 @@ class MapRunningChildTest : public Multiprocess {
 
       // Let the child get back to its work
       SleepNanoseconds(1000);
+
+      ScopedPtraceAttach attachment;
+      attachment.ResetAttach(ChildPID());
 
       MemoryMap map;
       ASSERT_TRUE(map.Initialize(ChildPID()));
