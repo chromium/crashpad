@@ -156,6 +156,24 @@ void CheckedReadFileAtEOF(FileHandle file) {
   }
 }
 
+bool LoggingReadEntireFile(const base::FilePath& path, std::string* contents) {
+  FileHandle handle = LoggingOpenFileForRead(path);
+  if (handle == kInvalidFileHandle) {
+    return false;
+  }
+
+  char buffer[4096];
+  FileOperationResult rv;
+  while ((rv = ReadFile(handle, buffer, sizeof(buffer))) > 0) {
+    contents->append(buffer, rv);
+  }
+  if (rv < 0) {
+    PLOG(ERROR) << internal::kNativeReadFunctionName;
+    return false;
+  }
+  return true;
+}
+
 void CheckedCloseFile(FileHandle file) {
   CHECK(LoggingCloseFile(file));
 }
