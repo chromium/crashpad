@@ -22,7 +22,8 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "util/file/delimited_file_reader.h"
-#include "util/file/file_reader.h"
+#include "util/file/file_io.h"
+#include "util/file/string_file.h"
 #include "util/stdlib/string_number_conversion.h"
 
 namespace crashpad {
@@ -56,6 +57,124 @@ bool HexStringToNumber(const std::string& string, Type* number) {
   return LocalStringToNumber("0x" + string, number);
 }
 
+enum class ParseResult {
+  kSuccess = 0,
+  kEndOfFile,
+  kRetry,
+  kError
+};
+
+ParseResult ParseMapsLine(DelimitedFileReader* maps_file_reader,
+                          std::vector<MemoryMap::Mapping>* mappings) {
+  std::string field;
+  LinuxVMAddress start_address;
+  switch (maps_file_reader->GetDelim('-', &field)) {
+    case DelimitedFileReader::Result::kError:
+      return ParseResult::kError;
+    case DelimitedFileReader::Result::kEndOfFile:
+      return ParseResult::kEndOfFile;
+    case DelimitedFileReader::Result::kSuccess:
+      field.pop_back();
+      if (!HexStringToNumber(field, &start_address)) {
+        LOG(ERROR) << "format error";
+        return ParseResult::kError;
+      }
+      if (mappings->size() > 0 &&
+          start_address < mappings->back().range.End()) {
+        return ParseResult::kRetry;
+      }
+  }
+
+  LinuxVMAddress end_address;
+  if (maps_file_reader->GetDelim(' ', &field) !=
+          DelimitedFileReader::Result::kSuccess ||
+      (field.pop_back(), !HexStringToNumber(field, &end_address))) {
+    LOG(ERROR) << "format error";
+    return ParseResult::kError;
+  }
+  if (end_address <= start_address) {
+    LOG(ERROR) << "format error";
+    return ParseResult::kError;
+  }
+
+  // TODO(jperaza): set bitness properly
+#if defined(ARCH_CPU_64_BITS)
+  const bool is_64_bit = true;
+#else
+  const bool is_64_bit = false;
+#endif
+
+  MemoryMap::Mapping mapping;
+  mapping.range.SetRange(is_64_bit, start_address, end_address - start_address);
+
+  if (maps_file_reader->GetDelim(' ', &field) !=
+          DelimitedFileReader::Result::kSuccess ||
+      (field.pop_back(), field.size() != 4)) {
+    LOG(ERROR) << "format error";
+    return ParseResult::kError;
+  }
+#define SET_FIELD(actual_c, outval, true_chars, false_chars) \
+  do {                                                       \
+    if (strchr(true_chars, actual_c)) {                      \
+      *outval = true;                                        \
+    } else if (strchr(false_chars, actual_c)) {              \
+      *outval = false;                                       \
+    } else {                                                 \
+      LOG(ERROR) << "format error";                          \
+      return ParseResult::kError;                            \
+    }                                                        \
+  } while (false)
+  SET_FIELD(field[0], &mapping.readable, "r", "-");
+  SET_FIELD(field[1], &mapping.writable, "w", "-");
+  SET_FIELD(field[2], &mapping.executable, "x", "-");
+  SET_FIELD(field[3], &mapping.shareable, "sS", "p");
+#undef SET_FIELD
+
+  if (maps_file_reader->GetDelim(' ', &field) !=
+          DelimitedFileReader::Result::kSuccess ||
+      (field.pop_back(), !HexStringToNumber(field, &mapping.offset))) {
+    LOG(ERROR) << "format error";
+    return ParseResult::kError;
+  }
+
+  int major, minor;
+  if (maps_file_reader->GetDelim(' ', &field) !=
+          DelimitedFileReader::Result::kSuccess ||
+      (field.pop_back(), field.size() != 5) ||
+      !HexStringToNumber(field.substr(0, 2), &major) ||
+      !HexStringToNumber(field.substr(3, 2), &minor)) {
+    LOG(ERROR) << "format error";
+    return ParseResult::kError;
+  }
+  mapping.device = MKDEV(major, minor);
+
+  if (maps_file_reader->GetDelim(' ', &field) !=
+          DelimitedFileReader::Result::kSuccess ||
+      (field.pop_back(), !LocalStringToNumber(field, &mapping.inode))) {
+    LOG(ERROR) << "format error";
+    return ParseResult::kError;
+  }
+
+  if (maps_file_reader->GetDelim('\n', &field) !=
+      DelimitedFileReader::Result::kSuccess) {
+    LOG(ERROR) << "format error";
+    return ParseResult::kError;
+  }
+  if (field.back() != '\n') {
+    LOG(ERROR) << "format error";
+    return ParseResult::kError;
+  }
+  field.pop_back();
+
+  mappings->push_back(mapping);
+
+  size_t path_start = field.find_first_not_of(' ');
+  if (path_start != std::string::npos) {
+    mappings->back().name = field.substr(path_start);
+  }
+  return ParseResult::kSuccess;
+}
+
 }  // namespace
 
 MemoryMap::Mapping::Mapping()
@@ -76,121 +195,35 @@ MemoryMap::~MemoryMap() {}
 bool MemoryMap::Initialize(pid_t pid) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
-  char path[32];
-  snprintf(path, sizeof(path), "/proc/%d/maps", pid);
-  FileReader maps_file;
-  if (!maps_file.Open(base::FilePath(path))) {
-    return false;
-  }
-  DelimitedFileReader maps_file_reader(&maps_file);
-
-  DelimitedFileReader::Result result;
-  std::string field;
-  while ((result = maps_file_reader.GetDelim('-', &field)) ==
-         DelimitedFileReader::Result::kSuccess) {
-    field.pop_back();
-
-    LinuxVMAddress start_address;
-    if (!HexStringToNumber(field, &start_address)) {
-      LOG(ERROR) << "format error";
+  int attempts = 3;
+  do {
+    // Read the entire maps file as quickly as possible to reduce the
+    // opportunity for errors caused by changing mappings.
+    std::string contents;
+    char path[32];
+    snprintf(path, sizeof(path), "proc/%d/maps", pid);
+    if (!LoggingReadEntireFile(base::FilePath(path), &contents)) {
       return false;
     }
+    StringFile maps_file;
+    maps_file.SetString(contents);
+    DelimitedFileReader maps_file_reader(&maps_file);
 
-    LinuxVMAddress end_address;
-    if (maps_file_reader.GetDelim(' ', &field) !=
-            DelimitedFileReader::Result::kSuccess ||
-        (field.pop_back(), !HexStringToNumber(field, &end_address))) {
-      LOG(ERROR) << "format error";
+    ParseResult result;
+    while ((result = ParseMapsLine(&maps_file_reader, &mappings_)) ==
+           ParseResult::kSuccess) {
+    }
+    if (result == ParseResult::kEndOfFile) {
+      INITIALIZATION_STATE_SET_VALID(initialized_);
+      return true;
+    } else if (result == ParseResult::kError) {
       return false;
     }
-    if (end_address <= start_address) {
-      LOG(ERROR) << "format error";
-      return false;
-    }
+    DCHECK(result == ParseResult::kRetry);
+    --attempts;
+  } while (attempts > 0);
 
-    // TODO(jperaza): set bitness properly
-#if defined(ARCH_CPU_64_BITS)
-    const bool is_64_bit = true;
-#else
-    const bool is_64_bit = false;
-#endif
-
-    Mapping mapping;
-    mapping.range.SetRange(
-        is_64_bit, start_address, end_address - start_address);
-
-    if (maps_file_reader.GetDelim(' ', &field) !=
-            DelimitedFileReader::Result::kSuccess ||
-        (field.pop_back(), field.size() != 4)) {
-      LOG(ERROR) << "format error";
-      return false;
-    }
-#define SET_FIELD(actual_c, outval, true_chars, false_chars) \
-  do {                                                       \
-    if (strchr(true_chars, actual_c)) {                      \
-      *outval = true;                                        \
-    } else if (strchr(false_chars, actual_c)) {              \
-      *outval = false;                                       \
-    } else {                                                 \
-      LOG(ERROR) << "format error";                          \
-      return false;                                          \
-    }                                                        \
-  } while (false)
-    SET_FIELD(field[0], &mapping.readable, "r", "-");
-    SET_FIELD(field[1], &mapping.writable, "w", "-");
-    SET_FIELD(field[2], &mapping.executable, "x", "-");
-    SET_FIELD(field[3], &mapping.shareable, "sS", "p");
-#undef SET_FIELD
-
-    if (maps_file_reader.GetDelim(' ', &field) !=
-            DelimitedFileReader::Result::kSuccess ||
-        (field.pop_back(), !HexStringToNumber(field, &mapping.offset))) {
-      LOG(ERROR) << "format error";
-      return false;
-    }
-
-    int major, minor;
-    if (maps_file_reader.GetDelim(' ', &field) !=
-            DelimitedFileReader::Result::kSuccess ||
-        (field.pop_back(), field.size() != 5) ||
-        !HexStringToNumber(field.substr(0, 2), &major) ||
-        !HexStringToNumber(field.substr(3, 2), &minor)) {
-      LOG(ERROR) << "format error";
-      return false;
-    }
-    mapping.device = MKDEV(major, minor);
-
-    if (maps_file_reader.GetDelim(' ', &field) !=
-            DelimitedFileReader::Result::kSuccess ||
-        (field.pop_back(), !LocalStringToNumber(field, &mapping.inode))) {
-      LOG(ERROR) << "format error";
-      return false;
-    }
-
-    if (maps_file_reader.GetDelim('\n', &field) !=
-        DelimitedFileReader::Result::kSuccess) {
-      LOG(ERROR) << "format error";
-      return false;
-    }
-    if (field.back() != '\n') {
-      LOG(ERROR) << "format error";
-      return false;
-    }
-    field.pop_back();
-
-    mappings_.push_back(mapping);
-
-    size_t path_start = field.find_first_not_of(' ');
-    if (path_start != std::string::npos) {
-      mappings_.back().name = field.substr(path_start);
-    }
-  }
-  if (result != DelimitedFileReader::Result::kEndOfFile) {
-    return false;
-  }
-
-  INITIALIZATION_STATE_SET_VALID(initialized_);
-  return true;
+  return false;
 }
 
 const MemoryMap::Mapping* MemoryMap::FindMapping(LinuxVMAddress address) const {
