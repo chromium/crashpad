@@ -31,6 +31,7 @@
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/string_piece.h"
 #include "util/file/delimited_file_reader.h"
+#include "util/file/file_io.h"
 #include "util/file/file_reader.h"
 #include "util/linux/scoped_ptrace_attach.h"
 
@@ -76,20 +77,6 @@ bool AdvancePastNumber(const char** input, T* value) {
     return true;
   }
   return false;
-}
-
-bool ReadEntireFile(const char* path, std::string* contents) {
-  FileReader file;
-  if (!file.Open(base::FilePath(path))) {
-    return false;
-  }
-
-  char buffer[4096];
-  FileOperationResult length;
-  while ((length = file.Read(buffer, sizeof(buffer))) > 0) {
-    contents->append(buffer, length);
-  }
-  return length >= 0;
 }
 
 void SubtractTimespec(const timespec& t1, const timespec& t2,
@@ -391,7 +378,7 @@ bool ProcessInfo::StartTime(timeval* start_time) const {
     char path[32];
     snprintf(path, sizeof(path), "/proc/%d/stat", pid_);
     std::string stat_contents;
-    if (!ReadEntireFile(path, &stat_contents)) {
+    if (!LoggingReadEntireFile(base::FilePath(path), &stat_contents)) {
       return false;
     }
 
