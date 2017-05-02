@@ -157,15 +157,16 @@ void CheckedReadFileAtEOF(FileHandle file) {
 }
 
 bool LoggingReadEntireFile(const base::FilePath& path, std::string* contents) {
-  FileHandle handle = LoggingOpenFileForRead(path);
-  if (handle == kInvalidFileHandle) {
+  ScopedFileHandle handle(LoggingOpenFileForRead(path));
+  if (!handle.is_valid()) {
     return false;
   }
 
   char buffer[4096];
   FileOperationResult rv;
   std::string local_contents;
-  while ((rv = ReadFile(handle, buffer, sizeof(buffer))) > 0) {
+  while ((rv = ReadFile(handle.get(), buffer, sizeof(buffer))) > 0) {
+    DCHECK_LE(static_cast<size_t>(rv), sizeof(buffer));
     local_contents.append(buffer, rv);
   }
   if (rv < 0) {
