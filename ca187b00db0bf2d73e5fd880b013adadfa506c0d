@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b83a6cfd_c99002f3",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T16:53:09Z",
+      "side": 1,
+      "message": "Can you leave some blanks in between these too?",
+      "revId": "ca187b00db0bf2d73e5fd880b013adadfa506c0d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1db98fd_6dde38b6",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T16:53:09Z",
+      "side": 1,
+      "message": "These two lines can collapse into one now.",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 57
+      },
+      "revId": "ca187b00db0bf2d73e5fd880b013adadfa506c0d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ea782d1_287b1ab0",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T16:53:09Z",
+      "side": 1,
+      "message": "|attempts|",
+      "range": {
+        "startLine": 212,
+        "startChar": 20,
+        "endLine": 212,
+        "endChar": 28
+      },
+      "revId": "ca187b00db0bf2d73e5fd880b013adadfa506c0d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
