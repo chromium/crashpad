@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e040cf8a_05af51b0",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T14:25:32Z",
+      "side": 1,
+      "message": "Since these values aren’t documented, I was heavily confused at first. It wasn’t clear that this is intended to be a “successful” end of file condition, and that unexpected end of file conditions would use kError.\n\nThe naming isn’t necessarily the problem, but each of these values should have a comment, because in the presence of both kSuccess and kError, whether the other values are successes or errors isn’t clear or self-explanatory.",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 12
+      },
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76b5aadb_adeba65e",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T14:25:32Z",
+      "side": 1,
+      "message": "Let’s not force our future teammates to have to trawl through blame to figure out what this is about. This “retry” thing important and not necessarily obvious. There should be a comment, either here, on ParseMapsLine(), or on the retry loop, with a brief explanation of the problem that this works around.",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 8
+      },
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0da7d122_66ff6daf",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T14:25:32Z",
+      "side": 1,
+      "message": "May want to do the mappings-\u003eswap(local_mappings) thing in this function too.",
+      "range": {
+        "startLine": 68,
+        "startChar": 26,
+        "endLine": 68,
+        "endChar": 67
+      },
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec4fbbd9_3aff042d",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T14:25:32Z",
+      "side": 1,
+      "message": "!mappings-\u003eempty()",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 30
+      },
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe66e731_1d600dfa",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T14:25:32Z",
+      "side": 1,
+      "message": "Blank line before this one, break it up from your early return.",
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0647a7d1_a6e91cb7",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T14:25:32Z",
+      "side": 1,
+      "message": "No “else” after “return”.",
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "470961c2_def9d8fd",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T14:25:32Z",
+      "side": 1,
+      "message": "Blank line before this one, too.",
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80c518bc_ef0874c3",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T14:25:32Z",
+      "side": 1,
+      "message": "} while (--attempts \u003e 0);",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 15
+      },
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c27f5727_a6a526f9",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T14:25:32Z",
+      "side": 1,
+      "message": "Log something about exceeding the retry count.",
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eaccd4c_aae721b3",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T14:25:32Z",
+      "side": 1,
+      "message": "Can we add a twist on this that works through the mappings backwards? Maybe have MapRunningChildTest::MultiprocessChild() use the backwards variant on every other pass through its loop.\n\nI think that would make it more likely to trigger the “maps went backwards” case. But you should check by (locally) disabling the ScopedPtraceAttach and seeing if it’s more likely to hit kRetry in the other file.\n\nI know that the ScopedPtraceAttach should mean that the map shouldn’t be inconsistent, but since you’re adding the “maps went backwards” retry protection, it’d be good to know that it’s working. I don’t think it’s really possible to check in a test for it because any test that tries to catch it happening runs the risk of having it happen more times than the retry count, and so would be flaky. But it’d be nice to at least have some sense that it does what we want it to just based on a little local experimentation.",
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
