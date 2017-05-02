@@ -252,7 +252,7 @@ void ExpectMappings(const MemoryMap& map,
 }
 
 TEST(MemoryMap, SelfLargeMapFile) {
-  constexpr size_t kNumMappings = 4096;
+  constexpr size_t kNumMappings = 1024;
   const size_t page_size = getpagesize();
   ScopedMmap mappings;
 
@@ -308,7 +308,7 @@ class MapRunningChildTest : public Multiprocess {
     CheckedWriteFile(WritePipeHandle(), &region_addr, sizeof(region_addr));
 
     // But don't stop there!
-    constexpr size_t kNumExtraMappings = 1024;
+    constexpr size_t kNumExtraMappings = 256;
     ScopedMmap extra_mappings;
 
     while (true) {
@@ -325,7 +325,7 @@ class MapRunningChildTest : public Multiprocess {
     }
   }
 
-  static constexpr size_t kNumMappings = 4096;
+  static constexpr size_t kNumMappings = 1024;
   const size_t page_size_;
 
   DISALLOW_COPY_AND_ASSIGN(MapRunningChildTest);
