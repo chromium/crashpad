@@ -306,6 +306,12 @@ void CheckedWriteFile(FileHandle file, const void* buffer, size_t size);
 //! \sa ReadFile
 void CheckedReadFileAtEOF(FileHandle file);
 
+//! brief Wraps LoggingOpenFileForRead() and ReadFile() reading the entire file
+//!     into \a contents.
+//!
+//! \return `true` on success, or `false` with a message logged.
+bool LoggingReadEntireFile(const base::FilePath& path, std::string* contents);
+
 //! \brief Wraps `open()` or `CreateFile()`, opening an existing file for
 //!     reading.
 //!
