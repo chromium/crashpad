@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b27df55f_842e5f67",
+        "filename": "util/file/file_io.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-02T03:06:22Z",
+      "side": 1,
+      "message": "Optional: To avoid touching |contents| unless the entire call succeeds, I’d recommend having a std::string local_contents, and doing contents-\u003eswap(local_contents); at the end right before the “return true”. This style makes it more difficult to goof by forgetting to check a return value.",
+      "revId": "d556d85a33e7b3809d20b7e80f2927a9fe76615f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
