@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "448e5440_7b2d45e1",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-02T16:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e040cf8a_05af51b0",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 12
+      },
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76b5aadb_adeba65e",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 10
@@ -45,6 +69,30 @@
       "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bd23a23_684b679f",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-02T16:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76b5aadb_adeba65e",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 8
+      },
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6f1262a3_9288a1ff",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-02T16:40:55Z",
+      "side": 1,
+      "message": "This extends mappings, rather than initializes it.",
+      "parentUuid": "0da7d122_66ff6daf",
+      "range": {
+        "startLine": 68,
+        "startChar": 26,
+        "endLine": 68,
+        "endChar": 67
+      },
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec4fbbd9_3aff042d",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 10
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "a600bb9a_a3540776",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-02T16:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec4fbbd9_3aff042d",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 30
+      },
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe66e731_1d600dfa",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 10
@@ -108,6 +204,24 @@
       "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99c0c65e_f1260a3f",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-02T16:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe66e731_1d600dfa",
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "ca688e6d_88455ddc",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-02T16:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0647a7d1_a6e91cb7",
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "470961c2_def9d8fd",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 10
@@ -142,6 +274,24 @@
       "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38126ed2_e828564b",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-02T16:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "470961c2_def9d8fd",
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -168,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "8817f019_a7d62bf5",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-02T16:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80c518bc_ef0874c3",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 15
+      },
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c27f5727_a6a526f9",
         "filename": "util/linux/memory_map.cc",
         "patchSetId": 10
@@ -185,6 +359,24 @@
     },
     {
       "key": {
+        "uuid": "73466420_2a2306f1",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-02T16:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c27f5727_a6a526f9",
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2eaccd4c_aae721b3",
         "filename": "util/linux/memory_map_test.cc",
         "patchSetId": 10
@@ -196,6 +388,24 @@
       "writtenOn": "2017-05-02T14:25:32Z",
       "side": 1,
       "message": "Can we add a twist on this that works through the mappings backwards? Maybe have MapRunningChildTest::MultiprocessChild() use the backwards variant on every other pass through its loop.\n\nI think that would make it more likely to trigger the “maps went backwards” case. But you should check by (locally) disabling the ScopedPtraceAttach and seeing if it’s more likely to hit kRetry in the other file.\n\nI know that the ScopedPtraceAttach should mean that the map shouldn’t be inconsistent, but since you’re adding the “maps went backwards” retry protection, it’d be good to know that it’s working. I don’t think it’s really possible to check in a test for it because any test that tries to catch it happening runs the risk of having it happen more times than the retry count, and so would be flaky. But it’d be nice to at least have some sense that it does what we want it to just based on a little local experimentation.",
+      "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c97e166_2d4600b4",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-02T16:40:55Z",
+      "side": 1,
+      "message": "tl;dr: I haven\u0027t been able to get a test to reliably trigger duplicate/overlapping entries, but the MapRunningChild test does encounter them rarely (somewhere around 0-5 times in 100 trials), which is better than my other tests have fared so far.\n\nI tried out mapping backwards but it never managed to generate any detectable errors.\nThe two ways overlapping/duplicate entries can occur:\n1) Split the last mapping at the end of a read into two. This will cause the kernel to find the first of the two mappings and start reading at the second. We will detect this because the start of the second mapping begins before our previously read end of the first. I think this is how the MapRunningChild test encounters overlapping entries.\n\n2) Delete the last mapping at the end of a read and add new non-overlapping entries earlier in the file. This is tricky to trigger because it requires getting lucky with both location of the deleted mappings and timing for creating new mappings. The MapRunningChild test is able to reliably cause missed entries because it creates a bunch of small mappings and deletes them all at once, making it more likely that one of them was the last to be read. This strategy is hard to use with creating duplicate entries because you have to add at least as many new entries as you delete, so larger an area you trap with deleted entries, the more time you have to spend mapping new entries before the next Read.\n\nI\u0027m not out of ideas for ways to trigger this, but it\u0027s not straightforward and didn\u0027t seem like something worth lingering on for now.",
+      "parentUuid": "2eaccd4c_aae721b3",
       "revId": "e763b67d24018689d79fec2bc57a54f1fa693836",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
