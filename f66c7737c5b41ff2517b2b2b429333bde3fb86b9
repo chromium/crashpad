@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff833d5e_cbed006c",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-03T17:01:46Z",
+      "side": 1,
+      "message": "These shouldn’t be hard-coded. I think that crashpad_handler should be told on the command line to treat them specially.",
+      "revId": "f66c7737c5b41ff2517b2b2b429333bde3fb86b9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
