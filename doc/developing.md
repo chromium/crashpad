@@ -268,11 +268,6 @@ $ git commit
 $ git cl upload
 ```
 
-The [PolyGerrit interface](https://polygerrit.appspot.com/) to Gerrit,
-undergoing active development, is recommended. To switch from the classic
-GWT-based Gerrit UI to PolyGerrit, click the PolyGerrit link in a Gerrit review
-page’s footer.
-
 Uploading a patch to Gerrit does not automatically request a review. You must
 select a reviewer on the Gerrit review page after running `git cl upload`. This
 action notifies your reviewer of the code review request. If you have lost track
@@ -292,7 +287,8 @@ server](https://dev.chromium.org/developers/testing/try-server-usage) by running
 “Commit-Queue: +1” label. This does not mean that the patch will be committed,
 but the try server and commit queue share infrastructure and a Gerrit label. The
 patch will be tested on try bots in a variety of configurations. Status
-information will be available on Gerrit.
+information will be available on Gerrit. Try server access is available to
+Crashpad and Chromium committers.
 
 ### Landing Changes
 
@@ -300,7 +296,8 @@ After code review is complete and “Code-Review: +1” has been received from a
 reviewers, the patch can be submitted to Crashpad’s [commit
 queue](https://dev.chromium.org/developers/testing/commit-queue) by clicking the
 “Submit to CQ” button in Gerrit. This sets the “Commit-Queue: +2” label, which
-tests the patch on the try server before landing it.
+tests the patch on the try server before landing it. Commit queue access is
+available to Crashpad and Chromium committers.
 
 Although the commit queue is recommended, if needed, project members can bypass
 the commit queue and land patches without testing by using the “Submit” button
