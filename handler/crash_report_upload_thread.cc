@@ -30,9 +30,11 @@
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_reader.h"
 #include "util/misc/metrics.h"
+#include "util/misc/uuid.h"
 #include "util/net/http_body.h"
 #include "util/net/http_multipart_builder.h"
 #include "util/net/http_transport.h"
+#include "util/net/url.h"
 #include "util/stdlib/map_insert.h"
 
 namespace crashpad {
@@ -138,22 +140,22 @@ class CallRecordUploadAttempt {
 }  // namespace
 
 CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
-                                                 const std::string& url,
-                                                 bool watch_pending_reports,
-                                                 bool rate_limit,
-                                                 bool upload_gzip)
-    : url_(url),
-      // When watching for pending reports, check every 15 minutes, even in the
-      // absence of a signal from the handler thread. This allows for failed
-      // uploads to be retried periodically, and for pending reports written by
-      // other processes to be recognized.
-      thread_(watch_pending_reports ? 15 * 60.0 : WorkerThread::kIndefiniteWait,
-              this),
-      known_pending_report_uuids_(),
-      database_(database),
-      watch_pending_reports_(watch_pending_reports),
-      rate_limit_(rate_limit),
-      upload_gzip_(upload_gzip) {
+  const std::string& url,
+  bool watch_pending_reports,
+  bool rate_limit,
+  bool upload_gzip)
+  : url_(url),
+  // When watching for pending reports, check every 15 minutes, even in the
+  // absence of a signal from the handler thread. This allows for failed
+  // uploads to be retried periodically, and for pending reports written by
+  // other processes to be recognized.
+  thread_(watch_pending_reports ? 15 * 60.0 : WorkerThread::kIndefiniteWait,
+    this),
+  known_pending_report_uuids_(),
+  database_(database),
+  watch_pending_reports_(watch_pending_reports),
+  rate_limit_(rate_limit),
+  upload_gzip_(upload_gzip) {
 }
 
 CrashReportUploadThread::~CrashReportUploadThread() {
@@ -177,7 +179,7 @@ void CrashReportUploadThread::ProcessPendingReports() {
   for (const UUID& report_uuid : known_report_uuids) {
     CrashReportDatabase::Report report;
     if (database_->LookUpCrashReport(report_uuid, &report) !=
-        CrashReportDatabase::kNoError) {
+      CrashReportDatabase::kNoError) {
       continue;
     }
 
@@ -208,8 +210,8 @@ void CrashReportUploadThread::ProcessPendingReports() {
 
   for (const CrashReportDatabase::Report& report : reports) {
     if (std::find(known_report_uuids.begin(),
-                  known_report_uuids.end(),
-                  report.uuid) != known_report_uuids.end()) {
+      known_report_uuids.end(),
+      report.uuid) != known_report_uuids.end()) {
       // An attempt to process the report already occurred above. The report is
       // still pending, so upload must have failed. Don’t retry it immediately,
       // it can wait until at least the next pass through this method.
@@ -350,17 +352,39 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
     parameters = BreakpadHTTPFormParametersFromMinidump(&minidump_file_reader);
   }
 
+  // Extract crucial parameters
+  const char kMinidumpKey[] = "upload_file_minidump";
+  const char kProductKey[] = "product";
+  const char kProductAlternativeKey[] = "prod";
+  const char kVersionKey[] = "version";
+  const char kVersionAlternativeKey[] = "ver";
+  const char kGuidKey[] = "guid";
+
+  std::string product;
+  std::string version;
+  std::string guid;
   HTTPMultipartBuilder http_multipart_builder;
   http_multipart_builder.SetGzipEnabled(upload_gzip_);
 
-  const char kMinidumpKey[] = "upload_file_minidump";
-
   for (const auto& kv : parameters) {
-    if (kv.first == kMinidumpKey) {
-      LOG(WARNING) << "reserved key " << kv.first << ", discarding value "
-                   << kv.second;
+    const std::string& param_name = kv.first;
+    const std::string& param_value = kv.second;
+
+    if (param_name == kProductKey || param_name == kProductAlternativeKey) {
+      product = URLEncode(param_value);
+    }
+    if (param_name == kVersionKey || param_name == kVersionAlternativeKey) {
+      version = URLEncode(param_value);
+    }
+    if (param_name == kGuidKey) {
+      guid = URLEncode(param_value);
+    }
+
+    if (param_name == kMinidumpKey) {
+      LOG(WARNING) << "reserved key " << param_name << ", discarding value "
+                   << param_value;
     } else {
-      http_multipart_builder.SetFormData(kv.first, kv.second);
+      http_multipart_builder.SetFormData(param_name, param_value);
     }
   }
 
@@ -375,7 +399,6 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
       "application/octet-stream");
 
   std::unique_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
-  http_transport->SetURL(url_);
   HTTPHeaders content_headers;
   http_multipart_builder.PopulateContentHeaders(&content_headers);
   for (const auto& content_header : content_headers) {
@@ -384,6 +407,15 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
   http_transport->SetBodyStream(http_multipart_builder.GetBodyStream());
   // TODO(mark): The timeout should be configurable by the client.
   http_transport->SetTimeout(60.0);  // 1 minute.
+
+  // Add parameters to the URL which identify the client to the server.
+  std::ostringstream url;
+  url << url_;
+  url << ((url_.find("?") == std::string::npos) ? "?" : "&");
+  url << kProductKey << "=" << product << "&";
+  url << kVersionKey << "=" << version << "&";
+  url << kGuidKey << "=" << guid;
+  http_transport->SetURL(url.str());
 
   if (!http_transport->ExecuteSynchronously(response_body)) {
     return UploadResult::kRetry;
