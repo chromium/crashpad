@@ -50,6 +50,8 @@
         'linux/memory_map.h',
         'linux/process_memory.cc',
         'linux/process_memory.h',
+        'linux/ptrace_requests.cc',
+        'linux/ptrace_requests.h',
         'linux/scoped_ptrace_attach.cc',
         'linux/scoped_ptrace_attach.h',
         'mac/checked_mach_address_range.h',
