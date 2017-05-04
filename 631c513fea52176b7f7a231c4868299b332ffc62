@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "12511e93_4206265a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-04T17:33:41Z",
+      "side": 1,
+      "message": "The CL description should be written so that it describes what the change does, not what the client does.\n\n“Identify clients via URL parameters”\n\nBut a little more context would be useful too, so\n\n“net: Identify clients via URL parameters during report upload”",
+      "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d9e91c9_16f77e1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-04T17:33:41Z",
+      "side": 1,
+      "message": "It’s not clear whether this is describing the existing state or what you’re making things do. Write “now provides” to clarify.",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef54a02d_cb394e4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-04T17:33:41Z",
+      "side": 1,
+      "message": "If there’s a bug filed, put it here. If the bug is in the Chromium issue tracker, use chromium:1234, for example.\n\nSince you added a test, you should mention it in a Test: line, like\n\nTest: crashpad_util_test URLEncode.*",
+      "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d6b8cae_223e5f49",
         "filename": "handler/crash_report_upload_thread.cc",
         "patchSetId": 6
@@ -13,6 +70,127 @@
       "writtenOn": "2017-05-04T16:52:06Z",
       "side": 1,
       "message": "I\u0027m not 100% sure what Mark had in mind, but I believe something along the lines of plumbing a new command line argument through, say \"--duplicate-parameters-in-http-upload\u003dprod,ver,guid\". Then, use the value of that argument to determine what\u0027s added to the query string of the URL here.\n\nThen, Chrome could pass that argument when it launches Crashpad (i.e. when it\u0027s hooked up to the crash/ backend), so that other users don\u0027t have these unconfigurably-added to their URL.",
+      "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d81a343f_a65d2c29",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-04T17:33:41Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not 100% sure what Mark had in mind, but I believe something along the lines of plumbing a new command line argument through, say \"--duplicate-parameters-in-http-upload\u003dprod,ver,guid\". Then, use the value of that argument to determine what\u0027s added to the query string of the URL here.\n\u003e \n\u003e Then, Chrome could pass that argument when it launches Crashpad (i.e. when it\u0027s hooked up to the crash/ backend), so that other users don\u0027t have these unconfigurably-added to their URL.\n\nThat’s exactly what I meant.\n\nMaybe  a less-wordy name, and allowing the argument to appear multiple times.\n\n--http-url-parameter\u003dprod --http-url-parameter\u003dver --http-url-parameter\u003dguid",
+      "parentUuid": "5d6b8cae_223e5f49",
+      "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d5badec_03aec1d0",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-04T17:33:41Z",
+      "side": 1,
+      "message": "There’s probably no real strong reason to do this instead of string appends. We (Google and particularly Chrome) avoid stream-based interfaces outside of logging.",
+      "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfc7f050_da8fc7cd",
+        "filename": "util/net/url.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-04T17:33:41Z",
+      "side": 1,
+      "message": "We shouldn’t need to write our own hexadecimal conversion here. #include \"base/strings/stringprintf.h\" and use base::StringPrintf(\"%02X\", character).",
+      "range": {
+        "startLine": 22,
+        "startChar": 38,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "815c5f5a_e7b35343",
+        "filename": "util/net/url.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-04T17:33:41Z",
+      "side": 1,
+      "message": "Instead of “test this, test that, test the other thing”, provide:\n\n  const char kSafeCharacters[] \u003d \"-_.~\";\n\nand then\n\n  strchr(kSafeCharacters, character) !\u003d nullptr",
+      "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edeaa19f_7decb463",
+        "filename": "util/net/url.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-04T17:33:41Z",
+      "side": 1,
+      "message": "No “the”",
+      "range": {
+        "startLine": 23,
+        "startChar": 18,
+        "endLine": 23,
+        "endChar": 21
+      },
+      "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48ff793e_aa69c8de",
+        "filename": "util/net/url.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-04T17:33:41Z",
+      "side": 1,
+      "message": "Specify the part of the RFC that covers this: RFC 3986 §2. The rest of the RFC is concerned with other aspects of URLs (er, URIs).",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 30
+      },
       "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
