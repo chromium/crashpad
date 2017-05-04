@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d6b8cae_223e5f49",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-05-04T16:52:06Z",
+      "side": 1,
+      "message": "I\u0027m not 100% sure what Mark had in mind, but I believe something along the lines of plumbing a new command line argument through, say \"--duplicate-parameters-in-http-upload\u003dprod,ver,guid\". Then, use the value of that argument to determine what\u0027s added to the query string of the URL here.\n\nThen, Chrome could pass that argument when it launches Crashpad (i.e. when it\u0027s hooked up to the crash/ backend), so that other users don\u0027t have these unconfigurably-added to their URL.",
+      "revId": "631c513fea52176b7f7a231c4868299b332ffc62",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
