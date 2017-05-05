@@ -53,11 +53,14 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   //! \param[in] rate_limit Whether uploads should be throttled to a (currently
   //!     hardcoded) rate.
   //! \param[in] upload_gzip Whether uploads should use `gzip` compression.
+  //! \param[in] identify_client_via_url Whether client identifying parameters
+  //!     like product name or version should be added to the URL.
   CrashReportUploadThread(CrashReportDatabase* database,
                           const std::string& url,
                           bool watch_pending_reports,
                           bool rate_limit,
-                          bool upload_gzip);
+                          bool upload_gzip,
+                          bool identify_client_via_url);
   ~CrashReportUploadThread();
 
   //! \brief Starts a dedicated upload thread, which executes ThreadMain().
@@ -160,6 +163,7 @@ class CrashReportUploadThread : public WorkerThread::Delegate {
   const bool watch_pending_reports_;
   const bool rate_limit_;
   const bool upload_gzip_;
+  const bool identify_client_via_url_;
 
   DISALLOW_COPY_AND_ASSIGN(CrashReportUploadThread);
 };
