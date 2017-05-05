@@ -80,50 +80,67 @@ namespace crashpad {
 namespace {
 
 void Usage(const base::FilePath& me) {
-  fprintf(stderr,
-"Usage: %" PRFilePath " [OPTION]...\n"
-"Crashpad's exception handler server.\n"
-"\n"
-"      --annotation=KEY=VALUE  set a process annotation in each crash report\n"
-"      --database=PATH         store the crash report database at PATH\n"
+  fprintf(
+      stderr,
+      "Usage: %" PRFilePath
+      " [OPTION]...\n"
+      "Crashpad's exception handler server.\n"
+      "\n"
+      "      --annotation=KEY=VALUE  set a process annotation in each crash "
+      "report\n"
+      "      --database=PATH         store the crash report database at PATH\n"
 #if defined(OS_MACOSX)
-"      --handshake-fd=FD       establish communication with the client over FD\n"
+      "      --handshake-fd=FD       establish communication with the client "
+      "over FD\n"
 #endif  // OS_MACOSX
+      "      --identify-client-via-url\n"
+      "                              when uploading crash report, provide "
+      "client-identifying arguments in URL\n"
 #if defined(OS_WIN)
-"      --initial-client-data=HANDLE_request_crash_dump,\n"
-"                            HANDLE_request_non_crash_dump,\n"
-"                            HANDLE_non_crash_dump_completed,\n"
-"                            HANDLE_pipe,\n"
-"                            HANDLE_client_process,\n"
-"                            Address_crash_exception_information,\n"
-"                            Address_non_crash_exception_information,\n"
-"                            Address_debug_critical_section\n"
-"                              use precreated data to register initial client\n"
+      "      --initial-client-data=HANDLE_request_crash_dump,\n"
+      "                            HANDLE_request_non_crash_dump,\n"
+      "                            HANDLE_non_crash_dump_completed,\n"
+      "                            HANDLE_pipe,\n"
+      "                            HANDLE_client_process,\n"
+      "                            Address_crash_exception_information,\n"
+      "                            Address_non_crash_exception_information,\n"
+      "                            Address_debug_critical_section\n"
+      "                              use precreated data to register initial "
+      "client\n"
 #endif  // OS_WIN
 #if defined(OS_MACOSX)
-"      --mach-service=SERVICE  register SERVICE with the bootstrap server\n"
+      "      --mach-service=SERVICE  register SERVICE with the bootstrap "
+      "server\n"
 #endif  // OS_MACOSX
-"      --metrics-dir=DIR       store metrics files in DIR (only in Chromium)\n"
-"      --monitor-self          run a second handler to catch crashes in the first\n"
-"      --monitor-self-annotation=KEY=VALUE\n"
-"                              set a module annotation in the handler\n"
-"      --monitor-self-argument=ARGUMENT\n"
-"                              provide additional arguments to the second handler\n"
-"      --no-periodic-tasks     don't scan for new reports or prune the database\n"
-"      --no-rate-limit         don't rate limit crash uploads\n"
-"      --no-upload-gzip        don't use gzip compression when uploading\n"
+      "      --metrics-dir=DIR       store metrics files in DIR (only in "
+      "Chromium)\n"
+      "      --monitor-self          run a second handler to catch crashes in "
+      "the first\n"
+      "      --monitor-self-annotation=KEY=VALUE\n"
+      "                              set a module annotation in the handler\n"
+      "      --monitor-self-argument=ARGUMENT\n"
+      "                              provide additional arguments to the "
+      "second handler\n"
+      "      --no-periodic-tasks     don't scan for new reports or prune the "
+      "database\n"
+      "      --no-rate-limit         don't rate limit crash uploads\n"
+      "      --no-upload-gzip        don't use gzip compression when "
+      "uploading\n"
 #if defined(OS_WIN)
-"      --pipe-name=PIPE        communicate with the client over PIPE\n"
+      "      --pipe-name=PIPE        communicate with the client over PIPE\n"
 #endif  // OS_WIN
 #if defined(OS_MACOSX)
-"      --reset-own-crash-exception-port-to-system-default\n"
-"                              reset the server's exception handler to default\n"
+      "      --reset-own-crash-exception-port-to-system-default\n"
+      "                              reset the server's exception handler to "
+      "default\n"
 #endif  // OS_MACOSX
-"      --url=URL               send crash reports to this Breakpad server URL,\n"
-"                              only if uploads are enabled for the database\n"
-"      --help                  display this help and exit\n"
-"      --version               output version information and exit\n",
-          me.value().c_str());
+      "      --url=URL               send crash reports to this Breakpad "
+      "server URL,\n"
+      "                              only if uploads are enabled for the "
+      "database\n"
+      "      --help                  display this help and exit\n"
+      "      --version               output version information and exit\n",
+      me.value().c_str());
   ToolSupport::UsageTail(me);
 }
 
@@ -146,6 +163,7 @@ struct Options {
   bool periodic_tasks;
   bool rate_limit;
   bool upload_gzip;
+  bool identify_client_via_url;
 };
 
 // Splits |key_value| on '=' and inserts the resulting key and value into |map|.
@@ -362,6 +380,9 @@ void MonitorSelf(const Options& options) {
   if (!options.upload_gzip) {
     extra_arguments.push_back("--no-upload-gzip");
   }
+  if (options.identify_client_via_url) {
+    extra_arguments.push_back("--identify-client-via-url");
+  }
   for (const auto& iterator : options.monitor_self_annotations) {
     extra_arguments.push_back(
         base::StringPrintf("--monitor-self-annotation=%s=%s",
@@ -409,6 +430,7 @@ int HandlerMain(int argc,
 #if defined(OS_MACOSX)
     kOptionHandshakeFD,
 #endif  // OS_MACOSX
+    kOptionIdentifyClientViaUrl,
 #if defined(OS_WIN)
     kOptionInitialClientData,
 #endif  // OS_WIN
@@ -441,6 +463,10 @@ int HandlerMain(int argc,
 #if defined(OS_MACOSX)
     {"handshake-fd", required_argument, nullptr, kOptionHandshakeFD},
 #endif  // OS_MACOSX
+    {"identify-client-via-url",
+     no_argument,
+     nullptr,
+     kOptionIdentifyClientViaUrl},
 #if defined(OS_WIN)
     {"initial-client-data",
      required_argument,
@@ -515,6 +541,10 @@ int HandlerMain(int argc,
         break;
       }
 #endif  // OS_MACOSX
+      case kOptionIdentifyClientViaUrl: {
+        options.identify_client_via_url = true;
+        break;
+      }
 #if defined(OS_WIN)
       case kOptionInitialClientData: {
         if (!options.initial_client_data.InitializeFromString(optarg)) {
@@ -735,7 +765,8 @@ int HandlerMain(int argc,
                                         options.url,
                                         options.periodic_tasks,
                                         options.rate_limit,
-                                        options.upload_gzip);
+                                        options.upload_gzip,
+                                        options.identify_client_via_url);
   upload_thread.Start();
 
   std::unique_ptr<PruneCrashReportThread> prune_thread;
