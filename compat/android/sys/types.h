@@ -12,18 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_COMPAT_ANDROID_ELF_H_
-#define CRASHPAD_COMPAT_ANDROID_ELF_H_
+#ifndef CRASHPAD_COMPAT_ANDROID_SYS_TYPES_H_
+#define CRASHPAD_COMPAT_ANDROID_SYS_TYPES_H_
 
-#include_next <elf.h>
+#include_next <sys/types.h>
 
-// Android 5.0.0 (API 21) NDK
-#if !defined(NT_PRSTATUS)
-#define NT_PRSTATUS 1
+#if !defined(SYS_gettid)
+#define SYS_gettid __NR_gettid
 #endif
 
-#if !defined(NT_PRFPREG)
-#define NT_PRFPREG 2
-#endif
-
-#endif  // CRASHPAD_COMPAT_ANDROID_ELF_H_
+#endif  // CRASHPAD_COMPAT_ANDROID_SYS_TYPES_H_
