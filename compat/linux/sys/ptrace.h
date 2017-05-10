@@ -12,18 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_COMPAT_ANDROID_LINUX_PTRACE_H_
-#define CRASHPAD_COMPAT_ANDROID_LINUX_PTRACE_H_
+#ifndef CRASHPAD_COMPAT_LINUX_SYS_PTRACE_H_
+#define CRASHPAD_COMPAT_LINUX_SYS_PTRACE_H_
 
-#include_next <linux/ptrace.h>
+#include_next <sys/ptrace.h>
 
-// Android 5.0.0 (API 21) NDK
-#if !defined(PTRACE_GETREGSET)
-#define PTRACE_GETREGSET 0x4204
-#endif
+#define PTRACE_ARCH_PRCTL (static_cast<enum __ptrace_request>(30))
 
-#if !defined(PTRACE_ARCH_PRCTL)
-#define PTRACE_ARCH_PRCTL 30
-#endif
-
-#endif  // CRASHPAD_COMPAT_ANDROID_LINUX_PTRACE_H_
+#endif  // CRASHPAD_COMPAT_LINUX_SYS_PTRACE_H_
