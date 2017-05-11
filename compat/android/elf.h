@@ -22,4 +22,20 @@
 #define NT_PRSTATUS 1
 #endif
 
+#if !defined(NT_PRFPREG)
+#define NT_PRFPREG 2
+#endif
+
+#if !defined(NT_386_TLS)
+#define NT_386_TLS 0x200
+#endif
+
+#if !defined(NT_ARM_VFP)
+#define NT_ARM_VFP 0x400
+#endif
+
+#if !defined(NT_ARM_TLS)
+#define NT_ARM_TLS 0x401
+#endif
+
 #endif  // CRASHPAD_COMPAT_ANDROID_ELF_H_
