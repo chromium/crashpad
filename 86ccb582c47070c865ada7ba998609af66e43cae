@@ -1,0 +1,305 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7b4d79a_534c74f8",
+        "filename": "compat/android/linux/ptrace.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "Certainly this shouldn’t be defined on non-x86-family. But should this even be defined on non-x86_64? The intent would be to allow a 32-bit process to get and set a 64-bit lightweight process’ %fs/%gs base address. But I don’t think that this is actually possible.\n\nlinux-4.9.28/arch/x86/kernel/ptrace.c compat_arch_ptrace() delegates to ia32_arch_ptrace(), which doesn’t understand PTRACE_ARCH_PRCTL. So I don’t think that this makes sense for a 32-bit x86 user program, even when expecting to run on an x86_64 kernel. (kernel/ptrace.c uses compat_arch_ptrace() instead of arch_ptrace() in the “compat” version of the ptrace() system call.)\n\nLooking at the NDK, it appears that PTRACE_ARCH_PRCTL should always be available when targeting x86_64 at any API level that supports x86_64. On that basis, I don’t think that we need this at all.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e4840a3_772f70f2",
+        "filename": "compat/linux/elf.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "We should have a short comment here indicating where this was introduced or where it’s expected to be found, like we do in the compat headers in the android sibling directory.\n\nNot necessarily to write in the file, but more for general review interest: where’d you find this missing?",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64ebc59e_2d131877",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "1. The native header that I see just has 30, not a casted 30, and we should duplicate what the native header does (otherwise, things get really confusing based on whether you’re using the native header or our compat header).\n\n2. All comments from compat/android/sys/ptrace.h apply. We probably don’t need this file at all.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47857816_2d654743",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "Since we have our own structure now, this is just sizeof(FloatContext::f32::vfp), right? I think we can get rid of this.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40353740_b185daa0",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "It’d be nice if we operated on an object that had {pid, bitness} so that we could just try the bitness operation that we know is right. That object could also have the ScopedPtraceAttach, which would encourage proper API usage. Then we could also replace GetRegistersResult with an easier-to-hold bool. What do you think?",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "522dc14c_1ab4e3c6",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "register sets",
+      "range": {
+        "startLine": 183,
+        "startChar": 54,
+        "endLine": 183,
+        "endChar": 68
+      },
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37925ec7_03c9ea96",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "At the ARM specification level, floating-point support is optional. I don’t know if Android goes beyond that to mandate it, but I can’t definitely say that this should be considered an error condition.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6b5bafe_aab91b1d",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "Kernel limitation, maybe just stay quiet about it. You can keep the message if you’d like, but it shouldn’t be an ERROR and should be a little more descriptive than this, because seeing “Not implemented” in our log message makes it seem like it’s something that we can implement but haven’t, but this one isnt’ on us at all.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98c6a37b_e19421c4",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "This won’t work from a 32-bit process, see earlier comments. Deal with this in the same way that you handle the 64-reads-32 ARM case.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2583e76e_124b0831",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "It looks like this needs to match some particular layouts that the kernel uses. You should leave behind references to the original native structures. Normal C++ comments are OK, that kind of detail is an implementation-level thing that doesn’t need to be visible in the Doxygen-generated stuff.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68412328_2fa98476",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "I think we normally do 32 before 64. Same for FloatContext.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bbf8639_0cd40ca4",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "Will something be logged?",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f4b5382_29f5016e",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "You can say “ThreadContext::t64 or FloatContext::f64 is active” for better linking.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c5c8909_e65f1b9a",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "32 before 64 again.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eadaaadc_d87c91d6",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "TLS area",
+      "range": {
+        "startLine": 224,
+        "startChar": 43,
+        "endLine": 224,
+        "endChar": 46
+      },
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db92b2e5_618388e2",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "I think that these assertions should happen up where the unions are defined. You can even write them in-line in the unions, and lose a level of qualification (ThreadContext::, etc.)",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70d418ce_b0832eaf",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-15T18:40:15Z",
+      "side": 1,
+      "message": "Probably I’d simplify by having something like:\n\n  #if defined(ARCH_CPU_ARMEL)\n  using NativeThreadContext \u003d user_regs;\n  #elif defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM64)\n  using NativeThreadContext \u003d user_regs_struct;\n  #else\n  #error Port.\n  #endif\n\n(That’s basically what PrStatusType, now being removed, was.)\n\nThen, for your static_asserts, everything boils down to:\n\n  #if defined(ARCH_CPU_32_BITS)\n  static_assert(sizeof(t32) \u003d\u003d sizeof(NativeThreadContext));\n  #else\n  static_assert(sizeof(t64) \u003d\u003d sizeof(NativeThreadContext));\n  #endif",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
