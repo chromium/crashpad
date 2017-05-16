@@ -34,6 +34,40 @@
       "revId": "ddcc74f08f4f11acd1b025cb99b792666a63f0c4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85201e94_ad318fbc",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 0,
+      "message": "(This is easier if you allow the C++ source to exceed 80 in this section, as long as the actual lines don’t exceed 80. This line on the “before” side is an example.)",
+      "revId": "ddcc74f08f4f11acd1b025cb99b792666a63f0c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "318134ec_0b6ba7d7",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 0,
+      "message": "(and this one shows what to do if you can’t fit it in 80.)",
+      "revId": "ddcc74f08f4f11acd1b025cb99b792666a63f0c4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }

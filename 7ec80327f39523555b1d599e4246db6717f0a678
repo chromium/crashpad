@@ -1,0 +1,248 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af555297_36c3b7fd",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "This goes with the loop over parameters that follows. Bring the HTTPMultipartBuilder and its SetGzipEnabled thing back up above this.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50c2b348_97a5dd90",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "I don’t think we’ll have any Crashpad and Google crash server users who are using this key instead of “prod”. I think we can get away with just having kProductKey[] \u003d \"prod\".\n\nThat makes it easier to definitively say what can/should/would happen if both \"prod\" and \"product\" are set.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab46ad2a_30d45fcb",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "Same here, I think we’ll only see \"ver\".",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ff40e41_c16d3133",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "If we’re not supporting two key possibilities, we should pull this out of the loop (leaving the loop structure as it existed before this change), and just use map operations to get what we need from the map. But also, see below.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3ea8212_225b0e40",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "I would wait to URLEncode(), unless you rename the variables to make it clear that they’ve been encoded.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "120e440e_5c56f1db",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "I don’t think you need these as std::strings.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1c18825_767e1322",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "We should distinguish empty from nonexistent.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bde9cc11_dde26012",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "Putting it all together, I’m thinking of something like:\n\n  const char* kURLParameterKeys[] \u003d {\"prod\", \"ver\", \"guid\"};\n  for (auto key : kURLParameterKeys) {\n    const auto it \u003d parameters.find(key);\n    if (it !\u003d parameters.end()) {\n      url_.append(\n          base::StringPrintf(\"%c%s\u003d%s\",\n                             url_.find(\u0027?\u0027) \u003d\u003d std::string::npos ? \u0027?\u0027 : \u0027\u0026\u0027,\n                             key,\n                             it-\u003ec_str()));\n    }\n  }\n\nNoting that this will put \"prod\" and \"ver\" in the URL instead of \"product\" and \"version\". If you’re not equipped to deal with that on the server, then replace kURLParameterKeys[] with a struct{const char*; const char*;} to map from one set of names to the other.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dee73d59_2094fd32",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "Do not reindent this string, clang-format does a terrible job.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cf22d33_aa3b853f",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "This needs to be documented in crashpad_handler.md too.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39765a75_0d1b3716",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "But do keep each line to 80 characters.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2174c007_65ea6cdf",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "This is subtle, but I had alphabetized the conditional push_backs by what they push_back here.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f0f68f9_2fb34ced",
+        "filename": "handler/handler_main.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "Last time I added a bool here, Robert told me that we were on the verge of needing an “options” struct instead of passing four bools. Now we’re even closer, if we’re not past that point now.",
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aeeda85_f82fedf5",
+        "filename": "util/net/url.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:53:32Z",
+      "side": 1,
+      "message": "RFCs are free. That ought to be a §, not a $.",
+      "range": {
+        "startLine": 23,
+        "startChar": 27,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
