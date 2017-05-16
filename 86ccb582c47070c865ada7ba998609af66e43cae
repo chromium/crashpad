@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d6864aaf_11e2e991",
+        "filename": "compat/android/linux/ptrace.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7b4d79a_534c74f8",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e4840a3_772f70f2",
         "filename": "compat/linux/elf.h",
         "patchSetId": 20
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-15T18:40:15Z",
       "side": 1,
       "message": "We should have a short comment here indicating where this was introduced or where it’s expected to be found, like we do in the compat headers in the android sibling directory.\n\nNot necessarily to write in the file, but more for general review interest: where’d you find this missing?",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c610faa_ad94af3b",
+        "filename": "compat/linux/elf.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "glibc 2.19.\nThe kernel and linux/elf.h use NT_PRFPREG.\nelf.h and other glibc sources define it as NT_FPREGSET.\n\nelf.h on Android at API 21 includes linux/elf.h so it gets NT_PRFPREG",
+      "parentUuid": "3e4840a3_772f70f2",
       "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9e9fb7e3_e4373cdf",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "On my workstation, Linux 4.4.0-75, glibc 2.19\n\nglibc declares its ptrace wrapper as:\nextern long int ptrace (enum __ptrace_request __request, ...) __THROW;\nand does not provide an enum value for PTRACE_ARCH_PRCTL.\n\nasm/ptrace-abi.h provides\n#define PTRACE_ARCH_PRCTL 30\nwhich should work for the raw system call, but not the glibc wrapper.\n\nI added a check for __GLIBC__.\nI think the alternative is to use the raw system call?",
+      "parentUuid": "64ebc59e_2d131877",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47857816_2d654743",
         "filename": "util/linux/ptrace_requests.cc",
         "patchSetId": 20
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "03aa0eed_ff740a50",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "FloatContext::f32::vfp will also have 4 bytes of padding on 64-bit.",
+      "parentUuid": "47857816_2d654743",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40353740_b185daa0",
         "filename": "util/linux/ptrace_requests.cc",
         "patchSetId": 20
@@ -81,6 +153,24 @@
       "writtenOn": "2017-05-15T18:40:15Z",
       "side": 1,
       "message": "It’d be nice if we operated on an object that had {pid, bitness} so that we could just try the bitness operation that we know is right. That object could also have the ScopedPtraceAttach, which would encourage proper API usage. Then we could also replace GetRegistersResult with an easier-to-hold bool. What do you think?",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24308d7e_63f3c6fb",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Yeah, I think it would definitely simplify parts of this.\n\nSomething like:\n\nclass ThreadInfo? or ThreadTrace?\n  bool Initialize(pid): Does a ptrace-attach, with same lifetime as object\n  bool Is64Bit(*is_64_bit)\n  bool GetGPRs(*context)\n  bool GetFPRs(*context)\n  bool GetThreadArea(*address)\n private:\n  ScopedPtraceAttach attachment;\n  bool is_64_bit_\n\nwhere return values indicate success/failure. GetGPRs is called internally before any other calls to determine bitness if needed.\n\nor\n\nclass ThreadInfo/ThreadTrace\n  bool Initialize(pid): Attaches just for the scope of Initialize and pre-ptraces all the return values\n  bool Is64Bit() const\n  ThreadContext* GetGPRs() const\n  FloatContext* GetFPRs() const\n  bool GetThreadArea(*address) const\n private:\n  is_64_bit_\n  thread_context_\n  float_context_\n  tls_address_\n  tls_address_initialized_\n\nThe second option more resembles ProcessInfo and fits with how I expect to use it in ProcessReader. GetThreadArea keeps the bool return condition for 64-bit tracing 32-bit ARM. (x86 tracing x86_64 is solved because fs_base is given in the GPRs)\n\nThe first might be more flexible if we want more of these calls to be able to fail in the future, but it might also be problematic to keep the ScopedPtraceAttach around for the object\u0027s whole lifetime. It might be nice to be able to keep ThreadInfo around as the home for ThreadContext, etc, rather than copying them out.\n\nOr possibly:\n  bool Initialize(pid): Attaches, traces all data, detaches but only returns false if the attachment fails.\n  bool GetGPRs(**context) const\n  bool GetFPRs(**context) const\n  bool GetThreadArea(*address) const\n private:\n  thread_context_\n  thread_context_initialized_\n  float_context_\n  float_context_initialized_\n  tls_address_\n  tls_address_initialized_\n\nWhere each call returns true if the out-pointer is set successfully.\nThis allows failures on individual calls and avoids hanging onto the ScopedPtraceAttach.\n\nI think I\u0027m leaning towards the second option.",
+      "parentUuid": "40353740_b185daa0",
       "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -110,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "7267b740_f59a7fdf",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522dc14c_1ab4e3c6",
+      "range": {
+        "startLine": 183,
+        "startChar": 54,
+        "endLine": 183,
+        "endChar": 68
+      },
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37925ec7_03c9ea96",
         "filename": "util/linux/ptrace_requests.cc",
         "patchSetId": 20
@@ -121,6 +235,24 @@
       "writtenOn": "2017-05-15T18:40:15Z",
       "side": 1,
       "message": "At the ARM specification level, floating-point support is optional. I don’t know if Android goes beyond that to mandate it, but I can’t definitely say that this should be considered an error condition.",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab66a1bd_399b3f9b",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "I\u0027m not totally sure what happens when an ARM cpu doesn\u0027t have the fpa register set.\nI checked back to Linux 3.0 and didn\u0027t see anything indicating that this register set was only conditionally present in the thread_info struct.\nI\u0027m guessing that the kernel would copy zeros/garbage if the registers didn\u0027t exist on the cpu and a failure here would be more likely due to something other than the registers not being present.\n\nI haven\u0027t yet been able to get Android Studio to create a virtual device without a floating point unit to test this.",
+      "parentUuid": "37925ec7_03c9ea96",
       "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "af8ddbdb_7e92a41c",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6b5bafe_aab91b1d",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98c6a37b_e19421c4",
         "filename": "util/linux/ptrace_requests.cc",
         "patchSetId": 20
@@ -158,6 +308,24 @@
       "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff5ee11a_045adac2",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98c6a37b_e19421c4",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -178,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "c83c4b4d_6f36afc7",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2583e76e_124b0831",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68412328_2fa98476",
         "filename": "util/linux/ptrace_requests.h",
         "patchSetId": 20
@@ -192,6 +378,24 @@
       "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2390cc1_e293ebc3",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68412328_2fa98476",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -212,6 +416,24 @@
     },
     {
       "key": {
+        "uuid": "26493737_313aa00a",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bbf8639_0cd40ca4",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f4b5382_29f5016e",
         "filename": "util/linux/ptrace_requests.h",
         "patchSetId": 20
@@ -229,6 +451,24 @@
     },
     {
       "key": {
+        "uuid": "62b152ab_a8dcbc88",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f4b5382_29f5016e",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c5c8909_e65f1b9a",
         "filename": "util/linux/ptrace_requests.h",
         "patchSetId": 20
@@ -243,6 +483,24 @@
       "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc4febb7_b4f13ac1",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c5c8909_e65f1b9a",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -269,6 +527,30 @@
     },
     {
       "key": {
+        "uuid": "0ad931a7_b31432c5",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eadaaadc_d87c91d6",
+      "range": {
+        "startLine": 224,
+        "startChar": 43,
+        "endLine": 224,
+        "endChar": 46
+      },
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db92b2e5_618388e2",
         "filename": "util/linux/ptrace_requests.h",
         "patchSetId": 20
@@ -286,6 +568,24 @@
     },
     {
       "key": {
+        "uuid": "b66fe046_9253c851",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db92b2e5_618388e2",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d418ce_b0832eaf",
         "filename": "util/linux/ptrace_requests.h",
         "patchSetId": 20
@@ -300,6 +600,24 @@
       "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c375a8b3_0770b715",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T17:11:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70d418ce_b0832eaf",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
