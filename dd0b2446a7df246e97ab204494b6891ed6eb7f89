@@ -50,6 +50,108 @@
       "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63fcba24_95d4e512",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:08:05Z",
+      "side": 1,
+      "message": "Blank line before this.",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50747074_d4bff1ff",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:08:05Z",
+      "side": 1,
+      "message": "Indent +2. Also on line 125 and 203–210.",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6453feae_01942746",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:08:05Z",
+      "side": 1,
+      "message": "Blank before this, and another blank before have_fpregs.",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9707edf8_9cc432de",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:08:05Z",
+      "side": 1,
+      "message": "And a blank before this too.",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f1ccde1_138b3050",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:08:05Z",
+      "side": 1,
+      "message": "More consistency: since the union dealt with x86 before ARM, these assertions should follow that order too.",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8fdc56e_3529d12d",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:08:05Z",
+      "side": 1,
+      "message": "But not needed here.",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
