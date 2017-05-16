@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "c2c7351b_85e57e11",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T17:34:14Z",
+      "side": 1,
+      "message": "I think I like the first one best, although the second one is OK too.\n\nI’ve got a concern about maintaining the process suspended, though. When we attach to something with ptrace, does it suspend just the thread we’re attaching to, or does it suspend all threads in the process?\n\nIt’s best for our “snapshot” to be as self-consistent as possible. Ideally, we want for all of the threads to be sitting still at the same time. And we’ll want to do other things, like read the process’ memory, while everything’s suspended too.",
+      "parentUuid": "24308d7e_63f3c6fb",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "522dc14c_1ab4e3c6",
         "filename": "util/linux/ptrace_requests.cc",
         "patchSetId": 20
