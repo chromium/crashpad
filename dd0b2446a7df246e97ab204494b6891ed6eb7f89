@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ea5ee69_1d14e071",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:02:45Z",
+      "side": 1,
+      "message": "#include \u003csys/cdefs.h\u003e to guarantee that this works as intended.",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6a5e2b9_c8e4cbb2",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:02:45Z",
+      "side": 1,
+      "message": "Since glibc uses the __ptrace_request enum instead of #defining macros, we should try to maintain equivalence by using a constexpr variable instead of a macro.\n\nstatic constexpr __ptrace_request PTRACE_ARCH_PRCTL \u003d static_cast\u003c__ptrace_request\u003e(30);",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eaabf95_53e58cb6",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:02:45Z",
+      "side": 1,
+      "message": "But the fact remains that the kernel’s arch/x86/include/uapi/asm/ptrace-abi.h only defines this value for __x86_64__, and the kernel will only do anything with it when passed by an x86_64 user process.\n\nYou’ve established that we do need this file to make PTRACE_ARCH_PRCTL available under glibc, but I still think that we should restrict it to only be available on __x86_64__.",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

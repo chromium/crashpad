@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "646f2b44_335028f4",
+        "filename": "compat/linux/elf.h",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:02:45Z",
+      "side": 1,
+      "message": "\u003e glibc 2.19.\n\u003e The kernel and linux/elf.h use NT_PRFPREG.\n\u003e elf.h and other glibc sources define it as NT_FPREGSET.\n\u003e \n\u003e elf.h on Android at API 21 includes linux/elf.h so it gets NT_PRFPREG\n\nI see.\n\nAt that point, it would actually be an argument in favor of using \u003clinux/elf.h\u003e in preference to or in addition to \u003celf.h\u003e, if possible. But if that’s not possible, what you have now is good.",
+      "parentUuid": "4c610faa_ad94af3b",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64ebc59e_2d131877",
         "filename": "compat/linux/sys/ptrace.h",
         "patchSetId": 20
