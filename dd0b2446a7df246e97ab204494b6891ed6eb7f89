@@ -152,6 +152,23 @@
       "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a015b453_2e7ec8dd",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-05-16T18:10:28Z",
+      "side": 1,
+      "message": "There are cases where this returns false without logging anything.",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
