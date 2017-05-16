@@ -213,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "748b93d5_83f348d7",
+        "filename": "util/linux/ptrace_requests.cc",
+        "patchSetId": 20
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-16T18:14:00Z",
+      "side": 1,
+      "message": "PTRACE_ATTACH sends a SIGSTOP, but this thread says that SIGSTOP behaves differently for ptrace-attach: https://bugzilla.redhat.com/show_bug.cgi?id\u003d159663\nI\u0027ll try it out and see.\n\nOther ptrace facts:\nPTRACE_DETACH sends a SIGCONT. I\u0027ll see if this behaves differently too.\nA thread cannot ptrace attach to other threads in its thread group (my plan for self-tracing is to spawn a tracer thread in a new thread group with clone, but haven\u0027t actually tested that this works either).\n\nIf we want to keep all the threads stopped with a long lived ptrace-attach, I think we\u0027ll need to either avoid using ScopedPtraceAttach in multiple places or make it reference counting.",
+      "parentUuid": "c2c7351b_85e57e11",
+      "revId": "86ccb582c47070c865ada7ba998609af66e43cae",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "522dc14c_1ab4e3c6",
         "filename": "util/linux/ptrace_requests.cc",
         "patchSetId": 20
