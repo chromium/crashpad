@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d5882823_76f87c3a",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-17T23:25:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ea5ee69_1d14e071",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6a5e2b9_c8e4cbb2",
         "filename": "compat/linux/sys/ptrace.h",
         "patchSetId": 21
@@ -33,6 +51,24 @@
       "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecf1482d_a44e565b",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-17T23:25:33Z",
+      "side": 1,
+      "message": "I\u0027ve now removed it entirely.\nIt\u0027s only use was getting the TLS address of an x86_64 process, which is now done using the fs_base register from GetGeneralPurposeRegisters.",
+      "parentUuid": "e6a5e2b9_c8e4cbb2",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3d659912_cefb55c1",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-17T23:25:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6eaabf95_53e58cb6",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63fcba24_95d4e512",
         "filename": "util/linux/ptrace_requests.h",
         "patchSetId": 21
@@ -67,6 +121,24 @@
       "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d5379f8_76675c03",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-17T23:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63fcba24_95d4e512",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "d1831884_5e5386de",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-17T23:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50747074_d4bff1ff",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6453feae_01942746",
         "filename": "util/linux/ptrace_requests.h",
         "patchSetId": 21
@@ -101,6 +191,24 @@
       "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4653748b_094d6226",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-17T23:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6453feae_01942746",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "40dbb888_8b62680d",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-17T23:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9707edf8_9cc432de",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f1ccde1_138b3050",
         "filename": "util/linux/ptrace_requests.h",
         "patchSetId": 21
@@ -135,6 +261,24 @@
       "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28c52ac6_de3b6548",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-17T23:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f1ccde1_138b3050",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "841c37bb_879c66e8",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-17T23:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8fdc56e_3529d12d",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a015b453_2e7ec8dd",
         "filename": "util/linux/ptrace_requests.h",
         "patchSetId": 21
@@ -169,6 +331,24 @@
       "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1248a24b_cda3603c",
+        "filename": "util/linux/ptrace_requests.h",
+        "patchSetId": 21
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-05-17T23:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a015b453_2e7ec8dd",
+      "revId": "dd0b2446a7df246e97ab204494b6891ed6eb7f89",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
