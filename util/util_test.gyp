@@ -39,6 +39,7 @@
         'file/file_io_test.cc',
         'file/file_reader_test.cc',
         'file/string_file_test.cc',
+        'linux/elf_image_reader_test.cc',
         'linux/memory_map_test.cc',
         'linux/process_memory_test.cc',
         'linux/scoped_ptrace_attach_test.cc',
@@ -135,7 +136,14 @@
           # Things not yet ported to Android
           'sources/' : [
             ['exclude', '^net/http_transport_test\\.cc$'],
-          ]
+          ],
+        }],
+        ['OS=="android" or OS=="linux"', {
+          'link_settings': {
+            'libraries': [
+              '-ldl',
+            ],
+          },
         }],
       ],
       'target_conditions': [
