@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "192644b6_f1d56d58",
+        "filename": "compat/android/linux/elf.h",
+        "patchSetId": 26
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-01T16:49:26Z",
+      "side": 1,
+      "message": "Leave a blank line after this to make it a little clearer that all of these came with NDK API 21, not just NT_386_TLS.",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04176d8b_0afa5e22",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-01T16:49:26Z",
+      "side": 1,
+      "message": "Since this also tracks whether tls_address_ is initialized, it should be renamed to avoid confusion about what it’s protecting. But since tls_address_ may not exist, the name should be generic. (initialized_ even would probably be fine.)",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bca11792_a7d31219",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-01T16:49:26Z",
+      "side": 1,
+      "message": "…and I’m not so sure about having something that’s named GetGeneralPurposeRegisters() responsible for setting these internal fields, either. It’d make more sense to do it in Initialize() (again, naming: not just InitializeBitness(), since it may also initialize the TLS address). But I see that you really want iovec::iov_len to make that determination, which wouldn’t be a natural thing to return from GetGeneralPurposeRegisters().\n\nSo how about this: pull the portion of this function concerned with getting an iovec out into an internal-only GetGeneralPurposeRegistersAndLength(), which can return the length. Call that from Initialize() and GetGeneralPurposeRegisters(). Move the rest of the is_64_bit_ and tls_address_ maintenance into Initialize().",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d2f66b6_6f14341f",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-01T16:49:26Z",
+      "side": 1,
+      "message": "Optional: maybe a ?: for this one.",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67d18d55_f17c186c",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-01T16:49:26Z",
+      "side": 1,
+      "message": "sizeof(*address)",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bab1072c_caa8f5c9",
+        "filename": "util/linux/thread_info_test.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-01T16:49:26Z",
+      "side": 1,
+      "message": "const bool, here and on line 44.",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b0fc78f_f4ed63b9",
+        "filename": "util/linux/thread_info_test.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-01T16:49:26Z",
+      "side": 1,
+      "message": "Can you break this into two lines? One to give you a function pointer in kuser_get_tls, and the other to call kuser_get_tls()?",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0afc2476_4260c5e8",
+        "filename": "util/linux/thread_info_test.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-01T16:49:26Z",
+      "side": 1,
+      "message": "expected_tls_32?",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "017a0792_cd47dd5b",
+        "filename": "util/linux/thread_info_test.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-01T16:49:26Z",
+      "side": 1,
+      "message": "Blank line before this.",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
