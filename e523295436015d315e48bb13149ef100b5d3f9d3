@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3eaa93c1_b03031a8",
+        "filename": "compat/android/linux/elf.h",
+        "patchSetId": 26
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-01T18:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192644b6_f1d56d58",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04176d8b_0afa5e22",
         "filename": "util/linux/thread_info.cc",
         "patchSetId": 26
@@ -33,6 +51,24 @@
       "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31dc6cf6_3de0dd84",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-01T18:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04176d8b_0afa5e22",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "351d94c1_4d292b3e",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-01T18:29:54Z",
+      "side": 1,
+      "message": "Done.\n\nI also now keep a copy of the registers collected with Initialize, since the target thread shouldn\u0027t be changing and my planned usage is to call Initialize and then immediately call GetGeneralPurposeRegisters.",
+      "parentUuid": "bca11792_a7d31219",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d2f66b6_6f14341f",
         "filename": "util/linux/thread_info.cc",
         "patchSetId": 26
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "0e34d6b5_3313edb3",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-01T18:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d2f66b6_6f14341f",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67d18d55_f17c186c",
         "filename": "util/linux/thread_info.cc",
         "patchSetId": 26
@@ -81,6 +153,24 @@
       "writtenOn": "2017-06-01T16:49:26Z",
       "side": 1,
       "message": "sizeof(*address)",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d4a33a4_badb89f5",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-01T18:29:54Z",
+      "side": 1,
+      "message": "I started with that, but address is a LinuxVMAddress.\nWe happen to know that it is a uint64_t, but the documentation just says that it can represent an address across bitness.\nThe check I\u0027d really like to make is \"if iov_len !\u003d sizeof a pointer in a 64-bit process.\"",
+      "parentUuid": "67d18d55_f17c186c",
       "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "947da495_ed5da95a",
+        "filename": "util/linux/thread_info_test.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-01T18:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bab1072c_caa8f5c9",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b0fc78f_f4ed63b9",
         "filename": "util/linux/thread_info_test.cc",
         "patchSetId": 26
@@ -118,6 +226,24 @@
       "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37295e15_d3b5a58c",
+        "filename": "util/linux/thread_info_test.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-01T18:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b0fc78f_f4ed63b9",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "9b7ab00f_7dd42b85",
+        "filename": "util/linux/thread_info_test.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-01T18:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0afc2476_4260c5e8",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "017a0792_cd47dd5b",
         "filename": "util/linux/thread_info_test.cc",
         "patchSetId": 26
@@ -152,6 +296,24 @@
       "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bf29392_ea143a8c",
+        "filename": "util/linux/thread_info_test.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-01T18:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "017a0792_cd47dd5b",
+      "revId": "e523295436015d315e48bb13149ef100b5d3f9d3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
