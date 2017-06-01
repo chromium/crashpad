@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b1f9474_d7e48acf",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-01T18:42:11Z",
+      "side": 1,
+      "message": "Since you’ve cached the registers in context_ and are just retrieving them here, this can return void now (since there’s no interface to adhere to that dictates otherwise).",
+      "revId": "bc7c67b4d9c9c0b3235456e9510864b1741d245b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
