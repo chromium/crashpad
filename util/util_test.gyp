@@ -41,6 +41,7 @@
         'file/string_file_test.cc',
         'linux/memory_map_test.cc',
         'linux/process_memory_test.cc',
+        'linux/thread_info_test.cc',
         'linux/scoped_ptrace_attach_test.cc',
         'mac/launchd_test.mm',
         'mac/mac_util_test.mm',

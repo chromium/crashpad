@@ -15,12 +15,8 @@
 #include "util/posix/process_info.h"
 
 #include <ctype.h>
-#include <elf.h>
 #include <errno.h>
 #include <string.h>
-#include <sys/ptrace.h>
-#include <sys/uio.h>
-#include <sys/user.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -33,7 +29,7 @@
 #include "util/file/delimited_file_reader.h"
 #include "util/file/file_io.h"
 #include "util/file/file_reader.h"
-#include "util/linux/scoped_ptrace_attach.h"
+#include "util/linux/thread_info.h"
 
 namespace crashpad {
 
@@ -305,57 +301,11 @@ bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
     if (pid_ == getpid()) {
       is_64_bit_ = am_64_bit;
     } else {
-      ScopedPtraceAttach ptrace_attach;
-      if (!ptrace_attach.ResetAttach(pid_)) {
+      ThreadInfo thread_info;
+      if (!thread_info.Initialize(pid_)) {
         return false;
       }
-
-      // Allocate more buffer space than is required to hold registers for this
-      // process. If the kernel fills the extra space, the target process uses
-      // more/larger registers than this process. If the kernel fills less space
-      // than sizeof(regs) then the target process uses smaller/fewer registers.
-      struct {
-#if defined(ARCH_CPU_X86_FAMILY) || defined(ARCH_CPU_ARM64)
-        using PrStatusType = user_regs_struct;
-#elif defined(ARCH_CPU_ARMEL)
-        using PrStatusType = user_regs;
-#endif
-        PrStatusType regs;
-        char extra;
-      } regbuf;
-
-      iovec iov;
-      iov.iov_base = &regbuf;
-      iov.iov_len = sizeof(regbuf);
-      if (ptrace(PTRACE_GETREGSET,
-                 pid_,
-                 reinterpret_cast<void*>(NT_PRSTATUS),
-                 &iov) != 0) {
-        switch (errno) {
-#if defined(ARCH_CPU_ARMEL)
-          case EIO:
-            // PTRACE_GETREGSET, introduced in Linux 2.6.34 (2225a122ae26),
-            // requires kernel support enabled by HAVE_ARCH_TRACEHOOK. This has
-            // been set for x86 (including x86_64) since Linux 2.6.28
-            // (99bbc4b1e677a), but for ARM only since Linux 3.5.0
-            // (0693bf68148c4). Fortunately, 64-bit ARM support only appeared in
-            // Linux 3.7.0, so if PTRACE_GETREGSET fails on ARM with EIO,
-            // indicating that the request is not supported, the kernel must be
-            // old enough that 64-bit ARM isn’t supported either.
-            //
-            // TODO(mark): Once helpers to interpret the kernel version are
-            // available, add a DCHECK to ensure that the kernel is older than
-            // 3.5.
-            is_64_bit_ = false;
-            break;
-#endif
-          default:
-            PLOG(ERROR) << "ptrace";
-            return false;
-        }
-      } else {
-        is_64_bit_ = am_64_bit == (iov.iov_len == sizeof(regbuf.regs));
-      }
+      is_64_bit_ = thread_info.Is64Bit();
     }
 
     is_64_bit_initialized_.set_valid();
