@@ -16,6 +16,24 @@
       "revId": "bc7c67b4d9c9c0b3235456e9510864b1741d245b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "963356a7_2b3af353",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-01T19:07:49Z",
+      "side": 1,
+      "message": "Done and made similar changes to Is64Bit.",
+      "parentUuid": "7b1f9474_d7e48acf",
+      "revId": "bc7c67b4d9c9c0b3235456e9510864b1741d245b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
