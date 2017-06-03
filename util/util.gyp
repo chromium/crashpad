@@ -46,14 +46,20 @@
         'file/string_file.h',
         'linux/address_types.h',
         'linux/checked_address_range.h',
+        'linux/elf_image_reader.cc',
+        'linux/elf_image_reader.h',
+        'linux/elf_symbol_table_reader.cc',
+        'linux/elf_symbol_table_reader.h',
         'linux/memory_map.cc',
         'linux/memory_map.h',
         'linux/process_memory.cc',
         'linux/process_memory.h',
+        'linux/process_types.h',
         'linux/thread_info.cc',
         'linux/thread_info.h',
         'linux/scoped_ptrace_attach.cc',
         'linux/scoped_ptrace_attach.h',
+        'linux/traits.h',
         'mac/checked_mach_address_range.h',
         'mac/launchd.h',
         'mac/launchd.mm',
@@ -331,6 +337,7 @@
           'link_settings': {
             'libraries': [
               '-lcurl',
+              #'-pie',
             ],
           },
         }, {  # else: OS!="linux"
