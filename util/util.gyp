@@ -46,6 +46,10 @@
         'file/string_file.h',
         'linux/address_types.h',
         'linux/checked_address_range.h',
+        'linux/elf_image_reader.cc',
+        'linux/elf_image_reader.h',
+        'linux/elf_symbol_table_reader.cc',
+        'linux/elf_symbol_table_reader.h',
         'linux/memory_map.cc',
         'linux/memory_map.h',
         'linux/process_memory.cc',
@@ -331,6 +335,7 @@
           'link_settings': {
             'libraries': [
               '-lcurl',
+              #'-pie',
             ],
           },
         }, {  # else: OS!="linux"
