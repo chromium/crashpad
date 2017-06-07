@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "337cefce_35f08601",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-07T21:32:34Z",
+      "side": 1,
+      "message": "A bias could be negative, but LinuxVMSize (signed) doesn’t capture that concept. Do we need an “offset” (signed) type?",
+      "revId": "c1205195a7fd74eeb271d925b76d5c503d097ea7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e831df4d_e4dff837",
+        "filename": "util/linux/elf_image_reader_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-07T21:32:34Z",
+      "side": 1,
+      "message": "Since this is going into the public symbol table, we should choose a better, less likely to collide, more descriptive name that ties it to the test.",
+      "revId": "c1205195a7fd74eeb271d925b76d5c503d097ea7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35c1c1a2_703bf8a4",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 10
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-07T21:32:34Z",
+      "side": 1,
+      "message": "Is this necessary? (Or is there a better, more targeted way of achieving what you want?)",
+      "revId": "c1205195a7fd74eeb271d925b76d5c503d097ea7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
