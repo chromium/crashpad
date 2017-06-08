@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74da83c0_805e4380",
+        "filename": "util/linux/auxiliary_vector.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-08T19:21:32Z",
+      "side": 1,
+      "message": "Log something about the duplicate? (That’s the documented behavior for returning false here.)",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17f7b0a9_6c4c24f4",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-08T19:21:32Z",
+      "side": 1,
+      "message": "You renamed the variable to pid in the comment, but not here or in the .cc file.",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b56988b_30318291",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-08T19:21:32Z",
+      "side": 1,
+      "message": "iter-\u003esecond will be uint64_t, but if we’re looking at a 32-bit process and the value we seek is signed, this could be a problem.\n\nConsider what happens if the “value” side of an auxv entry in a 32-bit process is -1 \u003d 0xffffffff. We’ll pick that up in Read\u003c\u003e() as unsigned 4294967295. Then, even GetValue\u003cint32_t\u003e() will decide that 4294967295 can’t fit into an int32_t (because it can’t). The -1 will be lost.\n\nIn fact, AssignIfInRange() causes this to be a problem even if we’re looking at signed values in 64-bit processes. Unsigned 16-exa won’t do when you when you really just want negative one.\n\nI think if you wrapped iter-\u003esecond in a static_cast\u003c\u003e() to force it to a type of the correct signedness, you could overcome this. \u003ctype_traits\u003e should be able to help.\n\nSince it’s tricky stuff, though, you should also see if it’s possible to test values with the high bit set.",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2a1ebff_d1a0f0ec",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-08T19:21:32Z",
+      "side": 1,
+      "message": "This header will work fine on other architectures, I wouldn’t bother with the #include guard.",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99c8cc83_c53bda4b",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-08T19:21:32Z",
+      "side": 1,
+      "message": "Can we put the x86 stuff together and the ARM stuff together, and 32-before-64, like we do elsewhere?",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecfe65ca_17ae4984",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-08T19:21:32Z",
+      "side": 1,
+      "message": "Can you provide a comment showing what machine_name is supposed to look like and what platform will look like here?",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "251ddc34_032afa7b",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-08T19:21:32Z",
+      "side": 1,
+      "message": "ASSERT_TRUE because you’re about to use filename.",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e2a5f44_78080a78",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-08T19:21:32Z",
+      "side": 1,
+      "message": "Good!",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
