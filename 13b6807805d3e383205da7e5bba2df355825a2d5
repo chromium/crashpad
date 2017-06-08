@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b53f9257_a5fe3953",
+        "filename": "util/linux/auxiliary_vector.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e52d0c34_a67ca240",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4acea7d5_7264e4dd",
         "filename": "util/linux/auxiliary_vector.cc",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-07T21:04:34Z",
       "side": 1,
       "message": "Verify EOF?",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f3986c_0cbc7df8",
+        "filename": "util/linux/auxiliary_vector.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "The kernel will let you read some extra zeros when running in compatibility mode.\nIt stores the vector as an array of unsigned long. It will cast it to an array of Elf32_Addr when filling it in, but not when reading it through procfs.\n\nhttp://elixir.free-electrons.com/linux/latest/source/fs/proc/base.c#L997",
+      "parentUuid": "4acea7d5_7264e4dd",
       "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1ddbed74_7d0f4f04",
+        "filename": "util/linux/auxiliary_vector.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e094ae5_caa64d5f",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ed5347b_914aec56",
         "filename": "util/linux/auxiliary_vector.h",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "615ebc65_32d24fc6",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "Oops, yep.",
+      "parentUuid": "6ed5347b_914aec56",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "87e1511c_cc25e133",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa517332_985b5a44",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "204a8f50_9c869c50",
         "filename": "util/linux/auxiliary_vector.h",
         "patchSetId": 4
@@ -101,6 +191,24 @@
       "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e781c66_630abcc0",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "204a8f50_9c869c50",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "1784a143_3672dc62",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc6bf1a2_19fe95d1",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb0af6d_ceaecbe5",
         "filename": "util/linux/auxiliary_vector_test.cc",
         "patchSetId": 4
@@ -135,6 +261,24 @@
       "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20df89d8_5c6ca202",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb0af6d_ceaecbe5",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "ca3000d1_da4179f3",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "34e88069_7f66b189",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4a5fe5c_be7cb807",
         "filename": "util/linux/auxiliary_vector_test.cc",
         "patchSetId": 4
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "68483bce_2ffbc60a",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4a5fe5c_be7cb807",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c0b5cce_6283ab62",
         "filename": "util/linux/auxiliary_vector_test.cc",
         "patchSetId": 4
@@ -186,6 +366,24 @@
       "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d838b043_5849acf6",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-08T04:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c0b5cce_6283ab62",
+      "revId": "13b6807805d3e383205da7e5bba2df355825a2d5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
