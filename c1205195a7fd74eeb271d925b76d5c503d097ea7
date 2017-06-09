@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb6ad4a7_14b6c9b3",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T22:49:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "337cefce_35f08601",
+      "revId": "c1205195a7fd74eeb271d925b76d5c503d097ea7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e831df4d_e4dff837",
         "filename": "util/linux/elf_image_reader_test.cc",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "37f83137_248953d9",
+        "filename": "util/linux/elf_image_reader_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T22:49:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e831df4d_e4dff837",
+      "revId": "c1205195a7fd74eeb271d925b76d5c503d097ea7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35c1c1a2_703bf8a4",
         "filename": "util/util_test.gyp",
         "patchSetId": 10
@@ -47,6 +83,24 @@
       "writtenOn": "2017-06-07T21:32:34Z",
       "side": 1,
       "message": "Is this necessary? (Or is there a better, more targeted way of achieving what you want?)",
+      "revId": "c1205195a7fd74eeb271d925b76d5c503d097ea7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49d42b33_c435d453",
+        "filename": "util/util_test.gyp",
+        "patchSetId": 10
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T22:49:47Z",
+      "side": 1,
+      "message": "Done.\n\nThough, I\u0027m not sure if there is a better way than copies to make exported_symbols.sym available to the linker. This doesn\u0027t introduce a dependency so crashpad_util_test won\u0027t get re-linked if exported_symbols.sym gets updated.",
+      "parentUuid": "35c1c1a2_703bf8a4",
       "revId": "c1205195a7fd74eeb271d925b76d5c503d097ea7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
