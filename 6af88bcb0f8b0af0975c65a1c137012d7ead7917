@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b20308dc_43833420",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T21:06:12Z",
+      "side": 1,
+      "message": "Using a static cast doesn\u0027t handle signed 32-bit values correctly.\ne.g. If the map contains 0x00000000ffffffff and V is int32_t, I want value to be -1.\nA static_cast\u003cint64_t\u003e(0x00000000ffffffff) produces 4294967295. There\u0027s no sign extension since we\u0027re casting from a uint64_t.\nI think there isn\u0027t any cast that does quite what I want.\nbit_cast is the closest but only works on same-size types.\n\nI\u0027ve pulled the bulk of the code out into VariableSizeBitCast as well as added some comments and broke up the big-endian memcpy to try and make it a little less opaque.\n\nWDYT?",
+      "parentUuid": "34a6a09a_178f6e1c",
+      "revId": "6af88bcb0f8b0af0975c65a1c137012d7ead7917",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "22ed6619_b4f4824d",
         "filename": "util/linux/auxiliary_vector_test.cc",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "33aafc38_2dec9c18",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T21:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22ed6619_b4f4824d",
+      "revId": "6af88bcb0f8b0af0975c65a1c137012d7ead7917",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f77bd20_73a20ac1",
         "filename": "util/linux/auxiliary_vector_test.cc",
         "patchSetId": 8
@@ -50,6 +86,24 @@
       "revId": "6af88bcb0f8b0af0975c65a1c137012d7ead7917",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aac92b2f_5f4e9f89",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T21:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f77bd20_73a20ac1",
+      "revId": "6af88bcb0f8b0af0975c65a1c137012d7ead7917",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
