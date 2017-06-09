@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a6a09a_178f6e1c",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-09T18:10:02Z",
+      "side": 1,
+      "message": "This is a lot of work for something that’s inlined here and not independently tested. I don’t necessarily have a problem with the approach, but I think that it’s just hefty to have this be in the implementation of this method, you know?\n\nBut I also think that the type_traits thing I suggested yesterday would be less code (and more easily understood/reviewed).\n\n  AssignIfInRange(value,\n                  static_cast\u003cstd::conditional\u003cstd::is_signed\u003cV\u003e::value,\n                                               int64_t,\n                                               uint64_t\u003e::type\u003e(iter-\u003esecond));",
+      "revId": "6af88bcb0f8b0af0975c65a1c137012d7ead7917",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22ed6619_b4f4824d",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-09T18:10:02Z",
+      "side": 1,
+      "message": "Make this look a little more plausible by only using the low 32 bits of this.",
+      "revId": "6af88bcb0f8b0af0975c65a1c137012d7ead7917",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f77bd20_73a20ac1",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-09T18:10:02Z",
+      "side": 1,
+      "message": "Be sure to test high-bit-set-as-unsigned too.",
+      "revId": "6af88bcb0f8b0af0975c65a1c137012d7ead7917",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
