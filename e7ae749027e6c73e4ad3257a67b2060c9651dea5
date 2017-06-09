@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5dcbe59c_b62bf2e0",
+        "filename": "util/linux/auxiliary_vector.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T04:37:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74da83c0_805e4380",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f7b0a9_6c4c24f4",
         "filename": "util/linux/auxiliary_vector.h",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "92bc3dfe_b33e2e6d",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T04:37:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f7b0a9_6c4c24f4",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b56988b_30318291",
         "filename": "util/linux/auxiliary_vector.h",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2017-06-08T19:21:32Z",
       "side": 1,
       "message": "iter-\u003esecond will be uint64_t, but if we’re looking at a 32-bit process and the value we seek is signed, this could be a problem.\n\nConsider what happens if the “value” side of an auxv entry in a 32-bit process is -1 \u003d 0xffffffff. We’ll pick that up in Read\u003c\u003e() as unsigned 4294967295. Then, even GetValue\u003cint32_t\u003e() will decide that 4294967295 can’t fit into an int32_t (because it can’t). The -1 will be lost.\n\nIn fact, AssignIfInRange() causes this to be a problem even if we’re looking at signed values in 64-bit processes. Unsigned 16-exa won’t do when you when you really just want negative one.\n\nI think if you wrapped iter-\u003esecond in a static_cast\u003c\u003e() to force it to a type of the correct signedness, you could overcome this. \u003ctype_traits\u003e should be able to help.\n\nSince it’s tricky stuff, though, you should also see if it’s possible to test values with the high bit set.",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "260144d4_6ecf3ba9",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T04:37:03Z",
+      "side": 1,
+      "message": "I took some inspiration/words of warning from bit_cast.\n\nTesting on something big-endian is still todo.",
+      "parentUuid": "6b56988b_30318291",
       "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "9ec068cc_78a29f54",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T04:37:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2a1ebff_d1a0f0ec",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99c8cc83_c53bda4b",
         "filename": "util/linux/auxiliary_vector_test.cc",
         "patchSetId": 6
@@ -84,6 +156,24 @@
       "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e53f407e_ec5866e9",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T04:37:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99c8cc83_c53bda4b",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "cd80b308_17269b6d",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T04:37:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecfe65ca_17ae4984",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "251ddc34_032afa7b",
         "filename": "util/linux/auxiliary_vector_test.cc",
         "patchSetId": 6
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "130b60ca_db049dbf",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T04:37:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "251ddc34_032afa7b",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e2a5f44_78080a78",
         "filename": "util/linux/auxiliary_vector_test.cc",
         "patchSetId": 6
@@ -135,6 +261,24 @@
       "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9828882_e218f763",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-09T04:37:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5e2a5f44_78080a78",
+      "revId": "e7ae749027e6c73e4ad3257a67b2060c9651dea5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
