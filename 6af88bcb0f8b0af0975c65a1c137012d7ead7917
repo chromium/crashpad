@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "891870d1_19f7bb45",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-09T21:10:48Z",
+      "side": 1,
+      "message": "\u003e Using a static cast doesn\u0027t handle signed 32-bit values correctly.\n\u003e e.g. If the map contains 0x00000000ffffffff and V is int32_t, I want value to be -1.\n\nAh, I see…in order for this to work, you’d have to sign-extend values when you put them into the map too. Then if you were looking at a 32-bit process, the map could never have 0x00000000ffffffff as a value, it’d have been stored as 0xffffffffffffffff.",
+      "parentUuid": "b20308dc_43833420",
+      "revId": "6af88bcb0f8b0af0975c65a1c137012d7ead7917",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "22ed6619_b4f4824d",
         "filename": "util/linux/auxiliary_vector_test.cc",
         "patchSetId": 8
