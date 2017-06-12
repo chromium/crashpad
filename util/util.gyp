@@ -45,6 +45,8 @@
         'file/string_file.cc',
         'file/string_file.h',
         'linux/address_types.h',
+        'linux/auxiliary_vector.cc',
+        'linux/auxiliary_vector.h',
         'linux/checked_address_range.h',
         'linux/memory_map.cc',
         'linux/memory_map.h',
