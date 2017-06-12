@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9da8a30f_662b9826",
+        "filename": "util/linux/auxiliary_vector.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-12T14:39:14Z",
+      "side": 1,
+      "message": "and\n\n// static",
+      "revId": "2fcab810a072f66feae53616ce85f978a3fb0b9f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3edafc3b_cd83fbc5",
+        "filename": "util/linux/auxiliary_vector.h",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-12T14:39:14Z",
+      "side": 1,
+      "message": "static",
+      "revId": "2fcab810a072f66feae53616ce85f978a3fb0b9f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeb311d9_e293fd09",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-12T14:39:14Z",
+      "side": 1,
+      "message": "Can be constexpr. Lines 178, 183, and 189 too.",
+      "revId": "2fcab810a072f66feae53616ce85f978a3fb0b9f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06c5c6bf_cbaef3b3",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-12T14:39:14Z",
+      "side": 1,
+      "message": "#include \u003climits\u003e and use std::numeric_limits\u003cint64_t\u003e::max() instead. Line 189 too.",
+      "revId": "2fcab810a072f66feae53616ce85f978a3fb0b9f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d264ef9_ea26ed24",
+        "filename": "util/linux/auxiliary_vector_test.cc",
+        "patchSetId": 10
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-12T14:39:14Z",
+      "side": 1,
+      "message": "This is good, but I meant to also include a UINT{32,64}_MAX test just to make sure that the custom cast stuff is able to pull those back out into an unsigned value properly.",
+      "revId": "2fcab810a072f66feae53616ce85f978a3fb0b9f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
