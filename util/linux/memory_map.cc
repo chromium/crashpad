@@ -255,4 +255,15 @@ const MemoryMap::Mapping* MemoryMap::FindMapping(LinuxVMAddress address) const {
   return nullptr;
 }
 
+const MemoryMap::Mapping* MemoryMap::FindMappingWithName(std::string name) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  for (const auto& mapping : mappings_) {
+    if (mapping.name == name) {
+      return &mapping;
+    }
+  }
+  return nullptr;
+}
+
 }  // namespace crashpad
