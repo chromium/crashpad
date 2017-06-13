@@ -30,6 +30,8 @@
         '..',
       ],
       'sources': [
+        'dl_handle.cc',
+        'dl_handle.h',
         'errors.cc',
         'errors.h',
         'file.cc',
@@ -37,6 +39,7 @@
         'gtest_death_check.h',
         'hex_string.cc',
         'hex_string.h',
+        'mac/dyld.cc',
         'mac/dyld.h',
         'mac/mach_errors.cc',
         'mac/mach_errors.h',
