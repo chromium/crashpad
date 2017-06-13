@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "96b68afd_19694563",
+        "filename": "test/dl_handle.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-06-13T22:34:47Z",
+      "side": 1,
+      "message": "No, I meant for the typedef as well as the LookupSymbol and Close implementations, so that there\u0027s not intermixed #ifdef.",
+      "parentUuid": "00f3aac9_5c6c50aa",
+      "revId": "39e53ebe3493bb6fc4ed96d702dd555fab31c48f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f21f8392_76e3a6d8",
         "filename": "test/mac/dyld.cc",
         "patchSetId": 1
