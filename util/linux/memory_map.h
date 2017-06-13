@@ -68,6 +68,11 @@ class MemoryMap {
   //!     MemoryMap object that it was obtained from.
   const Mapping* FindMapping(LinuxVMAddress address) const;
 
+  //! \return The Mapping with the lowest base address whose name is \a name.
+  //!     The caller does not take ownership of this object. It is scoped to the
+  //!     lifetime of the MemoryMap object that it was obtained from.
+  const Mapping* FindMappingWithName(const std::string& name) const;
+
  private:
   std::vector<Mapping> mappings_;
   InitializationStateDcheck initialized_;
