@@ -17,13 +17,17 @@
 
 #include <mach-o/dyld_images.h>
 
-extern "C" {
+namespace crashpad {
+namespace test {
 
-// Returns a pointer to this process’ dyld_all_image_infos structure. This is
-// implemented as a non-public dyld API, declared in 10.9.2
-// dyld-239.4/include/mach-o/dyld_priv.h.
-const struct dyld_all_image_infos* _dyld_get_all_image_infos();
+//! \brief Calls or emulates the `_dyld_get_all_image_infos()` private/internal
+//!     function.
+//!
+//! \return A pointer to this process’ dyld_all_image_infos structure, or
+//!     `nullptr` on failure with a message logged.
+const dyld_all_image_infos* DyldGetAllImageInfos();
 
-}  // extern "C"
+}  // namespace test
+}  // namespace crashpad
 
 #endif  // CRASHPAD_TEST_MAC_DYLD_H_

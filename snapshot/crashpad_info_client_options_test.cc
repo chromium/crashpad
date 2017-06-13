@@ -20,6 +20,7 @@
 #include "build/build_config.h"
 #include "client/crashpad_info.h"
 #include "gtest/gtest.h"
+#include "test/dl_handle.h"
 #include "test/errors.h"
 #include "test/test_paths.h"
 
@@ -138,48 +139,6 @@ TEST(CrashpadInfoClientOptions, OneModule) {
   }
 }
 
-#if defined(OS_POSIX)
-using DlHandle = void*;
-#elif defined(OS_WIN)
-using DlHandle = HMODULE;
-#endif  // OS_POSIX
-
-class ScopedDlHandle {
- public:
-  explicit ScopedDlHandle(DlHandle dl_handle)
-      : dl_handle_(dl_handle) {
-  }
-
-  ~ScopedDlHandle() {
-    if (dl_handle_) {
-#if defined(OS_POSIX)
-      if (dlclose(dl_handle_) != 0) {
-        LOG(ERROR) << "dlclose: " << dlerror();
-      }
-#elif defined(OS_WIN)
-      if (!FreeLibrary(dl_handle_))
-        PLOG(ERROR) << "FreeLibrary";
-#endif  // OS_POSIX
-    }
-  }
-
-  bool valid() const { return dl_handle_ != nullptr; }
-
-  template <typename T>
-  T LookUpSymbol(const char* symbol_name) {
-#if defined(OS_POSIX)
-    return reinterpret_cast<T>(dlsym(dl_handle_, symbol_name));
-#elif defined(OS_WIN)
-    return reinterpret_cast<T>(GetProcAddress(dl_handle_, symbol_name));
-#endif  // OS_POSIX
-  }
-
- private:
-  DlHandle dl_handle_;
-
-  DISALLOW_COPY_AND_ASSIGN(ScopedDlHandle);
-};
-
 TEST(CrashpadInfoClientOptions, TwoModules) {
   // Open the module, which has its own CrashpadInfo structure.
 #if defined(OS_MACOSX)
@@ -190,8 +149,8 @@ TEST(CrashpadInfoClientOptions, TwoModules) {
   base::FilePath module_path = TestPaths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_snapshot_test_module") + kDlExtension);
 #if defined(OS_MACOSX)
-  ScopedDlHandle dl_handle(
-      dlopen(module_path.value().c_str(), RTLD_LAZY | RTLD_LOCAL));
+  ScopedDlHandle dl_handle(dlopen(module_path.value().c_str(),
+                                  RTLD_LAZY | RTLD_LOCAL | RTLD_NOLOAD));
   ASSERT_TRUE(dl_handle.valid()) << "dlopen " << module_path.value() << ": "
                                  << dlerror();
 #elif defined(OS_WIN)
