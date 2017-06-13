@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb7684a5_ab19bc00",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-13T15:33:39Z",
+      "side": 1,
+      "message": "Say that it returns `nullptr` if there’s no match.",
+      "revId": "2e01aa4c308ad785e152bb5c7b2ebcc33d283569",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
