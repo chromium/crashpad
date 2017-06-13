@@ -149,6 +149,7 @@ class MapChildTest : public Multiprocess {
         << ErrnoMessage("stat");
     EXPECT_EQ(mapping->device, file_stat.st_dev);
     EXPECT_EQ(mapping->inode, file_stat.st_ino);
+    EXPECT_EQ(map.FindMappingWithName(mapping->name), mapping);
   }
 
   void MultiprocessChild() override {
