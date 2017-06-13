@@ -252,7 +252,7 @@ enum MinidumpContextAMD64Flags : uint32_t {
 //!     normally alias `dr6` and `dr7`, respectively. See Intel Software
 //!     Developer’s Manual, Volume 3B: System Programming, Part 2 (253669-052),
 //!     17.2.2 “Debug Registers DR4 and DR5”.
-struct ALIGNAS(16) MinidumpContextAMD64 {
+struct alignas(16) MinidumpContextAMD64 {
   //! \brief Register parameter home address.
   //!
   //! On Windows, this field may contain the “home” address (on-stack, in the
