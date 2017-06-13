@@ -63,10 +63,16 @@ class MemoryMap {
   //! \return `true` on success, `false` on failure with a message logged.
   bool Initialize(pid_t pid);
 
-  //! \return The Mapping containing \a address. The caller does not take
-  //!     ownership of this object. It is scoped to the lifetime of the
-  //!     MemoryMap object that it was obtained from.
+  //! \return The Mapping containing \a address or `nullptr` if no match is
+  //!     found. The caller does not take ownership of this object. It is scoped
+  //!     to the lifetime of the MemoryMap object that it was obtained from.
   const Mapping* FindMapping(LinuxVMAddress address) const;
+
+  //! \return The Mapping with the lowest base address whose name is \a name or
+  //!     `nullptr` if no match is found. The caller does not take ownership of
+  //!     this object. It is scoped to the lifetime of the MemoryMap object that
+  //!     it was obtained from.
+  const Mapping* FindMappingWithName(const std::string& name) const;
 
  private:
   std::vector<Mapping> mappings_;
