@@ -267,4 +267,10 @@ const MemoryMap::Mapping* MemoryMap::FindMappingWithName(
   return nullptr;
 }
 
+void MemoryMap::Print() const {
+  for (const auto& mapping : mappings_) {
+    LOG(INFO) << mapping.name << " at 0x" << std::hex << mapping.range.Base();
+  }
+}
+
 }  // namespace crashpad

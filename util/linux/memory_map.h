@@ -74,6 +74,8 @@ class MemoryMap {
   //!     it was obtained from.
   const Mapping* FindMappingWithName(const std::string& name) const;
 
+  void Print() const;
+
  private:
   std::vector<Mapping> mappings_;
   InitializationStateDcheck initialized_;

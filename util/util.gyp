@@ -48,6 +48,8 @@
         'linux/auxiliary_vector.cc',
         'linux/auxiliary_vector.h',
         'linux/checked_address_range.h',
+        'linux/debug_rendezvous.cc',
+        'linux/debug_rendezvous.h',
         'linux/memory_map.cc',
         'linux/memory_map.h',
         'linux/process_memory.cc',
