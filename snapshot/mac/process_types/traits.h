@@ -36,6 +36,7 @@
     using Pointer = uint##lp_bits##_t __VA_ARGS__;                   \
     using IntPtr = int##lp_bits##_t __VA_ARGS__;                     \
     using UIntPtr = uint##lp_bits##_t __VA_ARGS__;                   \
+    using Reserved32_32Only = Reserved32_32Only##lp_bits;            \
     using Reserved32_64Only = Reserved32_64Only##lp_bits;            \
     using Reserved64_64Only = Reserved64_64Only##lp_bits;            \
     using Nothing = Nothing;                                         \
