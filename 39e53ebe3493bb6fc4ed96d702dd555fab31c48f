@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9eeec5b9_3b5cde70",
+        "filename": "test/dl_handle.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-14T14:46:32Z",
+      "side": 1,
+      "message": "Done.\n\nI didn’t use Traits because there’s no reason to templatize this when we’ll only have one live implementation on a platform at a time. But I made an internal Impl class that’s traitsy in spirit.\n\nThere’s still an #ifdef in the .cc file because I didn’t want to inline that logging stuff in the .h, but this should be more like what you had in mind.",
+      "parentUuid": "96b68afd_19694563",
+      "revId": "39e53ebe3493bb6fc4ed96d702dd555fab31c48f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f21f8392_76e3a6d8",
         "filename": "test/mac/dyld.cc",
         "patchSetId": 1
@@ -87,6 +105,24 @@
       "revId": "39e53ebe3493bb6fc4ed96d702dd555fab31c48f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bece3318_c859b9db",
+        "filename": "test/mac/dyld.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-14T14:46:32Z",
+      "side": 1,
+      "message": "Done. Improved the comments.",
+      "parentUuid": "74e787bd_22ad9743",
+      "revId": "39e53ebe3493bb6fc4ed96d702dd555fab31c48f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

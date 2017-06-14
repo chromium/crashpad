@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09755c54_8f8a5b44",
+        "filename": "snapshot/mac/process_reader.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-14T14:46:32Z",
+      "side": 1,
+      "message": "I pulled this out into its own method for better sharing.",
+      "revId": "3797934f3f2c90115e88b2de8ad7f6b600f5f98c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
