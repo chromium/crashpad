@@ -577,8 +577,7 @@ TEST(MachOImageReader, Self_DyldImages) {
 
   // Now that all of the modules have been verified, make sure that dyld itself
   // can be read properly too.
-  const struct dyld_all_image_infos* dyld_image_infos =
-      _dyld_get_all_image_infos();
+  const dyld_all_image_infos* dyld_image_infos = DyldGetAllImageInfos();
   ASSERT_GE(dyld_image_infos->version, 1u);
   EXPECT_EQ(dyld_image_infos->infoArrayCount, count);
 
