@@ -80,7 +80,9 @@ size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
       offsetof(dyld_all_image_infos<Traits>, sharedCacheSlide),  // 11
       offsetof(dyld_all_image_infos<Traits>, sharedCacheUUID),  // 12
       offsetof(dyld_all_image_infos<Traits>, infoArrayChangeTimestamp),  // 13
-      offsetof(dyld_all_image_infos<Traits>, end),  // 14
+      offsetof(dyld_all_image_infos<Traits>, end_14_15),  // 14
+      offsetof(dyld_all_image_infos<Traits>, end_14_15),  // 15
+      sizeof(dyld_all_image_infos<Traits>),  // 16
   };
 
   if (version >= arraysize(kSizeForVersion)) {
