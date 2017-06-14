@@ -44,12 +44,13 @@
 #include "util/stdlib/pointer_container.h"
 #include "util/synchronization/semaphore.h"
 
-#if !defined(MAC_OS_X_VERSION_10_10) || \
-    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_10
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_10
 extern "C" {
-// Redeclare a typedef whose availability (OSX 10.10) is newer than the
+
+// Redeclare a typedef whose availability (OS X 10.10) is newer than the
 // deployment target.
 typedef struct _cl_device_id* cl_device_id;
+
 }  // extern "C"
 #endif
 
@@ -698,8 +699,7 @@ TEST(ProcessReader, SelfModules) {
   // is also reported as 0.
   EXPECT_EQ(modules[index].timestamp, 0);
 
-  const struct dyld_all_image_infos* dyld_image_infos =
-      _dyld_get_all_image_infos();
+  const dyld_all_image_infos* dyld_image_infos = DyldGetAllImageInfos();
   if (dyld_image_infos->version >= 2) {
     ASSERT_TRUE(modules[index].reader);
     EXPECT_EQ(modules[index].reader->Address(),
@@ -781,8 +781,7 @@ class ProcessReaderModulesChild final : public MachMultiprocess {
     FileHandle write_handle = WritePipeHandle();
 
     uint32_t dyld_image_count = _dyld_image_count();
-    const struct dyld_all_image_infos* dyld_image_infos =
-        _dyld_get_all_image_infos();
+    const dyld_all_image_infos* dyld_image_infos = DyldGetAllImageInfos();
 
     uint32_t write_image_count = dyld_image_count;
     if (dyld_image_infos->version >= 2) {

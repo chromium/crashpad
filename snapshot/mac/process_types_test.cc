@@ -46,8 +46,7 @@ namespace {
 
 TEST(ProcessTypes, DyldImagesSelf) {
   // Get the in-process view of dyld_all_image_infos, and check it for sanity.
-  const struct dyld_all_image_infos* self_image_infos =
-      _dyld_get_all_image_infos();
+  const dyld_all_image_infos* self_image_infos = DyldGetAllImageInfos();
   int mac_os_x_minor_version = MacOSXMinorVersion();
   if (mac_os_x_minor_version >= 12) {
     EXPECT_GE(self_image_infos->version, 15u);

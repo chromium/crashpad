@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_TEST_MAC_DYLD_H_
-#define CRASHPAD_TEST_MAC_DYLD_H_
+#include "test/scoped_module_handle.h"
 
-#include <mach-o/dyld_images.h>
+#include "base/logging.h"
 
 namespace crashpad {
 namespace test {
 
-//! \brief Calls or emulates the `_dyld_get_all_image_infos()` private/internal
-//!     function.
-//!
-//! \return A pointer to this process’ dyld_all_image_infos structure, or
-//!     `nullptr` on failure with a message logged.
-const dyld_all_image_infos* DyldGetAllImageInfos();
+// static
+void ScopedModuleHandle::Impl::Close(ModuleHandle handle) {
+#if defined(OS_POSIX)
+  if (dlclose(handle) != 0) {
+    LOG(ERROR) << "dlclose: " << dlerror();
+  }
+#elif defined(OS_WIN)
+  if (!FreeLibrary(handle)) {
+    PLOG(ERROR) << "FreeLibrary";
+  }
+#else
+#error Port
+#endif
+}
+
+ScopedModuleHandle::ScopedModuleHandle(ModuleHandle handle) : handle_(handle) {}
+
+ScopedModuleHandle::~ScopedModuleHandle() {
+  if (valid()) {
+    Impl::Close(handle_);
+  }
+}
 
 }  // namespace test
 }  // namespace crashpad
-
-#endif  // CRASHPAD_TEST_MAC_DYLD_H_
