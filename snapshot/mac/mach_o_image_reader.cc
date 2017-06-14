@@ -555,19 +555,11 @@ bool MachOImageReader::ReadSegmentCommand(
     return false;
   }
 
-  mach_vm_size_t vmsize = segment->vmsize();
-
   if (segment_name == SEG_TEXT) {
+    mach_vm_size_t vmsize = segment->vmsize();
+
     if (vmsize == 0) {
       LOG(WARNING) << "zero-sized " SEG_TEXT " segment" << load_command_info;
-      return false;
-    }
-
-    mach_vm_size_t fileoff = segment->fileoff();
-    if (fileoff != 0) {
-      LOG(WARNING) << base::StringPrintf(
-                          SEG_TEXT " segment has unexpected fileoff 0x%llx",
-                          fileoff) << load_command_info;
       return false;
     }
 
