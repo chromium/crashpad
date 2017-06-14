@@ -198,6 +198,46 @@ const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
   return modules_;
 }
 
+mach_vm_address_t ProcessReader::DyldAllImageInfo(
+    mach_vm_size_t* all_image_info_size) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  task_dyld_info_data_t dyld_info;
+  mach_msg_type_number_t count = TASK_DYLD_INFO_COUNT;
+  kern_return_t kr = task_info(
+      task_, TASK_DYLD_INFO, reinterpret_cast<task_info_t>(&dyld_info), &count);
+  if (kr != KERN_SUCCESS) {
+    MACH_LOG(WARNING, kr) << "task_info";
+    return 0;
+  }
+
+  // TODO(mark): Deal with statically linked executables which don’t use dyld.
+  // This may look for the module that matches the executable path in the same
+  // data set that vmmap uses.
+
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
+  // The task_dyld_info_data_t struct grew in 10.7, adding the format field.
+  // Don’t check this field if it’s not present, which can happen when either
+  // the SDK used at compile time or the kernel at run time are too old and
+  // don’t know about it.
+  if (count >= TASK_DYLD_INFO_COUNT) {
+    const integer_t kExpectedFormat =
+        !Is64Bit() ? TASK_DYLD_ALL_IMAGE_INFO_32 : TASK_DYLD_ALL_IMAGE_INFO_64;
+    if (dyld_info.all_image_info_format != kExpectedFormat) {
+      LOG(WARNING) << "unexpected task_dyld_info_data_t::all_image_info_format "
+                   << dyld_info.all_image_info_format;
+      DCHECK_EQ(dyld_info.all_image_info_format, kExpectedFormat);
+      return 0;
+    }
+  }
+#endif
+
+  if (all_image_info_size) {
+    *all_image_info_size = dyld_info.all_image_info_size;
+  }
+  return dyld_info.all_image_info_addr;
+}
+
 void ProcessReader::InitializeThreads() {
   DCHECK(!initialized_threads_);
   DCHECK(threads_.empty());
@@ -345,38 +385,12 @@ void ProcessReader::InitializeModules() {
 
   initialized_modules_ = true;
 
-  task_dyld_info_data_t dyld_info;
-  mach_msg_type_number_t count = TASK_DYLD_INFO_COUNT;
-  kern_return_t kr = task_info(
-      task_, TASK_DYLD_INFO, reinterpret_cast<task_info_t>(&dyld_info), &count);
-  if (kr != KERN_SUCCESS) {
-    MACH_LOG(WARNING, kr) << "task_info";
-    return;
-  }
-
-  // TODO(mark): Deal with statically linked executables which don’t use dyld.
-  // This may look for the module that matches the executable path in the same
-  // data set that vmmap uses.
-
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
-  // The task_dyld_info_data_t struct grew in 10.7, adding the format field.
-  // Don’t check this field if it’s not present, which can happen when either
-  // the SDK used at compile time or the kernel at run time are too old and
-  // don’t know about it.
-  if (count >= TASK_DYLD_INFO_COUNT) {
-    const integer_t kExpectedFormat =
-        !Is64Bit() ? TASK_DYLD_ALL_IMAGE_INFO_32 : TASK_DYLD_ALL_IMAGE_INFO_64;
-    if (dyld_info.all_image_info_format != kExpectedFormat) {
-      LOG(WARNING) << "unexpected task_dyld_info_data_t::all_image_info_format "
-                   << dyld_info.all_image_info_format;
-      DCHECK_EQ(dyld_info.all_image_info_format, kExpectedFormat);
-      return;
-    }
-  }
-#endif
+  mach_vm_size_t all_image_info_size;
+  mach_vm_address_t all_image_info_addr =
+      DyldAllImageInfo(&all_image_info_size);
 
   process_types::dyld_all_image_infos all_image_infos;
-  if (!all_image_infos.Read(this, dyld_info.all_image_info_addr)) {
+  if (!all_image_infos.Read(this, all_image_info_addr)) {
     LOG(WARNING) << "could not read dyld_all_image_infos";
     return;
   }
@@ -390,10 +404,10 @@ void ProcessReader::InitializeModules() {
   size_t expected_size =
       process_types::dyld_all_image_infos::ExpectedSizeForVersion(
           this, all_image_infos.version);
-  if (dyld_info.all_image_info_size < expected_size) {
-    LOG(WARNING) << "small dyld_all_image_infos size "
-                 << dyld_info.all_image_info_size << " < " << expected_size
-                 << " for version " << all_image_infos.version;
+  if (all_image_info_size < expected_size) {
+    LOG(WARNING) << "small dyld_all_image_infos size " << all_image_info_size
+                 << " < " << expected_size << " for version "
+                 << all_image_infos.version;
     return;
   }
 
