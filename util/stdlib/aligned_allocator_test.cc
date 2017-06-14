@@ -16,6 +16,7 @@
 
 #include <stdint.h>
 
+#include "base/compiler_specific.h"
 #include "gtest/gtest.h"
 
 #if defined(OS_WIN)
