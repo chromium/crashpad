@@ -23,7 +23,6 @@
 #include <utility>
 #include <vector>
 
-#include "base/compiler_specific.h"
 #include "build/build_config.h"
 #include "util/stdlib/cxx.h"
 
