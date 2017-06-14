@@ -563,14 +563,6 @@ bool MachOImageReader::ReadSegmentCommand(
       return false;
     }
 
-    mach_vm_size_t fileoff = segment->fileoff();
-    if (fileoff != 0) {
-      LOG(WARNING) << base::StringPrintf(
-                          SEG_TEXT " segment has unexpected fileoff 0x%llx",
-                          fileoff) << load_command_info;
-      return false;
-    }
-
     size_ = vmsize;
 
     // The slide is computed as the difference between the __TEXT segment’s
