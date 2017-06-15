@@ -27,6 +27,10 @@
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/numeric/int128.h"
 
+#if defined(OS_ANDROID)
+#include <android/api-level.h>
+#endif
+
 namespace crashpad {
 
 //! \brief The set of general purpose registers for an architecture family.
@@ -140,15 +144,22 @@ union FloatContext {
   //!     architecture.
   struct f32 {
 #if defined(ARCH_CPU_X86_FAMILY)
-    // Reflects user_fpregs_struct in sys/user.h.
-    uint32_t cwd;
-    uint32_t swd;
-    uint32_t twd;
-    uint32_t fip;
-    uint32_t fcs;
-    uint32_t foo;
-    uint32_t fos;
-    uint32_t st_space[20];
+    // Reflects user_fpxregs_struct in sys/user.h
+    struct fxsave {
+      uint16_t cwd;
+      uint16_t swd;
+      uint16_t twd;
+      uint16_t fop;
+      uint32_t fip;
+      uint32_t fcs;
+      uint32_t foo;
+      uint32_t fos;
+      uint32_t mxcsr;
+      uint32_t reserved;
+      uint32_t st_space[32];
+      uint32_t xmm_space[32];
+      uint32_t padding[56];
+    } fxsave;
 #elif defined(ARCH_CPU_ARM_FAMILY)
     // Reflects user_fpregs in sys/user.h.
     struct fpregs {
@@ -184,17 +195,20 @@ union FloatContext {
   //!     architecture.
   struct f64 {
 #if defined(ARCH_CPU_X86_FAMILY)
-    uint16_t cwd;
-    uint16_t swd;
-    uint16_t ftw;
-    uint16_t fop;
-    uint64_t rip;
-    uint64_t rdp;
-    uint32_t mxcsr;
-    uint32_t mxcr_mask;
-    uint32_t st_space[32];
-    uint32_t xmm_space[64];
-    uint32_t padding[24];
+    // Refelects user_fpregs_struct in sys/user.h
+    struct fxsave {
+      uint16_t cwd;
+      uint16_t swd;
+      uint16_t ftw;
+      uint16_t fop;
+      uint64_t rip;
+      uint64_t rdp;
+      uint32_t mxcsr;
+      uint32_t mxcr_mask;
+      uint32_t st_space[32];
+      uint32_t xmm_space[64];
+      uint32_t padding[24];
+    } fxsave;
 #elif defined(ARCH_CPU_ARM_FAMILY)
     uint128_struct vregs[32];
     uint32_t fpsr;
@@ -206,9 +220,15 @@ union FloatContext {
   } f64;
 
 #if defined(ARCH_CPU_X86)
-  static_assert(sizeof(f32) == sizeof(user_fpregs_struct), "Size mismatch");
+#if defined(OS_ANDROID) && __ANDROID_API__ <= 19
+  using NativeFpxregs = user_fxsr_struct;
+#else
+  using NativeFpxregs = user_fpxregs_struct;
+#endif  // OS_ANDROID
+  static_assert(sizeof(f32::fxsave) == sizeof(NativeFpxregs), "Size mismatch");
 #elif defined(ARCH_CPU_X86_64)
-  static_assert(sizeof(f64) == sizeof(user_fpregs_struct), "Size mismatch");
+  static_assert(sizeof(f64::fxsave) == sizeof(user_fpregs_struct),
+                "Size mismatch");
 #elif defined(ARCH_CPU_ARMEL)
   static_assert(sizeof(f32::fpregs) == sizeof(user_fpregs), "Size mismatch");
   static_assert(sizeof(f32::vfp) == sizeof(user_vfp), "Size mismatch");
