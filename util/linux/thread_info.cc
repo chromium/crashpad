@@ -77,7 +77,44 @@ bool GetFloatingPointRegistersLegacy(pid_t tid, FloatContext* context) {
 }
 #endif  // ARCH_CPU_ARMEL
 
-#if defined(ARCH_CPU_ARM_FAMILY)
+#if defined(ARCH_CPU_X86_FAMILY)
+
+bool CheckedGetRegisterSet(pid_t tid, int set, size_t size, void* dest) {
+  iovec iov;
+  iov.iov_base = dest;
+  iov.iov_len = size;
+  if (ptrace(PTRACE_GETREGSET, tid, reinterpret_cast<void*>(set), &iov) != 0) {
+    PLOG(ERROR) << "ptrace";
+    return false;
+  }
+  if (iov.iov_len != size) {
+    LOG(ERROR) << "Unexpected registers size";
+    return false;
+  }
+  return true;
+}
+
+bool GetFloatingPointRegisters32(pid_t tid, FloatContext* context) {
+  if (CheckedGetRegisterSet(tid,
+                            NT_PRXFPREG,
+                            sizeof(context->f32.fxsave),
+                            &context->f32.fxsave)) {
+    return true;
+  }
+  return CheckedGetRegisterSet(tid,
+                               NT_PRFPREG,
+                               sizeof(context->f32.fsave),
+                               &context->f32.fsave);
+}
+
+bool GetFloatingPointRegisters64(pid_t tid, FloatContext* context) {
+  return CheckedGetRegisterSet(tid,
+                               NT_PRFPREG,
+                               sizeof(context->f64),
+                               &context->f64);
+}
+
+#elif defined(ARCH_CPU_ARM_FAMILY)
 // Normally, the Linux kernel will copy out register sets according to the size
 // of the struct that contains them. Tracing a 32-bit ARM process running in
 // compatibility mode on a 64-bit ARM cpu will only copy data for the number of
@@ -163,7 +200,9 @@ bool GetFloatingPointRegisters64(pid_t tid, FloatContext* context) {
   }
   return true;
 }
-#endif  // ARCH_CPU_ARM_FAMILY
+#else
+#error Port.
+#endif  // ARCH_CPU_X86_FAMILY
 
 }  // namespace
 
@@ -241,31 +280,8 @@ size_t ThreadInfo::GetGeneralPurposeRegistersAndLength(ThreadContext* context) {
 bool ThreadInfo::GetFloatingPointRegisters(FloatContext* context) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-#if defined(ARCH_CPU_X86_FAMILY)
-  iovec iov;
-  iov.iov_base = context;
-  iov.iov_len = sizeof(*context);
-  if (ptrace(
-          PTRACE_GETREGSET, tid_, reinterpret_cast<void*>(NT_PRFPREG), &iov) !=
-      0) {
-    PLOG(ERROR) << "ptrace";
-    return false;
-  }
-  if (is_64_bit_ && iov.iov_len == sizeof(context->f64)) {
-    return true;
-  }
-  if (!is_64_bit_ && iov.iov_len == sizeof(context->f32)) {
-    return true;
-  }
-  LOG(ERROR) << "Unexpected registers size";
-  return false;
-
-#elif defined(ARCH_CPU_ARM_FAMILY)
   return is_64_bit_ ? GetFloatingPointRegisters64(tid_, context)
                     : GetFloatingPointRegisters32(tid_, context);
-#else
-#error Port.
-#endif  // ARCH_CPU_X86_FAMILY
 }
 
 bool ThreadInfo::GetThreadArea(LinuxVMAddress* address) {
