@@ -141,14 +141,32 @@ union FloatContext {
   struct f32 {
 #if defined(ARCH_CPU_X86_FAMILY)
     // Reflects user_fpregs_struct in sys/user.h.
-    uint32_t cwd;
-    uint32_t swd;
-    uint32_t twd;
-    uint32_t fip;
-    uint32_t fcs;
-    uint32_t foo;
-    uint32_t fos;
-    uint32_t st_space[20];
+    struct fsave {
+      uint32_t cwd;
+      uint32_t swd;
+      uint32_t twd;
+      uint32_t fip;
+      uint32_t fcs;
+      uint32_t foo;
+      uint32_t fos;
+      uint32_t st_space[20];
+    } fsave;
+    // Reflects user_fpxregs_struct in sys/user.h
+    struct fxsave {
+      uint16_t cwd;
+      uint16_t swd;
+      uint16_t twd;
+      uint16_t fop;
+      uint32_t fip;
+      uint32_t fcs;
+      uint32_t foo;
+      uint32_t fos;
+      uint32_t mxcsr;
+      uint32_t reserved;
+      uint32_t st_space[32];
+      uint32_t xmm_space[32];
+      uint32_t padding[56];
+    } fxsave;
 #elif defined(ARCH_CPU_ARM_FAMILY)
     // Reflects user_fpregs in sys/user.h.
     struct fpregs {
@@ -184,6 +202,7 @@ union FloatContext {
   //!     architecture.
   struct f64 {
 #if defined(ARCH_CPU_X86_FAMILY)
+    // Refelects user_fpregs_struct in sys/user.h
     uint16_t cwd;
     uint16_t swd;
     uint16_t ftw;
@@ -206,7 +225,13 @@ union FloatContext {
   } f64;
 
 #if defined(ARCH_CPU_X86)
-  static_assert(sizeof(f32) == sizeof(user_fpregs_struct), "Size mismatch");
+  static_assert(sizeof(f32::fsave) == sizeof(user_fpregs_struct), "Size mismatch");
+#if defined(OS_ANDROID)
+  using NativeFpxregs = user_fxsr_struct;
+#else
+  using NativeFpxregs = user_fpxregs_struct;
+#endif  // OS_ANDROID
+  static_assert(sizeof(f32::fxsave) == sizeof(NativeFpxregs), "Size mismatch");
 #elif defined(ARCH_CPU_X86_64)
   static_assert(sizeof(f64) == sizeof(user_fpregs_struct), "Size mismatch");
 #elif defined(ARCH_CPU_ARMEL)
