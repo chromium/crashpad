@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c9cbd9e_36c4f453",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-15T20:09:27Z",
+      "side": 1,
+      "message": "Can you keep this inside the ARCH_CPU_ARM_FAMILY block so that it stays closer to what uses it? Otherwise, the file is structured as (arm32, x86-family, arm-family) stuff, kinda weird.",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d05d706_d9608abf",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-15T20:09:27Z",
+      "side": 1,
+      "message": "“Checked” makes it sound like there’s a CHECK() going on (particularly in Crashpad in light of functions like CheckedReadFileExactly()). Probably just “GetRegisterSet” is enough, and the fact that it indicates success in its return value is normal enough in our code that it doesn’t need to be called out in the function’s name.",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa557940_f71b58a0",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-15T20:09:27Z",
+      "side": 1,
+      "message": "If you do\n\n  template \u003ctypename Destination\u003e\n  bool CheckedGetRegisterSet(pid_t tid, int set, Destination* dest)\n\nthen you don’t need to accept a “size” parameter, you can write sizeof(*dest) instead. That’s nice, it makes things a little less error-prone.\n\nYou can even omit “int set” by deducing it from the Destination type if you want via a traits class.",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec564434_a5790aa9",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-15T20:09:27Z",
+      "side": 1,
+      "message": "I suppose that an x86 that doesn’t support fxsave (original SSE) is so ancient that we don’t need to worry about supporting it here.\n\nIn the future, when we add support for further extensions like AVX and AVX-512, we will need to be mindful of the fact that not all systems will have support, and we’ll need to start indicating which register sets we were able to collect. But we can cross that bridge (for all operating systems) when we reach it.",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1f843a2_b53ba007",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-15T20:09:27Z",
+      "side": 1,
+      "message": "Watch the 80 character limit.",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87bca5fa_9add2f6d",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-15T20:09:27Z",
+      "side": 1,
+      "message": "I think that it’s more involved than this. I see user_fxsr_struct through NDK API 19. After that, it’s user_fpxregs_struct, the same as used in glibc.\n\nhttps://android.googlesource.com/platform/bionic/+/93e1907ae1794068c1018750603c9206cb700d1b\n\nCan you \u0026\u0026 a check for API \u003c\u003d 19 here?",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
