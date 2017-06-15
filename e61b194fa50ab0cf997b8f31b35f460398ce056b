@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cdb26992_dcd63df6",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-15T22:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c9cbd9e_36c4f453",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d05d706_d9608abf",
         "filename": "util/linux/thread_info.cc",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6be2d426_78ddc56a",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-15T22:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d05d706_d9608abf",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "91af873b_0e1cb356",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-15T22:55:46Z",
+      "side": 1,
+      "message": "Made it a template but opted to keep passing the set number for now.\nI considered putting \"using PtraceRequest \u003d...\" in the struct definition, but I don\u0027t want to include linux/elf.h in the header to avoid clashes with elf.h.",
+      "parentUuid": "fa557940_f71b58a0",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec564434_a5790aa9",
         "filename": "util/linux/thread_info.cc",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eda2dab_5fbfda79",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-15T22:55:46Z",
+      "side": 1,
+      "message": "Sounds good. I removed fsave, but kept the fxsave registers in their specifically named struct.",
+      "parentUuid": "ec564434_a5790aa9",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ad9e97a7_db0e48fe",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-15T22:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1f843a2_b53ba007",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87bca5fa_9add2f6d",
         "filename": "util/linux/thread_info.h",
         "patchSetId": 2
@@ -101,6 +191,24 @@
       "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bace9c24_0ac2a103",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-15T22:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bca5fa_9add2f6d",
+      "revId": "e61b194fa50ab0cf997b8f31b35f460398ce056b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
