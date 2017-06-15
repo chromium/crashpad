@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bbeada7_eda21438",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-15T20:11:22Z",
+      "side": 1,
+      "message": "Ah, you went and did this with a union while I was lamenting SSE’s ubiquity anyway. OK, cool.\n\nBe sure to set have_fxsave \u003d true here (and \u003d false somewhere else).",
+      "revId": "ba8f3201d25f175698f702766951284138464d84",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
