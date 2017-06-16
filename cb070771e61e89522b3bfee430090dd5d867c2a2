@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e1a214a0_b7419716",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-16T15:57:58Z",
+      "side": 1,
+      "message": "This is the 64-bit version which is named \"user_fpregs_struct\" since it only has the one set.",
+      "parentUuid": "6af34174_a3a53cd2",
+      "range": {
+        "startLine": 198,
+        "startChar": 17,
+        "endLine": 198,
+        "endChar": 35
+      },
+      "revId": "cb070771e61e89522b3bfee430090dd5d867c2a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa0b1d2c_59695873",
         "filename": "util/linux/thread_info.h",
         "patchSetId": 8
@@ -39,6 +63,24 @@
       "revId": "cb070771e61e89522b3bfee430090dd5d867c2a2",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed5c2831_cccc655c",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-16T15:57:58Z",
+      "side": 1,
+      "message": "We could pull CPUContext* out into util, or perhaps just the fsave related things. There aren\u0027t any dependencies on anything else in snapshot.",
+      "parentUuid": "aa0b1d2c_59695873",
+      "revId": "cb070771e61e89522b3bfee430090dd5d867c2a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
