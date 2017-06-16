@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6af34174_a3a53cd2",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-16T02:05:34Z",
+      "side": 1,
+      "message": "user_fpxregs_struct. Or you can be more explicit, “user_fpxregs_struct or user_fxsr_struct”.",
+      "range": {
+        "startLine": 198,
+        "startChar": 17,
+        "endLine": 198,
+        "endChar": 35
+      },
+      "revId": "cb070771e61e89522b3bfee430090dd5d867c2a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa0b1d2c_59695873",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-16T02:05:34Z",
+      "side": 1,
+      "message": "It occurs to me that we already have this structure as CPUContextX86_64::Fxsave (and CPUContextX86::Fxsave for the 32-bit variant). But those are in snapshot/cpu_context.h, which we can’t see from here in util.",
+      "revId": "cb070771e61e89522b3bfee430090dd5d867c2a2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
