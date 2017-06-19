@@ -16,9 +16,6 @@
 
 #include <linux/auxvec.h>
 #include <stdio.h>
-#include <string.h>
-
-#include <algorithm>
 
 #include "base/files/file_path.h"
 #include "base/logging.h"
@@ -60,45 +57,6 @@ bool AuxiliaryVector::Read(pid_t pid) {
     }
   }
   return false;
-}
-
-// static
-bool AuxiliaryVector::VariableSizeBitCast(uint64_t data,
-                                          char* dest,
-                                          size_t dest_size) {
-  auto data_p = reinterpret_cast<const char*>(&data);
-  constexpr size_t data_size = sizeof(uint64_t);
-
-  // Verify that any unused bytes from data are zero.
-  // The unused bytes are at the start of the data buffer for big-endian and the
-  // end of the buffer for little-endian.
-  if (dest_size < data_size) {
-    uint64_t zero = 0;
-    auto extra_bytes = data_p;
-#if defined(ARCH_CPU_LITTLE_ENDIAN)
-    extra_bytes += dest_size;
-#endif  // ARCH_CPU_LITTLE_ENDIAN
-    if (memcmp(extra_bytes, &zero, data_size - dest_size) != 0) {
-      LOG(ERROR) << "information loss";
-      return false;
-    }
-  }
-
-  // Zero out the destination, in case it is larger than data.
-  memset(dest, 0, dest_size);
-
-#if defined(ARCH_CPU_LITTLE_ENDIAN)
-  // Copy a prefix of data to a prefix of dest for little-endian
-  memcpy(dest, data_p, std::min(dest_size, data_size));
-#else
-  // or the suffix of data to the suffix of dest for big-endian
-  if (data_size >= dest_size) {
-    memcpy(dest, data_p + data_size - dest_size, dest_size);
-  } else {
-    memcpy(dest + dest_size - data_size, data_p, data_size);
-  }
-#endif  // ARCH_CPU_LITTLE_ENDIAN
-  return true;
 }
 
 }  // namespace crashpad
