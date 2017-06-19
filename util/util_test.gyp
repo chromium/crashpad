@@ -71,6 +71,7 @@
         'misc/paths_test.cc',
         'misc/scoped_forbid_return_test.cc',
         'misc/random_string_test.cc',
+        'misc/reinterpret_bytes_test.cc',
         'misc/uuid_test.cc',
         'net/http_body_gzip_test.cc',
         'net/http_body_test.cc',

@@ -21,6 +21,7 @@
 
 #include "base/logging.h"
 #include "base/macros.h"
+#include "util/misc/reinterpret_bytes.h"
 
 namespace crashpad {
 
@@ -55,8 +56,7 @@ class AuxiliaryVector {
       LOG(ERROR) << "value not found";
       return false;
     }
-    return VariableSizeBitCast(
-        iter->second, reinterpret_cast<char*>(value), sizeof(V));
+    return ReinterpretBytes(iter->second, value);
   }
 
  protected:
@@ -65,8 +65,6 @@ class AuxiliaryVector {
  private:
   template <typename ULong>
   bool Read(pid_t pid);
-
-  static bool VariableSizeBitCast(uint64_t data, char* dest, size_t dest_size);
 
   DISALLOW_COPY_AND_ASSIGN(AuxiliaryVector);
 };
