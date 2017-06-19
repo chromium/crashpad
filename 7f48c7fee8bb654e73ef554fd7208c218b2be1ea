@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26807a3c_a795259a",
+        "filename": "util/misc/reinterpret_bytes.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-19T20:16:02Z",
+      "side": 1,
+      "message": "`bit_cast` in backticks",
+      "range": {
+        "startLine": 33,
+        "startChar": 33,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "7f48c7fee8bb654e73ef554fd7208c218b2be1ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5461e7f2_bae4a0b4",
+        "filename": "util/misc/reinterpret_bytes.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-19T20:16:02Z",
+      "side": 1,
+      "message": "similar",
+      "range": {
+        "startLine": 33,
+        "startChar": 21,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "7f48c7fee8bb654e73ef554fd7208c218b2be1ea",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
