@@ -23,6 +23,7 @@
       'sources': [
         'mac/AvailabilityMacros.h',
         'mac/kern/exc_resource.h',
+        'mac/mach/i386/thread_state.h',
         'mac/mach/mach.h',
         'mac/mach-o/getsect.cc',
         'mac/mach-o/getsect.h',

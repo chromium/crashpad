@@ -93,6 +93,20 @@
 #define x86_AVX_STATE 18
 #endif
 
+// 10.13 SDK
+
+#ifndef x86_AVX512_STATE32
+#define x86_AVX512_STATE32 19
+#endif
+
+#ifndef x86_AVX512_STATE64
+#define x86_AVX512_STATE64 20
+#endif
+
+#ifndef x86_AVX512_STATE
+#define x86_AVX512_STATE 21
+#endif
+
 #endif  // defined(__i386__) || defined(__x86_64__)
 
 // <mach/thread_status.h>
