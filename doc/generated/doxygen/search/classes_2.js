@@ -4,6 +4,7 @@ var searchData=
   ['capturememory',['CaptureMemory',['../classcrashpad_1_1internal_1_1CaptureMemory.html',1,'crashpad::internal']]],
   ['capturememorydelegatewin',['CaptureMemoryDelegateWin',['../classcrashpad_1_1internal_1_1CaptureMemoryDelegateWin.html',1,'crashpad::internal']]],
   ['checkedaddressrangegeneric',['CheckedAddressRangeGeneric',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html',1,'crashpad::internal']]],
+  ['checkedaddressrangegeneric_3c_20linuxvmaddress_2c_20linuxvmsize_20_3e',['CheckedAddressRangeGeneric&lt; LinuxVMAddress, LinuxVMSize &gt;',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html',1,'crashpad::internal']]],
   ['checkedaddressrangegeneric_3c_20mach_5fvm_5faddress_5ft_2c_20mach_5fvm_5fsize_5ft_20_3e',['CheckedAddressRangeGeneric&lt; mach_vm_address_t, mach_vm_size_t &gt;',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html',1,'crashpad::internal']]],
   ['checkedaddressrangegeneric_3c_20winvmaddress_2c_20winvmsize_20_3e',['CheckedAddressRangeGeneric&lt; WinVMAddress, WinVMSize &gt;',['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html',1,'crashpad::internal']]],
   ['checkedrange',['CheckedRange',['../classcrashpad_1_1CheckedRange.html',1,'crashpad']]],

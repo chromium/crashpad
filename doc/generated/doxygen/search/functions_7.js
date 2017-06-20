@@ -11,8 +11,10 @@ var searchData=
   ['getdefault',['GetDefault',['../classcrashpad_1_1PruneCondition.html#a71bc322a91e221bfd06c616d7ceafd99',1,'crashpad::PruneCondition']]],
   ['getdelim',['GetDelim',['../classcrashpad_1_1DelimitedFileReader.html#a6ec6693aed8fd7d5f2176fae5dd2bd27',1,'crashpad::DelimitedFileReader']]],
   ['getexceptionports',['GetExceptionPorts',['../classcrashpad_1_1ExceptionPorts.html#a55ae807d8ed9e37dec1560043ad3ba63',1,'crashpad::ExceptionPorts']]],
+  ['getfloatingpointregisters',['GetFloatingPointRegisters',['../classcrashpad_1_1ThreadInfo.html#a9027c453da3f3d9b50dca67c626798db',1,'crashpad::ThreadInfo']]],
   ['getfunction',['GetFunction',['../namespacecrashpad_1_1internal.html#a334a660002ce6e6f06432ccf7d3cc50f',1,'crashpad::internal']]],
   ['getfunctioninternal',['GetFunctionInternal',['../namespacecrashpad_1_1internal.html#aa982a8cad0e72cddf1989d135db3c338',1,'crashpad::internal']]],
+  ['getgeneralpurposeregisters',['GetGeneralPurposeRegisters',['../classcrashpad_1_1ThreadInfo.html#a865d36440a81857168338248660ae0fc',1,'crashpad::ThreadInfo']]],
   ['gethandleripcpipe',['GetHandlerIPCPipe',['../classcrashpad_1_1CrashpadClient.html#a2fc86d3d5bc6dcc9c9456e487f516c4d',1,'crashpad::CrashpadClient']]],
   ['gethandlermachport',['GetHandlerMachPort',['../classcrashpad_1_1CrashpadClient.html#a7463d2dea776beddf8b45d8d17acbf7a',1,'crashpad::CrashpadClient']]],
   ['getlastuploadattempttime',['GetLastUploadAttemptTime',['../classcrashpad_1_1Settings.html#a855f61d6fc73042dcb886ef40d8e4429',1,'crashpad::Settings']]],
@@ -33,7 +35,9 @@ var searchData=
   ['getsegmentbyname',['GetSegmentByName',['../classcrashpad_1_1MachOImageReader.html#a687d6ad610407967e283d8ba8b6e2db4',1,'crashpad::MachOImageReader']]],
   ['getsettings',['GetSettings',['../classcrashpad_1_1CrashReportDatabase.html#a705a5c510ba8eeda15bf4fe9af6e37b1',1,'crashpad::CrashReportDatabase']]],
   ['gettempdirpath',['GetTempDirPath',['../classcrashpad_1_1test_1_1WinMultiprocessWithTempDir.html#aefc85f2324237a1404d8ee46cc522157',1,'crashpad::test::WinMultiprocessWithTempDir']]],
+  ['getthreadarea',['GetThreadArea',['../classcrashpad_1_1ThreadInfo.html#a981c2bda049f3738ac499fa33b0c92b3',1,'crashpad::ThreadInfo']]],
   ['gettimeofday',['GetTimeOfDay',['../namespacecrashpad.html#ad150794de658f3bec7f37aa33ac521c4',1,'crashpad']]],
   ['getuploadsenabled',['GetUploadsEnabled',['../classcrashpad_1_1Settings.html#a49198982b5d7f82fa3096b34cda70015',1,'crashpad::Settings']]],
+  ['getvalue',['GetValue',['../classcrashpad_1_1AuxiliaryVector.html#ae00dc7ebf414b994a4a9330ddc2a6e56',1,'crashpad::AuxiliaryVector']]],
   ['getvalueforkey',['GetValueForKey',['../classcrashpad_1_1TSimpleStringDictionary.html#a7d1d60ab45f8c9ec8b996bdd225e6447',1,'crashpad::TSimpleStringDictionary']]]
 ];

@@ -35,6 +35,7 @@ var searchData=
   ['registerrva',['RegisterRVA',['../classcrashpad_1_1internal_1_1MinidumpWritable.html#a686683d78f099a07e2a1df8e6b567d37',1,'crashpad::internal::MinidumpWritable']]],
   ['registrationrequest',['RegistrationRequest',['../structcrashpad_1_1RegistrationRequest.html',1,'crashpad']]],
   ['registrationresponse',['RegistrationResponse',['../structcrashpad_1_1RegistrationResponse.html',1,'crashpad']]],
+  ['reinterpretbytes',['ReinterpretBytes',['../namespacecrashpad.html#a61b73837f43334046a1b56763fefba55',1,'crashpad']]],
   ['remoteport',['RemotePort',['../classcrashpad_1_1test_1_1MachMultiprocess.html#add2a0dc5532c41cf21eb835debd1fde7',1,'crashpad::test::MachMultiprocess']]],
   ['remove',['Remove',['../classcrashpad_1_1TSimpleAddressRangeBag.html#a5842b9ef27db16ec015a5336c41a29cc',1,'crashpad::TSimpleAddressRangeBag::Remove(CheckedRange&lt; uint64_t &gt; range)'],['../classcrashpad_1_1TSimpleAddressRangeBag.html#a4b660203282c6b565359b130f4293611',1,'crashpad::TSimpleAddressRangeBag::Remove(void *base, size_t size)']]],
   ['removekey',['RemoveKey',['../classcrashpad_1_1TSimpleStringDictionary.html#ad50991fd8714c8bef7820482c7729efb',1,'crashpad::TSimpleStringDictionary']]],

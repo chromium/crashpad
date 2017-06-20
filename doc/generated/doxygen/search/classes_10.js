@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['t32',['t32',['../structcrashpad_1_1ThreadContext_1_1t32.html',1,'crashpad::ThreadContext']]],
+  ['t64',['t64',['../structcrashpad_1_1ThreadContext_1_1t64.html',1,'crashpad::ThreadContext']]],
   ['taskmemory',['TaskMemory',['../classcrashpad_1_1TaskMemory.html',1,'crashpad']]],
   ['teb',['TEB',['../structcrashpad_1_1process__types_1_1TEB.html',1,'crashpad::process_types']]],
   ['testexceptionsnapshot',['TestExceptionSnapshot',['../classcrashpad_1_1test_1_1TestExceptionSnapshot.html',1,'crashpad::test']]],
@@ -12,8 +14,10 @@ var searchData=
   ['testsystemsnapshot',['TestSystemSnapshot',['../classcrashpad_1_1test_1_1TestSystemSnapshot.html',1,'crashpad::test']]],
   ['testthreadsnapshot',['TestThreadSnapshot',['../classcrashpad_1_1test_1_1TestThreadSnapshot.html',1,'crashpad::test']]],
   ['testuint32minidumpwritable',['TestUInt32MinidumpWritable',['../classcrashpad_1_1test_1_1TestUInt32MinidumpWritable.html',1,'crashpad::test']]],
-  ['thread',['Thread',['../classcrashpad_1_1Thread.html',1,'crashpad::Thread'],['../structcrashpad_1_1ProcessReaderWin_1_1Thread.html',1,'crashpad::ProcessReaderWin::Thread'],['../structcrashpad_1_1ProcessReader_1_1Thread.html',1,'crashpad::ProcessReader::Thread']]],
+  ['thread',['Thread',['../structcrashpad_1_1ProcessReaderWin_1_1Thread.html',1,'crashpad::ProcessReaderWin::Thread'],['../classcrashpad_1_1Thread.html',1,'crashpad::Thread'],['../structcrashpad_1_1ProcessReader_1_1Thread.html',1,'crashpad::ProcessReader::Thread']]],
   ['thread_5fbasic_5finformation',['THREAD_BASIC_INFORMATION',['../structcrashpad_1_1process__types_1_1THREAD__BASIC__INFORMATION.html',1,'crashpad::process_types']]],
+  ['threadcontext',['ThreadContext',['../unioncrashpad_1_1ThreadContext.html',1,'crashpad']]],
+  ['threadinfo',['ThreadInfo',['../classcrashpad_1_1ThreadInfo.html',1,'crashpad']]],
   ['threadlogmessages',['ThreadLogMessages',['../classcrashpad_1_1ThreadLogMessages.html',1,'crashpad']]],
   ['threadsafevector',['ThreadSafeVector',['../classcrashpad_1_1ThreadSafeVector.html',1,'crashpad']]],
   ['threadsafevector_3c_20crashpad_3a_3auuid_20_3e',['ThreadSafeVector&lt; crashpad::UUID &gt;',['../classcrashpad_1_1ThreadSafeVector.html',1,'crashpad']]],

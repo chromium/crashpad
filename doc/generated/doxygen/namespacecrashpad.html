@@ -91,6 +91,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A standard allocator that aligns its allocations as requested, suitable for use as an allocator in standard containers.  <a href="structcrashpad_1_1AlignedAllocator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1AuxiliaryVector.html">AuxiliaryVector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the auxiliary vector for a target process.  <a href="classcrashpad_1_1AuxiliaryVector.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1BinaryPruneCondition.html">BinaryPruneCondition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1PruneCondition.html" title="An abstract base class for evaluating crash reports for deletion. ">PruneCondition</a> that conjoins two other PruneConditions.  <a href="classcrashpad_1_1BinaryPruneCondition.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,6 +184,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1FileWriterInterface.html">FileWriterInterface</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An interface to write to files and other file-like objects with semantics matching the underlying platform (POSIX or Windows).  <a href="classcrashpad_1_1FileWriterInterface.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unioncrashpad_1_1FloatContext.html">FloatContext</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The floating point registers used for an architecture family.  <a href="unioncrashpad_1_1FloatContext.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1GzipHTTPBodyStream.html">GzipHTTPBodyStream</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An implementation of <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a> that <code>gzip</code>-compresses another <a class="el" href="classcrashpad_1_1HTTPBodyStream.html" title="An interface to a stream that can be used for an HTTP request body. ">HTTPBodyStream</a>.  <a href="classcrashpad_1_1GzipHTTPBodyStream.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -218,6 +224,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MachOImageSymbolTableReader.html">MachOImageSymbolTableReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reader for symbol tables in Mach-O images mapped into another process.  <a href="classcrashpad_1_1MachOImageSymbolTableReader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemoryMap.html">MemoryMap</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accesses information about mapped memory in another process.  <a href="classcrashpad_1_1MemoryMap.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1MemoryMapRegionSnapshot.html">MemoryMapRegionSnapshot</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstract interface to a snapshot representing a region of the memory map present in the snapshot process.  <a href="classcrashpad_1_1MemoryMapRegionSnapshot.html#details">More...</a><br /></td></tr>
@@ -452,6 +461,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1Thread.html">Thread</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic thread abstraction. Users should derive from this class and implement ThreadMain().  <a href="classcrashpad_1_1Thread.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unioncrashpad_1_1ThreadContext.html">ThreadContext</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The set of general purpose registers for an architecture family.  <a href="unioncrashpad_1_1ThreadContext.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ThreadInfo.html">ThreadInfo</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ThreadLogMessages.html">ThreadLogMessages</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Captures log messages produced on the current thread during an object’s lifetime.  <a href="classcrashpad_1_1ThreadLogMessages.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -545,6 +559,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nam
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a> = uint64_t</td></tr>
 <tr class="memdesc:aa2b5b2818842bda12ff9c4d555c2c8c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to represent the size of a memory range (with a LinuxVMAddress), potentially across bitness. <br /></td></tr>
 <tr class="separator:aa2b5b2818842bda12ff9c4d555c2c8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3efce65e2b78974531f2cb663f352d9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ab3efce65e2b78974531f2cb663f352d9">CheckedLinuxAddressRange</a> = <a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html">internal::CheckedAddressRangeGeneric</a>&lt; <a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>, <a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a> &gt;</td></tr>
+<tr class="memdesc:ab3efce65e2b78974531f2cb663f352d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensures that a range, composed of a base and a size, does not overflow the pointer type of the process it describes a range in.  <a href="#ab3efce65e2b78974531f2cb663f352d9">More...</a><br /></td></tr>
+<tr class="separator:ab3efce65e2b78974531f2cb663f352d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d7f0170c573e59ca6b02e29735f4fad"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a8d7f0170c573e59ca6b02e29735f4fad">CheckedMachAddressRange</a> = <a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html">internal::CheckedAddressRangeGeneric</a>&lt; mach_vm_address_t, mach_vm_size_t &gt;</td></tr>
 <tr class="memdesc:a8d7f0170c573e59ca6b02e29735f4fad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensures that a range, composed of a base and a size, does not overflow the pointer type of the process it describes a range in.  <a href="#a8d7f0170c573e59ca6b02e29735f4fad">More...</a><br /></td></tr>
 <tr class="separator:a8d7f0170c573e59ca6b02e29735f4fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -569,7 +586,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nam
 <tr class="memitem:a280d875d598299275111b611ab02d9d0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a280d875d598299275111b611ab02d9d0">ScopedDIR</a> = std::unique_ptr&lt; DIR, <a class="el" href="structcrashpad_1_1internal_1_1ScopedDIRCloser.html">internal::ScopedDIRCloser</a> &gt;</td></tr>
 <tr class="memdesc:a280d875d598299275111b611ab02d9d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maintains a directory opened by <code>opendir</code>.  <a href="#a280d875d598299275111b611ab02d9d0">More...</a><br /></td></tr>
 <tr class="separator:a280d875d598299275111b611ab02d9d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0103ebbd1b4f59431dd7292bd544de39"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </td></tr>
+<tr class="memitem:a0103ebbd1b4f59431dd7292bd544de39"><td class="memTemplParams" colspan="2">template&lt;typename T , size_t Alignment = alignof(T)&gt; </td></tr>
 <tr class="memitem:a0103ebbd1b4f59431dd7292bd544de39"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a0103ebbd1b4f59431dd7292bd544de39">AlignedVector</a> = std::vector&lt; T, <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; T, Alignment &gt; &gt;</td></tr>
 <tr class="memdesc:a0103ebbd1b4f59431dd7292bd544de39"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <code>std::vector</code> using <a class="el" href="structcrashpad_1_1AlignedAllocator.html" title="A standard allocator that aligns its allocations as requested, suitable for use as an allocator in st...">AlignedAllocator</a>.  <a href="#a0103ebbd1b4f59431dd7292bd544de39">More...</a><br /></td></tr>
 <tr class="separator:a0103ebbd1b4f59431dd7292bd544de39"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -730,6 +747,8 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 <tr class="memitem:ac8e7e1b1a4b89b489964ffee54d0d9df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac8e7e1b1a4b89b489964ffee54d0d9df">CheckedReadFileAtEOF</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file)</td></tr>
 <tr class="memdesc:ac8e7e1b1a4b89b489964ffee54d0d9df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a>, ensuring that it indicates end-of-file.  <a href="#ac8e7e1b1a4b89b489964ffee54d0d9df">More...</a><br /></td></tr>
 <tr class="separator:ac8e7e1b1a4b89b489964ffee54d0d9df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a300ac399f9d33a4c47b4e4c148ebbe7c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a300ac399f9d33a4c47b4e4c148ebbe7c">LoggingReadEntireFile</a> (const base::FilePath &amp;path, std::string *contents)</td></tr>
+<tr class="separator:a300ac399f9d33a4c47b4e4c148ebbe7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7cb2e4837a6fda169cbe92d1603460f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac7cb2e4837a6fda169cbe92d1603460f">CheckedCloseFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file)</td></tr>
 <tr class="memdesc:ac7cb2e4837a6fda169cbe92d1603460f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <code>close()</code> or <code>CloseHandle()</code>, ensuring that it succeeds.  <a href="#ac7cb2e4837a6fda169cbe92d1603460f">More...</a><br /></td></tr>
 <tr class="separator:ac7cb2e4837a6fda169cbe92d1603460f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -934,6 +953,10 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 <tr class="memitem:a8f1db976c6e43d3731c26df569368592"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a8f1db976c6e43d3731c26df569368592">SleepNanoseconds</a> (uint64_t nanoseconds)</td></tr>
 <tr class="memdesc:a8f1db976c6e43d3731c26df569368592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sleeps for the specified duration.  <a href="#a8f1db976c6e43d3731c26df569368592">More...</a><br /></td></tr>
 <tr class="separator:a8f1db976c6e43d3731c26df569368592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa84c4880b695542867ee6ac872f0f98f"><td class="memTemplParams" colspan="2">template&lt;typename To , typename From &gt; </td></tr>
+<tr class="memitem:aa84c4880b695542867ee6ac872f0f98f"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#aa84c4880b695542867ee6ac872f0f98f">FromPointerCast</a> (From from)</td></tr>
+<tr class="memdesc:aa84c4880b695542867ee6ac872f0f98f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts from a pointer type to an integer.  <a href="#aa84c4880b695542867ee6ac872f0f98f">More...</a><br /></td></tr>
+<tr class="separator:aa84c4880b695542867ee6ac872f0f98f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a076e2d18f70b3edd2e1195fe699aeb73"><td class="memTemplParams" colspan="2"><a id="a076e2d18f70b3edd2e1195fe699aeb73"></a>
 template&lt;typename To , typename From &gt; </td></tr>
 <tr class="memitem:a076e2d18f70b3edd2e1195fe699aeb73"><td class="memTemplItemLeft" align="right" valign="top">To&#160;</td><td class="memTemplItemRight" valign="bottom"><b>implicit_cast</b> (From const &amp;f)</td></tr>
@@ -941,6 +964,10 @@ template&lt;typename To , typename From &gt; </td></tr>
 <tr class="memitem:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ab15d0aff86a0aafe6f33cbd8913441c7">RandomString</a> ()</td></tr>
 <tr class="memdesc:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a random string.  <a href="#ab15d0aff86a0aafe6f33cbd8913441c7">More...</a><br /></td></tr>
 <tr class="separator:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61b73837f43334046a1b56763fefba55"><td class="memTemplParams" colspan="2">template&lt;typename From , typename To &gt; </td></tr>
+<tr class="memitem:a61b73837f43334046a1b56763fefba55"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a61b73837f43334046a1b56763fefba55">ReinterpretBytes</a> (const From &amp;from, To *to)</td></tr>
+<tr class="memdesc:a61b73837f43334046a1b56763fefba55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the bytes of <em>from</em> to .  <a href="#a61b73837f43334046a1b56763fefba55">More...</a><br /></td></tr>
+<tr class="separator:a61b73837f43334046a1b56763fefba55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9a547efca1b5ea53e95a3a12047c38a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af9a547efca1b5ea53e95a3a12047c38a">ZlibWindowBitsWithGzipWrapper</a> (int window_bits)</td></tr>
 <tr class="memdesc:af9a547efca1b5ea53e95a3a12047c38a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain a <em>window_bits</em> parameter to pass to <code>deflateInit2()</code> or <code>inflateInit2()</code> that specifies a <code>gzip</code> wrapper instead of the default zlib wrapper.  <a href="#af9a547efca1b5ea53e95a3a12047c38a">More...</a><br /></td></tr>
 <tr class="separator:af9a547efca1b5ea53e95a3a12047c38a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1222,7 +1249,7 @@ const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
+template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="namespacecrashpad.html#a0103ebbd1b4f59431dd7292bd544de39">crashpad::AlignedVector</a> = typedef std::vector&lt;T, <a class="el" href="structcrashpad_1_1AlignedAllocator.html">AlignedAllocator</a>&lt;T, Alignment&gt; &gt;</td>
@@ -1232,6 +1259,24 @@ template&lt;typename T , size_t Alignment = ALIGNOF(T)&gt; </div>
 
 <p>A <code>std::vector</code> using <a class="el" href="structcrashpad_1_1AlignedAllocator.html" title="A standard allocator that aligns its allocations as requested, suitable for use as an allocator in st...">AlignedAllocator</a>. </p>
 <p>This is similar to <code>std::vector&lt;T&gt;</code>, with the addition of an alignment guarantee. <em>Alignment</em> must be a power of 2. If <em>Alignment</em> is not specified, the default alignment for type <em>T</em> is used. </p>
+
+</div>
+</div>
+<a id="ab3efce65e2b78974531f2cb663f352d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3efce65e2b78974531f2cb663f352d9">&#9670;&nbsp;</a></span>CheckedLinuxAddressRange</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacecrashpad.html#ab3efce65e2b78974531f2cb663f352d9">crashpad::CheckedLinuxAddressRange</a> = typedef <a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html">internal::CheckedAddressRangeGeneric</a>&lt;<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>, <a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ensures that a range, composed of a base and a size, does not overflow the pointer type of the process it describes a range in. </p>
+<p>This class checks bases of type <a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45" title="Type used to represent an address in a process, potentially across bitness. ">LinuxVMAddress</a> and sizes of type <a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8" title="Type used to represent the size of a memory range (with a LinuxVMAddress), potentially across bitness...">LinuxVMSize</a> against a process whose pointer type is either 32 or 64 bits wide.</p>
+<p>Aside from varying the overall range on the basis of a process’ pointer type width, this class functions very similarly to <a class="el" href="classcrashpad_1_1CheckedRange.html" title="Ensures that a range, composed of a base and size, does not overflow its data type. ">CheckedRange</a>. </p>
 
 </div>
 </div>
@@ -3180,6 +3225,30 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 </div>
 </div>
+<a id="aa84c4880b695542867ee6ac872f0f98f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa84c4880b695542867ee6ac872f0f98f">&#9670;&nbsp;</a></span>FromPointerCast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename To , typename From &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">crashpad::FromPointerCast </td>
+          <td>(</td>
+          <td class="paramtype">From&#160;</td>
+          <td class="paramname"><em>from</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Casts from a pointer type to an integer. </p>
+<p>Compared to <code>reinterpret_cast&lt;&gt;()</code>, <a class="el" href="namespacecrashpad.html#aa84c4880b695542867ee6ac872f0f98f" title="Casts from a pointer type to an integer. ">FromPointerCast&lt;&gt;()</a> defines whether a pointer type is sign-extended or zero-extended. Casts to signed integral types are sign-extended. Casts to unsigned integral types are zero-extended.</p>
+<p>Use <a class="el" href="namespacecrashpad.html#aa84c4880b695542867ee6ac872f0f98f" title="Casts from a pointer type to an integer. ">FromPointerCast&lt;&gt;()</a> instead of <code>reinterpret_cast&lt;&gt;()</code> when casting a pointer to an integral type that may not be the same width as a pointer. There is no need to prefer <a class="el" href="namespacecrashpad.html#aa84c4880b695542867ee6ac872f0f98f" title="Casts from a pointer type to an integer. ">FromPointerCast&lt;&gt;()</a> when casting to an integral type that’s definitely the same width as a pointer, such as <code>uintptr_t</code> and <code>intptr_t</code>. </p>
+
+</div>
+</div>
 <a id="af5f4414be804bdcd71f57053d7147eff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af5f4414be804bdcd71f57053d7147eff">&#9670;&nbsp;</a></span>GetModuleVersionAndType()</h2>
 
@@ -4387,6 +4456,36 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 </div>
 </div>
+<a id="a300ac399f9d33a4c47b4e4c148ebbe7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a300ac399f9d33a4c47b4e4c148ebbe7c">&#9670;&nbsp;</a></span>LoggingReadEntireFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::LoggingReadEntireFile </td>
+          <td>(</td>
+          <td class="paramtype">const base::FilePath &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string *&#160;</td>
+          <td class="paramname"><em>contents</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>brief Wraps <a class="el" href="namespacecrashpad.html#ab3712d59104f641109b170c78a912b4d" title="Wraps OpenFileForRead(), logging an error if the operation fails. ">LoggingOpenFileForRead()</a> and <a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96" title="Reads from a file, retrying when interrupted before reading any data on POSIX. ">ReadFile()</a> reading the entire file into <em>contents</em>.</p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, or <code>false</code> with a message logged. </dd></dl>
+
+</div>
+</div>
 <a id="ac3fb8955565f605e08c1e30562fbdb7a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac3fb8955565f605e08c1e30562fbdb7a">&#9670;&nbsp;</a></span>LoggingReadFileExactly()</h2>
 
@@ -5516,6 +5615,40 @@ template&lt;typename T &gt; </div>
 <p>The format of the annotation is four comma-separated values: the system-wide <code>kern.num_files</code> and <code>kern.maxfiles</code> values from <code>sysctl()</code>, and the process-specific current and maximum file descriptor limits from <code>getrlimit(RLIMIT_NOFILE, …)</code>.</p>
 <p>See <a href="https://crashpad.chromium.org/bug/180">https://crashpad.chromium.org/bug/180</a>.</p>
 <p>TODO(mark): Remove this annotation after sufficient data has been collected for analysis. </p>
+
+</div>
+</div>
+<a id="a61b73837f43334046a1b56763fefba55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61b73837f43334046a1b56763fefba55">&#9670;&nbsp;</a></span>ReinterpretBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename From , typename To &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::ReinterpretBytes </td>
+          <td>(</td>
+          <td class="paramtype">const From &amp;&#160;</td>
+          <td class="paramname"><em>from</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">To *&#160;</td>
+          <td class="paramname"><em>to</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies the bytes of <em>from</em> to . </p>
+<p>This function is similar to <code>bit_cast</code>, except that it can operate on differently sized types.</p>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the copy is possible without information loss, otherwise <code>false</code> with a message logged. </dd></dl>
 
 </div>
 </div>

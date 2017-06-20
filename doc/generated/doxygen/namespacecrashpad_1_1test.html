@@ -95,6 +95,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1MultiprocessExec.html">MultiprocessExec</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages an <code>exec()</code>-based multiprocess test.  <a href="classcrashpad_1_1test_1_1MultiprocessExec.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1ScopedModuleHandle.html">ScopedModuleHandle</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maintains ownership of a loadable module handle, releasing it as appropriate on destruction.  <a href="classcrashpad_1_1test_1_1ScopedModuleHandle.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1test_1_1ScopedTempDir.html">ScopedTempDir</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A RAII object that creates a temporary directory for testing.  <a href="classcrashpad_1_1test_1_1ScopedTempDir.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -296,6 +299,9 @@ template&lt;&gt; </td></tr>
 <tr class="memitem:aaa4835fcb6a4a897b0841b8575789b77"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#aaa4835fcb6a4a897b0841b8575789b77">BytesToHexString</a> (const void *bytes, size_t length)</td></tr>
 <tr class="memdesc:aaa4835fcb6a4a897b0841b8575789b77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a hexadecimal string corresponding to <em>bytes</em> and <em>length</em>.  <a href="#aaa4835fcb6a4a897b0841b8575789b77">More...</a><br /></td></tr>
 <tr class="separator:aaa4835fcb6a4a897b0841b8575789b77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab80403780da9c07617b44d8d7db7c618"><td class="memItemLeft" align="right" valign="top">const dyld_all_image_infos *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#ab80403780da9c07617b44d8d7db7c618">DyldGetAllImageInfos</a> ()</td></tr>
+<tr class="memdesc:ab80403780da9c07617b44d8d7db7c618"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls or emulates the <code>_dyld_get_all_image_infos()</code> private/internal function.  <a href="#ab80403780da9c07617b44d8d7db7c618">More...</a><br /></td></tr>
+<tr class="separator:ab80403780da9c07617b44d8d7db7c618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49a7a2461cf4e1f674eac147c19d9483"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad_1_1test.html#a49a7a2461cf4e1f674eac147c19d9483">MachErrorMessage</a> (mach_error_t mach_err, const std::string &amp;base=std::string())</td></tr>
 <tr class="memdesc:a49a7a2461cf4e1f674eac147c19d9483"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a Mach error message.  <a href="#a49a7a2461cf4e1f674eac147c19d9483">More...</a><br /></td></tr>
 <tr class="separator:a49a7a2461cf4e1f674eac147c19d9483"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -419,6 +425,26 @@ const std::vector&lt; std::string &gt; *&#160;</td><td class="memItemRight" vali
 
 <p>Returns a hexadecimal string corresponding to <em>bytes</em> and <em>length</em>. </p>
 <p>Example usage: </p><div class="fragment"><div class="line">uint8_t expected[10];</div><div class="line">uint8_t observed[10];</div><div class="line"><span class="comment">// …</span></div><div class="line">EXPECT_EQ(<a class="code" href="namespacecrashpad_1_1test.html#aaa4835fcb6a4a897b0841b8575789b77">BytesToHexString</a>(observed, arraysize(observed)),</div><div class="line">          <a class="code" href="namespacecrashpad_1_1test.html#aaa4835fcb6a4a897b0841b8575789b77">BytesToHexString</a>(expected, arraysize(expected)));</div></div><!-- fragment --> 
+</div>
+</div>
+<a id="ab80403780da9c07617b44d8d7db7c618"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab80403780da9c07617b44d8d7db7c618">&#9670;&nbsp;</a></span>DyldGetAllImageInfos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const dyld_all_image_infos * crashpad::test::DyldGetAllImageInfos </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calls or emulates the <code>_dyld_get_all_image_infos()</code> private/internal function. </p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to this process’ dyld_all_image_infos structure, or <code>nullptr</code> on failure with a message logged. </dd></dl>
+
 </div>
 </div>
 <a id="ad9504862c089964763d7d362572c2ac6"></a>

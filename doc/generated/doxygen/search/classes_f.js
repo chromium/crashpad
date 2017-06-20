@@ -6,6 +6,7 @@ var searchData=
   ['scopedkernelhandleclosetraits',['ScopedKernelHANDLECloseTraits',['../structcrashpad_1_1internal_1_1ScopedKernelHANDLECloseTraits.html',1,'crashpad::internal']]],
   ['scopedlockedfilehandletraits',['ScopedLockedFileHandleTraits',['../structcrashpad_1_1internal_1_1ScopedLockedFileHandleTraits.html',1,'crashpad::internal']]],
   ['scopedmmap',['ScopedMmap',['../classcrashpad_1_1ScopedMmap.html',1,'crashpad']]],
+  ['scopedmodulehandle',['ScopedModuleHandle',['../classcrashpad_1_1test_1_1ScopedModuleHandle.html',1,'crashpad::test']]],
   ['scopedprocesssuspend',['ScopedProcessSuspend',['../classcrashpad_1_1ScopedProcessSuspend.html',1,'crashpad']]],
   ['scopedptraceattach',['ScopedPtraceAttach',['../classcrashpad_1_1ScopedPtraceAttach.html',1,'crashpad']]],
   ['scopedtasksuspend',['ScopedTaskSuspend',['../classcrashpad_1_1ScopedTaskSuspend.html',1,'crashpad']]],

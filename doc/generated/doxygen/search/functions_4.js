@@ -21,6 +21,8 @@ var searchData=
   ['dumpandcrash',['DumpAndCrash',['../classcrashpad_1_1CrashpadClient.html#a87d1fa142b0bf7094fc66fef3135a64a',1,'crashpad::CrashpadClient']]],
   ['dumpandcrashtargetprocess',['DumpAndCrashTargetProcess',['../classcrashpad_1_1CrashpadClient.html#a0b795ac1d4e01ba03e4085954249edfc',1,'crashpad::CrashpadClient']]],
   ['dumpwithoutcrash',['DumpWithoutCrash',['../classcrashpad_1_1CrashpadClient.html#a8ac211aa3a8cf278eb10f4058a7776fb',1,'crashpad::CrashpadClient']]],
+  ['dyldallimageinfo',['DyldAllImageInfo',['../classcrashpad_1_1ProcessReader.html#a653ed07c8b41c82ddc35a6390d74d3b7',1,'crashpad::ProcessReader']]],
+  ['dyldgetallimageinfos',['DyldGetAllImageInfos',['../namespacecrashpad_1_1test.html#ab80403780da9c07617b44d8d7db7c618',1,'crashpad::test']]],
   ['dylibversion',['DylibVersion',['../classcrashpad_1_1MachOImageReader.html#a42cdb8f4d8dc4ab9b768b1219133ab2c',1,'crashpad::MachOImageReader']]],
   ['dylinkername',['DylinkerName',['../classcrashpad_1_1MachOImageReader.html#a0d74f905f989440e4602371c3b1f148d',1,'crashpad::MachOImageReader']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['valid',['valid',['../classcrashpad_1_1test_1_1ScopedModuleHandle.html#a567afead7e56a5cc10d2ab9535372110',1,'crashpad::test::ScopedModuleHandle']]],
   ['value',['value',['../structcrashpad_1_1TSimpleStringDictionary_1_1Entry.html#af7fa75c478ce69d42354a046327fe658',1,'crashpad::TSimpleStringDictionary::Entry::value()'],['../structcrashpad_1_1MinidumpSimpleStringDictionaryEntry.html#a90c3c20c4ae9af6db225682427c1f314',1,'crashpad::MinidumpSimpleStringDictionaryEntry::value()'],['../structcrashpad_1_1MachOImageSymbolTableReader_1_1SymbolInformation.html#a91405f79a8b62e3fb3de4e8c66fee952',1,'crashpad::MachOImageSymbolTableReader::SymbolInformation::value()']]],
   ['value_5fsize',['value_size',['../classcrashpad_1_1TSimpleStringDictionary.html#a1176a981ba33d55f9b0a5f22e7fe4171',1,'crashpad::TSimpleStringDictionary']]],
   ['vector',['Vector',['../classcrashpad_1_1MachOImageAnnotationsReader.html#a4c99df9d2025ade3151f7fd726997e71',1,'crashpad::MachOImageAnnotationsReader']]],

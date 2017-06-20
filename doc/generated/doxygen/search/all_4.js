@@ -48,6 +48,8 @@ var searchData=
   ['dwproductversionms',['dwProductVersionMS',['../structVS__FIXEDFILEINFO.html#a5c4dc629bfbf8323b63f38387fc6fc43',1,'VS_FIXEDFILEINFO']]],
   ['dwsignature',['dwSignature',['../structVS__FIXEDFILEINFO.html#aaa1975d235ec02eb376252c9aa7b643e',1,'VS_FIXEDFILEINFO']]],
   ['dwstrucversion',['dwStrucVersion',['../structVS__FIXEDFILEINFO.html#a174a71f3cf4f6fc58c95c048c0f72b2a',1,'VS_FIXEDFILEINFO']]],
+  ['dyldallimageinfo',['DyldAllImageInfo',['../classcrashpad_1_1ProcessReader.html#a653ed07c8b41c82ddc35a6390d74d3b7',1,'crashpad::ProcessReader']]],
+  ['dyldgetallimageinfos',['DyldGetAllImageInfos',['../namespacecrashpad_1_1test.html#ab80403780da9c07617b44d8d7db7c618',1,'crashpad::test']]],
   ['dylibversion',['DylibVersion',['../classcrashpad_1_1MachOImageReader.html#a42cdb8f4d8dc4ab9b768b1219133ab2c',1,'crashpad::MachOImageReader']]],
   ['dylinkername',['DylinkerName',['../classcrashpad_1_1MachOImageReader.html#a0d74f905f989440e4602371c3b1f148d',1,'crashpad::MachOImageReader']]]
 ];

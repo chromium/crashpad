@@ -109,6 +109,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a02fdb7d5933eafaa596d4872ff95841d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcd874395af5ca91e28f9056f6c3fe5e"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="structcrashpad_1_1ProcessReader_1_1Module.html">Module</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReader.html#afcd874395af5ca91e28f9056f6c3fe5e">Modules</a> ()</td></tr>
 <tr class="separator:afcd874395af5ca91e28f9056f6c3fe5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a653ed07c8b41c82ddc35a6390d74d3b7"><td class="memItemLeft" align="right" valign="top">mach_vm_address_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReader.html#a653ed07c8b41c82ddc35a6390d74d3b7">DyldAllImageInfo</a> (mach_vm_size_t *all_image_info_size)</td></tr>
+<tr class="memdesc:a653ed07c8b41c82ddc35a6390d74d3b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the location of the <code>dyld_all_image_infos</code> structure in the process’ address space.  <a href="#a653ed07c8b41c82ddc35a6390d74d3b7">More...</a><br /></td></tr>
+<tr class="separator:a653ed07c8b41c82ddc35a6390d74d3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Accesses information about another process, identified by a Mach task. </p>
@@ -148,6 +151,34 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> on success, <code>false</code> on failure, with a warning logged. On failure, <em>user_time</em> and <em>system_time</em> will be set to represent no time spent executing code in user or system mode. </dd></dl>
+
+</div>
+</div>
+<a id="a653ed07c8b41c82ddc35a6390d74d3b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a653ed07c8b41c82ddc35a6390d74d3b7">&#9670;&nbsp;</a></span>DyldAllImageInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">mach_vm_address_t crashpad::ProcessReader::DyldAllImageInfo </td>
+          <td>(</td>
+          <td class="paramtype">mach_vm_size_t *&#160;</td>
+          <td class="paramname"><em>all_image_info_size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines the location of the <code>dyld_all_image_infos</code> structure in the process’ address space. </p>
+<p>This function is an internal implementation detail of <a class="el" href="classcrashpad_1_1ProcessReader.html#afcd874395af5ca91e28f9056f6c3fe5e">Modules()</a>, and should not normally be used directly. It is exposed solely for use by test code.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">all_image_info_size</td><td>The size of the <code>dyld_all_image_infos</code> structure. Optional, may be <code>nullptr</code> if not required.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The address of the <code>dyld_all_image_infos</code> structure in the process’ address space, with <em>all_image_info_size</em> set appropriately. On failure, returns <code>0</code> with a message logged. </dd></dl>
 
 </div>
 </div>

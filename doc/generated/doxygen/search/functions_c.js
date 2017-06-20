@@ -33,11 +33,13 @@ var searchData=
   ['loggingopenfileforreadandwrite',['LoggingOpenFileForReadAndWrite',['../namespacecrashpad.html#aab3e964bdba04aaf74e7a27a36efe108',1,'crashpad']]],
   ['loggingopenfileforwrite',['LoggingOpenFileForWrite',['../namespacecrashpad.html#a62fc6876cc0c660f0ea8bd1dd0a07e82',1,'crashpad']]],
   ['loggingrangeisfullyreadable',['LoggingRangeIsFullyReadable',['../classcrashpad_1_1ProcessInfo.html#ab9ac196dd7a93c528fdc2315f825e877',1,'crashpad::ProcessInfo']]],
+  ['loggingreadentirefile',['LoggingReadEntireFile',['../namespacecrashpad.html#a300ac399f9d33a4c47b4e4c148ebbe7c',1,'crashpad']]],
   ['loggingreadfileexactly',['LoggingReadFileExactly',['../namespacecrashpad.html#ac3fb8955565f605e08c1e30562fbdb7a',1,'crashpad']]],
   ['loggingseekfile',['LoggingSeekFile',['../namespacecrashpad.html#a3d6cedc10e24145d4a0c1000c33f8a10',1,'crashpad']]],
   ['loggingtruncatefile',['LoggingTruncateFile',['../namespacecrashpad.html#a06ba30c1a4b2974f1d4ea842db55b068',1,'crashpad']]],
   ['loggingunlockfile',['LoggingUnlockFile',['../namespacecrashpad.html#a15c1f3a2c6f04e944fdca12e22b0cb6e',1,'crashpad']]],
   ['loggingwritefile',['LoggingWriteFile',['../namespacecrashpad.html#a8a91af9c690d2a280c463596bf82070b',1,'crashpad']]],
   ['lookupcrashreport',['LookUpCrashReport',['../classcrashpad_1_1CrashReportDatabase.html#a19191932252bc836a84cf432ea8f3b7e',1,'crashpad::CrashReportDatabase']]],
-  ['lookupexternaldefinedsymbol',['LookUpExternalDefinedSymbol',['../classcrashpad_1_1MachOImageReader.html#adbaaf5a08d6e67fe7128d171cd11b176',1,'crashpad::MachOImageReader::LookUpExternalDefinedSymbol()'],['../classcrashpad_1_1MachOImageSymbolTableReader.html#ac85da22c3a7915bb5869a77765c9ffbc',1,'crashpad::MachOImageSymbolTableReader::LookUpExternalDefinedSymbol()']]]
+  ['lookupexternaldefinedsymbol',['LookUpExternalDefinedSymbol',['../classcrashpad_1_1MachOImageReader.html#adbaaf5a08d6e67fe7128d171cd11b176',1,'crashpad::MachOImageReader::LookUpExternalDefinedSymbol()'],['../classcrashpad_1_1MachOImageSymbolTableReader.html#ac85da22c3a7915bb5869a77765c9ffbc',1,'crashpad::MachOImageSymbolTableReader::LookUpExternalDefinedSymbol()']]],
+  ['lookupsymbol',['LookUpSymbol',['../classcrashpad_1_1test_1_1ScopedModuleHandle.html#a6771dd2f9f6b1553f3fd6df80225af32',1,'crashpad::test::ScopedModuleHandle']]]
 ];

@@ -86,7 +86,7 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr class="memdesc:a9e034dc1c99bf014191f44c90ebe7bd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The loaded module’s checksum, or <code>0</code> if unknown.  <a href="#a9e034dc1c99bf014191f44c90ebe7bd4">More...</a><br /></td></tr>
 <tr class="separator:a9e034dc1c99bf014191f44c90ebe7bd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae03bd3bf01de8e08c9a6abf37a9dfbbb"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MODULE.html#ae03bd3bf01de8e08c9a6abf37a9dfbbb">TimeDateStamp</a></td></tr>
-<tr class="memdesc:ae03bd3bf01de8e08c9a6abf37a9dfbbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The module’s timestamp, in <code>time_t</code> units, seconds since the POSIX epoch.  <a href="#ae03bd3bf01de8e08c9a6abf37a9dfbbb">More...</a><br /></td></tr>
+<tr class="memdesc:ae03bd3bf01de8e08c9a6abf37a9dfbbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The module’s timestamp, in <code>time_t</code> units, seconds since the POSIX epoch, or <code>0</code> if unknown.  <a href="#ae03bd3bf01de8e08c9a6abf37a9dfbbb">More...</a><br /></td></tr>
 <tr class="separator:ae03bd3bf01de8e08c9a6abf37a9dfbbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8aa1ae48a9a32640573747cba5a00274"><td class="memItemLeft" align="right" valign="top"><a id="a8aa1ae48a9a32640573747cba5a00274"></a>
 <a class="el" href="dbghelp_8h.html#acf465a1a77ecf067a9d946583bc6a3f8">RVA</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMINIDUMP__MODULE.html#a8aa1ae48a9a32640573747cba5a00274">ModuleNameRva</a></td></tr>
@@ -183,8 +183,8 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>Reserved1</b></td
       </table>
 </div><div class="memdoc">
 
-<p>The module’s timestamp, in <code>time_t</code> units, seconds since the POSIX epoch. </p>
-<p>On Windows, this field comes from the <code>TimeDateStamp</code> field of the module’s <code>IMAGE_HEADER</code> structure. It reflects the timestamp at the time the module was linked. </p>
+<p>The module’s timestamp, in <code>time_t</code> units, seconds since the POSIX epoch, or <code>0</code> if unknown. </p>
+<p>On Windows, this field comes from the <code>TimeDateStamp</code> field of the module’s <code>IMAGE_FILE_HEADER</code> structure. It reflects the timestamp at the time the module was linked. </p>
 
 </div>
 </div>
