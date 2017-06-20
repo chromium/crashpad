@@ -28,7 +28,7 @@ bool ReinterpretBytesImpl(const char* from,
 
 }  // namespace internal
 
-//! \brief Copies the bytes of \a from to \to.
+//! \brief Copies the bytes of \a from to \a to.
 //!
 //! This function is similar to `bit_cast`, except that it can operate on
 //! differently sized types.
