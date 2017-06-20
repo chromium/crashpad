@@ -285,7 +285,11 @@
                 '<(INTERMEDIATE_DIR)/util/mach/<(RULE_INPUT_ROOT)Server.h',
               ],
               'action': [
-                'python', '<@(_inputs)', '<(RULE_INPUT_PATH)', '<@(_outputs)'
+                'python',
+                '<@(_inputs)',
+                '<(RULE_INPUT_PATH)',
+                '<@(_outputs)',
+                '--include=../compat/mac'
               ],
               'process_outputs_as_sources': 1,
             },
