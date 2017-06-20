@@ -966,7 +966,7 @@ template&lt;typename To , typename From &gt; </td></tr>
 <tr class="separator:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61b73837f43334046a1b56763fefba55"><td class="memTemplParams" colspan="2">template&lt;typename From , typename To &gt; </td></tr>
 <tr class="memitem:a61b73837f43334046a1b56763fefba55"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a61b73837f43334046a1b56763fefba55">ReinterpretBytes</a> (const From &amp;from, To *to)</td></tr>
-<tr class="memdesc:a61b73837f43334046a1b56763fefba55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the bytes of <em>from</em> to .  <a href="#a61b73837f43334046a1b56763fefba55">More...</a><br /></td></tr>
+<tr class="memdesc:a61b73837f43334046a1b56763fefba55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the bytes of <em>from</em> to <em>to</em>.  <a href="#a61b73837f43334046a1b56763fefba55">More...</a><br /></td></tr>
 <tr class="separator:a61b73837f43334046a1b56763fefba55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9a547efca1b5ea53e95a3a12047c38a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#af9a547efca1b5ea53e95a3a12047c38a">ZlibWindowBitsWithGzipWrapper</a> (int window_bits)</td></tr>
 <tr class="memdesc:af9a547efca1b5ea53e95a3a12047c38a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain a <em>window_bits</em> parameter to pass to <code>deflateInit2()</code> or <code>inflateInit2()</code> that specifies a <code>gzip</code> wrapper instead of the default zlib wrapper.  <a href="#af9a547efca1b5ea53e95a3a12047c38a">More...</a><br /></td></tr>
@@ -5646,7 +5646,7 @@ template&lt;typename From , typename To &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Copies the bytes of <em>from</em> to . </p>
+<p>Copies the bytes of <em>from</em> to <em>to</em>. </p>
 <p>This function is similar to <code>bit_cast</code>, except that it can operate on differently sized types.</p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the copy is possible without information loss, otherwise <code>false</code> with a message logged. </dd></dl>
 
