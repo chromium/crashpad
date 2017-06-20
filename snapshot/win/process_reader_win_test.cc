@@ -19,6 +19,7 @@
 
 #include "gtest/gtest.h"
 #include "test/win/win_multiprocess.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/synchronization/semaphore.h"
 #include "util/thread/thread.h"
 #include "util/win/scoped_process_suspend.h"
@@ -42,10 +43,8 @@ TEST(ProcessReaderWin, SelfBasic) {
 
   const char kTestMemory[] = "Some test memory";
   char buffer[arraysize(kTestMemory)];
-  ASSERT_TRUE(
-      process_reader.ReadMemory(reinterpret_cast<uintptr_t>(kTestMemory),
-                                sizeof(kTestMemory),
-                                &buffer));
+  ASSERT_TRUE(process_reader.ReadMemory(
+      reinterpret_cast<uintptr_t>(kTestMemory), sizeof(kTestMemory), &buffer));
   EXPECT_STREQ(kTestMemory, buffer);
 }
 
@@ -78,7 +77,7 @@ class ProcessReaderChild final : public WinMultiprocess {
   }
 
   void WinMultiprocessChild() override {
-    WinVMAddress address = reinterpret_cast<WinVMAddress>(kTestMemory);
+    WinVMAddress address = FromPointerCast<WinVMAddress>(kTestMemory);
     CheckedWriteFile(WritePipeHandle(), &address, sizeof(address));
 
     // Wait for the parent to signal that it's OK to exit by closing its end of

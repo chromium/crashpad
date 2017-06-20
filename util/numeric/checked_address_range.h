@@ -143,8 +143,6 @@ class CheckedAddressRangeGeneric {
   // uniformly, but these types are too wide for the underlying pointer and size
   // types in 32-bit processes.
   bool range_ok_;
-
-  DISALLOW_COPY_AND_ASSIGN(CheckedAddressRangeGeneric);
 };
 
 }  // namespace internal

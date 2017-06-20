@@ -37,8 +37,10 @@ using Nothing = char[0];
 
 // Some structure definitions differ in 32-bit and 64-bit environments by having
 // additional “reserved” padding fields present only in the 64-bit environment.
-// These Reserved*_64Only* types allow the process_types system to replicate
+// These Reserved*_*Only* types allow the process_types system to replicate
 // these structures more precisely.
+using Reserved32_32Only32 = uint32_t;
+using Reserved32_32Only64 = Nothing;
 using Reserved32_64Only32 = Nothing;
 using Reserved32_64Only64 = uint32_t;
 using Reserved64_64Only32 = Nothing;
@@ -71,6 +73,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     using Pointer = internal::TraitsGeneric::Pointer;                          \
     using IntPtr = internal::TraitsGeneric::IntPtr;                            \
     using UIntPtr = internal::TraitsGeneric::UIntPtr;                          \
+    using Reserved32_32Only = internal::TraitsGeneric::Reserved32_32Only;      \
     using Reserved32_64Only = internal::TraitsGeneric::Reserved32_64Only;      \
     using Reserved64_64Only = internal::TraitsGeneric::Reserved64_64Only;      \
     using Nothing = internal::TraitsGeneric::Nothing;                          \
@@ -162,6 +165,7 @@ DECLARE_PROCESS_TYPE_TRAITS_CLASS(Generic, 64)
     using Pointer = typename Traits::Pointer;                                  \
     using IntPtr = typename Traits::IntPtr;                                    \
     using UIntPtr = typename Traits::UIntPtr;                                  \
+    using Reserved32_32Only = typename Traits::Reserved32_32Only;              \
     using Reserved32_64Only = typename Traits::Reserved32_64Only;              \
     using Reserved64_64Only = typename Traits::Reserved64_64Only;              \
     using Nothing = typename Traits::Nothing;                                  \

@@ -177,12 +177,12 @@ bool DeliverException(thread_t thread,
 
 void SimulateCrash(const NativeCPUContext& cpu_context) {
 #if defined(ARCH_CPU_X86)
-  DCHECK_EQ(cpu_context.tsh.flavor,
+  DCHECK_EQ(implicit_cast<thread_state_flavor_t>(cpu_context.tsh.flavor),
             implicit_cast<thread_state_flavor_t>(x86_THREAD_STATE32));
   DCHECK_EQ(implicit_cast<mach_msg_type_number_t>(cpu_context.tsh.count),
             x86_THREAD_STATE32_COUNT);
 #elif defined(ARCH_CPU_X86_64)
-  DCHECK_EQ(cpu_context.tsh.flavor,
+  DCHECK_EQ(implicit_cast<thread_state_flavor_t>(cpu_context.tsh.flavor),
             implicit_cast<thread_state_flavor_t>(x86_THREAD_STATE64));
   DCHECK_EQ(implicit_cast<mach_msg_type_number_t>(cpu_context.tsh.count),
             x86_THREAD_STATE64_COUNT);

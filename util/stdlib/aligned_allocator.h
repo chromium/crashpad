@@ -23,7 +23,6 @@
 #include <utility>
 #include <vector>
 
-#include "base/compiler_specific.h"
 #include "build/build_config.h"
 #include "util/stdlib/cxx.h"
 
@@ -55,7 +54,7 @@ void AlignedFree(void* pointer);
 //! This is similar to `std::allocator<T>`, with the addition of an alignment
 //! guarantee. \a Alignment must be a power of 2. If \a Alignment is not
 //! specified, the default alignment for type \a T is used.
-template <class T, size_t Alignment = ALIGNOF(T)>
+template <class T, size_t Alignment = alignof(T)>
 struct AlignedAllocator {
  public:
   using value_type = T;
@@ -130,7 +129,7 @@ bool operator!=(const AlignedAllocator<T1, Alignment>& lhs,
 //! This is similar to `std::vector<T>`, with the addition of an alignment
 //! guarantee. \a Alignment must be a power of 2. If \a Alignment is not
 //! specified, the default alignment for type \a T is used.
-template <typename T, size_t Alignment = ALIGNOF(T)>
+template <typename T, size_t Alignment = alignof(T)>
 using AlignedVector = std::vector<T, AlignedAllocator<T, Alignment>>;
 
 }  // namespace crashpad

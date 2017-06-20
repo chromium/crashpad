@@ -42,6 +42,15 @@ inline void Assign(Type* destination, const Type& source) {
 }
 
 template <>
+inline void Assign<process_types::internal::Reserved32_32Only64,
+                   process_types::internal::Reserved32_32Only32>(
+    process_types::internal::Reserved32_32Only64* destination,
+    const process_types::internal::Reserved32_32Only32& source) {
+  // Reserved32_32Only32 carries no data and has no storage in the 64-bit
+  // structure.
+}
+
+template <>
 inline void Assign<process_types::internal::Reserved32_64Only64,
                    process_types::internal::Reserved32_64Only32>(
     process_types::internal::Reserved32_64Only64* destination,

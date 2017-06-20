@@ -35,11 +35,15 @@ namespace {
 // gtest assertions.
 void SanityCheckContext(const NativeCPUContext& context) {
 #if defined(ARCH_CPU_X86)
-  ASSERT_EQ(context.tsh.flavor, x86_THREAD_STATE32);
-  ASSERT_EQ(context.tsh.count, implicit_cast<int>(x86_THREAD_STATE32_COUNT));
+  ASSERT_EQ(implicit_cast<thread_state_flavor_t>(context.tsh.flavor),
+            implicit_cast<thread_state_flavor_t>(x86_THREAD_STATE32));
+  ASSERT_EQ(implicit_cast<uint32_t>(context.tsh.count),
+            implicit_cast<uint32_t>(x86_THREAD_STATE32_COUNT));
 #elif defined(ARCH_CPU_X86_64)
-  ASSERT_EQ(context.tsh.flavor, x86_THREAD_STATE64);
-  ASSERT_EQ(context.tsh.count, implicit_cast<int>(x86_THREAD_STATE64_COUNT));
+  ASSERT_EQ(implicit_cast<thread_state_flavor_t>(context.tsh.flavor),
+            implicit_cast<thread_state_flavor_t>(x86_THREAD_STATE64));
+  ASSERT_EQ(implicit_cast<uint32_t>(context.tsh.count),
+            implicit_cast<uint32_t>(x86_THREAD_STATE64_COUNT));
 #endif
 
 #if defined(ARCH_CPU_X86_FAMILY)

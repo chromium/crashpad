@@ -12,18 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <intrin.h>
 #include <windows.h>
 
 #include "base/logging.h"
 #include "client/crashpad_client.h"
 #include "client/simulate_crash.h"
 #include "util/file/file_io.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/win/address_types.h"
 
 namespace {
 
 __declspec(noinline) crashpad::WinVMAddress CurrentAddress() {
-  return reinterpret_cast<crashpad::WinVMAddress>(_ReturnAddress());
+  return crashpad::FromPointerCast<crashpad::WinVMAddress>(_ReturnAddress());
 }
 
 }  // namespace

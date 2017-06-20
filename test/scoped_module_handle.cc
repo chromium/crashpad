@@ -12,14 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_COMPAT_ANDROID_ELF_H_
-#define CRASHPAD_COMPAT_ANDROID_ELF_H_
+#include "test/scoped_module_handle.h"
 
-#include_next <elf.h>
+#include "base/logging.h"
 
-// Android 5.0.0 (API 21) NDK
-#if !defined(NT_PRSTATUS)
-#define NT_PRSTATUS 1
+namespace crashpad {
+namespace test {
+
+// static
+void ScopedModuleHandle::Impl::Close(ModuleHandle handle) {
+#if defined(OS_POSIX)
+  if (dlclose(handle) != 0) {
+    LOG(ERROR) << "dlclose: " << dlerror();
+  }
+#elif defined(OS_WIN)
+  if (!FreeLibrary(handle)) {
+    PLOG(ERROR) << "FreeLibrary";
+  }
+#else
+#error Port
 #endif
+}
 
-#endif  // CRASHPAD_COMPAT_ANDROID_ELF_H_
+ScopedModuleHandle::ScopedModuleHandle(ModuleHandle handle) : handle_(handle) {}
+
+ScopedModuleHandle::~ScopedModuleHandle() {
+  if (valid()) {
+    Impl::Close(handle_);
+  }
+}
+
+}  // namespace test
+}  // namespace crashpad

@@ -25,7 +25,7 @@ deps = {
       'd62d6c6556d96dda924382547c54a4b3afedb22c',
   'crashpad/third_party/gyp/gyp':
       Var('chromium_git') + '/external/gyp@' +
-      'a7055b3989c1074adca03b4b4829e7f0e57f6efd',
+      'ffd524cefaad622e72995e852ffb0b18e83f8054',
 
   # TODO(scottmg): Consider pinning these. For now, we don't have any particular
   # reason to do so.
@@ -38,7 +38,7 @@ deps = {
 
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      'dc3d480305b27a5a1fb57f51a997529e00fed00b',
+      '723e840a2f100a525f7feaad2e93df31d701780a',
   'crashpad/third_party/zlib/zlib':
       Var('chromium_git') + '/chromium/src/third_party/zlib@' +
       '13dc246a58e4b72104d35f9b1809af95221ebda7',

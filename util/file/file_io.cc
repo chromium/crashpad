@@ -156,6 +156,27 @@ void CheckedReadFileAtEOF(FileHandle file) {
   }
 }
 
+bool LoggingReadEntireFile(const base::FilePath& path, std::string* contents) {
+  ScopedFileHandle handle(LoggingOpenFileForRead(path));
+  if (!handle.is_valid()) {
+    return false;
+  }
+
+  char buffer[4096];
+  FileOperationResult rv;
+  std::string local_contents;
+  while ((rv = ReadFile(handle.get(), buffer, sizeof(buffer))) > 0) {
+    DCHECK_LE(static_cast<size_t>(rv), sizeof(buffer));
+    local_contents.append(buffer, rv);
+  }
+  if (rv < 0) {
+    PLOG(ERROR) << internal::kNativeReadFunctionName;
+    return false;
+  }
+  contents->swap(local_contents);
+  return true;
+}
+
 void CheckedCloseFile(FileHandle file) {
   CHECK(LoggingCloseFile(file));
 }

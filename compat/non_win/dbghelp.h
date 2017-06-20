@@ -533,11 +533,11 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_MODULE {
   uint32_t CheckSum;
 
   //! \brief The module’s timestamp, in `time_t` units, seconds since the POSIX
-  //!     epoch.
+  //!     epoch, or `0` if unknown.
   //!
   //! On Windows, this field comes from the `TimeDateStamp` field of the
-  //! module’s `IMAGE_HEADER` structure. It reflects the timestamp at the time
-  //! the module was linked.
+  //! module’s `IMAGE_FILE_HEADER` structure. It reflects the timestamp at the
+  //! time the module was linked.
   uint32_t TimeDateStamp;
 
   //! \brief ::RVA of a MINIDUMP_STRING containing the module’s path or file
@@ -723,11 +723,11 @@ struct __attribute__((packed, aligned(4))) MINIDUMP_UNLOADED_MODULE {
   uint32_t CheckSum;
 
   //! \brief The module’s timestamp, in `time_t` units, seconds since the POSIX
-  //!     epoch.
+  //!     epoch, or `0` if unknown.
   //!
   //! On Windows, this field comes from the `TimeDateStamp` field of the
-  //! module’s `IMAGE_HEADER` structure. It reflects the timestamp at the time
-  //! the module was linked.
+  //! module’s `IMAGE_FILE_HEADER` structure. It reflects the timestamp at the
+  //! time the module was linked.
   uint32_t TimeDateStamp;
 
   //! \brief ::RVA of a MINIDUMP_STRING containing the module’s path or file

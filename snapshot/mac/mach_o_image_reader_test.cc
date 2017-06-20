@@ -32,6 +32,7 @@
 #include "snapshot/mac/process_reader.h"
 #include "snapshot/mac/process_types.h"
 #include "test/mac/dyld.h"
+#include "util/misc/from_pointer_cast.h"
 #include "util/misc/implicit_cast.h"
 #include "util/misc/uuid.h"
 
@@ -133,7 +134,7 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
     const uint8_t* expect_segment_data = getsegmentdata(
         expect_image, segment_name.c_str(), &expect_segment_size);
     mach_vm_address_t expect_segment_address =
-        reinterpret_cast<mach_vm_address_t>(expect_segment_data);
+        FromPointerCast<mach_vm_address_t>(expect_segment_data);
     EXPECT_EQ(actual_segment->Address(), expect_segment_address);
     EXPECT_EQ(actual_segment->vmsize(), expect_segment_size);
     EXPECT_EQ(actual_segment->Size(), actual_segment->vmsize());
@@ -191,7 +192,7 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
                                                           section_name.c_str(),
                                                           &expect_section_size);
       mach_vm_address_t expect_section_address =
-          reinterpret_cast<mach_vm_address_t>(expect_section_data);
+          FromPointerCast<mach_vm_address_t>(expect_section_data);
       EXPECT_EQ(actual_section_address, expect_section_address);
       EXPECT_EQ(actual_section->size, expect_section_size);
     } else {
@@ -501,7 +502,7 @@ TEST(MachOImageReader, Self_MainExecutable) {
       reinterpret_cast<MachHeader*>(dlsym(RTLD_MAIN_ONLY, MH_EXECUTE_SYM));
   ASSERT_NE(mh_execute_header, nullptr);
   mach_vm_address_t mh_execute_header_address =
-      reinterpret_cast<mach_vm_address_t>(mh_execute_header);
+      FromPointerCast<mach_vm_address_t>(mh_execute_header);
 
   MachOImageReader image_reader;
   ASSERT_TRUE(image_reader.Initialize(
@@ -547,7 +548,7 @@ TEST(MachOImageReader, Self_DyldImages) {
     const MachHeader* mach_header =
         reinterpret_cast<const MachHeader*>(_dyld_get_image_header(index));
     mach_vm_address_t image_address =
-        reinterpret_cast<mach_vm_address_t>(mach_header);
+        FromPointerCast<mach_vm_address_t>(mach_header);
 
     MachOImageReader image_reader;
     ASSERT_TRUE(
@@ -576,8 +577,7 @@ TEST(MachOImageReader, Self_DyldImages) {
 
   // Now that all of the modules have been verified, make sure that dyld itself
   // can be read properly too.
-  const struct dyld_all_image_infos* dyld_image_infos =
-      _dyld_get_all_image_infos();
+  const dyld_all_image_infos* dyld_image_infos = DyldGetAllImageInfos();
   ASSERT_GE(dyld_image_infos->version, 1u);
   EXPECT_EQ(dyld_image_infos->infoArrayCount, count);
 
@@ -588,7 +588,7 @@ TEST(MachOImageReader, Self_DyldImages) {
     const MachHeader* mach_header = reinterpret_cast<const MachHeader*>(
         dyld_image_infos->dyldImageLoadAddress);
     mach_vm_address_t image_address =
-        reinterpret_cast<mach_vm_address_t>(mach_header);
+        FromPointerCast<mach_vm_address_t>(mach_header);
 
     MachOImageReader image_reader;
     ASSERT_TRUE(
@@ -619,7 +619,7 @@ TEST(MachOImageReader, Self_DyldImages) {
       const MachHeader* mach_header =
           reinterpret_cast<const MachHeader*>(dyld_image->imageLoadAddress);
       mach_vm_address_t image_address =
-          reinterpret_cast<mach_vm_address_t>(mach_header);
+          FromPointerCast<mach_vm_address_t>(mach_header);
 
       MachOImageReader image_reader;
       ASSERT_TRUE(
