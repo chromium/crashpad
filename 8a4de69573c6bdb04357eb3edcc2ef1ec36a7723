@@ -16,6 +16,24 @@
       "revId": "8a4de69573c6bdb04357eb3edcc2ef1ec36a7723",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72c2c838_2a6fedeb",
+        "filename": "util/synchronization/semaphore_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-21T08:11:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8c1122f7_fb1f5d3d",
+      "revId": "8a4de69573c6bdb04357eb3edcc2ef1ec36a7723",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
