@@ -66,7 +66,7 @@ bool Semaphore::TimedWait(double seconds) {
   }
   timespec timeout;
   timeout.tv_sec = seconds;
-  timeout.tv_nsec = (seconds - trunc(seconds)) * 1E9;
+  timeout.tv_nsec = (seconds - std::trunc(seconds)) * 1E9;
   AddTimespec(current_time, timeout, &timeout);
 
   int rv = HANDLE_EINTR(sem_timedwait(&semaphore_, &timeout));
