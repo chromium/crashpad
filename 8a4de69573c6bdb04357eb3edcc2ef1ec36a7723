@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c1122f7_fb1f5d3d",
+        "filename": "util/synchronization/semaphore_posix.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-21T03:31:30Z",
+      "side": 1,
+      "message": "We may want to consolidate this with process_util_linux.cc’s SubtractTimespec() and put them both together somewhere else in util. But this is OK here at the point of use for now.",
+      "revId": "8a4de69573c6bdb04357eb3edcc2ef1ec36a7723",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
