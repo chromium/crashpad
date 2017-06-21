@@ -66,8 +66,12 @@ bool Semaphore::TimedWait(double seconds) {
   }
   timespec timeout;
   timeout.tv_sec = seconds;
+<<<<<<< Updated upstream
   timeout.tv_nsec = (seconds - trunc(seconds)) * 1E9;
   AddTimespec(current_time, timeout, &timeout);
+=======
+  timeout.tv_nsec = (seconds - std::trunc(seconds)) * 1E9;
+>>>>>>> Stashed changes
 
   int rv = HANDLE_EINTR(sem_timedwait(&semaphore_, &timeout));
   PCHECK(rv == 0 || errno == ETIMEDOUT) << "sem_timedwait";
