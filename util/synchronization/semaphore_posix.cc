@@ -15,9 +15,8 @@
 #include "util/synchronization/semaphore.h"
 
 #include <errno.h>
+#include <math.h>
 #include <time.h>
-
-#include <cmath>
 
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
@@ -54,7 +53,7 @@ void Semaphore::Wait() {
 bool Semaphore::TimedWait(double seconds) {
   DCHECK_GE(seconds, 0.0);
 
-  if (std::isinf(seconds)) {
+  if (isinf(seconds)) {
     Wait();
     return true;
   }
@@ -66,7 +65,7 @@ bool Semaphore::TimedWait(double seconds) {
   }
   timespec timeout;
   timeout.tv_sec = seconds;
-  timeout.tv_nsec = (seconds - std::trunc(seconds)) * 1E9;
+  timeout.tv_nsec = (seconds - trunc(seconds)) * 1E9;
   AddTimespec(current_time, timeout, &timeout);
 
   int rv = HANDLE_EINTR(sem_timedwait(&semaphore_, &timeout));
