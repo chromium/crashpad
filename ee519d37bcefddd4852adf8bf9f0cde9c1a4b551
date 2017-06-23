@@ -1,0 +1,718 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0da32248_2434b71a",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Interesting. I’m having a hard time understanding this. Why would the |size| argument received here be wrong? Why wouldn’t be be able to read (address, size) in a single operation?",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b69efd5f_cb836cfa",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "There’s no sense in reading a partial DynType either, if size is not a proper multiple of sizeof(DynType). As it is, you’d populate part of a DynType and then treat the whole thing as valid, even the bytes that you didn’t read.\n\nYou could check size \u003e\u003d sizeof(buffer) instead of size \u003e 0.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c60c0c86_c29a4b3e",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "buffer is [1], having this loop just complicates things.\n\nIf you’re going to have buffer[1], you might as well have it not be an array, and use \u0026buffer in place of buffer.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "196d9c40_f61b5b67",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "What if there’s a duplicate?",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f5ad71d_7979918b",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Log something about what went wrong.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87974640_6342574f",
+        "filename": "util/linux/elf_dynamic_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "By this, you mean the PT_DYNAMIC segment, right? Can you call it out by name here?\n\nIn fact, maybe you should call this whole class (and its filename) ElfDynamicSegmentReader to make that even clearer.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eeb36a8_b1dabff7",
+        "filename": "util/linux/elf_dynamic_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "I suspect that there are a number of places where we’ll have ProcessMemory and is_64_bit being passed around together. Should we have a slightly higher-level concept that groups them together?",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43575141_02b31f73",
+        "filename": "util/linux/elf_dynamic_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Can you document this?",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55ee4ae0_f913d6cc",
+        "filename": "util/linux/elf_dynamic_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "#include \"base/macros.h\" for this.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91b58972_eb4065a8",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Give this a protected destructor or a public virtual destructor to make sure that this is used correctly.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4d9063a_0d984b0c",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "I think it makes more sense to expose GetPreferredBaseAddress() here, and leave the computation of the load bias to ElfImageReader::Initialize(). There’s no reason to have to push the concept of “actual” into an object of this class.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62e7eea3_8f43d776",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "This is kind of more of an Initialize() in local parlance, right?\n\nIn fact, you can throw an INITIALIZATION_STATE_DCHECK on here and test it in GetProgramHeader() and GetLoadBias()/GetPreferredBaseAddress().\n\nAs Initialize(), it’d also make more sense to move it above the getters, so that a top-down read of this class is more sensible.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b730b049_270e2e46",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "load_bias_(0)?",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71989207_3b6ff1f1",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "ELFCLASS64 instead of 2.\n\nYou should also verify that if it’s either ELFCLASS32 or ELFCLASS64.\n\nAnd, per the previous comment, it’d be nice to check “process is 64-bit” against “image is 64-bit”.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "057dd210_0f185115",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Other things to validate:\n\ne_ident[EI_DATA] \u003d\u003d ELFDATA2LSB or ELFDATA2MSB based on ARCH_CPU_*_ENDIAN. (No point in tolerating off-endian since we’re currently only concerned with and capable of reading native-endian here.)\n\ne_ident[EI_VERSION] \u003d\u003d EV_CURRENT, because if the version is off, then who’s to say that we can make sense of any of the rest of the file?",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b034f141_7316d537",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "I think you want is_uninitialized() and not !is_valid(). There’s no point in trying to initialize it again if you already tried once before and failed.\n\nSame on lines 156 and 184.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a879ecd5_63c75fc0",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Capitalize GNU.\n\nAnd PT_DYNAMIC is a segment, not a section, so say section.\n\nAnd “linker” is confusing terminology, can you refer to it as “loader” here and on the next line?",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b054c1d_83ade211",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Since you have this same thing here and in InitializeSymbolTable(), maybe you want to consolidate it into a private |LinuxVMAddress AddressInDynamicSection(LinuxVMAddress) const| helper method.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c919c74_a3008a17",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Verify fields that you can deal with here. At the very least, e_version should be EV_CURRENT.\n\nI also think that you should verify e_type, because not all ELF files are loaded modules. ET_EXEC and ET_DYN are, but if someone’s mapped a core file (ET_CORE) or an object file (ET_REL), we wouldn’t want to mess with it here.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "995925dc_51e20a90",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "false is a nicer constant when you’re looking to be interpreted as a boolean anyway.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47ebd8b5_8934ed3a",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "DCHECK(dynamic_table_initialized_.is_uninitialized()) first to guard against multiple initialization. Since this is InitializationState and not InitializationStateDcheck, it’s on you to do the DCHECK yourself.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "778df08c_36393c23",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Actually, considering the other comment I left you on line 140, you might want to restructure this to allow the Initialize*() methods to be called multiple times, and make them be responsible for deciding whether they need to initialize or not. That’d keep you from having the pattern where you do is_uninitialized() \u0026\u0026 Initialize() three times.\n\n  if (is_valid()) {\n    return true;\n  }\n  if (is_invalid()) {\n    return false;\n  }\n  DCHECK(is_uninitialized());\n\n  set_invalid();\n\n  // do initialization\n\n  set_valid();\n  return true;",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62f385db_5a851935",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "segment",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd6942b2_006626c3",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "You didn’t include the #if guards around this that you did for the symbol or string tables. Just double-checking that this is correct.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8707f413_7ed92b88",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Same DCHECK as in InitializeDynamicTable().",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19df7025_84b9f0b7",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Same as line 173.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab7f7912_3946880d",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Some of the things that you read are unbounded—whatever memory says an offset or pointer is, you just go ahead and read it. Is there a way to apply bounds to any of these things to ensure that we don’t attempt to read outside of the module we’re looking at? If something does point outside of its own module, it’s a bad sign…",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3b658bd_f3ffeb2d",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "but maybe it should be told whether we’re looking at a 32-bit or 64-bit process, so that we can sanity check its bitness. (This kind of goes along with the suggestion I had for carrying bitness along with the memory reader in ElfDynamicTableReader.)",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b62e7c6b_d7a3f1cf",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Put these constants in `backticks` too.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a956e056_44d31c90",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "\u003cstdint.h\u003e",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fce8478d_b6102c2a",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Clarify that this is concerned with the dynamic symbol table (`.dynsym`), because otherwise, someone might get the idea that this is about .symtab.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9174829_ae976f92",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Say something about NUL termination.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfc8f8e8_769acfd7",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "As with GetSymbol(), you should specify that this is about the dynamic string table (`.dynstr`).",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8e83a0a_1923b0be",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "`r_debug` and `\u003clink.h\u003e`.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7560915c_7ab77b93",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Minor nit: header_32_, header_64_.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3e909cd_8686c65f",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "#include \u003cmemory\u003e",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4ad1538_721488a6",
+        "filename": "util/linux/elf_symbol_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "You aren’t affirmatively checking for the end of the symbol table at all.\n\nIdeally you’d know how long the symbol table is, and only allow yourself to read within those bounds. But that means you’d need to look at the section headers instead of/in addition to the dynamic table.\n\nThat’d also be nice for ElfImageReader::ReadStringTableAtOffset(), to make sure that you don’t read outside of .dynstr.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70abde95_6964d175",
+        "filename": "util/linux/elf_symbol_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "We need to nail this down a little bit more.\n\nWe don’t want to return undefined symbols (st_shndx \u003d\u003d SHN_UNDEF) from here, although they will show up in the dynamic symbol table. And if you find anything SHN_ABS, you wouldn’t want to apply the load bias fix-up.\n\nThe Mach-O symbol table reader nails this down by not having a generically-named “GetSymbol” but instead “LookUpExternalDefinedSymbol”. Mach-O doesn’t have separate dynamic and non-dynamic symbol tables, so the “external” bit is intended to exclude things that wouldn’t appear in ELF’s dynamic symbol table anyway. But since this ELF symbol table reader isn’t specific to the dynamic symbol table, it may be worth nailing this down to ELF_ST_BIND(st_info) \u003d\u003d STB_GLOBAL or STB_WEAK. ELF_ST_TYPE(st_info) \u003d\u003d STT_OBJECT, STT_FUNC, or STT_COMMON also.\n\nSome of this may mean that you need to return a little more information from here, so that the caller can decide whether to compute load bias, etc. If things get to the point where we’re dealing with STT_TLS, that’d be relevant too, since those have a whole different interpretation.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e9d79b5_0c9c4c8c",
+        "filename": "util/linux/elf_symbol_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "The pointer itself can be const since you set it in the constructor’s initializer list. Same for elf_reader_.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4a2f784_f188cb1d",
+        "filename": "util/linux/elf_symbol_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "And the thing I was talking about before, with having bitness and the memory reader available in the same place, means that you don’t need a new bool field like this in every new object that needs to deal with structures that vary between bitnesses.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7f78588_5077d960",
+        "filename": "util/linux/test/exported_symbols.sym",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "Copyright comment",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85a7570f_36b813d3",
+        "filename": "util/linux/test/exported_symbols.sym",
+        "patchSetId": 19
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:42:24Z",
+      "side": 1,
+      "message": "I don’t think that we need a whole “test” directory for just this one file. Just put test in the filename, and add a comment saying that it’s used for crashpad_util_test.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
