@@ -29,6 +29,8 @@
         '..',
       ],
       'sources': [
+        'annotation_list.cc',
+        'annotation_list.h',
         'capture_context_mac.S',
         'capture_context_mac.h',
         'crash_report_database.cc',
@@ -52,6 +54,7 @@
         'simulate_crash_mac.cc',
         'simulate_crash_mac.h',
         'simulate_crash_win.h',
+        'string_annotation.h',
       ],
       'conditions': [
         ['OS=="win"', {
