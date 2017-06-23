@@ -52,6 +52,8 @@
         'linux/memory_map.h',
         'linux/process_memory.cc',
         'linux/process_memory.h',
+        'linux/registration_protocol.cc',
+        'linux/registration_protocol.h',
         'linux/thread_info.cc',
         'linux/thread_info.h',
         'linux/scoped_ptrace_attach.cc',
