@@ -16,6 +16,24 @@
       "revId": "485345f6d5c15c141721fd8e4dfb109b3cfe270c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bc266e3_37fb3b43",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-23T23:21:33Z",
+      "side": 1,
+      "message": "This was the result of me trying to optimize for having the crashing client do as little as possible. This struct is intended to be passed either as raw binary via a socket, or as a string via argv.\n\nThe string/argv version is for when we fork/exec a handler process from the client\u0027s signal handler. During Crashpad initialization/StartHandler, when the client is in a presumably safe state, we build the argv needed in the event of a crash. This includes the stringified version of this struct. At crash time, all we\u0027d need to do is fill in the ExceptionInformation struct (a global so the address is known at initialization), then fork/execv/waitpid. No creating/connecting a socket necessary.\n\nMy plan was to use the raw binary version via a socket when we have a long-lived handler and can create/connect a socket before the crash.\n\nWDYT?",
+      "parentUuid": "8c63cf0d_b0b7d0e2",
+      "revId": "485345f6d5c15c141721fd8e4dfb109b3cfe270c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
