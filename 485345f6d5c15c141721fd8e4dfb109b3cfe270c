@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c63cf0d_b0b7d0e2",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-23T21:56:30Z",
+      "side": 1,
+      "message": "What’s the story with the string stuff? Is that for the wire format? Why wouldn’t that just be raw binary?",
+      "revId": "485345f6d5c15c141721fd8e4dfb109b3cfe270c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
