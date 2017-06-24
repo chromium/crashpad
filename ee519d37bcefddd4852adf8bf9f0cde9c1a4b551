@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d3bc360_c208105b",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-24T00:50:43Z",
+      "side": 1,
+      "message": "When this is used from ElfImageReader, we have the segment size, which serves as an upper bound on the size (and during testing was the exact size). I originally thought to relax the need for a known size when I saw that link_map entries include a dynamic section address, with no size. Then I got paranoid and wondered if there\u0027s actually any requirement that the Dynamic Segment size is exactly the Dynamic Structure size.",
+      "parentUuid": "0da32248_2434b71a",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b69efd5f_cb836cfa",
         "filename": "util/linux/elf_dynamic_table_reader.cc",
         "patchSetId": 19
@@ -98,6 +116,24 @@
       "writtenOn": "2017-06-23T21:42:24Z",
       "side": 1,
       "message": "By this, you mean the PT_DYNAMIC segment, right? Can you call it out by name here?\n\nIn fact, maybe you should call this whole class (and its filename) ElfDynamicSegmentReader to make that even clearer.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb0c41b4_aeac3ee2",
+        "filename": "util/linux/elf_dynamic_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-24T00:50:43Z",
+      "side": 1,
+      "message": "It looks like the specification (not sure if there\u0027s a better one?) refers to it as the \"Dynamic Structure\" or \"Dynamic Array.\" The \"Dynamic Segment\" is the segment which contains the \"Dynamic Section\" which contains the \"Dynamic Structure\".\n\nhttp://www.cs.cmu.edu/afs/cs/academic/class/15213-f00/docs/elf.pdf\n\nI\u0027m not sure where I got table from, probably made it up.",
+      "parentUuid": "87974640_6342574f",
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -490,6 +526,24 @@
       "writtenOn": "2017-06-23T21:42:24Z",
       "side": 1,
       "message": "but maybe it should be told whether we’re looking at a 32-bit or 64-bit process, so that we can sanity check its bitness. (This kind of goes along with the suggestion I had for carrying bitness along with the memory reader in ElfDynamicTableReader.)",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e5b4546_9b44ea51",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-24T00:50:43Z",
+      "side": 1,
+      "message": "I was going back and forth on this. I wasn\u0027t sure there wouldn\u0027t be a case where we might want to read an ELF image and then query it for the size. I don\u0027t feel strongly about it if you\u0027d rather have the check in ElfImageReader rather than out.",
+      "parentUuid": "e3b658bd_f3ffeb2d",
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
