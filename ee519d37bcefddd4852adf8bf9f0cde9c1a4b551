@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9e8d3bd0_b003e99e",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-24T01:28:15Z",
+      "side": 1,
+      "message": "\u003e When this is used from ElfImageReader, we have the segment size, which serves as an upper bound on the size (and during testing was the exact size). I originally thought to relax the need for a known size when I saw that link_map entries include a dynamic section address, with no size. Then I got paranoid and wondered if there\u0027s actually any requirement that the Dynamic Segment size is exactly the Dynamic Structure size.\n\nI see.\n\nSince we’re requiring the size already, why don’t we treat it as a hard maximum? Then you can ProcessMemory::Read() the whole thing in one fell swoop, and peruse it at your leisure. You should stop after you see DT_NULL (per the spec), and maybe log a warning so that there’s a sign that something needs to be investigated that we may not have understood (it sounds like your paranoia means you wouldn’t want this to be fatal). And if you process the whole thing and don’t find DT_NULL, then we certainly haven’t understood it and we should log and fail.",
+      "parentUuid": "1d3bc360_c208105b",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b69efd5f_cb836cfa",
         "filename": "util/linux/elf_dynamic_table_reader.cc",
         "patchSetId": 19
@@ -134,6 +152,24 @@
       "side": 1,
       "message": "It looks like the specification (not sure if there\u0027s a better one?) refers to it as the \"Dynamic Structure\" or \"Dynamic Array.\" The \"Dynamic Segment\" is the segment which contains the \"Dynamic Section\" which contains the \"Dynamic Structure\".\n\nhttp://www.cs.cmu.edu/afs/cs/academic/class/15213-f00/docs/elf.pdf\n\nI\u0027m not sure where I got table from, probably made it up.",
       "parentUuid": "87974640_6342574f",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13d2c47d_1455bf7a",
+        "filename": "util/linux/elf_dynamic_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-24T01:28:15Z",
+      "side": 1,
+      "message": "\u003e It looks like the specification (not sure if there\u0027s a better one?) refers to it as the \"Dynamic Structure\" or \"Dynamic Array.\" The \"Dynamic Segment\" is the segment which contains the \"Dynamic Section\" which contains the \"Dynamic Structure\".\n\nCool, let’s choose something sort of standard then.\n\n\u003e http://www.cs.cmu.edu/afs/cs/academic/class/15213-f00/docs/elf.pdf\n\nThat’s a little dated, but it’s basically it. http://www.sco.com/developers/gabi/latest/contents.html is more current. LSB also extends it slightly (http://refspecs.linuxfoundation.org/lsb.shtml, ELF is covered in “Core”). There are also CPU-specific supplements…",
+      "parentUuid": "cb0c41b4_aeac3ee2",
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -544,6 +580,24 @@
       "side": 1,
       "message": "I was going back and forth on this. I wasn\u0027t sure there wouldn\u0027t be a case where we might want to read an ELF image and then query it for the size. I don\u0027t feel strongly about it if you\u0027d rather have the check in ElfImageReader rather than out.",
       "parentUuid": "e3b658bd_f3ffeb2d",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a91508f0_2dc5eb8e",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-24T01:28:15Z",
+      "side": 1,
+      "message": "\u003e I was going back and forth on this. I wasn\u0027t sure there wouldn\u0027t be a case where we might want to read an ELF image and then query it for the size. I don\u0027t feel strongly about it if you\u0027d rather have the check in ElfImageReader rather than out.\n\nI think that generally, telling an object “hey, put yourself in this mode” is better than saying “you figure it out, but if you guess wrong, I’ll shoot you.” But I don’t really envision needing to read 32-bit modules loaded into 64-bit processes…",
+      "parentUuid": "0e5b4546_9b44ea51",
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
