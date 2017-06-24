@@ -775,6 +775,24 @@
     },
     {
       "key": {
+        "uuid": "7dadaab1_485aa115",
+        "filename": "util/linux/elf_symbol_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-24T01:02:45Z",
+      "side": 1,
+      "message": "The ELF specification I linked in my other comment lists a DT_HASH entry in the Dynamic Structure as mandatory for executables and shared objects.",
+      "parentUuid": "f712ef9e_596c0fbc",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70abde95_6964d175",
         "filename": "util/linux/elf_symbol_table_reader.cc",
         "patchSetId": 19
