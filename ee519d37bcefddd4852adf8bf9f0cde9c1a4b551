@@ -703,6 +703,24 @@
     },
     {
       "key": {
+        "uuid": "f712ef9e_596c0fbc",
+        "filename": "util/linux/elf_symbol_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-24T00:48:36Z",
+      "side": 1,
+      "message": "\u003e But those might not be present. Is there a way to prevent running off the end if they’re not?\n\nMaybe that’s not true, maybe at least one of those is required. At least it looks like that’s what Bionic does.",
+      "parentUuid": "70e228ec_8cc8bc7d",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70abde95_6964d175",
         "filename": "util/linux/elf_symbol_table_reader.cc",
         "patchSetId": 19
