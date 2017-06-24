@@ -291,6 +291,24 @@
     },
     {
       "key": {
+        "uuid": "f1138278_16e11d83",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-24T00:11:03Z",
+      "side": 1,
+      "message": "\u003e And PT_DYNAMIC is a segment, not a section, so say section.\n\nsegment",
+      "parentUuid": "a879ecd5_63c75fc0",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b054c1d_83ade211",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -625,6 +643,24 @@
       "writtenOn": "2017-06-23T21:42:24Z",
       "side": 1,
       "message": "You aren’t affirmatively checking for the end of the symbol table at all.\n\nIdeally you’d know how long the symbol table is, and only allow yourself to read within those bounds. But that means you’d need to look at the section headers instead of/in addition to the dynamic table.\n\nThat’d also be nice for ElfImageReader::ReadStringTableAtOffset(), to make sure that you don’t read outside of .dynstr.",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e820563_c3f25be9",
+        "filename": "util/linux/elf_symbol_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-24T00:11:03Z",
+      "side": 1,
+      "message": "\u003e Ideally you’d know how long the symbol table is, and only allow yourself to read within those bounds. But that means you’d need to look at the section headers instead of/in addition to the dynamic table.\n\nBut you also told me that the loader wouldn’t normally make section headers available, so…\n\nIs there some other way to bound these? How do ld.so implementations interpret this and know when they’ve reached the end?",
+      "parentUuid": "c4ad1538_721488a6",
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
