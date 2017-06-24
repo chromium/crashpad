@@ -667,6 +667,24 @@
     },
     {
       "key": {
+        "uuid": "de0a4851_8c50c9f3",
+        "filename": "util/linux/elf_symbol_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-24T00:18:36Z",
+      "side": 1,
+      "message": "The number of entries is available in the .hash or .gnu.hash sections. I don\u0027t think I\u0027ve seen it available elsewhere yet. My plan was to make using .hash/.gnu.hash sections a high priority TODO once things are working end-to-end.",
+      "parentUuid": "1e820563_c3f25be9",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70abde95_6964d175",
         "filename": "util/linux/elf_symbol_table_reader.cc",
         "patchSetId": 19
