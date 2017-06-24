@@ -34,6 +34,24 @@
       "revId": "485345f6d5c15c141721fd8e4dfb109b3cfe270c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b9da45e_04187f00",
+        "filename": "util/linux/registration_protocol.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-24T20:00:21Z",
+      "side": 1,
+      "message": "Hmm, I\u0027m now realizing this strategy won\u0027t work for processes forked from the process that initialized Crashpad. It probably shouldn\u0027t be too hard to update the argument with the correct process ID, or perhaps add a handler flag like --dump-parent-with-exception\u003d\u003cExceptionInformation address\u003e.",
+      "parentUuid": "8bc266e3_37fb3b43",
+      "revId": "485345f6d5c15c141721fd8e4dfb109b3cfe270c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
