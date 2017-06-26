@@ -107,6 +107,11 @@
             'crashpad_snapshot_test_image_reader_module',
           ],
         }],
+        ['OS=="linux" or OS=="android"', {
+          'sources!': [
+            'crashpad_info_client_options_test.cc',
+          ],
+        }],
       ],
     },
     {
