@@ -22,6 +22,30 @@
       "revId": "bb059908a9f1f8d56c55cb29601b0a9d585979cd",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54b83df6_28974cca",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-26T23:08:17Z",
+      "side": 1,
+      "message": "\u003e Is this indentation intentional?\n\nYeah, since it refers to the preprocessor stuff which we write flush left.",
+      "parentUuid": "717c78a0_a97c0baf",
+      "range": {
+        "startLine": 223,
+        "startChar": 3,
+        "endLine": 223,
+        "endChar": 5
+      },
+      "revId": "bb059908a9f1f8d56c55cb29601b0a9d585979cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
