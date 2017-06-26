@@ -130,6 +130,12 @@
             ],
           },
         }],
+        ['OS=="linux" or OS=="android"', {
+          'sources!': [
+            'capture_memory.cc',
+            'capture_memory.h',
+          ],
+        }],
       ]
     },
     {
