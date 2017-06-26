@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "717c78a0_a97c0baf",
+        "filename": "util/linux/thread_info.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-26T22:54:14Z",
+      "side": 1,
+      "message": "Is this indentation intentional?",
+      "range": {
+        "startLine": 223,
+        "startChar": 3,
+        "endLine": 223,
+        "endChar": 5
+      },
+      "revId": "bb059908a9f1f8d56c55cb29601b0a9d585979cd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
