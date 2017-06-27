@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f591a2ab_ea3c2af6",
+        "filename": "util/stdlib/aligned_allocator_test.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-27T15:14:02Z",
+      "side": 0,
+      "message": "../../util/stdlib/aligned_allocator_test.cc: In member function ‘virtual void crashpad::test::{anonymous}::AlignedAllocator_AlignedVector_Test::TestBody()’:\n../../util/stdlib/aligned_allocator_test.cc:77:24: error: requested alignment 1024 is larger than 128 [-Werror\u003dattributes]\n   struct alignas(1024) BigAlignedStruct {\n                        ^~~~~~~~~~~~~~~~",
+      "revId": "a8493c9b3148654d4e885e2a09124f0adad9333e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
