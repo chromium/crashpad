@@ -119,7 +119,7 @@ Kit)](https://developer.android.com/ndk/) runs on.
 If it’s not already present on your system, [download the NDK package for your
 system](https://developer.android.com/ndk/downloads/) and expand it to a
 suitable location. These instructions assume that it’s been expanded to
-`~/android-ndk-r14`.
+`~/android-ndk-r15b`.
 
 To build Crashpad, portions of the NDK must be reassembled into a [standalone
 toolchain](https://developer.android.com/ndk/guides/standalone_toolchain.html).
@@ -133,8 +133,8 @@ desired. To build a standalone toolchain targeting 64-bit ARM and API level 21
 
 ```
 $ cd ~
-$ python android-ndk-r14/build/tools/make_standalone_toolchain.py \
-      --arch=arm64 --api=21 --install-dir=android-ndk-r14_arm64_api21
+$ python android-ndk-r15b/build/tools/make_standalone_toolchain.py \
+      --arch=arm64 --api=21 --install-dir=android-ndk-r15b_arm64_api21
 ```
 
 Note that Chrome uses Android API level 21 for 64-bit platforms and 16 for
@@ -152,7 +152,7 @@ operation.
 ```
 $ cd ~/crashpad/crashpad
 $ python build/gyp_crashpad_android.py \
-      --ndk ~/android-ndk-r14_arm64_api21 \
+      --ndk ~/android-ndk-r15b_arm64_api21 \
       --generator-output out/android_arm64_api21
 ```
 
