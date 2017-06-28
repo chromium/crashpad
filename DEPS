@@ -38,7 +38,7 @@ deps = {
 
   'crashpad/third_party/mini_chromium/mini_chromium':
       Var('chromium_git') + '/chromium/mini_chromium@' +
-      '723e840a2f100a525f7feaad2e93df31d701780a',
+      'ee67585e3115982282b86e210939ead1791e696d',
   'crashpad/third_party/zlib/zlib':
       Var('chromium_git') + '/chromium/src/third_party/zlib@' +
       '13dc246a58e4b72104d35f9b1809af95221ebda7',
