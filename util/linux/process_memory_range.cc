@@ -1,0 +1,87 @@
+// Copyright 2017 The Crashpad Authors. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include "util/linux/process_memory_range.h"
+
+#include <algorithm>
+
+#include "base/logging.h"
+
+namespace crashpad {
+
+ProcessMemoryRange::ProcessMemoryRange()
+    : memory_(nullptr), range_(), initialized_() {}
+
+ProcessMemoryRange::~ProcessMemoryRange() {}
+
+bool ProcessMemoryRange::Initialize(const ProcessMemory* memory,
+                                    bool is_64_bit,
+                                    LinuxVMAddress base,
+                                    LinuxVMSize size) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+  memory_ = memory;
+  range_.SetRange(is_64_bit, base, size);
+  if (!range_.IsValid()) {
+    LOG(ERROR) << "invalid range";
+    return false;
+  }
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+bool ProcessMemoryRange::Initialize(const ProcessMemoryRange& other,
+                                    LinuxVMAddress base,
+                                    LinuxVMSize size) {
+  return Initialize(other.memory_,
+                    other.range_.Is64Bit(),
+                    other.range_.Base(),
+                    other.range_.Size()) &&
+         RestrictRange(base, size);
+}
+
+bool ProcessMemoryRange::RestrictRange(LinuxVMAddress base, LinuxVMSize size) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (base < range_.Base() || base + size > range_.End()) {
+    LOG(ERROR) << "new range outside old range";
+    return false;
+  }
+  range_.SetRange(range_.Is64Bit(), base, size);
+  return true;
+}
+
+bool ProcessMemoryRange::Read(LinuxVMAddress address,
+                              size_t size,
+                              void* buffer) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (!range_.ContainsRange(
+          CheckedLinuxAddressRange(range_.Is64Bit(), address, size))) {
+    LOG(ERROR) << "read out of range";
+    return false;
+  }
+  return memory_->Read(address, size, buffer);
+}
+
+bool ProcessMemoryRange::ReadCStringSizeLimited(LinuxVMAddress address,
+                                                size_t size,
+                                                std::string* string) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  if (!range_.ContainsValue(address)) {
+    LOG(ERROR) << "read out of range";
+    return false;
+  }
+  size = std::min(static_cast<LinuxVMSize>(size), range_.End() - address);
+  return memory_->ReadCStringSizeLimited(address, size, string);
+}
+
+}  // namespace crashpad
