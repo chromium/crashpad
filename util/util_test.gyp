@@ -138,7 +138,7 @@
           # Things not yet ported to Android
           'sources/' : [
             ['exclude', '^net/http_transport_test\\.cc$'],
-          ]
+          ],
         }],
       ],
       'target_conditions': [
