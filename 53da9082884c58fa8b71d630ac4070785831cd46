@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4d3ea35_d9beb3d1",
+        "filename": "util/linux/process_memory_range.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-29T01:08:29Z",
+      "side": 1,
+      "message": "base + size may silently overflow, you should detect that and cope with it. The easiest thing I can think of is to build a CheckedLinuxAddressRange(range_.Is64Bit(), base, size) instead of this expression, test new_range.IsValid() \u0026\u0026 range_.ContainsRange(new_range).",
+      "range": {
+        "startLine": 60,
+        "startChar": 30,
+        "endLine": 60,
+        "endChar": 56
+      },
+      "revId": "53da9082884c58fa8b71d630ac4070785831cd46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81165810_04c08e5f",
+        "filename": "util/linux/process_memory_range.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-29T01:08:29Z",
+      "side": 1,
+      "message": "DISALLOW_COPY_AND_ASSIGN? (and #include \"base/macros.h\" if so.)",
+      "revId": "53da9082884c58fa8b71d630ac4070785831cd46",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
