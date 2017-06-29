@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cf6539f_20d08617",
+        "filename": "util/linux/process_memory_range.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-29T20:48:01Z",
+      "side": 1,
+      "message": "Want to put this new range into a variable and do !range.IsValid() || !range_.ContainsRange(range) here? (Kinda like line 61.)",
+      "revId": "0cd12afcdde28eae172615c1208d8b0926edd85b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
