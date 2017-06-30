@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "1788ba96_6f720fac",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T22:07:49Z",
+      "side": 1,
+      "message": "\u003e For glibc ld.so, _dl_map_segments() uses PROT_NONE too if has_holes is true for a module (elf/dl-map-segments.h).\n\nBut it looks like the kernel’s loader doesn’t do this, it leaves the holes unmapped. (fs/binfmt_elf.c elf_map()).",
+      "parentUuid": "4f1d152a_09052598",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db04ff8b_2515ad10",
         "filename": "snapshot/linux/elf_image_reader.cc",
         "patchSetId": 24
@@ -64,6 +82,24 @@
       "writtenOn": "2017-06-30T21:06:19Z",
       "side": 1,
       "message": "And another thing: glibc ld.so looks like it’ll break if you try to feed it a module where the PT_LOAD entries, in sequence, don’t refer to increasing load addresses, or at least where the first and last PT_LOADs don’t refer to the first and last mapped segments in address order. (_dl_map_object_from_fd from elf/dl-load.c, handling of maxlength). Bionic looks like it might support it, though.",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3e4e80_fb3d1f1c",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T22:07:49Z",
+      "side": 1,
+      "message": "\u003e And another thing: glibc ld.so looks like it’ll break if you try to feed it a module where the PT_LOAD entries, in sequence, don’t refer to increasing load addresses, or at least where the first and last PT_LOADs don’t refer to the first and last mapped segments in address order. (_dl_map_object_from_fd from elf/dl-load.c, handling of maxlength). Bionic looks like it might support it, though.\n\nThe kernel does the same thing as glibc. fs/binfmt_elf.c total_mapping_size().",
+      "parentUuid": "db04ff8b_2515ad10",
       "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -155,6 +191,23 @@
       "writtenOn": "2017-06-30T21:06:19Z",
       "side": 1,
       "message": "InitializeDynamicSymbolTable to disambiguate from the non-dynamic symbol table? Goes nicely with GetDynamicSymbol()’s naming too.",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95097384_36bc4c1a",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T22:07:49Z",
+      "side": 1,
+      "message": "Looks like the kernel’s own loader doesn’t update anything. Does the user-space loader update these values in things that the kernel’s loader loaded (including the loader itself?) or do we need to be aware of who loaded an image?",
       "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
