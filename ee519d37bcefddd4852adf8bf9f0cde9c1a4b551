@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7539f7e4_9b75d674",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "I got rid of the buffer for now.\n\nFun fact: I\u0027m not sure why I didn\u0027t notice it before, but it looks like there are unused bytes at the end of the dynamic section/segment. There are 64 bytes worth of zeroes after the DT_NULL entry. It doesn\u0027t look like they\u0027re for alignment/padding since I see them there for two different executables and the total sizes for the two dynamic segments are 528 and 544 bytes.",
+      "parentUuid": "9e8d3bd0_b003e99e",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69efd5f_cb836cfa",
         "filename": "util/linux/elf_dynamic_table_reader.cc",
         "patchSetId": 19
@@ -69,6 +87,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c54ecfd_b090e29e",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b69efd5f_cb836cfa",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "d21645f7_5ca0f609",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c60c0c86_c29a4b3e",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "196d9c40_f61b5b67",
         "filename": "util/linux/elf_dynamic_table_reader.cc",
         "patchSetId": 19
@@ -106,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "9f3c037a_7b4c4ca7",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Added a check for duplicates and discard DT_NEEDED entries which are allowed duplicates (but unused for now).",
+      "parentUuid": "196d9c40_f61b5b67",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f5ad71d_7979918b",
         "filename": "util/linux/elf_dynamic_table_reader.cc",
         "patchSetId": 19
@@ -120,6 +192,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "652cb018_4fc4bac8",
+        "filename": "util/linux/elf_dynamic_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f5ad71d_7979918b",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -176,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "60c56fa9_57812338",
+        "filename": "util/linux/elf_dynamic_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13d2c47d_1455bf7a",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eeb36a8_b1dabff7",
         "filename": "util/linux/elf_dynamic_table_reader.h",
         "patchSetId": 19
@@ -190,6 +298,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30f02cee_a6e3a300",
+        "filename": "util/linux/elf_dynamic_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eeb36a8_b1dabff7",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -210,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "64c6cb6c_92b93334",
+        "filename": "util/linux/elf_dynamic_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43575141_02b31f73",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55ee4ae0_f913d6cc",
         "filename": "util/linux/elf_dynamic_table_reader.h",
         "patchSetId": 19
@@ -224,6 +368,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b25eba13_df793682",
+        "filename": "util/linux/elf_dynamic_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55ee4ae0_f913d6cc",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -244,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "71353f1b_c1a80253",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91b58972_eb4065a8",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4d9063a_0d984b0c",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -258,6 +438,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a34801c6_8ed723d1",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d9063a_0d984b0c",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -278,6 +476,24 @@
     },
     {
       "key": {
+        "uuid": "370f5824_25248908",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62e7eea3_8f43d776",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b730b049_270e2e46",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -292,6 +508,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dbb7a65_35d24974",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b730b049_270e2e46",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -312,6 +546,24 @@
     },
     {
       "key": {
+        "uuid": "1826f9a2_75c0dfec",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71989207_3b6ff1f1",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "057dd210_0f185115",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -329,6 +581,24 @@
     },
     {
       "key": {
+        "uuid": "7a239ece_74d37436",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "057dd210_0f185115",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b034f141_7316d537",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -343,6 +613,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "285a6823_842818b5",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b034f141_7316d537",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -381,6 +669,24 @@
     },
     {
       "key": {
+        "uuid": "1b5344c1_7345a225",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1138278_16e11d83",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b054c1d_83ade211",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -395,6 +701,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cf5a4d7_3bfc49c9",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b054c1d_83ade211",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -415,6 +739,24 @@
     },
     {
       "key": {
+        "uuid": "f6f899cd_25156179",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c919c74_a3008a17",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "995925dc_51e20a90",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -429,6 +771,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60ef06c4_e4696ae4",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "995925dc_51e20a90",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -449,6 +809,24 @@
     },
     {
       "key": {
+        "uuid": "0194a360_63a72c3b",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "47ebd8b5_8934ed3a",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "778df08c_36393c23",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -463,6 +841,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86845657_c91f6baa",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "778df08c_36393c23",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -483,6 +879,24 @@
     },
     {
       "key": {
+        "uuid": "f6a896ee_5ccf9f09",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62f385db_5a851935",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd6942b2_006626c3",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -497,6 +911,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a6162eb_d8ba6f77",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Yep, this address comes from the program headers, which don\u0027t get adjusted for load bias.",
+      "parentUuid": "dd6942b2_006626c3",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -517,6 +949,24 @@
     },
     {
       "key": {
+        "uuid": "cbec328f_108e75d3",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8707f413_7ed92b88",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19df7025_84b9f0b7",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -534,6 +984,24 @@
     },
     {
       "key": {
+        "uuid": "c4c56ae4_2ffd1435",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19df7025_84b9f0b7",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab7f7912_3946880d",
         "filename": "util/linux/elf_image_reader.cc",
         "patchSetId": 19
@@ -548,6 +1016,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c0521f0_6609efa6",
+        "filename": "util/linux/elf_image_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "I added ProcessMemoryRange to check that reads are within expected bounds and keep track of bitness.",
+      "parentUuid": "ab7f7912_3946880d",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -604,6 +1090,24 @@
     },
     {
       "key": {
+        "uuid": "f51e7a5c_02b00867",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a91508f0_2dc5eb8e",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b62e7c6b_d7a3f1cf",
         "filename": "util/linux/elf_image_reader.h",
         "patchSetId": 19
@@ -618,6 +1122,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a533f3bf_96fd70c6",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b62e7c6b_d7a3f1cf",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -638,6 +1160,24 @@
     },
     {
       "key": {
+        "uuid": "47afc12c_a50b984d",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a956e056_44d31c90",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fce8478d_b6102c2a",
         "filename": "util/linux/elf_image_reader.h",
         "patchSetId": 19
@@ -652,6 +1192,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9e21396_809a306f",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fce8478d_b6102c2a",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -672,6 +1230,24 @@
     },
     {
       "key": {
+        "uuid": "9c7bd6be_15e0d562",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9174829_ae976f92",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfc8f8e8_769acfd7",
         "filename": "util/linux/elf_image_reader.h",
         "patchSetId": 19
@@ -686,6 +1262,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa024c7_09b469c8",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfc8f8e8_769acfd7",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -706,6 +1300,24 @@
     },
     {
       "key": {
+        "uuid": "409190dd_3ca7982e",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8e83a0a_1923b0be",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7560915c_7ab77b93",
         "filename": "util/linux/elf_image_reader.h",
         "patchSetId": 19
@@ -723,6 +1335,24 @@
     },
     {
       "key": {
+        "uuid": "0d70b560_a429cf86",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7560915c_7ab77b93",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3e909cd_8686c65f",
         "filename": "util/linux/elf_image_reader.h",
         "patchSetId": 19
@@ -737,6 +1367,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7582535_7eba1142",
+        "filename": "util/linux/elf_image_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3e909cd_8686c65f",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -864,6 +1512,24 @@
     },
     {
       "key": {
+        "uuid": "8863c3b8_e6c5f527",
+        "filename": "util/linux/elf_symbol_table_reader.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "I added checks to ElfImageReader::GetDynamicSymbol with this method just returning info about what it finds.",
+      "parentUuid": "70abde95_6964d175",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e9d79b5_0c9c4c8c",
         "filename": "util/linux/elf_symbol_table_reader.h",
         "patchSetId": 19
@@ -878,6 +1544,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4842703_179ddf57",
+        "filename": "util/linux/elf_symbol_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e9d79b5_0c9c4c8c",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -898,6 +1582,24 @@
     },
     {
       "key": {
+        "uuid": "e889860b_6d591be4",
+        "filename": "util/linux/elf_symbol_table_reader.h",
+        "patchSetId": 19
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4a2f784_f188cb1d",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7f78588_5077d960",
         "filename": "util/linux/test/exported_symbols.sym",
         "patchSetId": 19
@@ -915,6 +1617,24 @@
     },
     {
       "key": {
+        "uuid": "c363288b_317711ef",
+        "filename": "util/linux/test/exported_symbols.sym",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7f78588_5077d960",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85a7570f_36b813d3",
         "filename": "util/linux/test/exported_symbols.sym",
         "patchSetId": 19
@@ -929,6 +1649,24 @@
       "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "295480cb_6094164a",
+        "filename": "util/linux/test/exported_symbols.sym",
+        "patchSetId": 19
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-06-30T02:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85a7570f_36b813d3",
+      "revId": "ee519d37bcefddd4852adf8bf9f0cde9c1a4b551",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
