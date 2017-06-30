@@ -1,0 +1,197 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a07a5d0a_01ca4660",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "Destructor before methods.",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19fa4688_a3105f7a",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "I’m not sure if any other part of the system (like the linker) actually guarantees that the minimum address of a module is loaded from byte 0 of the file.\n\nLooking at https://android.googlesource.com/platform/bionic/+/72007ee68f507c0ab952a0b98888fc19473ba6f0/linker/linker_phdr.cpp, phdr_table_get_load_size() just computes the maximum minus minimum addresses in the preferred load area specified by PT_LOAD entries. No consideration is given to fileoff at this phase.\n\nPerhaps it’s worth testing with a weirdo module that maps fileoff 0 at somewhere higher than its base address. It should be possible to craft this with a linker script. If it turns out that Bionic’s loader and glibc both don’t support modules like that, then we don’t need to try to either, we can just error out if we detect it.",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f1d152a_09052598",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "Other thoughts: ELF seems to support modules that load discontiguously (sparse), but at least the Bionic loader reserves the entire address space from lowest to highest possible address, including the portion that the file doesn’t care to map. So I guess we shouldn’t need to worry too much about reading anyone else’s data out of sparse “holes.” (ElfReader::ReserveAddressSpace()) The reservation is at PROT_NONE, so read attempts in there should at least fail. (ReserveAligned())\n\nFor glibc ld.so, _dl_map_segments() uses PROT_NONE too if has_holes is true for a module (elf/dl-map-segments.h).",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db04ff8b_2515ad10",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "And another thing: glibc ld.so looks like it’ll break if you try to feed it a module where the PT_LOAD entries, in sequence, don’t refer to increasing load addresses, or at least where the first and last PT_LOADs don’t refer to the first and last mapped segments in address order. (_dl_map_object_from_fd from elf/dl-load.c, handling of maxlength). Bionic looks like it might support it, though.",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec6f72ad_d780e9ff",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "#elif defined(ARCH_CPU_BIG_ENDIAN)\n\nto make sure that the macros we expect are defined: no need for an #else #error then, because expected_encoding won’t exist and it’ll be a compile-time error.",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4ba0f83_13075e14",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "You’ve already read the the Elf*_Ehdr and the program headers by the time you reach this, but you weren’t able to verify that they were in the right range. Now that you’ve worked out the module’s base and end, you can do a quick check to make sure that the program headers were in range. No need to re-read them, but you can pretty easily figure out whether the Ehdr was in range (since you’re in the same scope), and maybe you can ask the ProgramHeaderTable what range it read from and make sure that it’s inside memory_’s range too.",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0a50c80_be931e5a",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "Shouldn’t load bias be applied to SHN_COMMON too? Ought to be able to test most of that.",
+      "range": {
+        "startLine": 266,
+        "startChar": 31,
+        "endLine": 266,
+        "endChar": 55
+      },
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54d20753_23ad925f",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "\u003e\u003d",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23958463_9cac0982",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "InitializeDynamicSymbolTable to disambiguate from the non-dynamic symbol table? Goes nicely with GetDynamicSymbol()’s naming too.",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8631294c_7553e81a",
+        "filename": "snapshot/linux/elf_image_reader.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "Say that it’s in the process’ address space. That’ll clarify that it’s not just the raw value stored in the ELF file.",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f8f6ceb_ff89056d",
+        "filename": "snapshot/linux/test_exported_symbols.sym",
+        "patchSetId": 24
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-06-30T21:06:19Z",
+      "side": 1,
+      "message": "This line should be blank without a #. I don’t want to read the license, but I do want to read your comment after it, and the blank helps them stand apart.",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
