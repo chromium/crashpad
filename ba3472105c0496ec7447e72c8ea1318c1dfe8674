@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "16451098_61770277",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-01T17:41:50Z",
+      "side": 1,
+      "message": "\u003e I’m not sure if any other part of the system (like the linker) actually guarantees that the minimum address of a module is loaded from byte 0 of the file.\n\nThe spec says to use the lowest p_vaddr. http://www.sco.com/developers/gabi/latest/ch5.pheader.html#base_address.\n\nI’m still concerned that an ELF image might not have a PT_LOAD that covers byte 0 of the file, since this reader depends on starting there at the Ehdr. Still trying to figure that out…",
+      "parentUuid": "19fa4688_a3105f7a",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f1d152a_09052598",
         "filename": "snapshot/linux/elf_image_reader.cc",
         "patchSetId": 24
@@ -100,6 +118,24 @@
       "side": 1,
       "message": "\u003e And another thing: glibc ld.so looks like it’ll break if you try to feed it a module where the PT_LOAD entries, in sequence, don’t refer to increasing load addresses, or at least where the first and last PT_LOADs don’t refer to the first and last mapped segments in address order. (_dl_map_object_from_fd from elf/dl-load.c, handling of maxlength). Bionic looks like it might support it, though.\n\nThe kernel does the same thing as glibc. fs/binfmt_elf.c total_mapping_size().",
       "parentUuid": "db04ff8b_2515ad10",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2c5f0ff_c31afd5b",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-01T17:41:50Z",
+      "side": 1,
+      "message": "\u003e The kernel does the same thing as glibc. fs/binfmt_elf.c total_mapping_size().\n\nThe ELF spec says that PT_LOAD entries need to appear in ascending p_vaddr order. http://www.sco.com/developers/gabi/latest/ch5.pheader.html#p_type\n\nSo we probably don’t need to worry about this aspect, but we can add a check to make sure that modules we interpret adhere to this requirement, rather than just assuming that they do.",
+      "parentUuid": "ef3e4e80_fb3d1f1c",
       "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
