@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "24a1269e_0b144690",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a07a5d0a_01ca4660",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19fa4688_a3105f7a",
         "filename": "snapshot/linux/elf_image_reader.cc",
         "patchSetId": 24
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "\u003e I’m not sure if any other part of the system (like the linker) actually guarantees that the minimum address of a module is loaded from byte 0 of the file.\n\nThe spec says to use the lowest p_vaddr. http://www.sco.com/developers/gabi/latest/ch5.pheader.html#base_address.\n\nI’m still concerned that an ELF image might not have a PT_LOAD that covers byte 0 of the file, since this reader depends on starting there at the Ehdr. Still trying to figure that out…",
       "parentUuid": "19fa4688_a3105f7a",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc2b88ce_fce4750c",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "I modified this method to collect the whole range and added GetPreferredElfHeaderAddress for determining load bias.\n\nI\u0027m pretty sure the ELF header/program headers aren\u0027t required to be loaded into memory at all, but if they weren\u0027t loaded we wouldn\u0027t have gotten this far using ElfImageReader as it is since it presumably started at an Ehdr. If we do encounter modules that don\u0027t load their headers, we could still find symbol information using they dynamic array pointer in the link_map, but might need a different abstraction that collects various ELF things from memory, without expecting an actual ELF file image.",
+      "parentUuid": "16451098_61770277",
       "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -142,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "aedd822a_13a3bd1d",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "I added a check on load ordering and range validity in VerifyLoadSegments(), called from Initialize().",
+      "parentUuid": "c2c5f0ff_c31afd5b",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec6f72ad_d780e9ff",
         "filename": "snapshot/linux/elf_image_reader.cc",
         "patchSetId": 24
@@ -156,6 +210,24 @@
       "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882ac8d7_5035a9d7",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec6f72ad_d780e9ff",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -176,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "78b2313a_151ff6a2",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4ba0f83_13075e14",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0a50c80_be931e5a",
         "filename": "snapshot/linux/elf_image_reader.cc",
         "patchSetId": 24
@@ -187,6 +277,30 @@
       "writtenOn": "2017-06-30T21:06:19Z",
       "side": 1,
       "message": "Shouldn’t load bias be applied to SHN_COMMON too? Ought to be able to test most of that.",
+      "range": {
+        "startLine": 266,
+        "startChar": 31,
+        "endLine": 266,
+        "endChar": 55
+      },
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f659313_dfbc202f",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "The description for SHN_COMMON is:\n\"The symbol labels a common block that has not yet been allocated. The symbol\u0027s value gives alignment constraints, similar to a section\u0027s sh_addralign member. The link editor will allocate the storage for the symbol at an address that is a multiple of st_value. The symbol\u0027s size tells how many bytes are required. Symbols with section index SHN_COMMON may appear only in relocatable objects.\"\n\nI interpreted that to mean that SHN_COMMON shouldn\u0027t appear in shared libraries/executables at all. (not totally sure on the intent behind \"relocatable objects\", but I suspect it means relocatable .o files). If it does appear in something we\u0027re reading, the value gives alignment, not an actual address.\n\nI wrote a test fortran module with a common block. Compiling to a relocatable .o includes a COMMON entry in the symbol table with value 0x10. If I turn that .o into a shared library the COMMON entry gets replaced by an entry with index 19 (the .bss section for this .so) and value 0x201040.\n\nAll that said, maybe it\u0027s better to reject symbols with SHN_COMMON entirely...",
+      "parentUuid": "e0a50c80_be931e5a",
       "range": {
         "startLine": 266,
         "startChar": 31,
@@ -216,6 +330,24 @@
     },
     {
       "key": {
+        "uuid": "c802e0eb_8026d8c7",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54d20753_23ad925f",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23958463_9cac0982",
         "filename": "snapshot/linux/elf_image_reader.cc",
         "patchSetId": 24
@@ -233,6 +365,24 @@
     },
     {
       "key": {
+        "uuid": "5c79034a_8fc4b916",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23958463_9cac0982",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95097384_36bc4c1a",
         "filename": "snapshot/linux/elf_image_reader.cc",
         "patchSetId": 24
@@ -244,6 +394,24 @@
       "writtenOn": "2017-06-30T22:07:49Z",
       "side": 1,
       "message": "Looks like the kernel’s own loader doesn’t update anything. Does the user-space loader update these values in things that the kernel’s loader loaded (including the loader itself?) or do we need to be aware of who loaded an image?",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e22f7d4_de1774c6",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "The user-space glibc loader updates the dynamic section for most architectures (not MIPS).\nhttps://sourceware.org/git/?p\u003dglibc.git;a\u003dblob;f\u003delf/get-dynamic-info.h;h\u003d7525c3a5b20b5619aeda35b5f7b9849f9dfcad39;hb\u003dHEAD#l79\n\nIt looks like it does update it\u0027s own dynamic section:\nhttps://sourceware.org/git/?p\u003dglibc.git;a\u003dblob;f\u003delf/rtld.c;h\u003d65647fb1c8167ac7432c212975e4027f2c46b560;hb\u003dHEAD#l489\n\nBut yeah, we probably do need to determine whether the loader is glibc or not.\nAfter a quick look through GDB source, I suspect Android only updates DT_DEBUG because that is the only tag that GDB uses.",
+      "parentUuid": "95097384_36bc4c1a",
       "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -267,6 +435,24 @@
     },
     {
       "key": {
+        "uuid": "10e0ca31_f39e86f7",
+        "filename": "snapshot/linux/elf_image_reader.h",
+        "patchSetId": 24
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8631294c_7553e81a",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f8f6ceb_ff89056d",
         "filename": "snapshot/linux/test_exported_symbols.sym",
         "patchSetId": 24
@@ -281,6 +467,24 @@
       "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e18d463_461cfae2",
+        "filename": "snapshot/linux/test_exported_symbols.sym",
+        "patchSetId": 24
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-01T23:31:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f8f6ceb_ff89056d",
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
