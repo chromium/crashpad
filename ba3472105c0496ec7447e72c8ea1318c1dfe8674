@@ -313,6 +313,30 @@
     },
     {
       "key": {
+        "uuid": "91d93509_1ebcebc9",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 24
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-02T03:34:57Z",
+      "side": 1,
+      "message": "\u003e All that said, maybe it\u0027s better to reject symbols with SHN_COMMON entirely...\n\nAssuming that common symbols aren’t expected to survive all the way to linker output/loader input, that sounds like the right approach to me. Much better to not support it at all if it’s unexpected than to invent our own interpretation.",
+      "parentUuid": "0f659313_dfbc202f",
+      "range": {
+        "startLine": 266,
+        "startChar": 31,
+        "endLine": 266,
+        "endChar": 55
+      },
+      "revId": "ba3472105c0496ec7447e72c8ea1318c1dfe8674",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "54d20753_23ad925f",
         "filename": "snapshot/linux/elf_image_reader.cc",
         "patchSetId": 24
