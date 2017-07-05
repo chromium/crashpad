@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "625bf494_59ffdcba",
+        "filename": "snapshot/snapshot.gyp",
+        "patchSetId": 26
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-05T20:25:52Z",
+      "side": 1,
+      "message": "Since this is in snapshot now, you need to duplicate the target_conditions that enables the linux files for Android, as we have here:\n\nhttps://chromium.googlesource.com/crashpad/crashpad/+/1c87c92932d05f613c385e6e6ac2ba7a2242b251/util/util.gyp#352\n\nOtherwise this new code isn’t built on Android at all.",
+      "revId": "37d5d996d87842c35d3fc40b29129870d857d619",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36d4b546_e7dc69d3",
+        "filename": "snapshot/snapshot_test.gyp",
+        "patchSetId": 26
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-05T20:25:52Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "37d5d996d87842c35d3fc40b29129870d857d619",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
