@@ -87,6 +87,24 @@
       "revId": "457827d63c8b479f8bd819f9de6fd8ed2151f728",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8bfc72d_5f0b7609",
+        "filename": "snapshot/linux/test_exported_symbols.sym",
+        "patchSetId": 25
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-05T20:10:29Z",
+      "side": 1,
+      "message": "That didn\u0027t work. I think that can be used to prevent static functions being removed but this needs a reference from outside the executable.",
+      "parentUuid": "bbf0f2f2_75c7edaa",
+      "revId": "457827d63c8b479f8bd819f9de6fd8ed2151f728",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
