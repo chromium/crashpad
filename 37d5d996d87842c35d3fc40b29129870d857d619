@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "03466cf4_4b617836",
+        "filename": "snapshot/linux/elf_symbol_table_reader.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-05T20:46:29Z",
+      "side": 1,
+      "message": "I couldn’t build this on Android. NDK never provides this or ELF64_ST_VISIBILITY.",
+      "revId": "37d5d996d87842c35d3fc40b29129870d857d619",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "625bf494_59ffdcba",
         "filename": "snapshot/snapshot.gyp",
         "patchSetId": 26

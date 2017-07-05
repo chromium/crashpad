@@ -141,6 +141,24 @@
       "revId": "457827d63c8b479f8bd819f9de6fd8ed2151f728",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01a390cc_be989c98",
+        "filename": "snapshot/linux/test_exported_symbols.sym",
+        "patchSetId": 25
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-05T20:46:29Z",
+      "side": 1,
+      "message": "\u003e You made an shared object rather than an executable?\n\nYeah.\n\nOK, weird. With the Android NDK toolchain, I don’t need to do anything special to see things exported from an executable’s dynamic symbol table. But with vanilla gcc and clang, it takes -Wl,--export-dynamic or -Wl,--dynamic-list as you did here. Don’t know why Android is different here.\n\nAll right, I buy in.",
+      "parentUuid": "c0e2e43e_3f48203a",
+      "revId": "457827d63c8b479f8bd819f9de6fd8ed2151f728",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
