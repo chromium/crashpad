@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ae7a026d_cb2251df",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 25
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-05T19:41:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f0f20d4_15ba8c9e",
+      "revId": "457827d63c8b479f8bd819f9de6fd8ed2151f728",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f98ad028_eee84f68",
         "filename": "snapshot/linux/test_exported_symbols.sym",
         "patchSetId": 25
@@ -30,6 +48,24 @@
       "writtenOn": "2017-07-05T17:33:50Z",
       "side": 1,
       "message": "I’m surprised that __attribute__((visibility(\"default\"))) alone wasn’t enough to export this, and that this .sym file was necessary.",
+      "revId": "457827d63c8b479f8bd819f9de6fd8ed2151f728",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c366dcf_9b20045b",
+        "filename": "snapshot/linux/test_exported_symbols.sym",
+        "patchSetId": 25
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-05T19:41:31Z",
+      "side": 1,
+      "message": "The man page for the linker says it normally removes from executables dynamic symbols which aren\u0027t referenced by any object mentioned at link time.",
+      "parentUuid": "f98ad028_eee84f68",
       "revId": "457827d63c8b479f8bd819f9de6fd8ed2151f728",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
