@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7ac27445_5e6dd5c4",
+        "filename": "snapshot/linux/elf_symbol_table_reader.cc",
+        "patchSetId": 26
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-05T21:09:21Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "03466cf4_4b617836",
+      "revId": "37d5d996d87842c35d3fc40b29129870d857d619",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "625bf494_59ffdcba",
         "filename": "snapshot/snapshot.gyp",
         "patchSetId": 26
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "162980fe_7f0fc673",
+        "filename": "snapshot/snapshot.gyp",
+        "patchSetId": 26
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-05T21:09:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "625bf494_59ffdcba",
+      "revId": "37d5d996d87842c35d3fc40b29129870d857d619",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36d4b546_e7dc69d3",
         "filename": "snapshot/snapshot_test.gyp",
         "patchSetId": 26
@@ -50,6 +86,24 @@
       "revId": "37d5d996d87842c35d3fc40b29129870d857d619",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f26dc02_65f1bd5f",
+        "filename": "snapshot/snapshot_test.gyp",
+        "patchSetId": 26
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-05T21:09:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36d4b546_e7dc69d3",
+      "revId": "37d5d996d87842c35d3fc40b29129870d857d619",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
