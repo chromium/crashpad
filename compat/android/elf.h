@@ -12,25 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_LINUX_ADDRESS_TYPES_H_
-#define CRASHPAD_UTIL_LINUX_ADDRESS_TYPES_H_
+#ifndef CRASHPAD_COMPAT_ANDROID_ELF_H_
+#define CRASHPAD_COMPAT_ANDROID_ELF_H_
 
-#include <stdint.h>
+#include_next <elf.h>
 
-namespace crashpad {
+#if !defined(ELF32_ST_VISIBILITY)
+#define ELF32_ST_VISIBILITY(other) ((other) & 0x3)
+#endif
 
-//! \brief Type used to represent an address in a process, potentially across
-//!     bitness.
-using LinuxVMAddress = uint64_t;
+#if !defined(ELF64_ST_VISIBILITY)
+#define ELF64_ST_VISIBILITY(other) ELF32_ST_VISIBILITY(other)
+#endif
 
-//! \brief Type used to represent the size of a memory range (with a
-//!     LinuxVMAddress), potentially across bitness.
-using LinuxVMSize = uint64_t;
+// Android 5.0.0 (API 21) NDK
 
-//! \brief Type used to represent an offset from a LinuxVMAddress, potentially
-//!     across bitness.
-using LinuxVMOffset = int64_t;
+#if !defined(STT_COMMON)
+#define STT_COMMON 5
+#endif
 
-}  // namespace crashpad
+#if !defined(STT_TLS)
+#define STT_TLS 6
+#endif
 
-#endif  // CRASHPAD_UTIL_LINUX_ADDRESS_TYPES_H_
+#endif  // CRASHPAD_COMPAT_ANDROID_ELF_H_

@@ -70,6 +70,7 @@
         'cpu_context_test.cc',
         'crashpad_info_client_options_test.cc',
         'api/module_annotations_win_test.cc',
+        'linux/elf_image_reader_test.cc',
         'mac/cpu_context_mac_test.cc',
         'mac/mach_o_image_annotations_reader_test.cc',
         'mac/mach_o_image_reader_test.cc',
@@ -110,6 +111,27 @@
         ['OS=="linux" or OS=="android"', {
           'sources!': [
             'crashpad_info_client_options_test.cc',
+          ],
+          'copies': [{
+            'destination': '<(PRODUCT_DIR)',
+            'files': [
+              'linux/test_exported_symbols.sym',
+            ],
+          }],
+          'ldflags': [
+            '-Wl,--dynamic-list=test_exported_symbols.sym',
+          ],
+          'link_settings': {
+            'libraries': [
+              '-ldl',
+            ],
+          },
+        }],
+      ],
+      'target_conditions': [
+        ['OS=="android"', {
+          'sources/': [
+            ['include', '^linux/'],
           ],
         }],
       ],
