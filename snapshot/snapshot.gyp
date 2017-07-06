@@ -40,6 +40,12 @@
         'exception_snapshot.h',
         'handle_snapshot.cc',
         'handle_snapshot.h',
+        'linux/elf_dynamic_array_reader.cc',
+        'linux/elf_dynamic_array_reader.h',
+        'linux/elf_image_reader.cc',
+        'linux/elf_image_reader.h',
+        'linux/elf_symbol_table_reader.cc',
+        'linux/elf_symbol_table_reader.h',
         'mac/cpu_context_mac.cc',
         'mac/cpu_context_mac.h',
         'mac/exception_snapshot_mac.cc',
@@ -136,7 +142,14 @@
             'capture_memory.h',
           ],
         }],
-      ]
+      ],
+      'target_conditions': [
+        ['OS=="android"', {
+          'sources/': [
+            ['include', '^linux/'],
+          ],
+        }],
+      ],
     },
     {
       'variables': {
