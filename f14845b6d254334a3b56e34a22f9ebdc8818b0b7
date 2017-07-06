@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6cfc992_344dcb98",
+        "filename": "compat/android/elf.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-06T01:05:08Z",
+      "side": 1,
+      "message": "Can you define this as requiring a parameter? (That’s how I see glibc doing it).\n\n#define ELF64_ST_VISIBILITY(other) ELF32_ST_VISIBILITY(other)",
+      "revId": "f14845b6d254334a3b56e34a22f9ebdc8818b0b7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
