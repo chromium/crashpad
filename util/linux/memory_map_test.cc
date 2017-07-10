@@ -78,6 +78,19 @@ TEST(MemoryMap, SelfBasic) {
   EXPECT_TRUE(mapping->shareable);
 }
 
+void InitializeFile(const base::FilePath& path,
+                    size_t size,
+                    ScopedFileHandle* handle) {
+  ASSERT_FALSE(FileExists(path));
+
+  std::string path_string = path.value();
+  handle->reset(LoggingOpenFileForReadAndWrite(
+      path, FileWriteMode::kReuseOrCreate, FilePermissions::kOwnerOnly));
+  ASSERT_TRUE(handle->is_valid());
+  std::string file_contents(size, std::string::value_type());
+  CheckedWriteFile(handle->get(), file_contents.c_str(), file_contents.size());
+}
+
 class MapChildTest : public Multiprocess {
  public:
   MapChildTest() : Multiprocess(), page_size_(getpagesize()) {}
@@ -169,13 +182,8 @@ class MapChildTest : public Multiprocess {
     ScopedTempDir temp_dir;
     base::FilePath path =
         temp_dir.path().Append(FILE_PATH_LITERAL("test_file"));
-    ASSERT_FALSE(FileExists(path));
-    std::string path_string = path.value();
-    ScopedFileHandle handle(LoggingOpenFileForReadAndWrite(
-        path, FileWriteMode::kReuseOrCreate, FilePermissions::kOwnerOnly));
-    ASSERT_TRUE(handle.is_valid());
-    std::string file_contents(page_size_ * 2, std::string::value_type());
-    CheckedWriteFile(handle.get(), file_contents.c_str(), file_contents.size());
+    ScopedFileHandle handle;
+    InitializeFile(path, page_size_ * 2, &handle);
 
     ScopedMmap file_mapping;
     ASSERT_TRUE(file_mapping.ResetMmap(nullptr,
@@ -188,9 +196,9 @@ class MapChildTest : public Multiprocess {
     auto mapped_file_address = file_mapping.addr_as<LinuxVMAddress>();
     CheckedWriteFile(
         WritePipeHandle(), &mapped_file_address, sizeof(mapped_file_address));
-    LinuxVMSize path_length = path_string.size();
+    LinuxVMSize path_length = path.value().size();
     CheckedWriteFile(WritePipeHandle(), &path_length, sizeof(path_length));
-    CheckedWriteFile(WritePipeHandle(), path_string.c_str(), path_length);
+    CheckedWriteFile(WritePipeHandle(), path.value().c_str(), path_length);
 
     CheckedReadFileAtEOF(ReadPipeHandle());
   }
@@ -335,6 +343,87 @@ class MapRunningChildTest : public Multiprocess {
 TEST(MemoryMap, MapRunningChild) {
   MapRunningChildTest test;
   test.Run();
+}
+
+void ExpectFindMappingStart(LinuxVMAddress mapping_start,
+                            LinuxVMSize page_size) {
+  MemoryMap map;
+  ASSERT_TRUE(map.Initialize(getpid()));
+
+  const MemoryMap::Mapping* first_mapping = map.FindMapping(mapping_start);
+  ASSERT_TRUE(first_mapping);
+
+  const MemoryMap::Mapping* second_mapping =
+      map.FindMapping(mapping_start + page_size);
+  ASSERT_TRUE(second_mapping);
+
+  const MemoryMap::Mapping* third_mapping =
+      map.FindMapping(mapping_start + page_size * 2);
+  ASSERT_TRUE(third_mapping);
+
+  ASSERT_NE(first_mapping, second_mapping);
+  ASSERT_NE(second_mapping, third_mapping);
+
+  EXPECT_EQ(map.FindMappingStart(*third_mapping), first_mapping);
+}
+
+TEST(MemoryMap, FindMappingStart) {
+  const size_t page_size = getpagesize();
+
+  ScopedTempDir temp_dir;
+  base::FilePath path =
+      temp_dir.path().Append(FILE_PATH_LITERAL("FindMappingStartTestFile"));
+  ScopedFileHandle handle;
+  size_t file_length = page_size * 3;
+  InitializeFile(path, file_length, &handle);
+
+  ScopedMmap file_mapping;
+  ASSERT_TRUE(file_mapping.ResetMmap(
+      nullptr, file_length, PROT_READ, MAP_PRIVATE, handle.get(), 0));
+  auto mapping_start = file_mapping.addr_as<LinuxVMAddress>();
+
+  // Change the permissions on the second page to split the mapping into three
+  // parts.
+  ASSERT_EQ(mprotect(file_mapping.addr_as<char*>() + page_size,
+                     page_size,
+                     PROT_READ | PROT_WRITE),
+            0);
+
+  // Basic
+  ExpectFindMappingStart(mapping_start, page_size);
+
+  // Make the second page an anonymous mapping
+  file_mapping.ResetAddrLen(file_mapping.addr_as<void*>(), page_size);
+  ScopedMmap page2_mapping;
+  ASSERT_TRUE(page2_mapping.ResetMmap(file_mapping.addr_as<char*>() + page_size,
+                                      page_size,
+                                      PROT_READ | PROT_WRITE,
+                                      MAP_PRIVATE | MAP_ANON | MAP_FIXED,
+                                      -1,
+                                      0));
+  ScopedMmap page3_mapping;
+  ASSERT_TRUE(
+      page3_mapping.ResetMmap(file_mapping.addr_as<char*>() + page_size * 2,
+                              page_size,
+                              PROT_READ,
+                              MAP_PRIVATE | MAP_FIXED,
+                              handle.get(),
+                              page_size * 2));
+  ExpectFindMappingStart(mapping_start, page_size);
+
+  // Map the second page to another file.
+  ScopedFileHandle handle2;
+  base::FilePath path2 =
+      temp_dir.path().Append(FILE_PATH_LITERAL("FindMappingStartTestFile2"));
+  InitializeFile(path2, page_size, &handle2);
+
+  page2_mapping.ResetMmap(file_mapping.addr_as<char*>() + page_size,
+                          page_size,
+                          PROT_READ,
+                          MAP_PRIVATE | MAP_FIXED,
+                          handle2.get(),
+                          0);
+  ExpectFindMappingStart(mapping_start, page_size);
 }
 
 }  // namespace
