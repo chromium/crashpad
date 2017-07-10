@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92939610_02232db3",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-10T22:10:57Z",
+      "side": 1,
+      "message": "Is64Bit() ought to be upgraded (side-graded) to a DCHECK.",
+      "range": {
+        "startLine": 208,
+        "startChar": 9,
+        "endLine": 208,
+        "endChar": 49
+      },
+      "revId": "cb4c1067d87f1d1dbf7ab2a7b6005ef2ee2c5c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5787516_4c98b1e6",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-10T22:10:57Z",
+      "side": 1,
+      "message": "This is basically what the .h comment says (or should say), so we don’t need it here.",
+      "revId": "cb4c1067d87f1d1dbf7ab2a7b6005ef2ee2c5c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ad290fb_d545a0c7",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-10T22:10:57Z",
+      "side": 1,
+      "message": "Since you defined operator\u003d\u003d, I thought you might be using std::find or something else that uses operator\u003d\u003d. But since you haven’t, and the operator\u003d\u003d is just used as an implementation detail, I think we’d be better off with a named method, more like the Google style.",
+      "revId": "cb4c1067d87f1d1dbf7ab2a7b6005ef2ee2c5c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c51f31c2_23d48d8e",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-10T22:10:57Z",
+      "side": 1,
+      "message": "This isn’t necessary. We know that mapping.dev,ino is nonzero here because of line 301, so the condition on lines 313-315 will not be met if mappings_[index].dev,ino is zero, and it’ll continue naturally.\n\nThe comment is worthwhile, but you can just merge “anonymous mappings” in with “other files” in what you wrote below.",
+      "revId": "cb4c1067d87f1d1dbf7ab2a7b6005ef2ee2c5c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12b980f1_cc9dc982",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-10T22:10:57Z",
+      "side": 1,
+      "message": "But the implementation doesn’t match the description. The implementation looks for the highest mapping at or below \\a mapping, matching \\a mapping and having a file offset of 0.",
+      "revId": "cb4c1067d87f1d1dbf7ab2a7b6005ef2ee2c5c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc99bfe2_5dbe642e",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-10T22:10:57Z",
+      "side": 1,
+      "message": "“input mapping” sounds weird, just say “\\a mapping” to make it clear that it’s an argument.",
+      "revId": "cb4c1067d87f1d1dbf7ab2a7b6005ef2ee2c5c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4da594c9_3edbd14e",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-10T22:10:57Z",
+      "side": 1,
+      "message": "\\param[in]",
+      "revId": "cb4c1067d87f1d1dbf7ab2a7b6005ef2ee2c5c5c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
