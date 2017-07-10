@@ -44,8 +44,10 @@ void LocateExecutable(pid_t pid, bool is_64_bit, LinuxVMAddress* elf_address) {
 
   MemoryMap memory_map;
   ASSERT_TRUE(memory_map.Initialize(pid));
-  const MemoryMap::Mapping* exe_mapping = memory_map.FindMapping(phdrs);
-  ASSERT_TRUE(exe_mapping);
+  const MemoryMap::Mapping* phdr_mapping = memory_map.FindMapping(phdrs);
+  ASSERT_TRUE(phdr_mapping);
+  const MemoryMap::Mapping* exe_mapping =
+      memory_map.FindMappingStart(*phdr_mapping);
   *elf_address = exe_mapping->range.Base();
 }
 
