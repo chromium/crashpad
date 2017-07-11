@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "f6a40c71_eb7fc084",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-11T16:02:42Z",
+      "side": 1,
+      "message": "\u003e Removed.\n\u003e \n\u003e Hrm. I tried out an unused string, vector, map, MemoryMap, int, and double, and only got warnings for the int and double.\n\nI guess it couldn’t see through the fact that the constructor’s side effects were all pointless.",
+      "parentUuid": "63aab1a4_c20b5062",
+      "revId": "1ee97f92ad931a4b3bf2b70b83ae403455ecc2a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f255bfe_8197212a",
         "filename": "util/linux/memory_map_test.cc",
         "patchSetId": 7
