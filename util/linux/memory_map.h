@@ -37,6 +37,7 @@ class MemoryMap {
   //! \brief Information about a mapped region of memory.
   struct Mapping {
     Mapping();
+    bool Equals(const Mapping& other) const;
 
     std::string name;
     CheckedLinuxAddressRange range;
@@ -73,6 +74,21 @@ class MemoryMap {
   //!     this object. It is scoped to the lifetime of the MemoryMap object that
   //!     it was obtained from.
   const Mapping* FindMappingWithName(const std::string& name) const;
+
+  //! \brief Find the first Mapping in a series of mappings for the same file.
+  //!
+  //! Executables and libaries are typically loaded into several mappings with
+  //! varying permissions for different segments. This method searches for the
+  //! mapping with the highest address at or below \a mapping, which maps the
+  //! same file as \a mapping from file offset 0.
+  //!
+  //! If \a mapping is not found, `nullptr` is returned. If \a mapping is found
+  //! but does not map a file, \a mapping is returned.
+  //!
+  //! \param[in] mapping A Mapping whose series to find the start of.
+  //! \return The first Mapping in the series or `nullptr` on failure with a
+  //!     message logged.
+  const Mapping* FindFileMmapStart(const Mapping& mapping) const;
 
  private:
   std::vector<Mapping> mappings_;
