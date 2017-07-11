@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70bb4b81_c423441a",
+        "filename": "util/linux/memory_map.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-11T15:23:08Z",
+      "side": 1,
+      "message": "Can be DCHECK_EQ, which will print each bit if it trips.",
+      "revId": "1ee97f92ad931a4b3bf2b70b83ae403455ecc2a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "198bc645_421ae667",
+        "filename": "util/linux/memory_map.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-11T15:23:08Z",
+      "side": 1,
+      "message": "My only concern now is the name. “FindMappingStart” sounds like it might just find the base address of a Mapping. But this is more specific, it’s about file-backed mmapings. Maybe FindFileMmapStart() or FindFileMmapBase()? Adjust the change description too.",
+      "revId": "1ee97f92ad931a4b3bf2b70b83ae403455ecc2a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1068fb4_c3cd9d99",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-11T15:23:08Z",
+      "side": 1,
+      "message": "Unused (something should have warned about this).",
+      "revId": "1ee97f92ad931a4b3bf2b70b83ae403455ecc2a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f255bfe_8197212a",
+        "filename": "util/linux/memory_map_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-11T15:23:08Z",
+      "side": 1,
+      "message": "ASSERT_NO_FATAL_FAILURE(), same at the other points where this is called.",
+      "revId": "1ee97f92ad931a4b3bf2b70b83ae403455ecc2a7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
