@@ -202,10 +202,10 @@ MemoryMap::MemoryMap() : mappings_(), initialized_() {}
 
 MemoryMap::~MemoryMap() {}
 
-bool MemoryMap::Mapping::Equals(const Mapping& other) const {
-  DCHECK_EQ(range.Is64Bit(), other.range.Is64Bit());
+bool MemoryMap::Mapping::operator==(const Mapping& other) const {
   return range.Base() == other.range.Base() &&
-         range.Size() == other.range.Size() && name == other.name &&
+         range.Size() == other.range.Size() &&
+         range.Is64Bit() == other.range.Is64Bit() && name == other.name &&
          offset == other.offset && device == other.device &&
          inode == other.inode && readable == other.readable &&
          writable == other.writable && executable == other.executable &&
@@ -277,13 +277,16 @@ const MemoryMap::Mapping* MemoryMap::FindMappingWithName(
   return nullptr;
 }
 
-const MemoryMap::Mapping* MemoryMap::FindFileMmapStart(
+// Find the first mapping of a mapped file by finding the highest address
+// mapping at or below the input mapping with the same device and inode,
+// mapped from file offset 0.
+const MemoryMap::Mapping* MemoryMap::FindMappingStart(
     const Mapping& mapping) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
   size_t index = 0;
   for (; index < mappings_.size(); ++index) {
-    if (mappings_[index].Equals(mapping)) {
+    if (mappings_[index] == mapping) {
       break;
     }
   }
@@ -299,9 +302,14 @@ const MemoryMap::Mapping* MemoryMap::FindFileMmapStart(
   }
 
   do {
-    // There may by anonymous mappings or other files mapped into the holes,
-    // so check that the mapping uses the same file as the input, but keep
-    // searching if it doesn't.
+    // Anonymous mappings may be used to fill holes in the image.
+    if (mappings_[index].device == 0 && mappings_[index].inode == 0) {
+      continue;
+    }
+
+    // There may also be other files mapped into the holes, so check that the
+    // mapping uses the same file as the input, but keep searching if it
+    // doesn't.
     if (mappings_[index].device == mapping.device &&
         mappings_[index].inode == mapping.inode &&
         mappings_[index].offset == 0) {
@@ -309,8 +317,14 @@ const MemoryMap::Mapping* MemoryMap::FindFileMmapStart(
     }
   } while (index--);
 
-  LOG(ERROR) << "mapping not found";
   return nullptr;
 }
+
+//void MemoryMap::Print() const {
+//  for (const auto& mapping : mappings_) {
+//    LOG(INFO) << std::hex << "0x" << mapping.range.Base() << ":"
+//              << mapping.range.Size() << mapping.name;
+//  }
+//}
 
 }  // namespace crashpad

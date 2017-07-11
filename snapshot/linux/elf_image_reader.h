@@ -49,6 +49,10 @@ class ElfImageReader {
   //!     the ELF image is loaded.
   bool Initialize(const ProcessMemoryRange& memory, LinuxVMAddress address);
 
+  LinuxVMAddress Address() const { return memory_.Base(); }
+
+  LinuxVMSize Size() const { return memory_.Size(); }
+
   //! \brief Returns the file type for the image.
   //!
   //! Possible values include `ET_EXEC` or `ET_DYN` from `<elf.h>`.
