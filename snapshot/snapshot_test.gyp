@@ -70,6 +70,7 @@
         'cpu_context_test.cc',
         'crashpad_info_client_options_test.cc',
         'api/module_annotations_win_test.cc',
+        'linux/debug_rendezvous_test.cc',
         'linux/elf_image_reader_test.cc',
         'mac/cpu_context_mac_test.cc',
         'mac/mach_o_image_annotations_reader_test.cc',
