@@ -107,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ef7cccdc_9c7d71b5",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-07-12T21:38:43Z",
+      "side": 1,
+      "message": "Yeah, the set is what I first thought of, although I like the idea of the upper bound too (since it may catch other inconsistencies as well)\n\nLikely not in the scope of this change, but if walking linked lists is common enough it\u0027s tempting to consider a \"safe list iterator\" that implements both types of check (upper bound and cycles) - in the same spirit as the \"memory range\" abstraction. What do you think?",
+      "parentUuid": "51130183_942385b9",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 28
+      },
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "311425b7_325bd67c",
         "filename": "snapshot/linux/debug_rendezvous.h",
         "patchSetId": 11
