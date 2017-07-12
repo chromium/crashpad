@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "43b635bd_9230d47d",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T21:41:45Z",
+      "side": 1,
+      "message": "\u003e Yeah, the set is what I first thought of, although I like the idea of the upper bound too (since it may catch other inconsistencies as well)\n\nI like the set for its precision.\n\n\u003e Likely not in the scope of this change, but if walking linked lists is common enough it\u0027s tempting to consider a \"safe list iterator\" that implements both types of check (upper bound and cycles) - in the same spirit as the \"memory range\" abstraction. What do you think?\n\nYeah, like I said, there are definitely places we could use it on Windows, although the interfaces are all different since it’s in platform-specific code.\n\nWe actually should unify the interfaces to the different platforms’ memory readers, which would help us implement a single safe linked list reader.",
+      "parentUuid": "ef7cccdc_9c7d71b5",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 28
+      },
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "311425b7_325bd67c",
         "filename": "snapshot/linux/debug_rendezvous.h",
         "patchSetId": 11
