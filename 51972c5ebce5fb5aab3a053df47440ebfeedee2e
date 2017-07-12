@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9f604dd_db7448c2",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "Blank line before this.",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65da4ede_9184ba4c",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "An InitializationStateDcheck protecting this as well as Executable() and Modules() might be nice.",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "311425b7_325bd67c",
+        "filename": "snapshot/linux/debug_rendezvous.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "Be explicit (can be after the \\brief) that this excludes the executable.\n\nAlso: does this include the interpreter/loader and the kernel-supplied vdso? If so, we should probably arrange for them to be present at certain indices (either first or last). That behavior should be documented and tested too.",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8d64fb4_979d3640",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "I love how nicely this all plugs together.\n\n(Up until this point, at least. The weirdo differences in implementation and the #ifdefs aren’t so clean, but they’re a necessary evil in this test.)",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcb11c5c_7ec54c15",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "That’s strictly a run-time thing, right? The (newer) system loader doesn’t check the API version that an executable was built with and decide whether or not set this field based on that?\n\nIf so, can we have a runtime Android OS version check here to only allow the “0” on older Android systems?",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb2c3ef9_a57daa50",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "Be more specific, “glibc’s” instead of “GNU’s”.",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceccc9c4_08726712",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "Can you put a SCOPED_TRACE in here to make things easier to debug?",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f29dca17_767baf32",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "Same here. You can upgrade this to an EXPECT provided that you do a runtime check to make sure that this is running on an OS version where this field is expected to be set.",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1f90cad_8edc090b",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "Can you nail this down to dev,ino \u003d\u003d 0 too?",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcc1cd64_43c8aa3e",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "Here too.\n\nIf you implemented the checking, I think everything would all work out more compactly too, because you’d be able to share the EXPECT_EQ that you care about.\n\nLike, above\n\n#if defined(OS_ANDROID)\n  const int android_runtime_api \u003d FigureItOut();\n#else\n  // glibc’s loader implements all of the tested features that Android’s was \n  // once missing but has since gained.\n  const int android_runtime_api \u003d std::numeric_limits\u003cint\u003e::max();\n#endif\n\nthen here, the much more compact\n\n  if (android_runtime_api \u003e\u003d 23) {\n    EXPECT_EQ(module.load_bias, module_reader.GetLoadBias());\n  }",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e59b27c9_4e1adde1",
+        "filename": "snapshot/linux/elf_image_reader.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T20:47:47Z",
+      "side": 1,
+      "message": "`PT_LOAD`. Line 62 too.",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
