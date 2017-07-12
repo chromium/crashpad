@@ -40,6 +40,8 @@
         'exception_snapshot.h',
         'handle_snapshot.cc',
         'handle_snapshot.h',
+        'linux/debug_rendezvous.cc',
+        'linux/debug_rendezvous.h',
         'linux/elf_dynamic_array_reader.cc',
         'linux/elf_dynamic_array_reader.h',
         'linux/elf_image_reader.cc',
