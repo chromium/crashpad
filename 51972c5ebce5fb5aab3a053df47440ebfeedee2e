@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "51130183_942385b9",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-12T21:25:15Z",
+      "side": 1,
+      "message": "\u003e We could use the number of mappings as an upper bound on the number of modules.\n\nI think we could easily just keep a std::set of address as we read them.\n\nWe have the same problem in the Windows snapshotter too, where we read linked lists. There\u0027s probably a bug on file for that (can\u0027t check now, I\u0027m on my phone).",
+      "parentUuid": "57ea4112_dae4797a",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 28
+      },
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "311425b7_325bd67c",
         "filename": "snapshot/linux/debug_rendezvous.h",
         "patchSetId": 11
