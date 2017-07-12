@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "5dc0a5e3_a2aef797",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-07-12T21:13:43Z",
+      "side": 1,
+      "message": "is guarding against cycles something we should do?",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 28
+      },
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "311425b7_325bd67c",
         "filename": "snapshot/linux/debug_rendezvous.h",
         "patchSetId": 11
