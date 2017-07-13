@@ -137,7 +137,6 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
         FromPointerCast<mach_vm_address_t>(expect_segment_data);
     EXPECT_EQ(actual_segment->Address(), expect_segment_address);
     EXPECT_EQ(actual_segment->vmsize(), expect_segment_size);
-    EXPECT_EQ(actual_segment->Size(), actual_segment->vmsize());
   } else {
     // getsegmentdata() doesn’t return appropriate data for the __PAGEZERO
     // segment because getsegmentdata() always adjusts for slide, but the
@@ -146,8 +145,6 @@ void ExpectSegmentCommand(const SegmentCommand* expect_segment,
     // to identify __PAGEZERO. See 10.9.4 xnu-2422.110.17/bsd/kern/mach_loader.c
     // load_segment().
     EXPECT_EQ(actual_segment->vmaddr(), actual_segment->Address());
-    EXPECT_EQ(actual_segment->Size(),
-              actual_segment->vmsize() + actual_image->Slide());
   }
 
   ASSERT_EQ(actual_segment->nsects(), expect_segment->nsects);
@@ -360,7 +357,7 @@ void ExpectMachImage(const MachHeader* expect_image,
       actual_image->GetSegmentByName(SEG_TEXT);
   ASSERT_TRUE(actual_text_segment);
   EXPECT_EQ(actual_text_segment->Address(), expect_image_address);
-  EXPECT_EQ(actual_text_segment->Size(), actual_image->Size());
+  EXPECT_EQ(actual_text_segment->vmsize(), actual_image->Size());
   EXPECT_EQ(actual_image->Slide(),
             expect_image_address - actual_text_segment->vmaddr());
 

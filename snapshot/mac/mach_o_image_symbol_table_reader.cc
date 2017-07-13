@@ -48,7 +48,7 @@ class MachOImageSymbolTableReaderInitializer {
         linkedit_segment_(linkedit_segment) {
     linkedit_range_.SetRange(process_reader_->Is64Bit(),
                              linkedit_segment->Address(),
-                             linkedit_segment->Size());
+                             linkedit_segment->vmsize());
     DCHECK(linkedit_range_.IsValid());
   }
 

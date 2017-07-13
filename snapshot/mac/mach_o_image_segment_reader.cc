@@ -191,12 +191,6 @@ mach_vm_address_t MachOImageSegmentReader::Address() const {
   return vmaddr() + (SegmentSlides() ? slide_ : 0);
 }
 
-mach_vm_size_t MachOImageSegmentReader::Size() const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_slide_);
-  return vmsize() + (SegmentSlides() ? 0 : slide_);
-}
-
 const process_types::section* MachOImageSegmentReader::GetSectionByName(
     const std::string& section_name,
     mach_vm_address_t* address) const {

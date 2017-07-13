@@ -71,7 +71,7 @@ class MachOImageSegmentReader {
   //! \brief Sets the image’s slide value.
   //!
   //! This method must only be called once on an object, after Initialize() is
-  //! called successfully. It must be called before Address(), Size(),
+  //! called successfully. It must be called before Address(),
   //! GetSectionByName(), or GetSectionAtIndex() can be called.
   //!
   //! This method is provided because slide is a property of the image that
@@ -94,13 +94,6 @@ class MachOImageSegmentReader {
   //!     use vmaddr().
   mach_vm_address_t Address() const;
 
-  //! \return The segment’s actual size address in memory, adjusted for any
-  //!     growth in the case of a nonsliding segment.
-  //!
-  //! \note For the segment’s preferred size, not adjusted for growth, use
-  //!     vmsize().
-  mach_vm_address_t Size() const;
-
   //! \brief The segment’s preferred load address.
   //!
   //! \return The segment’s preferred load address as stored in the Mach-O file.
@@ -113,10 +106,6 @@ class MachOImageSegmentReader {
   mach_vm_address_t vmaddr() const { return segment_command_.vmaddr; }
 
   //! \brief Returns the segment’s size as mapped into memory.
-  //!
-  //! \note For non-sliding segments, this value is not adjusted for any growth
-  //!     that may have occurred when the image was loaded. Use Size() for a
-  //!     value adjusted for growth.
   mach_vm_size_t vmsize() const { return segment_command_.vmsize; }
 
   //! \brief Returns the file offset of the mapped segment in the file from

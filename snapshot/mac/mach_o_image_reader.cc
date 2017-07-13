@@ -281,16 +281,16 @@ bool MachOImageReader::Initialize(ProcessReader* process_reader,
     // read, but now it’s possible to check the slid values too. The individual
     // sections don’t need to be checked because they were verified to be
     // contained within their respective segments when the segments were read.
-    mach_vm_address_t slid_segment_address = segment->Address();
-    mach_vm_size_t slid_segment_size = segment->Size();
+    const mach_vm_address_t slid_segment_address = segment->Address();
+    const mach_vm_size_t segment_size = segment->vmsize();
     CheckedMachAddressRange slid_segment_range(
-        process_reader_->Is64Bit(), slid_segment_address, slid_segment_size);
+        process_reader_->Is64Bit(), slid_segment_address, segment_size);
     if (!slid_segment_range.IsValid()) {
       LOG(WARNING) << base::StringPrintf(
                           "invalid slid segment range 0x%llx + 0x%llx, "
                           "segment ",
                           slid_segment_address,
-                          slid_segment_size) << segment->Name() << module_info_;
+                          segment_size) << segment->Name() << module_info_;
       return false;
     }
   }
