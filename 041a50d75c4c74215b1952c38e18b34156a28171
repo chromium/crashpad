@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5a158b4_66a5b621",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T20:05:21Z",
+      "side": 0,
+      "message": "I imagine that this was here for size_t, but since we call it size_t and not std::size_t, we should be using the C header \u003cstddef.h\u003e as we do for other C headers.\n\nIf you had another reason to #include \u003ccstddef\u003e instead of \u003cstddef.h\u003e, let me know.",
+      "revId": "041a50d75c4c74215b1952c38e18b34156a28171",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26397b0d_6c04b40f",
+        "filename": "snapshot/linux/elf_image_reader.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T20:05:21Z",
+      "side": 0,
+      "message": "../../../../snapshot/linux/elf_image_reader.cc:152:8: error: no type named \u0027vector\u0027 in namespace \u0027std\u0027\n  std::vector\u003cPhdrType\u003e table_;\n  ~~~~~^",
+      "revId": "041a50d75c4c74215b1952c38e18b34156a28171",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
