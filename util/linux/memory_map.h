@@ -90,6 +90,9 @@ class MemoryMap {
   //!     message logged.
   const Mapping* FindFileMmapStart(const Mapping& mapping) const;
 
+  //! \brief Returns the number of mappings in the map.
+  size_t Size() const;
+
  private:
   std::vector<Mapping> mappings_;
   InitializationStateDcheck initialized_;

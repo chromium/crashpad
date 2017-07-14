@@ -313,4 +313,9 @@ const MemoryMap::Mapping* MemoryMap::FindFileMmapStart(
   return nullptr;
 }
 
+size_t MemoryMap::Size() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return mappings_.size();
+}
+
 }  // namespace crashpad
