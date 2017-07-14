@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ded5720_33a03b31",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T16:54:43Z",
+      "side": 1,
+      "message": "Based on how this comment is written, I’d expect \u003e\u003d 20 \u0026\u0026 \u003c\u003d 23, but the code does something else. Which is right?\n\nIf it’s the code, I suggest wording the comment with “after” and “until.”",
+      "revId": "1c8a2d0d1c0a1ddec0e2c0c993f951287508a67a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
