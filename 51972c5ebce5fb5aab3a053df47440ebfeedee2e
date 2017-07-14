@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb6b5059_599451d9",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9f604dd_db7448c2",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65da4ede_9184ba4c",
         "filename": "snapshot/linux/debug_rendezvous.cc",
         "patchSetId": 11
@@ -33,6 +51,24 @@
       "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a91fffbb_009103c7",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65da4ede_9184ba4c",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "fcb477a8_17a2951c",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43b635bd_9230d47d",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 28
+      },
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "311425b7_325bd67c",
         "filename": "snapshot/linux/debug_rendezvous.h",
         "patchSetId": 11
@@ -166,6 +226,24 @@
       "writtenOn": "2017-07-12T20:47:47Z",
       "side": 1,
       "message": "Be explicit (can be after the \\brief) that this excludes the executable.\n\nAlso: does this include the interpreter/loader and the kernel-supplied vdso? If so, we should probably arrange for them to be present at certain indices (either first or last). That behavior should be documented and tested too.",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44c69017_24a22608",
+        "filename": "snapshot/linux/debug_rendezvous.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Both the VDSO and interpreter may or may not be in the list, so if we identify them here, I think it\u0027d be better to access them via their own method like Executable and return null if they don\u0027t exist.\n\nAs for finding the VDSO and dynamic linker...\n\nThe executable is always the first thing in the list. This is required by GDB (or at least comments in Android\u0027s linker say so).\n\nAfter that, the order for Android (based on my reading of master) is:\n - the dynamic linker itself\n - DT_NEEDED libraries listed directly by the executable\n - The VDSO, if it exists\n - the rest of the DT_NEEDED libaries in breadth first order\n\nFor glibc the order is:\n - the VDSO, if it exists\n - the DT_NEEDED libraries in breadth first order\n\nglibc, will only place the dynamic linker in the list if it is listed as DT_NEEDED by something (It typically is since glibc depends on it), in which case it gets inserted into the list at the appropriate BF position as though it were any other library.\n\nOn Android, this should be pretty easy. The dynamic linker is always second and the VDSO is named (assuming we trust the names in the link map). For glibc, the VDSO is the entry with an empty name. Locating the dynamic linker\u0027s entry without outside help or assumptions about its filename might be trickier. (We could use ElfImageReader to read the interpreter, though I think that is not necessarily always the same name as is in the link map.)\n\nAlternatively, addresses for the VDSO and interpreter can be found using AuxiliaryVector (AT_BASE and AT_SYSINFO_EHDR), so we could pass an AuxiliaryVector+MemoryMap into the DebugRendezvous to help it out, but that seems a little weird to me.\n\nThe position of the interpreter and VDSO in the link map could also conceivably be useful information since it determines symbol resolution order.\n\nGiven all that, I\u0027m wondering if it would be better to handle this in something outside DebugRendezvous so all this complexity doesn\u0027t clutter up reading the link map. It might also be good if that thing handled figuring out what interpreter/linker we have and managing expectations for the link map accordingly.\n\nWDYT?",
+      "parentUuid": "311425b7_325bd67c",
       "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -189,6 +267,24 @@
     },
     {
       "key": {
+        "uuid": "4aff785c_8c602022",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Me too.",
+      "parentUuid": "a8d64fb4_979d3640",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcb11c5c_7ec54c15",
         "filename": "snapshot/linux/debug_rendezvous_test.cc",
         "patchSetId": 11
@@ -203,6 +299,24 @@
       "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d21faf46_8b92f6ee",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcb11c5c_7ec54c15",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -223,6 +337,24 @@
     },
     {
       "key": {
+        "uuid": "e24f07e9_1cb39ae7",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb2c3ef9_a57daa50",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ceccc9c4_08726712",
         "filename": "snapshot/linux/debug_rendezvous_test.cc",
         "patchSetId": 11
@@ -237,6 +369,24 @@
       "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f40d7124_a84b0436",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceccc9c4_08726712",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -257,6 +407,24 @@
     },
     {
       "key": {
+        "uuid": "255c0cfe_ceb13102",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f29dca17_767baf32",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1f90cad_8edc090b",
         "filename": "snapshot/linux/debug_rendezvous_test.cc",
         "patchSetId": 11
@@ -271,6 +439,24 @@
       "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693d6532_607bddb7",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1f90cad_8edc090b",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -291,6 +477,24 @@
     },
     {
       "key": {
+        "uuid": "deec50de_ebb1a2e4",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc1cd64_43c8aa3e",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e59b27c9_4e1adde1",
         "filename": "snapshot/linux/elf_image_reader.h",
         "patchSetId": 11
@@ -305,6 +509,24 @@
       "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f2aae66_10a2c6f0",
+        "filename": "snapshot/linux/elf_image_reader.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T05:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e59b27c9_4e1adde1",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
