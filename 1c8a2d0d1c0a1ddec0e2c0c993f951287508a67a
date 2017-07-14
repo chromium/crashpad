@@ -16,6 +16,24 @@
       "revId": "1c8a2d0d1c0a1ddec0e2c0c993f951287508a67a",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19ff31f3_eb1fceac",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T17:02:25Z",
+      "side": 1,
+      "message": "The code is right. I\u0027ve revised the comment.",
+      "parentUuid": "8ded5720_33a03b31",
+      "revId": "1c8a2d0d1c0a1ddec0e2c0c993f951287508a67a",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
