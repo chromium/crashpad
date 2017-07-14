@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3697680f_9a12ef3a",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T16:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b1c418a_b5227fcc",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 41
+      },
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab018d8e_c10b9751",
         "filename": "snapshot/linux/debug_rendezvous.cc",
         "patchSetId": 12
@@ -63,6 +87,24 @@
       "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92be3e05_46f4c05c",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T16:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab018d8e_c10b9751",
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "bd291ac6_b3793dc4",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T16:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2159fdfe_f6931cf8",
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe4f4b8c_544f211a",
         "filename": "snapshot/linux/debug_rendezvous_test.cc",
         "patchSetId": 12
@@ -97,6 +157,24 @@
       "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9b41330_36e38380",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T16:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe4f4b8c_544f211a",
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "4b129bb9_c1edc80d",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T16:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d5f1941_b4071c4f",
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e11cf8ae_c85817fa",
         "filename": "snapshot/linux/debug_rendezvous_test.cc",
         "patchSetId": 12
@@ -128,6 +224,24 @@
       "writtenOn": "2017-07-14T14:49:59Z",
       "side": 1,
       "message": "Does EXPECT_PRED2 gain anything (like printing its arguments, perhaps?) over EXPECT_EQ(module.name.empty(), (mapping-\u003edevice \u003d\u003d 0 \u0026\u0026 …)) ?",
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed2c14f0_b7a2e8ea",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T16:47:20Z",
+      "side": 1,
+      "message": "Yeah, it prints its arguments. Though, now I realize it\u0027s not going to know how to print the mapping, so I\u0027ll pass inode and device individually.",
+      "parentUuid": "e11cf8ae_c85817fa",
       "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -154,6 +268,30 @@
       "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be1e83f6_9423fa57",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-14T16:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0599a17a_d47a88e6",
+      "range": {
+        "startLine": 158,
+        "startChar": 36,
+        "endLine": 159,
+        "endChar": 75
+      },
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
