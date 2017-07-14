@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab018d8e_c10b9751",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T14:49:59Z",
+      "side": 1,
+      "message": "At least include the offending address in the message to help debug.\n\nLess important, but you still might want to: include debug.r_version in the message on line 117.",
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2159fdfe_f6931cf8",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T14:49:59Z",
+      "side": 1,
+      "message": "#include \"build/build_config.h\"",
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe4f4b8c_544f211a",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T14:49:59Z",
+      "side": 1,
+      "message": "#include \u003climits\u003e",
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d5f1941_b4071c4f",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T14:49:59Z",
+      "side": 1,
+      "message": "The comment about setting the dynamic array belongs above line 103, not here. The load bias comment does belong here, though.",
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e11cf8ae_c85817fa",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T14:49:59Z",
+      "side": 1,
+      "message": "Does EXPECT_PRED2 gain anything (like printing its arguments, perhaps?) over EXPECT_EQ(module.name.empty(), (mapping-\u003edevice \u003d\u003d 0 \u0026\u0026 …)) ?",
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0599a17a_d47a88e6",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T14:49:59Z",
+      "side": 1,
+      "message": "Since we have this comparison twice, maybe we should move it into a common “const bool is_android_loader”.",
+      "range": {
+        "startLine": 158,
+        "startChar": 36,
+        "endLine": 159,
+        "endChar": 75
+      },
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

@@ -250,6 +250,24 @@
     },
     {
       "key": {
+        "uuid": "1add3261_93e575d4",
+        "filename": "snapshot/linux/debug_rendezvous.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T14:49:59Z",
+      "side": 1,
+      "message": "\u003e Given all that, I\u0027m wondering if it would be better to handle this in something outside DebugRendezvous so all this complexity doesn\u0027t clutter up reading the link map. It might also be good if that thing handled figuring out what interpreter/linker we have and managing expectations for the link map accordingly.\n\nI think that’s good judgment. Let’s leave this to be responsible for just what it claims (DebugRendezvous) and figure the rest out in a component that consumes this.",
+      "parentUuid": "44c69017_24a22608",
+      "revId": "51972c5ebce5fb5aab3a053df47440ebfeedee2e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8d64fb4_979d3640",
         "filename": "snapshot/linux/debug_rendezvous_test.cc",
         "patchSetId": 11
