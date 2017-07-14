@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6b1c418a_b5227fcc",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-14T16:24:19Z",
+      "side": 1,
+      "message": "\u003e a minor suggestion: we can use the return from std::set::insert() to avoid the double lookup (return_value-\u003esecond \u003d\u003d false if the value was already in the set)\n\nYes!\n\n\u003e also, can we also have the upper bound check in addition to the set? even if as an assert, it seems a great sanity check.\n\nNot sure I agree that this belongs here, since we’re now thinking of it just as a backup to the cycle check. There’s nothing really Linux DebugRendezvous-specific about a maximum, and if we did set one, we’d probably want to do it at another level that could catch other operating systems too. (And maybe set limits on other things that can appear in multiples, like threads?)",
+      "parentUuid": "df4a73fd_3db3d2a5",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 41
+      },
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab018d8e_c10b9751",
         "filename": "snapshot/linux/debug_rendezvous.cc",
         "patchSetId": 12
