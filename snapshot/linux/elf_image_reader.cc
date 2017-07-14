@@ -14,8 +14,10 @@
 
 #include "snapshot/linux/elf_image_reader.h"
 
-#include <cstddef>
+#include <stddef.h>
+
 #include <limits>
+#include <vector>
 
 #include "base/logging.h"
 
