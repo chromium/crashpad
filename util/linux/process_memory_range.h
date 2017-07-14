@@ -70,6 +70,12 @@ class ProcessMemoryRange {
   //! \brief Returns whether the range is part of a 64-bit address space.
   bool Is64Bit() const { return range_.Is64Bit(); }
 
+  //! \brief Returns the base address of the range.
+  LinuxVMAddress Base() const { return range_.Base(); }
+
+  //! \brief Returns the size of the range.
+  LinuxVMSize Size() const { return range_.Size(); }
+
   //! \brief Shrinks the range to the new base and size.
   //!
   //! The new range must be contained within the existing range for this object.

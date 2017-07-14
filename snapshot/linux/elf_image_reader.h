@@ -49,6 +49,19 @@ class ElfImageReader {
   //!     the ELF image is loaded.
   bool Initialize(const ProcessMemoryRange& memory, LinuxVMAddress address);
 
+  //! \brief Returns the base address of the image's memory range.
+  //!
+  //! This may differ from the address passed to Initialize() if the ELF header
+  //! is not loaded at the start of the first `PT_LOAD` segment.
+  LinuxVMAddress Address() const { return memory_.Base(); }
+
+  //! \brief Returns the size of the range containing all loaded segments for
+  //!     this image.
+  //!
+  //! The size may include memory that is unmapped or mapped to other objects if
+  //! this image's `PT_LOAD` segments are not contiguous.
+  LinuxVMSize Size() const { return memory_.Size(); }
+
   //! \brief Returns the file type for the image.
   //!
   //! Possible values include `ET_EXEC` or `ET_DYN` from `<elf.h>`.
