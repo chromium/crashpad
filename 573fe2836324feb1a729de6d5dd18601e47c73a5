@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "df4a73fd_3db3d2a5",
+        "filename": "snapshot/linux/debug_rendezvous.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-07-14T15:37:46Z",
+      "side": 1,
+      "message": "a minor suggestion: we can use the return from std::set::insert() to avoid the double lookup (return_value-\u003esecond \u003d\u003d false if the value was already in the set)\n\nalso, can we also have the upper bound check in addition to the set? even if as an assert, it seems a great sanity check.",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 41
+      },
+      "revId": "573fe2836324feb1a729de6d5dd18601e47c73a5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab018d8e_c10b9751",
         "filename": "snapshot/linux/debug_rendezvous.cc",
         "patchSetId": 12
