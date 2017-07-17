@@ -72,6 +72,7 @@
         'api/module_annotations_win_test.cc',
         'linux/debug_rendezvous_test.cc',
         'linux/elf_image_reader_test.cc',
+        'linux/process_reader_test.cc',
         'mac/cpu_context_mac_test.cc',
         'mac/mach_o_image_annotations_reader_test.cc',
         'mac/mach_o_image_reader_test.cc',
@@ -153,6 +154,37 @@
     },
   ],
   'conditions': [
+    ['OS=="android" or OS=="linux"', {
+      'targets': [
+        {
+          'target_name': 'crashpad_snapshot_test_process_reader',
+          'type': 'executable',
+          'dependencies': [
+            '../compat/compat.gyp:crashpad_compat',
+            '../test/test.gyp:crashpad_test',
+            '../third_party/gtest/gtest.gyp:gtest',
+            '../third_party/gtest/gtest.gyp:gtest_main',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            '../util/util.gyp:crashpad_util',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'linux/process_reader_test.cc',
+            'linux/process_reader.cc',
+            'linux/process_reader.h',
+          ],
+          'target_conditions': [
+            ['OS=="android"', {
+              'sources/': [
+                ['include', '^linux/'],
+              ],
+            }],
+          ],
+        },
+      ],
+    }],
     ['OS=="mac"', {
       'targets': [
         {
