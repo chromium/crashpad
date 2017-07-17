@@ -17,8 +17,6 @@
 
 #include <stdint.h>
 
-#include "base/macros.h"
-
 namespace crashpad {
 
 //! \brief Tracks whether data are initialized.
@@ -91,8 +89,6 @@ class InitializationState {
   // kStateDestroyed, limiting this class’ ability to catch use-after-free
   // errors.
   volatile State state_;
-
-  DISALLOW_COPY_AND_ASSIGN(InitializationState);
 };
 
 }  // namespace crashpad
