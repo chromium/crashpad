@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "base/logging.h"
+#include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/settings.h"
@@ -30,9 +31,11 @@
 #include "snapshot/module_snapshot.h"
 #include "util/file/file_reader.h"
 #include "util/misc/metrics.h"
+#include "util/misc/uuid.h"
 #include "util/net/http_body.h"
 #include "util/net/http_multipart_builder.h"
 #include "util/net/http_transport.h"
+#include "util/net/url.h"
 #include "util/stdlib/map_insert.h"
 
 #if defined(OS_MACOSX)
@@ -143,22 +146,20 @@ class CallRecordUploadAttempt {
 
 CrashReportUploadThread::CrashReportUploadThread(CrashReportDatabase* database,
                                                  const std::string& url,
-                                                 bool watch_pending_reports,
-                                                 bool rate_limit,
-                                                 bool upload_gzip)
+                                                 const Options& options)
     : url_(url),
       // When watching for pending reports, check every 15 minutes, even in the
       // absence of a signal from the handler thread. This allows for failed
       // uploads to be retried periodically, and for pending reports written by
       // other processes to be recognized.
-      thread_(watch_pending_reports ? 15 * 60.0 : WorkerThread::kIndefiniteWait,
+      thread_(options.watch_pending_reports ? 15 * 60.0 : WorkerThread::kIndefiniteWait,
               this),
       known_pending_report_uuids_(),
       database_(database),
-      watch_pending_reports_(watch_pending_reports),
-      rate_limit_(rate_limit),
-      upload_gzip_(upload_gzip) {
-}
+      watch_pending_reports_(options.watch_pending_reports),
+      rate_limit_(options.rate_limit),
+      upload_gzip_(options.upload_gzip),
+      identify_client_via_url_(options.identify_client_via_url) {}
 
 CrashReportUploadThread::~CrashReportUploadThread() {
 }
@@ -383,7 +384,6 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
       "application/octet-stream");
 
   std::unique_ptr<HTTPTransport> http_transport(HTTPTransport::Create());
-  http_transport->SetURL(url_);
   HTTPHeaders content_headers;
   http_multipart_builder.PopulateContentHeaders(&content_headers);
   for (const auto& content_header : content_headers) {
@@ -392,6 +392,31 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
   http_transport->SetBodyStream(http_multipart_builder.GetBodyStream());
   // TODO(mark): The timeout should be configurable by the client.
   http_transport->SetTimeout(60.0);  // 1 minute.
+
+  std::string url = url_;
+  if (identify_client_via_url_) {
+    // Add parameters to the URL which identify the client to the server.
+    struct {
+      const char* key;
+      const char* url_field_name;
+    } kURLParameterMappings[] = { 
+        {"prod", "product"}, 
+        {"ver", "version"}, 
+        {"guid", "guid"} 
+    };
+
+    for (const auto parameter_mapping : kURLParameterMappings) {
+      const auto it = parameters.find(parameter_mapping.key);
+      if (it != parameters.end()) {
+        url.append(
+            base::StringPrintf("%c%s=%s",
+                               url.find('?') == std::string::npos ? '?' : '&',
+                               parameter_mapping.url_field_name,
+                               URLEncode(it->second)));
+      }
+    }
+  }
+  http_transport->SetURL(url);
 
   if (!http_transport->ExecuteSynchronously(response_body)) {
     return UploadResult::kRetry;
