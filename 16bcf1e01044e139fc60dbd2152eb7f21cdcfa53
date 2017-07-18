@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "124254a0_786c7ce2",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-07-18T18:18:32Z",
+      "side": 1,
+      "message": "do we have a \"countof/arraysize\" we can use in crashpad?",
+      "range": {
+        "startLine": 113,
+        "startChar": 42,
+        "endLine": 113,
+        "endChar": 48
+      },
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b05d959_57d9830f",
         "filename": "snapshot/linux/process_reader.cc",
         "patchSetId": 12
