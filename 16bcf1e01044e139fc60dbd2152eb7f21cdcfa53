@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "276fc095_d27ba5ac",
+        "filename": "compat/android/sys/types.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-18T03:33:48Z",
+      "side": 1,
+      "message": "Is \u003csys/types.h\u003e really where we’d expect to find SYS_*, or is that more \u003csys/syscall.h\u003e’s domain?",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1960df5_a71a11e4",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-18T03:33:48Z",
+      "side": 1,
+      "message": "\u003cstring.h\u003e",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b05d959_57d9830f",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-18T03:33:48Z",
+      "side": 1,
+      "message": "Would it make more sense to do this in the InitializeThreads() loop instead of having it do its own loop?\n\nThis method could actually be a member on ProcessReader::Thread, and for that matter, so could InitializeThreadStack().\n\nFor that matter, with the current cascade-y structure (InitializeThreads -\u003e PtraceInitializeThreads -\u003e InitializeThreadStack), it’s a little non-obvious as to who’s calling what when. Maybe InitializeThreads() could be responsible for calling both Thread::InitializePtrace() and Thread::InitializeStack()?",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5edc03e3_2e4457fe",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-18T03:33:48Z",
+      "side": 1,
+      "message": "I’m concerned that this interface requires callers to check is_valid() on all of the threads it gets via ProcessReader::Threads(). Seems cumbersome when we can just not populate the thread list with bogus data in the first place (and instead log an error). What do we do on other platforms? How were you planning on calling into this to make your ProcessSnapshot/ThreadSnapshot?",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31465008_c3127d25",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-18T03:33:48Z",
+      "side": 1,
+      "message": "I don’t think we need a Crashpad-specific count.",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f5b18a6_a7d78c93",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-18T03:33:48Z",
+      "side": 1,
+      "message": "On other platforms, when we’ve suspended things, I think we subtract one to present the suspend count less our meddling. Since this all happens in OS-specific snapshot code, and “suspend count” is meaningless on Linux, I think we can drop the suspend_count field entirely here, and just return a hard-coded big fat zero from the Linux ThreadSnapshot::SuspendCount() when written.",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6b76a96_6ec86fba",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-18T03:33:48Z",
+      "side": 1,
+      "message": "#include \u003cerrno.h\u003e",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c08655e_1c54dae0",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-18T03:33:48Z",
+      "side": 1,
+      "message": "\u003calgorithm\u003e and stack_region_start - std::min(kRedZoneSize, stack_region_start)?",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "779b7b80_1de7326b",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-18T03:33:48Z",
+      "side": 1,
+      "message": "It’s actually nice to capture the TSD area along with the stack. We do on macOS and Windows. It’s helped us debug a few crashes. Is there a way to include it for these non-main threads?",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0d91109_6cf29303",
+        "filename": "snapshot/linux/process_reader.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-18T03:33:48Z",
+      "side": 1,
+      "message": "You haven’t actually used this, but you should.",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
