@@ -283,17 +283,16 @@ bool ThreadInfo::GetThreadArea(LinuxVMAddress* address) {
     return true;
   }
 
+  size_t index = (context_.t32.xgs & 0xffff) >> 3;
   user_desc desc;
-  iovec iov;
-  iov.iov_base = &desc;
-  iov.iov_len = sizeof(desc);
-  *address = 0;
-  if (ptrace(
-          PTRACE_GETREGSET, tid_, reinterpret_cast<void*>(NT_386_TLS), &iov) !=
-      0) {
+  if (ptrace(PTRACE_GET_THREAD_AREA,
+             tid_,
+             reinterpret_cast<void*>(index),
+             &desc) != 0) {
     PLOG(ERROR) << "ptrace";
     return false;
   }
+
   *address = desc.base_addr;
   return true;
 
