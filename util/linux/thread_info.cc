@@ -283,7 +283,7 @@ bool ThreadInfo::GetThreadArea(LinuxVMAddress* address) {
     return true;
   }
 
-  user_desc desc;
+  user_desc desc[2];
   iovec iov;
   iov.iov_base = &desc;
   iov.iov_len = sizeof(desc);
@@ -294,7 +294,9 @@ bool ThreadInfo::GetThreadArea(LinuxVMAddress* address) {
     PLOG(ERROR) << "ptrace";
     return false;
   }
-  *address = desc.base_addr;
+  LOG(INFO) << "TLS1 0x" << std::hex << desc[0].base_addr;
+  LOG(INFO) << "TLS2 0x" << std::hex << desc[1].base_addr;
+  *address = desc[0].base_addr;
   return true;
 
 #elif defined(ARCH_CPU_ARM_FAMILY)
