@@ -16,6 +16,7 @@
 
 #include <linux/elf.h>
 #include <string.h>
+#include <sys/prctl.h>
 #include <sys/ptrace.h>
 #include <sys/uio.h>
 
@@ -24,6 +25,7 @@
 
 #if defined(ARCH_CPU_X86_FAMILY)
 #include <asm/ldt.h>
+#include <asm/prctl.h>
 #endif
 
 namespace crashpad {
@@ -283,18 +285,27 @@ bool ThreadInfo::GetThreadArea(LinuxVMAddress* address) {
     return true;
   }
 
+#if defined(ARCH_CPU_X86)
+  size_t index = (context_.t32.xgs & 0xffff) >> 3;
   user_desc desc;
-  iovec iov;
-  iov.iov_base = &desc;
-  iov.iov_len = sizeof(desc);
-  *address = 0;
-  if (ptrace(
-          PTRACE_GETREGSET, tid_, reinterpret_cast<void*>(NT_386_TLS), &iov) !=
-      0) {
+  if (ptrace(PTRACE_GET_THREAD_AREA,
+             tid_,
+             reinterpret_cast<void*>(index),
+             &desc) != 0) {
     PLOG(ERROR) << "ptrace";
     return false;
   }
   *address = desc.base_addr;
+#else
+  if (ptrace(PTRACE_ARCH_PRCTL,
+             tid_,
+             reinterpret_cast<void*>(ARCH_GET_GS),
+             address) != 0) {
+    PLOG(ERROR) << "ptrace";
+    return false;
+  }
+#endif  // ARCH_CPU_X86
+
   return true;
 
 #elif defined(ARCH_CPU_ARM_FAMILY)
