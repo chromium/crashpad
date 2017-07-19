@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3c8a030_46f0876f",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-19T16:13:52Z",
+      "side": 1,
+      "message": "Since ProcessID() is called four times in this method (including in a loop), maybe you should cache it in a local variable here.",
+      "revId": "cbe210f63291d92d28152f4ef3dbe5d7b78e1b22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "819192ab_520ba97a",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-19T16:13:52Z",
+      "side": 1,
+      "message": "Dunno if we want to bail on trying to grab the other threads. I guess you did this because you documented Threads()[0] as being the main thread?\n\nI don’t think we’re that heavy-handed in the Mac or Windows code. I guess we should revise the docs to say that if we could determine which thread was main and get its information, it shows up at [0].",
+      "revId": "cbe210f63291d92d28152f4ef3dbe5d7b78e1b22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4af95d3e_d90d23c3",
+        "filename": "snapshot/linux/process_reader.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-19T16:13:52Z",
+      "side": 1,
+      "message": "Since these two methods are public now, can you give at least a \\brief for each of them?\n\nOr I guess you can make ’em private and make this class friendly with the containing ProcessReader class.",
+      "revId": "cbe210f63291d92d28152f4ef3dbe5d7b78e1b22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "030c7fef_3e1e0459",
+        "filename": "snapshot/linux/process_reader.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-19T16:13:52Z",
+      "side": 1,
+      "message": "These two are gone now.",
+      "revId": "cbe210f63291d92d28152f4ef3dbe5d7b78e1b22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "716cd7f3_224e1e7e",
+        "filename": "snapshot/linux/process_reader_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-19T16:13:52Z",
+      "side": 1,
+      "message": "This is named confusingly. Isn’t it actually getting TLS, not setting it?\n\nAny reason to use an out-param instead of having it return the result? (Having a parameter reinforces the confusion. “Oh, that must be what it’s being set to.”)",
+      "revId": "cbe210f63291d92d28152f4ef3dbe5d7b78e1b22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "030134a0_e456bd72",
+        "filename": "snapshot/linux/process_reader_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-19T16:13:52Z",
+      "side": 1,
+      "message": "This was for debugging? Lines 269-270 too.",
+      "revId": "cbe210f63291d92d28152f4ef3dbe5d7b78e1b22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b576ca84_8d564595",
+        "filename": "util/linux/thread_info.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-19T16:13:52Z",
+      "side": 1,
+      "message": "This is covered by https://chromium-review.googlesource.com/575318/, you should take it out of this change.",
+      "revId": "cbe210f63291d92d28152f4ef3dbe5d7b78e1b22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
