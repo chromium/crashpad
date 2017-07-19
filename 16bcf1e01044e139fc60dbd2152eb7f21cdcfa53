@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "25f37f35_0f883e60",
+        "filename": "compat/android/sys/types.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "Oops. Well now I feel silly. I put this here because the man page said to include sys/types.h for gettid, but I now realize that was for pid_t...",
+      "parentUuid": "276fc095_d27ba5ac",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f1960df5_a71a11e4",
         "filename": "snapshot/linux/process_reader.cc",
         "patchSetId": 12
@@ -59,6 +77,48 @@
     },
     {
       "key": {
+        "uuid": "5f8d0797_3e0fe6ab",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "124254a0_786c7ce2",
+      "range": {
+        "startLine": 113,
+        "startChar": 42,
+        "endLine": 113,
+        "endChar": 48
+      },
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e12a1eb_ec63324e",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1960df5_a71a11e4",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b05d959_57d9830f",
         "filename": "snapshot/linux/process_reader.cc",
         "patchSetId": 12
@@ -73,6 +133,24 @@
       "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "088d6a66_d1b1a6aa",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b05d959_57d9830f",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "b387a53c_efbe9db1",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "Done. I had misread the mac process reader before and thought it was hanging onto threads if they failed initialization.",
+      "parentUuid": "5edc03e3_2e4457fe",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31465008_c3127d25",
         "filename": "snapshot/linux/process_reader.cc",
         "patchSetId": 12
@@ -107,6 +203,24 @@
       "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be058638_28338b27",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "31465008_c3127d25",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "ef5ad665_ddbb594e",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "9f5b18a6_a7d78c93",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6b76a96_6ec86fba",
         "filename": "snapshot/linux/process_reader.cc",
         "patchSetId": 12
@@ -141,6 +273,24 @@
       "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4682ce99_ba6aa857",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6b76a96_6ec86fba",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "b2b43502_d3fdc436",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c08655e_1c54dae0",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "779b7b80_1de7326b",
         "filename": "snapshot/linux/process_reader.cc",
         "patchSetId": 12
@@ -172,6 +340,24 @@
       "writtenOn": "2017-07-18T03:33:48Z",
       "side": 1,
       "message": "It’s actually nice to capture the TSD area along with the stack. We do on macOS and Windows. It’s helped us debug a few crashes. Is there a way to include it for these non-main threads?",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7d02e1e_ec962712",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "Hrm, this could be tricky and will depend on what kinds of things we expect to use the TLS for. This address will point to different things for glibc and bionic.\n\nFor bionic, it points to an array of BIONIC_TLS_SLOTS pointers.\nThe array:\nhttps://cs.corp.google.com/aosp-master/bionic/libc/bionic/pthread_internal.h?rcl\u003da571e9e7486afcb18ba6acb3b36b463002a5a923\u0026l\u003d103\nThe slots:\nhttps://cs.corp.google.com/aosp-master/bionic/libc/private/bionic_tls.h?rcl\u003da571e9e7486afcb18ba6acb3b36b463002a5a923\u0026l\u003d56\n\nFor glibc, it typically points to the struct pthread.",
+      "parentUuid": "779b7b80_1de7326b",
       "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -192,6 +378,24 @@
       "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c71adc1a_b9135a49",
+        "filename": "snapshot/linux/process_reader.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d91109_6cf29303",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

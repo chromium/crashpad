@@ -34,6 +34,24 @@
       "revId": "6ab73e0ad8ac9d72fee557bb021ba8e33864b905",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5ab4a2c_b32c46be",
+        "filename": "util/misc/initialization_state.h",
+        "patchSetId": 12
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T04:51:54Z",
+      "side": 0,
+      "message": "Yep. I\u0027ve reverted it now since threads are now not placed in the vector if they fail initialization, removing the need for an InitializationState.",
+      "parentUuid": "7c64c7a4_5e4e968b",
+      "revId": "6ab73e0ad8ac9d72fee557bb021ba8e33864b905",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
