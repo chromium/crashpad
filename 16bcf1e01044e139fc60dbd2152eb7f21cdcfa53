@@ -364,6 +364,24 @@
     },
     {
       "key": {
+        "uuid": "88d3b6b3_770b17c6",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 12
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T05:07:04Z",
+      "side": 1,
+      "message": "We could collect to the end of the page to get the rest of the internal pthread structs used by bionic and glibc. It might not always work for user-allocated stacks if they aren\u0027t page-aligned and page-multiple-sized though.",
+      "parentUuid": "d7d02e1e_ec962712",
+      "revId": "16bcf1e01044e139fc60dbd2152eb7f21cdcfa53",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0d91109_6cf29303",
         "filename": "snapshot/linux/process_reader.h",
         "patchSetId": 12
