@@ -50,6 +50,8 @@
         'linux/elf_image_reader.h',
         'linux/elf_symbol_table_reader.cc',
         'linux/elf_symbol_table_reader.h',
+        'linux/memory_snapshot_linux.cc',
+        'linux/memory_snapshot_linux.h',
         'linux/process_reader.cc',
         'linux/process_reader.h',
         'mac/cpu_context_mac.cc',
