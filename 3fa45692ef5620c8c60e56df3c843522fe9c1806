@@ -16,6 +16,24 @@
       "revId": "3fa45692ef5620c8c60e56df3c843522fe9c1806",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc27a39f_c4cba02a",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-19T16:16:45Z",
+      "side": 1,
+      "message": "I think asm/ptrace-abi.h defines the raw system call interface while sys/ptrace.h defines the libc interface. The glibc ptrace wrapper requires its request arguments to be enum __ptrace_request and re-defines many of the requests from asm/ptrace-abi.h, but is missing PTRACE_GET_THREAD_AREA.",
+      "parentUuid": "f654fdd6_bb41f69f",
+      "revId": "3fa45692ef5620c8c60e56df3c843522fe9c1806",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
