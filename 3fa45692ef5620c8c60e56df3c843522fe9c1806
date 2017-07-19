@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654fdd6_bb41f69f",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-19T15:56:01Z",
+      "side": 1,
+      "message": "I see this as a #define in Bionic’s (sometimes CPU-specific) asm/ptrace-abi.h, so shouldn’t we match it by using a #define here? That also makes it possible to test for !defined(PTRACE_GET_THREAD_AREA) instead of using \u003ccdefs.h\u003e for defined(__GLIBC__).",
+      "revId": "3fa45692ef5620c8c60e56df3c843522fe9c1806",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
