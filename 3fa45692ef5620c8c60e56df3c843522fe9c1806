@@ -34,6 +34,24 @@
       "revId": "3fa45692ef5620c8c60e56df3c843522fe9c1806",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9b5bcd2_c6c25b28",
+        "filename": "compat/linux/sys/ptrace.h",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-19T16:40:12Z",
+      "side": 1,
+      "message": "\u003e I think asm/ptrace-abi.h defines the raw system call interface while sys/ptrace.h defines the libc interface. The glibc ptrace wrapper requires its request arguments to be enum __ptrace_request and re-defines many of the requests from asm/ptrace-abi.h, but is missing PTRACE_GET_THREAD_AREA.\n\nI didn\u0027t see it in sys/ptrace.h in Bionic at all either, so I assumed Bionic was getting it from asm/ptrace-abi.h and thought that this should be compatible. But OK, that\u0027s a good reason to do this.",
+      "parentUuid": "bc27a39f_c4cba02a",
+      "revId": "3fa45692ef5620c8c60e56df3c843522fe9c1806",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
