@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96f2c5c9_6939f4b9",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-20T21:29:10Z",
+      "side": 1,
+      "message": "Watch the 80-character limit. “git cl format” may help (but it also may hurt, so feel free to do a better job by hand).",
+      "revId": "8594eb79b7ee1e3724795165ee3adf981825e5d6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f277340_07e00103",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-20T21:29:10Z",
+      "side": 1,
+      "message": "This struct should be declared “const” (especially since you named it kURLParameterMappings, implying that it’s const).",
+      "revId": "8594eb79b7ee1e3724795165ee3adf981825e5d6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a87cbc0f_78767b55",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-20T21:29:10Z",
+      "side": 1,
+      "message": "We’d usually stick a trailing comma on this so that blame is cleaner if someone wants to add to the list.",
+      "range": {
+        "startLine": 405,
+        "startChar": 23,
+        "endLine": 405,
+        "endChar": 24
+      },
+      "revId": "8594eb79b7ee1e3724795165ee3adf981825e5d6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaba89c9_4908d529",
+        "filename": "handler/crash_report_upload_thread.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-20T21:29:10Z",
+      "side": 1,
+      "message": "Blank line before this, so it looks like it’s “attached” to the rate_limit line below and not identify_client_via_url above. Same for the other two below this.",
+      "revId": "8594eb79b7ee1e3724795165ee3adf981825e5d6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bcd4ca8_753c07b3",
+        "filename": "handler/crash_report_upload_thread.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-20T21:29:10Z",
+      "side": 1,
+      "message": "You can move these four into “Options options_” here too, now that you have the struct available.",
+      "revId": "8594eb79b7ee1e3724795165ee3adf981825e5d6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9b92f6f_2175e6a5",
+        "filename": "util/net/url.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-20T21:29:10Z",
+      "side": 1,
+      "message": "isalnum() isn’t perfect because it’s sensitive to the locale, and we really just want a straight ASCII alphanumeric check.\n\nThis could use isalnum_l(…, newlocale(LC_ALL_MASK, NULL, NULL)) (but we’d also need freelocale()), but it might just be easier to assume ASCII and check that the character is in range ourselves without bringing \u003cctype.h\u003e and \u003cxlocale.h\u003e into it.",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "8594eb79b7ee1e3724795165ee3adf981825e5d6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

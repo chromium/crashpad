@@ -501,6 +501,30 @@
       "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e845b1b_86c8e34b",
+        "filename": "util/net/url.h",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-20T21:29:10Z",
+      "side": 1,
+      "message": "\u003e The paragraph sign was breaking Chrome build, which is why i opted for dollar. I could spell out \"paragraph\" I guess.\n\nWeird, we use it elsewhere in Crashpad code. Spelling it out is fine.",
+      "parentUuid": "82cea0fe_91db0145",
+      "range": {
+        "startLine": 23,
+        "startChar": 27,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "7ec80327f39523555b1d599e4246db6717f0a678",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
