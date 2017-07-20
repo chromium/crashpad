@@ -22,6 +22,30 @@
       "revId": "5456dc36196adc5274a6c66dba3c1848161078cb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aebd0d6d_ebad324b",
+        "filename": "snapshot/linux/memory_snapshot_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-20T17:02:48Z",
+      "side": 1,
+      "message": "At least one case if for stacks. If we can\u0027t determine the stack boundaries, size is initialized to 0.",
+      "parentUuid": "218d5e52_d7fab9f5",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "5456dc36196adc5274a6c66dba3c1848161078cb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
