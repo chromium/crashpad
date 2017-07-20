@@ -22,6 +22,30 @@
       "revId": "0282a68a61e7d0eb85496cd33908e2ca15094993",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a3af120_8cb904db",
+        "filename": "snapshot/linux/cpu_context_linux.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-20T17:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "186c8072_d8188945",
+      "range": {
+        "startLine": 28,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 12
+      },
+      "revId": "0282a68a61e7d0eb85496cd33908e2ca15094993",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
