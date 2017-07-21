@@ -20,6 +20,9 @@ deps = {
   'buildtools':
       Var('chromium_git') + '/chromium/buildtools.git@' +
       'a7cc7a3e21a061975b33dcdcd81a9716ba614c3c',
+  'crashpad/tools/swarming_client':
+      Var('chromium_git') + '/external/swarming.client.git@' +
+      'a56c2b39ca23bdf41458421a7f825ddbf3f43f2',
   'crashpad/third_party/gtest/gtest':
       Var('chromium_git') + '/external/github.com/google/googletest@' +
       'd62d6c6556d96dda924382547c54a4b3afedb22c',
