@@ -1,0 +1,44 @@
+{
+  'variables': {
+    'command': [
+      'run_tests.py',
+    ],
+    'files': [
+      '<(PRODUCT_DIR)/crashpad_client_test<(EXECUTABLE_SUFFIX)',
+      '<(PRODUCT_DIR)/crashpad_minidump_test<(EXECUTABLE_SUFFIX)',
+      '<(PRODUCT_DIR)/crashpad_snapshot_test<(EXECUTABLE_SUFFIX)',
+      '<(PRODUCT_DIR)/crashpad_test_test<(EXECUTABLE_SUFFIX)',
+      '<(PRODUCT_DIR)/crashpad_util_test<(EXECUTABLE_SUFFIX)',
+      'run_tests.py',
+      '../test/',
+      '../util/net/testdata/',
+      '../util/net/http_transport_test_server.py',
+    ],
+  },
+  'conditions': [
+    ['OS=="win"', {
+      'variables': {
+        'files': [
+          '<(PRODUCT_DIR)/crashpad_handler_test.exe',
+          '<(PRODUCT_DIR)/crashpad_snapshot_test_module_crashy_initializer.dll',
+          '<(PRODUCT_DIR)/crashpad_snapshot_test_module.dll',
+          '<(PRODUCT_DIR)/crashpad_snapshot_test_no_op.exe',
+          '<(PRODUCT_DIR)/crashpad_test_test_multiprocess_exec_test_child.exe',
+          '<(PRODUCT_DIR)/crashpad_snapshot_test_module_crashy_initializer.dll',
+          '../snapshot/win/end_to_end_test.py',
+        ],
+      }
+    }],
+    ['OS=="mac"', {
+      'variables': {
+        'files': [
+          '<(PRODUCT_DIR)/crashpad_snapshot_test_module_crashy_initializer.so',
+          '<(PRODUCT_DIR)/crashpad_snapshot_test_module.so',
+          '<(PRODUCT_DIR)/crashpad_snapshot_test_no_op',
+          '<(PRODUCT_DIR)/crashpad_test_test_multiprocess_exec_test_child',
+          '<(PRODUCT_DIR)/crashpad_snapshot_test_module_crashy_initializer.so',
+        ],
+      }
+    }],
+  ],
+}

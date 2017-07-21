@@ -30,7 +30,7 @@ def main(args):
   crashpad_dir = \
       os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
   binary_dir = args[0]
-
+  os.chdir(crashpad_dir)
   tests = [
       'crashpad_client_test',
       'crashpad_minidump_test',
