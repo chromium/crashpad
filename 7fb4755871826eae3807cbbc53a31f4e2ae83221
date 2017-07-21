@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dbc5cc9_ab58c106",
+        "filename": "util/linux/stat_reader.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-07-21T01:20:57Z",
+      "side": 1,
+      "message": "can we tell if Initialize() has been called or not?",
+      "range": {
+        "startLine": 128,
+        "startChar": 51,
+        "endLine": 128,
+        "endChar": 55
+      },
+      "revId": "7fb4755871826eae3807cbbc53a31f4e2ae83221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49ad45a6_6a16ce36",
+        "filename": "util/misc/lexing.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-07-21T01:20:57Z",
+      "side": 1,
+      "message": "can we add a comment describing the formats we support here? a regex could be a compact way, ex. \"-?\\d*\" - it may make it clear which formats are supported and which are not (0xabc, 10h, 3.14f ... )",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 20
+      },
+      "revId": "7fb4755871826eae3807cbbc53a31f4e2ae83221",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
