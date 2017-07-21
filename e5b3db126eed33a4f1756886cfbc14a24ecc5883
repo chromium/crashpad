@@ -16,6 +16,24 @@
       "revId": "e5b3db126eed33a4f1756886cfbc14a24ecc5883",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "802ced65_4d3bf8b3",
+        "filename": "luci-logdog.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003232
+      },
+      "writtenOn": "2017-07-21T20:50:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "37b54f31_87a1de66",
+      "revId": "e5b3db126eed33a4f1756886cfbc14a24ecc5883",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
