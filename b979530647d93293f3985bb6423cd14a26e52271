@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2d625bf5_55d227ae",
+        "filename": "DEPS",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003232
+      },
+      "writtenOn": "2017-07-21T19:09:51Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "ce207397_451a7b3a",
+      "revId": "b979530647d93293f3985bb6423cd14a26e52271",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4432df3_8847ac43",
         "filename": "build/run_tests.isolate",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-07-21T15:53:25Z",
       "side": 1,
       "message": "We put copyright boilerplate junk in all of our files, can you borrow a notice from a nearby file and put it here too?",
+      "revId": "b979530647d93293f3985bb6423cd14a26e52271",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d8aea0c_19df983d",
+        "filename": "build/run_tests.isolate",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003232
+      },
+      "writtenOn": "2017-07-21T19:09:51Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "f4432df3_8847ac43",
       "revId": "b979530647d93293f3985bb6423cd14a26e52271",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "80504693_ca8ff5c6",
+        "filename": "build/run_tests.isolate",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003232
+      },
+      "writtenOn": "2017-07-21T19:09:51Z",
+      "side": 1,
+      "message": "Okay, I was lazy when testing things. Will fix.",
+      "parentUuid": "548c16c8_f5b06087",
+      "revId": "b979530647d93293f3985bb6423cd14a26e52271",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28852929_f789cacb",
         "filename": "build/run_tests.py",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2017-07-21T15:53:25Z",
       "side": 1,
       "message": "If you chdir, binary_dir is no longer valid if relative.\n\nNone of the tests should be sensitive to cwd. I’m able to run this script without cwd\u003dcrashpad_dir on Mac, which makes me question this change. Is a Windows-specific test like end_to_end_test.py or crashpad_handler_test? We should probably fix that then.",
+      "revId": "b979530647d93293f3985bb6423cd14a26e52271",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe6f598f_40125b88",
+        "filename": "build/run_tests.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003232
+      },
+      "writtenOn": "2017-07-21T19:09:51Z",
+      "side": 1,
+      "message": "The problem isn\u0027t that the tests are sensitive to the cwd.\n\nThe problem is that the way this test currently runs on the bot, what it passes is an absolute path, and I can\u0027t pass in an absolute path on swarming, because I don\u0027t know what the path will be.\n\nSo, the existing code depends on binary_dir either being an abspath or relative to os.getcwd(), and it turns out figuring out what the cwd will be on swarming is ... weird. I\u0027m trying to figure out how to do this reliably w/ maruel@ now. In the meantime, it looks the cwd is always crashpad_dir on the buildbot, and I can make it be that on the swarming bot as well, and then things work (with this change). \n\nThere are more complicated ways I can make a relative path to the (original) cwd work as well. I\u0027ll do one of those if I can\u0027t figure out a better solution w/ maruel.",
+      "parentUuid": "28852929_f789cacb",
       "revId": "b979530647d93293f3985bb6423cd14a26e52271",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
