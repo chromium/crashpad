@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37b54f31_87a1de66",
+        "filename": "luci-logdog.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-21T20:25:13Z",
+      "side": 1,
+      "message": "Can you keep this line blank so that people who look at the file don’t skip past the next line (which is important) while they’re skipping past the stuff above this (which isn’t?)",
+      "revId": "e5b3db126eed33a4f1756886cfbc14a24ecc5883",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
