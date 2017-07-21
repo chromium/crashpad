@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce207397_451a7b3a",
+        "filename": "DEPS",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-21T15:53:25Z",
+      "side": 1,
+      "message": "Sort crashpad/tools \u003e crashpad/third_party",
+      "revId": "b979530647d93293f3985bb6423cd14a26e52271",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4432df3_8847ac43",
+        "filename": "build/run_tests.isolate",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-21T15:53:25Z",
+      "side": 1,
+      "message": "We put copyright boilerplate junk in all of our files, can you borrow a notice from a nearby file and put it here too?",
+      "revId": "b979530647d93293f3985bb6423cd14a26e52271",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "548c16c8_f5b06087",
+        "filename": "build/run_tests.isolate",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-21T15:53:25Z",
+      "side": 1,
+      "message": "We only need test/test_paths_test_data_root.txt, we shouldn’t have to carry all of test.",
+      "revId": "b979530647d93293f3985bb6423cd14a26e52271",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28852929_f789cacb",
+        "filename": "build/run_tests.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-21T15:53:25Z",
+      "side": 1,
+      "message": "If you chdir, binary_dir is no longer valid if relative.\n\nNone of the tests should be sensitive to cwd. I’m able to run this script without cwd\u003dcrashpad_dir on Mac, which makes me question this change. Is a Windows-specific test like end_to_end_test.py or crashpad_handler_test? We should probably fix that then.",
+      "revId": "b979530647d93293f3985bb6423cd14a26e52271",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
