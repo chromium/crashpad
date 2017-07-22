@@ -42,6 +42,9 @@ deps = {
   'crashpad/third_party/zlib/zlib':
       Var('chromium_git') + '/chromium/src/third_party/zlib@' +
       '13dc246a58e4b72104d35f9b1809af95221ebda7',
+  'crashpad/tools/swarming_client':
+      Var('chromium_git') + '/external/swarming.client.git@' +
+      'a56c2b39ca23bdf41458421a7f825ddbf3f43f2',
 }
 
 hooks = [

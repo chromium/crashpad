@@ -10,6 +10,7 @@
 .gdbinit
 /Makefile
 /out
+/tools/swarming_client
 /third_party/gtest/gtest
 /third_party/gyp/gyp
 /third_party/llvm

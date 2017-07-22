@@ -18,13 +18,17 @@ import os
 import subprocess
 import sys
 
+import isolate_script
 
 # This script is primarily used from the waterfall so that the list of tests
 # that are run is maintained in-tree, rather than in a separate infrastructure
 # location in the recipe.
 def main(args):
+  should_isolate = len(args) > 1 and args[0] == '--isolate'
+  if should_isolate:
+    args = args[1:]
   if len(args) != 1:
-    print >> sys.stderr, 'usage: run_tests.py <binary_dir>'
+    print >> sys.stderr, 'usage: run_tests.py [--isolate] <binary_dir>'
     return 1
 
   crashpad_dir = \
@@ -39,9 +43,40 @@ def main(args):
       'crashpad_util_test',
   ]
 
+  data = [
+      '//build/run_tests.py',
+      '//build/isolate_script.py',
+      '//test/test_paths_test_data_root.txt',
+      '//util/net/testdata/',
+      '//util/net/http_transport_test_server.py',
+  ]
+
   if sys.platform == 'win32':
-    tests.append('crashpad_handler_test')
-    tests = sorted(tests)
+    tests = sorted(tests + [
+        'crashpad_handler_test',
+    ])
+
+    data += [
+        'crashpad_snapshot_test_module.dll',
+        'crashpad_snapshot_test_module_crashy_initializer.dll',
+        'crashpad_snapshot_test_no_op.exe',
+        'crashpad_test_test_multiprocess_exec_test_child.exe',
+        '//snapshot/win/end_to_end_test.py',
+    ]
+    files = ['%s.exe' % test for test in tests] + data
+  else:
+    data += [
+        'crashpad_snapshot_test_module.so',
+        'crashpad_snapshot_test_module_crashy_initializer.so',
+        'crashpad_snapshot_test_no_op',
+        'crashpad_test_test_multiprocess_exec_test_child',
+    ]
+    files = tests + data
+
+  if should_isolate:
+    return isolate_script.write_files(
+        crashpad_dir, binary_dir, 'run_tests',
+        ['//build/run_tests.py', '.'], files)
 
   for test in tests:
     print '-' * 80
