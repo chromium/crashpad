@@ -53,7 +53,7 @@ TEST(MachOImageSegmentReader, SegmentNameString) {
 
   // Segment names defined in <mach-o/loader.h>. All of these should come
   // through SegmentNameString() cleanly and without truncation.
-  const char* kSegmentTestData[] = {
+  static constexpr const char* kSegmentTestData[] = {
       SEG_TEXT,
       SEG_DATA,
       SEG_OBJC,
@@ -91,7 +91,7 @@ TEST(MachOImageSegmentReader, SectionNameString) {
 
   // Section names defined in <mach-o/loader.h>. All of these should come
   // through SectionNameString() cleanly and without truncation.
-  const char* kSectionTestData[] = {
+  static constexpr const char* kSectionTestData[] = {
       SECT_TEXT,
       SECT_FVMLIB_INIT0,
       SECT_FVMLIB_INIT1,
@@ -115,12 +115,11 @@ TEST(MachOImageSegmentReader, SectionNameString) {
 }
 
 TEST(MachOImageSegmentReader, SegmentAndSectionNameString) {
-  struct SegmentAndSectionTestData {
+  static constexpr struct {
     const char* segment;
     const char* section;
     const char* output;
-  };
-  const SegmentAndSectionTestData kSegmentAndSectionTestData[] = {
+  } kSegmentAndSectionTestData[] = {
       {"segment", "section", "segment,section"},
       {"Segment", "Section", "Segment,Section"},
       {"SEGMENT", "SECTION", "SEGMENT,SECTION"},
@@ -172,7 +171,7 @@ TEST(MachOImageSegmentReader, SegmentAndSectionNameString) {
 
   for (size_t index = 0; index < arraysize(kSegmentAndSectionTestData);
        ++index) {
-    const SegmentAndSectionTestData& test = kSegmentAndSectionTestData[index];
+    const auto& test = kSegmentAndSectionTestData[index];
     EXPECT_EQ(MachOImageSegmentReader::SegmentAndSectionNameString(
                   test.segment, test.section),
               test.output)

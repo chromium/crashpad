@@ -63,20 +63,20 @@ void AllocateMemoryOfVariousProtections() {
 
   const size_t kPageSize = system_info.dwPageSize;
 
-  const uint32_t kPageTypes[] = {
-    PAGE_NOACCESS,
-    PAGE_READONLY,
-    PAGE_READWRITE,
-    PAGE_EXECUTE,
-    PAGE_EXECUTE_READ,
-    PAGE_EXECUTE_READWRITE,
+  static constexpr uint32_t kPageTypes[] = {
+      PAGE_NOACCESS,
+      PAGE_READONLY,
+      PAGE_READWRITE,
+      PAGE_EXECUTE,
+      PAGE_EXECUTE_READ,
+      PAGE_EXECUTE_READWRITE,
 
-    // PAGE_NOACCESS is invalid with PAGE_GUARD.
-    PAGE_READONLY | PAGE_GUARD,
-    PAGE_READWRITE | PAGE_GUARD,
-    PAGE_EXECUTE | PAGE_GUARD,
-    PAGE_EXECUTE_READ | PAGE_GUARD,
-    PAGE_EXECUTE_READWRITE | PAGE_GUARD,
+      // PAGE_NOACCESS is invalid with PAGE_GUARD.
+      PAGE_READONLY | PAGE_GUARD,
+      PAGE_READWRITE | PAGE_GUARD,
+      PAGE_EXECUTE | PAGE_GUARD,
+      PAGE_EXECUTE_READ | PAGE_GUARD,
+      PAGE_EXECUTE_READWRITE | PAGE_GUARD,
   };
 
   // All of these allocations are leaked, we want to view them in windbg via

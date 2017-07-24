@@ -115,7 +115,7 @@ void CrashWithExtendedHandler::ValidateGeneratedDump() {
 
       ASSERT_TRUE(reader.ReadExactly(data.data(), data.size()));
 
-      static const char kExpectedData[] = "Injected extension stream!";
+      static constexpr char kExpectedData[] = "Injected extension stream!";
       EXPECT_EQ(memcmp(kExpectedData, data.data(), sizeof(kExpectedData)), 0);
     }
   }

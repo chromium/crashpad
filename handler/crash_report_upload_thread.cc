@@ -361,7 +361,7 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
   HTTPMultipartBuilder http_multipart_builder;
   http_multipart_builder.SetGzipEnabled(upload_gzip_);
 
-  const char kMinidumpKey[] = "upload_file_minidump";
+  static constexpr char kMinidumpKey[] = "upload_file_minidump";
 
   for (const auto& kv : parameters) {
     if (kv.first == kMinidumpKey) {

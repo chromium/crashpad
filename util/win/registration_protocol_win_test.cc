@@ -33,7 +33,7 @@ TEST(SecurityDescriptor, MatchesAdvapi32) {
 
   // Mandatory Label, no ACE flags, no ObjectType, integrity level
   // untrusted.
-  const wchar_t kSddl[] = L"S:(ML;;;;;S-1-16-0)";
+  static constexpr wchar_t kSddl[] = L"S:(ML;;;;;S-1-16-0)";
   PSECURITY_DESCRIPTOR sec_desc;
   ULONG sec_desc_len;
   ASSERT_TRUE(ConvertStringSecurityDescriptorToSecurityDescriptor(

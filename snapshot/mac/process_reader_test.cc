@@ -58,7 +58,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-const char kDyldPath[] = "/usr/lib/dyld";
+constexpr char kDyldPath[] = "/usr/lib/dyld";
 
 TEST(ProcessReader, SelfBasic) {
   ProcessReader process_reader;
@@ -73,7 +73,7 @@ TEST(ProcessReader, SelfBasic) {
   EXPECT_EQ(process_reader.ProcessID(), getpid());
   EXPECT_EQ(process_reader.ParentProcessID(), getppid());
 
-  const char kTestMemory[] = "Some test memory";
+  static constexpr char kTestMemory[] = "Some test memory";
   char buffer[arraysize(kTestMemory)];
   ASSERT_TRUE(process_reader.Memory()->Read(
       FromPointerCast<mach_vm_address_t>(kTestMemory),
@@ -82,7 +82,7 @@ TEST(ProcessReader, SelfBasic) {
   EXPECT_STREQ(kTestMemory, buffer);
 }
 
-const char kTestMemory[] = "Read me from another process";
+constexpr char kTestMemory[] = "Read me from another process";
 
 class ProcessReaderChild final : public MachMultiprocess {
  public:

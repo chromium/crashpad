@@ -75,9 +75,9 @@ void CloseNowOrOnExec(int fd, bool ebadf_ok) {
 // no attempt needs to be made to close file descriptors that are not open.
 bool CloseMultipleNowOrOnExecUsingFDDir(int fd, int preserve_fd) {
 #if defined(OS_MACOSX)
-  const char kFDDir[] = "/dev/fd";
+  static constexpr char kFDDir[] = "/dev/fd";
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
-  const char kFDDir[] = "/proc/self/fd";
+  static constexpr char kFDDir[] = "/proc/self/fd";
 #endif
 
   DIR* dir = opendir(kFDDir);
@@ -99,10 +99,10 @@ bool CloseMultipleNowOrOnExecUsingFDDir(int fd, int preserve_fd) {
   // readdir_r() is deprecated as of glibc 2.24. See
   // https://sourceware.org/bugzilla/show_bug.cgi?id=19056 and
   // https://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit?id=0c52f6d623636a61eacd0f7b7a3bb942793a2a05.
-  const char kReaddirName[] = "readdir";
+  static constexpr char kReaddirName[] = "readdir";
   while ((errno = 0, result = readdir(dir)) != nullptr)
 #else
-  const char kReaddirName[] = "readdir_r";
+  static constexpr char kReaddirName[] = "readdir_r";
   dirent entry;
   while ((errno = readdir_r(dir, &entry, &result)) == 0 && result != nullptr)
 #endif

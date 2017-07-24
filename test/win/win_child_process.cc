@@ -35,7 +35,7 @@ namespace test {
 
 namespace {
 
-const char kIsMultiprocessChild[] = "--is-multiprocess-child";
+constexpr char kIsMultiprocessChild[] = "--is-multiprocess-child";
 
 bool GetSwitch(const char* switch_name, std::string* value) {
   int num_args;

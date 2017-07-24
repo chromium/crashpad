@@ -264,7 +264,7 @@ mach_exception_subcode_t TestExcClientVariants::exception_subcode_ =
         0xffffffff00000000;
 
 TEST(ExcClientVariants, UniversalExceptionRaise) {
-  const exception_behavior_t kBehaviors[] = {
+  static constexpr exception_behavior_t kBehaviors[] = {
       EXCEPTION_DEFAULT,
       EXCEPTION_STATE,
       EXCEPTION_STATE_IDENTITY,

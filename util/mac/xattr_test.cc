@@ -55,7 +55,7 @@ class Xattr : public testing::Test {
   base::FilePath path_;
 };
 
-const char kKey[] = "com.google.crashpad.test";
+constexpr char kKey[] = "org.chromium.crashpad.test";
 
 TEST_F(Xattr, ReadNonExistentXattr) {
   std::string value;
