@@ -16,6 +16,24 @@
       "revId": "81f7b2b5efbb62553e34acad4187ff7a575169e4",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a46617d9_43ecf069",
+        "filename": "util/linux/stat_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-24T17:56:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceaa679c_c0224a42",
+      "revId": "81f7b2b5efbb62553e34acad4187ff7a575169e4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
