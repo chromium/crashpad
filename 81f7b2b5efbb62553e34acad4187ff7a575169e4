@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ceaa679c_c0224a42",
+        "filename": "util/linux/stat_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-24T17:21:11Z",
+      "side": 1,
+      "message": "“stat reader” is ambiguous. I think “stat() reader” when I see it, but you mean “/proc/pid/stat reader”. Maybe call this ProcStatReader?",
+      "revId": "81f7b2b5efbb62553e34acad4187ff7a575169e4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
