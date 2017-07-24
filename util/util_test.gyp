@@ -43,6 +43,7 @@
         'linux/memory_map_test.cc',
         'linux/process_memory_range_test.cc',
         'linux/process_memory_test.cc',
+        'linux/proc_stat_reader_test.cc',
         'linux/thread_info_test.cc',
         'linux/scoped_ptrace_attach_test.cc',
         'mac/launchd_test.mm',
