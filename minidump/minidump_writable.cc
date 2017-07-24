@@ -248,7 +248,7 @@ bool MinidumpWritable::WritePaddingAndObject(FileWriterInterface* file_writer) {
 
   // The number of elements in kZeroes must be at least one less than the
   // maximum Alignment() ever encountered.
-  const uint8_t kZeroes[kMaximumAlignment - 1] = {};
+  static constexpr uint8_t kZeroes[kMaximumAlignment - 1] = {};
   DCHECK_LE(leading_pad_bytes_, arraysize(kZeroes));
 
   if (leading_pad_bytes_) {

@@ -368,10 +368,10 @@ TEST(MinidumpMiscInfoWriter, TimeZone) {
 
   const uint32_t kTimeZoneId = 2;
   const int32_t kBias = 300;
-  const char kStandardName[] = "EST";
+  static constexpr char kStandardName[] = "EST";
   const SYSTEMTIME kStandardDate = {0, 11, 1, 0, 2, 0, 0, 0};
   const int32_t kStandardBias = 0;
-  const char kDaylightName[] = "EDT";
+  static constexpr char kDaylightName[] = "EDT";
   const SYSTEMTIME kDaylightDate = {0, 3, 2, 0, 2, 0, 0, 0};
   const int32_t kDaylightBias = -60;
 
@@ -482,8 +482,8 @@ TEST(MinidumpMiscInfoWriter, BuildStrings) {
   MinidumpFileWriter minidump_file_writer;
   auto misc_info_writer = base::WrapUnique(new MinidumpMiscInfoWriter());
 
-  const char kBuildString[] = "build string";
-  const char kDebugBuildString[] = "debug build string";
+  static constexpr char kBuildString[] = "build string";
+  static constexpr char kDebugBuildString[] = "debug build string";
 
   misc_info_writer->SetBuildString(kBuildString, kDebugBuildString);
 
@@ -622,13 +622,13 @@ TEST(MinidumpMiscInfoWriter, Everything) {
   const uint32_t kProtectedProcess = 1;
   const uint32_t kTimeZoneId = 2;
   const int32_t kBias = 300;
-  const char kStandardName[] = "EST";
+  static constexpr char kStandardName[] = "EST";
   const int32_t kStandardBias = 0;
-  const char kDaylightName[] = "EDT";
+  static constexpr char kDaylightName[] = "EDT";
   const int32_t kDaylightBias = -60;
   const SYSTEMTIME kSystemTimeZero = {};
-  const char kBuildString[] = "build string";
-  const char kDebugBuildString[] = "debug build string";
+  static constexpr char kBuildString[] = "build string";
+  static constexpr char kDebugBuildString[] = "debug build string";
 
   misc_info_writer->SetProcessID(kProcessId);
   misc_info_writer->SetProcessTimes(
@@ -711,14 +711,15 @@ TEST(MinidumpMiscInfoWriter, Everything) {
 TEST(MinidumpMiscInfoWriter, InitializeFromSnapshot) {
   MINIDUMP_MISC_INFO_4 expect_misc_info = {};
 
-  const char kStandardTimeName[] = "EST";
-  const char kDaylightTimeName[] = "EDT";
-  const char kOSVersionFull[] =
+  static constexpr char kStandardTimeName[] = "EST";
+  static constexpr char kDaylightTimeName[] = "EDT";
+  static constexpr char kOSVersionFull[] =
       "Mac OS X 10.9.5 (13F34); "
       "Darwin 13.4.0 Darwin Kernel Version 13.4.0: "
       "Sun Aug 17 19:50:11 PDT 2014; "
       "root:xnu-2422.115.4~1/RELEASE_X86_64 x86_64";
-  const char kMachineDescription[] = "MacBookPro11,3 (Mac-2BD1B31983FE1663)";
+  static constexpr char kMachineDescription[] =
+      "MacBookPro11,3 (Mac-2BD1B31983FE1663)";
   base::string16 standard_time_name_utf16 =
       base::UTF8ToUTF16(kStandardTimeName);
   base::string16 daylight_time_name_utf16 =

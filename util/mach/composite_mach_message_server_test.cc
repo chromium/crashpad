@@ -182,13 +182,13 @@ TEST(CompositeMachMessageServer, OneHandler) {
 }
 
 TEST(CompositeMachMessageServer, ThreeHandlers) {
-  const mach_msg_id_t kRequestIDs0[] = {5};
+  static constexpr mach_msg_id_t kRequestIDs0[] = {5};
   const kern_return_t kReturnCode0 = KERN_SUCCESS;
 
-  const mach_msg_id_t kRequestIDs1[] = {4, 7};
+  static constexpr mach_msg_id_t kRequestIDs1[] = {4, 7};
   const kern_return_t kReturnCode1 = KERN_PROTECTION_FAILURE;
 
-  const mach_msg_id_t kRequestIDs2[] = {10, 0, 20};
+  static constexpr mach_msg_id_t kRequestIDs2[] = {10, 0, 20};
   const mach_msg_size_t kRequestSize2 = 6144;
   const mach_msg_size_t kReplySize2 = 16384;
   const kern_return_t kReturnCode2 = KERN_NOT_RECEIVER;

@@ -51,7 +51,7 @@ class CrashReportDatabaseTest : public testing::Test {
     CrashReportDatabase::NewReport* new_report = nullptr;
     ASSERT_EQ(db_->PrepareNewCrashReport(&new_report),
               CrashReportDatabase::kNoError);
-    const char kTest[] = "test";
+    static constexpr char kTest[] = "test";
     ASSERT_TRUE(LoggingWriteFile(new_report->handle, kTest, sizeof(kTest)));
 
     UUID uuid;

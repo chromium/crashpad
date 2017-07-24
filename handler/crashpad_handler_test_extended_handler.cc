@@ -39,7 +39,7 @@ class TestUserStreamDataSource : public crashpad::UserStreamDataSource {
 std::unique_ptr<crashpad::MinidumpUserExtensionStreamDataSource>
 TestUserStreamDataSource::ProduceStreamData(
     crashpad::ProcessSnapshot* process_snapshot) {
-  static const char kTestData[] = "Injected extension stream!";
+  static constexpr char kTestData[] = "Injected extension stream!";
 
   return base::WrapUnique(new crashpad::test::BufferExtensionStreamDataSource(
       0xCAFEBABE, kTestData, sizeof(kTestData)));

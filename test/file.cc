@@ -28,11 +28,11 @@ bool FileExists(const base::FilePath& path) {
 #if defined(OS_POSIX)
   struct stat st;
   int rv = lstat(path.value().c_str(), &st);
-  const char stat_function[] = "lstat";
+  static constexpr char stat_function[] = "lstat";
 #elif defined(OS_WIN)
   struct _stat st;
   int rv = _wstat(path.value().c_str(), &st);
-  const char stat_function[] = "_wstat";
+  static constexpr char stat_function[] = "_wstat";
 #else
 #error "Not implemented"
 #endif
@@ -48,11 +48,11 @@ FileOffset FileSize(const base::FilePath& path) {
 #if defined(OS_POSIX)
   struct stat st;
   int rv = lstat(path.value().c_str(), &st);
-  const char stat_function[] = "lstat";
+  static constexpr char stat_function[] = "lstat";
 #elif defined(OS_WIN)
   struct _stati64 st;
   int rv = _wstati64(path.value().c_str(), &st);
-  const char stat_function[] = "_wstati64";
+  static constexpr char stat_function[] = "_wstati64";
 #else
 #error "Not implemented"
 #endif

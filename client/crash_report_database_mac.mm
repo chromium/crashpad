@@ -42,29 +42,30 @@ namespace crashpad {
 
 namespace {
 
-const char kWriteDirectory[] = "new";
-const char kUploadPendingDirectory[] = "pending";
-const char kCompletedDirectory[] = "completed";
+constexpr char kWriteDirectory[] = "new";
+constexpr char kUploadPendingDirectory[] = "pending";
+constexpr char kCompletedDirectory[] = "completed";
 
-const char kSettings[] = "settings.dat";
+constexpr char kSettings[] = "settings.dat";
 
-const char* const kReportDirectories[] = {
+constexpr const char* kReportDirectories[] = {
     kWriteDirectory,
     kUploadPendingDirectory,
     kCompletedDirectory,
 };
 
-const char kCrashReportFileExtension[] = "dmp";
+constexpr char kCrashReportFileExtension[] = "dmp";
 
-const char kXattrUUID[] = "uuid";
-const char kXattrCollectorID[] = "id";
-const char kXattrCreationTime[] = "creation_time";
-const char kXattrIsUploaded[] = "uploaded";
-const char kXattrLastUploadTime[] = "last_upload_time";
-const char kXattrUploadAttemptCount[] = "upload_count";
-const char kXattrIsUploadExplicitlyRequested[] = "upload_explicitly_requested";
+constexpr char kXattrUUID[] = "uuid";
+constexpr char kXattrCollectorID[] = "id";
+constexpr char kXattrCreationTime[] = "creation_time";
+constexpr char kXattrIsUploaded[] = "uploaded";
+constexpr char kXattrLastUploadTime[] = "last_upload_time";
+constexpr char kXattrUploadAttemptCount[] = "upload_count";
+constexpr char kXattrIsUploadExplicitlyRequested[] =
+    "upload_explicitly_requested";
 
-const char kXattrDatabaseInitialized[] = "initialized";
+constexpr char kXattrDatabaseInitialized[] = "initialized";
 
 // Ensures that the node at |path| is a directory. If the |path| refers to a
 // file, rather than a directory, returns false. Otherwise, returns true,

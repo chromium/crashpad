@@ -136,7 +136,7 @@ class HTTPTransportTestFixture : public MultiprocessExec {
   RequestValidator request_validator_;
 };
 
-const char kMultipartFormData[] = "multipart/form-data";
+constexpr char kMultipartFormData[] = "multipart/form-data";
 
 void GetHeaderField(const std::string& request,
                     const std::string& header,
@@ -179,7 +179,7 @@ void GetMultipartBoundary(const std::string& request,
   }
 }
 
-const char kBoundaryEq[] = "boundary=";
+constexpr char kBoundaryEq[] = "boundary=";
 
 void ValidFormData(HTTPTransportTestFixture* fixture,
                    const std::string& request) {
@@ -242,7 +242,7 @@ TEST(HTTPTransport, ValidFormData_Gzip) {
   test.Run();
 }
 
-const char kTextPlain[] = "text/plain";
+constexpr char kTextPlain[] = "text/plain";
 
 void ErrorResponse(HTTPTransportTestFixture* fixture,
                    const std::string& request) {
@@ -260,7 +260,7 @@ TEST(HTTPTransport, ErrorResponse) {
   test.Run();
 }
 
-const char kTextBody[] = "hello world";
+constexpr char kTextBody[] = "hello world";
 
 void UnchunkedPlainText(HTTPTransportTestFixture* fixture,
                         const std::string& request) {

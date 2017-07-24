@@ -242,7 +242,8 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
 
   DWORD content_length_dword;
   if (chunked) {
-    const wchar_t kTransferEncodingHeader[] = L"Transfer-Encoding: chunked\r\n";
+    static constexpr wchar_t kTransferEncodingHeader[] =
+        L"Transfer-Encoding: chunked\r\n";
     if (!WinHttpAddRequestHeaders(
             request.get(),
             kTransferEncodingHeader,

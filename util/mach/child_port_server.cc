@@ -106,7 +106,8 @@ bool ChildPortServer::MachMessageServerFunction(
 }
 
 std::set<mach_msg_id_t> ChildPortServer::MachMessageServerRequestIDs() {
-  const mach_msg_id_t request_ids[] = {kMachMessageIDChildPortCheckIn};
+  static constexpr mach_msg_id_t request_ids[] =
+      {kMachMessageIDChildPortCheckIn};
   return std::set<mach_msg_id_t>(&request_ids[0],
                                  &request_ids[arraysize(request_ids)]);
 }

@@ -129,9 +129,9 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
   const uint32_t kOSVersionMajor = 6;
   const uint32_t kOSVersionMinor = 1;
   const uint32_t kOSVersionBuild = 7601;
-  const char kCSDVersion[] = "Service Pack 1";
+  static constexpr char kCSDVersion[] = "Service Pack 1";
   const uint16_t kSuiteMask = VER_SUITE_SINGLEUSERTS;
-  const char kCPUVendor[] = "AuthenticAMD";
+  static constexpr char kCPUVendor[] = "AuthenticAMD";
   const uint32_t kCPUVersion = 0x00100f62;
   const uint32_t kCPUFeatures = 0x078bfbff;
   const uint32_t kAMDFeatures = 0xefd3fbff;
@@ -200,8 +200,8 @@ TEST(MinidumpSystemInfoWriter, AMD64_Mac) {
   const uint32_t kOSVersionMajor = 10;
   const uint32_t kOSVersionMinor = 9;
   const uint32_t kOSVersionBuild = 4;
-  const char kCSDVersion[] = "13E28";
-  const uint64_t kCPUFeatures[2] = {0x10427f4c, 0x00000000};
+  static constexpr char kCSDVersion[] = "13E28";
+  static constexpr uint64_t kCPUFeatures[2] = {0x10427f4c, 0x00000000};
 
   system_info_writer->SetCPUArchitecture(kCPUArchitecture);
   system_info_writer->SetCPULevelAndRevision(kCPULevel, kCPURevision);
@@ -248,7 +248,7 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
   auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
 
   const MinidumpCPUArchitecture kCPUArchitecture = kMinidumpCPUArchitectureX86;
-  const uint32_t kCPUVendor[] = {'uneG', 'Ieni', 'letn'};
+  static constexpr uint32_t kCPUVendor[] = {'uneG', 'Ieni', 'letn'};
 
   system_info_writer->SetCPUArchitecture(kCPUArchitecture);
   system_info_writer->SetCPUX86Vendor(
@@ -313,8 +313,8 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
   expect_system_info.Cpu.X86CpuInfo.VersionInformation = kCPUSignature;
   expect_system_info.Cpu.X86CpuInfo.FeatureInformation =
       kCPUX86Features & 0xffffffff;
-  const char kCPUVendor[] = "GenuineIntel";
-  const char kOSVersionBuild[] = "13F34";
+  static constexpr char kCPUVendor[] = "GenuineIntel";
+  static constexpr char kOSVersionBuild[] = "13F34";
 
   TestSystemSnapshot system_snapshot;
   system_snapshot.SetCPUArchitecture(kCPUArchitectureX86);
@@ -408,7 +408,7 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
       (1 << PF_RDRAND_INSTRUCTION_AVAILABLE) |
       (UINT64_C(1) << PF_RDTSCP_INSTRUCTION_AVAILABLE);
   expect_system_info.Cpu.OtherCpuInfo.ProcessorFeatures[1] = 0;
-  const char kOSVersionBuild[] = "13F34";
+  static constexpr char kOSVersionBuild[] = "13F34";
 
   TestSystemSnapshot system_snapshot;
   system_snapshot.SetCPUArchitecture(kCPUArchitectureX86_64);

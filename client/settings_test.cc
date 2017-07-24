@@ -41,7 +41,7 @@ class SettingsTest : public testing::Test {
                                 FilePermissions::kWorldReadable));
     ASSERT_TRUE(handle.is_valid());
 
-    const char kBuf[] = "test bad file";
+    static constexpr char kBuf[] = "test bad file";
     ASSERT_TRUE(LoggingWriteFile(handle.get(), kBuf, sizeof(kBuf)));
     handle.reset();
   }

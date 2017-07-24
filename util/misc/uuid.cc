@@ -66,7 +66,7 @@ bool UUID::InitializeFromString(const base::StringPiece& string) {
     return false;
 
   UUID temp;
-  const char kScanFormat[] =
+  static constexpr char kScanFormat[] =
       "%08" SCNx32 "-%04" SCNx16 "-%04" SCNx16
       "-%02" SCNx8 "%02" SCNx8
       "-%02" SCNx8 "%02" SCNx8 "%02" SCNx8 "%02" SCNx8 "%02" SCNx8 "%02" SCNx8;

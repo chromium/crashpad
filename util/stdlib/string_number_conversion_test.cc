@@ -26,7 +26,7 @@ namespace test {
 namespace {
 
 TEST(StringNumberConversion, StringToInt) {
-  const struct {
+  static constexpr struct {
     const char* string;
     bool valid;
     int value;
@@ -113,7 +113,7 @@ TEST(StringNumberConversion, StringToInt) {
   // Ensure that embedded NUL characters are treated as bad input. The string
   // is split to avoid MSVC warning:
   //   "decimal digit terminates octal escape sequence".
-  const char input[] = "6\000" "6";
+  static constexpr char input[] = "6\000" "6";
   base::StringPiece input_string(input, arraysize(input) - 1);
   int output;
   EXPECT_FALSE(StringToNumber(input_string, &output));
@@ -124,7 +124,7 @@ TEST(StringNumberConversion, StringToInt) {
 }
 
 TEST(StringNumberConversion, StringToUnsignedInt) {
-  const struct {
+  static constexpr struct {
     const char* string;
     bool valid;
     unsigned int value;
@@ -211,7 +211,7 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
   // Ensure that embedded NUL characters are treated as bad input. The string
   // is split to avoid MSVC warning:
   //   "decimal digit terminates octal escape sequence".
-  const char input[] = "6\000" "6";
+  static constexpr char input[] = "6\000" "6";
   base::StringPiece input_string(input, arraysize(input) - 1);
   unsigned int output;
   EXPECT_FALSE(StringToNumber(input_string, &output));
@@ -222,7 +222,7 @@ TEST(StringNumberConversion, StringToUnsignedInt) {
 }
 
 TEST(StringNumberConversion, StringToInt64) {
-  const struct {
+  static constexpr struct {
     const char* string;
     bool valid;
     int64_t value;
@@ -271,7 +271,7 @@ TEST(StringNumberConversion, StringToInt64) {
 }
 
 TEST(StringNumberConversion, StringToUnsignedInt64) {
-  const struct {
+  static constexpr struct {
     const char* string;
     bool valid;
     uint64_t value;
