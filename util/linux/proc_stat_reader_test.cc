@@ -36,6 +36,16 @@ TEST(ProcStatReader, Basic) {
   time_t now;
   time(&now);
   EXPECT_LE(start_time.tv_sec, now);
+
+  time_t elapsed_sec = now - start_time.tv_sec;
+
+  timeval user_time;
+  ASSERT_TRUE(stat.UserCPUTime(&user_time));
+  EXPECT_LE(user_time.tv_sec, elapsed_sec);
+
+  timeval system_time;
+  ASSERT_TRUE(stat.SystemCPUTime(&system_time));
+  EXPECT_LE(system_time.tv_sec, elapsed_sec);
 }
 
 pid_t gettid() {
