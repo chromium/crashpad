@@ -174,7 +174,7 @@ TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
 }
 
 TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
-  const uint32_t kMinidumpModuleListIndex = 3;
+  constexpr uint32_t kMinidumpModuleListIndex = 3;
 
   MinidumpFileWriter minidump_file_writer;
   auto crashpad_info_writer =

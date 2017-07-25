@@ -329,7 +329,7 @@ bool ReadProcessData(HANDLE process,
 bool ReadMemoryInfo(HANDLE process, bool is_64_bit, ProcessInfo* process_info) {
   DCHECK(process_info->memory_info_.empty());
 
-  const WinVMAddress min_address = 0;
+  constexpr WinVMAddress min_address = 0;
   // We can't use GetSystemInfo() to get the address space range for another
   // process. VirtualQueryEx() will fail with ERROR_INVALID_PARAMETER if the
   // address is above the highest memory address accessible to the process, so
