@@ -22,6 +22,30 @@
       "revId": "3354ba6f7886d41e43e205b4852c9a26758d4903",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71fafa9d_beb352f8",
+        "filename": "util/linux/scoped_ptrace_attach_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T23:14:14Z",
+      "side": 1,
+      "message": "\u003e I can\u0027t easily tell if making this a static data member changes anything re. what the test does, but just to avoid the out of class definition I\u0027d leave it alone (constexpr doesn\u0027t seem to buy us much here)\n\nIt “feels” like it ought to be static because it doesn‘t vary between objects of the class, and the test shouldn’t care if it’s working with a test address that’s in a data segment or a stack. But I can go back to the non-static since we do take the address of it.",
+      "parentUuid": "76ecb8be_d9d3d659",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 33
+      },
+      "revId": "3354ba6f7886d41e43e205b4852c9a26758d4903",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
