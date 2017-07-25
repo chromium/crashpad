@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_SNAPSHOT_LINUX_PROCESS_READER_H_
 #define CRASHPAD_SNAPSHOT_LINUX_PROCESS_READER_H_
 
+#include <sys/time.h>
 #include <sys/types.h>
 
 #include <memory>
@@ -82,6 +83,25 @@ class ProcessReader {
 
   //! \brief Return a memory map of the target process.
   MemoryMap* GetMemoryMap() { return &memory_map_; }
+
+  //! \brief Determines the target process’ start time.
+  //!
+  //! \param[out] start_time The time that the process started.
+  //! \return `true` on success with \a start_time set. Otherwise `false` with a
+  //!     message logged.
+  bool StartTime(timeval* start_time) const;
+
+  //! \brief Determines the target process’ execution time.
+  //!
+  //! \param[out] user_time The amount of time the process has executed code in
+  //!     user mode.
+  //! \param[out] system_time The amount of time the process has executed code
+  //!     in system mode.
+  //!
+  //! \return `true` on success, `false` on failure, with a warning logged. On
+  //!     failure, \a user_time and \a system_time will be set to represent no
+  //!     time spent executing code in user or system mode.
+  bool CPUTimes(timeval* user_time, timeval* system_time) const;
 
   //! \brief Return a vector of threads that are in the task process. If the
   //!     main thread is able to be identified and traced, it will be placed at

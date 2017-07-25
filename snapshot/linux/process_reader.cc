@@ -26,6 +26,7 @@
 #include "base/logging.h"
 #include "base/strings/string_number_conversions.h"
 #include "build/build_config.h"
+#include "util/linux/proc_stat_reader.h"
 #include "util/posix/scoped_dir.h"
 
 namespace crashpad {
@@ -207,6 +208,46 @@ bool ProcessReader::Initialize(pid_t pid) {
   }
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+bool ProcessReader::StartTime(timeval* start_time) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return process_info_.StartTime(start_time);
+}
+
+bool ProcessReader::CPUTimes(timeval* user_time, timeval* system_time) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  timerclear(user_time);
+  timerclear(system_time);
+
+  timeval local_user_time;
+  timerclear(&local_user_time);
+  timeval local_system_time;
+  timerclear(&local_system_time);
+
+  for (const Thread& thread : threads_) {
+    ProcStatReader stat;
+    if (!stat.Initialize(thread.tid)) {
+      return false;
+    }
+
+    timeval thread_user_time;
+    if (!stat.UserCPUTime(&thread_user_time)) {
+      return false;
+    }
+
+    timeval thread_system_time;
+    if (!stat.SystemCPUTime(&thread_system_time)) {
+      return false;
+    }
+
+    timeradd(&local_user_time, &thread_user_time, &local_user_time);
+    timeradd(&local_system_time, &thread_system_time, &local_system_time);
+  }
+
+  *user_time = local_user_time;
+  *system_time = local_system_time;
   return true;
 }
 

@@ -15,6 +15,7 @@
 #ifndef CRASHPAD_UTIL_LINUX_PROC_STAT_READER_H_
 #define CRASHPAD_UTIL_LINUX_PROC_STAT_READER_H_
 
+#include <stddef.h>
 #include <sys/time.h>
 #include <sys/types.h>
 
@@ -38,6 +39,22 @@ class ProcStatReader {
   //! \param[in] tid The thread ID to read the stat file for.
   bool Initialize(pid_t tid);
 
+  //! \brief Determines the time the thread has spent executing in user mode.
+  //!
+  //! \param[out] user_time The time spent executing in user mode.
+  //!
+  //! \return `true` on success, with \a user_time set. Otherwise, `false` with
+  //!     a message logged.
+  bool UserCPUTime(timeval* user_time) const;
+
+  //! \brief Determines the time the thread has spent executing in system mode.
+  //!
+  //! \param[out] system_time The time spent executing in system mode.
+  //!
+  //! \return `true` on success, with \a system_time set. Otherwise, `false`
+  //!     with a message logged.
+  bool SystemCPUTime(timeval* system_time) const;
+
   //! \brief Determines the target thread’s start time.
   //!
   //! \param[out] start_time The time that the thread started.
@@ -47,9 +64,12 @@ class ProcStatReader {
   bool StartTime(timeval* start_time) const;
 
  private:
-  bool ReadFile(std::string* contents) const;
+  bool ReadFile(pid_t tid);
+  bool FindColumn(int index, const char** column) const;
+  bool ReadTimeAtIndex(int index, timeval* time_val) const;
 
-  pid_t tid_;
+  std::string contents_;
+  size_t third_column_position_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(ProcStatReader);

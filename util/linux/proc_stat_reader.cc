@@ -43,67 +43,66 @@ void TimespecToTimeval(const timespec& ts, timeval* tv) {
   tv->tv_usec = ts.tv_nsec / 1000;
 }
 
+long GetClockTicksPerSecond() {
+  long clock_ticks_per_s = sysconf(_SC_CLK_TCK);
+  if (clock_ticks_per_s <= 0) {
+    PLOG(ERROR) << "sysconf";
+  }
+  return clock_ticks_per_s;
+}
+
 }  // namespace
 
-ProcStatReader::ProcStatReader() : tid_(-1) {}
+ProcStatReader::ProcStatReader()
+    : contents_(), third_column_position_(0), initialized_() {}
 
 ProcStatReader::~ProcStatReader() {}
 
 bool ProcStatReader::Initialize(pid_t tid) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-  // This might do more in the future.
-  tid_ = tid;
-  INITIALIZATION_STATE_SET_VALID(initialized_);
-  return true;
-}
-
-bool ProcStatReader::StartTime(timeval* start_time) const {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  std::string stat_contents;
-  if (!ReadFile(&stat_contents)) {
+  if (!ReadFile(tid)) {
     return false;
   }
 
-  // The process start time is the 22nd column.
-  // The second column is the executable name in parentheses.
+  // The first column is process ID and the second column is the executable name
+  // in parentheses. This class only cares about columns after the second, so
+  // find the start of the third here and save it for later.
   // The executable name may have parentheses itself, so find the end of the
-  // second column by working backwards to find the last closing parens and
-  // then count forward to the 22nd column.
-  size_t stat_pos = stat_contents.rfind(')');
+  // second column by working backwards to find the last closing parens.
+  size_t stat_pos = contents_.rfind(')');
   if (stat_pos == std::string::npos) {
     LOG(ERROR) << "format error";
     return false;
   }
 
-  for (int index = 1; index < 21; ++index) {
-    stat_pos = stat_contents.find(' ', stat_pos);
-    if (stat_pos == std::string::npos) {
-      break;
-    }
-    ++stat_pos;
-  }
-  if (stat_pos >= stat_contents.size()) {
+  third_column_position_ = contents_.find(' ', stat_pos);
+  if (third_column_position_ == std::string::npos ||
+      ++third_column_position_ >= contents_.size()) {
     LOG(ERROR) << "format error";
     return false;
   }
 
-  const char* ticks_ptr = &stat_contents[stat_pos];
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
 
-  // start time is in jiffies instead of clock ticks pre 2.6.
-  uint64_t ticks_after_boot;
-  if (!AdvancePastNumber<uint64_t>(&ticks_ptr, &ticks_after_boot)) {
-    LOG(ERROR) << "format error";
-    return false;
-  }
-  long clock_ticks_per_s = sysconf(_SC_CLK_TCK);
-  if (clock_ticks_per_s <= 0) {
-    PLOG(ERROR) << "sysconf";
-    return false;
-  }
+bool ProcStatReader::UserCPUTime(timeval* user_time) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return ReadTimeAtIndex(13, user_time);
+}
+
+bool ProcStatReader::SystemCPUTime(timeval* system_time) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return ReadTimeAtIndex(14, system_time);
+}
+
+bool ProcStatReader::StartTime(timeval* start_time) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
   timeval time_after_boot;
-  time_after_boot.tv_sec = ticks_after_boot / clock_ticks_per_s;
-  time_after_boot.tv_usec = (ticks_after_boot % clock_ticks_per_s) *
-                            (static_cast<long>(1E6) / clock_ticks_per_s);
+  if (!ReadTimeAtIndex(21, &time_after_boot)) {
+    return false;
+  }
 
   timespec uptime;
   if (clock_gettime(CLOCK_BOOTTIME, &uptime) != 0) {
@@ -126,12 +125,52 @@ bool ProcStatReader::StartTime(timeval* start_time) const {
   return true;
 }
 
-bool ProcStatReader::ReadFile(std::string* contents) const {
+bool ProcStatReader::ReadFile(pid_t tid) {
   char path[32];
-  snprintf(path, arraysize(path), "/proc/%d/stat", tid_);
-  if (!LoggingReadEntireFile(base::FilePath(path), contents)) {
+  snprintf(path, arraysize(path), "/proc/%d/stat", tid);
+  if (!LoggingReadEntireFile(base::FilePath(path), &contents_)) {
     return false;
   }
+  return true;
+}
+
+bool ProcStatReader::FindColumn(int col_index, const char** column) const {
+  size_t position = third_column_position_;
+  for (int index = 2; index < col_index; ++index) {
+    position = contents_.find(' ', position);
+    if (position == std::string::npos) {
+      break;
+    }
+    ++position;
+  }
+  if (position >= contents_.size()) {
+    LOG(ERROR) << "format error";
+    return false;
+  }
+  *column = &contents_[position];
+  return true;
+}
+
+bool ProcStatReader::ReadTimeAtIndex(int index, timeval* time_val) const {
+  const char* ticks_ptr;
+  if (!FindColumn(index, &ticks_ptr)) {
+    return false;
+  }
+
+  uint64_t ticks;
+  if (!AdvancePastNumber<uint64_t>(&ticks_ptr, &ticks)) {
+    LOG(ERROR) << "format error";
+    return false;
+  }
+
+  static long clock_ticks_per_s = GetClockTicksPerSecond();
+  if (clock_ticks_per_s <= 0) {
+    return false;
+  }
+
+  time_val->tv_sec = ticks / clock_ticks_per_s;
+  time_val->tv_usec = (ticks % clock_ticks_per_s) *
+                      (static_cast<long>(1E6) / clock_ticks_per_s);
   return true;
 }
 
