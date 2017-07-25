@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d79ea7f_53524da8",
+        "filename": "infra/config/cq.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T20:08:25Z",
+      "side": 1,
+      "message": "You only need to disable these two,",
+      "revId": "858e5099a85961e67aff00f850781f8890b9cdb3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28c5afa0_1870e8fe",
+        "filename": "infra/config/cq.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T20:08:25Z",
+      "side": 1,
+      "message": "not these two.",
+      "revId": "858e5099a85961e67aff00f850781f8890b9cdb3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
