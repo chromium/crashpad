@@ -30,6 +30,14 @@ TEST(ProcStatReader, Basic) {
   ProcStatReader stat;
   ASSERT_TRUE(stat.Initialize(getpid()));
 
+  timeval user_time;
+  ASSERT_TRUE(stat.UserCPUTime(&user_time));
+  EXPECT_LT(user_time.tv_sec, 300);
+
+  timeval system_time;
+  ASSERT_TRUE(stat.SystemCPUTime(&system_time));
+  EXPECT_LT(system_time.tv_sec, 300);
+
   timeval start_time;
   ASSERT_TRUE(stat.StartTime(&start_time));
 
