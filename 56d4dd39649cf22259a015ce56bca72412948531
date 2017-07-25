@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e8e5686_b2d825fc",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T01:35:10Z",
+      "side": 1,
+      "message": "Is there a way to get CPU times for threads that belonged to the process but have since ended? This is the task_basic_info.{user,system}_time in the Mac version.",
+      "revId": "56d4dd39649cf22259a015ce56bca72412948531",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "155c7fe6_6f217719",
+        "filename": "util/linux/proc_stat_reader_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T01:35:10Z",
+      "side": 1,
+      "message": "I wonder if this is strictly valid: if the kernel might ever charge time that another kernel thread spends doing work on your behalf against you. Probably doesn’t do that today. Probably isn’t worth worrying about.",
+      "revId": "56d4dd39649cf22259a015ce56bca72412948531",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
