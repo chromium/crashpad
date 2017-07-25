@@ -24,13 +24,13 @@ namespace crashpad {
 using HTTPHeaders = std::map<std::string, std::string>;
 
 //! \brief The header name `"Content-Type"`.
-extern const char kContentType[];
+constexpr char kContentType[] = "Content-Type";
 
 //! \brief The header name `"Content-Length"`.
-extern const char kContentLength[];
+constexpr char kContentLength[] = "Content-Length";
 
 //! \brief The header name `"Content-Encoding"`.
-extern const char kContentEncoding[];
+constexpr char kContentEncoding[] = "Content-Encoding";
 
 }  // namespace crashpad
 

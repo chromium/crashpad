@@ -33,7 +33,7 @@
 
 namespace {
 
-const uint32_t kInvalidSegmentIndex = std::numeric_limits<uint32_t>::max();
+constexpr uint32_t kInvalidSegmentIndex = std::numeric_limits<uint32_t>::max();
 
 }  // namespace
 

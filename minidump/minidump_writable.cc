@@ -24,7 +24,7 @@
 
 namespace {
 
-const size_t kMaximumAlignment = 16;
+constexpr size_t kMaximumAlignment = 16;
 
 }  // namespace
 
@@ -82,7 +82,7 @@ void MinidumpWritable::RegisterLocationDescriptor(
   registered_location_descriptors_.push_back(location_descriptor);
 }
 
-const size_t MinidumpWritable::kInvalidSize =
+constexpr size_t MinidumpWritable::kInvalidSize =
     std::numeric_limits<size_t>::max();
 
 MinidumpWritable::MinidumpWritable()

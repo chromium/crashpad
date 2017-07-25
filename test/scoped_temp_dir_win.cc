@@ -38,7 +38,7 @@ base::FilePath GenerateCandidateName() {
   return system_temp_dir.Append(new_dir_name);
 }
 
-const int kRetries = 50;
+constexpr int kRetries = 50;
 
 }  // namespace
 

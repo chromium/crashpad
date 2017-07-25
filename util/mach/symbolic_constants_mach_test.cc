@@ -147,9 +147,9 @@ struct ConvertExceptionTraits {
                                 ValueType* value) {
     return StringToException(string, options, value);
   }
-  static const char kValueName[];
+  static constexpr char kValueName[] = "exception";
 };
-const char ConvertExceptionTraits::kValueName[] = "exception";
+constexpr char ConvertExceptionTraits::kValueName[];
 
 void TestExceptionToString(exception_type_t value,
                            const char* expect_full,
@@ -322,9 +322,9 @@ struct ConvertExceptionMaskTraits {
                                 ValueType* value) {
     return StringToExceptionMask(string, options, value);
   }
-  static const char kValueName[];
+  static constexpr char kValueName[] = "exception_mask";
 };
-const char ConvertExceptionMaskTraits::kValueName[] = "exception_mask";
+constexpr char ConvertExceptionMaskTraits::kValueName[];
 
 void TestExceptionMaskToString(exception_mask_t value,
                                const char* expect_full,
@@ -565,9 +565,9 @@ struct ConvertExceptionBehaviorTraits {
                                 ValueType* value) {
     return StringToExceptionBehavior(string, options, value);
   }
-  static const char kValueName[];
+  static constexpr char kValueName[] = "behavior";
 };
-const char ConvertExceptionBehaviorTraits::kValueName[] = "behavior";
+constexpr char ConvertExceptionBehaviorTraits::kValueName[];
 
 void TestExceptionBehaviorToString(exception_behavior_t value,
                                    const char* expect_full,
@@ -828,9 +828,9 @@ struct ConvertThreadStateFlavorTraits {
                                 ValueType* value) {
     return StringToThreadStateFlavor(string, options, value);
   }
-  static const char kValueName[];
+  static constexpr char kValueName[] = "flavor";
 };
-const char ConvertThreadStateFlavorTraits::kValueName[] = "flavor";
+constexpr char ConvertThreadStateFlavorTraits::kValueName[];
 
 void TestThreadStateFlavorToString(exception_type_t value,
                                    const char* expect_full,

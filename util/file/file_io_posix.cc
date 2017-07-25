@@ -96,9 +96,6 @@ FileHandle OpenFileForOutput(int rdwr_or_wronly,
 
 namespace internal {
 
-const char kNativeReadFunctionName[] = "read";
-const char kNativeWriteFunctionName[] = "write";
-
 FileOperationResult NativeWriteFile(FileHandle file,
                                     const void* buffer,
                                     size_t size) {
