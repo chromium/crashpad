@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eeb26bd2_10e1c918",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T00:55:11Z",
+      "side": 1,
+      "message": "(and remove this, since it’s moving to the header.)",
+      "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfa9f93c_b45fab2e",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T00:55:11Z",
+      "side": 1,
+      "message": "INITIALIZATION_STATE_DCHECK_VALID(initialized_);\n\nhere and in CPUTimes()?",
+      "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb4c625f_744ff977",
+        "filename": "snapshot/linux/process_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T00:55:11Z",
+      "side": 1,
+      "message": "#include \u003csys/time.h\u003e",
+      "range": {
+        "startLine": 91,
+        "startChar": 17,
+        "endLine": 91,
+        "endChar": 24
+      },
+      "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b31b94b_6c10f1c8",
+        "filename": "util/linux/proc_stat_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T00:55:11Z",
+      "side": 1,
+      "message": "This shouldn’t change, you can cache it in a static. But if you do, beware that the PLOG on the next line will only be valid when you try to initialize it (the first time), so you’d need to wrap it:\n\n  static long clock_ticks_per_s \u003d LoggingSysconf(_SC_CLK_TCK);",
+      "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1d22fa3_fe66f8c7",
+        "filename": "util/linux/proc_stat_reader_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T00:55:11Z",
+      "side": 1,
+      "message": "This might not be valid, for example, under a --gtest_repeat loop.",
+      "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
