@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "24d18484_1a68c431",
+        "filename": "client/crashpad_info.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T17:34:44Z",
+      "side": 1,
+      "message": "\u003e why not constexpr?\n\nI was focused on arrays for this change, but I can make this one constexpr.",
+      "parentUuid": "3d147d01_3768e963",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "6234f5c3ee76665b24e416169fb6c0631c32028d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a98037a_90f2c3e6",
         "filename": "util/misc/implicit_cast.h",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-07-25T03:54:54Z",
       "side": 1,
       "message": "why do we need inline here?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 6
+      },
+      "revId": "6234f5c3ee76665b24e416169fb6c0631c32028d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c2240e2_175ded43",
+        "filename": "util/misc/implicit_cast.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T17:34:44Z",
+      "side": 1,
+      "message": "\u003e why do we need inline here?\n\nWe don’t.",
+      "parentUuid": "0a98037a_90f2c3e6",
       "range": {
         "startLine": 38,
         "startChar": 0,
