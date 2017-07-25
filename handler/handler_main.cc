@@ -436,7 +436,7 @@ int HandlerMain(int argc,
     kOptionVersion = -3,
   };
 
-  const option long_options[] = {
+  static constexpr option long_options[] = {
     {"annotation", required_argument, nullptr, kOptionAnnotation},
     {"database", required_argument, nullptr, kOptionDatabase},
 #if defined(OS_MACOSX)
@@ -714,7 +714,7 @@ int HandlerMain(int argc,
 
   base::GlobalHistogramAllocator* histogram_allocator = nullptr;
   if (!options.metrics_dir.empty()) {
-    static const char kMetricsName[] = "CrashpadMetrics";
+    static constexpr char kMetricsName[] = "CrashpadMetrics";
     const size_t kMetricsFileSize = 1 << 20;
     if (base::GlobalHistogramAllocator::CreateWithActiveFileInDir(
             options.metrics_dir, kMetricsFileSize, 0, kMetricsName)) {

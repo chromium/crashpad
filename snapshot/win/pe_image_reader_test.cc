@@ -128,7 +128,7 @@ TEST(PEImageReader, VSFixedFileInfo_OneModule) {
   ASSERT_TRUE(process_reader.Initialize(GetCurrentProcess(),
                                         ProcessSuspensionState::kRunning));
 
-  const wchar_t kModuleName[] = L"kernel32.dll";
+  static constexpr wchar_t kModuleName[] = L"kernel32.dll";
   const HMODULE module_handle = GetModuleHandle(kModuleName);
   ASSERT_TRUE(module_handle) << ErrorMessage("GetModuleHandle");
 

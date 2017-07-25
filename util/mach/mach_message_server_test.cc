@@ -279,7 +279,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   }
 
   std::set<mach_msg_id_t> MachMessageServerRequestIDs() override {
-    const mach_msg_id_t request_ids[] = {kRequestMessageID};
+    static constexpr mach_msg_id_t request_ids[] = {kRequestMessageID};
     return std::set<mach_msg_id_t>(&request_ids[0],
                                    &request_ids[arraysize(request_ids)]);
   }

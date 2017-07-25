@@ -134,7 +134,7 @@ TEST(SafeTerminateProcess, PatchBadly) {
     // https://crashpad.chromium.org/bug/179. In reality, this only affects
     // 32-bit x86, as there’s no calling convention confusion on x86_64. It
     // doesn’t hurt to run this test in the 64-bit environment, though.
-    const uint8_t patch[] = {
+    static constexpr uint8_t patch[] = {
 #if defined(ARCH_CPU_X86)
         0x31, 0xc0,  // xor eax, eax
 #elif defined(ARCH_CPU_X86_64)

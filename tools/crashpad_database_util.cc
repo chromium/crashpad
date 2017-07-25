@@ -92,7 +92,7 @@ struct Options {
 // performed. Various string representations of a boolean are recognized
 // case-insensitively.
 bool StringToBool(const char* string, bool* boolean) {
-  const char* const kFalseWords[] = {
+  static constexpr const char* kFalseWords[] = {
       "0",
       "false",
       "no",
@@ -100,7 +100,7 @@ bool StringToBool(const char* string, bool* boolean) {
       "disabled",
       "clear",
   };
-  const char* const kTrueWords[] = {
+  static constexpr const char* kTrueWords[] = {
       "1",
       "true",
       "yes",
@@ -153,7 +153,7 @@ bool StringToTime(const char* string, time_t* out_time, bool utc) {
 
   const char* end = string + strlen(string);
 
-  const char* const kFormats[] = {
+  static constexpr const char* kFormats[] = {
       "%Y-%m-%d %H:%M:%S %Z",
       "%Y-%m-%d %H:%M:%S",
       "%+",
@@ -294,7 +294,7 @@ int DatabaseUtilMain(int argc, char* argv[]) {
     kOptionVersion = -3,
   };
 
-  const option long_options[] = {
+  static constexpr option long_options[] = {
       {"create", no_argument, nullptr, kOptionCreate},
       {"database", required_argument, nullptr, kOptionDatabase},
       {"show-client-id", no_argument, nullptr, kOptionShowClientID},

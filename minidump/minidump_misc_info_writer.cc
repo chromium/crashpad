@@ -101,25 +101,25 @@ std::string MinidumpMiscInfoDebugBuildString() {
   // plus a UTF-16 NUL terminator. Don’t let strings get longer than this, or
   // they will be truncated and a message will be logged.
 #if defined(OS_MACOSX)
-  const char kOS[] = "mac";
+  static constexpr char kOS[] = "mac";
 #elif defined(OS_ANDROID)
-  const char kOS[] = "android";
+  static constexpr char kOS[] = "android";
 #elif defined(OS_LINUX)
-  const char kOS[] = "linux";
+  static constexpr char kOS[] = "linux";
 #elif defined(OS_WIN)
-  const char kOS[] = "win";
+  static constexpr char kOS[] = "win";
 #else
 #error define kOS for this operating system
 #endif
 
 #if defined(ARCH_CPU_X86)
-  const char kCPU[] = "i386";
+  static constexpr char kCPU[] = "i386";
 #elif defined(ARCH_CPU_X86_64)
-  const char kCPU[] = "amd64";
+  static constexpr char kCPU[] = "amd64";
 #elif defined(ARCH_CPU_ARMEL)
-  const char kCPU[] = "arm";
+  static constexpr char kCPU[] = "arm";
 #elif defined(ARCH_CPU_ARM64)
-  const char kCPU[] = "arm64";
+  static constexpr char kCPU[] = "arm64";
 #else
 #error define kCPU for this CPU
 #endif

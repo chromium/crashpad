@@ -26,7 +26,7 @@
 
 namespace {
 
-const char* kSignalNames[] = {
+constexpr const char* kSignalNames[] = {
     nullptr,
 
 #if defined(OS_MACOSX)
@@ -108,7 +108,7 @@ static_assert(arraysize(kSignalNames) == 32, "kSignalNames length");
 static_assert(arraysize(kSignalNames) == NSIG, "kSignalNames length");
 #endif
 
-const char kSigPrefix[] = "SIG";
+constexpr char kSigPrefix[] = "SIG";
 
 }  // namespace
 

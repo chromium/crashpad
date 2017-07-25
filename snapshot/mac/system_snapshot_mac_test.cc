@@ -210,7 +210,7 @@ TEST_F(SystemSnapshotMacTest, TimeZone) {
   // standard_name and daylight_name can be nullptr where no name exists to
   // verify, as may happen when some versions of the timezone database carry
   // invented names and others do not.
-  const struct {
+  static constexpr struct {
     const char* tz;
     bool observes_dst;
     float standard_offset_hours;

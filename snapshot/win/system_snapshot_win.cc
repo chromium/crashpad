@@ -98,7 +98,7 @@ void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
     os_server_ = version_info.wProductType != VER_NT_WORKSTATION;
   }
 
-  const wchar_t kSystemDll[] = L"kernel32.dll";
+  static constexpr wchar_t kSystemDll[] = L"kernel32.dll";
   VS_FIXEDFILEINFO ffi;
   if (GetModuleVersionAndType(base::FilePath(kSystemDll), &ffi)) {
     std::string flags_string = GetStringForFileFlags(ffi.dwFileFlags);

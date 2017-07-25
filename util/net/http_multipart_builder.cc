@@ -29,9 +29,9 @@ namespace crashpad {
 
 namespace {
 
-const char kCRLF[] = "\r\n";
+constexpr char kCRLF[] = "\r\n";
 
-const char kBoundaryCRLF[] = "\r\n\r\n";
+constexpr char kBoundaryCRLF[] = "\r\n\r\n";
 
 // Generates a random string suitable for use as a multipart boundary.
 std::string GenerateBoundaryString() {
@@ -47,7 +47,7 @@ std::string GenerateBoundaryString() {
   // randomness (62^32 > 2^190).
   std::string boundary_string = "---MultipartBoundary-";
   for (int index = 0; index < 32; ++index) {
-    const char kCharacters[] =
+    static constexpr char kCharacters[] =
         "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     int random_value =
         base::RandInt(0, static_cast<int>(strlen(kCharacters)) - 1);

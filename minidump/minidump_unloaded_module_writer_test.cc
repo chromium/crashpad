@@ -74,7 +74,7 @@ TEST(MinidumpUnloadedModuleWriter, EmptyModule) {
   auto unloaded_module_list_writer =
       base::WrapUnique(new MinidumpUnloadedModuleListWriter());
 
-  const char kModuleName[] = "test_dll";
+  static constexpr char kModuleName[] = "test_dll";
 
   auto unloaded_module_writer =
       base::WrapUnique(new MinidumpUnloadedModuleWriter());
@@ -113,7 +113,7 @@ TEST(MinidumpUnloadedModuleWriter, OneModule) {
   auto unloaded_module_list_writer =
       base::WrapUnique(new MinidumpUnloadedModuleListWriter());
 
-  const char kModuleName[] = "statically_linked";
+  static constexpr char kModuleName[] = "statically_linked";
   const uint64_t kModuleBase = 0x10da69000;
   const uint32_t kModuleSize = 0x1000;
   const uint32_t kChecksum = 0x76543210;

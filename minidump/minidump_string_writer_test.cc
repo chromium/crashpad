@@ -49,7 +49,7 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
               base::string16());
   }
 
-  const struct {
+  static constexpr struct {
     size_t input_length;
     const char* input_string;
     size_t output_length;
@@ -106,7 +106,7 @@ TEST(MinidumpStringWriter, MinidumpUTF16StringWriter) {
 TEST(MinidumpStringWriter, ConvertInvalidUTF8ToUTF16) {
   StringFile string_file;
 
-  const char* kTestData[] = {
+  static constexpr const char* kTestData[] = {
       "\200",  // continuation byte
       "\300",  // start byte followed by EOF
       "\310\177",  // start byte without continuation
@@ -160,7 +160,7 @@ TEST(MinidumpStringWriter, MinidumpUTF8StringWriter) {
               std::string());
   }
 
-  const struct {
+  static constexpr struct {
     size_t length;
     const char* string;
   } kTestData[] = {

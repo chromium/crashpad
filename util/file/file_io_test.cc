@@ -660,7 +660,7 @@ TEST(FileIO, FileSizeByHandle) {
   ASSERT_NE(file_handle.get(), kInvalidFileHandle);
   EXPECT_EQ(LoggingFileSizeByHandle(file_handle.get()), 0);
 
-  const char data[] = "zippyzap";
+  static constexpr char data[] = "zippyzap";
   ASSERT_TRUE(LoggingWriteFile(file_handle.get(), &data, sizeof(data)));
 
   EXPECT_EQ(LoggingFileSizeByHandle(file_handle.get()), 9);

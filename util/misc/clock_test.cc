@@ -71,7 +71,7 @@ void TestSleepNanoseconds(uint64_t nanoseconds) {
 }
 
 TEST(Clock, SleepNanoseconds) {
-  const uint64_t kTestData[] = {
+  static constexpr uint64_t kTestData[] = {
       0,
       1,
       static_cast<uint64_t>(1E3),  // 1 microsecond

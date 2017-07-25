@@ -55,16 +55,16 @@ std::vector<std::string> SplitCRLF(const std::string& string) {
 TEST(HTTPMultipartBuilder, ThreeStringFields) {
   HTTPMultipartBuilder builder;
 
-  const char kKey1[] = "key1";
-  const char kValue1[] = "test";
+  static constexpr char kKey1[] = "key1";
+  static constexpr char kValue1[] = "test";
   builder.SetFormData(kKey1, kValue1);
 
-  const char kKey2[] = "key2";
-  const char kValue2[] = "This is another test.";
+  static constexpr char kKey2[] = "key2";
+  static constexpr char kValue2[] = "This is another test.";
   builder.SetFormData(kKey2, kValue2);
 
-  const char kKey3[] = "key-three";
-  const char kValue3[] = "More tests";
+  static constexpr char kKey3[] = "key-three";
+  static constexpr char kValue3[] = "More tests";
   builder.SetFormData(kKey3, kValue3);
 
   std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());
@@ -115,7 +115,7 @@ TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
                             ascii_http_body_path,
                             "text/plain");
 
-  const char kFileContents[] = "This is a test.\n";
+  static constexpr char kFileContents[] = "This is a test.\n";
 
   std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());
   ASSERT_TRUE(body.get());
@@ -158,7 +158,7 @@ TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
 
 TEST(HTTPMultipartBuilder, OverwriteFormDataWithEscapedKey) {
   HTTPMultipartBuilder builder;
-  const char kKey[] = "a 100% \"silly\"\r\ntest";
+  static constexpr char kKey[] = "a 100% \"silly\"\r\ntest";
   builder.SetFormData(kKey, "some dummy value");
   builder.SetFormData(kKey, "overwrite");
   std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());
@@ -183,7 +183,7 @@ TEST(HTTPMultipartBuilder, OverwriteFormDataWithEscapedKey) {
 
 TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
   HTTPMultipartBuilder builder;
-  const char kValue[] = "1 2 3 test";
+  static constexpr char kValue[] = "1 2 3 test";
   builder.SetFormData("a key", kValue);
   base::FilePath testdata_path =
       TestPaths::TestDataRoot().Append(FILE_PATH_LITERAL("util/net/testdata"));
@@ -240,7 +240,7 @@ TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
 
 TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
   HTTPMultipartBuilder builder;
-  const char kValue1[] = "11111";
+  static constexpr char kValue1[] = "11111";
   builder.SetFormData("one", kValue1);
   base::FilePath ascii_http_body_path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
@@ -248,7 +248,7 @@ TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
                             "minidump.dmp",
                             ascii_http_body_path,
                             "");
-  const char kValue2[] = "this is not a file";
+  static constexpr char kValue2[] = "this is not a file";
   builder.SetFormData("minidump", kValue2);
 
   std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());

@@ -877,7 +877,7 @@ TEST(ExcServerVariants, MockUnknownID) {
   // UniversalMachExcServer should not dispatch the message to
   // MachMessageServerFunction, but should generate a MIG_BAD_ID error reply.
 
-  const mach_msg_id_t unknown_ids[] = {
+  static constexpr mach_msg_id_t unknown_ids[] = {
       // Reasonable things to check.
       -101,
       -100,
@@ -1130,11 +1130,10 @@ TEST(ExcServerVariants, ThreadStates) {
   // So far, all of the tests worked with MACHINE_THREAD_STATE. Now try all of
   // the other thread state flavors that are expected to work.
 
-  struct TestData {
+  static constexpr struct {
     thread_state_flavor_t flavor;
     mach_msg_type_number_t count;
-  };
-  const TestData test_data[] = {
+  } test_data[] = {
 #if defined(ARCH_CPU_X86_FAMILY)
       // For the x86 family, exception handlers can only properly receive the
       // thread, float, and exception state flavors. There’s a bug in the kernel
@@ -1179,7 +1178,7 @@ TEST(ExcServerVariants, ThreadStates) {
   };
 
   for (size_t index = 0; index < arraysize(test_data); ++index) {
-    const TestData& test = test_data[index];
+    const auto& test = test_data[index];
     SCOPED_TRACE(
         base::StringPrintf("index %zu, flavor %d", index, test.flavor));
 
@@ -1195,13 +1194,12 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
   const kern_return_t prefer_not_set_thread_state =
       MacOSXMinorVersion() < 11 ? MACH_RCV_PORT_DIED : KERN_SUCCESS;
 
-  struct TestData {
+  const struct {
     exception_type_t exception;
     exception_behavior_t behavior;
     bool set_thread_state;
     kern_return_t kr;
-  };
-  const TestData kTestData[] = {
+  } kTestData[] = {
       {EXC_CRASH, EXCEPTION_DEFAULT, false, KERN_SUCCESS},
       {EXC_CRASH, EXCEPTION_STATE, false, prefer_not_set_thread_state},
       {EXC_CRASH, EXCEPTION_STATE_IDENTITY, false, prefer_not_set_thread_state},
@@ -1253,7 +1251,7 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
   };
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
-    const TestData& test_data = kTestData[index];
+    const auto& test_data = kTestData[index];
     SCOPED_TRACE(
         base::StringPrintf("index %zu, behavior %d, set_thread_state %s",
                            index,
@@ -1268,7 +1266,7 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
 }
 
 TEST(ExcServerVariants, ExcServerCopyState) {
-  const natural_t old_state[] = {1, 2, 3, 4, 5};
+  static constexpr natural_t old_state[] = {1, 2, 3, 4, 5};
   natural_t new_state[10] = {};
 
   const mach_msg_type_number_t old_state_count = arraysize(old_state);

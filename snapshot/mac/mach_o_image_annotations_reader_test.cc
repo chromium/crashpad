@@ -212,7 +212,8 @@ class TestMachOImageAnnotationsReader final
 
       // dyld exposes its error_string at least as far back as Mac OS X 10.4.
       if (test_type_ == kCrashDyld) {
-        const char kExpectedAnnotation[] = "could not load inserted library";
+        static constexpr char kExpectedAnnotation[] =
+            "could not load inserted library";
         size_t expected_annotation_length = strlen(kExpectedAnnotation);
         bool found = false;
         for (const std::string& annotation : all_annotations_vector) {

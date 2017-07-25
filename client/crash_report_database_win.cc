@@ -36,12 +36,12 @@ namespace crashpad {
 
 namespace {
 
-const wchar_t kReportsDirectory[] = L"reports";
-const wchar_t kMetadataFileName[] = L"metadata";
+constexpr wchar_t kReportsDirectory[] = L"reports";
+constexpr wchar_t kMetadataFileName[] = L"metadata";
 
-const wchar_t kSettings[] = L"settings.dat";
+constexpr wchar_t kSettings[] = L"settings.dat";
 
-const wchar_t kCrashReportFileExtension[] = L"dmp";
+constexpr wchar_t kCrashReportFileExtension[] = L"dmp";
 
 const uint32_t kMetadataFileHeaderMagic = 'CPAD';
 const uint32_t kMetadataFileVersion = 1;
