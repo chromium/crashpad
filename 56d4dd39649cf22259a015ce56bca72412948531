@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e372490d_ca881fa0",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-25T04:15:23Z",
+      "side": 1,
+      "message": "I haven\u0027t been able to find a great way so far. I looked into the cutime and cstime fields in the stat file, which are supposed to be user/system cpu times for \"waited-for children\", but based on some experiments, they don\u0027t seem to include join-ed sibling threads.\n\nIs supplying wrappers to create some in-process bookkeeping an option? We could supply pthread_create/join routines for clients which record thread stats in a known place.",
+      "parentUuid": "9e8e5686_b2d825fc",
+      "revId": "56d4dd39649cf22259a015ce56bca72412948531",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "155c7fe6_6f217719",
         "filename": "util/linux/proc_stat_reader_test.cc",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "56d4dd39649cf22259a015ce56bca72412948531",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a886599_59daf60b",
+        "filename": "util/linux/proc_stat_reader_test.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-25T04:15:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "155c7fe6_6f217719",
+      "revId": "56d4dd39649cf22259a015ce56bca72412948531",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
