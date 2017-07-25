@@ -257,7 +257,7 @@ bool HTTPTransportLibcurl::ExecuteSynchronously(std::string* response_body) {
 
   TRY_CURL_EASY_SETOPT(curl.get(), CURLOPT_URL, url().c_str());
 
-  const int kMillisecondsPerSecond = 1E3;
+  constexpr int kMillisecondsPerSecond = 1E3;
   TRY_CURL_EASY_SETOPT(curl.get(),
                        CURLOPT_TIMEOUT_MS,
                        static_cast<long>(timeout() * kMillisecondsPerSecond));

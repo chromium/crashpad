@@ -108,7 +108,7 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyModule) {
 }
 
 TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
-  const uint32_t kMinidumpModuleListIndex = 1;
+  constexpr uint32_t kMinidumpModuleListIndex = 1;
   static constexpr char kKey[] = "key";
   static constexpr char kValue[] = "value";
   static constexpr char kEntry[] = "entry";
@@ -194,11 +194,11 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
 }
 
 TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
-  const uint32_t kMinidumpModuleListIndex0 = 0;
+  constexpr uint32_t kMinidumpModuleListIndex0 = 0;
   static constexpr char kKey0[] = "key";
   static constexpr char kValue0[] = "value";
-  const uint32_t kMinidumpModuleListIndex1 = 2;
-  const uint32_t kMinidumpModuleListIndex2 = 5;
+  constexpr uint32_t kMinidumpModuleListIndex1 = 2;
+  constexpr uint32_t kMinidumpModuleListIndex2 = 5;
   static constexpr char kKey2A[] = "K";
   static constexpr char kValue2A[] = "VVV";
   static constexpr char kKey2B[] = "river";

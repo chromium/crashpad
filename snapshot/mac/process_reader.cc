@@ -611,7 +611,7 @@ mach_vm_address_t ProcessReader::CalculateStackRegion(
     // Regardless of whether the ABI requires a red zone, capture up to
     // kExtraCaptureSize additional bytes of stack, but only if present in the
     // region that was already found.
-    const mach_vm_size_t kExtraCaptureSize = 128;
+    constexpr mach_vm_size_t kExtraCaptureSize = 128;
     start_address = std::max(start_address >= kExtraCaptureSize
                                  ? start_address - kExtraCaptureSize
                                  : start_address,
@@ -620,7 +620,7 @@ mach_vm_address_t ProcessReader::CalculateStackRegion(
     // Align start_address to a 16-byte boundary, which can help readers by
     // ensuring that data is aligned properly. This could page-align instead,
     // but that might be wasteful.
-    const mach_vm_size_t kDesiredAlignment = 16;
+    constexpr mach_vm_size_t kDesiredAlignment = 16;
     start_address &= ~(kDesiredAlignment - 1);
     DCHECK_GE(start_address, region_base);
   }
@@ -685,7 +685,7 @@ void ProcessReader::LocateRedZone(mach_vm_address_t* const start_address,
     // x86_64 has a red zone. See AMD64 ABI 0.99.6,
     // http://www.x86-64.org/documentation/abi.pdf, section 3.2.2, “The Stack
     // Frame”.
-    const mach_vm_size_t kRedZoneSize = 128;
+    constexpr mach_vm_size_t kRedZoneSize = 128;
     mach_vm_address_t red_zone_base =
         *start_address >= kRedZoneSize ? *start_address - kRedZoneSize : 0;
     bool red_zone_ok = false;

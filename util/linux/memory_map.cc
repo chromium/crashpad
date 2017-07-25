@@ -109,9 +109,9 @@ ParseResult ParseMapsLine(DelimitedFileReader* maps_file_reader,
 
   // TODO(jperaza): set bitness properly
 #if defined(ARCH_CPU_64_BITS)
-  const bool is_64_bit = true;
+  constexpr bool is_64_bit = true;
 #else
-  const bool is_64_bit = false;
+  constexpr bool is_64_bit = false;
 #endif
 
   MemoryMap::Mapping mapping;

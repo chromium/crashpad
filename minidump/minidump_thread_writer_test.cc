@@ -46,7 +46,7 @@ namespace {
 void GetThreadListStream(const std::string& file_contents,
                          const MINIDUMP_THREAD_LIST** thread_list,
                          const MINIDUMP_MEMORY_LIST** memory_list) {
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
   const uint32_t kExpectedStreams = memory_list ? 2 : 1;
   const size_t kThreadListStreamOffset =
       kDirectoryOffset + kExpectedStreams * sizeof(MINIDUMP_DIRECTORY);
@@ -142,12 +142,12 @@ TEST(MinidumpThreadWriter, OneThread_x86_NoStack) {
   MinidumpFileWriter minidump_file_writer;
   auto thread_list_writer = base::WrapUnique(new MinidumpThreadListWriter());
 
-  const uint32_t kThreadID = 0x11111111;
-  const uint32_t kSuspendCount = 1;
-  const uint32_t kPriorityClass = 0x20;
-  const uint32_t kPriority = 10;
-  const uint64_t kTEB = 0x55555555;
-  const uint32_t kSeed = 123;
+  constexpr uint32_t kThreadID = 0x11111111;
+  constexpr uint32_t kSuspendCount = 1;
+  constexpr uint32_t kPriorityClass = 0x20;
+  constexpr uint32_t kPriority = 10;
+  constexpr uint64_t kTEB = 0x55555555;
+  constexpr uint32_t kSeed = 123;
 
   auto thread_writer = base::WrapUnique(new MinidumpThreadWriter());
   thread_writer->SetThreadID(kThreadID);
@@ -201,15 +201,15 @@ TEST(MinidumpThreadWriter, OneThread_AMD64_Stack) {
   MinidumpFileWriter minidump_file_writer;
   auto thread_list_writer = base::WrapUnique(new MinidumpThreadListWriter());
 
-  const uint32_t kThreadID = 0x22222222;
-  const uint32_t kSuspendCount = 2;
-  const uint32_t kPriorityClass = 0x30;
-  const uint32_t kPriority = 20;
-  const uint64_t kTEB = 0x5555555555555555;
-  const uint64_t kMemoryBase = 0x765432100000;
-  const size_t kMemorySize = 32;
-  const uint8_t kMemoryValue = 99;
-  const uint32_t kSeed = 456;
+  constexpr uint32_t kThreadID = 0x22222222;
+  constexpr uint32_t kSuspendCount = 2;
+  constexpr uint32_t kPriorityClass = 0x30;
+  constexpr uint32_t kPriority = 20;
+  constexpr uint64_t kTEB = 0x5555555555555555;
+  constexpr uint64_t kMemoryBase = 0x765432100000;
+  constexpr size_t kMemorySize = 32;
+  constexpr uint8_t kMemoryValue = 99;
+  constexpr uint32_t kSeed = 456;
 
   auto thread_writer = base::WrapUnique(new MinidumpThreadWriter());
   thread_writer->SetThreadID(kThreadID);
@@ -282,15 +282,15 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
   auto memory_list_writer = base::WrapUnique(new MinidumpMemoryListWriter());
   thread_list_writer->SetMemoryListWriter(memory_list_writer.get());
 
-  const uint32_t kThreadID0 = 1111111;
-  const uint32_t kSuspendCount0 = 111111;
-  const uint32_t kPriorityClass0 = 11111;
-  const uint32_t kPriority0 = 1111;
-  const uint64_t kTEB0 = 111;
-  const uint64_t kMemoryBase0 = 0x1110;
-  const size_t kMemorySize0 = 16;
-  const uint8_t kMemoryValue0 = 11;
-  const uint32_t kSeed0 = 1;
+  constexpr uint32_t kThreadID0 = 1111111;
+  constexpr uint32_t kSuspendCount0 = 111111;
+  constexpr uint32_t kPriorityClass0 = 11111;
+  constexpr uint32_t kPriority0 = 1111;
+  constexpr uint64_t kTEB0 = 111;
+  constexpr uint64_t kMemoryBase0 = 0x1110;
+  constexpr size_t kMemorySize0 = 16;
+  constexpr uint8_t kMemoryValue0 = 11;
+  constexpr uint32_t kSeed0 = 1;
 
   auto thread_writer_0 = base::WrapUnique(new MinidumpThreadWriter());
   thread_writer_0->SetThreadID(kThreadID0);
@@ -309,15 +309,15 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
 
   thread_list_writer->AddThread(std::move(thread_writer_0));
 
-  const uint32_t kThreadID1 = 2222222;
-  const uint32_t kSuspendCount1 = 222222;
-  const uint32_t kPriorityClass1 = 22222;
-  const uint32_t kPriority1 = 2222;
-  const uint64_t kTEB1 = 222;
-  const uint64_t kMemoryBase1 = 0x2220;
-  const size_t kMemorySize1 = 32;
-  const uint8_t kMemoryValue1 = 22;
-  const uint32_t kSeed1 = 2;
+  constexpr uint32_t kThreadID1 = 2222222;
+  constexpr uint32_t kSuspendCount1 = 222222;
+  constexpr uint32_t kPriorityClass1 = 22222;
+  constexpr uint32_t kPriority1 = 2222;
+  constexpr uint64_t kTEB1 = 222;
+  constexpr uint64_t kMemoryBase1 = 0x2220;
+  constexpr size_t kMemorySize1 = 32;
+  constexpr uint8_t kMemoryValue1 = 22;
+  constexpr uint32_t kSeed1 = 2;
 
   auto thread_writer_1 = base::WrapUnique(new MinidumpThreadWriter());
   thread_writer_1->SetThreadID(kThreadID1);
@@ -336,15 +336,15 @@ TEST(MinidumpThreadWriter, ThreeThreads_x86_MemoryList) {
 
   thread_list_writer->AddThread(std::move(thread_writer_1));
 
-  const uint32_t kThreadID2 = 3333333;
-  const uint32_t kSuspendCount2 = 333333;
-  const uint32_t kPriorityClass2 = 33333;
-  const uint32_t kPriority2 = 3333;
-  const uint64_t kTEB2 = 333;
-  const uint64_t kMemoryBase2 = 0x3330;
-  const size_t kMemorySize2 = 48;
-  const uint8_t kMemoryValue2 = 33;
-  const uint32_t kSeed2 = 3;
+  constexpr uint32_t kThreadID2 = 3333333;
+  constexpr uint32_t kSuspendCount2 = 333333;
+  constexpr uint32_t kPriorityClass2 = 33333;
+  constexpr uint32_t kPriority2 = 3333;
+  constexpr uint64_t kTEB2 = 333;
+  constexpr uint64_t kMemoryBase2 = 0x3330;
+  constexpr size_t kMemorySize2 = 48;
+  constexpr uint8_t kMemoryValue2 = 33;
+  constexpr uint32_t kSeed2 = 3;
 
   auto thread_writer_2 = base::WrapUnique(new MinidumpThreadWriter());
   thread_writer_2->SetThreadID(kThreadID2);
@@ -533,7 +533,7 @@ void RunInitializeFromSnapshotTest(bool thread_id_collision) {
   uint32_t context_seeds[arraysize(expect_threads)] = {};
   MINIDUMP_MEMORY_DESCRIPTOR tebs[arraysize(expect_threads)] = {};
 
-  const size_t kTebSize = 1024;
+  constexpr size_t kTebSize = 1024;
 
   expect_threads[0].ThreadId = 1;
   expect_threads[0].SuspendCount = 2;
