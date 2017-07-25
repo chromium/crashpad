@@ -83,7 +83,7 @@ void TestGzipDeflateInflate(const std::string& string) {
 
   // The minimum size of a gzip wrapper per RFC 1952: a 10-byte header and an
   // 8-byte trailer.
-  const size_t kGzipHeaderSize = 18;
+  constexpr size_t kGzipHeaderSize = 18;
 
   // Per http://www.zlib.net/zlib_tech.html, in the worst case, zlib will store
   // uncompressed data as-is, at an overhead of 5 bytes per 16384-byte block.

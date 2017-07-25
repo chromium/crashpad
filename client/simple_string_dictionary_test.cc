@@ -121,8 +121,8 @@ TEST(SimpleStringDictionary, Iterator) {
   char key[SimpleStringDictionary::key_size];
   char value[SimpleStringDictionary::value_size];
 
-  const int kDictionaryCapacity = SimpleStringDictionary::num_entries;
-  const int kPartitionIndex = kDictionaryCapacity - 5;
+  constexpr int kDictionaryCapacity = SimpleStringDictionary::num_entries;
+  constexpr int kPartitionIndex = kDictionaryCapacity - 5;
 
   // We assume at least this size in the tests below
   ASSERT_GE(kDictionaryCapacity, 64);

@@ -122,9 +122,9 @@ TEST(SymbolicConstantsPOSIX, SignalToString) {
 
 #if defined(OS_LINUX) || defined(OS_ANDROID)
   // NSIG is 64 to account for real-time signals.
-  const int kSignalCount = 32;
+  constexpr int kSignalCount = 32;
 #else
-  const int kSignalCount = NSIG;
+  constexpr int kSignalCount = NSIG;
 #endif
 
   for (int signal = 0; signal < kSignalCount + 8; ++signal) {

@@ -42,7 +42,7 @@ namespace {
 uint32_t TimevalToRoundedSeconds(const timeval& tv) {
   uint32_t seconds =
       InRangeCast<uint32_t>(tv.tv_sec, std::numeric_limits<uint32_t>::max());
-  const int kMicrosecondsPerSecond = static_cast<int>(1E6);
+  constexpr int kMicrosecondsPerSecond = static_cast<int>(1E6);
   if (tv.tv_usec >= kMicrosecondsPerSecond / 2 &&
       seconds != std::numeric_limits<uint32_t>::max()) {
     ++seconds;
@@ -163,7 +163,7 @@ void MinidumpMiscInfoWriter::InitializeFromSnapshot(
   uint64_t current_hz;
   uint64_t max_hz;
   system_snapshot->CPUFrequency(&current_hz, &max_hz);
-  const uint32_t kHzPerMHz = static_cast<const uint32_t>(1E6);
+  constexpr uint32_t kHzPerMHz = static_cast<const uint32_t>(1E6);
   SetProcessorPowerInfo(
       InRangeCast<uint32_t>(current_hz / kHzPerMHz,
                             std::numeric_limits<uint32_t>::max()),

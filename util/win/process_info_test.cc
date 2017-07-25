@@ -601,7 +601,7 @@ TEST(ProcessInfo, Handles) {
 
       // OBJ_INHERIT from ntdef.h, but including that conflicts with other
       // headers.
-      const int kObjInherit = 0x2;
+      constexpr int kObjInherit = 0x2;
       EXPECT_EQ(handle.attributes, kObjInherit);
     }
     if (handle.handle == HandleToInt(scoped_key.get())) {
@@ -633,7 +633,7 @@ TEST(ProcessInfo, Handles) {
 }
 
 TEST(ProcessInfo, OutOfRangeCheck) {
-  const size_t kAllocationSize = 12345;
+  constexpr size_t kAllocationSize = 12345;
   std::unique_ptr<char[]> safe_memory(new char[kAllocationSize]);
 
   ProcessInfo info;

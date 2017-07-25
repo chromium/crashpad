@@ -398,7 +398,7 @@ void TestOpenFileForWrite(FileHandle (*opener)(const base::FilePath&,
   EXPECT_TRUE(FileExists(file_path_1));
   EXPECT_EQ(FileSize(file_path_1), 0);
 
-  const char data = '%';
+  constexpr char data = '%';
   EXPECT_TRUE(LoggingWriteFile(file_handle.get(), &data, sizeof(data)));
 
   // Close file_handle to ensure that the write is flushed to disk.

@@ -35,8 +35,8 @@ void GetUserStream(const std::string& file_contents,
                    MINIDUMP_LOCATION_DESCRIPTOR* user_stream_location,
                    uint32_t stream_type,
                    size_t stream_size) {
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kUserStreamOffset =
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kUserStreamOffset =
       kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
 
   const MINIDUMP_DIRECTORY* directory;
@@ -45,7 +45,7 @@ void GetUserStream(const std::string& file_contents,
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
   ASSERT_TRUE(directory);
 
-  const size_t kDirectoryIndex = 0;
+  constexpr size_t kDirectoryIndex = 0;
 
   ASSERT_EQ(directory[kDirectoryIndex].StreamType, stream_type);
   EXPECT_EQ(directory[kDirectoryIndex].Location.Rva, kUserStreamOffset);
@@ -100,7 +100,7 @@ TEST(MinidumpUserStreamWriter, InitializeFromSnapshotOneStream) {
 
   TestMemorySnapshot* test_data = new TestMemorySnapshot();
   test_data->SetAddress(97865);
-  const size_t kStreamSize = 128;
+  constexpr size_t kStreamSize = 128;
   test_data->SetSize(kStreamSize);
   test_data->SetValue('c');
   auto stream =
@@ -125,7 +125,7 @@ TEST(MinidumpUserStreamWriter, InitializeFromSnapshotOneStream) {
 TEST(MinidumpUserStreamWriter, InitializeFromBufferOneStream) {
   MinidumpFileWriter minidump_file_writer;
 
-  const size_t kStreamSize = 128;
+  constexpr size_t kStreamSize = 128;
   std::vector<uint8_t> data(kStreamSize, 'c');
   auto data_source = base::WrapUnique(new test::BufferExtensionStreamDataSource(
       kTestStreamId, &data[0], data.size()));

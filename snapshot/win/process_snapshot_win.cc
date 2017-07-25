@@ -554,7 +554,7 @@ void ProcessSnapshotWin::ReadLock(
   AddMemorySnapshot(
       start, sizeof(process_types::RTL_CRITICAL_SECTION<Traits>), into);
 
-  const decltype(critical_section.DebugInfo) kInvalid =
+  constexpr decltype(critical_section.DebugInfo) kInvalid =
       static_cast<decltype(critical_section.DebugInfo)>(-1);
   if (critical_section.DebugInfo == kInvalid)
     return;

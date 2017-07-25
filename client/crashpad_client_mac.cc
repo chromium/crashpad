@@ -284,8 +284,8 @@ class HandlerStarter final : public NotifyServer::DefaultInterface {
 
       if (restart) {
         // If the handler was ever started before, don’t restart it too quickly.
-        const uint64_t kNanosecondsPerSecond = 1E9;
-        const uint64_t kMinimumStartInterval = 1 * kNanosecondsPerSecond;
+        constexpr uint64_t kNanosecondsPerSecond = 1E9;
+        constexpr uint64_t kMinimumStartInterval = 1 * kNanosecondsPerSecond;
 
         const uint64_t earliest_next_start_time =
             handler_restarter->last_start_time_ + kMinimumStartInterval;

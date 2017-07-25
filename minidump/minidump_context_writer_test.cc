@@ -52,7 +52,7 @@ TEST(MinidumpContextWriter, MinidumpContextX86Writer) {
     SCOPED_TRACE("nonzero");
 
     string_file.Reset();
-    const uint32_t kSeed = 0x8086;
+    constexpr uint32_t kSeed = 0x8086;
 
     MinidumpContextX86Writer context_writer;
     InitializeMinidumpContextX86(context_writer.context(), kSeed);
@@ -92,7 +92,7 @@ TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
     SCOPED_TRACE("nonzero");
 
     string_file.Reset();
-    const uint32_t kSeed = 0x808664;
+    constexpr uint32_t kSeed = 0x808664;
 
     MinidumpContextAMD64Writer context_writer;
     InitializeMinidumpContextAMD64(context_writer.context(), kSeed);
@@ -109,7 +109,7 @@ TEST(MinidumpContextWriter, MinidumpContextAMD64Writer) {
 }
 
 TEST(MinidumpContextWriter, CreateFromSnapshot_X86) {
-  const uint32_t kSeed = 32;
+  constexpr uint32_t kSeed = 32;
 
   CPUContextX86 context_snapshot_x86;
   CPUContext context_snapshot;
@@ -131,7 +131,7 @@ TEST(MinidumpContextWriter, CreateFromSnapshot_X86) {
 }
 
 TEST(MinidumpContextWriter, CreateFromSnapshot_AMD64) {
-  const uint32_t kSeed = 64;
+  constexpr uint32_t kSeed = 64;
 
   CPUContextX86_64 context_snapshot_x86_64;
   CPUContext context_snapshot;

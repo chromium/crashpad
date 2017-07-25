@@ -227,9 +227,9 @@ bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
     is_64_bit_initialized_.set_invalid();
 
 #if defined(ARCH_CPU_64_BITS)
-    const bool am_64_bit = true;
+    constexpr bool am_64_bit = true;
 #else
-    const bool am_64_bit = false;
+    constexpr bool am_64_bit = false;
 #endif
 
     if (pid_ == getpid()) {

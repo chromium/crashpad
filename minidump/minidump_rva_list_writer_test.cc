@@ -57,7 +57,7 @@ TEST(MinidumpRVAListWriter, Empty) {
 TEST(MinidumpRVAListWriter, OneChild) {
   TestMinidumpRVAListWriter list_writer;
 
-  const uint32_t kValue = 0;
+  constexpr uint32_t kValue = 0;
   list_writer.AddChild(kValue);
 
   StringFile string_file;

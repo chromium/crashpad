@@ -192,7 +192,7 @@ void SystemSnapshotWin::CPUFrequency(uint64_t* current_hz,
     *max_hz = 0;
     return;
   }
-  const uint64_t kMhzToHz = static_cast<uint64_t>(1E6);
+  constexpr uint64_t kMhzToHz = static_cast<uint64_t>(1E6);
   *current_hz = std::max_element(info.begin(),
                                  info.end(),
                                  [](const PROCESSOR_POWER_INFORMATION& a,

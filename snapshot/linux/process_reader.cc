@@ -133,7 +133,7 @@ void ProcessReader::Thread::InitializeStack(ProcessReader* reader) {
 #if defined(ARCH_CPU_X86_FAMILY)
     // Adjust start address to include the red zone
     if (reader->Is64Bit()) {
-      const LinuxVMSize kRedZoneSize = 128;
+      constexpr LinuxVMSize kRedZoneSize = 128;
       LinuxVMAddress red_zone_base =
           stack_region_start - std::min(kRedZoneSize, stack_region_start);
 

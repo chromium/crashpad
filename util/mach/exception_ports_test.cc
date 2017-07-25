@@ -58,7 +58,7 @@ namespace {
 void TestGetExceptionPorts(const ExceptionPorts& exception_ports,
                            mach_port_t expect_port,
                            exception_behavior_t expect_behavior) {
-  const exception_mask_t kExceptionMask = EXC_MASK_CRASH;
+  constexpr exception_mask_t kExceptionMask = EXC_MASK_CRASH;
 
   thread_state_flavor_t expect_flavor = (expect_behavior == EXCEPTION_DEFAULT)
                                             ? THREAD_STATE_NONE
@@ -440,7 +440,7 @@ class TestExceptionPorts : public MachMultiprocess,
     if (who_crashes_ != kNobodyCrashes) {
       UniversalMachExcServer universal_mach_exc_server(this);
 
-      const mach_msg_timeout_t kTimeoutMs = 50;
+      constexpr mach_msg_timeout_t kTimeoutMs = 50;
       kern_return_t kr =
           MachMessageServer::Run(&universal_mach_exc_server,
                                  local_port,

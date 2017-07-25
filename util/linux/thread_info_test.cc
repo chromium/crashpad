@@ -39,9 +39,9 @@ class SameBitnessTest : public Multiprocess {
     ASSERT_TRUE(thread_info.Initialize(ChildPID()));
 
 #if defined(ARCH_CPU_64_BITS)
-    const bool am_64_bit = true;
+    constexpr bool am_64_bit = true;
 #else
-    const bool am_64_bit = false;
+    constexpr bool am_64_bit = false;
 #endif  // ARCH_CPU_64_BITS
 
     EXPECT_EQ(thread_info.Is64Bit(), am_64_bit);

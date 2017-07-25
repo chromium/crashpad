@@ -175,7 +175,7 @@ mach_port_t ChildPortHandshakeServer::RunServer(
     // be delivered out of order and the check-in message will still be
     // processed.
     struct kevent event;
-    const timespec nonblocking_timeout = {};
+    constexpr timespec nonblocking_timeout = {};
     const timespec* timeout = blocking ? nullptr : &nonblocking_timeout;
     rv = HANDLE_EINTR(kevent(kq.get(), nullptr, 0, &event, 1, timeout));
     PCHECK(rv != -1) << "kevent";
@@ -341,7 +341,7 @@ ChildPortHandshake::ChildPortHandshake()
 
   // SIGPIPE is undesirable when writing to this pipe. Allow broken-pipe writes
   // to fail with EPIPE instead.
-  const int value = 1;
+  constexpr int value = 1;
   PCHECK(setsockopt(server_write_fd_.get(),
                     SOL_SOCKET,
                     SO_NOSIGPIPE,

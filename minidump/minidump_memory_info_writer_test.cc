@@ -33,8 +33,8 @@ namespace {
 void GetMemoryInfoListStream(
     const std::string& file_contents,
     const MINIDUMP_MEMORY_INFO_LIST** memory_info_list) {
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kMemoryInfoListStreamOffset =
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kMemoryInfoListStreamOffset =
       kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
 
   const MINIDUMP_DIRECTORY* directory;
@@ -43,7 +43,7 @@ void GetMemoryInfoListStream(
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
   ASSERT_TRUE(directory);
 
-  const size_t kDirectoryIndex = 0;
+  constexpr size_t kDirectoryIndex = 0;
 
   ASSERT_EQ(directory[kDirectoryIndex].StreamType,
             kMinidumpStreamTypeMemoryInfoList);
