@@ -384,7 +384,7 @@ TEST(ProcessReader, SelfSeveralThreads) {
   ASSERT_TRUE(process_reader.Initialize(mach_task_self()));
 
   TestThreadPool thread_pool;
-  const size_t kChildThreads = 16;
+  constexpr size_t kChildThreads = 16;
   ASSERT_NO_FATAL_FAILURE(thread_pool.StartThreads(kChildThreads));
 
   // Build a map of all expected threads, keyed by each thread’s ID. The values
@@ -523,13 +523,13 @@ class ProcessReaderThreadedChild final : public MachMultiprocess {
 
 TEST(ProcessReader, ChildOneThread) {
   // The main thread plus zero child threads equals one thread.
-  const size_t kChildThreads = 0;
+  constexpr size_t kChildThreads = 0;
   ProcessReaderThreadedChild process_reader_threaded_child(kChildThreads);
   process_reader_threaded_child.Run();
 }
 
 TEST(ProcessReader, ChildSeveralThreads) {
-  const size_t kChildThreads = 64;
+  constexpr size_t kChildThreads = 64;
   ProcessReaderThreadedChild process_reader_threaded_child(kChildThreads);
   process_reader_threaded_child.Run();
 }

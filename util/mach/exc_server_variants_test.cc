@@ -601,7 +601,7 @@ TEST(ExcServerVariants, MockExceptionRaise) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior = EXCEPTION_DEFAULT;
+  constexpr exception_behavior_t kExceptionBehavior = EXCEPTION_DEFAULT;
 
   EXPECT_CALL(server,
               MockCatchMachException(kExceptionBehavior,
@@ -646,7 +646,7 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior = EXCEPTION_STATE;
+  constexpr exception_behavior_t kExceptionBehavior = EXCEPTION_STATE;
 
   EXPECT_CALL(
       server,
@@ -695,7 +695,7 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior = EXCEPTION_STATE_IDENTITY;
+  constexpr exception_behavior_t kExceptionBehavior = EXCEPTION_STATE_IDENTITY;
 
   EXPECT_CALL(
       server,
@@ -741,7 +741,7 @@ TEST(ExcServerVariants, MockMachExceptionRaise) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior =
+  constexpr exception_behavior_t kExceptionBehavior =
       EXCEPTION_DEFAULT | MACH_EXCEPTION_CODES;
 
   EXPECT_CALL(
@@ -788,7 +788,7 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior =
+  constexpr exception_behavior_t kExceptionBehavior =
       EXCEPTION_STATE | MACH_EXCEPTION_CODES;
 
   EXPECT_CALL(
@@ -838,7 +838,7 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior =
+  constexpr exception_behavior_t kExceptionBehavior =
       EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES;
 
   EXPECT_CALL(
@@ -1269,7 +1269,7 @@ TEST(ExcServerVariants, ExcServerCopyState) {
   static constexpr natural_t old_state[] = {1, 2, 3, 4, 5};
   natural_t new_state[10] = {};
 
-  const mach_msg_type_number_t old_state_count = arraysize(old_state);
+  constexpr mach_msg_type_number_t old_state_count = arraysize(old_state);
   mach_msg_type_number_t new_state_count = arraysize(new_state);
 
   // EXCEPTION_DEFAULT (with or without MACH_EXCEPTION_CODES) is not

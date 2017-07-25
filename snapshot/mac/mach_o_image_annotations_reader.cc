@@ -91,7 +91,7 @@ void MachOImageAnnotationsReader::ReadCrashReporterClientAnnotations(
 
   // This number was totally made up out of nowhere, but it seems prudent to
   // enforce some limit.
-  const size_t kMaxMessageSize = 1024;
+  constexpr size_t kMaxMessageSize = 1024;
   if (crash_info.message) {
     std::string message;
     if (process_reader_->Memory()->ReadCStringSizeLimited(
