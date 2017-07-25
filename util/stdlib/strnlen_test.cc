@@ -23,7 +23,7 @@ namespace test {
 namespace {
 
 TEST(strnlen, strnlen) {
-  const char kTestBuffer[] = "abc\0d";
+  static constexpr char kTestBuffer[] = "abc\0d";
   ASSERT_EQ(strlen(kTestBuffer), 3u);
   EXPECT_EQ(crashpad::strnlen(kTestBuffer, 0), 0u);
   EXPECT_EQ(crashpad::strnlen(kTestBuffer, 1), 1u);
@@ -33,7 +33,7 @@ TEST(strnlen, strnlen) {
   EXPECT_EQ(crashpad::strnlen(kTestBuffer, 5), 3u);
   EXPECT_EQ(crashpad::strnlen(kTestBuffer, 6), 3u);
 
-  const char kEmptyBuffer[] = "\0";
+  static constexpr char kEmptyBuffer[] = "\0";
   ASSERT_EQ(strlen(kEmptyBuffer), 0u);
   EXPECT_EQ(crashpad::strnlen(kEmptyBuffer, 0), 0u);
   EXPECT_EQ(crashpad::strnlen(kEmptyBuffer, 1), 0u);

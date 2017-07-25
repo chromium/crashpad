@@ -34,8 +34,8 @@ namespace crashpad {
 // implicit_cast would have been part of the C++ standard library,
 // but the proposal was submitted too late.  It will probably make
 // its way into the language in the future.
-template<typename To, typename From>
-inline To implicit_cast(From const &f) {
+template <typename To, typename From>
+constexpr To implicit_cast(From const& f) {
   return f;
 }
 

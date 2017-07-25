@@ -134,7 +134,7 @@ TEST(MinidumpFileWriter, AddUserExtensionStream) {
   const time_t kTimestamp = 0x155d2fb8;
   minidump_file.SetTimestamp(kTimestamp);
 
-  static const uint8_t kStreamData[] = "Hello World!";
+  static constexpr uint8_t kStreamData[] = "Hello World!";
   const size_t kStreamSize = arraysize(kStreamData);
   const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
 
@@ -270,7 +270,7 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   std::string expected_stream0(kStream0Size, kStream0Value);
   EXPECT_EQ(memcmp(stream0_data, expected_stream0.c_str(), kStream0Size), 0);
 
-  const int kZeroes[16] = {};
+  static constexpr int kZeroes[16] = {};
   ASSERT_GE(sizeof(kZeroes), kStream1Padding);
   EXPECT_EQ(memcmp(stream0_data + kStream0Size, kZeroes, kStream1Padding), 0);
 

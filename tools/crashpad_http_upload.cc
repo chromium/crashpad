@@ -74,7 +74,7 @@ int HTTPUploadMain(int argc, char* argv[]) {
   } options = {};
   options.upload_gzip = true;
 
-  const option long_options[] = {
+  static constexpr option long_options[] = {
       {"file", required_argument, nullptr, kOptionFile},
       {"no-upload-gzip", no_argument, nullptr, kOptionNoUploadGzip},
       {"output", required_argument, nullptr, kOptionOutput},

@@ -135,8 +135,8 @@ bool ReadCStringSizeLimited(const ProcessMemory& memory,
       FromPointerCast<LinuxVMAddress>(pointer), size, result);
 }
 
-const char kConstCharEmpty[] = "";
-const char kConstCharShort[] = "A short const char[]";
+constexpr char kConstCharEmpty[] = "";
+constexpr char kConstCharShort[] = "A short const char[]";
 
 class ReadCStringTest : public TargetProcessTest {
  public:

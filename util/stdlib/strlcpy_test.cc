@@ -41,7 +41,8 @@ TEST(strlcpy, c16lcpy) {
 
   // Test with M, é, Ā, ő, and Ḙ. This is a mix of characters that have zero and
   // nonzero low and high bytes.
-  const base::char16 test_characters[] = {0x4d, 0xe9, 0x100, 0x151, 0x1e18};
+  static constexpr base::char16 test_characters[] =
+      {0x4d, 0xe9, 0x100, 0x151, 0x1e18};
 
   for (size_t index = 0; index < arraysize(test_characters); ++index) {
     base::char16 test_character = test_characters[index];

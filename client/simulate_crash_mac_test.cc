@@ -307,14 +307,14 @@ class TestSimulateCrashMac final : public MachMultiprocess,
 };
 
 TEST(SimulateCrash, SimulateCrash) {
-  const TestSimulateCrashMac::ExceptionPortsTarget kTargets[] = {
+  static constexpr TestSimulateCrashMac::ExceptionPortsTarget kTargets[] = {
       TestSimulateCrashMac::kExceptionPortsTargetNone,
       TestSimulateCrashMac::kExceptionPortsTargetTask,
       TestSimulateCrashMac::kExceptionPortsTargetThread,
       TestSimulateCrashMac::kExceptionPortsTargetBoth,
   };
 
-  const exception_behavior_t kBehaviors[] = {
+  static constexpr exception_behavior_t kBehaviors[] = {
       EXCEPTION_DEFAULT,
       EXCEPTION_STATE,
       EXCEPTION_STATE_IDENTITY,
@@ -323,7 +323,7 @@ TEST(SimulateCrash, SimulateCrash) {
       EXCEPTION_STATE_IDENTITY | kMachExceptionCodes,
   };
 
-  const thread_state_flavor_t kFlavors[] = {
+  static constexpr thread_state_flavor_t kFlavors[] = {
 #if defined(ARCH_CPU_X86_FAMILY)
       x86_THREAD_STATE,
       x86_FLOAT_STATE,

@@ -65,7 +65,7 @@ bool ReadIntoVersioned(ProcessReader* process_reader,
 template <typename Traits>
 size_t dyld_all_image_infos<Traits>::ExpectedSizeForVersion(
     decltype(dyld_all_image_infos<Traits>::version) version) {
-  const size_t kSizeForVersion[] = {
+  static constexpr size_t kSizeForVersion[] = {
       offsetof(dyld_all_image_infos<Traits>, infoArrayCount),  // 0
       offsetof(dyld_all_image_infos<Traits>, libSystemInitialized),  // 1
       offsetof(dyld_all_image_infos<Traits>, jitInfo),  // 2

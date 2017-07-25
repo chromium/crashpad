@@ -259,7 +259,7 @@ bool NotifyServer::MachMessageServerFunction(
 }
 
 std::set<mach_msg_id_t> NotifyServer::MachMessageServerRequestIDs() {
-  const mach_msg_id_t request_ids[] = {
+  static constexpr mach_msg_id_t request_ids[] = {
       MACH_NOTIFY_PORT_DELETED,
       MACH_NOTIFY_PORT_DESTROYED,
       MACH_NOTIFY_NO_SENDERS,

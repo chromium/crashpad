@@ -28,7 +28,7 @@
 
 namespace {
 
-static const uint32_t kCrashpadInfoVersion = 1;
+constexpr uint32_t kCrashpadInfoVersion = 1;
 
 }  // namespace
 

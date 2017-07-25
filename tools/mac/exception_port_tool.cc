@@ -106,8 +106,8 @@ struct ExceptionHandlerDescription {
   std::string handler;
 };
 
-const char kHandlerNull[] = "NULL";
-const char kHandlerBootstrapColon[] = "bootstrap:";
+constexpr char kHandlerNull[] = "NULL";
+constexpr char kHandlerBootstrapColon[] = "bootstrap:";
 
 // Populates |description| based on a textual representation in
 // |handler_string_ro|, returning true on success and false on failure (parse
@@ -120,11 +120,11 @@ const char kHandlerBootstrapColon[] = "bootstrap:";
 // SymbolicConstantsMach.
 bool ParseHandlerString(const char* handler_string_ro,
                         ExceptionHandlerDescription* description) {
-  const char kTargetEquals[] = "target=";
-  const char kMaskEquals[] = "mask=";
-  const char kBehaviorEquals[] = "behavior=";
-  const char kFlavorEquals[] = "flavor=";
-  const char kHandlerEquals[] = "handler=";
+  static constexpr char kTargetEquals[] = "target=";
+  static constexpr char kMaskEquals[] = "mask=";
+  static constexpr char kBehaviorEquals[] = "behavior=";
+  static constexpr char kFlavorEquals[] = "flavor=";
+  static constexpr char kHandlerEquals[] = "handler=";
 
   std::string handler_string(handler_string_ro);
   char* handler_string_c = &handler_string[0];
@@ -400,7 +400,7 @@ int ExceptionPortToolMain(int argc, char* argv[]) {
     bool numeric;
   } options = {};
 
-  const option long_options[] = {
+  static constexpr option long_options[] = {
       {"set-handler", required_argument, nullptr, kOptionSetPort},
       {"show-bootstrap", required_argument, nullptr, kOptionShowBootstrap},
       {"pid", required_argument, nullptr, kOptionPid},
