@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c96048cb_acb00ff8",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-25T01:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eeb26bd2_10e1c918",
+      "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfa9f93c_b45fab2e",
         "filename": "snapshot/linux/process_reader.cc",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3c3b240_b3341956",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-25T01:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfa9f93c_b45fab2e",
+      "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "1836f06d_e836d4d8",
+        "filename": "snapshot/linux/process_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-25T01:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb4c625f_744ff977",
+      "range": {
+        "startLine": 91,
+        "startChar": 17,
+        "endLine": 91,
+        "endChar": 24
+      },
+      "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b31b94b_6c10f1c8",
         "filename": "util/linux/proc_stat_reader.cc",
         "patchSetId": 2
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "c2d9a6a3_cf4212c6",
+        "filename": "util/linux/proc_stat_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-25T01:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b31b94b_6c10f1c8",
+      "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1d22fa3_fe66f8c7",
         "filename": "util/linux/proc_stat_reader_test.cc",
         "patchSetId": 2
@@ -87,6 +165,24 @@
       "writtenOn": "2017-07-25T00:55:11Z",
       "side": 1,
       "message": "This might not be valid, for example, under a --gtest_repeat loop.",
+      "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e601ef14_dd96c694",
+        "filename": "util/linux/proc_stat_reader_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-07-25T01:23:59Z",
+      "side": 1,
+      "message": "I\u0027ve now made it expect CPU times to be less than or equal to elapsed time for the thread.",
+      "parentUuid": "f1d22fa3_fe66f8c7",
       "revId": "0f8a1a48a8aaa8b8a8eeb5bc0b3900b04827f258",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
