@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a485cec_6d53ec10",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T18:33:52Z",
+      "side": 1,
+      "message": "This was the only one that I wanted to do but couldn’t. When I make it constexpr:\n\n…\\crashpad\\util\\file\\file_io.h(61): error C2131: expression did not evaluate to a constant\n…\\crashpad\\crashpad\\util\\file\\file_io.h(61): note: failure was caused by unevaluable pointer value\n\nINVALID_HANDLE_VALUE is ((HANDLE)(LONG_PTR)-1)",
+      "revId": "005cbf6cff9314ccf75a404078f5b7c9651b5e22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
