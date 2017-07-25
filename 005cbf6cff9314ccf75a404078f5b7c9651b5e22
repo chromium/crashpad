@@ -16,6 +16,24 @@
       "revId": "005cbf6cff9314ccf75a404078f5b7c9651b5e22",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26e640d6_cf0265ec",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-25T20:17:37Z",
+      "side": 1,
+      "message": "C++11 5.19/2 disallows reinterpret_cast in constant expressions, and the cast to HANDLE is a reinterpret_cast.",
+      "parentUuid": "6a485cec_6d53ec10",
+      "revId": "005cbf6cff9314ccf75a404078f5b7c9651b5e22",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
