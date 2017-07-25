@@ -33,6 +33,24 @@
       "revId": "858e5099a85961e67aff00f850781f8890b9cdb3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5570fbde_68d5ef82",
+        "filename": "infra/config/cq.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003232
+      },
+      "writtenOn": "2017-07-25T20:11:54Z",
+      "side": 1,
+      "message": "Ah, right. Duh :).",
+      "parentUuid": "28c5afa0_1870e8fe",
+      "revId": "858e5099a85961e67aff00f850781f8890b9cdb3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
