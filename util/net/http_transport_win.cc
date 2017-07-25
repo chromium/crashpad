@@ -39,7 +39,7 @@ namespace crashpad {
 
 namespace {
 
-const wchar_t kWinHttpDll[] = L"winhttp.dll";
+constexpr wchar_t kWinHttpDll[] = L"winhttp.dll";
 
 std::string UserAgent() {
   std::string user_agent =

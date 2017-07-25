@@ -22,7 +22,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-const uint64_t kNanosecondsPerSecond = static_cast<uint64_t>(1E9);
+constexpr uint64_t kNanosecondsPerSecond = static_cast<uint64_t>(1E9);
 
 class WorkDelegate : public WorkerThread::Delegate {
  public:

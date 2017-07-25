@@ -34,9 +34,9 @@ struct BootstrapCheckInTraits {
                             mach_port_t* service_port) {
     return bootstrap_check_in(bootstrap_port, service_name, service_port);
   }
-  static const char kName[];
+  static constexpr char kName[] = "bootstrap_check_in";
 };
-const char BootstrapCheckInTraits::kName[] = "bootstrap_check_in";
+constexpr char BootstrapCheckInTraits::kName[];
 
 struct BootstrapLookUpTraits {
   using Type = base::mac::ScopedMachSendRight;
@@ -45,9 +45,9 @@ struct BootstrapLookUpTraits {
                             mach_port_t* service_port) {
     return bootstrap_look_up(bootstrap_port, service_name, service_port);
   }
-  static const char kName[];
+  static constexpr char kName[] = "bootstrap_look_up";
 };
-const char BootstrapLookUpTraits::kName[] = "bootstrap_look_up";
+constexpr char BootstrapLookUpTraits::kName[];
 
 template <typename Traits>
 typename Traits::Type BootstrapCheckInOrLookUp(

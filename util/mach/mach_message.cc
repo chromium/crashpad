@@ -28,7 +28,7 @@ namespace crashpad {
 
 namespace {
 
-const int kNanosecondsPerMillisecond = 1E6;
+constexpr int kNanosecondsPerMillisecond = 1E6;
 
 // TimerRunning() determines whether |deadline| has passed. If |deadline| is
 // kMachMessageDeadlineWaitIndefinitely, |*timeout_options| is set to

@@ -62,7 +62,7 @@ TEST(MachExtensions, NewMachPort_DeadName) {
   EXPECT_EQ(type, MACH_PORT_TYPE_DEAD_NAME);
 }
 
-const exception_mask_t kExcMaskBasic =
+constexpr exception_mask_t kExcMaskBasic =
     EXC_MASK_BAD_ACCESS |
     EXC_MASK_BAD_INSTRUCTION |
     EXC_MASK_ARITHMETIC |

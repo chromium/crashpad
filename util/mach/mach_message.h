@@ -26,7 +26,7 @@ namespace crashpad {
 //!
 //! This constant is provided because the macros normally used to request this
 //! behavior are cumbersome.
-const mach_msg_option_t kMachMessageReceiveAuditTrailer =
+constexpr mach_msg_option_t kMachMessageReceiveAuditTrailer =
     MACH_RCV_TRAILER_TYPE(MACH_MSG_TRAILER_FORMAT_0) |
     MACH_RCV_TRAILER_ELEMENTS(MACH_RCV_TRAILER_AUDIT);
 

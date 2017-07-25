@@ -22,7 +22,7 @@ namespace crashpad {
 
 namespace {
 
-const uint64_t kMicrosecondsPerSecond = static_cast<uint64_t>(1E6);
+constexpr uint64_t kMicrosecondsPerSecond = static_cast<uint64_t>(1E6);
 
 uint64_t FiletimeToMicroseconds(const FILETIME& filetime) {
   uint64_t t = (static_cast<uint64_t>(filetime.dwHighDateTime) << 32) |

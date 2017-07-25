@@ -35,7 +35,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-const MinidumpStreamType kBogusStreamType =
+constexpr MinidumpStreamType kBogusStreamType =
     static_cast<MinidumpStreamType>(1234);
 
 // expected_streams is the expected number of streams in the file. The memory
