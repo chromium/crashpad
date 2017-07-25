@@ -328,7 +328,7 @@ class ExcServer : public MachMessageServer::Interface {
                                  bool* destroy_complex_request) override;
 
   std::set<mach_msg_id_t> MachMessageServerRequestIDs() override {
-    const mach_msg_id_t request_ids[] = {
+    constexpr mach_msg_id_t request_ids[] = {
         Traits::kMachMessageIDExceptionRaise,
         Traits::kMachMessageIDExceptionRaiseState,
         Traits::kMachMessageIDExceptionRaiseStateIdentity,

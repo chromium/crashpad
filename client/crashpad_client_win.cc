@@ -164,7 +164,7 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
   SetEvent(g_signal_exception);
 
   // Time to wait for the handler to create a dump.
-  const DWORD kMillisecondsUntilTerminate = 60 * 1000;
+  constexpr DWORD kMillisecondsUntilTerminate = 60 * 1000;
 
   // Sleep for a while to allow it to process us. Eventually, we terminate
   // ourselves in case the crash server is gone, so that we don't leave zombies
@@ -753,7 +753,7 @@ void CrashpadClient::DumpWithoutCrash(const CONTEXT& context) {
   // https://msdn.microsoft.com/en-us/library/windows/desktop/aa363082.aspx have
   // some of the top nibble set, so we make sure to pick a value that doesn't,
   // so as to be unlikely to conflict.
-  const uint32_t kSimulatedExceptionCode = 0x517a7ed;
+  constexpr uint32_t kSimulatedExceptionCode = 0x517a7ed;
   EXCEPTION_RECORD record = {};
   record.ExceptionCode = kSimulatedExceptionCode;
 #if defined(ARCH_CPU_64_BITS)
@@ -829,7 +829,7 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
     }
   }
 
-  const size_t kInjectBufferSize = 4 * 1024;
+  constexpr size_t kInjectBufferSize = 4 * 1024;
   WinVMAddress inject_memory =
       FromPointerCast<WinVMAddress>(VirtualAllocEx(process,
                                                    nullptr,
@@ -1001,7 +1001,10 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
   // letting this cause an exception, even when the target is stuck in the
   // loader lock.
   HANDLE injected_thread;
-  const size_t kStackSize = 0x4000;  // This is what DebugBreakProcess() uses.
+
+  // This is what DebugBreakProcess() uses.
+  constexpr size_t kStackSize = 0x4000;
+
   NTSTATUS status = NtCreateThreadEx(&injected_thread,
                                      STANDARD_RIGHTS_ALL | SPECIFIC_RIGHTS_ALL,
                                      nullptr,

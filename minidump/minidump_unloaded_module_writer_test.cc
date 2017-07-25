@@ -46,10 +46,10 @@ void ExpectUnloadedModule(const MINIDUMP_UNLOADED_MODULE* expected,
 void GetUnloadedModuleListStream(
     const std::string& file_contents,
     const MINIDUMP_UNLOADED_MODULE_LIST** unloaded_module_list) {
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kUnloadedModuleListStreamOffset =
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kUnloadedModuleListStreamOffset =
       kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
-  const size_t kUnloadedModulesOffset =
+  constexpr size_t kUnloadedModulesOffset =
       kUnloadedModuleListStreamOffset + sizeof(MINIDUMP_UNLOADED_MODULE_LIST);
 
   ASSERT_GE(file_contents.size(), kUnloadedModulesOffset);
@@ -114,10 +114,10 @@ TEST(MinidumpUnloadedModuleWriter, OneModule) {
       base::WrapUnique(new MinidumpUnloadedModuleListWriter());
 
   static constexpr char kModuleName[] = "statically_linked";
-  const uint64_t kModuleBase = 0x10da69000;
-  const uint32_t kModuleSize = 0x1000;
-  const uint32_t kChecksum = 0x76543210;
-  const time_t kTimestamp = 0x386d4380;
+  constexpr uint64_t kModuleBase = 0x10da69000;
+  constexpr uint32_t kModuleSize = 0x1000;
+  constexpr uint32_t kChecksum = 0x76543210;
+  constexpr time_t kTimestamp = 0x386d4380;
 
   auto unloaded_module_writer =
       base::WrapUnique(new MinidumpUnloadedModuleWriter());

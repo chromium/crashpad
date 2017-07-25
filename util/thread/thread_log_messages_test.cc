@@ -44,7 +44,7 @@ std::string MessageString(const std::string& log_message) {
     return std::string();
   }
 
-  const char kStartChar = '[';
+  constexpr char kStartChar = '[';
   if (log_message[0] != kStartChar) {
     EXPECT_EQ(log_message[0], kStartChar);
     return std::string();
@@ -63,7 +63,7 @@ std::string MessageString(const std::string& log_message) {
     return std::string();
   }
 
-  const char kEndChar = '\n';
+  constexpr char kEndChar = '\n';
   if (message_string[message_string.size() - 1] != kEndChar) {
     EXPECT_NE(message_string[message_string.size() - 1], kEndChar);
     return std::string();

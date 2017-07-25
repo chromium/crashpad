@@ -102,7 +102,7 @@ class CrashingDelegate : public ExceptionHandlerServer::Delegate {
     // Verify the exception happened at the expected location with a bit of
     // slop space to allow for reading the current PC before the exception
     // happens. See TestCrashingChild().
-    const uint64_t kAllowedOffset = 64;
+    constexpr uint64_t kAllowedOffset = 64;
     EXPECT_GT(snapshot.Exception()->ExceptionAddress(), break_near_);
     EXPECT_LT(snapshot.Exception()->ExceptionAddress(),
               break_near_ + kAllowedOffset);
@@ -205,7 +205,7 @@ class SimulateDelegate : public ExceptionHandlerServer::Delegate {
 
     // Verify the dump was captured at the expected location with some slop
     // space.
-    const uint64_t kAllowedOffset = 64;
+    constexpr uint64_t kAllowedOffset = 64;
     EXPECT_GT(snapshot.Exception()->Context()->InstructionPointer(),
               dump_near_);
     EXPECT_LT(snapshot.Exception()->Context()->InstructionPointer(),

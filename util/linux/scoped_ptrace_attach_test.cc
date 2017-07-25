@@ -68,11 +68,12 @@ class AttachTest : public Multiprocess {
   ~AttachTest() {}
 
  protected:
-  const long kWord = 42;
+  static constexpr long kWord = 42;
 
  private:
   DISALLOW_COPY_AND_ASSIGN(AttachTest);
 };
+constexpr long AttachTest::kWord;
 
 class AttachToChildTest : public AttachTest {
  public:

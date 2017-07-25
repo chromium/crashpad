@@ -34,13 +34,13 @@ namespace {
 // gtest assertions.
 void SanityCheckContext(const CONTEXT& context) {
 #if defined(ARCH_CPU_X86)
-  const uint32_t must_have = CONTEXT_i386 |
-                             CONTEXT_CONTROL |
-                             CONTEXT_INTEGER |
-                             CONTEXT_SEGMENTS |
-                             CONTEXT_FLOATING_POINT;
+  constexpr uint32_t must_have = CONTEXT_i386 |
+                                 CONTEXT_CONTROL |
+                                 CONTEXT_INTEGER |
+                                 CONTEXT_SEGMENTS |
+                                 CONTEXT_FLOATING_POINT;
   ASSERT_EQ(context.ContextFlags & must_have, must_have);
-  const uint32_t may_have = CONTEXT_EXTENDED_REGISTERS;
+  constexpr uint32_t may_have = CONTEXT_EXTENDED_REGISTERS;
   ASSERT_EQ(context.ContextFlags & ~(must_have | may_have), 0);
 #elif defined(ARCH_CPU_X86_64)
   ASSERT_EQ(context.ContextFlags,

@@ -142,7 +142,7 @@ void SomeCrashyFunction() {
 
 void AllocateExtraMemoryToBeSaved(
     crashpad::SimpleAddressRangeBag* extra_ranges) {
-  const size_t kNumInts = 2000;
+  constexpr size_t kNumInts = 2000;
   int* extra_memory = new int[kNumInts];
   g_extra_memory_pointer = extra_memory;
   for (int i = 0; i < kNumInts; ++i)
@@ -154,7 +154,7 @@ void AllocateExtraMemoryToBeSaved(
 void AllocateExtraUnsavedMemory(crashpad::SimpleAddressRangeBag* extra_ranges) {
   // Allocate some extra memory, and then Insert() but also Remove() it so we
   // can confirm it doesn't get saved.
-  const size_t kNumInts = 2000;
+  constexpr size_t kNumInts = 2000;
   int* extra_memory = new int[kNumInts];
   g_extra_memory_not_saved = extra_memory;
   for (int i = 0; i < kNumInts; ++i)
@@ -211,7 +211,7 @@ int CrashyMain(int argc, wchar_t* argv[]) {
   FreeLibrary(wmerror);
 
   // Make sure data pointed to by the stack is captured.
-  const int kDataSize = 512;
+  constexpr int kDataSize = 512;
   int* pointed_to_data = new int[kDataSize];
   for (int i = 0; i < kDataSize; ++i)
     pointed_to_data[i] = i | ((i % 2 == 0) ? 0x80000000 : 0);

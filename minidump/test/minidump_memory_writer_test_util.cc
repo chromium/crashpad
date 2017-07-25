@@ -37,7 +37,7 @@ void ExpectMinidumpMemoryDescriptor(
   EXPECT_EQ(observed->StartOfMemoryRange, expected->StartOfMemoryRange);
   EXPECT_EQ(observed->Memory.DataSize, expected->Memory.DataSize);
   if (expected->Memory.Rva != 0) {
-    const uint32_t kMemoryAlignment = 16;
+    constexpr uint32_t kMemoryAlignment = 16;
     EXPECT_EQ(observed->Memory.Rva,
               (expected->Memory.Rva + kMemoryAlignment - 1) &
                   ~(kMemoryAlignment - 1));
