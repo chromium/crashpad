@@ -140,7 +140,6 @@
         'net/http_body.h',
         'net/http_body_gzip.cc',
         'net/http_body_gzip.h',
-        'net/http_headers.cc',
         'net/http_headers.h',
         'net/http_multipart_builder.cc',
         'net/http_multipart_builder.h',

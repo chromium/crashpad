@@ -84,9 +84,6 @@ FileHandle OpenFileForOutput(DWORD access,
 
 namespace internal {
 
-const char kNativeReadFunctionName[] = "ReadFile";
-const char kNativeWriteFunctionName[] = "WriteFile";
-
 FileOperationResult NativeWriteFile(FileHandle file,
                                     const void* buffer,
                                     size_t size) {

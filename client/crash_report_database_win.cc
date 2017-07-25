@@ -43,8 +43,8 @@ constexpr wchar_t kSettings[] = L"settings.dat";
 
 constexpr wchar_t kCrashReportFileExtension[] = L"dmp";
 
-const uint32_t kMetadataFileHeaderMagic = 'CPAD';
-const uint32_t kMetadataFileVersion = 1;
+constexpr uint32_t kMetadataFileHeaderMagic = 'CPAD';
+constexpr uint32_t kMetadataFileVersion = 1;
 
 using OperationStatus = CrashReportDatabase::OperationStatus;
 

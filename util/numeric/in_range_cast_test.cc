@@ -25,8 +25,8 @@ namespace crashpad {
 namespace test {
 namespace {
 
-const int32_t kInt32Min = std::numeric_limits<int32_t>::min();
-const int64_t kInt64Min = std::numeric_limits<int64_t>::min();
+constexpr int32_t kInt32Min = std::numeric_limits<int32_t>::min();
+constexpr int64_t kInt64Min = std::numeric_limits<int64_t>::min();
 
 TEST(InRangeCast, Uint32) {
   EXPECT_EQ(InRangeCast<uint32_t>(0, 1), 0u);

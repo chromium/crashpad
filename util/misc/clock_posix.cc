@@ -22,7 +22,7 @@
 
 namespace {
 
-const uint64_t kNanosecondsPerSecond = 1E9;
+constexpr uint64_t kNanosecondsPerSecond = 1E9;
 
 }  // namespace
 

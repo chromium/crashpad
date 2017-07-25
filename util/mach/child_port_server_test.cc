@@ -32,12 +32,12 @@ using testing::Return;
 // Fake Mach ports. These aren’t used as ports in these tests, they’re just used
 // as cookies to make sure that the correct values get passed to the correct
 // places.
-const mach_port_t kServerLocalPort = 0x05050505;
-const mach_port_t kCheckInPort = 0x06060606;
+constexpr mach_port_t kServerLocalPort = 0x05050505;
+constexpr mach_port_t kCheckInPort = 0x06060606;
 
 // Other fake values.
-const mach_msg_type_name_t kCheckInPortRightType = MACH_MSG_TYPE_PORT_SEND;
-const child_port_token_t kCheckInToken = 0xfedcba9876543210;
+constexpr mach_msg_type_name_t kCheckInPortRightType = MACH_MSG_TYPE_PORT_SEND;
+constexpr child_port_token_t kCheckInToken = 0xfedcba9876543210;
 
 // The definition of the request structure from child_port.h isn’t available
 // here. It needs custom initialization code, so duplicate the expected
