@@ -60,6 +60,12 @@ void InitializeCPUContextX86(const ThreadContext::t32_t& thread_context,
 
 }
 
+void InitializeCPUContextX86(const SignalThreadContext32& thread_context,
+                             const SignalFloatContext32& float_context,
+                             CPUContextX86* context) {
+  context->eax = thread_context.eax;
+}
+
 void InitializeCPUContextX86_64(const ThreadContext::t64_t& thread_context,
                                 const FloatContext::f64_t& float_context,
                                 CPUContextX86_64* context) {
@@ -98,6 +104,12 @@ void InitializeCPUContextX86_64(const ThreadContext::t64_t& thread_context,
   context->dr5 = 0;
   context->dr6 = 0;
   context->dr7 = 0;
+}
+
+void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
+                                const SignalFloatContext64& float_context,
+                                CPUContextX86_64* context) {
+  // TODO
 }
 
 #else
