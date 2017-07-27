@@ -110,6 +110,9 @@ void Usage(const base::FilePath& me) {
 "                              set a module annotation in the handler\n"
 "      --monitor-self-argument=ARGUMENT\n"
 "                              provide additional arguments to the second handler\n"
+"      --no-identify-client-via-url\n"
+"                              when uploading crash report, don't add\n"
+"                              client-identifying arguments to URL\n"
 "      --no-periodic-tasks     don't scan for new reports or prune the database\n"
 "      --no-rate-limit         don't rate limit crash uploads\n"
 "      --no-upload-gzip        don't use gzip compression when uploading\n"
@@ -143,6 +146,7 @@ struct Options {
   std::string pipe_name;
   InitialClientData initial_client_data;
 #endif  // OS_MACOSX
+  bool identify_client_via_url;
   bool monitor_self;
   bool periodic_tasks;
   bool rate_limit;
@@ -356,6 +360,9 @@ void MonitorSelf(const Options& options) {
     return;
   }
   std::vector<std::string> extra_arguments(options.monitor_self_arguments);
+  if (!options.identify_client_via_url) {
+    extra_arguments.push_back("--no-identify-client-via-url");
+  }
   extra_arguments.push_back("--no-periodic-tasks");
   if (!options.rate_limit) {
     extra_arguments.push_back("--no-rate-limit");
@@ -420,6 +427,7 @@ int HandlerMain(int argc,
     kOptionMonitorSelf,
     kOptionMonitorSelfAnnotation,
     kOptionMonitorSelfArgument,
+    kOptionNoIdentifyClientViaUrl,
     kOptionNoPeriodicTasks,
     kOptionNoRateLimit,
     kOptionNoUploadGzip,
@@ -461,6 +469,10 @@ int HandlerMain(int argc,
      required_argument,
      nullptr,
      kOptionMonitorSelfArgument},
+    {"no-identify-client-via-url",
+     no_argument,
+     nullptr,
+     kOptionNoIdentifyClientViaUrl},
     {"no-periodic-tasks", no_argument, nullptr, kOptionNoPeriodicTasks},
     {"no-rate-limit", no_argument, nullptr, kOptionNoRateLimit},
     {"no-upload-gzip", no_argument, nullptr, kOptionNoUploadGzip},
@@ -483,6 +495,7 @@ int HandlerMain(int argc,
 #if defined(OS_MACOSX)
   options.handshake_fd = -1;
 #endif
+  options.identify_client_via_url = true;
   options.periodic_tasks = true;
   options.rate_limit = true;
   options.upload_gzip = true;
@@ -545,6 +558,10 @@ int HandlerMain(int argc,
       }
       case kOptionMonitorSelfArgument: {
         options.monitor_self_arguments.push_back(optarg);
+        break;
+      }
+      case kOptionNoIdentifyClientViaUrl: {
+        options.identify_client_via_url = false;
         break;
       }
       case kOptionNoPeriodicTasks: {
@@ -734,11 +751,15 @@ int HandlerMain(int argc,
   // TODO(scottmg): options.rate_limit should be removed when we have a
   // configurable database setting to control upload limiting.
   // See https://crashpad.chromium.org/bug/23.
+  CrashReportUploadThread::Options upload_thread_options;
+  upload_thread_options.identify_client_via_url =
+      options.identify_client_via_url;
+  upload_thread_options.rate_limit = options.rate_limit;
+  upload_thread_options.upload_gzip = options.upload_gzip;
+  upload_thread_options.watch_pending_reports = options.periodic_tasks;
   CrashReportUploadThread upload_thread(database.get(),
                                         options.url,
-                                        options.periodic_tasks,
-                                        options.rate_limit,
-                                        options.upload_gzip);
+                                        upload_thread_options);
   upload_thread.Start();
 
   std::unique_ptr<PruneCrashReportThread> prune_thread;
