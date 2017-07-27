@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd486604_52e1e00a",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-27T22:54:16Z",
+      "side": 1,
+      "message": "Remove the trailing space on this line.",
+      "revId": "519034dd49024400241d9bc9f6343233339493c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b95c332_0831c832",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-27T22:54:16Z",
+      "side": 1,
+      "message": "This should be “static constexpr struct” now. (I’m in the process of migrating much existing code.)",
+      "revId": "519034dd49024400241d9bc9f6343233339493c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72827fd7_77f90cf0",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 14
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-27T22:54:16Z",
+      "side": 1,
+      "message": "const auto\u0026",
+      "range": {
+        "startLine": 407,
+        "startChar": 9,
+        "endLine": 407,
+        "endChar": 19
+      },
+      "revId": "519034dd49024400241d9bc9f6343233339493c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5bb806f_f5ff720b",
+        "filename": "handler/crash_report_upload_thread.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-27T22:54:16Z",
+      "side": 1,
+      "message": "Let’s have a //! \\brief for this too, for generated documentation.\n\n//! \\brief Options to be passed to the CrashReportUploadThread constructor.",
+      "revId": "519034dd49024400241d9bc9f6343233339493c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4515cc37_c6bbc376",
+        "filename": "handler/crash_report_upload_thread.h",
+        "patchSetId": 14
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-27T22:54:16Z",
+      "side": 1,
+      "message": "1. Since you set this in the constructor’s initializer and don’t need to touch it afterwards, use “const Options” for more safety.\n\n2. For better packing, move options_ to be up above the pointers. There probably isn’t any ideal spot for it, you can put it first or right before database_.",
+      "revId": "519034dd49024400241d9bc9f6343233339493c2",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
