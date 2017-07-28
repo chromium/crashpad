@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c53eefb4_c1d47cd0",
+        "filename": "snapshot/linux/cpu_context_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-28T00:21:30Z",
+      "side": 1,
+      "message": "No trailing semicolon. The whole “do {} while (false)” construct is supposed to make sure that the whole macro is treated at the point of use the same way that a function call would with respect to things like semicolons and braces, and you’ve got the requirement to write the semicolon at the point of use, just like you would with a function call. If you include a semicolon in the macro, that breaks. Same in SET_GPRS64().",
+      "range": {
+        "startLine": 45,
+        "startChar": 17,
+        "endLine": 45,
+        "endChar": 18
+      },
+      "revId": "f9b6dd7e9001b450fbac43f4640107984e31137b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b4168d4_fa314c16",
+        "filename": "snapshot/linux/cpu_context_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-28T00:21:30Z",
+      "side": 1,
+      "message": "Bummer, we don’t get fxsave format in SignalFloatContext32?",
+      "revId": "f9b6dd7e9001b450fbac43f4640107984e31137b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30b46781_2b445f94",
+        "filename": "snapshot/linux/cpu_context_linux.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-28T00:21:30Z",
+      "side": 1,
+      "message": "Let’s borrow the doc string from the method above by using //! \\{ and //! \\}. See util/stdlib/string_number_conversion.h for an example. Same for the 64-bit variant below.",
+      "revId": "f9b6dd7e9001b450fbac43f4640107984e31137b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce5d6f58_21534aec",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-28T00:21:30Z",
+      "side": 1,
+      "message": "No ; here either.",
+      "range": {
+        "startLine": 123,
+        "startChar": 17,
+        "endLine": 123,
+        "endChar": 18
+      },
+      "revId": "f9b6dd7e9001b450fbac43f4640107984e31137b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e0c33c1_a96a91f1",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-28T00:21:30Z",
+      "side": 1,
+      "message": "Can we also do a test that raises a signal and works with ExceptionSnapshotLinux from the signal handler, to validate that this is compatible with the data passed from the kernel to a signal handler?",
+      "revId": "f9b6dd7e9001b450fbac43f4640107984e31137b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89f0a64d_83a468d8",
+        "filename": "util/linux/traits.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-28T00:21:30Z",
+      "side": 1,
+      "message": "Not sure about a naked type named “Nothing” out here at “namespace crashpad” scope. Is this something that we want to just have be part of each Traits class? Or can you move it into crashpad::internal?",
+      "revId": "f9b6dd7e9001b450fbac43f4640107984e31137b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19aa01b4_4b8ebfd3",
+        "filename": "util/linux/traits.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-28T00:21:30Z",
+      "side": 1,
+      "message": "#include \u003cstdint.h\u003e",
+      "revId": "f9b6dd7e9001b450fbac43f4640107984e31137b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
