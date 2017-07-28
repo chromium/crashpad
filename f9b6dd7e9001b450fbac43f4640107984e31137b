@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "c18b15bb_bab77caa",
+        "filename": "snapshot/linux/cpu_context_linux.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-28T17:06:53Z",
+      "side": 1,
+      "message": "\u003e It turns out that\u0027s just glibc\u0027s view of it. The kernel uses the extra status word at the end of the SignalFloatContext32 to indicate whether there\u0027s an fxsave following.\n\nI see this now in asm/sigcontext.h. Can we pick up what the kernel’s stuffed there?\n\n\u003e Similarly, the SignalFloatContext64 may actually be an xsave.\n\nThat’d be fine for now, since the first part of an xsave area is compatible with fxsave.",
+      "parentUuid": "aac2751e_eedb5729",
+      "revId": "f9b6dd7e9001b450fbac43f4640107984e31137b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30b46781_2b445f94",
         "filename": "snapshot/linux/cpu_context_linux.h",
         "patchSetId": 7
