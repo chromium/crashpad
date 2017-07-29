@@ -134,7 +134,7 @@ class MinidumpWritable {
 
   //! \brief A size value used to signal failure by methods that return
   //!     `size_t`.
-  static const size_t kInvalidSize;
+  static constexpr size_t kInvalidSize;
 
   MinidumpWritable();
 
