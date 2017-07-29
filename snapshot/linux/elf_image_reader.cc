@@ -20,6 +20,7 @@
 #include <vector>
 
 #include "base/logging.h"
+#include "build/build_config.h"
 
 namespace crashpad {
 
