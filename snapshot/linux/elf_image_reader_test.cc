@@ -18,6 +18,7 @@
 #include <unistd.h>
 
 #include "base/logging.h"
+#include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
