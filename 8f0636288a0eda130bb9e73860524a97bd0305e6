@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a818b1fe_74e1e93b",
+        "filename": "minidump/minidump_writable.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-07-29T01:17:33Z",
+      "side": 0,
+      "message": "https://build.chromium.org/p/client.crashpad/builders/crashpad_win_x86_wow64_dbg/builds/467/steps/compile%20with%20ninja/logs/stdio:\n\n…\\crashpad\\minidump\\minidump_writable.cc(85): error C2370: \u0027kInvalidSize\u0027: redefinition; different storage class\n…\\crashpad\\minidump\\minidump_writable.h(137): note: see declaration of \u0027kInvalidSize\u0027",
+      "revId": "8f0636288a0eda130bb9e73860524a97bd0305e6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
