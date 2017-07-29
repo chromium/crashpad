@@ -13,6 +13,7 @@ var searchData=
   ['debug_5fcontrol',['debug_control',['../structcrashpad_1_1MinidumpContextAMD64.html#a65f302dd9d5ad77f4fca9cb0b176ac91',1,'crashpad::MinidumpContextAMD64']]],
   ['debugdirectoryinformation',['DebugDirectoryInformation',['../classcrashpad_1_1PEImageReader.html#a9c82a9323b9484d7f68343fb1ba55e87',1,'crashpad::PEImageReader']]],
   ['debugfilename',['DebugFileName',['../classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a62bb8650ee3d30f289e70b9bd6c0bde3',1,'crashpad::internal::ModuleSnapshotMac::DebugFileName()'],['../classcrashpad_1_1internal_1_1ModuleSnapshotMinidump.html#ab5640b14a706cc30ade77dd4dba6e1c7',1,'crashpad::internal::ModuleSnapshotMinidump::DebugFileName()'],['../classcrashpad_1_1ModuleSnapshot.html#aa08595e35c34bb13e456cddb4f40f698',1,'crashpad::ModuleSnapshot::DebugFileName()'],['../classcrashpad_1_1test_1_1TestModuleSnapshot.html#a718634cb14e12d27fd1e531dd292a3be',1,'crashpad::test::TestModuleSnapshot::DebugFileName()'],['../classcrashpad_1_1internal_1_1ModuleSnapshotWin.html#ae819d7011878cb9aed89cd1b693cc721',1,'crashpad::internal::ModuleSnapshotWin::DebugFileName()']]],
+  ['debugrendezvous',['DebugRendezvous',['../classcrashpad_1_1DebugRendezvous.html',1,'crashpad']]],
   ['decrementthreadsuspendcounts',['DecrementThreadSuspendCounts',['../classcrashpad_1_1ProcessReaderWin.html#a7e381af0ba9565d55d2bc6b58d0c55bc',1,'crashpad::ProcessReaderWin']]],
   ['defaultinterface',['DefaultInterface',['../classcrashpad_1_1NotifyServer_1_1DefaultInterface.html',1,'crashpad::NotifyServer']]],
   ['delegate',['Delegate',['../classcrashpad_1_1MinidumpUserExtensionStreamDataSource_1_1Delegate.html',1,'crashpad::MinidumpUserExtensionStreamDataSource::Delegate'],['../classcrashpad_1_1internal_1_1CaptureMemory_1_1Delegate.html',1,'crashpad::internal::CaptureMemory::Delegate'],['../classcrashpad_1_1MemorySnapshot_1_1Delegate.html',1,'crashpad::MemorySnapshot::Delegate'],['../classcrashpad_1_1WorkerThread_1_1Delegate.html',1,'crashpad::WorkerThread::Delegate'],['../classcrashpad_1_1ExceptionHandlerServer_1_1Delegate.html',1,'crashpad::ExceptionHandlerServer::Delegate']]],
@@ -51,5 +52,6 @@ var searchData=
   ['dyldallimageinfo',['DyldAllImageInfo',['../classcrashpad_1_1ProcessReader.html#a653ed07c8b41c82ddc35a6390d74d3b7',1,'crashpad::ProcessReader']]],
   ['dyldgetallimageinfos',['DyldGetAllImageInfos',['../namespacecrashpad_1_1test.html#ab80403780da9c07617b44d8d7db7c618',1,'crashpad::test']]],
   ['dylibversion',['DylibVersion',['../classcrashpad_1_1MachOImageReader.html#a42cdb8f4d8dc4ab9b768b1219133ab2c',1,'crashpad::MachOImageReader']]],
-  ['dylinkername',['DylinkerName',['../classcrashpad_1_1MachOImageReader.html#a0d74f905f989440e4602371c3b1f148d',1,'crashpad::MachOImageReader']]]
+  ['dylinkername',['DylinkerName',['../classcrashpad_1_1MachOImageReader.html#a0d74f905f989440e4602371c3b1f148d',1,'crashpad::MachOImageReader']]],
+  ['dynamic_5farray',['dynamic_array',['../structcrashpad_1_1DebugRendezvous_1_1LinkEntry.html#a44b89b02c92d6f4259e8f73943b4211d',1,'crashpad::DebugRendezvous::LinkEntry']]]
 ];

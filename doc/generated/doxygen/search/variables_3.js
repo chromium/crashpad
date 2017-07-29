@@ -21,5 +21,6 @@ var searchData=
   ['dwproductversionls',['dwProductVersionLS',['../structVS__FIXEDFILEINFO.html#ab0c366cc2209dbeee9df2b0ebcf35f8d',1,'VS_FIXEDFILEINFO']]],
   ['dwproductversionms',['dwProductVersionMS',['../structVS__FIXEDFILEINFO.html#a5c4dc629bfbf8323b63f38387fc6fc43',1,'VS_FIXEDFILEINFO']]],
   ['dwsignature',['dwSignature',['../structVS__FIXEDFILEINFO.html#aaa1975d235ec02eb376252c9aa7b643e',1,'VS_FIXEDFILEINFO']]],
-  ['dwstrucversion',['dwStrucVersion',['../structVS__FIXEDFILEINFO.html#a174a71f3cf4f6fc58c95c048c0f72b2a',1,'VS_FIXEDFILEINFO']]]
+  ['dwstrucversion',['dwStrucVersion',['../structVS__FIXEDFILEINFO.html#a174a71f3cf4f6fc58c95c048c0f72b2a',1,'VS_FIXEDFILEINFO']]],
+  ['dynamic_5farray',['dynamic_array',['../structcrashpad_1_1DebugRendezvous_1_1LinkEntry.html#a44b89b02c92d6f4259e8f73943b4211d',1,'crashpad::DebugRendezvous::LinkEntry']]]
 ];

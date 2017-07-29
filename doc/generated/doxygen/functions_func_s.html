@@ -429,7 +429,9 @@ $(function() {
 : <a class="el" href="classcrashpad_1_1CheckedRange.html#a185760aec935f2274f223107c3cd2944">crashpad::CheckedRange&lt; ValueType, SizeType &gt;</a>
 </li>
 <li>Size()
-: <a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#aaaea0395d445220754c02667af5d6e84">crashpad::internal::CheckedAddressRangeGeneric&lt; ValueType, SizeType &gt;</a>
+: <a class="el" href="classcrashpad_1_1ElfImageReader.html#a16f4a7dcdccef43ac24b4ff3457ed67c">crashpad::ElfImageReader</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#aaaea0395d445220754c02667af5d6e84">crashpad::internal::CheckedAddressRangeGeneric&lt; ValueType, SizeType &gt;</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotLinux.html#aeeadba32c3cfffdd1c89a559b051f5a6">crashpad::internal::MemorySnapshotLinux</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotMac.html#a3074ac3abde91e344d91ed248f998392">crashpad::internal::MemorySnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1MemorySnapshotWin.html#a5f30decda61769a4fefd65b4be40a831">crashpad::internal::MemorySnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ModuleSnapshotMac.html#a084373912d84b791e4c13a2229976e06">crashpad::internal::ModuleSnapshotMac</a>
@@ -440,6 +442,7 @@ $(function() {
 , <a class="el" href="classcrashpad_1_1MemorySnapshot.html#ac94668a2a24a64c3e60efd8c30e09afd">crashpad::MemorySnapshot</a>
 , <a class="el" href="classcrashpad_1_1ModuleSnapshot.html#ac412fbdc86c4b0862f74f7b06170469a">crashpad::ModuleSnapshot</a>
 , <a class="el" href="classcrashpad_1_1PEImageReader.html#a5278d5065963128bd45873eba489c8c3">crashpad::PEImageReader</a>
+, <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html#ac775497b681cb3471211a2bf2114d779">crashpad::ProcessMemoryRange</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestMemorySnapshot.html#a6af5648bca88c709a75c129f96893087">crashpad::test::TestMemorySnapshot</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#ac0d8018d626a6d53f6a9bd674e0a9623">crashpad::test::TestModuleSnapshot</a>
 , <a class="el" href="classcrashpad_1_1UnloadedModuleSnapshot.html#a57acf8beed7c518d30331475c7849ab7">crashpad::UnloadedModuleSnapshot</a>
@@ -494,7 +497,8 @@ $(function() {
 , <a class="el" href="classcrashpad_1_1test_1_1TestModuleSnapshot.html#ad276752e9ca47b67d5e36991f0816009">crashpad::test::TestModuleSnapshot</a>
 </li>
 <li>Stack()
-: <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a5b63ca812f667219928f2f0dd3f9d846">crashpad::internal::ThreadSnapshotMac</a>
+: <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#a320db9f1c56efbaf0214ecbfd2744bab">crashpad::internal::ThreadSnapshotLinux</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a5b63ca812f667219928f2f0dd3f9d846">crashpad::internal::ThreadSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#ac069bf4439cbb2be3b243460d7717826">crashpad::internal::ThreadSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1MinidumpThreadWriter.html#a9fdcc0a4e701ff08d15c82c54eae6df4">crashpad::MinidumpThreadWriter</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a47ec986683a5aed362ecba9f092c61bf">crashpad::test::TestThreadSnapshot</a>
@@ -514,6 +518,7 @@ $(function() {
 : <a class="el" href="classcrashpad_1_1ProcessInfo.html#a2022cf75ceb87ed7b1f9b8c5cf6ff951">crashpad::ProcessInfo</a>
 , <a class="el" href="classcrashpad_1_1ProcessReader.html#abb659e5a0daba4aa21bd0f66789550d8">crashpad::ProcessReader</a>
 , <a class="el" href="classcrashpad_1_1ProcessReaderWin.html#ac195b620d6522e48683eaaa203537f6f">crashpad::ProcessReaderWin</a>
+, <a class="el" href="classcrashpad_1_1ProcStatReader.html#aa2b29dd0400eafde943c44482cfc2714">crashpad::ProcStatReader</a>
 </li>
 <li>state()
 : <a class="el" href="classcrashpad_1_1InitializationState.html#a60718e8a3f45af645752090dcc1e5508">crashpad::InitializationState</a>
@@ -564,7 +569,8 @@ $(function() {
 : <a class="el" href="classcrashpad_1_1ProcessInfo.html#ab2740f351f520816cf26043aae984d79">crashpad::ProcessInfo</a>
 </li>
 <li>SuspendCount()
-: <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#ab285ef89616ae6c9a48a9052bd917e37">crashpad::internal::ThreadSnapshotMac</a>
+: <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#a79d6e1c1d33d4a5fea1c7e23d454d64f">crashpad::internal::ThreadSnapshotLinux</a>
+, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#ab285ef89616ae6c9a48a9052bd917e37">crashpad::internal::ThreadSnapshotMac</a>
 , <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#ad0f0966f362f6e02f59d3aa436990a15">crashpad::internal::ThreadSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#aa14d795531c637056d3312cf2b38a9e7">crashpad::test::TestThreadSnapshot</a>
 , <a class="el" href="classcrashpad_1_1ThreadSnapshot.html#abe00a7e9cbc55366a545700517762d5c">crashpad::ThreadSnapshot</a>
@@ -575,6 +581,9 @@ $(function() {
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotMinidump.html#aa683e2031df211c36f207924f6c45ace">crashpad::ProcessSnapshotMinidump</a>
 , <a class="el" href="classcrashpad_1_1ProcessSnapshotWin.html#a187541e1a736d7c566cbc4fdd5a2111f">crashpad::ProcessSnapshotWin</a>
 , <a class="el" href="classcrashpad_1_1test_1_1TestProcessSnapshot.html#a61e52051b302138d1aae28d8d36c9bfd">crashpad::test::TestProcessSnapshot</a>
+</li>
+<li>SystemCPUTime()
+: <a class="el" href="classcrashpad_1_1ProcStatReader.html#ac335f580ac74a24cce979c5874394d1f">crashpad::ProcStatReader</a>
 </li>
 </ul>
 </div><!-- contents -->

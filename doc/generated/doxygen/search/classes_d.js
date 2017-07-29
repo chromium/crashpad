@@ -32,6 +32,7 @@ var searchData=
   ['process_5fbasic_5finformation',['PROCESS_BASIC_INFORMATION',['../structcrashpad_1_1process__types_1_1PROCESS__BASIC__INFORMATION.html',1,'crashpad::process_types']]],
   ['processinfo',['ProcessInfo',['../classcrashpad_1_1ProcessInfo.html',1,'crashpad']]],
   ['processmemory',['ProcessMemory',['../classcrashpad_1_1ProcessMemory.html',1,'crashpad']]],
+  ['processmemoryrange',['ProcessMemoryRange',['../classcrashpad_1_1ProcessMemoryRange.html',1,'crashpad']]],
   ['processreader',['ProcessReader',['../classcrashpad_1_1ProcessReader.html',1,'crashpad']]],
   ['processreaderwin',['ProcessReaderWin',['../classcrashpad_1_1ProcessReaderWin.html',1,'crashpad']]],
   ['processsnapshot',['ProcessSnapshot',['../classcrashpad_1_1ProcessSnapshot.html',1,'crashpad']]],
@@ -39,6 +40,9 @@ var searchData=
   ['processsnapshotminidump',['ProcessSnapshotMinidump',['../classcrashpad_1_1ProcessSnapshotMinidump.html',1,'crashpad']]],
   ['processsnapshotwin',['ProcessSnapshotWin',['../classcrashpad_1_1ProcessSnapshotWin.html',1,'crashpad']]],
   ['processsubrangereader',['ProcessSubrangeReader',['../classcrashpad_1_1ProcessSubrangeReader.html',1,'crashpad']]],
+  ['procstatreader',['ProcStatReader',['../classcrashpad_1_1ProcStatReader.html',1,'crashpad']]],
+  ['programheadertable',['ProgramHeaderTable',['../classcrashpad_1_1ElfImageReader_1_1ProgramHeaderTable.html',1,'crashpad::ElfImageReader']]],
+  ['programheadertablespecific',['ProgramHeaderTableSpecific',['../classcrashpad_1_1ElfImageReader_1_1ProgramHeaderTableSpecific.html',1,'crashpad::ElfImageReader']]],
   ['prunecondition',['PruneCondition',['../classcrashpad_1_1PruneCondition.html',1,'crashpad']]],
   ['prunecrashreportthread',['PruneCrashReportThread',['../classcrashpad_1_1PruneCrashReportThread.html',1,'crashpad']]]
 ];

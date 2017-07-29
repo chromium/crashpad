@@ -151,8 +151,20 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1DatabaseSizePruneCondition.html">DatabaseSizePruneCondition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcrashpad_1_1PruneCondition.html" title="An abstract base class for evaluating crash reports for deletion. ">PruneCondition</a> that deletes older reports to keep the total Crashpad database size under the specified limit.  <a href="classcrashpad_1_1DatabaseSizePruneCondition.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1DebugRendezvous.html">DebugRendezvous</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an <code>r_debug</code> struct defined in <code>&lt;link.h&gt;</code> via <a class="el" href="classcrashpad_1_1ProcessMemoryRange.html" title="Provides range protected access to the memory of another process. ">ProcessMemoryRange</a>.  <a href="classcrashpad_1_1DebugRendezvous.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1DelimitedFileReader.html">DelimitedFileReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a file one field or line at a time.  <a href="classcrashpad_1_1DelimitedFileReader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfDynamicArrayReader.html">ElfDynamicArrayReader</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reader for ELF dynamic arrays mapped into another process.  <a href="classcrashpad_1_1ElfDynamicArrayReader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfImageReader.html">ElfImageReader</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reader for ELF images mapped into another process.  <a href="classcrashpad_1_1ElfImageReader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ElfSymbolTableReader.html">ElfSymbolTableReader</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reader for symbol tables in ELF images mapped into another process.  <a href="classcrashpad_1_1ElfSymbolTableReader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ExceptionHandlerServer.html">ExceptionHandlerServer</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the main exception-handling server in Crashpad’s handler process.  <a href="classcrashpad_1_1ExceptionHandlerServer.html#details">More...</a><br /></td></tr>
@@ -375,8 +387,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemory.html">ProcessMemory</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accesses the memory of another process.  <a href="classcrashpad_1_1ProcessMemory.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessMemoryRange.html">ProcessMemoryRange</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides range protected access to the memory of another process.  <a href="classcrashpad_1_1ProcessMemoryRange.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReader.html">ProcessReader</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accesses information about another process, identified by a Mach task.  <a href="classcrashpad_1_1ProcessReader.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accesses information about another process, identified by a process ID.  <a href="classcrashpad_1_1ProcessReader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessReaderWin.html">ProcessReaderWin</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accesses information about another process, identified by a <code>HANDLE</code>.  <a href="classcrashpad_1_1ProcessReaderWin.html#details">More...</a><br /></td></tr>
@@ -395,6 +410,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcessSubrangeReader.html">ProcessSubrangeReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A wrapper for <a class="el" href="classcrashpad_1_1ProcessReaderWin.html" title="Accesses information about another process, identified by a HANDLE. ">ProcessReaderWin</a> that only allows a specific subrange to be read from.  <a href="classcrashpad_1_1ProcessSubrangeReader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1ProcStatReader.html">ProcStatReader</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the /proc/[pid]/stat file for a thread.  <a href="classcrashpad_1_1ProcStatReader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1PruneCondition.html">PruneCondition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstract base class for evaluating crash reports for deletion.  <a href="classcrashpad_1_1PruneCondition.html#details">More...</a><br /></td></tr>
@@ -549,7 +567,8 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nam
 <tr class="memdesc:a9daa1b956487883acd9f43d13cc77339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scoped wrapper of a FileHandle. <br /></td></tr>
 <tr class="separator:a9daa1b956487883acd9f43d13cc77339"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25465a3a2d289a06addf93c346c6f917"><td class="memItemLeft" align="right" valign="top"><a id="a25465a3a2d289a06addf93c346c6f917"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>FileOperationResult</b> = ssize_t</td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a25465a3a2d289a06addf93c346c6f917">FileOperationResult</a> = ssize_t</td></tr>
+<tr class="memdesc:a25465a3a2d289a06addf93c346c6f917"><td class="mdescLeft">&#160;</td><td class="mdescRight">The return value of read and write calls. <br /></td></tr>
 <tr class="separator:a25465a3a2d289a06addf93c346c6f917"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb197256391fbfca91f9a7e5c911db45"><td class="memItemLeft" align="right" valign="top"><a id="acb197256391fbfca91f9a7e5c911db45"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a> = uint64_t</td></tr>
@@ -559,6 +578,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nam
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a> = uint64_t</td></tr>
 <tr class="memdesc:aa2b5b2818842bda12ff9c4d555c2c8c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to represent the size of a memory range (with a LinuxVMAddress), potentially across bitness. <br /></td></tr>
 <tr class="separator:aa2b5b2818842bda12ff9c4d555c2c8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaceb37fb2d50bfedc7242a92e962df3f"><td class="memItemLeft" align="right" valign="top"><a id="aaceb37fb2d50bfedc7242a92e962df3f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#aaceb37fb2d50bfedc7242a92e962df3f">LinuxVMOffset</a> = int64_t</td></tr>
+<tr class="memdesc:aaceb37fb2d50bfedc7242a92e962df3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to represent an offset from a LinuxVMAddress, potentially across bitness. <br /></td></tr>
+<tr class="separator:aaceb37fb2d50bfedc7242a92e962df3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3efce65e2b78974531f2cb663f352d9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ab3efce65e2b78974531f2cb663f352d9">CheckedLinuxAddressRange</a> = <a class="el" href="classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html">internal::CheckedAddressRangeGeneric</a>&lt; <a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>, <a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a> &gt;</td></tr>
 <tr class="memdesc:ab3efce65e2b78974531f2cb663f352d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensures that a range, composed of a base and a size, does not overflow the pointer type of the process it describes a range in.  <a href="#ab3efce65e2b78974531f2cb663f352d9">More...</a><br /></td></tr>
 <tr class="separator:ab3efce65e2b78974531f2cb663f352d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -655,12 +678,12 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a589b4d9bd6f2233b67148ab6793c3c13"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a589b4d9bd6f2233b67148ab6793c3c13">XattrStatus</a> <tr class="memdesc:a589b4d9bd6f2233b67148ab6793c3c13"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result code for a ReadXattr operation.  <a href="namespacecrashpad.html#a589b4d9bd6f2233b67148ab6793c3c13">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a589b4d9bd6f2233b67148ab6793c3c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0720c6dd92c22f4946aeeb17d638f5ab"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: mach_msg_timeout_t <tr class="memdesc:a0720c6dd92c22f4946aeeb17d638f5ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <code>mach_msg_timeout_t</code> values.  <a href="namespacecrashpad.html#a0720c6dd92c22f4946aeeb17d638f5ab">More...</a><br /></td></tr>
+<tr class="memitem:a217c8826b1e8ca5539eee63b3ab9e612"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: mach_msg_timeout_t <tr class="memdesc:a217c8826b1e8ca5539eee63b3ab9e612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <code>mach_msg_timeout_t</code> values.  <a href="namespacecrashpad.html#a217c8826b1e8ca5539eee63b3ab9e612">More...</a><br /></td></tr>
 </td></tr>
-<tr class="separator:a0720c6dd92c22f4946aeeb17d638f5ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a124c0056f68c3859092b317f486fae9c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: MachMessageDeadline <tr class="memdesc:a124c0056f68c3859092b317f486fae9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> values.  <a href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9c">More...</a><br /></td></tr>
+<tr class="separator:a217c8826b1e8ca5539eee63b3ab9e612"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5bc1165e2d5a398f6f9da42b873a55"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">: MachMessageDeadline <tr class="memdesc:a2b5bc1165e2d5a398f6f9da42b873a55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Special constants used as <a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> values.  <a href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55">More...</a><br /></td></tr>
 </td></tr>
-<tr class="separator:a124c0056f68c3859092b317f486fae9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a2b5bc1165e2d5a398f6f9da42b873a55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7856b82b71167792ea6103debb5105ed"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed">SymbolicConstantToStringOptionBits</a> <tr class="memdesc:a7856b82b71167792ea6103debb5105ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for various <code>*ToString</code> functions in <code>symbolic_constants_*</code> files.  <a href="namespacecrashpad.html#a7856b82b71167792ea6103debb5105ed">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a7856b82b71167792ea6103debb5105ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -670,15 +693,15 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a3b405c19a5787fabcfba96001d49f292"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">TriState</a> : uint8_t <tr class="memdesc:a3b405c19a5787fabcfba96001d49f292"><td class="mdescLeft">&#160;</td><td class="mdescRight">A tri-state value that can be unset, on, or off.  <a href="namespacecrashpad.html#a3b405c19a5787fabcfba96001d49f292">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a3b405c19a5787fabcfba96001d49f292"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9db1ed26b36a3dd229fb4e8411340eee"><td class="memItemLeft" align="right" valign="top"><a id="a9db1ed26b36a3dd229fb4e8411340eee"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a9db1ed26b36a3dd229fb4e8411340eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1f536a40ddc32523fde6ec2b242f569"><td class="memItemLeft" align="right" valign="top"><a id="ae1f536a40ddc32523fde6ec2b242f569"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:ae1f536a40ddc32523fde6ec2b242f569"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eacd702be5b170b68c1eab828d59a31"><td class="memItemLeft" align="right" valign="top"><a id="a0eacd702be5b170b68c1eab828d59a31"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a0eacd702be5b170b68c1eab828d59a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a741427cd088f51e4a1a3401c9ec67352"><td class="memItemLeft" align="right" valign="top"><a id="a741427cd088f51e4a1a3401c9ec67352"></a>enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a741427cd088f51e4a1a3401c9ec67352"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf909fcc58999f95ab1a2d485a3b884f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">TerminationCodes</a> : unsigned int <tr class="memdesc:acf909fcc58999f95ab1a2d485a3b884f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crashpad-specific codes that are used as arguments to SafeTerminateProcess() or <code>TerminateProcess()</code> in unusual circumstances.  <a href="namespacecrashpad.html#acf909fcc58999f95ab1a2d485a3b884f">More...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:acf909fcc58999f95ab1a2d485a3b884f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24b09ceb3508dd862a91ce02f0583ae8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a24b09ceb3508dd862a91ce02f0583ae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49097714a5193c715c4f09ca7742d485"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a49097714a5193c715c4f09ca7742d485"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -752,7 +775,7 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 <tr class="memitem:ac7cb2e4837a6fda169cbe92d1603460f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ac7cb2e4837a6fda169cbe92d1603460f">CheckedCloseFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file)</td></tr>
 <tr class="memdesc:ac7cb2e4837a6fda169cbe92d1603460f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps <code>close()</code> or <code>CloseHandle()</code>, ensuring that it succeeds.  <a href="#ac7cb2e4837a6fda169cbe92d1603460f">More...</a><br /></td></tr>
 <tr class="separator:ac7cb2e4837a6fda169cbe92d1603460f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8599600814a17d622766decd5f122a96"><td class="memItemLeft" align="right" valign="top">FileOperationResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96">ReadFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, void *buffer, size_t size)</td></tr>
+<tr class="memitem:a8599600814a17d622766decd5f122a96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a25465a3a2d289a06addf93c346c6f917">FileOperationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a8599600814a17d622766decd5f122a96">ReadFile</a> (<a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a> file, void *buffer, size_t size)</td></tr>
 <tr class="memdesc:a8599600814a17d622766decd5f122a96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads from a file, retrying when interrupted before reading any data on POSIX.  <a href="#a8599600814a17d622766decd5f122a96">More...</a><br /></td></tr>
 <tr class="separator:a8599600814a17d622766decd5f122a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7987df05e1260e6d8d93ee3a21e9b0eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7987df05e1260e6d8d93ee3a21e9b0eb">OpenFileForRead</a> (const base::FilePath &amp;path)</td></tr>
@@ -957,10 +980,29 @@ template bool&#160;</td><td class="memItemRight" valign="bottom"><b>PEImageReade
 <tr class="memitem:aa84c4880b695542867ee6ac872f0f98f"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#aa84c4880b695542867ee6ac872f0f98f">FromPointerCast</a> (From from)</td></tr>
 <tr class="memdesc:aa84c4880b695542867ee6ac872f0f98f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts from a pointer type to an integer.  <a href="#aa84c4880b695542867ee6ac872f0f98f">More...</a><br /></td></tr>
 <tr class="separator:aa84c4880b695542867ee6ac872f0f98f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a076e2d18f70b3edd2e1195fe699aeb73"><td class="memTemplParams" colspan="2"><a id="a076e2d18f70b3edd2e1195fe699aeb73"></a>
+<tr class="memitem:a97eb7be14f9f8d0aea6621fddbd4ff07"><td class="memTemplParams" colspan="2"><a id="a97eb7be14f9f8d0aea6621fddbd4ff07"></a>
 template&lt;typename To , typename From &gt; </td></tr>
-<tr class="memitem:a076e2d18f70b3edd2e1195fe699aeb73"><td class="memTemplItemLeft" align="right" valign="top">To&#160;</td><td class="memTemplItemRight" valign="bottom"><b>implicit_cast</b> (From const &amp;f)</td></tr>
-<tr class="separator:a076e2d18f70b3edd2e1195fe699aeb73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97eb7be14f9f8d0aea6621fddbd4ff07"><td class="memTemplItemLeft" align="right" valign="top">constexpr To&#160;</td><td class="memTemplItemRight" valign="bottom"><b>implicit_cast</b> (From const &amp;f)</td></tr>
+<tr class="separator:a97eb7be14f9f8d0aea6621fddbd4ff07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad37351a34cc3b9282a1f590062b5368d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ad37351a34cc3b9282a1f590062b5368d">AdvancePastPrefix</a> (const char **input, const char *pattern)</td></tr>
+<tr class="memdesc:ad37351a34cc3b9282a1f590062b5368d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Match a pattern at the start of a char string.  <a href="#ad37351a34cc3b9282a1f590062b5368d">More...</a><br /></td></tr>
+<tr class="separator:ad37351a34cc3b9282a1f590062b5368d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a2aeb6f5cc4e5b302c6da3141e1b9c4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a2a2aeb6f5cc4e5b302c6da3141e1b9c4"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a2a2aeb6f5cc4e5b302c6da3141e1b9c4">AdvancePastNumber</a> (const char **input, T *value)</td></tr>
+<tr class="memdesc:a2a2aeb6f5cc4e5b302c6da3141e1b9c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a prefix of a char string to a numeric value.  <a href="#a2a2aeb6f5cc4e5b302c6da3141e1b9c4">More...</a><br /></td></tr>
+<tr class="separator:a2a2aeb6f5cc4e5b302c6da3141e1b9c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c27a6c1cd102df597d0c61b2416987b"><td class="memItemLeft" align="right" valign="top"><a id="a0c27a6c1cd102df597d0c61b2416987b"></a>
+template bool&#160;</td><td class="memItemRight" valign="bottom"><b>AdvancePastNumber</b> (const char **input, int *value)</td></tr>
+<tr class="separator:a0c27a6c1cd102df597d0c61b2416987b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade7389c5df4bfa776ede4af3234b177f"><td class="memItemLeft" align="right" valign="top"><a id="ade7389c5df4bfa776ede4af3234b177f"></a>
+template bool&#160;</td><td class="memItemRight" valign="bottom"><b>AdvancePastNumber</b> (const char **input, unsigned int *value)</td></tr>
+<tr class="separator:ade7389c5df4bfa776ede4af3234b177f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a8008ce6dd10c2d8584bc0c2472a0ab"><td class="memItemLeft" align="right" valign="top"><a id="a5a8008ce6dd10c2d8584bc0c2472a0ab"></a>
+template bool&#160;</td><td class="memItemRight" valign="bottom"><b>AdvancePastNumber</b> (const char **input, int64_t *value)</td></tr>
+<tr class="separator:a5a8008ce6dd10c2d8584bc0c2472a0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacb210d6ced91b270efd2380b325bb61"><td class="memItemLeft" align="right" valign="top"><a id="aacb210d6ced91b270efd2380b325bb61"></a>
+template bool&#160;</td><td class="memItemRight" valign="bottom"><b>AdvancePastNumber</b> (const char **input, uint64_t *value)</td></tr>
+<tr class="separator:aacb210d6ced91b270efd2380b325bb61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ab15d0aff86a0aafe6f33cbd8913441c7">RandomString</a> ()</td></tr>
 <tr class="memdesc:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a random string.  <a href="#ab15d0aff86a0aafe6f33cbd8913441c7">More...</a><br /></td></tr>
 <tr class="separator:ab15d0aff86a0aafe6f33cbd8913441c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1214,31 +1256,31 @@ int *&#160;</td><td class="memItemRight" valign="bottom"><b>g_extra_memory_not_s
 const <a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#add54baa0f53825b93f3aab2fcafce367">kInvalidFileHandle</a> = -1</td></tr>
 <tr class="memdesc:add54baa0f53825b93f3aab2fcafce367"><td class="mdescLeft">&#160;</td><td class="mdescRight">A value that can never be a valid FileHandle. <br /></td></tr>
 <tr class="separator:add54baa0f53825b93f3aab2fcafce367"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c7b6c8b4f44c95c7f0fb70a56342277"><td class="memItemLeft" align="right" valign="top">const mach_port_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7c7b6c8b4f44c95c7f0fb70a56342277">kMachPortNull</a> = MACH_PORT_NULL</td></tr>
-<tr class="memdesc:a7c7b6c8b4f44c95c7f0fb70a56342277"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>MACH_PORT_NULL</code> with the correct type for a Mach port, <code>mach_port_t</code>.  <a href="#a7c7b6c8b4f44c95c7f0fb70a56342277">More...</a><br /></td></tr>
-<tr class="separator:a7c7b6c8b4f44c95c7f0fb70a56342277"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dbcba9449a5dd47d2911b1f85bc1a58"><td class="memItemLeft" align="right" valign="top">const exception_behavior_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a7dbcba9449a5dd47d2911b1f85bc1a58">kMachExceptionCodes</a> = MACH_EXCEPTION_CODES</td></tr>
-<tr class="memdesc:a7dbcba9449a5dd47d2911b1f85bc1a58"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>MACH_EXCEPTION_CODES</code> with the correct type for a Mach exception behavior, <code>exception_behavior_t</code>.  <a href="#a7dbcba9449a5dd47d2911b1f85bc1a58">More...</a><br /></td></tr>
-<tr class="separator:a7dbcba9449a5dd47d2911b1f85bc1a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad22bbde846a82173474ba002116c325c"><td class="memItemLeft" align="right" valign="top"><a id="ad22bbde846a82173474ba002116c325c"></a>
-const exception_type_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ad22bbde846a82173474ba002116c325c">kMachExceptionSimulated</a> = 'CPsx'</td></tr>
-<tr class="memdesc:ad22bbde846a82173474ba002116c325c"><td class="mdescLeft">&#160;</td><td class="mdescRight">An exception type to use for simulated exceptions. <br /></td></tr>
-<tr class="separator:ad22bbde846a82173474ba002116c325c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2673983f0177685e048be73ee578eddb"><td class="memItemLeft" align="right" valign="top">const mach_msg_option_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a2673983f0177685e048be73ee578eddb">kMachMessageReceiveAuditTrailer</a></td></tr>
-<tr class="memdesc:a2673983f0177685e048be73ee578eddb"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Mach message option specifying that an audit trailer should be delivered during a receive operation.  <a href="#a2673983f0177685e048be73ee578eddb">More...</a><br /></td></tr>
-<tr class="separator:a2673983f0177685e048be73ee578eddb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0af855b48de54cc50ef186da37cb769"><td class="memItemLeft" align="right" valign="top"><a id="ae0af855b48de54cc50ef186da37cb769"></a>
-const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#ae0af855b48de54cc50ef186da37cb769">kContentType</a> [] = &quot;Content-Type&quot;</td></tr>
-<tr class="memdesc:ae0af855b48de54cc50ef186da37cb769"><td class="mdescLeft">&#160;</td><td class="mdescRight">The header name <code>"Content-Type"</code>. <br /></td></tr>
-<tr class="separator:ae0af855b48de54cc50ef186da37cb769"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a281b3c75cd8b0ae8ba3c9658a60bf2b3"><td class="memItemLeft" align="right" valign="top"><a id="a281b3c75cd8b0ae8ba3c9658a60bf2b3"></a>
-const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a281b3c75cd8b0ae8ba3c9658a60bf2b3">kContentLength</a> [] = &quot;Content-Length&quot;</td></tr>
-<tr class="memdesc:a281b3c75cd8b0ae8ba3c9658a60bf2b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The header name <code>"Content-Length"</code>. <br /></td></tr>
-<tr class="separator:a281b3c75cd8b0ae8ba3c9658a60bf2b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9eb387ab361a9f81c766833c066d4e8f"><td class="memItemLeft" align="right" valign="top"><a id="a9eb387ab361a9f81c766833c066d4e8f"></a>
-const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a9eb387ab361a9f81c766833c066d4e8f">kContentEncoding</a> [] = &quot;Content-Encoding&quot;</td></tr>
-<tr class="memdesc:a9eb387ab361a9f81c766833c066d4e8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The header name <code>"Content-Encoding"</code>. <br /></td></tr>
-<tr class="separator:a9eb387ab361a9f81c766833c066d4e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a253712a6760b4b8a54dbcc8943692731"><td class="memItemLeft" align="right" valign="top">constexpr mach_port_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a253712a6760b4b8a54dbcc8943692731">kMachPortNull</a> = MACH_PORT_NULL</td></tr>
+<tr class="memdesc:a253712a6760b4b8a54dbcc8943692731"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>MACH_PORT_NULL</code> with the correct type for a Mach port, <code>mach_port_t</code>.  <a href="#a253712a6760b4b8a54dbcc8943692731">More...</a><br /></td></tr>
+<tr class="separator:a253712a6760b4b8a54dbcc8943692731"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0999f3c072971348f71f196848fcde12"><td class="memItemLeft" align="right" valign="top">constexpr exception_behavior_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a0999f3c072971348f71f196848fcde12">kMachExceptionCodes</a> = MACH_EXCEPTION_CODES</td></tr>
+<tr class="memdesc:a0999f3c072971348f71f196848fcde12"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>MACH_EXCEPTION_CODES</code> with the correct type for a Mach exception behavior, <code>exception_behavior_t</code>.  <a href="#a0999f3c072971348f71f196848fcde12">More...</a><br /></td></tr>
+<tr class="separator:a0999f3c072971348f71f196848fcde12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e0a6740778f04fe2d190dbcd080d55b"><td class="memItemLeft" align="right" valign="top"><a id="a9e0a6740778f04fe2d190dbcd080d55b"></a>
+constexpr exception_type_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a9e0a6740778f04fe2d190dbcd080d55b">kMachExceptionSimulated</a> = 'CPsx'</td></tr>
+<tr class="memdesc:a9e0a6740778f04fe2d190dbcd080d55b"><td class="mdescLeft">&#160;</td><td class="mdescRight">An exception type to use for simulated exceptions. <br /></td></tr>
+<tr class="separator:a9e0a6740778f04fe2d190dbcd080d55b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c87c3ca622c253c84e9b557a0abe034"><td class="memItemLeft" align="right" valign="top">constexpr mach_msg_option_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a2c87c3ca622c253c84e9b557a0abe034">kMachMessageReceiveAuditTrailer</a></td></tr>
+<tr class="memdesc:a2c87c3ca622c253c84e9b557a0abe034"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Mach message option specifying that an audit trailer should be delivered during a receive operation.  <a href="#a2c87c3ca622c253c84e9b557a0abe034">More...</a><br /></td></tr>
+<tr class="separator:a2c87c3ca622c253c84e9b557a0abe034"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c879b0fe1012a256a0cc00d953f8aac"><td class="memItemLeft" align="right" valign="top"><a id="a6c879b0fe1012a256a0cc00d953f8aac"></a>
+constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a6c879b0fe1012a256a0cc00d953f8aac">kContentType</a> [] = &quot;Content-Type&quot;</td></tr>
+<tr class="memdesc:a6c879b0fe1012a256a0cc00d953f8aac"><td class="mdescLeft">&#160;</td><td class="mdescRight">The header name <code>"Content-Type"</code>. <br /></td></tr>
+<tr class="separator:a6c879b0fe1012a256a0cc00d953f8aac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c5e0afd19a628a323c9a5529c66e623"><td class="memItemLeft" align="right" valign="top"><a id="a4c5e0afd19a628a323c9a5529c66e623"></a>
+constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a4c5e0afd19a628a323c9a5529c66e623">kContentLength</a> [] = &quot;Content-Length&quot;</td></tr>
+<tr class="memdesc:a4c5e0afd19a628a323c9a5529c66e623"><td class="mdescLeft">&#160;</td><td class="mdescRight">The header name <code>"Content-Length"</code>. <br /></td></tr>
+<tr class="separator:a4c5e0afd19a628a323c9a5529c66e623"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f39d4abd7b533a4a89585d65cc22fb8"><td class="memItemLeft" align="right" valign="top"><a id="a5f39d4abd7b533a4a89585d65cc22fb8"></a>
+constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecrashpad.html#a5f39d4abd7b533a4a89585d65cc22fb8">kContentEncoding</a> [] = &quot;Content-Encoding&quot;</td></tr>
+<tr class="memdesc:a5f39d4abd7b533a4a89585d65cc22fb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The header name <code>"Content-Encoding"</code>. <br /></td></tr>
+<tr class="separator:a5f39d4abd7b533a4a89585d65cc22fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main namespace. </p>
@@ -1346,7 +1388,7 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 </div><div class="memdoc">
 
 <p>The time before which a <a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> call should complete. </p>
-<p>A value of this type may be one of the special constants <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> or <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. Any other values should be produced by calling <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>.</p>
+<p>A value of this type may be one of the special constants <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> or <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. Any other values should be produced by calling <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>.</p>
 <p>Internally, these are currently specified on the same time base as <a class="el" href="namespacecrashpad.html#aa93af751a4a09c316fb3de1a90e03fe8" title="Returns the value of the system’s monotonic clock. ">ClockMonotonicNanoseconds()</a>, although this is an implementation detail. </p>
 
 </div>
@@ -1404,8 +1446,8 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a24b09ceb3508dd862a91ce02f0583ae8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24b09ceb3508dd862a91ce02f0583ae8">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="a49097714a5193c715c4f09ca7742d485"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49097714a5193c715c4f09ca7742d485">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1416,18 +1458,18 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a24b09ceb3508dd862a91ce02f0583ae8ae4f1a3b637ac392d76826131e72ac832"></a>kXPProcessAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>PROCESS_ALL_ACCESS</code>. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a49097714a5193c715c4f09ca7742d485ae4f1a3b637ac392d76826131e72ac832"></a>kXPProcessAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>PROCESS_ALL_ACCESS</code>. </p>
 <p>Requesting <code>PROCESS_ALL_ACCESS</code> with the value defined when building against a Vista+ SDK results in <code>ERROR_ACCESS_DENIED</code> when running on XP. See <a href="https://msdn.microsoft.com/en-ca/library/windows/desktop/ms684880.aspx">https://msdn.microsoft.com/en-ca/library/windows/desktop/ms684880.aspx</a> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a24b09ceb3508dd862a91ce02f0583ae8af4736ae0e9abf32de684ad33895eec0e"></a>kXPThreadAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>THREAD_ALL_ACCESS</code>. </p>
+<tr><td class="fieldname"><a id="a49097714a5193c715c4f09ca7742d485af4736ae0e9abf32de684ad33895eec0e"></a>kXPThreadAllAccess&#160;</td><td class="fielddoc"><p>This is the XP-suitable value of <code>THREAD_ALL_ACCESS</code>. </p>
 <p>Requesting <code>THREAD_ALL_ACCESS</code> with the value defined when building against a Vista+ SDK results in <code>ERROR_ACCESS_DENIED</code> when running on XP. See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769.aspx">https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769.aspx</a> </p>
 </td></tr>
 </table>
 
 </div>
 </div>
-<a id="a0720c6dd92c22f4946aeeb17d638f5ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0720c6dd92c22f4946aeeb17d638f5ab">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="a217c8826b1e8ca5539eee63b3ab9e612"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a217c8826b1e8ca5539eee63b3ab9e612">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1440,16 +1482,16 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 
 <p>Special constants used as <code>mach_msg_timeout_t</code> values. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0720c6dd92c22f4946aeeb17d638f5aba15aaf8991271871ab08493449c00a048"></a>kMachMessageTimeoutNonblocking&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a217c8826b1e8ca5539eee63b3ab9e612a15aaf8991271871ab08493449c00a048"></a>kMachMessageTimeoutNonblocking&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a0720c6dd92c22f4946aeeb17d638f5abaaf4f2c8a649ea6bcfe896e77c312315f"></a>kMachMessageTimeoutWaitIndefinitely&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
+<tr><td class="fieldname"><a id="a217c8826b1e8ca5539eee63b3ab9e612aaf4f2c8a649ea6bcfe896e77c312315f"></a>kMachMessageTimeoutWaitIndefinitely&#160;</td><td class="fielddoc"><p>When passed to <a class="el" href="namespacecrashpad.html#aa31f495c675536bcb30d1267c3a9b696" title="Computes the deadline for a specified timeout value. ">MachMessageDeadlineFromTimeout()</a>, that function will return <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
 </td></tr>
 </table>
 
 </div>
 </div>
-<a id="a124c0056f68c3859092b317f486fae9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a124c0056f68c3859092b317f486fae9c">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="a2b5bc1165e2d5a398f6f9da42b873a55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b5bc1165e2d5a398f6f9da42b873a55">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1462,9 +1504,9 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 
 <p>Special constants used as <a class="el" href="namespacecrashpad.html#a34f36473e385b19eb229798ab2f7210c">MachMessageDeadline</a> values. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5"></a>kMachMessageDeadlineNonblocking&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should not block at all in its operation. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5"></a>kMachMessageDeadlineNonblocking&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should not block at all in its operation. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a124c0056f68c3859092b317f486fae9ca848a739b3c252f4565161a6bd3f070d6"></a>kMachMessageDeadlineWaitIndefinitely&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should wait indefinitely for the requested operation to complete. </p>
+<tr><td class="fieldname"><a id="a2b5bc1165e2d5a398f6f9da42b873a55a848a739b3c252f4565161a6bd3f070d6"></a>kMachMessageDeadlineWaitIndefinitely&#160;</td><td class="fielddoc"><p><a class="el" href="namespacecrashpad.html#a35293418a0b7637a00631807ac4b431e" title="Runs mach_msg() with a deadline, as opposed to a timeout. ">MachMessageWithDeadline()</a> should wait indefinitely for the requested operation to complete. </p>
 </td></tr>
 </table>
 
@@ -2121,6 +2163,85 @@ template&lt;typename T , size_t Alignment = alignof(T)&gt; </div>
 
 </div>
 </div>
+<a id="a2a2aeb6f5cc4e5b302c6da3141e1b9c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a2aeb6f5cc4e5b302c6da3141e1b9c4">&#9670;&nbsp;</a></span>AdvancePastNumber()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::AdvancePastNumber </td>
+          <td>(</td>
+          <td class="paramtype">const char **&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert a prefix of a char string to a numeric value. </p>
+<p>Valid values are positive or negative decimal numbers, matching the regular expression "-?\d+", and within the limits of T.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">input</td><td>A pointer to the char string to match against. <em>input</em> is advanced past the number if one is found. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>The converted number, if one is found. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if a number is found at the start of <em>input</em> and <em>input</em> is advanced, otherwise <code>false</code>. </dd></dl>
+
+</div>
+</div>
+<a id="ad37351a34cc3b9282a1f590062b5368d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad37351a34cc3b9282a1f590062b5368d">&#9670;&nbsp;</a></span>AdvancePastPrefix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool crashpad::AdvancePastPrefix </td>
+          <td>(</td>
+          <td class="paramtype">const char **&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pattern</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Match a pattern at the start of a char string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">input</td><td>A pointer to the char string to match against. <em>input</em> is advanced past the matched pattern if it is found. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pattern</td><td>The pattern to match at the start of <em>input</em>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the pattern is matched exactly and <em>input</em> is advanced, otherwise <code>false</code>. </dd></dl>
+
+</div>
+</div>
 <a id="a52a7dee343e392e5bf1794e8136df7f9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a52a7dee343e392e5bf1794e8136df7f9">&#9670;&nbsp;</a></span>AppendCommandLineArgument()</h2>
 
@@ -2217,7 +2338,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the process ID of a Mach message’s sender from its audit trailer. </p>
-<p>For the audit trailer to be present, the message must have been received with <a class="el" href="namespacecrashpad.html#a2673983f0177685e048be73ee578eddb" title="A Mach message option specifying that an audit trailer should be delivered during a receive operation...">kMachMessageReceiveAuditTrailer</a> or its macro equivalent specified in the receive options.</p>
+<p>For the audit trailer to be present, the message must have been received with <a class="el" href="namespacecrashpad.html#a2c87c3ca622c253c84e9b557a0abe034" title="A Mach message option specifying that an audit trailer should be delivered during a receive operation...">kMachMessageReceiveAuditTrailer</a> or its macro equivalent specified in the receive options.</p>
 <p>If the kernel is the message’s sender, a process ID of <code>0</code> will be returned.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -2752,7 +2873,7 @@ template&lt;typename Destination , typename Source &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if an <code>EXC_CRASH</code> exception could plausibly carry <em>exception</em>.</dd></dl>
-<p>An <code>EXC_CRASH</code> exception can wrap exceptions that originate as hardware faults, as well as exceptions that originate from certain software sources such as POSIX signals. It cannot wrap another <code>EXC_CRASH</code> exception, nor can it wrap <code>EXC_RESOURCE</code>, <code>EXC_GUARD</code>, or <code>EXC_CORPSE_NOTIFY</code> exceptions. It also cannot wrap Crashpad-specific <a class="el" href="namespacecrashpad.html#ad22bbde846a82173474ba002116c325c" title="An exception type to use for simulated exceptions. ">kMachExceptionSimulated</a> exceptions. </p>
+<p>An <code>EXC_CRASH</code> exception can wrap exceptions that originate as hardware faults, as well as exceptions that originate from certain software sources such as POSIX signals. It cannot wrap another <code>EXC_CRASH</code> exception, nor can it wrap <code>EXC_RESOURCE</code>, <code>EXC_GUARD</code>, or <code>EXC_CORPSE_NOTIFY</code> exceptions. It also cannot wrap Crashpad-specific <a class="el" href="namespacecrashpad.html#a9e0a6740778f04fe2d190dbcd080d55b" title="An exception type to use for simulated exceptions. ">kMachExceptionSimulated</a> exceptions. </p>
 
 </div>
 </div>
@@ -2993,7 +3114,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 <p>For <code>EXC_CRASH</code> exceptions that originate as Mach exceptions described above, the mapping above is used, with the original exception’s values. For <code>EXC_CRASH</code> exceptions that originate as POSIX signals without an underlying Mach exception, the mapping is <code>(EXC_CRASH &lt;&lt; 16) | code_0</code>.</p>
 <p><code>EXC_RESOURCE</code> and <code>EXC_GUARD</code> exceptions both contain exception-specific “type” values and type-specific “flavor” values. In these cases, the mapping is <code>(exception &lt;&lt; 16) | (type &lt;&lt; 8) | flavor</code>. For <code>EXC_GUARD</code>, the “flavor” value is rewritten to be more space-efficient by replacing the kernel-supplied bitmask having exactly one bit set with the index of the set bit.</p>
 <p><code>EXC_CORPSE_NOTIFY</code> exceptions are reported as classic Mach exceptions with the <em>code_0</em> field set to <code>0</code>.</p>
-<p>If <em>exception</em> is <a class="el" href="namespacecrashpad.html#ad22bbde846a82173474ba002116c325c" title="An exception type to use for simulated exceptions. ">kMachExceptionSimulated</a>, that value is returned as-is.</p>
+<p>If <em>exception</em> is <a class="el" href="namespacecrashpad.html#a9e0a6740778f04fe2d190dbcd080d55b" title="An exception type to use for simulated exceptions. ">kMachExceptionSimulated</a>, that value is returned as-is.</p>
 <p>Overflow conditions in any field are handled via saturation. </p>
 
 </div>
@@ -4679,7 +4800,7 @@ template&lt;typename Destination , typename Source &gt; </div>
 
 <p>Computes the deadline for a specified timeout value. </p>
 <p>While deadlines exist on an absolute time scale, timeouts are relative. This function calculates the deadline as <em>timeout_ms</em> milliseconds after it executes.</p>
-<p>If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>, this function will return <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a0720c6dd92c22f4946aeeb17d638f5abaaf4f2c8a649ea6bcfe896e77c312315f" title="When passed to MachMessageDeadlineFromTimeout(), that function will return kMachMessageDeadlineWaitIn...">kMachMessageTimeoutWaitIndefinitely</a>, this function will return <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
+<p>If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>, this function will return <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a>. If <em>timeout_ms</em> is <a class="el" href="namespacecrashpad.html#a217c8826b1e8ca5539eee63b3ab9e612aaf4f2c8a649ea6bcfe896e77c312315f" title="When passed to MachMessageDeadlineFromTimeout(), that function will return kMachMessageDeadlineWaitIn...">kMachMessageTimeoutWaitIndefinitely</a>, this function will return <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a848a739b3c252f4565161a6bd3f070d6" title="MachMessageWithDeadline() should wait indefinitely for the requested operation to complete...">kMachMessageDeadlineWaitIndefinitely</a>. </p>
 
 </div>
 </div>
@@ -4823,7 +4944,7 @@ template&lt;typename Destination , typename Source &gt; </div>
     <tr><td class="paramdir">[in]</td><td class="paramname">receive_port</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">deadline</td><td>The time by which this call should complete. If the deadline is exceeded, this call will return <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">notify_port</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">run_even_if_expired</td><td>If <code>true</code>, a deadline that is expired when this function is called will be treated as though a deadline of <a class="el" href="namespacecrashpad.html#a124c0056f68c3859092b317f486fae9ca6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> had been specified. When <code>false</code>, an expired deadline will result in a <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code> return value, even if the deadline is already expired when the function is called.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">run_even_if_expired</td><td>If <code>true</code>, a deadline that is expired when this function is called will be treated as though a deadline of <a class="el" href="namespacecrashpad.html#a2b5bc1165e2d5a398f6f9da42b873a55a6461bf9de012b5f2305fb3da6d0f82d5" title="MachMessageWithDeadline() should not block at all in its operation. ">kMachMessageDeadlineNonblocking</a> had been specified. When <code>false</code>, an expired deadline will result in a <code>MACH_SEND_TIMED_OUT</code> or <code>MACH_RCV_TIMED_OUT</code> return value, even if the deadline is already expired when the function is called.</td></tr>
   </table>
   </dd>
 </dl>
@@ -5283,7 +5404,7 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">FileOperationResult crashpad::ReadFile </td>
+          <td class="memname"><a class="el" href="namespacecrashpad.html#a25465a3a2d289a06addf93c346c6f917">FileOperationResult</a> crashpad::ReadFile </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacecrashpad.html#a07f8e33c4fdeba3783277f9f2563e48a">FileHandle</a>&#160;</td>
           <td class="paramname"><em>file</em>, </td>
@@ -5988,7 +6109,7 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 </div><div class="memdoc">
 
 <p>Simulates a exception without crashing. </p>
-<p>This function searches for an <code>EXC_CRASH</code> handler in the same manner that the kernel does, and sends it an exception message to that handler in the format that the handler expects, considering the behavior and thread state flavor that are registered for it. The exception sent to the handler will be <a class="el" href="namespacecrashpad.html#ad22bbde846a82173474ba002116c325c" title="An exception type to use for simulated exceptions. ">kMachExceptionSimulated</a>, not <code>EXC_CRASH</code>.</p>
+<p>This function searches for an <code>EXC_CRASH</code> handler in the same manner that the kernel does, and sends it an exception message to that handler in the format that the handler expects, considering the behavior and thread state flavor that are registered for it. The exception sent to the handler will be <a class="el" href="namespacecrashpad.html#a9e0a6740778f04fe2d190dbcd080d55b" title="An exception type to use for simulated exceptions. ">kMachExceptionSimulated</a>, not <code>EXC_CRASH</code>.</p>
 <p>Typically, the <a class="el" href="simulate__crash__mac_8h.html#a0ac6f4df5ed356f04dd12be3f07f9ed2" title="Captures the CPU context and simulates an exception without crashing. ">CRASHPAD_SIMULATE_CRASH()</a> macro will be used in preference to this function, because it combines the context-capture operation with the raising of a simulated exception.</p>
 <p>This function returns normally after the exception message is processed. If no valid handler was found, or no handler processed the exception successfully, a warning will be logged, but these conditions are not considered fatal.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -7058,14 +7179,14 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a7dbcba9449a5dd47d2911b1f85bc1a58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7dbcba9449a5dd47d2911b1f85bc1a58">&#9670;&nbsp;</a></span>kMachExceptionCodes</h2>
+<a id="a0999f3c072971348f71f196848fcde12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0999f3c072971348f71f196848fcde12">&#9670;&nbsp;</a></span>kMachExceptionCodes</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const exception_behavior_t crashpad::kMachExceptionCodes = MACH_EXCEPTION_CODES</td>
+          <td class="memname">constexpr exception_behavior_t crashpad::kMachExceptionCodes = MACH_EXCEPTION_CODES</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -7075,14 +7196,14 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 
 </div>
 </div>
-<a id="a2673983f0177685e048be73ee578eddb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2673983f0177685e048be73ee578eddb">&#9670;&nbsp;</a></span>kMachMessageReceiveAuditTrailer</h2>
+<a id="a2c87c3ca622c253c84e9b557a0abe034"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c87c3ca622c253c84e9b557a0abe034">&#9670;&nbsp;</a></span>kMachMessageReceiveAuditTrailer</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const mach_msg_option_t crashpad::kMachMessageReceiveAuditTrailer</td>
+          <td class="memname">constexpr mach_msg_option_t crashpad::kMachMessageReceiveAuditTrailer</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -7092,14 +7213,14 @@ This function is provided because <code>SMJobCopyDictionary()</code> is deprecat
 
 </div>
 </div>
-<a id="a7c7b6c8b4f44c95c7f0fb70a56342277"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c7b6c8b4f44c95c7f0fb70a56342277">&#9670;&nbsp;</a></span>kMachPortNull</h2>
+<a id="a253712a6760b4b8a54dbcc8943692731"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a253712a6760b4b8a54dbcc8943692731">&#9670;&nbsp;</a></span>kMachPortNull</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const mach_port_t crashpad::kMachPortNull = MACH_PORT_NULL</td>
+          <td class="memname">constexpr mach_port_t crashpad::kMachPortNull = MACH_PORT_NULL</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -97,13 +97,13 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a69d7f1d4aaa3626731c87dbb93502c79"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#a69d7f1d4aaa3626731c87dbb93502c79">kVersion</a> = 1</td></tr>
-<tr class="memdesc:a69d7f1d4aaa3626731c87dbb93502c79"><td class="mdescLeft">&#160;</td><td class="mdescRight">The structure’s currently-defined version number.  <a href="#a69d7f1d4aaa3626731c87dbb93502c79">More...</a><br /></td></tr>
-<tr class="separator:a69d7f1d4aaa3626731c87dbb93502c79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7d7756efc10878a8f76a903c4d6d8d4"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#ac7d7756efc10878a8f76a903c4d6d8d4">kVersion</a> = 1</td></tr>
+<tr class="memdesc:ac7d7756efc10878a8f76a903c4d6d8d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The structure’s currently-defined version number.  <a href="#ac7d7756efc10878a8f76a903c4d6d8d4">More...</a><br /></td></tr>
+<tr class="separator:ac7d7756efc10878a8f76a903c4d6d8d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Additional Crashpad-specific information carried within a minidump file. </p>
-<p>This structure is versioned. When changing this structure, leave the existing structure intact so that earlier parsers will be able to understand the fields they are aware of, and make additions at the end of the structure. Revise <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#a69d7f1d4aaa3626731c87dbb93502c79" title="The structure’s currently-defined version number. ">kVersion</a> and document each field’s validity based on <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#a481042efad46164dc43d9c824df9e6cf" title="The structure’s version number. ">version</a>, so that newer parsers will be able to determine whether the added fields are valid or not. </p>
+<p>This structure is versioned. When changing this structure, leave the existing structure intact so that earlier parsers will be able to understand the fields they are aware of, and make additions at the end of the structure. Revise <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#ac7d7756efc10878a8f76a903c4d6d8d4" title="The structure’s currently-defined version number. ">kVersion</a> and document each field’s validity based on <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#a481042efad46164dc43d9c824df9e6cf" title="The structure’s version number. ">version</a>, so that newer parsers will be able to determine whether the added fields are valid or not. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="ad83ed0b5dd10f4ddaf138caf96861b97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad83ed0b5dd10f4ddaf138caf96861b97">&#9670;&nbsp;</a></span>client_id</h2>
@@ -124,8 +124,8 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a69d7f1d4aaa3626731c87dbb93502c79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69d7f1d4aaa3626731c87dbb93502c79">&#9670;&nbsp;</a></span>kVersion</h2>
+<a id="ac7d7756efc10878a8f76a903c4d6d8d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7d7756efc10878a8f76a903c4d6d8d4">&#9670;&nbsp;</a></span>kVersion</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -134,7 +134,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint32_t crashpad::MinidumpCrashpadInfo::kVersion = 1</td>
+          <td class="memname">constexpr uint32_t crashpad::MinidumpCrashpadInfo::kVersion = 1</td>
         </tr>
       </table>
   </td>
@@ -216,8 +216,8 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The structure’s version number. </p>
-<p>Readers can use this field to determine which other fields in the structure are valid. Upon encountering a value greater than <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#a69d7f1d4aaa3626731c87dbb93502c79" title="The structure’s currently-defined version number. ">kVersion</a>, a reader should assume that the structure’s layout is compatible with the structure defined as having value <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#a69d7f1d4aaa3626731c87dbb93502c79" title="The structure’s currently-defined version number. ">kVersion</a>.</p>
-<p>Writers may produce values less than <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#a69d7f1d4aaa3626731c87dbb93502c79" title="The structure’s currently-defined version number. ">kVersion</a> in this field if there is no need for any fields present in later versions. </p>
+<p>Readers can use this field to determine which other fields in the structure are valid. Upon encountering a value greater than <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#ac7d7756efc10878a8f76a903c4d6d8d4" title="The structure’s currently-defined version number. ">kVersion</a>, a reader should assume that the structure’s layout is compatible with the structure defined as having value <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#ac7d7756efc10878a8f76a903c4d6d8d4" title="The structure’s currently-defined version number. ">kVersion</a>.</p>
+<p>Writers may produce values less than <a class="el" href="structcrashpad_1_1MinidumpCrashpadInfo.html#ac7d7756efc10878a8f76a903c4d6d8d4" title="The structure’s currently-defined version number. ">kVersion</a> in this field if there is no need for any fields present in later versions. </p>
 
 </div>
 </div>

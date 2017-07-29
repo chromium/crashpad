@@ -162,9 +162,10 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Static Protected Attributes</h2></td></tr>
-<tr class="memitem:ae7c01f317a519213ac16bfeca94125d1"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ae7c01f317a519213ac16bfeca94125d1">kInvalidSize</a></td></tr>
-<tr class="memdesc:ae7c01f317a519213ac16bfeca94125d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A size value used to signal failure by methods that return <code>size_t</code>.  <a href="#ae7c01f317a519213ac16bfeca94125d1">More...</a><br /></td></tr>
-<tr class="separator:ae7c01f317a519213ac16bfeca94125d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2b31049c4fedaabb24857d82531d6d6"><td class="memItemLeft" align="right" valign="top"><a id="ac2b31049c4fedaabb24857d82531d6d6"></a>
+static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac2b31049c4fedaabb24857d82531d6d6">kInvalidSize</a> = std::numeric_limits&lt;size_t&gt;::max()</td></tr>
+<tr class="memdesc:ac2b31049c4fedaabb24857d82531d6d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A size value used to signal failure by methods that return <code>size_t</code>. <br /></td></tr>
+<tr class="separator:ac2b31049c4fedaabb24857d82531d6d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The base class for all content that might be written to a minidump file. </p>
@@ -467,7 +468,7 @@ Static Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The file size consumed by this object and all children, including any padding inserted to meet alignment requirements. On failure, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ae7c01f317a519213ac16bfeca94125d1" title="A size value used to signal failure by methods that return size_t. ">kInvalidSize</a>, with an appropriate message logged.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The file size consumed by this object and all children, including any padding inserted to meet alignment requirements. On failure, <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac2b31049c4fedaabb24857d82531d6d6" title="A size value used to signal failure by methods that return size_t. ">kInvalidSize</a>, with an appropriate message logged.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This method cannot be overridden. Subclasses that need to perform processing when an object transitions to <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#ac14e05f291f5fa713b5ec82a208fa7c7a87483823ca30a8257b2a5fbd21805bcd" title="The object is writable. ">kStateWritable</a> should implement <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a2416cb821816b769d95b92e486713ebf" title="Called once an object’s writable file offset is determined, as it transitions into kStateWritable...">WillWriteAtOffsetImpl()</a>, which is called by this method. </dd></dl>
 
 </div>
@@ -653,31 +654,6 @@ This method should rarely be overridden. </dd></dl>
 <p>Returns the object’s desired write phase. </p>
 <p>The default implementation returns <a class="el" href="classcrashpad_1_1internal_1_1MinidumpWritable.html#a009f007265d64a5fb416848480a00ae9ac246ac0846defa468dde05d12974ac3e" title="Objects that are written to a minidump file “early”. ">kPhaseEarly</a>. Subclasses may override this method to alter their write phase.</p>
 <dl class="section note"><dt>Note</dt><dd>Valid in any state. </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="ae7c01f317a519213ac16bfeca94125d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7c01f317a519213ac16bfeca94125d1">&#9670;&nbsp;</a></span>kInvalidSize</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const size_t crashpad::internal::MinidumpWritable::kInvalidSize</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">    std::numeric_limits&lt;size_t&gt;::max()</div></div><!-- fragment -->
-<p>A size value used to signal failure by methods that return <code>size_t</code>. </p>
 
 </div>
 </div>

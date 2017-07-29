@@ -65,13 +65,14 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="structcrashpad_1_1ProcessReader_1_1Thread-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">crashpad::ProcessReader::Thread Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Contains information about a thread that belongs to a task (process).  
+<p>Contains information about a thread that belongs to a process.  
  <a href="structcrashpad_1_1ProcessReader_1_1Thread.html#details">More...</a></p>
 
 <p><code>#include &quot;snapshot/mac/process_reader.h&quot;</code></p>
@@ -84,6 +85,27 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a8b9d6cab4803990bfc6bae1ea86f8f1b"><td class="memItemLeft" align="right" valign="top"><a id="a8b9d6cab4803990bfc6bae1ea86f8f1b"></a>
 <a class="el" href="unioncrashpad_1_1FloatContext.html">FloatContext</a>&#160;</td><td class="memItemRight" valign="bottom"><b>float_context</b></td></tr>
 <tr class="separator:a8b9d6cab4803990bfc6bae1ea86f8f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a896584ef9c029c91bbe4175e5b62815f"><td class="memItemLeft" align="right" valign="top"><a id="a896584ef9c029c91bbe4175e5b62815f"></a>
+<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><b>thread_specific_data_address</b></td></tr>
+<tr class="separator:a896584ef9c029c91bbe4175e5b62815f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98ad3a0242720dd0557e4bb21b697a4c"><td class="memItemLeft" align="right" valign="top"><a id="a98ad3a0242720dd0557e4bb21b697a4c"></a>
+<a class="el" href="namespacecrashpad.html#acb197256391fbfca91f9a7e5c911db45">LinuxVMAddress</a>&#160;</td><td class="memItemRight" valign="bottom"><b>stack_region_address</b></td></tr>
+<tr class="separator:a98ad3a0242720dd0557e4bb21b697a4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cf2fc6fc542ac0c892fa5e199e0ec91"><td class="memItemLeft" align="right" valign="top"><a id="a1cf2fc6fc542ac0c892fa5e199e0ec91"></a>
+<a class="el" href="namespacecrashpad.html#aa2b5b2818842bda12ff9c4d555c2c8c8">LinuxVMSize</a>&#160;</td><td class="memItemRight" valign="bottom"><b>stack_region_size</b></td></tr>
+<tr class="separator:a1cf2fc6fc542ac0c892fa5e199e0ec91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b7c9c0d9d92940ce74dd4b0c6d750a9"><td class="memItemLeft" align="right" valign="top"><a id="a4b7c9c0d9d92940ce74dd4b0c6d750a9"></a>
+pid_t&#160;</td><td class="memItemRight" valign="bottom"><b>tid</b></td></tr>
+<tr class="separator:a4b7c9c0d9d92940ce74dd4b0c6d750a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab54662f62f9129d9f57d75d26f92ac01"><td class="memItemLeft" align="right" valign="top"><a id="ab54662f62f9129d9f57d75d26f92ac01"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>sched_policy</b></td></tr>
+<tr class="separator:ab54662f62f9129d9f57d75d26f92ac01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae115b11d6a0d4222eb35971b0d3a1fa"><td class="memItemLeft" align="right" valign="top"><a id="aae115b11d6a0d4222eb35971b0d3a1fa"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>static_priority</b></td></tr>
+<tr class="separator:aae115b11d6a0d4222eb35971b0d3a1fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a642faef1b8557e474d4c2ba109468ad3"><td class="memItemLeft" align="right" valign="top"><a id="a642faef1b8557e474d4c2ba109468ad3"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nice_value</b></td></tr>
+<tr class="separator:a642faef1b8557e474d4c2ba109468ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a212b1cf3be9c9f406c1ce2da66c00bbe"><td class="memItemLeft" align="right" valign="top"><a id="a212b1cf3be9c9f406c1ce2da66c00bbe"></a>
 DebugContext&#160;</td><td class="memItemRight" valign="bottom"><b>debug_context</b></td></tr>
 <tr class="separator:a212b1cf3be9c9f406c1ce2da66c00bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -108,12 +130,19 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>suspend_count</b></td>
 <tr class="memitem:a2ba9f6e3ab2f56d8ebc64c30f20b5d00"><td class="memItemLeft" align="right" valign="top"><a id="a2ba9f6e3ab2f56d8ebc64c30f20b5d00"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>priority</b></td></tr>
 <tr class="separator:a2ba9f6e3ab2f56d8ebc64c30f20b5d00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a3393e565e515bd29b2339b71b64a42e0"><td class="memItemLeft" align="right" valign="top"><a id="a3393e565e515bd29b2339b71b64a42e0"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>ProcessReader</b></td></tr>
+<tr class="separator:a3393e565e515bd29b2339b71b64a42e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Contains information about a thread that belongs to a task (process). </p>
+<div class="textblock"><p>Contains information about a thread that belongs to a process. </p>
+<p>Contains information about a thread that belongs to a task (process). </p>
 </div><hr/>The documentation for this struct was generated from the following files:<ul>
-<li>snapshot/mac/process_reader.h</li>
-<li>snapshot/mac/process_reader.cc</li>
+<li>snapshot/linux/process_reader.h</li>
+<li>snapshot/linux/process_reader.cc</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

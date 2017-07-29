@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['f32',['f32',['../structcrashpad_1_1FloatContext_1_1f32.html',1,'crashpad::FloatContext']]],
-  ['f64',['f64',['../structcrashpad_1_1FloatContext_1_1f64.html',1,'crashpad::FloatContext']]],
+  ['f32_5ft',['f32_t',['../structcrashpad_1_1FloatContext_1_1f32__t.html',1,'crashpad::FloatContext']]],
+  ['f64_5ft',['f64_t',['../structcrashpad_1_1FloatContext_1_1f64__t.html',1,'crashpad::FloatContext']]],
   ['filehttpbodystream',['FileHTTPBodyStream',['../classcrashpad_1_1FileHTTPBodyStream.html',1,'crashpad']]],
   ['filereader',['FileReader',['../classcrashpad_1_1FileReader.html',1,'crashpad']]],
   ['filereaderinterface',['FileReaderInterface',['../classcrashpad_1_1FileReaderInterface.html',1,'crashpad']]],

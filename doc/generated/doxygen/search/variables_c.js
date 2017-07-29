@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['name',['name',['../structcrashpad_1_1ProcessReader_1_1Module.html#af3802ec0731bda1cf066b050b23debf7',1,'crashpad::ProcessReader::Module::name()'],['../structcrashpad_1_1ProcessInfo_1_1Module.html#a95e6c0515e0703bf1c503c836bdc492f',1,'crashpad::ProcessInfo::Module::name()']]],
+  ['name',['name',['../structcrashpad_1_1DebugRendezvous_1_1LinkEntry.html#a74e0417856c765e1c1f9ee41b83a8a5a',1,'crashpad::DebugRendezvous::LinkEntry::name()'],['../structcrashpad_1_1ProcessReader_1_1Module.html#af3802ec0731bda1cf066b050b23debf7',1,'crashpad::ProcessReader::Module::name()'],['../structcrashpad_1_1ProcessInfo_1_1Module.html#a95e6c0515e0703bf1c503c836bdc492f',1,'crashpad::ProcessInfo::Module::name()']]],
   ['next',['next',['../structcrashpad_1_1internal_1_1UserDataMinidumpStreamListEntry.html#a9afc5952329581b8c9b0429e664f12bb',1,'crashpad::internal::UserDataMinidumpStreamListEntry']]],
   ['non_5fcrash_5fdump_5fcompleted_5fevent',['non_crash_dump_completed_event',['../structcrashpad_1_1RegistrationResponse.html#a1e64741ff3c4c5d0cea7cac1343d8e2c',1,'crashpad::RegistrationResponse']]],
   ['non_5fcrash_5fexception_5finformation',['non_crash_exception_information',['../structcrashpad_1_1RegistrationRequest.html#aae8ec20740a85ff73e4346cc0979e1b2',1,'crashpad::RegistrationRequest']]],

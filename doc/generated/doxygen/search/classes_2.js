@@ -27,7 +27,7 @@ var searchData=
   ['cpucontextx86',['CPUContextX86',['../structcrashpad_1_1CPUContextX86.html',1,'crashpad']]],
   ['cpucontextx86_5f64',['CPUContextX86_64',['../structcrashpad_1_1CPUContextX86__64.html',1,'crashpad']]],
   ['crashpadclient',['CrashpadClient',['../classcrashpad_1_1CrashpadClient.html',1,'crashpad']]],
-  ['crashpadinfo',['CrashpadInfo',['../structcrashpad_1_1CrashpadInfo.html',1,'crashpad::CrashpadInfo'],['../structcrashpad_1_1process__types_1_1CrashpadInfo.html',1,'crashpad::process_types::CrashpadInfo&lt; Traits &gt;']]],
+  ['crashpadinfo',['CrashpadInfo',['../structcrashpad_1_1process__types_1_1CrashpadInfo.html',1,'crashpad::process_types::CrashpadInfo&lt; Traits &gt;'],['../structcrashpad_1_1CrashpadInfo.html',1,'crashpad::CrashpadInfo']]],
   ['crashpadinfoclientoptions',['CrashpadInfoClientOptions',['../structcrashpad_1_1CrashpadInfoClientOptions.html',1,'crashpad']]],
   ['crashreportdatabase',['CrashReportDatabase',['../classcrashpad_1_1CrashReportDatabase.html',1,'crashpad']]],
   ['crashreportexceptionhandler',['CrashReportExceptionHandler',['../classcrashpad_1_1CrashReportExceptionHandler.html',1,'crashpad']]],

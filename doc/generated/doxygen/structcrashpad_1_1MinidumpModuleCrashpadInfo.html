@@ -91,18 +91,18 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a18fb60c0add35baf294f4faadc697963"><td class="memItemLeft" align="right" valign="top">static const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a18fb60c0add35baf294f4faadc697963">kVersion</a> = 1</td></tr>
-<tr class="memdesc:a18fb60c0add35baf294f4faadc697963"><td class="mdescLeft">&#160;</td><td class="mdescRight">The structure’s currently-defined version number.  <a href="#a18fb60c0add35baf294f4faadc697963">More...</a><br /></td></tr>
-<tr class="separator:a18fb60c0add35baf294f4faadc697963"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47ff487dfe930f561edda132627bd7c0"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a47ff487dfe930f561edda132627bd7c0">kVersion</a> = 1</td></tr>
+<tr class="memdesc:a47ff487dfe930f561edda132627bd7c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The structure’s currently-defined version number.  <a href="#a47ff487dfe930f561edda132627bd7c0">More...</a><br /></td></tr>
+<tr class="separator:a47ff487dfe930f561edda132627bd7c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Additional Crashpad-specific information about a module carried within a minidump file. </p>
 <p>This structure augments the information provided by <a class="el" href="structMINIDUMP__MODULE.html" title="Information about a specific module loaded within the process at the time the snapshot was taken...">MINIDUMP_MODULE</a>. The minidump file must contain a module list stream (<a class="el" href="namespacecrashpad.html#a88363a45a4af1a16f542a8c1ff522ab9a226cb7d075ec01c79f233d098e9a9e3f" title="The stream type for MINIDUMP_MODULE_LIST. ">kMinidumpStreamTypeModuleList</a>) in order for this structure to appear.</p>
-<p>This structure is versioned. When changing this structure, leave the existing structure intact so that earlier parsers will be able to understand the fields they are aware of, and make additions at the end of the structure. Revise <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a18fb60c0add35baf294f4faadc697963" title="The structure’s currently-defined version number. ">kVersion</a> and document each field’s validity based on <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#ace07d8872cdaa53ca20a04513deb56c3" title="The structure’s version number. ">version</a>, so that newer parsers will be able to determine whether the added fields are valid or not.</p>
+<p>This structure is versioned. When changing this structure, leave the existing structure intact so that earlier parsers will be able to understand the fields they are aware of, and make additions at the end of the structure. Revise <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a47ff487dfe930f561edda132627bd7c0" title="The structure’s currently-defined version number. ">kVersion</a> and document each field’s validity based on <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#ace07d8872cdaa53ca20a04513deb56c3" title="The structure’s version number. ">version</a>, so that newer parsers will be able to determine whether the added fields are valid or not.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfoList.html" title="Additional Crashpad-specific information about modules carried within a minidump file. ">MinidumpModuleCrashpadInfoList</a> </dd></dl>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a18fb60c0add35baf294f4faadc697963"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18fb60c0add35baf294f4faadc697963">&#9670;&nbsp;</a></span>kVersion</h2>
+<a id="a47ff487dfe930f561edda132627bd7c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47ff487dfe930f561edda132627bd7c0">&#9670;&nbsp;</a></span>kVersion</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -111,7 +111,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const uint32_t crashpad::MinidumpModuleCrashpadInfo::kVersion = 1</td>
+          <td class="memname">constexpr uint32_t crashpad::MinidumpModuleCrashpadInfo::kVersion = 1</td>
         </tr>
       </table>
   </td>
@@ -175,8 +175,8 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The structure’s version number. </p>
-<p>Readers can use this field to determine which other fields in the structure are valid. Upon encountering a value greater than <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a18fb60c0add35baf294f4faadc697963" title="The structure’s currently-defined version number. ">kVersion</a>, a reader should assume that the structure’s layout is compatible with the structure defined as having value <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a18fb60c0add35baf294f4faadc697963" title="The structure’s currently-defined version number. ">kVersion</a>.</p>
-<p>Writers may produce values less than <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a18fb60c0add35baf294f4faadc697963" title="The structure’s currently-defined version number. ">kVersion</a> in this field if there is no need for any fields present in later versions. </p>
+<p>Readers can use this field to determine which other fields in the structure are valid. Upon encountering a value greater than <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a47ff487dfe930f561edda132627bd7c0" title="The structure’s currently-defined version number. ">kVersion</a>, a reader should assume that the structure’s layout is compatible with the structure defined as having value <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a47ff487dfe930f561edda132627bd7c0" title="The structure’s currently-defined version number. ">kVersion</a>.</p>
+<p>Writers may produce values less than <a class="el" href="structcrashpad_1_1MinidumpModuleCrashpadInfo.html#a47ff487dfe930f561edda132627bd7c0" title="The structure’s currently-defined version number. ">kVersion</a> in this field if there is no need for any fields present in later versions. </p>
 
 </div>
 </div>

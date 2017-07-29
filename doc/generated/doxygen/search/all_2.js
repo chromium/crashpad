@@ -1,12 +1,13 @@
 var searchData=
 [
-  ['base',['base',['../structcrashpad_1_1TSimpleAddressRangeBag_1_1Entry.html#a9517f0a7dce7c266a6fc34a22a389b72',1,'crashpad::TSimpleAddressRangeBag::Entry::base()'],['../classcrashpad_1_1CheckedRange.html#a341469d31eeb59dcefd60c10ee3a57fe',1,'crashpad::CheckedRange::base()'],['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a4ee265f81eab405b7c7d47a819f19065',1,'crashpad::internal::CheckedAddressRangeGeneric::Base()']]],
+  ['base',['base',['../structcrashpad_1_1TSimpleAddressRangeBag_1_1Entry.html#a9517f0a7dce7c266a6fc34a22a389b72',1,'crashpad::TSimpleAddressRangeBag::Entry::base()'],['../classcrashpad_1_1CheckedRange.html#a341469d31eeb59dcefd60c10ee3a57fe',1,'crashpad::CheckedRange::base()'],['../classcrashpad_1_1ProcessMemoryRange.html#aca5609c65d501aaf82e95d6a349c1907',1,'crashpad::ProcessMemoryRange::Base()'],['../classcrashpad_1_1internal_1_1CheckedAddressRangeGeneric.html#a4ee265f81eab405b7c7d47a819f19065',1,'crashpad::internal::CheckedAddressRangeGeneric::Base()']]],
   ['base_5faddress',['base_address',['../structcrashpad_1_1internal_1_1UserDataMinidumpStreamListEntry.html#adff7d5348d3834baecaeb8954204959d',1,'crashpad::internal::UserDataMinidumpStreamListEntry']]],
   ['baseaddress',['BaseAddress',['../structMINIDUMP__MEMORY__INFO.html#aec6438bf8c20fe45e8b31c679b6e06a6',1,'MINIDUMP_MEMORY_INFO']]],
   ['baseofimage',['BaseOfImage',['../structMINIDUMP__MODULE.html#af4b4a246ebfa54e57e4c953fb0c3dd31',1,'MINIDUMP_MODULE::BaseOfImage()'],['../structMINIDUMP__UNLOADED__MODULE.html#a57d74355789f2f6e363aafb60c53c6f4',1,'MINIDUMP_UNLOADED_MODULE::BaseOfImage()']]],
   ['behavior',['behavior',['../structcrashpad_1_1ExceptionPorts_1_1ExceptionHandler.html#afe1cc47a696cc12532e27f7e442c0364',1,'crashpad::ExceptionPorts::ExceptionHandler']]],
   ['bias',['Bias',['../structTIME__ZONE__INFORMATION.html#acf8f3a23cd1cabc4cdcf3c5c4b527b71',1,'TIME_ZONE_INFORMATION']]],
   ['binaryprunecondition',['BinaryPruneCondition',['../classcrashpad_1_1BinaryPruneCondition.html',1,'crashpad::BinaryPruneCondition'],['../classcrashpad_1_1BinaryPruneCondition.html#a68154b67d29953d93e1dad567b618288',1,'crashpad::BinaryPruneCondition::BinaryPruneCondition()']]],
+  ['binding',['binding',['../structcrashpad_1_1ElfSymbolTableReader_1_1SymbolInformation.html#a0b5471dd66a2a1aa3a3a87d5ce8b5623',1,'crashpad::ElfSymbolTableReader::SymbolInformation']]],
   ['bootstrapcheckin',['BootstrapCheckIn',['../namespacecrashpad.html#af63980b36cac449785c26cee00c89205',1,'crashpad']]],
   ['bootstraperrormessage',['BootstrapErrorMessage',['../namespacecrashpad_1_1test.html#a8db2fa97998b00a8ee57398fa8c8b14e',1,'crashpad::test']]],
   ['bootstraplookup',['BootstrapLookUp',['../namespacecrashpad.html#a32e6cb4455e49ede76dab41a256962ee',1,'crashpad']]],

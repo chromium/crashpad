@@ -81,9 +81,10 @@ Inheritance diagram for crashpad::ThreadSnapshot:</div>
  <div class="center">
   <img src="classcrashpad_1_1ThreadSnapshot.png" usemap="#crashpad::ThreadSnapshot_map" alt=""/>
   <map id="crashpad::ThreadSnapshot_map" name="crashpad::ThreadSnapshot_map">
-<area href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html" title="A ThreadSnapshot of a thread in a running (or crashed) process on a macOS system. ..." alt="crashpad::internal::ThreadSnapshotMac" shape="rect" coords="0,56,236,80"/>
-<area href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html" title="A ThreadSnapshot of a thread in a running (or crashed) process on a Windows system. " alt="crashpad::internal::ThreadSnapshotWin" shape="rect" coords="246,56,482,80"/>
-<area href="classcrashpad_1_1test_1_1TestThreadSnapshot.html" title="A test ThreadSnapshot that can carry arbitrary data for testing purposes. " alt="crashpad::test::TestThreadSnapshot" shape="rect" coords="492,56,728,80"/>
+<area href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html" title="A ThreadSnapshot of a thread on a Linux system. " alt="crashpad::internal::ThreadSnapshotLinux" shape="rect" coords="0,56,241,80"/>
+<area href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html" title="A ThreadSnapshot of a thread in a running (or crashed) process on a macOS system. ..." alt="crashpad::internal::ThreadSnapshotMac" shape="rect" coords="251,56,492,80"/>
+<area href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html" title="A ThreadSnapshot of a thread in a running (or crashed) process on a Windows system. " alt="crashpad::internal::ThreadSnapshotWin" shape="rect" coords="502,56,743,80"/>
+<area href="classcrashpad_1_1test_1_1TestThreadSnapshot.html" title="A test ThreadSnapshot that can carry arbitrary data for testing purposes. " alt="crashpad::test::TestThreadSnapshot" shape="rect" coords="753,56,994,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -141,7 +142,7 @@ virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <p>Returns a <a class="el" href="structcrashpad_1_1CPUContext.html" title="A context structure capable of carrying the context of any supported CPU architecture. ">CPUContext</a> object corresponding to the thread’s CPU context. </p>
 <p>The caller does not take ownership of this object, it is scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> object that it was obtained from. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a3e5256fb87404928874cec4732cfb1df">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#a940a3771e98c08da18307b2309ca7357">crashpad::internal::ThreadSnapshotWin</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a063a6cf88d16769775ddf98c7d8abf6a">crashpad::internal::ThreadSnapshotMac</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a3e5256fb87404928874cec4732cfb1df">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#a940a3771e98c08da18307b2309ca7357">crashpad::internal::ThreadSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a063a6cf88d16769775ddf98c7d8abf6a">crashpad::internal::ThreadSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#a6850c05b3de6111d8d1489031fd62210">crashpad::internal::ThreadSnapshotLinux</a>.</p>
 
 </div>
 </div>
@@ -171,7 +172,7 @@ virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <p>Returns a vector of additional memory blocks that should be included in a minidump. </p>
 <dl class="section return"><dt>Returns</dt><dd>A vector of <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> objects that will be included in the crash dump. The caller does not take ownership of these objects, they are scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> object that they were obtained from. </dd></dl>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#af49ca1418d7436492c49949f2fc73a31">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#a00c30606d4e1a7a8f43b4c89b3fc4e8e">crashpad::internal::ThreadSnapshotWin</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#aa0af4437ee557f500f61b88c8a9a4b22">crashpad::internal::ThreadSnapshotMac</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#af49ca1418d7436492c49949f2fc73a31">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#a00c30606d4e1a7a8f43b4c89b3fc4e8e">crashpad::internal::ThreadSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#aa0af4437ee557f500f61b88c8a9a4b22">crashpad::internal::ThreadSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#aaddb02fb317390c6396a0d5ea0c24b9d">crashpad::internal::ThreadSnapshotLinux</a>.</p>
 
 </div>
 </div>
@@ -201,7 +202,7 @@ virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <p>Returns the thread’s priority. </p>
 <p>Threads with higher priorities will have higher priority values. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a67070917d0ea0d06845b345f63aa2a0e">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#a84dae6824c9bda4fe6d459ea032dd28a">crashpad::internal::ThreadSnapshotWin</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a8c417edf90e36f67a6f8e0b76bfbdee5">crashpad::internal::ThreadSnapshotMac</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a67070917d0ea0d06845b345f63aa2a0e">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#a84dae6824c9bda4fe6d459ea032dd28a">crashpad::internal::ThreadSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a8c417edf90e36f67a6f8e0b76bfbdee5">crashpad::internal::ThreadSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#a9ee2c069481ec915a32e738f94a17c23">crashpad::internal::ThreadSnapshotLinux</a>.</p>
 
 </div>
 </div>
@@ -231,7 +232,7 @@ virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <p>Returns a <a class="el" href="classcrashpad_1_1MemorySnapshot.html" title="An abstract interface to a snapshot representing a region of memory present in a snapshot process...">MemorySnapshot</a> object corresponding to the memory region that contains the thread’s stack, or <code>nullptr</code> if no stack region is available. </p>
 <p>The caller does not take ownership of this object, it is scoped to the lifetime of the <a class="el" href="classcrashpad_1_1ThreadSnapshot.html" title="An abstract interface to a snapshot representing a thread (lightweight process) present in a snapshot...">ThreadSnapshot</a> object that it was obtained from. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a47ec986683a5aed362ecba9f092c61bf">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#ac069bf4439cbb2be3b243460d7717826">crashpad::internal::ThreadSnapshotWin</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a5b63ca812f667219928f2f0dd3f9d846">crashpad::internal::ThreadSnapshotMac</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#a47ec986683a5aed362ecba9f092c61bf">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#ac069bf4439cbb2be3b243460d7717826">crashpad::internal::ThreadSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a5b63ca812f667219928f2f0dd3f9d846">crashpad::internal::ThreadSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#a320db9f1c56efbaf0214ecbfd2744bab">crashpad::internal::ThreadSnapshotLinux</a>.</p>
 
 </div>
 </div>
@@ -261,7 +262,7 @@ virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <p>Returns the thread’s suspend count. </p>
 <p>A suspend count of <code>0</code> denotes a schedulable (not suspended) thread. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#aa14d795531c637056d3312cf2b38a9e7">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#ad0f0966f362f6e02f59d3aa436990a15">crashpad::internal::ThreadSnapshotWin</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#ab285ef89616ae6c9a48a9052bd917e37">crashpad::internal::ThreadSnapshotMac</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#aa14d795531c637056d3312cf2b38a9e7">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#ad0f0966f362f6e02f59d3aa436990a15">crashpad::internal::ThreadSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#ab285ef89616ae6c9a48a9052bd917e37">crashpad::internal::ThreadSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#a79d6e1c1d33d4a5fea1c7e23d454d64f">crashpad::internal::ThreadSnapshotLinux</a>.</p>
 
 </div>
 </div>
@@ -291,7 +292,7 @@ virtual uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el
 <p>Returns the thread’s identifier. </p>
 <p>Thread identifiers are at least unique within a process, and may be unique system-wide. </p>
 
-<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#aa7a31f691da452e9935c70c5e17901d9">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#aaedbdde56b7ba7c6c271758da0fcb1e2">crashpad::internal::ThreadSnapshotWin</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a081cae888e8e625929cfdda333eb9966">crashpad::internal::ThreadSnapshotMac</a>.</p>
+<p>Implemented in <a class="el" href="classcrashpad_1_1test_1_1TestThreadSnapshot.html#aa7a31f691da452e9935c70c5e17901d9">crashpad::test::TestThreadSnapshot</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotWin.html#aaedbdde56b7ba7c6c271758da0fcb1e2">crashpad::internal::ThreadSnapshotWin</a>, <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotMac.html#a081cae888e8e625929cfdda333eb9966">crashpad::internal::ThreadSnapshotMac</a>, and <a class="el" href="classcrashpad_1_1internal_1_1ThreadSnapshotLinux.html#a7f6f64d1b52b349feafa6819205d30ba">crashpad::internal::ThreadSnapshotLinux</a>.</p>
 
 </div>
 </div>
