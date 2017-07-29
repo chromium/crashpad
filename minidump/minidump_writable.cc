@@ -16,8 +16,6 @@
 
 #include <stdint.h>
 
-#include <limits>
-
 #include "base/logging.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
@@ -81,9 +79,6 @@ void MinidumpWritable::RegisterLocationDescriptor(
 
   registered_location_descriptors_.push_back(location_descriptor);
 }
-
-constexpr size_t MinidumpWritable::kInvalidSize =
-    std::numeric_limits<size_t>::max();
 
 MinidumpWritable::MinidumpWritable()
     : registered_rvas_(),
