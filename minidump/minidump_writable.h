@@ -19,6 +19,7 @@
 #include <dbghelp.h>
 #include <sys/types.h>
 
+#include <limits>
 #include <vector>
 
 #include "base/macros.h"
@@ -134,7 +135,7 @@ class MinidumpWritable {
 
   //! \brief A size value used to signal failure by methods that return
   //!     `size_t`.
-  static const size_t kInvalidSize;
+  static constexpr size_t kInvalidSize = std::numeric_limits<size_t>::max();
 
   MinidumpWritable();
 
