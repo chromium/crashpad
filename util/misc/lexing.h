@@ -21,8 +21,8 @@ namespace crashpad {
 //!
 //! \param[in,out] input A pointer to the char string to match against. \a input
 //!     is advanced past the matched pattern if it is found.
-//! \param[in] pattern The pattern to match at the start of \input.
-//! \return `true` if the pattern is matched exactly and \input is advanced,
+//! \param[in] pattern The pattern to match at the start of \a input.
+//! \return `true` if the pattern is matched exactly and \a input is advanced,
 //!     otherwise `false`.
 bool AdvancePastPrefix(const char** input, const char* pattern);
 
