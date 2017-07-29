@@ -16,6 +16,7 @@
 
 #include <sys/types.h>
 
+#include "base/macros.h"
 #include "gtest/gtest.h"
 
 #if defined(OS_POSIX)
@@ -120,10 +121,9 @@ TEST(Semaphore, TenThreaded) {
   // resources (10), and the threads each try to obtain the resource a different
   // number of times.
   Semaphore semaphore(5);
-  const size_t kThreads = 10;
-  ThreadMainInfo info[kThreads];
+  ThreadMainInfo info[10];
   size_t iterations = 0;
-  for (size_t index = 0; index < kThreads; ++index) {
+  for (size_t index = 0; index < arraysize(info); ++index) {
     info[index].semaphore = &semaphore;
     info[index].iterations = index;
     iterations += info[index].iterations;
@@ -135,7 +135,7 @@ TEST(Semaphore, TenThreaded) {
     semaphore.Signal();
   }
 
-  for (size_t index = 0; index < kThreads; ++index) {
+  for (size_t index = 0; index < arraysize(info); ++index) {
     JoinThread(&info[index]);
   }
 }

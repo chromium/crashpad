@@ -268,7 +268,7 @@ void CrashReportUploadThread::ProcessPendingReport(
         // If the most recent upload attempt occurred within the past hour,
         // don’t attempt to upload the new report. If it happened longer ago,
         // attempt to upload the report.
-        const int kUploadAttemptIntervalSeconds = 60 * 60;  // 1 hour
+        constexpr int kUploadAttemptIntervalSeconds = 60 * 60;  // 1 hour
         if (now - last_upload_attempt_time < kUploadAttemptIntervalSeconds) {
           database_->SkipReportUpload(
               report.uuid, Metrics::CrashSkippedReason::kUploadThrottled);
@@ -280,7 +280,7 @@ void CrashReportUploadThread::ProcessPendingReport(
         // upload attempt time is bogus, and attempt to upload the report. If
         // the most recent upload time is in the future but within one day,
         // accept it and don’t attempt to upload the report.
-        const int kBackwardsClockTolerance = 60 * 60 * 24;  // 1 day
+        constexpr int kBackwardsClockTolerance = 60 * 60 * 24;  // 1 day
         if (last_upload_attempt_time - now < kBackwardsClockTolerance) {
           database_->SkipReportUpload(
               report.uuid, Metrics::CrashSkippedReason::kUnexpectedTime);
@@ -361,7 +361,7 @@ CrashReportUploadThread::UploadResult CrashReportUploadThread::UploadReport(
   HTTPMultipartBuilder http_multipart_builder;
   http_multipart_builder.SetGzipEnabled(upload_gzip_);
 
-  const char kMinidumpKey[] = "upload_file_minidump";
+  static constexpr char kMinidumpKey[] = "upload_file_minidump";
 
   for (const auto& kv : parameters) {
     if (kv.first == kMinidumpKey) {

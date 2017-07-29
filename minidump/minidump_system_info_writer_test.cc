@@ -46,10 +46,10 @@ void GetSystemInfoStream(const std::string& file_contents,
   const size_t kCSDVersionBytesWithNUL =
       kCSDVersionBytes + sizeof(tmp.Buffer[0]);
 
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kSystemInfoStreamOffset =
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kSystemInfoStreamOffset =
       kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
-  const size_t kCSDVersionOffset =
+  constexpr size_t kCSDVersionOffset =
       kSystemInfoStreamOffset + sizeof(MINIDUMP_SYSTEM_INFO);
   const size_t kFileSize =
       kCSDVersionOffset + sizeof(MINIDUMP_STRING) + kCSDVersionBytesWithNUL;
@@ -120,21 +120,22 @@ TEST(MinidumpSystemInfoWriter, X86_Win) {
   MinidumpFileWriter minidump_file_writer;
   auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
 
-  const MinidumpCPUArchitecture kCPUArchitecture = kMinidumpCPUArchitectureX86;
-  const uint16_t kCPULevel = 0x0010;
-  const uint16_t kCPURevision = 0x0602;
-  const uint8_t kCPUCount = 1;
-  const MinidumpOS kOS = kMinidumpOSWin32NT;
-  const MinidumpOSType kOSType = kMinidumpOSTypeWorkstation;
-  const uint32_t kOSVersionMajor = 6;
-  const uint32_t kOSVersionMinor = 1;
-  const uint32_t kOSVersionBuild = 7601;
-  const char kCSDVersion[] = "Service Pack 1";
-  const uint16_t kSuiteMask = VER_SUITE_SINGLEUSERTS;
-  const char kCPUVendor[] = "AuthenticAMD";
-  const uint32_t kCPUVersion = 0x00100f62;
-  const uint32_t kCPUFeatures = 0x078bfbff;
-  const uint32_t kAMDFeatures = 0xefd3fbff;
+  constexpr MinidumpCPUArchitecture kCPUArchitecture =
+      kMinidumpCPUArchitectureX86;
+  constexpr uint16_t kCPULevel = 0x0010;
+  constexpr uint16_t kCPURevision = 0x0602;
+  constexpr uint8_t kCPUCount = 1;
+  constexpr MinidumpOS kOS = kMinidumpOSWin32NT;
+  constexpr MinidumpOSType kOSType = kMinidumpOSTypeWorkstation;
+  constexpr uint32_t kOSVersionMajor = 6;
+  constexpr uint32_t kOSVersionMinor = 1;
+  constexpr uint32_t kOSVersionBuild = 7601;
+  static constexpr char kCSDVersion[] = "Service Pack 1";
+  constexpr uint16_t kSuiteMask = VER_SUITE_SINGLEUSERTS;
+  static constexpr char kCPUVendor[] = "AuthenticAMD";
+  constexpr uint32_t kCPUVersion = 0x00100f62;
+  constexpr uint32_t kCPUFeatures = 0x078bfbff;
+  constexpr uint32_t kAMDFeatures = 0xefd3fbff;
 
   uint32_t cpu_vendor_registers[3];
   ASSERT_EQ(strlen(kCPUVendor), sizeof(cpu_vendor_registers));
@@ -190,18 +191,18 @@ TEST(MinidumpSystemInfoWriter, AMD64_Mac) {
   MinidumpFileWriter minidump_file_writer;
   auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
 
-  const MinidumpCPUArchitecture kCPUArchitecture =
+  constexpr MinidumpCPUArchitecture kCPUArchitecture =
       kMinidumpCPUArchitectureAMD64;
-  const uint16_t kCPULevel = 0x0006;
-  const uint16_t kCPURevision = 0x3a09;
-  const uint8_t kCPUCount = 8;
-  const MinidumpOS kOS = kMinidumpOSMacOSX;
-  const MinidumpOSType kOSType = kMinidumpOSTypeWorkstation;
-  const uint32_t kOSVersionMajor = 10;
-  const uint32_t kOSVersionMinor = 9;
-  const uint32_t kOSVersionBuild = 4;
-  const char kCSDVersion[] = "13E28";
-  const uint64_t kCPUFeatures[2] = {0x10427f4c, 0x00000000};
+  constexpr uint16_t kCPULevel = 0x0006;
+  constexpr uint16_t kCPURevision = 0x3a09;
+  constexpr uint8_t kCPUCount = 8;
+  constexpr MinidumpOS kOS = kMinidumpOSMacOSX;
+  constexpr MinidumpOSType kOSType = kMinidumpOSTypeWorkstation;
+  constexpr uint32_t kOSVersionMajor = 10;
+  constexpr uint32_t kOSVersionMinor = 9;
+  constexpr uint32_t kOSVersionBuild = 4;
+  static constexpr char kCSDVersion[] = "13E28";
+  static constexpr uint64_t kCPUFeatures[2] = {0x10427f4c, 0x00000000};
 
   system_info_writer->SetCPUArchitecture(kCPUArchitecture);
   system_info_writer->SetCPULevelAndRevision(kCPULevel, kCPURevision);
@@ -247,8 +248,9 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
   MinidumpFileWriter minidump_file_writer;
   auto system_info_writer = base::WrapUnique(new MinidumpSystemInfoWriter());
 
-  const MinidumpCPUArchitecture kCPUArchitecture = kMinidumpCPUArchitectureX86;
-  const uint32_t kCPUVendor[] = {'uneG', 'Ieni', 'letn'};
+  constexpr MinidumpCPUArchitecture kCPUArchitecture =
+      kMinidumpCPUArchitectureX86;
+  static constexpr uint32_t kCPUVendor[] = {'uneG', 'Ieni', 'letn'};
 
   system_info_writer->SetCPUArchitecture(kCPUArchitecture);
   system_info_writer->SetCPUX86Vendor(
@@ -277,9 +279,9 @@ TEST(MinidumpSystemInfoWriter, X86_CPUVendorFromRegisters) {
 TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
   MINIDUMP_SYSTEM_INFO expect_system_info = {};
 
-  const uint16_t kCPUFamily = 6;
-  const uint8_t kCPUModel = 70;
-  const uint8_t kCPUStepping = 1;
+  constexpr uint16_t kCPUFamily = 6;
+  constexpr uint8_t kCPUModel = 70;
+  constexpr uint8_t kCPUStepping = 1;
 
   const uint8_t kCPUBasicFamily =
       static_cast<uint8_t>(std::min(kCPUFamily, static_cast<uint16_t>(15)));
@@ -291,12 +293,12 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
   EXPECT_LE(kCPUStepping, 15);
   EXPECT_TRUE(kCPUBasicFamily == 6 || kCPUBasicFamily == 15 || kCPUModel <= 15);
 
-  const uint8_t kCPUBasicModel = kCPUModel & 0xf;
-  const uint8_t kCPUExtendedModel = kCPUModel >> 4;
+  constexpr uint8_t kCPUBasicModel = kCPUModel & 0xf;
+  constexpr uint8_t kCPUExtendedModel = kCPUModel >> 4;
   const uint32_t kCPUSignature =
       (kCPUExtendedFamily << 20) | (kCPUExtendedModel << 16) |
       (kCPUBasicFamily << 8) | (kCPUBasicModel << 4) | kCPUStepping;
-  const uint64_t kCPUX86Features = 0x7ffafbffbfebfbff;
+  constexpr uint64_t kCPUX86Features = 0x7ffafbffbfebfbff;
   expect_system_info.ProcessorArchitecture = kMinidumpCPUArchitectureX86;
   expect_system_info.ProcessorLevel = kCPUFamily;
   expect_system_info.ProcessorRevision = (kCPUModel << 8) | kCPUStepping;
@@ -313,8 +315,8 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
   expect_system_info.Cpu.X86CpuInfo.VersionInformation = kCPUSignature;
   expect_system_info.Cpu.X86CpuInfo.FeatureInformation =
       kCPUX86Features & 0xffffffff;
-  const char kCPUVendor[] = "GenuineIntel";
-  const char kOSVersionBuild[] = "13F34";
+  static constexpr char kCPUVendor[] = "GenuineIntel";
+  static constexpr char kOSVersionBuild[] = "13F34";
 
   TestSystemSnapshot system_snapshot;
   system_snapshot.SetCPUArchitecture(kCPUArchitectureX86);
@@ -379,9 +381,9 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_X86) {
 TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
   MINIDUMP_SYSTEM_INFO expect_system_info = {};
 
-  const uint8_t kCPUFamily = 6;
-  const uint8_t kCPUModel = 70;
-  const uint8_t kCPUStepping = 1;
+  constexpr uint8_t kCPUFamily = 6;
+  constexpr uint8_t kCPUModel = 70;
+  constexpr uint8_t kCPUStepping = 1;
   expect_system_info.ProcessorArchitecture = kMinidumpCPUArchitectureAMD64;
   expect_system_info.ProcessorLevel = kCPUFamily;
   expect_system_info.ProcessorRevision = (kCPUModel << 8) | kCPUStepping;
@@ -408,7 +410,7 @@ TEST(MinidumpSystemInfoWriter, InitializeFromSnapshot_AMD64) {
       (1 << PF_RDRAND_INSTRUCTION_AVAILABLE) |
       (UINT64_C(1) << PF_RDTSCP_INSTRUCTION_AVAILABLE);
   expect_system_info.Cpu.OtherCpuInfo.ProcessorFeatures[1] = 0;
-  const char kOSVersionBuild[] = "13F34";
+  static constexpr char kOSVersionBuild[] = "13F34";
 
   TestSystemSnapshot system_snapshot;
   system_snapshot.SetCPUArchitecture(kCPUArchitectureX86_64);

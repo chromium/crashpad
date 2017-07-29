@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/net/http_headers.h"
+#ifndef CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
+#define CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
 
-namespace crashpad {
+#include_next <sys/syscall.h>
 
-const char kContentType[] = "Content-Type";
-const char kContentLength[] = "Content-Length";
-const char kContentEncoding[] = "Content-Encoding";
+// Android 5.0.0 (API 21) NDK
+#if !defined(SYS_gettid)
+#define SYS_gettid __NR_gettid
+#endif
 
-}  // namespace crashpad
+#endif  // CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_

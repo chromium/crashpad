@@ -23,10 +23,10 @@ namespace {
 
 TEST(Int128, UInt128) {
 #if defined(ARCH_CPU_LITTLE_ENDIAN)
-  const uint8_t kBytes[] =
+  static constexpr uint8_t kBytes[] =
       {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 #else
-  const uint8_t kBytes[] =
+  static constexpr uint8_t kBytes[] =
       {15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 #endif
 

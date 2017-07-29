@@ -16,7 +16,7 @@
 
 namespace crashpad {
 
-const uint32_t MinidumpModuleCrashpadInfo::kVersion;
-const uint32_t MinidumpCrashpadInfo::kVersion;
+constexpr uint32_t MinidumpModuleCrashpadInfo::kVersion;
+constexpr uint32_t MinidumpCrashpadInfo::kVersion;
 
 }  // namespace crashpad

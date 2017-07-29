@@ -279,7 +279,7 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   }
 
   std::set<mach_msg_id_t> MachMessageServerRequestIDs() override {
-    const mach_msg_id_t request_ids[] = {kRequestMessageID};
+    static constexpr mach_msg_id_t request_ids[] = {kRequestMessageID};
     return std::set<mach_msg_id_t>(&request_ids[0],
                                    &request_ids[arraysize(request_ids)]);
   }
@@ -589,16 +589,16 @@ class TestMachMessageServer : public MachMessageServer::Interface,
   static uint32_t requests_;
   static uint32_t replies_;
 
-  static const mach_msg_id_t kRequestMessageID = 16237;
-  static const mach_msg_id_t kReplyMessageID = kRequestMessageID + 100;
+  static constexpr mach_msg_id_t kRequestMessageID = 16237;
+  static constexpr mach_msg_id_t kReplyMessageID = kRequestMessageID + 100;
 
   DISALLOW_COPY_AND_ASSIGN(TestMachMessageServer);
 };
 
 uint32_t TestMachMessageServer::requests_;
 uint32_t TestMachMessageServer::replies_;
-const mach_msg_id_t TestMachMessageServer::kRequestMessageID;
-const mach_msg_id_t TestMachMessageServer::kReplyMessageID;
+constexpr mach_msg_id_t TestMachMessageServer::kRequestMessageID;
+constexpr mach_msg_id_t TestMachMessageServer::kReplyMessageID;
 
 TEST(MachMessageServer, Basic) {
   // The client sends one message to the server, which will wait indefinitely in
@@ -688,7 +688,7 @@ TEST(MachMessageServer, PersistentNonblockingFourMessages) {
   // child is allowed to begin sending messages, so
   // child_wait_for_parent_pipe_early is used to make the child wait until the
   // parent is ready.
-  const size_t kTransactionCount = 4;
+  constexpr size_t kTransactionCount = 4;
   static_assert(kTransactionCount <= MACH_PORT_QLIMIT_DEFAULT,
                 "must not exceed queue limit");
 

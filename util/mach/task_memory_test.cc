@@ -33,7 +33,7 @@ namespace {
 
 TEST(TaskMemory, ReadSelf) {
   vm_address_t address = 0;
-  const vm_size_t kSize = 4 * PAGE_SIZE;
+  constexpr vm_size_t kSize = 4 * PAGE_SIZE;
   kern_return_t kr =
       vm_allocate(mach_task_self(), &address, kSize, VM_FLAGS_ANYWHERE);
   ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "vm_allocate");
@@ -102,7 +102,7 @@ TEST(TaskMemory, ReadSelf) {
 
 TEST(TaskMemory, ReadSelfUnmapped) {
   vm_address_t address = 0;
-  const vm_size_t kSize = 2 * PAGE_SIZE;
+  constexpr vm_size_t kSize = 2 * PAGE_SIZE;
   kern_return_t kr =
       vm_allocate(mach_task_self(), &address, kSize, VM_FLAGS_ANYWHERE);
   ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "vm_allocate");
@@ -194,13 +194,34 @@ TEST(TaskMemory, ReadCStringSelf) {
   EXPECT_FALSE(result.empty());
   EXPECT_EQ(result, kStaticConstCharShort);
 
+  constexpr char kConstexprCharEmpty[] = "";
+  ASSERT_TRUE(ReadCStringSelf(&memory, kConstexprCharEmpty, &result));
+  EXPECT_TRUE(result.empty());
+  EXPECT_EQ(result, kConstexprCharEmpty);
+
+  constexpr char kConstexprCharShort[] = "A short constexpr char[]";
+  ASSERT_TRUE(ReadCStringSelf(&memory, kConstexprCharShort, &result));
+  EXPECT_FALSE(result.empty());
+  EXPECT_EQ(result, kConstexprCharShort);
+
+  static constexpr char kStaticConstexprCharEmpty[] = "";
+  ASSERT_TRUE(ReadCStringSelf(&memory, kStaticConstexprCharEmpty, &result));
+  EXPECT_TRUE(result.empty());
+  EXPECT_EQ(result, kStaticConstexprCharEmpty);
+
+  static constexpr char kStaticConstexprCharShort[] =
+      "A short static constexpr char[]";
+  ASSERT_TRUE(ReadCStringSelf(&memory, kStaticConstexprCharShort, &result));
+  EXPECT_FALSE(result.empty());
+  EXPECT_EQ(result, kStaticConstexprCharShort);
+
   std::string string_short("A short std::string in a function");
   ASSERT_TRUE(ReadCStringSelf(&memory, &string_short[0], &result));
   EXPECT_FALSE(result.empty());
   EXPECT_EQ(result, string_short);
 
   std::string string_long;
-  const size_t kStringLongSize = 4 * PAGE_SIZE;
+  constexpr size_t kStringLongSize = 4 * PAGE_SIZE;
   for (size_t index = 0; index < kStringLongSize; ++index) {
     // Don’t include any NUL bytes, because ReadCString stops when it encounters
     // a NUL.
@@ -215,7 +236,7 @@ TEST(TaskMemory, ReadCStringSelf) {
 
 TEST(TaskMemory, ReadCStringSelfUnmapped) {
   vm_address_t address = 0;
-  const vm_size_t kSize = 2 * PAGE_SIZE;
+  constexpr vm_size_t kSize = 2 * PAGE_SIZE;
   kern_return_t kr =
       vm_allocate(mach_task_self(), &address, kSize, VM_FLAGS_ANYWHERE);
   ASSERT_EQ(kr, KERN_SUCCESS) << MachErrorMessage(kr, "vm_allocate");
@@ -280,7 +301,7 @@ TEST(TaskMemory, ReadCStringSizeLimited_ConstCharEmpty) {
   TaskMemory memory(mach_task_self());
   std::string result;
 
-  const char kConstCharEmpty[] = "";
+  static constexpr char kConstCharEmpty[] = "";
   ASSERT_TRUE(ReadCStringSizeLimitedSelf(
       &memory, kConstCharEmpty, arraysize(kConstCharEmpty), &result));
   EXPECT_TRUE(result.empty());
@@ -302,7 +323,7 @@ TEST(TaskMemory, ReadCStringSizeLimited_ConstCharShort) {
   TaskMemory memory(mach_task_self());
   std::string result;
 
-  const char kConstCharShort[] = "A short const char[]";
+  static constexpr char kConstCharShort[] = "A short const char[]";
   ASSERT_TRUE(ReadCStringSizeLimitedSelf(
       &memory, kConstCharShort, arraysize(kConstCharShort), &result));
   EXPECT_FALSE(result.empty());
@@ -322,7 +343,7 @@ TEST(TaskMemory, ReadCStringSizeLimited_StaticConstCharEmpty) {
   TaskMemory memory(mach_task_self());
   std::string result;
 
-  static const char kStaticConstCharEmpty[] = "";
+  static constexpr char kStaticConstCharEmpty[] = "";
   ASSERT_TRUE(ReadCStringSizeLimitedSelf(&memory,
                                          kStaticConstCharEmpty,
                                          arraysize(kStaticConstCharEmpty),
@@ -349,7 +370,8 @@ TEST(TaskMemory, ReadCStringSizeLimited_StaticConstCharShort) {
   TaskMemory memory(mach_task_self());
   std::string result;
 
-  static const char kStaticConstCharShort[] = "A short static const char[]";
+  static constexpr char kStaticConstCharShort[] =
+      "A short static constexpr char[]";
   ASSERT_TRUE(ReadCStringSizeLimitedSelf(&memory,
                                          kStaticConstCharShort,
                                          arraysize(kStaticConstCharShort),
@@ -396,7 +418,7 @@ TEST(TaskMemory, ReadCStringSizeLimited_StringLong) {
   std::string result;
 
   std::string string_long;
-  const size_t kStringLongSize = 4 * PAGE_SIZE;
+  constexpr size_t kStringLongSize = 4 * PAGE_SIZE;
   for (size_t index = 0; index < kStringLongSize; ++index) {
     // Don’t include any NUL bytes, because ReadCString stops when it encounters
     // a NUL.
@@ -461,7 +483,7 @@ TEST(TaskMemory, MappedMemoryDeallocates) {
   TaskMemory memory(mach_task_self());
   std::unique_ptr<TaskMemory::MappedMemory> mapped;
 
-  static const char kTestBuffer[] = "hello!";
+  static constexpr char kTestBuffer[] = "hello!";
   mach_vm_address_t test_address =
       FromPointerCast<mach_vm_address_t>(&kTestBuffer);
   ASSERT_TRUE((mapped = memory.ReadMapped(test_address, sizeof(kTestBuffer))));
@@ -476,7 +498,7 @@ TEST(TaskMemory, MappedMemoryDeallocates) {
   // This is the same but with a big buffer that’s definitely larger than a
   // single page. This makes sure that the whole mapped region winds up being
   // deallocated.
-  const size_t kBigSize = 4 * PAGE_SIZE;
+  constexpr size_t kBigSize = 4 * PAGE_SIZE;
   std::unique_ptr<char[]> big_buffer(new char[kBigSize]);
   test_address = FromPointerCast<mach_vm_address_t>(&big_buffer[0]);
   ASSERT_TRUE((mapped = memory.ReadMapped(test_address, kBigSize)));
@@ -498,7 +520,7 @@ TEST(TaskMemory, MappedMemoryReadCString) {
   TaskMemory memory(mach_task_self());
   std::unique_ptr<TaskMemory::MappedMemory> mapped;
 
-  static const char kTestBuffer[] = "0\0" "2\0" "45\0" "789";
+  static constexpr char kTestBuffer[] = "0\0" "2\0" "45\0" "789";
   const mach_vm_address_t kTestAddress =
       FromPointerCast<mach_vm_address_t>(&kTestBuffer);
   ASSERT_TRUE((mapped = memory.ReadMapped(kTestAddress, 10)));

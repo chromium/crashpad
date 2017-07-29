@@ -27,6 +27,10 @@ using LinuxVMAddress = uint64_t;
 //!     LinuxVMAddress), potentially across bitness.
 using LinuxVMSize = uint64_t;
 
+//! \brief Type used to represent an offset from a LinuxVMAddress, potentially
+//!     across bitness.
+using LinuxVMOffset = int64_t;
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_LINUX_ADDRESS_TYPES_H_

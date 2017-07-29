@@ -99,7 +99,7 @@ bool ExceptionPorts::GetExceptionPorts(exception_mask_t mask,
   // later operating system versions have defined more exception types. The
   // generated task_get_exception_ports() in taskUser.c expects there to be room
   // for 32.
-  const int kMaxPorts = 32;
+  constexpr int kMaxPorts = 32;
 
   // task_get_exception_ports() doesn’t actually use the initial value of
   // handler_count, but 10.9.4

@@ -43,28 +43,28 @@ using testing::Return;
 // Fake Mach ports. These aren’t used as ports in these tests, they’re just used
 // as cookies to make sure that the correct values get passed to the correct
 // places.
-const mach_port_t kClientRemotePort = 0x01010101;
-const mach_port_t kServerLocalPort = 0x02020202;
-const thread_t kExceptionThreadPort = 0x03030303;
-const task_t kExceptionTaskPort = 0x04040404;
+constexpr mach_port_t kClientRemotePort = 0x01010101;
+constexpr mach_port_t kServerLocalPort = 0x02020202;
+constexpr thread_t kExceptionThreadPort = 0x03030303;
+constexpr task_t kExceptionTaskPort = 0x04040404;
 
 // Other fake exception values.
-const exception_type_t kExceptionType = EXC_BAD_ACCESS;
+constexpr exception_type_t kExceptionType = EXC_BAD_ACCESS;
 
 // Test using an exception code with the high bit set to ensure that it gets
 // promoted to the wider mach_exception_data_type_t type as a signed quantity.
-const exception_data_type_t kTestExceptonCodes[] = {
+constexpr exception_data_type_t kTestExceptonCodes[] = {
     KERN_PROTECTION_FAILURE,
     implicit_cast<exception_data_type_t>(0xfedcba98),
 };
 
-const mach_exception_data_type_t kTestMachExceptionCodes[] = {
+constexpr mach_exception_data_type_t kTestMachExceptionCodes[] = {
     KERN_PROTECTION_FAILURE,
     implicit_cast<mach_exception_data_type_t>(0xfedcba9876543210),
 };
 
-const thread_state_flavor_t kThreadStateFlavor = MACHINE_THREAD_STATE;
-const mach_msg_type_number_t kThreadStateFlavorCount =
+constexpr thread_state_flavor_t kThreadStateFlavor = MACHINE_THREAD_STATE;
+constexpr mach_msg_type_number_t kThreadStateFlavorCount =
     MACHINE_THREAD_STATE_COUNT;
 
 void InitializeMachMsgPortDescriptor(mach_msg_port_descriptor_t* descriptor,
@@ -601,7 +601,7 @@ TEST(ExcServerVariants, MockExceptionRaise) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior = EXCEPTION_DEFAULT;
+  constexpr exception_behavior_t kExceptionBehavior = EXCEPTION_DEFAULT;
 
   EXPECT_CALL(server,
               MockCatchMachException(kExceptionBehavior,
@@ -646,7 +646,7 @@ TEST(ExcServerVariants, MockExceptionRaiseState) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior = EXCEPTION_STATE;
+  constexpr exception_behavior_t kExceptionBehavior = EXCEPTION_STATE;
 
   EXPECT_CALL(
       server,
@@ -695,7 +695,7 @@ TEST(ExcServerVariants, MockExceptionRaiseStateIdentity) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior = EXCEPTION_STATE_IDENTITY;
+  constexpr exception_behavior_t kExceptionBehavior = EXCEPTION_STATE_IDENTITY;
 
   EXPECT_CALL(
       server,
@@ -741,7 +741,7 @@ TEST(ExcServerVariants, MockMachExceptionRaise) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior =
+  constexpr exception_behavior_t kExceptionBehavior =
       EXCEPTION_DEFAULT | MACH_EXCEPTION_CODES;
 
   EXPECT_CALL(
@@ -788,7 +788,7 @@ TEST(ExcServerVariants, MockMachExceptionRaiseState) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior =
+  constexpr exception_behavior_t kExceptionBehavior =
       EXCEPTION_STATE | MACH_EXCEPTION_CODES;
 
   EXPECT_CALL(
@@ -838,7 +838,7 @@ TEST(ExcServerVariants, MockMachExceptionRaiseStateIdentity) {
   EXPECT_LE(sizeof(reply),
             universal_mach_exc_server.MachMessageServerReplySize());
 
-  const exception_behavior_t kExceptionBehavior =
+  constexpr exception_behavior_t kExceptionBehavior =
       EXCEPTION_STATE_IDENTITY | MACH_EXCEPTION_CODES;
 
   EXPECT_CALL(
@@ -877,7 +877,7 @@ TEST(ExcServerVariants, MockUnknownID) {
   // UniversalMachExcServer should not dispatch the message to
   // MachMessageServerFunction, but should generate a MIG_BAD_ID error reply.
 
-  const mach_msg_id_t unknown_ids[] = {
+  static constexpr mach_msg_id_t unknown_ids[] = {
       // Reasonable things to check.
       -101,
       -100,
@@ -1130,11 +1130,10 @@ TEST(ExcServerVariants, ThreadStates) {
   // So far, all of the tests worked with MACHINE_THREAD_STATE. Now try all of
   // the other thread state flavors that are expected to work.
 
-  struct TestData {
+  static constexpr struct {
     thread_state_flavor_t flavor;
     mach_msg_type_number_t count;
-  };
-  const TestData test_data[] = {
+  } test_data[] = {
 #if defined(ARCH_CPU_X86_FAMILY)
       // For the x86 family, exception handlers can only properly receive the
       // thread, float, and exception state flavors. There’s a bug in the kernel
@@ -1179,7 +1178,7 @@ TEST(ExcServerVariants, ThreadStates) {
   };
 
   for (size_t index = 0; index < arraysize(test_data); ++index) {
-    const TestData& test = test_data[index];
+    const auto& test = test_data[index];
     SCOPED_TRACE(
         base::StringPrintf("index %zu, flavor %d", index, test.flavor));
 
@@ -1195,13 +1194,12 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
   const kern_return_t prefer_not_set_thread_state =
       MacOSXMinorVersion() < 11 ? MACH_RCV_PORT_DIED : KERN_SUCCESS;
 
-  struct TestData {
+  const struct {
     exception_type_t exception;
     exception_behavior_t behavior;
     bool set_thread_state;
     kern_return_t kr;
-  };
-  const TestData kTestData[] = {
+  } kTestData[] = {
       {EXC_CRASH, EXCEPTION_DEFAULT, false, KERN_SUCCESS},
       {EXC_CRASH, EXCEPTION_STATE, false, prefer_not_set_thread_state},
       {EXC_CRASH, EXCEPTION_STATE_IDENTITY, false, prefer_not_set_thread_state},
@@ -1253,7 +1251,7 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
   };
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
-    const TestData& test_data = kTestData[index];
+    const auto& test_data = kTestData[index];
     SCOPED_TRACE(
         base::StringPrintf("index %zu, behavior %d, set_thread_state %s",
                            index,
@@ -1268,10 +1266,10 @@ TEST(ExcServerVariants, ExcServerSuccessfulReturnValue) {
 }
 
 TEST(ExcServerVariants, ExcServerCopyState) {
-  const natural_t old_state[] = {1, 2, 3, 4, 5};
+  static constexpr natural_t old_state[] = {1, 2, 3, 4, 5};
   natural_t new_state[10] = {};
 
-  const mach_msg_type_number_t old_state_count = arraysize(old_state);
+  constexpr mach_msg_type_number_t old_state_count = arraysize(old_state);
   mach_msg_type_number_t new_state_count = arraysize(new_state);
 
   // EXCEPTION_DEFAULT (with or without MACH_EXCEPTION_CODES) is not

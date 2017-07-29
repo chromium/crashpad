@@ -54,8 +54,8 @@ FileOperationResult GzipHTTPBodyStream::GetBytesBuffer(uint8_t* buffer,
     // are the values that deflateInit() would use, but they’re not exported
     // from zlib. deflateInit2() is used instead of deflateInit() to get the
     // gzip wrapper.
-    const int kZlibMaxWindowBits = 15;
-    const int kZlibDefaultMemoryLevel = 8;
+    constexpr int kZlibMaxWindowBits = 15;
+    constexpr int kZlibDefaultMemoryLevel = 8;
 
     int zr = deflateInit2(z_stream_.get(),
                           Z_DEFAULT_COMPRESSION,

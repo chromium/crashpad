@@ -118,23 +118,23 @@ class HTTPBodyStreamCFReadStream {
   // Creates a new NSInputStream, which the caller owns.
   NSInputStream* CreateInputStream() {
     CFStreamClientContext context = {
-      .version = 0,
-      .info = this,
-      .retain = nullptr,
-      .release = nullptr,
-      .copyDescription = nullptr
+        .version = 0,
+        .info = this,
+        .retain = nullptr,
+        .release = nullptr,
+        .copyDescription = nullptr
     };
-    const CFReadStreamCallBacksV0 callbacks = {
-      .version = 0,
-      .open = &Open,
-      .openCompleted = &OpenCompleted,
-      .read = &Read,
-      .getBuffer = &GetBuffer,
-      .canRead = &CanRead,
-      .close = &Close,
-      .copyProperty = &CopyProperty,
-      .schedule = &Schedule,
-      .unschedule = &Unschedule
+    constexpr CFReadStreamCallBacksV0 callbacks = {
+        .version = 0,
+        .open = &Open,
+        .openCompleted = &OpenCompleted,
+        .read = &Read,
+        .getBuffer = &GetBuffer,
+        .canRead = &CanRead,
+        .close = &Close,
+        .copyProperty = &CopyProperty,
+        .schedule = &Schedule,
+        .unschedule = &Unschedule
     };
     CFReadStreamRef read_stream = CFReadStreamCreate(nullptr,
         reinterpret_cast<const CFReadStreamCallBacks*>(&callbacks), &context);

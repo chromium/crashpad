@@ -290,7 +290,7 @@ struct ALIGNAS(4) PACKED MinidumpModuleCrashpadInfo {
   //! \brief The structure’s currently-defined version number.
   //!
   //! \sa version
-  static const uint32_t kVersion = 1;
+  static constexpr uint32_t kVersion = 1;
 
   //! \brief The structure’s version number.
   //!
@@ -387,7 +387,7 @@ struct ALIGNAS(4) PACKED MinidumpCrashpadInfo {
   //! \brief The structure’s currently-defined version number.
   //!
   //! \sa version
-  static const uint32_t kVersion = 1;
+  static constexpr uint32_t kVersion = 1;
 
   //! \brief The structure’s version number.
   //!

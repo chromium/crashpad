@@ -92,12 +92,13 @@ class TestStream final : public internal::MinidumpStreamWriter {
 
 TEST(MinidumpFileWriter, OneStream) {
   MinidumpFileWriter minidump_file;
-  const time_t kTimestamp = 0x155d2fb8;
+  constexpr time_t kTimestamp = 0x155d2fb8;
   minidump_file.SetTimestamp(kTimestamp);
 
-  const size_t kStreamSize = 5;
-  const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
-  const uint8_t kStreamValue = 0x5a;
+  constexpr size_t kStreamSize = 5;
+  constexpr MinidumpStreamType kStreamType =
+      static_cast<MinidumpStreamType>(0x4d);
+  constexpr uint8_t kStreamValue = 0x5a;
   auto stream =
       base::WrapUnique(new TestStream(kStreamType, kStreamSize, kStreamValue));
   ASSERT_TRUE(minidump_file.AddStream(std::move(stream)));
@@ -105,9 +106,10 @@ TEST(MinidumpFileWriter, OneStream) {
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
 
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kStreamOffset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
-  const size_t kFileSize = kStreamOffset + kStreamSize;
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kStreamOffset =
+      kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
+  constexpr size_t kFileSize = kStreamOffset + kStreamSize;
 
   ASSERT_EQ(string_file.string().size(), kFileSize);
 
@@ -131,12 +133,13 @@ TEST(MinidumpFileWriter, OneStream) {
 
 TEST(MinidumpFileWriter, AddUserExtensionStream) {
   MinidumpFileWriter minidump_file;
-  const time_t kTimestamp = 0x155d2fb8;
+  constexpr time_t kTimestamp = 0x155d2fb8;
   minidump_file.SetTimestamp(kTimestamp);
 
-  static const uint8_t kStreamData[] = "Hello World!";
-  const size_t kStreamSize = arraysize(kStreamData);
-  const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
+  static constexpr uint8_t kStreamData[] = "Hello World!";
+  constexpr size_t kStreamSize = arraysize(kStreamData);
+  constexpr MinidumpStreamType kStreamType =
+      static_cast<MinidumpStreamType>(0x4d);
 
   auto data_source = base::WrapUnique(new test::BufferExtensionStreamDataSource(
       kStreamType, kStreamData, kStreamSize));
@@ -150,9 +153,10 @@ TEST(MinidumpFileWriter, AddUserExtensionStream) {
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
 
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kStreamOffset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
-  const size_t kFileSize = kStreamOffset + kStreamSize;
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kStreamOffset =
+      kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
+  constexpr size_t kFileSize = kStreamOffset + kStreamSize;
 
   ASSERT_EQ(string_file.string().size(), kFileSize);
 
@@ -175,10 +179,11 @@ TEST(MinidumpFileWriter, AddUserExtensionStream) {
 
 TEST(MinidumpFileWriter, AddEmptyUserExtensionStream) {
   MinidumpFileWriter minidump_file;
-  const time_t kTimestamp = 0x155d2fb8;
+  constexpr time_t kTimestamp = 0x155d2fb8;
   minidump_file.SetTimestamp(kTimestamp);
 
-  const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
+  constexpr MinidumpStreamType kStreamType =
+      static_cast<MinidumpStreamType>(0x4d);
 
   auto data_source = base::WrapUnique(
       new test::BufferExtensionStreamDataSource(kStreamType, nullptr, 0));
@@ -187,9 +192,10 @@ TEST(MinidumpFileWriter, AddEmptyUserExtensionStream) {
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
 
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kStreamOffset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
-  const size_t kFileSize = kStreamOffset;
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kStreamOffset =
+      kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
+  constexpr size_t kFileSize = kStreamOffset;
 
   ASSERT_EQ(string_file.string().size(), kFileSize);
 
@@ -206,12 +212,13 @@ TEST(MinidumpFileWriter, AddEmptyUserExtensionStream) {
 
 TEST(MinidumpFileWriter, ThreeStreams) {
   MinidumpFileWriter minidump_file;
-  const time_t kTimestamp = 0x155d2fb8;
+  constexpr time_t kTimestamp = 0x155d2fb8;
   minidump_file.SetTimestamp(kTimestamp);
 
-  const size_t kStream0Size = 5;
-  const MinidumpStreamType kStream0Type = static_cast<MinidumpStreamType>(0x6d);
-  const uint8_t kStream0Value = 0x5a;
+  constexpr size_t kStream0Size = 5;
+  constexpr MinidumpStreamType kStream0Type =
+      static_cast<MinidumpStreamType>(0x6d);
+  constexpr uint8_t kStream0Value = 0x5a;
   auto stream0 = base::WrapUnique(
       new TestStream(kStream0Type, kStream0Size, kStream0Value));
   ASSERT_TRUE(minidump_file.AddStream(std::move(stream0)));
@@ -219,16 +226,18 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   // Make the second stream’s type be a smaller quantity than the first stream’s
   // to test that the streams show up in the order that they were added, not in
   // numeric order.
-  const size_t kStream1Size = 3;
-  const MinidumpStreamType kStream1Type = static_cast<MinidumpStreamType>(0x4d);
-  const uint8_t kStream1Value = 0xa5;
+  constexpr size_t kStream1Size = 3;
+  constexpr MinidumpStreamType kStream1Type =
+      static_cast<MinidumpStreamType>(0x4d);
+  constexpr uint8_t kStream1Value = 0xa5;
   auto stream1 = base::WrapUnique(
       new TestStream(kStream1Type, kStream1Size, kStream1Value));
   ASSERT_TRUE(minidump_file.AddStream(std::move(stream1)));
 
-  const size_t kStream2Size = 1;
-  const MinidumpStreamType kStream2Type = static_cast<MinidumpStreamType>(0x7e);
-  const uint8_t kStream2Value = 0x36;
+  constexpr size_t kStream2Size = 1;
+  constexpr MinidumpStreamType kStream2Type =
+      static_cast<MinidumpStreamType>(0x7e);
+  constexpr uint8_t kStream2Value = 0x36;
   auto stream2 = base::WrapUnique(
       new TestStream(kStream2Type, kStream2Size, kStream2Value));
   ASSERT_TRUE(minidump_file.AddStream(std::move(stream2)));
@@ -236,14 +245,16 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
 
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kStream0Offset =
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kStream0Offset =
       kDirectoryOffset + 3 * sizeof(MINIDUMP_DIRECTORY);
-  const size_t kStream1Padding = 3;
-  const size_t kStream1Offset = kStream0Offset + kStream0Size + kStream1Padding;
-  const size_t kStream2Padding = 1;
-  const size_t kStream2Offset = kStream1Offset + kStream1Size + kStream2Padding;
-  const size_t kFileSize = kStream2Offset + kStream2Size;
+  constexpr size_t kStream1Padding = 3;
+  constexpr size_t kStream1Offset =
+      kStream0Offset + kStream0Size + kStream1Padding;
+  constexpr size_t kStream2Padding = 1;
+  constexpr size_t kStream2Offset =
+      kStream1Offset + kStream1Size + kStream2Padding;
+  constexpr size_t kFileSize = kStream2Offset + kStream2Size;
 
   ASSERT_EQ(string_file.string().size(), kFileSize);
 
@@ -270,7 +281,7 @@ TEST(MinidumpFileWriter, ThreeStreams) {
   std::string expected_stream0(kStream0Size, kStream0Value);
   EXPECT_EQ(memcmp(stream0_data, expected_stream0.c_str(), kStream0Size), 0);
 
-  const int kZeroes[16] = {};
+  static constexpr int kZeroes[16] = {};
   ASSERT_GE(sizeof(kZeroes), kStream1Padding);
   EXPECT_EQ(memcmp(stream0_data + kStream0Size, kZeroes, kStream1Padding), 0);
 
@@ -295,17 +306,19 @@ TEST(MinidumpFileWriter, ThreeStreams) {
 TEST(MinidumpFileWriter, ZeroLengthStream) {
   MinidumpFileWriter minidump_file;
 
-  const size_t kStreamSize = 0;
-  const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
+  constexpr size_t kStreamSize = 0;
+  constexpr MinidumpStreamType kStreamType =
+      static_cast<MinidumpStreamType>(0x4d);
   auto stream = base::WrapUnique(new TestStream(kStreamType, kStreamSize, 0));
   ASSERT_TRUE(minidump_file.AddStream(std::move(stream)));
 
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
 
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kStreamOffset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
-  const size_t kFileSize = kStreamOffset + kStreamSize;
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kStreamOffset =
+      kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
+  constexpr size_t kFileSize = kStreamOffset + kStreamSize;
 
   ASSERT_EQ(string_file.string().size(), kFileSize);
 
@@ -321,8 +334,8 @@ TEST(MinidumpFileWriter, ZeroLengthStream) {
 }
 
 TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
-  const uint32_t kSnapshotTime = 0x4976043c;
-  const timeval kSnapshotTimeval = { static_cast<time_t>(kSnapshotTime), 0 };
+  constexpr uint32_t kSnapshotTime = 0x4976043c;
+  constexpr timeval kSnapshotTimeval = {static_cast<time_t>(kSnapshotTime), 0};
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);
@@ -333,9 +346,9 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
   process_snapshot.SetSystem(std::move(system_snapshot));
 
   auto peb_snapshot = base::WrapUnique(new TestMemorySnapshot());
-  const uint64_t kPebAddress = 0x07f90000;
+  constexpr uint64_t kPebAddress = 0x07f90000;
   peb_snapshot->SetAddress(kPebAddress);
-  const size_t kPebSize = 0x280;
+  constexpr size_t kPebSize = 0x280;
   peb_snapshot->SetSize(kPebSize);
   peb_snapshot->SetValue('p');
   process_snapshot.AddExtraMemory(std::move(peb_snapshot));
@@ -383,10 +396,10 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Basic) {
 TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
   // In a 32-bit environment, this will give a “timestamp out of range” warning,
   // but the test should complete without failure.
-  const uint32_t kSnapshotTime = 0xfd469ab8;
+  constexpr uint32_t kSnapshotTime = 0xfd469ab8;
   MSVC_SUPPRESS_WARNING(4309);  // Truncation of constant value.
   MSVC_SUPPRESS_WARNING(4838);  // Narrowing conversion.
-  const timeval kSnapshotTimeval = { static_cast<time_t>(kSnapshotTime), 0 };
+  constexpr timeval kSnapshotTimeval = {static_cast<time_t>(kSnapshotTime), 0};
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);
@@ -449,8 +462,8 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_Exception) {
 }
 
 TEST(MinidumpFileWriter, InitializeFromSnapshot_CrashpadInfo) {
-  const uint32_t kSnapshotTime = 0x15393bd3;
-  const timeval kSnapshotTimeval = { static_cast<time_t>(kSnapshotTime), 0 };
+  constexpr uint32_t kSnapshotTime = 0x15393bd3;
+  constexpr timeval kSnapshotTimeval = {static_cast<time_t>(kSnapshotTime), 0};
 
   TestProcessSnapshot process_snapshot;
   process_snapshot.SetSnapshotTime(kSnapshotTimeval);
@@ -519,16 +532,17 @@ TEST(MinidumpFileWriter, InitializeFromSnapshot_CrashpadInfo) {
 TEST(MinidumpFileWriter, SameStreamType) {
   MinidumpFileWriter minidump_file;
 
-  const size_t kStream0Size = 3;
-  const MinidumpStreamType kStreamType = static_cast<MinidumpStreamType>(0x4d);
-  const uint8_t kStream0Value = 0x5a;
+  constexpr size_t kStream0Size = 3;
+  constexpr MinidumpStreamType kStreamType =
+      static_cast<MinidumpStreamType>(0x4d);
+  constexpr uint8_t kStream0Value = 0x5a;
   auto stream0 = base::WrapUnique(
       new TestStream(kStreamType, kStream0Size, kStream0Value));
   ASSERT_TRUE(minidump_file.AddStream(std::move(stream0)));
 
   // An attempt to add a second stream of the same type should fail.
-  const size_t kStream1Size = 5;
-  const uint8_t kStream1Value = 0xa5;
+  constexpr size_t kStream1Size = 5;
+  constexpr uint8_t kStream1Value = 0xa5;
   auto stream1 = base::WrapUnique(
       new TestStream(kStreamType, kStream1Size, kStream1Value));
   ASSERT_FALSE(minidump_file.AddStream(std::move(stream1)));
@@ -536,9 +550,10 @@ TEST(MinidumpFileWriter, SameStreamType) {
   StringFile string_file;
   ASSERT_TRUE(minidump_file.WriteEverything(&string_file));
 
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kStream0Offset = kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
-  const size_t kFileSize = kStream0Offset + kStream0Size;
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kStream0Offset =
+      kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
+  constexpr size_t kFileSize = kStream0Offset + kStream0Size;
 
   ASSERT_EQ(string_file.string().size(), kFileSize);
 

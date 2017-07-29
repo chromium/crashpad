@@ -35,7 +35,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-const MinidumpStreamType kBogusStreamType =
+constexpr MinidumpStreamType kBogusStreamType =
     static_cast<MinidumpStreamType>(1234);
 
 // expected_streams is the expected number of streams in the file. The memory
@@ -44,7 +44,7 @@ const MinidumpStreamType kBogusStreamType =
 void GetMemoryListStream(const std::string& file_contents,
                          const MINIDUMP_MEMORY_LIST** memory_list,
                          const uint32_t expected_streams) {
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
   const size_t kMemoryListStreamOffset =
       kDirectoryOffset + expected_streams * sizeof(MINIDUMP_DIRECTORY);
   const size_t kMemoryDescriptorsOffset =
@@ -99,9 +99,9 @@ TEST(MinidumpMemoryWriter, OneMemoryRegion) {
   MinidumpFileWriter minidump_file_writer;
   auto memory_list_writer = base::WrapUnique(new MinidumpMemoryListWriter());
 
-  const uint64_t kBaseAddress = 0xfedcba9876543210;
-  const uint64_t kSize = 0x1000;
-  const uint8_t kValue = 'm';
+  constexpr uint64_t kBaseAddress = 0xfedcba9876543210;
+  constexpr uint64_t kSize = 0x1000;
+  constexpr uint8_t kValue = 'm';
 
   auto memory_writer = base::WrapUnique(
       new TestMinidumpMemoryWriter(kBaseAddress, kSize, kValue));
@@ -134,12 +134,12 @@ TEST(MinidumpMemoryWriter, TwoMemoryRegions) {
   MinidumpFileWriter minidump_file_writer;
   auto memory_list_writer = base::WrapUnique(new MinidumpMemoryListWriter());
 
-  const uint64_t kBaseAddress0 = 0xc0ffee;
-  const uint64_t kSize0 = 0x0100;
-  const uint8_t kValue0 = '6';
-  const uint64_t kBaseAddress1 = 0xfac00fac;
-  const uint64_t kSize1 = 0x0200;
-  const uint8_t kValue1 = '!';
+  constexpr uint64_t kBaseAddress0 = 0xc0ffee;
+  constexpr uint64_t kSize0 = 0x0100;
+  constexpr uint8_t kValue0 = '6';
+  constexpr uint64_t kBaseAddress1 = 0xfac00fac;
+  constexpr uint64_t kSize1 = 0x0200;
+  constexpr uint8_t kValue1 = '!';
 
   auto memory_writer_0 = base::WrapUnique(
       new TestMinidumpMemoryWriter(kBaseAddress0, kSize0, kValue0));
@@ -238,9 +238,9 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
   // memory writer a child of the memory list writer.
   MinidumpFileWriter minidump_file_writer;
 
-  const uint64_t kBaseAddress0 = 0x1000;
-  const size_t kSize0 = 0x0400;
-  const uint8_t kValue0 = '1';
+  constexpr uint64_t kBaseAddress0 = 0x1000;
+  constexpr size_t kSize0 = 0x0400;
+  constexpr uint8_t kValue0 = '1';
   auto test_memory_stream =
       base::WrapUnique(new TestMemoryStream(kBaseAddress0, kSize0, kValue0));
 
@@ -249,9 +249,9 @@ TEST(MinidumpMemoryWriter, ExtraMemory) {
 
   ASSERT_TRUE(minidump_file_writer.AddStream(std::move(test_memory_stream)));
 
-  const uint64_t kBaseAddress1 = 0x2000;
-  const size_t kSize1 = 0x0400;
-  const uint8_t kValue1 = 'm';
+  constexpr uint64_t kBaseAddress1 = 0x2000;
+  constexpr size_t kSize1 = 0x0400;
+  constexpr uint8_t kValue1 = 'm';
 
   auto memory_writer = base::WrapUnique(
       new TestMinidumpMemoryWriter(kBaseAddress1, kSize1, kValue1));

@@ -103,10 +103,20 @@
             'zlib_crashpad.h',
           ],
           'conditions': [
-            ['target_arch=="x86" or target_arch=="amd64"', {
+            ['target_arch=="ia32" or target_arch=="x64"', {
               'sources!': [
                 'zlib/simd_stub.c',
               ],
+              'cflags': [
+                '-msse4.2',
+                '-mpclmul',
+              ],
+              'xcode_settings': {
+                'OTHER_CFLAGS': [
+                  '-msse4.2',
+                  '-mpclmul',
+                ],
+              },
             }, {
               'sources!': [
                 'zlib/crc_folding.c',

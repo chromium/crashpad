@@ -14,83 +14,17 @@
 
 #include "util/posix/process_info.h"
 
-#include <ctype.h>
-#include <errno.h>
-#include <string.h>
-#include <time.h>
-#include <unistd.h>
+#include <stdio.h>
 
 #include "base/files/file_path.h"
-#include "base/files/scoped_file.h"
 #include "base/logging.h"
-#include "base/posix/eintr_wrapper.h"
-#include "base/strings/string_number_conversions.h"
-#include "base/strings/string_piece.h"
 #include "util/file/delimited_file_reader.h"
-#include "util/file/file_io.h"
 #include "util/file/file_reader.h"
+#include "util/linux/proc_stat_reader.h"
 #include "util/linux/thread_info.h"
+#include "util/misc/lexing.h"
 
 namespace crashpad {
-
-namespace {
-
-// If the string |pattern| is matched exactly at the start of |input|, advance
-// |input| past |pattern| and return true.
-bool AdvancePastPrefix(const char** input, const char* pattern) {
-  size_t length = strlen(pattern);
-  if (strncmp(*input, pattern, length) == 0) {
-    *input += length;
-    return true;
-  }
-  return false;
-}
-
-#define MAKE_ADAPTER(type, function)                                        \
-  bool ConvertStringToNumber(const base::StringPiece& input, type* value) { \
-    return function(input, value);                                          \
-  }
-MAKE_ADAPTER(int, base::StringToInt)
-MAKE_ADAPTER(unsigned int, base::StringToUint)
-MAKE_ADAPTER(uint64_t, base::StringToUint64)
-#undef MAKE_ADAPTER
-
-// Attempt to convert a prefix of |input| to numeric type T. On success, set
-// |value| to the number, advance |input| past the number, and return true.
-template <typename T>
-bool AdvancePastNumber(const char** input, T* value) {
-  size_t length = 0;
-  if (std::numeric_limits<T>::is_signed && **input == '-') {
-    ++length;
-  }
-  while (isdigit((*input)[length])) {
-    ++length;
-  }
-  bool success = ConvertStringToNumber(base::StringPiece(*input, length),
-                                       value);
-  if (success) {
-    *input += length;
-    return true;
-  }
-  return false;
-}
-
-void SubtractTimespec(const timespec& t1, const timespec& t2,
-                      timespec* result) {
-  result->tv_sec = t1.tv_sec - t2.tv_sec;
-  result->tv_nsec = t1.tv_nsec - t2.tv_nsec;
-  if (result->tv_nsec < 0) {
-    result->tv_sec -= 1;
-    result->tv_nsec += static_cast<long>(1E9);
-  }
-}
-
-void TimespecToTimeval(const timespec& ts, timeval* tv) {
-  tv->tv_sec = ts.tv_sec;
-  tv->tv_usec = ts.tv_nsec / 1000;
-}
-
-}  // namespace
 
 ProcessInfo::ProcessInfo()
     : supplementary_groups_(),
@@ -293,9 +227,9 @@ bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
     is_64_bit_initialized_.set_invalid();
 
 #if defined(ARCH_CPU_64_BITS)
-    const bool am_64_bit = true;
+    constexpr bool am_64_bit = true;
 #else
-    const bool am_64_bit = false;
+    constexpr bool am_64_bit = false;
 #endif
 
     if (pid_ == getpid()) {
@@ -324,74 +258,13 @@ bool ProcessInfo::StartTime(timeval* start_time) const {
 
   if (start_time_initialized_.is_uninitialized()) {
     start_time_initialized_.set_invalid();
-
-    char path[32];
-    snprintf(path, sizeof(path), "/proc/%d/stat", pid_);
-    std::string stat_contents;
-    if (!LoggingReadEntireFile(base::FilePath(path), &stat_contents)) {
+    ProcStatReader reader;
+    if (!reader.Initialize(pid_)) {
       return false;
     }
-
-    // The process start time is the 22nd column.
-    // The second column is the executable name in parentheses.
-    // The executable name may have parentheses itself, so find the end of the
-    // second column by working backwards to find the last closing parens and
-    // then count forward to the 22nd column.
-    size_t stat_pos = stat_contents.rfind(')');
-    if (stat_pos == std::string::npos) {
-      LOG(ERROR) << "format error";
+    if (!reader.StartTime(&start_time_)) {
       return false;
     }
-
-    for (int index = 1; index < 21; ++index) {
-      stat_pos = stat_contents.find(' ', stat_pos);
-      if (stat_pos == std::string::npos) {
-        break;
-      }
-      ++stat_pos;
-    }
-    if (stat_pos >= stat_contents.size()) {
-      LOG(ERROR) << "format error";
-      return false;
-    }
-
-    const char* ticks_ptr = &stat_contents[stat_pos];
-
-    // start time is in jiffies instead of clock ticks pre 2.6.
-    uint64_t ticks_after_boot;
-    if (!AdvancePastNumber<uint64_t>(&ticks_ptr, &ticks_after_boot)) {
-      LOG(ERROR) << "format error";
-      return false;
-    }
-    long clock_ticks_per_s = sysconf(_SC_CLK_TCK);
-    if (clock_ticks_per_s <= 0) {
-      PLOG(ERROR) << "sysconf";
-      return false;
-    }
-    timeval time_after_boot;
-    time_after_boot.tv_sec = ticks_after_boot / clock_ticks_per_s;
-    time_after_boot.tv_usec =
-        (ticks_after_boot % clock_ticks_per_s) *
-        (static_cast<long>(1E6) / clock_ticks_per_s);
-
-    timespec uptime;
-    if (clock_gettime(CLOCK_BOOTTIME, &uptime) != 0) {
-      PLOG(ERROR) << "clock_gettime";
-      return false;
-    }
-
-    timespec current_time;
-    if (clock_gettime(CLOCK_REALTIME, &current_time) != 0) {
-      PLOG(ERROR) << "clock_gettime";
-      return false;
-    }
-
-    timespec boot_time_ts;
-    SubtractTimespec(current_time, uptime, &boot_time_ts);
-    timeval boot_time_tv;
-    TimespecToTimeval(boot_time_ts, &boot_time_tv);
-    timeradd(&boot_time_tv, &time_after_boot, &start_time_);
-
     start_time_initialized_.set_valid();
   }
 

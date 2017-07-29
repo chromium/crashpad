@@ -108,10 +108,10 @@ TEST(MinidumpModuleCrashpadInfoWriter, EmptyModule) {
 }
 
 TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
-  const uint32_t kMinidumpModuleListIndex = 1;
-  const char kKey[] = "key";
-  const char kValue[] = "value";
-  const char kEntry[] = "entry";
+  constexpr uint32_t kMinidumpModuleListIndex = 1;
+  static constexpr char kKey[] = "key";
+  static constexpr char kValue[] = "value";
+  static constexpr char kEntry[] = "entry";
   std::vector<std::string> vector(1, std::string(kEntry));
 
   StringFile string_file;
@@ -194,15 +194,15 @@ TEST(MinidumpModuleCrashpadInfoWriter, FullModule) {
 }
 
 TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
-  const uint32_t kMinidumpModuleListIndex0 = 0;
-  const char kKey0[] = "key";
-  const char kValue0[] = "value";
-  const uint32_t kMinidumpModuleListIndex1 = 2;
-  const uint32_t kMinidumpModuleListIndex2 = 5;
-  const char kKey2A[] = "K";
-  const char kValue2A[] = "VVV";
-  const char kKey2B[] = "river";
-  const char kValue2B[] = "hudson";
+  constexpr uint32_t kMinidumpModuleListIndex0 = 0;
+  static constexpr char kKey0[] = "key";
+  static constexpr char kValue0[] = "value";
+  constexpr uint32_t kMinidumpModuleListIndex1 = 2;
+  constexpr uint32_t kMinidumpModuleListIndex2 = 5;
+  static constexpr char kKey2A[] = "K";
+  static constexpr char kValue2A[] = "VVV";
+  static constexpr char kKey2B[] = "river";
+  static constexpr char kValue2B[] = "hudson";
 
   StringFile string_file;
 
@@ -339,14 +339,14 @@ TEST(MinidumpModuleCrashpadInfoWriter, ThreeModules) {
 }
 
 TEST(MinidumpModuleCrashpadInfoWriter, InitializeFromSnapshot) {
-  const char kKey0A[] = "k";
-  const char kValue0A[] = "value";
-  const char kKey0B[] = "hudson";
-  const char kValue0B[] = "estuary";
-  const char kKey2[] = "k";
-  const char kValue2[] = "different_value";
-  const char kEntry3A[] = "list";
-  const char kEntry3B[] = "erine";
+  static constexpr char kKey0A[] = "k";
+  static constexpr char kValue0A[] = "value";
+  static constexpr char kKey0B[] = "hudson";
+  static constexpr char kValue0B[] = "estuary";
+  static constexpr char kKey2[] = "k";
+  static constexpr char kValue2[] = "different_value";
+  static constexpr char kEntry3A[] = "list";
+  static constexpr char kEntry3B[] = "erine";
 
   std::vector<const ModuleSnapshot*> module_snapshots;
 

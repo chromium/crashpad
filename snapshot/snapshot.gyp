@@ -40,6 +40,22 @@
         'exception_snapshot.h',
         'handle_snapshot.cc',
         'handle_snapshot.h',
+        'linux/cpu_context_linux.cc',
+        'linux/cpu_context_linux.h',
+        'linux/debug_rendezvous.cc',
+        'linux/debug_rendezvous.h',
+        'linux/elf_dynamic_array_reader.cc',
+        'linux/elf_dynamic_array_reader.h',
+        'linux/elf_image_reader.cc',
+        'linux/elf_image_reader.h',
+        'linux/elf_symbol_table_reader.cc',
+        'linux/elf_symbol_table_reader.h',
+        'linux/memory_snapshot_linux.cc',
+        'linux/memory_snapshot_linux.h',
+        'linux/process_reader.cc',
+        'linux/process_reader.h',
+        'linux/thread_snapshot_linux.cc',
+        'linux/thread_snapshot_linux.h',
         'mac/cpu_context_mac.cc',
         'mac/cpu_context_mac.h',
         'mac/exception_snapshot_mac.cc',
@@ -130,7 +146,20 @@
             ],
           },
         }],
-      ]
+        ['OS=="linux" or OS=="android"', {
+          'sources!': [
+            'capture_memory.cc',
+            'capture_memory.h',
+          ],
+        }],
+      ],
+      'target_conditions': [
+        ['OS=="android"', {
+          'sources/': [
+            ['include', '^linux/'],
+          ],
+        }],
+      ],
     },
     {
       'variables': {

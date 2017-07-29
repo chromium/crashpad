@@ -34,8 +34,8 @@ namespace {
 void GetHandleDataStream(
     const std::string& file_contents,
     const MINIDUMP_HANDLE_DATA_STREAM** handle_data_stream) {
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kHandleDataStreamOffset =
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kHandleDataStreamOffset =
       kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
 
   const MINIDUMP_DIRECTORY* directory;
@@ -44,7 +44,7 @@ void GetHandleDataStream(
   ASSERT_NO_FATAL_FAILURE(VerifyMinidumpHeader(header, 1, 0));
   ASSERT_TRUE(directory);
 
-  const size_t kDirectoryIndex = 0;
+  constexpr size_t kDirectoryIndex = 0;
 
   ASSERT_EQ(directory[kDirectoryIndex].StreamType,
             kMinidumpStreamTypeHandleData);

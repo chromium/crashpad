@@ -43,7 +43,7 @@ void ScopedForbidReturnHelper(ForbidReturnType type) {
   }
 }
 
-const char kForbiddenMessage[] = "attempt to exit scope forbidden";
+constexpr char kForbiddenMessage[] = "attempt to exit scope forbidden";
 
 TEST(ScopedForbidReturnDeathTest, Default) {
   // kForbiddenMessage may appear to be unused if ASSERT_DEATH_CHECK() throws it

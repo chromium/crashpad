@@ -130,10 +130,10 @@ TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
   auto crashpad_info_writer =
       base::WrapUnique(new MinidumpCrashpadInfoWriter());
 
-  const char kKey[] =
+  static constexpr char kKey[] =
       "a thing that provides a means of gaining access to or understanding "
       "something";
-  const char kValue[] =
+  static constexpr char kValue[] =
       "the numerical amount denoted by an algebraic term; a magnitude, "
       "quantity, or number";
   auto simple_string_dictionary_writer =
@@ -174,7 +174,7 @@ TEST(MinidumpCrashpadInfoWriter, SimpleAnnotations) {
 }
 
 TEST(MinidumpCrashpadInfoWriter, CrashpadModuleList) {
-  const uint32_t kMinidumpModuleListIndex = 3;
+  constexpr uint32_t kMinidumpModuleListIndex = 3;
 
   MinidumpFileWriter minidump_file_writer;
   auto crashpad_info_writer =
@@ -230,9 +230,9 @@ TEST(MinidumpCrashpadInfoWriter, InitializeFromSnapshot) {
   ASSERT_TRUE(
       client_id.InitializeFromString("fedcba98-7654-3210-0123-456789abcdef"));
 
-  const char kKey[] = "version";
-  const char kValue[] = "40.0.2214.111";
-  const char kEntry[] = "This is a simple annotation in a list.";
+  static constexpr char kKey[] = "version";
+  static constexpr char kValue[] = "40.0.2214.111";
+  static constexpr char kEntry[] = "This is a simple annotation in a list.";
 
   // Test with a useless module, one that doesn’t carry anything that would
   // require MinidumpCrashpadInfo or any child object.

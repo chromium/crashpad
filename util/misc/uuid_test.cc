@@ -45,22 +45,22 @@ TEST(UUID, UUID) {
   EXPECT_EQ(uuid_zero.data_5[5], 0u);
   EXPECT_EQ(uuid_zero.ToString(), "00000000-0000-0000-0000-000000000000");
 
-  const uint8_t kBytes[16] = {0x00,
-                              0x01,
-                              0x02,
-                              0x03,
-                              0x04,
-                              0x05,
-                              0x06,
-                              0x07,
-                              0x08,
-                              0x09,
-                              0x0a,
-                              0x0b,
-                              0x0c,
-                              0x0d,
-                              0x0e,
-                              0x0f};
+  static constexpr uint8_t kBytes[16] = {0x00,
+                                         0x01,
+                                         0x02,
+                                         0x03,
+                                         0x04,
+                                         0x05,
+                                         0x06,
+                                         0x07,
+                                         0x08,
+                                         0x09,
+                                         0x0a,
+                                         0x0b,
+                                         0x0c,
+                                         0x0d,
+                                         0x0e,
+                                         0x0f};
   UUID uuid;
   uuid.InitializeFromBytes(kBytes);
   EXPECT_EQ(uuid.data_1, 0x00010203u);
@@ -110,22 +110,22 @@ TEST(UUID, UUID) {
   // have been valid.
   EXPECT_EQ(uuid_2, uuid);
 
-  const uint8_t kMoreBytes[16] = {0xff,
-                                  0xee,
-                                  0xdd,
-                                  0xcc,
-                                  0xbb,
-                                  0xaa,
-                                  0x99,
-                                  0x88,
-                                  0x77,
-                                  0x66,
-                                  0x55,
-                                  0x44,
-                                  0x33,
-                                  0x22,
-                                  0x11,
-                                  0x00};
+  static constexpr uint8_t kMoreBytes[16] = {0xff,
+                                             0xee,
+                                             0xdd,
+                                             0xcc,
+                                             0xbb,
+                                             0xaa,
+                                             0x99,
+                                             0x88,
+                                             0x77,
+                                             0x66,
+                                             0x55,
+                                             0x44,
+                                             0x33,
+                                             0x22,
+                                             0x11,
+                                             0x00};
   uuid.InitializeFromBytes(kMoreBytes);
   EXPECT_EQ(uuid.data_1, 0xffeeddccu);
   EXPECT_EQ(uuid.data_2, 0xbbaau);
@@ -164,7 +164,7 @@ TEST(UUID, UUID) {
 }
 
 TEST(UUID, FromString) {
-  const struct TestCase {
+  static constexpr struct TestCase {
     const char* uuid_string;
     bool success;
   } kCases[] = {

@@ -57,7 +57,7 @@ TEST(MinidumpRVAListWriter, Empty) {
 TEST(MinidumpRVAListWriter, OneChild) {
   TestMinidumpRVAListWriter list_writer;
 
-  const uint32_t kValue = 0;
+  constexpr uint32_t kValue = 0;
   list_writer.AddChild(kValue);
 
   StringFile string_file;
@@ -76,7 +76,7 @@ TEST(MinidumpRVAListWriter, OneChild) {
 TEST(MinidumpRVAListWriter, ThreeChildren) {
   TestMinidumpRVAListWriter list_writer;
 
-  const uint32_t kValues[] = { 0x80000000, 0x55555555, 0x66006600 };
+  static constexpr uint32_t kValues[] = {0x80000000, 0x55555555, 0x66006600};
 
   list_writer.AddChild(kValues[0]);
   list_writer.AddChild(kValues[1]);

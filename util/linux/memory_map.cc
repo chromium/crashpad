@@ -109,9 +109,9 @@ ParseResult ParseMapsLine(DelimitedFileReader* maps_file_reader,
 
   // TODO(jperaza): set bitness properly
 #if defined(ARCH_CPU_64_BITS)
-  const bool is_64_bit = true;
+  constexpr bool is_64_bit = true;
 #else
-  const bool is_64_bit = false;
+  constexpr bool is_64_bit = false;
 #endif
 
   MemoryMap::Mapping mapping;
@@ -202,6 +202,16 @@ MemoryMap::MemoryMap() : mappings_(), initialized_() {}
 
 MemoryMap::~MemoryMap() {}
 
+bool MemoryMap::Mapping::Equals(const Mapping& other) const {
+  DCHECK_EQ(range.Is64Bit(), other.range.Is64Bit());
+  return range.Base() == other.range.Base() &&
+         range.Size() == other.range.Size() && name == other.name &&
+         offset == other.offset && device == other.device &&
+         inode == other.inode && readable == other.readable &&
+         writable == other.writable && executable == other.executable &&
+         shareable == other.shareable;
+}
+
 bool MemoryMap::Initialize(pid_t pid) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
@@ -264,6 +274,42 @@ const MemoryMap::Mapping* MemoryMap::FindMappingWithName(
       return &mapping;
     }
   }
+  return nullptr;
+}
+
+const MemoryMap::Mapping* MemoryMap::FindFileMmapStart(
+    const Mapping& mapping) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  size_t index = 0;
+  for (; index < mappings_.size(); ++index) {
+    if (mappings_[index].Equals(mapping)) {
+      break;
+    }
+  }
+  if (index >= mappings_.size()) {
+    LOG(ERROR) << "mapping not found";
+    return nullptr;
+  }
+
+  // If the mapping is anonymous, as is for the VDSO, there is no mapped file to
+  // find the start of, so just return the input mapping.
+  if (mapping.device == 0 && mapping.inode == 0) {
+    return &mappings_[index];
+  }
+
+  do {
+    // There may by anonymous mappings or other files mapped into the holes,
+    // so check that the mapping uses the same file as the input, but keep
+    // searching if it doesn't.
+    if (mappings_[index].device == mapping.device &&
+        mappings_[index].inode == mapping.inode &&
+        mappings_[index].offset == 0) {
+      return &mappings_[index];
+    }
+  } while (index--);
+
+  LOG(ERROR) << "mapping not found";
   return nullptr;
 }
 

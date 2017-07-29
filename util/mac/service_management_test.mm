@@ -114,7 +114,8 @@ TEST(ServiceManagement, SubmitRemoveJob) {
         base::StringPrintf("sleep 10; echo %s", cookie.c_str());
     NSString* shell_script_ns = base::SysUTF8ToNSString(shell_script);
 
-    const char kJobLabel[] = "org.chromium.crashpad.test.service_management";
+    static constexpr char kJobLabel[] =
+        "org.chromium.crashpad.test.service_management";
     NSDictionary* job_dictionary_ns = @{
       @LAUNCH_JOBKEY_LABEL : @"org.chromium.crashpad.test.service_management",
       @LAUNCH_JOBKEY_RUNATLOAD : @YES,

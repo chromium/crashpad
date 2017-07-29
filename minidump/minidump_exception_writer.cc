@@ -64,7 +64,7 @@ void MinidumpExceptionWriter::SetExceptionInformation(
   DCHECK_EQ(state(), kStateMutable);
 
   const size_t parameters = exception_information.size();
-  const size_t kMaxParameters =
+  constexpr size_t kMaxParameters =
       ARRAYSIZE_UNSAFE(exception_.ExceptionRecord.ExceptionInformation);
   CHECK_LE(parameters, kMaxParameters);
 

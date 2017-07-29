@@ -40,7 +40,7 @@ union ThreadContext {
 
   //! \brief The general purpose registers used by the 32-bit variant of the
   //!     architecture.
-  struct t32 {
+  struct t32_t {
 #if defined(ARCH_CPU_X86_FAMILY)
     // Reflects user_regs_struct in sys/user.h.
     uint32_t ebx;
@@ -77,7 +77,7 @@ union ThreadContext {
 
   //! \brief The general purpose registers used by the 64-bit variant of the
   //!     architecture.
-  struct t64 {
+  struct t64_t {
 #if defined(ARCH_CPU_X86_FAMILY)
     // Reflects user_regs_struct in sys/user.h.
     uint64_t r15;
@@ -127,9 +127,9 @@ union ThreadContext {
 #endif  // ARCH_CPU_X86_FAMILY || ARCH_CPU_ARM64
 
 #if defined(ARCH_CPU_32_BITS)
-  static_assert(sizeof(t32) == sizeof(NativeThreadContext), "Size mismatch");
+  static_assert(sizeof(t32_t) == sizeof(NativeThreadContext), "Size mismatch");
 #else  // ARCH_CPU_64_BITS
-  static_assert(sizeof(t64) == sizeof(NativeThreadContext), "Size mismatch");
+  static_assert(sizeof(t64_t) == sizeof(NativeThreadContext), "Size mismatch");
 #endif  // ARCH_CPU_32_BITS
 };
 static_assert(std::is_standard_layout<ThreadContext>::value,
@@ -142,7 +142,7 @@ union FloatContext {
 
   //! \brief The floating point registers used by the 32-bit variant of the
   //!     architecture.
-  struct f32 {
+  struct f32_t {
 #if defined(ARCH_CPU_X86_FAMILY)
     // Reflects user_fpxregs_struct in sys/user.h
     struct fxsave {
@@ -193,7 +193,7 @@ union FloatContext {
 
   //! \brief The floating point registers used by the 64-bit variant of the
   //!     architecture.
-  struct f64 {
+  struct f64_t {
 #if defined(ARCH_CPU_X86_FAMILY)
     // Refelects user_fpregs_struct in sys/user.h
     struct fxsave {
@@ -220,18 +220,22 @@ union FloatContext {
   } f64;
 
 #if defined(ARCH_CPU_X86)
-#if defined(OS_ANDROID) && __ANDROID_API__ <= 19
+// __ANDROID_API_N__ is a proxy for determining whether unified headers are in
+// use. It’s only defined by unified headers. Unified headers call this
+// structure user_fpxregs_struct regardless of API level.
+#if defined(OS_ANDROID) && __ANDROID_API__ <= 19 && !defined(__ANDROID_API_N__)
   using NativeFpxregs = user_fxsr_struct;
 #else
   using NativeFpxregs = user_fpxregs_struct;
 #endif  // OS_ANDROID
-  static_assert(sizeof(f32::fxsave) == sizeof(NativeFpxregs), "Size mismatch");
+  static_assert(sizeof(f32_t::fxsave) == sizeof(NativeFpxregs),
+                "Size mismatch");
 #elif defined(ARCH_CPU_X86_64)
-  static_assert(sizeof(f64::fxsave) == sizeof(user_fpregs_struct),
+  static_assert(sizeof(f64_t::fxsave) == sizeof(user_fpregs_struct),
                 "Size mismatch");
 #elif defined(ARCH_CPU_ARMEL)
-  static_assert(sizeof(f32::fpregs) == sizeof(user_fpregs), "Size mismatch");
-  static_assert(sizeof(f32::vfp) == sizeof(user_vfp), "Size mismatch");
+  static_assert(sizeof(f32_t::fpregs) == sizeof(user_fpregs), "Size mismatch");
+  static_assert(sizeof(f32_t::vfp) == sizeof(user_vfp), "Size mismatch");
 #elif defined(ARCH_CPU_ARM64)
   static_assert(sizeof(f64) == sizeof(user_fpsimd_struct), "Size mismatch");
 #else

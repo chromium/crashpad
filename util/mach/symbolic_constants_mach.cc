@@ -26,7 +26,7 @@
 
 namespace {
 
-const char* kExceptionNames[] = {
+constexpr const char* kExceptionNames[] = {
     nullptr,
 
     // sed -Ene 's/^#define[[:space:]]EXC_([[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
@@ -48,10 +48,10 @@ const char* kExceptionNames[] = {
 static_assert(arraysize(kExceptionNames) == EXC_TYPES_COUNT,
               "kExceptionNames length");
 
-const char kExcPrefix[] = "EXC_";
-const char kExcMaskPrefix[] = "EXC_MASK_";
+constexpr char kExcPrefix[] = "EXC_";
+constexpr char kExcMaskPrefix[] = "EXC_MASK_";
 
-const char* kBehaviorNames[] = {
+constexpr const char* kBehaviorNames[] = {
     nullptr,
 
     // sed -Ene 's/^# define[[:space:]]EXCEPTION_([[:graph:]]+)[[:space:]]+[[:digit:]]{1,2}([[:space:]]|$).*/    "\1",/p'
@@ -61,11 +61,11 @@ const char* kBehaviorNames[] = {
     "STATE_IDENTITY",
 };
 
-const char kBehaviorPrefix[] = "EXCEPTION_";
-const char kMachExceptionCodesFull[] = "MACH_EXCEPTION_CODES";
-const char kMachExceptionCodesShort[] = "MACH";
+constexpr char kBehaviorPrefix[] = "EXCEPTION_";
+constexpr char kMachExceptionCodesFull[] = "MACH_EXCEPTION_CODES";
+constexpr char kMachExceptionCodesShort[] = "MACH";
 
-const char* kFlavorNames[] = {
+constexpr const char* kFlavorNames[] = {
     "THREAD_STATE_FLAVOR_LIST",
 
 #if defined(__i386__) || defined(__x86_64__)
@@ -128,7 +128,7 @@ const char* kFlavorNames[] = {
 
 // Certain generic flavors have high constants not contiguous with the flavors
 // above. List them separately alongside their constants.
-const struct {
+constexpr struct {
   thread_state_flavor_t flavor;
   const char* name;
 } kGenericFlavorNames[] = {
@@ -139,7 +139,7 @@ const struct {
 // Returns the short name for a flavor name, given its full flavor name.
 std::string ThreadStateFlavorFullToShort(const base::StringPiece& flavor) {
   // For generic flavors like THREAD_STATE_NONE and THREAD_STATE_FLAVOR_LIST_*.
-  const char kThreadState[] = "THREAD_STATE_";
+  static constexpr char kThreadState[] = "THREAD_STATE_";
   size_t prefix_len = strlen(kThreadState);
   const char* flavor_data = flavor.data();
   size_t flavor_len = flavor.size();
@@ -150,11 +150,11 @@ std::string ThreadStateFlavorFullToShort(const base::StringPiece& flavor) {
 
   // For architecture-specific flavors.
 #if defined(__i386__) || defined(__x86_64__)
-  const char kArchPrefix[] = "x86_";
+  static constexpr char kArchPrefix[] = "x86_";
 #elif defined(__ppc__) || defined(__ppc64__)
-  const char kArchPrefix[] = "PPC_";
+  static constexpr char kArchPrefix[] = "PPC_";
 #elif defined(__arm__) || defined(__arm64__)
-  const char kArchPrefix[] = "ARM_"
+  static constexpr char kArchPrefix[] = "ARM_"
 #endif
   prefix_len = strlen(kArchPrefix);
   if (flavor_len >= prefix_len &&
@@ -162,7 +162,7 @@ std::string ThreadStateFlavorFullToShort(const base::StringPiece& flavor) {
     // Shorten the suffix by removing _STATE. If the suffix contains a
     // significant designation like 32 or 64, keep it, so that a full name like
     // x86_THREAD_STATE64 becomes a short name like THREAD64.
-    const struct {
+    static constexpr struct {
       const char* orig;
       const char* repl;
     } kStateSuffixes[] = {
@@ -343,7 +343,7 @@ bool StringToExceptionMask(const base::StringPiece& string,
 
     // EXC_MASK_ALL is a special case: it is not in kExceptionNames as it exists
     // only as a mask value.
-    const char kExcMaskAll[] = "ALL";
+    static constexpr char kExcMaskAll[] = "ALL";
     if ((can_match_full && short_string.compare(kExcMaskAll) == 0) ||
         ((options & kAllowShortName) && string.compare(kExcMaskAll) == 0)) {
       *exception_mask = ExcMaskAll();

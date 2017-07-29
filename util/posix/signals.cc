@@ -238,7 +238,7 @@ void Signals::RestoreHandlerAndReraiseSignalOnReturn(
   // Failures in this function should _exit(kFailureExitCode). This is a quick
   // and quiet failure. This function runs in signal handler context, and it’s
   // difficult to safely be loud from a signal handler.
-  const int kFailureExitCode = 191;
+  constexpr int kFailureExitCode = 191;
 
   struct sigaction default_action;
   sigemptyset(&default_action.sa_mask);

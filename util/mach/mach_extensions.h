@@ -30,7 +30,7 @@ namespace crashpad {
 //! are not performed, use kMachPortNull instead of an explicit `implicit_cast`
 //! of `MACH_PORT_NULL` to `mach_port_t`. This is useful for logging and testing
 //! assertions.
-const mach_port_t kMachPortNull = MACH_PORT_NULL;
+constexpr mach_port_t kMachPortNull = MACH_PORT_NULL;
 
 //! \brief `MACH_EXCEPTION_CODES` with the correct type for a Mach exception
 //!     behavior, `exception_behavior_t`.
@@ -38,7 +38,7 @@ const mach_port_t kMachPortNull = MACH_PORT_NULL;
 //! Signedness problems can occur when ORing `MACH_EXCEPTION_CODES` as a signed
 //! integer, because a signed integer overflow results. This constant can be
 //! used instead of `MACH_EXCEPTION_CODES` in such cases.
-const exception_behavior_t kMachExceptionCodes = MACH_EXCEPTION_CODES;
+constexpr exception_behavior_t kMachExceptionCodes = MACH_EXCEPTION_CODES;
 
 // Because exception_mask_t is an int and has one bit for each defined
 // exception_type_t, it’s reasonable to assume that there cannot be any
@@ -49,7 +49,7 @@ const exception_behavior_t kMachExceptionCodes = MACH_EXCEPTION_CODES;
 // EXC_MASK_CRASH.
 
 //! \brief An exception type to use for simulated exceptions.
-const exception_type_t kMachExceptionSimulated = 'CPsx';
+constexpr exception_type_t kMachExceptionSimulated = 'CPsx';
 
 //! \brief A const version of `thread_state_t`.
 //!

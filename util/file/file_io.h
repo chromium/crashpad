@@ -45,10 +45,11 @@ using FileOffset = off_t;
 //! \brief Scoped wrapper of a FileHandle.
 using ScopedFileHandle = base::ScopedFD;
 
+//! \brief The return value of read and write calls.
+using FileOperationResult = ssize_t;
+
 //! \brief A value that can never be a valid FileHandle.
 const FileHandle kInvalidFileHandle = -1;
-
-using FileOperationResult = ssize_t;
 
 #elif defined(OS_WIN)
 
@@ -109,19 +110,28 @@ enum class StdioStream {
 
 namespace internal {
 
+#if defined(OS_POSIX) || DOXYGEN
+
 //! \brief The name of the native read function used by ReadFile().
 //!
 //! This value may be useful for logging.
 //!
 //! \sa kNativeWriteFunctionName
-extern const char kNativeReadFunctionName[];
+constexpr char kNativeReadFunctionName[] = "read";
 
 //! \brief The name of the native write function used by WriteFile().
 //!
 //! This value may be useful for logging.
 //!
 //! \sa kNativeReadFunctionName
-extern const char kNativeWriteFunctionName[];
+constexpr char kNativeWriteFunctionName[] = "write";
+
+#elif defined(OS_WIN)
+
+constexpr char kNativeReadFunctionName[] = "ReadFile";
+constexpr char kNativeWriteFunctionName[] = "WriteFile";
+
+#endif
 
 //! \brief The internal implementation of ReadFileExactly() and its wrappers.
 //!

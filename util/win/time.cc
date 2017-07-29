@@ -22,7 +22,7 @@ namespace crashpad {
 
 namespace {
 
-const uint64_t kMicrosecondsPerSecond = static_cast<uint64_t>(1E6);
+constexpr uint64_t kMicrosecondsPerSecond = static_cast<uint64_t>(1E6);
 
 uint64_t FiletimeToMicroseconds(const FILETIME& filetime) {
   uint64_t t = (static_cast<uint64_t>(filetime.dwHighDateTime) << 32) |
@@ -46,7 +46,7 @@ timeval FiletimeToTimevalEpoch(const FILETIME& filetime) {
   // 1601 to 1970 is 369 years + 89 leap days = 134774 days * 86400 seconds per
   // day. It's not entirely clear, but it appears that these are solar seconds,
   // not SI seconds, so there are no leap seconds to be considered.
-  const uint64_t kNumSecondsFrom1601To1970 = (369 * 365 + 89) * 86400ULL;
+  constexpr uint64_t kNumSecondsFrom1601To1970 = (369 * 365 + 89) * 86400ULL;
   DCHECK_GE(microseconds, kNumSecondsFrom1601To1970 * kMicrosecondsPerSecond);
   microseconds -= kNumSecondsFrom1601To1970 * kMicrosecondsPerSecond;
   return MicrosecondsToTimeval(microseconds);

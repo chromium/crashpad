@@ -42,7 +42,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-const wchar_t kNtdllName[] = L"\\ntdll.dll";
+constexpr wchar_t kNtdllName[] = L"\\ntdll.dll";
 
 bool IsProcessWow64(HANDLE process_handle) {
   static const auto is_wow64_process =
@@ -101,7 +101,7 @@ TEST(ProcessInfo, Self) {
   std::vector<ProcessInfo::Module> modules;
   EXPECT_TRUE(process_info.Modules(&modules));
   ASSERT_GE(modules.size(), 2u);
-  const wchar_t kSelfName[] = L"\\crashpad_util_test.exe";
+  static constexpr wchar_t kSelfName[] = L"\\crashpad_util_test.exe";
   ASSERT_GE(modules[0].name.size(), wcslen(kSelfName));
   EXPECT_EQ(modules[0].name.substr(modules[0].name.size() - wcslen(kSelfName)),
             kSelfName);
@@ -178,7 +178,7 @@ void TestOtherProcess(const base::string16& directory_modification) {
             kNtdllName);
   // lz32.dll is an uncommonly-used-but-always-available module that the test
   // binary manually loads.
-  const wchar_t kLz32dllName[] = L"\\lz32.dll";
+  static constexpr wchar_t kLz32dllName[] = L"\\lz32.dll";
   ASSERT_GE(modules.back().name.size(), wcslen(kLz32dllName));
   EXPECT_EQ(modules.back().name.substr(modules.back().name.size() -
                                        wcslen(kLz32dllName)),
@@ -601,7 +601,7 @@ TEST(ProcessInfo, Handles) {
 
       // OBJ_INHERIT from ntdef.h, but including that conflicts with other
       // headers.
-      const int kObjInherit = 0x2;
+      constexpr int kObjInherit = 0x2;
       EXPECT_EQ(handle.attributes, kObjInherit);
     }
     if (handle.handle == HandleToInt(scoped_key.get())) {
@@ -633,7 +633,7 @@ TEST(ProcessInfo, Handles) {
 }
 
 TEST(ProcessInfo, OutOfRangeCheck) {
-  const size_t kAllocationSize = 12345;
+  constexpr size_t kAllocationSize = 12345;
   std::unique_ptr<char[]> safe_memory(new char[kAllocationSize]);
 
   ProcessInfo info;

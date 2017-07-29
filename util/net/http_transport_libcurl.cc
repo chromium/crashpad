@@ -57,31 +57,31 @@ std::string UserAgent() {
     // linux-4.9.17/arch/x86/kernel/cpu/bugs.c check_bugs() sets the first digit
     // to 4, 5, or 6, but no higher.
 #if defined(__i686__)
-    const char arch[] = "i686";
+    static constexpr char arch[] = "i686";
 #elif defined(__i586__)
-    const char arch[] = "i586";
+    static constexpr char arch[] = "i586";
 #elif defined(__i486__)
-    const char arch[] = "i486";
+    static constexpr char arch[] = "i486";
 #else
-    const char arch[] = "i386";
+    static constexpr char arch[] = "i386";
 #endif
 #elif defined(ARCH_CPU_X86_64)
-    const char arch[] = "x86_64";
+    static constexpr char arch[] = "x86_64";
 #elif defined(ARCH_CPU_ARMEL)
     // linux-4.9.17/arch/arm/kernel/setup.c setup_processor() bases the string
     // on the ARM processor name and a character identifying little- or
     // big-endian. The processor name comes from a definition in
     // arch/arm/mm/proc-*.S.
 #if defined(__ARM_ARCH_4T__)
-    const char arch[] = "armv4t"
+    static constexpr char arch[] = "armv4t"
 #elif defined(__ARM_ARCH_5TEJ__)
-    const char arch[] = "armv5tej"
+    static constexpr char arch[] = "armv5tej"
 #elif defined(__ARM_ARCH_5TE__)
-    const char arch[] = "armv5te"
+    static constexpr char arch[] = "armv5te"
 #elif defined(__ARM_ARCH_5T__)
-    const char arch[] = "armv5t"
+    static constexpr char arch[] = "armv5t"
 #elif defined(__ARM_ARCH_7M__)
-    const char arch[] = "armv7m"
+    static constexpr char arch[] = "armv7m"
 #else
     // Most ARM architectures fall into here, including all profile variants of
     // armv6, armv7, armv8, with one exception, armv7m, handled above.
@@ -89,7 +89,7 @@ std::string UserAgent() {
     // or 8.
 #define xstr(s) str(s)
 #define str(s) #s
-    const char arch[] = "armv" xstr(__ARM_ARCH)
+    static constexpr char arch[] = "armv" xstr(__ARM_ARCH)
 #undef str
 #undef xstr
 #endif
@@ -102,14 +102,14 @@ std::string UserAgent() {
     // ARM64 uses aarch64 or aarch64_be as directed by ELF_PLATFORM. See
     // linux-4.9.17/arch/arm64/kernel/setup.c setup_arch().
 #if defined(ARCH_CPU_LITTLE_ENDIAN)
-    const char arch[] = "aarch64";
+    static constexpr char arch[] = "aarch64";
 #elif defined(ARCH_CPU_BIG_ENDIAN)
-    const char arch[] = "aarch64_be";
+    static constexpr char arch[] = "aarch64_be";
 #endif
 #elif defined(ARCH_CPU_MIPSEL)
-    const char arch[] = "mips";
+    static constexpr char arch[] = "mips";
 #elif defined(ARCH_CPU_MIPS64EL)
-    const char arch[] = "mips64";
+    static constexpr char arch[] = "mips64";
 #else
 #error Port
 #endif
@@ -257,7 +257,7 @@ bool HTTPTransportLibcurl::ExecuteSynchronously(std::string* response_body) {
 
   TRY_CURL_EASY_SETOPT(curl.get(), CURLOPT_URL, url().c_str());
 
-  const int kMillisecondsPerSecond = 1E3;
+  constexpr int kMillisecondsPerSecond = 1E3;
   TRY_CURL_EASY_SETOPT(curl.get(),
                        CURLOPT_TIMEOUT_MS,
                        static_cast<long>(timeout() * kMillisecondsPerSecond));

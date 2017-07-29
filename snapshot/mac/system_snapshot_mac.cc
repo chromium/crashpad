@@ -364,9 +364,9 @@ void SystemSnapshotMac::TimeZone(DaylightSavingTimeStatus* dst_status,
     // no transitions to or from daylight saving time occurred or will occur
     // within a year of the current date. Arizona, which last observed daylight
     // saving time in 1967, is an example.
-    const int kMonthDeltas[] =
-        { 0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6,
-          7, -7, 8, -8, 9, -9, 10, -10, 11, -11, 12, -12 };
+    static constexpr int kMonthDeltas[] =
+        {0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6,
+         7, -7, 8, -8, 9, -9, 10, -10, 11, -11, 12, -12};
     for (size_t index = 0;
          index < arraysize(kMonthDeltas) && !found_transition;
          ++index) {

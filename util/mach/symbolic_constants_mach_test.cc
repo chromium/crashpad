@@ -32,7 +32,7 @@ namespace test {
 namespace {
 
 // Options to use for normal tests, those that don’t require kAllowOr.
-const StringToSymbolicConstantOptions kNormalOptions[] = {
+constexpr StringToSymbolicConstantOptions kNormalOptions[] = {
     0,
     kAllowFullName,
     kAllowShortName,
@@ -118,7 +118,7 @@ void TestStringToSomething(const base::StringPiece& string,
   }
 }
 
-const struct {
+constexpr struct {
   exception_type_t exception;
   const char* full_name;
   const char* short_name;
@@ -147,9 +147,9 @@ struct ConvertExceptionTraits {
                                 ValueType* value) {
     return StringToException(string, options, value);
   }
-  static const char kValueName[];
+  static constexpr char kValueName[] = "exception";
 };
-const char ConvertExceptionTraits::kValueName[] = "exception";
+constexpr char ConvertExceptionTraits::kValueName[];
 
 void TestExceptionToString(exception_type_t value,
                            const char* expect_full,
@@ -217,7 +217,7 @@ TEST(SymbolicConstantsMach, StringToException) {
       }
     }
 
-    const char* const kNegativeTestData[] = {
+    static constexpr const char* kNegativeTestData[] = {
         "EXC_CRASH ",
         " EXC_BAD_INSTRUCTION",
         "CRASH ",
@@ -235,7 +235,7 @@ TEST(SymbolicConstantsMach, StringToException) {
       TestStringToException(kNegativeTestData[index], options, false, 0);
     }
 
-    const struct {
+    static constexpr struct {
       const char* string;
       size_t length;
     } kNULTestData[] = {
@@ -276,7 +276,7 @@ TEST(SymbolicConstantsMach, StringToException) {
   }
 }
 
-const struct {
+constexpr struct {
   exception_mask_t exception_mask;
   const char* full_name;
   const char* short_name;
@@ -322,9 +322,9 @@ struct ConvertExceptionMaskTraits {
                                 ValueType* value) {
     return StringToExceptionMask(string, options, value);
   }
-  static const char kValueName[];
+  static constexpr char kValueName[] = "exception_mask";
 };
-const char ConvertExceptionMaskTraits::kValueName[] = "exception_mask";
+constexpr char ConvertExceptionMaskTraits::kValueName[];
 
 void TestExceptionMaskToString(exception_mask_t value,
                                const char* expect_full,
@@ -370,7 +370,7 @@ void TestStringToExceptionMask(const base::StringPiece& string,
 
 TEST(SymbolicConstantsMach, StringToExceptionMask) {
   // Don’t use kNormalOptions, because kAllowOr needs to be tested.
-  const StringToSymbolicConstantOptions kOptions[] = {
+  static constexpr StringToSymbolicConstantOptions kOptions[] = {
       0,
       kAllowFullName,
       kAllowShortName,
@@ -430,7 +430,7 @@ TEST(SymbolicConstantsMach, StringToExceptionMask) {
       }
     }
 
-    const char* const kNegativeTestData[] = {
+    static constexpr const char* kNegativeTestData[] = {
         "EXC_MASK_CRASH ",
         " EXC_MASK_BAD_INSTRUCTION",
         "EXC_MASK_EXC_MASK_BAD_ACCESS",
@@ -450,7 +450,7 @@ TEST(SymbolicConstantsMach, StringToExceptionMask) {
       TestStringToExceptionMask(kNegativeTestData[index], options, false, 0);
     }
 
-    const struct {
+    static constexpr struct {
       const char* string;
       size_t length;
     } kNULTestData[] = {
@@ -479,7 +479,7 @@ TEST(SymbolicConstantsMach, StringToExceptionMask) {
     }
   }
 
-  const struct {
+  static const struct {
     const char* string;
     StringToSymbolicConstantOptions options;
     exception_mask_t mask;
@@ -531,7 +531,7 @@ TEST(SymbolicConstantsMach, StringToExceptionMask) {
   }
 }
 
-const struct {
+constexpr struct {
   exception_behavior_t behavior;
   const char* full_name;
   const char* short_name;
@@ -565,9 +565,9 @@ struct ConvertExceptionBehaviorTraits {
                                 ValueType* value) {
     return StringToExceptionBehavior(string, options, value);
   }
-  static const char kValueName[];
+  static constexpr char kValueName[] = "behavior";
 };
-const char ConvertExceptionBehaviorTraits::kValueName[] = "behavior";
+constexpr char ConvertExceptionBehaviorTraits::kValueName[];
 
 void TestExceptionBehaviorToString(exception_behavior_t value,
                                    const char* expect_full,
@@ -643,7 +643,7 @@ TEST(SymbolicConstantsMach, StringToExceptionBehavior) {
       }
     }
 
-    const char* const kNegativeTestData[] = {
+    static constexpr const char* kNegativeTestData[] = {
         "EXCEPTION_DEFAULT ",
         " EXCEPTION_STATE",
         "EXCEPTION_EXCEPTION_STATE_IDENTITY",
@@ -666,7 +666,7 @@ TEST(SymbolicConstantsMach, StringToExceptionBehavior) {
           kNegativeTestData[index], options, false, 0);
     }
 
-    const struct {
+    static constexpr struct {
       const char* string;
       size_t length;
     } kNULTestData[] = {
@@ -694,7 +694,7 @@ TEST(SymbolicConstantsMach, StringToExceptionBehavior) {
     }
   }
 
-  const struct {
+  static constexpr struct {
     const char* string;
     StringToSymbolicConstantOptions options;
     exception_behavior_t behavior;
@@ -763,7 +763,7 @@ TEST(SymbolicConstantsMach, StringToExceptionBehavior) {
   }
 }
 
-const struct {
+constexpr struct {
   thread_state_flavor_t flavor;
   const char* full_name;
   const char* short_name;
@@ -828,9 +828,9 @@ struct ConvertThreadStateFlavorTraits {
                                 ValueType* value) {
     return StringToThreadStateFlavor(string, options, value);
   }
-  static const char kValueName[];
+  static constexpr char kValueName[] = "flavor";
 };
-const char ConvertThreadStateFlavorTraits::kValueName[] = "flavor";
+constexpr char ConvertThreadStateFlavorTraits::kValueName[];
 
 void TestThreadStateFlavorToString(exception_type_t value,
                                    const char* expect_full,
@@ -917,7 +917,7 @@ TEST(SymbolicConstantsMach, StringToThreadStateFlavor) {
       }
     }
 
-    const char* const kNegativeTestData[] = {
+    static constexpr const char* kNegativeTestData[] = {
       "THREAD_STATE_NONE ",
       " THREAD_STATE_NONE",
       "NONE ",
@@ -965,7 +965,7 @@ TEST(SymbolicConstantsMach, StringToThreadStateFlavor) {
           kNegativeTestData[index], options, false, 0);
     }
 
-    const struct {
+    static constexpr struct {
       const char* string;
       size_t length;
     } kNULTestData[] = {

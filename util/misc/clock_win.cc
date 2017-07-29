@@ -40,7 +40,7 @@ uint64_t ClockMonotonicNanoseconds() {
   int64_t frequency = QpcFrequency();
   int64_t whole_seconds = time.QuadPart / frequency;
   int64_t leftover_ticks = time.QuadPart % frequency;
-  const int64_t kNanosecondsPerSecond = static_cast<const int64_t>(1E9);
+  constexpr int64_t kNanosecondsPerSecond = static_cast<const int64_t>(1E9);
   return (whole_seconds * kNanosecondsPerSecond) +
          ((leftover_ticks * kNanosecondsPerSecond) / frequency);
 }

@@ -26,14 +26,13 @@ namespace test {
 namespace {
 
 TEST(ExceptionBehaviors, ExceptionBehaviors) {
-  struct TestData {
+  static constexpr struct {
     exception_behavior_t behavior;
     bool state;
     bool identity;
     bool mach_exception_codes;
     exception_behavior_t basic_behavior;
-  };
-  const TestData kTestData[] = {
+  } kTestData[] = {
       {EXCEPTION_DEFAULT, false, true, false, EXCEPTION_DEFAULT},
       {EXCEPTION_STATE, true, false, false, EXCEPTION_STATE},
       {EXCEPTION_STATE_IDENTITY, true, true, false, EXCEPTION_STATE_IDENTITY},
@@ -55,7 +54,7 @@ TEST(ExceptionBehaviors, ExceptionBehaviors) {
   };
 
   for (size_t index = 0; index < arraysize(kTestData); ++index) {
-    const TestData& test_data = kTestData[index];
+    const auto& test_data = kTestData[index];
     SCOPED_TRACE(base::StringPrintf(
         "index %zu, behavior %d", index, test_data.behavior));
 

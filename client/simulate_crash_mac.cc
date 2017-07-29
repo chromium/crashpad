@@ -196,7 +196,7 @@ void SimulateCrash(const NativeCPUContext& cpu_context) {
   // Look up the handler for EXC_CRASH exceptions in the same way that the
   // kernel would: try a thread handler, then a task handler, and finally a host
   // handler. 10.9.5 xnu-2422.115.4/osfmk/kern/exception.c exception_triage().
-  const ExceptionPorts::TargetType kTargetTypes[] = {
+  static constexpr ExceptionPorts::TargetType kTargetTypes[] = {
       ExceptionPorts::kTargetTypeThread,
       ExceptionPorts::kTargetTypeTask,
 

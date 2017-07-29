@@ -42,10 +42,10 @@ namespace {
 
 void GetModuleListStream(const std::string& file_contents,
                          const MINIDUMP_MODULE_LIST** module_list) {
-  const size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
-  const size_t kModuleListStreamOffset =
+  constexpr size_t kDirectoryOffset = sizeof(MINIDUMP_HEADER);
+  constexpr size_t kModuleListStreamOffset =
       kDirectoryOffset + sizeof(MINIDUMP_DIRECTORY);
-  const size_t kModulesOffset =
+  constexpr size_t kModulesOffset =
       kModuleListStreamOffset + sizeof(MINIDUMP_MODULE_LIST);
 
   ASSERT_GE(file_contents.size(), kModulesOffset);
@@ -271,7 +271,7 @@ TEST(MinidumpModuleWriter, EmptyModule) {
   MinidumpFileWriter minidump_file_writer;
   auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
 
-  const char kModuleName[] = "test_executable";
+  static constexpr char kModuleName[] = "test_executable";
 
   auto module_writer = base::WrapUnique(new MinidumpModuleWriter());
   module_writer->SetName(kModuleName);
@@ -310,32 +310,32 @@ TEST(MinidumpModuleWriter, OneModule) {
   MinidumpFileWriter minidump_file_writer;
   auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
 
-  const char kModuleName[] = "statically_linked";
-  const uint64_t kModuleBase = 0x10da69000;
-  const uint32_t kModuleSize = 0x1000;
-  const uint32_t kChecksum = 0x76543210;
-  const time_t kTimestamp = 0x386d4380;
-  const uint32_t kFileVersionMS = 0x00010002;
-  const uint32_t kFileVersionLS = 0x00030004;
-  const uint32_t kProductVersionMS = 0x00050006;
-  const uint32_t kProductVersionLS = 0x00070008;
-  const uint32_t kFileFlagsMask = VS_FF_DEBUG | VS_FF_PRERELEASE |
-                                  VS_FF_PATCHED | VS_FF_PRIVATEBUILD |
-                                  VS_FF_INFOINFERRED | VS_FF_SPECIALBUILD;
-  const uint32_t kFileFlags = VS_FF_PRIVATEBUILD | VS_FF_SPECIALBUILD;
-  const uint32_t kFileOS = VOS_DOS;
-  const uint32_t kFileType = VFT_DRV;
-  const uint32_t kFileSubtype = VFT2_DRV_KEYBOARD;
-  const char kPDBName[] = "statical.pdb";
-  const uint8_t kPDBUUIDBytes[16] =
+  static constexpr char kModuleName[] = "statically_linked";
+  constexpr uint64_t kModuleBase = 0x10da69000;
+  constexpr uint32_t kModuleSize = 0x1000;
+  constexpr uint32_t kChecksum = 0x76543210;
+  constexpr time_t kTimestamp = 0x386d4380;
+  constexpr uint32_t kFileVersionMS = 0x00010002;
+  constexpr uint32_t kFileVersionLS = 0x00030004;
+  constexpr uint32_t kProductVersionMS = 0x00050006;
+  constexpr uint32_t kProductVersionLS = 0x00070008;
+  constexpr uint32_t kFileFlagsMask = VS_FF_DEBUG | VS_FF_PRERELEASE |
+                                      VS_FF_PATCHED | VS_FF_PRIVATEBUILD |
+                                      VS_FF_INFOINFERRED | VS_FF_SPECIALBUILD;
+  constexpr uint32_t kFileFlags = VS_FF_PRIVATEBUILD | VS_FF_SPECIALBUILD;
+  constexpr uint32_t kFileOS = VOS_DOS;
+  constexpr uint32_t kFileType = VFT_DRV;
+  constexpr uint32_t kFileSubtype = VFT2_DRV_KEYBOARD;
+  static constexpr char kPDBName[] = "statical.pdb";
+  static constexpr uint8_t kPDBUUIDBytes[16] =
       {0xfe, 0xdc, 0xba, 0x98, 0x76, 0x54, 0x32, 0x10,
        0x08, 0x19, 0x2a, 0x3b, 0x4c, 0x5d, 0x6e, 0x7f};
   UUID pdb_uuid;
   pdb_uuid.InitializeFromBytes(kPDBUUIDBytes);
-  const uint32_t kPDBAge = 1;
-  const uint32_t kDebugType = IMAGE_DEBUG_MISC_EXENAME;
-  const char kDebugName[] = "statical.dbg";
-  const bool kDebugUTF16 = false;
+  constexpr uint32_t kPDBAge = 1;
+  constexpr uint32_t kDebugType = IMAGE_DEBUG_MISC_EXENAME;
+  static constexpr char kDebugName[] = "statical.dbg";
+  constexpr bool kDebugUTF16 = false;
 
   auto module_writer = base::WrapUnique(new MinidumpModuleWriter());
   module_writer->SetName(kModuleName);
@@ -419,13 +419,13 @@ TEST(MinidumpModuleWriter, OneModule_CodeViewUsesPDB20_MiscUsesUTF16) {
   MinidumpFileWriter minidump_file_writer;
   auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
 
-  const char kModuleName[] = "dinosaur";
-  const char kPDBName[] = "d1n05.pdb";
-  const time_t kPDBTimestamp = 0x386d4380;
-  const uint32_t kPDBAge = 1;
-  const uint32_t kDebugType = IMAGE_DEBUG_MISC_EXENAME;
-  const char kDebugName[] = "d1n05.dbg";
-  const bool kDebugUTF16 = true;
+  static constexpr char kModuleName[] = "dinosaur";
+  static constexpr char kPDBName[] = "d1n05.pdb";
+  constexpr time_t kPDBTimestamp = 0x386d4380;
+  constexpr uint32_t kPDBAge = 1;
+  constexpr uint32_t kDebugType = IMAGE_DEBUG_MISC_EXENAME;
+  static constexpr char kDebugName[] = "d1n05.dbg";
+  constexpr bool kDebugUTF16 = true;
 
   auto module_writer = base::WrapUnique(new MinidumpModuleWriter());
   module_writer->SetName(kModuleName);
@@ -480,27 +480,27 @@ TEST(MinidumpModuleWriter, ThreeModules) {
   MinidumpFileWriter minidump_file_writer;
   auto module_list_writer = base::WrapUnique(new MinidumpModuleListWriter());
 
-  const char kModuleName0[] = "main";
-  const uint64_t kModuleBase0 = 0x100101000;
-  const uint32_t kModuleSize0 = 0xf000;
-  const char kPDBName0[] = "main";
-  const uint8_t kPDBUUIDBytes0[16] =
+  static constexpr char kModuleName0[] = "main";
+  constexpr uint64_t kModuleBase0 = 0x100101000;
+  constexpr uint32_t kModuleSize0 = 0xf000;
+  static constexpr char kPDBName0[] = "main";
+  static constexpr uint8_t kPDBUUIDBytes0[16] =
       {0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff, 0x00, 0x11,
        0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99};
   UUID pdb_uuid_0;
   pdb_uuid_0.InitializeFromBytes(kPDBUUIDBytes0);
-  const uint32_t kPDBAge0 = 0;
+  constexpr uint32_t kPDBAge0 = 0;
 
-  const char kModuleName1[] = "ld.so";
-  const uint64_t kModuleBase1 = 0x200202000;
-  const uint32_t kModuleSize1 = 0x1e000;
+  static constexpr char kModuleName1[] = "ld.so";
+  constexpr uint64_t kModuleBase1 = 0x200202000;
+  constexpr uint32_t kModuleSize1 = 0x1e000;
 
-  const char kModuleName2[] = "libc.so";
-  const uint64_t kModuleBase2 = 0x300303000;
-  const uint32_t kModuleSize2 = 0x2d000;
-  const char kPDBName2[] = "libc.so";
-  const time_t kPDBTimestamp2 = 0x386d4380;
-  const uint32_t kPDBAge2 = 2;
+  static constexpr char kModuleName2[] = "libc.so";
+  constexpr uint64_t kModuleBase2 = 0x300303000;
+  constexpr uint32_t kModuleSize2 = 0x2d000;
+  static constexpr char kPDBName2[] = "libc.so";
+  constexpr time_t kPDBTimestamp2 = 0x386d4380;
+  constexpr uint32_t kPDBAge2 = 2;
 
   auto module_writer_0 = base::WrapUnique(new MinidumpModuleWriter());
   module_writer_0->SetName(kModuleName0);
@@ -668,7 +668,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   expect_modules[0].VersionInfo.dwFileType = VFT_APP;
   module_paths[0] = "/usr/bin/true";
   module_pdbs[0] = "true";
-  const uint8_t kUUIDBytes0[16] =
+  static constexpr uint8_t kUUIDBytes0[16] =
       {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
        0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
   uuids[0].InitializeFromBytes(kUUIDBytes0);
@@ -684,7 +684,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   expect_modules[1].VersionInfo.dwFileType = VFT_DLL;
   module_paths[1] = "/usr/lib/libSystem.B.dylib";
   module_pdbs[1] = "libSystem.B.dylib.pdb";
-  const uint8_t kUUIDBytes1[16] =
+  static constexpr uint8_t kUUIDBytes1[16] =
       {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
        0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
   uuids[1].InitializeFromBytes(kUUIDBytes1);
@@ -700,7 +700,7 @@ TEST(MinidumpModuleWriter, InitializeFromSnapshot) {
   expect_modules[2].VersionInfo.dwFileType = VFT_UNKNOWN;
   module_paths[2] = "/usr/lib/dyld";
   module_pdbs[2] = "/usr/lib/dyld.pdb";
-  const uint8_t kUUIDBytes2[16] =
+  static constexpr uint8_t kUUIDBytes2[16] =
       {0xff, 0xfe, 0xfd, 0xfc, 0xfb, 0xfa, 0xf9, 0xf8,
        0xf7, 0xf6, 0xf5, 0xf4, 0xf3, 0xf2, 0xf1, 0xf0};
   uuids[2].InitializeFromBytes(kUUIDBytes2);

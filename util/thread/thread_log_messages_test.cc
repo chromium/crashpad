@@ -44,13 +44,13 @@ std::string MessageString(const std::string& log_message) {
     return std::string();
   }
 
-  const char kStartChar = '[';
+  constexpr char kStartChar = '[';
   if (log_message[0] != kStartChar) {
     EXPECT_EQ(log_message[0], kStartChar);
     return std::string();
   }
 
-  const char kFindString[] = "] ";
+  static constexpr char kFindString[] = "] ";
   size_t pos = log_message.find(kFindString);
   if (pos == std::string::npos) {
     EXPECT_NE(pos, std::string::npos);
@@ -63,7 +63,7 @@ std::string MessageString(const std::string& log_message) {
     return std::string();
   }
 
-  const char kEndChar = '\n';
+  constexpr char kEndChar = '\n';
   if (message_string[message_string.size() - 1] != kEndChar) {
     EXPECT_NE(message_string[message_string.size() - 1], kEndChar);
     return std::string();
@@ -78,7 +78,7 @@ TEST(ThreadLogMessages, Basic) {
   ASSERT_TRUE(LOG_IS_ON(INFO));
 
   {
-    const char* const kMessages[] = {
+    static constexpr const char* kMessages[] = {
       "An info message",
       "A warning message",
       "An error message",
@@ -101,7 +101,7 @@ TEST(ThreadLogMessages, Basic) {
   }
 
   {
-    const char kMessage[] = "Sample error message";
+    static constexpr char kMessage[] = "Sample error message";
 
     ThreadLogMessages thread_log_messages;
 

@@ -81,7 +81,7 @@ int OnDemandServiceToolMain(int argc, char* argv[]) {
     std::vector<std::string> mach_services;
   } options = {};
 
-  const option long_options[] = {
+  static constexpr option long_options[] = {
       {"load", no_argument, nullptr, kOptionLoadJob},
       {"unload", no_argument, nullptr, kOptionUnloadJob},
       {"label", required_argument, nullptr, kOptionJobLabel},

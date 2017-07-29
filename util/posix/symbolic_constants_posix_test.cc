@@ -29,7 +29,7 @@ namespace crashpad {
 namespace test {
 namespace {
 
-const struct {
+constexpr struct {
   int signal;
   const char* full_name;
   const char* short_name;
@@ -122,9 +122,9 @@ TEST(SymbolicConstantsPOSIX, SignalToString) {
 
 #if defined(OS_LINUX) || defined(OS_ANDROID)
   // NSIG is 64 to account for real-time signals.
-  const int kSignalCount = 32;
+  constexpr int kSignalCount = 32;
 #else
-  const int kSignalCount = NSIG;
+  constexpr int kSignalCount = NSIG;
 #endif
 
   for (int signal = 0; signal < kSignalCount + 8; ++signal) {
@@ -157,7 +157,7 @@ void TestStringToSignal(const base::StringPiece& string,
 }
 
 TEST(SymbolicConstantsPOSIX, StringToSignal) {
-  const StringToSymbolicConstantOptions kOptions[] = {
+  static constexpr StringToSymbolicConstantOptions kOptions[] = {
       0,
       kAllowFullName,
       kAllowShortName,
@@ -198,7 +198,7 @@ TEST(SymbolicConstantsPOSIX, StringToSignal) {
       }
     }
 
-    const char* const kNegativeTestData[] = {
+    static constexpr const char* kNegativeTestData[] = {
         "SIGHUP ",
         " SIGINT",
         "QUIT ",
@@ -216,7 +216,7 @@ TEST(SymbolicConstantsPOSIX, StringToSignal) {
       TestStringToSignal(kNegativeTestData[index], options, false, 0);
     }
 
-    const struct {
+    static constexpr struct {
       const char* string;
       size_t length;
     } kNULTestData[] = {

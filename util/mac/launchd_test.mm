@@ -153,7 +153,7 @@ TEST(Launchd, CFPropertyToLaunchData_Data) {
   @autoreleasepool {
     base::mac::ScopedLaunchData launch_data;
 
-    const uint8_t data_c[] = {
+    static constexpr uint8_t data_c[] = {
         1, 2, 3, 4, 5, 6, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 9, 8, 7, 6, 5, 4, 3, 2};
     NSData* data_ns = [NSData dataWithBytes:data_c length:sizeof(data_c)];
     launch_data.reset(CFPropertyToLaunchData(data_ns));

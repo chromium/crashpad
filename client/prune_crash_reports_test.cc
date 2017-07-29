@@ -147,7 +147,7 @@ class StaticCondition final : public PruneCondition {
 };
 
 TEST(PruneCrashReports, BinaryCondition) {
-  const struct {
+  static constexpr struct {
     const char* name;
     BinaryPruneCondition::Operator op;
     bool lhs_value;
