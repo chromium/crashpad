@@ -37,6 +37,24 @@
         'doc/support/crashpad.doxy.h',
         'package.h',
       ],
+      'actions': [{
+        'action_name': 'generate_run_tests_isolate_wrappers',
+        'action': [
+          'python',
+          'build/run_tests.py',
+          '--isolate',
+          '<(PRODUCT_DIR)',
+        ],
+        'inputs': [
+          'build/run_tests.py',
+          'build/isolate_script.py',
+        ],
+        'outputs': [
+          '<(PRODUCT_DIR)/run_tests<(EXECUTABLE_SUFFIX)',
+          '<(PRODUCT_DIR)/run_tests.isolate',
+          '<(PRODUCT_DIR)/run_tests.isolated.gen.json',
+        ],
+      }],
       'conditions': [
         ['OS!="mac" and OS!="win"', {
           'suppress_wildcard': 1,
