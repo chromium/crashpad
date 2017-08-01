@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4816a39f_9198a15a",
+        "filename": "snapshot/linux/cpu_context_linux.h",
+        "patchSetId": 15
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T21:27:29Z",
+      "side": 1,
+      "message": "Doxygen won’t like this because it doesn’t have a float_context:\n\n…/crashpad/crashpad/snapshot/linux/cpu_context_linux.h:29: warning: argument \u0027float_context\u0027 of command @param is not found in the argument list of crashpad::internal::InitializeCPUContextX86_NoFloatingPoint(const SignalThreadContext32 \u0026thread_context, CPUContextX86 *context)\n\nNote: you can do a Doxygen run yourself if you have it installed by running doc/support/generate_doxygen.py.",
+      "revId": "5efd913a4e66d49218b182a25d931027e19dec97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c35439b7_530e50f1",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T21:27:29Z",
+      "side": 1,
+      "message": "If the signal handler never ran, nothing in this test will fail. We should fail the test in that case. You could have the handler set a bool.",
+      "revId": "5efd913a4e66d49218b182a25d931027e19dec97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d9395fa_8fe75fcc",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T21:27:29Z",
+      "side": 1,
+      "message": "ASSERT_EQ can be an early return which will leave HandleTimer set as the SIGALRM handler. I think we need a ScopedSigactionRestore to do this cleanly and properly.",
+      "revId": "5efd913a4e66d49218b182a25d931027e19dec97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0939cd66_b5ef9a4a",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T21:27:29Z",
+      "side": 1,
+      "message": "Timers are scary in tests because they lead to flake. Even with a 1ms sleep here, we might get unlucky (on mobile devices, in virtual machines, with coalesced timers, etc.) when the specifics of hardware/software timers and scheduling conspire to prevent the signal handler from being invoked in a timely fashion. 1ms is actually a pretty short amount of time to reliably wait for an asynchronous event, but we also don’t want to sleep for so long that the test winds up idle for no good reason.\n\nIt’d be better to use a Semaphore that we can tickle from the signal handler. Then we could put a long timeout \n(1s? 5s?) on the semaphore wait.",
+      "revId": "5efd913a4e66d49218b182a25d931027e19dec97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab213b6c_e1c3b6ca",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T21:27:29Z",
+      "side": 1,
+      "message": "The same concern about the signal handler not running applies here. In this case, if you’re using Semaphore::TimedWait(), you can leverage the fact that it returns false on timeout, so you can just do an EXPECT_TRUE() around it. No need for a separate bool.",
+      "revId": "5efd913a4e66d49218b182a25d931027e19dec97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ea952d4_2d33763b",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T21:27:29Z",
+      "side": 1,
+      "message": "If you were to add the Semaphore, that’d make three statics here, and at that point, it may become worthwhile to make TimerTest an object that carries timer_, event_, and the semaphore as nonstatic data members. Then you’d just have a static TimerTest* pointing to the active timer so that you had access to it from the static HandleTimer().",
+      "revId": "5efd913a4e66d49218b182a25d931027e19dec97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

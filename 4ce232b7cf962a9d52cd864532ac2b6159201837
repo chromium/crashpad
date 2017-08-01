@@ -548,6 +548,24 @@
       "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4adf1f1d_72596ba2",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T21:27:29Z",
+      "side": 1,
+      "message": "\u003e The timer_t used by (g)libc (secretly a pointer to an internal timer struct) is not the same as the __kernel_timer_t we expect to get in Codes()[0].\n\u003e \n\u003e We could use setitimer or timer_create, but we won\u0027t be able to check siginfo.timerid against anything.\n\nGot it. Better validation is a good reason to use the raw syscall in a test.",
+      "parentUuid": "3ec8a9a2_07263a21",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
