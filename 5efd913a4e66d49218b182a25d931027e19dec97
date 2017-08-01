@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "d3a33fcb_15595fd5",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T21:34:11Z",
+      "side": 1,
+      "message": "\u003e Timers are scary in tests because they lead to flake. Even with a 1ms \n\nOh, this is actually 1µs. Even worse…",
+      "parentUuid": "0939cd66_b5ef9a4a",
+      "revId": "5efd913a4e66d49218b182a25d931027e19dec97",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab213b6c_e1c3b6ca",
         "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
         "patchSetId": 15
