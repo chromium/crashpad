@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5aac7fcd_b8c5e5b4",
+        "filename": "compat/android/signal.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05151a07_67d60860",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73be7420_87f74a0e",
         "filename": "compat/linux/signal.h",
         "patchSetId": 13
@@ -33,6 +51,24 @@
       "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "351abfd3_e48c3bf8",
+        "filename": "compat/linux/signal.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73be7420_87f74a0e",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b21ae16f_1c91d874",
+        "filename": "snapshot/linux/cpu_context_linux.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ef6b376d_99a2d960",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "642a1ebd_2eb2c488",
         "filename": "snapshot/linux/cpu_context_linux.cc",
         "patchSetId": 13
@@ -67,6 +121,24 @@
       "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd95df39_cd17faac",
+        "filename": "snapshot/linux/cpu_context_linux.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "642a1ebd_2eb2c488",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "eaed7c9a_a1208e5e",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7dfa64a_5733068d",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5ead764_b5e082fd",
         "filename": "snapshot/linux/exception_snapshot_linux.cc",
         "patchSetId": 13
@@ -101,6 +191,24 @@
       "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed43e46_9805efe6",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5ead764_b5e082fd",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "41350c7f_e0861b8f",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d58e1ff8_d085479c",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf9f21e2_450f37a4",
         "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
         "patchSetId": 13
@@ -135,6 +261,24 @@
       "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be3276d0_9c7292d0",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "I went with HandleKill because HandleSignal doesn\u0027t specify what signal-source we are testing. I\u0027ve now named it HandleRaisedSignal.",
+      "parentUuid": "cf9f21e2_450f37a4",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -184,6 +328,54 @@
     },
     {
       "key": {
+        "uuid": "c229a199_209b1a77",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54ab0899_574c50df",
+      "range": {
+        "startLine": 138,
+        "startChar": 50,
+        "endLine": 138,
+        "endChar": 57
+      },
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fb78d35_d21d2019",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5b3dd26_c1158004",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 138,
+        "endChar": 25
+      },
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "493b6948_04d289a3",
         "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
         "patchSetId": 13
@@ -198,6 +390,24 @@
       "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f833579_ef920522",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "493b6948_04d289a3",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -218,6 +428,24 @@
     },
     {
       "key": {
+        "uuid": "25d05914_101c2ad7",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da38a2e6_6f1e3602",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa0ba39d_a32238b7",
         "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
         "patchSetId": 13
@@ -232,6 +460,24 @@
       "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18214935_5fd55947",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "aa0ba39d_a32238b7",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -252,6 +498,24 @@
     },
     {
       "key": {
+        "uuid": "c3c599f1_2a42ce92",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e483f384_86681593",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92f10b47_8dfe5d71",
         "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
         "patchSetId": 13
@@ -263,6 +527,24 @@
       "writtenOn": "2017-08-01T18:30:42Z",
       "side": 1,
       "message": "Isn’t setitimer() a more appropriate interface for userspace? Less stuff to add to compat too.",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ec8a9a2_07263a21",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-01T21:04:14Z",
+      "side": 1,
+      "message": "The timer_t used by (g)libc (secretly a pointer to an internal timer struct) is not the same as the __kernel_timer_t we expect to get in Codes()[0].\n\nWe could use setitimer or timer_create, but we won\u0027t be able to check siginfo.timerid against anything.",
+      "parentUuid": "92f10b47_8dfe5d71",
       "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
