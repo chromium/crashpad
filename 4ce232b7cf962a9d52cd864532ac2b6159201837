@@ -1,0 +1,271 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05151a07_67d60860",
+        "filename": "compat/android/signal.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "Do we need this as a distinct file or can we let android include things from compat/linux?",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73be7420_87f74a0e",
+        "filename": "compat/linux/signal.h",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "Don’t think we need this here.",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef6b376d_99a2d960",
+        "filename": "snapshot/linux/cpu_context_linux.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "Do something (memset with 0?) with context-\u003efxsave so that it doesn’t contain garbage?",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "642a1ebd_2eb2c488",
+        "filename": "snapshot/linux/cpu_context_linux.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "Debug logging not for check-in.",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7dfa64a_5733068d",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "If you’re doing the memset-to-0 thing that I suggested, then this will need to come before reading the fxsave area.\n\nOn the other hand, now that I see how you’re using it, maybe you could name this function InitializeCPUContextX86_NoFloatingPoint or do something else to document that it doesn’t touch fxsave, and leave it at no-memset.",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5ead764_b5e082fd",
+        "filename": "snapshot/linux/exception_snapshot_linux.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "DCHECK_EQ?",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d58e1ff8_d085479c",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "#include \u003cstring.h\u003e",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf9f21e2_450f37a4",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "This makes me think it intends to handle SIGKILL, but it of course can’t. HandleSignal()?",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5b3dd26_c1158004",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "ASSERT_TRUE this.",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 138,
+        "endChar": 25
+      },
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54ab0899_574c50df",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "It’d be nicer to restore the previous sigaction when the test is done.",
+      "range": {
+        "startLine": 138,
+        "startChar": 50,
+        "endLine": 138,
+        "endChar": 57
+      },
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "493b6948_04d289a3",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "kill(getpid(), sig) can be simplified to raise(sig).\n\nYou can also #include \"test/errors.h\" and stream ErrnoMessage(\"raise\") to give some useful information if this call fails.",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da38a2e6_6f1e3602",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "A “class TimerTest” with DISALLOW_IMPLICIT_CONSTRUCTORS and a couple of static methods would be more usual than a loose namespace in our code.",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa0ba39d_a32238b7",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "(No need to say “static” at namespace scope for something that’s already “const”. “static” is the default in that case.)",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e483f384_86681593",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "As before.",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92f10b47_8dfe5d71",
+        "filename": "snapshot/linux/exception_snapshot_linux_test.cc",
+        "patchSetId": 13
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-01T18:30:42Z",
+      "side": 1,
+      "message": "Isn’t setitimer() a more appropriate interface for userspace? Less stuff to add to compat too.",
+      "revId": "4ce232b7cf962a9d52cd864532ac2b6159201837",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
