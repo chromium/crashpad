@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea0bf495_5558a32a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-02T21:09:32Z",
+      "side": 1,
+      "message": "1. Missing a space after “%u,”.\n2. Prefix this line with “win: ” so that a scan of the short log makes it clearer.",
+      "revId": "88c540332495c4421e568081ec4f397eca0353bc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d10a9df2_180f8a31",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-02T21:09:32Z",
+      "side": 1,
+      "message": "%lu: we don’t actually want signed/negative process IDs.",
+      "revId": "88c540332495c4421e568081ec4f397eca0353bc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4d2be5c_b654e98d",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-02T21:09:32Z",
+      "side": 1,
+      "message": "%lu since status_code is a DWORD (unsigned) and there’s no indication that it’s intended to be interpreted as signed here.",
+      "revId": "88c540332495c4421e568081ec4f397eca0353bc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
