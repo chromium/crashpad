@@ -12,27 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
-#define CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
+#ifndef CRASHPAD_COMPAT_LINUX_SIGNAL_H_
+#define CRASHPAD_COMPAT_LINUX_SIGNAL_H_
 
-#include_next <sys/syscall.h>
+#include_next <signal.h>
 
-// Android 5.0.0 (API 21) NDK
-
-#if !defined(SYS_gettid)
-#define SYS_gettid __NR_gettid
+// Missing from glibc and bionic-x86_64
+#if defined(__x86_64__) || defined(__i386__)
+#if !defined(X86_FXSR_MAGIC)
+#define X86_FXSR_MAGIC 0x0000
 #endif
+#endif  // __x86_64__ || __i386__
 
-#if !defined(SYS_timer_create)
-#define SYS_timer_create __NR_timer_create
-#endif
-
-#if !defined(SYS_timer_getoverrun)
-#define SYS_timer_getoverrun __NR_timer_getoverrun
-#endif
-
-#if !defined(SYS_timer_settime)
-#define SYS_timer_settime __NR_timer_settime
-#endif
-
-#endif  // CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
+#endif  // CRASHPAD_COMPAT_LINUX_SIGNAL_H_
