@@ -277,7 +277,7 @@ void AddUint64(std::vector<unsigned char>* data_vector, uint64_t data) {
 void CreatePipe(std::wstring* pipe_name, ScopedFileHANDLE* pipe_instance) {
   int tries = 5;
   std::string pipe_name_base =
-      base::StringPrintf("\\\\.\\pipe\\crashpad_%d_", GetCurrentProcessId());
+      base::StringPrintf("\\\\.\\pipe\\crashpad_%lu_", GetCurrentProcessId());
   do {
     *pipe_name = base::UTF8ToUTF16(pipe_name_base + RandomString());
 
