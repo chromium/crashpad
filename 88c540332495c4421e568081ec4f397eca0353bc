@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "75f97160_459edc47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1228990
+      },
+      "writtenOn": "2017-08-02T21:19:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0bf495_5558a32a",
+      "revId": "88c540332495c4421e568081ec4f397eca0353bc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d10a9df2_180f8a31",
         "filename": "client/crashpad_client_win.cc",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9c0bc64e_6a902a5c",
+        "filename": "client/crashpad_client_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1228990
+      },
+      "writtenOn": "2017-08-02T21:19:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d10a9df2_180f8a31",
+      "revId": "88c540332495c4421e568081ec4f397eca0353bc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4d2be5c_b654e98d",
         "filename": "util/net/http_transport_win.cc",
         "patchSetId": 5
@@ -50,6 +86,24 @@
       "revId": "88c540332495c4421e568081ec4f397eca0353bc",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37b02ae_496e59c7",
+        "filename": "util/net/http_transport_win.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1228990
+      },
+      "writtenOn": "2017-08-02T21:19:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d2be5c_b654e98d",
+      "revId": "88c540332495c4421e568081ec4f397eca0353bc",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
