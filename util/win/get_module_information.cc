@@ -23,7 +23,7 @@ BOOL CrashpadGetModuleInformation(HANDLE process,
                                   MODULEINFO* module_info,
                                   DWORD cb) {
   static const auto get_module_information =
-      GET_FUNCTION_REQUIRED(L"psapi.dll", GetModuleInformation);
+      GET_FUNCTION_REQUIRED(L"kernel32.dll", GetModuleInformation);
   return get_module_information(process, module, module_info, cb);
 }
 
