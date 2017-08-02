@@ -47,7 +47,7 @@ std::string UserAgent() {
 
   VS_FIXEDFILEINFO version;
   if (GetModuleVersionAndType(base::FilePath(kWinHttpDll), &version)) {
-    user_agent.append(base::StringPrintf("/%u.%u.%u.%u",
+    user_agent.append(base::StringPrintf("/%lu.%lu.%lu.%lu",
                                          version.dwFileVersionMS >> 16,
                                          version.dwFileVersionMS & 0xffff,
                                          version.dwFileVersionLS >> 16,
@@ -56,7 +56,7 @@ std::string UserAgent() {
 
   if (GetModuleVersionAndType(base::FilePath(L"kernel32.dll"), &version) &&
       (version.dwFileOS & VOS_NT_WINDOWS32) == VOS_NT_WINDOWS32) {
-    user_agent.append(base::StringPrintf(" Windows_NT/%u.%u.%u.%u (",
+    user_agent.append(base::StringPrintf(" Windows_NT/%lu.%lu.%lu.%lu (",
                                          version.dwFileVersionMS >> 16,
                                          version.dwFileVersionMS & 0xffff,
                                          version.dwFileVersionLS >> 16,
@@ -96,12 +96,12 @@ std::string WinHttpMessage(const char* extra) {
                              arraysize(msgbuf),
                              NULL);
   if (!len) {
-    return base::StringPrintf("%s: error 0x%x while retrieving error 0x%x",
+    return base::StringPrintf("%s: error 0x%lx while retrieving error 0x%lx",
                               extra,
                               GetLastError(),
                               error_code);
   }
-  return base::StringPrintf("%s: %s (0x%x)", extra, msgbuf, error_code);
+  return base::StringPrintf("%s: %s (0x%lx)", extra, msgbuf, error_code);
 }
 
 struct ScopedHINTERNETTraits {
@@ -371,7 +371,7 @@ bool HTTPTransportWin::ExecuteSynchronously(std::string* response_body) {
   }
 
   if (status_code != 200) {
-    LOG(ERROR) << base::StringPrintf("HTTP status %d", status_code);
+    LOG(ERROR) << base::StringPrintf("HTTP status %lu", status_code);
     return false;
   }
 

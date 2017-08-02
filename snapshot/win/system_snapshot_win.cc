@@ -106,7 +106,7 @@ void SystemSnapshotWin::Initialize(ProcessReaderWin* process_reader) {
     os_version_major_ = ffi.dwFileVersionMS >> 16;
     os_version_minor_ = ffi.dwFileVersionMS & 0xffff;
     os_version_bugfix_ = ffi.dwFileVersionLS >> 16;
-    os_version_build_ = base::StringPrintf("%u", ffi.dwFileVersionLS & 0xffff);
+    os_version_build_ = base::StringPrintf("%lu", ffi.dwFileVersionLS & 0xffff);
     os_version_full_ = base::StringPrintf(
         "%s %u.%u.%u.%s%s",
         os_name.c_str(),
