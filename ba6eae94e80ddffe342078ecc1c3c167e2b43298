@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84859248_d50a8e17",
+        "filename": "snapshot/linux/cpu_context_linux.h",
+        "patchSetId": 16
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-02T01:14:03Z",
+      "side": 1,
+      "message": "4 spaces on the hanging indent.",
+      "revId": "ba6eae94e80ddffe342078ecc1c3c167e2b43298",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
