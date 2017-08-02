@@ -34,7 +34,7 @@ std::string FormatNtstatus(DWORD ntstatus) {
   if (len) {
     return msgbuf;
   } else {
-    return base::StringPrintf("<failed to retrieve error message (0x%x)>",
+    return base::StringPrintf("<failed to retrieve error message (0x%lx)>",
                               GetLastError());
   }
 }
@@ -63,7 +63,7 @@ NtstatusLogMessage::NtstatusLogMessage(
 
 NtstatusLogMessage::~NtstatusLogMessage() {
   stream() << ": " << FormatNtstatus(ntstatus_)
-           << base::StringPrintf(" (0x%08x)", ntstatus_);
+           << base::StringPrintf(" (0x%08lx)", ntstatus_);
 }
 
 }  // namespace logging
