@@ -72,6 +72,7 @@
         'api/module_annotations_win_test.cc',
         'linux/debug_rendezvous_test.cc',
         'linux/elf_image_reader_test.cc',
+        'linux/exception_snapshot_linux_test.cc',
         'linux/process_reader_test.cc',
         'mac/cpu_context_mac_test.cc',
         'mac/mach_o_image_annotations_reader_test.cc',

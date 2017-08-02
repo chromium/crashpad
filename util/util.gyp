@@ -60,6 +60,7 @@
         'linux/scoped_ptrace_attach.h',
         'linux/thread_info.cc',
         'linux/thread_info.h',
+        'linux/traits.h',
         'mac/checked_mach_address_range.h',
         'mac/launchd.h',
         'mac/launchd.mm',

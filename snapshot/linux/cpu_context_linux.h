@@ -17,6 +17,7 @@
 
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
+#include "snapshot/linux/signal_context.h"
 #include "util/linux/thread_info.h"
 
 namespace crashpad {
@@ -24,6 +25,7 @@ namespace internal {
 
 #if defined(ARCH_CPU_X86_FAMILY) || DOXYGEN
 
+//! \{
 //! \brief Initializes a CPUContextX86 structure from native context structures
 //!     on Linux.
 //!
@@ -34,6 +36,24 @@ void InitializeCPUContextX86(const ThreadContext::t32_t& thread_context,
                              const FloatContext::f32_t& float_context,
                              CPUContextX86* context);
 
+void InitializeCPUContextX86(const SignalThreadContext32& thread_context,
+                             const SignalFloatContext32& float_context,
+                             CPUContextX86* context);
+//! \}
+
+//! \brief Initializes GPR and debug state in a CPUContextX86 from a native
+//!     signal context structure on Linux.
+//!
+//! Floating point state is not initialized. Debug registers are initialized to
+//! zero.
+//!
+//! \param[in] thread_context The native thread context.
+//! \param[out] context The CPUContextX86 structure to initialize.
+void InitializeCPUContextX86_NoFloatingPoint(
+    const SignalThreadContext32& thread_context,
+    CPUContextX86* context);
+
+// \{
 //! \brief Initializes a CPUContextX86_64 structure from native context
 //!     structures on Linux.
 //!
@@ -43,6 +63,11 @@ void InitializeCPUContextX86(const ThreadContext::t32_t& thread_context,
 void InitializeCPUContextX86_64(const ThreadContext::t64_t& thread_context,
                                 const FloatContext::f64_t& float_context,
                                 CPUContextX86_64* context);
+
+void InitializeCPUContextX86_64(const SignalThreadContext64& thread_context,
+                                const SignalFloatContext64& float_context,
+                                CPUContextX86_64* context);
+//! \}
 #else
 #error Port.  // TODO(jperaza): ARM
 #endif  // ARCH_CPU_X86_FAMILY || DOXYGEN
