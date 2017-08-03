@@ -12,31 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
-#define CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
+#ifndef CRASHPAD_SNAPSHOT_POSIX_TIMEZONE_H_
+#define CRASHPAD_SNAPSHOT_POSIX_TIMEZONE_H_
 
-#include_next <sys/syscall.h>
+#include <time.h>
 
-// Android 5.0.0 (API 21) NDK
+#include <string>
 
-#if !defined(SYS_getcpu)
-#define SYS_getcpu __NR_getcpu
-#endif
+#include "snapshot/system_snapshot.h"
 
-#if !defined(SYS_gettid)
-#define SYS_gettid __NR_gettid
-#endif
+namespace crashpad {
+namespace internal {
 
-#if !defined(SYS_timer_create)
-#define SYS_timer_create __NR_timer_create
-#endif
+void TimeZone(const timeval& snapshot_time,
+              SystemSnapshot::DaylightSavingTimeStatus* dst_status,
+              int* standard_offset_seconds,
+              int* daylight_offset_seconds,
+              std::string* standard_name,
+              std::string* daylight_name);
 
-#if !defined(SYS_timer_getoverrun)
-#define SYS_timer_getoverrun __NR_timer_getoverrun
-#endif
+}  // namespace internal
+}  // namespace crashpad
 
-#if !defined(SYS_timer_settime)
-#define SYS_timer_settime __NR_timer_settime
-#endif
-
-#endif  // CRASHPAD_COMPAT_ANDROID_SYS_SYSCALL_H_
+#endif  // CRASHPAD_SNAPSHOT_POSIX_TIMEZONE_H_
