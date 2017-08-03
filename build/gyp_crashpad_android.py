@@ -46,8 +46,8 @@ def main(args):
   ARCH_TRIPLET_TO_ARCH = {
     'arm-linux-androideabi': 'arm',
     'aarch64-linux-android': 'arm64',
-    'i686-linux-android': 'x86',
-    'x86_64-linux-android': 'x86_64',
+    'i686-linux-android': 'ia32',
+    'x86_64-linux-android': 'x64',
     'mipsel-linux-android': 'mips',
     'mips64el-linux-android': 'mips64',
   }
