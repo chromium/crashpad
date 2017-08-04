@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0f995423_96396946",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-08-04T18:19:29Z",
+      "side": 1,
+      "message": "Are we going to have an Android specific follow-up?\n\nI\u0027m not sure if it\u0027s in scope here, but are we planning to capture other platform specific information, ex. system properties on Android? ...",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b5c1ae0_66a6c6f5",
         "filename": "snapshot/linux/system_snapshot_linux.cc",
         "patchSetId": 6
