@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "1adfae7f_9fe96d85",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-04T21:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b5c1ae0_66a6c6f5",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99ad3575_c6683686",
         "filename": "snapshot/linux/system_snapshot_linux.cc",
         "patchSetId": 6
@@ -53,6 +71,24 @@
       "writtenOn": "2017-08-04T18:14:24Z",
       "side": 1,
       "message": "In light of heterogenous nonsense like big.LITTLE, I don’t know if we should care about the CPU that happens to be running crashpad_handler right this instant, or if we should be a little more deterministic about things. What do you think?",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c511ec79_e57e0319",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-04T21:34:48Z",
+      "side": 1,
+      "message": "The other option I was thinking of was to use the first cpu index we read from the online cpus. We could also take note of which cpu requests the dump and collect info for that cpu.\n\nDo you think we\u0027ll ever want to expand the snapshot interface to be able to capture heterogeneous systems?\n\nWe might also want to do this for the cpuid calls. It\u0027s probably super rare to find systems running multiple, different cpu models, but I\u0027m pretty sure Linux can do it. We might have problems with not being allowed to run on a particular cpu, but I think it\u0027d be pretty easy to detect that and leave a log message indicating what cpu we end up using.",
+      "parentUuid": "99ad3575_c6683686",
       "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -76,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "96c00c0e_3c904682",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-04T21:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba81b5f9_4027c48c",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33eb25dc_7a438ae9",
         "filename": "snapshot/linux/system_snapshot_linux.cc",
         "patchSetId": 6
@@ -90,6 +144,24 @@
       "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6721343_451d11b5",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-04T21:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33eb25dc_7a438ae9",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +182,24 @@
     },
     {
       "key": {
+        "uuid": "2e399160_c9c40ec7",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-04T21:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d931851_af364c6f",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4f27f5f_03ca84e2",
         "filename": "snapshot/posix/timezone.cc",
         "patchSetId": 6
@@ -124,6 +214,24 @@
       "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fab3932_d026c804",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-04T21:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4f27f5f_03ca84e2",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -144,6 +252,24 @@
     },
     {
       "key": {
+        "uuid": "3fa890aa_fb559633",
+        "filename": "snapshot/posix/timezone.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-04T21:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0cd9090_d921c111",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d45cc2_2bbd8e62",
         "filename": "snapshot/system_snapshot.h",
         "patchSetId": 6
@@ -161,6 +287,24 @@
     },
     {
       "key": {
+        "uuid": "be3e20cd_8614a579",
+        "filename": "snapshot/system_snapshot.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-04T21:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04d45cc2_2bbd8e62",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93dc4ad6_7500177e",
         "filename": "snapshot/x86_family/cpuid_reader.h",
         "patchSetId": 6
@@ -175,6 +319,24 @@
       "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e5d1e84_5e664a1b",
+        "filename": "snapshot/x86_family/cpuid_reader.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-04T21:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93dc4ad6_7500177e",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
