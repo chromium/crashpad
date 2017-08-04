@@ -19,6 +19,10 @@
 
 // Android 5.0.0 (API 21) NDK
 
+#if !defined(SYS_getcpu)
+#define SYS_getcpu __NR_getcpu
+#endif
+
 #if !defined(SYS_gettid)
 #define SYS_gettid __NR_gettid
 #endif
