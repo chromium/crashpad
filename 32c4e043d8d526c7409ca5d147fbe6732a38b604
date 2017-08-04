@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f67c1f29_5287a32d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-04T21:38:12Z",
+      "side": 1,
+      "message": "We\u0027ll probably want to expand the SystemSnapshot interface for any ARM specific info too.",
+      "parentUuid": "0f995423_96396946",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b5c1ae0_66a6c6f5",
         "filename": "snapshot/linux/system_snapshot_linux.cc",
         "patchSetId": 6
