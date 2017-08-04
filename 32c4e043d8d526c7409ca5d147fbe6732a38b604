@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b5c1ae0_66a6c6f5",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-04T18:14:24Z",
+      "side": 1,
+      "message": "When we’re on Android, I think that this stuff is more important than the kernel information that you get from uname(). Can we stick it at the beginning of os_version_build_ and os_version_full_?",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99ad3575_c6683686",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-04T18:14:24Z",
+      "side": 1,
+      "message": "In light of heterogenous nonsense like big.LITTLE, I don’t know if we should care about the CPU that happens to be running crashpad_handler right this instant, or if we should be a little more deterministic about things. What do you think?",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba81b5f9_4027c48c",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-04T18:14:24Z",
+      "side": 1,
+      "message": "Seems like this should be shared code too. CPU-specific, but not Linux-specific.\n\nIt wouldn’t be totally out of place in the new cpuid file, even though it’s not cpuid instruction-based.",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33eb25dc_7a438ae9",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-04T18:14:24Z",
+      "side": 1,
+      "message": "Since “server OS” is meaningless here, “false” is probably a better choice.",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d931851_af364c6f",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-04T18:14:24Z",
+      "side": 1,
+      "message": "#include \"build/build_config.h\"",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4f27f5f_03ca84e2",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-04T18:14:24Z",
+      "side": 1,
+      "message": "This logic and the test both seem very familiar…\n\nCan we unify them with the Mac ones? No reason to carry two copies of the same thing.",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0cd9090_d921c111",
+        "filename": "snapshot/posix/timezone.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-04T18:14:24Z",
+      "side": 1,
+      "message": "Doxygenate this.",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04d45cc2_2bbd8e62",
+        "filename": "snapshot/system_snapshot.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-04T18:14:24Z",
+      "side": 1,
+      "message": "There should be a distinct value for Android, and the .cc should use it on Android.\n\nThis will be used to decide what to put into MINIDUMP_SYSTEM_INFO::PlatformId, and we have a distinct value for Android there. https://crashpad.chromium.org/doxygen/namespacecrashpad.html#a9be77c6f7868f00c2f279006a1abe26a",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93dc4ad6_7500177e",
+        "filename": "snapshot/x86_family/cpuid_reader.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-04T18:14:24Z",
+      "side": 1,
+      "message": "Probably just snapshot/x86, not snapshot/x86_family. I don’t know if it’s worth separating things out to the extent that we’d have distinct directories for 32-bit x86 and x86_64.",
+      "revId": "32c4e043d8d526c7409ca5d147fbe6732a38b604",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
