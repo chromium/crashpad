@@ -57,6 +57,8 @@
         'linux/process_reader.cc',
         'linux/process_reader.h',
         'linux/signal_context.h',
+        'linux/system_snapshot_linux.cc',
+        'linux/system_snapshot_linux.h',
         'linux/thread_snapshot_linux.cc',
         'linux/thread_snapshot_linux.h',
         'mac/cpu_context_mac.cc',
@@ -107,6 +109,8 @@
         'minidump/process_snapshot_minidump.cc',
         'minidump/process_snapshot_minidump.h',
         'module_snapshot.h',
+        'posix/timezone.cc',
+        'posix/timezone.h',
         'process_snapshot.h',
         'system_snapshot.h',
         'thread_snapshot.h',
@@ -140,6 +144,8 @@
         'win/system_snapshot_win.h',
         'win/thread_snapshot_win.cc',
         'win/thread_snapshot_win.h',
+        'x86/cpuid_reader.cc',
+        'x86/cpuid_reader.h',
       ],
       'conditions': [
         ['OS=="win"', {
@@ -153,6 +159,11 @@
           'sources!': [
             'capture_memory.cc',
             'capture_memory.h',
+          ],
+        }],
+        ['target_arch!="ia32" and target_arch!="x64"', {
+          'sources/': [
+            ['exclude', '^x86/'],
           ],
         }],
       ],
