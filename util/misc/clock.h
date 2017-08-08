@@ -34,8 +34,6 @@ namespace crashpad {
 //! \return The value of the system’s monotonic clock, in nanoseconds.
 uint64_t ClockMonotonicNanoseconds();
 
-#if !defined(OS_WIN)  // Not implemented on Windows yet.
-
 //! \brief Sleeps for the specified duration.
 //!
 //! \param[in] nanoseconds The number of nanoseconds to sleep. The actual sleep
@@ -44,8 +42,6 @@ uint64_t ClockMonotonicNanoseconds();
 //! This function is resilient against the underlying `nanosleep()` system call
 //! being interrupted by a signal.
 void SleepNanoseconds(uint64_t nanoseconds);
-
-#endif
 
 }  // namespace crashpad
 
