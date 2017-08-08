@@ -1,0 +1,294 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef0e86a7_119ea620",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "Rather than reconstructing range from left and right, why not just do \"format error: \" \u003c\u003c range?\n\n(Also note the space inserted after the colon.)",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b5c9074_2ea471bf",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "Make sure that end \u003e\u003d (or \u003e) start.",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5732cc54_bedb0d92",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "Do you need to check have_first after the loop and return false if you don’t have it?",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd3d10b3_6b9f0241",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "These four lines can be simplified to an InRangeCast\u003cuint8_t\u003e(count, std::numeric_limits\u003cuint8_t\u003e::max()). #include \"util/numeric/in_range_cast.h\".",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8855e66_483a74bb",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "These can assign instead of appending since they happen first now.",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4289c5f6_655b24dd",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "!empty() is a little more concise. Lines 324 and 384 too.",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "991a9503_c2943359",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "Odd to start with a space if we’re not Android. Move this line into the #ifdef above, or put a !empty() check on it.",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a07037ff_6277c764",
+        "filename": "snapshot/mac/system_snapshot_mac.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "No longer needed in this file.",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55654c01_feccb9d3",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "Was this necessary?",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ad2f91f_664d2f76",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "#include \u003ctime.h\u003e",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3054ac55_43286cfa",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "I don’t know what this _TZif thing is about. Can you provide a comment?",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb4dfa77_801a2be4",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "clang-format does an ugly thing with this list, can you put it back how it was in the _mac.cc file? I think that was more readable.",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4303c2cc_0a98afd9",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "Was local.tm_gmtoff wrong?",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dafc3002_2cc61d9e",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "Blank line before this, and then another blank line after the Australian entries, so that the comment’s applicability is clear.",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a007237f_7cef68b4",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "Spelling",
+      "range": {
+        "startLine": 138,
+        "startChar": 9,
+        "endLine": 138,
+        "endChar": 20
+      },
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8b2b289_e4db5ca8",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T19:12:40Z",
+      "side": 1,
+      "message": "glibc and macOS",
+      "range": {
+        "startLine": 139,
+        "startChar": 21,
+        "endLine": 139,
+        "endChar": 26
+      },
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
