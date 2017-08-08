@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e5c4d72e_4d19aa4b",
+        "filename": "util/misc/clock.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-08-08T21:47:25Z",
+      "side": 1,
+      "message": "On macOS, ...",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 5
+      },
+      "revId": "39b69b2f9dae6e8839911f054486ceb9d8436451",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6837798_b7a36ee2",
         "filename": "util/misc/clock_win.cc",
         "patchSetId": 1
