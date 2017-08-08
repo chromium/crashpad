@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7033bf54_9fdced9f",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef0e86a7_119ea620",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b5c9074_2ea471bf",
         "filename": "snapshot/linux/system_snapshot_linux.cc",
         "patchSetId": 18
@@ -33,6 +51,24 @@
       "revId": "2c1b218769c60540405bf8ef60aa058908106104",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "835ef765_989fe2b6",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b5c9074_2ea471bf",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dedc0ae7_dc9462a4",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5732cc54_bedb0d92",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd3d10b3_6b9f0241",
         "filename": "snapshot/linux/system_snapshot_linux.cc",
         "patchSetId": 18
@@ -67,6 +121,24 @@
       "revId": "2c1b218769c60540405bf8ef60aa058908106104",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff975306_38bd9f74",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd3d10b3_6b9f0241",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "edfb17e0_51e02bb5",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8855e66_483a74bb",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4289c5f6_655b24dd",
         "filename": "snapshot/linux/system_snapshot_linux.cc",
         "patchSetId": 18
@@ -101,6 +191,24 @@
       "revId": "2c1b218769c60540405bf8ef60aa058908106104",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c08b361e_4b293c77",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4289c5f6_655b24dd",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "1d76ccf5_e8979546",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "I did this assuming that ReadKernelVersion writes some stuff to os_version_build_, but I suppose that could end up being empty too. Done.",
+      "parentUuid": "991a9503_c2943359",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a07037ff_6277c764",
         "filename": "snapshot/mac/system_snapshot_mac.cc",
         "patchSetId": 18
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "c73fc1d3_8a6c843f",
+        "filename": "snapshot/mac/system_snapshot_mac.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a07037ff_6277c764",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55654c01_feccb9d3",
         "filename": "snapshot/posix/timezone.cc",
         "patchSetId": 18
@@ -149,6 +293,24 @@
       "writtenOn": "2017-08-08T19:12:40Z",
       "side": 1,
       "message": "Was this necessary?",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bcfb0ca_16d4d139",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "I don\u0027t think I ever ran into this actually breaking anything and I think the test case always ends up calling it before calling TimeZone, but the Linux man-pages say it should be called, either implicitly or explicitly, before using tzname, timezone, or daylight. localtime_r is not required to set these.",
+      "parentUuid": "55654c01_feccb9d3",
       "revId": "2c1b218769c60540405bf8ef60aa058908106104",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "33bb0c08_7f1492d4",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ad2f91f_664d2f76",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3054ac55_43286cfa",
         "filename": "snapshot/posix/timezone.cc",
         "patchSetId": 18
@@ -183,6 +363,30 @@
       "writtenOn": "2017-08-08T19:12:40Z",
       "side": 1,
       "message": "I don’t know what this _TZif thing is about. Can you provide a comment?",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a377922_c9a94514",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "tzname[0,1] get initialized to WILDABBR.\nhttps://cs.corp.google.com/aosp-master/bionic/libc/tzcode/localtime.c?rcl\u003debbbe292bd2657b98007f3b6d0405686c1c646b8\u0026l\u003d61\n\nI haven\u0027t figured out where WILDABBR actually gets set to \"_TZif\", but this is the value I\u0027ve observed on the emulators for Kolkata and Honolulu.\n\nThere\u0027s also this bug which mentions some other timezones getting bogus data and named \"_TZif\".\nhttps://bugs.chromium.org/p/chromium/issues/detail?id\u003d520783",
+      "parentUuid": "3054ac55_43286cfa",
       "range": {
         "startLine": 40,
         "startChar": 6,
@@ -212,6 +416,24 @@
     },
     {
       "key": {
+        "uuid": "ec8a2f06_9887dbe7",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb4dfa77_801a2be4",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4303c2cc_0a98afd9",
         "filename": "snapshot/posix/timezone.cc",
         "patchSetId": 18
@@ -223,6 +445,24 @@
       "writtenOn": "2017-08-08T19:12:40Z",
       "side": 1,
       "message": "Was local.tm_gmtoff wrong?",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8480a3d8_8cfc1478",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Yeah, Asia/Kolkata and Pacific/Honolulu on x86_64 Android emulators for api 21,22,23 had local.tm_gmtoff as -7200 (expected 19800 and -36000).",
+      "parentUuid": "4303c2cc_0a98afd9",
       "revId": "2c1b218769c60540405bf8ef60aa058908106104",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -269,6 +509,48 @@
     },
     {
       "key": {
+        "uuid": "9de2c469_28fa1fda",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a007237f_7cef68b4",
+      "range": {
+        "startLine": 138,
+        "startChar": 9,
+        "endLine": 138,
+        "endChar": 20
+      },
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "741b3fac_ddf2024b",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dafc3002_2cc61d9e",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8b2b289_e4db5ca8",
         "filename": "snapshot/posix/timezone_test.cc",
         "patchSetId": 18
@@ -289,6 +571,30 @@
       "revId": "2c1b218769c60540405bf8ef60aa058908106104",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea507cf6_1d8f0265",
+        "filename": "snapshot/posix/timezone_test.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-08-08T21:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8b2b289_e4db5ca8",
+      "range": {
+        "startLine": 139,
+        "startChar": 21,
+        "endLine": 139,
+        "endChar": 26
+      },
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
