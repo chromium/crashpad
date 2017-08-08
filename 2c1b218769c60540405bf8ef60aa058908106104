@@ -469,6 +469,24 @@
     },
     {
       "key": {
+        "uuid": "0f57030b_17e50dbd",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 18
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T21:52:23Z",
+      "side": 1,
+      "message": "\u003e Yeah, Asia/Kolkata and Pacific/Honolulu on x86_64 Android emulators for api 21,22,23 had local.tm_gmtoff as -7200 (expected 19800 and -36000).\n\nWow, but timezone is correct? We should file a bug against Bionic for that.",
+      "parentUuid": "8480a3d8_8cfc1478",
+      "revId": "2c1b218769c60540405bf8ef60aa058908106104",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dafc3002_2cc61d9e",
         "filename": "snapshot/posix/timezone_test.cc",
         "patchSetId": 18

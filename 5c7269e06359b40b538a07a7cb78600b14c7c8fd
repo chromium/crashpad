@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6d96a5f_05d662fb",
+        "filename": "snapshot/linux/system_snapshot_linux.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T21:52:23Z",
+      "side": 1,
+      "message": "Used?",
+      "revId": "5c7269e06359b40b538a07a7cb78600b14c7c8fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5b9456e_d28a96bd",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T21:52:23Z",
+      "side": 1,
+      "message": "OK, let’s move this above the “tm local” which isn’t needed until the call to localtime_r().",
+      "revId": "5c7269e06359b40b538a07a7cb78600b14c7c8fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c67186c_d70cba7b",
+        "filename": "snapshot/posix/timezone.cc",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-08T21:52:23Z",
+      "side": 1,
+      "message": "Can we front-load daylight: daylight \u0026\u0026 strncmp()? If !daylight, I’d rather avoid even looking at tzname[1].",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 23
+      },
+      "revId": "5c7269e06359b40b538a07a7cb78600b14c7c8fd",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
