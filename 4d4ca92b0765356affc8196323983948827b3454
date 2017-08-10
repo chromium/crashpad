@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77ae9f51_420784cf",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-10T18:03:15Z",
+      "side": 1,
+      "message": "nit: `NUL`-terminated. Lines 53, 129, and 144 too.",
+      "range": {
+        "startLine": 42,
+        "startChar": 17,
+        "endLine": 42,
+        "endChar": 31
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e985c51_f4bb3b58",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-10T18:03:15Z",
+      "side": 1,
+      "message": "In what sense do you mean constant? They go into a const char* const member variable, but that can’t be what you mean up here in this comment. Do you want the char data to be constexpr, or static, or both, or static const?",
+      "range": {
+        "startLine": 54,
+        "startChar": 68,
+        "endLine": 54,
+        "endChar": 76
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b91d015c_95c646aa",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-10T18:03:15Z",
+      "side": 1,
+      "message": "Not totally sure what this means.",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 53
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf1bacde_07934742",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-10T18:03:15Z",
+      "side": 1,
+      "message": "Maybe zero-length data isn’t the worst thing, and we’d want another sentinel for “unset” like (uint32_t)-1. What do you think?",
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55d72926_fc501614",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-10T18:03:15Z",
+      "side": 1,
+      "message": "Sounds like it sets the size without also “marking as set”. Maybe we need a better term for “marked as set”. Enabled, activated, even just marked? Then you could have Activate(), ActivateAndSetSize(uint32_t), Deactivate(), etc.",
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7bca260_4274f928",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-10T18:03:15Z",
+      "side": 1,
+      "message": "maybe MaxSize then?",
+      "range": {
+        "startLine": 132,
+        "startChar": 17,
+        "endLine": 132,
+        "endChar": 22
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fc9f579_e952ce33",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-10T18:03:15Z",
+      "side": 1,
+      "message": "Unused in this file.",
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
