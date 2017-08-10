@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "3a43b709_28855c16",
+        "filename": "client/annotation.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-08-10T22:48:08Z",
+      "side": 1,
+      "message": "doesn\u0027t AnnotationList::Add() already check for this? (also, perhaps not critical but there\u0027s a data race condition since this return !\u003d nullptr before the head-\u003elink is set)",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f003e5e_0cbdd81a",
+        "filename": "client/annotation.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-08-10T22:48:08Z",
+      "side": 1,
+      "message": "this seems unexpected (and undocumented) - why does SetSize() also append to the list?",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77ae9f51_420784cf",
         "filename": "client/annotation.h",
         "patchSetId": 3
@@ -71,6 +117,29 @@
     },
     {
       "key": {
+        "uuid": "ec951272_39ef6400",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-08-10T22:48:08Z",
+      "side": 1,
+      "message": "what\u0027s the reason for constexpr here?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 11
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf1bacde_07934742",
         "filename": "client/annotation.h",
         "patchSetId": 3
@@ -128,6 +197,52 @@
     },
     {
       "key": {
+        "uuid": "8b91a2a1_79ef2eb8",
+        "filename": "client/annotation_list.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-08-10T22:48:08Z",
+      "side": 1,
+      "message": "is this load() really needed? compare_exchange() already updates head_next (yes, it\u0027s not the most intuitive interface)\n\nw/o this load the whole CAS loop can be simplified a bit:\n\nwhile(!head.link.compare_exchange(head_next, annotation)) {\n annotation.link \u003d head_next;\n}",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 68
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8d864c7_7686923a",
+        "filename": "client/annotation_list.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-08-10T22:48:08Z",
+      "side": 1,
+      "message": "seems valid, but is this optimization really needed?",
+      "range": {
+        "startLine": 51,
+        "startChar": 47,
+        "endLine": 51,
+        "endChar": 72
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fc9f579_e952ce33",
         "filename": "client/annotation_list.h",
         "patchSetId": 3
@@ -142,6 +257,52 @@
       "revId": "4d4ca92b0765356affc8196323983948827b3454",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e8b8379_cdae7423",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-08-10T22:48:08Z",
+      "side": 1,
+      "message": "private + friend ?",
+      "range": {
+        "startLine": 42,
+        "startChar": 52,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9763be64_1cc97e17",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-08-10T22:48:08Z",
+      "side": 1,
+      "message": "it seems we can drop the tail_ member, am I wrong? (ie. a simple nullptr for the end of list)",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 19
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
