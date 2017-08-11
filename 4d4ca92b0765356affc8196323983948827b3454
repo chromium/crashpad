@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5bef3dc5_8a26e165",
+        "filename": "client/annotation.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "\u003e doesn\u0027t AnnotationList::Add() already check for this? (also, perhaps not critical but there\u0027s a data race condition since this return !\u003d nullptr before the head-\u003elink is set)\n\nI removed the check, but the race was benign because once a thread sets the link_node pointer, it\u0027s guaranteed to be added to the list.",
+      "parentUuid": "3a43b709_28855c16",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f003e5e_0cbdd81a",
         "filename": "client/annotation.cc",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-10T22:48:08Z",
       "side": 1,
       "message": "this seems unexpected (and undocumented) - why does SetSize() also append to the list?",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "334d677c_b6cc47d7",
+        "filename": "client/annotation.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "\u003e this seems unexpected (and undocumented) - why does SetSize() also append to the list?\n\nIt is documented.",
+      "parentUuid": "2f003e5e_0cbdd81a",
       "range": {
         "startLine": 30,
         "startChar": 2,
@@ -68,6 +116,30 @@
       "revId": "4d4ca92b0765356affc8196323983948827b3454",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e838e70_21b44d96",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77ae9f51_420784cf",
+      "range": {
+        "startLine": 42,
+        "startChar": 17,
+        "endLine": 42,
+        "endChar": 31
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,54 @@
     },
     {
       "key": {
+        "uuid": "41b30698_306002ee",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "\u003e Not totally sure what this means.\n\nHopefully clarified.",
+      "parentUuid": "b91d015c_95c646aa",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 53
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e95af45a_4ae5559b",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "\u003e In what sense do you mean constant? They go into a const char* const member variable, but that can’t be what you mean up here in this comment. Do you want the char data to be constexpr, or static, or both, or static const?\n\nConstexpr static is what I meant. Added a usage example as well.",
+      "parentUuid": "0e985c51_f4bb3b58",
+      "range": {
+        "startLine": 54,
+        "startChar": 68,
+        "endLine": 54,
+        "endChar": 76
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec951272_39ef6400",
         "filename": "client/annotation.h",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2017-08-10T22:48:08Z",
       "side": 1,
       "message": "what\u0027s the reason for constexpr here?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 11
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0da859e5_c5d2f222",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "\u003e what\u0027s the reason for constexpr here?\n\nStatic initializers are disallowed in Chromium, so this allows a construction at file-scope without generating an initializer.",
+      "parentUuid": "ec951272_39ef6400",
       "range": {
         "startLine": 58,
         "startChar": 2,
@@ -157,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "1e91f3ae_a0afa3bb",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "\u003e Maybe zero-length data isn’t the worst thing, and we’d want another sentinel for “unset” like (uint32_t)-1. What do you think?\n\nI cannot think of a reason for zero-length data. If you wanted a strict boolean presence-flag, take the extra bit. But in Chromium most things are strings, and a zero-length string would still be 1 byte.",
+      "parentUuid": "cf1bacde_07934742",
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55d72926_fc501614",
         "filename": "client/annotation.h",
         "patchSetId": 3
@@ -171,6 +333,24 @@
       "revId": "4d4ca92b0765356affc8196323983948827b3454",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f32a00b_c079498e",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "I\u0027ve completely dropped the unsized Set() method and now there\u0027s just SetSize(), which will \"activate\" it on first call.",
+      "parentUuid": "55d72926_fc501614",
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "9aa8ea24_3ae0ec45",
+        "filename": "client/annotation.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7bca260_4274f928",
+      "range": {
+        "startLine": 132,
+        "startChar": 17,
+        "endLine": 132,
+        "endChar": 22
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b91a2a1_79ef2eb8",
         "filename": "client/annotation_list.cc",
         "patchSetId": 3
@@ -208,6 +412,30 @@
       "writtenOn": "2017-08-10T22:48:08Z",
       "side": 1,
       "message": "is this load() really needed? compare_exchange() already updates head_next (yes, it\u0027s not the most intuitive interface)\n\nw/o this load the whole CAS loop can be simplified a bit:\n\nwhile(!head.link.compare_exchange(head_next, annotation)) {\n annotation.link \u003d head_next;\n}",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 68
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23a271d8_b3b7eb13",
+        "filename": "client/annotation_list.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "Ah thanks, that is much simpler.",
+      "parentUuid": "8b91a2a1_79ef2eb8",
       "range": {
         "startLine": 50,
         "startChar": 6,
@@ -243,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "e831374a_4feed2c7",
+        "filename": "client/annotation_list.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "\u003e seems valid, but is this optimization really needed?\n\nIt\u0027s not necessary to use CST ordering here, so it seems better to do this for platforms where that memory order may be more expensive.",
+      "parentUuid": "a8d864c7_7686923a",
+      "range": {
+        "startLine": 51,
+        "startChar": 47,
+        "endLine": 51,
+        "endChar": 72
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fc9f579_e952ce33",
         "filename": "client/annotation_list.h",
         "patchSetId": 3
@@ -257,6 +509,24 @@
       "revId": "4d4ca92b0765356affc8196323983948827b3454",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ac23b02_c2724220",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fc9f579_e952ce33",
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -283,6 +553,30 @@
     },
     {
       "key": {
+        "uuid": "2f715ba5_0970de3a",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "\u003e private + friend ?\n\nI don\u0027t think there\u0027s a need to restrict it like that, since it\u0027d be harmless to call by clients, in comparison to the Annotation::link_node() method which does require special handling to get right.",
+      "parentUuid": "7e8b8379_cdae7423",
+      "range": {
+        "startLine": 42,
+        "startChar": 52,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9763be64_1cc97e17",
         "filename": "client/annotation_list.h",
         "patchSetId": 3
@@ -294,6 +588,30 @@
       "writtenOn": "2017-08-10T22:48:08Z",
       "side": 1,
       "message": "it seems we can drop the tail_ member, am I wrong? (ie. a simple nullptr for the end of list)",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 19
+      },
+      "revId": "4d4ca92b0765356affc8196323983948827b3454",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd6a1eec_4261e83a",
+        "filename": "client/annotation_list.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1144624
+      },
+      "writtenOn": "2017-08-11T22:22:43Z",
+      "side": 1,
+      "message": "\u003e it seems we can drop the tail_ member, am I wrong? (ie. a simple nullptr for the end of list)\n\nNo. The invariant is that if Annotation::link_node() is null it gets added to the list; if it is non-null, it has been added to the list.",
+      "parentUuid": "9763be64_1cc97e17",
       "range": {
         "startLine": 67,
         "startChar": 2,
