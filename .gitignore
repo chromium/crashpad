@@ -10,10 +10,12 @@
 .gdbinit
 /Makefile
 /out
+/third_party/depot_tools
 /third_party/gtest/gtest
 /third_party/gyp/gyp
 /third_party/llvm
 /third_party/mini_chromium/mini_chromium
+/third_party/swarming_client
 /third_party/zlib/zlib
 /xcodebuild
 tags
