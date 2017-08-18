@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53a3f4bd_a53be5f3",
+        "filename": "build/run_on_swarming.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-08-18T17:14:01Z",
+      "side": 1,
+      "message": "Some \\r in this script (or something weird anyway)",
+      "revId": "0b2c8a274c2118fdfa656804cd094885208f715e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bc93e37_a5565884",
+        "filename": "build/run_tests.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-08-18T17:14:01Z",
+      "side": 1,
+      "message": "I suspect the test failures are that there\u0027s no cdb (and supporting dlls) on the swarming slave.",
+      "revId": "0b2c8a274c2118fdfa656804cd094885208f715e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
