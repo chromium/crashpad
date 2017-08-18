@@ -47,6 +47,7 @@ struct CrashpadInfo {
   uint8_t padding_1;
   typename Traits::Pointer extra_address_ranges;
   typename Traits::Pointer simple_annotations;
+  typename Traits::Pointer annotations_list;
   typename Traits::Pointer user_data_minidump_stream_head;
 };
 
