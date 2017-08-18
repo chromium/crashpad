@@ -120,6 +120,7 @@ CrashpadInfo::CrashpadInfo()
       padding_1_(0),
       extra_memory_ranges_(nullptr),
       simple_annotations_(nullptr),
+      annotations_list_(nullptr),
       user_data_minidump_stream_head_(nullptr)
 #if !defined(NDEBUG) && defined(OS_WIN)
       ,
