@@ -18,8 +18,11 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include <algorithm>
+
 #include "base/logging.h"
 #include "base/macros.h"
+#include "base/strings/string_piece.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -125,9 +128,9 @@ class TSimpleStringDictionary {
   //!
   //! \return The corresponding value for \a key, or if \a key is not found,
   //!     `nullptr`.
-  const char* GetValueForKey(const char* key) const {
-    DCHECK(key);
-    if (!key) {
+  const char* GetValueForKey(base::StringPiece key) const {
+    DCHECK(key.data() && key.size());
+    if (!key.data() || !key.size()) {
       return nullptr;
     }
 
@@ -148,14 +151,14 @@ class TSimpleStringDictionary {
   //! \param[in] key The key to store. This must not be `nullptr`.
   //! \param[in] value The value to store. If `nullptr`, \a key is removed from
   //!     the map.
-  void SetKeyValue(const char* key, const char* value) {
-    if (!value) {
+  void SetKeyValue(base::StringPiece key, base::StringPiece value) {
+    if (!value.data()) {
       RemoveKey(key);
       return;
     }
 
-    DCHECK(key);
-    if (!key) {
+    DCHECK(key.data() && key.size());
+    if (!key.data() || !key.size()) {
       return;
     }
 
@@ -173,8 +176,9 @@ class TSimpleStringDictionary {
         if (!entries_[i].is_active()) {
           entry = &entries_[i];
 
-          strncpy(entry->key, key, key_size);
-          entry->key[key_size - 1] = '\0';
+          size_t copy_len = std::min(key_size - 1, key.size());
+          key.copy(entry->key, copy_len);
+          entry->key[copy_len] = '\0';
 
           break;
         }
@@ -190,15 +194,16 @@ class TSimpleStringDictionary {
     // Sanity check that the key only appears once.
     int count = 0;
     for (size_t i = 0; i < num_entries; ++i) {
-      if (strncmp(entries_[i].key, key, key_size) == 0) {
+      if (base::StringPiece(entries_[i].key) == key) {
         ++count;
       }
     }
     DCHECK_EQ(count, 1);
 #endif
 
-    strncpy(entry->value, value, value_size);
-    entry->value[value_size - 1] = '\0';
+    size_t copy_len = std::min(value_size - 1, value.size());
+    value.copy(entry->value, copy_len);
+    entry->value[copy_len] = '\0';
   }
 
   //! \brief Removes \a key from the map.
@@ -206,9 +211,9 @@ class TSimpleStringDictionary {
   //! If \a key is not found, this is a no-op.
   //!
   //! \param[in] key The key of the entry to remove. This must not be `nullptr`.
-  void RemoveKey(const char* key) {
-    DCHECK(key);
-    if (!key) {
+  void RemoveKey(base::StringPiece key) {
+    DCHECK(key.data() && key.size());
+    if (!key.data()) {
       return;
     }
 
@@ -222,16 +227,16 @@ class TSimpleStringDictionary {
   }
 
  private:
-  const Entry* GetConstEntryForKey(const char* key) const {
+  const Entry* GetConstEntryForKey(base::StringPiece key) const {
     for (size_t i = 0; i < num_entries; ++i) {
-      if (strncmp(key, entries_[i].key, key_size) == 0) {
+      if (key == base::StringPiece(entries_[i].key)) {
         return &entries_[i];
       }
     }
     return nullptr;
   }
 
-  Entry* GetEntryForKey(const char* key) {
+  Entry* GetEntryForKey(base::StringPiece key) {
     return const_cast<Entry*>(GetConstEntryForKey(key));
   }
 
