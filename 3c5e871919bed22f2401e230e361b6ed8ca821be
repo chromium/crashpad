@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4406d5c7_ae620e6d",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1128439
+      },
+      "writtenOn": "2017-08-28T20:31:35Z",
+      "side": 1,
+      "message": "Note that this will be more expensive than the strncmp that it replaces. The strncmp would halt as soon as a mismatch is found - presumably in the first character or two in most cases. The conversion to StringPiece means that a full strlen has to be performed. I guess if the keys are short enough this doesn\u0027t matter but it still seems wasteful to do a strlen scan followed immediately by a strcmp scan.",
+      "revId": "3c5e871919bed22f2401e230e361b6ed8ca821be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
