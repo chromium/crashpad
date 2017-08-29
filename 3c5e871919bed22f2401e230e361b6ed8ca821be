@@ -34,6 +34,24 @@
       "revId": "3c5e871919bed22f2401e230e361b6ed8ca821be",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "570de7cd_5d77ce65",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-29T13:54:46Z",
+      "side": 1,
+      "message": "Mark; are you objecting to the interface change, or are you asking for documentation and/or asserts on what\u0027s allowable in the keys and values? As the Chrome-side plumbing uses StringPiece all around, this is already broken in that strictly speaking it necessitates copying once, to satisfy the zero-termination requirement here.\nI\u0027d suggest dictating no embedded zeros by contract, and asserting on that, if that\u0027s good with you.\n\nBruce; I\u0027m weary of hand-writing string copying and compare - especially because this should be vanishingly rare. The strlen invoked here will be optimized to the hilt, and will almost certainly be reading 64 or 128 bits.\nDo you have a better suggestion for how to write this with existing primitives?",
+      "parentUuid": "9682f5ea_d3341c43",
+      "revId": "3c5e871919bed22f2401e230e361b6ed8ca821be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
