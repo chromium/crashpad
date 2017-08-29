@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8a052005_40b9d8e7",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-29T17:48:46Z",
+      "side": 1,
+      "message": "The Chrome base version indicates by-value is preferred https://cs.chromium.org/chromium/src/base/strings/string_piece.h?dr\u003dCSs\u0026l\u003d15:\n\n// Prefer passing StringPieces by value:\n//   void MyFunction(StringPiece arg);\n// If circumstances require, you may also pass by const reference:\n//   void MyFunction(const StringPiece\u0026 arg);  // not preferred\n// Both of these have the same lifetime semantics.  Passing by value\n// generates slightly smaller code.  For more discussion, Googlers can see\n// the thread go/stringpiecebyvalue on c-users.",
+      "parentUuid": "a5406908_b434d3dc",
+      "range": {
+        "startLine": 135,
+        "startChar": 29,
+        "endLine": 135,
+        "endChar": 46
+      },
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7441dd92_9e4d73c6",
         "filename": "client/simple_string_dictionary.h",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "a46c5d0e_664bc333",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-29T17:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7441dd92_9e4d73c6",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b14f2b0_c41c597c",
         "filename": "client/simple_string_dictionary.h",
         "patchSetId": 4
@@ -53,6 +95,24 @@
       "writtenOn": "2017-08-29T16:46:06Z",
       "side": 1,
       "message": "There’s now a DCHECK that implies that this can never happen.",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4842f410_f185b166",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-29T17:48:46Z",
+      "side": 1,
+      "message": "All the code in this file seems to be written belt-and-suspenders - e.g. for many of the DHCECKs, there\u0027s the same conditional that bails. I figured that was by design, as this is crash reporting - but I\u0027m easy either way.\nAs a case in point, this code was \n\nDCHECK(key);\nif (!key) {\n  return nullptr;\n}",
+      "parentUuid": "9b14f2b0_c41c597c",
       "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "edbf760c_ed160235",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-29T17:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33d049be_f0a6f18a",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42a13827_14621f9d",
         "filename": "client/simple_string_dictionary.h",
         "patchSetId": 4
@@ -90,6 +168,24 @@
       "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a120ed0_377114b5",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-29T17:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42a13827_14621f9d",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "42e2edbb_87d2d6b2",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-29T17:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4bb2f86_c92c8f9a",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9805eadd_676a0b43",
         "filename": "client/simple_string_dictionary.h",
         "patchSetId": 4
@@ -121,6 +235,24 @@
       "writtenOn": "2017-08-29T16:46:06Z",
       "side": 1,
       "message": "This is lame following the DCHECK above too.",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d11beaa_534d7d05",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-29T17:48:46Z",
+      "side": 1,
+      "message": "Just trying to maintain style here. I\u0027m easy either way though...",
+      "parentUuid": "9805eadd_676a0b43",
       "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -141,6 +273,24 @@
       "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0199bdbf_9336733d",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-29T17:48:46Z",
+      "side": 1,
+      "message": "Ah, good point. If I bound the compare to key.size() it won\u0027t overrun the key.",
+      "parentUuid": "395e46ff_2d1a7103",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
