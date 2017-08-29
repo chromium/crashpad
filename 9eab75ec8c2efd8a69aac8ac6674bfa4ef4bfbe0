@@ -2,6 +2,131 @@
   "comments": [
     {
       "key": {
+        "uuid": "a5406908_b434d3dc",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T16:46:06Z",
+      "side": 1,
+      "message": "I recall there being a “thing” about this, but are these really supposed to be passed by value instead of const reference?",
+      "range": {
+        "startLine": 135,
+        "startChar": 29,
+        "endLine": 135,
+        "endChar": 46
+      },
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7441dd92_9e4d73c6",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T16:46:06Z",
+      "side": 1,
+      "message": "For a DCHECK, there’s more value in splitting the two sides of the \u0026\u0026 out into their own DCHECKs than there is in combining them. The same applies a couple other times in this file.",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b14f2b0_c41c597c",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T16:46:06Z",
+      "side": 1,
+      "message": "There’s now a DCHECK that implies that this can never happen.",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d049be_f0a6f18a",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T16:46:06Z",
+      "side": 1,
+      "message": "`backticks` aren’t necessary outside of //! Doxygen comments.",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42a13827_14621f9d",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T16:46:06Z",
+      "side": 1,
+      "message": "This copy is the same three lines as above. Factor it out into a helper function?",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4bb2f86_c92c8f9a",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T16:46:06Z",
+      "side": 1,
+      "message": "The hanging indent is +4 spaces elsewhere in this file, this one’s only +3.",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9805eadd_676a0b43",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T16:46:06Z",
+      "side": 1,
+      "message": "This is lame following the DCHECK above too.",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "395e46ff_2d1a7103",
         "filename": "client/simple_string_dictionary.h",
         "patchSetId": 4
