@@ -18,8 +18,11 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include <algorithm>
+
 #include "base/logging.h"
 #include "base/macros.h"
+#include "base/strings/string_piece.h"
 #include "util/misc/implicit_cast.h"
 
 namespace crashpad {
@@ -51,10 +54,13 @@ class TSimpleStringDictionary {
   struct Entry {
     //! \brief The entry’s key.
     //!
-    //! If this is a 0-length `NUL`-terminated string, the entry is inactive.
+    //! This string is always `NUL`-terminated. If this is a 0-length
+    //! `NUL`-terminated string, the entry is inactive.
     char key[KeySize];
 
     //! \brief The entry’s value.
+    //!
+    //! This string is always `NUL`-terminated.
     char value[ValueSize];
 
     //! \brief Returns the validity of the entry.
@@ -121,13 +127,15 @@ class TSimpleStringDictionary {
 
   //! \brief Given \a key, returns its corresponding value.
   //!
-  //! \param[in] key The key to look up. This must not be `nullptr`.
+  //! \param[in] key The key to look up. This must not be `nullptr`, nor an
+  //!     empty string. It must not contain embedded `NUL`s.
   //!
   //! \return The corresponding value for \a key, or if \a key is not found,
   //!     `nullptr`.
-  const char* GetValueForKey(const char* key) const {
-    DCHECK(key);
-    if (!key) {
+  const char* GetValueForKey(base::StringPiece key) const {
+    DCHECK(key.data() && key.size());
+    DCHECK_EQ(key.find('\0', 0), base::StringPiece::npos);
+    if (!key.data() || !key.size()) {
       return nullptr;
     }
 
@@ -145,17 +153,19 @@ class TSimpleStringDictionary {
   //! If \a key is not yet in the map and the map is already full (containing
   //! \a NumEntries active entries), this operation silently fails.
   //!
-  //! \param[in] key The key to store. This must not be `nullptr`.
+  //! \param[in] key The key to store. This must not be `nullptr`, nor an empty
+  //!     string. It must not contain embedded `NUL`s.
   //! \param[in] value The value to store. If `nullptr`, \a key is removed from
-  //!     the map.
-  void SetKeyValue(const char* key, const char* value) {
-    if (!value) {
+  //!     the map. Must not contain embedded `NUL`s.
+  void SetKeyValue(base::StringPiece key, base::StringPiece value) {
+    if (!value.data()) {
       RemoveKey(key);
       return;
     }
 
-    DCHECK(key);
-    if (!key) {
+    DCHECK(key.data() && key.size());
+    DCHECK_EQ(key.find('\0', 0), base::StringPiece::npos);
+    if (!key.data() || !key.size()) {
       return;
     }
 
@@ -165,6 +175,9 @@ class TSimpleStringDictionary {
       return;
     }
 
+    // |value| must not contain embedded `NUL`s.
+    DCHECK_EQ(value.find('\0', 0), base::StringPiece::npos);
+
     Entry* entry = GetEntryForKey(key);
 
     // If it does not yet exist, attempt to insert it.
@@ -173,8 +186,9 @@ class TSimpleStringDictionary {
         if (!entries_[i].is_active()) {
           entry = &entries_[i];
 
-          strncpy(entry->key, key, key_size);
-          entry->key[key_size - 1] = '\0';
+          size_t copy_len = std::min(key_size - 1, key.size());
+          key.copy(entry->key, copy_len);
+          entry->key[copy_len] = '\0';
 
           break;
         }
@@ -190,25 +204,28 @@ class TSimpleStringDictionary {
     // Sanity check that the key only appears once.
     int count = 0;
     for (size_t i = 0; i < num_entries; ++i) {
-      if (strncmp(entries_[i].key, key, key_size) == 0) {
+      if (EntryKeyEquals(key, entries_[i])) {
         ++count;
       }
     }
     DCHECK_EQ(count, 1);
 #endif
 
-    strncpy(entry->value, value, value_size);
-    entry->value[value_size - 1] = '\0';
+    size_t copy_len = std::min(value_size - 1, value.size());
+    value.copy(entry->value, copy_len);
+    entry->value[copy_len] = '\0';
   }
 
   //! \brief Removes \a key from the map.
   //!
   //! If \a key is not found, this is a no-op.
   //!
-  //! \param[in] key The key of the entry to remove. This must not be `nullptr`.
-  void RemoveKey(const char* key) {
-    DCHECK(key);
-    if (!key) {
+  //! \param[in] key The key of the entry to remove. This must not be `nullptr`,
+  //!    nor an empty string. It must not contain embedded `NUL`s.
+  void RemoveKey(base::StringPiece key) {
+    DCHECK_EQ(key.find('\0', 0), base::StringPiece::npos);
+    DCHECK(key.data() && key.size());
+    if (!key.data()) {
       return;
     }
 
@@ -222,16 +239,32 @@ class TSimpleStringDictionary {
   }
 
  private:
-  const Entry* GetConstEntryForKey(const char* key) const {
+  static bool EntryKeyEquals(base::StringPiece key, const Entry& entry) {
+    if (key.size() >= KeySize)
+      return false;
+
+    // Test for a `NUL` terminator and early out if it's absent.
+    if (entry.key[key.size()] != '\0')
+      return false;
+
+    for (size_t i = 0; i < key.size(); ++i) {
+      if (key[i] != entry.key[i])
+        return false;
+    }
+
+    return true;
+  }
+
+  const Entry* GetConstEntryForKey(base::StringPiece key) const {
     for (size_t i = 0; i < num_entries; ++i) {
-      if (strncmp(key, entries_[i].key, key_size) == 0) {
+      if (EntryKeyEquals(key, entries_[i])) {
         return &entries_[i];
       }
     }
     return nullptr;
   }
 
-  Entry* GetEntryForKey(const char* key) {
+  Entry* GetEntryForKey(base::StringPiece key) {
     return const_cast<Entry*>(GetConstEntryForKey(key));
   }
 
