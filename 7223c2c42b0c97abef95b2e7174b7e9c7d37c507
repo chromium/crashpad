@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bda32697_f979e87a",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T20:16:38Z",
+      "side": 1,
+      "message": "If we’re going to stick to this approach, then we should also require that key.find(\u0027\\0\u0027, 0) !\u003d npos, since there’s a DCHECK for that too.",
+      "revId": "7223c2c42b0c97abef95b2e7174b7e9c7d37c507",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3682c30_1badb303",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T20:16:38Z",
+      "side": 1,
+      "message": "You shouldn’t check this until you’ve already checked .data() and .size() (follow the same sequence that you’ve used elsewhere.)",
+      "revId": "7223c2c42b0c97abef95b2e7174b7e9c7d37c507",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f4f6a5d_69a2dcd6",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T20:16:38Z",
+      "side": 1,
+      "message": "Similarly, be consistent with\n\n  || !key.size()\n\nhere",
+      "revId": "7223c2c42b0c97abef95b2e7174b7e9c7d37c507",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5a3a1cd_7e9bfeb1",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-08-29T20:16:38Z",
+      "side": 1,
+      "message": "Nit: blank line between nontrivial functions.",
+      "revId": "7223c2c42b0c97abef95b2e7174b7e9c7d37c507",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
