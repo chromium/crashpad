@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "395e46ff_2d1a7103",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1128439
+      },
+      "writtenOn": "2017-08-29T16:15:34Z",
+      "side": 1,
+      "message": "Thanks for working on this. I particularly like the early-out if the sizes don\u0027t match.\n\nCan the remainder just be a strncmp? Either way, don\u0027t wait for me, I\u0027m out today.",
+      "revId": "9eab75ec8c2efd8a69aac8ac6674bfa4ef4bfbe0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
