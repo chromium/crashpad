@@ -70,6 +70,24 @@
       "revId": "3c5e871919bed22f2401e230e361b6ed8ca821be",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79a3cebc_9bc773d8",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-29T15:25:18Z",
+      "side": 1,
+      "message": "Mark; so done, embedded NULs are now ferboten. All contract language sharpened and asserts added.\n\nBruce; I have perhaps a less offensive comparison in EntryKeyEquals...",
+      "parentUuid": "c966d693_cb5982b8",
+      "revId": "3c5e871919bed22f2401e230e361b6ed8ca821be",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
