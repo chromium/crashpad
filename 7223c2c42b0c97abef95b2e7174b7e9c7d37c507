@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd8f7ab3_e4a8ba90",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-30T14:05:43Z",
+      "side": 1,
+      "message": "Yeah, I guess so, only now we\u0027re starting to cost some, which is !ideal.\n\nLike I said, I don\u0027t care which way you want this to run, I was just trying to maintain the style I perceived here. I\u0027d just as soon rip out all the redundant runtime checks. \nAs long as abuse doesn\u0027t kill crash reporting outright, I think removing the checks will this more robust to abuse over time, as contract violations won\u0027t just be silently ignored :/.",
+      "parentUuid": "bda32697_f979e87a",
+      "revId": "7223c2c42b0c97abef95b2e7174b7e9c7d37c507",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3682c30_1badb303",
         "filename": "client/simple_string_dictionary.h",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "7223c2c42b0c97abef95b2e7174b7e9c7d37c507",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35e874c4_cd12cff5",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-30T14:05:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3682c30_1badb303",
+      "revId": "7223c2c42b0c97abef95b2e7174b7e9c7d37c507",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "4d3c476d_b118506d",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-30T14:05:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f4f6a5d_69a2dcd6",
+      "revId": "7223c2c42b0c97abef95b2e7174b7e9c7d37c507",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5a3a1cd_7e9bfeb1",
         "filename": "client/simple_string_dictionary.h",
         "patchSetId": 5
@@ -67,6 +121,24 @@
       "revId": "7223c2c42b0c97abef95b2e7174b7e9c7d37c507",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3aa6a13_85618c99",
+        "filename": "client/simple_string_dictionary.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1177549
+      },
+      "writtenOn": "2017-08-30T14:05:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5a3a1cd_7e9bfeb1",
+      "revId": "7223c2c42b0c97abef95b2e7174b7e9c7d37c507",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
