@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "snapshot/linux/elf_symbol_table_reader.h"
+#include "snapshot/elf/elf_symbol_table_reader.h"
 
 #include <elf.h>
 
 #include "base/logging.h"
-#include "snapshot/linux/elf_image_reader.h"
+#include "snapshot/elf/elf_image_reader.h"
 
 namespace crashpad {
 

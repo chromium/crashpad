@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_SNAPSHOT_LINUX_ELF_IMAGE_READER_H_
-#define CRASHPAD_SNAPSHOT_LINUX_ELF_IMAGE_READER_H_
+#ifndef CRASHPAD_SNAPSHOT_ELF_ELF_IMAGE_READER_H_
+#define CRASHPAD_SNAPSHOT_ELF_ELF_IMAGE_READER_H_
 
 #include <elf.h>
 #include <stdint.h>
@@ -23,8 +23,8 @@
 
 #include "base/macros.h"
 #include "util/linux/address_types.h"
-#include "snapshot/linux/elf_dynamic_array_reader.h"
-#include "snapshot/linux/elf_symbol_table_reader.h"
+#include "snapshot/elf/elf_dynamic_array_reader.h"
+#include "snapshot/elf/elf_symbol_table_reader.h"
 #include "util/linux/process_memory_range.h"
 #include "util/misc/initialization_state.h"
 #include "util/misc/initialization_state_dcheck.h"
@@ -130,4 +130,4 @@ class ElfImageReader {
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_SNAPSHOT_LINUX_ELF_IMAGE_READER_H_
+#endif  // CRASHPAD_SNAPSHOT_ELF_ELF_IMAGE_READER_H_

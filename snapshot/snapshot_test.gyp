@@ -70,8 +70,8 @@
         'cpu_context_test.cc',
         'crashpad_info_client_options_test.cc',
         'api/module_annotations_win_test.cc',
+        'elf/elf_image_reader_test.cc',
         'linux/debug_rendezvous_test.cc',
-        'linux/elf_image_reader_test.cc',
         'linux/exception_snapshot_linux_test.cc',
         'linux/process_reader_test.cc',
         'linux/system_snapshot_linux_test.cc',
@@ -131,6 +131,10 @@
               '-ldl',
             ],
           },
+        }, {  # else: OS!="linux" and OS!="android"
+          'sources/': [
+            ['exclude', '^elf/'],
+          ],
         }],
       ],
       'target_conditions': [
