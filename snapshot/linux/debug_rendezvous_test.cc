@@ -26,7 +26,7 @@
 #include "base/strings/stringprintf.h"
 #include "build/build_config.h"
 #include "gtest/gtest.h"
-#include "snapshot/linux/elf_image_reader.h"
+#include "snapshot/elf/elf_image_reader.h"
 #include "test/multiprocess.h"
 #include "util/linux/address_types.h"
 #include "util/linux/auxiliary_vector.h"
