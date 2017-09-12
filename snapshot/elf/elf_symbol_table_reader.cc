@@ -51,7 +51,7 @@ uint8_t GetVisibility(const Elf64_Sym& sym) {
 
 ElfSymbolTableReader::ElfSymbolTableReader(const ProcessMemoryRange* memory,
                                            ElfImageReader* elf_reader,
-                                           LinuxVMAddress address)
+                                           VMAddress address)
     : memory_(memory), elf_reader_(elf_reader), base_address_(address) {}
 
 ElfSymbolTableReader::~ElfSymbolTableReader() {}
@@ -65,7 +65,7 @@ bool ElfSymbolTableReader::GetSymbol(const std::string& name,
 template <typename SymEnt>
 bool ElfSymbolTableReader::ScanSymbolTable(const std::string& name,
                                            SymbolInformation* info_out) {
-  LinuxVMAddress address = base_address_;
+  VMAddress address = base_address_;
   SymEnt entry;
   std::string string;
   while (memory_->Read(address, sizeof(entry), &entry) &&

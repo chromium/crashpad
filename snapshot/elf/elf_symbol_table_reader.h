@@ -20,8 +20,8 @@
 #include <string>
 
 #include "base/macros.h"
-#include "util/linux/address_types.h"
 #include "util/linux/process_memory_range.h"
+#include "util/misc/address_types.h"
 
 namespace crashpad {
 
@@ -34,10 +34,10 @@ class ElfSymbolTableReader {
   struct SymbolInformation {
     //! \brief The address of the symbol as it exists in the symbol table, not
     //!     adjusted for any load bias.
-    LinuxVMAddress address;
+    VMAddress address;
 
     //! \brief The size of the symbol.
-    LinuxVMSize size;
+    VMSize size;
 
     //! \brief The section index that the symbol definition is in relation to.
     uint16_t shndx;
@@ -60,8 +60,7 @@ class ElfSymbolTableReader {
   // TODO(jperaza): Support using .hash and .gnu.hash sections to improve symbol
   // lookup.
   ElfSymbolTableReader(const ProcessMemoryRange* memory,
-                       ElfImageReader* elf_reader,
-                       LinuxVMAddress address);
+                       ElfImageReader* elf_reader, VMAddress address);
   ~ElfSymbolTableReader();
 
   //! \brief Lookup information about a symbol.
@@ -77,7 +76,7 @@ class ElfSymbolTableReader {
 
   const ProcessMemoryRange* const memory_;  // weak
   ElfImageReader* const elf_reader_;  // weak
-  const LinuxVMAddress base_address_;
+  const VMAddress base_address_;
 
   DISALLOW_COPY_AND_ASSIGN(ElfSymbolTableReader);
 };
