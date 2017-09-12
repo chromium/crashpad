@@ -21,8 +21,8 @@
 
 #include "base/logging.h"
 #include "base/macros.h"
-#include "util/linux/address_types.h"
 #include "util/linux/process_memory_range.h"
+#include "util/misc/address_types.h"
 #include "util/misc/reinterpret_bytes.h"
 
 namespace crashpad {
@@ -43,8 +43,8 @@ class ElfDynamicArrayReader {
   //!     the ELF dynamic table is loaded.
   //! \param[in] size The maximum number of bytes to read.
   bool Initialize(const ProcessMemoryRange& memory,
-                  LinuxVMAddress address,
-                  LinuxVMSize size);
+                  VMAddress address,
+                  VMSize size);
 
   //! \brief Retrieve a value from the array.
   //!
