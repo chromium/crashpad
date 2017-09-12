@@ -105,6 +105,7 @@
         'mach/task_memory.cc',
         'mach/task_memory.h',
         'misc/address_sanitizer.h',
+        'misc/address_types.h',
         'misc/arraysize_unsafe.h',
         'misc/clock.h',
         'misc/clock_mac.cc',
