@@ -21,6 +21,7 @@
 
 #include "base/logging.h"
 #include "build/build_config.h"
+#include "util/numeric/checked_vm_address_range.h"
 
 namespace crashpad {
 
@@ -30,11 +31,10 @@ class ElfImageReader::ProgramHeaderTable {
 
   virtual bool VerifyLoadSegments() const = 0;
   virtual size_t Size() const = 0;
-  virtual bool GetDynamicSegment(LinuxVMAddress* address,
-                                 LinuxVMSize* size) const = 0;
-  virtual bool GetPreferredElfHeaderAddress(LinuxVMAddress* address) const = 0;
-  virtual bool GetPreferredLoadedMemoryRange(LinuxVMAddress* address,
-                                             LinuxVMSize* size) const = 0;
+  virtual bool GetDynamicSegment(VMAddress* address, VMSize* size) const = 0;
+  virtual bool GetPreferredElfHeaderAddress(VMAddress* address) const = 0;
+  virtual bool GetPreferredLoadedMemoryRange(VMAddress* address,
+                                             VMSize* size) const = 0;
 
  protected:
   ProgramHeaderTable() {}
@@ -48,8 +48,8 @@ class ElfImageReader::ProgramHeaderTableSpecific
   ~ProgramHeaderTableSpecific<PhdrType>() {}
 
   bool Initialize(const ProcessMemoryRange& memory,
-                  LinuxVMAddress address,
-                  LinuxVMSize num_segments) {
+                  VMAddress address,
+                  VMSize num_segments) {
     INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
     table_.resize(num_segments);
     if (!memory.Read(address, sizeof(PhdrType) * num_segments, table_.data())) {
@@ -66,11 +66,11 @@ class ElfImageReader::ProgramHeaderTableSpecific
 
   bool VerifyLoadSegments() const override {
     constexpr bool is_64_bit = std::is_same<PhdrType, Elf64_Phdr>::value;
-    LinuxVMAddress last_vaddr;
+    VMAddress last_vaddr;
     bool load_found = false;
     for (const auto& header : table_) {
       if (header.p_type == PT_LOAD) {
-        CheckedLinuxAddressRange load_range(
+        CheckedVMAddressRange load_range(
             is_64_bit, header.p_vaddr, header.p_memsz);
 
         if (!load_range.IsValid()) {
@@ -91,7 +91,7 @@ class ElfImageReader::ProgramHeaderTableSpecific
 
   size_t Size() const override { return sizeof(PhdrType) * table_.size(); }
 
-  bool GetPreferredElfHeaderAddress(LinuxVMAddress* address) const override {
+  bool GetPreferredElfHeaderAddress(VMAddress* address) const override {
     INITIALIZATION_STATE_DCHECK_VALID(initialized_);
     for (const auto& header : table_) {
       if (header.p_type == PT_LOAD && header.p_offset == 0) {
@@ -103,12 +103,12 @@ class ElfImageReader::ProgramHeaderTableSpecific
     return false;
   }
 
-  bool GetPreferredLoadedMemoryRange(LinuxVMAddress* base,
-                                     LinuxVMSize* size) const override {
+  bool GetPreferredLoadedMemoryRange(VMAddress* base,
+                                     VMSize* size) const override {
     INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-    LinuxVMAddress preferred_base = 0;
-    LinuxVMAddress preferred_end = 0;
+    VMAddress preferred_base = 0;
+    VMAddress preferred_end = 0;
     bool load_found = false;
     for (const auto& header : table_) {
       if (header.p_type == PT_LOAD) {
@@ -128,8 +128,7 @@ class ElfImageReader::ProgramHeaderTableSpecific
     return false;
   }
 
-  bool GetDynamicSegment(LinuxVMAddress* address,
-                         LinuxVMSize* size) const override {
+  bool GetDynamicSegment(VMAddress* address, VMSize* size) const override {
     INITIALIZATION_STATE_DCHECK_VALID(initialized_);
     const PhdrType* phdr;
     if (!GetProgramHeader(PT_DYNAMIC, &phdr)) {
@@ -173,7 +172,7 @@ ElfImageReader::ElfImageReader()
 ElfImageReader::~ElfImageReader() {}
 
 bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
-                                LinuxVMAddress address) {
+                                VMAddress address) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   ehdr_address_ = address;
   if (!memory_.Initialize(memory)) {
@@ -244,15 +243,15 @@ bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
     return false;
   }
 
-  LinuxVMAddress preferred_ehdr_address;
+  VMAddress preferred_ehdr_address;
   if (!program_headers_.get()->GetPreferredElfHeaderAddress(
           &preferred_ehdr_address)) {
     return false;
   }
   load_bias_ = ehdr_address_ - preferred_ehdr_address;
 
-  LinuxVMAddress base_address;
-  LinuxVMSize loaded_size;
+  VMAddress base_address;
+  VMSize loaded_size;
   if (!program_headers_.get()->GetPreferredLoadedMemoryRange(&base_address,
                                                              &loaded_size)) {
     return false;
@@ -263,8 +262,8 @@ bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
     return false;
   }
 
-  LinuxVMSize ehdr_size;
-  LinuxVMAddress phdr_address;
+  VMSize ehdr_size;
+  VMAddress phdr_address;
   if (memory_.Is64Bit()) {
     ehdr_size = sizeof(header_64_);
     phdr_address = ehdr_address_ + header_64_.e_phoff;
@@ -273,13 +272,13 @@ bool ElfImageReader::Initialize(const ProcessMemoryRange& memory,
     phdr_address = ehdr_address_ + header_32_.e_phoff;
   }
 
-  CheckedLinuxAddressRange range(memory_.Is64Bit(), base_address, loaded_size);
-  if (!range.ContainsRange(CheckedLinuxAddressRange(
-          memory_.Is64Bit(), ehdr_address_, ehdr_size))) {
+  CheckedVMAddressRange range(memory_.Is64Bit(), base_address, loaded_size);
+  if (!range.ContainsRange(
+          CheckedVMAddressRange(memory_.Is64Bit(), ehdr_address_, ehdr_size))) {
     LOG(ERROR) << "ehdr out of range";
     return false;
   }
-  if (!range.ContainsRange(CheckedLinuxAddressRange(
+  if (!range.ContainsRange(CheckedVMAddressRange(
           memory.Is64Bit(), phdr_address, program_headers_->Size()))) {
     LOG(ERROR) << "phdrs out of range";
     return false;
@@ -295,8 +294,8 @@ uint16_t ElfImageReader::FileType() const {
 }
 
 bool ElfImageReader::GetDynamicSymbol(const std::string& name,
-                                      LinuxVMAddress* address,
-                                      LinuxVMSize* size) {
+                                      VMAddress* address,
+                                      VMSize* size) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   if (!InitializeDynamicSymbolTable()) {
     return false;
@@ -343,15 +342,15 @@ bool ElfImageReader::GetDynamicSymbol(const std::string& name,
   return true;
 }
 
-bool ElfImageReader::ReadDynamicStringTableAtOffset(LinuxVMSize offset,
+bool ElfImageReader::ReadDynamicStringTableAtOffset(VMSize offset,
                                                     std::string* string) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   if (!InitializeDynamicArray()) {
     return false;
   }
 
-  LinuxVMAddress string_table_address;
-  LinuxVMSize string_table_size;
+  VMAddress string_table_address;
+  VMSize string_table_size;
   if (!GetAddressFromDynamicArray(DT_STRTAB, &string_table_address) ||
       !dynamic_array_->GetValue(DT_STRSZ, &string_table_size)) {
     LOG(ERROR) << "missing string table info";
@@ -370,7 +369,7 @@ bool ElfImageReader::ReadDynamicStringTableAtOffset(LinuxVMSize offset,
   return true;
 }
 
-bool ElfImageReader::GetDebugAddress(LinuxVMAddress* debug) {
+bool ElfImageReader::GetDebugAddress(VMAddress* debug) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   if (!InitializeDynamicArray()) {
     return false;
@@ -410,8 +409,8 @@ bool ElfImageReader::InitializeDynamicArray() {
   }
   dynamic_array_initialized_.set_invalid();
 
-  LinuxVMAddress dyn_segment_address;
-  LinuxVMSize dyn_segment_size;
+  VMAddress dyn_segment_address;
+  VMSize dyn_segment_size;
   if (!program_headers_.get()->GetDynamicSegment(&dyn_segment_address,
                                                  &dyn_segment_size)) {
     LOG(ERROR) << "no dynamic segment";
@@ -441,7 +440,7 @@ bool ElfImageReader::InitializeDynamicSymbolTable() {
     return false;
   }
 
-  LinuxVMAddress symbol_table_address;
+  VMAddress symbol_table_address;
   if (!GetAddressFromDynamicArray(DT_SYMTAB, &symbol_table_address)) {
     LOG(ERROR) << "no symbol table";
     return false;
@@ -454,7 +453,7 @@ bool ElfImageReader::InitializeDynamicSymbolTable() {
 }
 
 bool ElfImageReader::GetAddressFromDynamicArray(uint64_t tag,
-                                                LinuxVMAddress* address) {
+                                                VMAddress* address) {
   if (!dynamic_array_->GetValue(tag, address)) {
     return false;
   }

@@ -22,10 +22,10 @@
 #include <string>
 
 #include "base/macros.h"
-#include "util/linux/address_types.h"
 #include "snapshot/elf/elf_dynamic_array_reader.h"
 #include "snapshot/elf/elf_symbol_table_reader.h"
 #include "util/linux/process_memory_range.h"
+#include "util/misc/address_types.h"
 #include "util/misc/initialization_state.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -47,20 +47,20 @@ class ElfImageReader {
   //! \param[in] memory A memory reader for the remote process.
   //! \param[in] address The address in the remote process' address space where
   //!     the ELF image is loaded.
-  bool Initialize(const ProcessMemoryRange& memory, LinuxVMAddress address);
+  bool Initialize(const ProcessMemoryRange& memory, VMAddress address);
 
   //! \brief Returns the base address of the image's memory range.
   //!
   //! This may differ from the address passed to Initialize() if the ELF header
   //! is not loaded at the start of the first `PT_LOAD` segment.
-  LinuxVMAddress Address() const { return memory_.Base(); }
+  VMAddress Address() const { return memory_.Base(); }
 
   //! \brief Returns the size of the range containing all loaded segments for
   //!     this image.
   //!
   //! The size may include memory that is unmapped or mapped to other objects if
   //! this image's `PT_LOAD` segments are not contiguous.
-  LinuxVMSize Size() const { return memory_.Size(); }
+  VMSize Size() const { return memory_.Size(); }
 
   //! \brief Returns the file type for the image.
   //!
@@ -70,7 +70,7 @@ class ElfImageReader {
   //! \brief Returns the load bias for the image.
   //!
   //! The load bias is the actual load address minus the preferred load address.
-  LinuxVMOffset GetLoadBias() const { return load_bias_; }
+  VMOffset GetLoadBias() const { return load_bias_; }
 
   //! \brief Reads information from the dynamic symbol table about the symbol
   //!     identified by \a name.
@@ -81,8 +81,8 @@ class ElfImageReader {
   //! \param[out] size The size of the symbol, if found.
   //! \return `true` if the symbol was found.
   bool GetDynamicSymbol(const std::string& name,
-                        LinuxVMAddress* address,
-                        LinuxVMSize* size);
+                        VMAddress* address,
+                        VMSize* size);
 
   //! \brief Reads a `NUL`-terminated C string from this image's dynamic string
   //!     table.
@@ -90,7 +90,7 @@ class ElfImageReader {
   //! \param[in] offset the byte offset in the string table to start reading.
   //! \param[out] string the string read.
   //! \return `true` on success. Otherwise `false` with a message logged.
-  bool ReadDynamicStringTableAtOffset(LinuxVMSize offset, std::string* string);
+  bool ReadDynamicStringTableAtOffset(VMSize offset, std::string* string);
 
   //! \brief Determine the debug address.
   //!
@@ -99,7 +99,7 @@ class ElfImageReader {
   //!
   //! \param[out] debug the debug address, if found.
   //! \return `true` if the debug address was found.
-  bool GetDebugAddress(LinuxVMAddress* debug);
+  bool GetDebugAddress(VMAddress* debug);
 
  private:
   class ProgramHeaderTable;
@@ -109,14 +109,14 @@ class ElfImageReader {
   bool InitializeProgramHeaders();
   bool InitializeDynamicArray();
   bool InitializeDynamicSymbolTable();
-  bool GetAddressFromDynamicArray(uint64_t tag, LinuxVMAddress* address);
+  bool GetAddressFromDynamicArray(uint64_t tag, VMAddress* address);
 
   union {
     Elf32_Ehdr header_32_;
     Elf64_Ehdr header_64_;
   };
-  LinuxVMAddress ehdr_address_;
-  LinuxVMOffset load_bias_;
+  VMAddress ehdr_address_;
+  VMOffset load_bias_;
   ProcessMemoryRange memory_;
   std::unique_ptr<ProgramHeaderTable> program_headers_;
   std::unique_ptr<ElfDynamicArrayReader> dynamic_array_;

@@ -22,9 +22,9 @@
 #include "gtest/gtest.h"
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
-#include "util/linux/address_types.h"
 #include "util/linux/auxiliary_vector.h"
 #include "util/linux/memory_map.h"
+#include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
 
 extern "C" {
@@ -36,11 +36,11 @@ namespace crashpad {
 namespace test {
 namespace {
 
-void LocateExecutable(pid_t pid, bool is_64_bit, LinuxVMAddress* elf_address) {
+void LocateExecutable(pid_t pid, bool is_64_bit, VMAddress* elf_address) {
   AuxiliaryVector aux;
   ASSERT_TRUE(aux.Initialize(pid, is_64_bit));
 
-  LinuxVMAddress phdrs;
+  VMAddress phdrs;
   ASSERT_TRUE(aux.GetValue(AT_PHDR, &phdrs));
 
   MemoryMap memory_map;
@@ -54,10 +54,10 @@ void LocateExecutable(pid_t pid, bool is_64_bit, LinuxVMAddress* elf_address) {
 }
 
 void ExpectElfImageWithSymbol(pid_t pid,
-                              LinuxVMAddress address,
+                              VMAddress address,
                               bool is_64_bit,
                               std::string symbol_name,
-                              LinuxVMAddress expected_symbol_address) {
+                              VMAddress expected_symbol_address) {
   ProcessMemory memory;
   ASSERT_TRUE(memory.Initialize(pid));
   ProcessMemoryRange range;
@@ -66,8 +66,8 @@ void ExpectElfImageWithSymbol(pid_t pid,
   ElfImageReader reader;
   ASSERT_TRUE(reader.Initialize(range, address));
 
-  LinuxVMAddress symbol_address;
-  LinuxVMSize symbol_size;
+  VMAddress symbol_address;
+  VMSize symbol_size;
   ASSERT_TRUE(
       reader.GetDynamicSymbol(symbol_name, &symbol_address, &symbol_size));
   EXPECT_EQ(symbol_address, expected_symbol_address);
@@ -83,7 +83,7 @@ void ReadThisExecutableInTarget(pid_t pid) {
   constexpr bool am_64_bit = false;
 #endif  // ARCH_CPU_64_BITS
 
-  LinuxVMAddress elf_address;
+  VMAddress elf_address;
   LocateExecutable(pid, am_64_bit, &elf_address);
 
   ExpectElfImageWithSymbol(
@@ -91,7 +91,7 @@ void ReadThisExecutableInTarget(pid_t pid) {
       elf_address,
       am_64_bit,
       "ElfImageReaderTestExportedSymbol",
-      FromPointerCast<LinuxVMAddress>(ElfImageReaderTestExportedSymbol));
+      FromPointerCast<VMAddress>(ElfImageReaderTestExportedSymbol));
 }
 
 // Assumes that libc is loaded at the same address in this process as in the
@@ -106,13 +106,13 @@ void ReadLibcInTarget(pid_t pid) {
   Dl_info info;
   ASSERT_TRUE(dladdr(reinterpret_cast<void*>(getpid), &info)) << "dladdr:"
                                                               << dlerror();
-  LinuxVMAddress elf_address = FromPointerCast<LinuxVMAddress>(info.dli_fbase);
+  VMAddress elf_address = FromPointerCast<VMAddress>(info.dli_fbase);
 
   ExpectElfImageWithSymbol(pid,
                            elf_address,
                            am_64_bit,
                            "getpid",
-                           FromPointerCast<LinuxVMAddress>(getpid));
+                           FromPointerCast<VMAddress>(getpid));
 }
 
 class ReadExecutableChildTest : public Multiprocess {

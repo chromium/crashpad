@@ -24,8 +24,8 @@ namespace {
 
 template <typename DynType>
 bool Read(const ProcessMemoryRange& memory,
-          LinuxVMAddress address,
-          LinuxVMSize size,
+          VMAddress address,
+          VMSize size,
           std::map<uint64_t, uint64_t>* values) {
   std::map<uint64_t, uint64_t> local_values;
 
@@ -66,8 +66,8 @@ ElfDynamicArrayReader::ElfDynamicArrayReader() : values_() {}
 ElfDynamicArrayReader::~ElfDynamicArrayReader() {}
 
 bool ElfDynamicArrayReader::Initialize(const ProcessMemoryRange& memory,
-                                       LinuxVMAddress address,
-                                       LinuxVMSize size) {
+                                       VMAddress address,
+                                       VMSize size) {
   return memory.Is64Bit() ? Read<Elf64_Dyn>(memory, address, size, &values_)
                           : Read<Elf32_Dyn>(memory, address, size, &values_);
 }
