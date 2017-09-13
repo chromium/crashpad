@@ -22,6 +22,7 @@
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "util/misc/from_pointer_cast.h"
+#include "util/process/process_memory_linux.h"
 
 namespace crashpad {
 namespace test {
@@ -40,11 +41,16 @@ TEST(ProcessMemoryRange, Basic) {
   constexpr bool is_64_bit = false;
 #endif  // ARCH_CPU_64_BITS
 
-  ProcessMemory memory;
-  ASSERT_TRUE(memory.Initialize(pid));
+  std::unique_ptr<ProcessMemory> memory;
+  {
+    // Hide the concrete type.
+    ProcessMemoryLinux* memory_linux = new ProcessMemoryLinux();
+    ASSERT_TRUE(memory_linux->Initialize(pid));
+    memory.reset(memory_linux);
+  }
 
   ProcessMemoryRange range;
-  ASSERT_TRUE(range.Initialize(&memory, is_64_bit));
+  ASSERT_TRUE(range.Initialize(memory.get(), is_64_bit));
   EXPECT_EQ(range.Is64Bit(), is_64_bit);
 
   // Both strings are accessible within the object's range.

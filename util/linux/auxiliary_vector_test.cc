@@ -29,6 +29,7 @@
 #include "util/misc/from_pointer_cast.h"
 #include "util/numeric/int128.h"
 #include "util/process/process_memory.h"
+#include "util/process/process_memory_linux.h"
 
 extern "C" {
 extern void _start();
@@ -82,13 +83,18 @@ void TestAgainstCloneOrSelf(pid_t pid) {
   ASSERT_TRUE(aux.GetValue(AT_EGID, &egid));
   EXPECT_EQ(egid, getegid());
 
-  ProcessMemory memory;
-  ASSERT_TRUE(memory.Initialize(pid));
+  std::unique_ptr<ProcessMemory> memory;
+  {
+    // Hide the concrete type.
+    ProcessMemoryLinux* memory_linux = new ProcessMemoryLinux();
+    ASSERT_TRUE(memory_linux->Initialize(pid));
+    memory.reset(memory_linux);
+  }
 
   LinuxVMAddress platform_addr;
   ASSERT_TRUE(aux.GetValue(AT_PLATFORM, &platform_addr));
   std::string platform;
-  ASSERT_TRUE(memory.ReadCStringSizeLimited(platform_addr, 10, &platform));
+  ASSERT_TRUE(memory->ReadCStringSizeLimited(platform_addr, 10, &platform));
 #if defined(ARCH_CPU_X86)
   EXPECT_STREQ(platform.c_str(), "i686");
 #elif defined(ARCH_CPU_X86_64)
@@ -115,7 +121,7 @@ void TestAgainstCloneOrSelf(pid_t pid) {
   LinuxVMAddress filename_addr;
   ASSERT_TRUE(aux.GetValue(AT_EXECFN, &filename_addr));
   std::string filename;
-  ASSERT_TRUE(memory.ReadCStringSizeLimited(filename_addr, 4096, &filename));
+  ASSERT_TRUE(memory->ReadCStringSizeLimited(filename_addr, 4096, &filename));
   EXPECT_TRUE(filename.find("crashpad_util_test") != std::string::npos);
 #endif  // AT_EXECFN
 
