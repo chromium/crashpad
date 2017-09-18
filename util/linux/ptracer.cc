@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/linux/thread_info.h"
+#include "util/linux/ptracer.h"
 
 #include <linux/elf.h>
 #include <string.h>
@@ -54,6 +54,29 @@ bool GetFloatingPointRegisters32(pid_t tid, FloatContext* context) {
 
 bool GetFloatingPointRegisters64(pid_t tid, FloatContext* context) {
   return GetRegisterSet(tid, NT_PRFPREG, &context->f64.fxsave);
+}
+
+bool GetThreadArea32(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address) {
+  size_t index = (context.t32.xgs & 0xffff) >> 3;
+  user_desc desc;
+  if (ptrace(
+          PTRACE_GET_THREAD_AREA, tid, reinterpret_cast<void*>(index), &desc) !=
+      0) {
+    PLOG(ERROR) << "ptrace";
+    return false;
+  }
+
+  *address = desc.base_addr;
+  return true;
+}
+
+bool GetThreadArea64(pid_t tid,
+                     const ThreadContext& context,
+                     LinuxVMAddress* address) {
+  *address = context.t64.fs_base;
+  return true;
 }
 
 #elif defined(ARCH_CPU_ARM_FAMILY)
@@ -173,7 +196,6 @@ bool GetFloatingPointRegisters32(pid_t tid, FloatContext* context) {
   return true;
 }
 
-// Target is 64-bit
 bool GetFloatingPointRegisters64(pid_t tid, FloatContext* context) {
   iovec iov;
   iov.iov_base = context;
@@ -190,134 +212,11 @@ bool GetFloatingPointRegisters64(pid_t tid, FloatContext* context) {
   }
   return true;
 }
-#else
-#error Port.
-#endif  // ARCH_CPU_X86_FAMILY
 
-}  // namespace
-
-ThreadContext::ThreadContext() {
-  memset(this, 0, sizeof(*this));
-}
-
-ThreadContext::~ThreadContext() {}
-
-FloatContext::FloatContext() {
-  memset(this, 0, sizeof(*this));
-}
-
-FloatContext::~FloatContext() {}
-
-ThreadInfo::ThreadInfo()
-    : context_(), attachment_(), tid_(-1), initialized_(), is_64_bit_(false) {}
-
-ThreadInfo::~ThreadInfo() {}
-
-bool ThreadInfo::Initialize(pid_t tid) {
-  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-
-  if (!attachment_.ResetAttach(tid)) {
-    return false;
-  }
-  tid_ = tid;
-
-  size_t length = GetGeneralPurposeRegistersAndLength(&context_);
-  if (length == sizeof(context_.t64)) {
-    is_64_bit_ = true;
-  } else if (length == sizeof(context_.t32)) {
-    is_64_bit_ = false;
-  } else {
-    LOG(ERROR) << "Unexpected registers size";
-    return false;
-  }
-
-  INITIALIZATION_STATE_SET_VALID(initialized_);
-  return true;
-}
-
-bool ThreadInfo::Is64Bit() {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return is_64_bit_;
-}
-
-void ThreadInfo::GetGeneralPurposeRegisters(ThreadContext* context) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  *context = context_;
-}
-
-size_t ThreadInfo::GetGeneralPurposeRegistersAndLength(ThreadContext* context) {
-  iovec iov;
-  iov.iov_base = context;
-  iov.iov_len = sizeof(*context);
-  if (ptrace(
-          PTRACE_GETREGSET, tid_, reinterpret_cast<void*>(NT_PRSTATUS), &iov) !=
-      0) {
-    switch (errno) {
-#if defined(ARCH_CPU_ARMEL)
-      case EIO:
-        if (GetGeneralPurposeRegistersLegacy(tid_, context)) {
-          return sizeof(context->t32);
-        }
-#endif  // ARCH_CPU_ARMEL
-      default:
-        PLOG(ERROR) << "ptrace";
-        return 0;
-    }
-  }
-  return iov.iov_len;
-}
-
-bool ThreadInfo::GetFloatingPointRegisters(FloatContext* context) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-  return is_64_bit_ ? GetFloatingPointRegisters64(tid_, context)
-                    : GetFloatingPointRegisters32(tid_, context);
-}
-
-bool ThreadInfo::GetThreadArea(LinuxVMAddress* address) {
-  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-
-#if defined(ARCH_CPU_X86_FAMILY)
-  if (is_64_bit_) {
-    *address = context_.t64.fs_base;
-    return true;
-  }
-
-  size_t index = (context_.t32.xgs & 0xffff) >> 3;
-  user_desc desc;
-  if (ptrace(PTRACE_GET_THREAD_AREA,
-             tid_,
-             reinterpret_cast<void*>(index),
-             &desc) != 0) {
-    PLOG(ERROR) << "ptrace";
-    return false;
-  }
-
-  *address = desc.base_addr;
-  return true;
-
-#elif defined(ARCH_CPU_ARM_FAMILY)
-  if (is_64_bit_) {
-    iovec iov;
-    iov.iov_base = address;
-    iov.iov_len = sizeof(*address);
-    if (ptrace(PTRACE_GETREGSET,
-               tid_,
-               reinterpret_cast<void*>(NT_ARM_TLS),
-               &iov) != 0) {
-      PLOG(ERROR) << "ptrace";
-      return false;
-    }
-    if (iov.iov_len != 8) {
-      LOG(ERROR) << "address size mismatch";
-      return false;
-    }
-    return true;
-  }
-
+bool GetThreadArea32(pid_t tid, LinuxVMAddress* address) {
 #if defined(ARCH_CPU_ARMEL)
   void* result;
-  if (ptrace(PTRACE_GET_THREAD_AREA, tid_, nullptr, &result) != 0) {
+  if (ptrace(PTRACE_GET_THREAD_AREA, tid, nullptr, &result) != 0) {
     PLOG(ERROR) << "ptrace";
     return false;
   }
@@ -329,8 +228,122 @@ bool ThreadInfo::GetThreadArea(LinuxVMAddress* address) {
   LOG(WARNING) << "64-bit ARM cannot trace TLS area for a 32-bit process";
   return false;
 #endif  // ARCH_CPU_ARMEL
+}
+
+bool GetThreadArea64(pid_t tid, LinuxVMAddress* address) {
+  iovec iov;
+  iov.iov_base = address;
+  iov.iov_len = sizeof(*address);
+  if (ptrace(
+          PTRACE_GETREGSET, tid, reinterpret_cast<void*>(NT_ARM_TLS), &iov) !=
+      0) {
+    PLOG(ERROR) << "ptrace";
+    return false;
+  }
+  if (iov.iov_len != 8) {
+    LOG(ERROR) << "address size mismatch";
+    return false;
+  }
+  return true;
+}
 #else
 #error Port.
+#endif  // ARCH_CPU_X86_FAMILY
+
+size_t GetGeneralPurposeRegistersAndLength(pid_t tid, ThreadContext* context) {
+  iovec iov;
+  iov.iov_base = context;
+  iov.iov_len = sizeof(*context);
+  if (ptrace(
+          PTRACE_GETREGSET, tid, reinterpret_cast<void*>(NT_PRSTATUS), &iov) !=
+      0) {
+    switch (errno) {
+#if defined(ARCH_CPU_ARMEL)
+      case EIO:
+        if (GetGeneralPurposeRegistersLegacy(tid, context)) {
+          return sizeof(context->t32);
+        }
+#endif  // ARCH_CPU_ARMEL
+      default:
+        PLOG(ERROR) << "ptrace";
+        return 0;
+    }
+  }
+  return iov.iov_len;
+}
+
+bool GetGeneralPurposeRegisters32(pid_t tid, ThreadContext* context) {
+  if (GetGeneralPurposeRegistersAndLength(tid, context) !=
+      sizeof(context->t32)) {
+    LOG(ERROR) << "Unexpected registers size";
+    return false;
+  }
+  return true;
+}
+
+bool GetGeneralPurposeRegisters64(pid_t tid, ThreadContext* context) {
+  if (GetGeneralPurposeRegistersAndLength(tid, context) !=
+      sizeof(context->t64)) {
+    LOG(ERROR) << "Unexpected registers size";
+    return false;
+  }
+  return true;
+}
+
+}  // namespace
+
+Ptracer::Ptracer() : is_64_bit_(false), initialized_() {}
+
+Ptracer::Ptracer(bool is_64_bit) : is_64_bit_(is_64_bit) {
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+}
+
+Ptracer::~Ptracer() {}
+
+bool Ptracer::Initialize(pid_t pid) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+
+  ThreadContext context;
+  size_t length = GetGeneralPurposeRegistersAndLength(pid, &context);
+  if (length == sizeof(context.t64)) {
+    is_64_bit_ = true;
+  } else if (length == sizeof(context.t32)) {
+    is_64_bit_ = false;
+  } else {
+    LOG(ERROR) << "Unexpected registers size";
+    return false;
+  }
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
+}
+
+bool Ptracer::Is64Bit() {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return is_64_bit_;
+}
+
+bool Ptracer::GetThreadInfo(pid_t tid, ThreadInfo* info) {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  if (!is_64_bit_) {
+    return GetGeneralPurposeRegisters32(tid, &info->thread_context) &&
+           GetFloatingPointRegisters32(tid, &info->float_context) &&
+#if defined(ARCH_CPU_X86_FAMILY)
+           GetThreadArea32(
+               tid, info->thread_context, &info->thread_specific_data_address);
+#else
+           GetThreadArea32(tid, &info->thread_specific_data_address);
+#endif
+  }
+
+  return GetGeneralPurposeRegisters64(tid, &info->thread_context) &&
+         GetFloatingPointRegisters64(tid, &info->float_context) &&
+#if defined(ARCH_CPU_X86_FAMILY)
+         GetThreadArea64(
+             tid, info->thread_context, &info->thread_specific_data_address);
+#else
+         GetThreadArea64(tid, &info->thread_specific_data_address);
 #endif  // ARCH_CPU_X86_FAMILY
 }
 

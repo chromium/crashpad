@@ -18,7 +18,7 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 #include "snapshot/linux/signal_context.h"
-#include "util/linux/thread_info.h"
+#include "util/linux/ptrace_connection.h"
 
 namespace crashpad {
 namespace internal {

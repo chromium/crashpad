@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_LINUX_THREAD_INFO_H_
-#define CRASHPAD_UTIL_LINUX_THREAD_INFO_H_
+#ifndef CRASHPAD_UTIL_LINUX_PTRACE_CONNECTION_H_
+#define CRASHPAD_UTIL_LINUX_PTRACE_CONNECTION_H_
 
 #include <stdint.h>
 #include <sys/types.h>
@@ -23,8 +23,6 @@
 
 #include "build/build_config.h"
 #include "util/linux/address_types.h"
-#include "util/linux/scoped_ptrace_attach.h"
-#include "util/misc/initialization_state_dcheck.h"
 #include "util/numeric/int128.h"
 
 #if defined(OS_ANDROID)
@@ -245,64 +243,42 @@ union FloatContext {
 static_assert(std::is_standard_layout<FloatContext>::value,
               "Not standard layout");
 
-class ThreadInfo {
- public:
+struct ThreadInfo {
   ThreadInfo();
   ~ThreadInfo();
 
-  //! \brief Initializes this object with information about the thread whose ID
-  //!     is \a tid.
-  //!
-  //! This method must be called successfully prior to calling any other method
-  //! in this class. This method may only be called once.
-  //!
-  //! It is unspecified whether the information that an object of this class
-  //! returns is loaded at the time Initialize() is called or subsequently, and
-  //! whether this information is cached in the object or not.
-  //!
-  //! \param[in] tid The thread ID to obtain information for.
-  //!
-  //! \return `true` on success, `false` on failure with a message logged.
-  bool Initialize(pid_t tid);
+  //! \brief The general purpose registers for the thread.
+  ThreadContext thread_context;
 
-  //! \brief Determines the target thread’s bitness.
-  //!
-  //! \return `true` if the target is 64-bit.
-  bool Is64Bit();
+  //! \brief The floating point registers for the thread.
+  FloatContext float_context;
 
-  //! \brief Uses `ptrace` to collect general purpose registers from the target
-  //!     thread and places the result in \a context.
-  //!
-  //! \param[out] context The registers read from the target thread.
-  void GetGeneralPurposeRegisters(ThreadContext* context);
+  //! \breif The thread-local storage address for the thread.
+  LinuxVMAddress thread_specific_data_address;
+};
 
-  //! \brief Uses `ptrace` to collect floating point registers from the target
-  //!     thread and places the result in \a context.
-  //!
-  //! \param[out] context The registers read from the target thread.
-  //!
-  //! \return `true` on success, with \a context set. Otherwise, `false` with a
-  //!     message logged.
-  bool GetFloatingPointRegisters(FloatContext* context);
+//! \brief Provides an interface for making `ptrace` requests against a process
+//!     and its threads.
+class PtraceConnection {
+ public:
+  virtual ~PtraceConnection() {}
 
-  //! \brief Uses `ptrace` to determine the thread-local storage address for the
-  //!     target thread and places the result in \a address.
+  //! \brief Adds a new thread to this connection.
   //!
-  //! \param[out] address The address of the TLS area.
+  //! \param[in] tid The thread ID of the thread to attach.
+  //! \returns `true` on success. `false` on failure with a message logged.
+  virtual bool Attach(pid_t tid) = 0;
+
+  //! \brief Returns `true` if connected to a 64-bit process.
+  virtual bool Is64Bit() = 0;
+
+  //! \brief Retrievs a ThreadInfo for a target thread.
   //!
-  //! \return `true` on success. `false` on failure with a message logged.
-  bool GetThreadArea(LinuxVMAddress* address);
-
- private:
-  size_t GetGeneralPurposeRegistersAndLength(ThreadContext* context);
-
-  ThreadContext context_;
-  ScopedPtraceAttach attachment_;
-  pid_t tid_;
-  InitializationStateDcheck initialized_;
-  bool is_64_bit_;
+  //! \param[in] tid The thread ID of the target thread.
+  //! \param[out] info Information about the thread.
+  virtual bool GetThreadInfo(pid_t tid, ThreadInfo* info) = 0;
 };
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_LINUX_THREAD_INFO_H_
+#endif  // CRASHPAD_UTIL_LINUX_PTRACE_CONNECTION_H_
