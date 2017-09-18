@@ -30,6 +30,10 @@
 #include "util/file/file_io.h"
 #include "util/misc/implicit_cast.h"
 
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+#include "util/linux/direct_ptrace_connection.h"
+#endif
+
 namespace crashpad {
 namespace test {
 namespace {
@@ -165,8 +169,16 @@ class ProcessInfoForkedTest : public Multiprocess {
   void MultiprocessParent() override {
     const pid_t pid = ChildPID();
 
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+    DirectPtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(pid));
+
+    ProcessInfo process_info;
+    ASSERT_TRUE(process_info.InitializeWithPtrace(&connection, pid));
+#else
     ProcessInfo process_info;
     ASSERT_TRUE(process_info.Initialize(pid));
+#endif  // OS_LINUX || OS_ANDROID
 
     EXPECT_EQ(process_info.ProcessID(), pid);
     EXPECT_EQ(process_info.ParentProcessID(), getpid());
