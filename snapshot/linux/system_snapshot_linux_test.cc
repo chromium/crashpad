@@ -22,14 +22,18 @@
 #include "gtest/gtest.h"
 #include "snapshot/linux/process_reader.h"
 #include "test/errors.h"
+#include "test/linux/fake_ptrace_connection.h"
 
 namespace crashpad {
 namespace test {
 namespace {
 
 TEST(SystemSnapshotLinux, Basic) {
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(getpid()));
+
   ProcessReader process_reader;
-  ASSERT_TRUE(process_reader.Initialize(getpid()));
+  ASSERT_TRUE(process_reader.Initialize(&connection, getpid()));
 
   timeval snapshot_time;
   ASSERT_EQ(gettimeofday(&snapshot_time, nullptr), 0)
