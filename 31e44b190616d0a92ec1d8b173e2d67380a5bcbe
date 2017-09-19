@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f19743be_f0109658",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T18:01:25Z",
+      "side": 1,
+      "message": "\u003e I was a bit conflicted about this.\n\u003e \n\u003e I allow connection_ to be nullptr for now, just for some self unit tests where making a real ptrace connection can\u0027t happen. We could pass in an uninitialized DirectPtraceConnection, but that seems wrong. I was also thinking of making a FakePtraceConnection for testing or a SelfPtraceConnection with a partial implementation.\n\nAh, I thought that might be going on. My suggestion is to have something like FakePtraceConnection, but to have it be in a test-only target so that we can’t use it from real production code. It looks like you’ve only used nullptr from tests, so that should be fine.",
+      "parentUuid": "06803999_3614c440",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fb3827f_927c9485",
         "filename": "snapshot/linux/process_reader.h",
         "patchSetId": 2
