@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "06803999_3614c440",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-19T17:57:49Z",
+      "side": 1,
+      "message": "I was a bit conflicted about this.\n\nI allow connection_ to be nullptr for now, just for some self unit tests where making a real ptrace connection can\u0027t happen. We could pass in an uninitialized DirectPtraceConnection, but that seems wrong. I was also thinking of making a FakePtraceConnection for testing or a SelfPtraceConnection with a partial implementation.\n\nCurrently, ProcessReader can do everything except call Threads() with a nullptr connection_.",
+      "parentUuid": "ffb92254_40daaa1c",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fb3827f_927c9485",
         "filename": "snapshot/linux/process_reader.h",
         "patchSetId": 2
@@ -76,6 +94,24 @@
       "writtenOn": "2017-09-19T16:41:32Z",
       "side": 1,
       "message": "Should you check that you’re not already attached to tid, or will ResetAttach take care of that?",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56b7b7b7_6e5ae407",
+        "filename": "util/linux/direct_ptrace_connection.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-19T17:57:49Z",
+      "side": 1,
+      "message": "ResetAttach will fail if we are already attached.",
+      "parentUuid": "66fb4edd_a0a360d4",
       "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -201,6 +237,24 @@
       "writtenOn": "2017-09-19T16:41:32Z",
       "side": 1,
       "message": "Is it even necessary to maintain this form for Linux at all now?",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f9acfea_789a10b2",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-19T17:57:49Z",
+      "side": 1,
+      "message": "Similar to having a nullptr connection_ in ProcessReader, I kept this just for self tests (and the Pid1 test), where ptracing doesn\u0027t work.",
+      "parentUuid": "04ffa719_ea2edc30",
       "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
