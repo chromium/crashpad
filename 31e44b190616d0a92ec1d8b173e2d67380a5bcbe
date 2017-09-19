@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fb3827f_927c9485",
+        "filename": "snapshot/linux/process_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-09-19T16:22:24Z",
+      "side": 1,
+      "message": "is it valid to reuse ProcessReader objects? (ie. call Initialize() multiple times on the same reader)",
+      "range": {
+        "startLine": 69,
+        "startChar": 7,
+        "endLine": 69,
+        "endChar": 17
+      },
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0470abdc_158c8fdb",
+        "filename": "snapshot/linux/process_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-09-19T16:22:24Z",
+      "side": 1,
+      "message": "Any way to check that the PtraceConnection outlives ProcessReader? \n\nHave you considered shared ownership over PtraceConnection?",
+      "range": {
+        "startLine": 113,
+        "startChar": 20,
+        "endLine": 113,
+        "endChar": 31
+      },
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa710e6b_1e747120",
+        "filename": "util/linux/ptrace_connection.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-09-19T16:22:24Z",
+      "side": 1,
+      "message": "nit: \u003d default instead of {} ?",
+      "range": {
+        "startLine": 265,
+        "startChar": 30,
+        "endLine": 265,
+        "endChar": 32
+      },
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164302e3_fe6267f6",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-09-19T16:22:24Z",
+      "side": 1,
+      "message": "defined(DOXYGEN) ?",
+      "range": {
+        "startLine": 62,
+        "startChar": 48,
+        "endLine": 62,
+        "endChar": 55
+      },
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
