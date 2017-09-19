@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ffb92254_40daaa1c",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T16:41:32Z",
+      "side": 1,
+      "message": "connection_ isn’t allowed to be nullptr, right? Let’s just make this DCHECK(connection_), or even hoist the DCHECK up into Initialize().\n\nIf connection_ is allowed to be nullptr, you should document that in the header (along with how this is expected to behave).",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fb3827f_927c9485",
         "filename": "snapshot/linux/process_reader.h",
         "patchSetId": 2
@@ -48,6 +65,57 @@
     },
     {
       "key": {
+        "uuid": "66fb4edd_a0a360d4",
+        "filename": "util/linux/direct_ptrace_connection.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T16:41:32Z",
+      "side": 1,
+      "message": "Should you check that you’re not already attached to tid, or will ResetAttach take care of that?",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98864a2c_46d5ca6e",
+        "filename": "util/linux/ptrace_connection.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T16:41:32Z",
+      "side": 1,
+      "message": "This file’s name should follow the header’s too.",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08f637f2_fd97dc54",
+        "filename": "util/linux/ptrace_connection.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T16:41:32Z",
+      "side": 1,
+      "message": "I think it still makes sense to have ThreadContext, FloatContext, and ThreadInfo be in a less-specific thread_info.h. ptrace_connection.h can include it.",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa710e6b_1e747120",
         "filename": "util/linux/ptrace_connection.h",
         "patchSetId": 2
@@ -71,6 +139,74 @@
     },
     {
       "key": {
+        "uuid": "1e807275_b64a56c7",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T16:41:32Z",
+      "side": 1,
+      "message": "Can we make the ARM versions accept a const ThreadContext\u0026 argument just to avoid the #ifdefs below?",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7967cb53_dec3b344",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T16:41:32Z",
+      "side": 1,
+      "message": "(these are the #ifdefs I mean.)",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8255f7d_2593cdd0",
+        "filename": "util/linux/ptracer.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T16:41:32Z",
+      "side": 1,
+      "message": "explicit",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04ffa719_ea2edc30",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T16:41:32Z",
+      "side": 1,
+      "message": "Is it even necessary to maintain this form for Linux at all now?",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "164302e3_fe6267f6",
         "filename": "util/posix/process_info.h",
         "patchSetId": 2
@@ -91,6 +227,47 @@
       "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23b79e26_e7782a3f",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T16:41:32Z",
+      "side": 1,
+      "message": "\u003e defined(DOXYGEN) ?\n\nJust DOXYGEN.",
+      "parentUuid": "164302e3_fe6267f6",
+      "range": {
+        "startLine": 62,
+        "startChar": 48,
+        "endLine": 62,
+        "endChar": 55
+      },
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af2451bd_ab439bd3",
+        "filename": "util/posix/process_info_linux.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-19T16:41:32Z",
+      "side": 1,
+      "message": "Do we really want to go on living life once this happens? No connection_ could feasibly just be DCHECK()ed for.",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
