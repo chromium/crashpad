@@ -97,7 +97,7 @@ void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
 
 TEST(ExceptionSnapshotLinux, SelfBasic) {
   ProcessReader process_reader;
-  ASSERT_TRUE(process_reader.Initialize(getpid()));
+  ASSERT_TRUE(process_reader.Initialize(nullptr, getpid()));
 
   siginfo_t siginfo;
   siginfo.si_signo = SIGSEGV;
@@ -171,7 +171,7 @@ class RaiseTest {
  private:
   static void HandleRaisedSignal(int signo, siginfo_t* siginfo, void* context) {
     ProcessReader process_reader;
-    ASSERT_TRUE(process_reader.Initialize(getpid()));
+    ASSERT_TRUE(process_reader.Initialize(nullptr, getpid()));
 
     internal::ExceptionSnapshotLinux exception;
     ASSERT_TRUE(exception.Initialize(&process_reader,
@@ -231,7 +231,7 @@ class TimerTest {
  private:
   static void HandleTimer(int signo, siginfo_t* siginfo, void* context) {
     ProcessReader process_reader;
-    ASSERT_TRUE(process_reader.Initialize(getpid()));
+    ASSERT_TRUE(process_reader.Initialize(nullptr, getpid()));
 
     internal::ExceptionSnapshotLinux exception;
     ASSERT_TRUE(exception.Initialize(&process_reader,

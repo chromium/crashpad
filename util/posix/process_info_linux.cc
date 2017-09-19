@@ -21,13 +21,13 @@
 #include "util/file/delimited_file_reader.h"
 #include "util/file/file_reader.h"
 #include "util/linux/proc_stat_reader.h"
-#include "util/linux/thread_info.h"
 #include "util/misc/lexing.h"
 
 namespace crashpad {
 
 ProcessInfo::ProcessInfo()
-    : supplementary_groups_(),
+    : connection_(nullptr),
+      supplementary_groups_(),
       start_time_(),
       pid_(-1),
       ppid_(-1),
@@ -159,6 +159,12 @@ bool ProcessInfo::Initialize(pid_t pid) {
   return true;
 }
 
+bool ProcessInfo::InitializeWithPtrace(PtraceConnection* connection,
+                                       pid_t pid) {
+  connection_ = connection;
+  return Initialize(pid);
+}
+
 pid_t ProcessInfo::ProcessID() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return pid_;
@@ -234,12 +240,11 @@ bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
 
     if (pid_ == getpid()) {
       is_64_bit_ = am_64_bit;
+    } else if (connection_) {
+      is_64_bit_ = connection_->Is64Bit();
     } else {
-      ThreadInfo thread_info;
-      if (!thread_info.Initialize(pid_)) {
-        return false;
-      }
-      is_64_bit_ = thread_info.Is64Bit();
+      LOG(ERROR) << "No ptrace connection";
+      return false;
     }
 
     is_64_bit_initialized_.set_valid();

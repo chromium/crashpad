@@ -33,6 +33,10 @@
 #include <sys/sysctl.h>
 #endif
 
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+#include "util/linux/ptrace_connection.h"
+#endif
+
 namespace crashpad {
 
 class ProcessInfo {
@@ -54,6 +58,20 @@ class ProcessInfo {
   //!
   //! \return `true` on success, `false` on failure with a message logged.
   bool Initialize(pid_t pid);
+
+#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
+  //! \brief Initializes this object with information about the process whose ID
+  //!     is \a pid using a PtraceConnection \a connection.
+  //!
+  //! This method may be called in place of Initialize() with the same
+  //! restrictions and considerations.
+  //!
+  //! \param[in] connection A connection to the remote process.
+  //! \param[in] pid The process ID to obtain information for.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool InitializeWithPtrace(PtraceConnection* connection, pid_t pid);
+#endif  // OS_LINUX || OS_ANDROID || DOXYGEN
 
 #if defined(OS_MACOSX) || DOXYGEN
   //! \brief Initializes this object with information about a process based on
@@ -156,6 +174,7 @@ class ProcessInfo {
   // multiple successive calls will always produce the same return value and out
   // parameters. This is necessary for intergration with the Snapshot interface.
   // See https://crashpad.chromium.org/bug/9.
+  PtraceConnection* connection_;  // weak
   std::set<gid_t> supplementary_groups_;
   mutable timeval start_time_;
   pid_t pid_;

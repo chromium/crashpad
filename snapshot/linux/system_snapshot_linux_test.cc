@@ -29,7 +29,7 @@ namespace {
 
 TEST(SystemSnapshotLinux, Basic) {
   ProcessReader process_reader;
-  ASSERT_TRUE(process_reader.Initialize(getpid()));
+  ASSERT_TRUE(process_reader.Initialize(nullptr, getpid()));
 
   timeval snapshot_time;
   ASSERT_EQ(gettimeofday(&snapshot_time, nullptr), 0)

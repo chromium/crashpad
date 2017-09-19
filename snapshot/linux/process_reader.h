@@ -25,7 +25,7 @@
 #include "util/linux/address_types.h"
 #include "util/linux/memory_map.h"
 #include "util/linux/process_memory.h"
-#include "util/linux/thread_info.h"
+#include "util/linux/ptrace_connection.h"
 #include "util/posix/process_info.h"
 #include "util/misc/initialization_state_dcheck.h"
 
@@ -40,9 +40,7 @@ class ProcessReader {
     Thread();
     ~Thread();
 
-    ThreadContext thread_context;
-    FloatContext float_context;
-    LinuxVMAddress thread_specific_data_address;
+    ThreadInfo thread_info;
     LinuxVMAddress stack_region_address;
     LinuxVMSize stack_region_size;
     pid_t tid;
@@ -53,7 +51,7 @@ class ProcessReader {
    private:
     friend class ProcessReader;
 
-    bool InitializePtrace();
+    bool InitializePtrace(PtraceConnection* connection);
     void InitializeStack(ProcessReader* reader);
   };
 
@@ -65,9 +63,10 @@ class ProcessReader {
   //! This method must be successfully called before calling any other method in
   //! this class.
   //!
+  //! \param[in] connection A PtraceConnection to the target process.
   //! \param[in] pid The process ID of the target process.
   //! \return `true` on success. `false` on failure with a message logged.
-  bool Initialize(pid_t pid);
+  bool Initialize(PtraceConnection* connection, pid_t pid);
 
   //! \brief Return `true` if the target task is a 64-bit process.
   bool Is64Bit() const { return is_64_bit_; }
@@ -111,6 +110,7 @@ class ProcessReader {
  private:
   void InitializeThreads();
 
+  PtraceConnection* connection_;  // weak
   ProcessInfo process_info_;
   class MemoryMap memory_map_;
   std::vector<Thread> threads_;
