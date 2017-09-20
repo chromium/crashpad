@@ -28,6 +28,7 @@
 #include "snapshot/linux/process_reader.h"
 #include "sys/syscall.h"
 #include "test/errors.h"
+#include "test/linux/fake_ptrace_connection.h"
 #include "util/linux/address_types.h"
 #include "util/misc/clock.h"
 #include "util/misc/from_pointer_cast.h"
@@ -96,8 +97,11 @@ void ExpectContext(const CPUContext& actual, const NativeCPUContext& expected) {
 #endif
 
 TEST(ExceptionSnapshotLinux, SelfBasic) {
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(getpid()));
+
   ProcessReader process_reader;
-  ASSERT_TRUE(process_reader.Initialize(getpid()));
+  ASSERT_TRUE(process_reader.Initialize(&connection));
 
   siginfo_t siginfo;
   siginfo.si_signo = SIGSEGV;
@@ -170,8 +174,11 @@ class RaiseTest {
 
  private:
   static void HandleRaisedSignal(int signo, siginfo_t* siginfo, void* context) {
+    FakePtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(getpid()));
+
     ProcessReader process_reader;
-    ASSERT_TRUE(process_reader.Initialize(getpid()));
+    ASSERT_TRUE(process_reader.Initialize(&connection));
 
     internal::ExceptionSnapshotLinux exception;
     ASSERT_TRUE(exception.Initialize(&process_reader,
@@ -230,8 +237,11 @@ class TimerTest {
 
  private:
   static void HandleTimer(int signo, siginfo_t* siginfo, void* context) {
+    FakePtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(getpid()));
+
     ProcessReader process_reader;
-    ASSERT_TRUE(process_reader.Initialize(getpid()));
+    ASSERT_TRUE(process_reader.Initialize(&connection));
 
     internal::ExceptionSnapshotLinux exception;
     ASSERT_TRUE(exception.Initialize(&process_reader,

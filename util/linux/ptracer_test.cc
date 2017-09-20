@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/linux/thread_info.h"
+#include "util/linux/ptracer.h"
 
 #include "build/build_config.h"
 #include "gtest/gtest.h"
 #include "test/multiprocess.h"
 #include "util/file/file_io.h"
+#include "util/linux/scoped_ptrace_attach.h"
 #include "util/misc/from_pointer_cast.h"
 
 namespace crashpad {
@@ -35,30 +36,27 @@ class SameBitnessTest : public Multiprocess {
     CheckedReadFileExactly(
         ReadPipeHandle(), &expected_tls, sizeof(expected_tls));
 
-    ThreadInfo thread_info;
-    ASSERT_TRUE(thread_info.Initialize(ChildPID()));
-
 #if defined(ARCH_CPU_64_BITS)
     constexpr bool am_64_bit = true;
 #else
     constexpr bool am_64_bit = false;
 #endif  // ARCH_CPU_64_BITS
 
-    EXPECT_EQ(thread_info.Is64Bit(), am_64_bit);
+    ScopedPtraceAttach attach;
+    ASSERT_TRUE(attach.ResetAttach(ChildPID()));
 
-    ThreadContext thread_context;
-    thread_info.GetGeneralPurposeRegisters(&thread_context);
+    Ptracer ptracer(am_64_bit);
+
+    EXPECT_EQ(ptracer.Is64Bit(), am_64_bit);
+
+    ThreadInfo thread_info;
+    ASSERT_TRUE(ptracer.GetThreadInfo(ChildPID(), &thread_info));
 
 #if defined(ARCH_CPU_X86_64)
-    EXPECT_EQ(thread_context.t64.fs_base, expected_tls);
+    EXPECT_EQ(thread_info.thread_context.t64.fs_base, expected_tls);
 #endif  // ARCH_CPU_X86_64
 
-    FloatContext float_context;
-    EXPECT_TRUE(thread_info.GetFloatingPointRegisters(&float_context));
-
-    LinuxVMAddress tls_address;
-    ASSERT_TRUE(thread_info.GetThreadArea(&tls_address));
-    EXPECT_EQ(tls_address, expected_tls);
+    EXPECT_EQ(thread_info.thread_specific_data_address, expected_tls);
   }
 
   void MultiprocessChild() override {
@@ -88,7 +86,7 @@ class SameBitnessTest : public Multiprocess {
   DISALLOW_COPY_AND_ASSIGN(SameBitnessTest);
 };
 
-TEST(ThreadInfo, SameBitness) {
+TEST(Ptracer, SameBitness) {
   SameBitnessTest test;
   test.Run();
 }
