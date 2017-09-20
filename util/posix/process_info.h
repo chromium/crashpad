@@ -33,6 +33,10 @@
 #include <sys/sysctl.h>
 #endif
 
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+#include "util/linux/ptrace_connection.h"
+#endif
+
 namespace crashpad {
 
 class ProcessInfo {
@@ -40,6 +44,25 @@ class ProcessInfo {
   ProcessInfo();
   ~ProcessInfo();
 
+#if defined(OS_LINUX) || defined(OS_ANDROID) || DOXYGEN
+  //! \brief Initializes this object with information about the process whose ID
+  //!     is \a pid using a PtraceConnection \a connection.
+  //!
+  //! This method must be called successfully prior to calling any other method
+  //! in this class. This method may only be called once.
+  //!
+  //! It is unspecified whether the information that an object of this class
+  //! returns is loaded at the time Initialize() is called or subsequently, and
+  //! whether this information is cached in the object or not.
+
+  //!
+  //! \param[in] connection A connection to the remote process.
+  //!
+  //! \return `true` on success, `false` on failure with a message logged.
+  bool InitializeWithPtrace(PtraceConnection* connection);
+#endif  // OS_LINUX || OS_ANDROID || DOXYGEN
+
+#if defined(OS_MACOSX) || DOXYGEN
   //! \brief Initializes this object with information about the process whose ID
   //!     is \a pid.
   //!
@@ -55,7 +78,6 @@ class ProcessInfo {
   //! \return `true` on success, `false` on failure with a message logged.
   bool Initialize(pid_t pid);
 
-#if defined(OS_MACOSX) || DOXYGEN
   //! \brief Initializes this object with information about a process based on
   //!     its Mach task.
   //!
@@ -116,11 +138,8 @@ class ProcessInfo {
 
   //! \brief Determines the target process’ bitness.
   //!
-  //! \param[out] is_64_bit `true` if the target task is a 64-bit process.
-  //!
-  //! \return `true` on success, with \a is_64_bit set. Otherwise, `false` with
-  //!     a message logged.
-  bool Is64Bit(bool* is_64_bit) const;
+  //! \return `true` if the target task is a 64-bit process.
+  bool Is64Bit() const;
 
   //! \brief Determines the target process’ start time.
   //!
@@ -156,6 +175,7 @@ class ProcessInfo {
   // multiple successive calls will always produce the same return value and out
   // parameters. This is necessary for intergration with the Snapshot interface.
   // See https://crashpad.chromium.org/bug/9.
+  PtraceConnection* connection_;  // weak
   std::set<gid_t> supplementary_groups_;
   mutable timeval start_time_;
   pid_t pid_;
@@ -167,8 +187,6 @@ class ProcessInfo {
   gid_t egid_;
   gid_t sgid_;
   mutable InitializationState start_time_initialized_;
-  mutable InitializationState is_64_bit_initialized_;
-  mutable bool is_64_bit_;
 #endif
   InitializationStateDcheck initialized_;
 
