@@ -84,7 +84,7 @@ TEST(MinidumpMemoryInfoWriter, OneRegion) {
 
   auto memory_map_region = base::WrapUnique(new TestMemoryMapRegionSnapshot());
 
-  MINIDUMP_MEMORY_INFO mmi = {0};
+  MINIDUMP_MEMORY_INFO mmi = {};
   mmi.BaseAddress = 0x12340000;
   mmi.AllocationBase = 0x12000000;
   mmi.AllocationProtect = PAGE_READWRITE;

@@ -51,6 +51,17 @@ bool MapInsertOrReplace(T* map,
   return result.second;
 }
 
+//! \brief Wrapper that lets callers pass `nullptr` as \a old_value
+//!     without casting.
+template <typename T>
+bool MapInsertOrReplace(T* map,
+                        const typename T::key_type& key,
+                        const typename T::mapped_type& value,
+                        std::nullptr_t old_value) {
+  return MapInsertOrReplace(
+      map, key, value, static_cast<typename T::mapped_type*>(nullptr));
+}
+
 }  // namespace crashpad
 
 #endif  // CRASHPAD_UTIL_STDLIB_MAP_INSERT_H_

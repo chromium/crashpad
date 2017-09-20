@@ -17,6 +17,8 @@
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 
+#include <stddef.h>  // offsetof()
+
 #if defined(OS_WIN)
 #include <immintrin.h>
 #include <intrin.h>
