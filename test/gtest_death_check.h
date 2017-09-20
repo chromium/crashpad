@@ -33,7 +33,8 @@
 //! this macro uses an empty \a regex pattern when calling `ASSERT_DEATH()` to
 //! avoid looking for any particular output on the standard error stream. In
 //! other build configurations, the \a regex pattern is left intact.
-#define ASSERT_DEATH_CHECK(statement, regex) ASSERT_DEATH(statement, regex)
+#define ASSERT_DEATH_CHECK(statement, regex) \
+    ASSERT_DEATH_IF_SUPPORTED(statement, regex)
 
 //! \brief Wraps the gtest `EXPECT_DEATH()` macro to make assertions about death
 //!     caused by `CHECK()` failures.
@@ -43,12 +44,15 @@
 //! this macro uses an empty \a regex pattern when calling `EXPECT_DEATH()` to
 //! avoid looking for any particular output on the standard error stream. In
 //! other build configurations, the \a regex pattern is left intact.
-#define EXPECT_DEATH_CHECK(statement, regex) EXPECT_DEATH(statement, regex)
+#define EXPECT_DEATH_CHECK(statement, regex) \
+    EXPECT_DEATH_IF_SUPPORTED(statement, regex)
 
 #else
 
-#define ASSERT_DEATH_CHECK(statement, regex) ASSERT_DEATH(statement, "")
-#define EXPECT_DEATH_CHECK(statement, regex) EXPECT_DEATH(statement, "")
+#define ASSERT_DEATH_CHECK(statement, regex) \
+    ASSERT_DEATH_IF_SUPPORTED(statement, "")
+#define EXPECT_DEATH_CHECK(statement, regex) \
+    EXPECT_DEATH_IF_SUPPORTED(statement, "")
 
 #endif
 
