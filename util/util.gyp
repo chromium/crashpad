@@ -56,6 +56,7 @@
         'linux/process_memory.h',
         'linux/process_memory_range.cc',
         'linux/process_memory_range.h',
+        'linux/registration_protocol.h',
         'linux/scoped_ptrace_attach.cc',
         'linux/scoped_ptrace_attach.h',
         'linux/thread_info.cc',
