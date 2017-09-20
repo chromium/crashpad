@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfca72db_19b5be9b",
+        "filename": "util/stdlib/map_insert.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000336
+      },
+      "writtenOn": "2017-09-20T20:08:46Z",
+      "side": 1,
+      "message": "I\u0027d still pass old_value since that might give the compiler a better chance of re-fusing it with the other implementation.",
+      "range": {
+        "startLine": 62,
+        "startChar": 61,
+        "endLine": 62,
+        "endChar": 68
+      },
+      "revId": "8f50b96b3886852a0c99ca6c981c47505c4c8c69",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
