@@ -116,9 +116,7 @@ bool ProcessReader::Initialize(task_t task) {
     return false;
   }
 
-  if (!process_info_.Is64Bit(&is_64_bit_)) {
-    return false;
-  }
+  is_64_bit_ = process_info_.Is64Bit();
 
   task_memory_.reset(new TaskMemory(task));
   task_ = task;
