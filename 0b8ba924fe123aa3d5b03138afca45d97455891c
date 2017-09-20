@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8709bf1_f00ab31d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-20T22:24:00Z",
+      "side": 1,
+      "message": "Please be a little more specific in your message. Give an example of each of the class of error that you’re fixing here.\n\nHaving that handy can be invaluable in the future. See my first comment, where I point to a previous change that had a compiler error, which can now give some context to our current discussion.",
+      "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ad09fd2_b9078e2e",
+        "filename": "minidump/minidump_system_info_writer_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-20T22:24:00Z",
+      "side": 1,
+      "message": "The review trail says that this was changed from {} (which is what we normally prefer) to {0} to satisfy MSVC.\n\nhttps://codereview.chromium.org/886143004/\n\nWe can re-check with the MSVC versions we now care about if necessary, but we may be winding up in an unwinnable situation.\n\nWhat’s the error that your “stricter toolchain” is producing for {0}?",
+      "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a3a6b20_9926f303",
+        "filename": "snapshot/x86/cpuid_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-20T22:24:00Z",
+      "side": 1,
+      "message": "Comments like this are unnecessary.",
+      "range": {
+        "startLine": 20,
+        "startChar": 19,
+        "endLine": 20,
+        "endChar": 34
+      },
+      "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1793883_28b24e9c",
+        "filename": "snapshot/x86/cpuid_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-20T22:24:00Z",
+      "side": 1,
+      "message": "The proper #include ordering is to put system headers like this in a section between this file’s header (cpuid_reader.h) and local headers (like build_config.h).\n\nOS-specific system headers come after local headers, because we need to have build_config.h to do the OS macro tests.",
+      "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
