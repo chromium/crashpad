@@ -38,6 +38,8 @@
         'gtest_death_check.h',
         'hex_string.cc',
         'hex_string.h',
+        'linux/fake_ptrace_connection.cc',
+        'linux/fake_ptrace_connection.h',
         'mac/dyld.cc',
         'mac/dyld.h',
         'mac/mach_errors.cc',
