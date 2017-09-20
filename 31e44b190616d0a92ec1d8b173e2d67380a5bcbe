@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "1552a9ea_4ff34fdc",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-20T03:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f19743be_f0109658",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fb3827f_927c9485",
         "filename": "snapshot/linux/process_reader.h",
         "patchSetId": 2
@@ -78,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a4cbd510_c1596021",
+        "filename": "snapshot/linux/process_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-20T03:00:03Z",
+      "side": 1,
+      "message": "Nope! Added a comment.",
+      "parentUuid": "2fb3827f_927c9485",
+      "range": {
+        "startLine": 69,
+        "startChar": 7,
+        "endLine": 69,
+        "endChar": 17
+      },
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0470abdc_158c8fdb",
         "filename": "snapshot/linux/process_reader.h",
         "patchSetId": 2
@@ -89,6 +131,30 @@
       "writtenOn": "2017-09-19T16:22:24Z",
       "side": 1,
       "message": "Any way to check that the PtraceConnection outlives ProcessReader? \n\nHave you considered shared ownership over PtraceConnection?",
+      "range": {
+        "startLine": 113,
+        "startChar": 20,
+        "endLine": 113,
+        "endChar": 31
+      },
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9994743_4a5e227d",
+        "filename": "snapshot/linux/process_reader.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-20T03:00:03Z",
+      "side": 1,
+      "message": "The exception handler will allocate both the PtraceConnection and ProcessSnapshotLinux (which creates a ProcessReader) in its stack frame.",
+      "parentUuid": "0470abdc_158c8fdb",
       "range": {
         "startLine": 113,
         "startChar": 20,
@@ -153,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "078f114c_227516e5",
+        "filename": "util/linux/ptrace_connection.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-20T03:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98864a2c_46d5ca6e",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08f637f2_fd97dc54",
         "filename": "util/linux/ptrace_connection.h",
         "patchSetId": 2
@@ -170,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "b36b53d1_0d1a1556",
+        "filename": "util/linux/ptrace_connection.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-20T03:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08f637f2_fd97dc54",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa710e6b_1e747120",
         "filename": "util/linux/ptrace_connection.h",
         "patchSetId": 2
@@ -181,6 +283,30 @@
       "writtenOn": "2017-09-19T16:22:24Z",
       "side": 1,
       "message": "nit: \u003d default instead of {} ?",
+      "range": {
+        "startLine": 265,
+        "startChar": 30,
+        "endLine": 265,
+        "endChar": 32
+      },
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cd7fb1c_35151c2e",
+        "filename": "util/linux/ptrace_connection.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-20T03:00:03Z",
+      "side": 1,
+      "message": "Other empty destructors use {} (e.g. the classes under snapshot/*), so I was sticking to that style.",
+      "parentUuid": "fa710e6b_1e747120",
       "range": {
         "startLine": 265,
         "startChar": 30,
@@ -210,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "5f038181_8ff8f745",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-20T03:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e807275_b64a56c7",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7967cb53_dec3b344",
         "filename": "util/linux/ptracer.cc",
         "patchSetId": 2
@@ -227,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "07823698_2674e8fa",
+        "filename": "util/linux/ptracer.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-20T03:00:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7967cb53_dec3b344",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8255f7d_2593cdd0",
         "filename": "util/linux/ptracer.h",
         "patchSetId": 2
@@ -241,6 +403,24 @@
       "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "394a4526_47cb7c0e",
+        "filename": "util/linux/ptracer.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-20T03:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8255f7d_2593cdd0",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -276,6 +456,24 @@
       "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06ca0925_0d73da21",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-20T03:00:03Z",
+      "side": 1,
+      "message": "Removed for Linux.\n\nI also reverted Is64Bit to returning `true` if the process is 64 bit since it can no longer fail on macOS or Linux.",
+      "parentUuid": "1f9acfea_789a10b2",
+      "revId": "31e44b190616d0a92ec1d8b173e2d67380a5bcbe",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
