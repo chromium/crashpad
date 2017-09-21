@@ -180,6 +180,24 @@
       "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "973af891_f9b093c5",
+        "filename": "util/stdlib/map_insert.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-09-21T21:40:15Z",
+      "side": 1,
+      "message": "Indeed, it\u0027s not obvious. But as far as I know it\u0027s legal - the key here is that the old_value parameter is used in a non-deduced context (ie. T is not deduced from it). And I don\u0027t think the overload resolution is in play here.\n\nI suspect you\u0027re thing of the following case:\n\ntemplate\u003cclass T\u003e void foo(T* p) { ... }\n\nIn this case foo(nullptr) is not valid (since T can\u0027t be deduced from the std::nullptr_t argument)\n\nThe full story is buried somewhere in 14.8.2 Template argument deduction, search for non-deduced contexts.\n\nPS. I realized I quoted the wrong section in my original reply, it should\u0027ve been 4.10, not 4.11 - my apologies.",
+      "parentUuid": "b56b4d39_acb21335",
+      "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
