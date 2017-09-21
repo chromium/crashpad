@@ -162,6 +162,24 @@
       "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b56b4d39_acb21335",
+        "filename": "util/stdlib/map_insert.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-09-21T21:21:45Z",
+      "side": 1,
+      "message": "\u003e It\u0027s not entirely clear (or at least certainly not obvious) whether that conversion wording is always enough to make overload resolution or template selection use the converted type.\n\nIt did seem to be specifically related to templates. This StackOverflow question was pretty close to my original situation: https://stackoverflow.com/questions/20405569/in-function-call-why-doesnt-nullptr-match-a-pointer-to-a-template-object",
+      "parentUuid": "437b10bc_734fa946",
+      "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
