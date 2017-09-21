@@ -14,6 +14,8 @@
 
 #include "snapshot/x86/cpuid_reader.h"
 
+#include <stddef.h>
+
 #include "build/build_config.h"
 #include "snapshot/cpu_context.h"
 
