@@ -126,6 +126,24 @@
       "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50600317_cb19305b",
+        "filename": "util/stdlib/map_insert.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-09-21T19:01:49Z",
+      "side": 1,
+      "message": "Thanks. It could\u0027ve been a library and/or compiler bug. The conversion from nullptr to pointer to member is perfectly valid:\n\n4.11 Pointer to member conversions [conv.mem]\n1 A null pointer constant (4.10) can be converted to a pointer to member type; the result is the null member\npointer value of that type and is distinguishable from any pointer to member not created from a null pointer\nconstant. Such a conversion is called a null member pointer conversion. Two null member pointer values\nof the same type shall compare equal. The conversion of a null pointer constant to a pointer to member of\ncv-qualified type is a single conversion, and not the sequence of a pointer to member conversion followed by\na qualification conversion (4.4).",
+      "parentUuid": "065377b5_cceb6324",
+      "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
