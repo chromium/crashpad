@@ -108,6 +108,24 @@
       "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "065377b5_cceb6324",
+        "filename": "util/stdlib/map_insert.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-09-21T18:52:07Z",
+      "side": 1,
+      "message": "\u003e I\u0027m curious, which compiler needs this and what is the diagnostic if one passes nullptr directly?\n\nUnfortunately I don\u0027t have the compiler anymore (gcc ~4.8.2 from Ubuntu Trusty) to reproduce the exact message.\n\nIt didn\u0027t think that \u0027nullptr\u0027 (of type std::nullptr_t) matched \u0027typename T::mapped_type*\u0027, requiring callers to cast the param. The overload avoided the need for a cast.\n\nThis is the call site that triggered it: https://chromium.googlesource.com/crashpad/crashpad/+/8c802aace4076bba2223666fff27373e24519eaf/util/linux/auxiliary_vector.cc#54\n\nBut gcc 6.3 (which I recently upgraded to) doesn\u0027t produce the same error, so I\u0027ll remove this.",
+      "parentUuid": "993072c8_f989081a",
+      "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
