@@ -90,6 +90,24 @@
       "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "993072c8_f989081a",
+        "filename": "util/stdlib/map_insert.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-09-21T17:50:41Z",
+      "side": 1,
+      "message": "I\u0027m curious, which compiler needs this and what is the diagnostic if one passes nullptr directly?",
+      "parentUuid": "c3ed6780_d1c28772",
+      "revId": "0b8ba924fe123aa3d5b03138afca45d97455891c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
