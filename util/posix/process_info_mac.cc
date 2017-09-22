@@ -27,7 +27,7 @@ ProcessInfo::ProcessInfo() : kern_proc_info_(), initialized_() {
 ProcessInfo::~ProcessInfo() {
 }
 
-bool ProcessInfo::Initialize(pid_t pid) {
+bool ProcessInfo::InitializeWithPid(pid_t pid) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
@@ -54,7 +54,7 @@ bool ProcessInfo::Initialize(pid_t pid) {
   return true;
 }
 
-bool ProcessInfo::InitializeFromTask(task_t task) {
+bool ProcessInfo::InitializeWithTask(task_t task) {
   pid_t pid;
   kern_return_t kr = pid_for_task(task, &pid);
   if (kr != KERN_SUCCESS) {
@@ -62,7 +62,7 @@ bool ProcessInfo::InitializeFromTask(task_t task) {
     return false;
   }
 
-  return Initialize(pid);
+  return InitializeWithPid(pid);
 }
 
 pid_t ProcessInfo::ProcessID() const {
@@ -132,10 +132,9 @@ bool ProcessInfo::DidChangePrivileges() const {
   return kern_proc_info_.kp_proc.p_flag & P_SUGID;
 }
 
-bool ProcessInfo::Is64Bit(bool* is_64_bit) const {
+bool ProcessInfo::Is64Bit() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  *is_64_bit = kern_proc_info_.kp_proc.p_flag & P_LP64;
-  return true;
+  return kern_proc_info_.kp_proc.p_flag & P_LP64;
 }
 
 bool ProcessInfo::StartTime(timeval* start_time) const {
