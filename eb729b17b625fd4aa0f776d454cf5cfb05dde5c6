@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "009f2bfa_936e4b96",
+        "filename": "snapshot/linux/system_snapshot_linux_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-22T16:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26bdec3c_1fe109e3",
+      "revId": "eb729b17b625fd4aa0f776d454cf5cfb05dde5c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05af9707_359d821d",
         "filename": "test/linux/fake_ptrace_connection.h",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "eb729b17b625fd4aa0f776d454cf5cfb05dde5c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed99ef19_852c3dc0",
+        "filename": "test/linux/fake_ptrace_connection.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-22T16:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05af9707_359d821d",
+      "revId": "eb729b17b625fd4aa0f776d454cf5cfb05dde5c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "d6d733c3_5d223821",
+        "filename": "util/linux/ptrace_connection.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-22T16:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "393a3fe6_10dfe9b7",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 14
+      },
+      "revId": "eb729b17b625fd4aa0f776d454cf5cfb05dde5c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59bf1427_46216a99",
         "filename": "util/linux/ptracer.h",
         "patchSetId": 7
@@ -70,6 +130,24 @@
       "writtenOn": "2017-09-21T17:01:05Z",
       "side": 1,
       "message": "I only see this form of the constructor used in test code (I think). If that’s true, we probably don’t need it at all.",
+      "revId": "eb729b17b625fd4aa0f776d454cf5cfb05dde5c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "395d2197_c2df733a",
+        "filename": "util/linux/ptracer.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-22T16:10:50Z",
+      "side": 1,
+      "message": "I expect this constructor to be used by the Broker. It will already know the proper bitness since it\u0027s forked from the crasher.",
+      "parentUuid": "59bf1427_46216a99",
       "revId": "eb729b17b625fd4aa0f776d454cf5cfb05dde5c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "15ce1fdb_bd8dfd0a",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-22T16:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dea3158f_d5352ea6",
+      "revId": "eb729b17b625fd4aa0f776d454cf5cfb05dde5c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "742e74c2_c59a3948",
         "filename": "util/posix/process_info.h",
         "patchSetId": 7
@@ -107,6 +203,24 @@
       "revId": "eb729b17b625fd4aa0f776d454cf5cfb05dde5c6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "214f085f_0b7d1379",
+        "filename": "util/posix/process_info.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-22T16:10:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "742e74c2_c59a3948",
+      "revId": "eb729b17b625fd4aa0f776d454cf5cfb05dde5c6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
