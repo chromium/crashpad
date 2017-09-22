@@ -30,6 +30,11 @@
 #include "util/file/file_io.h"
 #include "util/misc/implicit_cast.h"
 
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+#include "util/linux/direct_ptrace_connection.h"
+#include "test/linux/fake_ptrace_connection.h"
+#endif
+
 namespace crashpad {
 namespace test {
 namespace {
@@ -74,12 +79,10 @@ void TestProcessSelfOrClone(const ProcessInfo& process_info) {
   // The test executable isn’t expected to change privileges.
   EXPECT_FALSE(process_info.DidChangePrivileges());
 
-  bool is_64_bit;
-  ASSERT_TRUE(process_info.Is64Bit(&is_64_bit));
 #if defined(ARCH_CPU_64_BITS)
-  EXPECT_TRUE(is_64_bit);
+  EXPECT_TRUE(process_info.Is64Bit());
 #else
-  EXPECT_FALSE(is_64_bit);
+  EXPECT_FALSE(process_info.Is64Bit());
 #endif
 
   // Test StartTime(). This program must have started at some time in the past.
@@ -127,14 +130,21 @@ void TestSelfProcess(const ProcessInfo& process_info) {
 
 TEST(ProcessInfo, Self) {
   ProcessInfo process_info;
-  ASSERT_TRUE(process_info.Initialize(getpid()));
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(getpid()));
+  ASSERT_TRUE(process_info.InitializeWithPtrace(&connection));
+#else
+  ASSERT_TRUE(process_info.InitializeWithPid(getpid()));
+#endif  // OS_LINUX || OS_ANDROID
+
   TestSelfProcess(process_info);
 }
 
 #if defined(OS_MACOSX)
 TEST(ProcessInfo, SelfTask) {
   ProcessInfo process_info;
-  ASSERT_TRUE(process_info.InitializeFromTask(mach_task_self()));
+  ASSERT_TRUE(process_info.InitializeWithTask(mach_task_self()));
   TestSelfProcess(process_info);
 }
 #endif
@@ -143,7 +153,13 @@ TEST(ProcessInfo, Pid1) {
   // PID 1 is expected to be init or the system’s equivalent. This tests reading
   // information about another process.
   ProcessInfo process_info;
-  ASSERT_TRUE(process_info.Initialize(1));
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+  FakePtraceConnection connection;
+  ASSERT_TRUE(connection.Initialize(1));
+  ASSERT_TRUE(process_info.InitializeWithPtrace(&connection));
+#else
+  ASSERT_TRUE(process_info.InitializeWithPid(1));
+#endif
 
   EXPECT_EQ(process_info.ProcessID(), implicit_cast<pid_t>(1));
   EXPECT_EQ(process_info.ParentProcessID(), implicit_cast<pid_t>(0));
@@ -165,8 +181,16 @@ class ProcessInfoForkedTest : public Multiprocess {
   void MultiprocessParent() override {
     const pid_t pid = ChildPID();
 
+#if defined(OS_LINUX) || defined(OS_ANDROID)
+    DirectPtraceConnection connection;
+    ASSERT_TRUE(connection.Initialize(pid));
+
     ProcessInfo process_info;
-    ASSERT_TRUE(process_info.Initialize(pid));
+    ASSERT_TRUE(process_info.InitializeWithPtrace(&connection));
+#else
+    ProcessInfo process_info;
+    ASSERT_TRUE(process_info.InitializeWithPid(pid));
+#endif  // OS_LINUX || OS_ANDROID
 
     EXPECT_EQ(process_info.ProcessID(), pid);
     EXPECT_EQ(process_info.ParentProcessID(), getpid());
