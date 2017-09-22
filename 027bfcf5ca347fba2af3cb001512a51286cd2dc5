@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "352f1899_d1318a5f",
+        "filename": "util/misc/address_types.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-22T19:20:58Z",
+      "side": 1,
+      "message": "Blank between C and C++ system headers.",
+      "revId": "027bfcf5ca347fba2af3cb001512a51286cd2dc5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a39109f_05ad2721",
+        "filename": "util/misc/address_types.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-22T19:20:58Z",
+      "side": 1,
+      "message": "I’d also keep blanks around these #if/#elif/#endifs to make it easier to find things.",
+      "revId": "027bfcf5ca347fba2af3cb001512a51286cd2dc5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
