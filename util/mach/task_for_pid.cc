@@ -38,7 +38,7 @@ bool TaskForPIDGroupCheck(const ProcessInfo& process_info) {
   std::set<gid_t> groups = process_info.AllGroups();
 
   ProcessInfo process_info_self;
-  if (!process_info_self.Initialize(getpid())) {
+  if (!process_info_self.InitializeWithPid(getpid())) {
     return false;
   }
 
@@ -114,7 +114,7 @@ bool TaskForPIDCheck(task_t task) {
   // interface.
 
   ProcessInfo process_info;
-  if (!process_info.InitializeFromTask(task)) {
+  if (!process_info.InitializeWithTask(task)) {
     return false;
   }
 
