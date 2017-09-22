@@ -15,6 +15,7 @@
 #include "snapshot/linux/debug_rendezvous.h"
 
 #include <linux/auxvec.h>
+#include <string.h>
 #include <unistd.h>
 
 #include <limits>
@@ -146,14 +147,18 @@ void TestAgainstTarget(pid_t pid, bool is_64_bit) {
 #if defined(OS_ANDROID)
     EXPECT_FALSE(module.name.empty());
 #else
-    // glibc's loader doesn't set the name in the link map for the vdso.
+    // glibc's loader doesn't always set the name in the link map for the vdso.
     EXPECT_PRED4(
         [](const std::string mapping_name,
            int device,
            int inode,
            const std::string& module_name) {
-          return module_name.empty() ==
-                 (device == 0 && inode == 0 && mapping_name == "[vdso]");
+          const bool is_vdso_mapping =
+              device == 0 && inode == 0 && mapping_name == "[vdso]";
+          static constexpr char kPrefix[] = "linux-vdso.so.";
+          return is_vdso_mapping ==
+                 (module_name.empty() ||
+                  module_name.compare(0, strlen(kPrefix), kPrefix) == 0);
         },
         module_mapping->name,
         module_mapping->device,
