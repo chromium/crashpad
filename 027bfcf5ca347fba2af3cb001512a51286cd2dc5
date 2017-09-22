@@ -33,6 +33,23 @@
       "revId": "027bfcf5ca347fba2af3cb001512a51286cd2dc5",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bba6ae0_addaf7bd",
+        "filename": "util/misc/address_types.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-22T21:21:12Z",
+      "side": 1,
+      "message": "I think there’s some value in keeping the “checked” version in its own header. (This is what we have now, albeit on a per-OS basis.)",
+      "revId": "027bfcf5ca347fba2af3cb001512a51286cd2dc5",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
