@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2b46828_9ade6c3f",
+        "filename": "util/misc/address_types.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-23T02:11:24Z",
+      "side": 1,
+      "message": "This is obsolete now.",
+      "revId": "95902db802a67642122beb190800b3d5f49c7ff7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bbe0154_4e7e2551",
+        "filename": "util/misc/address_types.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-23T02:11:24Z",
+      "side": 1,
+      "message": "You need to #include \"build/build_config.h\" before you can use these OS_* macros.",
+      "revId": "95902db802a67642122beb190800b3d5f49c7ff7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40c459a5_c6bfd36b",
+        "filename": "util/misc/checked_address_range.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-23T02:11:24Z",
+      "side": 1,
+      "message": "Having util/misc/checked_address_range.h and util/numeric/checked_address_range.h is confusing.\n\nIf we never have a reason to have a CheckedAddressRange that’s not a CheckedVMAddressRange (I don’t know, do we?), then maybe we should just load all of this into the existing header in util/numeric.\n\nOtherwise, one of these should be named checked_vm_address_range.h (and maybe they should both live in util/numeric?)",
+      "range": {
+        "startLine": 19,
+        "startChar": 23,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "95902db802a67642122beb190800b3d5f49c7ff7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
