@@ -81,6 +81,7 @@
         'net/http_body_test_util.h',
         'net/http_multipart_builder_test.cc',
         'net/http_transport_test.cc',
+        'net/url_test.cc',
         'numeric/checked_address_range_test.cc',
         'numeric/checked_range_test.cc',
         'numeric/in_range_cast_test.cc',
