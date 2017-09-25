@@ -114,6 +114,13 @@ establish the Crashpad client environment before running a program.
    Either this option or **--mach-service**, but not both, is required. This
    option is only valid on macOS.
 
+ * **--no-identify-client-via-url**
+
+   Do not add client-identifying fields to the URL. By default, `"prod"`,
+   `"ver"`, and `"guid"` annotations are added to the upload URL as name-value
+   pairs `"product"`, `"version"`, and `"guid"`, respectively. Using this
+   option disables that behavior.
+
  * **--initial-client-data**=*HANDLE_request_crash_dump*,*HANDLE_request_non_crash_dump*,*HANDLE_non_crash_dump_completed*,*HANDLE_first_pipe_instance*,*HANDLE_client_process*,*Address_crash_exception_information*,*Address_non_crash_exception_information*,*Address_debug_critical_section*
 
    Register the initial client using the inherited handles and data provided.
