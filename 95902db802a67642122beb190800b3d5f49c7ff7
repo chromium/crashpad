@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "53181573_b341022b",
+        "filename": "util/misc/address_types.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-09-25T23:06:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2b46828_9ade6c3f",
+      "revId": "95902db802a67642122beb190800b3d5f49c7ff7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bbe0154_4e7e2551",
         "filename": "util/misc/address_types.h",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "95902db802a67642122beb190800b3d5f49c7ff7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f19bd22b_5b0f8fb0",
+        "filename": "util/misc/address_types.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-09-25T23:06:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bbe0154_4e7e2551",
+      "revId": "95902db802a67642122beb190800b3d5f49c7ff7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "95902db802a67642122beb190800b3d5f49c7ff7",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca8529f0_0c237c8e",
+        "filename": "util/misc/checked_address_range.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-09-25T23:06:19Z",
+      "side": 1,
+      "message": "\u003e Having util/misc/checked_address_range.h and util/numeric/checked_address_range.h is confusing.\n\u003e \n\u003e If we never have a reason to have a CheckedAddressRange that’s not a CheckedVMAddressRange (I don’t know, do we?), then maybe we should just load all of this into the existing header in util/numeric.\n\u003e \n\u003e Otherwise, one of these should be named checked_vm_address_range.h (and maybe they should both live in util/numeric?)\n\nI moved this to util/numeric/checked_vm_address_range.h. Can collapse it into checked_address_range.h in the future, depending on how far the generic VMAddress migration goes.",
+      "parentUuid": "40c459a5_c6bfd36b",
+      "range": {
+        "startLine": 19,
+        "startChar": 23,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "95902db802a67642122beb190800b3d5f49c7ff7",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
