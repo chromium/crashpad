@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caad6fd8_8976230a",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-25T21:53:48Z",
+      "side": 1,
+      "message": "Rather than burning a full-fledged std::string for this, let’s have\n\n  static constexpr char kPrefix[] \u003d \"linux-vdso.so.\";\n\nFor the count parameter, you can use strlen(kPrefix), on the theory that the compiler will recognize this as 14 without emitting code to count characters at runtime. (Should be valid for clang and GCC.)\n\n(And don’t forget \u003cstring.h\u003e.)",
+      "revId": "754340386a996eec8cd631aeea8f5f9c191af46f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
