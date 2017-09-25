@@ -34,6 +34,24 @@
       "revId": "754340386a996eec8cd631aeea8f5f9c191af46f",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2201d88c_8a6fb040",
+        "filename": "snapshot/linux/debug_rendezvous_test.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-25T22:07:54Z",
+      "side": 1,
+      "message": "\u003e sizeof(kPrefix) - 1 is an actual constant expression\n\nThat’s fine too, it’s just marginally less self-documenting.",
+      "parentUuid": "abfaca77_aa4fc309",
+      "revId": "754340386a996eec8cd631aeea8f5f9c191af46f",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
