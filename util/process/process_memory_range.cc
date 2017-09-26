@@ -28,8 +28,8 @@ ProcessMemoryRange::~ProcessMemoryRange() {}
 
 bool ProcessMemoryRange::Initialize(const ProcessMemory* memory,
                                     bool is_64_bit,
-                                    LinuxVMAddress base,
-                                    LinuxVMSize size) {
+                                    VMAddress base,
+                                    VMSize size) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   memory_ = memory;
   range_.SetRange(is_64_bit, base, size);
@@ -43,8 +43,8 @@ bool ProcessMemoryRange::Initialize(const ProcessMemory* memory,
 
 bool ProcessMemoryRange::Initialize(const ProcessMemory* memory,
                                     bool is_64_bit) {
-  LinuxVMSize max = is_64_bit ? std::numeric_limits<uint64_t>::max()
-                              : std::numeric_limits<uint32_t>::max();
+  VMSize max = is_64_bit ? std::numeric_limits<uint64_t>::max()
+                         : std::numeric_limits<uint32_t>::max();
   return Initialize(memory, is_64_bit, 0, max);
 }
 
@@ -55,9 +55,9 @@ bool ProcessMemoryRange::Initialize(const ProcessMemoryRange& other) {
                     other.range_.Size());
 }
 
-bool ProcessMemoryRange::RestrictRange(LinuxVMAddress base, LinuxVMSize size) {
+bool ProcessMemoryRange::RestrictRange(VMAddress base, VMSize size) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  CheckedLinuxAddressRange new_range(range_.Is64Bit(), base, size);
+  CheckedVMAddressRange new_range(range_.Is64Bit(), base, size);
   if (!new_range.IsValid() || !range_.ContainsRange(new_range)) {
     LOG(ERROR) << "invalid range";
     return false;
@@ -66,11 +66,11 @@ bool ProcessMemoryRange::RestrictRange(LinuxVMAddress base, LinuxVMSize size) {
   return true;
 }
 
-bool ProcessMemoryRange::Read(LinuxVMAddress address,
+bool ProcessMemoryRange::Read(VMAddress address,
                               size_t size,
                               void* buffer) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  CheckedLinuxAddressRange read_range(range_.Is64Bit(), address, size);
+  CheckedVMAddressRange read_range(range_.Is64Bit(), address, size);
   if (!read_range.IsValid() || !range_.ContainsRange(read_range)) {
     LOG(ERROR) << "read out of range";
     return false;
@@ -78,7 +78,7 @@ bool ProcessMemoryRange::Read(LinuxVMAddress address,
   return memory_->Read(address, size, buffer);
 }
 
-bool ProcessMemoryRange::ReadCStringSizeLimited(LinuxVMAddress address,
+bool ProcessMemoryRange::ReadCStringSizeLimited(VMAddress address,
                                                 size_t size,
                                                 std::string* string) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
@@ -86,7 +86,7 @@ bool ProcessMemoryRange::ReadCStringSizeLimited(LinuxVMAddress address,
     LOG(ERROR) << "read out of range";
     return false;
   }
-  size = std::min(static_cast<LinuxVMSize>(size), range_.End() - address);
+  size = std::min(static_cast<VMSize>(size), range_.End() - address);
   return memory_->ReadCStringSizeLimited(address, size, string);
 }
 
