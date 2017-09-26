@@ -42,8 +42,6 @@
         'linux/auxiliary_vector_test.cc',
         'linux/memory_map_test.cc',
         'linux/proc_stat_reader_test.cc',
-        'linux/process_memory_range_test.cc',
-        'linux/process_memory_test.cc',
         'linux/ptracer_test.cc',
         'linux/scoped_ptrace_attach_test.cc',
         'mac/launchd_test.mm',
@@ -90,6 +88,8 @@
         'posix/scoped_mmap_test.cc',
         'posix/signals_test.cc',
         'posix/symbolic_constants_posix_test.cc',
+        'process/process_memory_range_test.cc',
+        'process/process_memory_test.cc',
         'stdlib/aligned_allocator_test.cc',
         'stdlib/map_insert_test.cc',
         'stdlib/string_number_conversion_test.cc',
@@ -142,6 +142,11 @@
           'sources/' : [
             ['exclude', '^net/http_transport_test\\.cc$'],
           ]
+        }],
+        ['OS!="linux" and OS!="android"', {
+          'sources/': [
+            ['exclude', '^process/'],
+          ],
         }],
       ],
       'target_conditions': [

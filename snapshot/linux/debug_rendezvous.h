@@ -20,8 +20,8 @@
 
 #include "base/macros.h"
 #include "util/linux/address_types.h"
-#include "util/linux/process_memory_range.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/process/process_memory_range.h"
 
 namespace crashpad {
 
