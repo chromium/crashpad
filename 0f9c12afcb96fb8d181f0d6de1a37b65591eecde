@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "953a7d1d_02b77709",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-26T16:34:48Z",
+      "side": 1,
+      "message": "Looks like there’s trailing whitespace on this line and the next one.",
+      "revId": "0f9c12afcb96fb8d181f0d6de1a37b65591eecde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9060a10_8088458e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-26T16:34:48Z",
+      "side": 1,
+      "message": "This doc isn’t publicly available, so let’s not link to it here.\n\n(Otherwise, it’ll just attract “x requests permission to access” nuisance mail.)",
+      "range": {
+        "startLine": 14,
+        "startChar": 40,
+        "endLine": 14,
+        "endChar": 149
+      },
+      "revId": "0f9c12afcb96fb8d181f0d6de1a37b65591eecde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a07333e_b35625f3",
+        "filename": "handler/crash_report_upload_thread.cc",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-26T16:34:48Z",
+      "side": 1,
+      "message": "I like to keep the initializer list in the same order that the member variables were declared, since that’s the order that things are actually done in. In fact, some compilers will warn if the order doesn’t match. options_(options) should be first.",
+      "revId": "0f9c12afcb96fb8d181f0d6de1a37b65591eecde",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
