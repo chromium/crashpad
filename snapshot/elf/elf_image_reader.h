@@ -24,10 +24,10 @@
 #include "base/macros.h"
 #include "snapshot/elf/elf_dynamic_array_reader.h"
 #include "snapshot/elf/elf_symbol_table_reader.h"
-#include "util/linux/process_memory_range.h"
 #include "util/misc/address_types.h"
 #include "util/misc/initialization_state.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/process/process_memory_range.h"
 
 namespace crashpad {
 
