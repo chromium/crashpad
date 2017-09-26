@@ -30,7 +30,11 @@
 
 #if defined(OS_MACOSX)
 #include <mach/mach.h>
+#include <mach/mach_vm.h>
 #include <sys/sysctl.h>
+
+#include "util/numeric/checked_range.h"
+#include "util/stdlib/aligned_allocator.h"
 #endif
 
 #if defined(OS_LINUX) || defined(OS_ANDROID)
@@ -41,6 +45,16 @@ namespace crashpad {
 
 class ProcessInfo {
  public:
+#if defined(OS_MACOSX)
+   struct VMRegionInfo64 {
+     uint64_t base;
+     uint64_t size;
+     struct vm_region_basic_info basic_info;
+   };
+   //! \brief The return type of MemoryInfo(), for convenience.
+  using VMRegionInfo64Vector = AlignedVector<struct VMRegionInfo64>;
+#endif
+
   ProcessInfo();
   ~ProcessInfo();
 
@@ -165,9 +179,44 @@ class ProcessInfo {
   //!     erroneous assumption that \a pid is not running.
   bool Arguments(std::vector<std::string>* argv) const;
 
+#if defined(OS_MACOSX)
+  //! \brief Retrieves information about all pages mapped into the process.
+  const VMRegionInfo64Vector& MemoryInfo() const;
+
+  //! \brief Given a range in the target process, determines if the entire range
+  //!     is readable.
+  //!
+  //! \param[in] range The range being inspected.
+  //!
+  //! \return `true` if the range is fully readable, otherwise `false` with a
+  //!     message logged.
+  bool LoggingRangeIsFullyReadable(const CheckedRange<uint64_t>& range) const;
+
+  //! \brief Given a range to be read from the target process, returns a vector
+  //!     of ranges, representing the readable portions of the original range.
+  //!
+  //! \param[in] range The range being identified.
+  //!
+  //! \return A vector of ranges corresponding to the portion of \a range that
+  //!     is readable based on the memory map.
+  std::vector<CheckedRange<uint64_t>> GetReadableRanges(
+      const CheckedRange<uint64_t>& range) const;
+
+#endif
+
+ private:
+#if defined(OS_MACOSX)
+  bool InitializeInternal(pid_t pid);
+
+  friend bool ReadMemoryInfo(task_t task,
+                             ProcessInfo* process_info);
+
+#endif
+
  private:
 #if defined(OS_MACOSX)
   kinfo_proc kern_proc_info_;
+  VMRegionInfo64Vector memory_info_;
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   // Some members are marked mutable so that they can be lazily initialized by
   // const methods. These are always InitializationState-protected so that
@@ -191,6 +240,18 @@ class ProcessInfo {
 
   DISALLOW_COPY_AND_ASSIGN(ProcessInfo);
 };
+
+#if defined(OS_MACOSX)
+//! \brief Given a memory map of a process, and a range to be read from the
+//!     target process, returns a vector of ranges, representing the readable
+//!     portions of the original range.
+//!
+//! This is a free function for testing, but prefer
+//! ProcessInfo::GetReadableRanges().
+std::vector<CheckedRange<uint64_t>> GetReadableRangesOfMemoryMap(
+    const CheckedRange<uint64_t>& range,
+    const ProcessInfo::VMRegionInfo64Vector& memory_info);
+#endif
 
 }  // namespace crashpad
 

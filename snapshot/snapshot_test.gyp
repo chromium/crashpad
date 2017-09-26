@@ -76,6 +76,7 @@
         'linux/process_reader_test.cc',
         'linux/system_snapshot_linux_test.cc',
         'mac/cpu_context_mac_test.cc',
+        'mac/extra_memory_ranges_test.cc',
         'mac/mach_o_image_annotations_reader_test.cc',
         'mac/mach_o_image_reader_test.cc',
         'mac/mach_o_image_segment_reader_test.cc',
