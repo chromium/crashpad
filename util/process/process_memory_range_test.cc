@@ -48,7 +48,7 @@ TEST(ProcessMemoryRange, Basic) {
   EXPECT_EQ(range.Is64Bit(), is_64_bit);
 
   // Both strings are accessible within the object's range.
-  auto object_addr = FromPointerCast<LinuxVMAddress>(&kTestObject);
+  auto object_addr = FromPointerCast<VMAddress>(&kTestObject);
   EXPECT_TRUE(range.RestrictRange(object_addr, sizeof(kTestObject)));
 
   TestObject object;
@@ -56,8 +56,8 @@ TEST(ProcessMemoryRange, Basic) {
   EXPECT_EQ(memcmp(&object, &kTestObject, sizeof(object)), 0);
 
   std::string string;
-  auto string1_addr = FromPointerCast<LinuxVMAddress>(kTestObject.string1);
-  auto string2_addr = FromPointerCast<LinuxVMAddress>(kTestObject.string2);
+  auto string1_addr = FromPointerCast<VMAddress>(kTestObject.string1);
+  auto string2_addr = FromPointerCast<VMAddress>(kTestObject.string2);
   ASSERT_TRUE(range.ReadCStringSizeLimited(
       string1_addr, arraysize(kTestObject.string1), &string));
   EXPECT_STREQ(string.c_str(), kTestObject.string1);

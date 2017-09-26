@@ -42,7 +42,7 @@ bool ProcessMemory::Initialize(pid_t pid) {
   return true;
 }
 
-bool ProcessMemory::Read(LinuxVMAddress address,
+bool ProcessMemory::Read(VMAddress address,
                          size_t size,
                          void* buffer) const {
   DCHECK(mem_fd_.is_valid());
@@ -67,18 +67,18 @@ bool ProcessMemory::Read(LinuxVMAddress address,
   return true;
 }
 
-bool ProcessMemory::ReadCString(LinuxVMAddress address,
+bool ProcessMemory::ReadCString(VMAddress address,
                                 std::string* string) const {
   return ReadCStringInternal(address, false, 0, string);
 }
 
-bool ProcessMemory::ReadCStringSizeLimited(LinuxVMAddress address,
+bool ProcessMemory::ReadCStringSizeLimited(VMAddress address,
                                            size_t size,
                                            std::string* string) const {
   return ReadCStringInternal(address, true, size, string);
 }
 
-bool ProcessMemory::ReadCStringInternal(LinuxVMAddress address,
+bool ProcessMemory::ReadCStringInternal(VMAddress address,
                                         bool has_size,
                                         size_t size,
                                         std::string* string) const {
