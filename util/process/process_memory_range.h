@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_LINUX_PROCESS_MEMORY_RANGE_H_
-#define CRASHPAD_UTIL_LINUX_PROCESS_MEMORY_RANGE_H_
+#ifndef CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_RANGE_H_
+#define CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_RANGE_H_
 
 #include <sys/types.h>
 
@@ -22,8 +22,8 @@
 #include "base/macros.h"
 #include "util/linux/address_types.h"
 #include "util/linux/checked_linux_address_range.h"
-#include "util/linux/process_memory.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/process/process_memory.h"
 
 namespace crashpad {
 
@@ -126,4 +126,4 @@ class ProcessMemoryRange {
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_LINUX_PROCESS_MEMORY_RANGE_H_
+#endif  // CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_RANGE_H_
