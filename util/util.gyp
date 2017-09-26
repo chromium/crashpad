@@ -54,10 +54,6 @@
         'linux/memory_map.h',
         'linux/proc_stat_reader.cc',
         'linux/proc_stat_reader.h',
-        'linux/process_memory.cc',
-        'linux/process_memory.h',
-        'linux/process_memory_range.cc',
-        'linux/process_memory_range.h',
         'linux/ptrace_connection.h',
         'linux/ptracer.cc',
         'linux/ptracer.h',
@@ -181,6 +177,10 @@
         'posix/signals.h',
         'posix/symbolic_constants_posix.cc',
         'posix/symbolic_constants_posix.h',
+        'process/process_memory.h',
+        'process/process_memory.cc',
+        'process/process_memory_range.cc',
+        'process/process_memory_range.h',
         'stdlib/aligned_allocator.cc',
         'stdlib/aligned_allocator.h',
         'stdlib/cxx.h',
@@ -359,6 +359,11 @@
         }, {  # else: OS!="linux"
           'sources!': [
             'net/http_transport_libcurl.cc',
+          ],
+        }],
+        ['OS!="linux" and OS!="android"', {
+          'sources/': [
+            ['exclude', '^process/'],
           ],
         }],
       ],

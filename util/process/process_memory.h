@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_LINUX_PROCESS_MEMORY_H_
-#define CRASHPAD_UTIL_LINUX_PROCESS_MEMORY_H_
+#ifndef CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_H_
+#define CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_H_
 
 #include <sys/types.h>
 
@@ -102,4 +102,4 @@ class ProcessMemory {
 
 }  // namespace crashpad
 
-#endif  // CRASHPAD_UTIL_LINUX_PROCESS_MEMORY_H_
+#endif  // CRASHPAD_UTIL_PROCESS_PROCESS_MEMORY_H_

@@ -21,9 +21,9 @@
 
 #include "base/logging.h"
 #include "base/macros.h"
-#include "util/linux/process_memory_range.h"
 #include "util/misc/address_types.h"
 #include "util/misc/reinterpret_bytes.h"
+#include "util/process/process_memory_range.h"
 
 namespace crashpad {
 

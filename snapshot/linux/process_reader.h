@@ -24,11 +24,11 @@
 #include "base/macros.h"
 #include "util/linux/address_types.h"
 #include "util/linux/memory_map.h"
-#include "util/linux/process_memory.h"
 #include "util/linux/ptrace_connection.h"
 #include "util/linux/thread_info.h"
-#include "util/posix/process_info.h"
 #include "util/misc/initialization_state_dcheck.h"
+#include "util/posix/process_info.h"
+#include "util/process/process_memory.h"
 
 namespace crashpad {
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/linux/process_memory_range.h"
+#include "util/process/process_memory_range.h"
 
 #include <algorithm>
 #include <limits>
