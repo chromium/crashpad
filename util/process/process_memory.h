@@ -21,7 +21,7 @@
 
 #include "base/files/scoped_file.h"
 #include "base/macros.h"
-#include "util/linux/address_types.h"
+#include "util/misc/address_types.h"
 
 namespace crashpad {
 
@@ -54,7 +54,7 @@ class ProcessMemory {
   //!
   //! \return `true` on success, with \a buffer filled appropriately. `false` on
   //!     failure, with a message logged.
-  bool Read(LinuxVMAddress address, size_t size, void* buffer) const;
+  bool Read(VMAddress address, size_t size, void* buffer) const;
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -69,7 +69,7 @@ class ProcessMemory {
   //! \return `true` on success, with \a string set appropriately. `false` on
   //!     failure, with a message logged. Failures can occur, for example, when
   //!     encountering unmapped or unreadable pages.
-  bool ReadCString(LinuxVMAddress address, std::string* string) const;
+  bool ReadCString(VMAddress address, std::string* string) const;
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -84,12 +84,12 @@ class ProcessMemory {
   //!     failure, with a message logged. Failures can occur, for example, when
   //!     a `NUL` terminator is not found within \a size bytes, or when
   //!     encountering unmapped or unreadable pages.
-  bool ReadCStringSizeLimited(LinuxVMAddress address,
+  bool ReadCStringSizeLimited(VMAddress address,
                               size_t size,
                               std::string* string) const;
 
  private:
-  bool ReadCStringInternal(LinuxVMAddress address,
+  bool ReadCStringInternal(VMAddress address,
                            bool has_size,
                            size_t size,
                            std::string* string) const;
