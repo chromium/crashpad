@@ -54,6 +54,12 @@ bool ProcessSnapshotMac::Initialize(task_t task) {
   InitializeThreads();
   InitializeModules();
 
+  for (const auto& module : modules_) {
+    for (const auto& range : module->ExtraMemoryRanges()) {
+      AddMemorySnapshot(range.base(), range.size(), &extra_memory_);
+    }
+  }
+
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
@@ -213,7 +219,10 @@ std::vector<HandleSnapshot> ProcessSnapshotMac::Handles() const {
 
 std::vector<const MemorySnapshot*> ProcessSnapshotMac::ExtraMemory() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return std::vector<const MemorySnapshot*>();
+  std::vector<const MemorySnapshot*> extra_memory;
+  for (const auto& em : extra_memory_)
+    extra_memory.push_back(em);
+  return extra_memory;
 }
 
 void ProcessSnapshotMac::InitializeThreads() {
@@ -238,6 +247,37 @@ void ProcessSnapshotMac::InitializeModules() {
       modules_.push_back(module.release());
     }
   }
+}
+
+void ProcessSnapshotMac::AddMemorySnapshot(
+    uint64_t address,
+    uint64_t size,
+    PointerVector<internal::MemorySnapshotMac>* into) {
+  if (size == 0)
+    return;
+
+  if (!process_reader_.GetProcessInfo().LoggingRangeIsFullyReadable(
+          CheckedRange<uint64_t>(address, size))) {
+    return;
+  }
+
+
+  // If we have already added this exact range, don't add it again. This is
+  // useful for the LDR module lists which are a set of doubly-linked lists, all
+  // pointing to the same module name strings.
+  // TODO(scottmg): A more general version of this, handling overlapping,
+  // contained, etc. https://crashpad.chromium.org/bug/61.
+  for (const auto& memory_snapshot : *into) {
+    if (memory_snapshot->Address() == address &&
+        memory_snapshot->Size() == size) {
+      return;
+    }
+  }
+
+  internal::MemorySnapshotMac* memory_snapshot =
+      new internal::MemorySnapshotMac();
+  memory_snapshot->Initialize(&process_reader_, address, size);
+  into->push_back(memory_snapshot);
 }
 
 }  // namespace crashpad

@@ -187,7 +187,32 @@ std::map<std::string, std::string> ModuleSnapshotMac::AnnotationsSimpleMap()
 
 std::set<CheckedRange<uint64_t>> ModuleSnapshotMac::ExtraMemoryRanges() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
-  return std::set<CheckedRange<uint64_t>>();
+  std::set<CheckedRange<uint64_t>> ranges;
+
+  process_types::CrashpadInfo crashpad_info;
+  if (!mach_o_image_reader_->GetCrashpadInfo(&crashpad_info))
+    return ranges;
+
+  if (!crashpad_info.extra_memory_ranges)
+    return ranges;
+
+  std::vector<SimpleAddressRangeBag::Entry> simple_ranges(
+      SimpleAddressRangeBag::num_entries);
+  if (!process_reader_->Memory()->Read(
+          crashpad_info.extra_memory_ranges,
+          simple_ranges.size() * sizeof(simple_ranges[0]),
+          &simple_ranges[0])) {
+    LOG(WARNING) << "could not read simple memory ranges from " << name_;
+    return ranges;
+  }
+
+  for (const auto& entry : simple_ranges) {
+    if (entry.base != 0 || entry.size != 0) {
+      // Deduplication here is fine.
+      ranges.insert(CheckedRange<uint64_t>(entry.base, entry.size));
+    }
+  }
+  return ranges;
 }
 
 std::vector<const UserMinidumpStream*>

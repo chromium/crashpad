@@ -72,8 +72,6 @@ struct CrashpadInfo {
   //! this method is called, or they may be added, removed, or modified in \a
   //! address_range_bag after this method is called.
   //!
-  //! TODO(scottmg) This is currently only supported on Windows.
-  //!
   //! \param[in] address_range_bag A bag of address ranges. The CrashpadInfo
   //!     object does not take ownership of the SimpleAddressRangeBag object.
   //!     It is the caller’s responsibility to ensure that this pointer remains

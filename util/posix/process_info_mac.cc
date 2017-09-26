@@ -19,6 +19,10 @@
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 
+#if defined(OS_MACOSX)
+#include "base/strings/stringprintf.h"
+#endif
+
 namespace crashpad {
 
 ProcessInfo::ProcessInfo() : kern_proc_info_(), initialized_() {
@@ -27,9 +31,7 @@ ProcessInfo::ProcessInfo() : kern_proc_info_(), initialized_() {
 ProcessInfo::~ProcessInfo() {
 }
 
-bool ProcessInfo::InitializeWithPid(pid_t pid) {
-  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
-
+bool ProcessInfo::InitializeInternal(pid_t pid) {
   int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
   size_t len = sizeof(kern_proc_info_);
   if (sysctl(mib, arraysize(mib), &kern_proc_info_, &len, nullptr, 0) != 0) {
@@ -50,11 +52,20 @@ bool ProcessInfo::InitializeWithPid(pid_t pid) {
 
   DCHECK_EQ(kern_proc_info_.kp_proc.p_pid, pid);
 
+  return true;
+}
+
+bool ProcessInfo::InitializeWithPid(pid_t pid) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
+  if (!InitializeInternal(pid)) {
+    return false;
+  }
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
 }
 
 bool ProcessInfo::InitializeWithTask(task_t task) {
+  INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
   pid_t pid;
   kern_return_t kr = pid_for_task(task, &pid);
   if (kr != KERN_SUCCESS) {
@@ -62,7 +73,16 @@ bool ProcessInfo::InitializeWithTask(task_t task) {
     return false;
   }
 
-  return InitializeWithPid(pid);
+  if (!InitializeInternal(pid)) {
+    return false;
+  }
+
+  if (!ReadMemoryInfo(task, this)) {
+    return false;
+  }
+
+  INITIALIZATION_STATE_SET_VALID(initialized_);
+  return true;
 }
 
 pid_t ProcessInfo::ProcessID() const {
@@ -230,5 +250,155 @@ bool ProcessInfo::Arguments(std::vector<std::string>* argv) const {
   argv->swap(local_argv);
   return true;
 }
+
+#if defined(OS_MACOSX)
+const ProcessInfo::VMRegionInfo64Vector& ProcessInfo::MemoryInfo()
+    const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return memory_info_;
+}
+
+bool ReadMemoryInfo(task_t task, ProcessInfo* process_info) {
+  DCHECK(process_info->memory_info_.empty());
+
+  constexpr uint64_t min_address = 0;
+  const uint64_t max_address = std::numeric_limits<uint64_t>::max();
+  struct vm_region_basic_info memory_basic_information;
+  mach_msg_type_number_t info_count = VM_REGION_BASIC_INFO_COUNT_64;
+
+  // This is no longer used by vm_region, but is required to be valid.
+  mach_port_t unused_objname;
+  for (uint64_t address = min_address; address <= max_address; ) {
+    // We always try to read the max we can, but the syscall modifies the
+    // size to the actual read. Store it separately.
+    mach_vm_size_t size = max_address;
+
+    kern_return_t result = mach_vm_region(task,
+                                          &address,
+                                          &size,
+                                          VM_REGION_BASIC_INFO_64,
+                                          (vm_region_info_t) &memory_basic_information,
+                                          &info_count,
+                                          &unused_objname);
+    if (result == KERN_INVALID_ADDRESS) {
+      break;
+    }
+
+    if (result == KERN_INVALID_ARGUMENT) {
+      PLOG(ERROR) << "mach_vm_region";
+      return false;
+    }
+
+    ProcessInfo::VMRegionInfo64 info = {
+      .base = address,
+      .size = size,
+      .basic_info = memory_basic_information
+    };
+    process_info->memory_info_.push_back(info);
+    address += size;
+  }
+
+  return true;
+}
+
+std::vector<CheckedRange<uint64_t>>
+ProcessInfo::GetReadableRanges(const CheckedRange<uint64_t>& range) const {
+  return GetReadableRangesOfMemoryMap(range, MemoryInfo());
+}
+
+bool ProcessInfo::LoggingRangeIsFullyReadable(const CheckedRange<uint64_t>& range) const {
+  const auto ranges = GetReadableRanges(range);
+  if (ranges.size() != 1) {
+    LOG(ERROR) << base::StringPrintf(
+        "range at 0x%llx, size 0x%llx fully unreadable",
+        range.base(),
+        range.size());
+    return false;
+  }
+  if (ranges[0].base() != range.base() || ranges[0].size() != range.size()) {
+    LOG(ERROR) << base::StringPrintf(
+        "some of range at 0x%llx, size 0x%llx unreadable",
+        range.base(),
+        range.size());
+    return false;
+  }
+  return true;
+}
+
+bool RegionIsAccessible(const ProcessInfo::VMRegionInfo64& memory_info) {
+  return (memory_info.basic_info.protection & VM_PROT_READ) != 0;
+}
+
+std::vector<CheckedRange<uint64_t>> GetReadableRangesOfMemoryMap(
+    const CheckedRange<uint64_t>& range,
+    const ProcessInfo::VMRegionInfo64Vector& memory_info) {
+  using Range = CheckedRange<uint64_t>;
+
+  // Constructing Ranges and using OverlapsRange() is very, very slow in Debug
+  // builds, so do a manual check in this loop. The ranges are still validated
+  // by a CheckedRange before being returned.
+  uint64_t range_base = range.base();
+  uint64_t range_end = range.end();
+
+  // Find all the ranges that overlap the target range, maintaining their order.
+  ProcessInfo::VMRegionInfo64Vector overlapping;
+  const size_t size = memory_info.size();
+
+  // This loop is written in an ugly fashion to make Debug performance
+  // reasonable.
+  const ProcessInfo::VMRegionInfo64 *begin = &memory_info[0];
+  for (size_t i = 0; i < size; ++i) {
+    const ProcessInfo::VMRegionInfo64& mi = *(begin + i);
+    uint64_t mi_end = mi.base + mi.size;
+    if (range_base < mi_end && mi.base < range_end)
+      overlapping.push_back(mi);
+  }
+  if (overlapping.empty())
+    return std::vector<Range>();
+
+  // For the first and last, trim to the boundary of the incoming range.
+  ProcessInfo::VMRegionInfo64& front = overlapping.front();
+  uint64_t original_front_base_address = front.base;
+  front.base = std::max(front.base, range.base());
+  front.size =
+      (original_front_base_address + front.size) - front.base;
+
+  ProcessInfo::VMRegionInfo64& back = overlapping.front();
+  uint64_t back_end = back.base + back.size;
+  back.size = std::min(range.end(), back_end) - back.base;
+
+  // Discard all non-accessible.
+  overlapping.erase(std::remove_if(overlapping.begin(),
+                                   overlapping.end(),
+                                   [](const ProcessInfo::VMRegionInfo64& mbi) {
+                                     return !RegionIsAccessible(mbi);
+                                   }),
+                    overlapping.end());
+  if (overlapping.empty())
+    return std::vector<Range>();
+
+  // Convert to return type.
+  std::vector<Range> as_ranges;
+  for (const auto& mi : overlapping) {
+    as_ranges.push_back(Range(mi.base, mi.size));
+    DCHECK(as_ranges.back().IsValid());
+  }
+
+  // Coalesce remaining regions.
+  std::vector<Range> result;
+  result.push_back(as_ranges[0]);
+  for (size_t i = 1; i < as_ranges.size(); ++i) {
+    if (result.back().end() == as_ranges[i].base()) {
+      result.back().SetRange(result.back().base(),
+                             result.back().size() + as_ranges[i].size());
+    } else {
+      result.push_back(as_ranges[i]);
+    }
+    DCHECK(result.back().IsValid());
+  }
+
+  return result;
+}
+#endif
 
 }  // namespace crashpad

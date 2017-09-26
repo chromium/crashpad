@@ -150,6 +150,9 @@ class ProcessReader {
   //!     corresponds to the dynamic loader, dyld.
   const std::vector<Module>& Modules();
 
+  //! \return A ProcessInfo object for the process being read.
+  const ProcessInfo& GetProcessInfo() const;
+
   //! \brief Determines the location of the `dyld_all_image_infos` structure in
   //!     the process’ address space.
   //!

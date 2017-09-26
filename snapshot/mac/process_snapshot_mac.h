@@ -140,7 +140,12 @@ class ProcessSnapshotMac final : public ProcessSnapshot {
   // Initializes modules_ on behalf of Initialize().
   void InitializeModules();
 
+  void AddMemorySnapshot(uint64_t address,
+                         uint64_t size,
+                         PointerVector<internal::MemorySnapshotMac>* into);
+
   internal::SystemSnapshotMac system_;
+  PointerVector<internal::MemorySnapshotMac> extra_memory_;
   PointerVector<internal::ThreadSnapshotMac> threads_;
   PointerVector<internal::ModuleSnapshotMac> modules_;
   std::unique_ptr<internal::ExceptionSnapshotMac> exception_;

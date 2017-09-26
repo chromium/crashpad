@@ -196,6 +196,11 @@ const std::vector<ProcessReader::Module>& ProcessReader::Modules() {
   return modules_;
 }
 
+const ProcessInfo& ProcessReader::GetProcessInfo() const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return process_info_;
+}
+
 mach_vm_address_t ProcessReader::DyldAllImageInfo(
     mach_vm_size_t* all_image_info_size) {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
