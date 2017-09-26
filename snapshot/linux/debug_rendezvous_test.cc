@@ -31,8 +31,8 @@
 #include "util/linux/address_types.h"
 #include "util/linux/auxiliary_vector.h"
 #include "util/linux/memory_map.h"
-#include "util/linux/process_memory.h"
-#include "util/linux/process_memory_range.h"
+#include "util/process/process_memory.h"
+#include "util/process/process_memory_range.h"
 
 #if defined(OS_ANDROID)
 #include <sys/system_properties.h>
