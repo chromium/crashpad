@@ -26,9 +26,9 @@
 #include "test/multiprocess.h"
 #include "util/linux/address_types.h"
 #include "util/linux/memory_map.h"
-#include "util/linux/process_memory.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/numeric/int128.h"
+#include "util/process/process_memory.h"
 
 extern "C" {
 extern void _start();
