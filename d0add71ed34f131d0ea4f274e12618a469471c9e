@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a822133_17eb6813",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-28T17:17:39Z",
+      "side": 1,
+      "message": "We should resolve the duplication before checking this in.",
+      "revId": "d0add71ed34f131d0ea4f274e12618a469471c9e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87d60ae1_3f7e5f32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-28T17:17:39Z",
+      "side": 1,
+      "message": "That’s true. The problem is that end_to_end_test.py on Windows is “easy” because it uses the native debugger (cdb) as the minidump reader. Until we have minidump reading in Crashpad code, we can’t easily test what comes out of minidumps, and debuggers on macOS don’t (yet) support minidumps, so we aren’t equipped to do the same level of testing here as we can on Windows.",
+      "revId": "d0add71ed34f131d0ea4f274e12618a469471c9e",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
