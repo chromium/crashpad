@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eb6d0d0_57f20f25",
+        "filename": "snapshot/snapshot_test.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-09-28T01:41:00Z",
+      "side": 1,
+      "message": "It looks like this can go in a conditions section (or as an else to the linux or android condition just above!). I think either of the two sections would work, but I favor using the conditions section when possible. You also used the conditions section for the corresponding change in snapshot.gyp.\n\nSame thing for excluding process/ in util_test.gyp.\n\nMore info about the two sections here: https://gyp.gsrc.io/docs/InputFormatReference.md#Early_and_Late_Phases",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 11
+      },
+      "revId": "03bd1aa633567d4e33e99c6e547db2bef375a81d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
