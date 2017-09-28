@@ -44,6 +44,11 @@
         'simple_string_dictionary_test.cc',
         'simulate_crash_mac_test.cc',
       ],
+      'conditions': [
+        ['OS=="linux" or OS=="android"',
+          {'dependencies!': ['../handler/handler.gyp:crashpad_handler']},
+        ],
+      ],
     },
   ],
 }
