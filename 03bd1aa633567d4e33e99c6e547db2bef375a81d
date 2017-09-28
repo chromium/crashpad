@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7f2ee016_bdffa403",
+        "filename": "snapshot/snapshot.gyp",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-09-28T20:00:42Z",
+      "side": 1,
+      "message": "We can treat this as the “else” clause of the above. (Or the other way around.) A GYP condition works like [condition_string, {dict_if_true}, {optional_dict_if_false}].",
+      "revId": "03bd1aa633567d4e33e99c6e547db2bef375a81d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7eb6d0d0_57f20f25",
         "filename": "snapshot/snapshot_test.gyp",
         "patchSetId": 2
