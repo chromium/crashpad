@@ -290,7 +290,7 @@ void CrashReportUploadThread::ProcessPendingReport(
     }
   }
 
-  const CrashReportDatabase::Report* upload_report;
+  std::unique_ptr<const CrashReportDatabase::Report> upload_report;
   CrashReportDatabase::OperationStatus status =
       database_->GetReportForUploading(report.uuid, &upload_report);
   switch (status) {
