@@ -42,6 +42,8 @@
         'file/file_seeker.h',
         'file/file_writer.cc',
         'file/file_writer.h',
+        'file/scoped_delete_file.cc',
+        'file/scoped_delete_file.h',
         'file/string_file.cc',
         'file/string_file.h',
         'linux/address_types.h',
