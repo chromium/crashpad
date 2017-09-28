@@ -155,6 +155,8 @@
         'net/http_transport_libcurl.cc',
         'net/http_transport_mac.mm',
         'net/http_transport_win.cc',
+        'net/url.cc',
+        'net/url.h',
         'numeric/checked_address_range.cc',
         'numeric/checked_address_range.h',
         'numeric/checked_range.h',
