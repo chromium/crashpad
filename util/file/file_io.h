@@ -462,6 +462,15 @@ bool LoggingCloseFile(FileHandle file);
 //! terminate without returning.
 void CheckedCloseFile(FileHandle file);
 
+//! \brief Wraps `unlink` or `DeleteFile()`, logging an error if the operation
+//!     fails.
+//!
+//! \return `true` on success. `false` on failure wiith a message logged.
+bool LoggingDeleteFile(const base::FilePath& path);
+
+//! \brief Wraps `stat` or ``... TODO
+bool FileExists(const base::FilePath& path);
+
 //! \brief Determines the size of a file.
 //!
 //! \param[in] file The handle to the file for which the size should be
