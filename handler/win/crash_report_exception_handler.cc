@@ -90,7 +90,7 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     process_snapshot.SetClientID(client_id);
     process_snapshot.SetAnnotationsSimpleMap(*process_annotations_);
 
-    CrashReportDatabase::NewReport* new_report;
+    std::unique_ptr<CrashReportDatabase::NewReport> new_report;
     CrashReportDatabase::OperationStatus database_status =
         database_->PrepareNewCrashReport(&new_report);
     if (database_status != CrashReportDatabase::kNoError) {
@@ -101,9 +101,6 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
     }
 
     process_snapshot.SetReportID(new_report->uuid);
-
-    CrashReportDatabase::CallErrorWritingCrashReport
-        call_error_writing_crash_report(database_, new_report);
 
     WeakFileHandleFileWriter file_writer(new_report->handle);
 
@@ -119,10 +116,8 @@ unsigned int CrashReportExceptionHandler::ExceptionHandlerServerException(
       return termination_code;
     }
 
-    call_error_writing_crash_report.Disarm();
-
     UUID uuid;
-    database_status = database_->FinishedWritingCrashReport(new_report, &uuid);
+    database_status = database_->FinishedWritingCrashReport(&new_report, &uuid);
     if (database_status != CrashReportDatabase::kNoError) {
       LOG(ERROR) << "FinishedWritingCrashReport failed";
       Metrics::ExceptionCaptureResult(

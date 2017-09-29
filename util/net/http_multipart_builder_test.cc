@@ -102,17 +102,26 @@ TEST(HTTPMultipartBuilder, ThreeFileAttachments) {
   HTTPMultipartBuilder builder;
   base::FilePath ascii_http_body_path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
+
+  ScopedFileHandle handle1(LoggingOpenFileForRead(ascii_http_body_path));
+  ASSERT_TRUE(handle1.is_valid());
   builder.SetFileAttachment("first",
                             "minidump.dmp",
-                            ascii_http_body_path,
+                            handle1.get(),
                             "");
+
+  ScopedFileHandle handle2(LoggingOpenFileForRead(ascii_http_body_path));
+  ASSERT_TRUE(handle2.is_valid());
   builder.SetFileAttachment("second",
                             "minidump.dmp",
-                            ascii_http_body_path,
+                            handle2.get(),
                             "text/plain");
+
+  ScopedFileHandle handle3(LoggingOpenFileForRead(ascii_http_body_path));
+  ASSERT_TRUE(handle3.is_valid());
   builder.SetFileAttachment("\"third 50% silly\"",
                             "test%foo.txt",
-                            ascii_http_body_path,
+                            handle3.get(),
                             "text/plain");
 
   static constexpr char kFileContents[] = "This is a test.\n";
@@ -187,21 +196,28 @@ TEST(HTTPMultipartBuilder, OverwriteFileAttachment) {
   builder.SetFormData("a key", kValue);
   base::FilePath testdata_path =
       TestPaths::TestDataRoot().Append(FILE_PATH_LITERAL("util/net/testdata"));
+
+  ScopedFileHandle handle1(LoggingOpenFileForRead(testdata_path.Append(FILE_PATH_LITERAL("binary_http_body.dat"))));
+  ASSERT_TRUE(handle1.is_valid());
   builder.SetFileAttachment("minidump",
                             "minidump.dmp",
-                            testdata_path.Append(FILE_PATH_LITERAL(
-                                "binary_http_body.dat")),
+                            handle1.get(),
                             "");
+
+  ScopedFileHandle handle2(LoggingOpenFileForRead(testdata_path.Append(FILE_PATH_LITERAL("binary_http_body.dat"))));
+  ASSERT_TRUE(handle2.is_valid());
   builder.SetFileAttachment("minidump2",
                             "minidump.dmp",
-                            testdata_path.Append(FILE_PATH_LITERAL(
-                                "binary_http_body.dat")),
+                            handle2.get(),
                             "");
+
+  ScopedFileHandle handle3(LoggingOpenFileForRead(testdata_path.Append(FILE_PATH_LITERAL("ascii_http_body.txt"))));
+  ASSERT_TRUE(handle3.is_valid());
   builder.SetFileAttachment("minidump",
                             "minidump.dmp",
-                            testdata_path.Append(FILE_PATH_LITERAL(
-                                "ascii_http_body.txt")),
+                            handle3.get(),
                             "text/plain");
+
   std::unique_ptr<HTTPBodyStream> body(builder.GetBodyStream());
   ASSERT_TRUE(body.get());
   std::string contents = ReadStreamToString(body.get());
@@ -244,9 +260,12 @@ TEST(HTTPMultipartBuilder, SharedFormDataAndAttachmentKeyNamespace) {
   builder.SetFormData("one", kValue1);
   base::FilePath ascii_http_body_path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
+
+  ScopedFileHandle handle(LoggingOpenFileForRead(ascii_http_body_path));
+  ASSERT_TRUE(handle.is_valid());
   builder.SetFileAttachment("minidump",
                             "minidump.dmp",
-                            ascii_http_body_path,
+                            handle.get(),
                             "");
   static constexpr char kValue2[] = "this is not a file";
   builder.SetFormData("minidump", kValue2);
@@ -280,17 +299,17 @@ TEST(HTTPMultipartBuilderDeathTest, AssertUnsafeMIMEType) {
   HTTPMultipartBuilder builder;
   // Invalid and potentially dangerous:
   ASSERT_DEATH_CHECK(
-      builder.SetFileAttachment("", "", base::FilePath(), "\r\n"), "");
+      builder.SetFileAttachment("", "", kInvalidFileHandle, "\r\n"), "");
   ASSERT_DEATH_CHECK(
-      builder.SetFileAttachment("", "", base::FilePath(), "\""), "");
+      builder.SetFileAttachment("", "", kInvalidFileHandle, "\""), "");
   ASSERT_DEATH_CHECK(
-      builder.SetFileAttachment("", "", base::FilePath(), "\x12"), "");
+      builder.SetFileAttachment("", "", kInvalidFileHandle, "\x12"), "");
   ASSERT_DEATH_CHECK(
-      builder.SetFileAttachment("", "", base::FilePath(), "<>"), "");
+      builder.SetFileAttachment("", "", kInvalidFileHandle, "<>"), "");
   // Invalid but safe:
-  builder.SetFileAttachment("", "", base::FilePath(), "0/totally/-invalid.pdf");
+  builder.SetFileAttachment("", "", kInvalidFileHandle, "0/totally/-invalid.pdf");
   // Valid and safe:
-  builder.SetFileAttachment("", "", base::FilePath(), "application/xml+xhtml");
+  builder.SetFileAttachment("", "", kInvalidFileHandle, "application/xml+xhtml");
 }
 
 }  // namespace
