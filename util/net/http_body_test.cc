@@ -99,7 +99,10 @@ TEST(StringHTTPBodyStream, MultipleReads) {
 TEST(FileHTTPBodyStream, ReadASCIIFile) {
   base::FilePath path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
-  FileHTTPBodyStream stream(path);
+
+  ScopedFileHandle handle(LoggingOpenFileForRead(path));
+  ASSERT_TRUE(handle.is_valid());
+  FileHTTPBodyStream stream(handle.get());
   std::string contents = ReadStreamToString(&stream, 32);
   EXPECT_EQ(contents, "This is a test.\n");
 
@@ -120,7 +123,9 @@ TEST(FileHTTPBodyStream, ReadBinaryFile) {
   // This buffer size was chosen so that reading the file takes multiple reads.
   uint8_t buf[4];
 
-  FileHTTPBodyStream stream(path);
+  ScopedFileHandle handle(LoggingOpenFileForRead(path));
+  ASSERT_TRUE(handle.is_valid());
+  FileHTTPBodyStream stream(handle.get());
 
   memset(buf, '!', sizeof(buf));
   EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 4);
@@ -141,18 +146,6 @@ TEST(FileHTTPBodyStream, ReadBinaryFile) {
   ExpectBufferSet(buf, '!', sizeof(buf));
   EXPECT_EQ(stream.GetBytesBuffer(buf, sizeof(buf)), 0);
   ExpectBufferSet(buf, '!', sizeof(buf));
-}
-
-TEST(FileHTTPBodyStream, NonExistentFile) {
-  base::FilePath path = base::FilePath(
-      FILE_PATH_LITERAL("/var/empty/crashpad/util/net/http_body/null"));
-  FileHTTPBodyStream stream(path);
-
-  uint8_t buf = 0xff;
-  EXPECT_LT(stream.GetBytesBuffer(&buf, 1), 0);
-  EXPECT_EQ(buf, 0xff);
-  EXPECT_LT(stream.GetBytesBuffer(&buf, 1), 0);
-  EXPECT_EQ(buf, 0xff);
 }
 
 TEST(CompositeHTTPBodyStream, TwoEmptyStrings) {
@@ -201,7 +194,9 @@ TEST_P(CompositeHTTPBodyStreamBufferSize, StringsAndFile) {
   parts.push_back(new StringHTTPBodyStream(string1));
   base::FilePath path = TestPaths::TestDataRoot().Append(
       FILE_PATH_LITERAL("util/net/testdata/ascii_http_body.txt"));
-  parts.push_back(new FileHTTPBodyStream(path));
+  ScopedFileHandle handle(LoggingOpenFileForRead(path));
+  ASSERT_TRUE(handle.is_valid());
+  parts.push_back(new FileHTTPBodyStream(handle.get()));
   parts.push_back(new StringHTTPBodyStream(string2));
 
   CompositeHTTPBodyStream stream(parts);
