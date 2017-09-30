@@ -24,6 +24,7 @@
 #include "base/files/file_path.h"
 #include "base/macros.h"
 #include "util/file/file_io.h"
+#include "util/file/file_reader.h"
 
 namespace crashpad {
 
@@ -77,7 +78,7 @@ class FileHTTPBodyStream : public HTTPBodyStream {
   //! \brief Creates a stream for reading the file at the specified \a path.
   //!
   //! \param[in] path The file from which this HTTPBodyStream will read.
-  explicit FileHTTPBodyStream(const base::FilePath& path);
+  explicit FileHTTPBodyStream(FileHandle handle);
 
   ~FileHTTPBodyStream() override;
 
@@ -85,16 +86,8 @@ class FileHTTPBodyStream : public HTTPBodyStream {
   FileOperationResult GetBytesBuffer(uint8_t* buffer, size_t max_len) override;
 
  private:
-  enum FileState {
-    kUnopenedFile,
-    kFileOpenError,
-    kClosedAtEOF,
-    kReading,
-  };
-
-  base::FilePath path_;
-  ScopedFileHandle file_;
-  FileState file_state_;
+  WeakFileHandleFileReader reader_;
+  bool reached_eof_;
 
   DISALLOW_COPY_AND_ASSIGN(FileHTTPBodyStream);
 };
