@@ -1,4 +1,4 @@
-// Copyright 2014 The Crashpad Authors. All rights reserved.
+// Copyright 2017 The Crashpad Authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,25 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/win/scoped_handle.h"
+#ifndef CRASHPAD_UTIL_FILE_SCOPED_DELETE_FILE_H_
+#define CRASHPAD_UTIL_FILE_SCOPED_DELETE_FILE_H_
 
-#include "base/logging.h"
+#include "base/files/file_path.h"
+#include "base/scoped_generic.h"
 #include "util/file/file_io.h"
 
 namespace crashpad {
-namespace internal {
 
-void ScopedFileHANDLECloseTraits::Free(HANDLE handle) {
-  CheckedCloseFile(handle);
-}
+struct ScopedDeleteFileTraits {
+  static base::FilePath InvalidValue() { return base::FilePath(); }
+  static void Free(const base::FilePath path);
+};
 
-void ScopedKernelHANDLECloseTraits::Free(HANDLE handle) {
-  PCHECK(CloseHandle(handle)) << "CloseHandle";
-}
+using ScopedDeleteFile =
+    base::ScopedGeneric<base::FilePath, ScopedDeleteFileTraits>;
 
-void ScopedSearchHANDLECloseTraits::Free(HANDLE handle) {
-  PCHECK(FindClose(handle)) << "FindClose";
-}
-
-}  // namespace internal
 }  // namespace crashpad
+
+#endif  // CRASHPAD_UTIL_FILE_SCOPED_DELETE_FILE_H_
