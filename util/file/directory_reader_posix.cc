@@ -12,19 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/posix/scoped_dir.h"
+#include "util/file/directory_reader.h"
+
+#include <dirent.h>
+#include <errno.h>
 
 #include "base/logging.h"
-#include "base/posix/eintr_wrapper.h"
 
 namespace crashpad {
-namespace internal {
 
-void ScopedDIRCloseTraits::Free(DIR* dir) {
-  if (dir && IGNORE_EINTR(closedir(dir)) != 0) {
-    PLOG(ERROR) << "closedir";
+DirectoryReader::DirectoryReader() {}
+
+DirectoryReader::~DirectoryReader() {}
+
+bool DirectoryReader::Open(const base::FilePath& path) {
+  dir_.reset(opendir(path.value().c_str()));
+  if (!dir_.get()) {
+    PLOG(ERROR) << "opendir";
+    return false;
   }
+  return true;
 }
 
-}  // namespace internal
+bool DirectoryReader::NextFile(base::FilePath* filename) {
+  CHECK(dir_.is_valid());
+
+  errno = 0;
+  dirent* entry = readdir(dir_.get());
+  if (!entry) {
+    if (errno) {
+      PLOG(ERROR) << "readdir";
+    }
+    return false;
+  }
+
+  *filename = base::FilePath(entry->d_name);
+  return true;
+}
+
 }  // namespace crashpad
