@@ -87,10 +87,12 @@ void CrashWithExtendedHandler::ValidateGeneratedDump() {
             CrashReportDatabase::kNoError);
   ASSERT_EQ(reports.size(), 1u);
 
-  // Open the dump and validate that it has the extension stream with the
-  // expected contents.
-  FileReader reader;
-  ASSERT_TRUE(reader.Open(reports[0].file_path));
+  std::unique_ptr<const CrashReportDatabase::UploadReport> upload_report;
+  ASSERT_EQ(database->GetReportForUploading(reports[0].uuid, &upload_report),
+            CrashReportDatabase::kNoError);
+
+  // Validate that the dump has the extension stream with the expected contents.
+  WeakFileHandleFileReader reader(upload_report->handle.get());
 
   // Read the header.
   MINIDUMP_HEADER header = {};
