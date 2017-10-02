@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23932c06_3f0cfd3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-02T21:19:47Z",
+      "side": 1,
+      "message": "We should have Bug: crashpad:something, linking to a bug that we should have on file talking about either particular OS support in general, or a more specific “make such-and-such interface more generic.” All of your relevant changes should be linked to a bug in this way.",
+      "revId": "0a4274c55934c0850f00ab6bb81d2a0392b9fd9d",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
