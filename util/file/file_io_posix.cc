@@ -14,6 +14,7 @@
 
 #include "util/file/file_io.h"
 
+#include <errno.h>
 #include <fcntl.h>
 #include <sys/file.h>
 #include <sys/stat.h>
@@ -178,6 +179,26 @@ bool LoggingCloseFile(FileHandle file) {
   int rv = IGNORE_EINTR(close(file));
   PLOG_IF(ERROR, rv != 0) << "close";
   return rv == 0;
+}
+
+bool LoggingDeleteFile(const base::FilePath& path) {
+  if (unlink(path.value().c_str()) != 0) {
+    PLOG(ERROR) << "unlink " << path.value();
+    return false;
+  }
+  return true;
+}
+
+bool FileExists(const base::FilePath& path) {
+  DCHECK(!path.empty());
+
+  struct stat st;
+  int rv = stat(path.value().c_str(), &st);
+  if (rv != 0) {
+    PLOG_IF(ERROR, errno != ENOENT) << "stat";
+    return false;
+  }
+  return true;
 }
 
 FileOffset LoggingFileSizeByHandle(FileHandle file) {
