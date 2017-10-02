@@ -77,6 +77,7 @@ void ScopedTempDir::RecursivelyDeleteTemporaryDirectory(
     const base::FilePath& path) {
   const base::string16 all_files_mask(L"\\*");
 
+  LOG(INFO) << "Deleting directory";
   base::string16 search_mask = path.value() + all_files_mask;
   WIN32_FIND_DATA find_data;
   HANDLE search_handle = FindFirstFile(search_mask.c_str(), &find_data);
@@ -96,8 +97,11 @@ void ScopedTempDir::RecursivelyDeleteTemporaryDirectory(
   } while (FindNextFile(search_handle, &find_data));
   EXPECT_EQ(GetLastError(), ERROR_NO_MORE_FILES);
 
+  LOG(INFO) << "Closing search handle";
   EXPECT_TRUE(FindClose(search_handle));
+  LOG(INFO) << "Removiing direcory";
   EXPECT_TRUE(RemoveDirectory(path.value().c_str()));
+  LOG(INFO) << "Deleted";
 }
 
 }  // namespace test

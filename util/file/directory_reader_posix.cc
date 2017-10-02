@@ -12,28 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CRASHPAD_UTIL_POSIX_SCOPED_DIR_H_
-#define CRASHPAD_UTIL_POSIX_SCOPED_DIR_H_
+#include "util/file/directory_reader.h"
 
 #include <dirent.h>
+#include <errno.h>
 
-#include "base/scoped_generic.h"
+#include "base/logging.h"
 
 namespace crashpad {
-namespace internal {
 
-struct ScopedDIRCloseTraits {
-  static DIR* InvalidValue() { return nullptr; }
-  static void Free(DIR* dir);
-};
+DirectoryReader::DirectoryReader() {}
 
-}  // namespace internal
+DirectoryReader::~DirectoryReader() {}
 
-//! \brief Maintains a directory opened by `opendir`.
-//!
-//! On destruction, the directory will be closed by calling `closedir`.
-using ScopedDIR = base::ScopedGeneric<DIR*, internal::ScopedDIRCloseTraits>;
+bool DirectoryReader::Open(const base::FilePath& path) {
+  dir_.reset(opendir(path.value().c_str()));
+  if (!dir_.get()) {
+    PLOG(ERROR) << "opendir";
+    return false;
+  }
+  return true;
+}
+
+bool DirectoryReader::NextFile(base::FilePath* filename) {
+  CHECK(dir_.is_valid());
+
+  errno = 0;
+  dirent* entry = readdir(dir_.get());
+  if (!entry) {
+    if (errno) {
+      PLOG(ERROR) << "readdir";
+    }
+    return false;
+  }
+
+  *filename = base::FilePath(entry->d_name);
+  return true;
+}
 
 }  // namespace crashpad
-
-#endif  // CRASHPAD_UTIL_POSIX_SCOPED_DIR_H_

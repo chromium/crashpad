@@ -36,6 +36,7 @@ void StartAndUseHandler(const base::FilePath& temp_dir) {
   base::FilePath handler_path = TestPaths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_handler.com"));
 
+  LOG(INFO) << "Starting handler";
   CrashpadClient client;
   ASSERT_TRUE(client.StartHandler(handler_path,
                                   temp_dir,
@@ -45,7 +46,9 @@ void StartAndUseHandler(const base::FilePath& temp_dir) {
                                   std::vector<std::string>(),
                                   true,
                                   true));
+  LOG(INFO) << "Waiting for handler start";
   ASSERT_TRUE(client.WaitForHandlerStart(INFINITE));
+  LOG(INFO) << "Started";
 }
 
 class StartWithInvalidHandles final : public WinMultiprocessWithTempDir {
@@ -64,8 +67,11 @@ class StartWithInvalidHandles final : public WinMultiprocessWithTempDir {
 
     StartAndUseHandler(GetTempDirPath());
 
+    LOG(INFO) << "Setting output handle";
     SetStdHandle(STD_OUTPUT_HANDLE, original_stdout);
+    LOG(INFO) << "Setting error handle";
     SetStdHandle(STD_ERROR_HANDLE, original_stderr);
+    LOG(INFO) << "Child done";
   }
 };
 

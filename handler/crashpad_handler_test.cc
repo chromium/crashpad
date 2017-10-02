@@ -37,6 +37,7 @@ void StartAndCrashWithExtendedHandler(const base::FilePath& temp_dir) {
   base::FilePath handler_path = TestPaths::Executable().DirName().Append(
       FILE_PATH_LITERAL("crashpad_handler_test_extended_handler.exe"));
 
+  LOG(INFO) << "Starting handler";
   CrashpadClient client;
   ASSERT_TRUE(client.StartHandler(handler_path,
                                   temp_dir,
@@ -46,8 +47,10 @@ void StartAndCrashWithExtendedHandler(const base::FilePath& temp_dir) {
                                   std::vector<std::string>(),
                                   false,
                                   false));
+  LOG(INFO) << "Started";
 
   __debugbreak();
+  LOG(INFO) << "past debug break";
 }
 
 class CrashWithExtendedHandler final : public WinMultiprocessWithTempDir {
@@ -63,7 +66,9 @@ class CrashWithExtendedHandler final : public WinMultiprocessWithTempDir {
   }
 
   void WinMultiprocessChild() override {
+    LOG(INFO) << "Child started";
     StartAndCrashWithExtendedHandler(GetTempDirPath());
+    LOG(INFO) << "Child exiting";
   }
 
   void WinMultiprocessParentAfterChild(HANDLE child) override {
@@ -71,26 +76,31 @@ class CrashWithExtendedHandler final : public WinMultiprocessWithTempDir {
     // have been written.
     ValidateGeneratedDump();
 
+    LOG(INFO) << "Dump is validated";
     // Delegate the cleanup to the superclass.
     WinMultiprocessWithTempDir::WinMultiprocessParentAfterChild(child);
   }
 };
 
 void CrashWithExtendedHandler::ValidateGeneratedDump() {
+  LOG(INFO) << "Validating dump";
   // Open the database and find the sole dump that should have been created.
   std::unique_ptr<CrashReportDatabase> database(
       CrashReportDatabase::Initialize(GetTempDirPath()));
   ASSERT_TRUE(database);
+  LOG(INFO) << "Have database";
 
   std::vector<CrashReportDatabase::Report> reports;
   ASSERT_EQ(database->GetCompletedReports(&reports),
             CrashReportDatabase::kNoError);
   ASSERT_EQ(reports.size(), 1u);
 
-  // Open the dump and validate that it has the extension stream with the
-  // expected contents.
-  FileReader reader;
-  ASSERT_TRUE(reader.Open(reports[0].file_path));
+  std::unique_ptr<const CrashReportDatabase::ReadReport> read_report;
+  ASSERT_EQ(database->GetReportForReading(reports[0].uuid, &read_report),
+            CrashReportDatabase::kNoError);
+
+  // Validate that the dump has the extension stream with the expected contents.
+  WeakFileHandleFileReader reader(read_report->handle.get());
 
   // Read the header.
   MINIDUMP_HEADER header = {};
