@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cb861e04_a954e540",
+        "filename": "snapshot/elf/elf_dynamic_array_reader.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-02T22:38:34Z",
+      "side": 1,
+      "message": "\u003e Throughout: prefer to retain one argument per line for this kind of thing. \n\u003e Note that in the “before,” we could have done two on one line and one on the other, but we didn’t.\n\nThis is what clang-format gave me, but I went back and tweaked all instances.",
+      "parentUuid": "6792e625_442fcc43",
+      "revId": "4b52af29d6ab006ed7050ee29e69eb38608c9237",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e034b03d_37488290",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "4b52af29d6ab006ed7050ee29e69eb38608c9237",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feb31637_12f0e289",
+        "filename": "snapshot/elf/elf_image_reader.cc",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-02T22:38:34Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "e034b03d_37488290",
+      "revId": "4b52af29d6ab006ed7050ee29e69eb38608c9237",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
