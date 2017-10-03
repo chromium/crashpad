@@ -82,6 +82,30 @@
     },
     {
       "key": {
+        "uuid": "174ef650_607d2f2f",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T20:22:04Z",
+      "side": 1,
+      "message": "\u003e if this is intended for a very specific case it may not matter much, but have you considered a idiomatic iterator interface? something like http://en.cppreference.com/w/cpp/experimental/fs/directory_iterator\n\nOn my wishlist is to one day just use the new std::filesystem stuff in the C++17 standard library directly.",
+      "parentUuid": "74321132_535a18cc",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 17
+      },
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed05769a_ce8ac80a",
         "filename": "util/file/directory_reader_posix.cc",
         "patchSetId": 7
