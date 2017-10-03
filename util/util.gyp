@@ -32,6 +32,9 @@
       'sources': [
         'file/delimited_file_reader.cc',
         'file/delimited_file_reader.h',
+        'file/directory_reader_posix.cc',
+        'file/directory_reader_win.cc',
+        'file/directory_reader.h',
         'file/file_io.cc',
         'file/file_io.h',
         'file/file_io_posix.cc',
@@ -42,6 +45,8 @@
         'file/file_seeker.h',
         'file/file_writer.cc',
         'file/file_writer.h',
+        'file/scoped_delete_file.cc',
+        'file/scoped_delete_file.h',
         'file/string_file.cc',
         'file/string_file.h',
         'linux/address_types.h',
