@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "164ffd21_01392fdb",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-03T18:11:26Z",
+      "side": 1,
+      "message": "is the intention to enumerate only regular files (and not sub directories)? it would help to explicitly clarify this.",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16cc25da_1640f756",
         "filename": "util/file/directory_reader.h",
         "patchSetId": 7
@@ -33,6 +56,29 @@
       "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74321132_535a18cc",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-03T18:11:26Z",
+      "side": 1,
+      "message": "if this is intended for a very specific case it may not matter much, but have you considered a idiomatic iterator interface? something like http://en.cppreference.com/w/cpp/experimental/fs/directory_iterator",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 17
+      },
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
