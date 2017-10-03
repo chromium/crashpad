@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16cc25da_1640f756",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "Document: Are . and .. supposed to show up too?",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "323ad574_1a60153e",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "Document: Are these relative to the directory passed to Open()?",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed05769a_ce8ac80a",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "POSIX doesn’t list EINTR as a possible error code, but it absolutely is with many implementations because of the underlying open(). I think that this should be HANDLE_EINTR(). Except it can’t really be HANDLE_EINTR() because that looks for -1 as the failure value, and here we have (DIR*)nullptr. But I think you get the gist…",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a619931_8a51aaf3",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "I don’t think we need this CHECK in release mode. It can be a DCHECK.",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdd6994f_0f1f0eb2",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "Can we do the runaround with readdir_r() on non-Linux? https://chromium.googlesource.com/crashpad/crashpad/+/281be63d0074c822a56382452e8c7259e4e301ad/util/posix/close_multiple.cc#97\n\nDuplicated code is no fun, so maybe you’d want to use this nice shiny new DirectoryReader in CloseMultipleNowOrOnExecUsingFDDir() too.",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "543bdac1_a936aaed",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "readdir()/readdir_r() are a little trickier with EINTR, but I think it’d be right to do something like HANDLE_EINTR() for them too to cover EINTR from the underlying getdents() or equivalent. Bionic appears to take care of this on its own already, and an extra layer should be harmless, but you can omit it on OS_ANDROID if you’d like. (https://android.googlesource.com/platform/bionic/+/5edb0f40f654c804d38f1bff43f91719e189c892/libc/bionic/dirent.cpp#96, looks like it’s accounted for EINTR since the very beginning.)\n\nGiven these improvements, you may want to use this DirectoryReader anywhere else that you find an opendir()/readdir()/readdir_r().",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a994798_52fae8be",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "It wouldn’t necessarily be worthwhile if you weren’t making a temporary directory anyway, but since you are, this will be more robust if you wait until you’ve got your ScopedTempDir set up and then EXPECT_FALSE(reader.Open(temp_dir.path().Append(FILE_PATH_LITERAL(\"notadirectory\")))).",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49a7678f_1340a49c",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "What happens if you call NextFile() again after already reaching the end?",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa39247e_0848530e",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "Since it seems that you do want to return . and .., you shouldn’t just EXPECT_EQ, you should verify that you did in fact find those two entries. (Otherwise, you don’t even need the vector, you could just get by with a size_t count.)\n\nOther things to test:\n - Put real files in here to make sure that they’re found. \n - Stick a subdirectory in here to make sure that it is too. \n - Stick a file in that subdirectory to make sure that it isn’t found (no recursion expected).\n - Feed a file path (not a directory) to Open() and it should fail.\n\nAdditional testing ideas follow in my notes for the Windows implementation.",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05015de8_2876c943",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "Based on some documentation, it sounds like performance will improve if you use FindFirstFileEx() specifying fInfoLevelId \u003d FindExInfoBasic and dwAdditionalFlags \u003d FIND_FIRST_EX_LARGE_FETCH.\n\nScopedTempDir::RecursivelyDeleteTemporaryDirectory() in test/scoped_temp_dir_win.cc could also benefit from that, so you could base it on this new interface too.",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "590fbfa4_e6f6c41b",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "If the directory exists but there are no files in it, FindFirstFile() will return ERROR_FILE_NOT_FOUND. In that case, we’d want the Open() to succeed, and for the first NextFile() to return Result::kFileNotFound. (This seems to be what you expect to happen based on the interface you designed and based on how the POSIX implementation works.)\n\nOn the other hand, if the directory doesn’t exist at all, I do think we’d want this to fail. But you might get ERROR_FILE_NOT_FOUND in that case too, so perhaps more work is needed.\n\nYour test should check both of these conditions.",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8eeaf6d_063ba5db",
+        "filename": "util/win/scoped_handle.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-03T16:27:13Z",
+      "side": 1,
+      "message": "Formatting consistency: match the other traits classes above, or make them match this one. Either style is fine, let’s just be consistent.",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
