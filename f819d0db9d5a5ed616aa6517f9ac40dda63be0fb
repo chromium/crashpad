@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1201c039_0aa4db8a",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-04T20:36:31Z",
+      "side": 1,
+      "message": "thanks for updating the comment! since you\u0027re updating it, can you change handle -\u003e object? (\"use the same event object)\n\nThat\u0027s the discrepancy that caught my attention: if we say we reuse/recycle the handle one can read it as reusing the handle _value_ to point to a completely different object.",
+      "range": {
+        "startLine": 111,
+        "startChar": 24,
+        "endLine": 111,
+        "endChar": 30
+      },
+      "revId": "f819d0db9d5a5ed616aa6517f9ac40dda63be0fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
