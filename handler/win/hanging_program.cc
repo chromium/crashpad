@@ -108,7 +108,7 @@ int wmain(int argc, wchar_t* argv[]) {
     return EXIT_FAILURE;
   }
 
-  // Recycle the event handle, which was automatically reset.
+  // Use the same event object, which was automatically reset.
   threads[2] = CreateThread(nullptr, 0, Thread3, event, 0, nullptr);
 
   // Wait for loader_lock_dll.dll to signal that the loader lock is held and
