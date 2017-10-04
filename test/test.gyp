@@ -91,6 +91,13 @@
           },
         }],
       ],
+      'target_conditions': [
+        ['OS=="android"', {
+          'sources/': [
+            ['include', '^linux/'],
+          ],
+        }],
+      ],
     },
     {
       'target_name': 'crashpad_gtest_main',
