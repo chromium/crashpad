@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c133d9c2_94d8f047",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-10-04T05:33:28Z",
+      "side": 0,
+      "message": "I wonder why I thought this was happening.\n\nHmm... I can\u0027t think of any reason now, seems a bit goofy. Nothing that Thread1 or Thread2 would be doing seems like it\u0027d cause the loader lock to be acquired.",
+      "range": {
+        "startLine": 72,
+        "startChar": 5,
+        "endLine": 73,
+        "endChar": 14
+      },
+      "revId": "6c9bd10a24adef99f40641ebcef859e4427ab1a9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

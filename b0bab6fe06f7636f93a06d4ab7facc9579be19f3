@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ca8d8f4_31041ba8",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-10-04T05:33:28Z",
+      "side": 1,
+      "message": "false /* bManualReset */, here since it\u0027s important for Thread3.",
+      "range": {
+        "startLine": 89,
+        "startChar": 38,
+        "endLine": 89,
+        "endChar": 43
+      },
+      "revId": "b0bab6fe06f7636f93a06d4ab7facc9579be19f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02c47582_3e37c9ca",
+        "filename": "handler/win/loader_lock_dll.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-10-04T05:33:28Z",
+      "side": 1,
+      "message": "I might trim this down to something less fancy, since you want to be certain that it doesn\u0027t load a DLL. I don\u0027t see anything that would cause it to, but I\u0027m vaguely thinking of the CRT loading a DLL in a different locale or something.\n\nThe benefit of the file:line, path split, % formatting over simply \"puts(\"Error\"); TerminateProcess();\" seems pretty minor here too.\n\n(Only a thought, feel free to leave it as-is if that seems unlikely to you.)",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 34
+      },
+      "revId": "b0bab6fe06f7636f93a06d4ab7facc9579be19f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a54ce3c4_44913ece",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-10-04T05:33:28Z",
+      "side": 1,
+      "message": "I had the wrong indent here, in addition to the wrong import.",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 8
+      },
+      "revId": "b0bab6fe06f7636f93a06d4ab7facc9579be19f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
