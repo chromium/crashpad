@@ -123,7 +123,7 @@ def GetDumpFromProgram(
            test_database] +
           list(args))
     if exit_code != expect_exit_code:
-        raise CalledProcessError(exit_code, executable_name)
+      raise subprocess.CalledProcessError(exit_code, executable_name)
 
     out = subprocess.check_output([
         os.path.join(out_dir, 'crashpad_database_util.exe'),
@@ -368,7 +368,8 @@ def RunTests(cdb_path,
   out.Check('Unknown exception - code deadbea7',
             'other program dump exception code')
   out.Check('!Sleep', 'other program reasonable location')
-  out.Check('hanging_program!Thread1', 'other program dump right thread')
+  out.Check("hanging_program!`anonymous namespace'::Thread1",
+            'other program dump right thread')
   count = 0
   while True:
     match_obj = out.Find(r'Id.*Suspend: (\d+) ')
