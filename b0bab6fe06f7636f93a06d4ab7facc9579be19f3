@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "408bbe62_1613edd6",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-04T15:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ca8d8f4_31041ba8",
+      "range": {
+        "startLine": 89,
+        "startChar": 38,
+        "endLine": 89,
+        "endChar": 43
+      },
+      "revId": "b0bab6fe06f7636f93a06d4ab7facc9579be19f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02c47582_3e37c9ca",
         "filename": "handler/win/loader_lock_dll.cc",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-04T05:33:28Z",
       "side": 1,
       "message": "I might trim this down to something less fancy, since you want to be certain that it doesn\u0027t load a DLL. I don\u0027t see anything that would cause it to, but I\u0027m vaguely thinking of the CRT loading a DLL in a different locale or something.\n\nThe benefit of the file:line, path split, % formatting over simply \"puts(\"Error\"); TerminateProcess();\" seems pretty minor here too.\n\n(Only a thought, feel free to leave it as-is if that seems unlikely to you.)",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 34
+      },
+      "revId": "b0bab6fe06f7636f93a06d4ab7facc9579be19f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf619804_e1da1cab",
+        "filename": "handler/win/loader_lock_dll.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-04T15:40:45Z",
+      "side": 1,
+      "message": "I gave some thought to this not for the logging but for the use of swscanf(). I originally wrote something with StrToInt64Ex() that brought in a dependency on shlwapi just to avoid the CRT. But it was very casty and needed something slightly different for 32-bit, so I didn’t really like it. I convinced myself that the only way the CRT might be a bad idea was if it was a CRT DLL delay-loaded by loader_lock_dll.dll and not otherwise loaded by hanging_program.exe, but even then, the loader lock is “recursive” so it probably wouldn’t be a problem. And it seemed pretty unlikely for those two modules to have different CRT configurations since they both just exist in support of each other for this test, so I thought that it wasn’t worth worrying about.\n\nIf that’s safe, then I don’t see a reason that the formatted output stuff wouldn’t be. I could cool it with some of the formatting stuff, but I didn’t want to give up the line number, and it’s much more of a pain to convert that to a string without something from the printf family.",
+      "parentUuid": "02c47582_3e37c9ca",
       "range": {
         "startLine": 25,
         "startChar": 26,
