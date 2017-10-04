@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "06182815_8f1eb14b",
+        "filename": "snapshot/elf/elf_dynamic_array_reader.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-04T03:46:51Z",
+      "side": 1,
+      "message": "\u003e This is what clang-format gave me, but I went back and tweaked all instances.\n\nI think it should get this right if you use “-style\u003dfile” or “git cl format” (which should use -style\u003dfile).\n\nThat said, there are still a small number of things that it does that we just can’t get behind (or tweak adequately), so sometimes we will still ask for fixes on top of clang-format.",
+      "parentUuid": "cb861e04_a954e540",
+      "revId": "4b52af29d6ab006ed7050ee29e69eb38608c9237",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e034b03d_37488290",
         "filename": "snapshot/elf/elf_image_reader.cc",
         "patchSetId": 3
