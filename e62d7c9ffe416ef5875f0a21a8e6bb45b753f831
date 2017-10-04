@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "25e28a60_c2bb4ab1",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-04T20:11:09Z",
+      "side": 1,
+      "message": "\u003e nit: technically win32\u0027s BOOL !\u003d bool, so use TRUE/FALSE?\n\nWe’ve mostly standardized on the C++ types where conversions do the right thing. Also on things like void* instead of LPVOID.",
+      "parentUuid": "acf97ba1_1dd9a1dd",
+      "range": {
+        "startLine": 90,
+        "startChar": 29,
+        "endLine": 90,
+        "endChar": 34
+      },
+      "revId": "e62d7c9ffe416ef5875f0a21a8e6bb45b753f831",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "808a355b_0c5fee1e",
         "filename": "handler/win/hanging_program.cc",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-04T19:50:41Z",
       "side": 1,
       "message": "use a named event instead of passing the handle through the env?",
+      "range": {
+        "startLine": 92,
+        "startChar": 29,
+        "endLine": 92,
+        "endChar": 36
+      },
+      "revId": "e62d7c9ffe416ef5875f0a21a8e6bb45b753f831",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66851334_b8b24576",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-04T20:11:09Z",
+      "side": 1,
+      "message": "\u003e use a named event instead of passing the handle through the env?\n\nBad for test parallelism. I think that a named event is more global than we need. Keeping it scoped to just this process is fine.",
+      "parentUuid": "808a355b_0c5fee1e",
       "range": {
         "startLine": 92,
         "startChar": 29,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5d61f079_55f4d2ad",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-04T20:11:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08b997b4_b15296df",
+      "range": {
+        "startLine": 111,
+        "startChar": 16,
+        "endLine": 111,
+        "endChar": 29
+      },
+      "revId": "e62d7c9ffe416ef5875f0a21a8e6bb45b753f831",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8159c69c_2708c385",
         "filename": "handler/win/loader_lock_dll.cc",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-10-04T19:50:41Z",
       "side": 1,
       "message": "why both TerminateProcess + __fastfail ?",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 39
+      },
+      "revId": "e62d7c9ffe416ef5875f0a21a8e6bb45b753f831",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18d53024_ac9ee6eb",
+        "filename": "handler/win/loader_lock_dll.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-04T20:11:09Z",
+      "side": 1,
+      "message": "\u003e why both TerminateProcess + __fastfail ?\n\nOn the off chance that TerminateProcess() fails. It shouldn’t here, but since this happens in a weird context, I thought it’d be safest to have a backstop.\n\nWhy not just __fastfail()? I suppose we could.",
+      "parentUuid": "8159c69c_2708c385",
       "range": {
         "startLine": 64,
         "startChar": 0,
