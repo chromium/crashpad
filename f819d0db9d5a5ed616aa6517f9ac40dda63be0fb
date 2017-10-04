@@ -22,6 +22,30 @@
       "revId": "f819d0db9d5a5ed616aa6517f9ac40dda63be0fb",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48db8f4c_d9909394",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-04T21:11:06Z",
+      "side": 1,
+      "message": "\u003e That\u0027s the discrepancy that caught my attention: if we say we reuse/recycle the handle one can read it as reusing the handle _value_ to point to a completely different object.\n\nSure thing.\n\n“event” is such an awkward name to write about. I initially had “Recycle the event”, which doesn’t really sound like the thing we mean.",
+      "parentUuid": "1201c039_0aa4db8a",
+      "range": {
+        "startLine": 111,
+        "startChar": 24,
+        "endLine": 111,
+        "endChar": 30
+      },
+      "revId": "f819d0db9d5a5ed616aa6517f9ac40dda63be0fb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
