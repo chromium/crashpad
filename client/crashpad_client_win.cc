@@ -1021,6 +1021,11 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
     return false;
   }
 
+  // The injected thread raises an exception and ultimately results in process
+  // termination. The suspension must be made aware that the process may be
+  // terminating, otherwise it’ll log an extraneous error.
+  suspend.TolerateTermination();
+
   bool result = true;
   if (WaitForSingleObject(injected_thread, 60 * 1000) != WAIT_OBJECT_0) {
     PLOG(ERROR) << "WaitForSingleObject";
