@@ -22,6 +22,30 @@
       "revId": "6c9bd10a24adef99f40641ebcef859e4427ab1a9",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52123c7a_0c9c6d85",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-04T12:42:51Z",
+      "side": 0,
+      "message": "\u003e I wonder why I thought this was happening.\n\u003e \n\u003e Hmm... I can\u0027t think of any reason now, seems a bit goofy. Nothing that Thread1 or Thread2 would be doing seems like it\u0027d cause the loader lock to be acquired.\n\nI think it’s legit.\n\nThe bodies of Thread1() and Thread2() don’t need to take the lock, but thread startup does. A lucky and fast thread[2] that reaches its loader lock hang before an unlucky and slow thread[0] has a chance to advance far enough to call each module’s entry point with DLL_THREAD_ATTACH as part of its thread startup will prevent Thread1() from ever being reached.\n\nMore likely, without any explicit synchronization, there’s just no guarantee that thread[0] will even reach Thread1() in any amount of time, irrespective of the loader lock. Since the test is actually looking for Thread1(), it causes test flake too. My first take at this only added the second half of the synchronization, in place of the Sleep(), between the loader lock and signaling the parent that everything’s in place. That shifted the problem to the problem to the first half, because without the Sleep(), there was a real possibility of a fast thread[2] finishing all of its work before thread[0].",
+      "parentUuid": "c133d9c2_94d8f047",
+      "range": {
+        "startLine": 72,
+        "startChar": 5,
+        "endLine": 73,
+        "endChar": 14
+      },
+      "revId": "6c9bd10a24adef99f40641ebcef859e4427ab1a9",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }

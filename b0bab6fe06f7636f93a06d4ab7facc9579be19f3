@@ -68,6 +68,30 @@
       "revId": "b0bab6fe06f7636f93a06d4ab7facc9579be19f3",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a890c899_aac1ded6",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-04T12:42:51Z",
+      "side": 1,
+      "message": "\u003e I had the wrong indent here, in addition to the wrong import.\n\nOh no, this whole script uses 2 for scopes and 4 for continuations, *I* had the wrong indent. I think I was going quickly and got fooled by the surrounding continuations.",
+      "parentUuid": "a54ce3c4_44913ece",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 8
+      },
+      "revId": "b0bab6fe06f7636f93a06d4ab7facc9579be19f3",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
