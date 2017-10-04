@@ -35,8 +35,18 @@ class ScopedProcessSuspend {
   explicit ScopedProcessSuspend(HANDLE process);
   ~ScopedProcessSuspend();
 
+  //! \brief Informs the object that the suspended process may be terminating,
+  //!     and that this should not be treated as an error.
+  //!
+  //! Normally, attempting to resume a terminating process during destruction
+  //! results in an error message being logged for
+  //! `STATUS_PROCESS_IS_TERMINATING`. When it is known that a process may be
+  //! terminating, this method may be called to suppress that error message.
+  void TolerateTermination();
+
  private:
   HANDLE process_;
+  bool tolerate_termination_ = false;
 
   DISALLOW_COPY_AND_ASSIGN(ScopedProcessSuspend);
 };
