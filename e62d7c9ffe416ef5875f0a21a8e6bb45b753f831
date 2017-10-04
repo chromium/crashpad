@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acf97ba1_1dd9a1dd",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-04T19:50:41Z",
+      "side": 1,
+      "message": "nit: technically win32\u0027s BOOL !\u003d bool, so use TRUE/FALSE?",
+      "range": {
+        "startLine": 90,
+        "startChar": 29,
+        "endLine": 90,
+        "endChar": 34
+      },
+      "revId": "e62d7c9ffe416ef5875f0a21a8e6bb45b753f831",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "808a355b_0c5fee1e",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-04T19:50:41Z",
+      "side": 1,
+      "message": "use a named event instead of passing the handle through the env?",
+      "range": {
+        "startLine": 92,
+        "startChar": 29,
+        "endLine": 92,
+        "endChar": 36
+      },
+      "revId": "e62d7c9ffe416ef5875f0a21a8e6bb45b753f831",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08b997b4_b15296df",
+        "filename": "handler/win/hanging_program.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-04T19:50:41Z",
+      "side": 1,
+      "message": "also a nit: we\u0027re reusing the event _object_, not recycling the event handle",
+      "range": {
+        "startLine": 111,
+        "startChar": 16,
+        "endLine": 111,
+        "endChar": 29
+      },
+      "revId": "e62d7c9ffe416ef5875f0a21a8e6bb45b753f831",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8159c69c_2708c385",
+        "filename": "handler/win/loader_lock_dll.cc",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-04T19:50:41Z",
+      "side": 1,
+      "message": "why both TerminateProcess + __fastfail ?",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 39
+      },
+      "revId": "e62d7c9ffe416ef5875f0a21a8e6bb45b753f831",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
