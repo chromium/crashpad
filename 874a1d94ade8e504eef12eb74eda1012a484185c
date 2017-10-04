@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69337656_ebe01295",
+        "filename": "util/win/scoped_process_suspend.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1144260
+      },
+      "writtenOn": "2017-10-04T17:08:35Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this might cause problems with PCH when building in Chrome? Hopefully winnt.h isn\u0027t included by anything in build/precompile.h.\n\nI notice https://cs.chromium.org/chromium/src/third_party/crashpad/crashpad/util/win/nt_internals.h?rcl\u003d7fd8022434b56cbd6834f6a540c705406a5cda04\u0026l\u003d41, maybe that\u0027d be less tricky.",
+      "revId": "874a1d94ade8e504eef12eb74eda1012a484185c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
