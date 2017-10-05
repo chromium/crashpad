@@ -24,16 +24,17 @@ namespace crashpad {
 namespace internal {
 
 struct ScopedFileHANDLECloseTraits {
-  static HANDLE InvalidValue() {
-    return INVALID_HANDLE_VALUE;
-  }
+  static HANDLE InvalidValue() { return INVALID_HANDLE_VALUE; }
   static void Free(HANDLE handle);
 };
 
 struct ScopedKernelHANDLECloseTraits {
-  static HANDLE InvalidValue() {
-    return nullptr;
-  }
+  static HANDLE InvalidValue() { return nullptr; }
+  static void Free(HANDLE handle);
+};
+
+struct ScopedSearchHANDLECloseTraits {
+  static HANDLE InvalidValue() { return INVALID_HANDLE_VALUE; }
   static void Free(HANDLE handle);
 };
 
@@ -43,6 +44,8 @@ using ScopedFileHANDLE =
     base::ScopedGeneric<HANDLE, internal::ScopedFileHANDLECloseTraits>;
 using ScopedKernelHANDLE =
     base::ScopedGeneric<HANDLE, internal::ScopedKernelHANDLECloseTraits>;
+using ScopedSearchHANDLE =
+    base::ScopedGeneric<HANDLE, internal::ScopedSearchHANDLECloseTraits>;
 
 }  // namespace crashpad
 
