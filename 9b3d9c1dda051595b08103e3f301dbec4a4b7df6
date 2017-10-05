@@ -22,6 +22,30 @@
       "revId": "9b3d9c1dda051595b08103e3f301dbec4a4b7df6",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c840181a_5b837079",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-05T15:17:56Z",
+      "side": 1,
+      "message": "\u003e are the ranges fully contain in |range| or can they extent outside it (while still overlapping it)?\n\nThey’re fully contained in |range|. This is handled by GetReadableRangesOfMemoryMap() in the same file:\n\n  // For the first and last, trim to the boundary of the incoming range.",
+      "parentUuid": "20319e7a_aa40bf11",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "9b3d9c1dda051595b08103e3f301dbec4a4b7df6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
