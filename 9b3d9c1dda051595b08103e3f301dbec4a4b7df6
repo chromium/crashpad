@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20319e7a_aa40bf11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-05T15:09:28Z",
+      "side": 1,
+      "message": "are the ranges fully contain in |range| or can they extent outside it (while still overlapping it)?",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "9b3d9c1dda051595b08103e3f301dbec4a4b7df6",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
