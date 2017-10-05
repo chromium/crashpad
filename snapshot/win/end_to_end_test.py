@@ -16,6 +16,7 @@
 
 import os
 import platform
+import pywintypes
 import random
 import re
 import subprocess
@@ -23,6 +24,8 @@ import sys
 import tempfile
 import time
 import win32con
+import win32pipe
+import winerror
 
 
 g_temp_dirs = []
@@ -81,6 +84,28 @@ def GetCdbPath():
   return None
 
 
+def NamedPipeExistsAndReady(pipe_name):
+  """Returns False if pipe_name does not exist. If pipe_name does exist, blocks
+  until the pipe is ready to service clients, and then returns True.
+
+  This is used as a drop-in replacement for os.path.exists() and os.access() to
+  test for the pipe's existence. Both of those calls tickle the pipe in a way
+  that appears to the server to be a client connecting, triggering error
+  messages when no data is received.
+
+  Although this function only needs to test pipe existence (waiting for
+  CreateNamedPipe()), it actually winds up testing pipe readiness
+  (waiting for ConnectNamedPipe()). This is unnecessary but harmless.
+  """
+  try:
+    win32pipe.WaitNamedPipe(pipe_name, win32pipe.NMPWAIT_WAIT_FOREVER)
+  except pywintypes.error, e:
+    if e[0] == winerror.ERROR_FILE_NOT_FOUND:
+      return False
+    raise
+  return True
+
+
 def GetDumpFromProgram(
     out_dir, pipe_name, executable_name, expect_exit_code, *args):
   """Initialize a crash database, and run |executable_name| connecting to a
@@ -108,20 +133,20 @@ def GetDumpFromProgram(
 
       # Wait until the server is ready.
       printed = False
-      while not os.path.exists(pipe_name):
+      while not NamedPipeExistsAndReady(pipe_name):
         if not printed:
           print 'Waiting for crashpad_handler to be ready...'
           printed = True
-        time.sleep(0.1)
+        time.sleep(0.001)
 
-      exit_code = subprocess.call(
-          [os.path.join(out_dir, executable_name), pipe_name] + list(args))
+      command = [os.path.join(out_dir, executable_name), pipe_name] + list(args)
     else:
-      exit_code = subprocess.call(
-          [os.path.join(out_dir, executable_name),
-           os.path.join(out_dir, 'crashpad_handler.com'),
-           test_database] +
-          list(args))
+      command = ([os.path.join(out_dir, executable_name),
+                  os.path.join(out_dir, 'crashpad_handler.com'),
+                  test_database] +
+                 list(args))
+    print 'Running %s' % os.path.basename(command[0])
+    exit_code = subprocess.call(command)
     if exit_code != expect_exit_code:
       raise subprocess.CalledProcessError(exit_code, executable_name)
 
