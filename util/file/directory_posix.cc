@@ -12,19 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/posix/scoped_dir.h"
+#include "util/file/directory.h"
+
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "base/logging.h"
-#include "base/posix/eintr_wrapper.h"
 
 namespace crashpad {
-namespace internal {
 
-void ScopedDIRCloseTraits::Free(DIR* dir) {
-  if (dir && IGNORE_EINTR(closedir(dir)) != 0) {
-    PLOG(ERROR) << "closedir";
+bool DirectoryExists(const base::FilePath& path) {
+  struct stat st;
+  if (stat(path.value().c_str(), &st) != 0) {
+    PLOG(ERROR) << "stat " << path.value();
+    return false;
   }
+  if (!S_ISDIR(st.st_mode)) {
+    LOG(ERROR) << "stat " << path.value() << ": not a directory";
+    return false;
+  }
+  return true;
 }
 
-}  // namespace internal
+bool LoggingCreateDirectory(const base::FilePath& path, bool may_reuse) {
+  if (mkdir(path.value().c_str(), 0755) == 0) {
+    return true;
+  }
+  if (may_reuse && errno == EEXIST) {
+    return DirectoryExists(path);
+  }
+  PLOG(ERROR) << "mkdir " << path.value();
+  return false;
+}
+
 }  // namespace crashpad
