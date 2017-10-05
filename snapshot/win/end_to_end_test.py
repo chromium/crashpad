@@ -253,10 +253,17 @@ def RunTests(cdb_path,
   out.Check(r'Ldr\.InMemoryOrderModuleList:.*\d+ \. \d+', 'PEB_LDR_DATA saved')
   out.Check(r'Base TimeStamp                     Module', 'module list present')
   pipe_name_escaped = pipe_name.replace('\\', '\\\\')
-  out.Check(r'CommandLine: *\'.*crashy_program.exe *' + pipe_name_escaped,
+  out.Check(r'CommandLine: *\'.*crashy_program\.exe *' + pipe_name_escaped,
             'some PEB data is correct')
   out.Check(r'SystemRoot=C:\\Windows', 'some of environment captured',
             re.IGNORECASE)
+
+  out = CdbRun(cdb_path, dump_path, '?? @$peb->ProcessParameters')
+  out.Check(r' ImagePathName *: _UNICODE_STRING ".*\\crashy_program\.exe"',
+            'PEB->ProcessParameters.ImagePathName string captured')
+  out.Check(' DesktopInfo *: '
+            '_UNICODE_STRING "(?!--- memory read error at address ).*"',
+            'PEB->ProcessParameters.DesktopInfo string captured')
 
   out = CdbRun(cdb_path, dump_path, '!teb')
   out.Check(r'TEB at', 'found the TEB')
@@ -361,7 +368,7 @@ def RunTests(cdb_path,
     # ones just display the offset.
     out.Check(r'z7_test(!CrashMe\+0xe|\+0x100e):',
               'exception in z7 at correct location')
-    out.Check(r'z7_test  C \(codeview symbols\)     z7_test.dll',
+    out.Check(r'z7_test  C \(codeview symbols\)     z7_test\.dll',
               'expected non-pdb symbol format')
 
   out = CdbRun(cdb_path, other_program_path, '.ecxr;k;~')
