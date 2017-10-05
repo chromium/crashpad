@@ -127,8 +127,8 @@ template <class Traits>
 struct STRING {
   union {
     struct {
-      DWORD Length;
-      DWORD MaximumLength;
+      USHORT Length;
+      USHORT MaximumLength;
     };
     typename Traits::Pad padding_for_x64;
   };
@@ -152,7 +152,7 @@ struct RTL_USER_PROCESS_PARAMETERS {
   typename Traits::Pointer ConsoleHandle;
   union {
     DWORD ConsoleFlags;
-    typename Traits::Pad padding_for_x64;
+    typename Traits::Pad padding_for_x64_0;
   };
   typename Traits::Pointer StandardInput;
   typename Traits::Pointer StandardOutput;
@@ -170,12 +170,16 @@ struct RTL_USER_PROCESS_PARAMETERS {
   DWORD CountCharsY;
   DWORD FillAttribute;
   DWORD WindowFlags;
-  DWORD ShowWindowFlags;
+  union {
+    DWORD ShowWindowFlags;
+    typename Traits::Pad padding_for_x64_1;
+  };
   UNICODE_STRING<Traits> WindowTitle;
   UNICODE_STRING<Traits> DesktopInfo;
   UNICODE_STRING<Traits> ShellInfo;
   UNICODE_STRING<Traits> RuntimeData;
   RTL_DRIVE_LETTER_CURDIR<Traits> CurrentDirectores[32];  // sic.
+  ULONG EnvironmentSize;
 };
 
 template <class T>
