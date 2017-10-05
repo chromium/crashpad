@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf3ee490_a6c3b777",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-05T22:00:16Z",
+      "side": 1,
+      "message": "Specify traditional headers.",
+      "revId": "17c46a72f44b37244e1e6a91a98ac8b6b0b99023",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
