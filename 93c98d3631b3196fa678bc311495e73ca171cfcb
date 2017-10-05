@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a644cb87_d78dd8d5",
+        "filename": "snapshot/win/end_to_end_test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-05T04:18:13Z",
+      "side": 1,
+      "message": "Are these windbg output formats stable enough?\n\nI’m looking for\n\n_UNICODE_STRING \".*\"\n\nbut don’t want to match\n\n_UNICODE_STRING \"(--- memory read error at address .*\"\n\nI imagine that these are no more or less stable than any of the other strings that this function matches. I’m a little more concerned in this case because if the “--- memory read error at address” string does change, the test will silently start passing even if capturing the DesktopInfo string regresses.",
+      "revId": "93c98d3631b3196fa678bc311495e73ca171cfcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
