@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "78b7ae72_408fbe7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-05T17:00:06Z",
+      "side": 1,
+      "message": "just an idea, but since we have tests based on cdb we could validate structure offsets directly using that, right?",
+      "range": {
+        "startLine": 18,
+        "startChar": 60,
+        "endLine": 20,
+        "endChar": 12
+      },
+      "revId": "93c98d3631b3196fa678bc311495e73ca171cfcb",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a644cb87_d78dd8d5",
         "filename": "snapshot/win/end_to_end_test.py",
         "patchSetId": 1
