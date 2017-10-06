@@ -462,6 +462,18 @@ bool LoggingCloseFile(FileHandle file);
 //! terminate without returning.
 void CheckedCloseFile(FileHandle file);
 
+//! \brief Deletes a file, logging a message on failure.
+//!
+//! \param[in] path The path to the file to delete.
+//! \return `true` on success. `false` on failure with a message logged.
+bool LoggingDeleteFile(const base::FilePath& path);
+
+//! \brief Determines if a file exists.
+//!
+//! \param[in] path The path to the file to check.
+//! \return `true` if the file exists. Otherwise `false`.
+bool FileExists(const base::FilePath& path);
+
 //! \brief Determines the size of a file.
 //!
 //! \param[in] file The handle to the file for which the size should be
