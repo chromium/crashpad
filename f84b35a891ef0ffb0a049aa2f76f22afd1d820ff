@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "31b737e9_7862fdf1",
+        "filename": "compat/android/sys/mman.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-06T19:59:42Z",
+      "side": 1,
+      "message": "Guilty!",
+      "parentUuid": "81867db8_8af54a94",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 18
+      },
+      "revId": "f84b35a891ef0ffb0a049aa2f76f22afd1d820ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0defaa27_95ca917a",
         "filename": "compat/android/sys/mman.cc",
         "patchSetId": 1
@@ -88,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "8b85b82d_e63a63d2",
+        "filename": "compat/compat.gyp",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-06T19:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61b70e28_84835897",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "f84b35a891ef0ffb0a049aa2f76f22afd1d820ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c01b7d5c_70ce0dd4",
         "filename": "compat/compat.gyp",
         "patchSetId": 1
@@ -108,6 +156,30 @@
       "revId": "f84b35a891ef0ffb0a049aa2f76f22afd1d820ff",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7bb4abd_74617969",
+        "filename": "compat/compat.gyp",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-06T19:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c01b7d5c_70ce0dd4",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 0
+      },
+      "revId": "f84b35a891ef0ffb0a049aa2f76f22afd1d820ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
