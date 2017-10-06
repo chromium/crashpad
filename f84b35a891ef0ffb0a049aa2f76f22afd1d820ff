@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "e9e41dfc_de1f79d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-06T19:32:37Z",
+      "side": 1,
+      "message": "been",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "f84b35a891ef0ffb0a049aa2f76f22afd1d820ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81867db8_8af54a94",
+        "filename": "compat/android/sys/mman.cc",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-06T19:32:37Z",
+      "side": 1,
+      "message": "Debugging leftovers?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 18
+      },
+      "revId": "f84b35a891ef0ffb0a049aa2f76f22afd1d820ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0defaa27_95ca917a",
         "filename": "compat/android/sys/mman.cc",
         "patchSetId": 1
@@ -13,6 +59,52 @@
       "writtenOn": "2017-10-06T18:32:18Z",
       "side": 1,
       "message": "I considered doing a dlsym() for this one too, but I decided against it because it looks like it should always be available.\n\nIf I’m proven wrong and __mmap2() isn’t available everywhere, my fallback plan was to check that the offset parameter can be safely converted from 64 to 32 bits, and if so, pass it on to the ordinary mmap() wrapper in Bionic. If the conversion could not be done safely, I’d set errno \u003d ERANGE and return MAP_FAILED.",
+      "revId": "f84b35a891ef0ffb0a049aa2f76f22afd1d820ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61b70e28_84835897",
+        "filename": "compat/compat.gyp",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-06T19:32:37Z",
+      "side": 1,
+      "message": "These are backwards.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "f84b35a891ef0ffb0a049aa2f76f22afd1d820ff",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c01b7d5c_70ce0dd4",
+        "filename": "compat/compat.gyp",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-06T19:32:37Z",
+      "side": 1,
+      "message": "In other gyp files, \u0027libraries\u0027 is nested under \u0027link_settings\u0027.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 0
+      },
       "revId": "f84b35a891ef0ffb0a049aa2f76f22afd1d820ff",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
