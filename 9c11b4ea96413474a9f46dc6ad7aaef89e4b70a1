@@ -157,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "abb8a5f7_12d24be4",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-06T18:53:54Z",
+      "side": 1,
+      "message": "\u003e Can we do the runaround with readdir_r() on non-Linux? https://chromium.googlesource.com/crashpad/crashpad/+/281be63d0074c822a56382452e8c7259e4e301ad/util/posix/close_multiple.cc#97\n\nI’m going to go back and un-request this.\n\nSince the dirent* that you get from readdir() isn’t a libc-global static buffer but actually scoped to the DIR*, it’s not thread-unsafe to use readdir() here.\n\nPer https://elliotth.blogspot.com/2012/10/how-not-to-use-readdirr3.html, readdir() may even be safer than readdir_r() in other situations.\n\nI’m going to migrate our existing uses of readdir_r() to just straight readdir().",
+      "parentUuid": "cdd6994f_0f1f0eb2",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "543bdac1_a936aaed",
         "filename": "util/file/directory_reader_posix.cc",
         "patchSetId": 7
