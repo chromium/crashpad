@@ -52,7 +52,7 @@ std::string FormatFromSysctl(int rv, const int* value, const size_t* size) {
 // Counts the number of open file descriptors in the process and returns it as a
 // string. This /dev/fd and the value returned will include the open file
 // descriptor for that directory. If opendir() fails, the returned string will
-// be "E" followed by the error number. If readdir_r() fails, it will be "R"
+// be "E" followed by the error number. If readdir() fails, it will be "R"
 // followed by the error number.
 std::string CountOpenFileDescriptors() {
   DIR* dir = opendir("/dev/fd");
@@ -62,11 +62,10 @@ std::string CountOpenFileDescriptors() {
 
   ScopedDIR dir_owner(dir);
 
-  dirent entry;
-  dirent* result;
+  dirent* entry;
   int count = 0;
-  while ((errno = readdir_r(dir, &entry, &result)) == 0 && result != nullptr) {
-    const char* entry_name = &(*result->d_name);
+  while ((errno = 0, entry = readdir(dir)) != nullptr) {
+    const char* entry_name = entry->d_name;
     if (strcmp(entry_name, ".") == 0 || strcmp(entry_name, "..") == 0) {
       continue;
     }
