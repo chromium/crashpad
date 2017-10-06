@@ -21,6 +21,13 @@
       'target_name': 'crashpad_compat',
       'type': 'static_library',
       'sources': [
+        'android/elf.h',
+        'android/linux/elf.h',
+        'android/linux/prctl.h',
+        'android/linux/ptrace.h',
+        'android/sched.h',
+        'android/sys/syscall.h',
+        'android/sys/user.h',
         'mac/AvailabilityMacros.h',
         'mac/kern/exc_resource.h',
         'mac/mach/i386/thread_state.h',
