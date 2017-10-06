@@ -94,20 +94,9 @@ bool CloseMultipleNowOrOnExecUsingFDDir(int fd, int preserve_fd) {
     return false;
   }
 
-  dirent* result;
-#if defined(OS_LINUX)
-  // readdir_r() is deprecated as of glibc 2.24. See
-  // https://sourceware.org/bugzilla/show_bug.cgi?id=19056 and
-  // https://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit?id=0c52f6d623636a61eacd0f7b7a3bb942793a2a05.
-  static constexpr char kReaddirName[] = "readdir";
-  while ((errno = 0, result = readdir(dir)) != nullptr)
-#else
-  static constexpr char kReaddirName[] = "readdir_r";
-  dirent entry;
-  while ((errno = readdir_r(dir, &entry, &result)) == 0 && result != nullptr)
-#endif
-  {
-    const char* entry_name = &(*result->d_name);
+  dirent* entry;
+  while ((errno = 0, entry = readdir(dir)) != nullptr) {
+    const char* entry_name = entry->d_name;
     if (strcmp(entry_name, ".") == 0 || strcmp(entry_name, "..") == 0) {
       continue;
     }
@@ -131,7 +120,7 @@ bool CloseMultipleNowOrOnExecUsingFDDir(int fd, int preserve_fd) {
   }
 
   if (errno != 0) {
-    PLOG(WARNING) << kReaddirName;
+    PLOG(WARNING) << "readdir";
     return false;
   }
 
