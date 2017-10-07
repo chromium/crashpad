@@ -180,6 +180,24 @@ bool LoggingCloseFile(FileHandle file) {
   return rv == 0;
 }
 
+bool LoggingDeleteFile(const base::FilePath& path) {
+  if (unlink(path.value().c_str()) != 0) {
+    PLOG(ERROR) << "unlink " << path.value();
+    return false;
+  }
+  return true;
+}
+
+bool FileExists(const base::FilePath& path) {
+  struct stat st;
+  int rv = stat(path.value().c_str(), &st);
+  if (rv != 0) {
+    PLOG_IF(ERROR, errno != ENOENT) << "stat " << path.value();
+    return false;
+  }
+  return true;
+}
+
 FileOffset LoggingFileSizeByHandle(FileHandle file) {
   struct stat st;
   if (fstat(file, &st) != 0) {

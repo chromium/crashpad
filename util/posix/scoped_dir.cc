@@ -20,7 +20,7 @@
 namespace crashpad {
 namespace internal {
 
-void ScopedDIRCloser::operator()(DIR* dir) const {
+void ScopedDIRCloseTraits::Free(DIR* dir) {
   if (dir && IGNORE_EINTR(closedir(dir)) != 0) {
     PLOG(ERROR) << "closedir";
   }

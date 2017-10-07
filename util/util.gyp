@@ -32,6 +32,13 @@
       'sources': [
         'file/delimited_file_reader.cc',
         'file/delimited_file_reader.h',
+        'file/directory.h',
+        'file/directory_posix.cc',
+        'file/directory_reader.cc',
+        'file/directory_reader.h',
+        'file/directory_reader_posix.cc',
+        'file/directory_reader_win.cc',
+        'file/directory_win.cc',
         'file/file_io.cc',
         'file/file_io.h',
         'file/file_io_posix.cc',

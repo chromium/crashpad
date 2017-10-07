@@ -56,32 +56,5 @@ base::FilePath ScopedTempDir::CreateTemporaryDirectory() {
   return base::FilePath(dir);
 }
 
-// static
-void ScopedTempDir::RecursivelyDeleteTemporaryDirectory(
-    const base::FilePath& path) {
-  DIR* dir = opendir(path.value().c_str());
-  ASSERT_TRUE(dir) << ErrnoMessage("opendir") << " " << path.value();
-
-  dirent* entry;
-  while ((entry = readdir(dir))) {
-    if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
-      continue;
-    }
-
-    base::FilePath entry_path = path.Append(entry->d_name);
-    if (entry->d_type == DT_DIR) {
-      RecursivelyDeleteTemporaryDirectory(entry_path);
-    } else {
-      EXPECT_EQ(unlink(entry_path.value().c_str()), 0)
-          << ErrnoMessage("unlink") << " " << entry_path.value();
-    }
-  }
-
-  EXPECT_EQ(closedir(dir), 0) << ErrnoMessage("closedir") << " "
-                              << path.value();
-  EXPECT_EQ(rmdir(path.value().c_str()), 0) << ErrnoMessage("rmdir") << " "
-                                            << path.value();
-}
-
 }  // namespace test
 }  // namespace crashpad
