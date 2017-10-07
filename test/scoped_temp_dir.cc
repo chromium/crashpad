@@ -14,6 +14,11 @@
 
 #include "test/scoped_temp_dir.h"
 
+#include "gtest/gtest.h"
+#include "util/file/directory.h"
+#include "util/file/directory_reader.h"
+#include "util/file/file_io.h"
+
 namespace crashpad {
 namespace test {
 
@@ -22,6 +27,22 @@ ScopedTempDir::ScopedTempDir() : path_(CreateTemporaryDirectory()) {
 
 ScopedTempDir::~ScopedTempDir() {
   RecursivelyDeleteTemporaryDirectory(path());
+}
+
+// static
+void ScopedTempDir::RecursivelyDeleteTemporaryDirectory(
+    const base::FilePath& path) {
+  bool error;
+  for (const base::FilePath& entry : DirectoryReader(path, &error)) {
+    const base::FilePath entry_path(path.Append(entry));
+    if (IsDirectory(entry_path)) {
+      RecursivelyDeleteTemporaryDirectory(entry_path);
+    } else {
+      EXPECT_TRUE(LoggingDeleteFile(entry_path));
+    }
+  }
+  EXPECT_FALSE(error);
+  EXPECT_TRUE(LoggingRemoveDirectory(path));
 }
 
 }  // namespace test

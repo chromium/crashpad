@@ -252,6 +252,25 @@ bool LoggingCloseFile(FileHandle file) {
   return !!rv;
 }
 
+bool LoggingDeleteFile(const base::FilePath& path) {
+  if (!DeleteFile(path.value().c_str())) {
+    PLOG(ERROR) << "DeleteFile " << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+  return true;
+}
+
+bool FileExists(const base::FilePath& path) {
+  struct _stat st;
+  int rv = _wstat(path.value().c_str(), &st);
+  if (rv != 0) {
+    PLOG_IF(ERROR, errno != ENOENT) << "_wstat "
+                                    << base::UTF16ToUTF8(path.value());
+    return false;
+  }
+  return true;
+}
+
 FileOffset LoggingFileSizeByHandle(FileHandle file) {
   LARGE_INTEGER file_size;
   if (!GetFileSizeEx(file, &file_size)) {
