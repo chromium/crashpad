@@ -14,13 +14,10 @@
 
 #include "util/posix/close_multiple.h"
 
-#include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
 #include <algorithm>
@@ -29,9 +26,9 @@
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"
 #include "build/build_config.h"
+#include "util/file/directory_reader.h"
 #include "util/misc/implicit_cast.h"
-#include "util/numeric/safe_assignment.h"
-#include "util/posix/scoped_dir.h"
+#include "util/stdlib/string_number_conversion.h"
 
 #if defined(OS_MACOSX)
 #include <sys/sysctl.h>
@@ -73,54 +70,30 @@ void CloseNowOrOnExec(int fd, bool ebadf_ok) {
 // system-specific FD directory to determine which file descriptors are open.
 // This is an advantage over looping over all possible file descriptors, because
 // no attempt needs to be made to close file descriptors that are not open.
-bool CloseMultipleNowOrOnExecUsingFDDir(int fd, int preserve_fd) {
+bool CloseMultipleNowOrOnExecUsingFDDir(int min_fd, int preserve_fd) {
 #if defined(OS_MACOSX)
   static constexpr char kFDDir[] = "/dev/fd";
 #elif defined(OS_LINUX) || defined(OS_ANDROID)
   static constexpr char kFDDir[] = "/proc/self/fd";
 #endif
 
-  DIR* dir = opendir(kFDDir);
-  if (!dir) {
-    PLOG(WARNING) << "opendir";
+  bool error;
+  DirectoryReader reader(base::FilePath(kFDDir), &error);
+  if (error) {
     return false;
   }
-
-  ScopedDIR dir_owner(dir);
-
-  int dir_fd = dirfd(dir);
-  if (dir_fd == -1) {
-    PLOG(WARNING) << "dirfd";
-    return false;
-  }
-
-  dirent* entry;
-  while ((errno = 0, entry = readdir(dir)) != nullptr) {
-    const char* entry_name = entry->d_name;
-    if (strcmp(entry_name, ".") == 0 || strcmp(entry_name, "..") == 0) {
-      continue;
-    }
-
-    char* end;
-    long entry_fd_long = strtol(entry_name, &end, 10);
-    if (entry_name[0] == '\0' || *end) {
-      LOG(ERROR) << "unexpected entry " << entry_name;
-      return false;
-    }
-
+  for (const base::FilePath& fdname : reader) {
     int entry_fd;
-    if (!AssignIfInRange(&entry_fd, entry_fd_long)) {
-      LOG(ERROR) << "out-of-range fd " << entry_name;
+    if (!StringToNumber(fdname.value(), &entry_fd)) {
       return false;
     }
 
-    if (entry_fd >= fd && entry_fd != preserve_fd && entry_fd != dir_fd) {
+    if (entry_fd >= min_fd && entry_fd != preserve_fd &&
+        entry_fd != reader.DirectoryFD()) {
       CloseNowOrOnExec(entry_fd, false);
     }
   }
-
-  if (errno != 0) {
-    PLOG(WARNING) << "readdir";
+  if (error) {
     return false;
   }
 
