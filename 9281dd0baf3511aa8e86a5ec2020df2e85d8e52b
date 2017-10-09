@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "622f16a4_af292b82",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T21:10:46Z",
+      "side": 1,
+      "message": "I agree they look pretty much the same to me, but the enum return value fits the existing code better.\n\nAs for idiomatic error checking on iterators, the directory_iterator that inspired this change also uses an out-param for errors in its noexcept constructor. (though it doesn\u0027t look like it uses it for increments in the way I used here)\n\nConcerning what level of error checking to do here: The mac and windows versions handle errors similarly, I think as an attempt to initialize threads lazily. I don\u0027t think this currently gets us anything except in tests though, since the process snapshot that uses the reader still needs to call InitializeThreads right after Initialize to conform to its const interface.",
+      "parentUuid": "f2fad283_4fdb4588",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbcb854e_ef6b19e9",
         "filename": "util/file/directory.h",
         "patchSetId": 27
