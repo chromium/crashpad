@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "f2fad283_4fdb4588",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-09T20:06:03Z",
+      "side": 1,
+      "message": "It seems that:\n\n  while ((result \u003d directory.Next(\u0026path)) \u003d\u003d kSuccess) {}\n  if (result \u003d\u003d kError) {}\n\nis pretty much the same as:\n\n  while (auto\u0026\u0026 file : directory) {}\n  if (directory.status() \u003d\u003d kError) {}\n\nAt this level of detail either approach looks reasonable to me, so the fit with the current code base seems a sensible tie breaker.",
+      "parentUuid": "79598f52_fe40d184",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbcb854e_ef6b19e9",
         "filename": "util/file/directory.h",
         "patchSetId": 27
