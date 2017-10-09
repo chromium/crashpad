@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d5fac688_f885f63d",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-09T23:24:52Z",
+      "side": 1,
+      "message": "\u003e but I’d like to see the things that have moved out of a “linux” directory have the Linux-isms purged in short order.\n\nThis is already queued up in followup CL https://chromium-review.googlesource.com/c/crashpad/crashpad/+/685407\n\nWould you prefer that I squash the two commits? I intentionally kept the two operations separate (like I did when moving the elf files), but can change it.",
+      "parentUuid": "13dbc833_8aefd750",
+      "revId": "2a7ffe493cc3605f4cd2873b46d370d99867f028",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0cb04d2c_8691f01d",
         "filename": "util/process/process_memory_range.h",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "2a7ffe493cc3605f4cd2873b46d370d99867f028",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f0f4b6d_d7df3d91",
+        "filename": "util/process/process_memory_range.h",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-09T23:24:52Z",
+      "side": 1,
+      "message": "\u003e (This one too.)\n\nAlso queued up in the next CL.",
+      "parentUuid": "0cb04d2c_8691f01d",
+      "revId": "2a7ffe493cc3605f4cd2873b46d370d99867f028",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
