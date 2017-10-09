@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67a8c4d4_5334be5f",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "164ffd21_01392fdb",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16cc25da_1640f756",
         "filename": "util/file/directory_reader.h",
         "patchSetId": 7
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "dddfc4c7_05009cb6",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16cc25da_1640f756",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "323ad574_1a60153e",
         "filename": "util/file/directory_reader.h",
         "patchSetId": 7
@@ -56,6 +98,24 @@
       "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f7c48fa_01934340",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "323ad574_1a60153e",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -106,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "cdb94b1c_a27e27a7",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "174ef650_607d2f2f",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 17
+      },
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed05769a_ce8ac80a",
         "filename": "util/file/directory_reader_posix.cc",
         "patchSetId": 7
@@ -123,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "e3c50d8b_b4f6907f",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed05769a_ce8ac80a",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a619931_8a51aaf3",
         "filename": "util/file/directory_reader_posix.cc",
         "patchSetId": 7
@@ -137,6 +239,24 @@
       "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c323c7f3_a963c4f9",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a619931_8a51aaf3",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -193,6 +313,24 @@
     },
     {
       "key": {
+        "uuid": "9ec27fc9_6187203a",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdd6994f_0f1f0eb2",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "543bdac1_a936aaed",
         "filename": "util/file/directory_reader_posix.cc",
         "patchSetId": 7
@@ -207,6 +345,24 @@
       "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6866fbb5_481272f2",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543bdac1_a936aaed",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -227,6 +383,24 @@
     },
     {
       "key": {
+        "uuid": "ac95e3e4_dec02e2f",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a994798_52fae8be",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49a7678f_1340a49c",
         "filename": "util/file/directory_reader_test.cc",
         "patchSetId": 7
@@ -241,6 +415,24 @@
       "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63554091_2c9c451b",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "It\u0027s now documented.",
+      "parentUuid": "49a7678f_1340a49c",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -261,6 +453,24 @@
     },
     {
       "key": {
+        "uuid": "8d5f45c3_4ed2f59f",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa39247e_0848530e",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05015de8_2876c943",
         "filename": "util/file/directory_reader_win.cc",
         "patchSetId": 7
@@ -275,6 +485,24 @@
       "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d658aba1_bdc0e5a6",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05015de8_2876c943",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -295,6 +523,24 @@
     },
     {
       "key": {
+        "uuid": "58baa85d_6154067d",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "My expectation was that FindFirstFile() would always return at least \".\" and \"..\" as long as we use \"*\" to match all files and the directory exists.\n\nThere are tests for empty directories and non-existing directories.",
+      "parentUuid": "590fbfa4_e6f6c41b",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8eeaf6d_063ba5db",
         "filename": "util/win/scoped_handle.h",
         "patchSetId": 7
@@ -309,6 +555,24 @@
       "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18fcc616_102f859f",
+        "filename": "util/win/scoped_handle.h",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "I\u0027ve updated the other traits classes to be like this one since this is what git cl format prefers.",
+      "parentUuid": "e8eeaf6d_063ba5db",
+      "revId": "9c11b4ea96413474a9f46dc6ad7aaef89e4b70a1",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }

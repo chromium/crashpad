@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "624a42f6_b878efff",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "DirectoryReader still logs a message and breaks the loop on errors, which is what we had before. The difference here is that this version falls through the loop on error, rather than an early return. I didn\u0027t collect the error because there\u0027s nothing more to do here but return.\n\nI suppose that might make it more of a problem if we add things after the loop though.",
+      "parentUuid": "c225fbbd_a6beb51c",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbcb854e_ef6b19e9",
         "filename": "util/file/directory.h",
         "patchSetId": 27
@@ -81,6 +99,24 @@
       "writtenOn": "2017-10-09T14:57:32Z",
       "side": 1,
       "message": "This is an awkward interface.\n\nHaving the constructor do stuff that can fail usually argues in favor of an Intialize() or Open() method as you had during the last round of review. Here, you’ve moved some of that stuff into the constructor. Now it’s not clear what can fail and when, and it’s harder to use as a result. Should “error” be checked right out of the constructor, for example?\n\nWas this just for the benefit of the iterator? There, too, things are a bit awkward. “Normal” C++ would just use exceptions for these failure conditions, and everything would be fine, but since we can’t use exceptions, and there’s no other common pattern for an operation on an iterator to report failure, it’s basically impossible to use correctly without consulting the documentation or even implementation. (And I’m saying this as a guy who generally thinks that providing standard iterators for range-based for loops and other C++ integration points is a good idea.)",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d84d159_1e22d2c6",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T17:53:02Z",
+      "side": 1,
+      "message": "I agree it seems awkward but tried it out to see if the range for loops were worth it.\nMy approach was that error can be checked after any operation and once an error has been set, the reader stops reading any more files, so you shouldn\u0027t be able to accidentally keep going past an error.\n\nI also thought about not allowing nullptr for error, requiring it to be seen.\n\nI can bring back the Open and enum return value for NextFile while also keeping the error out-param for range-loops, or do you mean you think it\u0027s best to avoid range-loops/iterators altogether?",
+      "parentUuid": "d70f9005_46ee2fa0",
       "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
