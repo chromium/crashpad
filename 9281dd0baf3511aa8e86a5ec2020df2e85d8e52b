@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "79598f52_fe40d184",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T19:00:55Z",
+      "side": 1,
+      "message": "I’m still not so happy about this interface. I still have the concern that it’s too easy to misuse the iterator form without doing any error checking at all.\n\nOn the other hand, I think that\n\n  while ((result \u003d directory.Next(\u0026path)) \u003d\u003d kSuccess) {}\n  if (result \u003d\u003d kError) {}\n\nis more in line with the style that we usually write. And at the points that you’re using them, I don’t think it’s any more code to write, or any less clear. (And in fact by not maintaining the iterator variant, it’s less code).\n\nLike I said, this is a tricky one. I do like the iterator version, but in a world where we’re not using exceptions and there isn’t a commonly understood idiom for iterators for which operations may produce an error, the iterator interface is harder to use than the one that returns success.\n\n(As you point out, we can also have the discussion about what form of error checking would be appropriate here. If we really did have some kind of error on a readdir() in this directory, and we wound up not collecting all threads, it’d be bad. Logging a warning is nice, but should we be failing harder?)",
+      "parentUuid": "2847ef45_9a09036a",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbcb854e_ef6b19e9",
         "filename": "util/file/directory.h",
         "patchSetId": 27
