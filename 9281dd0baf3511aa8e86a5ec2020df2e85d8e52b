@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "2847ef45_9a09036a",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-09T18:07:52Z",
+      "side": 1,
+      "message": "This actually does more error logging than before since I\u0027d forgotten to check errno for readdir after the loop breaks before.",
+      "parentUuid": "3c8b2cb0_fd684b16",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbcb854e_ef6b19e9",
         "filename": "util/file/directory.h",
         "patchSetId": 27
