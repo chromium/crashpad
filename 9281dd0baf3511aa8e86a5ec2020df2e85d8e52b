@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3c8b2cb0_fd684b16",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-09T17:56:31Z",
+      "side": 1,
+      "message": "True, but it\u0027s worth noting that the previous version didn\u0027t do much more checking either.\n\nIn the absence of exceptions I was thinking that a per-DirectoryReader \"state\" (uninitialized, ok or an error) could be a solution. \n\nThen both the constructor and the iterators can keep the convenience (iterators would stop on error) and the consumers would need to check the state post iteration, what do you guys think?\n\nAlso worth noting that the new version is much simpler (cleaner?) overall.",
+      "parentUuid": "c225fbbd_a6beb51c",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbcb854e_ef6b19e9",
         "filename": "util/file/directory.h",
         "patchSetId": 27
