@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "161449d6_c54ba90a",
+        "filename": "test/scoped_temp_dir_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 0,
+      "message": "Note that we’re losing this optimization that we used to have in the Windows version. Probably not a big deal for test code.",
+      "revId": "1abaf22e2813f0f26b79bf74c5556ae0d3842c6c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}

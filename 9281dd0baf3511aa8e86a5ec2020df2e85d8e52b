@@ -1,0 +1,362 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c225fbbd_a6beb51c",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "Errors are unchecked. That’s not cool.\n\nI’m leaving my thoughts about this interface in directory_reader.h.",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbcb854e_ef6b19e9",
+        "filename": "util/file/directory.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "Behavior with respect to symbolic links?",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9973ada_e9ee47ae",
+        "filename": "util/file/directory.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "Is this a recursive removal, or must the directory be empty?",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77ded830_234d08ba",
+        "filename": "util/file/directory.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "I don’t see any tests for these, but they should be very straightforward to write.",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d70f9005_46ee2fa0",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "This is an awkward interface.\n\nHaving the constructor do stuff that can fail usually argues in favor of an Intialize() or Open() method as you had during the last round of review. Here, you’ve moved some of that stuff into the constructor. Now it’s not clear what can fail and when, and it’s harder to use as a result. Should “error” be checked right out of the constructor, for example?\n\nWas this just for the benefit of the iterator? There, too, things are a bit awkward. “Normal” C++ would just use exceptions for these failure conditions, and everything would be fine, but since we can’t use exceptions, and there’s no other common pattern for an operation on an iterator to report failure, it’s basically impossible to use correctly without consulting the documentation or even implementation. (And I’m saying this as a guy who generally thinks that providing standard iterators for range-based for loops and other C++ integration points is a good idea.)",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6b524b0_1152466a",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "For those reasons, I liked the enum return a lot better here too.",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e93641cb_f7531489",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "|| DOXYGEN",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeda9a18_499b0c46",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "What’s it return or do on failure?",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dfc928b_1688343f",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "Parenthesize parameters inside a macro body: (val)",
+      "range": {
+        "startLine": 31,
+        "startChar": 37,
+        "endLine": 31,
+        "endChar": 40
+      },
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feaf4f36_83ecb6b9",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "If you were worried enough about entry-\u003ed_name not being NUL-terminated to use strncmp() over strcmp() for the two comparisons above, you should be equally worried for the purposes of sticking it into a FilePath.\n\nSeeing strncmp to bound the buffer and then seeing an unsized pointer being used like this raises my spidey sense.\n\nOn the other hand, if NUL termination is totally guaranteed, you can go with strcmp() above to avoid making the appearance that there may be a concern.",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a25e67b_6c0725bf",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "Optional: It occurs to me that some awkwardness could disappear if we deferred FindFirstFileEx() to the first NextFile() call. But we’d lose the parallelism between POSIX and Windows of reporting things like “no such directory” at the same spot.",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a84d6b8_dba90772",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": ") to finish off the wcsncmp(). Same with the next one.",
+      "range": {
+        "startLine": 78,
+        "startChar": 73,
+        "endLine": 78,
+        "endChar": 74
+      },
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f493b7a2_7a070f6f",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "Stay within 80 columns.",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5841df51_3e143191",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "Same as in the POSIX file (wcsncmp() with the N vs. unsized use here).",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29022224_3d914eb4",
+        "filename": "util/file/directory_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "This can be simplified to\n\n  return (fileattr \u0026 FILE_ATTRIBUTE_DIRECTORY) !\u003d 0;",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c2377f1_f8d1e9ec",
+        "filename": "util/file/directory_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "Missing a trailing space.",
+      "range": {
+        "startLine": 53,
+        "startChar": 20,
+        "endLine": 53,
+        "endChar": 35
+      },
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba851df6_ba680706",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "These aren’t really about file I/O, they’re about filesystem and directory structure-related concepts. Can we find a better home for them?",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5819125_5ef09521",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "Is this supposed to just check for “regular” files, or is any filesystem node acceptable? Dangling symbolic links?",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "729f85d6_e948fc41",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "These should be easy to test too.",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bba219d1_9faa7037",
+        "filename": "util/file/file_io_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-09T14:57:32Z",
+      "side": 1,
+      "message": "You’d need \u003csys/stat.h\u003e for this, but GetFileAttributes() would be a more natural fit.",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
