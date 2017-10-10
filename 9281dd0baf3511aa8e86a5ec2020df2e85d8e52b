@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "b864f4f5_e26d6e65",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-10T00:40:08Z",
+      "side": 1,
+      "message": "\u003e Concerning what level of error checking to do here: The mac and windows versions handle errors similarly, I think as an attempt to initialize threads lazily. I don\u0027t think this currently gets us anything except in tests though, since the process snapshot that uses the reader still needs to call InitializeThreads right after Initialize to conform to its const interface.\n\nThe const interface was a colossal blunder. https://crashpad.chromium.org/bug/9.\n\nProblem is, whenever it comes up and I think “we should fix it,” it’s while someone like you is doing a bunch of work in snapshot. I don’t want to mess up whatever you have in flight by forcing you into a giant manual rebase.",
+      "parentUuid": "622f16a4_af292b82",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbcb854e_ef6b19e9",
         "filename": "util/file/directory.h",
         "patchSetId": 27
