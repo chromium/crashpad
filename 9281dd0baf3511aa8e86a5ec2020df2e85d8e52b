@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "72a7aec4_d7892208",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-10T00:42:07Z",
+      "side": 1,
+      "message": "\u003e As for idiomatic error checking on iterators, the directory_iterator that inspired this change also uses an out-param for errors in its noexcept constructor. (though it doesn\u0027t look like it uses it for increments in the way I used here)\n\nYeah, I kind of have a crush on std::filesystem too. :)",
+      "parentUuid": "b864f4f5_e26d6e65",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbcb854e_ef6b19e9",
         "filename": "util/file/directory.h",
         "patchSetId": 27
