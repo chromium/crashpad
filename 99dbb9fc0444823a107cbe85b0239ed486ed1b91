@@ -70,6 +70,30 @@
       "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a6d8a3f_20777171",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-11T20:13:05Z",
+      "side": 1,
+      "message": "\u003e Thanks, good to know. \n\u003e \n\u003e Btw, VS 2015 supports most of C++ 14 (VS 2017 additions are relatively modest : https://blogs.msdn.microsoft.com/vcblog/2017/05/10/c17-features-in-vs-2017-3), so that shouldn\u0027t be a blocking factor.\n\nAll right. If VS 2015’s library does have std::make_unique, then feel free to use it, and I’ll drop the mini_chromium change that adds base::MakeUnique.",
+      "parentUuid": "dcdddd6c_ad67ecea",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
