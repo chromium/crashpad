@@ -94,6 +94,30 @@
       "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0511de94_ebe9a9d9",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-11T22:46:30Z",
+      "side": 1,
+      "message": "\u003e 1. There doesn\u0027t seem to be any reason to use ProcessMemory instead of ProcessMemoryLinux here, am I wrong?\n\nNot yet, but one of my next steps will be to make these tests run under Fuchsia, so I wanted to convince myself that the bulk of the tests work against the abstract ProcessMemory interface.\n\nBut even this is still pid-based, which won\u0027t work for Fuchsia (which will need process handles, not global process numbers). It also can\u0027t use Multprocess as-is, since Fuchsia doesn\u0027t have fork(2).\n\nI think what I really need to do is change these tests to use something like MultiprocessExec, and create OS-specific implementations of a test API like \"unique_ptr\u003cProcessMemory\u003e ProcessMemoryForSelf(Multiprocess*)\" and \"ProcessMemoryForChild(Multiprocess*)\", using them to construct ProcessMemory instances that I can inject into the rest of the tests.\n\nI\u0027ll start going down that path unless someone has a better suggestion or example.",
+      "parentUuid": "5a6d8a3f_20777171",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
     }
   ]
 }
