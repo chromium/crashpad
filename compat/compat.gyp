@@ -57,6 +57,7 @@
         'win/time.cc',
         'win/time.h',
         'win/winnt.h',
+        'win/winternl.h',
       ],
       'conditions': [
         ['OS=="mac"', {
