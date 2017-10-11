@@ -55,10 +55,11 @@ bool ModuleSnapshotWin::Initialize(
   if (!pe_image_reader_->Initialize(process_reader_,
                                     process_reader_module.dll_base,
                                     process_reader_module.size,
-                                    base::UTF16ToUTF8(name_))) {
+                                    name_)) {
     return false;
   }
 
+#if 0
   DWORD age_dword;
   if (pe_image_reader_->DebugDirectoryInformation(
           &uuid_, &age_dword, &pdb_name_)) {
@@ -73,6 +74,7 @@ bool ModuleSnapshotWin::Initialize(
     // have.
     pdb_name_ = base::UTF16ToUTF8(name_);
   }
+#endif
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -170,6 +172,16 @@ void ModuleSnapshotWin::UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const {
 std::string ModuleSnapshotWin::DebugFileName() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return pdb_name_;
+}
+
+bool ModuleSnapshotWin::CodeViewRecord(std::vector<char>* data) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return pe_image_reader_->CodeViewRecord(data);
+}
+
+bool ModuleSnapshotWin::MiscDebugRecord(std::vector<char>* data) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  return pe_image_reader_->MiscDebugRecord(data);
 }
 
 std::vector<std::string> ModuleSnapshotWin::AnnotationsVector() const {

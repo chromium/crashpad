@@ -45,6 +45,14 @@ def CleanUpTempDirs():
     subprocess.call(['rmdir', '/s', '/q', d], shell=True)
 
 
+def TestDataRoot():
+  test_data_root = os.getenv('CRASHPAD_TEST_DATA_ROOT')
+  if test_data_root is not None:
+    return test_data_root
+
+  return os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
+
+
 def FindInstalledWindowsApplication(app_path):
   search_paths = [os.getenv('PROGRAMFILES(X86)'),
                   os.getenv('PROGRAMFILES'),
@@ -192,11 +200,12 @@ def GetDumpFromSelfDestroyingProgram(out_dir, pipe_name):
                             win32con.EXCEPTION_BREAKPOINT)
 
 
-def GetDumpFromZ7Program(out_dir, pipe_name):
+def GetDumpFromModuleLoaderProgram(out_dir, pipe_name, module_path):
   return GetDumpFromProgram(out_dir,
                             pipe_name,
-                            'crashy_z7_loader.exe',
-                            win32con.EXCEPTION_ACCESS_VIOLATION)
+                            'crashy_module_loader.exe',
+                            win32con.EXCEPTION_ACCESS_VIOLATION,
+                            module_path)
 
 
 class CdbRun(object):
@@ -246,7 +255,10 @@ def RunTests(cdb_path,
              dump_path,
              start_handler_dump_path,
              destroyed_dump_path,
-             z7_dump_path,
+             debug_rsds_dump_path,
+             debug_nb10_dump_path,
+             debug_nb11_dump_path,
+             debug_dbg_dump_path,
              other_program_path,
              other_program_no_exception_path,
              sigabrt_main_path,
@@ -385,16 +397,52 @@ def RunTests(cdb_path,
   out.Check(r'type \?\?\? \(222222\), size 00000080',
             'second user stream')
 
-  if z7_dump_path:
-    out = CdbRun(cdb_path, z7_dump_path, '.ecxr;lm')
+  out = CdbRun(cdb_path, debug_rsds_dump_path, '.ecxr;lm')
+  out.Check('This dump file has an exception of interest stored in it',
+            'captured exception in rsds module')
+  # Since crashy_debug_link_rsds.dll is part of the build, the exact address
+  # of the crash cannot reliably be known ahead of time, so tolerate anything
+  # within 31 bytes of the CrashMe symbol. This is in comparison to the other
+  # modules that are checked in, where the exact address is known.
+  out.Check(r'crashy_debug_link_rsds!CrashMe(\+0x([1-9a-f]|1[0-9a-f]))?:',
+            'exception in rsds module at correct location')
+  out.Check(r'crashy_debug_link_rsds C \(private pdb symbols\)  .*\\'
+            r'crashy_debug_link_rsds\.dll\.pdb',
+            'expected private pdb symbol format for rsds module')
+
+  if debug_nb10_dump_path:
+    out = CdbRun(cdb_path, debug_nb10_dump_path, '.ecxr;lm')
     out.Check('This dump file has an exception of interest stored in it',
-              'captured exception in z7 module')
+              'captured exception in nb10 module')
+    out.Check(r'crashy_debug_link_nb10!CrashMe\+0xe:',
+              'exception in nb10 module at correct location')
+    out.Check(r'crashy_debug_link_nb10 C \(private pdb symbols\)  .*\\'
+              r'crashy_debug_link_nb10\.pdb',
+              'expected private pdb symbol format for nb10 module')
+
+  if debug_nb11_dump_path:
+    out = CdbRun(cdb_path, debug_nb11_dump_path, '.ecxr;lm')
+    out.Check('This dump file has an exception of interest stored in it',
+              'captured exception in nb11 module')
     # Older versions of cdb display relative to exports for /Z7 modules, newer
     # ones just display the offset.
-    out.Check(r'z7_test(!CrashMe\+0xe|\+0x100e):',
-              'exception in z7 at correct location')
-    out.Check(r'z7_test  C \(codeview symbols\)     z7_test\.dll',
-              'expected non-pdb symbol format')
+    out.Check(r'crashy_debug_embedded_nb11(!CrashMe\+0xe|\+0x100e):',
+              'exception in nb11 module at correct location')
+    out.Check(r'crashy_debug_embedded_nb11 C \(codeview symbols\)     '
+              r'crashy_debug_embedded_nb11\.dll',
+              'expected codeview symbol format for nb11 module')
+
+  if debug_dbg_dump_path:
+    out = CdbRun(cdb_path, debug_dbg_dump_path, '.ecxr;lm')
+    out.Check('This dump file has an exception of interest stored in it',
+              'captured exception in dbg module')
+    # Older versions of cdb display relative to exports for /Z7 modules, newer
+    # ones just display the offset.
+    out.Check(r'crashy_debug_link_dbg(!CrashMe\+0xe|\+0x100e):',
+              'exception in dbg module at correct location')
+    out.Check(r'crashy_debug_link_dbg C \(codeview symbols\)     .*\\'
+              r'crashy_debug_link_dbg\.dbg',
+              'expected codeview symbol format for dbg module')
 
   out = CdbRun(cdb_path, other_program_path, '.ecxr;k;~')
   out.Check('Unknown exception - code deadbea7',
@@ -433,6 +481,8 @@ def main(args):
       print >>sys.stderr, 'must supply binary dir'
       return 1
 
+    out_path = args[0]
+
     cdb_path = GetCdbPath()
     if not cdb_path:
       print >>sys.stderr, 'could not find cdb'
@@ -440,48 +490,77 @@ def main(args):
 
     # Make sure we can download Windows symbols.
     if not os.environ.get('_NT_SYMBOL_PATH'):
-      symbol_dir = MakeTempDir()
-      protocol = 'https' if platform.win32_ver()[0] != 'XP' else 'http'
-      os.environ['_NT_SYMBOL_PATH'] = (
-          'SRV*' + symbol_dir + '*' +
-          protocol + '://msdl.microsoft.com/download/symbols')
+        symbol_dir = MakeTempDir()
+        protocol = 'https' if platform.win32_ver()[0] != 'XP' else 'http'
+        os.environ['_NT_SYMBOL_PATH'] = (
+            'SRV*' + symbol_dir + '*' +
+            protocol + '://msdl.microsoft.com/download/symbols')
+    os.environ['_NT_SYMBOL_PATH'] = (
+        os.path.join(TestDataRoot(), 'handler', 'win') + ';' +
+        os.environ['_NT_SYMBOL_PATH'])
 
     pipe_name = r'\\.\pipe\end-to-end_%s_%s' % (
         os.getpid(), str(random.getrandbits(64)))
 
-    crashy_dump_path = GetDumpFromCrashyProgram(args[0], pipe_name)
+    crashy_dump_path = GetDumpFromCrashyProgram(out_path, pipe_name)
     if not crashy_dump_path:
       return 1
 
-    start_handler_dump_path = GetDumpFromCrashyProgram(args[0], None)
+    start_handler_dump_path = GetDumpFromCrashyProgram(out_path, None)
     if not start_handler_dump_path:
       return 1
 
-    destroyed_dump_path = GetDumpFromSelfDestroyingProgram(args[0], pipe_name)
+    destroyed_dump_path = GetDumpFromSelfDestroyingProgram(out_path, pipe_name)
     if not destroyed_dump_path:
       return 1
 
-    z7_dump_path = None
-    if not args[0].endswith('x64'):
-      z7_dump_path = GetDumpFromZ7Program(args[0], pipe_name)
-      if not z7_dump_path:
+    debug_rsds_dump_path = GetDumpFromModuleLoaderProgram(
+        out_path,
+        pipe_name,
+        os.path.join(out_path, 'crashy_debug_link_rsds.dll'))
+
+    debug_nb10_dump_path = None
+    debug_nb11_dump_path = None
+    debug_dbg_dump_path = None
+    if not out_path.endswith('x64'):
+      module_dir = os.path.join(TestDataRoot(), 'handler', 'win')
+
+      debug_nb10_module_path = os.path.join(
+          module_dir, 'crashy_debug_link_nb10.dll')
+      debug_nb10_dump_path = GetDumpFromModuleLoaderProgram(
+          out_path, pipe_name, debug_nb10_module_path)
+      if not debug_nb10_dump_path:
         return 1
 
-    other_program_path = GetDumpFromOtherProgram(args[0], pipe_name)
+      debug_nb11_module_path = os.path.join(
+          module_dir, 'crashy_debug_embedded_nb11.dll')
+      debug_nb11_dump_path = GetDumpFromModuleLoaderProgram(
+          out_path, pipe_name, debug_nb11_module_path)
+      if not debug_nb11_dump_path:
+        return 1
+
+      debug_dbg_module_path = os.path.join(
+          module_dir, 'crashy_debug_link_dbg.dll')
+      debug_dbg_dump_path = GetDumpFromModuleLoaderProgram(
+          out_path, pipe_name, debug_dbg_module_path)
+      if not debug_dbg_dump_path:
+        return 1
+
+    other_program_path = GetDumpFromOtherProgram(out_path, pipe_name)
     if not other_program_path:
       return 1
 
     other_program_no_exception_path = GetDumpFromOtherProgram(
-        args[0], pipe_name, 'noexception')
+        out_path, pipe_name, 'noexception')
     if not other_program_no_exception_path:
       return 1
 
-    sigabrt_main_path = GetDumpFromSignal(args[0], pipe_name, 'main')
+    sigabrt_main_path = GetDumpFromSignal(out_path, pipe_name, 'main')
     if not sigabrt_main_path:
       return 1
 
     sigabrt_background_path = GetDumpFromSignal(
-        args[0], pipe_name, 'background')
+        out_path, pipe_name, 'background')
     if not sigabrt_background_path:
       return 1
 
@@ -489,7 +568,10 @@ def main(args):
              crashy_dump_path,
              start_handler_dump_path,
              destroyed_dump_path,
-             z7_dump_path,
+             debug_rsds_dump_path,
+             debug_nb10_dump_path,
+             debug_nb11_dump_path,
+             debug_dbg_dump_path,
              other_program_path,
              other_program_no_exception_path,
              sigabrt_main_path,

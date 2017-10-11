@@ -158,6 +158,9 @@ class ModuleSnapshot {
   //! \sa UUIDAndAge()
   virtual std::string DebugFileName() const = 0;
 
+  virtual bool CodeViewRecord(std::vector<char>* data) const = 0;
+  virtual bool MiscDebugRecord(std::vector<char>* data) const = 0;
+
   //! \brief Returns string annotations recorded in the module.
   //!
   //! This method retrieves annotations recorded in a module. These annotations

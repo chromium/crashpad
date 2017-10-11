@@ -124,6 +124,18 @@ std::string ModuleSnapshotMinidump::DebugFileName() const {
   return std::string();
 }
 
+bool ModuleSnapshotMinidump::CodeViewRecord(std::vector<char>* data) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();
+  return false;
+}
+
+bool ModuleSnapshotMinidump::MiscDebugRecord(std::vector<char>* data) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+  NOTREACHED();
+  return false;
+}
+
 std::vector<std::string> ModuleSnapshotMinidump::AnnotationsVector() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   return annotations_vector_;

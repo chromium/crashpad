@@ -84,6 +84,8 @@ class ModuleSnapshotWin final : public ModuleSnapshot {
   ModuleType GetModuleType() const override;
   void UUIDAndAge(crashpad::UUID* uuid, uint32_t* age) const override;
   std::string DebugFileName() const override;
+  bool CodeViewRecord(std::vector<char>* data) const override;
+  bool MiscDebugRecord(std::vector<char>* data) const override;
   std::vector<std::string> AnnotationsVector() const override;
   std::map<std::string, std::string> AnnotationsSimpleMap() const override;
   std::set<CheckedRange<uint64_t>> ExtraMemoryRanges() const override;

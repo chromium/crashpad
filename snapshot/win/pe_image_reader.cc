@@ -17,11 +17,11 @@
 #include <stddef.h>
 #include <string.h>
 
-#include <memory>
-
 #include "base/logging.h"
+#include "base/strings/utf_string_conversions.h"
 #include "client/crashpad_info.h"
 #include "snapshot/win/pe_image_resource_reader.h"
+#include "util/file/file_reader.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/misc/pdb_structures.h"
 #include "util/win/process_structs.h"
@@ -48,6 +48,7 @@ struct NtHeadersForTraits<process_types::internal::Traits64> {
 
 PEImageReader::PEImageReader()
     : module_subrange_reader_(),
+      path_(),
       initialized_() {
 }
 
@@ -57,13 +58,15 @@ PEImageReader::~PEImageReader() {
 bool PEImageReader::Initialize(ProcessReaderWin* process_reader,
                                WinVMAddress address,
                                WinVMSize size,
-                               const std::string& module_name) {
+                               const std::wstring& path) {
   INITIALIZATION_STATE_SET_INITIALIZING(initialized_);
 
   if (!module_subrange_reader_.Initialize(
-          process_reader, address, size, module_name)) {
+          process_reader, address, size, base::UTF16ToUTF8(path))) {
     return false;
   }
+
+  path_ = base::FilePath(path);
 
   INITIALIZATION_STATE_SET_VALID(initialized_);
   return true;
@@ -116,74 +119,51 @@ bool PEImageReader::GetCrashpadInfo(
   return true;
 }
 
+bool PEImageReader::CodeViewRecord(std::vector<char>* data) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  return ImageDebugDirectoryDataForType(IMAGE_DEBUG_TYPE_CODEVIEW, data);
+}
+
+bool PEImageReader::MiscDebugRecord(std::vector<char>* data) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  return ImageDebugDirectoryDataForType(IMAGE_DEBUG_TYPE_MISC, data);
+}
+
+// @@@ move to the module snapshot?
 bool PEImageReader::DebugDirectoryInformation(UUID* uuid,
                                               DWORD* age,
                                               std::string* pdbname) const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
 
-  IMAGE_DATA_DIRECTORY data_directory;
-  if (!ImageDataDirectoryEntry(IMAGE_DIRECTORY_ENTRY_DEBUG, &data_directory))
+  std::vector<char> data;
+  if (!CodeViewRecord(&data)) {
     return false;
-
-  IMAGE_DEBUG_DIRECTORY debug_directory;
-  if (data_directory.Size % sizeof(debug_directory) != 0)
-    return false;
-  for (size_t offset = 0; offset < data_directory.Size;
-       offset += sizeof(debug_directory)) {
-    if (!module_subrange_reader_.ReadMemory(
-            Address() + data_directory.VirtualAddress + offset,
-            sizeof(debug_directory),
-            &debug_directory)) {
-      LOG(WARNING) << "could not read data directory from "
-                   << module_subrange_reader_.name();
-      return false;
-    }
-
-    if (debug_directory.Type != IMAGE_DEBUG_TYPE_CODEVIEW)
-      continue;
-
-    if (debug_directory.AddressOfRawData) {
-      if (debug_directory.SizeOfData < sizeof(CodeViewRecordPDB70)) {
-        LOG(WARNING) << "CodeView debug entry of unexpected size in "
-                     << module_subrange_reader_.name();
-        continue;
-      }
-
-      std::unique_ptr<char[]> data(new char[debug_directory.SizeOfData]);
-      if (!module_subrange_reader_.ReadMemory(
-              Address() + debug_directory.AddressOfRawData,
-              debug_directory.SizeOfData,
-              data.get())) {
-        LOG(WARNING) << "could not read debug directory from "
-                     << module_subrange_reader_.name();
-        return false;
-      }
-
-      if (*reinterpret_cast<DWORD*>(data.get()) !=
-          CodeViewRecordPDB70::kSignature) {
-        LOG(WARNING) << "encountered non-7.0 CodeView debug record in "
-                     << module_subrange_reader_.name();
-        continue;
-      }
-
-      CodeViewRecordPDB70* codeview =
-          reinterpret_cast<CodeViewRecordPDB70*>(data.get());
-      *uuid = codeview->uuid;
-      *age = codeview->age;
-      // This is a NUL-terminated string encoded in the codepage of the system
-      // where the binary was linked. We have no idea what that was, so we just
-      // assume ASCII.
-      *pdbname = std::string(reinterpret_cast<char*>(&codeview->pdb_name[0]));
-      return true;
-    } else if (debug_directory.PointerToRawData) {
-      // This occurs for non-PDB based debug information. We simply ignore these
-      // as we don't expect to encounter modules that will be in this format
-      // for which we'll actually have symbols. See
-      // https://crashpad.chromium.org/bug/47.
-    }
   }
 
-  return false;
+  if (data.size() < sizeof(CodeViewRecordPDB70)) {
+    LOG(WARNING) << "CodeView debug entry of unexpected size in "
+                 << module_subrange_reader_.name();
+    return false;
+  }
+
+  if (*reinterpret_cast<DWORD*>(&(data[0])) !=
+      CodeViewRecordPDB70::kSignature) {
+    LOG(WARNING) << "encountered non-7.0 CodeView debug record in "
+                 << module_subrange_reader_.name();
+    return false;
+  }
+
+  CodeViewRecordPDB70* codeview =
+      reinterpret_cast<CodeViewRecordPDB70*>(&(data[0]));
+  *uuid = codeview->uuid;
+  *age = codeview->age;
+  // This is a NUL-terminated string encoded in the codepage of the system
+  // where the binary was linked. We have no idea what that was, so we just
+  // assume ASCII.
+  *pdbname = std::string(reinterpret_cast<char*>(&codeview->pdb_name[0]));
+  return true;
 }
 
 bool PEImageReader::VSFixedFileInfo(
@@ -369,11 +349,112 @@ bool PEImageReader::ImageDataDirectoryEntryT(
           offsetof(decltype(nt_headers.OptionalHeader), DataDirectory[index]) +
               sizeof(nt_headers.OptionalHeader.DataDirectory[index]) ||
       nt_headers.OptionalHeader.NumberOfRvaAndSizes <= index) {
+// @@@loggabble
     return false;
   }
 
   *entry = nt_headers.OptionalHeader.DataDirectory[index];
   return true;
+}
+
+bool PEImageReader::ImageDebugDirectoryEntryForType(
+    DWORD type, IMAGE_DEBUG_DIRECTORY* debug_directory) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  IMAGE_DATA_DIRECTORY data_directory;
+  if (!ImageDataDirectoryEntry(IMAGE_DIRECTORY_ENTRY_DEBUG, &data_directory)) {
+    return false;
+  }
+
+  if (data_directory.Size % sizeof(*debug_directory) != 0) {
+// @@@loggable
+    return false;
+  }
+
+  for (size_t offset = 0;
+       offset < data_directory.Size;
+       offset += sizeof(*debug_directory)) {
+    if (!module_subrange_reader_.ReadMemory(
+            Address() + data_directory.VirtualAddress + offset,
+            sizeof(*debug_directory),
+            debug_directory)) {
+      LOG(WARNING) << "could not read debug directory from "
+                   << module_subrange_reader_.name();
+      return false;
+    }
+
+    if (debug_directory->Type == type) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+bool PEImageReader::ImageDebugDirectoryDataForType(
+    DWORD type, std::vector<char>* data) const {
+  INITIALIZATION_STATE_DCHECK_VALID(initialized_);
+
+  data->clear();
+
+  IMAGE_DEBUG_DIRECTORY debug_directory;
+  if (!ImageDebugDirectoryEntryForType(type, &debug_directory)) {
+    return false;
+  }
+
+  if (debug_directory.SizeOfData == 0) {
+    LOG(ERROR) << "debug directory contains no data for type " << type << " in "
+               << module_subrange_reader_.name();
+    return false;
+  }
+
+  if (debug_directory.AddressOfRawData) {
+    // The debug information is mapped in memory.
+    data->resize(debug_directory.SizeOfData);
+    if (!module_subrange_reader_.ReadMemory(
+            Address() + debug_directory.AddressOfRawData,
+            debug_directory.SizeOfData,
+            &data->front())) {
+      LOG(ERROR) << "could not read data for debug directory type " << type
+                 << " from " << module_subrange_reader_.name();
+      data->clear();
+      return false;
+    }
+
+    return true;
+  }
+
+  if (debug_directory.PointerToRawData) {
+    // The debug information is not mapped and must be read from the file on
+    // disk. This occurs for non-PDB based debug information and old PDB 2.0
+    // links produced by Visual C++ 6.0 (98) and earlier.
+    FileReader file_reader;
+    if (!file_reader.Open(path_)) {
+      LOG(ERROR) << "could not read data for debug directory type " << type
+                 << " from " << module_subrange_reader_.name();
+      return false;
+    }
+
+    if (!file_reader.SeekSet(debug_directory.PointerToRawData)) {
+      LOG(ERROR) << "could not read data for debug directory type " << type
+                 << " from " << module_subrange_reader_.name();
+      return false;
+    }
+
+    data->resize(debug_directory.SizeOfData);
+    if (!file_reader.ReadExactly(&data->front(), debug_directory.SizeOfData)) {
+      LOG(ERROR) << "could not read data for debug directory type " << type
+                 << " from " << module_subrange_reader_.name();
+      data->clear();
+      return false;
+    }
+
+    return true;
+  }
+
+  LOG(ERROR) << "debug directory data is not present for type " << type
+             << " in " << module_subrange_reader_.name();
+  return false;
 }
 
 // Explicit instantiations with the only 2 valid template arguments to avoid

@@ -53,6 +53,25 @@ class MinidumpModuleCodeViewRecordWriter : public internal::MinidumpWritable {
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCodeViewRecordWriter);
 };
 
+class MinidumpModuleCodeViewRecordDataWriter
+    : public MinidumpModuleCodeViewRecordWriter {
+ public:
+  MinidumpModuleCodeViewRecordDataWriter();
+  ~MinidumpModuleCodeViewRecordDataWriter() override;
+
+  void InitializeFromSnapshot(const ModuleSnapshot* module_snapshot);
+
+ protected:
+  // MinidumpWritable:
+  size_t SizeOfObject() override;
+  bool WriteObject(FileWriterInterface* file_writer) override;
+
+ private:
+  std::vector<char> data_;
+
+  DISALLOW_COPY_AND_ASSIGN(MinidumpModuleCodeViewRecordDataWriter);
+};
+
 namespace internal {
 
 //! \brief The base class for writers of CodeView records that serve as links to
@@ -160,6 +179,8 @@ class MinidumpModuleMiscDebugRecordWriter final
   //! be set to `0`.
   void SetData(const std::string& data, bool utf16);
 
+  void SetDataOnly(const std::string& data);
+
  protected:
   // MinidumpWritable:
   bool Freeze() override;
@@ -170,6 +191,7 @@ class MinidumpModuleMiscDebugRecordWriter final
   IMAGE_DEBUG_MISC image_debug_misc_;
   std::string data_;
   base::string16 data_utf16_;
+  bool data_only_;
 
   DISALLOW_COPY_AND_ASSIGN(MinidumpModuleMiscDebugRecordWriter);
 };

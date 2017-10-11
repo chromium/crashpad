@@ -19,8 +19,11 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include <memory>
 #include <string>
+#include <vector>
 
+#include "base/files/file_path.h"
 #include "base/macros.h"
 #include "snapshot/win/process_subrange_reader.h"
 #include "util/misc/initialization_state_dcheck.h"
@@ -73,15 +76,14 @@ class PEImageReader {
   //! \param[in] address The address, in the remote process' address space,
   //!     where the `IMAGE_DOS_HEADER` is located.
   //! \param[in] size The size of the image.
-  //! \param[in] module_name The module's name, a string to be used in logged
-  //!     messages. This string is for diagnostic purposes.
+  //! \param[in] path The module's pathname.
   //!
   //! \return `true` if the image was read successfully, `false` otherwise, with
   //!     an appropriate message logged.
   bool Initialize(ProcessReaderWin* process_reader,
                   WinVMAddress address,
                   WinVMSize size,
-                  const std::string& module_name);
+                  const std::wstring& path);
 
   //! \brief Returns the image's load address.
   //!
@@ -101,6 +103,9 @@ class PEImageReader {
   template <class Traits>
   bool GetCrashpadInfo(
       process_types::CrashpadInfo<Traits>* crashpad_info) const;
+
+  bool CodeViewRecord(std::vector<char>* data) const;
+  bool MiscDebugRecord(std::vector<char>* data) const;
 
   //! \brief Obtains information from the module's debug directory, if any.
   //!
@@ -174,7 +179,13 @@ class PEImageReader {
   bool ImageDataDirectoryEntryT(size_t index,
                                 IMAGE_DATA_DIRECTORY* entry) const;
 
+  bool ImageDebugDirectoryEntryForType(
+      DWORD type, IMAGE_DEBUG_DIRECTORY* debug_directory) const;
+  bool ImageDebugDirectoryDataForType(
+      DWORD type, std::vector<char>* data) const;
+
   ProcessSubrangeReader module_subrange_reader_;
+  base::FilePath path_;
   InitializationStateDcheck initialized_;
 
   DISALLOW_COPY_AND_ASSIGN(PEImageReader);

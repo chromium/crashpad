@@ -85,6 +85,14 @@ std::string TestModuleSnapshot::DebugFileName() const {
   return debug_file_name_;
 }
 
+bool TestModuleSnapshot::CodeViewRecord(std::vector<char>* data) const {
+  return false;
+}
+
+bool TestModuleSnapshot::MiscDebugRecord(std::vector<char>* data) const {
+  return false;
+}
+
 std::vector<std::string> TestModuleSnapshot::AnnotationsVector() const {
   return annotations_vector_;
 }

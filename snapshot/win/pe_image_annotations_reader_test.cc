@@ -22,7 +22,6 @@
 #include <vector>
 
 #include "base/files/file_path.h"
-#include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
 #include "client/crashpad_info.h"
 #include "client/simple_string_dictionary.h"
@@ -76,7 +75,7 @@ void TestAnnotationsOnCrash(TestType type,
     pe_image_reader.Initialize(&process_reader,
                                module.dll_base,
                                module.size,
-                               base::UTF16ToUTF8(module.name));
+                               module.name);
     PEImageAnnotationsReader module_annotations_reader(
         &process_reader, &pe_image_reader, module.name);
     std::map<std::string, std::string> module_annotations_simple_map =

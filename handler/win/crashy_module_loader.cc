@@ -19,18 +19,13 @@
 #include "base/logging.h"
 #include "build/build_config.h"
 #include "client/crashpad_client.h"
-#include "test/test_paths.h"
-
-#if !defined(ARCH_CPU_X86)
-#error This test is only supported on x86.
-#endif  // !ARCH_CPU_X86
 
 namespace crashpad {
 namespace {
 
-int CrashyLoadZ7Main(int argc, wchar_t* argv[]) {
-  if (argc != 2) {
-    fprintf(stderr, "Usage: %ls <server_pipe_name>\n", argv[0]);
+int CrashyModuleLoaderMain(int argc, wchar_t* argv[]) {
+  if (argc != 3) {
+    fprintf(stderr, "Usage: %ls <server_pipe_name> <module_path>\n", argv[0]);
     return EXIT_FAILURE;
   }
 
@@ -40,17 +35,13 @@ int CrashyLoadZ7Main(int argc, wchar_t* argv[]) {
     return EXIT_FAILURE;
   }
 
-  // The DLL has /Z7 symbols embedded in the binary (rather than in a .pdb).
-  // There's only an x86 version of this dll as newer x64 toolchains can't
-  // generate this format any more.
-  base::FilePath z7_path = test::TestPaths::TestDataRoot().Append(
-      FILE_PATH_LITERAL("handler/win/z7_test.dll"));
-  HMODULE z7_test = LoadLibrary(z7_path.value().c_str());
-  if (!z7_test) {
+  base::FilePath module_path(argv[2]);
+  HMODULE module = LoadLibrary(module_path.value().c_str());
+  if (!module) {
     PLOG(ERROR) << "LoadLibrary";
     return EXIT_FAILURE;
   }
-  FARPROC crash_me = GetProcAddress(z7_test, "CrashMe");
+  FARPROC crash_me = GetProcAddress(module, "CrashMe");
   if (!crash_me) {
     PLOG(ERROR) << "GetProcAddress";
     return EXIT_FAILURE;
@@ -64,5 +55,5 @@ int CrashyLoadZ7Main(int argc, wchar_t* argv[]) {
 }  // namespace crashpad
 
 int wmain(int argc, wchar_t* argv[]) {
-  return crashpad::CrashyLoadZ7Main(argc, argv);
+  return crashpad::CrashyModuleLoaderMain(argc, argv);
 }

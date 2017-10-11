@@ -41,7 +41,7 @@ bool ReadModuleAnnotations(HANDLE process,
           &process_reader,
           FromPointerCast<WinVMAddress>(module_info.lpBaseOfDll),
           module_info.SizeOfImage,
-          ""))
+          L""))
     return false;
 
   PEImageAnnotationsReader annotations_reader(

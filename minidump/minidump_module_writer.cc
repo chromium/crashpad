@@ -35,6 +35,36 @@ namespace crashpad {
 MinidumpModuleCodeViewRecordWriter::~MinidumpModuleCodeViewRecordWriter() {
 }
 
+MinidumpModuleCodeViewRecordDataWriter::MinidumpModuleCodeViewRecordDataWriter()
+    : MinidumpModuleCodeViewRecordWriter(), data_() {
+}
+
+MinidumpModuleCodeViewRecordDataWriter::~MinidumpModuleCodeViewRecordDataWriter() {}
+
+void MinidumpModuleCodeViewRecordDataWriter::InitializeFromSnapshot(
+    const ModuleSnapshot* module_snapshot) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  module_snapshot->CodeViewRecord(&data_);
+}
+
+size_t MinidumpModuleCodeViewRecordDataWriter::SizeOfObject() {
+  DCHECK_GE(state(), kStateFrozen);
+
+  return data_.size();
+}
+
+bool MinidumpModuleCodeViewRecordDataWriter::WriteObject(
+    FileWriterInterface* file_writer) {
+  DCHECK_EQ(state(), kStateWritable);
+
+  if (data_.empty()) {
+    return true;
+  }
+
+  return file_writer->Write(&data_.front(), data_.size());
+}
+
 namespace internal {
 
 template <typename CodeViewRecordType>
@@ -120,7 +150,8 @@ MinidumpModuleMiscDebugRecordWriter::MinidumpModuleMiscDebugRecordWriter()
     : internal::MinidumpWritable(),
       image_debug_misc_(),
       data_(),
-      data_utf16_() {
+      data_utf16_(),
+      data_only_(false) {
 }
 
 MinidumpModuleMiscDebugRecordWriter::~MinidumpModuleMiscDebugRecordWriter() {
@@ -130,6 +161,7 @@ void MinidumpModuleMiscDebugRecordWriter::SetData(const std::string& data,
                                                   bool utf16) {
   DCHECK_EQ(state(), kStateMutable);
 
+  data_only_ = false;
   if (!utf16) {
     data_utf16_.clear();
     image_debug_misc_.Unicode = 0;
@@ -141,6 +173,13 @@ void MinidumpModuleMiscDebugRecordWriter::SetData(const std::string& data,
   }
 }
 
+void MinidumpModuleMiscDebugRecordWriter::SetDataOnly(const std::string& data) {
+  DCHECK_EQ(state(), kStateMutable);
+
+  data_only_ = true;
+  data_ = data;
+}
+
 bool MinidumpModuleMiscDebugRecordWriter::Freeze() {
   DCHECK_EQ(state(), kStateMutable);
 
@@ -149,16 +188,18 @@ bool MinidumpModuleMiscDebugRecordWriter::Freeze() {
   }
 
   // NUL-terminate.
-  if (!image_debug_misc_.Unicode) {
-    DCHECK(data_utf16_.empty());
-    image_debug_misc_.Length = base::checked_cast<uint32_t>(
-        offsetof(decltype(image_debug_misc_), Data) +
-        (data_.size() + 1) * sizeof(data_[0]));
-  } else {
-    DCHECK(data_.empty());
-    image_debug_misc_.Length = base::checked_cast<uint32_t>(
-        offsetof(decltype(image_debug_misc_), Data) +
-        (data_utf16_.size() + 1) * sizeof(data_utf16_[0]));
+  if (!data_only_) {
+    if (!image_debug_misc_.Unicode) {
+      DCHECK(data_utf16_.empty());
+      image_debug_misc_.Length = base::checked_cast<uint32_t>(
+          offsetof(decltype(image_debug_misc_), Data) +
+          (data_.size() + 1) * sizeof(data_[0]));
+    } else {
+      DCHECK(data_.empty());
+      image_debug_misc_.Length = base::checked_cast<uint32_t>(
+          offsetof(decltype(image_debug_misc_), Data) +
+          (data_utf16_.size() + 1) * sizeof(data_utf16_[0]));
+    }
   }
 
   return true;
@@ -167,12 +208,20 @@ bool MinidumpModuleMiscDebugRecordWriter::Freeze() {
 size_t MinidumpModuleMiscDebugRecordWriter::SizeOfObject() {
   DCHECK_GE(state(), kStateFrozen);
 
-  return image_debug_misc_.Length;
+  if (data_only_) {
+    return data_.size();
+  } else {
+    return image_debug_misc_.Length;
+  }
 }
 
 bool MinidumpModuleMiscDebugRecordWriter::WriteObject(
     FileWriterInterface* file_writer) {
   DCHECK_EQ(state(), kStateWritable);
+
+  if (data_only_ && !data_.empty()) {
+    return file_writer->Write(&data_.front(), data_.size());
+  }
 
   const size_t base_length = offsetof(decltype(image_debug_misc_), Data);
 
@@ -243,10 +292,28 @@ void MinidumpModuleWriter::InitializeFromSnapshot(
   }
   SetFileTypeAndSubtype(file_type, VFT2_UNKNOWN);
 
-  auto codeview_record =
-      base::WrapUnique(new MinidumpModuleCodeViewRecordPDB70Writer());
-  codeview_record->InitializeFromSnapshot(module_snapshot);
-  SetCodeViewRecord(std::move(codeview_record));
+  std::vector<char> dummy;
+  if (module_snapshot->CodeViewRecord(&dummy)) {
+    auto codeview_record =
+        base::WrapUnique(new MinidumpModuleCodeViewRecordDataWriter());
+    codeview_record->InitializeFromSnapshot(module_snapshot);
+    SetCodeViewRecord(std::move(codeview_record));
+  } else {
+    auto codeview_record =
+        base::WrapUnique(new MinidumpModuleCodeViewRecordPDB70Writer());
+    codeview_record->InitializeFromSnapshot(module_snapshot);
+    SetCodeViewRecord(std::move(codeview_record));
+  }
+
+#if 1
+  std::vector<char> misc_data;
+  if (module_snapshot->MiscDebugRecord(&misc_data) && !misc_data.empty()) {
+    auto misc_record =
+        base::WrapUnique(new MinidumpModuleMiscDebugRecordWriter());
+    misc_record->SetDataOnly(std::string(misc_data.begin(), misc_data.end()));
+    SetMiscDebugRecord(std::move(misc_record));
+  }
+#endif
 }
 
 const MINIDUMP_MODULE* MinidumpModuleWriter::MinidumpModule() const {

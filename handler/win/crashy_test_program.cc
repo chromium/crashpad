@@ -23,6 +23,7 @@
 #include <string>
 #include <vector>
 
+#include "base/debug/alias.h"
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/macros.h"
@@ -216,8 +217,7 @@ int CrashyMain(int argc, wchar_t* argv[]) {
   for (int i = 0; i < kDataSize; ++i)
     pointed_to_data[i] = i | ((i % 2 == 0) ? 0x80000000 : 0);
   int* offset_pointer = &pointed_to_data[128];
-  // Encourage the compiler to keep this variable around.
-  printf("%p, %p\n", offset_pointer, &offset_pointer);
+  base::debug::Alias(offset_pointer);
 
   crashpad::CrashpadInfo::GetCrashpadInfo()
       ->set_gather_indirectly_referenced_memory(

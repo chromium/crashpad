@@ -12,21 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Build in VC++6 or older command prompt with:
-//
-// cl /nologo /W4 /MT /Z7 z7_test.cpp /link /dll /out:z7_test.dll /debugtype:cv /pdb:none
-//
-// Given that this is quite tedious to build, the result is also checked in.
+// See old_debug_modules.mak for build instructions.
 
 #include <windows.h>
-#include <stdio.h>
 
 extern "C" __declspec(dllexport) void CrashMe() {
   volatile int* foo = reinterpret_cast<volatile int*>(7);
   *foo = 42;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstance, DWORD reason, LPVOID) {
-  printf("%p %d\n", hinstance, reason);
+BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID) {
   return TRUE;
 }

@@ -75,6 +75,41 @@
           ],
         },
         {
+          # For crashy_debug_embedded_nb11.dll, crashy_debug_link_dbg.dll, and
+          # crashy_debug_link_nb10.dll, see old_debug_modules.mak.
+          'target_name': 'crashy_debug_link_rsds',
+          'type': 'loadable_module',
+          'sources': [
+            'win/crashy_module.cc',
+          ],
+          'msvs_settings': {
+            'VCCLCompilerTool': {
+              'DebugInformationFormat': '3',  # /Zi
+            },
+            'VCLinkerTool': {
+              'EntryPointSymbol': 'DllMain',
+              'GenerateDebugInformation': 'true',  # /debug
+              'IgnoreAllDefaultLibraries': 'true',  # /nodefaultlib
+            },
+          },
+        },
+        {
+          'target_name': 'crashy_module_loader',
+          'type': 'executable',
+          'dependencies': [
+            '../client/client.gyp:crashpad_client',
+            '../test/test.gyp:crashpad_test',
+            '../third_party/mini_chromium/mini_chromium.gyp:base',
+            'crashy_debug_link_rsds',
+          ],
+          'include_dirs': [
+            '..',
+          ],
+          'sources': [
+            'win/crashy_module_loader.cc',
+          ],
+        },
+        {
           'target_name': 'crashy_program',
           'type': 'executable',
           'dependencies': [
@@ -148,28 +183,6 @@
             'win/self_destroying_test_program.cc',
           ],
         },
-      ],
-      'conditions': [
-        # Cannot create an x64 DLL with embedded debug info.
-        ['target_arch=="ia32"', {
-          'targets': [
-            {
-              'target_name': 'crashy_z7_loader',
-              'type': 'executable',
-              'dependencies': [
-                '../client/client.gyp:crashpad_client',
-                '../test/test.gyp:crashpad_test',
-                '../third_party/mini_chromium/mini_chromium.gyp:base',
-              ],
-              'include_dirs': [
-                '..',
-              ],
-              'sources': [
-                'win/crashy_test_z7_loader.cc',
-              ],
-            },
-          ],
-        }],
       ],
     }],
   ],

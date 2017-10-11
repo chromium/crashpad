@@ -47,7 +47,7 @@ TEST(PEImageReader, DebugDirectory) {
   ASSERT_TRUE(pe_image_reader.Initialize(&process_reader,
                                          FromPointerCast<WinVMAddress>(self),
                                          module_info.SizeOfImage,
-                                         "self"));
+                                         L"self"));
   UUID uuid;
   DWORD age;
   std::string pdbname;
@@ -66,7 +66,7 @@ void TestVSFixedFileInfo(ProcessReaderWin* process_reader,
   ASSERT_TRUE(pe_image_reader.Initialize(process_reader,
                                          module.dll_base,
                                          module.size,
-                                         base::UTF16ToUTF8(module.name)));
+                                         module.name));
 
   VS_FIXEDFILEINFO observed;
   const bool observed_rv = pe_image_reader.VSFixedFileInfo(&observed);

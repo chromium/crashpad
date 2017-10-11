@@ -170,6 +170,14 @@ std::string ModuleSnapshotMac::DebugFileName() const {
   return base::FilePath(Name()).BaseName().value();
 }
 
+bool ModuleSnapshotMac::CodeViewRecord(std::vector<char>* data) const {
+  return false;
+}
+
+bool ModuleSnapshotMac::MiscDebugRecord(std::vector<char>* data) const {
+  return false;
+}
+
 std::vector<std::string> ModuleSnapshotMac::AnnotationsVector() const {
   INITIALIZATION_STATE_DCHECK_VALID(initialized_);
   MachOImageAnnotationsReader annotations_reader(
