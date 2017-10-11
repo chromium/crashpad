@@ -46,6 +46,30 @@
       "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcdddd6c_ad67ecea",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-11T19:23:37Z",
+      "side": 1,
+      "message": "Thanks, good to know. \n\nBtw, VS 2015 supports most of C++ 14 (VS 2017 additions are relatively modest : https://blogs.msdn.microsoft.com/vcblog/2017/05/10/c17-features-in-vs-2017-3), so that shouldn\u0027t be a blocking factor.",
+      "parentUuid": "12a5d680_e12af245",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
