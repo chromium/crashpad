@@ -180,6 +180,24 @@
     },
     {
       "key": {
+        "uuid": "08f9fb91_2103c2d7",
+        "filename": "util/file/directory.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbcb854e_ef6b19e9",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9973ada_e9ee47ae",
         "filename": "util/file/directory.h",
         "patchSetId": 27
@@ -197,6 +215,24 @@
     },
     {
       "key": {
+        "uuid": "35946271_40e71c53",
+        "filename": "util/file/directory.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9973ada_e9ee47ae",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77ded830_234d08ba",
         "filename": "util/file/directory.h",
         "patchSetId": 27
@@ -211,6 +247,24 @@
       "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6465e5a9_adce8beb",
+        "filename": "util/file/directory.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77ded830_234d08ba",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -249,6 +303,24 @@
     },
     {
       "key": {
+        "uuid": "4b4ce84f_ba0875b9",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d84d159_1e22d2c6",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6b524b0_1152466a",
         "filename": "util/file/directory_reader.h",
         "patchSetId": 27
@@ -263,6 +335,24 @@
       "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5179c719_73a00b46",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6b524b0_1152466a",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -283,6 +373,24 @@
     },
     {
       "key": {
+        "uuid": "4c5cd511_af5de234",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e93641cb_f7531489",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeda9a18_499b0c46",
         "filename": "util/file/directory_reader.h",
         "patchSetId": 27
@@ -297,6 +405,24 @@
       "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63bcbb77_6316d4bd",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeda9a18_499b0c46",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -323,6 +449,30 @@
     },
     {
       "key": {
+        "uuid": "bee70088_aa3c05ad",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dfc928b_1688343f",
+      "range": {
+        "startLine": 31,
+        "startChar": 37,
+        "endLine": 31,
+        "endChar": 40
+      },
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feaf4f36_83ecb6b9",
         "filename": "util/file/directory_reader_posix.cc",
         "patchSetId": 27
@@ -340,6 +490,24 @@
     },
     {
       "key": {
+        "uuid": "f20be5c4_481bfceb",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "feaf4f36_83ecb6b9",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a25e67b_6c0725bf",
         "filename": "util/file/directory_reader_win.cc",
         "patchSetId": 27
@@ -354,6 +522,24 @@
       "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a903f99f_f211ab07",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "I\u0027ve been thinking about this, but so far have felt keeping \"no such directory\" errors at the Open made more sense.",
+      "parentUuid": "2a25e67b_6c0725bf",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -397,6 +583,48 @@
     },
     {
       "key": {
+        "uuid": "d6e0357e_42b072d2",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a84d6b8_dba90772",
+      "range": {
+        "startLine": 78,
+        "startChar": 73,
+        "endLine": 78,
+        "endChar": 74
+      },
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9168027_f7cfade7",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f493b7a2_7a070f6f",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5841df51_3e143191",
         "filename": "util/file/directory_reader_win.cc",
         "patchSetId": 27
@@ -414,6 +642,24 @@
     },
     {
       "key": {
+        "uuid": "9fbb080a_9f672579",
+        "filename": "util/file/directory_reader_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5841df51_3e143191",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29022224_3d914eb4",
         "filename": "util/file/directory_win.cc",
         "patchSetId": 27
@@ -428,6 +674,24 @@
       "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "728b2c06_a1baf91c",
+        "filename": "util/file/directory_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29022224_3d914eb4",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -454,6 +718,30 @@
     },
     {
       "key": {
+        "uuid": "e8223e69_65ad4178",
+        "filename": "util/file/directory_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c2377f1_f8d1e9ec",
+      "range": {
+        "startLine": 53,
+        "startChar": 20,
+        "endLine": 53,
+        "endChar": 35
+      },
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba851df6_ba680706",
         "filename": "util/file/file_io.h",
         "patchSetId": 27
@@ -468,6 +756,24 @@
       "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c112b068_0a4ebe62",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Moved to filesystem.h, along with the things from directory.h",
+      "parentUuid": "ba851df6_ba680706",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     },
     {
       "key": {
@@ -488,6 +794,24 @@
     },
     {
       "key": {
+        "uuid": "92c6e7d4_afa550ef",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Changed to just test for regular files.",
+      "parentUuid": "f5819125_5ef09521",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "729f85d6_e948fc41",
         "filename": "util/file/file_io.h",
         "patchSetId": 27
@@ -505,6 +829,24 @@
     },
     {
       "key": {
+        "uuid": "f96f5b78_9bbc9565",
+        "filename": "util/file/file_io.h",
+        "patchSetId": 27
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "729f85d6_e948fc41",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bba219d1_9faa7037",
         "filename": "util/file/file_io_win.cc",
         "patchSetId": 27
@@ -519,6 +861,24 @@
       "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c698c3e1_adca0324",
+        "filename": "util/file/file_io_win.cc",
+        "patchSetId": 27
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1172779
+      },
+      "writtenOn": "2017-10-11T23:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bba219d1_9faa7037",
+      "revId": "9281dd0baf3511aa8e86a5ec2020df2e85d8e52b",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
