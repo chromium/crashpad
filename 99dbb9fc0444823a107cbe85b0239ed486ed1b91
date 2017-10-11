@@ -22,6 +22,30 @@
       "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a5d680_e12af245",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-11T18:26:04Z",
+      "side": 1,
+      "message": "\u003e Mark, can we use C++ 14 stuff? Then it can read even nicer:\n\nYes and no.\n\nThe yes: https://groups.google.com/a/chromium.org/d/topic/cxx/ow7hmdDm4yw\n\n(More generally, https://chromium-cpp.appspot.com/.)\n\nThe no: Our buildbots are still running MSVS 2015. We should upgrade them to 2017 (since this is what we get when we build in Chrome, this is what probably all of us are using for local development now, and there’s no strong reason to restrict ourselves to 2015 but plenty of reasons to upgrade), but we haven’t done it yet.\n\nYou can #include \"base/memory/ptr_util.h\" for base::WrapUnique(). Our copy doesn’t have base::MakeUnique() as Chrome’s does, but we can add it easily, and you can use that. Then, once our bots are upgraded, we can go through and easily replace all of the WrapUnique() and MakeUnique()s with their std:: equivalents.",
+      "parentUuid": "ccb5946f_b51840d2",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
