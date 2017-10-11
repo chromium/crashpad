@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccb5946f_b51840d2",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-11T18:02:25Z",
+      "side": 1,
+      "message": "just a drive-by comment: I notice this pattern is repeated quite a few times so it\u0027s worth cleaning it up a bit:\n\nstd::unique_ptr\u003cProcessMemoryLinux\u003e memory { new ProcessMemoryLinux() };\nASSERT_TRUE(memory-\u003eInitialize(pid));\n\n1. There doesn\u0027t seem to be any reason to use ProcessMemory instead of ProcessMemoryLinux here, am I wrong?\n2. Even w/o exceptions, using the pointer before it\u0027s owned by a unique_ptr seems bad form\n\nMark, can we use C++ 14 stuff? Then it can read even nicer:\n\nauto memory \u003d make_unique\u003cProcessMemoryLinux\u003e();\nASSERT_TRUE(memory-\u003eInitialize(pid));",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "99dbb9fc0444823a107cbe85b0239ed486ed1b91",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
