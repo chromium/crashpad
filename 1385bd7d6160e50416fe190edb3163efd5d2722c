@@ -1,0 +1,509 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9dc00af_1204d193",
+        "filename": "snapshot/linux/process_reader.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Optional:\n\n#include \u003ctype_traits\u003e\n\nusing UnderlyingType \u003d std::underlying_type\u003cDirectoryReader::Result\u003e::type;\nDCHECK_EQ(static_cast\u003cUnderlyingType\u003e(result),\n          static_cast\u003cUnderlyingType\u003e(DirectoryReader::Result::kNoMoreFiles));\n\nThat’s probably worse than the static_cast\u003cint\u003e, but I could envision wrapping it into an AsUnderlyingType() helper, and then I think it gets better.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83765666_d7d23946",
+        "filename": "util/file/directory_reader.h",
+        "patchSetId": 39
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "This needs to be updated. It’s a Result and not a bool now.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b34dfd0_3cb50a09",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Since it’s possible to call Open() on an already-opened DirectoryReader, either:\n\n - Make it be not possible (DCHECK(!dir_.is_valid())?), or\n - Set no_more_files_ \u003d false on any entry to Open()\n\nWindows too. (Another field to worry about there, too, if you choose the second option.)",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eff93019_97c06e0a",
+        "filename": "util/file/directory_reader_posix.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "It’s probably fine, I’m just wondering if no_more_files_ was actually necessary for POSIX. I don’t think it’s an error to keep calling readdir() after you hit the end, and the spec leaves open the possibility that a system might actually start returning entries again if any new ones have shown up since you previously reached the end.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9287b8ce_98fd3fbd",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "No need for this (or build_config.h at all). Since you’re already using base::FilePath, use the PRFilePath macro with printf-like things:\n\n    SCOPED_TRACE(base::StringPrintf(\"filename %\" PRFilePath,\n                                    filename.value().c_str());",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d37160d_4d88a746",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "I thought that gtest let you do EXPECT_EQ(set1, set2). If that works, feel free to use it.\n\n(Possibly it won’t work here, or won’t work well, because we’ve got FilePaths, which may not have all of the magic stuff available to compare or print nicely.)",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c18eb504_582aaddb",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "const\u0026",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b955e6f3_5e2947a9",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Try a dangling symlink too?",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae9ab21f_1216a28a",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Is there a reason for these scopes? (Other than having to come up with a new name for the variable holding the nested_file FilePath?)",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7adbde4a_8f8a26f4",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "EXPECT_TRUE(expected_files.insert(file).second)\n\nSame with the other expected_files.insert().",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0860a3d0_e3198627",
+        "filename": "util/file/directory_reader_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Symlink too?",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d21a85aa_97597e53",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 39
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "May want to use FilePermissions (from util/file/file_io.h, or moved to a common header) in the same way that, say, LoggingOpenFileForWrite() does.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c79e00b7_5af584c2",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 39
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Specify behavior with respect to symbolic links a bit more explicitly for POSIX. “Path refers to a regular file” may be misinterpreted as stat() instead of lstat() semantics, since most path operations have stat() semantics, and you’re silent on the matter of symbolic links for POSIX while you mention them for Windows.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dca8cad_c967d603",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 39
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Specify that this is non-recursive.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef80e6f4_f4123e8b",
+        "filename": "util/file/filesystem.h",
+        "patchSetId": 39
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "“Delete” files, “remove” directories? Let’s be consistent. Choose whichever you prefer.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2b6541b_e0378b05",
+        "filename": "util/file/filesystem_posix.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "You don’t need “rv” as a distinct variable here, you can just write if (lstat(…) !\u003d 0) as you did inside IsDirectory().",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8721d562_ec5120c3",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "This is the same function that you have in the other test. (And the parameter should be const\u0026 here too.) Can you refactor it to a common test helper file? There’s precedent for names ending in _test_util.{h,cc}.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0b6f849_256176fb",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "1. CreateSymbolicLink() is a more meaningful name, but you’d have to write ::CreateSymbolicLink below in the Windows branch to disambiguate.\n\n2. const\u0026 the arguments.\n\n3. “source” and “dest” are confusing names. I think of “dest” as the thing that the symbolic link points at, but it looks like you’re thinking of it in the opposite way (the “dest” to be created, maybe?) Suggest symlink_path and target_path (or just symlink and target)?",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4950975e_13f75fe0",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "+4 on the hanging indent.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7acdabc_792b92dc",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Stick a file in the directory. Make sure that the file is still present after the second “LoggingCreateDirectory()”. This will test that “may_reuse” isn’t misinterpreted to mean “throw it away and make a new empty one.”",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0da8aff_c180a11a",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Can you test with a dangling symlink too? A symlink that points to a directory?",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27d816a6_c5f12128",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Dangling symlink here too? One that points to a file?",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3794bd7_d6d43ff2",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "You should check that link is still gone but file is still present.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "120a556b_4e500bd0",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Same with link and dir now.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3018e750_d7ac6350",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "And one last EXPECT_FALSE(LoggingDeleteFile(file)).",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32974c0e_2ab0ac8d",
+        "filename": "util/file/filesystem_test.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Also test with a symbolic link pointing to a directory.",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "568a77f5_81c02885",
+        "filename": "util/posix/close_multiple.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Let’s call it entry_fd_path so that its relation to entry_fd is clear.",
+      "range": {
+        "startLine": 84,
+        "startChar": 17,
+        "endLine": 84,
+        "endChar": 23
+      },
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09365228_5da02ee5",
+        "filename": "util/posix/close_multiple.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "\"base/strings/string_number_conversions.h\" base::StringToInt() is the one that only accepts decimal, I think it’s the one that we should use here. (Confusing, I admit.)",
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40527e07_20406cd5",
+        "filename": "util/posix/close_multiple.cc",
+        "patchSetId": 39
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:00:15Z",
+      "side": 1,
+      "message": "Cache DirectoryFD() outside of this loop.",
+      "range": {
+        "startLine": 94,
+        "startChar": 20,
+        "endLine": 94,
+        "endChar": 40
+      },
+      "revId": "1385bd7d6160e50416fe190edb3163efd5d2722c",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    }
+  ]
+}
