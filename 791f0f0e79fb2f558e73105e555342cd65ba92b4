@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2d63526_bd6b3e3b",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-12T15:39:04Z",
+      "side": 1,
+      "message": "is this test really linux specific? (ex. macOS also uses ELF)",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 20
+      },
+      "revId": "791f0f0e79fb2f558e73105e555342cd65ba92b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18a4ae0c_c5da7805",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-12T15:39:04Z",
+      "side": 1,
+      "message": "add a comment noting that this is now an abstract base class for platform-specific implementations?",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 50
+      },
+      "revId": "791f0f0e79fb2f558e73105e555342cd65ba92b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee603375_525b4c67",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1223274
+      },
+      "writtenOn": "2017-10-12T15:39:04Z",
+      "side": 1,
+      "message": "since this is now part of the interface (not private anymore) it seems we should add a contract comment for it",
+      "range": {
+        "startLine": 86,
+        "startChar": 15,
+        "endLine": 86,
+        "endChar": 34
+      },
+      "revId": "791f0f0e79fb2f558e73105e555342cd65ba92b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
