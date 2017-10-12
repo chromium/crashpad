@@ -18,8 +18,6 @@
 
 #include "base/auto_reset.h"
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
-#include "snapshot/memory_snapshot.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
 
