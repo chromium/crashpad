@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "58a931bf_99093069",
+        "filename": "snapshot/elf/elf_image_reader_test.cc",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T15:41:29Z",
+      "side": 1,
+      "message": "\u003e is this test really linux specific? (ex. macOS also uses ELF)\n\nIt uses Mach-O.\n\n(Otherwise we would have already dealt with making ELF support be non-OS-specific, but Dave’s dealing with now.)",
+      "parentUuid": "d2d63526_bd6b3e3b",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 20
+      },
+      "revId": "791f0f0e79fb2f558e73105e555342cd65ba92b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18a4ae0c_c5da7805",
         "filename": "util/process/process_memory.h",
         "patchSetId": 9
