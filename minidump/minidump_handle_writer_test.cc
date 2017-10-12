@@ -14,10 +14,10 @@
 
 #include "minidump/minidump_handle_writer.h"
 
+#include <memory>
 #include <string>
 #include <utility>
 
-#include "base/memory/ptr_util.h"
 #include "base/strings/utf_string_conversions.h"
 #include "gtest/gtest.h"
 #include "minidump/minidump_file_writer.h"
@@ -58,7 +58,7 @@ void GetHandleDataStream(
 
 TEST(MinidumpHandleDataWriter, Empty) {
   MinidumpFileWriter minidump_file_writer;
-  auto handle_data_writer = base::WrapUnique(new MinidumpHandleDataWriter());
+  auto handle_data_writer = std::make_unique<MinidumpHandleDataWriter>();
   ASSERT_TRUE(minidump_file_writer.AddStream(std::move(handle_data_writer)));
 
   StringFile string_file;
@@ -77,7 +77,7 @@ TEST(MinidumpHandleDataWriter, Empty) {
 
 TEST(MinidumpHandleDataWriter, OneHandle) {
   MinidumpFileWriter minidump_file_writer;
-  auto handle_data_writer = base::WrapUnique(new MinidumpHandleDataWriter());
+  auto handle_data_writer = std::make_unique<MinidumpHandleDataWriter>();
 
   HandleSnapshot handle_snapshot;
   handle_snapshot.handle = 0x1234;
@@ -126,7 +126,7 @@ TEST(MinidumpHandleDataWriter, OneHandle) {
 
 TEST(MinidumpHandleDataWriter, RepeatedTypeName) {
   MinidumpFileWriter minidump_file_writer;
-  auto handle_data_writer = base::WrapUnique(new MinidumpHandleDataWriter());
+  auto handle_data_writer = std::make_unique<MinidumpHandleDataWriter>();
 
   HandleSnapshot handle_snapshot;
   handle_snapshot.handle = 0x1234;

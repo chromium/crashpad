@@ -20,12 +20,8 @@
 #include <algorithm>
 
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
-#include "snapshot/win/exception_snapshot_win.h"
-#include "snapshot/win/memory_snapshot_win.h"
-#include "snapshot/win/module_snapshot_win.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/win/nt_internals.h"
 #include "util/win/registration_protocol_win.h"
@@ -243,7 +239,7 @@ void ProcessSnapshotWin::InitializeThreads(
     budget_remaining_pointer = &budget_remaining;
   for (const ProcessReaderWin::Thread& process_reader_thread :
        process_reader_threads) {
-    auto thread = base::WrapUnique(new internal::ThreadSnapshotWin());
+    auto thread = std::make_unique<internal::ThreadSnapshotWin>();
     if (thread->Initialize(&process_reader_,
                            process_reader_thread,
                            budget_remaining_pointer)) {
@@ -257,7 +253,7 @@ void ProcessSnapshotWin::InitializeModules() {
       process_reader_.Modules();
   for (const ProcessInfo::Module& process_reader_module :
        process_reader_modules) {
-    auto module = base::WrapUnique(new internal::ModuleSnapshotWin());
+    auto module = std::make_unique<internal::ModuleSnapshotWin>();
     if (module->Initialize(&process_reader_, process_reader_module)) {
       modules_.push_back(module.release());
     }
