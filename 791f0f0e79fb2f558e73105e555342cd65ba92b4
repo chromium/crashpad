@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "7b804b95_b6f8ae66",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-12T19:53:35Z",
+      "side": 1,
+      "message": "\u003e add a comment noting that this is now an abstract base class for platform-specific implementations?\n\nDone.",
+      "parentUuid": "18a4ae0c_c5da7805",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 50
+      },
+      "revId": "791f0f0e79fb2f558e73105e555342cd65ba92b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee603375_525b4c67",
         "filename": "util/process/process_memory.h",
         "patchSetId": 9
@@ -107,6 +131,30 @@
       "writtenOn": "2017-10-12T15:39:04Z",
       "side": 1,
       "message": "since this is now part of the interface (not private anymore) it seems we should add a contract comment for it",
+      "range": {
+        "startLine": 86,
+        "startChar": 15,
+        "endLine": 86,
+        "endChar": 34
+      },
+      "revId": "791f0f0e79fb2f558e73105e555342cd65ba92b4",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b37654e_a9e278e3",
+        "filename": "util/process/process_memory.h",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1177675
+      },
+      "writtenOn": "2017-10-12T19:53:35Z",
+      "side": 1,
+      "message": "\u003e since this is now part of the interface (not private anymore) it seems we should add a contract comment for it\n\nDoh, yep. Done.",
+      "parentUuid": "ee603375_525b4c67",
       "range": {
         "startLine": 86,
         "startChar": 15,
