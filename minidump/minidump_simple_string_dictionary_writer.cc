@@ -17,7 +17,6 @@
 #include <utility>
 
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "util/file/file_writer.h"
 #include "util/numeric/safe_assignment.h"
 
@@ -109,8 +108,7 @@ void MinidumpSimpleStringDictionaryWriter::InitializeFromMap(
   DCHECK(entries_.empty());
 
   for (const auto& iterator : map) {
-    auto entry =
-        base::WrapUnique(new MinidumpSimpleStringDictionaryEntryWriter());
+    auto entry = std::make_unique<MinidumpSimpleStringDictionaryEntryWriter>();
     entry->SetKeyValue(iterator.first, iterator.second);
     AddEntry(std::move(entry));
   }

@@ -17,7 +17,6 @@
 #include <utility>
 
 #include "base/format_macros.h"
-#include "base/memory/ptr_util.h"
 #include "base/strings/stringprintf.h"
 #include "gtest/gtest.h"
 #include "minidump/test/minidump_rva_list_test_util.h"
@@ -34,7 +33,7 @@ class TestMinidumpRVAListWriter final : public internal::MinidumpRVAListWriter {
   ~TestMinidumpRVAListWriter() override {}
 
   void AddChild(uint32_t value) {
-    auto child = base::WrapUnique(new TestUInt32MinidumpWritable(value));
+    auto child = std::make_unique<TestUInt32MinidumpWritable>(value);
     MinidumpRVAListWriter::AddChild(std::move(child));
   }
 
