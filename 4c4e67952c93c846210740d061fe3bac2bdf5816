@@ -22,6 +22,30 @@
       "revId": "4c4e67952c93c846210740d061fe3bac2bdf5816",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7648f3a1_ceb06914",
+        "filename": "snapshot/win/process_snapshot_win_test.cc",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T16:05:52Z",
+      "side": 0,
+      "message": "\u003e just curious, how did you find all the extraneous #includes?\n\nThe sed that I used was\n\nsed -E -e \u0027s%base::WrapUnique\\(new ([^(]+)\\((.*)\\)\\);%std::make_unique\u003c\\1\u003e(\\2);%g\u0027 -e \u0027s%base::WrapUnique\\(new ([^(]+)\\);%std::make_unique\u003c\\1\u003e();%g\u0027 -e \u0027s%^#include \"base/memory/ptr_util.h\"$%#include \u003cmemory\u003e%\u0027\n\nIt worked surprisingly well, there were only a few WrapUniques that took up more than one line that I needed to address manually. But the #includes were a different story. At the very least, I had to move \u003cmemory\u003e from the \"local_files\" to the \u003csystem_files\u003e section. Since I was doing that, I also wanted to make sure that I wasn’t duplicating \u003cmemory\u003e in a .cc file when the corresponding .h already had it. And as long as I was doing that, I did a quick manual cleanup of other similar cases.\n\nIt was painful manual work, but only about ten minutes’ worth.\n\nWe could have a tool that did this, but we don’t…",
+      "parentUuid": "c85639c2_8b83edea",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "4c4e67952c93c846210740d061fe3bac2bdf5816",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
