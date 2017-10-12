@@ -20,6 +20,14 @@
     {
       'target_name': 'crashpad_compat',
       'type': 'static_library',
+      'include_dirs': [
+        'test',
+      ],
+      'direct_dependent_settings': {
+        'include_dirs': [
+          'test',
+        ],
+      },
       'sources': [
         'android/elf.h',
         'android/linux/elf.h',
@@ -49,6 +57,7 @@
         'non_win/verrsrc.h',
         'non_win/windows.h',
         'non_win/winnt.h',
+        'test/gmock/gmock.h',
         'win/getopt.h',
         'win/strings.cc',
         'win/strings.h',
