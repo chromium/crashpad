@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fbdde81_a8495918",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:55:20Z",
+      "side": 1,
+      "message": "Our commit messages would follow this form for the first line:\n\nwin: Fix TEB.TlsSlots offset",
+      "revId": "a3ee9021f355b50e9b438bbbd03e7e55b5560e98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b89d8c17_820fdb98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:55:20Z",
+      "side": 1,
+      "message": "Also, reflow the body to stay within 72 characters.",
+      "revId": "a3ee9021f355b50e9b438bbbd03e7e55b5560e98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95baf9ef_69363465",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:55:20Z",
+      "side": 1,
+      "message": "Remove this period.",
+      "range": {
+        "startLine": 10,
+        "startChar": 215,
+        "endLine": 10,
+        "endChar": 216
+      },
+      "revId": "a3ee9021f355b50e9b438bbbd03e7e55b5560e98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ca864a2_1721af33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:55:20Z",
+      "side": 1,
+      "message": "Use a pinned revision (instead of master) so that the link is useful even after Wine rearranges its source code and puts winternl.h elsewhere. That’ll also let you link right to the line number you’re referencing.\n\nhttps://github.com/wine-mirror/wine/blob/4df0162caf431d0069371e6c0776b83ed4c35735/include/winternl.h#L309",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 98
+      },
+      "revId": "a3ee9021f355b50e9b438bbbd03e7e55b5560e98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08654c85_9ce59a4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:55:20Z",
+      "side": 1,
+      "message": "And if there’s no bug on file, you can remove this line altogether.",
+      "revId": "a3ee9021f355b50e9b438bbbd03e7e55b5560e98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac3ea59a_313083d3",
+        "filename": "util/win/process_structs.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:55:20Z",
+      "side": 1,
+      "message": "The fact that \u003cwinternl.h\u003e declares Reserved2 as [399] and you’re increasing it to [402] is an indication that something’s fishy. At the very least, this field isn’t being treated as the “remainder” of Reserved2, it’s being used to host something more than Reserved2.\n\nI think that the confusion stems from the fact that \u003cwinternl.h\u003e’s TEB (which this is supposed to mirror and expand on) begins with a 12-pointer Reserved1 then a pointer ProcessEnvironmentBlock before reaching Reserved2. NT_TIB accounts for the first 7 of those 13 pointers. Then we put ProcessEnvironmentBlock at ptr[7], where \u003cwinternl.h\u003e would have it at ptr[12]. And that’s just looking at the public header. Consulting the header you referenced from wine, and “dt ntdll!_TEB”, I can see that we’ve got ClientId in the wrong spot altogether It should be between NtTib and ProcessEnvironmentBlock, with some other fields on either side.\n\nTo put it another way, it appears that our ideas of ProcessEnvironmentBlock, and really this entire structure, are also incorrect.\n\nWe never caught this because it appears that this struct is only used with sizeof() (which is incorrect, but might not have been a visible problem because it’s only used to specify the size of the TEB to capture, and capturing a few bytes extra probably wouldn’t have hurt anything most of the time) and to check ClientId (which lies in the correct spot due to our misplaced ProcessEnvironmentBlock).\n\nHere’s how it appears our version should be laid out, expanding everything in Reserved1 since we want ClientId, and otherwise remaining true to \u003cwinternl.h\u003e’s definition:\n\n  NT_TIB\u003cTraits\u003e NtTib;\n  typename Traits::Pointer EnvironmentPointer;\n  CLIENT_ID\u003cTraits\u003e ClientId;\n  typename Traits::Pointer ActiveRpcHandle;\n  typename Traits::Pointer ThreadLocalStoragePointer;\n  typename Traits::Pointer ProcessEnvironmentBlock;\n  typename Traits::Pointer Reserved2[399];\n  BYTE Reserved3[1952];\n  typename Traits::Pointer TlsSlots[64];\n  …\n\nIt would also be good to have a test of some sort for this. Leonard and I were talking about having a more automated way to verify these.",
+      "revId": "a3ee9021f355b50e9b438bbbd03e7e55b5560e98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23db12d3_fcfcdb61",
+        "filename": "util/win/process_structs.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:55:20Z",
+      "side": 1,
+      "message": "For reference, 32-bit:\n\n0:008\u003e dt ntdll!_TEB\n   +0x000 NtTib            : _NT_TIB\n   +0x01c EnvironmentPointer : Ptr32 Void\n   +0x020 ClientId         : _CLIENT_ID\n   +0x028 ActiveRpcHandle  : Ptr32 Void\n   +0x02c ThreadLocalStoragePointer : Ptr32 Void\n   +0x030 ProcessEnvironmentBlock : Ptr32 _PEB\n   +0x034 LastErrorValue   : Uint4B\n   +0x038 CountOfOwnedCriticalSections : Uint4B\n   +0x03c CsrClientThread  : Ptr32 Void\n   +0x040 Win32ThreadInfo  : Ptr32 Void\n   +0x044 User32Reserved   : [26] Uint4B\n   +0x0ac UserReserved     : [5] Uint4B\n   +0x0c0 WOW32Reserved    : Ptr32 Void\n   +0x0c4 CurrentLocale    : Uint4B\n   +0x0c8 FpSoftwareStatusRegister : Uint4B\n   +0x0cc ReservedForDebuggerInstrumentation : [16] Ptr32 Void\n   +0x10c SystemReserved1  : [30] Ptr32 Void\n   +0x184 _ActivationStack : _ACTIVATION_CONTEXT_STACK\n   +0x19c WorkingOnBehalfTicket : [8] UChar\n   +0x1a4 ExceptionCode    : Int4B\n   +0x1a8 ActivationContextStackPointer : Ptr32 _ACTIVATION_CONTEXT_STACK\n   +0x1ac InstrumentationCallbackSp : Uint4B\n   +0x1b0 InstrumentationCallbackPreviousPc : Uint4B\n   +0x1b4 InstrumentationCallbackPreviousSp : Uint4B\n   +0x1b8 InstrumentationCallbackDisabled : UChar\n   +0x1b9 SpareBytes       : [23] UChar\n   +0x1d0 TxFsContext      : Uint4B\n   +0x1d4 GdiTebBatch      : _GDI_TEB_BATCH\n   +0x6b4 RealClientId     : _CLIENT_ID\n   +0x6bc GdiCachedProcessHandle : Ptr32 Void\n   +0x6c0 GdiClientPID     : Uint4B\n   +0x6c4 GdiClientTID     : Uint4B\n   +0x6c8 GdiThreadLocalInfo : Ptr32 Void\n   +0x6cc Win32ClientInfo  : [62] Uint4B\n   +0x7c4 glDispatchTable  : [233] Ptr32 Void\n   +0xb68 glReserved1      : [29] Uint4B\n   +0xbdc glReserved2      : Ptr32 Void\n   +0xbe0 glSectionInfo    : Ptr32 Void\n   +0xbe4 glSection        : Ptr32 Void\n   +0xbe8 glTable          : Ptr32 Void\n   +0xbec glCurrentRC      : Ptr32 Void\n   +0xbf0 glContext        : Ptr32 Void\n   +0xbf4 LastStatusValue  : Uint4B\n   +0xbf8 StaticUnicodeString : _UNICODE_STRING\n   +0xc00 StaticUnicodeBuffer : [261] Wchar\n   +0xe0c DeallocationStack : Ptr32 Void\n   +0xe10 TlsSlots         : [64] Ptr32 Void\n   +0xf10 TlsLinks         : _LIST_ENTRY\n   +0xf18 Vdm              : Ptr32 Void\n   +0xf1c ReservedForNtRpc : Ptr32 Void\n   +0xf20 DbgSsReserved    : [2] Ptr32 Void\n   +0xf28 HardErrorMode    : Uint4B\n   +0xf2c Instrumentation  : [9] Ptr32 Void\n   +0xf50 ActivityId       : _GUID\n   +0xf60 SubProcessTag    : Ptr32 Void\n   +0xf64 PerflibData      : Ptr32 Void\n   +0xf68 EtwTraceData     : Ptr32 Void\n   +0xf6c WinSockData      : Ptr32 Void\n   +0xf70 GdiBatchCount    : Uint4B\n   +0xf74 CurrentIdealProcessor : _PROCESSOR_NUMBER\n   +0xf74 IdealProcessorValue : Uint4B\n   +0xf74 ReservedPad0     : UChar\n   +0xf75 ReservedPad1     : UChar\n   +0xf76 ReservedPad2     : UChar\n   +0xf77 IdealProcessor   : UChar\n   +0xf78 GuaranteedStackBytes : Uint4B\n   +0xf7c ReservedForPerf  : Ptr32 Void\n   +0xf80 ReservedForOle   : Ptr32 Void\n   +0xf84 WaitingOnLoaderLock : Uint4B\n   +0xf88 SavedPriorityState : Ptr32 Void\n   +0xf8c ReservedForCodeCoverage : Uint4B\n   +0xf90 ThreadPoolData   : Ptr32 Void\n   +0xf94 TlsExpansionSlots : Ptr32 Ptr32 Void\n   +0xf98 MuiGeneration    : Uint4B\n   +0xf9c IsImpersonating  : Uint4B\n   +0xfa0 NlsCache         : Ptr32 Void\n   +0xfa4 pShimData        : Ptr32 Void\n   +0xfa8 HeapVirtualAffinity : Uint2B\n   +0xfaa LowFragHeapDataSlot : Uint2B\n   +0xfac CurrentTransactionHandle : Ptr32 Void\n   +0xfb0 ActiveFrame      : Ptr32 _TEB_ACTIVE_FRAME\n   +0xfb4 FlsData          : Ptr32 Void\n   +0xfb8 PreferredLanguages : Ptr32 Void\n   +0xfbc UserPrefLanguages : Ptr32 Void\n   +0xfc0 MergedPrefLanguages : Ptr32 Void\n   +0xfc4 MuiImpersonation : Uint4B\n   +0xfc8 CrossTebFlags    : Uint2B\n   +0xfc8 SpareCrossTebBits : Pos 0, 16 Bits\n   +0xfca SameTebFlags     : Uint2B\n   +0xfca SafeThunkCall    : Pos 0, 1 Bit\n   +0xfca InDebugPrint     : Pos 1, 1 Bit\n   +0xfca HasFiberData     : Pos 2, 1 Bit\n   +0xfca SkipThreadAttach : Pos 3, 1 Bit\n   +0xfca WerInShipAssertCode : Pos 4, 1 Bit\n   +0xfca RanProcessInit   : Pos 5, 1 Bit\n   +0xfca ClonedThread     : Pos 6, 1 Bit\n   +0xfca SuppressDebugMsg : Pos 7, 1 Bit\n   +0xfca DisableUserStackWalk : Pos 8, 1 Bit\n   +0xfca RtlExceptionAttached : Pos 9, 1 Bit\n   +0xfca InitialThread    : Pos 10, 1 Bit\n   +0xfca SessionAware     : Pos 11, 1 Bit\n   +0xfca LoadOwner        : Pos 12, 1 Bit\n   +0xfca LoaderWorker     : Pos 13, 1 Bit\n   +0xfca SkipLoaderInit   : Pos 14, 1 Bit\n   +0xfca SpareSameTebBits : Pos 15, 1 Bit\n   +0xfcc TxnScopeEnterCallback : Ptr32 Void\n   +0xfd0 TxnScopeExitCallback : Ptr32 Void\n   +0xfd4 TxnScopeContext  : Ptr32 Void\n   +0xfd8 LockCount        : Uint4B\n   +0xfdc WowTebOffset     : Int4B\n   +0xfe0 ResourceRetValue : Ptr32 Void\n   +0xfe4 ReservedForWdf   : Ptr32 Void\n   +0xfe8 ReservedForCrt   : Uint8B\n   +0xff0 EffectiveContainerId : _GUID",
+      "revId": "a3ee9021f355b50e9b438bbbd03e7e55b5560e98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d173360_9973ebf7",
+        "filename": "util/win/process_structs.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1174099
+      },
+      "writtenOn": "2017-10-12T21:55:20Z",
+      "side": 1,
+      "message": "And 64-bit:\n\n0:008\u003e dt ntdll!_TEB\n   +0x000 NtTib            : _NT_TIB\n   +0x038 EnvironmentPointer : Ptr64 Void\n   +0x040 ClientId         : _CLIENT_ID\n   +0x050 ActiveRpcHandle  : Ptr64 Void\n   +0x058 ThreadLocalStoragePointer : Ptr64 Void\n   +0x060 ProcessEnvironmentBlock : Ptr64 _PEB\n   +0x068 LastErrorValue   : Uint4B\n   +0x06c CountOfOwnedCriticalSections : Uint4B\n   +0x070 CsrClientThread  : Ptr64 Void\n   +0x078 Win32ThreadInfo  : Ptr64 Void\n   +0x080 User32Reserved   : [26] Uint4B\n   +0x0e8 UserReserved     : [5] Uint4B\n   +0x100 WOW32Reserved    : Ptr64 Void\n   +0x108 CurrentLocale    : Uint4B\n   +0x10c FpSoftwareStatusRegister : Uint4B\n   +0x110 ReservedForDebuggerInstrumentation : [16] Ptr64 Void\n   +0x190 SystemReserved1  : [32] Ptr64 Void\n   +0x290 _ActivationStack : _ACTIVATION_CONTEXT_STACK\n   +0x2b8 WorkingOnBehalfTicket : [8] UChar\n   +0x2c0 ExceptionCode    : Int4B\n   +0x2c4 Padding0         : [4] UChar\n   +0x2c8 ActivationContextStackPointer : Ptr64 _ACTIVATION_CONTEXT_STACK\n   +0x2d0 InstrumentationCallbackSp : Uint8B\n   +0x2d8 InstrumentationCallbackPreviousPc : Uint8B\n   +0x2e0 InstrumentationCallbackPreviousSp : Uint8B\n   +0x2e8 TxFsContext      : Uint4B\n   +0x2ec InstrumentationCallbackDisabled : UChar\n   +0x2ed Padding1         : [3] UChar\n   +0x2f0 GdiTebBatch      : _GDI_TEB_BATCH\n   +0x7d8 RealClientId     : _CLIENT_ID\n   +0x7e8 GdiCachedProcessHandle : Ptr64 Void\n   +0x7f0 GdiClientPID     : Uint4B\n   +0x7f4 GdiClientTID     : Uint4B\n   +0x7f8 GdiThreadLocalInfo : Ptr64 Void\n   +0x800 Win32ClientInfo  : [62] Uint8B\n   +0x9f0 glDispatchTable  : [233] Ptr64 Void\n   +0x1138 glReserved1      : [29] Uint8B\n   +0x1220 glReserved2      : Ptr64 Void\n   +0x1228 glSectionInfo    : Ptr64 Void\n   +0x1230 glSection        : Ptr64 Void\n   +0x1238 glTable          : Ptr64 Void\n   +0x1240 glCurrentRC      : Ptr64 Void\n   +0x1248 glContext        : Ptr64 Void\n   +0x1250 LastStatusValue  : Uint4B\n   +0x1254 Padding2         : [4] UChar\n   +0x1258 StaticUnicodeString : _UNICODE_STRING\n   +0x1268 StaticUnicodeBuffer : [261] Wchar\n   +0x1472 Padding3         : [6] UChar\n   +0x1478 DeallocationStack : Ptr64 Void\n   +0x1480 TlsSlots         : [64] Ptr64 Void\n   +0x1680 TlsLinks         : _LIST_ENTRY\n   +0x1690 Vdm              : Ptr64 Void\n   +0x1698 ReservedForNtRpc : Ptr64 Void\n   +0x16a0 DbgSsReserved    : [2] Ptr64 Void\n   +0x16b0 HardErrorMode    : Uint4B\n   +0x16b4 Padding4         : [4] UChar\n   +0x16b8 Instrumentation  : [11] Ptr64 Void\n   +0x1710 ActivityId       : _GUID\n   +0x1720 SubProcessTag    : Ptr64 Void\n   +0x1728 PerflibData      : Ptr64 Void\n   +0x1730 EtwTraceData     : Ptr64 Void\n   +0x1738 WinSockData      : Ptr64 Void\n   +0x1740 GdiBatchCount    : Uint4B\n   +0x1744 CurrentIdealProcessor : _PROCESSOR_NUMBER\n   +0x1744 IdealProcessorValue : Uint4B\n   +0x1744 ReservedPad0     : UChar\n   +0x1745 ReservedPad1     : UChar\n   +0x1746 ReservedPad2     : UChar\n   +0x1747 IdealProcessor   : UChar\n   +0x1748 GuaranteedStackBytes : Uint4B\n   +0x174c Padding5         : [4] UChar\n   +0x1750 ReservedForPerf  : Ptr64 Void\n   +0x1758 ReservedForOle   : Ptr64 Void\n   +0x1760 WaitingOnLoaderLock : Uint4B\n   +0x1764 Padding6         : [4] UChar\n   +0x1768 SavedPriorityState : Ptr64 Void\n   +0x1770 ReservedForCodeCoverage : Uint8B\n   +0x1778 ThreadPoolData   : Ptr64 Void\n   +0x1780 TlsExpansionSlots : Ptr64 Ptr64 Void\n   +0x1788 DeallocationBStore : Ptr64 Void\n   +0x1790 BStoreLimit      : Ptr64 Void\n   +0x1798 MuiGeneration    : Uint4B\n   +0x179c IsImpersonating  : Uint4B\n   +0x17a0 NlsCache         : Ptr64 Void\n   +0x17a8 pShimData        : Ptr64 Void\n   +0x17b0 HeapVirtualAffinity : Uint2B\n   +0x17b2 LowFragHeapDataSlot : Uint2B\n   +0x17b4 Padding7         : [4] UChar\n   +0x17b8 CurrentTransactionHandle : Ptr64 Void\n   +0x17c0 ActiveFrame      : Ptr64 _TEB_ACTIVE_FRAME\n   +0x17c8 FlsData          : Ptr64 Void\n   +0x17d0 PreferredLanguages : Ptr64 Void\n   +0x17d8 UserPrefLanguages : Ptr64 Void\n   +0x17e0 MergedPrefLanguages : Ptr64 Void\n   +0x17e8 MuiImpersonation : Uint4B\n   +0x17ec CrossTebFlags    : Uint2B\n   +0x17ec SpareCrossTebBits : Pos 0, 16 Bits\n   +0x17ee SameTebFlags     : Uint2B\n   +0x17ee SafeThunkCall    : Pos 0, 1 Bit\n   +0x17ee InDebugPrint     : Pos 1, 1 Bit\n   +0x17ee HasFiberData     : Pos 2, 1 Bit\n   +0x17ee SkipThreadAttach : Pos 3, 1 Bit\n   +0x17ee WerInShipAssertCode : Pos 4, 1 Bit\n   +0x17ee RanProcessInit   : Pos 5, 1 Bit\n   +0x17ee ClonedThread     : Pos 6, 1 Bit\n   +0x17ee SuppressDebugMsg : Pos 7, 1 Bit\n   +0x17ee DisableUserStackWalk : Pos 8, 1 Bit\n   +0x17ee RtlExceptionAttached : Pos 9, 1 Bit\n   +0x17ee InitialThread    : Pos 10, 1 Bit\n   +0x17ee SessionAware     : Pos 11, 1 Bit\n   +0x17ee LoadOwner        : Pos 12, 1 Bit\n   +0x17ee LoaderWorker     : Pos 13, 1 Bit\n   +0x17ee SkipLoaderInit   : Pos 14, 1 Bit\n   +0x17ee SpareSameTebBits : Pos 15, 1 Bit\n   +0x17f0 TxnScopeEnterCallback : Ptr64 Void\n   +0x17f8 TxnScopeExitCallback : Ptr64 Void\n   +0x1800 TxnScopeContext  : Ptr64 Void\n   +0x1808 LockCount        : Uint4B\n   +0x180c WowTebOffset     : Int4B\n   +0x1810 ResourceRetValue : Ptr64 Void\n   +0x1818 ReservedForWdf   : Ptr64 Void\n   +0x1820 ReservedForCrt   : Uint8B\n   +0x1828 EffectiveContainerId : _GUID",
+      "revId": "a3ee9021f355b50e9b438bbbd03e7e55b5560e98",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
