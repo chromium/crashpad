@@ -26,6 +26,7 @@
 #include "util/file/file_io.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/posix/scoped_mmap.h"
+#include "util/process/process_memory_linux.h"
 
 namespace crashpad {
 namespace test {
@@ -64,7 +65,7 @@ class ReadTest : public TargetProcessTest {
 
  private:
   void DoTest(pid_t pid) override {
-    ProcessMemory memory;
+    ProcessMemoryLinux memory;
     ASSERT_TRUE(memory.Initialize(pid));
 
     VMAddress address = FromPointerCast<VMAddress>(region_.get());
@@ -154,7 +155,7 @@ class ReadCStringTest : public TargetProcessTest {
 
  private:
   void DoTest(pid_t pid) override {
-    ProcessMemory memory;
+    ProcessMemoryLinux memory;
     ASSERT_TRUE(memory.Initialize(pid));
 
     std::string result;
@@ -258,7 +259,7 @@ class ReadUnmappedTest : public TargetProcessTest {
 
  private:
   void DoTest(pid_t pid) override {
-    ProcessMemory memory;
+    ProcessMemoryLinux memory;
     ASSERT_TRUE(memory.Initialize(pid));
 
     VMAddress page_addr1 = pages_.addr_as<VMAddress>();
@@ -337,7 +338,7 @@ class ReadCStringUnmappedTest : public TargetProcessTest {
 
  private:
   void DoTest(pid_t pid) {
-    ProcessMemory memory;
+    ProcessMemoryLinux memory;
     ASSERT_TRUE(memory.Initialize(pid));
 
     if (limit_size_) {

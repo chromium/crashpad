@@ -29,6 +29,7 @@
 #include "util/misc/initialization_state_dcheck.h"
 #include "util/posix/process_info.h"
 #include "util/process/process_memory.h"
+#include "util/process/process_memory_linux.h"
 
 namespace crashpad {
 
@@ -114,7 +115,7 @@ class ProcessReader {
   ProcessInfo process_info_;
   class MemoryMap memory_map_;
   std::vector<Thread> threads_;
-  std::unique_ptr<ProcessMemory> process_memory_;
+  std::unique_ptr<ProcessMemoryLinux> process_memory_;
   bool is_64_bit_;
   bool initialized_threads_;
   InitializationStateDcheck initialized_;
