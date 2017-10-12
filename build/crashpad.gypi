@@ -36,5 +36,12 @@
         ],
       }],
     ],
+    'target_conditions': [
+      ['1==1', {
+        'xcode_settings': {
+          'CLANG_CXX_LANGUAGE_STANDARD': 'c++1y',  # -std=c++1y
+        },
+      }],
+    ],
   },
 }
