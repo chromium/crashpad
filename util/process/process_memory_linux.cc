@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "util/process/process_memory.h"
+#include "util/process/process_memory_linux.h"
 
 #include <fcntl.h>
 #include <stdio.h>
@@ -26,11 +26,12 @@
 
 namespace crashpad {
 
-ProcessMemory::ProcessMemory() : mem_fd_(), pid_(-1) {}
+ProcessMemoryLinux::ProcessMemoryLinux()
+    : ProcessMemory(), mem_fd_(), pid_(-1) {}
 
-ProcessMemory::~ProcessMemory() {}
+ProcessMemoryLinux::~ProcessMemoryLinux() {}
 
-bool ProcessMemory::Initialize(pid_t pid) {
+bool ProcessMemoryLinux::Initialize(pid_t pid) {
   pid_ = pid;
   char path[32];
   snprintf(path, sizeof(path), "/proc/%d/mem", pid_);
@@ -42,9 +43,9 @@ bool ProcessMemory::Initialize(pid_t pid) {
   return true;
 }
 
-bool ProcessMemory::Read(VMAddress address,
-                         size_t size,
-                         void* buffer) const {
+bool ProcessMemoryLinux::Read(VMAddress address,
+                              size_t size,
+                              void* buffer) const {
   DCHECK(mem_fd_.is_valid());
 
   char* buffer_c = static_cast<char*>(buffer);
@@ -67,21 +68,10 @@ bool ProcessMemory::Read(VMAddress address,
   return true;
 }
 
-bool ProcessMemory::ReadCString(VMAddress address,
-                                std::string* string) const {
-  return ReadCStringInternal(address, false, 0, string);
-}
-
-bool ProcessMemory::ReadCStringSizeLimited(VMAddress address,
-                                           size_t size,
-                                           std::string* string) const {
-  return ReadCStringInternal(address, true, size, string);
-}
-
-bool ProcessMemory::ReadCStringInternal(VMAddress address,
-                                        bool has_size,
-                                        size_t size,
-                                        std::string* string) const {
+bool ProcessMemoryLinux::ReadCStringInternal(VMAddress address,
+                                             bool has_size,
+                                             size_t size,
+                                             std::string* string) const {
   DCHECK(mem_fd_.is_valid());
 
   string->clear();

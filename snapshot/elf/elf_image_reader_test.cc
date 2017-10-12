@@ -26,6 +26,7 @@
 #include "util/linux/memory_map.h"
 #include "util/misc/address_types.h"
 #include "util/misc/from_pointer_cast.h"
+#include "util/process/process_memory_linux.h"
 
 extern "C" {
 __attribute__((visibility("default"))) void
@@ -58,7 +59,7 @@ void ExpectElfImageWithSymbol(pid_t pid,
                               bool is_64_bit,
                               std::string symbol_name,
                               VMAddress expected_symbol_address) {
-  ProcessMemory memory;
+  ProcessMemoryLinux memory;
   ASSERT_TRUE(memory.Initialize(pid));
   ProcessMemoryRange range;
   ASSERT_TRUE(range.Initialize(&memory, is_64_bit));

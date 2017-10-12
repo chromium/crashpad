@@ -19,29 +19,15 @@
 
 #include <string>
 
-#include "base/files/scoped_file.h"
-#include "base/macros.h"
 #include "util/misc/address_types.h"
 
 namespace crashpad {
 
-//! \brief Accesses the memory of another process.
+//! \brief Abstract base class for accessing the memory of another process.
+//!
+//! Implementations are platform-specific.
 class ProcessMemory {
  public:
-  ProcessMemory();
-  ~ProcessMemory();
-
-  //! \brief Initializes this object to read the memory of a process whose ID
-  //!     is \a pid.
-  //!
-  //! This method must be called successfully prior to calling any other method
-  //! in this class.
-  //!
-  //! \param[in] pid The process ID of a target process.
-  //!
-  //! \return `true` on success, `false` on failure with a message logged.
-  bool Initialize(pid_t pid);
-
   //! \brief Copies memory from the target process into a caller-provided buffer
   //!     in the current process.
   //!
@@ -54,7 +40,7 @@ class ProcessMemory {
   //!
   //! \return `true` on success, with \a buffer filled appropriately. `false` on
   //!     failure, with a message logged.
-  bool Read(VMAddress address, size_t size, void* buffer) const;
+  virtual bool Read(VMAddress address, size_t size, void* buffer) const = 0;
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -69,7 +55,9 @@ class ProcessMemory {
   //! \return `true` on success, with \a string set appropriately. `false` on
   //!     failure, with a message logged. Failures can occur, for example, when
   //!     encountering unmapped or unreadable pages.
-  bool ReadCString(VMAddress address, std::string* string) const;
+  bool ReadCString(VMAddress address, std::string* string) const {
+    return ReadCStringInternal(address, false, 0, string);
+  }
 
   //! \brief Reads a `NUL`-terminated C string from the target process into a
   //!     string in the current process.
@@ -86,18 +74,35 @@ class ProcessMemory {
   //!     encountering unmapped or unreadable pages.
   bool ReadCStringSizeLimited(VMAddress address,
                               size_t size,
-                              std::string* string) const;
+                              std::string* string) const {
+    return ReadCStringInternal(address, true, size, string);
+  }
+
+ protected:
+  ProcessMemory() = default;
+  ~ProcessMemory() = default;
 
  private:
-  bool ReadCStringInternal(VMAddress address,
-                           bool has_size,
-                           size_t size,
-                           std::string* string) const;
-
-  base::ScopedFD mem_fd_;
-  pid_t pid_;
-
-  DISALLOW_COPY_AND_ASSIGN(ProcessMemory);
+  //! \brief Reads a `NUL`-terminated C string from the target process into a
+  //!     string in the current process.
+  //!
+  //! \param[in] address The address, in the target process’s address space, of
+  //!     the string to copy.
+  //! \param[in] has_size If true, this method will read \a size bytes. If
+  //!     false, this method will ignore \a size and instead read contiguous
+  //!     memory until a `NUL` terminator is found.
+  //! \param[in] size If \a has_size is true, the maximum number of bytes to
+  //!     read. The string is required to be `NUL`-terminated within this many
+  //!     bytes. Ignored if \a has_size is false.
+  //! \param[out] string The string read from the other process.
+  //!
+  //! \return `true` on success, with \a string set appropriately. `false` on
+  //!     failure, with a message logged. Failures can occur, for example, when
+  //!     encountering unmapped or unreadable pages.
+  virtual bool ReadCStringInternal(VMAddress address,
+                                   bool has_size,
+                                   size_t size,
+                                   std::string* string) const = 0;
 };
 
 }  // namespace crashpad
