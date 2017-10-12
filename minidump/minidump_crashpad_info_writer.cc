@@ -17,7 +17,6 @@
 #include <utility>
 
 #include "base/logging.h"
-#include "base/memory/ptr_util.h"
 #include "minidump/minidump_module_crashpad_info_writer.h"
 #include "minidump/minidump_simple_string_dictionary_writer.h"
 #include "snapshot/process_snapshot.h"
@@ -50,14 +49,14 @@ void MinidumpCrashpadInfoWriter::InitializeFromSnapshot(
   SetClientID(client_id);
 
   auto simple_annotations =
-      base::WrapUnique(new MinidumpSimpleStringDictionaryWriter());
+      std::make_unique<MinidumpSimpleStringDictionaryWriter>();
   simple_annotations->InitializeFromMap(
       process_snapshot->AnnotationsSimpleMap());
   if (simple_annotations->IsUseful()) {
     SetSimpleAnnotations(std::move(simple_annotations));
   }
 
-  auto modules = base::WrapUnique(new MinidumpModuleCrashpadInfoListWriter());
+  auto modules = std::make_unique<MinidumpModuleCrashpadInfoListWriter>();
   modules->InitializeFromSnapshot(process_snapshot->Modules());
 
   if (modules->IsUseful()) {

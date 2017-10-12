@@ -18,7 +18,6 @@
 
 #include "base/files/file_path.h"
 #include "base/macros.h"
-#include "base/memory/ptr_util.h"
 #include "base/logging.h"
 #include "gtest/gtest.h"
 #include "test/test_paths.h"
