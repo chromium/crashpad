@@ -62,6 +62,7 @@
         '..',
       ],
       'sources': [
+        'minidump_byte_array_writer_test.cc',
         'minidump_context_writer_test.cc',
         'minidump_crashpad_info_writer_test.cc',
         'minidump_exception_writer_test.cc',
