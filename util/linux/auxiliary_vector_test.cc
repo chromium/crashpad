@@ -28,7 +28,7 @@
 #include "util/linux/memory_map.h"
 #include "util/misc/from_pointer_cast.h"
 #include "util/numeric/int128.h"
-#include "util/process/process_memory.h"
+#include "util/process/process_memory_linux.h"
 
 extern "C" {
 extern void _start();
@@ -82,7 +82,7 @@ void TestAgainstCloneOrSelf(pid_t pid) {
   ASSERT_TRUE(aux.GetValue(AT_EGID, &egid));
   EXPECT_EQ(egid, getegid());
 
-  ProcessMemory memory;
+  ProcessMemoryLinux memory;
   ASSERT_TRUE(memory.Initialize(pid));
 
   LinuxVMAddress platform_addr;
